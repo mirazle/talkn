@@ -1,0 +1,18 @@
+{
+	"name": "talkn",
+	"version": "0.6",
+	"manifest_version": 2,
+	"description": "CHAT ON WEB SITE",
+	"permissions": [ "storage", "http://*.talkn.io/*", "https://*.talkn.io/" ],
+	"background": {
+		"scripts":[ "background.js" ],
+		"presistent": false
+	},
+	"content_scripts": [
+		{
+			"matches": ["http://*/*", "https://*/*"],
+			"js": [ "talkn.client.js", "socket.io.js" ],
+			"run_at": "document_end"
+		}
+	]
+}
