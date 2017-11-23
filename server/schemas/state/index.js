@@ -8,6 +8,9 @@ export default class State extends Schema{
     super();
     const headers = ioUser.handshake.headers;
 
+console.log(ioUser.client);
+
+
 		// Client Redux State Schemas .
     const id = ioUser.conn.id;
     const talknIndex = '';
@@ -17,6 +20,8 @@ export default class State extends Schema{
     const screenMode = '';
     const origin = headers.origin;
     const connection = State.getConnection(origin);
+console.log(origin);
+console.log(connection);
     const port = State.getPort(connection);
     const protcol = State.getProtcol(origin);
     const connectionTop = State.getConnectionTop(connection);
@@ -50,12 +55,12 @@ export default class State extends Schema{
   }
 
   static getProtcol(origin){
-    const splitedOrigin = origin.split(':');
+    const splitedOrigin = origin ? origin.split(':'): '';
     return splitedOrigin[ 0 ];
   }
 
   static getConnection(origin){
-    const splitedOrigin = origin.split(':/');
+    const splitedOrigin = origin ? origin.split(':/'): '';
     return splitedOrigin[ 1 ];
   }
 
