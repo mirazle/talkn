@@ -21,7 +21,9 @@ class TalknServer{
 	}
 
 	connection( ioUser ){
-
+    console.log(ioUser.conn.id);
+    console.log(ioUser.handshake.headers.referer);
+/*
 		// Generate Redux State Schema .
 		const state = new Schemas.State( ioUser );
 
@@ -32,6 +34,7 @@ class TalknServer{
 		this.oneUserEndpointKeys.forEach( endpointKey => {
 			ioUser.on( endpointKey, ( request ) => Actions[ endpointKey ]( ioUser, state, request ));
 		});
+*/
 	}
 }
 
