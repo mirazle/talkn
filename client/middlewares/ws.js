@@ -3,6 +3,7 @@ import define from '../util/define';
 import func from '../util/func';
 
 export const EXE_KEYS = [
+	"INIT_CLIENT_STATE",
 				"CONNECT",
 				"FIND",
 				"SET_CALLBACK",
@@ -23,9 +24,13 @@ export default store => next => action => {
 	if( Object.keys( action ).length !== 1 ) return next( action );
 	let exeKey = Object.keys( action )[ 0 ];
 	if( $.inArray( exeKey, EXE_KEYS ) === -1 ) return next( action );
+
 	let params = action[ exeKey ];
-console.log("WS " + exeKey);
+console.log("## WS MIDDLE" + exeKey);
 	switch( exeKey ){
+	case "INIT_CLIENT_STATE":
+	
+		break;
 	case "CONNECT":
 		promiseCondition = ( resolve, reject )=>{
 			if( ws === null ){

@@ -1,21 +1,28 @@
-import { combineReducers } from 'redux'
-import talknIndex from './talknIndex'
-import actioned from './actioned'
-import actionLog from './actionLog'
-import ws from './ws'
-import styles from './styles'
-import watchCnt from './watchCnt'
-import User from './User'
+import { combineReducers } from 'redux';
+import app from './app';
+import location from './location';
+import user from './user';
+import index from './index/';
+import thread from './thread';
+import analyze from './analyze';
+import bootOption from './bootOption';
+import mediaIndex from './mediaIndex';
+import meta from './meta';
+import setting from './setting';
+import style from './style';
 
 const rootReducer = combineReducers({
-	talknIndex,
-	actioned,
-	actionLog,
-	User,
-	ws,
-	styles,
-	watchCnt,
-	User,
+	app,
+	location,
+	user,
+	index,
+	thread,
+	analyze,
+	bootOption,
+	mediaIndex,
+	meta,
+	setting,
+	style,
 })
 
 export default rootReducer

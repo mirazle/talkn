@@ -1,5 +1,5 @@
-import func from './func'
-import define from './define'
+import func from 'client/util/func';
+import define from 'client/util/define';
 
 let protcol = func.getProtcol();
 let u = document.evaluate("//link[contains(@rel,'icon')or(contains(@rel,'ICON'))][1]/@href",document,null,2,null).stringValue;

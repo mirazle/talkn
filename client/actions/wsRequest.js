@@ -1,16 +1,6 @@
-import { CONNECT } from '../middlewares/ws';
-import define from '../util/define';
 
-/****************/
-/* REQUEST			*/
-/****************/
-
-export function connect( params ) {
-	return { [ "CONNECT" ]: params };
-}
-
-export function catchResponse( params ) {
-	return { [ "CATCH_RESPONSE" ]: params };
+export function initClientState( state ) {
+	return { [ "INIT_CLIENT_STATE" ]: state };
 }
 
 export function post( params ) {
@@ -40,10 +30,6 @@ export function preDeleteIndex( params ) {
 export function deleteIndex( params ) {
 	return { [ "DELETE_INDEX" ]: params };
 }
-
-/****************/
-/*	API	*/
-/****************/
 
 export function getApiMeta( params ) {
 	return { [ "GET_API_META" ]: params };

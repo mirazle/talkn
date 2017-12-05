@@ -4,13 +4,12 @@
 /**************************************/
 
 import Actions from '~/actions';
-import Schemas from '~/schemas'
+import sequence from '~/../common/sequence'
 
 class TalknServer{
 
 	constructor(){
 		this.connection = this.connection.bind(this);
-		this.oneUserEndpointKeys = ['getIndexPost', 'find', 'disconnect'];
 	}
 
 	async start(){
@@ -21,16 +20,10 @@ class TalknServer{
 	}
 
 	connection( ioUser ){
-
-		// Generate Redux State Schema .
-		const state = new Schemas.State( ioUser );
-
-		// Init User's Redux State .
-		Actions.initClientState( ioUser, state );
-
-		// On User Endpoints .
-		this.oneUserEndpointKeys.forEach( endpointKey => {
-			ioUser.on( endpointKey, ( request ) => Actions[ endpointKey ]( ioUser, state, request ));
+		Object.keys( sequence.sequenceMap ).forEach( endpoint => {
+			ioUser.on( endpoint, ( requestState ) => {
+				Actions[ endpoint ]( sequence.sequenceMap[ endpoint ], ioUser, requestState );
+			});
 		});
 	}
 }

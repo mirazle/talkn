@@ -180,28 +180,26 @@ export default {
 		if( talknIndex === 0 ){
 
 			promiseCondition = ( resolve, reject ) => {
-                        	chrome.runtime.onMessage.addListener( ( result, sender, sendResponse ) => {
+        chrome.runtime.onMessage.addListener( ( result, sender, sendResponse ) => {
 
 					if( result.requestKey === define.cacheKey.setting + talknIndex ){
-                                		resolve( { setting: result.response, self: self } );
+            resolve( { setting: result.response, self: self } );
 					}
 
 					if( result.requestKey === define.cacheKey.index + talknIndex ){
 						let connectionList = result.response;
 						func.findMap( talknIndex, connectionList, focusMeta );
 					}
-                        	} );
+        });
 
-                        	chrome.runtime.sendMessage( { method: "getItem", key: define.cacheKey.setting + talknIndex, function(){} } );
-    			}
-                }else{
+        chrome.runtime.sendMessage( { method: "getItem", key: define.cacheKey.setting + talknIndex, function(){} } );
+    	}
+    }else{
 			promiseCondition = ( resolve, reject ) => {
-
 				resolve( { setting: JSON.parse( localStorage.getItem( define.cacheKey.setting + talknIndex ) ), self: self } );
 			}
-                }
-
-        	return new Promise( promiseCondition );
+    }
+    return new Promise( promiseCondition );
 	},
 	getFocusIndex:( talknIndex, state = undefined )=>{
 

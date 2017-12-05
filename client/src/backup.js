@@ -13,7 +13,6 @@ import Root from '../components/root'
 import configureStore from '../store/configureStore'
 
 const appType =  func.getAppType();
-console.log(Provider);
 
 class Talkn {
 
@@ -64,6 +63,7 @@ class Talkn {
 		let settingCallback = function( result ){
 
 			let self = result.self;
+
 			option.setting = result.setting;
 
 			/************************/
@@ -74,12 +74,13 @@ class Talkn {
 			let talknAPI = new Object();
 			talknAPI.talknIndex = self.talknIndex
 			talknAPI.handleAPI = ( num )=>{
-								if( typeof __talknAPI__[ num ] !== "undefined" ){
-									window.talknAPI = window.__talknAPI__[ num ];
-									return true;
-								}
-								return false;
-							};
+				if( typeof __talknAPI__[ num ] !== "undefined" ){
+					window.talknAPI = window.__talknAPI__[ num ];
+					return true;
+				}
+				return false;
+			};
+
 			talknAPI.store = self.configureStore();
 			let styleActionKeys = Object.keys( self.stylesAction );
 			let styleActionLength = styleActionKeys.length;

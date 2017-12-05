@@ -3,8 +3,7 @@ const path = require('path');
 module.exports = {
   context: __dirname + "/src",
   entry: {
-    javascript: "./talkn.client.js",
-//    html: "./index.html",
+    javascript: ["./talkn.client.js"],
   },
 
   output: {
@@ -32,8 +31,9 @@ module.exports = {
 
   resolve: {
     alias: {
-      'common': path.resolve(__dirname, '../common/'),
-      '~': path.resolve(__dirname)
+      'common': path.resolve(__dirname, '../common') + '/',
+      'server': path.resolve(__dirname, '../server') + '/',
+      'client': path.resolve(__dirname) + '/'
     },
     extensions: ['.js', '.jsx']
   },
