@@ -2,7 +2,6 @@
   "name": "react-server",
   "scripts": {
     "start": "webpack-dev-server --hot --inline --colors --content-base ./src/",
-    "electron": "electron ./bootElectron.js",
     "build": "webpack --progress --colors"
   },
   "devDependencies": {

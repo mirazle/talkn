@@ -11,10 +11,9 @@ export default class Io {
     return this.io.get();
   }
 
-  async initClientState( ioUser, state, response ){
-    const key = response.connection;
-    state.get('thread').get('analyze').set('watchCnt',response.watchCnt);
-    return this.io.emit( ioUser, key, state );
+  async initClientState( sequence, ioUser, state ){
+    state.user.id = ioUser.conn.id;
+    return this.io.emit( ioUser, 'catchResponse', state );
   }
 
   async updateWatchCnt( response ){

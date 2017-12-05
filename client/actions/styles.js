@@ -1,19 +1,12 @@
 import { CONNECT } from '../middlewares/ws';
 import define from '../util/define';
 
-export function initAction( params ) {
-	return {
-		type: 'INIT_ACTION',
-		talknIndex: params.talknIndex,
-		styles: params.styles
-	}
+export function inc() {
+	return {type: 'INC'}
 }
 
-export function setTalknIndex( talknIndex ) {
-	return {
-		type: 'SET_TALKN_INDEX',
-		talknIndex: talknIndex
-	}
+export function dec() {
+	return {type: 'DEC'}
 }
 
 export function focusTalkn( talknIndex, ev ) {
@@ -128,7 +121,7 @@ export function endMoveKnob( screenX, screenY ) {
         }
 }
 
-export function startThreadMove( talknIndex, ev ) { 
+export function startThreadMove( talknIndex, ev ) {
 	return {
 		type: 'START_THREAD_MOVE',
                 talknIndex: talknIndex,
@@ -136,7 +129,7 @@ export function startThreadMove( talknIndex, ev ) {
 	}
 }
 
-export function stickThreadMove( talknIndex, ev ) { 
+export function stickThreadMove( talknIndex, ev ) {
 	return {
 		type: 'STICK_THREAD_MOVE',
                 talknIndex: talknIndex,
@@ -144,7 +137,7 @@ export function stickThreadMove( talknIndex, ev ) {
 	}
 }
 
-export function endThreadMove( talknIndex, ev ) { 
+export function endThreadMove( talknIndex, ev ) {
 	return {
 		type: 'END_THREAD_MOVE',
                 talknIndex: talknIndex,
@@ -152,7 +145,7 @@ export function endThreadMove( talknIndex, ev ) {
 	}
 }
 
-export function slideLeft( talknIndex, ev ) { 
+export function slideLeft( talknIndex, ev ) {
 	return {
 		type: 'SLIDE_LEFT',
                 talknIndex: talknIndex,
@@ -160,7 +153,7 @@ export function slideLeft( talknIndex, ev ) {
 	}
 }
 
-export function slideCenter( talknIndex, ev ) { 
+export function slideCenter( talknIndex, ev ) {
 	return {
 		type: 'SLIDE_CENTER',
                 talknIndex: talknIndex,
@@ -168,7 +161,7 @@ export function slideCenter( talknIndex, ev ) {
 	}
 }
 
-export function slideRight( talknIndex, ev ) { 
+export function slideRight( talknIndex, ev ) {
 	return {
 		type: 'SLIDE_RIGHT',
                 talknIndex: talknIndex,
@@ -176,7 +169,7 @@ export function slideRight( talknIndex, ev ) {
 	}
 }
 
-export function changeMode( talknIndex, mode ) { 
+export function changeMode( talknIndex, mode ) {
 	return {
 		type: 'CHANGE_MODE',
                 talknIndex: talknIndex,
@@ -184,7 +177,7 @@ export function changeMode( talknIndex, mode ) {
 	}
 }
 
-export function endTransitionThread( talknIndex ) { 
+export function endTransitionThread( talknIndex ) {
 	return {
 		type: 'END_TRANSITION_THREAD',
                 talknIndex: talknIndex
@@ -202,14 +195,14 @@ export function catchResponseAction( talknIndex, params ) {
 	}
 }
 
-export function scrollThread( talknIndex ) { 
+export function scrollThread( talknIndex ) {
 	return {
 		type: 'SCROLL_THREAD',
                 talknIndex: talknIndex
 	}
 }
 
-export function focusTextarea( talknIndex, called ) { 
+export function focusTextarea( talknIndex, called ) {
 	return {
 		type: 'FOCUS_TEXTAREA',
                 talknIndex: talknIndex,
@@ -217,7 +210,7 @@ export function focusTextarea( talknIndex, called ) {
 	}
 }
 
-export function endNotif( talknIndex, params ) { 
+export function endNotif( talknIndex, params ) {
 	return {
 		type: 'END_NOTIF',
                 talknIndex: talknIndex,
@@ -226,7 +219,7 @@ export function endNotif( talknIndex, params ) {
 	}
 }
 
-export function toggleSettingArea( talknIndex, ev ) { 
+export function toggleSettingArea( talknIndex, ev ) {
 	return {
 		type: 'TOGGLE_SETTING_AREA',
                 talknIndex: talknIndex,
@@ -234,7 +227,7 @@ export function toggleSettingArea( talknIndex, ev ) {
 	}
 }
 
-export function endSettingArea( talknIndex, ev ) { 
+export function endSettingArea( talknIndex, ev ) {
 	return {
 		type: 'END_SETTING_AREA',
                 talknIndex: talknIndex,

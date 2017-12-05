@@ -19,17 +19,11 @@ export default {
     return true;
   },
 
-  initClientState: async ( ioUser, state ) => {
-    await Logics.db.updateIndex( state.get('connection'), 1 );
-    const response = await Logics.db.findOneIndex( state.get('connection') );
-    Logics.io.initClientState( ioUser, state, response );
-    Logics.io.updateWatchCnt( response );
+  initClientState: async ( sequence, ioUser, state ) => {
+    Logics.io.initClientState( sequence, ioUser, state );
     return true;
   },
 
-  getIndexPost: (ioUser, state, request) => {
-    return true;
-  },
 
   find: () => {
     return true;
@@ -39,7 +33,7 @@ export default {
     return true;
   },
 
-  disconnect: (ioUser, state) => {
-    Actions.updateWatchCnt( state.get('connection'), -1 );
+  disconnect: ( sequence, ioUser, state ) => {
+    Actions.updateWatchCnt( state.connection, -1 );
   },
 }
