@@ -19,9 +19,9 @@ export const sequenceMap = {
 export function getRequestState( actionState ){
 
   if( actionState.type ){
-    const endpoint = actionState.type;
-    let requestState = {type: endpoint};
-    sequenceMap[ endpoint ].requestStateKeys.forEach( ( key ) => {
+    const actionType = actionState.type.replace( PREFIX_REQUEST, '' );
+    let requestState = {type: actionType};
+    sequenceMap[ actionType ].requestStateKeys.forEach( ( key ) => {
       requestState[ key ] = actionState[ key ];
     });
     return requestState;

@@ -6,7 +6,8 @@ import TalknSession from 'client/operations/talknSession';
 import TalknAPI from 'client/operations/talknAPI';
 import TalknViewer from 'client/operations/talknViewer';
 
-function bootTalkn( appType, talknIndex, ws, attributes ){
+function bootTalkn( appType, talknIndex, attributes ){
+	const ws = io('//localhost:10001', { forceNew: true });
 	const store = configureStore();
 	const state = new State( appType, talknIndex, window, attributes );
 	const talknSession = new TalknSession( state );
@@ -19,7 +20,6 @@ function bootTalkn( appType, talknIndex, ws, attributes ){
 
 window.onload =  () => {
 
-	const ws = io('//localhost:10001', { forceNew: true });
 	const appType = TalknViewer.getAppType();
 	window.TalknAPI = TalknAPI;
 	window.__talknAPI__ = [];
@@ -27,12 +27,12 @@ window.onload =  () => {
 	switch( appType ){
 	case 'plugin':
 	case 'electron':
-		bootTalkn( appType, 0, ws, {} );
+		bootTalkn( appType, 0, {} );
 		break;
 	case 'script':
 		const scripts = document.querySelectorAll('script[src*="talkn.client.js"]');
 		scripts.forEach( ( script, index ) => {
-			bootTalkn( appType, index + 1 , ws, script.attributes );
+			bootTalkn( appType, index + 1 , script.attributes );
  		});
 
 		window.talknAPI = window.__talknAPI__[ 1 ];

@@ -1,4 +1,4 @@
-import {sequenceMap, getRequestState, getResponseState, PREFIX_RESPONSE} from 'common/sequence';
+import {sequenceMap, getRequestState, getResponseState, PREFIX_REQUEST, PREFIX_RESPONSE} from 'common/sequence';
 import * as stylesActions from 'client/actions/styles'
 import wsRequestActions from 'client/actions/wsRequest'
 import wsResponseActions from 'client/actions/wsResponse'
@@ -40,7 +40,8 @@ export default class TalknAPI{
 					this[ actionName ] = this[ `getStyleAPI` ]( talknIndex, actionName );
 					break;
 				case 'WsRequest':
-					this[ actionName ] = this[ `getWsRequestAPI` ]( talknIndex, actionName );
+					const publicActionName = actionName.replace( PREFIX_REQUEST, '' );
+					this[ publicActionName ] = this[ `getWsRequestAPI` ]( talknIndex, actionName );
 					break;
 				case 'WsResponse':
 					const onKey = actionName.replace( PREFIX_RESPONSE, '' );
@@ -65,7 +66,7 @@ export default class TalknAPI{
 			if( TalknAPI.handle( talknIndex ) ){
 				const actionState = wsRequestActions[ actionName ]( state );
 				const requestState = getRequestState( actionState );
-				this.ws.emit( actionName, requestState );
+				this.ws.emit( requestState.type, requestState );
 				return talknAPI.store.dispatch( actionState );
 			}
 		}
