@@ -13,7 +13,6 @@ export default class Io {
 
   async initClientState( sequence, ioUser, state ){
     state.user.id = ioUser.conn.id;
-    console.log(state);
     return this.io.emit( ioUser, state.type, state );
   }
 
