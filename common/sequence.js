@@ -1,32 +1,39 @@
-const sequenceMap = {
+export const PREFIX_REQUEST = 'REQUEST:';
+export const PREFIX_RESPONSE = 'RESPONSE:';
+
+export const sequenceMap = {
   initClientState: {
-    requestKeys: ['user'],
-    responseKeys: ['user'],
+    requestStateKeys: ['user'],
+    responseStateKeys: ['user'],
   },
   find: {
-    requestKeys: ['user'],
-    responseKeys: ['thread', 'index', 'meta', 'user'],
+    requestStateKeys: ['user'],
+    responseStateKeys: ['user', 'index', 'thread', 'meta'],
   },
   disconnect: {
-    requestKeys: ['user'],
-    responseKeys: ['user'],
+    requestStateKeys: ['user'],
+    responseStateKeys: ['user', 'analyze'],
   }
 };
 
-function getRequestState( endpoint, state ){
-  let requestState = {};
-  sequenceMap[ endpoint ].requestKeys.forEach( ( key ) => {
-    requestState[ key ] = state[ key ];
-  });
-  return requestState;
+export function getRequestState( actionState ){
+
+  if( actionState.type ){
+    const endpoint = actionState.type;
+    let requestState = {type: endpoint};
+    sequenceMap[ endpoint ].requestStateKeys.forEach( ( key ) => {
+      requestState[ key ] = actionState[ key ];
+    });
+    return requestState;
+  }else{
+    console.warn("Please set 'type' property in action ");
+  }
 }
 
-function getResponseState( state, response ){
-  return {...state, ...response};
-}
-
-export default {
-  sequenceMap,
-  getRequestState,
-  getResponseState,
+export function getResponseState( state, response ){
+  return {
+    ...state,
+    ...response,
+      type: PREFIX_RESPONSE + response.type
+    };
 }
