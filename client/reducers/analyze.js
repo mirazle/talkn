@@ -1,3 +1,3 @@
-export default ( analyze = {} , action ) => {
-	return {...action.analyze}
+export default ( state = {} , action ) => {
+	return {...state, ...action.analyze}
 };

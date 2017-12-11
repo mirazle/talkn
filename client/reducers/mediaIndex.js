@@ -1,3 +1,3 @@
-export default ( mediaIndex = {} , action ) => {
-	return {...action.mediaIndex}
+export default ( state = {} , action ) => {
+	return {...state, ...action.mediaIndex}
 };

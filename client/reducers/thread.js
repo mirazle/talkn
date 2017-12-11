@@ -1,3 +1,3 @@
-export default ( thread = {} , action ) => {
-	return {...action.thread}
+export default ( state = {} , action ) => {
+	return {...state, ...action.thread}
 };

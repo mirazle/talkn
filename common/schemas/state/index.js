@@ -17,13 +17,13 @@ export default class State{
     this.location = new Location( window.location );
     this.user = new User( window );
 		this.index = new Index();
-		this.thread = new Thread();
+		this.thread = new Thread( window );
 		this.analyze = new Analyze();
     this.bootOption = new BootOption( attributes );
     this.mediaIndex = new MediaIndex();
     this.meta = new Meta();
     this.setting = new Setting();
-    this.style = new Style(this.bootOption);
+    this.style = new Style( this );
   }
 
   get appType(){

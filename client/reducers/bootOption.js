@@ -1,3 +1,3 @@
-export default ( bootOption = {} , action ) => {
-	return {...action.bootOption}
+export default ( state = {} , action ) => {
+	return {...state, ...action.bootOption}
 };
