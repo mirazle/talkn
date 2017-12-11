@@ -1,37 +1,19 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from 'react-redux';
+import Style from 'client/components/Style';
+import Footer from 'client/components/Footer';
+import Main from 'client/components/Main';
 
 class Container extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      input: '',
-    }
-  }
-
-  handleOnClick(){
-
-  }
-
  	render() {
-		const{ state, talknAPI } = this.props;
-    const { app, user, style } = state;
+		const{ state } = this.props;
+    const { style } = state;
 
 		return (
 			<div style={ style.container.self }>
-      <style type='text/css'>
-        {'talkn ::placeholder {color: rgb(160, 160, 160); }'}
-      </style>
-        <div style={style.container.icon} />
-        <textarea
-          style={style.container.textarea}
-          rows={1}
-          onChange={(e)=>{this.setState({input: e.target.value})}}
-          value={this.state.input}
-          placeholder='Comment to this web.'
-        />
-        <button style={style.container.button}>talkn</button>
+        <Style {...this.props} />
+        <Main {...this.props} />
+        <Footer {...this.props} />
 			</div>
 		);
  	}
