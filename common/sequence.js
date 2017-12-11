@@ -10,6 +10,10 @@ export const sequenceMap = {
     requestStateKeys: ['user'],
     responseStateKeys: ['user', 'index', 'thread', 'meta'],
   },
+  post: {
+    requestStateKeys: ['user'],
+    responseStateKeys: ['user', 'index', 'thread', 'meta'],
+  },
   disconnect: {
     requestStateKeys: ['user'],
     responseStateKeys: ['user', 'analyze'],

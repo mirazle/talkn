@@ -75,7 +75,7 @@ export default class TalknViewer {
 	async renderDOM(){
 		ReactDOM.render(
 			<Provider store={ this.talknAPI.store }>
-				<Container state={ this.state } talknAPI={ this.talknAPI } />
+				<Container talknAPI={ this.talknAPI } />
 			</Provider>,
 			document.getElementById( this.id ),
 			() => {}

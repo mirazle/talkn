@@ -1,3 +1,3 @@
-export default ( meta = {} , action ) => {
-	return {...action.meta}
+export default ( state = {} , action ) => {
+	return {...state, ...action.meta}
 };

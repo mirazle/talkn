@@ -1,3 +1,3 @@
-export default ( setting = {} , action ) => {
-	return {...action.setting}
+export default ( state = {} , action ) => {
+	return {...state, ...action.setting}
 };

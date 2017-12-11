@@ -1,8 +1,8 @@
 import { CONNECT } from '../middlewares/ws';
 import define from '../util/define';
 
-export function inc() {
-	return {type: 'INC'}
+export function inc( state ) {
+	return {type: 'INC', ...state };
 }
 
 export function dec() {
