@@ -8,7 +8,7 @@ import BootOption from './BootOption';
 import MediaIndex from './MediaIndex';
 import Meta from './Meta';
 import Setting from './Setting';
-import Style from './Style';
+import Style from './Style/';
 
 export default class State{
 
