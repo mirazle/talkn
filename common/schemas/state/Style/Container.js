@@ -16,11 +16,10 @@ export default class Container{
       right: '10px',
       width: '320px',
       height: '35px',
-      margin: '4px 0px 0px 0px',
       boxShadow: 'rgb(230, 230, 230) 0px 0px 5px 0px',
-      borderTop: '1px solid rgb(240, 240, 240)',
-      borderRight: '1px solid rgb(240, 240, 240)',
-      borderLeft: '1px solid rgb(240, 240, 240)',
+      borderTop: '1px solid rgb(220, 220, 220)',
+      borderRight: '1px solid rgb(220, 220, 220)',
+      borderLeft: '1px solid rgb(220, 220, 220)',
       borderRadius: '3px 3px 0px 0px',
     });
     const layout = {...layoutBlock, ...bootOption};

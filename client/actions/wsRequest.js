@@ -1,8 +1,8 @@
-import {sequenceMap, PREFIX_REQUEST} from 'common/sequence';
+import Sequence from 'common/Sequence';
 
 let wsRequestActions = {};
-Object.keys( sequenceMap ).forEach( endpoint => {
-	const type = `${PREFIX_REQUEST}${endpoint}`;
+Object.keys( Sequence.map ).forEach( endpoint => {
+	const type = `${Sequence.PREFIX_REQUEST}${endpoint}`;
 	wsRequestActions[ type ] = state => {
 		return { type, ...state };
 	}

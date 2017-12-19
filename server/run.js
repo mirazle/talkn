@@ -4,7 +4,7 @@
 /**************************************/
 
 import Actions from '~/actions';
-import {sequenceMap} from '~/../common/sequence'
+import Sequence from '~/../common/Sequence'
 
 class TalknServer{
 
@@ -20,12 +20,10 @@ class TalknServer{
 	}
 
 	connection( ioUser ){
-		Object.keys( sequenceMap ).forEach( endpoint => {
-			const sequence = sequenceMap[ endpoint ];
-
+		Object.keys( Sequence.map ).forEach( endpoint => {
+			const oneSequence = Sequence.map[ endpoint ];
 			ioUser.on( endpoint, ( requestState ) => {
-				console.log(endpoint);
-				Actions[ endpoint ]( sequence, ioUser, requestState );
+				Actions[ endpoint ]( ioUser, requestState );
 			});
 		});
 	}

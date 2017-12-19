@@ -5,9 +5,18 @@ import Footer from 'client/components/Footer';
 import Main from 'client/components/Main';
 
 class Container extends Component {
+
+  componentWillMount(){
+    const { state, talknAPI } = this.props;
+    const { user } = state;
+
+    talknAPI.find();
+    talknAPI.find( user.connection );
+    talknAPI.find( {connection: user.connection} );
+  }
+
  	render() {
-		const{ state } = this.props;
-    const { style } = state;
+    const { style } = this.props.state;
 
 		return (
 			<div style={ style.container.self }>
