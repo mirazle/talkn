@@ -1,8 +1,8 @@
 import App from './App';
 import User from './User';
-import Location from './Location';
+import UserAgent from './UserAgent';
 import Index from './Index/';
-import Thread from './Thread';
+import Posts from './Posts';
 import Analyze from './Analyze';
 import BootOption from './BootOption';
 import MediaIndex from './MediaIndex';
@@ -14,14 +14,14 @@ export default class State{
 
   constructor( appType, talknIndex, window, attributes = {} ){
     this.app = new App( appType, talknIndex );
-    this.location = new Location( window.location );
     this.user = new User( window );
+    this.userAgent = new UserAgent( window );
 		this.index = new Index();
-		this.thread = new Thread( window );
+		this.posts = new Posts();
 		this.analyze = new Analyze();
     this.bootOption = new BootOption( attributes );
     this.mediaIndex = new MediaIndex();
-    this.meta = new Meta();
+    this.meta = new Meta( window );
     this.setting = new Setting();
     this.style = new Style( this );
   }

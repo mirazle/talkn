@@ -1,8 +1,8 @@
-import {sequenceMap, PREFIX_RESPONSE} from 'common/sequence';
+import Sequence from 'common/Sequence';
 
 let wsResponseActions = {};
-Object.keys( sequenceMap ).forEach( endpoint => {
-	const type = `${PREFIX_RESPONSE}${endpoint}`;
+Object.keys( Sequence.map ).forEach( endpoint => {
+	const type = `${Sequence.PREFIX_RESPONSE}${endpoint}`;
 	wsResponseActions[ type ] = state => {
 		return { type, ...state };
 	}

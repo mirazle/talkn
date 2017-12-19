@@ -4,14 +4,30 @@ export default class Footer extends Component {
 
   constructor(props) {
     super(props);
+    this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
     this.state = {
       input: '',
     }
   }
 
+  handleOnChange( e ){
+    this.setState({input: e.target.value});
+  }
+
+  handleOnClick(){
+    if(this.state.input !== '' ){
+      const{ talknAPI, state } = this.props;
+      talknAPI.post( {...state,
+        user: {...state.user,
+          inputPost: this.state.input
+        }
+      });
+    }
+  }
+
  	render() {
-		const{ state, talknAPI } = this.props;
-    const { app, user, style } = state;
+    const { style } = this.props.state;
 
 		return (
       <footer style={ style.footer.self }>
@@ -19,13 +35,13 @@ export default class Footer extends Component {
         <textarea
           style={style.footer.textarea}
           rows={1}
-          onChange={(e)=>{this.setState({input: e.target.value})}}
+          onChange={this.handleOnChange}
           value={this.state.input}
-          placeholder='Comment to this web.'
+          placeholder='Comment to this web'
         />
         <button
           style={style.footer.button}
-          onClick={()=>talknAPI.post( this.state.input )}
+          onClick={this.handleOnClick}
           >
           talkn
         </button>

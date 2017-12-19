@@ -2,34 +2,36 @@ import Parser from 'ua-parser-js';
 
 export default class User{
   constructor( window ){
-    const id = 0;
-    const agent = User.getUserAgent( window.navigator.userAgent );
+
+    // talkn datas .
+    const id = '';
     const connection = User.getConnection( window.location.href );
-    const connectionTop = User.getConnectionTop( connection );
     const extentionType = User.getExtentionType( connection );
-    const connections = User.getConnections( connection );
+    const host = window.location.host
+    const protocol = window.location.protocol;
+
+    // status datas .
+    const inputPost = '';
+    const inputSearch = '';
+
     return {
       id,
-      agent,
       connection,
-      connectionTop,
       extentionType,
-      connections,
-      num: 100,
+      host,
+      protocol,
+      inputPost,
+      inputSearch,
     };
-  }
-
-  static getUserAgent( userAgent ){
-    return Parser( userAgent );
   }
 
   static getConnection(origin){
     const splitedOrigin = origin.split(':/');
-    return splitedOrigin[ 1 ];
+    return splitedOrigin[ 1 ].slice( 0, -1 ) ;
   }
 
   static getConnectionTop(connection){
-    return connection.split("/")[ 1 ];
+    return '/' + connection.split("/")[ 1 ];
   }
 
   static getExtentionType(connection){
