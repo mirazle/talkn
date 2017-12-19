@@ -8,6 +8,7 @@
   "description": "Open Multiple Talk Stream App.",
   "main": "plugin/index.js",
   "dependencies": {
+    "buffer": "^5.0.8",
     "cheerio": "^1.0.0-rc.2",
     "dom-parser": "^0.1.5",
     "iconv": "^2.3.0",

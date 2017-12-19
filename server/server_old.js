@@ -77,7 +77,7 @@ talknServer	= {
 				desc: { type: String, default: "" },
 				keywords: { type: [String] , default: [] }
 			}
-		} 
+		}
 	},
 	boot: function(){
 
@@ -92,7 +92,7 @@ talknServer	= {
 		talknServer.plugin.fb		= require('fb');
 		var redis			= require( talknServer.path + 'socket.io-redis');
 		var emitter			= require( talknServer.path + 'socket.io-emitter')({ host: talknServer.setting.redis.host, port: talknServer.setting.redis.port });
-		$			    	= require( talknServer.path + 'jquery-deferred'); 
+		$			    	= require( talknServer.path + 'jquery-deferred');
 
 		if( process.argv[2] == "ssl" ){
 			console.log( "HTTPS MODE" );
@@ -100,7 +100,7 @@ talknServer	= {
 			var httpsServer		= https.createServer( {key: talknServer.plugin.fs.readFileSync('/etc/letsencrypt/live/talkn.io/privkey.pem'), cert: talknServer.plugin.fs.readFileSync('/etc/letsencrypt/live/talkn.io/cert.pem')} );
 			httpsServer.listen( talknServer.setting.socket_io.https_port );
 			talknServer.io		= require( talknServer.path + 'socket.io')( httpsServer );
-		    
+
 		}else{
 			console.log( "HTTP MODE" );
 			talknServer.io		= require( talknServer.path + 'socket.io')( talknServer.setting.socket_io.http_port );
@@ -142,7 +142,7 @@ talknServer	= {
 
 		user.dispThread = "";
 
-		// Emit To User 
+		// Emit To User
 		talknServer.emitOneUser( 'getSettingData', user, this )();
 
 		// Emit To All User In All Provider Node( Index )
@@ -158,23 +158,23 @@ talknServer	= {
 		/****************/
 		/* 	API	*/
 		/****************/
-	
+
 		// Emit To One User In One Provider Node( DB: meta )
 		user.on( 'getApiMeta',		talknServer.emitOneUser( 'getApiMeta', user, this ) );
 
 		// Emit To One User From Social
 		user.on( 'getApiSocial',	talknServer.emitOneUser( 'getApiSocial', user, this ) );
-		
+
 		// Emit To One User From Movie
 		user.on( 'getApiMovie',		talknServer.emitOneUser( 'getApiMovie', user, this ) );
 
 		// Emit To One User From Picture
 		user.on( 'getApiPicture',	talknServer.emitOneUser( 'getApiPicture', user, this ) );
 
-		// Emit To One User From Wikipedia 
+		// Emit To One User From Wikipedia
 		user.on( 'getApiWikipedia',	talknServer.emitOneUser( 'getApiWikipedia', user, this ) );
 
-		// Emit To One User From Analyze 
+		// Emit To One User From Analyze
 		user.on( 'getApiAnalyze',	talknServer.emitOneUser( 'getApiAnalyze', user, this ) );
 
 
@@ -183,7 +183,7 @@ talknServer	= {
 	postTalkn: function( req ){
 
 		  var savePost   = function( req ){
-			
+
 			var d		= new $.Deferred;
 			var thum	= req.post.protcol + "//assets.talkn.io/icon/" + req.post.indexId + ".png";
 
@@ -260,7 +260,7 @@ talknServer	= {
 		  }
 
 		  savePost( req ).done( function( saved ){
-			   
+
 			// response
 			   var response		      = {};
 			   var connectionLength	     = saved.connections.length;
@@ -294,8 +294,8 @@ talknServer	= {
 
 			return function(){
 				var setting = talknServer.setting;
-				//var response = Object.assign( {}, setting._doc, { uid: user.conn.id, called: "getSettingData"}); 
-				var response = { uid: user.conn.id, called: "getSettingData"}; 
+				//var response = Object.assign( {}, setting._doc, { uid: user.conn.id, called: "getSettingData"});
+				var response = { uid: user.conn.id, called: "getSettingData"};
 				user.emit( 'me', response );
 			}
 			break;
@@ -310,7 +310,7 @@ talknServer	= {
 				var dispThreadFlg		= arguments[ '0' ]['dispThreadFlg'];
 				var offsetPostTime		= arguments[ '0' ]['offsetPostTime'];
 				var limit			= arguments[ '0' ]['limit'];
-				var called			= arguments[ '0' ]['called']; 
+				var called			= arguments[ '0' ]['called'];
 				var params			= { condition:{ connections: connection }, select:{}, option:{limit: limit, sort: { postTime: -1 } } };
 				if( offsetPostTime ) params.condition.postTime = {$lt: new Date( offsetPostTime ).toISOString()} ;
 
@@ -327,9 +327,9 @@ console.log(arguments['0']);
 
 					if( d ) return d.promise();
 				}
-				
+
 				var findIndex	= function( params, d ){
-				
+
 					var condition = { connection: connection }
 					var callback	= talknServer.getClousur( "findIndex", { d: d } );
 
@@ -349,18 +349,18 @@ console.log(arguments['0']);
 					for( var i = 0, max = Object.keys( arguments ).length; i < max; i++ ){
 
 						if( arguments[ i.toString() ][ "requestType" ] === "findPost" ){
-							
+
 							// Post
 							post = post.concat( arguments[ i.toString() ][ "response" ] );
 						}
 
 						if( arguments[ i.toString() ][ "requestType" ] === "findIndex" ){
-		
+
 							// Index( include meta )
 							index	= ( arguments[ i.toString() ][ "response" ].length > 0 )? arguments[ i.toString() ][ "response" ][ 0 ] : new talknServer.db['index']() ;
 							index.connection = connection;
 						}
-						
+
 						// last loop
 						if( i == max -1 ){
 
@@ -385,7 +385,7 @@ console.log("### 2");
 								talknServer.updateWatchCnt( { connection: user.dispThread }, -1 );
 
 								user.dispThread = connection;
-							
+
 								talknServer.updateWatchCnt( { connection: user.dispThread }, 1 );
 
 								if( true ){
@@ -426,7 +426,7 @@ console.log("### 5");
 													if( item.attribs.rel && item.attribs.href){
 
 														if( item.attribs.rel.indexOf( "icon" ) !== -1 || item.attribs.rel.indexOf( "ICON" ) !== -1 ){
-															
+
 															if( item.attribs.href.indexOf("?") !== -1 ){
 																set[ "$set" ][ "thum" ] = item.attribs.href.split("?")[0];
 															}else{
@@ -446,19 +446,19 @@ console.log("### 5");
 													var content = ( item.attribs.content )? item.attribs.content : "" ;
 
 													if( name && ( name === "keywords" || name === "Keywords" ) ){
-														
+
 														set[ "$set" ][ "meta" ][ "keywords" ] = content.split( "," );
-													
+
 													}else if( name && ( name === "description" || name === "Description" ) ){
-														
+
 														set[ "$set" ][ "meta" ][ "desc" ] = content;
-														
+
 													}else if( name && name.indexOf( "twitter:site" ) === 0 ){
 
 														set[ "$set" ][ "meta" ][ "ogTwId" ] = content;
 
 													}else if( propName && propName.indexOf( "al" ) === 0 ){
-	    
+
 														switch( propName ){
 														case "al:ios:app_store_id" :
 															set[ "$set" ][ "meta" ][ "appId" ] = content;
@@ -466,7 +466,7 @@ console.log("### 5");
 														case "al:android:url" :
 															set[ "$set" ][ "meta" ][ "androidUrl" ] = content
 															break;
-														} 
+														}
 
 													}else if( propName && propName.indexOf( "fb" ) === 0 ){
 
@@ -481,15 +481,15 @@ console.log("### 5");
 
 														switch( propName ){
 														case "og:site_name" :
-						
+
 															set[ "$set" ][ "meta" ][ "ogName" ] = content;
 															break;
 														case "og:type":
 															set[ "$set" ][ "meta" ][ "ogType" ] = content;
 															break;
 														}
-				
-													} 
+
+													}
 												}
 
 
@@ -500,9 +500,9 @@ console.log("### 5");
 console.log("### 6");
 												talknServer.plugin.request({method: 'GET', url: thum, encoding: null}, function (error, response, body){
 console.log("### 7");
-				
+
 													var saveIconFlg		= ( !error && response.statusCode === 200 )? true : false ;
-								
+
 													if( saveIconFlg ){
 console.log("### 8");
 														talknServer.plugin.fs.writeFileSync('../assets/icon/' + index._id + '.png', body, 'binary');
@@ -578,7 +578,7 @@ console.log("### 9");
 
 				talknServer.ins.tw.get('search/tweets', {
 							q: connection,
-							local: talknServer.localMap[ "jp" ], 
+							local: talknServer.localMap[ "jp" ],
 							lang: talknServer.localMap[ "jp" ],
 							count: 20
 				}, function(err, data, response) {
@@ -608,7 +608,7 @@ console.log("### 9");
 
 				let response = {}
 				response.called = "getApiMovie";
-				
+
 				// Emit to client
 				user.emit( 'me', response );
 			}
@@ -617,7 +617,7 @@ console.log("### 9");
 
 				let response = {}
 				response.called = "getApiPicture";
-				
+
 				// Emit to client
 				user.emit( 'me', response );
 			}
@@ -626,7 +626,7 @@ console.log("### 9");
 
 				let response = {}
 				response.called = "getApiWikipedia";
-				
+
 				// Emit to client
 				user.emit( 'me', response );
 			}
@@ -685,14 +685,14 @@ console.log("### 9");
 					access_token: '2240641298-52mCPHiTBTVNsNRVcNC9RNCkope0NJpNTXpuprv',
 					access_token_secret: 'cz8u3UlUeWudYXVRxGFOUpxaBq4T3neHITBESLWidxAjw'
 				});
-				
+
 				T.get('search/tweets', {
 							q: req.query.keyword,
 							local: local_map[ req.query.country ],
 							lang: local_map[ req.query.country ],
 							count: 20
 				}, function(err, data, response) {
-				
+
 				});
 			},
 			Facebook: function( req, res ){
@@ -700,11 +700,11 @@ console.log("### 9");
 			},
 			setFbAccessToken: function(){
 
-				talknServer.plugin.fb.api( 'oauth/access_token', talknServer.setting.fb, function (res) { 
+				talknServer.plugin.fb.api( 'oauth/access_token', talknServer.setting.fb, function (res) {
 
 					if(!res || res.error) {
-		
-						return; 
+
+						return;
 					}
 
 					if( !talknServer.setting){
@@ -712,7 +712,7 @@ console.log("### 9");
 					}
 					talknServer.setting.fbAccessToken = res.access_token;
 
-				}); 
+				});
 			}
 		}
 	},
@@ -740,7 +740,7 @@ console.log("### 9");
 			date.s		= talknServer.util.grantZero( date.obj.getSeconds() );
 			date.ms 	= date.obj.getMilliseconds();
 			date.youbi 	= talknServer.util.grantZero( date.obj.getDay() );
-			date.now	= ( date.Y + '-' + date.m + '-' + date.d + ' ' + date.H + ':' + date.i + ':' + date.s + '.' + date.ms ).toString(); 
+			date.now	= ( date.Y + '-' + date.m + '-' + date.d + ' ' + date.H + ':' + date.i + ':' + date.s + '.' + date.ms ).toString();
 
 			return date;
 		},
@@ -755,4 +755,3 @@ console.log("### 9");
 /*****************************/
 
 talknServer.boot();
-

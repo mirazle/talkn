@@ -25,9 +25,9 @@ export default {
   },
 
   find: async ( ioUser, requestState ) => {
-    Logics.request.get( requestState );
-    await Logics.db.find( ioUser, state );
-    await Logics.io.find( ioUser, state );
+    Logics.html.get( requestState );
+    await Logics.db.find( ioUser, requestState );
+    await Logics.io.find( ioUser, requestState );
     return true;
   },
 
