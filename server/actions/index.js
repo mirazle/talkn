@@ -19,21 +19,23 @@ export default {
     return true;
   },
 
-  initClientState: async ( sequence, ioUser, state ) => {
-    Logics.io.initClientState( sequence, ioUser, state );
+  initClientState: ( ioUser, requestState ) => {
+    Logics.io.initClientState( ioUser, requestState );
     return true;
   },
 
-
-  find: () => {
+  find: async ( ioUser, requestState ) => {
+    Logics.request.get( requestState );
+    await Logics.db.find( ioUser, state );
+    await Logics.io.find( ioUser, state );
     return true;
   },
 
-  post: () => {
+  post: ( ioUser, state ) => {
     return true;
   },
 
-  disconnect: ( sequence, ioUser, state ) => {
+  disconnect: ( ioUser, state ) => {
     Actions.updateWatchCnt( state.connection, -1 );
   },
 }

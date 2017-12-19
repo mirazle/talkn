@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import app from './app';
-import location from './location';
 import user from './user';
+import userAgent from './userAgent';
 import index from './index/';
 import thread from './thread';
 import analyze from './analyze';
@@ -13,8 +13,8 @@ import style from './style';
 
 const rootReducer = combineReducers({
 	app,
-	location,
 	user,
+	userAgent,
 	index,
 	thread,
 	analyze,

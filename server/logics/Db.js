@@ -1,16 +1,12 @@
-import https from 'https';
-import socketIo from "socket.io";
-import redis from	'socket.io-redis';
-import MongoDB from '~/db/MongoDB';
-import fs from "fs";
-import Schemas from '~/schemas';
-import conf from '~/conf';
-
 export default class Db {
 
   constructor( mongoDB ){
     this.db = mongoDB;
     return this;
+  }
+
+  async find(){
+    return true;
   }
 
   async findOneSetting(){

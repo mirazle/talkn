@@ -1,4 +1,4 @@
-import {c} from '~/utils';
+import Sequence from '~/../common/Sequence'
 
 export default class Io {
 
@@ -11,9 +11,13 @@ export default class Io {
     return this.io.get();
   }
 
-  async initClientState( sequence, ioUser, state ){
-    state.user.id = ioUser.conn.id;
-    return this.io.emit( ioUser, state.type, state );
+  async initClientState( ioUser, requestState ){
+    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, ioUser.conn.id );
+    return this.io.emit( ioUser, responseEmitState.type, responseEmitState );
+  }
+
+  async find(){
+    return {};
   }
 
   async updateWatchCnt( response ){

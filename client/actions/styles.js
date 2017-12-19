@@ -1,6 +1,10 @@
 import { CONNECT } from '../middlewares/ws';
 import define from '../util/define';
 
+export function initStyle( state ) {
+	return {type: 'INIT_STYLE', ...state };
+}
+
 export function inc( state ) {
 	return {type: 'INC', ...state };
 }

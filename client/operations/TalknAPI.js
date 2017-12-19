@@ -1,4 +1,4 @@
-import {sequenceMap, getRequestState, getResponseState, PREFIX_REQUEST, PREFIX_RESPONSE} from 'common/sequence';
+import Sequence from 'common/Sequence';
 import * as stylesActions from 'client/actions/styles'
 import wsRequestActions from 'client/actions/wsRequest'
 import wsResponseActions from 'client/actions/wsResponse'
@@ -40,11 +40,11 @@ export default class TalknAPI{
 					this[ actionName ] = this[ `getStyleAPI` ]( talknIndex, actionName );
 					break;
 				case 'WsRequest':
-					const publicActionName = actionName.replace( PREFIX_REQUEST, '' );
+					const publicActionName = actionName.replace( Sequence.PREFIX_REQUEST, '' );
 					this[ publicActionName ] = this[ `getWsRequestAPI` ]( talknIndex, actionName );
 					break;
 				case 'WsResponse':
-					const onKey = actionName.replace( PREFIX_RESPONSE, '' );
+					const onKey = actionName.replace( Sequence.PREFIX_RESPONSE, '' );
 					this.ws.on( onKey, this[ `getWsResponseAPI` ]( talknIndex, actionName ));
 					break;
 				}
@@ -62,11 +62,12 @@ export default class TalknAPI{
 	}
 
 	getWsRequestAPI( talknIndex, actionName ){
-		return ( state ) => {
+		return ( requestParams ) => {
 			if( TalknAPI.handle( talknIndex ) ){
-				const actionState = wsRequestActions[ actionName ]( state );
-				const requestState = getRequestState( actionState );
-				this.ws.emit( requestState.type, requestState );
+				const endpointKey = actionName.replace( Sequence.PREFIX_REQUEST, '' );
+				const requestState = Sequence.getRequestState( endpointKey, this.state, requestParams );
+				const actionState = Sequence.getActionState( actionName, this.state, requestState );
+				this.ws.emit( endpointKey, requestState );
 				return talknAPI.store.dispatch( actionState );
 			}
 		}
@@ -76,7 +77,7 @@ export default class TalknAPI{
 		return ( response ) => {
 			if( TalknAPI.handle( talknIndex ) ){
 				const actionState = wsResponseActions[ actionName ]( response );
-				const responseAction = getResponseState( this.state, actionState );
+				const responseAction = Sequence._getResponseState( this.state, actionState );
 				return talknAPI.store.dispatch( responseAction );
 			}
 		}
