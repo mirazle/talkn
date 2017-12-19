@@ -22,7 +22,7 @@ export default class Sequence {
         responseBroadcastState: {},
       },
       find: {
-        requestPrivateState: {'user': ['protocol']},
+        requestPrivateState: {'user': ['protocol', 'host']},
         requestPublicState: {'user': ['connection']},
         responseEmitState: {'index': [], 'posts': [], 'thread': [], 'meta': []},
         responseBroadcastState: {'analyze': ['watchCnt']},
