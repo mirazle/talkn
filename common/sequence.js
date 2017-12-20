@@ -16,27 +16,27 @@ export default class Sequence {
   static get map(){
     return {
       initClientState: {
-        requestPrivateState: {},
         requestPublicState: {},
+        requestPrivateState: {},
         responseEmitState: { 'user': ['id']},
         responseBroadcastState: {},
       },
       find: {
-        requestPrivateState: {'user': ['protocol', 'host']},
         requestPublicState: {'user': ['connection']},
-        responseEmitState: {'index': [], 'posts': [], 'thread': [], 'meta': []},
+        requestPrivateState: {'user': ['protocol', 'host']},
+        responseEmitState: {'posts': [], 'thread': []},
         responseBroadcastState: {'analyze': ['watchCnt']},
       },
       post: {
-        requestPrivateState: {},
         requestPublicState: {},
-        responseEmitState: {'index': [], 'posts': [], 'thread': [], 'meta': []},
+        requestPrivateState: {},
+        responseEmitState: {'posts': [], 'thread': []},
         responseBroadcastState: {'analyze': ['watchCnt']},
       },
       disconnect: {
-        requestPrivateState: {},
         requestPublicState: {},
-        responseEmitState: {'index': [], 'posts': [], 'thread': [], 'meta': []},
+        requestPrivateState: {},
+        responseEmitState: {'posts': [], 'thread': []},
         responseBroadcastState: {'analyze': ['watchCnt']},
       }
     };

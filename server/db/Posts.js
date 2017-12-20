@@ -1,8 +1,8 @@
 import MongoDB from '~/db/MongoDB';
 
-export default class Post {
+export default class Posts {
   constructor( con ){
-    this.db = MongoDB.getCollection( con, 'Post' );
+    this.db = MongoDB.getCollection( con, Posts.name );
   }
 
   findOne(){

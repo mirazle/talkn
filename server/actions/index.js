@@ -13,8 +13,8 @@ export default {
   },
 
   updateWatchCnt: async ( connection, cnt ) => {
-    await Logics.db.updateIndex( connection, cnt );
-    const response = await Logics.db.findOneIndex( connection, cnt );
+    await Logics.db.updateThread( connection, cnt );
+    const response = await Logics.db.findOneThread( connection, cnt );
     await Logics.io.updateWatchCnt( response );
     return true;
   },
@@ -25,9 +25,13 @@ export default {
   },
 
   find: async ( ioUser, requestState ) => {
-    Logics.html.get( requestState );
-    await Logics.db.find( ioUser, requestState );
-    await Logics.io.find( ioUser, requestState );
+    const {title, metas, links, h1s} = await Logics.html.get( requestState );
+    const faviconName = Logics.favicon.getName( requestState, links );
+    const favicon = await Logics.favicon.request( requestState, faviconName );
+    const writeResult = await Logics.fs.write( faviconName, favicon );
+    const thread = {title, metas, links, h1s, faviconName};
+    await Logics.db.saveThread( requestState, thread );
+    await Logics.io.find( ioUser, {requestState, thread} );
     return true;
   },
 
@@ -36,6 +40,6 @@ export default {
   },
 
   disconnect: ( ioUser, state ) => {
-    Actions.updateWatchCnt( state.connection, -1 );
+    //Actions.updateWatchCnt( state.connection, -1 );
   },
 }

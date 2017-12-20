@@ -16,8 +16,9 @@ export default class Io {
     return this.io.emit( ioUser, responseEmitState.type, responseEmitState );
   }
 
-  async find(){
-    return {};
+  async find(ioUser, {requestState, thread} ){
+    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, thread );
+    return this.io.emit( ioUser, responseEmitState.type, responseEmitState );
   }
 
   async updateWatchCnt( response ){

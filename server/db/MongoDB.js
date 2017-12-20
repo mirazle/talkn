@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import Schemas from '../schemas';
 import conf from '~/conf';
-import Index from '~/db/Index';
-import Post from '~/db/Post';
+import Threads from '~/db/Threads';
+import Posts from '~/db/Posts';
 import Setting from '~/db/Setting';
 
 class MongoDB {
@@ -15,8 +15,8 @@ class MongoDB {
 
     return {
       Setting: new Setting( con ),
-      Index: new Index( con ),
-      Post: new Post( con ),
+      Threads: new Threads( con ),
+      Posts: new Posts( con ),
     }
   }
 
