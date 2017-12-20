@@ -6,7 +6,7 @@ import Posts from './Posts';
 import Analyze from './Analyze';
 import BootOption from './BootOption';
 import MediaIndex from './MediaIndex';
-import Meta from './Meta';
+import Thread from './Thread';
 import Setting from './Setting';
 import Style from './Style/';
 
@@ -21,7 +21,7 @@ export default class State{
 		this.analyze = new Analyze();
     this.bootOption = new BootOption( attributes );
     this.mediaIndex = new MediaIndex();
-    this.meta = new Meta( window );
+    this.thread = new Thread( window );
     this.setting = new Setting();
     this.style = new Style( this );
   }

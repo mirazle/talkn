@@ -2,9 +2,9 @@ import Style from './index';
 
 export default class Footer{
   constructor( params ){
-    const { meta, bootOption } = params;
+    const { thread, bootOption } = params;
     const self = Footer.getSelf( bootOption );
-    const icon = Footer.getIcon( meta );
+    const icon = Footer.getIcon( thread );
     const textarea = Footer.getTextarea();
     const button = Footer.getButton();
     return {
@@ -53,11 +53,11 @@ export default class Footer{
   }
 
   // width: 20%;
-  static getIcon( meta ){
+  static getIcon( thread ){
     const layoutInlineBlock = Style.getLayoutInlineBlock({
       margin: '4px 0 0 0',
       width: '20%',
-      background: `url( ${meta.icon} ) 50% 50% / 20px 20px no-repeat`,
+      background: `url( ${thread.favicon} ) 50% 50% / 20px 20px no-repeat`,
     });
     const layout = Footer.getLayout( layoutInlineBlock );
     const content = {};

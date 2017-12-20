@@ -1,5 +1,5 @@
 export default {
-	Post: {
+	Posts: {
 		uid: { type: String, default: '' },
 		connections: { type: [String], default: [] },
 		connection: { type: String, default: '' },
@@ -10,17 +10,20 @@ export default {
 		data: { type: Object, default:{} },
 		dispFlg:{ type: Boolean, default: true }
 	},
-	Index: {
+	Threads: {
 		connection: { type: String, default: "/"  },
-		type: { type: String, default: "userHand" },
 		title: { type: String, default: "" },
-		thum: { type: String, default: "//assets.talkn.io/icon/default.png" },
+		faviconName: { type: String, default: "//assets.talkn.io/icon/default.png" },
+		metas:{ type: [], default: []},
+		links:{ type: [], default: []},
+		h1s:{ type: [], default: []},
+		extentionType: { type: String, default: "html" },
 		layer: { type: Number, default: 0 },
-		cnt: { type: Number, default: 0 },
+		postCnt: { type: Number, default: 0 },
 		watchCnt:{ type: Number, default: 0, min: 0, index: true },
 		updatedTime: { type: Date, default: Date },
-		meta:{}
 	},
 	Setting: {
+
 	}
 }

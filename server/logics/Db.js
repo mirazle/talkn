@@ -5,8 +5,11 @@ export default class Db {
     return this;
   }
 
-  async find(){
-    return true;
+  async saveThread( requestState, thread ){
+    const condition = {connection: requestState.connection};
+    const set = { connection: requestState.connection, ...thread };
+    const option = {upsert:true};
+    return this.db.Threads.save( condition, set, option );
   }
 
   async findOneSetting(){
@@ -17,19 +20,19 @@ export default class Db {
     const condition = { watchCnt:{ $exists: true, $ne: 0 } };
     const set =  { $set:{ watchCnt: 0 } };
     const option = { upsert:false, multi: true };
-    return await this.db.Index.update( condition, set, option );
+    return await this.db.Threads.save( condition, set, option );
   }
 
-  async updateIndex( connection, cnt ){
+  async updateThread( connection, cnt ){
     const condition = {connection};
     const set = { $inc: { watchCnt: cnt } };
     const option = {upsert:true};
-    return await this.db.Index.update( condition, set, option );
+    return await this.db.Threads.save( condition, set, option );
   }
 
-  async findOneIndex( connection ){
+  async findOneThread( connection ){
     const condition = {connection};
     const selector = { connection: true, watchCnt: true };
-    return await this.db.Index.findOne( condition, selector );
+    return await this.db.Threads.findOne( condition, selector );
   }
 }
