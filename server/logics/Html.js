@@ -2,6 +2,7 @@ import request from 'request';
 import cheerio from 'cheerio';
 import {Iconv} from 'iconv';
 import {Buffer} from 'buffer';
+import fs from 'fs';
 
 export default class Html {
 
@@ -13,58 +14,34 @@ export default class Html {
     };
   }
 
-  static get faviocnName(){
-    return 'favicon.ico';
-  }
-
   get( requestState ){
-    const { protocol, connection, host } = requestState;
-    const url = `${protocol}/${connection}`;
-    const option = {method: 'GET', encoding: 'binary', url };
-    request( option, ( error, response, body ) => {
+    return new Promise( ( resolve, reject ) => {
 
-      if( !error && response && response.statusCode === 200 ){
-        const utf8Body = this.toUtf8( body );
-        const $ = cheerio.load( utf8Body );
-        const title = this.getTitle( $ );
-        const metas = this.getMetas( $ );
-        const links = this.getLinks( $ );
-        const h1s = this.getH1s( $ );
-        const icon = this.getIconUrl( requestState, links );
-      }else{
-        console.warn(error);
-      }
+      const { protocol, connection, host } = requestState;
+      const url = `${protocol}/${connection}`;
+      const option = {method: 'GET', encoding: 'binary', url };
+
+      request( option, ( error, response, body ) => {
+
+        if( !error && response && response.statusCode === 200 ){
+
+          const utf8Body = this.toUtf8( body );
+          const $ = cheerio.load( utf8Body );
+          const title = this.getTitle( $ );
+          const metas = this.getMetas( $ );
+          const links = this.getLinks( $ );
+          const h1s = this.getH1s( $ );
+          resolve({title, metas, links, h1s});
+        }else{
+          console.warn(error);
+          reject(error);
+        }
+      });
     });
-    return true;
   }
 
   getTitle( $ ){
     return $('head title').text();
-  }
-
-  getIconUrl( requestState, links ){
-    let iconUrl = '';
-    const { protocol, host } = requestState;
-    const linkLength = links.length;
-
-    for( var i = 0; i < linkLength; i++ ){
-      const link = links[ i ];
-      if( link.rel && link.rel.indexOf( 'Icon' ) >= 0 || link.rel.indexOf( 'icon' ) >= 0 ){
-        iconUrl = link.href;
-        break;
-      }
-    }
-
-    if( iconUrl === '' ){
-      iconUrl = this.getSuperDomain( host ) + '/' + Html.faviocnName;
-    }
-
-    request({method: 'GET', url: iconUrl, encoding: null}, (error, response, body) => {
-      if( !error && response && response.statusCode === 200 ){
-        console.log();
-        // FSでスーパードメイン名で保存
-      }
-    });
   }
 
   getH1s( $ ){
@@ -101,19 +78,6 @@ export default class Html {
     const iconv = new Iconv( this.getCharset( dom ), 'UTF-8//TRANSLIT//IGNORE');
     dom = new Buffer( dom, 'binary' );
     return iconv.convert( dom ).toString();
-  }
-
-  getSuperDomain( host ){
-    const hostParts = host.split('.');
-    const hostPartLength = hostParts.length;
-
-    if( hostPartLength === 1 ){
-      return host;
-    }else if( hostPartLength === 2 ){
-      return `${hostParts[ 0 ]}.${hostParts[ 1 ]}`;
-    }else{
-      return `${hostParts[ hostPartLength - 2 ]}.${hostParts[ hostPartLength - 1 ]}`;
-    }
   }
 
   getCharset( dom ){
