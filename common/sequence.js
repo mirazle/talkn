@@ -22,16 +22,16 @@ export default class Sequence {
         responseBroadcastState: {},
       },
       find: {
-        requestPublicState: {'user': ['connection']},
-        requestPrivateState: {'user': ['protocol', 'host']},
-        responseEmitState: {'posts': [], 'thread': []},
+        requestPublicState: {'thread': ['connection']},
+        requestPrivateState: {'thread': ['protocol', 'host']},
+        responseEmitState: {'posts': '*', 'thread': '*'},
         responseBroadcastState: {'analyze': ['watchCnt']},
       },
       post: {
-        requestPublicState: {},
-        requestPrivateState: {},
-        responseEmitState: {'posts': [], 'thread': []},
-        responseBroadcastState: {'analyze': ['watchCnt']},
+        requestPublicState: {'user': ['inputPost']},
+        requestPrivateState: {'user':['id', 'inputPost']},
+        responseEmitState: {'posts': []},
+        responseBroadcastState: {'analyze': ['postCnt']},
       },
       disconnect: {
         requestPublicState: {},
@@ -115,15 +115,33 @@ export default class Sequence {
     const responseSchema = Sequence.map[ endpointKey ][ `response${responseType}State` ];
     let responseState = {[ Sequence.REDUX_ACTION_KEY ]: endpointKey};
 
+    switch( updateState.constructor.name === 'model' ){
+    case 'String':
+    case 'Number':
+
+      break;
+    case 'model':
+      updateState = updateState.toJSON()
+      delete updateState._id;
+      delete updateState.__v;
+      break;
+    }
+
     Object.keys( responseSchema ).forEach( ( stateKey ) => {
-      Object.keys( responseSchema[ stateKey ] ).forEach( ( i ) => {
-        const columnName = responseSchema[ stateKey ][ i ];
+      if( responseSchema[ stateKey ] === '*' ){
         responseState = {...responseState,
-          [ stateKey ]: {...responseState[ stateKey ],
-            [ columnName ]: updateState,
-          }
+          [ stateKey ]: updateState,
         }
-      });
+      }else{
+        Object.keys( responseSchema[ stateKey ] ).forEach( ( i ) => {
+          const columnName = responseSchema[ stateKey ][ i ];
+          responseState = {...responseState,
+            [ stateKey ]: {...responseState[ stateKey ],
+              [ columnName ]: updateState,
+            }
+          }
+        });
+      }
     });
     return responseState;
   }
