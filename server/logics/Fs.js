@@ -1,18 +1,18 @@
 import fs from 'fs';
 
 export default class Fs {
-  write( faviconName, icon ){
-    const writeFaviconName = `./assets/icon/${faviconName.replace( '/' , '_' )}.png`;
-    if( icon && !this.isExist( writeFaviconName ) ){
-      fs.writeFileSync(writeFaviconName, icon, 'binary');
+  write( fileName, binary ){
+    const writeFileName = `./assets/icon/${fileName.replace( '/' , '_' )}.png`;
+    if( binary && !this.isExist( writeFileName ) ){
+      fs.writeFileSync(writeFileName, binary, 'binary');
       return true;
     }
     return false;
   }
 
-  isExist( writeFaviconName ){
+  isExist( writeFileName ){
     try {
-      fs.statSync( writeFaviconName );
+      fs.statSync( writeFileName );
       return true
     } catch( err ) {
       return false

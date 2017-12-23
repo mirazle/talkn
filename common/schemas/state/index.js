@@ -14,7 +14,7 @@ export default class State{
 
   constructor( appType, talknIndex, window, attributes = {} ){
     this.app = new App( appType, talknIndex );
-    this.user = new User( window );
+    this.user = new User();
     this.userAgent = new UserAgent( window );
 		this.index = new Index();
 		this.posts = new Posts();
@@ -39,6 +39,6 @@ export default class State{
   }
 
   get connection(){
-    return this.user.connection;
+    return this.thread.connection;
   }
 }
