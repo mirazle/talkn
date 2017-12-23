@@ -24,14 +24,15 @@ export default class Html {
       request( option, ( error, response, body ) => {
 
         if( !error && response && response.statusCode === 200 ){
-
           const utf8Body = this.toUtf8( body );
           const $ = cheerio.load( utf8Body );
           const title = this.getTitle( $ );
           const metas = this.getMetas( $ );
           const links = this.getLinks( $ );
           const h1s = this.getH1s( $ );
-          resolve({title, metas, links, h1s});
+          const contentType = response.headers['content-type'];
+          const uri = response.request.uri;
+          resolve({title, metas, links, h1s, contentType, uri});
         }else{
           console.warn(error);
           reject(error);

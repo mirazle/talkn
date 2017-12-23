@@ -13,17 +13,18 @@ class TalknServer{
 	}
 
 	async start(){
-		const setting = await Actions.setUp();
 		const io = await Actions.getIo();
-		io.on( 'connection', this.connection );
-		return true;
+		return io.on( 'connection', this.connection );
 	}
 
-	connection( ioUser ){
+	async connection( ioUser ){
+		console.log("CONNECTION " + ioUser.conn.id);
+		const setting = await Actions.setUp();
 		Object.keys( Sequence.map ).forEach( endpoint => {
 			const oneSequence = Sequence.map[ endpoint ];
 			ioUser.on( endpoint, ( requestState ) => {
-				Actions[ endpoint ]( ioUser, requestState );
+
+				Actions[ endpoint ]( ioUser, requestState, setting );
 			});
 		});
 	}
