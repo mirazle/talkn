@@ -29,8 +29,8 @@ export default class Sequence {
       },
       post: {
         requestPublicState: {'user': ['inputPost']},
-        requestPrivateState: {'user':['id', 'inputPost']},
-        responseEmitState: {'posts': []},
+        requestPrivateState: {'user':['id']},
+        responseEmitState: {'posts': '*'},
         responseBroadcastState: {'analyze': ['postCnt']},
       },
       disconnect: {
@@ -42,11 +42,10 @@ export default class Sequence {
     };
   }
 
-  static getRequestState( endpointKey, state, requestParams ){
-
-    let requestState = {[ Sequence.REDUX_ACTION_KEY ]: endpointKey};
-
+  static getRequestState( actionName, state, requestParams ){
+    const endpointKey = actionName.replace( Sequence.PREFIX_REQUEST, '' );
     const { requestPublicState, requestPrivateState } = Sequence.map[ endpointKey ];
+    let requestState = {[ Sequence.REDUX_ACTION_KEY ]: endpointKey};
 
     if( Object.keys( requestPrivateState ).length > 0 ){
 
@@ -60,6 +59,7 @@ export default class Sequence {
           requestState = { ...state[ stateKey ] };
           break;
         case 'object':
+
           columnNames.forEach( ( columnName ) => {
             requestState = {...requestState,
               [ columnName ] : state[ stateKey ][ columnName ]
@@ -77,27 +77,12 @@ export default class Sequence {
         const columnNames = requestPublicState[ stateKey ];
 
         switch( typeof requestParams ){
-        case 'undefined':
-
-          switch( typeof columnNames ){
-          case 'string':
-            requestState = { ...requestState,
-              [ columnNames ]: state[ stateKey ][ columnNames ]
-            };
-            break;
-          case 'object':
-            columnNames.forEach( ( columnName ) => {
-              requestState = {...requestState,
-                [ columnName ] : state[ stateKey ][ columnName ]
-              };
-            });
-            break;
-          }
-          break;
         case 'string':
-          requestState = { ...requestState,
-            [ columnNames ]: requestParams
-          };
+          columnNames.forEach( ( columnName ) => {
+            requestState = {...requestState,
+              [ columnName ] : state[ stateKey ][ columnName ]
+            };
+          });
           break;
         case 'object':
           requestState = {...requestParams, ...requestState};
@@ -105,7 +90,7 @@ export default class Sequence {
         }
       });
     }
-
+    console.log(requestState);
     return requestState;
   }
 
@@ -133,7 +118,6 @@ export default class Sequence {
             [ updateStateKey ]: updateStateValue,
           }
         }else{
-
           columnNames.forEach( ( columnName ) => {
             if( updateState[ updateStateKey ][ columnName ] ){
               responseState = {...responseState,
@@ -150,20 +134,11 @@ export default class Sequence {
         throw `NO_UPDATE_STATE_KEY: ${updateStateKey}`;
       }
     });
+    console.log(responseState);
     return responseState;
   }
 
-  static getActionState( actionName, state, requestState ){
-    return {...state, ...requestState, type: actionName };
-  }
-
-
-  // 同名のメソッドでサーバーでレスポンス生成して返すようにする
-  static _getResponseState( state, response ){
-    return {
-      ...state,
-      ...response,
-        type: Sequence.PREFIX_RESPONSE + response.type
-      };
+  static getActionState( actionName, state, requestParams ){
+    return {...state, ...requestParams, type: actionName };
   }
 }

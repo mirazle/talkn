@@ -5,7 +5,8 @@ export default class Schema {
       const value = state[ key ].value ? state[ key ].value : state[ key ];
       const type = state[ key ].type ? state[ key ].type : this.getType(value);
       const def = state[ key ].def ? state[ key ].def : '';
-      this[key] = {value, type, def};
+      const isNullBlank = state[ key ].isNullBlank ? state[ key ] : false ;
+      this[key] = {value, type, def, isNullBlank};
     });
     return this;
   }
