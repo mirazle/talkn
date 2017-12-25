@@ -110,37 +110,44 @@ export default class Sequence {
   }
 
   static getResponseState( responseType, requestState, updateState ){
-
     const endpointKey = requestState.type;
     const responseSchema = Sequence.map[ endpointKey ][ `response${responseType}State` ];
     let responseState = {[ Sequence.REDUX_ACTION_KEY ]: endpointKey};
+    Object.keys( responseSchema ).forEach( ( updateStateKey ) => {
 
-    switch( updateState.constructor.name === 'model' ){
-    case 'String':
-    case 'Number':
+      if( updateState[ updateStateKey ] ){
 
-      break;
-    case 'model':
-      updateState = updateState.toJSON()
-      delete updateState._id;
-      delete updateState.__v;
-      break;
-    }
+        const columnNames = responseSchema[ updateStateKey ];
+        let updateStateValue = updateState[ updateStateKey ];
 
-    Object.keys( responseSchema ).forEach( ( stateKey ) => {
-      if( responseSchema[ stateKey ] === '*' ){
-        responseState = {...responseState,
-          [ stateKey ]: updateState,
+        switch( updateStateValue.constructor.name ){
+        case 'model':
+          updateStateValue = updateStateValue.toJSON()
+          delete updateStateValue._id;
+          delete updateStateValue.__v;
+          break;
+        }
+
+        if( columnNames === '*' ){
+          responseState = {...responseState,
+            [ updateStateKey ]: updateStateValue,
+          }
+        }else{
+
+          columnNames.forEach( ( columnName ) => {
+            if( updateState[ updateStateKey ][ columnName ] ){
+              responseState = {...responseState,
+                [ updateStateKey ]: {...responseState[ updateStateKey ],
+                  [ columnName ]: updateState[ updateStateKey ][ columnName ],
+                }
+              }
+            }else{
+              throw `NO_UPDATE_STATE_COLUMN_NAME: ${columnName}`;
+            }
+          });
         }
       }else{
-        Object.keys( responseSchema[ stateKey ] ).forEach( ( i ) => {
-          const columnName = responseSchema[ stateKey ][ i ];
-          responseState = {...responseState,
-            [ stateKey ]: {...responseState[ stateKey ],
-              [ columnName ]: updateState,
-            }
-          }
-        });
+        throw `NO_UPDATE_STATE_KEY: ${updateStateKey}`;
       }
     });
     return responseState;

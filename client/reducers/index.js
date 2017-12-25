@@ -8,6 +8,7 @@ import analyze from './analyze';
 import bootOption from './bootOption';
 import mediaIndex from './mediaIndex';
 import setting from './setting';
+import posts from './posts';
 import style from './style';
 
 const rootReducer = combineReducers({
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
 	bootOption,
 	mediaIndex,
 	setting,
+	posts,
 	style,
 })
 

@@ -11,8 +11,8 @@ class Container extends Component {
     const { user } = state;
 
     talknAPI.find();
-//    talknAPI.find( thread.connection );
-//    talknAPI.find( {connection: thread.connection} );
+    talknAPI.find( user.connection );
+    talknAPI.find( {connection: user.connection} );
   }
 
  	render() {
