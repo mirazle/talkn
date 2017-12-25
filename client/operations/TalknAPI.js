@@ -4,10 +4,7 @@ import wsRequestActions from 'client/actions/wsRequest'
 import wsResponseActions from 'client/actions/wsResponse'
 
 export default class TalknAPI{
-	constructor( state, store, ws ){
-		const talknIndex = state.talknIndex;
-		this.state = state;
-		this.talknIndex = state.talknIndex;
+	constructor( talknIndex, store, ws ){
 		this.store = store;
 		this.ws = ws;
 		this.connections = [];
@@ -15,7 +12,7 @@ export default class TalknAPI{
 		this.attachAPI( 'WsRequest', talknIndex, wsRequestActions );
 		this.attachAPI( 'WsResponse', talknIndex, wsResponseActions );
 
-		window.__talknAPI__[ this.state.talknIndex ] = this;
+		window.__talknAPI__[ talknIndex ] = this;
 	}
 
 	static handle( talknIndex ){
@@ -63,12 +60,14 @@ export default class TalknAPI{
 
 	getWsRequestAPI( talknIndex, actionName ){
 		return ( requestParams ) => {
-			if( TalknAPI.handle( talknIndex ) ){
-				const endpointKey = actionName.replace( Sequence.PREFIX_REQUEST, '' );
-				const requestState = Sequence.getRequestState( endpointKey, this.state, requestParams );
-				const actionState = Sequence.getActionState( actionName, this.state, requestState );
-				this.ws.emit( endpointKey, requestState );
+			if( requestParams && TalknAPI.handle( talknIndex ) ){
+				const state = this.store.getState();
+				const requestState = Sequence.getRequestState( actionName, state, requestParams );
+				const actionState = Sequence.getActionState( actionName, state, requestParams );
+				this.ws.emit( requestState.type, requestState );
 				return talknAPI.store.dispatch( actionState );
+			}else{
+				throw `NO_REQUEST_PARAMS: ${actionName} ${requestParams}`;
 			}
 		}
 	}
@@ -77,8 +76,7 @@ export default class TalknAPI{
 		return ( response ) => {
 			if( TalknAPI.handle( talknIndex ) ){
 				const actionState = wsResponseActions[ actionName ]( response );
-				const responseAction = Sequence._getResponseState( this.state, actionState );
-				return talknAPI.store.dispatch( responseAction );
+				return talknAPI.store.dispatch( actionState );
 			}
 		}
 	}

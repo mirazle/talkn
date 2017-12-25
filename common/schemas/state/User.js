@@ -1,8 +1,8 @@
-import Parser from 'ua-parser-js';
+import Schema from '../Schema';
 
-export default class User{
+export default class User extends Schema{
   constructor(){
-
+    super();
     // talkn datas .
     const id = '';
     const type = '';

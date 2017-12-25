@@ -12,6 +12,7 @@ export default class Thread{
     const h1s = [];
     const uri = [];
     const favicon = Thread.getFaviconFromWindow( window );
+
     return {
       connection,
       contentType,

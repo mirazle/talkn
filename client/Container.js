@@ -3,16 +3,14 @@ import { connect } from 'react-redux';
 import Style from 'client/components/Style';
 import Footer from 'client/components/Footer';
 import Main from 'client/components/Main';
+import handles from 'client/actions/handles';
 
 class Container extends Component {
 
   componentWillMount(){
     const { state, talknAPI } = this.props;
-    const { user } = state;
-
-    talknAPI.find();
-    talknAPI.find( user.connection );
-    talknAPI.find( {connection: user.connection} );
+    const { thread } = state;
+    talknAPI.find( thread.connection );
   }
 
  	render() {
@@ -34,5 +32,5 @@ function mapStateToProps( state, props ) {
 
 export default connect(
 	mapStateToProps,
-	null
+	handles,
 )( Container )
