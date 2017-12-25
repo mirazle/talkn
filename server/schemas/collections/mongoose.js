@@ -1,7 +1,7 @@
 export default {
 	Posts: {
-		connection: { type: String, default: '' },
-		connections: { type: [String], default: [] },
+		connection: { type: String, default: '/' },
+		connections: { type: [String], default: ['/'] },
 		uid: { type: String, default: '' },
 		title: { type: String, default: '' },
 		thum: { type: String, default: '' },
