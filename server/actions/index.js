@@ -30,6 +30,9 @@ export default {
     let {response: thread} = await Logics.db.threads.findOne(requestState.connection);
     const isUpdatableThread = Logics.db.threads.isUpdatableThread(thread, setting);
 
+    // リクエストのあった投稿内容を取得する
+    let {response: posts} = await Logics.db.posts.find(requestState.connection);
+
     // スレッドが存在しない場合、もしくは更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
       const {title, metas, links, h1s, contentType, uri} = await Logics.html.get( requestState );
@@ -40,13 +43,12 @@ export default {
 
       if( thread ){
         let {response: thread} = await Logics.db.threads.update( requestState, updateThread );
-        console.log(thread);
       }else{
         let {response: thread} = await Logics.db.threads.save( requestState, updateThread );
       }
     }
 
-    await Logics.io.find( ioUser, {requestState, thread} );
+    await Logics.io.find( ioUser, {requestState, thread, posts} );
     return true;
   },
 
