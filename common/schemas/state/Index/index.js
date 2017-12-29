@@ -1,7 +1,8 @@
-import Schema from './../../../schemas/Schema';
+import Schema from '../../Schema';
 
-export default class Index{
+export default class Index extends Schema{
   constructor(){
+    super();
     return{};
   }
 }

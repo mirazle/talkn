@@ -1,3 +1,3 @@
 export default ( state = {} , action ) => {
-	return {...state, ...action.mediaIndex}
+	return action.mediaIndex ? action.mediaIndex : state ;
 };

@@ -1,3 +1,3 @@
 export default ( state = {} , action ) => {
-	return {...state, ...action.bootOption}
+	return action.bootIndex ? action.bootIndex : state ;
 };

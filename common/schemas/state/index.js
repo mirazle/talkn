@@ -12,7 +12,7 @@ import Style from './Style/';
 export default class State{
 
   constructor( appType, talknIndex, window, attributes = {} ){
-    this.app = new App( appType, talknIndex );
+    this.app = new App( {type: appType, talknIndex} );
     this.user = new User();
     this.userAgent = new UserAgent( window );
 		this.index = new Index();

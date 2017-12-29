@@ -1,8 +1,9 @@
-import Schema from './../../schemas/Schema';
+import Schema from '../Schema';
 
-export default class Analyze{
-  constructor(){
+export default class Analyze extends Schema{
+  constructor( params = {} ){
+    super();
     const watchCnt = 0;
-    return {};
+    return this.create({watchCnt});
   }
 }
