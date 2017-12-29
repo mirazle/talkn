@@ -1,3 +1,5 @@
+import State from './schemas/state/';
+const state = new State();
 
 export default class Sequence {
 
@@ -90,7 +92,6 @@ export default class Sequence {
         }
       });
     }
-    console.log(requestState);
     return requestState;
   }
 
@@ -134,11 +135,21 @@ export default class Sequence {
         throw `NO_UPDATE_STATE_KEY: ${updateStateKey}`;
       }
     });
-    console.log(responseState);
     return responseState;
   }
 
-  static getActionState( actionName, state, requestParams ){
-    return {...state, ...requestParams, type: actionName };
+  static getRequestActionState( actionName, requestParams ){
+    return {...requestParams, type: actionName };
+  }
+
+  static getResponseActionState( actionName, response ){
+    let responseActionState = {[ Sequence.REDUX_ACTION_KEY ]: actionName};
+    Object.keys( response ).forEach(( stateKey ) => {
+      if( stateKey !== Sequence.REDUX_ACTION_KEY ){
+        const stateValue = response[ stateKey ];
+        responseActionState[ stateKey ] = new state[ stateKey ].constructor( stateValue );
+      }
+    });
+    return responseActionState;
   }
 }

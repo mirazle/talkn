@@ -1,3 +1,3 @@
 export default ( state = {} , action ) => {
-	return {...state, ...action.app}
+	return action.app ? action.app : state ;
 };

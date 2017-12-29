@@ -41,12 +41,13 @@ class SocketIo{
   }
 
   async broadcast( key, state ){
-    console.log( "Broadcast ###### " + key );
+    console.log( "Broadcast ######" + key );
     this.io.emit( key, state );
   }
 
   async emit( ioUser, key, state ){
     console.log( "Emit     ###### " + key );
+    console.log(state);
     ioUser.emit( key, state );
   }
 }

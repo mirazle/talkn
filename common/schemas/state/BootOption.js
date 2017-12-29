@@ -1,13 +1,13 @@
-import Schema from './../../schemas/Schema';
-
-export default class BootOption{
+import Schema from '../Schema';
+export default class BootOption extends Schema{
   constructor( attributes = {} ){
+    super();
     let bootOption = {};
     Object.keys( attributes ).forEach( ( i ) => {
       bootOption[ attributes[ i ].name ] = attributes[ i ].value;
     });
 
     // Initialize.
-    return bootOption;
+    return this.create({...bootOption});
   }
 }
