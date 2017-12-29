@@ -147,7 +147,12 @@ export default class Sequence {
     Object.keys( response ).forEach(( stateKey ) => {
       if( stateKey !== Sequence.REDUX_ACTION_KEY ){
         const stateValue = response[ stateKey ];
-        responseActionState[ stateKey ] = new state[ stateKey ].constructor( stateValue );
+
+        // レスポンス内容、
+        responseActionState[ stateKey ] = new state[ stateKey ].constructor( stateValue, 'response' );
+        console.log("######### " + stateKey);
+        console.log(stateValue);
+        console.log(responseActionState[ stateKey ] );
       }
     });
     return responseActionState;
