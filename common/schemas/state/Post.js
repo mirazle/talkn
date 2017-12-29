@@ -1,7 +1,7 @@
+import Schema from '../Schema';
 export default class Post {
-  constructor(){
-    return {
-      
-    };
+  constructor( params = {} ){
+    super();
+    return this.create({});
   }
 }

@@ -15,7 +15,6 @@ class Container extends Component {
 
  	render() {
     const { style } = this.props.state;
-
 		return (
 			<div style={ style.container.self }>
         <Style {...this.props} />

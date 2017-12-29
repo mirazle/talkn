@@ -61,9 +61,10 @@ export default class TalknAPI{
 	getWsRequestAPI( talknIndex, actionName ){
 		return ( requestParams ) => {
 			if( requestParams && TalknAPI.handle( talknIndex ) ){
+
 				const state = this.store.getState();
 				const requestState = Sequence.getRequestState( actionName, state, requestParams );
-				const actionState = Sequence.getActionState( actionName, state, requestParams );
+				const actionState = Sequence.getRequestActionState( actionName, requestParams );
 				this.ws.emit( requestState.type, requestState );
 				return talknAPI.store.dispatch( actionState );
 			}else{
@@ -75,7 +76,7 @@ export default class TalknAPI{
 	getWsResponseAPI( talknIndex, actionName ){
 		return ( response ) => {
 			if( TalknAPI.handle( talknIndex ) ){
-				const actionState = wsResponseActions[ actionName ]( response );
+				const actionState = Sequence.getResponseActionState( actionName, response );
 				return talknAPI.store.dispatch( actionState );
 			}
 		}

@@ -1,11 +1,17 @@
-export default class Thread{
-  constructor( window ){
+import Schema from '../Schema';
 
-    const connection = Thread.getConnection( window.location.href );
-    const contentType = window.document.contentType;
-    const charset =  window.document.charset;
-    const protocol = window.location.protocol;
-    const host = window.location.host
+export default class Thread extends Schema{
+  constructor( window = {} ){
+    super();
+
+    const location = window.location ? window.location : {} ;
+    const document = window.document ? window.document : {} ;
+    const href = location.href ? location.href : '' ;
+    const connection = Thread.getConnection( href );
+    const contentType = document.contentType ? document.contentType : '';
+    const charset = document.charset ? document.charset : '';
+    const protocol = location.protocol ? location.protocol : '';
+    const host = location.host ? location.host : '';
     const title = '';
     const metas = [];
     const links = [];
@@ -13,7 +19,7 @@ export default class Thread{
     const uri = [];
     const favicon = Thread.getFaviconFromWindow( window );
 
-    return {
+    return this.create({
       connection,
       contentType,
       charset,
@@ -25,27 +31,38 @@ export default class Thread{
       h1s,
       uri,
       favicon,
-    };
+    });
   }
 
-  static getConnection(origin){
-    const splitedOrigin = origin.split(':/');
-    return splitedOrigin[ 1 ].slice( 0, -1 ) ;
+  static getConnection( href ){
+    if( href !== '' ){
+      const splitedOrigin = href.split(':/');
+      return splitedOrigin[ 1 ].slice( 0, -1 ) ;
+    }else{
+      return '';
+    }
   }
 
   static getConnectionTop(connection){
-    return '/' + connection.split("/")[ 1 ];
+    if( connection !== '' ){
+      return '/' + connection.split("/")[ 1 ];
+    }else{
+      return '';
+    }
   }
 
   static getConnections(connection){
-    const connectionArr = connection.split( '/' );
-    const connectionLength = connectionArr.length;
     let connections = ['/'];
-    if( connection !== "/" ){
-      let connectNewConnection = '';
-      for( var i = 1; i < connectionLength; i++ ){
-        connectNewConnection += ( '/' + connectionArr[ i ] );
-        connections.push( connectNewConnection );
+    if( connection !== '' ){
+      const connectionArr = connection.split( '/' );
+      const connectionLength = connectionArr.length;
+
+      if( connection !== "/" ){
+        let connectNewConnection = '';
+        for( var i = 1; i < connectionLength; i++ ){
+          connectNewConnection += ( '/' + connectionArr[ i ] );
+          connections.push( connectNewConnection );
+        }
       }
     }
     return connections;
@@ -64,25 +81,29 @@ export default class Thread{
   }
 
   static getFaviconFromWindow( window ){
-    const u = window.document.evaluate(
-      "//link[contains(@rel,'icon')or(contains(@rel,'ICON'))][1]/@href",
-      window.document,
-      null,
-      2,
-      null).stringValue;
-    const h = "http://";
-    const hs = "https://";
-    const l = location.host;
-    if( u.indexOf( h ) || u.indexOf( hs ) ){
-      const url = h+l+( u || "/favicon.ico" );
-      const strCnt = url.split( '//' ).length - 1
-      if( strCnt === 1 ){
-        return url;
+    if( window && window.document ){
+      const u = window.document.evaluate(
+        "//link[contains(@rel,'icon')or(contains(@rel,'ICON'))][1]/@href",
+        window.document,
+        null,
+        2,
+        null).stringValue;
+      const h = "http://";
+      const hs = "https://";
+      const l = location.host;
+      if( u.indexOf( h ) || u.indexOf( hs ) ){
+        const url = h+l+( u || "/favicon.ico" );
+        const strCnt = url.split( '//' ).length - 1
+        if( strCnt === 1 ){
+          return url;
+        }else{
+          return u;
+        }
       }else{
-        return u;
+        return u ;
       }
     }else{
-      return u ;
+      return '';
     }
   }
 }

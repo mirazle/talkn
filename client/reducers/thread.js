@@ -1,3 +1,3 @@
 export default ( state = {} , action ) => {
-	return {...state, ...action.thread}
+	return action.thread ? action.thread : state ;
 };
