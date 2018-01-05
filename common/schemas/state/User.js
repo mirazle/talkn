@@ -10,8 +10,35 @@ export default class User extends Schema{
     return this.create({
       id,
       type,
-      inputPost,
+      inputPost: {value: inputPost, valid: User.validInputPost},
       inputSearch,
     });
+  }
+
+  // TODO POSTするタイミングのみにValidateしたい
+  static validInputPost(value){
+    if(value !== ''){
+      if( /^\n+$/.test( value ) ){
+        if( /^\r+$/.test( value ) ){
+//console.log('入力不可能な文字');
+          return true;
+        }
+      }
+    }
+//console.log('入力可能な文字 ');
+    return false;
+  }
+
+  static validPost(value){
+    if(value !== ''){
+      if( /^\n+$/.test( value ) ){
+        if( /^\r+$/.test( value ) ){
+//console.log('投稿不可能な文字列の状態');
+          return true;
+        }
+      }
+    }
+//console.log('投稿可能な文字列の状態');
+    return false;
   }
 }

@@ -24,13 +24,13 @@ export default class Sequence {
         responseBroadcastState: {},
       },
       find: {
-        requestPublicState: {'thread': ['connection']},
-        requestPrivateState: {'thread': ['protocol', 'host']},
+        requestPublicState: {'thread': [{columnName: 'connection'}]},
+        requestPrivateState: {'thread': [{columnName: 'protocol'}, {columnName: 'host'}]},
         responseEmitState: {'posts': '*', 'thread': '*'},
         responseBroadcastState: {'analyze': ['watchCnt']},
       },
       post: {
-        requestPublicState: {'user': ['inputPost']},
+        requestPublicState: {'user': [{columnName: 'inputPost',valid: ()=>{}}]},
         requestPrivateState: {'user':['id']},
         responseEmitState: {'posts': '*'},
         responseBroadcastState: {'analyze': ['postCnt']},
@@ -44,52 +44,45 @@ export default class Sequence {
     };
   }
 
-  static getRequestState( actionName, state, requestParams ){
+  // Clientに持っていくメソッド？
+  static getRequestState( actionName, reduxState, requestParams ){
+
     const endpointKey = actionName.replace( Sequence.PREFIX_REQUEST, '' );
     const { requestPublicState, requestPrivateState } = Sequence.map[ endpointKey ];
     let requestState = {[ Sequence.REDUX_ACTION_KEY ]: endpointKey};
 
     if( Object.keys( requestPrivateState ).length > 0 ){
-
       Object.keys( requestPrivateState ).forEach( ( stateKey ) => {
+        const columnDatas = requestPrivateState[ stateKey ];
 
-        const columnNames = requestPrivateState[ stateKey ];
-
-        switch( typeof columnNames ){
-        case 'string':
-          stateKey = seqReqKey;
-          requestState = { ...state[ stateKey ] };
-          break;
-        case 'object':
-
-          columnNames.forEach( ( columnName ) => {
+        columnDatas.forEach( ( columnData ) => {
+          const {columnName, valid} = columnData;
+          const value = reduxState[ stateKey ][ columnName ];
+          if( !valid || !valid( value ) ){
             requestState = {...requestState,
-              [ columnName ] : state[ stateKey ][ columnName ]
+              [ columnName ] : reduxState[ stateKey ][ columnName ]
             };
-          });
-          break;
-        }
+          }
+        });
+
       });
     }
 
     if( Object.keys( requestPublicState ).length > 0 ){
-
       Object.keys( requestPublicState ).forEach( ( stateKey ) => {
-
-        const columnNames = requestPublicState[ stateKey ];
-
-        switch( typeof requestParams ){
-        case 'string':
-          columnNames.forEach( ( columnName ) => {
-            requestState = {...requestState,
-              [ columnName ] : state[ stateKey ][ columnName ]
-            };
-          });
-          break;
-        case 'object':
-          requestState = {...requestParams, ...requestState};
-          break;
-        }
+        const columnDatas = requestPublicState[ stateKey ];
+        columnDatas.forEach( ( columnData ) => {
+          const {columnName, valid} = columnData;
+          if( reduxState[ stateKey ].canSet( columnName, requestParams ) ){
+            if( !valid || !valid( requestParams ) ){
+              requestState = {...requestState,
+                [ columnName ] : requestParams,
+              };
+            }
+          }else{
+            throw `BAD SEQUENCE: ${stateKey}_${columnName}_${requestParams}` ;
+          }
+        });
       });
     }
     return requestState;
@@ -140,21 +133,5 @@ export default class Sequence {
 
   static getRequestActionState( actionName, requestParams ){
     return {...requestParams, type: actionName };
-  }
-
-  static getResponseActionState( actionName, response ){
-    let responseActionState = {[ Sequence.REDUX_ACTION_KEY ]: actionName};
-    Object.keys( response ).forEach(( stateKey ) => {
-      if( stateKey !== Sequence.REDUX_ACTION_KEY ){
-        const stateValue = response[ stateKey ];
-
-        // レスポンス内容、
-        responseActionState[ stateKey ] = new state[ stateKey ].constructor( stateValue, 'response' );
-        console.log("######### " + stateKey);
-        console.log(stateValue);
-        console.log(responseActionState[ stateKey ] );
-      }
-    });
-    return responseActionState;
   }
 }
