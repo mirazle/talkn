@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from "react"
+import User from 'common/schemas/state/User';
+
 
 export default class Footer extends Component {
 
@@ -10,25 +12,24 @@ export default class Footer extends Component {
   }
 
   handleOnChange( e ){
-    const{ onChangeInputPost } = this.props;
-    onChangeInputPost( e.target.value );
+    if( !User.validInputPost( e.target.value ) ){
+      const{ onChangeInputPost } = this.props;
+      onChangeInputPost( e.target.value );
+    }
   }
 
   handleOnClick(){
     const{ talknAPI, state, onChangeInputPost } = this.props;
     const{ user } = state;
-    if(user.inputPost !== '' ){
-      talknAPI.post( user.inputPost );
-    }
+    talknAPI.post( user.inputPost );
   }
 
   handleOnKeyPress( e ){
     const{ user } = this.props.state;
     if ( e.nativeEvent.keyCode === 13 ) {
       if( !e.nativeEvent.shiftKey ){
-        if( user.inputPost !== '' ){
-          talknAPI.post( user.inputPost );
-        }
+        console.log("KEY PRESS");
+        talknAPI.post( user.inputPost );
       }
     }
   }
