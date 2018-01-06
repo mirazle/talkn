@@ -14,20 +14,25 @@ export default class Footer extends Component {
   handleOnChange( e ){
     if( !User.validInputPost( e.target.value ) ){
       const{ onChangeInputPost } = this.props;
+      const{ user } = this.props.state;
       onChangeInputPost( e.target.value );
     }
   }
 
   handleOnClick(){
-    const{ talknAPI, state, onChangeInputPost } = this.props;
-    const{ user } = state;
-    talknAPI.post( user.inputPost );
+    if( !User.validInputPost( e.target.value ) ){
+      const{ talknAPI, state, onChangeInputPost } = this.props;
+      const{ user } = state;
+      talknAPI.post( user.inputPost );
+    }
   }
 
   handleOnKeyPress( e ){
     const{ user } = this.props.state;
     if ( e.nativeEvent.keyCode === 13 ) {
-      if( !e.nativeEvent.shiftKey ){
+      if( e.nativeEvent.shiftKey ){
+
+      }else{
         console.log("KEY PRESS");
         talknAPI.post( user.inputPost );
       }
@@ -36,7 +41,6 @@ export default class Footer extends Component {
 
  	render() {
     const { style, user } = this.props.state;
-
 		return (
       <footer style={ style.footer.self }>
         <div style={style.footer.icon} />
