@@ -1,3 +1,4 @@
+import User from './schemas/state/User';
 import State from './schemas/state/';
 const state = new State();
 
@@ -30,7 +31,7 @@ export default class Sequence {
         responseBroadcastState: {'analyze': ['watchCnt']},
       },
       post: {
-        requestPublicState: {'user': [{columnName: 'inputPost',valid: ()=>{}}]},
+        requestPublicState: {'user': [{columnName: 'inputPost', valid: User.validPost }]},
         requestPrivateState: {'user':['id']},
         responseEmitState: {'posts': '*'},
         responseBroadcastState: {'analyze': ['postCnt']},
@@ -44,7 +45,6 @@ export default class Sequence {
     };
   }
 
-  // Clientに持っていくメソッド？
   static getRequestState( actionName, reduxState, requestParams ){
 
     const endpointKey = actionName.replace( Sequence.PREFIX_REQUEST, '' );
@@ -78,9 +78,11 @@ export default class Sequence {
               requestState = {...requestState,
                 [ columnName ] : requestParams,
               };
+            }else{
+              throw `VALID SEQUENCE: ${stateKey}_${columnName}_${requestParams}` ;
             }
           }else{
-            throw `BAD SEQUENCE: ${stateKey}_${columnName}_${requestParams}` ;
+            throw `VALID STATE: ${stateKey}_${columnName}_${requestParams}` ;
           }
         });
       });
