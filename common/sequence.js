@@ -74,12 +74,13 @@ export default class Sequence {
         columnDatas.forEach( ( columnData ) => {
           const {columnName, valid} = columnData;
           if( reduxState[ stateKey ].canSet( columnName, requestParams ) ){
-            if( !valid || !valid( requestParams ) ){
+            const validError = valid ? valid( requestParams ) : false ;
+            if(!validError){
               requestState = {...requestState,
                 [ columnName ] : requestParams,
               };
             }else{
-              throw `VALID SEQUENCE: ${stateKey}_${columnName}_${requestParams}` ;
+              throw `VALID SEQUENCE: ${stateKey}_${columnName}_${requestParams} [${validError}]` ;
             }
           }else{
             throw `VALID STATE: ${stateKey}_${columnName}_${requestParams}` ;
