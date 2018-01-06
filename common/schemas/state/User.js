@@ -15,30 +15,15 @@ export default class User extends Schema{
     });
   }
 
-  // TODO POSTするタイミングのみにValidateしたい
   static validInputPost(value){
-    if(value !== ''){
-      if( /^\n+$/.test( value ) ){
-        if( /^\r+$/.test( value ) ){
-//console.log('入力不可能な文字');
-          return true;
-        }
-      }
-    }
-//console.log('入力可能な文字 ');
     return false;
   }
 
   static validPost(value){
-    if(value !== ''){
-      if( /^\n+$/.test( value ) ){
-        if( /^\r+$/.test( value ) ){
-//console.log('投稿不可能な文字列の状態');
-          return true;
-        }
-      }
-    }
-//console.log('投稿可能な文字列の状態');
+    if( value === '' ) return true;
+    if( /^\r\n|\n|\r+$/.test( value ) ) return true;
+    if( /^\r\n|\n|\r+\s+\r\n|\n|\r+$/.test( value ) ) return true;
+    if( /^\r\n|\n|\r+　+\r\n|\n|\r+$/.test( value ) ) return true;
     return false;
   }
 }

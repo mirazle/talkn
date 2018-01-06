@@ -1,9 +1,7 @@
 export default class Schema {
   constructor(option = {}){
     const errorThrow = option.errorThrow ? option.errorThrow : true;
-//    const immutable = option.immutable ? option.immutable : true;
     Object.defineProperty( this, 'errorThrow', {value: errorThrow});
-//    Object.defineProperty( this, 'immutable',{value: immutable});
   }
 
   static getType(value){
@@ -48,18 +46,19 @@ export default class Schema {
       const validFunc = (_value) => {
         let error = null;
         const pointer = `${className}.${key}=${_value}`;
-        if( Schema.getType(_value) !== type ){
-          error = `SCHEMA_ERROR_TYPE : ${pointer}[${type}]`;
+        const paramsType = Schema.getType(_value);
+        if( paramsType !== type ){
+          error = `SCHEMA_TYPE : ${pointer} [correctType: ${type}][paramsType: ${paramsType}]`;
         }
         if(isAcceptNull && _value === null ){
-          error = `SCHEMA_ERROR_IS_ACCEPT_NULL :  ${pointer}`;
+          error = `SCHEMA_IS_ACCEPT_NULL :  ${pointer}`;
         }
         if(isAcceptBlank && _value === '' ){
-          error = `SCHEMA_ERROR_IS_ACCEPT_BLANK :  ${pointer}`;
+          error = `SCHEMA_IS_ACCEPT_BLANK :  ${pointer}`;
         }
         if(Schema.getType(valid) === 'Function' ){
           if(valid(_value)){
-            error = `SCHEMA_ERROR_YOUR_VALID_METHOD :  ${pointer}`;
+            error = `SCHEMA_YOUR_VALID_METHOD :  ${pointer}`;
           }
         }
         return error;
@@ -114,18 +113,28 @@ export default class Schema {
   }
 
   merge( obj = {} ){
-    if( Object.keys( obj ).length > 0 ){
-      let merged = this.constructor({...this});
-      Object.keys( obj ).forEach( ( key ) => {
-        if( this[ key ] !== obj[ key ]){
-          if(this.canSet( key, obj[ key ] )){
-            merged = merged[ key ] = obj[ key ];
+    try{
+      if( Object.keys( obj ).length > 0 ){
+        const mergedObj = new this.constructor({...this});
+        Object.keys( obj ).forEach( ( key ) => {
+          if( this[ key ] !== obj[ key ]){
+            if(this.canSet( key, obj[ key ] )){
+              mergedObj[ key ] = obj[ key ];
+            }
           }
-        }
-      });
-      return merged;
+        });
+        return mergedObj;
+      }else{
+        return obj;
+      }
+    }catch( e ){
+      if(this.errorThrow){
+        throw `BAD MERGE: ${Schema.getType(obj)} ${e}`;
+      }else{
+        console.warn(`BAD MERGE: ${Schema.getType(obj)} ${e}`);
+        return obj;
+      }
     }
-    return false;
   }
 
   toJSON(){

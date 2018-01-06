@@ -6,13 +6,10 @@ export default class Thread extends Schema{
 
     let thread = {};
 
-    switch( mode ){
-    case 'window':
+    if( params && params.location ){
       thread = Thread.constructorFromWindow( params );
-      break;
-    case 'response':
+    }else if( params && !params.location ){
       thread = params;
-      break;
     }
 
     return this.create(thread);
