@@ -11,30 +11,41 @@ export default class Footer extends Component {
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
   }
 
-  handleOnChange( e ){
-    if( !User.validInputPost( e.target.value ) ){
-      const{ onChangeInputPost } = this.props;
-      const{ user } = this.props.state;
-      onChangeInputPost( e.target.value );
-    }
-  }
-
   handleOnClick(){
     if( !User.validInputPost( e.target.value ) ){
       const{ talknAPI, state, onChangeInputPost } = this.props;
       const{ user } = state;
       talknAPI.post( user.inputPost );
+      onChangeInputPost('');
+    }
+  }
+
+  handleOnChange( e ){
+    const{ onChangeInputPost } = this.props;
+    if( User.validInputPost( e.target.value ) ){
+
+      // TODO
+      // validInputPostは行末に改行がある場合、にも関わらず、
+      // aaaaa
+      // w
+      // こういう場合もtrueを返しているのが問題
+      console.log(e.target.value);
+
+      //onChangeInputPost( '' );
+    }else{
+      onChangeInputPost( e.target.value );
     }
   }
 
   handleOnKeyPress( e ){
-    const{ user } = this.props.state;
     if ( e.nativeEvent.keyCode === 13 ) {
+      const{ user } = this.props.state;
+      const{ onChangeInputPost } = this.props;
       if( e.nativeEvent.shiftKey ){
-
+        onChangeInputPost( e.target.value + '\n');
       }else{
-        console.log("KEY PRESS");
         talknAPI.post( user.inputPost );
+        onChangeInputPost('');
       }
     }
   }

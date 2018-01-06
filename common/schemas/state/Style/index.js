@@ -71,7 +71,7 @@ export default class Style{
     const contentBase = {
       letterSpacing: '1px',
       wordWrap: 'breakWord',
-      whiteSpace: 'nowrap',
+      whiteSpace: 'normal',
       quotes: 'none',
       content: 'none',
     }

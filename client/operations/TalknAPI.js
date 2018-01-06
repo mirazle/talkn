@@ -60,14 +60,12 @@ export default class TalknAPI{
 
 	getWsRequestAPI( talknIndex, actionName ){
 		return ( requestParams ) => {
-			if( requestParams && TalknAPI.handle( talknIndex ) ){
+			if( TalknAPI.handle( talknIndex ) ){
 				const reduxState = this.store.getState();
 				const requestState = Sequence.getRequestState( actionName, reduxState, requestParams );
 				const actionState = Sequence.getRequestActionState( actionName, requestParams );
 				this.ws.emit( requestState.type, requestState );
 				return talknAPI.store.dispatch( actionState );
-			}else{
-				throw `NO_REQUEST_PARAMS: ${actionName} ${requestParams}`;
 			}
 		}
 	}
