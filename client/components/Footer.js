@@ -15,7 +15,7 @@ export default class Footer extends Component {
     if( !User.validInputPost( e.target.value ) ){
       const{ talknAPI, state, onChangeInputPost } = this.props;
       const{ user } = state;
-      talknAPI.post( user.inputPost );
+      talknAPI.post( user.post );
       onChangeInputPost('');
     }
   }
