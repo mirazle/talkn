@@ -22,17 +22,7 @@ export default class Footer extends Component {
 
   handleOnChange( e ){
     const{ onChangeInputPost } = this.props;
-    if( User.validInputPost( e.target.value ) ){
-
-      // TODO
-      // validInputPostは行末に改行がある場合、にも関わらず、
-      // aaaaa
-      // w
-      // こういう場合もtrueを返しているのが問題
-      console.log(e.target.value);
-
-      //onChangeInputPost( '' );
-    }else{
+    if( !User.validInputPost( e.target.value ) ){
       onChangeInputPost( e.target.value );
     }
   }
