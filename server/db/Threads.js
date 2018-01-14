@@ -9,7 +9,7 @@ export default class Threads {
     return this;
   }
 
-  save( condition = {}, set = {}, option = {} ){
+  save( set = {}, option = {} ){
     return new Promise( resolve => {
       const thread = new this.db( set );
       thread.save(( error, response) => {

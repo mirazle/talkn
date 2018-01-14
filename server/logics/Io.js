@@ -12,13 +12,18 @@ export default class Io {
   }
 
   async initClientState( ioUser, requestState ){
-    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {user: {id: ioUser.conn.id } } );
+    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {user: {uid: ioUser.conn.id } } );
     return this.io.emit( ioUser, responseEmitState.type, responseEmitState );
   }
 
   async find(ioUser, {requestState, thread, posts} ){
     const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {thread, posts} );
     return this.io.emit( ioUser, responseEmitState.type, responseEmitState );
+  }
+
+  async post(ioUser, {requestState, posts} ){
+    const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts} );
+    return this.io.broadcast( responseBroadcastState.type, responseBroadcastState.posts );
   }
 
   async updateWatchCnt( response ){

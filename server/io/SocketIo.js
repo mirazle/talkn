@@ -47,7 +47,6 @@ class SocketIo{
 
   async emit( ioUser, key, state ){
     console.log( "Emit     ###### " + key );
-    console.log(state);
     ioUser.emit( key, state );
   }
 }

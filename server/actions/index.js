@@ -52,7 +52,9 @@ export default {
     return true;
   },
 
-  post: ( ioUser, state ) => {
+  post: async ( ioUser, requestState, setting ) => {
+    const {response: posts} = await Logics.db.posts.save( requestState );
+    await Logics.io.post( ioUser, {requestState, posts} );
     return true;
   },
 

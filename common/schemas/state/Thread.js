@@ -29,7 +29,7 @@ export default class Thread extends Schema{
     const links = [];
     const h1s = [];
     const uri = [];
-    const favicon = Thread.getFaviconFromWindow( window );
+    const thum = Thread.getFaviconFromWindow( window );
 
     return {
       location,
@@ -45,7 +45,7 @@ export default class Thread extends Schema{
       links,
       h1s,
       uri,
-      favicon,
+      thum,
     }
   }
 
@@ -58,7 +58,7 @@ export default class Thread extends Schema{
     }
   }
 
-  static getConnectionTop(connection){
+  static getConnectionTop( connection ){
     if( connection !== '' ){
       return '/' + connection.split("/")[ 1 ];
     }else{
@@ -66,7 +66,7 @@ export default class Thread extends Schema{
     }
   }
 
-  static getConnections(connection){
+  static getConnections( connection ){
     let connections = ['/'];
     if( connection !== '' ){
       const connectionArr = connection.split( '/' );
@@ -83,7 +83,7 @@ export default class Thread extends Schema{
     return connections;
   }
 
-  setConnection(_connection = '/'){
+  setConnection( _connection = '/' ){
     const connection = _connection.indexOf('/') === 0 ? _connection : `/${_connection}`;
     const connectionTop = User.getConnectionTop(connection);
     const extentionType = User.getContentType(connection);

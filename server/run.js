@@ -23,8 +23,7 @@ class TalknServer{
 		Object.keys( Sequence.map ).forEach( endpoint => {
 			const oneSequence = Sequence.map[ endpoint ];
 			ioUser.on( endpoint, ( requestState ) => {
-				console.log("========== START");
-				console.log(requestState);
+				console.log("========== START " + requestState.type );
 				Actions[ endpoint ]( ioUser, requestState, setting );
 			});
 		});
