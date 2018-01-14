@@ -42,6 +42,8 @@ export default class Style{
       borderSpacing: 0,
       border: 0,
       borderRadius: 0,
+      zIndex: 1,
+      align: 'center',
     }
     return { ...baseLayout, ...style };
   }
@@ -49,7 +51,6 @@ export default class Style{
   static getLayoutBlock( style = {} ){
     const blockLayout = Style.getLayoutBase({
       display: 'block',
-      align: 'center',
     });
     return { ...blockLayout, ...style };
   }
@@ -96,6 +97,7 @@ export default class Style{
   static getAnimationBase( style = {} ){
     const animationBase = {
       transition: "0ms",
+      transform: 'translate3d(0px, 0px, 0px)',
     }
     return { ...animationBase, ...style };
   }

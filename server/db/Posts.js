@@ -5,6 +5,7 @@ export default class Posts {
     this.db = MongoDB.getCollection( con, Posts.name );
     this.find = this.find.bind(this);
     this.save = this.save.bind(this);
+    this.update = this.update.bind(this);
     return this;
   }
 
@@ -17,11 +18,21 @@ export default class Posts {
     });
   }
 
-  save(){
+  save( set = {}, option = {} ){
     return new Promise( resolve => {
-      this.db.save( condition, selector, option, (error, response) => {
+      const post = new this.db( set );
+      post.save(( error, response) => {
         if(error) console.warn( error );
-        resolve({error, response});
+        resolve({response, error});
+      });
+    });
+  }
+
+  update( condition = {}, set = {}, option = {} ){
+    return new Promise( resolve => {
+      this.db.update( condition, set, option, ( error, response ) => {
+        if(error) console.warn( error );
+        resolve({response, error});
       });
     });
   }

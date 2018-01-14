@@ -4,6 +4,22 @@ const state = new State();
 
 export default class Sequence {
 
+  static get CLIENT_TO_SERVER_EMIT(){
+    return 'CLIENT_TO_SERVER[EMIT]:';
+  }
+
+  static get SERVER_TO_CLIENT_EMIT(){
+    return 'SERVER_TO_CLIENT[EMIT]:';
+  }
+
+  static get SERVER_TO_CLIENT_BROADCAST(){
+    return 'SERVER_TO_CLIENT[BROADCAST]:';
+  }
+
+  static get CLIENT_TO_CLIENT_EMIT(){
+    return 'CLIENT_TO_CLIENT[EMIT]:';
+  }
+
   static get PREFIX_REQUEST(){
     return 'REQUEST:';
   }
@@ -21,7 +37,7 @@ export default class Sequence {
       initClientState: {
         requestPublicState: {},
         requestPrivateState: {},
-        responseEmitState: { 'user': ['id']},
+        responseEmitState: { 'user': ['uid']},
         responseBroadcastState: {},
       },
       find: {
@@ -31,10 +47,10 @@ export default class Sequence {
         responseBroadcastState: {'analyze': ['watchCnt']},
       },
       post: {
-        requestPublicState: {'user': [{columnName: 'inputPost', valid: User.validPost }]},
-        requestPrivateState: {'user':['id']},
-        responseEmitState: {'posts': '*'},
-        responseBroadcastState: {'analyze': ['postCnt']},
+        requestPublicState: {'user': [{columnName: 'post', valid: User.validPost }]},
+        requestPrivateState: {'user':[{columnName: 'uid'},{columnName: 'utype'}], 'thread': [{columnName: 'connection'}, {columnName: 'thum'}]},
+        responseEmitState: {},
+        responseBroadcastState: {'posts': '*'},
       },
       disconnect: {
         requestPublicState: {},
@@ -46,8 +62,7 @@ export default class Sequence {
   }
 
   static getRequestState( actionName, reduxState, requestParams ){
-
-    const endpointKey = actionName.replace( Sequence.PREFIX_REQUEST, '' );
+    const endpointKey = actionName.replace( Sequence.CLIENT_TO_SERVER_EMIT, '' );
     const { requestPublicState, requestPrivateState } = Sequence.map[ endpointKey ];
     let requestState = {[ Sequence.REDUX_ACTION_KEY ]: endpointKey};
 
@@ -123,12 +138,12 @@ export default class Sequence {
                 }
               }
             }else{
-              throw `NO_UPDATE_STATE_COLUMN_NAME: ${columnName}`;
+              throw `SEQUENCE ERROR: NO_UPDATE_STATE_COLUMN_NAME: ${columnName}`;
             }
           });
         }
       }else{
-        throw `NO_UPDATE_STATE_KEY: ${updateStateKey}`;
+        throw `SEQUENCE ERROR: NO_UPDATE_STATE_KEY: ${updateStateKey}`;
       }
     });
     return responseState;

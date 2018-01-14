@@ -6,17 +6,23 @@ export default class Footer extends Component {
 
   constructor(props) {
     super(props);
+    this.handleOnClickIcon = this.handleOnClickIcon.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
   }
 
-  handleOnClick(){
+  handleOnClickIcon( e ){
+    const{ user } = this.props.state;
+    this.props.onClickOpenMainBoard( !user.isDisp );
+  }
+
+  handleOnClick( e ){
     if( !User.validInputPost( e.target.value ) ){
-      const{ talknAPI, state, onChangeInputPost } = this.props;
-      const{ user } = state;
+      const{ talknAPI } = this.props;
+      const{ user } = this.props.state;
       talknAPI.post( user.post );
-      onChangeInputPost('');
+      this.props.onChangeInputPost('');
     }
   }
 
@@ -44,7 +50,10 @@ export default class Footer extends Component {
     const { style, user } = this.props.state;
 		return (
       <footer style={ style.footer.self }>
-        <div style={style.footer.icon} />
+        <div
+          style={style.footer.icon}
+          onClick={this.handleOnClickIcon}
+        />
         <textarea
           style={style.footer.textarea}
           rows={1}
