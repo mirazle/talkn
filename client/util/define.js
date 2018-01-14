@@ -1,3 +1,4 @@
+/*
 import func from 'client/util/func';
 import define from 'client/util/define';
 
@@ -10,9 +11,10 @@ const env = ( location.href.indexOf("talkn.io") === -1 )? "dev" : "prod" ;
 const host = env === "prod" ? "http://talkn.io/" : "localhost" ;
 //const host = ( env === "prod" )? "http://react.talkn.io/" : "http://localhost:8080/" ;
 const isTouch = ('ontouchstart' in window);
-
+*/
 
 export default {
+/*
 	env: env,
 	host: host,
 	isTouch: isTouch,
@@ -36,10 +38,13 @@ export default {
 			path: "", talk: ""
 		}
 	},
+  */
 	cacheKey:{
 		index: "talknIndexList",
 		setting: "talknSettingParams"
 	},
+}
+/*
 	throwSetTalknIndex: [ "stickMoveTalkn", "stickResizeTalkn", "stickThreadMove", "stickSettingBar", "endThreadMove", "endTransitionDisplayArea", "endNotif" ],
 	apiMenuViewCnt: 3,
 	apiMenu:[ "meta", "social", "movie", "instagram", "wikipedia", "analyze" ],
@@ -102,8 +107,11 @@ export default {
 		onNewPostAlertTop: -10,
 		notifAnimationMs: 4000,
 		notifAnimation: 'toastUp 4000ms ease',
-		defaultTalknWidth: "320px",
-		defaultTalknHeight: "440px",
+		defaultTalknWidth: 320,
+		defaultMainRatio: 0.94,
+		defaultMerginRatio: 0.034,
+		defaulMain
+		defaultTalknHeight: "400px",
 		defaultTalknRender: "right",
 		defaultTalknIsOpen: false,
 		defaultTalknIsMove: true,
@@ -114,3 +122,4 @@ export default {
 		unfocusZIndex: "2147483646"
 	}
 }
+*/

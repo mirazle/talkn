@@ -1,8 +1,5 @@
 import Sequence from 'common/Sequence';
 import * as stylesActions from 'client/actions/styles'
-import wsRequestActions from 'client/actions/wsRequest'
-import wsResponseActions from 'client/actions/wsResponse'
-
 import WsClientToServerEmitActions from 'client/actions/ws/clientToServerEmit'
 import WsServerToClientEmitActions from 'client/actions/ws/serverToClientEmit'
 import WsServerToClientBroadcastActions from 'client/actions/ws/serverToClientBradcast'
@@ -11,19 +8,12 @@ export default class TalknAPI{
 	constructor( talknIndex, store, ws ){
 		this.store = store;
 		this.ws = ws;
-		this.connections = [];
+		this.connectionKeys = [];
 		this.talknIndex = talknIndex;
-
-
-		this.setAPI( 'Style', stylesActions );
-		this.setAPI( 'WsClientToServerEmit', WsClientToServerEmitActions );
-		this.setAPI( 'WsServerToClientEmit', WsServerToClientEmitActions );
-		this.setAPI( 'WsServerToClientBroadcast', WsServerToClientBroadcastActions );
-/*
-		this.attachAPI( 'Style', talknIndex, stylesActions );
-		this.attachAPI( 'WsRequest', talknIndex, wsRequestActions );
-		this.attachAPI( 'WsResponse', talknIndex, wsResponseActions );
-*/
+		this.attachAPI( 'Style', stylesActions );
+		this.attachAPI( 'WsClientToServerEmit', WsClientToServerEmitActions );
+		this.attachAPI( 'WsServerToClientEmit', WsServerToClientEmitActions );
+		this.attachAPI( 'WsServerToClientBroadcast', WsServerToClientBroadcastActions );
 		window.__talknAPI__[ talknIndex ] = this;
 	}
 
@@ -37,7 +27,7 @@ export default class TalknAPI{
 		}
 	}
 
-	setAPI( handleType, actions ){
+	attachAPI( handleType, actions ){
 		const talknIndex = this.talknIndex;
 		const actionKeys = Object.keys( actions );
 		const actionLength = actionKeys.length;
@@ -47,6 +37,7 @@ export default class TalknAPI{
 			const handleApiKey = `get${handleType}API`;
 			let publicActionName = '';
 			let onKey = '';
+
 
 			if( typeof actions[ actionName ] === 'function' ){
 				switch( handleType ){
@@ -59,39 +50,27 @@ export default class TalknAPI{
 					break;
 				case 'WsServerToClientEmit':
 					onKey = actionName.replace( Sequence.SERVER_TO_CLIENT_EMIT, '' );
-					this.ws.on( onKey, this[ handleApiKey ]( talknIndex, actionName ));
+					this.on( onKey, handleApiKey, actionName );
 					break;
 				case 'WsServerToClientBroadcast':
 					onKey = actionName.replace( Sequence.SERVER_TO_CLIENT_BROADCAST, '' );
-					this.ws.on( onKey, this[ handleApiKey ]( talknIndex, actionName ));
+					this.on( onKey, handleApiKey, actionName );
 					break;
 				}
 			}
 		}
 	}
 
-	attachAPI( type, talknIndex, actions ){
-		const actionKeys = Object.keys( actions );
-		const actionLength = actionKeys.length;
-
-		for( let actionNodeCnt = 0; actionNodeCnt < actionLength; actionNodeCnt++ ){
-			const actionName = actionKeys[ actionNodeCnt ];
-			if( typeof actions[ actionName ] === 'function' ){
-				switch( type ){
-				case 'Style':
-					this[ actionName ] = this[ `getStyleAPI` ]( talknIndex, actionName );
-					break;
-				case 'WsRequest':
-					const publicActionName = actionName.replace( Sequence.PREFIX_REQUEST, '' );
-					this[ publicActionName ] = this[ `getWsRequestAPI` ]( talknIndex, actionName );
-					break;
-				case 'WsResponse':
-					const onKey = actionName.replace( Sequence.PREFIX_RESPONSE, '' );
-					this.ws.on( onKey, this[ `getWsResponseAPI` ]( talknIndex, actionName ));
-					break;
-				}
-			}
+	on( onKey, methodKey, actionName ){
+		if( !this.connectionKeys.includes( onKey ) ){
+			this.ws.on( onKey, this[ methodKey ]( this.talknIndex, actionName ));
+			this.connectionKeys.push( onKey );
 		}
+	}
+
+	off( onKey, methodKey, actionName ){
+		this.ws.off( onKey );
+		delete ws.indexConnectionMap[ params.connection ];
 	}
 
 	getStyleAPI( talknIndex, actionName ){
@@ -127,28 +106,8 @@ export default class TalknAPI{
 	getWsServerToClientBroadcastAPI( talknIndex, actionName ){
 		return ( response ) => {
 			if( TalknAPI.handle( talknIndex ) ){
+				//console.log(response);
 				const actionState = WsServerToClientBroadcastActions[ actionName ]( response );
-				return talknAPI.store.dispatch( actionState );
-			}
-		}
-	}
-
-	getWsRequestAPI( talknIndex, actionName ){
-		return ( requestParams ) => {
-			if( TalknAPI.handle( talknIndex ) ){
-				const reduxState = this.store.getState();
-				const requestState = Sequence.getRequestState( actionName, reduxState, requestParams );
-				const actionState = Sequence.getRequestActionState( actionName, requestParams );
-				this.ws.emit( requestState.type, requestState );
-				return talknAPI.store.dispatch( actionState );
-			}
-		}
-	}
-
-	getWsResponseAPI( talknIndex, actionName ){
-		return ( response ) => {
-			if( TalknAPI.handle( talknIndex ) ){
-				const actionState = wsResponseActions[ actionName ]( response );
 				return talknAPI.store.dispatch( actionState );
 			}
 		}

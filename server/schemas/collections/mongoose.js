@@ -3,11 +3,13 @@ export default {
 		connection: { type: String, default: '/' },
 		connections: { type: [String], default: ['/'] },
 		uid: { type: String, default: '' },
-		title: { type: String, default: '' },
+		utype: { type: String, default: '' },
 		thum: { type: String, default: '' },
-		talk: { type: String, default: '' },
-		postTime: { type: Date, default: Date },
+		post: { type: String, default: '' },
 		data: { type: Object, default:{} },
+		// Time
+		createTime: { type: Date, default: Date },
+		updateTime: { type: Date, default: Date },
 		dispFlg:{ type: Boolean, default: true }
 	},
 	Threads: {

@@ -1,4 +1,5 @@
 import Style from './index';
+import define from '../../../../client/util/define';
 
 export default class Footer{
   constructor( params ){
@@ -46,9 +47,16 @@ export default class Footer{
   }
 
   static getSelf(){
-    const layout = {};
+    const layout = Style.getLayoutBlock({
+      position: 'absolute',
+      boxShadow: 'rgb(230, 230, 230) 0px 0px 5px 0px',
+      borderTop: '1px solid rgb(220, 220, 220)',
+      borderRight: '1px solid rgb(220, 220, 220)',
+      borderLeft: '1px solid rgb(220, 220, 220)',
+      borderRadius: '3px 3px 0px 0px',
+    });
     const content = {};
-    const animation = {};
+    const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
@@ -57,7 +65,7 @@ export default class Footer{
     const layoutInlineBlock = Style.getLayoutInlineBlock({
       margin: '4px 0 0 0',
       width: '20%',
-      background: `url( ${thread.favicon} ) 50% 50% / 20px 20px no-repeat`,
+      background: `url( ${thread.thum} ) 50% 50% / 20px 20px no-repeat`,
     });
     const layout = Footer.getLayout( layoutInlineBlock );
     const content = {};

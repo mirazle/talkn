@@ -9,20 +9,27 @@ export default class Container{
     }
   }
 
+  static get width(){ return 320 };
+  static get height(){ return 400 };
+  static get mainRatio(){ return 0.94 };
+  static get merginRatio(){ return 0.034 };
+
+  static getWidthPx( bootOption ){
+    return bootOption.width ?
+      bootOption.width :
+      Container.width + 'px';
+  }
+
   static getSelf( bootOption ){
-    const layoutBlock = Style.getLayoutBlock({
+    const widthPx = Container.getWidthPx( bootOption );
+    const layout = Style.getLayoutBlock({
+      overflow: 'visible',
       position: 'fixed',
       bottom: '0px',
       right: '10px',
-      width: '320px',
+      width: widthPx,
       height: '35px',
-      boxShadow: 'rgb(230, 230, 230) 0px 0px 5px 0px',
-      borderTop: '1px solid rgb(220, 220, 220)',
-      borderRight: '1px solid rgb(220, 220, 220)',
-      borderLeft: '1px solid rgb(220, 220, 220)',
-      borderRadius: '3px 3px 0px 0px',
     });
-    const layout = {...layoutBlock, ...bootOption};
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
