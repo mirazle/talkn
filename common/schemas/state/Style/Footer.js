@@ -1,4 +1,5 @@
 import Style from './index';
+import Container from './Container';
 import define from '../../../../client/util/define';
 
 export default class Footer{
@@ -48,11 +49,12 @@ export default class Footer{
 
   static getSelf(){
     const layout = Style.getLayoutBlock({
+      background: Container.calmRGBA,
       position: 'absolute',
-      boxShadow: 'rgb(230, 230, 230) 0px 0px 5px 0px',
-      borderTop: '1px solid rgb(220, 220, 220)',
-      borderRight: '1px solid rgb(220, 220, 220)',
-      borderLeft: '1px solid rgb(220, 220, 220)',
+      boxShadow: Container.shadow,
+      borderTop: Container.border,
+      borderRight: Container.border,
+      borderLeft: Container.border,
       borderRadius: '3px 3px 0px 0px',
     });
     const content = {};
@@ -77,12 +79,12 @@ export default class Footer{
   static getTextarea(){
     const layoutInlineBlock = Style.getLayoutInlineBlock({
       width: '54%',
-      background: 'rgb(255, 255, 255)',
+      background: Container.lightRGB,
       padding: '5px 0% 5px 2%',
       margin: '4px 3% 0 0',
       outline: 'none',
       resize: 'none',
-      border: '1px solid rgb(220, 220, 220 )',
+      border: Container.border,
       borderRadius: '3px',
     });
     const layout = Footer.getLayout( layoutInlineBlock );
@@ -99,7 +101,7 @@ export default class Footer{
       width: '20%',
       margin: '4px 3% 0px 0%',
       background: 'rgb(245, 245, 245)',
-      border: '1px solid rgb(220, 220, 220)',
+      border: Container.border,
       borderRadius: '3px',
     });
     const layout = Footer.getLayout( layoutInlineBlock );

@@ -29,7 +29,7 @@ export default class Style{
       overflow: 'hidden',
       width: 'inherit',
       height: 'inherit',
-      background: 'rgb(250, 250, 250)',
+//      background: 'rgb(250, 250, 250)',
       padding: 0,
       margin: 0,
       font: 0,

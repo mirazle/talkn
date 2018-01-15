@@ -38,10 +38,12 @@ export default class Main {
       width: widthPx,
       height: '0px',
       bottom: '0px',
-      background: 'rgba(255, 255, 255, 0.96)',
       borderRadius: '12px 12px 0px 0px',
-      border: '1px solid rgb(220, 220, 220)',
-      boxShadow: 'rgb(230, 230, 230) 0px 0px 5px 0px',
+      borderTop: Container.border,
+      borderRight: Container.border,
+      borderLeft: Container.border,
+      borderBottom: 'none',
+      boxShadow: Container.shadow,
       margin: '0 auto',
     });
     const content = {};
@@ -55,8 +57,8 @@ export default class Main {
   static getHeader( bootOption ){
     const layout = Style.getLayoutBlock({
       height: `${Main.headerHeight}px`,
-      borderBottom: '1px solid rgb(230, 230, 230)',
-      background: 'rgba(255,255,255,0.96)',
+      borderBottom: Container.border,
+      background: Container.lightRGB,
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -68,6 +70,7 @@ export default class Main {
       height: `calc( 100% - ${Main.headerHeight}px )`,
       padding: '10px',
       overflow: 'scroll',
+      background: Container.lightRGBA,
     });
     const content = {};
     const animation = Style.getAnimationBase();
