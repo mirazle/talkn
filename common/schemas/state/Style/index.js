@@ -1,16 +1,19 @@
 import Container from './Container';
 import Main from './Main';
 import Footer from './Footer';
+import Post from './Post';
 
 export default class Style{
   constructor( params ){
     const container = new Container( params );
     const main = new Main( params );
     const footer = new Footer( params );
+    const post = new Post( params );
     return {
       container,
       main,
       footer,
+      post,
     };
   }
 
@@ -29,7 +32,6 @@ export default class Style{
       overflow: 'hidden',
       width: 'inherit',
       height: 'inherit',
-//      background: 'rgb(250, 250, 250)',
       padding: 0,
       margin: 0,
       font: 0,
