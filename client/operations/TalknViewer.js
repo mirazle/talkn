@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux';
 import Container from 'client/Container'
 import define from 'client/util/define'
+import timeago from 'timeago.js';
+import lang from 'timeago.js/locales/ja';
 
 export default class TalknViewer {
 	constructor( state, talknAPI ){
@@ -75,7 +77,7 @@ export default class TalknViewer {
 	async renderDOM(){
 		ReactDOM.render(
 			<Provider store={ this.talknAPI.store }>
-				<Container talknAPI={ this.talknAPI } />
+				<Container talknAPI={ this.talknAPI } timeago={new timeago()} />
 			</Provider>,
 			document.getElementById( this.id ),
 			() => {}
