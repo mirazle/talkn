@@ -1,18 +1,24 @@
 import Container from './Container';
-import Main from './Main';
+import Thread from './Thread';
 import Footer from './Footer';
+import Main from './Main';
+import Posts from './Posts';
 import Post from './Post';
 
 export default class Style{
   constructor( params ){
     const container = new Container( params );
-    const main = new Main( params );
+    const thread = new Thread( params );
     const footer = new Footer( params );
+    const main = new Main( params );
+    const posts = new Posts( params );
     const post = new Post( params );
     return {
       container,
-      main,
+      thread,
       footer,
+      main,
+      posts,
       post,
     };
   }

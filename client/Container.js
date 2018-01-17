@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react"
 import { connect } from 'react-redux';
 import Style from 'client/components/Style';
 import Footer from 'client/components/Footer';
-import Posts from 'client/components/Posts';
+import Thread from 'client/components/Thread';
 import handles from 'client/actions/handles';
 import callbacks from 'client/actions/callbacks';
 
@@ -21,10 +21,7 @@ class Container extends Component {
 		return (
 			<div style={ style.container.self }>
         <Style {...this.props} />
-        <main style={ style.main.self }>
-          <header style={ style.main.header } />
-          <Posts {...this.props} />
-        </main>
+        <Thread {...this.props} />
         <Footer {...this.props} />
 			</div>
 		);

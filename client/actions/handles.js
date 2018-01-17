@@ -8,7 +8,7 @@ export default {
   },
   onClickOpenMainBoard: ( isDisp ) => {
     return {
-      type: 'ON_CLICK_OPEN_MAIN_BOARD',
+      type: 'ON_CLICK_OPEN_THREAD',
       user: {isDisp},
     };
   },
