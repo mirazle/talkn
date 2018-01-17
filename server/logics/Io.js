@@ -23,7 +23,7 @@ export default class Io {
 
   async post(ioUser, {requestState, posts} ){
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts} );
-    return this.io.broadcast( responseBroadcastState.type, responseBroadcastState.posts );
+    return this.io.broadcast( responseBroadcastState.type, responseBroadcastState );
   }
 
   async updateWatchCnt( response ){

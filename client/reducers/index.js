@@ -10,6 +10,7 @@ import mediaIndex from './mediaIndex';
 import setting from './setting';
 import posts from './posts';
 import style from './style';
+import actionLog from './actionLog';
 
 const rootReducer = combineReducers({
 	app,
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
 	setting,
 	posts,
 	style,
+	actionLog,
 })
 
 export default rootReducer
