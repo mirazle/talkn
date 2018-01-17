@@ -15,7 +15,6 @@ export default class Main extends Component {
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
       const scrollHeight = this.refs.posts.scrollHeight;
-      console.log( scrollHeight );
       this.scrollTo( this.refs.posts, scrollHeight, 1000 )
       break;
     default:
