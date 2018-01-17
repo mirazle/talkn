@@ -40,8 +40,8 @@ export default class Footer extends Component {
       if( e.nativeEvent.shiftKey ){
         onChangeInputPost( e.target.value + '\n');
       }else{
-        talknAPI.post( user.inputPost );
         onChangeInputPost('');
+        talknAPI.post( user.inputPost );
       }
     }
   }

@@ -72,7 +72,7 @@ export default class Style{
 
   static getContentBase( style = {} ){
     const contentBase = {
-      letterSpacing: '1px',
+      letterSpacing: '1.5px',
       wordWrap: 'breakWord',
       whiteSpace: 'normal',
       quotes: 'none',
@@ -86,7 +86,7 @@ export default class Style{
     const fontBase = {
       color: 'rgb( 160, 160, 160 )',
       font: 'inherit',
-      fontSize: '13px',
+      fontSize: '12px',
       fontFamily: '"Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif',
     }
     return { ...fontBase, ...style };

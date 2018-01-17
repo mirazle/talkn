@@ -12,6 +12,15 @@ export default class TalknViewer {
 		this.id = appName + talknIndex;
 		this.state = state;
 		this.talknAPI = talknAPI;
+
+//		React.initializeTouchEvents( true );
+
+		Math.easeInOutQuad = function (t, b, c, d) {
+			t /= d/2;
+			if (t < 1) return c/2*t*t + b;
+			t--;
+			return -c/2 * (t*(t-2) - 1) + b;
+		};
 	}
 
 	static getAppType(){

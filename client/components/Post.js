@@ -1,10 +1,16 @@
 import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 
 export default class Post extends Component {
 
-  componentDidUpdate(){
-    const { timeago } = this.props;
-    timeago.render(document.querySelectorAll( '.timeAgo' ) );
+  getTimeId(){
+    return `timeAgo:${this.props._id}`;
+  }
+
+  componentDidMount(){
+    const { _id, timeago } = this.props;
+    const timeId = this.getTimeId();
+    timeago.render( this.refs[ timeId ] );
   }
 
  	render() {
@@ -22,27 +28,18 @@ export default class Post extends Component {
       utype,
       _id,
      } = this.props;
-		return (
-      <li>
-
-        <div style={{}}>
-          <div style={{}}>
-          </div>
-
-          <time
-            className={'timeAgo'}
-            dateTime={ createTime }
-            style={{}}
-          >
-            {createTime}
-          </time>
+    const timeId = this.getTimeId();
+    return (
+      <li style={style.self}>
+        <div style={style.upper}>
+          <div style={style.upperLeft}/>
+          <time style={style.upperRight} ref={timeId} className={'timeAgo'} dateTime={ createTime }>{createTime}</time>
         </div>
 
-        <div>
-          <div style={{}} />
-          <div style={{}} dangerouslySetInnerHTML={{__html: post}} />
+        <div style={style.bottom}>
+          <div style={style.bottomLeft} />
+          <div style={style.bottomRight} dangerouslySetInnerHTML={{__html: post}} />
         </div>
-
       </li>
 		);
  	}
