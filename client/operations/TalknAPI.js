@@ -106,7 +106,6 @@ export default class TalknAPI{
 	getWsServerToClientBroadcastAPI( talknIndex, actionName ){
 		return ( response ) => {
 			if( TalknAPI.handle( talknIndex ) ){
-				//console.log(response);
 				const actionState = WsServerToClientBroadcastActions[ actionName ]( response );
 				return talknAPI.store.dispatch( actionState );
 			}

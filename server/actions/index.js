@@ -53,8 +53,8 @@ export default {
   },
 
   post: async ( ioUser, requestState, setting ) => {
-    const {response: posts} = await Logics.db.posts.save( requestState );
-    await Logics.io.post( ioUser, {requestState, posts} );
+    const {response: post} = await Logics.db.posts.save( requestState );
+    await Logics.io.post( ioUser, {requestState, posts: [ post ] } );
     return true;
   },
 

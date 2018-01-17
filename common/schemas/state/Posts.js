@@ -1,7 +1,6 @@
 import Schema from '../Schema';
-export default class Posts extends Schema{
+export default class Posts {
   constructor(){
-    super();
-    return this.create({});
+    return [];
   }
 }

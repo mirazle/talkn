@@ -49,6 +49,7 @@ export default class Footer{
 
   static getSelf(){
     const layout = Style.getLayoutBlock({
+      height: 'inherit',
       background: Container.calmRGBA,
       position: 'absolute',
       boxShadow: Container.shadow,
