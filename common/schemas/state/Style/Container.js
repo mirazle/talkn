@@ -12,12 +12,12 @@ export default class Container{
   static get width(){ return 320 };
   static get openHeight(){ return 360 };
   static get closeHeight(){ return 360 };
-  static get mainHeight(){ return 360 };
+  static get threadHeight(){ return 360 };
 
   static get openBottom(){ return Container.footerHeight };
   static get closeBottom(){ return 0 };
 
-  static get mainRatio(){ return 0.94 };
+  static get threadWidthRatio(){ return 0.94 };
   static get merginRatio(){ return 0.034 };
   static get headerHeight(){ return 35 };
   static get footerHeight(){ return 35 };

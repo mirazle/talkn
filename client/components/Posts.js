@@ -41,7 +41,6 @@ export default class Posts extends Component {
 
   animateScrollTo( element, to, duration, callback = ()=>{}) {
     if( !this.state.isAnimateScrolling ){
-      console.log('##### isAnimateScrolling: ' + this.state.isAnimateScrolling );
       let start = element.scrollTop;
       let change = to - start;
       let currentTime = 0;
@@ -96,7 +95,7 @@ export default class Posts extends Component {
 		return (
       <ol
         ref="thread"
-        style={ style.main.body }
+        style={ style.posts.self }
         onScroll={this.handleOnScroll}
       >
         {this.renderPostList()}
