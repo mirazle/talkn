@@ -7,14 +7,15 @@ export default class Thread {
     const { thread, bootOption } = params;
     const self = Thread.getSelf( bootOption );
     const header = Thread.getHeader( bootOption );
-
+    const more = Thread.getMore( bootOption );
+    const notif = Thread.getNotif( bootOption );
     return {
       self,
       header,
+      more,
+      notif,
     }
   }
-
-  static get headerHeight(){ return 35 };
 
   static getSelfWidthPx( bootOption ){
     let width = ( Math.floor( Container.width * Container.threadWidthRatio ) ) + 'px';
@@ -70,7 +71,7 @@ export default class Thread {
 
   static getHeader( bootOption ){
     const layout = Style.getLayoutBlock({
-      height: `${Thread.headerHeight}px`,
+      height: `${Container.headerHeight}px`,
       borderBottom: Container.border,
       background: Container.lightRGB,
     });
@@ -79,13 +80,17 @@ export default class Thread {
     return Style.get({layout, content, animation});
   }
 
-  static getBody( bootOption ){
-    const layout = Style.getLayoutBlock({
-      height: `calc( 100% - ${Thread.headerHeight}px )`,
-      padding: '10px 10px 10px 20px',
-      overflow: 'scroll',
-      background: Container.lightRGBA,
+  static getMore( bootOption ){
+    const layout = Style.getLayoutBlock();
+    const content = {};
+    const animation = Style.getAnimationBase({
+      transition: '600ms',
     });
+    return Style.get({layout, content, animation});
+  }
+
+  static getNotif( bootOption ){
+    const layout = Style.getLayoutBlock();
     const content = {};
     const animation = Style.getAnimationBase({
       transition: '600ms',
