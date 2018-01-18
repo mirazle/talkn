@@ -1,5 +1,6 @@
 import Style from './index';
 import Container from './Container';
+import Thread from './Thread';
 
 export default class Post {
   constructor( params ){
@@ -95,12 +96,13 @@ export default class Post {
       float: 'right',
       marginLeft: '20px',
       width: 'calc( 100% - 45px)',
-      background: 'rgba(49, 144, 129, 0.5)',
+      background: 'rgba(79, 174, 159, 0.7)',
       padding: '15px 15px 15px 20px',
       borderRadius: '10px',
     });
     const content = Style.getContentBase({
       color: 'rgb(255,255,255)',
+      textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

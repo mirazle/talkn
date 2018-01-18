@@ -14,7 +14,7 @@ export default class Footer extends Component {
 
   handleOnClickIcon( e ){
     const{ user } = this.props.state;
-    this.props.onClickOpenMainBoard( !user.isDisp );
+    this.props.onClickToggleDispThread( !user.isOpenThread );
   }
 
   handleOnClick( e ){

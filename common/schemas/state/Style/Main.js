@@ -1,6 +1,4 @@
 import Style from './index';
-import Container from './Container';
-import util from './../../../util';
 
 export default class Main {
   constructor( params ){

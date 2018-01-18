@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from "react"
-import ReactDOM from 'react-dom'
 import Posts from './Posts';
 
 export default class Thread extends Component {
@@ -11,7 +10,11 @@ export default class Thread extends Component {
       <div style={ style.thread.self }>
         <header style={ style.thread.header } />
         <main style={ style.main.self }>
+          <div style={style.thread.more} />
           <Posts {...this.props} />
+          <div style={style.thread.notif}>
+            NEW POST
+          </div>
         </main>
       </div>
 		);

@@ -1,6 +1,6 @@
 import Style from './index';
 import Container from './Container';
-import util from './../../../util';
+import Thread from './Thread';
 
 export default class Posts {
   constructor( params ){
@@ -15,7 +15,7 @@ export default class Posts {
 
   static getSelf( bootOption ){
     const layout = Style.getLayoutBlock({
-      height: `calc( 100% - ${Container.headerHeight}px )`,
+      height: `calc( 100% - ${Thread.headerHeight}px )`,
       padding: '10px 10px 10px 20px',
       overflow: 'scroll',
       background: Container.lightRGBA,

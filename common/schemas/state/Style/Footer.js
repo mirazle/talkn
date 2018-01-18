@@ -1,8 +1,10 @@
 import Style from './index';
 import Container from './Container';
-import define from '../../../../client/util/define';
 
 export default class Footer{
+
+  static get selfHeight(){ return 35 };
+
   constructor( params ){
     const { thread, bootOption } = params;
     const self = Footer.getSelf( bootOption );
@@ -49,7 +51,7 @@ export default class Footer{
 
   static getSelf(){
     const layout = Style.getLayoutBlock({
-      height: 'inherit',
+      height: Footer.selfHeight,
       background: Container.calmRGBA,
       position: 'absolute',
       boxShadow: Container.shadow,
@@ -76,7 +78,6 @@ export default class Footer{
     return Style.get({layout, content, animation});
   }
 
-  // width: 59%;
   static getTextarea(){
     const layoutInlineBlock = Style.getLayoutInlineBlock({
       width: '54%',
@@ -89,7 +90,9 @@ export default class Footer{
       borderRadius: '3px',
     });
     const layout = Footer.getLayout( layoutInlineBlock );
-    const content = Style.getContentBase();
+    const content = Style.getContentBase({
+      textAlign: 'left',
+    });
     const animation = Style.getAnimationBase();
 
     return Style.get({layout, content, animation});

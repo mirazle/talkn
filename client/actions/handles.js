@@ -6,10 +6,10 @@ export default {
       user: {inputPost},
     };
   },
-  onClickOpenMainBoard: ( isDisp ) => {
+  onClickToggleDispThread: ( isOpenThread ) => {
     return {
-      type: 'ON_CLICK_OPEN_THREAD',
-      user: {isDisp},
+      type: 'ON_CLICK_TOGGLE_DISP_THREAD',
+      user: {isOpenThread},
     };
   },
 }

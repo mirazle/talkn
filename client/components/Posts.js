@@ -14,7 +14,6 @@ export default class Posts extends Component {
     };
   }
 
-
   componentDidMount(){
     this.animateScrollTo( this.refs.thread, 9999999, 400 );
   }
@@ -24,7 +23,12 @@ export default class Posts extends Component {
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
       const { isScrollBottom } = this.state;
-      if( isScrollBottom ) this.props.startAnimateScrollTo();
+      if( isScrollBottom ){
+        this.props.startAnimateScrollTo();
+      }else{
+        // TODO REDUXのUserに持たせる
+        this.props.openNotif();
+      }
       break;
     case 'START_ANIMATE_SCROLL_TO':
       this.animateScrollTo(
@@ -63,6 +67,12 @@ export default class Posts extends Component {
   }
 
   handleOnScroll( e ){
+		const{ user } = this.props.state;
+
+    if( user.isOpenNotif ){
+      this.props.closeNotif();
+    }
+
     const { clientHeight, scrollTop, scrollHeight } = e.target;
     const isScrollBottom = ( scrollHeight === ( scrollTop + clientHeight ) );
     this.setState({isScrollBottom});
