@@ -3,6 +3,14 @@ import Container from './Container';
 import util from './../../../util';
 
 export default class Thread {
+
+  static get selfHeight(){ return 360 };
+  static get headerHeight(){ return 35 };
+  static get notifHeight(){ return 20 };
+  static get notifOpenTranslate(){ return 20 };
+  static get notifHeight(){ return 20 };
+  static get widthRatio(){ return 0.94 };
+
   constructor( params ){
     const { thread, bootOption } = params;
     const self = Thread.getSelf( bootOption );
@@ -18,10 +26,10 @@ export default class Thread {
   }
 
   static getSelfWidthPx( bootOption ){
-    let width = ( Math.floor( Container.width * Container.threadWidthRatio ) ) + 'px';
+    let width = ( Math.floor( Container.width * Thread.widthRatio ) ) + 'px';
     if( bootOption.width ){
       width = util.trimPx( bootOption.width );
-      width = ( Math.floor( width * Container.threadWidthRatio ) ) + 'px';
+      width = ( Math.floor( width * Thread.widthRatio ) ) + 'px';
     }
     return width;
   }
@@ -50,7 +58,7 @@ export default class Thread {
     const layout = Style.getLayoutBlock({
       position: 'absolute',
       width: widthPx,
-      height: Container.threadHeight,
+      height: Thread.selfHeight,
       right: right,
       bottom: 0,
       borderRadius: '12px 12px 0px 0px',
@@ -71,7 +79,7 @@ export default class Thread {
 
   static getHeader( bootOption ){
     const layout = Style.getLayoutBlock({
-      height: `${Container.headerHeight}px`,
+      height: `${Thread.headerHeight}px`,
       borderBottom: Container.border,
       background: Container.lightRGB,
     });
@@ -81,7 +89,10 @@ export default class Thread {
   }
 
   static getMore( bootOption ){
-    const layout = Style.getLayoutBlock();
+    const layout = Style.getLayoutBlock({
+      height: 'initial',
+      zIndex: '10',
+    });
     const content = {};
     const animation = Style.getAnimationBase({
       transition: '600ms',
@@ -90,8 +101,19 @@ export default class Thread {
   }
 
   static getNotif( bootOption ){
-    const layout = Style.getLayoutBlock();
-    const content = {};
+    const layout = Style.getLayoutBlock({
+      width: '50%',
+      height: Container.notifHeight,
+      margin: '0 auto',
+      zIndex: '10',
+      background: 'rgba(0, 0, 0, 0.4)',
+      borderRadius: '20px',
+    });
+    const content = Style.getContentBase({
+      color: 'rgb(255,255,255)',
+      textAlign: 'center',
+      lineHeight: 1.5,
+    });
     const animation = Style.getAnimationBase({
       transition: '600ms',
     });

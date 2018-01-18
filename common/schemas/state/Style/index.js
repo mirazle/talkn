@@ -90,6 +90,7 @@ export default class Style{
 
   static getFontBase( style = {} ){
     const fontBase = {
+      textAlign: 'center',
       color: 'rgb( 160, 160, 160 )',
       font: 'inherit',
       fontSize: '12px',
