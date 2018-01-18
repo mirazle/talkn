@@ -9,4 +9,16 @@ export default {
   endAnimateScrollTo: () => {
     return {type: 'END_ANIMATE_SCROLL_TO'};
   },
+  openNotif: () => {
+    return {
+      type: 'OPEN_NOTIF',
+      user: {isOpenNotif: true}
+    };
+  },
+  closeNotif: () => {
+    return {
+      type: 'CLOSE_NOTIF',
+      user: {isOpenNotif: false}
+    };
+  },
 }

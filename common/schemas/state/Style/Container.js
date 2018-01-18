@@ -17,10 +17,14 @@ export default class Container{
   static get openBottom(){ return Container.footerHeight };
   static get closeBottom(){ return 0 };
 
-  static get threadWidthRatio(){ return 0.94 };
+//  static get threadWidthRatio(){ return 0.94 };
   static get merginRatio(){ return 0.034 };
-  static get headerHeight(){ return 35 };
-  static get footerHeight(){ return 35 };
+//  static get headerHeight(){ return 35 };
+//  static get footerHeight(){ return 35 };
+
+  static get notifHeight(){ return 20 };
+  static get notifOpenTranslate(){ return 20 };
+  static get notifHeight(){ return 20 };
 
   static get border(){ return '1px solid rgb(220, 220, 220)' };
   static get shadow(){ return 'rgb(230, 230, 230) 0px 0px 5px 0px' };
@@ -45,7 +49,7 @@ export default class Container{
       width: widthPx,
       height: '35px',
     });
-    const content = Style.getContentBase();
+    const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }

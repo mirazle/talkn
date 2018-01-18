@@ -7,13 +7,15 @@ export default class User extends Schema{
     const utype = params.utype ? params.utype : '';
     const post = params.post ? params.post : '';
     const inputSearch = params.inputSearch ? params.inputSearch : '';
-    const isDisp = params.isDisp ? params.isDisp : false;
+    const isOpenThread = params.isOpen ? params.isOpen : false;
+    const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     return this.create({
       uid,
       utype,
       post: {value: post},
       inputSearch,
-      isDisp,
+      isOpenThread,
+      isOpenNotif,
     });
   }
 
