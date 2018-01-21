@@ -42,7 +42,7 @@ export default class Sequence {
       },
       find: {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
-        requestPrivateState: {'thread': [{columnName: 'protocol'}, {columnName: 'host'}]},
+        requestPrivateState: {'thread': [{columnName: 'protocol'}, {columnName: 'host'}], 'user': [{columnName: 'offsetPostCreateTime'}]},
         responseEmitState: {'posts': '*', 'thread': '*'},
         responseBroadcastState: {'analyze': ['watchCnt']},
       },
@@ -61,7 +61,14 @@ export default class Sequence {
     };
   }
 
+  /*
+      FIND : offsetPostCreateTimeで取得postsの位置を指定出来るようにする
+            コレクション名を含めてリクエストが実行されていないので、コレクション名を含めてリクエストを実行するようにする
+  */
+
+
   static getRequestState( actionName, reduxState, requestParams ){
+
     const endpointKey = actionName.replace( Sequence.CLIENT_TO_SERVER_EMIT, '' );
     const { requestPublicState, requestPrivateState } = Sequence.map[ endpointKey ];
     let requestState = {[ Sequence.REDUX_ACTION_KEY ]: endpointKey};
@@ -70,30 +77,40 @@ export default class Sequence {
       Object.keys( requestPrivateState ).forEach( ( stateKey ) => {
         const columnDatas = requestPrivateState[ stateKey ];
 
+        if( !requestState[ stateKey ] ){
+          requestState[ stateKey ] = {}
+        }
+
         columnDatas.forEach( ( columnData ) => {
           const {columnName, valid} = columnData;
           const value = reduxState[ stateKey ][ columnName ];
+
           if( !valid || !valid( value ) ){
-            requestState = {...requestState,
-              [ columnName ] : reduxState[ stateKey ][ columnName ]
-            };
+
+            if( !requestState[ stateKey ][ columnName ] ){
+              requestState[ stateKey ][ columnName ] = reduxState[ stateKey ][ columnName ];
+            }
           }
         });
-
       });
     }
 
     if( Object.keys( requestPublicState ).length > 0 ){
       Object.keys( requestPublicState ).forEach( ( stateKey ) => {
         const columnDatas = requestPublicState[ stateKey ];
+
+        if( !requestState[ stateKey ] ){
+          requestState[ stateKey ] = {}
+        }
+
         columnDatas.forEach( ( columnData ) => {
           const {columnName, valid} = columnData;
           if( reduxState[ stateKey ].canSet( columnName, requestParams ) ){
             const validError = valid ? valid( requestParams ) : false ;
             if(!validError){
-              requestState = {...requestState,
-                [ columnName ] : requestParams,
-              };
+              if( !requestState[ stateKey ][ columnName ] ){
+                requestState[ stateKey ][ columnName ] = requestParams;
+              }
             }else{
               throw `VALID SEQUENCE: ${stateKey}_${columnName}_${requestParams} [${validError}]` ;
             }
