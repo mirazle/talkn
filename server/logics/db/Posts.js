@@ -7,14 +7,19 @@ export default class Posts {
     return this;
   }
 
-  async find( connection, selector = {}, option = {} ){
-    const condition = {connection};
+  async find( requestState ){
+    const condition = {
+      connection: requestState.thread.connection,
+      createTime: {$gt: requestState.user.offsetPostCreateTime},
+    };
+    const selector = {};
+    const option = {limit: 20};
     return await this.db.find( condition, selector, option );
   }
 
   async save( requestState ){
-    const connections = Thread.getConnections( requestState.connection );
-    const set = {connections, ...requestState};
+    const connections = Thread.getConnections( requestState.thread.connection );
+    const set = {connections, ...requestState.thread, ...requestState.user };
     const option = {upsert:true};
     return this.db.save( set, option );
   }

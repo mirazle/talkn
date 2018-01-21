@@ -5,6 +5,12 @@ export default class Schema {
   }
 
   static getType(value){
+    if( value === null ){
+      return 'Null';
+    }
+    if( value === undefined ){
+      return 'Undefined';
+    }
     return value.constructor.name;
   }
 
@@ -31,14 +37,14 @@ export default class Schema {
         isAcceptBlank = values.isAcceptBlank ? values.isAcceptBlank : isAcceptBlank;
         value = values.value ? values.value : value;
         value = value ? value : def;
-        type = value.constructor.name;
+        type = Schema.getType( value );
         valid = values.valid ? values.valid : valid;
       }else{
         value = state[ key ];
         def = value;
         isAcceptNull = isAcceptNull;
         isAcceptBlank = isAcceptBlank;
-        type = value.constructor.name;
+        type = Schema.getType( value);
         valid = valid;
       }
 
@@ -48,7 +54,7 @@ export default class Schema {
         const pointer = `${className}.${key}=${_value}`;
         const paramsType = Schema.getType(_value);
         if( paramsType !== type ){
-          error = `SCHEMA_TYPE : ${pointer} [correctType: ${type}][paramsType: ${paramsType}]`;
+          error = `SCHEMA_TYPE : ${pointer} [validType: ${type}][paramsType: ${paramsType}]`;
         }
         if(isAcceptNull && _value === null ){
           error = `SCHEMA_IS_ACCEPT_NULL :  ${pointer}`;
