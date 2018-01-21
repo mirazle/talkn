@@ -5,6 +5,7 @@ export default class User extends Schema{
     super();
     const uid = params.uid ? params.uid : '';
     const utype = params.utype ? params.utype : '';
+    const offsetPostCreateTime = params.offsetPostCreateTime ? params.offsetPostCreateTime : '2000-01-01T00:00:00Z' ;
     const post = params.post ? params.post : '';
     const inputSearch = params.inputSearch ? params.inputSearch : '';
     const isOpenThread = params.isOpen ? params.isOpen : false;
@@ -12,6 +13,7 @@ export default class User extends Schema{
     return this.create({
       uid,
       utype,
+      offsetPostCreateTime,
       post: {value: post},
       inputSearch,
       isOpenThread,

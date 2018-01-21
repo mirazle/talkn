@@ -14,10 +14,11 @@ export default class Html {
     };
   }
 
-  get( requestState ){
+  get( thread ){
     return new Promise( ( resolve, reject ) => {
 
-      const { protocol, connection, host } = requestState;
+      const { protocol, connection, host } = thread;
+console.log(thread);
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
 

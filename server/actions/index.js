@@ -27,24 +27,24 @@ export default {
   find: async ( ioUser, requestState, setting ) => {
 
     // リクエストのあったスレッドを取得する
-    let {response: thread} = await Logics.db.threads.findOne(requestState.connection);
+    let {response: thread} = await Logics.db.threads.findOne(requestState.thread.connection);
     const isUpdatableThread = Logics.db.threads.isUpdatableThread(thread, setting);
 
     // リクエストのあった投稿内容を取得する
-    let {response: posts} = await Logics.db.posts.find(requestState.connection);
+    let {response: posts} = await Logics.db.posts.find(requestState);
 
     // スレッドが存在しない場合、もしくは更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
-      const {title, metas, links, h1s, contentType, uri} = await Logics.html.get( requestState );
-      const faviconName = Logics.favicon.getName( requestState, links );
-      const faviconBinary = await Logics.favicon.request( requestState, faviconName );
+      const {title, metas, links, h1s, contentType, uri} = await Logics.html.get( requestState.thread );
+      const faviconName = Logics.favicon.getName( requestState.thread, links );
+      const faviconBinary = await Logics.favicon.request( requestState.thread, faviconName );
       const writeResult = await Logics.fs.write( faviconName, faviconBinary );
       const updateThread = {title, metas, links, h1s, contentType, uri, favicon: faviconName};
 
       if( thread ){
-        let {response: thread} = await Logics.db.threads.update( requestState, updateThread );
+        let {response: thread} = await Logics.db.threads.update( requestState.thread, updateThread );
       }else{
-        let {response: thread} = await Logics.db.threads.save( requestState, updateThread );
+        let {response: thread} = await Logics.db.threads.save( requestState.thread, updateThread );
       }
     }
 
