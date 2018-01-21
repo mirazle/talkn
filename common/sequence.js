@@ -61,12 +61,6 @@ export default class Sequence {
     };
   }
 
-  /*
-      FIND : offsetPostCreateTimeで取得postsの位置を指定出来るようにする
-            コレクション名を含めてリクエストが実行されていないので、コレクション名を含めてリクエストを実行するようにする
-  */
-
-
   static getRequestState( actionName, reduxState, requestParams ){
 
     const endpointKey = actionName.replace( Sequence.CLIENT_TO_SERVER_EMIT, '' );
