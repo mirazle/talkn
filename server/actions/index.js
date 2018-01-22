@@ -25,45 +25,31 @@ export default {
   },
 
   find: async ( ioUser, requestState, setting ) => {
-console.log("A");
+
     // リクエストのあったスレッドを取得する
     let {response: thread} = await Logics.db.threads.findOne(requestState.thread.connection);
-console.log("B");
     const isUpdatableThread = Logics.db.threads.isUpdatableThread(thread, setting);
-console.log("C");
+
     // リクエストのあった投稿内容を取得する
     let {response: posts} = await Logics.db.posts.find(requestState, setting );
-console.log("D");
+
     // スレッドが存在しない場合、もしくは更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
-console.log("E");
       const {title, metas, links, h1s, contentType, uri} = await Logics.html.get( requestState.thread );
-console.log("F");
       const faviconName = Logics.favicon.getName( requestState.thread, links );
-console.log("G");
       const faviconBinary = await Logics.favicon.request( requestState.thread, faviconName );
-console.log("H");
       const writeResult = await Logics.fs.write( faviconName, faviconBinary );
-console.log("I");
       const updateThread = {title, metas, links, h1s, contentType, uri, favicon: faviconName};
-console.log("J");
 
       if( thread ){
-console.log("K");
         let {response: thread} = await Logics.db.threads.update( requestState, updateThread );
-console.log("L");
         await Logics.io.find( ioUser, {requestState, thread, posts} );
-console.log("M");
       }else{
-console.log("N");
         let {response: thread} = await Logics.db.threads.save( requestState, updateThread );
-console.log("O");
         await Logics.io.find( ioUser, {requestState, thread, posts} );
-console.log("P");
       }
 
     }else{
-console.log("Q");
       await Logics.io.find( ioUser, {requestState, thread, posts} );
     }
     return true;
