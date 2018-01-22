@@ -38,6 +38,8 @@ export default {
 		updateTime: { type: Date, default: Date },
 	},
 	Setting: {
-		findOneThreadActiveHour: {type: Number, default: 24 },
+		server:{ type: Object, default: {} },
+		common:{ type: Object, default: {} },
+		client:{ type: Object, default: {} },
 	}
 }
