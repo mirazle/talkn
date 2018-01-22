@@ -53,8 +53,6 @@ export default {
       await Logics.io.find( ioUser, {requestState, thread, posts} );
     }
     return true;
-    // TODO postCntが1にならない！
-    // GET MOREを表示
   },
 
   post: async ( ioUser, requestState, setting ) => {
