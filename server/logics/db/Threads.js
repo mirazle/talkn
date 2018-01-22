@@ -33,15 +33,21 @@ export default class Threads {
   }
 
   async save( requestState, thread ){
-    const condition = {connection: requestState.connection};
-    const set = { connection: requestState.connection, ...thread };
+    const condition = {connection: requestState.thread.connection};
+    const set = {
+      connection: requestState.thread.connection,
+      ...thread,
+    };
     const option = {upsert:true};
     return this.db.save( condition, set, option );
   }
 
   async update( requestState, thread ){
-    const condition = {connection: requestState.connection};
-    const set = { connection: requestState.connection, ...thread };
+    const condition = {connection: requestState.thread.connection};
+    const set = {
+      connection: requestState.thread.connection,
+      ...thread,
+    };
     const option = {upsert:true};
     return this.db.update( condition, set, option );
   }

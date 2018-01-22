@@ -11,8 +11,8 @@ export default class Io {
     return this.io.get();
   }
 
-  async initClientState( ioUser, requestState ){
-    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {user: {uid: ioUser.conn.id } } );
+  async initClientState( ioUser, requestState, setting ){
+    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {user: {uid: ioUser.conn.id }, setting } );
     return this.io.emit( ioUser, responseEmitState.type, responseEmitState );
   }
 

@@ -37,7 +37,7 @@ export default class Sequence {
       initClientState: {
         requestPublicState: {},
         requestPrivateState: {},
-        responseEmitState: { 'user': ['uid']},
+        responseEmitState: { 'user': ['uid'], 'setting': '*'},
         responseBroadcastState: {},
       },
       find: {

@@ -7,13 +7,20 @@ export default class Posts {
     return this;
   }
 
-  async find( requestState ){
+  async count( requestState ){
+    const condition = {
+      connection: requestState.thread.connection,
+    };
+    return await this.db.find( condition ).count();
+  }
+
+  async find( requestState, setting ){
     const condition = {
       connection: requestState.thread.connection,
       createTime: {$gt: requestState.user.offsetPostCreateTime},
     };
     const selector = {};
-    const option = {limit: 20};
+    const option = {limit: setting.server.findOnePostCnt};
     return await this.db.find( condition, selector, option );
   }
 

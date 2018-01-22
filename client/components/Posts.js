@@ -10,7 +10,7 @@ export default class Posts extends Component {
     this.animateScrollTo = this.animateScrollTo.bind(this);
     this.state = {
       isAnimateScrolling: false,
-      isScrollBottom: false,
+      isScrollBottom: true,
     };
   }
 
@@ -26,7 +26,6 @@ export default class Posts extends Component {
       if( isScrollBottom ){
         this.props.startAnimateScrollTo();
       }else{
-        // TODO REDUXのUserに持たせる
         this.props.openNotif();
       }
       break;
