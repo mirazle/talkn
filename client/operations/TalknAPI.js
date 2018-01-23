@@ -97,7 +97,6 @@ export default class TalknAPI{
 	getWsServerToClientEmitAPI( talknIndex, actionName ){
 		return ( response ) => {
 			if( TalknAPI.handle( talknIndex ) ){
-				console.log(response);
 				const actionState = WsServerToClientEmitActions[ actionName ]( response );
 				return talknAPI.store.dispatch( actionState );
 			}

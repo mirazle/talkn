@@ -28,6 +28,8 @@ export default {
 
     // リクエストのあったスレッドを取得する
     let {response: thread} = await Logics.db.threads.findOne(requestState.thread.connection);
+
+    // TODO ちゃんと機能してる？
     const isUpdatableThread = Logics.db.threads.isUpdatableThread(thread, setting);
 
     // リクエストのあった投稿内容を取得する

@@ -82,6 +82,10 @@ export default class Posts extends Component {
 		const{ state, talknAPI, timeago } = this.props;
     const{ style, posts, thread} = state;
 
+    // TODO GET MOREのデータ取得までは出来た。あとはreducerでstate保持させてからスムーズにレンダリングする処理を実装
+
+    console.log( Object.keys( posts ).length + " < " + thread.postCnt );
+
     if( Object.keys( posts ).length > 0 ){
       if( Object.keys( posts ).length < thread.postCnt ){
         return (
