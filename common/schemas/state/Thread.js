@@ -1,7 +1,7 @@
 import Schema from '../Schema';
 
 export default class Thread extends Schema{
-  constructor( params = {}, mode = 'window' ){
+  constructor( params = {} ){
     super();
 
     let thread = {};
@@ -17,7 +17,6 @@ export default class Thread extends Schema{
 
   static constructorFromWindow( window ){
     const location = window.location ? window.location : {} ;
-    const document = window.document ? window.document : {} ;
     const href = location.href ? location.href : '' ;
     const connection = Thread.getConnection( href );
     const contentType = document.contentType ? document.contentType : '';
@@ -28,12 +27,11 @@ export default class Thread extends Schema{
     const metas = [];
     const links = [];
     const h1s = [];
-    const uri = [];
+    const uri = {};
     const thum = Thread.getFaviconFromWindow( window );
 
     return {
       location,
-      document,
       href,
       connection,
       contentType,
