@@ -16,12 +16,7 @@ export default class Container{
 
   static get openBottom(){ return Container.footerHeight };
   static get closeBottom(){ return 0 };
-
-//  static get threadWidthRatio(){ return 0.94 };
   static get merginRatio(){ return 0.034 };
-//  static get headerHeight(){ return 35 };
-//  static get footerHeight(){ return 35 };
-
   static get notifHeight(){ return 20 };
   static get notifOpenTranslate(){ return 20 };
   static get notifHeight(){ return 20 };
@@ -32,6 +27,7 @@ export default class Container{
   static get calmRGBA(){ return 'rgba(250, 250, 250, 0.96)' };
   static get lightRGB(){ return 'rgb(255, 255, 255)' };
   static get calmRGB(){ return 'rgb(250, 250, 250)' };
+  static get themeRGBA(){ return 'rgba(79, 174, 159, 0.7)' };
 
   static getWidthPx( bootOption ){
     return bootOption.width ?

@@ -43,7 +43,7 @@ export default class Sequence {
       find: {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {'thread': [{columnName: 'protocol'}, {columnName: 'host'}], 'user': [{columnName: 'offsetPostCreateTime'}]},
-        responseEmitState: {'posts': '*', 'thread': '*'},
+        responseEmitState: {'posts': '*', 'thread': '*','user': ['offsetPostCreateTime']},
         responseBroadcastState: {'analyze': ['watchCnt']},
       },
       post: {
