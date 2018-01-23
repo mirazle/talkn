@@ -20,7 +20,7 @@ export default class Posts {
       createTime: {$lt: requestState.user.offsetPostCreateTime},
     };
     const selector = {};
-    const option = {limit: setting.server.findOnePostCnt, sort: {createTime: -1}};
+    const option = {limit: setting.server.findOnePostCnt, sort: {_id: -1}};
     const result = await this.db.find( condition, selector, option );
     result.response.reverse();
     return result;
