@@ -32,6 +32,8 @@ export default {
 
     // リクエストのあった投稿内容を取得する
     let {response: posts} = await Logics.db.posts.find(requestState, setting );
+    const offsetPostCreateTime = Logics.control.getOffsetPostCreateTime( posts );
+    const user = {offsetPostCreateTime};
 
     // スレッドが存在しない場合、もしくは更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
@@ -42,15 +44,15 @@ export default {
       const updateThread = {title, metas, links, h1s, contentType, uri, favicon: faviconName};
 
       if( thread ){
-        let {response: thread} = await Logics.db.threads.update( requestState, updateThread );
-        await Logics.io.find( ioUser, {requestState, thread, posts} );
+        await Logics.db.threads.update( requestState, updateThread );
+        await Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }else{
         let {response: thread} = await Logics.db.threads.save( requestState, updateThread );
-        await Logics.io.find( ioUser, {requestState, thread, posts} );
+        await Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
 
     }else{
-      await Logics.io.find( ioUser, {requestState, thread, posts} );
+      await Logics.io.find( ioUser, {requestState, thread, posts, user} );
     }
     return true;
   },

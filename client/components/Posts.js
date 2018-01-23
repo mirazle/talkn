@@ -78,6 +78,25 @@ export default class Posts extends Component {
     this.props.scrollThread();
   }
 
+  renderGetMore(){
+		const{ state, talknAPI, timeago } = this.props;
+    const{ style, posts, thread} = state;
+
+    if( Object.keys( posts ).length > 0 ){
+      if( Object.keys( posts ).length < thread.postCnt ){
+        return (
+          <li
+            style={style.posts.more}
+            onClick={()=>{talknAPI.find( thread.connection )}}
+          >
+            GET MORE
+          </li>
+        )
+      }
+    }
+    return null;
+  }
+
   renderPostList(){
 		const{ state, talknAPI, timeago } = this.props;
     const{ style, posts } = state;
@@ -107,6 +126,7 @@ export default class Posts extends Component {
         style={ style.posts.self }
         onScroll={this.handleOnScroll}
       >
+        {this.renderGetMore()}
         {this.renderPostList()}
       </ol>
 		);

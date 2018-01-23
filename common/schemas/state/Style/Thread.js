@@ -15,12 +15,10 @@ export default class Thread {
     const { thread, bootOption } = params;
     const self = Thread.getSelf( bootOption );
     const header = Thread.getHeader( bootOption );
-    const more = Thread.getMore( bootOption );
     const notif = Thread.getNotif( bootOption );
     return {
       self,
       header,
-      more,
       notif,
     }
   }
@@ -88,18 +86,6 @@ export default class Thread {
     return Style.get({layout, content, animation});
   }
 
-  static getMore( bootOption ){
-    const layout = Style.getLayoutBlock({
-      height: 'initial',
-      zIndex: '10',
-    });
-    const content = {};
-    const animation = Style.getAnimationBase({
-      transition: '600ms',
-    });
-    return Style.get({layout, content, animation});
-  }
-
   static getNotif( bootOption ){
     const layout = Style.getLayoutBlock({
       width: '50%',
@@ -113,6 +99,7 @@ export default class Thread {
       color: 'rgb(255,255,255)',
       textAlign: 'center',
       lineHeight: 1.5,
+      cursor: 'pointer',
     });
     const animation = Style.getAnimationBase({
       transition: '600ms',
