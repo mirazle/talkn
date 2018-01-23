@@ -83,6 +83,7 @@ export default class Style{
       whiteSpace: 'normal',
       quotes: 'none',
       content: 'none',
+      cursor: 'default',
     }
     const fontBase = Style.getFontBase();
     return { ...contentBase, ...fontBase, ...style };

@@ -96,7 +96,7 @@ export default class Post {
       float: 'right',
       marginLeft: '20px',
       width: 'calc( 100% - 45px)',
-      background: 'rgba(79, 174, 159, 0.7)',
+      background: Container.themeRGBA,
       padding: '15px 15px 15px 20px',
       borderRadius: '10px',
     });

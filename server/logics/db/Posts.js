@@ -17,11 +17,13 @@ export default class Posts {
   async find( requestState, setting ){
     const condition = {
       connection: requestState.thread.connection,
-      createTime: {$gt: requestState.user.offsetPostCreateTime},
+      createTime: {$lt: requestState.user.offsetPostCreateTime},
     };
     const selector = {};
-    const option = {limit: setting.server.findOnePostCnt};
-    return await this.db.find( condition, selector, option );
+    const option = {limit: setting.server.findOnePostCnt, sort: {createTime: -1}};
+    const result = await this.db.find( condition, selector, option );
+    result.response.reverse();
+    return result;
   }
 
   async save( requestState ){

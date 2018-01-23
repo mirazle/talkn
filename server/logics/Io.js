@@ -16,8 +16,8 @@ export default class Io {
     return this.io.emit( ioUser, responseEmitState.type, responseEmitState );
   }
 
-  async find(ioUser, {requestState, thread, posts} ){
-    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {thread, posts} );
+  async find(ioUser, {requestState, thread, posts, user} ){
+    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {thread, posts, user} );
     return this.io.emit( ioUser, responseEmitState.type, responseEmitState );
   }
 
