@@ -29,15 +29,12 @@ export default {
     // リクエストのあったスレッドを取得する
     let {response: thread} = await Logics.db.threads.findOne(requestState.thread.connection);
 
-    // TODO ちゃんと機能してる？
     const isUpdatableThread = Logics.db.threads.isUpdatableThread(thread, setting);
-
-    console.log("isUpdatableThread " + isUpdatableThread);
 
     // リクエストのあった投稿内容を取得する
     let {response: posts} = await Logics.db.posts.find(requestState, setting );
-    const offsetPostCreateTime = Logics.control.getOffsetPostCreateTime( posts );
-    const user = {offsetPostCreateTime};
+    const offsetFindId = Logics.control.getOffsetFindId( posts );
+    const user = {offsetFindId};
 
     // スレッドが存在しない場合、もしくは更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
@@ -48,16 +45,13 @@ export default {
       const updateThread = {title, metas, links, h1s, contentType, uri, favicon: faviconName};
 
       if( thread ){
-console.log("A");
         await Logics.db.threads.update( requestState, updateThread );
         await Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }else{
-console.log("B");
         let {response: thread} = await Logics.db.threads.save( requestState, updateThread );
         await Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
     }else{
-console.log("C");
       await Logics.io.find( ioUser, {requestState, thread, posts, user} );
     }
     return true;
