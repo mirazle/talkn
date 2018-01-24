@@ -17,7 +17,7 @@ export default class Posts {
   async find( requestState, setting ){
     const condition = {
       connection: requestState.thread.connection,
-      createTime: {$lt: requestState.user.offsetPostCreateTime},
+      _id: {$lt: requestState.user.offsetFindId},
     };
     const selector = {};
     const option = {limit: setting.server.findOnePostCnt, sort: {_id: -1}};
