@@ -1,5 +1,5 @@
 export default class Control {
-  getOffsetPostCreateTime( posts ){
-    return posts[ 0 ] ? posts[ 0 ].createTime : new Date().toString();
+  getOffsetFindId( posts ){
+    return posts[ 0 ] ? posts[ 0 ]._id : 'ffffffffffffffffffffffff';
   }
 }

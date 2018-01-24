@@ -93,9 +93,10 @@ export default class Posts extends Component {
 
   renderGetMore(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ style, posts, thread} = state;
+    const{ style, posts, thread, user      } = state;
 
     if( Object.keys( posts ).length > 0 ){
+
       if( Object.keys( posts ).length < thread.postCnt ){
         return (
           <li
