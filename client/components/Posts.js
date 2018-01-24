@@ -7,19 +7,23 @@ export default class Posts extends Component {
   constructor(props){
     super(props);
     this.handleOnScroll = this.handleOnScroll.bind(this);
+    this.handleOnClickGetMore = this.handleOnClickGetMore.bind(this);
     this.animateScrollTo = this.animateScrollTo.bind(this);
     this.state = {
+      scrollHeight: 0,
       isAnimateScrolling: false,
       isScrollBottom: true,
     };
   }
 
   componentDidMount(){
+    this.setState({scrollHeight: this.refs.thread.scrollHeight});
     this.animateScrollTo( this.refs.thread, 9999999, 400 );
   }
 
   componentDidUpdate(){
     const { actionLog } = this.props.state;
+
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
       const { isScrollBottom } = this.state;
@@ -36,6 +40,9 @@ export default class Posts extends Component {
         400,
         this.props.endAnimateScrollTo
       );
+      break;
+    case 'SERVER_TO_CLIENT[EMIT]:find':
+      this.refs.thread.scrollTop = this.refs.thread.scrollHeight - this.state.scrollHeight;
       break;
     default:
       break;
@@ -78,20 +85,22 @@ export default class Posts extends Component {
     this.props.scrollThread();
   }
 
+  handleOnClickGetMore( e ){
+    const{ thread } = this.props.state;
+    this.setState({scrollHeight: this.refs.thread.scrollHeight});
+    talknAPI.find( thread.connection );
+  }
+
   renderGetMore(){
 		const{ state, talknAPI, timeago } = this.props;
     const{ style, posts, thread} = state;
-
-    // TODO GET MOREのデータ取得までは出来た。あとはreducerでstate保持させてからスムーズにレンダリングする処理を実装
-
-    //console.log( Object.keys( posts ).length + " < " + thread.postCnt );
 
     if( Object.keys( posts ).length > 0 ){
       if( Object.keys( posts ).length < thread.postCnt ){
         return (
           <li
             style={style.posts.more}
-            onClick={()=>{talknAPI.find( thread.connection )}}
+            onClick={this.handleOnClickGetMore}
           >
             GET MORE
           </li>
