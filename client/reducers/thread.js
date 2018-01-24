@@ -5,9 +5,8 @@ export default ( state = new Thread() , action ) => {
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
 		return state.merge({postCnt: state.postCnt + 1 });
 	default :
-		console.log( action.thread );
-		// TODO GET_MOREした時にstate.threadのいくつかのキーが欠損してしまっている。
-		// mergeロジックに問題がある可能性がある
+		// TODO serverのthread更新フラグのメソッドはちゃんと機能している？
+		// TODO ブラウザ初期表示時に上に画面を上にスクロールするとスレッドが見えてしまう
 		return action.thread ? state.merge( action.thread ) : state ;
 	}
 };

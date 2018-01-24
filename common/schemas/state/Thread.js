@@ -4,13 +4,7 @@ export default class Thread extends Schema{
   constructor( params = {} ){
     super();
 
-    let thread = {};
-
-    if( params && params.location ){
-      thread = Thread.constructorFromWindow( params );
-    }else if( params && !params.location ){
-      thread = params;
-    }
+    const thread = Thread.isWindowObj( params ) ? Thread.constructorFromWindow( params ) : params;
 
     return this.create(thread);
   }
@@ -30,6 +24,12 @@ export default class Thread extends Schema{
     const uri = {};
     const thum = Thread.getFaviconFromWindow( window );
 
+    const layer = 0;
+    const mediaIndex = [];
+    const postCnt = 0;
+    const createTime = '';
+    const updateTime = '';
+
     return {
       location,
       href,
@@ -44,7 +44,16 @@ export default class Thread extends Schema{
       h1s,
       uri,
       thum,
+      layer,
+      mediaIndex,
+      postCnt,
+      createTime,
+      updateTime,
     }
+  }
+
+  static isWindowObj( params ){
+    return params.alert;
   }
 
   static getConnection( href ){
