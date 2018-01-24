@@ -26,6 +26,8 @@ export default {
 
   find: async ( ioUser, requestState, setting ) => {
 
+    // TODO threadのwatchCntのコントロール
+
     // リクエストのあったスレッドを取得する
     let {response: thread} = await Logics.db.threads.findOne(requestState.thread.connection);
 
@@ -34,7 +36,7 @@ export default {
     // リクエストのあった投稿内容を取得する
     let {response: posts} = await Logics.db.posts.find(requestState, setting );
     const offsetFindId = Logics.control.getOffsetFindId( posts );
-    const user = {offsetFindId};
+    const user = {connectioned: requestState.thread.connection ,offsetFindId};
 
     // スレッドが存在しない場合、もしくは更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){

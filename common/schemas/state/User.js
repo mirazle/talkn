@@ -5,6 +5,7 @@ export default class User extends Schema{
     super();
     const uid = params.uid ? params.uid : '';
     const utype = params.utype ? params.utype : '';
+    const connectioned = params.connectioned ? params.connectioned : '';
     const offsetFindId = params.offsetFindId ? params.offsetFindId : 'ffffffffffffffffffffffff' ;
     const post = params.post ? params.post : '';
     const inputSearch = params.inputSearch ? params.inputSearch : '';
@@ -13,6 +14,7 @@ export default class User extends Schema{
     return this.create({
       uid,
       utype,
+      connectioned,
       offsetFindId,
       post: {value: post},
       inputSearch,
