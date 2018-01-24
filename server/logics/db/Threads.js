@@ -21,7 +21,7 @@ export default class Threads {
       const nowDay = now.getDate();
       const nowHour = now.getHours();
       const nowMinutes = now.getMinutes();
-      const activeDate = new Date(nowYear, nowMonth, nowDay, nowHour );
+      const activeDate = new Date(nowYear, nowMonth, nowDay, ( nowHour - setting.server.findOneThreadActiveHour ) );
 
       const activeTime = activeDate.getTime();
       const threadUpdateTime = thread.updateTime.getTime();
@@ -46,9 +46,10 @@ export default class Threads {
     const condition = {connection: requestState.thread.connection};
     const set = {
       connection: requestState.thread.connection,
-      ...thread,
+      ...{...thread, updateTime: new Date()}
     };
     const option = {upsert:true};
+
     return this.db.update( condition, set, option );
   }
 
