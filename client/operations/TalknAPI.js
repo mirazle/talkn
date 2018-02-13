@@ -63,6 +63,9 @@ export default class TalknAPI{
 
 	on( onKey, methodKey, actionName ){
 		if( !this.connectionKeys.includes( onKey ) ){
+
+			// TODO そもそもconnection単位でハンドシェイクされていない！！！！
+			console.log("######## ON KEY " + onKey );
 			this.ws.on( onKey, this[ methodKey ]( this.talknIndex, actionName ));
 			this.connectionKeys.push( onKey );
 		}

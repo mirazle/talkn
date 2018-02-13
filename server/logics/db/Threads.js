@@ -1,3 +1,5 @@
+import Thread from '~/../common/schemas/state/Thread'
+
 export default class Threads {
 
   constructor( db ){
@@ -8,6 +10,18 @@ export default class Threads {
   async findOne( connection, selector = {}, option = {} ){
     const condition = {connection};
     return await this.db.findOne( condition, selector, option );
+  }
+
+  async findOneWatchCnt( connection ){
+    const condition = {connection};
+    const selector = {watchCnt: 1};
+    const option = {};
+    const { error, response } = await this.db.findOne( condition, selector, option );
+    return response.watchCnt < 0 ? 0 : response.watchCnt ;
+  }
+
+  getConnection( param ){
+    return Thread.getConnection( param );
   }
 
   isUpdatableThread( thread, setting ){
@@ -49,7 +63,6 @@ export default class Threads {
       ...{...thread, updateTime: new Date()}
     };
     const option = {upsert:true};
-
     return this.db.update( condition, set, option );
   }
 
@@ -60,10 +73,23 @@ export default class Threads {
     return await this.db.update( condition, set, option );
   }
 
-  async updateThreadWatchCnt( connection, cnt ){
-    const condition = {connection};
-    const set = { $inc: { watchCnt: cnt } };
-    const option = {upsert:true};
-    return await this.db.save( condition, set, option );
+  getUpdateWatchCntQuery( requestState ){
+    if( requestState.thread.connection !== requestState.user.connectioned ){
+      if( requestState.user.connectioned === '' ){
+//        return {}
+      }else{
+        Logics.db.threads.updateWatchCnt( requestState.thread.connection, 1 );
+        Logics.db.threads.updateWatchCnt( requestState.user.connectioned, -1 );
+      }
+    }
   }
+
+  async updateWatchCnt( connection, watchCnt ){
+    const condition = {connection};
+    const set = { $inc: { watchCnt } };
+    const option = {upsert:true};
+    return await this.db.update( condition, set, option );
+  }
+
+
 }
