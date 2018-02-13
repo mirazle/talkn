@@ -55,8 +55,8 @@ export default class Sequence {
       disconnect: {
         requestPublicState: {},
         requestPrivateState: {},
-        responseEmitState: {'posts': [], 'thread': []},
-        responseBroadcastState: {'analyze': ['watchCnt']},
+        responseEmitState: {},
+        responseBroadcastState: {'thread': ['watchCnt']},
       }
     };
   }
@@ -122,7 +122,6 @@ export default class Sequence {
     const responseSchema = Sequence.map[ endpointKey ][ `response${responseType}State` ];
     let responseState = {[ Sequence.REDUX_ACTION_KEY ]: endpointKey};
     Object.keys( responseSchema ).forEach( ( updateStateKey ) => {
-
       if( updateState[ updateStateKey ] ){
 
         const columnNames = responseSchema[ updateStateKey ];
@@ -142,7 +141,7 @@ export default class Sequence {
           }
         }else{
           columnNames.forEach( ( columnName ) => {
-            if( updateState[ updateStateKey ][ columnName ] ){
+            if( updateState[ updateStateKey ][ columnName ] !== undefined ){
               responseState = {...responseState,
                 [ updateStateKey ]: {...responseState[ updateStateKey ],
                   [ columnName ]: updateState[ updateStateKey ][ columnName ],

@@ -12,11 +12,9 @@ export default {
     return await Logics.io.get();
   },
 
-  updateThreadWatchCnt: async ( connection, cnt ) => {
-    await Logics.db.threads.updateWatchCnt( connection, cnt );
-    const response = await Logics.db.thread.findOne( connection, cnt );
-    await Logics.io.updateThreadWatchCnt( response );
-    return true;
+  updateThreadWatchCnt: async ( connection, watchCnt ) => {
+    await Logics.db.threads.updateWatchCnt( connection, watchCnt );
+    return await Logics.db.threads.findOneWatchCnt( connection );
   },
 
   initClientState: ( ioUser, requestState, setting ) => {
@@ -26,11 +24,8 @@ export default {
 
   find: async ( ioUser, requestState, setting ) => {
 
-    // TODO threadのwatchCntのコントロール
-
     // リクエストのあったスレッドを取得する
     let {response: thread} = await Logics.db.threads.findOne(requestState.thread.connection);
-
     const isUpdatableThread = Logics.db.threads.isUpdatableThread(thread, setting);
 
     // リクエストのあった投稿内容を取得する
@@ -66,7 +61,14 @@ export default {
     return true;
   },
 
-  disconnect: ( ioUser, state ) => {
-    //Actions.updateThreadWatchCnt( state.connection, -1 );
+  disconnect: async ( ioUser, requestState, setting ) => {
+    const connection = Logics.db.threads.getConnection( ioUser.handshake.headers.origin );
+    const watchCnt = await Actions.updateThreadWatchCnt( connection, -1 );
+    Logics.io.updateWatchCnt(
+      ioUser, {
+      requestState: {type: 'disconnect', connection},
+      thread: {watchCnt}
+    });
+    return true;
   },
 }

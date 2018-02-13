@@ -23,12 +23,12 @@ export default class Io {
 
   async post(ioUser, {requestState, posts} ){
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts} );
+    // TODO responseBroadcastState.typeはconnectionじゃなくて良いの？
     return this.io.broadcast( responseBroadcastState.type, responseBroadcastState );
   }
 
-  async updateWatchCnt( response ){
-    const key = response.connection;
-    const state = {thread: {analyze: {watchCnt: response.watchCnt}}};
-    return this.io.broadcast( key, state );
+  async updateWatchCnt( ioUser, {requestState, thread} ){
+    const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {thread} );
+    return this.io.broadcast( responseBroadcastState.type, responseBroadcastState );
   }
 }
