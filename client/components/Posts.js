@@ -120,7 +120,7 @@ export default class Posts extends Component {
         const post = posts[ index ];
         return (
           <Post
-            key={post._id}
+            key={post._id + "_" + index}
             {...post}
             style={style.post}
             talknAPI={talknAPI}

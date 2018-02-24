@@ -66,8 +66,8 @@ export default {
     const watchCnt = await Actions.updateThreadWatchCnt( connection, -1 );
     Logics.io.updateWatchCnt(
       ioUser, {
-      requestState: {type: 'disconnect', connection},
-      thread: {watchCnt}
+      requestState: {type: 'disconnect'},
+      thread: {watchCnt, connection}
     });
     return true;
   },

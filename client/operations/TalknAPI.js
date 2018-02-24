@@ -1,72 +1,73 @@
 import Sequence from 'common/Sequence';
 import * as stylesActions from 'client/actions/styles'
+import WsServerToClientEmitAction from 'client/actions/ws/serverToClientEmit'
 import WsClientToServerEmitActions from 'client/actions/ws/clientToServerEmit'
-import WsServerToClientEmitActions from 'client/actions/ws/serverToClientEmit'
-import WsServerToClientBroadcastActions from 'client/actions/ws/serverToClientBradcast'
+import WsServerToClientBroadcastAction from 'client/actions/ws/serverToClientBradcast'
 
 export default class TalknAPI{
-	constructor( talknIndex, store, ws ){
+	constructor( talknIndex, ws, store, connection ){
 		this.store = store;
 		this.ws = ws;
 		this.connectionKeys = [];
 		this.talknIndex = talknIndex;
-		this.attachAPI( 'Style', stylesActions );
-		this.attachAPI( 'WsClientToServerEmit', WsClientToServerEmitActions );
-		this.attachAPI( 'WsServerToClientEmit', WsServerToClientEmitActions );
-		this.attachAPI( 'WsServerToClientBroadcast', WsServerToClientBroadcastActions );
+		this.connection = connection;
+
+		this.onStyleAPI();
+		this.onCatchMeAPI();
+		this.onCatchConnectionAPI();
+		this.onTalknAPI();
 		window.__talknAPI__[ talknIndex ] = this;
 	}
 
 	static handle( talknIndex ){
 		if( typeof __talknAPI__[ talknIndex ] === "undefined" ){
-			window.talknAPI = window.__talknAPI__[ talknIndex ];
-			return false;
+			throw 'BAD TALKN_API HANDLE METHOD .';
 		}else{
 			window.talknAPI = window.__talknAPI__[ talknIndex ];
 			return true;
 		}
 	}
 
-	attachAPI( handleType, actions ){
+	onStyleAPI(){
+		const actions = stylesActions;
+		const talknIndex = this.talknIndex;
+		const actionKeys = Object.keys( actions );
+		const actionLength = actionKeys.length;
+		for( let actionNodeCnt = 0; actionNodeCnt < actionLength; actionNodeCnt++ ){
+			const actionName = actionKeys[ actionNodeCnt ];
+			this[ actionName ] = this.getStyleAPI( talknIndex, actionName );
+		}
+	}
+
+	onCatchMeAPI(){
+		const talknIndex = this.talknIndex;
+		const callback = this.getToMeAPI(talknIndex, WsServerToClientEmitAction);
+		this.on( Sequence.CATCH_ME_KEY, callback );
+	}
+
+	onCatchConnectionAPI(){
+		const talknIndex = this.talknIndex;
+		const connection = this.connection;
+		const callback = this.getCatchConnectionAPI(talknIndex, WsServerToClientBroadcastAction);
+		this.on( connection, callback );
+	}
+
+	onTalknAPI(){
+		const actions = WsClientToServerEmitActions;
 		const talknIndex = this.talknIndex;
 		const actionKeys = Object.keys( actions );
 		const actionLength = actionKeys.length;
 
 		for( let actionNodeCnt = 0; actionNodeCnt < actionLength; actionNodeCnt++ ){
 			const actionName = actionKeys[ actionNodeCnt ];
-			const handleApiKey = `get${handleType}API`;
-			let publicActionName = '';
-			let onKey = '';
-
-
-			if( typeof actions[ actionName ] === 'function' ){
-				switch( handleType ){
-				case 'Style':
-					this[ actionName ] = this[ handleApiKey ]( talknIndex, actionName );
-					break;
-				case 'WsClientToServerEmit':
-					publicActionName = actionName.replace( Sequence.CLIENT_TO_SERVER_EMIT, '' );
-					this[ publicActionName ] = this[ handleApiKey ]( talknIndex, actionName );
-					break;
-				case 'WsServerToClientEmit':
-					onKey = actionName.replace( Sequence.SERVER_TO_CLIENT_EMIT, '' );
-					this.on( onKey, handleApiKey, actionName );
-					break;
-				case 'WsServerToClientBroadcast':
-					onKey = actionName.replace( Sequence.SERVER_TO_CLIENT_BROADCAST, '' );
-					this.on( onKey, handleApiKey, actionName );
-					break;
-				}
-			}
+			const actionPlainName = actionName.replace( Sequence.CLIENT_TO_SERVER_EMIT, '' );
+			this[ actionPlainName ] = this.getTalknAPI( talknIndex, actionName );
 		}
 	}
 
-	on( onKey, methodKey, actionName ){
+	on( onKey, callback ){
 		if( !this.connectionKeys.includes( onKey ) ){
-
-			// TODO そもそもconnection単位でハンドシェイクされていない！！！！
-			console.log("######## ON KEY " + onKey );
-			this.ws.on( onKey, this[ methodKey ]( this.talknIndex, actionName ));
+			this.ws.on( onKey, callback );
 			this.connectionKeys.push( onKey );
 		}
 	}
@@ -85,7 +86,7 @@ export default class TalknAPI{
 		}
 	}
 
-	getWsClientToServerEmitAPI( talknIndex, actionName ){
+	getTalknAPI( talknIndex, actionName ){
 		return ( requestParams ) => {
 			if( TalknAPI.handle( talknIndex ) ){
 				const reduxState = this.store.getState();
@@ -97,19 +98,19 @@ export default class TalknAPI{
 		}
 	}
 
-	getWsServerToClientEmitAPI( talknIndex, actionName ){
+	getToMeAPI( talknIndex, action ){
 		return ( response ) => {
 			if( TalknAPI.handle( talknIndex ) ){
-				const actionState = WsServerToClientEmitActions[ actionName ]( response );
+				const actionState = action( response );
 				return talknAPI.store.dispatch( actionState );
 			}
 		}
 	}
 
-	getWsServerToClientBroadcastAPI( talknIndex, actionName ){
+	getCatchConnectionAPI( talknIndex, actionMethod ){
 		return ( response ) => {
 			if( TalknAPI.handle( talknIndex ) ){
-				const actionState = WsServerToClientBroadcastActions[ actionName ]( response );
+				const actionState = actionMethod( response );
 				return talknAPI.store.dispatch( actionState );
 			}
 		}

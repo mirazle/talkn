@@ -10,8 +10,9 @@ function bootTalkn( appType, talknIndex, attributes ){
 	const ws = io('//localhost:10001', { forceNew: true });
 	const store = configureStore();
 	const state = new State( appType, talknIndex, window, attributes );
+	const connection = state.connection;
 	const talknSession = new TalknSession( state );
-	const talknAPI = new TalknAPI( talknIndex, store, ws );
+	const talknAPI = new TalknAPI( talknIndex, ws, store, connection );
 	const talknViewer = new TalknViewer( state, talknAPI );
 
 	talknAPI.initClientState( state );
