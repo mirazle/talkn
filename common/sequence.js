@@ -4,6 +4,10 @@ const state = new State();
 
 export default class Sequence {
 
+  static get CATCH_ME_KEY(){
+    return '@CATCH_ME';
+  }
+
   static get CLIENT_TO_SERVER_EMIT(){
     return 'CLIENT_TO_SERVER[EMIT]:';
   }
@@ -35,28 +39,32 @@ export default class Sequence {
   static get map(){
     return {
       initClientState: {
+        toSelfEmit: true,
         requestPublicState: {},
         requestPrivateState: {},
         responseEmitState: { 'user': ['uid'], 'setting': '*'},
         responseBroadcastState: {},
       },
       find: {
+        toSelfEmit: true,
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {'thread': [{columnName: 'protocol'}, {columnName: 'host'}], 'user': [{columnName: 'offsetFindId'}, {columnName: 'connectioned'}]},
         responseEmitState: {'posts': '*', 'thread': '*','user': ['offsetFindId', 'connectioned']},
         responseBroadcastState: {'analyze': ['watchCnt']},
       },
       post: {
+        toSelfEmit: false,
         requestPublicState: {'user': [{columnName: 'post', valid: User.validPost }]},
         requestPrivateState: {'user':[{columnName: 'uid'},{columnName: 'utype'}], 'thread': [{columnName: 'connection'}, {columnName: 'thum'}]},
         responseEmitState: {},
         responseBroadcastState: {'posts': '*'},
       },
       disconnect: {
+        onConnection: true,
         requestPublicState: {},
         requestPrivateState: {},
         responseEmitState: {},
-        responseBroadcastState: {'thread': ['watchCnt']},
+        responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       }
     };
   }
@@ -148,6 +156,8 @@ export default class Sequence {
                 }
               }
             }else{
+              console.warn( updateStateKey );
+              console.warn( updateState );
               throw `SEQUENCE ERROR: NO_UPDATE_STATE_COLUMN_NAME: ${columnName}`;
             }
           });
