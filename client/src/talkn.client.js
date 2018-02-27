@@ -7,7 +7,11 @@ import TalknAPI from 'client/operations/talknAPI';
 import TalknViewer from 'client/operations/talknViewer';
 
 function bootTalkn( appType, talknIndex, attributes ){
-	const ws = io('//localhost:10001', { forceNew: true });
+	const protcol = location.href.indexOf( 'https' ) === 0 ? 'https' : 'http' ;
+	const server = location.href.indexOf( 'localhost:8080/' ) !== false ? 'localhost' : 'client.talkn.io' ;
+	const port = protcol === 'https' ? 10443 : 10001;
+
+	const ws = io(`//${server}:${port}`, { forceNew: true });
 	const store = configureStore();
 	const state = new State( appType, talknIndex, window, attributes );
 	const connection = state.connection;
@@ -20,7 +24,6 @@ function bootTalkn( appType, talknIndex, attributes ){
 }
 
 window.onload =  () => {
-
 	const appType = TalknViewer.getAppType();
 	window.TalknAPI = TalknAPI;
 	window.__talknAPI__ = [];
