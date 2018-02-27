@@ -26,9 +26,9 @@ function bootTalkn( appType, talknIndex, attributes, env ){
 	talknAPI.initClientState( state );
 	talknViewer.render();
 }
-console.log("AAA");
+console.log("AAAAA");
 window.onload =  () => {
-console.log("BBB");
+console.log("BBBBBB");
 	const appType = TalknViewer.getAppType();
 	window.TalknAPI = TalknAPI;
 	window.__talknAPI__ = [];
@@ -39,6 +39,7 @@ console.log("BBB");
 		bootTalkn( appType, 0, {} );
 		break;
 	case 'script':
+	console.log("CCC");
 		const scripts = document.querySelectorAll(`script[src*="${env.scriptName}"]`);
 		console.log( env.scriptName );
 		console.log( scripts );
