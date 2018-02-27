@@ -40,6 +40,7 @@ console.log("BBB");
 		break;
 	case 'script':
 		const scripts = document.querySelectorAll(`script[src*="${env.scriptName}"]`);
+		console.log( env.scriptName );
 		console.log( scripts );
 
 		scripts.forEach( ( script, index ) => {
