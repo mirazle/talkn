@@ -56,6 +56,23 @@ export default class Style{
     return { ...baseLayout, ...style };
   }
 
+  static getLayoutFlex( style = {} ){
+    const blockLayout = Style.getLayoutBase({
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    });
+    return { ...blockLayout, ...style };
+  }
+
+  static getLayoutFlexChild( style = {} ){
+    const blockLayout = Style.getLayoutBase({
+      width: 'auto',
+      height: 'auto',
+    });
+    return { ...blockLayout, ...style };
+  }
+
   static getLayoutBlock( style = {} ){
     const blockLayout = Style.getLayoutBase({
       display: 'block',

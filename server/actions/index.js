@@ -39,7 +39,7 @@ export default {
 
     // スレッドが存在しない場合、もしくは更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
-
+ 
       const {title, metas, links, h1s, contentType, uri} = await Logics.html.get( requestState.thread );
       const faviconName = Logics.favicon.getName( requestState.thread, links );
       const faviconBinary = await Logics.favicon.request( requestState.thread, faviconName );

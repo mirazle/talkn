@@ -15,10 +15,12 @@ export default class Thread {
     const { thread, bootOption } = params;
     const self = Thread.getSelf( bootOption );
     const header = Thread.getHeader( bootOption );
+    const headerChild = Thread.getHeaderChild( bootOption );
     const notif = Thread.getNotif( bootOption );
     return {
       self,
       header,
+      headerChild,
       notif,
     }
   }
@@ -76,10 +78,19 @@ export default class Thread {
   }
 
   static getHeader( bootOption ){
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
       height: `${Thread.headerHeight}px`,
       borderBottom: Container.border,
       background: Container.lightRGB,
+    });
+    const content = {};
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderChild( bootOption ){
+    const layout = Style.getLayoutBlock({
+      height: 'auto',
     });
     const content = {};
     const animation = Style.getAnimationBase();
