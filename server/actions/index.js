@@ -1,5 +1,6 @@
 import Actions from '~/actions';
 import Logics from '~/logics';
+import User from '~/../common/schemas/state/User'
 
 export default {
 
@@ -57,7 +58,11 @@ export default {
       }
 
     }else{
-      thread.watchCnt = await Actions.updateThreadWatchCnt( requestState.thread.connection, 1 );
+
+      if( requestState.user.offsetFindId === User.defaultOffsetFindId ){
+        thread.watchCnt = await Actions.updateThreadWatchCnt( requestState.thread.connection, 1 );
+      }
+
       Logics.io.find( ioUser, {requestState, thread, posts, user} );
     }
   },
