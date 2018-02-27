@@ -1,12 +1,17 @@
 import Schema from '../Schema';
 
 export default class User extends Schema{
+
+  static get defaultOffsetFindId(){
+    return 'ffffffffffffffffffffffff';
+  }
+
   constructor( params = {} ){
     super();
     const uid = params.uid ? params.uid : '';
     const utype = params.utype ? params.utype : '';
     const connectioned = params.connectioned ? params.connectioned : '';
-    const offsetFindId = params.offsetFindId ? params.offsetFindId : 'ffffffffffffffffffffffff' ;
+    const offsetFindId = params.offsetFindId ? params.offsetFindId : User.defaultOffsetFindId ;
     const post = params.post ? params.post : '';
     const inputSearch = params.inputSearch ? params.inputSearch : '';
     const isOpenThread = params.isOpen ? params.isOpen : false;
