@@ -9,9 +9,9 @@ export default class Thread extends Component {
 		return (
       <div style={ style.thread.self }>
         <header style={ style.thread.header }>
-          <div>{thread.watchCnt}</div>
-          <div></div>
-          <div></div>
+          <div style={ style.thread.headerChild }>{thread.watchCnt}</div>
+          <div style={ style.thread.headerChild }></div>
+          <div style={ style.thread.headerChild }></div>
         </header>
         <main style={ style.main.self }>
           <Posts {...this.props} />
