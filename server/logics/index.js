@@ -1,5 +1,4 @@
-import Db from './Db';
-import db from './db/';
+import Db from './db';
 import Io from './Io';
 import Html from './Html';
 import Favicon from './Favicon';
