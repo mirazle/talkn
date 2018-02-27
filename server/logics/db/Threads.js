@@ -46,14 +46,14 @@ export default class Threads {
     return false;
   }
 
-  async save( requestState, thread ){
+  async save( requestState, thread, called ){
     const condition = {connection: requestState.thread.connection};
     const set = {
       connection: requestState.thread.connection,
       ...thread,
     };
     const option = {upsert:true};
-    return this.db.save( condition, set, option );
+    return this.db.save( set, option );
   }
 
   async update( requestState, thread ){
@@ -73,23 +73,10 @@ export default class Threads {
     return await this.db.update( condition, set, option );
   }
 
-  getUpdateWatchCntQuery( requestState ){
-    if( requestState.thread.connection !== requestState.user.connectioned ){
-      if( requestState.user.connectioned === '' ){
-//        return {}
-      }else{
-        Logics.db.threads.updateWatchCnt( requestState.thread.connection, 1 );
-        Logics.db.threads.updateWatchCnt( requestState.user.connectioned, -1 );
-      }
-    }
-  }
-
   async updateWatchCnt( connection, watchCnt ){
     const condition = {connection};
     const set = { $inc: { watchCnt } };
     const option = {upsert:true};
     return await this.db.update( condition, set, option );
   }
-
-
 }

@@ -58,8 +58,10 @@ export default class Thread extends Schema{
 
   static getConnection( href ){
     if( href !== '' ){
-      const splitedOrigin = href.split(':/');
-      return splitedOrigin[ 1 ].slice( 0, -1 ) ;
+      href = href.slice( -1 ) === '/' ? href.slice( 0, -1 ) : href ;
+      href = href.replace('http:/', '');
+      href = href.replace('https:/', '');
+      return href;
     }else{
       return '';
     }

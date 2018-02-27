@@ -3,8 +3,11 @@ import Logics from '~/logics';
 
 export default {
 
-  setUp: async () => {
+  setUpApp: async () => {
     await Logics.db.threads.resetWatchCnt();
+  },
+
+  setUpUser: async () => {
     return await Logics.db.setting.findOne();
   },
 
@@ -35,23 +38,28 @@ export default {
 
     // スレッドが存在しない場合、もしくは更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
+
       const {title, metas, links, h1s, contentType, uri} = await Logics.html.get( requestState.thread );
       const faviconName = Logics.favicon.getName( requestState.thread, links );
       const faviconBinary = await Logics.favicon.request( requestState.thread, faviconName );
       const writeResult = await Logics.fs.write( faviconName, faviconBinary );
-      const updateThread = {title, metas, links, h1s, contentType, uri, favicon: faviconName};
+      let updateThread = {title, metas, links, h1s, contentType, uri, favicon: faviconName};
 
       if( thread ){
+        updateThread.watchCnt = updateThread.watchCnt < 0 ? 1  : updateThread.watchCnt + 1;
         await Logics.db.threads.update( requestState, updateThread );
-        await Logics.io.find( ioUser, {requestState, thread, posts, user} );
+        Logics.io.find( ioUser, {requestState, thread, posts, user} );
+
       }else{
+        updateThread = {...updateThread, watchCnt: 1};
         let {response: thread} = await Logics.db.threads.save( requestState, updateThread );
-        await Logics.io.find( ioUser, {requestState, thread, posts, user} );
+        Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
+
     }else{
-      await Logics.io.find( ioUser, {requestState, thread, posts, user} );
+      thread.watchCnt = await Actions.updateThreadWatchCnt( requestState.thread.connection, 1 );
+      Logics.io.find( ioUser, {requestState, thread, posts, user} );
     }
-    return true;
   },
 
   post: async ( ioUser, requestState, setting ) => {
