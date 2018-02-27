@@ -42,7 +42,6 @@ class SocketIo{
 
   async broadcast( key, state ){
     console.log( "Broadcast ######" + key );
-    console.log(state);
     this.io.emit( key, state );
   }
 
