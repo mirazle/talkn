@@ -11,7 +11,7 @@ env.mode = location.href.indexOf( 'localhost:8080/' ) !== false ? 'DEV' : 'PROD'
 env.protcol = location.href.indexOf( 'https' ) === 0 ? 'https' : 'http' ;
 env.server = env.mode === 'DEV' ? 'localhost' : 'client.talkn.io' ;
 env.port = env.protcol === 'https' ? 10443 : 10001;
-env.scriptName = env.mode === 'DEV' ? 'talkn.client.js' : 'client.talkn.io' ;
+env.scriptName = env.mode === 'DEV' ? 'talkn.client.js' : '//client.talkn.io' ;
 
 function bootTalkn( appType, talknIndex, attributes, env ){
 	const {server, port} = env;
