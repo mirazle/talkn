@@ -31,8 +31,7 @@ export default {
 
 		// Analyze
 		postCnt: { type: Number, default: 0 },
-		watchCnt:{ type: Number, default: 0, min: 0, index: true },
-
+		watchCnt:{ type: Number, default: 0, min: 0},
 		// Time
 		createTime: { type: Date, default: Date },
 		updateTime: { type: Date, default: Date },

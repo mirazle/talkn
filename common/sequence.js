@@ -49,8 +49,8 @@ export default class Sequence {
         toSelfEmit: true,
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {'thread': [{columnName: 'protocol'}, {columnName: 'host'}], 'user': [{columnName: 'offsetFindId'}, {columnName: 'connectioned'}]},
-        responseEmitState: {'posts': '*', 'thread': '*','user': ['offsetFindId', 'connectioned']},
-        responseBroadcastState: {'analyze': ['watchCnt']},
+        responseEmitState: {'posts': '*', 'thread': '*', 'user': ['offsetFindId', 'connectioned']},
+        responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       },
       post: {
         toSelfEmit: false,
