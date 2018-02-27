@@ -7,7 +7,7 @@ import TalknAPI from 'client/operations/talknAPI';
 import TalknViewer from 'client/operations/talknViewer';
 
 const env = {};
-env.mode = location.href.indexOf( 'localhost:8080/' ) !== false ? 'DEV' : 'PROD' ;
+env.mode = location.href.indexOf( 'localhost:8080/' ) >= 0 ? 'DEV' : 'PROD' ;
 env.protcol = location.href.indexOf( 'https' ) === 0 ? 'https' : 'http' ;
 env.server = env.mode === 'DEV' ? 'localhost' : 'client.talkn.io' ;
 env.port = env.protcol === 'https' ? 10443 : 10001;
@@ -26,9 +26,8 @@ function bootTalkn( appType, talknIndex, attributes, env ){
 	talknAPI.initClientState( state );
 	talknViewer.render();
 }
-console.log("AAAAA");
+
 window.onload =  () => {
-console.log("BBBBBB");
 	const appType = TalknViewer.getAppType();
 	window.TalknAPI = TalknAPI;
 	window.__talknAPI__ = [];
@@ -39,11 +38,8 @@ console.log("BBBBBB");
 		bootTalkn( appType, 0, {} );
 		break;
 	case 'script':
-	console.log("CCC");
-		const scripts = document.querySelectorAll(`script[src*="${env.scriptName}"]`);
-		console.log( env.scriptName );
-		console.log( scripts );
 
+		const scripts = document.querySelectorAll(`script[src*="${env.scriptName}"]`);
 		scripts.forEach( ( script, index ) => {
 			bootTalkn( appType, index + 1 , script.attributes, env );
  		});
