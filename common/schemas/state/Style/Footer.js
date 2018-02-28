@@ -87,7 +87,7 @@ export default class Footer{
       resize: 'none',
       border: Container.border,
       borderRadius: '3px',
-      webkitAppearance: 'none',
+      WebkitAppearance: 'none',
 
     });
     const layout = Footer.getLayout( layoutInlineBlock );
