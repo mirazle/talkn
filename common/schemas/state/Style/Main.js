@@ -11,7 +11,8 @@ export default class Main {
 
   static getSelf( bootOption ){
     const layout = Style.getLayoutInlineBlock({
-      width: '100%'
+      width: '100%',
+      WebkitOverflowScrolling: 'touch',
     });
     const content = {};
     const animation = Style.getAnimationBase();
