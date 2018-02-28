@@ -1,4 +1,5 @@
 import Style from './index';
+import Footer from './Footer';
 
 export default class Container{
   constructor( params ){
@@ -48,13 +49,13 @@ export default class Container{
   static getSelf( bootOption ){
     const widthPx = Container.getWidthPx( bootOption );
     const rightPx = Container.getRightPx( widthPx );
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
       overflow: 'visible',
       position: 'fixed',
       bottom: '0px',
       right: rightPx,
       width: widthPx,
-      height: '35px',
+      height: Footer.selfHeight,
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
