@@ -27,7 +27,7 @@ export default class Post {
       width: 'initial',
       height: 'initial',
       clear: 'both',
-      margin: '10px 15px 10px 0px',
+      margin: '15px 15px 15px 0px',
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
