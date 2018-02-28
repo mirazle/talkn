@@ -6,7 +6,7 @@ import util from './../../../util';
 export default class Thread {
 
   static get selfHeight(){ return 360 };
-  static get headerHeight(){ return 35 };
+  static get headerHeight(){ return 40 };
   static get notifHeight(){ return 20 };
   static get notifOpenTranslate(){ return 20 };
   static get notifHeight(){ return 20 };

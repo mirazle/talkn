@@ -37,7 +37,6 @@ export default class Footer{
   static getLayoutCommon(){
     return {
       height: '25px',
-
     }
   }
 
@@ -67,7 +66,6 @@ export default class Footer{
 
   static getIcon( thread ){
     const layoutInlineBlock = Style.getLayoutInlineBlock({
-//      margin: '4px 0 0 0',
       width: '20%',
       background: `url( ${thread.thum} ) 50% 50% / 20px 20px no-repeat`,
     });
@@ -99,7 +97,6 @@ export default class Footer{
     return Style.get({layout, content, animation});
   }
 
-  // width: 23%;
   static getButton(){
     const layoutInlineBlock = Style.getLayoutInlineBlock({
       outline: 'none',
