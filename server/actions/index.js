@@ -39,7 +39,6 @@ export default {
 
     // スレッドが存在しない場合、もしくは更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
- 
       const {title, metas, links, h1s, contentType, uri} = await Logics.html.get( requestState.thread );
       const faviconName = Logics.favicon.getName( requestState.thread, links );
       const faviconBinary = await Logics.favicon.request( requestState.thread, faviconName );
@@ -47,7 +46,7 @@ export default {
       let updateThread = {title, metas, links, h1s, contentType, uri, favicon: faviconName};
 
       if( thread ){
-        updateThread.watchCnt = updateThread.watchCnt < 0 ? 1  : updateThread.watchCnt + 1;
+        updateThread.watchCnt = updateThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
         await Logics.db.threads.update( requestState, updateThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
 
@@ -55,12 +54,13 @@ export default {
         updateThread = {...updateThread, watchCnt: 1};
         let {response: thread} = await Logics.db.threads.save( requestState, updateThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
+
       }
 
     }else{
-
       if( requestState.user.offsetFindId === User.defaultOffsetFindId ){
-        thread.watchCnt = await Actions.updateThreadWatchCnt( requestState.thread.connection, 1 );
+        const addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
+        thread.watchCnt = await Actions.updateThreadWatchCnt( requestState.thread.connection, addWatchCnt );
       }
 
       Logics.io.find( ioUser, {requestState, thread, posts, user} );
