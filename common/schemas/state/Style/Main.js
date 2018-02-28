@@ -10,7 +10,9 @@ export default class Main {
   }
 
   static getSelf( bootOption ){
-    const layout = Style.getLayoutInlineBlock();
+    const layout = Style.getLayoutInlineBlock({
+      width: '100%'
+    });
     const content = {};
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

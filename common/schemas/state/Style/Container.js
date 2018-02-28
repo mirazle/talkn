@@ -35,13 +35,24 @@ export default class Container{
       Container.width + 'px';
   }
 
+  static getRightPx( widthPx ){
+    if( widthPx === '100%' ){
+      return '0%';
+    }else if( widthPx === '100vw' ){
+      return '0vw';
+    }else{
+      return '10px';
+    }
+  }
+
   static getSelf( bootOption ){
     const widthPx = Container.getWidthPx( bootOption );
+    const rightPx = Container.getRightPx( widthPx );
     const layout = Style.getLayoutBlock({
       overflow: 'visible',
       position: 'fixed',
       bottom: '0px',
-      right: '10px',
+      right: rightPx,
       width: widthPx,
       height: '35px',
     });

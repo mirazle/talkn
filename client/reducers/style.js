@@ -6,11 +6,14 @@ export default ( state = {} , action ) => {
 
 	switch( action.type ){
 	case 'ON_CLICK_TOGGLE_DISP_THREAD':
-		let threadTranslateY = action.user.isOpenThread ? -Footer.selfHeight : Thread.selfHeight;
+		let threadTranslateY = action.user.isOpenThread ?
+			( -Footer.selfHeight ) + 'px':
+			Thread.getSelfHeightPx();
+
 		return {...state,
 			thread: {...state.thread,
 				self: {...state.thread.self,
-					transform: `translate3d(0px, ${threadTranslateY}px, 0px )`,
+					transform: `translate3d(0px, ${threadTranslateY}, 0px )`,
 				}
 			}
 		}
