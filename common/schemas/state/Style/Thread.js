@@ -1,5 +1,6 @@
 import Style from './index';
 import Container from './Container';
+import Footer from './Footer';
 import util from './../../../util';
 
 export default class Thread {
@@ -28,22 +29,37 @@ export default class Thread {
   static getSelfWidthPx( bootOption ){
     let width = ( Math.floor( Container.width * Thread.widthRatio ) ) + 'px';
     if( bootOption.width ){
-      width = util.trimPx( bootOption.width );
-      width = ( Math.floor( width * Thread.widthRatio ) ) + 'px';
+      if(bootOption.width === '100%'){
+        width = ( Thread.widthRatio * 100 ) + '%';
+      }else if( bootOption.width === '100vw' ){
+        width = ( Thread.widthRatio * 100 ) + 'vw';
+      }else{
+        width = util.trimPx( bootOption.width );
+        width = ( Math.floor( width * Thread.widthRatio ) ) + 'px';
+      }
     }
     return width;
   }
 
   static getSelfHeightPx( bootOption ){
-    let height = Container.threadHeight + 'px';
-    if( bootOption.height ){
+    let height = Thread.selfHeight;
+    if( bootOption && bootOption.height ){
       height = bootOption.height + 'px';
+    }else{
+      const reduceHeight = Footer.selfHeight + Math.floor( Footer.selfHeight / 2 );
+      height = `calc( 100vh - ${reduceHeight}px )`;
     }
     return height;
   }
 
-  static getSelfRight( widthPx ){
-    return Math.floor( util.trimPx( widthPx ) * Container.merginRatio ) + 'px';
+  static getSelfRight( widthPx, bootOption ){
+    if( bootOption.width === '100%' ){
+      return ( ( ( 1 - Thread.widthRatio ) / 2 ) * 100 ) + '%';
+    }else if( bootOption.width === '100vw' ){
+      return ( ( ( 1 - Thread.widthRatio ) / 2 ) * 100 ) + 'vw';
+    }else{
+      return Math.floor( util.trimPx( widthPx ) * Container.merginRatio ) + 'px';
+    }
   }
 
   static getSelfTranslateY( heightPx ){
@@ -53,12 +69,12 @@ export default class Thread {
   static getSelf( bootOption ){
     const widthPx = Thread.getSelfWidthPx( bootOption );
     const heightPx = Thread.getSelfHeightPx( bootOption );
-    const right = Thread.getSelfRight( widthPx );
+    const right = Thread.getSelfRight( widthPx, bootOption );
     const translateY = Thread.getSelfTranslateY( heightPx );
     const layout = Style.getLayoutBlock({
       position: 'absolute',
       width: widthPx,
-      height: Thread.selfHeight,
+      height: heightPx,
       right: right,
       bottom: 0,
       borderRadius: '12px 12px 0px 0px',
@@ -79,6 +95,7 @@ export default class Thread {
 
   static getHeader( bootOption ){
     const layout = Style.getLayoutFlex({
+      width: '100%',
       height: `${Thread.headerHeight}px`,
       borderBottom: Container.border,
       background: Container.lightRGB,
