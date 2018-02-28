@@ -27,7 +27,7 @@ export default class Post {
       width: 'initial',
       height: 'initial',
       clear: 'both',
-      margin: '15px 15px 15px 0px',
+      margin: '20px 20px 20px 0px',
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -36,7 +36,7 @@ export default class Post {
 
   static getUpper(){
     const layout = Style.getLayoutBlock({
-      height: '15px',
+      height: '20px',
       clear: 'both',
     });
     const content = Style.getContentBase({
