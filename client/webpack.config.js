@@ -33,7 +33,7 @@ module.exports = {
     alias: {
       'common': path.resolve(__dirname, '../common') + '/',
       'server': path.resolve(__dirname, '../server') + '/',
-      'client': path.resolve(__dirname) + '/'
+      'client': path.resolve(__dirname, '../client') + '/'
     },
     extensions: ['.js', '.jsx']
   },
