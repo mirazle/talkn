@@ -65,7 +65,6 @@ export default class Footer{
     return Style.get({layout, content, animation});
   }
 
-  // width: 20%;
   static getIcon( thread ){
     const layoutInlineBlock = Style.getLayoutInlineBlock({
       margin: '4px 0 0 0',
