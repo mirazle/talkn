@@ -97,7 +97,7 @@ export default class Post {
       marginLeft: '20px',
       width: 'calc( 100% - 45px)',
       background: Container.themeRGBA,
-      padding: '15px 15px 15px 20px',
+      padding: '20px 20px 20px 25px',
       borderRadius: '10px',
     });
     const content = Style.getContentBase({
