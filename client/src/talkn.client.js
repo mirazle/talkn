@@ -2,9 +2,9 @@
 import io from 'socket.io-client';
 import configureStore from 'client/store/configureStore'
 import State from 'common/schemas/state';
-import TalknSession from 'client/operations/talknSession';
-import TalknAPI from 'client/operations/talknAPI';
-import TalknViewer from 'client/operations/talknViewer';
+import TalknSession from 'client/operations/TalknSession';
+import TalknAPI from 'client/operations/TalknAPI';
+import TalknViewer from 'client/operations/TalknViewer';
 
 const env = {};
 env.mode = location.href.indexOf( 'localhost:8080/' ) >= 0 ? 'DEV' : 'PROD' ;
