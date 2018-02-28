@@ -3,7 +3,7 @@ import Container from './Container';
 
 export default class Footer{
 
-  static get selfHeight(){ return 35 };
+  static get selfHeight(){ return 40 };
 
   constructor( params ){
     const { thread, bootOption } = params;
@@ -50,7 +50,7 @@ export default class Footer{
   }
 
   static getSelf(){
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
       height: Footer.selfHeight,
       background: Container.calmRGBA,
       position: 'absolute',
@@ -67,7 +67,7 @@ export default class Footer{
 
   static getIcon( thread ){
     const layoutInlineBlock = Style.getLayoutInlineBlock({
-      margin: '4px 0 0 0',
+//      margin: '4px 0 0 0',
       width: '20%',
       background: `url( ${thread.thum} ) 50% 50% / 20px 20px no-repeat`,
     });
@@ -82,7 +82,7 @@ export default class Footer{
       width: '54%',
       background: Container.lightRGB,
       padding: '5px 0% 5px 2%',
-      margin: '4px 3% 0 0',
+      margin: '0 3% 0 0',
       outline: 'none',
       resize: 'none',
       border: Container.border,
@@ -102,7 +102,7 @@ export default class Footer{
     const layoutInlineBlock = Style.getLayoutInlineBlock({
       outline: 'none',
       width: '20%',
-      margin: '4px 3% 0px 0%',
+      margin: '0px 3% 0px 0%',
       background: 'rgb(245, 245, 245)',
       border: Container.border,
       borderRadius: '3px',
