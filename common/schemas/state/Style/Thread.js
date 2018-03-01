@@ -17,12 +17,16 @@ export default class Thread {
     const self = Thread.getSelf( bootOption );
     const header = Thread.getHeader( bootOption );
     const headerChild = Thread.getHeaderChild( bootOption );
+    const headerChildLeft = Thread.getHeaderChildLeft( bootOption );
+    const headerChildUserIcon = Thread.getHeaderChildUserIcon( bootOption );
     const headerChildWatchCnt = Thread.getHeaderChildWatchCnt( bootOption );
     const notif = Thread.getNotif( bootOption );
     return {
       self,
       header,
       headerChild,
+      headerChildLeft,
+      headerChildUserIcon,
       headerChildWatchCnt,
       notif,
     }
@@ -116,14 +120,31 @@ export default class Thread {
     return Style.get({layout, content, animation});
   }
 
-  static getHeaderChildWatchCnt( bootOption ){
+  static getHeaderChildLeft( bootOption ){
     const layout = Style.getLayoutBlock({
       height: 'auto',
     });
     const content = {};
-    const animation = Style.getAnimationBase({
-      transform: 'translate3d(-15%, 0px, 0px)',
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderChildUserIcon( bootOption ){
+    const layout = Style.getLayoutInlineBlock({
+      width: '30px',
+      margin: '0px 10px 0px 0px',
     });
+    const content = {};
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderChildWatchCnt( bootOption ){
+    const layout = Style.getLayoutInlineBlock({
+      width: 'initial',
+    });
+    const content = {};
+    const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
