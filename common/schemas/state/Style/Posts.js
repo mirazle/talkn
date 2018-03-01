@@ -40,7 +40,7 @@ export default class Posts {
 
     });
     const content = Style.getContentBase({
-      lineHeight: 1.5,
+      lineHeight: 2,
       color: 'rgb(255,255,255)',
       cursor: 'pointer',
     });
