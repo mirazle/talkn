@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from "react"
 import User from 'common/schemas/state/User';
 
-
 export default class Footer extends Component {
 
   constructor(props) {

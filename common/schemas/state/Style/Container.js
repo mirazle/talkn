@@ -18,17 +18,16 @@ export default class Container{
   static get openBottom(){ return Container.footerHeight };
   static get closeBottom(){ return 0 };
   static get merginRatio(){ return 0.034 };
-  static get notifHeight(){ return 20 };
-  static get notifOpenTranslate(){ return 20 };
-  static get notifHeight(){ return 20 };
+  static get notifOpenTranslate(){ return 25 };
+  static get notifHeight(){ return 25 };
 
   static get border(){ return '1px solid rgb(220, 220, 220)' };
   static get shadow(){ return 'rgb(230, 230, 230) 0px 0px 5px 0px' };
   static get lightRGBA(){ return 'rgba(255, 255, 255, 0.96)' };
   static get calmRGBA(){ return 'rgba(250, 250, 250, 0.96)' };
   static get lightRGB(){ return 'rgb(255, 255, 255)' };
-  static get calmRGB(){ return 'rgb(250, 250, 250)' };
-  static get themeRGBA(){ return 'rgba(79, 174, 159, 0.7)' };
+  static get calmRGB(){ return 'rgb(240, 240, 240)' };
+  static get themeRGBA(){ return 'rgba(79, 174, 159, 0.8)' };
 
   static getWidthPx( bootOption ){
     return bootOption.width ?
