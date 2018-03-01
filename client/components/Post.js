@@ -37,7 +37,7 @@ export default class Post extends Component {
         </div>
 
         <div style={style.bottom}>
-          <div style={style.bottomLeft} />
+          <div style={{...style.bottomLeft, backgroundImage: `url( ${thum} )`}} />
           <div style={style.bottomRight} dangerouslySetInnerHTML={{__html: post}} />
         </div>
       </li>
