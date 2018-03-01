@@ -33,7 +33,7 @@ export default class Posts {
     const layout = Style.getLayoutBlock({
       width: '50%',
       height: Container.notifHeight,
-      margin: '0 auto',
+      margin: '15px auto',
       zIndex: '10',
       background: Container.themeRGBA,
       borderRadius: '20px',
