@@ -126,7 +126,7 @@ export default class Thread {
     const content = Style.getContentBase({
       color: 'rgb(255,255,255)',
       textAlign: 'center',
-      lineHeight: 1.5,
+      lineHeight: 2,
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase({
