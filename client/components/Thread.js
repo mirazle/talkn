@@ -22,7 +22,10 @@ export default class Thread extends Component {
 		return (
       <div style={ style.thread.self }>
         <header style={ style.thread.header }>
-          <div style={ style.thread.headerChildWatchCnt }>{thread.watchCnt}</div>
+          <div style={ style.thread.headerChildLeft }>
+            <img style={ style.thread.headerChildUserIcon } src={'//assets.talkn.io/img/userIcon.png'} />
+            <span style={ style.thread.headerChildWatchCnt }>({thread.watchCnt})</span>
+          </div>
           <div
             style={ style.thread.headerChild }
             onClick={this.handleOnClickIcon}
