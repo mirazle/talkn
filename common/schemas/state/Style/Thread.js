@@ -17,11 +17,13 @@ export default class Thread {
     const self = Thread.getSelf( bootOption );
     const header = Thread.getHeader( bootOption );
     const headerChild = Thread.getHeaderChild( bootOption );
+    const headerChildWatchCnt = Thread.getHeaderChildWatchCnt( bootOption );
     const notif = Thread.getNotif( bootOption );
     return {
       self,
       header,
       headerChild,
+      headerChildWatchCnt,
       notif,
     }
   }
@@ -111,6 +113,17 @@ export default class Thread {
     });
     const content = {};
     const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderChildWatchCnt( bootOption ){
+    const layout = Style.getLayoutBlock({
+      height: 'auto',
+    });
+    const content = {};
+    const animation = Style.getAnimationBase({
+      transform: 'translate3d(-15%, 0px, 0px)',
+    });
     return Style.get({layout, content, animation});
   }
 
