@@ -3,7 +3,7 @@ import Container from './Container';
 
 export default class Footer{
 
-  static get selfHeight(){ return 40 };
+  static get selfHeight(){ return 45 };
 
   constructor( params ){
     const { thread, bootOption } = params;
