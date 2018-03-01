@@ -12,7 +12,7 @@ export default class Thread extends Component {
 		return (
       <div style={ style.thread.self }>
         <header style={ style.thread.header }>
-          <div style={ style.thread.headerChild }>{thread.watchCnt}</div>
+          <div style={ style.thread.headerChildWatchCnt }>{thread.watchCnt}</div>
           <div style={ style.thread.headerChild }>{ HeadTab }</div>
           <div style={ style.thread.headerChild }>{ Menu }</div>
         </header>
