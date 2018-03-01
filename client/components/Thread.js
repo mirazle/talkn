@@ -4,6 +4,16 @@ import Icon from './Icon';
 
 export default class Thread extends Component {
 
+  constructor(props) {
+    super(props);
+    this.handleOnClickIcon = this.handleOnClickIcon.bind(this);
+  }
+
+  handleOnClickIcon( e ){
+    const{ user } = this.props.state;
+    this.props.onClickToggleDispThread( !user.isOpenThread );
+  }
+
  	render() {
 		const{ state, talknAPI } = this.props;
     const { app, user, thread, style } = state;
@@ -13,7 +23,12 @@ export default class Thread extends Component {
       <div style={ style.thread.self }>
         <header style={ style.thread.header }>
           <div style={ style.thread.headerChildWatchCnt }>{thread.watchCnt}</div>
-          <div style={ style.thread.headerChild }>{ HeadTab }</div>
+          <div
+            style={ style.thread.headerChild }
+            onClick={this.handleOnClickIcon}
+            >
+            { HeadTab }
+          </div>
           <div style={ style.thread.headerChild }>{ Menu }</div>
         </header>
         <main style={ style.main.self }>
