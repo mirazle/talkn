@@ -35,9 +35,9 @@ export default class Post {
   }
 
   static getUpper(){
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
+      justifyContent: 'space-between',
       height: '20px',
-      clear: 'both',
     });
     const content = Style.getContentBase({
       fontSize: '10px',
@@ -48,8 +48,7 @@ export default class Post {
 
   static getUpperLeft(){
     const layout = Style.getLayoutBlock({
-      float: 'left',
-      width: '25px',
+      margin: '0px 0px 0px 50px',
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -57,9 +56,7 @@ export default class Post {
   }
 
   static getUpperRight(){
-    const layout = Style.getLayoutBlock({
-      float: 'right',
-    });
+    const layout = Style.getLayoutBlock();
     const content = Style.getContentBase({
       fontSize: '10px',
     });

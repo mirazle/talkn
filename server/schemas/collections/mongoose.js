@@ -1,4 +1,9 @@
 export default {
+	Users: {
+		uid: { type: String, default: '' },
+		utype: { type: String, default: '' },
+		connection: { type: String, default: '/' },
+	},
 	Posts: {
 		connection: { type: String, default: '/' },
 		connections: { type: [String], default: ['/'] },
@@ -15,6 +20,7 @@ export default {
 	Threads: {
 		// Base
 		connection: { type: String, default: "/"  },
+		connections: { type: [String], default: ['/'] },
 		title: { type: String, default: "" },
 		favicon: { type: String, default: "//assets.talkn.io/icon/default.png" },
 		contentType: { type: String, default: "text/html" },
