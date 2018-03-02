@@ -8,7 +8,7 @@ export default {
 
   setUpApp: async () => {
     await Logics.db.threads.resetWatchCnt();
-    return await Logics.db.users.drop();
+    return await Logics.db.users.removeAll();
   },
 
   setUpUser: async () => {

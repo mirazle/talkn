@@ -47,7 +47,7 @@ export default class Users {
     return this.db.remove( uid );
   }
 
-  async drop(){
-    return this.db.drop();
+  async removeAll(){
+    return this.db.removeAll();
   }
 }
