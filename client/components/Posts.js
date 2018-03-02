@@ -113,15 +113,19 @@ export default class Posts extends Component {
 
   renderPostList(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ style, posts } = state;
+    const{ style, thread, posts } = state;
     let postList = [];
     if( Object.keys( posts ).length > 0 ){
       postList = Object.keys( posts ).map( ( index ) => {
         const post = posts[ index ];
+        const childCnt = post.connections.length - thread.connections.length;
+
         return (
           <Post
-            key={post._id + "_" + index}
+            key={post._id}
             {...post}
+            thread={thread}
+            childCnt={childCnt}
             style={style.post}
             talknAPI={talknAPI}
             timeago={timeago}

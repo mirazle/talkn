@@ -1,6 +1,5 @@
-import Thread from '~/../common/schemas/state/Thread';
 
-export default class Posts {
+export default class Users {
 
   constructor( db ){
     this.db = db;
@@ -26,17 +25,29 @@ export default class Posts {
     return result;
   }
 
+  async findOne( uid ){
+    const condition = {uid};
+    return await this.db.findOne( condition );
+  }
+
   async save( requestState ){
-    const connections = Thread.getConnections( requestState.thread.connection );
-    const set = {connections, ...requestState.thread, ...requestState.user };
+    const set = {...requestState.thread, ...requestState.user };
     const option = {upsert:true};
     return this.db.save( set, option );
   }
 
-  async update( requestState, posts ){
-    const condition = {connection: requestState.connection};
-    const set = { connection: requestState.connection, ...posts };
+  async update( uid, users ){
+    const condition = {uid};
+    const set = { ...users };
     const option = {upsert:true};
     return this.db.update( condition, set, option );
+  }
+
+  async remove( uid ){
+    return this.db.remove( uid );
+  }
+
+  async drop(){
+    return this.db.drop();
   }
 }

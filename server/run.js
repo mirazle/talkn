@@ -19,7 +19,7 @@ class TalknServer{
 	}
 
 	async connection( ioUser ){
-		console.log("CONNECTION " + ioUser.conn.id);
+		console.log("##### CONNECTION " + ioUser.conn.id);
 		const setting = await Actions.setUpUser();
 		Object.keys( Sequence.map ).forEach( endpoint => {
 			const oneSequence = Sequence.map[ endpoint ];

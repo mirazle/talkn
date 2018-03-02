@@ -1,11 +1,14 @@
 import Actions from '~/actions';
 import Logics from '~/logics';
 import User from '~/../common/schemas/state/User'
+import Thread from '~/../common/schemas/state/Thread'
+import Sequence from '~/../common/Sequence'
 
 export default {
 
   setUpApp: async () => {
     await Logics.db.threads.resetWatchCnt();
+    return await Logics.db.users.drop();
   },
 
   setUpUser: async () => {
@@ -22,6 +25,7 @@ export default {
   },
 
   initClientState: ( ioUser, requestState, setting ) => {
+    Logics.db.users.update( ioUser.conn.id, requestState.thread );
     Logics.io.initClientState( ioUser, requestState, setting );
     return true;
   },
@@ -37,27 +41,38 @@ export default {
     const offsetFindId = Logics.control.getOffsetFindId( posts );
     const user = {connectioned: requestState.thread.connection ,offsetFindId};
 
-    // スレッドが存在しない場合、もしくは更新が必要なスレッドの場合
+    // スレッドが存在しない場合 || 更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
-      const {title, metas, links, h1s, contentType, uri} = await Logics.html.get( requestState.thread );
-      const faviconName = Logics.favicon.getName( requestState.thread, links );
-      const faviconBinary = await Logics.favicon.request( requestState.thread, faviconName );
-      const writeResult = await Logics.fs.write( faviconName, faviconBinary );
-      let updateThread = {title, metas, links, h1s, contentType, uri, favicon: faviconName};
 
+      let updateThread = {title: '', metas: [], links: [], h1s: [], contentType: '', uri: '', favicon: ''};
+
+      if( requestState.thread.protocol !== Sequence.TALKN_PROTOCOL ){
+
+        const {title, metas, links, h1s, contentType, uri} = await Logics.html.get( requestState.thread );
+        const faviconName = Logics.favicon.getName( requestState.thread, links );
+        const faviconBinary = await Logics.favicon.request( requestState.thread, faviconName );
+        const writeResult = await Logics.fs.write( faviconName, faviconBinary );
+        updateThread = {title, metas, links, h1s, contentType, uri, favicon: faviconName};
+      }
+
+      // スレッド更新
       if( thread ){
+
         updateThread.watchCnt = updateThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
         await Logics.db.threads.update( requestState, updateThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
-
+      // スレッド新規作成
       }else{
-        updateThread = {...updateThread, watchCnt: 1};
+        const watchCnt = 1;
+        const connections = Thread.getConnections( requestState.thread.connection );
+        updateThread = {...updateThread, watchCnt, connections };
+
         let {response: thread} = await Logics.db.threads.save( requestState, updateThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
-
       }
 
     }else{
+
       if( requestState.user.offsetFindId === User.defaultOffsetFindId ){
         const addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
         thread.watchCnt = await Actions.updateThreadWatchCnt( requestState.thread.connection, addWatchCnt );
@@ -75,13 +90,18 @@ export default {
   },
 
   disconnect: async ( ioUser, requestState, setting ) => {
-    const connection = Logics.db.threads.getConnection( ioUser.handshake.headers.origin );
-    const watchCnt = await Actions.updateThreadWatchCnt( connection, -1 );
-    Logics.io.updateWatchCnt(
-      ioUser, {
-      requestState: {type: 'disconnect'},
-      thread: {watchCnt, connection}
-    });
+
+    const {response: user }  = await Logics.db.users.findOne( ioUser.conn.id );
+
+    if( user && user.connection ){
+      Logics.db.users.remove( ioUser.conn.id );
+      const watchCnt = await Actions.updateThreadWatchCnt( user.connection , -1 );
+      Logics.io.updateWatchCnt(
+        ioUser, {
+        requestState: {type: 'disconnect'},
+        thread: {watchCnt, connection: user.connection}
+      });
+    }
     return true;
   },
 }
