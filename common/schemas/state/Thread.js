@@ -1,29 +1,52 @@
 import Schema from '../Schema';
 
 export default class Thread extends Schema{
-  constructor( params = {} ){
+
+  static getDefaultThum(){
+    return '//assets.talkn.io/img/user.png';
+  }
+
+  constructor( params = {}, bootOption = {}){
     super();
 
-    const thread = Thread.isWindowObj( params ) ? Thread.constructorFromWindow( params ) : params;
+    const thread = Thread.isWindowObj( params ) ? Thread.constructorFromWindow( params, bootOption ) : params;
 
     return this.create(thread);
   }
 
-  static constructorFromWindow( window ){
-    const location = window.location ? window.location : {} ;
-    const href = location.href ? location.href : '' ;
-    const connection = Thread.getConnection( href );
-    const contentType = document.contentType ? document.contentType : '';
-    const charset = document.charset ? document.charset : '';
-    const protocol = location.protocol ? location.protocol : '';
-    const host = location.host ? location.host : '';
+  static constructorFromWindow( window, bootOption ){
+
+    const bootConnection = bootOption.connection ? bootOption.connection : false;
+
+    let location = {} ;
+    let href = '' ;
+    let connection = '/';
+    let connections = ['/'];
+    let protocol = 'talkn:';
+    let contentType = '';
+    let charset = 'UTF-8';
+
+    let host = '';
+    let thum = Thread.getDefaultThum();
+
+    if( !bootConnection ){
+      location = window.location ? window.location : {} ;
+      href = location.href ? location.href : '' ;
+      connection = Thread.getConnection( href );
+      connections = Thread.getConnections( connection );
+      protocol = location.protocol ? location.protocol : 'talkn:';
+      contentType = document.contentType ? document.contentType : '';
+      charset = document.charset ? document.charset : '';
+
+      host = location.host ? location.host : '';
+      thum = Thread.getFaviconFromWindow( window );
+    }
+
     const title = '';
     const metas = [];
     const links = [];
     const h1s = [];
     const uri = {};
-    const thum = Thread.getFaviconFromWindow( window );
-
     const layer = 0;
     const mediaIndex = [];
     const postCnt = 0;
@@ -32,8 +55,9 @@ export default class Thread extends Schema{
 
     return {
       location,
-      href,
+//      href,
       connection,
+      connections,
       contentType,
       charset,
       protocol,
@@ -57,6 +81,7 @@ export default class Thread extends Schema{
   }
 
   static getConnection( href ){
+
     if( href !== '' ){
       href = href.slice( -1 ) === '/' ? href.slice( 0, -1 ) : href ;
       href = href.replace('http:/', '');

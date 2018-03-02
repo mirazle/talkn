@@ -17,6 +17,7 @@ export default class Post extends Component {
 		const{
       style,
       talknAPI,
+      thread,
       connection,
       connections,
       createTime,
@@ -26,13 +27,15 @@ export default class Post extends Component {
       uid,
       updateTime,
       utype,
+      childCnt,
       _id,
      } = this.props;
     const timeId = this.getTimeId();
+    const childLabel = childCnt > 0 ? `( ${childCnt} child )` : '' ;
     return (
       <li style={style.self}>
         <div style={style.upper}>
-          <div style={style.upperLeft}/>
+          <div style={style.upperLeft}>{childLabel}</div>
           <time style={style.upperRight} ref={timeId} className={'timeAgo'} dateTime={ createTime }>{createTime}</time>
         </div>
 

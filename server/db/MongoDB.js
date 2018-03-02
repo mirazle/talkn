@@ -3,6 +3,7 @@ import Schemas from '../schemas';
 import conf from '~/conf';
 import Threads from '~/db/Threads';
 import Posts from '~/db/Posts';
+import Users from '~/db/Users';
 import Setting from '~/db/Setting';
 
 class MongoDB {
@@ -17,6 +18,7 @@ class MongoDB {
       Setting: new Setting( con ),
       Threads: new Threads( con ),
       Posts: new Posts( con ),
+      Users: new Users( con ),
     }
   }
 

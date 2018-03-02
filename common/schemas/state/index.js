@@ -19,7 +19,7 @@ export default class State{
 		this.posts = new Posts();
 		this.analyze = new Analyze();
     this.bootOption = new BootOption( attributes );
-    this.thread = new Thread( window );
+    this.thread = new Thread( window, this.bootOption );
     this.setting = new Setting();
     this.style = new Style( this );
   }

@@ -4,6 +4,10 @@ const state = new State();
 
 export default class Sequence {
 
+  static get TALKN_PROTOCOL(){
+    return 'talkn:';
+  }
+
   static get CATCH_ME_KEY(){
     return '@CATCH_ME';
   }
@@ -41,21 +45,29 @@ export default class Sequence {
       initClientState: {
         toSelfEmit: true,
         requestPublicState: {},
-        requestPrivateState: {},
+        requestPrivateState: {
+          'thread': [{columnName: 'connection'}]
+        },
         responseEmitState: { 'user': ['uid'], 'setting': '*'},
         responseBroadcastState: {},
       },
       find: {
         toSelfEmit: true,
         requestPublicState: {'thread': [{columnName: 'connection'}]},
-        requestPrivateState: {'thread': [{columnName: 'protocol'}, {columnName: 'host'}], 'user': [{columnName: 'offsetFindId'}, {columnName: 'connectioned'}]},
+        requestPrivateState: {
+          'thread': [{columnName: 'protocol'}, {columnName: 'host'}],
+          'user': [{columnName: 'offsetFindId'}, {columnName: 'connectioned'}, {columnName: 'uid'}, {columnName: 'utype'}]
+        },
         responseEmitState: {'posts': '*', 'thread': '*', 'user': ['offsetFindId', 'connectioned']},
         responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       },
       post: {
         toSelfEmit: false,
         requestPublicState: {'user': [{columnName: 'post', valid: User.validPost }]},
-        requestPrivateState: {'user':[{columnName: 'uid'},{columnName: 'utype'}], 'thread': [{columnName: 'connection'}, {columnName: 'thum'}]},
+        requestPrivateState: {
+          'user':[{columnName: 'uid'},{columnName: 'utype'}],
+          'thread': [{columnName: 'connection'},{columnName: 'connections'}, {columnName: 'thum'}]
+        },
         responseEmitState: {},
         responseBroadcastState: {'posts': '*'},
       },
@@ -90,7 +102,15 @@ export default class Sequence {
           if( !valid || !valid( value ) ){
 
             if( !requestState[ stateKey ][ columnName ] ){
-              requestState[ stateKey ][ columnName ] = reduxState[ stateKey ][ columnName ];
+
+              let value = reduxState[ stateKey ][ columnName ];
+              if( !reduxState[ stateKey ][ columnName ] &&
+                  requestParams[ stateKey ] &&
+                  requestParams[ stateKey ][ columnName ] ){
+                value = requestParams[ stateKey ][ columnName ];
+              }
+
+              requestState[ stateKey ][ columnName ] = value;
             }
           }
         });
