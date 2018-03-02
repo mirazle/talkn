@@ -8,7 +8,7 @@ export default class Users {
     this.save = this.save.bind(this);
     this.update = this.update.bind(this);
     this.remove = this.remove.bind(this);
-    this.drop = this.drop.bind(this);
+    this.removeAll = this.removeAll.bind(this);
     return this;
   }
 
@@ -58,9 +58,9 @@ export default class Users {
     });
   }
 
-  drop(){
+  removeAll(){
     return new Promise( resolve => {
-      this.db.collection.drop(( error, response ) => {
+      this.db.remove({}, ( error, response ) => {
         if(error) console.warn( error );
         resolve({response, error});
       });
