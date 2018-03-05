@@ -35,13 +35,17 @@ export default class Post extends Component {
     return (
       <li style={style.self}>
         <div style={style.upper}>
-          <div style={style.upperLeft}>{childLabel}</div>
-          <time style={style.upperRight} ref={timeId} className={'timeAgo'} dateTime={ createTime }>{createTime}</time>
+          <span style={style.upperSpace} />
+
+          <span style={style.upperRight}>
+            <div style={style.upperChild}>{childLabel}</div>
+            <time style={style.upperTimeago} ref={timeId} className={'timeAgo'} dateTime={ createTime }>{createTime}</time>
+          </span>
         </div>
 
         <div style={style.bottom}>
-          <div style={{...style.bottomLeft, backgroundImage: `url( ${thum} )`}} />
-          <div style={style.bottomRight} dangerouslySetInnerHTML={{__html: post}} />
+          <span style={{...style.bottomIcon, backgroundImage: `url( ${thum} )`}} />
+          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post}} />
         </div>
       </li>
 		);
