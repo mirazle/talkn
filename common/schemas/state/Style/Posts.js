@@ -30,7 +30,6 @@ export default class Posts {
   static getOl( bootOption ){
     const layout = Style.getLayoutBlock({
       height: `calc( 100% - ${Thread.headerHeight}px )`,
-      padding: '10px 10px 10px 20px',
       overflow: 'scroll',
       background: Container.lightRGBA,
     });

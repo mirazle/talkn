@@ -65,9 +65,7 @@ export default class Post {
   }
 
   static getBottom(){
-    const layout = Style.getLayoutBlock({
-      clear: 'both',
-    });
+    const layout = Style.getLayoutFlex();
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
@@ -75,9 +73,9 @@ export default class Post {
 
   static getBottomLeft(){
     const layout = Style.getLayoutBlock({
-      float: 'left',
+      flexGrow:  1,
       width: '25px',
-      height: '40px',
+      height: '25px',
       backgroundImage: 'url("http://localhost:8080/favicon.ico")',
       backgroundPosition: '50% 50%',
       backgroundSize: '20px 20px',
@@ -90,9 +88,7 @@ export default class Post {
 
   static getBottomRight(){
     const layout = Style.getLayoutBlock({
-      float: 'right',
-      marginLeft: '20px',
-      width: 'calc( 100% - 45px)',
+      flexGrow:  5,
       background: Container.themeRGBA,
       padding: '20px 20px 20px 25px',
       borderRadius: '10px',
