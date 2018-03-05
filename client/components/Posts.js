@@ -97,7 +97,7 @@ export default class Posts extends Component {
 
     if( Object.keys( posts ).length > 0 ){
 
-      if( Object.keys( posts ).length < thread.postCnt ){
+      if( Object.keys( posts ).length < thread.multiPostCnt ){
         return (
           <li
             style={style.posts.more}
@@ -139,14 +139,13 @@ export default class Posts extends Component {
  	render() {
     const { style } = this.props.state;
 		return (
-      <ol
-        ref="thread"
-        style={ style.posts.self }
-        onScroll={this.handleOnScroll}
-      >
-        {this.renderGetMore()}
-        {this.renderPostList()}
-      </ol>
+      <li ref="thread" style={ style.posts.self } onScroll={this.handleOnScroll}>
+        <ol style={ style.posts.ol }>
+          {this.renderGetMore()}
+          {this.renderPostList()}
+        </ol>
+        <div style={style.thread.notif}>NEW POST</div>
+      </li>
 		);
  	}
 }

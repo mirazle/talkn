@@ -7,6 +7,14 @@ export default class Posts {
     return this;
   }
 
+  async getCounts( connection ){
+    const condition = {connection};
+    const multiCondition = {connections: connection};
+    const {response: postCnt} = await this.db.count( condition );
+    const {response: multiPostCnt} = await this.db.count( multiCondition );
+    return {postCnt, multiPostCnt};
+  }
+
   async count( requestState ){
     const condition = {
       connection: requestState.thread.connection,
