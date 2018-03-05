@@ -9,6 +9,15 @@ export default class Posts {
     return this;
   }
 
+  count(condition){
+    return new Promise( resolve => {
+      this.db.count( condition, (error, response) => {
+        if(error) console.warn( error );
+        resolve({error, response});
+      });
+    });
+  }
+
   find(condition, selector, option){
     return new Promise( resolve => {
       this.db.find( condition, selector, option, (error, response) => {

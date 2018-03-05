@@ -33,13 +33,15 @@ export default {
   find: async ( ioUser, requestState, setting ) => {
 
     // リクエストのあったスレッドを取得する
-    let {response: thread} = await Logics.db.threads.findOne(requestState.thread.connection);
+    const connection = requestState.thread.connection;
+    let {response: thread} = await Logics.db.threads.findOne( connection );
     const isUpdatableThread = Logics.db.threads.isUpdatableThread(thread, setting);
 
     // リクエストのあった投稿内容を取得する
-    let {response: posts} = await Logics.db.posts.find(requestState, setting );
+    const {postCnt, multiPostCnt} = await Logics.db.posts.getCounts( connection );
+    const {response: posts} = await Logics.db.posts.find(requestState, setting );
     const offsetFindId = Logics.control.getOffsetFindId( posts );
-    const user = {connectioned: requestState.thread.connection ,offsetFindId};
+    const user = {connectioned: connection ,offsetFindId};
 
     // スレッドが存在しない場合 || 更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
@@ -58,26 +60,33 @@ export default {
       // スレッド更新
       if( thread ){
 
+        updateThread.postCnt = postCnt;
+        updateThread.multiPostCnt = multiPostCnt;
         updateThread.watchCnt = updateThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
         await Logics.db.threads.update( requestState, updateThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
+
       // スレッド新規作成
       }else{
+
         const watchCnt = 1;
-        const connections = Thread.getConnections( requestState.thread.connection );
-        updateThread = {...updateThread, watchCnt, connections };
+        const connections = Thread.getConnections( connection );
+        updateThread = {...updateThread, watchCnt, connections, postCnt, multiPostCnt };
 
         let {response: thread} = await Logics.db.threads.save( requestState, updateThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
 
+    // スレッドが存在して、更新も必要ない場合
     }else{
 
       if( requestState.user.offsetFindId === User.defaultOffsetFindId ){
         const addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
-        thread.watchCnt = await Actions.updateThreadWatchCnt( requestState.thread.connection, addWatchCnt );
+        thread.watchCnt = await Actions.updateThreadWatchCnt( connection, addWatchCnt );
       }
 
+      thread.postCnt = postCnt;
+      thread.multiPostCnt = multiPostCnt;
       Logics.io.find( ioUser, {requestState, thread, posts, user} );
     }
   },

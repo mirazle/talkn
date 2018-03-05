@@ -6,9 +6,11 @@ export default class Posts {
   constructor( params ){
     const { bootOption } = params;
     const self = Posts.getSelf( bootOption );
+    const ol = Posts.getOl( bootOption );
     const more = Posts.getMore( bootOption );
     return {
       self,
+      ol,
       more,
     }
   }
@@ -16,6 +18,16 @@ export default class Posts {
   static get headerHeight(){ return 35 };
 
   static getSelf( bootOption ){
+    const layout = Style.getLayoutInlineBlock({
+      width: '100%',
+      WebkitOverflowScrolling: 'touch',
+    });
+    const content = {};
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getOl( bootOption ){
     const layout = Style.getLayoutBlock({
       height: `calc( 100% - ${Thread.headerHeight}px )`,
       padding: '10px 10px 10px 20px',
