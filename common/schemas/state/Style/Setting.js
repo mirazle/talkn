@@ -16,7 +16,7 @@ export default class Setting {
     const layout = Style.getLayoutBlock({
       width: '100%',
       WebkitOverflowScrolling: 'touch',
-      background: 'rgba(250, 250, 250, 1)',
+      background: 'rgba(240, 240, 240, 1)',
       overflow: 'scroll',
     });
     const content = {};
