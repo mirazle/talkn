@@ -50,6 +50,7 @@ export default class Thread extends Schema{
     const layer = 0;
     const mediaIndex = [];
     const postCnt = 0;
+    const multiPostCnt = 0;
     const createTime = '';
     const updateTime = '';
 
@@ -71,6 +72,7 @@ export default class Thread extends Schema{
       layer,
       mediaIndex,
       postCnt,
+      multiPostCnt,
       createTime,
       updateTime,
     }

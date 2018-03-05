@@ -1,78 +1,43 @@
 import React, { Component, PropTypes } from "react"
-import ReactDOM from 'react-dom'
-import Post from './Post';
+import Posts from './Posts';
+import Icon from './Icon';
 
 export default class Main extends Component {
 
-  componentDidMount(){
-    const scrollHeight = this.refs.posts.scrollHeight;
-    console.log( scrollHeight );
-    this.scrollTo( this.refs.posts, scrollHeight, 0 )
+  constructor(props) {
+    super(props);
+    this.handleOnClickIcon = this.handleOnClickIcon.bind(this);
   }
 
-  componentDidUpdate(){
-    const { actionLog } = this.props.state;
-    switch( actionLog[ 0 ] ){
-    case 'SERVER_TO_CLIENT[BROADCAST]:post':
-      const scrollHeight = this.refs.posts.scrollHeight;
-      this.scrollTo( this.refs.posts, scrollHeight, 1000 )
-      break;
-    default:
-      break;
-    }
-  }
-
-  scrollTo(element, to, duration) {
-    let start = element.scrollTop;
-    let change = to - start;
-    let currentTime = 0;
-    let increment = 20;
-
-    const animateScroll = ()　=>　{
-      currentTime += increment;
-      element.scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);;
-      if(currentTime < duration) setTimeout(animateScroll, increment);
-    };
-    animateScroll();
-  }
-
-  renderPosts(){
-		const{ state, talknAPI, timeago } = this.props;
-    const{ style, posts } = state;
-    let postList = [];
-    if( Object.keys( posts ).length > 0 ){
-      postList = Object.keys( posts ).map( ( index ) => {
-        const post = posts[ index ];
-        if( post._id ){
-          return <Post
-            key={post._id}
-            {...post}
-            style={style.post}
-            talknAPI={talknAPI}
-            timeago={timeago}
-          />;
-        }
-      });
-    }
-    return (
-      <ol
-        ref="posts"
-        style={ style.main.body }>
-        {postList}
-      </ol>
-    );
+  handleOnClickIcon( e ){
+    const{ user } = this.props.state;
+    this.props.onClickToggleDispThread( !user.isOpenThread );
   }
 
  	render() {
 		const{ state, talknAPI } = this.props;
-    const { app, user, style } = state;
+    const { app, user, thread, style } = state;
+    const MenuIcon = Icon.getMenu();
+    const HeadTabIcon = Icon.getHeadTab();
 		return (
-      <main
-        style={ style.main.self }
-        refs={"Main"}
-        >
-        <header style={ style.main.header } />
-        {this.renderPosts()}
+      <main style={ style.thread.self }>
+        <header style={ style.thread.header }>
+          <div style={ style.thread.headerChildLeft }>
+            <img style={ style.thread.headerChildUserIcon } src={'//assets.talkn.io/img/userIcon.png'} />
+            <span style={ style.thread.headerChildWatchCnt }>({thread.watchCnt})</span>
+          </div>
+          <div
+            style={ style.thread.headerChild }
+            onClick={this.handleOnClickIcon}
+            >
+            { HeadTabIcon }
+          </div>
+          <div style={ style.thread.headerChild }>{ MenuIcon }</div>
+        </header>
+
+        <ol style={ style.main.screen }>
+          <Posts {...this.props} />
+        </ol>
       </main>
 		);
  	}

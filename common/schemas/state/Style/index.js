@@ -1,6 +1,7 @@
 import Container from './Container';
 import Thread from './Thread';
 import Footer from './Footer';
+import Setting from './Setting';
 import Main from './Main';
 import Posts from './Posts';
 import Post from './Post';
@@ -10,6 +11,7 @@ export default class Style{
     const container = new Container( params );
     const thread = new Thread( params );
     const footer = new Footer( params );
+    const setting = new Setting( params );
     const main = new Main( params );
     const posts = new Posts( params );
     const post = new Post( params );
@@ -17,6 +19,7 @@ export default class Style{
       container,
       thread,
       footer,
+      setting,
       main,
       posts,
       post,
