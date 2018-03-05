@@ -6,10 +6,16 @@ export default {
       user: {inputPost},
     };
   },
-  onClickToggleDispThread: ( isOpenThread ) => {
+  onClickToggleDispMain: ( isOpenMain ) => {
     return {
-      type: 'ON_CLICK_TOGGLE_DISP_THREAD',
-      user: {isOpenThread},
+      type: 'ON_CLICK_TOGGLE_DISP_MAIN',
+      user: {isOpenMain},
+    };
+  },
+  handleOnClickDispSetting: ( isOpenSetting ) => {
+    return {
+      type: 'ON_CLICK_TOGGLE_DISP_SETTING',
+      user: {isOpenSetting},
     };
   },
 }

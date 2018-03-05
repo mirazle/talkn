@@ -14,7 +14,8 @@ export default class User extends Schema{
     const offsetFindId = params.offsetFindId ? params.offsetFindId : User.defaultOffsetFindId ;
     const post = params.post ? params.post : '';
     const inputSearch = params.inputSearch ? params.inputSearch : '';
-    const isOpenThread = params.isOpen ? params.isOpen : false;
+    const isOpenMain = params.isOpen ? params.isOpen : false;
+    const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     return this.create({
       uid,
@@ -23,7 +24,8 @@ export default class User extends Schema{
       offsetFindId,
       post: {value: post},
       inputSearch,
-      isOpenThread,
+      isOpenMain,
+      isOpenSetting,
       isOpenNotif,
     });
   }

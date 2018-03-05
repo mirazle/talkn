@@ -138,7 +138,7 @@ export default class Schema {
   merge( obj = {} ){
     try{
       if( Object.keys( obj ).length > 0 ){
-        const mergedObj = new this.constructor({...this});
+        let mergedObj = this;
         Object.keys( obj ).forEach( ( key ) => {
           if( this[ key ] !== obj[ key ]){
             if(this.canSet( key, obj[ key ] )){

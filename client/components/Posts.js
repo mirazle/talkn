@@ -23,7 +23,6 @@ export default class Posts extends Component {
 
   componentDidUpdate(){
     const { actionLog } = this.props.state;
-
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
       const { isScrollBottom } = this.state;
@@ -139,13 +138,13 @@ export default class Posts extends Component {
  	render() {
     const { style } = this.props.state;
 		return (
-      <li ref="thread" style={ style.posts.self } onScroll={this.handleOnScroll}>
-        <ol style={ style.posts.ol }>
+      <div style={ style.posts.self } >
+        <ol ref="thread" onScroll={this.handleOnScroll} style={ style.posts.ol }>
           {this.renderGetMore()}
           {this.renderPostList()}
         </ol>
         <div style={style.thread.notif}>NEW POST</div>
-      </li>
+      </div>
 		);
  	}
 }
