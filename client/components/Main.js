@@ -1,17 +1,26 @@
 import React, { Component, PropTypes } from "react"
 import Posts from './Posts';
+import Setting from './Setting';
 import Icon from './Icon';
 
 export default class Main extends Component {
 
   constructor(props) {
     super(props);
-    this.handleOnClickIcon = this.handleOnClickIcon.bind(this);
+    this.handleOnClickHeadTabIcon = this.handleOnClickHeadTabIcon.bind(this);
+    this.handleOnClickUserIcon = this.handleOnClickUserIcon.bind(this);
   }
 
-  handleOnClickIcon( e ){
+  handleOnClickUserIcon( e ){
     const{ user } = this.props.state;
-    this.props.onClickToggleDispThread( !user.isOpenThread );
+    const isOpenSetting = user.isOpenSetting ? false : true ;
+    this.props.handleOnClickDispSetting( isOpenSetting );
+  }
+
+  handleOnClickHeadTabIcon( e ){
+    const{ user } = this.props.state;
+    const isOpenMain = user.isOpenMain ? false : true ;
+    this.props.onClickToggleDispMain( isOpenMain );
   }
 
  	render() {
@@ -25,14 +34,17 @@ export default class Main extends Component {
 		return (
       <main style={ style.thread.self }>
         <header style={ style.thread.header }>
-          <div style={ style.thread.headerChildLeft }>
+          <div
+            style={ style.thread.headerChildLeft }
+            onClick={this.handleOnClickUserIcon}
+          >
             <img style={ style.thread.headerChildUserIcon } src={'//assets.talkn.io/img/userIcon.png'} />
             <span style={ style.thread.headerChildWatchCnt }>({thread.watchCnt})</span>
           </div>
           <div
             style={ style.thread.headerChild }
-            onClick={this.handleOnClickIcon}
-            >
+            onClick={this.handleOnClickHeadTabIcon}
+          >
             { HeadTabIcon }
           </div>
           <div style={ style.thread.headerChild }>
@@ -40,9 +52,10 @@ export default class Main extends Component {
           </div>
         </header>
 
-        <ol style={ style.main.screen }>
+        <div style={ style.main.screen }>
+          <Setting {...this.props} />
           <Posts {...this.props} />
-        </ol>
+        </div>
       </main>
 		);
  	}

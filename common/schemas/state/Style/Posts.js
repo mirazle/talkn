@@ -18,7 +18,7 @@ export default class Posts {
   static get headerHeight(){ return 35 };
 
   static getSelf( bootOption ){
-    const layout = Style.getLayoutInlineBlock({
+    const layout = Style.getLayoutBlock({
       width: '100%',
       WebkitOverflowScrolling: 'touch',
     });

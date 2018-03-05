@@ -11,6 +11,8 @@ export default class Main {
   static get notifOpenTranslate(){ return 20 };
   static get notifHeight(){ return 20 };
   static get widthRatio(){ return 0.94 };
+  static get closeSettingTransform(){ return 'translate3d(-50%, 0px, 0px)' };
+  static get openSettingTransform(){ return 'translate3d(calc( -50% + 300px), 0px, 0px)'};
 
   constructor( params ){
     const { thread, bootOption } = params;
@@ -72,17 +74,6 @@ export default class Main {
 
   static getSelfTranslateY( heightPx ){
     return heightPx;
-  }
-
-
-  static getScreen( bootOption ){
-    const layout = Style.getLayoutInlineBlock({
-      width: '100%',
-      WebkitOverflowScrolling: 'touch',
-    });
-    const content = {};
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
   }
 
   static getSelf( bootOption ){
@@ -183,12 +174,15 @@ export default class Main {
   }
 
   static getScreen( bootOption ){
-    const layout = Style.getLayoutBlock({
-      width: 'auto',
+    const layout = Style.getLayoutFlex({
+      width: '200%',
       height: 'inherit',
     });
     const content = Style.getContentBase();
-    const animation = Style.getAnimationBase();
+    const animation = Style.getAnimationBase({
+      transform: Main.closeSettingTransform,
+      transition: '600ms',
+    });
     return Style.get({layout, content, animation});
   }
 }

@@ -3,22 +3,29 @@ import Container from './Container';
 import Thread from './Thread';
 
 export default class Post {
+
+  static get iconSize(){ return '25px' };
+
   constructor( params ){
     const self = Post.getSelf();
     const upper = Post.getUpper();
-    const upperLeft = Post.getUpperLeft();
+    const upperSpace = Post.getUpperSpace();
     const upperRight = Post.getUpperRight();
+    const upperChild = Post.getUpperChild();
+    const upperTimeago = Post.getUpperTimeago();
     const bottom = Post.getBottom();
-    const bottomLeft = Post.getBottomLeft();
-    const bottomRight = Post.getBottomRight();
+    const bottomIcon = Post.getBottomIcon();
+    const bottomPost = Post.getBottomPost();
     return {
       self,
       upper,
-      upperLeft,
+      upperSpace,
       upperRight,
+      upperChild,
+      upperTimeago,
       bottom,
-      bottomLeft,
-      bottomRight,
+      bottomIcon,
+      bottomPost,
     }
   }
 
@@ -26,7 +33,6 @@ export default class Post {
     const layout = Style.getLayoutBlock({
       width: 'initial',
       height: 'initial',
-      clear: 'both',
       margin: '20px 20px 20px 0px',
     });
     const content = Style.getContentBase();
@@ -46,9 +52,10 @@ export default class Post {
     return Style.get({layout, content, animation});
   }
 
-  static getUpperLeft(){
+  static getUpperSpace(){
     const layout = Style.getLayoutBlock({
-      margin: '0px 0px 0px 50px',
+      width: Post.iconSize,
+      flexGrow: 1,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -56,8 +63,32 @@ export default class Post {
   }
 
   static getUpperRight(){
-    const layout = Style.getLayoutBlock();
+    const layout = Style.getLayoutFlex({
+      flexGrow: 5,
+    });
+    const content = Style.getContentBase();
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getUpperChild(){
+    const layout = Style.getLayoutBlock({
+      flexGrow: 1,
+    });
     const content = Style.getContentBase({
+      textAlign: 'left',
+      textIndent: '25px',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getUpperTimeago(){
+    const layout = Style.getLayoutBlock({
+      flexGrow: 4,
+    });
+    const content = Style.getContentBase({
+      textAlign: 'right',
       fontSize: '10px',
     });
     const animation = Style.getAnimationBase();
@@ -71,11 +102,11 @@ export default class Post {
     return Style.get({layout, content, animation});
   }
 
-  static getBottomLeft(){
+  static getBottomIcon(){
     const layout = Style.getLayoutBlock({
       flexGrow:  1,
-      width: '25px',
-      height: '25px',
+      width: Post.iconSize,
+      height: Post.iconSize,
       backgroundImage: 'url("http://localhost:8080/favicon.ico")',
       backgroundPosition: '50% 50%',
       backgroundSize: '20px 20px',
@@ -86,7 +117,7 @@ export default class Post {
     return Style.get({layout, content, animation});
   }
 
-  static getBottomRight(){
+  static getBottomPost(){
     const layout = Style.getLayoutBlock({
       flexGrow:  5,
       background: Container.themeRGBA,
