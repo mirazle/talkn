@@ -1,16 +1,36 @@
 import Container from 'common/schemas/state/Style/Container';
 import Thread from 'common/schemas/state/Style/Thread';
 import Footer from 'common/schemas/state/Style/Footer';
+import Icon from 'common/schemas/state/Style/Icon';
 
 export default ( state = {} , action ) => {
 
 	switch( action.type ){
 	case 'ON_CLICK_TOGGLE_DISP_THREAD':
-		let threadTranslateY = action.user.isOpenThread ?
-			( -Footer.selfHeight ) + 'px':
-			Thread.getSelfHeightPx();
+		let threadTranslateY;
+		let headTabLeftTransform;
+		let headTabRightTransform;
+		if(action.user.isOpenThread){
+			threadTranslateY = ( -Footer.selfHeight ) + 'px';
+			headTabLeftTransform = Icon.getHeadTabLeftOpenTransform;
+			headTabRightTransform = Icon.getHeadTabRightOpenTransform;
+		}else{
+			threadTranslateY = Thread.getSelfHeightPx();
+			headTabLeftTransform = Icon.getHeadTabLeftCloseTransform;
+			headTabRightTransform = Icon.getHeadTabRightCloseTransform;
+		}
 
 		return {...state,
+			icon: {...state.icon,
+				headTab: {...state.icon.headTab,
+					left: {...state.icon.headTab.left,
+						transform: headTabLeftTransform,
+					},
+					right: {...state.icon.headTab.right,
+						transform: headTabRightTransform,
+					},
+				}
+			},
 			thread: {...state.thread,
 				self: {...state.thread.self,
 					transform: `translate3d(0px, ${threadTranslateY}, 0px )`,

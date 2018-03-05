@@ -17,8 +17,11 @@ export default class Main extends Component {
  	render() {
 		const{ state, talknAPI } = this.props;
     const { app, user, thread, style } = state;
-    const MenuIcon = Icon.getMenu();
-    const HeadTabIcon = Icon.getHeadTab();
+
+    const { icon } = style;
+    const MenuIcon = Icon.getMenu( icon.menu );
+    const HeadTabIcon = Icon.getHeadTab( icon.headTab );
+
 		return (
       <main style={ style.thread.self }>
         <header style={ style.thread.header }>
@@ -32,7 +35,9 @@ export default class Main extends Component {
             >
             { HeadTabIcon }
           </div>
-          <div style={ style.thread.headerChild }>{ MenuIcon }</div>
+          <div style={ style.thread.headerChild }>
+            { MenuIcon }
+          </div>
         </header>
 
         <ol style={ style.main.screen }>

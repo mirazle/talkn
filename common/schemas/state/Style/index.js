@@ -5,6 +5,7 @@ import Setting from './Setting';
 import Main from './Main';
 import Posts from './Posts';
 import Post from './Post';
+import Icon from './Icon';
 
 export default class Style{
   constructor( params ){
@@ -15,6 +16,7 @@ export default class Style{
     const main = new Main( params );
     const posts = new Posts( params );
     const post = new Post( params );
+    const icon = new Icon( params );
     return {
       container,
       thread,
@@ -23,6 +25,7 @@ export default class Style{
       main,
       posts,
       post,
+      icon,
     };
   }
 
@@ -64,6 +67,7 @@ export default class Style{
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      flexDirection: 'row',
     });
     return { ...blockLayout, ...style };
   }
