@@ -32,6 +32,7 @@ export default class Detail {
       background: Container.lightRGBA,
       border: Container.border,
       borderRadius: '12px',
+      WebkitOverflowScrolling: 'touch',
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
