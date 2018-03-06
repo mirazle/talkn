@@ -10,10 +10,16 @@ export default class Icon {
     const headTab = Icon.getHeadTab( bootOption );
     const menu = Icon.getMenu( bootOption );
     const detail = Icon.getDetail( bootOption );
+    const heart = Icon.getHeart( bootOption );
+    const share = Icon.getShare( bootOption );
+    const money = Icon.getMoney( bootOption );
     return {
       headTab,
       menu,
       detail,
+      heart,
+      share,
+      money,
     }
   }
 
@@ -131,5 +137,178 @@ export default class Icon {
       }),
     });
     return {div,left,right, ...bootOption};
+  }
+
+  static getHeart( bootOption = {}){
+
+    const div = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        width: '34px',
+        height: '34px',
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({
+        transform: 'rotate(-45deg) translate3d(10px, 5px, 0px)',
+      }),
+    });
+
+    const before = Style.get({
+      layout: Style.getLayoutBase({
+        width: '10px',
+        height: '18px',
+        borderRadius: '10px 10px 0 0',
+        background: Container.reliefRGB,
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({}),
+    });
+
+    const after = Style.get({
+      layout: Style.getLayoutBase({
+        width: '18px',
+        height: '10px',
+        borderRadius: '0 10px 10px 0',
+        background: Container.reliefRGB,
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(0px, -10px, 0px)',
+      }),
+    });
+    return {div, before, after};
+  }
+
+
+  static getShare( bootOption = {}){
+
+    const div = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        width: '34px',
+        height: '34px',
+        margin: '0 auto',
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({}),
+    });
+
+    const base = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: 'absolute',
+        top: '11px',
+        left: '9px',
+        width: '16px',
+        height: '15px',
+        margin: '0 auto',
+        border: `2px solid ${Container.reliefRGB}`,
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(0px, 0px, 0px)',
+      }),
+    });
+
+    const bar = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: 'absolute',
+        top: '6px',
+        left: '16px',
+        width: '2px',
+        height: '12px',
+        margin: '0 auto',
+        background: Container.reliefRGB,
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({}),
+    });
+
+    const whiteBar1 = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: 'absolute',
+        width: '2px',
+        height: '4px',
+        top: '10px',
+        left: '14px',
+        margin: '0 auto',
+        background: 'rgb(250, 250, 250)',
+        zIndex: 100,
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({}),
+    });
+
+    const whiteBar2 = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: 'absolute',
+        width: '2px',
+        height: '4px',
+        top: '10px',
+        left: '18px',
+        margin: '0 auto',
+        background: 'rgb(250, 250, 250)',
+        zIndex: 100,
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({}),
+    });
+
+    const arrow = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: 'absolute',
+        top: '5px',
+        left: '13px',
+        width: '8px',
+        height: '8px',
+        borderTop: `2px solid ${Container.reliefRGB}`,
+        borderRight: `2px solid ${Container.reliefRGB}`,
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({
+        transform: 'rotate( -45deg)',
+      }),
+    });
+    return {div, base, whiteBar1, whiteBar2, bar, arrow};
+  }
+
+
+  static getMoney( bootOption = {}){
+
+    const div = Style.get({
+      layout: Style.getLayoutBlock({
+        margin: '0 auto',
+        width: '24px',
+        height: '24px',
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(0px, 3px, 0px)',
+      }),
+    });
+
+    const outer = Style.get({
+      layout: Style.getLayoutBlock({
+        margin: '0 auto',
+        width: '24px',
+        height: '24px',
+        borderRadius: '24px',
+        border: `2px solid ${Container.reliefRGB}`,
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({}),
+    });
+
+    const inner = Style.get({
+      layout: Style.getLayoutBlock({
+        margin: '0 auto',
+        width: '8px',
+        height: '8px',
+        borderRadius: '8px',
+        border: `2px solid ${Container.reliefRGB}`,
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(0px, 6px, 0px)',
+      }),
+    });
+    return {div, outer, inner};
   }
 }

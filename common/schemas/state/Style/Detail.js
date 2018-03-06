@@ -84,7 +84,7 @@ export default class Detail {
   static getFooterChild( bootOption ){
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
-      height: 'auto',
+      height: '100%',
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react"
 import User from 'common/schemas/state/User';
+import Icon from './Icon';
 
 export default class Setting extends Component {
 
@@ -17,6 +18,12 @@ export default class Setting extends Component {
  	render() {
     const { style, user, setting } = this.props.state;
     const childrenThreadViewLabel = user.childrenThreadView ? 'ON' : 'OFF';
+
+    const { icon } = style;
+    const HeartIcon = Icon.getHeart( icon.heart );
+    const ShareIcon = Icon.getShare( icon.share );
+    const MoneyIcon = Icon.getMoney( icon.money );
+
 		return (
       <div style={ style.detail.self }>
         <header style={ style.detail.header }></header>
@@ -90,9 +97,18 @@ export default class Setting extends Component {
           ACTION4<br />
         </div>
         <footer style={ style.detail.footer }>
-          <div style={ style.detail.footerChild }>ハート</div>
-          <div style={ style.detail.footerChild }>シェア</div>
-          <div style={ style.detail.footerChild }>投げ銭</div>
+          <div style={ style.detail.footerChild }>
+            { HeartIcon }
+            <div>LIKE</div>
+          </div>
+          <div style={ style.detail.footerChild }>
+            { ShareIcon }
+            <div>SHARE</div>
+          </div>
+          <div style={ style.detail.footerChild }>
+            { MoneyIcon }
+            <div>MONEY</div>
+          </div>
         </footer>
       </div>
 		);
