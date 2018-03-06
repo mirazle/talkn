@@ -28,6 +28,7 @@ export default class Container{
   static get calmRGBA(){ return 'rgba(250, 250, 250, 0.96)' };
   static get lightRGB(){ return 'rgb(255, 255, 255)' };
   static get calmRGB(){ return 'rgb(240, 240, 240)' };
+  static get reliefRGB(){ return 'rgb(180, 180, 180)' };
   static get themeRGBA(){ return 'rgba(79, 174, 159, 0.8)' };
 
   static getWidthPx( bootOption ){
