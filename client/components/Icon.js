@@ -32,4 +32,35 @@ export default class Icon extends Component{
       </div>
     );
   }
+
+  static getHeart( style ){
+    return (
+      <div style={ style.div }>
+        <div style={ style.before }></div>
+        <div style={ style.after }></div>
+      </div>
+    );
+  }
+
+  static getShare( style ){
+    return (
+      <div style={ style.div }>
+        <div style={ style.arrow }></div>
+        <div style={ style.bar }></div>
+        <div style={ style.whiteBar1 }></div>
+        <div style={ style.whiteBar2 }></div>
+        <div style={ style.base }></div>
+      </div>
+    );
+  }
+
+  static getMoney( style ){
+    return (
+      <div style={ style.div }>
+        <div style={ style.outer }>
+          <div style={ style.inner }></div>
+        </div>
+      </div>
+    );
+  }
 }
