@@ -8,11 +8,13 @@ export default class Setting {
   constructor( params ){
     const { bootOption } = params;
     const self = Setting.getSelf( bootOption );
+    const scroll = Setting.getScroll( bootOption );
     const columns = Setting.getColumns( bootOption );
     const column = Setting.getColumn( bootOption );
     const columnLast = Setting.getColumnLast( bootOption );
     return {
       self,
+      scroll,
       columns,
       column,
       columnLast
@@ -28,6 +30,15 @@ export default class Setting {
       background: Container.calmRGB,
       overflow: 'scroll',
       borderRight: Container.border,
+    });
+    const content = {};
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getScroll( bootOption ){
+    const layout = Style.getLayoutBlock({
+      overflow: 'scroll',
     });
     const content = {};
     const animation = Style.getAnimationBase();
