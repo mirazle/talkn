@@ -1,6 +1,7 @@
 import Style from './index';
 import Container from './Container';
 import Footer from './Footer';
+import Setting from './Setting';
 import util from './../../../util';
 
 export default class Main {
@@ -11,25 +12,29 @@ export default class Main {
   static get notifOpenTranslate(){ return 20 };
   static get notifHeight(){ return 20 };
   static get widthRatio(){ return 0.94 };
-  static get closeSettingTransform(){ return 'translate3d(-50%, 0px, 0px)' };
-  static get openSettingTransform(){ return 'translate3d(calc( -50% + 300px), 0px, 0px)'};
+  static get closeSettingTransform(){ return `translate3d( -${Setting.width}px, 0px, 0px)` };
+  static get openSettingTransform(){ return `translate3d( 0px, 0px, 0px)`};
 
   constructor( params ){
     const { thread, bootOption } = params;
     const self = Main.getSelf( bootOption );
     const screen = Main.getScreen( bootOption );
     const header = Main.getHeader( bootOption );
-    const headerChild = Main.getHeaderChild( bootOption );
-    const headerChildLeft = Main.getHeaderChildLeft( bootOption );
-    const headerChildUserIcon = Main.getHeaderChildUserIcon( bootOption );
+    const headerHeadTab = Main.getHeaderHeadTab( bootOption );
+    const headerDetailIcon = Main.getHeaderDetailIcon( bootOption );
+    const headerMenuIcon = Main.getHeaderMenuIcon( bootOption );
+    const headerUserIcon = Main.getHeaderUserIcon( bootOption );
+    const headerUserIconImg = Main.getHeaderUserIconImg( bootOption );
     const headerChildWatchCnt = Main.getHeaderChildWatchCnt( bootOption );
     const notif = Main.getNotif( bootOption );
     return {
       self,
       header,
-      headerChild,
-      headerChildLeft,
-      headerChildUserIcon,
+      headerHeadTab,
+      headerDetailIcon,
+      headerMenuIcon,
+      headerUserIcon,
+      headerUserIconImg,
       headerChildWatchCnt,
       notif,
       screen,
@@ -115,8 +120,9 @@ export default class Main {
     return Style.get({layout, content, animation});
   }
 
-  static getHeaderChild( bootOption ){
+  static getHeaderUserIcon( bootOption ){
     const layout = Style.getLayoutBlock({
+      flexGrow: 2,
       height: 'auto',
     });
     const content = {};
@@ -124,16 +130,7 @@ export default class Main {
     return Style.get({layout, content, animation});
   }
 
-  static getHeaderChildLeft( bootOption ){
-    const layout = Style.getLayoutBlock({
-      height: 'auto',
-    });
-    const content = {};
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getHeaderChildUserIcon( bootOption ){
+  static getHeaderUserIconImg( bootOption ){
     const layout = Style.getLayoutInlineBlock({
       width: '30px',
       margin: '0px 10px 0px 0px',
@@ -143,11 +140,47 @@ export default class Main {
     return Style.get({layout, content, animation});
   }
 
-  static getHeaderChildWatchCnt( bootOption ){
-    const layout = Style.getLayoutInlineBlock({
-      width: 'initial',
+  static getHeaderHeadTab( bootOption ){
+    const layout = Style.getLayoutBlock({
+      flexGrow: 2,
+      height: 'auto',
     });
     const content = {};
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderDetailIcon( bootOption ){
+    const layout = Style.getLayoutBlock({
+      flexGrow: 1,
+      height: 'auto',
+    });
+    const content = {};
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderMenuIcon( bootOption ){
+    const layout = Style.getLayoutBlock({
+      flexGrow: 1,
+      height: 'auto',
+    });
+    const content = {};
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderChildWatchCnt( bootOption ){
+    const layout = Style.getLayoutInlineBlock({
+      position: 'absolute',
+      right: '20%',
+      top: '7px',
+      width: 'initial',
+    });
+    const content = Style.getContentBase({
+      color: Container.themeRGBA,
+      fontWeight: 'bold',
+    });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
@@ -175,7 +208,7 @@ export default class Main {
 
   static getScreen( bootOption ){
     const layout = Style.getLayoutFlex({
-      width: '200%',
+      width: `calc( 100% + ${Setting.width}px )`,
       height: 'inherit',
     });
     const content = Style.getContentBase();

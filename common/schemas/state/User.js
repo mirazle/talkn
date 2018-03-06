@@ -13,9 +13,11 @@ export default class User extends Schema{
     const connectioned = params.connectioned ? params.connectioned : '';
     const offsetFindId = params.offsetFindId ? params.offsetFindId : User.defaultOffsetFindId ;
     const post = params.post ? params.post : '';
+    const childrenThreadView = params.childrenThreadView ? params.childrenThreadView : false;
     const inputSearch = params.inputSearch ? params.inputSearch : '';
     const isOpenMain = params.isOpen ? params.isOpen : false;
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
+    const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     return this.create({
       uid,
@@ -23,9 +25,11 @@ export default class User extends Schema{
       connectioned,
       offsetFindId,
       post: {value: post},
+      childrenThreadView,
       inputSearch,
       isOpenMain,
       isOpenSetting,
+      isOpenDetail,
       isOpenNotif,
     });
   }

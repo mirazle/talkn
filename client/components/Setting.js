@@ -5,44 +5,41 @@ export default class Setting extends Component {
 
   constructor(props) {
     super(props);
+    this.handleOnClickchildrenThreadView = this.handleOnClickchildrenThreadView.bind(this);
+  }
+
+  handleOnClickchildrenThreadView(){
+    const{ user } = this.props.state;
+    const childrenThreadView = user.childrenThreadView ? false : true ;
+    this.props.onClickChildrenThreadView( childrenThreadView );
   }
 
  	render() {
-    const { style, setting } = this.props.state;
+    const { style, user, setting } = this.props.state;
+    const childrenThreadViewLabel = user.childrenThreadView ? 'ON' : 'OFF';
 		return (
       <div style={ style.setting.self } >
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
-        AA<br />
+        <br />
+        <ol style={ style.setting.columns }>
+          <li style={ style.setting.column }>
+            Account: mirazle
+          </li>
+          <li style={ style.setting.columnLast }>
+            → LOGOUT
+          </li>
+        </ol>
+        <br />
+        <ol style={ style.setting.columns }>
+          <li
+            style={ style.setting.column }
+            onClick={ this.handleOnClickchildrenThreadView }
+          >
+            Children thread view: {childrenThreadViewLabel}
+          </li>
+          <li style={ style.setting.columnLast }>
+            Save Index: OFF
+          </li>
+        </ol>
       </div>
 		);
  	}
