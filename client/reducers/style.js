@@ -1,5 +1,6 @@
 import Container from 'common/schemas/state/Style/Container';
 import Main from 'common/schemas/state/Style/Main';
+import Detail from 'common/schemas/state/Style/Detail';
 import Footer from 'common/schemas/state/Style/Footer';
 import Icon from 'common/schemas/state/Style/Icon';
 
@@ -31,8 +32,8 @@ export default ( state = {} , action ) => {
 					},
 				}
 			},
-			thread: {...state.thread,
-				self: {...state.thread.self,
+			main: {...state.main,
+				self: {...state.main.self,
 					transform: `translate3d(0px, ${mainTranslateY}, 0px )`,
 				}
 			}
@@ -48,12 +49,23 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
+	case 'ON_CLICK_TOGGLE_DISP_DETAIL':
+		let detailSelfTransform = action.user.isOpenDetail ?
+			Detail.openTransform : Detail.closeTransform ;
+
+		return {...state,
+			detail: {...state.detail,
+				self: {...state.detail.self,
+					transform: detailSelfTransform,
+				}
+			}
+		}
 	case 'OPEN_NOTIF':
 	case 'CLOSE_NOTIF':
 		let notifTranslateY = action.user.isOpenNotif ? -Footer.selfHeight : 0;
 		return {...state,
-			thread: {...state.thread,
-				notif: {...state.thread.notif,
+			main: {...state.main,
+				notif: {...state.main.notif,
 					transform: `translate3d(0px, ${notifTranslateY}px, 0px )`,
 				}
 			}

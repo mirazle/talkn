@@ -14,6 +14,16 @@ export default class Icon extends Component{
     );
   }
 
+  static getDetail( style ){
+    return (
+      <div style={ style.div }>
+        <span style={ style.top }></span>
+        <span style={ style.middle }></span>
+        <span style={ style.bottom }></span>
+      </div>
+    );
+  }
+
   static getHeadTab( style ){
     return (
       <div style={ style.div }>

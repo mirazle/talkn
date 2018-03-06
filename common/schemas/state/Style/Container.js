@@ -21,7 +21,8 @@ export default class Container{
   static get notifOpenTranslate(){ return 25 };
   static get notifHeight(){ return 25 };
 
-  static get border(){ return '1px solid rgb(220, 220, 220)' };
+  static get borderRgb(){ return 'rgb(220, 220, 220)' };
+  static get border(){ return `1px solid ${Container.borderRgb}` };
   static get shadow(){ return 'rgb(230, 230, 230) 0px 0px 5px 0px' };
   static get lightRGBA(){ return 'rgba(255, 255, 255, 0.96)' };
   static get calmRGBA(){ return 'rgba(250, 250, 250, 0.96)' };

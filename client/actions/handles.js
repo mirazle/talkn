@@ -12,10 +12,22 @@ export default {
       user: {isOpenMain},
     };
   },
-  handleOnClickDispSetting: ( isOpenSetting ) => {
+  onClickDispSetting: ( isOpenSetting ) => {
     return {
       type: 'ON_CLICK_TOGGLE_DISP_SETTING',
       user: {isOpenSetting},
+    };
+  },
+  onClickChildrenThreadView: ( childrenThreadView ) => {
+    return {
+      type: 'ON_CLICK_TOGGLE_CHILDREN_THREAD_VIEW',
+      user: {childrenThreadView},
+    };
+  },
+  onClickToggleDispDetail: ( isOpenDetail ) => {
+    return {
+      type: 'ON_CLICK_TOGGLE_DISP_DETAIL',
+      user: {isOpenDetail},
     };
   },
 }

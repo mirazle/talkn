@@ -92,7 +92,7 @@ export default class Posts extends Component {
 
   renderGetMore(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ style, posts, thread, user      } = state;
+    const{ style, posts, thread, user } = state;
 
     if( Object.keys( posts ).length > 0 ){
 
@@ -112,12 +112,16 @@ export default class Posts extends Component {
 
   renderPostList(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ style, thread, posts } = state;
+    const{ style, thread, user, posts } = state;
     let postList = [];
     if( Object.keys( posts ).length > 0 ){
       postList = Object.keys( posts ).map( ( index ) => {
         const post = posts[ index ];
         const childCnt = post.connections.length - thread.connections.length;
+
+        if( !user.childrenThreadView && childCnt !== 0){
+          return null;
+        }
 
         return (
           <Post
@@ -143,7 +147,7 @@ export default class Posts extends Component {
           {this.renderGetMore()}
           {this.renderPostList()}
         </ol>
-        <div style={style.thread.notif}>NEW POST</div>
+        <div style={style.main.notif}>NEW POST</div>
       </div>
 		);
  	}
