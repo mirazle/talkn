@@ -19,27 +19,29 @@ export default class Setting extends Component {
     const childrenThreadViewLabel = user.childrenThreadView ? 'ON' : 'OFF';
 		return (
       <div style={ style.setting.self } >
-        <br />
-        <ol style={ style.setting.columns }>
-          <li style={ style.setting.column }>
-            Account: mirazle
-          </li>
-          <li style={ style.setting.columnLast }>
-            → LOGOUT
-          </li>
-        </ol>
-        <br />
-        <ol style={ style.setting.columns }>
-          <li
-            style={ style.setting.column }
-            onClick={ this.handleOnClickchildrenThreadView }
-          >
-            Children thread view: {childrenThreadViewLabel}
-          </li>
-          <li style={ style.setting.columnLast }>
-            Save Index: OFF
-          </li>
-        </ol>
+        <div style={ style.setting.scroll } >
+          <br />
+          <ol style={ style.setting.columns }>
+            <li style={ style.setting.column }>
+              Account: mirazle
+            </li>
+            <li style={ style.setting.columnLast }>
+              → LOGOUT
+            </li>
+          </ol>
+          <br />
+          <ol style={ style.setting.columns }>
+            <li
+              style={ style.setting.column }
+              onClick={ this.handleOnClickchildrenThreadView }
+            >
+              Children thread view: {childrenThreadViewLabel}
+            </li>
+            <li style={ style.setting.columnLast }>
+              Save Index: OFF
+            </li>
+          </ol>
+        </div>
       </div>
 		);
  	}

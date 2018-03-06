@@ -19,6 +19,7 @@ export default class Setting extends Component {
     const childrenThreadViewLabel = user.childrenThreadView ? 'ON' : 'OFF';
 		return (
       <div style={ style.detail.self }>
+        <header style={ style.detail.header }></header>
         <div style={ style.detail.ol } >
           ACTION1<br />
           ACTION2<br />
@@ -88,6 +89,11 @@ export default class Setting extends Component {
           ACTION3<br />
           ACTION4<br />
         </div>
+        <footer style={ style.detail.footer }>
+          <div style={ style.detail.footerChild }>ハート</div>
+          <div style={ style.detail.footerChild }>シェア</div>
+          <div style={ style.detail.footerChild }>投げ銭</div>
+        </footer>
       </div>
 		);
  	}
