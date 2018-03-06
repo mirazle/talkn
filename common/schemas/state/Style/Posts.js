@@ -1,6 +1,6 @@
 import Style from './index';
 import Container from './Container';
-import Thread from './Thread';
+import Main from './Main';
 
 export default class Posts {
   constructor( params ){
@@ -29,7 +29,7 @@ export default class Posts {
 
   static getOl( bootOption ){
     const layout = Style.getLayoutBlock({
-      height: `calc( 100% - ${Thread.headerHeight}px )`,
+      height: `calc( 100% - ${Main.headerHeight}px )`,
       overflow: 'scroll',
       background: Container.lightRGBA,
     });
@@ -52,7 +52,7 @@ export default class Posts {
     });
     const content = Style.getContentBase({
       lineHeight: 2,
-      color: 'rgb(255,255,255)',
+      color: Container.lightRGB,
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase();

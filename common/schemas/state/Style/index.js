@@ -1,30 +1,30 @@
 import Container from './Container';
-import Thread from './Thread';
 import Footer from './Footer';
 import Setting from './Setting';
 import Main from './Main';
 import Posts from './Posts';
 import Post from './Post';
+import Detail from './Detail';
 import Icon from './Icon';
 
 export default class Style{
   constructor( params ){
     const container = new Container( params );
-    const thread = new Thread( params );
     const footer = new Footer( params );
     const setting = new Setting( params );
     const main = new Main( params );
     const posts = new Posts( params );
     const post = new Post( params );
+    const detail = new Detail( params );
     const icon = new Icon( params );
     return {
       container,
-      thread,
       footer,
       setting,
       main,
       posts,
       post,
+      detail,
       icon,
     };
   }

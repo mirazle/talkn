@@ -1,6 +1,5 @@
 import Style from './index';
 import Container from './Container';
-import Thread from './Thread';
 
 export default class Post {
 
