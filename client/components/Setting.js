@@ -15,8 +15,8 @@ export default class Setting extends Component {
   }
 
  	render() {
-    const { style, user, setting } = this.props.state;
-    const childrenThreadViewLabel = user.childrenThreadView ? 'ON' : 'OFF';
+    const { style, control } = this.props.state;
+    const childrenThreadViewLabel = control.childrenThreadView ? 'ON' : 'OFF';
 		return (
       <div style={ style.setting.self } >
         <div style={ style.setting.scroll } >
