@@ -14,25 +14,25 @@ export default class Main extends Component {
   }
 
   handleOnClickUserIcon( e ){
-    const{ user } = this.props.state;
-    const isOpenSetting = user.isOpenSetting ? false : true ;
-    this.props.onClickDispSetting( isOpenSetting );
+    const{ control } = this.props.state;
+    const isOpenSetting = control.isOpenSetting ? false : true ;
+    talknAPI.onClickDispSetting( isOpenSetting );
   }
 
   handleOnClickHeadTabIcon( e ){
-    const{ user } = this.props.state;
-    const isOpenMain = user.isOpenMain ? false : true ;
-    this.props.onClickToggleDispMain( isOpenMain );
+    const{ control } = this.props.state;
+    const isOpenMain = control.isOpenMain ? false : true ;
+    talknAPI.onClickToggleDispMain( isOpenMain );
   }
 
   handleOnClickDetailIcon( e ){
-    const{ user } = this.props.state;
-    const isOpenDetail = user.isOpenDetail ? false : true ;
-    this.props.onClickToggleDispDetail( isOpenDetail );
+    const{ control } = this.props.state;
+    const isOpenDetail = control.isOpenDetail ? false : true ;
+    talknAPI.onClickToggleDispDetail( isOpenDetail );
   }
 
  	render() {
-		const{ state, talknAPI } = this.props;
+		const{ state } = this.props;
     const { app, user, thread, style } = state;
 
     const { icon } = style;

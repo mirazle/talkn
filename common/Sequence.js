@@ -1,4 +1,4 @@
-import User from './schemas/state/User';
+import Control from './schemas/state/Control';
 import State from './schemas/state/';
 const state = new State();
 
@@ -56,16 +56,18 @@ export default class Sequence {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {
           'thread': [{columnName: 'protocol'}, {columnName: 'host'}],
-          'user': [{columnName: 'offsetFindId'}, {columnName: 'connectioned'}, {columnName: 'uid'}, {columnName: 'utype'}]
+//          'user': [{columnName: 'offsetFindId'}, {columnName: 'connectioned'}, {columnName: 'uid'}, {columnName: 'utype'}]
+          'user': '*',
         },
         responseEmitState: {'posts': '*', 'thread': '*', 'user': ['offsetFindId', 'connectioned']},
         responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       },
       post: {
         toSelfEmit: false,
-        requestPublicState: {'user': [{columnName: 'post', valid: User.validPost }]},
+        requestPublicState: {},
         requestPrivateState: {
-          'user':[{columnName: 'uid'},{columnName: 'utype'}],
+          'control':[ {columnName: 'inputPost', valid: Control.validPost}],
+          'user':[ {columnName: 'uid'},{columnName: 'utype'}],
           'thread': [{columnName: 'connection'},{columnName: 'connections'}, {columnName: 'thum'}]
         },
         responseEmitState: {},
@@ -95,25 +97,34 @@ export default class Sequence {
           requestState[ stateKey ] = {}
         }
 
-        columnDatas.forEach( ( columnData ) => {
-          const {columnName, valid} = columnData;
-          const value = reduxState[ stateKey ][ columnName ];
+        if( columnDatas === '*' ){
 
-          if( !valid || !valid( value ) ){
-
-            if( !requestState[ stateKey ][ columnName ] ){
-
-              let value = reduxState[ stateKey ][ columnName ];
-              if( !reduxState[ stateKey ][ columnName ] &&
-                  requestParams[ stateKey ] &&
-                  requestParams[ stateKey ][ columnName ] ){
-                value = requestParams[ stateKey ][ columnName ];
-              }
-
-              requestState[ stateKey ][ columnName ] = value;
-            }
+          requestState = {...requestState,
+            [ stateKey ]: reduxState[ stateKey ],
           }
-        });
+        }else{
+
+          columnDatas.forEach( ( columnData ) => {
+            const {columnName, valid} = columnData;
+            let value = reduxState[ stateKey ][ columnName ];
+            const validError = valid ? valid( value ) : false ;
+
+            if(!validError){
+
+              if( !requestState[ stateKey ][ columnName ] ){
+
+                let value = reduxState[ stateKey ][ columnName ];
+                if( !reduxState[ stateKey ][ columnName ] &&
+                    requestParams && requestParams[ stateKey ] && requestParams[ stateKey ][ columnName ] ){
+                  value = requestParams[ stateKey ][ columnName ];
+                }
+                requestState[ stateKey ][ columnName ] = value;
+              }
+            }else{
+              throw `VALID PRIVATE SEQUENCE: ${stateKey}.${columnName}=${value} [${validError}]` ;
+            }
+          });
+        }
       });
     }
 
@@ -134,10 +145,10 @@ export default class Sequence {
                 requestState[ stateKey ][ columnName ] = requestParams;
               }
             }else{
-              throw `VALID SEQUENCE: ${stateKey}_${columnName}_${requestParams} [${validError}]` ;
+              throw `VALID PUBLIC SEQUENCE: ${stateKey}.${columnName}=${requestParams} [${validError}]` ;
             }
           }else{
-            throw `VALID STATE: ${stateKey}_${columnName}_${requestParams}` ;
+            throw `VALID PUBLIC STATE: ${stateKey}.${columnName}=${requestParams}` ;
           }
         });
       });

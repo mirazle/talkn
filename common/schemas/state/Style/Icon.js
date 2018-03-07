@@ -143,12 +143,12 @@ export default class Icon {
 
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '34px',
-        height: '34px',
+        width: '30px',
+        height: '30px',
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: 'rotate(-45deg) translate3d(10px, 5px, 0px)',
+        transform: 'rotate(-45deg) translate3d(8px, 3px, 0px)',
       }),
     });
 
@@ -183,12 +183,14 @@ export default class Icon {
 
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '34px',
-        height: '34px',
+        width: '30px',
+        height: '30px',
         margin: '0 auto',
       }),
       content: Style.getContentBase({}),
-      animation: Style.getAnimationBase({}),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(-2px, 0px, 0px)',
+      }),
     });
 
     const base = Style.get({
@@ -269,18 +271,17 @@ export default class Icon {
     return {div, base, whiteBar1, whiteBar2, bar, arrow};
   }
 
-
   static getMoney( bootOption = {}){
 
     const div = Style.get({
       layout: Style.getLayoutBlock({
         margin: '0 auto',
-        width: '24px',
-        height: '24px',
+        width: '30px',
+        height: '30px',
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: 'translate3d(0px, 3px, 0px)',
+        transform: 'translate3d(-2px, 3px, 0px)',
       }),
     });
 

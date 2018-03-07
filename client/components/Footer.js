@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react"
-import User from 'common/schemas/state/User';
+import Control from 'common/schemas/state/Control';
 
 export default class Footer extends Component {
 
@@ -12,42 +12,39 @@ export default class Footer extends Component {
   }
 
   handleOnClickIcon( e ){
-    const{ user } = this.props.state;
-    const isOpenMain = user.isOpenMain ? false : true ;
-    this.props.onClickToggleDispMain( isOpenMain );
+    const{ control } = this.props.state;
+    const isOpenMain = control.isOpenMain ? false : true ;
+    talknAPI.onClickToggleDispMain( isOpenMain );
   }
 
   handleOnClick( e ){
-    if( !User.validInputPost( e.target.value ) ){
-      const{ talknAPI } = this.props;
-      const{ user } = this.props.state;
-      talknAPI.post( user.post );
-      this.props.onChangeInputPost('');
+    if( !Control.validInputPost( e.target.value ) ){
+      talknAPI.post();
+      talknAPI.onChangeInputPost('');
     }
   }
 
   handleOnChange( e ){
     const{ onChangeInputPost } = this.props;
-    if( !User.validInputPost( e.target.value ) ){
-      onChangeInputPost( e.target.value );
+    if( !Control.validInputPost( e.target.value ) ){
+      talknAPI.onChangeInputPost( e.target.value );
     }
   }
 
   handleOnKeyPress( e ){
     if ( e.nativeEvent.keyCode === 13 ) {
       const{ user } = this.props.state;
-      const{ onChangeInputPost } = this.props;
       if( e.nativeEvent.shiftKey ){
-        onChangeInputPost( e.target.value + '\n');
+        talknAPI.onChangeInputPost( e.target.value + '\n');
       }else{
-        onChangeInputPost('');
-        talknAPI.post( user.inputPost );
+        talknAPI.post();
+        talknAPI.onChangeInputPost('');
       }
     }
   }
 
  	render() {
-    const { style, user } = this.props.state;
+    const { style, control } = this.props.state;
 		return (
       <footer style={ style.footer.self }>
         <div
@@ -59,7 +56,7 @@ export default class Footer extends Component {
           rows={1}
           onChange={this.handleOnChange}
           onKeyPress={this.handleOnKeyPress}
-          value={user.inputPost}
+          value={control.inputPost}
           placeholder='Comment to this web'
         />
         <button
