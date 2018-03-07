@@ -11,7 +11,7 @@ export default ( state = {} , action ) => {
 		let mainTranslateY;
 		let headTabLeftTransform;
 		let headTabRightTransform;
-		if(action.user.isOpenMain){
+		if(action.control.isOpenMain){
 			mainTranslateY = ( -Footer.selfHeight ) + 'px';
 			headTabLeftTransform = Icon.getHeadTabLeftOpenTransform;
 			headTabRightTransform = Icon.getHeadTabRightOpenTransform;
@@ -39,7 +39,7 @@ export default ( state = {} , action ) => {
 			}
 		}
 	case 'ON_CLICK_TOGGLE_DISP_SETTING':
-		let mainScreenTransform = action.user.isOpenSetting ?
+		let mainScreenTransform = action.control.isOpenSetting ?
 			Main.openSettingTransform : Main.closeSettingTransform ;
 
 		return {...state,
@@ -50,7 +50,7 @@ export default ( state = {} , action ) => {
 			}
 		}
 	case 'ON_CLICK_TOGGLE_DISP_DETAIL':
-		let detailSelfTransform = action.user.isOpenDetail ?
+		let detailSelfTransform = action.control.isOpenDetail ?
 			Detail.openTransform : Detail.closeTransform ;
 
 		return {...state,
@@ -62,7 +62,7 @@ export default ( state = {} , action ) => {
 		}
 	case 'OPEN_NOTIF':
 	case 'CLOSE_NOTIF':
-		let notifTranslateY = action.user.isOpenNotif ? -Footer.selfHeight : 0;
+		let notifTranslateY = action.control.isOpenNotif ? -Footer.selfHeight : 0;
 		return {...state,
 			main: {...state.main,
 				notif: {...state.main.notif,

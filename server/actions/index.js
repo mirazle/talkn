@@ -80,7 +80,9 @@ export default {
     // スレッドが存在して、更新も必要ない場合
     }else{
 
+      // 初回表示(GET MOREでない場合)
       if( requestState.user.offsetFindId === User.defaultOffsetFindId ){
+
         const addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
         thread.watchCnt = await Actions.updateThreadWatchCnt( connection, addWatchCnt );
       }

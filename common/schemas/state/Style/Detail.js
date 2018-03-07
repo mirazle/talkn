@@ -86,7 +86,9 @@ export default class Detail {
       flexGrow: 1,
       height: '100%',
     });
-    const content = Style.getContentBase();
+    const content = Style.getContentBase({
+      fontSize: '0.5em',
+    });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
