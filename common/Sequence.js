@@ -56,7 +56,6 @@ export default class Sequence {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {
           'thread': [{columnName: 'protocol'}, {columnName: 'host'}],
-//          'user': [{columnName: 'offsetFindId'}, {columnName: 'connectioned'}, {columnName: 'uid'}, {columnName: 'utype'}]
           'user': '*',
         },
         responseEmitState: {'posts': '*', 'thread': '*', 'user': ['offsetFindId', 'connectioned']},

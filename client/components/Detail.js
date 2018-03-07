@@ -6,19 +6,10 @@ export default class Setting extends Component {
 
   constructor(props) {
     super(props);
-    this.handleOnClickchildrenThreadView = this.handleOnClickchildrenThreadView.bind(this);
-  }
-
-  handleOnClickchildrenThreadView(){
-    const{ control } = this.props.state;
-    const childrenThreadView = control.childrenThreadView ? false : true ;
-    talknAPI.onClickChildrenThreadView( childrenThreadView );
   }
 
  	render() {
-    const { style, user, setting } = this.props.state;
-    const childrenThreadViewLabel = user.childrenThreadView ? 'ON' : 'OFF';
-
+    const { style } = this.props.state;
     const { icon } = style;
     const HeartIcon = Icon.getHeart( icon.heart );
     const ShareIcon = Icon.getShare( icon.share );
