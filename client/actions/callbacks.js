@@ -12,13 +12,13 @@ export default {
   openNotif: () => {
     return {
       type: 'OPEN_NOTIF',
-      user: {isOpenNotif: true}
+      control: {isOpenNotif: true}
     };
   },
   closeNotif: () => {
     return {
       type: 'CLOSE_NOTIF',
-      user: {isOpenNotif: false}
+      control: {isOpenNotif: false}
     };
   },
 }

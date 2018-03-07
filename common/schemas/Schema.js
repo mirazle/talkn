@@ -164,7 +164,12 @@ export default class Schema {
     }
   }
 
-  toJSON(){
-    return JSON.stringify(this);
+  _toJSON(){
+    console.log(this);
+    if(this){
+      return JSON.stringify(this);
+    }else{
+      throw 'BAD SCHEMAS toJSON()';
+    }
   }
 }

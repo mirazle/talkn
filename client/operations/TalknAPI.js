@@ -1,18 +1,21 @@
 import Sequence from 'common/Sequence';
-import * as stylesActions from 'client/actions/styles'
+import handleActions from 'client/actions/handles'
 import WsServerToClientEmitAction from 'client/actions/ws/serverToClientEmit'
 import WsClientToServerEmitActions from 'client/actions/ws/clientToServerEmit'
 import WsServerToClientBroadcastAction from 'client/actions/ws/serverToClientBradcast'
 
 export default class TalknAPI{
 	constructor( talknIndex, ws, store, connection ){
+		this.talknIndex = talknIndex;
 		this.store = store;
 		this.ws = ws;
 		this.connectionKeys = [];
-		this.talknIndex = talknIndex;
 		this.connection = connection;
 
-		this.onStyleAPI();
+		// CLIENT API's
+		this.onHandleAPI();
+
+		// COMMUNUCATION API’s
 		this.onCatchMeAPI();
 		this.onCatchConnectionAPI();
 		this.onTalknAPI();
@@ -21,21 +24,21 @@ export default class TalknAPI{
 
 	static handle( talknIndex ){
 		if( typeof __talknAPI__[ talknIndex ] === "undefined" ){
-			throw 'BAD TALKN_API HANDLE METHOD .';
+			throw `BAD TALKN_API HANDLE TALKN_INDEX ${talknIndex}.`;
 		}else{
 			window.talknAPI = window.__talknAPI__[ talknIndex ];
 			return true;
 		}
 	}
 
-	onStyleAPI(){
-		const actions = stylesActions;
+	onHandleAPI(){
+		const actions = handleActions;
 		const talknIndex = this.talknIndex;
 		const actionKeys = Object.keys( actions );
 		const actionLength = actionKeys.length;
 		for( let actionNodeCnt = 0; actionNodeCnt < actionLength; actionNodeCnt++ ){
 			const actionName = actionKeys[ actionNodeCnt ];
-			this[ actionName ] = this.getStyleAPI( talknIndex, actionName );
+			this[ actionName ] = this.getHandleAPI( talknIndex, actionName );
 		}
 	}
 
@@ -77,11 +80,13 @@ export default class TalknAPI{
 		delete ws.indexConnectionMap[ params.connection ];
 	}
 
-	getStyleAPI( talknIndex, actionName ){
+	getHandleAPI( talknIndex, actionName ){
 		return ( params ) => {
 			if( TalknAPI.handle( talknIndex ) ){
-				const action = stylesActions[ actionName ]( params );
-				return talknAPI.store.dispatch( action );
+				const action = handleActions[ actionName ]( params );
+				const reduxState = window.talknAPI.store.getState();
+
+				return window.talknAPI.store.dispatch( action );
 			}
 		}
 	}
@@ -89,11 +94,11 @@ export default class TalknAPI{
 	getTalknAPI( talknIndex, actionName ){
 		return ( requestParams ) => {
 			if( TalknAPI.handle( talknIndex ) ){
-				const reduxState = this.store.getState();
+				const reduxState = window.talknAPI.store.getState();
 				const requestState = Sequence.getRequestState( actionName, reduxState, requestParams );
 				const actionState = Sequence.getRequestActionState( actionName, requestParams );
 				this.ws.emit( requestState.type, requestState );
-				return talknAPI.store.dispatch( actionState );
+				return window.talknAPI.store.dispatch( actionState );
 			}
 		}
 	}
@@ -102,7 +107,7 @@ export default class TalknAPI{
 		return ( response ) => {
 			if( TalknAPI.handle( talknIndex ) ){
 				const actionState = action( response );
-				return talknAPI.store.dispatch( actionState );
+				return window.talknAPI.store.dispatch( actionState );
 			}
 		}
 	}
@@ -111,7 +116,7 @@ export default class TalknAPI{
 		return ( response ) => {
 			if( TalknAPI.handle( talknIndex ) ){
 				const actionState = actionMethod( response );
-				return talknAPI.store.dispatch( actionState );
+				return window.talknAPI.store.dispatch( actionState );
 			}
 		}
 	}

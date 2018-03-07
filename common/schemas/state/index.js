@@ -1,5 +1,6 @@
 import App from './App';
 import User from './User';
+import Control from './Control';
 import UserAgent from './UserAgent';
 import Index from './Index/';
 import Posts from './Posts';
@@ -14,6 +15,7 @@ export default class State{
   constructor( appType, talknIndex, window, attributes = {} ){
     this.app = new App( {type: appType, talknIndex} );
     this.user = new User();
+    this.control = new Control();
     this.userAgent = new UserAgent( window );
 		this.index = new Index();
 		this.posts = new Posts();
