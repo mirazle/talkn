@@ -70,7 +70,7 @@ export default class Sequence {
           'thread': [{columnName: 'connection'},{columnName: 'connections'}, {columnName: 'thum'}]
         },
         responseEmitState: {},
-        responseBroadcastState: {'posts': '*'},
+        responseBroadcastState: {'posts': '*', 'thread': ['postCnt', 'multiPostCnt']},
       },
       disconnect: {
         onConnection: true,

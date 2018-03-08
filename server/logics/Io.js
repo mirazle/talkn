@@ -24,8 +24,8 @@ export default class Io {
     return true;
   }
 
-  async post(ioUser, {requestState, posts} ){
-    const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts} );
+  async post(ioUser, {requestState, posts, thread} ){
+    const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts, thread} );
     return this.io.broadcast( requestState.thread.connection, responseBroadcastState );
   }
 
