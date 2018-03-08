@@ -36,7 +36,7 @@ export default class Setting extends Component {
       <div style={ style.detail.analyze }>
         <div style={ style.detail.analyzeRow }>
           <div style={ style.detail.analyzeCol }>
-            <div>
+            <div style={ style.detail.analyzeLabel }>
               Views
             </div>
             <hr style={ style.detail.analyzeHr } />
@@ -45,7 +45,7 @@ export default class Setting extends Component {
             </div>
           </div>
           <div style={ style.detail.analyzeCol }>
-            <div>
+            <div style={ style.detail.analyzeLabel }>
               Positibity
             </div>
             <hr style={ style.detail.analyzeHr } />
@@ -54,7 +54,7 @@ export default class Setting extends Component {
             </div>
           </div>
           <div style={ style.detail.analyzeCol }>
-            <div>
+            <div style={ style.detail.analyzeLabel }>
               Growth
             </div>
             <hr style={ style.detail.analyzeHr } />
@@ -65,7 +65,7 @@ export default class Setting extends Component {
         </div>
         <div style={ style.detail.analyzeRow }>
           <div style={ style.detail.analyzeCol }>
-            <div>
+            <div style={ style.detail.analyzeLabel }>
               Post Cnt
             </div>
             <hr style={ style.detail.analyzeHr } />
@@ -74,7 +74,7 @@ export default class Setting extends Component {
             </div>
           </div>
           <div style={ style.detail.analyzeCol }>
-            <div>
+            <div style={ style.detail.analyzeLabel }>
               Multi Cnt
             </div>
             <hr style={ style.detail.analyzeHr } />
@@ -83,7 +83,7 @@ export default class Setting extends Component {
             </div>
           </div>
           <div style={ style.detail.analyzeCol }>
-            <div>
+            <div style={ style.detail.analyzeLabel }>
               XX Cnt
             </div>
             <hr style={ style.detail.analyzeHr } />
@@ -142,10 +142,15 @@ export default class Setting extends Component {
           {this.renderMeta()}
 
           <br />
+          <br />
           {this.renderAnalyze()}
 
           <br />
+          <br />
           {this.renderH1s()}
+
+          <br />
+          <br />
         </div>
         {this.renderFooter()}
       </div>

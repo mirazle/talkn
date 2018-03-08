@@ -96,7 +96,9 @@ export default {
   post: async ( ioUser, requestState, setting ) => {
     await Logics.db.threads.update( requestState, {$inc: {postCnt: 1}} );
     const {response: post} = await Logics.db.posts.save( requestState );
-    await Logics.io.post( ioUser, {requestState, posts: [ post ] } );
+    const {postCnt, multiPostCnt} = await Logics.db.posts.getCounts( requestState.thread.connection );
+    const thread = {postCnt, multiPostCnt};
+    await Logics.io.post( ioUser, {requestState, posts: [ post ], thread } );
     return true;
   },
 
