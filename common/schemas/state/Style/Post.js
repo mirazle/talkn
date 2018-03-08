@@ -119,6 +119,7 @@ export default class Post {
   static getBottomPost(){
     const layout = Style.getLayoutBlock({
       flexGrow:  5,
+      width: 'min-content',
       background: Container.themeRGBA,
       padding: '20px 20px 20px 25px',
       borderRadius: '10px',
