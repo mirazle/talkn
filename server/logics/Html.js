@@ -66,11 +66,24 @@ export default class Html {
   }
 
   getMetas( $ ){
-    let metas = [];
+    let metas = {};
     const metaLength = $( "meta" ).length;
     for( var i = 0; i < metaLength; i++ ){
       const item = $( "meta" ).get( i );
-      metas.push(item.attribs);
+      let key = i;
+      let content = '';
+
+      if( item.attribs.name ){
+        key = item.attribs.name;
+        content = item.attribs.content;
+      }else if( item.attribs.property ){
+        key = item.attribs.property;
+        content = item.attribs.content;
+      }else if( item.attribs.charset ){
+        key = 'charset';
+        content = item.attribs.charset;
+      }
+      metas[ key ] = content;
     }
     return metas;
   }

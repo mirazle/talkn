@@ -72,9 +72,9 @@ export default class Posts extends Component {
   }
 
   handleOnScroll( e ){
-		const{ user } = this.props.state;
+		const{ control } = this.props.state;
 
-    if( user.isOpenNotif ){
+    if( control.isOpenNotif ){
       this.props.closeNotif();
     }
 
