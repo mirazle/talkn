@@ -27,7 +27,7 @@ export default {
 		layer: { type: Number, default: 0 },
 
 		// Head
-		metas:{ type: [], default: []},
+		metas:{ type: Object, default:{} },
 		links:{ type: [], default: []},
 		h1s:{ type: [], default: []},
 		mediaIndex: { type: [], default: []},
