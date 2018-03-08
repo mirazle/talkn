@@ -15,11 +15,21 @@ export default class Setting extends Component {
   }
 
  	render() {
-    const { style, control } = this.props.state;
+    const { style, control, thread } = this.props.state;
     const childrenThreadViewLabel = control.childrenThreadView ? 'ON' : 'OFF';
 		return (
       <div style={ style.setting.self } >
         <div style={ style.setting.scroll } >
+
+          <br />
+
+          <span>connection</span>
+          <ol style={ style.setting.columns }>
+            <li style={ style.setting.columnLast }>
+              { thread.connection  }
+            </li>
+          </ol>
+
           <br />
           <ol style={ style.setting.columns }>
             <li style={ style.setting.column }>

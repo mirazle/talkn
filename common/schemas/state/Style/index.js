@@ -8,6 +8,27 @@ import Detail from './Detail';
 import Icon from './Icon';
 
 export default class Style{
+
+  static get mono180RGB(){ return 'rgb(180, 180, 180)' };
+  static get mono220RGB(){ return 'rgb(220, 220, 220)' };
+  static get mono225RGB(){ return 'rgb(225, 225, 225)' };
+  static get mono230RGB(){ return 'rgb(230, 230, 230)' };
+  static get mono235RGB(){ return 'rgb(235, 235, 235)' };
+  static get mono240RGB(){ return 'rgb(240, 240, 240)' };
+  static get mono245RGB(){ return 'rgb(245, 245, 245)' };
+  static get mono250RGB(){ return 'rgb(250, 250, 250)' };
+  static get mono255RGB(){ return 'rgb(255, 255, 255)' };
+
+  static get mono180RGBA(){ return 'rgba(180, 180, 180, 0.96)' };
+  static get mono220RGBA(){ return 'rgba(220, 220, 220, 0.96)' };
+  static get mono225RGBA(){ return 'rgba(225, 225, 225, 0.96)' };
+  static get mono230RGBA(){ return 'rgba(230, 230, 230, 0.96)' };
+  static get mono235RGBA(){ return 'rgba(235, 235, 235, 0.96)' };
+  static get mono240RGBA(){ return 'rgba(240, 240, 240, 0.96)' };
+  static get mono245RGBA(){ return 'rgba(245, 245, 245, 0.96)' };
+  static get mono250RGBA(){ return 'rgba(250, 250, 250, 0.96)' };
+  static get mono255RGBA(){ return 'rgba(255, 255, 255, 0.96)' };
+
   constructor( params ){
     const container = new Container( params );
     const footer = new Footer( params );
@@ -68,6 +89,28 @@ export default class Style{
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'row',
+      flexWrap: 'no-wrap',
+    });
+    return { ...blockLayout, ...style };
+  }
+
+  static getLayoutTable( style = {} ){
+    const blockLayout = Style.getLayoutBase({
+      display: 'table',
+    });
+    return { ...blockLayout, ...style };
+  }
+
+  static getLayoutTableRow( style = {} ){
+    const blockLayout = Style.getLayoutBase({
+      display: 'table-row',
+    });
+    return { ...blockLayout, ...style };
+  }
+
+  static getLayoutTableCol( style = {} ){
+    const blockLayout = Style.getLayoutBase({
+      display: 'table-cell',
     });
     return { ...blockLayout, ...style };
   }
@@ -94,6 +137,13 @@ export default class Style{
       verticalAlign: 'middle',
     });
     return { ...inlineBlockLayout, ...style };
+  }
+
+  static getLayoutInline( style = {} ){
+    const blockLayout = Style.getLayoutBase({
+      display: 'inline',
+    });
+    return { ...blockLayout, ...style };
   }
 
   /************************/

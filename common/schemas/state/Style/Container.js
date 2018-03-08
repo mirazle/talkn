@@ -21,14 +21,14 @@ export default class Container{
   static get notifOpenTranslate(){ return 25 };
   static get notifHeight(){ return 25 };
 
-  static get borderRgb(){ return 'rgb(220, 220, 220)' };
+  static get borderRgb(){ return Style.mono220RGB };
   static get border(){ return `1px solid ${Container.borderRgb}` };
-  static get shadow(){ return 'rgb(230, 230, 230) 0px 0px 5px 0px' };
-  static get lightRGBA(){ return 'rgba(255, 255, 255, 0.96)' };
-  static get calmRGBA(){ return 'rgba(250, 250, 250, 0.96)' };
-  static get lightRGB(){ return 'rgb(255, 255, 255)' };
-  static get calmRGB(){ return 'rgb(240, 240, 240)' };
-  static get reliefRGB(){ return 'rgb(180, 180, 180)' };
+  static get shadow(){ return `${Style.mono230RGB} 0px 0px 5px 0px` };
+  static get lightRGBA(){ return Style.mono255RGBA };
+  static get calmRGBA(){ return Style.mono250RGBA };
+  static get lightRGB(){ return Style.mono255RGB };
+  static get calmRGB(){ return Style.mono240RGB };
+  static get reliefRGB(){ return Style.mono180RGB };
   static get themeRGBA(){ return 'rgba(79, 174, 159, 0.8)' };
 
   static getWidthPx( bootOption ){
