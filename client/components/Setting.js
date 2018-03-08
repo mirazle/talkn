@@ -23,7 +23,7 @@ export default class Setting extends Component {
 
           <br />
 
-          <span>connection</span>
+{/*          <span>connection</span>*/}
           <ol style={ style.setting.columns }>
             <li style={ style.setting.columnLast }>
               { thread.connection  }

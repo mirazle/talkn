@@ -4,7 +4,7 @@ import Main from './Main';
 
 export default class Detail {
 
-  static get margin(){ return 10}
+  static get margin(){ return 5}
 
   constructor( params ){
     const { bootOption } = params;
@@ -16,10 +16,11 @@ export default class Detail {
     const analyze = Detail.getAnalyze( bootOption );
     const analyzeRow = Detail.getAnalyzeRow( bootOption );
     const analyzeCol = Detail.getAnalyzeCol( bootOption );
-    const analyzeLabel = Detail.getAnalyzeLabel( bootOption );
+    const analyzeValue = Detail.getAnalyzeValue( bootOption );
     const analyzeHr = Detail.getAnalyzeHr( bootOption );
     const body = Detail.getBody( bootOption );
     const h1s = Detail.getH1s( bootOption );
+    const h1sLi = Detail.getH1sLi( bootOption );
     const footer = Detail.getFooter( bootOption );
     const footerChild = Detail.getFooterChild( bootOption );
     return {
@@ -31,10 +32,11 @@ export default class Detail {
       analyze,
       analyzeRow,
       analyzeCol,
-      analyzeLabel,
+      analyzeValue,
       analyzeHr,
       body,
       h1s,
+      h1sLi,
       footer,
       footerChild,
     }
@@ -55,7 +57,6 @@ export default class Detail {
       width: width + '%',
       height: `calc( ${heightBase}% - ${ Main.headerHeight * 1 }px )`,
       margin: `0% ${margin}% 0% ${margin}%`,
-      background: Container.lightRGBA,
       border: Container.border,
       borderBottom: 0,
       borderRadius: '12px 12px 0px 0px',
@@ -74,6 +75,19 @@ export default class Detail {
       width: '100%',
       height: Main.headerHeight,
       borderBottom: Container.border,
+      background: Container.lightRGBA,
+    });
+    const content = Style.getContentBase();
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getBody( bootOption ){
+    const layout = Style.getLayoutBlock({
+      overflow: 'scroll',
+      width: '100%',
+      height: `calc( 100% - ${ Main.headerHeight * 2 }px )`,
+      background: Container.calmRGBA,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -81,8 +95,10 @@ export default class Detail {
   }
 
   static getMeta( bootOption ){
-    const layout = Style.getLayoutInline({
-      height: 'inherit',
+    const layout = Style.getLayoutBlock({
+      width: '100%',
+      height: 'initial',
+      background: Container.lightRGBA,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -92,8 +108,8 @@ export default class Detail {
   static getImg( bootOption ){
     const layout = Style.getLayoutBlock({
       width: '100%',
-      minheight: '200px',
-      maxHeight: '300px',
+      height: '200px',
+      backgroundColor: Container.reliefRGB,
       backgroundImage: 'url()',
       backgroundPosition: 'center center',
       backgroundSize: 'cover',
@@ -108,9 +124,10 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: '90%',
       height: 'initial',
-      margin: `${Detail.margin}px auto`,
+      margin: `${Detail.margin}% auto`,
     });
     const content = Style.getContentBase({
+      lineHeight: 2,
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
@@ -119,9 +136,9 @@ export default class Detail {
 
   static getAnalyze( bootOption ){
     const layout = Style.getLayoutTable({
-      width: '90%',
+      width: '100%',
       height: 'initial',
-      margin: `${Detail.margin}px auto`,
+      background: Container.lightRGBA,
     });
     const content = Style.getContentBase({
       textAlign: 'center',
@@ -140,57 +157,63 @@ export default class Detail {
   static getAnalyzeCol( bootOption ){
     const layout = Style.getLayoutTableCol({
       width: '33.3%',
-      height: '70px',
+      height: '120px',
       verticalAlign: 'middle',
-      margin: '10px auto 10px auto',
+      margin: '40px auto 40px auto',
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
-  static getAnalyzeLabel( bootOption ){
+  static getAnalyzeValue( bootOption ){
     const layout = Style.getLayoutBlock({
-      width: '90%',
+      margin: '0 auto',
+      width: 'initial',
       height: 'initial',
-      borderTop: '5px solid rgb( 240, 240, 240)',
-      padding: '10px 10px 0px 10px',
-      margin: '10px auto auto auto',
     });
-    const content = Style.getContentBase({});
+    const content = Style.getContentBase({
+      fontSize: '2em',
+      color: Container.themeRGBA,
+    });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
   static getAnalyzeHr( bootOption ){
     const layout = Style.getLayoutBlock({
-      width: '90%',
+      width: '80%',
       height: 'initial',
       margin: "10px auto 10px auto",
-      borderTop: `3px solid ${Container.calmRGB}`,
+      borderTop: `2px solid ${Container.calmRGB}`,
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
-  static getBody( bootOption ){
+  static getH1s( bootOption ){
     const layout = Style.getLayoutBlock({
-      overflow: 'scroll',
       width: '100%',
-      height: `calc( 100% - ${ Main.headerHeight * 2 }px )`,
+      height: 'initial',
+      margin: `${Detail.margin}px auto`,
+      background: Container.lightRGBA,
     });
-    const content = Style.getContentBase();
+    const content = Style.getContentBase({
+      textAlign: 'left',
+    });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
-  static getH1s( bootOption ){
+  static getH1sLi( bootOption ){
     const layout = Style.getLayoutBlock({
-      margin: `${Detail.margin}px`,
+      width: '90%',
       height: 'initial',
+      margin: `5px ${Detail.margin}% 5px ${Detail.margin}%`,
     });
     const content = Style.getContentBase({
+      lineHeight: 2,
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
