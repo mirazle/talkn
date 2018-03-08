@@ -31,7 +31,7 @@ export default class Posts {
     const layout = Style.getLayoutBlock({
       height: `calc( 100% - ${Main.headerHeight}px )`,
       overflow: 'scroll',
-      background: Container.lightRGBA,
+      background: Container.whiteRGBA,
     });
     const content = {};
     const animation = Style.getAnimationBase({
@@ -52,7 +52,7 @@ export default class Posts {
     });
     const content = Style.getContentBase({
       lineHeight: 2,
-      color: Container.lightRGB,
+      color: Container.whiteRGB,
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase();

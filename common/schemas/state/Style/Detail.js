@@ -16,6 +16,7 @@ export default class Detail {
     const analyze = Detail.getAnalyze( bootOption );
     const analyzeRow = Detail.getAnalyzeRow( bootOption );
     const analyzeCol = Detail.getAnalyzeCol( bootOption );
+    const analyzeLabel = Detail.getAnalyzeLabel( bootOption );
     const analyzeValue = Detail.getAnalyzeValue( bootOption );
     const analyzeHr = Detail.getAnalyzeHr( bootOption );
     const body = Detail.getBody( bootOption );
@@ -32,6 +33,7 @@ export default class Detail {
       analyze,
       analyzeRow,
       analyzeCol,
+      analyzeLabel,
       analyzeValue,
       analyzeHr,
       body,
@@ -75,7 +77,7 @@ export default class Detail {
       width: '100%',
       height: Main.headerHeight,
       borderBottom: Container.border,
-      background: Container.lightRGBA,
+      background: Container.whiteRGB,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -87,7 +89,7 @@ export default class Detail {
       overflow: 'scroll',
       width: '100%',
       height: `calc( 100% - ${ Main.headerHeight * 2 }px )`,
-      background: Container.calmRGBA,
+      background: Container.offWhiteRGBA,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -98,7 +100,8 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: 'initial',
-      background: Container.lightRGBA,
+      background: Container.whiteRGB,
+      borderBottom: Container.border,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -138,7 +141,9 @@ export default class Detail {
     const layout = Style.getLayoutTable({
       width: '100%',
       height: 'initial',
-      background: Container.lightRGBA,
+      background: Container.whiteRGB,
+      borderTop: Container.border,
+      borderBottom: Container.border,
     });
     const content = Style.getContentBase({
       textAlign: 'center',
@@ -166,6 +171,19 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
+  static getAnalyzeLabel( bootOption ){
+    const layout = Style.getLayoutBlock({
+      width: 'initial',
+      height: 'initial',
+    });
+    const content = Style.getContentBase({
+      fontSize: '14px',
+      lineHeight: '14px',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
   static getAnalyzeValue( bootOption ){
     const layout = Style.getLayoutBlock({
       margin: '0 auto',
@@ -182,10 +200,10 @@ export default class Detail {
 
   static getAnalyzeHr( bootOption ){
     const layout = Style.getLayoutBlock({
-      width: '80%',
+      width: '70%',
       height: 'initial',
       margin: "10px auto 10px auto",
-      borderTop: `2px solid ${Container.calmRGB}`,
+      borderTop: `1px solid ${Container.borderRGB}`,
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -197,7 +215,9 @@ export default class Detail {
       width: '100%',
       height: 'initial',
       margin: `${Detail.margin}px auto`,
-      background: Container.lightRGBA,
+      background: Container.whiteRGB,
+      borderTop: Container.border,
+      borderBottom: Container.border,
     });
     const content = Style.getContentBase({
       textAlign: 'left',
@@ -223,7 +243,7 @@ export default class Detail {
   static getFooter( bootOption ){
     const layout = Style.getLayoutFlex({
       width: '100%',
-      background: Container.calmRGBA,
+      background: Container.offWhiteRGB,
       height: Main.headerHeight,
       borderTop: Container.border,
     });
