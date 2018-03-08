@@ -177,7 +177,6 @@ export default class Detail {
       height: 'initial',
     });
     const content = Style.getContentBase({
-      fontSize: '14px',
       lineHeight: '14px',
     });
     const animation = Style.getAnimationBase();
