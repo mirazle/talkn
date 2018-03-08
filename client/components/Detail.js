@@ -23,10 +23,10 @@ export default class Setting extends Component {
     style.detail.img = {...style.detail.img, backgroundImage};
     const description = thread.metas['og:description'] ? thread.metas['og:description'] : '';
     return(
-      <span style={ style.detail.meta } >
+      <div style={ style.detail.meta } >
         <div style={ style.detail.img } />
         <div style={ style.detail.description }>{ description }</div>
-      </span>
+      </div>
     )
   }
 
@@ -37,58 +37,58 @@ export default class Setting extends Component {
         <div style={ style.detail.analyzeRow }>
           <div style={ style.detail.analyzeCol }>
             <div>
-              {thread.postCnt}
+              Views
             </div>
             <hr style={ style.detail.analyzeHr } />
-            <div>
-              Post Cnt
+            <div style={ style.detail.analyzeValue }>
+              {thread.watchCnt}
             </div>
           </div>
           <div style={ style.detail.analyzeCol }>
             <div>
-              {thread.multiPostCnt}
+              Positibity
             </div>
             <hr style={ style.detail.analyzeHr } />
-            <div>
-              Multi Cnt
+            <div style={ style.detail.analyzeValue }>
+              1.5
             </div>
           </div>
           <div style={ style.detail.analyzeCol }>
             <div>
-              {thread.multiPostCnt}
+              Growth
             </div>
             <hr style={ style.detail.analyzeHr } />
-            <div>
-              XX Cnt
+            <div style={ style.detail.analyzeValue }>
+              2.0%
             </div>
           </div>
         </div>
         <div style={ style.detail.analyzeRow }>
           <div style={ style.detail.analyzeCol }>
             <div>
-              {thread.watchCnt}
+              Post Cnt
             </div>
             <hr style={ style.detail.analyzeHr } />
-            <div>
-              Views
+            <div style={ style.detail.analyzeValue }>
+              {thread.postCnt}
             </div>
           </div>
           <div style={ style.detail.analyzeCol }>
             <div>
-              1.5
+              Multi Cnt
             </div>
             <hr style={ style.detail.analyzeHr } />
-            <div>
-              Positibity
+            <div style={ style.detail.analyzeValue }>
+              {thread.multiPostCnt}
             </div>
           </div>
           <div style={ style.detail.analyzeCol }>
             <div>
-              2.0%
+              XX Cnt
             </div>
             <hr style={ style.detail.analyzeHr } />
-            <div>
-              Growth
+            <div style={ style.detail.analyzeValue }>
+              {thread.multiPostCnt}
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@ export default class Setting extends Component {
   renderH1s(){
     const { thread, style } = this.props.state
     const liTags = thread.h1s.map( ( h1, i ) => {
-      return( <li key={`h1s${i}`}>${h1}</li> );
+      return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>${h1}</li> );
     });
     return(
       <ol style={ style.detail.h1s } >
@@ -138,8 +138,13 @@ export default class Setting extends Component {
       <div style={ style.detail.self }>
         {this.renderHeader()}
         <div style={ style.detail.body } >
+
           {this.renderMeta()}
+
+          <br />
           {this.renderAnalyze()}
+
+          <br />
           {this.renderH1s()}
         </div>
         {this.renderFooter()}
