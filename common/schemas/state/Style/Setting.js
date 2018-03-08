@@ -51,7 +51,7 @@ export default class Setting {
       height: 'auto',
       borderTop: Container.border,
       borderBottom: Container.border,
-      background: Container.lightRGB,
+      background: Container.whiteRGB,
       overflow: 'scroll',
     });
     const content = Style.getContentBase({});

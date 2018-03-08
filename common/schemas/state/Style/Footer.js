@@ -51,7 +51,7 @@ export default class Footer{
   static getSelf(){
     const layout = Style.getLayoutFlex({
       height: Footer.selfHeight,
-      background: Container.calmRGBA,
+      background: Container.offWhiteRGBA,
       position: 'absolute',
       boxShadow: Container.shadow,
       borderTop: Container.border,
@@ -78,7 +78,7 @@ export default class Footer{
   static getTextarea(){
     const layoutInlineBlock = Style.getLayoutInlineBlock({
       width: '54%',
-      background: Container.lightRGB,
+      background: Container.whiteRGB,
       padding: '5px 0% 5px 2%',
       margin: '0 3% 0 0',
       outline: 'none',

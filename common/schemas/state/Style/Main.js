@@ -113,7 +113,7 @@ export default class Main {
       width: '100%',
       height: `${Main.headerHeight}px`,
       borderBottom: Container.border,
-      background: Container.lightRGB,
+      background: Container.whiteRGB,
     });
     const content = {};
     const animation = Style.getAnimationBase();
