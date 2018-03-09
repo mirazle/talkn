@@ -3,8 +3,13 @@ import cheerio from 'cheerio';
 import {Iconv} from 'iconv';
 import {Buffer} from 'buffer';
 import fs from 'fs';
+import Sequence from '~/../common/Sequence'
+import Thread from '~/../common/schemas/state/Thread'
+import Logics from '~/logics';
 
 export default class Html {
+
+  static get getResponseSchema(){ return {title: '', metas: [], links: [], h1s: [], contentType: '', uri: '', favicon: '' } };
 
   constructor(){
     this.option = {
@@ -14,28 +19,66 @@ export default class Html {
     };
   }
 
-  get( thread ){
-    return new Promise( ( resolve, reject ) => {
+  async get( thread ){
 
-      const { protocol, connection, host } = thread;
+    // talkn:の場合
+    if( thread.protocol === Sequence.TALKN_PROTOCOL ){
+
+      // URLと思われる文字列の場合
+      if( thread.connection.indexOf( '.' ) > 0 ){
+
+        thread = {...thread, protocol: Sequence.HTTP_PROTOCOL, host: Thread.getHost( thread.connection ) };
+        const httpResult = await Logics.html.request( thread );
+        if( httpResult ){
+          return {...httpResult, getHtmlThread: thread};
+        }else{
+          thread = {...thread, protocol: Sequence.HTTPS_PROTOCOL, host: Thread.getHost( thread.connection ) };
+          const httpsResult = await Logics.html.request( thread );
+          if( httpsResult ){
+            return {...httpsResult, getHtmlThread: thread};
+          }
+        }
+      }
+
+      // 空のスキーマを返す
+      return {...Html.getResponseSchema, getHtmlThread: thread};
+
+    // http, httpsの場合
+    }else{
+
+      const result = await Logics.html.request( thread );
+      if( result ){
+        return {...result, getHtmlThread: thread};
+      }
+
+      // 空のスキーマを返す
+      return {...Html.getResponseSchema, getHtmlThread: thread};
+    }
+  }
+
+  request( thread ){
+    return new Promise( ( resolve, reject ) => {
+      const { protocol, connection } = thread;
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
 
       request( option, ( error, response, body ) => {
 
+        let responseSchema = Html.getResponseSchema;
+
         if( !error && response && response.statusCode === 200 ){
           const utf8Body = this.toUtf8( body );
           const $ = cheerio.load( utf8Body );
-          const title = this.getTitle( $ );
-          const metas = this.getMetas( $ );
-          const links = this.getLinks( $ );
-          const h1s = this.getH1s( $ );
-          const contentType = response.headers['content-type'];
-          const uri = response.request.uri;
-          resolve({title, metas, links, h1s, contentType, uri});
+          responseSchema.title = this.getTitle( $ );
+          responseSchema.metas = this.getMetas( $ );
+          responseSchema.links = this.getLinks( $ );
+          responseSchema.h1s = this.getH1s( $ );
+          responseSchema.contentType = response.headers['content-type'];
+          responseSchema.uri = response.request.uri;
+          resolve( responseSchema );
         }else{
           console.warn(error);
-          reject(error);
+          resolve(false);
         }
       });
     });
