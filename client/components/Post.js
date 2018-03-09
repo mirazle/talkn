@@ -27,11 +27,11 @@ export default class Post extends Component {
       uid,
       updateTime,
       utype,
-      childCnt,
+      childLayerCnt,
       _id,
      } = this.props;
     const timeId = this.getTimeId();
-    const childLabel = childCnt > 0 ? `( ${childCnt} child )` : '' ;
+    const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
     return (
       <li style={style.self}>
         <div style={style.upper}>
