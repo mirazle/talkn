@@ -22,14 +22,24 @@ export default class Posts extends Component {
   }
 
   componentDidUpdate(){
-    const { actionLog } = this.props.state;
+    const { posts, thread, control, actionLog } = this.props.state;
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
       const { isScrollBottom } = this.state;
       if( isScrollBottom ){
         this.props.startAnimateScrollTo();
       }else{
-        this.props.openNotif();
+        const lastPost = posts[ posts.length - 1 ];
+        const childLayerCnt = lastPost.connections.length - thread.connections.length;
+
+        if( control.childrenThreadView ){
+            this.props.openNotif();
+        }else{
+
+          if( childLayerCnt === 0){
+            this.props.openNotif();
+          }
+        }
       }
       break;
     case 'START_ANIMATE_SCROLL_TO':
@@ -117,9 +127,9 @@ export default class Posts extends Component {
     if( Object.keys( posts ).length > 0 ){
       postList = Object.keys( posts ).map( ( index ) => {
         const post = posts[ index ];
-        const childCnt = post.connections.length - thread.connections.length;
+        const childLayerCnt = post.connections.length - thread.connections.length;
 
-        if( !control.childrenThreadView && childCnt !== 0){
+        if( !control.childrenThreadView && childLayerCnt !== 0){
           return null;
         }
 
@@ -128,7 +138,7 @@ export default class Posts extends Component {
             key={post._id}
             {...post}
             thread={thread}
-            childCnt={childCnt}
+            childLayerCnt={childLayerCnt}
             style={style.post}
             talknAPI={talknAPI}
             timeago={timeago}
