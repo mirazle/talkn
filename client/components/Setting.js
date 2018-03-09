@@ -11,6 +11,11 @@ export default class Setting extends Component {
   handleOnClickchildrenThreadView(){
     const{ control } = this.props.state;
     const childrenThreadView = control.childrenThreadView ? false : true ;
+    
+    if( control.isOpenNotif ){
+      this.props.closeNotif();
+    }
+
     talknAPI.onClickChildrenThreadView( childrenThreadView );
   }
 
