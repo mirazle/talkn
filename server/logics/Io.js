@@ -26,7 +26,10 @@ export default class Io {
 
   async post(ioUser, {requestState, posts, thread} ){
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts, thread} );
-    return this.io.broadcast( requestState.thread.connection, responseBroadcastState );
+    requestState.thread.connections.forEach( ( connection ) => {
+      this.io.broadcast( connection, responseBroadcastState );
+    });
+    return true;
   }
 
   async updateWatchCnt( ioUser, {requestState, thread} ){
