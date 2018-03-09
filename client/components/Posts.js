@@ -102,20 +102,28 @@ export default class Posts extends Component {
 
   renderGetMore(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ style, posts, thread } = state;
+    const{ style, posts, thread, control } = state;
+    const dispPostCnt = Object.keys( posts ).length;
+    let isDisp = false;
 
-    if( Object.keys( posts ).length > 0 ){
-
-      if( Object.keys( posts ).length < thread.multiPostCnt ){
-        return (
-          <li
-            style={style.posts.more}
-            onClick={this.handleOnClickGetMore}
-          >
-            GET MORE
-          </li>
-        )
+    if( dispPostCnt > 0 ){
+      if( control.childrenThreadView ){
+        if( dispPostCnt < thread.multiPostCnt ){
+          isDisp = true;
+        }
+      }else{
+        if( dispPostCnt < thread.postCnt ){
+          isDisp = true;
+        }
       }
+    }
+
+    if( isDisp ){
+      return (
+        <li style={style.posts.more} onClick={this.handleOnClickGetMore}>
+          GET MORE
+        </li>
+      )
     }
     return null;
   }
