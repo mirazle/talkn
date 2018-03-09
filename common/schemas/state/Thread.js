@@ -29,7 +29,10 @@ export default class Thread extends Schema{
     let host = '';
     let thum = Thread.getDefaultThum();
 
-    if( !bootConnection ){
+    if( bootConnection ){
+      connection = bootConnection;
+      connections = Thread.getConnections( connection );
+    }else{
       location = window.location ? window.location : {} ;
       href = location.href ? location.href : '' ;
       connection = Thread.getConnection( href );
