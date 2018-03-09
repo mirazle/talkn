@@ -11,7 +11,7 @@ export default class Setting extends Component {
   handleOnClickchildrenThreadView(){
     const{ control } = this.props.state;
     const childrenThreadView = control.childrenThreadView ? false : true ;
-    
+
     if( control.isOpenNotif ){
       this.props.closeNotif();
     }
@@ -27,8 +27,6 @@ export default class Setting extends Component {
         <div style={ style.setting.scroll } >
 
           <br />
-
-{/*          <span>connection</span>*/}
           <ol style={ style.setting.columns }>
             <li style={ style.setting.columnLast }>
               { thread.connection  }
