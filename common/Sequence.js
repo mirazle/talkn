@@ -8,6 +8,14 @@ export default class Sequence {
     return 'talkn:';
   }
 
+  static get HTTP_PROTOCOL(){
+    return 'http:';
+  }
+
+  static get HTTPS_PROTOCOL(){
+    return 'https:';
+  }
+
   static get CATCH_ME_KEY(){
     return '@CATCH_ME';
   }

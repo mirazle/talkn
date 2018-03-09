@@ -122,6 +122,10 @@ export default class Thread extends Schema{
     return connections;
   }
 
+  static getHost( connection ){
+    return connection.split( "/" )[ 1 ];
+  }
+
   setConnection( _connection = '/' ){
     const connection = _connection.indexOf('/') === 0 ? _connection : `/${_connection}`;
     const connectionTop = User.getConnectionTop(connection);

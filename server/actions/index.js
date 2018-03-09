@@ -46,34 +46,29 @@ export default {
     // スレッドが存在しない場合 || 更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
 
-      let updateThread = {title: '', metas: [], links: [], h1s: [], contentType: '', uri: '', favicon: ''};
-
-      if( requestState.thread.protocol !== Sequence.TALKN_PROTOCOL ){
-
-        const {title, metas, links, h1s, contentType, uri} = await Logics.html.get( requestState.thread );
-        const faviconName = Logics.favicon.getName( requestState.thread, links );
-        const faviconBinary = await Logics.favicon.request( requestState.thread, faviconName );
-        const writeResult = await Logics.fs.write( faviconName, faviconBinary );
-        updateThread = {title, metas, links, h1s, contentType, uri, favicon: faviconName};
-      }
+      const { title, metas, links, h1s, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
+      requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
+      const faviconName = Logics.favicon.getName( requestState.thread, links );
+      const faviconBinary = await Logics.favicon.request( faviconName );
+      const writeResult = await Logics.fs.write( faviconName, faviconBinary );
+      let createThread = {title, metas, links, h1s, contentType, uri, favicon: faviconName};
 
       // スレッド更新
       if( thread ){
 
-        updateThread.postCnt = postCnt;
-        updateThread.multiPostCnt = multiPostCnt;
-        updateThread.watchCnt = updateThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
-        await Logics.db.threads.update( requestState, updateThread );
+        createThread.postCnt = postCnt;
+        createThread.multiPostCnt = multiPostCnt;
+        createThread.watchCnt = createThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
+        await Logics.db.threads.update( requestState, createThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
 
       // スレッド新規作成
       }else{
-
         const watchCnt = 1;
         const connections = Thread.getConnections( connection );
-        updateThread = {...updateThread, watchCnt, connections, postCnt, multiPostCnt };
+        createThread = {...createThread, watchCnt, connections, postCnt, multiPostCnt };
 
-        let {response: thread} = await Logics.db.threads.save( requestState, updateThread );
+        let {response: thread} = await Logics.db.threads.save( requestState, createThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
 

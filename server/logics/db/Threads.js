@@ -7,6 +7,10 @@ export default class Threads {
     return this;
   }
 
+  merge( obj, mergeObj ){
+    return {...obj, ...mergeObj };
+  }
+
   async findOne( connection, selector = {}, option = {} ){
     const condition = {connection};
     return await this.db.findOne( condition, selector, option );

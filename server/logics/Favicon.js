@@ -3,6 +3,7 @@ import cheerio from 'cheerio';
 import {Iconv} from 'iconv';
 import {Buffer} from 'buffer';
 import fs from 'fs';
+import Sequence from '~/../common/Sequence'
 
 export default class Favicon {
 
@@ -17,7 +18,14 @@ export default class Favicon {
     for( var i = 0; i < linkLength; i++ ){
       const link = links[ i ];
       if( link.rel && link.rel.indexOf( 'Icon' ) >= 0 || link.rel.indexOf( 'icon' ) >= 0 ){
-        faviconName = `${host}${link.href}`;
+
+        if( link.href.indexOf( Sequence.HTTP_PROTOCOL ) === 0 ){
+          faviconName = link.href;
+        }else if( link.href.indexOf( Sequence.HTTPS_PROTOCOL ) === 0 ){
+          faviconName = link.href;
+        }else{
+          faviconName = `${protocol}//${host}/${link.href}` ;
+        }
         clientIconUrl = `${protocol}//${faviconName}`;
         break;
       }
@@ -31,16 +39,14 @@ export default class Favicon {
     return faviconName;
   }
 
-  request( requestState, faviconName ){
+  request( faviconName ){
     return new Promise( ( resolve, reject ) => {
-      const { protocol } = requestState;
-      const clientIconUrl = `${protocol}//${faviconName}`;
-      request({method: 'GET', url: clientIconUrl, encoding: null}, (error, response, body) => {
+      request({method: 'GET', url: faviconName, encoding: null}, (error, response, body) => {
         if( !error && response && response.statusCode === 200 ){
           resolve(body);
         }else{
           console.warn(error);
-          resolve(null);
+          resolve(false);
         }
       });
     });
