@@ -45,13 +45,12 @@ export default {
 
     // スレッドが存在しない場合 || 更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
-
-      const { title, metas, links, h1s, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
+      const { title, serverMetas, links, h1s, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
       requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
       const faviconName = Logics.favicon.getName( requestState.thread, links );
       const faviconBinary = await Logics.favicon.request( faviconName );
       const writeResult = await Logics.fs.write( faviconName, faviconBinary );
-      let createThread = {title, metas, links, h1s, contentType, uri, favicon: faviconName};
+      let createThread = {title, serverMetas, links, h1s, contentType, uri, favicon: faviconName};
 
       // スレッド更新
       if( thread ){
@@ -89,11 +88,20 @@ export default {
   },
 
   post: async ( ioUser, requestState, setting ) => {
+    requestState.thread.thum = requestState.thread.favicon;
+    delete requestState.thread.favicon;
     await Logics.db.threads.update( requestState, {$inc: {postCnt: 1}} );
     const {response: post} = await Logics.db.posts.save( requestState );
     const {postCnt, multiPostCnt} = await Logics.db.posts.getCounts( requestState.thread.connection );
     const thread = {postCnt, multiPostCnt};
     await Logics.io.post( ioUser, {requestState, posts: [ post ], thread } );
+    return true;
+  },
+
+  updateThreadServerMetas: async ( ioUser, requestState, setting ) => {
+    const thread = requestState.thread;
+    await Logics.db.threads.update( requestState, {thread} );
+    Logics.io.updateThreadServerMetas( ioUser, {requestState, thread} );
     return true;
   },
 

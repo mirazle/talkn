@@ -19,9 +19,10 @@ export default class Setting extends Component {
 
   renderMeta(){
     const { thread, style } = this.props.state
-    const backgroundImage = thread.metas['og:image'] ? `url("${thread.metas['og:image']}")` : 'url()';
+    const backgroundImage = thread.serverMetas['og:image'] ? `url("${thread.serverMetas['og:image']}")` : 'url()';
     style.detail.img = {...style.detail.img, backgroundImage};
-    const description = thread.metas['og:description'] ? thread.metas['og:description'] : '';
+    let description = thread.serverMetas['og:description'] ? thread.serverMetas['og:description'] : '';
+    description = thread.serverMetas['description'] ? thread.serverMetas['description'] : '';
     return(
       <div style={ style.detail.meta } >
         <div style={ style.detail.img } />

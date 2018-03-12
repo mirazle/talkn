@@ -100,10 +100,10 @@ export default class Icon {
     return {div, span, ...bootOption};
   }
 
-  static get getHeadTabLeftOpenTransform(){return 'rotate( 65deg ) translate3d(-3px, 5px, 0px)'};
-  static get getHeadTabLeftCloseTransform(){return 'rotate( 90deg ) translate3d(-3px, 5px, 0px)'};
-  static get getHeadTabRightOpenTransform(){return 'rotate( -65deg ) translate3d(3px, 5px, 0px)'};
-  static get getHeadTabRightCloseTransform(){return 'rotate( -90deg ) translate3d(3px, 5px, 0px)'};
+  static get getHeadTabLeftOpenTransform(){return 'rotate( -65deg ) translate3d(5px, 9px, 0px)'};
+  static get getHeadTabRightOpenTransform(){return 'rotate( 65deg ) translate3d(-5px, 9px, 0px)'};
+  static get getHeadTabLeftCloseTransform(){return 'rotate( -90deg ) translate3d(0px, 9px, 0px)'};
+  static get getHeadTabRightCloseTransform(){return 'rotate( 90deg ) translate3d(0px, 9px, 0px)'};
   static getHeadTab( bootOption = {}){
 
     const commonLayout = Style.getLayoutInlineBlock({
@@ -123,7 +123,7 @@ export default class Icon {
       layout: commonLayout,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: '1500ms',
+        transition: '600ms',
         transform: Icon.getHeadTabLeftCloseTransform,
       }),
     });
@@ -132,7 +132,7 @@ export default class Icon {
       layout: commonLayout,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: '1500ms',
+        transition: '600ms',
         transform: Icon.getHeadTabRightCloseTransform,
       }),
     });

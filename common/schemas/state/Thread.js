@@ -2,7 +2,7 @@ import Schema from '../Schema';
 
 export default class Thread extends Schema{
 
-  static getDefaultThum(){
+  static getDefaultFavicon(){
     return '//assets.talkn.io/img/user.png';
   }
 
@@ -27,7 +27,7 @@ export default class Thread extends Schema{
     let charset = 'UTF-8';
 
     let host = '';
-    let thum = Thread.getDefaultThum();
+    let favicon = Thread.getDefaultFavicon();
 
     if( bootConnection ){
       connection = bootConnection;
@@ -42,11 +42,13 @@ export default class Thread extends Schema{
       charset = document.charset ? document.charset : '';
 
       host = location.host ? location.host : '';
-      thum = Thread.getFaviconFromWindow( window );
+      favicon = Thread.getFaviconFromWindow( window );
     }
 
     const title = '';
     const metas = [];
+    const serverMetas = [];
+    const clientMetas = [];
     const links = [];
     const h1s = [];
     const uri = {};
@@ -54,12 +56,13 @@ export default class Thread extends Schema{
     const mediaIndex = [];
     const postCnt = 0;
     const multiPostCnt = 0;
+    const isSelfConnection = Thread.getIsSelfConnection( href, connection );
     const createTime = '';
     const updateTime = '';
 
     return {
       location,
-//      href,
+      href,
       connection,
       connections,
       contentType,
@@ -67,15 +70,17 @@ export default class Thread extends Schema{
       protocol,
       host,
       title,
-      metas,
+      clientMetas,
+      serverMetas,
       links,
       h1s,
       uri,
-      thum,
+      favicon,
       layer,
       mediaIndex,
       postCnt,
       multiPostCnt,
+      isSelfConnection,
       createTime,
       updateTime,
     }
@@ -124,6 +129,12 @@ export default class Thread extends Schema{
 
   static getHost( connection ){
     return connection.split( "/" )[ 1 ];
+  }
+
+
+  static getIsSelfConnection( href, connection ){
+    const replacedHref = href.replace('http:/', '').replace('https:/', '').replace(/\u002f$/,'');
+    return replacedHref === connection ;
   }
 
   setConnection( _connection = '/' ){
