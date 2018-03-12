@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
+import Sequence from 'common/Sequence';
 
 export default class Post extends Component {
 

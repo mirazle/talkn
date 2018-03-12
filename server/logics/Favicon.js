@@ -7,35 +7,40 @@ import Sequence from '~/../common/Sequence'
 
 export default class Favicon {
 
+  static get defaultFaviconProtocol(){ return Sequence.HTTP_PROTOCOL}
+  static get defaultFaviconName(){ return 'favicon.ico' }
+
   getName( requestState, links ){
-    const { protocol, host } = requestState;
+    let { protocol, host } = requestState;
+    protocol = protocol ? protocol : Favicon.defaultFaviconProtocol ;
     const linkLength = links.length;
-    const superDomain = this.getSuperDomain( host );
-    const superOrigin = `${protocol}//${superDomain}`;
-    let faviconName = '';
-    let clientIconUrl = '';
+    const superOrigin = `${protocol}//${host}`;
+    let faviconName = `${protocol}//${host}/${Favicon.defaultFaviconName}`;
 
-    for( var i = 0; i < linkLength; i++ ){
-      const link = links[ i ];
-      if( link.rel && link.rel.indexOf( 'Icon' ) >= 0 || link.rel.indexOf( 'icon' ) >= 0 ){
+    if( linkLength > 0 ){
+      for( let i = 0; i < linkLength; i++ ){
+        const link = links[ i ];
+        if( link.rel && link.rel.indexOf( 'Icon' ) >= 0 || link.rel.indexOf( 'icon' ) >= 0 ){
+          if( faviconName.indexOf( Sequence.HTTP_PROTOCOL ) !== 0 || faviconName.indexOf( Sequence.HTTPS_PROTOCOL ) !== 0 ){
 
-        if( link.href.indexOf( Sequence.HTTP_PROTOCOL ) === 0 ){
-          faviconName = link.href;
-        }else if( link.href.indexOf( Sequence.HTTPS_PROTOCOL ) === 0 ){
-          faviconName = link.href;
-        }else{
-          faviconName = `${protocol}//${host}/${link.href}` ;
+            if( link.href.indexOf( host ) >= 0 ){
+              if( link.href.indexOf( protocol ) >= 0 ){
+                faviconName = `${link.href}`;
+              }else{
+                faviconName = `${protocol}//${link.href}`;
+              }
+            }else{
+              if( link.href.indexOf( protocol ) >= 0 ){
+                faviconName = `${link.href}`;
+              }else{
+                faviconName = `${protocol}//${host}${link.href}`;
+              }
+            }
+            break;
+          }
         }
-        clientIconUrl = `${protocol}//${faviconName}`;
-        break;
       }
     }
-
-    if( faviconName === '' ){
-      faviconName = `${host}${link.href}`;
-      clientIconUrl = `${protocol}//${faviconName}`;
-    }
-
     return faviconName;
   }
 
@@ -61,7 +66,13 @@ export default class Favicon {
     }else if( hostPartLength === 2 ){
       return `${hostParts[ 0 ]}.${hostParts[ 1 ]}`;
     }else{
-      return `${hostParts[ hostPartLength - 2 ]}.${hostParts[ hostPartLength - 1 ]}`;
+/*
+  /localhost:8080
+  /news.yahoo.co.jp
+  /www.yahoo.co.jp
+*/
+      return host;
+//      return `${hostParts[ hostPartLength - 2 ]}.${hostParts[ hostPartLength - 1 ]}`;
     }
   }
 }

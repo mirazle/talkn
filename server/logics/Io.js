@@ -32,6 +32,12 @@ export default class Io {
     return true;
   }
 
+  async updateThreadServerMetas(ioUser, {requestState, thread} ){
+    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {thread} );
+    this.io.emit( ioUser, Sequence.CATCH_ME_KEY, responseEmitState );
+    return true;
+  }
+
   async updateWatchCnt( ioUser, {requestState, thread} ){
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {thread} );
     return this.io.broadcast( responseBroadcastState.thread.connection, responseBroadcastState );

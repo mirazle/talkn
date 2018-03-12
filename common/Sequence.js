@@ -16,6 +16,14 @@ export default class Sequence {
     return 'https:';
   }
 
+  static get DEV_HOST(){
+    return 'localhost:8080';
+  }
+
+  static get THUM_ASSETS(){
+    return '//assets.talkn.io/img';
+  }
+
   static get CATCH_ME_KEY(){
     return '@CATCH_ME';
   }
@@ -51,7 +59,6 @@ export default class Sequence {
   static get map(){
     return {
       initClientState: {
-        toSelfEmit: true,
         requestPublicState: {},
         requestPrivateState: {
           'thread': [{columnName: 'connection'}]
@@ -60,7 +67,6 @@ export default class Sequence {
         responseBroadcastState: {},
       },
       find: {
-        toSelfEmit: true,
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {
           'thread': [{columnName: 'protocol'}, {columnName: 'host'}],
@@ -70,18 +76,25 @@ export default class Sequence {
         responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       },
       post: {
-        toSelfEmit: false,
         requestPublicState: {},
         requestPrivateState: {
           'control':[ {columnName: 'inputPost', valid: Control.validPost}],
           'user':[ {columnName: 'uid'},{columnName: 'utype'}],
-          'thread': [{columnName: 'connection'},{columnName: 'connections'}, {columnName: 'thum'}]
+          'thread': [{columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}]
         },
         responseEmitState: {},
         responseBroadcastState: {'posts': '*', 'thread': ['postCnt', 'multiPostCnt']},
       },
+      updateThreadServerMetas: {
+        requestPublicState: {},
+        requestPrivateState: {
+          'thread': [{columnName: 'serverMetas'}, {columnName: 'connection'}],
+          'user': '*',
+        },
+        responseEmitState: {'thread': '*'},
+        responseBroadcastState: {},
+      },
       disconnect: {
-        onConnection: true,
         requestPublicState: {},
         requestPrivateState: {},
         responseEmitState: {},

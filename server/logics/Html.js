@@ -9,7 +9,7 @@ import Logics from '~/logics';
 
 export default class Html {
 
-  static get getResponseSchema(){ return {title: '', metas: [], links: [], h1s: [], contentType: '', uri: '', favicon: '' } };
+  static get getResponseSchema(){ return {title: '', serverMetas: [], links: [], h1s: [], contentType: '', uri: '', favicon: '' } };
 
   constructor(){
     this.option = {
@@ -21,39 +21,24 @@ export default class Html {
 
   async get( thread ){
 
-    // talkn:の場合
-    if( thread.protocol === Sequence.TALKN_PROTOCOL ){
+    // URLと思われる文字列の場合
+    if( thread.host === Sequence.DEV_HOST || thread.connection.indexOf( '.' ) > 0 ){
 
-      // URLと思われる文字列の場合
-      if( thread.connection.indexOf( '.' ) > 0 ){
+      thread = {...thread, protocol: Sequence.HTTPS_PROTOCOL, host: Thread.getHost( thread.connection ) };
+      const httpResult = await Logics.html.request( thread );
+      if( httpResult ){
 
+        return {...httpResult, getHtmlThread: thread};
+      }else{
         thread = {...thread, protocol: Sequence.HTTP_PROTOCOL, host: Thread.getHost( thread.connection ) };
-        const httpResult = await Logics.html.request( thread );
-        if( httpResult ){
-          return {...httpResult, getHtmlThread: thread};
-        }else{
-          thread = {...thread, protocol: Sequence.HTTPS_PROTOCOL, host: Thread.getHost( thread.connection ) };
-          const httpsResult = await Logics.html.request( thread );
-          if( httpsResult ){
-            return {...httpsResult, getHtmlThread: thread};
-          }
+        const httpsResult = await Logics.html.request( thread );
+        if( httpsResult ){
+          return {...httpsResult, getHtmlThread: thread};
         }
       }
-
-      // 空のスキーマを返す
-      return {...Html.getResponseSchema, getHtmlThread: thread};
-
-    // http, httpsの場合
-    }else{
-
-      const result = await Logics.html.request( thread );
-      if( result ){
-        return {...result, getHtmlThread: thread};
-      }
-
-      // 空のスキーマを返す
-      return {...Html.getResponseSchema, getHtmlThread: thread};
     }
+    // 空のスキーマを返す
+    return {...Html.getResponseSchema, getHtmlThread: thread};
   }
 
   request( thread ){
@@ -61,7 +46,6 @@ export default class Html {
       const { protocol, connection } = thread;
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
-
       request( option, ( error, response, body ) => {
 
         let responseSchema = Html.getResponseSchema;
@@ -70,14 +54,13 @@ export default class Html {
           const utf8Body = this.toUtf8( body );
           const $ = cheerio.load( utf8Body );
           responseSchema.title = this.getTitle( $ );
-          responseSchema.metas = this.getMetas( $ );
+          responseSchema.serverMetas = this.getMetas( $ );
           responseSchema.links = this.getLinks( $ );
           responseSchema.h1s = this.getH1s( $ );
           responseSchema.contentType = response.headers['content-type'];
           responseSchema.uri = response.request.uri;
           resolve( responseSchema );
         }else{
-          console.warn(error);
           resolve(false);
         }
       });
@@ -109,13 +92,12 @@ export default class Html {
   }
 
   getMetas( $ ){
-    let metas = {};
+    let serverMetas = {};
     const metaLength = $( "meta" ).length;
     for( var i = 0; i < metaLength; i++ ){
       const item = $( "meta" ).get( i );
       let key = i;
       let content = '';
-
       if( item.attribs.name ){
         key = item.attribs.name;
         content = item.attribs.content;
@@ -125,10 +107,13 @@ export default class Html {
       }else if( item.attribs.charset ){
         key = 'charset';
         content = item.attribs.charset;
+      }else if( item.attribs['http-equiv'] ){
+        key = item.attribs['http-equiv'];
+        content = item.attribs.content;
       }
-      metas[ key ] = content;
+      serverMetas[ key ] = content;
     }
-    return metas;
+    return serverMetas;
   }
 
   toUtf8( dom ){
