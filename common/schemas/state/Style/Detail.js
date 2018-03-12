@@ -78,8 +78,11 @@ export default class Detail {
       height: Main.headerHeight,
       borderBottom: Container.border,
       background: Container.whiteRGB,
+      padding: '0px 20px 0px 20px',
     });
-    const content = Style.getContentBase();
+    const content = Style.getContentBase({
+      lineHeight: '1.3',
+    });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
