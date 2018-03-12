@@ -67,7 +67,10 @@ export default class Footer{
   static getIcon( thread ){
     const layoutInlineBlock = Style.getLayoutInlineBlock({
       width: '20%',
-      background: `url( ${thread.thum} ) 50% 50% / 20px 20px no-repeat`,
+      backgroundImage: `url( ${thread.favicon} )`,
+      backgroundPosition: 'center center',
+      backgroundSize: '20px 20px',
+      backgroundRepeat: 'no-repeat',
     });
     const layout = Footer.getLayout( layoutInlineBlock );
     const content = {};

@@ -52,6 +52,12 @@ export default class Posts extends Component {
       break;
     case 'SERVER_TO_CLIENT[EMIT]:find':
       this.refs.thread.scrollTop = this.refs.thread.scrollHeight - this.state.scrollHeight;
+
+      if(thread.isSelfConnection){
+        if( Object.keys( thread.serverMetas ).length !== document.querySelectorAll('meta').length ){
+          talknAPI.updateThreadServerMetas();
+        }
+      }
       break;
     default:
       break;
