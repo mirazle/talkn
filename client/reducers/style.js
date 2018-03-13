@@ -71,6 +71,24 @@ export default ( state = {} , action ) => {
 			}
 		}
 		break;
+	case 'UPDATE_STYLE':
+		const { styleKey, eleType, tagName, style } = action;
+
+		if( styleKey && eleType && tagName ){
+			return {...state,
+				[ styleKey ]: {...state[ styleKey ],
+					[ eleType ]: {...state[ styleKey ][ eleType ],
+						[ tagName ]: {...state[ styleKey ][ eleType ][ tagName ], ...style },
+					}
+				}
+			}
+		}else if( styleKey && eleType ){
+			return {...state,
+				[ styleKey ]: {...state[ styleKey ],
+					[ eleType ]: {...state[ styleKey ][ eleType ], ...style },
+				}
+			}
+		}
 	default:
 		return action.style ? action.style : state ;
 	}

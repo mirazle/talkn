@@ -85,7 +85,6 @@ export default class TalknAPI{
 			if( TalknAPI.handle( talknIndex ) ){
 				const action = handleActions[ actionName ]( params );
 				const reduxState = window.talknAPI.store.getState();
-
 				return window.talknAPI.store.dispatch( action );
 			}
 		}
