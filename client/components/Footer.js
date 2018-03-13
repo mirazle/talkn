@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react"
 import Control from 'common/schemas/state/Control';
+import Icon from 'client/components/Icon';
 
 export default class Footer extends Component {
 
@@ -49,6 +50,7 @@ export default class Footer extends Component {
       <footer style={ style.footer.self }>
         <div
           style={style.footer.icon}
+          {...Icon.getDecolationProps1( 'footer', 'icon' )}
           onClick={this.handleOnClickIcon}
         />
         <textarea

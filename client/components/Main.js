@@ -52,12 +52,12 @@ export default class Main extends Component {
           </span>
 
           {/* Head Tab Icon */}
-          <span style={ style.main.headerHeadTab } onClick={ this.handleOnClickHeadTabIcon }>
+          <span style={ style.main.headerHeadTab } onClick={ this.handleOnClickHeadTabIcon } {...Icon.getDecolationProps1( 'icon', 'headTab', 'div' )} >
             { HeadTabIcon }
           </span>
 
           {/* Menu Icon */}
-          <span style={ style.main.headerMenuIcon } onClick={ this.handleOnClickDetailIcon }>
+          <span style={ style.main.headerMenuIcon } onClick={ this.handleOnClickDetailIcon } {...Icon.getDecolationProps1( 'icon', 'menu', 'div' )} >
 
             { MenuIcon }
 

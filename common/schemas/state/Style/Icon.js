@@ -69,6 +69,7 @@ export default class Icon {
       layout: commonSpan,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
+        transition: '600ms',
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
@@ -81,9 +82,12 @@ export default class Icon {
         width: Icon.defaultSize,
         height: Icon.defaultSize,
         margin: '0 auto',
+        boxShadow: '0px 0px 0px rgb(240, 240, 240) inset',
       }),
       content: Style.getContentBase(),
-      animation: Style.getAnimationBase(),
+      animation: Style.getAnimationBase({
+        transition: '600ms',
+      }),
     });
 
     const span = Style.get({
@@ -100,10 +104,10 @@ export default class Icon {
     return {div, span, ...bootOption};
   }
 
-  static get getHeadTabLeftOpenTransform(){return 'rotate( 120deg ) translate3d(2px, 5px, 0px)'};
-  static get getHeadTabRightOpenTransform(){return 'rotate( -120deg ) translate3d(-2px, 5px, 0px)'};
-  static get getHeadTabLeftCloseTransform(){return 'rotate( 90deg ) translate3d(2px, 6px, 0px)'};
-  static get getHeadTabRightCloseTransform(){return 'rotate( -90deg ) translate3d(2px, 6px, 0px)'};
+  static get getHeadTabLeftOpenTransform(){return 'rotate( 120deg ) translate3d(3px, 5px, 0px)'};
+  static get getHeadTabRightOpenTransform(){return 'rotate( -120deg ) translate3d(-3px, 5px, 0px)'};
+  static get getHeadTabLeftCloseTransform(){return 'rotate( 90deg ) translate3d(3px, 5px, 0px)'};
+  static get getHeadTabRightCloseTransform(){return 'rotate( -90deg ) translate3d(-3px, 5px, 0px)'};
   static getHeadTab( bootOption = {}){
 
     const commonLayout = Style.getLayoutInlineBlock({
