@@ -117,15 +117,15 @@ export default class Setting extends Component {
     const MoneyIcon = Icon.getMoney( icon.money );
     return(
       <footer style={ style.detail.footer }>
-        <div style={ style.detail.footerChild }>
+        <div style={ style.detail.footerChild } {...Icon.getDecolationProps2( 'icon', 'heart', 'div' ) }>
           { HeartIcon }
           <div>LIKE</div>
         </div>
-        <div style={ style.detail.footerChild }>
+        <div style={ style.detail.footerChild } {...Icon.getDecolationProps2( 'icon', 'money', 'div' )}>
           { MoneyIcon }
           <div>MONEY</div>
         </div>
-        <div style={ style.detail.footerChild }>
+        <div style={ style.detail.footerChild } {...Icon.getDecolationProps2( 'icon', 'share', 'div' )}>
           { ShareIcon }
           <div>SHARE</div>
         </div>

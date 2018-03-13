@@ -1,5 +1,14 @@
 
 export default {
+  updateStyle: ( {styleKey, eleType, tagName, style} ) => {
+    return {
+      type: 'UPDATE_STYLE',
+      styleKey,
+      eleType,
+      tagName,
+      style,
+    };
+  },
   onChangeInputPost: ( inputPost ) => {
     return {
       type: 'ON_CHANGE_INPUT_POST',
