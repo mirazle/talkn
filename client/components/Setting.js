@@ -6,6 +6,7 @@ export default class Setting extends Component {
   constructor(props) {
     super(props);
     this.handleOnClickchildrenThreadView = this.handleOnClickchildrenThreadView.bind(this);
+    this.handleOnClickLoginTwitter = this.handleOnClickLoginTwitter.bind(this);
   }
 
   handleOnClickchildrenThreadView(){
@@ -19,8 +20,12 @@ export default class Setting extends Component {
     talknAPI.onClickChildrenThreadView( childrenThreadView );
   }
 
+  handleOnClickLoginTwitter(){
+    talknAPI.login( 'twitter' );
+  }
+
  	render() {
-    const { style, control, thread } = this.props.state;
+    const { style, control, user, thread } = this.props.state;
     const childrenThreadViewLabel = control.childrenThreadView ? 'ON' : 'OFF';
 		return (
       <div style={ style.setting.self } >
@@ -28,32 +33,24 @@ export default class Setting extends Component {
 
           <br />
           <ol style={ style.setting.columns }>
-            <li style={ style.setting.columnLast }>
+            <li style={ style.setting.column }>
               { thread.connection  }
+            </li>
+            <li style={ style.setting.columnLast } onClick={ this.handleOnClickchildrenThreadView }>
+              Children thread view: {childrenThreadViewLabel}
             </li>
           </ol>
 
           <br />
           <ol style={ style.setting.columns }>
             <li style={ style.setting.column }>
-              Account: mirazle
+              Account: {user.uid}
             </li>
-            <li style={ style.setting.columnLast }>
-              → LOGOUT
+            <li style={ style.setting.columnLast } onClick={this.handleOnClickLoginTwitter}>
+              → LOGIN
             </li>
           </ol>
           <br />
-          <ol style={ style.setting.columns }>
-            <li
-              style={ style.setting.column }
-              onClick={ this.handleOnClickchildrenThreadView }
-            >
-              Children thread view: {childrenThreadViewLabel}
-            </li>
-            <li style={ style.setting.columnLast }>
-              Save Index: OFF
-            </li>
-          </ol>
         </div>
       </div>
 		);
