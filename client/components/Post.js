@@ -19,7 +19,7 @@ export default class Post extends Component {
             {...this.state.style,
               self: { ...this.state.style.self,
                 transition: '200ms',
-                transform: 'scale( 1.1 )',
+                transform: 'scale( 1.05 )',
                 cursor: 'pointer',
               }
             }
@@ -51,7 +51,7 @@ export default class Post extends Component {
         this.setState( {style:
           {...this.state.style,
             self: { ...this.state.style.self,
-              transform: 'scale( 1.1 )',
+              transform: 'scale( 1.05 )',
               cursor: 'pointer',
             }
           }
