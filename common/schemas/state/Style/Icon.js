@@ -152,7 +152,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: 'rotate(-45deg) translate3d(8px, 3px, 0px)',
+
       }),
     });
 
@@ -164,7 +164,9 @@ export default class Icon {
         background: Container.reliefRGB,
       }),
       content: Style.getContentBase(),
-      animation: Style.getAnimationBase({}),
+      animation: Style.getAnimationBase({
+        transform: 'rotate(-45deg) translate3d(1px, 8px, 0px)',
+      }),
     });
 
     const after = Style.get({
@@ -176,7 +178,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: 'translate3d(0px, -10px, 0px)',
+        transform: 'rotate(-45deg) translate3d(13px, 0px, 0px)',
       }),
     });
     return {div, before, after};
@@ -192,9 +194,7 @@ export default class Icon {
         margin: '0 auto',
       }),
       content: Style.getContentBase({}),
-      animation: Style.getAnimationBase({
-        transform: 'translate3d(-2px, 0px, 0px)',
-      }),
+      animation: Style.getAnimationBase({}),
     });
 
     const base = Style.get({
@@ -209,7 +209,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: 'translate3d(0px, 0px, 0px)',
+        transform: 'translate3d(-2px, 0px, 0px)',
       }),
     });
 
@@ -224,7 +224,9 @@ export default class Icon {
         background: Container.reliefRGB,
       }),
       content: Style.getContentBase({}),
-      animation: Style.getAnimationBase({}),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(-2px, 0px, 0px)',
+      }),
     });
 
     const whiteBar1 = Style.get({
@@ -239,7 +241,9 @@ export default class Icon {
         zIndex: 100,
       }),
       content: Style.getContentBase({}),
-      animation: Style.getAnimationBase({}),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(-2px, 0px, 0px)',
+      }),
     });
 
     const whiteBar2 = Style.get({
@@ -254,7 +258,9 @@ export default class Icon {
         zIndex: 100,
       }),
       content: Style.getContentBase({}),
-      animation: Style.getAnimationBase({}),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(-2px, 0px, 0px)',
+      }),
     });
 
     const arrow = Style.get({
@@ -269,7 +275,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: 'rotate( -45deg)',
+        transform: 'translate3d(-2px, 0px, 0px) rotate( -45deg)',
       }),
     });
     return {div, base, whiteBar1, whiteBar2, bar, arrow};
@@ -285,7 +291,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: 'translate3d(-2px, 3px, 0px)',
+
       }),
     });
 
@@ -298,7 +304,9 @@ export default class Icon {
         border: `2px solid ${Container.reliefRGB}`,
       }),
       content: Style.getContentBase(),
-      animation: Style.getAnimationBase({}),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(-2px, 3px, 0px)',
+      }),
     });
 
     const inner = Style.get({

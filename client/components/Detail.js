@@ -6,6 +6,19 @@ export default class Setting extends Component {
 
   constructor(props) {
     super(props);
+    this.handleOnClickLike = this.handleOnClickLike.bind(this);
+    this.handleOnClickMoney = this.handleOnClickMoney.bind(this);
+    this.handleOnClickShare = this.handleOnClickShare.bind(this);
+  }
+
+  handleOnClickLike(){
+  }
+
+  handleOnClickMoney(){
+    talknAPI.onChangeInputPost( '@ETH:' );
+  }
+
+  handleOnClickShare(){
   }
 
   renderHeader(){
@@ -89,7 +102,7 @@ export default class Setting extends Component {
             </div>
             <hr style={ style.detail.analyzeHr } />
             <div style={ style.detail.analyzeValue }>
-              {thread.multiPostCnt}
+              0
             </div>
           </div>
         </div>
@@ -100,7 +113,7 @@ export default class Setting extends Component {
   renderH1s(){
     const { thread, style } = this.props.state
     const liTags = thread.h1s.map( ( h1, i ) => {
-      return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>${h1}</li> );
+      return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>・{h1}</li> );
     });
     return(
       <ol style={ style.detail.h1s } >
@@ -117,15 +130,15 @@ export default class Setting extends Component {
     const MoneyIcon = Icon.getMoney( icon.money );
     return(
       <footer style={ style.detail.footer }>
-        <div style={ style.detail.footerChild } {...Icon.getDecolationProps2( 'icon', 'heart', 'div' ) }>
+        <div style={ style.detail.footerChildLike }  {...Icon.getDecolationProps2( 'detail', 'footerChildLike' ) }>
           { HeartIcon }
           <div>LIKE</div>
         </div>
-        <div style={ style.detail.footerChild } {...Icon.getDecolationProps2( 'icon', 'money', 'div' )}>
+        <div style={ style.detail.footerChildMoney } onClick={this.handleOnClickMoney} {...Icon.getDecolationProps2( 'detail', 'footerChildMoney' )}>
           { MoneyIcon }
           <div>MONEY</div>
         </div>
-        <div style={ style.detail.footerChild } {...Icon.getDecolationProps2( 'icon', 'share', 'div' )}>
+        <div style={ style.detail.footerChildShare } {...Icon.getDecolationProps2( 'detail', 'footerChildShare' )}>
           { ShareIcon }
           <div>SHARE</div>
         </div>
