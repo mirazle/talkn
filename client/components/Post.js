@@ -4,6 +4,62 @@ import Sequence from 'common/Sequence';
 
 export default class Post extends Component {
 
+  constructor(props) {
+    const {style} = props;
+    super(props);
+    this.state = {style}
+    this.getDecolationProps = this.getDecolationProps.bind(this);
+  }
+
+  getDecolationProps(){
+    return {
+      onMouseOver: () => {
+        this.setState(
+          { style:
+            {...this.state.style,
+              self: { ...this.state.style.self,
+                transition: '200ms',
+                transform: 'scale( 1.1 )',
+                cursor: 'pointer',
+              }
+            }
+          }
+        );
+      },
+      onMouseLeave: () => {
+        this.setState( {style:
+          {...this.state.style,
+            self: { ...this.state.style.self,
+              transition: '600ms',
+              transform: 'scale( 1 )',
+              cursor: 'default',
+            }
+          }
+        });
+      },
+      onMouseDown: () => {
+        this.setState( {style:
+          {...this.state.style,
+            self: { ...this.state.style.self,
+              transform: 'scale( 1 )',
+              cursor: 'pointer',
+            }
+          }
+        });
+      },
+      onMouseUp: () => {
+        this.setState( {style:
+          {...this.state.style,
+            self: { ...this.state.style.self,
+              transform: 'scale( 1.1 )',
+              cursor: 'pointer',
+            }
+          }
+        });
+      },
+    }
+  }
+
   getTimeId(){
     return `timeAgo:${this.props._id}`;
   }
@@ -16,7 +72,6 @@ export default class Post extends Component {
 
  	render() {
 		const{
-      style,
       talknAPI,
       thread,
       connection,
@@ -33,8 +88,9 @@ export default class Post extends Component {
      } = this.props;
     const timeId = this.getTimeId();
     const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
+    const { style } = this.state;
     return (
-      <li style={style.self}>
+      <li style={style.self} {...this.getDecolationProps()}>
         <div style={style.upper}>
           <span style={style.upperSpace} />
 

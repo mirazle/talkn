@@ -39,4 +39,22 @@ export default {
       control: {isOpenDetail},
     };
   },
+  handleOnClickLike: ( inputPost ) => {
+    return {
+      type: 'ON_CLICK_LIKE',
+      control: {inputPost},
+    };
+  },
+  handleOnClickMoney: ( inputPost ) => {
+    return {
+      type: 'ON_CLICK_MONEY',
+      control: {inputPost},
+    };
+  },
+  handleOnClickShare: ( inputPost ) => {
+    return {
+      type: 'ON_CLICK_SHARE',
+      control: {inputPost},
+    };
+  },
 }
