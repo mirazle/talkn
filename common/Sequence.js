@@ -94,6 +94,14 @@ export default class Sequence {
         responseEmitState: {'thread': '*'},
         responseBroadcastState: {},
       },
+      login: {
+        requestPublicState: {'control': [{columnName: 'requestLoginType'}]},
+        requestPrivateState: {
+          'user': [{columnName: 'uid', columnName: 'href'}],
+        },
+        responseEmitState: {'user': '*'},
+        responseBroadcastState: {},
+      },
       disconnect: {
         requestPublicState: {},
         requestPrivateState: {},

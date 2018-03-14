@@ -7,6 +7,7 @@ import Sequence from '~/../common/Sequence'
 export default {
 
   setUpApp: async () => {
+
     await Logics.db.threads.resetWatchCnt();
     return await Logics.db.users.removeAll();
   },
@@ -120,4 +121,10 @@ export default {
     }
     return true;
   },
+
+  login: async ( ioUser, requestState, setting ) => {
+    const { requestLoginType, href: callback } = requestState.control;
+    const { href } = requestState.user;
+    Logics.login[ requestLoginType ]( href );
+  }
 }
