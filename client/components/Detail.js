@@ -36,10 +36,15 @@ export default class Setting extends Component {
     style.detail.img = {...style.detail.img, backgroundImage};
     let description = thread.serverMetas['og:description'] ? thread.serverMetas['og:description'] : '';
     description = thread.serverMetas['description'] ? thread.serverMetas['description'] : '';
+    const h1LiTags = thread.h1s.map( ( h1, i ) => {
+      return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>・{h1}</li> );
+    });
+
     return(
       <div style={ style.detail.meta } >
         <div style={ style.detail.img } />
         <div style={ style.detail.description }>{ description }</div>
+        <div style={ style.detail.contentType }>{ thread.contentType }</div>
       </div>
     )
   }

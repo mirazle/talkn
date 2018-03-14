@@ -13,6 +13,7 @@ export default class Detail {
     const meta = Detail.getMeta( bootOption );
     const img = Detail.getImg( bootOption );
     const description = Detail.getDescription( bootOption );
+    const contentType = Detail.getContentType( bootOption );
     const analyze = Detail.getAnalyze( bootOption );
     const analyzeRow = Detail.getAnalyzeRow( bootOption );
     const analyzeCol = Detail.getAnalyzeCol( bootOption );
@@ -33,6 +34,7 @@ export default class Detail {
       meta,
       img,
       description,
+      contentType,
       analyze,
       analyzeRow,
       analyzeCol,
@@ -141,6 +143,20 @@ export default class Detail {
     const content = Style.getContentBase({
       lineHeight: 2,
       textAlign: 'left',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getContentType( bootOption ){
+    const layout = Style.getLayoutBlock({
+      width: '90%',
+      height: 'initial',
+      margin: `${Detail.margin}% auto`,
+    });
+    const content = Style.getContentBase({
+      lineHeight: 2,
+      textAlign: 'right',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
