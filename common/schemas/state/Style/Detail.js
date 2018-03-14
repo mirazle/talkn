@@ -24,6 +24,9 @@ export default class Detail {
     const h1sLi = Detail.getH1sLi( bootOption );
     const footer = Detail.getFooter( bootOption );
     const footerChild = Detail.getFooterChild( bootOption );
+    const footerChildLike = Detail.getFooterChildLike( bootOption );
+    const footerChildMoney = Detail.getFooterChildMoney( bootOption );
+    const footerChildShare = Detail.getFooterChildShare( bootOption );
     return {
       self,
       header,
@@ -41,6 +44,9 @@ export default class Detail {
       h1sLi,
       footer,
       footerChild,
+      footerChildLike,
+      footerChildMoney,
+      footerChildShare,
     }
   }
 
@@ -255,6 +261,42 @@ export default class Detail {
   }
 
   static getFooterChild( bootOption ){
+    const layout = Style.getLayoutBlock({
+      flexGrow: 1,
+      height: '100%',
+    });
+    const content = Style.getContentBase({
+      fontSize: '0.5em',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getFooterChildLike( bootOption ){
+    const layout = Style.getLayoutBlock({
+      flexGrow: 1,
+      height: '100%',
+    });
+    const content = Style.getContentBase({
+      fontSize: '0.5em',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getFooterChildMoney( bootOption ){
+    const layout = Style.getLayoutBlock({
+      flexGrow: 1,
+      height: '100%',
+    });
+    const content = Style.getContentBase({
+      fontSize: '0.5em',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getFooterChildShare( bootOption ){
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: '100%',
