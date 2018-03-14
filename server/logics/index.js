@@ -4,6 +4,7 @@ import Html from './Html';
 import Favicon from './Favicon';
 import Fs from './Fs';
 import Control from './Control';
+import Login from './Login';
 
 import MongoDB from '~/db/MongoDB';
 import SocketIo from '~/io/SocketIo';
@@ -17,4 +18,5 @@ export default {
   favicon: new Favicon(),
   fs: new Fs(),
   control: new Control(),
+  login: new Login(),
 }

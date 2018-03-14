@@ -5,6 +5,7 @@ export default class Control extends Schema{
   constructor( params = {} ){
     super();
     const childrenThreadView = params.childrenThreadView ? params.childrenThreadView : false;
+    const requestLoginType = params.requestLoginType ? params.requestLoginType : '';
     const inputPost = params.inputPost ? params.inputPost : '';
     const inputSearch = params.inputSearch ? params.inputSearch : '';
     const isOpenMain = params.isOpen ? params.isOpen : false;
@@ -13,6 +14,7 @@ export default class Control extends Schema{
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     return this.create({
       childrenThreadView,
+      requestLoginType,
       inputPost: {value: inputPost, valid: Control.validInputPost},
       inputSearch,
       isOpenMain,
