@@ -13,8 +13,8 @@ class SocketIo{
     switch( protcol ){
     case 'https':
       const httpsServer	= https.createServer(
-        {key: fs.readFileSync('/etc/letsencrypt/live/talkn.io/privkey.pem'),
-        cert: fs.readFileSync('/etc/letsencrypt/live/talkn.io/cert.pem')}
+        {key: fs.readFileSync('/etc/letsencrypt/live/client.talkn.io/privkey.pem'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/client.talkn.io/cert.pem')}
       );
       httpsServer.listen( conf.socket_io.https_port );
       io = socketIo( httpsServer );
