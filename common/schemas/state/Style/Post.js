@@ -123,6 +123,7 @@ export default class Post {
       background: Container.themeRGBA,
       padding: '20px 20px 20px 25px',
       borderRadius: '10px',
+      maxWidth: '79%',
     });
     const content = Style.getContentBase({
       color: 'rgb(255,255,255)',
