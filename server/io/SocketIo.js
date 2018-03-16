@@ -18,15 +18,15 @@ class SocketIo{
       );
       httpsServer.listen( conf.socket_io.https_port );
       io = socketIo( httpsServer );
+      console.log("SOCKET IO RUN: " + protcol + " " + conf.socket_io.https_port);
       break;
     case 'http':
       io = socketIo( conf.socket_io.http_port );
+      console.log("SOCKET IO RUN: " + protcol + " " + conf.socket_io.http_port);
       break;
     default:
       throw 'ERROR: BAD PROTCOL.';
     }
-
-    console.log("SOCKET IO RUN: " + protcol );
 
     // Adapt Redis-Server .
     this.io = io.adapter( redis( { host: conf.redis.host, port: conf.redis.port } ));
