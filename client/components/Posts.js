@@ -54,11 +54,30 @@ export default class Posts extends Component {
       this.refs.thread.scrollTop = this.refs.thread.scrollHeight - this.state.scrollHeight;
 
       if(thread.isSelfConnection){
-        if( Object.keys( thread.serverMetas ).length !== document.querySelectorAll('meta').length ){
 
-          console.log( Object.keys( thread.serverMetas ).length + " !== " + document.querySelectorAll('meta').length );
-          console.log(document.querySelectorAll('meta'));
-          talknAPI.updateThreadServerMetas(document.querySelectorAll('meta'));
+        const clientMetas = document.querySelectorAll('meta');
+        if( Object.keys( thread.serverMetas ).length !== clientMetas.length ){
+          let serverMetas = {};
+          for( let i = 0; i < clientMetas.length; i++ ){
+            const item = clientMetas[ i ];
+            let key = i;
+            let content = '';
+            if( item.attribs.name ){
+              key = item.attribs.name;
+              content = item.attribs.content;
+            }else if( item.attribs.property ){
+              key = item.attribs.property;
+              content = item.attribs.content;
+            }else if( item.attribs.charset ){
+              key = 'charset';
+              content = item.attribs.charset;
+            }else if( item.attribs['http-equiv'] ){
+              key = item.attribs['http-equiv'];
+              content = item.attribs.content;
+            }
+            serverMetas[ key ] = content;
+          }
+          talknAPI.updateThreadServerMetas(serverMetas);
         }
       }
       break;
