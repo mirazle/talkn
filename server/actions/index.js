@@ -99,8 +99,14 @@ export default {
   },
 
   updateThreadServerMetas: async ( ioUser, requestState, setting ) => {
-    const thread = requestState.thread;
-    await Logics.db.threads.update( requestState, {thread} );
+    const { title, serverMetas, links, h1s, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
+    requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
+    const faviconName = Logics.favicon.getName( requestState.thread, links );
+    const faviconBinary = await Logics.favicon.request( faviconName );
+    const writeResult = await Logics.fs.write( faviconName, faviconBinary );
+    const thread = {title, serverMetas, links, h1s, contentType, uri, favicon: faviconName};
+//    await Logics.db.threads.update( requestState, {thread} );
+    await Logics.db.threads.update( requestState, thread );
     Logics.io.updateThreadServerMetas( ioUser, {requestState, thread} );
     return true;
   },
