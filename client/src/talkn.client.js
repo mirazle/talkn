@@ -35,7 +35,7 @@ window.onload =  () => {
 	switch( appType ){
 	case 'plugin':
 	case 'electron':
-		bootTalkn( appType, 0, {} );
+		bootTalkn( appType, 0, {}, env );
 		break;
 	case 'script':
 
