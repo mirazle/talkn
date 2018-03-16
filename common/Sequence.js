@@ -86,7 +86,7 @@ export default class Sequence {
         responseBroadcastState: {'posts': '*', 'thread': ['postCnt', 'multiPostCnt']},
       },
       updateThreadServerMetas: {
-        requestPublicState: {},
+        requestPublicState: {'thread': [{columnName: 'serverMetas'}]},
         requestPrivateState: {
           'thread': [{columnName: 'host'}, {columnName: 'protocol'}, {columnName: 'connection'}],
           'user': '*',
