@@ -100,6 +100,7 @@ export default class Main {
       borderBottom: 'none',
       boxShadow: Container.shadow,
       margin: '0 auto',
+      zIndex: Container.maxZIndex,
     });
     const content = {};
     const animation = Style.getAnimationBase({
