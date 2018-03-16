@@ -9,6 +9,7 @@ export default class Login {
   static get TWITTER_CONSUMER_SECRET(){ return 'slns8crrxL5N0pM121y8EIejUg2QpnbFikKiON9s1YyY5Psa75' }
 
   constructor(){
+/*
     console.log("LOGIN BOOT");
     this.app = express();
     this.app.use(passport.session());
@@ -28,6 +29,7 @@ console.log(this.app);
         //     例) req.user.useridでユーザIDがとれます
         res.redirect('/');
     });
+*/
   }
 
   twitter( callback ){
