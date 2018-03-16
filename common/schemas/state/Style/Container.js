@@ -14,6 +14,7 @@ export default class Container{
   static get openHeight(){ return 360 };
   static get closeHeight(){ return 360 };
   static get threadHeight(){ return 360 };
+  static get maxZIndex(){ return 2147483647 };
 
   static get openBottom(){ return Container.footerHeight };
   static get closeBottom(){ return 0 };
@@ -68,6 +69,7 @@ export default class Container{
       right: rightPx,
       width: widthPx,
       height: Footer.selfHeight,
+      zIndex: Container.maxZIndex,
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
