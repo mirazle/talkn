@@ -26,6 +26,7 @@ class TalknServer{
 			const oneSequence = Sequence.map[ endpoint ];
 			ioUser.on( endpoint, ( requestState ) => {
 				console.log("========== START " + endpoint );
+				console.log( requestState );
 				Actions[ endpoint ]( ioUser, requestState, setting );
 			});
 		});
