@@ -3,6 +3,8 @@
 /* ( SOCKET.IO / MONGODB / REDIS )
 /**************************************/
 
+import https from 'https';
+import fs from 'fs';
 import Actions from '~/actions';
 import Sequence from '~/../common/Sequence'
 
@@ -19,7 +21,6 @@ class TalknServer{
 	}
 
 	async connection( ioUser ){
-		console.log("##### CONNECTION " + ioUser.conn.id);
 		const setting = await Actions.setUpUser();
 		Object.keys( Sequence.map ).forEach( endpoint => {
 			const oneSequence = Sequence.map[ endpoint ];
