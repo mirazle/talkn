@@ -35,11 +35,6 @@ console.log(this.app);
   twitter( callback ){
     return new Promise( resolve => {
 
-      console.log("@@@@@@@@@@@@@@@@@ LOGIN TWITTER");
-      console.log( callback );
-console.log("AAAA");
-console.log(Login.TWITTER_CONSUMER_KEY);
-console.log(Login.TWITTER_CONSUMER_SECRET);
       // passport-twitterの初期化
       passport.use(new TwitterStrategy({
         consumerKey: Login.TWITTER_CONSUMER_KEY,//TwitterのconsumerKey
@@ -57,7 +52,7 @@ console.log(Login.TWITTER_CONSUMER_SECRET);
           return done(null,profile);
         }
       ));
-console.log("BBBB");
+
       passport.authenticate('twitter');
 
     });

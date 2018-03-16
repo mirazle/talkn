@@ -6,7 +6,7 @@ import util from './../../../util';
 
 export default class Main {
 
-  static get selfHeight(){ return 360 };
+  static get selfHeight(){ return 400 };
   static get headerHeight(){ return 45 };
   static get notifHeight(){ return 20 };
   static get notifOpenTranslate(){ return 20 };
@@ -63,6 +63,7 @@ export default class Main {
     }else{
       const reduceHeight = Footer.selfHeight + Math.floor( Footer.selfHeight / 2 );
       height = `calc( 100vh - ${reduceHeight}px )`;
+      height =  Main.selfHeight + 'px';
     }
     return height;
   }
