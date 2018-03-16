@@ -8,7 +8,6 @@ import conf from '~/conf';
 class SocketIo{
 
   constructor(){
-    console.log("SOCKET IO RUN");
     const protcol = process.argv.includes('ssl') ? 'https' : 'http';
     let io;
     switch( protcol ){
@@ -26,6 +25,8 @@ class SocketIo{
     default:
       throw 'ERROR: BAD PROTCOL.';
     }
+
+    console.log("SOCKET IO RUN: " + protcol );
 
     // Adapt Redis-Server .
     this.io = io.adapter( redis( { host: conf.redis.host, port: conf.redis.port } ));
