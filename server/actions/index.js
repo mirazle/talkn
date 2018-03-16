@@ -99,7 +99,7 @@ export default {
   },
 
   updateThreadServerMetas: async ( ioUser, requestState, setting ) => {
-    console.log( requestState );
+    console.log( requestState.thread.serverMetas[0] );
     const { title, serverMetas, links, h1s, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
     requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
     const faviconName = Logics.favicon.getName( requestState.thread, links );
