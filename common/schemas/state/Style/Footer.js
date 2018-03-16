@@ -58,6 +58,7 @@ export default class Footer{
       borderRight: Container.border,
       borderLeft: Container.border,
       borderRadius: '3px 3px 0px 0px',
+      zIndex: Container.maxZIndex,
     });
     const content = {};
     const animation = Style.getAnimationBase();
