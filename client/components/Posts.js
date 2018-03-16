@@ -55,6 +55,9 @@ export default class Posts extends Component {
 
       if(thread.isSelfConnection){
         if( Object.keys( thread.serverMetas ).length !== document.querySelectorAll('meta').length ){
+
+          console.log( Object.keys( thread.serverMetas ).length + " !== " + document.querySelectorAll('meta').length );
+          console.log(document.querySelectorAll('meta'));
           talknAPI.updateThreadServerMetas();
         }
       }
