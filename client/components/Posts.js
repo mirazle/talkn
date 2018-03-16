@@ -58,7 +58,7 @@ export default class Posts extends Component {
 
           console.log( Object.keys( thread.serverMetas ).length + " !== " + document.querySelectorAll('meta').length );
           console.log(document.querySelectorAll('meta'));
-          talknAPI.updateThreadServerMetas();
+          talknAPI.updateThreadServerMetas(document.querySelectorAll('meta'));
         }
       }
       break;
