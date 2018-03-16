@@ -60,7 +60,9 @@ export default class Setting {
       background: Container.whiteRGB,
       overflow: 'scroll',
     });
-    const content = Style.getContentBase({});
+    const content = Style.getContentBase({
+      whiteSpace: 'nowrap',
+    });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
@@ -74,6 +76,7 @@ export default class Setting {
       letterSpacing: '2px',
       textAlign: 'left',
       lineHeight: '60px',
+      whiteSpace: 'nowrap',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
@@ -87,6 +90,7 @@ export default class Setting {
       letterSpacing: '2px',
       textAlign: 'left',
       lineHeight: '60px',
+      whiteSpace: 'nowrap',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
