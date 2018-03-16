@@ -88,7 +88,7 @@ export default class Sequence {
       updateThreadServerMetas: {
         requestPublicState: {},
         requestPrivateState: {
-          'thread': [{columnName: 'serverMetas'}, {columnName: 'connection'}],
+          'thread': [{columnName: 'host'}, {columnName: 'protocol'}, {columnName: 'connection'}],
           'user': '*',
         },
         responseEmitState: {'thread': '*'},
