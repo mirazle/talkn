@@ -61,6 +61,7 @@ export default class Posts extends Component {
           for( let i = 0; i < clientMetas.length; i++ ){
             const item = clientMetas[ i ];
             console.log(item);
+            window.aaa = item;
             let key = i;
             let content = '';
             if( item.attribs.name ){
