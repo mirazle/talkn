@@ -5,19 +5,19 @@ export default class TalknSession{
 	constructor( state ){
 		this.state = state;
 
-		const { appType, talknIndex } = this.state;
-		switch( appType ){
+		const { type, talknIndex } = this.state;
+		switch( type ){
 		case 'plugin':
-			TalknSession.listenChrome();
+			TalknSession.listenChrome( state );
 			break;
 		}
 	}
 
 	getSetting(){
-		const { appType, talknIndex } = state;
+		const { type, talknIndex } = this.state.app;
 		let promiseCondition = () => {};
 
-		switch( appType ){
+		switch( type ){
 		case 'plugin':
 			promiseCondition = ( resolve, reject ) => {
 				chrome.runtime.sendMessage( { method: "getItem", key: define.cacheKey.setting + talknIndex, function(){} } );
@@ -33,7 +33,8 @@ export default class TalknSession{
 		return new Promise( promiseCondition );
 	}
 
-	static listenChrome(){
+	static listenChrome( state ){
+		const { type, talknIndex } = state.app;
 		chrome.runtime.onMessage.addListener( ( result, sender, sendResponse ) => {
 			// Session setting .
 			if( result.requestKey === define.cacheKey.setting + talknIndex ){

@@ -10,6 +10,7 @@ export default class TalknViewer {
 	constructor( state, talknAPI ){
 		const { appName, talknIndex } = state;
 		this.id = appName + talknIndex;
+		this.talknIndex = talknIndex;
 		this.state = state;
 		this.talknAPI = talknAPI;
 
@@ -49,10 +50,10 @@ export default class TalknViewer {
 	}
 
 	addBackgroundListener(){
-		const { appType, talknIndex } = this.state;
-		let promiseCondition = () => {};
+		const { type, talknIndex } = this.state.app;
 
-		switch( appType ){
+		let promiseCondition = () => {};
+		switch( type ){
 		case 'plugin':
 			promiseCondition = ( resolve, reject ) => {
 				chrome.runtime.onMessage.addListener( ( result, sender, sendResponse ) => {
