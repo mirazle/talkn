@@ -23,6 +23,8 @@ export default class Threads {
     return new Promise( resolve => {
       this.db.update( condition, set, option, ( error, response ) => {
         if(error) console.warn( error );
+        console.log( "@@@@@@@@@@@@" );
+        console.log( response );
         resolve({response, error});
       });
     });
