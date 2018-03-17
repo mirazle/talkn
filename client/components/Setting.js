@@ -133,7 +133,12 @@ export default class Setting extends Component {
             <li style={ style.setting.columnLast } onClick={this.handleOnClickLoginTwitter}>
               → LOGIN
             </li>
+            <li style={ style.setting.columnLast } onClick={this.handleOnClickLoginTwitter}>
+              
+            </li>
           </ol>
+          <br />
+          <br />
           <br />
         </div>
       </div>
