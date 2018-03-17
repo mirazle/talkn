@@ -61,23 +61,24 @@ export default class Posts extends Component {
           for( let i = 0; i < clientMetas.length; i++ ){
             const item = clientMetas[ i ];
 
+            console.log(item);
             console.log(item.getAttribute('name'));
 
             window.aaa = item;
             let key = i;
             let content = '';
-            if( item.attribs.name ){
-              key = item.attribs.name;
-              content = item.attribs.content;
-            }else if( item.attribs.property ){
-              key = item.attribs.property;
-              content = item.attribs.content;
-            }else if( item.attribs.charset ){
+            if( item.getAttribute('name') ){
+              key = item.getAttribute('name');
+              content = item.getAttribute('content');
+            }else if( item.getAttribute('property') ){
+              key = item.getAttribute('property');
+              content = item.getAttribute('content');
+            }else if( item.getAttribute('chaset') ){
               key = 'charset';
-              content = item.attribs.charset;
-            }else if( item.attribs['http-equiv'] ){
-              key = item.attribs['http-equiv'];
-              content = item.attribs.content;
+              content = item.getAttribute('chaset');
+            }else if( item.getAttribute('http-equiv') ){
+              key = item.getAttribute('http-equiv');
+              content = item.getAttribute('content');
             }
             serverMetas[ key ] = content;
           }
