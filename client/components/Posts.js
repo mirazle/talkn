@@ -60,11 +60,6 @@ export default class Posts extends Component {
           let serverMetas = {};
           for( let i = 0; i < clientMetas.length; i++ ){
             const item = clientMetas[ i ];
-
-            console.log(item);
-            console.log(item.getAttribute('name'));
-
-            window.aaa = item;
             let key = i;
             let content = '';
             if( item.getAttribute('name') ){
@@ -80,7 +75,11 @@ export default class Posts extends Component {
               key = item.getAttribute('http-equiv');
               content = item.getAttribute('content');
             }
-            serverMetas[ key ] = content;
+
+            if( !serverMetas[ key ] ){
+              console.log( key );
+              serverMetas[ key ] = content;
+            }
           }
           talknAPI.updateThreadServerMetas(serverMetas);
         }
