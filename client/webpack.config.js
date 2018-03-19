@@ -7,8 +7,12 @@ module.exports = {
   },
 
   output: {
+    path: __dirname + "./../",
+    filename: "talkn.client.js",
+/*
     path: __dirname + "./../0.6.2_0/",
     filename: "bundle.js",
+*/
   },
 
   module: {
