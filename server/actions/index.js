@@ -45,7 +45,6 @@ export default {
 
     // スレッドが存在しない場合 || 更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
-      console.log("@@@@ A");
       const { title, serverMetas, links, h1s, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
       requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
       const faviconName = Logics.favicon.getName( requestState.thread, links );
@@ -69,7 +68,6 @@ export default {
         createThread = {...createThread, watchCnt, connections, postCnt, multiPostCnt, protocol };
 
         let {response: thread} = await Logics.db.threads.save( requestState, createThread );
-        console.log( thread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
 
@@ -88,6 +86,7 @@ export default {
   },
 
   post: async ( ioUser, requestState, setting ) => {
+    console.log( requestState );
     requestState.thread.thum = requestState.thread.favicon;
     delete requestState.thread.favicon;
     await Logics.db.threads.update( requestState, {$inc: {postCnt: 1}} );
