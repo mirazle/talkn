@@ -13,8 +13,10 @@ export default class Setting {
     const column = Setting.getColumn( bootOption );
     const columnLast = Setting.getColumnLast( bootOption );
     const img = Setting.getImg( bootOption );
+    const wrap = Setting.getWrap( bootOption );
     const imgWrap = Setting.getImgWrap( bootOption );
     const names = Setting.getNames( bootOption );
+    const namesAddConnection = Setting.getNamesAddConnection( bootOption );
     return {
       self,
       scroll,
@@ -23,7 +25,9 @@ export default class Setting {
       columnLast,
       img,
       imgWrap,
+      wrap,
       names,
+      namesAddConnection,
     }
   }
 
@@ -96,6 +100,20 @@ export default class Setting {
     return Style.get({layout, content, animation});
   }
 
+  static getWrap( bootOption ){
+    const layout = Style.getLayoutBase({
+      width: 'initial',
+      height: '60px',
+      minWidth: 'initial',
+      minHeight: 'initial',
+    });
+    const content = Style.getContentBase({
+      textAlign: 'left',
+    });
+    const animation = Style.getAnimationBase({});
+    return Style.get({layout, content, animation});
+  }
+
   static getImgWrap( bootOption ){
     const layout = Style.getLayoutInlineBlock({
       width: '60px',
@@ -118,11 +136,21 @@ export default class Setting {
     return Style.get({layout, content, animation});
   }
 
-  static getNames( bootOption ){
+  static getNamesAddConnection( bootOption ){
     const layout = Style.getLayoutInlineBlock({});
     const content = Style.getContentBase({
       textAlign: 'left',
       lineHeight: '2',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getNames( bootOption ){
+    const layout = Style.getLayoutInlineBlock({});
+    const content = Style.getContentBase({
+      textAlign: 'left',
+      lineHeight: '1.7',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

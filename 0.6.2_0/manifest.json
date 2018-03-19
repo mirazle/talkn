@@ -4,7 +4,7 @@
       "scripts": [ "background.js" ]
    },
    "content_scripts": [ {
-      "js": [ "bundle.js" ],
+      "js": [ "talkn.client.js" ],
       "matches": [ "http://*/*", "https://*/*" ],
       "run_at": "document_end"
    } ],

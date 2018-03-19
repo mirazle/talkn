@@ -64,6 +64,13 @@ export default class Post extends Component {
     return `timeAgo:${this.props._id}`;
   }
 
+  getHrefProps(){
+    const { thread } = this.props;
+    const { protocol, connection } = thread;
+    const href = protocol === Sequence.TALKN_PROTOCOL ? `//talkn.io${connection}` : `/${connection}` ;
+    return { href: href };
+  }
+
   componentDidMount(){
     const { _id, timeago } = this.props;
     const timeId = this.getTimeId();
@@ -89,6 +96,7 @@ export default class Post extends Component {
     const timeId = this.getTimeId();
     const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
     const { style } = this.state;
+    const { protocol } = thread;
     return (
       <li style={style.self} {...this.getDecolationProps()}>
         <div style={style.upper}>
@@ -100,10 +108,10 @@ export default class Post extends Component {
           </span>
         </div>
 
-        <div style={style.bottom}>
+        <a style={style.bottom} {...this.getHrefProps()}>
           <span style={{...style.bottomIcon, backgroundImage: `url( ${thum} )`}} />
           <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post}} />
-        </div>
+        </a>
       </li>
 		);
  	}
