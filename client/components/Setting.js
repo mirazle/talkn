@@ -76,11 +76,16 @@ export default class Setting extends Component {
 
   renderFriendLiLabel( name, icon, connection ){
     const { style } = this.props.state;
+    const href = `/${connection}`;
+    const label = connection ?
+      (<span style={ style.setting.namesAddConnection }>{ name }<br />{ connection }</span>) :
+      (<span style={ style.setting.names }><br />{ name }</span>) ;
+
     return(
-      <div style={ style.setting.wrap }>
+      <a style={ style.setting.wrap } href={ href } >
         <img style={ style.setting.img } src={ icon } />
-        <span style={ style.setting.names }>{ name }<br />{ connection }</span>
-      </div>
+        { label }
+      </a>
     );
   }
 
@@ -91,7 +96,6 @@ export default class Setting extends Component {
 		return (
       <div style={ style.setting.self } >
         <div style={ style.setting.scroll } >
-
           <br />
           <ol style={ style.setting.columns }>
             <SettingLi label={ thread.connection } isLast={ false } {...this.props.state} />

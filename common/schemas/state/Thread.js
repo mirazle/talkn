@@ -131,6 +131,11 @@ export default class Thread extends Schema{
     return connection.split( "/" )[ 1 ];
   }
 
+  static getProtocol( href ){
+    if( href.index( 'http:' ) >= 0 ) return 'http:';
+    if( href.index( 'https:' ) >= 0 ) return 'https:';
+    return 'talkn:'
+  }
 
   static getIsSelfConnection( href, connection ){
     const replacedHref = href.replace('http:/', '').replace('https:/', '').replace(/\u002f$/,'');

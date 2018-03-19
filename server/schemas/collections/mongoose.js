@@ -19,6 +19,7 @@ export default {
 	},
 	Threads: {
 		// Base
+		protocol: { type: String, default: "talkn:"  },
 		connection: { type: String, default: "/"  },
 		connections: { type: [String], default: ['/'] },
 		title: { type: String, default: "" },
