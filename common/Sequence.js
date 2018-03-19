@@ -80,7 +80,7 @@ export default class Sequence {
         requestPrivateState: {
           'control':[ {columnName: 'inputPost', valid: Control.validPost}],
           'user':[ {columnName: 'uid'},{columnName: 'utype'}],
-          'thread': [{columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}]
+          'thread': [{columnName: 'protocol'}, {columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}]
         },
         responseEmitState: {},
         responseBroadcastState: {'posts': '*', 'thread': ['postCnt', 'multiPostCnt']},

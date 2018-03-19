@@ -5,6 +5,7 @@ export default {
 		connection: { type: String, default: '/' },
 	},
 	Posts: {
+		protocol: { type: String, default: "talkn:"  },
 		connection: { type: String, default: '/' },
 		connections: { type: [String], default: ['/'] },
 		uid: { type: String, default: '' },

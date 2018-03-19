@@ -95,6 +95,7 @@ export default class TalknAPI{
 			if( TalknAPI.handle( talknIndex ) ){
 				const reduxState = window.talknAPI.store.getState();
 				const requestState = Sequence.getRequestState( actionName, reduxState, requestParams );
+console.log( requestState );
 				const actionState = Sequence.getRequestActionState( actionName, requestParams );
 				this.ws.emit( requestState.type, requestState );
 				return window.talknAPI.store.dispatch( actionState );
