@@ -45,6 +45,7 @@ export default {
 
     // スレッドが存在しない場合 || 更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
+      console.log("@@@@ A");
       const { title, serverMetas, links, h1s, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
       requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
       const faviconName = Logics.favicon.getName( requestState.thread, links );
@@ -54,7 +55,6 @@ export default {
 
       // スレッド更新
       if( thread ){
-
         createThread.postCnt = postCnt;
         createThread.multiPostCnt = multiPostCnt;
         createThread.watchCnt = createThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
@@ -65,18 +65,18 @@ export default {
       }else{
         const watchCnt = 1;
         const connections = Thread.getConnections( connection );
-        createThread = {...createThread, watchCnt, connections, postCnt, multiPostCnt };
+        const protocol =  ( createThread && createThread.uri && createThread.uri.protocol ) ? createThread.uri.protocol : Sequence.TALKN_PROTOCOL ;
+        createThread = {...createThread, watchCnt, connections, postCnt, multiPostCnt, protocol };
 
         let {response: thread} = await Logics.db.threads.save( requestState, createThread );
+        console.log( thread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
 
     // スレッドが存在して、更新も必要ない場合
     }else{
-
       // 初回表示(GET MOREでない場合)
       if( requestState.user.offsetFindId === User.defaultOffsetFindId ){
-
         const addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
         thread.watchCnt = await Actions.updateThreadWatchCnt( connection, addWatchCnt );
       }
