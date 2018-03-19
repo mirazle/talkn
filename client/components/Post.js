@@ -65,8 +65,7 @@ export default class Post extends Component {
   }
 
   getHrefProps(){
-    const { thread } = this.props;
-    const { protocol, connection } = thread;
+    const { protocol, connection } = this.props;
     const href = protocol === Sequence.TALKN_PROTOCOL ? `//talkn.io${connection}` : `/${connection}` ;
     return { href: href };
   }
