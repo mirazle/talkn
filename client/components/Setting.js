@@ -105,7 +105,7 @@ export default class Setting extends Component {
           <br />
           <ol style={ style.setting.columns }>
             <SettingLi label={ this.renderFriendLiLabel( 'mirazle', 'https://pbs.twimg.com/profile_images/1725640801/baba_bigger.png', '/news.yahoo.co.jp' ) } isLast={ false } {...this.props.state} />
-            <SettingLi label={ this.renderFriendLiLabel( 'fukuty.sho', 'https://pbs.twimg.com/profile_images/927155774937186304/8I_6Wp0c_bigger.jpg', '/tabelog.com/tokyo' ) } isLast={ false } {...this.props.state} />
+            <SettingLi label={ this.renderFriendLiLabel( 'fukuty.sho', 'https://pbs.twimg.com/profile_images/927155774937186304/8I_6Wp0c_bigger.jpg', '/twitter.com/fukutys' ) } isLast={ false } {...this.props.state} />
             <SettingLi label={ this.renderFriendLiLabel( '自由になりたいあなたへ', 'https://pbs.twimg.com/profile_images/890932897170898944/yIEPHR9C_bigger.jpg', '/zozo.jp/ranking/all-sales.html' ) } isLast={ false } {...this.props.state} />
             <SettingLi label={ this.renderFriendLiLabel( '古谷 沙綾香', 'https://pbs.twimg.com/profile_images/946122762396999680/zOCsFkrw_bigger.jpg', '/www.microsoft.com/ja-jp' ) } isLast={ false } {...this.props.state} />
             <SettingLi label={ this.renderFriendLiLabel( 'りゅう＠のんびりパパ', 'https://pbs.twimg.com/profile_images/855356315551449088/UMsYHYKZ_bigger.jpg' ) } isLast={ false } {...this.props.state} />
