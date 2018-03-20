@@ -137,7 +137,9 @@ export default class Setting {
   }
 
   static getNamesAddConnection( bootOption ){
-    const layout = Style.getLayoutInlineBlock({});
+    const layout = Style.getLayoutInlineBlock({
+      padding: '5px',
+    });
     const content = Style.getContentBase({
       textAlign: 'left',
       lineHeight: '2',
