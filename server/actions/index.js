@@ -86,7 +86,6 @@ export default {
   },
 
   post: async ( ioUser, requestState, setting ) => {
-    console.log( requestState );
     requestState.thread.thum = requestState.thread.favicon;
     delete requestState.thread.favicon;
     await Logics.db.threads.update( requestState, {$inc: {postCnt: 1}} );
