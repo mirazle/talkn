@@ -124,7 +124,7 @@ export default class Setting extends Component {
               autoLoad={false}
               fields="name,email,picture"
               callback={this.responseFacebook}
-            >aa</FacebookLogin>
+            />
 { /*
             <SettingLi label={ this.renderFriendLiLabel( 'mirazle', 'https://pbs.twimg.com/profile_images/1725640801/baba_bigger.png', '/news.yahoo.co.jp' ) } isLast={ false } {...this.props.state} />
             <SettingLi label={ this.renderFriendLiLabel( 'fukuty.sho', 'https://pbs.twimg.com/profile_images/927155774937186304/8I_6Wp0c_bigger.jpg', '/twitter.com/fukutys' ) } isLast={ false } {...this.props.state} />
