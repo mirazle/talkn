@@ -1,38 +1,94 @@
+//import LoginWithTwitter from 'login-with-twitter';
+
+
 import express from 'express';
-import localStorage from 'localStorage';
+import session from 'express-session';
 import passport from 'passport';
 import TwitterStrategy from 'passport-twitter';
+import ejs from 'ejs';
 
 export default class Login {
 
   static get TWITTER_CONSUMER_KEY(){ return 'gPahl00kmAjRVndFFAZY4lC9K' }
   static get TWITTER_CONSUMER_SECRET(){ return 'slns8crrxL5N0pM121y8EIejUg2QpnbFikKiON9s1YyY5Psa75' }
+  static get ACCESS_TOKEN_KEY(){ return '94465436-ilw0Q2AFpf0sF3ActmrjGJFvWU0Tn96qi3zjMTlSx' }
+  static get ACCESS_TOKEN_SECRET(){ return 'gelAu4sZ00kmhKlPwYhVM2zvvgi9CrnxAEP75yzshx6Fm' }
 
   constructor(){
 /*
     console.log("LOGIN BOOT");
-    this.app = express();
-    this.app.use(passport.session());
-    passport.session();
-console.log(this.app);
-    this.app.get('/auth/twitter', ()=>{
-      console.log("AUTH/TWITTER");
-      passport.authenticate('twitter');
+    const app = express();
+
+    // セッションへの保存と読み出し
+    passport.serializeUser((user, callback) => {
+      console.log( "2 シリアライズ(セッションへの保存と読み出し)" );
+    //  console.log( user );
+      callback(null, user);
     });
 
-    //認証正常時の戻り先URLの設定をする
-    this.app.get('/auth/twitter/callback',
-      passport.authenticate('twitter', {failureRedirect: '/' }),//認証失敗時のリダイレクト先を書く
-      (req, res) => {
-        // ここでは認証成功時のルーティング設定を書く
-        // ちなみにreq.userでログインユーザの情報が取れる
-        //     例) req.user.useridでユーザIDがとれます
+    passport.deserializeUser((obj, callback) => {
+      console.log( "4 デシリアライズ" );
+      callback(null, obj);
+    });
+
+    // 認証の設定
+    passport.use(new TwitterStrategy({
+        consumerKey: Login.TWITTER_CONSUMER_KEY,
+        consumerSecret: Login.TWITTER_CONSUMER_SECRET,
+        callbackURL: "localhost:8080"
+
+    // 認証後のアクション
+    },(accessToken, refreshToken, profile, callback) => {
+        process.nextTick(() => {
+
+            console.log("1 認証完了"); //必要に応じて変更
+
+            return callback(null, profile);
+        });
+    }));
+
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'ejs');
+
+    // セッションの設定
+    app.use(session({
+        secret: 'reply-analyzer',
+        resave: false,
+        saveUninitialized: false
+    }));
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    // 指定のpathで認証
+    app.get('/auth/twitter', passport.authenticate('twitter'));
+
+    // callback後の設定
+    app.get('/auth/twitter/callback', passport.authenticate('twitter', {failureRedirect: '/login' }), (req, res) => {
+      console.log("3 callback");
         res.redirect('/');
     });
+
+    app.get('/', function(req, res) {
+      console.log("5 TOP");
+        const username = req.user ? req.user.username : 'GUEST' ;
+        res.render('index', {title : username});
+    });
+
+    app.listen(8000)
 */
   }
 
   twitter( callback ){
+/*
+    console.log( callback );
+    const tw = new LoginWithTwitter({
+      consumerKey: Login.TWITTER_CONSUMER_KEY,
+      consumerSecret: Login.TWITTER_CONSUMER_SECRET,
+      callbackUrl: callback
+    });
+    console.log( tw );
+*/
+    /*
     return new Promise( resolve => {
 
       // passport-twitterの初期化
@@ -56,5 +112,6 @@ console.log(this.app);
       passport.authenticate('twitter');
 
     });
+    */
   }
 }

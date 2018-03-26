@@ -3,12 +3,278 @@ import Logics from '~/logics';
 import User from '~/../common/schemas/state/User'
 import Thread from '~/../common/schemas/state/Thread'
 import Sequence from '~/../common/Sequence'
+import http from 'http';
+import https from 'https';
+import ridirectHttps from 'redirect-https';
+import fs from 'fs';
+import express from 'express';
+import session from 'express-session';
+//import LEX from 'letsencrypt-express';
+import LEX from 'greenlock-express';
+import leChallenge from 'le-challenge-fs';
+import leStoreCertbot from 'le-store-certbot';
+import os from 'os';
+import passport from 'passport';
+import TwitterStrategy from 'passport-twitter';
+import FacebookStrategy from 'passport-facebook';
 
 export default {
 
   setUpApp: async () => {
     await Logics.db.threads.resetWatchCnt();
     return await Logics.db.users.removeAll();
+  },
+
+  setUpEndpoints: async () => {
+    const app = express();
+    const options = {
+      key: fs.readFileSync( `${__dirname}/../assets/ssl/localhost.key` ),
+      cert: fs.readFileSync(`${__dirname}/../assets/ssl/localhost.crt`),
+      requestCert: false,
+      rejectUnauthorized: false
+    };
+
+    // セッションの設定
+    app.use(session({
+        secret: 'reply-analyzer',
+        resave: false,
+        saveUninitialized: false
+    }));
+
+console.log( options );
+    const server = https.createServer(options, app).listen(3000, function(req , res ){
+      console.log("server started at port 3000");
+      console.log( req );
+    });
+
+    app.get('/', function(req, res) {
+      console.log('Hello talkn!');
+      res.send('Hello! talkn!');
+    });
+
+
+
+/*
+    // returns an instance of node-greenlock with additional helper methods
+    const lex = LEX.create({
+      server: 'staging',
+      configDir: os.homedir() + '/letsencrypt/etc',
+      challenges: {
+        'http-01': leChallenge.create({ webrootPath: '/tmp/acme-challenges' }) ,
+        'tls-sni-01': leChallenge.create({ webrootPath: '/tmp/acme-challenges' })
+      },
+      store: leStoreCertbot.create({ webrootPath: '/tmp/acme-challenges' }),
+      debug: true,
+      approveDomains: (opts, certs, cb) => {
+        // This is where you check your database and associated
+        // email addresses with domains and agreements and such
+
+        // The domains being approved for the first time are listed in opts.domains
+        // Certs being renewed are listed in certs.altnames
+        if (certs) {
+          console.log( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ A" );
+          console.log(opts);
+          console.log(certs);
+          console.log(cb);
+          opts.domains = certs.altnames;
+        }
+        else {
+          console.log( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ B" );
+          console.log(opts);
+          console.log(certs);
+          console.log(cb);
+          opts.email = 'mirazle2069@gmail.com';
+          opts.agreeTos = true;
+        }
+
+        // NOTE: you can also change other options such as `challengeType` and `challenge`
+        opts.challengeType = 'http-01';
+        opts.challenge = require('le-challenge-fs').create({});
+
+        cb(null, { options: opts, certs: certs });
+      }
+    });
+
+    // handles acme-challenge and redirects to https
+    http.createServer(lex.middleware( ridirectHttps() ) ).listen(8000, function () {
+      console.log("Listening for ACME http-01 challenges on", this.address());
+    });
+
+    app.use('/', function (req, res) {
+      console.log("##### TOP");
+      res.send('Hello, World!');
+    });
+
+    app.use('/test', function (req, res) {
+      console.log("##### TEST");
+      res.send('Hello, World!');
+    });
+
+    // handles your app
+    https.createServer( lex.httpsOptions, lex.middleware( app ) ).listen( 10443, function () {
+      console.log("Listening for ACME tls-sni-01 challenges and serve app on", this.address());
+    });
+*/
+
+
+/*
+    http.createServer( lex.middleware( ridirectHttps() ) ).listen( 8000, function () {
+      console.log('Listening for ACME http-01 challenges on', this.address());
+    });
+    */
+/*
+    https.createServer(lex.httpsOptions, lex.middleware(app)).listen(443, function () {
+      console.log('Listening for ACME tls-sni-01 challenges and serve app on', this.address());
+    });
+*/
+
+/*
+		// セッションへの保存と読み出し
+    passport.serializeUser((user, callback) => {
+      console.log( "3 Serialize(Save Session & Read Session)" );
+      callback(null, user);
+    });
+
+    passport.deserializeUser((obj, callback) => {
+      console.log( "5 Deserialize" );
+      callback(null, obj);
+    });
+
+    // 認証の設定
+		const fs = new FacebookStrategy({
+      clientID: '1655931587827697',
+      clientSecret: '64c9192a5ea216be390f990eb2365fa6',
+      callbackURL: "http://localhost:3000/auth/facebook/callback"
+
+    // 認証後のアクション
+    },(accessToken, refreshToken, profile, callback) => {
+				profile.accessToken = accessToken;
+				profile.refreshToken = refreshToken;
+        process.nextTick(() => {
+
+            console.log("2 Auth Facebook Finish"); //必要に応じて変更
+
+            return callback(null, profile);
+        });
+    });
+
+    // 認証の設定
+		const ts = new TwitterStrategy({
+        consumerKey: 'gPahl00kmAjRVndFFAZY4lC9K',
+        consumerSecret: 'slns8crrxL5N0pM121y8EIejUg2QpnbFikKiON9s1YyY5Psa75',
+        callbackURL: "http://localhost:8000/auth/twitter/callback"
+
+    // 認証後のアクション
+    },(accessToken, refreshToken, profile, callback) => {
+				profile.accessToken = accessToken;
+				profile.refreshToken = refreshToken;
+        process.nextTick(() => {
+
+            console.log("2 Auth Twitter Finish"); //必要に応じて変更
+
+            return callback(null, profile);
+        });
+    });
+
+    passport.use( fs );
+    passport.use( ts );
+
+    const app = express();
+    // セッションの設定
+    app.use(session({
+        secret: 'reply-analyzer',
+        resave: false,
+        saveUninitialized: false
+    }));
+
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    // 指定のpathで認証
+    app.get('/auth/facebook', function(req,res,next) {
+      if( req.query.url ){
+        console.log("1 Auth Start " + req.query.url);
+        passport.authenticate('facebook',{callbackURL: '/auth/facebook/callback/?url=' + req.query.url})( req, res, next );
+      }else{
+        res.send('Bad Request.');
+      }
+    });
+
+    // callback後の設定
+    app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login' }), (req, res) => {
+        console.log("4 callback " + req.query.url );
+        res.redirect( req.query.url );
+    });
+
+
+    // 指定のpathで認証
+    app.get('/auth/twitter', function(req,res,next) {
+      if( req.query.url ){
+        console.log("1 Auth Start " + req.query.url);
+        passport.authenticate('twitter',{callbackURL: '/auth/twitter/callback/?url=' + req.query.url})( req, res, next );
+      }else{
+        res.send('Bad Request.');
+      }
+    });
+
+    // callback後の設定
+    app.get('/auth/twitter/callback', passport.authenticate('twitter', {failureRedirect: '/login' }), (req, res) => {
+        console.log("4 callback " + req.query.url );
+        res.redirect( req.query.url );
+    });
+
+    app.get('/', function(req, res) {
+        console.log("TOP");
+        const user = req.user ? req.user : {} ;
+        if( user.id ){
+
+          ts._oauth.getProtectedResource(
+            `https://api.twitter.com/1.1/followers/ids.json?user_id=${user.id}&stringify_ids=true`,
+            'GET',
+            req.user.accessToken,
+            req.user.refreshToken,
+            function (err, data, response) {
+
+              if(err) {
+                res.send(err, 500);
+                return false;
+              }
+
+              user.friends = JSON.parse(data);
+          　		// あとはお好みで
+//              res.send(user);
+            }
+           );
+
+
+          ts._oauth.getProtectedResource(
+//						`https://api.twitter.com/1.1/followers/ids.json?user_id=${user.id}&stringify_ids=true`,
+            `https://api.twitter.com/1.1/followers/list.json?user_id=${user.id}&count=200&skip_status=true&include_user_entities=false`,
+            'GET',
+            req.user.accessToken,
+            req.user.refreshToken,
+            function (err, data, response) {
+
+              if(err) {
+          console.log("CC");
+                res.send(err, 500);
+                return false;
+              }
+
+              user.friends = JSON.parse(data);
+//          console.log( user.friends);
+          　		// あとはお好みで
+              res.send(user);
+            }
+           );
+
+        }else{
+          res.send('No Auth.');
+        }
+    });
+
+    app.listen(8000)
+*/
   },
 
   setUpUser: async () => {
