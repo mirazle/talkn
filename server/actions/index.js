@@ -26,109 +26,43 @@ export default {
   },
 
   setUpEndpoints: async () => {
-    const app = express();
-    const options = {
-      key: fs.readFileSync( `${__dirname}/../assets/ssl/localhost.key` ),
-      cert: fs.readFileSync(`${__dirname}/../assets/ssl/localhost.crt`),
-      requestCert: false,
-      rejectUnauthorized: false
-    };
 
-    // セッションの設定
-    app.use(session({
-        secret: 'reply-analyzer',
-        resave: false,
-        saveUninitialized: false
-    }));
+	// 次の行の.testing()は本番環境では外して下さい
+	const LEX = require('letsencrypt-express').testing();
 
-console.log( options );
-    const server = https.createServer(options, app).listen(3000, function(req , res ){
-      console.log("server started at port 3000");
-      console.log( req );
-    });
+	// 以下の2行は環境に合わせて変更して下さい！
+	const DOMAIN = 'talkn.io';
+	const EMAIL = 'mirazle2069@gmail..com';
 
-    app.get('/', function(req, res) {
-      console.log('Hello talkn!');
-      res.send('Hello! talkn!');
-    });
+	const lex = LEX.create({
+		configDir: require('os').homedir() + '/letsencrypt/etc'
+		, approveRegistration: function (hostname, approve) { // leave `null` to disable automatic registration
+			if (hostname === DOMAIN) { // Or check a database or list of allowed domains
+				approve(null, {
+					domains: [DOMAIN]
+					, email: EMAIL
+					, agreeTos: true
+				});
+			}
+		}
+	});
 
 
+	app.get('/', function (req, res) {
+		res.send('Hello World!');
+	});
 
-/*
-    // returns an instance of node-greenlock with additional helper methods
-    const lex = LEX.create({
-      server: 'staging',
-      configDir: os.homedir() + '/letsencrypt/etc',
-      challenges: {
-        'http-01': leChallenge.create({ webrootPath: '/tmp/acme-challenges' }) ,
-        'tls-sni-01': leChallenge.create({ webrootPath: '/tmp/acme-challenges' })
-      },
-      store: leStoreCertbot.create({ webrootPath: '/tmp/acme-challenges' }),
-      debug: true,
-      approveDomains: (opts, certs, cb) => {
-        // This is where you check your database and associated
-        // email addresses with domains and agreements and such
+	// ここからlets用の実行部コード
+	lex.onRequest = app;
 
-        // The domains being approved for the first time are listed in opts.domains
-        // Certs being renewed are listed in certs.altnames
-        if (certs) {
-          console.log( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ A" );
-          console.log(opts);
-          console.log(certs);
-          console.log(cb);
-          opts.domains = certs.altnames;
-        }
-        else {
-          console.log( "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ B" );
-          console.log(opts);
-          console.log(certs);
-          console.log(cb);
-          opts.email = 'mirazle2069@gmail.com';
-          opts.agreeTos = true;
-        }
-
-        // NOTE: you can also change other options such as `challengeType` and `challenge`
-        opts.challengeType = 'http-01';
-        opts.challenge = require('le-challenge-fs').create({});
-
-        cb(null, { options: opts, certs: certs });
-      }
-    });
-
-    // handles acme-challenge and redirects to https
-    http.createServer(lex.middleware( ridirectHttps() ) ).listen(8000, function () {
-      console.log("Listening for ACME http-01 challenges on", this.address());
-    });
-
-    app.use('/', function (req, res) {
-      console.log("##### TOP");
-      res.send('Hello, World!');
-    });
-
-    app.use('/test', function (req, res) {
-      console.log("##### TEST");
-      res.send('Hello, World!');
-    });
-
-    // handles your app
-    https.createServer( lex.httpsOptions, lex.middleware( app ) ).listen( 10443, function () {
-      console.log("Listening for ACME tls-sni-01 challenges and serve app on", this.address());
-    });
-*/
-
+	lex.listen([8000], [8443, 5001], function () {
+ 		const protocol = ('requestCert' in this) ? 'https': 'http';
+		console.log("Listening at " + protocol + '://localhost:' + this.address().port);
+	});
+	console.log("@@@@@@@@@@@@@");
 
 /*
-    http.createServer( lex.middleware( ridirectHttps() ) ).listen( 8000, function () {
-      console.log('Listening for ACME http-01 challenges on', this.address());
-    });
-    */
-/*
-    https.createServer(lex.httpsOptions, lex.middleware(app)).listen(443, function () {
-      console.log('Listening for ACME tls-sni-01 challenges and serve app on', this.address());
-    });
-*/
 
-/*
 		// セッションへの保存と読み出し
     passport.serializeUser((user, callback) => {
       console.log( "3 Serialize(Save Session & Read Session)" );
@@ -273,7 +207,7 @@ console.log( options );
         }
     });
 
-    app.listen(8000)
+    app.listen(8000);
 */
   },
 
