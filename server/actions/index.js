@@ -61,7 +61,7 @@ export default {
 	});
 	console.log("@@@@@@@@@@@@@");
 */
-/*
+
 
 		// セッションへの保存と読み出し
     passport.serializeUser((user, callback) => {
@@ -208,7 +208,6 @@ export default {
     });
 
     app.listen(8000);
-*/
   },
 
   setUpUser: async () => {
