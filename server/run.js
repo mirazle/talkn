@@ -3,24 +3,23 @@
 /* ( SOCKET.IO / MONGODB / REDIS )
 /**************************************/
 
-import https from 'https';
-import fs from 'fs';
 import Actions from '~/actions';
 import Sequence from '~/../common/Sequence'
 
 class TalknServer{
 
 	constructor(){
-		this.connection = this.connection.bind(this);
+		this.userConnection = this.userConnection.bind(this);
 	}
 
 	async start(){
 		await Actions.setUpApp();
+		await Actions.setUpEndpoints();
 		const io = await Actions.getIo();
-		return io.on( 'connection', this.connection );
+		return io.on( 'connection', this.userConnection );
 	}
 
-	async connection( ioUser ){
+	async userConnection( ioUser ){
 		const setting = await Actions.setUpUser();
 		Object.keys( Sequence.map ).forEach( endpoint => {
 			const oneSequence = Sequence.map[ endpoint ];
