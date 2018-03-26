@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react"
 import User from 'common/schemas/state/User';
 import SettingLi from 'client/components/SettingLi';
+import FacebookLogin from 'react-facebook-login';
 
 export default class Setting extends Component {
 
@@ -98,6 +99,10 @@ export default class Setting extends Component {
     );
   }
 
+  responseFacebook(response) {
+    console.log(response);
+  }
+
  	render() {
     const { style, control, user, thread } = this.props.state;
     const childrenThreadViewLabel = control.childrenThreadView ? 'Children thread view ON' : 'Children thread view OFF';
@@ -113,6 +118,13 @@ export default class Setting extends Component {
 
           <br />
           <ol style={ style.setting.columns }>
+
+            <FacebookLogin
+              appId="1088597931155576"
+              autoLoad={false}
+              fields="name,email,picture"
+              callback={this.responseFacebook}
+            >aa</FacebookLogin>
 { /*
             <SettingLi label={ this.renderFriendLiLabel( 'mirazle', 'https://pbs.twimg.com/profile_images/1725640801/baba_bigger.png', '/news.yahoo.co.jp' ) } isLast={ false } {...this.props.state} />
             <SettingLi label={ this.renderFriendLiLabel( 'fukuty.sho', 'https://pbs.twimg.com/profile_images/927155774937186304/8I_6Wp0c_bigger.jpg', '/twitter.com/fukutys' ) } isLast={ false } {...this.props.state} />
@@ -130,7 +142,7 @@ export default class Setting extends Component {
             <SettingLi label={ this.renderFriendLiLabel( 'sk', 'https://pbs.twimg.com/profile_images/27767372/e__-1_bigger.png' ) } isLast={ false } {...this.props.state} />
 */}
             <li style={ style.setting.columnLast } onClick={this.handleOnClickLoginFacebook}>
-              ⇨ LOGIN FACEBOOK
+              ⇨ LOGIN FACEBOOKKK
             </li>
             <li style={ style.setting.columnLast } onClick={this.handleOnClickLoginTwitter}>
               ⇨ LOGIN TWITTER

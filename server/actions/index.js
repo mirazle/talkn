@@ -26,7 +26,7 @@ export default {
   },
 
   setUpEndpoints: async () => {
-
+/*
 	// 次の行の.testing()は本番環境では外して下さい
 	const LEX = require('letsencrypt-express').testing();
 
@@ -60,7 +60,7 @@ export default {
 		console.log("Listening at " + protocol + '://localhost:' + this.address().port);
 	});
 	console.log("@@@@@@@@@@@@@");
-
+*/
 /*
 
 		// セッションへの保存と読み出し
