@@ -8,6 +8,7 @@ export default class Setting extends Component {
     super(props);
     this.handleOnClickchildrenThreadView = this.handleOnClickchildrenThreadView.bind(this);
     this.handleOnClickLoginTwitter = this.handleOnClickLoginTwitter.bind(this);
+    this.handleOnClickLoginFacebook = this.handleOnClickLoginFacebook.bind(this);
   }
 
   getDecolationProps(){
@@ -70,8 +71,16 @@ export default class Setting extends Component {
     talknAPI.onClickChildrenThreadView( childrenThreadView );
   }
 
+  handleOnClickLoginFacebook(){
+    const{ thread } = this.props.state;
+    const href = `//localhost:8000/auth/facebook?url=${window.location.href}`;
+    location.href = href;
+  }
+
   handleOnClickLoginTwitter(){
-    talknAPI.login( 'twitter' );
+    const{ thread } = this.props.state;
+    const href = `//localhost:8000/auth/twitter?url=${window.location.href}`;
+    location.href = href;
   }
 
   renderFriendLiLabel( name, icon, connection ){
@@ -104,6 +113,7 @@ export default class Setting extends Component {
 
           <br />
           <ol style={ style.setting.columns }>
+{ /*
             <SettingLi label={ this.renderFriendLiLabel( 'mirazle', 'https://pbs.twimg.com/profile_images/1725640801/baba_bigger.png', '/news.yahoo.co.jp' ) } isLast={ false } {...this.props.state} />
             <SettingLi label={ this.renderFriendLiLabel( 'fukuty.sho', 'https://pbs.twimg.com/profile_images/927155774937186304/8I_6Wp0c_bigger.jpg', '/twitter.com/fukutys' ) } isLast={ false } {...this.props.state} />
             <SettingLi label={ this.renderFriendLiLabel( '自由になりたいあなたへ', 'https://pbs.twimg.com/profile_images/890932897170898944/yIEPHR9C_bigger.jpg', '/zozo.jp/ranking/all-sales.html' ) } isLast={ false } {...this.props.state} />
@@ -118,10 +128,14 @@ export default class Setting extends Component {
             <SettingLi label={ this.renderFriendLiLabel( 'さくら剛', 'https://pbs.twimg.com/profile_images/913411791287345152/BWboXDW2_bigger.jpg' ) } isLast={ false } {...this.props.state} />
             <SettingLi label={ this.renderFriendLiLabel( '南野真太郎(MTRo)', 'https://pbs.twimg.com/profile_images/1519836653/EAAD6F43-D430-476B-916A-2EBF05114616_bigger' ) } isLast={ false } {...this.props.state} />
             <SettingLi label={ this.renderFriendLiLabel( 'sk', 'https://pbs.twimg.com/profile_images/27767372/e__-1_bigger.png' ) } isLast={ false } {...this.props.state} />
-            <li style={ style.setting.columnLast } onClick={this.handleOnClickLoginTwitter}>
-              ⇨ LOGOUT
+*/}
+            <li style={ style.setting.columnLast } onClick={this.handleOnClickLoginFacebook}>
+              ⇨ LOGIN FACEBOOK
             </li>
-            <li style={ style.setting.columnLast } onClick={this.handleOnClickLoginTwitter} >
+            <li style={ style.setting.columnLast } onClick={this.handleOnClickLoginTwitter}>
+              ⇨ LOGIN TWITTER
+            </li>
+            <li style={ style.setting.columnLast }>
 
             </li>
           </ol>
@@ -129,6 +143,7 @@ export default class Setting extends Component {
           <br />
           <br />
         </div>
+        <iframe src='//localhost:8000' style={{}} />
       </div>
 		);
  	}
