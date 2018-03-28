@@ -49,9 +49,9 @@ export default class Footer extends Component {
     return thread.favicon ? {...style.footer.icon, backgroundImage: `url(${thread.favicon})` } : style.footer.icon ;
   }
 
- 	render() {
+  render() {
     const { style, control, thread } = this.props.state;
-		return (
+    return (
       <footer style={ style.footer.self }>
         <div
           style={ this.getIconStyle() }
