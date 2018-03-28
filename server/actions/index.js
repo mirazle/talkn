@@ -42,7 +42,8 @@ export default {
     const fb_s = new FacebookStrategy({
       clientID: '1655931587827697',
       clientSecret: '64c9192a5ea216be390f990eb2365fa6',
-      callbackURL: "https://talkn.io:8443/auth/facebook/callback"
+      callbackURL: "https://talkn.io:8443/auth/facebook/callback",
+      enableProof: true
 
     // 認証後のアクション
     },(accessToken, refreshToken, profile, callback) => {
@@ -106,7 +107,7 @@ export default {
     app.get('/auth/facebook', function(req,res,next) {
       if( req.query.url ){
         console.log("1 Auth Start " + req.query.url);
-        passport.authenticate('facebook',{callbackURL: '/auth/facebook/callback/?url=' + req.query.url})( req, res, next );
+        passport.authenticate('facebook',{params: 'tttttttttttt', callbackURL: '/auth/facebook/callback/?url=' + req.query.url})( req, res, next );
       }else{
         res.send('Bad Request.');
       }
@@ -123,7 +124,7 @@ export default {
     app.get('/auth/twitter', function(req,res,next) {
       if( req.query.url ){
         console.log("1 Auth Start " + req.query.url);
-        passport.authenticate('twitter',{callbackURL: '/auth/twitter/callback/?url=' + req.query.url})( req, res, next );
+        passport.authenticate('twitter',{params: 'tttttttttttt', callbackURL: '/auth/twitter/callback/?url=' + req.query.url})( req, res, next );
       }else{
         res.send('Bad Request.');
       }
