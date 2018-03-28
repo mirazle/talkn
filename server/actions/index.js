@@ -5,18 +5,16 @@ import Thread from '~/../common/schemas/state/Thread'
 import Sequence from '~/../common/Sequence'
 import http from 'http';
 import https from 'https';
-import ridirectHttps from 'redirect-https';
 import fs from 'fs';
 import express from 'express';
 import session from 'express-session';
-//import LEX from 'letsencrypt-express';
 import LEX from 'greenlock-express';
-import leChallenge from 'le-challenge-fs';
-import leStoreCertbot from 'le-store-certbot';
-import os from 'os';
 import passport from 'passport';
 import TwitterStrategy from 'passport-twitter';
 import FacebookStrategy from 'passport-facebook';
+
+const KEY_PEM = '/etc/letsencrypt/live/talkn.io/privkey.pem';
+const CERT_PEM = '/etc/letsencrypt/live/talkn.io/cert.pem';
 
 export default {
 
@@ -26,174 +24,164 @@ export default {
   },
 
   setUpEndpoints: async () => {
+		const protcol = process.argv.includes('ssl') ? 'https' : 'http';
 
-    let callback = '';
+    if( protcol === 'https'){
 
-    // セッションへの保存と読み出し
-    passport.serializeUser((user, callback) => {
-      console.log( "3 Serialize(Save Session & Read Session)" );
-      callback(null, user);
-    });
+      const keyPem = fs.stat( KEY_PEM ) ? fs.readFileSync( KEY_PEM ) : false ;
+      const certPem = fs.stat( CERT_PEM ) ? fs.readFileSync( CERT_PEM ) : false ;
+      let callback = '';
 
-    passport.deserializeUser((obj, callback) => {
-      console.log( "5 Deserialize" );
-      callback(null, obj);
-    });
+      // セッションへの保存と読み出し
+      passport.serializeUser((user, callback) => {
+        console.log( "3 Serialize(Save Session & Read Session)" );
+        callback(null, user);
+      });
 
-    // 認証の設定
-    const fb_s = new FacebookStrategy({
-      clientID: '1655931587827697',
-      clientSecret: '64c9192a5ea216be390f990eb2365fa6',
-      callbackURL: "https://talkn.io:8443/auth/facebook/callback",
-      enableProof: true
+      passport.deserializeUser((obj, callback) => {
+        console.log( "5 Deserialize" );
+        callback(null, obj);
+      });
 
-    // 認証後のアクション
-    },(accessToken, refreshToken, profile, callback) => {
-        profile.accessToken = accessToken;
-        profile.refreshToken = refreshToken;
-        process.nextTick(() => {
+      // 認証の設定
+      const fb_s = new FacebookStrategy({
+        clientID: '1655931587827697',
+        clientSecret: '64c9192a5ea216be390f990eb2365fa6',
+        callbackURL: "https://talkn.io:8443/auth/facebook/callback",
+        enableProof: true
 
-            console.log("2 Auth Facebook Finish"); //必要に応じて変更
+      // 認証後のアクション
+      },(accessToken, refreshToken, profile, callback) => {
+          profile.accessToken = accessToken;
+          profile.refreshToken = refreshToken;
+          process.nextTick(() => {
 
-            return callback(null, profile);
-        });
-    });
+              console.log("2 Auth Facebook Finish"); //必要に応じて変更
 
-    // 認証の設定
-    const tw_s = new TwitterStrategy({
-        consumerKey: 'gPahl00kmAjRVndFFAZY4lC9K',
-        consumerSecret: 'slns8crrxL5N0pM121y8EIejUg2QpnbFikKiON9s1YyY5Psa75',
-        callbackURL: "https://talkn.io:8443/auth/twitter/callback"
+              return callback(null, profile);
+          });
+      });
 
-    // 認証後のアクション
-    },(accessToken, refreshToken, profile, callback) => {
-        profile.accessToken = accessToken;
-        profile.refreshToken = refreshToken;
-        process.nextTick(() => {
+      // 認証の設定
+      const tw_s = new TwitterStrategy({
+          consumerKey: 'gPahl00kmAjRVndFFAZY4lC9K',
+          consumerSecret: 'slns8crrxL5N0pM121y8EIejUg2QpnbFikKiON9s1YyY5Psa75',
+          callbackURL: "https://talkn.io:8443/auth/twitter/callback"
 
-            console.log("2 Auth Twitter Finish"); //必要に応じて変更
+      // 認証後のアクション
+      },(accessToken, refreshToken, profile, callback) => {
+          profile.accessToken = accessToken;
+          profile.refreshToken = refreshToken;
+          process.nextTick(() => {
 
-            return callback(null, profile);
-        });
-    });
+              console.log("2 Auth Twitter Finish"); //必要に応じて変更
 
-    passport.use( fb_s );
-    passport.use( tw_s );
+              return callback(null, profile);
+          });
+      });
 
-    const app = express();
+      passport.use( fb_s );
+      passport.use( tw_s );
 
-    // HTTPSサーバー起動
-    const options = {
-      key:  fs.readFileSync('/etc/letsencrypt/live/talkn.io/privkey.pem'),
-      cert: fs.readFileSync('/etc/letsencrypt/live/talkn.io/cert.pem')
-    };
-    const server = https.createServer(options, app);
+      const app = express();
+      const options = {key:  keyPem, cert: certPem};
+      const server = https.createServer( options, app );
 
-    // ルート設定
-    app.get('/rest', function (req, res) {
-        res.writeHead(200);
-        res.end("Hello World.");
-    });
+      // セッションの設定
+      app.use(session({
+          secret: 'reply-analyzer',
+          resave: false,
+          saveUninitialized: false
+      }));
 
-    // セッションの設定
-    app.use(session({
-        secret: 'reply-analyzer',
-        resave: false,
-        saveUninitialized: false
-    }));
+      app.use(passport.initialize());
+      app.use(passport.session());
 
-    app.use(passport.initialize());
-    app.use(passport.session());
-
-    // 指定のpathで認証
-    app.get('/auth/facebook', function(req,res,next) {
-      if( req.query.url ){
-        console.log("1 Auth Start " + req.query.url);
-        callback = req.query.url;
-        passport.authenticate('facebook',{callbackURL: '/auth/facebook/callback'})( req, res, next );
-      }else{
-        res.send('Bad Request.');
-      }
-    });
-
-    // callback後の設定
-    app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login' }), (req, res) => {
-        console.log("4 callback " + req.query.url );
-        console.log( "@@@@" + callback );
-        res.redirect( callback );
-    });
-
-
-    // 指定のpathで認証
-    app.get('/auth/twitter', function(req,res,next) {
-      if( req.query.url ){
-        console.log("1 Auth Start " + req.query.url);
-        passport.authenticate('twitter',{params: 'tttttttttttt', callbackURL: '/auth/twitter/callback/?url=' + req.query.url})( req, res, next );
-      }else{
-        res.send('Bad Request.');
-      }
-    });
-
-    // callback後の設定
-    app.get('/auth/twitter/callback', passport.authenticate('twitter', {failureRedirect: '/login' }), (req, res) => {
-        console.log("4 callback " + req.query.url );
-        res.redirect( req.query.url );
-    });
-
-    app.get('/', function(req, res) {
-        console.log("TOP");
-        const user = req.user ? req.user : {} ;
-        if( user.id ){
-
-          ts._oauth.getProtectedResource(
-            `https://api.twitter.com/1.1/followers/ids.json?user_id=${user.id}&stringify_ids=true`,
-            'GET',
-            req.user.accessToken,
-            req.user.refreshToken,
-            function (err, data, response) {
-
-              if(err) {
-                res.send(err, 500);
-                return false;
-              }
-
-              user.friends = JSON.parse(data);
-          　    // あとはお好みで
-//              res.send(user);
-            }
-           );
-
-
-          ts._oauth.getProtectedResource(
-//          `https://api.twitter.com/1.1/followers/ids.json?user_id=${user.id}&stringify_ids=true`,
-            `https://api.twitter.com/1.1/followers/list.json?user_id=${user.id}&count=200&skip_status=true&include_user_entities=false`,
-            'GET',
-            req.user.accessToken,
-            req.user.refreshToken,
-            function (err, data, response) {
-
-              if(err) {
-          console.log("CC");
-                res.send(err, 500);
-                return false;
-              }
-
-              user.friends = JSON.parse(data);
-//          console.log( user.friends);
-          　  // あとはお好みで
-              res.send(user);
-            }
-           );
-
+      // 指定のpathで認証
+      app.get('/auth/facebook', function(req,res,next) {
+        if( req.query.url ){
+          console.log("1 Auth Start " + req.query.url);
+          callback = req.query.url;
+          passport.authenticate('facebook',{callbackURL: '/auth/facebook/callback'})( req, res, next );
         }else{
-          res.send('No Auth.');
+          res.send('Bad Request.');
         }
-    });
+      });
 
-    // イベント待機
-    server.listen(8443, () => {
-      console.log("LISTEN 8443");
-    });
+      // callback後の設定
+      app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login' }), (req, res) => {
+          console.log("4 callback " + req.query.url );
+          console.log( "@@@@" + callback );
+          res.redirect( callback );
+      });
+
+
+      // 指定のpathで認証
+      app.get('/auth/twitter', function(req,res,next) {
+        if( req.query.url ){
+          console.log("1 Auth Start " + req.query.url);
+          passport.authenticate('twitter',{callbackURL: '/auth/twitter/callback/?url=' + req.query.url})( req, res, next );
+        }else{
+          res.send('Bad Request.');
+        }
+      });
+
+      // callback後の設定
+      app.get('/auth/twitter/callback', passport.authenticate('twitter', {failureRedirect: '/login' }), (req, res) => {
+          console.log("4 callback " + req.query.url );
+          res.redirect( req.query.url );
+      });
+
+      app.get('/', function(req, res) {
+          console.log("TOP");
+          const user = req.user ? req.user : {} ;
+          if( user.id ){
+
+            ts._oauth.getProtectedResource(
+              `https://api.twitter.com/1.1/followers/ids.json?user_id=${user.id}&stringify_ids=true`,
+              'GET',
+              req.user.accessToken,
+              req.user.refreshToken,
+              function (err, data, response) {
+
+                if(err) {
+                  res.send(err, 500);
+                  return false;
+                }
+
+                user.friends = JSON.parse(data);
+              }
+             );
+
+
+            ts._oauth.getProtectedResource(
+              `https://api.twitter.com/1.1/followers/list.json?user_id=${user.id}&count=200&skip_status=true&include_user_entities=false`,
+              'GET',
+              req.user.accessToken,
+              req.user.refreshToken,
+              function (err, data, response) {
+
+                if(err) {
+            console.log("CC");
+                  res.send(err, 500);
+                  return false;
+                }
+
+                user.friends = JSON.parse(data);
+                res.send(user);
+              }
+             );
+
+          }else{
+            res.send('No Auth.');
+          }
+      });
+
+      // イベント待機
+      server.listen(8443, () => {
+        console.log("LISTEN 8443");
+      });
+    }
   },
 
   setUpUser: async () => {

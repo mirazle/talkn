@@ -44,12 +44,17 @@ export default class Footer extends Component {
     }
   }
 
+  getIconStyle(){
+    const { thread, style } = this.props.state;
+    return thread.favicon ? {...style.footer.icon, backgroundImage: `url(${thread.favicon})` } : style.footer.icon ;
+  }
+
  	render() {
-    const { style, control } = this.props.state;
+    const { style, control, thread } = this.props.state;
 		return (
       <footer style={ style.footer.self }>
         <div
-          style={style.footer.icon}
+          style={ this.getIconStyle() }
           {...Icon.getDecolationProps1( 'footer', 'icon' )}
           onClick={this.handleOnClickIcon}
         />
