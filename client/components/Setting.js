@@ -134,19 +134,9 @@ export default class Setting extends Component {
             <SettingLi label={ this.renderFriendLiLabel( '南野真太郎(MTRo)', 'https://pbs.twimg.com/profile_images/1519836653/EAAD6F43-D430-476B-916A-2EBF05114616_bigger' ) } isLast={ false } {...this.props.state} />
             <SettingLi label={ this.renderFriendLiLabel( 'sk', 'https://pbs.twimg.com/profile_images/27767372/e__-1_bigger.png' ) } isLast={ false } {...this.props.state} />
 */}
-            <li style={ style.setting.columnLast } onClick={this.handleOnClickLoginFacebook}>
-              ⇨ LOGIN FACEBOOKKK
-            </li>
-            <li style={ style.setting.columnLast } onClick={this.handleOnClickLoginTwitter}>
-              ⇨ LOGIN TWITTER
-            </li>
-            <li style={ style.setting.columnLast }>
-
-            </li>
+            <SettingLi label={ '⇨ LOGIN FACEBOOK' } onClick={this.handleOnClickLoginFacebook}  {...this.props.state} />
+            <SettingLi label={ '⇨ LOGIN TWITTER' } onClick={this.handleOnClickLoginTwitter}  {...this.props.state} />
           </ol>
-          <br />
-          <br />
-          <br />
         </div>
         <iframe src='//session.talkn.io' style={{}} />
       </div>
