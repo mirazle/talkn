@@ -74,13 +74,13 @@ export default class Setting extends Component {
 
   handleOnClickLoginFacebook(){
     const{ thread } = this.props.state;
-    const href = `//localhost:8000/auth/facebook?url=${window.location.href}`;
+    const href = `//talkn.io:8443/auth/facebook?url=${window.location.href}`;
     location.href = href;
   }
 
   handleOnClickLoginTwitter(){
     const{ thread } = this.props.state;
-    const href = `//localhost:8000/auth/twitter?url=${window.location.href}`;
+    const href = `//talkn.io:8443/auth/twitter?url=${window.location.href}`;
     location.href = href;
   }
 
