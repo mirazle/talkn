@@ -28,8 +28,8 @@ export default {
 
     if( protcol === 'https'){
 
-      const keyPem = fs.stat( KEY_PEM ) ? fs.readFileSync( KEY_PEM ) : false ;
-      const certPem = fs.stat( CERT_PEM ) ? fs.readFileSync( CERT_PEM ) : false ;
+      const keyPem = fs.readFileSync( KEY_PEM ) ;
+      const certPem = fs.readFileSync( CERT_PEM ) ;
       let callback = '';
 
       // セッションへの保存と読み出し
@@ -232,9 +232,10 @@ export default {
         createThread.watchCnt = createThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
         await Logics.db.threads.update( requestState, createThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
-
+console.log("UPDATE");
       // スレッド新規作成
       }else{
+console.log("NEW");
         const watchCnt = 1;
         const connections = Thread.getConnections( connection );
         const protocol =  ( createThread && createThread.uri && createThread.uri.protocol ) ? createThread.uri.protocol : Sequence.TALKN_PROTOCOL ;
@@ -246,6 +247,7 @@ export default {
 
     // スレッドが存在して、更新も必要ない場合
     }else{
+console.log("EXIST");
       // 初回表示(GET MOREでない場合)
       if( requestState.user.offsetFindId === User.defaultOffsetFindId ){
         const addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
