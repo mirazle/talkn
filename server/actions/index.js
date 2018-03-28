@@ -42,7 +42,7 @@ export default {
     const fb_s = new FacebookStrategy({
       clientID: '1655931587827697',
       clientSecret: '64c9192a5ea216be390f990eb2365fa6',
-      callbackURL: "https://talkn.io:10000/auth/facebook/callback"
+      callbackURL: "https://talkn.io:8443/auth/facebook/callback"
 
     // 認証後のアクション
     },(accessToken, refreshToken, profile, callback) => {
@@ -60,7 +60,7 @@ export default {
     const tw_s = new TwitterStrategy({
         consumerKey: 'gPahl00kmAjRVndFFAZY4lC9K',
         consumerSecret: 'slns8crrxL5N0pM121y8EIejUg2QpnbFikKiON9s1YyY5Psa75',
-        callbackURL: "https://talkn.io:10000/auth/twitter/callback"
+        callbackURL: "https://talkn.io:8443/auth/twitter/callback"
 
     // 認証後のアクション
     },(accessToken, refreshToken, profile, callback) => {
@@ -79,14 +79,14 @@ export default {
 
     const app = express();
 
-    // HTTPSサーバー起動                                                                               
+    // HTTPSサーバー起動
     const options = {
       key:  fs.readFileSync('/etc/letsencrypt/live/talkn.io/privkey.pem'),
       cert: fs.readFileSync('/etc/letsencrypt/live/talkn.io/cert.pem')
     };
     const server = https.createServer(options, app);
 
-    // ルート設定                                                                                      
+    // ルート設定
     app.get('/rest', function (req, res) {
         res.writeHead(200);
         res.end("Hello World.");
@@ -185,7 +185,7 @@ export default {
         }
     });
 
-    // イベント待機                                                                                    
+    // イベント待機
     server.listen(8443, () => {
       console.log("LISTEN 8443");
     });
