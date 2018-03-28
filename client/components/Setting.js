@@ -148,7 +148,7 @@ export default class Setting extends Component {
           <br />
           <br />
         </div>
-        <iframe src='//localhost:8000' style={{}} />
+        <iframe src='//session.talkn.io' style={{}} />
       </div>
 		);
  	}
