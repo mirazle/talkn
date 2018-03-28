@@ -74,13 +74,13 @@ export default class Setting extends Component {
 
   handleOnClickLoginFacebook(){
     const{ thread } = this.props.state;
-    const href = `//talkn.io:8443/auth/facebook?url=${window.location.href}`;
+    const href = `https://talkn.io:8443/auth/facebook?url=${window.location.href}`;
     location.href = href;
   }
 
   handleOnClickLoginTwitter(){
     const{ thread } = this.props.state;
-    const href = `//talkn.io:8443/auth/twitter?url=${window.location.href}`;
+    const href = `https://talkn.io:8443/auth/twitter?url=${window.location.href}`;
     location.href = href;
   }
 
@@ -118,14 +118,6 @@ export default class Setting extends Component {
 
           <br />
           <ol style={ style.setting.columns }>
-##
-            <FacebookLogin
-              appId="1088597931155576"
-              autoLoad={false}
-              fields="name,email,picture"
-              callback={this.responseFacebook}
-            />
-##
 { /*
             <SettingLi label={ this.renderFriendLiLabel( 'mirazle', 'https://pbs.twimg.com/profile_images/1725640801/baba_bigger.png', '/news.yahoo.co.jp' ) } isLast={ false } {...this.props.state} />
             <SettingLi label={ this.renderFriendLiLabel( 'fukuty.sho', 'https://pbs.twimg.com/profile_images/927155774937186304/8I_6Wp0c_bigger.jpg', '/twitter.com/fukutys' ) } isLast={ false } {...this.props.state} />
