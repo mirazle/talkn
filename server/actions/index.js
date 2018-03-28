@@ -27,6 +27,8 @@ export default {
 
   setUpEndpoints: async () => {
 
+    let callback = '';
+
     // セッションへの保存と読み出し
     passport.serializeUser((user, callback) => {
       console.log( "3 Serialize(Save Session & Read Session)" );
@@ -107,7 +109,8 @@ export default {
     app.get('/auth/facebook', function(req,res,next) {
       if( req.query.url ){
         console.log("1 Auth Start " + req.query.url);
-        passport.authenticate('facebook',{params: 'tttttttttttt', callbackURL: '/auth/facebook/callback/?url=' + req.query.url})( req, res, next );
+        callback = req.query.url;
+        passport.authenticate('facebook',{callbackURL: '/auth/facebook/callback'})( req, res, next );
       }else{
         res.send('Bad Request.');
       }
@@ -116,7 +119,8 @@ export default {
     // callback後の設定
     app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login' }), (req, res) => {
         console.log("4 callback " + req.query.url );
-        res.redirect( req.query.url );
+        console.log( "@@@@" + callback );
+        res.redirect( callback );
     });
 
 
