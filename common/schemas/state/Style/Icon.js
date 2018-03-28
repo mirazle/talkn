@@ -43,11 +43,13 @@ export default class Icon {
         background: Container.calmRGB,
         width: '10px',
         height: '10px',
-        borderRadius: '10px'
+        borderRadius: '10px',
+        position: 'relative',
+        top: '1px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 0px, 0px, 0px )`,
+        transform: `scale(0.8) translate3d( 0px, 0px, 0px )`,
       }),
     });
 
@@ -59,12 +61,12 @@ export default class Icon {
         height: '30px',
         borderRadius: '30px',
         position: 'relative',
-        top: '1px',
+        top: '-1px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: '600ms',
-        transform: `translate3d( 0px, 0px, 0px )`,
+        transform: `scale(0.8) translate3d( 0px, 0px, 0px )`,
       }),
     });
     return {div, top, bottom, ...bootOption};
