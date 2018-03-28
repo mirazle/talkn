@@ -86,6 +86,15 @@ export default class Icon extends Component{
     }
   }
 
+  static getUser( style ){
+    return (
+      <div style={ style.div }>
+        <span style={ style.top }></span>
+        <span style={ style.bottom }></span>
+      </div>
+    );
+  }
+
   static getMenu( style ){
     return (
       <div style={ style.div }>

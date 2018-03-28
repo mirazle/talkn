@@ -36,6 +36,7 @@ export default class Main extends Component {
     const { app, user, thread, style } = state;
 
     const { icon } = style;
+    const UserIcon = Icon.getUser( icon.user );
     const MenuIcon = Icon.getMenu( icon.menu );
     const HeadTabIcon = Icon.getHeadTab( icon.headTab );
     const DetailIcon = Icon.getDetail( icon.detail );
@@ -47,8 +48,8 @@ export default class Main extends Component {
         <header style={ style.main.header }>
 
           {/* User Icon */}
-          <span style={ style.main.headerUserIcon } onClick={ this.handleOnClickUserIcon }>
-            <img style={ style.main.headerUserIconImg } src={'//assets.talkn.io/img/userIcon.png'} />
+          <span style={ style.main.headerUserIcon } onClick={ this.handleOnClickUserIcon } {...Icon.getDecolationProps1( 'icon', 'user', 'div' )} >
+            { UserIcon }
           </span>
 
           {/* Head Tab Icon */}

@@ -9,6 +9,7 @@ export default class Icon {
     const { bootOption } = params;
     const headTab = Icon.getHeadTab( bootOption );
     const menu = Icon.getMenu( bootOption );
+    const user = Icon.getUser( bootOption );
     const detail = Icon.getDetail( bootOption );
     const heart = Icon.getHeart( bootOption );
     const share = Icon.getShare( bootOption );
@@ -16,11 +17,57 @@ export default class Icon {
     return {
       headTab,
       menu,
+      user,
       detail,
       heart,
       share,
       money,
     }
+  }
+
+  static getUser( bootOption = {}){
+    const border = {...Container.border, }
+    const div = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        width: Icon.defaultSize,
+        height: Icon.defaultSize,
+        borderRadius: '100px'
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase(),
+    });
+
+    const top = Style.get({
+      layout: Style.getLayoutBlock({
+        margin: '0 auto',
+        background: Container.calmRGB,
+        width: '10px',
+        height: '10px',
+        borderRadius: '10px'
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+
+    const bottom = Style.get({
+      layout: Style.getLayoutBlock({
+        margin: '0 auto',
+        background: Container.calmRGB,
+        width: '16px',
+        height: '30px',
+        borderRadius: '30px',
+        position: 'relative',
+        top: '1px',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: '600ms',
+        transform: `translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+    return {div, top, bottom, ...bootOption};
   }
 
   static getDetail( bootOption = {}){
