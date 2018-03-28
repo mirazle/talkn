@@ -30,17 +30,6 @@ window.onload =  () => {
 	const appType = TalknViewer.getAppType();
 	window.TalknAPI = TalknAPI;
 	window.__talknAPI__ = [];
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1655931587827697',
-      cookie     : true,
-      xfbml      : true,
-      version    : 'v2.12'
-    });
-
-    FB.AppEvents.logPageView();
-
-  };
 
   (function(d, s, id){
      var js, fjs = d.getElementsByTagName(s)[0];
