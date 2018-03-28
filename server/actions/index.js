@@ -26,44 +26,8 @@ export default {
   },
 
   setUpEndpoints: async () => {
-/*
-	// 次の行の.testing()は本番環境では外して下さい
-	const LEX = require('letsencrypt-express').testing();
 
-	// 以下の2行は環境に合わせて変更して下さい！
-	const DOMAIN = 'talkn.io';
-	const EMAIL = 'mirazle2069@gmail..com';
-
-	const lex = LEX.create({
-		configDir: require('os').homedir() + '/letsencrypt/etc'
-		, approveRegistration: function (hostname, approve) { // leave `null` to disable automatic registration
-			if (hostname === DOMAIN) { // Or check a database or list of allowed domains
-				approve(null, {
-					domains: [DOMAIN]
-					, email: EMAIL
-					, agreeTos: true
-				});
-			}
-		}
-	});
-
-
-	app.get('/', function (req, res) {
-		res.send('Hello World!');
-	});
-
-	// ここからlets用の実行部コード
-	lex.onRequest = app;
-
-	lex.listen([8000], [8443, 5001], function () {
- 		const protocol = ('requestCert' in this) ? 'https': 'http';
-		console.log("Listening at " + protocol + '://localhost:' + this.address().port);
-	});
-	console.log("@@@@@@@@@@@@@");
-*/
-
-
-		// セッションへの保存と読み出し
+    // セッションへの保存と読み出し
     passport.serializeUser((user, callback) => {
       console.log( "3 Serialize(Save Session & Read Session)" );
       callback(null, user);
@@ -75,15 +39,15 @@ export default {
     });
 
     // 認証の設定
-		const fs = new FacebookStrategy({
+    const fb_s = new FacebookStrategy({
       clientID: '1655931587827697',
       clientSecret: '64c9192a5ea216be390f990eb2365fa6',
-      callbackURL: "http://localhost:3000/auth/facebook/callback"
+      callbackURL: "https://talkn.io:10000/auth/facebook/callback"
 
     // 認証後のアクション
     },(accessToken, refreshToken, profile, callback) => {
-				profile.accessToken = accessToken;
-				profile.refreshToken = refreshToken;
+        profile.accessToken = accessToken;
+        profile.refreshToken = refreshToken;
         process.nextTick(() => {
 
             console.log("2 Auth Facebook Finish"); //必要に応じて変更
@@ -93,15 +57,15 @@ export default {
     });
 
     // 認証の設定
-		const ts = new TwitterStrategy({
+    const tw_s = new TwitterStrategy({
         consumerKey: 'gPahl00kmAjRVndFFAZY4lC9K',
         consumerSecret: 'slns8crrxL5N0pM121y8EIejUg2QpnbFikKiON9s1YyY5Psa75',
-        callbackURL: "http://localhost:8000/auth/twitter/callback"
+        callbackURL: "https://talkn.io:10000/auth/twitter/callback"
 
     // 認証後のアクション
     },(accessToken, refreshToken, profile, callback) => {
-				profile.accessToken = accessToken;
-				profile.refreshToken = refreshToken;
+        profile.accessToken = accessToken;
+        profile.refreshToken = refreshToken;
         process.nextTick(() => {
 
             console.log("2 Auth Twitter Finish"); //必要に応じて変更
@@ -110,10 +74,24 @@ export default {
         });
     });
 
-    passport.use( fs );
-    passport.use( ts );
+    passport.use( fb_s );
+    passport.use( tw_s );
 
     const app = express();
+
+    // HTTPSサーバー起動                                                                               
+    const options = {
+      key:  fs.readFileSync('/etc/letsencrypt/live/talkn.io/privkey.pem'),
+      cert: fs.readFileSync('/etc/letsencrypt/live/talkn.io/cert.pem')
+    };
+    const server = https.createServer(options, app);
+
+    // ルート設定                                                                                      
+    app.get('/rest', function (req, res) {
+        res.writeHead(200);
+        res.end("Hello World.");
+    });
+
     // セッションの設定
     app.use(session({
         secret: 'reply-analyzer',
@@ -175,14 +153,14 @@ export default {
               }
 
               user.friends = JSON.parse(data);
-          　		// あとはお好みで
+          　    // あとはお好みで
 //              res.send(user);
             }
            );
 
 
           ts._oauth.getProtectedResource(
-//						`https://api.twitter.com/1.1/followers/ids.json?user_id=${user.id}&stringify_ids=true`,
+//          `https://api.twitter.com/1.1/followers/ids.json?user_id=${user.id}&stringify_ids=true`,
             `https://api.twitter.com/1.1/followers/list.json?user_id=${user.id}&count=200&skip_status=true&include_user_entities=false`,
             'GET',
             req.user.accessToken,
@@ -197,7 +175,7 @@ export default {
 
               user.friends = JSON.parse(data);
 //          console.log( user.friends);
-          　		// あとはお好みで
+          　  // あとはお好みで
               res.send(user);
             }
            );
@@ -207,7 +185,10 @@ export default {
         }
     });
 
-    app.listen(8000);
+    // イベント待機                                                                                    
+    server.listen(8443, () => {
+      console.log("LISTEN 8443");
+    });
   },
 
   setUpUser: async () => {
