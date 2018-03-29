@@ -1,24 +1,26 @@
+import App from './App';
 import Db from './db';
 import Io from './Io';
 import Html from './Html';
 import Favicon from './Favicon';
 import Fs from './Fs';
 import Control from './Control';
-import Login from './Login';
-import endpoints from './endpoints';
+import Passport from './Passport';
 
-import MongoDB from '~/db/MongoDB';
-import SocketIo from '~/io/SocketIo';
+import Express from '~/listens/app/Express';
+import MongoDB from '~/listens/db/MongoDB';
+import SocketIo from '~/listens/io/SocketIo';
+const express = new Express();
 const mongoDB = new MongoDB();
 const socketIo = new SocketIo();
 
 export default {
+  app: new App( express ),
   db: new Db( mongoDB ),
   io: new Io( socketIo ),
   html: new Html(),
   favicon: new Favicon(),
   fs: new Fs(),
   control: new Control(),
-  login: new Login(),
-  endpoints,
+  passport: new Passport(),
 }

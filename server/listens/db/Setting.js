@@ -1,4 +1,4 @@
-import MongoDB from '~/db/MongoDB';
+import MongoDB from './MongoDB';
 
 export default class Setting {
   constructor( con ){
