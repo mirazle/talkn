@@ -22,62 +22,15 @@ export default {
   },
 
   setUpEndpoints: async () => {
-		const protcol = process.argv.includes('ssl') ? 'https' : 'http';
 
-    if( protcol === 'https'){
+    if( Logics.app.protocol === 'https'){
 
       let callback = '';
 
-      // セッションへの保存と読み出し
-      passport.serializeUser((user, callback) => {
-        console.log( "3 Serialize(Save Session & Read Session)" );
-        callback(null, user);
-      });
-
-      passport.deserializeUser((obj, callback) => {
-        console.log( "5 Deserialize" );
-        callback(null, obj);
-      });
-
-      // 認証の設定
-      const fb_s = new FacebookStrategy({
-        clientID: '1655931587827697',
-        clientSecret: '64c9192a5ea216be390f990eb2365fa6',
-        callbackURL: "https://talkn.io:8443/auth/facebook/callback",
-        enableProof: true
-
-      // 認証後のアクション
-      },(accessToken, refreshToken, profile, callback) => {
-          profile.accessToken = accessToken;
-          profile.refreshToken = refreshToken;
-          process.nextTick(() => {
-
-              console.log("2 Auth Facebook Finish"); //必要に応じて変更
-
-              return callback(null, profile);
-          });
-      });
-
-      // 認証の設定
-      const tw_s = new TwitterStrategy({
-          consumerKey: 'gPahl00kmAjRVndFFAZY4lC9K',
-          consumerSecret: 'slns8crrxL5N0pM121y8EIejUg2QpnbFikKiON9s1YyY5Psa75',
-          callbackURL: "https://talkn.io:8443/auth/twitter/callback"
-
-      // 認証後のアクション
-      },(accessToken, refreshToken, profile, callback) => {
-          profile.accessToken = accessToken;
-          profile.refreshToken = refreshToken;
-          process.nextTick(() => {
-
-              console.log("2 Auth Twitter Finish"); //必要に応じて変更
-
-              return callback(null, profile);
-          });
-      });
-
-      passport.use( fb_s );
-      passport.use( tw_s );
+      passport.serializeUser(　Logics.passport.serializeUser(user, callback) );
+      passport.deserializeUser(　Logics.passport.deserializeUser(obj, callback) );
+      passport.use( Logics.passport.getFacebookStrategy() );
+      passport.use( Logics.passport.getTwitterStrategy() );
 
       const app = express();
       const options = {key:  fs.readFileSync( KEY_PEM ), cert: fs.readFileSync( CERT_PEM )};
