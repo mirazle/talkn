@@ -12,7 +12,7 @@ class Express{
     this.app = express();
     this.protocol = process.argv.includes('ssl') ? 'https' : 'http';
 
-    if( this.protocol === 'https' && fs.stat( Express.KEY_PEM ) && fs.stat( Express.CERT_PEM ) ){
+    if( this.protocol === 'https' && fs.statSync( Express.KEY_PEM ) && fs.statSync( Express.CERT_PEM ) ){
       const options = {key:  fs.readFileSync( Express.KEY_PEM ), cert: fs.readFileSync( Express.CERT_PEM )};
       this.server = https.createServer( options, this.app );
     }else{
@@ -20,7 +20,7 @@ class Express{
     }
   }
 
-  listen( port, callback ){
+  listen( port, callback = () => {} ){
     this.server.listen( port, callback );
   }
 }
