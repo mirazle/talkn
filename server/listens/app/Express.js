@@ -1,13 +1,27 @@
+import http from 'http';
 import https from 'https';
-import socketIo from "socket.io";
-import redis from	'socket.io-redis';
+import express from 'express';
 import fs from "fs";
-import conf from '~/conf';
 
 class Express{
+
+  static get KEY_PEM(){ return '/etc/letsencrypt/live/talkn.io/privkey.pem'};
+  static get CERT_PEM(){ return '/etc/letsencrypt/live/talkn.io/cert.pem'};
+
   constructor(){
-    const protcol = process.argv.includes('ssl') ? 'https' : 'http';
-    return this;
+    this.app = express();
+    this.protcol = process.argv.includes('ssl') ? 'https' : 'http';
+
+    if( this.protcol === 'https' && fs.stat( Express.KEY_PEM ) && fs.stat( Express.CERT_PEM ) ){
+      const options = {key:  fs.readFileSync( Express.KEY_PEM ), cert: fs.readFileSync( Express.CERT_PEM )};
+      this.server = https.createServer( options, this.app );
+    }else{
+      this.server = http.createServer( this.app );
+    }
+  }
+
+  listen( port, callback ){
+    this.server.listen( port, callback );
   }
 }
 
