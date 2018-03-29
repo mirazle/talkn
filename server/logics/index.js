@@ -7,15 +7,13 @@ import Fs from './Fs';
 import Control from './Control';
 import Passport from './Passport';
 
-import Express from '~/listens/app/Express';
 import MongoDB from '~/listens/db/MongoDB';
 import SocketIo from '~/listens/io/SocketIo';
-const express = new Express();
 const mongoDB = new MongoDB();
 const socketIo = new SocketIo();
 
 export default {
-  app: new App( express ),
+  app: new App(),
   db: new Db( mongoDB ),
   io: new Io( socketIo ),
   html: new Html(),
