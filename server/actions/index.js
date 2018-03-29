@@ -27,10 +27,12 @@ export default {
     if( utils.includeProcessKey( 'ssl' ) ){
 
       passport.referer = '//talkn.io';
+      passport.facebookStrategy = Logics.passport.getFacebookStrategy();
+      passport.twitterStrategy = Logics.passport.getTwitterStrategy();
       passport.serializeUser( Logics.passport.serializeUser );
       passport.deserializeUser( Logics.passport.deserializeUser );
-      passport.use( Logics.passport.getFacebookStrategy() );
-      passport.use( Logics.passport.getTwitterStrategy() );
+      passport.use( passport.facebookStrategy );
+      passport.use( passport.twitterStrategy );
 
       const app = express();
       const options = {key:  fs.readFileSync( KEY_PEM ), cert: fs.readFileSync( CERT_PEM )};
@@ -43,12 +45,12 @@ export default {
 
       // Facebook & Twitter
       app.get('/auth/facebook', Logics.app.getAuthStart( 'facebook', passport ) );      
-      app.get('/auth/facebook/callback', Logics.app.getAuthCallback( 'facebbok', passport ) );
+      app.get('/auth/facebook/callback', Logics.app.getAuthCallback( 'facebook', passport ) );
       app.get('/auth/twitter', Logics.app.getAuthStart( 'twitter', passport ) );      
       app.get('/auth/twitter/callback', Logics.app.getAuthCallback( 'twitter', passport ) );
 
       app.get('/', function(req, res) {
-          console.log("TOP");
+          console.log("TOP " );
           const user = req.user ? req.user : {} ;
           if( user.id ){
 

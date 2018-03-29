@@ -22,6 +22,7 @@ export default class App {
     return ( req, res, next ) => {
       if( req.query.url ){
         console.log( `1 Auth Start ${loginType} ${req.query.url}` );
+        passport.st = passport[ `${loginType}Strategy` ];
         passport.referer = req.query.url;
         passport.authenticate( loginType, {callbackURL: `/auth/${loginType}/callback` })( req, res, next );
         return true;
@@ -35,6 +36,11 @@ export default class App {
   getAuthCallback( loginType, passport ) {
     return passport.authenticate( loginType, {failureRedirect: '/login' }), (req, res) => {
       console.log(`4 callback ${loginType} ${passport.referer}` );
+      passport.st = passport[ `${loginType}Strategy` ];
+      passport.loginType = loginType;
+      
+
+      // TODO session.talkn.ioに飛ばす(セッション保持どうしよう)
       res.redirect( passport.referer );
       return passport;
     }
