@@ -1,4 +1,4 @@
-import MongoDB from '~/db/MongoDB';
+import MongoDB from './MongoDB';
 import Thread from '~/../common/schemas/state/Thread';
 
 export default class Threads {
