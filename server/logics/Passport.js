@@ -11,17 +11,17 @@ export default class Passport {
   static get TW_CONSUMER_SECRET(){ return 'slns8crrxL5N0pM121y8EIejUg2QpnbFikKiON9s1YyY5Psa75' }
   static get TW_CALLBACK_URL(){ return 'https://talkn.io:8443/auth/twitter/callback' }
 
-  static serializeUser(user, callback){
+  serializeUser(user, callback){
     console.log( "3 Serialize(Save Session & Read Session)" );
     callback(null, user);
   }
 
-  static deserializeUser(obj, callback){
+  deserializeUser(obj, callback){
     console.log( "5 Deserialize" );
     callback(null, obj);
   };
 
-  static getFacebookStrategy(){
+  getFacebookStrategy(){
     return new FacebookStrategy({
       clientID: Passport.FB_CLIENT_ID,
       clientSecret: Passport.FB_CLIENT_SECRET,
@@ -41,8 +41,8 @@ export default class Passport {
     });
   }
 
-  static getTwitterStrategy(){
-    return new new TwitterStrategy({
+  getTwitterStrategy(){
+    return new TwitterStrategy({
         consumerKey: Passport.TW_CONSUMER_KEY,
         consumerSecret: Passport.TW_CONSUMER_SECRET,
         callbackURL: Passport.TW_CALLBACK_URL

@@ -6,6 +6,7 @@ export default class Threads {
     this.db = MongoDB.getCollection( con, Threads.name );
     this.findOne = this.findOne.bind(this);
     this.save = this.save.bind(this);
+    this.update = this.update.bind(this);
     return this;
   }
 
