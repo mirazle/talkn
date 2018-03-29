@@ -10,13 +10,13 @@ class Express{
 
   constructor(){
     this.app = express();
-    this.protocol = process.argv.includes('ssl') ? 'https' : 'http';
+    this.app.protocol = process.argv.includes('ssl') ? 'https' : 'http';
 
-    if( this.protocol === 'https' && fs.statSync( Express.KEY_PEM ) && fs.statSync( Express.CERT_PEM ) ){
+    if( this.app.protocol === 'https' && fs.statSync( Express.KEY_PEM ) && fs.statSync( Express.CERT_PEM ) ){
       const options = {key:  fs.readFileSync( Express.KEY_PEM ), cert: fs.readFileSync( Express.CERT_PEM )};
-      this.server = https.createServer( options, this.app );
+      this.app.server = https.createServer( options, this.app );
     }else{
-      this.server = http.createServer( this.app );
+      this.app.server = http.createServer( this.app );
     }
   }
 

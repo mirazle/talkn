@@ -1,5 +1,6 @@
 import Actions from '~/actions';
 import Logics from '~/logics';
+import utils from '~/utils';
 import User from '~/../common/schemas/state/User'
 import Thread from '~/../common/schemas/state/Thread'
 import Sequence from '~/../common/Sequence'
@@ -23,8 +24,9 @@ export default {
 
   setUpEndpoints: async () => {
 
-    if( Logics.app.protocol === 'https'){
-      let callback = '';
+    if( utils.includeProcessKey( 'ssl' ) ){
+
+      passport.referer = '//talkn.io';
       passport.serializeUser( Logics.passport.serializeUser );
       passport.deserializeUser( Logics.passport.deserializeUser );
       passport.use( Logics.passport.getFacebookStrategy() );
@@ -35,49 +37,15 @@ export default {
       const server = https.createServer( options, app );
 
       // セッションの設定
-      app.use(session({
-          secret: 'reply-analyzer',
-          resave: false,
-          saveUninitialized: false
-      }));
+      app.use( session( Logics.app.getSessionSetting() ) );
+      app.use( passport.initialize() );
+      app.use( passport.session() );
 
-      app.use(passport.initialize());
-      app.use(passport.session());
-
-      // 指定のpathで認証
-      app.get('/auth/facebook', function(req,res,next) {
-        if( req.query.url ){
-          console.log("1 Auth Start " + req.query.url);
-          callback = req.query.url;
-          passport.authenticate('facebook',{callbackURL: '/auth/facebook/callback'})( req, res, next );
-        }else{
-          res.send('Bad Request.');
-        }
-      });
-
-      // callback後の設定
-      app.get('/auth/facebook/callback', passport.authenticate('facebook', {failureRedirect: '/login' }), (req, res) => {
-          console.log("4 callback " + req.query.url );
-          console.log( "@@@@" + callback );
-          res.redirect( callback );
-      });
-
-
-      // 指定のpathで認証
-      app.get('/auth/twitter', function(req,res,next) {
-        if( req.query.url ){
-          console.log("1 Auth Start " + req.query.url);
-          passport.authenticate('twitter',{callbackURL: '/auth/twitter/callback/?url=' + req.query.url})( req, res, next );
-        }else{
-          res.send('Bad Request.');
-        }
-      });
-
-      // callback後の設定
-      app.get('/auth/twitter/callback', passport.authenticate('twitter', {failureRedirect: '/login' }), (req, res) => {
-          console.log("4 callback " + req.query.url );
-          res.redirect( req.query.url );
-      });
+      // Facebook & Twitter
+      app.get('/auth/facebook', Logics.app.getAuthStart( 'facebook', passport ) );      
+      app.get('/auth/facebook/callback', Logics.app.getAuthCallback( 'facebbok', passport ) );
+      app.get('/auth/twitter', Logics.app.getAuthStart( 'twitter', passport ) );      
+      app.get('/auth/twitter/callback', Logics.app.getAuthCallback( 'twitter', passport ) );
 
       app.get('/', function(req, res) {
           console.log("TOP");
