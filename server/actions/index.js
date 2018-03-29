@@ -24,11 +24,9 @@ export default {
   setUpEndpoints: async () => {
 
     if( Logics.app.protocol === 'https'){
-
       let callback = '';
-
-      passport.serializeUser(　Logics.passport.serializeUser(user, callback) );
-      passport.deserializeUser(　Logics.passport.deserializeUser(obj, callback) );
+      passport.serializeUser( Logics.passport.serializeUser );
+      passport.deserializeUser( Logics.passport.deserializeUser );
       passport.use( Logics.passport.getFacebookStrategy() );
       passport.use( Logics.passport.getTwitterStrategy() );
 
