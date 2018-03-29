@@ -28,8 +28,6 @@ export default {
 
     if( protcol === 'https'){
 
-      const keyPem = fs.readFileSync( KEY_PEM ) ;
-      const certPem = fs.readFileSync( CERT_PEM ) ;
       let callback = '';
 
       // セッションへの保存と読み出し
@@ -84,7 +82,7 @@ export default {
       passport.use( tw_s );
 
       const app = express();
-      const options = {key:  keyPem, cert: certPem};
+      const options = {key:  fs.readFileSync( KEY_PEM ), cert: fs.readFileSync( CERT_PEM )};
       const server = https.createServer( options, app );
 
       // セッションの設定
