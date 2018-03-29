@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
-import Schemas from '../schemas';
+import Schemas from '~/schemas';
 import conf from '~/conf';
-import Threads from '~/db/Threads';
-import Posts from '~/db/Posts';
-import Users from '~/db/Users';
-import Setting from '~/db/Setting';
+import Threads from '~/listens/db/Threads';
+import Posts from '~/listens/db/Posts';
+import Users from '~/listens//db/Users';
+import Setting from '~/listens/db/Setting';
 
 class MongoDB {
   constructor(){
