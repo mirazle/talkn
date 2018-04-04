@@ -36,11 +36,14 @@ export default class App {
   getAuthCallback( loginType, passport ) {
     return passport.authenticate( loginType, {failureRedirect: '/login' }), (req, res) => {
       console.log(`4 callback ${loginType} ${passport.referer}` );
-      passport.st = passport[ `${loginType}Strategy` ];
       passport.loginType = loginType;
-      
+      const st = passport[ `${loginType}Strategy` ];
+      const oauth = st._oauth2 ? st._oauth2 : st._oauth ;
+
+      oauth.getProtectedResource;
 
       // TODO session.talkn.ioに飛ばす(セッション保持どうしよう)
+      // サブドメインで起動出来ない？
       res.redirect( passport.referer );
       return passport;
     }
