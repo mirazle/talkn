@@ -1,3 +1,4 @@
+import Endpoints from './Endpoints';
 import App from './App';
 import Db from './db';
 import Io from './Io';
@@ -13,6 +14,7 @@ const mongoDB = new MongoDB();
 const socketIo = new SocketIo();
 
 export default {
+  endpoints: Endpoints,
   app: new App(),
   db: new Db( mongoDB ),
   io: new Io( socketIo ),

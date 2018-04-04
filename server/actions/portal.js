@@ -28,8 +28,8 @@ export default {
     server.listen( TALKN_PORTAL_LISTEN_PORT, () => {
       console.log( `LISTEN PORTAL ${TALKN_PORTAL_LISTEN_PORT}` );
     } );
-
-    return true;  
 */
+    return true;  
+
   },
 }
