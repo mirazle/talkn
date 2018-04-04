@@ -12,8 +12,11 @@ export default class ProsxyServer {
 
     let opt = {target:""};
 
+    console.log( "@@@@@ REQ PROXY: " + req.headers.host );
+
     switch( req.headers.host ){
     case 'talkn.io':
+    case 'portal.talkn.io':
       opt.target = "http://talkn.io:8000";
       break;
     case 'client.talkn.io':
@@ -27,10 +30,10 @@ export default class ProsxyServer {
       break;
     }
 
-    console.log( opt );
+    console.log( "@@@@@ PROXY TO: " + opt.target );
 
     proxy.web( req, res, opt, ( err ) => {
-      console.log( err );
+      console.warn( err );
     } );
   }
 }

@@ -1,19 +1,23 @@
 import Actions from '~/actions';
 import Logics from '~/logics';
-import utils from '~/utils';
 import https from 'https';
-import fs from 'fs';
 import express from 'express';
-import session from 'express-session';
-import subdomain from 'express-subdomain';
-import passport from 'passport';
-
-const TALKN_ASSETS_LISTEN_APPS_PORT = 80;
-const TALKN_ASSETS_KEY_PEM = '/etc/letsencrypt/live/talkn.io/privkey.pem';
-const TALKN_ASSETS_CERT_PEM = '/etc/letsencrypt/live/talkn.io/cert.pem';
+import fs from 'fs';
 
 export default {
   setUpAssets: async () => {
+
+    const app = express();
+    app.use( express.static('/usr/share/app/talkn/server/endpoints/assets') );
+
+    app.get('*', (req, res) => {
+      console.log( req.params );
+      return true;
+    });
+
+    app.listen( 8002, () => {
+       console.log( `LISTEN ASSETS 8002` );
+    });
 
     return true;  
   },
