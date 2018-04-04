@@ -7,7 +7,7 @@ module.exports = {
   },
 
   output: {
-    path: __dirname + "./../",
+    path: __dirname + "./../server/endpoints/client/",
     filename: "talkn.client.js",
 /*
     path: __dirname + "./../0.6.2_0/",
