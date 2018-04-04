@@ -13,6 +13,7 @@ class TalknServer{
     await Actions.setUpPortal();
     await Actions.setUpSession();
     await Actions.setUpClient();
+    await Actions.setUpAssets();
   }
 }
 
