@@ -1,6 +1,6 @@
+import conf from '~/conf';
 import mongoose from 'mongoose';
 import Schemas from '~/schemas';
-import conf from '~/conf';
 import Threads from '~/listens/db/Threads';
 import Posts from '~/listens/db/Posts';
 import Users from '~/listens//db/Users';
