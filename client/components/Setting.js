@@ -1,3 +1,4 @@
+import conf from 'client/conf';
 import React, { Component, PropTypes } from "react"
 import User from 'common/schemas/state/User';
 import SettingLi from 'client/components/SettingLi';
@@ -134,8 +135,8 @@ export default class Setting extends Component {
             <SettingLi label={ this.renderFriendLiLabel( '南野真太郎(MTRo)', 'https://pbs.twimg.com/profile_images/1519836653/EAAD6F43-D430-476B-916A-2EBF05114616_bigger' ) } isLast={ false } {...this.props.state} />
             <SettingLi label={ this.renderFriendLiLabel( 'sk', 'https://pbs.twimg.com/profile_images/27767372/e__-1_bigger.png' ) } isLast={ false } {...this.props.state} />
 */}
-            <SettingLi label={ '⇨ LOGIN FACEBOOK' } onClick={this.handleOnClickLoginFacebook}  {...this.props.state} />
-            <SettingLi label={ '⇨ LOGIN TWITTER' } onClick={this.handleOnClickLoginTwitter}  {...this.props.state} />
+            <SettingLi label={ '⇨ LOGIN FACEBOOK' }  isLast={ false }onClick={this.handleOnClickLoginFacebook}  {...this.props.state} />
+            <SettingLi label={ '⇨ LOGIN TWITTER' }  isLast={ true }onClick={this.handleOnClickLoginTwitter}  {...this.props.state} />
           </ol>
         </div>
         <iframe src='//session.talkn.io' style={{}} />
