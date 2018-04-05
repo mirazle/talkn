@@ -11,7 +11,6 @@ export default {
     const app = express();
 
     app.get('*', (req, res) => {
-      console.log( conf.clientPath );
       res.sendFile( conf.clientPath );
       return true;
     });

@@ -11,7 +11,8 @@ class SocketIo{
     let io;
     switch( protcol ){
     case 'https':
-      const httpsServer	= https.createServer( conf.proxySllOptions.pems );
+
+      const httpsServer = https.createServer( conf.clientSllOptions.pems );
       httpsServer.listen( conf.socket_io.https_port );
       io = socketIo( httpsServer );
       console.log("SOCKET IO RUN: " + protcol + " " + conf.socket_io.https_port);
