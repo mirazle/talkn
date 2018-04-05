@@ -3,6 +3,7 @@ const PRODUCTION = 'production';
 const DEVELOPMENT = 'development';
 const PRODUCTION_IP = 'ip-172-31-27-3';
 const PRODUCTION_DOMAIN = 'talkn.io';
+const DEVELOPMENT_DOMAIN = 'localhost';
 
 const hostName = os.hostname();
 const env = hostName === PRODUCTION_IP || hostName.indexOf( PRODUCTION_DOMAIN ) >= 0 ? PRODUCTION : DEVELOPMENT ;
