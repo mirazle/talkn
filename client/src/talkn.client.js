@@ -1,19 +1,25 @@
 import io from 'socket.io-client';
 import configureStore from 'client/store/configureStore'
+import conf from 'common/conf';
 import State from 'common/schemas/state';
 import TalknSession from 'client/operations/TalknSession';
 import TalknAPI from 'client/operations/TalknAPI';
 import TalknViewer from 'client/operations/TalknViewer';
 
-const env = {};
-env.mode = location.href.indexOf( 'localhost:8080/' ) >= 0 ? 'DEV' : 'PROD' ;
-env.protcol = location.href.indexOf( 'https' ) === 0 ? 'https' : 'http' ;
-env.server = env.mode === 'DEV' ? 'localhost' : 'client.talkn.io' ;
-env.port = env.protcol === 'https' ? 10443 : 10001;
-env.scriptName = env.mode === 'DEV' ? 'talkn.client.js' : '//client.talkn.io' ;
+conf.protcol = location.href.indexOf( 'https' ) === 0 ? 'https' : 'http' ;
+conf.server = conf.env === 'development' ? 'localhost' : 'client.talkn.io' ;
+conf.port = conf.protcol === 'https' ? 10443 : 10001;
+conf.scriptName = '//client.talkn.io' ;
 
-function bootTalkn( appType, talknIndex, attributes, env ){
-	const {server, port} = env;
+if( conf.env === 'development' ){
+	switch( location.port ){
+	case '8000': conf.scriptName = '//localhost:8001'; break;
+	case '8080': conf.scriptName = 'talkn.client.js'; break;
+	}
+}
+
+function bootTalkn( appType, talknIndex, attributes, conf ){
+	const {server, port} = conf;
 	const ws = io(`//${server}:${port}`, { forceNew: true });
 	const store = configureStore();
 	const state = new State( appType, talknIndex, window, attributes );
@@ -31,24 +37,17 @@ window.onload =  () => {
 	window.TalknAPI = TalknAPI;
 	window.__talknAPI__ = [];
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-
 	switch( appType ){
 	case 'plugin':
 	case 'electron':
-		bootTalkn( appType, 0, {}, env );
+		bootTalkn( appType, 0, {}, conf );
 		break;
 	case 'script':
+console.log( conf );
+		const scripts = document.querySelectorAll(`script[src*="${conf.scriptName}"]`);
 
-		const scripts = document.querySelectorAll(`script[src*="${env.scriptName}"]`);
 		scripts.forEach( ( script, index ) => {
-			bootTalkn( appType, index + 1 , script.attributes, env );
+			bootTalkn( appType, index + 1 , script.attributes, conf );
  		});
 
 		window.talknAPI = window.__talknAPI__[ 1 ];

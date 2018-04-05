@@ -1,3 +1,4 @@
+import conf from '~/conf';
 import Actions from '~/actions';
 import Logics from '~/logics';
 import https from 'https';
@@ -8,7 +9,7 @@ export default {
   setUpAssets: async () => {
 
     const app = express();
-    app.use( express.static('/usr/share/app/talkn/server/endpoints/assets') );
+    app.use( express.static( conf.assetsPath) );
 
     app.get('*', (req, res) => {
       console.log( req.params );
@@ -19,6 +20,6 @@ export default {
        console.log( `LISTEN ASSETS 8002` );
     });
 
-    return true;  
+    return true;
   },
 }
