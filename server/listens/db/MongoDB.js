@@ -10,9 +10,9 @@ class MongoDB {
   constructor(){
     console.log("MONGO DB RUN");
     mongoose.Promise	= global.Promise;
-    const setting = conf.mongoDB;
-    const address = `mongodb://${setting.host}:${setting.port}/${setting.dbName}`;
-    const con	= mongoose.createConnection( address, setting.option );
+    const {host, port, dbName, option} = conf.mongoDB;
+    const address = `mongodb://${host}:${port}/${dbName}`;
+    const con	= mongoose.createConnection( address, option );
 
     return {
       Setting: new Setting( con ),
