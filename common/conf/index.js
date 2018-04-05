@@ -9,6 +9,8 @@ const hostName = os.hostname();
 const env = hostName === PRODUCTION_IP || hostName.indexOf( PRODUCTION_DOMAIN ) >= 0 ? PRODUCTION : DEVELOPMENT ;
 const domain = env === PRODUCTION ? 'talkn.io' : 'localhost' ;
 
+// TODO COMMON SERVER CLIENT の切り分けをする
+
 const proxySllKeyPem = env === PRODUCTION ? '/etc/letsencrypt/live/talkn.io-0001/privkey.pem' :  '/Users/hmiyazaki/talkn/server/conf/*.localhost.key';
 const proxySllCertPem = env === PRODUCTION ? '/etc/letsencrypt/live/talkn.io-0001/cert.pem' :  '/Users/hmiyazaki/talkn/server/conf/*.localhost.crt';
 const proxySllPems = {key:  proxySllKeyPem , cert:proxySllCertPem };
@@ -25,12 +27,15 @@ const clientSrcPath = env === PRODUCTION ? '//client.talkn.io' : `//${domain}:80
 const clientPath = env === PRODUCTION ? '/usr/share/app/talkn/server/endpoints/client/talkn.client.js' : '/Users/hmiyazaki/talkn/server/endpoints/client/talkn.client.js' ;
 const assetsPath = env === PRODUCTION ? '/usr/share/app/talkn/server/endpoints/assets/' : '/Users/hmiyazaki/talkn/server/endpoints/assets/' ;
 
+const sessionPath = env === PRODUCTION ? `//assets.${domain}` : `//${domain}:8003` ;
+
 export default {
   domain,
   env,
   clientPath,
   clientSrcPath,
   assetsPath,
+  sessionPath,
   sllOptions:{ pems: sllPems, port: 443 },
   proxySllOptions:{ pems: proxySllPems, port: 443 },
   clientSllOptions:{ pems: clientSllPems, port: 443 },

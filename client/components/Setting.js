@@ -139,7 +139,7 @@ export default class Setting extends Component {
             <SettingLi label={ '⇨ LOGIN TWITTER' }  isLast={ true }onClick={this.handleOnClickLoginTwitter}  {...this.props.state} />
           </ol>
         </div>
-        <iframe src='//session.talkn.io' style={{}} />
+        <iframe src={ conf.sessionPath } style={{}} />
       </div>
 		);
  	}
