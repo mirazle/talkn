@@ -20,6 +20,7 @@ if( conf.env === 'development' ){
 
 function bootTalkn( appType, talknIndex, attributes, conf ){
 	const {server, port} = conf;
+console.log( conf );
 	const ws = io(`//${server}:${port}`, { forceNew: true });
 	const store = configureStore();
 	const state = new State( appType, talknIndex, window, attributes );
