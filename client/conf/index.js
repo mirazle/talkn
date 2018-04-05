@@ -8,7 +8,7 @@ conf.protcol = location.href.indexOf( 'https' ) === 0 ? 'https' : 'http' ;
 conf.server = conf.env === DEVELOPMENT ? DEVELOPMENT_DOMAIN : 'client.talkn.io' ;
 conf.port = conf.protcol === 'https' ? 10443 : 10001;
 conf.scriptName = '//client.talkn.io' ;
-conf.sessionPath = env === PRODUCTION ? `//assets.${domain}` : `//${domain}:8003` ;
+conf.sessionPath = env === PRODUCTION ? `//session.${domain}` : `//${domain}:8003` ;
 
 if( conf.env === DEVELOPMENT ){
 	switch( location.port ){
