@@ -5,28 +5,28 @@ const proxy = httpProxy.createProxyServer();
 export default class ProsxyServer {
 
   listen(){
-    console.log( "@@@@@ Listen Proxy Server @@@@@" );
+    console.log( "@@@@@ Listen Proxy Server 443 @@@@@" );
   }
 
   request( req, res ) {
 
     let opt = {target:""};
-
-    console.log( "@@@@@ REQ PROXY: " + req.headers.host );
+    const domain = conf.domain;
+    console.log( `@@@@@ REQ PROXY: ${domain} ${req.headers.host}` );
 
     switch( req.headers.host ){
     case 'talkn.io':
     case 'portal.talkn.io':
-      opt.target = "http://talkn.io:8000";
+      opt.target = `http://${domain}:8000`;
       break;
     case 'client.talkn.io':
-      opt.target = "http://talkn.io:8001";
+      opt.target = `http://${domain}:8001`;
       break;
     case 'assets.talkn.io':
-      opt.target = "http://talkn.io:8002";
+      opt.target = `http://${domain}:8002`;
       break;
     case 'session.talkn.io':
-      opt.target = "http://talkn.io:8003";
+      opt.target = `http://${domain}:8003`;
       break;
     }
 

@@ -11,13 +11,14 @@ export default {
     const app = express();
 
     app.get('*', (req, res) => {
-      res.sendFile( '/usr/share/app/talkn/server/endpoints/client/talkn.client.js');
+      console.log( conf.clientPath );
+      res.sendFile( conf.clientPath );
       return true;
     });
 
     app.listen( 8001, () => {
        console.log( `LISTEN CLIENT 8001` );
     });
-    return true;  
+    return true;
   },
 }
