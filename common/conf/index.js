@@ -12,10 +12,11 @@ const sllCertPem = env === PRODUCTION ? '/etc/letsencrypt/live/talkn.io/cert.pem
 const sllPems = {key: sllKeyPem , cert: sllCertPem} ;
 
 const clientSrcPath = env === PRODUCTION ? '//client.talkn.io' : `//${domain}:8001` ;
-const clientPath = env === PRODUCTION ? __dirname + '/../endpoints/client/talkn.client.js' : '/Users/hmiyazaki/talkn/server/endpoints/client/talkn.client.js' ;
-const assetsPath = env === PRODUCTION ? __dirname + '/../endpoints/assets/' : '/Users/hmiyazaki/talkn/server/endpoints/assets/' ;
+const clientPath = env === PRODUCTION ? '/usr/share/app/talkn/server/endpoints/client/talkn.client.js' : '/Users/hmiyazaki/talkn/server/endpoints/client/talkn.client.js' ;
+const assetsPath = env === PRODUCTION ? '/usr/share/app/talkn/server/endpoints/assets/' : '/Users/hmiyazaki/talkn/server/endpoints/assets/' ;
 
 export default {
+  domain,
   env,
   clientPath,
   clientSrcPath,
