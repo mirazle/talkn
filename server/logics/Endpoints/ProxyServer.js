@@ -1,3 +1,4 @@
+import conf from '~/conf';
 import httpProxy from 'http-proxy';
 
 const proxy = httpProxy.createProxyServer();

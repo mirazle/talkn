@@ -11,11 +11,6 @@ export default {
     const app = express();
     app.use( express.static( conf.assetsPath) );
 
-    app.get('*', (req, res) => {
-      console.log( req.params );
-      return true;
-    });
-
     app.listen( 8002, () => {
        console.log( `LISTEN ASSETS 8002` );
     });
