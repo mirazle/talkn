@@ -20,7 +20,6 @@ if( conf.env === 'development' ){
 
 function bootTalkn( appType, talknIndex, attributes, conf ){
 	const {server, port} = conf;
-console.log( conf );
 	const ws = io(`//${server}:${port}`, { forceNew: true });
 	const store = configureStore();
 	const state = new State( appType, talknIndex, window, attributes );
@@ -44,7 +43,6 @@ window.onload =  () => {
 		bootTalkn( appType, 0, {}, conf );
 		break;
 	case 'script':
-console.log( conf );
 		const scripts = document.querySelectorAll(`script[src*="${conf.scriptName}"]`);
 
 		scripts.forEach( ( script, index ) => {
