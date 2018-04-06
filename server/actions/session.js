@@ -11,7 +11,7 @@ export default {
 
     const port = 8003;
     detect(port, (err, _port) => {
-      if (!err) {
+      if (!err && port == _port ) {
         const app = express();
         app.get('*', (req, res) => {
           res.send("SESSION");

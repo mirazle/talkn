@@ -9,7 +9,7 @@ export default {
   setUpPortal: async () => {
     const port = 8000;
     detect(port, (err, _port) => {
-      if (!err) {
+      if (!err && port == _port ) {
         const app = express();
         app.set('views', `${__dirname}/../endpoints/portal/ejs/`);
         app.set('view engine', 'ejs');
