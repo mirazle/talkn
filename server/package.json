@@ -14,6 +14,7 @@
   "dependencies": {
     "buffer": "^5.1.0",
     "cheerio": "^1.0.0-rc.2",
+    "detect-port": "^1.2.2",
     "dom-parser": "^0.1.5",
     "ejs": "^2.5.8",
     "express": "^4.16.3",
