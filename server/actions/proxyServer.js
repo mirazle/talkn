@@ -6,11 +6,19 @@ import https from 'https';
 
 export default {
   setUpProxyServer: async () => {
-    
-    http.createServer( Logics.endpoints.proxyServer.request )
-      .listen( conf.proxySllOptions.httpPort, Logics.endpoints.proxyServer.listenHttp );
-    
-    https.createServer( conf.proxySllOptions.pems, Logics.endpoints.proxyServer.request )
-      .listen( conf.proxySllOptions.httpsPort, Logics.endpoints.proxyServer.listenHttps );
+    const protcol = process.argv.includes('ssl') ? 'https' : 'http';
+    let io;
+    switch( protcol ){
+    case 'https':
+      https.createServer( conf.proxySllOptions.pems, Logics.endpoints.proxyServer.request )
+        .listen( conf.proxySllOptions.httpsPort, Logics.endpoints.proxyServer.listenHttps );
+      break;
+    case 'http':
+      http.createServer( Logics.endpoints.proxyServer.request )
+        .listen( conf.proxySllOptions.httpPort, Logics.endpoints.proxyServer.listenHttp );
+        break;
+    default :
+      throw 'ERROR: BAD APP PROTCOL.';
+    }
   }
 }
