@@ -16,22 +16,23 @@ export default class ProsxyServer {
   request( req, res ) {
 
     let opt = {target:""};
+    const protcol = process.argv.includes('ssl') ? 'https' : 'http';
     const domain = conf.domain;
-    console.log( `@@@@@ REQ PROXY: ${req.headers.host}` );
+    console.log( `@@@@@ REQ PROXY: ${protcol} ${req.headers.host}` );
 
     switch( req.headers.host ){
     case 'talkn.io':
     case 'portal.talkn.io':
-      opt.target = `http://${domain}:8000`;
+      opt.target = `${protcol}//${domain}:8000`;
       break;
     case 'client.talkn.io':
-      opt.target = `http://${domain}:8001`;
+      opt.target = `${protcol}//${domain}:8001`;
       break;
     case 'assets.talkn.io':
-      opt.target = `http://${domain}:8002`;
+      opt.target = `${protcol}//${domain}:8002`;
       break;
     case 'session.talkn.io':
-      opt.target = `http://${domain}:8003`;
+      opt.target = `${protcol}//${domain}:8003`;
       break;
     }
 
