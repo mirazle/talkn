@@ -1,3 +1,4 @@
+import conf from '../../conf';
 import Schema from '../Schema';
 
 export default class Thread extends Schema{
