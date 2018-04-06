@@ -8,9 +8,6 @@
   "version": "1.0.0",
   "description": "Open Multiple Talk Stream App.",
   "main": "plugin/index.js",
-  "config": {
-    "TTT": "TTTTTTTTTTTTTTT"
-  },
   "dependencies": {
     "buffer": "^5.1.0",
     "cheerio": "^1.0.0-rc.2",
