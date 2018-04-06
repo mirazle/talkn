@@ -10,7 +10,7 @@ export default {
   setUpClient: async () => {
     const port = 8001;
     detect(port, (err, _port) => {
-      if (!err) {
+      if (!err && port == _port ) {
         const app = express();
 
         app.get('*', (req, res) => {
