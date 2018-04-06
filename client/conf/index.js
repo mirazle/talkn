@@ -1,19 +1,20 @@
 import define from '../../common/define';
 import conf from '../../common/conf';
 
-const { PRODUCTION, DEVELOPMENT, DEVELOPMENT_DOMAIN } = define;
+const { PRODUCTION, DEVELOPMENT, PRODUCTION_DOMAIN, DEVELOPMENT_DOMAIN, PORTS, SUB_DOMAINS } = define;
 const { env, domain } = conf;
 
 conf.protcol = location.href.indexOf( 'https' ) === 0 ? 'https' : 'http' ;
-conf.server = conf.env === DEVELOPMENT ? DEVELOPMENT_DOMAIN : 'client.talkn.io' ;
-conf.port = conf.protcol === 'https' ? 10443 : 10001;
-conf.scriptName = '//client.talkn.io' ;
-conf.sessionPath = env === PRODUCTION ? `//session.${domain}` : `//${domain}:8003` ;
+conf.server = conf.env === DEVELOPMENT ? DEVELOPMENT_DOMAIN : `${SUB_DOMAINS.CLIENT}${domain}` ;
+conf.port = conf.protcol === 'https' ? PORTS.SOCKET_IO.https : PORTS.SOCKET_IO.http;
+conf.sessionPath = env === PRODUCTION ? `//${SUB_DOMAINS.SESSION}${domain}` : `//${domain}:${PORTS.SESSION}` ;
+conf.scriptName = `//${SUB_DOMAINS.CLIENT}${PRODUCTION_DOMAIN}` ;
 
 if( conf.env === DEVELOPMENT ){
-	switch( location.port ){
-	case '8000': conf.scriptName = '//localhost:8001'; break;
-	case '8080': conf.scriptName = 'talkn.client.js'; break;
+	switch( Number( location.port ) ){
+	case PORTS.PORTAL: conf.scriptName = `//${DEVELOPMENT_DOMAIN}:${PORTS.CLIENT}`; break;
+	case PORTS.DEVELOPMENT: conf.scriptName = 'talkn.client.js'; break;
 	}
 }
+
 export default conf;
