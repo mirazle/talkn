@@ -4,17 +4,20 @@ import Logics from '~/logics';
 import https from 'https';
 import express from 'express';
 import fs from 'fs';
+import detect from 'detect-port';
 
 export default {
   setUpAssets: async () => {
-
-    const app = express();
-    app.use( express.static( conf.assetsPath) );
-
-    app.listen( 8002, () => {
-       console.log( `LISTEN ASSETS 8002` );
+    const port = 8002;
+    detect(port, (err, _port) => {
+      if (!err) {
+        const app = express();
+        app.use( express.static( conf.assetsPath) );
+        app.listen( port, () => {
+           console.log( `LISTEN ASSETS ${port}` );
+        });
+      }
     });
-
     return true;
   },
 }
