@@ -10,7 +10,7 @@ export default {
   setUpAssets: async () => {
     const port = 8002;
     detect(port, (err, _port) => {
-      if (!err) {
+      if (!err && port == _port ) {
         const app = express();
         app.use( express.static( conf.assetsPath) );
         app.listen( port, () => {
