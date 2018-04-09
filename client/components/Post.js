@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import Sequence from 'common/Sequence';
+import util from 'common/util';
+import conf from 'common/conf';
 
 export default class Post extends Component {
 
@@ -96,6 +98,8 @@ export default class Post extends Component {
     const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
     const { style } = this.state;
     const { protocol } = thread;
+    const favicon = conf.assetsIconPath + util.getSaveFaviconName( thum );
+
     return (
       <li style={style.self} {...this.getDecolationProps()}>
         <div style={style.upper}>
@@ -108,7 +112,7 @@ export default class Post extends Component {
         </div>
 
         <a style={style.bottom} {...this.getHrefProps()}>
-          <span style={{...style.bottomIcon, backgroundImage: `url( ${thum} )`}} />
+          <span style={{...style.bottomIcon, backgroundImage: `url( ${favicon} )`}} />
           <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post}} />
         </a>
       </li>

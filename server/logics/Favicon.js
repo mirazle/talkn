@@ -66,13 +66,7 @@ export default class Favicon {
     }else if( hostPartLength === 2 ){
       return `${hostParts[ 0 ]}.${hostParts[ 1 ]}`;
     }else{
-/*
-  /localhost:8080
-  /news.yahoo.co.jp
-  /www.yahoo.co.jp
-*/
       return host;
-//      return `${hostParts[ hostPartLength - 2 ]}.${hostParts[ hostPartLength - 1 ]}`;
     }
   }
 }
