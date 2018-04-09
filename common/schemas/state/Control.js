@@ -8,7 +8,8 @@ export default class Control extends Schema{
     const requestLoginType = params.requestLoginType ? params.requestLoginType : '';
     const inputPost = params.inputPost ? params.inputPost : '';
     const inputSearch = params.inputSearch ? params.inputSearch : '';
-    const isOpenMain = params.isOpen ? params.isOpen : false;
+    const isOpenMainPossible = params.isOpenMainPossible ? params.isOpenMainPossible : false;
+    const isOpenMain = params.isOpen ? params.isOpen : true;
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
@@ -17,6 +18,7 @@ export default class Control extends Schema{
       requestLoginType,
       inputPost: {value: inputPost, valid: Control.validInputPost},
       inputSearch,
+      isOpenMainPossible,
       isOpenMain,
       isOpenSetting,
       isOpenDetail,

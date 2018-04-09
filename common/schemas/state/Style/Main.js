@@ -6,7 +6,7 @@ import util from './../../../util';
 
 export default class Main {
 
-  static get selfHeight(){ return 400 };
+  static get selfHeight(){ return '100%' };
   static get headerHeight(){ return 45 };
   static get notifHeight(){ return 20 };
   static get notifOpenTranslate(){ return 20 };
@@ -16,7 +16,9 @@ export default class Main {
   static get openSettingTransform(){ return `translate3d( 0px, 0px, 0px)`};
 
   constructor( params ){
-    const { thread, bootOption } = params;
+    const { control, thread, bootOption } = params;
+    const bootOption = {...bootOption, ...control};
+
     const self = Main.getSelf( bootOption );
     const screen = Main.getScreen( bootOption );
     const header = Main.getHeader( bootOption );
@@ -53,7 +55,8 @@ export default class Main {
         width = ( Math.floor( width * Main.widthRatio ) ) + 'px';
       }
     }
-    return width;
+    return '100%';
+//    return width;
   }
 
   static getSelfHeightPx( bootOption ){
@@ -61,11 +64,10 @@ export default class Main {
     if( bootOption && bootOption.height ){
       height = bootOption.height + 'px';
     }else{
-      const reduceHeight = Footer.selfHeight + Math.floor( Footer.selfHeight / 2 );
-      height = `calc( 100vh - ${reduceHeight}px )`;
-      height =  Main.selfHeight + 'px';
+      //return `calc( 100% - ${Footer.selfHeight}px )`;
     }
-    return height;
+    return `calc( 100vh - ${Footer.selfHeight}px )`;
+//    return height;
   }
 
   static getSelfRight( widthPx, bootOption ){
@@ -78,22 +80,31 @@ export default class Main {
     }
   }
 
-  static getSelfTranslateY( heightPx ){
-    return heightPx;
+
+  static getSelfTranslateY( isOpenMain ){
+    return isOpenMain ? Main.getSelfOpenTranslateY() : Main.getSelfCloseTranslateY();
+  }
+
+  static getSelfOpenTranslateY(){
+    return ( -Footer.selfHeight ) + 'px';
+  }
+
+  static getSelfCloseTranslateY(){
+    return Main.getSelfHeightPx();
   }
 
   static getSelf( bootOption ){
     const widthPx = Main.getSelfWidthPx( bootOption );
     const heightPx = Main.getSelfHeightPx( bootOption );
     const right = Main.getSelfRight( widthPx, bootOption );
-    const translateY = Main.getSelfTranslateY( heightPx );
+    const translateY = Main.getSelfTranslateY( bootOption.isOpenMain );
     const layout = Style.getLayoutBlock({
       position: 'absolute',
       width: widthPx,
       height: heightPx,
       right: right,
       bottom: 0,
-      borderRadius: '12px 12px 0px 0px',
+//      borderRadius: '12px 12px 0px 0px',
       borderTop: Container.border,
       borderRight: Container.border,
       borderLeft: Container.border,

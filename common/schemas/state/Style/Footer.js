@@ -4,6 +4,7 @@ import Container from './Container';
 export default class Footer{
 
   static get selfHeight(){ return 45 };
+  static get selfWidth(){ return '100%' };
 
   constructor( params ){
     const { thread, bootOption } = params;
@@ -51,13 +52,14 @@ export default class Footer{
   static getSelf(){
     const layout = Style.getLayoutFlex({
       height: Footer.selfHeight,
+      width: Footer.selfWidth,
       background: Container.offWhiteRGBA,
       position: 'absolute',
       boxShadow: Container.shadow,
       borderTop: Container.border,
       borderRight: Container.border,
       borderLeft: Container.border,
-      borderRadius: '3px 3px 0px 0px',
+//      borderRadius: '3px 3px 0px 0px',
       zIndex: Container.maxZIndex,
     });
     const content = {};
