@@ -4,6 +4,7 @@ import Main from './Main';
 
 export default class Detail {
 
+  static get selfMaxWidth(){ return '380px' };
   static get margin(){ return 5}
 
   constructor( params ){
@@ -65,6 +66,7 @@ export default class Detail {
       bottom: 0,
       right: 0,
       width: width + '%',
+      maxWidth: Detail.selfMaxWidth,
       height: `calc( ${heightBase}% - ${ Main.headerHeight * 1 }px )`,
       margin: `0% ${margin}% 0% ${margin}%`,
       border: Container.border,

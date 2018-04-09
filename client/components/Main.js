@@ -31,6 +31,12 @@ export default class Main extends Component {
     talknAPI.onClickToggleDispDetail( isOpenDetail );
   }
 
+
+  getHeadTabProps(){
+    const { control } = this.props.state;
+    return control.isOpenMainPossible ? Icon.getDecolationProps1( 'icon', 'headTab', 'div' ) : {};
+  }
+
  	render() {
 		const{ state } = this.props;
     const { app, user, thread, style } = state;
@@ -53,7 +59,7 @@ export default class Main extends Component {
           </span>
 
           {/* Head Tab Icon */}
-          <span style={ style.main.headerHeadTab } onClick={ this.handleOnClickHeadTabIcon } {...Icon.getDecolationProps1( 'icon', 'headTab', 'div' )} >
+          <span style={ style.main.headerHeadTab } onClick={ this.handleOnClickHeadTabIcon } { ...this.getHeadTabProps() } >
             { HeadTabIcon }
           </span>
 

@@ -10,7 +10,7 @@ export default class Container{
     }
   }
 
-  static get width(){ return 320 };
+  static get width(){ return '100%' };
   static get openHeight(){ return 360 };
   static get closeHeight(){ return 360 };
   static get threadHeight(){ return 360 };
@@ -46,7 +46,7 @@ export default class Container{
   static getWidthPx( bootOption ){
     return bootOption.width ?
       bootOption.width :
-      Container.width + 'px';
+      Container.width;
   }
 
   static getRightPx( widthPx ){
