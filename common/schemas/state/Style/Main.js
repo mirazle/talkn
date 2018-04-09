@@ -16,9 +16,7 @@ export default class Main {
   static get openSettingTransform(){ return `translate3d( 0px, 0px, 0px)`};
 
   constructor( params ){
-    const { control, thread, bootOption } = params;
-    const bootOption = {...bootOption, ...control};
-
+    const bootOption = {...params.bootOption, ...params.control};
     const self = Main.getSelf( bootOption );
     const screen = Main.getScreen( bootOption );
     const header = Main.getHeader( bootOption );
