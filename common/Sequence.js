@@ -7,8 +7,6 @@ export default class Sequence {
   static get TALKN_PROTOCOL(){return 'talkn:'}
   static get HTTP_PROTOCOL(){return 'http:'}
   static get HTTPS_PROTOCOL(){return 'https:'}
-  static get DEV_HOST(){return 'localhost:8080'}
-  static get THUM_ASSETS(){return '//assets.talkn.io/img'}
   static get CATCH_ME_KEY(){return '@CATCH_ME'}
   static get CLIENT_TO_SERVER_EMIT(){return 'CLIENT_TO_SERVER[EMIT]:'}
   static get SERVER_TO_CLIENT_EMIT(){return 'SERVER_TO_CLIENT[EMIT]:'}

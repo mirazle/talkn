@@ -6,6 +6,7 @@ import fs from 'fs';
 import Sequence from '~/../common/Sequence'
 import Thread from '~/../common/schemas/state/Thread'
 import Logics from '~/logics';
+import define from '~/../common/define';
 
 export default class Html {
 
@@ -21,8 +22,10 @@ export default class Html {
 
   async get( thread ){
 
+    const { DEVELOPMENT_DOMAIN, PORTS } = define;
+
     // URLと思われる文字列の場合
-    if( thread.host === Sequence.DEV_HOST || thread.connection.indexOf( '.' ) > 0 ){
+    if( thread.host === `${DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT}` || thread.connection.indexOf( '.' ) > 0 ){
 
       thread = {...thread, protocol: Sequence.HTTPS_PROTOCOL, host: Thread.getHost( thread.connection ) };
       const httpResult = await Logics.html.request( thread );
