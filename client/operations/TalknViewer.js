@@ -36,7 +36,7 @@ export default class TalknViewer {
 	}
 
 	async render(){
-		await this.appendRoot();
+		//await this.appendRoot();
 		await this.addBackgroundListener();
 		await this.renderDOM();
 	}
