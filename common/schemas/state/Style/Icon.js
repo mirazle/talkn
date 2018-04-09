@@ -6,9 +6,7 @@ export default class Icon {
   static get defaultSize(){ return 28 };
 
   constructor( params ){
-    const { bootOption, control } = params;
-    let bootOption = {...bootOption, ...control};
-
+    const bootOption = {...params.bootOption, ...params.control};
     const headTab = Icon.getHeadTab( bootOption );
     const menu = Icon.getMenu( bootOption );
     const user = Icon.getUser( bootOption );
