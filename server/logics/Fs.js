@@ -1,10 +1,10 @@
+import util from '~/../common/util'
 import fs from 'fs';
 import conf from '~/conf';
 
 export default class Fs {
   write( fileName, binary ){
-    fileName = fileName.replace(/\u002f/g, "\uff0f");;
-    fileName = fileName.indexOf( '.png' ) > 0 ? fileName : fileName + ".png";
+    fileName = util.getSaveFaviconName( fileName );
     const writeFileName = `${conf.assetsPath}icon/${fileName}`;
     if( binary && !this.isExist( writeFileName ) ){
       fs.writeFileSync(writeFileName, binary, 'binary');

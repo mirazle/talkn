@@ -4,7 +4,7 @@ import Schema from '../Schema';
 export default class Thread extends Schema{
 
   static getDefaultFavicon(){
-    return '//assets.talkn.io/img/user.png';
+    return 'user.png';
   }
 
   constructor( params = {}, bootOption = {}){
