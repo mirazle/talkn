@@ -14,8 +14,8 @@ export default {
         app.set('views', `${__dirname}/../endpoints/portal/ejs/`);
         app.set('view engine', 'ejs');
         app.get('*', function(req, res) {
-          const params = Object.values( req.params )[ 0 ];
-          res.render('index', {title : params, clientSrcPath: conf.clientSrcPath});
+          const connection = Object.values( req.params )[ 0 ];
+          res.render('index', {connection : connection, clientSrcPath: conf.clientSrcPath});
         });
 
         app.listen( port, () => {

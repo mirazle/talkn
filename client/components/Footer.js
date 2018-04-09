@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from "react"
 import Control from 'common/schemas/state/Control';
+import util from 'common/util';
+import conf from 'common/conf';
 import Icon from 'client/components/Icon';
 
 export default class Footer extends Component {
@@ -46,7 +48,8 @@ export default class Footer extends Component {
 
   getIconStyle(){
     const { thread, style } = this.props.state;
-    return thread.favicon ? {...style.footer.icon, backgroundImage: `url(${thread.favicon})` } : style.footer.icon ;
+    const favicon = conf.assetsIconPath + util.getSaveFaviconName( thread.favicon );
+    return thread.favicon ? {...style.footer.icon, backgroundImage: `url(${favicon})` } : style.footer.icon ;
   }
 
   render() {
