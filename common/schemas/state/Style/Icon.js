@@ -6,7 +6,9 @@ export default class Icon {
   static get defaultSize(){ return 28 };
 
   constructor( params ){
-    const { bootOption } = params;
+    const { bootOption, control } = params;
+    let bootOption = {...bootOption, ...control};
+
     const headTab = Icon.getHeadTab( bootOption );
     const menu = Icon.getMenu( bootOption );
     const user = Icon.getUser( bootOption );
@@ -153,11 +155,13 @@ export default class Icon {
     return {div, span, ...bootOption};
   }
 
+  static getHeadTabLeftTransform( isOpenMain ){return isOpenMain ? Icon.getHeadTabLeftOpenTransform : Icon.getHeadTabLeftCloseTransform};
+  static getHeadTabRightTransform( isOpenMain ){return isOpenMain ? Icon.getHeadTabRightOpenTransform : Icon.getHeadTabRightCloseTransform};
   static get getHeadTabLeftOpenTransform(){return 'rotate( 120deg ) translate3d(3px, 5px, 0px)'};
   static get getHeadTabRightOpenTransform(){return 'rotate( -120deg ) translate3d(-3px, 5px, 0px)'};
   static get getHeadTabLeftCloseTransform(){return 'rotate( 90deg ) translate3d(3px, 5px, 0px)'};
   static get getHeadTabRightCloseTransform(){return 'rotate( -90deg ) translate3d(-3px, 5px, 0px)'};
-  static getHeadTab( bootOption = {}){
+  static getHeadTab( bootOption = {} ){
 
     const commonLayout = Style.getLayoutInlineBlock({
       width: '4px',
@@ -177,7 +181,7 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: '600ms',
-        transform: Icon.getHeadTabLeftCloseTransform,
+        transform: Icon.getHeadTabLeftTransform( bootOption.isOpenMain ),
       }),
     });
 
@@ -186,7 +190,7 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: '600ms',
-        transform: Icon.getHeadTabRightCloseTransform,
+        transform: Icon.getHeadTabRightTransform( bootOption.isOpenMain ),
       }),
     });
     return {div,left,right, ...bootOption};
