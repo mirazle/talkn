@@ -146,7 +146,7 @@ export default class Schema {
             }
           }
         });
-        return mergedObj;
+        return this.constructor( mergedObj );
       }else{
         return obj;
       }

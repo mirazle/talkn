@@ -5,6 +5,7 @@ import State from 'common/schemas/state';
 import TalknSession from 'client/operations/TalknSession';
 import TalknAPI from 'client/operations/TalknAPI';
 import TalknViewer from 'client/operations/TalknViewer';
+import TalknSetupJs from 'client/operations/TalknSetupJs';
 
 function bootTalkn( appType, talknIndex, attributes, conf ){
 	const {server, port} = conf;
@@ -16,6 +17,8 @@ function bootTalkn( appType, talknIndex, attributes, conf ){
 	const talknAPI = new TalknAPI( talknIndex, ws, store, connection );
 	const talknViewer = new TalknViewer( state, talknAPI );
 
+	TalknSetupJs.setupMath();
+	talknViewer.addWindowEventListener( talknAPI );
 	talknAPI.initClientState( state );
 	talknViewer.render();
 }

@@ -21,8 +21,10 @@ export default class Main extends Component {
 
   handleOnClickHeadTabIcon( e ){
     const{ control } = this.props.state;
-    const isOpenMain = control.isOpenMain ? false : true ;
-    talknAPI.onClickToggleDispMain( isOpenMain );
+    if( control.isOpenMainPossible ){
+      const isOpenMain = control.isOpenMain ? false : true ;
+      talknAPI.onClickToggleDispMain( isOpenMain );
+    }
   }
 
   handleOnClickDetailIcon( e ){
