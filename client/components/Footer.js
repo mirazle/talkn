@@ -16,10 +16,12 @@ export default class Footer extends Component {
 
   handleOnClickIcon( e ){
     const{ control } = this.props.state;
-    const isOpenMain = control.isOpenMain ? false : true ;
-    talknAPI.onClickToggleDispMain( isOpenMain );
+    if( control.isOpenMainPossible ){
+      const isOpenMain = control.isOpenMain ? false : true ;
+      talknAPI.onClickToggleDispMain( isOpenMain );
+    }
   }
-
+  
   handleOnClick( e ){
     if( !Control.validInputPost( e.target.value ) ){
       talknAPI.post();

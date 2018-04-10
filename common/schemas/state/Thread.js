@@ -48,8 +48,8 @@ export default class Thread extends Schema{
 
     const title = '';
     const metas = [];
-    const serverMetas = [];
-    const clientMetas = [];
+    const serverMetas = {};
+    const clientMetas = {};
     const links = [];
     const h1s = [];
     const uri = {};

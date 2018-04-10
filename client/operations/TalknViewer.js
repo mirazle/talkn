@@ -7,21 +7,15 @@ import timeago from 'timeago.js';
 import lang from 'timeago.js/locales/ja';
 
 export default class TalknViewer {
+
+	static get resizeInterval(){ return Math.floor(1000 / 60 * 10) };
+
 	constructor( state, talknAPI ){
 		const { appName, talknIndex } = state;
 		this.id = appName + talknIndex;
 		this.talknIndex = talknIndex;
 		this.state = state;
 		this.talknAPI = talknAPI;
-
-//		React.initializeTouchEvents( true );
-
-		Math.easeInOutQuad = function (t, b, c, d) {
-			t /= d/2;
-			if (t < 1) return c/2*t*t + b;
-			t--;
-			return -c/2 * (t*(t-2) - 1) + b;
-		};
 	}
 
 	static getAppType(){
@@ -39,6 +33,14 @@ export default class TalknViewer {
 		//await this.appendRoot();
 		await this.addBackgroundListener();
 		await this.renderDOM();
+	}
+
+	addWindowEventListener( talknAPI ){
+		let resizeTimer;
+		window.addEventListener('resize', ( ev ) => {
+		  if (resizeTimer !== false) clearTimeout(resizeTimer);
+		  resizeTimer = setTimeout( () => { talknAPI.handleOnResizeWindow( ev ) }, TalknViewer.resizeInterval );
+		});
 	}
 
 	appendRoot(){
