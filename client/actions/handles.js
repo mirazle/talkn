@@ -57,4 +57,13 @@ export default {
       control: {inputPost},
     };
   },
+  handleOnResizeWindow: ( ev ) => {
+    return {
+      type: 'RESIZE_WINDOW',
+      app:{
+        width: ev.target.innerWidth,
+        height: ev.target.innerHeight,
+      },
+    };
+  },
 }
