@@ -28,7 +28,7 @@ export default class Post {
     }
   }
 
-  static getSelf( bootOption ){
+  static getSelf(){
     const layout = Style.getLayoutBlock({
       width: 'initial',
       height: 'initial',

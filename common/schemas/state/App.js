@@ -18,7 +18,7 @@ export default class App extends Schema{
         // screenModePointer
         1: [ App.screenModeIndexLabel ],
         2: [ App.screenModeThreadLabel ],
-        3: [ App.screenModeThreadLabel ]
+        3: [ App.screenModeDetailLabel ]
       },
       [ App.screenModeMiddleLabel ]: {
         1: [ App.screenModeIndexLabel, App.screenModeThreadLabel ],
@@ -28,7 +28,12 @@ export default class App extends Schema{
         1: [ App.screenModeIndexLabel, App.screenModeThreadLabel, App.screenModeDetailLabel ]
       },
     }
-    return screenContentsMap[ screenMode ][ screenModePointer ];
+
+    if( screenContentsMap[ screenMode ][ screenModePointer ] ){
+      return screenContentsMap[ screenMode ][ screenModePointer ];
+    }else{
+      return false;
+    }
   }
 
   static get screenModeIndexLabel(){ return 'INDEX' };
@@ -37,16 +42,54 @@ export default class App extends Schema{
   static get screenModeSmallWidthPx(){ return 640 };
   static get screenModeMiddleWidthPx(){ return 960 };
 
+  static validInputPost(value){
+    if( /\r\n$|\n$|\r$/mgi.test( value ) ) return 'LAST TYPE BREAK LINE.';
+    return false;
+  }
+
+  static validPost(value){
+    if( value === '' ) return 'NO INPUT POST';
+    if( /^\r\n+$|\n+$|\r+$/g.test( value ) ) return 'ONLY NEW LINE';
+    if( /^\s+$/g.test( value ) ) return 'only space';
+    if( /^\r\n+(\s|\S)+$|^\n+(\s|\S)+$|^\r+(\s|\S)+$/.test( value ) ) return 'EMPTY POST';
+    return false;
+  }
+
+  static getWidth( params ){
+    if( params.width ) return params.width;
+    if( typeof window === 'object' && window.innerWidth ) return window.innerWidth;
+    return 0;
+  }
+
+  static getHeight( params ){
+    if( params.height ) return params.height;
+    if( typeof window === 'object' &&  window.innerHeight ) return window.innerHeight;
+    return 0;
+  }
+
   constructor( params = {} ){
     super();
     const name = params.name ? params.name : 'talkn';
     const type = params.type ? params.type : '';
     const talknIndex = params.talknIndex ? params.talknIndex : 0;
-    const width = params.width ? params.width : window.innerWidth;
-    const height = params.height ? params.height : window.innerHeight;
+    const width = App.getWidth( params );
+    const height = App.getHeight( params );
     const screenMode = App.getScreenMode( width );
-    const screenModePointer = App.getScreenModeDefaultPointer( screenMode );
+    const screenModePointer = params.screenModePointer ?
+      params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
     const screenContents = App.getScreenContentsMap( screenMode, screenModePointer );
+
+    const childrenThreadView = params.childrenThreadView ? params.childrenThreadView : false;
+    const requestLoginType = params.requestLoginType ? params.requestLoginType : '';
+    const inputPost = params.inputPost ? params.inputPost : '';
+    const inputSearch = params.inputSearch ? params.inputSearch : '';
+    const isOpenMainPossible = params.isOpenMainPossible ? params.isOpenMainPossible : false;
+    const isOpenMain = params.isOpen ? params.isOpen : true;
+    const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
+    const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
+
+    const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
+    const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     return this.create({
       name,
       type,
@@ -56,6 +99,17 @@ export default class App extends Schema{
       screenMode,
       width,
       height,
+
+      childrenThreadView,
+      requestLoginType,
+      inputPost: {value: inputPost, valid: App.validInputPost},
+      inputSearch,
+      isOpenMainPossible,
+      isOpenMain,
+      isOpenMenu,
+      isOpenSetting,
+      isOpenDetail,
+      isOpenNotif,
     });
   }
 
@@ -63,5 +117,11 @@ export default class App extends Schema{
     if( App.screenModeSmallWidthPx >= widthPx ) return App.screenModeSmallLabel;
     if( App.screenModeSmallWidthPx < widthPx &&　App.screenModeMiddleWidthPx >= widthPx ) return App.screenModeMiddleLabel;
     return App.screenModeLargeLabel;
+  }
+
+  updateScreenModePointer( calcScreenModePointer ){
+    const screenModePointer = this.screenModePointer + calcScreenModePointer;
+    const screenContents = App.getScreenContentsMap( this.screenMode, screenModePointer );
+    return screenContents ? new App( {screenModePointer} ) : this.screenModePointer ;
   }
 }

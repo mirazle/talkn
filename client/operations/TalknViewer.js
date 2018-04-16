@@ -30,7 +30,7 @@ export default class TalknViewer {
 	}
 
 	async render(){
-		//await this.appendRoot();
+		this.resizeWindow();
 		await this.addBackgroundListener();
 		await this.renderDOM();
 	}
@@ -39,8 +39,15 @@ export default class TalknViewer {
 		let resizeTimer;
 		window.addEventListener('resize', ( ev ) => {
 		  if (resizeTimer !== false) clearTimeout(resizeTimer);
-		  resizeTimer = setTimeout( () => { talknAPI.handleOnResizeWindow( ev ) }, TalknViewer.resizeInterval );
+		  resizeTimer = setTimeout( this.resizeWindow, TalknViewer.resizeInterval );
 		});
+	}
+
+	resizeWindow( ev ){
+		const width = ev ? ev.target.innerWidth : window.innerWidth;
+		const height = ev ? ev.target.innerHeight : window.innerHeight;
+		const app = talknAPI.store.getState().app.merge({width, height});
+		talknAPI.handleOnResizeWindow( app )
 	}
 
 	appendRoot(){

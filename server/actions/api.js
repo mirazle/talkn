@@ -5,6 +5,8 @@ import Actions from '~/actions';
 export default {
   setUpAPI: async () => {
     const io = await Logics.io.get();
+    console.log("--");
+    console.log("--");
     return io.on( 'connection', Actions.attachAPI );
   },
 

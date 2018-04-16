@@ -36,7 +36,7 @@ export default class Posts {
 
   async save( requestState ){
     const connections = Thread.getConnections( requestState.thread.connection );
-    const post = requestState.control.inputPost;
+    const post = requestState.app.inputPost;
     const set = {connections, ...requestState.thread, ...requestState.user, post };
     const option = {upsert:true};
     return this.db.save( set, option );
