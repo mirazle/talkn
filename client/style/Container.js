@@ -3,8 +3,7 @@ import Footer from './Footer';
 
 export default class Container{
   constructor( params ){
-    const { thread, bootOption } = params;
-    const self = Container.getSelf( bootOption );
+    const self = Container.getSelf( params );
     return {
       self,
     }
@@ -43,7 +42,7 @@ export default class Container{
 
   static get themeRGBA(){ return 'rgba(79, 174, 159, 0.8)' };
 
-  static getWidthPx( bootOption ){
+  static getWidthPx( {bootOption} ){
     return bootOption.width ?
       bootOption.width :
       Container.width;
@@ -59,8 +58,8 @@ export default class Container{
     }
   }
 
-  static getSelf( bootOption ){
-    const widthPx = Container.getWidthPx( bootOption );
+  static getSelf( params ){
+    const widthPx = Container.getWidthPx( params );
     const rightPx = Container.getRightPx( widthPx );
     const layout = Style.getLayoutFlex({
       overflow: 'visible',

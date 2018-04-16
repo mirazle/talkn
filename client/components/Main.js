@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from "react"
 import Posts from './Posts';
-import Setting from './Setting';
+import Menu from './Menu';
 import Detail from './Detail';
+import Screen from './Screen';
 import Icon from './Icon';
+import App from 'common/schemas/state/App';
 
 export default class Main extends Component {
 
@@ -14,29 +16,29 @@ export default class Main extends Component {
   }
 
   handleOnClickUserIcon( e ){
-    const{ control } = this.props.state;
-    const isOpenSetting = control.isOpenSetting ? false : true ;
-    talknAPI.onClickDispSetting( isOpenSetting );
+    const{ app } = this.props.state;
+    app.isOpenMenu = app.isOpenMenu ? false : true ;
+    talknAPI.onClickDispMenu( app );
   }
 
   handleOnClickHeadTabIcon( e ){
-    const{ control } = this.props.state;
-    if( control.isOpenMainPossible ){
-      const isOpenMain = control.isOpenMain ? false : true ;
+    const{ app } = this.props.state;
+    if( app.isOpenMainPossible ){
+      const isOpenMain = app.isOpenMain ? false : true ;
       talknAPI.onClickToggleDispMain( isOpenMain );
     }
   }
 
   handleOnClickDetailIcon( e ){
-    const{ control } = this.props.state;
-    const isOpenDetail = control.isOpenDetail ? false : true ;
+    const{ app } = this.props.state;
+    const isOpenDetail = app.isOpenDetail ? false : true ;
     talknAPI.onClickToggleDispDetail( isOpenDetail );
   }
 
 
   getHeadTabProps(){
-    const { control } = this.props.state;
-    return control.isOpenMainPossible ? Icon.getDecolationProps1( 'icon', 'headTab', 'div' ) : {};
+    const { app } = this.props.state;
+    return app.isOpenMainPossible ? Icon.getDecolationProps1( 'icon', 'headTab', 'div' ) : {};
   }
 
  	render() {
@@ -79,12 +81,9 @@ export default class Main extends Component {
         </header>
 
         {/* Screen */}
-        <div style={ style.main.screen }>
-          <Setting {...this.props} />
-          <Posts {...this.props} />
-        </div>
+        <Screen {...this.props} />
 
-        <Detail {...this.props} />
+        { app.screenMode === App.screenModeSmallLabel ? <Detail type={'SMALL'} {...this.props} /> : null }
 
       </main>
 		);

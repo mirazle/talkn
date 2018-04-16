@@ -1,11 +1,15 @@
 import Container from './Container';
+import Detail from './Detail';
+import DetailModal from './DetailModal';
+import DetailRight from './DetailRight';
 import Footer from './Footer';
-import Setting from './Setting';
+import Icon from './Icon';
 import Main from './Main';
+import Screen from './Screen';
+import Menu from './Menu';
 import Posts from './Posts';
 import Post from './Post';
-import Detail from './Detail';
-import Icon from './Icon';
+
 
 export default class Style{
 
@@ -32,20 +36,26 @@ export default class Style{
   constructor( params ){
     const container = new Container( params );
     const footer = new Footer( params );
-    const setting = new Setting( params );
+    const menu = new Menu( params );
     const main = new Main( params );
+    const screen = new Screen( params );
     const posts = new Posts( params );
     const post = new Post( params );
     const detail = new Detail( params );
+    const detailModal = new DetailModal( params );
+    const detailRight = new DetailRight( params );
     const icon = new Icon( params );
     return {
       container,
       footer,
-      setting,
+      menu,
       main,
+      screen,
       posts,
       post,
       detail,
+      detailModal,
+      detailRight,
       icon,
     };
   }
@@ -65,10 +75,10 @@ export default class Style{
       overflow: 'hidden',
       width: 'inherit',
       height: 'inherit',
-      minWidth: 'inherit',
-      minHeight: 'inherit',
-      manWidth: 'inherit',
-      manHeight: 'inherit',
+      minWidth: 'auto',
+      minHeight: 'auto',
+      maxWidth: 'inherit',
+      maxHeight: 'inherit',
       padding: 0,
       margin: 0,
       font: 0,
@@ -189,5 +199,9 @@ export default class Style{
       transform: 'translate3d(0px, 0px, 0px)',
     }
     return { ...animationBase, ...style };
+  }
+
+  static trimUnit( value ){
+    return Number( value.toString().replace( /px|%|vw|vh/, '' ) );
   }
 }

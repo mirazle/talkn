@@ -24,9 +24,10 @@ class SocketIo{
       throw 'ERROR: BAD IO PROTCOL.';
     }
 
-     // Adapt Redis-Server .
-     this.io = io.adapter( redis( { host: conf.redis.host, port: conf.redis.port } ));
-     return this;
+    // Adapt Redis-Server .
+    this.io = io.adapter( redis( { host: conf.redis.host, port: conf.redis.port } ));
+    console.log("@@@@@@@@");
+    return this;
   }
 
   async get(){

@@ -1,22 +1,30 @@
 import Style from './index';
 import Container from './Container';
+import App from '../../common/schemas/state/App';
 
-export default class Setting {
+export default class Menu {
 
-  static get width(){ return 300 };
+  static getWidth( app, addUnit = false ){
+    let width = 0;
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel : width = '50.0%';break;
+    case App.screenModeMiddleLabel : width = '300px';break;
+    case App.screenModeLargeLabel : width = '300px';break;
+    }
+    return addUnit ? Style.trimUnit( width ) : width ;
+  }
 
   constructor( params ){
-    const { bootOption } = params;
-    const self = Setting.getSelf( bootOption );
-    const scroll = Setting.getScroll( bootOption );
-    const columns = Setting.getColumns( bootOption );
-    const column = Setting.getColumn( bootOption );
-    const columnLast = Setting.getColumnLast( bootOption );
-    const img = Setting.getImg( bootOption );
-    const wrap = Setting.getWrap( bootOption );
-    const imgWrap = Setting.getImgWrap( bootOption );
-    const names = Setting.getNames( bootOption );
-    const namesAddConnection = Setting.getNamesAddConnection( bootOption );
+    const self = Menu.getSelf( params );
+    const scroll = Menu.getScroll( params );
+    const columns = Menu.getColumns( params );
+    const column = Menu.getColumn( params );
+    const columnLast = Menu.getColumnLast( params );
+    const img = Menu.getImg( params );
+    const wrap = Menu.getWrap( params );
+    const imgWrap = Menu.getImgWrap( params );
+    const names = Menu.getNames( params );
+    const namesAddConnection = Menu.getNamesAddConnection( params );
     return {
       self,
       scroll,
@@ -31,11 +39,11 @@ export default class Setting {
     }
   }
 
-  static getSelf( bootOption ){
-    const layout = Style.getLayoutBlock({
-      width: Setting.width,
-      minWidth: Setting.width,
-      maxWidth: Setting.width,
+  static getSelf( {app} ){
+    const layout = Style.getLayoutInlineBlock({
+      width: Menu.getWidth( app ),
+      minWidth: Menu.getWidth( app ),
+      maxWidth: Menu.getWidth( app ),
       WebkitOverflowScrolling: 'touch',
       background: Container.calmRGB,
       overflow: 'scroll',
@@ -46,7 +54,7 @@ export default class Setting {
     return Style.get({layout, content, animation});
   }
 
-  static getScroll( bootOption ){
+  static getScroll(){
     const layout = Style.getLayoutBlock({
       overflow: 'scroll',
     });
@@ -55,7 +63,7 @@ export default class Setting {
     return Style.get({layout, content, animation});
   }
 
-  static getColumns( bootOption ){
+  static getColumns(){
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: 'auto',
@@ -71,7 +79,7 @@ export default class Setting {
     return Style.get({layout, content, animation});
   }
 
-  static getColumn( bootOption ){
+  static getColumn(){
     const layout = Style.getLayoutBlock({
       marginLeft: '20px',
       borderBottom: Container.border,
@@ -86,7 +94,7 @@ export default class Setting {
     return Style.get({layout, content, animation});
   }
 
-  static getColumnLast( bootOption ){
+  static getColumnLast(){
     const layout = Style.getLayoutBlock({
       marginLeft: '20px',
     });
@@ -100,7 +108,7 @@ export default class Setting {
     return Style.get({layout, content, animation});
   }
 
-  static getWrap( bootOption ){
+  static getWrap(){
     const layout = Style.getLayoutBase({
       width: 'initial',
       height: '60px',
@@ -114,7 +122,7 @@ export default class Setting {
     return Style.get({layout, content, animation});
   }
 
-  static getImgWrap( bootOption ){
+  static getImgWrap(){
     const layout = Style.getLayoutInlineBlock({
       width: '60px',
       height: '60px',
@@ -124,7 +132,7 @@ export default class Setting {
     return Style.get({layout, content, animation});
   }
 
-  static getImg( bootOption ){
+  static getImg(){
     const layout = Style.getLayoutInlineBlock({
       borderRadius: '50%',
       width: '34px',
@@ -136,7 +144,7 @@ export default class Setting {
     return Style.get({layout, content, animation});
   }
 
-  static getNamesAddConnection( bootOption ){
+  static getNamesAddConnection(){
     const layout = Style.getLayoutInlineBlock({
       padding: '5px',
     });
@@ -148,7 +156,7 @@ export default class Setting {
     return Style.get({layout, content, animation});
   }
 
-  static getNames( bootOption ){
+  static getNames(){
     const layout = Style.getLayoutInlineBlock({});
     const content = Style.getContentBase({
       textAlign: 'left',

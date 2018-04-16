@@ -135,7 +135,7 @@ export default class Schema {
     }
   }
 
-  merge( obj = {} ){
+  merge( obj = {}, immutable = true ){
     try{
       if( Object.keys( obj ).length > 0 ){
         let mergedObj = this;
@@ -146,7 +146,7 @@ export default class Schema {
             }
           }
         });
-        return this.constructor( mergedObj );
+        return immutable ? this.constructor( mergedObj ) : mergedObj;
       }else{
         return obj;
       }

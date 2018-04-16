@@ -4,6 +4,6 @@ export default {
 		return _fileName.indexOf( '.png' ) > 0 ? _fileName : _fileName + ".png";
 	},
 	trimPx: ( value ) => {
-    return value.replace( 'px', '' );
+    return value.toString().replace( 'px', '' );
   }
 }

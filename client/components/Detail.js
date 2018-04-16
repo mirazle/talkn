@@ -152,7 +152,10 @@ export default class Setting extends Component {
   }
 
  	render() {
+    const { detailStyle: _style } = this.props;
     const { thread, style } = this.props.state
+
+    // 同じだけどstateで更新されるのはdetailだけ
 		return (
       <div style={ style.detail.self }>
         {this.renderHeader()}

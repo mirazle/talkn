@@ -6,14 +6,14 @@ export default class Icon {
   static get defaultSize(){ return 28 };
 
   constructor( params ){
-    const bootOption = {...params.bootOption, ...params.control};
-    const headTab = Icon.getHeadTab( bootOption );
-    const menu = Icon.getMenu( bootOption );
-    const user = Icon.getUser( bootOption );
-    const detail = Icon.getDetail( bootOption );
-    const heart = Icon.getHeart( bootOption );
-    const share = Icon.getShare( bootOption );
-    const money = Icon.getMoney( bootOption );
+    const bootOption = {...params.bootOption, ...params.app};
+    const headTab = Icon.getHeadTab( params );
+    const menu = Icon.getMenu( params );
+    const user = Icon.getUser( params );
+    const detail = Icon.getDetail( params );
+    const heart = Icon.getHeart( params );
+    const share = Icon.getShare( params );
+    const money = Icon.getMoney( params );
     return {
       headTab,
       menu,
@@ -25,7 +25,7 @@ export default class Icon {
     }
   }
 
-  static getUser( bootOption = {}){
+  static getUser(){
     const border = {...Container.border, }
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
@@ -69,10 +69,10 @@ export default class Icon {
         transform: `scale(0.8) translate3d( 0px, 0px, 0px )`,
       }),
     });
-    return {div, top, bottom, ...bootOption};
+    return {div, top, bottom};
   }
 
-  static getDetail( bootOption = {}){
+  static getDetail(){
     const border = {...Container.border, }
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
@@ -122,10 +122,10 @@ export default class Icon {
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
-    return {div, top, middle, bottom, ...bootOption};
+    return {div, top, middle, bottom};
   }
 
-  static getMenu( bootOption = {}){
+  static getMenu(){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: Icon.defaultSize,
@@ -150,7 +150,7 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase(),
     });
-    return {div, span, ...bootOption};
+    return {div, span};
   }
 
   static getHeadTabLeftTransform( isOpenMain ){return isOpenMain ? Icon.getHeadTabLeftOpenTransform : Icon.getHeadTabLeftCloseTransform};
@@ -159,7 +159,7 @@ export default class Icon {
   static get getHeadTabRightOpenTransform(){return 'rotate( -120deg ) translate3d(-3px, 5px, 0px)'};
   static get getHeadTabLeftCloseTransform(){return 'rotate( 90deg ) translate3d(3px, 5px, 0px)'};
   static get getHeadTabRightCloseTransform(){return 'rotate( -90deg ) translate3d(-3px, 5px, 0px)'};
-  static getHeadTab( bootOption = {} ){
+  static getHeadTab( {app} ){
 
     const commonLayout = Style.getLayoutInlineBlock({
       width: '4px',
@@ -179,7 +179,7 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: '600ms',
-        transform: Icon.getHeadTabLeftTransform( bootOption.isOpenMain ),
+        transform: Icon.getHeadTabLeftTransform( app.isOpenMain ),
       }),
     });
 
@@ -188,13 +188,13 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: '600ms',
-        transform: Icon.getHeadTabRightTransform( bootOption.isOpenMain ),
+        transform: Icon.getHeadTabRightTransform( app.isOpenMain ),
       }),
     });
-    return {div,left,right, ...bootOption};
+    return {div,left,right};
   }
 
-  static getHeart( bootOption = {}){
+  static getHeart(){
 
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
@@ -236,7 +236,7 @@ export default class Icon {
   }
 
 
-  static getShare( bootOption = {}){
+  static getShare(){
 
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
@@ -332,7 +332,7 @@ export default class Icon {
     return {div, base, whiteBar1, whiteBar2, bar, arrow};
   }
 
-  static getMoney( bootOption = {}){
+  static getMoney(){
 
     const div = Style.get({
       layout: Style.getLayoutBlock({

@@ -1,34 +1,43 @@
+import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
 import Main from './Main';
 
-export default class Detail {
+export default class DetailRight {
 
-  static get selfMaxWidth(){ return '380px' };
+  static getWidth( app, addUnit = false ){
+    let width = 0;
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel : width = '100%';break;
+    case App.screenModeMiddleLabel :width = '30%';break;
+    case App.screenModeLargeLabel :width = '30%';break;
+    }
+    return addUnit ? Style.trimUnit( width ) : width ;
+  }
+
   static get margin(){ return 5}
 
   constructor( params ){
-    const { bootOption } = params;
-    const self = Detail.getSelf( bootOption );
-    const header = Detail.getHeader( bootOption );
-    const meta = Detail.getMeta( bootOption );
-    const img = Detail.getImg( bootOption );
-    const description = Detail.getDescription( bootOption );
-    const contentType = Detail.getContentType( bootOption );
-    const analyze = Detail.getAnalyze( bootOption );
-    const analyzeRow = Detail.getAnalyzeRow( bootOption );
-    const analyzeCol = Detail.getAnalyzeCol( bootOption );
-    const analyzeLabel = Detail.getAnalyzeLabel( bootOption );
-    const analyzeValue = Detail.getAnalyzeValue( bootOption );
-    const analyzeHr = Detail.getAnalyzeHr( bootOption );
-    const body = Detail.getBody( bootOption );
-    const h1s = Detail.getH1s( bootOption );
-    const h1sLi = Detail.getH1sLi( bootOption );
-    const footer = Detail.getFooter( bootOption );
-    const footerChild = Detail.getFooterChild( bootOption );
-    const footerChildLike = Detail.getFooterChildLike( bootOption );
-    const footerChildMoney = Detail.getFooterChildMoney( bootOption );
-    const footerChildShare = Detail.getFooterChildShare( bootOption );
+    const self = DetailRight.getSelf( params );
+    const header = DetailRight.getHeader( params );
+    const meta = DetailRight.getMeta( params );
+    const img = DetailRight.getImg( params );
+    const description = DetailRight.getDescription( params );
+    const contentType = DetailRight.getContentType( params );
+    const analyze = DetailRight.getAnalyze( params );
+    const analyzeRow = DetailRight.getAnalyzeRow( params );
+    const analyzeCol = DetailRight.getAnalyzeCol( params );
+    const analyzeLabel = DetailRight.getAnalyzeLabel( params );
+    const analyzeValue = DetailRight.getAnalyzeValue( params );
+    const analyzeHr = DetailRight.getAnalyzeHr( params );
+    const body = DetailRight.getBody( params );
+    const h1s = DetailRight.getH1s( params );
+    const h1sLi = DetailRight.getH1sLi( params );
+    const footer = DetailRight.getFooter( params );
+    const footerChild = DetailRight.getFooterChild( params );
+    const footerChildLike = DetailRight.getFooterChildLike( params );
+    const footerChildMoney = DetailRight.getFooterChildMoney( params );
+    const footerChildShare = DetailRight.getFooterChildShare( params );
     return {
       self,
       header,
@@ -54,35 +63,45 @@ export default class Detail {
   }
 
   static get padding(){ return 20 };
-  static get closeTransform(){ return `translate3d(0%, calc( 100% + ${ Detail.padding * 2 }px ), 0px)` };
-  static get openTransform(){ return `translate3d(0%, 0%, 0px)` };
 
-  static getSelf( bootOption ){
+  static getSelfTramsform( app ){
+    let transform = DetailRight.closeTransform;
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel : transform = DetailRight.closeTransform; break;
+    case App.screenModeMiddleLabel : transform = DetailRight.closeTransform; break;
+    case App.screenModeLargeLabel :
+      if( app.isOpenDetail ){
+        transform = DetailRight.closeTransform;
+      }
+      break;
+    }
+    return transform;
+  }
+  // 横に閉じる
+  static get closeSelfTransform(){ return `translate3d(0%, calc( 100% + ${ DetailRight.padding * 2 }px ), 0px)` };
+  static get openSelfTransform(){ return `translate3d(0%, 0%, 0px)` };
+
+  static getSelf( {app} ){
     const width = ( Main.widthRatio * 100 );
     const margin = ( ( ( 1 - Main.widthRatio ) * 100 ) / 2 );
     const heightBase = 100 - margin;
-    const layout = Style.getLayoutBlock({
-      position: 'absolute',
-      bottom: 0,
-      right: 0,
-      width: width + '%',
-      maxWidth: Detail.selfMaxWidth,
-      height: `calc( ${heightBase}% - ${ Main.headerHeight * 1 }px )`,
-      margin: `0% ${margin}% 0% ${margin}%`,
-      border: Container.border,
-      borderBottom: 0,
-      borderRadius: '12px 12px 0px 0px',
+    const layout = Style.getLayoutInlineBlock({
+      width: DetailRight.getWidth( app ),
+      minWidth: DetailRight.getWidth( app ),
       WebkitOverflowScrolling: 'touch',
+      background: Container.calmRGB,
+      overflow: 'scroll',
+      borderLeft: Container.border,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transform: Detail.closeTransform,
+      transform: DetailRight.openSelfTransform,
       transition: '600ms',
     });
     return Style.get({layout, content, animation});
   }
 
-  static getHeader( bootOption ){
+  static getHeader(){
     const layout = Style.getLayoutFlex({
       width: '100%',
       height: Main.headerHeight,
@@ -97,7 +116,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getBody( bootOption ){
+  static getBody(){
     const layout = Style.getLayoutBlock({
       overflow: 'scroll',
       width: '100%',
@@ -109,7 +128,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getMeta( bootOption ){
+  static getMeta(){
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: 'initial',
@@ -121,7 +140,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getImg( bootOption ){
+  static getImg(){
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: '200px',
@@ -136,11 +155,11 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getDescription( bootOption ){
+  static getDescription(){
     const layout = Style.getLayoutBlock({
       width: '90%',
       height: 'initial',
-      margin: `${Detail.margin}% auto`,
+      margin: `${DetailRight.margin}% auto`,
     });
     const content = Style.getContentBase({
       lineHeight: 2,
@@ -150,11 +169,11 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getContentType( bootOption ){
+  static getContentType(){
     const layout = Style.getLayoutBlock({
       width: '90%',
       height: 'initial',
-      margin: `${Detail.margin}% auto`,
+      margin: `${DetailRight.margin}% auto`,
     });
     const content = Style.getContentBase({
       lineHeight: 2,
@@ -164,7 +183,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getAnalyze( bootOption ){
+  static getAnalyze(){
     const layout = Style.getLayoutTable({
       width: '100%',
       height: 'initial',
@@ -179,14 +198,14 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getAnalyzeRow( bootOption ){
+  static getAnalyzeRow(){
     const layout = Style.getLayoutTableRow({});
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
-  static getAnalyzeCol( bootOption ){
+  static getAnalyzeCol(){
     const layout = Style.getLayoutTableCol({
       width: '33.3%',
       height: '120px',
@@ -198,7 +217,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getAnalyzeLabel( bootOption ){
+  static getAnalyzeLabel(){
     const layout = Style.getLayoutBlock({
       width: 'initial',
       height: 'initial',
@@ -210,7 +229,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getAnalyzeValue( bootOption ){
+  static getAnalyzeValue(){
     const layout = Style.getLayoutBlock({
       margin: '0 auto',
       width: 'initial',
@@ -224,7 +243,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getAnalyzeHr( bootOption ){
+  static getAnalyzeHr(){
     const layout = Style.getLayoutBlock({
       width: '70%',
       height: 'initial',
@@ -236,11 +255,11 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getH1s( bootOption ){
+  static getH1s(){
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: 'initial',
-      margin: `${Detail.margin}px auto`,
+      margin: `${DetailRight.margin}px auto`,
       background: Container.whiteRGB,
       borderTop: Container.border,
       borderBottom: Container.border,
@@ -252,11 +271,11 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getH1sLi( bootOption ){
+  static getH1sLi(){
     const layout = Style.getLayoutBlock({
       width: '90%',
       height: 'initial',
-      margin: `5px ${Detail.margin}% 5px ${Detail.margin}%`,
+      margin: `5px ${DetailRight.margin}% 5px ${DetailRight.margin}%`,
     });
     const content = Style.getContentBase({
       lineHeight: 2,
@@ -266,19 +285,19 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getFooter( bootOption ){
+  static getFooter(){
     const layout = Style.getLayoutFlex({
       width: '100%',
       background: Container.offWhiteRGB,
       height: Main.headerHeight,
-      borderTop: Container.border,
+//      borderTop: Container.border,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
-  static getFooterChild( bootOption ){
+  static getFooterChild(){
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: '100%',
@@ -290,7 +309,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getFooterChildLike( bootOption ){
+  static getFooterChildLike(){
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: '100%',
@@ -302,7 +321,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getFooterChildMoney( bootOption ){
+  static getFooterChildMoney(){
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: '100%',
@@ -314,7 +333,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getFooterChildShare( bootOption ){
+  static getFooterChildShare(){
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: '100%',
