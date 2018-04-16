@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import Post from 'client/components/Post';
+import Footer from 'client/components/Footer';
 
 export default class Posts extends Component {
 
@@ -22,7 +23,7 @@ export default class Posts extends Component {
   }
 
   componentDidUpdate(){
-    const { posts, thread, control, actionLog } = this.props.state;
+    const { posts, thread, app, actionLog } = this.props.state;
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
       const { isScrollBottom } = this.state;
@@ -32,7 +33,7 @@ export default class Posts extends Component {
         const lastPost = posts[ posts.length - 1 ];
         const childLayerCnt = lastPost.connections.length - thread.connections.length;
 
-        if( control.childrenThreadView ){
+        if( app.childrenThreadView ){
             this.props.openNotif();
         }else{
 
@@ -79,7 +80,7 @@ export default class Posts extends Component {
             if( !serverMetas[ key ] ){
               serverMetas[ key ] = content;
             }else{
-              console.log( "EXIST " + key );              
+              console.log( "EXIST " + key );
             }
           }
           talknAPI.updateThreadServerMetas(serverMetas);
@@ -115,9 +116,9 @@ export default class Posts extends Component {
   }
 
   handleOnScroll( e ){
-		const{ control } = this.props.state;
+		const{ app } = this.props.state;
 
-    if( control.isOpenNotif ){
+    if( app.isOpenNotif ){
       this.props.closeNotif();
     }
 
@@ -135,12 +136,12 @@ export default class Posts extends Component {
 
   renderGetMore(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ style, posts, thread, control } = state;
+    const{ style, posts, thread, app } = state;
     const dispPostCnt = Object.keys( posts ).length;
     let isDisp = false;
 
     if( dispPostCnt > 0 ){
-      if( control.childrenThreadView ){
+      if( app.childrenThreadView ){
         if( dispPostCnt < thread.multiPostCnt ){
           isDisp = true;
         }
@@ -163,14 +164,14 @@ export default class Posts extends Component {
 
   renderPostList(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ style, thread, control, posts } = state;
+    const{ style, thread, app, posts } = state;
     let postList = [];
     if( Object.keys( posts ).length > 0 ){
       postList = Object.keys( posts ).map( ( index ) => {
         const post = posts[ index ];
         const childLayerCnt = post.connections.length - thread.connections.length;
 
-        if( !control.childrenThreadView && childLayerCnt !== 0){
+        if( !app.childrenThreadView && childLayerCnt !== 0){
           return null;
         }
 
@@ -198,6 +199,7 @@ export default class Posts extends Component {
           {this.renderGetMore()}
           {this.renderPostList()}
         </ol>
+        <Footer {...this.props} />
         <div style={style.main.notif}>NEW POST</div>
       </div>
 		);

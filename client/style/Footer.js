@@ -7,9 +7,8 @@ export default class Footer{
   static get selfWidth(){ return '100%' };
 
   constructor( params ){
-    const { thread, bootOption } = params;
-    const self = Footer.getSelf( bootOption );
-    const icon = Footer.getIcon( thread );
+    const self = Footer.getSelf( params );
+    const icon = Footer.getIcon( params );
     const textarea = Footer.getTextarea();
     const button = Footer.getButton();
     return {
@@ -55,10 +54,10 @@ export default class Footer{
       width: Footer.selfWidth,
       background: Container.offWhiteRGBA,
       position: 'absolute',
-      boxShadow: Container.shadow,
-      borderTop: Container.border,
-      borderRight: Container.border,
-      borderLeft: Container.border,
+//      boxShadow: Container.shadow,
+//      borderTop: Container.border,
+//      borderRight: Container.border,
+//      borderLeft: Container.border,
 //      borderRadius: '3px 3px 0px 0px',
       zIndex: Container.maxZIndex,
     });
@@ -67,7 +66,7 @@ export default class Footer{
     return Style.get({layout, content, animation});
   }
 
-  static getIcon( thread ){
+  static getIcon( {thread} ){
     const layoutInlineBlock = Style.getLayoutInlineBlock({
       width: '20%',
       backgroundImage: `url( ${thread.favicon} )`,

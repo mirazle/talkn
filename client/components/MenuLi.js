@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from "react"
 import User from 'common/schemas/state/User';
 
-export default class SettingLi extends Component {
+export default class MenuLi extends Component {
 
   constructor(props) {
     super(props);
     const { style, isLast } = props;
-    const liStyle = isLast ? style.setting.columnLast :  style.setting.column ;
+    const liStyle = isLast ? style.menu.columnLast :  style.menu.column ;
     this.state = {style: liStyle};
     this.getDecolationProps = this.getDecolationProps.bind(this);
   }

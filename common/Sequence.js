@@ -1,4 +1,4 @@
-import Control from './schemas/state/Control';
+import App from './schemas/state/App';
 import State from './schemas/state/';
 const state = new State();
 
@@ -37,7 +37,7 @@ export default class Sequence {
       post: {
         requestPublicState: {},
         requestPrivateState: {
-          'control':[ {columnName: 'inputPost', valid: Control.validPost}],
+          'app':[ {columnName: 'inputPost', valid: App.validPost}],
           'user':[ {columnName: 'uid'},{columnName: 'utype'}],
           'thread': [{columnName: 'protocol'}, {columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}]
         },
@@ -54,7 +54,7 @@ export default class Sequence {
         responseBroadcastState: {},
       },
       login: {
-        requestPublicState: {'control': [{columnName: 'requestLoginType'}]},
+        requestPublicState: {'app': [{columnName: 'requestLoginType'}]},
         requestPrivateState: {
           'user': [{columnName: 'uid', columnName: 'href'}],
         },

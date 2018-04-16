@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react"
-import Control from 'common/schemas/state/Control';
+import App from 'common/schemas/state/App';
 import util from 'common/util';
 import conf from 'common/conf';
 import Icon from 'client/components/Icon';
@@ -15,15 +15,15 @@ export default class Footer extends Component {
   }
 
   handleOnClickIcon( e ){
-    const{ control } = this.props.state;
-    if( control.isOpenMainPossible ){
-      const isOpenMain = control.isOpenMain ? false : true ;
+    const{ app } = this.props.state;
+    if( app.isOpenMainPossible ){
+      const isOpenMain = app.isOpenMain ? false : true ;
       talknAPI.onClickToggleDispMain( isOpenMain );
     }
   }
-  
+
   handleOnClick( e ){
-    if( !Control.validInputPost( e.target.value ) ){
+    if( !App.validInputPost( e.target.value ) ){
       talknAPI.post();
       talknAPI.onChangeInputPost('');
     }
@@ -31,7 +31,7 @@ export default class Footer extends Component {
 
   handleOnChange( e ){
     const{ onChangeInputPost } = this.props;
-    if( !Control.validInputPost( e.target.value ) ){
+    if( !App.validInputPost( e.target.value ) ){
       talknAPI.onChangeInputPost( e.target.value );
     }
   }
@@ -55,12 +55,12 @@ export default class Footer extends Component {
   }
 
   getIconProps(){
-    const { control } = this.props.state;
-    return control.isOpenMainPossible ? Icon.getDecolationProps1( 'footer', 'icon' ) : {};
+    const { app } = this.props.state;
+    return app.isOpenMainPossible ? Icon.getDecolationProps1( 'footer', 'icon' ) : {};
   }
 
   render() {
-    const { style, thread, control } = this.props.state;
+    const { style, thread, app } = this.props.state;
     return (
       <footer style={ style.footer.self }>
         <div
@@ -73,7 +73,7 @@ export default class Footer extends Component {
           rows={1}
           onChange={this.handleOnChange}
           onKeyPress={this.handleOnKeyPress}
-          value={control.inputPost}
+          value={app.inputPost}
           placeholder='Comment to this web'
         />
         <button

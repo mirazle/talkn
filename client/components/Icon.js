@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react"
-import Style from 'common/schemas/state/Style';
-import Container from 'common/schemas/state/Style/Container';
+import Style from 'client/style';
+import Container from 'client/style/Container';
 
 export default class Icon extends Component{
 

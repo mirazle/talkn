@@ -1,23 +1,21 @@
 import App from './App';
 import User from './User';
-import Control from './Control';
 import UserAgent from './UserAgent';
-import Index from './Index/';
+import Menu from './Menu';
 import Posts from './Posts';
 import Analyze from './Analyze';
 import BootOption from './BootOption';
 import Thread from './Thread';
 import Setting from './Setting';
-import Style from './Style/';
+import Style from './Style';
 
 export default class State{
 
   constructor( appType, talknIndex, window, attributes = {} ){
     this.app = new App( {type: appType, talknIndex} );
     this.user = new User();
-    this.control = new Control();
     this.userAgent = new UserAgent( window );
-		this.index = new Index();
+		this.menu = new Menu();
 		this.posts = new Posts();
 		this.analyze = new Analyze();
     this.bootOption = new BootOption( attributes );
