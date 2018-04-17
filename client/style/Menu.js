@@ -11,6 +11,7 @@ export default class Menu {
     case App.screenModeMiddleLabel : width = '300px';break;
     case App.screenModeLargeLabel : width = '300px';break;
     }
+
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 

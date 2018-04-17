@@ -37,7 +37,7 @@ export default class Main {
     }
   }
 
-  static getSelfWidthPx( {bootOption} ){
+  static getSelfWidthPx(){
     return '100%';
   }
 
@@ -73,7 +73,8 @@ export default class Main {
   }
 
   static getSelf( params ){
-    const widthPx = Main.getSelfWidthPx( params );
+    const {app, bootOption} = params;
+    const widthPx = Main.getSelfWidthPx();
     const heightPx = Main.getSelfHeightPx( params );
     const right = Main.getSelfRight( widthPx, params );
     const translateY = Main.getSelfTranslateY( params.app.isOpenMain );
@@ -96,7 +97,7 @@ export default class Main {
     const content = {};
     const animation = Style.getAnimationBase({
       transform: `translate3d(0px, ${translateY}, 0px)`,
-      transition: '600ms',
+      transition: Container.getTransitionOn( app ),
     });
     return Style.get({layout, content, animation});
   }
@@ -178,7 +179,7 @@ export default class Main {
     return Style.get({layout, content, animation});
   }
 
-  static getNotif( params ){
+  static getNotif( {app} ){
     const layout = Style.getLayoutBlock({
       width: '50%',
       height: Container.notifHeight,
@@ -194,7 +195,7 @@ export default class Main {
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase({
-      transition: '600ms',
+      transition: Container.getTransitionOn( app ),
     });
     return Style.get({layout, content, animation});
   }

@@ -60,7 +60,7 @@ export default class Posts {
     return Style.get({layout, content, animation});
   }
 
-  static getOl(){
+  static getOl( {app} ){
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: `calc( 100% - ${Main.headerHeight}px )`,
@@ -69,7 +69,7 @@ export default class Posts {
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: '600ms',
+      transition: Container.getTransitionOn( app ),
     });
     return Style.get({layout, content, animation});
   }

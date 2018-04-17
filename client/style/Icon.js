@@ -25,7 +25,7 @@ export default class Icon {
     }
   }
 
-  static getUser(){
+  static getUser( {app} ){
     const border = {...Container.border, }
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
@@ -65,14 +65,14 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: '600ms',
+        transition: Container.getTransitionOn( app ),
         transform: `scale(0.8) translate3d( 0px, 0px, 0px )`,
       }),
     });
     return {div, top, bottom};
   }
 
-  static getDetail(){
+  static getDetail( {app} ){
     const border = {...Container.border, }
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
@@ -118,14 +118,14 @@ export default class Icon {
       layout: commonSpan,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: '600ms',
+        transition: Container.getTransitionOn( app ),
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
     return {div, top, middle, bottom};
   }
 
-  static getMenu(){
+  static getMenu( {app} ){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: Icon.defaultSize,
@@ -135,7 +135,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: '600ms',
+        transition: Container.getTransitionOn( app ),
       }),
     });
 
@@ -178,7 +178,7 @@ export default class Icon {
       layout: commonLayout,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: '600ms',
+        transition: Container.getTransitionOn( app ),
         transform: Icon.getHeadTabLeftTransform( app.isOpenMain ),
       }),
     });
@@ -187,7 +187,7 @@ export default class Icon {
       layout: commonLayout,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: '600ms',
+        transition: Container.getTransitionOn( app ),
         transform: Icon.getHeadTabRightTransform( app.isOpenMain ),
       }),
     });

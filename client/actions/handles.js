@@ -64,9 +64,15 @@ export default {
       app: {inputPost},
     };
   },
-  handleOnResizeWindow: ( app ) => {
+  handleOnResizeStartWindow: ( app ) => {
     return {
-      type: 'RESIZE_WINDOW',
+      type: 'RESIZE_START_WINDOW',
+      app,
+    };
+  },
+  handleOnResizeEndWindow: ( app ) => {
+    return {
+      type: 'RESIZE_END_WINDOW',
       app,
     };
   },
