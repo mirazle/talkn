@@ -42,7 +42,12 @@ export default class Container{
 
   static get themeRGBA(){ return 'rgba(79, 174, 159, 0.8)' };
   static getTransitionOn( app ){
-    return app.isTransition ? '600ms' : '0ms'
+    const transition = '600ms';
+    if( app && app.isTransition ){
+      return app.isTransition ? transition : '0ms'
+    }else{
+      return transition;
+    }
   };
   static get transitionOff(){ return '0ms' };
 
