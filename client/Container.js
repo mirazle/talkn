@@ -5,6 +5,7 @@ import Main from 'client/components/Main';
 import handles from 'client/actions/handles';
 import callbacks from 'client/actions/callbacks';
 import User from 'common/schemas/state/User';
+import Footer from 'client/components/Footer';
 
 class Container extends Component {
 
@@ -20,6 +21,7 @@ class Container extends Component {
 			<div style={ style.container.self }>
         <Style {...this.props} />
         <Main {...this.props} />
+        <Footer {...this.props} />
 			</div>
 		);
  	}

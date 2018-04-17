@@ -3,6 +3,7 @@ import Main from 'client/style/Main';
 import Screen from 'client/style/Screen';
 import Menu from 'client/style/Menu';
 import Posts from 'client/style/Posts';
+import Detail from 'client/style/Detail';
 import DetailModal from 'client/style/DetailModal';
 import DetailRight from 'client/style/DetailRight';
 import Footer from 'client/style/Footer';
@@ -57,15 +58,20 @@ export default ( state = {} , action ) => {
 			}
 		}
 	case 'ON_CLICK_TOGGLE_DISP_DETAIL':
-		let detailSelfTransform = action.app.isOpenDetail ?
-			DetailModal.openTransform : DetailModal.closeTransform ;
-
 		return {...state,
-			detail: {...state.detailModal,
-				self: {...state.detailModal.self,
-					transform: detailSelfTransform,
+			detail: {...state.detail,
+				self: {...state.detail.self,
+					transform: Detail.getSelfTransform( action ),
 				}
 			}
+		}
+	case 'RESIZE_WINDOW':
+		return {...state,
+			footer: new Footer( action ),
+			screen: new Screen( action ),
+			menu: new Menu( action ),
+			posts: new Posts( action ),
+			detail: new Detail( action ),
 		}
 	case 'OPEN_NOTIF':
 	case 'CLOSE_NOTIF':
@@ -78,65 +84,6 @@ export default ( state = {} , action ) => {
 			}
 		}
  		break;
-	case 'UPDATE_APP':
-
-		let settingTransform = state.setting.self.transform;
-		let postsTransform = state.posts.self.transform;
-		let detailTransform = state.detailModal.self.transform;
-
-		switch(action.app.screenMode){
-		case App.screenModeSmallLabel :
-			switch(action.app.screenModePointer){
-			case 1 :
-
-				break;
-			case 2 :
-
-				break;
-			case 3 :
-
-				break;
-			}
-			break;
-		case App.screenModeMiddleLabel :
-			switch(action.app.screenModePointer){
-			case 1 :
-
-				break;
-			case 2 :
-
-				break;
-			}
-			break;
-		case App.screenModeLargeLabel :
-
-			break;
-		}
-
-		return {...state,
-			setting: {...state.setting,
-				self: {...state.setting.self,
-					transform: settingTransform,
-				}
-			},
-			posts: {...state.posts,
-				self: {...state.posts.self,
-					transform: postsTransform,
-				}
-			},
-			detailModal: {...state.detailModal,
-				self: {...state.detailModal.self,
-					transform: detailTransform,
-				}
-			}
-		}
-	case 'RESIZE_WINDOW':
-		return {...state,
-			screen: new Screen( action ),
-			menu: new Menu( action ),
-			posts: new Posts( action ),
-			detail: action.app.screenMode === App.screenModeSmallLabel ? new DetailModal( action ) : new DetailRight( action ),
-		}
 	case 'UPDATE_STYLE':
 		const { styleKey, eleType, tagName, style } = action;
 

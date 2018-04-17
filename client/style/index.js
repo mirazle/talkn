@@ -1,7 +1,5 @@
 import Container from './Container';
 import Detail from './Detail';
-import DetailModal from './DetailModal';
-import DetailRight from './DetailRight';
 import Footer from './Footer';
 import Icon from './Icon';
 import Main from './Main';
@@ -42,8 +40,6 @@ export default class Style{
     const posts = new Posts( params );
     const post = new Post( params );
     const detail = new Detail( params );
-    const detailModal = new DetailModal( params );
-    const detailRight = new DetailRight( params );
     const icon = new Icon( params );
     return {
       container,
@@ -54,8 +50,6 @@ export default class Style{
       posts,
       post,
       detail,
-      detailModal,
-      detailRight,
       icon,
     };
   }

@@ -22,10 +22,10 @@ export default {
       app: {inputPost},
     };
   },
-  onClickToggleDispMain: ( isOpenMain ) => {
+  onClickToggleDispMain: ( app ) => {
     return {
       type: 'ON_CLICK_TOGGLE_DISP_MAIN',
-      app: {isOpenMain},
+      app,
     };
   },
   onClickDispMenu: ( app ) => {
@@ -34,10 +34,10 @@ export default {
       app,
     };
   },
-  onClickToggleDispDetail: ( isOpenDetail ) => {
+  onClickToggleDispDetail: ( app ) => {
     return {
       type: 'ON_CLICK_TOGGLE_DISP_DETAIL',
-      app: {isOpenDetail},
+      app,
     };
   },
   onClickChildrenThreadView: ( childrenThreadView ) => {
