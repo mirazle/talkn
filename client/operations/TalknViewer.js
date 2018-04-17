@@ -16,6 +16,12 @@ export default class TalknViewer {
 		this.talknIndex = talknIndex;
 		this.state = state;
 		this.talknAPI = talknAPI;
+		this.resizeTimer = false;
+		this.resizing = false;
+
+		this.resize = this.resize.bind( this );
+		this.resizeStartWindow = this.resizeStartWindow.bind( this );
+		this.resizeEndWindow = this.resizeEndWindow.bind( this );
 	}
 
 	static getAppType(){
@@ -30,24 +36,36 @@ export default class TalknViewer {
 	}
 
 	async render(){
-		this.resizeWindow();
+		this.resizeEndWindow();
 		await this.addBackgroundListener();
 		await this.renderDOM();
 	}
 
 	addWindowEventListener( talknAPI ){
-		let resizeTimer;
-		window.addEventListener('resize', ( ev ) => {
-		  if (resizeTimer !== false) clearTimeout(resizeTimer);
-		  resizeTimer = setTimeout( this.resizeWindow, TalknViewer.resizeInterval );
-		});
+		window.addEventListener('resize', this.resize.bind( this ) );
 	}
 
-	resizeWindow( ev ){
+	resize( ev ){
+		if ( !this.resizing ) this.resizeStartWindow();
+		if ( this.resizeTimer !== false ) clearTimeout(this.resizeTimer);
+		this.resizeTimer = setTimeout( this.resizeEndWindow, TalknViewer.resizeInterval );
+	}
+
+	resizeStartWindow(){
+		this.resizing = true;
+		const app = talknAPI.store.getState().app.merge({isTransition: false});
+		talknAPI.handleOnResizeStartWindow( app );
+	}
+
+	resizeEndWindow( ev ){
+		clearTimeout(this.resizeTimer);
 		const width = ev ? ev.target.innerWidth : window.innerWidth;
 		const height = ev ? ev.target.innerHeight : window.innerHeight;
-		const app = talknAPI.store.getState().app.merge({width, height});
-		talknAPI.handleOnResizeWindow( app )
+		const app = talknAPI.store.getState().app.merge({width, height, isTransition: true});
+
+		this.resizeTimer = false;
+		this.resizing = false;
+		talknAPI.handleOnResizeEndWindow( app )
 	}
 
 	appendRoot(){

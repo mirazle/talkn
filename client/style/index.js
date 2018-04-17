@@ -189,7 +189,7 @@ export default class Style{
 
   static getAnimationBase( style = {} ){
     const animationBase = {
-      transition: "0ms",
+      transition: Container.transitionOff,
       transform: 'translate3d(0px, 0px, 0px)',
     }
     return { ...animationBase, ...style };

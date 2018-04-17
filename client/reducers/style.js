@@ -65,7 +65,7 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
-	case 'RESIZE_WINDOW':
+	case 'RESIZE_END_WINDOW':
 		return {...state,
 			footer: new Footer( action ),
 			screen: new Screen( action ),
