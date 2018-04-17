@@ -12,6 +12,7 @@ export default class Main {
   static get notifHeight(){ return 20 };
   static get notifOpenTranslate(){ return 20 };
   static get notifHeight(){ return 20 };
+  static get widthRatio(){ return 0.94 };
 
   constructor( params ){
     const self = Main.getSelf( params );

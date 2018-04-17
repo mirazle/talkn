@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import Post from 'client/components/Post';
-import Footer from 'client/components/Footer';
 
 export default class Posts extends Component {
 
@@ -199,7 +198,6 @@ export default class Posts extends Component {
           {this.renderGetMore()}
           {this.renderPostList()}
         </ol>
-        <Footer {...this.props} />
         <div style={style.main.notif}>NEW POST</div>
       </div>
 		);

@@ -62,27 +62,33 @@ export default class Footer extends Component {
   render() {
     const { style, thread, app } = this.props.state;
     return (
-      <footer style={ style.footer.self }>
-        <div
-          style={ this.getIconStyle() }
-          { ...this.getIconProps() }
-          onClick={this.handleOnClickIcon}
-        />
-        <textarea
-          style={style.footer.textarea}
-          rows={1}
-          onChange={this.handleOnChange}
-          onKeyPress={this.handleOnKeyPress}
-          value={app.inputPost}
-          placeholder='Comment to this web'
-        />
-        <button
-          style={style.footer.button}
-          onClick={this.handleOnClick}
-          >
-          talkn
-        </button>
-      </footer>
+      <div style={ style.footer.self }>
+        <div style={ style.footer.left } />
+        <div style={ style.footer.center } >
+          <footer style={ style.footer.footer }>
+            <div
+              style={ this.getIconStyle() }
+              { ...this.getIconProps() }
+              onClick={this.handleOnClickIcon}
+            />
+            <textarea
+              style={style.footer.textarea}
+              rows={1}
+              onChange={this.handleOnChange}
+              onKeyPress={this.handleOnKeyPress}
+              value={app.inputPost}
+              placeholder='Comment to this web'
+            />
+            <button
+              style={style.footer.button}
+              onClick={this.handleOnClick}
+              >
+              talkn
+            </button>
+          </footer>
+        </div>
+        <div style={ style.footer.right } />
+      </div>
 		);
  	}
 }

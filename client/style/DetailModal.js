@@ -1,75 +1,27 @@
 import Style from './index';
 import Container from './Container';
 import Main from './Main';
+import Detail from './Detail';
+
 
 export default class DetailModal {
 
-  static get widthRatio(){ return 0.94 };
-  static get selfMaxWidth(){ return '380px' };
-  static get margin(){ return 5}
-
   static getWidth( app, addUnit = false ){
-    const width = Math.floor( 100 * DetailModal.widthRatio ) + '%';
+    const width = Math.floor( 100 * Main.widthRatio ) + '%';
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
-  constructor( params ){
-    const self = DetailModal.getSelf( params );
-    const header = DetailModal.getHeader( params );
-    const meta = DetailModal.getMeta( params );
-    const img = DetailModal.getImg( params );
-    const description = DetailModal.getDescription( params );
-    const contentType = DetailModal.getContentType( params );
-    const analyze = DetailModal.getAnalyze( params );
-    const analyzeRow = DetailModal.getAnalyzeRow( params );
-    const analyzeCol = DetailModal.getAnalyzeCol( params );
-    const analyzeLabel = DetailModal.getAnalyzeLabel( params );
-    const analyzeValue = DetailModal.getAnalyzeValue( params );
-    const analyzeHr = DetailModal.getAnalyzeHr( params );
-    const body = DetailModal.getBody( params );
-    const h1s = DetailModal.getH1s( params );
-    const h1sLi = DetailModal.getH1sLi( params );
-    const footer = DetailModal.getFooter( params );
-    const footerChild = DetailModal.getFooterChild( params );
-    const footerChildLike = DetailModal.getFooterChildLike( params );
-    const footerChildMoney = DetailModal.getFooterChildMoney( params );
-    const footerChildShare = DetailModal.getFooterChildShare( params );
-    return {
-      self,
-      header,
-      meta,
-      img,
-      description,
-      contentType,
-      analyze,
-      analyzeRow,
-      analyzeCol,
-      analyzeLabel,
-      analyzeValue,
-      analyzeHr,
-      body,
-      h1s,
-      h1sLi,
-      footer,
-      footerChild,
-      footerChildLike,
-      footerChildMoney,
-      footerChildShare,
-    }
+  static getSelfTransform( app ){
+    return app.isOpenDetail ? DetailModal.openSelfTransform : DetailModal.closeSelfTransform;
   }
-
-  static get padding(){ return 20 };
-  static get closeTransform(){ return `translate3d(0%, calc( 100% + ${ DetailModal.padding * 2 }px ), 0px)` };
-  static get openTransform(){ return `translate3d(0%, 0%, 0px)` };
+  static get closeSelfTransform(){ return `translate3d(0%, 0px, 0px)` };
+  static get openSelfTransform(){ return `translate3d(0%, calc( -100% - ${ Detail.padding * 2 }px ), 0px)` };
 
   static getSelf( {app} ){
     const width = ( Main.widthRatio * 100 );
-    const margin = ( ( ( 1 - Main.widthRatio ) * 100 ) / 2 );
+    const margin = ( ( ( 1 - Main.widthRatio ) * 100 ) / 2 ).toString().substr( 0, 3 );
     const heightBase = 100 - margin;
     const layout = Style.getLayoutBlock({
-      position: 'absolute',
-      bottom: 0,
-      right: 0,
       width: DetailModal.getWidth( app ),
       height: `calc( ${heightBase}% - ${ Main.headerHeight * 1 }px )`,
       margin: `0% ${margin}% 0% ${margin}%`,
@@ -80,254 +32,30 @@ export default class DetailModal {
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transform: DetailModal.closeTransform,
+      transform: DetailModal.closeSelfTransform,
       transition: '600ms',
     });
+
     return Style.get({layout, content, animation});
   }
 
-  static getHeader( params ){
-    const layout = Style.getLayoutFlex({
-      backgroundColor: 'red',
-      width: '100%',
-      height: Main.headerHeight,
-      borderBottom: Container.border,
-      background: Container.whiteRGB,
-      padding: '0px 20px 0px 20px',
-    });
-    const content = Style.getContentBase({
-      lineHeight: '1.3',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getBody( params ){
-    const layout = Style.getLayoutBlock({
-      overflow: 'scroll',
-      width: '100%',
-      height: `calc( 100% - ${ Main.headerHeight * 2 }px )`,
-      background: Container.offWhiteRGBA,
-    });
-    const content = Style.getContentBase();
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getMeta( params ){
-    const layout = Style.getLayoutBlock({
-      width: '100%',
-      height: 'initial',
-      background: Container.whiteRGB,
-      borderBottom: Container.border,
-    });
-    const content = Style.getContentBase();
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getImg( params ){
-    const layout = Style.getLayoutBlock({
-      width: '100%',
-      height: '200px',
-      backgroundColor: Container.reliefRGB,
-      backgroundImage: 'url()',
-      backgroundPosition: 'center center',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-    });
-    const content = Style.getContentBase();
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getDescription( params ){
-    const layout = Style.getLayoutBlock({
-      width: '90%',
-      height: 'initial',
-      margin: `${DetailModal.margin}% auto`,
-    });
-    const content = Style.getContentBase({
-      lineHeight: 2,
-      textAlign: 'left',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getContentType( params ){
-    const layout = Style.getLayoutBlock({
-      width: '90%',
-      height: 'initial',
-      margin: `${DetailModal.margin}% auto`,
-    });
-    const content = Style.getContentBase({
-      lineHeight: 2,
-      textAlign: 'right',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getAnalyze( params ){
-    const layout = Style.getLayoutTable({
-      width: '100%',
-      height: 'initial',
-      background: Container.whiteRGB,
-      borderTop: Container.border,
-      borderBottom: Container.border,
-    });
-    const content = Style.getContentBase({
-      textAlign: 'center',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getAnalyzeRow( params ){
-    const layout = Style.getLayoutTableRow({});
-    const content = Style.getContentBase({});
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getAnalyzeCol( params ){
-    const layout = Style.getLayoutTableCol({
-      width: '33.3%',
-      height: '120px',
-      verticalAlign: 'middle',
-      margin: '40px auto 40px auto',
-    });
-    const content = Style.getContentBase({});
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getAnalyzeLabel( params ){
-    const layout = Style.getLayoutBlock({
-      width: 'initial',
-      height: 'initial',
-    });
-    const content = Style.getContentBase({
-      lineHeight: '14px',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getAnalyzeValue( params ){
-    const layout = Style.getLayoutBlock({
-      margin: '0 auto',
-      width: 'initial',
-      height: 'initial',
-    });
-    const content = Style.getContentBase({
-      fontSize: '2em',
-      color: Container.themeRGBA,
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getAnalyzeHr( params ){
-    const layout = Style.getLayoutBlock({
-      width: '70%',
-      height: 'initial',
-      margin: "10px auto 10px auto",
-      borderTop: `1px solid ${Container.borderRGB}`,
-    });
-    const content = Style.getContentBase({});
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getH1s( params ){
-    const layout = Style.getLayoutBlock({
-      width: '100%',
-      height: 'initial',
-      margin: `${DetailModal.margin}px auto`,
-      background: Container.whiteRGB,
-      borderTop: Container.border,
-      borderBottom: Container.border,
-    });
-    const content = Style.getContentBase({
-      textAlign: 'left',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getH1sLi( params ){
-    const layout = Style.getLayoutBlock({
-      width: '90%',
-      height: 'initial',
-      margin: `5px ${DetailModal.margin}% 5px ${DetailModal.margin}%`,
-    });
-    const content = Style.getContentBase({
-      lineHeight: 2,
-      textAlign: 'left',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getFooter( params ){
-    const layout = Style.getLayoutFlex({
-      width: '100%',
-      background: Container.offWhiteRGB,
-      height: Main.headerHeight,
-      borderTop: Container.border,
-    });
-    const content = Style.getContentBase();
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getFooterChild( params ){
-    const layout = Style.getLayoutBlock({
-      flexGrow: 1,
-      height: '100%',
-    });
-    const content = Style.getContentBase({
-      fontSize: '0.5em',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getFooterChildLike( params ){
-    const layout = Style.getLayoutBlock({
-      flexGrow: 1,
-      height: '100%',
-    });
-    const content = Style.getContentBase({
-      fontSize: '0.5em',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getFooterChildMoney( params ){
-    const layout = Style.getLayoutBlock({
-      flexGrow: 1,
-      height: '100%',
-    });
-    const content = Style.getContentBase({
-      fontSize: '0.5em',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getFooterChildShare( params ){
-    const layout = Style.getLayoutBlock({
-      flexGrow: 1,
-      height: '100%',
-    });
-    const content = Style.getContentBase({
-      fontSize: '0.5em',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
+  static getHeader(){return Detail.getHeader()}
+  static getBody(){return Detail.getBody()}
+  static getMeta(){return Detail.getMeta()}
+  static getImg(){return Detail.getImg()}
+  static getDescription(){return Detail.getDescription()}
+  static getContentType(){return Detail.getContentType()}
+  static getAnalyze(){return Detail.getAnalyze()}
+  static getAnalyzeRow(){return Detail.getAnalyzeRow()}
+  static getAnalyzeCol(){return Detail.getAnalyzeCol()}
+  static getAnalyzeLabel(){return Detail.getAnalyzeLabel()}
+  static getAnalyzeValue(){return Detail.getAnalyzeValue()}
+  static getAnalyzeHr(){return Detail.getAnalyzeHr()}
+  static getH1s(){return Detail.getH1s()}
+  static getH1sLi(){return Detail.getH1sLi()}
+  static getFooter(){return Detail.getFooter()}
+  static getFooterChild(){return Detail.getFooterChild()}
+  static getFooterChildLike(){return Detail.getFooterChildLike()}
+  static getFooterChildMoney(){return Detail.getFooterChildMoney()}
+  static getFooterChildShare(){return Detail.getFooterChildShare()}
 }

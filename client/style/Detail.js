@@ -7,62 +7,37 @@ import DetailModal from './DetailModal';
 
 export default class Detail {
 
-  static getWidth( app, addUnit = false ){
-    return app.screenMode === App.screenModeSmallLabel ?
-      DetailModal.getWidth( app, addUnit ) : DetailRight.getWidth( app, addUnit ) ;
+  static getDetailClass( app ){
+    return app.screenMode === App.screenModeSmallLabel ? DetailModal : DetailRight ;
   }
-
-  static get margin(){ return 5}
+  static get padding(){ return 20 };
+  static get margin(){ return 5 }
 
   constructor( params ){
     const { app } = params;
-    let self, header, meta, img, description, contentType,
-      analyze, analyzeRow, analyzeCol, analyzeLabel, analyzeValue, analyzeHr,
-      body, h1s, h1sLi, footer, footerChild, footerChildLike, footerChildMoney, footerChildShare;
+    const DetailClass = Detail.getDetailClass( app );
 
-    if( app.screenMode === App.screenModeSmallLabel ){
-      self = DetailModal.getSelf( params );
-      header = DetailModal.getHeader( params );
-      meta = DetailModal.getMeta( params );
-      img = DetailModal.getImg( params );
-      description = DetailModal.getDescription( params );
-      contentType = DetailModal.getContentType( params );
-      analyze = DetailModal.getAnalyze( params );
-      analyzeRow = DetailModal.getAnalyzeRow( params );
-      analyzeCol = DetailModal.getAnalyzeCol( params );
-      analyzeLabel = DetailModal.getAnalyzeLabel( params );
-      analyzeValue = DetailModal.getAnalyzeValue( params );
-      analyzeHr = DetailModal.getAnalyzeHr( params );
-      body = DetailModal.getBody( params );
-      h1s = DetailModal.getH1s( params );
-      h1sLi = DetailModal.getH1sLi( params );
-      footer = DetailModal.getFooter( params );
-      footerChild = DetailModal.getFooterChild( params );
-      footerChildLike = DetailModal.getFooterChildLike( params );
-      footerChildMoney = DetailModal.getFooterChildMoney( params );
-      footerChildShare = DetailModal.getFooterChildShare( params );
-    }else{
-      self = DetailRight.getSelf( params );
-      header = DetailRight.getHeader( params );
-      meta = DetailRight.getMeta( params );
-      img = DetailRight.getImg( params );
-      description = DetailRight.getDescription( params );
-      contentType = DetailRight.getContentType( params );
-      analyze = DetailRight.getAnalyze( params );
-      analyzeRow = DetailRight.getAnalyzeRow( params );
-      analyzeCol = DetailRight.getAnalyzeCol( params );
-      analyzeLabel = DetailRight.getAnalyzeLabel( params );
-      analyzeValue = DetailRight.getAnalyzeValue( params );
-      analyzeHr = DetailRight.getAnalyzeHr( params );
-      body = DetailRight.getBody( params );
-      h1s = DetailRight.getH1s( params );
-      h1sLi = DetailRight.getH1sLi( params );
-      footer = DetailRight.getFooter( params );
-      footerChild = DetailRight.getFooterChild( params );
-      footerChildLike = DetailRight.getFooterChildLike( params );
-      footerChildMoney = DetailRight.getFooterChildMoney( params );
-      footerChildShare = DetailRight.getFooterChildShare( params );
-    }
+    const self = DetailClass.getSelf( params );
+    const header = DetailClass.getHeader( params );
+    const meta = DetailClass.getMeta( params );
+    const img = DetailClass.getImg( params );
+    const description = DetailClass.getDescription( params );
+    const contentType = DetailClass.getContentType( params );
+    const analyze = DetailClass.getAnalyze( params );
+    const analyzeRow = DetailClass.getAnalyzeRow( params );
+    const analyzeCol = DetailClass.getAnalyzeCol( params );
+    const analyzeLabel = DetailClass.getAnalyzeLabel( params );
+    const analyzeValue = DetailClass.getAnalyzeValue( params );
+    const analyzeHr = DetailClass.getAnalyzeHr( params );
+    const body = DetailClass.getBody( params );
+    const h1s = DetailClass.getH1s( params );
+    const h1sLi = DetailClass.getH1sLi( params );
+    const footer = DetailClass.getFooter( params );
+    const footerChild = DetailClass.getFooterChild( params );
+    const footerChildLike = DetailClass.getFooterChildLike( params );
+    const footerChildMoney = DetailClass.getFooterChildMoney( params );
+    const footerChildShare = DetailClass.getFooterChildShare( params );
+
     return {
       self,
       header,
@@ -87,43 +62,12 @@ export default class Detail {
     }
   }
 
-  static get padding(){ return 20 };
-
-  static getSelfTramsform( app ){
-    let transform = Detail.closeTransform;
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel : transform = Detail.closeTransform; break;
-    case App.screenModeMiddleLabel : transform = Detail.closeTransform; break;
-    case App.screenModeLargeLabel :
-      if( app.isOpenDetail ){
-        transform = Detail.closeTransform;
-      }
-      break;
-    }
-    return transform;
+  static getWidth( app, addUnit = false ){
+    return Detail.getDetailClass( app ).getWidth( app, addUnit );
   }
-  // 横に閉じる
-  static get closeSelfTransform(){ return `translate3d(0%, calc( 100% + ${ Detail.padding * 2 }px ), 0px)` };
-  static get openSelfTransform(){ return `translate3d(0%, 0%, 0px)` };
 
-  static getSelf( {app} ){
-    const width = ( Main.widthRatio * 100 );
-    const margin = ( ( ( 1 - Main.widthRatio ) * 100 ) / 2 );
-    const heightBase = 100 - margin;
-    const layout = Style.getLayoutBlock({
-      width: Detail.getWidth( app ),
-      minWidth: Detail.getWidth( app ),
-      WebkitOverflowScrolling: 'touch',
-      background: Container.calmRGB,
-      overflow: 'scroll',
-      borderLeft: Container.border,
-    });
-    const content = Style.getContentBase();
-    const animation = Style.getAnimationBase({
-      transform: Detail.openSelfTransform,
-      transition: '600ms',
-    });
-    return Style.get({layout, content, animation});
+  static getSelfTransform( {app} ){
+    return Detail.getDetailClass( app ).getSelfTransform( app );
   }
 
   static getHeader(){
@@ -180,6 +124,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
+//
   static getDescription(){
     const layout = Style.getLayoutBlock({
       width: '90%',
@@ -315,7 +260,7 @@ export default class Detail {
       width: '100%',
       background: Container.offWhiteRGB,
       height: Main.headerHeight,
-//      borderTop: Container.border,
+      borderTop: Container.border,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -369,4 +314,5 @@ export default class Detail {
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
+
 }

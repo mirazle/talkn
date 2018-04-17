@@ -24,15 +24,16 @@ export default class Main extends Component {
   handleOnClickHeadTabIcon( e ){
     const{ app } = this.props.state;
     if( app.isOpenMainPossible ){
-      const isOpenMain = app.isOpenMain ? false : true ;
-      talknAPI.onClickToggleDispMain( isOpenMain );
+      const{ app } = this.props.state;
+      app.isOpenMain = app.isOpenMain ? false : true ;
+      talknAPI.onClickToggleDispMain( app );
     }
   }
 
   handleOnClickDetailIcon( e ){
     const{ app } = this.props.state;
-    const isOpenDetail = app.isOpenDetail ? false : true ;
-    talknAPI.onClickToggleDispDetail( isOpenDetail );
+    app.isOpenDetail = app.isOpenDetail ? false : true ;
+    talknAPI.onClickToggleDispDetail( app );
   }
 
 
@@ -84,7 +85,6 @@ export default class Main extends Component {
         <Screen {...this.props} />
 
         { app.screenMode === App.screenModeSmallLabel ? <Detail type={'SMALL'} {...this.props} /> : null }
-
       </main>
 		);
  	}
