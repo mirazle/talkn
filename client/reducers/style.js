@@ -79,6 +79,7 @@ export default ( state = {} , action ) => {
 		return {...state,
 			main: {...state.main,
 				notif: {...state.main.notif,
+					transition: Container.getTransitionOn(),
 					transform: `translate3d(0px, ${notifTranslateY}px, 0px )`,
 				}
 			}
