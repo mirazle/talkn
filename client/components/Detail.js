@@ -33,6 +33,7 @@ export default class Setting extends Component {
   renderMeta(){
     const { thread, style } = this.props.state
     const backgroundImage = thread.serverMetas['og:image'] ? `url("${thread.serverMetas['og:image']}")` : 'url()';
+
     style.detail.img = {...style.detail.img, backgroundImage};
     let description = thread.serverMetas['og:description'] ? thread.serverMetas['og:description'] : '';
     description = thread.serverMetas['description'] ? thread.serverMetas['description'] : '';
@@ -133,6 +134,7 @@ export default class Setting extends Component {
     const HeartIcon = Icon.getHeart( icon.heart );
     const ShareIcon = Icon.getShare( icon.share );
     const MoneyIcon = Icon.getMoney( icon.money );
+
     return(
       <footer style={ style.detail.footer }>
         <div style={ style.detail.footerChildLike }  {...Icon.getDecolationProps2( 'detail', 'footerChildLike' ) }>
@@ -152,7 +154,6 @@ export default class Setting extends Component {
   }
 
  	render() {
-    const { detailStyle: _style } = this.props;
     const { thread, style } = this.props.state
 
     // 同じだけどstateで更新されるのはdetailだけ
