@@ -26,7 +26,7 @@ export default class Screen {
     }
     return transform ;
   }
-  
+
   constructor( params ){
     const self = Screen.getSelf( params );
     return {
@@ -42,7 +42,7 @@ export default class Screen {
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
       transform: Screen.getScreenTransform( app ),
-      transition: '600ms',
+      transition: Container.getTransitionOn( app ),
     });
     return Style.get({layout, content, animation});
   }

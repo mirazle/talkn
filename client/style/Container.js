@@ -41,6 +41,10 @@ export default class Container{
   static get whiteRGBA(){ return Style.mono255RGBA };
 
   static get themeRGBA(){ return 'rgba(79, 174, 159, 0.8)' };
+  static getTransitionOn( app ){
+    return app.isTransition ? '600ms' : '0ms'
+  };
+  static get transitionOff(){ return '0ms' };
 
   static getWidthPx( {bootOption} ){
     return bootOption.width ?

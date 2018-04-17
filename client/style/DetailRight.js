@@ -48,7 +48,7 @@ export default class DetailRight {
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
       transform: DetailRight.openSelfTransform,
-      transition: '600ms',
+      transition: Container.getTransitionOn( app ),
     });
     return Style.get({layout, content, animation});
   }

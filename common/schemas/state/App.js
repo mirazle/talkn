@@ -90,6 +90,8 @@ export default class App extends Schema{
 
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
+    const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
+
     return this.create({
       name,
       type,
@@ -110,6 +112,7 @@ export default class App extends Schema{
       isOpenSetting,
       isOpenDetail,
       isOpenNotif,
+      isTransition,
     });
   }
 

@@ -14,6 +14,10 @@ export default class Schema {
     return value.constructor.name;
   }
 
+  static isSet( val ){
+    typeof val !== 'undefined' ? true : false ;
+  }
+
   create(state){
 
     const className = this.constructor.name;
@@ -137,9 +141,10 @@ export default class Schema {
 
   merge( obj = {}, immutable = true ){
     try{
-      if( Object.keys( obj ).length > 0 ){
-        let mergedObj = this;
-        Object.keys( obj ).forEach( ( key ) => {
+      const objKeys = Object.keys( obj );
+      if( objKeys.length > 0 ){
+        let mergedObj = {...this};
+        objKeys.forEach( ( key ) => {
           if( this[ key ] !== obj[ key ]){
             if(this.canSet( key, obj[ key ] )){
               mergedObj[ key ] = obj[ key ];
