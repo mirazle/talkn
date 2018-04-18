@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react"
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux';
 import Container from 'client/Container'
+import ContainerStyle from 'client/style/Container';
 import define from 'client/util/define'
 import timeago from 'timeago.js';
 import lang from 'timeago.js/locales/ja';
@@ -42,7 +43,7 @@ export default class TalknViewer {
 	}
 
 	addWindowEventListener( talknAPI ){
-		window.addEventListener('resize', this.resize.bind( this ) );
+		window.addEventListener('resize', this.resize );
 	}
 
 	resize( ev ){
@@ -53,19 +54,29 @@ export default class TalknViewer {
 
 	resizeStartWindow(){
 		this.resizing = true;
-		const app = talknAPI.store.getState().app.merge({isTransition: false});
-		talknAPI.handleOnResizeStartWindow( app );
+		const width = window.innerWidth;
+		const height = window.innerHeight;
+		const app = talknAPI.store.getState().app.merge({width, height});;
+		talknAPI.onResizeStartWindow( app );
 	}
 
 	resizeEndWindow( ev ){
 		clearTimeout(this.resizeTimer);
 		const width = ev ? ev.target.innerWidth : window.innerWidth;
 		const height = ev ? ev.target.innerHeight : window.innerHeight;
-		const app = talknAPI.store.getState().app.merge({width, height, isTransition: true});
+		const isTransition = false;
+		const app = talknAPI.store.getState().app.merge({width, height});
 
 		this.resizeTimer = false;
 		this.resizing = false;
-		talknAPI.handleOnResizeEndWindow( app )
+		talknAPI.onResizeEndWindow( app );
+
+		app.isTransition = false;
+		talknAPI.offTransition( app );
+		setTimeout( () => {
+			app.isTransition = true;
+			talknAPI.onTransition( app )
+		}, ContainerStyle.getTransitionOn( app, true ) * 2 );
 	}
 
 	appendRoot(){

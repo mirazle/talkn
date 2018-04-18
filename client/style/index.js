@@ -196,6 +196,6 @@ export default class Style{
   }
 
   static trimUnit( value ){
-    return Number( value.toString().replace( /px|%|vw|vh/, '' ) );
+    return Number( value.toString().replace( /px|%|vw|vh|ms/, '' ) );
   }
 }

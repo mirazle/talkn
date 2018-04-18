@@ -41,15 +41,17 @@ export default class Container{
   static get whiteRGBA(){ return Style.mono255RGBA };
 
   static get themeRGBA(){ return 'rgba(79, 174, 159, 0.8)' };
-  static getTransitionOn( app ){
-    const transition = '600ms';
-    if( app && app.isTransition ){
-      return app.isTransition ? transition : '0ms'
+  static getTransitionOn( app, addUnit = false ){
+    let transition = Container.transitionOn;
+    if( app ){
+      transition =  app.isTransition ? `${ Container.transitionOn }ms` : `${ Container.transitionOff }ms`;
     }else{
-      return transition;
+      transition = `${ Container.transitionOn }ms`;
     }
+    return addUnit ? Style.trimUnit( transition ) : transition ;
   };
-  static get transitionOff(){ return '0ms' };
+  static get transitionOn(){ return 600 };
+  static get transitionOff(){ return 0 };
 
   static getWidthPx( {bootOption} ){
     return bootOption.width ?
