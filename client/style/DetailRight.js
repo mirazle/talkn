@@ -6,6 +6,7 @@ import Detail from './Detail';
 
 export default class DetailRight {
 
+  // TODO 100%をapp.widthにする
   static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){

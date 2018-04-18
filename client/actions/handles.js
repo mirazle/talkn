@@ -76,16 +76,16 @@ export default {
       app,
     };
   },
-  onTransition: ( app ) => {
+  onTransition: () => {
     return {
       type: 'ON_TRANSITION',
-      app
+      app: {isTransition: true},
     };
   },
-  offTransition: ( app ) => {
+  offTransition: () => {
     return {
       type: 'OFF_TRANSITION',
-      app
+      app: {isTransition: false},
     };
   },
 }

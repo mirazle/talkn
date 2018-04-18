@@ -18,5 +18,5 @@ export default {
     CLIENT: 'client.',
     ASSETS: 'assets.',
     SESSION: 'session.',
-  },
+  },  
 }
