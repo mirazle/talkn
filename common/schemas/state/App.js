@@ -90,7 +90,7 @@ export default class App extends Schema{
 
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
-    const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
+    const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : true ;
 
     return this.create({
       name,
