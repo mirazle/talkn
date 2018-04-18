@@ -1,3 +1,4 @@
+import Animation from './Animation';
 import Container from './Container';
 import Detail from './Detail';
 import Footer from './Footer';
@@ -7,7 +8,6 @@ import Screen from './Screen';
 import Menu from './Menu';
 import Posts from './Posts';
 import Post from './Post';
-
 
 export default class Style{
 
@@ -32,6 +32,7 @@ export default class Style{
   static get mono255RGBA(){ return 'rgba(255, 255, 255, 0.96)' };
 
   constructor( params ){
+    const animation = new Animation( params );
     const container = new Container( params );
     const footer = new Footer( params );
     const menu = new Menu( params );
@@ -51,6 +52,7 @@ export default class Style{
       post,
       detail,
       icon,
+      animation,
     };
   }
 

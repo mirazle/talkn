@@ -95,9 +95,11 @@ export default class Footer{
 
   static getSelf( {app} ){
     const layout = Style.getLayoutFlex({
+      background: Container.offWhiteRGBA,
       height: Footer.selfHeight,
       width: Footer.getWidth( app ),
       zIndex: Container.maxZIndex,
+
     });
     const content = {};
     const animation = Style.getAnimationBase();

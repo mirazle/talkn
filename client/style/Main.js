@@ -37,15 +37,22 @@ export default class Main {
     }
   }
 
+  static get notifOpenTranslateY(){ return `translate3d( 0px, ${-( Footer.selfHeight * 2 )}px, 0px )`; }
+  static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
+  static getNotifTranslateY( app ){
+    return app.isOpenNotif ? Main.notifOpenTranslateY : Main.notifCloseTranslateY;
+  }
+
   static getSelfWidthPx(){
     return '100%';
   }
 
-  static getSelfHeightPx( {bootOption} ){
+  static getSelfHeightPx(){
+
     let height = Main.selfHeight;
-    if( bootOption && bootOption.height ){
-      height = bootOption.height + 'px';
-    }
+//    if( bootOption && bootOption.height ){
+//      height = bootOption.height + 'px';
+//    }
     return `calc( 100vh - ${Footer.selfHeight}px )`;
   }
 
@@ -182,6 +189,8 @@ export default class Main {
 
   static getNotif( {app} ){
     const layout = Style.getLayoutBlock({
+      position: 'relative',
+      top: `${Footer.selfHeight}px`,
       width: '50%',
       height: Container.notifHeight,
       margin: '0 auto',
