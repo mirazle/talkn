@@ -49,16 +49,17 @@ export default class Main {
     return `calc( 100vh - ${Footer.selfHeight}px )`;
   }
 
-  static getSelfRight( widthPx, {bootOption} ){
-    if( bootOption.width === '100%' ){
+  static getSelfRight( widthPx, {bootOption, app} ){
+    const width = bootOption ? bootOption.width : app.width ;
+    if( width === '100%' ){
       return ( ( ( 1 - Main.widthRatio ) / 2 ) * 100 ) + '%';
-    }else if( bootOption.width === '100vw' ){
+    }else if( width === '100vw' ){
       return ( ( ( 1 - Main.widthRatio ) / 2 ) * 100 ) + 'vw';
     }else{
       return Math.floor( Style.trimUnit( widthPx ) * Container.merginRatio ) + 'px';
     }
-  }
 
+  }
 
   static getSelfTranslateY( isOpenMain ){
     return isOpenMain ? Main.getSelfOpenTranslateY() : Main.getSelfCloseTranslateY();

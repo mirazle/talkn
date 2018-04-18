@@ -15,7 +15,7 @@ export default class Schema {
   }
 
   static isSet( val ){
-    typeof val !== 'undefined' ? true : false ;
+    return typeof val === 'undefined' ? false : true ;
   }
 
   create(state){

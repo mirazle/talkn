@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux';
 import Container from 'client/Container'
 import ContainerStyle from 'client/style/Container';
-import define from 'client/util/define'
 import timeago from 'timeago.js';
 import lang from 'timeago.js/locales/ja';
+import conf from 'client/conf'
+import define from 'common/define'
 
 export default class TalknViewer {
 
@@ -26,6 +27,11 @@ export default class TalknViewer {
 	}
 
 	static getAppType(){
+		if( define.DEVELOPMENT_DOMAIN === location.hostname
+			|| define.PRODUCTION_DOMAIN === location.hostname ){
+			return 'portal';
+		}
+
 		if( typeof window.chrome === 'object' ){
 			if( typeof window.chrome.runtime === 'object' ){
 				if( typeof window.chrome.runtime.getManifest === 'function' ){
@@ -56,7 +62,9 @@ export default class TalknViewer {
 		this.resizing = true;
 		const width = window.innerWidth;
 		const height = window.innerHeight;
-		const app = talknAPI.store.getState().app.merge({width, height});;
+		const app = talknAPI.store.getState().app.merge({width, height});
+
+		talknAPI.offTransition();
 		talknAPI.onResizeStartWindow( app );
 	}
 
@@ -71,12 +79,9 @@ export default class TalknViewer {
 		this.resizing = false;
 		talknAPI.onResizeEndWindow( app );
 
-		app.isTransition = false;
-		talknAPI.offTransition( app );
 		setTimeout( () => {
-			app.isTransition = true;
-			talknAPI.onTransition( app )
-		}, ContainerStyle.getTransitionOn( app, true ) * 2 );
+			talknAPI.onTransition();
+		}, ContainerStyle.getTransitionOn( app, true ) * 1.2 );
 	}
 
 	appendRoot(){
@@ -96,11 +101,11 @@ export default class TalknViewer {
 			promiseCondition = ( resolve, reject ) => {
 				chrome.runtime.onMessage.addListener( ( result, sender, sendResponse ) => {
 
-					if( result.requestKey === define.cacheKey.setting + talknIndex ){
+					if( result.requestKey === conf.cacheKey.setting + talknIndex ){
 						resolve( { setting: result.response, self: self } );
 					}
 /*
-					if( result.requestKey === define.cacheKey.index + talknIndex ){
+					if( result.requestKey === conf.cacheKey.index + talknIndex ){
 						let connectionList = result.response;
 
 						// TODO FINDはあとでまとめて実行する
@@ -109,13 +114,14 @@ export default class TalknViewer {
 */
 				});
 
-				chrome.runtime.sendMessage( { method: "getItem", key: define.cacheKey.setting + talknIndex, function(){} } );
+				chrome.runtime.sendMessage( { method: "getItem", key: conf.cacheKey.setting + talknIndex, function(){} } );
 			}
 			break;
 		case 'electron':
 		case 'script':
+		case 'portal':
 			promiseCondition = ( resolve, reject ) => {
-				resolve( { setting: JSON.parse( localStorage.getItem( define.cacheKey.setting + talknIndex ) ), self: self } );
+				resolve( { setting: JSON.parse( localStorage.getItem( conf.cacheKey.setting + talknIndex ) ), self: self } );
 			}
 			break;
 		}

@@ -44,7 +44,7 @@ export default class Menu {
     const layout = Style.getLayoutInlineBlock({
       width: Menu.getWidth( app ),
       minWidth: Menu.getWidth( app ),
-      maxWidth: Menu.getWidth( app ),
+      maxWidth: 'inherit',
       WebkitOverflowScrolling: 'touch',
       background: Container.calmRGB,
       overflow: 'scroll',
@@ -55,9 +55,12 @@ export default class Menu {
     return Style.get({layout, content, animation});
   }
 
-  static getScroll(){
+  static getScroll( {app} ){
     const layout = Style.getLayoutBlock({
       overflow: 'scroll',
+      width: 'inherit',
+      minWidth: 'inherit',
+      maxWidth: 'inherit',
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -66,7 +69,9 @@ export default class Menu {
 
   static getColumns(){
     const layout = Style.getLayoutBlock({
-      width: '100%',
+      width: 'inherit',
+      minWidth: 'inherit',
+      maxWidth: 'inherit',
       height: 'auto',
       borderTop: Container.border,
       borderBottom: Container.border,
@@ -82,6 +87,9 @@ export default class Menu {
 
   static getColumn(){
     const layout = Style.getLayoutBlock({
+      width: 'inherit',
+      minWidth: 'inherit',
+      maxWidth: 'inherit',
       marginLeft: '20px',
       borderBottom: Container.border,
     });
@@ -97,6 +105,9 @@ export default class Menu {
 
   static getColumnLast(){
     const layout = Style.getLayoutBlock({
+      width: 'inherit',
+      minWidth: 'inherit',
+      maxWidth: 'inherit',
       marginLeft: '20px',
     });
     const content = Style.getContentBase({

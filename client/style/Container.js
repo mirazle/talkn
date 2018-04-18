@@ -48,30 +48,55 @@ export default class Container{
     }else{
       transition = `${ Container.transitionOn }ms`;
     }
+
+    return addUnit ? Style.trimUnit( transition ) : transition ;
+  };
+  static getTransitionFirstOn( app, addUnit = false ){
+    let transition = Container.transitionOn;
+    if( app ){
+      transition =  app.isTransition ? `${ Container.transitionFirstOn }ms` : `${ Container.transitionOff }ms`;
+    }else{
+      transition = `${ Container.transitionFirstOn }ms`;
+    }
+
     return addUnit ? Style.trimUnit( transition ) : transition ;
   };
   static get transitionOn(){ return 600 };
+  static get transitionFirstOn(){ return 200 };
   static get transitionOff(){ return 0 };
 
-  static getWidthPx( {bootOption} ){
-    return bootOption.width ?
-      bootOption.width :
-      Container.width;
+  static getWidthPx( {bootOption, app} ){
+    if( bootOption ){
+      return bootOption.width ?
+        bootOption.width :
+        Container.width;
+    }else{
+      return app.width;
+    }
   }
 
-  static getRightPx( widthPx ){
-    if( widthPx === '100%' ){
+  static getRightPx( {app}, widthPx ){
+    let rightPx = '0px';
+
+    switch( app.type ){
+    case 'portal':
       return '0%';
-    }else if( widthPx === '100vw' ){
-      return '0vw';
-    }else{
-      return '10px';
+      break;
+    default :
+      if( widthPx === '100%' ){
+        return '0%';
+      }else if( widthPx === '100vw' ){
+        return '0vw';
+      }else{
+        return '10px';
+      }
+      break;
     }
   }
 
   static getSelf( params ){
     const widthPx = Container.getWidthPx( params );
-    const rightPx = Container.getRightPx( widthPx );
+    const rightPx = Container.getRightPx( params, widthPx );
     const layout = Style.getLayoutFlex({
       overflow: 'visible',
       position: 'fixed',

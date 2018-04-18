@@ -3,7 +3,6 @@ import Container from './Container';
 import Main from './Main';
 import Detail from './Detail';
 
-
 export default class DetailModal {
 
   static getWidth( app, addUnit = false ){

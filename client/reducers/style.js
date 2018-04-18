@@ -1,4 +1,4 @@
-import Style from './index';
+import Style from 'client/style/index';
 import Container from 'client/style/Container';
 import Main from 'client/style/Main';
 import Screen from 'client/style/Screen';
@@ -66,14 +66,9 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
+	case 'RESIZE_START_WINDOW':
 	case 'RESIZE_END_WINDOW':
-		return {...state,
-			footer: new Footer( action ),
-			screen: new Screen( action ),
-			menu: new Menu( action ),
-			posts: new Posts( action ),
-			detail: new Detail( action ),
-		}
+		return new Style( action );
 	case 'OPEN_NOTIF':
 	case 'CLOSE_NOTIF':
 		let notifTranslateY = action.app.isOpenNotif ? -Footer.selfHeight : 0;
