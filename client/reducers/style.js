@@ -71,21 +71,42 @@ export default ( state = {} , action ) => {
 		return new Style( action );
 	case 'OPEN_NOTIF':
 	case 'CLOSE_NOTIF':
-		let notifTranslateY = action.app.isOpenNotif ? -Footer.selfHeight : 0;
 		return {...state,
 			main: {...state.main,
 				notif: {...state.main.notif,
-					transition: Container.getTransitionOn(),
-					transform: `translate3d(0px, ${notifTranslateY}px, 0px )`,
+					transform: Main.getNotifTranslateY( action.app ),
 				}
 			}
 		}
  		break;
-
 	case 'ON_TRANSITION' :
 	case 'OFF_TRANSITION' :
-//		console.log( new Style( action ) );
-		return action.style ? action.style : state ;
+		let transition = Container.getTransitionOn( action.app );
+		return {...state,
+			detail: {...state.detail,
+				self: {...state.detail.self, transition}
+			},
+			icon: {...state.icon,
+				user: {...state.icon.user,
+					bottom: {...state.icon.user.bottom, transition}
+				},
+				detail: {...state.icon.detail,
+					bottom: {...state.icon.detail.bottom, transition}
+				},
+				menu: {...state.icon.menu,
+					div: {...state.icon.menu.div, transition}
+				}
+			},
+			main: {...state.main,
+				notif: {...state.main.notif, transition}
+			},
+			posts: {...state.posts,
+				ol: {...state.posts.ol, transition}
+			},
+			screen: {...state.screen,
+				self: {...state.screen.self, transition}
+			},
+		}
 		break;
 	case 'UPDATE_STYLE':
 		const { styleKey, eleType, tagName, style } = action;

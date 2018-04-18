@@ -38,6 +38,7 @@ export default class Detail {
     const footerChildMoney = DetailClass.getFooterChildMoney( params );
     const footerChildShare = DetailClass.getFooterChildShare( params );
 
+    // TODO resizeしたらtransitionが0のまま！！
     return {
       self,
       header,
