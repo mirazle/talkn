@@ -1,3 +1,4 @@
+import Style from './index';
 import Container from 'client/style/Container';
 import Main from 'client/style/Main';
 import Screen from 'client/style/Screen';
@@ -85,6 +86,12 @@ export default ( state = {} , action ) => {
 			}
 		}
  		break;
+
+	case 'ON_TRANSITION' :
+	case 'OFF_TRANSITION' :
+//		console.log( new Style( action ) );
+		return action.style ? action.style : state ;
+		break;
 	case 'UPDATE_STYLE':
 		const { styleKey, eleType, tagName, style } = action;
 
