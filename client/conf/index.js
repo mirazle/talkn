@@ -14,6 +14,7 @@ conf.assetsImgPath = env === PRODUCTION ? `//${SUB_DOMAINS.ASSETS}${domain}/img/
 conf.assetsIconPath = env === PRODUCTION ? `//${SUB_DOMAINS.ASSETS}${domain}/icon/` : `//${domain}:${PORTS.ASSETS}/icon/` ;
 conf.sessionPath = env === PRODUCTION ? `//${SUB_DOMAINS.SESSION}${domain}/` : `//${domain}:${PORTS.SESSION}/` ;
 conf.scriptName = `//${SUB_DOMAINS.CLIENT}${PRODUCTION_DOMAIN}` ;
+conf.cacheKey = {index: "talknIndexList", setting: "talknSettingParams"};
 
 if( conf.env === DEVELOPMENT ){
 	switch( Number( location.port ) ){

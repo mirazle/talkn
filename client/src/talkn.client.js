@@ -33,6 +33,7 @@ window.onload =  () => {
 	case 'electron':
 		bootTalkn( appType, 0, {}, conf );
 		break;
+	case 'portal':
 	case 'iframe':
 	case 'script':
 		const scripts = document.querySelectorAll(`script[src*="${conf.scriptName}"]`);

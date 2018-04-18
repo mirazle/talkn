@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component, PropTypes } from "react";
+import Container from 'client/style/Container';
 import User from 'common/schemas/state/User';
 
 export default class MenuLi extends Component {
@@ -12,14 +13,14 @@ export default class MenuLi extends Component {
   }
 
   getDecolationProps(){
-    const { isLast } = this.props;
+    const { isLast, app } = this.props;
     const styleKey = isLast ? 'columnLast' : 'column' ;
     return {
       onMouseOver: () => {
         this.setState(
           { style:
             {...this.state.style,
-                transition: '200ms',
+                transition: Container.getTransitionFirstOn( app ),
                 transform: 'scale( 1.05 )',
                 cursor: 'pointer',
             }
@@ -29,7 +30,7 @@ export default class MenuLi extends Component {
       onMouseLeave: () => {
         this.setState( {style:
           {...this.state.style,
-              transition: '600ms',
+                transition: Container.getTransitionOn( app ),
               transform: 'scale( 1 )',
               cursor: 'default',
           }
