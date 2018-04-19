@@ -10,6 +10,7 @@
 	<script type='text/javascript'>
 		var script = document.createElement("script");
 		var connection = location.search !== '' ? location.search.replace( '?', '/' ) : location.pathname ;
+		connection = connection.replace(/\u002f$/g, '');
 		script.setAttribute( 'type', 'text/javascript' );
 		script.setAttribute( 'src', 'talkn.client.js' );
 		script.setAttribute( 'connection', connection );
