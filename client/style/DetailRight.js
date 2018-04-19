@@ -57,7 +57,7 @@ export default class DetailRight {
   static getHeader(){return Detail.getHeader()}
   static getBody(){return Detail.getBody()}
   static getMeta(){return Detail.getMeta()}
-  static getImg(){return Detail.getMeta()}
+  static getImg(){return Detail.getImg()}
   static getDescription(){return Detail.getDescription()}
   static getContentType(){return Detail.getContentType()}
   static getAnalyze(){return Detail.getAnalyze()}

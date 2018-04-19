@@ -43,29 +43,33 @@ export default class Main {
     return app.isOpenNotif ? Main.notifOpenTranslateY : Main.notifCloseTranslateY;
   }
 
-  static getSelfWidthPx(){
+  static getWidth( app, addUnit = false ){
     return '100%';
   }
 
   static getSelfHeightPx(){
-
-    let height = Main.selfHeight;
-//    if( bootOption && bootOption.height ){
-//      height = bootOption.height + 'px';
-//    }
+    const height = Main.selfHeight;
     return `calc( 100vh - ${Footer.selfHeight}px )`;
   }
 
-  static getSelfRight( widthPx, {bootOption, app} ){
-    const width = bootOption ? bootOption.width : app.width ;
-    if( width === '100%' ){
-      return ( ( ( 1 - Main.widthRatio ) / 2 ) * 100 ) + '%';
-    }else if( width === '100vw' ){
-      return ( ( ( 1 - Main.widthRatio ) / 2 ) * 100 ) + 'vw';
-    }else{
-      return Math.floor( Style.trimUnit( widthPx ) * Container.merginRatio ) + 'px';
-    }
+  static getSelfRight( {bootOption, app}, widthPx, addUnit = false ){
+    let right = '0px';
+    switch( app.type ){
+    case 'portal':
 
+      break;
+    default :
+      const width = bootOption ? bootOption.width : app.width ;
+      if( width === '100%' ){
+        right =  ( ( ( 1 - Main.widthRatio ) / 2 ) * 100 ) + '%';
+      }else if( width === '100vw' ){
+        right = ( ( ( 1 - Main.widthRatio ) / 2 ) * 100 ) + 'vw';
+      }else{
+        right = Math.floor( Style.trimUnit( widthPx ) * Container.merginRatio ) + 'px';
+      }
+      break;
+    }
+    return addUnit ? Style.trimUnit( right ) : right ;
   }
 
   static getSelfTranslateY( isOpenMain ){
@@ -82,9 +86,9 @@ export default class Main {
 
   static getSelf( params ){
     const {app, bootOption} = params;
-    const widthPx = Main.getSelfWidthPx();
+    const widthPx = Main.getWidth( app );
     const heightPx = Main.getSelfHeightPx( params );
-    const right = Main.getSelfRight( widthPx, params );
+    const right = Main.getSelfRight( params, widthPx );
     const translateY = Main.getSelfTranslateY( params.app.isOpenMain );
     const layout = Style.getLayoutBlock({
       position: 'absolute',
