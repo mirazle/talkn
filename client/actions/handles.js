@@ -28,7 +28,7 @@ export default {
       app,
     };
   },
-  onClickDispMenu: ( app ) => {
+  onClickToggleDispMenu: ( app ) => {
     return {
       type: 'ON_CLICK_TOGGLE_DISP_MENU',
       app,

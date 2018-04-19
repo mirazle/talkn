@@ -48,23 +48,32 @@ export default ( state = {} , action ) => {
 			}
 		}
 	case 'ON_CLICK_TOGGLE_DISP_MENU':
-		let mainScreenTransform = action.app.isOpenMenu ?
-			Posts.openIndexTransform : Posts.closeIndexTransform ;
-
-		return {...state,
-			main: {...state.main,
-				screen: {...state.main.screen,
-					transform: mainScreenTransform,
-				}
-			}
-		}
 	case 'ON_CLICK_TOGGLE_DISP_DETAIL':
 		return {...state,
+			menu: {...state.menu,
+				self: {...state.menu.self,
+					width: Menu.getWidth( action.app ),
+					transform: Menu.getTransform( action.app ),
+				}
+			},
 			detail: {...state.detail,
 				self: {...state.detail.self,
-					transform: Detail.getSelfTransform( action ),
+					width: Detail.getWidth( action.app ),
+					transform: Detail.getTransform( action.app ),
 				}
-			}
+			},
+			screen: {...state.screen,
+				self: {...state.screen.self,
+					width: Screen.getWidth( action.app ),
+					transform: Screen.getTransform( action.app ),
+				}
+			},
+			footer: {...state.footer,
+				self: {...state.footer.self,
+					width: Footer.getWidth( action.app ),
+					transform: Footer.getTransform( action.app ),
+				}
+			},
 		}
 	case 'RESIZE_START_WINDOW':
 	case 'RESIZE_END_WINDOW':
@@ -105,6 +114,9 @@ export default ( state = {} , action ) => {
 			},
 			screen: {...state.screen,
 				self: {...state.screen.self, transition}
+			},
+			footer: {...state.footer,
+				self: {...state.footer.self, transition}
 			},
 		}
 		break;

@@ -13,13 +13,9 @@ export default class Main extends Component {
     this.handleOnClickHeadTabIcon = this.handleOnClickHeadTabIcon.bind(this);
     this.handleOnClickUserIcon = this.handleOnClickUserIcon.bind(this);
     this.handleOnClickDetailIcon = this.handleOnClickDetailIcon.bind(this);
+    this.getAppUpdatedOpenFlgs = this.getAppUpdatedOpenFlgs.bind(this);
   }
 
-  handleOnClickUserIcon( e ){
-    const{ app } = this.props.state;
-    app.isOpenMenu = app.isOpenMenu ? false : true ;
-    talknAPI.onClickDispMenu( app );
-  }
 
   handleOnClickHeadTabIcon( e ){
     const{ app } = this.props.state;
@@ -30,12 +26,49 @@ export default class Main extends Component {
     }
   }
 
+  handleOnClickUserIcon( e ){
+    let { app } = this.props.state;
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      app.isOpenMenu = app.isOpenMenu ? false : true;
+      break;
+    default:
+      app = this.getAppUpdatedOpenFlgs();
+      break;
+    }
+    talknAPI.onClickToggleDispMenu( app );
+  }
+
   handleOnClickDetailIcon( e ){
-    const{ app } = this.props.state;
-    app.isOpenDetail = app.isOpenDetail ? false : true ;
+    let { app } = this.props.state;
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      app.isOpenDetail = app.isOpenDetail ? false : true;
+      break;
+    default:
+      app = this.getAppUpdatedOpenFlgs();
+      break;
+    }
     talknAPI.onClickToggleDispDetail( app );
   }
 
+  getAppUpdatedOpenFlgs(){
+    const{ app } = this.props.state;
+    switch( app.screenMode ){
+    case App.screenModeMiddleLabel :
+      if( app.isOpenDetail ){
+        app.isOpenMenu = true;
+        app.isOpenDetail = false;
+      }else{
+        app.isOpenMenu = false;
+        app.isOpenDetail = true;
+      }
+      break;
+    case App.screenModeLargeLabel :
+      break;
+    }
+    return app;
+  }
 
   getHeadTabProps(){
     const { app } = this.props.state;

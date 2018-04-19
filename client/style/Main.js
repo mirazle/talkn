@@ -44,7 +44,8 @@ export default class Main {
   }
 
   static getWidth( app, addUnit = false ){
-    return '100%';
+    const width = '100%';
+    return addUnit ? Style.trimUnit( width ) : width ;
   }
 
   static getSelfHeightPx(){
@@ -97,16 +98,14 @@ export default class Main {
       right: right,
       bottom: 0,
       overflow: 'visible',
-//      borderRadius: '12px 12px 0px 0px',
-//      borderTop: Container.border,
-//      borderRight: Container.border,
-//      borderLeft: Container.border,
       borderBottom: 'none',
       boxShadow: Container.shadow,
       margin: '0 auto',
       zIndex: Container.maxZIndex,
     });
-    const content = {};
+    const content = Style.getContentBase({
+      textAlign: 'left',
+    });
     const animation = Style.getAnimationBase({
       transform: `translate3d(0px, ${translateY}, 0px)`,
       transition: Container.getTransitionOn( app ),
@@ -121,7 +120,9 @@ export default class Main {
       borderBottom: Container.border,
       background: Container.whiteRGB,
     });
-    const content = {};
+    const content = Style.getContentBase({
+      textAlign: 'center',
+    });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
