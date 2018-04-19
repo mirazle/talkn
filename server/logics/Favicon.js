@@ -17,12 +17,11 @@ export default class Favicon {
     protocol = protocol ? protocol : Favicon.defaultFaviconProtocol ;
     const linkLength = links.length;
     const superOrigin = `${protocol}//${host}`;
+    let faviconName = `${protocol}//${host}/${Favicon.defaultFaviconName}`;
 
     if( protocol.indexOf( Sequence.TALKN_PROTOCOL ) === 0 ){
       return `${Sequence.HTTP_PROTOCOL}//${conf.domain}:${define.PORTS.ASSETS}/icon/user.png`;
     }else{
-
-      let faviconName = `${protocol}//${host}/${Favicon.defaultFaviconName}`;
 
       if( linkLength > 0 ){
         for( let i = 0; i < linkLength; i++ ){
@@ -43,6 +42,7 @@ export default class Favicon {
                   faviconName = `${protocol}//${host}${link.href}`;
                 }
               }
+              faviconName = faviconName.replace(/[?].*$/, '');
               break;
             }
           }
