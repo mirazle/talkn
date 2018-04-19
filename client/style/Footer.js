@@ -22,11 +22,23 @@ export default class Footer{
     let right = 0;
     switch( app.screenMode ){
     case App.screenModeSmallLabel : right = '0px';break;
-    case App.screenModeMiddleLabel :right = Detail.getWidth( app );break;
+    case App.screenModeMiddleLabel :right = '0px';break;
     case App.screenModeLargeLabel : right = Detail.getWidth( app );break;
     }
     return addUnit ? Style.trimUnit( right ) : right ;
   };
+
+  static getTransform( app ){
+    let transform = 'translate3d( 0px ,0px, 0px )';
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+    case App.screenModeMiddleLabel :
+      transform = app.isOpenDetail ? `translate3d( -${Detail.getWidth( app )} ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
+      break;
+    case App.screenModeLargeLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+    }
+    return transform ;
+  }
 
   constructor( params ){
     const self = Footer.getSelf( params );
@@ -41,35 +53,6 @@ export default class Footer{
     }
   }
 
-  static getLayout( style ){
-    const common = Footer.getLayoutCommon();
-    return {...style, ...common }
-  }
-
-  static getContent( style ){
-    const common = Footer.getContentCommon();
-    return {...style, ...common }
-  }
-
-  static getAnimation( style ){
-    const common = Footer.getAnimationCommon();
-    return {...style, ...common }
-  }
-
-  static getLayoutCommon(){
-    return {
-      height: '25px',
-    }
-  }
-
-  static getContentCommon(){
-    return {}
-  }
-
-  static getAnimationCommon(){
-    return {}
-  }
-
   static getSelf( {app} ){
     const layout = Style.getLayoutFlex({
       position: 'absolute',
@@ -78,30 +61,34 @@ export default class Footer{
       width: Footer.getWidth( app ),
       background: Container.offWhiteRGBA,
       zIndex: Container.maxZIndex,
-
+      borderTop: Container.border,
     });
     const content = {};
-    const animation = Style.getAnimationBase();
+    const animation = Style.getAnimationBase({
+      transform: Footer.getTransform( app ),
+      transition: Container.getTransitionOn( app ),
+    });
     return Style.get({layout, content, animation});
   }
 
   static getIcon( {thread} ){
-    const layoutInlineBlock = Style.getLayoutInlineBlock({
+    const layout = Style.getLayoutInlineBlock({
       width: '20%',
+      height: '25px',
       backgroundImage: `url()`,
       backgroundPosition: 'center center',
       backgroundSize: '20px 20px',
       backgroundRepeat: 'no-repeat',
     });
-    const layout = Footer.getLayout( layoutInlineBlock );
     const content = {};
     const animation = {};
     return Style.get({layout, content, animation});
   }
 
   static getTextarea(){
-    const layoutInlineBlock = Style.getLayoutInlineBlock({
+    const layout = Style.getLayoutInlineBlock({
       width: '54%',
+      height: '25px',
       background: Container.whiteRGB,
       padding: '5px 0% 5px 2%',
       margin: '0 3% 0 0',
@@ -112,7 +99,6 @@ export default class Footer{
       WebkitAppearance: 'none',
 
     });
-    const layout = Footer.getLayout( layoutInlineBlock );
     const content = Style.getContentBase({
       textAlign: 'left',
     });
@@ -122,15 +108,15 @@ export default class Footer{
   }
 
   static getButton(){
-    const layoutInlineBlock = Style.getLayoutInlineBlock({
+    const layout = Style.getLayoutInlineBlock({
       outline: 'none',
       width: '20%',
+      height: '25px',
       margin: '0px 3% 0px 0%',
       background: 'rgb(245, 245, 245)',
       border: Container.border,
       borderRadius: '3px',
     });
-    const layout = Footer.getLayout( layoutInlineBlock );
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

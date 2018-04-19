@@ -3,8 +3,7 @@ import Style from './index';
 import Container from './Container';
 import Main from './Main';
 import Menu from './Menu';
-import DetailRight from './DetailRight';
-import DetailModal from './DetailModal';
+import Detail from './Detail';
 
 export default class Posts {
 
@@ -17,9 +16,9 @@ export default class Posts {
     let width = 0;
     switch( app.screenMode ){
     case App.screenModeSmallLabel : width = '50.0%';break;
-    case App.screenModeMiddleLabel :width = `calc( 100% - ${Menu.getWidth( app )})`;break;
+    case App.screenModeMiddleLabel :width = `${ app.width - Menu.getWidth( app, true )}px`;break;
     case App.screenModeLargeLabel :
-      width = `calc( ${100 - DetailRight.getWidth( app, true )}% - ${Menu.getWidth( app, true )}px )`;
+      width = `calc( 100% - ${ Detail.getWidth( app, true ) + Menu.getWidth( app, true ) }px )`;
       break;
     }
     return addUnit ? Style.trimUnit( width ) : width ;
