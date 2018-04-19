@@ -1,4 +1,4 @@
 .DS_Store
 node_modules/
-server/assets/icon/
+server/endpoints/assets/icon/*
 server/dump.rdb
