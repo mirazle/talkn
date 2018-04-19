@@ -10,7 +10,7 @@ export default class DetailModal {
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
-  static getSelfTransform( app ){
+  static getTransform( app ){
     return app.isOpenDetail ? DetailModal.openSelfTransform : DetailModal.closeSelfTransform;
   }
   static get closeSelfTransform(){ return `translate3d(0%, 0px, 0px)` };
@@ -31,7 +31,7 @@ export default class DetailModal {
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transform: DetailModal.closeSelfTransform,
+      transform: DetailModal.getTransform( app ),
       transition: Container.getTransitionOn( app ),
     });
 

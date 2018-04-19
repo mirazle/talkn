@@ -67,8 +67,8 @@ export default class Detail {
     return Detail.getDetailClass( app ).getWidth( app, addUnit );
   }
 
-  static getSelfTransform( {app} ){
-    return Detail.getDetailClass( app ).getSelfTransform( app );
+  static getTransform( app ){
+    return Detail.getDetailClass( app ).getTransform( app );
   }
 
   static getHeader(){

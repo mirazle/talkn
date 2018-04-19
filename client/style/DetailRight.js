@@ -6,18 +6,17 @@ import Detail from './Detail';
 
 export default class DetailRight {
 
-  // TODO 100%をapp.widthにする
   static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : width = '100%';break;
-    case App.screenModeMiddleLabel :width = '30%';break;
-    case App.screenModeLargeLabel :width = '30%';break;
+    case App.screenModeSmallLabel : width = '0%';break;
+    case App.screenModeMiddleLabel :width = '300px';break;
+    case App.screenModeLargeLabel :width =  Math.floor( app.width * 0.3 ) + 'px';break;
     }
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
-  static getSelfTransform( app ){
+  static getTransform( app ){
     let transform = DetailRight.closeTransform;
     switch( app.screenMode ){
     case App.screenModeSmallLabel : transform = DetailRight.closeTransform; break;

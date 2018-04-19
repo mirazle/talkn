@@ -2,27 +2,42 @@ import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
 import Footer from './Footer';
+import Detail from './Detail';
 import Menu from './Menu';
 import DetailRight from './DetailRight';
 
 export default class Screen {
 
-  static getScreenWidth( app, addUnit = false ){
+  static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
     case App.screenModeSmallLabel : width = '200%';break;
-    case App.screenModeMiddleLabel : width = `100%`;break;
-    case App.screenModeLargeLabel : width = `100%`;break;
+    case App.screenModeMiddleLabel : width = `calc( 100% + ${ Detail.getWidth( app ) } )`;break;
+    case App.screenModeLargeLabel :
+      width = '100%';
+      break;
     }
-    return addUnit ? Style.trimUnit() : width ;
+    return addUnit ? Style.trimUnit( width ) : width ;
   }
 
-  static getScreenTransform( app ){
+  static getTransform( app ){
     let transform = 'translate3d( 0px ,0px, 0px )';
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : transform = 'translate3d( -50% ,0px, 0px )';break;
-    case App.screenModeMiddleLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
-    case App.screenModeLargeLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+    case App.screenModeSmallLabel :
+      transform = app.isOpenMenu ? 'translate3d( 0% ,0px, 0px )' : 'translate3d( -50% ,0px, 0px )';
+      break;
+    case App.screenModeMiddleLabel :
+
+      if( app.isOpenMenu ){
+
+      }
+      transform = app.isOpenMenu ? 'translate3d( 0% ,0px, 0px )' : 'translate3d( -50% ,0px, 0px )';
+      transform = app.isOpenDetail ? `translate3d( -${Detail.getWidth( app )} ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
+
+      break;
+    case App.screenModeLargeLabel :
+      transform = 'translate3d( 0px ,0px, 0px )';
+      break;
     }
     return transform ;
   }
@@ -36,12 +51,14 @@ export default class Screen {
 
   static getSelf( {app} ){
     const layout = Style.getLayoutBlock({
-      width: Screen.getScreenWidth( app ),
+      width: Screen.getWidth( app ),
       height: 'inherit',
     });
-    const content = Style.getContentBase();
+    const content = Style.getContentBase({
+      textAlign: 'left',
+    });
     const animation = Style.getAnimationBase({
-      transform: Screen.getScreenTransform( app ),
+      transform: Screen.getTransform( app ),
       transition: Container.getTransitionOn( app ),
     });
     return Style.get({layout, content, animation});

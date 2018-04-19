@@ -15,6 +15,18 @@ export default class Menu {
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
+  static getTransform( app ){
+    let transform = 'translate3d( 0px ,0px, 0px )';
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+    case App.screenModeMiddleLabel :
+      transform = app.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
+      break;
+    case App.screenModeLargeLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+    }
+    return transform ;
+  }
+
   constructor( params ){
     const self = Menu.getSelf( params );
     const scroll = Menu.getScroll( params );
@@ -58,7 +70,7 @@ export default class Menu {
   static getScroll( {app} ){
     const layout = Style.getLayoutBlock({
       overflow: 'scroll',
-      width: 'inherit',
+      width: '100%',
       minWidth: 'inherit',
       maxWidth: 'inherit',
     });
