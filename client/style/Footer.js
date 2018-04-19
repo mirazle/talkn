@@ -9,21 +9,6 @@ export default class Footer{
 
   static get selfHeight(){ return 45 };
   static getWidth( app, addUnit = false ){
-    const width = '100%';
-    return addUnit ? Style.trimUnit( width ) : width ;
-  };
-
-  static getLeftWidth( app, addUnit = false ){
-    let width = 0;
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel : width = '0%';break;
-    case App.screenModeMiddleLabel :width = Menu.getWidth( app );break;
-    case App.screenModeLargeLabel : width = Menu.getWidth( app );break;
-    }
-    return addUnit ? Style.trimUnit( width ) : width ;
-  }
-
-  static getCenterWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
     case App.screenModeSmallLabel : width = '100%';break;
@@ -31,33 +16,25 @@ export default class Footer{
     case App.screenModeLargeLabel : width = Posts.getWidth( app );break;
     }
     return addUnit ? Style.trimUnit( width ) : width ;
-  }
+  };
 
-  static getRightWidth( app, addUnit = false ){
-    let width = 0;
+  static getRight( app, addUnit = false ){
+    let right = 0;
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : width = '0%';break;
-    case App.screenModeMiddleLabel :width = '0%';break;
-    case App.screenModeLargeLabel : width = Detail.getWidth( app );break;
+    case App.screenModeSmallLabel : right = '0px';break;
+    case App.screenModeMiddleLabel :right = Detail.getWidth( app );break;
+    case App.screenModeLargeLabel : right = Detail.getWidth( app );break;
     }
-    return addUnit ? Style.trimUnit( width ) : width ;
-  }
+    return addUnit ? Style.trimUnit( right ) : right ;
+  };
 
   constructor( params ){
     const self = Footer.getSelf( params );
-    const left = Footer.getLeft( params );
-    const center = Footer.getCenter( params );
-    const footer = Footer.getFooter( params );
-    const right = Footer.getRight( params );
     const icon = Footer.getIcon( params );
     const textarea = Footer.getTextarea();
     const button = Footer.getButton();
     return {
       self,
-      left,
-      center,
-      footer,
-      right,
       icon,
       textarea,
       button,
@@ -95,54 +72,13 @@ export default class Footer{
 
   static getSelf( {app} ){
     const layout = Style.getLayoutFlex({
-      background: Container.offWhiteRGBA,
+      position: 'absolute',
+      right: Footer.getRight( app ),
       height: Footer.selfHeight,
       width: Footer.getWidth( app ),
+      background: Container.offWhiteRGBA,
       zIndex: Container.maxZIndex,
 
-    });
-    const content = {};
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getLeft( {app} ){
-    const layout = Style.getLayoutInlineBlock({
-      width: Footer.getLeftWidth( app ),
-      minWidth: Footer.getLeftWidth( app ),
-    });
-    const content = {};
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getCenter( {app} ){
-    const layout = Style.getLayoutInlineBlock({
-      width: Footer.getCenterWidth( app ),
-      minWidth: Footer.getCenterWidth( app ),
-
-    });
-    const content = {};
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getFooter( {app} ){
-    const layout = Style.getLayoutFlex({
-      borderTop: Container.border,
-      width: '100%',
-      minWidth: '100%',
-      background: Container.offWhiteRGBA,
-    });
-    const content = {};
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getRight( {app} ){
-    const layout = Style.getLayoutInlineBlock({
-      width: Footer.getRightWidth( app ),
-      minWidth: Footer.getRightWidth( app ),
     });
     const content = {};
     const animation = Style.getAnimationBase();
