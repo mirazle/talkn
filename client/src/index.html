@@ -7,7 +7,14 @@
 	<meta name="description" content="talkn">
 	<meta name="keywords" content="talkn">
 	<meta name="title" content="talkn">
-	<script src="talkn.client.js" connection='/news.yahoo.co.jp'></script>
+	<script type='text/javascript'>
+		var script = document.createElement("script");
+		var connection = location.search !== '' ? location.search.replace( '?', '/' ) : location.pathname ;
+		script.setAttribute( 'type', 'text/javascript' );
+		script.setAttribute( 'src', 'talkn.client.js' );
+		script.setAttribute( 'connection', connection );
+		document.head.appendChild( script );
+	</script>
 </head>
 <body>
 <div id="talkn1"></div>

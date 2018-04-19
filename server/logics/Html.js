@@ -10,7 +10,7 @@ import define from '~/../common/define';
 
 export default class Html {
 
-  static get getResponseSchema(){ return {title: '', serverMetas: [], links: [], h1s: [], contentType: '', uri: '', favicon: '' } };
+  static get getResponseSchema(){ return {title: '', serverMetas: {}, links: [], h1s: [], contentType: '', uri: '', favicon: '' } };
 
   constructor(){
     this.option = {

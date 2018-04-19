@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 export default {
 	Users: {
 		uid: { type: String, default: '' },
@@ -29,7 +31,7 @@ export default {
 		layer: { type: Number, default: 0 },
 
 		// Head
-		serverMetas:{ type: Object, default:{} },
+		serverMetas:{ type: mongoose.Schema.Types.Mixed, default:{} },
 		links:{ type: [], default: []},
 		h1s:{ type: [], default: []},
 		mediaIndex: { type: [], default: []},
@@ -46,8 +48,8 @@ export default {
 		updateTime: { type: Date, default: Date },
 	},
 	Setting: {
-		server:{ type: Object, default: {} },
-		common:{ type: Object, default: {} },
-		client:{ type: Object, default: {} },
+		server:{ type: mongoose.Schema.Types.Mixed, default: {} },
+		common:{ type: mongoose.Schema.Types.Mixed, default: {} },
+		client:{ type: mongoose.Schema.Types.Mixed, default: {} },
 	}
 }

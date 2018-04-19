@@ -65,7 +65,7 @@ console.log("NEW");
         const connections = Thread.getConnections( connection );
         const protocol =  ( createThread && createThread.uri && createThread.uri.protocol ) ? createThread.uri.protocol : Sequence.TALKN_PROTOCOL ;
         createThread = {...createThread, watchCnt, connections, postCnt, multiPostCnt, protocol };
-
+console.log(createThread);
         let {response: thread} = await Logics.db.threads.save( requestState, createThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
