@@ -4,6 +4,8 @@ import {Iconv} from 'iconv';
 import {Buffer} from 'buffer';
 import fs from 'fs';
 import Sequence from '~/../common/Sequence'
+import define from '~/../common/define'
+import conf from '~/conf'
 
 export default class Favicon {
 
@@ -15,28 +17,34 @@ export default class Favicon {
     protocol = protocol ? protocol : Favicon.defaultFaviconProtocol ;
     const linkLength = links.length;
     const superOrigin = `${protocol}//${host}`;
-    let faviconName = `${protocol}//${host}/${Favicon.defaultFaviconName}`;
 
-    if( linkLength > 0 ){
-      for( let i = 0; i < linkLength; i++ ){
-        const link = links[ i ];
-        if( link.rel && link.rel.indexOf( 'Icon' ) >= 0 || link.rel.indexOf( 'icon' ) >= 0 ){
-          if( faviconName.indexOf( Sequence.HTTP_PROTOCOL ) !== 0 || faviconName.indexOf( Sequence.HTTPS_PROTOCOL ) !== 0 ){
+    if( protocol.indexOf( Sequence.TALKN_PROTOCOL ) === 0 ){
+      return `${Sequence.HTTP_PROTOCOL}//${conf.domain}:${define.PORTS.ASSETS}/icon/user.png`;
+    }else{
 
-            if( link.href.indexOf( host ) >= 0 ){
-              if( link.href.indexOf( protocol ) >= 0 ){
-                faviconName = `${link.href}`;
+      let faviconName = `${protocol}//${host}/${Favicon.defaultFaviconName}`;
+
+      if( linkLength > 0 ){
+        for( let i = 0; i < linkLength; i++ ){
+          const link = links[ i ];
+          if( link.rel && link.rel.indexOf( 'Icon' ) >= 0 || link.rel.indexOf( 'icon' ) >= 0 ){
+            if( faviconName.indexOf( Sequence.HTTP_PROTOCOL ) !== 0 || faviconName.indexOf( Sequence.HTTPS_PROTOCOL ) !== 0 ){
+
+              if( link.href.indexOf( host ) >= 0 ){
+                if( link.href.indexOf( protocol ) >= 0 ){
+                  faviconName = `${link.href}`;
+                }else{
+                  faviconName = `${protocol}//${link.href}`;
+                }
               }else{
-                faviconName = `${protocol}//${link.href}`;
+                if( link.href.indexOf( protocol ) >= 0 ){
+                  faviconName = `${link.href}`;
+                }else{
+                  faviconName = `${protocol}//${host}${link.href}`;
+                }
               }
-            }else{
-              if( link.href.indexOf( protocol ) >= 0 ){
-                faviconName = `${link.href}`;
-              }else{
-                faviconName = `${protocol}//${host}${link.href}`;
-              }
+              break;
             }
-            break;
           }
         }
       }

@@ -52,7 +52,6 @@ export default class Thread extends Schema{
     const clientMetas = {};
     const links = [];
     const h1s = [];
-    const uri = {};
     const layer = 0;
     const mediaIndex = [];
     const postCnt = 0;
@@ -75,7 +74,6 @@ export default class Thread extends Schema{
       serverMetas,
       links,
       h1s,
-      uri,
       favicon,
       layer,
       mediaIndex,

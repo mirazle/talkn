@@ -13,7 +13,8 @@ export default class Threads {
 
   async findOne( connection, selector = {}, option = {} ){
     const condition = {connection};
-    return await this.db.findOne( condition, selector, option );
+    const response = await this.db.findOne( condition, selector, option );
+    return response;
   }
 
   async findOneWatchCnt( connection ){
