@@ -19,6 +19,7 @@ export default class Detail {
 
     const self = DetailClass.getSelf( params );
     const header = DetailClass.getHeader( params );
+    const headerP = DetailClass.getHeaderP( params );
     const meta = DetailClass.getMeta( params );
     const img = DetailClass.getImg( params );
     const description = DetailClass.getDescription( params );
@@ -42,6 +43,7 @@ export default class Detail {
     return {
       self,
       header,
+      headerP,
       meta,
       img,
       description,
@@ -75,12 +77,26 @@ export default class Detail {
     const layout = Style.getLayoutFlex({
       width: '100%',
       height: Main.headerHeight,
+      maxHeight: Main.headerHeight,
       borderBottom: Container.border,
       background: Container.whiteRGB,
-      padding: '0px 20px 0px 20px',
+      padding: '0px 20px',
     });
     const content = Style.getContentBase({
-      lineHeight: '1.3',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderP(){
+    const layout = Style.getLayoutBlock({
+      width: '100%',
+      height: 'auto',
+      maxHeight: Main.headerHeight,
+    });
+    const content = Style.getContentBase({
+      lineHeight: '2',
+      textOverflow: 'ellipsis',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
