@@ -11,6 +11,9 @@ export default class Favicon {
 
   static get defaultFaviconProtocol(){ return Sequence.HTTP_PROTOCOL}
   static get defaultFaviconName(){ return 'favicon.ico' }
+  static getDefaultFaviconFullname(){
+    return `${Sequence.HTTP_PROTOCOL}//${conf.domain}:${define.PORTS.ASSETS}/icon/user.png`;
+  }
 
   getName( requestState, links ){
     let { protocol, host } = requestState;
@@ -20,7 +23,7 @@ export default class Favicon {
     let faviconName = `${protocol}//${host}/${Favicon.defaultFaviconName}`;
 
     if( protocol.indexOf( Sequence.TALKN_PROTOCOL ) === 0 ){
-      return `${Sequence.HTTP_PROTOCOL}//${conf.domain}:${define.PORTS.ASSETS}/icon/user.png`;
+      return Favicon.getDefaultFaviconFullname();
     }else{
 
       if( linkLength > 0 ){
@@ -56,11 +59,15 @@ export default class Favicon {
     return new Promise( ( resolve, reject ) => {
       request({method: 'GET', url: faviconName, encoding: null}, (error, response, body) => {
         if( !error && response && response.statusCode === 200 ){
-          resolve(body);
-        }else{
-          console.warn(error);
-          resolve(false);
+          if( response.headers[ 'content-type' ].indexOf( 'image' ) === 0 ){
+            resolve(body);
+            return true;
+          }
         }
+
+        console.warn(error);
+        resolve(false);
+        return false;
       });
     });
   }
