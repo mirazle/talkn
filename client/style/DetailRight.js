@@ -10,8 +10,18 @@ export default class DetailRight {
     let width = 0;
     switch( app.screenMode ){
     case App.screenModeSmallLabel : width = '0%';break;
-    case App.screenModeMiddleLabel :width = '300px';break;
+    case App.screenModeMiddleLabel :width = '320px';break;
     case App.screenModeLargeLabel :width =  Math.floor( app.width * 0.3 ) + 'px';break;
+    }
+    return addUnit ? Style.trimUnit( width ) : width ;
+  }
+
+  static getMinWidth( app, addUnit = false ){
+    let width = 0;
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel : width = '0%';break;
+    case App.screenModeMiddleLabel :width = '320px';break;
+    case App.screenModeLargeLabel :width =  '320px';break;
     }
     return addUnit ? Style.trimUnit( width ) : width ;
   }
@@ -54,6 +64,7 @@ export default class DetailRight {
   }
 
   static getHeader(){return Detail.getHeader()}
+  static getHeaderP(){return Detail.getHeaderP()}
   static getBody(){return Detail.getBody()}
   static getMeta(){return Detail.getMeta()}
   static getImg(){return Detail.getImg()}
