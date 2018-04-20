@@ -1,5 +1,6 @@
 import request from 'request';
 import cheerio from 'cheerio';
+import jschardet from 'jschardet';
 import {Iconv} from 'iconv';
 import {Buffer} from 'buffer';
 import fs from 'fs';
@@ -114,15 +115,19 @@ export default class Html {
         key = item.attribs['http-equiv'];
         content = item.attribs.content;
       }
+
+      key = key.replace( '.', '_' );
       serverMetas[ key ] = content;
     }
     return serverMetas;
   }
 
-  toUtf8( dom ){
-    const iconv = new Iconv( this.getCharset( dom ), 'UTF-8//TRANSLIT//IGNORE');
-    dom = new Buffer( dom, 'binary' );
-    return iconv.convert( dom ).toString();
+  toUtf8( body ){
+    //文字コード変換
+    const detectResult = jschardet.detect( body );
+    const iconv = new Iconv(detectResult.encoding, 'UTF-8//TRANSLIT//IGNORE');
+    body = new Buffer( body, 'binary' );
+    return iconv.convert(body).toString();
   }
 
   getCharset( dom ){
