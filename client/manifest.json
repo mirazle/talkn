@@ -14,5 +14,6 @@
 			"js": [ "talkn.client.js", "socket.io.js" ],
 			"run_at": "document_end"
 		}
-	]
+	],
+	"web_accessible_resources": [ "js/*", "css/*", "img/*", "html/*" ]
 }

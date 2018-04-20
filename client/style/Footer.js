@@ -29,9 +29,11 @@ export default class Footer{
   };
 
   static getTransform( app ){
-    let transform = 'translate3d( 0px ,0px, 0px )';
+    let transform = 'translate3d( 0px, 0px, 0px )';
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+    case App.screenModeSmallLabel :
+      transform = app.isOpenMenu ? 'translate3d( 100%, 0px, 0px )' : 'translate3d( 0px, 0px, 0px )';
+      break;
     case App.screenModeMiddleLabel :
       transform = app.isOpenDetail ? `translate3d( -${Detail.getWidth( app )} ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
       break;

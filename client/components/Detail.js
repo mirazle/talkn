@@ -25,7 +25,9 @@ export default class Setting extends Component {
     const { thread, style } = this.props.state
     return(
       <header style={ style.detail.header }>
+        <p style={ style.detail.headerP }>
         { thread.title }
+        </p>
       </header>
     )
   }

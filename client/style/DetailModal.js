@@ -39,6 +39,7 @@ export default class DetailModal {
   }
 
   static getHeader(){return Detail.getHeader()}
+  static getHeaderP(){return Detail.getHeaderP()}
   static getBody(){return Detail.getBody()}
   static getMeta(){return Detail.getMeta()}
   static getImg(){return Detail.getImg()}
