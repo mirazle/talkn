@@ -3,6 +3,7 @@ import Logics from '~/logics';
 import utils from '~/utils';
 import User from '~/../common/schemas/state/User'
 import Thread from '~/../common/schemas/state/Thread'
+import Favicon from '~/logics/Favicon'
 import Sequence from '~/../common/Sequence'
 import fs from 'fs';
 
@@ -45,9 +46,13 @@ export default {
     if( thread === null || isUpdatableThread ){
       const { title, serverMetas, links, h1s, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
       requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
-      const faviconName = Logics.favicon.getName( requestState.thread, links );
+      let faviconName = Logics.favicon.getName( requestState.thread, links );
       const faviconBinary = await Logics.favicon.request( faviconName );
-      const writeResult = await Logics.fs.write( faviconName, faviconBinary );
+      if( faviconBinary ){
+        await Logics.fs.write( faviconName, faviconBinary );
+      }else{
+        faviconName = Favicon.getDefaultFaviconFullname();
+      }
       let createThread = {title, serverMetas, links, h1s, contentType, uri, favicon: faviconName};
 
       // スレッド更新
@@ -64,8 +69,8 @@ console.log("NEW");
         const watchCnt = 1;
         const connections = Thread.getConnections( connection );
         const protocol =  ( createThread && createThread.uri && createThread.uri.protocol ) ? createThread.uri.protocol : Sequence.TALKN_PROTOCOL ;
+
         createThread = {...createThread, watchCnt, connections, postCnt, multiPostCnt, protocol };
-console.log(createThread);
         let {response: thread} = await Logics.db.threads.save( requestState, createThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }

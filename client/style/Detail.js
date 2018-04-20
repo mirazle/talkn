@@ -95,7 +95,7 @@ export default class Detail {
       maxHeight: Main.headerHeight,
     });
     const content = Style.getContentBase({
-      lineHeight: '2',
+      lineHeight: '1.8',
       textOverflow: 'ellipsis',
     });
     const animation = Style.getAnimationBase();
