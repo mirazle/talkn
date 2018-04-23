@@ -9,10 +9,9 @@
 	<meta name="title" content="talkn">
 	<script type='text/javascript'>
 		var script = document.createElement("script");
-		var connection = location.href.replace(/^.*\?/, '')
-console.log( connection );
+		var href = location.href;
+		var connection = href.indexOf('?') > 0 ? href.replace(/^.*\?/, '') : '/';
 		connection = connection.replace('http:/', '').replace('https:/', '');
-console.log( connection );
 
 		script.setAttribute( 'type', 'text/javascript' );
 		script.setAttribute( 'src', 'talkn.client.js' );
