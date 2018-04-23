@@ -121,12 +121,13 @@ export default class Post {
       flexGrow:  5,
       width: 'min-content',
       background: Container.themeRGBA,
-      padding: '20px 20px 20px 25px',
+      padding: '15px 15px 15px 25px',
       borderRadius: '10px',
       maxWidth: '79%',
     });
     const content = Style.getContentBase({
       color: 'rgb(255,255,255)',
+      lineHeight: 2,
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();

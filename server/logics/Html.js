@@ -24,14 +24,12 @@ export default class Html {
   async get( thread ){
 
     const { DEVELOPMENT_DOMAIN, PORTS } = define;
-
+    
     // URLと思われる文字列の場合
     if( thread.host === `${DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT}` || thread.connection.indexOf( '.' ) > 0 ){
-
       thread = {...thread, protocol: Sequence.HTTPS_PROTOCOL, host: Thread.getHost( thread.connection ) };
       const httpResult = await Logics.html.request( thread );
       if( httpResult ){
-
         return {...httpResult, getHtmlThread: thread};
       }else{
         thread = {...thread, protocol: Sequence.HTTP_PROTOCOL, host: Thread.getHost( thread.connection ) };
@@ -50,6 +48,7 @@ export default class Html {
       const { protocol, connection } = thread;
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
+
       request( option, ( error, response, body ) => {
 
         let responseSchema = Html.getResponseSchema;
@@ -116,7 +115,7 @@ export default class Html {
         content = item.attribs.content;
       }
 
-      key = key.replace( '.', '_' );
+      key = key.toString().replace( '.', '_' );
       serverMetas[ key ] = content;
     }
     return serverMetas;
