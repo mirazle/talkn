@@ -9,8 +9,9 @@ import conf from '~/conf'
 
 export default class Favicon {
 
+  static get extensionLabel(){ return '.ico' }
   static get defaultFaviconProtocol(){ return Sequence.HTTP_PROTOCOL}
-  static get defaultFaviconName(){ return 'favicon.ico' }
+  static get defaultFaviconName(){ return `favicon${Favicon.extensionLabel}` }
   static getDefaultFaviconFullname(){
     return `${Sequence.HTTP_PROTOCOL}//${conf.domain}:${define.PORTS.ASSETS}/icon/user.png`;
   }
@@ -31,22 +32,23 @@ export default class Favicon {
           const link = links[ i ];
           if( link.rel && link.rel.indexOf( 'Icon' ) >= 0 || link.rel.indexOf( 'icon' ) >= 0 ){
             if( faviconName.indexOf( Sequence.HTTP_PROTOCOL ) !== 0 || faviconName.indexOf( Sequence.HTTPS_PROTOCOL ) !== 0 ){
-
-              if( link.href.indexOf( host ) >= 0 ){
-                if( link.href.indexOf( protocol ) >= 0 ){
-                  faviconName = `${link.href}`;
+              if( link.href.indexOf( Favicon.extensionLabel ) >= 0 ){
+                if( link.href.indexOf( host ) >= 0 ){
+                  if( link.href.indexOf( protocol ) >= 0 ){
+                    faviconName = `${link.href}`;
+                  }else{
+                    faviconName = `${protocol}//${link.href}`;
+                  }
                 }else{
-                  faviconName = `${protocol}//${link.href}`;
+                  if( link.href.indexOf( protocol ) >= 0 ){
+                    faviconName = `${link.href}`;
+                  }else{
+                    faviconName = `${protocol}${link.href}`;
+                  }
                 }
-              }else{
-                if( link.href.indexOf( protocol ) >= 0 ){
-                  faviconName = `${link.href}`;
-                }else{
-                  faviconName = `${protocol}//${host}${link.href}`;
-                }
+                faviconName = faviconName.replace(/[?].*$/, '');
+                break;
               }
-              faviconName = faviconName.replace(/[?].*$/, '');
-              break;
             }
           }
         }
