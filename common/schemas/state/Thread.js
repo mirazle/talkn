@@ -31,9 +31,11 @@ export default class Thread extends Schema{
     let favicon = Thread.getDefaultFavicon();
 
     if( bootConnection ){
+
       connection = bootConnection;
       connections = Thread.getConnections( connection );
     }else{
+
       location = window.location ? window.location : {} ;
       href = location.href ? location.href : '' ;
       connection = Thread.getConnection( href );
@@ -112,7 +114,7 @@ export default class Thread extends Schema{
   static getConnections( connection ){
     let connections = ['/'];
     if( connection !== '' ){
-      connection = connection.replace(/\u002f$/g, '');
+      //connection = connection.replace(/\u002f$/g, '');
       const connectionArr = connection.split( '/' );
       const connectionLength = connectionArr.length;
 
@@ -124,6 +126,7 @@ export default class Thread extends Schema{
         }
       }
     }
+    console.log( connections );
     return connections;
   }
 
