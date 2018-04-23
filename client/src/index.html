@@ -10,7 +10,6 @@
 	<script type='text/javascript'>
 		var script = document.createElement("script");
 		var connection = location.search !== '' ? location.search.replace( '?', '/' ) : location.pathname ;
-		connection = connection.length === 1 ? connection : connection.replace(/\u002f$/g, '');
 		connection = connection.replace( 'http://', '' ).replace('https://', '');
 
 		script.setAttribute( 'type', 'text/javascript' );

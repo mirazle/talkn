@@ -28,7 +28,7 @@ export default class Sequence {
       find: {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {
-          'thread': [{columnName: 'protocol'}, {columnName: 'host'}],
+          'thread': [{columnName: 'protocol'}, {columnName: 'host'}, {columnName: 'href'}],
           'user': '*',
         },
         responseEmitState: {'posts': '*', 'thread': '*', 'user': ['offsetFindId', 'connectioned']},
