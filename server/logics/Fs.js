@@ -6,11 +6,18 @@ export default class Fs {
   write( fileName, binary ){
     fileName = util.getSaveFaviconName( fileName );
     const writeFileName = `${conf.assetsPath}icon/${fileName}`;
-    if( binary && !this.isExist( writeFileName ) ){
-      fs.writeFileSync(writeFileName, binary, 'binary');
-      return true;
+    if( binary ){
+      if( !this.isExist( writeFileName ) ){
+        fs.writeFileSync(writeFileName, binary, 'binary');
+        return true;
+      }else{
+        console.log( "EXISTED FAVICON " + fileName );
+        return false;
+      }
+    }else{
+      console.log( "NO BINARY FAVICON " + fileName );
+      return false;
     }
-    return false;
   }
 
   isExist( writeFileName ){

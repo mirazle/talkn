@@ -1,6 +1,7 @@
 {
   "scripts": {
     "start": "babel-node run.js --exec babel-node --presets es2015,stage-2",
+    "test": "babel-node test.js --exec babel-node --presets es2015,stage-2",
     "daemon": "forever start -c 'babel-node run.js --exec babel-node --presets es2015,stage-2'",
     "build": "webpack"
   },
