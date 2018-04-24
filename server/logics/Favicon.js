@@ -26,7 +26,6 @@ export default class Favicon {
     if( protocol.indexOf( Sequence.TALKN_PROTOCOL ) === 0 ){
       return Favicon.getDefaultFaviconFullname();
     }else{
-
       if( linkLength > 0 ){
         for( let i = 0; i < linkLength; i++ ){
           const link = links[ i ];
@@ -43,12 +42,15 @@ export default class Favicon {
                   if( link.href.indexOf( protocol ) >= 0 ){
                     faviconName = `${link.href}`;
                   }else{
+
                     if( link.href === Favicon.defaultFaviconName ){
                       faviconName = `${protocol}//${host}/${link.href}`;
                     }else if( link.href === `/${Favicon.defaultFaviconName}` ){
                       faviconName = `${protocol}//${host}${link.href}`;
                     }else if( link.href.indexOf( Sequence.HTTP_PROTOCOL ) >= 0 ){
                       faviconName = link.href;
+                    }else if( link.href.indexOf( '//' ) === 0 ){
+                      faviconName = `${protocol}${link.href}`;
                     }else{
                       faviconName = `${protocol}//${host}${link.href}`;
                     }
