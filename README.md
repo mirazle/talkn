@@ -1,3 +1,3 @@
 # talkn
 
-PORTAL TALKN
+talkn is token communication dapps.
