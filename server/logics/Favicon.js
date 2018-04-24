@@ -16,8 +16,8 @@ export default class Favicon {
     return `${Sequence.HTTP_PROTOCOL}//${conf.domain}:${define.PORTS.ASSETS}/icon/user.png`;
   }
 
-  getName( requestState, links ){
-    let { protocol, host } = requestState;
+  getName( thread, links ){
+    let { protocol, host } = thread;
     protocol = protocol ? protocol : Favicon.defaultFaviconProtocol ;
     const linkLength = links.length;
     const superOrigin = `${protocol}//${host}`;
@@ -43,7 +43,15 @@ export default class Favicon {
                   if( link.href.indexOf( protocol ) >= 0 ){
                     faviconName = `${link.href}`;
                   }else{
-                    faviconName = `${protocol}${link.href}`;
+                    if( link.href === Favicon.defaultFaviconName ){
+                      faviconName = `${protocol}//${host}/${link.href}`;
+                    }else if( link.href === `/${Favicon.defaultFaviconName}` ){
+                      faviconName = `${protocol}//${host}${link.href}`;
+                    }else if( link.href.indexOf( Sequence.HTTP_PROTOCOL ) >= 0 ){
+                      faviconName = link.href;
+                    }else{
+                      faviconName = `${protocol}//${host}${link.href}`;
+                    }
                   }
                 }
                 faviconName = faviconName.replace(/[?].*$/, '');

@@ -26,7 +26,6 @@ class SocketIo{
 
     // Adapt Redis-Server .
     this.io = io.adapter( redis( { host: conf.redis.host, port: conf.redis.port } ));
-    console.log("@@@@@@@@");
     return this;
   }
 
