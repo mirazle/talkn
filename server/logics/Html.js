@@ -24,29 +24,32 @@ export default class Html {
   async get( thread ){
 
     const { DEVELOPMENT_DOMAIN, PORTS } = define;
+    let response = {};
 
     // URLと思われる文字列の場合
     if( thread.host === `${DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT}` || thread.connection.indexOf( '.' ) > 0 ){
       thread = {...thread, protocol: Sequence.HTTPS_PROTOCOL, host: Thread.getHost( thread.connection ) };
-      const httpResult = await Logics.html.request( thread );
-      if( httpResult ){
-        return {...httpResult, getHtmlThread: thread};
+      const httpsResult = await Logics.html.request( thread );
+      if( httpsResult ){
+
+        response = {...httpsResult, getHtmlThread: thread};
       }else{
         thread = {...thread, protocol: Sequence.HTTP_PROTOCOL, host: Thread.getHost( thread.connection ) };
-        const httpsResult = await Logics.html.request( thread );
-        if( httpsResult ){
-          return {...httpsResult, getHtmlThread: thread};
+        const httpResult = await Logics.html.request( thread );
+        if( httpResult ){
+          response = {...httpResult, getHtmlThread: thread};
         }
       }
     }
-    // 空のスキーマを返す
-    return {...Html.getResponseSchema, getHtmlThread: thread};
+
+    return Object.keys( response ).length > 0 ?
+      response : {...Html.getResponseSchema, getHtmlThread: thread};
   }
 
   request( thread ){
     return new Promise( ( resolve, reject ) => {
       const { protocol, connection } = thread;
-      const url = `${protocol}//${connection}`;
+      const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
       request( option, ( error, response, body ) => {
 
@@ -63,6 +66,7 @@ export default class Html {
           responseSchema.uri = response.request.uri;
           resolve( responseSchema );
         }else{
+          console.log( "@@@ HTML NG " + url );
           resolve(false);
         }
       });

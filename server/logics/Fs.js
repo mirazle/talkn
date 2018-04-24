@@ -11,7 +11,6 @@ export default class Fs {
         fs.writeFileSync(writeFileName, binary, 'binary');
         return true;
       }else{
-        console.log( "EXISTED FAVICON " + fileName );
         return false;
       }
     }else{
