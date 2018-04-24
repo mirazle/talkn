@@ -31,8 +31,8 @@ export default class Thread extends Schema{
     let favicon = Thread.getDefaultFavicon();
 
     if( bootConnection ){
-
       connection = bootConnection;
+      host = Thread.getHost( connection );
       connections = Thread.getConnections( connection );
     }else{
 
@@ -126,12 +126,12 @@ export default class Thread extends Schema{
         }
       }
     }
-    console.log( connections );
     return connections;
   }
 
   static getHost( connection ){
-    return connection.split( "/" )[ 1 ];
+    connection = connection.replace( 'https://', '' ).replace('http://', '' );
+    return connection.replace( /^\//, '' ).replace( /\/.*$/, '' );
   }
 
   static getProtocol( href ){
