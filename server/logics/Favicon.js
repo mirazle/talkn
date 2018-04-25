@@ -9,11 +9,12 @@ import conf from '~/conf'
 
 export default class Favicon {
 
-  static get extensionLabel(){ return '.ico' }
+  static get defaultFaviconFileName(){ return `favicon` }
+  static get extension(){ return '.ico' }
   static get defaultFaviconProtocol(){ return Sequence.HTTP_PROTOCOL}
-  static get defaultFaviconName(){ return `favicon${Favicon.extensionLabel}` }
+  static get defaultFaviconName(){ return `${Favicon.defaultFaviconFileName}${Favicon.extension}` }
   static getDefaultFaviconFullname(){
-    return `${Sequence.HTTP_PROTOCOL}//${conf.domain}:${define.PORTS.ASSETS}/icon/user.png`;
+    return `//${conf.domain}:${define.PORTS.ASSETS}/icon/user.png`;
   }
 
   getName( thread, links ){
@@ -21,66 +22,89 @@ export default class Favicon {
     protocol = protocol ? protocol : Favicon.defaultFaviconProtocol ;
     const linkLength = links.length;
     const superOrigin = `${protocol}//${host}`;
+    let faviconType = '';
     let faviconName = `${protocol}//${host}/${Favicon.defaultFaviconName}`;
 
     if( protocol.indexOf( Sequence.TALKN_PROTOCOL ) === 0 ){
-      return Favicon.getDefaultFaviconFullname();
+      return {
+        faviconType: '[TALKN]',
+        faviconName : Favicon.getDefaultFaviconFullname()
+      }
     }else{
       if( linkLength > 0 ){
         for( let i = 0; i < linkLength; i++ ){
           const link = links[ i ];
           if( link.rel && link.rel.indexOf( 'Icon' ) >= 0 || link.rel.indexOf( 'icon' ) >= 0 ){
-            if( faviconName.indexOf( Sequence.HTTP_PROTOCOL ) !== 0 || faviconName.indexOf( Sequence.HTTPS_PROTOCOL ) !== 0 ){
-              if( link.href.indexOf( Favicon.extensionLabel ) >= 0 ){
-                if( link.href.indexOf( host ) >= 0 ){
-                  if( link.href.indexOf( protocol ) >= 0 ){
-                    faviconName = `${link.href}`;
-                  }else{
-                    faviconName = `${protocol}//${link.href}`;
-                  }
-                }else{
-                  if( link.href.indexOf( protocol ) >= 0 ){
-                    faviconName = `${link.href}`;
-                  }else{
 
-                    if( link.href === Favicon.defaultFaviconName ){
-                      faviconName = `${protocol}//${host}/${link.href}`;
-                    }else if( link.href === `/${Favicon.defaultFaviconName}` ){
-                      faviconName = `${protocol}//${host}${link.href}`;
-                    }else if( link.href.indexOf( Sequence.HTTP_PROTOCOL ) >= 0 ){
-                      faviconName = link.href;
-                    }else if( link.href.indexOf( '//' ) === 0 ){
-                      faviconName = `${protocol}${link.href}`;
-                    }else{
-                      faviconName = `${protocol}//${host}${link.href}`;
-                    }
-                  }
-                }
-                faviconName = faviconName.replace(/[?].*$/, '');
-                break;
-              }
+            const faviconHostType = link.href.indexOf( host ) >= 0 ? '[SAME_HOST]' : '[DIF_HOST]' ;
+
+            // フルパス記述している場合( http://example/favicon.ico )
+            if( link.href.indexOf( Sequence.HTTP_PROTOCOL ) === 0 ||  link.href.indexOf( Sequence.HTTPS_PROTOCOL ) === 0){
+
+              faviconName = link.href;
+              faviconType = `[PROTOCOL]//${faviconHostType}/[ICON]`;
+
+            // プロトコルだけ記述していない場合( //example/favicon.ico )
+            }else if( link.href.indexOf( '//' ) === 0 ){
+
+              faviconName = `${protocol}${link.href}`;
+              faviconType = `${faviconHostType}/[ICON]`;
+
+              // /を含むfacicon.ico記述の場合( /favicon.ico )
+            }else if( link.href.indexOf( `/${Favicon.defaultFaviconFileName}`) === 0 ){
+
+              faviconName = `${protocol}//${host}${link.href}`;
+              faviconType = '/[ICON]';
+
+            // facicon.icoだけの記述の場合( favicon.ico )
+            }else if( link.href.indexOf( `${Favicon.defaultFaviconFileName}`) === 0 ){
+
+              faviconName = `${protocol}//${host}/${link.href}`;
+              faviconType = '[ICON]';
+
+            // それ以外の場合
+            }else{
+
+              faviconName = `${protocol}//${host}${link.href}`;
+              faviconType = 'ELSE';
             }
+
+            faviconName = faviconName.replace(/[?].*$/, '');
+            break;
+          }else{
+            faviconType = 'NO_LINK_ICON_TAG';
           }
         }
+      }else{
+        faviconType = 'NO_LINK_TAG';
       }
     }
-    return faviconName;
+
+    return {faviconType, faviconName};
   }
 
   request( faviconName ){
     return new Promise( ( resolve, reject ) => {
-      request({method: 'GET', url: faviconName, encoding: null}, (error, response, body) => {
-        if( !error && response && response.statusCode === 200 ){
-          if( response.headers[ 'content-type' ].indexOf( 'image' ) === 0 ){
-            resolve(body);
-            return true;
-          }
-        }
 
-        console.warn(error);
-        resolve(false);
+      if( faviconName.indexOf( conf.domain ) >= 0 ){
         return false;
-      });
+      }else{
+
+        request({method: 'GET', url: faviconName, encoding: null}, (error, response, body) => {
+          if( !error && response && response.statusCode === 200 ){
+            if( response.headers[ 'content-type' ].indexOf( 'image' ) === 0 ){
+              if( response.headers[ 'content-length' ] !== '0' ){
+                resolve(body);
+                return true;
+              }
+            }
+          }
+
+          console.warn(error);
+          resolve(false);
+          return false;
+        });
+      }
     });
   }
 
