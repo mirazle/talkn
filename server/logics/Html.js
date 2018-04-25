@@ -2,7 +2,9 @@ import request from 'request';
 import cheerio from 'cheerio';
 import jschardet from 'jschardet';
 import {Iconv} from 'iconv';
+import iconvLite from 'iconv-lite';
 import {Buffer} from 'buffer';
+import textEncoding from 'text-encoding';
 import fs from 'fs';
 import Sequence from '~/../common/Sequence'
 import Thread from '~/../common/schemas/state/Thread'
@@ -62,10 +64,14 @@ export default class Html {
         let responseSchema = Html.getResponseSchema;
 
         if( !error && response && response.statusCode === 200 ){
-          const utf8Body = this.toUtf8( body );
+          const _$ = cheerio.load( body );
+
+          console.log( _$('head').innerHTML );
+
+          const utf8Body = this.toUtf8Str( body );
           const $ = cheerio.load( utf8Body );
           responseSchema.title = this.getTitle( $ );
-          responseSchema.serverMetas = this.getMetas( $ );
+          responseSchema.serverMetas = this.getMetas( $, response.request.uri.href );
           responseSchema.links = this.getLinks( $ );
           responseSchema.h1s = this.getH1s( $ );
           responseSchema.contentType = response.headers['content-type'];
@@ -103,7 +109,7 @@ export default class Html {
     return links;
   }
 
-  getMetas( $ ){
+  getMetas( $, href ){
     let serverMetas = {};
     const metaLength = $( "meta" ).length;
     for( var i = 0; i < metaLength; i++ ){
@@ -124,18 +130,30 @@ export default class Html {
         content = item.attribs.content;
       }
 
+      if( key === 'og:image' ){
+        if( content.indexOf( Sequence.HTTP_PROTOCOL ) !== 0 && content.indexOf( Sequence.HTTPS_PROTOCOL ) !== 0 ){
+          content = `${href}${content}`;
+        }
+      }
+
       key = key.toString().replace( '.', '_' );
       serverMetas[ key ] = content;
     }
     return serverMetas;
   }
 
-  toUtf8( body ){
-    //文字コード変換
+  toUtf8Str( body ){
     const detectResult = jschardet.detect( body );
-    const iconv = new Iconv(detectResult.encoding, 'UTF-8//TRANSLIT//IGNORE');
-    body = new Buffer( body, 'binary' );
-    return iconv.convert(body).toString();
+    const buf = new Buffer( body, 'binary' );
+    let resultBody = '';
+
+    if( detectResult.encoding.indexOf( 'iso-8859' ) === 0 || detectResult.encoding.indexOf( 'ISO-8859' ) === 0 ){
+      resultBody = iconvLite.decode( buf, detectResult.encoding );
+    }else{
+      const iconv = new Iconv( detectResult.encoding, 'UTF-8//TRANSLIT//IGNORE');
+      resultBody = iconv.convert( buf ).toString();
+    }
+    return resultBody;
   }
 
   getCharset( dom ){

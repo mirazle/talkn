@@ -34,6 +34,8 @@ export default class Favicon {
       if( linkLength > 0 ){
         for( let i = 0; i < linkLength; i++ ){
           const link = links[ i ];
+
+          // 複数のICONが設定してあって、有効、無効が混在している場合
           if( link.rel && link.rel.indexOf( 'Icon' ) >= 0 || link.rel.indexOf( 'icon' ) >= 0 ){
 
             const faviconHostType = link.href.indexOf( host ) >= 0 ? '[SAME_HOST]' : '[DIF_HOST]' ;
@@ -62,13 +64,19 @@ export default class Favicon {
               faviconName = `${protocol}//${host}/${link.href}`;
               faviconType = '[ICON]';
 
+            // facicon.icoだけの記述の場合( common/images/favicon.ico )
+            }else if( link.href.indexOf( `${Favicon.defaultFaviconFileName}`) > 0 ){
+
+              faviconName = `${protocol}//${host}/${link.href}`;
+              faviconType = '[PATH][ICON]';
+
             // それ以外の場合
             }else{
-
               faviconName = `${protocol}//${host}${link.href}`;
               faviconType = 'ELSE';
             }
 
+            // ランダム値を削除する
             faviconName = faviconName.replace(/[?].*$/, '');
             break;
           }else{

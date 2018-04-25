@@ -13,11 +13,8 @@
 
 //		var connection = href.indexOf('?') > 0 ? href.replace(/^.*\?/, '') : '/';
 		var connection = href.indexOf('?') > 0 ? href.replace('http://localhost:8080/?', '').replace('https://localhost:8080/?', '') : '/';
-console.log( connection );
 		connection = connection.replace('http:/', '').replace('https:/', '');
-console.log( connection );
 		connection = connection.indexOf( '/' ) === 0 ? connection : '/' + connection ;
-console.log( connection );
 
 		script.setAttribute( 'type', 'text/javascript' );
 		script.setAttribute( 'src', 'talkn.client.js' );

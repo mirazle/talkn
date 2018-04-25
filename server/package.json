@@ -27,6 +27,7 @@
     "http-proxy": "^1.16.2",
     "https": "^1.0.0",
     "iconv": "^2.3.0",
+    "iconv-lite": "^0.4.21",
     "jschardet": "^1.6.0",
     "mongoose": "^4.13.12",
     "node": "^8.11.1",
@@ -38,6 +39,7 @@
     "socket.io": "^1.7.4",
     "socket.io-emitter": "^1.1.0",
     "socket.io-redis": "^1.1.1",
+    "text-encoding": "^0.6.4",
     "ua-parser-js": "^0.7.17"
   },
   "devDependencies": {
