@@ -47,14 +47,14 @@ export default {
 
       const { title, serverMetas, links, h1s, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
       requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
-      let faviconName = Logics.favicon.getName( requestState.thread, links );
+      let {faviconName, faviconType } = Logics.favicon.getName( requestState.thread, links );
       const faviconBinary = await Logics.favicon.request( faviconName );
       if( faviconBinary ){
         await Logics.fs.write( faviconName, faviconBinary );
       }else{
         faviconName = Favicon.getDefaultFaviconFullname();
       }
-      let createThread = {title, serverMetas, links, h1s, contentType, uri, favicon: faviconName};
+      let createThread = {title, serverMetas, links, h1s, contentType, uri, favicon: faviconName, faviconType};
 
       // スレッド更新
       if( thread ){

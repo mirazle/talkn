@@ -41,7 +41,13 @@ export default class Html {
         }
       }
     }
-
+/*
+    if( Object.keys( response ).length > 0 ){
+      console.log("HTML OK " + thread.connection );
+    }else{
+      console.log("HTML NG " + thread.connection );
+    }
+*/
     return Object.keys( response ).length > 0 ?
       response : {...Html.getResponseSchema, getHtmlThread: thread};
   }
