@@ -26,7 +26,7 @@ export default {
 		connection: { type: String, default: "/"  },
 		connections: { type: [String], default: ['/'] },
 		title: { type: String, default: "" },
-		favicon: { type: String, default: "//assets.talkn.io/icon/default.png" },
+		favicon: { type: String, default: "user.png" },
 		faviconType: { type: String, default: "TALKN" },
 		contentType: { type: String, default: "text/html" },
 		layer: { type: Number, default: 0 },
