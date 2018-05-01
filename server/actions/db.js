@@ -44,11 +44,11 @@ export default {
 
     // スレッドが存在しない場合 || 更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
-      const { title, serverMetas, links, h1s, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
+      const { title, serverMetas, links, h1s, videos, audios, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
       requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
       const faviconDatas = Logics.favicon.getDatas( requestState.thread, links );
       const {faviconName, faviconType} = await Logics.favicon.requests( faviconDatas );
-      let createThread = {title, serverMetas, links, h1s, contentType, uri, favicon: faviconName, faviconType};
+      let createThread = {title, serverMetas, links, h1s, videos, audios, contentType, uri, favicon: faviconName, faviconType};
 
       // スレッド更新
       if( thread ){
