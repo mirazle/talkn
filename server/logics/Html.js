@@ -64,10 +64,6 @@ export default class Html {
         let responseSchema = Html.getResponseSchema;
 
         if( !error && response && response.statusCode === 200 ){
-          const _$ = cheerio.load( body );
-
-          console.log( _$('head').innerHTML );
-
           const utf8Body = this.toUtf8Str( body );
           const $ = cheerio.load( utf8Body );
           responseSchema.title = this.getTitle( $ );
@@ -143,21 +139,14 @@ export default class Html {
   }
 
   toUtf8Str( body ){
-    const detectResult = jschardet.detect( body );
+    const encoding = this.getCharset( body );//jschardet.detect( body ).encoding;
     const buf = new Buffer( body, 'binary' );
-    let resultBody = '';
-
-    if( detectResult.encoding.indexOf( 'iso-8859' ) === 0 || detectResult.encoding.indexOf( 'ISO-8859' ) === 0 ){
-      resultBody = iconvLite.decode( buf, detectResult.encoding );
-    }else{
-      const iconv = new Iconv( detectResult.encoding, 'UTF-8//TRANSLIT//IGNORE');
-      resultBody = iconv.convert( buf ).toString();
-    }
-    return resultBody;
+    const iconv = new Iconv( encoding, 'UTF-8//TRANSLIT//IGNORE');
+    return iconv.convert( buf ).toString();
   }
 
-  getCharset( dom ){
-    const bin = dom.toString('binary');
+  getCharset( body ){
+    const bin = body.toString('binary');
     const re = bin.match(/<meta\b[^>]*charset=["']?([\w\-]+)/i);
     return ( re )? re[ 1 ] : "utf-8";
   }

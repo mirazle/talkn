@@ -133,8 +133,6 @@ export default class Favicon {
             faviconDatas.push( {faviconName, faviconType} );
           }
         }
-      }else{
-        console.log('no link icon tag');
       }
     }
 
