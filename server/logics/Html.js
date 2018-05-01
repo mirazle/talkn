@@ -13,7 +13,7 @@ import define from '~/../common/define';
 
 export default class Html {
 
-  static get getResponseSchema(){ return {title: '', serverMetas: {}, links: [], h1s: [], contentType: '', uri: '', favicon: '' } };
+  static get getResponseSchema(){ return {title: '', serverMetas: {}, links: [], h1s: [], videos: [], audios: [], contentType: '', uri: '', favicon: '' } };
 
   constructor(){
     this.option = {
@@ -43,13 +43,11 @@ export default class Html {
         }
       }
     }
-/*
-    if( Object.keys( response ).length > 0 ){
-      console.log("HTML OK " + thread.connection );
-    }else{
+
+    if( Object.keys( response ).length === 0 ){
       console.log("HTML NG " + thread.connection );
     }
-*/
+
     return Object.keys( response ).length > 0 ?
       response : {...Html.getResponseSchema, getHtmlThread: thread};
   }
@@ -70,11 +68,12 @@ export default class Html {
           responseSchema.serverMetas = this.getMetas( $, response.request.uri.href );
           responseSchema.links = this.getLinks( $ );
           responseSchema.h1s = this.getH1s( $ );
+          responseSchema.videos = this.getVideos( $ );
+          responseSchema.audios = this.getAudios( $ );
           responseSchema.contentType = response.headers['content-type'];
           responseSchema.uri = response.request.uri;
           resolve( responseSchema );
         }else{
-          console.log( "@@@ HTML NG " + url );
           resolve(false);
         }
       });
@@ -93,6 +92,39 @@ export default class Html {
       h1s.push( $( h1 ).text() );
     }
     return h1s;
+  }
+
+  getVideos( $ ){
+    const videoLength = $('video').length;
+    let videos = [];
+    for( let i = 0; i < videoLength; i++ ){
+      const video = $('video').get( i );
+      const sources = $( video ).find('source');
+      const sourceLength = sources.length;
+      let srcs = [];
+      for( var i = 0; i < sourceLength; i++ ){
+        srcs.push( sources[ i ].attribs.src );
+      }
+      videos.push( {...video.attribs, srcs } );
+    }
+    return videos;
+  }
+
+  getAudios( $ ){
+    const audioLength = $('audio').length;
+    let audios = [];
+    for( let i = 0; i < audioLength; i++ ){
+      const audio = $('audio').get( i );
+      const sources = $( audio ).find('source');
+      const sourceLength = sources.length;
+      let srcs = [];
+      for( var i = 0; i < sourceLength; i++ ){
+        srcs.push( sources[ i ].attribs.src );
+      }
+
+      audios.push( {...audio.attribs, srcs } );
+    }
+    return audios;
   }
 
   getLinks( $ ){

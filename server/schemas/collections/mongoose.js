@@ -35,6 +35,8 @@ export default {
 		serverMetas:{ type: mongoose.Schema.Types.Mixed, default:{} },
 		links:{ type: [], default: []},
 		h1s:{ type: [], default: []},
+		audios:{ type: [], default: []},
+		videos:{ type: [], default: []},
 		mediaIndex: { type: [], default: []},
 
 		// Uri
