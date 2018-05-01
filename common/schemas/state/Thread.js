@@ -7,11 +7,20 @@ export default class Thread extends Schema{
     return 'user.png';
   }
 
+  static isWindowObj( params ){
+    return params.alert;
+  }
+
   constructor( params = {}, bootOption = {}){
     super();
 
     const thread = Thread.isWindowObj( params ) ? Thread.constructorFromWindow( params, bootOption ) : params;
 
+console.log("@@@@@@@@@@");
+let res = this.create(thread);
+console.log( params );
+console.log(thread);
+console.log( res.uri );
     return this.create(thread);
   }
 
@@ -63,7 +72,6 @@ export default class Thread extends Schema{
     const updateTime = '';
 
     return {
-      location,
       href,
       connection,
       connections,
@@ -85,10 +93,6 @@ export default class Thread extends Schema{
       createTime,
       updateTime,
     }
-  }
-
-  static isWindowObj( params ){
-    return params.alert;
   }
 
   static getConnection( href ){

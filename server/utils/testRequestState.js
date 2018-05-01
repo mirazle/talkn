@@ -46,7 +46,7 @@ export default {
       '/www.amazon.co.jp',
       '/www.rakuten.co.jp',
       '/news.livedoor.com/article/detail/14614513/',
-      '/blogos.com/article/292372',
+      '/blogos.com/',
     ];
     const setting = {
       "server" : { "findOneThreadActiveHour" : 24, "findOnePostCnt" : 20 },
