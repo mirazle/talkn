@@ -15,12 +15,6 @@ export default class Thread extends Schema{
     super();
 
     const thread = Thread.isWindowObj( params ) ? Thread.constructorFromWindow( params, bootOption ) : params;
-
-console.log("@@@@@@@@@@");
-let res = this.create(thread);
-console.log( params );
-console.log(thread);
-console.log( res.uri );
     return this.create(thread);
   }
 
