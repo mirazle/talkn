@@ -20,7 +20,7 @@ export default {
       });
     });
 
-    //Actions.testAPI( ioUser, setting );
+//    Actions.testAPI( ioUser, setting );
   },
 
   testAPI: ( ioUser, setting ) => {
