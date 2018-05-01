@@ -59,7 +59,7 @@ export default class Thread extends Schema{
     const h1s = [];
     const audios = [];
     const videos = [];
-    const layer = 0;
+    const layer = Thread.getLayer( connection );
     const mediaIndex = [];
     const postCnt = 0;
     const multiPostCnt = 0;
@@ -145,6 +145,12 @@ export default class Thread extends Schema{
   static getIsSelfConnection( href, connection ){
     const replacedHref = href.replace('http:/', '').replace('https:/', '').replace(/\u002f$/,'');
     return replacedHref === connection ;
+  }
+
+  static getLayer( connection ){
+    const layerCnt = connection.split( '/' ).length - 1;
+    console.log( layerCnt );
+    return connection.match(/\u002f$/) ? layerCnt - 1 : layerCnt ;
   }
 
   setConnection( _connection = '/' ){
