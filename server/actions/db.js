@@ -64,8 +64,9 @@ export default {
         const watchCnt = 1;
         const connections = Thread.getConnections( connection );
         const protocol =  ( createThread && createThread.uri && createThread.uri.protocol ) ? createThread.uri.protocol : Sequence.TALKN_PROTOCOL ;
+        const layer = Thread.getLayer( connection );
 
-        createThread = {...createThread, watchCnt, connections, postCnt, multiPostCnt, protocol };
+        createThread = {...createThread, watchCnt, connections, postCnt, multiPostCnt, protocol, layer };
         let {response: thread} = await Logics.db.threads.save( requestState, createThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
