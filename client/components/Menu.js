@@ -2,6 +2,7 @@ import conf from 'client/conf';
 import React, { Component, PropTypes } from "react"
 import User from 'common/schemas/state/User';
 import MenuLi from 'client/components/MenuLi';
+import Icon from './Icon';
 
 export default class Menu extends Component {
 
@@ -105,20 +106,24 @@ export default class Menu extends Component {
 
  	render() {
     const { style, app, user, thread } = this.props.state;
+    const { icon } = style;
     const childrenThreadViewLabel = app.childrenThreadView ? 'Children thread view ON' : 'Children thread view OFF';
+    const UserIcon = Icon.getUser( icon.user );
 
 		return (
       <div style={ style.menu.self } >
+
         <div style={ style.menu.scroll } >
           <br />
+{/*
           <ol style={ style.menu.columns }>
             <MenuLi label={ thread.connection } isLast={ false } {...this.props.state} />
             <MenuLi label={ childrenThreadViewLabel } isLast={ true } {...this.props.state} onClick={ this.handleOnClickchildrenThreadView }/>
           </ol>
 
           <br />
-          <ol style={ style.menu.columns }>
 
+          <ol style={ style.menu.columns }>
             <MenuLi label={ this.renderFriendLiLabel( 'mirazle', 'https://pbs.twimg.com/profile_images/1725640801/baba_bigger.png', '/news.yahoo.co.jp' ) } isLast={ false } {...this.props.state} />
             <MenuLi label={ this.renderFriendLiLabel( 'fukuty.sho', 'https://pbs.twimg.com/profile_images/927155774937186304/8I_6Wp0c_bigger.jpg', '/twitter.com/fukutys' ) } isLast={ false } {...this.props.state} />
             <MenuLi label={ this.renderFriendLiLabel( '自由になりたいあなたへ', 'https://pbs.twimg.com/profile_images/890932897170898944/yIEPHR9C_bigger.jpg', '/zozo.jp/ranking/all-sales.html' ) } isLast={ false } {...this.props.state} />
@@ -132,11 +137,22 @@ export default class Menu extends Component {
             <MenuLi label={ this.renderFriendLiLabel( 'さくら剛', 'https://pbs.twimg.com/profile_images/913411791287345152/BWboXDW2_bigger.jpg' ) } isLast={ false } {...this.props.state} />
             <MenuLi label={ this.renderFriendLiLabel( '南野真太郎(MTRo)', 'https://pbs.twimg.com/profile_images/1519836653/EAAD6F43-D430-476B-916A-2EBF05114616_bigger' ) } isLast={ false } {...this.props.state} />
             <MenuLi label={ this.renderFriendLiLabel( 'sk', 'https://pbs.twimg.com/profile_images/27767372/e__-1_bigger.png' ) } isLast={ false } {...this.props.state} />
-
             <MenuLi label={ '⇨ LOGIN FACEBOOK' }  isLast={ false }onClick={this.handleOnClickLoginFacebook}  {...this.props.state} />
             <MenuLi label={ '⇨ LOGIN TWITTER' }  isLast={ true }onClick={this.handleOnClickLoginTwitter}  {...this.props.state} />
           </ol>
+*/}
         </div>
+        <footer style={ style.menu.footer }>
+          <div style={ style.menu.footerChildMoney }>
+            { UserIcon }
+          </div>
+          <div style={ style.menu.footerChildMoney }>
+            { UserIcon }
+          </div>
+          <div style={ style.menu.footerChildMoney }>
+            { UserIcon }
+          </div>
+        </footer>
         <iframe src={ conf.sessionPath } style={{}} />
       </div>
 		);
