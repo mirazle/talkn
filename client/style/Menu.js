@@ -1,6 +1,7 @@
 import Style from './index';
 import Container from './Container';
 import App from '../../common/schemas/state/App';
+import Main from './Main';
 
 export default class Menu {
 
@@ -38,6 +39,9 @@ export default class Menu {
     const imgWrap = Menu.getImgWrap( params );
     const names = Menu.getNames( params );
     const namesAddConnection = Menu.getNamesAddConnection( params );
+    const footer = Menu.getFooter( params );
+    const footerChild = Menu.getFooterChild( params );
+    const footerChildMoney = Menu.getFooterChildMoney( params );
     return {
       self,
       scroll,
@@ -49,6 +53,9 @@ export default class Menu {
       wrap,
       names,
       namesAddConnection,
+      footer,
+      footerChild,
+      footerChildMoney,
     }
   }
 
@@ -58,8 +65,7 @@ export default class Menu {
       minWidth: Menu.getWidth( app ),
       maxWidth: 'inherit',
       WebkitOverflowScrolling: 'touch',
-      background: Container.calmRGB,
-      overflow: 'scroll',
+      background: Container.whiteRGB,
       borderRight: Container.border,
     });
     const content = {};
@@ -73,6 +79,7 @@ export default class Menu {
       width: '100%',
       minWidth: 'inherit',
       maxWidth: 'inherit',
+      height: `calc( 100% - ${Main.headerHeight}px )`,
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -185,6 +192,42 @@ export default class Menu {
     const content = Style.getContentBase({
       textAlign: 'left',
       lineHeight: '1.7',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getFooter(){
+    const layout = Style.getLayoutFlex({
+      width: '100%',
+      height: `calc( 100% - ${Main.headerHeight}px )`,
+    });
+    const content = Style.getContentBase({
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+
+  static getFooterChild(){
+    const layout = Style.getLayoutBlock({
+      flexGrow: 1,
+      height: '100%',
+    });
+    const content = Style.getContentBase({
+      fontSize: '0.5em',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getFooterChildMoney(){
+    const layout = Style.getLayoutBlock({
+      flexGrow: 1,
+      height: '100%',
+    });
+    const content = Style.getContentBase({
+      fontSize: '0.5em',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
