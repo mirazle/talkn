@@ -16,8 +16,8 @@ conf.redis = { host: 'localhost', port: 6379 };
 conf.mongoDB = { host: 'localhost', port: 27017, dbName: 'talkn', option: { server: { auto_reconnect: true } } };
 
 conf.clientSrcPath = env === PRODUCTION ? '//client.talkn.io' : `//${domain}:8001` ;
-conf.clientPath = env === PRODUCTION ? '/usr/share/app/talkn/server/endpoints/client/talkn.client.js' : '/Users/hmiyazaki/talkn/server/endpoints/client/talkn.client.js' ;
-conf.assetsPath = env === PRODUCTION ? '/usr/share/app/talkn/server/endpoints/assets/' : '/Users/hmiyazaki/talkn/server/endpoints/assets/' ;
+conf.serverClientPath = env === PRODUCTION ? '/usr/share/app/talkn/server/endpoints/client/talkn.client.js' : '/Users/hmiyazaki/talkn/server/endpoints/client/talkn.client.js' ;
+conf.serverAssetsPath = env === PRODUCTION ? '/usr/share/app/talkn/server/endpoints/assets/' : '/Users/hmiyazaki/talkn/server/endpoints/assets/' ;
 conf.proxySllOptions = {pems: {key: fs.readFileSync( proxySllKeyPem ), cert: fs.readFileSync( proxySllCertPem ) }, httpsPort: 443, httpPort: 80 };
 conf.sllOptions = {pems: {key: fs.readFileSync( sllKeyPem ), cert: fs.readFileSync( sllCertPem ) }, port: 443 };
 conf.clientSllOptions = {pems: {key: fs.readFileSync( clientSllKeyPem ), cert: fs.readFileSync( clientSllCertPem ) }, port: 443 };

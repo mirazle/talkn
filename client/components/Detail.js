@@ -34,9 +34,15 @@ export default class Setting extends Component {
 
   renderMeta(){
     const { thread, style } = this.props.state
-    const backgroundImage = thread.serverMetas['og:image'] ? `url("${thread.serverMetas['og:image']}")` : 'url()';
+    let backgroundImage = style.detail.img.backgroundImage;
+    let backgroundSize = style.detail.img.backgroundSize;
 
-    style.detail.img = {...style.detail.img, backgroundImage};
+    if( thread.serverMetas['og:image'] ){
+      backgroundImage = `url("${thread.serverMetas['og:image']}")`;
+      backgroundSize = 'cover';
+    }
+
+    style.detail.img = {...style.detail.img, backgroundImage, backgroundSize};
     let description = thread.serverMetas['og:description'] ? thread.serverMetas['og:description'] : '';
     description = thread.serverMetas['description'] ? thread.serverMetas['description'] : '';
     const h1LiTags = thread.h1s.map( ( h1, i ) => {
