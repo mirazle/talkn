@@ -54,9 +54,11 @@ export default class Html {
 
   request( thread ){
     return new Promise( ( resolve, reject ) => {
+
       const { protocol, connection } = thread;
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
+
       request( option, ( error, response, body ) => {
 
         let responseSchema = Html.getResponseSchema;
@@ -140,6 +142,7 @@ export default class Html {
   getMetas( $, href ){
     let serverMetas = {};
     const metaLength = $( "meta" ).length;
+
     for( var i = 0; i < metaLength; i++ ){
       const item = $( "meta" ).get( i );
       let key = i;
@@ -165,6 +168,8 @@ export default class Html {
       }
 
       key = key.toString().replace( '.', '_' );
+
+      console.log( key + " " + content );
       serverMetas[ key ] = content;
     }
     return serverMetas;

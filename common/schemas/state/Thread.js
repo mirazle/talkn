@@ -149,7 +149,6 @@ export default class Thread extends Schema{
 
   static getLayer( connection ){
     const layerCnt = connection.split( '/' ).length - 1;
-    console.log( layerCnt );
     return connection.match(/\u002f$/) ? layerCnt - 1 : layerCnt ;
   }
 
