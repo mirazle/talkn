@@ -12,7 +12,7 @@ export default {
     detect(port, (err, _port) => {
       if (!err && port == _port ) {
         const app = express();
-        app.use( express.static( conf.assetsPath) );
+        app.use( express.static( conf.serverAssetsPath) );
         app.listen( port, () => {
            console.log( `LISTEN ASSETS ${port}` );
         });

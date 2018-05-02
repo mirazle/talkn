@@ -87,7 +87,7 @@ export default class Favicon {
           const link = links[ i ];
 
           if( link.rel && link.rel.indexOf( 'Icon' ) >= 0 || link.rel && link.rel.indexOf( 'icon' ) >= 0 ){
-
+console.log( "@@@ " + link.href );
             const faviconHostType = link.href.indexOf( host ) >= 0 ? '[SAME_HOST]' : '[DIF_HOST]' ;
             let faviconName = '';
             let faviconType = '';
@@ -116,7 +116,13 @@ export default class Favicon {
               faviconName = `${protocol}//${host}/${link.href}`;
               faviconType = '[ICON]';
 
-            // 特定のパス位置にfacicon.icoが存在する記述の場合( common/images/favicon.ico )
+            // 特定のパス位置に/ooo/facicon.icoが存在する記述の場合( /common/images/favicon.ico )
+            }else if( link.href.indexOf( `${Favicon.defaultFaviconFileName}`) > 0 && link.href.indexOf( '/' ) === 0 ){
+
+              faviconName = `${protocol}//${host}${link.href}`;
+              faviconType = '/[PATH][ICON]';
+
+            // 特定のパス位置にooo/facicon.icoが存在する記述の場合( common/images/favicon.ico )
             }else if( link.href.indexOf( `${Favicon.defaultFaviconFileName}`) > 0 ){
 
               faviconName = `${protocol}//${host}/${link.href}`;

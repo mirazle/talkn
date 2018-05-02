@@ -5,7 +5,7 @@ import conf from '~/conf';
 export default class Fs {
   write( fileName, binary ){
     fileName = util.getSaveFaviconName( fileName );
-    const writeFileName = `${conf.assetsPath}icon/${fileName}`;
+    const writeFileName = `${conf.serverAssetsPath}icon/${fileName}`;
     if( binary ){
       if( !this.isExist( writeFileName ) ){
         fs.writeFileSync(writeFileName, binary, 'binary');

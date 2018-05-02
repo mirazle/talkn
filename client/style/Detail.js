@@ -4,6 +4,7 @@ import Container from './Container';
 import Main from './Main';
 import DetailRight from './DetailRight';
 import DetailModal from './DetailModal';
+import conf from '../conf';
 
 export default class Detail {
 
@@ -130,10 +131,10 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: '200px',
-      backgroundColor: Container.reliefRGB,
-      backgroundImage: 'url()',
+      backgroundColor: Container.whiteRGB,
+      backgroundImage: `url(${conf.assetsImgPath}talkn_logo1.png)`,
       backgroundPosition: 'center center',
-      backgroundSize: 'cover',
+      backgroundSize: '60%',
       backgroundRepeat: 'no-repeat',
     });
     const content = Style.getContentBase();
