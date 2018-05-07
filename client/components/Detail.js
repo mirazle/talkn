@@ -149,13 +149,13 @@ export default class Setting extends Component {
           { HeartIcon }
           <div>LIKE</div>
         </div>
-        <div style={ style.detail.footerChildMoney } onClick={this.handleOnClickMoney} {...Icon.getDecolationProps2( 'detail', 'footerChildMoney' )}>
-          { MoneyIcon }
-          <div>MONEY</div>
-        </div>
         <div style={ style.detail.footerChildShare } {...Icon.getDecolationProps2( 'detail', 'footerChildShare' )}>
           { ShareIcon }
           <div>SHARE</div>
+        </div>
+        <div style={ style.detail.footerChildMoney } onClick={this.handleOnClickMoney} {...Icon.getDecolationProps2( 'detail', 'footerChildMoney' )}>
+          { MoneyIcon }
+          <div>MONEY</div>
         </div>
       </footer>
     )

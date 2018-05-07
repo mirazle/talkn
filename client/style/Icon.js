@@ -1,5 +1,6 @@
 import Style from './index';
 import Container from './Container';
+import conf from '../conf';
 
 export default class Icon {
 
@@ -9,6 +10,7 @@ export default class Icon {
     const bootOption = {...params.bootOption, ...params.app};
     const headTab = Icon.getHeadTab( params );
     const menu = Icon.getMenu( params );
+    const talknLogo = Icon.getTalknLogo( params );
     const user = Icon.getUser( params );
     const detail = Icon.getDetail( params );
     const heart = Icon.getHeart( params );
@@ -17,12 +19,29 @@ export default class Icon {
     return {
       headTab,
       menu,
+      talknLogo,
       user,
       detail,
       heart,
       share,
       money,
     }
+  }
+
+  static getTalknLogo( {app} ){
+    const img = Style.get({
+      layout: Style.getLayoutBlock({
+        backgroundImage: `url(${conf.assetsImgPath}talkn_logo2.png)`,
+        backgroundPosition: 'center center',
+        backgroundSize: '90%',
+        backgroundRepeat: 'no-repeat',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `scale(0.8) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+    return {img};
   }
 
   static getUser( {app} ){
@@ -78,8 +97,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: Icon.defaultSize,
         height: Icon.defaultSize,
-        border: '2px solid rgb(240, 240, 240)',
-        borderRadius: '5px',
+        borderRadius: '50px',
         paddingTop: '1px',
       }),
       content: Style.getContentBase(),
@@ -88,9 +106,9 @@ export default class Icon {
 
     const commonSpan = Style.get({
       layout: Style.getLayoutBlock({
-        width: '18px',
+        width: '20px',
         height: '3px',
-        margin: '3px auto 3px',
+        margin: '4px auto 3px',
         borderRadius: '6px',
         background: Container.calmRGB,
       }),
@@ -128,8 +146,10 @@ export default class Icon {
   static getMenu( {app} ){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: Icon.defaultSize,
-        height: Icon.defaultSize,
+        position: 'absolute',
+        left: '15%',
+        width: '45px',
+        height: '45px',
         margin: '0 auto',
         boxShadow: '0px 0px 0px rgb(240, 240, 240) inset',
       }),
@@ -139,18 +159,18 @@ export default class Icon {
       }),
     });
 
-    const span = Style.get({
+    const dot = Style.get({
       layout: Style.getLayoutBlock({
         width: '6px',
         height: '6px',
-        margin: '0px auto 4px',
+        margin: '6px auto',
         borderRadius: '6px',
         background: Container.calmRGB,
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase(),
     });
-    return {div, span};
+    return {div, dot};
   }
 
   static getHeadTabLeftTransform( isOpenMain ){return isOpenMain ? Icon.getHeadTabLeftOpenTransform : Icon.getHeadTabLeftCloseTransform};

@@ -86,6 +86,12 @@ export default class Icon extends Component{
     }
   }
 
+  static getTalknLogo( style ){
+    return (
+      <div style={ style.img } />
+    );
+  }
+
   static getUser( style ){
     return (
       <div style={ style.div }>
@@ -98,9 +104,9 @@ export default class Icon extends Component{
   static getMenu( style ){
     return (
       <div style={ style.div }>
-        <span style={ style.span }></span>
-        <span style={ style.span }></span>
-        <span style={ style.span }></span>
+        <div style={ style.dot }/>
+        <div style={ style.dot }/>
+        <div style={ style.dot }/>
       </div>
     );
   }

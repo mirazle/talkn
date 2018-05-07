@@ -152,6 +152,9 @@ export default class Menu extends Component {
           <div style={ style.menu.footerChildMoney }>
             { UserIcon }
           </div>
+          <div style={ style.menu.footerChildMoney }>
+            { UserIcon }
+          </div>
         </footer>
         <iframe src={ conf.sessionPath } style={{}} />
       </div>
