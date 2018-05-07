@@ -12,6 +12,9 @@ export default class Icon {
     const menu = Icon.getMenu( params );
     const talknLogo = Icon.getTalknLogo( params );
     const user = Icon.getUser( params );
+    const index = Icon.getIndex( params );
+    const footSteps = Icon.getFootSteps( params );
+    const setting = Icon.getSetting( params );
     const detail = Icon.getDetail( params );
     const heart = Icon.getHeart( params );
     const share = Icon.getShare( params );
@@ -21,6 +24,9 @@ export default class Icon {
       menu,
       talknLogo,
       user,
+      index,
+      footSteps,
+      setting,
       detail,
       heart,
       share,
@@ -48,8 +54,8 @@ export default class Icon {
     const border = {...Container.border, }
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: Icon.defaultSize,
-        height: Icon.defaultSize,
+        width: '45px',
+        height: '45px',
         borderRadius: '100px'
       }),
       content: Style.getContentBase(),
@@ -59,12 +65,12 @@ export default class Icon {
     const top = Style.get({
       layout: Style.getLayoutBlock({
         margin: '0 auto',
-        background: Container.calmRGB,
+        background: Container.reliefRGB,
         width: '10px',
         height: '10px',
         borderRadius: '10px',
         position: 'relative',
-        top: '1px',
+        top: '6px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -75,12 +81,12 @@ export default class Icon {
     const bottom = Style.get({
       layout: Style.getLayoutBlock({
         margin: '0 auto',
-        background: Container.calmRGB,
+        background: Container.reliefRGB,
         width: '16px',
-        height: '30px',
+        height: '25px',
         borderRadius: '30px',
         position: 'relative',
-        top: '-1px',
+        top: '5px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -91,14 +97,26 @@ export default class Icon {
     return {div, top, bottom};
   }
 
-  static getDetail( {app} ){
-    const border = {...Container.border, }
+  static getIndex( {app} ){
+
     const div = Style.get({
-      layout: Style.getLayoutInlineBlock({
-        width: Icon.defaultSize,
-        height: Icon.defaultSize,
-        borderRadius: '50px',
-        paddingTop: '1px',
+      layout: Style.getLayoutBlock({
+        width: '45px',
+        height: '45px',
+        borderRadius: '100px',
+        margin: '0 auto',
+        cursor: 'default',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase(),
+    });
+
+    const wrap = Style.get({
+      layout: Style.getLayoutBlock({
+        width: '28px',
+        height: '30px',
+        margin: '7px auto',
+        borderRadius: '4px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase(),
@@ -106,11 +124,11 @@ export default class Icon {
 
     const commonSpan = Style.get({
       layout: Style.getLayoutBlock({
-        width: '20px',
+        width: '24px',
         height: '3px',
-        margin: '4px auto 3px',
+        margin: '5px auto',
         borderRadius: '6px',
-        background: Container.calmRGB,
+        background: Container.reliefRGB,
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase(),
@@ -140,7 +158,314 @@ export default class Icon {
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
-    return {div, top, middle, bottom};
+    return {div, wrap, top, middle, bottom};
+  }
+
+  static getFootSteps( {app} ){
+    const div = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        width: '45px',
+        height: '45px',
+        borderRadius: '100px'
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase(),
+    });
+
+    const foot1 = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: 'absolute',
+        top: '2px',
+        left: '0px',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `scale( 0.8 ) rotate(-15deg)`,
+      }),
+    });
+
+    const foot1Top = Style.get({
+      layout: Style.getLayoutBlock({
+        margin: '0 auto',
+        background: Container.reliefRGB,
+        width: '15px',
+        height: '25px',
+        borderRadius: '20px 20px 30px 30px',
+        position: 'relative',
+        zIndex: '0',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.getTransitionOn( app ),
+        transform: `translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+
+    const foot1Bottom = Style.get({
+      layout: Style.getLayoutBlock({
+        margin: '0 auto',
+        background: Container.reliefRGB,
+        width: '12px',
+        height: '12px',
+        borderRadius: '10px',
+        position: 'relative',
+        zIndex: '0',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+
+    const foot1Space = Style.get({
+      layout: Style.getLayoutBlock({
+        width: '20px',
+        height: '4px',
+        background: Container.offWhiteRGB,
+        margin: '0 auto',
+        zIndex: '1000',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.getTransitionOn( app ),
+        transform: `translate3d( 0px, -13px, 1000px )`,
+      }),
+    });
+
+    const foot2 = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: 'absolute',
+        top: '2px',
+        left: '13px',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `scale( 0.5 ) rotate(30deg)`,
+      }),
+    });
+
+    const foot2Top = Style.get({
+      layout: Style.getLayoutBlock({
+        margin: '0 auto',
+        background: Container.reliefRGB,
+        width: '15px',
+        height: '25px',
+        borderRadius: '20px 20px 30px 30px',
+        position: 'relative',
+        zIndex: '0',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.getTransitionOn( app ),
+        transform: `translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+
+    const foot2Bottom = Style.get({
+      layout: Style.getLayoutBlock({
+        margin: '0 auto',
+        background: Container.reliefRGB,
+        width: '12px',
+        height: '12px',
+        borderRadius: '10px',
+        position: 'relative',
+        zIndex: '0',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+
+    const foot2Space = Style.get({
+      layout: Style.getLayoutBlock({
+        width: '20px',
+        height: '4px',
+        background: Container.offWhiteRGB,
+        margin: '0 auto',
+        zIndex: '1000',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.getTransitionOn( app ),
+        transform: `translate3d( 0px, -13px, 1000px )`,
+      }),
+    });
+
+    return {div, foot1, foot1Top, foot1Space, foot1Bottom, foot2, foot2Top, foot2Space, foot2Bottom};
+  }
+
+  static getSetting( {app} ){
+    const div = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        width: '45px',
+        height: '45px',
+        borderRadius: '100px'
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase(),
+    });
+
+    const commonWing = Style.get({
+      layout: Style.getLayoutBlock({
+        position: 'absolute',
+        margin: '0 auto',
+        background: Container.reliefRGB,
+        width: '6px',
+        height: '8px',
+        borderRadius: '5px',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+
+    const wing1 = Style.get({
+      layout: commonWing,
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 15px, 5px, 0px ) rotate( 0deg )`,
+      }),
+    });
+
+    const wing2 = Style.get({
+      layout: commonWing,
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 25px, 9px, 0px ) rotate( 45deg )`,
+      }),
+    });
+
+    const wing3 = Style.get({
+      layout: commonWing,
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 28px, 17px, 0px ) rotate( 90deg )`,
+      }),
+    });
+
+    const wing4 = Style.get({
+      layout: commonWing,
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 25px, 25px, 0px ) rotate( 125deg )`,
+      }),
+    });
+
+    const wing5 = Style.get({
+      layout: commonWing,
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 16px, 29px, 0px ) rotate( 180deg )`,
+      }),
+    });
+
+    const wing6 = Style.get({
+      layout: commonWing,
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 6px, 25px, 0px ) rotate( 225deg )`,
+      }),
+    });
+
+    const wing7 = Style.get({
+      layout: commonWing,
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 4px, 17px, 0px ) rotate( 270deg )`,
+      }),
+    });
+
+    const wing8 = Style.get({
+      layout: commonWing,
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 6px, 9px, 0px ) rotate( 315deg )`,
+      }),
+    });
+
+    const circle = Style.get({
+      layout: Style.getLayoutBlock({
+        position: 'absolute',
+        top: '7px',
+        left: '7px',
+        width: '24px',
+        height: '24px',
+        border: `7px solid ${Container.reliefRGB}`,
+        borderRadius: '50px'
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 0px, 2px, 0px )`,
+      }),
+    });
+    return {div, wing1, wing2, wing3, wing4, wing5, wing6, wing7, wing8, circle};
+  }
+
+  static getDetail( {app} ){
+
+    const div = Style.get({
+      layout: Style.getLayoutBlock({
+        width: '45px',
+        height: '45px',
+        borderRadius: '100px',
+        margin: '0 auto',
+        cursor: 'default',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase(),
+    });
+
+    const wrap = Style.get({
+      layout: Style.getLayoutBlock({
+        width: '28px',
+        height: '30px',
+        margin: '7px auto',
+        borderRadius: '4px',
+        background: `${Container.calmRGB}`,
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase(),
+    });
+
+    const commonSpan = Style.get({
+      layout: Style.getLayoutBlock({
+        width: '16px',
+        height: '3px',
+        margin: '5px auto',
+        borderRadius: '6px',
+        background: Container.whiteRGB,
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase(),
+    });
+
+    const top = Style.get({
+      layout: commonSpan,
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+
+    const middle = Style.get({
+      layout: commonSpan,
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+
+    const bottom = Style.get({
+      layout: commonSpan,
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.getTransitionOn( app ),
+        transform: `translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+    return {div, wrap, top, middle, bottom};
   }
 
   static getMenu( {app} ){
@@ -148,9 +473,9 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         position: 'absolute',
         left: '15%',
-        width: '45px',
-        height: '45px',
-        margin: '0 auto',
+        width: '40px',
+        height: '40px',
+        margin: '4px auto',
         boxShadow: '0px 0px 0px rgb(240, 240, 240) inset',
       }),
       content: Style.getContentBase(),
@@ -163,7 +488,7 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         width: '6px',
         height: '6px',
-        margin: '6px auto',
+        margin: '4px auto',
         borderRadius: '6px',
         background: Container.calmRGB,
       }),
