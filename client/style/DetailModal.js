@@ -2,6 +2,7 @@ import Style from './index';
 import Container from './Container';
 import Main from './Main';
 import Detail from './Detail';
+import Footer from './Footer';
 
 export default class DetailModal {
 
@@ -14,7 +15,7 @@ export default class DetailModal {
     return app.isOpenDetail ? DetailModal.openSelfTransform : DetailModal.closeSelfTransform;
   }
   static get closeSelfTransform(){ return `translate3d(0%, 0px, 0px)` };
-  static get openSelfTransform(){ return `translate3d(0%, calc( -100% - ${ Detail.padding * 2 }px ), 0px)` };
+  static get openSelfTransform(){ return `translate3d(0%, calc( -100% - ${ Footer.selfHeight }px ), 0px)` };
 
   static getSelf( {app} ){
     const width = ( Main.widthRatio * 100 );
