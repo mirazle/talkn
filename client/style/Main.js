@@ -23,6 +23,7 @@ export default class Main {
     const headerUserIcon = Main.getHeaderUserIcon( params );
     const headerUserIconImg = Main.getHeaderUserIconImg( params );
     const headerChildWatchCnt = Main.getHeaderChildWatchCnt( params );
+    const headerChildTalknLogo = Main.getHeaderChildTalknLogo( params );
     const notif = Main.getNotif( params );
     return {
       self,
@@ -33,6 +34,7 @@ export default class Main {
       headerUserIcon,
       headerUserIconImg,
       headerChildWatchCnt,
+      headerChildTalknLogo,
       notif,
     }
   }
@@ -170,7 +172,7 @@ export default class Main {
   static getHeaderMenuIcon( params ){
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
-      height: 'auto',
+      height: '100%',
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -183,6 +185,20 @@ export default class Main {
       right: '20%',
       top: '7px',
       width: 'initial',
+    });
+    const content = Style.getContentBase({
+      color: Container.themeRGBA,
+      fontWeight: 'bold',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderChildTalknLogo( params ){
+    const layout = Style.getLayoutInlineBlock({
+      position: 'absolute',
+      width: '45px',
+      height: `45px`,
     });
     const content = Style.getContentBase({
       color: Container.themeRGBA,
