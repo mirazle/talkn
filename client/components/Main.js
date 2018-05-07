@@ -80,9 +80,8 @@ export default class Main extends Component {
     const { app, user, thread, style } = state;
 
     const { icon } = style;
-    const TalknLogo = Icon.getTalknLogo( icon.talknLogo );
-    const UserIcon = Icon.getUser( icon.user );
     const MenuIcon = Icon.getMenu( icon.menu );
+    const TalknLogo = Icon.getTalknLogo( icon.talknLogo );
     const HeadTabIcon = Icon.getHeadTab( icon.headTab );
     const DetailIcon = Icon.getDetail( icon.detail );
 
@@ -107,7 +106,7 @@ export default class Main extends Component {
           </span>
 
           {/* Menu Icon */}
-          <span style={ style.main.headerDetailIcon } onClick={ this.handleOnClickDetailIcon } {...Icon.getDecolationProps1( 'icon', 'detail', 'div' )} >
+          <span style={ style.main.headerDetailIcon } onClick={ this.handleOnClickDetailIcon } {...Icon.getDecolationProps3( 'icon', 'detail', 'div' )} >
 
             { DetailIcon }
 

@@ -109,6 +109,9 @@ export default class Menu extends Component {
     const { icon } = style;
     const childrenThreadViewLabel = app.childrenThreadView ? 'Children thread view ON' : 'Children thread view OFF';
     const UserIcon = Icon.getUser( icon.user );
+    const IndexIcon = Icon.getIndex( icon.index );
+    const FootSteps = Icon.getFootSteps( icon.footSteps );
+    const Setting = Icon.getSetting( icon.setting );
 
 		return (
       <div style={ style.menu.self } >
@@ -147,13 +150,13 @@ export default class Menu extends Component {
             { UserIcon }
           </div>
           <div style={ style.menu.footerChildMoney }>
-            { UserIcon }
+            { IndexIcon }
           </div>
           <div style={ style.menu.footerChildMoney }>
-            { UserIcon }
+            { FootSteps }
           </div>
           <div style={ style.menu.footerChildMoney }>
-            { UserIcon }
+            { Setting }
           </div>
         </footer>
         <iframe src={ conf.sessionPath } style={{}} />
