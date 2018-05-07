@@ -200,7 +200,9 @@ export default class Menu {
   static getFooter(){
     const layout = Style.getLayoutFlex({
       width: '100%',
+      background: Container.offWhiteRGB,
       height: `calc( 100% - ${Main.headerHeight}px )`,
+      borderTop: Container.border,
     });
     const content = Style.getContentBase({
     });

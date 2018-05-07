@@ -80,6 +80,7 @@ export default class Main extends Component {
     const { app, user, thread, style } = state;
 
     const { icon } = style;
+    const TalknLogo = Icon.getTalknLogo( icon.talknLogo );
     const UserIcon = Icon.getUser( icon.user );
     const MenuIcon = Icon.getMenu( icon.menu );
     const HeadTabIcon = Icon.getHeadTab( icon.headTab );
@@ -92,8 +93,12 @@ export default class Main extends Component {
         <header style={ style.main.header }>
 
           {/* User Icon */}
-          <span style={ style.main.headerUserIcon } onClick={ this.handleOnClickUserIcon } {...Icon.getDecolationProps1( 'icon', 'user', 'div' )} >
-            { UserIcon }
+          <span style={ style.main.headerMenuIcon } onClick={ this.handleOnClickUserIcon } {...Icon.getDecolationProps1( 'icon', 'menu', 'div' )} >
+
+            { MenuIcon }
+            <span style={ style.main.headerChildTalknLogo }>
+              { TalknLogo }
+            </span>
           </span>
 
           {/* Head Tab Icon */}
@@ -102,9 +107,9 @@ export default class Main extends Component {
           </span>
 
           {/* Menu Icon */}
-          <span style={ style.main.headerMenuIcon } onClick={ this.handleOnClickDetailIcon } {...Icon.getDecolationProps1( 'icon', 'menu', 'div' )} >
+          <span style={ style.main.headerDetailIcon } onClick={ this.handleOnClickDetailIcon } {...Icon.getDecolationProps1( 'icon', 'detail', 'div' )} >
 
-            { MenuIcon }
+            { DetailIcon }
 
             {/* Watch Cnt */}
             <span style={ style.main.headerChildWatchCnt }>
