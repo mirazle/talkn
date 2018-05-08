@@ -130,8 +130,8 @@ export default class Icon extends Component{
   static getUser( style ){
     return (
       <div style={ style.div }>
-        <span style={ style.top }></span>
         <span style={ style.bottom }></span>
+        <span style={ style.top }></span>
       </div>
     );
   }
@@ -198,6 +198,7 @@ export default class Icon extends Component{
           <span style={ style.top }></span>
           <span style={ style.middle }></span>
           <span style={ style.bottom }></span>
+          <span style={ style.mekuri }></span>
         </div>
       </div>
     );
