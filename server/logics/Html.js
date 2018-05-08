@@ -168,8 +168,6 @@ export default class Html {
       }
 
       key = key.toString().replace( '.', '_' );
-
-      console.log( key + " " + content );
       serverMetas[ key ] = content;
     }
     return serverMetas;
