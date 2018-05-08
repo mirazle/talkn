@@ -37,4 +37,13 @@ export default class Threads {
       });
     });
   }
+
+  find( condition = {}, selector = {}, option = {} ){
+    return new Promise( resolve => {
+      this.db.find( condition, selector, option, (error, response) => {
+        if(error) console.warn( error );
+        resolve({error, response});
+      });
+    });
+  }
 }

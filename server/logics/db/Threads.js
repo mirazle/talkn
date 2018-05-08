@@ -25,6 +25,15 @@ export default class Threads {
     return response.watchCnt < 0 ? 0 : response.watchCnt ;
   }
 
+  async findChildren( connection, setting ){
+    connection = connection.replace(/\//, '\/');
+    const regex = new RegExp( connection );
+    const condition = {connection: regex};
+    const selector = {};
+    const option = {sort:{layer: 1},limit:setting.server.getThreadChildrenCnt};
+    return await this.db.find( condition, selector, option );
+  }
+
   getConnection( param ){
     return Thread.getConnection( param );
   }
