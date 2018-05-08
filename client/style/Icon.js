@@ -51,7 +51,6 @@ export default class Icon {
   }
 
   static getUser( {app} ){
-    const border = {...Container.border, }
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: '45px',
@@ -59,18 +58,21 @@ export default class Icon {
         borderRadius: '100px'
       }),
       content: Style.getContentBase(),
-      animation: Style.getAnimationBase(),
+      animation: Style.getAnimationBase({
+        transform: 'scale( 0.8 )'
+      }),
     });
 
     const top = Style.get({
       layout: Style.getLayoutBlock({
         margin: '0 auto',
         background: Container.reliefRGB,
-        width: '10px',
-        height: '10px',
+        width: '20px',
+        height: '20px',
         borderRadius: '10px',
         position: 'relative',
-        top: '6px',
+        top: '-27px',
+        border: '4px solid rgb(250, 250, 250)',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -82,11 +84,11 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: '0 auto',
         background: Container.reliefRGB,
-        width: '16px',
-        height: '25px',
+        width: '20px',
+        height: '28px',
         borderRadius: '30px',
         position: 'relative',
-        top: '5px',
+        top: '11px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -108,7 +110,9 @@ export default class Icon {
         cursor: 'default',
       }),
       content: Style.getContentBase(),
-      animation: Style.getAnimationBase(),
+      animation: Style.getAnimationBase({
+        transform: 'scale( 0.8 )'
+      }),
     });
 
     const wrap = Style.get({
@@ -169,7 +173,9 @@ export default class Icon {
         borderRadius: '100px'
       }),
       content: Style.getContentBase(),
-      animation: Style.getAnimationBase(),
+      animation: Style.getAnimationBase({
+        transform: 'scale( 0.8 )'
+      }),
     });
 
     const foot1 = Style.get({
@@ -303,7 +309,9 @@ export default class Icon {
         borderRadius: '100px'
       }),
       content: Style.getContentBase(),
-      animation: Style.getAnimationBase(),
+      animation: Style.getAnimationBase({
+        transform: 'scale( 0.8 )'
+      }),
     });
 
     const commonWing = Style.get({
@@ -313,7 +321,7 @@ export default class Icon {
         background: Container.reliefRGB,
         width: '6px',
         height: '8px',
-        borderRadius: '5px',
+        borderRadius: '2px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -422,7 +430,7 @@ export default class Icon {
         width: '28px',
         height: '30px',
         margin: '7px auto',
-        borderRadius: '4px',
+        borderRadius: '2px',
         background: `${Container.calmRGB}`,
       }),
       content: Style.getContentBase(),
@@ -442,7 +450,7 @@ export default class Icon {
     });
 
     const top = Style.get({
-      layout: commonSpan,
+      layout: {...commonSpan, width: '8px', margin: '5px 0px 0px 6px'},
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transform: `translate3d( 0px, 0px, 0px )`,
@@ -465,18 +473,34 @@ export default class Icon {
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
-    return {div, wrap, top, middle, bottom};
+
+    const mekuri = Style.get({
+      layout: {...commonSpan,
+        position: 'absolute',
+        top: 0,
+        rightt: 0,
+        width: 0,
+        height: 0,
+        borderRadius: 0,
+        borderTop: `5px solid ${Container.whiteRGB}`,
+        borderLeft: `5px solid ${Container.whiteRGB}`,
+        borderRight: `5px solid ${Container.reliefRGB}`,
+        borderBottom: `5px solid ${Container.reliefRGB}`,
+      },
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `translate3d(18px, -6px, 0px) rotate( 90deg )`,
+      }),
+    });
+    return {div, wrap, top, middle, bottom, mekuri};
   }
 
   static getMenu( {app} ){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        position: 'absolute',
-        left: '15%',
-        width: '40px',
-        height: '40px',
+        width: '45px',
+        height: 'inherit',
         margin: '4px auto',
-        boxShadow: '0px 0px 0px rgb(240, 240, 240) inset',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({

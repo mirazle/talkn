@@ -11,6 +11,10 @@ import Post from './Post';
 export default class Style{
 
   static get mono180RGB(){ return 'rgb(180, 180, 180)' };
+  static get mono200RGB(){ return 'rgb(200, 200, 200)' };
+  static get mono205RGB(){ return 'rgb(205, 205, 205)' };
+  static get mono210RGB(){ return 'rgb(210, 210, 210)' };
+  static get mono215RGB(){ return 'rgb(215, 215, 215)' };
   static get mono220RGB(){ return 'rgb(220, 220, 220)' };
   static get mono225RGB(){ return 'rgb(225, 225, 225)' };
   static get mono230RGB(){ return 'rgb(230, 230, 230)' };
@@ -21,6 +25,10 @@ export default class Style{
   static get mono255RGB(){ return 'rgb(255, 255, 255)' };
 
   static get mono180RGBA(){ return 'rgba(180, 180, 180, 0.96)' };
+  static get mono200RGBA(){ return 'rgb(200, 200, 200, 0.96)' };
+  static get mono205RGBA(){ return 'rgb(205, 205, 205, 0.96)' };
+  static get mono210RGBA(){ return 'rgb(210, 210, 210, 0.96)' };
+  static get mono215RGBA(){ return 'rgb(215, 215, 215, 0.96)' };
   static get mono220RGBA(){ return 'rgba(220, 220, 220, 0.96)' };
   static get mono225RGBA(){ return 'rgba(225, 225, 225, 0.96)' };
   static get mono230RGBA(){ return 'rgba(230, 230, 230, 0.96)' };
