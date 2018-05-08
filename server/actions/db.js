@@ -33,14 +33,35 @@ export default {
 
     // リクエストのあったスレッドを取得する
     const connection = requestState.thread.connection;
+
+    // Thread
     let {response: thread} = await Logics.db.threads.findOne( connection );
+    let {response: threadChildren} = await Logics.db.threads.findChildren( connection, setting );
     const isUpdatableThread = Logics.db.threads.isUpdatableThread(thread, setting);
 
-    // リクエストのあった投稿内容を取得する
+console.log( threadChildren.length );
+
+    // Posts
     const {postCnt, multiPostCnt} = await Logics.db.posts.getCounts( connection );
     const {response: posts} = await Logics.db.posts.find(requestState, setting );
     const offsetFindId = Logics.control.getOffsetFindId( posts );
+
+    // User
     const user = {connectioned: connection ,offsetFindId};
+
+    // Thread Child Index
+
+
+    // Create Or Update Thread
+    if( thread === null || isUpdatableThread ){
+
+
+    // Exist Thread
+    }else{
+
+
+    }
+
 
     // スレッドが存在しない場合 || 更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
@@ -84,6 +105,10 @@ export default {
       thread.multiPostCnt = multiPostCnt;
       Logics.io.find( ioUser, {requestState, thread, posts, user} );
     }
+  },
+
+  getChildThreads: ( ioUser, requestState, setting ) => {
+
   },
 
   post: async ( ioUser, requestState, setting ) => {
