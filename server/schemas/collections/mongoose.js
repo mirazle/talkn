@@ -1,25 +1,27 @@
 import mongoose from 'mongoose';
 
+const post = {
+	protocol: { type: String, default: "talkn:"  },
+	connection: { type: String, default: '/' },
+	connections: { type: [String], default: ['/'] },
+	uid: { type: String, default: '' },
+	utype: { type: String, default: '' },
+	favicon: { type: String, default: '' },
+	post: { type: String, default: '' },
+	data: { type: Object, default:{} },
+	// Time
+	createTime: { type: Date, default: Date },
+	updateTime: { type: Date, default: Date },
+	dispFlg:{ type: Boolean, default: true }
+}
+
 export default {
 	Users: {
 		uid: { type: String, default: '' },
 		utype: { type: String, default: '' },
 		connection: { type: String, default: '/' },
 	},
-	Posts: {
-		protocol: { type: String, default: "talkn:"  },
-		connection: { type: String, default: '/' },
-		connections: { type: [String], default: ['/'] },
-		uid: { type: String, default: '' },
-		utype: { type: String, default: '' },
-		thum: { type: String, default: '' },
-		post: { type: String, default: '' },
-		data: { type: Object, default:{} },
-		// Time
-		createTime: { type: Date, default: Date },
-		updateTime: { type: Date, default: Date },
-		dispFlg:{ type: Boolean, default: true }
-	},
+	Posts: post,
 	Threads: {
 		// Base
 		protocol: { type: String, default: "talkn:"  },
@@ -46,6 +48,10 @@ export default {
 		postCnt: { type: Number, default: 0 },
 		multiPostCnt: { type: Number, default: 0 },
 		watchCnt:{ type: Number, default: 0, min: 0},
+
+		// Post
+		lastPost: post,
+
 		// Time
 		createTime: { type: Date, default: Date },
 		updateTime: { type: Date, default: Date },

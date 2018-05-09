@@ -25,13 +25,14 @@ export default class Threads {
     return response.watchCnt < 0 ? 0 : response.watchCnt ;
   }
 
-  async findChildren( connection, setting ){
+  async findMenuIndex( connection, setting ){
     connection = connection.replace(/\//, '\/');
     const regex = new RegExp( connection );
     const condition = {connection: regex};
-    const selector = {};
-    const option = {sort:{layer: 1},limit:setting.server.getThreadChildrenCnt};
-    return await this.db.find( condition, selector, option );
+    const selector = {lastPost: 1};
+    const option = {sort: {layer: 1, watchCnt: 1}, limit: setting.server.getThreadChildrenCnt};
+    const {error, response} = await this.db.find( condition, selector, option );
+    return response.map( res => res.lastPost );
   }
 
   getConnection( param ){
@@ -60,22 +61,15 @@ export default class Threads {
     return false;
   }
 
-  async save( requestState, thread, called ){
-    const condition = {connection: requestState.thread.connection};
-    const set = {
-      connection: requestState.thread.connection,
-      ...thread,
-    };
+  async save( connection, thread ){
+    const set = {connection, ...thread};
     const option = {upsert:true};
     return this.db.save( set, option );
   }
 
-  async update( requestState, thread ){
-    const condition = {connection: requestState.thread.connection};
-    const set = {
-      connection: requestState.thread.connection,
-      ...{...thread, updateTime: new Date()}
-    };
+  async update( connection, thread ){
+    const condition = {connection};
+    const set = {connection, ...thread, updateTime: new Date()}
     const option = {upsert:true};
     return this.db.update( condition, set, option );
   }
