@@ -13,6 +13,7 @@ class Container extends Component {
     const { state, talknAPI } = this.props;
     const { thread } = state;
     talknAPI.find( thread.connection );
+    talknAPI.findMenuIndex( thread.connection );
   }
 
  	render() {

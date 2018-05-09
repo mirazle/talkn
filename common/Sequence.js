@@ -34,6 +34,12 @@ export default class Sequence {
         responseEmitState: {'posts': '*', 'thread': '*', 'user': ['offsetFindId', 'connectioned']},
         responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       },
+      findMenuIndex: {
+        requestPublicState: {'thread': [{columnName: 'connection'}]},
+        requestPrivateState: {},
+        responseEmitState: {'menuIndex': '*'},
+        responseBroadcastState: {},
+      },
       post: {
         requestPublicState: {},
         requestPrivateState: {

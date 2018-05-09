@@ -87,7 +87,7 @@ export default class Post extends Component {
       createTime,
       dispFlg,
       post,
-      thum,
+      favicon,
       uid,
       updateTime,
       utype,
@@ -98,7 +98,7 @@ export default class Post extends Component {
     const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
     const { style } = this.state;
     const { protocol } = thread;
-    const favicon = conf.assetsIconPath + util.getSaveFaviconName( thum );
+    const dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
 
     return (
       <li style={style.self} {...this.getDecolationProps()}>
@@ -112,7 +112,7 @@ export default class Post extends Component {
         </div>
 
         <a style={style.bottom} {...this.getHrefProps()}>
-          <span style={{...style.bottomIcon, backgroundImage: `url( ${favicon} )`}} />
+          <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
           <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post}} />
         </a>
       </li>

@@ -24,6 +24,12 @@ export default class Io {
     return true;
   }
 
+  async findMenuIndex(ioUser, {requestState, menuIndex} ){
+    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {menuIndex} );
+    this.io.emit( ioUser, Sequence.CATCH_ME_KEY, responseEmitState );
+    return true;
+  }
+
   async post(ioUser, {requestState, posts, thread} ){
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts, thread} );
     requestState.thread.connections.forEach( ( connection ) => {
