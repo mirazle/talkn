@@ -36,7 +36,13 @@ export default class App extends Schema{
     }
   }
 
-  static get screenModeIndexLabel(){ return 'INDEX' };
+  static get menuComponentUsersLabel(){ return 'Users' };
+  static get menuComponentIndexLabel(){ return 'Index' };
+  static get menuComponentLogsLabel(){ return 'Logs' };
+  static get menuComponentSettingLabel(){ return 'Setting' };
+  static getDefaultMenuComponent(){ return App.menuComponentIndexLabel };
+
+  static get screenModeIndexLabel(){ return 'MENU' };
   static get screenModeThreadLabel(){ return 'THREAD' };
   static get screenModeDetailLabel(){ return 'DETAIL' };
   static get screenModeSmallWidthPx(){ return 640 };
@@ -92,6 +98,7 @@ export default class App extends Schema{
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : true ;
+    const menuComponent = App.getDefaultMenuComponent( params );
 
     return this.create({
       name,
@@ -114,6 +121,7 @@ export default class App extends Schema{
       isOpenDetail,
       isOpenNotif,
       isTransition,
+      menuComponent,
     });
   }
 
