@@ -1,7 +1,12 @@
 import conf from 'client/conf';
 import React, { Component, PropTypes } from "react"
+import App from 'common/schemas/state/App';
 import User from 'common/schemas/state/User';
 import MenuLi from 'client/components/MenuLi';
+import MenuUsers from 'client/components/MenuUsers';
+import MenuIndex from 'client/components/MenuIndex';
+import MenuLogs from 'client/components/MenuLogs';
+import MenuSetting from 'client/components/MenuSetting';
 import Icon from './Icon';
 
 export default class Menu extends Component {
@@ -104,6 +109,26 @@ export default class Menu extends Component {
     console.log(response);
   }
 
+  renderMenuComponent(){
+    const { style, app } = this.props.state;
+    let menuComponent;
+    switch( app.menuComponent ){
+    case App.menuComponentUsersLabel :
+      menuComponent = <MenuUsers {...this.props} />
+      break;
+    case App.menuComponentIndexLabel :
+      menuComponent = <MenuIndex {...this.props} />
+      break;
+    case App.menuComponentLogsLabel :
+      menuComponent = <MenuLogs {...this.props} />
+      break;
+    case App.menuComponentSettingLabel :
+      menuComponent = <MenuSetting {...this.props} />
+      break;
+    }
+    return menuComponent;
+  }
+
  	render() {
     const { style, app, user, thread } = this.props.state;
     const { icon } = style;
@@ -117,7 +142,7 @@ export default class Menu extends Component {
       <div style={ style.menu.self } >
 
         <div style={ style.menu.scroll } >
-          <br />
+          {this.renderMenuComponent()}
 {/*
           <ol style={ style.menu.columns }>
             <MenuLi label={ thread.connection } isLast={ false } {...this.props.state} />
@@ -146,16 +171,16 @@ export default class Menu extends Component {
 */}
         </div>
         <footer style={ style.menu.footer }>
-          <div style={ style.menu.footerChildMoney }>
+          <div style={ style.menu.footerChildMoney } {...Icon.getDecolationProps1( 'icon', 'user', 'div' )}>
             { UserIcon }
           </div>
-          <div style={ style.menu.footerChildMoney }>
+          <div style={ style.menu.footerChildMoney } {...Icon.getDecolationProps1( 'icon', 'index', 'div' )}>
             { IndexIcon }
           </div>
-          <div style={ style.menu.footerChildMoney }>
+          <div style={ style.menu.footerChildMoney } {...Icon.getDecolationProps1( 'icon', 'footSteps', 'div' )}>
             { FootSteps }
           </div>
-          <div style={ style.menu.footerChildMoney }>
+          <div style={ style.menu.footerChildMoney } {...Icon.getDecolationProps1( 'icon', 'setting', 'div' )}>
             { Setting }
           </div>
         </footer>
