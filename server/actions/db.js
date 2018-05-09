@@ -36,10 +36,7 @@ export default {
 
     // Thread
     let {response: thread} = await Logics.db.threads.findOne( connection );
-    let {response: threadChildren} = await Logics.db.threads.findChildren( connection, setting );
     const isUpdatableThread = Logics.db.threads.isUpdatableThread(thread, setting);
-
-console.log( threadChildren.length );
 
     // Posts
     const {postCnt, multiPostCnt} = await Logics.db.posts.getCounts( connection );
@@ -48,20 +45,6 @@ console.log( threadChildren.length );
 
     // User
     const user = {connectioned: connection ,offsetFindId};
-
-    // Thread Child Index
-
-
-    // Create Or Update Thread
-    if( thread === null || isUpdatableThread ){
-
-
-    // Exist Thread
-    }else{
-
-
-    }
-
 
     // スレッドが存在しない場合 || 更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
@@ -76,7 +59,7 @@ console.log( threadChildren.length );
         createThread.postCnt = postCnt;
         createThread.multiPostCnt = multiPostCnt;
         createThread.watchCnt = createThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
-        await Logics.db.threads.update( requestState, createThread );
+        await Logics.db.threads.update( connection, createThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
 //console.log("UPDATE");
       // スレッド新規作成
@@ -88,7 +71,7 @@ console.log( threadChildren.length );
         const layer = Thread.getLayer( connection );
 
         createThread = {...createThread, watchCnt, connections, postCnt, multiPostCnt, protocol, layer };
-        let {response: thread} = await Logics.db.threads.save( requestState, createThread );
+        let {response: thread} = await Logics.db.threads.save( connection, createThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
 
@@ -107,24 +90,40 @@ console.log( threadChildren.length );
     }
   },
 
-  getChildThreads: ( ioUser, requestState, setting ) => {
-
+  findMenuIndex: async ( ioUser, requestState, setting ) => {
+    // リクエストのあったスレッドを取得する
+    const connection = requestState.thread.connection;
+    const menuIndex = await Logics.db.threads.findMenuIndex( connection, setting );
+    Logics.io.findMenuIndex( ioUser, {requestState, menuIndex} );
   },
 
   post: async ( ioUser, requestState, setting ) => {
-    requestState.thread.thum = requestState.thread.favicon;
-    delete requestState.thread.favicon;
-    await Logics.db.threads.update( requestState, {$inc: {postCnt: 1}} );
+    const { app, user, thread } = requestState;
+    const { connection } = thread;
+    const lastPost = {
+      protocol: thread.protocol,
+      connection: thread.connection,
+      connections: thread.connections,
+      uid: user.uid,
+      utype: user.utype,
+      favicon: thread.favicon,
+      post: app.inputPost,
+      data: '',
+      updateTime: new Date(),
+    }
+
+    await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost} );
     const {response: post} = await Logics.db.posts.save( requestState );
-    const {postCnt, multiPostCnt} = await Logics.db.posts.getCounts( requestState.thread.connection );
-    const thread = {postCnt, multiPostCnt};
-    await Logics.io.post( ioUser, {requestState, posts: [ post ], thread } );
+    const {postCnt, multiPostCnt} = await Logics.db.posts.getCounts( connection );
+    const ioThread = {postCnt, multiPostCnt};
+    await Logics.io.post( ioUser, {requestState, posts: [ post ], thread: ioThread } );
     return true;
   },
 
   updateThreadServerMetas: async ( ioUser, requestState, setting ) => {
-    await Logics.db.threads.update( requestState, requestState.thread );
-    const {response: thread} = await Logics.db.threads.findOne( requestState.thread.connection );
+    const { connection } = requestState.thread;
+    await Logics.db.threads.update( connection, requestState.thread );
+    const {response: thread} = await Logics.db.threads.findOne( connection );
     await Logics.io.updateThreadServerMetas( ioUser, {requestState, thread} );
     return true;
   },

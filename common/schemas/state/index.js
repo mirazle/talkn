@@ -1,7 +1,7 @@
 import App from './App';
 import User from './User';
 import UserAgent from './UserAgent';
-import Menu from './Menu';
+import MenuIndex from './MenuIndex';
 import Posts from './Posts';
 import Analyze from './Analyze';
 import BootOption from './BootOption';
@@ -15,7 +15,7 @@ export default class State{
     this.app = new App( {type: appType, talknIndex} );
     this.user = new User();
     this.userAgent = new UserAgent( window );
-		this.menu = new Menu();
+		this.menuIndex = new MenuIndex();
 		this.posts = new Posts();
 		this.analyze = new Analyze();
     this.bootOption = new BootOption( attributes );

@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import app from './app';
 import user from './user';
 import userAgent from './userAgent';
-import index from './index/';
+import menuIndex from './menuIndex';
 import thread from './thread';
 import analyze from './analyze';
 import bootOption from './bootOption';
@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
 	app,
 	user,
 	userAgent,
-	index,
+	menuIndex,
 	thread,
 	analyze,
 	bootOption,

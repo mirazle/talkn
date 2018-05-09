@@ -78,8 +78,6 @@ export default class Posts extends Component {
 
             if( !serverMetas[ key ] ){
               serverMetas[ key ] = content;
-            }else{
-              console.log( "EXIST " + key );
             }
           }
           talknAPI.updateThreadServerMetas(serverMetas);
