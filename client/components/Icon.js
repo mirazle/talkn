@@ -136,7 +136,7 @@ export default class Icon extends Component{
     );
   }
 
-  static getFootSteps( style ){
+  static getLogs( style ){
     return (
       <div style={ style.div }>
         <div style={ style.foot1 }>
@@ -195,9 +195,10 @@ export default class Icon extends Component{
     return (
       <div style={ style.div }>
         <div style={ style.wrap }>
-          <span style={ style.top }></span>
-          <span style={ style.middle }></span>
-          <span style={ style.bottom }></span>
+          <span style={ style.bar1 }></span>
+          <span style={ style.bar2 }></span>
+          <span style={ style.bar3 }></span>
+          <span style={ style.bar4 }></span>
           <span style={ style.mekuri }></span>
         </div>
       </div>

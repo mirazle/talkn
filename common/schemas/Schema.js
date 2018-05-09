@@ -21,7 +21,9 @@ export default class Schema {
   create(state){
 
     const className = this.constructor.name;
+    const stateType = Schema.getType( state );
     let validMethods = {};
+
     Object.keys(state).forEach((key) => {
 
       // Properties .
@@ -35,6 +37,7 @@ export default class Schema {
 
       // Assign Properties .
       if( Schema.getType( state[ key ] ) === 'Object' ){
+
         values = state[ key ];
         let isEmptyObject = Object.keys( values ).length === 0 ;
         isAcceptNull = values.isAcceptNull ? values.isAcceptNull : isAcceptNull;
@@ -125,6 +128,14 @@ export default class Schema {
       }
     });
 
+    if( className === 'MenuIndex' ){
+/*
+      console.log( state );
+      console.log( stateType );
+      console.log( this );
+*/
+    }
+
     return this;
   }
 
@@ -139,42 +150,53 @@ export default class Schema {
     }
   }
 
-  merge( obj = {}, immutable = true ){
+  merge( params = {}, immutable = true ){
     try{
-      const objKeys = Object.keys( obj );
+      const paramsType = Schema.getType( params );
+      const objKeys = Object.keys( params );
       if( objKeys.length > 0 ){
         let mergedObj = {...this};
         objKeys.forEach( ( key ) => {
-          if( this[ key ] !== obj[ key ]){
-            if(this.canSet( key, obj[ key ] )){
-              mergedObj[ key ] = obj[ key ];
+          if( this[ key ] !== params[ key ]){
+            if(this.canSet( key, params[ key ] )){
+              mergedObj[ key ] = params[ key ];
             }
           }
         });
-        return immutable ? this.constructor( mergedObj ) : mergedObj;
+
+        if( paramsType === 'Array' ){
+          mergedObj = Object.values( mergedObj );
+          return immutable ? this.constructor( mergedObj ) : mergedObj;
+        }else{
+          return immutable ? this.constructor( mergedObj ) : mergedObj;
+        }
+
       }else{
-        return obj;
+        return params;
       }
     }catch( e ){
       if(this.errorThrow){
-        console.warn( obj );
+        console.warn( params );
         console.warn( e );
-        throw `BAD MERGE: ${Schema.getType(obj)} ${e}`;
+        throw `BAD MERGE: ${Schema.getType(params)} ${e}`;
       }else{
-        console.warn( obj );
+        console.warn( params );
         console.warn( e );
-        console.warn(`BAD MERGE: ${Schema.getType(obj)} ${e}`);
-        return obj;
+        console.warn(`BAD MERGE: ${Schema.getType(params)} ${e}`);
+        return params;
       }
     }
   }
 
-  _toJSON(){
-    console.log(this);
-    if(this){
-      return JSON.stringify(this);
-    }else{
-      throw 'BAD SCHEMAS toJSON()';
-    }
+  map( func ){
+    return Object.values( this ).map( func );
+  }
+
+  filter( func ){
+    return Object.values( this ).filter( func );
+  }
+
+  reduce( func ){
+    return Object.values( this ).reduce( func );
   }
 }

@@ -13,7 +13,7 @@ export default class Icon {
     const talknLogo = Icon.getTalknLogo( params );
     const user = Icon.getUser( params );
     const index = Icon.getIndex( params );
-    const footSteps = Icon.getFootSteps( params );
+    const logs = Icon.getLogs( params );
     const setting = Icon.getSetting( params );
     const detail = Icon.getDetail( params );
     const heart = Icon.getHeart( params );
@@ -25,7 +25,7 @@ export default class Icon {
       talknLogo,
       user,
       index,
-      footSteps,
+      logs,
       setting,
       detail,
       heart,
@@ -165,7 +165,7 @@ export default class Icon {
     return {div, wrap, top, middle, bottom};
   }
 
-  static getFootSteps( {app} ){
+  static getLogs( {app} ){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: '45px',
@@ -440,9 +440,9 @@ export default class Icon {
 
     const commonSpan = Style.get({
       layout: Style.getLayoutBlock({
-        width: '16px',
+        width: '14px',
         height: '2px',
-        margin: '5px auto',
+        margin: '3px auto',
         borderRadius: '6px',
         background: Container.whiteRGB,
       }),
@@ -450,15 +450,15 @@ export default class Icon {
       animation: Style.getAnimationBase(),
     });
 
-    const top = Style.get({
-      layout: {...commonSpan, width: '8px', margin: '5px 0px 0px 5px'},
+    const bar1 = Style.get({
+      layout: {...commonSpan, width: '7px', margin: '5px 0px 0px 6px'},
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
 
-    const middle = Style.get({
+    const bar2 = Style.get({
       layout: commonSpan,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -466,7 +466,16 @@ export default class Icon {
       }),
     });
 
-    const bottom = Style.get({
+    const bar3 = Style.get({
+      layout: commonSpan,
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.getTransitionOn( app ),
+        transform: `translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+
+    const bar4 = Style.get({
       layout: commonSpan,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -490,10 +499,10 @@ export default class Icon {
       },
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d(18px, -6px, 0px) rotate( 90deg )`,
+        transform: `translate3d(18px, -3px, 0px) rotate( 90deg )`,
       }),
     });
-    return {div, wrap, top, middle, bottom, mekuri};
+    return {div, wrap, bar1, bar2, bar3, bar4, mekuri};
   }
 
   static getMenu( {app} ){
