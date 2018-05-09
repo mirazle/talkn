@@ -88,4 +88,10 @@ export default {
       app: {isTransition: false},
     };
   },
+  onClickMenu: ( menuComponent ) => {
+    return {
+      type: 'ON_CLICK_MENU',
+      app: {menuComponent},
+    };
+  },
 }

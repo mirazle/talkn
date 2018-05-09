@@ -27,7 +27,7 @@ export default class Threads {
 
   async findMenuIndex( connection, setting ){
     connection = connection.replace(/\//, '\/');
-    const regex = new RegExp( connection );
+    const regex = new RegExp( `^${connection}` );
     const condition = {connection: regex};
     const selector = {lastPost: 1};
     const option = {sort: {layer: 1, watchCnt: 1}, limit: setting.server.getThreadChildrenCnt};

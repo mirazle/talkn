@@ -3,12 +3,26 @@ import Container from 'client/style/Container';
 import User from 'common/schemas/state/User';
 
 export default class MenuIndex extends Component {
+
+  renderLi(){
+    const { style, menuIndex } = this.props.state;
+    return menuIndex.map( ( d ) => {
+      console.log( d.connection );
+      if(  d.connection === '' ) return null;
+      return (
+        <li key={ d.connection }>
+          { d.connection }<br />
+          { d.post }
+          <hr />
+        </li>
+      )
+    });
+  }
+
  	render() {
 		return (
       <ol>
-        <li>
-          menu INDEX
-        </li>
+        {this.renderLi()}
       </ol>
 		);
  	}
