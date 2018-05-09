@@ -98,7 +98,7 @@ export default class App extends Schema{
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : true ;
-    const menuComponent = App.getDefaultMenuComponent( params );
+    const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
 
     return this.create({
       name,

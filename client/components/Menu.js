@@ -135,7 +135,7 @@ export default class Menu extends Component {
     const childrenThreadViewLabel = app.childrenThreadView ? 'Children thread view ON' : 'Children thread view OFF';
     const UserIcon = Icon.getUser( icon.user );
     const IndexIcon = Icon.getIndex( icon.index );
-    const FootSteps = Icon.getFootSteps( icon.footSteps );
+    const Logs = Icon.getLogs( icon.logs );
     const Setting = Icon.getSetting( icon.setting );
 
 		return (
@@ -143,6 +143,27 @@ export default class Menu extends Component {
 
         <div style={ style.menu.scroll } >
           {this.renderMenuComponent()}
+        </div>
+        <footer style={ style.menu.footer }>
+          <div style={ style.menu.footerChildMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentUsersLabel ) } {...Icon.getDecolationProps1( 'icon', 'user', 'div' )}>
+            { UserIcon }
+          </div>
+          <div style={ style.menu.footerChildMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentIndexLabel ) }  {...Icon.getDecolationProps1( 'icon', 'index', 'div' )}>
+            { IndexIcon }
+          </div>
+          <div style={ style.menu.footerChildMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentLogsLabel ) }  {...Icon.getDecolationProps1( 'icon', 'logs', 'div' )}>
+            { Logs }
+          </div>
+          <div style={ style.menu.footerChildMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentSettingLabel ) }  {...Icon.getDecolationProps1( 'icon', 'setting', 'div' )}>
+            { Setting }
+          </div>
+        </footer>
+        <iframe src={ conf.sessionPath } style={{}} />
+      </div>
+		);
+ 	}
+}
+
 {/*
           <ol style={ style.menu.columns }>
             <MenuLi label={ thread.connection } isLast={ false } {...this.props.state} />
@@ -169,23 +190,3 @@ export default class Menu extends Component {
             <MenuLi label={ '⇨ LOGIN TWITTER' }  isLast={ true }onClick={this.handleOnClickLoginTwitter}  {...this.props.state} />
           </ol>
 */}
-        </div>
-        <footer style={ style.menu.footer }>
-          <div style={ style.menu.footerChildMoney } {...Icon.getDecolationProps1( 'icon', 'user', 'div' )}>
-            { UserIcon }
-          </div>
-          <div style={ style.menu.footerChildMoney } {...Icon.getDecolationProps1( 'icon', 'index', 'div' )}>
-            { IndexIcon }
-          </div>
-          <div style={ style.menu.footerChildMoney } {...Icon.getDecolationProps1( 'icon', 'footSteps', 'div' )}>
-            { FootSteps }
-          </div>
-          <div style={ style.menu.footerChildMoney } {...Icon.getDecolationProps1( 'icon', 'setting', 'div' )}>
-            { Setting }
-          </div>
-        </footer>
-        <iframe src={ conf.sessionPath } style={{}} />
-      </div>
-		);
- 	}
-}
