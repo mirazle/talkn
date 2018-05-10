@@ -181,7 +181,7 @@ export default class Icon {
     const foot1 = Style.get({
       layout: Style.getLayoutInlineBlock({
         position: 'absolute',
-        top: '7px',
+        top: '10px',
         left: '-4px',
       }),
       content: Style.getContentBase(),
@@ -195,7 +195,7 @@ export default class Icon {
         margin: '0 auto',
         background: Container.reliefRGB,
         width: '10px',
-        height: '20px',
+        height: '16px',
         borderRadius: '45px 30px 45px 45px',
         position: 'relative',
         zIndex: '0',
@@ -211,8 +211,8 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: '0 auto',
         background: Container.reliefRGB,
-        width: '8px',
-        height: '8px',
+        width: '7px',
+        height: '7px',
         borderRadius: '10px',
         position: 'relative',
         zIndex: '0',
@@ -234,7 +234,7 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: Container.getTransitionOn( app ),
-        transform: `translate3d( 0px, -9px, 1000px )`,
+        transform: `translate3d( 0px, -8px, 1000px )`,
       }),
     });
 
@@ -242,7 +242,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         position: 'absolute',
         top: '2px',
-        left: '8px',
+        left: '7px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
