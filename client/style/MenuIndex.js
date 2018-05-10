@@ -11,7 +11,8 @@ export default class MenuIndex {
   constructor( params ){
     const header = MenuIndex.getHeader( params );
     const ol = MenuIndex.getOl( params );
-    const li = MenuIndex.getLi();
+    const liActive = MenuIndex.getLiActive();
+    const liUnactive = MenuIndex.getLiUnactive();
     const upper = MenuIndex.getUpper();
     const upperSpace = MenuIndex.getUpperSpace();
     const upperRight = MenuIndex.getUpperRight();
@@ -21,7 +22,8 @@ export default class MenuIndex {
     return {
       header,
       ol,
-      li,
+      liActive,
+      liUnactive,
       upper,
       upperSpace,
       upperRight,
@@ -62,12 +64,25 @@ export default class MenuIndex {
     return Style.get({layout, content, animation});
   }
 
-  static getLi(){
+  static getLiActive(){
     const layout = Style.getLayoutBlock({
       width: 'initial',
       height: `${MenuIndex.liHeight}px`,
       padding: '10px',
       borderBottom: Container.border,
+    });
+    const content = Style.getContentBase();
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getLiUnactive(){
+    const layout = Style.getLayoutBlock({
+      width: 'initial',
+      height: `${MenuIndex.liHeight}px`,
+      padding: '10px',
+      borderBottom: Container.border,
+      background: Container.offWhiteRGB,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();

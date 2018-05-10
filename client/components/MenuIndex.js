@@ -18,9 +18,10 @@ export default class MenuIndex extends Component {
       const{ connection, post, favicon, createTime } = mi;
       const dispConnection = connection.replace( thread.connection, '@ ' );
       const dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
+      const styleKey = thread.connection === connection ? 'liActive' : 'liUnactive' ;
 
       return (
-        <li style={style.menuIndex.li} key={ connection }>
+        <li style={style.menuIndex[ styleKey ] } key={ connection }>
           <div style={style.menuIndex.upper}>
             <span style={style.menuIndex.upperSpace} />
             <span style={style.menuIndex.upperRight}>{dispConnection}</span>
