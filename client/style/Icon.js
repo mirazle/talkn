@@ -76,7 +76,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+        transform: `scale( 1 ) translate3d( 5px, 2px, 0px )`,
       }),
     });
 
@@ -91,7 +91,7 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: Container.getTransitionOn( app ),
-        transform: `scale(1) translate3d(-25px, 10px, 0px) rotate(45deg)`,
+        transform: `scale(1) translate3d(-20px, 12px, 0px) rotate(45deg)`,
       }),
     });
     return {div, circle, bar};
