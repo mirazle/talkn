@@ -12,6 +12,7 @@ export default class Icon {
     const menu = Icon.getMenu( params );
     const talknLogo = Icon.getTalknLogo( params );
     const user = Icon.getUser( params );
+    const search = Icon.getSearch( params );
     const index = Icon.getIndex( params );
     const logs = Icon.getLogs( params );
     const setting = Icon.getSetting( params );
@@ -24,6 +25,7 @@ export default class Icon {
       menu,
       talknLogo,
       user,
+      search,
       index,
       logs,
       setting,
@@ -48,6 +50,51 @@ export default class Icon {
       }),
     });
     return {img};
+  }
+
+  static getSearch( {app} ){
+    const div = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        width: '45px',
+        height: '45px',
+        borderRadius: '100px'
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: 'scale( 1 )'
+      }),
+    });
+
+    const circle = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        margin: '6px auto',
+        width: '22px',
+        height: '22px',
+        borderRadius: '100px',
+        border: `4px solid ${Container.calmRGB}`,
+        borderWidth: '4px',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+
+    const bar = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        margin: '0 auto',
+        background: Container.calmRGB,
+        width: '5px',
+        height: '14px',
+        borderRadius: '10px',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.getTransitionOn( app ),
+        transform: `scale(1) translate3d(-25px, 10px, 0px) rotate(45deg)`,
+      }),
+    });
+    return {div, circle, bar};
   }
 
   static getUser( {app} ){

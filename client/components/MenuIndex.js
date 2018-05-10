@@ -3,6 +3,7 @@ import Container from 'client/style/Container';
 import User from 'common/schemas/state/User';
 import util from 'common/util';
 import conf from 'common/conf';
+import Icon from './Icon';
 
 export default class MenuIndex extends Component {
 
@@ -22,11 +23,7 @@ export default class MenuIndex extends Component {
         <li style={style.menuIndex.li} key={ connection }>
           <div style={style.menuIndex.upper}>
             <span style={style.menuIndex.upperSpace} />
-
-            <span style={style.menuIndex.upperRight}>
-              <div style={style.menuIndex.upperChild}></div>
-              <time style={style.menuIndex.upperTimeago}>{dispConnection}</time>
-            </span>
+            <span style={style.menuIndex.upperRight}>{dispConnection}</span>
           </div>
 
           <div style={style.menuIndex.bottom}>
@@ -41,11 +38,21 @@ export default class MenuIndex extends Component {
  	render() {
     const { style, thread } = this.props.state;
     const { connection } = thread;
+    const { icon } = style;
+    const Search = Icon.getSearch( icon.search );
+
 		return (
       <nav>
-        <div style={style.menuIndex.connection}>
-          @ {connection}
-        </div>
+
+        <header style={style.menuIndex.header}>
+          <span style={style.menuIndex.searchIcon}>
+            { Search }
+          </span>
+          <span style={style.menuIndex.connection}>
+            @ {connection}
+          </span>
+        </header>
+
         <ol style={style.menuIndex.ol}>
           {this.renderLi()}
         </ol>
