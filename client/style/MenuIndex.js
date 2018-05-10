@@ -9,37 +9,34 @@ export default class MenuIndex {
   static get liHeight(){ return 90 };
 
   constructor( params ){
-    const connection = MenuIndex.getConnection( params );
+    const header = MenuIndex.getHeader( params );
     const ol = MenuIndex.getOl( params );
     const li = MenuIndex.getLi();
     const upper = MenuIndex.getUpper();
     const upperSpace = MenuIndex.getUpperSpace();
     const upperRight = MenuIndex.getUpperRight();
-    const upperChild = MenuIndex.getUpperChild();
-    const upperTimeago = MenuIndex.getUpperTimeago();
     const bottom = MenuIndex.getBottom();
     const bottomIcon = MenuIndex.getBottomIcon();
     const bottomPost = MenuIndex.getBottomPost();
     return {
-      connection,
+      header,
       ol,
       li,
       upper,
       upperSpace,
       upperRight,
-      upperChild,
-      upperTimeago,
       bottom,
       bottomIcon,
       bottomPost,
     }
   }
 
-  static getConnection( {app} ){
+  static getHeader( {app} ){
     const layout = Style.getLayoutFlex({
       height: `${MenuIndex.liHeight / 2 }px`,
       borderBottom: Container.border,
       justifyContent: 'flex-start',
+      alignItems: 'baseline',
     });
     const content = Style.getContentBase({
       textIndent: '10px',
@@ -78,8 +75,8 @@ export default class MenuIndex {
   }
 
   static getUpper(){
-    const layout = Style.getLayoutFlex({
-      justifyContent: 'space-between',
+    const layout = Style.getLayoutBlock({
+      width: '100%',
       height: '20px',
     });
     const content = Style.getContentBase({
@@ -90,9 +87,8 @@ export default class MenuIndex {
   }
 
   static getUpperSpace(){
-    const layout = Style.getLayoutBlock({
-      width: MenuIndex.iconSize,
-      flexGrow: 1,
+    const layout = Style.getLayoutInlineBlock({
+      width: '20%',
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -100,41 +96,19 @@ export default class MenuIndex {
   }
 
   static getUpperRight(){
-    const layout = Style.getLayoutFlex({
-      flexGrow: 5,
-    });
-    const content = Style.getContentBase();
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getUpperChild(){
-    const layout = Style.getLayoutBlock({
-      flexGrow: 1,
+    const layout = Style.getLayoutInlineBlock({
+      width: '80%',
     });
     const content = Style.getContentBase({
       textAlign: 'left',
-      textIndent: '25px',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getUpperTimeago(){
-    const layout = Style.getLayoutBlock({
-      flexGrow: 4,
-    });
-    const content = Style.getContentBase({
-      textAlign: 'right',
-      fontSize: '10px',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
   static getBottom(){
-    const layout = Style.getLayoutFlex({
-      alignItems: 'unset',
+    const layout = Style.getLayoutBlock({
+      width: '100%',
       height: '50px',
     });
     const content = Style.getContentBase();
@@ -143,12 +117,11 @@ export default class MenuIndex {
   }
 
   static getBottomIcon(){
-    const layout = Style.getLayoutBlock({
-      flexGrow:  1,
-      width: '50px',
-      height: MenuIndex.iconSize,
+    const layout = Style.getLayoutInlineBlock({
+      width: '20%',
+      height: '50px',
       backgroundImage: 'url("http://localhost:8080/favicon.ico")',
-      backgroundPosition: '50% 50%',
+      backgroundPosition: '50% 15%',
       backgroundSize: '20px 20px',
       backgroundRepeat: 'no-repeat',
     });
@@ -158,10 +131,9 @@ export default class MenuIndex {
   }
 
   static getBottomPost(){
-    const layout = Style.getLayoutBlock({
-      flexGrow:  5,
-      width: 'min-content',
-      padding: '0px 5px 5px 10px',
+    const layout = Style.getLayoutInlineBlock({
+      width: '80%',
+      flexGrow:  2,
     });
     const content = Style.getContentBase({
       lineHeight: 2,

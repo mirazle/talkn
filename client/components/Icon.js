@@ -127,6 +127,15 @@ export default class Icon extends Component{
     );
   }
 
+  static getSearch( style ){
+    return (
+      <div style={ style.div }>
+        <span style={ style.circle }></span>
+        <span style={ style.bar }></span>
+      </div>
+    );
+  }
+
   static getUser( style ){
     return (
       <div style={ style.div }>
