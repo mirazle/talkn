@@ -30,7 +30,7 @@ export default class Menu {
 
   constructor( params ){
     const self = Menu.getSelf( params );
-    const scroll = Menu.getScroll( params );
+    const wrapComponent = Menu.getWrapComponent( params );
     const columns = Menu.getColumns( params );
     const column = Menu.getColumn( params );
     const columnLast = Menu.getColumnLast( params );
@@ -44,7 +44,7 @@ export default class Menu {
     const footerChildMoney = Menu.getFooterChildMoney( params );
     return {
       self,
-      scroll,
+      wrapComponent,
       columns,
       column,
       columnLast,
@@ -73,13 +73,13 @@ export default class Menu {
     return Style.get({layout, content, animation});
   }
 
-  static getScroll( {app} ){
+  static getWrapComponent( {app} ){
     const layout = Style.getLayoutBlock({
-      overflow: 'scroll',
       width: '100%',
       minWidth: 'inherit',
       maxWidth: 'inherit',
       height: `calc( 100% - ${Main.headerHeight}px )`,
+
     });
     const content = {};
     const animation = Style.getAnimationBase();

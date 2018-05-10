@@ -5,6 +5,7 @@ import Icon from './Icon';
 import Main from './Main';
 import Screen from './Screen';
 import Menu from './Menu';
+import MenuIndex from './MenuIndex';
 import Posts from './Posts';
 import Post from './Post';
 
@@ -42,6 +43,7 @@ export default class Style{
     const container = new Container( params );
     const footer = new Footer( params );
     const menu = new Menu( params );
+    const menuIndex = new MenuIndex( params );
     const main = new Main( params );
     const screen = new Screen( params );
     const posts = new Posts( params );
@@ -52,6 +54,7 @@ export default class Style{
       container,
       footer,
       menu,
+      menuIndex,
       main,
       screen,
       posts,

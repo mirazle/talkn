@@ -141,7 +141,7 @@ export default class Menu extends Component {
 		return (
       <div style={ style.menu.self } >
 
-        <div style={ style.menu.scroll } >
+        <div style={ style.menu.wrapComponent } >
           {this.renderMenuComponent()}
         </div>
         <footer style={ style.menu.footer }>
