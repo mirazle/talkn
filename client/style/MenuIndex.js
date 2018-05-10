@@ -9,7 +9,10 @@ export default class MenuIndex {
   static get liHeight(){ return 90 };
 
   constructor( params ){
+    const self = MenuIndex.getSelf( params );
     const header = MenuIndex.getHeader( params );
+    const headerSearchIcon = MenuIndex.getHeaderSearchIcon( params );
+    const headerConnection = MenuIndex.getHeaderConnection( params );
     const ol = MenuIndex.getOl( params );
     const liActive = MenuIndex.getLiActive();
     const liUnactive = MenuIndex.getLiUnactive();
@@ -20,7 +23,10 @@ export default class MenuIndex {
     const bottomIcon = MenuIndex.getBottomIcon();
     const bottomPost = MenuIndex.getBottomPost();
     return {
+      self,
       header,
+      headerSearchIcon,
+      headerConnection,
       ol,
       liActive,
       liUnactive,
@@ -33,16 +39,51 @@ export default class MenuIndex {
     }
   }
 
+  static getSelf( {app} ){
+    const layout = Style.getLayoutBlock({
+      height: '100%',
+    });
+    const content = Style.getContentBase({});
+    const animation = Style.getAnimationBase({});
+    return Style.get({layout, content, animation});
+  }
+
   static getHeader( {app} ){
-    const layout = Style.getLayoutFlex({
+    const layout = Style.getLayoutBlock({
+      width: '100%',
       height: `${MenuIndex.liHeight / 2 }px`,
       borderBottom: Container.border,
-      justifyContent: 'flex-start',
-      alignItems: 'baseline',
     });
     const content = Style.getContentBase({
-      textIndent: '10px',
       textAlign: 'left',
+    });
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransitionOn( app ),
+    });
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderSearchIcon( {app} ){
+    const layout = Style.getLayoutInlineBlock({
+      width: '50px',
+      minWidth: '50px',
+      height: '45px',
+    });
+    const content = Style.getContentBase({});
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransitionOn( app ),
+    });
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderConnection( {app} ){
+    const layout = Style.getLayoutInlineFlex({
+      justifyContent: 'flexStart',
+      width: `calc( 100% - 50px )`,
+      overflow: 'scroll'
+    });
+    const content = Style.getContentBase({
+      whiteSpace: 'nowrap',
     });
     const animation = Style.getAnimationBase({
       transition: Container.getTransitionOn( app ),

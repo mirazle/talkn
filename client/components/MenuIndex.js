@@ -43,13 +43,13 @@ export default class MenuIndex extends Component {
     const Search = Icon.getSearch( icon.search );
 
 		return (
-      <nav>
+      <nav style={style.menuIndex.self}>
 
         <header style={style.menuIndex.header}>
-          <span style={style.menuIndex.searchIcon}>
+          <span style={style.menuIndex.headerSearchIcon}>
             { Search }
           </span>
-          <span style={style.menuIndex.connection}>
+          <span style={style.menuIndex.headerConnection}>
             @ {connection}
           </span>
         </header>

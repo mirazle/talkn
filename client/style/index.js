@@ -112,6 +112,17 @@ export default class Style{
     return { ...blockLayout, ...style };
   }
 
+  static getLayoutInlineFlex( style = {} ){
+    const blockLayout = Style.getLayoutBase({
+      display: 'inline-flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'row',
+      flexWrap: 'no-wrap',
+    });
+    return { ...blockLayout, ...style };
+  }
+
   static getLayoutTable( style = {} ){
     const blockLayout = Style.getLayoutBase({
       display: 'table',
