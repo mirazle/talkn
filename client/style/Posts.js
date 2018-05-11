@@ -50,6 +50,7 @@ export default class Posts {
 
   static getSelf( {app} ){
     const layout = Style.getLayoutInlineBlock({
+      position: 'relative',
       width: Posts.getWidth( app ),
       minWidth: Posts.getMinWidth( app ),
       WebkitOverflowScrolling: 'touch',
