@@ -122,6 +122,7 @@ export default class MenuIndex {
       height: `calc( 100% - ${Main.headerHeight}px )`,
       overflow: 'scroll',
       background: Container.offWhiteRGB,
+      boxShadow: '0px 1px 1px 1px rgb( 220, 220, 220 )inset',
     });
     const content = {};
     const animation = Style.getAnimationBase({
