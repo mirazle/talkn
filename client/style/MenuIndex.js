@@ -13,6 +13,7 @@ export default class MenuIndex {
     const header = MenuIndex.getHeader( params );
     const headerSearchIcon = MenuIndex.getHeaderSearchIcon( params );
     const headerConnection = MenuIndex.getHeaderConnection( params );
+    const headerInput = MenuIndex.getHeaderInput( params );
     const ol = MenuIndex.getOl( params );
     const liActive = MenuIndex.getLiActive();
     const liUnactive = MenuIndex.getLiUnactive();
@@ -27,6 +28,7 @@ export default class MenuIndex {
       header,
       headerSearchIcon,
       headerConnection,
+      headerInput,
       ol,
       liActive,
       liUnactive,
@@ -53,6 +55,8 @@ export default class MenuIndex {
       width: '100%',
       height: `${MenuIndex.liHeight / 2 }px`,
       borderBottom: Container.border,
+      borderRight: Container.border,
+      background: Container.offWhiteRGB,
     });
     const content = Style.getContentBase({
       textAlign: 'left',
@@ -65,8 +69,8 @@ export default class MenuIndex {
 
   static getHeaderSearchIcon( {app} ){
     const layout = Style.getLayoutInlineBlock({
-      width: '50px',
-      minWidth: '50px',
+      width: '60px',
+      minWidth: '60px',
       height: '45px',
     });
     const content = Style.getContentBase({});
@@ -79,7 +83,7 @@ export default class MenuIndex {
   static getHeaderConnection( {app} ){
     const layout = Style.getLayoutInlineFlex({
       justifyContent: 'flexStart',
-      width: `calc( 100% - 50px )`,
+      width: `calc( 100% - 60px )`,
       overflow: 'scroll'
     });
     const content = Style.getContentBase({
@@ -91,12 +95,33 @@ export default class MenuIndex {
     return Style.get({layout, content, animation});
   }
 
+  static getHeaderInput(){
+    const layout = Style.getLayoutInlineBlock({
+      width: '90%',
+      height: '25px',
+      background: Container.whiteRGB,
+      padding: '5px 0% 5px 2%',
+      margin: '0 3% 0 0',
+      outline: 'none',
+      resize: 'none',
+      border: Container.border,
+      borderRadius: '3px',
+      WebkitAppearance: 'none',
+    });
+    const content = Style.getContentBase({
+      textAlign: 'left',
+    });
+    const animation = Style.getAnimationBase();
+
+    return Style.get({layout, content, animation});
+  }
+
   static getOl( {app} ){
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: `calc( 100% - ${Main.headerHeight}px )`,
       overflow: 'scroll',
-      background: Container.whiteRGBA,
+      background: Container.offWhiteRGB,
     });
     const content = {};
     const animation = Style.getAnimationBase({
@@ -107,10 +132,15 @@ export default class MenuIndex {
 
   static getLiActive(){
     const layout = Style.getLayoutBlock({
+      position: 'relative',
       width: 'initial',
       height: `${MenuIndex.liHeight}px`,
       padding: '10px',
       borderBottom: Container.border,
+      zIndex: 3,
+      borderRight: `1px solid ${Container.white}`,
+      background: Container.whiteRGB,
+//      boxShadow: '5px 5px 5px 5px rgb( 240, 240, 240)',
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -119,11 +149,13 @@ export default class MenuIndex {
 
   static getLiUnactive(){
     const layout = Style.getLayoutBlock({
+      position: 'relative',
       width: 'initial',
       height: `${MenuIndex.liHeight}px`,
       padding: '10px',
       borderBottom: Container.border,
       background: Container.offWhiteRGB,
+      borderRight: Container.border,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();

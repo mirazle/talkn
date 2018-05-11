@@ -13,10 +13,10 @@ export default class MenuIndex extends Component {
   renderLi(){
     const { style, menuIndex, thread } = this.props.state;
 
-    return menuIndex.map( ( mi ) => {
+    return menuIndex.map( ( mi, index ) => {
       if(  mi.connection === '' ) return null;
       const{ connection, post, favicon, createTime } = mi;
-      const dispConnection = connection.replace( thread.connection, '@ ' );
+      const dispConnection = connection.replace( thread.connection, '' );
       const dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
       const styleKey = thread.connection === connection ? 'liActive' : 'liUnactive' ;
 
@@ -50,7 +50,15 @@ export default class MenuIndex extends Component {
             { Search }
           </span>
           <span style={style.menuIndex.headerConnection}>
-            @ {connection}
+            <input
+              type={ 'text' }
+              style={style.menuIndex.headerInput}
+              rows={1}
+              onChange={this.handleOnChange}
+              onKeyPress={this.handleOnKeyPress}
+              value={ connection }
+              placeholder='Search Thread .'
+            />
           </span>
         </header>
 

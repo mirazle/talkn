@@ -61,12 +61,14 @@ export default class Menu {
 
   static getSelf( {app} ){
     const layout = Style.getLayoutInlineBlock({
+      position: 'relative',
       width: Menu.getWidth( app ),
       minWidth: Menu.getWidth( app ),
       maxWidth: 'inherit',
       WebkitOverflowScrolling: 'touch',
-      background: Container.whiteRGB,
-      borderRight: Container.border,
+//      background: Container.whiteRGB,
+//      borderRight: Container.border,
+      zIndex: 2,
     });
     const content = {};
     const animation = Style.getAnimationBase();

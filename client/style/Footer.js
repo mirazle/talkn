@@ -99,7 +99,6 @@ export default class Footer{
       border: Container.border,
       borderRadius: '3px',
       WebkitAppearance: 'none',
-
     });
     const content = Style.getContentBase({
       textAlign: 'left',
