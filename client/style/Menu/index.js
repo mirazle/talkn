@@ -1,6 +1,6 @@
-import Style from './index';
-import Container from './Container';
-import Main from './Main';
+import Style from '../index';
+import Container from '../Container';
+import Main from '../Main';
 
 export default class MenuIndex {
 
@@ -15,14 +15,7 @@ export default class MenuIndex {
     const headerConnection = MenuIndex.getHeaderConnection( params );
     const headerInput = MenuIndex.getHeaderInput( params );
     const ol = MenuIndex.getOl( params );
-    const liActive = MenuIndex.getLiActive();
-    const liUnactive = MenuIndex.getLiUnactive();
-    const upper = MenuIndex.getUpper();
-    const upperSpace = MenuIndex.getUpperSpace();
-    const upperRight = MenuIndex.getUpperRight();
-    const bottom = MenuIndex.getBottom();
-    const bottomIcon = MenuIndex.getBottomIcon();
-    const bottomPost = MenuIndex.getBottomPost();
+
     return {
       self,
       header,
@@ -30,14 +23,6 @@ export default class MenuIndex {
       headerConnection,
       headerInput,
       ol,
-      liActive,
-      liUnactive,
-      upper,
-      upperSpace,
-      upperRight,
-      bottom,
-      bottomIcon,
-      bottomPost,
     }
   }
 
