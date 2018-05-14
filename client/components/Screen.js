@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react"
 import Posts from './Posts';
-import Menu from './Menu';
+import Menu from './Menu/';
 import Detail from './Detail';
 import App from 'common/schemas/state/App';
 

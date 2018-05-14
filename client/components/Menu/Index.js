@@ -2,12 +2,12 @@ import conf from 'client/conf';
 import React, { Component, PropTypes } from "react"
 import App from 'common/schemas/state/App';
 import User from 'common/schemas/state/User';
-import MenuLi from 'client/components/MenuLi';
-import MenuUsers from 'client/components/MenuUsers';
-import MenuIndex from 'client/components/MenuIndex';
-import MenuLogs from 'client/components/MenuLogs';
-import MenuSetting from 'client/components/MenuSetting';
-import Icon from './Icon';
+import MenuLi from 'client/components/Menu/MenuLi';
+import MenuUsers from 'client/components/Menu/MenuUsers';
+import MenuIndex from 'client/components/Menu/MenuIndex';
+import MenuLogs from 'client/components/Menu/MenuLogs';
+import MenuSetting from 'client/components/Menu/MenuSetting';
+import Icon from '../Icon';
 
 export default class Menu extends Component {
 
@@ -16,55 +16,6 @@ export default class Menu extends Component {
     this.handleOnClickchildrenThreadView = this.handleOnClickchildrenThreadView.bind(this);
     this.handleOnClickLoginTwitter = this.handleOnClickLoginTwitter.bind(this);
     this.handleOnClickLoginFacebook = this.handleOnClickLoginFacebook.bind(this);
-  }
-
-  getDecolationProps(){
-    return {
-      onMouseOver: () => {
-        this.setState(
-          { style:
-            {...this.state.style,
-              self: { ...this.state.style.self,
-                transition: '200ms',
-                transform: 'scale( 1.05 )',
-                cursor: 'pointer',
-              }
-            }
-          }
-        );
-      },
-      onMouseLeave: () => {
-        this.setState( {style:
-          {...this.state.style,
-            self: { ...this.state.style.self,
-              transition: '600ms',
-              transform: 'scale( 1 )',
-              cursor: 'default',
-            }
-          }
-        });
-      },
-      onMouseDown: () => {
-        this.setState( {style:
-          {...this.state.style,
-            self: { ...this.state.style.self,
-              transform: 'scale( 1 )',
-              cursor: 'pointer',
-            }
-          }
-        });
-      },
-      onMouseUp: () => {
-        this.setState( {style:
-          {...this.state.style,
-            self: { ...this.state.style.self,
-              transform: 'scale( 1.05 )',
-              cursor: 'pointer',
-            }
-          }
-        });
-      },
-    }
   }
 
   handleOnClickchildrenThreadView(){

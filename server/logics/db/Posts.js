@@ -24,7 +24,7 @@ export default class Posts {
 
   async find( requestState, setting ){
     const condition = {
-      connections: requestState.thread.connection,
+      connection: requestState.thread.connection,
       _id: {$lt: requestState.user.offsetFindId},
     };
     const selector = {};

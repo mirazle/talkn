@@ -3,35 +3,18 @@ import Container from 'client/style/Container';
 import User from 'common/schemas/state/User';
 import util from 'common/util';
 import conf from 'common/conf';
-import Icon from './Icon';
+import Icon from '../Icon';
+import MenuIndexList from './MenuIndexList';
 
 export default class MenuIndex extends Component {
 
-  getTimeId( connection ){
-    return `timeAgo:${connection}`;
-  }
   renderLi(){
     const { style, menuIndex, thread } = this.props.state;
 
     return menuIndex.map( ( mi, index ) => {
       if(  mi.connection === '' ) return null;
-      const{ connection, post, favicon, createTime } = mi;
-      const dispConnection = connection.replace( thread.connection, '' );
-      const dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
-      const styleKey = thread.connection === connection ? 'liActive' : 'liUnactive' ;
-
       return (
-        <li style={style.menuIndex[ styleKey ] } key={ connection }>
-          <div style={style.menuIndex.upper}>
-            <span style={style.menuIndex.upperSpace} />
-            <span style={style.menuIndex.upperRight}>{dispConnection}</span>
-          </div>
-
-          <div style={style.menuIndex.bottom}>
-            <span style={{...style.menuIndex.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
-            <span style={style.menuIndex.bottomPost} dangerouslySetInnerHTML={{__html: post}} />
-          </div>
-        </li>
+        <MenuIndexList key={ mi.connection } {...this.props} mi={mi} />
       )
     });
   }
@@ -56,7 +39,7 @@ export default class MenuIndex extends Component {
               rows={1}
               onChange={this.handleOnChange}
               onKeyPress={this.handleOnKeyPress}
-              value={ connection }
+              defaultValue={ connection }
               placeholder='Search Thread .'
             />
           </span>

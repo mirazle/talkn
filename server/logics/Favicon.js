@@ -47,6 +47,8 @@ export default class Favicon {
         return false;
       }else{
 
+        console.log( "@@@@@@ " + faviconName);
+
         request({method: 'GET', url: faviconName, encoding: null}, (error, response, faviconBinary) => {
           if( !error && response && response.statusCode === 200 ){
             if( response.headers[ 'content-type' ].indexOf( 'image' ) === 0 ){
