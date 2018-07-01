@@ -59,7 +59,7 @@ export default class MenuIndexList {
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transition: '0ms',
+      transition: '200ms',
     });
     return Style.get({layout, content, animation});
   }

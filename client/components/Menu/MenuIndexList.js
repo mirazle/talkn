@@ -23,7 +23,6 @@ export default class MenuIndexList extends Component {
               menuIndexList: { ...this.state.style.menuIndexList,
                 [ styleKey ]: { ...this.state.style.menuIndexList[ styleKey ],
                   background: Container.whiteRGB,
-                  borderRight: '0px',
                 }
               }
             }
@@ -36,7 +35,6 @@ export default class MenuIndexList extends Component {
             menuIndexList: { ...this.state.style.menuIndexList,
               [ styleKey ]: { ...this.state.style.menuIndexList[ styleKey ],
                 background: Container.offWhiteRGB,
-                borderRight: Container.border,
               }
             }
           }
