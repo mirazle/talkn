@@ -11,9 +11,7 @@ export default class Favicon {
   static get extension(){ return '.ico' }
   static get defaultFaviconProtocol(){ return Sequence.HTTP_PROTOCOL}
   static get defaultFaviconName(){ return `${Favicon.defaultFaviconFileName}${Favicon.extension}` }
-  static getDefaultFaviconFullname(){
-    return `user.png`;
-  }
+  static getDefaultFaviconFullname(){ return `user.png` }
 
   async requests( faviconDatas ){
     return new Promise( ( resolve, reject ) => {
