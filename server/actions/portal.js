@@ -1,28 +1,28 @@
+import define from '~/../common/define';
 import conf from '~/conf';
 import Actions from '~/actions';
 import Logics from '~/logics';
 import express from 'express';
-import detect from 'detect-port';
+import https from 'https';
 
 export default {
 
   setUpPortal: async () => {
-    const port = 8000;
-    detect(port, (err, _port) => {
-      if (!err && port == _port ) {
-        const app = express();
-        app.set('views', `${__dirname}/../endpoints/portal/ejs/`);
-        app.set('view engine', 'ejs');
-        app.get('*', function(req, res) {
-          const connection = Object.values( req.params )[ 0 ];
-          res.render('index', {connection : connection, clientSrcPath: conf.clientSrcPath});
-        });
-
-        app.listen( port, () => {
-          console.log( `LISTEN PORTAL 8000` );
-        } );
+    const app = express();
+    app.set('views', `${__dirname}/../endpoints/portal/ejs/`);
+    app.set('view engine', 'ejs');
+    app.get('*', (req, res) => {
+      const connection = Object.values( req.params )[ 0 ];
+      if( connection !==  '/favicon.ico'){
+        res.render('index', {connection : connection, clientSrcPath: conf.clientSrcPath});
       }
     });
+
+    https.createServer( conf.clientSllOptions.pems, app )
+         .listen( define.PORTS.PORTAL, ( err, req )  => {
+           console.log( `LISTEN PORTAL ${define.PORTS.PORTAL}` );
+    });
+
     return true;
   },
 }

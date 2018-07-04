@@ -10,12 +10,9 @@
 	<script type='text/javascript'>
 		var script = document.createElement("script");
 		var href = location.href;
-
-//		var connection = href.indexOf('?') > 0 ? href.replace(/^.*\?/, '') : '/';
-		var connection = href.indexOf('?') > 0 ? href.replace('http://localhost:8080/?', '').replace('https://localhost:8080/?', '') : '/';
-		connection = connection.replace('http:/', '').replace('https:/', '');
+		var replaceStr = location.origin + '/?';
+		var connection = href.indexOf('?') > 0 ? href.replace( replaceStr, '') : '/';
 		connection = connection.indexOf( '/' ) === 0 ? connection : '/' + connection ;
-
 		script.setAttribute( 'type', 'text/javascript' );
 		script.setAttribute( 'src', 'talkn.client.js' );
 		script.setAttribute( 'connection', connection );

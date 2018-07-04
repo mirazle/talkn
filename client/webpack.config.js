@@ -9,10 +9,6 @@ module.exports = {
   output: {
     path: __dirname + "./../server/endpoints/client/",
     filename: "talkn.client.js",
-/*
-    path: __dirname + "./../0.6.2_0/",
-    filename: "bundle.js",
-*/
   },
 
   module: {
@@ -40,6 +36,10 @@ module.exports = {
       'client': path.resolve(__dirname, '../client') + '/'
     },
     extensions: ['.js', '.jsx']
+  },
+
+  devServer: {
+    contentBase: './src/',
   },
 
   devtool: 'inline-source-map',
