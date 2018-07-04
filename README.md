@@ -1,15 +1,15 @@
 # talkn
 
-## Description
+## ○Description
 
   talkn is token communication dapps.
 
-## 開発環境
+## ○開発環境
 
-## フォルダ構造
+## ○フォルダ構造
 
 
-## localhostのSSL設定
+## ○localhostのSSL設定
 
 https://qiita.com/suin/items/37313aee4543c5d01285
 
@@ -21,6 +21,6 @@ https://qiita.com/suin/items/37313aee4543c5d01285
 - 127.0.0.1       client.localhost
 - 127.0.0.1       assets.localhost
 
-## mongoDB
+## ○mongoDB
 
 mongod --config /usr/local/etc/mongod.conf
