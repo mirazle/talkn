@@ -8,11 +8,12 @@ import Setting from '~/listens/db/Setting';
 
 class MongoDB {
   constructor(){
-    console.log("MONGO DB RUN");
     mongoose.Promise	= global.Promise;
     const {host, port, dbName, option} = conf.mongoDB;
     const address = `mongodb://${host}:${port}/${dbName}`;
     const con	= mongoose.createConnection( address, option );
+    
+    console.log( `MONGO DB RUN : ${conf.mongoDB.port}`);
 
     return {
       Setting: new Setting( con ),

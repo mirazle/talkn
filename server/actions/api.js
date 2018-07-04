@@ -15,7 +15,6 @@ export default {
     Object.keys( Sequence.map ).forEach( endpoint => {
       const oneSequence = Sequence.map[ endpoint ];
       ioUser.on( endpoint, ( requestState ) => {
-        console.log("========== START " + endpoint );
         Actions[ endpoint ]( ioUser, requestState, setting );
       });
     });

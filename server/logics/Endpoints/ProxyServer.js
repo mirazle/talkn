@@ -6,32 +6,27 @@ const proxy = httpProxy.createProxyServer();
 export default class ProsxyServer {
 
   listenHttp(){
-    console.log( `@@@@@ Listen Proxy Server ${conf.domain} 80 @@@@@` );
+    console.log( `@@@@@ Listen Proxy Server ${conf.domain} ${conf.proxySllOptions.httpPort} @@@@@` );
   }
 
-  listenHttps(){
-    console.log( `@@@@@ Listen Proxy Server ${conf.domain} 443 @@@@@` );
+  listenHttps(req){
+    console.log( `@@@@@ Listen Proxy Server ${conf.domain} ${conf.proxySllOptions.httpsPort} @@@@@` );
   }
 
   request( req, res ) {
 
     let opt = {target:""};
-    const protcol = process.argv.includes('ssl') ? 'https' : 'http';
+    const protcol = 'https';//process.argv.includes('ssl') ? 'https' : 'http';
     const domain = conf.domain;
+
     console.log( `@@@@@ REQ PROXY: ${protcol} ${req.headers.host}` );
+    console.log( domain + " " + req.headers.host );
 
     switch( req.headers.host ){
-    case 'talkn.io':
-    case 'portal.talkn.io':
-      opt.target = `${protcol}//${domain}:8000`;
-      break;
-    case 'client.talkn.io':
-      opt.target = `${protcol}//${domain}:8001`;
-      break;
-    case 'assets.talkn.io':
+    case `assets.${domain}`:
       opt.target = `${protcol}//${domain}:8002`;
       break;
-    case 'session.talkn.io':
+    case `session.${domain}`:
       opt.target = `${protcol}//${domain}:8003`;
       break;
     }
@@ -39,7 +34,11 @@ export default class ProsxyServer {
     console.log( "@@@@@ PROXY TO: " + opt.target );
 
     proxy.web( req, res, opt, ( err ) => {
+
+      console.log("@@@@@@@@@@@");
       console.warn( err );
+      console.log("@@@@@@@@@@@");
+
     } );
   }
 }

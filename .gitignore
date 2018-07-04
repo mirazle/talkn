@@ -2,3 +2,4 @@
 node_modules/
 server/endpoints/assets/icon/*
 server/dump.rdb
+server/package-lock.json

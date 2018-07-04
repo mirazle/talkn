@@ -3,22 +3,21 @@ import Actions from '~/actions';
 import Logics from '~/logics';
 import http from 'http';
 import https from 'https';
+import express from 'express';
+import subdomain from 'express-subdomain';
 
 export default {
   setUpProxyServer: async () => {
-    const protcol = process.argv.includes('ssl') ? 'https' : 'http';
-    let io;
-    switch( protcol ){
-    case 'https':
-      https.createServer( conf.proxySllOptions.pems, Logics.endpoints.proxyServer.request )
-        .listen( conf.proxySllOptions.httpsPort, Logics.endpoints.proxyServer.listenHttps );
-      break;
-    case 'http':
-      http.createServer( Logics.endpoints.proxyServer.request )
-        .listen( conf.proxySllOptions.httpPort, Logics.endpoints.proxyServer.listenHttp );
-        break;
-    default :
-      throw 'ERROR: BAD APP PROTCOL.';
-    }
+    const app = express();
+    const assetsRouter = express.Router();
+
+    assetsRouter.get('/', (req, res) => {
+        res.send('ASEETS - version 1');
+    });
+
+    app.use(subdomain('assets', assetsRouter));
+    app.listen( conf.proxySllOptions.httpsPort, () => {
+      console.log("LISTEN PROXY " + conf.proxySllOptions.httpsPort );
+    } );
   }
 }
