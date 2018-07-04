@@ -3,33 +3,22 @@ import socketIo from "socket.io";
 import redis from	'socket.io-redis';
 import fs from "fs";
 import conf from '~/conf';
+import define from '~/../common/define';
+import detect from 'detect-port';
 
 class SocketIo{
 
   constructor(){
-    const protcol = process.argv.includes('ssl') ? 'https' : 'http';
-    let io;
-    switch( protcol ){
-    case 'https':
-      const httpsServer = https.createServer( conf.clientSllOptions.pems );
-      httpsServer.listen( conf.socketIO.httpsPort );
-      io = socketIo( httpsServer );
-      console.log("SOCKET IO RUN : " + protcol + " " + conf.socketIO.httpsPort);
-      break;
-    case 'http':
-      io = socketIo( conf.socketIO.httpPort );
-      console.log("SOCKET IO RUN : " + protcol + " " + conf.socketIO.httpPort);
-      break;
-    default:
-      throw 'ERROR: BAD IO PROTCOL.';
-    }
-
-    // Adapt Redis-Server .
+    const httpsServer = https.createServer( conf.clientSllOptions.pems );
+    httpsServer.listen( conf.socketIO.httpsPort );
+    const io = socketIo( httpsServer );
+    console.log("SOCKET IO RUN : " + conf.socketIO.httpsPort);
     this.io = io.adapter( redis( { host: conf.redis.host, port: conf.redis.port } ));
     return this;
   }
 
   async get(){
+
     return this.io;
   }
 
