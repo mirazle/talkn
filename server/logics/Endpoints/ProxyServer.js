@@ -5,12 +5,8 @@ const proxy = httpProxy.createProxyServer();
 
 export default class ProsxyServer {
 
-  listenHttp(){
-    console.log( `@@@@@ Listen Proxy Server ${conf.domain} ${conf.proxySllOptions.httpPort} @@@@@` );
-  }
-
-  listenHttps(req){
-    console.log( `@@@@@ Listen Proxy Server ${conf.domain} ${conf.proxySllOptions.httpsPort} @@@@@` );
+  listen(req){
+    console.log( `@@@@@ Listen Proxy Server ${conf.domain} ${conf.proxySllOptions.port} @@@@@` );
   }
 
   request( req, res ) {

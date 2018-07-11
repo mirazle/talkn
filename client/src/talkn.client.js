@@ -9,6 +9,7 @@ import TalknSetupJs from 'client/operations/TalknSetupJs';
 
 function bootTalkn( appType, talknIndex, attributes, conf ){
 	const {server, port} = conf;
+console.log( conf);
 	const ws = io(`//${server}:${port}`, { forceNew: true });
 	const store = configureStore();
 	const state = new State( appType, talknIndex, window, attributes );
@@ -36,9 +37,12 @@ window.onload =  () => {
 	case 'portal':
 	case 'iframe':
 	case 'script':
+
+		// TODO サブドメイン client.talkn.ioで呼び出すようにする
 		const scripts = document.querySelectorAll(`script[src*="${conf.scriptName}"]`);
 
 		scripts.forEach( ( script, index ) => {
+
 			bootTalkn( appType, index + 1 , script.attributes, conf );
  		});
 

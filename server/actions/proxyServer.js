@@ -9,15 +9,21 @@ import subdomain from 'express-subdomain';
 export default {
   setUpProxyServer: async () => {
     const app = express();
-    const assetsRouter = express.Router();
+    const clientRouter = express.Router();
 
-    assetsRouter.get('/', (req, res) => {
-        res.send('ASEETS - version 1');
+    clientRouter.get('*', (req, res) => {
+        res.send('CLIENT - version 1');
     });
 
-    app.use(subdomain('assets', assetsRouter));
+    app.get('*', Logics.endpoints.proxyServer.request );
+
+    app.use(subdomain('client', clientRouter));
+    https.createServer( conf.proxySllOptions.pems, app )
+      .listen( conf.proxySllOptions.port, Logics.endpoints.proxyServer.listen );
+/*
     app.listen( conf.proxySllOptions.httpsPort, () => {
       console.log("LISTEN PROXY " + conf.proxySllOptions.httpsPort );
     } );
+*/
   }
 }
