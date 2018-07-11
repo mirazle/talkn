@@ -7,8 +7,8 @@ export default {
   PORTS: {
     DEVELOPMENT: 8080,
     SOCKET_IO: {http: 10001, https: 10443},
-    PROXY:{http: 80, https: 443},
-    PORTAL: 8000,
+    PROXY: 8000,
+    PORTAL: 443,
     CLIENT: 8001,
     ASSETS: 8002,
     SESSION: 8003,
@@ -18,5 +18,5 @@ export default {
     CLIENT: 'client.',
     ASSETS: 'assets.',
     SESSION: 'session.',
-  },  
+  },
 }
