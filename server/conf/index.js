@@ -6,8 +6,9 @@ const { PRODUCTION } = define;
 const { env, domain } = conf;
 const localhostPemKey = '/Users/hmiyazaki/talkn/common/pems/localhost.key';
 const localhostPemCrt = '/Users/hmiyazaki/talkn/common/pems/localhost.crt';
-const productPemKey = '/etc/letsencrypt/live/talkn.io-0001/privkey.pem';
-const productPemCrt = '/etc/letsencrypt/live/talkn.io-0001/cert.pem';
+const productPemKey = '/etc/letsencrypt/live/talkn.io/privkey.pem';
+const productPemCrt = '/etc/letsencrypt/live/talkn.io/cert.pem';
+
 const proxySllKeyPem = env === PRODUCTION ? productPemKey :  localhostPemKey;
 const proxySllCertPem = env === PRODUCTION ? productPemCrt:  localhostPemCrt;
 
