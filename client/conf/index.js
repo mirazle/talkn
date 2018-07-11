@@ -4,7 +4,7 @@ import conf from '../../common/conf';
 const { PRODUCTION, DEVELOPMENT, PRODUCTION_DOMAIN, DEVELOPMENT_DOMAIN, PORTS, SUB_DOMAINS } = define;
 const { env, domain } = conf;
 const existLocation = typeof location === 'object' ? true : false ;
-
+console.log();
 conf.protcol = existLocation ? ( location.href.indexOf( 'https' ) === 0 ? 'https' : 'http' ) : '' ;
 conf.server = conf.env === DEVELOPMENT ? DEVELOPMENT_DOMAIN : `${SUB_DOMAINS.CLIENT}${domain}` ;
 conf.port = conf.protcol === 'https' ? PORTS.SOCKET_IO.https : PORTS.SOCKET_IO.http;
