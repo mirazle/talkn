@@ -1,14 +1,15 @@
 ## ○localhostのSSL設定
 
-https://qiita.com/suin/items/37313aee4543c5d01285
+### command
 
-openssl genrsa -des3 -out myCA.key 2048
-openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem
-openssl req -new -key localhost.key -out localhost.csr
-openssl genrsa -out localhost.key 2048
+- openssl genrsa -des3 -out myCA.key 2048
+- openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem
+- openssl req -new -key localhost.key -out localhost.csr
+- openssl genrsa -out localhost.key 2048
 
-localhost.ext
+### localhost.ext
 
+```
 authorityKeyIdentifier=keyid,issuer
 basicConstraints=CA:FALSE
 keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
@@ -20,7 +21,16 @@ DNS.2 = portal.localhost
 DNS.2 = client.localhost
 DNS.3 = assets.localhost
 DNS.4 = session.localhost
+```
+
+### command 
 
 openssl x509 -req -in localhost.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out localhost.crt -days 1825 -sha256 -extfile localhost.ext
 
+### keychainAccess
+
 keychainAccessで「信頼」
+
+###　reference
+
+https://qiita.com/suin/items/37313aee4543c5d01285
