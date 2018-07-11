@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
+npm-debug.log
 server/endpoints/assets/icon/*
 server/dump.rdb
 server/package-lock.json

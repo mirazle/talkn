@@ -3,11 +3,14 @@
 /* ( SOCKET.IO / MONGODB / REDIS )
 /**************************************/
 
-import http from 'http';
-import express from 'express';
+var http = require('http')
+var express = require('express')
 
 const httpApp = express();
 
 http.createServer(( httpApp ).all( "*", ( req, res ) => {
   console.log( req.url );
-})).listen( 80 );
+  res.send("csEKOPF59h1smy-fGXqqzP5yFHfepwT0ANUP4Drvk-0.8jGwdr4wmDIONjqGNuTy8tOwF-c71GdlnOwlOLRRAHs");
+})).listen( 80, () => {
+  console.log("Listen 80");
+} );
