@@ -39,6 +39,9 @@ https.createServer( conf.clientSllOptions.pems, ( httpsApp ).all( "*", ( req, re
   console.log( `@@@ 443` );
 })).listen( 443,( err, req )  => {
   console.log( `LISTEN 443` );
+  console.log("@@@@@@@@@@@@@@@@@@");
+  console.log( conf );
+  console.log("@@@@@@@@@@@@@@@@@@");
 });
 
 /*
