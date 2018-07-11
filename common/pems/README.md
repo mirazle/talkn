@@ -37,10 +37,12 @@ https://qiita.com/suin/items/37313aee4543c5d01285
 
 ## ○talkn.ioのssl設定
 
-ワイルドカード指定が可能なserverを指定
+https://letsencrypt.jp/docs/acme-v2-wildcards.html
+
+San&Wildcard
 ```
 git clone https://github.com/certbot/certbot
-./certbot-auto certonly --manual --domain *.talkn.io --preferred-challenges dns-01 --server https://acme-v02.api.letsencrypt.org/directory
+./certbot-auto certonly --manual --domain *.talkn.io --domain talkn.io --preferred-challenges dns-01 --server https://acme-v02.api.letsencrypt.org/directory
 ```
 
 _acme-challengeのTXTレコードに発行された値を設定
