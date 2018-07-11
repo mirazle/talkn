@@ -6,15 +6,21 @@ const { PRODUCTION } = define;
 const { env, domain } = conf;
 const localhostPemKey = '/Users/hmiyazaki/talkn/common/pems/localhost.key';
 const localhostPemCrt = '/Users/hmiyazaki/talkn/common/pems/localhost.crt';
-const proxySllKeyPem = env === PRODUCTION ? '/etc/letsencrypt/live/talkn.io-0001/privkey.pem' :  localhostPemKey;
-const proxySllCertPem = env === PRODUCTION ? '/etc/letsencrypt/live/talkn.io-0001/cert.pem' :  localhostPemCrt;
+const productPemKey = '/etc/letsencrypt/live/talkn.io-0001/privkey.pem';
+const productPemCrt = '/etc/letsencrypt/live/talkn.io-0001/cert.pem';
+const proxySllKeyPem = env === PRODUCTION ? productPemKey :  localhostPemKey;
+const proxySllCertPem = env === PRODUCTION ? productPemCrt:  localhostPemCrt;
 
-const sllKeyPem = env === PRODUCTION ? '/etc/letsencrypt/live/talkn.io/privkey.pem' :  localhostPemKey;
-const sllCertPem = env === PRODUCTION ? '/etc/letsencrypt/live/talkn.io/cert.pem' :  localhostPemCrt;
-const assetsExpressKeyPem = env === PRODUCTION ? '/etc/letsencrypt/live/talkn.io/privkey.pem' :  localhostPemKey;
-const assetsExpressCertPem = env === PRODUCTION ? '/etc/letsencrypt/live/talkn.io/cert.pem' :  localhostPemCrt;
-const clientSllKeyPem = env === PRODUCTION ? '/etc/letsencrypt/live/client.talkn.io/privkey.pem' :  localhostPemKey;
-const clientSllCertPem = env === PRODUCTION ? '/etc/letsencrypt/live/client.talkn.io/cert.pem' :  localhostPemCrt;
+const sllKeyPem = env === PRODUCTION ? productPemKey :  localhostPemKey;
+const sllCertPem = env === PRODUCTION ? productPemCrt :  localhostPemCrt;
+const assetsExpressKeyPem = env === PRODUCTION ? productPemKey :  localhostPemKey;
+const assetsExpressCertPem = env === PRODUCTION ? productPemCrt :  localhostPemCrt;
+const clientSllKeyPem = env === PRODUCTION ? productPemKey :  localhostPemKey;
+const clientSllCertPem = env === PRODUCTION ? productPemCrt :  localhostPemCrt;
+
+console.log( env );
+console.log( productPemKey );
+console.log( productPemCrt );
 
 conf.socketIO = { host: 'localhost', httpPort: 10001, httpsPort: 10443 };
 conf.redis = { host: 'localhost', port: 6379 };
