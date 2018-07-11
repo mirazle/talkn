@@ -2,7 +2,7 @@
 
 ## ○Description
 
-  talkn is token communication dapps.
+  talkn is token communication dapps on url.
 
 ## ○開発環境
 
