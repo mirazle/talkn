@@ -35,7 +35,7 @@ keychainAccessで「信頼」
 
 https://qiita.com/suin/items/37313aee4543c5d01285
 
-## talkn.ioのssl設定
+## ○talkn.ioのssl設定
 
 ワイルドカード指定が可能なserverを指定
 ```
