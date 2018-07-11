@@ -9,43 +9,40 @@ import http from 'http';
 import https from 'https';
 import express from 'express';
 
-const httpsApp = express();
+/***************************/
+/* HTTP(Redirect to HTTPS) */
+/***************************/
+
 const httpApp = express();
-
-/**************************/
-/* HTTP                   */
-/**************************/
-
-httpsApp.get('*', ( req, res, next )=>{
-  console.log( "https " + req.headers.host );
-  res.send("HELLO HTTPS " + req.headers.host);
-})
 
 http.createServer(( httpApp ).all( "*", ( req, res ) => {
   res.redirect(`https://${req.hostname}${req.url}`);
-})).listen( 80 );
-
-/**************************/
-/* HTTPS                  */
-/**************************/
-
-httpsApp.use( (err, req, res, next) => {
-  console.log("@@@@@@@@@@@@@");
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
+})).listen( 80, ( err, req )  => {
+  console.log( `@@@ LISTEN HTTP 80` );
 });
 
-https.createServer( conf.clientSllOptions.pems, ( httpsApp ).all( "*", ( req, res ) => {
+/***************************/
+/* HTTPS(Subdomains)       */
+/***************************/
+
+const subdomainApps = express();
+
+subdomainApps.get('*', ( req, res, next )=>{
+  res.send("HELLO SUBDOMAIN " + req.headers.host);
+})
+
+https.createServer( conf.clientSllOptions.pems, ( subdomainApps ).all( "*", ( req, res ) => {
   console.log( `@@@ 443` );
 })).listen( 443,( err, req )  => {
-  console.log( `LISTEN 443` );
-  console.log("@@@@@@@@@@@@@@@@@@");
-  console.log( conf );
-  console.log("@@@@@@@@@@@@@@@@@@");
+  console.log( `@@@ LISTEN SUBDOMAINS 443` );
 });
 
+/***************************/
+/* HTTPS(Portal)           */
+/***************************/
+
 /*
-https.createServer( conf.clientSllOptions.pems, httpsApp )
+https.createServer( conf.clientSllOptions.pems, subdomainApps )
   .on('error', ( err, socket ) => { console.log( 'ERROR' ); })
   .on('clientError', ( err, socket ) => { console.log( 'clientError' ); })
   .on('connect', function onCliConn(cliReq, cliSoc, cliHead) { console.log("connect https") })
