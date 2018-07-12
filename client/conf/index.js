@@ -7,7 +7,6 @@ const existLocation = typeof location === 'object' ? true : false ;
 
 conf.protcol = existLocation ? ( location.href.indexOf( 'https' ) === 0 ? 'https' : 'http' ) : '' ;
 conf.server = domain;
-//conf.server = conf.env === DEVELOPMENT ? DEVELOPMENT_DOMAIN : `${SUB_DOMAINS.CLIENT}${domain}` ;
 conf.portalPath = `//${SUB_DOMAINS.PORTAL}.${domain}/` ;
 conf.clientPath = `//${SUB_DOMAINS.CLIENT}.${domain}/` ;
 conf.assetsPath = `//${SUB_DOMAINS.ASSETS}.${domain}/` ;
