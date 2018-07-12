@@ -1,6 +1,5 @@
 import conf from '../../common/conf';
 import Sequence from '~/../common/Sequence'
-import killPort from 'kill-port';
 
 export default class Io {
 

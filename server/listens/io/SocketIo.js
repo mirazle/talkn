@@ -4,7 +4,6 @@ import redis from	'socket.io-redis';
 import fs from "fs";
 import conf from '~/conf';
 import define from '~/../common/define';
-import detect from 'detect-port';
 
 class SocketIo{
 
