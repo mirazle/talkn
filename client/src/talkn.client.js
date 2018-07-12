@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import configureStore from 'client/store/configureStore'
 import conf from 'client/conf';
+import define from 'common/define';
 import State from 'common/schemas/state';
 import TalknSession from 'client/operations/TalknSession';
 import TalknAPI from 'client/operations/TalknAPI';
@@ -8,9 +9,9 @@ import TalknViewer from 'client/operations/TalknViewer';
 import TalknSetupJs from 'client/operations/TalknSetupJs';
 
 function bootTalkn( appType, talknIndex, attributes, conf ){
-	const {server, port} = conf;
-console.log( conf);
-	const ws = io(`//${server}:${port}`, { forceNew: true });
+	const {server } = conf;
+	const { PORTS } = define;
+	const ws = io(`//${server}:${PORTS.SOCKET_IO}`, { forceNew: true });
 	const store = configureStore();
 	const state = new State( appType, talknIndex, window, attributes );
 	const connection = state.connection;
@@ -25,6 +26,7 @@ console.log( conf);
 }
 
 window.onload =  () => {
+	const { PORTS, SUB_DOMAINS } = define;
 	const appType = TalknViewer.getAppType();
 	window.TalknAPI = TalknAPI;
 	window.__talknAPI__ = [];
@@ -37,10 +39,8 @@ window.onload =  () => {
 	case 'portal':
 	case 'iframe':
 	case 'script':
-
-		// TODO サブドメイン client.talkn.ioで呼び出すようにする
-		const scripts = document.querySelectorAll(`script[src*="${conf.scriptName}"]`);
-
+		const scriptName = Number( location.port ) === PORTS.DEVELOPMENT ? 'talkn.client.js' : conf.clientURL;
+		const scripts = document.querySelectorAll(`script[src*="${scriptName}"]`);
 		scripts.forEach( ( script, index ) => {
 
 			bootTalkn( appType, index + 1 , script.attributes, conf );

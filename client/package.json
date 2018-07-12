@@ -1,8 +1,8 @@
 {
   "name": "react-server",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline --colors",
-    "ssl": "webpack-dev-server --hot --inline --colors --https --cert=./conf/localhost.crt --key=./conf/localhost.key",
+    "start": "webpack-dev-server --hot --inline --colors --https --cert=./conf/localhost.crt --key=./conf/localhost.key",
+    "http": "webpack-dev-server --hot --inline --colors",
     "electron": "electron ./bootElectron.js",
     "build": "webpack --progress --colors"
   },

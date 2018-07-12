@@ -7,7 +7,7 @@ module.exports = {
   },
 
   output: {
-    path: __dirname + "./../server/endpoints/client/",
+    path: __dirname + "./../server/listens/express//client/",
     filename: "talkn.client.js",
   },
 

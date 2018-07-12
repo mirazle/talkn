@@ -1,16 +1,9 @@
-import proxyServer from './proxyServer';
-import portal from './portal';
-import assets from './assets';
-import client from './client';
 import db from './db';
-import api from './api';
+import io from './io';
+import express from './express';
 
 let actions = {};
-Object.keys( proxyServer ).forEach( funcName => actions[ funcName ] = proxyServer[ funcName ]);
-Object.keys( portal ).forEach( funcName => actions[ funcName ] = portal[ funcName ]);
-Object.keys( assets ).forEach( funcName => actions[ funcName ] = assets[ funcName ]);
-Object.keys( client ).forEach( funcName => actions[ funcName ] = client[ funcName ]);
 Object.keys( db ).forEach( funcName => actions[ funcName ] = db[ funcName ]);
-Object.keys( api ).forEach( funcName => actions[ funcName ] = api[ funcName ]);
-
+Object.keys( io ).forEach( funcName => actions[ funcName ] = io[ funcName ]);
+Object.keys( express ).forEach( funcName => actions[ funcName ] = express[ funcName ]);
 export default actions;
