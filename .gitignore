@@ -2,5 +2,5 @@
 node_modules/
 npm-debug.log
 server/endpoints/assets/icon/*
-server/dump.rdb
-*/package-lock.json
+dump.rdb
+package-lock.json
