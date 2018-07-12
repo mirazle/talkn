@@ -4,9 +4,17 @@
 
   talkn is token communication dapps on url.
 
-## ○開発環境
+## ○Node(localhost)
+
+- nodebrew 1.0.0
+- node v10.6.0
+- npm 6.1.0
 
 ## ○フォルダ構造
+
+- server
+- common
+- client
 
 ## ○mongoDB
 
