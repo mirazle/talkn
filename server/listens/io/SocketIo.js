@@ -9,10 +9,10 @@ import detect from 'detect-port';
 class SocketIo{
 
   constructor(){
-    const httpsServer = https.createServer( conf.clientSllOptions.pems );
-    httpsServer.listen( conf.socketIO.httpsPort );
+    const httpsServer = https.createServer( conf.sslOptions );
+    httpsServer.listen( conf.socketIO.port );
     const io = socketIo( httpsServer );
-    console.log("SOCKET IO RUN : " + conf.socketIO.httpsPort);
+    console.log("SOCKET IO RUN : " + conf.socketIO.port);
     this.io = io.adapter( redis( { host: conf.redis.host, port: conf.redis.port } ));
     return this;
   }
