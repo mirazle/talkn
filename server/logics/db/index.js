@@ -1,4 +1,3 @@
-import killPort from 'kill-port';
 import conf from '~/conf';
 import Threads from './Threads';
 import Posts from './Posts';
@@ -16,11 +15,5 @@ export default class Db {
 
   async killPort(){
     console.log( "@@@@@ START KILL PORT MONGO" );
-    return new Promise( ( resolve, reject ) => {
-      killPort( conf.mongoDB.port ).then(()=>{
-        console.log( "@@@@@ START KILLED PORT MONGO" );
-        resolve( true );
-      });
-    });
   }
 }

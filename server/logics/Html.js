@@ -2,9 +2,7 @@ import request from 'request';
 import cheerio from 'cheerio';
 import jschardet from 'jschardet';
 import {Iconv} from 'iconv';
-import iconvLite from 'iconv-lite';
 import {Buffer} from 'buffer';
-import textEncoding from 'text-encoding';
 import fs from 'fs';
 import Sequence from '~/../common/Sequence'
 import Thread from '~/../common/schemas/state/Thread'
