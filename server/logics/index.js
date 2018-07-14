@@ -1,15 +1,15 @@
-import express from './express';
-import sns from './sns';
-import Db from './db';
-import Io from './Io';
-import Html from './Html';
-import Favicon from './Favicon';
-import Fs from './Fs';
-import Control from './Control';
-import Passport from './Passport';
+import express from '~/server/logics/express';
+import sns from '~/server/logics/sns';
+import Db from '~/server/logics/db';
+import Io from '~/server/logics/Io';
+import Html from '~/server/logics/Html';
+import Favicon from '~/server/logics/Favicon';
+import Fs from '~/server/logics/Fs';
+import Control from '~/server/logics/Control';
+import Passport from '~/server/logics/Passport';
 
-import MongoDB from '~/listens/db/MongoDB';
-import SocketIo from '~/listens/io/SocketIo';
+import MongoDB from '~/server/listens/db/MongoDB';
+import SocketIo from '~/server/listens/io/SocketIo';
 const mongoDB = new MongoDB();
 const socketIo = new SocketIo();
 

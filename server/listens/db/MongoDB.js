@@ -1,10 +1,10 @@
-import conf from '~/conf';
 import mongoose from 'mongoose';
-import Schemas from '~/schemas';
-import Threads from '~/listens/db/Threads';
-import Posts from '~/listens/db/Posts';
-import Users from '~/listens//db/Users';
-import Setting from '~/listens/db/Setting';
+import conf from '~/server/conf';
+import Schemas from '~/server/schemas';
+import Threads from '~/server/listens/db/Threads';
+import Posts from '~/server/listens/db/Posts';
+import Users from '~/server/listens//db/Users';
+import Setting from '~/server/listens/db/Setting';
 
 class MongoDB {
   constructor(){
@@ -12,7 +12,7 @@ class MongoDB {
     const {host, port, dbName, option} = conf.mongoDB;
     const address = `mongodb://${host}:${port}/${dbName}`;
     const con	= mongoose.createConnection( address, option );
-    
+
     console.log( `MONGO DB RUN : ${conf.mongoDB.port}`);
 
     return {

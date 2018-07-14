@@ -1,9 +1,9 @@
-import Logics from '~/logics';
 import request from 'request';
 import fs from 'fs';
-import Sequence from '~/../common/Sequence'
-import define from '~/../common/define'
-import conf from '~/conf'
+import Sequence from '~/common/Sequence'
+import define from '~/common/define'
+import Logics from '~/server/logics';
+import conf from '~/server/conf'
 
 export default class Favicon {
 

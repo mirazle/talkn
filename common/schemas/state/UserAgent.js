@@ -1,5 +1,5 @@
 import Parser from 'ua-parser-js';
-import Schema from '../Schema';
+import Schema from '~/common/schemas/Schema';
 
 export default class UserAgent extends Schema{
   constructor( window = {} ){
