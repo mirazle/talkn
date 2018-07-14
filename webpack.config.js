@@ -1,7 +1,5 @@
 const path = require('path');
 
-console.log( "@@@@@@@ " + __dirname );
-
 module.exports = {
   mode: 'development',
   context: __dirname + "/client/src",
