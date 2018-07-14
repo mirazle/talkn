@@ -1,5 +1,5 @@
-import Twitter from './Twitter';
-import Facebook from './Facebook';
+import Twitter from '~/server/logics/sns/Twitter';
+import Facebook from '~/server/logics/sns/Facebook';
 
 export default class Sns {
 

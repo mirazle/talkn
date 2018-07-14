@@ -4,10 +4,10 @@ import jschardet from 'jschardet';
 import {Iconv} from 'iconv';
 import {Buffer} from 'buffer';
 import fs from 'fs';
-import Sequence from '~/../common/Sequence'
-import Thread from '~/../common/schemas/state/Thread'
-import Logics from '~/logics';
-import define from '~/../common/define';
+import Sequence from '~/common/Sequence'
+import Thread from '~/common/schemas/state/Thread'
+import Logics from '~/server/logics';
+import define from '~/common/define';
 
 export default class Html {
 

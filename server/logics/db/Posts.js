@@ -1,4 +1,4 @@
-import Thread from '~/../common/schemas/state/Thread';
+import Thread from '~/common/schemas/state/Thread';
 
 export default class Posts {
 

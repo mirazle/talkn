@@ -1,13 +1,13 @@
-import App from './App';
-import User from './User';
-import UserAgent from './UserAgent';
-import MenuIndex from './MenuIndex';
-import Posts from './Posts';
-import Analyze from './Analyze';
-import BootOption from './BootOption';
-import Thread from './Thread';
-import Setting from './Setting';
-import Style from './Style';
+import App from '~/common/schemas/state/App';
+import User from '~/common/schemas/state/User'
+import UserAgent from '~/common/schemas/state/UserAgent';
+import MenuIndex from '~/common/schemas/state/MenuIndex';
+import Posts from '~/common/schemas/state/Posts';
+import Analyze from '~/common/schemas/state/Analyze';
+import BootOption from '~/common/schemas/state/BootOption';
+import Thread from '~/common/schemas/state/Thread';
+import Setting from '~/common/schemas/state/Setting';
+import Style from '~/common/schemas/state/Style';
 
 export default class State{
 

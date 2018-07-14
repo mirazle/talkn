@@ -1,5 +1,5 @@
-import MongoDB from './MongoDB';
-import Thread from '~/../common/schemas/state/Thread';
+import MongoDB from '~/server/listens/db/MongoDB';
+import Thread from '~/common/schemas/state/Thread';
 
 export default class Threads {
   constructor( con ){

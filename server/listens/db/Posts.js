@@ -1,4 +1,4 @@
-import MongoDB from './MongoDB';
+import MongoDB from '~/server/listens/db/MongoDB';
 
 export default class Posts {
   constructor( con ){

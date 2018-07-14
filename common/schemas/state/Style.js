@@ -1,2 +1,2 @@
-import Style from '../../../client/style';
+import Style from '~/client/style';
 export default Style;

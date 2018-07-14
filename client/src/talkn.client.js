@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import io from 'socket.io-client';
 import configureStore from 'client/store/configureStore'
 import conf from 'client/conf';

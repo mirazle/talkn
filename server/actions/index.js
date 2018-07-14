@@ -1,6 +1,6 @@
-import db from './db';
-import io from './io';
-import express from './express';
+import db from '~/server/actions/db';
+import io from '~/server/actions/io';
+import express from '~/server/actions/express';
 
 let actions = {};
 Object.keys( db ).forEach( funcName => actions[ funcName ] = db[ funcName ]);

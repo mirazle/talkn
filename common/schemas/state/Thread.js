@@ -1,5 +1,5 @@
-import conf from '../../conf';
-import Schema from '../Schema';
+import conf from '~/common/conf';
+import Schema from '~/common/schemas/Schema';
 
 export default class Thread extends Schema{
 
