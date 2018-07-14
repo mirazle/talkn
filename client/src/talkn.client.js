@@ -32,21 +32,12 @@ window.onload =  () => {
 	window.TalknAPI = TalknAPI;
 	window.__talknAPI__ = [];
 
-	switch( appType ){
-	case 'plugin':
-	case 'electron':
-		bootTalkn( appType, 0, {}, conf );
-		break;
-	case 'portal':
-	case 'iframe':
-	case 'script':
-		const scriptName = Number( location.port ) === PORTS.DEVELOPMENT ? 'talkn.client.js' : conf.clientURL;
-		const scripts = document.querySelectorAll(`script[src*="${scriptName}"]`);
-		scripts.forEach( ( script, index ) => {
+	const scriptName = Number( location.port ) === PORTS.DEVELOPMENT ? 'talkn.client.js' : conf.clientURL;
+	const scripts = document.querySelectorAll(`script[src*="${scriptName}"]`);
+	scripts.forEach( ( script, index ) => {
 
-			bootTalkn( appType, index + 1 , script.attributes, conf );
- 		});
+		bootTalkn( appType, index + 1 , script.attributes, conf );
+		});
 
-		window.talknAPI = window.__talknAPI__[ 1 ];
-	}
+	window.talknAPI = window.__talknAPI__[ 1 ];
 }
