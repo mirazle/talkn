@@ -2,8 +2,8 @@ import https from 'https';
 import socketIo from "socket.io";
 import redis from	'socket.io-redis';
 import fs from "fs";
-import conf from '~/conf';
-import define from '~/../common/define';
+import define from '~/common/define';
+import conf from '~/server/conf';
 
 class SocketIo{
 

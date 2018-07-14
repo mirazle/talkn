@@ -1,6 +1,6 @@
-import util from '~/../common/util'
+import util from '~/common/util'
+import conf from '~/server/conf';
 import fs from 'fs';
-import conf from '~/conf';
 
 export default class Fs {
   write( fileName, binary ){

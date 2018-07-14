@@ -1,7 +1,7 @@
-import Sequence from '~/../common/Sequence'
-import Logics from '~/logics';
-import Actions from '~/actions';
-import tests from '~/utils/testRequestState';
+import Sequence from '~/common/Sequence'
+import Logics from '~/server/logics';
+import Actions from '~/server/actions';
+import tests from '~/server/utils/testRequestState';
 
 export default {
   setUpAPI: async () => {

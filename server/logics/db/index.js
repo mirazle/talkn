@@ -1,8 +1,8 @@
-import conf from '~/conf';
-import Threads from './Threads';
-import Posts from './Posts';
-import Setting from './Setting';
-import Users from './Users';
+import conf from '~/server/conf';
+import Threads from '~/server/logics/db/Threads';
+import Posts from '~/server/logics/db/Posts';
+import Setting from '~/server/logics/db/Setting';
+import Users from '~/server/logics/db/Users';
 
 export default class Db {
   constructor( mongoDB ){

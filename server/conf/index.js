@@ -1,7 +1,7 @@
-import define from '../../common/define';
-import conf from '../../common/conf';
 import fs from 'fs';
 import os from 'os';
+import define from '~/common/define';
+import conf from '~/common/conf';
 
 const homeDir = os.homedir();
 const { PRODUCTION, SUB_DOMAINS, PORTS } = define;

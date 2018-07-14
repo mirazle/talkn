@@ -2,8 +2,8 @@ import http from 'http';
 import https from 'https';
 import express from 'express';
 import fs from "fs";
-import conf from '~/conf';
-import define from '~/../common/define';
+import define from '~/common/define';
+import conf from '~/server/conf';
 
 class Express{
 

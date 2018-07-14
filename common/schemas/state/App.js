@@ -1,4 +1,4 @@
-import Schema from '../Schema';
+import Schema from '~/common/schemas/Schema';
 export default class App extends Schema{
 
   static get screenModeSmallLabel(){ return 'SMALL' };
