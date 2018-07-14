@@ -1,13 +1,10 @@
 {
   "presets": [
-    "es2015", "react", "stage-2"
+    "env", "react", "stage-2"
   ],
   "plugins": [
     [
-      "babel-root-import",
-      "transform-object-rest-spread",
-      "transform-runtime",
-      "transform-react-jsx"
+      "babel-root-import"
     ]
   ]
 }
