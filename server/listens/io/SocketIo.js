@@ -27,13 +27,11 @@ class SocketIo{
 
   async broadcast( key, state ){
     console.log( "Broadcast ######" + key );
-    console.log( Object.keys( state ) );
     this.io.emit( key, state );
   }
 
   async emit( ioUser, key, state ){
     console.log( "Emit     ###### " + key );
-    console.log( Object.keys( state ) );
     ioUser.emit( key, state );
   }
 }
