@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from 'react-redux';
+import User from 'common/schemas/state/User';
 import Style from 'client/components/Style';
 import Main from 'client/components/Main';
 import handles from 'client/actions/handles';
 import callbacks from 'client/actions/callbacks';
-import User from 'common/schemas/state/User';
 import Footer from 'client/components/Footer';
 
 class Container extends Component {

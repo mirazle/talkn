@@ -77,7 +77,6 @@ export default class Sequence {
   }
 
   static getRequestState( actionName, reduxState, requestParams ){
-
     const endpointKey = actionName.replace( Sequence.CLIENT_TO_SERVER_EMIT, '' );
     const { requestPublicState, requestPrivateState } = Sequence.map[ endpointKey ];
     let requestState = {[ Sequence.REDUX_ACTION_KEY ]: endpointKey};
