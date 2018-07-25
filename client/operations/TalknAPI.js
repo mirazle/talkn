@@ -1,14 +1,19 @@
+import io from 'socket.io-client';
 import Sequence from 'common/Sequence';
+import define from 'common/define';
+import conf from 'client/conf';
 import handleActions from 'client/actions/handles'
 import WsServerToClientEmitAction from 'client/actions/ws/serverToClientEmit'
 import WsClientToServerEmitActions from 'client/actions/ws/clientToServerEmit'
 import WsServerToClientBroadcastAction from 'client/actions/ws/serverToClientBradcast'
 
 export default class TalknAPI{
-	constructor( talknIndex, ws, store, connection ){
+	constructor( talknIndex, store, connection ){
+		const { server } = conf;
+		const { PORTS } = define;
+		this.ws = io(`//${server}:${PORTS.SOCKET_IO}`, { forceNew: true });
 		this.talknIndex = talknIndex;
 		this.store = store;
-		this.ws = ws;
 		this.connectionKeys = [];
 		this.connection = connection;
 
@@ -115,6 +120,7 @@ export default class TalknAPI{
 		return ( response ) => {
 			if( TalknAPI.handle( talknIndex ) ){
 				const actionState = actionMethod( response );
+//				console.log( "=== getCatchConnectionAPI === " + actionState.type);
 				return window.talknAPI.store.dispatch( actionState );
 			}
 		}
