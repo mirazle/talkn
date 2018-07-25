@@ -134,7 +134,7 @@ export default class TalknViewer {
 				<Container talknAPI={ this.talknAPI } timeago={new timeago()} />
 			</Provider>,
 			document.getElementById( this.id ),
-			() => {}
+			() => {  }
 		)
 		return true;
 	}

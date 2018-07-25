@@ -88,7 +88,6 @@ export default class Menu extends Component {
     const IndexIcon = Icon.getIndex( icon.index );
     const Logs = Icon.getLogs( icon.logs );
     const Setting = Icon.getSetting( icon.setting );
-
 		return (
       <div style={ style.menu.self } >
 
@@ -109,7 +108,6 @@ export default class Menu extends Component {
             { Setting }
           </div>
         </footer>
-        <iframe src={ conf.sessionPath } style={{}} />
       </div>
 		);
  	}

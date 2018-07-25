@@ -95,11 +95,7 @@ export default class Main extends Component {
           <span style={ style.main.headerMenuIcon } onClick={ this.handleOnClickUserIcon } {...Icon.getDecolationProps1( 'icon', 'menu', 'div' )} >
 
             { MenuIcon }
-{/*
-            <span style={ style.main.headerChildTalknLogo }>
-              { TalknLogo }
-            </span>
-*/}
+
           </span>
 
           {/* Head Tab Icon */}
