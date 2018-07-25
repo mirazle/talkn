@@ -11,7 +11,6 @@ export default {
 
   attachAPI: async ( ioUser ) => {
     const setting = await Actions.setUpUser();
-console.log( "-----------------FINNISH CONNECTION" );
     Object.keys( Sequence.map ).forEach( endpoint => {
       const oneSequence = Sequence.map[ endpoint ];
       ioUser.on( endpoint, ( requestState ) => {
