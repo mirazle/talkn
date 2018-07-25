@@ -48,7 +48,7 @@ export default class Sequence {
           'thread': [{columnName: 'protocol'}, {columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}]
         },
         responseEmitState: {},
-        responseBroadcastState: {'posts': '*', 'thread': ['postCnt', 'multiPostCnt']},
+        responseBroadcastState: {'posts': '*', 'thread': ['postCnt', 'multiPostCnt'], 'menuIndex': '*'},
       },
       updateThreadServerMetas: {
         requestPublicState: {'thread': [{columnName: 'serverMetas'}]},
