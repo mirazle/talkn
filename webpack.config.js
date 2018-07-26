@@ -2,15 +2,16 @@ const path = require('path');
 
 module.exports = {
   mode: 'development',
-  context: __dirname + "/client/src",
+  context: __dirname + "/client/src/",
   entry: {
-    javascript: ["./talkn.client.js"],
+    javascript: __dirname + "/client/src/talkn.client.js",
   },
 
   output: {
     path: __dirname + "/server/listens/express/client/",
     filename: "talkn.client.js",
   },
+
 
   module: {
     rules: [
@@ -41,7 +42,8 @@ module.exports = {
   },
 
   devServer: {
-    contentBase: './client/src/',
+    historyApiFallback: true,
+    contentBase: "./client/src/",
   },
 
   devtool: 'inline-source-map',

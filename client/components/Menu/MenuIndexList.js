@@ -14,7 +14,7 @@ export default class MenuIndexList extends Component {
     this.getDecolationProps = this.getDecolationProps.bind(this);
   }
 
-  getDecolationProps( styleKey ){
+  getDecolationProps( styleKey, connection ){
     return {
       onMouseOver: () => {
         this.setState(
@@ -41,6 +41,8 @@ export default class MenuIndexList extends Component {
         });
       },
       onMouseDown: () => {
+        console.log( connection );
+        talknAPI.find( connection );
         this.setState( {style:
           {...this.state.style,
             menuIndexList: { ...this.state.style.menuIndexList,
@@ -70,7 +72,7 @@ export default class MenuIndexList extends Component {
     const dispConnection = connection.replace( thread.connection, '' );
     const dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
     const styleKey = thread.connection === connection ? 'liActiveSelf' : 'liUnactiveSelf' ;
-    const events = styleKey === 'liUnactiveSelf' ? this.getDecolationProps( styleKey ) : () => {} ;
+    const events = styleKey === 'liUnactiveSelf' ? this.getDecolationProps( styleKey, connection ) : () => {} ;
 
     return (
       <li style={style.menuIndexList[ styleKey ] } {...events}>

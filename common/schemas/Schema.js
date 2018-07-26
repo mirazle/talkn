@@ -100,9 +100,9 @@ export default class Schema {
                   console.warn("##########################");
                   console.warn("#" + pointer );
                   console.warn("##########################");
-                  console.warn("### validType");
+                  console.warn("### initializedValidType");
                   console.warn( validType );
-                  console.warn("### validValue");
+                  console.warn("### initializedValidValue");
                   console.warn( validValue );
                   console.warn("### paramsType");
                   console.warn( paramsType );
