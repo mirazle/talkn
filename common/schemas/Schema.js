@@ -127,15 +127,6 @@ export default class Schema {
         }
       }
     });
-
-    if( className === 'MenuIndex' ){
-/*
-      console.log( state );
-      console.log( stateType );
-      console.log( this );
-*/
-    }
-
     return this;
   }
 
