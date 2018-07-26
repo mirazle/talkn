@@ -71,7 +71,7 @@ export default class Html {
           responseSchema.videos = this.getVideos( $ );
           responseSchema.audios = this.getAudios( $ );
           responseSchema.contentType = response.headers['content-type'];
-          responseSchema.uri = response.request.uri;
+// なぜいる?           responseSchema.uri = response.request.uri;
           resolve( responseSchema );
         }else{
           resolve(false);

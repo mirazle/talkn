@@ -42,7 +42,7 @@ export default {
 		mediaIndex: { type: [], default: []},
 
 		// Uri
-		uri: {type: Object, default: {}},
+//		uri: {type: Object, default: {}},
 
 		// Analyze
 		postCnt: { type: Number, default: 0 },
