@@ -11,15 +11,16 @@ class MongoDB {
     mongoose.Promise	= global.Promise;
     const {host, port, dbName, option} = conf.mongoDB;
     const address = `mongodb://${host}:${port}/${dbName}`;
-    const con	= mongoose.createConnection( address, option );
+    const dbConnection	= mongoose.createConnection( address, option );
 
     console.log( `MONGO DB RUN : ${conf.mongoDB.port}`);
 
+    // collections.
     return {
-      Setting: new Setting( con ),
-      Threads: new Threads( con ),
-      Posts: new Posts( con ),
-      Users: new Users( con ),
+      Setting: new Setting( dbConnection ),
+      Threads: new Threads( dbConnection ),
+      Posts: new Posts( dbConnection ),
+      Users: new Users( dbConnection ),
     }
   }
 

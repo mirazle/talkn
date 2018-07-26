@@ -12,7 +12,6 @@ export default class MenuIndex extends Component {
     const { style, menuIndex, thread } = this.props.state;
 
     return menuIndex.map( ( mi, index ) => {
-      if(  mi.connection === '' ) return null;
       return (
         <MenuIndexList key={ mi.connection } {...this.props} mi={mi} />
       )

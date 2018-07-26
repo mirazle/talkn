@@ -12,7 +12,6 @@ module.exports = {
     filename: "talkn.client.js",
   },
 
-
   module: {
     rules: [
       {

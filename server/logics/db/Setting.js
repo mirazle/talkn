@@ -1,10 +1,10 @@
 export default class Setting {
-  constructor( db ){
-    this.db = db;
+  constructor( collection ){
+    this.collection = collection;
     return this;
   }
-  
+
   async findOne(){
-    return await this.db.findOne();
+    return await this.collection.findOne();
   }
 }

@@ -1,17 +1,17 @@
 import MongoDB from '~/server/listens/db/MongoDB';
 
 export default class Posts {
-  constructor( con ){
-    this.db = MongoDB.getCollection( con, Posts.name );
-    this.find = this.find.bind(this);
-    this.save = this.save.bind(this);
-    this.update = this.update.bind(this);
+  constructor( dbConnection ){
+    this.collection = MongoDB.getCollection( dbConnection, Posts.name );
+//    this.find = this.find.bind(this);
+//    this.save = this.save.bind(this);
+//    this.update = this.update.bind(this);
     return this;
   }
 
   count(condition){
     return new Promise( resolve => {
-      this.db.count( condition, (error, response) => {
+      this.collection.count( condition, (error, response) => {
         if(error) console.warn( error );
         resolve({error, response});
       });
@@ -20,7 +20,7 @@ export default class Posts {
 
   find(condition, selector, option){
     return new Promise( resolve => {
-      this.db.find( condition, selector, option, (error, response) => {
+      this.collection.find( condition, selector, option, (error, response) => {
         if(error) console.warn( error );
         resolve({error, response});
       });
@@ -29,7 +29,7 @@ export default class Posts {
 
   save( set = {}, option = {} ){
     return new Promise( resolve => {
-      const post = new this.db( set );
+      const post = new this.collection( set );
       post.save(( error, response) => {
         if(error) console.warn( error );
         resolve({response, error});
@@ -39,7 +39,7 @@ export default class Posts {
 
   update( condition = {}, set = {}, option = {} ){
     return new Promise( resolve => {
-      this.db.update( condition, set, option, ( error, response ) => {
+      this.collection.update( condition, set, option, ( error, response ) => {
         if(error) console.warn( error );
         resolve({response, error});
       });
