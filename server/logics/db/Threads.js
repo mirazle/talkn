@@ -34,8 +34,13 @@ export default class Threads {
     let {error, response} = await this.collection.find( condition, selector, option, true );
 
     if( response.length === 0 ){
-      response = [ this.collection.getSchema({connection}) ];
+      response = this.collection.getSchema({connection});
+      response.connections = Thread.getConnections( connection );
+      response.lastPost.connection = connection;
+      response.lastPost.connections = Thread.getConnections( connection );
+      response = [ response ];
     }
+
     return response.map( res => res.lastPost );
   }
 
