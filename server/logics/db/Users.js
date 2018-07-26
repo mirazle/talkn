@@ -1,8 +1,8 @@
 
 export default class Users {
 
-  constructor( db ){
-    this.db = db;
+  constructor( collection ){
+    this.collection = collection;
     return this;
   }
 
@@ -10,7 +10,7 @@ export default class Users {
     const condition = {
       connection: requestState.thread.connection,
     };
-    return await this.db.find( condition ).count();
+    return await this.collection.find( condition ).count();
   }
 
   async find( requestState, setting ){
@@ -20,34 +20,34 @@ export default class Users {
     };
     const selector = {};
     const option = {limit: setting.server.findOnePostCnt, sort: {_id: -1}};
-    const result = await this.db.find( condition, selector, option );
+    const result = await this.collection.find( condition, selector, option );
     result.response.reverse();
     return result;
   }
 
   async findOne( uid ){
     const condition = {uid};
-    return await this.db.findOne( condition );
+    return await this.collection.findOne( condition );
   }
 
   async save( requestState ){
     const set = {...requestState.thread, ...requestState.user };
     const option = {upsert:true};
-    return this.db.save( set, option );
+    return this.collection.save( set, option );
   }
 
   async update( uid, users ){
     const condition = {uid};
     const set = { ...users };
     const option = {upsert:true};
-    return this.db.update( condition, set, option );
+    return this.collection.update( condition, set, option );
   }
 
   async remove( uid ){
-    return this.db.remove( uid );
+    return this.collection.remove( uid );
   }
 
   async removeAll(){
-    return this.db.removeAll();
+    return this.collection.removeAll();
   }
 }

@@ -12,8 +12,4 @@ export default class Db {
     this.users = new Users( mongoDB.Users );
     return this;
   }
-
-  async killPort(){
-    console.log( "@@@@@ START KILL PORT MONGO" );
-  }
 }

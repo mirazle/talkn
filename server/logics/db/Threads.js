@@ -2,8 +2,8 @@ import Thread from '~/common/schemas/state/Thread'
 
 export default class Threads {
 
-  constructor( db ){
-    this.db = db;
+  constructor( collection ){
+    this.collection = collection;
     return this;
   }
 
@@ -13,7 +13,7 @@ export default class Threads {
 
   async findOne( connection, selector = {}, option = {} ){
     const condition = {connection};
-    const response = await this.db.findOne( condition, selector, option );
+    const response = await this.collection.findOne( condition, selector, option );
     return response;
   }
 
@@ -21,7 +21,7 @@ export default class Threads {
     const condition = {connection};
     const selector = {watchCnt: 1};
     const option = {};
-    const { error, response } = await this.db.findOne( condition, selector, option );
+    const { error, response } = await this.collection.findOne( condition, selector, option );
     return response.watchCnt < 0 ? 0 : response.watchCnt ;
   }
 
@@ -31,7 +31,11 @@ export default class Threads {
     const condition = {connection: regex, "lastPost.connection": regex};
     const selector = {lastPost: 1};
     const option = {sort: {layer: 1, watchCnt: 1}, limit: setting.server.getThreadChildrenCnt};
-    const {error, response} = await this.db.find( condition, selector, option );
+    let {error, response} = await this.collection.find( condition, selector, option, true );
+
+    if( response.length === 0 ){
+      response = [ this.collection.getSchema({connection}) ];
+    }
     return response.map( res => res.lastPost );
   }
 
@@ -64,27 +68,27 @@ export default class Threads {
   async save( connection, thread ){
     const set = {connection, ...thread};
     const option = {upsert:true};
-    return this.db.save( set, option );
+    return this.collection.save( set, option );
   }
 
   async update( connection, thread ){
     const condition = {connection};
     const set = {connection, ...thread, updateTime: new Date()}
     const option = {upsert:true};
-    return this.db.update( condition, set, option );
+    return this.collection.update( condition, set, option );
   }
 
   async resetWatchCnt(){
     const condition = { watchCnt:{ $exists: true, $ne: 0 } };
     const set =  { $set:{ watchCnt: 0 } };
     const option = { upsert:false, multi: true };
-    return await this.db.update( condition, set, option );
+    return await this.collection.update( condition, set, option );
   }
 
   async updateWatchCnt( connection, watchCnt ){
     const condition = {connection};
     const set = { $inc: { watchCnt } };
     const option = {upsert:true};
-    return await this.db.update( condition, set, option );
+    return await this.collection.update( condition, set, option );
   }
 }

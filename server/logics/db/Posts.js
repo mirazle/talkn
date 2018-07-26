@@ -2,16 +2,16 @@ import Thread from '~/common/schemas/state/Thread';
 
 export default class Posts {
 
-  constructor( db ){
-    this.db = db;
+  constructor( collection ){
+    this.collection = collection;
     return this;
   }
 
   async getCounts( connection ){
     const condition = {connection};
     const multiCondition = {connections: connection};
-    const {response: postCnt} = await this.db.count( condition );
-    const {response: multiPostCnt} = await this.db.count( multiCondition );
+    const {response: postCnt} = await this.collection.count( condition );
+    const {response: multiPostCnt} = await this.collection.count( multiCondition );
     return {postCnt, multiPostCnt};
   }
 
@@ -19,7 +19,7 @@ export default class Posts {
     const condition = {
       connection: requestState.thread.connection,
     };
-    return await this.db.find( condition ).count();
+    return await this.collection.find( condition ).count();
   }
 
   async find( requestState, setting ){
@@ -29,7 +29,7 @@ export default class Posts {
     };
     const selector = {};
     const option = {limit: setting.server.findOnePostCnt, sort: {_id: -1}};
-    const result = await this.db.find( condition, selector, option );
+    const result = await this.collection.find( condition, selector, option );
     result.response.reverse();
     return result;
   }
@@ -39,13 +39,13 @@ export default class Posts {
     const post = requestState.app.inputPost;
     const set = {connections, ...requestState.thread, ...requestState.user, post };
     const option = {upsert:true};
-    return this.db.save( set, option );
+    return this.collection.save( set, option );
   }
 
   async update( requestState, posts ){
     const condition = {connection: requestState.connection};
     const set = { connection: requestState.connection, ...posts };
     const option = {upsert:true};
-    return this.db.update( condition, set, option );
+    return this.collection.update( condition, set, option );
   }
 }
