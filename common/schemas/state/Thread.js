@@ -8,12 +8,11 @@ export default class Thread extends Schema{
   }
 
   static isWindowObj( params ){
-    return params.alert;
+    return params.alert ? true : false;
   }
 
   constructor( params = {}, bootOption = {}){
     super();
-
     const thread = Thread.isWindowObj( params ) ? Thread.constructorFromWindow( params, bootOption ) : params;
     return this.create(thread);
   }

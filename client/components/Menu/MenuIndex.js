@@ -40,7 +40,7 @@ export default class MenuIndex extends Component {
               onChange={this.handleOnChange}
               onKeyPress={this.handleOnKeyPress}
               defaultValue={ connection }
-              placeholder='Search Thread .'
+//              placeholder='Search Thread .'
             />
           </span>
         </header>

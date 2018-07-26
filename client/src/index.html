@@ -11,10 +11,12 @@
 		var script = document.createElement("script");
 		var href = location.href;
 		var replaceStr = location.origin + '/?';
-		var connection = href.indexOf('?') > 0 ? href.replace( replaceStr, '') : '/';
+		var jsPath = '//' + location.host + '/';
+		var jsFileName = 'talkn.client.js';
+		var connection = location.pathname;
 		connection = connection.indexOf( '/' ) === 0 ? connection : '/' + connection ;
 		script.setAttribute( 'type', 'text/javascript' );
-		script.setAttribute( 'src', 'talkn.client.js' );
+		script.setAttribute( 'src', jsPath + jsFileName );
 		script.setAttribute( 'connection', connection );
 		document.head.appendChild( script );
 	</script>
