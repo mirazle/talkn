@@ -70,10 +70,9 @@ export default class MenuIndexList extends Component {
     const { menuIndex, thread } = this.props.state;
     const{ connection, post, favicon, createTime } = this.props.mi;
     const dispConnection = connection.replace( thread.connection, '' );
-    const dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
+    const dispFavicon = favicon === '' ? thread.favicon : conf.assetsIconPath + util.getSaveFaviconName( favicon );
     const styleKey = thread.connection === connection ? 'liActiveSelf' : 'liUnactiveSelf' ;
     const events = styleKey === 'liUnactiveSelf' ? this.getDecolationProps( styleKey, connection ) : () => {} ;
-
     return (
       <li style={style.menuIndexList[ styleKey ] } {...events}>
 
