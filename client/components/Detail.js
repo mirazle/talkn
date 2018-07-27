@@ -36,12 +36,12 @@ export default class Setting extends Component {
     const { thread, style } = this.props.state
     let backgroundImage = style.detail.img.backgroundImage;
     let backgroundSize = style.detail.img.backgroundSize;
-
+console.log( backgroundImage );
     if( thread.serverMetas['og:image'] ){
       backgroundImage = `url("${thread.serverMetas['og:image']}")`;
       backgroundSize = 'cover';
     }
-
+console.log( backgroundImage );
     style.detail.img = {...style.detail.img, backgroundImage, backgroundSize};
     let description = thread.serverMetas['og:description'] ? thread.serverMetas['og:description'] : '';
     description = thread.serverMetas['description'] ? thread.serverMetas['description'] : '';

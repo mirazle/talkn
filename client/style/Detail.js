@@ -131,7 +131,7 @@ export default class Detail {
       width: '100%',
       height: '200px',
       backgroundColor: Container.whiteRGB,
-      backgroundImage: `url(${conf.assetsImgPath}talkn_logo1.png)`,
+      backgroundImage: `url(//${conf.assetsImgPath}talkn_logo1.png)`,
       backgroundPosition: 'center center',
       backgroundSize: '60%',
       backgroundRepeat: 'no-repeat',
