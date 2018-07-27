@@ -10,8 +10,6 @@ conf.server = domain;
 conf.portalPath = `//${SUB_DOMAINS.PORTAL}.${domain}/` ;
 conf.clientPath = `//${SUB_DOMAINS.CLIENT}.${domain}/` ;
 conf.assetsPath = `//${SUB_DOMAINS.ASSETS}.${domain}/` ;
-conf.assetsImgPath = `${conf.assetsPath}/img/` ;
-conf.assetsIconPath = `${conf.assetsPath}/icon/` ;
 conf.sessionPath = `//${SUB_DOMAINS.SESSION}.${domain}/` ;
 conf.cacheKey = {index: "talknIndexList", setting: "talknSettingParams"};
 

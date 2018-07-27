@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import define from '~/common/define'
 
 const post = {
 	protocol: { type: String, default: "talkn:"  },
@@ -6,7 +7,7 @@ const post = {
 	connections: { type: [String], default: [] },
 	uid: { type: String, default: '' },
 	utype: { type: String, default: '' },
-	favicon: { type: String, default: '' },
+	favicon: { type: String, default: define.FAVICON },
 	post: { type: String, default: ' ' },
 	data: { type: Object, default:{} },
 	// Time

@@ -4,6 +4,7 @@ export default {
   PRODUCTION_IP: 'ip-172-31-27-3',
   PRODUCTION_DOMAIN: 'talkn.io',
   DEVELOPMENT_DOMAIN: 'localhost',
+  FAVICON: 'user.png',
   PORTS: {
     HTTP: 80,
     HTTPS: 443,

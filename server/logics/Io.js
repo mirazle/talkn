@@ -20,6 +20,7 @@ export default class Io {
   async find(ioUser, {requestState, thread, posts, user} ){
     const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {thread, posts, user} );
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {thread} );
+
     this.io.emit( ioUser, Sequence.CATCH_ME_KEY, responseEmitState );
     this.io.broadcast( responseBroadcastState.thread.connection, responseBroadcastState );
     return true;
