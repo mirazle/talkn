@@ -5,12 +5,15 @@ import Main from '../Main';
 export default class MenuIndexList {
 
   static get iconSize(){ return '25px' };
-
   static get liHeight(){ return 90 };
+  static get activeLiBackground(){ return Container.whiteRGB };
+  static get unactiveLiBackground(){ return Container.offWhiteRGB };
+  static get activeLiBorderRightColor(){ return `1px solid ${Container.whiteRGB}` };
+  static get unactiveLiBorderRightColor(){ return Container.border };
 
   constructor( params ){
-    const liActiveSelf = MenuIndexList.getLiActiveSelf();
-    const liUnactiveSelf = MenuIndexList.getLiUnactiveSelf();
+    const activeLiSelf = MenuIndexList.getActiveLiSelf();
+    const unactiveLiSelf = MenuIndexList.getUnactiveLiSelf();
     const upper = MenuIndexList.getUpper();
     const upperSpace = MenuIndexList.getUpperSpace();
     const upperRight = MenuIndexList.getUpperRight();
@@ -18,8 +21,8 @@ export default class MenuIndexList {
     const bottomIcon = MenuIndexList.getBottomIcon();
     const bottomPost = MenuIndexList.getBottomPost();
     return {
-      liActiveSelf,
-      liUnactiveSelf,
+      activeLiSelf,
+      unactiveLiSelf,
       upper,
       upperSpace,
       upperRight,
@@ -29,16 +32,16 @@ export default class MenuIndexList {
     }
   }
 
-  static getLiActiveSelf(){
+  static getActiveLiSelf(){
     const layout = Style.getLayoutBlock({
       position: 'relative',
+      zIndex: 3,
       width: 'initial',
       height: `${MenuIndexList.liHeight}px`,
       padding: '10px',
       borderBottom: Container.border,
-      zIndex: 3,
-      borderRight: `1px solid ${Container.white}`,
-      background: Container.whiteRGB,
+      borderRight: MenuIndexList.activeLiBorderRightColor,
+      background: MenuIndexList.activeLiBackground,
       cursor: 'pointer',
     });
     const content = Style.getContentBase();
@@ -46,15 +49,16 @@ export default class MenuIndexList {
     return Style.get({layout, content, animation});
   }
 
-  static getLiUnactiveSelf(){
+  static getUnactiveLiSelf(){
     const layout = Style.getLayoutBlock({
       position: 'relative',
+      zIndex: 1,
       width: 'initial',
       height: `${MenuIndexList.liHeight}px`,
       padding: '10px',
       borderBottom: Container.border,
-      background: Container.offWhiteRGB,
-      borderRight: Container.border,
+      borderRight: MenuIndexList.unactiveLiBorderRightColor,
+      background: MenuIndexList.unactiveLiBackground,
       cursor: 'pointer',
     });
     const content = Style.getContentBase();

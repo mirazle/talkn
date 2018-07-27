@@ -12,7 +12,12 @@ export default class MenuIndex extends Component {
     const { style, menuIndex, thread } = this.props.state;
     return menuIndex.map( ( mi, index ) => {
       return (
-        <MenuIndexList key={ mi.connection } {...this.props} mi={mi} />
+        <MenuIndexList
+          key={ mi.connection }
+          thread={ thread }
+          menuIndex={mi}
+          {...this.props}
+        />
       )
     });
   }
