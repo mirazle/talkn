@@ -12,6 +12,7 @@ export default class MenuIndex {
     const self = MenuIndex.getSelf( params );
     const header = MenuIndex.getHeader( params );
     const headerSearchIcon = MenuIndex.getHeaderSearchIcon( params );
+    const headerRootConnection = MenuIndex.getHeaderRootConnection( params );
     const headerConnection = MenuIndex.getHeaderConnection( params );
     const headerInput = MenuIndex.getHeaderInput( params );
     const ol = MenuIndex.getOl( params );
@@ -20,6 +21,7 @@ export default class MenuIndex {
       self,
       header,
       headerSearchIcon,
+      headerRootConnection,
       headerConnection,
       headerInput,
       ol,
@@ -65,6 +67,24 @@ export default class MenuIndex {
     return Style.get({layout, content, animation});
   }
 
+  static getHeaderRootConnection( {app} ){
+    const layout = Style.getLayoutInlineBlock({
+      position: 'absolute',
+      top: '13px',
+      left: '63px',
+      width: '20px',
+      height: '20px',
+      background: Container.offWhiteRGB,
+      border: Container.border,
+      borderRadius: '3px',
+    });
+    const content = Style.getContentBase({});
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransitionOn( app ),
+    });
+    return Style.get({layout, content, animation});
+  }
+
   static getHeaderConnection( {app} ){
     const layout = Style.getLayoutInlineFlex({
       justifyContent: 'flexStart',
@@ -94,7 +114,7 @@ export default class MenuIndex {
       WebkitAppearance: 'none',
     });
     const content = Style.getContentBase({
-      textIndent: '10px',
+      textIndent: '20px',
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
