@@ -16,6 +16,11 @@ export default {
       app,
     };
   },
+  onClickOtherThread: () => {
+    return {
+      type: 'ON_CLICK_OTHER_THREAD',
+    };
+  },
   onChangeInputPost: ( inputPost ) => {
     return {
       type: 'ON_CHANGE_INPUT_POST',

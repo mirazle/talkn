@@ -3,81 +3,59 @@ import define from '~/common/define'
 import User from 'common/schemas/state/User';
 import util from 'common/util';
 import conf from 'common/conf';
-import Icon from '../Icon';
-import Container from 'client/style/Container';
+import Icon from 'client/components/Icon';
+import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
 
 export default class MenuIndexList extends Component {
 
   constructor(props) {
-    const {style} = props.state;
     super(props);
+    const {style} = props.state;
     this.state = {style}
-    this.getDecolationProps = this.getDecolationProps.bind(this);
+    this.getDecolationProps = this.getDecolationEvents.bind(this);
   }
 
-  getDecolationProps( styleKey, connection ){
+  getDecolationEvents( focusConnection, styleKey ){
+    const { menuIndex, onClickOtherThread } = this.props;
     return {
-      onMouseOver: () => {
-        this.setState(
-          { style:
-            {...this.state.style,
-              menuIndexList: { ...this.state.style.menuIndexList,
-                [ styleKey ]: { ...this.state.style.menuIndexList[ styleKey ],
-                  background: Container.whiteRGB,
-                }
-              }
-            }
-          }
-        );
+      onClick: () => {
+        if( !focusConnection ){
+          onClickOtherThread();
+          talknAPI.find( menuIndex.connection );
+        }
       },
-      onMouseLeave: () => {
-        this.setState( {style:
-          {...this.state.style,
-            menuIndexList: { ...this.state.style.menuIndexList,
-              [ styleKey ]: { ...this.state.style.menuIndexList[ styleKey ],
-                background: Container.offWhiteRGB,
-              }
-            }
-          }
-        });
-      },
-      onMouseDown: () => {
-        talknAPI.find( connection );
-        this.setState( {style:
-          {...this.state.style,
-            menuIndexList: { ...this.state.style.menuIndexList,
-              [ styleKey ]: { ...this.state.style.menuIndexList[ styleKey ],
-              }
-            }
-          }
-        });
-      },
-      onMouseUp: () => {
-        this.setState( {style:
-          {...this.state.style,
-            menuIndexList: { ...this.state.style.menuIndexList,
-                [ styleKey ]: { ...this.state.style.menuIndexList[ styleKey ],
-              }
-            }
-          }
-        });
-      },
+    }
+  }
+
+  getDispConnection( focusConnection ){
+    const { thread, menuIndex } = this.props;
+    if( focusConnection ){
+      return thread.connection;
+    }else if( menuIndex.connection === '/' ){
+      return menuIndex.connection.replace( thread.connection, '' );
+    }else{
+      return "/" + menuIndex.connection.replace( thread.connection, '' );
     }
   }
 
  	render() {
     const { style } = this.state;
-    const { menuIndex, thread } = this.props.state;
-    const{ connection, post, favicon, createTime } = this.props.mi;
-    const dispConnection = connection.replace( thread.connection, '' );
-    const dispFavicon = favicon === define.FAVICON ?
-      `//${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}` :
-      `//${conf.assetsIconPath}${util.getSaveFaviconName( favicon )}`;
-    const styleKey = thread.connection === connection ? 'liActiveSelf' : 'liUnactiveSelf' ;
-    const events = styleKey === 'liUnactiveSelf' ? this.getDecolationProps( styleKey, connection ) : () => {} ;
+    const { thread, menuIndex } = this.props;
+    const focusConnection =  thread.connection === menuIndex.connection ? true : false ;
+    const dispConnection = this.getDispConnection( focusConnection )
+    const dispFavicon = `//${conf.assetsIconPath}${util.getSaveFaviconName( menuIndex.favicon )}` ;
+
+    const styleKey = focusConnection ? 'activeLiSelf' : 'unactiveLiSelf' ;
+    const baseBackground = focusConnection ? MenuIndexListStyle.activeLiBackground : MenuIndexListStyle.unactiveLiBackground;
+    const baseBorderRightColor = focusConnection ? MenuIndexListStyle.activeLiBorderRightColor : MenuIndexListStyle.unactiveLiBorderRightColor;
+    const baseStyle = {
+      ...style.menuIndexList[ styleKey ],
+      background: baseBackground,
+      borderRightColor: baseBorderRightColor,
+    };
 
     return (
-      <li style={style.menuIndexList[ styleKey ] } {...events}>
+      <li style={ baseStyle } { ...this.getDecolationEvents( focusConnection, styleKey ) }>
 
         <div style={style.menuIndexList.upper}>
           <span style={style.menuIndexList.upperSpace} />
@@ -86,7 +64,7 @@ export default class MenuIndexList extends Component {
 
         <div style={style.menuIndexList.bottom}>
           <span style={{...style.menuIndexList.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
-          <span style={style.menuIndexList.bottomPost} dangerouslySetInnerHTML={{__html: post}} />
+          <span style={style.menuIndexList.bottomPost} dangerouslySetInnerHTML={{__html: menuIndex.post }} />
         </div>
 
       </li>
