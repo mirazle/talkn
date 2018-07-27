@@ -32,13 +32,30 @@ export default class Threads {
     const selector = {lastPost: 1};
     const option = {sort: {layer: 1, watchCnt: 1}, limit: setting.server.getThreadChildrenCnt};
     let {error, response} = await this.collection.find( condition, selector, option, true );
+    let mainConnectionExist = false;
+    let oneResponse = {};
 
     if( response.length === 0 ){
-      response = this.collection.getSchema({connection});
-      response.connections = Thread.getConnections( connection );
-      response.lastPost.connection = connection;
-      response.lastPost.connections = Thread.getConnections( connection );
-      response = [ response ];
+      oneResponse = this.collection.getSchema({connection});
+      oneResponse.connections = Thread.getConnections( connection );
+      oneResponse.lastPost.connection = connection;
+      oneResponse.lastPost.connections = Thread.getConnections( connection );
+      response.unshift( oneResponse );
+    }else{
+
+      response.forEach( ( res ) => {
+        if( res.connection === connection ){
+          mainConnectionExist = true;
+        }
+      });
+
+      if( !mainConnectionExist ){
+        oneResponse = this.collection.getSchema({connection});
+        oneResponse.connections = Thread.getConnections( connection );
+        oneResponse.lastPost.connection = connection;
+        oneResponse.lastPost.connections = Thread.getConnections( connection );
+        response.unshift( oneResponse );
+      }
     }
 
     return response.map( res => res.lastPost );
