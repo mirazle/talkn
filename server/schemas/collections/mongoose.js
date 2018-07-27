@@ -29,7 +29,7 @@ export default {
 		connection: { type: String, default: "/"  },
 		connections: { type: [String], default: ['/'] },
 		title: { type: String, default: "" },
-		favicon: { type: String, default: "user.png" },
+		favicon: { type: String, default: define.FAVICON },
 		faviconType: { type: String, default: "TALKN" },
 		contentType: { type: String, default: "text/html" },
 		layer: { type: Number, default: 0 },
