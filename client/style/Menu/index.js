@@ -94,6 +94,7 @@ export default class MenuIndex {
       WebkitAppearance: 'none',
     });
     const content = Style.getContentBase({
+      textIndent: '10px',
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();

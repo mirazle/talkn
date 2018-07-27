@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from "react";
-import Container from 'client/style/Container';
+import define from '~/common/define'
 import User from 'common/schemas/state/User';
 import util from 'common/util';
 import conf from 'common/conf';
 import Icon from '../Icon';
+import Container from 'client/style/Container';
 
 export default class MenuIndexList extends Component {
 
@@ -41,7 +42,6 @@ export default class MenuIndexList extends Component {
         });
       },
       onMouseDown: () => {
-        console.log( connection );
         talknAPI.find( connection );
         this.setState( {style:
           {...this.state.style,
@@ -70,9 +70,12 @@ export default class MenuIndexList extends Component {
     const { menuIndex, thread } = this.props.state;
     const{ connection, post, favicon, createTime } = this.props.mi;
     const dispConnection = connection.replace( thread.connection, '' );
-    const dispFavicon = favicon === '' ? thread.favicon : conf.assetsIconPath + util.getSaveFaviconName( favicon );
+    const dispFavicon = favicon === define.FAVICON ?
+      `//${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}` :
+      `//${conf.assetsIconPath}${util.getSaveFaviconName( favicon )}`;
     const styleKey = thread.connection === connection ? 'liActiveSelf' : 'liUnactiveSelf' ;
     const events = styleKey === 'liUnactiveSelf' ? this.getDecolationProps( styleKey, connection ) : () => {} ;
+
     return (
       <li style={style.menuIndexList[ styleKey ] } {...events}>
 

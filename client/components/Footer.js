@@ -50,7 +50,7 @@ export default class Footer extends Component {
 
   getIconStyle(){
     const { thread, style } = this.props.state;
-    const favicon = conf.assetsIconPath + util.getSaveFaviconName( thread.favicon );
+    const favicon = `//${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}`;
     return thread.favicon ? {...style.footer.icon, backgroundImage: `url(${favicon})` } : style.footer.icon ;
   }
 
