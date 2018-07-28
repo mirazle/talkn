@@ -38,7 +38,6 @@ export default {
   },
 
   changeThread: async ( ioUser, requestState, setting ) => {
-    console.log( "@@@@@@@@@@@@@@@ changeThread" );
     Actions.io.exeFind( ioUser, requestState, setting );
   },
 
@@ -46,6 +45,7 @@ export default {
 
     // リクエストのあったスレッドを取得する
     const connection = requestState.thread.connection;
+    const connectioned = requestState.user.connectioned;
 
     // Thread
     let {response: thread} = await Logics.db.threads.findOne( connection );
@@ -59,8 +59,14 @@ export default {
     // User
     const user = {connectioned: connection ,offsetFindId};
 
+    if( connectioned !== '' ){
+      console.log("@@@@@@@@@@@@@@ DECREMENT @@@@@@@@@@ === ");
+      thread.watchCnt = await Actions.io.updateThreadWatchCnt( connectioned, -1 );
+    }
+
     // スレッドが存在しない場合 || 更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
+
       const { title, serverMetas, links, h1s, videos, audios, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
       requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
       const faviconDatas = Logics.favicon.getDatas( requestState.thread, links );
@@ -69,6 +75,7 @@ export default {
 
       // スレッド更新
       if( thread ){
+
         createThread.postCnt = postCnt;
         createThread.multiPostCnt = multiPostCnt;
         createThread.watchCnt = createThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
@@ -91,20 +98,16 @@ console.log("======= NEW");
     // スレッドが存在して、更新も必要ない場合
     }else{
 
-      // 初回表示の場合 ( GET MOREでない場合 )
+      // 初回表示の場合
       if( requestState.user.offsetFindId === User.defaultOffsetFindId ){
-
+console.log("======= EXIST");
         let addWatchCnt = 1;
+        addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
+        thread.watchCnt = await Actions.io.updateThreadWatchCnt( connection, addWatchCnt );
 
-        switch( requestState.type ){
-        case 'changeThread':
-//          addWatchCnt = thread.watchCnt === 0 ? 1 : thread.watchCnt ;
-          break;
-        case 'find':
-          addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
-          thread.watchCnt = await Actions.io.updateThreadWatchCnt( connection, addWatchCnt );
-          break;
-        }
+      // GET MOREを押した場合
+      }else{
+console.log("======= GET MORE");
       }
 
       thread.postCnt = postCnt;
@@ -113,6 +116,7 @@ console.log("======= NEW");
     }
   },
 
+  //
   findMenuIndex: async ( ioUser, requestState, setting ) => {
     // リクエストのあったスレッドを取得する
     const connection = requestState.thread.connection;
