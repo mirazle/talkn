@@ -38,17 +38,17 @@ export default {
   },
 
   changeThread: async ( ioUser, requestState, setting ) => {
-    await Actions.io.exeFind( ioUser, requestState, setting );
-
     const connectioned = requestState.user.connectioned;
 
     if( connectioned !== '' ){
 
+      const connection = requestState.thread.connection;
       let {response: thread} = await Logics.db.threads.findOne( connectioned );
       thread.watchCnt = await Actions.io.updateThreadWatchCnt( connectioned, -1 );
-      Logics.io.changeThread( ioUser, {requestState, thread } );
+      Logics.io.changeThread( ioUser, {requestState, thread, user: {connectioned: connection, offsetFindId: User.defaultOffsetFindId} } );
       console.log("======== CHANGE THREAD DECREMENT " + connectioned + " warchCnt = " + thread.watchCnt);
     }
+    await Actions.io.exeFind( ioUser, requestState, setting );
   },
 
   exeFind: async ( ioUser, requestState, setting ) => {
