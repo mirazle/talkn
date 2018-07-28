@@ -53,9 +53,8 @@ export default class TalknAPI{
 		this.on( Sequence.CATCH_ME_KEY, callback );
 	}
 
-	onCatchConnectionAPI(){
+	onCatchConnectionAPI( connection = this.connection ){
 		const talknIndex = this.talknIndex;
-		const connection = this.connection;
 		const callback = this.getCatchConnectionAPI(talknIndex, WsServerToClientBroadcastAction);
 		this.on( connection, callback );
 	}
