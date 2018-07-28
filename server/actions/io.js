@@ -38,14 +38,23 @@ export default {
   },
 
   changeThread: async ( ioUser, requestState, setting ) => {
-    Actions.io.exeFind( ioUser, requestState, setting );
+    await Actions.io.exeFind( ioUser, requestState, setting );
+
+    const connectioned = requestState.user.connectioned;
+
+    if( connectioned !== '' ){
+
+      let {response: thread} = await Logics.db.threads.findOne( connectioned );
+      thread.watchCnt = await Actions.io.updateThreadWatchCnt( connectioned, -1 );
+      Logics.io.changeThread( ioUser, {requestState, thread } );
+      console.log("======== CHANGE THREAD DECREMENT " + connectioned + " warchCnt = " + thread.watchCnt);
+    }
   },
 
   exeFind: async ( ioUser, requestState, setting ) => {
 
     // リクエストのあったスレッドを取得する
     const connection = requestState.thread.connection;
-    const connectioned = requestState.user.connectioned;
 
     // Thread
     let {response: thread} = await Logics.db.threads.findOne( connection );
@@ -58,11 +67,6 @@ export default {
 
     // User
     const user = {connectioned: connection ,offsetFindId};
-
-    if( connectioned !== '' ){
-      console.log("@@@@@@@@@@@@@@ DECREMENT @@@@@@@@@@ === ");
-      thread.watchCnt = await Actions.io.updateThreadWatchCnt( connectioned, -1 );
-    }
 
     // スレッドが存在しない場合 || 更新が必要なスレッドの場合
     if( thread === null || isUpdatableThread ){
@@ -100,10 +104,12 @@ console.log("======= NEW");
 
       // 初回表示の場合
       if( requestState.user.offsetFindId === User.defaultOffsetFindId ){
-console.log("======= EXIST");
+
         let addWatchCnt = 1;
         addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
         thread.watchCnt = await Actions.io.updateThreadWatchCnt( connection, addWatchCnt );
+
+console.log("======= EXIST INCREMENT " + connection + " watchCnt = " + thread.watchCnt);
 
       // GET MOREを押した場合
       }else{
@@ -162,6 +168,7 @@ console.log("======= GET MORE");
     if( user && user.connection ){
       Logics.db.users.remove( ioUser.conn.id );
       const watchCnt = await Actions.io.updateThreadWatchCnt( user.connection , -1 );
+      console.log("======== DISCONNECT DECREMENT " + user.connection + " warchCnt = " + watchCnt);
       Logics.io.updateWatchCnt(
         ioUser, {
         requestState: {type: 'disconnect'},

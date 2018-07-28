@@ -17,10 +17,11 @@ export default {
       app,
     };
   },
-  onClickOtherThread: () => {
+  onClickOtherThread: ( connection ) => {
     return {
       type: 'ON_CLICK_OTHER_THREAD',
-      user: { offsetFindId: User.defaultOffsetFindId}
+      user: { offsetFindId: User.defaultOffsetFindId},
+      thread: { connection },
     };
   },
   onChangeInputPost: ( inputPost ) => {

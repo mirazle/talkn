@@ -32,6 +32,12 @@ export default class Io {
     return true;
   }
 
+  async changeThread(ioUser, {requestState, thread} ){
+    const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {thread} );
+    this.io.broadcast( responseBroadcastState.thread.connection, responseBroadcastState );
+    return true;
+  }
+
   async post(ioUser, {requestState, posts, thread} ){
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts, thread, menuIndex: posts } );
     requestState.thread.connections.forEach( ( connection ) => {

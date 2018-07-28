@@ -179,6 +179,10 @@ export default class Schema {
     }
   }
 
+  forEach( func ){
+    return Object.values( this ).forEach( func );
+  }
+
   map( func ){
     return Object.values( this ).map( func );
   }

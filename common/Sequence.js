@@ -40,7 +40,7 @@ export default class Sequence {
           'thread': [{columnName: 'protocol'}, {columnName: 'host'}],
           'user': '*',
         },
-        responseEmitState: {'posts': '*', 'thread': '*', 'user': ['offsetFindId', 'connectioned']},
+        responseEmitState: {},
         responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       },
       findMenuIndex: {

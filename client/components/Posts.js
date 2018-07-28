@@ -22,7 +22,7 @@ export default class Posts extends Component {
   }
 
   componentDidUpdate(){
-    const { posts, thread, app, actionLog } = this.props.state;
+    const { posts, thread, app, actionLog, menuIndex } = this.props.state;
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
       const { isScrollBottom } = this.state;
@@ -83,6 +83,13 @@ export default class Posts extends Component {
           talknAPI.updateThreadServerMetas(serverMetas);
         }
       }
+      break;
+    case 'SERVER_TO_CLIENT[EMIT]:findMenuIndex':
+      console.log("@@@@@@@@@@@@@@@@------0-");
+      console.log( menuIndex );
+      menuIndex.forEach( ( mi ) => {
+        talknAPI.onCatchConnectionAPI( mi.connection );
+      });
       break;
     default:
       break;
