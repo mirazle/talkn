@@ -7,9 +7,9 @@ import Actions from '~/server/actions';
 
 class TalknServer{
   async start(){
-    await Actions.setUpDB();
-    await Actions.setUpAPI();
-    await Actions.setUpExpress();
+    await Actions.db.setUp();
+    await Actions.io.setUp();
+    await Actions.express.setUp();
   }
 }
 
