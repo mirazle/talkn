@@ -13,7 +13,6 @@ function bootTalkn( appType, talknIndex, attributes, conf ){
 	const state = new State( appType, talknIndex, window, attributes );
 	const connection = state.connection;
 	const talknSession = new TalknSession( state );
-
 	const talknAPI = new TalknAPI( talknIndex, store, connection );
 	const talknViewer = new TalknViewer( state, talknAPI );
 
