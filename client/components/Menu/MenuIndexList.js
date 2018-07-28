@@ -20,7 +20,7 @@ export default class MenuIndexList extends Component {
     return {
       onClick: () => {
         if( !focusConnection ){
-          onClickOtherThread();
+          onClickOtherThread( menuIndex.connection );
           talknAPI.changeThread( menuIndex.connection );
         }
       },
