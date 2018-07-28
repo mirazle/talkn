@@ -1,4 +1,5 @@
 import App from 'common/schemas/state/App';
+import User from 'common/schemas/state/User';
 
 export default {
   updateStyle: ( {styleKey, eleType, tagName, style} ) => {
@@ -19,6 +20,7 @@ export default {
   onClickOtherThread: () => {
     return {
       type: 'ON_CLICK_OTHER_THREAD',
+      user: { offsetFindId: User.defaultOffsetFindId}
     };
   },
   onChangeInputPost: ( inputPost ) => {
