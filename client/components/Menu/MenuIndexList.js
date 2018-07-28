@@ -21,7 +21,7 @@ export default class MenuIndexList extends Component {
       onClick: () => {
         if( !focusConnection ){
           onClickOtherThread();
-          talknAPI.find( menuIndex.connection );
+          talknAPI.changeThread( menuIndex.connection );
         }
       },
     }
