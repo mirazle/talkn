@@ -45,8 +45,10 @@ export default {
       const connection = requestState.thread.connection;
       let {response: thread} = await Logics.db.threads.findOne( connectioned );
       thread.watchCnt = await Actions.io.updateThreadWatchCnt( connectioned, -1 );
+
+      Logics.db.users.update( ioUser.conn.id, requestState.thread );
       Logics.io.changeThread( ioUser, {requestState, thread, user: {connectioned: connection, offsetFindId: User.defaultOffsetFindId} } );
-      console.log("======== CHANGE THREAD DECREMENT " + connectioned + " warchCnt = " + thread.watchCnt);
+      console.log("======= CHANGE THREAD DECREMENT " + connectioned + " warchCnt = " + thread.watchCnt);
     }
     await Actions.io.exeFind( ioUser, requestState, setting );
   },
@@ -109,7 +111,7 @@ console.log("======= NEW");
         addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
         thread.watchCnt = await Actions.io.updateThreadWatchCnt( connection, addWatchCnt );
 
-console.log("======= EXIST INCREMENT " + connection + " watchCnt = " + thread.watchCnt);
+console.log("======= FIND EXIST INCREMENT " + connection + " watchCnt = " + thread.watchCnt);
 
       // GET MOREを押した場合
       }else{
