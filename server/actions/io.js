@@ -50,6 +50,10 @@ export default {
       Logics.io.changeThread( ioUser, {requestState, thread, user: {connectioned: connection, offsetFindId: User.defaultOffsetFindId} } );
       console.log("======= CHANGE THREAD DECREMENT " + connectioned + " warchCnt = " + thread.watchCnt);
     }
+
+    console.log( requestState.type );
+
+    requestState.type = 'find';
     await Actions.io.exeFind( ioUser, requestState, setting );
   },
 
