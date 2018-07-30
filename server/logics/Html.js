@@ -6,12 +6,32 @@ import {Buffer} from 'buffer';
 import fs from 'fs';
 import Sequence from '~/common/Sequence'
 import Thread from '~/common/schemas/state/Thread'
-import Logics from '~/server/logics';
 import define from '~/common/define';
+import conf from '~/common/conf';
+import Logics from '~/server/logics';
+
 
 export default class Html {
 
-  static get getResponseSchema(){ return {title: '', serverMetas: {}, links: [], h1s: [], videos: [], audios: [], contentType: '', uri: '', favicon: '' } };
+  static get getResponseSchema(){
+    return {
+      title: 'talkn',
+      serverMetas: {
+        title: 'talkn',
+        'og:title': '',
+        'og:image': `//${conf.assetsImgPath}talkn_logo1.png`,
+        'og:description': '',
+        'description': 'Hello talkn!!',
+      },
+      links: [],
+      h1s: [],
+      videos: [],
+      audios: [],
+      contentType: '',
+      uri: '',
+      favicon: ''
+    }
+  };
 
   constructor(){
     this.option = {

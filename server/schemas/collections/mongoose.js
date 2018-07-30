@@ -1,6 +1,13 @@
 import mongoose from 'mongoose';
 import define from '~/common/define'
 
+/*
+og:image
+og:description
+description
+title
+h1s
+*/
 const post = {
 	protocol: { type: String, default: "talkn:"  },
 	connection: { type: String, default: '' },
