@@ -120,10 +120,12 @@ export default class Thread extends Schema{
       const connectionLength = connectionArr.length;
 
       if( connection !== "/" ){
-        let connectNewConnection = '';
+        let newConnection = '';
         for( var i = 1; i < connectionLength; i++ ){
-          connectNewConnection += ( '/' + connectionArr[ i ] );
-          connections.push( connectNewConnection );
+          newConnection += ( '/' + connectionArr[ i ] );
+          if( ( newConnection.length - 1 ) === newConnection.lastIndexOf( '/' ) ){
+            connections.push( newConnection );
+          }
         }
       }
     }

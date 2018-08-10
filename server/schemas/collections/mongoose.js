@@ -1,13 +1,7 @@
 import mongoose from 'mongoose';
 import define from '~/common/define'
+import conf from '~/common/conf'
 
-/*
-og:image
-og:description
-description
-title
-h1s
-*/
 const post = {
 	protocol: { type: String, default: "talkn:"  },
 	connection: { type: String, default: '' },
@@ -49,9 +43,6 @@ export default {
 		videos:{ type: [], default: []},
 		mediaIndex: { type: [], default: []},
 
-		// Uri
-//		uri: {type: Object, default: {}},
-
 		// Analyze
 		postCnt: { type: Number, default: 0 },
 		multiPostCnt: { type: Number, default: 0 },
@@ -63,6 +54,13 @@ export default {
 		// Time
 		createTime: { type: Date, default: Date },
 		updateTime: { type: Date, default: Date },
+	},
+	serverMetas: {
+    title: { type: String, default: "talkn" },
+    'og:title': { type: String, default: "talkn" },
+    'og:image': { type: String, default: `//${conf.assetsImgPath}talkn_logo1.png`},
+    'og:description': { type: String, default: "talkn thread" },
+    'description': { type: String, default: "talkn thread" },
 	},
 	Setting: {
 		server:{ type: mongoose.Schema.Types.Mixed, default: {} },
