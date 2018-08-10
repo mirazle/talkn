@@ -1,6 +1,7 @@
 import request from 'request';
 import fs from 'fs';
 import Sequence from '~/common/Sequence'
+import Thread from '~/common/schemas/state/Thread';
 import define from '~/common/define'
 import Logics from '~/server/logics';
 import conf from '~/server/conf'
@@ -41,7 +42,10 @@ export default class Favicon {
   request( faviconData ){
     return new Promise( ( resolve, reject ) => {
       const { faviconName } = faviconData;
-      if( faviconName.indexOf( conf.domain ) >= 0 ){
+
+      console.log( faviconName );
+
+      if( faviconName.indexOf( conf.domain ) >= 0 || faviconName === Thread.getDefaultFavicon() ){
         return false;
       }else{
 

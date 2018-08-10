@@ -1,4 +1,8 @@
 import Thread from '~/common/schemas/state/Thread'
+import mongoose from '~/server/schemas/collections/mongoose';
+
+console.log(mongoose);
+// TODO threadのserverMetaにschemaを入れて返す(Detail表示)
 
 export default class Threads {
 
@@ -11,10 +15,16 @@ export default class Threads {
     return {...obj, ...mergeObj };
   }
 
-  async findOne( connection, selector = {}, option = {} ){
+  async findOne( connection, selector = {}, option = {}, buildinSchema = false ){
     const condition = {connection};
-    const response = await this.collection.findOne( condition, selector, option );
-    return response;
+    let responses = await this.collection.findOne( condition, selector, option );
+
+    if( buildinSchema ){
+      if( !responses.response.serverMetas ){
+        responses.response.serverMetas = this.buildinSchema( connection, responses.response );
+      }
+    }
+    return responses;
   }
 
   async findOneWatchCnt( connection ){
@@ -25,36 +35,36 @@ export default class Threads {
     return response.watchCnt < 0 ? 0 : response.watchCnt ;
   }
 
+  async builtinSchema( connection, response ){
+    let schema = this.collection.getSchema({connection});
+    schema.connections = Thread.getConnections( connection );
+    schema.lastPost.connection = connection;
+    schema.lastPost.connections = Thread.getConnections( connection );
+    schema.serverMetas = {}
+    response.unshift( schema );
+    return response;
+  }
+
   async findMenuIndex( connection, setting ){
     connection = connection.replace(/\//, '\/');
     const regex = new RegExp( `^${connection}` );
     const condition = {connection: regex, "lastPost.connection": regex};
     const selector = {lastPost: 1};
     const option = {sort: {layer: 1, watchCnt: 1}, limit: setting.server.getThreadChildrenCnt};
+
     let {error, response} = await this.collection.find( condition, selector, option, true );
     let mainConnectionExist = false;
-    let oneResponse = {};
 
     if( response.length === 0 ){
-      oneResponse = this.collection.getSchema({connection});
-      oneResponse.connections = Thread.getConnections( connection );
-      oneResponse.lastPost.connection = connection;
-      oneResponse.lastPost.connections = Thread.getConnections( connection );
-      response.unshift( oneResponse );
+      response = this.builtinSchema( connection, response );
     }else{
 
       response.forEach( ( res ) => {
-        if( res.connection === connection ){
-          mainConnectionExist = true;
-        }
+        if( res.lastPost.connection === connection ) mainConnectionExist = true;
       });
 
       if( !mainConnectionExist ){
-        oneResponse = this.collection.getSchema({connection});
-        oneResponse.connections = Thread.getConnections( connection );
-        oneResponse.lastPost.connection = connection;
-        oneResponse.lastPost.connections = Thread.getConnections( connection );
-        response.unshift( oneResponse );
+        response = this.builtinSchema( connection, response );
       }
     }
     return response.map( res => res.lastPost );

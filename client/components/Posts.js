@@ -85,8 +85,6 @@ export default class Posts extends Component {
       }
       break;
     case 'SERVER_TO_CLIENT[EMIT]:findMenuIndex':
-      console.log("@@@@@@@@@@@@@@@@------0-");
-      console.log( menuIndex );
       menuIndex.forEach( ( mi ) => {
         talknAPI.onCatchConnectionAPI( mi.connection );
       });
