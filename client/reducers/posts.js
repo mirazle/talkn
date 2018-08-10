@@ -7,18 +7,20 @@ export default ( state = new Posts() , action ) => {
 		return new Posts();
 		break;
 	default:
-
 		if( action.posts && action.posts[0] ){
 			if(state[0] && state[0].createTime){
 
-				// New post .
-				if( action.posts[0].createTime > state[0].createTime ){
+				if( action.thread.connection === state[ 0 ].connection ){
 
-					return [ ...state, ...action.posts ];
+					// New post .
+					if( action.posts[0].createTime > state[0].createTime ){
 
-				// Get more .
-				}else{
-					return [ ...action.posts, ...state ];
+						return [ ...state, ...action.posts ];
+
+					// Get more .
+					}else{
+						return [ ...action.posts, ...state ];
+					}
 				}
 
 			// Other Thread Post .
@@ -26,7 +28,6 @@ export default ( state = new Posts() , action ) => {
 				return [ ...action.posts, ...state ];
 			}
 		}
-
 		break;
 	}
 

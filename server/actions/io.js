@@ -60,7 +60,7 @@ export default {
     const connection = requestState.thread.connection;
 
     // Thread
-    let {response: thread} = await Logics.db.threads.findOne( connection );
+    let {response: thread} = await Logics.db.threads.findOne( connection, {}, {}, true );
     const isUpdatableThread = Logics.db.threads.isUpdatableThread(thread, setting);
 
     // Posts
@@ -88,10 +88,10 @@ export default {
         createThread.watchCnt = createThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
         await Logics.db.threads.update( connection, createThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
-console.log("======= UPDATE");
+//console.log("======= UPDATE");
       // スレッド新規作成
       }else{
-console.log("======= NEW");
+//console.log("======= NEW");
         const watchCnt = 1;
         const connections = Thread.getConnections( connection );
         const protocol =  ( createThread && createThread.uri && createThread.uri.protocol ) ? createThread.uri.protocol : Sequence.TALKN_PROTOCOL ;
@@ -112,11 +112,11 @@ console.log("======= NEW");
         addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
         thread.watchCnt = await Actions.io.updateThreadWatchCnt( connection, addWatchCnt );
 
-console.log("======= EXIST" );
+//console.log("======= EXIST" );
 
       // GET MOREを押した場合
       }else{
-console.log("======= GET MORE");
+//console.log("======= GET MORE");
       }
 
       thread.postCnt = postCnt;
@@ -151,7 +151,7 @@ console.log("======= GET MORE");
     await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost} );
     const {response: post} = await Logics.db.posts.save( requestState );
     const {postCnt, multiPostCnt} = await Logics.db.posts.getCounts( connection );
-    const ioThread = {postCnt, multiPostCnt};
+    const ioThread = {postCnt, multiPostCnt, connection};
     await Logics.io.post( ioUser, {requestState, posts: [ post ], thread: ioThread } );
     return true;
   },
@@ -171,7 +171,7 @@ console.log("======= GET MORE");
     if( user && user.connection ){
       Logics.db.users.remove( ioUser.conn.id );
       const watchCnt = await Actions.io.updateThreadWatchCnt( user.connection , -1 );
-      console.log("======== DISCONNECT DECREMENT " + user.connection + " warchCnt = " + watchCnt);
+//console.log("======== DISCONNECT DECREMENT " + user.connection + " warchCnt = " + watchCnt);
       Logics.io.updateWatchCnt(
         ioUser, {
         requestState: {type: 'disconnect'},
