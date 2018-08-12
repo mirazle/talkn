@@ -55,13 +55,19 @@ export default {
   },
 
   exeFind: async ( ioUser, requestState, setting ) => {
-
-    // リクエストのあったスレッドを取得する
-    const connection = requestState.thread.connection;
+    /*
+      TODO  クライアントでスレッドが表示されない
+            OK  mongooseのSchema定義をcollection以外もファイル別に整理する
+            findを整理する
+            必要に応じて、findOne系にbuiltinSchemaフラグを用意する
+    */
+    console.log( requestState );
+    // リクエストのあったconnectionを取得する
+    const { connection } = requestState.thread;
 
     // Thread
     let {response: thread} = await Logics.db.threads.findOne( connection, {}, {}, true );
-    const isUpdatableThread = Logics.db.threads.isUpdatableThread(thread, setting);
+    const threadStatus = Logics.db.threads.getStatus( thread, setting );
 
     // Posts
     const {postCnt, multiPostCnt} = await Logics.db.posts.getCounts( connection );
@@ -71,27 +77,21 @@ export default {
     // User
     const user = {connectioned: connection ,offsetFindId};
 
-    // スレッドが存在しない場合 || 更新が必要なスレッドの場合
-    if( thread === null || isUpdatableThread ){
+    // 作成・更新が必要なスレッドの場合
+    if( threadStatus.isRequireUpsert ){
 
-      const { title, serverMetas, links, h1s, videos, audios, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
-      requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
-      const faviconDatas = Logics.favicon.getDatas( requestState.thread, links );
-      const {faviconName, faviconType} = await Logics.favicon.requests( faviconDatas );
-      let createThread = {title, serverMetas, links, h1s, videos, audios, contentType, uri, favicon: faviconName, faviconType};
+//      const { title, serverMetas, links, h1s, videos, audios, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
 
-      // スレッド更新
-      if( thread ){
+      thread = await Logics.db.threads.requestHtmlParams( thread );
 
-        createThread.postCnt = postCnt;
-        createThread.multiPostCnt = multiPostCnt;
-        createThread.watchCnt = createThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
-        await Logics.db.threads.update( connection, createThread );
-        Logics.io.find( ioUser, {requestState, thread, posts, user} );
-//console.log("======= UPDATE");
+      //requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
+      //const faviconDatas = Logics.favicon.getDatas( thread, links );
+      //const {faviconName, faviconType} = await Logics.favicon.requests( faviconDatas );
+      //let createThread = {title, serverMetas, links, h1s, videos, audios, contentType, uri, favicon: faviconName, faviconType};
+
       // スレッド新規作成
-      }else{
-//console.log("======= NEW");
+      if( thread.isSchema ){
+
         const watchCnt = 1;
         const connections = Thread.getConnections( connection );
         const protocol =  ( createThread && createThread.uri && createThread.uri.protocol ) ? createThread.uri.protocol : Sequence.TALKN_PROTOCOL ;
@@ -100,6 +100,17 @@ export default {
         createThread = {...createThread, watchCnt, connections, postCnt, multiPostCnt, protocol, layer };
         let {response: thread} = await Logics.db.threads.save( connection, createThread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
+
+      // スレッド更新
+      }else{
+
+        createThread.postCnt = postCnt;
+        createThread.multiPostCnt = multiPostCnt;
+        createThread.watchCnt = createThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
+        await Logics.db.threads.update( connection, createThread );
+        Logics.io.find( ioUser, {requestState, thread, posts, user} );
+
+
       }
 
     // スレッドが存在して、更新も必要ない場合

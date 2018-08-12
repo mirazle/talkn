@@ -1,8 +1,8 @@
 import Thread from '~/common/schemas/state/Thread'
-import mongoose from '~/server/schemas/collections/mongoose';
+import MongoDB from '~/server/listens/db/MongoDB';
 
-console.log(mongoose);
-// TODO threadのserverMetaにschemaを入れて返す(Detail表示)
+
+import Logics from '~/server/logics';
 
 export default class Threads {
 
@@ -11,17 +11,18 @@ export default class Threads {
     return this;
   }
 
-  merge( obj, mergeObj ){
-    return {...obj, ...mergeObj };
-  }
+  /******************/
+  /* MONGO DB       */
+  /******************/
 
   async findOne( connection, selector = {}, option = {}, buildinSchema = false ){
     const condition = {connection};
     let responses = await this.collection.findOne( condition, selector, option );
 
     if( buildinSchema ){
-      if( !responses.response.serverMetas ){
-        responses.response.serverMetas = this.buildinSchema( connection, responses.response );
+      if( !responses.response ){
+        const builtinSchema = await this.getBuiltinSchema( connection );
+        responses = {...responses, response: builtinSchema[ 0 ] };
       }
     }
     return responses;
@@ -35,12 +36,12 @@ export default class Threads {
     return response.watchCnt < 0 ? 0 : response.watchCnt ;
   }
 
-  async builtinSchema( connection, response ){
+  async getBuiltinSchema( connection, response = [] ){
     let schema = this.collection.getSchema({connection});
     schema.connections = Thread.getConnections( connection );
+    schema.host = Thread.getHost( connection );
     schema.lastPost.connection = connection;
     schema.lastPost.connections = Thread.getConnections( connection );
-    schema.serverMetas = {}
     response.unshift( schema );
     return response;
   }
@@ -56,7 +57,7 @@ export default class Threads {
     let mainConnectionExist = false;
 
     if( response.length === 0 ){
-      response = this.builtinSchema( connection, response );
+      response = await this.getBuiltinSchema( connection, response );
     }else{
 
       response.forEach( ( res ) => {
@@ -64,36 +65,10 @@ export default class Threads {
       });
 
       if( !mainConnectionExist ){
-        response = this.builtinSchema( connection, response );
+        response = await this.getBuiltinSchema( connection, response );
       }
     }
     return response.map( res => res.lastPost );
-  }
-
-  getConnection( param ){
-    return Thread.getConnection( param );
-  }
-
-  isUpdatableThread( thread, setting ){
-
-    if( thread ){
-
-      // 現在時刻を取得
-      const now = new Date();
-      const nowYear = now.getFullYear();
-      const nowMonth = now.getMonth();
-      const nowDay = now.getDate();
-      const nowHour = now.getHours();
-      const nowMinutes = now.getMinutes();
-      const activeDate = new Date(nowYear, nowMonth, nowDay, ( nowHour - setting.server.findOneThreadActiveHour ) );
-
-      const activeTime = activeDate.getTime();
-      const threadUpdateTime = thread.updateTime.getTime();
-
-      // スレッドの更新時間と、現在時間 - n を比較して、スレッドの更新時間が古かったらtrueを返す
-      return threadUpdateTime < activeTime;
-    }
-    return false;
   }
 
   async save( connection, thread ){
@@ -121,5 +96,66 @@ export default class Threads {
     const set = { $inc: { watchCnt } };
     const option = {upsert:true};
     return await this.collection.update( condition, set, option );
+  }
+
+  /******************/
+  /* COLUMN LOGIC   */
+  /******************/
+
+  merge( obj, mergeObj ){
+    return {...obj, ...mergeObj };
+  }
+
+  getConnection( param ){
+    return Thread.getConnection( param );
+  }
+
+  /******************/
+  /* HTML LOGIC     */
+  /******************/
+
+  async requestHtmlParams( thread ){
+    const htmlParams = await Logics.html.fetch( thread );
+    const faviconParams = await Logics.favicon.fetch( thread );
+    const htmlBuiltinedThread = MongoDB.getBuiltinObjToSchema( thread, htmlParams );
+  }
+
+  /******************/
+  /* STATUS LOGIC   */
+  /******************/
+
+  getStatus( thread, setting ){
+
+    let status = {isSchema: false, isRequireUpsert: false};
+
+    const threadCreateTime = thread.createTime.getTime();
+    const threadUpdateTime = thread.updateTime.getTime();
+
+    // 空のSchemaの場合(DBにデータが存在しない)
+    if( threadCreateTime === threadUpdateTime ){
+
+      const lastPostCreateTime = thread.lastPost.createTime.getTime();
+      const lastPostUpdateTime = thread.lastPost.updateTime.getTime();
+
+      if( lastPostCreateTime === lastPostUpdateTime ){
+        status.isSchema = true;
+      }
+    }
+
+    // 現在時刻を取得
+    const now = new Date();
+    const nowYear = now.getFullYear();
+    const nowMonth = now.getMonth();
+    const nowDay = now.getDate();
+    const nowHour = now.getHours();
+    const nowMinutes = now.getMinutes();
+    const activeDate = new Date(nowYear, nowMonth, nowDay, ( nowHour - setting.server.findOneThreadActiveHour ) );
+    const activeTime = activeDate.getTime();
+
+    // スレッドの更新時間と、現在時間 - n を比較して、スレッドの更新時間が古かったらtrueを返す
+    status.isRequireUpsert = status.isSchema ?
+      true : threadUpdateTime < activeTime;
+
+    return status;
   }
 }

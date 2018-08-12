@@ -3,9 +3,6 @@ import MongoDB from '~/server/listens/db/MongoDB';
 export default class Posts {
   constructor( dbConnection ){
     this.collection = MongoDB.getCollection( dbConnection, Posts.name );
-//    this.find = this.find.bind(this);
-//    this.save = this.save.bind(this);
-//    this.update = this.update.bind(this);
     return this;
   }
 

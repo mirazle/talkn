@@ -1,4 +1,4 @@
-import conf from '~/common/conf';
+import conf from '~/client/conf';
 import Schema from '~/common/schemas/Schema';
 
 export default class Thread extends Schema{
@@ -33,16 +33,19 @@ export default class Thread extends Schema{
     let favicon = Thread.getDefaultFavicon();
 
     if( bootConnection ){
+      // URLのコネクション文字列からではPROTOCOLは判別できない。
+      protocol = Thread.getProtocol( bootConnection );
       connection = bootConnection;
-      host = Thread.getHost( connection );
-      connections = Thread.getConnections( connection );
+      host = Thread.getHost( bootConnection );
+      connections = Thread.getConnections( bootConnection );
+
     }else{
 
       location = window.location ? window.location : {} ;
       href = location.href ? location.href : '' ;
       connection = Thread.getConnection( href );
       connections = Thread.getConnections( connection );
-      protocol = location.protocol ? location.protocol : 'talkn:';
+      protocol = location.protocol ? location.protocol : '????:';
       contentType = document.contentType ? document.contentType : '';
       charset = document.charset ? document.charset : '';
 
@@ -133,14 +136,18 @@ export default class Thread extends Schema{
   }
 
   static getHost( connection ){
-    connection = connection.replace( 'https://', '' ).replace('http://', '' );
-    return connection.replace( /^\//, '' ).replace( /\/.*$/, '' );
+    if( connection.indexOf( '.' ) >= 0 ){
+      connection = connection.replace( 'https://', '' ).replace('http://', '' );
+      return connection.replace( /^\//, '' ).replace( /\/.*$/, '' );
+    }else{
+      return conf.domain;
+    }
   }
 
   static getProtocol( href ){
-    if( href.index( 'http:' ) >= 0 ) return 'http:';
-    if( href.index( 'https:' ) >= 0 ) return 'https:';
-    return 'talkn:'
+    if( href.indexOf( 'http:' ) >= 0 ) return 'http:';
+    if( href.indexOf( 'https:' ) >= 0 ) return 'https:';
+    return '????:'
   }
 
   static getIsSelfConnection( href, connection ){

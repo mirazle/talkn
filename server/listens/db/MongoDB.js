@@ -24,9 +24,48 @@ class MongoDB {
     }
   }
 
-  static getCollection(con, collectionName){
-    const schema = mongoose.Schema( Schemas.db[ collectionName ], {collection: collectionName} );
+  static getSchema( collectionName ){
+    return mongoose.Schema( Schemas.db.collections[ collectionName ], {collection: collectionName} );
+  }
+
+  static getCollection( con, collectionName ){
+    const schema = MongoDB.getSchema( collectionName );
     return con.model( collectionName, schema );
+  }
+
+  // _idが変更されないようにmongoSchemaにビルトインして返す
+  static getBuiltinObjToSchema( schema, builtinObj ){
+
+    Object.keys( schema.toJSON() ).forEach( ( key ) => {
+
+      if( builtinObj[ key ] ){
+
+        let builtinValue = builtinObj[ key ];
+
+        if( builtinValue.constructor.name === "Object" ){
+          builtinValue = MongoDB.getBuiltinObjToSchema( schema[ key ], builtinValue );
+        }else{
+          schema[ key ] = builtinValue;
+        }
+      }
+    });
+    return schema;
+  }
+
+  static getDefineSchemaObj( obj ){
+    Object.keys( obj ).forEach( ( key ) => {
+      let values = obj[ key ];
+      if( typeof( values ) === "object" ){
+        if( !values.type && !values.default ){
+          values = MongoDB.getDefineSchemaObj( values );
+        }else if( values.default || values.default === '' || values.default === 0 ){
+          obj[ key ] = values.default;
+        }else{
+          obj[ key ] = values;
+        }
+      }
+    });
+    return obj;
   }
 }
 
