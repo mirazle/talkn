@@ -69,10 +69,17 @@ export default class Favicon {
     });
   }
 
-  getDatas( thread, links ){
-    let { protocol, host } = thread;
-    protocol = protocol ? protocol : Favicon.defaultFaviconProtocol ;
-    const linkLength = links.length;
+  fetch( thread ){
+    let { protocol, host, connection } = thread;
+
+    // TODO findの整理：　hostが入っていない！！！
+    //      talkn独自スレッド(talkn:)はポータルサイトのhttp:とする
+    //      即ちtalkn:は撲滅
+
+    console.log( "@@@@ FAVICON " + protocol + " " + host + " " + connection );
+    console.log(thread.links);
+
+    const linkLength = thread.links.length;
     const superOrigin = `${protocol}//${host}`;
     let faviconDatas = [{
       faviconName: `${protocol}//${host}/${Favicon.defaultFaviconName}`,

@@ -3,12 +3,6 @@ import MongoDB from '~/server/listens/db/MongoDB';
 export default class Users {
   constructor( dbConnection ){
     this.collection = MongoDB.getCollection( dbConnection, Users.name );
-//    this.find = this.find.bind(this);
-//    this.findOne = this.findOne.bind(this);
-//    this.save = this.save.bind(this);
-//    this.update = this.update.bind(this);
-//    this.remove = this.remove.bind(this);
-//    this.removeAll = this.removeAll.bind(this);
     return this;
   }
 
