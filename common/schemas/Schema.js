@@ -179,6 +179,22 @@ export default class Schema {
     }
   }
 
+  toJSON(obj = this){
+    Object.keys( obj ).forEach( ( key ) => {
+      let values = obj[ key ];
+      if( typeof( values ) === "object" ){
+        if( !values.type && !values.default ){
+          values = this.toJSON( values );
+        }else if( values.default || values.default === '' || values.default === 0 ){
+          obj[ key ] = values.default;
+        }else{
+          obj[ key ] = values;
+        }
+      }
+    });
+    return obj;
+  }
+
   forEach( func ){
     return Object.values( this ).forEach( func );
   }

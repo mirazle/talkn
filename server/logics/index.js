@@ -1,6 +1,6 @@
 import express from '~/server/logics/express';
 import sns from '~/server/logics/sns';
-import Db from '~/server/logics/db';
+import Collections from '~/server/logics/db/collections';
 import Io from '~/server/logics/Io';
 import Html from '~/server/logics/Html';
 import Favicon from '~/server/logics/Favicon';
@@ -16,7 +16,7 @@ const socketIo = new SocketIo();
 export default {
   express: express,
   sns: new sns(),
-  db: new Db( mongoDB ),
+  db: new Collections( mongoDB ),
   io: new Io( socketIo ),
   html: new Html(),
   favicon: new Favicon(),

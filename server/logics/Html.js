@@ -4,86 +4,62 @@ import jschardet from 'jschardet';
 import {Iconv} from 'iconv';
 import {Buffer} from 'buffer';
 import fs from 'fs';
-import Sequence from '~/common/Sequence'
-import Thread from '~/common/schemas/state/Thread'
+import Sequence from '~/common/Sequence';
+import Thread from '~/common/schemas/state/Thread';
 import define from '~/common/define';
 import conf from '~/common/conf';
+import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
-
+import htmlSchema from '~/server/schemas/logics/html';
 
 export default class Html {
 
-  static get getResponseSchema(){
-    return {
-      title: 'talkn',
-      serverMetas: {
-        title: 'talkn',
-        'og:title': '',
-        'og:image': `//${conf.assetsImgPath}talkn_logo1.png`,
-        'og:description': '',
-        'description': 'Hello talkn!!',
-      },
-      links: [],
-      h1s: [],
-      videos: [],
-      audios: [],
-      contentType: '',
-      uri: '',
-      favicon: ''
-    }
-  };
+  async fetch( thread ){
 
-  constructor(){
-    this.option = {
-      method: 'GET',
-      url: '',
-      encoding: 'binary'
-    };
-  }
-
-  async get( thread ){
-
+    const { protocol, connection } = thread;
     const { DEVELOPMENT_DOMAIN, PORTS } = define;
-    let response = {};
+    let response = null;
 
-    // URLと思われる文字列の場合
-    if( thread.host === `${DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT}` || thread.connection.indexOf( '.' ) > 0 ){
-      thread = {...thread, protocol: Sequence.HTTPS_PROTOCOL, host: Thread.getHost( thread.connection ) };
-      const httpsResult = await Logics.html.request( thread );
-      if( httpsResult ){
-
-        response = {...httpsResult, getHtmlThread: thread};
-      }else{
-        thread = {...thread, protocol: Sequence.HTTP_PROTOCOL, host: Thread.getHost( thread.connection ) };
-        const httpResult = await Logics.html.request( thread );
-        if( httpResult ){
-          response = {...httpResult, getHtmlThread: thread};
-        }
+    switch( protocol ){
+    case Sequence.HTTPS_PROTOCOL:
+      response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, connection );
+      if( !response ){
+        response = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, connection );
       }
+      break;
+    case Sequence.HTTP_PROTOCOL:
+      response = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, connection );
+      if( !response ){
+        response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, connection );
+      }
+      break;
+    case Sequence.TALKN_PROTOCOL:
+    case Sequence.UNKNOWN_PROTOCOL:
+    default:
+      response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, connection );
+      if( !response ){
+        response = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, connection );
+      }
+      break;
     }
 
-    if( Object.keys( response ).length === 0 ){
-      console.log("HTML NG " + thread.connection );
-    }
-
-    return Object.keys( response ).length > 0 ?
-      response : {...Html.getResponseSchema, getHtmlThread: thread};
+    return response ? response : MongoDB.getDefineSchemaObj( htmlSchema );
   }
 
-  request( thread ){
+  exeFetch( protocol, connection ){
     return new Promise( ( resolve, reject ) => {
 
-      const { protocol, connection } = thread;
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
-
+console.log( "@@@ " + url );
       request( option, ( error, response, body ) => {
 
-        let responseSchema = Html.getResponseSchema;
+        let responseSchema = MongoDB.getDefineSchemaObj( htmlSchema );
 
         if( !error && response && response.statusCode === 200 ){
           const utf8Body = this.toUtf8Str( body );
           const $ = cheerio.load( utf8Body );
+          responseSchema.protocol = protocol;
           responseSchema.title = this.getTitle( $ );
           responseSchema.serverMetas = this.getMetas( $, response.request.uri.href );
           responseSchema.links = this.getLinks( $ );
@@ -91,10 +67,9 @@ export default class Html {
           responseSchema.videos = this.getVideos( $ );
           responseSchema.audios = this.getAudios( $ );
           responseSchema.contentType = response.headers['content-type'];
-// なぜいる?           responseSchema.uri = response.request.uri;
           resolve( responseSchema );
         }else{
-          resolve(false);
+          resolve( null );
         }
       });
     });

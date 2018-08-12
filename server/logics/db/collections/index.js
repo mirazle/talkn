@@ -1,10 +1,10 @@
 import conf from '~/server/conf';
-import Threads from '~/server/logics/db/Threads';
-import Posts from '~/server/logics/db/Posts';
-import Setting from '~/server/logics/db/Setting';
-import Users from '~/server/logics/db/Users';
+import Threads from '~/server/logics/db/collections/Threads';
+import Posts from '~/server/logics/db/collections/Posts';
+import Setting from '~/server/logics/db/collections/Setting';
+import Users from '~/server/logics/db/collections/Users';
 
-export default class Db {
+export default class Collections {
   constructor( mongoDB ){
     this.threads = new Threads( mongoDB.Threads );
     this.posts = new Posts( mongoDB.Posts );
