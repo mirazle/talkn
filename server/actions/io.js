@@ -55,19 +55,12 @@ export default {
   },
 
   exeFind: async ( ioUser, requestState, setting ) => {
-    /*
-      TODO  クライアントでスレッドが表示されない
-            OK  mongooseのSchema定義をcollection以外もファイル別に整理する
-            findを整理する
-            必要に応じて、findOne系にbuiltinSchemaフラグを用意する
-    */
-    console.log( requestState );
+
     // リクエストのあったconnectionを取得する
     const { connection } = requestState.thread;
 
     // Thread
     let {response: thread} = await Logics.db.threads.findOne( connection, {}, {}, true );
-    const threadStatus = Logics.db.threads.getStatus( thread, setting );
 
     // Posts
     const {postCnt, multiPostCnt} = await Logics.db.posts.getCounts( connection );
@@ -77,57 +70,40 @@ export default {
     // User
     const user = {connectioned: connection ,offsetFindId};
 
+    // Threadの状態
+    const threadStatus = Logics.db.threads.getStatus( thread, user, setting );
+
     // 作成・更新が必要なスレッドの場合
     if( threadStatus.isRequireUpsert ){
 
-//      const { title, serverMetas, links, h1s, videos, audios, contentType, uri, getHtmlThread } = await Logics.html.get( requestState.thread );
-
       thread = await Logics.db.threads.requestHtmlParams( thread );
 
-      //requestState.thread = Logics.db.threads.merge( requestState.thread, getHtmlThread );
-      //const faviconDatas = Logics.favicon.getDatas( thread, links );
-      //const {faviconName, faviconType} = await Logics.favicon.requests( faviconDatas );
-      //let createThread = {title, serverMetas, links, h1s, videos, audios, contentType, uri, favicon: faviconName, faviconType};
-
       // スレッド新規作成
-      if( thread.isSchema ){
+      if( threadStatus.isSchema ){
 
-        const watchCnt = 1;
-        const connections = Thread.getConnections( connection );
-        const protocol =  ( createThread && createThread.uri && createThread.uri.protocol ) ? createThread.uri.protocol : Sequence.TALKN_PROTOCOL ;
-        const layer = Thread.getLayer( connection );
-
-        createThread = {...createThread, watchCnt, connections, postCnt, multiPostCnt, protocol, layer };
-        let {response: thread} = await Logics.db.threads.save( connection, createThread );
+        thread.watchCnt = 1;
+        thread = await Logics.db.threads.save( connection, thread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
 
       // スレッド更新
       }else{
 
-        createThread.postCnt = postCnt;
-        createThread.multiPostCnt = multiPostCnt;
-        createThread.watchCnt = createThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
-        await Logics.db.threads.update( connection, createThread );
+        thread.postCnt = postCnt;
+        thread.multiPostCnt = multiPostCnt;
+        thread.watchCnt = createThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
+        await Logics.db.threads.save( connection, thread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
-
-
       }
 
     // スレッドが存在して、更新も必要ない場合
     }else{
 
       // 初回表示の場合
-      if( requestState.user.offsetFindId === User.defaultOffsetFindId ){
+      if( threadStatus.isFirstView ){
 
         let addWatchCnt = 1;
         addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
         thread.watchCnt = await Actions.io.updateThreadWatchCnt( connection, addWatchCnt );
-
-//console.log("======= EXIST" );
-
-      // GET MOREを押した場合
-      }else{
-//console.log("======= GET MORE");
       }
 
       thread.postCnt = postCnt;
