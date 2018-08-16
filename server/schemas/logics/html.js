@@ -2,7 +2,7 @@ import conf from '~/common/conf';
 import Sequence from '~/common/Sequence';
 
 export default {
-  protocol: { type: String, default: Sequence.HTTP_PROTOCOL },
+  protocol: { type: String, default: Sequence.HTTPS_PROTOCOL },
   title: { type: String, default: "" },
   contentType: { type: String, default: "text/html" },
   serverMetas: {

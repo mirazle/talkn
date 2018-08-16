@@ -8,6 +8,7 @@ import Sequence from '~/common/Sequence';
 import Thread from '~/common/schemas/state/Thread';
 import define from '~/common/define';
 import conf from '~/common/conf';
+import util from '~/common/util';
 import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
 import htmlSchema from '~/server/schemas/logics/html';
@@ -51,27 +52,32 @@ export default class Html {
 
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
-console.log( "@@@ " + url );
-      request( option, ( error, response, body ) => {
 
-        let responseSchema = MongoDB.getDefineSchemaObj( htmlSchema );
+      if( util.isUrl( url ) ){
 
-        if( !error && response && response.statusCode === 200 ){
-          const utf8Body = this.toUtf8Str( body );
-          const $ = cheerio.load( utf8Body );
-          responseSchema.protocol = protocol;
-          responseSchema.title = this.getTitle( $ );
-          responseSchema.serverMetas = this.getMetas( $, response.request.uri.href );
-          responseSchema.links = this.getLinks( $ );
-          responseSchema.h1s = this.getH1s( $ );
-          responseSchema.videos = this.getVideos( $ );
-          responseSchema.audios = this.getAudios( $ );
-          responseSchema.contentType = response.headers['content-type'];
-          resolve( responseSchema );
-        }else{
-          resolve( null );
-        }
-      });
+        request( option, ( error, response, body ) => {
+
+          let responseSchema = MongoDB.getDefineSchemaObj( htmlSchema );
+
+          if( !error && response && response.statusCode === 200 ){
+            const utf8Body = this.toUtf8Str( body );
+            const $ = cheerio.load( utf8Body );
+            responseSchema.protocol = protocol;
+            responseSchema.title = this.getTitle( $ );
+            responseSchema.serverMetas = this.getMetas( $, response.request.uri.href );
+            responseSchema.links = this.getLinks( $ );
+            responseSchema.h1s = this.getH1s( $ );
+            responseSchema.videos = this.getVideos( $ );
+            responseSchema.audios = this.getAudios( $ );
+            responseSchema.contentType = response.headers['content-type'];
+            resolve( responseSchema );
+          }else{
+            resolve( null );
+          }
+        });
+      }else{
+        resolve( null );
+      }
     });
   }
 

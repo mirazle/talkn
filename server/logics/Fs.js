@@ -1,10 +1,11 @@
 import util from '~/common/util'
-import conf from '~/server/conf';
+import conf from '~/common/conf';
 import fs from 'fs';
 
 export default class Fs {
-  write( fileName, binary ){
-    fileName = util.getSaveFaviconName( fileName );
+
+  writeFavicon( fileName, binary ){
+
     const writeFileName = `${conf.serverAssetsPath}icon/${fileName}`;
     if( binary ){
       if( !this.isExist( writeFileName ) ){
@@ -16,6 +17,16 @@ export default class Fs {
     }else{
       console.log( "NO BINARY FAVICON " + fileName );
       return false;
+    }
+  }
+
+  isExistFavicon( fileName ){
+    try {
+      const writeFileName = `${conf.serverAssetsPath}icon/${fileName}`;
+      fs.statSync( writeFileName );
+      return true
+    } catch( err ) {
+      return false
     }
   }
 
