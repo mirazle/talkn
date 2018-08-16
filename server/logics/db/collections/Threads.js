@@ -1,6 +1,6 @@
 import Thread from '~/common/schemas/state/Thread'
+import User from '~/common/schemas/state/User'
 import MongoDB from '~/server/listens/db/MongoDB';
-
 
 import Logics from '~/server/logics';
 
@@ -40,6 +40,7 @@ export default class Threads {
     let schema = this.collection.getSchema({connection});
     schema.connections = Thread.getConnections( connection );
     schema.host = Thread.getHost( connection );
+    schema.layer = Thread.getLayer( connection );
     schema.lastPost.connection = connection;
     schema.lastPost.connections = Thread.getConnections( connection );
     response.unshift( schema );
@@ -72,9 +73,14 @@ export default class Threads {
   }
 
   async save( connection, thread ){
-    const set = {connection, ...thread};
-    const option = {upsert:true};
-    return this.collection.save( set, option );
+    if( thread.save ){
+      thread.updateTime = new Date();
+      return thread.save({connection});
+    }else{
+      const set = {connection, ...thread};
+      const option = {upsert:true};
+      return this.collection.save( set, option );
+    }
   }
 
   async update( connection, thread ){
@@ -116,22 +122,28 @@ export default class Threads {
 
   async requestHtmlParams( thread ){
     const htmlParams = await Logics.html.fetch( thread );
+    thread = MongoDB.getBuiltinObjToSchema( thread, htmlParams );
     const faviconParams = await Logics.favicon.fetch( thread );
-    const htmlBuiltinedThread = MongoDB.getBuiltinObjToSchema( thread, htmlParams );
+    return MongoDB.getBuiltinObjToSchema(
+      thread, {...faviconParams, favicon: faviconParams.faviconName }
+    );
   }
 
   /******************/
   /* STATUS LOGIC   */
   /******************/
 
-  getStatus( thread, setting ){
+  getStatus( thread, user, setting ){
 
-    let status = {isSchema: false, isRequireUpsert: false};
+    let status = {isSchema: false, isRequireUpsert: false, isFirstView: false};
+
+    /*******************************************************/
+    /* threadが空のSchemaかどうか(DBにデータが存在しない)        */
+    /*******************************************************/
 
     const threadCreateTime = thread.createTime.getTime();
     const threadUpdateTime = thread.updateTime.getTime();
 
-    // 空のSchemaの場合(DBにデータが存在しない)
     if( threadCreateTime === threadUpdateTime ){
 
       const lastPostCreateTime = thread.lastPost.createTime.getTime();
@@ -141,6 +153,10 @@ export default class Threads {
         status.isSchema = true;
       }
     }
+
+    /*******************************************************/
+    /* 更新が必要なthreadかどうか                             */
+    /*******************************************************/
 
     // 現在時刻を取得
     const now = new Date();
@@ -155,6 +171,12 @@ export default class Threads {
     // スレッドの更新時間と、現在時間 - n を比較して、スレッドの更新時間が古かったらtrueを返す
     status.isRequireUpsert = status.isSchema ?
       true : threadUpdateTime < activeTime;
+
+    /*******************************************************/
+    /* 初めて開くthreadかどうか(changeThreadでない)            */
+    /*******************************************************/
+
+    status.isFirstView = ( user.offsetFindId === User.defaultOffsetFindId );
 
     return status;
   }

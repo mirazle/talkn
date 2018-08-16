@@ -9,7 +9,7 @@ export default {
 	host: { type: String, default: "" },
 	layer: { type: Number, default: 0 },
 	favicon: { type: String, default: define.FAVICON },
-	faviconType: { type: String, default: "TALKN" },
+	faviconType: { type: String, default: "[TALKN]" },
 
 	// Analyze
 	postCnt: { type: Number, default: 0 },
