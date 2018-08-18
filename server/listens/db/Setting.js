@@ -6,6 +6,10 @@ export default class Setting {
     return this;
   }
 
+  getSchema( params = {} ){
+    return new this.collection( params );
+  }
+
   findOne( condition = {}, selector = {}, option = {}){
     return new Promise( resolve => {
       this.collection.findOne( (error, response) => {

@@ -91,27 +91,17 @@ export default class Schema {
               return value
             },
             set: (_value) => {
-              const {pointer, validValue, validType, paramsValue, paramsType, error} = validFunc( value );
+              // pointer, validValue, validType, paramsValue, paramsType, error
+              const validResult = validFunc( value );
               if( error === null ){
                 value = _value;
                 return {...this, [ key ]: value };
               }else{
                 if(this.errorThrow){
-                  console.warn("##########################");
-                  console.warn("#" + pointer );
-                  console.warn("##########################");
-                  console.warn("### initializedValidType");
-                  console.warn( validType );
-                  console.warn("### initializedValidValue");
-                  console.warn( validValue );
-                  console.warn("### paramsType");
-                  console.warn( paramsType );
-                  console.warn("### paramsValue");
-                  console.warn( paramsValue );
-                  console.warn("##########################");
+                  this.validWarn( validResult );
                   throw error;
                 }else{
-                  return {pointer, validValue, validType, paramsValue, paramsType, error};
+                  return validResult;
                 }
               }
             },
@@ -180,19 +170,22 @@ export default class Schema {
   }
 
   toJSON(obj = this){
+    let jsonObj = {};
     Object.keys( obj ).forEach( ( key ) => {
       let values = obj[ key ];
-      if( typeof( values ) === "object" ){
+      if( values.constructor.name === "Object" ){
         if( !values.type && !values.default ){
           values = this.toJSON( values );
-        }else if( values.default || values.default === '' || values.default === 0 ){
-          obj[ key ] = values.default;
-        }else{
-          obj[ key ] = values;
         }
       }
+
+      if( values.default || values.default === '' || values.default === 0 ){
+        jsonObj[ key ] = values.default;
+      }else{
+        jsonObj[ key ] = values;
+      }
     });
-    return obj;
+    return jsonObj;
   }
 
   forEach( func ){
@@ -200,14 +193,43 @@ export default class Schema {
   }
 
   map( func ){
-    return Object.values( this ).map( func );
+    return this.returnImmutable( Object.values( this ).map( func ) );
   }
 
   filter( func ){
-    return Object.values( this ).filter( func );
+    return this.returnImmutable( Object.values( this ).filter( func ) );
   }
 
   reduce( func ){
-    return Object.values( this ).reduce( func );
+    return this.returnImmutable( Object.values( this ).reduce( func ) );
+  }
+
+  returnImmutable( result ){
+    if( result.length === 0 ){
+      return result;
+    }else if(
+      result[ 0 ] &&
+      result[0]["$$typeof"] &&
+      result[0]["$$typeof"].constructor.name === "Symbol"
+    ){
+      return result;
+    }else{
+      return new this.constructor( result );
+    }
+  }
+
+  validWarn( validResult ){
+    console.warn("##########################");
+    console.warn("#" + validResult.pointer );
+    console.warn("##########################");
+    console.warn("### initializedValidType");
+    console.warn( validResult.validType );
+    console.warn("### initializedValidValue");
+    console.warn( validResult.validValue );
+    console.warn("### paramsType");
+    console.warn( validResult.paramsType );
+    console.warn("### paramsValue");
+    console.warn( validResult.paramsValue );
+    console.warn("##########################");
   }
 }

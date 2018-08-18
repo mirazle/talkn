@@ -1,4 +1,4 @@
-import define from '~/common/define'
+import Favicon from '~/server/logics/Favicon';
 
 export default {
 	protocol: { type: String, default: "talkn:"  },
@@ -6,7 +6,7 @@ export default {
 	connections: { type: [String], default: [] },
 	uid: { type: String, default: '' },
 	utype: { type: String, default: '' },
-	favicon: { type: String, default: define.FAVICON },
+	favicon: { type: String, default: Favicon.defaultFaviconPath },
 	post: { type: String, default: ' ' },
 	data: { type: Object, default:{} },
 	// Time

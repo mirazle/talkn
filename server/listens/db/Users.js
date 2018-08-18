@@ -6,6 +6,10 @@ export default class Users {
     return this;
   }
 
+  getSchema( params = {} ){
+    return new this.collection( params );
+  }
+
   find(condition, selector, option){
     return new Promise( resolve => {
       this.collection.find( condition, selector, option, (error, response) => {

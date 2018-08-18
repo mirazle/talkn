@@ -1,4 +1,5 @@
 import Thread from '~/common/schemas/state/Thread';
+import Logics from '~/server/logics';
 
 export default class Posts {
 
@@ -7,18 +8,17 @@ export default class Posts {
     return this;
   }
 
-  async getCounts( connection ){
+  async getCounts( requestState ){
+    const { connection } = requestState.thread;
     const condition = {connection};
     const multiCondition = {connections: connection};
     const {response: postCnt} = await this.collection.count( condition );
-    const {response: multiPostCnt} = await this.collection.count( multiCondition );
-    return {postCnt, multiPostCnt};
+    return postCnt;
   }
 
   async count( requestState ){
-    const condition = {
-      connection: requestState.thread.connection,
-    };
+    const { connection } = requestState.thread;
+    const condition = {connection};
     return await this.collection.find( condition ).count();
   }
 
@@ -35,11 +35,19 @@ export default class Posts {
   }
 
   async save( requestState ){
-    const connections = Thread.getConnections( requestState.thread.connection );
-    const post = requestState.app.inputPost;
-    const set = {connections, ...requestState.thread, ...requestState.user, post };
-    const option = {upsert:true};
-    return this.collection.save( set, option );
+    const { app, user, thread } = requestState;
+    const post = this.collection.getSchema({
+      protocol: thread.protocol,
+      connection: thread.connection,
+      connections: thread.connections,
+      uid: user.uid,
+      utype: user.utype,
+      favicon: thread.favicon,
+      post: app.inputPost,
+      data: '',
+      updateTime: new Date(),
+    });
+    return post.save();
   }
 
   async update( requestState, posts ){
@@ -47,5 +55,9 @@ export default class Posts {
     const set = { connection: requestState.connection, ...posts };
     const option = {upsert:true};
     return this.collection.update( condition, set, option );
+  }
+
+  async getSchema( params = {} ){
+    return this.collection.getSchema( params );
   }
 }

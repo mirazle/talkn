@@ -11,7 +11,7 @@ export default class MenuIndex extends Component {
   renderLi(){
     const { style, menuIndex, thread } = this.props.state;
     return menuIndex.map( ( mi, index ) => {
-      return (
+      return(
         <MenuIndexList
           key={ mi.connection }
           thread={ thread }
