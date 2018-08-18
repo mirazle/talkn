@@ -46,7 +46,9 @@ export default class Sequence {
       },
       findMenuIndex: {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
-        requestPrivateState: {},
+        requestPrivateState: {
+          'thread': [{columnName: 'layer'}],
+        },
         responseEmitState: {'menuIndex': '*'},
         responseBroadcastState: {},
       },
@@ -58,7 +60,7 @@ export default class Sequence {
           'thread': [{columnName: 'protocol'}, {columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}]
         },
         responseEmitState: {},
-        responseBroadcastState: {'posts': '*', 'thread': ['postCnt', 'multiPostCnt', 'connection'], 'menuIndex': '*'},
+        responseBroadcastState: {'posts': '*', 'thread': ['postCnt', 'connection'], 'menuIndex': '*'},
       },
       updateThreadServerMetas: {
         requestPublicState: {'thread': [{columnName: 'serverMetas'}]},
@@ -100,9 +102,8 @@ export default class Sequence {
         }
 
         if( columnDatas === '*' ){
-
           requestState = {...requestState,
-            [ stateKey ]: reduxState[ stateKey ],
+            [ stateKey ]: reduxState[ stateKey ].toJSON(),
           }
         }else{
 
@@ -189,9 +190,7 @@ export default class Sequence {
                 }
               }
             }else{
-              console.warn( updateStateKey );
-              console.warn( updateState );
-              throw `SEQUENCE ERROR: NO_UPDATE_STATE_COLUMN_NAME: ${columnName}`;
+              throw `SEQUENCE ERROR: NO_UPDATE_STATE_COLUMN_NAME: ${updateStateKey}.${columnName}`;
             }
           });
         }

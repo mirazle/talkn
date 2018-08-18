@@ -63,7 +63,7 @@ export default {
     let {response: thread} = await Logics.db.threads.findOne( connection, {}, {}, true );
 
     // Posts
-    const {postCnt, multiPostCnt} = await Logics.db.posts.getCounts( connection );
+    thread.postCnt = await Logics.db.posts.getCounts( requestState );
     const {response: posts} = await Logics.db.posts.find(requestState, setting );
     const offsetFindId = Logics.control.getOffsetFindId( posts );
 
@@ -82,15 +82,13 @@ export default {
       if( threadStatus.isSchema ){
 
         thread.watchCnt = 1;
-        thread = await Logics.db.threads.save( connection, thread );
+        thread = await Logics.db.threads.save( {thread} );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
 
       // スレッド更新
       }else{
 
-        thread.postCnt = postCnt;
-        thread.multiPostCnt = multiPostCnt;
-        thread.watchCnt = createThread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
+        thread.watchCnt = thread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
         await Logics.db.threads.save( connection, thread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
@@ -106,8 +104,6 @@ export default {
         thread.watchCnt = await Actions.io.updateThreadWatchCnt( connection, addWatchCnt );
       }
 
-      thread.postCnt = postCnt;
-      thread.multiPostCnt = multiPostCnt;
       Logics.io.find( ioUser, {requestState, thread, posts, user} );
     }
   },
@@ -116,30 +112,17 @@ export default {
   findMenuIndex: async ( ioUser, requestState, setting ) => {
     // リクエストのあったスレッドを取得する
     const connection = requestState.thread.connection;
-    const menuIndex = await Logics.db.threads.findMenuIndex( connection, setting );
+    const menuIndex = await Logics.db.threads.findMenuIndex( requestState, setting );
     Logics.io.findMenuIndex( ioUser, {requestState, menuIndex} );
   },
 
   post: async ( ioUser, requestState, setting ) => {
-    const { app, user, thread } = requestState;
-    const { connection } = thread;
-    const lastPost = {
-      protocol: thread.protocol,
-      connection: thread.connection,
-      connections: thread.connections,
-      uid: user.uid,
-      utype: user.utype,
-      favicon: thread.favicon,
-      post: app.inputPost,
-      data: '',
-      updateTime: new Date(),
-    }
-
-    await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost} );
-    const {response: post} = await Logics.db.posts.save( requestState );
-    const {postCnt, multiPostCnt} = await Logics.db.posts.getCounts( connection );
-    const ioThread = {postCnt, multiPostCnt, connection};
-    await Logics.io.post( ioUser, {requestState, posts: [ post ], thread: ioThread } );
+    const { connection } = requestState.thread;
+    const post = await Logics.db.posts.save( requestState );
+    const response = await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost: post } );
+    const postCnt = await Logics.db.posts.getCounts( requestState );
+    const ioThread = {postCnt, connection};
+    await Logics.io.post( ioUser, {requestState, posts:[ post ] , thread: ioThread } );
     return true;
   },
 
@@ -158,7 +141,6 @@ export default {
     if( user && user.connection ){
       Logics.db.users.remove( ioUser.conn.id );
       const watchCnt = await Actions.io.updateThreadWatchCnt( user.connection , -1 );
-//console.log("======== DISCONNECT DECREMENT " + user.connection + " warchCnt = " + watchCnt);
       Logics.io.updateWatchCnt(
         ioUser, {
         requestState: {type: 'disconnect'},

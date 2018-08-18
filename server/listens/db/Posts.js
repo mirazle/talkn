@@ -6,6 +6,10 @@ export default class Posts {
     return this;
   }
 
+  getSchema( params = {} ){
+    return new this.collection( params );
+  }
+
   count(condition){
     return new Promise( resolve => {
       this.collection.count( condition, (error, response) => {

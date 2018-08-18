@@ -1,8 +1,8 @@
 import Thread from '~/common/schemas/state/Thread'
 import User from '~/common/schemas/state/User'
 import MongoDB from '~/server/listens/db/MongoDB';
-
 import Logics from '~/server/logics';
+import Favicon from '~/server/logics/Favicon';
 
 export default class Threads {
 
@@ -36,21 +36,15 @@ export default class Threads {
     return response.watchCnt < 0 ? 0 : response.watchCnt ;
   }
 
-  async getBuiltinSchema( connection, response = [] ){
-    let schema = this.collection.getSchema({connection});
-    schema.connections = Thread.getConnections( connection );
-    schema.host = Thread.getHost( connection );
-    schema.layer = Thread.getLayer( connection );
-    schema.lastPost.connection = connection;
-    schema.lastPost.connections = Thread.getConnections( connection );
-    response.unshift( schema );
-    return response;
-  }
-
-  async findMenuIndex( connection, setting ){
+  async findMenuIndex( requestState, setting ){
+    let { connection, layer } = requestState.thread;
     connection = connection.replace(/\//, '\/');
     const regex = new RegExp( `^${connection}` );
-    const condition = {connection: regex, "lastPost.connection": regex};
+    const condition = {
+      connection: regex,
+      "lastPost.connection": regex,
+      "$or": [{layer: layer}, {layer: layer + 1}],
+    };
     const selector = {lastPost: 1};
     const option = {sort: {layer: 1, watchCnt: 1}, limit: setting.server.getThreadChildrenCnt};
 
@@ -72,20 +66,16 @@ export default class Threads {
     return response.map( res => res.lastPost );
   }
 
-  async save( connection, thread ){
-    if( thread.save ){
-      thread.updateTime = new Date();
-      return thread.save({connection});
-    }else{
-      const set = {connection, ...thread};
-      const option = {upsert:true};
-      return this.collection.save( set, option );
-    }
+  async save( requestState ){
+    const { thread } = requestState;
+    const { connection } = thread;
+    thread.updateTime = new Date();
+    return thread.save({connection});
   }
 
-  async update( connection, thread ){
+  async update( connection, upset ){
     const condition = {connection};
-    const set = {connection, ...thread, updateTime: new Date()}
+    const set = {connection, ...upset, updateTime: new Date()}
     const option = {upsert:true};
     return this.collection.update( condition, set, option );
   }
@@ -108,6 +98,17 @@ export default class Threads {
   /* COLUMN LOGIC   */
   /******************/
 
+  async getBuiltinSchema( connection, response = [] ){
+    let schema = this.collection.getSchema({connection});
+    schema.connections = Thread.getConnections( connection );
+    schema.host = Thread.getHost( connection );
+    schema.layer = Thread.getLayer( connection );
+    schema.lastPost.connection = connection;
+    schema.lastPost.connections = Thread.getConnections( connection );
+    response.unshift( schema );
+    return response;
+  }
+
   merge( obj, mergeObj ){
     return {...obj, ...mergeObj };
   }
@@ -123,10 +124,23 @@ export default class Threads {
   async requestHtmlParams( thread ){
     const htmlParams = await Logics.html.fetch( thread );
     thread = MongoDB.getBuiltinObjToSchema( thread, htmlParams );
-    const faviconParams = await Logics.favicon.fetch( thread );
-    return MongoDB.getBuiltinObjToSchema(
-      thread, {...faviconParams, favicon: faviconParams.faviconName }
-    );
+
+    if( thread.favicon === Favicon.defaultFaviconPath ){
+      const faviconParams = await Logics.favicon.fetch( thread );
+
+      thread = MongoDB.getBuiltinObjToSchema(
+        thread, {...faviconParams, favicon: faviconParams.faviconName }
+      );
+    }
+
+    if( thread.favicon !== Favicon.defaultFaviconPath && thread.lastPost.favicon === Favicon.defaultFaviconPath ){
+      console.log("UPDATE LAST_POST FAVICON");
+      thread.lastPost.favicon = thread.favicon;
+    }else{
+      console.log("NO UPDATE LAST_POST FAVICON");
+    }
+
+    return thread;
   }
 
   /******************/
