@@ -11,7 +11,11 @@ export default ( state = new MenuIndex() , action ) => {
 				} : mi);
 		break;
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
-		return action.menuIndex ? state.merge( action.menuIndex ) : state ;
+		return state.map( mi => action.posts[ 0 ].connection === mi.connection ?
+				{...mi,
+					favicon: action.posts[ 0 ].favicon,
+					post: action.posts[ 0 ].post
+				} : mi);
 	default:
 		return action.menuIndex ? state.merge( action.menuIndex ) : state ;
 		break;

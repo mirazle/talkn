@@ -134,10 +134,10 @@ export default class Threads {
     }
 
     if( thread.favicon !== Favicon.defaultFaviconPath && thread.lastPost.favicon === Favicon.defaultFaviconPath ){
-      console.log("UPDATE LAST_POST FAVICON");
       thread.lastPost.favicon = thread.favicon;
+      console.log("UPDATE LAST_POST FAVICON " + thread.lastPost.favicon);
     }else{
-      console.log("NO UPDATE LAST_POST FAVICON");
+      console.log("NO UPDATE LAST_POST FAVICON " + thread.lastPost.favicon);
     }
 
     return thread;
