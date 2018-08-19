@@ -37,6 +37,15 @@ export default {
     Actions.io.exeFind( ioUser, requestState, setting );
   },
 
+  getMore: async ( ioUser, requestState, setting ) => {
+    const { connection } = requestState.thread;
+    const {response: posts} = await Logics.db.posts.find(requestState, setting );
+    const offsetFindId = Logics.db.posts.getOffsetFindId( posts );
+    const user = {connectioned: connection ,offsetFindId};
+    const thread = {connection};
+    Logics.io.getMore( ioUser, {requestState, thread, posts, user} );
+  },
+
   changeThread: async ( ioUser, requestState, setting ) => {
     const connectioned = requestState.user.connectioned;
 
@@ -65,7 +74,7 @@ export default {
     // Posts
     thread.postCnt = await Logics.db.posts.getCounts( requestState );
     const {response: posts} = await Logics.db.posts.find(requestState, setting );
-    const offsetFindId = Logics.control.getOffsetFindId( posts );
+    const offsetFindId = Logics.db.posts.getOffsetFindId( posts );
 
     // User
     const user = {connectioned: connection ,offsetFindId};
@@ -96,14 +105,8 @@ export default {
     // スレッドが存在して、更新も必要ない場合
     }else{
 
-      // 初回表示の場合
-      if( threadStatus.isFirstView ){
-
-        let addWatchCnt = 1;
-        addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
-        thread.watchCnt = await Actions.io.updateThreadWatchCnt( connection, addWatchCnt );
-      }
-
+      let addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
+      thread.watchCnt = await Actions.io.updateThreadWatchCnt( connection, addWatchCnt );
       Logics.io.find( ioUser, {requestState, thread, posts, user} );
     }
   },
@@ -135,7 +138,6 @@ export default {
   },
 
   disconnect: async ( ioUser, requestState, setting ) => {
-
     const {response: user }  = await Logics.db.users.findOne( ioUser.conn.id );
 
     if( user && user.connection ){

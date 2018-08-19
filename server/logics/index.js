@@ -5,7 +5,6 @@ import Io from '~/server/logics/Io';
 import Html from '~/server/logics/Html';
 import Favicon from '~/server/logics/Favicon';
 import Fs from '~/server/logics/Fs';
-import Control from '~/server/logics/Control';
 import Passport from '~/server/logics/Passport';
 
 import MongoDB from '~/server/listens/db/MongoDB';
@@ -21,6 +20,5 @@ export default {
   html: new Html(),
   favicon: new Favicon(),
   fs: new Fs(),
-  control: new Control(),
   passport: new Passport(),
 }
