@@ -14,7 +14,6 @@ export default {
 
 	// Analyze
 	postCnt: { type: Number, default: 0 },
-	multiPostCnt: { type: Number, default: 0 },
 	watchCnt:{ type: Number, default: 0, min: 0},
 
 	// html(serverMetas)

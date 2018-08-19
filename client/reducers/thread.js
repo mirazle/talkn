@@ -6,6 +6,7 @@ export default ( state = new Thread() , action ) => {
 	case 'SERVER_TO_CLIENT[BROADCAST]:find':
 	case 'SERVER_TO_CLIENT[BROADCAST]:changeThread':
 	case 'SERVER_TO_CLIENT[BROADCAST]:disconnect':
+	case 'SERVER_TO_CLIENT[BROADCAST]:post':
 		if( state.connection === action.thread.connection ){
 			return action.thread ? state.merge( action.thread ) : state ;
 		}

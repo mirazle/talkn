@@ -121,8 +121,8 @@ export default {
     const post = await Logics.db.posts.save( requestState );
     const response = await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost: post } );
     const postCnt = await Logics.db.posts.getCounts( requestState );
-    const ioThread = {postCnt, connection};
-    await Logics.io.post( ioUser, {requestState, posts:[ post ] , thread: ioThread } );
+    const thread = {postCnt, connection};
+    await Logics.io.post( ioUser, {requestState, posts:[ post ] , thread } );
     return true;
   },
 

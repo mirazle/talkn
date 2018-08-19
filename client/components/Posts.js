@@ -143,14 +143,8 @@ export default class Posts extends Component {
     let isDisp = false;
 
     if( dispPostCnt > 0 ){
-      if( app.childrenThreadView ){
-        if( dispPostCnt < thread.multiPostCnt ){
-          isDisp = true;
-        }
-      }else{
-        if( dispPostCnt < thread.postCnt ){
-          isDisp = true;
-        }
+      if( dispPostCnt < thread.postCnt ){
+        isDisp = true;
       }
     }
 
