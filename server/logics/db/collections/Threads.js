@@ -149,7 +149,7 @@ export default class Threads {
 
   getStatus( thread, user, setting ){
 
-    let status = {isSchema: false, isRequireUpsert: false, isFirstView: false};
+    let status = {isSchema: false, isRequireUpsert: false};
 
     /*******************************************************/
     /* threadが空のSchemaかどうか(DBにデータが存在しない)        */
@@ -185,12 +185,6 @@ export default class Threads {
     // スレッドの更新時間と、現在時間 - n を比較して、スレッドの更新時間が古かったらtrueを返す
     status.isRequireUpsert = status.isSchema ?
       true : threadUpdateTime < activeTime;
-
-    /*******************************************************/
-    /* 初めて開くthreadかどうか(changeThreadでない)            */
-    /*******************************************************/
-
-    status.isFirstView = ( user.offsetFindId === User.defaultOffsetFindId );
 
     return status;
   }

@@ -35,6 +35,15 @@ export default class Sequence {
         responseEmitState: {'posts': '*', 'thread': '*', 'user': ['offsetFindId', 'connectioned']},
         responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       },
+      getMore: {
+        requestPublicState: {},
+        requestPrivateState: {
+          'thread': [{columnName: 'connection'}],
+          'user': [{columnName: 'offsetFindId'}],
+        },
+        responseEmitState: {'thread': ['connection'], 'user': ['offsetFindId'], 'posts': '*'},
+        responseBroadcastState: {},
+      },
       changeThread: {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {
