@@ -60,4 +60,8 @@ export default class Posts {
   async getSchema( params = {} ){
     return this.collection.getSchema( params );
   }
+
+  getOffsetFindId( posts ){
+    return posts[ 0 ] ? posts[ 0 ]._id : 'ffffffffffffffffffffffff';
+  }
 }
