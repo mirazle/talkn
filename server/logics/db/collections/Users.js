@@ -6,11 +6,10 @@ export default class Users {
     return this;
   }
 
-  async count( requestState ){
-    const condition = {
-      connection: requestState.thread.connection,
-    };
-    return await this.collection.find( condition ).count();
+  async getConnectionCnt( connection ){
+    const condition = {connection}
+    const {response: user} = await this.collection.find( condition );
+    return user.length;
   }
 
   async find( requestState, setting ){
@@ -36,9 +35,9 @@ export default class Users {
     return this.collection.save( set, option );
   }
 
-  async update( uid, users ){
+  async update( uid, connection ){
     const condition = {uid};
-    const set = { ...users };
+    const set = { $set:{ connection } };
     const option = {upsert:true};
     return this.collection.update( condition, set, option );
   }

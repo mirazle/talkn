@@ -105,7 +105,7 @@ export default class MenuIndex {
       width: '90%',
       height: '25px',
       background: Container.whiteRGB,
-      padding: '5px 0% 5px 2%',
+      padding: '4px 0% 5px 2%',
       margin: '0 3% 0 0',
       outline: 'none',
       resize: 'none',

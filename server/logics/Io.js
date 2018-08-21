@@ -57,7 +57,7 @@ export default class Io {
     return true;
   }
 
-  async updateWatchCnt( ioUser, {requestState, thread} ){
+  async saveOnWatchCnt( ioUser, {requestState, thread} ){
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {thread} );
     return this.io.broadcast( responseBroadcastState.thread.connection, responseBroadcastState );
   }

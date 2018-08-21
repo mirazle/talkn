@@ -10,6 +10,19 @@ export default ( state = new MenuIndex() , action ) => {
 					post: action.thread.lastPost.post
 				} : mi);
 		break;
+	case 'SERVER_TO_CLIENT[BROADCAST]:find':
+	case 'SERVER_TO_CLIENT[BROADCAST]:changeThread':
+	case 'SERVER_TO_CLIENT[BROADCAST]:disconnect':
+		return state.map( ( mi ) => {
+			if( action.thread.connection === mi.connection ){
+				return {...mi,
+					watchCnt: action.thread.watchCnt,
+				}
+			}else{
+				return mi
+			};
+		});
+		break;
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
 		return state.map( mi => action.posts[ 0 ].connection === mi.connection ?
 				{...mi,

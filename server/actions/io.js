@@ -22,13 +22,8 @@ export default {
     });
   },
 
-  updateThreadWatchCnt: async ( connection, watchCnt ) => {
-    await Logics.db.threads.updateWatchCnt( connection, watchCnt );
-    return await Logics.db.threads.findOneWatchCnt( connection );
-  },
-
   initClientState: ( ioUser, requestState, setting ) => {
-    Logics.db.users.update( ioUser.conn.id, requestState.thread );
+    Logics.db.users.update( ioUser.conn.id, requestState.thread.connection );
     Logics.io.initClientState( ioUser, requestState, setting );
     return true;
   },
@@ -52,11 +47,23 @@ export default {
     if( connectioned !== '' ){
 
       const connection = requestState.thread.connection;
-      let {response: thread} = await Logics.db.threads.findOne( connectioned );
+      const thread = await Logics.db.threads.saveOnWatchCnt(
+        {connection: connectioned},
+        -1
+      );
 
-      thread.watchCnt = await Actions.io.updateThreadWatchCnt( connectioned, -1 );
-      Logics.db.users.update( ioUser.conn.id, requestState.thread );
-      Logics.io.changeThread( ioUser, {requestState, thread, user: {connectioned: connection, offsetFindId: User.defaultOffsetFindId} } );
+      // ユーザーの接続情報を更新
+      Logics.db.users.update( ioUser.conn.id, connection );
+
+      // 配信
+      Logics.io.changeThread( ioUser, {
+        requestState,
+        thread,
+        user: {
+          connectioned: connection,
+          offsetFindId: User.defaultOffsetFindId
+        }
+      });
     }
 
     requestState.type = 'find';
@@ -89,31 +96,25 @@ export default {
 
       // スレッド新規作成
       if( threadStatus.isSchema ){
-
-        thread.watchCnt = 1;
-        thread = await Logics.db.threads.save( {thread} );
+        thread = await Logics.db.threads.save( thread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
 
       // スレッド更新
       }else{
 
-        thread.watchCnt = thread.watchCnt < 0 ? 1  : thread.watchCnt + 1;
-        await Logics.db.threads.save( connection, thread );
+        thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
 
     // スレッドが存在して、更新も必要ない場合
     }else{
 
-      let addWatchCnt = thread.watchCnt < 0 ? 2 : 1 ;
-      thread.watchCnt = await Actions.io.updateThreadWatchCnt( connection, addWatchCnt );
+      thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
       Logics.io.find( ioUser, {requestState, thread, posts, user} );
     }
   },
 
-  //
   findMenuIndex: async ( ioUser, requestState, setting ) => {
-    // リクエストのあったスレッドを取得する
     const connection = requestState.thread.connection;
     const menuIndex = await Logics.db.threads.findMenuIndex( requestState, setting );
     Logics.io.findMenuIndex( ioUser, {requestState, menuIndex} );
@@ -141,13 +142,25 @@ export default {
     const {response: user }  = await Logics.db.users.findOne( ioUser.conn.id );
 
     if( user && user.connection ){
-      Logics.db.users.remove( ioUser.conn.id );
-      const watchCnt = await Actions.io.updateThreadWatchCnt( user.connection , -1 );
-      Logics.io.updateWatchCnt(
+
+      // ユーザーデータ削除
+      await Logics.db.users.remove( ioUser.conn.id );
+
+      // userコレクションからwatchCntの実数を取得(thread.watchCntは読み取り専用)
+      const watchCnt = await Logics.db.users.getConnectionCnt( user.connection );
+      const thread = await Logics.db.threads.saveOnWatchCnt(
+        {connection: user.connection},
+        watchCnt,
+        true
+      );
+
+      // 配信
+      Logics.io.saveOnWatchCnt(
         ioUser, {
-        requestState: {type: 'disconnect'},
-        thread: {watchCnt, connection: user.connection}
-      });
+          requestState: {type: 'disconnect'},
+          thread
+        }
+      );
     }
     return true;
   },

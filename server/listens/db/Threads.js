@@ -11,9 +11,8 @@ export default class Threads {
     return new this.collection( params );
   }
 
-  save( set = {}, option = {} ){
+  save( thread ){
     return new Promise( resolve => {
-      const thread = new this.collection( set );
       thread.save(( error, response) => {
         if(error) console.warn( error );
         resolve({response, error});

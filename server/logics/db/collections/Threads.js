@@ -37,18 +37,18 @@ export default class Threads {
   }
 
   async findMenuIndex( requestState, setting ){
-    let { connection, layer } = requestState.thread;
-    connection = connection.replace(/\//, '\/');
-    const regex = new RegExp( `^${connection}` );
+    const { connection, layer } = requestState.thread;
+    const regexConnection = connection.replace(/\//, '\/');
+    const regex = new RegExp( `^${regexConnection}` );
     const condition = {
       connection: regex,
       "lastPost.connection": regex,
       "$or": [{layer: layer}, {layer: layer + 1}],
     };
-    const selector = {lastPost: 1};
-    const option = {sort: {layer: 1, watchCnt: 1}, limit: setting.server.getThreadChildrenCnt};
+    const selector = {lastPost: 1, watchCnt: 1};
+    const option = {sort: {layer: 1, watchCnt: 1, postCnt: 1}, limit: setting.server.getThreadChildrenCnt};
 
-    let {error, response} = await this.collection.find( condition, selector, option, true );
+    let {error, response} = await this.collection.find( condition, selector, option );
     let mainConnectionExist = false;
 
     if( response.length === 0 ){
@@ -63,21 +63,19 @@ export default class Threads {
         response = await this.getBuiltinSchema( connection, response );
       }
     }
-    return response.map( res => res.lastPost );
+
+    return response.map( ( res ) => {
+      return {...res.lastPost,
+        watchCnt: res.lastPost.connection === connection ?
+          res.watchCnt + 1 : res.watchCnt
+      }
+    });
   }
 
-  async save( requestState ){
-    const { thread } = requestState;
-    const { connection } = thread;
+  async save( thread ){
     thread.updateTime = new Date();
-    return thread.save({connection});
-  }
-
-  async update( connection, upset ){
-    const condition = {connection};
-    const set = {connection, ...upset, updateTime: new Date()}
-    const option = {upsert:true};
-    return this.collection.update( condition, set, option );
+    const {response: resThread} =  await this.collection.save( thread );
+    return resThread;
   }
 
   async resetWatchCnt(){
@@ -87,11 +85,23 @@ export default class Threads {
     return await this.collection.update( condition, set, option );
   }
 
-  async updateWatchCnt( connection, watchCnt ){
+  async saveOnWatchCnt( thread, watchCnt, update = false ){
+    const { connection } = thread;
+    if( thread.save ){
+      thread.watchCnt = update ? watchCnt : thread.watchCnt + watchCnt;
+      return await Logics.db.threads.save( thread );
+    }else{
+      const {response: resThread} = await Logics.db.threads.findOne( connection );
+      resThread.watchCnt = update ? watchCnt : resThread.watchCnt + watchCnt;
+      return await Logics.db.threads.save( resThread );
+    }
+  }
+
+  async update( connection, upset ){
     const condition = {connection};
-    const set = { $inc: { watchCnt } };
+    const set = {connection, ...upset, updateTime: new Date()}
     const option = {upsert:true};
-    return await this.collection.update( condition, set, option );
+    return this.collection.update( condition, set, option );
   }
 
   /******************/
