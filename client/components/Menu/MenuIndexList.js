@@ -91,6 +91,11 @@ export default class MenuIndexList extends Component {
         <div style={style.menuIndexList.bottom}>
           <span style={{...style.menuIndexList.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
           <span style={style.menuIndexList.bottomPost} dangerouslySetInnerHTML={{__html: menuIndex.post }} />
+          <span style={style.menuIndexList.bottomWatchCnt}>
+            <span style={style.menuIndexList.bottomWatchCntWrap}>
+              {menuIndex.watchCnt}
+            </span>
+          </span>
         </div>
 
       </li>

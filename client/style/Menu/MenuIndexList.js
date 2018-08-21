@@ -20,6 +20,8 @@ export default class MenuIndexList {
     const bottom = MenuIndexList.getBottom();
     const bottomIcon = MenuIndexList.getBottomIcon();
     const bottomPost = MenuIndexList.getBottomPost();
+    const bottomWatchCnt = MenuIndexList.getBottomWatchCnt();
+    const bottomWatchCntWrap = MenuIndexList.getBottomWatchCntWrap();
     return {
       activeLiSelf,
       unactiveLiSelf,
@@ -29,6 +31,8 @@ export default class MenuIndexList {
       bottom,
       bottomIcon,
       bottomPost,
+      bottomWatchCnt,
+      bottomWatchCntWrap
     }
   }
 
@@ -112,7 +116,7 @@ export default class MenuIndexList {
 
   static getBottomIcon(){
     const layout = Style.getLayoutInlineBlock({
-      width: '20%',
+      width: "20%",
       height: '50px',
       backgroundImage: 'url("http://localhost:8080/favicon.ico")',
       backgroundPosition: '50% 15%',
@@ -126,12 +130,40 @@ export default class MenuIndexList {
 
   static getBottomPost(){
     const layout = Style.getLayoutInlineBlock({
-      width: '80%',
-      flexGrow:  2,
+      width: "60%",
     });
     const content = Style.getContentBase({
       lineHeight: 2,
       textAlign: 'left',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getBottomWatchCnt(){
+    const layout = Style.getLayoutInlineBlock({
+      width: "20%",
+    });
+    const content = Style.getContentBase({
+      lineHeight: 2,
+      textAlign: 'center',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getBottomWatchCntWrap(){
+    const layout = Style.getLayoutInlineBlock({
+      width: "20px",
+      height: "20px",
+      background: Container.themeRGBA,
+      borderRadius: "20px",
+    });
+    const content = Style.getContentBase({
+      fontSize: "10px",
+      lineHeight: 2,
+      textAlign: 'center',
+      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

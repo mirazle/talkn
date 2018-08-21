@@ -199,12 +199,12 @@ export default class Sequence {
                 }
               }
             }else{
-              throw `SEQUENCE ERROR: NO_UPDATE_STATE_COLUMN_NAME: ${updateStateKey}.${columnName}`;
+              throw `SEQUENCE ERROR: NO_UPDATE_STATE_COLUMN_NAME: ${requestState.type}: ${updateStateKey}.${columnName}`;
             }
           });
         }
       }else{
-        throw `SEQUENCE ERROR: NO_UPDATE_STATE_KEY: ${updateStateKey}`;
+        throw `SEQUENCE ERROR: NO_UPDATE_STATE_KEY: ${requestState.type}: ${updateStateKey}`;
       }
     });
     return responseState;
