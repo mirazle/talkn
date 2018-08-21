@@ -193,22 +193,26 @@ export default class Schema {
   }
 
   map( func ){
-    return this.returnImmutable( Object.values( this ).map( func ) );
+    return this.returnImmutable( Object.values( this ).map( func ), func );
   }
 
   filter( func ){
-    return this.returnImmutable( Object.values( this ).filter( func ) );
+    return this.returnImmutable( Object.values( this ).filter( func ), func );
   }
 
   reduce( func ){
-    return this.returnImmutable( Object.values( this ).reduce( func ) );
+    return this.returnImmutable( Object.values( this ).reduce( func ), func );
   }
 
-  returnImmutable( result ){
-    if( result.length === 0 ){
-      return result;
+  returnImmutable( result, func ){
+    if( result.length === 0 && Object.keys( this ).length === 0){
+      if( String(func).indexOf( "createElement" ) > 0 ){
+        return [];
+      }else{
+        return new this.constructor( result );
+      }
     }else if(
-      result[ 0 ] &&
+      result[0] &&
       result[0]["$$typeof"] &&
       result[0]["$$typeof"].constructor.name === "Symbol"
     ){
