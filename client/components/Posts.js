@@ -42,14 +42,6 @@ export default class Posts extends Component {
         }
       }
       break;
-    case 'START_ANIMATE_SCROLL_TO':
-      this.animateScrollTo(
-        this.refs.thread,
-        this.refs.thread.scrollHeight,
-        400,
-        this.props.endAnimateScrollTo
-      );
-      break;
     case 'SERVER_TO_CLIENT[EMIT]:find':
     case 'SERVER_TO_CLIENT[EMIT]:getMore':
       this.refs.thread.scrollTop = this.refs.thread.scrollHeight - this.state.scrollHeight;
@@ -85,10 +77,13 @@ export default class Posts extends Component {
         }
       }
       break;
-    case 'SERVER_TO_CLIENT[EMIT]:findMenuIndex':
-      menuIndex.forEach( ( mi ) => {
-        talknAPI.onCatchConnectionAPI( mi.connection );
-      });
+    case 'START_ANIMATE_SCROLL_TO':
+      this.animateScrollTo(
+        this.refs.thread,
+        this.refs.thread.scrollHeight,
+        400,
+        this.props.endAnimateScrollTo
+      );
       break;
     default:
       break;
