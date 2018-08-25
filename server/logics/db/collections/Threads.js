@@ -101,7 +101,7 @@ export default class Threads {
     const condition = {connection};
     const set = {connection, ...upset, updateTime: new Date()}
     const option = {upsert:true};
-    return this.collection.update( condition, set, option );
+    return await this.collection.update( condition, set, option );
   }
 
   /******************/
