@@ -58,7 +58,7 @@ export default class Users {
 
   removeAll(){
     return new Promise( resolve => {
-      this.collection.remove({}, ( error, response ) => {
+      this.collection.deleteMany({}, ( error, response ) => {
         if(error) console.warn( error );
         resolve({response, error});
       });
