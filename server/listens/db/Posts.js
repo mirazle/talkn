@@ -40,7 +40,7 @@ export default class Posts {
 
   update( condition = {}, set = {}, option = {} ){
     return new Promise( resolve => {
-      this.collection.update( condition, set, option, ( error, response ) => {
+      this.collection.updateMany( condition, set, option, ( error, response ) => {
         if(error) console.warn( error );
         resolve({response, error});
       });

@@ -40,7 +40,7 @@ export default class Users {
 
   update( condition = {}, set = {}, option = {} ){
     return new Promise( resolve => {
-      this.collection.update( condition, set, option, ( error, response ) => {
+      this.collection.updateMany( condition, set, option, ( error, response ) => {
         if(error) console.warn( error );
         resolve({response, error});
       });
@@ -49,7 +49,7 @@ export default class Users {
 
   remove( uid ){
     return new Promise( resolve => {
-      this.collection.remove( {uid}, ( error, response ) => {
+      this.collection.removeOne( {uid}, ( error, response ) => {
         if(error) console.warn( error );
         resolve({response, error});
       });
