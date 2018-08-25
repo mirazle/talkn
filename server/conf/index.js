@@ -15,7 +15,7 @@ const sslCrt = env === PRODUCTION ? productPemCrt:  localhostPemCrt;
 
 conf.socketIO = { host: 'localhost', port: PORTS.SOCKET_IO };
 conf.redis = { host: 'localhost', port: PORTS.REDIS };
-conf.mongoDB = { host: 'localhost', port: PORTS.MONGO, dbName: 'talkn', option: { server: { auto_reconnect: true } } };
+conf.mongoDB = { host: 'localhost', port: PORTS.MONGO, dbName: 'talkn', option: { useNewUrlParser: true } };
 conf.serverPortalPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/portal/' : `${homeDir}/talkn/server/listens/express/portal/` ;
 conf.serverClientPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/client/talkn.client.js' : `${homeDir}/talkn/server/listens/express/client/talkn.client.js` ;
 conf.serverAssetsPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/assets/' : `${homeDir}/talkn/server/listens/express/assets/` ;

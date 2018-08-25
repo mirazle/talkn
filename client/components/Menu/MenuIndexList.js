@@ -16,6 +16,16 @@ export default class MenuIndexList extends Component {
     this.getDecolationProps = this.getDecolationEvents.bind(this);
   }
 
+  componentDidMount(){
+    const { menuIndex } = this.props;
+    talknAPI.onCatchConnectionAPI( menuIndex.connection );
+  }
+
+  componentWillUnmount(){
+    const { menuIndex } = this.props;
+    talknAPI.offCatchConnectionAPI( menuIndex.connection );
+  }
+
   getDecolationEvents( focusConnection, styleKey ){
     const { menuIndex, onClickOtherThread } = this.props;
     return {
