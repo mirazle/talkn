@@ -18,13 +18,17 @@ class Container extends Component {
 
  	render() {
     const { style, user } = this.props.state;
-		return (
-			<div style={ style.container.self }>
-        <Style {...this.props} />
-        <Main {...this.props} />
-        <Footer {...this.props} />
-			</div>
-		);
+    if( style && style.container && style.container.self && user.connectioned ){
+  		return (
+  			<div style={ style.container.self }>
+          <Style {...this.props} />
+          <Main {...this.props} />
+          <Footer {...this.props} />
+  			</div>
+  		);
+    }else{
+      return null;
+    }
  	}
 }
 

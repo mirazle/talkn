@@ -59,6 +59,11 @@ export default class TalknAPI{
 		this.on( connection, callback );
 	}
 
+	offCatchConnectionAPI( connection = this.connection ){
+		const talknIndex = this.talknIndex;
+		this.off( connection );
+	}
+
 	onTalknAPI(){
 		const actions = WsClientToServerEmitActions;
 		const talknIndex = this.talknIndex;
@@ -79,9 +84,9 @@ export default class TalknAPI{
 		}
 	}
 
-	off( onKey, methodKey, actionName ){
-		this.ws.off( onKey );
-		delete ws.indexConnectionMap[ params.connection ];
+	off( offKey ){
+		this.ws.off( offKey );
+		delete ws.indexConnectionMap[ offKey ];
 	}
 
 	getHandleAPI( talknIndex, actionName ){
