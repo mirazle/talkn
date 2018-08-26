@@ -11,10 +11,6 @@ export default class Users {
   }
 
   find(condition, selector, option){
-    console.log("@@@@@@@ User");
-    console.log( condition );
-    console.log( selector );
-    console.log( option );
     return new Promise( resolve => {
       this.collection.find( condition, (error, response) => {
       //this.collection.find( condition, selector, option, (error, response) => {
@@ -55,7 +51,7 @@ export default class Users {
 
   remove( uid ){
     return new Promise( resolve => {
-      this.collection.removeOne( {uid}, ( error, response ) => {
+      this.collection.deleteOne( {uid}, ( error, response ) => {
         if(error) console.warn( error );
         resolve({response, error});
       });
