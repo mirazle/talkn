@@ -12,7 +12,7 @@ export default class Posts {
 
   count(condition){
     return new Promise( resolve => {
-      this.collection.count( condition, (error, response) => {
+      this.collection.countDocuments( condition, (error, response) => {
         if(error) console.warn( error );
         resolve({error, response});
       });
