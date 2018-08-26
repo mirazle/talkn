@@ -4,7 +4,13 @@ export default class Setting {
     return this;
   }
 
-  async findOne(){
-    return await this.collection.findOne();
+  async findOne(buildinSchema = true){
+    let responses = await this.collection.findOne();
+    if( buildinSchema ){
+      if( !responses || !responses.response ){
+        responses = await this.collection.getSchema();
+      }
+    }
+    return responses;
   }
 }
