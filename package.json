@@ -37,7 +37,7 @@
     "iconv": "*",
     "jschardet": "*",
     "latest": "^0.2.0",
-    "mongoose": "*",
+    "mongoose": "^5.2.9",
     "node": "*",
     "npm": "*",
     "passport": "*",
