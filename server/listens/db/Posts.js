@@ -20,8 +20,13 @@ export default class Posts {
   }
 
   find(condition, selector, option){
+    console.log("@@@@@@@ Posts");
+    console.log( condition );
+    console.log( selector );
+    console.log( option );
     return new Promise( resolve => {
-      this.collection.find( condition, selector, option, (error, response) => {
+      this.collection.find( condition, (error, response) => {
+//      this.collection.find( condition, selector, option, (error, response) => {
         if(error) console.warn( error );
         resolve({error, response});
       });

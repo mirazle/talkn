@@ -40,7 +40,12 @@ export default class Threads {
 
   find( condition = {}, selector = {}, option = {} ){
     return new Promise( resolve => {
-      this.collection.find( condition, selector, option, (error, response) => {
+      console.log("@@@@@@@ Thread");
+      console.log( condition );
+      console.log( selector );
+      console.log( option );
+      this.collection.find( condition, (error, response) => {
+//      this.collection.find( condition, selector, option, (error, response) => {
         if(error) console.warn( error );
         resolve({error, response});
       });
