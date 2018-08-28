@@ -100,10 +100,10 @@ export default class Container{
     const layout = Style.getLayoutFlex({
       overflow: 'visible',
       position: 'fixed',
-      bottom: '0px',
-      right: rightPx,
-      width: widthPx,
-      height: Footer.selfHeight,
+      top: '0px',
+      left: '0px',
+      width: '100%',
+      height: '100%',
       zIndex: Container.maxZIndex,
     });
     const content = Style.getContentBase({});

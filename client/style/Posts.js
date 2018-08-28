@@ -54,6 +54,8 @@ export default class Posts {
       width: Posts.getWidth( app ),
       minWidth: Posts.getMinWidth( app ),
       WebkitOverflowScrolling: 'touch',
+      borderRight: Container.border,
+      borderLeft: Container.border,
     });
     const content = {};
     const animation = Style.getAnimationBase();

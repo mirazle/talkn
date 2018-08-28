@@ -61,7 +61,6 @@ export default class MenuIndexList {
       height: `${MenuIndexList.liHeight}px`,
       padding: '10px',
       borderBottom: Container.border,
-      borderRight: MenuIndexList.unactiveLiBorderRightColor,
       background: MenuIndexList.unactiveLiBackground,
       cursor: 'pointer',
     });
