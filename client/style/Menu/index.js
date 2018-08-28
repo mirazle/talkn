@@ -42,7 +42,6 @@ export default class MenuIndex {
       width: '100%',
       height: `${MenuIndex.liHeight / 2 }px`,
       borderBottom: Container.border,
-      borderRight: Container.border,
       background: Container.offWhiteRGB,
     });
     const content = Style.getContentBase({
@@ -128,7 +127,7 @@ export default class MenuIndex {
       height: `calc( 100% - ${Main.headerHeight}px )`,
       overflow: 'scroll',
       background: Container.offWhiteRGB,
-      boxShadow: '0px 1px 1px 1px rgb( 220, 220, 220 )inset',
+//      boxShadow: '0px 1px 1px 1px rgb( 220, 220, 220 )inset',
     });
     const content = {};
     const animation = Style.getAnimationBase({

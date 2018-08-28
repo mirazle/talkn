@@ -129,7 +129,7 @@ export default class Detail {
   static getImg(){
     const layout = Style.getLayoutBlock({
       width: '100%',
-      height: '200px',
+      height: '30vh',
       backgroundColor: Container.whiteRGB,
       backgroundImage: `url(//${conf.assetsImgPath}talkn_logo1.png)`,
       backgroundPosition: 'center center',

@@ -81,7 +81,8 @@ export default class Menu {
       minWidth: 'inherit',
       maxWidth: 'inherit',
       height: `calc( 100% - ${Main.headerHeight}px )`,
-
+      borderRight: Container.border,
+      borderLeft: Container.border,
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -203,8 +204,9 @@ export default class Menu {
     const layout = Style.getLayoutFlex({
       width: '100%',
       background: Container.offWhiteRGB,
-      height: `calc( 100% - ${Main.headerHeight}px )`,
-      borderTop: Container.border,
+//      height: `calc( 100% - ${Main.headerHeight}px )`,
+      height: `${Main.headerHeight}px`,
+      border: Container.border,
     });
     const content = Style.getContentBase({
     });

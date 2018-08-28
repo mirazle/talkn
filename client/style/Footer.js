@@ -57,13 +57,14 @@ export default class Footer{
 
   static getSelf( {app} ){
     const layout = Style.getLayoutFlex({
-      position: 'absolute',
+      position: 'fixed',
+      bottom: '0px',
       right: Footer.getRight( app ),
       height: Footer.selfHeight,
       width: Footer.getWidth( app ),
       background: Container.offWhiteRGBA,
       zIndex: Container.maxZIndex,
-      borderTop: Container.border,
+      border: Container.border,
     });
     const content = {};
     const animation = Style.getAnimationBase({
@@ -101,6 +102,7 @@ export default class Footer{
       WebkitAppearance: 'none',
     });
     const content = Style.getContentBase({
+      fontSize: '10px',
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();

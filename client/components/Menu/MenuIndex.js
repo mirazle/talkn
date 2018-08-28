@@ -3,10 +3,26 @@ import Container from 'client/style/Container';
 import User from 'common/schemas/state/User';
 import util from 'common/util';
 import conf from 'common/conf';
+import App from 'common/schemas/state/App';
 import Icon from '../Icon';
 import MenuIndexList from './MenuIndexList';
 
 export default class MenuIndex extends Component {
+
+  componentDidUpdate(){
+    const { app, actionLog } = this.props.state;
+
+    switch( actionLog[ 0 ] ){
+    case 'SERVER_TO_CLIENT[EMIT]:changeThread':
+
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        app.isOpenMenu = app.isOpenMenu ? false : true;
+        talknAPI.onClickToggleDispMenu( app );
+        break;
+      }
+    }
+  }
 
   renderLi(){
     const { style, menuIndex, thread } = this.props.state;
@@ -44,7 +60,6 @@ export default class MenuIndex extends Component {
               onChange={this.handleOnChange}
               onKeyPress={this.handleOnKeyPress}
               defaultValue={ dispConnection }
-//              placeholder='Search Thread .'
             />
           </span>
         </header>
