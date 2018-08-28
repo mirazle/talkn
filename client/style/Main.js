@@ -119,7 +119,7 @@ export default class Main {
     const layout = Style.getLayoutFlex({
       width: '100%',
       height: `${Main.headerHeight}px`,
-      borderBottom: Container.border,
+      border: Container.border,
       background: Container.whiteRGB,
     });
     const content = Style.getContentBase({
