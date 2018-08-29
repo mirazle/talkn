@@ -7,7 +7,7 @@ export default class MenuUsers extends Component {
 		return (
       <ol>
         <li>
-          menu USERS
+          SOCIAL USERS
         </li>
       </ol>
 		);
