@@ -38,13 +38,11 @@ export default class MenuIndexList {
 
   static getActiveLiSelf(){
     const layout = Style.getLayoutBlock({
-      position: 'relative',
-      zIndex: 3,
       width: 'initial',
       height: `${MenuIndexList.liHeight}px`,
       padding: '10px',
       borderBottom: Container.border,
-      borderRight: MenuIndexList.activeLiBorderRightColor,
+//      borderRight: MenuIndexList.activeLiBorderRightColor,
       background: MenuIndexList.activeLiBackground,
       cursor: 'pointer',
     });
@@ -55,12 +53,11 @@ export default class MenuIndexList {
 
   static getUnactiveLiSelf(){
     const layout = Style.getLayoutBlock({
-      position: 'relative',
-      zIndex: 1,
       width: 'initial',
       height: `${MenuIndexList.liHeight}px`,
       padding: '10px',
       borderBottom: Container.border,
+      borderLeft: 0,
       background: MenuIndexList.unactiveLiBackground,
       cursor: 'pointer',
     });
