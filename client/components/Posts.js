@@ -42,8 +42,8 @@ export default class Posts extends Component {
         }
       }
       break;
-    case 'SERVER_TO_CLIENT[EMIT]:find':
     case 'SERVER_TO_CLIENT[EMIT]:getMore':
+
       this.refs.thread.scrollTop = this.refs.thread.scrollHeight - this.state.scrollHeight;
 
       if(thread.isSelfConnection){
@@ -76,6 +76,9 @@ export default class Posts extends Component {
           talknAPI.updateThreadServerMetas(serverMetas);
         }
       }
+      break;
+    case 'SERVER_TO_CLIENT[EMIT]:changeThread':
+      this.animateScrollTo( this.refs.thread, 9999999, 400 );
       break;
     case 'START_ANIMATE_SCROLL_TO':
       this.animateScrollTo(
