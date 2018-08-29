@@ -66,8 +66,6 @@ export default class Menu {
       minWidth: Menu.getWidth( app ),
       maxWidth: 'inherit',
       WebkitOverflowScrolling: 'touch',
-//      background: Container.whiteRGB,
-//      borderRight: Container.border,
       zIndex: 2,
     });
     const content = {};
@@ -76,13 +74,17 @@ export default class Menu {
   }
 
   static getWrapComponent( {app} ){
+
+    const borders = app.screenMode === App.screenModeSmallLabel ?
+      {borderRight: Container.border, borderLeft: Container.border,} :
+      {borderLeft: Container.border} ;
+
     const layout = Style.getLayoutBlock({
       width: '100%',
       minWidth: 'inherit',
       maxWidth: 'inherit',
       height: `calc( 100% - ${Main.headerHeight}px )`,
-      borderRight: Container.border,
-      borderLeft: Container.border,
+      ...borders
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -200,13 +202,17 @@ export default class Menu {
     return Style.get({layout, content, animation});
   }
 
-  static getFooter(){
+  static getFooter({app}){
+
+    const borders = app.screenMode === App.screenModeSmallLabel ?
+      {border: Container.border} :
+      {borderTop: Container.border, borderBottom: Container.border, borderLeft: Container.border} ;
+
     const layout = Style.getLayoutFlex({
       width: '100%',
       background: Container.offWhiteRGB,
-//      height: `calc( 100% - ${Main.headerHeight}px )`,
       height: `${Main.headerHeight}px`,
-      border: Container.border,
+      ...borders
     });
     const content = Style.getContentBase({
     });
