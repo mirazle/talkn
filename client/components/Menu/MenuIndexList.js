@@ -13,7 +13,6 @@ export default class MenuIndexList extends Component {
   constructor(props) {
     super(props);
     const {style} = props;
-          console.log( props );
     this.state = {style}
     this.getDecolationProps = this.getDecolationEvents.bind(this);
   }
@@ -25,7 +24,7 @@ export default class MenuIndexList extends Component {
 
   componentWillUnmount(){
     const { menuIndexList } = this.props;
-    talknAPI.offCatchConnectionAPI( menuIndexList.connection );
+    //talknAPI.offCatchConnectionAPI( menuIndexList.connection );
   }
 
   getDecolationEvents( focusConnection, styleKey ){
