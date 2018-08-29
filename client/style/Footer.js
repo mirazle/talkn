@@ -56,6 +56,11 @@ export default class Footer{
   }
 
   static getSelf( {app} ){
+
+    const borders = app.screenMode === App.screenModeSmallLabel ?
+      {border: Container.border} :
+      {borderTop: Container.border, borderBottom: Container.border, borderLeft: Container.border} ;
+
     const layout = Style.getLayoutFlex({
       position: 'fixed',
       bottom: '0px',
@@ -64,7 +69,7 @@ export default class Footer{
       width: Footer.getWidth( app ),
       background: Container.offWhiteRGBA,
       zIndex: Container.maxZIndex,
-      border: Container.border,
+      ...borders
     });
     const content = {};
     const animation = Style.getAnimationBase({
