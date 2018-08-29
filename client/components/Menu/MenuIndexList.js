@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react";
-import define from '~/common/define'
+import define from 'common/define'
+import App from 'common/schemas/state/App';
 import User from 'common/schemas/state/User';
 import Thread from 'common/schemas/state/Thread';
 import util from 'common/util';
@@ -11,74 +12,82 @@ export default class MenuIndexList extends Component {
 
   constructor(props) {
     super(props);
-    const {style} = props.state;
+    const {style} = props;
+          console.log( props );
     this.state = {style}
     this.getDecolationProps = this.getDecolationEvents.bind(this);
   }
 
   componentDidMount(){
-    const { menuIndex } = this.props;
-    talknAPI.onCatchConnectionAPI( menuIndex.connection );
+    const { menuIndexList } = this.props;
+    talknAPI.onCatchConnectionAPI( menuIndexList.connection );
   }
 
   componentWillUnmount(){
-    const { menuIndex } = this.props;
-    talknAPI.offCatchConnectionAPI( menuIndex.connection );
+    const { menuIndexList } = this.props;
+    talknAPI.offCatchConnectionAPI( menuIndexList.connection );
   }
 
   getDecolationEvents( focusConnection, styleKey ){
-    const { menuIndex, onClickOtherThread } = this.props;
+    const { app, menuIndexList, onClickOtherThread } = this.props;
     return {
       onClick: () => {
         if( !focusConnection ){
-          onClickOtherThread( menuIndex.connection );
-          talknAPI.changeThread( menuIndex.connection );
+          onClickOtherThread( menuIndexList.connection );
+          talknAPI.changeThread( menuIndexList.connection );
+        }else{
+          switch( app.screenMode ){
+          case App.screenModeSmallLabel :
+            app.isOpenMenu = app.isOpenMenu ? false : true;
+            talknAPI.onClickToggleDispMenu( app );
+            break;
+          }
         }
       },
     }
   }
 
   getDispConnection( focusConnection ){
-    const { thread, menuIndex } = this.props;
+    const { thread, menuIndexList } = this.props;
     if( focusConnection ){
       return thread.connection;
     }else{
-      if( menuIndex.connection === '/' ){
-        return menuIndex.connection.replace( thread.connection, '' );
+      if( menuIndexList.connection === '/' ){
+        return menuIndexList.connection.replace( thread.connection, '' );
       }else{
-        return  menuIndex.connection.indexOf("//") === 0 ?
-          menuIndex.connection.replace( '//', '/' ) : menuIndex.connection ;
+        return  menuIndexList.connection.indexOf("//") === 0 ?
+          menuIndexList.connection.replace( '//', '/' ) : menuIndexList.connection ;
       }
     }
   }
 
   getDispFavicon( focusConnection ){
-    const { thread, menuIndex } = this.props;
+    const { thread, menuIndexList } = this.props;
     const defaultFavicon = Thread.getDefaultFavicon();
 
     if( focusConnection ){
-      if( menuIndex.favicon === defaultFavicon ){
+      if( menuIndexList.favicon === defaultFavicon ){
         if( thread.favicon === defaultFavicon ){
-          return `//${conf.assetsIconPath}${util.getSaveFaviconName( menuIndex.favicon )}`;
+          return `//${conf.assetsIconPath}${util.getSaveFaviconName( menuIndexList.favicon )}`;
         }else{
           return thread.favicon;
         }
       }else{
-        return menuIndex.favicon;
+        return menuIndexList.favicon;
       }
     }else{
-      if( menuIndex.favicon === defaultFavicon ){
+      if( menuIndexList.favicon === defaultFavicon ){
         return `//${conf.assetsIconPath}${util.getSaveFaviconName( menuIndex.favicon )}`;
       }else{
-        return menuIndex.favicon;
+        return menuIndexList.favicon;
       }
     }
   }
 
  	render() {
     const { style } = this.state;
-    const { thread, menuIndex } = this.props;
-    const focusConnection =  thread.connection === menuIndex.connection ? true : false ;
+    const { thread, menuIndexList } = this.props;
+    const focusConnection =  thread.connection === menuIndexList.connection ? true : false ;
     const dispConnection = this.getDispConnection( focusConnection )
     const dispFavicon = this.getDispFavicon( focusConnection )
     const styleKey = focusConnection ? 'activeLiSelf' : 'unactiveLiSelf' ;
@@ -100,10 +109,10 @@ export default class MenuIndexList extends Component {
 
         <div style={style.menuIndexList.bottom}>
           <span style={{...style.menuIndexList.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
-          <span style={style.menuIndexList.bottomPost} dangerouslySetInnerHTML={{__html: menuIndex.post }} />
+          <span style={style.menuIndexList.bottomPost} dangerouslySetInnerHTML={{__html: menuIndexList.post }} />
           <span style={style.menuIndexList.bottomWatchCnt}>
             <span style={style.menuIndexList.bottomWatchCntWrap}>
-              {menuIndex.watchCnt}
+              {menuIndexList.watchCnt}
             </span>
           </span>
         </div>

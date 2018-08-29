@@ -25,14 +25,15 @@ export default class MenuIndex extends Component {
   }
 
   renderLi(){
-    const { style, menuIndex, thread } = this.props.state;
+    const { state, onClickOtherThread } = this.props;
+    const { menuIndex } = state;
     return menuIndex.map( ( mi, index ) => {
       return(
         <MenuIndexList
           key={ mi.connection }
-          thread={ thread }
-          menuIndex={mi}
-          {...this.props}
+          menuIndexList={mi}
+          onClickOtherThread={onClickOtherThread}
+          {...this.props.state}
         />
       )
     });
