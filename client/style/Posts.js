@@ -49,13 +49,17 @@ export default class Posts {
   static get headerHeight(){ return 35 };
 
   static getSelf( {app} ){
+
+    const borders = app.screenMode === App.screenModeSmallLabel ?
+      {borderRight: Container.border, borderLeft: Container.border} :
+      {borderLeft: Container.border} ;
+
     const layout = Style.getLayoutInlineBlock({
       position: 'relative',
       width: Posts.getWidth( app ),
       minWidth: Posts.getMinWidth( app ),
       WebkitOverflowScrolling: 'touch',
-      borderRight: Container.border,
-      borderLeft: Container.border,
+      ...borders
     });
     const content = {};
     const animation = Style.getAnimationBase();
