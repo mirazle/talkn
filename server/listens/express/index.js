@@ -3,6 +3,7 @@ import https from 'https';
 import express from 'express';
 import fs from "fs";
 import define from '~/common/define';
+import Session from '~/server/listens/express/session/';
 import conf from '~/server/conf';
 
 class Express{
@@ -12,6 +13,9 @@ class Express{
     this.httpsApp = express();
     this.httpsApp.set('views', conf.serverPortalPath );
     this.httpsApp.set('view engine', 'ejs');
+    this.session = new Session();
+
+    this.routingHttps = this.routingHttps.bind(this);
   }
 
   /***************************/
@@ -41,9 +45,9 @@ class Express{
     ).listen( define.PORTS.HTTPS, this.listenedHttps );
   }
 
-  routingHttps( req, res ){
+  routingHttps( req, res, next ){
     switch( req.headers.host ){
-    case `${conf.domain}`:
+    case conf.domain:
       const connection = Object.values( req.params )[ 0 ];
       const params = {
         domain: conf.domain,
@@ -53,13 +57,30 @@ class Express{
       };
       res.render( 'index', params );
       break;
-    case `client.${conf.domain}`:
+    case conf.clientURL:
       res.sendFile( conf.serverClientPath );
       break;
-    case `assets.${conf.domain}`:
+    case conf.assetsURL:
       res.sendFile( conf.serverAssetsPath + req.originalUrl);
       break;
-    case `session.${conf.domain}`:
+    case conf.sessionURL:
+
+      const proccess = req._parsedUrl.pathname.split('/');
+
+      if( proccess.length > 0 && proccess[1] !== 'favicon.ico' ){
+
+        const socialName = proccess[ 1 ];
+        const methodType = proccess[ 2 ].charAt(0).toUpperCase() + proccess[ 2 ].slice(1);
+        const uid = req.query.u;
+        const refererConnection = req.query.c;
+
+        if( socialName && methodType ){
+          this.session[ socialName + methodType ]( req, res, next, uid, refererConnection );
+        }else{
+          res.redirect(`https://${conf.domain}`);
+        }
+      }
+      break;
     default:
       res.redirect(`https://${conf.domain}`);
       break;
