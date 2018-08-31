@@ -109,8 +109,9 @@ export default class Main extends Component {
             { DetailIcon }
 
             {/* Watch Cnt */}
-            <span style={ style.main.headerChildWatchCnt }>
-                {thread.watchCnt}
+            <span style={ style.main.headerChildAnalyze }>
+              <div style={ style.main.headerChildAnalyzeType }>VIEWING</div>
+              <div style={ style.main.headerChildAnalyzeCnt }>{thread.watchCnt}</div>
             </span>
           </span>
 

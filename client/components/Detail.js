@@ -26,7 +26,7 @@ export default class Setting extends Component {
     return(
       <header style={ style.detail.header }>
         <p style={ style.detail.headerP }>
-        { thread.title }
+        { thread.serverMetas.title }
         </p>
       </header>
     )
@@ -65,7 +65,7 @@ export default class Setting extends Component {
         <div style={ style.detail.analyzeRow }>
           <div style={ style.detail.analyzeCol }>
             <div style={ style.detail.analyzeLabel }>
-              Views
+              VIEWING
             </div>
             <hr style={ style.detail.analyzeHr } />
             <div style={ style.detail.analyzeValue }>
@@ -74,7 +74,7 @@ export default class Setting extends Component {
           </div>
           <div style={ style.detail.analyzeCol }>
             <div style={ style.detail.analyzeLabel }>
-              Positibity
+              POSITIBITY
             </div>
             <hr style={ style.detail.analyzeHr } />
             <div style={ style.detail.analyzeValue }>
@@ -83,7 +83,7 @@ export default class Setting extends Component {
           </div>
           <div style={ style.detail.analyzeCol }>
             <div style={ style.detail.analyzeLabel }>
-              Growth
+              GROWTH
             </div>
             <hr style={ style.detail.analyzeHr } />
             <div style={ style.detail.analyzeValue }>
@@ -94,7 +94,7 @@ export default class Setting extends Component {
         <div style={ style.detail.analyzeRow }>
           <div style={ style.detail.analyzeCol }>
             <div style={ style.detail.analyzeLabel }>
-              Post Cnt
+              TOTAL POST
             </div>
             <hr style={ style.detail.analyzeHr } />
             <div style={ style.detail.analyzeValue }>
@@ -103,20 +103,49 @@ export default class Setting extends Component {
           </div>
           <div style={ style.detail.analyzeCol }>
             <div style={ style.detail.analyzeLabel }>
-              Multi Cnt
+              AD POWER
             </div>
             <hr style={ style.detail.analyzeHr } />
             <div style={ style.detail.analyzeValue }>
-              {thread.multiPostCnt}
+              102
             </div>
           </div>
           <div style={ style.detail.analyzeCol }>
             <div style={ style.detail.analyzeLabel }>
-              XX Cnt
+              RANK
             </div>
             <hr style={ style.detail.analyzeHr } />
             <div style={ style.detail.analyzeValue }>
-              0
+              2
+            </div>
+          </div>
+        </div>
+        <div style={ style.detail.analyzeRow }>
+          <div style={ style.detail.analyzeCol }>
+            <div style={ style.detail.analyzeLabel }>
+              LIKE
+            </div>
+            <hr style={ style.detail.analyzeHr } />
+            <div style={ style.detail.analyzeValue }>
+              {thread.postCnt}
+            </div>
+          </div>
+          <div style={ style.detail.analyzeCol }>
+            <div style={ style.detail.analyzeLabel }>
+              SHARE
+            </div>
+            <hr style={ style.detail.analyzeHr } />
+            <div style={ style.detail.analyzeValue }>
+              12
+            </div>
+          </div>
+          <div style={ style.detail.analyzeCol }>
+            <div style={ style.detail.analyzeLabel }>
+              MONEY
+            </div>
+            <hr style={ style.detail.analyzeHr } />
+            <div style={ style.detail.analyzeValue }>
+              13200
             </div>
           </div>
         </div>

@@ -93,7 +93,7 @@ export default {
     if( threadStatus.isRequireUpsert ){
 
       thread = await Logics.db.threads.requestHtmlParams( thread );
-
+console.log( thread );
       // スレッド新規作成
       if( threadStatus.isSchema ){
         thread = await Logics.db.threads.save( thread );
