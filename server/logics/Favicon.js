@@ -24,16 +24,11 @@ export default class Favicon {
     }
   }
 
-
-
   async fetch( thread ){
 
     return new Promise( ( resolve, reject ) => {
 
       const faviconDatas = this.getFaviconDatas(thread);
-
-console.log("@@@@@@@ faviconDatas @@@@@@@");
-console.log( faviconDatas );
 
       let promises = [];
 
@@ -45,14 +40,11 @@ console.log( faviconDatas );
         }
 
         if( !faviconData.isDefault && !faviconData.isExist ){
-          console.log("A");
           promises.push( Logics.favicon.request( faviconData ) );
           return false;
         }
 
         if( !faviconData.isExist ){
-          console.log("B");
-          console.log( faviconData);
           promises.push( Logics.favicon.request( faviconData ) );
         }
       });
@@ -63,35 +55,26 @@ console.log( faviconDatas );
         const results = responses.filter( response => response !== false );
         const resultLength = results.length;
         let resolveResult = Favicon.defaultFaviconData
-        console.log("C");
-        console.log( results );
+
         if( resultLength > 0 ){
-          console.log("D");
           results.forEach( ( result, index ) => {
-          console.log("E");
             resolveResult = result;
 
             // 規定のfaviconでなければ即ループを抜ける
             if( !resolveResult.isDefault ){
-              console.log("F");
               return false;
-            }else{
-              console.log("G");
             }
           });
         }
 
         // バイナリが存在する場合
         if( resolveResult.faviconBinary ){
-          console.log("H");
-          console.log(resolveResult);
           // faviconを保存
           const saveFaviconName = util.getSaveFaviconName( resolveResult.faviconName );
           Logics.fs.writeFavicon( saveFaviconName, resolveResult.faviconBinary );
         }else{
 
         }
-        console.log("I");
         resolve( resolveResult );
       });
     });
