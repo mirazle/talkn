@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+    "name": "talkn",
+    "background": {
+      "persistent": true,
+      "scripts": [ "background.js" ]
+    },
+    "description": "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.",
+    "content_scripts": [
+      {
+        "matches": ["http://*/*", "https://*/*"],
+        "js": [ "contentScript.js" ],
+        "run_at": "document_start"
+      }
+    ],
+    "permissions": [ "tabs", "webNavigation", "contextMenus", "\u003Call_urls>" ],
+    "version": "0.1"
+}
