@@ -208,9 +208,11 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: 'initial',
       height: 'initial',
+      marginBottom: '20px',
     });
     const content = Style.getContentBase({
       lineHeight: '14px',
+      fontSize: '12px',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
