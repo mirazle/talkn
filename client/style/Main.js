@@ -203,7 +203,9 @@ export default class Main {
     const layout = Style.getLayoutBlock({
       marginBottom: "6px",
     });
-    const content = Style.getContentBase({});
+    const content = Style.getContentBase({
+      fontSize: '12px',
+    });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
