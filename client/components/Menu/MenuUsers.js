@@ -3,11 +3,14 @@ import Container from 'client/style/Container';
 import User from 'common/schemas/state/User';
 
 export default class MenuUsers extends Component {
+
+
  	render() {
 		return (
       <ol>
         <li>
-          SOCIAL USERS
+          SOCIAL USERS<br />
+          Login
         </li>
       </ol>
 		);

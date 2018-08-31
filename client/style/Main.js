@@ -22,7 +22,9 @@ export default class Main {
     const headerMenuIcon = Main.getHeaderMenuIcon( params );
     const headerUserIcon = Main.getHeaderUserIcon( params );
     const headerUserIconImg = Main.getHeaderUserIconImg( params );
-    const headerChildWatchCnt = Main.getHeaderChildWatchCnt( params );
+    const headerChildAnalyze = Main.getHeaderChildAnalyze( params );
+    const headerChildAnalyzeType = Main.getHeaderChildAnalyzeType( params );
+    const headerChildAnalyzeCnt = Main.getHeaderChildAnalyzeCnt( params );
     const headerChildTalknLogo = Main.getHeaderChildTalknLogo( params );
     const notif = Main.getNotif( params );
     return {
@@ -33,7 +35,9 @@ export default class Main {
       headerMenuIcon,
       headerUserIcon,
       headerUserIconImg,
-      headerChildWatchCnt,
+      headerChildAnalyze,
+      headerChildAnalyzeType,
+      headerChildAnalyzeCnt,
       headerChildTalknLogo,
       notif,
     }
@@ -179,12 +183,33 @@ export default class Main {
     return Style.get({layout, content, animation});
   }
 
-  static getHeaderChildWatchCnt( params ){
+  static getHeaderChildAnalyze( {app} ){
+
+    const display = app.screenMode === App.screenModeSmallLabel ? {display: 'none'} : {} ;
+
     const layout = Style.getLayoutInlineBlock({
+      ...display,
       position: 'absolute',
-      right: '20%',
+      right: '15%',
       top: '7px',
       width: 'initial',
+    });
+    const content = Style.getContentBase({});
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderChildAnalyzeType( params ){
+    const layout = Style.getLayoutBlock({
+      marginBottom: "6px",
+    });
+    const content = Style.getContentBase({});
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderChildAnalyzeCnt( params ){
+    const layout = Style.getLayoutBlock({
     });
     const content = Style.getContentBase({
       color: Container.themeRGBA,
