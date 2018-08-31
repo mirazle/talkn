@@ -98,7 +98,7 @@ export default class Footer{
       width: '54%',
       height: '25px',
       background: Container.whiteRGB,
-      padding: '5px 0% 5px 2%',
+      padding: '6px 0% 5px 2%',
       margin: '0 3% 0 0',
       outline: 'none',
       resize: 'none',
