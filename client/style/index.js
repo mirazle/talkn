@@ -9,6 +9,7 @@ import MenuIndex from './Menu/index';
 import MenuIndexList from './Menu/MenuIndexList';
 import Posts from './Posts';
 import Post from './Post';
+import Loading from './Loading';
 
 export default class Style{
 
@@ -52,6 +53,7 @@ export default class Style{
     const post = new Post( params );
     const detail = new Detail( params );
     const icon = new Icon( params );
+    const loading = new Loading( params );
     return {
       container,
       footer,
@@ -64,6 +66,7 @@ export default class Style{
       post,
       detail,
       icon,
+      loading,
     };
   }
 
