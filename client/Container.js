@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from 'react-redux';
 import User from 'common/schemas/state/User';
+import Loading from 'client/components/Loading';
 import Style from 'client/components/Style';
 import Main from 'client/components/Main';
 import handles from 'client/actions/handles';
@@ -27,7 +28,7 @@ class Container extends Component {
   			</div>
   		);
     }else{
-      return null;
+      return <Loading />;
     }
  	}
 }

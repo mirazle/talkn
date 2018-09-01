@@ -3,7 +3,6 @@ import Sequence from '~/common/Sequence';
 
 export default {
   protocol: { type: String, default: Sequence.HTTPS_PROTOCOL },
-  title: { type: String, default: "" },
   contentType: { type: String, default: "text/html" },
   serverMetas: {
     title: { type: String, default: "talkn" },
@@ -36,6 +35,7 @@ export default {
   },
   links:{ type: [], default: []},
   h1s:{ type: [], default: []},
+  iframes:{ type: [], default: []},
   audios:{ type: [], default: []},
   videos:{ type: [], default: []}
 }
