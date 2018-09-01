@@ -43,8 +43,7 @@ export default class Html {
       }
       break;
     }
-
-    return response ? response : MongoDB.getDefineSchemaObj( htmlSchema );
+    return response ? response : MongoDB.getDefineSchemaObj( {...htmlSchema} );
   }
 
   exeFetch( protocol, connection ){
@@ -54,16 +53,14 @@ export default class Html {
       const option = {method: 'GET', encoding: 'binary', url };
 
       if( util.isUrl( url ) ){
-
         request( option, ( error, response, body ) => {
 
-          let responseSchema = MongoDB.getDefineSchemaObj( htmlSchema );
+          let responseSchema = MongoDB.getDefineSchemaObj( {...htmlSchema} );
 
           if( !error && response && response.statusCode === 200 ){
             const utf8Body = this.toUtf8Str( body );
             const $ = cheerio.load( utf8Body );
             responseSchema.protocol = protocol;
-            responseSchema.title = this.getTitle( $ );
             responseSchema.serverMetas = this.getMetas( $, response.request.uri.href );
             responseSchema.links = this.getLinks( $ );
             responseSchema.h1s = this.getH1s( $ );
@@ -141,6 +138,8 @@ export default class Html {
   getMetas( $, href ){
     let serverMetas = {};
     const metaLength = $( "meta" ).length;
+
+    serverMetas.title = this.getTitle( $ );
 
     for( var i = 0; i < metaLength; i++ ){
       const item = $( "meta" ).get( i );
