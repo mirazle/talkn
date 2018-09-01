@@ -4,11 +4,11 @@ import LoadingStyle from 'client/style/Loading'
 
 export default class  Loading extends Component {
  	render() {
-		return (
+    return (
       <img
         style={LoadingStyle.getSelf()}
         src={`https://${conf.assetsURL}/img/loading.svg`}
       />
-		);
- 	}
+    );
+  }
 }
