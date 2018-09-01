@@ -74,6 +74,7 @@ export default class Threads {
 
   async save( thread ){
     thread.updateTime = new Date();
+    thread.watchCnt = thread.watchCnt < 0 ? 0 : thread.watchCnt ;
     const {response: resThread} =  await this.collection.save( thread );
     return resThread;
   }
