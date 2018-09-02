@@ -33,6 +33,7 @@ export default class Thread extends Schema{
     let favicon = Thread.getDefaultFavicon();
 
     if( bootConnection ){
+
       // URLのコネクション文字列からではPROTOCOLは判別できない。
       protocol = Thread.getProtocol( bootConnection );
       connection = bootConnection;
@@ -40,7 +41,6 @@ export default class Thread extends Schema{
       connections = Thread.getConnections( bootConnection );
 
     }else{
-
       location = window.location ? window.location : {} ;
       href = location.href ? location.href : '' ;
       connection = Thread.getConnection( href );
