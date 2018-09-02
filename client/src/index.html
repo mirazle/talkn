@@ -13,7 +13,8 @@
 		var replaceStr = location.origin + '/?';
 		var jsPath = '//' + location.host + '/';
 		var jsFileName = 'talkn.client.js';
-		var connection = location.pathname ? location.pathname : '/';
+		var connection = location.pathname ? location.pathname + location.search : '/';
+
 		if( ( connection.length - 1 ) !== connection.lastIndexOf( '/' ) ){
 			location.href = connection + '/';
 		}else{
