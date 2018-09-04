@@ -110,6 +110,16 @@ export default class Favicon {
       util.getSaveFaviconName( faviconDatas[ 0 ]['faviconName'] )
     );
 
+    // host直下のパターンを検出
+    const faviconName = `${protocol}//${host}/${Favicon.defaultFaviconName}`;
+
+    faviconDatas.push( {
+      faviconName: faviconName,
+      faviconType: `NO_WRITE_ON_HOST`,
+      isExist: Logics.fs.isExistFavicon( util.getSaveFaviconName( faviconName )),
+      isDefault: false,
+    } );
+
     if( linkLength > 0 ){
 
       for( let i = 0; i < linkLength; i++ ){

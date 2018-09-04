@@ -52,29 +52,26 @@ export default class Html {
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
 
-      if( util.isUrl( url ) ){
-        request( option, ( error, response, body ) => {
+      request( option, ( error, response, body ) => {
 
-          let responseSchema = MongoDB.getDefineSchemaObj( {...htmlSchema} );
+        let responseSchema = MongoDB.getDefineSchemaObj( {...htmlSchema} );
 
-          if( !error && response && response.statusCode === 200 ){
-            const utf8Body = this.toUtf8Str( body );
-            const $ = cheerio.load( utf8Body );
-            responseSchema.protocol = protocol;
-            responseSchema.serverMetas = this.getMetas( $, response.request.uri.href );
-            responseSchema.links = this.getLinks( $ );
-            responseSchema.h1s = this.getH1s( $ );
-            responseSchema.videos = this.getVideos( $ );
-            responseSchema.audios = this.getAudios( $ );
-            responseSchema.contentType = response.headers['content-type'];
-            resolve( responseSchema );
-          }else{
-            resolve( null );
-          }
-        });
-      }else{
-        resolve( null );
-      }
+        if( !error && response && response.statusCode === 200 ){
+          const utf8Body = this.toUtf8Str( body );
+          const $ = cheerio.load( utf8Body );
+          responseSchema.protocol = protocol;
+          responseSchema.serverMetas = this.getMetas( $, response.request.uri.href );
+          responseSchema.serverMetas = this.getMetas( $, response.request.uri.href );
+          responseSchema.links = this.getLinks( $ );
+          responseSchema.h1s = this.getH1s( $ );
+          responseSchema.videos = this.getVideos( $ );
+          responseSchema.audios = this.getAudios( $ );
+          responseSchema.contentType = response.headers['content-type'];
+          resolve( responseSchema );
+        }else{
+          resolve( null );
+        }
+      });
     });
   }
 
@@ -136,7 +133,8 @@ export default class Html {
   }
 
   getMetas( $, href ){
-    let serverMetas = {};
+    let responseSchema = MongoDB.getDefineSchemaObj( {...htmlSchema} );
+    let serverMetas = responseSchema.serverMetas;
     const metaLength = $( "meta" ).length;
 
     serverMetas.title = this.getTitle( $ );
