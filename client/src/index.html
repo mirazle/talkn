@@ -14,9 +14,10 @@
 		var jsPath = '//' + location.host + '/';
 		var jsFileName = 'talkn.client.js';
 		var connection = location.pathname ? location.pathname + location.search : '/';
+		var layerCnt = connection.split( '/' ).length - 1;
 
-		if( ( connection.length - 1 ) !== connection.lastIndexOf( '/' ) ){
-			location.href = connection + '/';
+		if( layerCnt === 1 && !connection.match( /\/$/ ) ){
+			location.href = location.href + "/";
 		}else{
 			script.setAttribute( 'type', 'text/javascript' );
 			script.setAttribute( 'src', jsPath + jsFileName );

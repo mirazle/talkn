@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from "react"
+import Marquee from 'react-marquee';
 import User from 'common/schemas/state/User';
 import Icon from './Icon';
 
@@ -25,9 +26,15 @@ export default class Setting extends Component {
     const { thread, style } = this.props.state
     return(
       <header style={ style.detail.header }>
-        <p style={ style.detail.headerP }>
-        { thread.serverMetas.title }
-        </p>
+        <span style={ style.detail.headerP }>
+        <Marquee
+          text={thread.serverMetas.title}
+          loop={true}
+          hoverToStop={false}
+          trailing={0}
+          leading={0}
+        />
+        </span>
       </header>
     )
   }

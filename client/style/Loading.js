@@ -15,7 +15,7 @@ export default class Loading{
     const layout = Style.getLayoutFlex({
       margin: '0 auto',
       height: '100%',
-      width: '13%',
+      width: '10%',
     });
     const content = {};
     const animation = Style.getAnimationBase();

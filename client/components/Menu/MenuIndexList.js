@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from "react";
+import Marquee from 'react-marquee';
 import define from 'common/define'
 import App from 'common/schemas/state/App';
 import User from 'common/schemas/state/User';
@@ -103,7 +104,15 @@ export default class MenuIndexList extends Component {
 
         <div style={style.menuIndexList.upper}>
           <span style={style.menuIndexList.upperSpace} />
-          <span style={style.menuIndexList.upperRight}>{dispConnection}</span>
+          <span style={style.menuIndexList.upperRight}>
+            <Marquee
+              text={dispConnection}
+              loop={true}
+              hoverToStop={false}
+              trailing={0}
+              leading={0}
+            />
+          </span>
         </div>
 
         <div style={style.menuIndexList.bottom}>
