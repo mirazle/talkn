@@ -185,13 +185,14 @@ export default class Main {
 
   static getHeaderChildAnalyze( {app} ){
 
-    const display = app.screenMode === App.screenModeSmallLabel ? {display: 'none'} : {} ;
+    const right = app.screenMode === App.screenModeSmallLabel ?
+      {right: '0%'} :
+      {right: '15%'} ;
 
     const layout = Style.getLayoutInlineBlock({
-      ...display,
       position: 'absolute',
-      right: '15%',
       top: '7px',
+      ...right,
       width: 'initial',
     });
     const content = Style.getContentBase({});
@@ -199,13 +200,16 @@ export default class Main {
     return Style.get({layout, content, animation});
   }
 
-  static getHeaderChildAnalyzeType( params ){
+  static getHeaderChildAnalyzeType( {app} ){
+
+    const fontDatas = app.screenMode === App.screenModeSmallLabel ?
+      {fontSize: '10px', color: Container.themeRGBA, fontWeight: 'bold' } :
+      {fontSize: '12px'} ;
+
     const layout = Style.getLayoutBlock({
       marginBottom: "6px",
     });
-    const content = Style.getContentBase({
-      fontSize: '12px',
-    });
+    const content = Style.getContentBase(fontDatas);
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
