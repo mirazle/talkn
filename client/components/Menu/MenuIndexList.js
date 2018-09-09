@@ -97,7 +97,10 @@ export default class MenuIndexList extends Component {
         </span>
       )
     }else{
-      return null;
+      return (
+        <span style={style.menuIndexList.bottomWatchCnt}>
+        </span>
+      )
     }
   }
 
