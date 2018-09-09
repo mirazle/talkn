@@ -11,11 +11,6 @@ export default ( state = new MenuIndex() , action ) => {
 					post: action.thread.lastPost.post
 				} : mi);
 		break;
-
-	/* TODO
-		findはwatchCntを増やして配信
-		disconnect, changeThreadはwatchCntを減らす
-	*/
 	case 'SERVER_TO_CLIENT[BROADCAST]:find':
 	case 'SERVER_TO_CLIENT[BROADCAST]:changeThread':
 	case 'SERVER_TO_CLIENT[BROADCAST]:disconnect':

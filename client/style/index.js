@@ -203,7 +203,6 @@ export default class Style{
       textAlign: 'center',
       color: 'rgb( 160, 160, 160 )',
       font: 'inherit',
-      fontSize: '13px',
 //      fontFamily: '"Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif',
       fontFamily: '"Myriad Set Pro", "Lucida Grande", "Helvetica Neue", "Helvetica", "Arial", "Verdana", "sans-serif"',
     }

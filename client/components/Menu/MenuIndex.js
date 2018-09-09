@@ -40,11 +40,11 @@ export default class MenuIndex extends Component {
   }
 
  	render() {
-    const { style, thread } = this.props.state;
-    const { connection } = thread;
+    const { style, app } = this.props.state;
+    const { rootConnection } = app;
     const { icon } = style;
     const Search = Icon.getSearch( icon.search );
-    const dispConnection = connection.replace( '/', '' );
+    const dispConnection = rootConnection.replace( '/', '' );
 		return (
       <nav style={style.menuIndex.self}>
 
