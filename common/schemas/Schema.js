@@ -135,6 +135,7 @@ export default class Schema {
     try{
       const paramsType = Schema.getType( params );
       const objKeys = Object.keys( params );
+
       if( objKeys.length > 0 ){
         let mergedObj = {...this};
         objKeys.forEach( ( key ) => {
