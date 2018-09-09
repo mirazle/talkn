@@ -214,10 +214,14 @@ export default class Main {
     return Style.get({layout, content, animation});
   }
 
-  static getHeaderChildAnalyzeCnt( params ){
-    const layout = Style.getLayoutBlock({
-    });
+  static getHeaderChildAnalyzeCnt( {app} ){
+    const fontDatas = app.screenMode === App.screenModeSmallLabel ?
+      {fontSize: '10px', color: Container.themeRGBA } :
+      {fontSize: '12px'} ;
+
+    const layout = Style.getLayoutBlock({});
     const content = Style.getContentBase({
+      ...fontDatas,
       color: Container.themeRGBA,
       fontWeight: 'bold',
     });

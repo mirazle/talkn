@@ -18,4 +18,7 @@ export default {
     ASSETS: 'assets',
     SESSION: 'session',
   },
+  storageKey: {
+    menuLogs: 'menuLogs',
+  }
 }

@@ -92,6 +92,7 @@ export default class Posts {
     });
     const content = Style.getContentBase({
       lineHeight: 2,
+      fontSize: '12px',
       color: Container.whiteRGB,
       cursor: 'pointer',
     });

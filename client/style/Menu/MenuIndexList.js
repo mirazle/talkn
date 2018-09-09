@@ -1,3 +1,4 @@
+import conf from 'common/conf';
 import Style from '../index';
 import Container from '../Container';
 import Main from '../Main';
@@ -74,7 +75,7 @@ export default class MenuIndexList {
       height: '20px',
     });
     const content = Style.getContentBase({
-      fontSize: '10px',
+      fontSize: '13px',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
@@ -94,6 +95,7 @@ export default class MenuIndexList {
       width: '80%',
     });
     const content = Style.getContentBase({
+      lineHeight: '1.5',
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
@@ -114,7 +116,7 @@ export default class MenuIndexList {
     const layout = Style.getLayoutInlineBlock({
       width: "20%",
       height: '50px',
-      backgroundImage: 'url("http://localhost:8080/favicon.ico")',
+      backgroundImage: `url("${conf.assetsURL}/favicon.ico")`,
       backgroundPosition: '50% 15%',
       backgroundSize: '20px 20px',
       backgroundRepeat: 'no-repeat',
@@ -129,7 +131,8 @@ export default class MenuIndexList {
       width: "60%",
     });
     const content = Style.getContentBase({
-      lineHeight: 2,
+      fontSize: '13px',
+      lineHeight: 2.2,
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
@@ -141,7 +144,7 @@ export default class MenuIndexList {
       width: "20%",
     });
     const content = Style.getContentBase({
-      lineHeight: 2,
+      lineHeight: 1.8,
       textAlign: 'center',
     });
     const animation = Style.getAnimationBase();

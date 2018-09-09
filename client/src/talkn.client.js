@@ -1,19 +1,18 @@
 import 'babel-polyfill';
-import configureStore from 'client/store/configureStore'
-import conf from 'client/conf';
 import define from 'common/define';
 import State from 'common/schemas/state';
 import TalknSession from 'client/operations/TalknSession';
 import TalknAPI from 'client/operations/TalknAPI';
 import TalknViewer from 'client/operations/TalknViewer';
 import TalknSetupJs from 'client/operations/TalknSetupJs';
+import configureStore from 'client/store/configureStore'
+import conf from 'client/conf';
 
 function bootTalkn( appType, talknIndex, attributes, conf ){
 	const store = configureStore();
-	const state = new State( appType, talknIndex, window, attributes );
-	const connection = state.connection;
-	const talknSession = new TalknSession( state );
-	const talknAPI = new TalknAPI( talknIndex, store, connection );
+	const menuLogs = TalknSession.getStorage( define.storageKey.menuLogs );
+	const state = new State( appType, talknIndex, window, attributes, menuLogs );
+	const talknAPI = new TalknAPI( talknIndex, store, state.connection );
 	const talknViewer = new TalknViewer( state, talknAPI );
 
 	TalknSetupJs.setupMath();

@@ -7,6 +7,7 @@ import Main from 'client/components/Main';
 import handles from 'client/actions/handles';
 import callbacks from 'client/actions/callbacks';
 import Footer from 'client/components/Footer';
+import mapToStateToProps from 'client/mapToStateToProps/';
 
 class Container extends Component {
 
@@ -33,11 +34,7 @@ class Container extends Component {
  	}
 }
 
-function mapStateToProps( state, props ) {
-	return {state, talknAPI: props.talknAPI};
-}
-
 export default connect(
-	mapStateToProps,
+	mapToStateToProps,
 	{...handles, ...callbacks}
 )( Container )

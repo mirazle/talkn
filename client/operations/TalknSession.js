@@ -1,7 +1,7 @@
 import conf from 'client/conf'
 
 export default class TalknSession{
-
+/*
 	constructor( state ){
 		this.state = state;
 
@@ -12,6 +12,14 @@ export default class TalknSession{
 			break;
 		}
 	}
+*/
+	static setStorage( key, value ){
+    return localStorage.setItem( key, JSON.stringify( value ) );
+  }
+
+	static getStorage( key ){
+    return JSON.parse(localStorage.getItem( key ));
+  }
 
 	getSetting(){
 		const { type, talknIndex } = this.state.app;
