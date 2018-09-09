@@ -45,7 +45,7 @@ export default class Post {
       height: '20px',
     });
     const content = Style.getContentBase({
-      fontSize: '10px',
+      fontSize: '11px',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
@@ -88,7 +88,7 @@ export default class Post {
     });
     const content = Style.getContentBase({
       textAlign: 'right',
-      fontSize: '10px',
+      fontSize: '11px',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
@@ -128,6 +128,7 @@ export default class Post {
     const content = Style.getContentBase({
       color: 'rgb(255,255,255)',
       lineHeight: 2,
+      fontSize: '13px',
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();

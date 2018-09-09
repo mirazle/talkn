@@ -84,12 +84,30 @@ export default class MenuIndexList extends Component {
     }
   }
 
+  getDispWatchCnt(){
+    const { style } = this.state;
+    const { menuIndexList } = this.props;
+
+    if( menuIndexList.watchCnt === 0 || menuIndexList.watchCnt > 0 ){
+      return(
+        <span style={style.menuIndexList.bottomWatchCnt}>
+          <span style={style.menuIndexList.bottomWatchCntWrap}>
+            {menuIndexList.watchCnt}
+          </span>
+        </span>
+      )
+    }else{
+      return null;
+    }
+  }
+
  	render() {
     const { style } = this.state;
     const { thread, menuIndexList } = this.props;
     const focusConnection =  thread.connection === menuIndexList.connection ? true : false ;
     const dispConnection = this.getDispConnection( focusConnection )
     const dispFavicon = this.getDispFavicon( focusConnection )
+    const DispWatchCnt = this.getDispWatchCnt();
     const styleKey = focusConnection ? 'activeLiSelf' : 'unactiveLiSelf' ;
     const baseBackground = focusConnection ? MenuIndexListStyle.activeLiBackground : MenuIndexListStyle.unactiveLiBackground;
     const baseBorderRightColor = focusConnection ? MenuIndexListStyle.activeLiBorderRightColor : MenuIndexListStyle.unactiveLiBorderRightColor;
@@ -118,13 +136,8 @@ export default class MenuIndexList extends Component {
         <div style={style.menuIndexList.bottom}>
           <span style={{...style.menuIndexList.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
           <span style={style.menuIndexList.bottomPost} dangerouslySetInnerHTML={{__html: menuIndexList.post }} />
-          <span style={style.menuIndexList.bottomWatchCnt}>
-            <span style={style.menuIndexList.bottomWatchCntWrap}>
-              {menuIndexList.watchCnt}
-            </span>
-          </span>
+          {DispWatchCnt}
         </div>
-
       </li>
     )
  	}

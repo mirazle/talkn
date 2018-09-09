@@ -77,7 +77,9 @@ export default class MenuIndex {
       border: Container.border,
       borderRadius: '3px',
     });
-    const content = Style.getContentBase({});
+    const content = Style.getContentBase({
+      fontSize: '12px',
+    });
     const animation = Style.getAnimationBase({
       transition: Container.getTransitionOn( app ),
     });
@@ -92,6 +94,7 @@ export default class MenuIndex {
     });
     const content = Style.getContentBase({
       whiteSpace: 'nowrap',
+      fontSize: '12px',
     });
     const animation = Style.getAnimationBase({
       transition: Container.getTransitionOn( app ),
@@ -113,7 +116,7 @@ export default class MenuIndex {
       WebkitAppearance: 'none',
     });
     const content = Style.getContentBase({
-      textIndent: '20px',
+      textIndent: '22px',
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
@@ -126,7 +129,7 @@ export default class MenuIndex {
       width: '100%',
       height: `calc( 100% - ${Main.headerHeight}px )`,
       overflow: 'scroll',
-      background: Container.offWhiteRGB,
+      background: Container.calmRGB,
 //      boxShadow: '0px 1px 1px 1px rgb( 220, 220, 220 )inset',
     });
     const content = {};

@@ -1,7 +1,7 @@
 export default class Schema {
   constructor(option = {}){
-    const errorThrow = option.errorThrow ? option.errorThrow : true;
-    Object.defineProperty( this, 'errorThrow', {value: errorThrow});
+    //const errorThrow = option.errorThrow ? option.errorThrow : true;
+    //Object.defineProperty( this, 'errorThrow', {value: errorThrow});
   }
 
   static getType(value){
@@ -204,8 +204,26 @@ export default class Schema {
     return this.returnImmutable( Object.values( this ).reduce( func ), func );
   }
 
-  returnImmutable( result, func ){
-    if( result.length === 0 && Object.keys( this ).length === 0){
+  find( func ){
+    return Object.values( this ).find( func );
+  }
+
+  unshift( value ){
+    const result = Object.values( this );
+    result.push( value );
+    return this.returnImmutable( result );
+  }
+
+  unshift( value ){
+    const result = Object.values( this );
+    result.unshift( value );
+    return this.returnImmutable( result );
+  }
+
+  returnImmutable( result, func = ()=>{}){
+    if( typeof result === 'undefined' ){
+      return new this.constructor({});
+    }else if( result.length === 0 && Object.keys( this ).length === 0){
       if( String(func).indexOf( "createElement" ) > 0 ){
         return [];
       }else{

@@ -96,6 +96,7 @@ export default class Detail {
     });
     const content = Style.getContentBase({
       lineHeight: '1.8',
+      fontSize: '14px',
       textOverflow: 'ellipsis',
     });
     const animation = Style.getAnimationBase();
@@ -107,7 +108,7 @@ export default class Detail {
       overflow: 'scroll',
       width: '100%',
       height: `calc( 100% - ${ Main.headerHeight * 2 }px )`,
-      background: Container.offWhiteRGBA,
+      background: Container.calmRGB,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -150,6 +151,7 @@ export default class Detail {
     });
     const content = Style.getContentBase({
       lineHeight: 2,
+      fontSize: '14px',
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
@@ -225,7 +227,7 @@ export default class Detail {
       height: 'initial',
     });
     const content = Style.getContentBase({
-      fontSize: '2em',
+      fontSize: '1.8em',
       color: Container.themeRGBA,
     });
     const animation = Style.getAnimationBase();
