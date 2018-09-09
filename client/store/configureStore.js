@@ -6,7 +6,7 @@ import middleware from 'client/middleware/'
 export default function configureStore( initialState ={} ) {
 	const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 	const logger = createLogger({collapsed: true, duration: true});
-	const middlewares = [ logger, middleware.storageFilter ];
+	const middlewares = [ logger, middleware.updateDesc ];
 	const store = createStore(
 		rootReducer,
 		initialState,

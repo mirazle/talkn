@@ -57,7 +57,7 @@ export default class MenuLogs extends Component {
               rows={1}
               onChange={this.handleOnChange}
               onKeyPress={this.handleOnKeyPress}
-              defaultValue={ dispConnection }
+              defaultValue={ "" }
             />
           </span>
         </header>

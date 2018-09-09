@@ -80,6 +80,7 @@ export default class App extends Schema{
     const type = params.type ? params.type : '';
     const talknIndex = params.talknIndex ? params.talknIndex : 0;
     const rootConnection = params.connection ? params.connection : '/';
+    const desc = params.desc ? params.desc : 'Hello, talkn.';
     const width = App.getWidth( params );
     const height = App.getHeight( params );
     const screenMode = App.getScreenMode( width );
@@ -106,12 +107,12 @@ export default class App extends Schema{
       type,
       talknIndex,
       rootConnection,
+      desc,
       screenModePointer,
       screenContents,
       screenMode,
       width,
       height,
-
       childrenThreadView,
       requestLoginType,
       inputPost: {value: inputPost, valid: App.validInputPost},
