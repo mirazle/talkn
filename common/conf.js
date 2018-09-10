@@ -10,6 +10,7 @@ const assetsURL = `${SUB_DOMAINS.ASSETS}.${domain}` ;
 const assetsImgPath = `${assetsURL}/img/` ;
 const assetsIconPath = `${assetsURL}/icon/` ;
 const sessionURL = `${SUB_DOMAINS.SESSION}.${domain}` ;
+const description = "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.";
 
 export default {
   domain,
@@ -20,4 +21,5 @@ export default {
   assetsImgPath,
   assetsIconPath,
   sessionURL,
+  description,
 }

@@ -269,6 +269,7 @@ export default class Detail {
       margin: `5px ${Detail.margin}% 5px ${Detail.margin}%`,
     });
     const content = Style.getContentBase({
+      fontSize: "14px",
       lineHeight: 2,
       textAlign: 'left',
     });

@@ -19,6 +19,7 @@ function bootTalkn( appType, talknIndex, attributes, conf ){
 	talknViewer.addWindowEventListener( talknAPI );
 	talknAPI.initClientState( state );
 	talknViewer.render();
+	TalknSession.listenWorker( state );
 }
 
 window.onload =  () => {

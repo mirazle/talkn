@@ -1,18 +1,7 @@
 import conf from 'client/conf'
 
 export default class TalknSession{
-/*
-	constructor( state ){
-		this.state = state;
 
-		const { type, talknIndex } = this.state;
-		switch( type ){
-		case 'plugin':
-			TalknSession.listenChrome( state );
-			break;
-		}
-	}
-*/
 	static setStorage( key, value ){
     return localStorage.setItem( key, JSON.stringify( value ) );
   }
@@ -42,20 +31,26 @@ export default class TalknSession{
 		return new Promise( promiseCondition );
 	}
 
-	static listenChrome( state ){
+	static listenWorker( state ){
 		const { type, talknIndex } = state.app;
-		chrome.runtime.onMessage.addListener( ( result, sender, sendResponse ) => {
-			// Session setting .
-			if( result.requestKey === conf.cacheKey.setting + talknIndex ){
-				resolve( { setting: result.response, self: self } );
-			}
 
-			// Session index .
-			if( result.requestKey === conf.cacheKey.index + talknIndex ){
-				let connectionList = result.response;
-				// TODO FIND
-				//func.findMap( talknIndex, connectionList, focusMeta );
-			}
-		});
+		if( chrome && chrome.runtime && chrome.runtime.onMessage ){
+
+			chrome.runtime.onMessage.addListener( ( result, sender, sendResponse ) => {
+
+				console.log("LISTEN WORKER");
+				// Session setting .
+				if( result.requestKey === conf.cacheKey.setting + talknIndex ){
+					resolve( { setting: result.response, self: self } );
+				}
+
+				// Session index .
+				if( result.requestKey === conf.cacheKey.index + talknIndex ){
+					let connectionList = result.response;
+					// TODO FIND
+					//func.findMap( talknIndex, connectionList, focusMeta );
+				}
+			});
+		}
 	}
 }
