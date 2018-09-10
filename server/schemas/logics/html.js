@@ -1,4 +1,5 @@
 import conf from '~/common/conf';
+import define from '~/common/define';
 import Sequence from '~/common/Sequence';
 
 export default {
@@ -7,11 +8,11 @@ export default {
   serverMetas: {
     title: { type: String, default: "talkn" },
     keywords: { type: String, default: "talkn, blockchain, art, internet" },
-    description: { type: String, default: "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn." },
+    description: { type: String, default: conf.description },
     'og:type': { type: String, default: "" },
     'og:title': { type: String, default: "talkn" },
     'og:image': { type: String, default: `//${conf.assetsImgPath}talkn_logo1.png`},
-    'og:description': { type: String, default: "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn." },
+    'og:description': { type: String, default: conf.description },
     'og:locale': { type: String, default: "" },
     'fb:app_id': { type: String, default: "" },
     'twitter:app:country': { type: String, default: "" },

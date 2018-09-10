@@ -125,7 +125,9 @@ export default class Footer{
       border: Container.border,
       borderRadius: '3px',
     });
-    const content = Style.getContentBase();
+    const content = Style.getContentBase({
+      fontSize: '12px'
+    });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }

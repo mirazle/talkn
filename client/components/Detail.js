@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react"
 import Marquee from 'react-marquee';
 import User from 'common/schemas/state/User';
+import conf from 'common/conf';
 import Icon from './Icon';
 
 export default class Setting extends Component {
@@ -20,6 +21,16 @@ export default class Setting extends Component {
   }
 
   handleOnClickShare(){
+  }
+
+  getDescription( serverMetas ){
+    if( serverMetas['description'] !== conf.description ){
+      return serverMetas['description'];
+    }
+    if( serverMetas['og:description'] ){
+      return serverMetas['og:description'];
+    }
+    return conf.description;
   }
 
   renderHeader(){
@@ -50,8 +61,7 @@ export default class Setting extends Component {
     }
 
     style.detail.img = {...style.detail.img, backgroundImage, backgroundSize};
-    let description = thread.serverMetas['og:description'] ? thread.serverMetas['og:description'] : '';
-    description = thread.serverMetas['description'] ? thread.serverMetas['description'] : '';
+    const description = this.getDescription( thread.serverMetas );
     const h1LiTags = thread.h1s.map( ( h1, i ) => {
       return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>・{h1}</li> );
     });

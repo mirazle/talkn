@@ -1,4 +1,4 @@
-import conf from 'common/conf';
+import conf from '../../../common/conf';
 import Style from '../index';
 import Container from '../Container';
 import Main from '../Main';
