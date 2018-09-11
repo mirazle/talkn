@@ -6,7 +6,11 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
 		if( sender.url.indexOf( host ) === -1 ){
 		  var option = sender.url.replace(/^(https:\/|http:\/)/, '');
+
+			console.log("@@@");
+			console.log( window.postMessage );
 		  window.open('https://' + host + option, 'talkn', 'width=700, height=450, resizable=no, toolbar=no, status=no, scrollbars=no ,menubar=no, location=no, directories=no');
+
 		}
 		break;
 	case 'getLength':
