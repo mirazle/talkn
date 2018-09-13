@@ -54,6 +54,8 @@ export default class MenuIndexList extends Component {
     }else{
       if( menuIndexList.connection === '/' ){
         return menuIndexList.connection.replace( thread.connection, '' );
+      }else if( !menuIndexList.connection ){
+        return "";
       }else{
         return  menuIndexList.connection.indexOf("//") === 0 ?
           menuIndexList.connection.replace( '//', '/' ) : menuIndexList.connection ;
@@ -121,7 +123,9 @@ export default class MenuIndexList extends Component {
     };
 
     return (
-      <li style={ baseStyle } { ...this.getDecolationEvents( focusConnection, styleKey ) }>
+      <li key={dispConnection}
+        style={ baseStyle }
+        { ...this.getDecolationEvents( focusConnection, styleKey ) }>
 
         <div style={style.menuIndexList.upper}>
           <span style={style.menuIndexList.upperSpace} />

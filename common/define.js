@@ -20,5 +20,6 @@ export default {
   },
   storageKey: {
     menuLogs: 'menuLogs',
+    selectMenu: 'selectMenu',
   }
 }

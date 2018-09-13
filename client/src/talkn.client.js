@@ -10,8 +10,8 @@ import conf from 'client/conf';
 
 function bootTalkn( appType, talknIndex, attributes, conf ){
 	const store = configureStore();
-	const menuLogs = TalknSession.getStorage( define.storageKey.menuLogs );
-	const state = new State( appType, talknIndex, window, attributes, menuLogs );
+	const caches = TalknSession.getCaches();
+	const state = new State( appType, talknIndex, window, attributes, caches );
 	const talknAPI = new TalknAPI( talknIndex, store, state.connection );
 	const talknViewer = new TalknViewer( state, talknAPI );
 

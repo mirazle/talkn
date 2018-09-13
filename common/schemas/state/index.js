@@ -12,17 +12,17 @@ import Style from '~/common/schemas/state/Style';
 
 export default class State{
 
-  constructor( appType, talknIndex, window, attributes = {}, menuLogs ){
+  constructor( appType, talknIndex, window, attributes = {}, caches = {} ){
     this.user = new User();
     this.userAgent = new UserAgent( window );
 		this.menuIndex = new MenuIndex();
-		this.menuLogs = new MenuLogs( menuLogs );
+		this.menuLogs = new MenuLogs( caches.menuLogs );
 		this.posts = new Posts();
 		this.analyze = new Analyze();
     this.bootOption = new BootOption( attributes );
     this.thread = new Thread( window, this.bootOption );
     this.setting = new Setting();
-    this.app = new App( {type: appType, talknIndex, ...this.thread} );
+    this.app = new App( {type: appType, talknIndex, ...this.thread, menuComponent: caches.selectMenu} );
     this.style = new Style( this );
   }
 

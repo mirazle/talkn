@@ -1,14 +1,14 @@
-import Style from './index';
-import Container from './Container';
-import App from '../../common/schemas/state/App';
-import Main from './Main';
+import Style from '../index';
+import Container from '../Container';
+import App from '../../../common/schemas/state/App';
+import Main from '../Main';
 
-export default class Menu {
+export default class MenuUsers {
 
   static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : width = '50.0%';break;
+    case App.screenModeSmallLabel : width = '100.0%';break;
     case App.screenModeMiddleLabel : width = '300px';break;
     case App.screenModeLargeLabel : width = '300px';break;
     }
@@ -29,22 +29,17 @@ export default class Menu {
   }
 
   constructor( params ){
-    const self = Menu.getSelf( params );
-    const wrapComponent = Menu.getWrapComponent( params );
-    const columns = Menu.getColumns( params );
-    const column = Menu.getColumn( params );
-    const columnLast = Menu.getColumnLast( params );
-    const img = Menu.getImg( params );
-    const wrap = Menu.getWrap( params );
-    const imgWrap = Menu.getImgWrap( params );
-    const names = Menu.getNames( params );
-    const namesAddConnection = Menu.getNamesAddConnection( params );
-    const footer = Menu.getFooter( params );
-    const footerChild = Menu.getFooterChild( params );
-    const footerChildMoney = Menu.getFooterChildMoney( params );
+    const self = MenuUsers.getSelf( params );
+    const columns = MenuUsers.getColumns( params );
+    const column = MenuUsers.getColumn( params );
+    const columnLast = MenuUsers.getColumnLast( params );
+    const img = MenuUsers.getImg( params );
+    const wrap = MenuUsers.getWrap( params );
+    const imgWrap = MenuUsers.getImgWrap( params );
+    const names = MenuUsers.getNames( params );
+    const namesAddConnection = MenuUsers.getNamesAddConnection( params );
     return {
       self,
-      wrapComponent,
       columns,
       column,
       columnLast,
@@ -53,40 +48,19 @@ export default class Menu {
       wrap,
       names,
       namesAddConnection,
-      footer,
-      footerChild,
-      footerChildMoney,
     }
   }
 
   static getSelf( {app} ){
     const layout = Style.getLayoutInlineBlock({
       position: 'relative',
-      width: Menu.getWidth( app ),
-      minWidth: Menu.getWidth( app ),
+      width: MenuUsers.getWidth( app ),
+      minWidth: MenuUsers.getWidth( app ),
       maxWidth: 'inherit',
       height: '100%',
       WebkitOverflowScrolling: 'touch',
       overflow: 'scroll',
       zIndex: 2,
-    });
-    const content = {};
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getWrapComponent( {app} ){
-
-    const borders = app.screenMode === App.screenModeSmallLabel ?
-      {borderRight: Container.border, borderLeft: Container.border,} :
-      {borderLeft: Container.border} ;
-
-    const layout = Style.getLayoutBlock({
-      width: '100%',
-      minWidth: 'inherit',
-      maxWidth: 'inherit',
-      height: `calc( 100% - ${Main.headerHeight}px )`,
-      ...borders
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -207,49 +181,6 @@ export default class Menu {
       fontSize: "12px",
       textAlign: 'left',
       lineHeight: '1.7',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getFooter({app}){
-
-    const borders = app.screenMode === App.screenModeSmallLabel ?
-      {border: Container.border} :
-      {borderTop: Container.border, borderBottom: Container.border, borderLeft: Container.border} ;
-
-    const layout = Style.getLayoutFlex({
-      width: '100%',
-      background: Container.offWhiteRGB,
-      height: `${Main.headerHeight}px`,
-      ...borders
-    });
-    const content = Style.getContentBase({
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-
-  static getFooterChild(){
-    const layout = Style.getLayoutBlock({
-      flexGrow: 1,
-      height: '100%',
-    });
-    const content = Style.getContentBase({
-      fontSize: '0.5em',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getFooterChildMoney(){
-    const layout = Style.getLayoutBlock({
-      flexGrow: 1,
-      height: '100%',
-    });
-    const content = Style.getContentBase({
-      fontSize: '0.5em',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
