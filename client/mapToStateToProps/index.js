@@ -18,5 +18,9 @@ const functions = {
   "SERVER_TO_CLIENT[EMIT]:find": ( state, props ) => {
     TalknSession.setStorage( define.storageKey.menuLogs, state.menuLogs.toJSON() );
     return {state, props};
-  }
+  },
+  "ON_CLICK_MENU": ( state, props ) => {
+    TalknSession.setStorage( define.storageKey.selectMenu, state.app.menuComponent );
+    return {state, props};
+  },
 }
