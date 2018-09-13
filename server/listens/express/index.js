@@ -13,7 +13,7 @@ class Express{
     this.httpsApp = express();
     this.httpsApp.set('views', conf.serverPortalPath );
     this.httpsApp.set('view engine', 'ejs');
-    this.session = new Session();
+    this.session = new Session( this.httpsApp );
 
     this.routingHttps = this.routingHttps.bind(this);
   }
@@ -64,7 +64,6 @@ class Express{
       res.sendFile( conf.serverAssetsPath + req.originalUrl);
       break;
     case conf.sessionURL:
-
       const proccess = req._parsedUrl.pathname.split('/');
 
       if( proccess.length > 0 && proccess[1] !== 'favicon.ico' ){
@@ -79,6 +78,8 @@ class Express{
         }else{
           res.redirect(`https://${conf.domain}`);
         }
+      }else{
+        res.redirect(`https://${conf.domain}`);
       }
       break;
     default:
