@@ -7,6 +7,7 @@ import Screen from './Screen';
 import Menu from './Menu';
 import MenuIndex from './Menu/index';
 import MenuIndexList from './Menu/MenuIndexList';
+import MenuUsers from './Menu/MenuUsers';
 import Posts from './Posts';
 import Post from './Post';
 import Loading from './Loading';
@@ -47,6 +48,7 @@ export default class Style{
     const menu = new Menu( params );
     const menuIndex = new MenuIndex( params );
     const menuIndexList = new MenuIndexList( params );
+    const menuUsers = new MenuUsers( params );
     const main = new Main( params );
     const screen = new Screen( params );
     const posts = new Posts( params );
@@ -60,6 +62,7 @@ export default class Style{
       menu,
       menuIndex,
       menuIndexList,
+      menuUsers,
       main,
       screen,
       posts,

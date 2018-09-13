@@ -1,4 +1,5 @@
 import conf from 'client/conf'
+import define from 'common/define';
 
 export default class TalknSession{
 
@@ -9,6 +10,12 @@ export default class TalknSession{
 	static getStorage( key ){
     return JSON.parse(localStorage.getItem( key ));
   }
+
+	static getCaches(){
+		const menuLogs = TalknSession.getStorage( define.storageKey.menuLogs );
+		const selectMenu = TalknSession.getStorage( define.storageKey.selectMenu );
+		return {menuLogs, selectMenu};
+	}
 
 	getSetting(){
 		const { type, talknIndex } = this.state.app;
