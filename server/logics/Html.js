@@ -160,6 +160,7 @@ export default class Html {
       if( key === 'og:image' ){
         if( content.indexOf( Sequence.HTTP_PROTOCOL ) !== 0 && content.indexOf( Sequence.HTTPS_PROTOCOL ) !== 0 ){
           content = `${href}${content}`;
+          console.log("@@@@ " + content);
         }
       }
 

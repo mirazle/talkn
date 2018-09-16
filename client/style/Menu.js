@@ -216,7 +216,7 @@ export default class Menu {
 
     const borders = app.screenMode === App.screenModeSmallLabel ?
       {border: Container.border} :
-      {borderTop: Container.border, borderBottom: Container.border, borderLeft: Container.border} ;
+      {border: Container.border} ;
 
     const layout = Style.getLayoutFlex({
       width: '100%',

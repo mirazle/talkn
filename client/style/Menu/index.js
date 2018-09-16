@@ -1,3 +1,4 @@
+import App from '../../../common/schemas/state/App';
 import Style from '../index';
 import Container from '../Container';
 import Main from '../Main';
@@ -38,10 +39,15 @@ export default class MenuIndex {
   }
 
   static getHeader( {app} ){
+
+    const borders = app.screenMode === App.screenModeSmallLabel ?
+      {borderBottom: Container.border, borderLeft: 0} :
+      {borderBottom: Container.border, borderLeft: 0, borderRight: Container.border} ;
+
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: `${MenuIndex.liHeight / 2 }px`,
-      borderBottom: Container.border,
+      ...borders,
       background: Container.offWhiteRGB,
     });
     const content = Style.getContentBase({
@@ -129,7 +135,7 @@ export default class MenuIndex {
       width: '100%',
       height: `calc( 100% - ${Main.headerHeight}px )`,
       overflow: 'scroll',
-      background: Container.calmRGB,
+      background: Container.chromeOffTabRGB,
 //      boxShadow: '0px 1px 1px 1px rgb( 220, 220, 220 )inset',
     });
     const content = {};
