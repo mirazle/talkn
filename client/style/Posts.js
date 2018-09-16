@@ -52,7 +52,7 @@ export default class Posts {
 
     const borders = app.screenMode === App.screenModeSmallLabel ?
       {borderRight: Container.border, borderLeft: Container.border} :
-      {borderLeft: Container.border} ;
+      {} ;
 
     const layout = Style.getLayoutInlineBlock({
       position: 'relative',

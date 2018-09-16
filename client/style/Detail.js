@@ -34,6 +34,7 @@ export default class Detail {
     const body = DetailClass.getBody( params );
     const h1s = DetailClass.getH1s( params );
     const h1sLi = DetailClass.getH1sLi( params );
+    console.log( params.app );
     const footer = DetailClass.getFooter( params );
     const footerChild = DetailClass.getFooterChild( params );
     const footerChildLike = DetailClass.getFooterChildLike( params );
@@ -108,7 +109,7 @@ export default class Detail {
       overflow: 'scroll',
       width: '100%',
       height: `calc( 100% - ${ Main.headerHeight * 2 }px )`,
-      background: Container.calmRGB,
+      background: Container.chromeOffTabRGB,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -277,12 +278,17 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getFooter(){
+  static getFooter({app}){
+
+    const borders = app.screenMode === App.screenModeSmallLabel ?
+      {borderTop: Container.border} :
+      {borderTop: Container.border, borderRight: Container.border} ;
+
     const layout = Style.getLayoutFlex({
       width: '100%',
       background: Container.offWhiteRGB,
       height: Main.headerHeight,
-      borderTop: Container.border,
+      ...borders
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();

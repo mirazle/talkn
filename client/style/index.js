@@ -18,6 +18,7 @@ export default class Style{
   static get mono200RGB(){ return 'rgb(200, 200, 200)' };
   static get mono205RGB(){ return 'rgb(205, 205, 205)' };
   static get mono210RGB(){ return 'rgb(210, 210, 210)' };
+  static get mono211RGB(){ return 'rgb(211, 211, 211)' };
   static get mono215RGB(){ return 'rgb(215, 215, 215)' };
   static get mono220RGB(){ return 'rgb(220, 220, 220)' };
   static get mono225RGB(){ return 'rgb(225, 225, 225)' };

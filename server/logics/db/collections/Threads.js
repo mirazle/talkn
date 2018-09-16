@@ -93,7 +93,22 @@ export default class Threads {
       return await Logics.db.threads.save( thread );
     }else{
       const {response: resThread} = await Logics.db.threads.findOne( connection );
-      resThread.watchCnt = update ? watchCnt : resThread.watchCnt + watchCnt;
+
+      if( update ){
+        console.log( "A update" + update );
+        console.log( watchCnt );
+//        console.log( resThread );
+
+        resThread.watchCnt = watchCnt;
+      }else{
+        console.log( "B update" + update );
+        console.log( watchCnt );
+        console.log( resThread.watchCnt );
+//        console.log( resThread );
+
+        resThread.watchCnt = resThread.watchCnt + watchCnt;
+      }
+
       return await Logics.db.threads.save( resThread );
     }
   }
