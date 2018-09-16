@@ -57,28 +57,23 @@ export default class Menu extends Component {
   }
 
   responseFacebook(response) {
-    console.log(response);
+
   }
 
   renderMenuComponent(){
     const { style, app } = this.props.state;
     let menuComponent;
-    console.log( app.menuComponent );
     switch( app.menuComponent ){
     case App.menuComponentUsersLabel :
-      console.log( "USERS");
       menuComponent = <MenuUsers {...this.props} />
       break;
     case App.menuComponentIndexLabel :
-      console.log( "INDEX");
       menuComponent = <MenuIndex {...this.props} />
       break;
     case App.menuComponentLogsLabel :
-      console.log( "LOGS");
       menuComponent = <MenuLogs {...this.props} />
       break;
     case App.menuComponentSettingLabel :
-      console.log( "SETTING");
       menuComponent = <MenuSetting {...this.props} />
       break;
     }

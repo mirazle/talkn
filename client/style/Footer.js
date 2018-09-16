@@ -59,7 +59,7 @@ export default class Footer{
 
     const borders = app.screenMode === App.screenModeSmallLabel ?
       {border: Container.border} :
-      {borderTop: Container.border, borderBottom: Container.border, borderLeft: Container.border} ;
+      {borderTop: Container.border, borderBottom: Container.border} ;
 
     const layout = Style.getLayoutFlex({
       position: 'fixed',

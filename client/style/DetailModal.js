@@ -39,24 +39,24 @@ export default class DetailModal {
     return Style.get({layout, content, animation});
   }
 
-  static getHeader(){return Detail.getHeader()}
-  static getHeaderP(){return Detail.getHeaderP()}
-  static getBody(){return Detail.getBody()}
-  static getMeta(){return Detail.getMeta()}
-  static getImg(){return Detail.getImg()}
-  static getDescription(){return Detail.getDescription()}
-  static getContentType(){return Detail.getContentType()}
-  static getAnalyze(){return Detail.getAnalyze()}
-  static getAnalyzeRow(){return Detail.getAnalyzeRow()}
-  static getAnalyzeCol(){return Detail.getAnalyzeCol()}
-  static getAnalyzeLabel(){return Detail.getAnalyzeLabel()}
-  static getAnalyzeValue(){return Detail.getAnalyzeValue()}
-  static getAnalyzeHr(){return Detail.getAnalyzeHr()}
-  static getH1s(){return Detail.getH1s()}
-  static getH1sLi(){return Detail.getH1sLi()}
-  static getFooter(){return Detail.getFooter()}
-  static getFooterChild(){return Detail.getFooterChild()}
-  static getFooterChildLike(){return Detail.getFooterChildLike()}
-  static getFooterChildMoney(){return Detail.getFooterChildMoney()}
-  static getFooterChildShare(){return Detail.getFooterChildShare()}
+  static getHeader(params){return Detail.getHeader(params)}
+  static getHeaderP(params){return Detail.getHeaderP(params)}
+  static getBody(params){return Detail.getBody(params)}
+  static getMeta(params){return Detail.getMeta(params)}
+  static getImg(params){return Detail.getImg(params)}
+  static getDescription(params){return Detail.getDescription(params)}
+  static getContentType(params){return Detail.getContentType(params)}
+  static getAnalyze(params){return Detail.getAnalyze(params)}
+  static getAnalyzeRow(params){return Detail.getAnalyzeRow(params)}
+  static getAnalyzeCol(params){return Detail.getAnalyzeCol(params)}
+  static getAnalyzeLabel(params){return Detail.getAnalyzeLabel(params)}
+  static getAnalyzeValue(params){return Detail.getAnalyzeValue(params)}
+  static getAnalyzeHr(params){return Detail.getAnalyzeHr(params)}
+  static getH1s(params){return Detail.getH1s(params)}
+  static getH1sLi(params){return Detail.getH1sLi(params)}
+  static getFooter(params){return Detail.getFooter(params)}
+  static getFooterChild(params){return Detail.getFooterChild(params)}
+  static getFooterChildLike(params){return Detail.getFooterChildLike(params)}
+  static getFooterChildMoney(params){return Detail.getFooterChildMoney(params)}
+  static getFooterChildShare(params){return Detail.getFooterChildShare(params)}
 }

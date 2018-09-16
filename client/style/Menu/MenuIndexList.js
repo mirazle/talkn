@@ -1,3 +1,4 @@
+import App from '../../../common/schemas/state/App';
 import conf from '../../../common/conf';
 import Style from '../index';
 import Container from '../Container';
@@ -13,8 +14,8 @@ export default class MenuIndexList {
   static get unactiveLiBorderRightColor(){ return Container.border };
 
   constructor( params ){
-    const activeLiSelf = MenuIndexList.getActiveLiSelf();
-    const unactiveLiSelf = MenuIndexList.getUnactiveLiSelf();
+    const activeLiSelf = MenuIndexList.getActiveLiSelf( params );
+    const unactiveLiSelf = MenuIndexList.getUnactiveLiSelf( params );
     const upper = MenuIndexList.getUpper();
     const upperSpace = MenuIndexList.getUpperSpace();
     const upperRight = MenuIndexList.getUpperRight();
@@ -43,7 +44,7 @@ export default class MenuIndexList {
       height: `${MenuIndexList.liHeight}px`,
       padding: '10px',
       borderBottom: Container.border,
-//      borderRight: MenuIndexList.activeLiBorderRightColor,
+      borderRight: `1px solid ${Container.whiteRGB}`,
       background: MenuIndexList.activeLiBackground,
       cursor: 'pointer',
     });
@@ -52,19 +53,23 @@ export default class MenuIndexList {
     return Style.get({layout, content, animation});
   }
 
-  static getUnactiveLiSelf(){
+  static getUnactiveLiSelf({app}){
+
+    const borders = app.screenMode === App.screenModeSmallLabel ?
+      {borderBottom: Container.border, borderLeft: 0} :
+      {borderBottom: Container.border, borderLeft: 0, borderRight: Container.border} ;
+
     const layout = Style.getLayoutBlock({
       width: 'initial',
       height: `${MenuIndexList.liHeight}px`,
       padding: '10px',
-      borderBottom: Container.border,
-      borderLeft: 0,
+      ...borders,
       background: MenuIndexList.unactiveLiBackground,
       cursor: 'pointer',
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transition: '200ms',
+      transition: '0ms',
     });
     return Style.get({layout, content, animation});
   }
