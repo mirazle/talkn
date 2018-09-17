@@ -46,7 +46,9 @@ export default class Container{
   static get whiteRGB(){ return Style.mono255RGB };
   static get whiteRGBA(){ return Style.mono255RGBA };
 
-  static get themeRGBA(){ return 'rgba(79, 174, 159, 0.8)' };
+  static get themeRGBString(){ return '79, 174, 159' };
+  static get themeRGB(){ return `rgba(${Container.themeRGBString})` };
+  static get themeRGBA(){ return `rgba(${Container.themeRGBString}, 0.8)` };
   static getTransitionOn( app, addUnit = false ){
     let transition = Container.transitionOn;
     if( app ){
