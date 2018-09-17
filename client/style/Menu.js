@@ -31,28 +31,12 @@ export default class Menu {
   constructor( params ){
     const self = Menu.getSelf( params );
     const wrapComponent = Menu.getWrapComponent( params );
-    const columns = Menu.getColumns( params );
-    const column = Menu.getColumn( params );
-    const columnLast = Menu.getColumnLast( params );
-    const img = Menu.getImg( params );
-    const wrap = Menu.getWrap( params );
-    const imgWrap = Menu.getImgWrap( params );
-    const names = Menu.getNames( params );
-    const namesAddConnection = Menu.getNamesAddConnection( params );
     const footer = Menu.getFooter( params );
     const footerChild = Menu.getFooterChild( params );
     const footerChildMoney = Menu.getFooterChildMoney( params );
     return {
       self,
       wrapComponent,
-      columns,
-      column,
-      columnLast,
-      img,
-      imgWrap,
-      wrap,
-      names,
-      namesAddConnection,
       footer,
       footerChild,
       footerChildMoney,
@@ -68,7 +52,6 @@ export default class Menu {
       height: '100%',
       WebkitOverflowScrolling: 'touch',
       overflow: 'scroll',
-      zIndex: 2,
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -93,122 +76,18 @@ export default class Menu {
     return Style.get({layout, content, animation});
   }
 
-  static getColumns(){
-    const layout = Style.getLayoutBlock({
-      width: 'inherit',
-      minWidth: 'inherit',
-      maxWidth: 'inherit',
-      height: 'auto',
-      borderBottom: Container.border,
-      background: Container.whiteRGB,
-      overflow: 'scroll',
-    });
-    const content = Style.getContentBase({
-      whiteSpace: 'nowrap',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getColumn(){
-    const layout = Style.getLayoutBlock({
-      width: 'inherit',
-      minWidth: 'inherit',
-      maxWidth: 'inherit',
-      marginLeft: '20px',
-      borderBottom: Container.border,
-    });
-    const content = Style.getContentBase({
-      letterSpacing: '2px',
-      textAlign: 'left',
-      lineHeight: '60px',
-      whiteSpace: 'nowrap',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getColumnLast(){
-    const layout = Style.getLayoutBlock({
-      width: 'inherit',
-      minWidth: 'inherit',
-      maxWidth: 'inherit',
-      marginLeft: '20px',
-    });
-    const content = Style.getContentBase({
-      letterSpacing: '2px',
-      textAlign: 'left',
-      lineHeight: '60px',
-      whiteSpace: 'nowrap',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
   static getWrap(){
     const layout = Style.getLayoutFlex({
       width: 'initial',
       height: '60px',
       minWidth: 'initial',
       minHeight: 'initial',
+      borderRight: Container.border,
     });
     const content = Style.getContentBase({
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase({});
-    return Style.get({layout, content, animation});
-  }
-
-  static getImgWrap(){
-    const layout = Style.getLayoutBlock({
-      flexGrow: 1,
-      margin: '22px 0px 0px 0px',
-      width: '60px',
-      maxWidth: '60px',
-      minWidth: '60px',
-      height: '60px',
-    });
-    const content = Style.getContentBase({});
-    const animation = Style.getAnimationBase({});
-    return Style.get({layout, content, animation});
-  }
-
-  static getImg(){
-    const layout = Style.getLayoutInlineBlock({
-      borderRadius: '50%',
-      width: '34px',
-      height: '34px',
-      margin: '0px 15px 0px 0px',
-    });
-    const content = Style.getContentBase({});
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getNamesAddConnection(){
-    const layout = Style.getLayoutBlock({
-      padding: '5px',
-      flexGrow: 4,
-    });
-    const content = Style.getContentBase({
-      fontSize: "12px",
-      textAlign: 'left',
-      lineHeight: '2',
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getNames(){
-    const layout = Style.getLayoutBlock({
-      flexGrow: 4,
-    });
-    const content = Style.getContentBase({
-      fontSize: "12px",
-      textAlign: 'left',
-      lineHeight: '1.7',
-    });
-    const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 

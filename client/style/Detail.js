@@ -34,7 +34,6 @@ export default class Detail {
     const body = DetailClass.getBody( params );
     const h1s = DetailClass.getH1s( params );
     const h1sLi = DetailClass.getH1sLi( params );
-    console.log( params.app );
     const footer = DetailClass.getFooter( params );
     const footerChild = DetailClass.getFooterChild( params );
     const footerChildLike = DetailClass.getFooterChildLike( params );

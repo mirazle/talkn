@@ -1,8 +1,9 @@
 import define from '~/common/define';
 import conf from '~/common/conf';
 import Posts from './Posts';
-import html from '~/server/schemas/logics/html';
+import Html from '~/server/schemas/logics/Html';
 import Favicon from '~/server/logics/Favicon';
+const html = new Html();
 
 export default {
 	connection: { type: String, default: "/"  },
