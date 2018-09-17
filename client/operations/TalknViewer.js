@@ -63,9 +63,10 @@ export default class TalknViewer {
 		const width = window.innerWidth;
 		const height = window.innerHeight;
 		const app = talknAPI.store.getState().app.merge({width, height});
+		const setting = talknAPI.store.getState().setting;
 
 		talknAPI.offTransition();
-		talknAPI.onResizeStartWindow( app );
+		talknAPI.onResizeStartWindow( {app, setting} );
 	}
 
 	resizeEndWindow( ev ){
@@ -74,10 +75,11 @@ export default class TalknViewer {
 		const height = ev ? ev.target.innerHeight : window.innerHeight;
 		const isTransition = false;
 		const app = talknAPI.store.getState().app.merge({width, height});
+		const setting = talknAPI.store.getState().setting;
 
 		this.resizeTimer = false;
 		this.resizing = false;
-		talknAPI.onResizeEndWindow( app );
+		talknAPI.onResizeEndWindow( {app, setting} );
 
 		setTimeout( () => {
 			talknAPI.onTransition();

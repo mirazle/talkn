@@ -461,7 +461,11 @@ export default class Icon {
     return {div, wing1, wing2, wing3, wing4, wing5, wing6, wing7, wing8, circle};
   }
 
-  static getThunder( {app} ){
+  static getThunder( {setting} ){
+
+    const borderColor = setting.multistream ?
+      Container.themeRGB : Container.reliefRGBA;
+
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "50px",
@@ -470,6 +474,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
+        transition: "0ms",
         transform: "rotate(0deg) translate(0px, 0px)",
       }),
     });
@@ -480,6 +485,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
+        transition: "0ms",
         transform: "rotate(90deg) translate3d(-2px,8px,0px)",
       }),
     });
@@ -494,11 +500,12 @@ export default class Icon {
         margin: "0 auto",
         borderTop: "8px solid transparent",
         borderRight: "8px solid transparent",
-        borderBottom: `10px solid ${Container.themeRGB}`,
+        borderBottom: `10px solid ${borderColor}`,
         borderLeft: "8px solid transparent",
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
+        transition: "0ms",
         transform: "skew(60deg, 0deg) rotate(0deg) translate(0px, 0px)"
       }),
     });
@@ -513,11 +520,12 @@ export default class Icon {
         margin: "0 auto",
         borderBottom: "8px solid transparent",
         borderRight: "8px solid transparent",
-        borderTop: `10px solid ${Container.themeRGB}`,
+        borderTop: `10px solid ${borderColor}`,
         borderLeft: "8px solid transparent",
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
+        transition: "0ms",
         transform: "skew(60deg, 0deg) rotate(0deg) translate(0px, 0px)"
       }),
     });
