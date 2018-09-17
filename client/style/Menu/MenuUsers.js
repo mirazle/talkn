@@ -60,7 +60,10 @@ export default class MenuUsers {
       height: '100%',
       WebkitOverflowScrolling: 'touch',
       overflow: 'scroll',
-      zIndex: 2,
+      borderTop: 0,
+      borderRight: Container.border,
+      borderBottom: 0,
+      borderLeft: 0,
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -74,6 +77,7 @@ export default class MenuUsers {
       maxWidth: 'inherit',
       height: 'auto',
       borderBottom: Container.border,
+      borderRight: Container.border,
       background: Container.whiteRGB,
       overflow: 'scroll',
     });
@@ -89,8 +93,8 @@ export default class MenuUsers {
       width: 'inherit',
       minWidth: 'inherit',
       maxWidth: 'inherit',
-      marginLeft: '20px',
       borderBottom: Container.border,
+      borderRight: Container.border,
     });
     const content = Style.getContentBase({
       letterSpacing: '2px',
@@ -125,9 +129,11 @@ export default class MenuUsers {
       height: '60px',
       minWidth: 'initial',
       minHeight: 'initial',
+      borderRight: Container.border,
     });
     const content = Style.getContentBase({
       textAlign: 'left',
+      content: 'getWrap',
     });
     const animation = Style.getAnimationBase({});
     return Style.get({layout, content, animation});
@@ -152,7 +158,6 @@ export default class MenuUsers {
       borderRadius: '50%',
       width: '34px',
       height: '34px',
-      margin: '0px 15px 0px 0px',
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -161,7 +166,7 @@ export default class MenuUsers {
 
   static getNamesAddConnection(){
     const layout = Style.getLayoutBlock({
-      padding: '5px',
+      padding: '5px 10px 5px 5px',
       flexGrow: 4,
     });
     const content = Style.getContentBase({

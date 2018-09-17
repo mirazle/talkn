@@ -11,7 +11,7 @@ import conf from '~/common/conf';
 import util from '~/common/util';
 import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
-import htmlSchema from '~/server/schemas/logics/html';
+import HtmlSchema from '~/server/schemas/logics/Html';
 
 export default class Html {
 
@@ -43,7 +43,8 @@ export default class Html {
       }
       break;
     }
-    return response ? response : MongoDB.getDefineSchemaObj( {...htmlSchema} );
+
+    return response ? response : MongoDB.getDefineSchemaObj( new HtmlSchema() );
   }
 
   exeFetch( protocol, connection ){
@@ -51,24 +52,25 @@ export default class Html {
 
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
-
+      console.log( "@@@@@@@@@@@ " + url );
       request( option, ( error, response, body ) => {
 
-        let responseSchema = MongoDB.getDefineSchemaObj( {...htmlSchema} );
+        let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
 
         if( !error && response && response.statusCode === 200 ){
           const utf8Body = this.toUtf8Str( body );
           const $ = cheerio.load( utf8Body );
           responseSchema.protocol = protocol;
           responseSchema.serverMetas = this.getMetas( $, response.request.uri.href );
-          responseSchema.serverMetas = this.getMetas( $, response.request.uri.href );
           responseSchema.links = this.getLinks( $ );
           responseSchema.h1s = this.getH1s( $ );
           responseSchema.videos = this.getVideos( $ );
           responseSchema.audios = this.getAudios( $ );
           responseSchema.contentType = response.headers['content-type'];
+          console.log("AA");
           resolve( responseSchema );
         }else{
+          console.log("BB");
           resolve( null );
         }
       });
@@ -133,7 +135,7 @@ export default class Html {
   }
 
   getMetas( $, href ){
-    let responseSchema = MongoDB.getDefineSchemaObj( {...htmlSchema} );
+    let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
     let serverMetas = responseSchema.serverMetas;
     const metaLength = $( "meta" ).length;
 
@@ -160,7 +162,6 @@ export default class Html {
       if( key === 'og:image' ){
         if( content.indexOf( Sequence.HTTP_PROTOCOL ) !== 0 && content.indexOf( Sequence.HTTPS_PROTOCOL ) !== 0 ){
           content = `${href}${content}`;
-          console.log("@@@@ " + content);
         }
       }
 
