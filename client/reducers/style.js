@@ -138,6 +138,20 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
+	case 'ON_CLICK_SETTING':
+		switch( action.settingType ){
+		case "multistream":
+			return {...state,
+				posts: {...state.posts,
+				 	multistreamIconWrap: {...state.posts.multistreamIconWrap,
+						border: Posts.getMultistreamIconWrapBorder( {setting: action.setting} ),
+					}
+				}
+			}
+		default:
+			return state;
+		}
+
 	default:
 		return action.style ? action.style : state ;
 	}

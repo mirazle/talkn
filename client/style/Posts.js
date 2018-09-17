@@ -28,10 +28,12 @@ export default class Posts {
     const self = Posts.getSelf( params );
     const ol = Posts.getOl( params );
     const more = Posts.getMore( params );
+    const multistreamIconWrap = Posts.getMultistreamIconWrap( params );
     return {
       self,
       ol,
       more,
+      multistreamIconWrap,
     }
   }
 
@@ -97,6 +99,40 @@ export default class Posts {
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getMultistreamIconWrapBorder( {setting} ){
+    return setting.multistream ?
+      `1px solid ${Container.themeRGBA}` :
+      `1px solid ${Container.calmRGBA}`;
+  }
+
+  static getMultistreamIconWrap( {app, setting} ){
+
+    const layout = Style.getLayoutBlock({
+      position: 'absolute',
+      top: "5px",
+      right: "20px",
+      width: '50px',
+      height: '50px',
+      margin: '0 auto',
+      zIndex: '10',
+      border: Posts.getMultistreamIconWrapBorder( {setting} ),
+      background: 'rgba(255, 255, 255, 0.8)',
+      borderRadius: '50px',
+    });
+
+    const content = Style.getContentBase({
+      color: 'rgb(255,255,255)',
+      textAlign: 'center',
+      fontSize: "12px",
+      lineHeight: 2,
+      cursor: 'pointer',
+    });
+    const animation = Style.getAnimationBase({
+      transition: "0ms",
+    });
     return Style.get({layout, content, animation});
   }
 }

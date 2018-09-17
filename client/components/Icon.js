@@ -120,7 +120,7 @@ export default class Icon extends Component{
       },
     }
   }
-
+  
   static getTalknLogo( style ){
     return (
       <div style={ style.img } />
