@@ -6,7 +6,7 @@ export default class TwitterLi extends Component {
 
   constructor(props) {
     super(props);
-    const { style, isLast } = props;
+    const { isLast, style } = props.state;
     const liStyle = isLast ? style.menu.columnLast :  style.menu.column ;
     this.state = {style: liStyle};
     this.getDecolationProps = this.getDecolationProps.bind(this);
@@ -56,11 +56,14 @@ export default class TwitterLi extends Component {
   }
 
  	render() {
-    let { label, onClick } = this.props;
-    const { style } = this.state;
+    let { label, onClick, state } = this.props;
+    const { style } = state;
     onClick = onClick ? onClick : () => {} ;
+
+    console.log( style );
+
 		return (
-      <li style={ style } onClick={ onClick } {...this.getDecolationProps()}>
+      <li style={ style.menuUsers.column } onClick={ onClick } {...this.getDecolationProps()}>
         {label}
       </li>
 		);
