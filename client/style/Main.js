@@ -27,6 +27,7 @@ export default class Main {
     const headerChildAnalyzeCnt = Main.getHeaderChildAnalyzeCnt( params );
     const headerChildTalknLogo = Main.getHeaderChildTalknLogo( params );
     const notif = Main.getNotif( params );
+    const multistreamIconWrap = Main.getMultistreamIconWrap( params );
     return {
       self,
       header,
@@ -40,6 +41,7 @@ export default class Main {
       headerChildAnalyzeCnt,
       headerChildTalknLogo,
       notif,
+      multistreamIconWrap,
     }
   }
 
@@ -257,6 +259,34 @@ export default class Main {
     const content = Style.getContentBase({
       color: 'rgb(255,255,255)',
       textAlign: 'center',
+      fontSize: "12px",
+      lineHeight: 2,
+      cursor: 'pointer',
+    });
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransitionOn( app ),
+    });
+    return Style.get({layout, content, animation});
+  }
+
+
+  static getMultistreamIconWrap( {app} ){
+    const layout = Style.getLayoutBlock({
+      position: 'absolute',
+      top: "5px",
+      right: "20px",
+      width: '50px',
+      height: '50px',
+      margin: '0 auto',
+      zIndex: '10',
+      border: `1px solid ${Container.themeRGBA}`,
+      background: 'rgba(255, 255, 255, 0.8)',
+      borderRadius: '50px',
+    });
+    const content = Style.getContentBase({
+      color: 'rgb(255,255,255)',
+      textAlign: 'center',
+      fontSize: "12px",
       lineHeight: 2,
       cursor: 'pointer',
     });

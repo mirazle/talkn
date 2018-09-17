@@ -16,6 +16,7 @@ export default class Icon {
     const index = Icon.getIndex( params );
     const logs = Icon.getLogs( params );
     const setting = Icon.getSetting( params );
+    const thunder = Icon.getThunder( params );
     const detail = Icon.getDetail( params );
     const heart = Icon.getHeart( params );
     const share = Icon.getShare( params );
@@ -29,6 +30,7 @@ export default class Icon {
       index,
       logs,
       setting,
+      thunder,
       detail,
       heart,
       share,
@@ -457,6 +459,69 @@ export default class Icon {
       }),
     });
     return {div, wing1, wing2, wing3, wing4, wing5, wing6, wing7, wing8, circle};
+  }
+
+  static getThunder( {app} ){
+    const div = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        width: "50px",
+        height: "50px",
+        borderRadius: "50px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: "rotate(0deg) translate(0px, 0px)",
+      }),
+    });
+
+    const wrap = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        borderRadius: "50px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: "rotate(90deg) translate3d(-2px,8px,0px)",
+      }),
+    });
+
+    const top = Style.get({
+      layout: Style.getLayoutBlock({
+        position: "relative",
+        top: "0px",
+        left: "-10px",
+        width: "0px",
+        height: "0px",
+        margin: "0 auto",
+        borderTop: "8px solid transparent",
+        borderRight: "8px solid transparent",
+        borderBottom: `10px solid ${Container.themeRGB}`,
+        borderLeft: "8px solid transparent",
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: "skew(60deg, 0deg) rotate(0deg) translate(0px, 0px)"
+      }),
+    });
+
+    const bottom = Style.get({
+      layout: Style.getLayoutBlock({
+        position: "relative",
+        top: "0px",
+        left: "10px",
+        width: "0px",
+        height: "0px",
+        margin: "0 auto",
+        borderBottom: "8px solid transparent",
+        borderRight: "8px solid transparent",
+        borderTop: `10px solid ${Container.themeRGB}`,
+        borderLeft: "8px solid transparent",
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: "skew(60deg, 0deg) rotate(0deg) translate(0px, 0px)"
+      }),
+    });
+    return {div, wrap, top, bottom};
   }
 
   static getDetail( {app} ){

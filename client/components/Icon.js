@@ -214,6 +214,17 @@ export default class Icon extends Component{
     );
   }
 
+  static getThunder( style ){
+    return (
+      <div style={ style.div }>
+        <div style={ style.wrap }>
+          <span style={ style.top }></span>
+          <span style={ style.bottom }></span>
+        </div>
+      </div>
+    );
+  }
+
   static getHeadTab( style ){
     return (
       <div style={ style.div }>
