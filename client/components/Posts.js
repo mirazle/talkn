@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import Post from 'client/components/Post';
+import IconStyle from 'client/style/Icon';
 import Icon from './Icon';
 
 export default class Posts extends Component {
@@ -10,6 +11,7 @@ export default class Posts extends Component {
     this.handleOnScroll = this.handleOnScroll.bind(this);
     this.handleOnClickGetMore = this.handleOnClickGetMore.bind(this);
     this.animateScrollTo = this.animateScrollTo.bind(this);
+    this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
     this.state = {
       scrollHeight: 0,
       isAnimateScrolling: false,
@@ -187,18 +189,22 @@ export default class Posts extends Component {
     return postList;
   }
 
- 	render() {
-    const { app, user, thread, style } = this.props.state;
-    const { icon } = style;
-    const ThunderIcon = Icon.getThunder( icon.thunder );
+  handleOnClickMultistream(){
+    const { onClickSetting, state} = this.props;
+    state.setting.multistream = !state.setting.multistream;
+    onClickSetting( "multistream", state.setting);
+  }
 
+ 	render() {
+    const { setting, user, thread, style } = this.props.state;
+    const ThunderIcon = Icon.getThunder( IconStyle.getThunder({setting}) );
 		return (
       <div style={ style.posts.self } >
-
-        <div {...Icon.getDecolationProps3( 'icon', 'thunder', 'div' )}>
-          <div style={style.main.multistreamIconWrap}>
+        <div
+          style={style.posts.multistreamIconWrap}
+          onClick={this.handleOnClickMultistream}
+        >
             { ThunderIcon }
-          </div>
         </div>
 
         <ol ref="thread" onScroll={this.handleOnScroll} style={ style.posts.ol }>

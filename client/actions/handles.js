@@ -72,16 +72,17 @@ export default {
       app: {inputPost},
     };
   },
-  onResizeStartWindow: ( app ) => {
+  onResizeStartWindow: ( {app, setting} ) => {
     return {
       type: 'RESIZE_START_WINDOW',
       app,
+      setting
     };
   },
-  onResizeEndWindow: ( app ) => {
+  onResizeEndWindow: ( {app, setting} ) => {
     return {
       type: 'RESIZE_END_WINDOW',
-      app,
+      app, setting,
     };
   },
   onTransition: () => {
@@ -100,6 +101,13 @@ export default {
     return {
       type: 'ON_CLICK_MENU',
       app: {menuComponent},
+    };
+  },
+  onClickSetting: ( settingType, setting ) => {
+    return {
+      type: 'ON_CLICK_SETTING',
+      settingType,
+      setting,
     };
   },
 }
