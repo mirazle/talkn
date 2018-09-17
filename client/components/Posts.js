@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import Post from 'client/components/Post';
+import Icon from './Icon';
 
 export default class Posts extends Component {
 
@@ -187,9 +188,19 @@ export default class Posts extends Component {
   }
 
  	render() {
-    const { style } = this.props.state;
+    const { app, user, thread, style } = this.props.state;
+    const { icon } = style;
+    const ThunderIcon = Icon.getThunder( icon.thunder );
+
 		return (
       <div style={ style.posts.self } >
+
+        <div {...Icon.getDecolationProps3( 'icon', 'thunder', 'div' )}>
+          <div style={style.main.multistreamIconWrap}>
+            { ThunderIcon }
+          </div>
+        </div>
+
         <ol ref="thread" onScroll={this.handleOnScroll} style={ style.posts.ol }>
           {this.renderGetMore()}
           {this.renderPostList()}
