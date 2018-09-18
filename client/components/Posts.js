@@ -190,9 +190,18 @@ export default class Posts extends Component {
   }
 
   handleOnClickMultistream(){
-    const { onClickSetting, state} = this.props;
-    state.setting.multistream = !state.setting.multistream;
-    onClickSetting( "multistream", state.setting);
+    const { updateSetting, updateUser, state} = this.props;
+    const { setting, user, thread } = state;
+
+    // state.setting更新
+    setting.multistream = !setting.multistream;
+    updateSetting( "multistream", setting );
+
+    talknAPI.find(thread.connection);
+
+    // state.user更新
+    user.multistreamed = setting.multistream;
+    updateUser( "multistreamed", user );
   }
 
  	render() {

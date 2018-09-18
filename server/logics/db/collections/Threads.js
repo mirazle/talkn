@@ -173,9 +173,14 @@ export default class Threads {
   /* STATUS LOGIC   */
   /******************/
 
-  getStatus( thread, user, setting ){
+  getStatus( user, thread, clientSetting, setting ){
 
-    let status = {isSchema: false, isRequireUpsert: false};
+    let status = {
+      isSchema: false,
+      isRequireUpsert: false,
+      isMultistream: false,
+      isToggleMultistream: false,
+    };
 
     /*******************************************************/
     /* threadが空のSchemaかどうか(DBにデータが存在しない)        */
@@ -211,6 +216,20 @@ export default class Threads {
     // スレッドの更新時間と、現在時間 - n を比較して、スレッドの更新時間が古かったらtrueを返す
     status.isRequireUpsert = status.isSchema ?
       true : threadUpdateTime < activeTime;
+
+    /*******************************************************/
+    /* Multistream形式かどうか                               */
+    /*******************************************************/
+
+    status.isMultistream = clientSetting.multistream;
+
+    /*******************************************************/
+    /* Multistreamのボタンを押したか                          */
+    /*******************************************************/
+
+    if( !status.isRequireUpsert ){
+      status.isToggleMultistream = clientSetting.multistream !== user.multistreamed;
+    }
 
     return status;
   }

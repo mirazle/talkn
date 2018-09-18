@@ -59,9 +59,6 @@ export default class TwitterLi extends Component {
     let { label, onClick, state } = this.props;
     const { style } = state;
     onClick = onClick ? onClick : () => {} ;
-
-    console.log( style );
-
 		return (
       <li style={ style.menuUsers.column } onClick={ onClick } {...this.getDecolationProps()}>
         {label}

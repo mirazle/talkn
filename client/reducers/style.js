@@ -138,8 +138,8 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
-	case 'ON_CLICK_SETTING':
-		switch( action.settingType ){
+	case 'UPDATE_SETTING':
+		switch( action.updateColumn ){
 		case "multistream":
 			return {...state,
 				posts: {...state.posts,
