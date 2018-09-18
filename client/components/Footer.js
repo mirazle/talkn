@@ -38,7 +38,6 @@ export default class Footer extends Component {
 
   handleOnKeyPress( e ){
     if ( e.nativeEvent.keyCode === 13 ) {
-      const{ user } = this.props.state;
       if( e.nativeEvent.shiftKey ){
         talknAPI.onChangeInputPost( e.target.value + '\n');
       }else{

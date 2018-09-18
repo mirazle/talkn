@@ -7,7 +7,7 @@ import App from 'common/schemas/state/App';
 export default class Screen extends Component {
  	render() {
 		const{ state } = this.props;
-    const { app, user, style } = state;
+    const { app, style } = state;
 
 		return (
       <div style={ style.screen.self }>

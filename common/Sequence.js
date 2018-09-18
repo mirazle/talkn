@@ -30,16 +30,18 @@ export default class Sequence {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {
           'thread': [{columnName: 'protocol'}, {columnName: 'host'}],
+          'setting': [{columnName: 'multistream'}],
           'user': '*',
         },
-        responseEmitState: {'posts': '*', 'thread': '*', 'user': ['offsetFindId', 'connectioned']},
+        responseEmitState: {'posts': '*', 'thread': '*', 'user': ['offsetFindId', 'connectioned', 'multistreamed']},
         responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       },
       getMore: {
         requestPublicState: {},
         requestPrivateState: {
           'thread': [{columnName: 'connection'}],
-          'user': [{columnName: 'offsetFindId'}],
+          'setting': [{columnName: 'multistream'}],
+          'user': [{columnName: 'offsetFindId'}, {columnName: 'multistreamed'}],
         },
         responseEmitState: {'thread': ['connection'], 'user': ['offsetFindId'], 'posts': '*'},
         responseBroadcastState: {},
@@ -48,6 +50,7 @@ export default class Sequence {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {
           'thread': [{columnName: 'protocol'}, {columnName: 'host'}],
+          'setting': [{columnName: 'multistream'}],
           'user': '*',
         },
         responseEmitState: {'user': ['offsetFindId', 'connectioned']},

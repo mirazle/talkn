@@ -6,6 +6,11 @@ export default ( state = new Posts() , action ) => {
 	case 'ON_CLICK_OTHER_THREAD':
 		return new Posts();
 		break;
+	case 'UPDATE_SETTING':
+		if( action.updateColumn === "multistream" ){
+			return new Posts();
+		}
+		break;
 	default:
 
 		if( action.posts && action.posts[0] ){

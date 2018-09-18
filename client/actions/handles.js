@@ -1,5 +1,6 @@
 import App from 'common/schemas/state/App';
 import User from 'common/schemas/state/User';
+import Setting from 'common/schemas/state/Setting';
 
 export default {
   updateStyle: ( {styleKey, eleType, tagName, style} ) => {
@@ -11,10 +12,25 @@ export default {
       style,
     };
   },
-  updateApp: ( app ) => {
+  updateApp: ( updateColumn, app ) => {
     return {
       type: 'UPDATE_APP',
+      updateColumn,
       app,
+    };
+  },
+  updateUser: ( updateColumn, user ) => {
+    return {
+      type: 'UPDATE_USER',
+      updateColumn,
+      user,
+    };
+  },
+  updateSetting: ( updateColumn, setting ) => {
+    return {
+      type: 'UPDATE_SETTING',
+      updateColumn,
+      setting,
     };
   },
   onClickOtherThread: ( connection ) => {
@@ -103,11 +119,12 @@ export default {
       app: {menuComponent},
     };
   },
-  onClickSetting: ( settingType, setting ) => {
+  onClickSetting: ( settingType, {setting, user} ) => {
     return {
       type: 'ON_CLICK_SETTING',
       settingType,
       setting,
+      user
     };
   },
 }

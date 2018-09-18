@@ -4,7 +4,7 @@ export default class  Style extends Component {
 
  	render() {
 		const{ state, talknAPI } = this.props;
-    const { app, user, style } = state;
+    const { app, style } = state;
 
 		return (
       <style type='text/css'>
