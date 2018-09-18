@@ -12,6 +12,7 @@ export default class User extends Schema{
     const utype = params.utype ? params.utype : '';
     const href = User.getHref( params );
     const connectioned = params.connectioned ? params.connectioned : '';
+    const multistreamed = params.multistreamed ? params.multistreamed : false;
     const offsetFindId = params.offsetFindId ? params.offsetFindId : User.defaultOffsetFindId ;
     const friends = [];
     return this.create({
@@ -19,6 +20,7 @@ export default class User extends Schema{
       utype,
       href,
       connectioned,
+      multistreamed,
       offsetFindId,
       friends,
     });

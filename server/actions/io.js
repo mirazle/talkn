@@ -72,6 +72,8 @@ export default {
 
   exeFind: async ( ioUser, requestState, setting ) => {
 
+    const { setting: clientSetting, user: clientUser } = requestState;
+
     // リクエストのあったconnectionを取得する
     const { connection } = requestState.thread;
 
@@ -84,10 +86,12 @@ export default {
     const offsetFindId = Logics.db.posts.getOffsetFindId( posts );
 
     // User
-    const user = {connectioned: connection ,offsetFindId};
+    const user = {...clientUser, connectioned: connection ,offsetFindId};
 
     // Threadの状態
-    const threadStatus = Logics.db.threads.getStatus( thread, user, setting );
+    const threadStatus = Logics.db.threads.getStatus(  user, thread, clientSetting, setting );
+
+    user.multistreamed = clientSetting.multistream;
 
     // 作成・更新が必要なスレッドの場合
     if( threadStatus.isRequireUpsert ){
@@ -109,7 +113,13 @@ export default {
     // スレッドが存在して、更新も必要ない場合
     }else{
 
-      thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
+      // Multistreamボタンを押した場合
+      if( !threadStatus.isToggleMultistream ){
+        console.log("@@@ AA");
+        thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
+      }else{
+        console.log("@@@ BB");
+      }
       Logics.io.find( ioUser, {requestState, thread, posts, user} );
     }
   },

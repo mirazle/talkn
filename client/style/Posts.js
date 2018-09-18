@@ -102,7 +102,7 @@ export default class Posts {
     return Style.get({layout, content, animation});
   }
 
-  static getMultistreamIconWrapBorder( {setting} ){
+  static getMultistreamIconWrapBorder( {setting} ){;
     return setting.multistream ?
       `1px solid ${Container.themeRGBA}` :
       `1px solid ${Container.calmRGBA}`;

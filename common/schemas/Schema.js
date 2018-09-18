@@ -1,7 +1,17 @@
 export default class Schema {
   constructor(option = {}){
-    //const errorThrow = option.errorThrow ? option.errorThrow : true;
-    //Object.defineProperty( this, 'errorThrow', {value: errorThrow});
+/*
+    Object.defineProperty(
+      this,
+      '_SET_COLUMNS',
+      {
+        value: [],
+        writable: true,
+        enumerable: false,
+        configurable: false
+      }
+    );
+*/
   }
 
   static getType(value){
@@ -88,7 +98,7 @@ export default class Schema {
         Object.defineProperty( this, key,
           {
             get: () => {
-              return value
+              return value;
             },
             set: (_value) => {
               // pointer, validValue, validType, paramsValue, paramsType, error
@@ -97,12 +107,8 @@ export default class Schema {
                 value = _value;
                 return {...this, [ key ]: value };
               }else{
-                if(this.errorThrow){
-                  this.validWarn( validResult );
-                  throw error;
-                }else{
-                  return validResult;
-                }
+                this.validWarn( validResult );
+                throw error;
               }
             },
             enumerable: true,
