@@ -14,6 +14,8 @@ export default class User extends Schema{
     const connectioned = params.connectioned ? params.connectioned : '';
     const multistreamed = params.multistreamed ? params.multistreamed : false;
     const offsetFindId = params.offsetFindId ? params.offsetFindId : User.defaultOffsetFindId ;
+    const offsetFindIdSingle = params.offsetFindIdSingle ? params.offsetFindIdSingle : User.defaultOffsetFindId ;
+    const offsetFindIdMulti = params.offsetFindIdMulti ? params.offsetFindIdMulti : User.defaultOffsetFindId ;
     const friends = [];
     return this.create({
       uid,

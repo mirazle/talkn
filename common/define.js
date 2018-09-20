@@ -19,7 +19,10 @@ export default {
     SESSION: 'session',
   },
   storageKey: {
+    postSingle: 'postSingle',
+    postMulti: 'postMulti',
     menuLogs: 'menuLogs',
+    updateSetting: 'setting',
     selectMenu: 'selectMenu',
   }
 }
