@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Thread from '~/common/schemas/state/Thread';
 import Logics from '~/server/logics';
 
@@ -8,9 +9,9 @@ export default class Posts {
     return this;
   }
 
-  async getCounts( requestState ){
+  async getCounts( requestState, threadStatus ){
     const { connection } = requestState.thread;
-    const condition = {connection};
+    const condition = threadStatus.isMultistream ? {connections: connection} : {connection};
     const multiCondition = {connections: connection};
     const {response: postCnt} = await this.collection.count( condition );
     return postCnt;
@@ -22,10 +23,14 @@ export default class Posts {
     return await this.collection.find( condition ).count();
   }
 
-  async find( requestState, setting ){
+  async find( requestState, threadStatus, setting ){
+    const { thread, user } = requestState;
+    const { connection } = thread;
+
+    const condition_part = threadStatus.isMultistream ? {connections: connection} : {connection};
     const condition = {
-      connection: requestState.thread.connection,
-      _id: {$lt: requestState.user.offsetFindId},
+      ...condition_part,
+      _id: {$lt: mongoose.Types.ObjectId( user.offsetFindId ) },
     };
     const selector = {};
     const option = {limit: setting.server.findOnePostCnt, sort: {_id: -1}};

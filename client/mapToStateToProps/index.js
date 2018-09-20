@@ -17,6 +17,17 @@ export default ( _state, _props ) => {
 const functions = {
   "SERVER_TO_CLIENT[EMIT]:find": ( state, props ) => {
     TalknSession.setStorage( define.storageKey.menuLogs, state.menuLogs.toJSON() );
+
+    if( state.setting.multistream ){
+      TalknSession.setStorage( define.storageKey.postMulti, state.postMulti );
+    }else{
+      TalknSession.setStorage( define.storageKey.postSingle, state.postSingle );
+    }
+
+    return {state, props};
+  },
+  "UPDATE_SETTING": ( state, props ) => {
+    TalknSession.setStorage( define.storageKey.updateSetting, state.setting.toJSON() );
     return {state, props};
   },
   "ON_CLICK_MENU": ( state, props ) => {

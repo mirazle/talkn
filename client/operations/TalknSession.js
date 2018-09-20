@@ -13,8 +13,9 @@ export default class TalknSession{
 
 	static getCaches(){
 		const menuLogs = TalknSession.getStorage( define.storageKey.menuLogs );
+		const setting = TalknSession.getStorage( define.storageKey.updateSetting );
 		const selectMenu = TalknSession.getStorage( define.storageKey.selectMenu );
-		return {menuLogs, selectMenu};
+		return {menuLogs, setting, selectMenu};
 	}
 
 	getSetting(){
