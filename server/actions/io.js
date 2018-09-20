@@ -72,7 +72,7 @@ export default {
 
   exeFind: async ( ioUser, requestState, setting ) => {
 
-    const { setting: clientSetting, user: clientUser } = requestState;
+    let { setting: clientSetting, user } = requestState;
 
     // リクエストのあったconnectionを取得する
     const { connection } = requestState.thread;
@@ -80,18 +80,20 @@ export default {
     // Thread
     let {response: thread} = await Logics.db.threads.findOne( connection, {}, {}, true );
 
-    // Posts
-    thread.postCnt = await Logics.db.posts.getCounts( requestState );
-    const {response: posts} = await Logics.db.posts.find(requestState, setting );
-    const offsetFindId = Logics.db.posts.getOffsetFindId( posts );
-
-    // User
-    const user = {...clientUser, connectioned: connection ,offsetFindId};
+    // User定義
+    user = {...user, connectioned: connection};
 
     // Threadの状態
     const threadStatus = Logics.db.threads.getStatus(  user, thread, clientSetting, setting );
 
+    // Posts
+    thread.postCnt = await Logics.db.posts.getCounts( requestState, threadStatus );
+    const {response: posts} = await Logics.db.posts.find(requestState, threadStatus, setting );
+    const offsetFindId = Logics.db.posts.getOffsetFindId( posts );
+
+    // userの状況を更新する
     user.multistreamed = clientSetting.multistream;
+    user.offsetFindId = offsetFindId;
 
     // 作成・更新が必要なスレッドの場合
     if( threadStatus.isRequireUpsert ){
@@ -115,10 +117,7 @@ export default {
 
       // Multistreamボタンを押した場合
       if( !threadStatus.isToggleMultistream ){
-        console.log("@@@ AA");
         thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
-      }else{
-        console.log("@@@ BB");
       }
       Logics.io.find( ioUser, {requestState, thread, posts, user} );
     }
