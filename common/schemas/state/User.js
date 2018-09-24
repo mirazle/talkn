@@ -1,10 +1,9 @@
 import Schema from '~/common/schemas/Schema';
+import Post from '~/common/schemas/state/Post';
 
 export default class User extends Schema{
 
-  static get defaultOffsetFindId(){
-    return 'ffffffffffffffffffffffff';
-  }
+  static get defaultOffsetFindId(){ return Post.defaultFindId }
 
   constructor( params = {} ){
     super();
@@ -14,8 +13,6 @@ export default class User extends Schema{
     const connectioned = params.connectioned ? params.connectioned : '';
     const multistreamed = params.multistreamed ? params.multistreamed : false;
     const offsetFindId = params.offsetFindId ? params.offsetFindId : User.defaultOffsetFindId ;
-    const offsetFindIdSingle = params.offsetFindIdSingle ? params.offsetFindIdSingle : User.defaultOffsetFindId ;
-    const offsetFindIdMulti = params.offsetFindIdMulti ? params.offsetFindIdMulti : User.defaultOffsetFindId ;
     const friends = [];
     return this.create({
       uid,

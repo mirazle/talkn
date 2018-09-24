@@ -4,12 +4,12 @@ import define from 'common/define';
 export default class TalknSession{
 
 	static setStorage( key, value ){
-    return localStorage.setItem( key, JSON.stringify( value ) );
-  }
+    	return localStorage.setItem( key, JSON.stringify( value ) );
+  	}
 
 	static getStorage( key ){
-    return JSON.parse(localStorage.getItem( key ));
-  }
+		return JSON.parse(localStorage.getItem( key ));
+	}
 
 	static getCaches(){
 		const menuLogs = TalknSession.getStorage( define.storageKey.menuLogs );
