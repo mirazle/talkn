@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Thread from '~/common/schemas/state/Thread';
+import PostSchema from '~/common/schemas/state/Post';
 import Logics from '~/server/logics';
 
 export default class Posts {
@@ -30,11 +31,12 @@ export default class Posts {
     const condition_part = threadStatus.isMultistream ? {connections: connection} : {connection};
     const condition = {
       ...condition_part,
-      _id: {$lt: mongoose.Types.ObjectId( user.offsetFindId ) },
+      _id: {$gt: mongoose.Types.ObjectId( user.offsetFindId ) },
     };
     const selector = {};
     const option = {limit: setting.server.findOnePostCnt, sort: {_id: -1}};
     const result = await this.collection.find( condition, selector, option );
+
     result.response.reverse();
     return result;
   }
@@ -67,6 +69,6 @@ export default class Posts {
   }
 
   getOffsetFindId( posts ){
-    return posts[ 0 ] ? posts[ 0 ]._id : 'ffffffffffffffffffffffff';
+    return posts[ 0 ] ? posts[ 0 ]._id : PostSchema.defaultFindId;
   }
 }

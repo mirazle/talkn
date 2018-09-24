@@ -113,7 +113,7 @@ export default class Post extends Component {
 
         <a style={style.bottom} {...this.getHrefProps()}>
           <span style={{...style.bottomIcon, backgroundImage: `url( //${dispFavicon} )`}} />
-          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post}} />
+          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post + "<br /> " + _id}} />
         </a>
       </li>
 		);

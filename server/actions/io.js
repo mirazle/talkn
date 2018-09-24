@@ -114,7 +114,7 @@ export default {
 
     // スレッドが存在して、更新も必要ない場合
     }else{
-
+      
       // Multistreamボタンを押した場合
       if( !threadStatus.isToggleMultistream ){
         thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );

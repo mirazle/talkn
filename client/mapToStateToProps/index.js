@@ -16,14 +16,11 @@ export default ( _state, _props ) => {
 
 const functions = {
   "SERVER_TO_CLIENT[EMIT]:find": ( state, props ) => {
+    const { setting } = state;
+    const { storageKey } = define;
+    const getPostKey = setting.multistream ? storageKey.postMulti : storageKey.postSingle ;
     TalknSession.setStorage( define.storageKey.menuLogs, state.menuLogs.toJSON() );
-
-    if( state.setting.multistream ){
-      TalknSession.setStorage( define.storageKey.postMulti, state.postMulti );
-    }else{
-      TalknSession.setStorage( define.storageKey.postSingle, state.postSingle );
-    }
-
+    TalknSession.setStorage( define.storageKey[ getPostKey ], state.posts );
     return {state, props};
   },
   "UPDATE_SETTING": ( state, props ) => {

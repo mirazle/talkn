@@ -33,6 +33,12 @@ export default {
       setting,
     };
   },
+  updatePosts: ( posts ) => {
+    return {
+      type: 'UPDATE_POSTS',
+      posts,
+    };
+  },
   onClickOtherThread: ( connection ) => {
     return {
       type: 'ON_CLICK_OTHER_THREAD',
