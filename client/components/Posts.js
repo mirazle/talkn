@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
+import define from 'common/define';
+import PostSchema from 'common/schemas/state/Post';
+import TalknSession from 'client/operations/TalknSession';
 import Post from 'client/components/Post';
 import IconStyle from 'client/style/Icon';
 import Icon from './Icon';
@@ -162,16 +165,13 @@ export default class Posts extends Component {
 
   renderPostList(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ style, thread, app, posts } = state;
+    const{ style, thread, app, posts, setting } = state;
     let postList = [];
+    
     if( Object.keys( posts ).length > 0 ){
       postList = Object.keys( posts ).map( ( index ) => {
         const post = posts[ index ];
         const childLayerCnt = post.connections.length - thread.connections.length;
-
-        if( !app.childrenThreadView && childLayerCnt !== 0){
-          return null;
-        }
 
         return (
           <Post
@@ -190,18 +190,27 @@ export default class Posts extends Component {
   }
 
   handleOnClickMultistream(){
-    const { updateSetting, updateUser, state} = this.props;
+    const { updateUser, updateSetting, updatePosts, state} = this.props;
     const { setting, user, thread } = state;
+    const { storageKey } = define;
 
-    // state.setting更新
     setting.multistream = !setting.multistream;
+
+    const getPostKey = setting.multistream ? storageKey.postMulti : storageKey.postSingle ;
+    const cachePosts = TalknSession.getStorage( storageKey[ getPostKey ] );
+    const posts = cachePosts ? cachePosts : new PostSchema();
+    const postLength = posts.length;
+    const existPost = posts.length > 0 ;
+
+    // stateを更新
+    user.offsetFindId = existPost ? posts[ postLength - 1 ]._id : PostSchema.defaultFindId; 
+    console.log("@@@@@@ " + user.offsetFindId);
+    console.log( posts );
+    updateUser( "offsetFindId", user );
     updateSetting( "multistream", setting );
+    updatePosts( posts );
 
     talknAPI.find(thread.connection);
-
-    // state.user更新
-    user.multistreamed = setting.multistream;
-    updateUser( "multistreamed", user );
   }
 
  	render() {

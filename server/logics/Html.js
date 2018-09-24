@@ -52,7 +52,7 @@ export default class Html {
 
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
-      console.log( "@@@@@@@@@@@ " + url );
+
       request( option, ( error, response, body ) => {
 
         let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
@@ -67,10 +67,8 @@ export default class Html {
           responseSchema.videos = this.getVideos( $ );
           responseSchema.audios = this.getAudios( $ );
           responseSchema.contentType = response.headers['content-type'];
-          console.log("AA");
           resolve( responseSchema );
         }else{
-          console.log("BB");
           resolve( null );
         }
       });

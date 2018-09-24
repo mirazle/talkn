@@ -12,12 +12,10 @@ export default class Passport {
   static get TW_CALLBACK_URL(){ return 'https://talkn.io:8443/auth/twitter/callback' }
 
   serializeUser(user, callback){
-    console.log( "3 Serialize(Save Session & Read Session)" );
     callback(null, user);
   }
 
   deserializeUser(obj, callback){
-    console.log( "5 Deserialize" );
     callback(null, obj);
   };
 
@@ -33,9 +31,6 @@ export default class Passport {
         profile.accessToken = accessToken;
         profile.refreshToken = refreshToken;
         process.nextTick(() => {
-
-            console.log("2 Auth Facebook Finish"); //必要に応じて変更
-
             return callback(null, profile);
         });
     });
@@ -52,9 +47,6 @@ export default class Passport {
         profile.accessToken = accessToken;
         profile.refreshToken = refreshToken;
         process.nextTick(() => {
-
-            console.log("2 Auth Twitter Finish"); //必要に応じて変更
-
             return callback(null, profile);
         });
     });
