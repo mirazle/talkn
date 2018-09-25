@@ -1,7 +1,7 @@
 import Sequence from '~/common/Sequence'
 import User from '~/common/schemas/state/User'
-import Thread from '~/common/schemas/state/Thread'
 import Logics from '~/server/logics';
+import Threads from '~/server/logics/db/collections/Threads';
 import Actions from '~/server/actions';
 import tests from '~/server/utils/testRequestState';
 
@@ -33,8 +33,10 @@ export default {
   },
 
   getMore: async ( ioUser, requestState, setting ) => {
+    const { setting: clientSetting } = requestState;
     const { connection } = requestState.thread;
-    const {response: posts} = await Logics.db.posts.find(requestState, setting );
+    const isMultistream = Threads.getStatusIsMultistream( clientSetting );
+    const {response: posts} = await Logics.db.posts.find(requestState, setting, isMultistream, true );
     const offsetFindId = Logics.db.posts.getOffsetFindId( posts );
     const user = {connectioned: connection ,offsetFindId};
     const thread = {connection};
@@ -42,7 +44,7 @@ export default {
   },
 
   changeThread: async ( ioUser, requestState, setting ) => {
-    const connectioned = requestState.user.connectioned;
+    const connectioned = requestState.user.connectioned;;
 
     if( connectioned !== '' ){
 
@@ -71,7 +73,7 @@ export default {
   },
 
   exeFind: async ( ioUser, requestState, setting ) => {
-
+    
     let { setting: clientSetting, user } = requestState;
 
     // リクエストのあったconnectionを取得する
@@ -87,8 +89,8 @@ export default {
     const threadStatus = Logics.db.threads.getStatus(  user, thread, clientSetting, setting );
 
     // Posts
-    thread.postCnt = await Logics.db.posts.getCounts( requestState, threadStatus );
-    const {response: posts} = await Logics.db.posts.find(requestState, threadStatus, setting );
+    thread.postCnt = await Logics.db.posts.getCounts( requestState, threadStatus.isMultistream );
+    const {response: posts} = await Logics.db.posts.find(requestState, setting, threadStatus.isMultistream );
     const offsetFindId = Logics.db.posts.getOffsetFindId( posts );
 
     // userの状況を更新する
@@ -130,10 +132,12 @@ export default {
   },
 
   post: async ( ioUser, requestState, setting ) => {
+    const { setting: clientSetting } = requestState;
     const { connection } = requestState.thread;
+    const isMultistream = Threads.getStatusIsMultistream( clientSetting );
     const post = await Logics.db.posts.save( requestState );
     const response = await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost: post } );
-    const postCnt = await Logics.db.posts.getCounts( requestState );
+    const postCnt = await Logics.db.posts.getCounts( requestState, isMultistream );
     const thread = {postCnt, connection};
     await Logics.io.post( ioUser, {requestState, posts:[ post ] , thread } );
     return true;

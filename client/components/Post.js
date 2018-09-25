@@ -80,28 +80,20 @@ export default class Post extends Component {
 
  	render() {
 		const{
-      talknAPI,
       thread,
-      connection,
-      connections,
       createTime,
-      dispFlg,
       post,
       favicon,
-      uid,
-      updateTime,
-      utype,
       childLayerCnt,
       _id,
      } = this.props;
     const timeId = this.getTimeId();
     const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
     const { style } = this.state;
-    const { protocol } = thread;
     const dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
 
     return (
-      <li style={style.self} {...this.getDecolationProps()}>
+      <li id={_id} style={style.self} {...this.getDecolationProps()}>
         <div style={style.upper}>
           <span style={style.upperSpace} />
 
@@ -113,7 +105,7 @@ export default class Post extends Component {
 
         <a style={style.bottom} {...this.getHrefProps()}>
           <span style={{...style.bottomIcon, backgroundImage: `url( //${dispFavicon} )`}} />
-          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post + "<br /> " + _id}} />
+          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post }} />
         </a>
       </li>
 		);

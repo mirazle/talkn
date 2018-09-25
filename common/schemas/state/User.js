@@ -7,12 +7,13 @@ export default class User extends Schema{
 
   constructor( params = {} ){
     super();
-    const uid = params.uid ? params.uid : '';
-    const utype = params.utype ? params.utype : '';
+    const uid = params && params.uid ? params.uid : '';
+    const utype = params && params.utype ? params.utype : '';
     const href = User.getHref( params );
-    const connectioned = params.connectioned ? params.connectioned : '';
-    const multistreamed = params.multistreamed ? params.multistreamed : false;
-    const offsetFindId = params.offsetFindId ? params.offsetFindId : User.defaultOffsetFindId ;
+    const connectioned = params && params.connectioned ? params.connectioned : '';
+    const multistream = params && params.multistream ? params.multistream : false;
+    const multistreamed = params && params.multistreamed ? params.multistreamed : multistream;
+    const offsetFindId = params && params.offsetFindId ? params.offsetFindId : User.defaultOffsetFindId ;
     const friends = [];
     return this.create({
       uid,
