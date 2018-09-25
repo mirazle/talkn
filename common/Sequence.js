@@ -68,7 +68,8 @@ export default class Sequence {
         requestPublicState: {},
         requestPrivateState: {
           'app':[ {columnName: 'inputPost', valid: App.validPost}],
-          'user':[ {columnName: 'uid'},{columnName: 'utype'}],
+          'user':[ {columnName: 'uid'},{columnName: 'utype'}, {columnName: 'multistreamed'}],
+          'setting': [{columnName: 'multistream'}],
           'thread': [{columnName: 'protocol'}, {columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}]
         },
         responseEmitState: {},

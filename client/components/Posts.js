@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import ReactDOM from 'react-dom'
 import define from 'common/define';
 import PostSchema from 'common/schemas/state/Post';
 import TalknSession from 'client/operations/TalknSession';
@@ -142,15 +141,17 @@ export default class Posts extends Component {
   }
 
   renderGetMore(){
-		const{ state, talknAPI, timeago } = this.props;
-    const{ style, posts, thread, app } = state;
+		const { state } = this.props;
+    const { style, posts, thread, setting } = state;
+    const { getThreadChildrenCnt } = setting.server;
     const dispPostCnt = Object.keys( posts ).length;
     let isDisp = false;
 
-    if( dispPostCnt > 0 ){
+    if( thread.postCnt > getThreadChildrenCnt ){
       if( dispPostCnt < thread.postCnt ){
         isDisp = true;
       }
+      console.log( "dispPostCnt : " + dispPostCnt + " < thread.postCnt : " + thread.postCnt + " " + isDisp );
     }
 
     if( isDisp ){
@@ -165,7 +166,7 @@ export default class Posts extends Component {
 
   renderPostList(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ style, thread, app, posts, setting } = state;
+    const{ style, thread, posts } = state;
     let postList = [];
     
     if( Object.keys( posts ).length > 0 ){
@@ -204,8 +205,7 @@ export default class Posts extends Component {
 
     // stateを更新
     user.offsetFindId = existPost ? posts[ postLength - 1 ]._id : PostSchema.defaultFindId; 
-    console.log("@@@@@@ " + user.offsetFindId);
-    console.log( posts );
+
     updateUser( "offsetFindId", user );
     updateSetting( "multistream", setting );
     updatePosts( posts );
