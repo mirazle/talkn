@@ -15,7 +15,7 @@ import Style from '~/common/schemas/state/Style';
 export default class State{
 
   constructor( appType, talknIndex, window, attributes = {}, caches = {} ){
-    this.user = new User();
+    this.user = new User(caches.setting);
     this.userAgent = new UserAgent( window );
 		this.menuIndex = new MenuIndex();
 		this.menuLogs = new MenuLogs( caches.menuLogs );

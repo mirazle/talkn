@@ -174,6 +174,31 @@ export default class Threads {
     /* threadが空のSchemaかどうか(DBにデータが存在しない)        */
     /*******************************************************/
 
+    status.isSchema = Threads.getStatusIsSchema( thread );
+
+    /*******************************************************/
+    /* 更新が必要なthreadかどうか                             */
+    /*******************************************************/
+
+    status.isRequireUpsert = Threads.getStatusIsRequireUpsert( thread, setting, status.isSchema );
+
+    /*******************************************************/
+    /* Multistream形式かどうか                               */
+    /*******************************************************/
+
+    status.isMultistream = Threads.getStatusIsMultistream( clientSetting );
+
+    /*******************************************************/
+    /* Multistreamのボタンを押したか                          */
+    /*******************************************************/
+
+    status.isToggleMultistream = Threads.getStatusIsToggleMultistream( clientSetting, user );
+
+    return status;
+  }
+
+
+  static getStatusIsSchema( thread ){
     const threadCreateTime = thread.createTime.getTime();
     const threadUpdateTime = thread.updateTime.getTime();
 
@@ -183,13 +208,15 @@ export default class Threads {
       const lastPostUpdateTime = thread.lastPost.updateTime.getTime();
 
       if( lastPostCreateTime === lastPostUpdateTime ){
-        status.isSchema = true;
+        return true;
       }
     }
+    return false;
+  }
 
-    /*******************************************************/
-    /* 更新が必要なthreadかどうか                             */
-    /*******************************************************/
+  static getStatusIsRequireUpsert( thread, setting, isSchema = false ){
+
+    const threadUpdateTime = thread.updateTime.getTime();
 
     // 現在時刻を取得
     const now = new Date();
@@ -202,23 +229,14 @@ export default class Threads {
     const activeTime = activeDate.getTime();
 
     // スレッドの更新時間と、現在時間 - n を比較して、スレッドの更新時間が古かったらtrueを返す
-    status.isRequireUpsert = status.isSchema ?
-      true : threadUpdateTime < activeTime;
+    return isSchema ? true : threadUpdateTime < activeTime;
+  }
 
-    /*******************************************************/
-    /* Multistream形式かどうか                               */
-    /*******************************************************/
+  static getStatusIsMultistream( clientSetting ){
+    return clientSetting.multistream;
+  }
 
-    status.isMultistream = clientSetting.multistream;
-
-    /*******************************************************/
-    /* Multistreamのボタンを押したか                          */
-    /*******************************************************/
-
-    if( !status.isRequireUpsert ){
-      status.isToggleMultistream = clientSetting.multistream !== user.multistreamed;
-    }
-
-    return status;
+  static getStatusIsToggleMultistream( clientSetting, user ){
+    return clientSetting.multistream !== user.multistreamed;
   }
 }
