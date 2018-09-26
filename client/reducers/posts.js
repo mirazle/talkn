@@ -6,7 +6,7 @@ export default ( state = new Posts() , action ) => {
 	case 'ON_CLICK_OTHER_THREAD':
 		return new Posts();
 	case 'UPDATE_POSTS':
-		return {...action.posts};	
+		return action.posts;	
 	case 'SERVER_TO_CLIENT[EMIT]:getMore':
 		// Prepend Post .
 		return [ ...action.posts, ...state ];
@@ -27,12 +27,8 @@ export default ( state = new Posts() , action ) => {
 				return [ ...state, ...action.posts ];
 			}
 		}
+		break;
 	}
 
 	return state;
 };
-
-
-const setPost = ( action, state, actionPostLength, statePostLength ) => {
-
-}

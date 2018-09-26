@@ -75,11 +75,11 @@ export default class App extends Schema{
 
   constructor( params = {} ){
     super();
-
     const name = params.name ? params.name : 'talkn';
     const type = params.type ? params.type : '';
     const talknIndex = params.talknIndex ? params.talknIndex : 0;
-    const rootConnection = params.connection ? params.connection : '/';
+    const connection = params.connection ? params.connection : '/';
+    const rootConnection = params.rootConnection ? params.rootConnection : connection;
     const desc = params.desc ? params.desc : 'Hello, talkn.';
     const width = App.getWidth( params );
     const height = App.getHeight( params );

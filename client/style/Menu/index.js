@@ -77,14 +77,16 @@ export default class MenuIndex {
       position: 'absolute',
       top: '13px',
       left: '63px',
-      width: '20px',
+      width: 'fit-content',
+      minWidth: '20px',
       height: '20px',
+      padding: '0px 5px 1px 5px',
       background: Container.offWhiteRGB,
       border: Container.border,
       borderRadius: '3px',
     });
     const content = Style.getContentBase({
-      fontSize: '12px',
+      fontSize: '10px',
     });
     const animation = Style.getAnimationBase({
       transition: Container.getTransitionOn( app ),
