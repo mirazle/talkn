@@ -15,12 +15,19 @@ export default ( _state, _props ) => {
 }
 
 const functions = {
-  "SERVER_TO_CLIENT[EMIT]:find": ( state, props ) => {
+  "SERVER_TO_CLIENT[EMIT]:initClientState" : ( state, props ) => {
+    const { storageKey } = define;
+    TalknSession.setStorage( define.storageKey[ storageKey.postSingle ], [] );
+    TalknSession.setStorage( define.storageKey[ storageKey.postMulti ], [] );
+    return {state, props};
+  },
+  "SERVER_TO_CLIENT[EMIT]:getMore": setStorages,
+  "SERVER_TO_CLIENT[EMIT]:find": setStorages,
+  "SERVER_TO_CLIENT[EMIT]:changeThread": ( state, props ) => {
     const { setting } = state;
     const { storageKey } = define;
-    const getPostKey = setting.multistream ? storageKey.postMulti : storageKey.postSingle ;
-    TalknSession.setStorage( define.storageKey.menuLogs, state.menuLogs.toJSON() );
-    TalknSession.setStorage( define.storageKey[ getPostKey ], state.posts );
+    const removePostKey = setting.multistream ? storageKey.postSingle : storageKey.postMulti ;
+    TalknSession.setStorage( define.storageKey[ removePostKey ], [] );
     return {state, props};
   },
   "UPDATE_SETTING": ( state, props ) => {
@@ -31,4 +38,13 @@ const functions = {
     TalknSession.setStorage( define.storageKey.selectMenu, state.app.menuComponent );
     return {state, props};
   },
+}
+
+function setStorages( state, props ){
+  const { setting } = state;
+  const { storageKey } = define;
+  const getPostKey = setting.multistream ? storageKey.postMulti : storageKey.postSingle ;
+  TalknSession.setStorage( define.storageKey.menuLogs, state.menuLogs.toJSON() );
+  TalknSession.setStorage( define.storageKey[ getPostKey ], state.posts );
+  return {state, props};
 }

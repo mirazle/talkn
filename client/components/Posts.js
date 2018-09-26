@@ -140,6 +140,29 @@ export default class Posts extends Component {
     talknAPI.getMore();
   }
 
+  handleOnClickMultistream(){
+    const { updateUser, updateSetting, updatePosts, state} = this.props;
+    const { setting, user, thread } = state;
+    const { storageKey } = define;
+
+    setting.multistream = !setting.multistream;
+
+    const getPostKey = setting.multistream ? storageKey.postMulti : storageKey.postSingle ;
+    const cachePosts = TalknSession.getStorage( storageKey[ getPostKey ] );
+    const posts = cachePosts ? cachePosts : new PostSchema();
+    const postLength = posts.length;
+    const existPost = posts.length > 0 ;
+
+    // stateを更新
+    user.offsetFindId = existPost ? posts[ postLength - 1 ]._id : PostSchema.defaultFindId; 
+
+    updateUser( "offsetFindId", user );
+    updateSetting( "multistream", setting );
+    updatePosts( posts );
+
+    talknAPI.find(thread.connection);
+  }
+
   renderGetMore(){
 		const { state } = this.props;
     const { style, posts, thread, setting } = state;
@@ -151,7 +174,6 @@ export default class Posts extends Component {
       if( dispPostCnt < thread.postCnt ){
         isDisp = true;
       }
-      console.log( "dispPostCnt : " + dispPostCnt + " < thread.postCnt : " + thread.postCnt + " " + isDisp );
     }
 
     if( isDisp ){
@@ -162,6 +184,24 @@ export default class Posts extends Component {
       )
     }
     return null;
+  }
+
+  renderMultistream(){
+    const { setting, style, app, thread } = this.props.state;
+    const ThunderIcon = Icon.getThunder( IconStyle.getThunder({setting}) );
+
+    if( thread.connection === app.rootConnection ){
+      return(
+        <div
+          style={style.posts.multistreamIconWrap}
+          onClick={this.handleOnClickMultistream}
+        >
+          { ThunderIcon }
+        </div>
+      );
+    }else{
+      return null;
+    }
   }
 
   renderPostList(){
@@ -190,41 +230,12 @@ export default class Posts extends Component {
     return postList;
   }
 
-  handleOnClickMultistream(){
-    const { updateUser, updateSetting, updatePosts, state} = this.props;
-    const { setting, user, thread } = state;
-    const { storageKey } = define;
-
-    setting.multistream = !setting.multistream;
-
-    const getPostKey = setting.multistream ? storageKey.postMulti : storageKey.postSingle ;
-    const cachePosts = TalknSession.getStorage( storageKey[ getPostKey ] );
-    const posts = cachePosts ? cachePosts : new PostSchema();
-    const postLength = posts.length;
-    const existPost = posts.length > 0 ;
-
-    // stateを更新
-    user.offsetFindId = existPost ? posts[ postLength - 1 ]._id : PostSchema.defaultFindId; 
-
-    updateUser( "offsetFindId", user );
-    updateSetting( "multistream", setting );
-    updatePosts( posts );
-
-    talknAPI.find(thread.connection);
-  }
-
  	render() {
-    const { setting, user, thread, style } = this.props.state;
-    const ThunderIcon = Icon.getThunder( IconStyle.getThunder({setting}) );
+    const { style } = this.props.state;
+
 		return (
       <div style={ style.posts.self } >
-        <div
-          style={style.posts.multistreamIconWrap}
-          onClick={this.handleOnClickMultistream}
-        >
-            { ThunderIcon }
-        </div>
-
+        {this.renderMultistream()}
         <ol ref="thread" onScroll={this.handleOnScroll} style={ style.posts.ol }>
           {this.renderGetMore()}
           {this.renderPostList()}
