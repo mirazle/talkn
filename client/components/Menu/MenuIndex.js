@@ -45,6 +45,7 @@ export default class MenuIndex extends Component {
     const { icon } = style;
     const Search = Icon.getSearch( icon.search );
     const dispConnection = rootConnection.replace( '/', '' );
+
 		return (
       <nav style={style.menuIndex.self}>
 
@@ -52,7 +53,7 @@ export default class MenuIndex extends Component {
           <span style={style.menuIndex.headerSearchIcon}>
             { Search }
           </span>
-          <button style={style.menuIndex.headerRootConnection}>/</button>
+          <button style={style.menuIndex.headerRootConnection}>{rootConnection}</button>
           <span style={style.menuIndex.headerConnection}>
             <input
               type={ 'text' }
@@ -60,7 +61,7 @@ export default class MenuIndex extends Component {
               rows={1}
               onChange={this.handleOnChange}
               onKeyPress={this.handleOnKeyPress}
-              defaultValue={ dispConnection }
+              defaultValue={''}
             />
           </span>
         </header>
