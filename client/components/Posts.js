@@ -190,7 +190,7 @@ export default class Posts extends Component {
     const { setting, style, app, thread } = this.props.state;
     const ThunderIcon = Icon.getThunder( IconStyle.getThunder({setting}) );
 
-    if( thread.connection === app.rootConnection ){
+    if( app.menuComponent === "Index" && thread.connection === app.rootConnection ){
       return(
         <div
           style={style.posts.multistreamIconWrap}
