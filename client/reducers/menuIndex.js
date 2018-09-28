@@ -10,7 +10,6 @@ export default ( state = new MenuIndex() , action ) => {
 					favicon: action.thread.favicon,
 					post: action.thread.lastPost.post
 				} : mi);
-		break;
 	case 'SERVER_TO_CLIENT[BROADCAST]:find':
 	case 'SERVER_TO_CLIENT[BROADCAST]:changeThread':
 	case 'SERVER_TO_CLIENT[BROADCAST]:disconnect':
@@ -23,15 +22,23 @@ export default ( state = new MenuIndex() , action ) => {
 				return mi
 			};
 		});
-		break;
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
-		return state.map( mi => action.posts[ 0 ].connection === mi.connection ?
+		return state.map( mi => isAssing( action, mi ) ?
 				{...mi,
 					favicon: action.posts[ 0 ].favicon,
 					post: action.posts[ 0 ].post
 				} : mi);
 	default:
 		return action.menuIndex ? state.merge( action.menuIndex ) : state ;
-		break;
 	}
 };
+
+/********************/
+/*	FUNCTION		*/
+/********************/
+
+const isAssing = ( action, mi ) => {
+	if(action.posts[ 0 ].connection === mi.connection) return true;
+	if(action.app.rootConnection === mi.connection) return true;
+	return false;
+}

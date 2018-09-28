@@ -7,27 +7,21 @@ export default ( state = new Posts() , action ) => {
 		return new Posts();
 	case 'UPDATE_POSTS':
 		return action.posts;	
-	case 'SERVER_TO_CLIENT[EMIT]:getMore':
-		// Prepend Post .
-		return [ ...action.posts, ...state ];
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
-	case 'SERVER_TO_CLIENT[EMIT]:find':
-
-		const actionPostLength = action.posts ? action.posts.length : 0;
-		const statePostLength = state.length;
-
-		if( actionPostLength > 0 ){
-
-			// Append Post .
-			if(
-				statePostLength === 0 || 
-				actionPostLength >= 1 ||  
-				action.posts[0] && state[0] && action.posts[0].createTime > state[0].createTim
-			){
-				return [ ...state, ...action.posts ];
-			}
+		console.log( action.app.rootConnection );
+		console.log( action.posts[0].connection );
+		console.log( action );
+		if( action.user.uid === action.posts[0].uid || action.app.rootConnection !== action.thread.connection ){
+			return [ ...state, ...action.posts ];
 		}
 		break;
+	case 'SERVER_TO_CLIENT[EMIT]:find':
+		if( action.posts && action.posts.length > 0 ){
+			return [ ...state, ...action.posts ];
+		}
+		break;
+	case 'SERVER_TO_CLIENT[EMIT]:getMore':
+		return [ ...action.posts, ...state ];
 	}
 
 	return state;

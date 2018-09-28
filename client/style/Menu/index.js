@@ -6,7 +6,6 @@ import Main from '../Main';
 export default class MenuIndex {
 
   static get iconSize(){ return '25px' };
-
   static get liHeight(){ return 90 };
 
   constructor( params ){
