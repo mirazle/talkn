@@ -37,7 +37,8 @@ export default class Threads {
   }
 
   async findMenuIndex( requestState, setting ){
-    const { connection, layer } = requestState.thread;
+    const { thread, setting: clientSetting } = requestState;
+    const { connection, layer } = thread;
     const regexConnection = connection.replace(/\//, '\/');
     const regex = new RegExp( `^${regexConnection}` );
     const condition = {

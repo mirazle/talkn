@@ -134,7 +134,7 @@ export default class Posts extends Component {
     this.props.scrollThread();
   }
 
-  handleOnClickGetMore( e ){
+  handleOnClickGetMore(){
     const{ thread } = this.props.state;
     this.setState({scrollHeight: this.refs.thread.scrollHeight});
     talknAPI.getMore();

@@ -13,14 +13,15 @@ export default {
 
 
 const functions = {
-  "CLIENT_TO_SERVER[EMIT]:find": ( store, action ) => {
-    const { posts, app, setting, user } = store.getState();
-    return action;
-  },
   "SERVER_TO_CLIENT[EMIT]:find": ( store, action ) => {
     action.app = {desc: action.thread.serverMetas.title};
     return action;
   },
+  "SERVER_TO_CLIENT[BROADCAST]:post": ( store, action ) => {
+    action.app = store.getState().app;
+    action.user = store.getState().user;
+    return action;
+  }, 
   "ON_CLICK_MENU": ( store, action ) => {
     return {...action,
       app: {...action.app,
