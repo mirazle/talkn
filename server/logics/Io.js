@@ -48,6 +48,7 @@ export default class Io {
   async post(ioUser, {requestState, posts, thread} ){
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts, thread, menuIndex: posts } );
     posts[0].connections.forEach( ( connection ) => {
+      responseBroadcastState.thread.connection = connection;
       this.io.broadcast( connection, responseBroadcastState );
     });
     return true;
