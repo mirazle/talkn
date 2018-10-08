@@ -8,17 +8,20 @@
 	<meta name="keywords" content="talkn">
 	<meta name="title" content="talkn">
 	<script type='text/javascript'>
+		var portalDevHost = "/localhost:8080";
 		var script = document.createElement("script");
 		var href = location.href;
 		var replaceStr = location.origin + '/?';
 		var jsPath = '//' + location.host + '/';
 		var jsFileName = 'talkn.client.js';
-		var connection = location.pathname ? location.pathname + location.search : '/';
+		var pathname = location.pathname ? location.pathname.replace(portalDevHost, '') : "";
+		var connection = location.pathname ? pathname + location.search : '/';
 		var layerCnt = connection.split( '/' ).length - 1;
 
 		if( layerCnt === 1 && !connection.match( /\/$/ ) ){
 			location.href = location.href + "/";
 		}else{
+			script.setAttribute( 'id', 'talkn' );
 			script.setAttribute( 'type', 'text/javascript' );
 			script.setAttribute( 'src', jsPath + jsFileName );
 			script.setAttribute( 'connection', connection );
