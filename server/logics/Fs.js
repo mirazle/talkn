@@ -1,4 +1,3 @@
-import util from '~/common/util'
 import conf from '~/common/conf';
 import fs from 'fs';
 

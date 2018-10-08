@@ -1,5 +1,4 @@
 import Thread from '~/common/schemas/state/Thread'
-import User from '~/common/schemas/state/User'
 import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
 import Favicon from '~/server/logics/Favicon';

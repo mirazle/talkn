@@ -1,4 +1,3 @@
-import conf from '~/common/conf';
 import Sequence from '~/common/Sequence'
 
 export default class Io {
