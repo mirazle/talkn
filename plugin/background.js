@@ -1,41 +1,41 @@
+const PROTOCOL = "https";
+const HOST = "localhost:8080";
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-	switch (message.request) {
-	case 'open':
-		var host = 'localhost:8080';
-
-		if( sender.url.indexOf( host ) === -1 ){
-		  var option = sender.url.replace(/^(https:\/|http:\/)/, '');
-
-			console.log("@@@");
-			console.log( window.postMessage );
-		  window.open('https://' + host + option, 'talkn', 'width=700, height=450, resizable=no, toolbar=no, status=no, scrollbars=no ,menubar=no, location=no, directories=no');
-
-		}
-		break;
-	case 'getLength':
-		sendResponse({data: localStorage.length});
-		break;
-	case 'getKeyName':
-		sendResponse({data: localStorage.key(request.number)});
-		break;
-	case 'getItem':
-		let result = JSON.parse(localStorage.getItem(request.key));
-		result = ( result === null )? { response: null, requestKey: request.key } : { response: result, requestKey: request.key } ;
-		chrome.tabs.sendMessage( sender.tab.id, result );
-		break;
-	case 'setItem':
-		localStorage.setItem( request.key, request.value );
-		//sendResponse({data: localStorage.setItem(request.key, request.value)});
-		break;
-	case 'removeItem':
-		sendResponse({data: localStorage.removeItem[request.key]});
-		break;
-	case 'clearAll':
-		sendResponse({data: localStorage.clear()});
-		break;
-	default:
-		break;
+class Background {
+    constructor() {
+console.log("CONSTRUCTER");
+		this.appTabId    = 0;
+		this.appWindowId = 0;
+		
+		this.open = this.open.bind(this);
+		chrome.runtime.onMessage.addListener(this.open);
 	}
-	return true;
-});
+
+	open(message, sender, sendResponse){
+
+		if( sender.url.indexOf( HOST ) === -1 ){
+
+			const option = sender.url.replace(/^(https:\/|http:\/)/, '');
+			if(this.appWindowId) {
+				console.log("UPDATE " + this.appWindowId);
+				chrome.windows.update(this.appWindowId, {focused: true});
+			} else {
+
+				chrome.windows.create({
+					type     : 'popup',
+					url      : PROTOCOL + "://" + HOST + option,
+					width    : 320,
+					height   : 420,
+					left     : screen.width - 320,
+				}, window => {
+					this.appWindowId = window.id;
+					this.appTabId    = window.tabs[0].id;
+					console.log( window.tabs[0] );
+				});
+			}
+		}
+	}
+}
+
+// noinspection JSUnusedGlobalSymbols
+const b = new Background();
