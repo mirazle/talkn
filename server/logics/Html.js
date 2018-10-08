@@ -1,14 +1,8 @@
 import request from 'request';
 import cheerio from 'cheerio';
-import jschardet from 'jschardet';
-import {Iconv} from 'iconv';
 import {Buffer} from 'buffer';
-import fs from 'fs';
 import Sequence from '~/common/Sequence';
-import Thread from '~/common/schemas/state/Thread';
 import define from '~/common/define';
-import conf from '~/common/conf';
-import util from '~/common/util';
 import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
 import HtmlSchema from '~/server/schemas/logics/Html';
@@ -18,7 +12,6 @@ export default class Html {
   async fetch( thread ){
 
     const { protocol, connection } = thread;
-    const { DEVELOPMENT_DOMAIN, PORTS } = define;
     let response = null;
 
     switch( protocol ){

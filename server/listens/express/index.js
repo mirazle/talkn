@@ -1,7 +1,6 @@
 import http from 'http';
 import https from 'https';
 import express from 'express';
-import fs from "fs";
 import define from '~/common/define';
 import Session from '~/server/listens/express/session/';
 import conf from '~/server/conf';
