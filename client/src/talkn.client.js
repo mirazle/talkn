@@ -27,7 +27,7 @@ window.onload =  () => {
 	const appType = TalknViewer.getAppType();
 	window.TalknAPI = TalknAPI;
 	window.__talknAPI__ = [];
-
+	window.name = "talkn";
 	const scriptName = Number( location.port ) === PORTS.DEVELOPMENT ? 'talkn.client.js' : conf.clientURL;
 	const scripts = document.querySelectorAll(`script[src*="${scriptName}"]`);
 	scripts.forEach( ( script, index ) => {
