@@ -1,5 +1,4 @@
 import conf from '~/common/conf';
-import define from '~/common/define';
 import Sequence from '~/common/Sequence';
 
 export default class Html {

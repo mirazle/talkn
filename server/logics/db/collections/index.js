@@ -1,4 +1,3 @@
-import conf from '~/server/conf';
 import Threads from '~/server/logics/db/collections/Threads';
 import Posts from '~/server/logics/db/collections/Posts';
 import Setting from '~/server/logics/db/collections/Setting';
