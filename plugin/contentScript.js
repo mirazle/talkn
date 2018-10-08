@@ -3,7 +3,7 @@ const BASE_HOST = "localhost:8080";
 const BASE_HOSTNAME = `${PROTOCOL}://${BASE_HOST}`; 
 const iframe = document.createElement("iframe");
 const connection = location.href.replace("http:/", "").replace("https:/", "");
-console.log(BASE_HOSTNAME + connection);
+window.talknIndex = 0;
 iframe.setAttribute("id", "talkn");
 iframe.setAttribute("style", "z-index: 2147483647; position: fixed; bottom: 0px; right: 0px;width: 320px; height: 45px");
 iframe.setAttribute("src", BASE_HOSTNAME + connection );

@@ -27,19 +27,13 @@ export default class TalknViewer {
 	}
 
 	static getAppType(){
-		if( define.DEVELOPMENT_DOMAIN === location.hostname
-			|| define.PRODUCTION_DOMAIN === location.hostname ){
-			return 'portal';
-		}
 
-		if( typeof window.chrome === 'object' ){
-			if( typeof window.chrome.runtime === 'object' ){
-				if( typeof window.chrome.runtime.getManifest === 'function' ){
-					return 'plugin';
-				}
-			}
+		const talkn = document.querySelector("iframe#talkn");
+		if( talkn === null){
+			return "portal";
+		}else{
+			return talkn.getAttribute('data-load-type');
 		}
-		return 'script';
 	}
 
 	async render(){
@@ -131,6 +125,7 @@ export default class TalknViewer {
 	}
 
 	async renderDOM(){
+		console.log("RENDER " + this.id);
 		ReactDOM.render(
 			<Provider store={ this.talknAPI.store }>
 				<Container talknAPI={ this.talknAPI } timeago={new timeago()} />
