@@ -16,6 +16,7 @@ export default class Footer extends Component {
 
   handleOnClickIcon( e ){
     const{ app } = this.props.state;
+
     if( app.isOpenMainPossible ){
       const isOpenMain = app.isOpenMain ? false : true ;
       talknAPI.onClickToggleDispMain( isOpenMain );

@@ -11,40 +11,27 @@ import conf from 'client/conf';
 class TalknClient{
 	constructor(){
 		this.setupWindow();
-		this.talknIndex = 0;
 		this.onLoad = this.onLoad.bind(this);
 		window.onload = this.onLoad.bind(this);
 	}
 
 	setupWindow(){
-		console.log(window.talknIndex);
-		if( window.talknIndex ){
-			window.talknIndex = window.talknIndex + 1;
-			console.log( "TRUE " + window.talknIndex );
-		}else{
-			window.talknIndex = 1;
-			console.log( "FALSE " + window.talknIndex );
-		}
-
-		console.log(window.talknIndex);
+		window.talknIndex = window.talknIndex ? window.talknIndex + 1 : 1;
 		if( !window.TalknAPI ) window.TalknAPI = TalknAPI;
 		if( !window.__talknAPI__ ) window.__talknAPI__ = [];
 		if( !window.name ) window.name = "talkn";
 	}
 
-	onLoad(){
-		this.talknIndex++;
+	onLoad(e){
 		const { PORTS } = define;
-		const appType = TalknViewer.getAppType();
+		const appType = TalknViewer.getAppType(e);
 		const scriptName = Number( location.port ) === PORTS.DEVELOPMENT ? 'talkn.client.js' : conf.clientURL;
 		const script = document.querySelector(`script[src*="${scriptName}"]`);
 		this.boot( appType, window.talknIndex, script.attributes );
-		console.log( "@@@ " + this.talknIndex );
-		window.talknAPI = window.__talknAPI__[ 1 ];
+		window.talknAPI = window.__talknAPI__[ window.talknIndex ];
 	}
 
 	boot(appType, talknIndex, attributes){
-		console.log(appType + " " + talknIndex);
 		const store = configureStore();
 		const caches = TalknSession.getCaches();
 		const state = new State( appType, talknIndex, window, attributes, caches );
