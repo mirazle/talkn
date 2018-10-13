@@ -1,5 +1,5 @@
+import define from '../../common/define';
 import Style from './index';
-import Footer from './Footer';
 
 export default class Container{
   constructor( params ){
@@ -84,12 +84,10 @@ export default class Container{
   }
 
   static getRightPx( {app}, widthPx ){
-    let rightPx = '0px';
-
     switch( app.type ){
-    case 'portal':
+    case define.APP_TYPES.PORTSL:
+    case define.APP_TYPES.EXTENSION:
       return '0%';
-      break;
     default :
       if( widthPx === '100%' ){
         return '0%';
@@ -98,7 +96,6 @@ export default class Container{
       }else{
         return '10px';
       }
-      break;
     }
   }
 

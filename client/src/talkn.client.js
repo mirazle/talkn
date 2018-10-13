@@ -37,7 +37,7 @@ class TalknClient{
 		const state = new State( appType, talknIndex, window, attributes, caches );
 		const talknAPI = new TalknAPI( talknIndex, store, state.connection );
 		const talknViewer = new TalknViewer( state, talknAPI );
-	
+	console.log(state);
 		TalknSetupJs.setupMath();
 		talknViewer.addWindowEventListener( talknAPI );
 		talknAPI.initClientState( state );

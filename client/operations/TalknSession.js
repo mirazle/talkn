@@ -19,28 +19,29 @@ export default class TalknSession{
 	}
 
 	getSetting(){
+		return true;
+		/*
 		const { type, talknIndex } = this.state.app;
 		let promiseCondition = () => {};
 
 		switch( type ){
-		case 'plugin':
+		case define.APP_TYPES.EXTENSION:
 			promiseCondition = ( resolve, reject ) => {
 				chrome.runtime.sendMessage( { method: "getItem", key: conf.cacheKey.setting + talknIndex, function(){} } );
 			}
 			break;
-		case 'electron':
-		case 'script':
-		case 'portal':
+		default:
 			promiseCondition = ( resolve, reject ) => {
 				resolve( { setting: JSON.parse( localStorage.getItem( conf.cacheKey.setting + talknIndex ) ), self: self } );
 			}
 			break;
 		}
 		return new Promise( promiseCondition );
+		*/
 	}
 
 	static listenWorker( state ){
-		const { type, talknIndex } = state.app;
+		const { talknIndex } = state.app;
 
 		if( chrome && chrome.runtime && chrome.runtime.onMessage ){
 
