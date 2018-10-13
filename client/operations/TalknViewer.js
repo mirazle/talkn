@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from "react"
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux';
-import Container from 'client/Container'
-import ContainerStyle from 'client/style/Container';
 import timeago from 'timeago.js';
+import define from 'common/define';
+import Container from 'client/Container';
+import ContainerStyle from 'client/style/Container';
 import conf from 'client/conf'
 
 export default class TalknViewer {
@@ -25,7 +26,8 @@ export default class TalknViewer {
 	}
 
 	static getAppType(e){		
-		return window.name === "extension" ? "extension" : "portal";
+		return window.name === define.APP_TYPES.EXTENSION ?
+			define.APP_TYPES.EXTENSION : define.APP_TYPES.PORTAL;
 	}
 
 	async render(){
@@ -73,7 +75,6 @@ export default class TalknViewer {
 	}
 
 	appendRoot(){
-		const { appName, talknIndex } = this.state;
 		const container = document.createElement( 'talkn' );
 		container.id = this.id;
 		document.body.appendChild( container );
@@ -85,29 +86,29 @@ export default class TalknViewer {
 
 		let promiseCondition = () => {};
 		switch( type ){
-		case 'plugin':
+		case define.APP_TYPES.EXTENSION:
 			promiseCondition = ( resolve, reject ) => {
+				/*
 				chrome.runtime.onMessage.addListener( ( result, sender, sendResponse ) => {
 
 					if( result.requestKey === conf.cacheKey.setting + talknIndex ){
 						resolve( { setting: result.response, self: self } );
 					}
-/*
+
 					if( result.requestKey === conf.cacheKey.index + talknIndex ){
 						let connectionList = result.response;
 
 						// TODO FINDはあとでまとめて実行する
 						func.findMap( talknIndex, connectionList, focusMeta );
 					}
-*/
+
 				});
 
 				chrome.runtime.sendMessage( { method: "getItem", key: conf.cacheKey.setting + talknIndex, function(){} } );
+*/
 			}
 			break;
-		case 'electron':
-		case 'script':
-		case 'portal':
+		default:
 			promiseCondition = ( resolve, reject ) => {
 				resolve( { setting: JSON.parse( localStorage.getItem( conf.cacheKey.setting + talknIndex ) ), self: self } );
 			}

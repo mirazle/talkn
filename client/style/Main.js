@@ -1,9 +1,8 @@
+import define from '../../common/define';
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
 import Footer from './Footer';
-import Menu from './Menu';
-import DetailRight from './DetailRight';
 
 export default class Main {
 
@@ -61,21 +60,6 @@ export default class Main {
 
   static getSelfRight( {bootOption, app}, widthPx, addUnit = false ){
     let right = '0px';
-    switch( app.type ){
-    case 'portal':
-
-      break;
-    default :
-      const width = bootOption ? bootOption.width : app.width ;
-      if( width === '100%' ){
-        right =  ( ( ( 1 - Main.widthRatio ) / 2 ) * 100 ) + '%';
-      }else if( width === '100vw' ){
-        right = ( ( ( 1 - Main.widthRatio ) / 2 ) * 100 ) + 'vw';
-      }else{
-        right = Math.floor( Style.trimUnit( widthPx ) * Container.merginRatio ) + 'px';
-      }
-      break;
-    }
     return addUnit ? Style.trimUnit( right ) : right ;
   }
 
