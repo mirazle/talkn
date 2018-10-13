@@ -4,9 +4,7 @@ import { Provider } from 'react-redux';
 import Container from 'client/Container'
 import ContainerStyle from 'client/style/Container';
 import timeago from 'timeago.js';
-import lang from 'timeago.js/locales/ja';
 import conf from 'client/conf'
-import define from 'common/define'
 
 export default class TalknViewer {
 
@@ -26,14 +24,8 @@ export default class TalknViewer {
 		this.resizeEndWindow = this.resizeEndWindow.bind( this );
 	}
 
-	static getAppType(){
-
-		const talkn = document.querySelector("iframe#talkn");
-		if( talkn === null){
-			return "portal";
-		}else{
-			return talkn.getAttribute('data-load-type');
-		}
+	static getAppType(e){		
+		return window.name === "extension" ? "extension" : "portal";
 	}
 
 	async render(){
@@ -125,7 +117,6 @@ export default class TalknViewer {
 	}
 
 	async renderDOM(){
-		console.log("RENDER " + this.id);
 		ReactDOM.render(
 			<Provider store={ this.talknAPI.store }>
 				<Container talknAPI={ this.talknAPI } timeago={new timeago()} />
