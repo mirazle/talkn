@@ -19,6 +19,10 @@ export default {
     SESSION: 'session',
     EXT: 'ext',
   },
+  APP_TYPES: {
+    PORTAL: 'portal',
+    EXTENSION: 'extension'
+  },
   storageKey: {
     postSingle: 'postSingle',
     postMulti: 'postMulti',
