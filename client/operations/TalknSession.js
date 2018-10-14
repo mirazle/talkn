@@ -18,26 +18,13 @@ export default class TalknSession{
 		return {menuLogs, setting, selectMenu};
 	}
 
-	getSetting(){
+	static onMessage(){
+		window.addEventListener("message", (e) => {
+			if( e.data.type === "talkn" ){
+				window.top.postMessage({type: 'talkn', message: "ok"}, e.data.href);
+			}
+		}, false);
 		return true;
-		/*
-		const { type, talknIndex } = this.state.app;
-		let promiseCondition = () => {};
-
-		switch( type ){
-		case define.APP_TYPES.EXTENSION:
-			promiseCondition = ( resolve, reject ) => {
-				chrome.runtime.sendMessage( { method: "getItem", key: conf.cacheKey.setting + talknIndex, function(){} } );
-			}
-			break;
-		default:
-			promiseCondition = ( resolve, reject ) => {
-				resolve( { setting: JSON.parse( localStorage.getItem( conf.cacheKey.setting + talknIndex ) ), self: self } );
-			}
-			break;
-		}
-		return new Promise( promiseCondition );
-		*/
 	}
 
 	static listenWorker( state ){

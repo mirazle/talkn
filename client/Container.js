@@ -1,6 +1,5 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
 import { connect } from 'react-redux';
-import User from 'common/schemas/state/User';
 import Loading from 'client/components/Loading';
 import Style from 'client/components/Style';
 import Main from 'client/components/Main';

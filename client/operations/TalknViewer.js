@@ -83,38 +83,11 @@ export default class TalknViewer {
 
 	addBackgroundListener(){
 		const { type, talknIndex } = this.state.app;
-
 		let promiseCondition = () => {};
-		switch( type ){
-		case define.APP_TYPES.EXTENSION:
-			promiseCondition = ( resolve, reject ) => {
-				/*
-				chrome.runtime.onMessage.addListener( ( result, sender, sendResponse ) => {
-
-					if( result.requestKey === conf.cacheKey.setting + talknIndex ){
-						resolve( { setting: result.response, self: self } );
-					}
-
-					if( result.requestKey === conf.cacheKey.index + talknIndex ){
-						let connectionList = result.response;
-
-						// TODO FINDはあとでまとめて実行する
-						func.findMap( talknIndex, connectionList, focusMeta );
-					}
-
-				});
-
-				chrome.runtime.sendMessage( { method: "getItem", key: conf.cacheKey.setting + talknIndex, function(){} } );
-*/
-			}
-			break;
-		default:
-			promiseCondition = ( resolve, reject ) => {
-				resolve( { setting: JSON.parse( localStorage.getItem( conf.cacheKey.setting + talknIndex ) ), self: self } );
-			}
-			break;
+		promiseCondition = ( resolve, reject ) => {
+			resolve( { setting: JSON.parse( localStorage.getItem( conf.cacheKey.setting + talknIndex ) ), self: self } );
 		}
-    return new Promise( promiseCondition );
+		return new Promise( promiseCondition );
 	}
 
 	async renderDOM(){

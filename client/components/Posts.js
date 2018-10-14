@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import define from 'common/define';
 import PostSchema from 'common/schemas/state/Post';
 import TalknSession from 'client/operations/TalknSession';
@@ -27,7 +27,7 @@ export default class Posts extends Component {
   }
 
   componentDidUpdate(){
-    const { posts, thread, app, actionLog, menuIndex } = this.props.state;
+    const { posts, thread, app, actionLog } = this.props.state;
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
       const { isScrollBottom } = this.state;
