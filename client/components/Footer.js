@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
+import define from 'common/define';
 import App from 'common/schemas/state/App';
 import util from 'common/util';
 import conf from 'common/conf';
@@ -15,9 +16,11 @@ export default class Footer extends Component {
   }
 
   handleOnClickIcon( e ){
-    const{ app } = this.props.state;
-
-    if( app.isOpenMainPossible ){
+    const { app } = this.props.state;
+    console.log(window.top);
+    //console.log(window.parent.document);
+    //    console.log(window.parent.document.querySelector("iframe#talknExtension"));
+    if( app.type ===  define.APP_TYPES.EXTENSION  && app.isOpenMainPossible ){
       const isOpenMain = app.isOpenMain ? false : true ;
       talknAPI.onClickToggleDispMain( isOpenMain );
     }

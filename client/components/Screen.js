@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
 import Posts from './Posts';
 import Menu from './Menu/';
 import Detail from './Detail';

@@ -1,6 +1,4 @@
-import App from 'common/schemas/state/App';
 import User from 'common/schemas/state/User';
-import Setting from 'common/schemas/state/Setting';
 
 export default {
   updateStyle: ( {styleKey, eleType, tagName, style} ) => {
