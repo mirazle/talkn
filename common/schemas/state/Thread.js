@@ -117,6 +117,7 @@ export default class Thread extends Schema{
 
   static getConnections( connection ){
     let connections = ['/'];
+
     if( connection !== '' ){
       //connection = connection.replace(/\u002f$/g, '');
       const connectionArr = connection.split( '/' );
@@ -126,9 +127,9 @@ export default class Thread extends Schema{
         let newConnection = '';
         for( var i = 1; i < connectionLength; i++ ){
           newConnection += ( '/' + connectionArr[ i ] );
-          if( ( newConnection.length - 1 ) === newConnection.lastIndexOf( '/' ) ){
+          //if( ( newConnection.length - 1 ) === newConnection.lastIndexOf( '/' ) ){
             connections.push( newConnection );
-          }
+          //}
         }
       }
     }

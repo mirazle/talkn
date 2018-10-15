@@ -40,12 +40,10 @@ class ClientScript {
 
     message(e){
         if( e.data.type === ClientScript.APP_NAME ){
-            console.log(e.data);
         }
     }
 
     click(e){
-        console.log("CLICK!!");
     }
 }
 

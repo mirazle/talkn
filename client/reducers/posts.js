@@ -8,7 +8,14 @@ export default ( state = new Posts() , action ) => {
 	case 'UPDATE_POSTS':
 		return action.posts;	
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
-		if( action.thread.connection ===  action.posts[0].connection ){
+		
+		console.log( action );
+		console.log( action.thread.connection + " === " + action.posts[0].connection );
+		// 										/ === /news.livedoor.com/article/detail/15445930/
+//		if( state.connection === action.thread.connection ){
+		// サーバー側でconnection毎にBroardcastしているのでこの判定でOK
+//		if( action.thread.connection ===  action.posts[0].connection ){
+		if( action.thread.connection ===  action.app.rootConnection ){
 			return [ ...state, ...action.posts ];
 		}
 		break;
