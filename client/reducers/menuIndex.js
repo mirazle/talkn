@@ -39,7 +39,7 @@ export default ( state = new MenuIndex() , action ) => {
 /********************/
 
 const isAssing = ( action, mi ) => {
-	if(action.thread.connection === mi.connection) return true;
+//	if(action.thread.connection === mi.connection) return true;
 	if(action.posts[ 0 ].connection === mi.connection) return true;
 	if(action.app.rootConnection === mi.connection) return true;
 	return false;
