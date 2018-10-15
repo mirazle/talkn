@@ -46,10 +46,22 @@ export default class Io {
 
   async post(ioUser, {requestState, posts, thread} ){
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts, thread, menuIndex: posts } );
-    posts[0].connections.forEach( ( connection ) => {
+    let connections = posts[0].connections;
+    let addConnections = [];
+
+    connections.forEach( ( connection ) => {      
+      if( ( connection.length - 1 ) !== connection.lastIndexOf("/") ) addConnections.push( connection + "/" ); 
+    });
+
+    connections = [...connections, ...addConnections]
+      .sort( (a,b) => b.length - a.length )
+      .filter( (x, i, self) => self.indexOf(x) === i );
+
+    connections.forEach( ( connection ) => {
       responseBroadcastState.thread.connection = connection;
       this.io.broadcast( connection, responseBroadcastState );
     });
+
     return true;
   }
 
