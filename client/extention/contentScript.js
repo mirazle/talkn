@@ -18,7 +18,7 @@ class ClientScript {
 
         iframe.setAttribute("id", `${ClientScript.APP_NAME}Extension`);
         iframe.setAttribute("name", "extension");
-        iframe.setAttribute("style", "z-index: 2147483647; position: fixed; bottom: 0px; right: 0px;width: 320px; height: 45px;transition: 600ms");
+        iframe.setAttribute("style", "z-index: 2147483647; position: fixed; bottom: 0px; right: 0px;width: 320px; height: 45px;transition: 0ms; transform: translate3d(0px, 0px, 0px);");
         iframe.setAttribute("src", this.talknUrl );
         iframe.setAttribute("frameBorder", 0 );
         iframe.addEventListener( "load", this.load );
