@@ -5,11 +5,8 @@ import Screen from 'client/style/Screen';
 import Menu from 'client/style/Menu';
 import Posts from 'client/style/Posts';
 import Detail from 'client/style/Detail';
-import DetailModal from 'client/style/DetailModal';
-import DetailRight from 'client/style/DetailRight';
 import Footer from 'client/style/Footer';
 import Icon from 'client/style/Icon';
-import App from 'common/schemas/state/App';
 
 export default ( state = {} , action ) => {
 
@@ -87,7 +84,6 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
- 		break;
 	case 'ON_TRANSITION' :
 	case 'OFF_TRANSITION' :
 		let transition = Container.getTransitionOn( action.app );
@@ -119,7 +115,6 @@ export default ( state = {} , action ) => {
 				self: {...state.footer.self, transition}
 			},
 		}
-		break;
 	case 'UPDATE_STYLE':
 		const { styleKey, eleType, tagName, style } = action;
 
