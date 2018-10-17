@@ -1,5 +1,6 @@
 import Container from './Container';
 import Detail from './Detail';
+import Header from './Header';
 import Footer from './Footer';
 import Icon from './Icon';
 import Main from './Main';
@@ -45,6 +46,7 @@ export default class Style{
 
   constructor( params ){
     const container = new Container( params );
+    const header = new Header( params );
     const footer = new Footer( params );
     const menu = new Menu( params );
     const menuIndex = new MenuIndex( params );
@@ -59,6 +61,7 @@ export default class Style{
     const loading = new Loading( params );
     return {
       container,
+      header,
       footer,
       menu,
       menuIndex,
