@@ -17,9 +17,7 @@ export default class Footer extends Component {
 
   handleOnClickIcon( e ){
     const { app } = this.props.state;
-    console.log(window.top);
-    //console.log(window.parent.document);
-    //    console.log(window.parent.document.querySelector("iframe#talknExtension"));
+    talknAPI.extension("onClickFooterIcon");
     if( app.type ===  define.APP_TYPES.EXTENSION  && app.isOpenMainPossible ){
       const isOpenMain = app.isOpenMain ? false : true ;
       talknAPI.onClickToggleDispMain( isOpenMain );
@@ -34,7 +32,6 @@ export default class Footer extends Component {
   }
 
   handleOnChange( e ){
-    const{ onChangeInputPost } = this.props;
     if( !App.validInputPost( e.target.value ) ){
       talknAPI.onChangeInputPost( e.target.value );
     }
@@ -63,7 +60,7 @@ export default class Footer extends Component {
   }
 
   render() {
-    const { style, thread, app } = this.props.state;
+    const { style, app } = this.props.state;
     return (
       <footer style={ style.footer.self }>
         <div

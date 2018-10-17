@@ -70,7 +70,7 @@ export default class TalknViewer {
 		talknAPI.onResizeEndWindow( {app, setting} );
 
 		setTimeout( () => {
-		//	talknAPI.onTransition();
+			talknAPI.onTransition();
 		}, ContainerStyle.getTransitionOn( app, true ) * 1.2 );
 	}
 
