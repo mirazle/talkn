@@ -42,7 +42,6 @@ class TalknClient{
 		talknViewer.addWindowEventListener( talknAPI );
 		talknAPI.initClientState( state );
 		talknViewer.render();
-		TalknSession.onMessage( state );
 		TalknSession.listenWorker( state );
 	}
 }

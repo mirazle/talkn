@@ -18,15 +18,6 @@ export default class TalknSession{
 		return {menuLogs, setting, selectMenu};
 	}
 
-	static onMessage(){
-		window.addEventListener("message", (e) => {
-			if( e.data.type === "talkn" ){
-				window.top.postMessage({type: 'talkn', message: "ok"}, e.data.href);
-			}
-		}, false);
-		return true;
-	}
-
 	static listenWorker( state ){
 		const { talknIndex } = state.app;
 

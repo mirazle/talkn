@@ -53,6 +53,7 @@ export default class Screen {
     const layout = Style.getLayoutBlock({
       width: Screen.getWidth( app ),
       height: 'inherit',
+      margin: "0 auto"
     });
     const content = Style.getContentBase({
       textAlign: 'left',

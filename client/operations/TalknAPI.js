@@ -24,6 +24,9 @@ export default class TalknAPI{
 		this.onCatchMeAPI();
 		this.onCatchConnectionAPI();
 		this.onTalknAPI();
+
+		this.parentUrl = null;
+		this.onMessage();
 		window.__talknAPI__[ talknIndex ] = this;
 	}
 
@@ -33,6 +36,26 @@ export default class TalknAPI{
 		}else{
 			window.talknAPI = window.__talknAPI__[ talknIndex ];
 			return true;
+		}
+	}
+
+	onMessage(){
+		if(this.parentUrl === null){
+			window.addEventListener("message", (e) => {
+				if( e.data.type === "talkn" ){
+					const method = "connection";
+					this.parentUrl = e.data.url;
+					this.extension( method );
+					this[ "extension" ] = this.extension;
+				}
+			}, false);
+		}
+		return true;
+	}
+
+	extension( method ){
+		if(this.parentUrl){
+			window.top.postMessage({type: 'talkn', method}, this.parentUrl);
 		}
 	}
 
