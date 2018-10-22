@@ -1,3 +1,4 @@
+import define from '../../common/define';
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
@@ -44,9 +45,13 @@ export default class Header {
     return app.isOpenNotif ? Header.notifOpenTranslateY : Header.notifCloseTranslateY;
   }
 
-  static getSelf( params ){
+  static getSelf( {app} ){
+    
+    const width = app.type === define.APP_TYPES.EXTENSION ?    
+      '90%' : '100%';
+
     const layout = Style.getLayoutFlex({
-      width: '100%',
+      width,
       height: `${Header.headerHeight}px`,
       border: Container.border,
       background: Container.whiteRGB,

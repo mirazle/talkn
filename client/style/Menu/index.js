@@ -30,7 +30,9 @@ export default class MenuIndex {
 
   static getSelf( {app} ){
     const layout = Style.getLayoutBlock({
+      width: '100%',
       height: '100%',
+      margin: '0 auto'
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase({});

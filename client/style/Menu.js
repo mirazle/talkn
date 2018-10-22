@@ -1,5 +1,6 @@
 import Style from './index';
 import Container from './Container';
+import define from '../../common/define';
 import App from '../../common/schemas/state/App';
 import Main from './Main';
 
@@ -60,15 +61,19 @@ export default class Menu {
 
   static getWrapComponent( {app} ){
 
+    const width = app.type === define.APP_TYPES.EXTENSION ?    
+      '90%' : '100%';
+
     const borders = app.screenMode === App.screenModeSmallLabel ?
       {borderRight: Container.border, borderLeft: Container.border,} :
       {borderLeft: Container.border} ;
 
     const layout = Style.getLayoutBlock({
-      width: '100%',
+      width,
       minWidth: 'inherit',
       maxWidth: 'inherit',
       height: `calc( 100% - ${Main.headerHeight}px )`,
+      margin: '0 auto',
       ...borders
     });
     const content = {};
