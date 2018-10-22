@@ -9,10 +9,48 @@ export default class Header extends Component {
 
   constructor(props) {
     super(props);
+    this.handleOnClickHeadTabIcon = this.handleOnClickHeadTabIcon.bind(this);
+    this.handleOnClickUserIcon = this.handleOnClickUserIcon.bind(this);
+    this.handleOnClickDetailIcon = this.handleOnClickDetailIcon.bind(this);
     this.handleOnClickIcon = this.handleOnClickIcon.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.getAppUpdatedOpenFlgs = this.getAppUpdatedOpenFlgs.bind(this);
+  }
+
+  handleOnClickHeadTabIcon( e ){
+    const{ app } = this.props.state;
+    if( app.isOpenMainPossible ){
+      const{ app } = this.props.state;
+      app.isOpenMain = app.isOpenMain ? false : true ;
+      talknAPI.onClickToggleDispMain( app );
+    }
+  }
+
+  handleOnClickUserIcon( e ){
+    let { app } = this.props.state;
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      app.isOpenMenu = app.isOpenMenu ? false : true;
+      break;
+    default:
+      app = this.getAppUpdatedOpenFlgs();
+      break;
+    }
+    talknAPI.onClickToggleDispMenu( app );
+  }
+
+  handleOnClickDetailIcon( e ){
+    let { app } = this.props.state;
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      app.isOpenDetail = app.isOpenDetail ? false : true;
+      break;
+    default:
+      app = this.getAppUpdatedOpenFlgs();
+      break;
+    }
+    talknAPI.onClickToggleDispDetail( app );
   }
 
   handleOnClickIcon( e ){

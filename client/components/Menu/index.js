@@ -61,7 +61,7 @@ export default class Menu extends Component {
   }
 
   renderMenuComponent(){
-    const { style, app } = this.props.state;
+    const {  app } = this.props.state;
     let menuComponent;
     switch( app.menuComponent ){
     case App.menuComponentUsersLabel :
