@@ -60,7 +60,7 @@ export default class TwitterLi extends Component {
     const { style } = state;
     onClick = onClick ? onClick : () => {} ;
 		return (
-      <li style={ style.menuUsers.column } onClick={ onClick } {...this.getDecolationProps()}>
+      <li data-component-name={this.constructor.name} style={ style.menuUsers.column } onClick={ onClick } {...this.getDecolationProps()}>
         {label}
       </li>
 		);

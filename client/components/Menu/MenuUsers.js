@@ -42,7 +42,7 @@ export default class MenuUsers extends Component {
  	render() {
     const { style } = this.props.state;
 		return (
-      <div style={ style.menuUsers.self}>
+      <div data-component-name={this.constructor.name} style={ style.menuUsers.self}>
         <ol style={ style.menuUsers.columns }>
           <TwitterLi label={ this.renderFriendLiLabel( 'mirazle', 'https://pbs.twimg.com/profile_images/1725640801/baba_bigger.png', '/news.yahoo.co.jp' ) } isLast={ false } {...this.props} />
           <TwitterLi label={ this.renderFriendLiLabel( 'fukuty.sho', 'https://pbs.twimg.com/profile_images/927155774937186304/8I_6Wp0c_bigger.jpg', '/twitter.com/fukutys' ) } isLast={ false } {...this.props} />

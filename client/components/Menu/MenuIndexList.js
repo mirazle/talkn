@@ -123,7 +123,7 @@ export default class MenuIndexList extends Component {
     };
 
     return (
-      <li key={dispConnection}
+      <li data-component-name={this.constructor.name} key={dispConnection}
         style={ baseStyle }
         { ...this.getDecolationEvents( focusConnection, styleKey ) }>
 

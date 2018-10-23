@@ -10,7 +10,7 @@ export default class Screen extends Component {
     const { app, style } = state;
 
 		return (
-      <div style={ style.screen.self }>
+      <div data-component-name={this.constructor.name} style={ style.screen.self }>
         <Menu {...this.props} />
         <Posts {...this.props} />
         { app.screenMode !== App.screenModeSmallLabel ? <Detail type={'WIDE'} {...this.props} /> : null }

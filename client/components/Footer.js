@@ -62,7 +62,7 @@ export default class Footer extends Component {
   render() {
     const { style, app } = this.props.state;
     return (
-      <footer style={ style.footer.self }>
+      <footer data-component-name={this.constructor.name} style={ style.footer.self }>
         <div
           style={ this.getIconStyle() }
           { ...this.getIconProps() }
