@@ -89,7 +89,7 @@ export default class Menu extends Component {
     const Logs = Icon.getLogs( icon.logs );
     const Setting = Icon.getSetting( icon.setting );
 		return (
-      <div style={ style.menu.self } >
+      <div data-component-name={this.constructor.name} style={ style.menu.self } >
 
         <div style={ style.menu.wrapComponent } >
           {this.renderMenuComponent()}

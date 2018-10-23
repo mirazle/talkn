@@ -93,7 +93,7 @@ export default class Post extends Component {
     const dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
 
     return (
-      <li id={_id} style={style.self} {...this.getDecolationProps()}>
+      <li data-component-name={this.constructor.name} id={_id} style={style.self} {...this.getDecolationProps()}>
         <div style={style.upper}>
           <span style={style.upperSpace} />
 

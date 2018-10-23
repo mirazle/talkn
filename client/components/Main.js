@@ -14,7 +14,7 @@ export default class Main extends Component {
 		const{ state } = this.props;
     const { app, style } = state;
 		return (
-      <main style={ style.main.self }>
+      <main data-component-name={this.constructor.name} style={ style.main.self }>
         <Header {...this.props} />
         <Screen {...this.props} />
         { app.screenMode === App.screenModeSmallLabel ? <Detail type={'SMALL'} {...this.props} /> : null }

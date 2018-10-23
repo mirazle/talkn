@@ -45,7 +45,7 @@ export default class MenuLogs extends Component {
     const Search = Icon.getSearch( icon.search );
     const dispConnection = connection.replace( '/', '' );
 		return (
-      <nav style={style.menuIndex.self}>
+      <nav data-component-name={this.constructor.name} style={style.menuIndex.self}>
         <header style={style.menuIndex.header}>
           <span style={style.menuIndex.headerSearchIcon}>
             { Search }

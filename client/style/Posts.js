@@ -1,3 +1,4 @@
+import define from '../../common/define';
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
@@ -50,11 +51,18 @@ export default class Posts {
 
   static get headerHeight(){ return 35 };
 
-  static getSelf( {app} ){
+  static getBorder( app ){
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      return {};
+    }else{
+      return app.screenMode === App.screenModeSmallLabel ?
+        {borderRight: Container.border, borderLeft: Container.border} :
+        {} ;
+    }  
+  }
 
-    const borders = app.screenMode === App.screenModeSmallLabel ?
-      {borderRight: Container.border, borderLeft: Container.border} :
-      {} ;
+  static getSelf( {app} ){
+    const borders = Posts.getBorder(app);
 
     const layout = Style.getLayoutInlineBlock({
       position: 'relative',
@@ -69,9 +77,25 @@ export default class Posts {
   }
 
   static getOl( {app} ){
+
+    let width = '100%';
+    let margin = '0';
+    let borderRight = '0';
+    let borderLeft = '0';
+
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      width = '90%';
+      margin = '0px 0px 0px 5%';
+      borderRight = Container.border;
+      borderLeft = Container.border;
+    }
+
     const layout = Style.getLayoutBlock({
-      width: '100%',
+      width,
+      margin,
       height: `calc( 100% - ${Main.headerHeight}px )`,
+      borderRight,
+      borderLeft,
       overflow: 'scroll',
       background: Container.whiteRGBA,
     });

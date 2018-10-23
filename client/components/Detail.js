@@ -1,6 +1,5 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
 import Marquee from 'react-marquee';
-import User from 'common/schemas/state/User';
 import conf from 'common/conf';
 import Icon from './Icon';
 
@@ -212,7 +211,7 @@ export default class Setting extends Component {
 
     // 同じだけどstateで更新されるのはdetailだけ
 		return (
-      <div style={ style.detail.self }>
+      <div data-component-name={this.constructor.name} style={ style.detail.self }>
         {this.renderHeader()}
         <div style={ style.detail.body } >
 
