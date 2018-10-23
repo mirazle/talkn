@@ -5,7 +5,7 @@ import User from 'common/schemas/state/User';
 export default class MenuSetting extends Component {
  	render() {
 		return (
-      <ol>
+      <ol data-component-name={this.constructor.name}>
         <li>
           menu SETTING
         </li>

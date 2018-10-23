@@ -50,10 +50,14 @@ export default class Header {
     const width = app.type === define.APP_TYPES.EXTENSION ?    
       '90%' : '100%';
 
+    const borderRadius = app.type === define.APP_TYPES.EXTENSION ?
+      Container.radiuses : '0px';
+
     const layout = Style.getLayoutFlex({
       width,
       height: `${Header.headerHeight}px`,
       border: Container.border,
+      borderRadius,
       background: Container.whiteRGB,
       margin: "0 auto",
     });

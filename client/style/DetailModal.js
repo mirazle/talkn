@@ -1,3 +1,4 @@
+import define from '../../common/define';
 import Style from './index';
 import Container from './Container';
 import Main from './Main';
@@ -7,8 +8,24 @@ import Footer from './Footer';
 export default class DetailModal {
 
   static getWidth( app, addUnit = false ){
-    const width = Math.floor( 100 * Main.widthRatio ) + '%';
-    return addUnit ? Style.trimUnit( width ) : width ;
+    let width = Math.floor( 100 * Main.widthRatio ) + '%';
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      return ( Style.trimUnit( width ) - 10 ) + "%";
+    }else{
+      return addUnit ? Style.trimUnit( width ) : width ;
+    }
+  }
+  static getBaseMargin( app, addUnit = false ){
+    return ( ( ( 1 - Main.widthRatio ) * 100 ) / 2 ).toString().substr( 0, 3 );
+  }
+
+  static getMargin( app, addUnit = false ){
+    let margin = DetailModal.getBaseMargin(app, addUnit);
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      return "0% 8%";
+    }else{
+      return `0% ${margin}% 0% ${margin}%`;
+    }
   }
 
   static getTransform( app ){
@@ -19,15 +36,15 @@ export default class DetailModal {
 
   static getSelf( {app} ){
     const width = ( Main.widthRatio * 100 );
-    const margin = ( ( ( 1 - Main.widthRatio ) * 100 ) / 2 ).toString().substr( 0, 3 );
-    const heightBase = 100 - margin;
+    const baseMargin = DetailModal.getBaseMargin(app);
+    const heightBase = 100 - baseMargin;
     const layout = Style.getLayoutBlock({
       width: DetailModal.getWidth( app ),
       height: `calc( ${heightBase}% - ${ Main.headerHeight * 1 }px )`,
-      margin: `0% ${margin}% 0% ${margin}%`,
+      margin: DetailModal.getMargin(app),
       border: Container.border,
       borderBottom: 0,
-      borderRadius: '12px 12px 0px 0px',
+      borderRadius: Container.radiuses,
       WebkitOverflowScrolling: 'touch',
     });
     const content = Style.getContentBase();

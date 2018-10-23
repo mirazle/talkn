@@ -1,7 +1,7 @@
+import define from '../../common/define';
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
-import Menu from './Menu';
 import Posts from './Posts';
 import Detail from './Detail';
 
@@ -61,6 +61,9 @@ export default class Footer{
       {border: Container.border} :
       {borderTop: Container.border, borderBottom: Container.border} ;
 
+    const borderRadius = app.type === define.APP_TYPES.EXTENSION ?
+      Container.radiuses : '0px';
+
     const layout = Style.getLayoutFlex({
       position: 'fixed',
       bottom: '0px',
@@ -69,6 +72,7 @@ export default class Footer{
       width: Footer.getWidth( app ),
       background: Container.offWhiteRGBA,
       zIndex: Container.maxZIndex,
+      borderRadius,
       ...borders
     });
     const content = {};

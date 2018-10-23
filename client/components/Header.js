@@ -119,7 +119,7 @@ export default class Header extends Component {
     const HeadTabIcon = Icon.getHeadTab( icon.headTab );
     const DetailIcon = Icon.getDetail( icon.detail );
     return (
-      <header style={ style.header.self }>
+      <header data-component-name={this.constructor.name} style={ style.header.self }>
 
         {/* User Icon */}
         <span style={ style.header.menuIcon } onClick={ this.handleOnClickUserIcon } {...Icon.getDecolationProps1( 'icon', 'menu', 'div' )} >
