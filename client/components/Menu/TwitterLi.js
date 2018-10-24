@@ -1,6 +1,5 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import Container from 'client/style/Container';
-import User from 'common/schemas/state/User';
 
 export default class TwitterLi extends Component {
 

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import ReactDOM from 'react-dom'
 import Sequence from 'common/Sequence';
 import util from 'common/util';
 import conf from 'common/conf';

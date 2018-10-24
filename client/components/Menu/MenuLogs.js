@@ -1,8 +1,4 @@
 import React, { Component, PropTypes } from "react";
-import Container from 'client/style/Container';
-import User from 'common/schemas/state/User';
-import util from 'common/util';
-import conf from 'common/conf';
 import App from 'common/schemas/state/App';
 import Icon from '../Icon';
 import MenuIndexList from './MenuIndexList';

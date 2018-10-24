@@ -1,7 +1,4 @@
-import App from '../../common/schemas/state/App';
 import Style from './index';
-import Container from './Container';
-
 
 export default class Loading{
   constructor( params ){

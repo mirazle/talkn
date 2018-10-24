@@ -5,7 +5,7 @@ import Style from 'client/components/Style';
 import Main from 'client/components/Main';
 import handles from 'client/actions/handles';
 import callbacks from 'client/actions/callbacks';
-import Footer from 'client/components/Footer';
+import PostsFooter from 'client/components/PostsFooter';
 import mapToStateToProps from 'client/mapToStateToProps/';
 
 class Container extends Component {
@@ -24,7 +24,7 @@ class Container extends Component {
   			<div style={ style.container.self }>
           <Style {...this.props} />
           <Main {...this.props} />
-          <Footer {...this.props} />
+          <PostsFooter {...this.props} />
   			</div>
   		);
     }else{
