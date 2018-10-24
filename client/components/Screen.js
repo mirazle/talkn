@@ -5,15 +5,22 @@ import Detail from './Detail';
 import App from 'common/schemas/state/App';
 
 export default class Screen extends Component {
+
+  renderDetail(){
+    const { app } = this.props.state;
+    return app.screenMode !== App.screenModeSmallLabel ?  
+      <Detail type={'WIDE'} {...this.props} /> : null ;
+  }
+
  	render() {
 		const{ state } = this.props;
-    const { app, style } = state;
+    const { style } = state;
 
 		return (
       <div data-component-name={this.constructor.name} style={ style.screen.self }>
         <Menu {...this.props} />
         <Posts {...this.props} />
-        { app.screenMode !== App.screenModeSmallLabel ? <Detail type={'WIDE'} {...this.props} /> : null }
+        { this.renderDetail() }
       </div>
 		);
  	}

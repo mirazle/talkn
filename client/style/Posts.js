@@ -2,6 +2,7 @@ import define from '../../common/define';
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
+import Header from './Header';
 import Main from './Main';
 import Menu from './Menu';
 import Detail from './Detail';
@@ -24,6 +25,8 @@ export default class Posts {
     }
     return addUnit ? Style.trimUnit( width ) : width ;
   }
+
+  static get multistreamWrapTop(){return 5}
 
   constructor( params ){
     const self = Posts.getSelf( params );
@@ -134,9 +137,13 @@ export default class Posts {
 
   static getMultistreamIconWrap( {app, setting} ){
 
+    const top = app.type === define.APP_TYPES.EXTENSION ?
+      ( Header.headerHeight + Posts.multistreamWrapTop ) + "px" :
+      Posts.multistreamWrapTop + "px";
+
     const layout = Style.getLayoutBlock({
       position: 'absolute',
-      top: "5px",
+      top,
       right: "20px",
       width: '50px',
       height: '50px',

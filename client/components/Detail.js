@@ -3,7 +3,7 @@ import Marquee from 'react-marquee';
 import conf from 'common/conf';
 import Icon from './Icon';
 
-export default class Setting extends Component {
+export default class Detail extends Component {
 
   constructor(props) {
     super(props);

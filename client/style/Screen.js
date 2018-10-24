@@ -1,10 +1,7 @@
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
-import Footer from './Footer';
 import Detail from './Detail';
-import Menu from './Menu';
-import DetailRight from './DetailRight';
 
 export default class Screen {
 

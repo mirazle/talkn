@@ -2,7 +2,7 @@ import define from '../../common/define';
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
-import Footer from './Footer';
+import PostsFooter from './PostsFooter';
 
 export default class Header {
 
@@ -39,7 +39,7 @@ export default class Header {
     }
   }
 
-  static get notifOpenTranslateY(){ return `translate3d( 0px, ${-( Footer.selfHeight * 2 )}px, 0px )`; }
+  static get notifOpenTranslateY(){ return `translate3d( 0px, ${-( PostsFooter.selfHeight * 2 )}px, 0px )`; }
   static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
   static getNotifTranslateY( app ){
     return app.isOpenNotif ? Header.notifOpenTranslateY : Header.notifCloseTranslateY;
@@ -181,7 +181,7 @@ export default class Header {
   static getNotif( {app} ){
     const layout = Style.getLayoutBlock({
       position: 'relative',
-      top: `${Footer.selfHeight}px`,
+      top: `${PostsFooter.selfHeight}px`,
       width: '50%',
       height: Container.notifHeight,
       margin: '0 auto',

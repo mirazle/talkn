@@ -3,6 +3,7 @@ import define from 'common/define';
 import PostSchema from 'common/schemas/state/Post';
 import TalknSession from 'client/operations/TalknSession';
 import Post from 'client/components/Post';
+import Header from './Header';
 import IconStyle from 'client/style/Icon';
 import Icon from './Icon';
 
@@ -188,7 +189,7 @@ export default class Posts extends Component {
 
   renderMultistream(){
     const { setting, style, app, thread } = this.props.state;
-    const ThunderIcon = Icon.getThunder( IconStyle.getThunder({setting}) );
+    const ThunderIcon = Icon.getThunder( IconStyle.getThunder({setting, app}) );
 
     if( app.menuComponent === "Index" && thread.connection === app.rootConnection ){
       return(
@@ -230,11 +231,18 @@ export default class Posts extends Component {
     return postList;
   }
 
+  renderHeader(){
+    const{ app } = this.props.state;
+    return app.type === define.APP_TYPES.EXTENSION ?
+      <Header {...this.props} /> : null;
+  }
+
  	render() {
     const { style } = this.props.state;
 
 		return (
       <div data-component-name={this.constructor.name} style={ style.posts.self } >
+        {this.renderHeader()}
         {this.renderMultistream()}
         <ol ref="thread" onScroll={this.handleOnScroll} style={ style.posts.ol }>
           {this.renderGetMore()}

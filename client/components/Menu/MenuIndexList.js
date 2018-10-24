@@ -1,12 +1,9 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import Marquee from 'react-marquee';
-import define from 'common/define'
 import App from 'common/schemas/state/App';
-import User from 'common/schemas/state/User';
 import Thread from 'common/schemas/state/Thread';
 import util from 'common/util';
 import conf from 'common/conf';
-import Icon from 'client/components/Icon';
 import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
 
 export default class MenuIndexList extends Component {

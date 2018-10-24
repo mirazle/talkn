@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from "react"
+import App from 'common/schemas/state/App';
+import define from 'common/define';
+import React, { Component } from "react"
 import Detail from './Detail';
 import Screen from './Screen';
 import Header from './Header';
-import App from 'common/schemas/state/App';
 
 export default class Main extends Component {
 
@@ -10,14 +11,27 @@ export default class Main extends Component {
     super(props);
   }
 
+  renderHeader(){
+    const{ app } = this.props.state;
+    return app.type === define.APP_TYPES.EXTENSION ?
+      null : <Header {...this.props} />;
+  }
+
+  renderDetail(){
+    const{ app } = this.props.state;
+    return app.screenMode === App.screenModeSmallLabel ?
+      <Detail type={'SMALL'} {...this.props} /> : null ;
+  }
+
  	render() {
 		const{ state } = this.props;
-    const { app, style } = state;
-		return (
+    const { style } = state;
+
+    return (
       <main data-component-name={this.constructor.name} style={ style.main.self }>
-        <Header {...this.props} />
+        {this.renderHeader()}
         <Screen {...this.props} />
-        { app.screenMode === App.screenModeSmallLabel ? <Detail type={'SMALL'} {...this.props} /> : null }
+        {this.renderDetail()}
       </main>
 		);
  	}

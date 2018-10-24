@@ -3,7 +3,7 @@ import Style from './index';
 import Container from './Container';
 import Main from './Main';
 import Detail from './Detail';
-import Footer from './Footer';
+import PostsFooter from './PostsFooter';
 
 export default class DetailModal {
 
@@ -29,10 +29,14 @@ export default class DetailModal {
   }
 
   static getTransform( app ){
-    return app.isOpenDetail ? DetailModal.openSelfTransform : DetailModal.closeSelfTransform;
+    return app.isOpenDetail ? DetailModal.getOpenSelfTransform( app ) : DetailModal.getCloseSelfTransform( app );
   }
-  static get closeSelfTransform(){ return `translate3d(0%, 0px, 0px)` };
-  static get openSelfTransform(){ return `translate3d(0%, calc( -100% - ${ Footer.selfHeight }px ), 0px)` };
+  static getCloseSelfTransform( app ){ return `translate3d(0%, 0px, 0px)` };
+  static getOpenSelfTransform( app ){
+    return app.type === define.APP_TYPES.EXTENSION ?
+      `translate3d(0%, -100%, 0px)` :
+      `translate3d(0%, calc( -100% - ${ PostsFooter.selfHeight }px ), 0px)`;
+  };
 
   static getSelf( {app} ){
     const width = ( Main.widthRatio * 100 );

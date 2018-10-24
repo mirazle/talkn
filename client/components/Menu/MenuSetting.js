@@ -1,6 +1,4 @@
-import React, { Component, PropTypes } from "react";
-import Container from 'client/style/Container';
-import User from 'common/schemas/state/User';
+import React, { Component } from "react";
 
 export default class MenuSetting extends Component {
  	render() {
