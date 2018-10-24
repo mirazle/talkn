@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from "react"
-import Style from 'client/style';
-import Container from 'client/style/Container';
 
 export default class Icon extends Component{
 
@@ -123,13 +121,13 @@ export default class Icon extends Component{
   
   static getTalknLogo( style ){
     return (
-      <div style={ style.img } />
+      <div data-component-type={'IconTalknLogo'} style={ style.img } />
     );
   }
 
   static getSearch( style ){
     return (
-      <div style={ style.div }>
+      <div data-component-type={'IconSearch'} style={ style.div }>
         <span style={ style.circle }></span>
         <span style={ style.bar }></span>
       </div>
@@ -138,7 +136,7 @@ export default class Icon extends Component{
 
   static getUser( style ){
     return (
-      <div style={ style.div }>
+      <div data-component-type={'IconUser'} style={ style.div }>
         <span style={ style.bottom }></span>
         <span style={ style.top }></span>
       </div>
@@ -147,7 +145,7 @@ export default class Icon extends Component{
 
   static getLogs( style ){
     return (
-      <div style={ style.div }>
+      <div data-component-type={'IconLogs'} style={ style.div }>
         <div style={ style.foot1 }>
           <span style={ style.foot1Top }></span>
           <span style={ style.foot1Bottom }></span>
@@ -164,7 +162,7 @@ export default class Icon extends Component{
 
   static getSetting( style ){
     return (
-      <div style={ style.div }>
+      <div data-component-type={'IconSetting'} style={ style.div }>
         <div style={ style.wing1 } />
         <div style={ style.wing2 } />
         <div style={ style.wing3 } />
@@ -180,7 +178,7 @@ export default class Icon extends Component{
 
   static getMenu( style ){
     return (
-      <div style={ style.div }>
+      <div data-component-type={'IconMenu'} style={ style.div }>
         <div style={ style.dot }/>
         <div style={ style.dot }/>
         <div style={ style.dot }/>
@@ -190,7 +188,7 @@ export default class Icon extends Component{
 
   static getIndex( style ){
     return (
-      <div style={ style.div }>
+      <div data-component-type={'IconIndex'} style={ style.div }>
         <div style={ style.wrap }>
           <span style={ style.top }></span>
           <span style={ style.middle }></span>
@@ -202,7 +200,7 @@ export default class Icon extends Component{
 
   static getDetail( style ){
     return (
-      <div style={ style.div }>
+      <div data-component-type={'IconDetail'} style={ style.div }>
         <div style={ style.wrap }>
           <span style={ style.bar1 }></span>
           <span style={ style.bar2 }></span>
@@ -216,7 +214,7 @@ export default class Icon extends Component{
 
   static getThunder( style ){
     return (
-      <div style={ style.div }>
+      <div data-component-type={'IconThunder'} style={ style.div }>
         <div style={ style.wrap }>
           <span style={ style.top }></span>
           <span style={ style.bottom }></span>
@@ -227,7 +225,7 @@ export default class Icon extends Component{
 
   static getHeadTab( style ){
     return (
-      <div style={ style.div }>
+      <div data-component-type={'IconHeadTab'} style={ style.div }>
         <span style={ style.left }></span>
         <span style={ style.right }></span>
       </div>
@@ -236,7 +234,7 @@ export default class Icon extends Component{
 
   static getHeart( style ){
     return (
-      <div style={ style.div }>
+      <div data-component-type={'IconHeart'} style={ style.div }>
         <div style={ style.before }></div>
         <div style={ style.after }></div>
       </div>
@@ -245,7 +243,7 @@ export default class Icon extends Component{
 
   static getShare( style ){
     return (
-      <div style={ style.div }>
+      <div data-component-type={'IconShare'} style={ style.div }>
         <div style={ style.arrow }></div>
         <div style={ style.bar }></div>
         <div style={ style.whiteBar1 }></div>
@@ -257,7 +255,7 @@ export default class Icon extends Component{
 
   static getMoney( style ){
     return (
-      <div style={ style.div } >
+      <div data-component-type={'IconMoney'} style={ style.div } >
         <div style={ style.outer }>
           <div style={ style.inner }></div>
         </div>

@@ -1,12 +1,11 @@
-import conf from 'client/conf';
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
+import define from 'common/define';
 import App from 'common/schemas/state/App';
-import User from 'common/schemas/state/User';
-import MenuLi from 'client/components/Menu/MenuLi';
 import MenuUsers from 'client/components/Menu/MenuUsers';
 import MenuIndex from 'client/components/Menu/MenuIndex';
 import MenuLogs from 'client/components/Menu/MenuLogs';
 import MenuSetting from 'client/components/Menu/MenuSetting';
+import Header from '../Header';
 import Icon from '../Icon';
 
 export default class Menu extends Component {
@@ -80,34 +79,46 @@ export default class Menu extends Component {
     return menuComponent;
   }
 
- 	render() {
-    const { style, app, user, thread } = this.props.state;
+  renderHeader(){
+    const{ app } = this.props.state;
+    return app.type === define.APP_TYPES.EXTENSION ?
+      <Header {...this.props} /> : null;
+  }
+
+  renderFooter(){
+    const { style } = this.props.state;
     const { icon } = style;
-    const childrenThreadViewLabel = app.childrenThreadView ? 'Children thread view ON' : 'Children thread view OFF';
     const UserIcon = Icon.getUser( icon.user );
     const IndexIcon = Icon.getIndex( icon.index );
     const Logs = Icon.getLogs( icon.logs );
     const Setting = Icon.getSetting( icon.setting );
+    return (
+      <footer style={ style.menu.footer }>
+        <div style={ style.menu.footerChildMoney } onClick={ () => talknAPI.onClickMenu( App.menuComponentUsersLabel ) } {...Icon.getDecolationProps1( 'icon', 'user', 'div' )}>
+          { UserIcon }
+        </div>
+        <div style={ style.menu.footerChildMoney } onClick={ () => talknAPI.onClickMenu( App.menuComponentIndexLabel ) }  {...Icon.getDecolationProps1( 'icon', 'index', 'div' )}>
+          { IndexIcon }
+        </div>
+        <div style={ style.menu.footerChildMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentLogsLabel ) }  {...Icon.getDecolationProps1( 'icon', 'logs', 'div' )}>
+          { Logs }
+        </div>
+        <div style={ style.menu.footerChildMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentSettingLabel ) }  {...Icon.getDecolationProps1( 'icon', 'setting', 'div' )}>
+          { Setting }
+        </div>
+      </footer>
+    )
+  }
+
+ 	render() {
+    const { style } = this.props.state;
 		return (
       <div data-component-name={this.constructor.name} style={ style.menu.self } >
-
+        {this.renderHeader()}
         <div style={ style.menu.wrapComponent } >
           {this.renderMenuComponent()}
         </div>
-        <footer style={ style.menu.footer }>
-          <div style={ style.menu.footerChildMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentUsersLabel ) } {...Icon.getDecolationProps1( 'icon', 'user', 'div' )}>
-            { UserIcon }
-          </div>
-          <div style={ style.menu.footerChildMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentIndexLabel ) }  {...Icon.getDecolationProps1( 'icon', 'index', 'div' )}>
-            { IndexIcon }
-          </div>
-          <div style={ style.menu.footerChildMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentLogsLabel ) }  {...Icon.getDecolationProps1( 'icon', 'logs', 'div' )}>
-            { Logs }
-          </div>
-          <div style={ style.menu.footerChildMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentSettingLabel ) }  {...Icon.getDecolationProps1( 'icon', 'setting', 'div' )}>
-            { Setting }
-          </div>
-        </footer>
+        {this.renderFooter()}
       </div>
 		);
  	}
