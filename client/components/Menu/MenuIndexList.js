@@ -4,6 +4,7 @@ import App from 'common/schemas/state/App';
 import Thread from 'common/schemas/state/Thread';
 import util from 'common/util';
 import conf from 'common/conf';
+import Container from 'client/style/Container';
 import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
 
 export default class MenuIndexList extends Component {
@@ -111,16 +112,18 @@ export default class MenuIndexList extends Component {
     const dispFavicon = this.getDispFavicon( focusConnection )
     const DispWatchCnt = this.getDispWatchCnt();
     const styleKey = focusConnection ? 'activeLiSelf' : 'unactiveLiSelf' ;
-    const baseBackground = focusConnection ? MenuIndexListStyle.activeLiBackground : MenuIndexListStyle.unactiveLiBackground;
-    const baseBorderRightColor = focusConnection ? MenuIndexListStyle.activeLiBorderRightColor : MenuIndexListStyle.unactiveLiBorderRightColor;
+    const borderRight = focusConnection ? "" : Container.border ;
+    const baseBackground = focusConnection ?
+      MenuIndexListStyle.activeLiBackground : MenuIndexListStyle.unactiveLiBackground;
     const baseStyle = {
       ...style.menuIndexList[ styleKey ],
+      borderRight,
       background: baseBackground,
-      borderRightColor: baseBorderRightColor,
     };
 
     return (
-      <li data-component-name={this.constructor.name} key={dispConnection}
+      <li data-component-name={this.constructor.name}
+        key={dispConnection}
         style={ baseStyle }
         { ...this.getDecolationEvents( focusConnection, styleKey ) }>
 

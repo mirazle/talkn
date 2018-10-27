@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import define from 'common/define';
 import PostSchema from 'common/schemas/state/Post';
+import App from 'common/schemas/state/App';
 import TalknSession from 'client/operations/TalknSession';
 import Post from 'client/components/Post';
 import Header from './Header';
+import PostsFooter from './PostsFooter';
+import Detail from './Detail';
 import IconStyle from 'client/style/Icon';
 import Icon from './Icon';
 
@@ -237,6 +240,23 @@ export default class Posts extends Component {
       <Header {...this.props} /> : null;
   }
 
+  renderDetail(){
+    const { app } = this.props.state;
+    return app.screenMode === App.screenModeSmallLabel ?  
+      <Detail type={'SMALL'} {...this.props} /> : null ;
+  }
+
+  renderFooter(){
+    const { app } = this.props.state;
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      return <PostsFooter {...this.props} />;
+    case App.screenModeMiddleLabel : 
+    case App.screenModeLargeLabel : 
+      return null;
+    }
+  }
+
  	render() {
     const { style } = this.props.state;
 
@@ -248,6 +268,9 @@ export default class Posts extends Component {
           {this.renderGetMore()}
           {this.renderPostList()}
         </ol>
+        {this.renderDetail()}
+        {this.renderFooter()}
+
         <div style={style.main.notif}>NEW POST</div>
       </div>
 		);

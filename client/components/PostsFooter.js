@@ -62,7 +62,7 @@ export default class PostsFooter extends Component {
   render() {
     const { style, app } = this.props.state;
     return (
-      <footer data-component-name={this.constructor.name} style={ style.postsFooter.self }>
+      <div data-component-name={this.constructor.name} style={ style.postsFooter.self }>
         <div
           style={ this.getIconStyle() }
           { ...this.getIconProps() }
@@ -82,7 +82,7 @@ export default class PostsFooter extends Component {
           >
           talkn
         </button>
-      </footer>
+      </div>
 		);
  	}
 }

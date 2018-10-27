@@ -1,7 +1,9 @@
 import Container from './Container';
 import Detail from './Detail';
 import Header from './Header';
+import Footer from './Footer';
 import PostsFooter from './PostsFooter';
+import MenuFooter from './MenuFooter';
 import Icon from './Icon';
 import Main from './Main';
 import Screen from './Screen';
@@ -47,7 +49,9 @@ export default class Style{
   constructor( params ){
     const container = new Container( params );
     const header = new Header( params );
+    const footer = new Footer( params );
     const postsFooter = new PostsFooter( params );
+    const menuFooter = new MenuFooter( params );
     const menu = new Menu( params );
     const menuIndex = new MenuIndex( params );
     const menuIndexList = new MenuIndexList( params );
@@ -62,7 +66,9 @@ export default class Style{
     return {
       container,
       header,
+      footer,
       postsFooter,
+      menuFooter,
       menu,
       menuIndex,
       menuIndexList,

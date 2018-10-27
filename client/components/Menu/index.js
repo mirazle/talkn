@@ -6,7 +6,7 @@ import MenuIndex from 'client/components/Menu/MenuIndex';
 import MenuLogs from 'client/components/Menu/MenuLogs';
 import MenuSetting from 'client/components/Menu/MenuSetting';
 import Header from '../Header';
-import Icon from '../Icon';
+import MenuFooter from '../MenuFooter';
 
 export default class Menu extends Component {
 
@@ -86,28 +86,14 @@ export default class Menu extends Component {
   }
 
   renderFooter(){
-    const { style } = this.props.state;
-    const { icon } = style;
-    const UserIcon = Icon.getUser( icon.user );
-    const IndexIcon = Icon.getIndex( icon.index );
-    const Logs = Icon.getLogs( icon.logs );
-    const Setting = Icon.getSetting( icon.setting );
-    return (
-      <footer style={ style.menu.footer }>
-        <div style={ style.menu.footerChildMoney } onClick={ () => talknAPI.onClickMenu( App.menuComponentUsersLabel ) } {...Icon.getDecolationProps1( 'icon', 'user', 'div' )}>
-          { UserIcon }
-        </div>
-        <div style={ style.menu.footerChildMoney } onClick={ () => talknAPI.onClickMenu( App.menuComponentIndexLabel ) }  {...Icon.getDecolationProps1( 'icon', 'index', 'div' )}>
-          { IndexIcon }
-        </div>
-        <div style={ style.menu.footerChildMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentLogsLabel ) }  {...Icon.getDecolationProps1( 'icon', 'logs', 'div' )}>
-          { Logs }
-        </div>
-        <div style={ style.menu.footerChildMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentSettingLabel ) }  {...Icon.getDecolationProps1( 'icon', 'setting', 'div' )}>
-          { Setting }
-        </div>
-      </footer>
-    )
+    const { app } = this.props.state;
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      return <MenuFooter {...this.props} />;
+    case App.screenModeMiddleLabel : 
+    case App.screenModeLargeLabel : 
+      return null;
+    }
   }
 
  	render() {

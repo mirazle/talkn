@@ -17,12 +17,6 @@ export default class Main extends Component {
       null : <Header {...this.props} />;
   }
 
-  renderDetail(){
-    const{ app } = this.props.state;
-    return app.screenMode === App.screenModeSmallLabel ?
-      <Detail type={'SMALL'} {...this.props} /> : null ;
-  }
-
  	render() {
 		const{ state } = this.props;
     const { style } = state;
@@ -31,7 +25,6 @@ export default class Main extends Component {
       <main data-component-name={this.constructor.name} style={ style.main.self }>
         {this.renderHeader()}
         <Screen {...this.props} />
-        {this.renderDetail()}
       </main>
 		);
  	}
