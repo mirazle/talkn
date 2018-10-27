@@ -29,13 +29,14 @@ export default class DetailModal {
   }
 
   static getTransform( app ){
-    return app.isOpenDetail ? DetailModal.getOpenSelfTransform( app ) : DetailModal.getCloseSelfTransform( app );
+    return app.isOpenDetail ?
+      DetailModal.getOpenSelfTransform( app ) : DetailModal.getCloseSelfTransform( app );
   }
-  static getCloseSelfTransform( app ){ return `translate3d(0%, 0px, 0px)` };
+  static getCloseSelfTransform( app ){ return `translate3d(0%, ${PostsFooter.selfHeight}px, -1px)` };
   static getOpenSelfTransform( app ){
     return app.type === define.APP_TYPES.EXTENSION ?
       `translate3d(0%, -100%, 0px)` :
-      `translate3d(0%, calc( -100% - ${ PostsFooter.selfHeight }px ), 0px)`;
+      `translate3d(0%, -100%, -1px)`;
   };
 
   static getSelf( {app} ){
@@ -50,6 +51,7 @@ export default class DetailModal {
       borderBottom: 0,
       borderRadius: Container.radiuses,
       WebkitOverflowScrolling: 'touch',
+      zIndex: -1
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({

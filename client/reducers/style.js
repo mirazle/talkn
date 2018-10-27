@@ -5,7 +5,7 @@ import Screen from 'client/style/Screen';
 import Menu from 'client/style/Menu';
 import Posts from 'client/style/Posts';
 import Detail from 'client/style/Detail';
-import PostsFooter from 'client/style/PostsFooter';
+import Footer from 'client/style/Footer';
 import Icon from 'client/style/Icon';
 
 export default ( state = {} , action ) => {
@@ -65,10 +65,10 @@ export default ( state = {} , action ) => {
 					transform: Screen.getTransform( action.app ),
 				}
 			},
-			postsFooter: {...state.postsFooter,
-				self: {...state.postsFooter.self,
-					width: PostsFooter.getWidth( action.app ),
-					transform: PostsFooter.getTransform( action.app ),
+			footer: {...state.footer,
+				self: {...state.footer.self,
+					width: Footer.getWidth( action.app ),
+					transform: Footer.getTransform( action.app ),
 				}
 			},
 		}
@@ -110,6 +110,9 @@ export default ( state = {} , action ) => {
 			},
 			screen: {...state.screen,
 				self: {...state.screen.self, transition}
+			},
+			footer: {...state.footer,
+				self: {...state.footer.self, transition}
 			},
 			postsFooter: {...state.postsFooter,
 				self: {...state.postsFooter.self, transition}

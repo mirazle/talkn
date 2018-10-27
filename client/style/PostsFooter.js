@@ -39,6 +39,9 @@ export default class PostsFooter{
       break;
     case App.screenModeLargeLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
     }
+    console.log("@@@@@@@@@@");
+    console.log(app.screenMode);
+    console.log(app.isOpenDetail);
     return transform ;
   }
 
@@ -57,16 +60,17 @@ export default class PostsFooter{
 
   static getSelf( {app} ){
 
+    const position = app.screenMode === App.screenModeSmallLabel ? "fixed" : "flex";
     const borders = app.screenMode === App.screenModeSmallLabel ?
       {border: Container.border} :
       {borderTop: Container.border, borderBottom: Container.border} ;
-
     const borderRadius = app.type === define.APP_TYPES.EXTENSION ?
       Container.radiuses : '0px';
 
     const layout = Style.getLayoutFlex({
-      position: 'fixed',
-      bottom: '0px',
+      position,
+      bottom: 0,
+      flexGrow: 1,
       right: PostsFooter.getRight( app ),
       height: PostsFooter.selfHeight,
       width: PostsFooter.getWidth( app ),

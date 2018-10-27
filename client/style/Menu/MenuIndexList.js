@@ -2,7 +2,6 @@ import App from '../../../common/schemas/state/App';
 import conf from '../../../common/conf';
 import Style from '../index';
 import Container from '../Container';
-import Main from '../Main';
 
 export default class MenuIndexList {
 
@@ -57,7 +56,7 @@ export default class MenuIndexList {
 
     const borders = app.screenMode === App.screenModeSmallLabel ?
       {borderBottom: Container.border, borderLeft: 0} :
-      {borderBottom: Container.border, borderLeft: 0, borderRight: Container.border} ;
+      {borderRight: Container.border, borderBottom: Container.border, borderLeft: 0} ;
 
     const layout = Style.getLayoutBlock({
       width: 'initial',
@@ -71,6 +70,7 @@ export default class MenuIndexList {
     const animation = Style.getAnimationBase({
       transition: '0ms',
     });
+
     return Style.get({layout, content, animation});
   }
 
