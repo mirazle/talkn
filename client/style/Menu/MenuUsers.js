@@ -1,7 +1,6 @@
 import Style from '../index';
 import Container from '../Container';
 import App from '../../../common/schemas/state/App';
-import Main from '../Main';
 
 export default class MenuUsers {
 

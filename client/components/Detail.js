@@ -207,9 +207,8 @@ export default class Detail extends Component {
   }
 
  	render() {
-    const { thread, style } = this.props.state
+    const { style } = this.props.state
 
-    // 同じだけどstateで更新されるのはdetailだけ
 		return (
       <div data-component-name={this.constructor.name} style={ style.detail.self }>
         {this.renderHeader()}

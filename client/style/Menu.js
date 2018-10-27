@@ -6,12 +6,13 @@ import Main from './Main';
 
 export default class Menu {
 
+  static get baseWidth(){return "300px"}
   static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
     case App.screenModeSmallLabel : width = '50.0%';break;
-    case App.screenModeMiddleLabel : width = '300px';break;
-    case App.screenModeLargeLabel : width = '300px';break;
+    case App.screenModeMiddleLabel : width = Menu.baseWidth;break;
+    case App.screenModeLargeLabel : width = Menu.baseWidth;break;
     }
 
     return addUnit ? Style.trimUnit( width ) : width ;
