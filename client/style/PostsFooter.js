@@ -32,16 +32,13 @@ export default class PostsFooter{
     let transform = 'translate3d( 0px, 0px, 0px )';
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
-      transform = app.isOpenMenu ? 'translate3d( 100%, 0px, 0px )' : 'translate3d( 0px, 0px, 0px )';
+      transform = app.isOpenMenu ? 'translate3d( 0%, 0px, 0px )' : 'translate3d( 0px, 0px, 0px )';
       break;
     case App.screenModeMiddleLabel :
-      transform = app.isOpenDetail ? `translate3d( -${Detail.getWidth( app )} ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
+      transform = app.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
       break;
     case App.screenModeLargeLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
     }
-    console.log("@@@@@@@@@@");
-    console.log(app.screenMode);
-    console.log(app.isOpenDetail);
     return transform ;
   }
 
