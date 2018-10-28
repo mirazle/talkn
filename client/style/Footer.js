@@ -3,6 +3,7 @@ import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
 import Detail from './Detail';
+import Menu from './Menu';
 
 export default class Footer{
 
@@ -36,7 +37,7 @@ export default class Footer{
       transform = app.isOpenMenu ? 'translate3d( 100%, 0px, 0px )' : 'translate3d( 0px, 0px, 0px )';
       break;
     case App.screenModeMiddleLabel :
-      transform = app.isOpenDetail ? `translate3d( -${Detail.getWidth( app )} ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
+      transform = app.isOpenDetail ? `translate3d( -${Menu.baseWidth} ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
       break;
     case App.screenModeLargeLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
     }
@@ -68,6 +69,7 @@ export default class Footer{
       background: Container.offWhiteRGBA,
       zIndex: Container.maxZIndex,
       borderRadius,
+      justifyContent: "flex-start",
       ...borders
     });
     const content = {};
