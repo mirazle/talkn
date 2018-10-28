@@ -2,6 +2,7 @@ import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
 import Detail from './Detail';
+import Menu from './Menu';
 
 export default class Screen {
 
@@ -24,13 +25,8 @@ export default class Screen {
       transform = app.isOpenMenu ? 'translate3d( 0% ,0px, 0px )' : 'translate3d( -50% ,0px, 0px )';
       break;
     case App.screenModeMiddleLabel :
-
-      if( app.isOpenMenu ){
-
-      }
       transform = app.isOpenMenu ? 'translate3d( 0% ,0px, 0px )' : 'translate3d( -50% ,0px, 0px )';
-      transform = app.isOpenDetail ? `translate3d( -${Detail.getWidth( app )} ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
-
+      transform = app.isOpenDetail ? `translate3d( -${Menu.baseWidth} ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
       break;
     case App.screenModeLargeLabel :
       transform = 'translate3d( 0px ,0px, 0px )';
