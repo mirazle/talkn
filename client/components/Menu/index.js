@@ -87,12 +87,16 @@ export default class Menu extends Component {
 
   renderFooter(){
     const { app } = this.props.state;
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel :
-      return <MenuFooter {...this.props} />;
-    case App.screenModeMiddleLabel : 
-    case App.screenModeLargeLabel : 
+    if( app.type ===  define.APP_TYPES.EXTENSION){
       return null;
+    }else{
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        return <MenuFooter {...this.props} />;
+      case App.screenModeMiddleLabel : 
+      case App.screenModeLargeLabel : 
+        return null;
+      }
     }
   }
 

@@ -32,16 +32,31 @@ export default class Footer{
 
   static getTransform( app ){
     let transform = 'translate3d( 0px, 0px, 0px )';
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel :
-      transform = app.isOpenMenu ? 'translate3d( 100%, 0px, 0px )' : 'translate3d( 0px, 0px, 0px )';
-      break;
-    case App.screenModeMiddleLabel :
-      transform = app.isOpenDetail ? `translate3d( -${Menu.baseWidth} ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
-      break;
-    case App.screenModeLargeLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+
+    if( app.type ===  define.APP_TYPES.EXTENSION){
+      transform = app.isOpenMenu ? 'translate3d( 0%, 0px, 0px )' : 'translate3d( -50%, 0px, 0px )';
+    }else{
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        transform = app.isOpenMenu ? 'translate3d( 100%, 0px, 0px )' : 'translate3d( 0px, 0px, 0px )';
+        break;
+      case App.screenModeMiddleLabel :
+        transform = app.isOpenDetail ? `translate3d( -${Menu.baseWidth}, 0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
+        break;
+      case App.screenModeLargeLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+      }
     }
     return transform ;
+  }
+
+  static getBorders( app ){
+    if( app.type ===  define.APP_TYPES.EXTENSION){
+      return {border: 0};
+    }else{
+      return app.screenMode === App.screenModeSmallLabel ?
+        {border: Container.border} :
+        {borderTop: Container.border, borderBottom: Container.border} ;
+    }
   }
 
   constructor( params ){
@@ -53,9 +68,7 @@ export default class Footer{
 
   static getSelf( {app} ){
 
-    const borders = app.screenMode === App.screenModeSmallLabel ?
-      {border: Container.border} :
-      {borderTop: Container.border, borderBottom: Container.border} ;
+    const borders = Footer.getBorders(app);
 
     const borderRadius = app.type === define.APP_TYPES.EXTENSION ?
       Container.radiuses : '0px';

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import Sequence from 'common/Sequence';
 import util from 'common/util';
 import conf from 'common/conf';
@@ -79,7 +79,6 @@ export default class Post extends Component {
 
  	render() {
 		const{
-      thread,
       createTime,
       post,
       favicon,

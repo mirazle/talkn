@@ -10,10 +10,14 @@ export default class PostsFooter{
   static get selfHeight(){ return 45 };
   static getWidth( app, addUnit = false ){
     let width = 0;
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel : width = '100%';break;
-    case App.screenModeMiddleLabel :width = Posts.getWidth( app );break;
-    case App.screenModeLargeLabel : width = Posts.getWidth( app );break;
+    if( app.type ===  define.APP_TYPES.EXTENSION){
+      width = '50%';
+    }else{
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel : width = '100%';break;
+      case App.screenModeMiddleLabel :width = Posts.getWidth( app );break;
+      case App.screenModeLargeLabel : width = Posts.getWidth( app );break;
+      }
     }
     return addUnit ? Style.trimUnit( width ) : width ;
   };
