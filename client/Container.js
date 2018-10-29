@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { connect } from 'react-redux';
+import define from 'common/define';
 import App from 'common/schemas/state/App';
 import Loading from 'client/components/Loading';
 import Style from 'client/components/Style';
@@ -7,6 +8,7 @@ import Main from 'client/components/Main';
 import handles from 'client/actions/handles';
 import callbacks from 'client/actions/callbacks';
 import Footer from 'client/components/Footer';
+import PostsFooter from 'client/components/PostsFooter';
 import mapToStateToProps from 'client/mapToStateToProps/';
 
 class Container extends Component {
@@ -20,12 +22,16 @@ class Container extends Component {
 
   renderFooter(){
     const { app } = this.props.state;
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel :
-      return null;
-    case App.screenModeMiddleLabel : 
-    case App.screenModeLargeLabel : 
-      return <Footer {...this.props} />
+    if( app.type ===  define.APP_TYPES.EXTENSION){
+      return <Footer {...this.props} />;
+    }else{
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        return null;
+      case App.screenModeMiddleLabel : 
+      case App.screenModeLargeLabel : 
+        return <Footer {...this.props} />
+      }
     }
   }
 

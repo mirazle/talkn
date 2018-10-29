@@ -1,7 +1,5 @@
-import App from 'common/schemas/state/App';
 import define from 'common/define';
 import React, { Component } from "react"
-import Detail from './Detail';
 import Screen from './Screen';
 import Header from './Header';
 
