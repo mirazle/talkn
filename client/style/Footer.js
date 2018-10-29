@@ -79,7 +79,7 @@ export default class Footer{
       left: Footer.getLeft( app ),
       height: Footer.selfHeight,
       width: Footer.getWidth( app ),
-      background: Container.offWhiteRGBA,
+//      background: Container.offWhiteRGBA,
       zIndex: Container.maxZIndex,
       borderRadius,
       justifyContent: "flex-start",
