@@ -148,7 +148,7 @@ export default class Posts {
       width: '50px',
       height: '50px',
       margin: '0 auto',
-      zIndex: '10',
+      zIndex: '1',
       border: Posts.getMultistreamIconWrapBorder( {setting} ),
       background: 'rgba(255, 255, 255, 0.8)',
       borderRadius: '50px',

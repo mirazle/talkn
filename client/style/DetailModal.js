@@ -44,6 +44,7 @@ export default class DetailModal {
     const baseMargin = DetailModal.getBaseMargin(app);
     const heightBase = 100 - baseMargin;
     const layout = Style.getLayoutBlock({
+      position: 'absolute',
       width: DetailModal.getWidth( app ),
       height: `calc( ${heightBase}% - ${ Main.headerHeight * 1 }px )`,
       margin: DetailModal.getMargin(app),
@@ -51,7 +52,7 @@ export default class DetailModal {
       borderBottom: 0,
       borderRadius: Container.radiuses,
       WebkitOverflowScrolling: 'touch',
-      zIndex: -1
+      zIndex: 1
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
