@@ -60,7 +60,6 @@ export default class PostsFooter{
   }
 
   static getSelf( {app} ){
-
     const position = app.screenMode === App.screenModeSmallLabel ? "fixed" : "flex";
     const borders = app.screenMode === App.screenModeSmallLabel ?
       {border: Container.border} :
@@ -111,12 +110,13 @@ export default class PostsFooter{
       margin: '0 3% 0 0',
       outline: 'none',
       resize: 'none',
+      lineHeight: '0.9',
       border: Container.border,
       borderRadius: '3px',
       WebkitAppearance: 'none',
     });
     const content = Style.getContentBase({
-      fontSize: '10px',
+      fontSize: '12px',
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
