@@ -1,3 +1,4 @@
+import define from '../../../common/define';
 import App from '../../../common/schemas/state/App';
 import conf from '../../../common/conf';
 import Style from '../index';
@@ -11,6 +12,16 @@ export default class MenuIndexList {
   static get unactiveLiBackground(){ return Container.offWhiteRGB };
   static get activeLiBorderRightColor(){ return `1px solid ${Container.whiteRGB}` };
   static get unactiveLiBorderRightColor(){ return Container.border };
+
+  static getUnactiveLiBorder(app){
+    if( app.type ===  define.APP_TYPES.EXTENSION){
+      return {borderBottom: Container.border};
+    }else{
+    return app.screenMode === App.screenModeSmallLabel ?
+      {borderBottom: Container.border, borderLeft: 0} :
+      {borderRight: Container.border, borderBottom: Container.border, borderLeft: 0} ;
+    }
+  }
 
   constructor( params ){
     const activeLiSelf = MenuIndexList.getActiveLiSelf( params );
@@ -54,10 +65,8 @@ export default class MenuIndexList {
 
   static getUnactiveLiSelf({app}){
 
-    const borders = app.screenMode === App.screenModeSmallLabel ?
-      {borderBottom: Container.border, borderLeft: 0} :
-      {borderRight: Container.border, borderBottom: Container.border, borderLeft: 0} ;
-
+    const borders = MenuIndexList.getUnactiveLiBorder(app);
+console.log(borders);
     const layout = Style.getLayoutBlock({
       width: 'initial',
       height: `${MenuIndexList.liHeight}px`,
