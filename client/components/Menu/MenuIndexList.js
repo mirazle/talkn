@@ -1,3 +1,4 @@
+import define from 'common/define';
 import React, { Component } from "react";
 import Marquee from 'react-marquee';
 import App from 'common/schemas/state/App';
@@ -104,15 +105,24 @@ export default class MenuIndexList extends Component {
     }
   }
 
+  getBorderRight(app){
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      return "";
+    }else{
+      return focusConnection ? "" : Container.border ;      
+    }
+  }
+
  	render() {
     const { style } = this.state;
-    const { thread, menuIndexList } = this.props;
+    const { app, thread, menuIndexList } = this.props;
     const focusConnection =  thread.connection === menuIndexList.connection ? true : false ;
     const dispConnection = this.getDispConnection( focusConnection )
     const dispFavicon = this.getDispFavicon( focusConnection )
     const DispWatchCnt = this.getDispWatchCnt();
+
     const styleKey = focusConnection ? 'activeLiSelf' : 'unactiveLiSelf' ;
-    const borderRight = focusConnection ? "" : Container.border ;
+    const borderRight = this.getBorderRight(app) ;
     const baseBackground = focusConnection ?
       MenuIndexListStyle.activeLiBackground : MenuIndexListStyle.unactiveLiBackground;
     const baseStyle = {
