@@ -105,7 +105,7 @@ export default class MenuIndexList extends Component {
     }
   }
 
-  getBorderRight(app){
+  getBorderRight(app, focusConnection){
     if( app.type === define.APP_TYPES.EXTENSION ){
       return "";
     }else{
@@ -122,7 +122,7 @@ export default class MenuIndexList extends Component {
     const DispWatchCnt = this.getDispWatchCnt();
 
     const styleKey = focusConnection ? 'activeLiSelf' : 'unactiveLiSelf' ;
-    const borderRight = this.getBorderRight(app) ;
+    const borderRight = this.getBorderRight(app, focusConnection) ;
     const baseBackground = focusConnection ?
       MenuIndexListStyle.activeLiBackground : MenuIndexListStyle.unactiveLiBackground;
     const baseStyle = {

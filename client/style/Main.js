@@ -67,7 +67,7 @@ export default class Main {
       bottom: 0,
       overflow: 'visible',
       borderBottom: 'none',
-      boxShadow: Container.shadow,
+//      boxShadow: Container.shadow,
       margin: '0 auto',
       zIndex: Container.maxZIndex,
     });
