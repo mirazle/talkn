@@ -65,6 +65,11 @@ export default ( state = {} , action ) => {
 					transform: Screen.getTransform( action.app ),
 				}
 			},
+			posts: {...state.posts,
+				self: {...state.posts.self,
+					width: Posts.getWidth( action.app )
+				}
+			},
 			footer: {...state.footer,
 				self: {...state.footer.self,
 					width: Footer.getWidth( action.app ),
