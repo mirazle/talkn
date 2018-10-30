@@ -146,13 +146,14 @@ export default class Posts extends Component {
 
   handleOnClickMultistream(){
     const { updateUser, updateSetting, updatePosts, state} = this.props;
-    const { setting, user, thread } = state;
+    const { app, setting, user, thread } = state;
     const { storageKey } = define;
 
     setting.multistream = !setting.multistream;
 
+    const rootConnection = app.rootConnection;
     const getPostKey = setting.multistream ? storageKey.postMulti : storageKey.postSingle ;
-    const cachePosts = TalknSession.getStorage( storageKey[ getPostKey ] );
+    const cachePosts = TalknSession.getStorage( rootConnection, storageKey[ getPostKey ] );
     const posts = cachePosts ? cachePosts : new PostSchema();
     const postLength = posts.length;
     const existPost = posts.length > 0 ;

@@ -17,8 +17,15 @@ export default class Posts {
   static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : width = '50.0%';break;
-    case App.screenModeMiddleLabel :width = `${ app.width - Menu.getWidth( app, true )}px`;break;
+    case App.screenModeSmallLabel :
+      width = '50.0%';
+      break;
+    case App.screenModeMiddleLabel :
+      width = app.isOpenDetail ? 
+        `${ app.width - Detail.getWidth( app, true )}px` :
+        `${ app.width - Menu.getWidth( app, true )}px` ;
+      console.log(width);
+      break;
     case App.screenModeLargeLabel :
       width = `calc( 100% - ${ Detail.getWidth( app, true ) + Menu.getWidth( app, true ) }px )`;
       break;

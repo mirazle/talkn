@@ -3,18 +3,27 @@ import define from 'common/define';
 
 export default class TalknSession{
 
-	static setStorage( key, value ){
-    	return localStorage.setItem( key, JSON.stringify( value ) );
-  	}
-
-	static getStorage( key ){
-		return JSON.parse(localStorage.getItem( key ));
+	static getBaseKey(connection){
+		return `${define.storageKey.baseKey}${connection}`;
 	}
 
-	static getCaches(){
-		const menuLogs = TalknSession.getStorage( define.storageKey.menuLogs );
-		const setting = TalknSession.getStorage( define.storageKey.updateSetting );
-		const selectMenu = TalknSession.getStorage( define.storageKey.selectMenu );
+	static setStorage( rootConnection, key, value ){
+		const baseKey = TalknSession.getBaseKey(rootConnection);
+		const item = JSON.stringify( {[key]: value} );
+		localStorage.setItem( baseKey, item );
+		return true;
+	}
+
+	static getStorage( rootConnection, key ){
+		const baseKey = TalknSession.getBaseKey(rootConnection);
+		const item = JSON.parse( localStorage.getItem( baseKey ) );
+		return item && item[key] ? item[key] : {};
+	}
+
+	static getCaches( rootConnection ){
+		const menuLogs = TalknSession.getStorage( rootConnection, define.storageKey.menuLogs );
+		const setting = TalknSession.getStorage( rootConnection, define.storageKey.updateSetting );
+		const selectMenu = TalknSession.getStorage( rootConnection, define.storageKey.selectMenu );
 		return {menuLogs, setting, selectMenu};
 	}
 

@@ -24,6 +24,7 @@ export default {
     EXTENSION: 'extension'
   },
   storageKey: {
+    baseKey: '@talkn@',
     postSingle: 'postSingle',
     postMulti: 'postMulti',
     menuLogs: 'menuLogs',

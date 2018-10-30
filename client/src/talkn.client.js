@@ -33,9 +33,9 @@ class TalknClient{
 
 	boot(appType, talknIndex, attributes){
 		const store = configureStore();
-		const caches = TalknSession.getCaches();
 		const state = new State( appType, talknIndex, window, attributes, caches );
-		const talknAPI = new TalknAPI( talknIndex, store, state.connection );
+		const caches = TalknSession.getCaches(state.app.rootConnection);
+		const talknAPI = new TalknAPI( talknIndex, store, state.app.rootConnection );
 		const talknViewer = new TalknViewer( state, talknAPI );
 
 		TalknSetupJs.setupMath();
