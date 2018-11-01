@@ -8,6 +8,7 @@ import conf from '~/server/conf';
 class Express{
 
   constructor(){
+
     this.httpApp = express();
     this.httpsApp = express();
     this.httpsApp.set('views', conf.serverPortalPath );
@@ -22,15 +23,12 @@ class Express{
   /***************************/
 
   createHttpServer(){
-    http.createServer( ( this.httpApp ).all( "*", this.routingHttp ) )
-        .listen( define.PORTS.HTTP, this.listenedHttp );
-  }
-
-  routingHttp( req, res ){
-    res.redirect(`https://${req.hostname}${req.url}`);
+    this.httpApp.get('*', this.listenedHttp);
+    this.httpApp.listen( define.PORTS.HTTP, this.listenedHttp );
   }
 
   listenedHttp( err, req ){
+    console.log( `LISTEN HTTP : ${define.PORTS.HTTP}` );
   }
 
   /***************************/
@@ -38,9 +36,10 @@ class Express{
   /***************************/
 
   createHttpsServer(){
+    const httpsApp = this.httpsApp.get('*', this.routingHttps);
     https.createServer(
       conf.sslOptions,
-      ( this.httpsApp ).get( "*", this.routingHttps )
+      httpsApp
     ).listen( define.PORTS.HTTPS, this.listenedHttps );
   }
 
@@ -54,6 +53,7 @@ class Express{
         assetsURL: conf.assetsURL,
         connection : connection
       };
+
       res.render( 'index', params );
       break;
     case conf.clientURL:
@@ -88,7 +88,7 @@ class Express{
   }
 
   listenedHttps( err, req ){
-    console.log( `@@@ LISTEN HTTPS ${define.PORTS.HTTPS}` );
+    console.log( `LISTEN HTTPS : ${define.PORTS.HTTPS}` );
   }
 }
 
