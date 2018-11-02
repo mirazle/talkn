@@ -3,7 +3,7 @@ class ClientScript {
 
     static get APP_NAME(){return "talkn"}
     static get PROTOCOL(){return "https"}
-    static get BASE_HOST(){return "localhost"}
+    static get BASE_HOST(){return "localhost:8080"}
     static get BASE_HOSTNAME(){return `${ClientScript.PROTOCOL}://${ClientScript.BASE_HOST}`};
     static get iframeCloseHeight(){return '45px'};
     static get iframeOpenHeight(){return '450px'};
