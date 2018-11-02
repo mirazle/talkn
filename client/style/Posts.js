@@ -24,7 +24,6 @@ export default class Posts {
       width = app.isOpenDetail ? 
         `${ app.width - Detail.getWidth( app, true )}px` :
         `${ app.width - Menu.getWidth( app, true )}px` ;
-      console.log(width);
       break;
     case App.screenModeLargeLabel :
       width = `calc( 100% - ${ Detail.getWidth( app, true ) + Menu.getWidth( app, true ) }px )`;

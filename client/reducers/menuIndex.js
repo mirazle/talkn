@@ -23,7 +23,6 @@ export default ( state = new MenuIndex() , action ) => {
 			};
 		});
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
-		console.log(action);
 		return state.map( mi => isAssing( action, mi ) ?
 				{...mi,
 					favicon: action.posts[ 0 ].favicon,
