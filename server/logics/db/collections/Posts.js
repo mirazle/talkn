@@ -31,6 +31,7 @@ export default class Posts {
       ...condition_part,
       _id: { [ getDirection ]: mongoose.Types.ObjectId( user.offsetFindId ) },
     };
+    console.log(condition);
     const selector = {};
     const option = {limit: setting.server.findOnePostCnt, sort: {_id: -1}};
     const result = await this.collection.find( condition, selector, option );

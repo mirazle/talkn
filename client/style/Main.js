@@ -1,6 +1,6 @@
 import Style from './index';
 import Container from './Container';
-import PostsFooter from './PostsFooter';
+import Footer from './Footer';
 
 export default class Main {
 
@@ -20,7 +20,10 @@ export default class Main {
     }
   }
 
-  static get notifOpenTranslateY(){ return `translate3d( 0px, ${-( PostsFooter.selfHeight * 2 )}px, 0px )`; }
+  static get notifOpenTranslateY(){
+    console.log(Footer.selfHeight);
+    return `translate3d( 0px, ${-( Footer.selfHeight * 2 )}px, 0px )`;
+  }
   static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
   static getNotifTranslateY( app ){
     return app.isOpenNotif ? Main.notifOpenTranslateY : Main.notifCloseTranslateY;
@@ -33,7 +36,7 @@ export default class Main {
 
   static getSelfHeightPx(){
     const height = Main.selfHeight;
-    return `calc( 100vh - ${PostsFooter.selfHeight}px )`;
+    return `calc( 100vh - ${Footer.selfHeight}px )`;
   }
 
   static getSelfRight( {bootOption, app}, widthPx, addUnit = false ){
@@ -46,7 +49,7 @@ export default class Main {
   }
 
   static getSelfOpenTranslateY(){
-    return ( -PostsFooter.selfHeight ) + 'px';
+    return ( -Footer.selfHeight ) + 'px';
   }
 
   static getSelfCloseTranslateY(){
@@ -84,7 +87,7 @@ export default class Main {
   static getNotif( {app} ){
     const layout = Style.getLayoutBlock({
       position: 'relative',
-      top: `${PostsFooter.selfHeight}px`,
+      top: `${Footer.selfHeight}px`,
       width: '50%',
       height: Container.notifHeight,
       margin: '0 auto',

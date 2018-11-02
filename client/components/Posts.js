@@ -40,15 +40,7 @@ export default class Posts extends Component {
       }else{
         const lastPost = posts[ posts.length - 1 ];
         const childLayerCnt = lastPost.connections.length - thread.connections.length;
-
-        if( app.childrenThreadView ){
-            this.props.openNotif();
-        }else{
-
-          if( childLayerCnt === 0){
-            this.props.openNotif();
-          }
-        }
+        this.props.openNotif();
       }
       break;
     case 'SERVER_TO_CLIENT[EMIT]:getMore':
@@ -276,7 +268,7 @@ export default class Posts extends Component {
         {this.renderDetail()}
         {this.renderFooter()}
 
-        <div style={style.main.notif}>NEW POST</div>
+        <div data-component-name="newPost" style={style.main.notif}>NEW POST</div>
       </div>
 		);
  	}
