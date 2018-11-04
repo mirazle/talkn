@@ -38,13 +38,14 @@ export default class Thread extends Schema{
       protocol = Thread.getProtocol( bootConnection );
       connection = bootConnection;
       host = Thread.getHost( bootConnection );
-      connections = Thread.getConnections( bootConnection );
-
+      connections = bootConnection.connections && bootConnection.connections.length > 0 ?
+        bootConnection.connections : Thread.getConnections( connection );
     }else{
       location = window.location ? window.location : {} ;
       href = location.href ? location.href : '' ;
       connection = Thread.getConnection( href );
-      connections = Thread.getConnections( connection );
+      connections = params.connections && params.connections.length > 0 ?
+        params.connections : Thread.getConnections( connection );
       protocol = location.protocol ? location.protocol : '????:';
       contentType = document.contentType ? document.contentType : '';
       charset = document.charset ? document.charset : '';
@@ -115,21 +116,25 @@ export default class Thread extends Schema{
     }
   }
 
-  static getConnections( connection ){
+  static getConnections( _connection ){
     let connections = ['/'];
 
-    if( connection !== '' ){
+    if( _connection !== '' ){
       //connection = connection.replace(/\u002f$/g, '');
-      const connectionArr = connection.split( '/' );
-      const connectionLength = connectionArr.length;
+      const connection = _connection.slice( -1 ) === "/" ? _connection : _connection + "/";
 
       if( connection !== "/" ){
+        const connectionArr = connection.split( '/' );
+        const connectionLength = connectionArr.length;
         let newConnection = '';
         for( var i = 1; i < connectionLength; i++ ){
-          newConnection += ( '/' + connectionArr[ i ] );
-          //if( ( newConnection.length - 1 ) === newConnection.lastIndexOf( '/' ) ){
+          if( connectionArr[ i ] !== "" ){
+
+            newConnection += connectionArr[ i ];
+            newConnection = newConnection.slice( -1 ) === "/" ? newConnection : newConnection + "/";
+            newConnection = newConnection.slice( 0, 1 ) === "/" ? newConnection : "/" + newConnection;
             connections.push( newConnection );
-          //}
+          }
         }
       }
     }
@@ -165,7 +170,7 @@ export default class Thread extends Schema{
     const connection = _connection.indexOf('/') === 0 ? _connection : `/${_connection}`;
     const connectionTop = User.getConnectionTop(connection);
     const extentionType = User.getContentType(connection);
-    const connections = User.getConnections(connection);
+    const connections = Thread.getConnections(connection);
 
     return this.set('connection', connection)
                .set('connectionTop', connectionTop)
