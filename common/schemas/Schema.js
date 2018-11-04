@@ -154,9 +154,9 @@ export default class Schema {
 
         if( paramsType === 'Array' ){
           mergedObj = Object.values( mergedObj );
-          return immutable ? this.constructor( mergedObj ) : mergedObj;
+          return immutable ? new this.constructor( mergedObj ) : mergedObj;
         }else{
-          return immutable ? this.constructor( mergedObj ) : mergedObj;
+          return immutable ? new this.constructor( mergedObj ) : mergedObj;
         }
 
       }else{
