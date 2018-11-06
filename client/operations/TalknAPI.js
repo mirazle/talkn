@@ -43,10 +43,16 @@ export default class TalknAPI{
 		if(this.parentUrl === null){
 			window.addEventListener("message", (e) => {
 				if( e.data.type === "talkn" ){
-					const method = "connection";
-					this.parentUrl = e.data.url;
-					this.extension( method );
-					this[ "extension" ] = this.extension;
+
+					switch( e.data.method ){
+					case "bootExtension":
+						this.parentUrl = e.data.url;
+						this.extension( "connection" );
+						this[ "extension" ] = this.extension;
+						break;
+					default:
+						talknAPI[ e.data.method ]( e.data.params );
+					}
 				}
 			}, false);
 		}
