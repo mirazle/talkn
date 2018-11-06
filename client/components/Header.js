@@ -1,8 +1,6 @@
 import React, { Component } from "react"
 import define from 'common/define';
 import App from 'common/schemas/state/App';
-import util from 'common/util';
-import conf from 'common/conf';
 import Icon from 'client/components/Icon';
 
 export default class Header extends Component {
@@ -12,18 +10,15 @@ export default class Header extends Component {
     this.handleOnClickHeadTabIcon = this.handleOnClickHeadTabIcon.bind(this);
     this.handleOnClickUserIcon = this.handleOnClickUserIcon.bind(this);
     this.handleOnClickDetailIcon = this.handleOnClickDetailIcon.bind(this);
-    this.handleOnClickIcon = this.handleOnClickIcon.bind(this);
-    this.handleOnClick = this.handleOnClick.bind(this);
-    this.handleOnChange = this.handleOnChange.bind(this);
     this.getAppUpdatedOpenFlgs = this.getAppUpdatedOpenFlgs.bind(this);
   }
 
   handleOnClickHeadTabIcon( e ){
     const{ app } = this.props.state;
-    if( app.isOpenMainPossible ){
+    if( app.type === define.APP_TYPES.EXTENSTION ){
       const{ app } = this.props.state;
       app.isOpenMain = app.isOpenMain ? false : true ;
-      talknAPI.onClickToggleDispMain( app );
+      //talknAPI.onClickToggleDispMain( app );
     }
   }
 
@@ -53,28 +48,6 @@ export default class Header extends Component {
     talknAPI.onClickToggleDispDetail( app );
   }
 
-  handleOnClickIcon( e ){
-    const { app } = this.props.state;
-    talknAPI.extension("onClickFooterIcon");
-    if( app.type ===  define.APP_TYPES.EXTENSION  && app.isOpenMainPossible ){
-      const isOpenMain = app.isOpenMain ? false : true ;
-      talknAPI.onClickToggleDispMain( isOpenMain );
-    }
-  }
-
-  handleOnClick( e ){
-    if( !App.validInputPost( e.target.value ) ){
-      talknAPI.post();
-      talknAPI.onChangeInputPost('');
-    }
-  }
-
-  handleOnChange( e ){
-    if( !App.validInputPost( e.target.value ) ){
-      talknAPI.onChangeInputPost( e.target.value );
-    }
-  }
-
   getAppUpdatedOpenFlgs(){
     const{ app } = this.props.state;
     switch( app.screenMode ){
@@ -91,22 +64,6 @@ export default class Header extends Component {
       break;
     }
     return app;
-  }
-
-  getIconStyle(){
-    const { thread, style } = this.props.state;
-    const favicon = `//${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}`;
-    return thread.favicon ? {...style.footer.icon, backgroundImage: `url(${favicon})` } : style.footer.icon ;
-  }
-
-  getIconProps(){
-    const { app } = this.props.state;
-    return app.isOpenMainPossible ? Icon.getDecolationProps1( 'footer', 'icon' ) : {};
-  }
-
-  getHeadTabProps(){
-    const { app } = this.props.state;
-    return app.isOpenMainPossible ? Icon.getDecolationProps1( 'icon', 'headTab', 'div' ) : {};
   }
 
   render() {
@@ -129,7 +86,7 @@ export default class Header extends Component {
         </span>
 
         {/* Head Tab Icon */}
-        <span style={ style.header.headTab } onClick={ this.handleOnClickHeadTabIcon } { ...this.getHeadTabProps() } >
+        <span style={ style.header.headTab } onClick={ this.handleOnClickHeadTabIcon }>
           { HeadTabIcon }
         </span>
 

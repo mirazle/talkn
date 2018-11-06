@@ -11,39 +11,43 @@ import Icon from 'client/style/Icon';
 export default ( state = {} , action ) => {
 
 	switch( action.type ){
-	case 'ON_CLICK_TOGGLE_DISP_MAIN':
-		if( action.app.isOpenMainPossible ){
-			let mainTranslateY;
-			let headTabLeftTransform;
-			let headTabRightTransform;
-			if(action.app.isOpenMain){
-				mainTranslateY = Main.getSelfOpenTranslateY();
-				headTabLeftTransform = Icon.getHeadTabLeftOpenTransform;
-				headTabRightTransform = Icon.getHeadTabRightOpenTransform;
-			}else{
-				mainTranslateY = Main.getSelfCloseTranslateY();
-				headTabLeftTransform = Icon.getHeadTabLeftCloseTransform;
-				headTabRightTransform = Icon.getHeadTabRightCloseTransform;
-			}
+		/*
+	case 'TOGGLE_DISP_MAIN':
+		console.log(action);
 
-			return {...state,
-				icon: {...state.icon,
-					headTab: {...state.icon.headTab,
-						left: {...state.icon.headTab.left,
-							transform: headTabLeftTransform,
-						},
-						right: {...state.icon.headTab.right,
-							transform: headTabRightTransform,
-						},
-					}
-				},
-				main: {...state.main,
-					self: {...state.main.self,
-						transform: `translate3d(0px, ${mainTranslateY}, 0px )`,
-					}
+		let mainTranslateY;
+		let headTabLeftTransform;
+		let headTabRightTransform;
+		if(action.app.isOpenMain){
+			mainTranslateY = Main.getSelfOpenTranslateY();
+			headTabLeftTransform = Icon.getHeadTabLeftOpenTransform;
+			headTabRightTransform = Icon.getHeadTabRightOpenTransform;
+		}else{
+			mainTranslateY = Main.getSelfCloseTranslateY();
+			headTabLeftTransform = Icon.getHeadTabLeftCloseTransform;
+			headTabRightTransform = Icon.getHeadTabRightCloseTransform;
+		}
+
+		return {...state,
+			icon: {...state.icon,
+				headTab: {...state.icon.headTab,
+					left: {...state.icon.headTab.left,
+						transform: headTabLeftTransform,
+					},
+					right: {...state.icon.headTab.right,
+						transform: headTabRightTransform,
+					},
+				}
+			},
+			main: {...state.main,
+				self: {...state.main.self,
+					transform: `translate3d(0px, ${mainTranslateY}, 0px )`,
 				}
 			}
 		}
+
+		return action.style ? action.style : state ;
+		*/
 	case 'ON_CLICK_TOGGLE_DISP_MENU':
 	case 'ON_CLICK_TOGGLE_DISP_DETAIL':
 		return {...state,
