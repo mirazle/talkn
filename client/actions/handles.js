@@ -50,9 +50,9 @@ export default {
       app: {inputPost},
     };
   },
-  onClickToggleDispMain: ( app ) => {
+  toggleDispMain: ( app ) => {
     return {
-      type: 'ON_CLICK_TOGGLE_DISP_MAIN',
+      type: 'TOGGLE_DISP_MAIN',
       app,
     };
   },

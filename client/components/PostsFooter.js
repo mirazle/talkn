@@ -17,10 +17,8 @@ export default class PostsFooter extends Component {
 
   handleOnClickIcon( e ){
     const { app } = this.props.state;
-    talknAPI.extension("onClickFooterIcon");
-    if( app.type ===  define.APP_TYPES.EXTENSION  && app.isOpenMainPossible ){
-      const isOpenMain = app.isOpenMain ? false : true ;
-      talknAPI.onClickToggleDispMain( isOpenMain );
+    if( app.type ===  define.APP_TYPES.EXTENSION ){
+      talknAPI.extension("toggleIframe");
     }
   }
 
