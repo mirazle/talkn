@@ -8,9 +8,15 @@ export default ( state = new Posts() , action ) => {
 	case 'UPDATE_POSTS':
 		return action.posts;	
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
+		console.log(action);
+
+		if(action.thread.connection === true){
+		}
+
 		if( action.thread.connection ===  action.app.rootConnection ){
 			return [ ...state, ...action.posts ];
 		}
+
 		break;
 	case 'SERVER_TO_CLIENT[EMIT]:find':
 		if( action.posts && action.posts.length > 0 ){
