@@ -87,8 +87,6 @@ export default class App extends Schema{
     const screenModePointer = params.screenModePointer ?
       params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
     const screenContents = App.getScreenContentsMap( screenMode, screenModePointer );
-
-    const multistream = params.multistream ? params.multistream : false;
     const requestLoginType = params.requestLoginType ? params.requestLoginType : '';
     const inputPost = params.inputPost ? params.inputPost : '';
     const inputSearch = params.inputSearch ? params.inputSearch : '';
@@ -113,7 +111,6 @@ export default class App extends Schema{
       screenMode,
       width,
       height,
-      multistream,
       requestLoginType,
       inputPost: {value: inputPost, valid: App.validInputPost},
       inputSearch,
