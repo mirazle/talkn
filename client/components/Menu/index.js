@@ -12,20 +12,20 @@ export default class Menu extends Component {
 
   constructor(props) {
     super(props);
-    this.handleOnClickchildrenThreadView = this.handleOnClickchildrenThreadView.bind(this);
+    this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
     this.handleOnClickLoginTwitter = this.handleOnClickLoginTwitter.bind(this);
     this.handleOnClickLoginFacebook = this.handleOnClickLoginFacebook.bind(this);
   }
 
-  handleOnClickchildrenThreadView(){
+  handleOnClickMultistream(){
     const{ app } = this.props.state;
-    const childrenThreadView = app.childrenThreadView ? false : true ;
+    const multistream = app.multistream ? false : true ;
 
     if( app.isOpenNotif ){
       this.props.closeNotif();
     }
 
-    talknAPI.onClickChildrenThreadView( childrenThreadView );
+    talknAPI.onClickmultistream( multistream );
   }
 
   handleOnClickLoginFacebook(){
