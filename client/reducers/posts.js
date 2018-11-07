@@ -10,13 +10,15 @@ export default ( state = new Posts() , action ) => {
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
 		console.log(action);
 
-		if(action.thread.connection === true){
+		if(action.setting.multistream){
+			if( action.thread.connection ===  action.app.rootConnection ){
+				return [ ...state, ...action.posts ];
+			}
+		}else{
+			if( action.thread.connection ===  action.posts[0].connection ){
+				return [ ...state, ...action.posts ];
+			}
 		}
-
-		if( action.thread.connection ===  action.app.rootConnection ){
-			return [ ...state, ...action.posts ];
-		}
-
 		break;
 	case 'SERVER_TO_CLIENT[EMIT]:find':
 		if( action.posts && action.posts.length > 0 ){

@@ -19,6 +19,7 @@ const functions = {
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": ( store, action ) => {
     action.app = store.getState().app;
+    action.setting = store.getState().setting;
     action.user = store.getState().user;
     return action;
   }, 

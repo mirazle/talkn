@@ -70,8 +70,8 @@ export default {
   },
   onClickMultistream: ( multistream ) => {
     return {
-      type: 'ON_CLICK_TOGGLE_CHILDREN_THREAD_VIEW',
-      app: {multistream},
+      type: 'ON_CLICK_TOGGLE_MULTISTREAM',
+      setting: {multistream},
     };
   },
   onClickLike: ( inputPost ) => {

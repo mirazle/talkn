@@ -51,7 +51,9 @@ export default class TalknAPI{
 						this[ "extension" ] = this.extension;
 						break;
 					default:
-						talknAPI[ e.data.method ]( e.data.params );
+						if(talknAPI[ e.data.method ] && typeof talknAPI[ e.data.method ] === "function"){
+							talknAPI[ e.data.method ]( e.data.params );
+						}
 					}
 				}
 			}, false);
