@@ -68,10 +68,10 @@ export default {
       app,
     };
   },
-  onClickChildrenThreadView: ( childrenThreadView ) => {
+  onClickMultistream: ( multistream ) => {
     return {
       type: 'ON_CLICK_TOGGLE_CHILDREN_THREAD_VIEW',
-      app: {childrenThreadView},
+      app: {multistream},
     };
   },
   onClickLike: ( inputPost ) => {

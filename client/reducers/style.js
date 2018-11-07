@@ -11,10 +11,10 @@ import Icon from 'client/style/Icon';
 export default ( state = {} , action ) => {
 
 	switch( action.type ){
-		/*
 	case 'TOGGLE_DISP_MAIN':
 		console.log(action);
-
+		return {...state};
+/*
 		let mainTranslateY;
 		let headTabLeftTransform;
 		let headTabRightTransform;
@@ -47,7 +47,7 @@ export default ( state = {} , action ) => {
 		}
 
 		return action.style ? action.style : state ;
-		*/
+*/
 	case 'ON_CLICK_TOGGLE_DISP_MENU':
 	case 'ON_CLICK_TOGGLE_DISP_DETAIL':
 		return {...state,

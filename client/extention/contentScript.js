@@ -40,8 +40,6 @@ class ClientScript {
 
     catchMessage(e){
         if( e.data.type === ClientScript.APP_NAME ){
-            console.log(e.data);
-            console.log(this);
             if(this[ e.data.method ] && typeof this[ e.data.method ] === "function"){
                 this[ e.data.method ]( e );
             }
@@ -61,13 +59,14 @@ class ClientScript {
     toggleIframe(e){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         if( iframe.style.height === ClientScript.iframeCloseHeight ){
-            iframe.style.transition = "0ms";
+            this.postMessage("offTransition");
+            iframe.style.transition = "600ms";
             iframe.style.height = ClientScript.iframeOpenHeight;
-            //this.postMessage("toggleDispMain");
+
         }else{
+            this.postMessage("offTransition");
             iframe.style.transition = "600ms";
             iframe.style.height = ClientScript.iframeCloseHeight;
-            //this.postMessage("toggleDispMain");
         }
     }
 }
