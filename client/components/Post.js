@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Sequence from 'common/Sequence';
 import util from 'common/util';
 import conf from 'common/conf';
+import define from 'common/define';
 
 export default class Post extends Component {
 
@@ -10,6 +11,7 @@ export default class Post extends Component {
     super(props);
     this.state = {style}
     this.getDecolationProps = this.getDecolationProps.bind(this);
+    this.exeLocation = this.exeLocation.bind(this);
   }
 
   getDecolationProps(){
@@ -65,16 +67,21 @@ export default class Post extends Component {
     return `timeAgo:${this.props._id}`;
   }
 
-  getHrefProps(){
-    const { protocol, connection } = this.props;
-    const href = protocol === Sequence.TALKN_PROTOCOL ? `//talkn.io${connection}` : `/${connection}` ;
-    return { href: href };
-  }
-
   componentDidMount(){
     const { _id, timeago } = this.props;
     const timeId = this.getTimeId();
     timeago.render( this.refs[ timeId ] );
+  }  
+
+  exeLocation(){
+    const { app, protocol, connection } = this.props;
+    const href = protocol === Sequence.TALKN_PROTOCOL ? `https://${conf.domain}${connection}` : `${protocol}/${connection}` ;
+
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      talknAPI.extension("location", {protocol, connection});
+    }else{
+      location.href = href;
+    }
   }
 
  	render() {
@@ -101,10 +108,10 @@ export default class Post extends Component {
           </span>
         </div>
 
-        <a style={style.bottom} {...this.getHrefProps()}>
+        <div onClick={this.exeLocation} style={style.bottom}>
           <span style={{...style.bottomIcon, backgroundImage: `url( //${dispFavicon} )`}} />
           <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post }} />
-        </a>
+        </div>
       </li>
 		);
  	}

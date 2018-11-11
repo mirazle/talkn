@@ -203,7 +203,7 @@ export default class Posts extends Component {
 
   renderPostList(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ style, thread, posts } = state;
+    const{ app, style, thread, posts } = state;
     let postList = [];
     
     if( Object.keys( posts ).length > 0 ){
@@ -215,6 +215,7 @@ export default class Posts extends Component {
           <Post
             key={post._id}
             {...post}
+            app={app}
             thread={thread}
             childLayerCnt={childLayerCnt}
             style={style.post}

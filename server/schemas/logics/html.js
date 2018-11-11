@@ -4,7 +4,7 @@ import Sequence from '~/common/Sequence';
 export default class Html {
   constructor(){
     return {
-      protocol: { type: String, default: Sequence.HTTPS_PROTOCOL },
+      protocol: { type: String, default: Sequence.TALKN_PROTOCOL },
       contentType: { type: String, default: "text/html" },
       serverMetas: {
         title: { type: String, default: "talkn" },
