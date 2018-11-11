@@ -61,9 +61,9 @@ export default class TalknAPI{
 		return true;
 	}
 
-	extension( method ){
+	extension( method, params ){
 		if(this.parentUrl){
-			window.top.postMessage({type: 'talkn', method}, this.parentUrl);
+			window.top.postMessage({type: 'talkn', method, params}, this.parentUrl);
 		}
 	}
 

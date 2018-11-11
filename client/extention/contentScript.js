@@ -12,6 +12,7 @@ class ClientScript {
 
         this.catchMessage = this.catchMessage.bind(this);
         this.toggleIframe = this.toggleIframe.bind(this);
+        this.location = this.location.bind(this);
 
         // setupWindow
         this.setupWindow();
@@ -41,7 +42,7 @@ class ClientScript {
     catchMessage(e){
         if( e.data.type === ClientScript.APP_NAME ){
             if(this[ e.data.method ] && typeof this[ e.data.method ] === "function"){
-                this[ e.data.method ]( e );
+                this[ e.data.method ]( e.data.params );
             }
         }
     }
@@ -56,7 +57,7 @@ class ClientScript {
         }, this.talknUrl);
     }
 
-    toggleIframe(e){
+    toggleIframe(params){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         if( iframe.style.height === ClientScript.iframeCloseHeight ){
             this.postMessage("offTransition");
@@ -68,6 +69,11 @@ class ClientScript {
             iframe.style.transition = "600ms";
             iframe.style.height = ClientScript.iframeCloseHeight;
         }
+    }
+
+    location(params){
+        const {protocol, connection} = params;
+        location.href = `${protocol}/${connection}`;
     }
 }
 
