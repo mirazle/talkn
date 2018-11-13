@@ -5,6 +5,8 @@ export default {
   "SERVER_TO_CLIENT[EMIT]:initClientState" : ( state, props ) => {
     const { storageKey } = define;
     const { rootConnection } = state.app;
+    console.log(state.app.toJSON());
+    TalknSession.setStorage( rootConnection, define.storageKey.app, state.app.toJSON() );
     TalknSession.setStorage( rootConnection, define.storageKey[ storageKey.postSingle ], [] );
     TalknSession.setStorage( rootConnection, define.storageKey[ storageKey.postMulti ], [] );
     return {state, props};
@@ -21,13 +23,12 @@ export default {
   },
   "UPDATE_SETTING": ( state, props ) => {
     const { rootConnection } = state.app;
-    TalknSession.setStorage( rootConnection, define.storageKey.updateSetting, state.setting.toJSON() );
+    TalknSession.setStorage( rootConnection, define.storageKey.setting, state.setting.toJSON() );
     return {state, props};
   },
   "ON_CLICK_MENU": ( state, props ) => {
     const { rootConnection } = state.app;
-
-    TalknSession.setStorage( rootConnection, define.storageKey.selectMenu, state.app.menuComponent );
+    TalknSession.setStorage( rootConnection, define.storageKey.app, state.app );
     return {state, props};
   },
 }

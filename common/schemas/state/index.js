@@ -14,7 +14,7 @@ import Style from '~/common/schemas/state/Style';
 
 export default class State{
 
-  constructor( appType, talknIndex, window, attributes = {}, caches = {} ){
+  constructor( appType, talknIndex, window, bootOption = {}, caches = {} ){
     this.user = new User(caches.setting);
     this.userAgent = new UserAgent( window );
 		this.menuIndex = new MenuIndex();
@@ -23,11 +23,19 @@ export default class State{
     this.postSingle = new PostSingle();
     this.postMulti = new PostMulti();
     this.analyze = new Analyze();
-    this.bootOption = new BootOption( attributes );
+    this.bootOption = new BootOption( bootOption );
     this.thread = new Thread( window, this.bootOption );
     this.setting = new Setting( caches.setting );
-    this.app = new App( {type: appType, talknIndex, ...this.thread, menuComponent: caches.selectMenu} );
+    this.app = new App( State.getAppParams(appType, talknIndex, this.thread, caches ) );
     this.style = new Style( this );
+  }
+
+  static getAppParams(appType, talknIndex, thread, caches){
+    if(caches && caches.app && caches.app.type){
+      return {...caches.app};
+    }else{
+      return {type: appType, talknIndex, ...thread};
+    }
   }
 
   get appType(){

@@ -9,8 +9,9 @@ export default class TalknSession{
 
 	static setStorage( rootConnection, key, value ){
 		const baseKey = TalknSession.getBaseKey(rootConnection);
-		const item = JSON.stringify( {[key]: value} );
-		localStorage.setItem( baseKey, item );
+		let items = JSON.parse( localStorage.getItem( baseKey ) );
+		items = JSON.stringify( {...items, [key]: value} );
+		localStorage.setItem( baseKey, items );
 		return true;
 	}
 
@@ -22,9 +23,9 @@ export default class TalknSession{
 
 	static getCaches( rootConnection ){
 		const menuLogs = TalknSession.getStorage( rootConnection, define.storageKey.menuLogs );
-		const setting = TalknSession.getStorage( rootConnection, define.storageKey.updateSetting );
-		const selectMenu = TalknSession.getStorage( rootConnection, define.storageKey.selectMenu );
-		return {menuLogs, setting, selectMenu};
+		const app = TalknSession.getStorage( rootConnection, define.storageKey.app );
+		const setting = TalknSession.getStorage( rootConnection, define.storageKey.setting );
+		return {menuLogs, app, setting};
 	}
 
 	static listenWorker( state ){
