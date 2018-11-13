@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 import define from 'common/define';
 import State from 'common/schemas/state';
+import BootOption from 'common/schemas/state/BootOption';
 import TalknSession from 'client/operations/TalknSession';
 import TalknAPI from 'client/operations/TalknAPI';
 import TalknViewer from 'client/operations/TalknViewer';
@@ -33,9 +34,10 @@ class TalknClient{
 
 	boot(appType, talknIndex, attributes){
 		const store = configureStore();
-		const state = new State( appType, talknIndex, window, attributes, caches );
-		const caches = TalknSession.getCaches(state.app.rootConnection);
-		const talknAPI = new TalknAPI( talknIndex, store, state.app.rootConnection );
+		const bootOption = BootOption.rebuildAttributes(attributes);
+		const caches = TalknSession.getCaches(bootOption.connection);
+		const state = new State( appType, talknIndex, window, bootOption, caches );
+		const talknAPI = new TalknAPI( talknIndex, store, bootOption.connection );
 		const talknViewer = new TalknViewer( state, talknAPI );
 
 		TalknSetupJs.setupMath();

@@ -73,7 +73,7 @@ export default class App extends Schema{
     return 0;
   }
 
-  constructor( params = {} ){
+  constructor( params = {}, call ){
     super();
     const name = params.name ? params.name : 'talkn';
     const type = params.type ? params.type : '';
