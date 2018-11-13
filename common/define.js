@@ -28,7 +28,7 @@ export default {
     postSingle: 'postSingle',
     postMulti: 'postMulti',
     menuLogs: 'menuLogs',
-    updateSetting: 'setting',
-    selectMenu: 'selectMenu',
+    setting: 'setting',
+    app: 'app'
   }
 }
