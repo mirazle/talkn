@@ -5,12 +5,10 @@ export default class Setting extends Schema{
     const client = params && params.client ? params.client : {};
     const common = params && params.common ? params.common : {};
     const server = params && params.server ? params.server : {};
-    const multistream = params && params.multistream ? params.multistream : false;
     return this.create({
       client,
       common,
       server,
-      multistream,
     });
   }
 }

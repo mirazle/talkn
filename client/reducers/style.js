@@ -145,20 +145,6 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
-	case 'UPDATE_SETTING':
-		switch( action.updateColumn ){
-		case "multistream":
-			return {...state,
-				posts: {...state.posts,
-				 	multistreamIconWrap: {...state.posts.multistreamIconWrap,
-						border: Posts.getMultistreamIconWrapBorder( {setting: action.setting} ),
-					}
-				}
-			}
-		default:
-			return state;
-		}
-
 	default:
 		return action.style ? action.style : state ;
 	}

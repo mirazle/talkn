@@ -38,7 +38,7 @@ class Container extends Component {
  	render() {
     const { style, user } = this.props.state;
     if( style && style.container && style.container.self && user.connectioned ){
-  		return (
+      return (
   			<div data-component-type={this.constructor.name} style={ style.container.self }>
           <Style {...this.props} />
           <Main {...this.props} />

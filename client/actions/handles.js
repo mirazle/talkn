@@ -71,7 +71,7 @@ export default {
   onClickMultistream: ( multistream ) => {
     return {
       type: 'ON_CLICK_TOGGLE_MULTISTREAM',
-      setting: {multistream},
+      app: {multistream},
     };
   },
   onClickLike: ( inputPost ) => {

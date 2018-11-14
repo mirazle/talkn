@@ -36,7 +36,7 @@ export default class Threads {
   }
 
   async findMenuIndex( requestState, setting ){
-    const { thread, setting: clientSetting } = requestState;
+    const { thread, app } = requestState;
     const { connection, layer } = thread;
     const regexConnection = connection.replace(/\//, '\/');
     const regex = new RegExp( `^${regexConnection}` );
@@ -161,7 +161,7 @@ export default class Threads {
   /* STATUS LOGIC   */
   /******************/
 
-  getStatus( user, thread, clientSetting, setting ){
+  getStatus( user, thread, app, setting ){
 
     let status = {
       isSchema: false,
@@ -186,13 +186,13 @@ export default class Threads {
     /* Multistream形式かどうか                               */
     /*******************************************************/
 
-    status.isMultistream = Threads.getStatusIsMultistream( clientSetting );
+    status.isMultistream = Threads.getStatusIsMultistream( app );
 
     /*******************************************************/
     /* Multistreamのボタンを押したか                          */
     /*******************************************************/
 
-    status.isToggleMultistream = Threads.getStatusIsToggleMultistream( clientSetting, user );
+    status.isToggleMultistream = Threads.getStatusIsToggleMultistream( app, user );
 
     return status;
   }
@@ -232,11 +232,11 @@ export default class Threads {
     return isSchema ? true : threadUpdateTime < activeTime;
   }
 
-  static getStatusIsMultistream( clientSetting ){
-    return clientSetting.multistream;
+  static getStatusIsMultistream( app ){
+    return app.multistream;
   }
 
-  static getStatusIsToggleMultistream( clientSetting, user ){
-    return clientSetting.multistream !== user.multistreamed;
+  static getStatusIsToggleMultistream( app, user ){
+    return app.multistream !== user.multistreamed;
   }
 }
