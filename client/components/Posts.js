@@ -31,7 +31,7 @@ export default class Posts extends Component {
   }
 
   componentDidUpdate(){
-    const { posts, thread, app, actionLog } = this.props.state;
+    const { posts, thread, actionLog } = this.props.state;
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
       const { isScrollBottom } = this.state;
@@ -131,20 +131,19 @@ export default class Posts extends Component {
   }
 
   handleOnClickGetMore(){
-    const{ thread } = this.props.state;
     this.setState({scrollHeight: this.refs.thread.scrollHeight});
     talknAPI.getMore();
   }
 
   handleOnClickMultistream(){
-    const { updateUser, updateSetting, updatePosts, state} = this.props;
-    const { app, setting, user, thread } = state;
+    const { updateUser, updateApp, updatePosts, state} = this.props;
+    const { app, user, thread } = state;
     const { storageKey } = define;
 
-    setting.multistream = !setting.multistream;
+    app.multistream = !app.multistream;
 
     const rootConnection = app.rootConnection;
-    const getPostKey = setting.multistream ? storageKey.postMulti : storageKey.postSingle ;
+    const getPostKey = app.multistream ? storageKey.postMulti : storageKey.postSingle ;
     const cachePosts = TalknSession.getStorage( rootConnection, storageKey[ getPostKey ] );
     const posts = cachePosts ? cachePosts : new PostSchema();
     const postLength = posts.length;
@@ -154,7 +153,7 @@ export default class Posts extends Component {
     user.offsetFindId = existPost ? posts[ postLength - 1 ]._id : PostSchema.defaultFindId; 
 
     updateUser( "offsetFindId", user );
-    updateSetting( "multistream", setting );
+    updateApp( "multistream", app );
     updatePosts( posts );
 
     talknAPI.find(thread.connection);

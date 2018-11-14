@@ -461,9 +461,9 @@ export default class Icon {
     return {div, wing1, wing2, wing3, wing4, wing5, wing6, wing7, wing8, circle};
   }
 
-  static getThunder( { setting, app } ){
+  static getThunder( { app } ){
 
-    const borderColor = setting.multistream ?
+    const borderColor = app.multistream ?
       Container.themeRGB : Container.reliefRGBA;
 
     const div = Style.get({
