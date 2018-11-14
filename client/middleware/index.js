@@ -14,13 +14,23 @@ export default {
 
 const functions = {
   "SERVER_TO_CLIENT[EMIT]:find": ( store, action ) => {
-    action.app = {desc: action.thread.serverMetas.title};
+
+    if(action.posts.length === 0){
+      // Update menuIndex
+      action.posts = store.getState().posts;
+      action.existResponsePost = false;
+    }else{
+      action.existResponsePost = true;
+    }
+
+    action.app = store.getState().app;
+    action.app.desc = action.thread.serverMetas.title
     return action;
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": ( store, action ) => {
     action.app = store.getState().app;
-    action.setting = store.getState().setting;
     action.user = store.getState().user;
+    //action.posts = store.getState().posts;
     return action;
   }, 
   "ON_CLICK_MENU": ( store, action ) => {

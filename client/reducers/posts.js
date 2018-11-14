@@ -10,7 +10,7 @@ export default ( state = new Posts() , action ) => {
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
 		console.log(action);
 
-		if(action.setting.multistream){
+		if(action.app.multistream){
 			if( action.thread.connection ===  action.app.rootConnection ){
 				return [ ...state, ...action.posts ];
 			}
@@ -21,7 +21,7 @@ export default ( state = new Posts() , action ) => {
 		}
 		break;
 	case 'SERVER_TO_CLIENT[EMIT]:find':
-		if( action.posts && action.posts.length > 0 ){
+		if( action.existResponsePost && action.posts && action.posts.length > 0 ){
 			return [ ...state, ...action.posts ];
 		}
 		break;

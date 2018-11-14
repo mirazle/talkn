@@ -5,7 +5,6 @@ export default {
   "SERVER_TO_CLIENT[EMIT]:initClientState" : ( state, props ) => {
     const { storageKey } = define;
     const { rootConnection } = state.app;
-    console.log(state.app.toJSON());
     TalknSession.setStorage( rootConnection, define.storageKey.app, state.app.toJSON() );
     TalknSession.setStorage( rootConnection, define.storageKey[ storageKey.postSingle ], [] );
     TalknSession.setStorage( rootConnection, define.storageKey[ storageKey.postMulti ], [] );
@@ -14,10 +13,10 @@ export default {
   "SERVER_TO_CLIENT[EMIT]:getMore": setStorages,
   "SERVER_TO_CLIENT[EMIT]:find": setStorages,
   "SERVER_TO_CLIENT[EMIT]:changeThread": ( state, props ) => {
-    const { app, setting } = state;
+    const { app } = state;
     const { rootConnection } = app;
     const { storageKey } = define;
-    const removePostKey = setting.multistream ? storageKey.postSingle : storageKey.postMulti ;
+    const removePostKey = app.multistream ? storageKey.postSingle : storageKey.postMulti ;
     TalknSession.setStorage( rootConnection, define.storageKey[ removePostKey ], [] );
     return {state, props};
   },
@@ -34,10 +33,10 @@ export default {
 }
 
 function setStorages( state, props ){
-  const { app, setting } = state;
+  const { app } = state;
   const { rootConnection } = app;
   const { storageKey } = define;
-  const getPostKey = setting.multistream ? storageKey.postMulti : storageKey.postSingle ;
+  const getPostKey = app.multistream ? storageKey.postMulti : storageKey.postSingle ;
 
   TalknSession.setStorage( rootConnection, define.storageKey.menuLogs, state.menuLogs.toJSON() );
   TalknSession.setStorage( rootConnection, define.storageKey[ getPostKey ], state.posts );

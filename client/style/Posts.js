@@ -135,13 +135,13 @@ export default class Posts {
     return Style.get({layout, content, animation});
   }
 
-  static getMultistreamIconWrapBorder( {setting} ){;
-    return setting.multistream ?
+  static getMultistreamIconWrapBorder( {app} ){;
+    return app.multistream ?
       `1px solid ${Container.themeRGBA}` :
       `1px solid ${Container.calmRGBA}`;
   }
 
-  static getMultistreamIconWrap( {app, setting} ){
+  static getMultistreamIconWrap( {app} ){
 
     const top = app.type === define.APP_TYPES.EXTENSION ?
       ( Header.headerHeight + Posts.multistreamWrapTop ) + "px" :
@@ -155,7 +155,7 @@ export default class Posts {
       height: '50px',
       margin: '0 auto',
       zIndex: '1',
-      border: Posts.getMultistreamIconWrapBorder( {setting} ),
+      border: Posts.getMultistreamIconWrapBorder( {app} ),
       background: 'rgba(255, 255, 255, 0.8)',
       borderRadius: '50px',
     });

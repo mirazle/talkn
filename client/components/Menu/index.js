@@ -18,8 +18,8 @@ export default class Menu extends Component {
   }
 
   handleOnClickMultistream(){
-    const{ app, setting } = this.props.state;
-    const multistream = setting.multistream ? false : true ;
+    const{ app } = this.props.state;
+    const multistream = app.multistream ? false : true ;
 
     if( app.isOpenNotif ){
       this.props.closeNotif();

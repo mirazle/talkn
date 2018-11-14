@@ -33,9 +33,9 @@ export default {
   },
 
   getMore: async ( ioUser, requestState, setting ) => {
-    const { setting: clientSetting } = requestState;
+    const { app } = requestState;
     const { connection } = requestState.thread;
-    const isMultistream = Threads.getStatusIsMultistream( clientSetting );
+    const isMultistream = Threads.getStatusIsMultistream( app );
     const {response: posts} = await Logics.db.posts.find(requestState, setting, isMultistream, true );
     const offsetFindId = Logics.db.posts.getOffsetFindId( posts );
     const user = {connectioned: connection ,offsetFindId};
@@ -73,8 +73,8 @@ export default {
   },
 
   exeFind: async ( ioUser, requestState, setting ) => {
-    
-    let { setting: clientSetting, user } = requestState;
+
+    let { app, user } = requestState;
 
     // リクエストのあったconnectionを取得する
     const { connection } = requestState.thread;
@@ -86,7 +86,7 @@ export default {
     user = {...user, connectioned: connection};
 
     // Threadの状態
-    const threadStatus = Logics.db.threads.getStatus(  user, thread, clientSetting, setting );
+    const threadStatus = Logics.db.threads.getStatus( user, thread, app, setting );
 
     // Posts
     thread.postCnt = await Logics.db.posts.getCounts( requestState, threadStatus.isMultistream );
@@ -94,7 +94,7 @@ export default {
     const offsetFindId = Logics.db.posts.getOffsetFindId( posts );
 
     // userの状況を更新する
-    user.multistreamed = clientSetting.multistream;
+    user.multistreamed = app.multistream;
     user.offsetFindId = offsetFindId;
 
     // 作成・更新が必要なスレッドの場合
@@ -131,9 +131,9 @@ export default {
   },
 
   post: async ( ioUser, requestState, setting ) => {
-    const { setting: clientSetting } = requestState;
+    const { app } = requestState;
     const { connection } = requestState.thread;
-    const isMultistream = Threads.getStatusIsMultistream( clientSetting );
+    const isMultistream = Threads.getStatusIsMultistream( app );
     const post = await Logics.db.posts.save( requestState );
     const response = await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost: post } );
     const postCnt = await Logics.db.posts.getCounts( requestState, isMultistream );
