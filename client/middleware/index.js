@@ -1,6 +1,3 @@
-import define from 'common/define';
-import TalknSession from 'client/operations/TalknSession';
-
 export default {
   updateDesc: store => next => action => {
 
@@ -11,36 +8,41 @@ export default {
   }
 };
 
-
 const functions = {
   "SERVER_TO_CLIENT[EMIT]:find": ( store, action ) => {
-
-    if(action.posts.length === 0){
-      // Update menuIndex
-      action.posts = store.getState().posts;
-      action.existResponsePost = false;
-    }else{
-      action.existResponsePost = true;
-    }
-
+    action = resolve.caseNoExistResponsePost(store, action);
     action.app = store.getState().app;
+    action.user.isRootConnection = action.app.rootConnection === action.thread.connection;
     action.app.desc = action.thread.serverMetas.title
     return action;
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": ( store, action ) => {
     action.app = store.getState().app;
     action.user = store.getState().user;
-    //action.posts = store.getState().posts;
     return action;
   }, 
+  "ON_CLICK_OTHER_THREAD":  (store, action) => {
+    action.app = store.getState().app;
+    action.user.isRootConnection = action.app.rootConnection === action.thread.connection;
+    return action;
+  },
   "ON_CLICK_MENU": ( store, action ) => {
-    return {...action,
-      app: {...action.app,
-        desc: action.app.menuComponent
-      }
-    }
+    action.app.desc = action.app.menuComponent;
+    return action;
   },
   "ON_CLICK_TOGGLE_DISP_DETAIL": ( store, action ) => {
     return action;
   },
+}
+
+const resolve = {
+  caseNoExistResponsePost: (store, action) => {
+    if(action.posts.length === 0){
+      action.posts = store.getState().posts;
+      action.existResponsePostFlg = false;
+    }else{
+      action.existResponsePostFlg = true;
+    }
+    return action;
+  }
 }

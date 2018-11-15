@@ -15,7 +15,6 @@ import Style from '~/common/schemas/state/Style';
 export default class State{
 
   constructor( appType, talknIndex, window, bootOption = {}, caches = {} ){
-    this.user = new User(caches.setting);
     this.userAgent = new UserAgent( window );
 		this.menuIndex = new MenuIndex();
 		this.menuLogs = new MenuLogs( caches.menuLogs );
@@ -27,6 +26,7 @@ export default class State{
     this.thread = new Thread( window, this.bootOption );
     this.setting = new Setting( caches.setting );
     this.app = new App( State.getAppParams(appType, talknIndex, this.thread, caches ) );
+    this.user = new User(State.getUserParams(this, caches));
     this.style = new Style( this );
   }
 
@@ -35,6 +35,16 @@ export default class State{
       return {...caches.app};
     }else{
       return {type: appType, talknIndex, ...thread};
+    }
+  }
+
+  static getUserParams(self, caches){
+    if(caches && caches.user && caches.user.uid){
+      return {...caches.user};
+    }else{
+      return {
+        isRootConnection: self.thread.connection === self.app.rootConnection
+      }
     }
   }
 

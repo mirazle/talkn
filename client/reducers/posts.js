@@ -21,7 +21,7 @@ export default ( state = new Posts() , action ) => {
 		}
 		break;
 	case 'SERVER_TO_CLIENT[EMIT]:find':
-		if( action.existResponsePost && action.posts && action.posts.length > 0 ){
+		if( action.existResponsePostFlg && action.posts && action.posts.length > 0 ){
 			return [ ...state, ...action.posts ];
 		}
 		break;
