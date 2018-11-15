@@ -186,8 +186,8 @@ export default class Threads {
     /* Multistream形式かどうか                               */
     /*******************************************************/
 
-    status.isMultistream = Threads.getStatusIsMultistream( app );
-
+    status.isMultistream = Threads.getStatusIsMultistream( app, user );
+console.log("@@" + status.isMultistream );
     /*******************************************************/
     /* Multistreamのボタンを押したか                          */
     /*******************************************************/
@@ -232,8 +232,8 @@ export default class Threads {
     return isSchema ? true : threadUpdateTime < activeTime;
   }
 
-  static getStatusIsMultistream( app ){
-    return app.multistream;
+  static getStatusIsMultistream( app, user ){
+    return app.multistream && user.isRootConnection;
   }
 
   static getStatusIsToggleMultistream( app, user ){
