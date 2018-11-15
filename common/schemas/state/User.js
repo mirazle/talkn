@@ -10,6 +10,7 @@ export default class User extends Schema{
     const uid = params && params.uid ? params.uid : '';
     const utype = params && params.utype ? params.utype : '';
     const href = User.getHref( params );
+    const isRootConnection = params && params.isRootConnection ? params.isRootConnection : false;
     const connectioned = params && params.connectioned ? params.connectioned : '';
     const multistream = params && params.multistream ? params.multistream : false;
     const multistreamed = params && params.multistreamed ? params.multistreamed : multistream;
@@ -19,6 +20,7 @@ export default class User extends Schema{
       uid,
       utype,
       href,
+      isRootConnection,
       connectioned,
       multistreamed,
       offsetFindId,

@@ -94,7 +94,6 @@ export default class App extends Schema{
     const isOpenMain = params.isOpen ? params.isOpen : true;
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
-
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : true ;
