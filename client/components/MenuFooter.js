@@ -12,16 +12,16 @@ export default class MenuFooter extends Component {
     const Setting = Icon.getSetting( icon.setting );
     return (
       <div data-component-name={this.constructor.name} style={ style.menuFooter.self }>
-        <div style={ style.menuFooter.childMoney } onClick={ () => {}} {...Icon.getDecolationProps1( 'icon', 'user', 'div' )}>
+        <div style={ style.menuFooter.childMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentUsersLabel ) } {...Icon.getDecolationProps1( 'icon', 'user', 'div' )}>
           { UserIcon }
         </div>
-        <div style={ style.menuFooter.childMoney } onClick={ () => {} }  {...Icon.getDecolationProps1( 'icon', 'index', 'div' )}>
+        <div style={ style.menuFooter.childMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentIndexLabel ) }  {...Icon.getDecolationProps1( 'icon', 'index', 'div' )}>
           { IndexIcon }
         </div>
-        <div style={ style.menuFooter.childMoney } onClick={ ()=> {} }  {...Icon.getDecolationProps1( 'icon', 'logs', 'div' )}>
+        <div style={ style.menuFooter.childMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentLogsLabel ) } {...Icon.getDecolationProps1( 'icon', 'logs', 'div' )}>
           { Logs }
         </div>
-        <div style={ style.menuFooter.childMoney } onClick={ ()=> {} }  {...Icon.getDecolationProps1( 'icon', 'setting', 'div' )}>
+        <div style={ style.menuFooter.childMoney } onClick={ ()=> talknAPI.onClickMenu( App.menuComponentSettingLabel ) } {...Icon.getDecolationProps1( 'icon', 'setting', 'div' )}>
           { Setting }
         </div>
       </div>

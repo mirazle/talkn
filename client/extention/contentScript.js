@@ -3,31 +3,37 @@ class ClientScript {
 
     static get APP_NAME(){return "talkn"}
     static get PROTOCOL(){return "https"}
-    static get BASE_HOST(){return "localhost:8080"}
-    static get BASE_HOSTNAME(){return `${ClientScript.PROTOCOL}://${ClientScript.BASE_HOST}`};
+    static get BASE_HOST(){return "localhost"}
+    static get BASE_PORT(){return 8080}
+    static get EXCLUSION_HOSTS(){return ['localhost', 'talkn.io']}    
+    static get BASE_HOSTNAME(){return `${ClientScript.PROTOCOL}://${ClientScript.BASE_HOST}:${ClientScript.BASE_PORT}`};
     static get iframeCloseHeight(){return '45px'};
     static get iframeOpenHeight(){return '450px'};
 
     constructor(){
 
-        this.catchMessage = this.catchMessage.bind(this);
-        this.toggleIframe = this.toggleIframe.bind(this);
-        this.location = this.location.bind(this);
-
-        // setupWindow
-        this.setupWindow();
-        this.iframe  = document.createElement("iframe");
-        this.load = this.load.bind(this);
         this.connection = location.href.replace("http:/", "").replace("https:/", "");
-        this.talknUrl = ClientScript.BASE_HOSTNAME + this.connection;
 
-        this.iframe.setAttribute("id", `${ClientScript.APP_NAME}Extension`);
-        this.iframe.setAttribute("name", "extension");
-        this.iframe.setAttribute("style", "z-index: 2147483647; position: fixed; bottom: 0px; right: 0px;width: 320px; height: 45px;transition: 0ms; transform: translate3d(0px, 0px, 0px);");
-        this.iframe.setAttribute("src", this.talknUrl );
-        this.iframe.setAttribute("frameBorder", 0 );
-        this.iframe.addEventListener( "load", this.load );
-        document.body.appendChild(this.iframe);
+        const noBootFlg = ClientScript.EXCLUSION_HOSTS.some( host => this.connection.indexOf(host) >= 0);
+        
+        if(!noBootFlg){
+            this.catchMessage = this.catchMessage.bind(this);
+            this.toggleIframe = this.toggleIframe.bind(this);
+            this.location = this.location.bind(this);
+
+            // setupWindow
+            this.setupWindow();
+            this.iframe  = document.createElement("iframe");
+            this.load = this.load.bind(this);
+            this.talknUrl = ClientScript.BASE_HOSTNAME + this.connection;
+            this.iframe.setAttribute("id", `${ClientScript.APP_NAME}Extension`);
+            this.iframe.setAttribute("name", "extension");
+            this.iframe.setAttribute("style", "z-index: 2147483647; position: fixed; bottom: 0px; right: 0px;width: 320px; height: 45px;transition: 0ms; transform: translate3d(0px, 0px, 0px);");
+            this.iframe.setAttribute("src", this.talknUrl );
+            this.iframe.setAttribute("frameBorder", 0 );
+            this.iframe.addEventListener( "load", this.load );
+            document.body.appendChild(this.iframe);
+        }
     }
 
     setupWindow(){

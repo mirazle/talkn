@@ -187,7 +187,7 @@ export default class Threads {
     /*******************************************************/
 
     status.isMultistream = Threads.getStatusIsMultistream( app, user );
-console.log("@@" + status.isMultistream );
+
     /*******************************************************/
     /* Multistreamのボタンを押したか                          */
     /*******************************************************/

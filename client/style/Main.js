@@ -4,7 +4,10 @@ import Footer from './Footer';
 
 export default class Main {
 
+
   static get selfHeight(){ return '100%' };
+  static get closeHeight(){ return 45 };
+  static get openHeight(){ return 450 };
   static get headerHeight(){ return 45 };
   static get notifHeight(){ return 20 };
   static get notifOpenTranslate(){ return 20 };
@@ -21,7 +24,6 @@ export default class Main {
   }
 
   static get notifOpenTranslateY(){
-    console.log(Footer.selfHeight);
     return `translate3d( 0px, ${-( Footer.selfHeight * 2 )}px, 0px )`;
   }
   static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
@@ -44,10 +46,6 @@ export default class Main {
     return addUnit ? Style.trimUnit( right ) : right ;
   }
 
-  static getSelfTranslateY( isOpenMain ){
-    return isOpenMain ? Main.getSelfOpenTranslateY() : Main.getSelfCloseTranslateY();
-  }
-
   static getSelfOpenTranslateY(){
     return ( -Footer.selfHeight ) + 'px';
   }
@@ -61,7 +59,7 @@ export default class Main {
     const widthPx = Main.getWidth( app );
     const heightPx = Main.getSelfHeightPx( params );
     const right = Main.getSelfRight( params, widthPx );
-    const translateY = Main.getSelfTranslateY( params.app.isOpenMain );
+    const translateY =  Main.getSelfOpenTranslateY();
     const layout = Style.getLayoutBlock({
       position: 'absolute',
       width: widthPx,
