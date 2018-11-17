@@ -652,8 +652,8 @@ export default class Icon {
     return {div, dot};
   }
 
-  static getHeadTabLeftTransform( isOpenMain ){return isOpenMain ? Icon.getHeadTabLeftOpenTransform : Icon.getHeadTabLeftCloseTransform};
-  static getHeadTabRightTransform( isOpenMain ){return isOpenMain ? Icon.getHeadTabRightOpenTransform : Icon.getHeadTabRightCloseTransform};
+  static getHeadTabLeftTransform(){return Icon.getHeadTabLeftOpenTransform };
+  static getHeadTabRightTransform(){return Icon.getHeadTabRightOpenTransform };
   static get getHeadTabLeftOpenTransform(){return 'rotate( 120deg ) translate3d(3px, 5px, 0px)'};
   static get getHeadTabRightOpenTransform(){return 'rotate( -120deg ) translate3d(-3px, 5px, 0px)'};
   static get getHeadTabLeftCloseTransform(){return 'rotate( 90deg ) translate3d(3px, 5px, 0px)'};

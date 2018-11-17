@@ -218,11 +218,11 @@ export default class Detail extends Component {
 
           <br />
           <br />
-          {this.renderAnalyze()}
+          {/*this.renderAnalyze()*/}
 
           <br />
           <br />
-          {this.renderH1s()}
+          {/*this.renderH1s()*/}
 
           <br />
           <br />
