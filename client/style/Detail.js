@@ -166,6 +166,7 @@ export default class Detail {
     });
     const content = Style.getContentBase({
       lineHeight: 2,
+      fontSize: "12px",
       textAlign: 'right',
     });
     const animation = Style.getAnimationBase();

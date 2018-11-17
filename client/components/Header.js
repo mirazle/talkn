@@ -8,31 +8,37 @@ export default class Header extends Component {
   constructor(props) {
     super(props);
     this.handleOnClickHeadTabIcon = this.handleOnClickHeadTabIcon.bind(this);
-    this.handleOnClickUserIcon = this.handleOnClickUserIcon.bind(this);
+    this.handleOnClickMenuIcon = this.handleOnClickMenuIcon.bind(this);
     this.handleOnClickDetailIcon = this.handleOnClickDetailIcon.bind(this);
     this.getAppUpdatedOpenFlgs = this.getAppUpdatedOpenFlgs.bind(this);
   }
 
   handleOnClickHeadTabIcon( e ){
+/*
     const{ app } = this.props.state;
     if( app.type === define.APP_TYPES.EXTENSTION ){
       const{ app } = this.props.state;
       app.isOpenMain = app.isOpenMain ? false : true ;
       //talknAPI.onClickToggleDispMain( app );
     }
+*/
   }
 
-  handleOnClickUserIcon( e ){
+  handleOnClickMenuIcon( e ){
+
     let { app } = this.props.state;
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel :
-      app.isOpenMenu = app.isOpenMenu ? false : true;
-      break;
-    default:
-      app = this.getAppUpdatedOpenFlgs();
-      break;
+  
+    if(app.type !== define.APP_TYPES.EXTENSION ){
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        app.isOpenMenu = app.isOpenMenu ? false : true;
+        break;
+      default:
+        app = this.getAppUpdatedOpenFlgs();
+        break;
+      }
+      talknAPI.onClickToggleDispMenu( app );
     }
-    talknAPI.onClickToggleDispMenu( app );
   }
 
   handleOnClickDetailIcon( e ){
@@ -79,7 +85,7 @@ export default class Header extends Component {
       <header data-component-name={this.constructor.name} style={ style.header.self }>
 
         {/* User Icon */}
-        <span style={ style.header.menuIcon } onClick={ this.handleOnClickUserIcon } {...Icon.getDecolationProps1( 'icon', 'menu', 'div' )} >
+        <span style={ style.header.menuIcon } onClick={ this.handleOnClickMenuIcon } {...Icon.getDecolationProps1( 'icon', 'menu', 'div' )} >
 
           { MenuIcon }
 

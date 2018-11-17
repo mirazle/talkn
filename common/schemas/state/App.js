@@ -1,4 +1,6 @@
 import Schema from '~/common/schemas/Schema';
+//import Main from '~/common/schemas/state/Main';
+
 export default class App extends Schema{
 
   static get screenModeSmallLabel(){ return 'SMALL' };
@@ -91,7 +93,7 @@ export default class App extends Schema{
     const inputPost = params.inputPost ? params.inputPost : '';
     const inputSearch = params.inputSearch ? params.inputSearch : '';
     const isOpenMainPossible = params.isOpenMainPossible ? params.isOpenMainPossible : false;
-    const isOpenMain = params.isOpen ? params.isOpen : true;
+    const isOpenMain =  Schema.isSet( params.isOpenMain ) ? params.isOpenMain : true;
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
@@ -123,6 +125,14 @@ export default class App extends Schema{
       menuComponent,
       multistream
     });
+  }
+
+  static getIsOpenMain(){
+    if(window.document.body.clientHeight === Main.openHeight){
+      
+    }
+
+    return App.screenModeLargeLabel;
   }
 
   static getScreenMode( widthPx ){
