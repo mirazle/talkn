@@ -17,6 +17,7 @@ class ClientScript {
         const noBootFlg = ClientScript.EXCLUSION_HOSTS.some( host => this.connection.indexOf(host) >= 0);
         
         if(!noBootFlg){
+            this.extensionBoot = this.extensionBoot.bind(this);
             this.catchMessage = this.catchMessage.bind(this);
             this.toggleIframe = this.toggleIframe.bind(this);
             this.location = this.location.bind(this);
@@ -28,7 +29,18 @@ class ClientScript {
             this.talknUrl = ClientScript.BASE_HOSTNAME + this.connection;
             this.iframe.setAttribute("id", `${ClientScript.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
-            this.iframe.setAttribute("style", "z-index: 2147483647; position: fixed; bottom: 0px; right: 0px;width: 320px; height: 45px;transition: 0ms; transform: translate3d(0px, 0px, 0px);");
+            this.iframe.setAttribute("style",
+                "z-index: 2147483647;" +
+                "display: none;" +
+                "position: fixed; " +
+                "bottom: 0px;" + 
+                "right: 0px;" + 
+                "width: 320px;" + 
+                `height: ${ClientScript.iframeOpenHeight};` + 
+                "margin: 0;" + 
+                "transition: 0ms;" + 
+                "transform: translate3d(0px, 0px, 0px);"
+            );
             this.iframe.setAttribute("src", this.talknUrl );
             this.iframe.setAttribute("frameBorder", 0 );
             this.iframe.addEventListener( "load", this.load );
@@ -63,15 +75,24 @@ class ClientScript {
         }, this.talknUrl);
     }
 
+    extensionBoot(params){
+        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+        const {isOpenMain} = params;
+        if( isOpenMain ){
+            iframe.style.height = ClientScript.iframeOpenHeight;
+        }else{
+            iframe.style.height = ClientScript.iframeCloseHeight;
+        }
+        iframe.style.display = "block";
+    }
+
     toggleIframe(params){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         if( iframe.style.height === ClientScript.iframeCloseHeight ){
-            this.postMessage("offTransition");
             iframe.style.transition = "600ms";
             iframe.style.height = ClientScript.iframeOpenHeight;
 
         }else{
-            this.postMessage("offTransition");
             iframe.style.transition = "600ms";
             iframe.style.height = ClientScript.iframeCloseHeight;
         }

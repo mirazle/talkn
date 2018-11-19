@@ -76,7 +76,7 @@ export default class MenuIndexList {
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transition: '0ms',
+      transition: Container.transitionOff,
     });
 
     return Style.get({layout, content, animation});

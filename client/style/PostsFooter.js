@@ -82,7 +82,7 @@ export default class PostsFooter{
     const content = {};
     const animation = Style.getAnimationBase({
       transform: PostsFooter.getTransform( app ),
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }

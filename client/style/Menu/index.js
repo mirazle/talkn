@@ -55,7 +55,7 @@ export default class MenuIndex {
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }
@@ -68,7 +68,7 @@ export default class MenuIndex {
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase({
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }
@@ -90,7 +90,7 @@ export default class MenuIndex {
       fontSize: '10px',
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }
@@ -106,7 +106,7 @@ export default class MenuIndex {
       fontSize: '12px',
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }
@@ -143,7 +143,7 @@ export default class MenuIndex {
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }

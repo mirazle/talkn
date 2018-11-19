@@ -19,9 +19,7 @@ export default class PostsFooter extends Component {
     const { updateApp, state} = this.props;
     const { app } = state;
     if( app.type ===  define.APP_TYPES.EXTENSION ){
-      console.log(app.isOpenMain);
       app.isOpenMain = app.isOpenMain ? false : true;
-      console.log(app.isOpenMain);
       updateApp( "isOpenMain", app );
       talknAPI.extension("toggleIframe");
     }
