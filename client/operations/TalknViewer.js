@@ -53,7 +53,7 @@ export default class TalknViewer {
 		const app = talknAPI.store.getState().app.merge({width, height});
 		const setting = talknAPI.store.getState().setting;
 
-		talknAPI.offTransition();
+		//talknAPI.offTransition();
 		talknAPI.onResizeStartWindow( {app, setting} );
 	}
 
@@ -61,17 +61,17 @@ export default class TalknViewer {
 		clearTimeout(this.resizeTimer);
 		const width = ev ? ev.target.innerWidth : window.innerWidth;
 		const height = ev ? ev.target.innerHeight : window.innerHeight;
-		const isTransition = false;
 		const app = talknAPI.store.getState().app.merge({width, height});
 		const setting = talknAPI.store.getState().setting;
 
 		this.resizeTimer = false;
 		this.resizing = false;
 		talknAPI.onResizeEndWindow( {app, setting} );
-
+/*
 		setTimeout( () => {
 			talknAPI.onTransition();
-		}, ContainerStyle.getTransitionOn( app, true ) * 1.2 );
+		}, ContainerStyle.getTransition( app, true ) * 1.2 );
+*/
 	}
 
 	appendRoot(){

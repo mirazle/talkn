@@ -12,42 +12,7 @@ export default ( state = {} , action ) => {
 
 	switch( action.type ){
 	case 'TOGGLE_DISP_MAIN':
-		console.log(action);
 		return {...state};
-/*
-		let mainTranslateY;
-		let headTabLeftTransform;
-		let headTabRightTransform;
-		if(action.app.isOpenMain){
-			mainTranslateY = Main.getSelfOpenTranslateY();
-			headTabLeftTransform = Icon.getHeadTabLeftOpenTransform;
-			headTabRightTransform = Icon.getHeadTabRightOpenTransform;
-		}else{
-			mainTranslateY = Main.getSelfCloseTranslateY();
-			headTabLeftTransform = Icon.getHeadTabLeftCloseTransform;
-			headTabRightTransform = Icon.getHeadTabRightCloseTransform;
-		}
-
-		return {...state,
-			icon: {...state.icon,
-				headTab: {...state.icon.headTab,
-					left: {...state.icon.headTab.left,
-						transform: headTabLeftTransform,
-					},
-					right: {...state.icon.headTab.right,
-						transform: headTabRightTransform,
-					},
-				}
-			},
-			main: {...state.main,
-				self: {...state.main.self,
-					transform: `translate3d(0px, ${mainTranslateY}, 0px )`,
-				}
-			}
-		}
-
-		return action.style ? action.style : state ;
-*/
 	case 'ON_CLICK_TOGGLE_DISP_MENU':
 	case 'ON_CLICK_TOGGLE_DISP_DETAIL':
 		return {...state,
@@ -95,38 +60,7 @@ export default ( state = {} , action ) => {
 		}
 	case 'ON_TRANSITION' :
 	case 'OFF_TRANSITION' :
-		let transition = Container.getTransitionOn( action.app );
-		return {...state,
-			detail: {...state.detail,
-				self: {...state.detail.self, transition}
-			},
-			icon: {...state.icon,
-				user: {...state.icon.user,
-					bottom: {...state.icon.user.bottom, transition}
-				},
-				detail: {...state.icon.detail,
-					bottom: {...state.icon.detail.bottom, transition}
-				},
-				menu: {...state.icon.menu,
-					div: {...state.icon.menu.div, transition}
-				}
-			},
-			main: {...state.main,
-				notif: {...state.main.notif, transition}
-			},
-			posts: {...state.posts,
-				ol: {...state.posts.ol, transition}
-			},
-			screen: {...state.screen,
-				self: {...state.screen.self, transition}
-			},
-			footer: {...state.footer,
-				self: {...state.footer.self, transition}
-			},
-			postsFooter: {...state.postsFooter,
-				self: {...state.postsFooter.self, transition}
-			},
-		}
+		return new Style( action );
 	case 'UPDATE_STYLE':
 		const { styleKey, eleType, tagName, style } = action;
 

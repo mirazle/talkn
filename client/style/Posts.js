@@ -110,7 +110,7 @@ export default class Posts {
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }
@@ -168,7 +168,7 @@ export default class Posts {
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase({
-      transition: "0ms",
+      transition: Container.transitionOff,
     });
     return Style.get({layout, content, animation});
   }
