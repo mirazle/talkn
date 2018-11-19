@@ -88,7 +88,7 @@ export default class Footer{
     const content = {};
     const animation = Style.getAnimationBase({
       transform: Footer.getTransform( app ),
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }

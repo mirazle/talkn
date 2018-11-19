@@ -57,7 +57,7 @@ export default class DetailModal {
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
       transform: DetailModal.getTransform( app ),
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
 
     return Style.get({layout, content, animation});

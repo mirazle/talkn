@@ -92,7 +92,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransitionOn( app ),
+        transition: Container.getTransition( app ),
         transform: `scale(1) translate3d(-20px, 12px, 0px) rotate(45deg)`,
       }),
     });
@@ -141,7 +141,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransitionOn( app ),
+        transition: Container.getTransition( app ),
         transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
       }),
     });
@@ -207,7 +207,7 @@ export default class Icon {
       layout: commonSpan,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransitionOn( app ),
+        transition: Container.getTransition( app ),
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
@@ -251,7 +251,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransitionOn( app ),
+        transition: Container.getTransition( app ),
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
@@ -282,7 +282,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransitionOn( app ),
+        transition: Container.getTransition( app ),
         transform: `translate3d( 0px, -8px, 1000px )`,
       }),
     });
@@ -311,7 +311,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransitionOn( app ),
+        transition: Container.getTransition( app ),
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
@@ -342,7 +342,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransitionOn( app ),
+        transition: Container.getTransition( app ),
         transform: `translate3d( 0px, -13px, 1000px )`,
       }),
     });
@@ -474,7 +474,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: "0ms",
+        transition: Container.transitionOff,
         transform: "rotate(0deg) translate(0px, 0px)",
       }),
     });
@@ -485,7 +485,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: "0ms",
+        transition: Container.transitionOff,
         transform: "rotate(90deg) translate3d(-2px,8px,0px)",
       }),
     });
@@ -505,7 +505,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: "0ms",
+        transition: Container.transitionOff,
         transform: "skew(60deg, 0deg) rotate(0deg) translate(0px, 0px)"
       }),
     });
@@ -525,7 +525,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: "0ms",
+        transition: Container.transitionOff,
         transform: "skew(60deg, 0deg) rotate(0deg) translate(0px, 0px)"
       }),
     });
@@ -590,7 +590,7 @@ export default class Icon {
       layout: commonSpan,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransitionOn( app ),
+        transition: Container.getTransition( app ),
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
@@ -599,7 +599,7 @@ export default class Icon {
       layout: commonSpan,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransitionOn( app ),
+        transition: Container.getTransition( app ),
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
@@ -634,7 +634,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransitionOn( app ),
+        transition: Container.getTransition( app ),
       }),
     });
 
@@ -677,7 +677,7 @@ export default class Icon {
       layout: commonLayout,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransitionOn( app ),
+        transition: Container.getTransition( app ),
         transform: Icon.getHeadTabLeftTransform( app.isOpenMain ),
       }),
     });
@@ -686,7 +686,7 @@ export default class Icon {
       layout: commonLayout,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransitionOn( app ),
+        transition: Container.getTransition( app ),
         transform: Icon.getHeadTabRightTransform( app.isOpenMain ),
       }),
     });

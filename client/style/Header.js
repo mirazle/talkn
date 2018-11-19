@@ -54,12 +54,13 @@ export default class Header {
       Container.radiuses : '0px';
 
     const layout = Style.getLayoutFlex({
+      position: "initial",
       width,
       height: `${Header.headerHeight}px`,
       border: Container.border,
       borderRadius,
       background: Container.whiteRGB,
-      margin: "0 auto",
+      margin: "0 auto"
     });
     const content = Style.getContentBase({
       textAlign: 'center',
@@ -197,7 +198,7 @@ export default class Header {
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }

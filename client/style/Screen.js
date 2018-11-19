@@ -53,7 +53,7 @@ export default class Screen {
     });
     const animation = Style.getAnimationBase({
       transform: Screen.getTransform( app ),
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }

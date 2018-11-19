@@ -61,14 +61,12 @@ export default class Container{
 
     return addUnit ? Style.trimUnit( transition ) : transition ;
   };
+  static getTransition( app, addUnit = false ){
+    const transition = app.isTransition ? `${ Container.transitionOn }ms` : `${ Container.transitionOff }ms`;
+    return addUnit ? Style.trimUnit( transition ) : transition ;
+  };
   static getTransitionFirstOn( app, addUnit = false ){
-    let transition = Container.transitionOn;
-    if( app ){
-      transition =  app.isTransition ? `${ Container.transitionFirstOn }ms` : `${ Container.transitionOff }ms`;
-    }else{
-      transition = `${ Container.transitionFirstOn }ms`;
-    }
-
+    const transition = app.isTransition ? `${ Container.transitionFirstOn }ms` : `${ Container.transitionOff }ms`;
     return addUnit ? Style.trimUnit( transition ) : transition ;
   };
   static get transitionOn(){ return 600 };

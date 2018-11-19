@@ -20,9 +20,9 @@ export default {
     TalknSession.setStorage( rootConnection, define.storageKey[ removePostKey ], [] );
     return {state, props};
   },
-  "UPDATE_SETTING": ( state, props ) => {
+  "UPDATE_APP": ( state, props ) => {
     const { rootConnection } = state.app;
-    TalknSession.setStorage( rootConnection, define.storageKey.setting, state.setting.toJSON() );
+    TalknSession.setStorage( rootConnection, define.storageKey.app, state.app.toJSON() );
     return {state, props};
   },
   "ON_CLICK_MENU": ( state, props ) => {

@@ -77,7 +77,7 @@ export default class Main {
     });
     const animation = Style.getAnimationBase({
       transform: `translate3d(0px, ${translateY}, 0px)`,
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }
@@ -101,7 +101,7 @@ export default class Main {
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransitionOn( app ),
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }
