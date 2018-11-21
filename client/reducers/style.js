@@ -1,18 +1,24 @@
 import Style from 'client/style/index';
-import Container from 'client/style/Container';
 import Main from 'client/style/Main';
 import Screen from 'client/style/Screen';
 import Menu from 'client/style/Menu';
 import Posts from 'client/style/Posts';
 import Detail from 'client/style/Detail';
 import Footer from 'client/style/Footer';
-import Icon from 'client/style/Icon';
 
 export default ( state = {} , action ) => {
 
 	switch( action.type ){
 	case 'TOGGLE_DISP_MAIN':
 		return {...state};
+	case 'ON_CLICK_MULTISTREAM':
+		return {...state,
+			posts: {...state.posts,
+				multistreamIconWrap: {...state.posts.multistreamIconWrap,
+					border: Posts.getMultistreamIconWrapBorder( action)
+				}
+			},
+		}
 	case 'ON_CLICK_TOGGLE_DISP_MENU':
 	case 'ON_CLICK_TOGGLE_DISP_DETAIL':
 		return {...state,

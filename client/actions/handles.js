@@ -10,31 +10,10 @@ export default {
       style,
     };
   },
-  updateApp: ( updateColumn, app ) => {
+  onClickFooterIcon: ({app}) => {
     return {
-      type: 'UPDATE_APP',
-      updateColumn,
+      type: 'ON_CLICK_FOOTER_ICON',
       app,
-    };
-  },
-  updateUser: ( updateColumn, user ) => {
-    return {
-      type: 'UPDATE_USER',
-      updateColumn,
-      user,
-    };
-  },
-  updateSetting: ( updateColumn, setting ) => {
-    return {
-      type: 'UPDATE_SETTING',
-      updateColumn,
-      setting,
-    };
-  },
-  updatePosts: ( posts ) => {
-    return {
-      type: 'UPDATE_POSTS',
-      posts,
     };
   },
   onClickOtherThread: ( connection ) => {
@@ -56,6 +35,14 @@ export default {
       app,
     };
   },
+  onClickMultistream: ({app, user, posts}) => {
+    return {
+      type: 'ON_CLICK_MULTISTREAM',
+      app,
+      user,
+      posts,
+    };
+  },
   onClickToggleDispMenu: ( app ) => {
     return {
       type: 'ON_CLICK_TOGGLE_DISP_MENU',
@@ -66,12 +53,6 @@ export default {
     return {
       type: 'ON_CLICK_TOGGLE_DISP_DETAIL',
       app,
-    };
-  },
-  onClickMultistream: ( multistream ) => {
-    return {
-      type: 'ON_CLICK_TOGGLE_MULTISTREAM',
-      app: {multistream},
     };
   },
   onClickLike: ( inputPost ) => {

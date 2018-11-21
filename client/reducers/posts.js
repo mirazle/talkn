@@ -5,11 +5,9 @@ export default ( state = new Posts() , action ) => {
 	switch( action.type ){
 	case 'ON_CLICK_OTHER_THREAD':
 		return new Posts();
-	case 'UPDATE_POSTS':
+	case 'ON_CLICK_MULTISTREAM':
 		return action.posts;	
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
-		console.log(action);
-
 		if(action.app.multistream){
 			if( action.thread.connection ===  action.app.rootConnection ){
 				return [ ...state, ...action.posts ];

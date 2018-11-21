@@ -14,6 +14,7 @@ export default class User extends Schema{
     const connectioned = params && params.connectioned ? params.connectioned : '';
     const multistream = params && params.multistream ? params.multistream : false;
     const multistreamed = params && params.multistreamed ? params.multistreamed : multistream;
+    const actioned = params && params.actioned ? params.actioned : "";
     const offsetFindId = params && params.offsetFindId ? params.offsetFindId : User.defaultOffsetFindId ;
     const friends = [];
     return this.create({
@@ -23,6 +24,7 @@ export default class User extends Schema{
       isRootConnection,
       connectioned,
       multistreamed,
+      actioned,
       offsetFindId,
       friends,
     });

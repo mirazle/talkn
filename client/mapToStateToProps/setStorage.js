@@ -20,7 +20,12 @@ export default {
     TalknSession.setStorage( rootConnection, define.storageKey[ removePostKey ], [] );
     return {state, props};
   },
-  "UPDATE_APP": ( state, props ) => {
+  "ON_CLICK_FOOTER_ICON": ( state, props ) => {
+    const { rootConnection } = state.app;
+    TalknSession.setStorage( rootConnection, define.storageKey.app, state.app.toJSON() );
+    return {state, props};
+  },
+  "ON_CLICK_MULTISTREAM": ( state, props ) => {
     const { rootConnection } = state.app;
     TalknSession.setStorage( rootConnection, define.storageKey.app, state.app.toJSON() );
     return {state, props};
