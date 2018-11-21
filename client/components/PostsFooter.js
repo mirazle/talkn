@@ -9,18 +9,19 @@ export default class PostsFooter extends Component {
 
   constructor(props) {
     super(props);
-    this.handleOnClickIcon = this.handleOnClickIcon.bind(this);
+    this.handleOnClickFooterIcon = this.handleOnClickFooterIcon.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
   }
 
-  handleOnClickIcon( e ){
-    const { updateApp, state} = this.props;
+  handleOnClickFooterIcon( e ){
+    const { onClickFooterIcon, state} = this.props;
     const { app } = state;
+
     if( app.type ===  define.APP_TYPES.EXTENSION ){
       app.isOpenMain = app.isOpenMain ? false : true;
-      updateApp( "isOpenMain", app );
+      onClickFooterIcon( {app} );
       talknAPI.extension("toggleIframe");
     }
   }
@@ -67,7 +68,7 @@ export default class PostsFooter extends Component {
         <div
           style={ this.getIconStyle() }
           { ...this.getIconProps() }
-          onClick={this.handleOnClickIcon}
+          onClick={this.handleOnClickFooterIcon}
         />
         <textarea
           style={style.postsFooter.textarea}

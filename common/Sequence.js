@@ -41,7 +41,7 @@ export default class Sequence {
         requestPrivateState: {
           'thread': [{columnName: 'connection'}],
           'app': [{columnName: 'multistream'}],
-          'user': [{columnName: 'offsetFindId'}, {columnName: 'multistreamed'}],
+          'user': [{columnName: 'offsetFindId'}, {columnName: 'isRootConnection'}, {columnName: 'multistreamed'}],
         },
         responseEmitState: {'thread': ['connection'], 'user': ['offsetFindId'], 'posts': '*'},
         responseBroadcastState: {},
@@ -68,7 +68,7 @@ export default class Sequence {
         requestPublicState: {},
         requestPrivateState: {
           'app':[ {columnName: 'inputPost', valid: App.validPost}],
-          'user':[ {columnName: 'uid'},{columnName: 'utype'}, {columnName: 'multistreamed'}],
+          'user':[ {columnName: 'uid'}, {columnName: 'isRootConnection'}, {columnName: 'utype'}, {columnName: 'multistreamed'}],
           'app': [{columnName: 'multistream'}, {columnName: 'inputPost'}],
           'thread': [{columnName: 'protocol'}, {columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}]
         },

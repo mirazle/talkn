@@ -135,7 +135,7 @@ export default class Posts {
     return Style.get({layout, content, animation});
   }
 
-  static getMultistreamIconWrapBorder( {app} ){;
+  static getMultistreamIconWrapBorder( {app} ){
     return app.multistream ?
       `1px solid ${Container.themeRGBA}` :
       `1px solid ${Container.calmRGBA}`;

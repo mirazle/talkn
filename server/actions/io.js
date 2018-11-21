@@ -17,7 +17,6 @@ export default {
     Object.keys( Sequence.map ).forEach( endpoint => {
       const oneSequence = Sequence.map[ endpoint ];
       ioUser.on( endpoint, ( requestState ) => {
-        console.log(requestState);
         Actions.io[ endpoint ]( ioUser, requestState, setting );
       });
     });
@@ -35,11 +34,12 @@ export default {
 
   getMore: async ( ioUser, requestState, setting ) => {
     const { app } = requestState;
+    let { user } = requestState;
     const { connection } = requestState.thread;
-    const isMultistream = Threads.getStatusIsMultistream( app );
+    const isMultistream = Threads.getStatusIsMultistream( app, user );
     const {response: posts} = await Logics.db.posts.find(requestState, setting, isMultistream, true );
     const offsetFindId = Logics.db.posts.getOffsetFindId( posts );
-    const user = {connectioned: connection ,offsetFindId};
+    user = {connectioned: connection ,offsetFindId};
     const thread = {connection};
     Logics.io.getMore( ioUser, {requestState, thread, posts, user} );
   },
@@ -132,9 +132,9 @@ export default {
   },
 
   post: async ( ioUser, requestState, setting ) => {
-    const { app } = requestState;
+    const { app, user } = requestState;
     const { connection } = requestState.thread;
-    const isMultistream = Threads.getStatusIsMultistream( app );
+    const isMultistream = Threads.getStatusIsMultistream( app, user );
     const post = await Logics.db.posts.save( requestState );
     const response = await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost: post } );
     const postCnt = await Logics.db.posts.getCounts( requestState, isMultistream );

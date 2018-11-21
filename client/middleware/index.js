@@ -1,8 +1,12 @@
+import define from 'common/define';
+import PostSchema from 'common/schemas/state/Post';
+import TalknSession from 'client/operations/TalknSession';
+
 export default {
-  updateDesc: store => next => action => {
+  updateAction: store => next => action => {
 
     if( functions[ action.type ] ){
-      action= functions[ action.type ]( store, action );
+      action = functions[ action.type ]( store, action );
     }
     next(action);
   }
@@ -28,6 +32,10 @@ const functions = {
   },
   "ON_CLICK_MENU": ( store, action ) => {
     action.app.desc = action.app.menuComponent;
+    return action;
+  },
+  "ON_CLICK_MULTISTREAM": ( store, action ) => {
+
     return action;
   },
   "ON_CLICK_TOGGLE_DISP_DETAIL": ( store, action ) => {
