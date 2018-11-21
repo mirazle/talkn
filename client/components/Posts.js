@@ -136,7 +136,7 @@ export default class Posts extends Component {
   }
 
   handleOnClickMultistream(){
-    const { updateUser, updateApp, updatePosts, state} = this.props;
+    const { state, onClickMultistream } = this.props;
     const { app, user, thread } = state;
     const { storageKey } = define;
 
@@ -152,10 +152,7 @@ export default class Posts extends Component {
     // stateを更新
     user.offsetFindId = existPost ? posts[ postLength - 1 ]._id : PostSchema.defaultFindId; 
 
-    updateUser( "offsetFindId", user );
-    updateApp( "multistream", app );
-    updatePosts( posts );
-
+    onClickMultistream({user, app, posts});
     talknAPI.find(thread.connection);
   }
 
@@ -183,9 +180,9 @@ export default class Posts extends Component {
   }
 
   renderMultistream(){
-    const { setting, style, app, thread } = this.props.state;
+    const { state} = this.props;
+    const { setting, style, app, thread } = state;
     const ThunderIcon = Icon.getThunder( IconStyle.getThunder({setting, app}) );
-
     if( app.menuComponent === "Index" && thread.connection === app.rootConnection ){
       return(
         <div

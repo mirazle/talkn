@@ -237,6 +237,6 @@ export default class Threads {
   }
 
   static getStatusIsToggleMultistream( app, user ){
-    return app.multistream !== user.multistreamed;
+    return app.actioned === "ON_CLICK_MULTISTREAM";
   }
 }
