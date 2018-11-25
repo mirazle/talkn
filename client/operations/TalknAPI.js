@@ -47,6 +47,7 @@ export default class TalknAPI{
 					switch( e.data.method ){
 					case "bootExtension":
 						const state = talknAPI.store.getState();
+						this.offTransition();
 						this.parentUrl = e.data.url;
 						this.extension( "extensionBoot", state.app );
 						this[ "extension" ] = this.extension;

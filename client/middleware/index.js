@@ -38,7 +38,16 @@ const functions = {
 
     return action;
   },
+  "ON_TRANSITION": ( store, action ) => {
+    action.app = {...store.getState().app, ...action.app};
+    return action;
+  },
+  "OFF_TRANSITION": ( store, action ) => {    
+    action.app = {...store.getState().app, ...action.app};
+    return action;
+  },
   "ON_CLICK_TOGGLE_DISP_DETAIL": ( store, action ) => {
+    action.app = {...action.app, ...store.getState().app};
     return action;
   },
 }

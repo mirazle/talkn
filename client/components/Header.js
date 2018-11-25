@@ -51,6 +51,7 @@ export default class Header extends Component {
       app = this.getAppUpdatedOpenFlgs();
       break;
     }
+
     talknAPI.onClickToggleDispDetail( app );
   }
 
