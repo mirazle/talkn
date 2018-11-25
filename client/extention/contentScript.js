@@ -2,7 +2,7 @@ class ClientScript {
 
     static get APP_NAME(){return "talkn"}
     static get PROTOCOL(){return "https"}
-    static get BASE_HOST(){return "localhost"}
+    static get BASE_HOST(){return "talkn.io"}
     static get BASE_PORT(){return 8080}
     static get EXCLUSION_HOSTS(){return ['localhost', 'talkn.io']}    
     static get BASE_HOSTNAME(){return `${ClientScript.PROTOCOL}://${ClientScript.BASE_HOST}:${ClientScript.BASE_PORT}`};
@@ -10,7 +10,7 @@ class ClientScript {
     static get iframeOpenHeight(){return '450px'};
 
     constructor(){
-
+        console.log();
         this.connection = location.href.replace("http:/", "").replace("https:/", "");
 
         const noBootFlg = ClientScript.EXCLUSION_HOSTS.some( host => this.connection.indexOf(host) >= 0);
