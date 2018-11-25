@@ -1,7 +1,3 @@
-import define from 'common/define';
-import PostSchema from 'common/schemas/state/Post';
-import TalknSession from 'client/operations/TalknSession';
-
 export default {
   updateAction: store => next => action => {
 
