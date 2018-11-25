@@ -1,3 +1,4 @@
+import conf from '../../../common/conf';
 import App from '../../../common/schemas/state/App';
 import Style from '../index';
 import Container from '../Container';
@@ -226,7 +227,7 @@ export default class MenuIndex {
     const layout = Style.getLayoutInlineBlock({
       width: '20%',
       height: '50px',
-      backgroundImage: 'url("http://localhost:8080/favicon.ico")',
+      backgroundImage: `url(${conf.protcol}:${conf.assetsPath}favicon.ico")`,
       backgroundPosition: '50% 15%',
       backgroundSize: '20px 20px',
       backgroundRepeat: 'no-repeat',

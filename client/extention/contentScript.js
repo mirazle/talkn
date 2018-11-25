@@ -1,4 +1,3 @@
-
 class ClientScript {
 
     static get APP_NAME(){return "talkn"}
@@ -66,7 +65,6 @@ class ClientScript {
 
     loadTalkn(e){
     }
-
         
     extensionBoot(params){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);

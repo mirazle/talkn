@@ -1,3 +1,4 @@
+import conf from '../../common/conf';
 import Style from './index';
 import Container from './Container';
 
@@ -106,7 +107,7 @@ export default class Post {
       flexGrow:  1,
       width: Post.iconSize,
       height: Post.iconSize,
-      backgroundImage: 'url("http://localhost:8080/favicon.ico")',
+      backgroundImage: `url(${conf.protcol}:${conf.assetsPath}favicon.ico")`,
       backgroundPosition: '50% 50%',
       backgroundSize: '20px 20px',
       backgroundRepeat: 'no-repeat',
