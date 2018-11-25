@@ -1,3 +1,4 @@
+import define from '~/common/define';
 import App from '~/common/schemas/state/App';
 import User from '~/common/schemas/state/User'
 import UserAgent from '~/common/schemas/state/UserAgent';
@@ -31,10 +32,22 @@ export default class State{
   }
 
   static getAppParams(appType, talknIndex, thread, caches){
-    if(caches && caches.app && caches.app.type){
-      return {...caches.app};
-    }else{
-      return {type: appType, talknIndex, ...thread};
+
+    switch(appType){
+    case define.APP_TYPES.PORTAL :
+      if(caches && caches.app && caches.app.type){
+        return {...caches.app,};
+      }else{
+        return {type: appType, isTransition: true, talknIndex, ...thread};
+      }      
+      break;
+    case define.APP_TYPES.EXTENSION :
+      if(caches && caches.app && caches.app.type){
+        return {...caches.app};
+      }else{
+        return {type: appType, talknIndex, ...thread};
+      }
+      break;
     }
   }
 
