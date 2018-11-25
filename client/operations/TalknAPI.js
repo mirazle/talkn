@@ -8,12 +8,13 @@ import WsClientToServerEmitActions from 'client/actions/ws/clientToServerEmit'
 import WsServerToClientBroadcastAction from 'client/actions/ws/serverToClientBradcast'
 
 export default class TalknAPI{
-	constructor( talknIndex, store, connection ){
+	constructor( talknIndex, store, state, connection ){
 		const { server } = conf;
 		const { PORTS } = define;
 		this.ws = io(`//${server}:${PORTS.SOCKET_IO}`, { forceNew: true });
 		this.talknIndex = talknIndex;
 		this.store = store;
+		this.state = state;
 		this.connectionKeys = [];
 		this.connection = connection;
 
@@ -26,8 +27,9 @@ export default class TalknAPI{
 		this.onTalknAPI();
 
 		this.parentUrl = null;
-		this.onMessage();
 		window.__talknAPI__[ talknIndex ] = this;
+
+		this.onMessage();
 	}
 
 	static handle( talknIndex ){
@@ -40,7 +42,8 @@ export default class TalknAPI{
 	}
 
 	onMessage(){
-		if(this.parentUrl === null){
+		switch(this.state.app.type){
+		case define.APP_TYPES.EXTENSION :
 			window.addEventListener("message", (e) => {
 				if( e.data.type === "talkn" ){
 
@@ -59,6 +62,10 @@ export default class TalknAPI{
 					}
 				}
 			}, false);
+			break;
+		case define.APP_TYPES.PORTAL :
+			this.onTransition();
+			break;
 		}
 		return true;
 	}
