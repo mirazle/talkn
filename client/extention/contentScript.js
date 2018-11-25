@@ -21,11 +21,13 @@ class ClientScript {
             this.catchMessage = this.catchMessage.bind(this);
             this.toggleIframe = this.toggleIframe.bind(this);
             this.location = this.location.bind(this);
-
+            this.transitionend = this.transitionend.bind(this);
+            this.loadTalkn = this.loadTalkn.bind(this);
+            
             // setupWindow
             this.setupWindow();
             this.iframe  = document.createElement("iframe");
-            this.load = this.load.bind(this);
+            this.loadIframe = this.loadIframe.bind(this);
             this.talknUrl = ClientScript.BASE_HOSTNAME + this.connection;
             this.iframe.setAttribute("id", `${ClientScript.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
@@ -43,7 +45,8 @@ class ClientScript {
             );
             this.iframe.setAttribute("src", this.talknUrl );
             this.iframe.setAttribute("frameBorder", 0 );
-            this.iframe.addEventListener( "load", this.load );
+            this.iframe.addEventListener( "load", this.loadIframe );
+            this.iframe.addEventListener( "transitionend", this.transitionend );
             document.body.appendChild(this.iframe);
         }
     }
@@ -52,9 +55,31 @@ class ClientScript {
         window.addEventListener('message', this.catchMessage, false);
     }
 
-    load(e){
+    transitionend(e){
+        this.postMessage("onTransition");
+    }
+
+    loadIframe(e){
         this.iframe = e.path[1].querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         this.postMessage("bootExtension");
+    }
+
+    loadTalkn(e){
+    }
+
+        
+    extensionBoot(params){
+        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+        const {isOpenMain} = params;
+        if( isOpenMain ){
+            iframe.style.height = ClientScript.iframeOpenHeight;
+            iframe.style.display = "block";
+            this.postMessage("onTransition");
+        }else{
+            iframe.style.height = ClientScript.iframeCloseHeight;
+            iframe.style.display = "block";
+            this.postMessage("offTransition");
+        }
     }
 
     catchMessage(e){
@@ -75,18 +100,8 @@ class ClientScript {
         }, this.talknUrl);
     }
 
-    extensionBoot(params){
-        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
-        const {isOpenMain} = params;
-        if( isOpenMain ){
-            iframe.style.height = ClientScript.iframeOpenHeight;
-        }else{
-            iframe.style.height = ClientScript.iframeCloseHeight;
-        }
-        iframe.style.display = "block";
-    }
-
     toggleIframe(params){
+        this.postMessage("offTransition");
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         if( iframe.style.height === ClientScript.iframeCloseHeight ){
             iframe.style.transition = "600ms";

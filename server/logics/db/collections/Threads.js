@@ -42,6 +42,7 @@ export default class Threads {
     const regex = new RegExp( `^${regexConnection}` );
     const condition = {
       connection: regex,
+      postCnt: {'$ne': 0},
       "lastPost.connection": regex,
       "$or": [{layer: layer}, {layer: layer + 1}],
     };
@@ -237,6 +238,6 @@ export default class Threads {
   }
 
   static getStatusIsToggleMultistream( app, user ){
-    return app.actioned === "ON_CLICK_MULTISTREAM";
+    return user.actioned === "ON_CLICK_MULTISTREAM";
   }
 }
