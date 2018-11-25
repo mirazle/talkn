@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import timeago from 'timeago.js';
 import define from 'common/define';
 import Container from 'client/Container';
-import ContainerStyle from 'client/style/Container';
 import conf from 'client/conf'
 
 export default class TalknViewer {
