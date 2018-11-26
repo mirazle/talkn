@@ -64,7 +64,6 @@ export default class MenuIndexList {
   }
 
   static getUnactiveLiSelf({app}){
-
     const borders = MenuIndexList.getUnactiveLiBorder(app);
     const layout = Style.getLayoutBlock({
       width: 'initial',
