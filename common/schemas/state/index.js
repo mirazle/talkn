@@ -15,7 +15,7 @@ import Style from '~/common/schemas/state/Style';
 
 export default class State{
 
-  constructor( appType, talknIndex, window, bootOption = {}, caches = {} ){
+  constructor( appType = define.APP_TYPES.PORTAL, talknIndex, window, bootOption = {}, caches = {} ){
     this.userAgent = new UserAgent( window );
 		this.menuIndex = new MenuIndex();
 		this.menuLogs = new MenuLogs( caches.menuLogs );
@@ -32,22 +32,19 @@ export default class State{
   }
 
   static getAppParams(appType, talknIndex, thread, caches){
-
     switch(appType){
     case define.APP_TYPES.PORTAL :
       if(caches && caches.app && caches.app.type){
-        return {...caches.app,};
+        return {...caches.app, type: appType};
       }else{
-        return {type: appType, isTransition: true, talknIndex, ...thread};
+        return {type: appType, type: appType, isTransition: true, talknIndex, ...thread};
       }      
-      break;
     case define.APP_TYPES.EXTENSION :
       if(caches && caches.app && caches.app.type){
-        return {...caches.app};
+        return {...caches.app, type, appType};
       }else{
         return {type: appType, talknIndex, ...thread};
       }
-      break;
     }
   }
 

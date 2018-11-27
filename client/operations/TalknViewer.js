@@ -24,7 +24,7 @@ export default class TalknViewer {
 		this.resizeEndWindow = this.resizeEndWindow.bind( this );
 	}
 
-	static getAppType(e){		
+	static getAppType(e){
 		return window.name === define.APP_TYPES.EXTENSION ?
 			define.APP_TYPES.EXTENSION : define.APP_TYPES.PORTAL;
 	}
