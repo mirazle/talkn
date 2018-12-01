@@ -41,7 +41,7 @@ export default class State{
       }      
     case define.APP_TYPES.EXTENSION :
       if(caches && caches.app && caches.app.type){
-        return {...caches.app, type, appType};
+        return {...caches.app, type: appType};
       }else{
         return {type: appType, talknIndex, ...thread};
       }
