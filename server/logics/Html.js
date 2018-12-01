@@ -167,7 +167,7 @@ export default class Html {
 
   toUtf8Str( body ){
     const encoding = this.getCharset( body );//jschardet.detect( body ).encoding;
-    const buf = new Buffer( body, 'binary' );
+    const buf = Buffer.from( body, 'binary');
     const iconv = new Iconv( encoding, 'UTF-8//TRANSLIT//IGNORE');
     return iconv.convert( buf ).toString();
   }
