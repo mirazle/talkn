@@ -21,8 +21,6 @@ export default class Posts {
       width = '50.0%';
       break;
     case App.screenModeMiddleLabel :
-      console.log(app.width + " " + Detail.getWidth( app, true ) + " " + Menu.getWidth( app, true ) );
-      console.log(app.width - Detail.getWidth( app, true ) );
       width = app.isOpenDetail ? 
         `${ app.width - Menu.getWidth( app, true )}px` :
         `${ app.width - Menu.getWidth( app, true )}px` ;
