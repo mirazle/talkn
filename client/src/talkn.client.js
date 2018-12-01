@@ -36,9 +36,7 @@ class TalknClient{
 		const store = configureStore();
 		const bootOption = BootOption.rebuildAttributes(attributes);
 		const caches = TalknSession.getCaches(bootOption.connection);
-		console.log(appType);
 		const state = new State( appType, talknIndex, window, bootOption, caches );
-		console.log(state);
 		const talknAPI = new TalknAPI( talknIndex, store, state, bootOption.connection );
 		const talknViewer = new TalknViewer( state, talknAPI );
 
