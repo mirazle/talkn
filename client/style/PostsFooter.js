@@ -32,6 +32,16 @@ export default class PostsFooter{
     return addUnit ? Style.trimUnit( right ) : right ;
   };
 
+  static getBorder( app, addUnit = false ){
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      return {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border};
+    }else{
+      return app.screenMode === App.screenModeSmallLabel ?
+        {borderTop: Container.border, borderBottom: Container.border} :
+        {borderTop: Container.border, borderBottom: Container.border} ;
+    }
+  };
+
   static getTransform( app ){
     let transform = 'translate3d( 0px, 0px, 0px )';
     switch( app.screenMode ){
@@ -61,9 +71,7 @@ export default class PostsFooter{
 
   static getSelf( {app} ){
     const position = app.screenMode === App.screenModeSmallLabel ? "fixed" : "flex";
-    const borders = app.screenMode === App.screenModeSmallLabel ?
-      {borderTop: Container.border, borderBottom: Container.border} :
-      {borderTop: Container.border, borderBottom: Container.border} ;
+    const borders = PostsFooter.getBorder(app);
     const borderRadius = app.type === define.APP_TYPES.EXTENSION ?
       Container.radiuses : '0px';
 
