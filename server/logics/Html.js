@@ -93,8 +93,8 @@ export default class Html {
       const sources = $( video ).find('source');
       const sourceLength = sources.length;
       let srcs = [];
-      for( var i = 0; i < sourceLength; i++ ){
-        srcs.push( sources[ i ].attribs.src );
+      for( var j = 0; j < sourceLength; j++ ){
+        srcs.push( sources[ j ].attribs.src );
       }
       videos.push( {...video.attribs, srcs } );
     }
@@ -109,8 +109,8 @@ export default class Html {
       const sources = $( audio ).find('source');
       const sourceLength = sources.length;
       let srcs = [];
-      for( var i = 0; i < sourceLength; i++ ){
-        srcs.push( sources[ i ].attribs.src );
+      for( var j = 0; j < sourceLength; j++ ){
+        srcs.push( sources[ j ].attribs.src );
       }
 
       audios.push( {...audio.attribs, srcs } );
