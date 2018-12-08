@@ -15,7 +15,9 @@
 		var jsPath = '//' + location.host + '/';
 		var jsFileName = 'talkn.client.js';
 		var pathname = location.pathname ? location.pathname.replace(portalDevHost, '') : "";
-		var connection = location.pathname ? pathname + location.search : '/';
+		var connection = location.href ?
+			location.href.replace('http:/' + portalDevHost, '').replace('https:/' + portalDevHost, '') :
+			'/';
 		var layerCnt = connection.split( '/' ).length - 1;
 
 		if( layerCnt === 1 && !connection.match( /\/$/ ) ){
