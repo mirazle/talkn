@@ -56,6 +56,7 @@ class Express{
   routingHttps( req, res, next ){
     switch( req.headers.host ){
     case conf.domain:
+
       const connection = Object.values( req.params )[ 0 ];
       const params = {
         domain: conf.domain,

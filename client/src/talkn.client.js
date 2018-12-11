@@ -24,7 +24,6 @@ class TalknClient{
 	}
 
 	onLoad(e){
-		console.log("--");
 		const { PORTS } = define;
 		const appType = TalknViewer.getAppType(e);
 		const scriptName = Number( location.port ) === PORTS.DEVELOPMENT ? 'talkn.client.js' : conf.clientURL;
