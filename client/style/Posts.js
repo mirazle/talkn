@@ -10,7 +10,7 @@ import Detail from './Detail';
 export default class Posts {
 
   static getMinWidth( app, addUnit = false ){
-    let width = '300px';
+    let width = '200px';
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 

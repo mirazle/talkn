@@ -1,5 +1,6 @@
 {
     "manifest_version": 2,
+    "content_security_policy": "frame-src https://localhost/",
     "name": "talkn",
     "description": "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.",
     "content_scripts": [
@@ -12,5 +13,5 @@
     "permissions": [
       "storage"
     ],
-    "version": "0.671"
+    "version": "0.672"
 }

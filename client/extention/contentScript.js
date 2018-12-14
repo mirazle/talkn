@@ -21,7 +21,6 @@ class ClientScript {
 
     constructor(){
         this.connection = location.href.replace("http:/", "").replace("https:/", "");
-
         const noBootFlg = ClientScript.EXCLUSION_HOSTS.some( host => this.connection.indexOf(host) >= 0);
         
         if(!noBootFlg){
