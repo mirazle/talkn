@@ -52,7 +52,7 @@ export default class PostsFooter extends Component {
 
   getIconStyle(){
     const { thread, style } = this.props.state;
-    const favicon = `//${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}`;
+    const favicon = `https://${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}`;
     return thread.favicon ? {...style.postsFooter.icon, backgroundImage: `url(${favicon})` } : style.postsFooter.icon ;
   }
 
