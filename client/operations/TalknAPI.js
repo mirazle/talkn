@@ -11,7 +11,7 @@ export default class TalknAPI{
 	constructor( talknIndex, store, state, connection ){
 		const { server } = conf;
 		const { PORTS } = define;
-		this.ws = io(`//${server}:${PORTS.SOCKET_IO}`, { forceNew: true });
+		this.ws = io(`https://${server}:${PORTS.SOCKET_IO}`, { forceNew: true });
 		this.talknIndex = talknIndex;
 		this.store = store;
 		this.state = state;
@@ -46,13 +46,12 @@ export default class TalknAPI{
 		case define.APP_TYPES.EXTENSION :
 			window.addEventListener("message", (e) => {
 				if( e.data.type === "talkn" ){
-
 					switch( e.data.method ){
 					case "bootExtension":
 						const state = talknAPI.store.getState();
 						this.offTransition();
 						this.parentUrl = e.data.url;
-						this.extension( "extensionBoot", state.app );
+						this.extension( "bootExtension", state.app );
 						this[ "extension" ] = this.extension;
 						break;
 					default:

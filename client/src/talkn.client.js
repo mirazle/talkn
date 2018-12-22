@@ -23,10 +23,18 @@ class TalknClient{
 		if( !window.name ) window.name = "talkn";
 	}
 
+	getScriptName(appType){
+		const { PORTS, APP_TYPES } = define;
+		let scriptName = 'talkn.client.js';
+		if( appType !== APP_TYPES.EXTENSION ){
+			scriptName = Number( location.port ) === PORTS.DEVELOPMENT ? 'talkn.client.js' : conf.clientURL;
+		}
+		return scriptName;
+	}
+
 	onLoad(e){
-		const { PORTS } = define;
 		const appType = TalknViewer.getAppType(e);
-		const scriptName = Number( location.port ) === PORTS.DEVELOPMENT ? 'talkn.client.js' : conf.clientURL;
+		const scriptName = this.getScriptName(appType);
 		const script = document.querySelector(`script[src*="${scriptName}"]`);
 		this.boot( appType, window.talknIndex, script.attributes );
 		window.talknAPI = window.__talknAPI__[ window.talknIndex ];
