@@ -55,7 +55,7 @@ export default class Detail extends Component {
     let backgroundSize = style.detail.img.backgroundSize;
 
     if( thread.serverMetas['og:image'] ){
-      backgroundImage = `url("${thread.serverMetas['og:image']}")`;
+      backgroundImage = `url("https:${thread.serverMetas['og:image']}")`;
       backgroundSize = 'cover';
     }
 
