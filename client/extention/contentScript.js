@@ -1,7 +1,7 @@
 class ClientScript {
 
     static get APP_NAME(){return "talkn"}
-    static get MODE(){return "PROD"}
+    static get MODE(){return "DEV"}
     static get PROTOCOL(){return "https"}
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
@@ -18,24 +18,34 @@ class ClientScript {
     };
     static get iframeCloseHeight(){return '45px'};
     static get iframeOpenHeight(){return '450px'};
+    static get activeMethodSecond(){return 1000};
+    static get whiteShield(){return ['toggleIframe', 'location']};
 
-    constructor(){
+    constructor(refusedFrame = false){
         this.connection = location.href.replace("http:/", "").replace("https:/", "");
         const noBootFlg = ClientScript.EXCLUSION_HOSTS.some( host => this.connection.indexOf(host) >= 0);
-        
+
         if(!noBootFlg){
-            this.extensionBoot = this.extensionBoot.bind(this);
+
+            const talknFrame = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+            if( refusedFrame && talknFrame !== null){
+                talknFrame.remove();
+            }
+
+            this.methodIdMap = {};
+            this.bootExtension = this.bootExtension.bind(this);
             this.catchMessage = this.catchMessage.bind(this);
+            this.handleErrorMessage = this.handleErrorMessage.bind(this);
             this.toggleIframe = this.toggleIframe.bind(this);
             this.location = this.location.bind(this);
             this.transitionend = this.transitionend.bind(this);
-            this.loadTalkn = this.loadTalkn.bind(this);
-            
+
             // setupWindow
             this.setupWindow();
             this.iframe  = document.createElement("iframe");
             this.loadIframe = this.loadIframe.bind(this);
-            this.talknUrl = ClientScript.BASE_HOSTNAME + this.connection;
+            this.talknUrl = refusedFrame ?
+                chrome.runtime.getURL('index.html?' + this.connection) : ClientScript.BASE_HOSTNAME + this.connection;
             this.iframe.setAttribute("id", `${ClientScript.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
             this.iframe.setAttribute("style",
@@ -62,19 +72,16 @@ class ClientScript {
         window.addEventListener('message', this.catchMessage, false);
     }
 
-    transitionend(e){
-        this.postMessage("onTransition");
-    }
-
     loadIframe(e){
         this.iframe = e.path[1].querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         this.postMessage("bootExtension");
     }
 
-    loadTalkn(e){
+    transitionend(e){
+        this.postMessage("onTransition");
     }
-        
-    extensionBoot(params){
+
+    bootExtension(params){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         const {isOpenMain} = params;
         if( isOpenMain ){
@@ -89,21 +96,34 @@ class ClientScript {
     }
 
     catchMessage(e){
-        if( e.data.type === ClientScript.APP_NAME ){
-            if(this[ e.data.method ] && typeof this[ e.data.method ] === "function"){
-                this[ e.data.method ]( e.data.params );
+        const {type, method, params} = e.data;
+        if( type === ClientScript.APP_NAME ){
+            if(this[ method ] && typeof this[ method ] === "function"){
+                if(this.methodIdMap[ method ] || ClientScript.whiteShield.includes(method)){
+                    this[ method ]( params );
+                    clearTimeout(this.methodIdMap[ method ]);
+                    delete this.methodIdMap[ method ];
+                }
             }
         }
     }
 
     postMessage(method, params = {}){
-        this.iframe.contentWindow.postMessage({
-            type: ClientScript.APP_NAME,
-            url: location.href,
-            href: location.href,
-            method: method,
-            params: params
-        }, this.talknUrl);
+        const requestObj = this.getRequestObj( method, params );
+        const methodId = setTimeout( () => this.handleErrorMessage(method), ClientScript.activeMethodSecond);
+        this.methodIdMap[method] = methodId;
+        this.iframe.contentWindow.postMessage(requestObj, this.talknUrl);
+    }
+
+    handleErrorMessage(method){
+        if(this.methodIdMap[method]){
+
+            switch(method){
+            case 'bootExtension':
+                new ClientScript(true);
+                break;
+            }
+        }
     }
 
     toggleIframe(params){
@@ -122,6 +142,17 @@ class ClientScript {
     location(params){
         const {protocol, connection} = params;
         location.href = `${protocol}/${connection}`;
+    }
+
+    getRequestObj(method, params = {}){
+        return {
+            type: ClientScript.APP_NAME,
+            url: location.href,
+            href: location.href,
+            method: method,
+            methodId: 0,
+            params: params
+        };
     }
 }
 

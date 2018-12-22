@@ -4,13 +4,16 @@ import rootReducer from 'client/reducers'
 import middleware from 'client/middleware/'
 
 export default function configureStore( initialState ={} ) {
-	const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+	const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null;
 	const logger = createLogger({collapsed: true, duration: true});
 	const middlewares = [ logger, middleware.updateAction ];
 	const store = createStore(
 		rootReducer,
 		initialState,
-  	composeEnhancers(applyMiddleware(...middlewares))
+		composeEnhancers ?	
+			composeEnhancers(applyMiddleware(...middlewares)) :
+			applyMiddleware(...middlewares)
 	);
 
 	if ( module.hot ) {
