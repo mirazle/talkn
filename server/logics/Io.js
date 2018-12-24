@@ -46,30 +46,7 @@ export default class Io {
 
   async post(ioUser, {requestState, posts, thread} ){
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts, thread, menuIndex: posts } );
-    let connections = posts[0].connections;
-    let addConnections = [];
-
-    connections.forEach( ( connection, i ) => {
-
-      if( connection !== "/" ){ 
-        // コネクションの最後の文字が/の場合
-        if( ( connection.length - 1 ) === connection.lastIndexOf("/") ){
-          // 最後の文字の/を取り除く
-          const noSlashConnection = connection.slice( 0, -1 );
-          if(!connections.includes(noSlashConnection)){
-            addConnections.push( noSlashConnection ); 
-          }
-        }
-      }
-    });
-
-    connections = [...connections, ...addConnections];
-/*    
-      .sort( (a,b) => b.length - a.length )
-      .filter( (x, i, self) => self.indexOf(x) === i );
-*/
-    console.log(addConnections);
-    console.log(connections);
+    const connections = posts[0].connections;
     connections.forEach( ( connection ) => {
       responseBroadcastState.thread.connection = connection;
       this.io.broadcast( connection, responseBroadcastState );

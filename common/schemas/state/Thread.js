@@ -127,12 +127,22 @@ export default class Thread extends Schema{
         const connectionArr = connection.split( '/' );
         const connectionLength = connectionArr.length;
         let newConnection = '';
+        let noSlashConnection = '';
         for( var i = 1; i < connectionLength; i++ ){
           if( connectionArr[ i ] !== "" ){
 
             newConnection += connectionArr[ i ];
+
+            // 一番最後が/の場合
             newConnection = newConnection.slice( -1 ) === "/" ? newConnection : newConnection + "/";
+
+            // 一番最初が/の場合
             newConnection = newConnection.slice( 0, 1 ) === "/" ? newConnection : "/" + newConnection;
+
+            // 最後が/無しのコネクションを生成
+            noSlashConnection = newConnection.slice(0, -1);
+
+            connections.push( noSlashConnection );
             connections.push( newConnection );
           }
         }
