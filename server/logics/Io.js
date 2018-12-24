@@ -49,14 +49,27 @@ export default class Io {
     let connections = posts[0].connections;
     let addConnections = [];
 
-    connections.forEach( ( connection ) => {      
-      if( ( connection.length - 1 ) !== connection.lastIndexOf("/") ) addConnections.push( connection + "/" ); 
+    connections.forEach( ( connection, i ) => {
+
+      if( connection !== "/" ){ 
+        // コネクションの最後の文字が/の場合
+        if( ( connection.length - 1 ) === connection.lastIndexOf("/") ){
+          // 最後の文字の/を取り除く
+          const noSlashConnection = connection.slice( 0, -1 );
+          if(!connections.includes(noSlashConnection)){
+            addConnections.push( noSlashConnection ); 
+          }
+        }
+      }
     });
 
-    connections = [...connections, ...addConnections]
+    connections = [...connections, ...addConnections];
+/*    
       .sort( (a,b) => b.length - a.length )
       .filter( (x, i, self) => self.indexOf(x) === i );
-
+*/
+    console.log(addConnections);
+    console.log(connections);
     connections.forEach( ( connection ) => {
       responseBroadcastState.thread.connection = connection;
       this.io.broadcast( connection, responseBroadcastState );
