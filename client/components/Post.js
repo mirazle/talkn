@@ -86,6 +86,7 @@ export default class Post extends Component {
 
  	render() {
 		const{
+      thread,
       createTime,
       post,
       favicon,
@@ -95,7 +96,18 @@ export default class Post extends Component {
     const timeId = this.getTimeId();
     const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
     const { style } = this.state;
-    const dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
+    let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
+
+    if(
+      dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 && 
+      dispFavicon.indexOf(Sequence.HTTP_PROTOCOL) !== 0
+    ){
+      if(thread.protocol === Sequence.TALKN_PROTOCOL){
+        dispFavicon = `${Sequence.HTTPS_PROTOCOL}//${dispFavicon}`;
+      }else{
+        dispFavicon = `${thread.protocol}//${dispFavicon}`;
+      }
+    }
 
     return (
       <li data-component-name={this.constructor.name} id={_id} style={style.self} {...this.getDecolationProps()}>
@@ -109,7 +121,7 @@ export default class Post extends Component {
         </div>
 
         <div onClick={this.exeLocation} style={style.bottom}>
-          <span style={{...style.bottomIcon, backgroundImage: `url( //${dispFavicon} )`}} />
+          <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
           <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post }} />
         </div>
       </li>
