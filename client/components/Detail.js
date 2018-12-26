@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Marquee from 'react-marquee';
 import conf from 'common/conf';
+import Sequence from 'common/Sequence';
 import Icon from './Icon';
 
 export default class Detail extends Component {
@@ -55,9 +56,19 @@ export default class Detail extends Component {
     let backgroundSize = style.detail.img.backgroundSize;
 
     if( thread.serverMetas['og:image'] ){
-      const url = `${thread.serverMetas['og:image']}`.indexOf('https:') === 0 ?
-        `${thread.serverMetas['og:image']}` : `https:${thread.serverMetas['og:image']}`;
-      backgroundImage = `url("${url}")`;
+      if(
+          `${thread.serverMetas['og:image']}`.indexOf(Sequence.HTTPS_PROTOCOL) === 0 || 
+          `${thread.serverMetas['og:image']}`.indexOf(Sequence.HTTP_PROTOCOL) === 0
+      ){
+        backgroundImage = `url("${thread.serverMetas['og:image']}")`;
+      }else{
+        if(thread.protocol === Sequence.TALKN_PROTOCOL){
+          backgroundImage = `url("${Sequence.HTTPS_PROTOCOL}${thread.serverMetas['og:image']}")`;        
+        }else{
+          backgroundImage = `url("${thread.protocol}${thread.serverMetas['og:image']}")`;
+        }
+      }
+
       backgroundSize = 'cover';
     }
 
