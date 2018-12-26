@@ -55,7 +55,7 @@ class ClientScript {
                 "bottom: 0px;" + 
                 "right: 0px;" + 
                 "width: 320px;" + 
-                `height: ${ClientScript.iframeOpenHeight};` + 
+                `height: ${ClientScript.iframeCloseHeight};` + 
                 "margin: 0;" + 
                 "transition: 0ms;" + 
                 "transform: translate3d(0px, 0px, 0px);"
@@ -84,15 +84,16 @@ class ClientScript {
     bootExtension(params){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         const {isOpenMain} = params;
-        if( isOpenMain ){
-            iframe.style.height = ClientScript.iframeOpenHeight;
-            iframe.style.display = "block";
-            this.postMessage("onTransition");
-        }else{
+
+//        if( isOpenMain ){
+//            iframe.style.height = ClientScript.iframeOpenHeight;
+//            iframe.style.display = "block";
+//            this.postMessage("onTransition");
+//        }else{
             iframe.style.height = ClientScript.iframeCloseHeight;
             iframe.style.display = "block";
             this.postMessage("offTransition");
-        }
+//        }
     }
 
     catchMessage(e){
