@@ -210,7 +210,7 @@ export default class Posts extends Component {
     if( Object.keys( posts ).length > 0 ){
       postList = Object.keys( posts ).map( ( index ) => {
         const post = posts[ index ];
-        const childLayerCnt = post.connections.length - thread.connections.length;
+        const childLayerCnt = post.layer - thread.layer;
 
         return (
           <Post
