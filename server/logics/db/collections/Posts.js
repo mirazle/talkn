@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import PostSchema from '~/common/schemas/state/Post';
+import Thread from '~/common/schemas/state/Thread'
 
 export default class Posts {
 
@@ -46,6 +47,7 @@ export default class Posts {
       protocol: thread.protocol,
       connection: thread.connection,
       connections: thread.connections,
+      layer: Thread.getLayer( thread.connection ),
       uid: user.uid,
       utype: user.utype,
       favicon: thread.favicon,
