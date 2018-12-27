@@ -4,6 +4,7 @@ export default {
 	protocol: { type: String, default: "talkn:"  },
 	connection: { type: String, default: '' },
 	connections: { type: [String], default: [] },
+	layer: { type: Number, default: 0 },
 	uid: { type: String, default: '' },
 	utype: { type: String, default: '' },
 	favicon: { type: String, default: Favicon.defaultFaviconPath },
