@@ -215,6 +215,7 @@ export default class Posts extends Component {
         return (
           <Post
             key={post._id}
+            mode={'post'}
             {...post}
             app={app}
             thread={thread}
