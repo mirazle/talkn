@@ -70,9 +70,13 @@ export default class Posts {
     }  
   }
 
+  static getOlWidth( {app}, addUnit = false ){
+    const width = app.type === define.APP_TYPES.EXTENSION ? '90%' : '100%';
+    return addUnit ? Style.trimUnit( width ) : width ;
+  }
+
   static getSelf( {app} ){
     const borders = Posts.getBorder(app);
-
     const layout = Style.getLayoutInlineBlock({
       position: 'relative',
       width: Posts.getWidth( app ),
@@ -86,14 +90,13 @@ export default class Posts {
   }
 
   static getOl( {app} ){
-
     let width = '100%';
     let margin = '0';
     let borderRight = '0';
     let borderLeft = '0';
 
     if( app.type === define.APP_TYPES.EXTENSION ){
-      width = '90%';
+      width = Posts.getOlWidth({app});
       margin = '0px 0px 0px 5%';
       borderRight = Container.border;
       borderLeft = Container.border;

@@ -68,9 +68,11 @@ export default class Post extends Component {
   }
 
   componentDidMount(){
-    const { _id, timeago } = this.props;
+    const { timeago } = this.props;
     const timeId = this.getTimeId();
-    timeago.render( this.refs[ timeId ] );
+    if(timeago){
+      timeago.render( this.refs[ timeId ] );
+    }
   }  
 
   exeLocation(){
@@ -86,6 +88,7 @@ export default class Post extends Component {
 
  	render() {
 		const{
+      mode,
       thread,
       createTime,
       post,
@@ -109,22 +112,33 @@ export default class Post extends Component {
       }
     }
 
-    return (
-      <li data-component-name={this.constructor.name} id={_id} style={style.self} {...this.getDecolationProps()}>
-        <div style={style.upper}>
-          <span style={style.upperSpace} />
-
-          <span style={style.upperRight}>
-            <div style={style.upperChild}>{childLabel}</div>
-            <time style={style.upperTimeago} ref={timeId} className={'timeAgo'} dateTime={ createTime }>{createTime}</time>
-          </span>
-        </div>
-
-        <div onClick={this.exeLocation} style={style.bottom}>
-          <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
-          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post }} />
-        </div>
-      </li>
-		);
+    if(mode === 'post'){
+      return (
+        <li data-component-name={this.constructor.name} id={_id} style={style.self} {...this.getDecolationProps()}>
+          <div style={style.upper}>
+            <span style={style.upperSpace} />
+  
+            <span style={style.upperRight}>
+              <div style={style.upperChild}>{childLabel}</div>
+              <time style={style.upperTimeago} ref={timeId} className={'timeAgo'} dateTime={ createTime }>{createTime}</time>
+            </span>
+          </div>
+  
+          <div onClick={this.exeLocation} style={style.bottom}>
+            <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
+            <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post }} />
+          </div>
+        </li>
+      );
+    }else{
+      return (
+        <li data-component-name={this.constructor.name} id={_id} style={style.self} {...this.getDecolationProps()}>  
+          <div data-component-name={`${this.constructor.name}-bottom`} style={style.bottom}>
+            <span data-component-name={`${this.constructor.name}-image`} style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
+            <span data-component-name={`${this.constructor.name}-post`} style={style.bottomPost} dangerouslySetInnerHTML={{__html: post }} />
+          </div>
+        </li>
+      );    
+    }
  	}
 }

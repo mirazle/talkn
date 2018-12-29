@@ -13,10 +13,12 @@ import MenuIndexList from './Menu/MenuIndexList';
 import MenuUsers from './Menu/MenuUsers';
 import Posts from './Posts';
 import Post from './Post';
+import Notif from './Notif';
 import Loading from './Loading';
 
 export default class Style{
 
+  static get fontBaseRGB(){ return 'rgb(160, 160, 160)' };
   static get mono180RGB(){ return 'rgb(180, 180, 180)' };
   static get mono200RGB(){ return 'rgb(200, 200, 200)' };
   static get mono205RGB(){ return 'rgb(205, 205, 205)' };
@@ -60,6 +62,7 @@ export default class Style{
     const screen = new Screen( params );
     const posts = new Posts( params );
     const post = new Post( params );
+    const notif = new Notif( params );
     const detail = new Detail( params );
     const icon = new Icon( params );
     const loading = new Loading( params );
@@ -77,6 +80,7 @@ export default class Style{
       screen,
       posts,
       post,
+      notif,
       detail,
       icon,
       loading,
@@ -214,7 +218,7 @@ export default class Style{
   static getFontBase( style = {} ){
     const fontBase = {
       textAlign: 'center',
-      color: 'rgb( 160, 160, 160 )',
+      color: Style.fontBaseRGB,
       font: 'inherit',
 //      fontFamily: '"Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif',
       fontFamily: '"Myriad Set Pro", "Lucida Grande", "Helvetica Neue", "Helvetica", "Arial", "Verdana", "sans-serif"',

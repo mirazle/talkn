@@ -14,15 +14,23 @@ export default class Main extends Component {
   }
 
   componentDidUpdate(){
-    const { actionLog, posts } = this.props.state;
+    const { app, actionLog, posts, thread, style } = this.props.state;
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
-      const latPost = posts[posts.length - 1];
-      this.setState({
-        notifs: this.state.notifs.concat(
-          <Notif key={latPost._id} {...latPost} />
-        )
-      });
+      if(app.type === define.APP_TYPES.EXTENSION){
+        const lastPost = posts[posts.length - 1];
+        this.setState({
+          notifs: this.state.notifs.concat(
+            <Notif
+              key={lastPost._id}
+              app={app}
+              style={style}
+              thread={thread}
+              post={lastPost}
+            />
+          )
+        });
+      }
       break;
     }
   }
@@ -38,7 +46,12 @@ export default class Main extends Component {
   }
 
   renderNotif(){
-    return <ol>{this.state.notifs}</ol>;
+    const { style } = this.props.state;
+    return (
+      <ol data-component-name="Notifs" style={style.notif.notifs}>
+        {this.state.notifs}
+      </ol>
+    );
   }
 
  	render() {
