@@ -51,7 +51,7 @@ export default class Container{
   static get themeRGBString(){ return '79, 174, 159' };
   static get themeRGB(){ return `rgba(${Container.themeRGBString})` };
   static get themeRGBA(){ return `rgba(${Container.themeRGBString}, 0.8)` };
-  static getTransitionOn( app, addUnit = false ){
+  static getTransitionOn( app, removeUnit = false ){
     let transition = Container.transitionOn;
     if( app ){
       transition =  app.isTransition ? `${ Container.transitionOn }ms` : `${ Container.transitionOff }ms`;
@@ -59,7 +59,7 @@ export default class Container{
       transition = `${ Container.transitionOn }ms`;
     }
 
-    return addUnit ? Style.trimUnit( transition ) : transition ;
+    return removeUnit ? Style.trimUnit( transition ) : transition ;
   };
   static getTransition( app, addUnit = false ){
     const transition = app.isTransition ? `${ Container.transitionOn }ms` : `${ Container.transitionOff }ms`;

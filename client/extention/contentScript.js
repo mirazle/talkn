@@ -84,16 +84,9 @@ class ClientScript {
     bootExtension(params){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         const {isOpenMain} = params;
-
-//        if( isOpenMain ){
-//            iframe.style.height = ClientScript.iframeOpenHeight;
-//            iframe.style.display = "block";
-//            this.postMessage("onTransition");
-//        }else{
-            iframe.style.height = ClientScript.iframeCloseHeight;
-            iframe.style.display = "block";
-            this.postMessage("offTransition");
-//        }
+        iframe.style.height = ClientScript.iframeCloseHeight;
+        iframe.style.display = "block";
+        this.postMessage("offTransition");
     }
 
     catchMessage(e){
@@ -118,7 +111,6 @@ class ClientScript {
 
     handleErrorMessage(method){
         if(this.methodIdMap[method]){
-
             switch(method){
             case 'bootExtension':
                 new ClientScript(true);
