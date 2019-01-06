@@ -17,9 +17,10 @@ class ClientScript {
         }
     };
     static get iframeCloseHeight(){return '45px'};
+    static get iframeCloseNotifHeight(){return '85px'};
     static get iframeOpenHeight(){return '450px'};
     static get activeMethodSecond(){return 1000};
-    static get whiteShield(){return ['toggleIframe', 'location']};
+    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif']};
 
     constructor(refusedFrame = false){
         this.connection = location.href.replace("http:/", "").replace("https:/", "");
@@ -38,6 +39,8 @@ class ClientScript {
             this.handleErrorMessage = this.handleErrorMessage.bind(this);
             this.toggleIframe = this.toggleIframe.bind(this);
             this.location = this.location.bind(this);
+            this.openNotif = this.openNotif.bind(this);
+            this.closeNotif = this.closeNotif.bind(this);
             this.transitionend = this.transitionend.bind(this);
 
             // setupWindow
@@ -83,7 +86,6 @@ class ClientScript {
 
     bootExtension(params){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
-        const {isOpenMain} = params;
         iframe.style.height = ClientScript.iframeCloseHeight;
         iframe.style.display = "block";
         this.postMessage("offTransition");
@@ -93,7 +95,7 @@ class ClientScript {
         const {type, method, params} = e.data;
         if( type === ClientScript.APP_NAME ){
             if(this[ method ] && typeof this[ method ] === "function"){
-                if(this.methodIdMap[ method ] || ClientScript.whiteShield.includes(method)){
+                if(this.methodIdMap[ method ] || ClientScript.aacceptPostMessages.includes(method)){
                     this[ method ]( params );
                     clearTimeout(this.methodIdMap[ method ]);
                     delete this.methodIdMap[ method ];
@@ -135,6 +137,16 @@ class ClientScript {
     location(params){
         const {protocol, connection} = params;
         location.href = `${protocol}/${connection}`;
+    }
+
+    openNotif(params){
+        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+        iframe.style.height = ClientScript.iframeCloseNotifHeight;
+    }
+
+    closeNotif(params){
+        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+        iframe.style.height = ClientScript.iframeCloseHeight;
     }
 
     getRequestObj(method, params = {}){

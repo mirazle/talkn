@@ -45,7 +45,7 @@ export default class Posts extends Component {
       }else{
         const lastPost = posts[ posts.length - 1 ];
         const childLayerCnt = lastPost.connections.length - thread.connections.length;
-        this.props.openNotif();
+        this.props.openNotifInThread();
       }
       break;
     case 'SERVER_TO_CLIENT[EMIT]:getMore':
@@ -125,8 +125,8 @@ export default class Posts extends Component {
   handleOnScroll( e ){
 		const{ app } = this.props.state;
 
-    if( app.isOpenNotif ){
-      this.props.closeNotif();
+    if( app.isOpenNotifInThread ){
+      this.props.closeNotifInThread();
     }
 
     const { clientHeight, scrollTop, scrollHeight } = e.target;

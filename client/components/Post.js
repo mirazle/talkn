@@ -14,52 +14,72 @@ export default class Post extends Component {
     this.exeLocation = this.exeLocation.bind(this);
   }
 
+  componentDidUpdate(props){
+    const {style} = this.state;
+    const {transform: beforeTransform} = style.self;
+    const {transform: afterTransform} = props.style.self;
+    if(beforeTransform !== afterTransform){
+      this.setState({
+        style: {...style,
+          self: {...style.self,
+            transform: afterTransform
+          }
+        }
+      });
+    }
+  }
+
   getDecolationProps(){
-    return {
-      onMouseOver: () => {
-        this.setState(
-          { style:
+    const{ mode, onTransitionEnd } = this.props;
+    if( mode === 'post'){
+      return {
+        onMouseOver: () => {
+          this.setState(
+            { style:
+              {...this.state.style,
+                self: { ...this.state.style.self,
+                  transition: '200ms',
+                  transform: 'scale( 1.05 )',
+                  cursor: 'pointer',
+                }
+              }
+            }
+          );
+        },
+        onMouseLeave: () => {
+          this.setState( {style:
             {...this.state.style,
               self: { ...this.state.style.self,
-                transition: '200ms',
+                transition: '600ms',
+                transform: 'scale( 1 )',
+                cursor: 'default',
+              }
+            }
+          });
+        },
+        onMouseDown: () => {
+          this.setState( {style:
+            {...this.state.style,
+              self: { ...this.state.style.self,
+                transform: 'scale( 1 )',
+                cursor: 'pointer',
+              }
+            }
+          });
+        },
+        onMouseUp: () => {
+          this.setState( {style:
+            {...this.state.style,
+              self: { ...this.state.style.self,
                 transform: 'scale( 1.05 )',
                 cursor: 'pointer',
               }
             }
-          }
-        );
-      },
-      onMouseLeave: () => {
-        this.setState( {style:
-          {...this.state.style,
-            self: { ...this.state.style.self,
-              transition: '600ms',
-              transform: 'scale( 1 )',
-              cursor: 'default',
-            }
-          }
-        });
-      },
-      onMouseDown: () => {
-        this.setState( {style:
-          {...this.state.style,
-            self: { ...this.state.style.self,
-              transform: 'scale( 1 )',
-              cursor: 'pointer',
-            }
-          }
-        });
-      },
-      onMouseUp: () => {
-        this.setState( {style:
-          {...this.state.style,
-            self: { ...this.state.style.self,
-              transform: 'scale( 1.05 )',
-              cursor: 'pointer',
-            }
-          }
-        });
-      },
+          });
+        },
+      }
+    }else{
+      return {};
     }
   }
 
@@ -94,6 +114,7 @@ export default class Post extends Component {
       post,
       favicon,
       childLayerCnt,
+      onTransitionEnd,
       _id,
      } = this.props;
     const timeId = this.getTimeId();
@@ -132,7 +153,12 @@ export default class Post extends Component {
       );
     }else{
       return (
-        <li data-component-name={this.constructor.name} id={_id} style={style.self} {...this.getDecolationProps()}>  
+        <li
+          data-component-name={this.constructor.name}
+          id={_id}
+          style={style.self}
+          onTransitionEnd={onTransitionEnd}
+          >  
           <div data-component-name={`${this.constructor.name}-bottom`} style={style.bottom}>
             <span data-component-name={`${this.constructor.name}-image`} style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
             <span data-component-name={`${this.constructor.name}-post`} style={style.bottomPost} dangerouslySetInnerHTML={{__html: post }} />
