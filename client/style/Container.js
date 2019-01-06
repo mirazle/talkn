@@ -70,6 +70,7 @@ export default class Container{
     return addUnit ? Style.trimUnit( transition ) : transition ;
   };
   static get transitionOn(){ return 600 };
+  static get transitionNotif(){ return 300 };
   static get transitionFirstOn(){ return 200 };
   static get transitionOff(){ return 0 };
 

@@ -15,7 +15,6 @@ export default class Screen extends Component {
  	render() {
 		const{ state } = this.props;
     const { style } = state;
-
 		return (
       <div data-component-name={this.constructor.name} style={ style.screen.self }>
         <Menu {...this.props} />
