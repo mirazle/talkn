@@ -43,7 +43,9 @@ export default class Screen {
   }
 
   static getSelf( {app} ){
+    const display = app.isOpenNotif ? 'none' : 'block';
     const layout = Style.getLayoutBlock({
+      display,
       width: Screen.getWidth( app ),
       height: 'inherit',
       margin: "0 auto"

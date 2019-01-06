@@ -28,7 +28,7 @@ export default class Main {
   }
   static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
   static getNotifTranslateY( app ){
-    return app.isOpenNotif ? Main.notifOpenTranslateY : Main.notifCloseTranslateY;
+    return app.isOpenNotifInThread ? Main.notifOpenTranslateY : Main.notifCloseTranslateY;
   }
 
   static getWidth( app, addUnit = false ){

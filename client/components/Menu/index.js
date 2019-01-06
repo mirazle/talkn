@@ -22,7 +22,7 @@ export default class Menu extends Component {
     const multistream = app.multistream ? false : true ;
 
     if( app.isOpenNotif ){
-      this.props.closeNotif();
+      this.props.closeNotifInThread();
     }
   }
 

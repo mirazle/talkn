@@ -52,8 +52,8 @@ export default class Notif {
       textAlign: 'left'
     });
     const animation = Style.getAnimationBase({
-      transform: 'translate3d(0px, 0px, 0px)',
-      transition: `${Container.getTransitionOn(app, true) / 2}ms`
+      transform: 'translate3d(0px, 40px, 0px)',
+      transition: `${Container.transitionNotif}ms`
     });
     return Style.get({layout, content, animation});
   }

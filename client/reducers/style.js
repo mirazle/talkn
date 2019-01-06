@@ -55,8 +55,8 @@ export default ( state = {} , action ) => {
 	case 'RESIZE_START_WINDOW':
 	case 'RESIZE_END_WINDOW':
 		return new Style( action );
-	case 'OPEN_NOTIF':
-	case 'CLOSE_NOTIF':
+	case 'OPEN_NOTIF_IN_THREAD':
+	case 'CLOSE_NOTIF_IN_THREAD':
 		return {...state,
 			main: {...state.main,
 				notif: {...state.main.notif,

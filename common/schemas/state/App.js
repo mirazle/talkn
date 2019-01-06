@@ -1,5 +1,6 @@
+import define from '~/common/define';
 import Schema from '~/common/schemas/Schema';
-//import Main from '~/common/schemas/state/Main';
+import Main from '~/client/style/Main';
 
 export default class App extends Schema{
 
@@ -93,10 +94,11 @@ export default class App extends Schema{
     const inputPost = params.inputPost ? params.inputPost : '';
     const inputSearch = params.inputSearch ? params.inputSearch : '';
     const isOpenMainPossible = params.isOpenMainPossible ? params.isOpenMainPossible : false;
-    const isOpenMain =  Schema.isSet( params.isOpenMain ) ? params.isOpenMain : true;
+    const isOpenMain =  App.getIsOpenMain(params, type, height);
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
+    const isOpenNotifInThread = params.isOpenNotifInThread ? params.isOpenNotifInThread : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
@@ -121,6 +123,7 @@ export default class App extends Schema{
       isOpenMenu,
       isOpenSetting,
       isOpenDetail,
+      isOpenNotifInThread,
       isOpenNotif,
       isTransition,
       menuComponent,
@@ -128,18 +131,18 @@ export default class App extends Schema{
     });
   }
 
-  static getIsOpenMain(){
-    if(window.document.body.clientHeight === Main.openHeight){
-      
-    }
-
-    return App.screenModeLargeLabel;
-  }
-
   static getScreenMode( widthPx ){
     if( App.screenModeSmallWidthPx >= widthPx ) return App.screenModeSmallLabel;
     if( App.screenModeSmallWidthPx < widthPx &&　App.screenModeMiddleWidthPx >= widthPx ) return App.screenModeMiddleLabel;
     return App.screenModeLargeLabel;
+  }
+
+  static getIsOpenMain(params, type, height){
+    if( define.APP_TYPES.EXTENSION === type ){
+      return Main.closeHeight === height ? false : true ;
+    }else{
+      return Schema.isSet( params.isOpenMain ) ? params.isOpenMain : false ;
+    }
   }
 
   updateScreenModePointer( calcScreenModePointer ){
