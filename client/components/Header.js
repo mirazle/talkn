@@ -14,14 +14,6 @@ export default class Header extends Component {
   }
 
   handleOnClickHeadTabIcon( e ){
-/*
-    const{ app } = this.props.state;
-    if( app.type === define.APP_TYPES.EXTENSTION ){
-      const{ app } = this.props.state;
-      app.isOpenMain = app.isOpenMain ? false : true ;
-      //talknAPI.onClickToggleDispMain( app );
-    }
-*/
   }
 
   handleOnClickMenuIcon( e ){

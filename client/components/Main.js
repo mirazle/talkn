@@ -19,12 +19,15 @@ export default class Main extends Component {
 
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
+
+      console.log("@@@@@@@@@@@@@@@@@@@@ = " + app.isOpenMain );
+
       if(
         app.type === define.APP_TYPES.EXTENSION &&
         !app.isOpenMain
       ){
         const lastPost = posts[posts.length - 1];
-
+        console.log("@@@@@@@ = ");
         this.setState({
           notifs: this.state.notifs.concat(
             <Notif
