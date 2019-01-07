@@ -19,6 +19,7 @@ class ClientScript {
     static get iframeCloseHeight(){return '45px'};
     static get iframeCloseNotifHeight(){return '85px'};
     static get iframeOpenHeight(){return '450px'};
+    static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif']};
 
@@ -34,6 +35,7 @@ class ClientScript {
             }
 
             this.methodIdMap = {};
+            this.notifId = null;
             this.bootExtension = this.bootExtension.bind(this);
             this.catchMessage = this.catchMessage.bind(this);
             this.handleErrorMessage = this.handleErrorMessage.bind(this);
@@ -140,12 +142,32 @@ class ClientScript {
     }
 
     openNotif(params){
+        let talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
+
+        console.log("@@@@ ClientScript OPEN " + talknNotifId );
+
+        if(talknNotifId){
+            clearTimeout( talknNotifId );
+        }
+
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+        iframe.style.transition = "0ms";
         iframe.style.height = ClientScript.iframeCloseNotifHeight;
+
+        talknNotifId = setTimeout( this.closeNotif, params.transition );
+        sessionStorage.setItem(ClientScript.talknNotifId, talknNotifId);
+        console.log("talknNotifId : " + talknNotifId);
     }
 
     closeNotif(params){
+        let talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
+
+        console.log("@@@@ ClientScript CLOSE " + talknNotifId );
+        clearTimeout( talknNotifId );
+        sessionStorage.setItem(ClientScript.talknNotifId, null);
+
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+        iframe.style.transition = "0ms";
         iframe.style.height = ClientScript.iframeCloseHeight;
     }
 

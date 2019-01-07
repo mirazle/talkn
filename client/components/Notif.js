@@ -15,8 +15,9 @@ export default class Notif extends Component {
     this.undisplay = this.undisplay.bind(this);
     this.onTransitionEnd = this.onTransitionEnd.bind(this);
 
-    talknAPI.extension("openNotif");
     props.openNotif();
+    const transition = ( Container.transitionNotif * 2 ) + Container.transitionNotifDisp;
+    talknAPI.extension("openNotif", {transition});
 
     const postStyle = this.props.style.post;
     const notifStyle = this.props.style.notif;
@@ -42,7 +43,7 @@ export default class Notif extends Component {
         }
       }
     });
-    setTimeout(this.startClose, 2000 + transition );
+    setTimeout(this.startClose, Container.transitionNotifDisp + transition );
   }
 
   startClose(){
@@ -57,16 +58,16 @@ export default class Notif extends Component {
         }
       }
     });
-    setTimeout(this.undisplay, transition * 2 );
+    setTimeout(this.undisplay, transition );
   }
 
   undisplay(){
+    this.setState({status: Notif.STATUS_UNDISPLAY});
     this.props.closeNotif();
-   }
+  }
 
   onTransitionEnd(){
-    this.setState({status: Notif.STATUS_UNDISPLAY});
-    talknAPI.extension("closeNotif");
+    console.log("onTransitionEnd");
   }
 
   render() {
