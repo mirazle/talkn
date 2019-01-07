@@ -22,12 +22,14 @@ export default {
     };
   },
   openNotif: () => {
+    console.log("!!!!!openNotif");
     return {
       type: 'OPEN_NOTIF',
       app: {isOpenNotif: true}
     };
   },
   closeNotif: () => {
+    console.log("!!!!!closeNotif");
     return {
       type: 'CLOSE_NOTIF',
       app: {isOpenNotif: false}

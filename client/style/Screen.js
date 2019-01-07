@@ -35,6 +35,10 @@ export default class Screen {
     return transform ;
   }
 
+  static getSelfDisplay(app){
+    return app.isOpenNotif ? 'none' : 'block';
+  }
+
   constructor( params ){
     const self = Screen.getSelf( params );
     return {
@@ -43,7 +47,7 @@ export default class Screen {
   }
 
   static getSelf( {app} ){
-    const display = app.isOpenNotif ? 'none' : 'block';
+    const display = Screen.getSelfDisplay(app);
     const layout = Style.getLayoutBlock({
       display,
       width: Screen.getWidth( app ),
