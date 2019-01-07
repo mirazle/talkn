@@ -40,37 +40,48 @@ export default class TalknViewer {
 	}
 
 	resize( ev ){
-		if ( !this.resizing ) this.resizeStartWindow();
-		if ( this.resizeTimer !== false ) clearTimeout(this.resizeTimer);
-		this.resizeTimer = setTimeout( this.resizeEndWindow, TalknViewer.resizeInterval );
+		let app = talknAPI.store.getState().app;
+		if( app.type !== define.APP_TYPES.EXTENSION ){
+			if ( !this.resizing ) this.resizeStartWindow();
+			if ( this.resizeTimer !== false ) clearTimeout(this.resizeTimer);
+			this.resizeTimer = setTimeout( this.resizeEndWindow, TalknViewer.resizeInterval );
+		}
 	}
 
 	resizeStartWindow(){
 		this.resizing = true;
-		const width = window.innerWidth;
-		const height = window.innerHeight;
-		const app = talknAPI.store.getState().app.merge({width, height});
-		const setting = talknAPI.store.getState().setting;
+		let app = talknAPI.store.getState().app;
 
-		//talknAPI.offTransition();
-		talknAPI.onResizeStartWindow( {app, setting} );
+		if( app.type !== define.APP_TYPES.EXTENSION ){
+			const width = window.innerWidth;
+			const height = window.innerHeight;
+
+			app = talknAPI.store.getState().app.merge({width, height});
+			const setting = talknAPI.store.getState().setting;
+
+			//talknAPI.offTransition();
+			talknAPI.onResizeStartWindow( {app, setting} );
+		}
 	}
 
 	resizeEndWindow( ev ){
-		clearTimeout(this.resizeTimer);
-		const width = ev ? ev.target.innerWidth : window.innerWidth;
-		const height = ev ? ev.target.innerHeight : window.innerHeight;
-		const app = talknAPI.store.getState().app.merge({width, height});
-		const setting = talknAPI.store.getState().setting;
+		let app = talknAPI.store.getState().app;
+		if( app.type !== define.APP_TYPES.EXTENSION ){
+			clearTimeout(this.resizeTimer);
+			const width = ev ? ev.target.innerWidth : window.innerWidth;
+			const height = ev ? ev.target.innerHeight : window.innerHeight;
+			const app = talknAPI.store.getState().app.merge({width, height});
+			const setting = talknAPI.store.getState().setting;
 
-		this.resizeTimer = false;
-		this.resizing = false;
-		talknAPI.onResizeEndWindow( {app, setting} );
-/*
-		setTimeout( () => {
-			talknAPI.onTransition();
-		}, ContainerStyle.getTransition( app, true ) * 1.2 );
-*/
+			this.resizeTimer = false;
+			this.resizing = false;
+			talknAPI.onResizeEndWindow( {app, setting} );
+	/*
+			setTimeout( () => {
+				talknAPI.onTransition();
+			}, ContainerStyle.getTransition( app, true ) * 1.2 );
+	*/
+		}
 	}
 
 	appendRoot(){

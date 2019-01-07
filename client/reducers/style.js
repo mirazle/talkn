@@ -64,6 +64,15 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
+	case 'OPEN_NOTIF':
+	case 'CLOSE_NOTIF':
+		return {...state,
+			screen: {...state.screen,
+				self: {...state.screen.self,
+					display: Screen.getSelfDisplay( action.app ),
+				}
+			}
+		}
 	case 'ON_TRANSITION' :
 	case 'OFF_TRANSITION' :
 		return new Style( action );
