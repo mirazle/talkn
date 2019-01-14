@@ -1,3 +1,7 @@
+import Container from 'client/style/Container';
+import define from 'common/define';
+import App from 'common/schemas/state/App';
+
 export default {
   updateAction: store => next => action => {
 
@@ -17,7 +21,12 @@ const functions = {
     return action;
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": ( store, action ) => {
-    action.app = store.getState().app;
+    const app = store.getState().app;
+    if(define.APP_TYPES.EXTENSION === app.type && !app.isOpenMain){
+      const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
+      talknAPI.extension("openNotif", {transition});
+    }
+    action.app = app;
     action.user = store.getState().user;
     return action;
   }, 
@@ -40,6 +49,12 @@ const functions = {
   },
   "OFF_TRANSITION": ( store, action ) => {    
     action.app = {...store.getState().app, ...action.app};
+    return action;
+  },
+  "ON_TRANSITION_END": ( store, action ) => {
+    action.app = {...store.getState().app, ...action.app};
+    action.app.height = App.getHeight();
+    action.app.isOpenMain = App.getIsOpenMain( {}, action.app.type, action.app.height);
     return action;
   },
   "ON_CLICK_TOGGLE_DISP_DETAIL": ( store, action ) => {

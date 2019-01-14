@@ -21,18 +21,9 @@ export default {
       app: {isOpenNotifInThread: false}
     };
   },
-  openNotif: () => {
-    console.log("!!!!!openNotif");
+  createNotif: () => {
     return {
-      type: 'OPEN_NOTIF',
-      app: {isOpenNotif: true}
+      type: 'CREATE_NOTIF'
     };
-  },
-  closeNotif: () => {
-    console.log("!!!!!closeNotif");
-    return {
-      type: 'CLOSE_NOTIF',
-      app: {isOpenNotif: false}
-    };
-  },
+  }
 }

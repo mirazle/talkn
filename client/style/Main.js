@@ -37,7 +37,6 @@ export default class Main {
   }
 
   static getSelfHeightPx(){
-    const height = Main.selfHeight;
     return `calc( 100vh - ${Footer.selfHeight}px )`;
   }
 

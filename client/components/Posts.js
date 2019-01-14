@@ -36,11 +36,11 @@ export default class Posts extends Component {
   }
 
   componentDidUpdate(){
-    const { posts, thread, actionLog } = this.props.state;
+    const { app, posts, thread, actionLog } = this.props.state;
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
       const { isScrollBottom } = this.state;
-      if( isScrollBottom ){
+      if( app.isOpenMain && isScrollBottom ){
         this.props.startAnimateScrollTo();
       }else{
         const lastPost = posts[ posts.length - 1 ];
@@ -100,6 +100,7 @@ export default class Posts extends Component {
   }
 
   animateScrollTo( element, to, duration, callback = ()=>{}) {
+
     if( !this.state.isAnimateScrolling ){
       let start = element.scrollTop;
       let change = to - start;

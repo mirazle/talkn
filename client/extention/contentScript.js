@@ -56,12 +56,14 @@ class ClientScript {
             this.iframe.setAttribute("style",
                 "z-index: 2147483647;" +
                 "display: none;" +
+                "align-items: flex-end;" + 
                 "position: fixed; " +
                 "bottom: 0px;" + 
                 "right: 0px;" + 
                 "width: 320px;" + 
                 `height: ${ClientScript.iframeCloseHeight};` + 
                 "margin: 0;" + 
+                "padding: 0;" + 
                 "transition: 0ms;" + 
                 "transform: translate3d(0px, 0px, 0px);"
             );
@@ -83,13 +85,19 @@ class ClientScript {
     }
 
     transitionend(e){
+        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+        iframe.style.transition = "0ms";
+        iframe.backgroundColor = "green";
+
+        // TODO onTransitionしないとdetail開くときにアニメーションにならない。
+        this.postMessage("onTransitionEnd");
         this.postMessage("onTransition");
     }
 
     bootExtension(params){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         iframe.style.height = ClientScript.iframeCloseHeight;
-        iframe.style.display = "block";
+        iframe.style.display = "flex";
         this.postMessage("offTransition");
     }
 
@@ -142,33 +150,40 @@ class ClientScript {
     }
 
     openNotif(params){
+        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+
+        console.log("@@@@@@@@@@@@@@@@@@@@ ClientScript OPEN " +
+            iframe.style.transition + " : " + 
+            params.transition 
+        );
+
+        iframe.style.transition = "0ms";
+        iframe.style.height = ClientScript.iframeCloseNotifHeight;
+        this.postMessage("openNotif");
+
         let talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
-
-        console.log("@@@@ ClientScript OPEN " + talknNotifId );
-
         if(talknNotifId){
             clearTimeout( talknNotifId );
         }
 
-        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
-        iframe.style.transition = "0ms";
-        iframe.style.height = ClientScript.iframeCloseNotifHeight;
-
         talknNotifId = setTimeout( this.closeNotif, params.transition );
         sessionStorage.setItem(ClientScript.talknNotifId, talknNotifId);
-        console.log("talknNotifId : " + talknNotifId);
     }
 
     closeNotif(params){
+
         let talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
 
-        console.log("@@@@ ClientScript CLOSE " + talknNotifId );
+        console.log("@@@@@@@@@@@@@@@@@@@@ ClientScript CLOSE "  );
+
         clearTimeout( talknNotifId );
         sessionStorage.setItem(ClientScript.talknNotifId, null);
 
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
         iframe.style.height = ClientScript.iframeCloseHeight;
+
+        this.postMessage("closeNotif");
     }
 
     getRequestObj(method, params = {}){

@@ -5,6 +5,7 @@ import Menu from 'client/style/Menu';
 import Posts from 'client/style/Posts';
 import Detail from 'client/style/Detail';
 import Footer from 'client/style/Footer';
+import Notif from 'client/style/Notif';
 
 export default ( state = {} , action ) => {
 
@@ -73,8 +74,18 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
+	case 'ON_CLICK_FOOTER_ICON':
+		return {...state,
+			notif: {...state.notif,
+				notifs: {...state.notif.notifs,
+					display: Notif.getNotifsDisplay( action.app ),
+				}
+			}
+		}
 	case 'ON_TRANSITION' :
 	case 'OFF_TRANSITION' :
+	case 'ON_TRANSITION_END' :
+		// TODO ここでaction.app.isOpenMainの値が不正なせいで、notifsが邪魔してmultistreamボタンとかを押せない
 		return new Style( action );
 	case 'UPDATE_STYLE':
 		const { styleKey, eleType, tagName, style } = action;

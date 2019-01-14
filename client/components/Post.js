@@ -14,10 +14,11 @@ export default class Post extends Component {
     this.exeLocation = this.exeLocation.bind(this);
   }
 
-  componentDidUpdate(props){
+  componentWillReceiveProps(props){
     const {style} = this.state;
     const {transform: beforeTransform} = style.self;
     const {transform: afterTransform} = props.style.self;
+
     if(beforeTransform !== afterTransform){
       this.setState({
         style: {...style,
@@ -30,7 +31,7 @@ export default class Post extends Component {
   }
 
   getDecolationProps(){
-    const{ mode, onTransitionEnd } = this.props;
+    const{ mode } = this.props;
     if( mode === 'post'){
       return {
         onMouseOver: () => {
@@ -157,7 +158,7 @@ export default class Post extends Component {
           data-component-name={this.constructor.name}
           id={_id}
           style={style.self}
-          onTransitionEnd={onTransitionEnd}
+          onTransitionEnd={(onTransitionEnd)}
           >  
           <div data-component-name={`${this.constructor.name}-bottom`} style={style.bottom}>
             <span data-component-name={`${this.constructor.name}-image`} style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />

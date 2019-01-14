@@ -6,6 +6,10 @@ import Posts from './Posts';
 export default class Notif {
 
   static get selfHeight(){ return 40 };
+  
+  static getNotifsDisplay(app){
+    return app.isOpenMain ? 'none' : 'block';
+  }
 
   constructor( params ){
     const notifs = Notif.getNotifs(params);
@@ -23,7 +27,11 @@ export default class Notif {
   }
 
   static getNotifs({app}){
+    const display = Notif.getNotifsDisplay(app);
     const layout = Style.getLayoutBlock({
+      display,
+      position: "absolute",
+      top: "0px",
       width: '100%',
       height: `${Footer.selfHeight + Notif.selfHeight}px`,
       overflow: 'visible',
