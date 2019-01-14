@@ -1,7 +1,7 @@
-import setStorage from './setStorage';
+import methods from './methods';
 
 const functions = {
-  ...setStorage
+  ...methods
 }
 
 export default ( _state, _props ) => {

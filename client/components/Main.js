@@ -14,24 +14,23 @@ export default class Main extends Component {
   }
 
   componentDidUpdate(){
-    const { state, openNotif, closeNotif } = this.props;
+    const { state, createNotif } = this.props;
     const { app, actionLog, posts, thread, style } = state;
 
     switch( actionLog[ 0 ] ){
-    case 'SERVER_TO_CLIENT[BROADCAST]:post':
+    case 'OPEN_NOTIF':
 
       if(
         app.type === define.APP_TYPES.EXTENSION &&
         !app.isOpenMain
       ){
 
+        createNotif();
         const lastPost = posts[posts.length - 1];
         this.setState({
           notifs: this.state.notifs.concat(
             <Notif
               key={lastPost._id}
-              openNotif={openNotif}
-              closeNotif={closeNotif}
               app={app}
               style={style}
               thread={thread}
@@ -67,7 +66,11 @@ export default class Main extends Component {
 		const{ state } = this.props;
     const { style } = state;
     return (
-      <main data-component-name={this.constructor.name} style={ style.main.self }>
+      <main
+        data-component-name={this.constructor.name}
+        style={ style.main.self }
+        onTransitionEnd={()=>{}}
+        >
         {this.renderHeader()}
         {this.renderScreen()}
         {this.renderNotif()}
