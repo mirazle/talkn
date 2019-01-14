@@ -71,7 +71,7 @@ export default class App extends Schema{
   }
 
   static getHeight( params ){
-    if( params.height ) return params.height;
+//    if( params.height ) return params.height;
     if( typeof window === 'object' &&  window.innerHeight ) return window.innerHeight;
     return 0;
   }
@@ -103,7 +103,6 @@ export default class App extends Schema{
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
     const multistream = params && params.multistream ? params.multistream : false;
-
     return this.create({
       name,
       type,

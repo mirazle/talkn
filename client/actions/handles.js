@@ -98,6 +98,11 @@ export default {
       app: {isTransition: false},
     };
   },
+  onTransitionEnd: () => {
+    return {
+      type: 'ON_TRANSITION_END'
+    };
+  },
   onClickMenu: ( menuComponent ) => {
     return {
       type: 'ON_CLICK_MENU',
@@ -112,4 +117,16 @@ export default {
       user
     };
   },
+  openNotif: () => {
+    return {
+      type: 'OPEN_NOTIF',
+      app: {isOpenNotif: true}
+    }
+  },
+  closeNotif: () => {
+    return {
+      type: 'CLOSE_NOTIF',
+      app: {isOpenNotif: false}
+    }
+  } 
 }

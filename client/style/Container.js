@@ -71,7 +71,7 @@ export default class Container{
   };
   static get transitionOn(){ return 600 };
   static get transitionNotif(){ return 300 };
-  static get transitionNotifDisp(){ return 2000 };
+  static get transitionNotifDisp(){ return 3000 };
   static get transitionFirstOn(){ return 200 };
   static get transitionOff(){ return 0 };
 
@@ -105,6 +105,8 @@ export default class Container{
     const widthPx = Container.getWidthPx( params );
     const rightPx = Container.getRightPx( params, widthPx );
     const layout = Style.getLayoutFlex({
+      position: 'fixed',
+      bottom: "0px",
       width: '100%',
       height: '100%',
     });

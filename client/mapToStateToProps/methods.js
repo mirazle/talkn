@@ -34,7 +34,7 @@ export default {
     const { rootConnection } = state.app;
     TalknSession.setStorage( rootConnection, define.storageKey.app, state.app );
     return {state, props};
-  },
+  }
 }
 
 function setStorages( state, props ){
