@@ -2,6 +2,7 @@ import Sequence from '~/common/Sequence'
 import User from '~/common/schemas/state/User'
 import Logics from '~/server/logics';
 import Threads from '~/server/logics/db/collections/Threads';
+import Users from '~/server/logics/db/collections/Users';
 import Actions from '~/server/actions';
 import tests from '~/server/utils/testRequestState';
 
@@ -38,14 +39,14 @@ export default {
     const { connection } = requestState.thread;
     const isMultistream = Threads.getStatusIsMultistream( app, user );
     const {response: posts} = await Logics.db.posts.find(requestState, setting, isMultistream, true );
-    const offsetFindId = Logics.db.posts.getOffsetFindId( posts );
-    user = {connectioned: connection ,offsetFindId};
     const thread = {connection};
+    user = Users.getNewUser(requestState.type, app, thread, posts, user);
     Logics.io.getMore( ioUser, {requestState, thread, posts, user} );
   },
 
   changeThread: async ( ioUser, requestState, setting ) => {
-    const connectioned = requestState.user.connectioned;;
+    const { app } = requestState;
+    const connectioned = requestState.user.connectioned;
 
     if( connectioned !== '' ){
 
@@ -54,6 +55,8 @@ export default {
         {connection: connectioned},
         -1
       );
+
+      const user = Users.getNewUser(requestState.type, app, thread, [], requestState.user);
 
       // ユーザーの接続情報を更新
       Logics.db.users.update( ioUser.conn.id, connection );
@@ -83,20 +86,16 @@ export default {
     // Thread
     let {response: thread} = await Logics.db.threads.findOne( connection, {}, {}, true );
 
-    // User定義
-    user = {...user, connectioned: connection};
-
     // Threadの状態
     const threadStatus = Logics.db.threads.getStatus( user, thread, app, setting );
 
     // Posts
-    thread.postCnt = await Logics.db.posts.getCounts( requestState, threadStatus.isMultistream );
+    const postCntKey = threadStatus.isMultistream ? 'multiPostCnt' : 'postCnt';
+    thread[postCntKey] = await Logics.db.posts.getCounts( requestState, threadStatus.isMultistream );
     const {response: posts} = await Logics.db.posts.find(requestState, setting, threadStatus.isMultistream );
-    const offsetFindId = Logics.db.posts.getOffsetFindId( posts );
 
     // userの状況を更新する
-    user.multistreamed = app.multistream;
-    user.offsetFindId = offsetFindId;
+    user = Users.getNewUser(requestState.type, app, thread, posts, user);
 
     // 作成・更新が必要なスレッドの場合
     if( threadStatus.isRequireUpsert ){
@@ -107,17 +106,14 @@ export default {
       if( threadStatus.isSchema ){
         thread = await Logics.db.threads.save( thread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
-
       // スレッド更新
       }else{
-
         thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
 
     // スレッドが存在して、更新も必要ない場合
     }else{
-      
       // Multistreamボタンを押した場合
       if( !threadStatus.isToggleMultistream ){
         thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
@@ -134,11 +130,12 @@ export default {
   post: async ( ioUser, requestState, setting ) => {
     const { app, user } = requestState;
     const { connection } = requestState.thread;
+    let thread = {connection};
     const isMultistream = Threads.getStatusIsMultistream( app, user );
     const post = await Logics.db.posts.save( requestState );
     const response = await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost: post } );
-    const postCnt = await Logics.db.posts.getCounts( requestState, isMultistream );
-    const thread = {postCnt, connection};
+    const postCntKey = isMultistream ? 'multiPostCnt' : 'postCnt';
+    thread[postCntKey] = await Logics.db.posts.getCounts( requestState, isMultistream );
     await Logics.io.post( ioUser, {requestState, posts:[ post ] , thread } );
     return true;
   },

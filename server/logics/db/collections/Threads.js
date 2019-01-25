@@ -1,4 +1,5 @@
 import Thread from '~/common/schemas/state/Thread'
+import User from '~/common/schemas/state/User'
 import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
 import Favicon from '~/server/logics/Favicon';
@@ -165,6 +166,7 @@ export default class Threads {
   getStatus( user, thread, app, setting ){
 
     let status = {
+      dispType: '', // MULTI, SINGLE, CHILD, LOGS
       isSchema: false,
       isRequireUpsert: false,
       isMultistream: false,
@@ -234,7 +236,7 @@ export default class Threads {
   }
 
   static getStatusIsMultistream( app, user ){
-    return app.multistream && user.isRootConnection;
+    return user.dispThreadType === User.dispThreadTypeMulti;
   }
 
   static getStatusIsToggleMultistream( app, user ){

@@ -1,3 +1,4 @@
+import define from '../../common/define';
 import Style from './index';
 import Container from './Container';
 import Footer from './Footer';
@@ -8,7 +9,11 @@ export default class Notif {
   static get selfHeight(){ return 40 };
   
   static getNotifsDisplay(app){
-    return app.isOpenMain ? 'none' : 'block';
+    if(define.APP_TYPES.EXTENSION === app.type ){
+      return app.isOpenMain ? 'none' : 'block';
+    }else{
+      return 'none';
+    }
   }
 
   constructor( params ){

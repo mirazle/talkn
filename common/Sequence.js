@@ -33,7 +33,10 @@ export default class Sequence {
           'app': [{columnName: 'multistream'}],
           'user': '*',
         },
-        responseEmitState: {'posts': '*', 'thread': '*', 'user': ['offsetFindId', 'connectioned', 'multistreamed']},
+        responseEmitState: {
+          'posts': '*',
+          'thread': '*',
+          'user': ['dispThreadType', 'offsetFindId', 'connectioned', 'multistreamed']},
         responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       },
       getMore: {
@@ -41,9 +44,13 @@ export default class Sequence {
         requestPrivateState: {
           'thread': [{columnName: 'connection'}],
           'app': [{columnName: 'multistream'}],
-          'user': [{columnName: 'offsetFindId'}, {columnName: 'isRootConnection'}, {columnName: 'multistreamed'}],
+          'user': [
+            {columnName: 'dispThreadType'},
+            {columnName: 'offsetFindId'},
+            {columnName: 'multistreamed'}
+          ],
         },
-        responseEmitState: {'thread': ['connection'], 'user': ['offsetFindId'], 'posts': '*'},
+        responseEmitState: {'thread': ['connection'], 'user': ['dispThreadType', 'offsetFindId'], 'posts': '*'},
         responseBroadcastState: {},
       },
       changeThread: {
@@ -53,7 +60,7 @@ export default class Sequence {
           'app': [{columnName: 'multistream'}],
           'user': '*',
         },
-        responseEmitState: {'user': ['offsetFindId', 'connectioned']},
+        responseEmitState: {'user': ['connectioned']},
         responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       },
       findMenuIndex: {
@@ -68,12 +75,12 @@ export default class Sequence {
         requestPublicState: {},
         requestPrivateState: {
           'app':[ {columnName: 'inputPost', valid: App.validPost}],
-          'user':[ {columnName: 'uid'}, {columnName: 'isRootConnection'}, {columnName: 'utype'}, {columnName: 'multistreamed'}],
+          'user':[ {columnName: 'uid'}, {columnName: 'dispThreadType'}, {columnName: 'utype'}, {columnName: 'multistreamed'}],
           'app': [{columnName: 'multistream'}, {columnName: 'inputPost'}],
           'thread': [{columnName: 'protocol'}, {columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}]
         },
         responseEmitState: {},
-        responseBroadcastState: {'posts': '*', 'thread': ['postCnt', 'connection'], 'menuIndex': '*'},
+        responseBroadcastState: {'posts': '*', 'thread': '*', 'menuIndex': '*'},
       },
       updateThreadServerMetas: {
         requestPublicState: {'thread': [{columnName: 'serverMetas'}]},
@@ -184,7 +191,7 @@ export default class Sequence {
 
         switch( updateStateValue.constructor.name ){
         case 'model':
-          updateStateValue = updateStateValue.toJSON()
+          updateStateValue = updateStateValue.toJSON();
           delete updateStateValue._id;
           delete updateStateValue.__v;
           break;

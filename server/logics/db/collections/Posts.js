@@ -69,7 +69,16 @@ export default class Posts {
     return this.collection.getSchema( params );
   }
 
-  getOffsetFindId( posts ){
-    return posts[ 0 ] ? posts[ 0 ]._id : PostSchema.defaultFindId;
+  getOffsetFindId( posts, user ){
+
+    if( posts[ 0 ] && posts[ 0 ]._id ){
+      return posts[ 0 ]._id;
+    }
+/*
+    if( user && user.offsetFindId ){
+      return user.offsetFindId;
+    }
+*/
+    return PostSchema.defaultFindId;
   }
 }

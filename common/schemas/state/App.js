@@ -140,7 +140,7 @@ export default class App extends Schema{
     if( define.APP_TYPES.EXTENSION === type ){
       return Main.openHeight === height ? true : false;
     }else{
-      return Schema.isSet( params.isOpenMain ) ? params.isOpenMain : false ;
+      return true;
     }
   }
 

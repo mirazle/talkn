@@ -1,3 +1,6 @@
+import User from '~/common/schemas/state/User';
+import Logics from '~/server/logics';
+
 export default class Users {
 
   constructor( collection ){
@@ -47,5 +50,35 @@ export default class Users {
 
   async removeAll(){
     return this.collection.removeAll();
+  }
+
+  static getNewUser(type, app, thread, posts, user){
+
+    const connectioned  = thread.connection;
+    let dispThreadType = User.dispThreadTypeSingle;
+
+    switch(type){
+    case 'find':
+      dispThreadType = user.dispThreadType;
+      break;
+    case 'changeThread':
+      dispThreadType = user.isRootConnection ? user.dispThreadType : User.dispThreadTypeChild;
+      break;
+    case 'getMore':
+      dispThreadType = user.dispThreadType;
+      break;
+    default:
+      dispThreadType = user.isRootConnection ? User.dispThreadTypeMulti : User.dispThreadTypeSingle;
+      break;
+    }
+
+    const offsetFindId = Logics.db.posts.getOffsetFindId( posts, user );
+    const multistreamed = dispThreadType === User.dispThreadTypeMulti;
+    return {...user,
+      connectioned,
+      offsetFindId,
+      dispThreadType,
+      multistreamed
+    };
   }
 }

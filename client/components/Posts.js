@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import define from 'common/define';
 import PostSchema from 'common/schemas/state/Post';
 import App from 'common/schemas/state/App';
+import User from 'common/schemas/state/User';
 import TalknSession from 'client/operations/TalknSession';
 import Post from 'client/components/Post';
 import Header from './Header';
@@ -36,13 +37,14 @@ export default class Posts extends Component {
   }
 
   componentDidUpdate(){
-    const { app, posts, thread, actionLog } = this.props.state;
+    const { app, user, thread, postsMulti, postsSingle, actionLog } = this.props.state;
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
       const { isScrollBottom } = this.state;
       if( app.isOpenMain && isScrollBottom ){
         this.props.startAnimateScrollTo();
       }else{
+        const posts = user.dispThreadType === User.dispThreadTypeMulti ? postsMulti : postsSingle;
         const lastPost = posts[ posts.length - 1 ];
         const childLayerCnt = lastPost.connections.length - thread.connections.length;
         this.props.openNotifInThread();
@@ -143,34 +145,21 @@ export default class Posts extends Component {
 
   handleOnClickMultistream(){
     const { state, onClickMultistream } = this.props;
-    const { app, user, thread } = state;
-    const { storageKey } = define;
-
-    app.multistream = !app.multistream;
-
-    const rootConnection = app.rootConnection;
-    const getPostKey = app.multistream ? storageKey.postMulti : storageKey.postSingle ;
-    const cachePosts = TalknSession.getStorage( rootConnection, storageKey[ getPostKey ] );
-    const posts = cachePosts ? cachePosts : new PostSchema();
-    const postLength = posts.length;
-    const existPost = posts.length > 0 ;
-
-    // stateを更新
-    user.offsetFindId = existPost ? posts[ postLength - 1 ]._id : PostSchema.defaultFindId; 
-
-    onClickMultistream({user, app, posts});
-    talknAPI.find(thread.connection);
+    const { app, user } = state;
+    onClickMultistream();
   }
 
   renderGetMore(){
 		const { state } = this.props;
-    const { style, posts, thread, setting } = state;
+    const { style, thread, user, postsMulti, postsSingle, setting } = state;
     const { getThreadChildrenCnt } = setting.server;
+    const posts = user.dispThreadType === User.dispThreadTypeMulti ? postsMulti : postsSingle;
     const dispPostCnt = Object.keys( posts ).length;
+    const postCntKey = user.dispThreadType === User.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
     let isDisp = false;
 
-    if( thread.postCnt > getThreadChildrenCnt ){
-      if( dispPostCnt < thread.postCnt ){
+    if( thread[postCntKey] > getThreadChildrenCnt ){
+      if( dispPostCnt < thread[postCntKey] ){
         isDisp = true;
       }
     }
@@ -187,8 +176,8 @@ export default class Posts extends Component {
 
   renderMultistream(){
     const { state} = this.props;
-    const { setting, style, app, thread } = state;
-    const ThunderIcon = Icon.getThunder( IconStyle.getThunder({setting, app}) );
+    const { style, app, thread } = state;
+    const ThunderIcon = Icon.getThunder( IconStyle.getThunder(state) );
     if( app.menuComponent === "Index" && thread.connection === app.rootConnection ){
       return(
         <div
@@ -205,9 +194,10 @@ export default class Posts extends Component {
 
   renderPostList(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ app, style, thread, posts } = state;
+    const{ app, user, style, thread, postsMulti, postsSingle } = state;
+    const posts = user.dispThreadType === User.dispThreadTypeMulti ? postsMulti : postsSingle;
     let postList = [];
-    
+
     if( Object.keys( posts ).length > 0 ){
       postList = Object.keys( posts ).map( ( index ) => {
         const post = posts[ index ];
