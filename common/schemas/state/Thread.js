@@ -11,100 +11,85 @@ export default class Thread extends Schema{
     return params.alert ? true : false;
   }
 
-  constructor( params = {}, bootOption = {}){
+  constructor( params = {}, bootOption = {}, cache = {}){
     super();
-    const thread = Thread.isWindowObj( params ) ? Thread.constructorFromWindow( params, bootOption ) : params;
+    const thread = Thread.isWindowObj( params ) ? Thread.constructorFromWindow( params, bootOption, cache ) : params;
     return this.create(thread);
   }
 
-  static constructorFromWindow( window, bootOption ){
+  static constructorFromWindow( window, bootOption, cache ){
 
     const bootConnection = bootOption.connection ? bootOption.connection : false;
-
-    let location = {} ;
-    let href = '' ;
-    let connection = '/';
-    let connections = ['/'];
-    let protocol = 'talkn:';
-    let contentType = '';
-    let charset = 'UTF-8';
-
-    let host = '';
-    let favicon = Thread.getDefaultFavicon();
-
-    if( bootConnection ){
-
-      // URLのコネクション文字列からではPROTOCOLは判別できない。
-      protocol = Thread.getProtocol( bootConnection );
-      connection = bootConnection;
-      host = Thread.getHost( bootConnection );
-      connections = bootConnection.connections && bootConnection.connections.length > 0 ?
-        bootConnection.connections : Thread.getConnections( connection );
+    const connection = Thread.getConnection( bootOption, bootConnection );
+    
+    if( cache.connection && cache.connection === connection ){
+      return cache;
     }else{
-      location = window.location ? window.location : {} ;
-      href = location.href ? location.href : '' ;
-      connection = Thread.getConnection( href );
-      connections = params.connections && params.connections.length > 0 ?
-        params.connections : Thread.getConnections( connection );
-      protocol = location.protocol ? location.protocol : '????:';
-      contentType = document.contentType ? document.contentType : '';
-      charset = document.charset ? document.charset : '';
+      let thread = {}
+      thread.location = {} ;
+      thread.href = '' ;
+      thread.connection = connection;
+      thread.connections = ['/'];
+      thread.protocol = 'talkn:';
+      thread.contentType = '';
+      thread.charset = 'UTF-8';
+      thread.host = '';
+      thread.favicon = Thread.getDefaultFavicon();
 
-      host = location.host ? location.host : '';
-      favicon = Thread.getFaviconFromWindow( window );
-    }
+      if( bootConnection ){
 
-    const title = '';
-    const metas = [];
-    const serverMetas = {};
-    const clientMetas = {};
-    const links = [];
-    const h1s = [];
-    const audios = [];
-    const videos = [];
-    const layer = Thread.getLayer( connection );
-    const mediaIndex = [];
-    const postCnt = 0;
-    const multiPostCnt = 0;
-    const isSelfConnection = Thread.getIsSelfConnection( href, connection );
-    const createTime = '';
-    const updateTime = '';
+        // URLのコネクション文字列からではPROTOCOLは判別できない。
+        thread.protocol = Thread.getProtocol( bootConnection );
+        thread.host = Thread.getHost( bootConnection );
+        thread.connections = bootConnection.connections && bootConnection.connections.length > 0 ?
+          bootConnection.connections : Thread.getConnections( connection );
+      }else{
 
-    return {
-      href,
-      connection,
-      connections,
-      contentType,
-      charset,
-      protocol,
-      host,
-      title,
-      clientMetas,
-      serverMetas,
-      links,
-      h1s,
-      audios,
-      videos,
-      favicon,
-      layer,
-      mediaIndex,
-      postCnt,
-      multiPostCnt,
-      isSelfConnection,
-      createTime,
-      updateTime,
+        thread.protocol = location.protocol ? location.protocol : '????:';
+        thread.connections = params.connections && params.connections.length > 0 ?
+          params.connections : Thread.getConnections( connection );
+        thread.contentType = document.contentType ? document.contentType : '';
+        thread.charset = document.charset ? document.charset : '';
+
+        thread.host = location.host ? location.host : '';
+        thread.favicon = Thread.getFaviconFromWindow( window );
+      }
+
+      thread.title = '';
+      thread.metas = [];
+      thread.serverMetas = {};
+      thread.clientMetas = {};
+      thread.links = [];
+      thread.h1s = [];
+      thread.audios = [];
+      thread.videos = [];
+      thread.layer = Thread.getLayer( connection );
+      thread.mediaIndex = [];
+      thread.postCnt = 0;
+      thread.multiPostCnt = 0;
+      thread.isSelfConnection = Thread.getIsSelfConnection( href, connection );
+      thread.createTime = '';
+      thread.updateTime = '';
+
+      return thread;
     }
   }
 
-  static getConnection( href ){
+  static getConnection( bootOption, bootConnection ){
 
-    if( href !== '' ){
-      href = href.slice( -1 ) === '/' ? href.slice( 0, -1 ) : href ;
-      href = href.replace('http:/', '');
-      href = href.replace('https:/', '');
-      return href;
+    if( bootConnection ){
+      return bootConnection;
     }else{
-      return '';
+      location = window.location ? window.location : {} ;
+      href = location.href ? location.href : '' ;
+      if( href !== '' ){
+        href = href.slice( -1 ) === '/' ? href.slice( 0, -1 ) : href ;
+        href = href.replace('http:/', '');
+        href = href.replace('https:/', '');
+        return href;
+      }else{
+        return '/';
+      }
     }
   }
 

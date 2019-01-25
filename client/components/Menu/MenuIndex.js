@@ -7,10 +7,8 @@ export default class MenuIndex extends Component {
 
   componentDidUpdate(){
     const { app, actionLog } = this.props.state;
-
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[EMIT]:changeThread':
-
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
         app.isOpenMenu = app.isOpenMenu ? false : true;
@@ -19,6 +17,8 @@ export default class MenuIndex extends Component {
       }
     }
   }
+
+  // TODO SINGLE取得反映がおかしい
 
   renderLi(){
     const { state, onClickOtherThread } = this.props;

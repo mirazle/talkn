@@ -1,6 +1,7 @@
 import Style from './index';
 import Container from './Container';
 import conf from '../conf';
+import User from '~/common/schemas/state/User'
 
 export default class Icon {
 
@@ -461,9 +462,8 @@ export default class Icon {
     return {div, wing1, wing2, wing3, wing4, wing5, wing6, wing7, wing8, circle};
   }
 
-  static getThunder( { app } ){
-
-    const borderColor = app.multistream ?
+  static getThunder( { app, user } ){
+    const borderColor = user.dispThreadType ===  User.dispThreadTypeMulti ?
       Container.themeRGB : Container.reliefRGBA;
 
     const div = Style.get({

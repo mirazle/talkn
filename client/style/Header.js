@@ -128,6 +128,7 @@ export default class Header {
     const layout = Style.getLayoutInlineBlock({
       position: 'absolute',
       top: '7px',
+      margin: '4px',
       ...right,
       width: 'initial',
     });

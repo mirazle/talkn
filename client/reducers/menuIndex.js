@@ -1,4 +1,5 @@
 import MenuIndex from 'common/schemas/state/MenuIndex';
+import User from 'common/schemas/state/User';
 
 export default ( state = new MenuIndex() , action ) => {
 
@@ -6,10 +7,18 @@ export default ( state = new MenuIndex() , action ) => {
 	case 'SERVER_TO_CLIENT[EMIT]:find':
 		const postLength = action.posts.length;
 		if(action.posts.length === 0 ){
-			return state;
+			return state.map( mi => {
+				if( action.thread.connection === mi.connection ){
+					return {...mi,
+						favicon: action.thread.favicon,
+					}
+				}else{
+					return mi;
+				}
+			});
 		}
 
-		if(action.app.multistream){
+		if(action.app.dispThreadType === User.dispThreadTypeMulti){
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
 					return {...mi,
