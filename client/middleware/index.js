@@ -1,6 +1,7 @@
 import Container from 'client/style/Container';
 import define from 'common/define';
 import App from 'common/schemas/state/App';
+import User from 'common/schemas/state/User';
 
 export default {
   updateAction: store => next => action => {
@@ -15,8 +16,8 @@ export default {
 const functions = {
   "SERVER_TO_CLIENT[EMIT]:find": ( store, action ) => {
     action = resolve.caseNoExistResponsePost(store, action);
+    action.user[`offset${action.user.dispThreadType}FindId`] = action.user.offsetFindId;
     action.app = store.getState().app;
-    action.user.isRootConnection = action.app.rootConnection === action.thread.connection;
     action.app.desc = action.thread.serverMetas.title
     return action;
   },
@@ -32,7 +33,6 @@ const functions = {
   }, 
   "ON_CLICK_OTHER_THREAD":  (store, action) => {
     action.app = store.getState().app;
-    action.user.isRootConnection = action.app.rootConnection === action.thread.connection;
     return action;
   },
   "ON_CLICK_MENU": ( store, action ) => {
@@ -40,11 +40,15 @@ const functions = {
     return action;
   },
   "ON_CLICK_MULTISTREAM": ( store, action ) => {
-
+    action.app = store.getState().app;
+    action.user = store.getState().user;
+    action.user.dispThreadType = action.user.dispThreadType === User.dispThreadTypeMulti ?
+      User.dispThreadTypeSingle : User.dispThreadTypeMulti ;
     return action;
   },
   "ON_TRANSITION": ( store, action ) => {
     action.app = {...store.getState().app, ...action.app};
+    action.user = store.getState().user;
     return action;
   },
   "OFF_TRANSITION": ( store, action ) => {    
@@ -55,6 +59,10 @@ const functions = {
     action.app = {...store.getState().app, ...action.app};
     action.app.height = App.getHeight();
     action.app.isOpenMain = App.getIsOpenMain( {}, action.app.type, action.app.height);
+    return action;
+  },
+  "RESIZE_END_WINDOW": ( store, action ) => {
+    action.user = store.getState().user;
     return action;
   },
   "ON_CLICK_TOGGLE_DISP_DETAIL": ( store, action ) => {

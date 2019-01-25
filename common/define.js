@@ -25,8 +25,11 @@ export default {
   },
   storageKey: {
     baseKey: '@talkn@',
-    postSingle: 'postSingle',
-    postMulti: 'postMulti',
+    postSingle: 'Single',
+    postMulti: 'Multi',
+    postChild: 'Child',
+    postLogs: 'Logs',
+    thread: 'therad',
     menuLogs: 'menuLogs',
     setting: 'setting',
     app: 'app'

@@ -35,12 +35,9 @@ export default {
       app,
     };
   },
-  onClickMultistream: ({app, user, posts}) => {
+  onClickMultistream: () => {
     return {
-      type: 'ON_CLICK_MULTISTREAM',
-      app,
-      user,
-      posts,
+      type: 'ON_CLICK_MULTISTREAM'
     };
   },
   onClickToggleDispMenu: ( app ) => {
