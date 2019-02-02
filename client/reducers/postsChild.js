@@ -4,11 +4,7 @@ import User from 'common/schemas/state/User';
 export default ( state = new Posts() , action ) => {
 
 	switch( action.type ){
-	case 'ON_CLICK_TO_MULTI_THREAD':
-		return new Posts();
-	case 'ON_CLICK_TO_SINGLE_THREAD':
-		return new Posts();
-	case 'ON_CLICK_TO_CHILD_THREAD':
+	case "CLIENT_TO_SERVER[EMIT]:changeThread":
 		return new Posts();
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
 		if( action.thread.connection ===  action.posts[0].connection ){

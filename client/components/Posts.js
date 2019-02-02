@@ -50,11 +50,10 @@ export default class Posts extends Component {
     case User.dispThreadTypeChild:
       posts = postsChild;
       break;
+    case User.dispThreadTypeLogs:
+      posts = postsChild;
+      break;
     }
-
-    // TODO ここで切り替え前のpostsも反映されてしまっている
-//    console.log(this.state.posts);
-//    console.log(posts);
     this.setState({...this.state, posts});
   }
 
@@ -167,8 +166,24 @@ export default class Posts extends Component {
 
   handleOnClickMultistream(){
     const { state, onClickMultistream } = this.props;
-    const { app, user } = state;
-    onClickMultistream();
+    const { app, user, thread, postsMulti, postsSingle } = state;
+
+    user.dispThreadType = user.dispThreadType === User.dispThreadTypeMulti ?
+      User.dispThreadTypeSingle : User.dispThreadTypeMulti ;
+    user.multistreamed = !( user.dispThreadType === User.dispThreadTypeMulti );
+    app.multistream = user.dispThreadType === User.dispThreadTypeMulti;
+
+    if(postsMulti[0] && postsMulti[0]._id){
+      user.offsetFindId = postsMulti[0]._id;
+      user.offsetMultiFindId = user.offsetFindId;  
+    }
+    if(postsSingle[0] && postsSingle[0]._id){
+      user.offsetFindId = postsSingle[0]._id;
+      user.offsetSingleFindId = user.offsetFindId;
+    }
+
+    onClickMultistream({app, user});
+    talknAPI.find( app.rootConnection );
   }
 
   renderGetMore(){
