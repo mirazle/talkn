@@ -63,11 +63,11 @@ export default class Thread extends Schema{
       thread.h1s = [];
       thread.audios = [];
       thread.videos = [];
-      thread.layer = Thread.getLayer( connection );
+      thread.layer = Thread.getLayer( thread.connection );
       thread.mediaIndex = [];
       thread.postCnt = 0;
       thread.multiPostCnt = 0;
-      thread.isSelfConnection = Thread.getIsSelfConnection( href, connection );
+      thread.isSelfConnection = Thread.getIsSelfConnection( thread.href, thread.connection );
       thread.createTime = '';
       thread.updateTime = '';
 

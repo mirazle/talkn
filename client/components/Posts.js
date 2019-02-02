@@ -23,6 +23,7 @@ export default class Posts extends Component {
       scrollHeight: 0,
       isAnimateScrolling: false,
       isScrollBottom: true,
+      posts: [],
     };
   }
 
@@ -34,6 +35,27 @@ export default class Posts extends Component {
     }
     this.setState({scrollHeight: this.refs.thread.scrollHeight});
     this.animateScrollTo( this.refs.thread, 9999999, 400 );
+  }
+
+  componentWillReceiveProps(props){
+    const {user, postsMulti, postsSingle, postsChild} = props.state;
+    let posts = [];
+    switch(user.dispThreadType){
+    case User.dispThreadTypeMulti:
+      posts = postsMulti;
+      break;
+    case User.dispThreadTypeSingle:
+      posts = postsSingle;
+      break;
+    case User.dispThreadTypeChild:
+      posts = postsChild;
+      break;
+    }
+
+    // TODO ここで切り替え前のpostsも反映されてしまっている
+//    console.log(this.state.posts);
+//    console.log(posts);
+    this.setState({...this.state, posts});
   }
 
   componentDidUpdate(){
@@ -194,15 +216,14 @@ export default class Posts extends Component {
 
   renderPostList(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ app, user, style, thread, postsMulti, postsSingle } = state;
-    const posts = user.dispThreadType === User.dispThreadTypeMulti ? postsMulti : postsSingle;
+    const{ app, style, thread } = state;
+    const { posts } = this.state;
     let postList = [];
 
     if( Object.keys( posts ).length > 0 ){
       postList = Object.keys( posts ).map( ( index ) => {
         const post = posts[ index ];
         const childLayerCnt = post.layer - thread.layer;
-
         return (
           <Post
             key={post._id}
@@ -250,7 +271,7 @@ export default class Posts extends Component {
 
  	render() {
     const { style } = this.props.state;
-
+//console.log(this.state);
 		return (
       <div data-component-name={this.constructor.name} style={ style.posts.self } >
         {this.renderHeader()}

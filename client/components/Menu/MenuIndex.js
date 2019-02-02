@@ -11,8 +11,7 @@ export default class MenuIndex extends Component {
     case 'SERVER_TO_CLIENT[EMIT]:changeThread':
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
-        app.isOpenMenu = app.isOpenMenu ? false : true;
-        talknAPI.onClickToggleDispMenu( app );
+        talknAPI.onClickToggleDispMenu();
         break;
       }
     }
@@ -21,14 +20,17 @@ export default class MenuIndex extends Component {
   // TODO SINGLE取得反映がおかしい
 
   renderLi(){
-    const { state, onClickOtherThread } = this.props;
+    const { state, onClickToMultiThread, onClickToSingleThread, onClickToChildThread, onClickToLogsThread } = this.props;
     const { menuIndex } = state;
     return menuIndex.map( ( mi, index ) => {
       return(
         <MenuIndexList
           key={ mi.connection }
           menuIndexList={mi}
-          onClickOtherThread={onClickOtherThread}
+          onClickToMultiThread={onClickToMultiThread}
+          onClickToSingleThread={onClickToSingleThread}
+          onClickToChildThread={onClickToChildThread}
+          onClickToLogsThread={onClickToLogsThread}
           {...this.props.state}
         />
       )
