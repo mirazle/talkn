@@ -63,9 +63,11 @@ export default {
       app,
     };
   },
-  onClickMultistream: () => {
+  onClickMultistream: ({app, user}) => {
     return {
-      type: 'ON_CLICK_MULTISTREAM'
+      type: 'ON_CLICK_MULTISTREAM',
+      app,
+      user,
     };
   },
   onClickToggleDispMenu: () => {

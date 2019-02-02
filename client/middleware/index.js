@@ -32,6 +32,15 @@ const functions = {
     action.user = store.getState().user;
     return action;
   }, 
+  "CLIENT_TO_SERVER[EMIT]:changeThread": ( store, action ) => {
+    action.user = store.getState().user;
+    action.user.offsetFindId = User.defaultOffsetFindId;
+    action.user.offsetMultiFindId = User.defaultOffsetFindId;
+    action.user.offsetSingleFindId = User.defaultOffsetFindId;
+    action.user.offsetChildFindId = User.defaultOffsetFindId;
+    action.user.offsetLogsFindId = User.defaultOffsetFindId;
+    return action;
+  },
   "ON_CLICK_TO_MULTI_THREAD":  (store, action) => {
     action.app = store.getState().app;
     action.postsMulti = store.getState().postsMulti;
@@ -55,26 +64,17 @@ const functions = {
     action.postsLogs = store.getState().postsLogs;
     return action;
   },
-  "ON_CLICK_MENU": ( store, action ) => {
-    action.app.desc = action.app.menuComponent;
-    return action;
-  },
   "ON_CLICK_MULTISTREAM": ( store, action ) => {
     action.user = store.getState().user;
-    action.user.dispThreadType = action.user.dispThreadType === User.dispThreadTypeMulti ?
-      User.dispThreadTypeSingle : User.dispThreadTypeMulti ;
-    action.user.multistreamed = !( action.user.dispThreadType === User.dispThreadTypeMulti );
-    action.app = store.getState().app;
-    action.app.multistream = action.user.dispThreadType === User.dispThreadTypeMulti;
-
-    if(store.getState().postsMulti[0] && store.getState().postsMulti[0]._id){
-      action.user.offsetFindId = store.getState().postsMulti[0]._id;
-      action.user.offsetMultiFindId = action.user.offsetFindId;  
-    }
-    if(store.getState().postsSingle[0] && store.getState().postsSingle[0]._id){
-      action.user.offsetFindId = store.getState().postsSingle[0]._id;
-      action.user.offsetSingleFindId = action.user.offsetFindId;
-    }
+    action.user.offsetFindId = User.defaultOffsetFindId;
+    action.user.offsetMultiFindId = User.defaultOffsetFindId;
+    action.user.offsetSingleFindId = User.defaultOffsetFindId;
+    action.user.offsetChildFindId = User.defaultOffsetFindId;
+    action.user.offsetLogsFindId = User.defaultOffsetFindId;
+    return action;
+  },  
+  "ON_CLICK_MENU": ( store, action ) => {
+    action.app.desc = action.app.menuComponent;
     return action;
   },
   "ON_TRANSITION": ( store, action ) => {
