@@ -53,22 +53,28 @@ export default class Users {
   }
 
   static getNewUser(type, app, thread, posts, user){
-
     const connectioned  = thread.connection;
-    let dispThreadType = User.dispThreadTypeSingle;
+    const { user: stepToUser, stepTo } = User.getStepToDispThreadType( {app, user}, thread.connection );
+    let dispThreadType = "";
 
-    switch(type){
-    case 'find':
-      dispThreadType = user.dispThreadType;
+    switch(stepTo){
+    case `${User.dispThreadTypeMulti} to ${User.dispThreadTypeMulti}`:
+      dispThreadType = User.dispThreadTypeMulti;
       break;
-    case 'changeThread':
-      dispThreadType = user.isRootConnection ? user.dispThreadType : User.dispThreadTypeChild;
+    case `${User.dispThreadTypeMulti} to ${User.dispThreadTypeChild}`:
+      dispThreadType = User.dispThreadTypeChild;
       break;
-    case 'getMore':
-      dispThreadType = user.dispThreadType;
+    case `${User.dispThreadTypeSingle} to ${User.dispThreadTypeChild}`:
+      dispThreadType = User.dispThreadTypeChild;
       break;
-    default:
-      dispThreadType = user.isRootConnection ? User.dispThreadTypeMulti : User.dispThreadTypeSingle;
+    case `${User.dispThreadTypeChild} to ${User.dispThreadTypeMulti}`:
+      dispThreadType = User.dispThreadTypeMulti;
+      break;
+    case `${User.dispThreadTypeChild} to ${User.dispThreadTypeSingle}`:
+      dispThreadType = User.dispThreadTypeSingle;
+      break;
+    case `${User.dispThreadTypeChild} to ${User.dispThreadTypeChild}`:
+      dispThreadType = User.dispThreadTypeChild;
       break;
     }
 

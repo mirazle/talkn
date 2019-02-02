@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import Marquee from 'react-marquee';
 import App from 'common/schemas/state/App';
 import Thread from 'common/schemas/state/Thread';
+import User from 'common/schemas/state/User';
 import util from 'common/util';
 import conf from 'common/conf';
 import Container from 'client/style/Container';
@@ -26,19 +27,57 @@ export default class MenuIndexList extends Component {
     const { menuIndexList } = this.props;
     //talknAPI.offCatchConnectionAPI( menuIndexList.connection );
   }
-
+/*
   getDecolationEvents( focusConnection, styleKey ){
     const { app, menuIndexList, onClickOtherThread } = this.props;
     return {
       onClick: () => {
-        if( !focusConnection ){
-          onClickOtherThread( menuIndexList.connection );
-          talknAPI.changeThread( menuIndexList.connection );
-        }else{
-          switch( app.screenMode ){
-          case App.screenModeSmallLabel :
+        if( focusConnection ){
+          if( app.screenMode === App.screenModeSmallLabel ){
             app.isOpenMenu = app.isOpenMenu ? false : true;
             talknAPI.onClickToggleDispMenu( app );
+          }
+        }else{
+          if(app.rootConnection === menuIndexList.connection){
+console.log("A");
+            onClickOtherThread( menuIndexList.connection );
+            talknAPI.onClickToggleDispMenu( app );
+          }else{
+console.log("B");
+            onClickOtherThread( menuIndexList.connection );
+            talknAPI.changeThread( menuIndexList.connection );
+          }
+        }
+      },
+    }
+  }
+*/
+  getDecolationEvents( focusConnection, styleKey ){
+    const { app, menuIndexList, onClickToMultiThread, onClickToSingleThread, onClickToChildThread, onClickToLogsThread } = this.props;
+    let { user } = this.props;
+    return { 
+      onClick: () => {
+        if( focusConnection ){
+          if( app.screenMode === App.screenModeSmallLabel ){
+            talknAPI.onClickToggleDispMenu();
+          }
+        }else{
+
+          const { stepTo } = User.getStepToDispThreadType( {app, user}, menuIndexList.connection );
+          switch(stepTo){
+          case `${User.dispThreadTypeMulti} to ${User.dispThreadTypeChild}`:
+          case `${User.dispThreadTypeSingle} to ${User.dispThreadTypeChild}`:
+          case `${User.dispThreadTypeChild} to ${User.dispThreadTypeChild}`:
+            onClickToChildThread( user, menuIndexList.connection );
+            talknAPI.changeThread( menuIndexList.connection );
+            break;
+          case `${User.dispThreadTypeChild} to ${User.dispThreadTypeMulti}`:
+            onClickToMultiThread( user, menuIndexList.connection );
+            talknAPI.onClickToggleDispMenu();
+            break;
+          case `${User.dispThreadTypeChild} to ${User.dispThreadTypeSingle}`:
+            onClickToSingleThread( user, menuIndexList.connection );
+            talknAPI.onClickToggleDispMenu();
             break;
           }
         }
@@ -46,6 +85,31 @@ export default class MenuIndexList extends Component {
     }
   }
 
+/*
+  if( focusConnection ){
+    console.log("@@@@ A");
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      app.isOpenMenu = app.isOpenMenu ? false : true;
+      talknAPI.onClickToggleDispMenu( app );
+      break;
+    }
+  }else{
+    onClickOtherThread( menuIndexList.connection );
+
+    if(app.rootConnection === thread.connection){
+      switch( app.screenMode ){
+        case App.screenModeSmallLabel :
+          app.isOpenMenu = app.isOpenMenu ? false : true;
+          talknAPI.onClickToggleDispMenu( app );
+          break;
+        }
+    }else{
+      talknAPI.changeThread( menuIndexList.connection );
+    }
+    console.log("@@@@ B");
+  }
+*/
   getDispConnection( focusConnection ){
     const { thread, menuIndexList } = this.props;
     if( focusConnection ){

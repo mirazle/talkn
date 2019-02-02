@@ -18,7 +18,8 @@ const functions = {
     action = resolve.caseNoExistResponsePost(store, action);
     action.user[`offset${action.user.dispThreadType}FindId`] = action.user.offsetFindId;
     action.app = store.getState().app;
-    action.app.desc = action.thread.serverMetas.title
+    action.app.desc = action.thread.serverMetas.title;
+    action.posts = action.posts ? action.posts : [];
     return action;
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": ( store, action ) => {
@@ -31,8 +32,27 @@ const functions = {
     action.user = store.getState().user;
     return action;
   }, 
-  "ON_CLICK_OTHER_THREAD":  (store, action) => {
+  "ON_CLICK_TO_MULTI_THREAD":  (store, action) => {
     action.app = store.getState().app;
+    action.postsMulti = store.getState().postsMulti;
+    return action;
+  },
+  "ON_CLICK_TO_SINGLE_THREAD":  (store, action) => {
+    action.app = store.getState().app;
+    action.postsSingle = store.getState().postsSingle;
+    return action;
+  },
+  "ON_CLICK_TO_CHILD_THREAD":  (store, action) => {
+    action.app = store.getState().app;
+    action.user = store.getState().user;
+    action.postsChild = [];
+    action.user.offsetFindId = User.defaultOffsetFindId;
+    action.user.offsetChildFindId = User.defaultOffsetFindId;
+    return action;
+  },
+  "ON_CLICK_TO_LOGS_THREAD":  (store, action) => {
+    action.app = store.getState().app;
+    action.postsLogs = store.getState().postsLogs;
     return action;
   },
   "ON_CLICK_MENU": ( store, action ) => {
@@ -40,10 +60,21 @@ const functions = {
     return action;
   },
   "ON_CLICK_MULTISTREAM": ( store, action ) => {
-    action.app = store.getState().app;
     action.user = store.getState().user;
     action.user.dispThreadType = action.user.dispThreadType === User.dispThreadTypeMulti ?
       User.dispThreadTypeSingle : User.dispThreadTypeMulti ;
+    action.user.multistreamed = !( action.user.dispThreadType === User.dispThreadTypeMulti );
+    action.app = store.getState().app;
+    action.app.multistream = action.user.dispThreadType === User.dispThreadTypeMulti;
+
+    if(store.getState().postsMulti[0] && store.getState().postsMulti[0]._id){
+      action.user.offsetFindId = store.getState().postsMulti[0]._id;
+      action.user.offsetMultiFindId = action.user.offsetFindId;  
+    }
+    if(store.getState().postsSingle[0] && store.getState().postsSingle[0]._id){
+      action.user.offsetFindId = store.getState().postsSingle[0]._id;
+      action.user.offsetSingleFindId = action.user.offsetFindId;
+    }
     return action;
   },
   "ON_TRANSITION": ( store, action ) => {
@@ -63,6 +94,11 @@ const functions = {
   },
   "RESIZE_END_WINDOW": ( store, action ) => {
     action.user = store.getState().user;
+    return action;
+  },
+  "ON_CLICK_TOGGLE_DISP_MENU": ( store, action ) => {
+    action.app = {...action.app, ...store.getState().app};
+    action.app.isOpenMenu = action.app.isOpenMenu ? false : true;
     return action;
   },
   "ON_CLICK_TOGGLE_DISP_DETAIL": ( store, action ) => {
