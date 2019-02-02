@@ -25,7 +25,6 @@ export default class Posts {
   async find( requestState, setting, isMultistream = false, getMore = false ){
     const { thread, user } = requestState;
     const { connection } = thread;
-
     const getDirection = getMore ? '$lt' : '$gt';
     const condition_part = isMultistream ? {connections: connection} : {connection};
     const condition = {
@@ -33,6 +32,9 @@ export default class Posts {
       _id: { [ getDirection ]: mongoose.Types.ObjectId( user.offsetFindId ) },
     };
 
+//    console.log("@@@@@@@@@ FIND POST " + isMultistream );
+//    console.log(connection);
+//    console.log(condition);
     const selector = {};
     const option = {limit: setting.server.findOnePostCnt, sort: {_id: -1}};
     const result = await this.collection.find( condition, selector, option );

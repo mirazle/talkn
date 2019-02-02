@@ -11,6 +11,7 @@ import setting from './setting';
 import posts from './posts';
 import postsMulti from './postsMulti';
 import postsSingle from './postsSingle';
+import postsChild from './postsChild';
 import style from './style';
 import actionLog from './actionLog';
 
@@ -24,8 +25,10 @@ const rootReducer = combineReducers({
 	analyze,
 	bootOption,
 	setting,
+	posts,
 	postsMulti,
 	postsSingle,
+	postsChild,
 	style,
 	actionLog,
 })

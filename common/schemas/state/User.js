@@ -16,8 +16,7 @@ export default class User extends Schema{
     const href = User.getHref( params );
     const dispThreadType = params && params.dispThreadType ? params.dispThreadType : User.dispThreadTypeSingle;
     const connectioned = params && params.connectioned ? params.connectioned : '';
-    const multistream = params.multistreame ? params.multistreame : false;
-    const multistreamed = params && params.multistreamed ? params.multistreamed : multistream;
+    const multistreamed = params && params.multistreamed ? params.multistreamed : false;
     const actioned = params && params.actioned ? params.actioned : "";
     const offsetFindId = params && params.offsetFindId ? params.offsetFindId : User.defaultOffsetFindId ;
     const offsetSingleFindId = params && params.offsetSingleFindId ? params.offsetSingleFindId : User.defaultOffsetFindId ;
@@ -40,6 +39,29 @@ export default class User extends Schema{
       offsetLogsFindId,
       friends,
     });
+  }
+
+  static getStepToDispThreadType( {app, user}, toConnection ){
+    const beforeDispThreadType = user.dispThreadType;
+    user = User.getStepDispThreadType({app, user}, toConnection);
+    const afterDispThreadType = user.dispThreadType;
+    return {user, stepTo: `${beforeDispThreadType} to ${afterDispThreadType}`};
+  }
+
+  static getStepDispThreadType( {app, user}, toConnection ){
+    if(app.rootConnection === toConnection){
+      if(app.multistream){
+        user.dispThreadType = User.dispThreadTypeMulti;
+        user.offsetFindId = user.offsetMultiFindId;
+      }else{
+        user.dispThreadType = User.dispThreadTypeSingle;
+        user.offsetFindId = user.offsetSingleFindId;
+      }
+    }else{
+      user.dispThreadType = User.dispThreadTypeChild;
+      user.offsetFindId = user.offsetChildFindId;
+    }
+    return user;
   }
 
   static getHref( params = {} ){

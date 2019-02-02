@@ -16,10 +16,38 @@ export default {
       app,
     };
   },
-  onClickOtherThread: ( connection ) => {
+  onClickOtherThread: ( user, connection ) => {
     return {
       type: 'ON_CLICK_OTHER_THREAD',
-      user: { offsetFindId: User.defaultOffsetFindId},
+      user,
+      thread: { connection },
+    };
+  },
+  onClickToMultiThread: ( user, connection ) => {
+    return {
+      type: 'ON_CLICK_TO_MULTI_THREAD',
+      user,
+      thread: { connection },
+    };
+  },
+  onClickToSingleThread: ( user, connection ) => {
+    return {
+      type: 'ON_CLICK_TO_SINGLE_THREAD',
+      user,
+      thread: { connection },
+    };
+  },
+  onClickToChildThread: ( user, connection ) => {
+    return {
+      type: 'ON_CLICK_TO_CHILD_THREAD',
+      user,
+      thread: { connection },
+    };
+  },
+  onClickToLogsThread: ( user, connection ) => {
+    return {
+      type: 'ON_CLICK_TO_LOGS_THREAD',
+      user,
       thread: { connection },
     };
   },
@@ -40,10 +68,9 @@ export default {
       type: 'ON_CLICK_MULTISTREAM'
     };
   },
-  onClickToggleDispMenu: ( app ) => {
+  onClickToggleDispMenu: () => {
     return {
-      type: 'ON_CLICK_TOGGLE_DISP_MENU',
-      app,
+      type: 'ON_CLICK_TOGGLE_DISP_MENU'
     };
   },
   onClickToggleDispDetail: ( app ) => {

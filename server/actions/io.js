@@ -56,7 +56,7 @@ export default {
         -1
       );
 
-      const user = Users.getNewUser(requestState.type, app, thread, [], requestState.user);
+      //const user = Users.getNewUser(requestState.type, app, thread, [], requestState.user);
 
       // ユーザーの接続情報を更新
       Logics.db.users.update( ioUser.conn.id, connection );
@@ -66,8 +66,7 @@ export default {
         requestState,
         thread,
         user: {
-          connectioned: connection,
-          offsetFindId: User.defaultOffsetFindId
+          connectioned: connection
         }
       });
     }

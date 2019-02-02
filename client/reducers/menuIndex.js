@@ -5,8 +5,8 @@ export default ( state = new MenuIndex() , action ) => {
 
 	switch( action.type ){
 	case 'SERVER_TO_CLIENT[EMIT]:find':
-		const postLength = action.posts.length;
-		if(action.posts.length === 0 ){
+		const postLength = action.posts && action.posts.length ? action.posts.length : 0;
+		if(postLength === 0 ){
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
 					return {...mi,
