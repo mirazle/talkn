@@ -73,11 +73,11 @@ console.log("B");
             break;
           case `${User.dispThreadTypeChild} to ${User.dispThreadTypeMulti}`:
             onClickToMultiThread( user, menuIndexList.connection );
-            talknAPI.onClickToggleDispMenu();
+            talknAPI.changeThread( menuIndexList.connection );
             break;
           case `${User.dispThreadTypeChild} to ${User.dispThreadTypeSingle}`:
             onClickToSingleThread( user, menuIndexList.connection );
-            talknAPI.onClickToggleDispMenu();
+            talknAPI.changeThread( menuIndexList.connection );
             break;
           }
         }
@@ -85,31 +85,6 @@ console.log("B");
     }
   }
 
-/*
-  if( focusConnection ){
-    console.log("@@@@ A");
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel :
-      app.isOpenMenu = app.isOpenMenu ? false : true;
-      talknAPI.onClickToggleDispMenu( app );
-      break;
-    }
-  }else{
-    onClickOtherThread( menuIndexList.connection );
-
-    if(app.rootConnection === thread.connection){
-      switch( app.screenMode ){
-        case App.screenModeSmallLabel :
-          app.isOpenMenu = app.isOpenMenu ? false : true;
-          talknAPI.onClickToggleDispMenu( app );
-          break;
-        }
-    }else{
-      talknAPI.changeThread( menuIndexList.connection );
-    }
-    console.log("@@@@ B");
-  }
-*/
   getDispConnection( focusConnection ){
     const { thread, menuIndexList } = this.props;
     if( focusConnection ){
