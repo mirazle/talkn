@@ -32,9 +32,9 @@ export default class Posts {
       _id: { [ getDirection ]: mongoose.Types.ObjectId( user.offsetFindId ) },
     };
 
-//    console.log("@@@@@@@@@ FIND POST " + isMultistream );
-//    console.log(connection);
-//    console.log(condition);
+    console.log("@@@@@@@@@ FIND POST " + isMultistream );
+    console.log(connection);
+    console.log(condition);
     const selector = {};
     const option = {limit: setting.server.findOnePostCnt, sort: {_id: -1}};
     const result = await this.collection.find( condition, selector, option );
