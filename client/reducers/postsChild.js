@@ -1,8 +1,6 @@
 import Posts from 'common/schemas/state/Posts';
-import User from 'common/schemas/state/User';
 
 export default ( state = new Posts() , action ) => {
-
 	switch( action.type ){
 	case "CLIENT_TO_SERVER[EMIT]:changeThread":
 		return new Posts();
@@ -14,7 +12,6 @@ export default ( state = new Posts() , action ) => {
 	case 'SERVER_TO_CLIENT[EMIT]:find':
 		const findPostsChild = action.posts.filter( post => post.connection === action.thread.connection);
 		return [ ...state, ...findPostsChild ];
-		break;
 	case 'SERVER_TO_CLIENT[EMIT]:getMore':
 		const getMorePostsChild = action.posts.filter( post => post.connection === action.thread.connection);
 		return [ ...getMorePostsChild, ...state ];

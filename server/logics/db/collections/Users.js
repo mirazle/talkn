@@ -54,28 +54,33 @@ export default class Users {
 
   static getNewUser(type, app, thread, posts, user){
     const connectioned  = thread.connection;
-    const { user: stepToUser, stepTo } = User.getStepToDispThreadType( {app, user}, thread.connection );
     let dispThreadType = "";
 
-    switch(stepTo){
-    case `${User.dispThreadTypeMulti} to ${User.dispThreadTypeMulti}`:
-      dispThreadType = User.dispThreadTypeMulti;
-      break;
-    case `${User.dispThreadTypeMulti} to ${User.dispThreadTypeChild}`:
-      dispThreadType = User.dispThreadTypeChild;
-      break;
-    case `${User.dispThreadTypeSingle} to ${User.dispThreadTypeChild}`:
-      dispThreadType = User.dispThreadTypeChild;
-      break;
-    case `${User.dispThreadTypeChild} to ${User.dispThreadTypeMulti}`:
-      dispThreadType = User.dispThreadTypeMulti;
-      break;
-    case `${User.dispThreadTypeChild} to ${User.dispThreadTypeSingle}`:
-      dispThreadType = User.dispThreadTypeSingle;
-      break;
-    case `${User.dispThreadTypeChild} to ${User.dispThreadTypeChild}`:
-      dispThreadType = User.dispThreadTypeChild;
-      break;
+    if(type === "getMore"){
+      dispThreadType = user.dispThreadType;
+    }else{
+      const { user: stepToUser, stepTo } = User.getStepToDispThreadType( {app, user}, thread.connection );
+
+      switch(stepTo){
+      case `${User.dispThreadTypeMulti} to ${User.dispThreadTypeMulti}`:
+        dispThreadType = User.dispThreadTypeMulti;
+        break;
+      case `${User.dispThreadTypeMulti} to ${User.dispThreadTypeChild}`:
+        dispThreadType = User.dispThreadTypeChild;
+        break;
+      case `${User.dispThreadTypeSingle} to ${User.dispThreadTypeChild}`:
+        dispThreadType = User.dispThreadTypeChild;
+        break;
+      case `${User.dispThreadTypeChild} to ${User.dispThreadTypeMulti}`:
+        dispThreadType = User.dispThreadTypeMulti;
+        break;
+      case `${User.dispThreadTypeChild} to ${User.dispThreadTypeSingle}`:
+        dispThreadType = User.dispThreadTypeSingle;
+        break;
+      case `${User.dispThreadTypeChild} to ${User.dispThreadTypeChild}`:
+        dispThreadType = User.dispThreadTypeChild;
+        break;
+      }
     }
 
     const offsetFindId = Logics.db.posts.getOffsetFindId( posts, user );

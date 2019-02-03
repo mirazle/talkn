@@ -14,6 +14,15 @@ export default {
 };
 
 const functions = {
+  "CLIENT_TO_SERVER[EMIT]:changeThread": ( store, action ) => {
+    action.user = store.getState().user;
+    action.user.offsetFindId = User.defaultOffsetFindId;
+    action.user.offsetMultiFindId = User.defaultOffsetFindId;
+    action.user.offsetSingleFindId = User.defaultOffsetFindId;
+    action.user.offsetChildFindId = User.defaultOffsetFindId;
+    action.user.offsetLogsFindId = User.defaultOffsetFindId;
+    return action;
+  },
   "SERVER_TO_CLIENT[EMIT]:find": ( store, action ) => {
     action = resolve.caseNoExistResponsePost(store, action);
     action.user[`offset${action.user.dispThreadType}FindId`] = action.user.offsetFindId;
@@ -32,23 +41,16 @@ const functions = {
     action.user = store.getState().user;
     return action;
   }, 
-  "CLIENT_TO_SERVER[EMIT]:changeThread": ( store, action ) => {
-    action.user = store.getState().user;
-    action.user.offsetFindId = User.defaultOffsetFindId;
-    action.user.offsetMultiFindId = User.defaultOffsetFindId;
-    action.user.offsetSingleFindId = User.defaultOffsetFindId;
-    action.user.offsetChildFindId = User.defaultOffsetFindId;
-    action.user.offsetLogsFindId = User.defaultOffsetFindId;
+  "SERVER_TO_CLIENT[EMIT]:getMore": ( store, action ) => {
+    action.app = store.getState().app;
     return action;
   },
   "ON_CLICK_TO_MULTI_THREAD":  (store, action) => {
     action.app = store.getState().app;
-    action.postsMulti = store.getState().postsMulti;
     return action;
   },
   "ON_CLICK_TO_SINGLE_THREAD":  (store, action) => {
     action.app = store.getState().app;
-    action.postsSingle = store.getState().postsSingle;
     return action;
   },
   "ON_CLICK_TO_CHILD_THREAD":  (store, action) => {
