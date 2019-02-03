@@ -236,8 +236,6 @@ export default class Threads {
   }
 
   static getStatusIsMultistream( app, user ){
-    //console.log("== " + user.dispThreadType );
-    //console.log("== " + app.multistream );
     return user.dispThreadType === User.dispThreadTypeMulti && app.multistream;
   }
 
