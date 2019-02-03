@@ -1,5 +1,3 @@
-import User from 'common/schemas/state/User';
-
 export default {
   updateStyle: ( {styleKey, eleType, tagName, style} ) => {
     return {
@@ -16,35 +14,30 @@ export default {
       app,
     };
   },
-  onClickOtherThread: ( user, connection ) => {
-    return {
-      type: 'ON_CLICK_OTHER_THREAD',
-      user,
-      thread: { connection },
-    };
-  },
-  onClickToMultiThread: ( user, connection ) => {
+  onClickToMultiThread: ( connection, {user, postsMulti} ) => {
     return {
       type: 'ON_CLICK_TO_MULTI_THREAD',
       user,
+      postsMulti,
       thread: { connection },
     };
   },
-  onClickToSingleThread: ( user, connection ) => {
+  onClickToSingleThread: ( connection, {user, postsSingle} ) => {
     return {
       type: 'ON_CLICK_TO_SINGLE_THREAD',
       user,
+      postsSingle,
       thread: { connection },
     };
   },
-  onClickToChildThread: ( user, connection ) => {
+  onClickToChildThread: ( connection, {user} ) => {
     return {
       type: 'ON_CLICK_TO_CHILD_THREAD',
       user,
       thread: { connection },
     };
   },
-  onClickToLogsThread: ( user, connection ) => {
+  onClickToLogsThread: ( connection, {user} ) => {
     return {
       type: 'ON_CLICK_TO_LOGS_THREAD',
       user,
