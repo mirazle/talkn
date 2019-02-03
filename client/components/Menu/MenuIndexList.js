@@ -8,6 +8,7 @@ import util from 'common/util';
 import conf from 'common/conf';
 import Container from 'client/style/Container';
 import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
+import TalknSession from 'client/operations/TalknSession';
 
 export default class MenuIndexList extends Component {
 
@@ -23,37 +24,9 @@ export default class MenuIndexList extends Component {
     talknAPI.onCatchConnectionAPI( menuIndexList.connection );
   }
 
-  componentWillUnmount(){
-    const { menuIndexList } = this.props;
-    //talknAPI.offCatchConnectionAPI( menuIndexList.connection );
-  }
-/*
-  getDecolationEvents( focusConnection, styleKey ){
-    const { app, menuIndexList, onClickOtherThread } = this.props;
-    return {
-      onClick: () => {
-        if( focusConnection ){
-          if( app.screenMode === App.screenModeSmallLabel ){
-            app.isOpenMenu = app.isOpenMenu ? false : true;
-            talknAPI.onClickToggleDispMenu( app );
-          }
-        }else{
-          if(app.rootConnection === menuIndexList.connection){
-console.log("A");
-            onClickOtherThread( menuIndexList.connection );
-            talknAPI.onClickToggleDispMenu( app );
-          }else{
-console.log("B");
-            onClickOtherThread( menuIndexList.connection );
-            talknAPI.changeThread( menuIndexList.connection );
-          }
-        }
-      },
-    }
-  }
-*/
   getDecolationEvents( focusConnection, styleKey ){
     const { app, menuIndexList, onClickToMultiThread, onClickToSingleThread, onClickToChildThread, onClickToLogsThread } = this.props;
+    const { connection } = menuIndexList;
     let { user } = this.props;
     return { 
       onClick: () => {
@@ -63,21 +36,25 @@ console.log("B");
           }
         }else{
 
-          const { stepTo } = User.getStepToDispThreadType( {app, user}, menuIndexList.connection );
+          const { stepTo } = User.getStepToDispThreadType( {app, user}, connection );
           switch(stepTo){
           case `${User.dispThreadTypeMulti} to ${User.dispThreadTypeChild}`:
           case `${User.dispThreadTypeSingle} to ${User.dispThreadTypeChild}`:
           case `${User.dispThreadTypeChild} to ${User.dispThreadTypeChild}`:
-            onClickToChildThread( user, menuIndexList.connection );
-            talknAPI.changeThread( menuIndexList.connection );
+            onClickToChildThread( connection, {user} );
+            talknAPI.changeThread( connection );
             break;
           case `${User.dispThreadTypeChild} to ${User.dispThreadTypeMulti}`:
-            onClickToMultiThread( user, menuIndexList.connection );
-            talknAPI.changeThread( menuIndexList.connection );
+            const postsMulti = TalknSession.getStorage( app.rootConnection, define.storageKey.postsMulti);
+            onClickToMultiThread( connection, {user, postsMulti} );
+            talknAPI.changeThread( connection );
+//            talknAPI.onClickToggleDispMenu();
             break;
           case `${User.dispThreadTypeChild} to ${User.dispThreadTypeSingle}`:
-            onClickToSingleThread( user, menuIndexList.connection );
-            talknAPI.changeThread( menuIndexList.connection );
+            const postsSingle = TalknSession.getStorage( app.rootConnection, define.storageKey.postsSingle);
+            onClickToSingleThread( connection, {user, postsSingle} );
+            talknAPI.changeThread( connection );
+//            talknAPI.onClickToggleDispMenu();
             break;
           }
         }

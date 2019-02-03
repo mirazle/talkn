@@ -35,13 +35,14 @@ export default {
 }
 
 function setStorages( state, props ){
-  const { app, user } = state;
-  const { rootConnection } = app;
-  const { storageKey } = define;
-  const getPostKey = user.dispThreadType === User.dispThreadTypeMulti ? storageKey.postMulti : storageKey.postSingle ;
-
-  TalknSession.setStorage( rootConnection, define.storageKey.menuLogs, state.menuLogs.toJSON() );
-  TalknSession.setStorage( rootConnection, define.storageKey.thread, state.thread.toJSON() );
-  //TalknSession.setStorage( rootConnection, getPostKey, state.posts );
+  const { app, thread } = state;
+  if( app.rootConnection === thread.connection ){
+    const { postsMulti, postsSingle } = state;
+    const { storageKey } = define;
+    TalknSession.setStorage( app.rootConnection, storageKey.postsMulti, postsMulti );
+    TalknSession.setStorage( app.rootConnection, storageKey.postsSingle, postsSingle );
+    TalknSession.setStorage( app.rootConnection, define.storageKey.menuLogs, state.menuLogs.toJSON() );
+    TalknSession.setStorage( app.rootConnection, define.storageKey.thread, state.thread.toJSON() );
+  }
   return {state, props};
 }
