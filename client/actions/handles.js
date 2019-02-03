@@ -14,19 +14,17 @@ export default {
       app,
     };
   },
-  onClickToMultiThread: ( connection, {user, postsMulti} ) => {
+  onClickToMultiThread: ( connection, {user} ) => {
     return {
       type: 'ON_CLICK_TO_MULTI_THREAD',
       user,
-      postsMulti,
       thread: { connection },
     };
   },
-  onClickToSingleThread: ( connection, {user, postsSingle} ) => {
+  onClickToSingleThread: ( connection, {user} ) => {
     return {
       type: 'ON_CLICK_TO_SINGLE_THREAD',
       user,
-      postsSingle,
       thread: { connection },
     };
   },
@@ -56,11 +54,13 @@ export default {
       app,
     };
   },
-  onClickMultistream: ({app, user}) => {
+  onClickMultistream: ({app, user, postsMulti, postsSingle}) => {
     return {
       type: 'ON_CLICK_MULTISTREAM',
       app,
       user,
+      postsMulti,
+      postsSingle
     };
   },
   onClickToggleDispMenu: () => {

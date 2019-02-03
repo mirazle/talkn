@@ -45,16 +45,12 @@ export default class MenuIndexList extends Component {
             talknAPI.changeThread( connection );
             break;
           case `${User.dispThreadTypeChild} to ${User.dispThreadTypeMulti}`:
-            const postsMulti = TalknSession.getStorage( app.rootConnection, define.storageKey.postsMulti);
-            onClickToMultiThread( connection, {user, postsMulti} );
+            onClickToMultiThread( connection, {user} );
             talknAPI.changeThread( connection );
-//            talknAPI.onClickToggleDispMenu();
             break;
           case `${User.dispThreadTypeChild} to ${User.dispThreadTypeSingle}`:
-            const postsSingle = TalknSession.getStorage( app.rootConnection, define.storageKey.postsSingle);
-            onClickToSingleThread( connection, {user, postsSingle} );
+            onClickToSingleThread( connection, {user} );
             talknAPI.changeThread( connection );
-//            talknAPI.onClickToggleDispMenu();
             break;
           }
         }

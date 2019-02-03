@@ -67,12 +67,14 @@ const functions = {
     return action;
   },
   "ON_CLICK_MULTISTREAM": ( store, action ) => {
+/*
     action.user = store.getState().user;
     action.user.offsetFindId = User.defaultOffsetFindId;
     action.user.offsetMultiFindId = User.defaultOffsetFindId;
     action.user.offsetSingleFindId = User.defaultOffsetFindId;
     action.user.offsetChildFindId = User.defaultOffsetFindId;
     action.user.offsetLogsFindId = User.defaultOffsetFindId;
+*/
     return action;
   },  
   "ON_CLICK_MENU": ( store, action ) => {

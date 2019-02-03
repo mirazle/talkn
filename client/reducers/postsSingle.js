@@ -1,10 +1,9 @@
 import Posts from 'common/schemas/state/Posts';
 
 export default ( state = new Posts() , action ) => {
-	switch( action.type ){
-//	case "ON_CLICK_TO_SINGLE_THREAD":
-//		return action.postsSingle;		
+	switch( action.type ){	
 	case "ON_CLICK_MULTISTREAM":
+		return action.postsSingle;
 	case "CLIENT_TO_SERVER[EMIT]:changeThread":
 		return new Posts();
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import define from 'common/define';
-import PostSchema from 'common/schemas/state/Post';
 import App from 'common/schemas/state/App';
 import User from 'common/schemas/state/User';
 import TalknSession from 'client/operations/TalknSession';
@@ -166,7 +165,15 @@ export default class Posts extends Component {
 
   handleOnClickMultistream(){
     const { state, onClickMultistream } = this.props;
-    const { app, user, thread, postsMulti, postsSingle } = state;
+    const { app, user } = state;
+    let { postsMulti, postsSingle } = state;
+    const postsMultiCache = TalknSession.getStorage( app.rootConnection, define.storageKey.postsMulti);
+    const postsSingleCache = TalknSession.getStorage( app.rootConnection, define.storageKey.postsSingle);
+    postsMulti = postsMultiCache && postsMultiCache.length > 0 ? postsMultiCache : postsMulti;
+    postsSingle = postsSingleCache && postsSingleCache.length > 0 ? postsSingleCache : postsSingle;
+
+    console.log(postsMulti);
+    console.log(postsSingle);
 
     user.dispThreadType = user.dispThreadType === User.dispThreadTypeMulti ?
       User.dispThreadTypeSingle : User.dispThreadTypeMulti ;
@@ -182,8 +189,8 @@ export default class Posts extends Component {
       user.offsetSingleFindId = user.offsetFindId;
     }
 
-    onClickMultistream({app, user});
-    talknAPI.find( app.rootConnection );
+    onClickMultistream({app, user, postsMulti, postsSingle});
+//    talknAPI.find( app.rootConnection );
   }
 
   renderGetMore(){
