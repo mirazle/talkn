@@ -28,8 +28,10 @@ export default class PostsFooter extends Component {
 
   handleOnClick( e ){
     if( !App.validInputPost( e.target.value ) ){
-      talknAPI.post();
-      talknAPI.onChangeInputPost('');
+      if(e.target.value !== ""){
+        talknAPI.post();
+        talknAPI.onChangeInputPost('');
+      }
     }
   }
 
@@ -44,8 +46,10 @@ export default class PostsFooter extends Component {
       if( e.nativeEvent.shiftKey ){
         talknAPI.onChangeInputPost( e.target.value + '\n');
       }else{
-        talknAPI.post();
-        talknAPI.onChangeInputPost('');
+        if(e.target.value !== ""){
+          talknAPI.post();
+          talknAPI.onChangeInputPost('');
+        }
       }
     }
   }
