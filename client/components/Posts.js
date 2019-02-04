@@ -164,33 +164,44 @@ export default class Posts extends Component {
   }
 
   handleOnClickMultistream(){
-    const { state, onClickMultistream } = this.props;
-    const { app, user } = state;
-    let { postsMulti, postsSingle } = state;
+    const { app, user } = this.props.state;
+    let { postsMulti, postsSingle } = this.props.state;
+    let findFlg = false;
     const postsMultiCache = TalknSession.getStorage( app.rootConnection, define.storageKey.postsMulti);
     const postsSingleCache = TalknSession.getStorage( app.rootConnection, define.storageKey.postsSingle);
     postsMulti = postsMultiCache && postsMultiCache.length > 0 ? postsMultiCache : postsMulti;
     postsSingle = postsSingleCache && postsSingleCache.length > 0 ? postsSingleCache : postsSingle;
 
-    console.log(postsMulti);
-    console.log(postsSingle);
-
-    user.dispThreadType = user.dispThreadType === User.dispThreadTypeMulti ?
-      User.dispThreadTypeSingle : User.dispThreadTypeMulti ;
+    user.dispThreadType = user.dispThreadType === User.dispThreadTypeMulti ? User.dispThreadTypeSingle : User.dispThreadTypeMulti ;
     user.multistreamed = !( user.dispThreadType === User.dispThreadTypeMulti );
     app.multistream = user.dispThreadType === User.dispThreadTypeMulti;
 
-    if(postsMulti[0] && postsMulti[0]._id){
-      user.offsetFindId = postsMulti[0]._id;
-      user.offsetMultiFindId = user.offsetFindId;  
-    }
-    if(postsSingle[0] && postsSingle[0]._id){
-      user.offsetFindId = postsSingle[0]._id;
-      user.offsetSingleFindId = user.offsetFindId;
+    if(app.multistream){
+      if(postsMulti[0] && postsMulti[0]._id){
+        user.offsetFindId = postsMulti[0]._id;
+        user.offsetMultiFindId = user.offsetFindId;  
+      }else{
+        user.offsetFindId = User.defaultOffsetFindId;
+        user.offsetMultiFindId = User.defaultOffsetFindId;
+        findFlg = true;
+      }
+    }else{
+      if(postsSingle[0] && postsSingle[0]._id){
+        user.offsetFindId = postsSingle[0]._id;
+        user.offsetSingleFindId = user.offsetFindId;
+      }else{
+        user.offsetFindId = User.defaultOffsetFindId;
+        user.offsetSingleFindId = User.defaultOffsetFindId;
+        findFlg = true;
+      }
     }
 
-    onClickMultistream({app, user, postsMulti, postsSingle});
-//    talknAPI.find( app.rootConnection );
+    this.props.onClickMultistream({app, user, postsMulti, postsSingle});
+
+    if(findFlg){
+      talknAPI.find( app.rootConnection );
+    }
+
   }
 
   renderGetMore(){

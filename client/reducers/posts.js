@@ -1,7 +1,7 @@
 import Posts from 'common/schemas/state/Posts';
 
-// TODO 本番でGET MOREが正く動作していない
 // get moreしたら一番下までスクロールしてしまっている
+// Multiなのに、Singleが表示されている。且つ、getMoreがループする(判定がおかしい)
 
 export default ( state = new Posts() , action ) => {
 	return state;
