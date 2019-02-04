@@ -2,6 +2,7 @@ import Container from 'client/style/Container';
 import define from 'common/define';
 import App from 'common/schemas/state/App';
 import User from 'common/schemas/state/User';
+import Posts from 'common/schemas/state/Posts';
 
 export default {
   updateAction: store => next => action => {
@@ -28,7 +29,7 @@ const functions = {
     action.user[`offset${action.user.dispThreadType}FindId`] = action.user.offsetFindId;
     action.app = store.getState().app;
     action.app.desc = action.thread.serverMetas.title;
-    action.posts = action.posts ? action.posts : [];
+    action = Posts.getAnyActionPosts(action);
     return action;
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": ( store, action ) => {
@@ -39,10 +40,15 @@ const functions = {
     }
     action.app = app;
     action.user = store.getState().user;
+    action = Posts.getAnyActionPosts(action);
     return action;
   }, 
   "SERVER_TO_CLIENT[EMIT]:getMore": ( store, action ) => {
     action.app = store.getState().app;
+    action.user = store.getState().user;
+    action.user.offsetFindId = User.getOffsetFindId({posts: action.posts});
+    action.user[`offset${action.user.dispThreadType}FindId`] = action.user.offsetFindId;
+    action = Posts.getAnyActionPosts(action);
     return action;
   },
   "ON_CLICK_TO_MULTI_THREAD":  (store, action) => {
