@@ -1,4 +1,5 @@
 import Posts from 'common/schemas/state/Posts';
+import User from 'common/schemas/state/User';
 
 export default ( state = new Posts() , action ) => {
 	switch( action.type ){	
@@ -6,21 +7,17 @@ export default ( state = new Posts() , action ) => {
 		return action.postsSingle;
 	case "CLIENT_TO_SERVER[EMIT]:changeThread":
 		return new Posts();
+	case 'SERVER_TO_CLIENT[EMIT]:find':
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
-		if( action.thread.connection ===  action.posts[0].connection ){
-			return [ ...state, ...action.posts ];
+		if( action.postsSingle && action.postsSingle.length > 0 ){
+			return [ ...state, ...action.postsSingle ];
 		}
 		break;
-	case 'SERVER_TO_CLIENT[EMIT]:find':
-		if( action.app.rootConnection === action.thread.connection){
-			const findPostsSingle = action.posts.filter( post => post.connection === action.thread.connection);
-			return [ ...state, ...findPostsSingle ];
-		}
 	case 'SERVER_TO_CLIENT[EMIT]:getMore':
-		if( action.app.rootConnection === action.thread.connection){
-			const getMorePostsSingle = action.posts.filter( post => post.connection === action.thread.connection);
-			return [ ...getMorePostsSingle, ...state ];
+		if( action.postsSingle && action.postsSingle.length > 0 ){
+			return [ ...action.postsSingle, ...state ];
 		}
+		break;
 	}
 	return state;
 };

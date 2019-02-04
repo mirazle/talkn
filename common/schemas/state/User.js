@@ -64,6 +64,13 @@ export default class User extends Schema{
     return user;
   }
 
+  static getOffsetFindId({posts}){
+    if( posts && posts[ 0 ] && posts[ 0 ]._id ){
+      return posts[ 0 ]._id;
+    }
+    return Post.defaultFindId;
+  }
+
   static getHref( params = {} ){
     if( typeof window !== 'undefined' && window.location && window.location.href ){
       return window.location.href;

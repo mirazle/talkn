@@ -80,10 +80,13 @@ export default class Users {
       case `${User.dispThreadTypeChild} to ${User.dispThreadTypeChild}`:
         dispThreadType = User.dispThreadTypeChild;
         break;
+      case `${User.dispThreadTypeSingle} to ${User.dispThreadTypeSingle}`:
+        dispThreadType = User.dispThreadTypeSingle;
+        break;
       }
     }
 
-    const offsetFindId = Logics.db.posts.getOffsetFindId( posts, user );
+    const offsetFindId = User.getOffsetFindId( {posts} );
     const multistreamed = dispThreadType === User.dispThreadTypeMulti;
     return {...user,
       connectioned,
