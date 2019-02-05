@@ -53,7 +53,10 @@ export default class Posts extends Component {
       posts = postsChild;
       break;
     }
-    this.setState({...this.state, posts});
+
+    if(this.state.posts !== posts){
+      this.setState({...this.state, posts});
+    }
   }
 
   componentDidUpdate(){
@@ -75,7 +78,6 @@ export default class Posts extends Component {
       this.refs.thread.scrollTop = this.refs.thread.scrollHeight - this.state.scrollHeight;
 
       if(thread.isSelfConnection){
-
         const clientMetas = document.querySelectorAll('meta');
         if( Object.keys( thread.serverMetas ).length !== clientMetas.length ){
           let serverMetas = {};
@@ -159,7 +161,7 @@ export default class Posts extends Component {
   }
 
   handleOnClickGetMore(){
-    this.setState({scrollHeight: this.refs.thread.scrollHeight});
+    this.setState({...this.state, scrollHeight: this.refs.thread.scrollHeight});
     talknAPI.getMore();
   }
 
@@ -304,7 +306,6 @@ export default class Posts extends Component {
 
  	render() {
     const { style } = this.props.state;
-//console.log(this.state);
 		return (
       <div data-component-name={this.constructor.name} style={ style.posts.self } >
         {this.renderHeader()}
