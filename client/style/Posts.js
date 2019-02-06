@@ -140,7 +140,8 @@ export default class Posts {
   }
 
   static getMultistreamIconWrapBorder( {user} ){
-    return user.dispThreadType === User.dispThreadTypeMulti ?
+    console.log(user.dispThreadType);
+    return !user.dispThreadType || user.dispThreadType === User.dispThreadTypeMulti ?
       `1px solid ${Container.themeRGBA}` :
       `1px solid ${Container.calmRGBA}`;
   }
