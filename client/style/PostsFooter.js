@@ -104,7 +104,9 @@ export default class PostsFooter{
       backgroundSize: '20px 20px',
       backgroundRepeat: 'no-repeat',
     });
-    const content = {};
+    const content = Style.getContentBase({
+      cursor: 'pointer',
+    });
     const animation = {};
     return Style.get({layout, content, animation});
   }
@@ -143,7 +145,8 @@ export default class PostsFooter{
       borderRadius: '3px',
     });
     const content = Style.getContentBase({
-      fontSize: '12px'
+      fontSize: '12px',
+      cursor: 'pointer',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
