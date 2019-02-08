@@ -2,6 +2,7 @@
 node_modules/
 npm-debug.log
 server/listens/express/assets/icon/*
+common/pems/*
 plugin/refference
 dump.rdb
 package-lock.json
