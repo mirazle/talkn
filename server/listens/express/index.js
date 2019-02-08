@@ -58,25 +58,37 @@ class Express{
   routingHttps( req, res, next ){
     switch( req.headers.host ){
     case conf.domain:
-      /*
-      TODO referer でポータルを開いたか、iframeかと判定できる！
 
-      ポータルを開く場合はrefererがlocalhostもしくはtalkn.ioの場合
-      if(){
+      let connection = null;
 
-      }else{
-        if(){
-          iframeで自動コネクションで開く場合(ドメインだけの場合)
+      // No Assests Url
+      if( `/${req.originalUrl}/` !== conf.assetsPath ){
+
+        // Open Portal Site
+        if( !req.headers.referer ){
+
+        // Open iFrame
         }else{
-          iframeで主導コネクションで開く場合(ドメイン＋パスがある場合)
+
+          const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
+
+          // Auto Connection
+          if(req.originalUrl === "/"){
+            connection = referer;
+
+          // Input Connection
+          }else{
+
+          }
         }
+  
+        res.render( 'portal/index', {
+          connection: connection,
+          domain: conf.domain,
+          clientURL: conf.clientURL,
+          assetsURL: conf.assetsURL
+        });
       }
-      */
-      res.render( 'portal/index', {
-        domain: conf.domain,
-        clientURL: conf.clientURL,
-        assetsURL: conf.assetsURL
-      } );
       break;
     case conf.clientURL:
       res.sendFile( conf.serverClientPath );
