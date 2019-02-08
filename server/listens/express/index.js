@@ -72,9 +72,6 @@ class Express{
         }
       }
       */
-      
-
-
       res.render( 'portal/index', {
         domain: conf.domain,
         clientURL: conf.clientURL,
