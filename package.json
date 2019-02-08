@@ -60,7 +60,8 @@
     "socket.io-emitter": "^3.1.1",
     "socket.io-redis": "^5.2.0",
     "timeago.js": "*",
-    "ua-parser-js": "*"
+    "ua-parser-js": "*",
+    "yarn": "^1.13.0"
   },
   "author": "mirazle",
   "license": "ISC"
