@@ -18,7 +18,7 @@ export default ( state = new MenuIndex() , action ) => {
 			});
 		}
 
-		if(action.app.dispThreadType === User.dispThreadTypeMulti){
+		if(action.user.dispThreadType === User.dispThreadTypeMulti){
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
 					return {...mi,
