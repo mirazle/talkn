@@ -1,6 +1,7 @@
 git pull
 yarn run build
-cp server/listens/express/talkn.client.js client/extention/talkn.client.js
+cp server/listens/express/talkn.client.js extention/talkn.client.js
+zip chromeExtension extention/*
 git add ./*
 git commit -m "deploy.sh"
 git push
