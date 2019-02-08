@@ -96,7 +96,7 @@ export default class Header extends Component {
 
           {/* Watch Cnt */}
           <span style={ style.header.childAnalyze }>
-            <div style={ style.header.childAnalyzeType }>VIEW</div>
+            <div style={ style.header.childAnalyzeType }>LIVE</div>
             <div style={ style.header.childAnalyzeCnt }>{thread.watchCnt}</div>
           </span>
         </span>
