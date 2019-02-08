@@ -37,7 +37,7 @@ export default class Threads {
   }
 
   async findMenuIndex( requestState, setting ){
-    const { thread, app } = requestState;
+    const { thread } = requestState;
     const { connection, layer } = thread;
     const regexConnection = connection.replace(/\//, '\/');
     const regex = new RegExp( `^${regexConnection}` );
@@ -45,7 +45,8 @@ export default class Threads {
       connection: regex,
       postCnt: {'$ne': 0},
       "lastPost.connection": regex,
-      "$or": [{layer: layer}, {layer: layer + 1}],
+      layer : { $gt : layer  }
+//      "$or": [{layer: layer}, {layer: layer + 1}],
     };
     const selector = {lastPost: 1, watchCnt: 1};
     const option = {sort: {layer: 1, watchCnt: 1, postCnt: 1}, limit: setting.server.getThreadChildrenCnt};

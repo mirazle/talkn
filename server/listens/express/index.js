@@ -56,6 +56,7 @@ class Express{
   }
 
   routingHttps( req, res, next ){
+    console.log(req.headers);
     switch( req.headers.host ){
     case conf.domain:
 
