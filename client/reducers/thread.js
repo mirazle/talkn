@@ -9,7 +9,7 @@ export default ( state = new Thread() , action ) => {
 	case 'SERVER_TO_CLIENT[BROADCAST]:changeThread':
 	case 'SERVER_TO_CLIENT[BROADCAST]:disconnect':
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
-
+	
 		// サーバー側でconnection毎にBroardcastしているのでこの判定でOK
 		if( state.connection === action.thread.connection ){
 			return action.thread ? state.merge( action.thread ) : state ;

@@ -4,38 +4,38 @@ import jschardet from 'jschardet';
 import {Iconv} from 'iconv';
 import {Buffer} from 'buffer';
 import Sequence from '~/common/Sequence';
-import define from '~/common/define';
 import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
 import HtmlSchema from '~/server/schemas/logics/Html';
 
 export default class Html {
 
-  async fetch( thread ){
+  async fetch( thread, requestState ){
 
+    const { hasSlash } = requestState.thread;
     const { protocol, connection } = thread;
-    const { DEVELOPMENT_DOMAIN, PORTS } = define;
+    const requestConnection = hasSlash ? connection : connection.replace(/\/$/, '');
     let response = null;
 
     switch( protocol ){
     case Sequence.HTTPS_PROTOCOL:
-      response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, connection );
+      response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, requestConnection );
       if( !response ){
-        response = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, connection );
+        response = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, requestConnection );
       }
       break;
     case Sequence.HTTP_PROTOCOL:
-      response = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, connection );
+      response = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, requestConnection );
       if( !response ){
-        response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, connection );
+        response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, requestConnection );
       }
       break;
     case Sequence.TALKN_PROTOCOL:
     case Sequence.UNKNOWN_PROTOCOL:
     default:
-      response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, connection );
+      response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, requestConnection );
       if( !response ){
-        response = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, connection );
+        response = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, requestConnection );
       }
       break;
     }

@@ -8,6 +8,7 @@ const html = new Html();
 export default {
 	connection: { type: String, default: "/"  },
 	connections: { type: [String], default: ['/'] },
+	hasSlash:  { type: String, default: false },
 	host: { type: String, default: "" },
 	layer: { type: Number, default: 0 },
 	favicon: { type: String, default: Favicon.defaultFaviconPath},

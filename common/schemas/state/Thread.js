@@ -30,6 +30,7 @@ export default class Thread extends Schema{
       thread.href = '' ;
       thread.connection = connection;
       thread.connections = ['/'];
+      thread.hasSlash = bootOption.hasslash ? bootOption.hasslash : false;
       thread.protocol = 'talkn:';
       thread.contentType = '';
       thread.charset = 'UTF-8';
