@@ -17,6 +17,7 @@ export default {
     CLIENT: 'client',
     ASSETS: 'assets',
     SESSION: 'session',
+    AUTO: 'auto',
     EXT: 'ext',
   },
   APP_TYPES: {
