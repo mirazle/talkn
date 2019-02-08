@@ -18,7 +18,9 @@
 		var connection = location.href ?
 			location.href.replace('http:/' + portalDevHost, '').replace('https:/' + portalDevHost, '') :
 			'/';
+		var hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
 		var layerCnt = connection.split( '/' ).length - 1;
+		connection = hasSlash ? connection : connection + "/";
 
 		if( layerCnt === 1 && !connection.match( /\/$/ ) ){
 			location.href = location.href + "/";
@@ -27,6 +29,7 @@
 			script.setAttribute( 'type', 'text/javascript' );
 			script.setAttribute( 'src', jsPath + jsFileName );
 			script.setAttribute( 'connection', connection );
+			script.setAttribute( 'hasSlash', hasSlash );
 			document.head.appendChild( script );
 		}
 	</script>

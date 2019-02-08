@@ -1,16 +1,18 @@
 import http from 'http';
 import https from 'https';
 import express from 'express';
+import url from 'url';
 import define from '~/common/define';
 import Session from '~/server/listens/express/session/';
 import conf from '~/server/conf';
+
 
 class Express{
 
   constructor(){
     this.httpApp = express();
     this.httpsApp = express();
-    this.httpsApp.set('views', conf.serverPortalPath );
+    this.httpsApp.set('views', conf.serverPath );
     this.httpsApp.set('view engine', 'ejs');
     this.session = new Session( this.httpsApp );
 
@@ -56,15 +58,28 @@ class Express{
   routingHttps( req, res, next ){
     switch( req.headers.host ){
     case conf.domain:
+      /*
+      TODO referer でポータルを開いたか、iframeかと判定できる！
 
-      const connection = Object.values( req.params )[ 0 ];
-      const params = {
+      ポータルを開く場合はrefererがlocalhostもしくはtalkn.ioの場合
+      if(){
+
+      }else{
+        if(){
+          iframeで自動コネクションで開く場合(ドメインだけの場合)
+        }else{
+          iframeで主導コネクションで開く場合(ドメイン＋パスがある場合)
+        }
+      }
+      */
+      
+
+
+      res.render( 'portal/index', {
         domain: conf.domain,
         clientURL: conf.clientURL,
-        assetsURL: conf.assetsURL,
-        connection : connection
-      };
-      res.render( 'index', params );
+        assetsURL: conf.assetsURL
+      } );
       break;
     case conf.clientURL:
       res.sendFile( conf.serverClientPath );

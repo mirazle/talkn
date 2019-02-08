@@ -84,6 +84,7 @@ export default {
 
     // Thread
     let {response: thread} = await Logics.db.threads.findOne( connection, {}, {}, true );
+    thread.hasSlash = requestState.thread.hasSlash;
 
     // Threadの状態
     const threadStatus = Logics.db.threads.getStatus( user, thread, app, setting );
@@ -99,7 +100,7 @@ export default {
     // 作成・更新が必要なスレッドの場合
     if( threadStatus.isRequireUpsert ){
 
-      thread = await Logics.db.threads.requestHtmlParams( thread );
+      thread = await Logics.db.threads.requestHtmlParams( thread, requestState );
 
       // スレッド新規作成
       if( threadStatus.isSchema ){

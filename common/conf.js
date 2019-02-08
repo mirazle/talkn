@@ -7,6 +7,7 @@ const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN ;
 const portalURL = `${SUB_DOMAINS.PORTAL}.${domain}` ;
 const clientURL = `${SUB_DOMAINS.CLIENT}.${domain}` ;
 const assetsURL = `${SUB_DOMAINS.ASSETS}.${domain}` ;
+const autoURL = `${SUB_DOMAINS.AUTO}.${domain}` ;
 const extURL = `${SUB_DOMAINS.EXT}.${domain}` ;
 const assetsImgPath = `${assetsURL}/img/` ;
 const assetsIconPath = `${assetsURL}/icon/` ;
@@ -19,6 +20,7 @@ export default {
   portalURL,
   clientURL,
   assetsURL,
+  autoURL,
   extURL,
   assetsImgPath,
   assetsIconPath,

@@ -140,8 +140,8 @@ export default class Threads {
   /* HTML LOGIC     */
   /******************/
 
-  async requestHtmlParams( thread ){
-    const htmlParams = await Logics.html.fetch( thread );
+  async requestHtmlParams( thread, requestState ){
+    const htmlParams = await Logics.html.fetch( thread, requestState );
     thread = MongoDB.getBuiltinObjToSchema( thread, htmlParams );
 
     if( thread.favicon === Favicon.defaultFaviconPath ){
