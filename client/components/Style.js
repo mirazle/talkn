@@ -4,13 +4,15 @@ export default class  Style extends Component {
 
  	render() {
 		const{ state, talknAPI } = this.props;
-    const { app, style } = state;
+    const { app, style } = state;  
+    const fontSize = app.width <= 300 ? 10 : 12;
 
-		return (
+    return (
       <style type='text/css'>
         {`
           #talkn1 textarea::placeholder {
-            font-size: 10px;
+            text-indent: 2%;
+            font-size: ${fontSize}px;
             color: rgb(170, 170, 170);
           }
         `}
