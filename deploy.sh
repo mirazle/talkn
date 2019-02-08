@@ -1,4 +1,4 @@
-[ $1 ] && comment=$1 || comment="exeDeployCommand"
+[ $1 ] && comment=$1 || comment="Execute deploy command"
 
 echo "@@@@@@ GIT PULL"
 git pull
