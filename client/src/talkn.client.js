@@ -36,6 +36,10 @@ class TalknClient{
 		const appType = TalknViewer.getAppType(e);
 		const scriptName = this.getScriptName(appType);
 		const script = document.querySelector(`script[src*="${scriptName}"]`);
+
+		console.log( script );
+		console.log( script.attributes );
+
 		this.boot( appType, window.talknIndex, script.attributes );
 		window.talknAPI = window.__talknAPI__[ window.talknIndex ];
 	}
