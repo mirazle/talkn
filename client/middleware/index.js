@@ -41,6 +41,7 @@ const functions = {
     action.app = app;
     action.user = store.getState().user;
     action = Posts.getAnyActionPosts(action);
+    
     return action;
   }, 
   "SERVER_TO_CLIENT[EMIT]:getMore": ( store, action ) => {

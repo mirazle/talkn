@@ -49,13 +49,11 @@ export default {
     const connectioned = requestState.user.connectioned;
 
     if( connectioned !== '' ){
-
       const connection = requestState.thread.connection;
       const thread = await Logics.db.threads.saveOnWatchCnt(
         {connection: connectioned},
         -1
       );
-
       //const user = Users.getNewUser(requestState.type, app, thread, [], requestState.user);
 
       // ユーザーの接続情報を更新

@@ -126,9 +126,9 @@ export default class Thread extends Schema{
             newConnection = newConnection.slice( 0, 1 ) === "/" ? newConnection : "/" + newConnection;
 
             // 最後が/無しのコネクションを生成
-            noSlashConnection = newConnection.slice(0, -1);
+            //noSlashConnection = newConnection.slice(0, -1);
 
-            connections.push( noSlashConnection );
+            //connections.push( noSlashConnection );
             connections.push( newConnection );
           }
         }
