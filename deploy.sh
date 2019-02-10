@@ -9,5 +9,5 @@ cp server/listens/express/talkn.client.js extention/talkn.client.js
 zip chromeExtension extention/*
 echo "@@@@@@ GIT PUSH"
 git add ./*
-git commit -m $comment
+git commit -m "$comment"
 git push
