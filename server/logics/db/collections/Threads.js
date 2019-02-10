@@ -98,8 +98,10 @@ export default class Threads {
       const {response: resThread} = await Logics.db.threads.findOne( connection );
 
       if( update ){
+        console.log("A");
         resThread.watchCnt = watchCnt;
       }else{
+        console.log("B");
         resThread.watchCnt = resThread.watchCnt + watchCnt;
       }
 
