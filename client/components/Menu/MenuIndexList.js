@@ -134,13 +134,11 @@ export default class MenuIndexList extends Component {
     const DispWatchCnt = this.getDispWatchCnt();
 
     const styleKey = focusConnection ? 'activeLiSelf' : 'unactiveLiSelf' ;
-    const borderRight = this.getBorderRight(app, focusConnection) ;
     const baseBackground = focusConnection ?
       MenuIndexListStyle.activeLiBackground : MenuIndexListStyle.unactiveLiBackground;
     const baseStyle = {
       ...style.menuIndexList[ styleKey ],
-      borderRight,
-      background: baseBackground,
+      background: baseBackground
     };
 
     return (
