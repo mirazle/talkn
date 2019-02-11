@@ -7,7 +7,9 @@ export default ( state = new Posts() , action ) => {
 	case 'SERVER_TO_CLIENT[EMIT]:find':
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
 		if( action.postsChild && action.postsChild.length > 0 ){
-			return [ ...state, ...action.postsChild ];
+			if( action.thread.connection === action.posts[0].connection ){
+				return [ ...state, ...action.postsChild ];
+			}
 		}
 		break;
 	case 'SERVER_TO_CLIENT[EMIT]:getMore':

@@ -14,7 +14,7 @@ export default class Html {
 
     const { hasSlash } = requestState.thread;
     const { protocol, connection } = thread;
-    const requestConnection = hasSlash ? connection : connection.replace(/\/$/, '');
+    const requestConnection = JSON.parse(hasSlash) ? connection : connection.replace(/\/$/, '');
     let response = null;
 
     switch( protocol ){

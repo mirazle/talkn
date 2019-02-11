@@ -120,7 +120,7 @@ export default class Header {
   }
 
   static getChildAnalyze( {app} ){
-
+    const margin = app.screenMode === App.screenModeSmallLabel ? '4px' : '2px';
     const right = app.screenMode === App.screenModeSmallLabel ?
       {right: '0%'} :
       {right: '15%'} ;
@@ -128,7 +128,7 @@ export default class Header {
     const layout = Style.getLayoutInlineBlock({
       position: 'absolute',
       top: '7px',
-      margin: '4px',
+      margin,
       ...right,
       width: 'initial',
     });
@@ -138,15 +138,15 @@ export default class Header {
   }
 
   static getChildAnalyzeType( {app} ){
-
-    const fontDatas = app.screenMode === App.screenModeSmallLabel ?
-      {fontSize: '10px', color: Container.themeRGBA, fontWeight: 'bold' } :
-      {fontSize: '12px'} ;
-
+    const fontSize = app.screenMode === App.screenModeSmallLabel ? '10px' : '12px';
     const layout = Style.getLayoutBlock({
       marginBottom: "6px",
     });
-    const content = Style.getContentBase(fontDatas);
+    const content = Style.getContentBase({
+      fontSize,
+      color: Container.themeRGBA,
+      fontWeight: 'bold'
+    });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }

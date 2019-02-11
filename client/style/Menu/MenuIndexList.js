@@ -49,6 +49,7 @@ export default class MenuIndexList {
   }
 
   static getActiveLiSelf(){
+    console.log(Container.whiteRGB);
     const layout = Style.getLayoutBlock({
       width: 'initial',
       height: `${MenuIndexList.liHeight}px`,
