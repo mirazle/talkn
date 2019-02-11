@@ -11,9 +11,9 @@ export default class  Style extends Component {
       <style type='text/css'>
         {`
           #talkn1 textarea::placeholder {
-            text-indent: 2%;
-            font-size: ${fontSize}px;
-            color: rgb(170, 170, 170);
+            text-indent: 2% !important;
+            font-size: ${fontSize}px !important;
+            color: rgb(170, 170, 170) !important;
           }
         `}
       </style>
