@@ -8,18 +8,19 @@ export default class Posts {
 
   static getAnyActionPosts(action){
     const {user, posts} = action;
+    const existPosts = posts && posts.length > 0;
     switch(user.dispThreadType){
     case User.dispThreadTypeMulti:
-      action.postsMulti = posts;
+      action.postsMulti = existPosts ? posts : [];
       break;
     case User.dispThreadTypeSingle:
-      action.postsSingle = posts;
+      action.postsSingle = existPosts ? posts : [];
       break;
     case User.dispThreadTypeChild:
-      action.postsChild = posts;
+      action.postsChild = existPosts ? posts : [];
       break;
     case User.dispThreadTypeLogs:
-      action.postsLogs = posts;
+      action.postsLogs = existPosts ? posts : [];
       break;
     }
     return action;
