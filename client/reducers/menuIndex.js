@@ -7,7 +7,6 @@ export default ( state = new MenuIndex() , action ) => {
 	case 'SERVER_TO_CLIENT[EMIT]:find':
 		const postLength = action.posts && action.posts.length ? action.posts.length : 0;
 		if(postLength === 0 ){
-			console.log("A " );
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
 					return {...mi,
@@ -21,32 +20,26 @@ export default ( state = new MenuIndex() , action ) => {
 		}
 
 		if(action.user.dispThreadType === User.dispThreadTypeMulti){
-			console.log("B " + action.posts[0].connection);
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
-					console.log("a " + mi.connection);
 					return {...mi,
 						favicon: action.posts[ postLength - 1].favicon,
 						watchCnt: action.thread.watchCnt,
 						post: action.posts[ postLength - 1].post
 					}
 				}else{
-					console.log("b " + mi.connection);
 					return mi;
 				}
 			});
 		}else{
-			console.log("C " + action.posts[0].connection);
 			return state.map( ( mi ) => {
 				if( action.posts[ 0 ].connection === mi.connection ){
-					console.log("a " + mi.connection);
 					return {...mi,
-						favicon: action.posts[ 0 ].favicon,
-						post: action.posts[ 0 ].post,
+						favicon: action.posts[ postLength - 1 ].favicon,
+						post: action.posts[ postLength - 1 ].post,
 						watchCnt: action.thread.watchCnt
 					}
 				}else{
-					console.log("b " + mi.connection);
 					return mi;
 				}
 			});
