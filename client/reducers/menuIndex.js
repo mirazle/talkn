@@ -7,7 +7,7 @@ export default ( state = new MenuIndex() , action ) => {
 	case 'SERVER_TO_CLIENT[EMIT]:find':
 		const postLength = action.posts && action.posts.length ? action.posts.length : 0;
 		if(postLength === 0 ){
-			console.log("A " + action.posts[0].connection);
+			console.log("A " + mi.connection);
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
 					return {...mi,
