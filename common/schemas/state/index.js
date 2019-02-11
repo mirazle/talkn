@@ -22,24 +22,35 @@ export default class State{
     this.bootOption = new BootOption( bootOption );
     this.thread = new Thread( window, this.bootOption, caches.thread );
     this.setting = new Setting( caches.setting );
-    this.app = new App( State.getAppParams(appType, talknIndex, this.thread, caches ) );
+    this.app = new App( State.getAppParams(appType, talknIndex, this.thread, bootOption, caches ) );
     this.user = new User(State.getUserParams(this, caches));
     this.style = new Style( this );
   }
 
-  static getAppParams(appType, talknIndex, thread, caches){
+  static getAppParams(appType, talknIndex, thread, bootOption, caches){
     switch(appType){
     case define.APP_TYPES.PORTAL :
       if(caches && caches.app && caches.app.type){
         return {...caches.app, type: appType};
       }else{
-        return {type: appType, type: appType, isTransition: true, talknIndex, ...thread};
+        return {
+          type: appType,
+          isTransition: true,
+          talknIndex,
+          ...bootOption,
+          ...thread
+        };
       }      
     case define.APP_TYPES.EXTENSION :
       if(caches && caches.app && caches.app.type){
         return {...caches.app, type: appType};
       }else{
-        return {type: appType, talknIndex, ...thread};
+        return {
+          type: appType,
+          talknIndex,
+          ...bootOption,
+          ...thread
+        };
       }
     }
   }

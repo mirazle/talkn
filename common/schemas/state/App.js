@@ -101,9 +101,10 @@ export default class App extends Schema{
     const isOpenNotifInThread = params.isOpenNotifInThread ? params.isOpenNotifInThread : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
+    const iframe = Schema.isSet( params.iframe ) ? JSON.parse( params.iframe ) : false ;
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
     const multistream = Schema.isSet( params.multistream ) ? params.multistream : true;
-
+console.log(iframe);
     return this.create({
       name,
       type,
@@ -126,6 +127,7 @@ export default class App extends Schema{
       isOpenNotifInThread,
       isOpenNotif,
       isTransition,
+      iframe,
       menuComponent,
       multistream
     });
