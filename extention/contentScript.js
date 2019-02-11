@@ -1,11 +1,11 @@
 class ClientScript {
 
     static get APP_NAME(){return "talkn"}
-    static get MODE(){return "START"}
+    static get MODE(){return "PROD"}
     static get PROTOCOL(){return "https"}
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
-    static get BASE_DEV_PORT(){return 8080}
+    static get BASE_DEV_PORT(){return 8080} 
     static get EXCLUSION_HOSTS(){return ['localhost', 'talkn.io']}    
     static get BASE_HOSTNAME(){
         if(ClientScript.MODE === "PROD"){
