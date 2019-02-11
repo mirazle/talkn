@@ -7,5 +7,6 @@ script.setAttribute( 'type', 'text/javascript' );
 script.setAttribute( 'src',"talkn.client.js" );
 script.setAttribute( 'connection', connection );
 script.setAttribute( 'hasSlash', hasSlash );
+script.setAttribute( 'iframe', true );
 script.setAttribute( 'width', '320px' );
 document.head.appendChild( script );

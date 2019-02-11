@@ -8,7 +8,7 @@ class ClientScript {
     static get BASE_DEV_PORT(){return 8080} 
     static get EXCLUSION_HOSTS(){return ['localhost', 'talkn.io']}    
     static get BASE_HOSTNAME(){
-        if(ClientScript.MODE === "PROD"){
+        if(ClientScript.MODE === "DEV"){
             return `${ClientScript.PROTOCOL}://${ClientScript.BASE_PROD_HOST}`;
         }else if(ClientScript.MODE === "START"){
             return `${ClientScript.PROTOCOL}://${ClientScript.BASE_DEV_HOST}`;

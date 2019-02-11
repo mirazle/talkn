@@ -10,6 +10,7 @@
 	<script type='text/javascript'>
 		var portalDevHost = "/localhost:8080";
 		var script = document.createElement("script");
+		var isIframe = true;
 		var href = location.href;
 		var replaceStr = location.origin + '/?';
 		var jsPath = '//' + location.host + '/';
@@ -30,6 +31,7 @@
 			script.setAttribute( 'src', jsPath + jsFileName );
 			script.setAttribute( 'connection', connection );
 			script.setAttribute( 'hasSlash', hasSlash );
+			script.setAttribute( 'isIframe', isIframe );
 			document.head.appendChild( script );
 		}
 	</script>

@@ -59,6 +59,7 @@ class Express{
     switch( req.headers.host ){
     case conf.domain:
 
+      let iframe = false;
       let connection = null;
 
       // No Assests Url
@@ -67,10 +68,13 @@ class Express{
         // Open Portal Site
         if( !req.headers.referer ){
 
+          iframe = false;
+
         // Open iFrame
         }else{
 
           const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
+          iframe = true;
 
           // Auto Connection
           if(req.originalUrl === "/"){
@@ -84,6 +88,7 @@ class Express{
   
         res.render( 'portal/index', {
           connection: connection,
+          iframe: iframe, 
           domain: conf.domain,
           clientURL: conf.clientURL,
           assetsURL: conf.assetsURL
