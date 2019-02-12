@@ -22,17 +22,14 @@ export default {
   },
   APP_TYPES: {
     PORTAL: 'portal',
-    EXTENSION: 'extension'
+    EXTENSION: 'extension',
+    IFRAME: 'iframe'
   },
   storageKey: {
     baseKey: '@talkn@',
     postsSingle: 'postsSingle',
     postsMulti: 'postsMulti',
     postsChild: 'postsChild',
-    postsLogs: 'postsLogs',
-    thread: 'therad',
-    menuLogs: 'menuLogs',
-    setting: 'setting',
-    app: 'app'
+    postsLogs: 'postsLogs'
   }
 }

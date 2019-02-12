@@ -65,32 +65,45 @@ export default class Header extends Component {
     return app;
   }
 
-  render() {
-    const{ state } = this.props;
-    const {  thread, style } = state;
-
+  renderLeft(){
+    const {  app, thread, style } = this.props.state;
     const { icon } = style;
     const MenuIcon = Icon.getMenu( icon.menu );
-    const TalknLogo = Icon.getTalknLogo( icon.talknLogo );
-    const HeadTabIcon = Icon.getHeadTab( icon.headTab );
-    const DetailIcon = Icon.getDetail( icon.detail );
-    return (
-      <header data-component-name={this.constructor.name} style={ style.header.self }>
 
-        {/* User Icon */}
-        <span style={ style.header.menuIcon } onClick={ this.handleOnClickMenuIcon } {...Icon.getDecolationProps1( 'icon', 'menu', 'div' )} >
+    if(app.iframe){
+      return (
 
+        <span
+          data-component-name={`${this.constructor.name}-left`}
+          style={ style.header.leftIcon }>
+      </span>
+
+      );
+    }else{
+      return (
+        <span
+          data-component-name={`${this.constructor.name}-left`}
+          style={ style.header.leftIcon }
+          onClick={ this.handleOnClickMenuIcon }
+          {...Icon.getDecolationProps1( 'icon', 'menu', 'div' )} >
           { MenuIcon }
-
         </span>
+      );
+    }
+  }
 
-        {/* Head Tab Icon */}
-        <span style={ style.header.headTab } onClick={ this.handleOnClickHeadTabIcon }>
-          { HeadTabIcon }
-        </span>
-
-        {/* Menu Icon */}
-        <span style={ style.header.detailIcon } onClick={ this.handleOnClickDetailIcon } {...Icon.getDecolationProps3( 'icon', 'detail', 'div' )} >
+  renderRight(){
+    const {  app, thread, style } = this.props.state;
+    const { icon } = style;
+    const DetailIcon = Icon.getDetail( icon.detail );
+    
+    if(app.iframe){
+      return (
+        <span
+          data-component-name={`${this.constructor.name}-right`}
+          style={ style.header.rightIcon }
+          onClick={ this.handleOnClickDetailIcon }
+          {...Icon.getDecolationProps3( 'icon', 'detail', 'div' )} >
 
           { DetailIcon }
 
@@ -100,6 +113,48 @@ export default class Header extends Component {
             <div style={ style.header.childAnalyzeCnt }>{thread.watchCnt}</div>
           </span>
         </span>
+      );
+    }else{
+      return (
+        <span
+          data-component-name={`${this.constructor.name}-right`}
+          style={ style.header.rightIcon }
+          onClick={ this.handleOnClickDetailIcon }
+          {...Icon.getDecolationProps3( 'icon', 'detail', 'div' )} >
+
+          { DetailIcon }
+
+          {/* Watch Cnt */}
+          <span style={ style.header.childAnalyze }>
+            <div style={ style.header.childAnalyzeType }>LIVE</div>
+            <div style={ style.header.childAnalyzeCnt }>{thread.watchCnt}</div>
+          </span>
+        </span>
+      );
+    }
+  }
+
+  render() {
+    const{ state } = this.props;
+    const {  thread, style } = state;
+    const { icon } = style;
+    const HeadTabIcon = Icon.getHeadTab( icon.headTab );
+    return (
+      <header data-component-name={this.constructor.name} style={ style.header.self }>
+
+        {/* User Icon */}
+        {this.renderLeft()}
+
+        {/* Head Tab Icon */}
+        <span
+          data-component-name={`${this.constructor.name}-center`}
+          style={ style.header.headTab }
+          onClick={ this.handleOnClickHeadTabIcon }>
+          { HeadTabIcon }
+        </span>
+
+        {/* Menu Icon */}
+        {this.renderRight()}
       </header>
 		);
  	}
