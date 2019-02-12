@@ -42,7 +42,7 @@ export default class Header extends Component {
       app = App.getAppUpdatedOpenFlgs(app);
       break;
     }
-
+    app.detailConnection = app.rootConnection;
     talknAPI.onClickToggleDispDetail( app );
   }
 
