@@ -1,14 +1,14 @@
 class ClientScript {
 
     static get APP_NAME(){return "talkn"}
-    static get MODE(){return "PROD"}
+    static get MODE(){return "DEV"}
     static get PROTOCOL(){return "https"}
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
     static get BASE_DEV_PORT(){return 8080} 
     static get EXCLUSION_HOSTS(){return ['localhost', 'talkn.io']}    
     static get BASE_HOSTNAME(){
-        if(ClientScript.MODE === "DEV"){
+        if(ClientScript.MODE === "PROD"){
             return `${ClientScript.PROTOCOL}://${ClientScript.BASE_PROD_HOST}`;
         }else if(ClientScript.MODE === "START"){
             return `${ClientScript.PROTOCOL}://${ClientScript.BASE_DEV_HOST}`;
@@ -20,11 +20,13 @@ class ClientScript {
     static get iframeCloseNotifHeight(){return '85px'};
     static get iframeOpenHeight(){return '450px'};
     static get talknNotifId(){return "talknNotifId"};
-    static get activeMethodSecond(){return 1000};
+    static get activeMethodSecond(){return 10000};
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif']};
 
     constructor(refusedFrame = false){
         this.connection = location.href.replace("http:/", "").replace("https:/", "");
+        const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
+        this.connection = hasSlash ? this.connection : this.connection + "/";
         const noBootFlg = ClientScript.EXCLUSION_HOSTS.some( host => this.connection.indexOf(host) >= 0);
 
         if(!noBootFlg){
@@ -125,6 +127,7 @@ class ClientScript {
         if(this.methodIdMap[method]){
             switch(method){
             case 'bootExtension':
+                console.log("FAULT");
                 new ClientScript(true);
                 break;
             }
@@ -151,12 +154,6 @@ class ClientScript {
 
     openNotif(params){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
-
-        console.log("@@@@@@@@@@@@@@@@@@@@ ClientScript OPEN " +
-            iframe.style.transition + " : " + 
-            params.transition 
-        );
-
         iframe.style.transition = "0ms";
         iframe.style.height = ClientScript.iframeCloseNotifHeight;
         this.postMessage("openNotif");
@@ -171,14 +168,9 @@ class ClientScript {
     }
 
     closeNotif(params){
-
         let talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
-
-        console.log("@@@@@@@@@@@@@@@@@@@@ ClientScript CLOSE "  );
-
         clearTimeout( talknNotifId );
         sessionStorage.setItem(ClientScript.talknNotifId, null);
-
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
         iframe.style.height = ClientScript.iframeCloseHeight;

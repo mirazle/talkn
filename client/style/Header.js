@@ -16,8 +16,8 @@ export default class Header {
   constructor( params ){
     const self = Header.getSelf( params );
     const headTab = Header.getHeadTab( params );
-    const detailIcon = Header.getDetailIcon( params );
-    const menuIcon = Header.getMenuIcon( params );
+    const rightIcon = Header.getRightIcon( params );
+    const leftIcon = Header.getLeftIcon( params );
     const userIcon = Header.getUserIcon( params );
     const userIconImg = Header.getUserIconImg( params );
     const childAnalyze = Header.getChildAnalyze( params );
@@ -28,8 +28,8 @@ export default class Header {
     return {
       self,
       headTab,
-      detailIcon,
-      menuIcon,
+      rightIcon,
+      leftIcon,
       userIcon,
       userIconImg,
       childAnalyze,
@@ -99,22 +99,29 @@ export default class Header {
     return Style.get({layout, content, animation});
   }
 
-  static getDetailIcon( params ){
+  static getRightIcon( params ){
     const layout = Style.getLayoutBlock({
+      flexFlow: "column",
+      alignItems: "center",
+      justifyContent: "center",
       flexGrow: 1,
-      height: 'auto',
+      height: '100%',
     });
     const content = {};
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
-  static getMenuIcon( params ){
-    const layout = Style.getLayoutBlock({
+  static getLeftIcon( params ){
+    const layout = Style.getLayoutFlex({
+      flexFlow: "column",
+      alignItems: "center",
+      justifyContent: "center",
       flexGrow: 1,
       height: '100%',
     });
-    const content = {};
+    const content = Style.getContentBase({
+    });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
@@ -140,6 +147,7 @@ export default class Header {
   static getChildAnalyzeType( {app} ){
     const fontSize = app.screenMode === App.screenModeSmallLabel ? '10px' : '12px';
     const layout = Style.getLayoutBlock({
+      height: "10px",
       marginBottom: "6px",
     });
     const content = Style.getContentBase({
@@ -156,7 +164,9 @@ export default class Header {
       {fontSize: '10px', color: Container.themeRGBA } :
       {fontSize: '12px'} ;
 
-    const layout = Style.getLayoutBlock({});
+    const layout = Style.getLayoutBlock({
+      height: "10px"
+    });
     const content = Style.getContentBase({
       ...fontDatas,
       color: Container.themeRGBA,

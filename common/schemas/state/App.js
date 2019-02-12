@@ -104,7 +104,7 @@ export default class App extends Schema{
     const iframe = Schema.isSet( params.iframe ) ? JSON.parse( params.iframe ) : false ;
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
     const multistream = Schema.isSet( params.multistream ) ? params.multistream : true;
-console.log(iframe);
+
     return this.create({
       name,
       type,

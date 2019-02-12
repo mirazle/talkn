@@ -22,7 +22,7 @@ export default class State{
     this.bootOption = new BootOption( bootOption );
     this.thread = new Thread( window, this.bootOption, caches.thread );
     this.setting = new Setting( caches.setting );
-    this.app = new App( State.getAppParams(appType, talknIndex, this.thread, bootOption, caches ) );
+    this.app = new App( State.getAppParams(appType, talknIndex, this.thread, this.bootOption, caches ) );
     this.user = new User(State.getUserParams(this, caches));
     this.style = new Style( this );
   }
@@ -37,7 +37,7 @@ export default class State{
           type: appType,
           isTransition: true,
           talknIndex,
-          ...bootOption,
+          iframe: bootOption.iframe,
           ...thread
         };
       }      
@@ -48,7 +48,7 @@ export default class State{
         return {
           type: appType,
           talknIndex,
-          ...bootOption,
+          iframe: bootOption.iframe,
           ...thread
         };
       }
