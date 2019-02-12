@@ -60,7 +60,8 @@ export default class Posts extends Component {
   }
 
   componentDidUpdate(){
-    const { app, user, thread, postsMulti, postsSingle, actionLog } = this.props.state;
+    const { user, thread, postsMulti, postsSingle, actionLog } = this.props.state;
+    let { app } = this.props.state;
     switch( actionLog[ 0 ] ){
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
       const { isScrollBottom } = this.state;
@@ -109,6 +110,17 @@ export default class Posts extends Component {
       break;
     case 'SERVER_TO_CLIENT[EMIT]:changeThread':
       this.animateScrollTo( this.refs.thread, 9999999, 400 );
+      break;
+    case 'SERVER_TO_CLIENT[EMIT]:changeThreadDetail':
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        app.isOpenDetail = app.isOpenDetail ? false : true;
+        break;
+      default:
+        app = App.getAppUpdatedOpenFlgs(app);
+        break;
+      }
+      talknAPI.onClickToggleDispDetail( app );
       break;
     case 'START_ANIMATE_SCROLL_TO':
       this.animateScrollTo(
@@ -251,7 +263,7 @@ export default class Posts extends Component {
 
   renderPostList(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ app, style, thread } = state;
+    const{ app, style, thread, threads} = state;
     const { posts } = this.state;
     let postList = [];
 
@@ -266,6 +278,7 @@ export default class Posts extends Component {
             {...post}
             app={app}
             thread={thread}
+            threads={threads}
             childLayerCnt={childLayerCnt}
             style={style.post}
             talknAPI={talknAPI}

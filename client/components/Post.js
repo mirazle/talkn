@@ -3,6 +3,7 @@ import Sequence from 'common/Sequence';
 import util from 'common/util';
 import conf from 'common/conf';
 import define from 'common/define';
+import App from 'common/schemas/state/App';
 
 export default class Post extends Component {
 
@@ -11,7 +12,7 @@ export default class Post extends Component {
     super(props);
     this.state = {style}
     this.getDecolationProps = this.getDecolationProps.bind(this);
-    this.exeLocation = this.exeLocation.bind(this);
+    this.handleOnClickPost = this.handleOnClickPost.bind(this);
   }
 
   componentWillReceiveProps(props){
@@ -96,14 +97,23 @@ export default class Post extends Component {
     }
   }  
 
-  exeLocation(){
-    const { app, protocol, connection } = this.props;
-    const href = protocol === Sequence.TALKN_PROTOCOL ? `https://${conf.domain}${connection}` : `${protocol}/${connection}` ;
-
-    if( app.type === define.APP_TYPES.EXTENSION ){
-      talknAPI.extension("location", {protocol, connection});
+  handleOnClickPost(){
+    const { threads } = this.props;
+    let { app, connection } = this.props;
+    if( threads[ connection ] ){
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        app.isOpenDetail = app.isOpenDetail ? false : true;
+        break;
+      default:
+        app = App.getAppUpdatedOpenFlgs(app);
+        break;
+      }
+    
+      app.detailConnection = connection;
+      talknAPI.onClickToggleDispDetail( app );
     }else{
-      location.href = href;
+      talknAPI.changeThreadDetail(connection);
     }
   }
 
@@ -146,7 +156,7 @@ export default class Post extends Component {
             </span>
           </div>
   
-          <div onClick={this.exeLocation} style={style.bottom}>
+          <div onClick={this.handleOnClickPost} style={style.bottom}>
             <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
             <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post }} />
           </div>

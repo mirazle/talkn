@@ -83,6 +83,7 @@ export default class App extends Schema{
     const talknIndex = params.talknIndex ? params.talknIndex : 0;
     const connection = params.connection ? params.connection : '/';
     const rootConnection = params.rootConnection ? params.rootConnection : connection;
+    const detailConnection = params.detailConnection ? params.detailConnection : connection;
     const desc = params.desc ? params.desc : 'Hello, talkn.';
     const width = App.getWidth( params );
     const height = App.getHeight( params );
@@ -110,6 +111,7 @@ export default class App extends Schema{
       type,
       talknIndex,
       rootConnection,
+      detailConnection,
       desc,
       screenModePointer,
       screenContents,
@@ -145,6 +147,23 @@ export default class App extends Schema{
     }else{
       return true;
     }
+  }
+
+  static getAppUpdatedOpenFlgs(app){
+    switch( app.screenMode ){
+    case App.screenModeMiddleLabel :
+      if( app.isOpenDetail ){
+        app.isOpenMenu = true;
+        app.isOpenDetail = false;
+      }else{
+        app.isOpenMenu = false;
+        app.isOpenDetail = true;
+      }
+      break;
+    case App.screenModeLargeLabel :
+      break;
+    }
+    return app;
   }
 
   updateScreenModePointer( calcScreenModePointer ){

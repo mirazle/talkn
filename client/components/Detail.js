@@ -11,6 +11,23 @@ export default class Detail extends Component {
     this.handleOnClickLike = this.handleOnClickLike.bind(this);
     this.handleOnClickMoney = this.handleOnClickMoney.bind(this);
     this.handleOnClickShare = this.handleOnClickShare.bind(this);
+
+    this.state = {
+      connection: props.state.app.detailConnection,
+      thread: props.state.thread
+    };
+  }
+
+  componentWillReceiveProps(props){
+    const { app, threads } = props.state;
+    if( this.state.connection !== app.detailConnection ){
+      if( threads[ app.detailConnection ]){
+        this.setState({
+          connection: app.detailConnection,
+          thread: threads[ app.detailConnection ]
+        });
+      }
+    }
   }
 
   handleOnClickLike(){
@@ -34,7 +51,8 @@ export default class Detail extends Component {
   }
 
   renderHeader(){
-    const { thread, style } = this.props.state
+    const { thread } = this.state;
+    const { style } = this.props.state
     return(
       <header style={ style.detail.header }>
         <span style={ style.detail.headerP }>
@@ -51,7 +69,8 @@ export default class Detail extends Component {
   }
 
   renderMeta(){
-    const { thread, style } = this.props.state
+    const { thread } = this.state;
+    const { style } = this.props.state
     let backgroundImage = style.detail.img.backgroundImage;
     let backgroundSize = style.detail.img.backgroundSize;
 
@@ -88,7 +107,8 @@ export default class Detail extends Component {
   }
 
   renderAnalyze(){
-    const { thread, style } = this.props.state
+    const { thread } = this.state;
+    const { style } = this.props.state
     return(
       <div style={ style.detail.analyze }>
         <div style={ style.detail.analyzeRow }>
@@ -183,7 +203,8 @@ export default class Detail extends Component {
   }
 
   renderH1s(){
-    const { thread, style } = this.props.state
+    const { thread } = this.state;
+    const { style } = this.props.state
     const liTags = thread.h1s.map( ( h1, i ) => {
       return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>・{h1}</li> );
     });
