@@ -20,7 +20,7 @@ class ClientScript {
     static get iframeCloseNotifHeight(){return '85px'};
     static get iframeOpenHeight(){return '450px'};
     static get talknNotifId(){return "talknNotifId"};
-    static get activeMethodSecond(){return 10000};
+    static get activeMethodSecond(){return 1000};
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif']};
 
     constructor(refusedFrame = false){
