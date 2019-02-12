@@ -668,7 +668,9 @@ export default class Icon {
     });
 
     const div = Style.get({
-      layout: Style.getLayoutBlock(),
+      layout: Style.getLayoutBlock({
+        width: "100%"
+      }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase(),
     });

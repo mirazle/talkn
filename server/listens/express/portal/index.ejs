@@ -12,7 +12,7 @@
 		script.setAttribute( 'src',"https://<%= clientURL %>" );
 		script.setAttribute( 'connection', connection );
 		script.setAttribute( 'hasSlash', hasSlash );
-		script.setAttribute( 'iframe', <%= iframe %> );
+		script.setAttribute( 'iframe', "<%= iframe %>" );
     script.setAttribute( 'width', '320px' );
     document.head.appendChild( script );
   </script>
