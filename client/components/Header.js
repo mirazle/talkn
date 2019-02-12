@@ -10,7 +10,6 @@ export default class Header extends Component {
     this.handleOnClickHeadTabIcon = this.handleOnClickHeadTabIcon.bind(this);
     this.handleOnClickMenuIcon = this.handleOnClickMenuIcon.bind(this);
     this.handleOnClickDetailIcon = this.handleOnClickDetailIcon.bind(this);
-    this.getAppUpdatedOpenFlgs = this.getAppUpdatedOpenFlgs.bind(this);
   }
 
   handleOnClickHeadTabIcon( e ){
@@ -26,7 +25,7 @@ export default class Header extends Component {
         //app.isOpenMenu = app.isOpenMenu ? false : true;
         break;
       default:
-        app = this.getAppUpdatedOpenFlgs();
+        app = App.getAppUpdatedOpenFlgs(app);
         break;
       }
       talknAPI.onClickToggleDispMenu( app );
@@ -40,29 +39,11 @@ export default class Header extends Component {
       app.isOpenDetail = app.isOpenDetail ? false : true;
       break;
     default:
-      app = this.getAppUpdatedOpenFlgs();
+      app = App.getAppUpdatedOpenFlgs(app);
       break;
     }
 
     talknAPI.onClickToggleDispDetail( app );
-  }
-
-  getAppUpdatedOpenFlgs(){
-    const{ app } = this.props.state;
-    switch( app.screenMode ){
-    case App.screenModeMiddleLabel :
-      if( app.isOpenDetail ){
-        app.isOpenMenu = true;
-        app.isOpenDetail = false;
-      }else{
-        app.isOpenMenu = false;
-        app.isOpenDetail = true;
-      }
-      break;
-    case App.screenModeLargeLabel :
-      break;
-    }
-    return app;
   }
 
   renderLeft(){

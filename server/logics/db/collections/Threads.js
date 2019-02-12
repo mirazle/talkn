@@ -98,12 +98,21 @@ export default class Threads {
       const {response: resThread} = await Logics.db.threads.findOne( connection );
 
       if( update ){
-        console.log(resThread);
-        console.log("A");
-        console.log(watchCnt);
+
+        // Error Handking
+        if( !resThread.watchCnt ){
+          console.warn("@@@@@@@@@@@@@@@@@ db/collections/Thread.js 104")
+          console.warn(resThread);
+        }
         resThread.watchCnt = watchCnt;
+
       }else{
-        console.log("B");
+
+        // Error Handking
+        if( !resThread.watchCnt ){
+          console.warn("@@@@@@@@@@@@@@@@@ db/collections/Thread.js 112")
+          console.warn(resThread);
+        }
         resThread.watchCnt = resThread.watchCnt + watchCnt;
       }
 

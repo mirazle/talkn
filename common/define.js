@@ -30,6 +30,7 @@ export default {
     postsSingle: 'postsSingle',
     postsMulti: 'postsMulti',
     postsChild: 'postsChild',
-    postsLogs: 'postsLogs'
+    postsLogs: 'postsLogs',
+    threads: 'threads'
   }
 }
