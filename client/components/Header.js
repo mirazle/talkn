@@ -33,7 +33,7 @@ export default class Header extends Component {
   }
 
   handleOnClickDetailIcon( e ){
-    let { app } = this.props.state;
+    let { app, thread } = this.props.state;
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
       app.isOpenDetail = app.isOpenDetail ? false : true;
@@ -42,8 +42,13 @@ export default class Header extends Component {
       app = App.getAppUpdatedOpenFlgs(app);
       break;
     }
-    app.detailConnection = app.rootConnection;
-    talknAPI.onClickToggleDispDetail( app );
+
+    if( app.rootConnection === thread.connection){
+      app.detailConnection = app.rootConnection;
+      talknAPI.onClickToggleDispDetail( app );
+    }else{
+      talknAPI.onClickToggleDispDetail( app );
+    }
   }
 
   renderLeft(){
