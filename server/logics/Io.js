@@ -36,6 +36,12 @@ export default class Io {
     return true;
   }
 
+  async changeThreadDetail(ioUser, {requestState, threads} ){
+    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {threads} );
+    this.io.emit( ioUser, Sequence.CATCH_ME_KEY, responseEmitState );
+    return true;
+  }
+
   async changeThread(ioUser, {requestState, thread, user} ){
     const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {user} );
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {thread} );
