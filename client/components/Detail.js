@@ -8,7 +8,7 @@ export default class Detail extends Component {
 
   constructor(props) {
     super(props);
-    this.handleOnClickLike = this.handleOnClickLike.bind(this);
+    this.handleOnClickHome = this.handleOnClickHome.bind(this);
     this.handleOnClickMoney = this.handleOnClickMoney.bind(this);
     this.handleOnClickShare = this.handleOnClickShare.bind(this);
 
@@ -30,7 +30,12 @@ export default class Detail extends Component {
     }
   }
 
-  handleOnClickLike(){
+  handleOnClickHome(){
+    if( this.state.thread.protocol === Sequence.TALKN_PROTOCOL ){
+      location.href = this.state.connection;
+    }else{
+      location.href = this.state.thread.protocol + "" + this.state.connection;
+    }
   }
 
   handleOnClickMoney(){
@@ -218,15 +223,15 @@ export default class Detail extends Component {
   renderFooter(){
     const { style } = this.props.state
     const { icon } = style;
-    const HeartIcon = Icon.getHeart( icon.heart );
+    const HomeIcon = Icon.getHome( icon.home );
     const ShareIcon = Icon.getShare( icon.share );
     const MoneyIcon = Icon.getMoney( icon.money );
 
     return(
       <footer style={ style.detail.footer }>
-        <div style={ style.detail.footerChildLike }  {...Icon.getDecolationProps2( 'detail', 'footerChildLike' ) }>
-          { HeartIcon }
-          <div>LIKE</div>
+        <div style={ style.detail.footerChildLike } onClick={this.handleOnClickHome} {...Icon.getDecolationProps2( 'detail', 'footerChildLike' ) }>
+          { HomeIcon }
+          <div>HOME</div>
         </div>
         <div style={ style.detail.footerChildShare } {...Icon.getDecolationProps2( 'detail', 'footerChildShare' )}>
           { ShareIcon }

@@ -125,6 +125,16 @@ export default class Icon extends Component{
     );
   }
 
+  static getHome( style ){
+    return (
+      <div data-component-type={'IconHome'} style={ style.div }>
+        <div style={style.leaf}></div>
+        <div style={style.base}></div>
+        <div style={style.door}></div>
+      </div>
+    );
+  }
+
   static getSearch( style ){
     return (
       <div data-component-type={'IconSearch'} style={ style.div }>

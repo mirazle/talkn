@@ -13,6 +13,7 @@ export default class Icon {
     const menu = Icon.getMenu( params );
     const talknLogo = Icon.getTalknLogo( params );
     const user = Icon.getUser( params );
+    const home = Icon.getHome( params );
     const search = Icon.getSearch( params );
     const index = Icon.getIndex( params );
     const logs = Icon.getLogs( params );
@@ -28,6 +29,7 @@ export default class Icon {
       talknLogo,
       user,
       search,
+      home,
       index,
       logs,
       setting,
@@ -54,6 +56,66 @@ export default class Icon {
     });
     return {img};
   }
+
+  static getHome( {app} ){
+    const div = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        width: "30px",
+        height: "30px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: 'scale( 1 )'
+      }),
+    });
+
+    const leaf = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        borderBottom: `2px solid ${Container.reliefRGB}`,
+        borderLeft: `2px solid ${Container.reliefRGB}`,
+        borderRadius: "0px",
+        margin: "0 auto",
+        width: "18px",
+        height: "16px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: 'rotate(135deg) translate3d(6px, -2px, 0px)'
+      }),
+    });
+
+    const base = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        borderRight: `2px solid ${Container.reliefRGB}`,
+        borderBottom: `2px solid ${Container.reliefRGB}`,
+        borderLeft: `2px solid ${Container.reliefRGB}`, 
+        borderRadius: "0px",
+        margin: "0 auto",
+        width: "18px",
+        height: "12px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(1px, -2px, 0px)'
+      }),
+    });
+
+    const door = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        background: `${Container.reliefRGB}`,
+        width: "6px",
+        height: "8px",
+        margin: "0 auto",
+        borderRadius: "0px 0px 0px 0px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: 'rotate(0deg) translate3d(-11px, -2px, 0px)'
+      }),
+    });
+
+    return {div, leaf, door, base};
+  } 
 
   static getSearch( {app} ){
     const div = Style.get({
