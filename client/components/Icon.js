@@ -125,6 +125,17 @@ export default class Icon extends Component{
     );
   }
 
+  static getTag( style ){
+    console.log(style);
+    return (
+      <div data-component-type={'IconTag'} style={ style.div }>
+        <div style={style.left}></div>
+        <div style={style.right}></div>
+        <div style={style.bar}></div>
+      </div>
+    );
+  }
+
   static getHome( style ){
     return (
       <div data-component-type={'IconHome'} style={ style.div }>

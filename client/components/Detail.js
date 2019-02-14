@@ -11,7 +11,6 @@ export default class Detail extends Component {
     this.handleOnClickHome = this.handleOnClickHome.bind(this);
     this.handleOnClickMoney = this.handleOnClickMoney.bind(this);
     this.handleOnClickShare = this.handleOnClickShare.bind(this);
-
     this.state = {
       connection: props.state.app.detailConnection,
       thread: props.state.thread
@@ -34,12 +33,12 @@ export default class Detail extends Component {
     if( this.state.thread.protocol === Sequence.TALKN_PROTOCOL ){
       location.href = this.state.connection;
     }else{
-      location.href = this.state.thread.protocol + "" + this.state.connection;
+      location.href = this.state.thread.protocol + "/" + this.state.connection;
     }
   }
 
   handleOnClickMoney(){
-    talknAPI.onChangeInputPost( '@ETH:' );
+    //talknAPI.onChangeInputPost( '@ETH:' );
   }
 
   handleOnClickShare(){
@@ -224,6 +223,7 @@ export default class Detail extends Component {
     const { style } = this.props.state
     const { icon } = style;
     const HomeIcon = Icon.getHome( icon.home );
+    const TagIcon = Icon.getTag( icon.tag );
     const ShareIcon = Icon.getShare( icon.share );
     const MoneyIcon = Icon.getMoney( icon.money );
 
@@ -231,7 +231,7 @@ export default class Detail extends Component {
       <footer style={ style.detail.footer }>
         <div style={ style.detail.footerChildLike } onClick={this.handleOnClickHome} {...Icon.getDecolationProps2( 'detail', 'footerChildLike' ) }>
           { HomeIcon }
-          <div>HOME</div>
+          <div>WEB</div>
         </div>
         <div style={ style.detail.footerChildShare } {...Icon.getDecolationProps2( 'detail', 'footerChildShare' )}>
           { ShareIcon }
@@ -239,7 +239,7 @@ export default class Detail extends Component {
         </div>
         <div style={ style.detail.footerChildMoney } onClick={this.handleOnClickMoney} {...Icon.getDecolationProps2( 'detail', 'footerChildMoney' )}>
           { MoneyIcon }
-          <div>MONEY</div>
+          <div>PORTAL</div>
         </div>
       </footer>
     )
