@@ -302,6 +302,7 @@ export default class Detail {
     });
     const content = Style.getContentBase({
       fontSize: '0.5em',
+      cursor: "pointer"
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

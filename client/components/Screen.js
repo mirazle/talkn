@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import Posts from './Posts';
 import Menu from './Menu/';
 import Detail from './Detail';
+import Modal from './Modal';
 import App from 'common/schemas/state/App';
 
 export default class Screen extends Component {
@@ -20,6 +21,7 @@ export default class Screen extends Component {
         <Menu {...this.props} />
         <Posts {...this.props} />
         { this.renderDetail() }
+        <Modal {...this.props} />
       </div>
 		);
  	}
