@@ -96,7 +96,7 @@ const functions = {
     action.user = state.user;
     return action;
   },
-  "OFF_TRANSITION": ( store, action ) => {    
+  "OFF_TRANSITION": ( state, action ) => {    
     action.app = {...state.app, ...action.app};
     return action;
   },
