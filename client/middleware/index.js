@@ -9,15 +9,16 @@ export default {
   updateAction: store => next => action => {
 
     if( functions[ action.type ] ){
-      action = functions[ action.type ]( store, action );
+      const state = store.getState();
+      action = functions[ action.type ]( state, action );
     }
     next(action);
   }
 };
 
 const functions = {
-  "CLIENT_TO_SERVER[EMIT]:changeThread": ( store, action ) => {
-    action.user = store.getState().user;
+  "CLIENT_TO_SERVER[EMIT]:changeThread": ( state, action ) => {
+    action.user = state.user;
     action.user.offsetFindId = User.defaultOffsetFindId;
     action.user.offsetMultiFindId = User.defaultOffsetFindId;
     action.user.offsetSingleFindId = User.defaultOffsetFindId;
@@ -25,103 +26,106 @@ const functions = {
     action.user.offsetLogsFindId = User.defaultOffsetFindId;
     return action;
   },
-  "SERVER_TO_CLIENT[EMIT]:find": ( store, action ) => {
-    action = resolve.caseNoExistResponsePost(store, action);
+  "SERVER_TO_CLIENT[EMIT]:find": ( state, action ) => {
+    action = resolve.caseNoExistResponsePost(state, action);
     action.user[`offset${action.user.dispThreadType}FindId`] = action.user.offsetFindId;
-    action.app = store.getState().app;
+    action.app = state.app;
     action.app.detailConnection = action.thread.connection;
     action.app.desc = action.thread.serverMetas.title;
     action = Posts.getAnyActionPosts(action);
-    action.threads = Threads.getMergedThreads( store.getState().threads, action.thread );
+    action.threads = Threads.getMergedThreads( state.threads, action.thread );
+    action.threadDetail = action.thread;
     return action;
   },
-  "SERVER_TO_CLIENT[BROADCAST]:post": ( store, action ) => {
-    const app = store.getState().app;
+  "SERVER_TO_CLIENT[BROADCAST]:post": ( state, action ) => {
+    const app = state.app;
     if(define.APP_TYPES.EXTENSION === app.type && !app.isOpenMain){
       const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
       talknAPI.extension("openNotif", {transition});
     }
     action.app = app;
-    action.user = store.getState().user;
+    action.user = state.user;
     action = Posts.getAnyActionPosts(action);
     return action;
   }, 
-  "SERVER_TO_CLIENT[EMIT]:getMore": ( store, action ) => {
-    action.app = store.getState().app;
-    action.user = store.getState().user;
+  "SERVER_TO_CLIENT[EMIT]:getMore": ( state, action ) => {
+    action.app = state.app;
+    action.user = state.user;
     action.user.offsetFindId = User.getOffsetFindId({posts: action.posts});
     action.user[`offset${action.user.dispThreadType}FindId`] = action.user.offsetFindId;
     action = Posts.getAnyActionPosts(action);
     return action;
   },
-  "SERVER_TO_CLIENT[EMIT]:changeThreadDetail": ( store, action ) => {
-    action.app = store.getState().app;
-    action.app.detailConnection = action.threads.connection;
-    action.threads = Threads.getMergedThreads( store.getState().threads, action.threads );
+  "SERVER_TO_CLIENT[EMIT]:changeThreadDetail": ( state, action ) => {
+    action.app = state.app;
+    action.threads = Threads.getMergedThreads( state.threads, action.thread );
+    action.threadDetail = action.thread;
+    delete action.thread;
     return action;
   },
-  "ON_CLICK_TO_MULTI_THREAD":  (store, action) => {
-    action.app = store.getState().app;
+  "ON_CLICK_TO_MULTI_THREAD":  (state, action) => {
+    action.app = state.app;
     return action;
   },
-  "ON_CLICK_TO_SINGLE_THREAD":  (store, action) => {
-    action.app = store.getState().app;
+  "ON_CLICK_TO_SINGLE_THREAD":  (state, action) => {
+    action.app = state.app;
     return action;
   },
-  "ON_CLICK_TO_CHILD_THREAD":  (store, action) => {
-    action.app = store.getState().app;
-    action.user = store.getState().user;
+  "ON_CLICK_TO_CHILD_THREAD":  (state, action) => {
+    action.app = state.app;
+    action.user = state.user;
     action.postsChild = [];
     action.user.offsetFindId = User.defaultOffsetFindId;
     action.user.offsetChildFindId = User.defaultOffsetFindId;
     return action;
   },
-  "ON_CLICK_TO_LOGS_THREAD":  (store, action) => {
-    action.app = store.getState().app;
-    action.postsLogs = store.getState().postsLogs;
+  "ON_CLICK_TO_LOGS_THREAD":  (state, action) => {
+    action.app = state.app;
+    action.postsLogs = state.postsLogs;
     return action;
   },
-  "ON_CLICK_MULTISTREAM": ( store, action ) => {
+  "ON_CLICK_MULTISTREAM": ( state, action ) => {
     return action;
   },  
-  "ON_CLICK_MENU": ( store, action ) => {
+  "ON_CLICK_MENU": ( state, action ) => {
     action.app.desc = action.app.menuComponent;
     return action;
   },
-  "ON_TRANSITION": ( store, action ) => {
-    action.app = {...store.getState().app, ...action.app};
-    action.user = store.getState().user;
+  "ON_TRANSITION": ( state, action ) => {
+    action.app = {...state.app, ...action.app};
+    action.user = state.user;
     return action;
   },
   "OFF_TRANSITION": ( store, action ) => {    
-    action.app = {...store.getState().app, ...action.app};
+    action.app = {...state.app, ...action.app};
     return action;
   },
-  "ON_TRANSITION_END": ( store, action ) => {
-    action.app = {...store.getState().app, ...action.app};
+  "ON_TRANSITION_END": ( state, action ) => {
+    action.app = {...state.app, ...action.app};
     action.app.height = App.getHeight();
     action.app.isOpenMain = App.getIsOpenMain( {}, action.app.type, action.app.height);
     return action;
   },
-  "RESIZE_END_WINDOW": ( store, action ) => {
-    action.user = store.getState().user;
+  "RESIZE_END_WINDOW": ( state, action ) => {
+    action.user = state.user;
     return action;
   },
-  "ON_CLICK_TOGGLE_DISP_MENU": ( store, action ) => {
-    action.app = {...action.app, ...store.getState().app};
+  "ON_CLICK_TOGGLE_DISP_MENU": ( state, action ) => {
+    action.app = {...action.app, ...state.app};
     action.app.isOpenMenu = action.app.isOpenMenu ? false : true;
     return action;
   },
-  "ON_CLICK_TOGGLE_DISP_DETAIL": ( store, action ) => {
-    action.app = {...action.app, ...store.getState().app};
+  "ON_CLICK_TOGGLE_DISP_DETAIL": ( state, action ) => {
+    action.app = {...action.app, ...state.app};
+    console.log(action);
     return action;
   },
 }
 
 const resolve = {
-  caseNoExistResponsePost: (store, action) => {
+  caseNoExistResponsePost: (state, action) => {
     if(action.posts.length === 0){
-      action.posts = store.getState().posts;
+      action.posts = state.posts;
       action.existResponsePostFlg = false;
     }else{
       action.existResponsePostFlg = true;

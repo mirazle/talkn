@@ -6,6 +6,7 @@ import menuIndex from './menuIndex';
 import menuLogs from './menuLogs';
 import thread from './thread';
 import threads from './threads';
+import threadDetail from './threadDetail';
 import analyze from './analyze';
 import bootOption from './bootOption';
 import setting from './setting';
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
 	menuLogs,
 	thread,
 	threads,
+	threadDetail,
 	analyze,
 	bootOption,
 	setting,

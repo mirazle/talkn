@@ -109,9 +109,8 @@ export default class Post extends Component {
         app = App.getAppUpdatedOpenFlgs(app);
         break;
       }
-    
-      app.detailConnection = connection;
-      talknAPI.onClickToggleDispDetail( app );
+      console.log( threads[ connection ] );
+      talknAPI.onClickToggleDispDetail( {threadDetail: threads[ connection ], app} );
     }else{
       talknAPI.changeThreadDetail(connection);
     }
