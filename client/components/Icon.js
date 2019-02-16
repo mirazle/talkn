@@ -126,7 +126,6 @@ export default class Icon extends Component{
   }
 
   static getTag( style ){
-    console.log(style);
     return (
       <div data-component-type={'IconTag'} style={ style.div }>
         <div style={style.left}></div>

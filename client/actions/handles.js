@@ -68,10 +68,11 @@ export default {
       type: 'ON_CLICK_TOGGLE_DISP_MENU'
     };
   },
-  onClickToggleDispDetail: ( app ) => {
+  onClickToggleDispDetail: ( {threadDetail, app} ) => {
     return {
       type: 'ON_CLICK_TOGGLE_DISP_DETAIL',
-      app,
+      threadDetail,
+      app
     };
   },
   onClickLike: ( inputPost ) => {
@@ -147,5 +148,11 @@ export default {
       type: 'CLOSE_NOTIF',
       app: {isOpenNotif: false}
     }
-  } 
+  },
+  onClickOpenLockMenu: ( openLockMenu ) => {
+    return {
+      type: 'ON_CLICK_OPEN_LOCK_MENU',
+      app: {openLockMenu},
+    };
+  }
 }

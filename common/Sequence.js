@@ -66,7 +66,7 @@ export default class Sequence {
       changeThreadDetail: {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {},
-        responseEmitState: {'threads': '*'},
+        responseEmitState: {'thread': '*'},
         responseBroadcastState: {},
       },
       findMenuIndex: {

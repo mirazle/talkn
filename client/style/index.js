@@ -11,6 +11,7 @@ import Menu from './Menu';
 import MenuIndex from './Menu/index';
 import MenuIndexList from './Menu/MenuIndexList';
 import MenuUsers from './Menu/MenuUsers';
+import LockMenu from './LockMenu';
 import Posts from './Posts';
 import Post from './Post';
 import Notif from './Notif';
@@ -60,6 +61,7 @@ export default class Style{
     const menuUsers = new MenuUsers( params );
     const main = new Main( params );
     const screen = new Screen( params );
+    const lockMenu = new LockMenu( params );
     const posts = new Posts( params );
     const post = new Post( params );
     const notif = new Notif( params );
@@ -78,6 +80,7 @@ export default class Style{
       menuUsers,
       main,
       screen,
+      lockMenu,
       posts,
       post,
       notif,
