@@ -9,40 +9,22 @@ export default class Detail extends Component {
   constructor(props) {
     super(props);
     this.handleOnClickHome = this.handleOnClickHome.bind(this);
-    this.handleOnClickMoney = this.handleOnClickMoney.bind(this);
     this.handleOnClickShare = this.handleOnClickShare.bind(this);
-    this.state = {
-      connection: props.state.app.detailConnection,
-      thread: props.state.thread
-    };
-  }
-
-  componentWillReceiveProps(props){
-    const { app, threads } = props.state;
-    if( this.state.connection !== app.detailConnection ){
-      if( threads[ app.detailConnection ]){
-        this.setState({
-          connection: app.detailConnection,
-          thread: threads[ app.detailConnection ]
-        });
-      }
-    }
+    this.handleOnClickPortal = this.handleOnClickPortal.bind(this);
   }
 
   handleOnClickHome(){
-    if( this.state.thread.protocol === Sequence.TALKN_PROTOCOL ){
-      location.href = this.state.connection;
-    }else{
-      location.href = this.state.thread.protocol + "/" + this.state.connection;
-    }
-  }
-
-  handleOnClickMoney(){
-    //talknAPI.onChangeInputPost( '@ETH:' );
+    this.props.onClickOpenLockMenu(1);
   }
 
   handleOnClickShare(){
+    this.props.onClickOpenLockMenu(2);
   }
+
+  handleOnClickPortal(){
+    this.props.onClickOpenLockMenu(3);
+  }
+
 
   getDescription( serverMetas ){
     if( serverMetas['description'] !== conf.description ){
@@ -55,13 +37,12 @@ export default class Detail extends Component {
   }
 
   renderHeader(){
-    const { thread } = this.state;
-    const { style } = this.props.state
+    const { threadDetail, style } = this.props.state
     return(
       <header style={ style.detail.header }>
         <span style={ style.detail.headerP }>
         <Marquee
-          text={thread.serverMetas.title}
+          text={threadDetail.serverMetas.title}
           loop={true}
           hoverToStop={false}
           trailing={0}
@@ -73,22 +54,21 @@ export default class Detail extends Component {
   }
 
   renderMeta(){
-    const { thread } = this.state;
-    const { style } = this.props.state
+    const { threadDetail, style } = this.props.state
     let backgroundImage = style.detail.img.backgroundImage;
     let backgroundSize = style.detail.img.backgroundSize;
 
-    if( thread.serverMetas['og:image'] ){
+    if( threadDetail.serverMetas['og:image'] ){
       if(
-          `${thread.serverMetas['og:image']}`.indexOf(Sequence.HTTPS_PROTOCOL) === 0 || 
-          `${thread.serverMetas['og:image']}`.indexOf(Sequence.HTTP_PROTOCOL) === 0
+          `${threadDetail.serverMetas['og:image']}`.indexOf(Sequence.HTTPS_PROTOCOL) === 0 || 
+          `${threadDetail.serverMetas['og:image']}`.indexOf(Sequence.HTTP_PROTOCOL) === 0
       ){
-        backgroundImage = `url("${thread.serverMetas['og:image']}")`;
+        backgroundImage = `url("${threadDetail.serverMetas['og:image']}")`;
       }else{
-        if(thread.protocol === Sequence.TALKN_PROTOCOL){
-          backgroundImage = `url("${Sequence.HTTPS_PROTOCOL}${thread.serverMetas['og:image']}")`;        
+        if(threadDetail.protocol === Sequence.TALKN_PROTOCOL){
+          backgroundImage = `url("${Sequence.HTTPS_PROTOCOL}${threadDetail.serverMetas['og:image']}")`;        
         }else{
-          backgroundImage = `url("${thread.protocol}${thread.serverMetas['og:image']}")`;
+          backgroundImage = `url("${threadDetail.protocol}${threadDetail.serverMetas['og:image']}")`;
         }
       }
 
@@ -96,8 +76,8 @@ export default class Detail extends Component {
     }
 
     style.detail.img = {...style.detail.img, backgroundImage, backgroundSize};
-    const description = this.getDescription( thread.serverMetas );
-    const h1LiTags = thread.h1s.map( ( h1, i ) => {
+    const description = this.getDescription( threadDetail.serverMetas );
+    const h1LiTags = threadDetail.h1s.map( ( h1, i ) => {
       return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>・{h1}</li> );
     });
 
@@ -105,7 +85,7 @@ export default class Detail extends Component {
       <div style={ style.detail.meta } >
         <div style={ style.detail.img } />
         <div style={ style.detail.description }>{ description }</div>
-        <div style={ style.detail.contentType }>{ thread.contentType }</div>
+        <div style={ style.detail.contentType }>{ threadDetail.contentType }</div>
       </div>
     )
   }
@@ -207,9 +187,8 @@ export default class Detail extends Component {
   }
 
   renderH1s(){
-    const { thread } = this.state;
-    const { style } = this.props.state
-    const liTags = thread.h1s.map( ( h1, i ) => {
+    const { threadDetail, style } = this.props.state
+    const liTags = threadDetail.h1s.map( ( h1, i ) => {
       return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>・{h1}</li> );
     });
     return(
@@ -233,11 +212,11 @@ export default class Detail extends Component {
           { HomeIcon }
           <div>WEB</div>
         </div>
-        <div style={ style.detail.footerChildShare } {...Icon.getDecolationProps2( 'detail', 'footerChildShare' )}>
+        <div style={ style.detail.footerChildShare } onClick={this.handleOnClickShare} {...Icon.getDecolationProps2( 'detail', 'footerChildShare' )}>
           { ShareIcon }
           <div>SHARE</div>
         </div>
-        <div style={ style.detail.footerChildMoney } onClick={this.handleOnClickMoney} {...Icon.getDecolationProps2( 'detail', 'footerChildMoney' )}>
+        <div style={ style.detail.footerChildMoney } onClick={this.handleOnClickPortal} {...Icon.getDecolationProps2( 'detail', 'footerChildMoney' )}>
           { MoneyIcon }
           <div>PORTAL</div>
         </div>

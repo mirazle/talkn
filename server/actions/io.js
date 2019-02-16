@@ -123,7 +123,7 @@ export default {
   changeThreadDetail:  async ( ioUser, requestState, setting ) => {
     const { connection } = requestState.thread;
     let {response: thread} = await Logics.db.threads.findOne( connection, {}, {}, true );
-    await Logics.io.changeThreadDetail( ioUser, {requestState, threads: thread } );
+    await Logics.io.changeThreadDetail( ioUser, {requestState, thread } );
   },
 
   findMenuIndex: async ( ioUser, requestState, setting ) => {

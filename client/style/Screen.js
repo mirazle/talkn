@@ -36,7 +36,7 @@ export default class Screen {
   }
 
   static getSelfDisplay(app){
-    return app.isOpenNotif ? 'none' : 'block';
+    return app.isOpenNotif ? 'none' : 'flex';
   }
 
   constructor( params ){
@@ -48,7 +48,7 @@ export default class Screen {
 
   static getSelf( {app} ){
     const display = Screen.getSelfDisplay(app);
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
       display,
       width: Screen.getWidth( app ),
       height: 'inherit',

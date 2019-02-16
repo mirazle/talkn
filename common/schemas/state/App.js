@@ -83,7 +83,6 @@ export default class App extends Schema{
     const talknIndex = params.talknIndex ? params.talknIndex : 0;
     const connection = params.connection ? params.connection : '/';
     const rootConnection = params.rootConnection ? params.rootConnection : connection;
-    const detailConnection = params.detailConnection ? params.detailConnection : connection;
     const desc = params.desc ? params.desc : 'Hello, talkn.';
     const width = App.getWidth( params );
     const height = App.getHeight( params );
@@ -101,6 +100,7 @@ export default class App extends Schema{
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNotifInThread = params.isOpenNotifInThread ? params.isOpenNotifInThread : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
+    const openLockMenu = params.openLockMenu ? params.openLockMenu : 0;
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
     const iframe = Schema.isSet( params.iframe ) ? JSON.parse( params.iframe ) : false ;
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
@@ -111,7 +111,6 @@ export default class App extends Schema{
       type,
       talknIndex,
       rootConnection,
-      detailConnection,
       desc,
       screenModePointer,
       screenContents,
@@ -128,6 +127,7 @@ export default class App extends Schema{
       isOpenDetail,
       isOpenNotifInThread,
       isOpenNotif,
+      openLockMenu,
       isTransition,
       iframe,
       menuComponent,
