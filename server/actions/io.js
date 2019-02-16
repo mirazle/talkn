@@ -18,7 +18,10 @@ export default {
     Object.keys( Sequence.map ).forEach( endpoint => {
       const oneSequence = Sequence.map[ endpoint ];
       ioUser.on( endpoint, ( requestState ) => {
-        Actions.io[ endpoint ]( ioUser, requestState, setting );
+        if(requestState.type){
+          console.log("@@@ " + requestState.type);
+          Actions.io[ endpoint ]( ioUser, requestState, setting );
+        }
       });
     });
   },
@@ -94,7 +97,7 @@ export default {
 
     // userの状況を更新する
     user = Users.getNewUser(requestState.type, app, thread, posts, user);
-
+console.log(threadStatus);
     // 作成・更新が必要なスレッドの場合
     if( threadStatus.isRequireUpsert ){
 
@@ -102,10 +105,12 @@ export default {
 
       // スレッド新規作成
       if( threadStatus.isSchema ){
+        console.log("============== A" );
         thread = await Logics.db.threads.save( thread );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       // スレッド更新
       }else{
+        console.log("============== B");
         thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
         Logics.io.find( ioUser, {requestState, thread, posts, user} );
       }
@@ -115,7 +120,9 @@ export default {
       // Multistreamボタンを押した場合
       if( !threadStatus.isToggleMultistream ){
         thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
+        console.log("============== C");
       }
+      console.log("============== D");
       Logics.io.find( ioUser, {requestState, thread, posts, user} );
     }
   },
