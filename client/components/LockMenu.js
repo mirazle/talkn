@@ -1,19 +1,71 @@
+import React, { Component } from "react"
 import conf from 'common/conf';
 import Sequence from 'common/Sequence';
-import React, { Component } from "react"
+import Style from 'client/style/index/';
+import Container from 'client/style/Container';
+import Icon from 'client/components/Icon';
 
 export default class LockMenu extends Component {
 
+  getDecolationProps(type){
+    return {
+      onMouseOver: () => {
+        this.setState(
+          { style:
+            {...this.state.style,
+              [type]: { ...this.state.style[type],
+                color: Container.whiteRGB,
+                background: Container.themeRGB
+              }
+            }
+          }
+        );
+      },
+      onMouseLeave: () => {
+        this.setState( {style:
+          {...this.state.style,
+            [type]: { ...this.state.style[type],
+              color: Style.fontBaseRGB,
+              background: Container.whiteRGBA,
+              transform: 'scale( 1 )'
+            }
+          }
+        });
+      },
+      onMouseDown: () => {
+        this.setState( {style:
+          {...this.state.style,
+            [type]: { ...this.state.style[type],
+              transition: "200ms",
+              transform: 'scale( 1.05 )',
+            }
+          }
+        });
+      },
+      onMouseUp: () => {
+        this.setState( {style:
+          {...this.state.style,
+            [type]: { ...this.state.style[type],
+              transition: "200ms",
+              transform: 'scale( 1 )'
+            }
+          }
+        });
+      },
+    }
+  }
+
   constructor(props) {
     super(props);
+    const {lockMenu: style} = props.state.style;
+    this.state = {style}
+    this.getDecolationProps = this.getDecolationProps.bind(this);
     this.handleOnClickToWeb = this.handleOnClickToWeb.bind(this);
     this.handleOnClickToTalkn = this.handleOnClickToTalkn.bind(this);
   }
 
   handleOnClickToWeb(){
     const { threadDetail } = this.props.state;
-    console.log(this.props.state);
-
     if( threadDetail.protocol === Sequence.TALKN_PROTOCOL ){
       location.href = threadDetail.connection;
     }else{
@@ -27,7 +79,10 @@ export default class LockMenu extends Component {
   }
 
  	render() {
+    const { style: stateStyle } = this.state;
+    const { openInnerNotif } = this.props;
     const { app, style } = this.props.state;
+
     switch( app.openLockMenu ){
     case 1:
       return (
@@ -36,8 +91,13 @@ export default class LockMenu extends Component {
             WEB
           </header>
           <ul style={style.lockMenu.ul}>
-            <li style={style.lockMenu.li} onClick={this.handleOnClickToWeb}>Web page</li>
-            <li style={style.lockMenu.liLast} onClick={this.handleOnClickToTalkn}>Talkn</li>
+            <li
+              style={stateStyle.liGoWeb}
+              onClick={this.handleOnClickToWeb}
+              {...this.getDecolationProps('liGoWeb')}
+            >
+              Go Web Page
+            </li>
           </ul>
         </div>
       );
@@ -48,9 +108,30 @@ export default class LockMenu extends Component {
             SHARE
           </header>
           <ul style={style.lockMenu.ul}>
-            <li style={style.lockMenu.li}>Embed</li>
-            <li style={style.lockMenu.li}>Twitter</li>
-            <li style={style.lockMenu.li}>Facebook</li>
+            <li
+              style={stateStyle.liTwitter}
+              onClick={ () => openInnerNotif() }
+              {...this.getDecolationProps('liTwitter')}
+            >
+              {Icon.getTwitter()}
+              <div style={style.lockMenu.shareLabel}>Twitter</div>
+            </li>
+            <li
+              style={stateStyle.liFacebook}
+              onClick={ () => openInnerNotif() }
+              {...this.getDecolationProps('liFacebook')}
+            >
+              {Icon.getFacebook()}
+              <div style={style.lockMenu.shareLabel}>Facebook</div>
+            </li>
+            <li
+              style={stateStyle.liEmbed}
+              onClick={ () => openInnerNotif('Copied iFrame Tag.') }
+              {...this.getDecolationProps('liEmbed')}
+            >
+              {Icon.getTalkn()}
+              <div style={style.lockMenu.shareLabel}>Copy iFrame Tag</div>
+            </li>
           </ul>
         </div>
       );
@@ -59,3 +140,5 @@ export default class LockMenu extends Component {
     }
  	}
 }
+
+// {`<iframe src='//${conf.domain}${threadDetail.connection}' frameborder='0' style='height: 385px; width: 300px' />`}

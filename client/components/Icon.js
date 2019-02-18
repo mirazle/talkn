@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
+import { default as IconStyle } from 'client/style/Icon';
 
 export default class Icon extends Component{
 
@@ -118,7 +119,25 @@ export default class Icon extends Component{
       },
     }
   }
+
+  static getTwitter(){
+    return (
+      <div data-component-type={'IconTwitter'} style={ IconStyle.getTwitter() } />
+    );
+  }
+
+  static getFacebook(){
+    return (
+      <div data-component-type={'IconFacebook'} style={ IconStyle.getFacebook() } />
+    );
+  }
   
+  static getTalkn(){
+    return (
+      <div data-component-type={'IconTalkn'} style={ IconStyle.getTalkn() } />
+    );
+  }
+
   static getTalknLogo( style ){
     return (
       <div data-component-type={'IconTalknLogo'} style={ style.img } />

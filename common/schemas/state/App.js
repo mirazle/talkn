@@ -100,6 +100,7 @@ export default class App extends Schema{
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNotifInThread = params.isOpenNotifInThread ? params.isOpenNotifInThread : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
+    const openInnerNotif = params.openInnerNotif ? params.openInnerNotif : '';
     const openLockMenu = params.openLockMenu ? params.openLockMenu : 0;
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
     const iframe = Schema.isSet( params.iframe ) ? JSON.parse( params.iframe ) : false ;
@@ -127,6 +128,7 @@ export default class App extends Schema{
       isOpenDetail,
       isOpenNotifInThread,
       isOpenNotif,
+      openInnerNotif,
       openLockMenu,
       isTransition,
       iframe,

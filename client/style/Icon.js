@@ -43,6 +43,66 @@ export default class Icon {
     }
   }
 
+  static getTwitter(){
+    return Style.get({
+      layout: Style.getLayoutBlock({
+        flexGrow: "1",
+        width: "60px",
+        height: Icon.defaultSize + "px",
+        maxWidth: "60px",
+        maxHeight: Icon.defaultSize + "px",
+        backgroundImage: `url(//${conf.assetsImgPath}twitter.png)`,
+        backgroundPosition: 'center center',
+        backgroundSize: "26px",
+        backgroundRepeat: 'no-repeat',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+  }
+
+  static getFacebook(){
+    return Style.get({
+      layout: Style.getLayoutBlock({
+        flexGrow: "1",
+        width: "60px",
+        height: Icon.defaultSize + "px",
+        maxWidth: "60px",
+        maxHeight: Icon.defaultSize + "px",
+        backgroundImage: `url(//${conf.assetsImgPath}facebook.png)`,
+        backgroundPosition: 'center center',
+        backgroundSize: "26px",
+        backgroundRepeat: 'no-repeat',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+  }
+
+  static getTalkn(){
+    return Style.get({
+      layout: Style.getLayoutBlock({
+        flexGrow: "1",
+        width: "60px",
+        height: Icon.defaultSize + "px",
+        maxWidth: "60px",
+        maxHeight: Icon.defaultSize + "px",
+        backgroundImage: `url(//${conf.assetsImgPath}talkn.png)`,
+        backgroundPosition: 'center center',
+        backgroundSize: "34px",
+        backgroundRepeat: 'no-repeat',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+  }
+
   static getTalknLogo( {app} ){
     const img = Style.get({
       layout: Style.getLayoutBlock({

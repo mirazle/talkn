@@ -1,3 +1,5 @@
+import define from 'common/define';
+
 export default {
   updateStyle: ( {styleKey, eleType, tagName, style} ) => {
     return {
@@ -136,6 +138,20 @@ export default {
       setting,
       user
     };
+  },
+  openInnerNotif: (openInnerNotif = define.noInnerNotif) => {
+    console.log(define.noInnerNotif);
+    console.log(openInnerNotif);
+    return {
+      type: 'OPEN_INNER_NOTIF',
+      app: {openInnerNotif}
+    }
+  },
+  closeInnerNotif: () => {
+    return {
+      type: 'CLOSE_INNER_NOTIF',
+      app: {openInnerNotif: ''}
+    }
   },
   openNotif: () => {
     return {

@@ -107,7 +107,7 @@ export default class Threads {
         resThread.watchCnt = watchCnt;
 
       }else{
-
+//<iframe src='//talkn.io' frameborder='0' style='height: 385px; width: 300px' />
         // Error Handking
         if( !resThread.watchCnt ){
           console.warn("@@@@@@@@@@@@@@@@@ db/collections/Thread.js 112")
