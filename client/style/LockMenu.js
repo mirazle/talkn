@@ -4,7 +4,6 @@ import Container from './Container';
 import Main from './Main';
 import Menu from './Menu';
 import Posts from './Posts';
-import Detail from './Detail';
 
 export default class LockMenu {
 
@@ -38,20 +37,36 @@ export default class LockMenu {
     return layout;
   }
 
+  static getPaddingLi(app){
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      return '14px';
+    case App.screenModeMiddleLabel :
+    case App.screenModeLargeLabel :
+      return '14px';
+    }
+  }
+
   constructor( params ){
     const menuWeb = LockMenu.getMenuWeb( params );
     const menuShare = LockMenu.getMenuShare( params );
     const header = LockMenu.getHeader( params );
     const ul = LockMenu.getUl( params );
-    const li = LockMenu.getLi( params );
-    const liLast = LockMenu.getLiLast( params );
+    const liGoWeb = LockMenu.getLiGoWeb( params );
+    const liTwitter = LockMenu.getLiTwitter( params );
+    const liFacebook = LockMenu.getLiFacebook( params );
+    const liEmbed = LockMenu.getLiEmbed( params );
+    const shareLabel = LockMenu.getShareLabel( params );
     return {
       menuWeb,
       menuShare,
       header,
       ul,
-      li,
-      liLast
+      liGoWeb,
+      liTwitter,
+      liFacebook,
+      liEmbed,
+      shareLabel
     }
   }
 
@@ -65,7 +80,7 @@ export default class LockMenu {
 
   static getMenuShare({app}){
     const commonLayout = LockMenu.getCommonLayout(app);
-    const layout = Style.getLayoutFlex({...commonLayout, top: '33%'});
+    const layout = Style.getLayoutFlex({...commonLayout, top: '32%'});
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
@@ -94,10 +109,24 @@ export default class LockMenu {
     return Style.get({layout, content, animation});
   }
   
-  static getLi({app}){
+  static getLiGoWeb({app}){
     const layout = Style.getLayoutFlex({
       width: "100%",
-      padding: '20px',
+      height: "45px",
+      padding: LockMenu.getPaddingLi(app),
+    });
+    const content = Style.getContentBase({
+      cursor: "pointer"
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getLiTwitter({app}){
+    const layout = Style.getLayoutFlex({
+      width: "100%",
+      height: "45px",
+      padding: LockMenu.getPaddingLi(app),
       borderBottom: Container.border
     });
     const content = Style.getContentBase({
@@ -107,13 +136,42 @@ export default class LockMenu {
     return Style.get({layout, content, animation});
   }
 
-  static getLiLast({app}){
+  static getLiFacebook({app}){
     const layout = Style.getLayoutFlex({
       width: "100%",
-      padding: '20px',
+      height: "45px",
+      padding: LockMenu.getPaddingLi(app),
+      borderBottom: Container.border
     });
     const content = Style.getContentBase({
       cursor: "pointer"
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getLiEmbed({app}){
+    const layout = Style.getLayoutFlex({
+      width: "100%",
+      height: "45px",
+      padding: LockMenu.getPaddingLi(app)
+    });
+    const content = Style.getContentBase({
+      cursor: "pointer"
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getShareLabel({app}){
+    const layout = Style.getLayoutFlex({
+      flexGrow: "1"
+    });
+    const content = Style.getContentBase({
+      color: "inherit",
+      justifyContent: "flex-start",
+      textIndent: "10px",
+      textAlign: "left"
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

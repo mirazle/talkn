@@ -18,10 +18,8 @@ export default {
     Object.keys( Sequence.map ).forEach( endpoint => {
       const oneSequence = Sequence.map[ endpoint ];
       ioUser.on( endpoint, ( requestState ) => {
-        if(requestState.type){
-          console.log("@@@ " + requestState.type);
+          console.log("@@@ " + endpoint);
           Actions.io[ endpoint ]( ioUser, requestState, setting );
-        }
       });
     });
   },
