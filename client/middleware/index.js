@@ -117,7 +117,6 @@ const functions = {
   },
   "ON_CLICK_TOGGLE_DISP_DETAIL": ( state, action ) => {
     action.app = {...action.app, ...state.app};
-    console.log(action);
     return action;
   },
 }

@@ -6,6 +6,7 @@ import Posts from 'client/style/Posts';
 import Detail from 'client/style/Detail';
 import Footer from 'client/style/Footer';
 import Notif from 'client/style/Notif';
+import InnerNotif from 'client/style/InnerNotif';
 
 export default ( state = {} , action ) => {
 
@@ -79,6 +80,15 @@ export default ( state = {} , action ) => {
 			notif: {...state.notif,
 				notifs: {...state.notif.notifs,
 					display: Notif.getNotifsDisplay( action.app ),
+				}
+			}
+		}
+	case 'OPEN_INNER_NOTIF' :
+	case 'CLOSE_INNER_NOTIF' :
+		return {...state,
+			innerNotif: {...state.innerNotif,
+				self: {...state.innerNotif.self,
+					height: action.app.openInnerNotif !== '' ? `${InnerNotif.selfHeight}px` : '0px',
 				}
 			}
 		}

@@ -14,6 +14,7 @@ import MenuUsers from './Menu/MenuUsers';
 import LockMenu from './LockMenu';
 import Posts from './Posts';
 import Post from './Post';
+import InnerNotif from './InnerNotif';
 import Notif from './Notif';
 import Loading from './Loading';
 
@@ -49,6 +50,11 @@ export default class Style{
   static get mono250RGBA(){ return 'rgba(250, 250, 250, 0.96)' };
   static get mono255RGBA(){ return 'rgba(255, 255, 255, 0.96)' };
 
+  static get twitterRGB(){ return 'rgba(76, 160, 235)' };
+  static get twitterRGBA(){ return 'rgba(76, 160, 235, 0.96)' };
+  static get facebookRGB(){ return 'rgba(73, 104, 173)' };
+  static get facebookRGBA(){ return 'rgba(73, 104, 173, 0.96)' };
+
   constructor( params ){
     const container = new Container( params );
     const header = new Header( params );
@@ -65,6 +71,7 @@ export default class Style{
     const posts = new Posts( params );
     const post = new Post( params );
     const notif = new Notif( params );
+    const innerNotif = new InnerNotif( params );
     const detail = new Detail( params );
     const icon = new Icon( params );
     const loading = new Loading( params );
@@ -84,6 +91,7 @@ export default class Style{
       posts,
       post,
       notif,
+      innerNotif,
       detail,
       icon,
       loading,

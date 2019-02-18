@@ -3,6 +3,7 @@ import React, { Component } from "react"
 import Screen from './Screen';
 import Header from './Header';
 import Notif from './Notif';
+import InnerNotif from './InnerNotif';
 import LockMenu from './LockMenu';
 
 export default class Main extends Component {
@@ -79,6 +80,7 @@ export default class Main extends Component {
         {this.renderScreen()}
         {this.renderNotif()}
         <LockMenu {...this.props}/>
+        <InnerNotif {...this.props}/>
       </main>
 		);
  	}

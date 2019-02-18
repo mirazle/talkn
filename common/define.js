@@ -25,6 +25,7 @@ export default {
     EXTENSION: 'extension',
     IFRAME: 'iframe'
   },
+  noInnerNotif: "Sorry, No Function.",
   storageKey: {
     baseKey: '@talkn@',
     postsSingle: 'postsSingle',
