@@ -39,10 +39,10 @@ export default class App extends Schema{
     }
   }
 
-  static get lockMenuLabelNo(){ return 'No' };
-  static get lockMenuLabelLike(){ return 'Like' };
-  static get lockMenuLabelShare(){ return 'Share' };
-  static get lockMenuLabelAbout(){ return 'About' };
+  static get openLockMenuLabelNo(){ return 'No' };
+  static get openLockMenuLabelLike(){ return 'Like' };
+  static get openLockMenuLabelShare(){ return 'Share' };
+  static get openLockMenuLabelAbout(){ return 'About' };
 
   static get menuComponentUsersLabel(){ return 'Users' };
   static get menuComponentIndexLabel(){ return 'Index' };
@@ -106,7 +106,7 @@ export default class App extends Schema{
     const isOpenNotifInThread = params.isOpenNotifInThread ? params.isOpenNotifInThread : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     const openInnerNotif = params.openInnerNotif ? params.openInnerNotif : '';
-    const openLockMenu = params.openLockMenu ? params.openLockMenu : 0;
+    const openLockMenu = params.openLockMenu ? params.openLockMenu : App.openLockMenuLabelNo;
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
     const iframe = Schema.isSet( params.iframe ) ? JSON.parse( params.iframe ) : false ;
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );

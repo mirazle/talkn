@@ -90,7 +90,8 @@ export default class Header {
   }
 
   static getHeadTab( params ){
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
+      justifyContent: "center",
       flexGrow: 2,
       height: 'auto',
     });

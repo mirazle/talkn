@@ -2,6 +2,7 @@ import Style from './index';
 import Container from './Container';
 import conf from '../conf';
 import User from '~/common/schemas/state/User'
+import App from '../../common/schemas/state/App';
 
 export default class Icon {
 
@@ -24,6 +25,7 @@ export default class Icon {
     const heart = Icon.getHeart( params );
     const share = Icon.getShare( params );
     const money = Icon.getMoney( params );
+    const close = Icon.getClose( params );
     return {
       headTab,
       menu,
@@ -40,6 +42,7 @@ export default class Icon {
       heart,
       share,
       money,
+      close
     }
   }
 
@@ -636,7 +639,7 @@ export default class Icon {
         left: '5px',
         width: '16px',
         height: '16px',
-        border: `3px solid ${Container.reliefRGB}`,
+        border: `4px solid ${Container.reliefRGB}`,
         borderRadius: '50px'
       }),
       content: Style.getContentBase(),
@@ -847,14 +850,14 @@ export default class Icon {
 
     const commonLayout = Style.getLayoutInlineBlock({
       width: '4px',
-      height: '20px',
       borderRadius: '10px',
       background: Container. calmRGB,
     });
 
     const div = Style.get({
       layout: Style.getLayoutBlock({
-        width: "100%"
+        width: "40px",
+        height: '20px'
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase(),
@@ -865,7 +868,7 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: Container.getTransition( app ),
-        transform: Icon.getHeadTabLeftTransform( app.isOpenMain ),
+        transform: Icon.getHeadTabLeftTransform(),
       }),
     });
 
@@ -874,14 +877,14 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: Container.getTransition( app ),
-        transform: Icon.getHeadTabRightTransform( app.isOpenMain ),
+        transform: Icon.getHeadTabRightTransform(),
       }),
     });
     return {div,left,right};
   }
 
-  static getHeart(){
-
+  static getHeart({app}){
+    const color = app.openLockMenu === App.openLockMenuLabelShare ? Container.themeRGBA : Container.reliefRGB;
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: '26px',
@@ -923,8 +926,8 @@ export default class Icon {
   }
 
 
-  static getShare(){
-
+  static getShare({app}){
+    const color = app.openLockMenu === App.openLockMenuLabelShare ? Container.themeRGBA : Container.reliefRGB;
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: '26px',
@@ -943,7 +946,7 @@ export default class Icon {
         width: '16px',
         height: '14px',
         margin: '0 auto',
-        border: `2px solid ${Container.reliefRGB}`,
+        border: `2px solid ${color}`,
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -959,7 +962,7 @@ export default class Icon {
         width: '2px',
         height: '11px',
         margin: '0 auto',
-        background: Container.reliefRGB,
+        background: color,
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
@@ -1008,8 +1011,8 @@ export default class Icon {
         left: '13px',
         width: '8px',
         height: '8px',
-        borderTop: `2px solid ${Container.reliefRGB}`,
-        borderRight: `2px solid ${Container.reliefRGB}`,
+        borderTop: `2px solid ${color}`,
+        borderRight: `2px solid ${color}`,
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
@@ -1020,7 +1023,6 @@ export default class Icon {
   }
 
   static getMoney(){
-
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: '26px',
@@ -1061,5 +1063,65 @@ export default class Icon {
       }),
     });
     return {div, outer, inner};
+  }
+
+  static getClose(){
+    const div = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        width: '26px',
+        height: '26px',
+        margin: '1px'
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({
+
+      }),
+    });
+
+    const circle = Style.get({
+      layout: Style.getLayoutBlock({
+        position: "absolute",
+        margin: '0 auto',
+        width: '26px',
+        height: '26px',
+        border: `2px solid ${Container.calmRGB}`,
+        borderRadius: '30px',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(0px, 0px, 0px) rotate(0deg)',
+      }),
+    });
+
+    const bar1 = Style.get({
+      layout: Style.getLayoutBlock({
+        position: "absolute",
+        margin: '0 auto',
+        width: '2px',
+        height: '18px',
+        background: Container.calmRGBA,
+        borderRadius: '2px',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(10px, 2px, 0px) rotate(45deg)',
+      }),
+    });
+
+    const bar2 = Style.get({
+      layout: Style.getLayoutBlock({
+        position: "absolute",
+        margin: '0 auto',
+        width: '2px',
+        height: '18px',
+        background: Container.calmRGBA,
+        borderRadius: '2px',
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({
+        transform: 'translate3d(10px, 2px, 0px) rotate(-45deg)',
+      }),
+    });
+    return {div, circle, bar1, bar2};
   }
 }

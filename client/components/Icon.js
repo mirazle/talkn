@@ -59,27 +59,27 @@ export default class Icon extends Component{
     return {
       onMouseOver: () => {
         talknAPI.updateStyle( {styleKey, eleType, tagName, style: {
-          boxShadow: '0px 0px 20px rgba(240, 240, 240, 0.7 ) inset',
+          boxShadow: '0px 0px 20px rgba(200, 200, 200, 0.7 ) inset',
           transition: '200ms',
           transform: 'scale( 1 )',
-          borderRadius: '100px',
+          borderRadius: '0px',
           cursor: 'pointer',
         } } );
       },
       onMouseLeave: () => {
         talknAPI.updateStyle( {styleKey, eleType, tagName, style: {
-          boxShadow: '0px 0px 0px rgba(240, 240, 240, 0.7)',
+          boxShadow: '0px 0px 0px rgba(220, 220, 220, 0.7)',
           transition: '600ms',
           transform: 'scale( 1 )',
-          borderRadius: '100px',
+          borderRadius: '0px',
           cursor: 'default',
         } } );
       },
       onMouseDown: () => {
         talknAPI.updateStyle( {styleKey, eleType, tagName, style: {
-          boxShadow: '0px 0px 30px rgba(255, 200, 255, 0.7) inset ',
+          boxShadow: '0px 0px 30px rgba(200, 200, 200, 0.7) inset ',
           transform: 'scale( 0.8 )',
-          borderRadius: '100px',
+          borderRadius: '0px',
           cursor: 'pointer',
         } } );
       },
@@ -87,7 +87,7 @@ export default class Icon extends Component{
         talknAPI.updateStyle( {styleKey, eleType, tagName, style: {
           boxShadow: '0px 0px 20px rgba(240, 240, 240, 0.7) inset',
           transform: 'scale( 1 )',
-          borderRadius: '100px',
+          borderRadius: '0px',
           cursor: 'pointer',
         } } );
       },
@@ -275,7 +275,8 @@ export default class Icon extends Component{
     );
   }
 
-  static getHeadTab( style ){
+  static getHeadTab( overStyle, params = {} ){
+    const style = Icon.getOveredStyle( IconStyle.getHeadTab(params), overStyle );
     return (
       <div data-component-type={'IconHeadTab'} style={ style.div }>
         <span style={ style.left }></span>
@@ -284,8 +285,8 @@ export default class Icon extends Component{
     );
   }
 
-  static getHeart( overStyle ){
-    const style = Icon.getOveredStyle( IconStyle.getHeart(), overStyle );
+  static getHeart( overStyle, params = {} ){
+    const style = Icon.getOveredStyle( IconStyle.getHeart(params), overStyle );
     return (
       <div data-component-type={'IconHeart'} style={ style.div }>
         <div style={ style.before }></div>
@@ -294,8 +295,8 @@ export default class Icon extends Component{
     );
   }
 
-  static getShare( overStyle ){
-    const style = Icon.getOveredStyle( IconStyle.getShare(), overStyle );
+  static getShare( overStyle, params = {}){
+    const style = Icon.getOveredStyle( IconStyle.getShare(params), overStyle );
     return (
       <div data-component-type={'IconShare'} style={ style.div }>
         <div style={ style.arrow }></div>
@@ -307,12 +308,24 @@ export default class Icon extends Component{
     );
   }
 
-  static getMoney( overStyle ){
-    const style = Icon.getOveredStyle( IconStyle.getMoney(), overStyle );
+  static getMoney( overStyle, params = {} ){
+    const style = Icon.getOveredStyle( IconStyle.getMoney(params), overStyle );
     return (
       <div data-component-type={'IconMoney'} style={ style.div } >
         <div style={ style.outer }>
           <div style={ style.inner }></div>
+        </div>
+      </div>
+    );
+  }
+
+  static getClose( overStyle, params = {} ){
+    const style = Icon.getOveredStyle( IconStyle.getClose(params), overStyle );
+    return (
+      <div data-component-type={'IconClose'} style={ style.div } >
+        <div style={ style.circle }>
+          <div style={ style.bar1 }/>
+          <div style={ style.bar2 }/>
         </div>
       </div>
     );

@@ -15,6 +15,12 @@ export default class MenuFooter extends Component {
     }
   }
 
+/*
+    SHAREをハイライト
+    アニメーションのON/OFF
+    諸々制御周り
+*/
+
   render() {
     const { openInnerNotif } = this.props;
     const { style } = this.props.state;

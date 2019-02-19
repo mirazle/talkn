@@ -4,6 +4,7 @@ import Sequence from 'common/Sequence';
 import App from 'common/schemas/state/App';
 import Style from 'client/style/index/';
 import Container from 'client/style/Container';
+import {default as LockMenuStyle} from 'client/style/LockMenu';
 import Icon from 'client/components/Icon';
 
 export default class LockMenu extends Component {
@@ -129,15 +130,22 @@ export default class LockMenu extends Component {
 
  	render() {
     const { style: stateStyle } = this.state;
-    const { openInnerNotif } = this.props;
+    const { openInnerNotif, onClickOpenLockMenu } = this.props;
     const { app, style, threadDetail } = this.props.state;
 
     switch( app.openLockMenu ){
-    case 2:
+    case App.openLockMenuLabelShare:
       return (
-        <div data-component-name={this.constructor.name} style={style.lockMenu.menuShare}>
-          <header style={style.lockMenu.header}>
+        <div
+          data-component-name={this.constructor.name}
+          style={style.lockMenu.menuShare}
+        >
+          <header
+            style={style.lockMenu.header}
+            onClick={ () => onClickOpenLockMenu(App.openLockMenuLabelNo)}  
+          >
             SHARE
+            {Icon.getHeadTab(LockMenuStyle.headTabUpdate)}
           </header>
           <ul style={style.lockMenu.ul}>
             <li
