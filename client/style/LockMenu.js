@@ -56,6 +56,7 @@ export default class LockMenu {
     const liTwitter = LockMenu.getLiTwitter( params );
     const liFacebook = LockMenu.getLiFacebook( params );
     const liEmbed = LockMenu.getLiEmbed( params );
+    const liEmbedInput = LockMenu.getLiEmbedInput( params );
     const shareLabel = LockMenu.getShareLabel( params );
     return {
       menuWeb,
@@ -66,6 +67,7 @@ export default class LockMenu {
       liTwitter,
       liFacebook,
       liEmbed,
+      liEmbedInput,
       shareLabel
     }
   }
@@ -157,6 +159,23 @@ export default class LockMenu {
       padding: LockMenu.getPaddingLi(app)
     });
     const content = Style.getContentBase({
+      cursor: "pointer"
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getLiEmbedInput({app}){
+    const layout = Style.getLayoutFlex({
+      width: "100%",
+      height: "25px",
+      border: Container.border,
+      borderRadius: '5px',
+      padding: '5px'
+    });
+    const content = Style.getContentBase({
+      fontSize: "12px",
+      outline: 0,
       cursor: "pointer"
     });
     const animation = Style.getAnimationBase();
