@@ -282,7 +282,7 @@ export default class Detail {
 
     const borders = app.screenMode === App.screenModeSmallLabel ?
       {borderTop: Container.border} :
-      {borderTop: Container.border, borderRight: Container.border} ;
+      {borderTop: Container.border, borderRight: Container.border, borderBottom: Container.border} ;
 
     const layout = Style.getLayoutFlex({
       width: '100%',

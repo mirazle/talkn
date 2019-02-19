@@ -3,6 +3,15 @@ import { default as IconStyle } from 'client/style/Icon';
 
 export default class Icon extends Component{
 
+  static getOveredStyle( baseStyle = {}, overStyle = {}){
+    Object.keys( baseStyle ).forEach( key => {
+      if( overStyle[ key ] ){
+        baseStyle[key] = {...baseStyle[key], ...overStyle[key]};
+      }
+    } );
+    return baseStyle;
+  }
+
   constructor(props) {
     super(props);
   }
@@ -173,7 +182,8 @@ export default class Icon extends Component{
     );
   }
 
-  static getUser( style ){
+  static getUser( overStyle = {}){
+    const style = Icon.getOveredStyle( IconStyle.getUser(), overStyle );
     return (
       <div data-component-type={'IconUser'} style={ style.div }>
         <span style={ style.bottom }></span>
@@ -182,7 +192,8 @@ export default class Icon extends Component{
     );
   }
 
-  static getLogs( style ){
+  static getLogs( overStyle ){
+    const style = Icon.getOveredStyle( IconStyle.getLogs(), overStyle );
     return (
       <div data-component-type={'IconLogs'} style={ style.div }>
         <div style={ style.foot1 }>
@@ -199,7 +210,8 @@ export default class Icon extends Component{
     );
   }
 
-  static getSetting( style ){
+  static getSetting( overStyle ){
+    const style = Icon.getOveredStyle( IconStyle.getSetting(), overStyle );
     return (
       <div data-component-type={'IconSetting'} style={ style.div }>
         <div style={ style.wing1 } />
@@ -225,7 +237,8 @@ export default class Icon extends Component{
     );
   }
 
-  static getIndex( style ){
+  static getIndex( overStyle ){
+    const style = Icon.getOveredStyle( IconStyle.getIndex(), overStyle );
     return (
       <div data-component-type={'IconIndex'} style={ style.div }>
         <div style={ style.wrap }>
@@ -271,7 +284,8 @@ export default class Icon extends Component{
     );
   }
 
-  static getHeart( style ){
+  static getHeart( overStyle ){
+    const style = Icon.getOveredStyle( IconStyle.getHeart(), overStyle );
     return (
       <div data-component-type={'IconHeart'} style={ style.div }>
         <div style={ style.before }></div>
@@ -280,7 +294,8 @@ export default class Icon extends Component{
     );
   }
 
-  static getShare( style ){
+  static getShare( overStyle ){
+    const style = Icon.getOveredStyle( IconStyle.getShare(), overStyle );
     return (
       <div data-component-type={'IconShare'} style={ style.div }>
         <div style={ style.arrow }></div>
@@ -292,7 +307,8 @@ export default class Icon extends Component{
     );
   }
 
-  static getMoney( style ){
+  static getMoney( overStyle ){
+    const style = Icon.getOveredStyle( IconStyle.getMoney(), overStyle );
     return (
       <div data-component-type={'IconMoney'} style={ style.div } >
         <div style={ style.outer }>
