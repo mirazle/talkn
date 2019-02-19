@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import conf from 'common/conf';
 import Sequence from 'common/Sequence';
+import App from 'common/schemas/state/App';
 import Style from 'client/style/index/';
 import Container from 'client/style/Container';
 import Icon from 'client/components/Icon';
@@ -15,7 +16,7 @@ export default class LockMenu extends Component {
             {...this.state.style,
               [type]: { ...this.state.style[type],
                 color: Container.whiteRGB,
-                background: Container.themeRGB
+                background: Container.themeRGBA
               }
             }
           }
@@ -132,23 +133,6 @@ export default class LockMenu extends Component {
     const { app, style, threadDetail } = this.props.state;
 
     switch( app.openLockMenu ){
-    case 1:
-      return (
-        <div data-component-name={this.constructor.name} style={style.lockMenu.menuWeb}>
-          <header style={style.lockMenu.header}>
-            WEB
-          </header>
-          <ul style={style.lockMenu.ul}>
-            <li
-              style={stateStyle.liGoWeb}
-              onClick={this.handleOnClickToWeb}
-              {...this.getDecolationProps1('liGoWeb')}
-            >
-              Go Web Page
-            </li>
-          </ul>
-        </div>
-      );
     case 2:
       return (
         <div data-component-name={this.constructor.name} style={style.lockMenu.menuShare}>
@@ -174,7 +158,7 @@ export default class LockMenu extends Component {
             </li>
             <li
               style={stateStyle.liEmbed}
-              onClick={ () => openInnerNotif('Copied iFrame Tag.') }
+              onClick={ () => openInnerNotif('Success Copy iFrame Tag.') }
               {...this.getDecolationProps1('liEmbed')}
             >
               {Icon.getTalkn()}

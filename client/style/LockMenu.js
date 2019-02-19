@@ -15,7 +15,6 @@ export default class LockMenu {
       top: '30%',
       left: '10%',
       flexFlow: "column",
-      background: Container.whiteRGBA,
       border: Container.border,
       borderRadius: "5px",
       boxShadow: "rgba(50, 50, 50, 0.1) 3px 3px 3px" 
@@ -105,6 +104,7 @@ export default class LockMenu {
   static getUl({app}){
     const layout = Style.getLayoutBlock({
       width: "100%",
+      background: Container.whiteRGBA
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();

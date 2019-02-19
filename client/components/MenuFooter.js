@@ -1,28 +1,44 @@
 import React, { Component } from "react"
 import App from 'common/schemas/state/App';
+import Container from 'client/style/Container';
 import Icon from 'client/components/Icon';
 
 export default class MenuFooter extends Component {
+
+
+  getIndexBackground(){
+    const background = Container.themeRGBA;
+    return {
+      top: {background},
+      middle: {background},
+      bottom: {background}
+    }
+  }
+
   render() {
+    const { openInnerNotif } = this.props;
     const { style } = this.props.state;
-    const { icon } = style;
-    const UserIcon = Icon.getUser( icon.user );
-    const IndexIcon = Icon.getIndex( icon.index );
-    const Logs = Icon.getLogs( icon.logs );
-    const Setting = Icon.getSetting( icon.setting );
+    const UserIcon = Icon.getUser();
+    const IndexIcon = Icon.getIndex(this.getIndexBackground());
+    const Logs = Icon.getLogs();
+    const Setting = Icon.getSetting();
     return (
       <div data-component-name={this.constructor.name} style={ style.menuFooter.self }>
-        <div style={ style.menuFooter.childMoney } onClick={ ()=>{}/*()=> talknAPI.onClickMenu( App.menuComponentUsersLabel ) */} {...Icon.getDecolationProps1( 'icon', 'user', 'div' )}>
+        <div style={ style.menuFooter.child } onClick={() => openInnerNotif()} {...Icon.getDecolationProps1( 'icon', 'user', 'div' )}>
           { UserIcon }
+          <div>SOCIAL</div>
         </div>
-        <div style={ style.menuFooter.childMoney } onClick={ ()=>{}/*()=> talknAPI.onClickMenu( App.menuComponentIndexLabel ) */}  {...Icon.getDecolationProps1( 'icon', 'index', 'div' )}>
+        <div style={ style.menuFooter.childIndex } {...Icon.getDecolationProps1( 'icon', 'index', 'div' )}>
           { IndexIcon }
+          <div style={{color: Container.themeRGBA}}>RANKING</div>
         </div>
-        <div style={ style.menuFooter.childMoney } onClick={ ()=>{}/*()=> talknAPI.onClickMenu( App.menuComponentLogsLabel ) */} {...Icon.getDecolationProps1( 'icon', 'logs', 'div' )}>
+        <div style={ style.menuFooter.child } onClick={() => openInnerNotif()} {...Icon.getDecolationProps1( 'icon', 'logs', 'div' )}>
           { Logs }
+          <div>LOGS</div>
         </div>
-        <div style={ style.menuFooter.childMoney } onClick={ ()=>{}/*()=> talknAPI.onClickMenu( App.menuComponentSettingLabel ) */} {...Icon.getDecolationProps1( 'icon', 'setting', 'div' )}>
+        <div style={ style.menuFooter.child } onClick={() => openInnerNotif()} {...Icon.getDecolationProps1( 'icon', 'setting', 'div' )}>
           { Setting }
+          <div>SETTING</div>
         </div>
       </div>
 		);

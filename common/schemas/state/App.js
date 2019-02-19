@@ -39,6 +39,11 @@ export default class App extends Schema{
     }
   }
 
+  static get lockMenuLabelNo(){ return 'No' };
+  static get lockMenuLabelLike(){ return 'Like' };
+  static get lockMenuLabelShare(){ return 'Share' };
+  static get lockMenuLabelAbout(){ return 'About' };
+
   static get menuComponentUsersLabel(){ return 'Users' };
   static get menuComponentIndexLabel(){ return 'Index' };
   static get menuComponentLogsLabel(){ return 'Logs' };

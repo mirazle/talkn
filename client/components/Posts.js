@@ -323,7 +323,7 @@ export default class Posts extends Component {
       <div data-component-name={this.constructor.name} style={ style.posts.self } >
         {this.renderHeader()}
         {this.renderMultistream()}
-        <ol ref="thread" onScroll={this.handleOnScroll} style={ style.posts.ol }>
+        <ol data-component-name={'Thread'} ref="thread" onScroll={this.handleOnScroll} style={ style.posts.ol }>
           {this.renderGetMore()}
           {this.renderPostList()}
         </ol>
