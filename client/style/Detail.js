@@ -308,7 +308,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getFooterChildLike(){
+  static getFooterChildLike({app}){
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: '100%',
@@ -320,7 +320,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getFooterChildMoney(){
+  static getFooterChildMoney({app}){
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: '100%',
@@ -332,7 +332,7 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-  static getFooterChildShare(){
+  static getFooterChildShare({app}){
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: '100%',
@@ -343,5 +343,4 @@ export default class Detail {
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
-
 }

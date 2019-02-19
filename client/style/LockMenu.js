@@ -7,6 +7,16 @@ import Posts from './Posts';
 
 export default class LockMenu {
 
+  static get headTabUpdate(){
+    return {
+      div: {
+        position : "absolute",
+        right: "10px",
+        transform: "scale(0.5)"
+      }
+    }
+  }
+
   static getCommonLayout(app){
     const layout = {
       position: 'fixed',
@@ -156,7 +166,8 @@ export default class LockMenu {
     const layout = Style.getLayoutFlex({
       width: "100%",
       height: "45px",
-      padding: LockMenu.getPaddingLi(app)
+      padding: LockMenu.getPaddingLi(app),
+      borderBottom: Container.border
     });
     const content = Style.getContentBase({
       cursor: "pointer"
@@ -167,8 +178,9 @@ export default class LockMenu {
 
   static getLiEmbedInput({app}){
     const layout = Style.getLayoutFlex({
-      width: "100%",
+      width: "98%",
       height: "25px",
+      margin: '0px 0px 0px 2%',
       border: Container.border,
       borderRadius: '5px',
       padding: '5px'
