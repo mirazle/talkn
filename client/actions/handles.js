@@ -140,8 +140,6 @@ export default {
     };
   },
   openInnerNotif: (openInnerNotif = define.noInnerNotif) => {
-    console.log(define.noInnerNotif);
-    console.log(openInnerNotif);
     return {
       type: 'OPEN_INNER_NOTIF',
       app: {openInnerNotif}

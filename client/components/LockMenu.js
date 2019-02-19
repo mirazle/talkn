@@ -7,7 +7,7 @@ import Icon from 'client/components/Icon';
 
 export default class LockMenu extends Component {
 
-  getDecolationProps(type){
+  getDecolationProps1(type){
     return {
       onMouseOver: () => {
         this.setState(
@@ -55,11 +55,59 @@ export default class LockMenu extends Component {
     }
   }
 
+  getDecolationPropsEmbed(){
+    return {
+      onMouseOver: () => {
+        this.setState(
+          { style:
+            {...this.state.style,
+              liEmbed: { ...this.state.style.liEmbed,
+                color: Container.whiteRGB,
+                background: Container.themeRGB
+              }
+            }
+          }
+        );
+      },
+      onMouseLeave: () => {
+        this.setState( {style:
+          {...this.state.style,
+            liEmbed: { ...this.state.style.liEmebed,
+              color: Style.fontBaseRGB,
+              background: Container.whiteRGBA,
+              transform: 'scale( 1 )'
+            }
+          }
+        });
+      },
+      onMouseDown: () => {
+        this.setState( {style:
+          {...this.state.style,
+            liEmbed: { ...this.state.style.liEmbed,
+              transition: "200ms",
+              transform: 'scale( 1.05 )',
+            }
+          }
+        });
+      },
+      onMouseUp: () => {
+        this.setState( {style:
+          {...this.state.style,
+            liEmbed: { ...this.state.style.liEmbed,
+              transition: "200ms",
+              transform: 'scale( 1 )'
+            }
+          }
+        });
+      },
+    }
+  }
+
   constructor(props) {
     super(props);
     const {lockMenu: style} = props.state.style;
     this.state = {style}
-    this.getDecolationProps = this.getDecolationProps.bind(this);
+    this.getDecolationProps1 = this.getDecolationProps1.bind(this);
     this.handleOnClickToWeb = this.handleOnClickToWeb.bind(this);
     this.handleOnClickToTalkn = this.handleOnClickToTalkn.bind(this);
   }
@@ -81,7 +129,7 @@ export default class LockMenu extends Component {
  	render() {
     const { style: stateStyle } = this.state;
     const { openInnerNotif } = this.props;
-    const { app, style } = this.props.state;
+    const { app, style, threadDetail } = this.props.state;
 
     switch( app.openLockMenu ){
     case 1:
@@ -94,7 +142,7 @@ export default class LockMenu extends Component {
             <li
               style={stateStyle.liGoWeb}
               onClick={this.handleOnClickToWeb}
-              {...this.getDecolationProps('liGoWeb')}
+              {...this.getDecolationProps1('liGoWeb')}
             >
               Go Web Page
             </li>
@@ -111,7 +159,7 @@ export default class LockMenu extends Component {
             <li
               style={stateStyle.liTwitter}
               onClick={ () => openInnerNotif() }
-              {...this.getDecolationProps('liTwitter')}
+              {...this.getDecolationProps1('liTwitter')}
             >
               {Icon.getTwitter()}
               <div style={style.lockMenu.shareLabel}>Twitter</div>
@@ -119,7 +167,7 @@ export default class LockMenu extends Component {
             <li
               style={stateStyle.liFacebook}
               onClick={ () => openInnerNotif() }
-              {...this.getDecolationProps('liFacebook')}
+              {...this.getDecolationProps1('liFacebook')}
             >
               {Icon.getFacebook()}
               <div style={style.lockMenu.shareLabel}>Facebook</div>
@@ -127,10 +175,19 @@ export default class LockMenu extends Component {
             <li
               style={stateStyle.liEmbed}
               onClick={ () => openInnerNotif('Copied iFrame Tag.') }
-              {...this.getDecolationProps('liEmbed')}
+              {...this.getDecolationProps1('liEmbed')}
             >
               {Icon.getTalkn()}
-              <div style={style.lockMenu.shareLabel}>Copy iFrame Tag</div>
+              <div style={style.lockMenu.shareLabel}>
+                <input  
+                  type="text"
+                  style={stateStyle.liEmbedInput}
+                  readOnly={true}
+                  defaultValue={
+                    `<iframe src='//${conf.domain}${threadDetail.connection}' frameborder='0' style='height: 385px; width: 300px' />`
+                  }
+                />
+              </div>
             </li>
           </ul>
         </div>
