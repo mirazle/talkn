@@ -2,6 +2,7 @@ import define from '../../common/define';
 import Style from './index';
 import Container from './Container';
 import Header from './Header';
+import Posts from './Posts';
 
 export default class InnerNotif {
 
@@ -15,13 +16,16 @@ export default class InnerNotif {
   }
 
   static getSelf({app}){
+    const width = Posts.getOlWidth({app}, true);
+    const marginOne = ( 100 - width ) / 2; 
     const height = app.isOpenInnerNotif ? Header.headerHeight : 0;
     const layout = Style.getLayoutFlex({
       position: 'fixed',
       top: Header.headerHeight + "px",
       alignItems: "center",
       justifyContent: "center",
-      width: `100%`,
+      width: `calc( ${width}% - 2px )`,
+      margin: `0px calc( ${marginOne}% + 1px ) 0px calc( ${marginOne}% + 1px )`,
       height,
       background: Container.themeRGBA
     });

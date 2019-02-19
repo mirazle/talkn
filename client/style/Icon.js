@@ -284,12 +284,12 @@ export default class Icon {
     return {div, circle, bar};
   }
 
-  static getUser( {app} ){
+  static getUser(){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '45px',
-        height: '45px',
-        borderRadius: '100px'
+        width: '26px',
+        height: '26px',
+        margin: '1px'
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -305,7 +305,7 @@ export default class Icon {
         height: '14px',
         borderRadius: '10px',
         position: 'relative',
-        top: '-16px',
+        top: '-17px',
         border: '3px solid rgb(250, 250, 250)',
       }),
       content: Style.getContentBase(),
@@ -318,30 +318,28 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: '0 auto',
         background: Container.reliefRGB,
-        width: '14px',
-        height: '20px',
-        borderRadius: '30px',
+        width: '12px',
+        height: '16px',
+        borderRadius: '6px',
         position: 'relative',
-        top: '15px',
+        top: '8px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransition( app ),
+//        transition: Container.getTransition( app ),
         transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
       }),
     });
     return {div, top, bottom};
   }
 
-  static getIndex( {app} ){
+  static getIndex(){
 
     const div = Style.get({
-      layout: Style.getLayoutBlock({
-        width: '45px',
-        height: '45px',
-        borderRadius: '100px',
-        margin: '0 auto',
-        cursor: 'default',
+      layout: Style.getLayoutInlineBlock({
+        width: '26px',
+        height: '26px',
+        margin: '1px'
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -351,9 +349,9 @@ export default class Icon {
 
     const wrap = Style.get({
       layout: Style.getLayoutBlock({
-        width: '28px',
-        height: '30px',
-        margin: '8px auto',
+        width: '26px',
+        height: '26px',
+        margin: '0 auto',
         borderRadius: '4px',
       }),
       content: Style.getContentBase(),
@@ -362,7 +360,7 @@ export default class Icon {
 
     const commonSpan = Style.get({
       layout: Style.getLayoutBlock({
-        width: '22px',
+        width: '20px',
         height: '3px',
         margin: '4px auto',
         borderRadius: '6px',
@@ -392,19 +390,19 @@ export default class Icon {
       layout: commonSpan,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransition( app ),
+//        transition: Container.getTransition( app ),
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
     return {div, wrap, top, middle, bottom};
   }
 
-  static getLogs( {app} ){
+  static getLogs(){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '45px',
-        height: '45px',
-        borderRadius: '100px'
+        width: '26px',
+        height: '26px',
+        margin: '1px'
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -415,7 +413,7 @@ export default class Icon {
     const foot1 = Style.get({
       layout: Style.getLayoutInlineBlock({
         position: 'absolute',
-        top: '10px',
+        top: '3px',
         left: '-4px',
       }),
       content: Style.getContentBase(),
@@ -428,15 +426,15 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: '0 auto',
         background: Container.reliefRGB,
-        width: '10px',
-        height: '16px',
+        width: '9px',
+        height: '15px',
         borderRadius: '45px 30px 45px 45px',
         position: 'relative',
         zIndex: '0',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransition( app ),
+//        transition: Container.getTransition( app ),
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
@@ -449,6 +447,7 @@ export default class Icon {
         height: '7px',
         borderRadius: '10px',
         position: 'relative',
+        top: "-1px",
         zIndex: '0',
       }),
       content: Style.getContentBase(),
@@ -459,7 +458,7 @@ export default class Icon {
 
     const foot1Space = Style.get({
       layout: Style.getLayoutBlock({
-        width: '18px',
+        width: '7px',
         height: '2px',
         background: Container.offWhiteRGB,
         margin: '0 auto',
@@ -467,16 +466,18 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransition( app ),
+//        transition: Container.getTransition( app ),
         transform: `translate3d( 0px, -8px, 1000px )`,
       }),
     });
 
     const foot2 = Style.get({
       layout: Style.getLayoutInlineBlock({
+        width: '36px',
+        height: '36px',
         position: 'absolute',
-        top: '2px',
-        left: '7px',
+        top: '-4px',
+        left: '2px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -488,15 +489,15 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: '0 auto',
         background: Container.reliefRGB,
-        width: '14px',
-        height: '24px',
+        width: '13px',
+        height: '23px',
         borderRadius: '30px 50px 40px 40px',
         position: 'relative',
         zIndex: '0',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransition( app ),
+//        transition: Container.getTransition( app ),
         transform: `translate3d( 0px, 0px, 0px )`,
       }),
     });
@@ -505,8 +506,8 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: '0 auto',
         background: Container.reliefRGB,
-        width: '11px',
-        height: '11px',
+        width: '10px',
+        height: '10px',
         borderRadius: '10px',
         position: 'relative',
         zIndex: '0',
@@ -527,7 +528,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransition( app ),
+//        transition: Container.getTransition( app ),
         transform: `translate3d( 0px, -13px, 1000px )`,
       }),
     });
@@ -535,12 +536,12 @@ export default class Icon {
     return {div, foot1, foot1Top, foot1Space, foot1Bottom, foot2, foot2Top, foot2Space, foot2Bottom};
   }
 
-  static getSetting( {app} ){
+  static getSetting(){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '45px',
-        height: '45px',
-        borderRadius: '100px'
+        width: '26px',
+        height: '26px',
+        margin: '1px'
 
       }),
       content: Style.getContentBase(),
@@ -554,9 +555,9 @@ export default class Icon {
         position: 'absolute',
         margin: '0 auto',
         background: Container.reliefRGB,
-        width: '5px',
-        height: '5px',
-        borderRadius: '2px',
+        width: '3px',
+        height: '3px',
+        borderRadius: '1px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -568,7 +569,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 19px, 8px, 0px ) rotate( 0deg )`,
+        transform: `translate3d(11.5px, 3px, 0px) rotate(0deg)`,
       }),
     });
 
@@ -576,7 +577,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 28px, 12px, 0px ) rotate( 45deg )`,
+        transform: `translate3d( 18px, 6px, 0px ) rotate( 45deg )`,
       }),
     });
 
@@ -584,7 +585,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 31px, 19px, 0px ) rotate( 90deg )`,
+        transform: `translate3d( 20px, 11px, 0px ) rotate( 90deg )`,
       }),
     });
 
@@ -592,7 +593,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 28px, 27px, 0px ) rotate( 125deg )`,
+        transform: `translate3d( 18px, 17px, 0px ) rotate( 125deg )`,
       }),
     });
 
@@ -600,7 +601,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 20px, 31px, 0px ) rotate( 180deg )`,
+        transform: `translate3d( 11.5px, 20px, 0px ) rotate( 180deg )`,
       }),
     });
 
@@ -608,7 +609,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 11px, 27px, 0px ) rotate( 225deg )`,
+        transform: `translate3d( 5px, 17.5px, 0px ) rotate( 225deg )`,
       }),
     });
 
@@ -616,7 +617,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 8px, 19px, 0px ) rotate( 270deg )`,
+        transform: `translate3d( 3px, 11.5px, 0px ) rotate( 270deg )`,
       }),
     });
 
@@ -624,18 +625,18 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 11px, 11px, 0px ) rotate( 315deg )`,
+        transform: `translate3d( 5px, 5.5px, 0px ) rotate( 315deg )`,
       }),
     });
 
     const circle = Style.get({
       layout: Style.getLayoutBlock({
         position: 'absolute',
-        top: '9px',
-        left: '11px',
-        width: '22px',
-        height: '22px',
-        border: `5px solid ${Container.reliefRGB}`,
+        top: '3px',
+        left: '5px',
+        width: '16px',
+        height: '16px',
+        border: `3px solid ${Container.reliefRGB}`,
         borderRadius: '50px'
       }),
       content: Style.getContentBase(),
@@ -883,8 +884,9 @@ export default class Icon {
 
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '30px',
-        height: '30px',
+        width: '26px',
+        height: '26px',
+        margin: '1px'
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
@@ -895,26 +897,26 @@ export default class Icon {
     const before = Style.get({
       layout: Style.getLayoutBase({
         width: '10px',
-        height: '18px',
+        height: '17px',
         borderRadius: '10px 10px 0 0',
         background: Container.reliefRGB,
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: 'rotate(-45deg) translate3d(1px, 8px, 0px)',
+        transform: 'rotate(-45deg) translate3d(0px, 7px, 0px)',
       }),
     });
 
     const after = Style.get({
       layout: Style.getLayoutBase({
-        width: '18px',
+        width: '17px',
         height: '10px',
         borderRadius: '0 10px 10px 0',
         background: Container.reliefRGB,
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: 'rotate(-45deg) translate3d(13px, 0px, 0px)',
+        transform: 'rotate(-45deg) translate3d(11px, -1px, 0px)',
       }),
     });
     return {div, before, after};
@@ -925,9 +927,9 @@ export default class Icon {
 
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '30px',
-        height: '30px',
-        margin: '0 auto',
+        width: '26px',
+        height: '26px',
+        margin: '1px'
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({}),
@@ -945,7 +947,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: 'translate3d(-2px, -1px, 0px)',
+        transform: 'translate3d(-4px, -1px, 0px)',
       }),
     });
 
@@ -961,7 +963,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: 'translate3d(-2px, -1px, 0px)',
+        transform: 'translate3d(-4px, -1px, 0px)',
       }),
     });
 
@@ -978,7 +980,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: 'translate3d(-2px, 0px, 0px)',
+        transform: 'translate3d(-4px, 0px, 0px)',
       }),
     });
 
@@ -995,7 +997,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: 'translate3d(-2px, 0px, 0px)',
+        transform: 'translate3d(-4px, 0px, 0px)',
       }),
     });
 
@@ -1011,7 +1013,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: 'translate3d(-2px, -1px, 0px) rotate( -45deg)',
+        transform: 'translate3d(-4px, -1px, 0px) rotate( -45deg)',
       }),
     });
     return {div, base, whiteBar1, whiteBar2, bar, arrow};
@@ -1020,10 +1022,10 @@ export default class Icon {
   static getMoney(){
 
     const div = Style.get({
-      layout: Style.getLayoutBlock({
-        margin: '0 auto',
-        width: '30px',
-        height: '30px',
+      layout: Style.getLayoutInlineBlock({
+        width: '26px',
+        height: '26px',
+        margin: '1px'
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
@@ -1041,7 +1043,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: 'translate3d(-2px, 3px, 0px)',
+        transform: 'translate3d(0px, 3px, 0px)',
       }),
     });
 

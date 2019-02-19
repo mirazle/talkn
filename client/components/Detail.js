@@ -199,18 +199,17 @@ export default class Detail extends Component {
   }
 
   renderFooter(){
+    const { openInnerNotif } = this.props;
     const { style } = this.props.state
-    const { icon } = style;
-    const HomeIcon = Icon.getHome( icon.home );
-    const TagIcon = Icon.getTag( icon.tag );
-    const ShareIcon = Icon.getShare( icon.share );
-    const MoneyIcon = Icon.getMoney( icon.money );
+    const HeartIcon = Icon.getHeart();
+    const ShareIcon = Icon.getShare();
+    const MoneyIcon = Icon.getMoney();
 
     return(
       <footer style={ style.detail.footer }>
-        <div style={ style.detail.footerChildLike } onClick={this.handleOnClickHome} {...Icon.getDecolationProps2( 'detail', 'footerChildLike' ) }>
-          { HomeIcon }
-          <div>WEB</div>
+        <div style={ style.detail.footerChildLike } onClick={() => openInnerNotif()} {...Icon.getDecolationProps2( 'detail', 'footerChildLike' ) }>
+          { HeartIcon }
+          <div>LIKE</div>
         </div>
         <div style={ style.detail.footerChildShare } onClick={this.handleOnClickShare} {...Icon.getDecolationProps2( 'detail', 'footerChildShare' )}>
           { ShareIcon }
@@ -218,7 +217,7 @@ export default class Detail extends Component {
         </div>
         <div style={ style.detail.footerChildMoney } onClick={this.handleOnClickPortal} {...Icon.getDecolationProps2( 'detail', 'footerChildMoney' )}>
           { MoneyIcon }
-          <div>PORTAL</div>
+          <div>ABOUT</div>
         </div>
       </footer>
     )

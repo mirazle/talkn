@@ -25,11 +25,11 @@ export default class MenuFooter{
   constructor( params ){
     const self = MenuFooter.getSelf( params );
     const child = MenuFooter.getChild( params );
-    const childMoney = MenuFooter.getChildMoney( params );
+    const childIndex = MenuFooter.getChildIndex( params );
     return {
       self,
       child,
-      childMoney
+      childIndex
     }
   }
 
@@ -68,7 +68,7 @@ export default class MenuFooter{
     return Style.get({layout, content, animation});
   }
 
-  static getChildMoney(){
+  static getChildIndex(){
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: '100%',
