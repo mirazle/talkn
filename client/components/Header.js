@@ -33,20 +33,26 @@ export default class Header extends Component {
   }
 
   handleOnClickDetailIcon( e ){
-    let { app, thread, threadDetail } = this.props.state;
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel :
-      app.isOpenDetail = app.isOpenDetail ? false : true;
-      break;
-    default:
-      app = App.getAppUpdatedOpenFlgs(app);
-      break;
-    }
+    const { state, onClickOpenLockMenu } = this.props;
+    let { app, thread, threadDetail } = state
 
-    if( app.rootConnection === thread.connection){
-      talknAPI.onClickToggleDispDetail( {threadDetail: thread, app} );
+    if(app.openLockMenu !== App.openLockMenuLabelNo){
+      onClickOpenLockMenu(App.openLockMenuLabelNo);
     }else{
-      talknAPI.onClickToggleDispDetail( {threadDetail, app} );
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        app.isOpenDetail = app.isOpenDetail ? false : true;
+        break;
+      default:
+        app = App.getAppUpdatedOpenFlgs(app);
+        break;
+      }
+  
+      if( app.rootConnection === thread.connection){
+        talknAPI.onClickToggleDispDetail( {threadDetail: thread, app} );
+      }else{
+        talknAPI.onClickToggleDispDetail( {threadDetail, app} );
+      }
     }
   }
 

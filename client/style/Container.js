@@ -42,10 +42,11 @@ export default class Container{
   static get whiteRGB(){ return Style.mono255RGB };
   static get whiteRGBA(){ return Style.mono255RGBA };
 
+  static get fontBaseRGB(){ return Style.fontBaseRGB };
   static get themeRGBString(){ return '79, 174, 159' };
   static get themeRGB(){ return `rgba(${Container.themeRGBString})` };
   static get themeRGBA(){ return `rgba(${Container.themeRGBString}, 0.8)` };
-  static getTransitionOn( app, removeUnit = false ){
+  static getTransitionOn( app = {}, removeUnit = false ){
     let transition = Container.transitionOn;
     if( app ){
       transition =  app.isTransition ? `${ Container.transitionOn }ms` : `${ Container.transitionOff }ms`;
@@ -55,7 +56,7 @@ export default class Container{
 
     return removeUnit ? Style.trimUnit( transition ) : transition ;
   };
-  static getTransition( app, addUnit = false ){
+  static getTransition( app = {}, addUnit = false ){
     const transition = app.isTransition ? `${ Container.transitionOn }ms` : `${ Container.transitionOff }ms`;
     return addUnit ? Style.trimUnit( transition ) : transition ;
   };

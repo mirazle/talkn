@@ -2,27 +2,45 @@ import React, { Component } from "react"
 import Marquee from 'react-marquee';
 import conf from 'common/conf';
 import Sequence from 'common/Sequence';
+import App from 'common/schemas/state/App';
 import Icon from './Icon';
+import Container from 'client/style/Container';
 
 export default class Detail extends Component {
 
   constructor(props) {
     super(props);
-    this.handleOnClickHome = this.handleOnClickHome.bind(this);
+    this.handleOnClickLike = this.handleOnClickLike.bind(this);
     this.handleOnClickShare = this.handleOnClickShare.bind(this);
     this.handleOnClickPortal = this.handleOnClickPortal.bind(this);
   }
 
-  handleOnClickHome(){
-    this.props.onClickOpenLockMenu(1);
+  handleOnClickLike(){
+    const { state, onClickOpenLockMenu, openInnerNotif } = this.props;
+    const { app } = state
+    if(app.openLockMenu !== App.openLockMenuLabelNo){
+      onClickOpenLockMenu(App.openLockMenuLabelNo);
+    }else{
+      openInnerNotif();
+    }
   }
 
   handleOnClickShare(){
-    this.props.onClickOpenLockMenu(2);
+    const { state, onClickOpenLockMenu, openInnerNotif } = this.props;
+    const { app } = state
+    if(app.openLockMenu !== App.openLockMenuLabelNo){
+      onClickOpenLockMenu(App.openLockMenuLabelNo);
+    }else{
+      onClickOpenLockMenu(App.openLockMenuLabelShare);
+    }
   }
 
   handleOnClickPortal(){
-    this.props.onClickOpenLockMenu(3);
+    const { state, onClickOpenLockMenu, openInnerNotif } = this.props;
+    const { app } = state
+    if(app.openLockMenu !== App.openLockMenuLabelNo){
+      onClickOpenLockMenu(App.openLockMenuLabelNo);
+    }
   }
 
 
@@ -199,23 +217,23 @@ export default class Detail extends Component {
   }
 
   renderFooter(){
-    const { openInnerNotif } = this.props;
-    const { style } = this.props.state
-    const HeartIcon = Icon.getHeart();
-    const ShareIcon = Icon.getShare();
-    const MoneyIcon = Icon.getMoney();
-
+    const { state, openInnerNotif } = this.props;
+    const { style } = state
+    const HeartIcon = Icon.getHeart( {}, state );
+    const ShareIcon = Icon.getShare( {}, state );
+    const MoneyIcon = Icon.getMoney( {}, state );
+    const shareColor = state.app.openLockMenu === App.openLockMenuLabelShare ? Container.themeRGBA : Container.fontBaseRGB;
     return(
       <footer style={ style.detail.footer }>
-        <div style={ style.detail.footerChildLike } onClick={() => openInnerNotif()} {...Icon.getDecolationProps2( 'detail', 'footerChildLike' ) }>
+        <div style={ style.detail.footerChildLike } onClick={this.handleOnClickLike}>
           { HeartIcon }
           <div>LIKE</div>
         </div>
-        <div style={ style.detail.footerChildShare } onClick={this.handleOnClickShare} {...Icon.getDecolationProps2( 'detail', 'footerChildShare' )}>
+        <div style={ style.detail.footerChildShare } onClick={this.handleOnClickShare}>
           { ShareIcon }
-          <div>SHARE</div>
+          <div style={{color: shareColor}}>SHARE</div>
         </div>
-        <div style={ style.detail.footerChildMoney } onClick={this.handleOnClickPortal} {...Icon.getDecolationProps2( 'detail', 'footerChildMoney' )}>
+        <div style={ style.detail.footerChildMoney } onClick={this.handleOnClickPortal}>
           { MoneyIcon }
           <div>ABOUT</div>
         </div>
