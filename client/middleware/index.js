@@ -91,6 +91,10 @@ const functions = {
     action.app.desc = action.app.menuComponent;
     return action;
   },
+  "ON_CLICK_OPEN_LOCK_MENU": ( state, action ) => {
+    action.app = {...state.app, ...action.app};
+    return action;
+  },
   "ON_TRANSITION": ( state, action ) => {
     action.app = {...state.app, ...action.app};
     action.user = state.user;

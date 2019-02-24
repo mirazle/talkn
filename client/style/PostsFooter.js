@@ -15,7 +15,7 @@ export default class PostsFooter{
     }else{
       switch( app.screenMode ){
       case App.screenModeSmallLabel : width = '100%';break;
-      case App.screenModeMiddleLabel :width = Posts.getWidth( app );break;
+      case App.screenModeMiddleLabel : width = Posts.getWidth( app );break;
       case App.screenModeLargeLabel : width = Posts.getWidth( app );break;
       }
     }
@@ -82,6 +82,7 @@ export default class PostsFooter{
       right: PostsFooter.getRight( app ),
       height: PostsFooter.selfHeight,
       width: PostsFooter.getWidth( app ),
+      maxWidth:  PostsFooter.getWidth( app ),
       background: Container.offWhiteRGBA,
       zIndex: Container.maxZIndex,
       borderRadius,
@@ -98,6 +99,7 @@ export default class PostsFooter{
   static getIcon( {thread} ){
     const layout = Style.getLayoutInlineBlock({
       width: '20%',
+      maxWidth: '20%',
       height: '25px',
       backgroundImage: `url()`,
       backgroundPosition: 'center center',
@@ -114,6 +116,7 @@ export default class PostsFooter{
   static getTextarea(){
     const layout = Style.getLayoutInlineBlock({
       width: '54%',
+      maxWidth: '54%',
       height: '25px',
       background: Container.whiteRGB,
       padding: '6px 0% 5px 2%',
@@ -138,6 +141,7 @@ export default class PostsFooter{
     const layout = Style.getLayoutInlineBlock({
       outline: 'none',
       width: '20%',
+      maxWidth: '20%',
       height: '25px',
       margin: '0px 3% 0px 0%',
       background: 'rgb(245, 245, 245)',

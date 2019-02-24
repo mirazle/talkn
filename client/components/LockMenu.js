@@ -133,60 +133,55 @@ export default class LockMenu extends Component {
     const { openInnerNotif, onClickOpenLockMenu } = this.props;
     const { app, style, threadDetail } = this.props.state;
 
-    switch( app.openLockMenu ){
-    case App.openLockMenuLabelShare:
-      return (
-        <div
-          data-component-name={this.constructor.name}
-          style={style.lockMenu.menuShare}
+    return (
+      <div
+        data-component-name={this.constructor.name}
+        style={style.lockMenu.menuShare}
+      >
+        <header
+          style={style.lockMenu.header}
+          onClick={ () => onClickOpenLockMenu(App.openLockMenuLabelNo)}  
         >
-          <header
-            style={style.lockMenu.header}
-            onClick={ () => onClickOpenLockMenu(App.openLockMenuLabelNo)}  
+          SHARE
+          {Icon.getHeadTab(LockMenuStyle.headTabUpdate)}
+        </header>
+        <ul style={style.lockMenu.ul}>
+          <li
+            style={stateStyle.liTwitter}
+            onClick={ () => openInnerNotif() }
+            {...this.getDecolationProps1('liTwitter')}
           >
-            SHARE
-            {Icon.getHeadTab(LockMenuStyle.headTabUpdate)}
-          </header>
-          <ul style={style.lockMenu.ul}>
-            <li
-              style={stateStyle.liTwitter}
-              onClick={ () => openInnerNotif() }
-              {...this.getDecolationProps1('liTwitter')}
-            >
-              {Icon.getTwitter()}
-              <div style={style.lockMenu.shareLabel}>Twitter</div>
-            </li>
-            <li
-              style={stateStyle.liFacebook}
-              onClick={ () => openInnerNotif() }
-              {...this.getDecolationProps1('liFacebook')}
-            >
-              {Icon.getFacebook()}
-              <div style={style.lockMenu.shareLabel}>Facebook</div>
-            </li>
-            <li
-              style={stateStyle.liEmbed}
-              onClick={ () => openInnerNotif('Success Copy iFrame Tag.') }
-              {...this.getDecolationProps1('liEmbed')}
-            >
-              {Icon.getTalkn()}
-              <div style={style.lockMenu.shareLabel}>
-                <input  
-                  type="text"
-                  style={stateStyle.liEmbedInput}
-                  readOnly={true}
-                  defaultValue={
-                    `<iframe src='//${conf.domain}${threadDetail.connection}' frameborder='0' style='height: 385px; width: 300px' />`
-                  }
-                />
-              </div>
-            </li>
-          </ul>
-        </div>
-      );
-    default :
-      return null;
-    }
+            {Icon.getTwitter()}
+            <div style={style.lockMenu.shareLabel}>Twitter</div>
+          </li>
+          <li
+            style={stateStyle.liFacebook}
+            onClick={ () => openInnerNotif() }
+            {...this.getDecolationProps1('liFacebook')}
+          >
+            {Icon.getFacebook()}
+            <div style={style.lockMenu.shareLabel}>Facebook</div>
+          </li>
+          <li
+            style={stateStyle.liEmbed}
+            onClick={ () => openInnerNotif('Success Copy iFrame Tag.') }
+            {...this.getDecolationProps1('liEmbed')}
+          >
+            {Icon.getTalkn()}
+            <div style={style.lockMenu.shareLabel}>
+              <input  
+                type="text"
+                style={stateStyle.liEmbedInput}
+                readOnly={true}
+                defaultValue={
+                  `<iframe src='//${conf.domain}${threadDetail.connection}' frameborder='0' style='height: 385px; width: 300px' />`
+                }
+              />
+            </div>
+          </li>
+        </ul>
+      </div>
+    );
  	}
 }
 

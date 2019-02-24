@@ -4,6 +4,7 @@ import Container from './Container';
 import Main from './Main';
 import DetailRight from './DetailRight';
 import DetailModal from './DetailModal';
+import DetailFooter from './DetailFooter';
 import conf from '../conf';
 
 export default class Detail {
@@ -62,6 +63,22 @@ export default class Detail {
       footerChildLike,
       footerChildMoney,
       footerChildShare,
+    }
+  }
+
+  static getFooterPositions( app ){
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      return {
+
+      };
+    case App.screenModeMiddleLabel : 
+    case App.screenModeLargeLabel : 
+      return {
+        position: 'absolute',
+        right: "0px",
+        bottom: "0px"
+      };
     }
   }
 
@@ -279,19 +296,21 @@ export default class Detail {
   }
 
   static getFooter({app}){
-
+    const positions = Detail.getFooterPositions(app);
     const borders = app.screenMode === App.screenModeSmallLabel ?
       {borderTop: Container.border} :
-      {borderTop: Container.border, borderRight: Container.border, borderBottom: Container.border} ;
-
+      {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border} ;
     const layout = Style.getLayoutFlex({
-      width: '100%',
+      width: DetailFooter.getWidth(app),
       background: Container.offWhiteRGB,
       height: Main.headerHeight,
+      ...positions,
       ...borders
     });
     const content = Style.getContentBase();
-    const animation = Style.getAnimationBase();
+    const animation = Style.getAnimationBase({
+      transform: "translate3d(0px, 0px, 10px)"
+    });
     return Style.get({layout, content, animation});
   }
 
