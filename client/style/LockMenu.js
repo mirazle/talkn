@@ -1,6 +1,7 @@
 import Style from './index';
 import App from '../../common/schemas/state/App';
 import Container from './Container';
+import Header from './Header';
 import Main from './Main';
 import Menu from './Menu';
 import Posts from './Posts';
@@ -19,10 +20,10 @@ export default class LockMenu {
 
   static getCommonLayout(app){
     const layout = {
-      position: 'fixed',
+      position: 'absolute',
       width: '80%',
       height: 'fit-content',
-      top: '30%',
+      top: `calc( 100% + ${Header.headerHeight}px)`,
       left: '10%',
       flexFlow: "column",
       border: Container.border,
@@ -46,6 +47,17 @@ export default class LockMenu {
     return layout;
   }
 
+/*
+  TODO
+  detailFooterコンポーネントを作って、llockMenuとの重なりの不和を解消する
+*/
+
+  static getCommonTransform(app){
+    return app.openLockMenu === App.openLockMenuLabelNo ?
+      'translate3d(0px, 0px, -10px)' :
+      `translate3d(0px, calc( ( ( -${app.height}px / 2 ) - 50% ) - ${Header.headerHeight}px ), -10px)`;
+  }
+
   static getPaddingLi(app){
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
@@ -57,7 +69,6 @@ export default class LockMenu {
   }
 
   constructor( params ){
-    const menuWeb = LockMenu.getMenuWeb( params );
     const menuShare = LockMenu.getMenuShare( params );
     const header = LockMenu.getHeader( params );
     const ul = LockMenu.getUl( params );
@@ -68,7 +79,6 @@ export default class LockMenu {
     const liEmbedInput = LockMenu.getLiEmbedInput( params );
     const shareLabel = LockMenu.getShareLabel( params );
     return {
-      menuWeb,
       menuShare,
       header,
       ul,
@@ -81,19 +91,14 @@ export default class LockMenu {
     }
   }
 
-  static getMenuWeb({app}){
-    const commonLayout = LockMenu.getCommonLayout(app);
-    const layout = Style.getLayoutFlex({...commonLayout, top: '37%'});
-    const content = Style.getContentBase();
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
   static getMenuShare({app}){
     const commonLayout = LockMenu.getCommonLayout(app);
-    const layout = Style.getLayoutFlex({...commonLayout, top: '32%'});
-    const content = Style.getContentBase();
-    const animation = Style.getAnimationBase();
+    const layout = Style.getLayoutFlex(commonLayout);
+    const content = Style.getContentBase(); 
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransition(app),
+      transform: LockMenu.getCommonTransform(app)
+    });
     return Style.get({layout, content, animation});
   }
 

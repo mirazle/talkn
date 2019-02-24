@@ -1,10 +1,12 @@
 import define from 'common/define';
+import App from 'common/schemas/state/App';
 import React, { Component } from "react"
 import Screen from './Screen';
 import Header from './Header';
 import Notif from './Notif';
 import InnerNotif from './InnerNotif';
 import LockMenu from './LockMenu';
+import DetailFooter from './DetailFooter';
 
 export default class Main extends Component {
 
@@ -22,7 +24,6 @@ export default class Main extends Component {
     switch( actionLog[ 0 ] ){
     case 'OPEN_NOTIF':
       const posts = state[ `posts${user.dispThreadType}` ];
-      console.log(posts);
       const lastPost = posts[posts.length - 1];
       if(
         lastPost &&
@@ -66,6 +67,27 @@ export default class Main extends Component {
       </ol>
     );
   }
+  
+  renderLockMenu(){
+    const { app } = this.props.state;
+    return app.screenMode !== App.screenModeSmallLabel ?  
+      <LockMenu {...this.props} /> : null ;
+  }
+  
+  renderDetailFooter(){
+    const { app } = this.props.state
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      return null;
+    case App.screenModeMiddleLabel : 
+    case App.screenModeLargeLabel : 
+      return <DetailFooter {...this.props } />;
+    }
+  }
+
+  renderInnerNotif(){
+    return <InnerNotif {...this.props}/>;
+  }
 
  	render() {
 		const{ state } = this.props;
@@ -75,12 +97,12 @@ export default class Main extends Component {
         data-component-name={this.constructor.name}
         style={ style.main.self }
         onTransitionEnd={()=>{}}
-        >
+      >
         {this.renderHeader()}
         {this.renderScreen()}
         {this.renderNotif()}
-        <LockMenu {...this.props}/>
-        <InnerNotif {...this.props}/>
+        {this.renderLockMenu()} 
+        {this.renderInnerNotif()}
       </main>
 		);
  	}

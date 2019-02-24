@@ -3,16 +3,12 @@ import Marquee from 'react-marquee';
 import conf from 'common/conf';
 import Sequence from 'common/Sequence';
 import App from 'common/schemas/state/App';
-import Icon from './Icon';
-import Container from 'client/style/Container';
+import DetailFooter from 'client/components/DetailFooter';
 
 export default class Detail extends Component {
 
   constructor(props) {
     super(props);
-    this.handleOnClickLike = this.handleOnClickLike.bind(this);
-    this.handleOnClickShare = this.handleOnClickShare.bind(this);
-    this.handleOnClickPortal = this.handleOnClickPortal.bind(this);
   }
 
   handleOnClickLike(){
@@ -42,7 +38,6 @@ export default class Detail extends Component {
       onClickOpenLockMenu(App.openLockMenuLabelNo);
     }
   }
-
 
   getDescription( serverMetas ){
     if( serverMetas['description'] !== conf.description ){
@@ -216,29 +211,15 @@ export default class Detail extends Component {
     )
   }
 
-  renderFooter(){
-    const { state, openInnerNotif } = this.props;
-    const { style } = state
-    const HeartIcon = Icon.getHeart( {}, state );
-    const ShareIcon = Icon.getShare( {}, state );
-    const MoneyIcon = Icon.getMoney( {}, state );
-    const shareColor = state.app.openLockMenu === App.openLockMenuLabelShare ? Container.themeRGBA : Container.fontBaseRGB;
-    return(
-      <footer style={ style.detail.footer }>
-        <div style={ style.detail.footerChildLike } onClick={this.handleOnClickLike}>
-          { HeartIcon }
-          <div>LIKE</div>
-        </div>
-        <div style={ style.detail.footerChildShare } onClick={this.handleOnClickShare}>
-          { ShareIcon }
-          <div style={{color: shareColor}}>SHARE</div>
-        </div>
-        <div style={ style.detail.footerChildMoney } onClick={this.handleOnClickPortal}>
-          { MoneyIcon }
-          <div>ABOUT</div>
-        </div>
-      </footer>
-    )
+  renderDetailFooter(){
+    const { app } = this.props.state
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      return <DetailFooter {...this.props } />;
+    case App.screenModeMiddleLabel : 
+    case App.screenModeLargeLabel : 
+    return null;
+    }
   }
 
  	render() {
@@ -253,16 +234,13 @@ export default class Detail extends Component {
 
           <br />
           <br />
-          {/*this.renderAnalyze()*/}
+          <br />
+          <br />
+          <br />
+          <br />
 
-          <br />
-          <br />
-          {/*this.renderH1s()*/}
-
-          <br />
-          <br />
         </div>
-        {this.renderFooter()}
+        {this.renderDetailFooter()}
       </div>
 		);
  	}

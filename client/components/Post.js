@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Sequence from 'common/Sequence';
 import util from 'common/util';
 import conf from 'common/conf';
-import define from 'common/define';
 import App from 'common/schemas/state/App';
 
 export default class Post extends Component {

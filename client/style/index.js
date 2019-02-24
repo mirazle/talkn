@@ -1,5 +1,6 @@
 import Container from './Container';
 import Detail from './Detail';
+import DetailFooter from './DetailFooter';
 import Header from './Header';
 import Footer from './Footer';
 import PostsFooter from './PostsFooter';
@@ -73,6 +74,7 @@ export default class Style{
     const notif = new Notif( params );
     const innerNotif = new InnerNotif( params );
     const detail = new Detail( params );
+    const detailFooter = new DetailFooter( params );
     const icon = new Icon( params );
     const loading = new Loading( params );
     return {
@@ -81,6 +83,7 @@ export default class Style{
       footer,
       postsFooter,
       menuFooter,
+      detailFooter,
       menu,
       menuIndex,
       menuIndexList,

@@ -127,7 +127,6 @@ export default class Posts {
       zIndex: '10',
       background: Container.themeRGBA,
       borderRadius: '20px',
-
     });
     const content = Style.getContentBase({
       lineHeight: 2,
