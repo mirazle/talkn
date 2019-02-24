@@ -7,6 +7,7 @@ import Post from 'client/components/Post';
 import Header from './Header';
 import PostsFooter from './PostsFooter';
 import Detail from './Detail';
+import LockMenu from './LockMenu';
 import IconStyle from 'client/style/Icon';
 import Icon from './Icon';
 
@@ -302,7 +303,13 @@ export default class Posts extends Component {
       <Detail type={'SMALL'} {...this.props} /> : null ;
   }
 
-  renderFooter(){
+  renderLockMenu(){
+    const { app } = this.props.state;
+    return app.screenMode === App.screenModeSmallLabel ?  
+      <LockMenu {...this.props} /> : null ;
+  }
+
+  renderPostFooter(){
     const { app } = this.props.state;
     if( app.type ===  define.APP_TYPES.EXTENSION){
       return null;
@@ -312,6 +319,7 @@ export default class Posts extends Component {
         return <PostsFooter {...this.props} />;
       case App.screenModeMiddleLabel : 
       case App.screenModeLargeLabel : 
+        // Container.Footr
         return null;
       }
     }
@@ -328,7 +336,8 @@ export default class Posts extends Component {
           {this.renderPostList()}
         </ol>
         {this.renderDetail()}
-        {this.renderFooter()}
+        {this.renderLockMenu()}
+        {this.renderPostFooter()}
 
         <div data-component-name="newPost" style={style.main.notif}>NEW POST</div>
       </div>

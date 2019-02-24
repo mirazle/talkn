@@ -2,6 +2,7 @@ import Style from 'client/style/index';
 import Main from 'client/style/Main';
 import Screen from 'client/style/Screen';
 import Menu from 'client/style/Menu';
+import LockMenu from 'client/style/LockMenu';
 import Posts from 'client/style/Posts';
 import Detail from 'client/style/Detail';
 import Footer from 'client/style/Footer';
@@ -54,6 +55,14 @@ export default ( state = {} , action ) => {
 				}
 			},
 		}
+	case 'ON_CLICK_OPEN_LOCK_MENU':
+		return {...state,
+			lockMenu: {...state.lockMenu,
+				menuShare: {...state.lockMenu.menuShare,
+					transform: LockMenu.getCommonTransform(action.app),
+				}
+			}
+		}
 	case 'RESIZE_START_WINDOW':
 	case 'RESIZE_END_WINDOW':
 		return new Style( action );
@@ -95,7 +104,6 @@ export default ( state = {} , action ) => {
 	case 'ON_TRANSITION' :
 	case 'OFF_TRANSITION' :
 	case 'ON_TRANSITION_END' :
-		// TODO ここでaction.app.isOpenMainの値が不正なせいで、notifsが邪魔してmultistreamボタンとかを押せない
 		return new Style( action );
 	case 'UPDATE_STYLE':
 		const { styleKey, eleType, tagName, style } = action;

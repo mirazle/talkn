@@ -2,7 +2,7 @@ import define from '../../common/define';
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
-import Detail from './Detail';
+import Screen from './Screen';
 import Menu from './Menu';
 
 export default class Footer{
@@ -12,10 +12,8 @@ export default class Footer{
     let width = 0;
     switch( app.screenMode ){
     case App.screenModeSmallLabel : width = '200%';break;
-    case App.screenModeMiddleLabel :width = '100%';break;
-    case App.screenModeLargeLabel :
-      width = `calc( 100% - ${Detail.getWidth(app)})`;
-      break;
+    case App.screenModeMiddleLabel :width = Screen.getWidth(app);break;
+    case App.screenModeLargeLabel :width = `100%`;break;
     }
     return addUnit ? Style.trimUnit( width ) : width ;
   };
