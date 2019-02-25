@@ -1,8 +1,7 @@
 import Sequence from '~/common/Sequence'
-import User from '~/common/schemas/state/User'
+import Collections from '~/server/logics/db/collections/'
 import Logics from '~/server/logics';
 import Threads from '~/server/logics/db/collections/Threads';
-import Users from '~/server/logics/db/collections/Users';
 import Actions from '~/server/actions';
 import tests from '~/server/utils/testRequestState';
 
@@ -18,8 +17,7 @@ export default {
     Object.keys( Sequence.map ).forEach( endpoint => {
       const oneSequence = Sequence.map[ endpoint ];
       ioUser.on( endpoint, ( requestState ) => {
-          console.log("@@@ " + endpoint);
-          Actions.io[ endpoint ]( ioUser, requestState, setting );
+        Actions.io[ endpoint ]( ioUser, requestState, setting );
       });
     });
   },
@@ -35,19 +33,17 @@ export default {
   },
 
   getMore: async ( ioUser, requestState, setting ) => {
-    const { app } = requestState;
-    let { user } = requestState;
+    let { app } = requestState;
     const { connection } = requestState.thread;
-    const isMultistream = Threads.getStatusIsMultistream( app, user );
+    const isMultistream = Threads.getStatusIsMultistream( app );
     const {response: posts} = await Logics.db.posts.find(requestState, setting, isMultistream, true );
     const thread = {connection};
-    user = Users.getNewUser(requestState.type, app, thread, posts, user);
-    Logics.io.getMore( ioUser, {requestState, thread, posts, user} );
+    app = Collections.getNewApp(requestState.type, app, thread, posts);
+    Logics.io.getMore( ioUser, {requestState, thread, posts, app} );
   },
 
   changeThread: async ( ioUser, requestState, setting ) => {
-    const { app } = requestState;
-    const connectioned = requestState.user.connectioned;
+    const connectioned = requestState.app.connectioned;
 
     if( connectioned !== '' ){
       const connection = requestState.thread.connection;
@@ -55,7 +51,7 @@ export default {
         {connection: connectioned},
         -1
       );
-      //const user = Users.getNewUser(requestState.type, app, thread, [], requestState.user);
+      //const user = Collections.getNewApp(requestState.type, app, thread, [], requestState.user);
 
       // ユーザーの接続情報を更新
       Logics.db.users.update( ioUser.conn.id, connection );
@@ -64,7 +60,7 @@ export default {
       Logics.io.changeThread( ioUser, {
         requestState,
         thread,
-        user: {
+        app: {
           connectioned: connection
         }
       });
@@ -76,7 +72,7 @@ export default {
 
   exeFind: async ( ioUser, requestState, setting ) => {
 
-    let { app, user } = requestState;
+    let { app } = requestState;
 
     // リクエストのあったconnectionを取得する
     const { connection } = requestState.thread;
@@ -86,16 +82,16 @@ export default {
     thread.hasSlash = requestState.thread.hasSlash;
 
     // Threadの状態
-    const threadStatus = Logics.db.threads.getStatus( user, thread, app, setting );
+    const threadStatus = Logics.db.threads.getStatus( thread, app, setting );  
 
     // Posts
     const postCntKey = threadStatus.isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts( requestState, threadStatus.isMultistream );
     const {response: posts} = await Logics.db.posts.find(requestState, setting, threadStatus.isMultistream );
 
-    // userの状況を更新する
-    user = Users.getNewUser(requestState.type, app, thread, posts, user);
-console.log(threadStatus);
+    // appの状況を更新する
+    app = Collections.getNewApp(requestState.type, app, thread, posts);
+
     // 作成・更新が必要なスレッドの場合
     if( threadStatus.isRequireUpsert ){
 
@@ -105,12 +101,12 @@ console.log(threadStatus);
       if( threadStatus.isSchema ){
         console.log("============== A" );
         thread = await Logics.db.threads.save( thread );
-        Logics.io.find( ioUser, {requestState, thread, posts, user} );
+        Logics.io.find( ioUser, {requestState, thread, posts, app} );
       // スレッド更新
       }else{
         console.log("============== B");
         thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
-        Logics.io.find( ioUser, {requestState, thread, posts, user} );
+        Logics.io.find( ioUser, {requestState, thread, posts, app} );
       }
 
     // スレッドが存在して、更新も必要ない場合
@@ -121,7 +117,7 @@ console.log(threadStatus);
         console.log("============== C");
       }
       console.log("============== D");
-      Logics.io.find( ioUser, {requestState, thread, posts, user} );
+      Logics.io.find( ioUser, {requestState, thread, posts, app} );
     }
   },
 
@@ -137,10 +133,10 @@ console.log(threadStatus);
   },
 
   post: async ( ioUser, requestState, setting ) => {
-    const { app, user } = requestState;
+    const { app } = requestState;
     const { connection } = requestState.thread;
     let thread = {connection};
-    const isMultistream = Threads.getStatusIsMultistream( app, user );
+    const isMultistream = Threads.getStatusIsMultistream( app );
     const post = await Logics.db.posts.save( requestState );
     const response = await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost: post } );
     const postCntKey = isMultistream ? 'multiPostCnt' : 'postCnt';

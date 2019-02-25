@@ -1,4 +1,3 @@
-import conf from '~/client/conf';
 import Schema from '~/common/schemas/Schema';
 
 export default class Threads extends Schema{

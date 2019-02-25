@@ -16,16 +16,15 @@ export default class Header extends Component {
   }
 
   handleOnClickMenuIcon( e ){
-
-    let { app } = this.props.state;
-  
+    const { state } = this.props;
+    let { app } = state;
     if(app.type !== define.APP_TYPES.EXTENSION ){
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
         //app.isOpenMenu = app.isOpenMenu ? false : true;
         break;
       default:
-        app = App.getAppUpdatedOpenFlgs(app);
+        app = App.getAppUpdatedOpenFlgs(state, "headerMenuIcon");
         break;
       }
       talknAPI.onClickToggleDispMenu( app );
@@ -44,11 +43,11 @@ export default class Header extends Component {
         app.isOpenDetail = app.isOpenDetail ? false : true;
         break;
       default:
-        app = App.getAppUpdatedOpenFlgs(app);
+        app = App.getAppUpdatedOpenFlgs(state, "headerDetailIcon");
         break;
       }
   
-      if( app.rootConnection === thread.connection){
+      if( app.isRootConnection){
         talknAPI.onClickToggleDispDetail( {threadDetail: thread, app} );
       }else{
         talknAPI.onClickToggleDispDetail( {threadDetail, app} );

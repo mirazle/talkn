@@ -1,6 +1,5 @@
 import App from './schemas/state/App';
 import State from './schemas/state/';
-const state = new State();
 
 export default class Sequence {
 
@@ -30,37 +29,48 @@ export default class Sequence {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {
           'thread': [{columnName: 'protocol'}, {columnName: 'host'}, {columnName: 'hasSlash'}],
-          'app': [{columnName: 'multistream'}, {columnName: 'rootConnection'}],
-          'user': '*',
+          'app': [
+            {columnName: 'multistream'},
+            {columnName: 'rootConnection'},
+            {columnName: 'dispThreadType'}, 
+            {columnName: 'offsetFindId'}
+          ],
         },
         responseEmitState: {
           'posts': '*',
           'thread': '*',
-          'user': ['dispThreadType', 'offsetFindId', 'connectioned', 'multistreamed']},
+          'app': ['dispThreadType', 'offsetFindId', 'connectioned', 'multistreamed']
+        },
         responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       },
       getMore: {
         requestPublicState: {},
         requestPrivateState: {
           'thread': [{columnName: 'connection'}],
-          'app': [{columnName: 'multistream'}],
-          'user': [
+          'app': [
+            {columnName: 'multistream'},
             {columnName: 'dispThreadType'},
             {columnName: 'offsetFindId'},
             {columnName: 'multistreamed'}
           ],
         },
-        responseEmitState: {'thread': ['connection'], 'user': ['dispThreadType', 'offsetFindId'], 'posts': '*'},
+        responseEmitState: {'thread': ['connection'], 'app': ['dispThreadType', 'offsetFindId'], 'posts': '*'},
         responseBroadcastState: {},
       },
       changeThread: {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {
           'thread': [{columnName: 'protocol'}, {columnName: 'host'}, {columnName: 'hasSlash'}],
-          'app': [{columnName: 'multistream'}, {columnName: 'rootConnection'}],
-          'user': '*',
+          'app': [
+            {columnName: 'connectioned'},
+            {columnName: 'rootConnection'},
+            {columnName: 'multistream'},
+            {columnName: 'dispThreadType'},
+            {columnName: 'offsetFindId'},
+            {columnName: 'multistreamed'}
+          ],
         },
-        responseEmitState: {'user': ['connectioned']},
+        responseEmitState: {'app': ['connectioned']},
         responseBroadcastState: {'thread': ['watchCnt', 'connection']},
       },
       changeThreadDetail: {
@@ -81,8 +91,8 @@ export default class Sequence {
         requestPublicState: {},
         requestPrivateState: {
           'app':[ {columnName: 'inputPost', valid: App.validPost}],
-          'user':[ {columnName: 'uid'}, {columnName: 'dispThreadType'}, {columnName: 'utype'}, {columnName: 'multistreamed'}],
-          'app': [{columnName: 'multistream'}, {columnName: 'inputPost'}],
+          'user':[ {columnName: 'uid'}, {columnName: 'utype'}],
+          'app': [{columnName: 'multistream'}, {columnName: 'inputPost'}, {columnName: 'dispThreadType'}, {columnName: 'multistreamed'} ],
           'thread': [{columnName: 'protocol'}, {columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}]
         },
         responseEmitState: {},
@@ -92,13 +102,13 @@ export default class Sequence {
         requestPublicState: {'thread': [{columnName: 'serverMetas'}]},
         requestPrivateState: {
           'thread': [{columnName: 'host'}, {columnName: 'protocol'}, {columnName: 'connection'}],
-          'user': '*',
+          'user': '*',        // 懸念
         },
         responseEmitState: {'thread': '*'},
         responseBroadcastState: {},
       },
       login: {
-        requestPublicState: {'app': [{columnName: 'requestLoginType'}]},
+        requestPublicState: {'user': [{columnName: 'requestLoginType'}]},
         requestPrivateState: {
           'user': [{columnName: 'uid', columnName: 'href'}],
         },

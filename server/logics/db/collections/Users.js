@@ -51,48 +51,4 @@ export default class Users {
   async removeAll(){
     return this.collection.removeAll();
   }
-
-  static getNewUser(type, app, thread, posts, user){
-    const connectioned  = thread.connection;
-    let dispThreadType = "";
-
-    if(type === "getMore"){
-      dispThreadType = user.dispThreadType;
-    }else{
-      const { user: stepToUser, stepTo } = User.getStepToDispThreadType( {app, user}, thread.connection );
-
-      switch(stepTo){
-      case `${User.dispThreadTypeMulti} to ${User.dispThreadTypeMulti}`:
-        dispThreadType = User.dispThreadTypeMulti;
-        break;
-      case `${User.dispThreadTypeMulti} to ${User.dispThreadTypeChild}`:
-        dispThreadType = User.dispThreadTypeChild;
-        break;
-      case `${User.dispThreadTypeSingle} to ${User.dispThreadTypeChild}`:
-        dispThreadType = User.dispThreadTypeChild;
-        break;
-      case `${User.dispThreadTypeChild} to ${User.dispThreadTypeMulti}`:
-        dispThreadType = User.dispThreadTypeMulti;
-        break;
-      case `${User.dispThreadTypeChild} to ${User.dispThreadTypeSingle}`:
-        dispThreadType = User.dispThreadTypeSingle;
-        break;
-      case `${User.dispThreadTypeChild} to ${User.dispThreadTypeChild}`:
-        dispThreadType = User.dispThreadTypeChild;
-        break;
-      case `${User.dispThreadTypeSingle} to ${User.dispThreadTypeSingle}`:
-        dispThreadType = User.dispThreadTypeSingle;
-        break;
-      }
-    }
-
-    const offsetFindId = User.getOffsetFindId( {posts} );
-    const multistreamed = dispThreadType === User.dispThreadTypeMulti;
-    return {...user,
-      connectioned,
-      offsetFindId,
-      dispThreadType,
-      multistreamed
-    };
-  }
 }

@@ -19,11 +19,11 @@ export default class Main extends Component {
 
   componentDidUpdate(){
     const { state, createNotif } = this.props;
-    const { app, user, actionLog, thread, style } = state;
+    const { app, actionLog, thread, style } = state;
 
     switch( actionLog[ 0 ] ){
     case 'OPEN_NOTIF':
-      const posts = state[ `posts${user.dispThreadType}` ];
+      const posts = state[ `posts${app.dispThreadType}` ];
       const lastPost = posts[posts.length - 1];
       if(
         lastPost &&

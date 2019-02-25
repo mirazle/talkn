@@ -1,7 +1,6 @@
 import Container from 'client/style/Container';
 import define from 'common/define';
 import App from 'common/schemas/state/App';
-import User from 'common/schemas/state/User';
 import Posts from 'common/schemas/state/Posts';
 import Threads from 'common/schemas/state/Threads';
 
@@ -11,30 +10,34 @@ export default {
     if( functions[ action.type ] ){
       const state = store.getState();
       action = functions[ action.type ]( state, action );
+      if(!action.app) action.app = state.app;
+      if(!action.app.actioned) action.app.actioned = state.app.actioned;
+      action.app.actioned.unshift(action.type);
     }
     next(action);
   }
 };
 
 const functions = {
-  "CLIENT_TO_SERVER[EMIT]:changeThread": ( state, action ) => {
-    action.user = state.user;
-    action.user.offsetFindId = User.defaultOffsetFindId;
-    action.user.offsetMultiFindId = User.defaultOffsetFindId;
-    action.user.offsetSingleFindId = User.defaultOffsetFindId;
-    action.user.offsetChildFindId = User.defaultOffsetFindId;
-    action.user.offsetLogsFindId = User.defaultOffsetFindId;
-    return action;
-  },
   "SERVER_TO_CLIENT[EMIT]:find": ( state, action ) => {
     action = resolve.caseNoExistResponsePost(state, action);
-    action.user[`offset${action.user.dispThreadType}FindId`] = action.user.offsetFindId;
-    action.app = state.app;
+    action.app = {...state.app, ...action.app};
+    action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     action.app.detailConnection = action.thread.connection;
     action.app.desc = action.thread.serverMetas.title;
+    action.app.isRootConnection = action.app.rootConnection === action.thread.connection;
     action = Posts.getAnyActionPosts(action);
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = action.thread;
+    return action;
+  },
+  "CLIENT_TO_SERVER[EMIT]:changeThread": ( state, action ) => {
+    action.app = {...state.app, ...action.app};
+    action.app.offsetFindId = App.defaultOffsetFindId;
+    action.app.offsetMultiFindId = App.defaultOffsetFindId;
+    action.app.offsetSingleFindId = App.defaultOffsetFindId;
+    action.app.offsetChildFindId = App.defaultOffsetFindId;
+    action.app.offsetLogsFindId = App.defaultOffsetFindId;
     return action;
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": ( state, action ) => {
@@ -44,15 +47,12 @@ const functions = {
       talknAPI.extension("openNotif", {transition});
     }
     action.app = app;
-    action.user = state.user;
     action = Posts.getAnyActionPosts(action);
     return action;
   }, 
   "SERVER_TO_CLIENT[EMIT]:getMore": ( state, action ) => {
-    action.app = state.app;
-    action.user = state.user;
-    action.user.offsetFindId = User.getOffsetFindId({posts: action.posts});
-    action.user[`offset${action.user.dispThreadType}FindId`] = action.user.offsetFindId;
+    action.app.offsetFindId = App.getOffsetFindId({posts: action.posts});
+    action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     action = Posts.getAnyActionPosts(action);
     return action;
   },
@@ -64,19 +64,15 @@ const functions = {
     return action;
   },
   "ON_CLICK_TO_MULTI_THREAD":  (state, action) => {
-    action.app = state.app;
     return action;
   },
   "ON_CLICK_TO_SINGLE_THREAD":  (state, action) => {
-    action.app = state.app;
     return action;
   },
   "ON_CLICK_TO_CHILD_THREAD":  (state, action) => {
-    action.app = state.app;
-    action.user = state.user;
     action.postsChild = [];
-    action.user.offsetFindId = User.defaultOffsetFindId;
-    action.user.offsetChildFindId = User.defaultOffsetFindId;
+    action.app.offsetFindId = App.defaultOffsetFindId;
+    action.app.offsetChildFindId = App.defaultOffsetFindId;
     return action;
   },
   "ON_CLICK_TO_LOGS_THREAD":  (state, action) => {
@@ -97,7 +93,6 @@ const functions = {
   },
   "ON_TRANSITION": ( state, action ) => {
     action.app = {...state.app, ...action.app};
-    action.user = state.user;
     return action;
   },
   "OFF_TRANSITION": ( state, action ) => {    
@@ -111,7 +106,6 @@ const functions = {
     return action;
   },
   "RESIZE_END_WINDOW": ( state, action ) => {
-    action.user = state.user;
     return action;
   },
   "ON_CLICK_TOGGLE_DISP_MENU": ( state, action ) => {

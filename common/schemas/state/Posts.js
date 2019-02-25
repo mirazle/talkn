@@ -1,5 +1,5 @@
 import Schema from '~/common/schemas/Schema';
-import User from '~/common/schemas/state/User';
+import App from '~/common/schemas/state/User';
 
 export default class Posts {
   constructor(){
@@ -7,22 +7,23 @@ export default class Posts {
   }
 
   static getAnyActionPosts(action){
-    const {user, posts} = action;
+    const {app, posts} = action;
     const existPosts = posts && posts.length > 0;
-    switch(user.dispThreadType){
-    case User.dispThreadTypeMulti:
+    switch(app.dispThreadType){
+    case App.dispThreadTypeMulti:
       action.postsMulti = existPosts ? posts : [];
       break;
-    case User.dispThreadTypeSingle:
+    case App.dispThreadTypeSingle:
       action.postsSingle = existPosts ? posts : [];
       break;
-    case User.dispThreadTypeChild:
+    case App.dispThreadTypeChild:
       action.postsChild = existPosts ? posts : [];
       break;
-    case User.dispThreadTypeLogs:
+    case App.dispThreadTypeLogs:
       action.postsLogs = existPosts ? posts : [];
       break;
     }
+
     return action;
   }
 }

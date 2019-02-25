@@ -1,11 +1,11 @@
 import MenuIndex from 'common/schemas/state/MenuIndex';
-import User from 'common/schemas/state/User';
+import App from 'common/schemas/state/App';
 
 export default ( state = new MenuIndex() , action ) => {
 
 	switch( action.type ){
 	case 'ON_CLICK_MULTISTREAM':
-		const multistreamPosts = action.user.dispThreadType === User.dispThreadTypeMulti ?
+		const multistreamPosts = action.app.dispThreadType === App.dispThreadTypeMulti ?
 			action.postsMulti : action.postsSingle;
 		const multistreamPostLength = multistreamPosts && multistreamPosts.length ? multistreamPosts.length : 0;
 		if(multistreamPostLength > 0 ){
@@ -36,7 +36,7 @@ export default ( state = new MenuIndex() , action ) => {
 			});
 		}
 
-		if(action.user.dispThreadType === User.dispThreadTypeMulti){
+		if(action.app.dispThreadType === App.dispThreadTypeMulti){
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
 					return {...mi,
