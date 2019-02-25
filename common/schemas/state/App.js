@@ -104,6 +104,8 @@ export default class App extends Schema{
     const screenModePointer = params.screenModePointer ? params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
     const screenContents = App.getScreenContentsMap( screenMode, screenModePointer );
     const iframe = Schema.isSet( params.iframe ) ? JSON.parse( params.iframe ) : false ;
+
+    // Index情報
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
 
     // スレッド基本関連
@@ -120,6 +122,9 @@ export default class App extends Schema{
     const offsetMultiFindId = params && params.offsetMultiFindId ? params.offsetMultiFindId : App.defaultOffsetFindId ;
     const offsetChildFindId = params && params.offsetChildFindId ? params.offsetChildFindId : App.defaultOffsetFindId ;
     const offsetLogsFindId = params && params.offsetLogsFindId ? params.offsetLogsFindId : App.defaultOffsetFindId ;
+
+    // detail情報
+    const detailConnection = params.detailConnection ? params.detailConnection : connection;
 
     // 入力状態
     const inputPost = params.inputPost ? params.inputPost : '';
@@ -156,6 +161,8 @@ export default class App extends Schema{
       screenModePointer,
       screenContents,
       iframe,
+
+      // Index情報
       menuComponent,
 
       // スレッド基本関連
@@ -172,6 +179,9 @@ export default class App extends Schema{
       offsetMultiFindId,
       offsetChildFindId,
       offsetLogsFindId,
+
+      // detail情報
+      detailConnection,
 
       // 入力状態
       inputPost,
@@ -240,39 +250,53 @@ export default class App extends Schema{
     return app;
   }
 
-  static getAppUpdatedOpenFlgs({app}, call = "default"){
-    console.log(call);
-
-    /*
-      関連要素
-
-      dispThreadType
-      screenMode
-
-    */
-
-    const funcs = {
-      default : ({app}) => {
-        switch( app.screenMode ){
-        case App.screenModeMiddleLabel :
-          if( app.isOpenDetail ){
-            app.isOpenMenu = false;
-            app.isOpenDetail = true;
+  static getAppUpdatedOpenFlgs({app}, call){
+    switch( call ){
+    case 'headerDetailIcon':
+      switch( app.screenMode ){
+      case App.screenModeMiddleLabel :
+        if( app.isOpenDetail ){
+          if( app.detailConnection === app.rootConnection ){
+            app.isOpenDetail = false;
+            app.isOpenMenu = true;
           }else{
             app.isOpenMenu = false;
             app.isOpenDetail = true;
           }
-          break;
-        case App.screenModeLargeLabel :
-          break;
+        }else{
+          app.isOpenMenu = false;
+          app.isOpenDetail = true;
         }
-        return app;
+        break;
       }
+      break;
+    case 'headerMenuIcon':
+      switch( app.screenMode ){
+      case App.screenModeMiddleLabel :
+        if( app.isOpenDetail ){
+          app.isOpenMenu = true;
+          app.isOpenDetail = false;
+        }else{
+          app.isOpenMenu = true;
+          app.isOpenDetail = false;
+        }
+        break;
+      }
+      break;
+    case 'changeThreadDetail':
+    case 'post':
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        app.isOpenDetail = !app.isOpenDetail;
+        break;
+      case App.screenModeMiddleLabel :
+        app.isOpenMenu = false;
+        app.isOpenDetail = true;
+        break;
+      }
+      break;
     }
-
-    return funcs[call] ?
-      funcs[ call ]({app}) :
-      funcs[ "default" ]({app});
+    return app;
   }
 
   updateScreenModePointer( calcScreenModePointer ){

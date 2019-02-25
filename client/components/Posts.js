@@ -112,14 +112,7 @@ export default class Posts extends Component {
       this.animateScrollTo( this.refs.thread, 9999999, 400 );
       break;
     case 'SERVER_TO_CLIENT[EMIT]:changeThreadDetail':
-      switch( app.screenMode ){
-      case App.screenModeSmallLabel :
-        app.isOpenDetail = app.isOpenDetail ? false : true;
-        break;
-      default:
-        app = App.getAppUpdatedOpenFlgs({app}, "changeThreadDetail");
-        break;
-      }
+      app = App.getAppUpdatedOpenFlgs({app}, "changeThreadDetail");
       talknAPI.onClickToggleDispDetail( app );
       break;
     case 'START_ANIMATE_SCROLL_TO':
