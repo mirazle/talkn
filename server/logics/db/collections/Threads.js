@@ -96,9 +96,6 @@ export default class Threads {
       return await Logics.db.threads.save( thread );
     }else{
       const {response: resThread} = await Logics.db.threads.findOne( connection );
-      console.log( thread );
-      console.log( connection );
-      console.log( resThread );
 
       if( update ){
 
@@ -110,7 +107,7 @@ export default class Threads {
         resThread.watchCnt = watchCnt;
 
       }else{
-//<iframe src='//talkn.io' frameborder='0' style='height: 385px; width: 300px' />
+
         // Error Handking
         if( !resThread.watchCnt ){
           console.warn("@@@@@@@@@@@@@@@@@ db/collections/Thread.js 112")
