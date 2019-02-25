@@ -16,31 +16,31 @@ export default {
       app,
     };
   },
-  onClickToMultiThread: ( connection, {user} ) => {
+  onClickToMultiThread: ( connection, {app} ) => {
     return {
       type: 'ON_CLICK_TO_MULTI_THREAD',
-      user,
+      app,
       thread: { connection },
     };
   },
-  onClickToSingleThread: ( connection, {user} ) => {
+  onClickToSingleThread: ( connection, {app} ) => {
     return {
       type: 'ON_CLICK_TO_SINGLE_THREAD',
-      user,
+      app,
       thread: { connection },
     };
   },
-  onClickToChildThread: ( connection, {user} ) => {
+  onClickToChildThread: ( connection, {app} ) => {
     return {
       type: 'ON_CLICK_TO_CHILD_THREAD',
-      user,
+      app,
       thread: { connection },
     };
   },
-  onClickToLogsThread: ( connection, {user} ) => {
+  onClickToLogsThread: ( connection, {app} ) => {
     return {
       type: 'ON_CLICK_TO_LOGS_THREAD',
-      user,
+      app,
       thread: { connection },
     };
   },
@@ -56,11 +56,10 @@ export default {
       app,
     };
   },
-  onClickMultistream: ({app, user, postsMulti, postsSingle}) => {
+  onClickMultistream: ({app, postsMulti, postsSingle}) => {
     return {
       type: 'ON_CLICK_MULTISTREAM',
       app,
-      user,
       postsMulti,
       postsSingle
     };
@@ -131,12 +130,11 @@ export default {
       app: {menuComponent},
     };
   },
-  onClickSetting: ( settingType, {setting, user} ) => {
+  onClickSetting: ( settingType, {setting} ) => {
     return {
       type: 'ON_CLICK_SETTING',
       settingType,
-      setting,
-      user
+      setting
     };
   },
   openInnerNotif: (openInnerNotif = define.noInnerNotif) => {

@@ -102,13 +102,12 @@ export default class Post extends Component {
     if( threads[ connection ] ){
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
-        app.isOpenDetail = app.isOpenDetail ? false : true;
+        app.isOpenDetail = app.isOpenDssetail ? false : true;
         break;
       default:
-        app = App.getAppUpdatedOpenFlgs(app);
+        app = App.getAppUpdatedOpenFlgs({app}, "post");
         break;
       }
-      console.log( threads[ connection ] );
       talknAPI.onClickToggleDispDetail( {threadDetail: threads[ connection ], app} );
     }else{
       talknAPI.changeThreadDetail(connection);

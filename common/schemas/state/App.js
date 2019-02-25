@@ -1,8 +1,31 @@
 import define from '~/common/define';
 import Schema from '~/common/schemas/Schema';
 import Main from '~/client/style/Main';
+import Post from '~/common/schemas/state/Post';
 
 export default class App extends Schema{
+  static get openLockMenuLabelNo(){ return 'No' };
+  static get openLockMenuLabelLike(){ return 'Like' };
+  static get openLockMenuLabelShare(){ return 'Share' };
+  static get openLockMenuLabelAbout(){ return 'About' };
+
+  static get menuComponentUsersLabel(){ return 'Users' };
+  static get menuComponentIndexLabel(){ return 'Index' };
+  static get menuComponentLogsLabel(){ return 'Logs' };
+  static get menuComponentSettingLabel(){ return 'Setting' };
+  static getDefaultMenuComponent(){ return App.menuComponentIndexLabel };
+
+  static get screenModeIndexLabel(){ return 'MENU' };
+  static get screenModeThreadLabel(){ return 'THREAD' };
+  static get screenModeDetailLabel(){ return 'DETAIL' };
+  static get screenModeSmallWidthPx(){ return 640 };
+  static get screenModeMiddleWidthPx(){ return 960 };
+
+  static get defaultOffsetFindId(){ return Post.defaultFindId }
+  static get dispThreadTypeSingle(){ return 'Single' }
+  static get dispThreadTypeMulti(){ return 'Multi' }
+  static get dispThreadTypeChild(){ return 'Child' }
+  static get dispThreadTypeLogs(){ return 'Logs' }
 
   static get screenModeSmallLabel(){ return 'SMALL' };
   static get screenModeMiddleLabel(){ return 'MIDDLE' };
@@ -39,23 +62,6 @@ export default class App extends Schema{
     }
   }
 
-  static get openLockMenuLabelNo(){ return 'No' };
-  static get openLockMenuLabelLike(){ return 'Like' };
-  static get openLockMenuLabelShare(){ return 'Share' };
-  static get openLockMenuLabelAbout(){ return 'About' };
-
-  static get menuComponentUsersLabel(){ return 'Users' };
-  static get menuComponentIndexLabel(){ return 'Index' };
-  static get menuComponentLogsLabel(){ return 'Logs' };
-  static get menuComponentSettingLabel(){ return 'Setting' };
-  static getDefaultMenuComponent(){ return App.menuComponentIndexLabel };
-
-  static get screenModeIndexLabel(){ return 'MENU' };
-  static get screenModeThreadLabel(){ return 'THREAD' };
-  static get screenModeDetailLabel(){ return 'DETAIL' };
-  static get screenModeSmallWidthPx(){ return 640 };
-  static get screenModeMiddleWidthPx(){ return 960 };
-
   static validInputPost(value){
     if( /\r\n$|\n$|\r$/mgi.test( value ) ) return 'LAST TYPE BREAK LINE.';
     return false;
@@ -76,28 +82,50 @@ export default class App extends Schema{
   }
 
   static getHeight( params ){
-//    if( params.height ) return params.height;
     if( typeof window === 'object' &&  window.innerHeight ) return window.innerHeight;
     return 0;
   }
 
   constructor( params = {}, call ){
     super();
-    const name = params.name ? params.name : 'talkn';
-    const type = params.type ? params.type : '';
-    const talknIndex = params.talknIndex ? params.talknIndex : 0;
+
+    // 準備
     const connection = params.connection ? params.connection : '/';
-    const rootConnection = params.rootConnection ? params.rootConnection : connection;
-    const desc = params.desc ? params.desc : 'Hello, talkn.';
+
+    // 全体
+    const name = params.name ? params.name : 'talkn';
+    const talknIndex = params.talknIndex ? params.talknIndex : 0;
+
+    // 基本表示関連
+    const type = params.type ? params.type : '';
     const width = App.getWidth( params );
     const height = App.getHeight( params );
     const screenMode = App.getScreenMode( width );
-    const screenModePointer = params.screenModePointer ?
-      params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
+    const screenModePointer = params.screenModePointer ? params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
     const screenContents = App.getScreenContentsMap( screenMode, screenModePointer );
-    const requestLoginType = params.requestLoginType ? params.requestLoginType : '';
+    const iframe = Schema.isSet( params.iframe ) ? JSON.parse( params.iframe ) : false ;
+    const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
+
+    // スレッド基本関連
+    const isRootConnection = params.isRootConnection ? params.isRootConnection : false;
+    const rootConnection = params.rootConnection ? params.rootConnection : connection;
+    const connectioned = params && params.connectioned ? params.connectioned : '';
+    const dispThreadType = params && params.dispThreadType ? params.dispThreadType : App.dispThreadTypeMulti;
+    const multistream = Schema.isSet( params.multistream ) ? params.multistream : true;
+    const multistreamed = params && params.multistreamed ? params.multistreamed : false;
+
+    // 投稿情報
+    const offsetFindId = params && params.offsetFindId ? params.offsetFindId : App.defaultOffsetFindId ;
+    const offsetSingleFindId = params && params.offsetSingleFindId ? params.offsetSingleFindId : App.defaultOffsetFindId ;
+    const offsetMultiFindId = params && params.offsetMultiFindId ? params.offsetMultiFindId : App.defaultOffsetFindId ;
+    const offsetChildFindId = params && params.offsetChildFindId ? params.offsetChildFindId : App.defaultOffsetFindId ;
+    const offsetLogsFindId = params && params.offsetLogsFindId ? params.offsetLogsFindId : App.defaultOffsetFindId ;
+
+    // 入力状態
     const inputPost = params.inputPost ? params.inputPost : '';
     const inputSearch = params.inputSearch ? params.inputSearch : '';
+
+    // 各パーツの状態(フラグ制御)
     const isOpenMainPossible = params.isOpenMainPossible ? params.isOpenMainPossible : false;
     const isOpenMain =  App.getIsOpenMain(params, type, height);
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
@@ -105,40 +133,66 @@ export default class App extends Schema{
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNotifInThread = params.isOpenNotifInThread ? params.isOpenNotifInThread : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
+
+    // 各パーツの状態(文字列制御)
     const openInnerNotif = params.openInnerNotif ? params.openInnerNotif : '';
     const openLockMenu = params.openLockMenu ? params.openLockMenu : App.openLockMenuLabelNo;
+
+    // その他
+    const actioned = params && params.actioned ? params.actioned : [];
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
-    const iframe = Schema.isSet( params.iframe ) ? JSON.parse( params.iframe ) : false ;
-    const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
-    const multistream = Schema.isSet( params.multistream ) ? params.multistream : true;
 
     return this.create({
+
+      // 全体
       name,
-      type,
       talknIndex,
-      rootConnection,
-      desc,
-      screenModePointer,
-      screenContents,
-      screenMode,
+
+      // 基本表示関連
+      type,
       width,
       height,
-      requestLoginType,
-      inputPost: {value: inputPost, valid: App.validInputPost},
+      screenMode,
+      screenModePointer,
+      screenContents,
+      iframe,
+      menuComponent,
+
+      // スレッド基本関連
+      isRootConnection,
+      rootConnection,
+      connectioned,
+      dispThreadType,
+      multistream,
+      multistreamed,
+
+      // 投稿情報
+      offsetFindId,
+      offsetSingleFindId,
+      offsetMultiFindId,
+      offsetChildFindId,
+      offsetLogsFindId,
+
+      // 入力状態
+      inputPost,
       inputSearch,
+
+      // 各パーツの状態
       isOpenMainPossible,
       isOpenMain,
-      isOpenMenu,
       isOpenSetting,
+      isOpenMenu,
       isOpenDetail,
       isOpenNotifInThread,
       isOpenNotif,
+
+      // 各パーツの状態(文字列制御)
       openInnerNotif,
       openLockMenu,
-      isTransition,
-      iframe,
-      menuComponent,
-      multistream
+
+      // その他
+      actioned,
+      isTransition
     });
   }
 
@@ -156,21 +210,69 @@ export default class App extends Schema{
     }
   }
 
-  static getAppUpdatedOpenFlgs(app){
-    switch( app.screenMode ){
-    case App.screenModeMiddleLabel :
-      if( app.isOpenDetail ){
-        app.isOpenMenu = true;
-        app.isOpenDetail = false;
+  static getOffsetFindId({posts}){
+    if( posts && posts[ 0 ] && posts[ 0 ]._id ){
+      return posts[ 0 ]._id;
+    }
+    return Post.defaultFindId;
+  }
+
+  static getStepToDispThreadType( {app}, toConnection ){
+    const beforeDispThreadType = app.dispThreadType;
+    app = App.getStepDispThreadType({app}, toConnection);
+    const afterDispThreadType = app.dispThreadType;
+    return {app, stepTo: `${beforeDispThreadType} to ${afterDispThreadType}`};
+  }
+
+  static getStepDispThreadType( {app}, toConnection ){
+    if(app.rootConnection === toConnection){
+      if(app.multistream){
+        app.dispThreadType = App.dispThreadTypeMulti;
+        app.offsetFindId = app.offsetMultiFindId ? app.offsetMultiFindId : App.defaultOffsetFindId;
       }else{
-        app.isOpenMenu = false;
-        app.isOpenDetail = true;
+        app.dispThreadType = App.dispThreadTypeSingle;
+        app.offsetFindId = app.offsetSingleFindId ? app.offsetSingleFindId : App.defaultOffsetFindId;
       }
-      break;
-    case App.screenModeLargeLabel :
-      break;
+    }else{
+      app.dispThreadType = App.dispThreadTypeChild;
+      app.offsetFindId = app.offsetChildFindId ? app.offsetChildFindId : App.defaultOffsetFindId;
     }
     return app;
+  }
+
+  static getAppUpdatedOpenFlgs({app}, call = "default"){
+    console.log(call);
+
+    /*
+      関連要素
+
+      dispThreadType
+      screenMode
+
+    */
+
+    const funcs = {
+      default : ({app}) => {
+        switch( app.screenMode ){
+        case App.screenModeMiddleLabel :
+          if( app.isOpenDetail ){
+            app.isOpenMenu = false;
+            app.isOpenDetail = true;
+          }else{
+            app.isOpenMenu = false;
+            app.isOpenDetail = true;
+          }
+          break;
+        case App.screenModeLargeLabel :
+          break;
+        }
+        return app;
+      }
+    }
+
+    return funcs[call] ?
+      funcs[ call ]({app}) :
+      funcs[ "default" ]({app});
   }
 
   updateScreenModePointer( calcScreenModePointer ){

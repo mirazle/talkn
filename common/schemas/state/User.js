@@ -13,7 +13,8 @@ export default class User extends Schema{
     super();
     const uid = params && params.uid ? params.uid : '';
     const utype = params && params.utype ? params.utype : '';
-    const href = User.getHref( params );
+
+    // 削除予定
     const dispThreadType = params && params.dispThreadType ? params.dispThreadType : User.dispThreadTypeSingle;
     const connectioned = params && params.connectioned ? params.connectioned : '';
     const multistreamed = params && params.multistreamed ? params.multistreamed : false;
@@ -23,11 +24,12 @@ export default class User extends Schema{
     const offsetMultiFindId = params && params.offsetMultiFindId ? params.offsetMultiFindId : User.defaultOffsetFindId ;
     const offsetChildFindId = params && params.offsetChildFindId ? params.offsetChildFindId : User.defaultOffsetFindId ;
     const offsetLogsFindId = params && params.offsetLogsFindId ? params.offsetLogsFindId : User.defaultOffsetFindId ;
+
+    const requestLoginType = params.requestLoginType ? params.requestLoginType : '';
     const friends = [];
     return this.create({
       uid,
       utype,
-      href,
       dispThreadType,
       connectioned,
       multistreamed,
