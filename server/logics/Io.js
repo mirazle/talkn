@@ -16,16 +16,16 @@ export default class Io {
     return this.io.emit( ioUser, Sequence.CATCH_ME_KEY, responseEmitState );
   }
 
-  async find(ioUser, {requestState, thread, posts, user} ){
-    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {thread, posts, user} );
+  async find(ioUser, {requestState, thread, posts, app} ){
+    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {thread, posts, app} );
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {thread} );
     this.io.emit( ioUser, Sequence.CATCH_ME_KEY, responseEmitState );
     this.io.broadcast( responseBroadcastState.thread.connection, responseBroadcastState );
     return true;
   }
 
-  async getMore(ioUser, {requestState, thread, posts, user} ){
-    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {thread, posts, user} );
+  async getMore(ioUser, {requestState, thread, posts, app} ){
+    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {thread, posts, app} );
     this.io.emit( ioUser, Sequence.CATCH_ME_KEY, responseEmitState );
     return true;
   }
@@ -42,8 +42,8 @@ export default class Io {
     return true;
   }
 
-  async changeThread(ioUser, {requestState, thread, user} ){
-    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {user} );
+  async changeThread(ioUser, {requestState, thread, app} ){
+    const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {app} );
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {thread} );
     this.io.emit( ioUser, Sequence.CATCH_ME_KEY, responseEmitState );
     this.io.broadcast( responseBroadcastState.thread.connection, responseBroadcastState );

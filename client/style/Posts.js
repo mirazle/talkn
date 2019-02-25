@@ -1,6 +1,5 @@
 import define from '../../common/define';
 import App from '../../common/schemas/state/App';
-import User from '../../common/schemas/state/User';
 import Style from './index';
 import Container from './Container';
 import Header from './Header';
@@ -138,13 +137,13 @@ export default class Posts {
     return Style.get({layout, content, animation});
   }
 
-  static getMultistreamIconWrapBorder( {user} ){
-    return !user.dispThreadType || user.dispThreadType === User.dispThreadTypeMulti ?
+  static getMultistreamIconWrapBorder( {app} ){
+    return !app.dispThreadType || app.dispThreadType === App.dispThreadTypeMulti ?
       `1px solid ${Container.themeRGBA}` :
       `1px solid ${Container.calmRGBA}`;
   }
 
-  static getMultistreamIconWrap( {app, user} ){
+  static getMultistreamIconWrap( {app} ){
 
     const top = app.type === define.APP_TYPES.EXTENSION ?
       ( Header.headerHeight + Posts.multistreamWrapTop ) + "px" :
@@ -158,7 +157,7 @@ export default class Posts {
       height: '50px',
       margin: '0 auto',
       zIndex: '1',
-      border: Posts.getMultistreamIconWrapBorder( {user} ),
+      border: Posts.getMultistreamIconWrapBorder( {app} ),
       background: 'rgba(255, 255, 255, 0.8)',
       borderRadius: '50px',
     });

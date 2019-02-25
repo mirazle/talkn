@@ -1,5 +1,5 @@
-import Thread from '~/common/schemas/state/Thread'
-import User from '~/common/schemas/state/User'
+import Thread from '~/common/schemas/state/Thread';
+import App from '~/common/schemas/state/app';
 import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
 import Favicon from '~/server/logics/Favicon';
@@ -96,6 +96,9 @@ export default class Threads {
       return await Logics.db.threads.save( thread );
     }else{
       const {response: resThread} = await Logics.db.threads.findOne( connection );
+      console.log( thread );
+      console.log( connection );
+      console.log( resThread );
 
       if( update ){
 
@@ -177,7 +180,7 @@ export default class Threads {
   /* STATUS LOGIC   */
   /******************/
 
-  getStatus( user, thread, app, setting ){
+  getStatus( thread, app, setting ){
 
     let status = {
       dispType: '', // MULTI, SINGLE, CHILD, LOGS
@@ -203,13 +206,13 @@ export default class Threads {
     /* Multistream形式かどうか                               */
     /*******************************************************/
 
-    status.isMultistream = Threads.getStatusIsMultistream( app, user );
+    status.isMultistream = Threads.getStatusIsMultistream( app );
 
     /*******************************************************/
     /* Multistreamのボタンを押したか                          */
     /*******************************************************/
 
-    status.isToggleMultistream = Threads.getStatusIsToggleMultistream( app, user );
+    status.isToggleMultistream = Threads.getStatusIsToggleMultistream( app );
 
     return status;
   }
@@ -249,11 +252,11 @@ export default class Threads {
     return isSchema ? true : threadUpdateTime < activeTime;
   }
 
-  static getStatusIsMultistream( app, user ){
-    return user.dispThreadType === User.dispThreadTypeMulti && app.multistream;
+  static getStatusIsMultistream( app ){
+    return app.dispThreadType === App.dispThreadTypeMulti && app.multistream;
   }
 
-  static getStatusIsToggleMultistream( app, user ){
-    return user.actioned === "ON_CLICK_MULTISTREAM";
+  static getStatusIsToggleMultistream( app ){
+    return app.actioned === "ON_CLICK_MULTISTREAM";
   }
 }

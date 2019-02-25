@@ -3,12 +3,10 @@ import React, { Component } from "react";
 import Marquee from 'react-marquee';
 import App from 'common/schemas/state/App';
 import Thread from 'common/schemas/state/Thread';
-import User from 'common/schemas/state/User';
 import util from 'common/util';
 import conf from 'common/conf';
 import Container from 'client/style/Container';
 import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
-import TalknSession from 'client/operations/TalknSession';
 
 export default class MenuIndexList extends Component {
 
@@ -25,9 +23,9 @@ export default class MenuIndexList extends Component {
   }
 
   getDecolationEvents( focusConnection, styleKey ){
-    const { app, menuIndexList, onClickToMultiThread, onClickToSingleThread, onClickToChildThread, onClickToLogsThread } = this.props;
+    const { menuIndexList, onClickToMultiThread, onClickToSingleThread, onClickToChildThread, onClickToLogsThread } = this.props;
     const { connection } = menuIndexList;
-    let { user } = this.props;
+    let { app } = this.props;
     return { 
       onClick: () => {
         if( focusConnection ){
@@ -36,20 +34,20 @@ export default class MenuIndexList extends Component {
           }
         }else{
 
-          const { stepTo } = User.getStepToDispThreadType( {app, user}, connection );
+          const { stepTo } = App.getStepToDispThreadType( {app}, connection );
           switch(stepTo){
-          case `${User.dispThreadTypeMulti} to ${User.dispThreadTypeChild}`:
-          case `${User.dispThreadTypeSingle} to ${User.dispThreadTypeChild}`:
-          case `${User.dispThreadTypeChild} to ${User.dispThreadTypeChild}`:
-            onClickToChildThread( connection, {user} );
+          case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
+          case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
+          case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
+            onClickToChildThread( connection, {app} );
             talknAPI.changeThread( connection );
             break;
-          case `${User.dispThreadTypeChild} to ${User.dispThreadTypeMulti}`:
-            onClickToMultiThread( connection, {user} );
+          case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
+            onClickToMultiThread( connection, {app} );
             talknAPI.changeThread( connection );
             break;
-          case `${User.dispThreadTypeChild} to ${User.dispThreadTypeSingle}`:
-            onClickToSingleThread( connection, {user} );
+          case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
+            onClickToSingleThread( connection, {app} );
             talknAPI.changeThread( connection );
             break;
           }

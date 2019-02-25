@@ -23,13 +23,13 @@ export default class Posts {
   }
 
   async find( requestState, setting, isMultistream = false, getMore = false ){
-    const { thread, user } = requestState;
+    const { thread, app } = requestState;
     const { connection } = thread;
     const getDirection = getMore ? '$lt' : '$gt';
     const condition_part = isMultistream ? {connections: connection} : {connection};
     const condition = {
       ...condition_part,
-      _id: { [ getDirection ]: mongoose.Types.ObjectId( user.offsetFindId ) },
+      _id: { [ getDirection ]: mongoose.Types.ObjectId( app.offsetFindId ) },
     };
 
     const selector = {};
