@@ -99,12 +99,12 @@ export default {
 
       // スレッド新規作成
       if( threadStatus.isSchema ){
-        console.log("============== A" );
+
         thread = await Logics.db.threads.save( thread );
         Logics.io.find( ioUser, {requestState, thread, posts, app} );
       // スレッド更新
       }else{
-        console.log("============== B");
+
         thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
         Logics.io.find( ioUser, {requestState, thread, posts, app} );
       }
@@ -114,9 +114,7 @@ export default {
       // Multistreamボタンを押した場合
       if( !threadStatus.isToggleMultistream ){
         thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
-        console.log("============== C");
       }
-      console.log("============== D");
       Logics.io.find( ioUser, {requestState, thread, posts, app} );
     }
   },
