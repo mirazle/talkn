@@ -1,9 +1,11 @@
 import React, { Component } from "react"
 import Marquee from 'react-marquee';
 import conf from 'common/conf';
+import define from 'common/define';
 import Sequence from 'common/Sequence';
 import App from 'common/schemas/state/App';
 import DetailFooter from 'client/components/DetailFooter';
+import Icon from './Icon';
 
 export default class Detail extends Component {
 
@@ -39,6 +41,27 @@ export default class Detail extends Component {
     }
   }
 
+  getImgStyle( style, protocol, serverMetas ){
+    let backgroundImage = style.detail.img.backgroundImage;
+    let backgroundSize = style.detail.img.backgroundSize;
+    if( serverMetas['og:image'] ){
+      if(
+          `${serverMetas['og:image']}`.indexOf(Sequence.HTTPS_PROTOCOL) === 0 || 
+          `${serverMetas['og:image']}`.indexOf(Sequence.HTTP_PROTOCOL) === 0
+      ){
+        backgroundImage = `url("${serverMetas['og:image']}")`;
+      }else{
+        if(protocol === Sequence.TALKN_PROTOCOL){
+          backgroundImage = `url("${Sequence.HTTPS_PROTOCOL}${serverMetas['og:image']}")`;        
+        }else{
+          backgroundImage = `url("${protocol}${serverMetas['og:image']}")`;
+        }
+      }
+      backgroundSize = 'cover';
+    }
+    return {...style.detail.img, backgroundImage, backgroundSize};
+  }
+
   getDescription( serverMetas ){
     if( serverMetas['description'] !== conf.description ){
       return serverMetas['description'];
@@ -66,31 +89,61 @@ export default class Detail extends Component {
     )
   }
 
+  getTwitterIcon(state){
+    const { serverMetas } = state.threadDetail;
+    const active = serverMetas['twitter:site'] !== "";
+    const href = active ? `${define.URL.twitter}${serverMetas['twitter:site'].replace( "@", "" )}` : "";
+    return Icon.getTwitter( {}, state, {active, href});
+  }
+
+  getFacebookIcon(state){
+    const { serverMetas } = state.threadDetail;
+    const active = serverMetas['fb:page_id'] !== "";
+    const href = active ? `${define.URL.facebook}${serverMetas['fb:page_id']}` : "";
+    return Icon.getFacebook( {}, state, {active, href});
+  }
+
+  getAppstoreIcon(state){
+    const { serverMetas } = state.threadDetail;
+    const active = serverMetas["al:ios:app_store_id"] !== "";
+    const href = active ? `${define.URL.appstore}${serverMetas["al:ios:app_store_id"]}` : "";
+    return Icon.getAppstore( {}, state, {active, href});
+  }
+
+  getAndroidIcon(state){
+    const { serverMetas } = state.threadDetail;
+    const active = serverMetas["al:android:package"] !== "";
+    const href = active ? `${define.URL.playstore}${serverMetas["al:android:package"]}` : "";
+    return Icon.getAndroid( {}, state, {active, href});
+  }
+
+  getHomeIcon(state){
+    const { protocol, connection, hasSlash } = state.threadDetail;
+    const active = true;
+    const href = protocol === Sequence.TALKN_PROTOCOL ?
+      `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${connection}`:
+      `${protocol}/${connection}`;
+    return Icon.getHome( {}, state, {active, href});
+  }
+
   renderMeta(){
-    const { threadDetail, style } = this.props.state
-    let backgroundImage = style.detail.img.backgroundImage;
-    let backgroundSize = style.detail.img.backgroundSize;
+    const { state } = this.props;
+    const { threadDetail, style } = state
+    const { serverMetas, contentType, h1s, protocol } = threadDetail;
+    style.detail.img = this.getImgStyle( style, protocol, serverMetas );
+    const description = this.getDescription( serverMetas );
 
-    if( threadDetail.serverMetas['og:image'] ){
-      if(
-          `${threadDetail.serverMetas['og:image']}`.indexOf(Sequence.HTTPS_PROTOCOL) === 0 || 
-          `${threadDetail.serverMetas['og:image']}`.indexOf(Sequence.HTTP_PROTOCOL) === 0
-      ){
-        backgroundImage = `url("${threadDetail.serverMetas['og:image']}")`;
-      }else{
-        if(threadDetail.protocol === Sequence.TALKN_PROTOCOL){
-          backgroundImage = `url("${Sequence.HTTPS_PROTOCOL}${threadDetail.serverMetas['og:image']}")`;        
-        }else{
-          backgroundImage = `url("${threadDetail.protocol}${threadDetail.serverMetas['og:image']}")`;
-        }
-      }
+    // Have item icons.
+    const TwitterIcon = this.getTwitterIcon( state );
+    const FacebookIcon = this.getFacebookIcon( state );
+    const AppstoreIcon = this.getAppstoreIcon( state );
+    const AndroidIcon = this.getAndroidIcon( state );
 
-      backgroundSize = 'cover';
-    }
-
-    style.detail.img = {...style.detail.img, backgroundImage, backgroundSize};
-    const description = this.getDescription( threadDetail.serverMetas );
-    const h1LiTags = threadDetail.h1s.map( ( h1, i ) => {
+    // Default icons.
+    const HomeIcon = this.getHomeIcon( state );
+    const GraphIcon = Icon.getGraph( {}, state, {active: false} );
+    const EmptyIcon = Icon.getEmpty( {}, state, {active: false} );
+    const h1LiTags = h1s.map( ( h1, i ) => {
       return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>・{h1}</li> );
     });
 
@@ -98,7 +151,24 @@ export default class Detail extends Component {
       <div style={ style.detail.meta } >
         <div style={ style.detail.img } />
         <div style={ style.detail.description }>{ description }</div>
-        <div style={ style.detail.contentType }>{ threadDetail.contentType }</div>
+
+        <div style={ style.detail.metaItems }>
+          { TwitterIcon }
+          { FacebookIcon }
+          { AppstoreIcon }
+          { AndroidIcon }
+        </div>
+
+        <div style={ style.detail.metaItems }>
+          { HomeIcon }
+          { GraphIcon }
+          { EmptyIcon }
+          { EmptyIcon }
+        </div>
+
+        <div style={ style.detail.metaContentType }>
+          { contentType }
+        </div>
       </div>
     )
   }
@@ -218,7 +288,7 @@ export default class Detail extends Component {
       return <DetailFooter {...this.props } />;
     case App.screenModeMiddleLabel : 
     case App.screenModeLargeLabel : 
-    return null;
+      return null;
     }
   }
 

@@ -6,6 +6,9 @@ import LockMenu from 'client/style/LockMenu';
 import Posts from 'client/style/Posts';
 import Detail from 'client/style/Detail';
 import Footer from 'client/style/Footer';
+import MenuFooter from 'client/style/MenuFooter';
+import PostsFooter from 'client/style/PostsFooter';
+import DetailFooter from 'client/style/DetailFooter';
 import Notif from 'client/style/Notif';
 import InnerNotif from 'client/style/InnerNotif';
 
@@ -52,6 +55,22 @@ export default ( state = {} , action ) => {
 				self: {...state.footer.self,
 					width: Footer.getWidth( action.app ),
 					transform: Footer.getTransform( action.app ),
+				}
+			},
+			menuFooter: {...state.menuFooter,
+				self: {...state.menuFooter.self,
+					width: MenuFooter.getWidth( action.app )
+				}
+			},
+			postsFooter: {...state.postsFooter,
+				self: {...state.postsFooter.self,
+					maxWidth: PostsFooter.getWidth( action.app ),
+					width: PostsFooter.getWidth( action.app )
+				}
+			},
+			detailFooter: {...state.detailFooter,
+				self: {...state.detailFooter.self,
+					width: DetailFooter.getWidth( action.app )
 				}
 			},
 		}

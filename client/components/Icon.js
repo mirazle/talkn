@@ -1,14 +1,41 @@
-import React, { Component } from "react"
+import React, { Component } from "react";
 import { default as IconStyle } from 'client/style/Icon';
 
 export default class Icon extends Component{
 
-  static getOveredStyle( baseStyle = {}, overStyle = {}){
-    Object.keys( baseStyle ).forEach( key => {
-      if( overStyle[ key ] ){
-        baseStyle[key] = {...baseStyle[key], ...overStyle[key]};
+  static get smallSize(){ return IconStyle.smallSize };
+  static get middleSize(){ return IconStyle.middleSize };
+  static get largeSize(){ return IconStyle.largeSize };
+  static get bigSize(){ return IconStyle.bigSize };
+
+  static generateImageIcon( name = "Twitter", overStyle, state = {}, option = {} ){
+    if( IconStyle[ `get${name}` ] ){
+      const onClick = option.onClick ? option.onClick : () => {};
+      const href = option.href ? option.href : "";
+      const style = Icon.getOveredStyle( IconStyle[ `get${name}` ](state, option), overStyle );
+      const props = {
+        "data-component-type": `Icon${name}`,
+        onClick,
+        style
+      };
+      return href !== "" ?  
+        <a href={href} {...props} /> :
+        <div href={href} {...props} />;
+    }else{
+      return null;
+    }
+  }
+
+  static getOveredStyle( baseStyle = {}, overStyle = {} ){
+    Object.keys( overStyle ).forEach( key => {
+      if( baseStyle[ key ] ){
+        if( typeof baseStyle[ key ] === 'object' ){
+          baseStyle[key] = {...baseStyle[key], ...overStyle[key]};
+        }else{
+          baseStyle[key] = overStyle[key];
+        }
       }
-    } );
+    });
     return baseStyle;
   }
 
@@ -129,21 +156,49 @@ export default class Icon extends Component{
     }
   }
 
-  static getTwitter(){
+  static getEmpty( overStyle, state = {}, option = {} ){
+    const style = Icon.getOveredStyle( IconStyle.getEmpty(state, option), overStyle );
     return (
-      <div data-component-type={'IconTwitter'} style={ IconStyle.getTwitter() } />
+      <div data-component-type={'IconEmpty'} style={ style } />
     );
   }
 
-  static getFacebook(){
-    return (
-      <div data-component-type={'IconFacebook'} style={ IconStyle.getFacebook() } />
-    );
+  static getTwitter( overStyle, state = {}, option = {} ){
+    return Icon.generateImageIcon( "Twitter", overStyle, state, option );
+  }
+
+  static getFacebook( overStyle, state = {}, option = {} ){
+    return Icon.generateImageIcon( "Facebook", overStyle, state, option );
   }
   
-  static getTalkn(){
+  static getAppstore( overStyle, state = {}, option = {} ){
+    return Icon.generateImageIcon( "Appstore", overStyle, state, option );
+  }
+  
+  static getAndroid( overStyle, state = {}, option = {} ){
+    return Icon.generateImageIcon( "Android", overStyle, state, option );
+  }
+
+  static getHome( overStyle, state = {}, option = {} ){
+    return Icon.generateImageIcon( "Home", overStyle, state, option );
+  }
+
+  static getGraph( overStyle, state = {}, option = {} ){
+    const onClick = option.onClick ? option.onClick : () => {};
+    const style = Icon.getOveredStyle( IconStyle.getGraph(state, option), overStyle );
     return (
-      <div data-component-type={'IconTalkn'} style={ IconStyle.getTalkn() } />
+      <div
+        data-component-type={'IconGraph'}
+        onClick={onClick} 
+        style={ style }
+      />
+    );
+  }
+
+  static getTalkn( overStyle, state = {}, option = {} ){
+    const style = Icon.getOveredStyle( IconStyle.getTalkn(state, option), overStyle );
+    return (
+      <div data-component-type={'IconTalkn'} style={ style } />
     );
   }
 
@@ -163,9 +218,9 @@ export default class Icon extends Component{
     );
   }
 
-  static getHome( style ){
+  static getHomeCss( style ){
     return (
-      <div data-component-type={'IconHome'} style={ style.div }>
+      <div data-component-type={'IconHomeCss'} style={ style.div }>
         <div style={style.leaf}></div>
         <div style={style.base}></div>
         <div style={style.door}></div>

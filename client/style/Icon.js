@@ -1,12 +1,15 @@
 import Style from './index';
 import Container from './Container';
 import conf from '../conf';
-import User from '~/common/schemas/state/User'
 import App from '../../common/schemas/state/App';
 
 export default class Icon {
 
-  static get defaultSize(){ return 28 };
+  static get defaultOption(){ return {sizePx: Icon.middleSize, active: true} };
+  static get smallSize(){ return '24px' };
+  static get middleSize(){ return '32px' };
+  static get largeSize(){ return '48px' };
+  static get bigSize(){ return '64px' };
 
   constructor( params ){
     const bootOption = {...params.bootOption, ...params.app};
@@ -16,6 +19,7 @@ export default class Icon {
     const user = Icon.getUser( params );
     const tag = Icon.getTag( params );
     const home = Icon.getHome( params );
+    const graph = Icon.getGraph( params );
     const search = Icon.getSearch( params );
     const index = Icon.getIndex( params );
     const logs = Icon.getLogs( params );
@@ -34,6 +38,7 @@ export default class Icon {
       search,
       tag,
       home,
+      graph,
       index,
       logs,
       setting,
@@ -46,57 +51,199 @@ export default class Icon {
     }
   }
 
-  static getTwitter(){
+  static getEmpty({app}, option = {}){
+    option = {...Icon.defaultOption, ...option};
+    const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
+    const cursor = option.active ? "pointer" : "default";
     return Style.get({
       layout: Style.getLayoutBlock({
         flexGrow: "1",
-        width: "60px",
-        height: Icon.defaultSize + "px",
-        maxWidth: "60px",
-        maxHeight: Icon.defaultSize + "px",
-        backgroundImage: `url(//${conf.assetsImgPath}twitter.png)`,
-        backgroundPosition: 'center center',
-        backgroundSize: "26px",
+        width: sizePx,
+        height: sizePx,
+        minWidth: sizePx,
+        minHeight: sizePx,
+        backgroundSize: sizePx,
+        backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }),
-      content: Style.getContentBase(),
+      content: Style.getContentBase({
+        cursor
+      }),
       animation: Style.getAnimationBase({
         transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
       }),
     });
   }
 
-  static getFacebook(){
+  static getTwitter({app}, option = {}){
+    option = {...Icon.defaultOption, ...option};
+    const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
+    const image = option.active ? "twitter.png" : "twitter_gray.png";
+    const cursor = option.active ? "pointer" : "default";
     return Style.get({
       layout: Style.getLayoutBlock({
         flexGrow: "1",
-        width: "60px",
-        height: Icon.defaultSize + "px",
-        maxWidth: "60px",
-        maxHeight: Icon.defaultSize + "px",
-        backgroundImage: `url(//${conf.assetsImgPath}facebook.png)`,
-        backgroundPosition: 'center center',
-        backgroundSize: "26px",
+        width: sizePx,
+        height: sizePx,
+        minWidth: sizePx,
+        minHeight: sizePx,
+        backgroundSize: sizePx,
+        backgroundPosition: 'center',
+        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
         backgroundRepeat: 'no-repeat',
       }),
-      content: Style.getContentBase(),
+      content: Style.getContentBase({
+        cursor
+      }),
       animation: Style.getAnimationBase({
         transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
       }),
     });
   }
 
-  static getTalkn(){
+  static getFacebook({app}, option = {}){
+    option = {...Icon.defaultOption, ...option};
+    const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
+    const image = option.active ? "facebook.png" : "facebook_gray.png";
+    const cursor = option.active ? "pointer" : "default";
     return Style.get({
       layout: Style.getLayoutBlock({
         flexGrow: "1",
-        width: "60px",
-        height: Icon.defaultSize + "px",
-        maxWidth: "60px",
-        maxHeight: Icon.defaultSize + "px",
+        width: sizePx,
+        height: sizePx,
+        minWidth: sizePx,
+        minHeight: sizePx,
+        backgroundSize: sizePx,
+        backgroundPosition: 'center',
+        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
+        backgroundRepeat: 'no-repeat',
+      }),
+      content: Style.getContentBase({
+        cursor
+      }),
+      animation: Style.getAnimationBase({
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+  }
+
+  static getAppstore({app}, option = {}){
+    option = {...Icon.defaultOption, ...option};
+    const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
+    const image = option.active ? "appstore.png" : "appstore_gray.png";
+    const cursor = option.active ? "pointer" : "default";
+    return Style.get({
+      layout: Style.getLayoutBlock({
+        flexGrow: "1",
+        width: sizePx,
+        height: sizePx,
+        minWidth: sizePx,
+        minHeight: sizePx,
+        backgroundSize: sizePx,
+        backgroundPosition: 'center',
+        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
+        backgroundRepeat: 'no-repeat',
+      }),
+      content: Style.getContentBase({
+        cursor
+      }),
+      animation: Style.getAnimationBase({
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+  }
+
+  static getAndroid({app}, option = {}){
+    option = {...Icon.defaultOption, ...option};
+    const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
+    const image = option.active ? "android.png" : "android_gray.png";
+    const cursor = option.active ? "pointer" : "default";
+    return Style.get({
+      layout: Style.getLayoutBlock({
+        flexGrow: "1",
+        width: sizePx,
+        height: sizePx,
+        minWidth: sizePx,
+        minHeight: sizePx,
+        backgroundSize: sizePx,
+        backgroundPosition: 'center',
+        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
+        backgroundRepeat: 'no-repeat',
+      }),
+      content: Style.getContentBase({
+        cursor
+      }),
+      animation: Style.getAnimationBase({
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+  }
+
+  static getHome({app}, option = {}){
+    option = {...Icon.defaultOption, ...option};
+    const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
+    const image = option.active ? "home.png" : "home_gray.png";
+    const cursor = option.active ? "pointer" : "default";
+    return Style.get({
+      layout: Style.getLayoutBlock({
+        flexGrow: "1",
+        width: sizePx,
+        height: sizePx,
+        minWidth: sizePx,
+        minHeight: sizePx,
+        backgroundSize: sizePx,
+        backgroundPosition: 'center',
+        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
+        backgroundRepeat: 'no-repeat',
+      }),
+      content: Style.getContentBase({
+        cursor
+      }),
+      animation: Style.getAnimationBase({
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+  }
+
+  static getGraph({app}, option = {}){
+    option = {...Icon.defaultOption, ...option};
+    const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
+    const image = option.active ? "graph.png" : "graph_gray.png";
+    const cursor = option.active ? "pointer" : "default";
+    return Style.get({
+      layout: Style.getLayoutBlock({
+        flexGrow: "1",
+        width: sizePx,
+        height: sizePx,
+        minWidth: sizePx,
+        minHeight: sizePx,
+        backgroundSize: sizePx,
+        backgroundPosition: 'center',
+        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
+        backgroundRepeat: 'no-repeat',
+      }),
+      content: Style.getContentBase({
+        cursor
+      }),
+      animation: Style.getAnimationBase({
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+  }
+
+  static getTalkn({app}, option = {}){
+    option = {...Icon.defaultOption, ...option};
+    const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
+    return Style.get({
+      layout: Style.getLayoutBlock({
+        flexGrow: "1",
+        width: sizePx,
+        height: sizePx,
+        minWidth: sizePx,
+        minHeight: sizePx,
+        backgroundSize: sizePx,
+        backgroundPosition: 'center',
         backgroundImage: `url(//${conf.assetsImgPath}talkn.png)`,
-        backgroundPosition: 'center center',
-        backgroundSize: "34px",
         backgroundRepeat: 'no-repeat',
       }),
       content: Style.getContentBase(),
@@ -180,7 +327,7 @@ export default class Icon {
     return {div, left, right, bar};
   }
 
-  static getHome( {app} ){
+  static getHomeCss( {app} ){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "30px",
@@ -290,9 +437,9 @@ export default class Icon {
   static getUser(){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '26px',
-        height: '26px',
-        margin: '1px'
+        width: Icon.smallSize,
+        height: Icon.smallSize,
+        margin: '2px'
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -340,9 +487,9 @@ export default class Icon {
 
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '26px',
-        height: '26px',
-        margin: '1px'
+        width: Icon.smallSize,
+        height: Icon.smallSize,
+        margin: '2px'
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -352,8 +499,8 @@ export default class Icon {
 
     const wrap = Style.get({
       layout: Style.getLayoutBlock({
-        width: '26px',
-        height: '26px',
+        width: Icon.smallSize,
+        height: Icon.smallSize,
         margin: '0 auto',
         borderRadius: '4px',
       }),
@@ -403,9 +550,9 @@ export default class Icon {
   static getLogs(){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '26px',
-        height: '26px',
-        margin: '1px'
+        width: Icon.smallSize,
+        height: Icon.smallSize,
+        margin: '2px'
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -417,7 +564,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         position: 'absolute',
         top: '3px',
-        left: '-4px',
+        left: '-6px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -480,7 +627,7 @@ export default class Icon {
         height: '36px',
         position: 'absolute',
         top: '-4px',
-        left: '2px',
+        left: '0px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -542,10 +689,9 @@ export default class Icon {
   static getSetting(){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '26px',
-        height: '26px',
-        margin: '1px'
-
+        width: Icon.smallSize,
+        height: Icon.smallSize,
+        margin: '2px'
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -887,9 +1033,9 @@ export default class Icon {
     const color = app.openLockMenu === App.openLockMenuLabelShare ? Container.themeRGBA : Container.reliefRGB;
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '26px',
-        height: '26px',
-        margin: '1px'
+        width: Icon.smallSize,
+        height: Icon.smallSize,
+        margin: '2px'
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
@@ -930,9 +1076,9 @@ export default class Icon {
     const color = app.openLockMenu === App.openLockMenuLabelShare ? Container.themeRGBA : Container.reliefRGB;
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '26px',
-        height: '26px',
-        margin: '1px'
+        width: Icon.smallSize,
+        height: Icon.smallSize,
+        margin: '2px'
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({}),
@@ -1025,9 +1171,9 @@ export default class Icon {
   static getMoney(){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: '26px',
-        height: '26px',
-        margin: '1px'
+        width: Icon.smallSize,
+        height: Icon.smallSize,
+        margin: '2px'
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({

@@ -25,7 +25,7 @@ export default class Detail {
     const meta = DetailClass.getMeta( params );
     const img = DetailClass.getImg( params );
     const description = DetailClass.getDescription( params );
-    const contentType = DetailClass.getContentType( params );
+    const metaContentType = DetailClass.getMetaContentType( params );
     const analyze = DetailClass.getAnalyze( params );
     const analyzeRow = DetailClass.getAnalyzeRow( params );
     const analyzeCol = DetailClass.getAnalyzeCol( params );
@@ -41,6 +41,7 @@ export default class Detail {
     const footerChildMoney = DetailClass.getFooterChildMoney( params );
     const footerChildShare = DetailClass.getFooterChildShare( params );
 
+    const metaItems = DetailClass.getMetaItems( params );
     return {
       self,
       header,
@@ -48,7 +49,7 @@ export default class Detail {
       meta,
       img,
       description,
-      contentType,
+      metaContentType,
       analyze,
       analyzeRow,
       analyzeCol,
@@ -63,6 +64,7 @@ export default class Detail {
       footerChildLike,
       footerChildMoney,
       footerChildShare,
+      metaItems
     }
   }
 
@@ -159,7 +161,6 @@ export default class Detail {
     return Style.get({layout, content, animation});
   }
 
-//
   static getDescription(){
     const layout = Style.getLayoutBlock({
       width: '90%',
@@ -173,18 +174,17 @@ export default class Detail {
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
-  }
+  } 
 
-  static getContentType(){
-    const layout = Style.getLayoutBlock({
+  static getMetaContentType(){
+    const layout = Style.getLayoutFlex({
       width: '90%',
       height: 'initial',
-      margin: `${Detail.margin}% auto`,
+      justifyContent: "flex-end",
+      margin: `${Detail.margin * 2 }% auto`,
     });
     const content = Style.getContentBase({
-      lineHeight: 2,
-      fontSize: "12px",
-      textAlign: 'right',
+      textAlign: "right"
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
@@ -358,6 +358,17 @@ export default class Detail {
     });
     const content = Style.getContentBase({
       fontSize: '0.5em',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getMetaItems({app}){
+    const layout = Style.getLayoutFlex({
+      width: '90%',
+      margin: `${Detail.margin}%`
+    });
+    const content = Style.getContentBase({
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

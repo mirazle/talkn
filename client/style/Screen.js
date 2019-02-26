@@ -9,8 +9,14 @@ export default class Screen {
   static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : width = '200%';break;
-    case App.screenModeMiddleLabel : width = `calc( 100% + ${ Detail.getWidth( app ) } )`;break;
+    case App.screenModeSmallLabel :
+      width = '200%';
+      break;
+    case App.screenModeMiddleLabel :
+      width = app.isOpenDetail ? 
+        `calc( 100% + ${ Menu.getWidth( app ) } )`:
+        `calc( 100% + ${ Detail.getWidth( app ) } )`;
+      break;
     case App.screenModeLargeLabel :
       width = '100%';
       break;

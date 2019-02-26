@@ -25,6 +25,12 @@ export default {
     EXTENSION: 'extension',
     IFRAME: 'iframe'
   },
+  URL: {
+    twitter: "https://twitter.com/",
+    facebook: "https://www.facebook.com/",
+    appstore: "https://itunes.apple.com/app/id",
+    playstore: "https://play.google.com/store/apps/details?id="
+  },
   noInnerNotif: "Sorry, No Function.",
   storageKey: {
     baseKey: '@talkn@',
