@@ -20,7 +20,7 @@ export default class PostsFooter{
       }
     }
     return addUnit ? Style.trimUnit( width ) : width ;
-  };
+  }
 
   static getRight( app, addUnit = false ){
     let right = 0;

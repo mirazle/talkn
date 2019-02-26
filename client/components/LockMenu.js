@@ -129,9 +129,15 @@ export default class LockMenu extends Component {
   }
 
  	render() {
-    const { style: stateStyle } = this.state;
+    const { state } = this;
+    const { style: stateStyle } = state;
     const { openInnerNotif, onClickOpenLockMenu } = this.props;
-    const { app, style, threadDetail } = this.props.state;
+    const { style, threadDetail } = this.props.state;
+    
+    const IconHeadTab = Icon.getHeadTab( LockMenuStyle.headTabUpdate );
+    const IconTwitter = Icon.getTwitter( {}, state, {sizePx: Icon.middleSize} );
+    const IconFacebook = Icon.getFacebook( {}, state, {sizePx: Icon.middleSize} );
+    const IconTalkn = Icon.getTalkn( {}, state, {sizePx: Icon.middleSize} );
 
     return (
       <div
@@ -143,7 +149,7 @@ export default class LockMenu extends Component {
           onClick={ () => onClickOpenLockMenu(App.openLockMenuLabelNo)}  
         >
           SHARE
-          {Icon.getHeadTab(LockMenuStyle.headTabUpdate)}
+          { IconHeadTab }
         </header>
         <ul style={style.lockMenu.ul}>
           <li
@@ -151,7 +157,7 @@ export default class LockMenu extends Component {
             onClick={ () => openInnerNotif() }
             {...this.getDecolationProps1('liTwitter')}
           >
-            {Icon.getTwitter()}
+            { IconTwitter }
             <div style={style.lockMenu.shareLabel}>Twitter</div>
           </li>
           <li
@@ -159,7 +165,7 @@ export default class LockMenu extends Component {
             onClick={ () => openInnerNotif() }
             {...this.getDecolationProps1('liFacebook')}
           >
-            {Icon.getFacebook()}
+            { IconFacebook }
             <div style={style.lockMenu.shareLabel}>Facebook</div>
           </li>
           <li
@@ -167,7 +173,7 @@ export default class LockMenu extends Component {
             onClick={ () => openInnerNotif('Success Copy iFrame Tag.') }
             {...this.getDecolationProps1('liEmbed')}
           >
-            {Icon.getTalkn()}
+            { IconTalkn }
             <div style={style.lockMenu.shareLabel}>
               <input  
                 type="text"

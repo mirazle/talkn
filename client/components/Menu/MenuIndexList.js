@@ -115,21 +115,13 @@ export default class MenuIndexList extends Component {
     }
   }
 
-  getBorderRight(app, focusConnection){
-    if( app.type === define.APP_TYPES.EXTENSION ){
-      return "";
-    }else{
-      return focusConnection ? "" : Container.border ;      
-    }
-  }
-
  	render() {
     const { style } = this.state;
-    const { app, thread, menuIndexList } = this.props;
+    const { thread, menuIndexList } = this.props;
     const focusConnection =  thread.connection === menuIndexList.connection ? true : false ;
     const dispConnection = this.getDispConnection( focusConnection )
     const dispFavicon = this.getDispFavicon( focusConnection )
-    const DispWatchCnt = this.getDispWatchCnt();
+    const dispWatchCnt = this.getDispWatchCnt();
 
     const styleKey = focusConnection ? 'activeLiSelf' : 'unactiveLiSelf' ;
     const baseBackground = focusConnection ?
@@ -161,7 +153,7 @@ export default class MenuIndexList extends Component {
         <div style={style.menuIndexList.bottom}>
           <span style={{...style.menuIndexList.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
           <span style={style.menuIndexList.bottomPost} dangerouslySetInnerHTML={{__html: menuIndexList.post }} />
-          {DispWatchCnt}
+          {dispWatchCnt}
         </div>
       </li>
     )

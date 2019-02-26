@@ -41,14 +41,13 @@ export default class DetailFooter extends Component {
   }
   
   render(){
-    const { state, openInnerNotif } = this.props;
+    const { state } = this.props;
     const { style } = state
     const HeartIcon = Icon.getHeart( {}, state );
     const ShareIcon = Icon.getShare( {}, state );
     const MoneyIcon = Icon.getMoney( {}, state );
     const shareColor = state.app.openLockMenu === App.openLockMenuLabelShare ? Container.themeRGBA : Container.fontBaseRGB;
 
-//    console.log( style.detailFooter.self.position + " " + style.detailFooter.self.right );
     return(
       <footer
         data-component-name={this.constructor.name}
