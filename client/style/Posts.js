@@ -22,7 +22,7 @@ export default class Posts {
       break;
     case App.screenModeMiddleLabel :
       width = app.isOpenDetail ? 
-        `${ app.width - Menu.getWidth( app, true )}px` :
+        `${ app.width - Detail.getWidth( app, true )}px` :
         `${ app.width - Menu.getWidth( app, true )}px` ;
       break;
     case App.screenModeLargeLabel :

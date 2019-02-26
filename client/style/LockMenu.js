@@ -61,10 +61,10 @@ export default class LockMenu {
   static getPaddingLi(app){
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
-      return '14px';
+      return '15px';
     case App.screenModeMiddleLabel :
     case App.screenModeLargeLabel :
-      return '14px';
+      return '15px 15px 15px 20px';
     }
   }
 
@@ -185,7 +185,7 @@ export default class LockMenu {
     const layout = Style.getLayoutFlex({
       width: "98%",
       height: "25px",
-      margin: '0px 0px 0px 2%',
+      margin: '0px 0px 0px 20px',
       border: Container.border,
       borderRadius: '5px',
       padding: '5px'
@@ -206,7 +206,7 @@ export default class LockMenu {
     const content = Style.getContentBase({
       color: "inherit",
       justifyContent: "flex-start",
-      textIndent: "10px",
+      textIndent: "20px",
       textAlign: "left"
     });
     const animation = Style.getAnimationBase();

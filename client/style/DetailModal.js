@@ -69,7 +69,7 @@ export default class DetailModal {
   static getMeta(params){return Detail.getMeta(params)}
   static getImg(params){return Detail.getImg(params)}
   static getDescription(params){return Detail.getDescription(params)}
-  static getContentType(params){return Detail.getContentType(params)}
+  static getMetaContentType(params){return Detail.getMetaContentType(params)}
   static getAnalyze(params){return Detail.getAnalyze(params)}
   static getAnalyzeRow(params){return Detail.getAnalyzeRow(params)}
   static getAnalyzeCol(params){return Detail.getAnalyzeCol(params)}
@@ -83,4 +83,5 @@ export default class DetailModal {
   static getFooterChildLike(params){return Detail.getFooterChildLike(params)}
   static getFooterChildMoney(params){return Detail.getFooterChildMoney(params)}
   static getFooterChildShare(params){return Detail.getFooterChildShare(params)}
+  static getMetaItems(params){return Detail.getMetaItems(params)}
 }
