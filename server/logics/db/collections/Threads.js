@@ -44,16 +44,15 @@ export default class Threads {
     const condition = {
       connection: regex,
       postCnt: {'$ne': 0},
-      "lastPost.connection": regex,
+      "lastPost.connection": regex, 
       layer : { $gt : layer  }
-//      "$or": [{layer: layer}, {layer: layer + 1}],
     };
     const selector = {lastPost: 1, watchCnt: 1};
-    const option = {sort: {layer: 1, watchCnt: 1, postCnt: 1}, limit: setting.server.getThreadChildrenCnt};
-
+    const option = {sort: {watchCnt: -1, layer: -1}, limit: setting.server.getThreadChildrenCnt};
     let {error, response} = await this.collection.find( condition, selector, option );
-    let mainConnectionExist = false;
 
+    let mainConnectionExist = false;
+//    console.log( response );
     if( response.length === 0 ){
       response = await this.getBuiltinSchema( connection, response );
     }else{
