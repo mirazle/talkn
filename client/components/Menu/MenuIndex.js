@@ -5,6 +5,19 @@ import MenuIndexList from './MenuIndexList';
 
 export default class MenuIndex extends Component {
 
+  constructor(props) {
+    super(props);
+    this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
+  }
+
+
+  handleOnKeyPress( e ){
+    if ( e.nativeEvent.keyCode === 13 ) {
+      const { openInnerNotif } = this.props;
+      openInnerNotif();
+    }
+  }
+
   componentDidUpdate(){
     const { app, actionLog } = this.props.state;
     switch( actionLog[ 0 ] ){
@@ -16,8 +29,6 @@ export default class MenuIndex extends Component {
       }
     }
   }
-
-  // TODO SINGLE取得反映がおかしい
 
   renderLi(){
     const { state, onClickToMultiThread, onClickToSingleThread, onClickToChildThread, onClickToLogsThread } = this.props;
