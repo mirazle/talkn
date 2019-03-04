@@ -8,8 +8,8 @@ const { PRODUCTION, SUB_DOMAINS, PORTS } = define;
 const { env, domain } = conf;
 const localhostPemKey = `${homeDir}/talkn/common/pems/localhost.key`;
 const localhostPemCrt = `${homeDir}/talkn/common/pems/localhost.crt`;
-const productPemKey = '/etc/letsencrypt/live/talkn.io-0002/privkey.pem';
-const productPemCrt = '/etc/letsencrypt/live/talkn.io-0002/cert.pem';
+const productPemKey = '/etc/letsencrypt/live/talkn.io/privkey.pem';
+const productPemCrt = '/etc/letsencrypt/live/talkn.io/cert.pem';
 const sslKey = env === PRODUCTION ? productPemKey :  localhostPemKey;
 const sslCrt = env === PRODUCTION ? productPemCrt:  localhostPemCrt;
 
