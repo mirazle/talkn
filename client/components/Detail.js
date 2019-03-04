@@ -126,6 +126,13 @@ export default class Detail extends Component {
     return Icon.getHome( {}, state, {active, href});
   }
 
+  getTalknIcon(state){
+    const { connection, hasSlash } = state.threadDetail;
+    const active = true;
+    const href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${connection}`;
+    return Icon.getTalkn( {}, state, {active, href});
+  }
+
   renderMeta(){
     const { state } = this.props;
     const { threadDetail, style } = state
@@ -141,6 +148,7 @@ export default class Detail extends Component {
 
     // Default icons.
     const HomeIcon = this.getHomeIcon( state );
+    const TalknIcon = this.getTalknIcon( state );
     const GraphIcon = Icon.getGraph( {}, state, {active: false} );
     const EmptyIcon = Icon.getEmpty( {}, state, {active: false} );
     const h1LiTags = h1s.map( ( h1, i ) => {
@@ -161,8 +169,8 @@ export default class Detail extends Component {
 
         <div style={ style.detail.metaItems }>
           { HomeIcon }
+          { TalknIcon }
           { GraphIcon }
-          { EmptyIcon }
           { EmptyIcon }
         </div>
 
