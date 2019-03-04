@@ -234,6 +234,8 @@ export default class Icon {
   static getTalkn({app}, option = {}){
     option = {...Icon.defaultOption, ...option};
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
+    const image = option.active ? "talkn.png" : "talkn.png";
+    const cursor = option.active ? "pointer" : "default";
     return Style.get({
       layout: Style.getLayoutBlock({
         flexGrow: "1",
@@ -243,10 +245,12 @@ export default class Icon {
         minHeight: sizePx,
         backgroundSize: sizePx,
         backgroundPosition: 'center',
-        backgroundImage: `url(//${conf.assetsImgPath}talkn.png)`,
+        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
         backgroundRepeat: 'no-repeat',
       }),
-      content: Style.getContentBase(),
+      content: Style.getContentBase({
+        cursor
+      }),
       animation: Style.getAnimationBase({
         transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
       }),
