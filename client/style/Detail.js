@@ -1,3 +1,4 @@
+import define from '../../common/define';
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
@@ -65,6 +66,18 @@ export default class Detail {
       footerChildMoney,
       footerChildShare,
       metaItems
+    }
+  }
+
+  static getFooterBorders( app ){
+    if( define.APP_TYPES.EXTENSION === app.type ){
+      return app.isOpenMain ? 
+        {borderTop: Container.border} :
+        {};
+    }else{
+      return app.screenMode === App.screenModeSmallLabel ?
+        {borderTop: Container.border} :
+        {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border} ;
     }
   }
 
@@ -297,9 +310,7 @@ export default class Detail {
 
   static getFooter({app}){
     const positions = Detail.getFooterPositions(app);
-    const borders = app.screenMode === App.screenModeSmallLabel ?
-      {borderTop: Container.border} :
-      {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border} ;
+    const borders = Detail.getFooterBorders(app);
     const layout = Style.getLayoutFlex({
       width: DetailFooter.getWidth(app),
       background: Container.offWhiteRGB,
