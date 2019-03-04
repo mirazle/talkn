@@ -98,20 +98,18 @@ export default class Threads {
 
       if( update ){
 
-        // Error Handking
-        if( !resThread.watchCnt ){
-          console.warn("@@@@@@@@@@@@@@@@@ db/collections/Thread.js 104")
-          console.warn(resThread);
-        }
+        console.log("AAAAAA " + typeof resThread.watchCnt );
+        console.log(resThread.watchCnt);
+        console.log("AAAAAA");
         resThread.watchCnt = watchCnt;
 
       }else{
 
         // Error Handking
-        if( !resThread.watchCnt ){
-          console.warn("@@@@@@@@@@@@@@@@@ db/collections/Thread.js 112")
-          console.warn(resThread);
-        }
+        console.log("BBBBBB " + typeof resThread.watchCnt );
+        console.log(resThread.watchCnt);
+        console.log("BBBBBB");
+
         resThread.watchCnt = resThread.watchCnt + watchCnt;
       }
 

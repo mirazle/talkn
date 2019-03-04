@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "name": "talkn",
+    "name": "talkn for chrome",
     "description": "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.",
     "content_scripts": [
       {
@@ -17,5 +17,5 @@
     "permissions": [
       "storage"
     ],
-    "version": "0.678"
+    "version": "0.679"
 }

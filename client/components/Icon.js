@@ -196,10 +196,7 @@ export default class Icon extends Component{
   }
 
   static getTalkn( overStyle, state = {}, option = {} ){
-    const style = Icon.getOveredStyle( IconStyle.getTalkn(state, option), overStyle );
-    return (
-      <div data-component-type={'IconTalkn'} style={ style } />
-    );
+    return Icon.generateImageIcon( "Talkn", overStyle, state, option );
   }
 
   static getTalknLogo( style ){
