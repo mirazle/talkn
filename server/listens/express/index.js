@@ -24,16 +24,8 @@ class Express{
   /***************************/
 
   createHttpServer(){
-/*
     http.createServer( ( this.httpApp ).all( "*", this.routingHttp ) )
-        .listen( define.PORTS.HTTP, this.listenedHttp );
-*/
-    // LetsEncrypt       
-    http.createServer( ( this.httpApp ).get( "/.well-known/acme-challenge/2tdSd66wthMy5Hwu8SDeAE9vhYGggmYeO9l1qkq5N5M", (req, res, next) => {
-      res.send("2tdSd66wthMy5Hwu8SDeAE9vhYGggmYeO9l1qkq5N5M.R3ycRYQnSvnHo8mj7Jd-qYml4b23Issp4LNtOD5uK2I");
-    } ) )
-    .listen( define.PORTS.HTTP, this.listenedHttp );
-  
+        .listen( define.PORTS.HTTP, this.listenedHttp );  
   }
 
   routingHttp( req, res ){
