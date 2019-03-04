@@ -91,6 +91,12 @@ const functions = {
     action.app = {...state.app, ...action.app};
     return action;
   },
+  "ON_CLICK_FOOTER_ICON": ( state, action ) => {
+    action.app = {...state.app, ...action.app};
+    action.app.height = App.getHeight();
+    action.app.isOpenMain = App.getIsOpenMain( action.app );
+    return action;
+  },
   "ON_TRANSITION": ( state, action ) => {
     action.app = {...state.app, ...action.app};
     return action;
@@ -102,7 +108,7 @@ const functions = {
   "ON_TRANSITION_END": ( state, action ) => {
     action.app = {...state.app, ...action.app};
     action.app.height = App.getHeight();
-    action.app.isOpenMain = App.getIsOpenMain( {}, action.app.type, action.app.height);
+    action.app.isOpenMain = App.getIsOpenMain( action.app );
     return action;
   },
   "RESIZE_END_WINDOW": ( state, action ) => {

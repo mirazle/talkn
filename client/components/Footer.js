@@ -13,9 +13,9 @@ export default class Footer extends Component {
     const { style } = this.props.state;
     return (
       <footer data-component-name={this.constructor.name} style={ style.footer.self }>
-        <MenuFooter {...this.props} />
-        <PostsFooter {...this.props} />
-        <DetailFooter {...this.props} />
+        <MenuFooter {...this.props} mode={"default"} />
+        <PostsFooter {...this.props} mode={"default"} />
+        <DetailFooter {...this.props} mode={"default"} />
       </footer>
 		);
  	}

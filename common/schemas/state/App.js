@@ -132,7 +132,7 @@ export default class App extends Schema{
 
     // 各パーツの状態(フラグ制御)
     const isOpenMainPossible = params.isOpenMainPossible ? params.isOpenMainPossible : false;
-    const isOpenMain =  App.getIsOpenMain(params, type, height);
+    const isOpenMain =  App.getIsOpenMain({type, height});
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
@@ -212,7 +212,8 @@ export default class App extends Schema{
     return App.screenModeLargeLabel;
   }
 
-  static getIsOpenMain(params, type, height){
+  static getIsOpenMain(app){
+    const {type, height} = app;
     if( define.APP_TYPES.EXTENSION === type ){
       return Main.openHeight === height ? true : false;
     }else{
