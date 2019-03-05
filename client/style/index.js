@@ -35,6 +35,10 @@ export default class Style{
   static get mono240RGB(){ return 'rgb(240, 240, 240)' };
   static get mono245RGB(){ return 'rgb(245, 245, 245)' };
   static get mono250RGB(){ return 'rgb(250, 250, 250)' };
+  static get mono251RGB(){ return 'rgb(251, 251, 251)' };
+  static get mono252RGB(){ return 'rgb(252, 252, 252)' };
+  static get mono253RGB(){ return 'rgb(253, 253, 253)' };
+  static get mono254RGB(){ return 'rgb(254, 254, 254)' };
   static get mono255RGB(){ return 'rgb(255, 255, 255)' };
 
   static get mono180RGBA(){ return 'rgba(180, 180, 180, 0.96)' };

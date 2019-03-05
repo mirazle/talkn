@@ -12,9 +12,10 @@ export default class MenuIndexList extends Component {
 
   constructor(props) {
     super(props);
-    const {style} = props;
+    const {menuIndexList: style} = props.style;
     this.state = {style}
-    this.getDecolationProps = this.getDecolationEvents.bind(this);
+    this.onClickEvents = this.onClickEvents.bind(this);
+    this.getDecolationEvents = this.getDecolationEvents.bind(this);
   }
 
   componentDidMount(){
@@ -22,43 +23,99 @@ export default class MenuIndexList extends Component {
     talknAPI.onCatchConnectionAPI( menuIndexList.connection );
   }
 
-  getDecolationEvents( focusConnection, styleKey ){
-    const { menuIndexList, onClickToMultiThread, onClickToSingleThread, onClickToChildThread, onClickToLogsThread } = this.props;
-    const { connection } = menuIndexList;
-    let { app } = this.props;
-    return { 
-      onClick: () => {
-        if( focusConnection ){
-          if( app.screenMode === App.screenModeSmallLabel ){
-            talknAPI.onClickToggleDispMenu();
-          }
-        }else{
+  componentWillReceiveProps(props){
 
-          const { stepTo } = App.getStepToDispThreadType( {app}, connection );
-          switch(stepTo){
-          case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
-          case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
-          case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
-            onClickToChildThread( connection, {app} );
-            talknAPI.changeThread( connection );
-            break;
-          case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
-            onClickToMultiThread( connection, {app} );
-            talknAPI.changeThread( connection );
-            break;
-          case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
-            onClickToSingleThread( connection, {app} );
-            talknAPI.changeThread( connection );
-            break;
-          }
-        }
-      },
+  }
+
+  getDecolationEvents(styleKey){
+    if( styleKey ===  MenuIndexListStyle.unactiveLiSelfLabel ){
+      return {
+        onMouseOver: () => {
+          this.setState(
+            { style:
+              {...this.state.style,
+                [ styleKey ]: { ...this.state.style[ styleKey ],
+                  background: MenuIndexListStyle[ `${styleKey}MouseOverBackground` ]
+                } 
+              },
+            }
+          );
+        },
+        onMouseLeave: () => {
+          this.setState( {style:
+            {...this.state.style,
+              [styleKey]: { ...this.state.style[ styleKey ],
+                background: MenuIndexListStyle[ `${styleKey}Background` ]
+              }
+            }
+          });
+        },
+        onMouseDown: () => {
+          this.setState( {style:
+            {...this.state.style,
+              [styleKey]: { ...this.state.style[ styleKey ],
+                background: MenuIndexListStyle[ `${styleKey}MouseDownBackground` ]
+              }
+            },
+          });
+        },
+        onMouseUp: () => {
+          this.setState( {style:
+            {...this.state.style,
+              [styleKey]: { ...this.state.style[ styleKey ],
+                background: MenuIndexListStyle[ `${styleKey}MouseOverBackground` ]
+              }
+            },
+          });
+        },
+      }
     }
   }
 
-  getDispConnection( focusConnection ){
+  onClickEvents(){
+    const { thread, menuIndexList, onClickToMultiThread, onClickToSingleThread, onClickToChildThread, onClickToLogsThread } = this.props;
+    const { connection } = menuIndexList;
+    const isFocusConnection =  thread.connection === connection ? true : false ;
+    const styleKey = isFocusConnection ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel ;
+    let { app } = this.props;
+
+    if( isFocusConnection ){
+      if( app.screenMode === App.screenModeSmallLabel ){
+        talknAPI.onClickToggleDispMenu();
+      }
+    }else{
+
+      const { stepTo } = App.getStepToDispThreadType( {app}, connection );
+      switch(stepTo){
+      case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
+      case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
+      case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
+        onClickToChildThread( connection, {app} );
+        talknAPI.changeThread( connection );
+        break;
+      case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
+        onClickToMultiThread( connection, {app} );
+        talknAPI.changeThread( connection );
+        break;
+      case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
+        onClickToSingleThread( connection, {app} );
+        talknAPI.changeThread( connection );
+        break;
+      }
+    }
+
+    this.setState( {style:
+      {...this.state.style,
+        [styleKey]: { ...this.state.style[ styleKey ],
+          background: MenuIndexListStyle[ `${styleKey}Background` ]
+        }
+      },
+    });
+  }
+
+  getDispConnection( isFocusConnection ){
     const { thread, menuIndexList } = this.props;
-    if( focusConnection ){
+    if( isFocusConnection ){
       return thread.connection;
     }else{
       if( menuIndexList.connection === '/' ){
@@ -72,11 +129,12 @@ export default class MenuIndexList extends Component {
     }
   }
 
-  getDispFavicon( focusConnection ){
+  getDispFavicon(){
+    const { isFocusConnection } = this.state;
     const { thread, menuIndexList } = this.props;
     const defaultFavicon = Thread.getDefaultFavicon();
 
-    if( focusConnection ){
+    if( isFocusConnection ){
       if( menuIndexList.favicon === defaultFavicon ){
         if( thread.favicon === defaultFavicon ){
           return `//${conf.assetsIconPath}${util.getSaveFaviconName( menuIndexList.favicon )}`;
@@ -101,15 +159,15 @@ export default class MenuIndexList extends Component {
 
     if( menuIndexList.watchCnt === 0 || menuIndexList.watchCnt > 0 ){
       return(
-        <span style={style.menuIndexList.bottomWatchCnt}>
-          <span style={style.menuIndexList.bottomWatchCntWrap}>
+        <span style={style.bottomWatchCnt}>
+          <span style={style.bottomWatchCntWrap}>
             {menuIndexList.watchCnt}
           </span>
         </span>
       )
     }else{
       return (
-        <span style={style.menuIndexList.bottomWatchCnt}>
+        <span style={style.bottomWatchCnt}>
         </span>
       )
     }
@@ -118,28 +176,25 @@ export default class MenuIndexList extends Component {
  	render() {
     const { style } = this.state;
     const { thread, menuIndexList } = this.props;
-    const focusConnection =  thread.connection === menuIndexList.connection ? true : false ;
-    const dispConnection = this.getDispConnection( focusConnection )
-    const dispFavicon = this.getDispFavicon( focusConnection )
+    const isFocusConnection =  thread.connection === menuIndexList.connection ? true : false ;
+    const styleKey = isFocusConnection ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel ;
+    const dispConnection = this.getDispConnection( isFocusConnection )
+    const dispFavicon = this.getDispFavicon()
     const dispWatchCnt = this.getDispWatchCnt();
-
-    const styleKey = focusConnection ? 'activeLiSelf' : 'unactiveLiSelf' ;
-    const baseBackground = focusConnection ?
-      MenuIndexListStyle.activeLiBackground : MenuIndexListStyle.unactiveLiBackground;
-    const baseStyle = {
-      ...style.menuIndexList[ styleKey ],
-      background: baseBackground
-    };
+    const baseStyle = style[ styleKey ];
 
     return (
-      <li data-component-name={this.constructor.name}
+      <li
+        data-component-name={this.constructor.name}
         key={dispConnection}
         style={ baseStyle }
-        { ...this.getDecolationEvents( focusConnection, styleKey ) }>
+        onClick={this.onClickEvents}
+        { ...this.getDecolationEvents(styleKey) }
+      >
 
-        <div style={style.menuIndexList.upper}>
-          <span style={style.menuIndexList.upperSpace} />
-          <span style={style.menuIndexList.upperRight}>
+        <div style={style.upper}>
+          <span style={style.upperSpace} />
+          <span style={style.upperRight}>
             <Marquee
               text={dispConnection}
               loop={true}
@@ -150,9 +205,9 @@ export default class MenuIndexList extends Component {
           </span>
         </div>
 
-        <div style={style.menuIndexList.bottom}>
-          <span style={{...style.menuIndexList.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
-          <span style={style.menuIndexList.bottomPost} dangerouslySetInnerHTML={{__html: menuIndexList.post }} />
+        <div style={style.bottom}>
+          <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
+          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: menuIndexList.post }} />
           {dispWatchCnt}
         </div>
       </li>

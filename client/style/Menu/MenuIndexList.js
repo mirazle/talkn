@@ -8,10 +8,19 @@ export default class MenuIndexList {
 
   static get iconSize(){ return '25px' };
   static get liHeight(){ return 90 };
-  static get activeLiBackground(){ return Container.whiteRGB };
-  static get unactiveLiBackground(){ return Container.offWhiteRGB };
-  static get activeLiBorderRightColor(){ return `1px solid ${Container.whiteRGB}` };
-  static get unactiveLiBorderRightColor(){ return Container.border };
+
+  static get activeLiSelfLabel(){ return "activeLiSelf" };
+  static get unactiveLiSelfLabel(){ return "unactiveLiSelf" };
+
+  static get activeLiSelfBackground(){ return Container.whiteRGB };
+  static get activeLiSelfMouseOverBackground(){ return Container.whiteRGB };
+  static get activeLiSelfMouseDownBackground(){ return Container.whiteRGB };
+  static get unactiveLiSelfBackground(){ return Container.lightRGB };
+  static get unactiveLiSelfMouseOverBackground(){ return Container.offWhitePlusRGB };
+  static get unactiveLiSelfMouseDownBackground(){ return Container.whiteRGB };
+
+  static get activeLiSelfBorderRightColor(){ return `1px solid ${Container.whiteRGB}` };
+  static get unactiveLiSelfBorderRightColor(){ return Container.border };
 
   static getUnactiveLiBorder(app){
     if( app.type ===  define.APP_TYPES.EXTENSION){
@@ -55,7 +64,7 @@ export default class MenuIndexList {
       padding: '10px',
       borderBottom: Container.border,
       borderRight: `1px solid ${Container.whiteRGB}`,
-      background: MenuIndexList.activeLiBackground,
+      background: MenuIndexList.activeLiSelfBackground,
       cursor: 'pointer',
     });
     const content = Style.getContentBase();
@@ -70,12 +79,12 @@ export default class MenuIndexList {
       height: `${MenuIndexList.liHeight}px`,
       padding: '10px',
       ...borders,
-      background: MenuIndexList.unactiveLiBackground,
+      background: MenuIndexList.unactiveLiSelfBackground,
       cursor: 'pointer',
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transition: Container.transitionOff,
+      transition: Container.transitionFirstOn,
     });
 
     return Style.get({layout, content, animation});

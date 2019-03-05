@@ -39,6 +39,8 @@ export default class Container{
   static get lightRGBA(){ return Style.mono245RGBA };
   static get offWhiteRGB(){ return Style.mono250RGB };
   static get offWhiteRGBA(){ return Style.mono250RGBA };
+  static get offWhitePlusRGB(){ return Style.mono252RGB };
+  static get offWhitePlusRGBA(){ return Style.mono252RGBA };
   static get whiteRGB(){ return Style.mono255RGB };
   static get whiteRGBA(){ return Style.mono255RGBA };
 
