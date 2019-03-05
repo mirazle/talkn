@@ -40,8 +40,8 @@ export default class LockMenu {
       layout.left = '25%';
       break;
     case App.screenModeLargeLabel :
-      layout.width = `calc( ( ${Posts.getWidth(app)} ) - 10% )`;
-      layout.left = `calc( 5% + ${Menu.getWidth(app)} )`;
+      layout.width = `calc( ( ${Posts.getWidth(app)} ) - 2% )`;
+      layout.left = `calc( 1% + ${Menu.getWidth(app)} )`;
       break;
     }
     return layout;
