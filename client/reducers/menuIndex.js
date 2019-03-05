@@ -62,15 +62,6 @@ export default ( state = new MenuIndex() , action ) => {
 			});
 		}
 	case 'SERVER_TO_CLIENT[BROADCAST]:find':
-		return state.map( ( mi ) => {
-			if( action.thread.connection === mi.connection ){
-				return {...mi,
-					watchCnt: action.thread.watchCnt,
-				}
-			}else{
-				return mi;
-			};
-		});		
 	case 'SERVER_TO_CLIENT[BROADCAST]:changeThread':
 	case 'SERVER_TO_CLIENT[BROADCAST]:disconnect':
 		return state.map( ( mi ) => {
@@ -82,6 +73,21 @@ export default ( state = new MenuIndex() , action ) => {
 				return mi
 			};
 		});
+		/*
+		.sort( ( a, b ) => {
+
+			// リアルタイムソートの使用を考える（changeThreadの際にランキングが変わる場合など、整合性を考える）
+			if(
+				a.connection === action.thread.connection ||
+				b.connection === action.thread.connection
+			){
+				return 0;
+			}
+			if(a.watchCnt < b.watchCnt) return 1;
+			if(a.watchCnt > b.watchCnt) return -1;
+			return 0;
+		});
+		*/
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
 		return state.map( ( mi ) => {
 

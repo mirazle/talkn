@@ -215,35 +215,51 @@ export default class Schema {
     return Object.values( this ).find( func );
   }
 
-  unshift( value ){
-    const result = Object.values( this );
-    result.push( value );
-    return this.returnImmutable( result );
+  sort( func ){
+    return Object.values( this ).sort( func );
+  }
+
+  push( value ){
+    const values = Object.values( this );
+    values.push( value );
+    return this.returnImmutable( values );
   }
 
   unshift( value ){
-    const result = Object.values( this );
-    result.unshift( value );
-    return this.returnImmutable( result );
+    const values = Object.values( this );
+    values.unshift( value );
+    return this.returnImmutable( values );
   }
 
-  returnImmutable( result, func = ()=>{}){
-    if( typeof result === 'undefined' ){
+  getShift(){
+    const values = Object.values( this );
+    const results = values.shift();
+    return this.returnImmutable( results );
+  }
+
+  pop( value ){
+    const values = Object.values( this );
+    values.pop( value );
+    return this.returnImmutable( values );
+  }
+
+  returnImmutable( values, func = ()=>{}){
+    if( typeof values === 'undefined' ){
       return new this.constructor({});
-    }else if( result.length === 0 && Object.keys( this ).length === 0){
+    }else if( values.length === 0 && Object.keys( this ).length === 0){
       if( String(func).indexOf( "createElement" ) > 0 ){
         return [];
       }else{
-        return new this.constructor( result );
+        return new this.constructor( values );
       }
     }else if(
-      result[0] &&
-      result[0]["$$typeof"] &&
-      result[0]["$$typeof"].constructor.name === "Symbol"
+      values[0] &&
+      values[0]["$$typeof"] &&
+      values[0]["$$typeof"].constructor.name === "Symbol"
     ){
-      return result;
+      return values;
     }else{
-      return new this.constructor( result );
+      return new this.constructor( values );
     }
   }
 
