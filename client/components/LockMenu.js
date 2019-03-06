@@ -180,7 +180,7 @@ export default class LockMenu extends Component {
                 style={stateStyle.liEmbedInput}
                 readOnly={true}
                 defaultValue={
-                  `<iframe src='//${conf.domain}${threadDetail.connection}' frameborder='0' style='height: 385px; width: 300px' />`
+                  `<iframe src='//talkn.io${threadDetail.connection}' frameborder='0' style='height: 385px; width: 300px' />`
                 }
               />
             </div>
