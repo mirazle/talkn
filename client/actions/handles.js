@@ -10,9 +10,9 @@ export default {
       style,
     };
   },
-  onClickFooterIcon: ({app}) => {
+  onClickToggleMain: ({app}) => {
     return {
-      type: 'ON_CLICK_FOOTER_ICON',
+      type: 'ON_CLICK_TOGGLE_MAIN',
       app,
     };
   },

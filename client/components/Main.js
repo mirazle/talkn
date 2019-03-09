@@ -19,7 +19,7 @@ export default class Main extends Component {
   }
 
   componentDidUpdate(){
-    const { state, createNotif } = this.props;
+    const { state, handleOnClickToggleMain, createNotif } = this.props;
     const { app, actionLog, thread, style } = state;
 
     switch( actionLog[ 0 ] ){
@@ -42,6 +42,7 @@ export default class Main extends Component {
               style={style}
               thread={thread}
               post={lastPost}
+              handleOnClickToggleMain={handleOnClickToggleMain}
             />
           )
         });
