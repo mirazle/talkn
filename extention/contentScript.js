@@ -144,17 +144,18 @@ class ClientScript {
             this.postMessage("closeNotif");
             iframe.style.transition = "600ms";
             iframe.style.height = ClientScript.iframeOpenHeight;
+            console.log("NOTIF");
         }else{
 
             this.postMessage("offTransition");
             if( iframe.style.height !== ClientScript.iframeOpenHeight ){
                 iframe.style.transition = "600ms";
                 iframe.style.height = ClientScript.iframeOpenHeight;
-                console.log("AAAA");
+                console.log("TO OPEN");
             }else{
                 iframe.style.transition = "600ms";
                 iframe.style.height = ClientScript.iframeCloseHeight;
-                console.log("BBBB");
+                console.log("TO CLOSE");
             }
         }
     }
