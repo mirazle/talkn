@@ -138,15 +138,7 @@ class ClientScript {
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         let talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
         console.log(typeof talknNotifId);
-        if(talknNotifId ){
-            clearTimeout( talknNotifId );
-            sessionStorage.setItem(ClientScript.talknNotifId, null);
-            this.postMessage("closeNotif");
-            iframe.style.transition = "600ms";
-            iframe.style.height = ClientScript.iframeOpenHeight;
-            console.log("NOTIF");
-        }else{
-
+        if(talknNotifId === "null"){
             this.postMessage("offTransition");
             if( iframe.style.height !== ClientScript.iframeOpenHeight ){
                 iframe.style.transition = "600ms";
@@ -157,6 +149,13 @@ class ClientScript {
                 iframe.style.height = ClientScript.iframeCloseHeight;
                 console.log("TO CLOSE");
             }
+        }else{
+            clearTimeout( talknNotifId );
+            sessionStorage.setItem(ClientScript.talknNotifId, null);
+            this.postMessage("closeNotif");
+            iframe.style.transition = "600ms";
+            iframe.style.height = ClientScript.iframeOpenHeight;
+            console.log("NOTIF");
         }
     }
 
