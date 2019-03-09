@@ -153,7 +153,7 @@ class ClientScript {
             clearTimeout( talknNotifId );
             sessionStorage.setItem(ClientScript.talknNotifId, null);
             this.postMessage("closeNotif");
-            iframe.style.transition = "600ms";
+            iframe.style.transition = "0ms";
             iframe.style.height = ClientScript.iframeOpenHeight;
             console.log("NOTIF");
         }
