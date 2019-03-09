@@ -148,11 +148,11 @@ class ClientScript {
         if( iframe.style.height !== ClientScript.iframeCloseHeight ){
             iframe.style.transition = "600ms";
             iframe.style.height = ClientScript.iframeCloseHeight;
-            console.log("AAAA");
+            console.log("CLOSE");
         }else{
             iframe.style.transition = "600ms";
             iframe.style.height = ClientScript.iframeOpenHeight;
-            console.log("BBBB");
+            console.log("OPEN");
         }
     }
 
