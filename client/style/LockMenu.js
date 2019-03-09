@@ -54,8 +54,8 @@ export default class LockMenu {
 
   static getCommonTransform(app){
     return app.openLockMenu === App.openLockMenuLabelNo ?
-      'translate3d(0px, 0px, -10px)' :
-      `translate3d(0px, calc( ( ( -${app.height}px / 2 ) - 50% ) - ${Header.headerHeight}px ), -10px)`;
+      'translate3d(0px, 0px, 0px)' :
+      `translate3d(0px, calc( ( ( -${app.height}px / 2 ) - 50% ) - ${Header.headerHeight}px ), 0px)`;
   }
 
   static getPaddingLi(app){
