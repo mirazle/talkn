@@ -109,7 +109,7 @@ export default class Notif extends Component {
   }
 
   render() {
-    const {post, app, thread} = this.props;
+    const {post, app, thread, handleOnClickToggleMain} = this.props;
     const {status, style} = this.state;
     const childLayerCnt = post.layer - thread.layer;
     //this.log(status);
@@ -128,6 +128,7 @@ export default class Notif extends Component {
           thread={thread}
           childLayerCnt={childLayerCnt}
           style={style}
+          handleOnClickToggleMain={handleOnClickToggleMain}
         />
       );
     case Notif.STATUS_UNDISPLAY :    

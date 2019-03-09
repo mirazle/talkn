@@ -17,19 +17,35 @@ class Container extends Component {
     const { thread } = state;
     talknAPI.find( thread.connection );
     talknAPI.findMenuIndex( thread.connection );
+    this.handleOnClickToggleMain = this.handleOnClickToggleMain.bind(this);
+  }
+
+  handleOnClickToggleMain( e ){
+    const { onClickToggleMain, onClickOpenLockMenu, state} = this.props;
+    const { app } = state;
+
+    if( app.type ===  define.APP_TYPES.EXTENSION ){
+      app.isOpenMain = app.isOpenMain ? false : true;
+      onClickToggleMain( {app} );
+
+      if(app.openLockMenu !== App.openLockMenuLabelNo){
+        onClickOpenLockMenu(App.openLockMenuLabelNo);
+      }
+      talknAPI.extension("toggleIframe");
+    }
   }
 
   renderFooter(){
     const { app } = this.props.state;
     if( app.type ===  define.APP_TYPES.EXTENSION){
-      return <Footer {...this.props} />;
+      return <Footer {...this.props} handleOnClickToggleMain={this.handleOnClickToggleMain }/>;
     }else{
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
         return null;
       case App.screenModeMiddleLabel : 
       case App.screenModeLargeLabel : 
-        return <Footer {...this.props} />
+      return <Footer {...this.props} handleOnClickToggleMain={this.handleOnClickToggleMain }/>;
       }
     }
   }
@@ -40,7 +56,7 @@ class Container extends Component {
       return (
   			<div data-component-type={this.constructor.name} style={ style.container.self }>
           <Style {...this.props} />
-          <Main {...this.props} />
+          <Main {...this.props} handleOnClickToggleMain={this.handleOnClickToggleMain } />
           {this.renderFooter()}
   			</div>
   		);

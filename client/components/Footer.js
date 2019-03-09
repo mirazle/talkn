@@ -10,11 +10,12 @@ export default class Footer extends Component {
   }
 
   render() {
-    const { style } = this.props.state;
+    const { state, handleOnClickToggleMain } = this.props;
+    const { style } = state;
     return (
       <footer data-component-name={this.constructor.name} style={ style.footer.self }>
         <MenuFooter {...this.props} mode={"default"} />
-        <PostsFooter {...this.props} mode={"default"} />
+        <PostsFooter {...this.props} mode={"default"} handleOnClickToggleMain={handleOnClickToggleMain} />
         <DetailFooter {...this.props} mode={"default"} />
       </footer>
 		);
