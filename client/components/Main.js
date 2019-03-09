@@ -49,7 +49,7 @@ export default class Main extends Component {
       break;
     case 'ON_CLICK_FOOTER_ICON':
       if( this.state.notifs.length > 0 ){
-        this.setState({notifs: []});
+        //this.setState({notifs: []});
       }
       break;
     }
