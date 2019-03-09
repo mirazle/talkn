@@ -135,6 +135,14 @@ class ClientScript {
     }
 
     toggleIframe(params){
+        let talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
+        
+        if(talknNotifId ){
+            clearTimeout( talknNotifId );
+            sessionStorage.setItem(ClientScript.talknNotifId, null);
+            this.postMessage("closeNotif");
+        }
+
         this.postMessage("offTransition");
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         if( iframe.style.height === ClientScript.iframeCloseHeight ){

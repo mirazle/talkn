@@ -7,6 +7,7 @@ import Notif from './Notif';
 import InnerNotif from './InnerNotif';
 import LockMenu from './LockMenu';
 import DetailFooter from './DetailFooter';
+import TalknAPI from '../operations/TalknAPI';
 
 export default class Main extends Component {
 
@@ -44,6 +45,11 @@ export default class Main extends Component {
             />
           )
         });
+      }
+      break;
+    case 'ON_CLICK_FOOTER_ICON':
+      if( this.state.notifs.length > 0 ){
+        this.setState({notifs: []});
       }
       break;
     }
