@@ -94,7 +94,8 @@ const functions = {
   "ON_CLICK_FOOTER_ICON": ( state, action ) => {
     action.app = {...state.app, ...action.app};
     action.app.height = App.getHeight();
-    action.app.isOpenMain = App.getIsOpenMain( action.app );
+    action.app.isOpenMain = action.app.isOpenMain ?
+      action.app.isOpenMain : App.getIsOpenMain( action.app );
     return action;
   },
   "ON_TRANSITION": ( state, action ) => {
