@@ -137,7 +137,7 @@ class ClientScript {
     toggleIframe(params){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         let talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
-        console.log(talknNotifId);
+        console.log(typeof talknNotifId);
         if(talknNotifId ){
             clearTimeout( talknNotifId );
             sessionStorage.setItem(ClientScript.talknNotifId, null);
