@@ -141,18 +141,21 @@ class ClientScript {
             clearTimeout( talknNotifId );
             sessionStorage.setItem(ClientScript.talknNotifId, null);
             this.postMessage("closeNotif");
-        }
-
-        this.postMessage("offTransition");
-        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
-        if( iframe.style.height !== ClientScript.iframeCloseHeight ){
-            iframe.style.transition = "600ms";
-            iframe.style.height = ClientScript.iframeCloseHeight;
-            console.log("CLOSE");
-        }else{
             iframe.style.transition = "600ms";
             iframe.style.height = ClientScript.iframeOpenHeight;
-            console.log("OPEN");
+        }else{
+
+            this.postMessage("offTransition");
+            const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+            if( iframe.style.height !== ClientScript.iframeOpenHeight ){
+                iframe.style.transition = "600ms";
+                iframe.style.height = ClientScript.iframeOpenHeight;
+                console.log("AAAA");
+            }else{
+                iframe.style.transition = "600ms";
+                iframe.style.height = ClientScript.iframeCloseHeight;
+                console.log("BBBB");
+            }
         }
     }
 
