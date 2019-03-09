@@ -135,6 +135,7 @@ class ClientScript {
     }
 
     toggleIframe(params){
+        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         let talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
         
         if(talknNotifId ){
@@ -146,7 +147,6 @@ class ClientScript {
         }else{
 
             this.postMessage("offTransition");
-            const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
             if( iframe.style.height !== ClientScript.iframeOpenHeight ){
                 iframe.style.transition = "600ms";
                 iframe.style.height = ClientScript.iframeOpenHeight;
