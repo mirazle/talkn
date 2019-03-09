@@ -145,13 +145,13 @@ class ClientScript {
 
         this.postMessage("offTransition");
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
-        if( iframe.style.height === ClientScript.iframeCloseHeight ){
+        if( iframe.style.height !== ClientScript.iframeCloseHeight ){
             iframe.style.transition = "600ms";
-            iframe.style.height = ClientScript.iframeOpenHeight;
+            iframe.style.height = ClientScript.iframeCloseHeight;
             console.log("AAAA");
         }else{
             iframe.style.transition = "600ms";
-            iframe.style.height = ClientScript.iframeCloseHeight;
+            iframe.style.height = ClientScript.iframeOpenHeight;
             console.log("BBBB");
         }
     }
