@@ -142,11 +142,9 @@ class ClientScript {
             if( iframe.style.height !== ClientScript.iframeOpenHeight ){
                 iframe.style.transition = "600ms";
                 iframe.style.height = ClientScript.iframeOpenHeight;
-                console.log("TO OPEN");
             }else{
                 iframe.style.transition = "600ms";
                 iframe.style.height = ClientScript.iframeCloseHeight;
-                console.log("TO CLOSE");
             }
         }else{
             clearTimeout( talknNotifId );
@@ -154,7 +152,6 @@ class ClientScript {
             this.postMessage("closeNotif");
             iframe.style.transition = "600ms";
             iframe.style.height = ClientScript.iframeOpenHeight;
-            console.log("NOTIF");
         }
     }
 

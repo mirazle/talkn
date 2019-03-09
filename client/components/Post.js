@@ -116,6 +116,7 @@ export default class Post extends Component {
       favicon,
       childLayerCnt,
       onTransitionEnd,
+      handleOnClickToggleMain,
       _id,
      } = this.props;
     const timeId = this.getTimeId();
@@ -159,6 +160,7 @@ export default class Post extends Component {
           id={_id}
           style={style.self}
           onTransitionEnd={(onTransitionEnd)}
+          onClick={handleOnClickToggleMain}
           >  
           <div data-component-name={`${this.constructor.name}-bottom`} style={style.bottom}>
             <span data-component-name={`${this.constructor.name}-image`} style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
