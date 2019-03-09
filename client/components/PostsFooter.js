@@ -21,7 +21,9 @@ export default class PostsFooter extends Component {
 
     if( app.type ===  define.APP_TYPES.EXTENSION ){
       app.isOpenMain = app.isOpenMain ? false : true;
+
       onClickFooterIcon( {app} );
+
       if(app.openLockMenu !== App.openLockMenuLabelNo){
         onClickOpenLockMenu(App.openLockMenuLabelNo);
       }
