@@ -16,12 +16,15 @@ export default class PostsFooter extends Component {
   }
 
   handleOnClickFooterIcon( e ){
-    const { onClickFooterIcon, state} = this.props;
+    const { onClickFooterIcon, onClickOpenLockMenu, state} = this.props;
     const { app } = state;
 
     if( app.type ===  define.APP_TYPES.EXTENSION ){
       app.isOpenMain = app.isOpenMain ? false : true;
       onClickFooterIcon( {app} );
+      if(app.openLockMenu !== App.openLockMenuLabelNo){
+        onClickOpenLockMenu(App.openLockMenuLabelNo);
+      }
       talknAPI.extension("toggleIframe");
     }
   }
