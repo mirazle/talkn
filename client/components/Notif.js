@@ -114,25 +114,29 @@ export default class Notif extends Component {
     const childLayerCnt = post.layer - thread.layer;
     //this.log(status);
 
-    switch(status){
-    case Notif.STATUS_CONSTRUCT :
-    case Notif.STATUS_START_OPEN :
-    case Notif.STATUS_START_NOTIF :
-    case Notif.STATUS_START_CLOSE :
-      return (
-        <Post
-          key={post._id}
-          mode={'notif'}
-          {...post}
-          app={app}
-          thread={thread}
-          childLayerCnt={childLayerCnt}
-          style={style}
-          handleOnClickToggleMain={handleOnClickToggleMain}
-        />
-      );
-    case Notif.STATUS_UNDISPLAY :    
-    default:
+    if(app.isOpenNotif){
+      switch(status){
+      case Notif.STATUS_CONSTRUCT :
+      case Notif.STATUS_START_OPEN :
+      case Notif.STATUS_START_NOTIF :
+      case Notif.STATUS_START_CLOSE :
+        return (
+          <Post
+            key={post._id}
+            mode={'notif'}
+            {...post}
+            app={app}
+            thread={thread}
+            childLayerCnt={childLayerCnt}
+            style={style}
+            handleOnClickToggleMain={handleOnClickToggleMain}
+          />
+        );
+      case Notif.STATUS_UNDISPLAY :    
+      default:
+        return null;
+      }
+    }else{
       return null;
     }
   }

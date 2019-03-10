@@ -26,6 +26,8 @@ class Container extends Component {
 
     if( app.type ===  define.APP_TYPES.EXTENSION ){
       app.isOpenMain = app.isOpenMain ? false : true;
+      app.isOpenNotif = false;
+      
       onClickToggleMain( {app} );
 
       if(app.openLockMenu !== App.openLockMenuLabelNo){
