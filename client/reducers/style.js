@@ -103,11 +103,15 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
-	case 'ON_CLICK_FOOTER_ICON':
+	case 'ON_CLICK_TOGGLE_MAIN':
+		const notifDisplay= Notif.getNotifsDisplay( action.app );
 		return {...state,
 			notif: {...state.notif,
 				notifs: {...state.notif.notifs,
-					display: Notif.getNotifsDisplay( action.app ),
+					display: notifDisplay,
+				},
+				self: {...state.notif.self,
+					display: notifDisplay,
 				}
 			}
 		}
