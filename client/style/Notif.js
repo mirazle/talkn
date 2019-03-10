@@ -47,9 +47,11 @@ export default class Notif {
   }
 
   static getSelf({app}){
+    const display = Notif.getNotifsDisplay(app);
     const width = Posts.getOlWidth({app}, true);
     const merginLeft = ( 100 - width ) / 2;
     const layout = Style.getLayoutBlock({
+      display,
       position: 'absolute',
       top: 0,
       width: `${width}%`,
