@@ -6,6 +6,14 @@ import Container from '../Container';
 
 export default class MenuIndexList {
 
+  static get rank1RGB(){ return 'rgb(255, 100, 78)' };
+  static get rank2RGB(){ return 'rgb(255, 147, 0)' };
+  static get rank3RGB(){ return 'rgb(0, 162, 255)' };
+  static get rankOtherRGB(){ return Container.silverRGB };
+  static get oneDigitWidth(){ return "16%" };
+  static get twoDigitWidth(){ return "17%" };
+  static get thirdDigitWidth(){ return "18%" };
+
   static get iconSize(){ return '25px' };
   static get liHeight(){ return 90 };
 
@@ -32,11 +40,31 @@ export default class MenuIndexList {
     }
   }
 
+  static getDispRankBackground( rank ){
+    switch( rank ){
+    case 1: return MenuIndexList.rank1RGB;
+    case 2: return MenuIndexList.rank2RGB;
+    case 3: return MenuIndexList.rank3RGB;
+    default : return MenuIndexList.rankOtherRGB;
+    }
+  }
+
+  static getDispRankWidth( rank ){
+    switch( String(rank).length ){
+    case 1: return MenuIndexList.oneDigitWidth;
+    case 2: return MenuIndexList.twoDigitWidth;
+    case 3: return MenuIndexList.thirdDigitWidth;
+    default : return MenuIndexList.thirdDigitWidth;
+    }
+  }
+
   constructor( params ){
     const activeLiSelf = MenuIndexList.getActiveLiSelf( params );
     const unactiveLiSelf = MenuIndexList.getUnactiveLiSelf( params );
     const upper = MenuIndexList.getUpper();
     const upperSpace = MenuIndexList.getUpperSpace();
+    const upperRankWrap = MenuIndexList.getUpperRankWrap();
+    const upperRank = MenuIndexList.getUpperRank();
     const upperRight = MenuIndexList.getUpperRight();
     const bottom = MenuIndexList.getBottom();
     const bottomIcon = MenuIndexList.getBottomIcon();
@@ -48,6 +76,8 @@ export default class MenuIndexList {
       unactiveLiSelf,
       upper,
       upperSpace,
+      upperRankWrap,
+      upperRank,
       upperRight,
       bottom,
       bottomIcon,
@@ -104,10 +134,42 @@ export default class MenuIndexList {
 
   static getUpperSpace(){
     const layout = Style.getLayoutInlineBlock({
-      width: '20%',
+      width: '18%',
+      margin: "0px 2% 0px 0px"
     });
-    const content = Style.getContentBase();
+    const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getUpperRankWrap(){
+    const layout = Style.getLayoutInlineBlock({
+      position: "absolute",
+      left: "7px",
+      top: "8px",
+      width: MenuIndexList.thirdDigitWidth,
+      height: "20px",
+      background: MenuIndexList.rankOtherRGB,
+      borderRadius: "10px",
+      margin: "0px 2% 0px 0px"
+    });
+    const content = Style.getContentBase({});
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getUpperRank(){
+    const layout = Style.getLayoutBlock({
+      width: "100%"
+    });
+    const content = Style.getContentBase({
+      fontSize: "10px",
+      color: Container.whiteRGB,
+      lineHeight: "1.8"
+    });
+    const animation = Style.getAnimationBase({
+      transform: "scale(0.8)"
+    });
     return Style.get({layout, content, animation});
   }
 

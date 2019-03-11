@@ -412,7 +412,7 @@ export default class Icon {
         width: '22px',
         height: '22px',
         borderRadius: '100px',
-        border: `4px solid ${Container.calmRGB}`,
+        border: `4px solid ${Container.chromeOffTabRGB}`,
         borderWidth: '4px',
       }),
       content: Style.getContentBase(),
@@ -424,7 +424,7 @@ export default class Icon {
     const bar = Style.get({
       layout: Style.getLayoutInlineBlock({
         margin: '0 auto',
-        background: Container.calmRGB,
+        background: Container.chromeOffTabRGB,
         width: '5px',
         height: '14px',
         borderRadius: '10px',

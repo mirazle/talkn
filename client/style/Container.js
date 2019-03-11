@@ -29,6 +29,8 @@ export default class Container{
 
   static get reliefRGB(){ return Style.mono180RGB };
   static get reliefRGBA(){ return Style.mono180RGBA };
+  static get silverRGB(){ return Style.mono192RGB };
+  static get silverRGBA(){ return Style.mono192RGBA };
   static get lightGrayRGB(){ return Style.mono211RGB };
   static get lightGrayRGBA(){ return Style.mono211RGBA };
   static get chromeOffTabRGB(){ return Style.mono225RGB };
