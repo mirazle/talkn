@@ -60,12 +60,12 @@ export default class Header extends Component {
     const { icon } = style;
     const MenuIcon = Icon.getMenu( icon.menu );
 
-    if(app.iframe){
+    if(app.iframe || app.type === define.APP_TYPES.EXTENSION){
       return (
-
         <span
           data-component-name={`${this.constructor.name}-left`}
-          style={ style.header.leftIcon }>
+          style={ style.header.leftIcon }
+        >
       </span>
 
       );
