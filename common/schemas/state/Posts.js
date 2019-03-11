@@ -6,6 +6,20 @@ export default class Posts {
     return [];
   }
 
+  static getDispPosts(action){
+    const {app, postsMulti, postsSingle, postsChild, postsLogs} = action;
+    switch(app.dispThreadType){
+    case App.dispThreadTypeMulti:
+      return postsMulti;
+    case App.dispThreadTypeSingle:
+      return postsSingle;
+    case App.dispThreadTypeChild:
+      return postsChild;
+    case App.dispThreadTypeLogs:
+      return postsLogs;
+    }
+  }
+
   static getAnyActionPosts(action){
     const {app, posts} = action;
     const existPosts = posts && posts.length > 0;
@@ -23,7 +37,6 @@ export default class Posts {
       action.postsLogs = existPosts ? posts : [];
       break;
     }
-
     return action;
   }
 }

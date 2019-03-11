@@ -142,7 +142,7 @@ export default class Detail {
       overflow: 'scroll',
       width: '100%',
       height: `calc( 100% - ${ Main.headerHeight * 2 }px )`,
-      background: Container.chromeOffTabRGB,
+      background: Container.lightGrayRGB,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -180,7 +180,7 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: '90%',
       height: 'initial',
-      margin: `${Detail.margin}% auto`,
+      margin: `${Detail.margin}% ${Detail.margin}% 7% ${Detail.margin}%`,
     });
     const content = Style.getContentBase({
       lineHeight: 2,
@@ -209,7 +209,7 @@ export default class Detail {
 
   static getMetaContentType(){ 
     const layout = Style.getLayoutBlock({
-      background: Container.chromeOffTabRGBA,
+      background: Container.lightGrayRGB,
       width: 'initial',
       height: 'initial',
       margin: "10px 0px",

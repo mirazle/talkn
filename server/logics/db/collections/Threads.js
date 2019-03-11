@@ -99,7 +99,8 @@ export default class Threads {
 
       if( update ){
 
-        console.log("AAAAAA " + typeof resThread.watchCnt );
+        console.log("AAAAAA " + typeof resThread.watchCnt + " @@@");
+        console.log( resThread );
         console.log(resThread.watchCnt);
         console.log("AAAAAA");
         resThread.watchCnt = watchCnt;

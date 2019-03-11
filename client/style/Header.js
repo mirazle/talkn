@@ -45,6 +45,17 @@ export default class Header {
     return app.isOpenNotif ? Header.notifOpenTranslateY : Header.notifCloseTranslateY;
   }
 
+  static getChildAnalyzeRight(app){
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel:
+      return '5%';
+    case App.screenModeMiddleLabel:
+      return '10%';
+    case App.screenModeLargeLabel:
+      return '15%';
+    }
+  }
+
   static getSelf( {app} ){
     
     const width = app.type === define.APP_TYPES.EXTENSION ?    
@@ -129,15 +140,11 @@ export default class Header {
 
   static getChildAnalyze( {app} ){
     const margin = app.screenMode === App.screenModeSmallLabel ? '4px' : '2px';
-    const right = app.screenMode === App.screenModeSmallLabel ?
-      {right: '0%'} :
-      {right: '15%'} ;
-
     const layout = Style.getLayoutInlineBlock({
       position: 'absolute',
       top: '7px',
       margin,
-      ...right,
+      right: Header.getChildAnalyzeRight(app),
       width: 'initial',
     });
     const content = Style.getContentBase({});

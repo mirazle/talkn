@@ -54,7 +54,7 @@ export default class Sequence {
             {columnName: 'multistreamed'}
           ],
         },
-        responseEmitState: {'thread': ['connection'], 'app': ['dispThreadType', 'offsetFindId'], 'posts': '*'},
+        responseEmitState: {'thread': '*', 'app': ['dispThreadType', 'offsetFindId'], 'posts': '*'},
         responseBroadcastState: {},
       },
       changeThread: {
