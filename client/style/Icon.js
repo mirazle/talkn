@@ -89,7 +89,7 @@ export default class Icon {
         minHeight: sizePx,
         backgroundSize: sizePx,
         backgroundPosition: 'center',
-        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
+        backgroundImage: `url(https://${conf.assetsImgPath}${image})`,
         backgroundRepeat: 'no-repeat',
       }),
       content: Style.getContentBase({
@@ -115,7 +115,7 @@ export default class Icon {
         minHeight: sizePx,
         backgroundSize: sizePx,
         backgroundPosition: 'center',
-        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
+        backgroundImage: `url(https://${conf.assetsImgPath}${image})`,
         backgroundRepeat: 'no-repeat',
       }),
       content: Style.getContentBase({
@@ -141,7 +141,7 @@ export default class Icon {
         minHeight: sizePx,
         backgroundSize: sizePx,
         backgroundPosition: 'center',
-        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
+        backgroundImage: `url(https://${conf.assetsImgPath}${image})`,
         backgroundRepeat: 'no-repeat',
       }),
       content: Style.getContentBase({
@@ -167,7 +167,7 @@ export default class Icon {
         minHeight: sizePx,
         backgroundSize: sizePx,
         backgroundPosition: 'center',
-        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
+        backgroundImage: `url(https://${conf.assetsImgPath}${image})`,
         backgroundRepeat: 'no-repeat',
       }),
       content: Style.getContentBase({
@@ -193,7 +193,7 @@ export default class Icon {
         minHeight: sizePx,
         backgroundSize: sizePx,
         backgroundPosition: 'center',
-        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
+        backgroundImage: `url(https://${conf.assetsImgPath}${image})`,
         backgroundRepeat: 'no-repeat',
       }),
       content: Style.getContentBase({
@@ -219,7 +219,7 @@ export default class Icon {
         minHeight: sizePx,
         backgroundSize: sizePx,
         backgroundPosition: 'center',
-        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
+        backgroundImage: `url(https://${conf.assetsImgPath}${image})`,
         backgroundRepeat: 'no-repeat',
       }),
       content: Style.getContentBase({
@@ -245,7 +245,7 @@ export default class Icon {
         minHeight: sizePx,
         backgroundSize: sizePx,
         backgroundPosition: 'center',
-        backgroundImage: `url(//${conf.assetsImgPath}${image})`,
+        backgroundImage: `url(https://${conf.assetsImgPath}${image})`,
         backgroundRepeat: 'no-repeat',
       }),
       content: Style.getContentBase({
