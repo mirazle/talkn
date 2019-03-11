@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import define from 'common/define';
 import App from 'common/schemas/state/App';
+import { default as PostsSchems } from 'common/schemas/state/Posts';
 import TalknSession from 'client/operations/TalknSession';
 import Post from 'client/components/Post';
 import Header from './Header';
@@ -129,7 +130,6 @@ export default class Posts extends Component {
   }
 
   animateScrollTo( element, to, duration, callback = ()=>{}) {
-
     if( !this.state.isAnimateScrolling ){
       let start = element.scrollTop;
       let change = to - start;
@@ -212,10 +212,10 @@ export default class Posts extends Component {
 
   renderGetMore(){
 		const { state } = this.props;
-    const { style, thread, app, postsMulti, postsSingle, setting } = state;
+    const { style, thread, app, setting } = state;
     const { getThreadChildrenCnt } = setting.server;
-    const posts = app.dispThreadType === App.dispThreadTypeMulti ? postsMulti : postsSingle;
-    const dispPostCnt = Object.keys( posts ).length;
+    const posts = PostsSchems.getDispPosts(state);
+    const dispPostCnt = posts.length;
     const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
     let isDisp = false;
 
