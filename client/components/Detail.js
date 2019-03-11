@@ -133,6 +133,18 @@ export default class Detail extends Component {
     return Icon.getTalkn( {}, state, {active, href});
   }
 
+  getDispContentType(contentType){
+    const { style } = this.props.state
+    return contentType.split(";").map( ( c, i ) => 
+      <div
+        key={`${c}_${i}`}
+        style={style.detail.metaContentType}
+      >
+        {c}
+      </div>
+    );
+  }
+
   renderMeta(){
     const { state } = this.props;
     const { threadDetail, style } = state
@@ -151,9 +163,14 @@ export default class Detail extends Component {
     const TalknIcon = this.getTalknIcon( state );
     const GraphIcon = Icon.getGraph( {}, state, {active: false} );
     const EmptyIcon = Icon.getEmpty( {}, state, {active: false} );
+
+    // Content Type
+    const dispContentType = this.getDispContentType(contentType);    
+    /*
     const h1LiTags = h1s.map( ( h1, i ) => {
       return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>・{h1}</li> );
     });
+    */
 
     return(
       <div style={ style.detail.meta } >
@@ -174,8 +191,8 @@ export default class Detail extends Component {
           { EmptyIcon }
         </div>
 
-        <div style={ style.detail.metaContentType }>
-          { contentType }
+        <div style={ style.detail.metaContentTypeWrap }>
+            { dispContentType }
         </div>
       </div>
     )

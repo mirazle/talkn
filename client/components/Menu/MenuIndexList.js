@@ -23,10 +23,6 @@ export default class MenuIndexList extends Component {
     talknAPI.onCatchConnectionAPI( menuIndexList.connection );
   }
 
-  componentWillReceiveProps(props){
-
-  }
-
   getDecolationEvents(styleKey){
     if( styleKey ===  MenuIndexListStyle.unactiveLiSelfLabel ){
       return {
@@ -178,7 +174,7 @@ export default class MenuIndexList extends Component {
     const { thread, menuIndexList } = this.props;
     const isFocusConnection =  thread.connection === menuIndexList.connection ? true : false ;
     const styleKey = isFocusConnection ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel ;
-    const dispConnection = this.getDispConnection( isFocusConnection )
+    const title = menuIndexList.title;
     const dispFavicon = this.getDispFavicon()
     const dispWatchCnt = this.getDispWatchCnt();
     const baseStyle = style[ styleKey ];
@@ -186,7 +182,7 @@ export default class MenuIndexList extends Component {
     return (
       <li
         data-component-name={this.constructor.name}
-        key={dispConnection}
+        key={menuIndexList.connection}
         style={ baseStyle }
         onClick={this.onClickEvents}
         { ...this.getDecolationEvents(styleKey) }
@@ -196,7 +192,7 @@ export default class MenuIndexList extends Component {
           <span style={style.upperSpace} />
           <span style={style.upperRight}>
             <Marquee
-              text={dispConnection}
+              text={title}
               loop={true}
               hoverToStop={false}
               trailing={0}

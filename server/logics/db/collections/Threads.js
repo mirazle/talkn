@@ -21,7 +21,7 @@ export default class Threads {
 
     if( buildinSchema ){
       if( !responses.response ){
-        const builtinSchema = await this.getBuiltinSchema( connection );
+        const builtinSchema = await this.getUnshiftBaseConnectionResponse( connection );
         responses = {...responses, response: builtinSchema[ 0 ] };
       }
     }
@@ -47,29 +47,30 @@ export default class Threads {
       "lastPost.connection": regex, 
       layer : { $gt : layer  }
     };
-    const selector = {lastPost: 1, watchCnt: 1};
+    const selector = {"serverMetas.title": 1, lastPost: 1, watchCnt: 1};
     const option = {sort: {watchCnt: -1, layer: -1}, limit: setting.server.getThreadChildrenCnt};
     let {error, response} = await this.collection.find( condition, selector, option );
 
     let mainConnectionExist = false;
-//    console.log( response );
+
     if( response.length === 0 ){
-      response = await this.getBuiltinSchema( connection, response );
+      response = await this.getUnshiftBaseConnectionResponse( connection, response );
     }else{
 
-      response.forEach( ( res ) => {
+      response.forEach( ( res, index ) => {
         if( res.lastPost.connection === connection ) mainConnectionExist = true;
       });
 
       if( !mainConnectionExist ){
-        response = await this.getBuiltinSchema( connection, response );
+        response = await this.getUnshiftBaseConnectionResponse( connection, response );
       }
     }
 
+    // Response structure is Post Schema Base.
     return response.map( ( res ) => {
       return {...res.lastPost,
-        watchCnt: res.lastPost.connection === connection ?
-          res.watchCnt + 1 : res.watchCnt
+        title: res.serverMetas.title,
+        watchCnt: res.lastPost.connection === connection ? res.watchCnt + 1 : res.watchCnt
       }
     });
   }
@@ -128,8 +129,9 @@ export default class Threads {
   /* COLUMN LOGIC   */
   /******************/
 
-  async getBuiltinSchema( connection, response = [] ){
+  async getUnshiftBaseConnectionResponse( connection, response = [] ){
     let schema = this.collection.getSchema({connection});
+    schema.title = Thread.getDefaultTitle();
     schema.connections = Thread.getConnections( connection );
     schema.host = Thread.getHost( connection );
     schema.layer = Thread.getLayer( connection );

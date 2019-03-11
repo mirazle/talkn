@@ -3,6 +3,10 @@ import Schema from '~/common/schemas/Schema';
 
 export default class Thread extends Schema{
 
+  static getDefaultTitle(){
+    return 'talkn';
+  }
+
   static getDefaultFavicon(){
     return 'user.png';
   }
@@ -56,7 +60,7 @@ export default class Thread extends Schema{
         thread.favicon = Thread.getFaviconFromWindow( window );
       }
 
-      thread.title = '';
+      thread.title = Thread.getDefaultTitle();
       thread.metas = [];
       thread.serverMetas = {};
       thread.clientMetas = {};
