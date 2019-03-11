@@ -63,8 +63,8 @@ export default class MenuIndex {
 
   static getHeaderSearchIcon( {app} ){
     const layout = Style.getLayoutInlineBlock({
-      width: '60px',
-      minWidth: '60px',
+      width: '55px',
+      minWidth: '55px',
       height: '45px',
     });
     const content = Style.getContentBase({});
@@ -78,7 +78,7 @@ export default class MenuIndex {
     const layout = Style.getLayoutInlineBlock({
       position: 'absolute',
       top: '13px',
-      left: '63px',
+      left: '58px',
       width: 'fit-content',
       minWidth: '20px',
       height: '20px',
