@@ -1,6 +1,7 @@
 {
     "manifest_version": 2,
     "name": "talkn for chrome",
+    "version": "0.680",
     "description": "Comment to web. talkn can share comments with users watching the same web page. Please enjoy the world of talkn.",
     "content_scripts": [
       {
@@ -9,6 +10,23 @@
         "run_at": "document_end"
       }
     ],
+    "icons": [{
+      "src": "img/favicon128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    }, {
+      "src": "img/favicon256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    }],
+    "homepage_url": "https://talkn.io",
+    "page_action": {
+      "default_icon": {
+          "128": "img/favicon128.png"
+      },
+      "default_title": "talkn",
+      "default_popup": "index.html"
+    },
     "web_accessible_resources": [
       "index.html",
       "include.js",
@@ -16,6 +34,5 @@
     ],
     "permissions": [
       "storage"
-    ],
-    "version": "0.68"
+    ]
 }
