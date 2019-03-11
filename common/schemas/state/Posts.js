@@ -6,7 +6,7 @@ export default class Posts {
     return [];
   }
 
-  static getDispPosts(action){
+  static getDispPosts(state){
     const {app, postsMulti, postsSingle, postsChild, postsLogs} = action;
     switch(app.dispThreadType){
     case App.dispThreadTypeMulti:
