@@ -50,7 +50,7 @@ export default class MenuIndex {
       width: '100%',
       height: `${MenuIndex.liHeight / 2 }px`,
       ...borders,
-      background: Container.offWhiteRGB,
+      background: Container.lightRGB,
     });
     const content = Style.getContentBase({
       textAlign: 'left',

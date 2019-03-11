@@ -23,6 +23,7 @@ export default class Style{
 
   static get fontBaseRGB(){ return 'rgb(160, 160, 160)' };
   static get mono180RGB(){ return 'rgb(180, 180, 180)' };
+  static get mono192RGB(){ return 'rgb(192, 192, 192)' };
   static get mono200RGB(){ return 'rgb(200, 200, 200)' };
   static get mono205RGB(){ return 'rgb(205, 205, 205)' };
   static get mono210RGB(){ return 'rgb(210, 210, 210)' };
@@ -42,6 +43,7 @@ export default class Style{
   static get mono255RGB(){ return 'rgb(255, 255, 255)' };
 
   static get mono180RGBA(){ return 'rgba(180, 180, 180, 0.96)' };
+  static get mono192RGBA(){ return 'rgb(192, 192, 192, 0.96)' };
   static get mono200RGBA(){ return 'rgb(200, 200, 200, 0.96)' };
   static get mono205RGBA(){ return 'rgb(205, 205, 205, 0.96)' };
   static get mono210RGBA(){ return 'rgb(210, 210, 210, 0.96)' };
