@@ -145,7 +145,7 @@ export default class MenuIndexList {
   static getUpperRankWrap(){
     const layout = Style.getLayoutInlineBlock({
       position: "absolute",
-      left: "7px",
+      left: "8px",
       top: "8px",
       width: MenuIndexList.thirdDigitWidth,
       height: "20px",
