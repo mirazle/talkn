@@ -10,7 +10,6 @@ export default ( _state, _props ) => {
   let props = _props;
 
   if( functions[ _state.actionLog[ 0 ] ] ){
-    console.log( "mapToState " + state.app.offsetChildFindId);
     const results = functions[ _state.actionLog[ 0 ] ]( _state, _props );
     state = results.state;
     props = results.props;
