@@ -26,6 +26,7 @@ export default class Detail {
     const meta = DetailClass.getMeta( params );
     const img = DetailClass.getImg( params );
     const description = DetailClass.getDescription( params );
+    const metaContentTypeWrap = DetailClass.getMetaContentTypeWrap( params );
     const metaContentType = DetailClass.getMetaContentType( params );
     const analyze = DetailClass.getAnalyze( params );
     const analyzeRow = DetailClass.getAnalyzeRow( params );
@@ -50,6 +51,7 @@ export default class Detail {
       meta,
       img,
       description,
+      metaContentTypeWrap,
       metaContentType,
       analyze,
       analyzeRow,
@@ -189,14 +191,35 @@ export default class Detail {
     return Style.get({layout, content, animation});
   } 
 
-  static getMetaContentType(){
+  static getMetaContentTypeWrap(){
     const layout = Style.getLayoutFlex({
-      width: '90%',
+      flexDirection: "column",
+      alignItems: "flex-end",
+      width: 'initial',
       height: 'initial',
-      justifyContent: "flex-end",
-      margin: `${Detail.margin * 2 }% auto`,
+      borderRadius: "10px",
+      margin: `${Detail.margin * 2 }% ${Detail.margin}%`,
     });
     const content = Style.getContentBase({
+      textAlign: "right"
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getMetaContentType(){ 
+    const layout = Style.getLayoutBlock({
+      background: Container.chromeOffTabRGBA,
+      width: 'initial',
+      height: 'initial',
+      margin: "10px 0px",
+      padding: "10px 20px 10px 20px",
+      justifyContent: "flex-end",
+      borderRadius: "30px"
+    });
+    const content = Style.getContentBase({
+      fontSize: "12px",
+      color: Container.whiteRGB,
       textAlign: "right"
     });
     const animation = Style.getAnimationBase();

@@ -70,7 +70,7 @@ export default class Posts extends Component {
       }else{
         const posts = app.dispThreadType === App.dispThreadTypeMulti ? postsMulti : postsSingle;
         const lastPost = posts[ posts.length - 1 ];
-        const childLayerCnt = lastPost.connections.length - thread.connections.length;
+        //const childLayerCnt = lastPost.connections.length - thread.connections.length;
         this.props.openNotifInThread();
       }
       break;
