@@ -36,7 +36,7 @@ export default class MenuFooter extends Component {
         </div>
         <div style={ style.menuFooter.childIndex } {...Icon.getDecolationProps1( 'icon', 'index', 'div' )}>
           { IndexIcon }
-          <div style={{color: Container.themeRGBA}}>RANKING</div>
+          <div style={{color: Container.themeRGBA}}>RANK</div>
         </div>
         <div style={ style.menuFooter.child } onClick={() => openInnerNotif()} {...Icon.getDecolationProps1( 'icon', 'logs', 'div' )}>
           { Logs }
