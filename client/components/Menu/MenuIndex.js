@@ -42,6 +42,7 @@ export default class MenuIndex extends Component {
           onClickToSingleThread={onClickToSingleThread}
           onClickToChildThread={onClickToChildThread}
           onClickToLogsThread={onClickToLogsThread}
+          rank={ index }
           {...this.props.state}
         />
       )

@@ -109,6 +109,24 @@ export default class MenuIndexList extends Component {
     });
   }
 
+  getDispRank( rank ){
+    let { upperRankWrap, upperRank } = this.state.style;
+
+    if( rank ){
+      const background = MenuIndexListStyle.getDispRankBackground( rank );
+      const width = MenuIndexListStyle.getDispRankWidth( rank );
+      return (
+        <span style={{...upperRankWrap, background, width}}>
+          <span style={upperRank}>
+            RANK{rank}
+          </span>
+        </span>
+      )
+    }else{
+      return null
+    }
+  }
+
   getDispConnection( isFocusConnection ){
     const { thread, menuIndexList } = this.props;
     if( isFocusConnection ){
@@ -171,10 +189,11 @@ export default class MenuIndexList extends Component {
 
  	render() {
     const { style } = this.state;
-    const { thread, menuIndexList } = this.props;
+    const { thread, menuIndexList, rank } = this.props;
     const isFocusConnection =  thread.connection === menuIndexList.connection ? true : false ;
     const styleKey = isFocusConnection ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel ;
     const title = menuIndexList.title;
+    const dispRank = this.getDispRank( rank );
     const dispFavicon = this.getDispFavicon()
     const dispWatchCnt = this.getDispWatchCnt();
     const baseStyle = style[ styleKey ];
@@ -187,7 +206,7 @@ export default class MenuIndexList extends Component {
         onClick={this.onClickEvents}
         { ...this.getDecolationEvents(styleKey) }
       >
-
+        {dispRank}
         <div style={style.upper}>
           <span style={style.upperSpace} />
           <span style={style.upperRight}>
