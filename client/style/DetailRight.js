@@ -69,6 +69,7 @@ export default class DetailRight {
   static getMeta(params){return Detail.getMeta(params)}
   static getImg(params){return Detail.getImg(params)}
   static getDescription(params){return Detail.getDescription(params)}
+  static getMetaContentTypeWrap(params){return Detail.getMetaContentTypeWrap(params)}
   static getMetaContentType(params){return Detail.getMetaContentType(params)}
   static getAnalyze(params){return Detail.getAnalyze(params)}
   static getAnalyzeRow(params){return Detail.getAnalyzeRow(params)}
