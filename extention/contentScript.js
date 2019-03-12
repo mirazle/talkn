@@ -187,8 +187,9 @@ class ClientScript {
     }
 
     linkTo(params){
-        console.log("LINK TO ");
-        console.log( location );
+        if( params && params.href ){
+            location.href = params.href
+        }
     }
 
     getRequestObj(method, params = {}){
