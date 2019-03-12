@@ -90,31 +90,41 @@ export default class Detail extends Component {
   }
 
   getTwitterIcon(state){
-    const { serverMetas } = state.threadDetail;
+    const { app, threadDetail } = state;
+    const { serverMetas } = threadDetail;
     const active = serverMetas['twitter:site'] !== "";
     const href = active ? `${define.URL.twitter}${serverMetas['twitter:site'].replace( "@", "" )}` : "";
-    return Icon.getTwitter( {}, state, {active, href});
+    const onClick = app.iframe ? () => {talknAPI.extension("linkTo", {href})} : () => {}; 
+
+    console.log( app.iframe );
+    return Icon.getTwitter( {}, state, {active, href, onClick});
   }
 
   getFacebookIcon(state){
-    const { serverMetas } = state.threadDetail;
+    const { app, threadDetail } = state;
+    const { serverMetas } = threadDetail;
     const active = serverMetas['fb:page_id'] !== "";
     const href = active ? `${define.URL.facebook}${serverMetas['fb:page_id']}` : "";
-    return Icon.getFacebook( {}, state, {active, href});
+    const onClick = app.iframe ? () => {talknAPI.extension("linkTo", {href})} : () => {}; 
+    return Icon.getFacebook( {}, state, {active, href, onClick});
   }
 
   getAppstoreIcon(state){
-    const { serverMetas } = state.threadDetail;
+    const { app, threadDetail } = state;
+    const { serverMetas } = threadDetail;
     const active = serverMetas["al:ios:app_store_id"] !== "";
     const href = active ? `${define.URL.appstore}${serverMetas["al:ios:app_store_id"]}` : "";
-    return Icon.getAppstore( {}, state, {active, href});
+    const onClick = app.iframe ? () => {talknAPI.extension("linkTo", {href})} : () => {}; 
+    return Icon.getAppstore( {}, state, {active, href, onClick});
   }
 
   getAndroidIcon(state){
-    const { serverMetas } = state.threadDetail;
+    const { app, threadDetail } = state;
+    const { serverMetas } = threadDetail;
     const active = serverMetas["al:android:package"] !== "";
     const href = active ? `${define.URL.playstore}${serverMetas["al:android:package"]}` : "";
-    return Icon.getAndroid( {}, state, {active, href});
+    const onClick = app.iframe ? () => {talknAPI.extension("linkTo", {href})} : () => {}; 
+    return Icon.getAndroid( {}, state, {active, href, onClick});
   }
 
   getHomeIcon(state){
