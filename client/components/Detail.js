@@ -95,8 +95,6 @@ export default class Detail extends Component {
     const active = serverMetas['twitter:site'] !== "";
     const href = active ? `${define.URL.twitter}${serverMetas['twitter:site'].replace( "@", "" )}` : "";
     const onClick = app.iframe ? () => {talknAPI.extension("linkTo", {href})} : () => {}; 
-
-    console.log( app.iframe );
     return Icon.getTwitter( {}, state, {active, href, onClick});
   }
 
@@ -128,19 +126,30 @@ export default class Detail extends Component {
   }
 
   getHomeIcon(state){
-    const { protocol, connection, hasSlash } = state.threadDetail;
+    const { app, threadDetail } = state;
+    const { protocol, connection, hasSlash  } = threadDetail;
     const active = true;
-    const href = protocol === Sequence.TALKN_PROTOCOL ?
-      `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${connection}`:
-      `${protocol}/${connection}`;
-    return Icon.getHome( {}, state, {active, href});
+    let href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${connection}`;
+
+    if( protocol !== Sequence.TALKN_PROTOCOL ){
+      if( hasSlash && connection.lastIndexOf("/") === ( connection.length - 1 )){
+        href = `${protocol}/${connection}`.replace(/\/$/, '');
+      }else{
+        href = `${protocol}/${connection}`;
+      }
+    }
+
+    const onClick = app.iframe ? () => {talknAPI.extension("linkTo", {href})} : () => {}; 
+    return Icon.getHome( {}, state, {active, href, onClick});
   }
 
   getTalknIcon(state){
-    const { connection, hasSlash } = state.threadDetail;
+    const { app, threadDetail } = state;
+    const { connection, hasSlash } = threadDetail;
     const active = true;
     const href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${connection}`;
-    return Icon.getTalkn( {}, state, {active, href});
+    const onClick = app.iframe ? () => {talknAPI.extension("linkTo", {href})} : () => {}; 
+    return Icon.getTalkn( {}, state, {active, href, onClick});
   }
 
   getDispContentType(contentType){

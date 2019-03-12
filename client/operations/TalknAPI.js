@@ -70,9 +70,7 @@ export default class TalknAPI{
 	}
 
 	extension( method, params ){
-		console.log("A");
 		if(this.parentUrl){
-			console.log("B");
 			window.top.postMessage({type: 'talkn', method, params}, this.parentUrl);
 		}
 	}
