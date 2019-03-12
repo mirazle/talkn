@@ -28,6 +28,13 @@ export default class Schema {
     return Schema.getType( val ) === 'Undefined' ? false : true ;
   }
 
+  static isAnonymousFunc(fn){
+    const fnString = fn.toString();
+    if( fnString === "function () {}" ) return true;
+    if( fnString === "()=>{}" ) return true;
+    return false;
+  }
+
   create(state){
 
     const className = this.constructor.name;

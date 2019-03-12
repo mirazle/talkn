@@ -21,7 +21,7 @@ class ClientScript {
     static get iframeOpenHeight(){return '450px'};
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
-    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif']};
+    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo']};
 
     constructor(refusedFrame = false){
         this.connection = location.href.replace("http:/", "").replace("https:/", "");
@@ -184,6 +184,11 @@ class ClientScript {
         iframe.style.height = ClientScript.iframeCloseHeight;
 
         this.postMessage("closeNotif");
+    }
+
+    linkTo(params){
+        console.log("LINK TO ");
+        console.log( location );
     }
 
     getRequestObj(method, params = {}){

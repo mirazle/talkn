@@ -19,8 +19,10 @@ export default class MenuIndexList extends Component {
   }
 
   componentDidMount(){
-    const { menuIndexList } = this.props;
-    talknAPI.onCatchConnectionAPI( menuIndexList.connection );
+    const { app, menuIndexList } = this.props;
+    if( app.rootConnection === menuIndexList.connection ){
+      talknAPI.onCatchConnectionAPI( menuIndexList.connection );
+    }
   }
 
   getDecolationEvents(styleKey){
@@ -198,7 +200,7 @@ export default class MenuIndexList extends Component {
     const dispWatchCnt = this.getDispWatchCnt();
     const baseStyle = style[ styleKey ];
 
-    if( styleKey === MenuIndexListStyle.unactiveLiSelfLabel ) console.log(baseStyle.borderRight);
+    //if( styleKey === MenuIndexListStyle.unactiveLiSelfLabel ) console.log(baseStyle.borderRight);
 
     return (
       <li

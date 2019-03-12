@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { default as IconStyle } from 'client/style/Icon';
+import Schema from 'common/schemas/Schema';
 
 export default class Icon extends Component{
 
@@ -13,17 +14,28 @@ export default class Icon extends Component{
       const onClick = option.onClick ? option.onClick : () => {};
       const href = option.href ? option.href : "";
       const style = Icon.getOveredStyle( IconStyle[ `get${name}` ](state, option), overStyle );
-      const props = {
-        "data-component-type": `Icon${name}`,
-        onClick,
-        style
-      };
-      return href !== "" ?  
-        <a href={href} {...props} /> :
-        <div href={href} {...props} />;
-    }else{
-      return null;
+
+      if( !Schema.isAnonymousFunc( onClick ) ){
+        return (
+          <div
+            data-component-type={`Icon${name}`}
+            onClick={onClick}
+            style={style}
+          />
+        );
+      }
+      
+      if( href !== "" ){
+        return (
+          <a  
+            href={href}
+            data-component-type={`Icon${name}`}
+            style={style}
+          />
+        );
+      }
     }
+    return null;
   }
 
   static getOveredStyle( baseStyle = {}, overStyle = {} ){
