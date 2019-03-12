@@ -51,7 +51,7 @@ class Express{
     case conf.domain:
 
       let iframe = false;
-      let connection = null;
+      let connection = "/";
       let hasSlash = false;
 
       // No Assests Url
