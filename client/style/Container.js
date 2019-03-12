@@ -107,7 +107,7 @@ export default class Container{
       borderRadius = bootOption["border-radius"];
     }else{
       if( borderRadius === "0px" && app.iframe ){
-        borderRadius = "5px";
+        borderRadius = "3px";
       }
     }
     console.log( borderRadius );
