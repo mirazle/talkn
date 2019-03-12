@@ -48,7 +48,7 @@ export default class Html {
 
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
-
+console.log(url);
       request( option, ( error, response, body ) => {
 
         let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );

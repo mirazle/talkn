@@ -98,20 +98,21 @@ export default class Threads {
       const {response: resThread} = await Logics.db.threads.findOne( connection );
 
       if( update ){
-
+/*
         console.log("AAAAAA " + typeof resThread.watchCnt + " @@@");
         console.log( resThread );
         console.log(resThread.watchCnt);
         console.log("AAAAAA");
+*/
         resThread.watchCnt = watchCnt;
 
       }else{
-
+/*
         // Error Handking
         console.log("BBBBBB " + typeof resThread.watchCnt );
         console.log(resThread.watchCnt);
         console.log("BBBBBB");
-
+*/
         resThread.watchCnt = resThread.watchCnt + watchCnt;
       }
 
