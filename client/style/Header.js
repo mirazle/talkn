@@ -20,7 +20,7 @@ export default class Header {
     const leftIcon = Header.getLeftIcon( params );
     const userIcon = Header.getUserIcon( params );
     const userIconImg = Header.getUserIconImg( params );
-    const childAnalyze = Header.getChildAnalyze( params );
+    const childAnalyzeWrap = Header.getChildAnalyzeWrap( params );
     const childAnalyzeType = Header.getChildAnalyzeType( params );
     const childAnalyzeCnt = Header.getChildAnalyzeCnt( params );
     const childTalknLogo = Header.getChildTalknLogo( params );
@@ -32,7 +32,7 @@ export default class Header {
       leftIcon,
       userIcon,
       userIconImg,
-      childAnalyze,
+      childAnalyzeWrap,
       childAnalyzeType,
       childAnalyzeCnt,
       childTalknLogo,
@@ -54,6 +54,25 @@ export default class Header {
     case App.screenModeLargeLabel:
       return '15%';
     }
+  }
+
+  static getChildAnalyzePositions(app){
+    if( app.iframe || app.type === define.APP_TYPES.EXTENSION ){
+      return {
+        margin: "8px"
+      }
+    }else{
+      return {
+        position: "absolute",
+        top: "0px",
+        right: Header.getChildAnalyzeRight(app),
+        margin: "8px"
+      }
+    }
+/*
+    {left: "15px"} : {right: Header.getChildAnalyzeRight(app)};
+    const margin = app.screenMode === App.screenModeSmallLabel ? '4px' : '2px';
+*/
   }
 
   static getSelf( {app} ){
@@ -138,14 +157,12 @@ export default class Header {
     return Style.get({layout, content, animation});
   }
 
-  static getChildAnalyze( {app} ){
-    const margin = app.screenMode === App.screenModeSmallLabel ? '4px' : '2px';
+  static getChildAnalyzeWrap( {app} ){
+    const positions = Header.getChildAnalyzePositions(app);
     const layout = Style.getLayoutInlineBlock({
-      position: 'absolute',
-      top: '7px',
-      margin,
-      right: Header.getChildAnalyzeRight(app),
-      width: 'initial',
+      ...positions,
+      width: '40px',
+      height: '40px'
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();

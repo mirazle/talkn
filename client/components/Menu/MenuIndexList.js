@@ -198,6 +198,8 @@ export default class MenuIndexList extends Component {
     const dispWatchCnt = this.getDispWatchCnt();
     const baseStyle = style[ styleKey ];
 
+    if( styleKey === MenuIndexListStyle.unactiveLiSelfLabel ) console.log(baseStyle.borderRight);
+
     return (
       <li
         data-component-name={this.constructor.name}

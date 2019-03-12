@@ -227,7 +227,6 @@ export default class MenuIndexList {
       width: "20%",
     });
     const content = Style.getContentBase({
-      lineHeight: 1.8,
       textAlign: 'center',
     });
     const animation = Style.getAnimationBase();
@@ -236,8 +235,10 @@ export default class MenuIndexList {
 
   static getBottomWatchCntWrap(){
     const layout = Style.getLayoutInlineBlock({
-      width: "20px",
-      height: "20px",
+      position: "relative",
+      top: "5px",
+      width: "22px",
+      height: "22px",
       background: Container.themeRGBA,
       borderRadius: "20px",
     });
