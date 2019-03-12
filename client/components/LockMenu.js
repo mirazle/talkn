@@ -144,7 +144,7 @@ export default class LockMenu extends Component {
     const IconTwitter = Icon.getTwitter( {}, state, {sizePx: Icon.middleSize} );
     const IconFacebook = Icon.getFacebook( {}, state, {sizePx: Icon.middleSize} );
     const IconTalkn = Icon.getTalkn( {}, state, {sizePx: Icon.middleSize} );
-console.log(threadDetail.connection);
+
     return (
       <div
         data-component-name={this.constructor.name}
@@ -177,6 +177,7 @@ console.log(threadDetail.connection);
           <li
             style={stateStyle.liEmbed}
             onClick={ () => {
+                document.querySelector("[data-component-share-input]").select();
                 document.execCommand("copy");
                 openInnerNotif('Success Copy iFrame Tag.');
               }
@@ -191,7 +192,7 @@ console.log(threadDetail.connection);
                 style={stateStyle.liEmbedInput}
                 readOnly={true}
                 value={
-                  `<iframe src='//talkn.io${threadDetail.connection}' frameborder='0' style='height: 385px; width: 300px' />`
+                  `<iframe src='//${conf.domain}${threadDetail.connection}' frameborder='0' style='height: 385px; width: 300px' />`
                 }
               />
             </div>
@@ -201,5 +202,3 @@ console.log(threadDetail.connection);
     );
  	}
 }
-
-// {`<iframe src='//${conf.domain}${threadDetail.connection}' frameborder='0' style='height: 385px; width: 300px' />`}
