@@ -5,7 +5,14 @@ export default class  Style extends Component {
  	render() {
 		const{ state, talknAPI } = this.props;
     const { app, style } = state;  
-    const fontSize = app.width <= 310 ? 10 : 12;
+    let fontSize = 12;
+    if( app.width >= 310 && app.width < 320 ){
+      fontSize = 11;
+    }else if( app.width >= 300 && app.width < 310 ){
+      fontSize = 10;
+    }else if( app.width < 300 ){
+      fontSize = 10;
+    }
 
     return (
       <style type='text/css'>
