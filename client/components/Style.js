@@ -6,11 +6,13 @@ export default class  Style extends Component {
 		const{ state, talknAPI } = this.props;
     const { app, style } = state;  
     let fontSize = 12;
-    if( app.width >= 310 && app.width < 320 ){
-      fontSize = 11;
+    if( app.width >= 310 ){
+      fontSize = 12;
     }else if( app.width >= 300 && app.width < 310 ){
+      fontSize = 12;
+    }else if( app.width >= 290 && app.width < 300 ){
       fontSize = 11;
-    }else if( app.width < 300 ){
+    }else if( app.width < 290 ){
       fontSize = 10;
     }
 
