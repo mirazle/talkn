@@ -12,18 +12,24 @@ export default class LockMenu extends Component {
   getDecolationProps1(type){
     return {
       onMouseOver: () => {
+        if( type === "liEmbed" ){
+          document.querySelector("[data-component-share-input]").select();
+        }
         this.setState(
           { style:
             {...this.state.style,
               [type]: { ...this.state.style[type],
                 color: Container.whiteRGB,
-                background: Container.themeRGBA
+                background: Container.getThemeRGBA(0.7)
               }
             }
           }
         );
       },
       onMouseLeave: () => {
+        if( type === "liEmbed" ){
+          document.getSelection().empty();
+        }
         this.setState( {style:
           {...this.state.style,
             [type]: { ...this.state.style[type],
@@ -138,7 +144,7 @@ export default class LockMenu extends Component {
     const IconTwitter = Icon.getTwitter( {}, state, {sizePx: Icon.middleSize} );
     const IconFacebook = Icon.getFacebook( {}, state, {sizePx: Icon.middleSize} );
     const IconTalkn = Icon.getTalkn( {}, state, {sizePx: Icon.middleSize} );
-
+console.log(threadDetail.connection);
     return (
       <div
         data-component-name={this.constructor.name}
@@ -170,16 +176,21 @@ export default class LockMenu extends Component {
           </li>
           <li
             style={stateStyle.liEmbed}
-            onClick={ () => openInnerNotif('Success Copy iFrame Tag.') }
+            onClick={ () => {
+                document.execCommand("copy");
+                openInnerNotif('Success Copy iFrame Tag.');
+              }
+            }
             {...this.getDecolationProps1('liEmbed')}
           >
             { IconTalkn }
             <div style={style.lockMenu.shareLabel}>
               <input  
+                data-component-share-input
                 type="text"
                 style={stateStyle.liEmbedInput}
                 readOnly={true}
-                defaultValue={
+                value={
                   `<iframe src='//talkn.io${threadDetail.connection}' frameborder='0' style='height: 385px; width: 300px' />`
                 }
               />
