@@ -65,8 +65,9 @@ class Express{
         // Open iFrame
         }else{
 
-          console.log( req.headers.referer );
-          console.log( req.originalUrl );
+          /*
+            MultiConnectionBootはreq.originalUrlのpathnameで配列形式でリクエストを受け付ける
+          */
 
           const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
           iframe = true;
