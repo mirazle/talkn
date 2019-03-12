@@ -66,7 +66,12 @@ export default class Header extends Component {
           data-component-name={`${this.constructor.name}-left`}
           style={ style.header.leftIcon }
         >
-      </span>
+          {/* Watch Cnt */}
+          <span style={ style.header.childAnalyzeWrap }>
+            <div style={ style.header.childAnalyzeType }>LIVE</div>
+            <div style={ style.header.childAnalyzeCnt }>{thread.watchCnt}</div>
+          </span>
+        </span>
 
       );
     }else{
@@ -87,7 +92,7 @@ export default class Header extends Component {
     const { icon } = style;
     const DetailIcon = Icon.getDetail( icon.detail );
     
-    if(app.iframe){
+    if(app.iframe || app.type === define.APP_TYPES.EXTENSION){
       return (
         <span
           data-component-name={`${this.constructor.name}-right`}
@@ -96,12 +101,6 @@ export default class Header extends Component {
           {...Icon.getDecolationProps3( 'icon', 'detail', 'div' )} >
 
           { DetailIcon }
-
-          {/* Watch Cnt */}
-          <span style={ style.header.childAnalyze }>
-            <div style={ style.header.childAnalyzeType }>LIVE</div>
-            <div style={ style.header.childAnalyzeCnt }>{thread.watchCnt}</div>
-          </span>
         </span>
       );
     }else{
@@ -115,7 +114,7 @@ export default class Header extends Component {
           { DetailIcon }
 
           {/* Watch Cnt */}
-          <span style={ style.header.childAnalyze }>
+          <span style={ style.header.childAnalyzeWrap }>
             <div style={ style.header.childAnalyzeType }>LIVE</div>
             <div style={ style.header.childAnalyzeCnt }>{thread.watchCnt}</div>
           </span>

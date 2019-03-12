@@ -19,7 +19,19 @@ export default {
 };
 
 const functions = {
-  "SERVER_TO_CLIENT[EMIT]:find": ( state, action ) => {
+	  'SERVER_TO_CLIENT[BROADCAST]:find': ( state, action ) => {
+      action.app = state.app;
+      return action;
+    },
+	  'SERVER_TO_CLIENT[BROADCAST]:changeThread': ( state, action ) => {
+      action.app = state.app;
+      return action;
+    },
+	  'SERVER_TO_CLIENT[BROADCAST]:disconnect': ( state, action ) => {
+      action.app = state.app;
+      return action;
+    },
+    "SERVER_TO_CLIENT[EMIT]:find": ( state, action ) => {
     action = resolve.caseNoExistResponsePost(state, action);
     action.app = {...state.app, ...action.app};
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;

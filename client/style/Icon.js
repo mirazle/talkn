@@ -871,14 +871,13 @@ export default class Icon {
   }
 
   static getDetail( {app} ){
-
     const div = Style.get({
       layout: Style.getLayoutBlock({
         width: '40px',
         height: '40px',
         borderRadius: '100px',
-        margin: '4px auto',
-        cursor: 'default',
+        margin: '1px auto',
+        cursor: 'pointer',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase(),
