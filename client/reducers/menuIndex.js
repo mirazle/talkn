@@ -64,7 +64,6 @@ export default ( state = new MenuIndex() , action ) => {
 	case 'SERVER_TO_CLIENT[BROADCAST]:find':
 	case 'SERVER_TO_CLIENT[BROADCAST]:changeThread':
 	case 'SERVER_TO_CLIENT[BROADCAST]:disconnect':
-		console.log(action.app);
 		return state.map( ( mi ) => {
 			if( action.thread.connection === mi.connection ){
 				return {...mi,

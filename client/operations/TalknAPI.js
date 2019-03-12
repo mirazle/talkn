@@ -63,7 +63,7 @@ export default class TalknAPI{
 			}, false);
 			break;
 		case define.APP_TYPES.PORTAL :
-			this.onTransition();
+//			this.onTransition(this.state);
 			break;
 		}
 		return true;
