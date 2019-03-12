@@ -52,6 +52,7 @@ class Express{
 
       let iframe = false;
       let connection = null;
+      let hasSlash = false;
 
       // No Assests Url
       if( `/${req.originalUrl}/` !== conf.assetsPath ){
@@ -71,15 +72,22 @@ class Express{
           if(req.originalUrl === "/"){
             connection = referer;
 
-          // Input Connection
+          // Extension
+          }else if(req.originalUrl !== "/"){
+            connection = referer;
+
+          // User Input Connection
           }else{
 
           }
         }
-  
+
+        hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
+
         res.render( 'portal/index', {
-          connection: connection,
-          iframe: iframe, 
+          connection,
+          hasSlash,
+          iframe, 
           domain: conf.domain,
           clientURL: conf.clientURL,
           assetsURL: conf.assetsURL

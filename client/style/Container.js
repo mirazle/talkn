@@ -111,7 +111,7 @@ export default class Container{
         borderRadius = "3px";
       }
     }
-    console.log( borderRadius );
+
     const layout = Style.getLayoutFlex({
       position: 'fixed',
       bottom: "0px",
