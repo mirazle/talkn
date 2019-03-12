@@ -34,6 +34,13 @@ export default class Icon extends Component{
           />
         );
       }
+
+      return (
+        <div
+          data-component-type={`Icon${name}`}
+          style={style}
+        />
+      )
     }
     return null;
   }
