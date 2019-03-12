@@ -9,7 +9,7 @@ export default class  Style extends Component {
     if( app.width >= 310 && app.width < 320 ){
       fontSize = 11;
     }else if( app.width >= 300 && app.width < 310 ){
-      fontSize = 10;
+      fontSize = 11;
     }else if( app.width < 300 ){
       fontSize = 10;
     }
