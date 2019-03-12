@@ -3,8 +3,8 @@ import React, { Component, PropTypes } from "react"
 export default class  Style extends Component {
 
  	render() {
-		const{ state, talknAPI } = this.props;
-    const { app, style } = state;  
+		const{ state } = this.props;
+    const { app } = state;  
     let fontSize = 12;
     if( app.width >= 315 ){
       fontSize = 12;
