@@ -65,6 +65,9 @@ class Express{
         // Open iFrame
         }else{
 
+          console.log( req.headers.referer );
+          console.log( req.originalUrl );
+
           const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
           iframe = true;
 

@@ -192,7 +192,7 @@ export default class LockMenu extends Component {
                 style={stateStyle.liEmbedInput}
                 readOnly={true}
                 value={
-                  `<iframe src='//${conf.domain}${threadDetail.connection}' frameborder='0' style='height: 385px; width: 300px' />`
+                  `<iframe src='//${conf.domain}${threadDetail.connection}' frameborder='0' style='height: 385px; width: 280px' />`
                 }
               />
             </div>
