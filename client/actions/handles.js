@@ -101,10 +101,12 @@ export default {
       setting
     };
   },
-  onResizeEndWindow: ( {app, setting} ) => {
+  onResizeEndWindow: ( {app, setting, bootOption} ) => {
     return {
       type: 'RESIZE_END_WINDOW',
-      app, setting,
+      app,
+      setting,
+      bootOption
     };
   },
   onTransition: () => {

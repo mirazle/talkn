@@ -101,13 +101,22 @@ export default class Container{
   }
 
   static getSelf( params ){
-    const widthPx = Container.getWidthPx( params );
-    const rightPx = Container.getRightPx( params, widthPx );
+    const { app, bootOption } = params;
+    let borderRadius = "0px";
+    if( bootOption && bootOption["border-radius"] ){
+      borderRadius = bootOption["border-radius"];
+    }else{
+      if( borderRadius === "0px" && app.iframe ){
+        borderRadius = "5px";
+      }
+    }
+    console.log( borderRadius );
     const layout = Style.getLayoutFlex({
       position: 'fixed',
       bottom: "0px",
       width: '100%',
       height: '100%',
+      borderRadius
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();

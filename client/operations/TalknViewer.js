@@ -72,10 +72,11 @@ export default class TalknViewer {
 			const height = ev ? ev.target.innerHeight : window.innerHeight;
 			const app = talknAPI.store.getState().app.merge({width, height});
 			const setting = talknAPI.store.getState().setting;
+			const bootOption = talknAPI.store.getState().bootOption;
 
 			this.resizeTimer = false;
 			this.resizing = false;
-			talknAPI.onResizeEndWindow( {app, setting} );
+			talknAPI.onResizeEndWindow( {app, setting, bootOption} );
 	/*
 			setTimeout( () => {
 				talknAPI.onTransition();
