@@ -25,6 +25,7 @@ const functions = {
     },
 	  'SERVER_TO_CLIENT[BROADCAST]:changeThread': ( state, action ) => {
       action.app = state.app;
+      console.log(action);
       return action;
     },
 	  'SERVER_TO_CLIENT[BROADCAST]:disconnect': ( state, action ) => {
