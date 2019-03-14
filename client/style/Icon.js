@@ -273,6 +273,34 @@ export default class Icon {
     return {img};
   }
 
+  static getChromeExtension({app}, option = {}){
+    option = {...Icon.defaultOption, ...option};
+    const sizeWidthPx = "100%";
+    const sizeHeightPx = "60px";
+    const image = option.active ? "chrome_extension.png" : "chrome_extension.png";
+    const cursor = option.active ? "pointer" : "default";
+    return Style.get({
+      layout: Style.getLayoutBlock({
+        flexGrow: "1",
+        width: sizeWidthPx,
+        minWidth: sizeWidthPx,
+        height: sizeHeightPx,
+        minHeight: sizeHeightPx,
+        margin: "40px 0px",
+        backgroundSize: "75%",
+        backgroundPosition: 'center',
+        backgroundImage: `url(https://${conf.assetsImgPath}${image})`,
+        backgroundRepeat: 'no-repeat',
+      }),
+      content: Style.getContentBase({
+        cursor
+      }),
+      animation: Style.getAnimationBase({
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+  }
+
   static getTag( {app} ){
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
