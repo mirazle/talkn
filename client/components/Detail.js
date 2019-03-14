@@ -336,6 +336,15 @@ export default class Detail extends Component {
     }
   }
 
+  renderExtension(){
+    const { state } = this.props;
+    const { app } = state
+    const active = true;
+    const href = "https://chrome.google.com/webstore/detail/talkn-for-chrome/dkngnmdlcofambpfaccepbnjgfholgbo?hl=en";
+    const onClick = app.iframe ? () => {talknAPI.extension("linkTo", {href})} : () => {}; 
+    return Icon.getChromeExtension( {}, state, {active, href, onClick});
+  }
+
  	render() {
     const { style } = this.props.state
 		return (
@@ -344,25 +353,7 @@ export default class Detail extends Component {
         <div style={ style.detail.body } >
 
           {this.renderMeta()}
-
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <a href="https://chrome.google.com/webstore/detail/talkn-for-chrome/dkngnmdlcofambpfaccepbnjgfholgbo?hl=en">
-            <img
-              src={`//${conf.assetsImgPath}chrome_extension.png`}
-              width={"240px"}
-            />
-          </a>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
+          {this.renderExtension()}
 
         </div>
         {this.renderDetailFooter()}

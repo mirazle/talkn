@@ -224,6 +224,10 @@ export default class Icon extends Component{
     );
   }
 
+  static getChromeExtension( overStyle, state = {}, option = {} ){
+    return Icon.generateImageIcon( "ChromeExtension", overStyle, state, option );
+  }
+
   static getTag( style ){
     return (
       <div data-component-type={'IconTag'} style={ style.div }>
