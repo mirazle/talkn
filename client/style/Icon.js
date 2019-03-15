@@ -830,8 +830,7 @@ export default class Icon {
 
   static getThunder( { app } ){
     const borderColor = app.dispThreadType ===  App.dispThreadTypeMulti ?
-      Container.themeRGB : Container.reliefRGBA;
-
+      Container.themeRGBA : Container.reliefRGBA;
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "50px",
@@ -864,10 +863,27 @@ export default class Icon {
         width: "0px",
         height: "0px",
         margin: "0 auto",
+
+        borderWidth: "8px 8px 10px 8px",
+        borderTopStyle: "solid",
+        borderRightStyle: "solid",
+        borderBottomStyle: "solid",
+        borderLeftStyle: "solid",
+        borderTopColor: "transparent",
+        borderRightColor: "transparent",
+        borderBottomColor: `${borderColor}`,
+        borderLeftColor: "transparent",
+        borderTopLeftRadius: "0px",
+        borderTopRightRadius: "0px",
+        borderBottomRightRadius: "0px",
+        borderBottomLeftRadius: "0px"
+
+        /*
         borderTop: "8px solid transparent",
         borderRight: "8px solid transparent",
         borderBottom: `10px solid ${borderColor}`,
         borderLeft: "8px solid transparent",
+*/
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -884,10 +900,26 @@ export default class Icon {
         width: "0px",
         height: "0px",
         margin: "0 auto",
+
+        borderWidth: "8px 8px 10px 8px",
+        borderTopStyle: "solid",
+        borderRightStyle: "solid",
+        borderBottomStyle: "solid",
+        borderLeftStyle: "solid",
+        borderTopColor: `${borderColor}`,
+        borderRightColor: "transparent",
+        borderBottomColor: "transparent",
+        borderLeftColor: "transparent",
+        borderTopLeftRadius: "0px",
+        borderTopRightRadius: "0px",
+        borderBottomRightRadius: "0px",
+        borderBottomLeftRadius: "0px"
+/*
         borderBottom: "8px solid transparent",
         borderRight: "8px solid transparent",
         borderTop: `10px solid ${borderColor}`,
         borderLeft: "8px solid transparent",
+*/
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
