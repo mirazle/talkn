@@ -48,7 +48,7 @@ export default class Container{
 
   static get fontBaseRGB(){ return Style.fontBaseRGB };
   static get themeRGBString(){ return '79, 174, 159' };
-  static get themeRGB(){ return `rgba(${Container.themeRGBString})` };
+  static get themeRGB(){ return `rgb(${Container.themeRGBString})` };
   static get themeRGBA(){ return `rgba(${Container.themeRGBString}, 0.8)` };
   static getThemeRGBA(alpha = 0.8){ return `rgba(${Container.themeRGBString}, ${alpha})` };
   static getTransitionOn( app = {}, removeUnit = false ){

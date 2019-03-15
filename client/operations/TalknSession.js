@@ -35,8 +35,8 @@ export default class TalknSession{
 
 	static listenWorker( state ){
 		const { talknIndex } = state.app;
-
-		if( chrome && chrome.runtime && chrome.runtime.onMessage ){
+/*
+		if( window.chrome && chrome.runtime && chrome.runtime.onMessage ){
 
 			chrome.runtime.onMessage.addListener( ( result, sender, sendResponse ) => {
 
@@ -54,5 +54,6 @@ export default class TalknSession{
 				}
 			});
 		}
+*/
 	}
 }
