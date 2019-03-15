@@ -32,11 +32,11 @@ export default class DetailModal {
     return app.isOpenDetail ?
       DetailModal.getOpenSelfTransform( app ) : DetailModal.getCloseSelfTransform( app );
   }
-  static getCloseSelfTransform( app ){ return `translate3d(0%, ${PostsFooter.selfHeight}px, -1px)` };
+  static getCloseSelfTransform( app ){ return `translate3d(0%, ${PostsFooter.selfHeight}px, 0px)` };
   static getOpenSelfTransform( app ){
     return app.type === define.APP_TYPES.EXTENSION ?
       `translate3d(0%, -100%, 0px)` :
-      `translate3d(0%, -100%, -1px)`;
+      `translate3d(0%, -100%, 0px)`;
   };
 
   static getSelf( {app} ){

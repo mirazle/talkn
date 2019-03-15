@@ -342,9 +342,9 @@ export default class Icon extends Component{
   static getThunder( style ){
     return (
       <div data-component-type={'IconThunder'} style={ style.div }>
-        <div style={ style.wrap }>
-          <span style={ style.top }></span>
-          <span style={ style.bottom }></span>
+        <div data-component-type={'IconThunderWrap'} style={ style.wrap }>
+          <span data-component-type={'IconThunderTop'} style={ style.top }></span>
+          <span data-component-type={'IconThunderBottom'} style={ style.bottom }></span>
         </div>
       </div>
     );
