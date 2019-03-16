@@ -73,9 +73,13 @@ export default class Detail extends Component {
   }
 
   renderHeader(){
-    const { threadDetail, style } = this.props.state
+    const { state, handleOnClickToggleDetail } = this.props;
+    const { threadDetail, style } = state;
     return(
-      <header style={ style.detail.header }>
+      <header
+        onClick={handleOnClickToggleDetail}
+        style={ style.detail.header }
+      >
         <span style={ style.detail.headerP }>
         <Marquee
           text={threadDetail.serverMetas.title}
