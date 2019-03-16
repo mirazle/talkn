@@ -17,7 +17,41 @@ class Container extends Component {
     const { thread } = state;
     talknAPI.find( thread.connection );
     talknAPI.findMenuIndex( thread.connection );
+    this.getProps = this.getProps.bind(this);
     this.handleOnClickToggleMain = this.handleOnClickToggleMain.bind(this);
+    this.handleOnClickToggleDetail = this.handleOnClickToggleDetail.bind(this);
+  }
+
+  getProps(){
+    return {
+      ...this.props,
+      handleOnClickToggleMain: this.handleOnClickToggleMain,
+      handleOnClickToggleDetail: this.handleOnClickToggleDetail
+    }
+  }
+
+  handleOnClickToggleDetail( e ){
+    const { state, onClickOpenLockMenu } = this.props;
+    let { app, thread, threadDetail } = state
+
+    if(app.openLockMenu !== App.openLockMenuLabelNo){
+      onClickOpenLockMenu(App.openLockMenuLabelNo);
+    }else{
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        app.isOpenDetail = app.isOpenDetail ? false : true;
+        break;
+      default:
+        app = App.getAppUpdatedOpenFlgs(state, "headerDetailIcon");
+        break;
+      }
+  
+      if( app.isRootConnection){
+        talknAPI.onClickToggleDispDetail( {threadDetail: thread, app} );
+      }else{
+        talknAPI.onClickToggleDispDetail( {threadDetail, app} );
+      }
+    }
   }
 
   handleOnClickToggleMain( e ){
@@ -40,14 +74,14 @@ class Container extends Component {
   renderFooter(){
     const { app } = this.props.state;
     if( app.type ===  define.APP_TYPES.EXTENSION){
-      return <Footer {...this.props} handleOnClickToggleMain={this.handleOnClickToggleMain }/>;
+      return <Footer {...this.getProps()} />;
     }else{
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
         return null;
       case App.screenModeMiddleLabel : 
       case App.screenModeLargeLabel : 
-      return <Footer {...this.props} handleOnClickToggleMain={this.handleOnClickToggleMain }/>;
+      return <Footer {...this.getProps()} />;
       }
     }
   }
@@ -57,8 +91,8 @@ class Container extends Component {
     if( style && style.container && style.container.self && app.connectioned ){
       return (
   			<div data-component-type={this.constructor.name} style={ style.container.self }>
-          <Style {...this.props} />
-          <Main {...this.props} handleOnClickToggleMain={this.handleOnClickToggleMain } />
+          <Style {...this.getProps()} />
+          <Main {...this.getProps()} />
           {this.renderFooter()}
   			</div>
   		);
