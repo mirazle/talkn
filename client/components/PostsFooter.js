@@ -15,8 +15,9 @@ export default class PostsFooter extends Component {
   }
 
   handleOnClick( e ){
-    if( !App.validInputPost( e.target.value ) ){
-      if(e.target.value !== ""){
+    const value = console.log(this.refs.postArea.innerHTML);
+    if( !App.validInputPost( value ) ){
+      if(value !== ""){
         talknAPI.post();
         talknAPI.onChangeInputPost('');
       }
@@ -65,6 +66,7 @@ export default class PostsFooter extends Component {
         />
         <textarea
           style={style.postsFooter.textarea}
+          ref={"postArea"}
           rows={1}
           onChange={this.handleOnChange}
           onKeyPress={this.handleOnKeyPress}
