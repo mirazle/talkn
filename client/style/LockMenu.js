@@ -29,7 +29,8 @@ export default class LockMenu {
       flexFlow: "column",
       border: Container.border,
       borderRadius: "5px",
-      boxShadow: "rgba(50, 50, 50, 0.1) 3px 3px 3px" 
+      boxShadow: "rgba(50, 50, 50, 0.1) 3px 3px 3px" ,
+      zIndex: "0px"
     }
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
@@ -48,15 +49,10 @@ export default class LockMenu {
     return layout;
   }
 
-/*
-  TODO
-  detailFooterコンポーネントを作って、llockMenuとの重なりの不和を解消する
-*/
-
   static getCommonTransform(app){
     return app.openLockMenu === App.openLockMenuLabelNo ?
-      'translate3d(0px, 0px, 0px)' :
-      `translate3d(0px, calc( ( ( -${app.height}px / 2 ) - 50% ) - ${Header.headerHeight}px ), 0px)`;
+      'translate3d(0px, 0px, 1px)' :
+      `translate3d(0px, calc( ( ( -${app.height}px / 2 ) - 50% ) - ${Header.headerHeight}px ), 1px)`;
   }
 
   static getPaddingLi(app){

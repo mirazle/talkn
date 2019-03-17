@@ -338,6 +338,7 @@ export default class Detail {
       width: DetailFooter.getWidth(app),
       background: Container.offWhiteRGB,
       height: Main.headerHeight,
+      zÎndex: "10px",
       ...positions,
       ...borders
     });
