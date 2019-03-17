@@ -5,6 +5,7 @@ import define from 'common/define';
 import Sequence from 'common/Sequence';
 import App from 'common/schemas/state/App';
 import DetailFooter from 'client/components/DetailFooter';
+import LockMenu from './LockMenu';
 import Icon from './Icon';
 
 export default class Detail extends Component {
@@ -339,6 +340,11 @@ export default class Detail extends Component {
       return null;
     }
   }
+  renderLockMenu(){
+    const { app } = this.props.state;
+    return app.screenMode === App.screenModeSmallLabel ?  
+      <LockMenu {...this.props} /> : null ;
+  }
 
   renderExtension(){
     const { state } = this.props;
@@ -356,6 +362,7 @@ export default class Detail extends Component {
         {this.renderHeader()}
         <div style={ style.detail.body } >
 
+          {this.renderLockMenu()}
           {this.renderMeta()}
           {this.renderExtension()}
 
