@@ -361,12 +361,11 @@ export default class Detail extends Component {
       <div data-component-name={this.constructor.name} style={ style.detail.self }>
         {this.renderHeader()}
         <div style={ style.detail.body } >
-
-          {this.renderLockMenu()}
           {this.renderMeta()}
           {this.renderExtension()}
 
         </div>
+        {this.renderLockMenu()}
         {this.renderDetailFooter()}
       </div>
 		);
