@@ -12,6 +12,7 @@ export default class LockMenu {
     return {
       div: {
         position : "absolute",
+        top: "13px",
         right: "10px",
         transform: "scale(0.5)"
       }
