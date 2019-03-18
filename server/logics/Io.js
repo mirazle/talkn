@@ -46,9 +46,7 @@ export default class Io {
     const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {app} );
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {thread} );
     this.io.emit( ioUser, Sequence.CATCH_ME_KEY, responseEmitState );
-    thread.connections.forEach( (connection) => {
-      this.io.broadcast( connection, responseBroadcastState );
-    });
+    this.io.broadcast( responseBroadcastState.thread.connection, responseBroadcastState );
     return true;
   }
 

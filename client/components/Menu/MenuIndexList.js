@@ -20,9 +20,9 @@ export default class MenuIndexList extends Component {
 
   componentDidMount(){
     const { app, menuIndexList } = this.props;
-    if( app.rootConnection === menuIndexList.connection ){
-      talknAPI.onCatchConnectionAPI( menuIndexList.connection );
-    }
+    //if( app.rootConnection === menuIndexList.connection ){
+    talknAPI.onCatchConnectionAPI( menuIndexList.connection );
+    //}
   }
 
   getDecolationEvents(styleKey){
