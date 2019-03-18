@@ -116,6 +116,7 @@ export default class MenuIndex {
     const layout = Style.getLayoutInlineBlock({
       width: '80%',
       height: '24px',
+      padding: "0px 0px 0px 10px",
       background: Container.whiteRGB,
       outline: 'none',
       resize: 'none',
@@ -125,7 +126,6 @@ export default class MenuIndex {
     });
     const content = Style.getContentBase({
       lineHeight: "2",
-      textIndent: '10px',
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
