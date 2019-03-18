@@ -81,9 +81,7 @@ export default class Sequence {
       },
       findMenuIndex: {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
-        requestPrivateState: {
-          'thread': [{columnName: 'layer'}],
-        },
+        requestPrivateState: {},
         responseEmitState: {'menuIndex': '*'},
         responseBroadcastState: {},
       },

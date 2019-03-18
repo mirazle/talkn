@@ -13,18 +13,16 @@ export default class MenuIndex {
     const self = MenuIndex.getSelf( params );
     const header = MenuIndex.getHeader( params );
     const headerSearchIcon = MenuIndex.getHeaderSearchIcon( params );
-    const headerRootConnection = MenuIndex.getHeaderRootConnection( params );
-    const headerConnection = MenuIndex.getHeaderConnection( params );
     const headerInput = MenuIndex.getHeaderInput( params );
+    const headerUpdateIcon = MenuIndex.getHeaderUpdateIcon( params );
     const ol = MenuIndex.getOl( params );
 
     return {
       self,
       header,
       headerSearchIcon,
-      headerRootConnection,
-      headerConnection,
       headerInput,
+      headerUpdateIcon,
       ol,
     }
   }
@@ -46,7 +44,7 @@ export default class MenuIndex {
       {borderBottom: Container.border, borderLeft: 0} :
       {borderBottom: Container.border, borderLeft: 0, borderRight: Container.border} ;
 
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
       width: '100%',
       height: `${MenuIndex.liHeight / 2 }px`,
       ...borders,
@@ -62,9 +60,8 @@ export default class MenuIndex {
   }
 
   static getHeaderSearchIcon( {app} ){
-    const layout = Style.getLayoutInlineBlock({
-      width: '55px',
-      minWidth: '55px',
+    const layout = Style.getLayoutBlock({
+      width: '50px',
       height: '45px',
     });
     const content = Style.getContentBase({});
@@ -74,48 +71,10 @@ export default class MenuIndex {
     return Style.get({layout, content, animation});
   }
 
-  static getHeaderRootConnection( {app} ){
-    const layout = Style.getLayoutInlineBlock({
-      position: 'absolute',
-      top: '13px',
-      left: '58px',
-      width: 'fit-content',
-      minWidth: '20px',
-      height: '20px',
-      padding: '0px 5px 1px 5px',
-      background: Container.offWhiteRGB,
-      border: Container.border,
-      borderRadius: '3px',
-    });
-    const content = Style.getContentBase({
-      fontSize: '10px',
-    });
-    const animation = Style.getAnimationBase({
-      transition: Container.getTransition( app ),
-    });
-    return Style.get({layout, content, animation});
-  }
-
-  static getHeaderConnection( {app} ){
-    const layout = Style.getLayoutInlineFlex({
-      justifyContent: 'flexStart',
-      width: `calc( 100% - 60px )`,
-      overflow: 'scroll'
-    });
-    const content = Style.getContentBase({
-      whiteSpace: 'nowrap',
-      fontSize: '12px',
-    });
-    const animation = Style.getAnimationBase({
-      transition: Container.getTransition( app ),
-    });
-    return Style.get({layout, content, animation});
-  }
-
   static getHeaderInput(){
     const layout = Style.getLayoutInlineBlock({
-      width: '80%',
-      height: '24px',
+      width: 'calc( 100% - 100px )',
+      height: '25px',
       padding: "0px 0px 0px 10px",
       background: Container.whiteRGB,
       outline: 'none',
@@ -125,11 +84,29 @@ export default class MenuIndex {
       WebkitAppearance: 'none',
     });
     const content = Style.getContentBase({
+      whiteSpace: 'nowrap',
+      fontSize: '12px',
       lineHeight: "2",
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
 
+    return Style.get({layout, content, animation});
+  }
+
+  static getHeaderUpdateIcon( {app} ){
+    const layout = Style.getLayoutFlex({
+      width: '50px',
+      height: '45px',
+      alignItems: "center",
+      justifyContent: "center"
+    });
+    const content = Style.getContentBase({
+      cursor: "pointer"
+    });
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransition( app ),
+    });
     return Style.get({layout, content, animation});
   }
 
