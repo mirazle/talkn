@@ -7,14 +7,21 @@ export default class MenuIndex extends Component {
 
   constructor(props) {
     super(props);
+    const {rootConnection} = props.state.app;
+    this.state = {rootConnection};
+    this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
   }
 
+  handleOnChange( e ){
+    this.setState({rootConnection: e.target.value});
+  }
 
   handleOnKeyPress( e ){
     if ( e.nativeEvent.keyCode === 13 ) {
-      const { openInnerNotif } = this.props;
-      openInnerNotif();
+      const href = e.target.value.replace(/^https:\//, '').replace(/^http:\//, '');
+      console.log(href);
+      location.href = href;
     }
   }
 
@@ -63,7 +70,6 @@ export default class MenuIndex extends Component {
           <span style={style.menuIndex.headerSearchIcon}>
             { Search }
           </span>
-          <button style={style.menuIndex.headerRootConnection}>{rootConnection}</button>
           <span style={style.menuIndex.headerConnection}>
             <input
               type={ 'text' }
@@ -71,7 +77,7 @@ export default class MenuIndex extends Component {
               rows={1}
               onChange={this.handleOnChange}
               onKeyPress={this.handleOnKeyPress}
-              defaultValue={''}
+              value={this.state.rootConnection}
             />
           </span>
         </header>
