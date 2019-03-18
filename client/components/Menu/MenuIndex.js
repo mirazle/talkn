@@ -20,7 +20,18 @@ export default class MenuIndex extends Component {
 
   handleOnKeyPress( e ){
     if ( e.nativeEvent.keyCode === 13 ) {
-      const href = e.target.value.replace(/^https:\//, '').replace(/^http:\//, '');
+      const value = e.target.value;
+      let href = "";
+      if( value.indexOf( "http://" ) === 0 ){
+        href = value.replace( "http:/", "" );
+      }else if(value.indexOf( "htts://" ) === 0){
+        href = value.replace( "https:/", "" );
+      }else if(value.indexOf( "/" ) === 0){
+        href = value;
+      }else{
+        href = `/${value}`;
+      }
+
       alert(`https://${conf.domain}${href}`);
       location.href = `https://${conf.domain}${href}`;
     }
