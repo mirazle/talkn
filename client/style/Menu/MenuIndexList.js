@@ -146,7 +146,7 @@ export default class MenuIndexList {
     const layout = Style.getLayoutInlineBlock({
       position: "absolute",
       left: "8px",
-      top: "8px",
+      top: "10px",
       width: MenuIndexList.thirdDigitWidth,
       height: "18px",
       background: MenuIndexList.rankOtherRGB,
