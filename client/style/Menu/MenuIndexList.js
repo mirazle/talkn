@@ -148,7 +148,7 @@ export default class MenuIndexList {
       left: "8px",
       top: "8px",
       width: MenuIndexList.thirdDigitWidth,
-      height: "20px",
+      height: "18px",
       background: MenuIndexList.rankOtherRGB,
       borderRadius: "10px",
       margin: "0px 2% 0px 0px"
