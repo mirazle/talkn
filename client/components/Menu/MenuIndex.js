@@ -10,8 +10,14 @@ export default class MenuIndex extends Component {
     super(props);
     const {rootConnection} = props.state.app;
     this.state = {rootConnection};
+    this.handleOnClickUpdate = this.handleOnClickUpdate.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
+  }
+
+  handleOnClickUpdate( connection ){
+    const { rootConnection } = this.props.state.app;
+    talknAPI.findMenuIndex( rootConnection );
   }
 
   handleOnChange( e ){
@@ -69,30 +75,33 @@ export default class MenuIndex extends Component {
   }
 
  	render() {
-    const { style, app } = this.props.state;
-    const { rootConnection } = app;
+    const { style } = this.props.state;
     const { icon } = style;
     const Search = Icon.getSearch( icon.search );
-    const dispConnection = rootConnection.replace( '/', '' );
+    const Update = Icon.getUpdate( icon.update );
 
 		return (
       <nav data-component-name={this.constructor.name} style={style.menuIndex.self}>
 
         <header style={style.menuIndex.header}>
-          <span style={style.menuIndex.headerSearchIcon}>
+          <div style={style.menuIndex.headerSearchIcon}>
             { Search }
-          </span>
-          <span style={style.menuIndex.headerConnection}>
-            <input
-              type={ 'text' }
-              style={style.menuIndex.headerInput}
-              rows={1}
-              onChange={this.handleOnChange}
-              onKeyPress={this.handleOnKeyPress}
-              placeholder={"Input favorite url"}
-              value={this.state.rootConnection}
-            />
-          </span>
+          </div>
+          <input
+            type={ 'text' }
+            style={style.menuIndex.headerInput}
+            rows={1}
+            onChange={this.handleOnChange}
+            onKeyPress={this.handleOnKeyPress}
+            placeholder={"Input favorite url"}
+            value={this.state.rootConnection}
+          />
+          <div
+            style={style.menuIndex.headerUpdateIcon}
+            onClick={this.handleOnClickUpdate}
+          >
+            { Update }
+          </div>
         </header>
 
         <ol style={style.menuIndex.ol}>

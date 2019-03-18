@@ -405,4 +405,16 @@ export default class Icon extends Component{
       </div>
     );
   }
+
+  static getUpdate( overStyle, params = {} ){
+    const style = Icon.getOveredStyle( IconStyle.getUpdate(params), overStyle );
+    return (
+      <div data-component-type={'IconUpdate'} style={ style.div } >
+        <div style={ style.circle }>
+          <div style={ style.bar }/>
+          <div style={ style.white }/>
+        </div>
+      </div>
+    );
+  }
 }
