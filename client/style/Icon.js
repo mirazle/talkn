@@ -1156,6 +1156,7 @@ export default class Icon {
         height: '14px',
         margin: '0 auto',
         border: `2px solid ${color}`,
+        borderRadius: "3px"
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -1182,10 +1183,10 @@ export default class Icon {
     const whiteBar1 = Style.get({
       layout: Style.getLayoutInlineBlock({
         position: 'absolute',
-        width: '2px',
+        width: '5px',
         height: '4px',
         top: '10px',
-        left: '14px',
+        left: '11px',
         margin: '0 auto',
         background: 'rgb(250, 250, 250)',
         zIndex: 100,
@@ -1199,7 +1200,7 @@ export default class Icon {
     const whiteBar2 = Style.get({
       layout: Style.getLayoutInlineBlock({
         position: 'absolute',
-        width: '2px',
+        width: '5px',
         height: '4px',
         top: '10px',
         left: '18px',
