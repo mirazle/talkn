@@ -47,6 +47,7 @@ class Express{
   }
 
   routingHttps( req, res, next ){
+    console.log("============ " +  req.headers.host  );
     switch( req.headers.host ){
     case conf.domain:
 
@@ -54,11 +55,15 @@ class Express{
       let portalUrlSearch = false;
       let connection = "/";
       let hasSlash = false;
-
+console.log("------- " + req.originalUrl );
       // No Assests Url
       if( `/${req.originalUrl}/` !== conf.assetsPath ){
 
         portalUrlSearch = req.originalUrl.indexOf(`https://${conf.domain}`) !== false;
+
+        console.log("@@@@@@");
+        console.log( req.headers.referer  );
+        console.log( portalUrlSearch );
 
         // Open Portal Site
         if( !req.headers.referer || portalUrlSearch ){
