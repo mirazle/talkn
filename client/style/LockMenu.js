@@ -22,10 +22,10 @@ export default class LockMenu {
   static getCommonLayout(app){
     const layout = {
       position: 'absolute',
-      width: '80%',
+      width: '90%',
       height: 'fit-content',
       top: `calc( 100% + ${Header.headerHeight}px)`,
-      left: '10%',
+      left: '5%',
       flexFlow: "column",
       border: Container.border,
       borderRadius: "5px",
