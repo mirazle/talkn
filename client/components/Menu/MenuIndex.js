@@ -20,7 +20,6 @@ export default class MenuIndex extends Component {
   handleOnKeyPress( e ){
     if ( e.nativeEvent.keyCode === 13 ) {
       const href = e.target.value.replace(/^https:\//, '').replace(/^http:\//, '');
-      console.log(href);
       location.href = href;
     }
   }
@@ -77,6 +76,7 @@ export default class MenuIndex extends Component {
               rows={1}
               onChange={this.handleOnChange}
               onKeyPress={this.handleOnKeyPress}
+              placeholder={"Input URL"}
               value={this.state.rootConnection}
             />
           </span>
