@@ -61,7 +61,7 @@ class Express{
         if( !req.headers.referer ){
 
           iframe = false;
-
+          connection = req.originalUrl;
         // Open iFrame
         }else{
 
