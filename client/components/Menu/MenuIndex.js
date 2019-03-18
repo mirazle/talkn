@@ -21,7 +21,7 @@ export default class MenuIndex extends Component {
     if ( e.nativeEvent.keyCode === 13 ) {
       const href = e.target.value.replace(/^https:\//, '').replace(/^http:\//, '');
       alert(href);
-      location.href = href;
+      location.href = `https:/${conf.domain}${href}`;
     }
   }
 
