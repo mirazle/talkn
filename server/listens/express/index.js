@@ -51,17 +51,21 @@ class Express{
     case conf.domain:
 
       let iframe = false;
+      let portalUrlSearch = false;
       let connection = "/";
       let hasSlash = false;
 
       // No Assests Url
       if( `/${req.originalUrl}/` !== conf.assetsPath ){
 
+        portalUrlSearch = req.originalUrl.indexOf(`https://${conf.domain}`) !== false;
+
         // Open Portal Site
-        if( !req.headers.referer ){
+        if( !req.headers.referer || portalUrlSearch ){
 
           iframe = false;
-          connection = req.originalUrl;
+          connection = req.originalUrl.replace(`/${conf.domain}`, '');
+
         // Open iFrame
         }else{
 
