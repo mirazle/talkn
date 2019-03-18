@@ -20,6 +20,7 @@ export default class MenuIndex extends Component {
   handleOnKeyPress( e ){
     if ( e.nativeEvent.keyCode === 13 ) {
       const href = e.target.value.replace(/^https:\//, '').replace(/^http:\//, '');
+      console.log(href);
       location.href = href;
     }
   }
