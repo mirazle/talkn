@@ -8,11 +8,49 @@ export default class MenuIndex extends Component {
 
   constructor(props) {
     super(props);
-    const {rootConnection} = props.state.app;
-    this.state = {rootConnection};
+    const {app, style} = props.state;
+    const {rootConnection} = app;
+    this.state = {rootConnection, style: style.menuIndex.headerUpdateIcon};
     this.handleOnClickUpdate = this.handleOnClickUpdate.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
+  }
+
+  getDecolationProps(){
+    return {
+      onMouseOver: () => {
+        this.setState(
+          { style:
+            {...this.state.style,
+              transition: '200ms',
+              transform: 'scale( 1.1 )'
+            }
+          }
+        );
+      },
+      onMouseLeave: () => {
+        this.setState( {style:
+          {...this.state.style,
+            transition: '600ms',
+            transform: 'scale( 1 )'
+          }
+        });
+      },
+      onMouseDown: () => {
+        this.setState( {style:
+          {...this.state.style,
+            transform: 'scale( 0.9 )'
+          }
+        });
+      },
+      onMouseUp: () => {
+        this.setState( {style:
+          {...this.state.style,
+            transform: 'scale( 1 )'
+          }
+        });
+      },
+    }
   }
 
   handleOnClickUpdate( connection ){
@@ -75,11 +113,11 @@ export default class MenuIndex extends Component {
   }
 
  	render() {
+    const headerUpdateIconStyle = this.state.style;
     const { style } = this.props.state;
     const { icon } = style;
     const Search = Icon.getSearch( icon.search );
     const Update = Icon.getUpdate( icon.update );
-
 		return (
       <nav data-component-name={this.constructor.name} style={style.menuIndex.self}>
 
@@ -97,8 +135,9 @@ export default class MenuIndex extends Component {
             value={this.state.rootConnection}
           />
           <div
-            style={style.menuIndex.headerUpdateIcon}
+            style={headerUpdateIconStyle}
             onClick={this.handleOnClickUpdate}
+            {...this.getDecolationProps()}
           >
             { Update }
           </div>
