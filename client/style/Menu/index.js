@@ -114,11 +114,9 @@ export default class MenuIndex {
 
   static getHeaderInput(){
     const layout = Style.getLayoutInlineBlock({
-      width: '90%',
-      height: '25px',
+      width: '80%',
+      height: '24px',
       background: Container.whiteRGB,
-      padding: '4px 0% 5px 2%',
-      margin: '0 3% 0 0',
       outline: 'none',
       resize: 'none',
       border: Container.border,
@@ -126,7 +124,8 @@ export default class MenuIndex {
       WebkitAppearance: 'none',
     });
     const content = Style.getContentBase({
-      textIndent: '22px',
+      lineHeight: "2",
+      textIndent: '10px',
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
