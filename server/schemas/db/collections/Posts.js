@@ -8,7 +8,7 @@ export default {
 	uid: { type: String, default: '' },
 	utype: { type: String, default: '' },
 	favicon: { type: String, default: Favicon.defaultFaviconPath },
-	post: { type: String, default: ' ' },
+	post: { type: String, default: '' },
 	data: { type: Object, default:{} },
 	// Time
 	createTime: { type: Date, default: Date },

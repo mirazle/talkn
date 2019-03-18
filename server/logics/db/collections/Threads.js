@@ -38,7 +38,8 @@ export default class Threads {
 
   async findMenuIndex( requestState, setting ){
     const { thread } = requestState;
-    const { connection, layer } = thread;
+    const { connection } = thread;
+    const layer = Thread.getLayer( connection );
     const regexConnection = connection.replace(/\//, '\/');
     const regex = new RegExp( `^${regexConnection}` );
     const condition = {
@@ -49,6 +50,7 @@ export default class Threads {
     };
     const selector = {"serverMetas.title": 1, lastPost: 1, watchCnt: 1};
     const option = {sort: {watchCnt: -1, layer: -1}, limit: setting.server.getThreadChildrenCnt};
+
     let {error, response} = await this.collection.find( condition, selector, option );
 
     let mainConnectionExist = false;

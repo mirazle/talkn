@@ -30,6 +30,7 @@ export default class Icon {
     const share = Icon.getShare( params );
     const money = Icon.getMoney( params );
     const close = Icon.getClose( params );
+    const update = Icon.getUpdate( params );
     return {
       headTab,
       menu,
@@ -47,7 +48,8 @@ export default class Icon {
       heart,
       share,
       money,
-      close
+      close,
+      update
     }
   }
 
@@ -435,32 +437,37 @@ export default class Icon {
     });
 
     const circle = Style.get({
-      layout: Style.getLayoutInlineBlock({
-        margin: '6px auto',
-        width: '22px',
-        height: '22px',
+      layout: Style.getLayoutBlock({
+        position: "absolute",
+        top: "4px",
+        left: "16px",
+        margin: '7px auto',
+        width: '18px',
+        height: '18px',
         borderRadius: '100px',
-        border: `4px solid ${Container.chromeOffTabRGB}`,
-        borderWidth: '4px',
+        border: `3px solid ${Container.chromeOffTabRGB}`
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `scale( 1 ) translate3d( 5px, 2px, 0px )`,
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
       }),
     });
 
     const bar = Style.get({
       layout: Style.getLayoutInlineBlock({
+        position: "absolute",
+        top: "23px",
+        left: "13px",
         margin: '0 auto',
         background: Container.chromeOffTabRGB,
-        width: '5px',
-        height: '14px',
+        width: '4px',
+        height: '12px',
         borderRadius: '10px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: Container.getTransition( app ),
-        transform: `scale(1) translate3d(-20px, 12px, 0px) rotate(45deg)`,
+        transform: `scale(1) translate3d(0px, 0px, 0px) rotate(45deg)`,
       }),
     });
     return {div, circle, bar};
@@ -1333,5 +1340,72 @@ export default class Icon {
       }),
     });
     return {div, circle, bar1, bar2};
+  }
+
+
+  static getUpdate({app}){
+    const div = Style.get({
+      layout: Style.getLayoutFlex({
+        width: Icon.middleSize,
+        height: Icon.middleSize
+      }),
+      content: Style.getContentBase({
+        cursor: "pointer"
+      }),
+      animation: Style.getAnimationBase({}),
+    });
+
+    const circle = Style.get({
+      layout: Style.getLayoutBase({
+        width: '55%',
+        height: '55%',
+        borderRadius: '30px',
+        border: `2px solid ${Container.borderRGB}`,
+        overflow: "visible"
+      }),
+      content: Style.getContentBase({
+        cursor: "pointer"
+      }),
+      animation: Style.getAnimationBase({
+      }),
+    });
+
+    const bar = Style.get({
+      layout: Style.getLayoutBase({
+        position: "relative",
+        left: "10px",
+        width: '8px',
+        height: '8px',
+        background: "none",
+        borderTop: `0px solid ${Container.lightRGB}`,
+        borderRight: `2px solid ${Container.borderRGB}`,
+        borderBottom: `2px solid ${Container.borderRGB}`,
+        borderLeft: `0px solid ${Container.lightRGB}`
+      }),
+      content: Style.getContentBase({
+        cursor: "pointer"
+      }),
+      animation: Style.getAnimationBase({
+        transform: 'rotate(25deg)',
+      }),
+    });
+
+    const white = Style.get({
+      layout: Style.getLayoutBase({
+        position: "relative",
+        top: "2px",
+        left: "12px",
+        width: '10px',
+        height: '4px',
+        background: Container.lightRGB
+      }),
+      content: Style.getContentBase({
+        cursor: "pointer"
+      }),
+      animation: Style.getAnimationBase({
+        transform: 'rotate(25deg)',
+      }),
+    });
+    return {div, circle, bar, white};
   }
 }
