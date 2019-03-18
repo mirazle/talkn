@@ -24,7 +24,7 @@ export default class MenuIndex extends Component {
       let href = "";
       if( value.indexOf( "http://" ) === 0 ){
         href = value.replace( "http:/", "" );
-      }else if(value.indexOf( "htts://" ) === 0){
+      }else if(value.indexOf( "https://" ) === 0){
         href = value.replace( "https:/", "" );
       }else if(value.indexOf( "/" ) === 0){
         href = value;
