@@ -50,11 +50,7 @@ export default class Menu extends Component {
       </a>
     );
   }
-
-  responseFacebook(response) {
-
-  }
-
+  
   renderMenuComponent(){
     const {  app } = this.props.state;
     let menuComponent;
