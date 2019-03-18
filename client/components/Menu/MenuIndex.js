@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import App from 'common/schemas/state/App';
+import conf from 'common/conf';
 import Icon from '../Icon';
 import MenuIndexList from './MenuIndexList';
 
@@ -77,7 +78,7 @@ export default class MenuIndex extends Component {
               rows={1}
               onChange={this.handleOnChange}
               onKeyPress={this.handleOnKeyPress}
-              placeholder={"Input URL"}
+              placeholder={"Input favorite url"}
               value={this.state.rootConnection}
             />
           </span>
