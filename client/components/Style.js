@@ -24,6 +24,11 @@ export default class  Style extends Component {
             font-size: ${fontSize}px;
             color: rgb(170, 170, 170);
           }
+          #talkn1 input::placeholder {
+            text-indent: 2%;
+            font-size: ${fontSize}px;
+            color: rgb(170, 170, 170);
+          }
         `}
       </style>
 		);
