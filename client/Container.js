@@ -16,7 +16,6 @@ class Container extends Component {
     const { state, talknAPI } = this.props;
     const { thread } = state;
     talknAPI.find( thread.connection );
-    console.log( "@@@ Container : " + thread.connection );
     talknAPI.findMenuIndex( thread.connection );
     this.getProps = this.getProps.bind(this);
     this.handleOnClickToggleMain = this.handleOnClickToggleMain.bind(this);

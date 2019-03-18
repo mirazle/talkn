@@ -7,12 +7,8 @@ export default class Header extends Component {
 
   constructor(props) {
     super(props);
-    this.handleOnClickHeadTabIcon = this.handleOnClickHeadTabIcon.bind(this);
     this.handleOnClickMenuIcon = this.handleOnClickMenuIcon.bind(this);
     this.handleOnClickDetailIcon = this.handleOnClickDetailIcon.bind(this);
-  }
-
-  handleOnClickHeadTabIcon( e ){
   }
 
   handleOnClickMenuIcon( e ){

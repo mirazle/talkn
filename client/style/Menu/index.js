@@ -97,7 +97,7 @@ export default class MenuIndex {
   static getHeaderUpdateIcon( {app} ){
     const layout = Style.getLayoutFlex({
       width: '50px',
-      height: '45px',
+      height: '50px',
       alignItems: "center",
       justifyContent: "center"
     });
