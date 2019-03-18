@@ -23,16 +23,16 @@ export default class MenuIndex extends Component {
       const value = e.target.value;
       let href = "";
       if( value.indexOf( "http://" ) === 0 ){
-        href = value.replace( "http:/", "" );
+        href = value.replace( /^http:\//, "" );
       }else if(value.indexOf( "https://" ) === 0){
-        href = value.replace( "https:/", "" );
+        href = value.replace( /^https:\//, "" );
+      }else if(value.indexOf( "//" ) === 0){
+        href = value.replace( /^\/\//, "/" );
       }else if(value.indexOf( "/" ) === 0){
         href = value;
       }else{
         href = `/${value}`;
       }
-
-      alert(`https://${conf.domain}${href}`);
       location.href = `https://${conf.domain}${href}`;
     }
   }
