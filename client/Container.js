@@ -123,8 +123,10 @@ class Container extends Component {
     const props = this.getProps();
     return (
       <span data-component-type={this.constructor.name} style={ style.container.self }>
+        <Style {...this.getProps()} />
         <Posts {...props} />
         <Header {...props} />
+        <PostsFooter {...props} />
       </span>
     );
   }
