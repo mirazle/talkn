@@ -84,7 +84,7 @@ export default class Posts {
       minWidth: Posts.getMinWidth( app ),
       height: "auto",
       minHeight: "auto",
-      maHeight: "auto"
+      maHeight: "auto",
       //WebkitOverflowScrolling: 'touch',
       ...borders
     });
