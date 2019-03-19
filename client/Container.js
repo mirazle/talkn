@@ -5,10 +5,14 @@ import App from 'common/schemas/state/App';
 import Loading from 'client/components/Loading';
 import Style from 'client/components/Style';
 import Main from 'client/components/Main';
+import Posts from 'client/components/Posts';
 import handles from 'client/actions/handles';
 import callbacks from 'client/actions/callbacks';
+import Header from 'client/components/Header';
+import PostsFooter from 'client/components/PostsFooter';
 import Footer from 'client/components/Footer';
 import mapToStateToProps from 'client/mapToStateToProps/';
+import { timingSafeEqual } from "crypto";
 
 class Container extends Component {
 
@@ -18,6 +22,9 @@ class Container extends Component {
     talknAPI.find( thread.connection );
     talknAPI.findMenuIndex( thread.connection );
     this.getProps = this.getProps.bind(this);
+    this.renderSmall = this.renderSmall.bind(this);
+    this.renderMiddle = this.renderMiddle.bind(this);
+    this.renderLarge = this.renderLarge.bind(this);
     this.handleOnClickToggleMain = this.handleOnClickToggleMain.bind(this);
     this.handleOnClickToggleDetail = this.handleOnClickToggleDetail.bind(this);
   }
@@ -71,31 +78,101 @@ class Container extends Component {
     }
   }
 
-  renderFooter(){
-    const { app } = this.props.state;
-    if( app.type ===  define.APP_TYPES.EXTENSION){
-      return <Footer {...this.getProps()} />;
+  renderMultistream(){
+    const { state} = this.props;
+    const { style, app, thread } = state;
+    const ThunderIcon = Icon.getThunder( IconStyle.getThunder(state) );
+    if( app.menuComponent === "Index" && app.isRootConnection ){
+      return(
+        <div
+          style={style.posts.multistreamIconWrap}
+          onClick={this.handleOnClickMultistream}
+        >
+          { ThunderIcon }
+        </div>
+      );
     }else{
-      switch( app.screenMode ){
-      case App.screenModeSmallLabel :
-        return null;
-      case App.screenModeMiddleLabel : 
-      case App.screenModeLargeLabel : 
-      return <Footer {...this.getProps()} />;
-      }
+      return null;
     }
+  }
+  
+  renderLarge(){
+    const { style } = this.props.state;
+    return (
+      <div data-component-type={this.constructor.name} style={ style.container.self }>
+        <Style {...this.getProps()} />
+        <Main {...this.getProps()} />
+        <Footer {...this.getProps()} />
+      </div>
+    );
+  }
+
+  renderMiddle(){
+    const { style } = this.props.state;
+    return (
+      <div data-component-type={this.constructor.name} style={ style.container.self }>
+        <Style {...this.getProps()} />
+        <Main {...this.getProps()} />
+        <Footer {...this.getProps()} />
+      </div>
+    );
+  }
+
+  renderSmall(){
+    const { style } = this.props.state;
+    const props = this.getProps();
+    return (
+      <div data-component-type={this.constructor.name} style={ style.container.self }>
+        <Posts {...props} />
+        <Header {...props} />
+      </div>
+    );
+  }
+
+  renderExtension(){
+    const { style } = this.props.state;
+    return (
+      <div data-component-type={this.constructor.name} style={ style.container.self }>
+        <Style {...this.getProps()} />
+        <Main {...this.getProps()} />
+        <Footer {...this.getProps()} />
+      </div>
+    );
+  }
+
+  renderIos(){
+    const { style } = this.props.state;
+    return (
+      <div data-component-type={this.constructor.name} style={ style.container.self }>
+        <Style {...this.getProps()} />
+        <Main {...this.getProps()} />
+        <Footer {...this.getProps()} />
+      </div>
+    );
+  }
+  
+  renderAndroid(){
+    const { style } = this.props.state;
+    return (
+      <div data-component-type={this.constructor.name} style={ style.container.self }>
+        <Style {...this.getProps()} />
+        <Main {...this.getProps()} />
+        <Footer {...this.getProps()} />
+      </div>
+    );
   }
 
  	render() {
     const { style, app } = this.props.state;
     if( style && style.container && style.container.self && app.connectioned ){
-      return (
-  			<div data-component-type={this.constructor.name} style={ style.container.self }>
-          <Style {...this.getProps()} />
-          <Main {...this.getProps()} />
-          {this.renderFooter()}
-  			</div>
-  		);
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        return this.renderSmall(this);
+      case App.screenModeMiddleLabel : 
+        return this.renderMiddle(this);
+      case App.screenModeLargeLabel : 
+        return this.renderLarge(this);
+      }
     }else{
       return <Loading />;
     }

@@ -281,47 +281,21 @@ export default class Posts extends Component {
     return postList;
   }
 
-  renderHeader(){
-    const{ app } = this.props.state;
-    return app.type === define.APP_TYPES.EXTENSION ?
-      <Header {...this.props} /> : null;
-  }
-
   renderDetail(){
     const { app } = this.props.state;
     return app.screenMode === App.screenModeSmallLabel ?  
       <Detail type={'SMALL'} {...this.props} /> : null ;
   }
 
-  renderPostFooter(){
-    const { app } = this.props.state;
-    if( app.type ===  define.APP_TYPES.EXTENSION){
-      return null;
-    }else{
-      switch( app.screenMode ){
-      case App.screenModeSmallLabel :
-        return <PostsFooter {...this.props} />;
-      case App.screenModeMiddleLabel : 
-      case App.screenModeLargeLabel : 
-        // Container.Footr
-        return null;
-      }
-    }
-  }
-
  	render() {
     const { style } = this.props.state;
 		return (
       <div data-component-name={this.constructor.name} style={ style.posts.self } >
-        {this.renderHeader()}
-        {this.renderMultistream()}
         <ol data-component-name={'Thread'} ref="thread" onScroll={this.handleOnScroll} style={ style.posts.ol }>
           {this.renderGetMore()}
           {this.renderPostList()}
         </ol>
         {this.renderDetail()}
-        {this.renderPostFooter()}
-
         <div data-component-name="newPost" style={style.main.notif}>NEW POST</div>
       </div>
 		);

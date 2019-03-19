@@ -80,7 +80,8 @@ export default class Header {
       Container.radiuses : '0px';
 
     const layout = Style.getLayoutFlex({
-      position: "initial",
+      position: "fixed",
+      top: "0px",
       width,
       height: `${Header.headerHeight}px`,
       border: Container.border,
