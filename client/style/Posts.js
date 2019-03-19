@@ -18,7 +18,7 @@ export default class Posts {
     let width = 0;
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
-      width = '100.0%';
+      width = '50.0%';
       break;
     case App.screenModeMiddleLabel :
       width = app.isOpenDetail ? 
