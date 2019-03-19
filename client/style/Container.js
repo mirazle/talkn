@@ -113,10 +113,9 @@ export default class Container{
     }
 
     const layout = Style.getLayoutFlex({
-      position: 'fixed',
-      bottom: "0px",
-      width: '100%',
-      height: '100%',
+      width: 'inherit',
+      height: 'inherit',
+      overflow: "scroll",
       borderRadius
     });
     const content = Style.getContentBase({});
