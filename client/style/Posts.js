@@ -18,7 +18,7 @@ export default class Posts {
     let width = 0;
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
-      width = '50.0%';
+      width = '100.0%';
       break;
     case App.screenModeMiddleLabel :
       width = app.isOpenDetail ? 
@@ -54,6 +54,7 @@ export default class Posts {
     case App.screenModeLargeLabel : return `translate3d( -${Menu.getWidth( app )}px, 0px, 0px)`;
     }
   };
+  
   static openIndexTransform( option ){
     return `translate3d( 0px, 0px, 0px)`
   };
