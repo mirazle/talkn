@@ -95,7 +95,7 @@ class Container extends Component {
       return null;
     }
   }
-  
+
   renderLarge(){
     const { style } = this.props.state;
     return (
@@ -122,10 +122,7 @@ class Container extends Component {
     const { style } = this.props.state;
     const props = this.getProps();
     return (
-      <div data-component-type={this.constructor.name} style={ style.container.self }>
         <Posts {...props} />
-        <Header {...props} />
-      </div>
     );
   }
 
