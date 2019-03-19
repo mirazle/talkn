@@ -3,6 +3,7 @@ import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
 import Header from './Header';
+import PostsFooter from './PostsFooter';
 import Main from './Main';
 import Menu from './Menu';
 import Detail from './Detail';
@@ -85,6 +86,7 @@ export default class Posts {
       height: "auto",
       minHeight: "auto",
       maHeight: "auto",
+      margin: `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px 0px`,
       //WebkitOverflowScrolling: 'touch',
       ...borders
     });
