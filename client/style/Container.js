@@ -112,7 +112,8 @@ export default class Container{
       }
     }
 
-    const layout = Style.getLayoutFlex({
+    const layout = Style.getLayoutBlock({
+      display: "initial",
       width: 'inherit',
       height: 'inherit',
       overflow: "auto",
