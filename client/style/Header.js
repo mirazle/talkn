@@ -69,10 +69,6 @@ export default class Header {
         margin: "8px"
       }
     }
-/*
-    {left: "15px"} : {right: Header.getChildAnalyzeRight(app)};
-    const margin = app.screenMode === App.screenModeSmallLabel ? '4px' : '2px';
-*/
   }
 
   static getSelf( {app} ){
@@ -84,8 +80,7 @@ export default class Header {
       Container.radiuses : '0px';
 
     const layout = Style.getLayoutFlex({
-      position: "fixed",
-      top: "0px",
+      position: "initial",
       width,
       height: `${Header.headerHeight}px`,
       border: Container.border,
