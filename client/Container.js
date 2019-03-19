@@ -122,7 +122,9 @@ class Container extends Component {
     const { style } = this.props.state;
     const props = this.getProps();
     return (
-        <Posts {...props} />
+        <span>
+          <Posts {...props} />
+        </span>
     );
   }
 
