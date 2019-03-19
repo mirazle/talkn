@@ -3,7 +3,6 @@ import Style from './index';
 import Container from './Container';
 import Detail from './Detail';
 import Menu from './Menu';
-import Header from './Header';
 
 export default class Screen {
 
@@ -56,8 +55,6 @@ export default class Screen {
   static getSelf( {app} ){
     const display = Screen.getSelfDisplay(app);
     const layout = Style.getLayoutFlex({
-      position: "fixed",
-      top: Header.headerHeight,
       display,
       width: Screen.getWidth( app ),
       height: 'inherit',
