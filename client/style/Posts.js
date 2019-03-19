@@ -54,7 +54,7 @@ export default class Posts {
     case App.screenModeLargeLabel : return `translate3d( -${Menu.getWidth( app )}px, 0px, 0px)`;
     }
   };
-  
+
   static openIndexTransform( option ){
     return `translate3d( 0px, 0px, 0px)`
   };
@@ -82,7 +82,10 @@ export default class Posts {
       position: 'relative',
       width: Posts.getWidth( app ),
       minWidth: Posts.getMinWidth( app ),
-      WebkitOverflowScrolling: 'touch',
+      height: "auto",
+      minHeight: "auto",
+      maHeight: "auto"
+      //WebkitOverflowScrolling: 'touch',
       ...borders
     });
     const content = {};
