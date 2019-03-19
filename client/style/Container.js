@@ -115,7 +115,7 @@ export default class Container{
     const layout = Style.getLayoutFlex({
       width: 'inherit',
       height: 'inherit',
-      overflow: "scroll",
+      overflow: "auto",
       borderRadius
     });
     const content = Style.getContentBase({});
