@@ -11,6 +11,7 @@ import callbacks from 'client/actions/callbacks';
 import Header from 'client/components/Header';
 import PostsFooter from 'client/components/PostsFooter';
 import Footer from 'client/components/Footer';
+import Detail from 'client/components/Detail';
 import mapToStateToProps from 'client/mapToStateToProps/';
 import { timingSafeEqual } from "crypto";
 
@@ -126,6 +127,7 @@ class Container extends Component {
         <Style {...this.getProps()} />
         <Posts {...props} />
         <Header {...props} />
+        <Detail type={'SMALL'} {...props} /> 
         <PostsFooter {...props} />
       </span>
     );

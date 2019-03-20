@@ -32,11 +32,9 @@ export default class DetailModal {
     return app.isOpenDetail ?
       DetailModal.getOpenSelfTransform( app ) : DetailModal.getCloseSelfTransform( app );
   }
-  static getCloseSelfTransform( app ){ return `translate3d(0%, ${PostsFooter.selfHeight}px, 0px)` };
+  static getCloseSelfTransform( app ){ return `translate3d(0%, 0px, 0px)` };
   static getOpenSelfTransform( app ){
-    return app.type === define.APP_TYPES.EXTENSION ?
-      `translate3d(0%, -100%, 0px)` :
-      `translate3d(0%, -100%, 0px)`;
+    return `translate3d(0%, calc( -100% - ${PostsFooter.selfHeight}px ), 0px)`;
   };
 
   static getSelf( {app} ){
@@ -44,9 +42,10 @@ export default class DetailModal {
     const baseMargin = DetailModal.getBaseMargin(app);
     const heightBase = 100 - baseMargin;
     const layout = Style.getLayoutBlock({
-      position: 'absolute',
+      position: 'fixed',
+      top: "100%",
       width: DetailModal.getWidth( app ),
-      height: `calc( ${heightBase}% - ${ Main.headerHeight * 1 }px )`,
+      height: `calc( ${heightBase}% - ${ Main.headerHeight * 2 }px )`,
       margin: DetailModal.getMargin(app),
       border: Container.border,
       borderBottom: 0,
