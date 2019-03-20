@@ -84,7 +84,6 @@ export default class PostsFooter{
       width: PostsFooter.getWidth( app ),
       maxWidth:  PostsFooter.getWidth( app ),
       background: Container.offWhiteRGBA,
-      zIndex: Container.maxZIndex,
       borderRadius,
       ...borders
     });

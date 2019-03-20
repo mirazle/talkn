@@ -4,6 +4,10 @@ import Style from '../index';
 import Container from '../Container';
 import Main from '../Main';
 
+
+// 未使用？
+
+
 export default class MenuIndex {
 
   static get iconSize(){ return '25px' };
