@@ -4,9 +4,6 @@ import App from 'common/schemas/state/App';
 import { default as PostsSchems } from 'common/schemas/state/Posts';
 import TalknSession from 'client/operations/TalknSession';
 import Post from 'client/components/Post';
-import Header from './Header';
-import PostsFooter from './PostsFooter';
-import Detail from './Detail';
 import IconStyle from 'client/style/Icon';
 import Icon from './Icon';
 
@@ -281,12 +278,6 @@ export default class Posts extends Component {
     return postList;
   }
 
-  renderDetail(){
-    const { app } = this.props.state;
-    return app.screenMode === App.screenModeSmallLabel ?  
-      <Detail type={'SMALL'} {...this.props} /> : null ;
-  }
-
  	render() {
     const { style } = this.props.state;
 		return (
@@ -295,7 +286,6 @@ export default class Posts extends Component {
           {this.renderGetMore()}
           {this.renderPostList()}
         </ol>
-        {this.renderDetail()}
         <div data-component-name="newPost" style={style.main.notif}>NEW POST</div>
       </div>
 		);
