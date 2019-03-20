@@ -17,7 +17,6 @@ export default class Header extends Component {
     if(app.type !== define.APP_TYPES.EXTENSION ){
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
-        //app.isOpenMenu = app.isOpenMenu ? false : true;
         break;
       default:
         app = App.getAppUpdatedOpenFlgs(state, "headerMenuIcon");

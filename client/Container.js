@@ -12,6 +12,7 @@ import Header from 'client/components/Header';
 import PostsFooter from 'client/components/PostsFooter';
 import Footer from 'client/components/Footer';
 import Detail from 'client/components/Detail';
+import Menu from 'client/components/Menu';
 import mapToStateToProps from 'client/mapToStateToProps/';
 import { timingSafeEqual } from "crypto";
 
@@ -126,9 +127,12 @@ class Container extends Component {
       <span data-component-type={this.constructor.name} style={ style.container.self }>
         <Style {...this.getProps()} />
         <Posts {...props} />
-        <Header {...props} />
-        <Detail type={'SMALL'} {...props} /> 
-        <PostsFooter {...props} />
+        <span data-component-name="fixedComponents">
+          <Header {...props} />
+          <Detail {...props} /> 
+          <PostsFooter {...props} />
+          <Menu {...props} />
+        </span>
       </span>
     );
   }
