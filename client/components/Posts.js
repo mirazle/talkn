@@ -282,6 +282,7 @@ export default class Posts extends Component {
     const { style } = this.props.state;
 		return (
       <div data-component-name={this.constructor.name} style={ style.posts.self } >
+        {this.renderMultistream()}
         <ol data-component-name={'Thread'} ref="thread" onScroll={this.handleOnScroll} style={ style.posts.ol }>
           {this.renderGetMore()}
           {this.renderPostList()}
