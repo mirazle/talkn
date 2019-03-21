@@ -135,6 +135,7 @@ const functions = {
   },
   "ON_CLICK_TOGGLE_DISP_DETAIL": ( state, action ) => {
     action.app = {...action.app, ...state.app};
+ //   action.app.isOpenDetail = action.app.isOpenDetail ? false : true;
     return action;
   },
 }

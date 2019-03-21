@@ -27,6 +27,7 @@ export default ( state = {} , action ) => {
 		}
 	case 'ON_CLICK_TOGGLE_DISP_MENU':
 	case 'ON_CLICK_TOGGLE_DISP_DETAIL':
+		console.log( action.app.isOpenDetail );
 		return {...state,
 			menu: {...state.menu,
 				self: {...state.menu.self,
@@ -36,7 +37,6 @@ export default ( state = {} , action ) => {
 			},
 			detail: {...state.detail,
 				self: {...state.detail.self,
-					width: Detail.getWidth( action.app ),
 					transform: Detail.getTransform( action.app ),
 				}
 			},
@@ -67,12 +67,7 @@ export default ( state = {} , action ) => {
 					maxWidth: PostsFooter.getWidth( action.app ),
 					width: PostsFooter.getWidth( action.app )
 				}
-			},
-			detailFooter: {...state.detailFooter,
-				self: {...state.detailFooter.self,
-					width: DetailFooter.getWidth( action.app )
-				}
-			},
+			}
 		}
 	case 'ON_CLICK_OPEN_LOCK_MENU':
 		return {...state,

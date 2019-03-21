@@ -48,6 +48,8 @@ export default class DetailRight {
     const margin = ( ( ( 1 - Main.widthRatio ) * 100 ) / 2 );
     const heightBase = 100 - margin;
     const layout = Style.getLayoutInlineBlock({
+      position: "fixed",
+      top: "100%",
       width: DetailRight.getWidth( app ),
       minWidth: DetailRight.getWidth( app ),
       WebkitOverflowScrolling: 'touch',

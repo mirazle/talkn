@@ -32,14 +32,14 @@ export default class LockMenu {
       boxShadow: "rgba(50, 50, 50, 0.1) 3px 3px 3px" ,
       zIndex: "0px"
     }
+
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
-      layout.width = '90%';
-      layout.left = '5%';
-      break;
     case App.screenModeMiddleLabel :
-      layout.width = '50%';
-      layout.left = '25%';
+      layout.width = `${100 * Container.widthRatio}`;
+      layout.left = ( 100 - layout.width ) / 2;
+      layout.width = layout.width + "%";
+      layout.left = layout.left + "%";
       break;
     case App.screenModeLargeLabel :
       layout.width = `calc( ( ${Posts.getWidth(app)} ) - 2% )`;

@@ -1,30 +1,53 @@
 import define from '../../common/define';
 import Style from './index';
 import Container from './Container';
-import Main from './Main';
+import App from '../../common/schemas/state/App';
+import Header from './Header';
+import Posts from './Posts';
 import Detail from './Detail';
 import PostsFooter from './PostsFooter';
+import Menu from './Menu';
 
 export default class DetailModal {
 
   static getWidth( app, addUnit = false ){
-    let width = Math.floor( 100 * Main.widthRatio ) + '%';
-    if( app.type === define.APP_TYPES.EXTENSION ){
-      return ( Style.trimUnit( width ) - 10 ) + "%";
-    }else{
-      return addUnit ? Style.trimUnit( width ) : width ;
-    }
+    const width = app.screenMode === App.screenModeSmallLabel ?
+      Math.floor( app.width * Container.widthRatio ) :
+      `calc( ${100 * Container.widthRatio }% - ${Menu.getWidth(app)} )`;
+    return addUnit ? Style.trimUnit( width ) : width ;
   }
+
+  static getBaseMarginRate( app, addUnit = false ){
+    return Math.floor( ( ( 1 - Container.widthRatio ) / 2 ) * 100 );
+  }
+
   static getBaseMargin( app, addUnit = false ){
-    return ( ( ( 1 - Main.widthRatio ) * 100 ) / 2 ).toString().substr( 0, 3 );
+    return Posts.getWidth( app, true ) * ( DetailModal.getBaseMarginRate() / 100 );
   }
 
   static getMargin( app, addUnit = false ){
-    let margin = DetailModal.getBaseMargin(app, addUnit);
     if( app.type === define.APP_TYPES.EXTENSION ){
       return "0% 8%";
     }else{
-      return `0% ${margin}% 0% ${margin}%`;
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+      case App.screenModeMiddleLabel :
+      case App.screenModeLargeLabel :
+        const marginRate = DetailModal.getBaseMarginRate();
+        return `0% ${marginRate}% 0% ${marginRate}%`;
+      }
+    }
+  }
+
+  static getHeight( app, addUnit = false){
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      const marginRate = DetailModal.getBaseMarginRate();
+      return `calc( ${100 - marginRate}% - ${Header.headerHeight * 2}px )`;
+    case App.screenModeMiddleLabel :
+    case App.screenModeLargeLabel :
+      const baseMargin = DetailModal.getBaseMargin(app);
+      return `calc( 100% - ${ ( Header.headerHeight * 2 ) + baseMargin }px )`
     }
   }
 
@@ -38,14 +61,14 @@ export default class DetailModal {
   };
 
   static getSelf( {app} ){
-    const width = ( Main.widthRatio * 100 );
-    const baseMargin = DetailModal.getBaseMargin(app);
-    const heightBase = 100 - baseMargin;
+    const height = DetailModal.getHeight(app);
+    const left = app.screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
     const layout = Style.getLayoutBlock({
       position: 'fixed',
       top: "100%",
+      left,
       width: DetailModal.getWidth( app ),
-      height: `calc( ${heightBase}% - ${ Main.headerHeight * 2 }px )`,
+      height,
       margin: DetailModal.getMargin(app),
       border: Container.border,
       borderBottom: 0,
