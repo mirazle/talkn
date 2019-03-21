@@ -8,7 +8,6 @@ export default class Header extends Component {
   constructor(props) {
     super(props);
     this.handleOnClickMenuIcon = this.handleOnClickMenuIcon.bind(this);
-    this.handleOnClickDetailIcon = this.handleOnClickDetailIcon.bind(this);
   }
 
   handleOnClickMenuIcon( e ){
@@ -23,30 +22,6 @@ export default class Header extends Component {
         break;
       }
       talknAPI.onClickToggleDispMenu( app );
-    }
-  }
-
-  handleOnClickDetailIcon( e ){
-    const { state, onClickOpenLockMenu } = this.props;
-    let { app, thread, threadDetail } = state
-
-    if(app.openLockMenu !== App.openLockMenuLabelNo){
-      onClickOpenLockMenu(App.openLockMenuLabelNo);
-    }else{
-      switch( app.screenMode ){
-      case App.screenModeSmallLabel :
-        app.isOpenDetail = app.isOpenDetail ? false : true;
-        break;
-      default:
-        app = App.getAppUpdatedOpenFlgs(state, "headerDetailIcon");
-        break;
-      }
-  
-      if( app.isRootConnection){
-        talknAPI.onClickToggleDispDetail( {threadDetail: thread, app} );
-      }else{
-        talknAPI.onClickToggleDispDetail( {threadDetail, app} );
-      }
     }
   }
 
@@ -83,16 +58,16 @@ export default class Header extends Component {
   }
 
   renderRight(){
+    const { handleOnClickToggleDetail } = this.props;
     const {  app, thread, style } = this.props.state;
     const { icon } = style;
     const DetailIcon = Icon.getDetail( icon.detail );
-    
     if(app.iframe || app.type === define.APP_TYPES.EXTENSION){
       return (
         <span
           data-component-name={`${this.constructor.name}-right`}
           style={ style.header.rightIcon }
-          onClick={ this.handleOnClickDetailIcon }
+          onClick={ handleOnClickToggleDetail }
           {...Icon.getDecolationProps3( 'icon', 'detail', 'div' )} >
 
           { DetailIcon }
@@ -103,7 +78,7 @@ export default class Header extends Component {
         <span
           data-component-name={`${this.constructor.name}-right`}
           style={ style.header.rightIcon }
-          onClick={ this.handleOnClickDetailIcon }
+          onClick={ handleOnClickToggleDetail }
           {...Icon.getDecolationProps3( 'icon', 'detail', 'div' )} >
 
           { DetailIcon }

@@ -20,12 +20,12 @@ export default class MenuIndexList {
   static get activeLiSelfLabel(){ return "activeLiSelf" };
   static get unactiveLiSelfLabel(){ return "unactiveLiSelf" };
 
-  static get activeLiSelfBackground(){ return Container.whiteRGB };
-  static get activeLiSelfMouseOverBackground(){ return Container.whiteRGB };
-  static get activeLiSelfMouseDownBackground(){ return Container.whiteRGB };
-  static get unactiveLiSelfBackground(){ return Container.lightRGB };
-  static get unactiveLiSelfMouseOverBackground(){ return Container.offWhitePlusRGB };
-  static get unactiveLiSelfMouseDownBackground(){ return Container.whiteRGB };
+  static get activeLiSelfBackground(){ return Container.whiteRGBA };
+  static get activeLiSelfMouseOverBackground(){ return Container.whiteRGBA };
+  static get activeLiSelfMouseDownBackground(){ return Container.whiteRGBA };
+  static get unactiveLiSelfBackground(){ return Container.lightRGBA };
+  static get unactiveLiSelfMouseOverBackground(){ return Container.offWhitePlusRGBA };
+  static get unactiveLiSelfMouseDownBackground(){ return Container.whiteRGBA };
 
   static get activeLiSelfBorderRightColor(){ return `1px solid ${Container.whiteRGB}` };
   static get unactiveLiSelfBorderRightColor(){ return Container.border };

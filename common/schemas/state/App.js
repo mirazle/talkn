@@ -255,6 +255,8 @@ export default class App extends Schema{
     switch( call ){
     case 'headerDetailIcon':
       switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+
       case App.screenModeMiddleLabel :
         if( app.isOpenDetail ){
           if( app.detailConnection === app.rootConnection ){
@@ -262,7 +264,7 @@ export default class App extends Schema{
             app.isOpenMenu = true;
           }else{
             app.isOpenMenu = false;
-            app.isOpenDetail = true;
+            app.isOpenDetail = false;
           }
         }else{
           app.isOpenMenu = false;

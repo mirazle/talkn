@@ -22,9 +22,7 @@ export default class Posts {
       width = '100.0%';
       break;
     case App.screenModeMiddleLabel :
-      width = app.isOpenDetail ? 
-        `${ app.width - Detail.getWidth( app, true )}px` :
-        `${ app.width - Menu.getWidth( app, true )}px` ;
+      width = `${ app.width - Menu.getWidth( app, true )}px` ;
       break;
     case App.screenModeLargeLabel :
       width = `calc( 100% - ${ Detail.getWidth( app, true ) + Menu.getWidth( app, true ) }px )`;
@@ -77,6 +75,14 @@ export default class Posts {
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
+  static getMargin( app, addUnit = false ){
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel : return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px 0px`;
+    case App.screenModeMiddleLabel : return `${Header.headerHeight}px 0px 0px ${Menu.getWidth( app )}`;
+    case App.screenModeLargeLabel : return `${Header.headerHeight}px 0px 0px ${Menu.getWidth( app )}`
+    }
+  }
+
   static getSelf( {app} ){
     const borders = Posts.getBorder(app);
     const layout = Style.getLayoutInlineBlock({
@@ -86,8 +92,7 @@ export default class Posts {
       height: "auto",
       minHeight: "auto",
       maHeight: "auto",
-      margin: `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px 0px`,
-      //WebkitOverflowScrolling: 'touch',
+      margin: Posts.getMargin(app),
       ...borders
     });
     const content = {};
