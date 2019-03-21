@@ -13,8 +13,8 @@ import PostsFooter from 'client/components/PostsFooter';
 import Footer from 'client/components/Footer';
 import Detail from 'client/components/Detail';
 import Menu from 'client/components/Menu';
+import LockMenu from 'client/components/LockMenu';
 import mapToStateToProps from 'client/mapToStateToProps/';
-import { timingSafeEqual } from "crypto";
 
 class Container extends Component {
 
@@ -88,11 +88,18 @@ class Container extends Component {
   
   renderLarge(){
     const { style } = this.props.state;
+    const props = this.getProps();
     return (
       <div data-component-type={this.constructor.name} style={ style.container.self }>
         <Style {...this.getProps()} />
-        <Main {...this.getProps()} />
-        <Footer {...this.getProps()} />
+        <Posts {...props} />
+        <span data-component-name="fixedComponents">
+          <Header {...props} />
+          <Detail {...props} /> 
+          <LockMenu {...props} />
+          <PostsFooter {...props} />
+          <Menu {...props} />
+        </span>
       </div>
     );
   }
