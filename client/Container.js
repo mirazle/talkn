@@ -46,20 +46,8 @@ class Container extends Component {
     if(app.openLockMenu !== App.openLockMenuLabelNo){
       onClickOpenLockMenu(App.openLockMenuLabelNo);
     }else{
-      switch( app.screenMode ){
-      case App.screenModeSmallLabel :
-        app.isOpenDetail = app.isOpenDetail ? false : true;
-        break;
-      default:
-        app = App.getAppUpdatedOpenFlgs(state, "headerDetailIcon");
-        break;
-      }
-  
-      if( app.isRootConnection){
-        talknAPI.onClickToggleDispDetail( {threadDetail: thread, app} );
-      }else{
-        talknAPI.onClickToggleDispDetail( {threadDetail, app} );
-      }
+      app = App.getAppUpdatedOpenFlgs(state, "headerDetailIcon");
+      talknAPI.onClickToggleDispDetail( {threadDetail, thread, app} );
     }
   }
 
@@ -111,11 +99,17 @@ class Container extends Component {
 
   renderMiddle(){
     const { style } = this.props.state;
+    const props = this.getProps();
     return (
       <div data-component-type={this.constructor.name} style={ style.container.self }>
         <Style {...this.getProps()} />
-        <Main {...this.getProps()} />
-        <Footer {...this.getProps()} />
+        <Posts {...props} />
+        <span data-component-name="fixedComponents">
+          <Header {...props} />
+          <Detail {...props} /> 
+          <PostsFooter {...props} />
+          <Menu {...props} />
+        </span>
       </div>
     );
   }

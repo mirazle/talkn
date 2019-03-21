@@ -32,7 +32,6 @@ export default class Menu {
       transform = 'translate3d( 0px ,0px, 0px )';
       break;
     }
-    console.log(transform);
     return transform ;
   }
 

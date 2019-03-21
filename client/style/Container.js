@@ -10,6 +10,8 @@ export default class Container{
   }
 
   static get width(){ return '100%' };
+  static get widthRatio(){ return 0.94 };
+
   static get radius(){ return '7px' };
   static get radiuses(){ return `${Container.radius} ${Container.radius} 0px 0px` };
   static get openHeight(){ return 360 };

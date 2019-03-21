@@ -11,7 +11,7 @@ import conf from '../conf';
 export default class Detail {
 
   static getDetailClass( app ){
-    return app.screenMode === App.screenModeSmallLabel ? DetailModal : DetailRight ;
+    return app.screenMode === App.screenModeLargeLabel ? DetailRight : DetailModal ;
   }
   static get padding(){ return 20 };
   static get margin(){ return 5 }
@@ -79,7 +79,7 @@ export default class Detail {
     }else{
       return app.screenMode === App.screenModeSmallLabel ?
         {borderTop: Container.border} :
-        {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border} ;
+        {borderTop: Container.border} ;
     }
   }
 
@@ -100,7 +100,8 @@ export default class Detail {
   }
 
   static getWidth( app, addUnit = false ){
-    return Detail.getDetailClass( app ).getWidth( app, addUnit );
+    return '100%';
+//    return Detail.getDetailClass( app ).getWidth( app, addUnit );
   }
 
   static getTransform( app ){
@@ -142,7 +143,7 @@ export default class Detail {
       overflow: 'scroll',
       width: '100%',
       height: `calc( 100% - ${ Main.headerHeight * 2 }px )`,
-      background: Container.lightGrayRGB,
+      background: Container.lightGrayRGBA,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -153,7 +154,7 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: 'initial',
-      background: Container.whiteRGB,
+      background: Container.whiteRGBA,
       borderBottom: Container.border,
     });
     const content = Style.getContentBase();
@@ -335,7 +336,7 @@ export default class Detail {
     const positions = Detail.getFooterPositions(app);
     const borders = Detail.getFooterBorders(app);
     const layout = Style.getLayoutFlex({
-      width: DetailFooter.getWidth(app),
+      width: "100%",
       background: Container.offWhiteRGB,
       height: Main.headerHeight,
       zÎndex: "1px",
