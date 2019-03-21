@@ -19,13 +19,11 @@ export default class Posts {
     let width = 0;
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
-      width = '100.0%';
-      break;
+      return "100%";
     case App.screenModeMiddleLabel :
-      width = `${ app.width - Menu.getWidth( app, true )}px` ;
-      break;
+      return `calc(100% - ${ Menu.getWidth( app, false ) })`
     case App.screenModeLargeLabel :
-      width = `calc( 100% - ${ Detail.getWidth( app, true ) + Menu.getWidth( app, true ) }px )`;
+      width = `calc( ${ 100 - Detail.getWidth( app, false ) }% - ${Menu.getWidth( app, false ) } )`;
       break;
     }
     return addUnit ? Style.trimUnit( width ) : width ;

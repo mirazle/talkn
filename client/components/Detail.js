@@ -335,15 +335,19 @@ export default class Detail extends Component {
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
     case App.screenModeMiddleLabel : 
-      return <DetailFooter {...this.props } />;
     case App.screenModeLargeLabel : 
-      return null;
+      return <DetailFooter {...this.props } />;
     }
   }
   renderLockMenu(){
-    return (
-      <LockMenu {...this.props} />
-    );
+    const { app } = this.props.state
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+    case App.screenModeMiddleLabel : 
+      return <LockMenu {...this.props} />
+    case App.screenModeLargeLabel : 
+      return null;
+    }
   }
 
   renderExtension(){

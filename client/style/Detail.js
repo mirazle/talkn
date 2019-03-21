@@ -42,7 +42,6 @@ export default class Detail {
     const footerChildLike = DetailClass.getFooterChildLike( params );
     const footerChildMoney = DetailClass.getFooterChildMoney( params );
     const footerChildShare = DetailClass.getFooterChildShare( params );
-
     const metaItems = DetailClass.getMetaItems( params );
     return {
       self,
@@ -100,8 +99,12 @@ export default class Detail {
   }
 
   static getWidth( app, addUnit = false ){
-    return '100%';
-//    return Detail.getDetailClass( app ).getWidth( app, addUnit );
+    let width = '100%';
+    switch( app.screenMode ){
+    case App.screenModeLargeLabel :
+      width = '30%';
+    }
+    return addUnit ? width : Style.trimUnit( width ) ;
   }
 
   static getTransform( app ){

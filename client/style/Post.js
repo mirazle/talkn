@@ -123,6 +123,7 @@ export default class Post {
       width: 'min-content',
       background: Container.themeRGBA,
       padding: '15px 15px 15px 25px',
+      margin: "0px 1% 0px 0px",
       borderRadius: '10px',
       maxWidth: '79%',
     });

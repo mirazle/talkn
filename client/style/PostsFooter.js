@@ -28,7 +28,7 @@ export default class PostsFooter{
     switch( app.screenMode ){
     case App.screenModeSmallLabel : left = '0px';break;
     case App.screenModeMiddleLabel :left = `${Menu.getWidth(app)}`;break;
-    case App.screenModeLargeLabel : left = Detail.getWidth( app );break;
+    case App.screenModeLargeLabel : left = Menu.getWidth( app );break;
     }
     return addUnit ? Style.trimUnit( left ) : left ;
   };

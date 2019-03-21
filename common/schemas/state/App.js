@@ -207,6 +207,10 @@ export default class App extends Schema{
   }
 
   static getScreenMode( widthPx ){
+    if( window && window.innerWidth ){
+      widthPx = window.innerWidth;
+      console.log( "APP ====" + widthPx);
+    }
     if( App.screenModeSmallWidthPx >= widthPx ) return App.screenModeSmallLabel;
     if( App.screenModeSmallWidthPx < widthPx &&　App.screenModeMiddleWidthPx >= widthPx ) return App.screenModeMiddleLabel;
     return App.screenModeLargeLabel;
@@ -256,7 +260,8 @@ export default class App extends Schema{
     case 'headerDetailIcon':
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
-
+        app.isOpenDetail = !app.isOpenDetail;
+        break;
       case App.screenModeMiddleLabel :
         if( app.isOpenDetail ){
           if( app.detailConnection === app.rootConnection ){
