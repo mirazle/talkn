@@ -21,7 +21,7 @@ export default class LockMenu {
 
   static getCommonLayout(app){
     const layout = {
-      position: 'absolute',
+      position: 'fixed',
       width: '90%',
       height: 'fit-content',
       top: `calc( 100% + ${Header.headerHeight}px)`,
@@ -30,7 +30,7 @@ export default class LockMenu {
       border: Container.border,
       borderRadius: "5px",
       boxShadow: "rgba(50, 50, 50, 0.1) 3px 3px 3px" ,
-      zIndex: "0px"
+      zIndex: "1"
     }
 
     switch( app.screenMode ){
@@ -42,8 +42,8 @@ export default class LockMenu {
       layout.left = layout.left + "%";
       break;
     case App.screenModeLargeLabel :
-      layout.width = `calc( ( ${Posts.getWidth(app)} ) - 2% )`;
-      layout.left = `calc( 1% + ${Menu.getWidth(app)} )`;
+      layout.width = `33.3%`;
+      layout.left = `33.3%`;
       break;
     }
     return layout;

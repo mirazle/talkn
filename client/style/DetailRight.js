@@ -3,15 +3,17 @@ import Style from './index';
 import Container from './Container';
 import Main from './Main';
 import Detail from './Detail';
+import Header from './Header';
 
 export default class DetailRight {
 
+  static get widthRate(){ return 0.3};
   static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
     case App.screenModeSmallLabel : width = '0%';break;
-    case App.screenModeMiddleLabel :width = '320px';break;
-    case App.screenModeLargeLabel :width =  Math.floor( app.width * 0.3 ) + 'px';break;
+    case App.screenModeMiddleLabel :width = '0%';break;
+    case App.screenModeLargeLabel :width =  Math.floor( app.width * DetailRight.widthRate ) + 'px';break;
     }
     return addUnit ? Style.trimUnit( width ) : width ;
   }
@@ -44,23 +46,28 @@ export default class DetailRight {
   static get openSelfTransform(){ return `translate3d(0%, 0%, 0px)` };
 
   static getSelf( {app} ){
-    const width = ( Main.widthRatio * 100 );
-    const margin = ( ( ( 1 - Main.widthRatio ) * 100 ) / 2 );
-    const heightBase = 100 - margin;
+    const screenMode = App.getScreenMode();
+    const display = screenMode === App.screenModeLargeLabel ?
+      "inline-block" : "none";
+    console.log(app.screenMode + " " + display);
+
     const layout = Style.getLayoutInlineBlock({
+      display,
       position: "fixed",
-      top: "100%",
+      top: "0%",
       width: DetailRight.getWidth( app ),
       minWidth: DetailRight.getWidth( app ),
+      height: `calc( 100% - ${Header.headerHeight}px )`,
       WebkitOverflowScrolling: 'touch',
       background: Container.calmRGB,
       overflow: 'scroll',
+      margin: `${Header.headerHeight}px 0px 0px 0px`,
       borderLeft: Container.border,
+      zIndex: 0
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transform: DetailRight.openSelfTransform,
-      transition: Container.getTransition( app ),
+      transition: "0ms"
     });
     return Style.get({layout, content, animation});
   }

@@ -54,6 +54,7 @@ export default class Menu {
     const layout = Style.getLayoutBlock({
       position: 'fixed',
       top: "0px",
+      left: "0px",
       width: Menu.getWidth( app ),
       minWidth: Menu.getWidth( app ),
       height: "100%",

@@ -23,7 +23,7 @@ export default class MenuIndex extends Component {
           { style:
             {...this.state.style,
               transition: '200ms',
-              transform: 'scale( 1.1 )'
+              transform: 'scale( 1.1 ) rotate( 0deg )'
             }
           }
         );
@@ -32,21 +32,21 @@ export default class MenuIndex extends Component {
         this.setState( {style:
           {...this.state.style,
             transition: '600ms',
-            transform: 'scale( 1 )'
+            transform: 'scale( 1 ) rotate( 0deg )'
           }
         });
       },
       onMouseDown: () => {
         this.setState( {style:
           {...this.state.style,
-            transform: 'scale( 0.9 )'
+            transform: 'scale( 0.9 ) rotate( 180deg)'
           }
         });
       },
       onMouseUp: () => {
         this.setState( {style:
           {...this.state.style,
-            transform: 'scale( 1 )'
+            transform: 'scale( 1 ) rotate( 0deg )'
           }
         });
       },
