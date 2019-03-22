@@ -198,7 +198,7 @@ export default class App extends Schema{
 
       // 各パーツの状態(文字列制御)
       openInnerNotif,
-      openLockMenu,
+      openLockMenu, 
 
       // その他
       actioned,

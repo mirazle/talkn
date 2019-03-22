@@ -45,7 +45,6 @@ export default class DetailModal {
     case App.screenModeSmallLabel :
       return `calc( ${100 - marginRate}% - ${Header.headerHeight * 2}px )`;
     case App.screenModeMiddleLabel :
-      console.log("@@@@ " + `calc( ${100 - marginRate}% - ${Header.headerHeight * 2}px )`);
       return `calc( ${100 - marginRate}% - ${Header.headerHeight * 2}px )`;
     case App.screenModeLargeLabel :
       const baseMargin = DetailModal.getBaseMargin(app);
