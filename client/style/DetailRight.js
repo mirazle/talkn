@@ -49,7 +49,6 @@ export default class DetailRight {
     const screenMode = App.getScreenMode();
     const display = screenMode === App.screenModeLargeLabel ?
       "inline-block" : "none";
-    console.log(app.screenMode + " " + display);
 
     const layout = Style.getLayoutInlineBlock({
       display,

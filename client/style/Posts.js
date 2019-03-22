@@ -87,9 +87,9 @@ export default class Posts {
       position: 'relative',
       width: Posts.getWidth( app ),
       minWidth: Posts.getMinWidth( app ),
-      height: "auto",
-      minHeight: "auto",
-      maHeight: "auto",
+      height: "inherit",
+      minHeight: "inherit",
+      maxHeight: "inherit",
       margin: Posts.getMargin(app),
       ...borders
     });

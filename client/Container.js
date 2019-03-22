@@ -14,6 +14,7 @@ import Footer from 'client/components/Footer';
 import Detail from 'client/components/Detail';
 import Menu from 'client/components/Menu';
 import LockMenu from 'client/components/LockMenu';
+import InnerNotif from 'client/components/InnerNotif';
 import mapToStateToProps from 'client/mapToStateToProps/';
 
 class Container extends Component {
@@ -99,6 +100,7 @@ class Container extends Component {
           <LockMenu {...props} />
           <PostsFooter {...props} />
           <Menu {...props} />
+          <InnerNotif {...this.props}/>;
         </span>
       </div>
     );
@@ -116,6 +118,7 @@ class Container extends Component {
           <Detail {...props} /> 
           <PostsFooter {...props} />
           <Menu {...props} />
+          <InnerNotif {...this.props}/>
         </span>
       </div>
     );
@@ -133,6 +136,7 @@ class Container extends Component {
           <Detail {...props} /> 
           <PostsFooter {...props} />
           <Menu {...props} />
+          <InnerNotif {...this.props}/>;
         </span>
       </span>
     );
