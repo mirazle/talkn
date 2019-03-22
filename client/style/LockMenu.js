@@ -30,7 +30,7 @@ export default class LockMenu {
       border: Container.border,
       borderRadius: "5px",
       boxShadow: "rgba(50, 50, 50, 0.1) 3px 3px 3px" ,
-      zIndex: "1"
+      zIndex: "0"
     }
 
     switch( app.screenMode ){
@@ -40,10 +40,12 @@ export default class LockMenu {
       layout.left = ( 100 - layout.width ) / 2;
       layout.width = layout.width + "%";
       layout.left = layout.left + "%";
+      layout.zIndex = "0";
       break;
     case App.screenModeLargeLabel :
       layout.width = `33.3%`;
       layout.left = `33.3%`;
+      layout.zIndex = "1";
       break;
     }
     return layout;
@@ -51,8 +53,8 @@ export default class LockMenu {
 
   static getCommonTransform(app){
     return app.openLockMenu === App.openLockMenuLabelNo ?
-      'translate3d(0px, 0px, 1px)' :
-      `translate3d(0px, calc( ( ( -${app.height}px / 2 ) - 50% ) - ${Header.headerHeight}px ), 1px)`;
+      'translate3d(0px, 0px, 0px)' :
+      `translate3d(0px, calc( ( ( -${app.height}px / 2 ) - 50% ) - ${Header.headerHeight}px ), 0px)`;
   }
 
   static getPaddingLi(app){
