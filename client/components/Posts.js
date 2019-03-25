@@ -278,6 +278,10 @@ export default class Posts extends Component {
     return postList;
   }
 
+  renderNewPost(){
+
+  }
+
  	render() {
     const { style } = this.props.state;
 		return (
