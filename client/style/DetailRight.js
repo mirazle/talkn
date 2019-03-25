@@ -10,7 +10,7 @@ export default class DetailRight {
     switch( app.screenMode ){
     case App.screenModeSmallLabel : width = '0%';break;
     case App.screenModeMiddleLabel :width = '0%';break;
-    case App.screenModeLargeLabel :width =  Math.floor( app.width * DetailRight.widthRate ) + 'px';break;
+    case App.screenModeLargeLabel :width =  '30%';break;
     }
     return addUnit ? Style.trimUnit( width ) : width ;
   }

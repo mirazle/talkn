@@ -3,6 +3,7 @@ import Main from 'client/style/Main';
 import Screen from 'client/style/Screen';
 import Menu from 'client/style/Menu';
 import LockMenu from 'client/style/LockMenu';
+import Container from 'client/style/Container';
 import Posts from 'client/style/Posts';
 import Detail from 'client/style/Detail';
 import DetailRight from 'client/style/DetailRight';
@@ -20,9 +21,9 @@ export default ( state = {} , action ) => {
 		return {...state};
 	case 'ON_CLICK_MULTISTREAM':
 		return {...state,
-			posts: {...state.posts,
-				multistreamIconWrap: {...state.posts.multistreamIconWrap,
-					border: Posts.getMultistreamIconWrapBorder( action)
+			container: {...state.container,
+				multistreamIconWrap: {...state.container.multistreamIconWrap,
+					border: Container.getMultistreamIconWrapBorder( action)
 				}
 			},
 		}
@@ -86,9 +87,9 @@ export default ( state = {} , action ) => {
 	case 'OPEN_NOTIF_IN_THREAD':
 	case 'CLOSE_NOTIF_IN_THREAD':
 		return {...state,
-			main: {...state.main,
-				notif: {...state.main.notif,
-					transform: Main.getNotifTranslateY( action.app ),
+			posts: {...state.posts,
+				notif: {...state.posts.notif,
+					transform: Posts.getNotifTranslateY( action.app ),
 				}
 			}
 		}

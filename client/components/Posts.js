@@ -2,10 +2,7 @@ import React, { Component } from 'react'
 import define from 'common/define';
 import App from 'common/schemas/state/App';
 import { default as PostsSchems } from 'common/schemas/state/Posts';
-import TalknSession from 'client/operations/TalknSession';
 import Post from 'client/components/Post';
-import IconStyle from 'client/style/Icon';
-import Icon from './Icon';
 
 export default class Posts extends Component {
 
@@ -14,7 +11,6 @@ export default class Posts extends Component {
     this.handleOnScroll = this.handleOnScroll.bind(this);
     this.handleOnClickGetMore = this.handleOnClickGetMore.bind(this);
     this.animateScrollTo = this.animateScrollTo.bind(this);
-    this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
     this.state = {
       scrollHeight: 0,
       isAnimateScrolling: false,
@@ -70,7 +66,7 @@ export default class Posts extends Component {
         //const childLayerCnt = lastPost.connections.length - thread.connections.length;
         this.props.openNotifInThread();
       }
-      break;
+      break;ˆˆ
     case 'SERVER_TO_CLIENT[EMIT]:getMore':
 
       this.refs.thread.scrollTop = this.refs.thread.scrollHeight - this.state.scrollHeight;
@@ -166,46 +162,6 @@ export default class Posts extends Component {
     talknAPI.getMore();
   }
 
-  handleOnClickMultistream(){
-    const { app } = this.props.state;
-    let { postsMulti, postsSingle } = this.props.state;
-    let findFlg = false;
-    const postsMultiCache = TalknSession.getStorage( app.rootConnection, define.storageKey.postsMulti);
-    const postsSingleCache = TalknSession.getStorage( app.rootConnection, define.storageKey.postsSingle);
-    postsMulti = postsMultiCache && postsMultiCache.length > 0 ? postsMultiCache : postsMulti;
-    postsSingle = postsSingleCache && postsSingleCache.length > 0 ? postsSingleCache : postsSingle;
-
-    app.dispThreadType = app.dispThreadType === App.dispThreadTypeMulti ? App.dispThreadTypeSingle : App.dispThreadTypeMulti ;
-    app.multistreamed = !( app.dispThreadType === App.dispThreadTypeMulti );
-    app.multistream = app.dispThreadType === App.dispThreadTypeMulti;
-
-    if(app.multistream){
-      if(postsMulti[0] && postsMulti[0]._id){
-        app.offsetFindId = postsMulti[0]._id;
-        app.offsetMultiFindId = app.offsetFindId;  
-      }else{
-        app.offsetFindId = App.defaultOffsetFindId;
-        app.offsetMultiFindId = App.defaultOffsetFindId;
-        findFlg = true;
-      }
-    }else{
-      if(postsSingle[0] && postsSingle[0]._id){
-        app.offsetFindId = postsSingle[0]._id;
-        app.offsetSingleFindId = app.offsetFindId;
-      }else{
-        app.offsetFindId = App.defaultOffsetFindId;
-        app.offsetSingleFindId = App.defaultOffsetFindId;
-        findFlg = true;
-      }
-    }
-
-    this.props.onClickMultistream({app, postsMulti, postsSingle});
-
-    if(findFlg){
-      talknAPI.find( app.rootConnection );
-    }
-  }
-
   renderGetMore(){
 		const { state } = this.props;
     const { style, thread, app, setting } = state;
@@ -229,24 +185,6 @@ export default class Posts extends Component {
       )
     }
     return null;
-  }
-
-  renderMultistream(){
-    const { state} = this.props;
-    const { style, app, thread } = state;
-    const ThunderIcon = Icon.getThunder( IconStyle.getThunder(state) );
-    if( app.menuComponent === "Index" && app.isRootConnection ){
-      return(
-        <div
-          style={style.posts.multistreamIconWrap}
-          onClick={this.handleOnClickMultistream}
-        >
-          { ThunderIcon }
-        </div>
-      );
-    }else{
-      return null;
-    }
   }
 
   renderPostList(){
@@ -285,14 +223,15 @@ export default class Posts extends Component {
  	render() {
     const { style } = this.props.state;
 		return (
-      <div data-component-name={this.constructor.name} style={ style.posts.self } >
-        {this.renderMultistream()}
-        <ol data-component-name={'Thread'} ref="thread" onScroll={this.handleOnScroll} style={ style.posts.ol }>
+      <ol
+        data-component-name={this.constructor.name}
+        style={ style.posts.self }
+        ref="thread"
+        onScroll={this.handleOnScroll}
+      >
           {this.renderGetMore()}
           {this.renderPostList()}
-        </ol>
-        <div data-component-name="newPost" style={style.main.notif}>NEW POST</div>
-      </div>
-		);
+      </ol>
+    );
  	}
 }
