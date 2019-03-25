@@ -16,7 +16,7 @@ export default class Main {
 
   constructor( params ){
     const self = Main.getSelf( params );
-    const notif = Main.getNotif( params );
+    const notif = {};
     return {
       self,
       notif,
@@ -76,30 +76,6 @@ export default class Main {
     });
     const animation = Style.getAnimationBase({
       transform: `translate3d(0px, ${translateY}, 0px)`,
-      transition: Container.getTransition( app ),
-    });
-    return Style.get({layout, content, animation});
-  }
-
-  static getNotif( {app} ){
-    const layout = Style.getLayoutBlock({
-      position: 'relative',
-      top: `${Footer.selfHeight}px`,
-      width: '50%',
-      height: Container.notifHeight,
-      margin: '0 auto',
-      zIndex: '10',
-      background: 'rgba(0, 0, 0, 0.4)',
-      borderRadius: '20px',
-    });
-    const content = Style.getContentBase({
-      color: 'rgb(255,255,255)',
-      textAlign: 'center',
-      fontSize: "12px",
-      lineHeight: 2,
-      cursor: 'pointer',
-    });
-    const animation = Style.getAnimationBase({
       transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});

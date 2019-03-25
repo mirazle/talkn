@@ -118,7 +118,7 @@ export default class LockMenu {
   static getUl({app}){
     const layout = Style.getLayoutBlock({
       width: "100%",
-      background: Container.whiteRGBA
+      background: Container.whiteRGB
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();

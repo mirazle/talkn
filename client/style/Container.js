@@ -1,11 +1,16 @@
 import define from '../../common/define';
+import App from '../../common/schemas/state/App';
 import Style from './index';
+import Header from './Header';
+import DetailRight from './DetailRight';
 
 export default class Container{
   constructor( params ){
     const self = Container.getSelf( params );
+    const multistreamIconWrap = Container.getMultistreamIconWrap( params );
     return {
       self,
+      multistreamIconWrap
     }
   }
 
@@ -103,6 +108,8 @@ export default class Container{
     }
   }
 
+  static get multistreamWrapDefaultTop(){return 5}
+
   static getSelf( params ){
     const { app, bootOption } = params;
     let borderRadius = "0px";
@@ -123,6 +130,67 @@ export default class Container{
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getMultistreamIconWrapTop( app ){
+    console.log(Header.headerHeight + " + " + Container.multistreamWrapDefaultTop);
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      return ( Header.headerHeight + Container.multistreamWrapDefaultTop ) + "px" ;
+    }else{
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel:
+      case App.screenModeMiddleLabel:
+      case App.screenModeLargeLabel:
+        return ( Header.headerHeight + Container.multistreamWrapDefaultTop ) + "px" ;
+      }
+    }
+  }
+
+  static getMultistreamIconWrapRight( app ){
+    console.log(DetailRight.getWidth(app));
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel:
+    case App.screenModeMiddleLabel:
+      return "20px" ;
+    case App.screenModeLargeLabel:
+      return `calc( ${DetailRight.getWidth(app)} + 20px)` ;
+    }
+  }
+
+
+  static getMultistreamIconWrapBorder( {app} ){
+    return !app.dispThreadType || app.dispThreadType === App.dispThreadTypeMulti ?
+      `1px solid ${Container.themeRGBA}` :
+      `1px solid ${Container.calmRGBA}`;
+  }
+
+  static getMultistreamIconWrap( {app} ){
+    const top = Container.getMultistreamIconWrapTop( app );
+    const right = Container.getMultistreamIconWrapRight( app );
+    const layout = Style.getLayoutBlock({
+      position: 'fixed',
+      top,
+      right,
+      width: '50px',
+      height: '50px',
+      margin: '0 auto',
+      zIndex: '1',
+      border: Container.getMultistreamIconWrapBorder( {app} ),
+      background: 'rgba(255, 255, 255, 0.8)',
+      borderRadius: '50px',
+    });
+
+    const content = Style.getContentBase({
+      color: 'rgb(255,255,255)',
+      textAlign: 'center',
+      fontSize: "12px",
+      lineHeight: 2,
+      cursor: 'pointer',
+    });
+    const animation = Style.getAnimationBase({
+      transition: Container.transitionOff,
+    });
     return Style.get({layout, content, animation});
   }
 }

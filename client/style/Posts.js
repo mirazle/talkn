@@ -7,6 +7,7 @@ import PostsFooter from './PostsFooter';
 import Main from './Main';
 import Menu from './Menu';
 import Detail from './Detail';
+import Footer from './Footer';
 
 export default class Posts {
 
@@ -15,32 +16,50 @@ export default class Posts {
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
+  static getOlWidth( {app}, addUnit = false ){
+    const width = app.type === define.APP_TYPES.EXTENSION ? '90%' : '100%';
+    return addUnit ? Style.trimUnit( width ) : width ;
+  }
+
   static getWidth( app, addUnit = false ){
     let width = 0;
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel :
-      return "100%";
-    case App.screenModeMiddleLabel :
-      return `calc(100% - ${ Menu.getWidth( app, false ) })`
-    case App.screenModeLargeLabel :
-      width = `calc( ${ 100 - Detail.getWidth( app, false ) }% - ${Menu.getWidth( app, false ) } )`;
-      break;
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      width = "90%";
+    }else{
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        return "100%";
+      case App.screenModeMiddleLabel :
+        return `calc(100% - ${ Menu.getWidth( app, false ) })`
+      case App.screenModeLargeLabel :
+        width = `calc( ${ 100 - Detail.getWidth( app, false ) }% - ${Menu.getWidth( app, false ) } )`;
+        break;
+      }
     }
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
-  static get multistreamWrapTop(){return 5}
+  static get notifHeight(){ return 20 };
+  static get notifOpenTranslate(){ return 20 };
+  static get notifHeight(){ return 20 };
+  static get notifOpenTranslateY(){
+    return `translate3d( 0px, ${-( Footer.selfHeight * 2 )}px, 0px )`;
+  }
+  static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
+  static getNotifTranslateY( app ){
+    return app.isOpenNotifInThread ? Main.notifOpenTranslateY : Main.notifCloseTranslateY;
+  }
 
   constructor( params ){
     const self = Posts.getSelf( params );
     const ol = Posts.getOl( params );
     const more = Posts.getMore( params );
-    const multistreamIconWrap = Posts.getMultistreamIconWrap( params );
+    const notif = Posts.getNotif( params );
     return {
       self,
       ol,
       more,
-      multistreamIconWrap,
+      notif
     }
   }
 
@@ -58,31 +77,35 @@ export default class Posts {
 
   static get headerHeight(){ return 35 };
 
-  static getBorder( app ){
-    if( app.type === define.APP_TYPES.EXTENSION ){
-      return {};
-    }else{
-      return app.screenMode === App.screenModeSmallLabel ?
-        {borderRight: Container.border, borderLeft: Container.border} :
-        {} ;
-    }  
-  }
-
-  static getOlWidth( {app}, addUnit = false ){
-    const width = app.type === define.APP_TYPES.EXTENSION ? '90%' : '100%';
-    return addUnit ? Style.trimUnit( width ) : width ;
+  static getBorders( app ){
+    return app.screenMode === App.screenModeSmallLabel ?
+      {borderRight: Container.border, borderLeft: Container.border} :
+      {} ;
   }
 
   static getMargin( app, addUnit = false ){
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px 0px`;
-    case App.screenModeMiddleLabel : return `${Header.headerHeight}px 0px 0px ${Menu.getWidth( app )}`;
+    case App.screenModeSmallLabel : return `${Header.headerHeight}px 0px 0px 0px`;
+    case App.screenModeMiddleLabel : return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
     case App.screenModeLargeLabel : return `${Header.headerHeight}px 0px 0px ${Menu.getWidth( app )}`
     }
   }
 
   static getSelf( {app} ){
-    const borders = Posts.getBorder(app);
+    let width = '100%';
+    let margin = '0';
+    let borders = {
+      borderRight: 0,
+      borderLeft: 0
+    }
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      width = '90%';
+      margin = '0px 0px 0px 5%';
+      borders.borderRight = Container.border;
+      borders.borderLeft = Container.border;
+    }else{
+      borders = Posts.getBorders(app);
+    }
     const layout = Style.getLayoutBlock({
       position: 'relative',
       width: Posts.getWidth( app ),
@@ -91,10 +114,15 @@ export default class Posts {
       minHeight: "100vh",
       maxHeight: "auto",
       margin: Posts.getMargin(app),
+      overflow: 'scroll', 
+      background: Container.whiteRGBA,
       ...borders
     });
     const content = {};
-    const animation = Style.getAnimationBase();
+    const animation = Style.getAnimationBase({
+      transform: 'translate3d(0px, 0px, 0px) scale(1.0)',
+      transformOrigin: "top"
+    });
     return Style.get({layout, content, animation});
   }
 
@@ -118,8 +146,6 @@ export default class Posts {
       minHeight: "inherit",
       borderRight,
       borderLeft,
-      overflow: 'scroll',
-      background: Container.whiteRGBA,
     });
     const content = {};
     const animation = Style.getAnimationBase({
@@ -147,31 +173,18 @@ export default class Posts {
     return Style.get({layout, content, animation});
   }
 
-  static getMultistreamIconWrapBorder( {app} ){
-    return !app.dispThreadType || app.dispThreadType === App.dispThreadTypeMulti ?
-      `1px solid ${Container.themeRGBA}` :
-      `1px solid ${Container.calmRGBA}`;
-  }
-
-  static getMultistreamIconWrap( {app} ){
-
-    const top = app.type === define.APP_TYPES.EXTENSION ?
-      ( Header.headerHeight + Posts.multistreamWrapTop ) + "px" :
-      Posts.multistreamWrapTop + "px";
-
+  static getNotif( {app} ){
     const layout = Style.getLayoutBlock({
-      position: 'absolute',
-      top,
-      right: "20px",
-      width: '50px',
-      height: '50px',
-      margin: '0 auto',
-      zIndex: '1',
-      border: Posts.getMultistreamIconWrapBorder( {app} ),
-      background: 'rgba(255, 255, 255, 0.8)',
-      borderRadius: '50px',
+      position: 'fixed',
+      top: `calc( 100vh - ${Header.headerHeight}px )`,
+      left: "25%",
+      width: '50%',
+      height: Container.notifHeight,
+      margin: '0px auto',
+      zIndex: '10',
+      background: 'rgba(0, 0, 0, 0.4)',
+      borderRadius: '20px',
     });
-
     const content = Style.getContentBase({
       color: 'rgb(255,255,255)',
       textAlign: 'center',
@@ -180,7 +193,7 @@ export default class Posts {
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase({
-      transition: Container.transitionOff,
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }
