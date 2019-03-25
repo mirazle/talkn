@@ -81,9 +81,10 @@ export default class Detail {
   }
 
   static getDetailRightSelf( {app} ){
-    const layout = Style.getLayoutInlineBlock({
+    const layout = Style.getLayoutBlock({
       position: "fixed",
-      top: "0%",
+      top: "0px",
+      right: "0px",
       width: DetailRight.getWidth( app ),
       minWidth: DetailRight.getWidth( app ),
       height: `calc( 100% - ${Header.headerHeight}px )`,
