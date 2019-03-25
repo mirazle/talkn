@@ -83,12 +83,12 @@ export default class Posts {
 
   static getSelf( {app} ){
     const borders = Posts.getBorder(app);
-    const layout = Style.getLayoutInlineBlock({
+    const layout = Style.getLayoutBlock({
       position: 'relative',
       width: Posts.getWidth( app ),
       minWidth: Posts.getMinWidth( app ),
       height: "auto",
-      minHeight: "100%",
+      minHeight: "100vh",
       maxHeight: "auto",
       margin: Posts.getMargin(app),
       ...borders
@@ -115,6 +115,7 @@ export default class Posts {
       width,
       margin,
       height: `calc( 100% - ${Main.headerHeight}px )`,
+      minHeight: "inherit",
       borderRight,
       borderLeft,
       overflow: 'scroll',
