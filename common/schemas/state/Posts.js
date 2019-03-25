@@ -1,5 +1,5 @@
 import Schema from '~/common/schemas/Schema';
-import App from '~/common/schemas/state/User';
+import App from '~/common/schemas/state/App';
 
 export default class Posts {
   constructor(){

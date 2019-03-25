@@ -88,8 +88,8 @@ export default class Posts {
       width: Posts.getWidth( app ),
       minWidth: Posts.getMinWidth( app ),
       height: "auto",
-      minHeight: "auto",
-      maHeight: "auto",
+      minHeight: "100%",
+      maxHeight: "auto",
       margin: Posts.getMargin(app),
       ...borders
     });

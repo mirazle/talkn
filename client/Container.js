@@ -11,7 +11,8 @@ import callbacks from 'client/actions/callbacks';
 import Header from 'client/components/Header';
 import PostsFooter from 'client/components/PostsFooter';
 import Footer from 'client/components/Footer';
-import Detail from 'client/components/Detail';
+import DetailRight from 'client/components/DetailRight';
+import DetailModal from 'client/components/DetailModal';
 import Menu from 'client/components/Menu';
 import LockMenu from 'client/components/LockMenu';
 import InnerNotif from 'client/components/InnerNotif';
@@ -92,11 +93,11 @@ class Container extends Component {
     const props = this.getProps();
     return (
       <div data-component-type={this.constructor.name} style={ style.container.self }>
-        <Style {...this.getProps()} />
+        <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
           <Header {...props} />
-          <Detail {...props} /> 
+          <DetailRight {...props} /> 
           <LockMenu {...props} />
           <PostsFooter {...props} />
           <Menu {...props} />
@@ -111,11 +112,11 @@ class Container extends Component {
     const props = this.getProps();
     return (
       <div data-component-type={this.constructor.name} style={ style.container.self }>
-        <Style {...this.getProps()} />
+        <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
           <Header {...props} />
-          <Detail {...props} /> 
+          <DetailModal {...props} /> 
           <PostsFooter {...props} />
           <Menu {...props} />
           <InnerNotif {...this.props}/>
@@ -129,11 +130,11 @@ class Container extends Component {
     const props = this.getProps();
     return (
       <span data-component-type={this.constructor.name} style={ style.container.self }>
-        <Style {...this.getProps()} />
+        <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
           <Header {...props} />
-          <Detail {...props} /> 
+          <DetailModal {...props} /> 
           <PostsFooter {...props} />
           <Menu {...props} />
           <InnerNotif {...this.props}/>;
@@ -144,33 +145,36 @@ class Container extends Component {
 
   renderExtension(){
     const { style } = this.props.state;
+    const props = this.getProps();
     return (
       <div data-component-type={this.constructor.name} style={ style.container.self }>
-        <Style {...this.getProps()} />
-        <Main {...this.getProps()} />
-        <Footer {...this.getProps()} />
+        <Style {...props} />
+        <Main {...props} />
+        <Footer {...props} />
       </div>
     );
   }
 
   renderIos(){
     const { style } = this.props.state;
+    const props = this.getProps();
     return (
       <div data-component-type={this.constructor.name} style={ style.container.self }>
-        <Style {...this.getProps()} />
-        <Main {...this.getProps()} />
-        <Footer {...this.getProps()} />
+        <Style {...props} />
+        <Main {...props} />
+        <Footer {...props} />
       </div>
     );
   }
   
   renderAndroid(){
     const { style } = this.props.state;
+    const props = this.getProps();
     return (
       <div data-component-type={this.constructor.name} style={ style.container.self }>
-        <Style {...this.getProps()} />
-        <Main {...this.getProps()} />
-        <Footer {...this.getProps()} />
+        <Style {...props} />
+        <Main {...props} />
+        <Footer {...props} />
       </div>
     );
   }

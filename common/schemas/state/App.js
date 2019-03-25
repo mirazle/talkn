@@ -209,10 +209,14 @@ export default class App extends Schema{
   static getScreenMode( widthPx ){
     if( window && window.innerWidth ){
       widthPx = window.innerWidth;
-      console.log( "APP ====" + widthPx);
     }
-    if( App.screenModeSmallWidthPx >= widthPx ) return App.screenModeSmallLabel;
-    if( App.screenModeSmallWidthPx < widthPx &&　App.screenModeMiddleWidthPx >= widthPx ) return App.screenModeMiddleLabel;
+
+    if( App.screenModeSmallWidthPx >= widthPx ){
+     return App.screenModeSmallLabel;
+    }
+    if( App.screenModeSmallWidthPx < widthPx &&　App.screenModeMiddleWidthPx >= widthPx ){
+      return App.screenModeMiddleLabel;
+    }
     return App.screenModeLargeLabel;
   }
 

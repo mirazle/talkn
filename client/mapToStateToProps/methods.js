@@ -27,6 +27,10 @@ export default {
     const { rootConnection } = state.app;
     TalknSession.setStorage( rootConnection, define.storageKey.app, state.app );
     return {state, props};
+  },
+  "RESIZE_END_WINDOW": ( state, props ) => {
+    //alert("@@@");
+    return {state, props}
   }
 }
 
