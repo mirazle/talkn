@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux';
 import timeago from 'timeago.js';
 import define from 'common/define';
+import App from 'common/schemas/state/App';
 import Container from 'client/Container';
 import conf from 'client/conf'
 
@@ -55,8 +56,9 @@ export default class TalknViewer {
 		if( app.type !== define.APP_TYPES.EXTENSION ){
 			const width = window.innerWidth;
 			const height = window.innerHeight;
-
-			app = talknAPI.store.getState().app.merge({width, height});
+			const onTransition = false;
+			const screenMode = App.getScreenMode();
+			app = talknAPI.store.getState().app.merge({width, height, screenMode, onTransition});
 			const setting = talknAPI.store.getState().setting;
 
 			//talknAPI.offTransition();
@@ -70,7 +72,9 @@ export default class TalknViewer {
 			clearTimeout(this.resizeTimer);
 			const width = ev ? ev.target.innerWidth : window.innerWidth;
 			const height = ev ? ev.target.innerHeight : window.innerHeight;
-			const app = talknAPI.store.getState().app.merge({width, height});
+			const onTransition = true;
+			const screenMode = App.getScreenMode();
+			const app = talknAPI.store.getState().app.merge({width, height, onTransition, screenMode});
 			const setting = talknAPI.store.getState().setting;
 			const bootOption = talknAPI.store.getState().bootOption;
 

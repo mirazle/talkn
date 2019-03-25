@@ -61,31 +61,6 @@ export default class DetailModal {
     return `translate3d(0%, calc( -100% - ${PostsFooter.selfHeight}px ), 0px)`;
   };
 
-  static getSelf( {app} ){
-    const height = DetailModal.getHeight(app);
-    const left = app.screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
-    const layout = Style.getLayoutBlock({
-      position: 'fixed',
-      top: "100%",
-      left,
-      width: DetailModal.getWidth( app ),
-      height,
-      margin: DetailModal.getMargin(app),
-      border: Container.border,
-      borderBottom: 0,
-      borderRadius: Container.radiuses,
-      WebkitOverflowScrolling: 'touch',
-      zIndex: 1
-    });
-    const content = Style.getContentBase();
-    const animation = Style.getAnimationBase({
-      transform: DetailModal.getTransform( app ),
-      transition: Container.getTransition( app ),
-    });
-
-    return Style.get({layout, content, animation});
-  }
-
   static getHeader(params){return Detail.getHeader(params)}
   static getHeaderP(params){return Detail.getHeaderP(params)}
   static getBody(params){return Detail.getBody(params)}

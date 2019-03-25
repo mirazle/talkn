@@ -5,10 +5,11 @@ import Menu from 'client/style/Menu';
 import LockMenu from 'client/style/LockMenu';
 import Posts from 'client/style/Posts';
 import Detail from 'client/style/Detail';
+import DetailRight from 'client/style/DetailRight';
+import DetailModal from 'client/style/DetailModal';
 import Footer from 'client/style/Footer';
 import MenuFooter from 'client/style/MenuFooter';
 import PostsFooter from 'client/style/PostsFooter';
-import DetailFooter from 'client/style/DetailFooter';
 import Notif from 'client/style/Notif';
 import InnerNotif from 'client/style/InnerNotif';
 
@@ -27,7 +28,6 @@ export default ( state = {} , action ) => {
 		}
 	case 'ON_CLICK_TOGGLE_DISP_MENU':
 	case 'ON_CLICK_TOGGLE_DISP_DETAIL':
-		console.log( action.app.isOpenDetail );
 		return {...state,
 			menu: {...state.menu,
 				self: {...state.menu.self,
@@ -36,9 +36,12 @@ export default ( state = {} , action ) => {
 				}
 			},
 			detail: {...state.detail,
-				self: {...state.detail.self,
-					transform: Detail.getTransform( action.app ),
-				}
+				[`self${Detail.detailRightSelfKey}`]: {...state.detail[`self${Detail.detailRightSelfKey}`],
+					transform: DetailRight.getTransform( action.app ),
+				},
+				[`self${Detail.detailModalSelfKey}`]: {...state.detail[[`self${Detail.detailModalSelfKey}`]],
+					transform: DetailModal.getTransform( action.app ),
+				}				
 			},
 			screen: {...state.screen,
 				self: {...state.screen.self,

@@ -125,7 +125,28 @@ const functions = {
     action.app.isOpenMain = App.getIsOpenMain( action.app );
     return action;
   },
+  "RESIZE_START_WINDOW": ( state, action ) => {
+    console.log("RESIZE_START_WINDOW " + state.app.screenMode);
+    action.app = {...state.app, ...action.app};
+    console.log("RESIZE_START_WINDOW " + action.app.screenMode);
+    return action;
+  },
   "RESIZE_END_WINDOW": ( state, action ) => {
+    const beforeScreenMode = state.app.screenMode;
+    const afterScreenMode = action.app.screenMode;
+/*
+    if(afterScreenMode === App.screenModeMiddleLabel){
+      console.log("EXE");
+      action.app = {...state.app, ...action.app};
+      action.style = state.style;
+      action.isTransition = false;
+      action.isOpenDetail = false;
+      console.log(action.style.detail.self);
+      action.style.detail.self.transition = "0ms";
+      action.style.detail.self.transform = "translate3d(0%, 0px, 0px)";
+//      action.style.detail.self.transition = "0ms";
+    }
+*/
     return action;
   },
   "ON_CLICK_TOGGLE_DISP_MENU": ( state, action ) => {
