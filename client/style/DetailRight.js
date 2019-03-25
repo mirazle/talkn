@@ -1,9 +1,6 @@
 import App from '../../common/schemas/state/App';
 import Style from './index';
-import Container from './Container';
-import Main from './Main';
 import Detail from './Detail';
-import Header from './Header';
 
 export default class DetailRight {
 
@@ -44,32 +41,6 @@ export default class DetailRight {
 
   static get closeSelfTransform(){ return `translate3d(0%, calc( 100% + ${ Detail.padding * 2 }px ), 0px)` };
   static get openSelfTransform(){ return `translate3d(0%, 0%, 0px)` };
-
-  static getSelf( {app} ){
-    const screenMode = App.getScreenMode();
-    const display = screenMode === App.screenModeLargeLabel ?
-      "inline-block" : "none";
-
-    const layout = Style.getLayoutInlineBlock({
-      display,
-      position: "fixed",
-      top: "0%",
-      width: DetailRight.getWidth( app ),
-      minWidth: DetailRight.getWidth( app ),
-      height: `calc( 100% - ${Header.headerHeight}px )`,
-      WebkitOverflowScrolling: 'touch',
-      background: Container.calmRGB,
-      overflow: 'scroll',
-      margin: `${Header.headerHeight}px 0px 0px 0px`,
-      borderLeft: Container.border,
-      zIndex: 0
-    });
-    const content = Style.getContentBase();
-    const animation = Style.getAnimationBase({
-      transition: "0ms"
-    });
-    return Style.get({layout, content, animation});
-  }
 
   static getHeader(params){return Detail.getHeader(params)}
   static getHeaderP(params){return Detail.getHeaderP(params)}

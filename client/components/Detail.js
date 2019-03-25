@@ -5,6 +5,7 @@ import define from 'common/define';
 import Sequence from 'common/Sequence';
 import App from 'common/schemas/state/App';
 import DetailFooter from 'client/components/DetailFooter';
+import DetailStyle from 'client/style/Detail';
 import LockMenu from './LockMenu';
 import Icon from './Icon';
 
@@ -361,8 +362,9 @@ export default class Detail extends Component {
   }
 
  	render() {
-    const { style } = this.props.state
-		return (
+    const { state } = this.props;
+    const { style } = state;
+    return (
       <div data-component-name={this.constructor.name} style={ style.detail.self }>
         {this.renderHeader()}
         <div style={ style.detail.body } >
