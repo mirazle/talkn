@@ -55,8 +55,10 @@ export default class Detail {
   static getDetailModalSelf( {app} ){
     const screenMode = App.getScreenMode();
     const display = screenMode === App.screenModeLargeLabel ? "none" : "block";
+    const left = screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
+    const background = app.type === define.APP_TYPES.EXTENSION ?
+      "none" : Container.reliefRGB;
     const height = DetailModal.getHeight(app);
-    const left = app.screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
     const layout = Style.getLayoutBlock({
       display,
       position: 'fixed',
@@ -65,6 +67,7 @@ export default class Detail {
       width: DetailModal.getWidth( app ),
       height,
       margin: DetailModal.getMargin(app),
+      background,
       border: Container.border,
       borderBottom: 0,
       borderRadius: Container.radiuses,
@@ -245,7 +248,7 @@ export default class Detail {
 
   static getMetaContentType(){ 
     const layout = Style.getLayoutBlock({
-      background: Container.lightGrayRGB,
+      background: Container.reliefRGB,
       width: 'initial',
       height: 'initial',
       margin: "10px 0px",

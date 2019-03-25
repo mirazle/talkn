@@ -288,7 +288,7 @@ export default class Icon {
         minWidth: sizeWidthPx,
         height: "180px",
         minHeight: sizeHeightPx,
-        backgroundColor: Container.reliefRGBA,
+        backgroundColor: Container.reliefRGB,
         backgroundSize: "75%",
         backgroundPosition: 'center',
         backgroundImage: `url(https://${conf.assetsImgPath}${image})`,

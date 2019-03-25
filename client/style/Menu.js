@@ -51,6 +51,8 @@ export default class Menu {
   }
 
   static getSelf( {app} ){
+    const background = app.type === define.APP_TYPES.EXTENSION ?
+      "none" : Container.reliefRGB;
     const layout = Style.getLayoutBlock({
       position: 'fixed',
       top: "0px",
@@ -61,6 +63,7 @@ export default class Menu {
       minHeight: "auto",
       maHeight: "auto",
       margin: `${Header.headerHeight}px 0px 0px 0px`,
+      background,
       WebkitOverflowScrolling: 'touch',
       overflow: 'scroll',
     });
