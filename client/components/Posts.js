@@ -26,7 +26,6 @@ export default class Posts extends Component {
     }
     this.setState({scrollHeight: this.refs.thread.scrollHeight});
     talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
-    console.log(talknWindow.threadHeight);
     talknWindow.animateScrollTo( talknWindow.threadHeight, 0 );
   }
 
@@ -63,7 +62,6 @@ export default class Posts extends Component {
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
 
       talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
-      console.log( "POST : " + talknWindow.threadHeight);
       if( app.isOpenMain && talknWindow.isScrollBottom ){
         talknWindow.animateScrollTo(
           talknWindow.threadHeight,
