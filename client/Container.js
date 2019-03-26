@@ -210,7 +210,6 @@ class Container extends Component {
   }
 
   renderExtension(){
-    const { style } = this.props.state;
     const props = this.getProps();
     const MultistreamIcon = this.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );

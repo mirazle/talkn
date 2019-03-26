@@ -25,7 +25,9 @@ export default class Posts extends Component {
       talknAPI.extension("loadTalkn", this.props.state);
     }
     this.setState({scrollHeight: this.refs.thread.scrollHeight});
-    this.animateScrollTo( this.refs.thread, 9999999, 400 );
+    talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
+    console.log(talknWindow.threadHeight);
+    talknWindow.animateScrollTo( talknWindow.threadHeight, 0 );
   }
 
   componentWillReceiveProps(props){
@@ -59,13 +61,16 @@ export default class Posts extends Component {
       talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
       break;
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
-      console.log(talknWindow.isScrollBottom);
-      if( app.isOpenMain && talknWindow.isScrollBottom ){
-        console.log("@@@ A");
-        this.props.startAnimateScrollTo();
-      }else{
-        console.log("@@@ B");
 
+      talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
+      console.log( "POST : " + talknWindow.threadHeight);
+      if( app.isOpenMain && talknWindow.isScrollBottom ){
+        talknWindow.animateScrollTo(
+          talknWindow.threadHeight,
+          400,
+          this.props.endAnimateScrollTo
+        );
+      }else{
         this.props.openNotifInThread();
       }
       break;
@@ -113,6 +118,7 @@ export default class Posts extends Component {
       talknAPI.onClickToggleDispDetail( app );
       break;
     case 'START_ANIMATE_SCROLL_TO':
+
       this.animateScrollTo(
         this.refs.thread,
         this.refs.thread.scrollHeight,
@@ -127,7 +133,7 @@ export default class Posts extends Component {
 
   animateScrollTo( element, to, duration, callback = ()=>{}) {
     if( !this.state.isAnimateScrolling ){
-      let start = element.scrollTop;
+      let start = element.scrollTop ? element.scrollTop : window.scrollY;
       let change = to - start;
       let currentTime = 0;
       let increment = 20;
