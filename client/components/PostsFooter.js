@@ -30,9 +30,9 @@ export default class PostsFooter extends Component {
 
       const { app } = this.props.state;
       if( app.screenMode === App.screenModeSmallLabel ){
-        alert("SCROLL " + talknWindow.isScrollBottom);
+        //alert("SCROLL " + talknWindow.isScrollBottom);
         if( !talknWindow.isScrollBottom ){
-          alert("SCROLL");
+          alert("EXE SCROLL");
           window.scrollTo(0, talknWindow.threadHeight);    
         }
       }
