@@ -183,6 +183,7 @@ class Container extends Component {
     const props = this.getProps();
     const MultistreamIcon = this.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
+    const HideScreenBottom = this.getHideScreenBottom( props );
     return (
       <div data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />
@@ -206,6 +207,7 @@ class Container extends Component {
     const props = this.getProps();
     const MultistreamIcon = this.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
+    const HideScreenBottom = this.getHideScreenBottom( props );
     return (
       <span data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />
