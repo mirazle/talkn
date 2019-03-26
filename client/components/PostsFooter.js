@@ -15,7 +15,7 @@ export default class PostsFooter extends Component {
   }
 
   handleOnClick( e ){
-    const value = console.log(this.refs.postArea.innerHTML);
+    const value = this.refs.postArea.innerHTML;
     if( !App.validInputPost( value ) ){
       if(value && value !== ""){
         console.log(value);
