@@ -1,5 +1,4 @@
 import Style from 'client/style/index';
-import Main from 'client/style/Main';
 import Screen from 'client/style/Screen';
 import Menu from 'client/style/Menu';
 import LockMenu from 'client/style/LockMenu';
@@ -44,12 +43,6 @@ export default ( state = {} , action ) => {
 					transform: DetailModal.getTransform( action.app ),
 				}				
 			},
-			screen: {...state.screen,
-				self: {...state.screen.self,
-					width: Screen.getWidth( action.app ),
-					transform: Screen.getTransform( action.app ),
-				}
-			},
 			posts: {...state.posts,
 				self: {...state.posts.self,
 					width: Posts.getWidth( action.app )
@@ -87,9 +80,9 @@ export default ( state = {} , action ) => {
 	case 'OPEN_NOTIF_IN_THREAD':
 	case 'CLOSE_NOTIF_IN_THREAD':
 		return {...state,
-			posts: {...state.posts,
-				notif: {...state.posts.notif,
-					transform: Posts.getNotifTranslateY( action.app ),
+			container: {...state.container,
+				notif: {...state.container.notif,
+					transform: Container.getNotifTranslateY( action.app ),
 				}
 			}
 		}
