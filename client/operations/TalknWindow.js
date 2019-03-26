@@ -98,12 +98,6 @@ export default class TalknWindow {
 		this.innerHeight = window.innerHeight;
 		this.scrollHeight = window.scrollY ;
 		this.isScrollBottom = ( htmlScrollHeight === ( this.innerHeight + this.scrollHeight ) );
-		//this.props.scrollThread();
-	}
-
-	getIsScrollBottom(){
-		const { scrollY } = window;
-		( scrollHeight === ( scrollTop + clientHeight ) )
 	}
 
 	resizeStartWindow(){
@@ -138,6 +132,38 @@ export default class TalknWindow {
 			this.resizeTimer = false;
 			this.resizing = false;
 			talknAPI.onResizeEndWindow( {app, setting, bootOption} );
+		}
+	}
+
+	animateScrollTo( to = 99999, duration = 400,  callback = () => {} ){
+
+		if( duration === 0 ){
+			window.scrollTo(0, to);
+		}else{
+
+			if( !this.isAnimateScrolling ){
+				let start = window.scrollY;
+				let change = to - start;
+				let currentTime = 0;
+				let increment = 20;
+
+				const animateScroll = ()　=>　{
+					currentTime += increment;
+					let scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);
+					screenTop = Math.floor( scrollTop );
+					console.log( scrollTop );
+					//				element.scrollTop = scrollTop;
+					window.scrollTo(0, scrollTop);
+					if(currentTime < duration){
+						this.isAnimateScrolling = true;
+						setTimeout(animateScroll, increment);
+					}else{
+						this.isAnimateScrolling = false;
+						callback();
+					}
+				};
+				animateScroll();
+			}
 		}
 	}
 
