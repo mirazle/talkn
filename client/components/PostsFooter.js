@@ -30,8 +30,9 @@ export default class PostsFooter extends Component {
 
       const { app } = this.props.state;
       if( app.screenMode === App.screenModeSmallLabel ){
-        const threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
-        window.scrollTo(0, talknWindow.threadHeight);  
+        if( !talknWindow.isScrollBottom ){
+          window.scrollTo(0, talknWindow.threadHeight);    
+        }
       }
       talknAPI.onChangeInputPost( e.target.value );
     }
