@@ -23,14 +23,6 @@ export default class Main {
     }
   }
 
-  static get notifOpenTranslateY(){
-    return `translate3d( 0px, ${-( Footer.selfHeight * 2 )}px, 0px )`;
-  }
-  static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
-  static getNotifTranslateY( app ){
-    return app.isOpenNotifInThread ? Main.notifOpenTranslateY : Main.notifCloseTranslateY;
-  }
-
   static getWidth( app, addUnit = false ){
     const width = '100%';
     return addUnit ? Style.trimUnit( width ) : width ;

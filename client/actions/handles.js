@@ -168,5 +168,17 @@ export default {
       type: 'ON_CLICK_OPEN_LOCK_MENU',
       app: {openLockMenu},
     };
+  },
+  openNotifInThread: () => {
+    return {
+      type: 'OPEN_NOTIF_IN_THREAD',
+      app: {isOpenNotifInThread: true}
+    };
+  },
+  closeNotifInThread: () => {
+    return {
+      type: 'CLOSE_NOTIF_IN_THREAD',
+      app: {isOpenNotifInThread: false}
+    };
   }
 }

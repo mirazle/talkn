@@ -3,14 +3,18 @@ import App from '../../common/schemas/state/App';
 import Style from './index';
 import Header from './Header';
 import DetailRight from './DetailRight';
+import Menu from './Menu';
+import Footer from './Footer';
 
 export default class Container{
   constructor( params ){
     const self = Container.getSelf( params );
     const multistreamIconWrap = Container.getMultistreamIconWrap( params );
+    const notif = Container.getNotif( params );
     return {
       self,
-      multistreamIconWrap
+      multistreamIconWrap,
+      notif
     }
   }
 
@@ -82,6 +86,18 @@ export default class Container{
   static get transitionFirstOn(){ return 200 };
   static get transitionOff(){ return 0 };
 
+  static get notifHeight(){ return 20 };
+  static get notifOpenTranslate(){ return 20 };
+  static get notifHeight(){ return 20 };
+  static get notifOpenTranslateY(){
+    return `translate3d( 0px, ${-( Footer.selfHeight * 2 )}px, 0px )`;
+  }
+  static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
+  static getNotifTranslateY( app ){
+    return app.isOpenNotifInThread ?
+      Container.notifOpenTranslateY : Container.notifCloseTranslateY;
+  }
+
   static getWidthPx( {bootOption, app} ){
     if( bootOption ){
       return bootOption.width ?
@@ -125,7 +141,7 @@ export default class Container{
       display: "initial",
       width: 'inherit',
       height: 'inherit',
-      overflow: "auto",
+      overflow: "inherit",
       borderRadius
     });
     const content = Style.getContentBase({});
@@ -134,7 +150,6 @@ export default class Container{
   }
 
   static getMultistreamIconWrapTop( app ){
-    console.log(Header.headerHeight + " + " + Container.multistreamWrapDefaultTop);
     if( app.type === define.APP_TYPES.EXTENSION ){
       return ( Header.headerHeight + Container.multistreamWrapDefaultTop ) + "px" ;
     }else{
@@ -148,7 +163,6 @@ export default class Container{
   }
 
   static getMultistreamIconWrapRight( app ){
-    console.log(DetailRight.getWidth(app));
     switch( app.screenMode ){
     case App.screenModeSmallLabel:
     case App.screenModeMiddleLabel:
@@ -190,6 +204,52 @@ export default class Container{
     });
     const animation = Style.getAnimationBase({
       transition: Container.transitionOff,
+    });
+    return Style.get({layout, content, animation});
+  }
+
+  static getNotif( {app} ){
+    let left = "0px";
+    let width = "0px";
+    switch(app.screenMode){
+    case App.screenModeSmallLabel :
+      left = "25%";
+      width = "50%";
+      break;
+    case App.screenModeMiddleLabel :
+      width = ( ( app.width - Menu.getWidth(app, true) ) * 0.5 );
+      left = Menu.getWidth(app, true) + Math.floor( width / 2 );
+      break;
+    case App.screenModeLargeLabel :
+      const detailOtherWidth = Math.floor( app.width * DetailRight.otherWidthRate );
+      const postsWidth = Math.floor( detailOtherWidth - Menu.getWidth(app, true) );
+      width = postsWidth * 0.5;
+      left = Menu.getWidth(app, true) + Math.floor( width / 2 );
+      break;
+    }
+
+    const layout = Style.getLayoutFlex({
+      position: 'fixed',
+      top: `calc( 100vh )`,
+      left,
+      width,
+      height: Container.notifHeight,
+      margin: '0px auto',
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: '1',
+      background: 'rgba(0, 0, 0, 0.4)',
+      borderRadius: '20px',
+    });
+    const content = Style.getContentBase({
+      color: 'rgb(255,255,255)',
+      textAlign: 'center',
+      fontSize: "12px",
+      lineHeight: 2,
+      cursor: 'pointer',
+    });
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransition( app ),
     });
     return Style.get({layout, content, animation});
   }

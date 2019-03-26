@@ -5,7 +5,6 @@ import App from 'common/schemas/state/App';
 import TalknSession from 'client/operations/TalknSession';
 import Loading from 'client/components/Loading';
 import Style from 'client/components/Style';
-import Main from 'client/components/Main';
 import Posts from 'client/components/Posts';
 import handles from 'client/actions/handles';
 import callbacks from 'client/actions/callbacks';
@@ -118,7 +117,7 @@ class Container extends Component {
     const { state} = props;
     const { style } = state;
     return (
-      <div data-component-name="newPost" style={style.posts.notif}>
+      <div data-component-name="newPost" style={style.container.notif}>
         NEW POST
       </div>
     );
@@ -147,12 +146,14 @@ class Container extends Component {
     const { style } = this.props.state;
     const props = this.getProps();
     const MultistreamIcon = this.getMultistreamIcon( props );
+    const NewPost = this.getNewPost( props );
     return (
-      <div data-component-type={this.constructor.name} style={ style.container.self }>
+      <div data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
           { MultistreamIcon }
+          { NewPost }
           <Header {...props} />
           <DetailRight {...props} /> 
           <LockMenu {...props} />
@@ -168,12 +169,14 @@ class Container extends Component {
     const { style } = this.props.state;
     const props = this.getProps();
     const MultistreamIcon = this.getMultistreamIcon( props );
+    const NewPost = this.getNewPost( props );
     return (
-      <div data-component-type={this.constructor.name} style={ style.container.self }>
+      <div data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
           { MultistreamIcon }
+          { NewPost }
           <Header {...props} />
           <DetailModal {...props} /> 
           <PostsFooter {...props} />
@@ -188,12 +191,14 @@ class Container extends Component {
     const { style } = this.props.state;
     const props = this.getProps();
     const MultistreamIcon = this.getMultistreamIcon( props );
+    const NewPost = this.getNewPost( props );
     return (
-      <span data-component-type={this.constructor.name} style={ style.container.self }>
+      <span data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
           { MultistreamIcon }
+          { NewPost }
           <Header {...props} />
           <DetailModal {...props} /> 
           <PostsFooter {...props} />
@@ -208,12 +213,14 @@ class Container extends Component {
     const { style } = this.props.state;
     const props = this.getProps();
     const MultistreamIcon = this.getMultistreamIcon( props );
+    const NewPost = this.getNewPost( props );
     return (
-      <span data-component-type={this.constructor.name} style={ style.container.self }>
+      <span data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
           { MultistreamIcon }
+          { NewPost }
           <Header {...props} />
           <DetailModal {...props} /> 
           <PostsFooter {...props} />
@@ -228,9 +235,11 @@ class Container extends Component {
     const { style } = this.props.state;
     const props = this.getProps();
     const MultistreamIcon = this.getMultistreamIcon( props );
+    const NewPost = this.getNewPost( props );
     return (
-      <div data-component-type={this.constructor.name} style={ style.container.self }>
+      <div data-component-name={this.constructor.name} style={ style.container.self }>
         { MultistreamIcon }
+        { NewPost }
         <Style {...props} />
         <Main {...props} />
         <Footer {...props} />
@@ -242,9 +251,11 @@ class Container extends Component {
     const { style } = this.props.state;
     const props = this.getProps();
     const MultistreamIcon = this.getMultistreamIcon( props );
+    const NewPost = this.getNewPost( props );
     return (
-      <div data-component-type={this.constructor.name} style={ style.container.self }>
+      <div data-component-name={this.constructor.name} style={ style.container.self }>
         { MultistreamIcon }
+        { NewPost }
         <Style {...props} />
         <Main {...props} />
         <Footer {...props} />
