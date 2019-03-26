@@ -89,8 +89,8 @@ export default ( state = {} , action ) => {
 	case 'OPEN_NOTIF':
 	case 'CLOSE_NOTIF':
 		return {...state,
-			screen: {...state.screen,
-				self: {...state.screen.self,
+			posts: {...state.posts,
+				self: {...state.posts.self,
 					display: Screen.getSelfDisplay( action.app ),
 				}
 			}
