@@ -151,8 +151,6 @@ export default class TalknWindow {
 					currentTime += increment;
 					let scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);
 					screenTop = Math.floor( scrollTop );
-					console.log( scrollTop );
-					//				element.scrollTop = scrollTop;
 					window.scrollTo(0, scrollTop);
 					if(currentTime < duration){
 						this.isAnimateScrolling = true;

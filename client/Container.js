@@ -142,11 +142,23 @@ class Container extends Component {
     }
   }
   
+  getHideScreenBottom(props){
+    const { state} = props;
+    const { style, app } = state;
+    return(
+      <div
+        data-component-name={"hideScreenBottom"}
+        style={style.container.hideScreenBottom}
+      />
+    );
+  }
+
   renderLarge(){
     const { style } = this.props.state;
     const props = this.getProps();
     const MultistreamIcon = this.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
+    const HideScreenBottom = this.getHideScreenBottom( props );
     return (
       <div data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />
@@ -160,6 +172,7 @@ class Container extends Component {
           <PostsFooter {...props} />
           <Menu {...props} />
           <InnerNotif {...this.props}/>;
+          { HideScreenBottom }
         </span>
       </div>
     );
@@ -182,6 +195,7 @@ class Container extends Component {
           <PostsFooter {...props} />
           <Menu {...props} />
           <InnerNotif {...this.props}/>
+          { HideScreenBottom }
         </span>
       </div>
     );
@@ -204,6 +218,7 @@ class Container extends Component {
           <PostsFooter {...props} />
           <Menu {...props} />
           <InnerNotif {...this.props}/>;
+          { HideScreenBottom }
         </span>
       </span>
     );
@@ -225,6 +240,7 @@ class Container extends Component {
           <PostsFooter {...props} />
           <Menu {...props} />
           <InnerNotif {...this.props}/>;
+          { HideScreenBottom }
         </span>
       </span>
     );
@@ -242,6 +258,7 @@ class Container extends Component {
         <Style {...props} />
         <Main {...props} />
         <Footer {...props} />
+        { HideScreenBottom }
       </div>
     );
   }
@@ -258,6 +275,7 @@ class Container extends Component {
         <Style {...props} />
         <Main {...props} />
         <Footer {...props} />
+        { HideScreenBottom }
       </div>
     );
   }
