@@ -11,10 +11,12 @@ export default class Container{
     const self = Container.getSelf( params );
     const multistreamIconWrap = Container.getMultistreamIconWrap( params );
     const notif = Container.getNotif( params );
+    const hideScreenBottom =  Container.getHideScreenBottom( params );
     return {
       self,
       multistreamIconWrap,
-      notif
+      notif,
+      hideScreenBottom
     }
   }
 
@@ -251,6 +253,19 @@ export default class Container{
     const animation = Style.getAnimationBase({
       transition: Container.getTransition( app ),
     });
+    return Style.get({layout, content, animation});
+  }
+
+  static getHideScreenBottom( {app} ){
+    const layout = Style.getLayoutFlex({
+      position: 'fixed',
+      top: `100vh`,
+      width: "100vw",
+      height: "300px",
+      background: Container.reliefRGB,
+    });
+    const content = Style.getContentBase({});
+    const animation = Style.getAnimationBase({});
     return Style.get({layout, content, animation});
   }
 }
