@@ -9,18 +9,6 @@ export default {
   endAnimateScrollTo: () => {
     return {type: 'END_ANIMATE_SCROLL_TO'};
   },
-  openNotifInThread: () => {
-    return {
-      type: 'OPEN_NOTIF_IN_THREAD',
-      app: {isOpenNotifInThread: true}
-    };
-  },
-  closeNotifInThread: () => {
-    return {
-      type: 'CLOSE_NOTIF_IN_THREAD',
-      app: {isOpenNotifInThread: false}
-    };
-  },
   createNotif: () => {
     return {
       type: 'CREATE_NOTIF'

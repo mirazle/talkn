@@ -5,6 +5,7 @@ import Detail from './Detail';
 export default class DetailRight {
 
   static get widthRate(){ return 0.3};
+  static get otherWidthRate(){ return 1 - DetailRight.widthRate};
   static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){

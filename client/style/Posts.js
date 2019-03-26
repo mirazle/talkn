@@ -10,7 +10,7 @@ import Detail from './Detail';
 import Footer from './Footer';
 
 export default class Posts {
-
+  static getSelfDisplay(app){return app.isOpenNotif ? 'none' : 'flex'}
   static getMinWidth( app, addUnit = false ){
     let width = '200px';
     return addUnit ? Style.trimUnit( width ) : width ;
@@ -39,27 +39,14 @@ export default class Posts {
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
-  static get notifHeight(){ return 20 };
-  static get notifOpenTranslate(){ return 20 };
-  static get notifHeight(){ return 20 };
-  static get notifOpenTranslateY(){
-    return `translate3d( 0px, ${-( Footer.selfHeight * 2 )}px, 0px )`;
-  }
-  static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
-  static getNotifTranslateY( app ){
-    return app.isOpenNotifInThread ? Main.notifOpenTranslateY : Main.notifCloseTranslateY;
-  }
-
   constructor( params ){
     const self = Posts.getSelf( params );
     const ol = Posts.getOl( params );
     const more = Posts.getMore( params );
-    const notif = Posts.getNotif( params );
     return {
       self,
       ol,
-      more,
-      notif
+      more
     }
   }
 
@@ -85,7 +72,7 @@ export default class Posts {
 
   static getMargin( app, addUnit = false ){
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : return `${Header.headerHeight}px 0px 0px 0px`;
+    case App.screenModeSmallLabel : return `${Header.headerHeight}px 0px 25px 0px`;
     case App.screenModeMiddleLabel : return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
     case App.screenModeLargeLabel : return `${Header.headerHeight}px 0px 0px ${Menu.getWidth( app )}`
     }
@@ -111,10 +98,9 @@ export default class Posts {
       width: Posts.getWidth( app ),
       minWidth: Posts.getMinWidth( app ),
       height: "auto",
-      minHeight: "100vh",
+      minHeight: `calc( 100vh - ${Header.headerHeight}px)`,
       maxHeight: "auto",
       margin: Posts.getMargin(app),
-      overflow: 'scroll', 
       background: Container.whiteRGBA,
       ...borders
     });
@@ -155,10 +141,12 @@ export default class Posts {
   }
 
   static getMore(){
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
       width: '50%',
       height: Container.notifHeight,
       margin: '15px auto',
+      alignItems: "center",
+      justifyContent: "center",
       zIndex: '10',
       background: Container.themeRGBA,
       borderRadius: '20px',
@@ -170,31 +158,6 @@ export default class Posts {
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getNotif( {app} ){
-    const layout = Style.getLayoutBlock({
-      position: 'fixed',
-      top: `calc( 100vh - ${Header.headerHeight}px )`,
-      left: "25%",
-      width: '50%',
-      height: Container.notifHeight,
-      margin: '0px auto',
-      zIndex: '10',
-      background: 'rgba(0, 0, 0, 0.4)',
-      borderRadius: '20px',
-    });
-    const content = Style.getContentBase({
-      color: 'rgb(255,255,255)',
-      textAlign: 'center',
-      fontSize: "12px",
-      lineHeight: 2,
-      cursor: 'pointer',
-    });
-    const animation = Style.getAnimationBase({
-      transition: Container.getTransition( app ),
-    });
     return Style.get({layout, content, animation});
   }
 }

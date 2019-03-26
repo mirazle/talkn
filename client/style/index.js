@@ -73,8 +73,8 @@ export default class Style{
     const menuIndex = new MenuIndex( params );
     const menuIndexList = new MenuIndexList( params );
     const menuUsers = new MenuUsers( params );
-    const main = new Main( params );
-    const screen = new Screen( params );
+//    const main = new Main( params );
+//    const screen = new Screen( params );
     const lockMenu = new LockMenu( params );
     const posts = new Posts( params );
     const post = new Post( params );
@@ -95,8 +95,8 @@ export default class Style{
       menuIndex,
       menuIndexList,
       menuUsers,
-      main,
-      screen,
+//      main,
+//      screen,
       lockMenu,
       posts,
       post,

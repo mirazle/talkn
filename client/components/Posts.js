@@ -8,7 +8,6 @@ export default class Posts extends Component {
 
   constructor(props){
     super(props);
-    this.handleOnScroll = this.handleOnScroll.bind(this);
     this.handleOnClickGetMore = this.handleOnClickGetMore.bind(this);
     this.animateScrollTo = this.animateScrollTo.bind(this);
     this.state = {
@@ -56,20 +55,25 @@ export default class Posts extends Component {
     const { thread, postsMulti, postsSingle, actionLog } = this.props.state;
     let { app } = this.props.state;
     switch( actionLog[ 0 ] ){
+    case 'SERVER_TO_CLIENT[EMIT]:find':
+      talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
+      break;
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
-      const { isScrollBottom } = this.state;
-      if( app.isOpenMain && isScrollBottom ){
+      console.log(talknWindow.isScrollBottom);
+      if( app.isOpenMain && talknWindow.isScrollBottom ){
+        console.log("@@@ A");
         this.props.startAnimateScrollTo();
       }else{
-        const posts = app.dispThreadType === App.dispThreadTypeMulti ? postsMulti : postsSingle;
-        const lastPost = posts[ posts.length - 1 ];
-        //const childLayerCnt = lastPost.connections.length - thread.connections.length;
+        console.log("@@@ B");
+
         this.props.openNotifInThread();
       }
-      break;ˆˆ
+      break;
     case 'SERVER_TO_CLIENT[EMIT]:getMore':
 
-      this.refs.thread.scrollTop = this.refs.thread.scrollHeight - this.state.scrollHeight;
+      const threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
+      window.scrollTo(0, threadHeight - talknWindow.threadHeight);
+      talknWindow.threadHeight = threadHeight;
 
       if(thread.isSelfConnection){
         const clientMetas = document.querySelectorAll('meta');
@@ -144,19 +148,6 @@ export default class Posts extends Component {
     }
   }
 
-  handleOnScroll( e ){
-		const{ app } = this.props.state;
-
-    if( app.isOpenNotifInThread ){
-      this.props.closeNotifInThread();
-    }
-
-    const { clientHeight, scrollTop, scrollHeight } = e.target;
-    const isScrollBottom = ( scrollHeight === ( scrollTop + clientHeight ) );
-    this.setState({isScrollBottom});
-    this.props.scrollThread();
-  }
-
   handleOnClickGetMore(){
     this.setState({...this.state, scrollHeight: this.refs.thread.scrollHeight});
     talknAPI.getMore();
@@ -214,10 +205,6 @@ export default class Posts extends Component {
       });
     }
     return postList;
-  }
-
-  renderNewPost(){
-
   }
 
  	render() {
