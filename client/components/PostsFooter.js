@@ -75,7 +75,7 @@ export default class PostsFooter extends Component {
         const focusSetIntervalId = setInterval(  () => {
           console.log("@@ ON FOCUS");
           window.scrollTo(0, 9999999)
-        }, 300);
+        }, 500);
         this.setState({focusSetIntervalId});
       }
     }
