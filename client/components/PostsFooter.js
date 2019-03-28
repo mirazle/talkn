@@ -31,6 +31,7 @@ export default class PostsFooter extends Component {
   // TODO スマホのマルチバイト入力は最下位スクロールでいける！？
 
   handleOnChange( e ){
+    clearInterval(this.state.focusSetIntervalId);
     if( !App.validInputPost( e.target.value ) ){
 
       const { app } = this.props.state;
@@ -52,6 +53,7 @@ export default class PostsFooter extends Component {
   }
 
   handleOnKeyPress( e ){
+    clearInterval(this.state.focusSetIntervalId);
     if ( e.nativeEvent.keyCode === 13 ) {
       if( e.nativeEvent.shiftKey ){
         talknAPI.onChangeInputPost( e.target.value + '\n');
@@ -70,9 +72,8 @@ export default class PostsFooter extends Component {
       const focusSetIntervalId = setInterval(  () => {
         console.log("@@ ON FOCUS");
         window.scrollTo(0, 9999999)
-      }, 300);
+      }, 100);
       this.setState({focusSetIntervalId});
-
     }
   }
 
