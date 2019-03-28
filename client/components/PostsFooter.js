@@ -39,12 +39,6 @@ export default class PostsFooter extends Component {
         clearInterval(this.state.focusSetIntervalId);    clearInterval(this.state.focusSetIntervalId);
         window.scrollTo(0, 9999999);
         if( !talknWindow.isScrollBottom ){
-/*
-          const htmlScrollHeight = document.querySelector("html").scrollHeight;
-          alert(
-            `htmlScrollHeight( ${htmlScrollHeight} ) === window.innerHeight( ${window.innerHeight} ) + window.scrollY( ${window.scrollY} ) `
-            );
-*/
             window.scrollTo(0, 9999999);
           talknWindow.setIsScrollBottom();
         }
