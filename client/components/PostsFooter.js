@@ -32,10 +32,11 @@ export default class PostsFooter extends Component {
 
       const { app } = this.props.state;
       if( app.screenMode === App.screenModeSmallLabel ){
-        alert("SCROLL isScrollBottom " + talknWindow.isScrollBottom);
+
         if( !talknWindow.isScrollBottom ){
-          //alert("EXE SCROLL");
+          alert("SCROLL isScrollBottom " + talknWindow.isScrollBottom);
           window.scrollTo(0, talknWindow.threadHeight);    
+          talknWindow.setIsScrollBottom();
         }
       }
       talknAPI.onChangeInputPost( e.target.value );

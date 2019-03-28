@@ -46,6 +46,7 @@ export default class TalknWindow {
 		this.scroll = this.scroll.bind( this );
 		this.resizeStartWindow = this.resizeStartWindow.bind( this );
 		this.resizeEndWindow = this.resizeEndWindow.bind( this );
+		this.setIsScrollBottom = this.setIsScrollBottom.bind( this );
 
 		this.onLoad = this.onLoad.bind(this);
 		window.onload = this.onLoad.bind(this);
@@ -88,13 +89,15 @@ export default class TalknWindow {
 
 	scroll( ev ){
 		const { app } = talknAPI.store.getState();
-		const htmlScrollHeight = document.querySelector("html").scrollHeight;
-
 		if( app.isOpenNotifInThread ){
 
 			talknAPI.closeNotifInThread();
-		}
-		
+		}		
+		this.setIsScrollBottom();
+	}
+
+	setIsScrollBottom(){
+		const htmlScrollHeight = document.querySelector("html").scrollHeight;
 		this.innerHeight = window.innerHeight;
 		this.scrollHeight = window.scrollY ;
 		this.isScrollBottom = ( htmlScrollHeight === ( this.innerHeight + this.scrollHeight ) );
