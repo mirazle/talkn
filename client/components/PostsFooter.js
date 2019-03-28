@@ -31,12 +31,13 @@ export default class PostsFooter extends Component {
   // TODO スマホのマルチバイト入力は最下位スクロールでいける！？
 
   handleOnChange( e ){
-    clearInterval(this.state.focusSetIntervalId);
+
     if( !App.validInputPost( e.target.value ) ){
 
       const { app } = this.props.state;
       if( app.screenMode === App.screenModeSmallLabel ){
-
+        clearInterval(this.state.focusSetIntervalId);    clearInterval(this.state.focusSetIntervalId);
+        window.scrollTo(0, 9999999);
         if( !talknWindow.isScrollBottom ){
 /*
           const htmlScrollHeight = document.querySelector("html").scrollHeight;
@@ -67,20 +68,26 @@ export default class PostsFooter extends Component {
   }
 
   handleOnFocus( e ){
-    if( this.state.focusSetIntervalId === 0 ){
-      window.scrollTo(0, 9999999);
-      const focusSetIntervalId = setInterval(  () => {
-        console.log("@@ ON FOCUS");
-        window.scrollTo(0, 9999999)
-      }, 100);
-      this.setState({focusSetIntervalId});
+    const { app } = this.props.state;
+    if( app.screenMode === App.screenModeSmallLabel ){
+      if( this.state.focusSetIntervalId === 0 ){
+        window.scrollTo(0, 9999999);
+        const focusSetIntervalId = setInterval(  () => {
+          console.log("@@ ON FOCUS");
+          window.scrollTo(0, 9999999)
+        }, 300);
+        this.setState({focusSetIntervalId});
+      }
     }
   }
 
   handleOnBlur( e ){
     console.log("@@ ON BLUR");
-    clearInterval(this.state.focusSetIntervalId);
-    this.setState({focusSetIntervalId: 0});
+    const { app } = this.props.state;
+    if( app.screenMode === App.screenModeSmallLabel ){
+      clearInterval(this.state.focusSetIntervalId);
+      this.setState({focusSetIntervalId: 0});
+    }
   }
 
   getIconStyle(){
