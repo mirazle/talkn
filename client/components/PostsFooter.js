@@ -65,7 +65,6 @@ export default class PostsFooter extends Component {
   handleOnFocus( e ){
     window.scrollTo(0, 9999999);
     setTimeout(  () => {
-      alert("SET TIMEOUT");
       window.scrollTo(0, 9999999)
     }, 1000)
   }
