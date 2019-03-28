@@ -25,12 +25,14 @@ export default class PostsFooter extends Component {
     }
   }
 
+  // TODO スマホのマルチバイト入力は最下位スクロールでいける！？
+
   handleOnChange( e ){
     if( !App.validInputPost( e.target.value ) ){
 
       const { app } = this.props.state;
       if( app.screenMode === App.screenModeSmallLabel ){
-        //alert("SCROLL " + talknWindow.isScrollBottom);
+        alert("SCROLL isScrollBottom " + talknWindow.isScrollBottom);
         if( !talknWindow.isScrollBottom ){
           //alert("EXE SCROLL");
           window.scrollTo(0, talknWindow.threadHeight);    
