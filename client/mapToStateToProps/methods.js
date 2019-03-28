@@ -23,6 +23,13 @@ export default {
     TalknSession.setStorage( rootConnection, define.storageKey.app, state.app.toJSON() );
     return {state, props};
   },
+  "ON_CLICK_TOGGLE_DISP_MENU": ( state, props ) => {
+    if( state.app.screenMode === App.screenModeSmallLabel ){
+      const overflow = state.app.isOpenMenu ? "hidden" : "inherit";
+      document.querySelector("body").style.overflow = overflow;
+    }
+    return {state, props};
+  },
   "ON_CLICK_MENU": ( state, props ) => {
     const { rootConnection } = state.app;
     TalknSession.setStorage( rootConnection, define.storageKey.app, state.app );
