@@ -52,11 +52,12 @@ export default class Menu extends Component {
   }
 
   handleOnTransitionEnd(){
-    const{ app } = this.props.state;
+    const{ state, openMenuTransitionEnd } = this.props;
+    const{ app } = state;
     if( app.screenMode === App.screenModeSmallLabel ){
-      console.log("@@@ A " + app.isOpenMenu);
       if( app.isOpenMenu ){
-        console.log("@@@ B");
+        openMenuTransitionEnd(window.scrollY);
+
         const overflow = "hidden";
         document.querySelector("html").style.overflow = overflow;
         document.querySelector("body").style.overflow = overflow;

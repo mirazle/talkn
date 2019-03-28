@@ -115,6 +115,7 @@ export default class App extends Schema{
     const dispThreadType = params && params.dispThreadType ? params.dispThreadType : App.dispThreadTypeMulti;
     const multistream = Schema.isSet( params.multistream ) ? params.multistream : true;
     const multistreamed = params && params.multistreamed ? params.multistreamed : false;
+    const threadScrollY = params && params.threadScrollY ? params.threadScrollY : 0;
 
     // 投稿情報
     const offsetFindId = params && params.offsetFindId ? params.offsetFindId : App.defaultOffsetFindId ;
@@ -172,6 +173,7 @@ export default class App extends Schema{
       dispThreadType,
       multistream,
       multistreamed,
+      threadScrollY,
 
       // 投稿情報
       offsetFindId,
