@@ -180,5 +180,11 @@ export default {
       type: 'CLOSE_NOTIF_IN_THREAD',
       app: {isOpenNotifInThread: false}
     };
+  },
+  openMenuTransitionEnd: (threadScrollY) => {
+    return {
+      type: 'OPEN_MENU_TRANSITION_END',
+      app: {threadScrollY}
+    };
   }
 }
