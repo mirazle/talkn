@@ -26,7 +26,9 @@ export default {
   "ON_CLICK_TOGGLE_DISP_MENU": ( state, props ) => {
     if( state.app.screenMode === App.screenModeSmallLabel ){
       const overflow = state.app.isOpenMenu ? "hidden" : "inherit";
+      document.querySelector("html").style.overflow = overflow;
       document.querySelector("body").style.overflow = overflow;
+      document.querySelector("talkn1").style.overflow = overflow;
     }
     return {state, props};
   },
