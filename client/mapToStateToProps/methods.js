@@ -31,6 +31,7 @@ export default {
         document.querySelector("html").style.overflow = overflow;
         document.querySelector("body").style.overflow = overflow;
         document.querySelector("#talkn1").style.overflow = overflow;
+        window.scrollTo(0, app.threadScrollY);
       }
     }
     return {state, props};
@@ -41,7 +42,6 @@ export default {
     return {state, props};
   },
   "RESIZE_END_WINDOW": ( state, props ) => {
-    //alert("@@@");
     return {state, props}
   }
 }
