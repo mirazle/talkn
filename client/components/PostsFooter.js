@@ -33,13 +33,14 @@ export default class PostsFooter extends Component {
       const { app } = this.props.state;
       if( app.screenMode === App.screenModeSmallLabel ){
 
+        window.scrollTo(0, 9999999);
         if( !talknWindow.isScrollBottom ){
           const htmlScrollHeight = document.querySelector("html").scrollHeight;
-          alert(
-            `htmlScrollHeight( ${htmlScrollHeight} ) === window.innerHeight( ${window.innerHeight} ) + window.scrollY( ${window.scrollY} ) `
-            );
-          window.scrollTo(0, talknWindow.threadHeight);    
-          talknWindow.setIsScrollBottom();
+//          alert(
+//            `htmlScrollHeight( ${htmlScrollHeight} ) === window.innerHeight( ${window.innerHeight} ) + window.scrollY( ${window.scrollY} ) `
+//            );
+//          window.scrollTo(0, talknWindow.threadHeight);    
+//          talknWindow.setIsScrollBottom();
         }
       }
       talknAPI.onChangeInputPost( e.target.value );
