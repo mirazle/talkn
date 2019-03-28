@@ -28,7 +28,7 @@ export default {
       const overflow = state.app.isOpenMenu ? "hidden" : "inherit";
       document.querySelector("html").style.overflow = overflow;
       document.querySelector("body").style.overflow = overflow;
-      document.querySelector("talkn1").style.overflow = overflow;
+      document.querySelector("#talkn1").style.overflow = overflow;
     }
     return {state, props};
   },
