@@ -12,6 +12,7 @@ export default class PostsFooter extends Component {
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
+    this.handleOnFocus = this.handleOnFocus.bind(this);
   }
 
   handleOnClick( e ){
@@ -60,6 +61,10 @@ export default class PostsFooter extends Component {
     }
   }
 
+  handleOnFocus( e ){
+    window.scrollTo(0, 9999999);
+  }
+
   getIconStyle(){
     const { thread, style } = this.props.state;
     const favicon = `https://${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}`;
@@ -87,6 +92,7 @@ export default class PostsFooter extends Component {
           rows={1}
           onChange={this.handleOnChange}
           onKeyPress={this.handleOnKeyPress}
+          onFocus={this.handleOnFocus}
           value={app.inputPost}
           placeholder='Comment to this web'
         />
