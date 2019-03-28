@@ -9,10 +9,12 @@ export default class PostsFooter extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {focusSetIntervalId: 0};
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
     this.handleOnFocus = this.handleOnFocus.bind(this);
+    this.handleOnBlur = this.handleOnBlur.bind(this);
   }
 
   handleOnClick( e ){
@@ -64,9 +66,21 @@ export default class PostsFooter extends Component {
 
   handleOnFocus( e ){
     window.scrollTo(0, 9999999);
-    setTimeout(  () => {
-      window.scrollTo(0, 9999999)
-    }, 1000)
+    console.log( this.state.focusSetIntervalId );
+    if( this.state.focusSetIntervalId === 0 ){
+      const focusSetIntervalId = setInterval(  () => {
+        console.log("@@ ON FOCUS");
+        window.scrollTo(0, 9999999)
+      }, 1000);
+      this.setState({focusSetIntervalId});
+
+    }
+  }
+
+  handleOnBlur( e ){
+    console.log("@@ ON BLUR");
+    clearInterval(this.state.focusSetIntervalId);
+    this.setState({focusSetIntervalId: 0});
   }
 
   getIconStyle(){
@@ -97,6 +111,7 @@ export default class PostsFooter extends Component {
           onChange={this.handleOnChange}
           onKeyPress={this.handleOnKeyPress}
           onFocus={this.handleOnFocus}
+          onBlur={this.handleOnBlur}
           value={app.inputPost}
           placeholder='Comment to this web'
         />
