@@ -25,6 +25,10 @@ class Container extends Component {
   componentWillMount(){
     const { state, talknAPI } = this.props;
     const { thread } = state;
+    this.state = {
+      notifs: [],
+    };
+
     talknAPI.find( thread.connection );
     talknAPI.findMenuIndex( thread.connection );
     this.getProps = this.getProps.bind(this);
@@ -34,6 +38,99 @@ class Container extends Component {
     this.handleOnClickToggleMain = this.handleOnClickToggleMain.bind(this);
     this.handleOnClickToggleDetail = this.handleOnClickToggleDetail.bind(this);
     this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
+  }
+
+  componentDidUpdate(){
+    const { state, handleOnClickToggleMain, createNotif } = this.props;
+    const { actionLog, thread, style } = state;
+    let { app } = state;
+
+    switch( actionLog[ 0 ] ){
+      case 'SERVER_TO_CLIENT[EMIT]:find':
+      talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
+      break;
+    case 'SERVER_TO_CLIENT[BROADCAST]:post':
+
+      talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
+      if( app.isOpenMain && talknWindow.isScrollBottom ){
+        talknWindow.animateScrollTo(
+          talknWindow.threadHeight,
+          400,
+          this.props.endAnimateScrollTo
+        );
+      }else{
+        this.props.openNotifInThread();
+      }
+      break;
+    case 'SERVER_TO_CLIENT[EMIT]:getMore':
+
+      const threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
+      window.scrollTo(0, threadHeight - talknWindow.threadHeight);
+      talknWindow.threadHeight = threadHeight;
+
+      if(thread.isSelfConnection){
+        const clientMetas = document.querySelectorAll('meta');
+        if( Object.keys( thread.serverMetas ).length !== clientMetas.length ){
+          let serverMetas = {};
+          for( let i = 0; i < clientMetas.length; i++ ){
+            const item = clientMetas[ i ];
+            let key = i;
+            let content = '';
+            if( item.getAttribute('name') ){
+              key = item.getAttribute('name');
+              content = item.getAttribute('content');
+            }else if( item.getAttribute('property') ){
+              key = item.getAttribute('property');
+              content = item.getAttribute('content');
+            }else if( item.getAttribute('chaset') ){
+              key = 'charset';
+              content = item.getAttribute('chaset');
+            }else if( item.getAttribute('http-equiv') ){
+              key = item.getAttribute('http-equiv');
+              content = item.getAttribute('content');
+            }
+
+            if( !serverMetas[ key ] ){
+              serverMetas[ key ] = content;
+            }
+          }
+          talknAPI.updateThreadServerMetas(serverMetas);
+        }
+      }
+      break;
+    case 'SERVER_TO_CLIENT[EMIT]:changeThread':
+      window.scrollTo(0, 9999999);
+      break;
+    case 'SERVER_TO_CLIENT[EMIT]:changeThreadDetail':
+      app = App.getAppUpdatedOpenFlgs({app}, "changeThreadDetail");
+      talknAPI.onClickToggleDispDetail( app );
+      break;
+    case 'OPEN_NOTIF':
+      const posts = state[ `posts${app.dispThreadType}` ];
+      const lastPost = posts[posts.length - 1];
+      if(
+        lastPost &&
+        app.type === define.APP_TYPES.EXTENSION &&
+        !app.isOpenMain
+      ){
+
+        createNotif();
+
+        this.setState({
+          notifs: this.state.notifs.concat(
+            <Notif
+              key={lastPost._id}
+              app={app}
+              style={style}
+              thread={thread}
+              post={lastPost}
+              handleOnClickToggleMain={handleOnClickToggleMain}
+            />
+          )
+        });
+      }
+      break;
+    }
   }
 
   getProps(){

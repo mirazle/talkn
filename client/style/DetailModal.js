@@ -11,9 +11,14 @@ import Menu from './Menu';
 export default class DetailModal {
 
   static getWidth( app, addUnit = false ){
-    const width = app.screenMode === App.screenModeSmallLabel ?
-      Math.floor( app.width * Container.widthRatio ) :
-      `calc( ${100 * Container.widthRatio }% - ${Menu.getWidth(app)} )`;
+    let width = 0;
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      return "84%";
+    }else{
+      width = app.screenMode === App.screenModeSmallLabel ?
+        Math.floor( app.width * Container.widthRatio ) :
+        `calc( ${100 * Container.widthRatio }% - ${Menu.getWidth(app)} )`;
+    }
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
