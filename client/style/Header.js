@@ -3,6 +3,7 @@ import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
 import PostsFooter from './PostsFooter';
+import Posts from '../components/Posts';
 
 export default class Header {
 
@@ -43,6 +44,13 @@ export default class Header {
   static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
   static getNotifTranslateY( app ){
     return app.isOpenNotif ? Header.notifOpenTranslateY : Header.notifCloseTranslateY;
+  }
+  static getMargin(app){
+    if( app.iframe || app.type === define.APP_TYPES.EXTENSION ){
+      return "0px 5% 0px 5%";
+    }else{
+      return "0 auto";
+    }
   }
 
   static getChildAnalyzeRight(app){
@@ -87,7 +95,7 @@ export default class Header {
       border: Container.border,
       borderRadius,
       background: Container.whiteRGB,
-      margin: "0 auto"
+      margin: Header.getMargin( app )
     });
     const content = Style.getContentBase({
       textAlign: 'center',
