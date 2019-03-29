@@ -242,12 +242,21 @@ class Container extends Component {
   
   getHideScreenBottom(props){
     const { state} = props;
-    const { style, app } = state;
+    const { style } = state;
     return(
       <div
         data-component-name={"hideScreenBottom"}
         style={style.container.hideScreenBottom}
       />
+    );
+  }
+
+  getNotifs(){
+    const { style } = this.props.state;
+    return (
+      <ol data-component-name="Notifs" style={style.notif.notifs}>
+        {this.state.notifs}
+      </ol>
     );
   }
 
@@ -328,6 +337,7 @@ class Container extends Component {
     const props = this.getProps();
     const MultistreamIcon = this.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
+    const Notifs = this.getNotifs( props );
     return (
       <span data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />
@@ -340,7 +350,7 @@ class Container extends Component {
           <PostsFooter {...props} />
           <Menu {...props} />
           <InnerNotif {...this.props}/>;
-          { HideScreenBottom }
+          { Notifs }
         </span>
       </span>
     );
