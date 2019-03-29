@@ -16,6 +16,7 @@ import DetailModal from 'client/components/DetailModal';
 import Menu from 'client/components/Menu';
 import LockMenu from 'client/components/LockMenu';
 import Icon from 'client/components/Icon';
+import Notif from 'client/components/Notif';
 import InnerNotif from 'client/components/InnerNotif';
 import mapToStateToProps from 'client/mapToStateToProps/';
 import IconStyle from 'client/style/Icon';
