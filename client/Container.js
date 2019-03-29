@@ -36,6 +36,7 @@ class Container extends Component {
     this.renderSmall = this.renderSmall.bind(this);
     this.renderMiddle = this.renderMiddle.bind(this);
     this.renderLarge = this.renderLarge.bind(this);
+    this.renderExtension = this.renderExtension.bind(this);
     this.handleOnClickToggleMain = this.handleOnClickToggleMain.bind(this);
     this.handleOnClickToggleDetail = this.handleOnClickToggleDetail.bind(this);
     this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
@@ -334,6 +335,7 @@ class Container extends Component {
   }
 
   renderExtension(){
+    const { style } = this.props.state;
     const props = this.getProps();
     const MultistreamIcon = this.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
@@ -349,7 +351,6 @@ class Container extends Component {
           <Header {...props} />
           <DetailModal {...props} /> 
           <PostsFooter {...props} />
-          <Menu {...props} />
           <InnerNotif {...this.props}/>;
           { Notifs }
         </span>
