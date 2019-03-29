@@ -9,7 +9,6 @@ export default class Posts extends Component {
   constructor(props){
     super(props);
     this.handleOnClickGetMore = this.handleOnClickGetMore.bind(this);
-    this.animateScrollTo = this.animateScrollTo.bind(this);
     this.state = {
       scrollHeight: 0,
       isAnimateScrolling: false,
@@ -49,106 +48,6 @@ export default class Posts extends Component {
 
     if(this.state.posts !== posts){
       this.setState({...this.state, posts});
-    }
-  }
-
-  componentDidUpdate(){
-    const { thread, postsMulti, postsSingle, actionLog } = this.props.state;
-    let { app } = this.props.state;
-    switch( actionLog[ 0 ] ){
-    case 'SERVER_TO_CLIENT[EMIT]:find':
-      talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
-      break;
-    case 'SERVER_TO_CLIENT[BROADCAST]:post':
-
-      talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
-      if( app.isOpenMain && talknWindow.isScrollBottom ){
-        talknWindow.animateScrollTo(
-          talknWindow.threadHeight,
-          400,
-          this.props.endAnimateScrollTo
-        );
-      }else{
-        this.props.openNotifInThread();
-      }
-      break;
-    case 'SERVER_TO_CLIENT[EMIT]:getMore':
-
-      const threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
-      window.scrollTo(0, threadHeight - talknWindow.threadHeight);
-      talknWindow.threadHeight = threadHeight;
-
-      if(thread.isSelfConnection){
-        const clientMetas = document.querySelectorAll('meta');
-        if( Object.keys( thread.serverMetas ).length !== clientMetas.length ){
-          let serverMetas = {};
-          for( let i = 0; i < clientMetas.length; i++ ){
-            const item = clientMetas[ i ];
-            let key = i;
-            let content = '';
-            if( item.getAttribute('name') ){
-              key = item.getAttribute('name');
-              content = item.getAttribute('content');
-            }else if( item.getAttribute('property') ){
-              key = item.getAttribute('property');
-              content = item.getAttribute('content');
-            }else if( item.getAttribute('chaset') ){
-              key = 'charset';
-              content = item.getAttribute('chaset');
-            }else if( item.getAttribute('http-equiv') ){
-              key = item.getAttribute('http-equiv');
-              content = item.getAttribute('content');
-            }
-
-            if( !serverMetas[ key ] ){
-              serverMetas[ key ] = content;
-            }
-          }
-          talknAPI.updateThreadServerMetas(serverMetas);
-        }
-      }
-      break;
-    case 'SERVER_TO_CLIENT[EMIT]:changeThread':
-      this.animateScrollTo( this.refs.thread, 9999999, 400 );
-      break;
-    case 'SERVER_TO_CLIENT[EMIT]:changeThreadDetail':
-      app = App.getAppUpdatedOpenFlgs({app}, "changeThreadDetail");
-      talknAPI.onClickToggleDispDetail( app );
-      break;
-    case 'START_ANIMATE_SCROLL_TO':
-
-      this.animateScrollTo(
-        this.refs.thread,
-        this.refs.thread.scrollHeight,
-        400,
-        this.props.endAnimateScrollTo
-      );
-      break;
-    default:
-      break;
-    }
-  }
-
-  animateScrollTo( element, to, duration, callback = ()=>{}) {
-    if( !this.state.isAnimateScrolling ){
-      let start = element.scrollTop ? element.scrollTop : window.scrollY;
-      let change = to - start;
-      let currentTime = 0;
-      let increment = 20;
-
-      const animateScroll = ()　=>　{
-        currentTime += increment;
-        let scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);
-        element.scrollTop = scrollTop;
-        if(currentTime < duration){
-          this.setState({isAnimateScrolling: true});
-          setTimeout(animateScroll, increment);
-        }else{
-          this.setState({isAnimateScrolling: false});
-          callback();
-        }
-      };
-      animateScroll();
     }
   }
 
