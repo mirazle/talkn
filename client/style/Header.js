@@ -45,6 +45,14 @@ export default class Header {
     return app.isOpenNotif ? Header.notifOpenTranslateY : Header.notifCloseTranslateY;
   }
 
+  static getMargin(app){
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      return "0px 5% 0px 5%";
+    }else{
+      return "0 auto";
+    }
+  }
+
   static getChildAnalyzeRight(app){
     switch( app.screenMode ){
     case App.screenModeSmallLabel:
