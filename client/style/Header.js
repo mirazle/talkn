@@ -95,7 +95,7 @@ export default class Header {
       border: Container.border,
       borderRadius,
       background: Container.whiteRGB,
-      margin: "0 auto"
+      margin: Header.getMargin(app)
     });
     const content = Style.getContentBase({
       textAlign: 'center',
