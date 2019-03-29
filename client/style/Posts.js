@@ -102,7 +102,7 @@ export default class Posts {
       height: "auto",
       minHeight: `calc( 100vh - ${Header.headerHeight}px)`,
       maxHeight: "auto",
-      margin: Posts.getMargin(app),
+      margin: Posts.getMargin( app ),
       background: Container.whiteRGBA,
       ...borders
     });
