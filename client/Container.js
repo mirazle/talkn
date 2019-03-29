@@ -394,13 +394,18 @@ class Container extends Component {
  	render() {
     const { style, app } = this.props.state;
     if( style && style.container && style.container.self && app.connectioned ){
-      switch( app.screenMode ){
-      case App.screenModeSmallLabel :
-        return this.renderSmall(this);
-      case App.screenModeMiddleLabel : 
-        return this.renderMiddle(this);
-      case App.screenModeLargeLabel : 
-        return this.renderLarge(this);
+
+      if( app.type === define.APP_TYPES.EXTENSION ){
+        return this.renderExtension(this);
+      } else {
+        switch( app.screenMode ){
+        case App.screenModeSmallLabel :
+          return this.renderSmall(this);
+        case App.screenModeMiddleLabel : 
+          return this.renderMiddle(this);
+        case App.screenModeLargeLabel : 
+          return this.renderLarge(this);
+        }
       }
     }else{
       return <Loading />;
