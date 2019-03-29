@@ -99,7 +99,10 @@ export default class PostsFooter extends Component {
     const { state, handleOnClickToggleMain } = this.props;
     const { style, app } = state;
     return (
-      <div data-component-name={this.constructor.name} style={ style.postsFooter.self }>
+      <div  
+        data-component-name={this.constructor.name}
+        style={ style.postsFooter.self }
+      >
         <div
           style={ this.getIconStyle() }
           { ...this.getIconProps() }
