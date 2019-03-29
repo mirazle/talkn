@@ -168,6 +168,21 @@ export default class TalknWindow {
 		}
 	}
 
+	lockWindow(){
+        const overflow = "hidden";
+        document.querySelector("html").style.overflow = overflow;
+        document.querySelector("body").style.overflow = overflow;
+        document.querySelector("#talkn1").style.overflow = overflow;
+		return window.scrollY;
+	}
+
+	unlockWindow(){
+        const overflow = "inherit";
+        document.querySelector("html").style.overflow = overflow;
+        document.querySelector("body").style.overflow = overflow;
+        document.querySelector("#talkn1").style.overflow = overflow;
+	}
+
 	boot(appType, talknIndex, attributes){
 		const store = configureStore();
 		const bootOption = BootOption.rebuildAttributes(attributes);

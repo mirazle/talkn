@@ -7,6 +7,7 @@ import MenuLogs from 'client/components/Menu/MenuLogs';
 import MenuSetting from 'client/components/Menu/MenuSetting';
 import Header from '../Header';
 import MenuFooter from '../MenuFooter';
+import TalknWindow from "../../operations/TalknWindow";
 
 export default class Menu extends Component {
 
@@ -15,7 +16,6 @@ export default class Menu extends Component {
     this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
     this.handleOnClickLoginTwitter = this.handleOnClickLoginTwitter.bind(this);
     this.handleOnClickLoginFacebook = this.handleOnClickLoginFacebook.bind(this);
-    this.handleOnTransitionStart = this.handleOnTransitionStart.bind(this);
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind(this);
   }
 
@@ -38,30 +38,13 @@ export default class Menu extends Component {
     location.href = href;
   }
 
-
-  handleOnTransitionStart(){
-    const{ app } = this.props.state;
-    if( app.screenMode === App.screenModeSmallLabel ){
-      if( app.isOpenMenu ){
-        const overflow = "inherit";
-        document.querySelector("html").style.overflow = overflow;
-        document.querySelector("body").style.overflow = overflow;
-        document.querySelector("#talkn1").style.overflow = overflow;
-      }
-    }
-  }
-
   handleOnTransitionEnd(){
     const{ state, openMenuTransitionEnd } = this.props;
     const{ app } = state;
     if( app.screenMode === App.screenModeSmallLabel ){
       if( app.isOpenMenu ){
         openMenuTransitionEnd(window.scrollY);
-
-        const overflow = "hidden";
-        document.querySelector("html").style.overflow = overflow;
-        document.querySelector("body").style.overflow = overflow;
-        document.querySelector("#talkn1").style.overflow = overflow;
+        talknWindow.lockWindow();
       }
     }
   }
@@ -126,7 +109,6 @@ export default class Menu extends Component {
 		return (
       <div  
         data-component-name={this.constructor.name}
-//        onTransitionStart={this.handleOnTransitionStart}
         onTransitionEnd={this.handleOnTransitionEnd}
         style={ style.menu.self }
       >
