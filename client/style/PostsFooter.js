@@ -12,7 +12,7 @@ export default class PostsFooter{
   static getWidth( app, addUnit = false ){
     let width = 0;
     if( app.type ===  define.APP_TYPES.EXTENSION){
-      width = '50%';
+      width = '100%';
     }else{
       switch( app.screenMode ){
       case App.screenModeSmallLabel : width = '100%';break;
@@ -74,7 +74,7 @@ export default class PostsFooter{
     const borders = PostsFooter.getBorder(app);
     const borderRadius = app.type === define.APP_TYPES.EXTENSION ?
       Container.radiuses : '0px';
-
+console.log("@@@@@");
     const layout = Style.getLayoutFlex({
       position: "fixed",
       bottom: 0,
