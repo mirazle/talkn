@@ -1,6 +1,7 @@
 import define from 'common/define';
 import App from 'common/schemas/state/App';
 import TalknSession from 'client/operations/TalknSession';
+import TalknWindow from '../operations/TalknWindow';
 
 export default {
   "SERVER_TO_CLIENT[BROADCAST]:post": setStoragePosts,
@@ -27,10 +28,7 @@ export default {
     const { app } = state; 
     if( app.screenMode === App.screenModeSmallLabel ){
       if( !app.isOpenMenu ){
-        const overflow = "inherit";
-        document.querySelector("html").style.overflow = overflow;
-        document.querySelector("body").style.overflow = overflow;
-        document.querySelector("#talkn1").style.overflow = overflow;
+        talknWindow.unlockWindow();
         window.scrollTo(0, app.threadScrollY);
       }
     }
