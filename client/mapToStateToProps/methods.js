@@ -1,7 +1,6 @@
 import define from 'common/define';
 import App from 'common/schemas/state/App';
 import TalknSession from 'client/operations/TalknSession';
-import TalknWindow from '../operations/TalknWindow';
 
 export default {
   "SERVER_TO_CLIENT[BROADCAST]:post": setStoragePosts,
@@ -31,6 +30,15 @@ export default {
         talknWindow.unlockWindow();
         window.scrollTo(0, app.threadScrollY);
       }
+    }
+    return {state, props};
+  },
+  "ON_CLICK_TOGGLE_MAIN": ( state, props ) => {
+    const { app } = state; 
+    if( app.isOpenMain ){
+      talknWindow.lockWindow();
+    }else{
+      talknWindow.unlockWindow();
     }
     return {state, props};
   },
