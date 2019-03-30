@@ -29,6 +29,7 @@ export default class LockMenu {
       flexFlow: "column",
       border: Container.border,
       borderRadius: "5px",
+      background: Container.whiteRGB,
       zIndex: "0"
     }
 
@@ -116,8 +117,7 @@ export default class LockMenu {
 
   static getUl({app}){
     const layout = Style.getLayoutBlock({
-      width: "100%",
-      background: Container.whiteRGB
+      width: "100%"
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
