@@ -48,7 +48,7 @@ class Container extends Component {
     let { app } = state;
 
     switch( actionLog[ 0 ] ){
-      case 'SERVER_TO_CLIENT[EMIT]:find':
+    case 'SERVER_TO_CLIENT[EMIT]:find':
       talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
       break;
     case 'SERVER_TO_CLIENT[BROADCAST]:post':
