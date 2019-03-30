@@ -72,7 +72,7 @@ export default class Posts {
 
   static getMargin( app, addUnit = false ){
     if( app.type === define.APP_TYPES.EXTENSION ){
-      return `0px 5% ${Header.selfHeight}px 5%`;
+      return `0px 5% ${Header.headerHeight}px 5%`;
     }else{
       switch( app.screenMode ){
       case App.screenModeSmallLabel : return `${Header.headerHeight}px 0px 25px 0px`;
