@@ -77,7 +77,7 @@ export default class Posts {
       switch( app.screenMode ){
       case App.screenModeSmallLabel : return `${Header.headerHeight}px 0px 25px 0px`;
       case App.screenModeMiddleLabel : return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
-      case App.screenModeLargeLabel : return `${Header.headerHeight}px 0px 0px ${Menu.getWidth( app )}`
+      case App.screenModeLargeLabel : return `${Header.headerHeight}px 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
       }
     }
   }

@@ -10,9 +10,9 @@ export default class MenuIndexList {
   static get rank2RGB(){ return 'rgb(255, 147, 0)' };
   static get rank3RGB(){ return 'rgb(0, 162, 255)' };
   static get rankOtherRGB(){ return Container.silverRGB };
-  static get oneDigitWidth(){ return "14%" };
-  static get twoDigitWidth(){ return "15%" };
-  static get thirdDigitWidth(){ return "16%" };
+  static get oneDigitWidth(){ return "15%" };
+  static get twoDigitWidth(){ return "16%" };
+  static get thirdDigitWidth(){ return "17%" };
 
   static get iconSize(){ return '25px' };
   static get liHeight(){ return 90 };
