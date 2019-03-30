@@ -340,7 +340,6 @@ class Container extends Component {
     const MultistreamIcon = this.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     const Notifs = this.getNotifs( props );
-    console.log(this.state.notifs);
     return (
       <span data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />

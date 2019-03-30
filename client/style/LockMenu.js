@@ -29,7 +29,6 @@ export default class LockMenu {
       flexFlow: "column",
       border: Container.border,
       borderRadius: "5px",
-      boxShadow: "rgba(50, 50, 50, 0.1) 3px 3px 3px" ,
       zIndex: "0"
     }
 
@@ -170,8 +169,7 @@ export default class LockMenu {
     const layout = Style.getLayoutFlex({
       width: "100%",
       height: "45px",
-      padding: LockMenu.getPaddingLi(app),
-      borderBottom: Container.border
+      padding: LockMenu.getPaddingLi(app)
     });
     const content = Style.getContentBase({
       cursor: "pointer"
