@@ -350,7 +350,7 @@ class Container extends Component {
           <Header {...props} />
           <DetailModal {...props} /> 
           <PostsFooter {...props} />
-          <InnerNotif {...this.props}/>;
+          <InnerNotif {...this.props}/>
           { Notifs }
         </span>
       </span>
