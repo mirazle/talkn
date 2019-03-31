@@ -35,15 +35,12 @@ export default {
   },
   "ON_CLICK_TOGGLE_MAIN": ( state, props ) => {
     const { app } = state; 
-    console.log("A");
 
     if( app.type === define.APP_TYPES.EXTENSION ){
       if( app.isOpenMain ){
-        console.log("UNLOCK");
-        talknWindow.unlockWindow();
+        //talknWindow.unlockWindow();
       }else{
-        console.log("LOCK");
-        talknWindow.lockWindow();
+        //talknWindow.lockWindow();
       }
     }
     return {state, props};
