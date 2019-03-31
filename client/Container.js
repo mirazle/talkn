@@ -23,16 +23,16 @@ import IconStyle from 'client/style/Icon';
 
 class Container extends Component {
 
-  componentWillMount(){
-    const { state, talknAPI } = this.props;
+  constructor(props){
+    super(props);
+    const { state, talknAPI } = props;
     const { thread } = state;
-    this.state = {
-      notifs: [],
-    };
+    this.state = {notifs: []};
 
     talknAPI.find( thread.connection );
     talknAPI.findMenuIndex( thread.connection );
     this.getProps = this.getProps.bind(this);
+    this.getNotifs = this.getNotifs.bind(this);
     this.renderSmall = this.renderSmall.bind(this);
     this.renderMiddle = this.renderMiddle.bind(this);
     this.renderLarge = this.renderLarge.bind(this);
@@ -158,7 +158,6 @@ class Container extends Component {
   handleOnClickToggleMain( e ){
     const { onClickToggleMain, onClickOpenLockMenu, state} = this.props;
     const { app } = state;
-
     if( app.type ===  define.APP_TYPES.EXTENSION ){
       app.isOpenMain = app.isOpenMain ? false : true;
       app.isOpenNotif = false;
@@ -252,8 +251,8 @@ class Container extends Component {
     );
   }
 
-  getNotifs(){
-    const { style } = this.props.state;
+  getNotifs(props){
+    const { style } = props.state;
     return (
       <ol data-component-name="Notifs" style={style.notif.notifs}>
         {this.state.notifs}
@@ -349,9 +348,9 @@ class Container extends Component {
           { NewPost }
           <Header {...props} />
           <DetailModal {...props} /> 
+          { Notifs }
           <PostsFooter {...props} />
           <InnerNotif {...this.props}/>
-          { Notifs }
         </span>
       </span>
     );

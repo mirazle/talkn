@@ -83,25 +83,37 @@ export default class Posts {
   }
 
   static getSelf( {app} ){
+    let position = "relative";
+    let top = 0;
+    let height = "auto";
+    let minHeight = `calc( 100vh - ${Header.headerHeight}px)`;
+    let overflow = "hidden";
     let borders = {
       borderRight: 0,
       borderLeft: 0
     }
     if( app.type === define.APP_TYPES.EXTENSION ){
+      position = "fixed";
+      top = `${Header.headerHeight}px`;
+      height = `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
+      minHeight = height;
+      overflow = "scroll";
       borders.borderRight = Container.border;
       borders.borderLeft = Container.border;
     }else{
       borders = Posts.getBorders(app);
     }
     const layout = Style.getLayoutBlock({
-      position: 'relative',
+      position,
+      top,
       width: Posts.getWidth( app ),
       minWidth: Posts.getMinWidth( app ),
-      height: "auto",
-      minHeight: `calc( 100vh - ${Header.headerHeight}px)`,
+      height,
+      minHeight,
       maxHeight: "auto",
       margin: Posts.getMargin( app ),
       background: Container.whiteRGBA,
+      overflow,
       ...borders
     });
     const content = {};
