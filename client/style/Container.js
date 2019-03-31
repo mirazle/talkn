@@ -130,6 +130,8 @@ export default class Container{
 
   static getSelf( params ){
     const { app, bootOption } = params;
+    const overflow = app.type === define.APP_TYPES.EXTENSION ?
+      "scroll" : "inherit";
     let borderRadius = "0px";
     if( bootOption && bootOption["border-radius"] ){
       borderRadius = bootOption["border-radius"];
@@ -143,7 +145,7 @@ export default class Container{
       display: "initial",
       width: 'inherit',
       height: 'inherit',
-      overflow: "inherit",
+      overflow,
       borderRadius
     });
     const content = Style.getContentBase({});

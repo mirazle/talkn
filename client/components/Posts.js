@@ -8,6 +8,7 @@ export default class Posts extends Component {
 
   constructor(props){
     super(props);
+    this.handleOnScroll = this.handleOnScroll.bind(this);
     this.handleOnClickGetMore = this.handleOnClickGetMore.bind(this);
     this.state = {
       scrollHeight: 0,
@@ -22,10 +23,12 @@ export default class Posts extends Component {
 
     if( app.type === define.APP_TYPES.EXTENSION ){
       talknAPI.extension("loadTalkn", this.props.state);
+      this.setState({scrollHeight: this.refs.thread.scrollHeight});
+      this.animateScrollTo( this.refs.thread, 9999999, 400 );
+    }else{
+      talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
+      talknWindow.animateScrollTo( talknWindow.threadHeight, 0 );
     }
-    this.setState({scrollHeight: this.refs.thread.scrollHeight});
-    talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
-    talknWindow.animateScrollTo( talknWindow.threadHeight, 0 );
   }
 
   componentWillReceiveProps(props){
@@ -49,6 +52,111 @@ export default class Posts extends Component {
     if(this.state.posts !== posts){
       this.setState({...this.state, posts});
     }
+  }
+
+  componentDidUpdate(){
+    const { thread, postsMulti, postsSingle, actionLog } = this.props.state;
+    let { app } = this.props.state;
+    switch( actionLog[ 0 ] ){
+    case 'SERVER_TO_CLIENT[BROADCAST]:post':
+      const { isScrollBottom } = this.state;
+      if( app.isOpenMain && isScrollBottom ){
+        this.props.startAnimateScrollTo();
+      }else{
+        const posts = app.dispThreadType === App.dispThreadTypeMulti ? postsMulti : postsSingle;
+        const lastPost = posts[ posts.length - 1 ];
+        //const childLayerCnt = lastPost.connections.length - thread.connections.length;
+        this.props.openNotifInThread();
+      }
+      break;
+    case 'SERVER_TO_CLIENT[EMIT]:getMore':
+
+      this.refs.thread.scrollTop = this.refs.thread.scrollHeight - this.state.scrollHeight;
+
+      if(thread.isSelfConnection){
+        const clientMetas = document.querySelectorAll('meta');
+        if( Object.keys( thread.serverMetas ).length !== clientMetas.length ){
+          let serverMetas = {};
+          for( let i = 0; i < clientMetas.length; i++ ){
+            const item = clientMetas[ i ];
+            let key = i;
+            let content = '';
+            if( item.getAttribute('name') ){
+              key = item.getAttribute('name');
+              content = item.getAttribute('content');
+            }else if( item.getAttribute('property') ){
+              key = item.getAttribute('property');
+              content = item.getAttribute('content');
+            }else if( item.getAttribute('chaset') ){
+              key = 'charset';
+              content = item.getAttribute('chaset');
+            }else if( item.getAttribute('http-equiv') ){
+              key = item.getAttribute('http-equiv');
+              content = item.getAttribute('content');
+            }
+
+            if( !serverMetas[ key ] ){
+              serverMetas[ key ] = content;
+            }
+          }
+          talknAPI.updateThreadServerMetas(serverMetas);
+        }
+      }
+      break;
+    case 'SERVER_TO_CLIENT[EMIT]:changeThread':
+      this.animateScrollTo( this.refs.thread, 9999999, 400 );
+      break;
+    case 'SERVER_TO_CLIENT[EMIT]:changeThreadDetail':
+      app = App.getAppUpdatedOpenFlgs({app}, "changeThreadDetail");
+      talknAPI.onClickToggleDispDetail( app );
+      break;
+    case 'START_ANIMATE_SCROLL_TO':
+      this.animateScrollTo(
+        this.refs.thread,
+        this.refs.thread.scrollHeight,
+        400,
+        this.props.endAnimateScrollTo
+      );
+      break;
+    default:
+      break;
+    }
+  }
+
+  animateScrollTo( element, to, duration, callback = ()=>{}) {
+    if( !this.state.isAnimateScrolling ){
+      let start = element.scrollTop;
+      let change = to - start;
+      let currentTime = 0;
+      let increment = 20;
+
+      const animateScroll = ()　=>　{
+        currentTime += increment;
+        let scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);
+        element.scrollTop = scrollTop;
+        if(currentTime < duration){
+          this.setState({isAnimateScrolling: true});
+          setTimeout(animateScroll, increment);
+        }else{
+          this.setState({isAnimateScrolling: false});
+          callback();
+        }
+      };
+      animateScroll();
+    }
+  }
+
+  handleOnScroll( e ){
+		const{ app } = this.props.state;
+
+    if( app.isOpenNotifInThread ){
+      this.props.closeNotifInThread();
+    }
+
+    const { clientHeight, scrollTop, scrollHeight } = e.target;
+    const isScrollBottom = ( scrollHeight === ( scrollTop + clientHeight ) );
+    this.setState({isScrollBottom});
+    this.props.scrollThread();
   }
 
   handleOnClickGetMore(){
