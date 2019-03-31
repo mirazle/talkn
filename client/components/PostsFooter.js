@@ -28,6 +28,8 @@ export default class PostsFooter extends Component {
     }
   }
 
+  // TODO スマホのマルチバイト入力は最下位スクロールでいける！？
+
   handleOnChange( e ){
 
     if( !App.validInputPost( e.target.value ) ){
@@ -65,6 +67,7 @@ export default class PostsFooter extends Component {
       if( this.state.focusSetIntervalId === 0 ){
         window.scrollTo(0, 9999999);
         const focusSetIntervalId = setInterval(  () => {
+          console.log("@@ ON FOCUS");
           window.scrollTo(0, 9999999)
         }, 500);
         this.setState({focusSetIntervalId});
@@ -73,6 +76,7 @@ export default class PostsFooter extends Component {
   }
 
   handleOnBlur( e ){
+    console.log("@@ ON BLUR");
     const { app } = this.props.state;
     if( app.screenMode === App.screenModeSmallLabel ){
       clearInterval(this.state.focusSetIntervalId);
@@ -102,10 +106,7 @@ export default class PostsFooter extends Component {
         <div
           style={ this.getIconStyle() }
           { ...this.getIconProps() }
-          onClick={()=>{
-            console.log("@@@@@");
-            handleOnClickToggleMain()
-          }}
+          onClick={handleOnClickToggleMain}
         />
         <textarea
           style={style.postsFooter.textarea}
