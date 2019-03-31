@@ -28,8 +28,6 @@ export default class PostsFooter extends Component {
     }
   }
 
-  // TODO スマホのマルチバイト入力は最下位スクロールでいける！？
-
   handleOnChange( e ){
 
     if( !App.validInputPost( e.target.value ) ){
@@ -104,7 +102,10 @@ export default class PostsFooter extends Component {
         <div
           style={ this.getIconStyle() }
           { ...this.getIconProps() }
-          onClick={handleOnClickToggleMain}
+          onClick={()=>{
+            console.log("@@@@@");
+            handleOnClickToggleMain()
+          }}
         />
         <textarea
           style={style.postsFooter.textarea}

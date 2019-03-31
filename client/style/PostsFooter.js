@@ -74,7 +74,6 @@ export default class PostsFooter{
     const borders = PostsFooter.getBorder(app);
     const borderRadius = app.type === define.APP_TYPES.EXTENSION ?
       Container.radiuses : '0px';
-console.log("@@@@@");
     const layout = Style.getLayoutFlex({
       position: "fixed",
       bottom: 0,
