@@ -54,7 +54,7 @@ const componentDidUpdates = {
             ){
         
                 props.createNotif();
-console.log(self.state);
+
                 self.setState({
                 notifs: self.state.notifs.concat(
                     <Notif
