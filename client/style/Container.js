@@ -10,12 +10,12 @@ export default class Container{
   constructor( params ){
     const self = Container.getSelf( params );
     const multistreamIconWrap = Container.getMultistreamIconWrap( params );
-    const notif = Container.getNotif( params );
+    const newPost = Container.getNewPost( params );
     const hideScreenBottom =  Container.getHideScreenBottom( params );
     return {
       self,
       multistreamIconWrap,
-      notif,
+      newPost,
       hideScreenBottom
     }
   }
@@ -94,10 +94,15 @@ export default class Container{
   static get notifOpenTranslateY(){
     return `translate3d( 0px, ${-( Footer.selfHeight * 2 )}px, 0px )`;
   }
+
   static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
   static getNotifTranslateY( app ){
-    return app.isOpenNotifInThread ?
+    return app.isOpenNewPost ?
       Container.notifOpenTranslateY : Container.notifCloseTranslateY;
+  }
+
+  static getNewPostDisplay(app){
+    return app.isOpenNotif ? "none" : "flex";
   }
 
   static getWidthPx( {bootOption, app} ){
@@ -212,7 +217,8 @@ export default class Container{
     return Style.get({layout, content, animation});
   }
 
-  static getNotif( {app} ){
+  static getNewPost( {app} ){
+    let display = Container.getNewPostDisplay(app);
     let left = "0px";
     let width = "0px";
     switch(app.screenMode){
@@ -233,6 +239,7 @@ export default class Container{
     }
 
     const layout = Style.getLayoutFlex({
+      display,
       position: 'fixed',
       top: `calc( 100vh )`,
       left,

@@ -19,20 +19,20 @@ export default {
 };
 
 const functions = {
-	  'SERVER_TO_CLIENT[BROADCAST]:find': ( state, action ) => {
-      action.app = state.app;
-      return action;
-    },
-	  'SERVER_TO_CLIENT[BROADCAST]:changeThread': ( state, action ) => {
-      action.app = state.app;
-      console.log(action);
-      return action;
-    },
-	  'SERVER_TO_CLIENT[BROADCAST]:disconnect': ( state, action ) => {
-      action.app = state.app;
-      return action;
-    },
-    "SERVER_TO_CLIENT[EMIT]:find": ( state, action ) => {
+  'SERVER_TO_CLIENT[BROADCAST]:find': ( state, action ) => {
+    action.app = state.app;
+    return action;
+  },
+  'SERVER_TO_CLIENT[BROADCAST]:changeThread': ( state, action ) => {
+    action.app = state.app;
+    console.log(action);
+    return action;
+  },
+  'SERVER_TO_CLIENT[BROADCAST]:disconnect': ( state, action ) => {
+    action.app = state.app;
+    return action;
+  },
+  "SERVER_TO_CLIENT[EMIT]:find": ( state, action ) => {
     action = resolve.caseNoExistResponsePost(state, action);
     action.app = {...state.app, ...action.app};
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
@@ -93,7 +93,8 @@ const functions = {
     action.postsLogs = state.postsLogs;
     return action;
   },
-  "ON_CLICK_MULTISTREAM": ( state, action ) => {
+  "ON_CLICK_TOGGLE_MAIN": ( state, action ) => {
+
     return action;
   },  
   "ON_CLICK_MENU": ( state, action ) => {

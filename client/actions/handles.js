@@ -169,16 +169,16 @@ export default {
       app: {openLockMenu},
     };
   },
-  openNotifInThread: () => {
+  openNewPost: () => {
     return {
-      type: 'OPEN_NOTIF_IN_THREAD',
-      app: {isOpenNotifInThread: true}
+      type: 'OPEN_NEW_POST',
+      app: {isOpenNewPost: true}
     };
   },
-  closeNotifInThread: () => {
+  closeNewPost: () => {
     return {
-      type: 'CLOSE_NOTIF_IN_THREAD',
-      app: {isOpenNotifInThread: false}
+      type: 'CLOSE_NEW_POST',
+      app: {isOpenNewPost: false}
     };
   },
   openMenuTransitionEnd: (threadScrollY) => {

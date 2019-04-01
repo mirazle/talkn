@@ -10,7 +10,7 @@ import conf from 'client/conf'
 import TalknSession from 'client/operations/TalknSession';
 import TalknAPI from 'client/operations/TalknAPI';
 import configureStore from 'client/store/configureStore'
-import Container from 'client/Container';
+import Container from 'client/container/';
 
 export default class TalknWindow {
 
@@ -51,6 +51,11 @@ export default class TalknWindow {
 		this.onLoad = this.onLoad.bind(this);
 		window.onload = this.onLoad.bind(this);
 
+		this.dom = {};
+		this.dom.html = document.querySelector("html");
+		this.dom.body = document.querySelector("body");
+		this.dom.talkn1 = document.querySelector("#talkn1");
+
 		this.setupWindow( talknIndex );
 		this.addWindowEventListener();
 	}
@@ -89,9 +94,9 @@ export default class TalknWindow {
 
 	scroll( ev ){
 		const { app } = talknAPI.store.getState();
-		if( app.isOpenNotifInThread ){
+		if( app.isOpenNewPost ){
 
-			talknAPI.closeNotifInThread();
+			talknAPI.closeNewPost();
 		}		
 		this.setIsScrollBottom();
 	}
@@ -169,18 +174,18 @@ export default class TalknWindow {
 	}
 
 	lockWindow(){
-        const overflow = "hidden";
-        document.querySelector("html").style.overflow = overflow;
-        document.querySelector("body").style.overflow = overflow;
-        document.querySelector("#talkn1").style.overflow = overflow;
+		const overflow = "hidden";
+		this.dom.html.style.overflow = overflow;
+		this.dom.body.style.overflow = overflow;
+		this.dom.talkn1.style.overflow = overflow;
 		return window.scrollY;
 	}
 
 	unlockWindow(){
         const overflow = "inherit";
-        document.querySelector("html").style.overflow = overflow;
-        document.querySelector("body").style.overflow = overflow;
-        document.querySelector("#talkn1").style.overflow = overflow;
+		this.dom.html.style.overflow = overflow;
+		this.dom.body.style.overflow = overflow;
+		this.dom.talkn1.style.overflow = overflow;
 	}
 
 	boot(appType, talknIndex, attributes){
@@ -211,6 +216,8 @@ export default class TalknWindow {
 		return new Promise( promiseCondition );
 	}
 
+	loadedTalkn(e){
+	}
 
 	async render( state ){
 //		this.resizeEndWindow();
@@ -224,7 +231,7 @@ export default class TalknWindow {
 				<Container talknAPI={ this.talknAPI } timeago={new timeago()} />
 			</Provider>,
 			document.getElementById( this.id ),
-			() => {  }
+			this.loadedTalkn
 		)
 		return true;
 	}

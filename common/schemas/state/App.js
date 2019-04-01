@@ -137,7 +137,7 @@ export default class App extends Schema{
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
-    const isOpenNotifInThread = params.isOpenNotifInThread ? params.isOpenNotifInThread : false;
+    const isOpenNewPost = params.isOpenNewPost ? params.isOpenNewPost : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
 
     // 各パーツの状態(文字列制御)
@@ -195,7 +195,7 @@ export default class App extends Schema{
       isOpenSetting,
       isOpenMenu,
       isOpenDetail,
-      isOpenNotifInThread,
+      isOpenNewPost,
       isOpenNotif,
 
       // 各パーツの状態(文字列制御)
