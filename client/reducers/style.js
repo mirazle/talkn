@@ -7,6 +7,7 @@ import Posts from 'client/style/Posts';
 import Detail from 'client/style/Detail';
 import DetailRight from 'client/style/DetailRight';
 import DetailModal from 'client/style/DetailModal';
+import Header from 'client/style/Header';
 import Footer from 'client/style/Footer';
 import MenuFooter from 'client/style/MenuFooter';
 import PostsFooter from 'client/style/PostsFooter';
@@ -77,11 +78,11 @@ export default ( state = {} , action ) => {
 	case 'RESIZE_START_WINDOW':
 	case 'RESIZE_END_WINDOW':
 		return new Style( action );
-	case 'OPEN_NOTIF_IN_THREAD':
-	case 'CLOSE_NOTIF_IN_THREAD':
+	case 'OPEN_NEW_POST':
+	case 'CLOSE_NEW_POST':
 		return {...state,
 			container: {...state.container,
-				notif: {...state.container.notif,
+				newPost: {...state.container.newPost,
 					transform: Container.getNotifTranslateY( action.app ),
 				}
 			}
@@ -89,6 +90,16 @@ export default ( state = {} , action ) => {
 	case 'OPEN_NOTIF':
 	case 'CLOSE_NOTIF':
 		return {...state,
+			header: {...state.header,
+				self: {...state.header.self,
+					transform: Header.getNotifTranslateY( action.app ),
+				}
+			},
+			container: {...state.container,
+				newPost: {...state.container.newPost,
+					display: Container.getNewPostDisplay( action.app ),
+				}
+			},
 			posts: {...state.posts,
 				self: {...state.posts.self,
 					display: Screen.getSelfDisplay( action.app ),

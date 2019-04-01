@@ -7,7 +7,6 @@ import MenuLogs from 'client/components/Menu/MenuLogs';
 import MenuSetting from 'client/components/Menu/MenuSetting';
 import Header from '../Header';
 import MenuFooter from '../MenuFooter';
-import TalknWindow from "../../operations/TalknWindow";
 
 export default class Menu extends Component {
 
@@ -22,7 +21,7 @@ export default class Menu extends Component {
   handleOnClickMultistream(){
     const{ app } = this.props.state;
     if( app.isOpenNotif ){
-      this.props.closeNotifInThread();
+      this.props.closeNewPost();
     }
   }
 

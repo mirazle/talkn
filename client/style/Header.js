@@ -39,7 +39,7 @@ export default class Header {
     }
   }
 
-  static get notifOpenTranslateY(){ return `translate3d( 0px, ${-( PostsFooter.selfHeight * 2 )}px, 0px )`; }
+  static get notifOpenTranslateY(){ return `translate3d( 0px, ${Header.headerHeight}px, 0px )`; }
   static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
   static getNotifTranslateY( app ){
     return app.isOpenNotif ? Header.notifOpenTranslateY : Header.notifCloseTranslateY;
@@ -100,7 +100,10 @@ export default class Header {
     const content = Style.getContentBase({
       textAlign: 'center',
     });
-    const animation = Style.getAnimationBase();
+    const animation = Style.getAnimationBase({
+      transition: "0ms",
+      transform: Header.getNotifTranslateY(app)
+    });
     return Style.get({layout, content, animation});
   }
 
