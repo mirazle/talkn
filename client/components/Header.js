@@ -95,7 +95,7 @@ export default class Header extends Component {
 
   render() {
     const{ state } = this.props;
-    const {  thread, style } = state;
+    const { style } = state;
     const { icon } = style;
     const HeadTabIcon = Icon.getHeadTab( icon.headTab );
     return (

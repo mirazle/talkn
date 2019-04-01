@@ -35,7 +35,7 @@ export default class Notif extends Component {
 
   startOpen(){
     const { style } = this.state;
-    const transition = Container.transitionNotif * 1;
+    const transition = Container.transitionNotif;
     this.setState({
       status:  Notif.STATUS_START_OPEN,
       style: {...style,
@@ -55,7 +55,7 @@ export default class Notif extends Component {
       status:  Notif.STATUS_START_NOTIF,
       style: {...style,
         self: {...style.self,
-          transition: `${transition}ms`,
+          transition: `${transition * 10}ms`,
         }
       }
     });

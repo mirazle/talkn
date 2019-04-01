@@ -25,8 +25,8 @@ export default class Detail extends Component {
   }
 
   handleOnClickShare(){
-    const { state, onClickOpenLockMenu, openInnerNotif } = this.props;
-    const { app } = state
+    const { state, onClickOpenLockMenu } = this.props;
+    const { app } = state;
     if(app.openLockMenu !== App.openLockMenuLabelNo){
       onClickOpenLockMenu(App.openLockMenuLabelNo);
     }else{
@@ -35,7 +35,7 @@ export default class Detail extends Component {
   }
 
   handleOnClickPortal(){
-    const { state, onClickOpenLockMenu, openInnerNotif } = this.props;
+    const { state, onClickOpenLockMenu } = this.props;
     const { app } = state
     if(app.openLockMenu !== App.openLockMenuLabelNo){
       onClickOpenLockMenu(App.openLockMenuLabelNo);
