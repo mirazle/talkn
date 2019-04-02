@@ -38,21 +38,19 @@ export default class Notif extends Component {
 
   display(){
     const { style } = this.state;
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@ DISPLAY");
     this.setState({
       status:  Notif.STATUS_DISPLAY,
       style: {...style,
         self: {...style.self,
-          transition: `0ms`,
-          transform: 'translate3d(0px, 0px, 0px)'
+          transition: `300ms`,
+          transform: 'translate3d(0px, 40px, 0px)'
         }
       }
     });
-    this.startOpen();
+    setTimeout(this.startOpen, 0 );
   }
 
   startOpen(){
-    //console.log("START OPEN");
     const { style } = this.state;
     const transition = Container.transitionNotif;
     this.setState({
@@ -68,7 +66,6 @@ export default class Notif extends Component {
   }
 
   startNotif(){
-    //console.log("START NOTIF");
     const { style } = this.state;
     const transition = Container.transitionNotif;
     this.setState({
@@ -83,7 +80,6 @@ export default class Notif extends Component {
   }
 
   startClose(){
-    //console.log("START CLOSE");
     const { style } = this.state;
     const transition = Container.transitionNotif;
     this.setState({
@@ -99,12 +95,10 @@ export default class Notif extends Component {
   }
 
   undisplay(){
-    //onsole.log("UNDISPLAY");
     this.setState({status: Notif.STATUS_UNDISPLAY});
   }
 
   onTransitionEnd(){
-    //console.log("transitionEnd");
     if(this.state === Notif.STATUS_START_CLOSE){
       this.setState({status: Notif.STATUS_UNDISPLAY});
     }
@@ -138,7 +132,6 @@ export default class Notif extends Component {
     const {post, app, thread, handleOnClickToggleMain} = this.props;
     const {status, style} = this.state;
     const childLayerCnt = post.layer - thread.layer;
-    console.log(status);
 
     if(app.isOpenNotif){
       switch(status){
@@ -152,7 +145,6 @@ export default class Notif extends Component {
           <Post
             key={post._id}
             mode={'notif'}
-            status={status}
             {...post}
             app={app}   
             thread={thread}

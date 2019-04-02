@@ -73,7 +73,8 @@ class Container extends Component {
     const { app } = state;
     if( app.type ===  define.APP_TYPES.EXTENSION ){
       this.setState({notifs: []});
-      app.isOpenMain = app.isOpenMain ? false : true;
+//      app.isOpenMain = app.isOpenMain ? false : true;
+      app.isDispMain = app.isDispMain ? false : true;
       app.isOpenNotif = false;
       
       onClickToggleMain( {app} );
@@ -233,9 +234,7 @@ class Container extends Component {
     const props = this.getProps();
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
-    const Notifs = this.getNotifs( props );
-
-    if( app.isOpenMain ){
+    if( app.isDispMain && app.isOpenMain ){
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -245,21 +244,35 @@ class Container extends Component {
             { NewPost }
             <Header {...props} />
             <DetailModal {...props} /> 
-            { Notifs }
             <PostsFooter {...props} />
             <InnerNotif {...this.props}/>
             </span>
         </span>
       );
-    }else{
+    }else if( app.isDispMain ){
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
-          { Notifs }
-          <PostsFooter {...props} />
+          <Posts {...props} />
+          <span data-component-name="fixedComponents">
+            <Header {...props} />
+            <PostsFooter {...props} />
+            </span>
         </span>
       );
-
+    }else if( !app.isDispMain && !app.isOpenMain ){
+      const Notifs = this.getNotifs( props );
+      return (
+        <span data-component-name={this.constructor.name} style={ style.container.self }>
+          <Style {...props} />
+          <span data-component-name="fixedComponents">
+            { Notifs }
+            <PostsFooter {...props} />
+          </span>
+        </span>
+      );
+    }else{
+      return null;
     }
   }
 
