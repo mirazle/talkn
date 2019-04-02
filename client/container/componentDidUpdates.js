@@ -26,9 +26,6 @@ const componentDidUpdates = {
                 const posts = state[ `posts${app.dispThreadType}` ];
                 const lastPost = posts[posts.length - 1];
 
-                console.log(app.dispThreadType);
-                console.log(lastPost);
-
                 if( lastPost && !app.isOpenMain ){
             
                     self.props.createNotif();
