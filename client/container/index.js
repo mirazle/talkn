@@ -229,32 +229,38 @@ class Container extends Component {
   }
 
   renderExtension(){
-    const { style } = this.props.state;
+    const { app, style } = this.props.state;
     const props = this.getProps();
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     const Notifs = this.getNotifs( props );
-    return (
-      <span data-component-name={this.constructor.name} style={ style.container.self }>
-        <Style {...props} />
-{/*
-        <Posts {...props} />
-*/}
-        <span data-component-name="fixedComponents">
-{/*
-          { MultistreamIcon }
-          { NewPost }
-          <Header {...props} />
-          <DetailModal {...props} /> 
-*/}
+
+    if( app.isOpenMain ){
+      return (
+        <span data-component-name={this.constructor.name} style={ style.container.self }>
+          <Style {...props} />
+          <Posts {...props} />
+          <span data-component-name="fixedComponents">
+            { MultistreamIcon }
+            { NewPost }
+            <Header {...props} />
+            <DetailModal {...props} /> 
+            { Notifs }
+            <PostsFooter {...props} />
+            <InnerNotif {...this.props}/>
+            </span>
+        </span>
+      );
+    }else{
+      return (
+        <span data-component-name={this.constructor.name} style={ style.container.self }>
+          <Style {...props} />
           { Notifs }
           <PostsFooter {...props} />
-{/*
-          <InnerNotif {...this.props}/>
-*/}
-          </span>
-      </span>
-    );
+        </span>
+      );
+
+    }
   }
 
   renderIos(){
