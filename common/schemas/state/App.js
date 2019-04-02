@@ -139,6 +139,9 @@ export default class App extends Schema{
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNewPost = params.isOpenNewPost ? params.isOpenNewPost : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
+    const isDispMain = params.isDispMain ? params.isDispMain : 
+      params.type === define.APP_TYPES.EXTENSION ?
+        false : true;
 
     // 各パーツの状態(文字列制御)
     const openInnerNotif = params.openInnerNotif ? params.openInnerNotif : '';
@@ -197,6 +200,7 @@ export default class App extends Schema{
       isOpenDetail,
       isOpenNewPost,
       isOpenNotif,
+      isDispMain,
 
       // 各パーツの状態(文字列制御)
       openInnerNotif,

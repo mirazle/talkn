@@ -137,16 +137,19 @@ class ClientScript {
     toggleIframe(params){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         const talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
-        this.postMessage("offTransition");
+
         if(talknNotifId === "null"){
             if( iframe.style.height !== ClientScript.iframeOpenHeight ){
+//                this.postMessage("dispMain");
                 iframe.style.transition = "600ms";
                 iframe.style.height = ClientScript.iframeOpenHeight;
             }else{
+//                this.postMessage("undispMain");
                 iframe.style.transition = "600ms";
                 iframe.style.height = ClientScript.iframeCloseHeight;
             }
         }else{
+//            this.postMessage("undispMain");
             clearTimeout( talknNotifId );
             sessionStorage.setItem(ClientScript.talknNotifId, null);
             this.postMessage("closeNotif");

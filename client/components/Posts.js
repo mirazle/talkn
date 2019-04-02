@@ -102,54 +102,60 @@ export default class Posts extends Component {
   renderGetMore(){
 		const { state } = this.props;
     const { style, thread, app, setting } = state;
-    const { getThreadChildrenCnt } = setting.server;
-    const posts = PostsSchems.getDispPosts(state);
-    const dispPostCnt = posts.length;
-    const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
-    let isDisp = false;
+//    if( app.isOpenMain ){
+      const { getThreadChildrenCnt } = setting.server;
+      const posts = PostsSchems.getDispPosts(state);
+      const dispPostCnt = posts.length;
+      const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
+      let isDisp = false;
 
-    if( thread[postCntKey] > getThreadChildrenCnt ){
-      if( dispPostCnt < thread[postCntKey] ){
-        isDisp = true;
+      if( thread[postCntKey] > getThreadChildrenCnt ){
+        if( dispPostCnt < thread[postCntKey] ){
+          isDisp = true;
+        }
       }
-    }
 
-    if( isDisp ){
-      return (
-        <li style={style.posts.more} onClick={this.handleOnClickGetMore}>
-          GET MORE
-        </li>
-      )
-    }
+      if( isDisp ){
+        return (
+          <li style={style.posts.more} onClick={this.handleOnClickGetMore}>
+            GET MORE
+          </li>
+        )
+      }
+//    }
     return null;
   }
 
   renderPostList(){
 		const{ state, talknAPI, timeago } = this.props;
     const{ app, style, thread, threads } = state;
-    const posts = state[ `posts${app.dispThreadType}`];
     let postList = [];
 
-    if( Object.keys( posts ).length > 0 ){
-      postList = Object.keys( posts ).map( ( index ) => {
-        const post = posts[ index ];
-        const childLayerCnt = post.layer - thread.layer;
-        return (
-          <Post
-            key={post._id}
-            mode={'post'}
-            {...post}
-            app={app}
-            thread={thread}
-            threads={threads}
-            childLayerCnt={childLayerCnt}
-            style={style.post}
-            talknAPI={talknAPI}
-            timeago={timeago}
-          />
-        )
-      });
-    }
+//    if( app.isOpenMain ){
+
+      const posts = state[ `posts${app.dispThreadType}`];
+
+      if( Object.keys( posts ).length > 0 ){
+        postList = Object.keys( posts ).map( ( index ) => {
+          const post = posts[ index ];
+          const childLayerCnt = post.layer - thread.layer;
+          return (
+            <Post
+              key={post._id}
+              mode={'post'}
+              {...post}
+              app={app}
+              thread={thread}
+              threads={threads}
+              childLayerCnt={childLayerCnt}
+              style={style.post}
+              talknAPI={talknAPI}
+              timeago={timeago}
+            />
+          )
+        });
+      }
+//    }
     return postList;
   }
 

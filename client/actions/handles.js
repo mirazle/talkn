@@ -186,5 +186,17 @@ export default {
       type: 'OPEN_MENU_TRANSITION_END',
       app: {threadScrollY}
     };
+  },
+  dispMain: () => {
+    return {
+      type: 'DISP_MAIN',
+      app: {isDispMain: true}
+    };
+  },
+  undispMain: () => {
+    return {
+      type: 'DISP_MAIN',
+      app: {isDispMain: false}
+    };
   }
 }

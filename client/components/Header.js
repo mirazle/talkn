@@ -95,9 +95,10 @@ export default class Header extends Component {
 
   render() {
     const{ state } = this.props;
-    const { style } = state;
+    const { style, app } = state;
     const { icon } = style;
     const HeadTabIcon = Icon.getHeadTab( icon.headTab );
+
     return (
       <header data-component-name={this.constructor.name} style={ style.header.self }>
 
@@ -115,6 +116,6 @@ export default class Header extends Component {
         {/* Menu Icon */}
         {this.renderRight()}
       </header>
-		);
+    );
  	}
 }
