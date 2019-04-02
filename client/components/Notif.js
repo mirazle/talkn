@@ -125,7 +125,7 @@ export default class Notif extends Component {
             key={post._id}
             mode={'notif'}
             {...post}
-            app={app}
+            app={app}   
             thread={thread}
             childLayerCnt={childLayerCnt}
             style={style}

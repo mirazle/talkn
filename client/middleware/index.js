@@ -55,11 +55,12 @@ const functions = {
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": ( state, action ) => {
     const app = state.app;
+    action.app = app;
     if(define.APP_TYPES.EXTENSION === app.type && !app.isOpenMain){
+      action.app.isOpenNotif = true;
       const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
       talknAPI.extension("openNotif", {transition});
     }
-    action.app = app;
     action = Posts.getAnyActionPosts(action);
     return action;
   }, 
