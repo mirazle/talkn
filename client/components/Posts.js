@@ -54,8 +54,8 @@ export default class Posts extends Component {
     }
   }
 
-  componentDidUpdate(props){
-    props.componentDidUpdates( this, props );
+  componentDidUpdate(){
+    this.props.componentDidUpdates( this );
   }
 
   animateScrollTo( element, to, duration, callback = ()=>{}) {

@@ -42,14 +42,15 @@ class Container extends Component {
     this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
   }
 
-  componentDidUpdate(props){
-    componentDidUpdates( this, props );
+  componentDidUpdate(){
+    componentDidUpdates( this );
   }
 
   getProps(){
     return {
       ...this.props,
       componentDidUpdates,
+      handleOnClickMultistream: this.handleOnClickMultistream,
       handleOnClickToggleMain: this.handleOnClickToggleMain,
       handleOnClickToggleDetail: this.handleOnClickToggleDetail
     }
@@ -68,7 +69,6 @@ class Container extends Component {
   }
 
   handleOnClickToggleMain( e ){
-    console.log("@@@ CLICK ");
     const { onClickToggleMain, onClickOpenLockMenu, state} = this.props;
     const { app } = state;
     if( app.type ===  define.APP_TYPES.EXTENSION ){
@@ -288,7 +288,6 @@ class Container extends Component {
  	render() {
     const { style, app } = this.props.state;
     if( style && style.container && style.container.self && app.connectioned ){
-
       if( app.type === define.APP_TYPES.EXTENSION ){
         return this.renderExtension(this);
       } else {

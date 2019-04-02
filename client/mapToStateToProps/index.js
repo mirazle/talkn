@@ -1,5 +1,5 @@
 import storage from './storage';
-import ui from './ui';
+import scroll from './scroll';
 
 export default ( _state, _props ) => {
 
@@ -8,8 +8,8 @@ export default ( _state, _props ) => {
   let uiResults = {};
   let storageResults = {};
 
-  if( ui[ _state.actionLog[ 0 ] ] ){
-    uiResults = ui[ _state.actionLog[ 0 ] ]( _state, _props );
+  if( scroll[ _state.actionLog[ 0 ] ] ){
+    uiResults = scroll[ _state.actionLog[ 0 ] ]( _state, _props );
     state = uiResults.state;
     props = uiResults.props;
   }

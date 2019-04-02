@@ -191,7 +191,7 @@ export default class Icon extends Component{
         <div
           data-component-name={"multistreamIcon"}
           style={style.container.multistreamIconWrap}
-          onClick={this.handleOnClickMultistream}
+          onClick={props.handleOnClickMultistream}
         >
           { ThunderIcon }
         </div>
