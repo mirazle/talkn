@@ -117,6 +117,7 @@ export default class Post extends Component {
       childLayerCnt,
       onTransitionEnd,
       handleOnClickToggleMain,
+      status,
       _id,
      } = this.props;
     const timeId = this.getTimeId();
@@ -154,6 +155,9 @@ export default class Post extends Component {
         </li>
       );
     }else{
+//      console.log(status + " " + style.self.transform + " " + style.self.transition );
+//      console.log( document.querySelector("[data-component-name=Notifs] li") );
+      window.t = document.querySelector("[data-component-name=Notifs] li") 
       return (
         <li
           data-component-name={this.constructor.name}
