@@ -87,6 +87,17 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
+/*
+	case 'SERVER_TO_CLIENT[BROADCAST]:post':
+		return {...state,
+			header: {...state.header,
+				self: {...state.header.self,
+					transform: Header.getNotifTranslateY( action.app ),
+				}
+			}
+		}
+		break;
+*/
 	case 'OPEN_NOTIF':
 	case 'CLOSE_NOTIF':
 		return {...state,
