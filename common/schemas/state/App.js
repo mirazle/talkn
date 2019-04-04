@@ -100,6 +100,7 @@ export default class App extends Schema{
     const type = params.type ? params.type : '';
     const width = App.getWidth( params );
     const height = App.getHeight( params );
+    const postsHeight = params.postsHeight ? params.postsHeight : 0;
     const screenMode = App.getScreenMode( width );
     const screenModePointer = params.screenModePointer ? params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
     const screenContents = App.getScreenContentsMap( screenMode, screenModePointer );
@@ -161,6 +162,7 @@ export default class App extends Schema{
       type,
       width,
       height,
+      postsHeight,
       screenMode,
       screenModePointer,
       screenContents,

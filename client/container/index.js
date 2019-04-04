@@ -5,6 +5,8 @@ import App from 'common/schemas/state/App';
 import TalknSession from 'client/operations/TalknSession';
 import Loading from 'client/components/Loading';
 import Style from 'client/components/Style';
+import HeaderStyle from 'client/style/Header';
+import PostsFooterStyle from 'client/style/PostsFooter';
 import Posts from 'client/components/Posts';
 import handles from 'client/actions/handles';
 import callbacks from 'client/actions/callbacks';
@@ -16,10 +18,10 @@ import DetailModal from 'client/components/DetailModal';
 import Menu from 'client/components/Menu';
 import LockMenu from 'client/components/LockMenu';
 import Icon from 'client/components/Icon';
-
 import InnerNotif from 'client/components/InnerNotif';
 import mapToStateToProps from 'client/mapToStateToProps/';
 import componentDidUpdates from 'client/container/componentDidUpdates';
+import TalknWindow from 'client/operations/TalknWindow';
 
 class Container extends Component {
 
@@ -74,6 +76,13 @@ class Container extends Component {
     if( app.type ===  define.APP_TYPES.EXTENSION ){
       this.setState({notifs: []});
 //      app.isOpenMain = app.isOpenMain ? false : true;
+
+/*
+      TODO 
+      開閉時のゴタゴタを解消する！！！！
+
+*/
+
       app.isDispMain = app.isDispMain ? false : true;
       app.isOpenNotif = false;
       
@@ -128,12 +137,22 @@ class Container extends Component {
 
   getNewPost(props){
     const { state} = props;
-    const { style } = state;
-    return (
-      <div data-component-name="newPost" style={style.container.newPost}>
-        NEW POST
-      </div>
-    );
+    const { style, app } = state;
+
+    const frameHeight = HeaderStyle.headerHeight + PostsFooterStyle.selfHeight;
+    const postsFrameHeight = app.height - frameHeight;
+    const postsRealHeight = app.postsHeight + frameHeight - TalknWindow.getLastPostHeight();
+    console.log("@@@ " + postsFrameHeight + " < " + postsRealHeight );
+
+    if( postsFrameHeight < postsRealHeight ){
+      return (
+        <div data-component-name="newPost" style={style.container.newPost}>
+          NEW POST
+        </div>
+      );
+    }else{
+      return null;
+    }
   }
   
   getHideScreenBottom(props){
@@ -235,6 +254,7 @@ class Container extends Component {
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     if( app.isDispMain && app.isOpenMain ){
+      console.log("A");
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -250,6 +270,7 @@ class Container extends Component {
         </span>
       );
     }else if( app.isDispMain ){
+      console.log("B");
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -261,6 +282,7 @@ class Container extends Component {
         </span>
       );
     }else if( !app.isDispMain && !app.isOpenMain ){
+      console.log("C");
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
@@ -272,7 +294,17 @@ class Container extends Component {
         </span>
       );
     }else{
-      return null;
+      console.log("D");
+      const Notifs = this.getNotifs( props );
+      return (
+        <span data-component-name={this.constructor.name} style={ style.container.self }>
+          <Style {...props} />
+          <span data-component-name="fixedComponents">
+            { Notifs }
+            <PostsFooter {...props} />
+          </span>
+        </span>
+      );
     }
   }
 

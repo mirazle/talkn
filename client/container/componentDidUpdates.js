@@ -1,6 +1,7 @@
 import React from "react"
 import define from 'common/define';
 import Notif from 'client/components/Notif';
+import TalknWindow from 'client/operations/TalknWindow';
 
 export default ( self ) => {
     const { props } = self;
@@ -17,6 +18,16 @@ export default ( self ) => {
 
 const componentDidUpdates = {
     Container: {
+        'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
+            const { app } = self.props.state;
+            app.postsHeight += TalknWindow.getPostsHeight();
+            self.props.updatePostsHeight(app.postsHeight);
+        },
+        'ON_TRANSITION_END': ( self ) => {
+            const { app } = self.props.state;
+            app.postsHeight += TalknWindow.getPostsHeight();
+            self.props.updatePostsHeight(app.postsHeight);
+        },
         'OPEN_NOTIF': ( self ) => {
             const { app } = self.props.state;
 
@@ -54,15 +65,15 @@ const componentDidUpdates = {
             }
         },
         'SERVER_TO_CLIENT[EMIT]:changeThread': ( self ) => {
-            console.log( "CHANGE A" );
             const { app } = self.props.state;
             if( app.type !== define.APP_TYPES.EXTENSION ){
-                console.log( "CHANGE B" );
                 window.scrollTo(0, 9999999);
             }
         },
         'SERVER_TO_CLIENT[BROADCAST]:post': ( self ) => {
             const { app } = self.props.state;
+            app.postsHeight += TalknWindow.getLastPostHeight();
+            self.props.updatePostsHeight(app.postsHeight);
             if( app.type === define.APP_TYPES.EXTENSION ){
                 const { isScrollBottom } = self.state;
                 if( app.isOpenMain && isScrollBottom ){

@@ -108,7 +108,7 @@ export default class Posts extends Component {
       const dispPostCnt = posts.length;
       const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
       let isDisp = false;
-
+      
       if( thread[postCntKey] > getThreadChildrenCnt ){
         if( dispPostCnt < thread[postCntKey] ){
           isDisp = true;
