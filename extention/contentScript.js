@@ -149,7 +149,6 @@ class ClientScript {
                 iframe.style.height = ClientScript.iframeCloseHeight;
             }
         }else{
-//            this.postMessage("undispMain");
             clearTimeout( talknNotifId );
             sessionStorage.setItem(ClientScript.talknNotifId, null);
             this.postMessage("closeNotif");

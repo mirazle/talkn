@@ -30,6 +30,22 @@ export default class TalknWindow {
 		return scriptName;
 	}
 
+	static getPostsHeight(){
+		let postsHeight = 0;
+		document.querySelectorAll("[data-component-name=Post]").forEach( (post) => {
+			postsHeight += post.clientHeight;
+		} );
+		return postsHeight;
+	}
+
+	static getLastPostHeight(){
+		const posts = document.querySelector("[data-component-name=Posts]");
+		if( posts && posts.lastChild && posts.lastChild.clientHeight ){
+			return posts.lastChild.clientHeight;
+		}
+		return 0;
+	}
+
 	constructor( talknIndex ){
 		this.id = "talkn1";
 		this.talknAPI = {};
