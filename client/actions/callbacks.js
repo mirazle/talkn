@@ -10,5 +10,11 @@ export default {
     return {
       type: 'CREATE_NOTIF'
     };
+  },
+  updatePostsHeight: (postsHeight) => {
+    return {
+      type: 'UPDATE_POSTS_HEIGHT',
+      app: {postsHeight}
+    };
   }
 }

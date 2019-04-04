@@ -102,7 +102,6 @@ export default class PostsFooter extends Component {
       >
         <div
           style={ this.getIconStyle() }
-          { ...this.getIconProps() }
           onClick={handleOnClickToggleMain}
         />
         <textarea
