@@ -55,6 +55,16 @@ const componentDidUpdates = {
                     });
                 }
             }
+        },
+        'ON_CLICK_TOGGLE_MAIN': ( self ) => {
+            const { app } = self.props.state;
+            if( app.type === define.APP_TYPES.EXTENSION ){
+                talknAPI.extension("getClientMetas");
+            }
+        },
+        'GET_CLIENT_METAS': ( self ) => {
+            const { serverMetas } = self.props.state.thread;
+            talknAPI.updateThreadServerMetas(serverMetas);
         }
     },
     Posts: {
@@ -110,42 +120,47 @@ const componentDidUpdates = {
                 window.scrollTo(0, threadHeight - talknWindow.threadHeight);
                 talknWindow.threadHeight = threadHeight;
             }
-            updateThreadServerMetas( self );
         }
     }
 }
 
 const updateThreadServerMetas = ( self ) => {
     const { thread } = self.props.state;
-    if(thread.isSelfConnection){
 
-        // TODO talknWindowに移動する
-        const clientMetas = document.querySelectorAll('meta');
-        if( Object.keys( thread.serverMetas ).length !== clientMetas.length ){
-            let serverMetas = {};
-            for( let i = 0; i < clientMetas.length; i++ ){
-                const item = clientMetas[ i ];
-                let key = i;
-                let content = '';
-                if( item.getAttribute('name') ){
-                    key = item.getAttribute('name');
-                    content = item.getAttribute('content');
-                }else if( item.getAttribute('property') ){
-                    key = item.getAttribute('property');
-                    content = item.getAttribute('content');
-                }else if( item.getAttribute('chaset') ){
-                    key = 'charset';
-                    content = item.getAttribute('chaset');
-                }else if( item.getAttribute('http-equiv') ){
-                    key = item.getAttribute('http-equiv');
-                    content = item.getAttribute('content');
-                }
+    // TODO talknWindowに移動する
+    console.log
+    const clientMetas = document.querySelectorAll('meta');
+/*
+    console.log("@@@@@@@@@@@@@@@@@@@@ " + Object.keys( thread.serverMetas ).length + " " + clientMetas.length );
+    console.log( thread.serverMetas );
+    console.log( clientMetas );
+*/
+    if( Object.keys( thread.serverMetas ).length !== clientMetas.length ){
+        let serverMetas = {};
+        for( let i = 0; i < clientMetas.length; i++ ){
+            const item = clientMetas[ i ];
+            let key = i;
+            let content = '';
+            if( item.getAttribute('name') ){
+                key = item.getAttribute('name');
+                content = item.getAttribute('content');
+            }else if( item.getAttribute('property') ){
+                key = item.getAttribute('property');
+                content = item.getAttribute('content');
+            }else if( item.getAttribute('chaset') ){
+                key = 'charset';
+                content = item.getAttribute('chaset');
+            }else if( item.getAttribute('http-equiv') ){
+                key = item.getAttribute('http-equiv');
+                content = item.getAttribute('content');
+            }
 
-                if( !serverMetas[ key ] ){
-                    serverMetas[ key ] = content;
-                }
-          }
-          talknAPI.updateThreadServerMetas(serverMetas);
+            console.log( key + " = " + content );
+
+            //if( !serverMetas[ key ] ){
+                serverMetas[ key ] = content;
+            //}
         }
+        talknAPI.updateThreadServerMetas(serverMetas);
     }
 }
