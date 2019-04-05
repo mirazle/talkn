@@ -141,6 +141,9 @@ class Container extends Component {
     const frameHeight = HeaderStyle.headerHeight + PostsFooterStyle.selfHeight;
     const postsFrameHeight = app.height - frameHeight;
     const postsRealHeight = app.postsHeight + frameHeight - TalknWindow.getLastPostHeight();
+
+    console.log( postsFrameHeight + " < " + postsRealHeight );
+
     if( postsFrameHeight < postsRealHeight ){
       return (
         <div data-component-name="newPost" style={style.container.newPost}>
