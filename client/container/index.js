@@ -75,13 +75,6 @@ class Container extends Component {
     const { app } = state;
     if( app.type ===  define.APP_TYPES.EXTENSION ){
       this.setState({notifs: []});
-//      app.isOpenMain = app.isOpenMain ? false : true;
-
-/*
-      TODO 
-      開閉時のゴタゴタを解消する！！！！
-
-*/
 
       app.isDispMain = app.isDispMain ? false : true;
       app.isOpenNotif = false;
@@ -141,8 +134,6 @@ class Container extends Component {
     const frameHeight = HeaderStyle.headerHeight + PostsFooterStyle.selfHeight;
     const postsFrameHeight = app.height - frameHeight;
     const postsRealHeight = app.postsHeight + frameHeight - TalknWindow.getLastPostHeight();
-
-    console.log( postsFrameHeight + " < " + postsRealHeight );
 
     if( postsFrameHeight < postsRealHeight ){
       return (
@@ -256,7 +247,6 @@ class Container extends Component {
 
     // Open
     if( app.isDispMain && app.isOpenMain ){
-      console.log("OPEN " + app.isDispMain + " && " + app.isOpenMain);
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -274,7 +264,6 @@ class Container extends Component {
 
     // Opening
     }else if( app.isDispMain ){
-      console.log("OPENING " + app.isDispMain + " && " + app.isOpenMain);
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -290,8 +279,6 @@ class Container extends Component {
     
     // Closing
     }else if( !app.isDispMain && app.isOpenMain ){
-      console.log("CLOSING " + app.isDispMain + " && " + app.isOpenMain);
-      const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -307,7 +294,6 @@ class Container extends Component {
 
     // Close
     }else if( !app.isDispMain && !app.isOpenMain ){
-      console.log("CLOSE " + app.isDispMain + " && " + app.isOpenMain);
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
