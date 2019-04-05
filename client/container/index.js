@@ -138,12 +138,9 @@ class Container extends Component {
   getNewPost(props){
     const { state} = props;
     const { style, app } = state;
-
     const frameHeight = HeaderStyle.headerHeight + PostsFooterStyle.selfHeight;
     const postsFrameHeight = app.height - frameHeight;
     const postsRealHeight = app.postsHeight + frameHeight - TalknWindow.getLastPostHeight();
-    console.log("@@@ " + postsFrameHeight + " < " + postsRealHeight );
-
     if( postsFrameHeight < postsRealHeight ){
       return (
         <div data-component-name="newPost" style={style.container.newPost}>
@@ -253,8 +250,10 @@ class Container extends Component {
     const props = this.getProps();
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
+
+    // Open
     if( app.isDispMain && app.isOpenMain ){
-      console.log("A");
+      console.log("OPEN " + app.isDispMain + " && " + app.isOpenMain);
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -269,32 +268,43 @@ class Container extends Component {
             </span>
         </span>
       );
+
+    // Opening
     }else if( app.isDispMain ){
-      console.log("B");
+      console.log("OPENING " + app.isDispMain + " && " + app.isOpenMain);
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
           <Posts {...props} />
           <span data-component-name="fixedComponents">
+            { MultistreamIcon }
             <Header {...props} />
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
             </span>
         </span>
       );
-    }else if( !app.isDispMain && !app.isOpenMain ){
-      console.log("C");
+    
+    // Closing
+    }else if( !app.isDispMain && app.isOpenMain ){
+      console.log("CLOSING " + app.isDispMain + " && " + app.isOpenMain);
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
+          <Posts {...props} />
           <span data-component-name="fixedComponents">
-            { Notifs }
+            { MultistreamIcon }
+            <Header {...props} />
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
-          </span>
+            </span>
         </span>
       );
-    }else{
-      console.log("D");
+
+    // Close
+    }else if( !app.isDispMain && !app.isOpenMain ){
+      console.log("CLOSE " + app.isDispMain + " && " + app.isOpenMain);
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
