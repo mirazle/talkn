@@ -75,10 +75,18 @@ export default class Posts {
       return `0px 5% ${Header.headerHeight}px 5%`;
     }else{
       switch( app.screenMode ){
-      case App.screenModeSmallLabel : return `${Header.headerHeight}px 0px 25px 0px`;
+      case App.screenModeSmallLabel : return `${Header.headerHeight}px 0px 0px 0px`;
       case App.screenModeMiddleLabel : return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
       case App.screenModeLargeLabel : return `${Header.headerHeight}px 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
       }
+    }
+  }
+
+  static getPadding( app, addUnit = false ){
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel : return `0px 0px 25px 0px`;
+    case App.screenModeMiddleLabel : return `0px`;
+    case App.screenModeLargeLabel : return `0px`
     }
   }
 
@@ -112,6 +120,7 @@ export default class Posts {
       minHeight,
       maxHeight: "auto",
       margin: Posts.getMargin( app ),
+      padding: Posts.getPadding( app ),
       background: Container.whiteRGBA,
       overflow,
       ...borders
