@@ -91,11 +91,13 @@ export default class Notif {
 
   static getBottomPost({app}){
     const layout = {
+      overflow: "hidden",
       padding: '15px 15px 15px 0px',
       background: 'none'
     };
     const content = {
       lineHeight: '0.8',
+      whiteSpace: "nowrap",
       color: Style.fontBaseRGB
     }
     const animation = {};
