@@ -56,14 +56,14 @@ class ClientScript {
             this.iframe.setAttribute("id", `${ClientScript.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
             this.iframe.setAttribute("style",
-                "z-index: 2147483647;" +
+                "z-index: 2147483647 !important;" +
                 "display: none;" +
                 "align-items: flex-end;" + 
                 "position: fixed; " +
-                "bottom: 0px;" + 
-                "right: 0px;" + 
-                "width: 320px;" + 
-                `height: ${ClientScript.iframeCloseHeight};` + 
+                "bottom: 0px !important;" + 
+                "right: 0px !important;" + 
+                "width: 320px !important;" + 
+                `height: ${ClientScript.iframeCloseHeight} !important;` + 
                 "margin: 0;" + 
                 "padding: 0;" + 
                 "transition: 0ms;" + 
