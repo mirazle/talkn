@@ -129,7 +129,7 @@ export default class Post {
     });
     const content = Style.getContentBase({
       color: 'rgb(255,255,255)',
-      lineHeight: 2,
+      lineHeight: 2.0,
       fontSize: '13px',
       textAlign: 'left',
       cursor: 'pointer',
