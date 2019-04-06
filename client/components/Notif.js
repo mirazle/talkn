@@ -57,12 +57,12 @@ export default class Notif extends Component {
       status:  Notif.STATUS_START_OPEN,
       style: {...style,
         self: {...style.self,
-          transition: `0ms`,
+          transition: `90000ms`,
           transform: 'translate3d(0px, 0px, 0px)'
         }
       }
     });
-    setTimeout(this.startNotif, transition );
+    setTimeout(this.startNotif, transition *100);
   }
 
   startNotif(){
@@ -72,11 +72,11 @@ export default class Notif extends Component {
       status:  Notif.STATUS_START_NOTIF,
       style: {...style,
         self: {...style.self,
-          transition: `${transition * 10}ms`,
+          transition: `${transition * 10000}ms`,
         }
       }
     });
-    setTimeout(this.startClose, Container.transitionNotifDisp );
+    setTimeout(this.startClose, Container.transitionNotifDisp *1000);
   }
 
   startClose(){
@@ -86,7 +86,7 @@ export default class Notif extends Component {
       status: Notif.STATUS_START_CLOSE,
       style: {...style,
         self: {...style.self,
-          transition: `${transition }ms`,
+          transition: `${transition * 900}ms`,
           transform: 'translate3d(0px, 40px, 0px)'
         }
       }

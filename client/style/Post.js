@@ -132,7 +132,9 @@ export default class Post {
       lineHeight: 2,
       fontSize: '13px',
       textAlign: 'left',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      wordWrap: "break-word",
+      overflowWrap: "break-word"
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

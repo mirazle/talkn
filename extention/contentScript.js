@@ -140,17 +140,17 @@ class ClientScript {
 
         if(talknNotifId === "null"){
             if( iframe.style.height !== ClientScript.iframeOpenHeight ){
-                iframe.style.transition = "600ms";
+                iframe.style.transition = "60000ms";
                 iframe.style.height = ClientScript.iframeOpenHeight;
             }else{
-                iframe.style.transition = "600ms";
+                iframe.style.transition = "60000ms";
                 iframe.style.height = ClientScript.iframeCloseHeight;
             }
         }else{
             clearTimeout( talknNotifId );
             sessionStorage.setItem(ClientScript.talknNotifId, null);
             this.postMessage("closeNotif");
-            iframe.style.transition = "600ms";
+            iframe.style.transition = "60000ms";
             iframe.style.height = ClientScript.iframeOpenHeight;
         }
     }
