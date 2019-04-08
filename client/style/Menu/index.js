@@ -4,6 +4,10 @@ import Style from '../index';
 import Container from '../Container';
 import Main from '../Main';
 
+
+// 未使用？
+
+
 export default class MenuIndex {
 
   static get iconSize(){ return '25px' };
@@ -114,9 +118,7 @@ export default class MenuIndex {
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: `calc( 100% - ${Main.headerHeight}px )`,
-      overflow: 'scroll',
-      background: Container.chromeOffTabRGB,
-//      boxShadow: '0px 1px 1px 1px rgb( 220, 220, 220 )inset',
+      overflow: 'scroll'
     });
     const content = {};
     const animation = Style.getAnimationBase({

@@ -1,14 +1,16 @@
 import Style from 'client/style/index';
-import Main from 'client/style/Main';
 import Screen from 'client/style/Screen';
 import Menu from 'client/style/Menu';
 import LockMenu from 'client/style/LockMenu';
+import Container from 'client/style/Container';
 import Posts from 'client/style/Posts';
 import Detail from 'client/style/Detail';
+import DetailRight from 'client/style/DetailRight';
+import DetailModal from 'client/style/DetailModal';
+import Header from 'client/style/Header';
 import Footer from 'client/style/Footer';
 import MenuFooter from 'client/style/MenuFooter';
 import PostsFooter from 'client/style/PostsFooter';
-import DetailFooter from 'client/style/DetailFooter';
 import Notif from 'client/style/Notif';
 import InnerNotif from 'client/style/InnerNotif';
 
@@ -19,9 +21,9 @@ export default ( state = {} , action ) => {
 		return {...state};
 	case 'ON_CLICK_MULTISTREAM':
 		return {...state,
-			posts: {...state.posts,
-				multistreamIconWrap: {...state.posts.multistreamIconWrap,
-					border: Posts.getMultistreamIconWrapBorder( action)
+			container: {...state.container,
+				multistreamIconWrap: {...state.container.multistreamIconWrap,
+					border: Container.getMultistreamIconWrapBorder( action)
 				}
 			},
 		}
@@ -35,16 +37,12 @@ export default ( state = {} , action ) => {
 				}
 			},
 			detail: {...state.detail,
-				self: {...state.detail.self,
-					width: Detail.getWidth( action.app ),
-					transform: Detail.getTransform( action.app ),
-				}
-			},
-			screen: {...state.screen,
-				self: {...state.screen.self,
-					width: Screen.getWidth( action.app ),
-					transform: Screen.getTransform( action.app ),
-				}
+				[`self${Detail.detailRightSelfKey}`]: {...state.detail[`self${Detail.detailRightSelfKey}`],
+					transform: DetailRight.getTransform( action.app ),
+				},
+				[`self${Detail.detailModalSelfKey}`]: {...state.detail[[`self${Detail.detailModalSelfKey}`]],
+					transform: DetailModal.getTransform( action.app ),
+				}				
 			},
 			posts: {...state.posts,
 				self: {...state.posts.self,
@@ -67,12 +65,7 @@ export default ( state = {} , action ) => {
 					maxWidth: PostsFooter.getWidth( action.app ),
 					width: PostsFooter.getWidth( action.app )
 				}
-			},
-			detailFooter: {...state.detailFooter,
-				self: {...state.detailFooter.self,
-					width: DetailFooter.getWidth( action.app )
-				}
-			},
+			}
 		}
 	case 'ON_CLICK_OPEN_LOCK_MENU':
 		return {...state,
@@ -85,20 +78,41 @@ export default ( state = {} , action ) => {
 	case 'RESIZE_START_WINDOW':
 	case 'RESIZE_END_WINDOW':
 		return new Style( action );
-	case 'OPEN_NOTIF_IN_THREAD':
-	case 'CLOSE_NOTIF_IN_THREAD':
+	case 'OPEN_NEW_POST':
+	case 'CLOSE_NEW_POST':
 		return {...state,
-			main: {...state.main,
-				notif: {...state.main.notif,
-					transform: Main.getNotifTranslateY( action.app ),
+			container: {...state.container,
+				newPost: {...state.container.newPost,
+					transform: Container.getNotifTranslateY( action.app ),
 				}
 			}
 		}
+/*
+	case 'SERVER_TO_CLIENT[BROADCAST]:post':
+		return {...state,
+			header: {...state.header,
+				self: {...state.header.self,
+					transform: Header.getNotifTranslateY( action.app ),
+				}
+			}
+		}
+		break;
+*/
 	case 'OPEN_NOTIF':
 	case 'CLOSE_NOTIF':
 		return {...state,
-			screen: {...state.screen,
-				self: {...state.screen.self,
+			header: {...state.header,
+				self: {...state.header.self,
+					transform: Header.getNotifTranslateY( action.app ),
+				}
+			},
+			container: {...state.container,
+				newPost: {...state.container.newPost,
+					display: Container.getNewPostDisplay( action.app ),
+				}
+			},
+			posts: {...state.posts,
+				self: {...state.posts.self,
 					display: Screen.getSelfDisplay( action.app ),
 				}
 			}

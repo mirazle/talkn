@@ -123,15 +123,18 @@ export default class Post {
       width: 'min-content',
       background: Container.themeRGBA,
       padding: '15px 15px 15px 25px',
+      margin: "0px 1% 0px 0px",
       borderRadius: '10px',
       maxWidth: '79%',
     });
     const content = Style.getContentBase({
       color: 'rgb(255,255,255)',
-      lineHeight: 2,
+      lineHeight: 2.0,
       fontSize: '13px',
       textAlign: 'left',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      wordWrap: "break-word",
+      overflowWrap: "break-word"
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

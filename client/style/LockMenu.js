@@ -21,7 +21,7 @@ export default class LockMenu {
 
   static getCommonLayout(app){
     const layout = {
-      position: 'absolute',
+      position: 'fixed',
       width: '90%',
       height: 'fit-content',
       top: `calc( 100% + ${Header.headerHeight}px)`,
@@ -29,21 +29,23 @@ export default class LockMenu {
       flexFlow: "column",
       border: Container.border,
       borderRadius: "5px",
-      boxShadow: "rgba(50, 50, 50, 0.1) 3px 3px 3px" ,
-      zIndex: "0px"
+      background: Container.whiteRGB,
+      zIndex: "0"
     }
+
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
-      layout.width = '90%';
-      layout.left = '5%';
-      break;
     case App.screenModeMiddleLabel :
-      layout.width = '50%';
-      layout.left = '25%';
+      layout.width = `${100 * Container.widthRatio}`;
+      layout.left = ( 100 - layout.width ) / 2;
+      layout.width = layout.width + "%";
+      layout.left = layout.left + "%";
+      layout.zIndex = "0";
       break;
     case App.screenModeLargeLabel :
-      layout.width = `calc( ( ${Posts.getWidth(app)} ) - 2% )`;
-      layout.left = `calc( 1% + ${Menu.getWidth(app)} )`;
+      layout.width = `33.3%`;
+      layout.left = `33.3%`;
+      layout.zIndex = "1";
       break;
     }
     return layout;
@@ -51,8 +53,8 @@ export default class LockMenu {
 
   static getCommonTransform(app){
     return app.openLockMenu === App.openLockMenuLabelNo ?
-      'translate3d(0px, 0px, 1px)' :
-      `translate3d(0px, calc( ( ( -${app.height}px / 2 ) - 50% ) - ${Header.headerHeight}px ), 1px)`;
+      'translate3d(0px, 0px, 0px)' :
+      `translate3d(0px, calc( ( ( -${app.height}px / 2 ) - 50% ) - ${Header.headerHeight}px ), 0px)`;
   }
 
   static getPaddingLi(app){
@@ -115,8 +117,7 @@ export default class LockMenu {
 
   static getUl({app}){
     const layout = Style.getLayoutBlock({
-      width: "100%",
-      background: Container.whiteRGBA
+      width: "100%"
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -168,8 +169,7 @@ export default class LockMenu {
     const layout = Style.getLayoutFlex({
       width: "100%",
       height: "45px",
-      padding: LockMenu.getPaddingLi(app),
-      borderBottom: Container.border
+      padding: LockMenu.getPaddingLi(app)
     });
     const content = Style.getContentBase({
       cursor: "pointer"

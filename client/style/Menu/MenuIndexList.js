@@ -10,9 +10,9 @@ export default class MenuIndexList {
   static get rank2RGB(){ return 'rgb(255, 147, 0)' };
   static get rank3RGB(){ return 'rgb(0, 162, 255)' };
   static get rankOtherRGB(){ return Container.silverRGB };
-  static get oneDigitWidth(){ return "16%" };
-  static get twoDigitWidth(){ return "17%" };
-  static get thirdDigitWidth(){ return "18%" };
+  static get oneDigitWidth(){ return "15%" };
+  static get twoDigitWidth(){ return "16%" };
+  static get thirdDigitWidth(){ return "17%" };
 
   static get iconSize(){ return '25px' };
   static get liHeight(){ return 90 };
@@ -145,13 +145,13 @@ export default class MenuIndexList {
   static getUpperRankWrap(){
     const layout = Style.getLayoutInlineBlock({
       position: "absolute",
-      left: "8px",
+      left: "13px",
       top: "10px",
       width: MenuIndexList.thirdDigitWidth,
-      height: "18px",
+      height: "16px",
       background: MenuIndexList.rankOtherRGB,
       borderRadius: "10px",
-      margin: "0px 2% 0px 0px"
+      margin: "0"
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -165,7 +165,7 @@ export default class MenuIndexList {
     const content = Style.getContentBase({
       fontSize: "10px",
       color: Container.whiteRGB,
-      lineHeight: "1.8"
+      lineHeight: "1.5"
     });
     const animation = Style.getAnimationBase({
       transform: "scale(0.8)"

@@ -55,6 +55,7 @@ export default class Style{
   static get mono240RGBA(){ return 'rgba(240, 240, 240, 0.96)' };
   static get mono245RGBA(){ return 'rgba(245, 245, 245, 0.96)' };
   static get mono250RGBA(){ return 'rgba(250, 250, 250, 0.96)' };
+  static get mono252RGBA(){ return 'rgba(252, 252, 252, 0.96)' };
   static get mono255RGBA(){ return 'rgba(255, 255, 255, 0.96)' };
 
   static get twitterRGB(){ return 'rgba(76, 160, 235)' };
@@ -72,8 +73,8 @@ export default class Style{
     const menuIndex = new MenuIndex( params );
     const menuIndexList = new MenuIndexList( params );
     const menuUsers = new MenuUsers( params );
-    const main = new Main( params );
-    const screen = new Screen( params );
+//    const main = new Main( params );
+//    const screen = new Screen( params );
     const lockMenu = new LockMenu( params );
     const posts = new Posts( params );
     const post = new Post( params );
@@ -94,8 +95,8 @@ export default class Style{
       menuIndex,
       menuIndexList,
       menuUsers,
-      main,
-      screen,
+//      main,
+//      screen,
       lockMenu,
       posts,
       post,

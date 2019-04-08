@@ -1,4 +1,6 @@
 import define from 'common/define';
+//import MongoDB from 'server/listens/db/MongoDB';
+import HtmlSchema from 'server/schemas/logics/Html';
 
 export default {
   updateStyle: ( {styleKey, eleType, tagName, style} ) => {
@@ -167,6 +169,51 @@ export default {
     return {
       type: 'ON_CLICK_OPEN_LOCK_MENU',
       app: {openLockMenu},
+    };
+  },
+  openNewPost: () => {
+    return {
+      type: 'OPEN_NEW_POST',
+      app: {isOpenNewPost: true}
+    };
+  },
+  closeNewPost: () => {
+    return {
+      type: 'CLOSE_NEW_POST',
+      app: {isOpenNewPost: false}
+    };
+  },
+  openMenuTransitionEnd: (threadScrollY) => {
+    return {
+      type: 'OPEN_MENU_TRANSITION_END',
+      app: {threadScrollY}
+    };
+  },
+  dispMain: () => {
+    return {
+      type: 'DISP_MAIN',
+      app: {isDispMain: true}
+    };
+  },
+  undispMain: () => {
+    return {
+      type: 'DISP_MAIN',
+      app: {isDispMain: false}
+    };
+  },
+  getClientMetas: ( clientMetas ) => {
+    const htmlSchema = new HtmlSchema();
+    let { serverMetas } = htmlSchema;
+
+    Object.keys( clientMetas ).forEach( ( key, i ) => {
+      if( serverMetas[ key ] ){
+        serverMetas[ key ] = clientMetas[ key ];
+      }
+    } );
+
+    return {
+      type: 'GET_CLIENT_METAS',
+      thread: {serverMetas}
     };
   }
 }

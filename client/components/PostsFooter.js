@@ -9,29 +9,45 @@ export default class PostsFooter extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {focusSetIntervalId: 0};
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
+    this.handleOnFocus = this.handleOnFocus.bind(this);
+    this.handleOnBlur = this.handleOnBlur.bind(this);
   }
 
   handleOnClick( e ){
-    const value = console.log(this.refs.postArea.innerHTML);
+    const value = this.refs.postArea.innerHTML;
     if( !App.validInputPost( value ) ){
       if(value && value !== ""){
-        console.log(value);
         talknAPI.post();
         talknAPI.onChangeInputPost('');
       }
     }
   }
 
+  // TODO スマホのマルチバイト入力は最下位スクロールでいける！？
+
   handleOnChange( e ){
+
     if( !App.validInputPost( e.target.value ) ){
+
+      const { app } = this.props.state;
+      if( app.screenMode === App.screenModeSmallLabel ){
+        clearInterval(this.state.focusSetIntervalId);    clearInterval(this.state.focusSetIntervalId);
+        window.scrollTo(0, 9999999);
+        if( !talknWindow.isScrollBottom ){
+            window.scrollTo(0, 9999999);
+          talknWindow.setIsScrollBottom();
+        }
+      }
       talknAPI.onChangeInputPost( e.target.value );
     }
   }
 
   handleOnKeyPress( e ){
+    clearInterval(this.state.focusSetIntervalId);
     if ( e.nativeEvent.keyCode === 13 ) {
       if( e.nativeEvent.shiftKey ){
         talknAPI.onChangeInputPost( e.target.value + '\n');
@@ -41,6 +57,27 @@ export default class PostsFooter extends Component {
           talknAPI.onChangeInputPost('');
         }
       }
+    }
+  }
+
+  handleOnFocus( e ){
+    const { app } = this.props.state;
+    if( app.screenMode === App.screenModeSmallLabel ){
+      if( this.state.focusSetIntervalId === 0 ){
+        window.scrollTo(0, 9999999);
+        const focusSetIntervalId = setInterval(  () => {
+          window.scrollTo(0, 9999999)
+        }, 500);
+        this.setState({focusSetIntervalId});
+      }
+    }
+  }
+
+  handleOnBlur( e ){
+    const { app } = this.props.state;
+    if( app.screenMode === App.screenModeSmallLabel ){
+      clearInterval(this.state.focusSetIntervalId);
+      this.setState({focusSetIntervalId: 0});
     }
   }
 
@@ -59,10 +96,12 @@ export default class PostsFooter extends Component {
     const { state, handleOnClickToggleMain } = this.props;
     const { style, app } = state;
     return (
-      <div data-component-name={this.constructor.name} style={ style.postsFooter.self }>
+      <div  
+        data-component-name={this.constructor.name}
+        style={ style.postsFooter.self }
+      >
         <div
           style={ this.getIconStyle() }
-          { ...this.getIconProps() }
           onClick={handleOnClickToggleMain}
         />
         <textarea
@@ -71,6 +110,8 @@ export default class PostsFooter extends Component {
           rows={1}
           onChange={this.handleOnChange}
           onKeyPress={this.handleOnKeyPress}
+          onFocus={this.handleOnFocus}
+          onBlur={this.handleOnBlur}
           value={app.inputPost}
           placeholder='Comment to this web'
         />

@@ -100,6 +100,7 @@ export default class App extends Schema{
     const type = params.type ? params.type : '';
     const width = App.getWidth( params );
     const height = App.getHeight( params );
+    const postsHeight = params.postsHeight ? params.postsHeight : 0;
     const screenMode = App.getScreenMode( width );
     const screenModePointer = params.screenModePointer ? params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
     const screenContents = App.getScreenContentsMap( screenMode, screenModePointer );
@@ -115,6 +116,7 @@ export default class App extends Schema{
     const dispThreadType = params && params.dispThreadType ? params.dispThreadType : App.dispThreadTypeMulti;
     const multistream = Schema.isSet( params.multistream ) ? params.multistream : true;
     const multistreamed = params && params.multistreamed ? params.multistreamed : false;
+    const threadScrollY = params && params.threadScrollY ? params.threadScrollY : 0;
 
     // 投稿情報
     const offsetFindId = params && params.offsetFindId ? params.offsetFindId : App.defaultOffsetFindId ;
@@ -136,8 +138,11 @@ export default class App extends Schema{
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
-    const isOpenNotifInThread = params.isOpenNotifInThread ? params.isOpenNotifInThread : false;
+    const isOpenNewPost = params.isOpenNewPost ? params.isOpenNewPost : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
+    const isDispMain = params.isDispMain ? params.isDispMain : 
+      params.type === define.APP_TYPES.EXTENSION ?
+        false : true;
 
     // 各パーツの状態(文字列制御)
     const openInnerNotif = params.openInnerNotif ? params.openInnerNotif : '';
@@ -157,6 +162,7 @@ export default class App extends Schema{
       type,
       width,
       height,
+      postsHeight,
       screenMode,
       screenModePointer,
       screenContents,
@@ -172,6 +178,7 @@ export default class App extends Schema{
       dispThreadType,
       multistream,
       multistreamed,
+      threadScrollY,
 
       // 投稿情報
       offsetFindId,
@@ -193,12 +200,13 @@ export default class App extends Schema{
       isOpenSetting,
       isOpenMenu,
       isOpenDetail,
-      isOpenNotifInThread,
+      isOpenNewPost,
       isOpenNotif,
+      isDispMain,
 
       // 各パーツの状態(文字列制御)
       openInnerNotif,
-      openLockMenu,
+      openLockMenu, 
 
       // その他
       actioned,
@@ -207,8 +215,16 @@ export default class App extends Schema{
   }
 
   static getScreenMode( widthPx ){
-    if( App.screenModeSmallWidthPx >= widthPx ) return App.screenModeSmallLabel;
-    if( App.screenModeSmallWidthPx < widthPx &&　App.screenModeMiddleWidthPx >= widthPx ) return App.screenModeMiddleLabel;
+    if( window && window.innerWidth ){
+      widthPx = window.innerWidth;
+    }
+
+    if( App.screenModeSmallWidthPx >= widthPx ){
+     return App.screenModeSmallLabel;
+    }
+    if( App.screenModeSmallWidthPx < widthPx &&　App.screenModeMiddleWidthPx >= widthPx ){
+      return App.screenModeMiddleLabel;
+    }
     return App.screenModeLargeLabel;
   }
 
@@ -255,6 +271,9 @@ export default class App extends Schema{
     switch( call ){
     case 'headerDetailIcon':
       switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        app.isOpenDetail = !app.isOpenDetail;
+        break;
       case App.screenModeMiddleLabel :
         if( app.isOpenDetail ){
           if( app.detailConnection === app.rootConnection ){
@@ -262,7 +281,7 @@ export default class App extends Schema{
             app.isOpenMenu = true;
           }else{
             app.isOpenMenu = false;
-            app.isOpenDetail = true;
+            app.isOpenDetail = false;
           }
         }else{
           app.isOpenMenu = false;
