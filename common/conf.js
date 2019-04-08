@@ -4,6 +4,8 @@ const { PRODUCTION, DEVELOPMENT, PRODUCTION_IP, PRODUCTION_DOMAIN, DEVELOPMENT_D
 const hostName = os.hostname();
 const env = hostName === PRODUCTION_IP || hostName.indexOf( PRODUCTION_DOMAIN ) >= 0 ? PRODUCTION : DEVELOPMENT ;
 const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN ;
+const wwwURL = `${SUB_DOMAINS.WWW}.${domain}` ;
+const descURL = `${SUB_DOMAINS.DESC}.${domain}` ;
 const portalURL = `${SUB_DOMAINS.PORTAL}.${domain}` ;
 const clientURL = `${SUB_DOMAINS.CLIENT}.${domain}` ;
 const assetsURL = `${SUB_DOMAINS.ASSETS}.${domain}` ;
@@ -17,6 +19,8 @@ const description = "talkn can share comments with users watching the same WEB p
 export default {
   domain,
   env,
+  wwwURL,
+  descURL,
   portalURL,
   clientURL,
   assetsURL,

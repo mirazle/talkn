@@ -48,6 +48,12 @@ class Express{
 
   routingHttps( req, res, next ){
     switch( req.headers.host ){
+    case conf.wwwURL:
+      res.render( 'www/index', {});
+      break;
+    case conf.descURL:
+      res.render( 'desc/index', {});
+      break;
     case conf.domain:
 
       let iframe = false;

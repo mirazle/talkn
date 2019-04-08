@@ -13,6 +13,8 @@ export default {
     SOCKET_IO: 10443,
   },
   SUB_DOMAINS: {
+    WWW: 'www',
+    DESC: 'desc',
     PORTAL: 'portal',
     CLIENT: 'client',
     ASSETS: 'assets',
