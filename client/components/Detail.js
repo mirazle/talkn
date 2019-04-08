@@ -25,8 +25,8 @@ export default class Detail extends Component {
   }
 
   handleOnClickShare(){
-    const { state, onClickOpenLockMenu, openInnerNotif } = this.props;
-    const { app } = state
+    const { state, onClickOpenLockMenu } = this.props;
+    const { app } = state;
     if(app.openLockMenu !== App.openLockMenuLabelNo){
       onClickOpenLockMenu(App.openLockMenuLabelNo);
     }else{
@@ -35,7 +35,7 @@ export default class Detail extends Component {
   }
 
   handleOnClickPortal(){
-    const { state, onClickOpenLockMenu, openInnerNotif } = this.props;
+    const { state, onClickOpenLockMenu } = this.props;
     const { app } = state
     if(app.openLockMenu !== App.openLockMenuLabelNo){
       onClickOpenLockMenu(App.openLockMenuLabelNo);
@@ -330,20 +330,25 @@ export default class Detail extends Component {
     )
   }
 
-  renderDetailFooter(){
+  renderLockMenu(){
     const { app } = this.props.state
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
-      return <DetailFooter {...this.props } />;
     case App.screenModeMiddleLabel : 
+      return <LockMenu {...this.props} />
     case App.screenModeLargeLabel : 
       return null;
     }
   }
-  renderLockMenu(){
-    const { app } = this.props.state;
-    return app.screenMode === App.screenModeSmallLabel ?  
-      <LockMenu {...this.props} /> : null ;
+
+  renderDetailFooter(){
+    const { app } = this.props.state
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+    case App.screenModeMiddleLabel : 
+    case App.screenModeLargeLabel : 
+      return <DetailFooter {...this.props } />;
+    }
   }
 
   renderExtension(){
@@ -356,8 +361,9 @@ export default class Detail extends Component {
   }
 
  	render() {
-    const { style } = this.props.state
-		return (
+    const { state } = this.props;
+    const { style } = state;
+    return (
       <div data-component-name={this.constructor.name} style={ style.detail.self }>
         {this.renderHeader()}
         <div style={ style.detail.body } >

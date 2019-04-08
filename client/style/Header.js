@@ -39,10 +39,18 @@ export default class Header {
     }
   }
 
-  static get notifOpenTranslateY(){ return `translate3d( 0px, ${-( PostsFooter.selfHeight * 2 )}px, 0px )`; }
+  static get notifOpenTranslateY(){ return `translate3d( 0px, ${Header.headerHeight}px, 0px )`; }
   static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
   static getNotifTranslateY( app ){
     return app.isOpenNotif ? Header.notifOpenTranslateY : Header.notifCloseTranslateY;
+  }
+
+  static getMargin(app){
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      return "0px 5% 0px 5%";
+    }else{
+      return "0 auto";
+    }
   }
 
   static getChildAnalyzeRight(app){
@@ -80,18 +88,22 @@ export default class Header {
       Container.radiuses : '0px';
 
     const layout = Style.getLayoutFlex({
-      position: "initial",
+      position: "fixed",
+      top: "0px",
       width,
       height: `${Header.headerHeight}px`,
       border: Container.border,
       borderRadius,
       background: Container.whiteRGB,
-      margin: "0 auto"
+      margin: Header.getMargin(app)
     });
     const content = Style.getContentBase({
       textAlign: 'center',
     });
-    const animation = Style.getAnimationBase();
+    const animation = Style.getAnimationBase({
+      transition: "0ms",
+      transform: Header.getNotifTranslateY(app)
+    });
     return Style.get({layout, content, animation});
   }
 

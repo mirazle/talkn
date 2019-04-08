@@ -1,7 +1,7 @@
 class ClientScript {
 
     static get APP_NAME(){return "talkn"}
-    static get MODE(){return "DEV"}
+    static get MODE(){return "PROD"}
     static get PROTOCOL(){return "https"}
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
@@ -21,7 +21,7 @@ class ClientScript {
     static get iframeOpenHeight(){return '450px'};
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
-    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo']};
+    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'getClientMetas']};
 
     constructor(refusedFrame = false){
         this.connection = location.href.replace("http:/", "").replace("https:/", "");
@@ -56,14 +56,14 @@ class ClientScript {
             this.iframe.setAttribute("id", `${ClientScript.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
             this.iframe.setAttribute("style",
-                "z-index: 2147483647;" +
+                "z-index: 2147483647 !important;" +
                 "display: none;" +
                 "align-items: flex-end;" + 
                 "position: fixed; " +
-                "bottom: 0px;" + 
-                "right: 0px;" + 
-                "width: 320px;" + 
-                `height: ${ClientScript.iframeCloseHeight};` + 
+                "bottom: 0px !important;" + 
+                "right: 0px !important;" + 
+                "width: 320px !important;" + 
+                `height: ${ClientScript.iframeCloseHeight} !important;` + 
                 "margin: 0;" + 
                 "padding: 0;" + 
                 "transition: 0ms;" + 
@@ -137,7 +137,7 @@ class ClientScript {
     toggleIframe(params){
         const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
         const talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
-        this.postMessage("offTransition");
+
         if(talknNotifId === "null"){
             if( iframe.style.height !== ClientScript.iframeOpenHeight ){
                 iframe.style.transition = "600ms";
@@ -190,6 +190,32 @@ class ClientScript {
         if( params && params.href ){
             location.href = params.href
         }
+    }
+
+    getClientMetas(){
+        const metas = document.querySelectorAll('meta');
+        let clientMetas = {};
+
+        for( let i = 0; i < metas.length; i++ ){
+            const item = metas[ i ];
+            let key = i;
+            let content = '';
+            if( item.getAttribute('name') ){
+                key = item.getAttribute('name');
+                content = item.getAttribute('content');
+            }else if( item.getAttribute('property') ){
+                key = item.getAttribute('property');
+                content = item.getAttribute('content');
+            }else if( item.getAttribute('chaset') ){
+                key = 'charset';
+                content = item.getAttribute('chaset');
+            }else if( item.getAttribute('http-equiv') ){
+                key = item.getAttribute('http-equiv');
+                content = item.getAttribute('content');
+            }
+            clientMetas[ key ] = content;
+        }
+        this.postMessage("getClientMetas", clientMetas);
     }
 
     getRequestObj(method, params = {}){

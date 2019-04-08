@@ -15,12 +15,13 @@ export default class Menu extends Component {
     this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
     this.handleOnClickLoginTwitter = this.handleOnClickLoginTwitter.bind(this);
     this.handleOnClickLoginFacebook = this.handleOnClickLoginFacebook.bind(this);
+    this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind(this);
   }
 
   handleOnClickMultistream(){
     const{ app } = this.props.state;
     if( app.isOpenNotif ){
-      this.props.closeNotifInThread();
+      this.props.closeNewPost();
     }
   }
 
@@ -34,6 +35,17 @@ export default class Menu extends Component {
     const{ thread } = this.props.state;
     const href = `https://talkn.io:8443/auth/twitter?url=${window.location.href}`;
     location.href = href;
+  }
+
+  handleOnTransitionEnd(){
+    const{ state, openMenuTransitionEnd } = this.props;
+    const{ app } = state;
+    if( app.screenMode === App.screenModeSmallLabel ){
+      if( app.isOpenMenu ){
+        openMenuTransitionEnd(window.scrollY);
+        talknWindow.lockWindow();
+      }
+    }
   }
 
   renderFriendLiLabel( name, icon, connection ){
@@ -84,10 +96,9 @@ export default class Menu extends Component {
     }else{
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
-        return <MenuFooter {...this.props} />;
       case App.screenModeMiddleLabel : 
       case App.screenModeLargeLabel : 
-        return null;
+        return <MenuFooter {...this.props} />;
       }
     }
   }
@@ -95,7 +106,11 @@ export default class Menu extends Component {
  	render() {
     const { style } = this.props.state;
 		return (
-      <div data-component-name={this.constructor.name} style={ style.menu.self } >
+      <div  
+        data-component-name={this.constructor.name}
+        onTransitionEnd={this.handleOnTransitionEnd}
+        style={ style.menu.self }
+      >
         {this.renderHeader()}
         <div style={ style.menu.wrapComponent } >
           {this.renderMenuComponent()}

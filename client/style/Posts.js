@@ -3,47 +3,50 @@ import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
 import Header from './Header';
+import PostsFooter from './PostsFooter';
 import Main from './Main';
 import Menu from './Menu';
 import Detail from './Detail';
+import Footer from './Footer';
 
 export default class Posts {
-
+  static getSelfDisplay(app){return app.isOpenNotif ? 'none' : 'flex'}
   static getMinWidth( app, addUnit = false ){
     let width = '200px';
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
-  static getWidth( app, addUnit = false ){
-    let width = 0;
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel :
-      width = '50.0%';
-      break;
-    case App.screenModeMiddleLabel :
-      width = app.isOpenDetail ? 
-        `${ app.width - Detail.getWidth( app, true )}px` :
-        `${ app.width - Menu.getWidth( app, true )}px` ;
-      break;
-    case App.screenModeLargeLabel :
-      width = `calc( 100% - ${ Detail.getWidth( app, true ) + Menu.getWidth( app, true ) }px )`;
-      break;
-    }
+  static getOlWidth( {app}, addUnit = false ){
+    const width = app.type === define.APP_TYPES.EXTENSION ? '90%' : '100%';
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
-  static get multistreamWrapTop(){return 5}
+  static getWidth( app, addUnit = false ){
+    let width = 0;
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      width = "90%";
+    }else{
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+        return "100%";
+      case App.screenModeMiddleLabel :
+        return `calc(100% - ${ Menu.getWidth( app, false ) })`
+      case App.screenModeLargeLabel :
+        width = `calc( ${ 100 - Detail.getWidth( app, false ) }% - ${Menu.getWidth( app, false ) } )`;
+        break;
+      }
+    }
+    return addUnit ? Style.trimUnit( width ) : width ;
+  }
 
   constructor( params ){
     const self = Posts.getSelf( params );
     const ol = Posts.getOl( params );
     const more = Posts.getMore( params );
-    const multistreamIconWrap = Posts.getMultistreamIconWrap( params );
     return {
       self,
       ol,
-      more,
-      multistreamIconWrap,
+      more
     }
   }
 
@@ -54,38 +57,79 @@ export default class Posts {
     case App.screenModeLargeLabel : return `translate3d( -${Menu.getWidth( app )}px, 0px, 0px)`;
     }
   };
+
   static openIndexTransform( option ){
     return `translate3d( 0px, 0px, 0px)`
   };
 
   static get headerHeight(){ return 35 };
 
-  static getBorder( app ){
-    if( app.type === define.APP_TYPES.EXTENSION ){
-      return {};
-    }else{
-      return app.screenMode === App.screenModeSmallLabel ?
-        {borderRight: Container.border, borderLeft: Container.border} :
-        {} ;
-    }  
+  static getBorders( app ){
+    return app.screenMode === App.screenModeSmallLabel ?
+      {borderRight: Container.border, borderLeft: Container.border} :
+      {} ;
   }
 
-  static getOlWidth( {app}, addUnit = false ){
-    const width = app.type === define.APP_TYPES.EXTENSION ? '90%' : '100%';
-    return addUnit ? Style.trimUnit( width ) : width ;
+  static getMargin( app, addUnit = false ){
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      return `0px 5% ${Header.headerHeight}px 5%`;
+    }else{
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel : return `${Header.headerHeight}px 0px 0px 0px`;
+      case App.screenModeMiddleLabel : return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
+      case App.screenModeLargeLabel : return `${Header.headerHeight}px 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
+      }
+    }
+  }
+
+  static getPadding( app, addUnit = false ){
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel : return `0px 0px 25px 0px`;
+    case App.screenModeMiddleLabel : return `0px`;
+    case App.screenModeLargeLabel : return `0px`
+    }
   }
 
   static getSelf( {app} ){
-    const borders = Posts.getBorder(app);
-    const layout = Style.getLayoutInlineBlock({
-      position: 'relative',
+    let position = "relative";
+    let top = 0;
+    let height = "auto";
+    let minHeight = `calc( 100vh - ${Header.headerHeight}px)`;
+    let overflow = "hidden";
+    let borders = {
+      borderRight: 0,
+      borderLeft: 0
+    }
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      position = "fixed";
+      top = `${Header.headerHeight}px`;
+      height = `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
+      minHeight = height;
+      overflow = "scroll";
+      borders.borderRight = Container.border;
+      borders.borderLeft = Container.border;
+    }else{
+      borders = Posts.getBorders(app);
+    }
+    const layout = Style.getLayoutBlock({
+      position,
+      top,
       width: Posts.getWidth( app ),
       minWidth: Posts.getMinWidth( app ),
-      WebkitOverflowScrolling: 'touch',
+      height,
+      minHeight,
+      maxHeight: "auto",
+      margin: Posts.getMargin( app ),
+      padding: Posts.getPadding( app ),
+      background: Container.whiteRGBA,
+      overflow,
       ...borders
     });
     const content = {};
-    const animation = Style.getAnimationBase();
+    const animation = Style.getAnimationBase({
+      transform: 'translate3d(0px, 0px, 0px) scale(1.0)',
+      transformOrigin: "top"
+    });
     return Style.get({layout, content, animation});
   }
 
@@ -106,10 +150,9 @@ export default class Posts {
       width,
       margin,
       height: `calc( 100% - ${Main.headerHeight}px )`,
+      minHeight: "inherit",
       borderRight,
       borderLeft,
-      overflow: 'scroll',
-      background: Container.whiteRGBA,
     });
     const content = {};
     const animation = Style.getAnimationBase({
@@ -119,10 +162,12 @@ export default class Posts {
   }
 
   static getMore(){
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
       width: '50%',
       height: Container.notifHeight,
       margin: '15px auto',
+      alignItems: "center",
+      justifyContent: "center",
       zIndex: '10',
       background: Container.themeRGBA,
       borderRadius: '20px',
@@ -134,44 +179,6 @@ export default class Posts {
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getMultistreamIconWrapBorder( {app} ){
-    return !app.dispThreadType || app.dispThreadType === App.dispThreadTypeMulti ?
-      `1px solid ${Container.themeRGBA}` :
-      `1px solid ${Container.calmRGBA}`;
-  }
-
-  static getMultistreamIconWrap( {app} ){
-
-    const top = app.type === define.APP_TYPES.EXTENSION ?
-      ( Header.headerHeight + Posts.multistreamWrapTop ) + "px" :
-      Posts.multistreamWrapTop + "px";
-
-    const layout = Style.getLayoutBlock({
-      position: 'absolute',
-      top,
-      right: "20px",
-      width: '50px',
-      height: '50px',
-      margin: '0 auto',
-      zIndex: '1',
-      border: Posts.getMultistreamIconWrapBorder( {app} ),
-      background: 'rgba(255, 255, 255, 0.8)',
-      borderRadius: '50px',
-    });
-
-    const content = Style.getContentBase({
-      color: 'rgb(255,255,255)',
-      textAlign: 'center',
-      fontSize: "12px",
-      lineHeight: 2,
-      cursor: 'pointer',
-    });
-    const animation = Style.getAnimationBase({
-      transition: Container.transitionOff,
-    });
     return Style.get({layout, content, animation});
   }
 }

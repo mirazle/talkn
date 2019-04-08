@@ -1,5 +1,6 @@
 import Style from './index';
 import Container from './Container';
+import Header from './Header';
 import define from '../../common/define';
 import App from '../../common/schemas/state/App';
 import Main from './Main';
@@ -10,7 +11,7 @@ export default class Menu {
   static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : width = '50.0%';break;
+    case App.screenModeSmallLabel : width = '100.0%';break;
     case App.screenModeMiddleLabel : width = Menu.baseWidth;break;
     case App.screenModeLargeLabel : width = Menu.baseWidth;break;
     }
@@ -21,11 +22,15 @@ export default class Menu {
   static getTransform( app ){
     let transform = 'translate3d( 0px ,0px, 0px )';
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+    case App.screenModeSmallLabel :
+      transform = app.isOpenMenu ? 'translate3d( 0% , 0%, 0px )' : 'translate3d( -100% , 0%, 0px )';
+      break;
     case App.screenModeMiddleLabel :
       transform = app.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
       break;
-    case App.screenModeLargeLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+    case App.screenModeLargeLabel :
+      transform = 'translate3d( 0px ,0px, 0px )';
+      break;
     }
     return transform ;
   }
@@ -46,17 +51,27 @@ export default class Menu {
   }
 
   static getSelf( {app} ){
-    const layout = Style.getLayoutInlineBlock({
-      position: 'relative',
+    const background = app.type === define.APP_TYPES.EXTENSION ?
+      "none" : Container.reliefRGB;
+    const layout = Style.getLayoutBlock({
+      position: 'fixed',
+      top: "0px",
+      left: "0px",
       width: Menu.getWidth( app ),
       minWidth: Menu.getWidth( app ),
-      maxWidth: 'inherit',
-      height: '100%',
+      height: "100%",
+      minHeight: "auto",
+      maHeight: "auto",
+      margin: `${Header.headerHeight}px 0px 0px 0px`,
+      background,
       WebkitOverflowScrolling: 'touch',
       overflow: 'scroll',
     });
     const content = {};
-    const animation = Style.getAnimationBase();
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransition(app),
+      transform: Menu.getTransform(app)
+    });
     return Style.get({layout, content, animation});
   }
 
@@ -73,7 +88,7 @@ export default class Menu {
       width,
       minWidth: 'inherit',
       maxWidth: 'inherit',
-      height: `calc( 100% - ${Main.headerHeight}px )`,
+      height: `calc( 100% - ${Main.headerHeight * 2}px )`,
       margin: '0 auto',
       ...borders
     });

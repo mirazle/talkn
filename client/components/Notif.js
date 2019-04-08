@@ -5,14 +5,16 @@ import Container from 'client/style/Container';
 export default class Notif extends Component {
 
   static get STATUS_CONSTRUCT(){return 1};
-  static get STATUS_START_OPEN(){return 2};
-  static get STATUS_START_NOTIF(){return 3};
-  static get STATUS_START_CLOSE(){return 4};
-  static get STATUS_UNDISPLAY(){return 5};
+  static get STATUS_DISPLAY(){return 2};
+  static get STATUS_START_OPEN(){return 3};
+  static get STATUS_START_NOTIF(){return 4};
+  static get STATUS_START_CLOSE(){return 5};
+  static get STATUS_UNDISPLAY(){return 6};
 
   constructor(props){
     super(props);
     this.log = this.log.bind(this);
+    this.display = this.display.bind(this);
     this.startOpen = this.startOpen.bind(this);
     this.startNotif = this.startNotif.bind(this);
     this.startClose = this.startClose.bind(this);
@@ -27,25 +29,40 @@ export default class Notif extends Component {
     style.bottomIcon = {...postStyle.bottomIcon, ...notifStyle.bottomIcon};
     style.bottomPost = {...postStyle.bottomPost, ...notifStyle.bottomPost};
     this.state = {style, status: Notif.STATUS_CONSTRUCT};
+    //console.log("CONST");
   }
 
   componentDidMount(){
-    this.startOpen();
+    this.display();
+  }
+
+  display(){
+    const { style } = this.state;
+    this.setState({
+      status:  Notif.STATUS_DISPLAY,
+      style: {...style,
+        self: {...style.self,
+          transition: `300ms`,
+          transform: 'translate3d(0px, 40px, 0px)'
+        }
+      }
+    });
+    setTimeout(this.startOpen, 0 );
   }
 
   startOpen(){
     const { style } = this.state;
-    const transition = Container.transitionNotif * 1;
+    const transition = Container.transitionNotif;
     this.setState({
       status:  Notif.STATUS_START_OPEN,
       style: {...style,
         self: {...style.self,
-          transition: `${transition}ms`,
+          transition: `90000ms`,
           transform: 'translate3d(0px, 0px, 0px)'
         }
       }
     });
-    setTimeout(this.startNotif, transition );
+    setTimeout(this.startNotif, transition *100);
   }
 
   startNotif(){
@@ -55,11 +72,11 @@ export default class Notif extends Component {
       status:  Notif.STATUS_START_NOTIF,
       style: {...style,
         self: {...style.self,
-          transition: `${transition}ms`,
+          transition: `${transition * 10000}ms`,
         }
       }
     });
-    setTimeout(this.startClose, Container.transitionNotifDisp );
+    setTimeout(this.startClose, Container.transitionNotifDisp *1000);
   }
 
   startClose(){
@@ -69,7 +86,7 @@ export default class Notif extends Component {
       status: Notif.STATUS_START_CLOSE,
       style: {...style,
         self: {...style.self,
-          transition: `${transition }ms`,
+          transition: `${transition * 900}ms`,
           transform: 'translate3d(0px, 40px, 0px)'
         }
       }
@@ -93,17 +110,20 @@ export default class Notif extends Component {
     case Notif.STATUS_CONSTRUCT :
       console.log("@@@ 1 STATUS_CONSTRUCT " + this.state.style.self.transform + " " + this.state.style.self.transition + " " + date);
       break;
+    case Notif.STATUS_DISPLAY :
+      console.log("@@@ 2 STATUS_DISPLAY " + this.state.style.self.transform + " " + this.state.style.self.transition + " " + date);
+      break;
     case Notif.STATUS_START_OPEN :
-      console.log("@@@ 2 STATUS_START_OPEN " + this.state.style.self.transform + " " + this.state.style.self.transition + " " + date);
+      console.log("@@@ 3 STATUS_START_OPEN " + this.state.style.self.transform + " " + this.state.style.self.transition + " " + date);
       break;
     case Notif.STATUS_START_NOTIF :
-      console.log("@@@ 3 STATUS_START_NOTIF " + this.state.style.self.transform + " " + this.state.style.self.transition + " " + date);
+      console.log("@@@ 4 STATUS_START_NOTIF " + this.state.style.self.transform + " " + this.state.style.self.transition + " " + date);
       break;
     case Notif.STATUS_START_CLOSE :
-      console.log("@@@ 4 STATUS_START_CLOSE " + this.state.style.self.transform + " " + this.state.style.self.transition + " " + date);
+      console.log("@@@ 5 STATUS_START_CLOSE " + this.state.style.self.transform + " " + this.state.style.self.transition + " " + date);
       break;
     case Notif.STATUS_UNDISPLAY : 
-      console.log("@@@ 5 STATUS_UNDISPLAY " + this.state.style.self.transform + " " + this.state.style.self.transition + " " + date);
+      console.log("@@@ 6 STATUS_UNDISPLAY " + this.state.style.self.transform + " " + this.state.style.self.transition + " " + date);
       break;
     }
   }
@@ -112,21 +132,23 @@ export default class Notif extends Component {
     const {post, app, thread, handleOnClickToggleMain} = this.props;
     const {status, style} = this.state;
     const childLayerCnt = post.layer - thread.layer;
-    //this.log(status);
 
     if(app.isOpenNotif){
       switch(status){
       case Notif.STATUS_CONSTRUCT :
+      case Notif.STATUS_DISPLAY :
       case Notif.STATUS_START_OPEN :
       case Notif.STATUS_START_NOTIF :
       case Notif.STATUS_START_CLOSE :
+
         return (
           <Post
             key={post._id}
             mode={'notif'}
             {...post}
-            app={app}
+            app={app}   
             thread={thread}
+            onTransitionEnd={this.onTransitionEnd}
             childLayerCnt={childLayerCnt}
             style={style}
             handleOnClickToggleMain={handleOnClickToggleMain}

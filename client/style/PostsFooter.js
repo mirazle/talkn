@@ -3,6 +3,7 @@ import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
 import Posts from './Posts';
+import Menu from './Menu';
 import Detail from './Detail';
 
 export default class PostsFooter{
@@ -11,7 +12,7 @@ export default class PostsFooter{
   static getWidth( app, addUnit = false ){
     let width = 0;
     if( app.type ===  define.APP_TYPES.EXTENSION){
-      width = '50%';
+      width = '100%';
     }else{
       switch( app.screenMode ){
       case App.screenModeSmallLabel : width = '100%';break;
@@ -22,14 +23,14 @@ export default class PostsFooter{
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
-  static getRight( app, addUnit = false ){
-    let right = 0;
+  static getLeft( app, addUnit = false ){
+    let left = 0;
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : right = '0px';break;
-    case App.screenModeMiddleLabel :right = '0px';break;
-    case App.screenModeLargeLabel : right = Detail.getWidth( app );break;
+    case App.screenModeSmallLabel : left = '0px';break;
+    case App.screenModeMiddleLabel :left = `${Menu.getWidth(app)}`;break;
+    case App.screenModeLargeLabel : left = Menu.getWidth( app );break;
     }
-    return addUnit ? Style.trimUnit( right ) : right ;
+    return addUnit ? Style.trimUnit( left ) : left ;
   };
 
   static getBorder( app, addUnit = false ){
@@ -70,28 +71,24 @@ export default class PostsFooter{
   }
 
   static getSelf( {app} ){
-    const position = app.screenMode === App.screenModeSmallLabel ? "fixed" : "flex";
     const borders = PostsFooter.getBorder(app);
     const borderRadius = app.type === define.APP_TYPES.EXTENSION ?
       Container.radiuses : '0px';
-
     const layout = Style.getLayoutFlex({
-      position,
+      position: "fixed",
       bottom: 0,
+      left: PostsFooter.getLeft( app ),
       flexGrow: 1,
-      right: PostsFooter.getRight( app ),
       height: PostsFooter.selfHeight,
       width: PostsFooter.getWidth( app ),
       maxWidth:  PostsFooter.getWidth( app ),
       background: Container.offWhiteRGBA,
-      zIndex: Container.maxZIndex,
       borderRadius,
       ...borders
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transform: PostsFooter.getTransform( app ),
-      transition: Container.getTransition( app ),
+      transform: PostsFooter.getTransform( app )
     });
     return Style.get({layout, content, animation});
   }

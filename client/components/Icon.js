@@ -182,6 +182,25 @@ export default class Icon extends Component{
     );
   }
 
+  static getMultistreamIcon(props){
+    const { state} = props;
+    const { style, app } = state;
+    const ThunderIcon = Icon.getThunder( IconStyle.getThunder(state) );
+    if( app.menuComponent === "Index" && app.isRootConnection ){
+      return(
+        <div
+          data-component-name={"multistreamIcon"}
+          style={style.container.multistreamIconWrap}
+          onClick={props.handleOnClickMultistream}
+        >
+          { ThunderIcon }
+        </div>
+      );
+    }else{
+      return null;
+    }
+  }
+
   static getTwitter( overStyle, state = {}, option = {} ){
     return Icon.generateImageIcon( "Twitter", overStyle, state, option );
   }

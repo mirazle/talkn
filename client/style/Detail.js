@@ -2,73 +2,107 @@ import define from '../../common/define';
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
-import Main from './Main';
+import Menu from './Menu';
 import DetailRight from './DetailRight';
 import DetailModal from './DetailModal';
-import DetailFooter from './DetailFooter';
+import Header from './Header';
 import conf from '../conf';
 
 export default class Detail {
 
-  static getDetailClass( app ){
-    return app.screenMode === App.screenModeSmallLabel ? DetailModal : DetailRight ;
-  }
+  static get detailRightSelfKey(){ return "Right" };
+  static get detailModalSelfKey(){ return "Modal" };
+  static get screenModeOfRightDetail(){ return App.screenModeLargeLabel };
   static get padding(){ return 20 };
-  static get margin(){ return 5 }
+  static get margin(){ return 5 };
+  static getDetailClass( app ){ return Detail.isRightDetail( app ) ? DetailRight : DetailModal;}
+  static isRightDetail( app ){ return app.screenMode === Detail.screenModeOfRightDetail }
 
   constructor( params ){
     const { app } = params;
+
+    const styles = {};
     const DetailClass = Detail.getDetailClass( app );
 
-    const self = DetailClass.getSelf( params );
-    const header = DetailClass.getHeader( params );
-    const headerP = DetailClass.getHeaderP( params );
-    const meta = DetailClass.getMeta( params );
-    const img = DetailClass.getImg( params );
-    const description = DetailClass.getDescription( params );
-    const metaContentTypeWrap = DetailClass.getMetaContentTypeWrap( params );
-    const metaContentType = DetailClass.getMetaContentType( params );
-    const analyze = DetailClass.getAnalyze( params );
-    const analyzeRow = DetailClass.getAnalyzeRow( params );
-    const analyzeCol = DetailClass.getAnalyzeCol( params );
-    const analyzeLabel = DetailClass.getAnalyzeLabel( params );
-    const analyzeValue = DetailClass.getAnalyzeValue( params );
-    const analyzeHr = DetailClass.getAnalyzeHr( params );
-    const body = DetailClass.getBody( params );
-    const h1s = DetailClass.getH1s( params );
-    const h1sLi = DetailClass.getH1sLi( params );
-    const footer = DetailClass.getFooter( params );
-    const footerChild = DetailClass.getFooterChild( params );
-    const footerChildLike = DetailClass.getFooterChildLike( params );
-    const footerChildMoney = DetailClass.getFooterChildMoney( params );
-    const footerChildShare = DetailClass.getFooterChildShare( params );
+    styles[ `self${Detail.detailRightSelfKey}` ] = Detail.getDetailRightSelf( params );
+    styles[ `self${Detail.detailModalSelfKey}` ] = Detail.getDetailModalSelf( params );
+    styles.header = DetailClass.getHeader( params );
+    styles.headerP = DetailClass.getHeaderP( params );
+    styles.meta = DetailClass.getMeta( params );
+    styles.img = DetailClass.getImg( params );
+    styles.description = DetailClass.getDescription( params );
+    styles.metaContentTypeWrap = DetailClass.getMetaContentTypeWrap( params );
+    styles.metaContentType = DetailClass.getMetaContentType( params );
+    styles.analyze = DetailClass.getAnalyze( params );
+    styles.analyzeRow = DetailClass.getAnalyzeRow( params );
+    styles.analyzeCol = DetailClass.getAnalyzeCol( params );
+    styles.analyzeLabel = DetailClass.getAnalyzeLabel( params );
+    styles.analyzeValue = DetailClass.getAnalyzeValue( params );
+    styles.analyzeHr = DetailClass.getAnalyzeHr( params );
+    styles.body = DetailClass.getBody( params );
+    styles.h1s = DetailClass.getH1s( params );
+    styles.h1sLi = DetailClass.getH1sLi( params );
+    styles.footer = DetailClass.getFooter( params );
+    styles.footerChild = DetailClass.getFooterChild( params );
+    styles.footerChildLike = DetailClass.getFooterChildLike( params );
+    styles.footerChildMoney = DetailClass.getFooterChildMoney( params );
+    styles.footerChildShare = DetailClass.getFooterChildShare( params );
+    styles.metaItems = DetailClass.getMetaItems( params );
 
-    const metaItems = DetailClass.getMetaItems( params );
-    return {
-      self,
-      header,
-      headerP,
-      meta,
-      img,
-      description,
-      metaContentTypeWrap,
-      metaContentType,
-      analyze,
-      analyzeRow,
-      analyzeCol,
-      analyzeLabel,
-      analyzeValue,
-      analyzeHr,
-      body,
-      h1s,
-      h1sLi,
-      footer,
-      footerChild,
-      footerChildLike,
-      footerChildMoney,
-      footerChildShare,
-      metaItems
-    }
+    return styles;
+  }
+
+  static getDetailModalSelf( {app} ){
+    const screenMode = App.getScreenMode();
+    const display = screenMode === App.screenModeLargeLabel ? "none" : "block";
+    const left = screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
+    const background = app.type === define.APP_TYPES.EXTENSION ?
+      "none" : Container.reliefRGB;
+    const height = DetailModal.getHeight(app);
+    const layout = Style.getLayoutBlock({
+      display,
+      position: 'fixed',
+      top: "100%",
+      left,
+      width: DetailModal.getWidth( app ),
+      height,
+      margin: DetailModal.getMargin(app),
+      background,
+      border: Container.border,
+      borderBottom: 0,
+      borderRadius: Container.radiuses,
+      WebkitOverflowScrolling: 'touch',
+      zIndex: 1
+    });
+    const content = Style.getContentBase();
+    const animation = Style.getAnimationBase({
+      transform: DetailModal.getTransform( app ),
+      transition: Container.getTransition( app ),
+    });
+
+    return Style.get({layout, content, animation});
+  }
+
+  static getDetailRightSelf( {app} ){
+    const layout = Style.getLayoutBlock({
+      position: "fixed",
+      top: "0px",
+      right: "0px",
+      width: DetailRight.getWidth( app ),
+      minWidth: DetailRight.getWidth( app ),
+      height: `calc( 100% - ${Header.headerHeight}px )`,
+      WebkitOverflowScrolling: 'touch',
+      background: Container.calmRGB,
+      overflow: 'scroll',
+      margin: `${Header.headerHeight}px 0px 0px 0px`,
+      borderLeft: Container.border,
+      zIndex: 0
+    });
+    const content = Style.getContentBase();
+    const animation = Style.getAnimationBase({
+      transition: "0ms"
+    });
+    return Style.get({layout, content, animation});
   }
 
   static getFooterBorders( app ){
@@ -79,7 +113,7 @@ export default class Detail {
     }else{
       return app.screenMode === App.screenModeSmallLabel ?
         {borderTop: Container.border} :
-        {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border} ;
+        {borderTop: Container.border} ;
     }
   }
 
@@ -100,7 +134,12 @@ export default class Detail {
   }
 
   static getWidth( app, addUnit = false ){
-    return Detail.getDetailClass( app ).getWidth( app, addUnit );
+    let width = '100%';
+    switch( app.screenMode ){
+    case App.screenModeLargeLabel :
+      width = '30%';
+    }
+    return addUnit ? width : Style.trimUnit( width ) ;
   }
 
   static getTransform( app ){
@@ -110,8 +149,8 @@ export default class Detail {
   static getHeader(){
     const layout = Style.getLayoutFlex({
       width: '100%',
-      height: Main.headerHeight,
-      maxHeight: Main.headerHeight,
+      height: Header.headerHeight,
+      maxHeight: Header.headerHeight,
       borderBottom: Container.border,
       background: Container.whiteRGB,
       padding: '0px 20px',
@@ -126,7 +165,7 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: 'auto',
-      maxHeight: Main.headerHeight,
+      maxHeight: Header.headerHeight,
     });
     const content = Style.getContentBase({
       lineHeight: '1.8',
@@ -141,8 +180,8 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       overflow: 'scroll',
       width: '100%',
-      height: `calc( 100% - ${ Main.headerHeight * 2 }px )`,
-      background: Container.lightGrayRGB,
+      height: `calc( 100% - ${ Header.headerHeight * 2 }px )`,
+      background: Container.lightGrayRGBA,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -153,7 +192,7 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: 'initial',
-      background: Container.whiteRGB,
+      background: Container.whiteRGBA,
       borderBottom: Container.border,
     });
     const content = Style.getContentBase();
@@ -209,7 +248,7 @@ export default class Detail {
 
   static getMetaContentType(){ 
     const layout = Style.getLayoutBlock({
-      background: Container.lightGrayRGB,
+      background: Container.reliefRGB,
       width: 'initial',
       height: 'initial',
       margin: "10px 0px",
@@ -335,9 +374,9 @@ export default class Detail {
     const positions = Detail.getFooterPositions(app);
     const borders = Detail.getFooterBorders(app);
     const layout = Style.getLayoutFlex({
-      width: DetailFooter.getWidth(app),
+      width: "100%",
       background: Container.offWhiteRGB,
-      height: Main.headerHeight,
+      height: Header.headerHeight,
       zÎndex: "1px",
       ...positions,
       ...borders

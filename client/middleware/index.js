@@ -19,20 +19,20 @@ export default {
 };
 
 const functions = {
-	  'SERVER_TO_CLIENT[BROADCAST]:find': ( state, action ) => {
-      action.app = state.app;
-      return action;
-    },
-	  'SERVER_TO_CLIENT[BROADCAST]:changeThread': ( state, action ) => {
-      action.app = state.app;
-      console.log(action);
-      return action;
-    },
-	  'SERVER_TO_CLIENT[BROADCAST]:disconnect': ( state, action ) => {
-      action.app = state.app;
-      return action;
-    },
-    "SERVER_TO_CLIENT[EMIT]:find": ( state, action ) => {
+  'SERVER_TO_CLIENT[BROADCAST]:find': ( state, action ) => {
+    action.app = state.app;
+    return action;
+  },
+  'SERVER_TO_CLIENT[BROADCAST]:changeThread': ( state, action ) => {
+    action.app = state.app;
+    console.log(action);
+    return action;
+  },
+  'SERVER_TO_CLIENT[BROADCAST]:disconnect': ( state, action ) => {
+    action.app = state.app;
+    return action;
+  },
+  "SERVER_TO_CLIENT[EMIT]:find": ( state, action ) => {
     action = resolve.caseNoExistResponsePost(state, action);
     action.app = {...state.app, ...action.app};
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
@@ -55,11 +55,12 @@ const functions = {
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": ( state, action ) => {
     const app = state.app;
+    action.app = app;
     if(define.APP_TYPES.EXTENSION === app.type && !app.isOpenMain){
+      action.app.isOpenNotif = true;
       const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
       talknAPI.extension("openNotif", {transition});
     }
-    action.app = app;
     action = Posts.getAnyActionPosts(action);
     return action;
   }, 
@@ -93,7 +94,8 @@ const functions = {
     action.postsLogs = state.postsLogs;
     return action;
   },
-  "ON_CLICK_MULTISTREAM": ( state, action ) => {
+  "ON_CLICK_TOGGLE_MAIN": ( state, action ) => {
+
     return action;
   },  
   "ON_CLICK_MENU": ( state, action ) => {
@@ -125,7 +127,28 @@ const functions = {
     action.app.isOpenMain = App.getIsOpenMain( action.app );
     return action;
   },
+  "RESIZE_START_WINDOW": ( state, action ) => {
+    console.log("RESIZE_START_WINDOW " + state.app.screenMode);
+    action.app = {...state.app, ...action.app};
+    console.log("RESIZE_START_WINDOW " + action.app.screenMode);
+    return action;
+  },
   "RESIZE_END_WINDOW": ( state, action ) => {
+    const beforeScreenMode = state.app.screenMode;
+    const afterScreenMode = action.app.screenMode;
+/*
+    if(afterScreenMode === App.screenModeMiddleLabel){
+      console.log("EXE");
+      action.app = {...state.app, ...action.app};
+      action.style = state.style;
+      action.isTransition = false;
+      action.isOpenDetail = false;
+      console.log(action.style.detail.self);
+      action.style.detail.self.transition = "0ms";
+      action.style.detail.self.transform = "translate3d(0%, 0px, 0px)";
+//      action.style.detail.self.transition = "0ms";
+    }
+*/
     return action;
   },
   "ON_CLICK_TOGGLE_DISP_MENU": ( state, action ) => {
@@ -135,6 +158,7 @@ const functions = {
   },
   "ON_CLICK_TOGGLE_DISP_DETAIL": ( state, action ) => {
     action.app = {...action.app, ...state.app};
+ //   action.app.isOpenDetail = action.app.isOpenDetail ? false : true;
     return action;
   },
 }
