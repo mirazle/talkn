@@ -57,7 +57,7 @@ DNS.5 = auto.localhost
 
 ### keychainAccess
 
-keychainAccessで「信頼」
+アプリケーション/ユーティリティ/keychainAccessで「信頼」
 「システム」の証明書一覧のヘッダー部分の「＋」ボタンを押して生成したcrtを開く。
 その後、詳細を表示し「常に信頼する」を選択。
 
