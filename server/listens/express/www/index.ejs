@@ -1,8 +1,188 @@
 
 <!doctype html>
 <html>
-<head></head>
+<head>
+<style type="text/css">
+    body {
+        color: rgb(255,255,255);
+        margin: 0;
+        font-family: "SF Pro JP","SF Pro Text","SF Pro Icons","Hiragino Kaku Gothic Pro","ヒラギノ丸ゴ Pro W3","メイリオ","Meiryo","ＭＳ Ｐゴシック","Helvetica Neue","Helvetica","Arial",sans-serif;
+    }
+
+    .container {
+        position: relative;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        margin: 0;
+        width: 100%;
+        height: auto;
+        z-index: 2;
+    }
+
+    video {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: 1;
+    }
+
+    section {
+        width: 100%;
+        height: 960px;
+    }
+
+    section.one{
+        width: auto;
+    }
+
+    .eyecatch {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
+        margin: 230px 0px 70px 0px;
+        padding: 30px 0;
+    }
+
+    .subtitle {
+        letter-spacing: 0.75em;
+    }
+
+    h1 {
+        margin: 0;
+        text-align: center;
+        font-size: 5em;
+        color: rgb(79, 174, 159);
+    }
+
+    h2 {
+        margin: 0;
+        text-align: center;
+        font-size: 2em;
+        letter-spacing: 0.25em;
+        text-align: left;
+    }
+
+    form {
+        text-align: center;
+        margin: 100px 0px 100px 0px;
+    }
+
+    input {
+        min-width: 300px;
+        width: 33%;
+        max-width: 600px;
+        border: 5px solid rgba( 0,0,0,0.1);
+        border-radius: 20px;
+        padding: 10px;
+        background-color: rgba(255,255,255,0.7);
+        outline: 0;
+        text-indent: 10px;
+    }
+
+    ::placeholder {
+        color: rgba( 0,0,0,0.25);
+        font-size: 1.3em;
+        letter-spacing: 0.75vw;
+    }
+
+    header {
+        position: fixed;
+        top: 0px;
+        background: rgba(55,55,55,0.6);
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
+        padding: 15px;
+    }
+
+    header .bar {
+        display: inline-block;
+    }
+
+    header ul {
+        display: inline-flex;
+        justify-content: space-between;
+        width: 50%;
+        max-width: 800px;
+        min-width: 320px;
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        display: inline;
+        margin: 0;
+        padding: 0;
+    }
+
+    section.two{
+        padding: 30px;
+        background-image: url(//assets.localhost/www/img1.jpg);
+        background-position: 50% 40%;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    a:link {
+        font-size: 0.75em;
+        color: rgb(255,255,255);
+        text-decoration: none;
+    }
+    a:visited {
+        color: rgb(255,255,255);
+    }
+    a:hover {
+        color: rgb(255,255,255);
+    }
+    a:active {
+        color: rgb(255,255,255);
+    }
+</style>
+
+</head>
 <body>
-WWW
+    <video src="https://assets.localhost/www/movie2.mp4" autoplay loop muted></video>
+    <div class="container">
+        <header>
+            <ul>
+                <li><a href="https://www.talkn.io">PORTAL</a></li>
+                <li><a href="https://www.talkn.io#about">ABOUT APP</a></li>
+                <li><a href="https://www.talkn.io#company">COMPANY</a></li>
+                <li><a href="https://www.talkn.io#inquiry">INQUIRY</a></li>
+            </ul>
+        </header>
+        <section class="one">
+            <div class="eyecatch">
+                <h1>
+                    talkn.io
+                    <!-- <img src="https://assets.localhost/title.png" width="320px" /> -->
+                </h1>
+                <span class="subtitle">- Comment to web -<span>
+            </div>
+
+            <form action="http://talkn.io" method="get">
+                <input type="text" size="40" maxlength="20" placeholder="Favorite url or phrase">
+            </form>
+        </section>
+        <section class="two">
+            <h2>
+                Comments to you<br />
+                all over the world.
+            </h2>
+        </section>
+    </div>
 </body>
 </html>
