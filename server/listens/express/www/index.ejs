@@ -23,13 +23,21 @@
         z-index: 1;
     }
 
-    .fixBg {
-        position: absolute;
+    .fixBackground {
+        position: fixed;
         top: 0;
         left: 0;
         z-index: -1;
         width: 100%;
         height: 100%;
+    }
+
+    .fixBackground {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: inherit;
+        height: inherit;
         background: url("//<%= assetsURL %>/www/img1.jpg") center center no-repeat;
         background-size: cover;
     }
@@ -771,7 +779,9 @@
     <!--
     <video src="https://assets.localhost/www/movie2.mp4" autoplay loop muted></video>
     -->
-    <div class="fixBg"></div>
+    <div class="fixBackground">
+        <div class="background"></div>
+    </div>
     <div class="container">
 
         <header>
