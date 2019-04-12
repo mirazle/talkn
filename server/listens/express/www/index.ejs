@@ -8,7 +8,13 @@
         margin: 0;
         font-family: 游ゴシック, YuGothic, "Hiragino Sans", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, sans-serif;
         letter-spacing: 0.05em;
-        font-size: 18px;
+        font-size: 100%;
+
+        background-image: url(//assets.localhost/www/img1.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
     }
 
     video {
@@ -44,119 +50,11 @@
         height: 960px;
     }
 
-    section.one{
-        flex-direction: column;
-    }
-
-    section.two{
-        flex-direction: initial;
-        background: linear-gradient(to top right, rgba(9, 104, 89,0.9), rgba(109, 204, 189,0.9));
-/*
-        background-image: url(//assets.localhost/www/img1.jpg);
-        background-position: 50% 40%;
-        background-size: cover;
-        background-repeat: no-repeat;
-*/
-    }
-
-    section.three{
-
-    }
-
-    section.one .content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    section.two .content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: row;
-        position: absolute;
-        width: 100%;
-    }
-
-    .content-left {
-        width: 55%;
-    }
-
-    .content-right {
-        width: 45%;
-        height: 500px;
-        background-image: url(//assets.localhost/www/cap1.png);
-        background-position: 10% 50%;
-        background-size: contain;
-        background-repeat: no-repeat;
-    }
-
-    .eyecatch {
-        display: flex;
-        align-content: center;
-        justify-content: center;
-        flex-direction: column;
-        flex-wrap: wrap;
-        width: 100%;
-        margin: 0px 0px 100px 0px;
-    }
-
-    .subtitle {
-        letter-spacing: 0.7em;
-    }
-
-    h1 {
-        margin: 0;
-        text-align: center;
-        font-size: 5em;
-        color: rgb(79, 174, 159);
-    }
-
-    h2 {
-        padding: 0;
-        margin: 0;
-        text-align: right;
-        font-size: 45px;
-        letter-spacing: 0.25em;
-    }
-
     h3 {
-        padding: 15px 0px 0px 0px;
+        padding: 1vw 0px 0px 0px;
         margin: 0;
-        text-align: right;
-        font-size: 15px;
+        font-size: 1.5em;
         letter-spacing: 0.25em;
-    }
-
-    form {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 70%;
-        margin: 0px 0px 100px 0px;
-    }
-
-    input {
-        box-sizing: border-box;
-        min-width: 300px;
-        width: 100%;
-        max-width: 600px;
-        border: 5px solid rgba( 0,0,0,0.2);
-        border-radius: 20px;
-        padding: 10px;
-        background-color: rgba(255,255,255,0.7);
-        outline: 0;
-        text-indent: 2em;
-        letter-spacing: 1em;
-    }
-
-    ::placeholder {
-        color: rgba( 120,120,120 );
-        font-size: 1.3em;
-        text-indent: 3vw;
-        letter-spacing: 0.75vw;
     }
 
     header {
@@ -262,10 +160,312 @@
         transform: translate3d( 0px, 0px, 0px );
     }
 
+    ::placeholder {
+        color: rgba( 120,120,120 );
+        font-size: 1.3em;
+        text-indent: 3vw;
+        letter-spacing: 0.75vw;
+    }
+    
+    input {
+        box-sizing: border-box;
+        border: 5px solid rgba( 0,0,0,0.2);
+        border-radius: 20px;
+        padding: 10px;
+        background-color: rgba(255,255,255,0.7);
+        outline: 0;
+        text-indent: 2em;
+        letter-spacing: 1em;
+    }
+
+    section .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        position: absolute;
+        width: 100%;
+    }
+
+    section.one{
+        flex-direction: column;
+    }
+
+    section.one .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    section.one .eyecatch {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
+        margin: 0px 0px 100px 0px;
+    }
+
+    section.one .subtitle {
+        letter-spacing: 0.75em;
+    }
+
+    section.one h1 {
+        margin: 0;
+        text-align: center;
+        font-size: 5em;
+        color: rgb(79, 174, 159);
+    }
+
+    section.one form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 70%;
+        margin: 0px 0px 100px 0px;
+    }
+
+    section.one input {
+        min-width: 300px;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    section.two{
+        flex-direction: initial;
+        background: linear-gradient(to top right, rgba(9, 104, 89,0.9), rgba(109, 204, 189,0.9));
+        font-size: 1vw;
+    }
+
     section.two .bar {
         width: 100%;
-        height: 300px;
+        height: 25vw;
+        max-height: 300px;
         background: rgba( 79,174,159, 0.8);
+    }
+
+    section.two .content-left {
+        width: 55%;
+    }
+
+    section.two .content-right {
+        width: 45%;
+        height: 500px;
+        background-image: url(//assets.localhost/www/cap1.png);
+        background-position: 10% 50%;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    section.two h2 {
+        padding: 0;
+        margin: 0;
+        font-size: 3.5em;
+        letter-spacing: 0.25em;
+        text-align: right;
+    }
+
+    section.two h3 {
+        text-align: right;
+    }
+
+    section.three {
+        flex-direction: initial;
+        font-size: 1vw;
+    }
+
+    section.three .content {
+        height: inherit;
+    }
+
+    section.three .content-left {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 50%;
+        height: inherit;
+        background: rgba(70,70,70,0.9);
+    }
+
+    section.three h2 {
+        width: 90%;
+        padding: 0;
+        margin: 0;
+        font-size: 3.5em;
+        letter-spacing: 0.2em;
+        text-align: left;
+    }
+
+    section.three h3 {
+        width: 90%;
+    }
+
+    section.three .content-left pre {
+        font-size: 2.5em;
+        letter-spacing: 0.15em;
+    }
+
+    section.three .content-left .one-line{
+        color: rgb(173, 154, 255);
+    }
+
+    section.three .content-left .tag-name{
+        color: rgb(255, 115, 157);
+    }
+
+    section.three .content-left .property-name{
+        color: rgb(216, 255, 121);
+    }
+
+    section.three .content-left .value{
+        color: rgb(220, 220, 30);
+    }
+
+
+    section.three .content-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+        width: 50%;
+        height: inherit;
+    }
+
+    section.three .content-right-top {
+        width: 100%;
+        height: 33.3%;
+        background: rgba(255,255,255,0.9);
+    }
+
+    section.three .content-right-middle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        height: 33.3%;
+        background: rgba(70,70,70,0.9);
+        letter-spacing: 0.25em;
+    }
+
+    section.three .content-right-bottom {
+        width: 100%;
+        height: 33.3%;
+        background: rgba(255,255,255,0.9);
+    }
+
+    section.three h3 {
+        text-align: left;
+    }
+
+    section.three input {
+        width: 80%;
+        max-width: 600px;
+        height: 40px;
+        margin: 10px;
+        border: 0;
+        border-radius: 20px;
+        outline: 0;
+        background: rgba(255,255,255,0.9);
+        text-indent: 2em;
+        letter-spacing: 0.5em;
+        color: rgb(130,130,130);
+        font-weight: bold;
+    }
+
+    section.fourth {
+        flex-direction: column;
+        justify-content: flex-start;
+        background: rgba(65, 105, 225, 0.8);
+        font-size: 1vw;
+    }
+
+    section.fourth .future {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: calc( 20% + 80px);
+        width: 100%;
+        font-size: 3.5em;
+        font-weight: bold;
+        letter-spacing: 0.2em;
+    }
+
+    section.fourth .under-bar {
+        position: relative;
+        left: -0.25vw;
+        width: 16vw;
+        height: 5px;
+        background: rgb( 255,255,255);
+        border-radius: 30px;
+    }
+
+    section.fourth .content{
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: row;
+        width: 100%;
+        height: calc( 80% - 80px );
+    }
+
+    section.fourth .content-left, section.fourth .content-right {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        flex-direction: column;
+        box-sizing: border-box;
+        margin: 0 5%;
+        border: 5px solid rgb(255,255,2555);
+        border-radius: 20px;
+        width: 40%;
+        height: 65%;
+        text-align: center;
+        background: rgba(65, 105, 225, 1);
+    }
+
+    section.fourth .terminal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 25%;
+        font-size: 3.5em;
+    }
+
+    section.fourth .status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 25%;
+        padding: 10px;
+        font-size: 2em;
+    }
+
+    section.fourth .tools {
+        width: 100%;
+        height: 50%;
+        background-image: url(//assets.localhost/www/tools.png);
+        background-position: 50% 40%;
+        background-repeat: no-repeat;
+        background-size: 33%;
+    }
+
+    footer {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        height: 300px;
+        background: rgba(80,80,80,1);
     }
 
     .highlight {
@@ -287,43 +487,97 @@
         color: rgb(255,255,255);
     }
 
-    @media screen and (min-width:0px) and ( max-width:480px) {
+    @media screen and (min-width:0px) and ( max-width:540px) {
         h2 {
-            font-size: 18px;
-            letter-spacing: 0.2em;
+            font-size: 16px !important;
         }
 
         h3 {
-            font-size: 10px;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.2em !important;
+        }
+
+        section.two .bar {
+            height: 120px !important;
+        }
+
+        section.three .content {
+            flex-direction: column-reverse !important;
+        }
+
+        section.three .content-left {
+            width: 100% !important;
+            height: 50% !important;
+        }
+
+        section.three .content-left pre {
+            font-size: 4em;
+        }
+
+        section.three .content-right {
+            width: 100% !important;
+            height: 50% !important;
+        }
+
+        section.three h2 {
+            width: 70% !important;
+        }
+
+        section.three h3 {
+            width: 70% !important;
+        }
+
+        section.fourth .terminal {
+            font-size: 25px !important;
+        }
+
+        section.fourth .status {
+            font-size: 15px !important;
         }
     }
 
-    @media screen and (min-width:480px) and ( max-width:860px) {
+    @media screen and (min-width:1206px) {
         h2 {
-            font-size: 35px;
-            letter-spacing: 0.2em;
+            font-size: 45px !important;
+        }
+
+        pre {
+            font-size: 30px !important;
         }
 
         h3 {
-            font-size: 13px;
-            letter-spacing: 0.2em;
+            font-size: 18px !important;
+        }
+
+        section.fourth .future {
+            font-size: 45px !important;
+        }
+
+        section.fourth .under-bar {
+            width: 200px;
+        }
+
+        section.fourth .terminal {
+            font-size: 45px !important;
+        }
+
+        section.fourth .status {
+            font-size: 22px !important;
+        }
+
+        section.fourth .tools {
+            background-size: 128px;
+        }
+
+        section.fourth .content-left {
+            margin: 0 10%;
+            width: 30%;
+        }
+
+        section.fourth .content-right {
+            margin: 0 10%;
+            width: 30%;
         }
     }
-
-    @media screen and (min-width:860px) and ( max-width:1024px) {
-        h2 {
-            font-size: 40px;
-            letter-spacing: 0.2em;
-        }
-
-        h3 {
-            font-size: 15px;
-            letter-spacing: 0.2em;
-        }
-    }
-
-
 </style>
 
 <script type="text/javascript">
@@ -483,7 +737,9 @@
 
 </head>
 <body>
+    <!--
     <video src="https://assets.localhost/www/movie2.mp4" autoplay loop muted></video>
+    -->
     <div class="container">
 
         <header>
@@ -522,11 +778,11 @@
                         talkn
                         <!-- <img src="https://assets.localhost/title.png" width="320px" /> -->
                     </h1>
-                    <span class="subtitle">- Comment to web -<span>
+                    <span class="subtitle"> - Comment to web - <span>
                 </div>
 
                 <form action="http://talkn.io" method="get">
-                    <input type="text" size="40" placeholder="Favorite URL">
+                    <input type="text" size="40" placeholder="Your favorite URL">
                 </form>
             </div>
         </section>
@@ -537,7 +793,9 @@
             <div class="content">
                 <div class="content-left">
                     <h2>
-                        <span class="highlight">Commnet</span> to<br />
+                        <span class="highlight">
+                            Commnet
+                        </span> to<br />
                         all websites<br />
                         around the world
                     </h2>
@@ -549,20 +807,74 @@
         </section>
 
         <section class="three">
-            3
-            <h2>
-                3 Comments to you<br />
-                all over the world.
-            </h2>
+
+                <div class="content">
+                    <code class="content-left">
+                        <pre>
+<span class="one-line">// Embed one line.</span>
+<span class="tag-name">&lt;iframe</span>
+    <span class="property-name">src</span>=<span class="value">"//talkn.io"</span>
+    <span class="property-name">width</span>=<span class="value">"300px"</span>
+    <span class="property-name">height</span>=<span class="value">"450px"</span>
+    <span class="property-name">frameBorder</span>=<span class="value">"0"</span>
+<span class="tag-name">/&gt;</span>
+                        </pre>
+                        <input type="text" class="url"  placeholder="URL" value="/" />
+                        <input type="text" class="width"  placeholder="WIDTH" value="300" />
+                        <input type="text" class="height"  placeholder="HEIGHT" value="420" />
+                    </code>
+                    <div class="content-right">
+                        <div class="content-right-top"></div>
+                        <div class="content-right-middle">
+                            <h2>
+                                <div>
+                                    <span class="highlight">
+                                        Embed
+                                    </span>
+                                    </span>
+                                        to
+                                        <br />
+                                        all websites<br />
+                                        around the world
+                                    </span>                                
+                                </div>
+
+                            </h2>
+                            <h3>- You can start talkn anywhere -</h3>
+                        </div>
+                        <div class="content-right-bottom"></div>
+                    </div>
+                </div>
         </section>
 
         <section class="fourth">
-            4
-            <h2>
-                4 Let's talk about daily<br />
-                "fun" and "impression".
-            </h2>
+            <div class="future">
+                Future
+                <div class="under-bar"></div>
+            </div>
+            <div class="content">
+                <div class="content-left">
+                    <div class="terminal">iOS</div>
+                    <div class="status">
+                        Expected to be released<br/>
+                        in August 2019.
+                    </div>
+                    <div class="tools"></div>
+                </div>
+                <div class="content-right">
+                    <div class="terminal">Android</div>
+                    <div class="status">
+                        Expected to be released<br/>
+                        in August 2019.
+                    </div>
+                    <div class="tools"></div>
+                </div>
+            </div>
         </section>
+
+         <footer>
+             <div>Copyright ©  2019 talkn co., ltd.  All Rights Reserved.</div>
+        </footer>
     </div>
 </body>
 </html>
