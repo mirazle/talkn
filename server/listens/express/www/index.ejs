@@ -10,7 +10,7 @@
         letter-spacing: 0.05em;
         font-size: 100%;
 
-        background-image: url(//assets.localhost/www/img1.jpg);
+        background-image: url("//<%= assetsURL %>/www/img1.jpg");
         background-position: center center;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -126,7 +126,7 @@
         height: inherit;
         margin: 0;
         padding: 0;
-        font-size: 0.75em;
+        font-size: 0.78em;
         cursor: pointer;
     }
 
@@ -211,13 +211,15 @@
 
     section.one .subtitle {
         letter-spacing: 0.75em;
+        text-shadow: 0px 0px 3px rgb(0,0,0);
     }
 
     section.one h1 {
         margin: 0;
         text-align: center;
-        font-size: 5em;
-        color: rgb(79, 174, 159);
+        font-size: 5.5em;
+        color: rgba(79, 174, 159, 1);
+        text-shadow: 0px 0px 50px rgb(255,255,255)
     }
 
     section.one form {
@@ -254,7 +256,7 @@
     section.two .content-right {
         width: 45%;
         height: 500px;
-        background-image: url(//assets.localhost/www/cap1.png);
+        background-image: url("//<%= assetsURL %>/www/cap1.png");
         background-position: 10% 50%;
         background-size: contain;
         background-repeat: no-repeat;
@@ -451,7 +453,7 @@
     section.fourth .tools {
         width: 100%;
         height: 50%;
-        background-image: url(//assets.localhost/www/tools.png);
+        background-image: url("//<%= assetsURL %>/www/tools.png");
         background-position: 50% 40%;
         background-repeat: no-repeat;
         background-size: 33%;
@@ -532,6 +534,10 @@
 
         section.fourth .status {
             font-size: 15px !important;
+        }
+
+        section.fourth .tools {
+            background-size: 50%;
         }
     }
 
@@ -639,9 +645,11 @@
     }
 
     function setMenuColor(){
-        window.menuLis.forEach( (menuLi, i) => {
-            menuLi.style.color = screen === i ? menuStyles.active.color : menuStyles.unactive.color;
-        } );
+        if( window.menuLis ){
+            window.menuLis.forEach( (menuLi, i) => {
+                menuLi.style.color = screen === i ? menuStyles.active.color : menuStyles.unactive.color;
+            } );
+        }
     }
 
     function movePointer(num = 0, animateScroll = false){
@@ -711,6 +719,22 @@
 			return -c/2 * (t*(t-2) - 1) + b;
 		};
 	}
+
+    function onMouseOverInput( className ){
+        document.querySelector("section." + className ).style.border = "5px solid rgba( 79,174,159,0.8)";
+    } 
+
+    function onMouseLeaveInput( className ){
+        document.querySelector("section." + className ).style.border = "5px solid rgba( 0,0,0,0.2)";
+    } 
+
+    function onFocusInput( className ){
+        document.querySelector("section." + className ).style.border = "5px solid rgba( 79,174,159,0.8)";
+    } 
+
+    function onBlurInput( className ){
+        document.querySelector("section." + className ).style.border = "5px solid rgba( 0,0,0,0.2)";
+    } 
 
     window.onload =  ( e ) => {
         setupMath();
@@ -782,7 +806,15 @@
                 </div>
 
                 <form action="http://talkn.io" method="get">
-                    <input type="text" size="40" placeholder="Your favorite URL">
+                    <input
+                        type="text"
+                        size="40"
+                        placeholder="Your favorite URL"
+                        onmouseover="onMouseOverInput('one input')"
+                        onmouseleave="onMouseLeaveInput('one input')"
+                        onfocus="onFocusInput('one input')"
+                        onblur="onBlurInput('one input')"
+                    />
                 </form>
             </div>
         </section>
@@ -817,11 +849,39 @@
     <span class="property-name">width</span>=<span class="value">"300px"</span>
     <span class="property-name">height</span>=<span class="value">"450px"</span>
     <span class="property-name">frameBorder</span>=<span class="value">"0"</span>
-<span class="tag-name">/&gt;</span>
-                        </pre>
-                        <input type="text" class="url"  placeholder="URL" value="/" />
-                        <input type="text" class="width"  placeholder="WIDTH" value="300" />
-                        <input type="text" class="height"  placeholder="HEIGHT" value="420" />
+<span class="tag-name">/&gt;</span></pre>
+<!--
+                        <input  
+                            type="text" 
+                            class="url"
+                            placeholder="URL"
+                            value="/"
+                            onmouseover="onMouseOverInput('three input.url')"
+                            onmouseleave="onMouseLeaveInput('three input.url')"
+                            onfocus="onFocusInput('three input.url')"
+                            onblur="onBlurInput('three input.url')"
+                        />
+                        <input
+                            type="text"
+                            class="width" 
+                            placeholder="WIDTH"
+                            value="300"
+                            onmouseover="onMouseOverInput('three input.width')"
+                            onmouseleave="onMouseLeaveInput('three input.width')"
+                            onfocus="onFocusInput('three input.width')"
+                            onblur="onBlurInput('three input.width')"
+                        />
+                        <input
+                            type="text"
+                            class="height"
+                            placeholder="HEIGHT"
+                            value="420"
+                            onmouseover="onMouseOverInput('three input.height')"
+                            onmouseleave="onMouseLeaveInput('three input.height')"
+                            onfocus="onFocusInput('three input.height')"
+                            onblur="onBlurInput('three input.height')"
+                        />
+-->
                     </code>
                     <div class="content-right">
                         <div class="content-right-top"></div>
