@@ -82,7 +82,7 @@
         justify-content: center;
         flex-direction: column;
         width: 100%;
-        height: 80px;
+        height: 100px;
         z-index: 1;
     }
 
@@ -104,9 +104,9 @@
 
     nav {
         position: absolute;
-        top: 30px;
+        top: 45px;
         width: inherit;
-        height: 50px;
+        height: 55px;
         background: rgba(255,255,255,0.9);
         color: rgb(100, 100, 100);
         box-sizing: border-box;
@@ -122,7 +122,7 @@
         position: absolute;
         top: 0px;
         flex-direction: row;
-        height: 30px;
+        height: 45px;
         background: rgba(0,0,0,0.8);
     }
 
@@ -130,7 +130,7 @@
         display: flex;
         justify-content: space-between;
         width: inherit;
-        height: 45px;
+        height: 50px;
         max-width: 800px;
         min-width: 320px;
         margin: 0;
@@ -165,7 +165,7 @@
     .pointerWrap {
         position: absolute;
         height: initial;
-        top: 38px;
+        top: 43px;
     }
 
     .pointer{
@@ -509,13 +509,26 @@
         color: rgb(255,255,255);
     }
 
-    @media screen and (min-width:0px) and ( max-width:540px) {
+    @media screen and (min-width:0px) and ( max-width:600px) {
+
+        section.one h1 {
+            font-size: 4em !important;
+        }
+
+        section.one .subtitle {
+            font-size: 0.8em !important;
+        }
+
         h2 {
             font-size: 16px !important;
         }
 
         h3 {
             letter-spacing: 0.2em !important;
+        }
+
+        section {
+            height: 600px;
         }
 
         section.two .bar {
@@ -607,8 +620,8 @@
 </style>
 
 <script type="text/javascript">
-    const headerHeight = 80;
-    const oneScreenHeight = 960;
+    const responsiveWidth = 640;
+    const headerHeight = 100;
     const pointerStyles = [
         {width: "10%", transform: "translate3d(0%,0px,0px)"},
         {width: "10%", transform: "translate3d(250%,0px,0px)"},
@@ -619,15 +632,9 @@
         active: {color: "rgb(79, 174, 159)"},
         unactive: {color: "rgb(55, 55, 55)"},
     }
-    const screenScrollYs = [
-        0,
-        ( ( oneScreenHeight ) + headerHeight ),
-        ( ( oneScreenHeight * 2 ) + headerHeight ),
-        ( ( oneScreenHeight * 3 ) + headerHeight ),
-    ];
-
     let screen = 0;
     let isAnimateScrolling = false;
+    let oneScreenHeight = 600;
 
     function onMouseOver(num){
         movePointer(num);
@@ -645,21 +652,26 @@
         setMenuColor();
     }
 
+    function getCalcScreen(){
+        const { scrollY, innerHeight } = window;
+        console.log( scrollY + " " + innerHeight + " " + oneScreenHeight );
+        if( 0 <= scrollY && scrollY < ( oneScreenHeight * 1 ) + headerHeight) {
+            screen = 0;
+        }else if( oneScreenHeight + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 2 ) + headerHeight ){
+            screen = 1;
+        }else if( ( oneScreenHeight * 2 ) + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 3 ) + headerHeight ){
+            screen = 2;
+        }else if( ( oneScreenHeight * 3 ) + headerHeight <= scrollY ){
+            screen = 3;
+        }
+        return screen;
+    }
+
     function setScreen(num){
         if(num){
             screen = num;
         }else{
-            const scrollY = window.scrollY;
-
-            if( screenScrollYs[0] <= scrollY && scrollY < screenScrollYs[1] ) {
-                screen = 0;
-            }else if( screenScrollYs[1] <= scrollY && scrollY < screenScrollYs[2] ){
-                screen = 1;
-            }else if( screenScrollYs[2] <= scrollY && scrollY < screenScrollYs[3] ){
-                screen = 2;
-            }else if( screenScrollYs[3] <= scrollY ){
-                screen = 3;
-            }
+            screen = getCalcScreen();
         }
         return screen;
     }
@@ -673,12 +685,14 @@
     }
 
     function movePointer(num = 0, animateScroll = false){
+        const { scrollY, innerHeight } = window.scrollY;
         const pointerStyle = pointerStyles[ num ];
         const pointer = document.querySelector(".pointer");
         pointer.style.width = pointerStyle.width;
         pointer.style.transform = pointerStyle.transform;
+        const moveScrollY = num === 0 ? 0 : ( oneScreenHeight * num ) + headerHeight ;
         if( animateScroll ){
-            animateScrollTo( screenScrollYs[num], 600 );
+            animateScrollTo( moveScrollY, 600 );
         }
     }
 
@@ -688,13 +702,13 @@
 
         if( scrollY < 30 && nav.style.position === "fixed" ){
             document.querySelector("nav").style.position = "absolute";
-            document.querySelector("nav").style.top = "30px";
+            document.querySelector("nav").style.top = "45px";
         }else if(scrollY >= 30 && nav.style.position === "absolute"){
             document.querySelector("nav").style.position = "fixed";
             document.querySelector("nav").style.top = "0px";
         }else if( nav.style.position === "" ){
             document.querySelector("nav").style.position = "absolute";
-            document.querySelector("nav").style.top = "30px";
+            document.querySelector("nav").style.top = "45px";
         }
     }
 
@@ -756,7 +770,25 @@
         document.querySelector("section." + className ).style.border = "5px solid rgba( 0,0,0,0.2)";
     } 
 
+    function onResizeWindow(){
+        let newOneScreenHeight = 0;
+        if( window.innerWidth < responsiveWidth ){
+            newOneScreenHeight = 600;
+        }else{
+            newOneScreenHeight = 960;
+        }
+
+        if( oneScreenHeight !== newOneScreenHeight ){
+            oneScreenHeight = newOneScreenHeight;
+            screen = setScreen();
+            movePointer(screen);
+            setNavStyles();
+            setMenuColor();
+        }
+    } 
+
     window.onload =  ( e ) => {
+        onResizeWindow();
         setupMath();
         window.pointer = document.querySelector(".pointer");
         window.menuLis = document.querySelectorAll("nav li");
@@ -768,15 +800,21 @@
     window.onscroll =  ( e ) => {
 
         setNavStyles();
+
         if( !isAnimateScrolling ){
+
             let beforeScreen = screen;
             screen = setScreen();
+
             if( screen !== beforeScreen){
                 movePointer(screen);
                 setMenuColor();
             }
         }
     };
+
+    window.onresize = onResizeWindow;
+
 </script>
 
 </head>
