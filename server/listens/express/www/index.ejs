@@ -729,10 +729,10 @@
         const nav = document.querySelector("nav");
         const scrollY = window.scrollY;
 
-        if( scrollY < 50 && nav.style.position === "fixed" ){
+        if( scrollY < 45 && nav.style.position === "fixed" ){
             document.querySelector("nav").style.position = "absolute";
             document.querySelector("nav").style.top = "45px";
-        }else if(scrollY >= 50 && nav.style.position === "absolute"){
+        }else if(scrollY >= 45 && nav.style.position === "absolute"){
             document.querySelector("nav").style.position = "fixed";
             document.querySelector("nav").style.top = "0px";
         }else if( nav.style.position === "" ){
