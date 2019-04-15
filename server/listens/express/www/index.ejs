@@ -347,24 +347,26 @@
     }
 
     section.two{
+        font-size: 5vw;
         flex-direction: initial;
         background: linear-gradient(to top right, rgba(9, 104, 89,0.9), rgba(109, 204, 189,0.9));
-        font-size: 1vw;
     }
 
     section.two .bar {
         width: 100%;
-        height: 25vw;
+        height: 50vw;
         max-height: 300px;
         background: rgba( 79,174,159, 0.8);
     }
 
     section.two .content-left {
-        width: 55%;
+        width: 60%;
+        font-size: 0.65em;
+        text-align: right;
     }
 
     section.two .content-right {
-        width: 45%;
+        width: 40%;
         height: 500px;
         background-image: url("//<%= assetsURL %>/www/cap1.png");
         background-position: 10% 50%;
@@ -373,9 +375,13 @@
     }
 
     section.two h2 {
+
+    }
+
+    section.two h3 {
         padding: 0;
         margin: 0;
-        font-size: 3.5em;
+        font-size: 1em;
         letter-spacing: 0.25em;
         text-align: right;
     }
@@ -630,7 +636,7 @@
 
         h2 {
             letter-spacing: 0.1em !important;
-            font-size: 5em !important;
+            font-size: 1.5em !important;
         }
 
         h3 {
@@ -643,12 +649,12 @@
         }
 
         section.two .bar {
-            height: 35vw !important;
+            height: 50vw !important;
         }
 
         section.two .content-right {
             background-size: contain;
-            transform: rotate(-5deg) scale(1.5) translate3d(35px, 0px, 0px);
+            transform: rotate(-5deg) scale(1.75) translate3d(35px, 0px, 0px);
         }
 
         section.three .content {
@@ -989,7 +995,7 @@
                     <h1>
                         '心が震える瞬間'の<br />
                         世界中のコメントを<br />
-                        あなたにお届けします。
+                        あなたに届けます。
                     </h1>
                 </div>
 
@@ -1013,11 +1019,14 @@
             <div class="content">
                 <div class="content-left">
                     <h2>
+                        世界中のWEBサイトに<br />コメントを付けよう。
+                        <!--
                         <span class="highlight">
                             Commnet
                         </span> to<br />
                         all websites<br />
                         around the world
+                        -->
                     </h2>
                     <h3>- No login communication -</h3>
                 </div>
@@ -1097,9 +1106,10 @@
 
         <section class="fourth">
             <div class="future">
-                Future
-                <div class="under-bar"></div>
+                毎日の「楽しい」「感動」を<br />もっと話そう。<br />
+                <!--div class="under-bar"></div-->
             </div>
+            
             <div class="content">
                 <div class="content-left">
                     <div class="terminal">iOS</div>
