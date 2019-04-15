@@ -218,8 +218,9 @@
     }
     
     input {
+        width: inherit;
         box-sizing: border-box;
-        border: 5px solid rgba( 0,0,0,0.2);
+        border: 5px solid rgba( 255,255,255,0.95);
         border-radius: 20px;
         padding: 10px;
         background-color: rgba(255,255,255,0.7);
@@ -286,19 +287,27 @@
         margin: 0px 0px 100px 0px;
     }
 
-    section.one input {
+    section.one .inputWrap {
         min-width: 300px;
         width: 80%;
         max-width: 600px;
         margin: 0px 0px 100px 0px;
     }
 
+    section.one .inputWrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+    }
+
     section.one .searchIcon {
         position: relative;
-        top: -37px;
-        left: 40vw;
+        top: 3px;
+        left: -37px;
         width: 32px;
         height: 32px;
+        z-index: 0;
     }
 
     section.one .searchIcon .circle{
@@ -307,7 +316,7 @@
         height: 16px;
         padding: 0px;
         margin: 0px;
-        border: 3px solid rgba(0, 0, 0, 0.2);
+        border: 3px solid rgba(255, 255, 255, 0.9);
         border-radius: 100px;
         z-index: 1;
         transform: scale(1);
@@ -322,7 +331,7 @@
         position: absolute;
         top: 17px;
         left: -2px;
-        background: rgb(0,0,0, 0.2);
+        background: rgba(255, 255, 255, 0.9);
         letter-spacing: 1.5px;
         white-space: normal;
         quotes: none;
@@ -977,22 +986,23 @@
                         '心が震える瞬間'の<br />
                         世界中のコメントを<br />
                         あなたに届けます。
-                        <!-- <img src="https://assets.localhost/title.png" width="320px" /> -->
                     </h1>
                 </div>
 
-                <input
-                    type="text"
-                    size="40"
-                    placeholder="Input URL or Phrase"
-                    onmouseover="onMouseOverInput('one input')"
-                    onmouseleave="onMouseLeaveInput('one input')"
-                    onfocus="onFocusInput('one input')"
-                    onblur="onBlurInput('one input')"
-                />
-                <div class="searchIcon">
-                    <div class="circle"></div>
-                    <div class="bar"></div>
+                <div class="inputWrap">
+                    <input
+                        type="text"
+                        size="40"
+                        placeholder="Input URL or Phrase"
+                        onmouseover="onMouseOverInput('one input')"
+                        onmouseleave="onMouseLeaveInput('one input')"
+                        onfocus="onFocusInput('one input')"
+                        onblur="onBlurInput('one input')"
+                    />
+                    <div class="searchIcon">
+                        <div class="circle"></div>
+                        <div class="bar"></div>
+                    </div>
                 </div>
             </div>
         </section>
