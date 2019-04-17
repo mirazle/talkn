@@ -135,8 +135,8 @@ export default class Container{
 
   static getSelf( params ){
     const { app, bootOption } = params;
-    const overflow = app.type === define.APP_TYPES.EXTENSION ?
-      "inherit" : "inherit";
+    const overflow = app.iframe ?
+      "hidden" : "inherit";
     let borderRadius = "0px";
     if( bootOption && bootOption["border-radius"] ){
       borderRadius = bootOption["border-radius"];

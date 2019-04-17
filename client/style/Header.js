@@ -80,12 +80,13 @@ export default class Header {
   }
 
   static getSelf( {app} ){
-    
+    let borderRadius = 0;
     const width = app.type === define.APP_TYPES.EXTENSION ?    
       '90%' : '100%';
 
-    const borderRadius = app.type === define.APP_TYPES.EXTENSION ?
-      Container.radiuses : '0px';
+    if( app.type === define.APP_TYPES.EXTENSION || app.iframe ){
+      borderRadius = Container.radiuses;
+    }
 
     const layout = Style.getLayoutFlex({
       position: "fixed",
