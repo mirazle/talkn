@@ -405,6 +405,17 @@
         width: 50%;
         height: inherit;
         background: rgba(70,70,70,0.9);
+        overflow: visible;
+    }
+
+    section.three .content-left .iframeCap{
+        width: 80%;
+        height: 50%;
+        background-image: url(//assets.localhost/www/iframe.png);
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: contain;
+        transform: translate3d(0% ,0px, 0px) rotate(0deg);
     }
 
     section.three h2 {
@@ -524,7 +535,7 @@
         margin: 0px 0px 70px 0px;
         font-size: 0.65em;
         letter-spacing: 0.2em;
-        text-align: left;
+        text-align: center;
     }
 
     section.fourth .under-bar {
@@ -556,7 +567,7 @@
         border: 5px solid rgb(255,255,2555);
         border-radius: 20px;
         width: 40%;
-        height: 65%;
+        height: 70%;
         text-align: center;
         background: rgba(65, 105, 225, 1);
     }
@@ -568,6 +579,7 @@
         height: 25%;
         font-size: 0.8em;
         font-weight: bold;
+        letter-spacing: 0.2em;
     }
 
     section.fourth .status {
@@ -706,6 +718,16 @@
             height: 50vw !important;
         }
 
+        section.three .content-left .iframeCap {
+            position: relative;
+            top: -50%;
+            bottom: 0vw;
+            width: 100%;
+            min-height: 200%;
+            background-position: 5% 95%;
+            background-size: 43vw;
+        }
+
         section.fourth h2 {
             margin: 0px 0px 30px 0px;
             font-size: 1.0em !important;
@@ -754,6 +776,10 @@
 
         section.one h1 {
             font-size: 60px !important;
+        }
+
+        section.three .content-left .iframeCap {
+            background-size: 340px;
         }
 
         section.fourth .future {
@@ -1071,10 +1097,12 @@
         </section>
 
         <section class="three">
-
                 <div class="content">
-                    <code class="content-left">
-                        <pre>
+                     <div class="content-left">
+                         <div class="iframeCap"></div>
+<!--
+                        <code>
+                            <pre>
 <span class="one-line">// Embed one line.</span>
 <span class="tag-name">&lt;iframe</span>
     <span class="property-name">src</span>=<span class="value">"//talkn.io"</span>
@@ -1082,39 +1110,9 @@
     <span class="property-name">height</span>=<span class="value">"450px"</span>
     <span class="property-name">frameBorder</span>=<span class="value">"0"</span>
 <span class="tag-name">/&gt;</span></pre>
-<!--
-                        <input  
-                            type="text" 
-                            class="url"
-                            placeholder="URL"
-                            value="/"
-                            onmouseover="onMouseOverInput('three input.url')"
-                            onmouseleave="onMouseLeaveInput('three input.url')"
-                            onfocus="onFocusInput('three input.url')"
-                            onblur="onBlurInput('three input.url')"
-                        />
-                        <input
-                            type="text"
-                            class="width" 
-                            placeholder="WIDTH"
-                            value="300"
-                            onmouseover="onMouseOverInput('three input.width')"
-                            onmouseleave="onMouseLeaveInput('three input.width')"
-                            onfocus="onFocusInput('three input.width')"
-                            onblur="onBlurInput('three input.width')"
-                        />
-                        <input
-                            type="text"
-                            class="height"
-                            placeholder="HEIGHT"
-                            value="420"
-                            onmouseover="onMouseOverInput('three input.height')"
-                            onmouseleave="onMouseLeaveInput('three input.height')"
-                            onfocus="onFocusInput('three input.height')"
-                            onblur="onBlurInput('three input.height')"
-                        />
--->
-                    </code>
+                        </code>
+                    -->
+                    </div>
                     <div class="content-right">
                         <div class="content-right-top"></div>
                         <div class="content-right-middle">
@@ -1149,7 +1147,7 @@
             </div>
         
             <h2>
-                毎日の「楽しい」「感動」を<br />もっと話そう。talknで。<br />
+                毎日の「楽しい」「感動」を<br />ログインレスで話そう。<br />
             </h2>
 
             <div class="content">

@@ -36,6 +36,8 @@ export default class PostsFooter{
   static getBorder( app, addUnit = false ){
     if( app.type === define.APP_TYPES.EXTENSION ){
       return {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border};
+    }else if( app.iframe ){
+      return {border: Container.border};
     }else{
       return app.screenMode === App.screenModeSmallLabel ?
         {borderTop: Container.border, borderBottom: Container.border} :
@@ -71,9 +73,11 @@ export default class PostsFooter{
   }
 
   static getSelf( {app} ){
+    let borderRadius = 0;
     const borders = PostsFooter.getBorder(app);
-    const borderRadius = app.type === define.APP_TYPES.EXTENSION ?
-      Container.radiuses : '0px';
+    if( app.type === define.APP_TYPES.EXTENSION || app.iframe ){
+      borderRadius = `0px 0px ${Container.radius} ${Container.radius}`;
+    }
     const layout = Style.getLayoutFlex({
       position: "fixed",
       bottom: 0,

@@ -73,6 +73,8 @@ export default class Posts {
   static getMargin( app, addUnit = false ){
     if( app.type === define.APP_TYPES.EXTENSION ){
       return `0px 5% ${Header.headerHeight}px 5%`;
+    }else if(app.iframe){
+      return "0";
     }else{
       switch( app.screenMode ){
       case App.screenModeSmallLabel : return `${Header.headerHeight}px 0px 0px 0px`;
@@ -83,10 +85,14 @@ export default class Posts {
   }
 
   static getPadding( app, addUnit = false ){
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel : return `0px 0px 25px 0px`;
-    case App.screenModeMiddleLabel : return `0px`;
-    case App.screenModeLargeLabel : return `0px`
+    if(app.iframe){
+      return "0px";
+    }else{
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel : return `0px 0px 25px 0px`;
+      case App.screenModeMiddleLabel : return `0px`;
+      case App.screenModeLargeLabel : return `0px`
+      }
     }
   }
 
@@ -108,6 +114,14 @@ export default class Posts {
       overflow = "scroll";
       borders.borderRight = Container.border;
       borders.borderLeft = Container.border;
+    }else if( app.iframe ){
+      position = "relative";
+      top = "45px";
+      height = `calc( 100% - ${Header.headerHeight + Footer.selfHeight}px)`;
+      borders.borderRight = Container.border;
+      borders.borderLeft = Container.border;
+      overflow = "scroll";
+      minHeight = 0;
     }else{
       borders = Posts.getBorders(app);
     }
