@@ -84,7 +84,7 @@
         flex-direction: column;
         width: 100%;
         height: 100px;
-        z-index: 1;
+        z-index: 10;
     }
 
     .menus, nav {
@@ -507,6 +507,26 @@
         letter-spacing: 0.075em;
     }
 
+    section.three .link {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        color: rgb(0,0,0);
+    }
+
+    section.three .link .copyIframe {
+        padding: 5px 20px 5px 20px;
+        border: 3px solid rgba(0,0,0,0.8);
+        border-radius: 30px;
+        font-size: 0.5em;
+        margin: 20px;
+        color: rgba(0,0,0,0.8);
+        font-weight: bold;
+    }
+
     section.three input {
         width: 80%;
         max-width: 600px;
@@ -744,9 +764,15 @@
             bottom: 0vw;
             width: 100%;
             min-height: 200%;
-            background-position: 90% 100%;
-            background-size: 44%;
+            background-position: 92% 95%;
+            background-size: 43%;
             background-origin: border-box;
+        }
+
+        section.three .link .copyIframe {
+            border: 3px solid rgb(255,255,255);
+            color: rgb(255,255,255);
+            font-size: 0.75em;
         }
 
         section.fourth h2 {
@@ -1114,9 +1140,7 @@
                 </div>
                 <div class="content-right"></div>
             </div>
-            <div class="link">
-                
-            </div>
+            <div class="link"></div>
         </section>
 
         <section class="three">
@@ -1159,6 +1183,9 @@
                         </div>
                         <div class="content-right-bottom"></div>
                     </div>
+                </div>
+                <div class="link">
+                    <div class="copyIframe">COPY IFRAME</div>
                 </div>
         </section>
 
