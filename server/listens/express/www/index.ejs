@@ -211,7 +211,7 @@
     }
 
     ::placeholder {
-        color: rgba( 120,120,120 );
+        color: rgba( 100,100,100 );
         font-size: 1.3em;
         text-indent: 3vw;
         letter-spacing: 0.25vw;
@@ -521,7 +521,7 @@
         padding: 5px 20px 5px 20px;
         border: 3px solid rgba(0,0,0,0.8);
         border-radius: 30px;
-        font-size: 0.5em;
+        font-size: 0.4em;
         margin: 25px;
         color: rgba(0,0,0,0.8);
         font-weight: bold;
@@ -631,6 +631,43 @@
         background-position: 50% 33%;
         background-repeat: no-repeat;
         background-size: 33%;
+    }
+
+    section.five {
+        background: rgba(255,255,255,0.9);
+        color: rgb(0,0,0);
+    }
+
+    section.five .company {
+        width: 600px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-direction: column;
+        border: 1px solid rgba(100, 100,100, 0.2);
+        border-radius: 10px;
+        padding: 20px;
+        box-sizing: border-box;
+    } 
+
+    section.five .key {
+        display: inline-block;
+        padding: 5px;
+        margin: 5px;
+        border-radius: 5px;
+        background: rgba(100, 100,100, 0.2);
+    } 
+
+    section.five .contact {
+        width: 600px;
+    }
+
+    section.five .contact form{
+        width: inherit;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-direction: column;
     }
 
     footer {
@@ -1197,7 +1234,7 @@
             </div>
         
             <h2>
-                毎日の「楽しい」「感動」を<br />ログインレスで話そう。<br />
+                毎日の「楽しい」「感動」を<br />「ログインレス」で話そう。<br />
             </h2>
 
             <div class="content">
@@ -1217,6 +1254,28 @@
                     </div>
                     <div class="tools"></div>
                 </div>
+            </div>
+        </section>
+
+
+        <!-- グリッドデザインを理解する　-->
+        <section class="five">
+            <div class="title">Company</div>
+            <div class="company">
+                <div><span class="key">会社名</span><span class="value">株式会社talkn</span></div>
+                <div><span class="key">設立</span><span class="value">2019年5月</span></div>
+                <div><span class="key">代表</span><span class="value">宮﨑博之(Hiroyuki Miyazaki)</span></div>
+            </div>
+
+            <div class="title">Contact</div>
+            <div class="contact">
+            <form method="POST"
+                    action="mailto:foo@xxx.yyy.zzz">
+                <input placeholder="お名前" type="text" size=20　/>
+                <input placeholder="返信先mail" type="text" size=20　/>
+                <input placeholder="内容" type="text" size=20 />
+                <input type="submit" value="  送信  ">
+              </form>
             </div>
         </section>
 
