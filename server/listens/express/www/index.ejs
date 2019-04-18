@@ -66,6 +66,7 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
+        box-sizing: border-box;
         width: 100%;
         height: 960px;
     }
@@ -210,14 +211,14 @@
         background: rgb(255,255,255);
     }
 
-    ::placeholder {
+    section.one ::placeholder {
         color: rgba( 100,100,100 );
         font-size: 1.3em;
         text-indent: 3vw;
         letter-spacing: 0.25vw;
     }
     
-    input {
+    section.one input {
         width: inherit;
         box-sizing: border-box;
         border: 4px solid rgba( 255,255,255,0.5);
@@ -238,6 +239,19 @@
         flex-direction: row;
         position: absolute;
         width: 100%;
+    }
+
+    section .title {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 120px;
+        width: 100%;
+        font-size: 0.65em;
+        font-weight: bold;
+        letter-spacing: 0.2em;
     }
 
     section.one{
@@ -547,33 +561,20 @@
         justify-content: flex-start;
         background: rgba(65, 105, 225, 0.8);
         font-size: 5vw;
-    }
-
-    section.fourth .future {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        height: 160px;
         padding: 50px 0px 0px 0px;
-        width: 100%;
-        font-size: 0.65em;
-        font-weight: bold;
-        letter-spacing: 0.2em;
     }
 
     section.fourth h2 {
         padding: 0;
         margin: 0px 0px 70px 0px;
-        font-size: 0.65em;
-        letter-spacing: 0.2em;
+        font-size: 0.75em;
+        letter-spacing: 0.1em;
         text-align: center;
     }
 
     section.fourth .under-bar {
         position: relative;
-        left: -0.3vw;
+        left: -0.35vw;
         width: 14vw;
         height: 4px;
         background: rgb( 255,255,255);
@@ -634,35 +635,42 @@
     }
 
     section.five {
+        justify-content: flex-start;
         background: rgba(255,255,255,0.9);
         color: rgb(0,0,0);
+        padding: 50px 0px 0px 0px;
+        font-size: 5vw;
     }
 
     section.five .company {
-        width: 600px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        flex-direction: column;
-        border: 1px solid rgba(100, 100,100, 0.2);
-        border-radius: 10px;
-        padding: 20px;
+        width: 100%;
+        max-width: 600px;
         box-sizing: border-box;
+        font-size: 16px;
     } 
 
-    section.five .key {
-        display: inline-block;
+    section.five .company th{
+        width: 130px;
         padding: 5px;
-        margin: 5px;
-        border-radius: 5px;
-        background: rgba(100, 100,100, 0.2);
-    } 
+        border-radius: 5px 0px 0px 5px;
+        background: rgba(0,0,0,0.1);
+        text-align: left;
+        text-indent: 15px;
+        color: rgb(30, 30, 30);
+    }
+
+    section.five .company td{
+        padding: 5px 20px 5px 20px;
+        background: rgba(0,0,0,0.04);
+        text-align: left;
+        color: rgb(30, 30, 30);
+    }
 
     section.five .contact {
         width: 600px;
     }
 
-    section.five .contact form{
+    section.five .contact form {
         width: inherit;
         display: flex;
         align-items: flex-start;
@@ -670,16 +678,42 @@
         flex-direction: column;
     }
 
+    section.five .contact input {
+        box-sizing: border-box;
+        border: 0;
+        border-radius: 3px;
+        background: rgba(0,0,0,0.04);
+        margin: 2px 0px 0px 0px;
+        height: 35px;
+        padding: 5px 20px 5px 20px;
+        width: 100%;
+        font-size: 16px;
+        letter-spacing: 4px;
+        text-indent: 5px;
+    }
+
+    section.five .contact input[type=submit] {
+        border: 0;
+        border-radius: 3px;
+        background: rgba(0,0,0,0.1);
+        margin: 3px 0px 3px 0px;
+    }
+
+    section.five ::placeholder {
+        letter-spacing: 4px;
+        text-indent: 5px;
+    }
+
     footer {
         position: relative;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
         flex-direction: column;
         width: 100%;
-        height: 160px;
+        height: 300px;
         background: rgba(0,0,0,0.8);
-        padding: 0px 0px 20px 0px;
+        padding: 0px 0px 40px 0px;
     }
 
     .highlight {
@@ -703,12 +737,12 @@
 
     @media screen and (min-width:0px) and ( max-width:600px) {
 
-        ::placeholder {
+        section.one ::placeholder {
             text-indent: 2vw;
             letter-spacing: 0.5vw;
         }
 
-        input {
+        section.one input {
             text-indent: 2vw;
             letter-spacing: 0.5vw;
         }
@@ -741,6 +775,11 @@
 
         section {
             height: 600px;
+        }
+
+        section .title {
+            height: 100px;
+            font-size: 25px !important;
         }
 
         section.two .bar {
@@ -821,11 +860,6 @@
             height: 90%;
         }
 
-        section.fourth .future {
-            height: 100px;
-            font-size: 25px !important;
-        }
-
         section.fourth .under-bar {
             width: 115px !important
         }
@@ -840,6 +874,16 @@
 
         section.fourth .tools {
             background-size: 50%;
+        }
+
+        section.five ::placeholder {
+            text-indent: 0px !important;
+            letter-spacing: 1px !important;
+        }
+
+        section.five input {
+            text-indent: 0px !important;
+            letter-spacing: 1px !important;
         }
     }
 
@@ -857,6 +901,9 @@
             font-size: 18px !important;
         }
 
+        section .title {
+            font-size: 45px !important;
+        }
 
         section.one h1 {
             font-size: 60px !important;
@@ -864,10 +911,6 @@
 
         section.three .content-left .iframeCap {
             background-size: 340px;
-        }
-
-        section.fourth .future {
-            font-size: 45px !important;
         }
 
         section.fourth .under-bar {
@@ -1228,13 +1271,13 @@
 
         <section class="fourth">
 
-            <div class="future">
+            <div class="title">
                 Future
                 <div class="under-bar"></div>
             </div>
         
             <h2>
-                毎日の「楽しい」「感動」を<br />「ログインレス」で話そう。<br />
+                世界中の「楽しい」「感動」を<br />「ログインレス」で話そう。<br />
             </h2>
 
             <div class="content">
@@ -1260,22 +1303,38 @@
 
         <!-- グリッドデザインを理解する　-->
         <section class="five">
-            <div class="title">Company</div>
-            <div class="company">
-                <div><span class="key">会社名</span><span class="value">株式会社talkn</span></div>
-                <div><span class="key">設立</span><span class="value">2019年5月</span></div>
-                <div><span class="key">代表</span><span class="value">宮﨑博之(Hiroyuki Miyazaki)</span></div>
-            </div>
 
+            <div class="title">Company</div>
+            <table class="company">
+                <tbody>
+                    <tr>
+                        <th>会社名</th>
+                        <td>株式会社talkn</td>
+                    </tr>
+                    <tr>
+                        <th>設立</th>
+                        <td>2019年5月</td>
+                    </tr>
+                    <tr>
+                        <th>代表</th>
+                        <td>宮﨑博之(Hiroyuki Miyazaki)</td>
+                    </tr>
+                    <tr>
+                        <th>企業理念</th>
+                        <td>Update the internet</td>
+                    </tr>
+                </tbody>
+            </table>
+            
             <div class="title">Contact</div>
             <div class="contact">
-            <form method="POST"
-                    action="mailto:foo@xxx.yyy.zzz">
-                <input placeholder="お名前" type="text" size=20　/>
-                <input placeholder="返信先mail" type="text" size=20　/>
-                <input placeholder="内容" type="text" size=20 />
-                <input type="submit" value="  送信  ">
-              </form>
+                <form method="POST" action="mailto:mirazle2069@gmail.com">
+                    <input placeholder="お名前" type="text" size=20　/>
+                    <input placeholder="返信先mail" type="text" size=20　/>
+                    <input placeholder="タイトル" type="text" size=20 />
+                    <input placeholder="内容" type="text" size=20 />
+                    <input type="submit" value="  送信  ">
+                </form>
             </div>
         </section>
 
