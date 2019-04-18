@@ -250,14 +250,13 @@
         height: 120px;
         width: 100%;
         font-size: 0.65em;
-        font-weight: bold;
         letter-spacing: 0.2em;
     }
 
     section .under-bar {
         position: relative;
         left: -0.35vw;
-        height: 5px;
+        height: 4px;
         margin: 13px 0px 0px 0px;
         border-radius: 30px;
     }
@@ -547,6 +546,12 @@
         margin: 25px;
         color: rgba(0,0,0,0.8);
         font-weight: bold;
+        transition: 300ms;
+    }
+
+    section.three .link .copyIframe:hover {
+        color: rgba(255,255,255,0.8);
+        background: rgba( 50,50,50, 1);
     }
 
     section.three input {
@@ -614,7 +619,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 25%;
+        height: 20%;
         font-size: 0.8em;
         font-weight: bold;
         letter-spacing: 0.1em;
@@ -624,14 +629,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 25%;
+        height: 20%;
         padding: 10px;
         font-size: 0.5em;
     }
 
     section.fourth .tools {
         width: 100%;
-        height: 50%;
+        height: 60%;
         background-image: url("//<%= assetsURL %>/www/tools.png");
         background-position: 50% 33%;
         background-repeat: no-repeat;
@@ -656,42 +661,53 @@
         max-width: 600px;
         box-sizing: border-box;
         font-size: 16px;
+        color: rgb(70, 70, 70);
     } 
 
     section.five .company th{
-        width: 130px;
+        width: 100px;
         padding: 5px;
         background: rgba(0,0,0,0.1);
         text-align: left;
         text-indent: 15px;
-        color: rgb(30, 30, 30);
+        border: 1px solid rgb(220, 220, 220);
     }
 
     section.five .company td{
         padding: 5px 20px 5px 20px;
         background: rgba(0,0,0,0.04);
         text-align: left;
-        color: rgb(30, 30, 30);
+        border: 1px solid rgb(220, 220, 220);
     }
 
     section.five .contact {
         width: 100%;
+        max-width: 600px;
     }
 
     section.five .contact form {
-        width: inherit;
+        width: 100%;
         display: flex;
         align-items: flex-start;
         justify-content: flex-start;
         flex-direction: column;
     }
 
-    section.five .contact input {
+    section.five .contact .oneline {
+        display: flex;
+        width: 100%;
+    }
+
+    section.five .contact .oneline .grow {
+        flex-grow: 1;
+    }
+
+    section.five .contact input, section.five .contact textarea {
         box-sizing: border-box;
-        border: 0;
+        border: 1px solid rgb(220, 220, 220);
         border-radius: 3px;
         background: rgba(0,0,0,0.04);
-        margin: 2px 0px 0px 0px;
+        margin: 1px;
         height: 35px;
         padding: 5px 20px 5px 20px;
         width: 100%;
@@ -701,16 +717,24 @@
         outline: 0;
     }
 
-    section.five .contact input[type=submit] {
-        border: 0;
+    section.five .contact input[type=submit], section.five .contact input[type=reset] {
+        border: 1px solid rgb(220, 220, 220);
         border-radius: 3px;
-        background: rgba(0,0,0,0.1);
-        margin: 3px 0px 3px 0px;
+        background: rgba( 200, 200, 200, 0.5 );
+        font-size: 12px;
+        color: rgb(100, 100, 100);
     }
 
     section.five ::placeholder {
         letter-spacing: 4px;
         text-indent: 5px;
+    }
+
+    section.five .contact textarea {
+        text-indent: 0px;
+        min-height: 100px;
+        min-width: 100%;
+        resize: none;
     }
 
     footer {
@@ -860,6 +884,12 @@
             font-size: 0.75em;
         }
 
+        section.three .link .copyIframe:hover {
+            border: 3px solid rgb(255,255,255);
+            background: rgb(255,255,255);
+            color: rgb(0,0,0);
+        }
+
         section.fourth h2 {
             margin: 0px 0px 30px 0px;
             font-size: 1.0em !important;
@@ -905,7 +935,8 @@
             display: none;
         } 
 
-        section.five .company {
+        section.five .company, section.five .contact {
+            width: 96%;
             font-size: 14px;
         } 
     }
@@ -1204,9 +1235,8 @@
             <div class="content">
                 <div class="eyecatch">
                     <h1>
-                        '心が震える瞬間'の<br />
-                        世界中のコメントを<br />
-                        あなたに届けます。
+                        '心が震える瞬間'を<br />
+                        あなたに届ける。
                     </h1>
                 </div>
 
@@ -1323,10 +1353,7 @@
             </div>
         </section>
 
-
-        <!-- グリッドデザインを理解する　-->
         <section class="five">
-
             <div class="title">
                 Company
                 <div class="under-bar"></div>
@@ -1352,6 +1379,7 @@
                 </tbody>
             </table>
 
+            <br />
             <div class="title">
                 Contact
                 <div class="under-bar"></div>
@@ -1359,10 +1387,20 @@
 
             <div class="contact">
                 <form method="POST" action="mailto:mirazle2069@gmail.com">
-                    <input placeholder="お名前" type="text" size=20　/><input placeholder="返信先mail" type="text" size=20　/>
-                    <input placeholder="タイトル" type="text" size=20 />
-                    <input placeholder="内容" type="text" size=20 />
-                    <input type="submit" value="  送信  ">
+                    <div class="oneline">
+                        <input class="grow" placeholder="お名前" type="text" size=20　/>
+                        <input class="grow" placeholder="返信先mail" type="text" size=20　/>
+                    </div>
+                    <div class="oneline">
+                        <input placeholder="タイトル" type="text" size=20 />
+                    </div>
+                    <div class="oneline">
+                        <textarea placeholder="内容" type="text" size=20></textarea>
+                    </div>
+                    <div class="oneline">
+                        <input type="reset" value="  RESET  ">
+                        <input type="submit" value="  SEND  ">
+                    </div>
                 </form>
             </div>
         </section>
