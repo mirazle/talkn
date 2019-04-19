@@ -550,8 +550,8 @@
     }
 
     section.three .link .copyIframe:hover {
-        color: rgba(255,255,255,0.8);
-        background: rgba( 50,50,50, 1);
+        color: rgb(255,255,255,1);
+        background: rgb(79, 174, 159);
     }
 
     section.three input {
@@ -717,12 +717,24 @@
         outline: 0;
     }
 
-    section.five .contact input[type=submit], section.five .contact input[type=reset] {
+    section.five .contact a[type=submit] {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 40px auto 0px auto;
+        width: 30%;
+        height: 50px;
         border: 1px solid rgb(220, 220, 220);
-        border-radius: 3px;
+        border-radius: 5px;
         background: rgba( 200, 200, 200, 0.5 );
-        font-size: 12px;
+        font-size: 14px;
         color: rgb(100, 100, 100);
+        transition: 300ms;
+    }
+
+    section.five .contact a[type=submit]:hover {
+        background: rgba( 79, 174, 159, 1 );
+        color: rgb(255, 255, 255);
     }
 
     section.five ::placeholder {
@@ -884,12 +896,6 @@
             font-size: 0.75em;
         }
 
-        section.three .link .copyIframe:hover {
-            border: 3px solid rgb(255,255,255);
-            background: rgb(255,255,255);
-            color: rgb(0,0,0);
-        }
-
         section.fourth h2 {
             margin: 0px 0px 30px 0px;
             font-size: 1.0em !important;
@@ -939,6 +945,10 @@
             width: 96%;
             font-size: 14px;
         } 
+
+        section.five .contact a[type=submit] {
+            margin: 20px auto 0px auto;
+        }
     }
 
     @media screen and (min-width:1206px) {
@@ -1398,8 +1408,7 @@
                         <textarea placeholder="内容" type="text" size=20></textarea>
                     </div>
                     <div class="oneline">
-                        <input type="reset" value="  RESET  ">
-                        <input type="submit" value="  SEND  ">
+                        <a type="submit">SEND</a>
                     </div>
                 </form>
             </div>
