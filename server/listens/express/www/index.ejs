@@ -221,7 +221,7 @@
     section.one input {
         width: inherit;
         box-sizing: border-box;
-        border: 4px solid rgba( 255,255,255,0.9);
+        border: 0;
         border-radius: 20px;
         padding: 10px;
         background-color: rgba(255,255,255,0.5);
@@ -230,8 +230,7 @@
         letter-spacing: 0.25em;
         font-size: 10px;
         line-height: 14px;
-        box-shadow: none;
-        appearance: none;
+        box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.9);
     }
 
     section .content {
@@ -332,7 +331,8 @@
         align-items: center;
         justify-content: flex-end;
         position: relative;
-        top: 36px;
+        top: 32px;
+        left: 15px;
         height: 32px;
         z-index: 0;
         margin: 0px 0px 0px 70%;
@@ -673,14 +673,12 @@
         background: rgba(0,0,0,0.1);
         text-align: left;
         text-indent: 15px;
-        border: 1px solid rgb(220, 220, 220);
     }
 
     section.five .company td{
         padding: 5px 20px 5px 20px;
         background: rgba(0,0,0,0.04);
         text-align: left;
-        border: 1px solid rgb(220, 220, 220);
     }
 
     section.five .contact {
@@ -708,9 +706,6 @@
     section.five .contact input, section.five .contact textarea {
         box-sizing: border-box;
         border: 0;
-        /*
-        border: 1px solid rgb(220, 220, 220);
-        */
         border-radius: 3px;
         background: rgba(0,0,0,0.04);
         margin: 1px;
@@ -814,6 +809,10 @@
         
         section.one form {
             margin: 0px 0px 200px 0px;
+        }
+
+        section.one .searchIcon {
+            left: 0px;
         }
 
         h2 {
