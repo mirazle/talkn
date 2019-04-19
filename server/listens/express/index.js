@@ -4,6 +4,7 @@ import express from 'express';
 import url from 'url';
 import define from '~/common/define';
 import Session from '~/server/listens/express/session/';
+import Mail from '~/server/logics/Mail';
 import conf from '~/server/conf';
 
 
@@ -42,17 +43,27 @@ class Express{
   createHttpsServer(){
     https.createServer(
       conf.sslOptions,
-      ( this.httpsApp ).get( "*", this.routingHttps )
+      ( this.httpsApp ).all( "*", this.routingHttps )
     ).listen( define.PORTS.HTTPS, this.listenedHttps );
   }
 
   routingHttps( req, res, next ){
     switch( req.headers.host ){
     case conf.wwwURL:
-      res.render( 'www/index', {
-        domain: conf.domain,
-        assetsURL: conf.assetsURL
-      });
+
+    
+      if( req.method === "GET" ){
+        res.render( 'www/index', {
+          domain: conf.domain,
+          assetsURL: conf.assetsURL
+        });
+      }else if( req.method === "POST"){
+        Mail.send( req, res, next );
+        res.render( 'www/index', {
+          domain: conf.domain,
+          assetsURL: conf.assetsURL
+        });
+      }
       break;
     case conf.descURL:
       res.render( 'desc/index', {});
@@ -144,6 +155,14 @@ class Express{
 
   listenedHttps( err, req ){
     console.log( `@@@ LISTEN HTTPS ${define.PORTS.HTTPS}` );
+  }
+
+  listenGet(){
+
+  }
+
+  listenPost(){
+
   }
 }
 
