@@ -960,6 +960,7 @@
         }
 
         section .title {
+            height: 150px;
             font-size: 45px !important;
         }
 
@@ -1042,6 +1043,8 @@
             screen = 2;
         }else if( ( oneScreenHeight * 3 ) + headerHeight <= scrollY ){
             screen = 3;
+        }else if( ( oneScreenHeight * 4 ) + headerHeight <= scrollY ){
+            screen = 4;
         }
         return screen;
     }
