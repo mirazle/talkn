@@ -594,7 +594,7 @@
         flex-direction: column;
         box-sizing: border-box;
         margin: 0 5%;
-        border: 5px solid rgb(255,255,2555);
+        border: 5px solid rgb(255,255,255);
         border-radius: 20px;
         width: 40%;
         height: 70%;
@@ -895,10 +895,12 @@
         }
 
         section.fourth .content-right, section.fourth .content-left {
+            border: 3px solid rgb(255,255,255);
             height: 90%;
         }
 
         section.fourth .under-bar {
+            height: 3px;
             width: 115px !important
         }
 
@@ -1001,13 +1003,17 @@
 </style>
 
 <script type="text/javascript">
+    const wideScreenWidth = 960;
+    const smallScreenWidth = 600;
     const responsiveWidth = 640;
     const headerHeight = 100;
+
     const pointerStyles = [
-        {width: "10%", transform: "translate3d(0%,0px,0px)"},
-        {width: "10%", transform: "translate3d(250%,0px,0px)"},
-        {width: "10%", transform: "translate3d(500%,0px,0px)"},
-        {width: "10%", transform: "translate3d(750%,0px,0px)"}
+        {height: "5px", width: "10%", transform: "translate3d(0%,0px,0px)"},
+        {height: "5px",  width: "10%", transform: "translate3d(250%,0px,0px)"},
+        {height: "5px", width: "10%", transform: "translate3d(500%,0px,0px)"},
+        {height: "5px", width: "10%", transform: "translate3d(750%,0px,0px)"},
+        {height: "0px", width: "10%", transform: "translate3d(750%,0px,0px)"}
     ];
     const menuStyles = {
         active: {color: "rgb(79, 174, 159)"},
@@ -1015,7 +1021,7 @@
     }
     let screen = 0;
     let isAnimateScrolling = false;
-    let oneScreenHeight = 600;
+    let oneScreenHeight = smallScreenWidth;
 
     function onMouseOver(num){
         movePointer(num);
@@ -1041,11 +1047,12 @@
             screen = 1;
         }else if( ( oneScreenHeight * 2 ) + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 3 ) + headerHeight ){
             screen = 2;
-        }else if( ( oneScreenHeight * 3 ) + headerHeight <= scrollY ){
+        }else if( ( oneScreenHeight * 3 ) + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 4 ) + headerHeight ){
             screen = 3;
         }else if( ( oneScreenHeight * 4 ) + headerHeight <= scrollY ){
             screen = 4;
         }
+        console.log(( oneScreenHeight * 4 ) + headerHeight + " @ "  + scrollY + " " + screen);
         return screen;
     }
 
@@ -1071,6 +1078,7 @@
         const pointerStyle = pointerStyles[ num ];
         const pointer = document.querySelector(".pointer");
         pointer.style.width = pointerStyle.width;
+        pointer.style.height = pointerStyle.height;
         pointer.style.transform = pointerStyle.transform;
         const moveScrollY = num === 0 ? 0 : ( oneScreenHeight * num ) + headerHeight ;
         if( animateScroll ){
@@ -1082,6 +1090,20 @@
         const nav = document.querySelector("nav");
         const accessory = document.querySelector(".accessory");
         const scrollY = window.scrollY;
+        const changeAccessoryFunc = ( scrollY ) => {
+            const changeNavMenuHeight = ( oneScreenHeight * ( pointerStyles.length - 1 ) ) + headerHeight;
+            if( scrollY >= changeNavMenuHeight){
+                document.querySelector(".accessory").style.transform = "translate3d(0px, -15px, 0px)";
+                document.querySelector(".accessory").style.width = "70px";
+                document.querySelector(".accessory").style.height = "70px";
+                document.querySelector(".accessory").innerText = "Company";
+            }else{
+                document.querySelector(".accessory").style.transform = "translate3d(0px, 0px, 0px)";
+                document.querySelector(".accessory").style.width = "55px";
+                document.querySelector(".accessory").style.height = "55px";
+                document.querySelector(".accessory").innerText = "Apps";
+            }
+        }
 
         if( scrollY < 45 && nav.style.position === "fixed" ){
             document.querySelector("nav").style.position = "absolute";
@@ -1091,6 +1113,10 @@
             document.querySelector("nav").style.position = "fixed";
             document.querySelector("nav").style.top = "0px";
             document.querySelector(".accessory").style.transform = "translate3d(0px, 0px, 0px)";
+
+            changeAccessoryFunc(scrollY);
+        }else if(scrollY >= 45 && nav.style.position === "fixed"){
+            changeAccessoryFunc(scrollY);
         }else if( nav.style.position === "" ){
             document.querySelector("nav").style.position = "absolute";
             document.querySelector("nav").style.top = "45px";
@@ -1159,9 +1185,9 @@
     function onResizeWindow(){
         let newOneScreenHeight = 0;
         if( window.innerWidth < responsiveWidth ){
-            newOneScreenHeight = 600;
+            newOneScreenHeight = smallScreenWidth;
         }else{
-            newOneScreenHeight = 960;
+            newOneScreenHeight = wideScreenWidth;
         }
 
         if( oneScreenHeight !== newOneScreenHeight ){
