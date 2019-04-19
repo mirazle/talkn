@@ -99,6 +99,8 @@
     }
 
     .headBar {
+        position: relative;
+        top: 10px;
         width: 100%;
         min-height: 5px;
         background-color: rgba(0,0,0,0.9);
@@ -132,7 +134,7 @@
         display: flex;
         justify-content: space-between;
         width: inherit;
-        height: 50px;
+        height: 70px;
         max-width: 800px;
         min-width: 320px;
         margin: 0;
@@ -223,7 +225,7 @@
         box-sizing: border-box;
         border: 0;
         border-radius: 20px;
-        padding: 10px;
+        padding: 10px 50px 10px 10px;
         background-color: rgba(255,255,255,0.5);
         outline: 0;
         text-indent: 3vw;
@@ -697,14 +699,17 @@
         padding: 5px 20px 5px 20px;
         width: 100%;
         font-size: 16px;
-        letter-spacing: 4px;
+        letter-spacing: 2px;
         text-indent: 5px;
         outline: 0;
         box-shadow: none;
-        appearance: none;
     }
 
-    section.five .contact a[type=submit] {
+    section.five .contact input:hover, section.five .contact textarea:hover {
+        background: rgba(100,100,100,0.1);
+    }
+
+    section.five .contact [type=submit] {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -719,7 +724,7 @@
         transition: 300ms;
     }
 
-    section.five .contact a[type=submit]:hover {
+    section.five .contact [type=submit]:hover {
         background: rgba( 79, 174, 159, 1 );
         color: rgb(255, 255, 255);
     }
@@ -941,7 +946,7 @@
             font-size: 14px;
         } 
 
-        section.five .contact a[type=submit] {
+        section.five .contact [type=submit] {
             height: 35px;
             margin: 20px auto 0px auto;
         }
@@ -1039,6 +1044,25 @@
         setMenuColor();
     }
 
+    function onKeyPressSearch(e){
+        if ( e.key === "Enter" ) {
+            let value = e.target.value;
+            let isUrl = false;
+            let url = "";
+            if( value.indexOf("https:/") === 0 ){
+                value = value.replace("https:/", "");
+                isUrl = true;
+            }
+            if( value.indexOf("http:/") === 0 ){
+                value = value.replace("http:/", "");
+                isUrl = true;
+            }
+
+            url = isUrl ? value : "/" + value;
+            location.href = "https://<%= domain %>" + url;
+        }
+    }
+
     function getCalcScreen(){
         const { scrollY, innerHeight } = window;
         if( 0 <= scrollY && scrollY < ( oneScreenHeight * 1 ) + headerHeight) {
@@ -1052,7 +1076,6 @@
         }else if( ( oneScreenHeight * 4 ) + headerHeight <= scrollY ){
             screen = 4;
         }
-        console.log(( oneScreenHeight * 4 ) + headerHeight + " @ "  + scrollY + " " + screen);
         return screen;
     }
 
@@ -1200,6 +1223,10 @@
     } 
 
     window.onload =  ( e ) => {
+
+        const search = document.querySelector(".search");
+        search.addEventListener('keypress', onKeyPressSearch);
+
         onResizeWindow();
         setupMath();
         window.pointer = document.querySelector(".pointer");
@@ -1280,6 +1307,7 @@
                     </div>
                     <input
                         type="text"
+                        class="search"
                         size="40"
                         placeholder="Input URL or Phrase"
                     />
@@ -1431,7 +1459,7 @@
                         <textarea placeholder="内容" type="text" size=20></textarea>
                     </div>
                     <div class="oneline">
-                        <a type="submit">SEND</a>
+                        <input type="submit" valur=" SEND "/>
                     </div>
                 </form>
             </div>
