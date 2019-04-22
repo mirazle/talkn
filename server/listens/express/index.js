@@ -1,6 +1,7 @@
 import http from 'http';
 import https from 'https';
 import express from 'express';
+import bodyParser from 'body-parser';
 import url from 'url';
 import define from '~/common/define';
 import Session from '~/server/listens/express/session/';
@@ -15,6 +16,7 @@ class Express{
     this.httpsApp = express();
     this.httpsApp.set('views', conf.serverPath );
     this.httpsApp.set('view engine', 'ejs');
+    this.httpsApp.use(bodyParser.urlencoded({extended: true}));
     this.session = new Session( this.httpsApp );
 
     this.routingHttps = this.routingHttps.bind(this);
@@ -58,11 +60,8 @@ class Express{
           assetsURL: conf.assetsURL
         });
       }else if( req.method === "POST"){
-        Mail.send( req, res, next );
-        res.render( 'www/index', {
-          domain: conf.domain,
-          assetsURL: conf.assetsURL
-        });
+        Mail.send( req.body.inquiry );
+        res.redirect(`https://${conf.wwwURL}`);
       }
       break;
     case conf.descURL:

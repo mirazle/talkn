@@ -1474,14 +1474,14 @@
             <div class="contact">
                 <form method="POST" action="/mail">
                     <div class="oneline">
-                        <input class="grow" name="name" placeholder="お名前" type="text" maxlength=50 size=20　/>
-                        <input class="grow" name="mail" placeholder="返信先mail" maxlength=50 type="text" size=20　/>
+                        <input class="grow" name="inquiry[name]" placeholder="お名前" type="text" maxlength=50 size=20　/>
+                        <input class="grow" name="inquiry[mail]" placeholder="返信先mail" maxlength=50 type="text" size=20　/>
                     </div>
                     <div class="oneline">
-                        <input name="title" placeholder="タイトル" type="text" maxlength=50 size=20 />
+                        <input name="inquiry[title]" placeholder="タイトル" type="text" maxlength=50 size=20 />
                     </div>
                     <div class="oneline">
-                        <textarea name="content" placeholder="内容" type="text" maxlength=800 size=20></textarea>
+                        <textarea name="inquiry[content]" placeholder="内容" type="text" maxlength=800 size=20></textarea>
                     </div>
                     <div class="oneline">
                         <input type="submit" valur=" SEND "/>
