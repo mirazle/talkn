@@ -58,7 +58,8 @@ class Express{
           assetsURL: conf.assetsURL
         });
       }else if( req.method === "POST"){
-        Mail.send( req, res, next );
+        console.log(Mail);
+//        Mail.send( req, res, next );
         res.render( 'www/index', {
           domain: conf.domain,
           assetsURL: conf.assetsURL
