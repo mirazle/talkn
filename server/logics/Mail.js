@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 
 export default class Mail {
-  static send(req, res, next){
+  static send( inquiry ){
 
     //SMTPサーバの設定
     var smtp = nodemailer.createTransport({
@@ -13,8 +13,8 @@ export default class Mail {
     var message = {
       from: 'Inquiry@mail.talkn.io',
       to: 'admin@mail.talkn.io',
-      subject: 'nodemailer test mail',
-      text: 'テストメールです。'
+      subject: inquiry.title,
+      text: inquiry.content + " FROM " + inquiry.mail
     };
 
     // メール送信
