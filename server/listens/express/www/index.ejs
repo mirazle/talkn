@@ -222,19 +222,30 @@
         letter-spacing: 0.25vw;
     }
     
+
+    section.one input:hover, section.one input:focus {
+        color: rgba( 255,255,255 );
+        background: rgba(79, 174, 159, 0.7);
+    }
+
+    section.one ::placeholder {
+        color: rgba( 255,255,255 );
+    }
+
     section.one input {
         width: inherit;
         box-sizing: border-box;
         border: 0;
         border-radius: 20px;
         padding: 10px 50px 10px 10px;
-        background-color: rgba(255,255,255,0.5);
+        background: rgba(255,255,255,0.5);
         outline: 0;
         text-indent: 3vw;
         letter-spacing: 0.25em;
         font-size: 10px;
         line-height: 14px;
         box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.9);
+        transition: 300ms;
     }
 
     section .content {
@@ -474,27 +485,21 @@
         padding: 3vw 0px 0px 0px;
     }
 
-    section.three .content-left pre {
-        font-size: 0.65em;
-        letter-spacing: 0.2em;
-    }
-
-    section.three .content-left .one-line{
+    section.three code pre .one-line{
         color: rgb(173, 154, 255);
     }
 
-    section.three .content-left .tag-name{
+    section.three code pre .tag-name{
         color: rgb(255, 115, 157);
     }
 
-    section.three .content-left .property-name{
+    section.three code pre .property-name{
         color: rgb(216, 255, 121);
     }
 
-    section.three .content-left .value{
+    section.three code pre .value{
         color: rgb(220, 220, 30);
     }
-
 
     section.three .content-right {
         display: flex;
@@ -560,6 +565,31 @@
         background: rgb(79, 174, 159);
     }
 
+    section.three code {
+        position: absolute;
+        width: 40%;
+        background: rgba(0,0,0,0.825);
+        padding: 30px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 1;
+        border-radius: 10px;
+        font-size: 0.5em;
+        box-shadow: 0px 0px 10px 1px rgb(0,0,0,1);
+        transition: 1000ms;
+        opacity: 0;
+    }
+
+    section.three code .code-title{
+        color: rgb(255, 255, 255);
+        font-size: 1.5em;
+        font-weight: bold;
+        letter-spacing: 5px;
+    }
+
     section.fourth {
         flex-direction: column;
         justify-content: flex-start;
@@ -603,7 +633,13 @@
         width: 40%;
         height: 70%;
         text-align: center;
-        background: rgba(65, 105, 225, 1);
+        background: rgba(55, 95, 215, 1);
+        transition: 300ms;
+    }
+
+
+    section.fourth .content-left:hover, section.fourth .content-right:hover {
+        background: rgba(45, 85, 205, 1);
     }
 
     section.fourth .terminal {
@@ -705,6 +741,7 @@
         text-indent: 5px;
         outline: 0;
         box-shadow: none;
+        transition: 300ms;
     }
 
     section.five .contact input:hover, section.five .contact textarea:hover {
@@ -762,7 +799,7 @@
         width: 75px;
         height: 75px;
         margin: 50px;
-        background: rgba(0,0,0,1);
+        background: rgba(40,40,40,1);
         border: 2px solid rgb(255,255,255);
         border-radius: 100px;
         font-size: 0.75em;
@@ -771,7 +808,7 @@
     }
 
     footer .toTop:hover {
-        background: rgba(50,50,50,1);
+        background: rgba(90,90,90,1);
     }
 
     .highlight {
@@ -998,6 +1035,14 @@
 
         section.three .content-left .iframeCap {
             background-size: 340px;
+        }
+
+        section.three code .code-title{
+            font-size: 35px;
+        }
+
+        section.three code {
+            font-size: 30px;
         }
 
         section.fourth .under-bar {
@@ -1230,6 +1275,30 @@
         document.querySelector("section." + className ).style.border = "5px solid rgba( 0,0,0,0.2)";
     } 
 
+    function onClickCopyIframe(){
+        document.querySelector("section.three code" ).style.opacity = "1";
+
+        const copyIframe = document.createElement("input");
+        copyIframe.value = document.querySelector("code pre")
+                                .innerText
+                                .replace("// Embed one line.", "")
+                                .replace(/\r?\n/g, '')
+                                .replace( /    /g, " ");
+
+        copyIframe.id = "copyIframe";
+        copyIframe.type = "text";
+        copyIframe.style = "opacity: 0";
+        document.querySelector("section.three code pre").appendChild(copyIframe);
+        copyIframe.focus();
+        copyIframe.select();
+        document.execCommand("copy"); 
+
+        setTimeout( () => {
+            document.querySelector("section.three code" ).style.opacity = "0";
+	        copyIframe.parentNode.removeChild(copyIframe);
+        }, 3000 );
+    } 
+
     function onResizeWindow(){
         let newOneScreenHeight = 0;
         if( window.innerWidth < responsiveWidth ){
@@ -1320,6 +1389,7 @@
             <div class="content">
                 <div class="eyecatch">
                     <h1>
+                        世界中の<br />
                         '心が震える瞬間'を<br />
                         あなたに届ける。
                     </h1>
@@ -1366,18 +1436,6 @@
                 <div class="content">
                      <div class="content-left">
                          <div class="iframeCap"></div>
-<!--
-                        <code>
-                            <pre>
-<span class="one-line">// Embed one line.</span>
-<span class="tag-name">&lt;iframe</span>
-    <span class="property-name">src</span>=<span class="value">"//talkn.io"</span>
-    <span class="property-name">width</span>=<span class="value">"300px"</span>
-    <span class="property-name">height</span>=<span class="value">"450px"</span>
-    <span class="property-name">frameBorder</span>=<span class="value">"0"</span>
-<span class="tag-name">/&gt;</span></pre>
-                        </code>
-                    -->
                     </div>
                     <div class="content-right">
                         <div class="content-right-top"></div>
@@ -1404,8 +1462,24 @@
                     </div>
                 </div>
                 <div class="link">
-                    <div class="copyIframe">COPY IFRAME</div>
+                    <div
+                        onclick="onClickCopyIframe()"
+                        class="copyIframe"
+                    >COPY IFRAME</div>
                 </div>
+                <code>
+                    <div class="code-title">
+                        Copied.
+                    </div>
+                    <pre>
+<span class="one-line">// Embed one line.</span>
+<span class="tag-name">&lt;iframe</span>
+    <span class="property-name">src</span>=<span class="value">"//talkn.io"</span>
+    <span class="property-name">width</span>=<span class="value">"300px"</span>
+    <span class="property-name">height</span>=<span class="value">"420px"</span>
+    <span class="property-name">frameBorder</span>=<span class="value">"0"</span>
+<span class="tag-name">/&gt;</span></pre>
+                </code>
         </section>
 
         <section class="fourth">
