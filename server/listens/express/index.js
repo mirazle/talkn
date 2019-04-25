@@ -55,7 +55,9 @@ class Express{
   routingHttps( req, res, next ){
     switch( req.headers.host ){
     case conf.wwwURL:
-      const language = Geolite.getLanguage( req );
+      const language = req.query && req.query.lang ?
+        req.query.lang : Geolite.getLanguage( req );
+      console.log(language);
       if( req.method === "GET" ){
         res.render( 'www/index', {
           language,
