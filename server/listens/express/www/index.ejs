@@ -1253,12 +1253,13 @@
 
     function onClickLanguage(){
         const languageMenu = document.querySelector(".language-menu");
+
         if( languageMenu.style.transform === "" ){
-            languageMenu.style.transform = "translate3d( 0px, 520px, 0px )";
+            languageMenu.style.transform = "translate3d(0px, 520px, 0px )";
         }else{
 
             if( languageMenu.style.transform === "translate3d(0px, 0px, 0px)" ){
-                languageMenu.style.transform = "translate3d( 0px, 520px, 0px )";
+                languageMenu.style.transform = "translate3d(0px, 520px, 0px )";
             }else{
                 languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
             }
@@ -1495,6 +1496,16 @@
         window.nav = document.querySelector("nav");
         setNavStyles();
         setMenuColor();
+
+        document.querySelector(".language-menu").addEventListener("transitionend", () => {
+            const languageMenu = document.querySelector(".language-menu");
+            if( languageMenu.style.transform === "translate3d(0px, 520px, 0px)" ){
+                document.body.addEventListener("click", function temp(){
+                    languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
+                    this.removeEventListener("click", temp);
+                });
+            }
+        });
     };
 
     window.onscroll =  ( e ) => {
@@ -1528,7 +1539,7 @@
     <div class="container">
 
         <header>
-            <ul class="language-menu">
+            <ul class="language-menu" transitionend="onTransitionEndLanguageMenu()">
                 <li onclick="onClickLanguageMenu('en')" class="active">English(en)</li>
                 <li onclick="onClickLanguageMenu('zh')" class="active">简体中文(zh)</li>
                 <li onclick="onClickLanguageMenu('ja')" class="active">日本語(ja)</li>
