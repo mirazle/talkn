@@ -208,12 +208,14 @@
         box-sizing: border-box;
         color: rgba(255,255,255,0.9);
         margin: 5px;
-        padding: 10px 10px 10px 20px;
+        padding: 10px 15px 10px 15px;
         width: 100%;
+        transition: 300ms;
     }
 
     header .language-menu li:hover {
-        background: red;
+        color: rgba(0,0,0,0.8);
+        background: rgba(255,255,255,0.8);
     }
 
     .menus, nav {
@@ -1245,18 +1247,19 @@
     function onClickLanguage(){
         const languageMenu = document.querySelector(".language-menu");
         if( languageMenu.style.transform === "" ){
-            console.log("A");
             languageMenu.style.transform = "translate3d( 0px, 320px, 0px )";
         }else{
 
             if( languageMenu.style.transform === "translate3d(0px, 0px, 0px)" ){
-                console.log("B");
                 languageMenu.style.transform = "translate3d( 0px, 320px, 0px )";
             }else{
-                console.log("C " + languageMenu.style.transform);
                 languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
             }
         }
+    }
+
+    function onClickLanguageMenu(cn){
+        location.href = "https://www.<%= domain %>?lang=" + cn;
     }
 
     function onKeyPressSearch(e){
@@ -1519,11 +1522,11 @@
 
         <header>
             <ul class="language-menu">
-                <li>English</li>
-                <li>简体中文</li>
-                <li>日本語</li>
-                <li>Deutsch</li>
-                <li>Français</li>
+                <li onclick="onClickLanguageMenu('en')">English(en)</li>
+                <li onclick="onClickLanguageMenu('zh')">简体中文(zh)</li>
+                <li onclick="onClickLanguageMenu('ja')">日本語(ja)</li>
+                <li onclick="onClickLanguageMenu('de')">Deutsch(de)</li>
+                <li onclick="onClickLanguageMenu('fr')">Français(fr)</li>
             </ul>
             <div class="menus">
                 <ul>
