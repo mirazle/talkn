@@ -57,7 +57,6 @@ class Express{
     case conf.wwwURL:
       const language = req.query && req.query.lang ?
         req.query.lang : Geolite.getLanguage( req );
-      console.log(language);
       if( req.method === "GET" ){
         res.render( 'www/index', {
           language,
