@@ -28,7 +28,7 @@
 
     switch( language ){
     case "zh":
-        one1 = "没有登录。";
+        one1 = "不需要登录。";
         one2 = "'保持温度'";
         one3 = "让我们沟通吧。";
         two1 = "我们来谈谈吧";
@@ -36,7 +36,7 @@
         three1 = "我们将它嵌入网站";
         three2 = "世界各地的。";
         three12Br = true;
-        fourth1 = "让我们谈谈'不要登录',";
+        fourth1 = "让我们谈谈'不需要登录',";
         fourth2 = "关于'有趣'和'印象'。";
         break;
     case "ja":
@@ -185,6 +185,37 @@
         font-size: 15px;
     }
 
+    header .language-menu {
+        position: absolute;
+        top: -275px;
+        right: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        background: rgba(0,0,0,0.8);
+        padding: 10px;
+        width: 30%;
+        min-width: 30px;
+        height: auto;
+        z-index: 1;
+        transition: 300ms;
+        transform: translate3d(0px, 0px, 0px);
+    }
+
+    header .language-menu li {
+        display: inline-block;
+        box-sizing: border-box;
+        color: rgba(255,255,255,0.9);
+        margin: 5px;
+        padding: 10px 10px 10px 20px;
+        width: 100%;
+    }
+
+    header .language-menu li:hover {
+        background: red;
+    }
+
     .menus, nav {
         display: flex;
         align-items: center;
@@ -227,6 +258,7 @@
         flex-direction: row;
         height: 45px;
         background: rgba(0,0,0,0.8);
+        z-index: 1;
     }
 
     ul, .pointerWrap {
@@ -1210,6 +1242,23 @@
         animateScrollTo(0);
     }
 
+    function onClickLanguage(){
+        const languageMenu = document.querySelector(".language-menu");
+        if( languageMenu.style.transform === "" ){
+            console.log("A");
+            languageMenu.style.transform = "translate3d( 0px, 320px, 0px )";
+        }else{
+
+            if( languageMenu.style.transform === "translate3d(0px, 0px, 0px)" ){
+                console.log("B");
+                languageMenu.style.transform = "translate3d( 0px, 320px, 0px )";
+            }else{
+                console.log("C " + languageMenu.style.transform);
+                languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
+            }
+        }
+    }
+
     function onKeyPressSearch(e){
         if ( e.key === "Enter" ) {
             let value = e.target.value;
@@ -1469,13 +1518,20 @@
     <div class="container">
 
         <header>
+            <ul class="language-menu">
+                <li>English</li>
+                <li>简体中文</li>
+                <li>日本語</li>
+                <li>Deutsch</li>
+                <li>Français</li>
+            </ul>
             <div class="menus">
                 <ul>
                     <li>
 
                     </li>
                     <li>talkn</li>
-                    <li>
+                    <li onclick="onClickLanguage()">
                         Language(<%= language %>)
                     </li>
                 </ul>
