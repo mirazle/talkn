@@ -4,6 +4,7 @@
     let one3 = 'kept warm.';
     let two1 = "Let's talk with the viewer";
     let two2 = 'of the same web site.';
+    let two12Br = false;
     let three1 = "Let's embed it on web sites";
     let three2 = 'all over the world.';
     let three12Br = false;
@@ -38,13 +39,16 @@
         three12Br = true;
         fourth1 = "让我们谈谈'不需要登录',";
         fourth2 = "关于'有趣'和'印象'。";
+        fiveCompanyKey = "公司";
+        fiveContactKey = "联系";
         break;
     case "ja":
         one1 = "ログイン要らずの";
         one2 = "'温度を保った'";
         one3 = "コミニュケーションを。";
-        two1 = "同じWEBサイトを";
+        two1 = "同じWEBサイトを　";
         two2 = "見ている人と話そう。";
+        two12Br = true;
         three1 = "世界中のWEBサイトに";
         three2 = "埋め込もう。";
         three12Br = true;
@@ -68,33 +72,35 @@
         letterSpacing = "2px";
         break;
     case "de":
-
+        one1 = "Kein Login,";
+        one2 = "Lass uns ein warmes";
+        one3 = "Gespräch führen.";
+        two1 = "Sprechen wir mit Leuten,";
+        two2 = "die dieselbe Website besuchen.";
+        three1 = "Lassen Sie uns es auf Webseiten";
+        three2 = "auf der ganzen Welt einbetten.";
+        three12Br = false;
+        fourth1 = "Reden wir unter Kein Login,";
+        fourth2 = "über Spaß & Eindruck";
+        fiveCompanyKey = "Firma";
+        fiveContactKey = "Anfrage";
         break;
     case "fr":
-
+        one1 = "Pas de login,";
+        one2 = "Une communication qui";
+        one3 = "reste au chaud.";
+        two1 = "Parlons avec le spectateur";
+        two2 = "du même site Web.";
+        three1 = "Intégrons-le sur des sites Web";
+        three2 = "du monde entier.";
+        three12Br = false;
+        fourth1 = "Parlons à pas de connexion,";
+        fourth2 = "à propos de Fun & Impression.";
+        fiveCompanyKey = "Société";
+        fiveContactKey = "Enquête";
         break;
     }
 %>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -186,18 +192,18 @@
     }
 
     header .language-menu {
+        box-sizing: border-box;
         position: absolute;
-        top: -275px;
-        right: 0px;
+        top: -470px;
         display: flex;
         justify-content: center;
         align-items: flex-start;
         flex-direction: column;
+        flex-wrap: wrap;
         background: rgba(0,0,0,0.8);
         padding: 10px;
-        width: 30%;
-        min-width: 30px;
-        height: auto;
+        width: 100%;
+        height: 470px;
         z-index: 1;
         transition: 300ms;
         transform: translate3d(0px, 0px, 0px);
@@ -207,13 +213,13 @@
         display: inline-block;
         box-sizing: border-box;
         color: rgba(255,255,255,0.9);
-        margin: 5px;
-        padding: 10px 15px 10px 15px;
-        width: 100%;
+        margin: 2px;
+        padding: 10px;
+        width: 120px;
         transition: 300ms;
     }
 
-    header .language-menu li:hover {
+    header .language-menu li.active:hover {
         color: rgba(0,0,0,0.8);
         background: rgba(255,255,255,0.8);
     }
@@ -305,6 +311,7 @@
         position: absolute;
         height: initial;
         top: 43px;
+        z-index: 0;
     }
 
     .pointer{
@@ -1247,11 +1254,11 @@
     function onClickLanguage(){
         const languageMenu = document.querySelector(".language-menu");
         if( languageMenu.style.transform === "" ){
-            languageMenu.style.transform = "translate3d( 0px, 320px, 0px )";
+            languageMenu.style.transform = "translate3d( 0px, 520px, 0px )";
         }else{
 
             if( languageMenu.style.transform === "translate3d(0px, 0px, 0px)" ){
-                languageMenu.style.transform = "translate3d( 0px, 320px, 0px )";
+                languageMenu.style.transform = "translate3d( 0px, 520px, 0px )";
             }else{
                 languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
             }
@@ -1522,11 +1529,38 @@
 
         <header>
             <ul class="language-menu">
-                <li onclick="onClickLanguageMenu('en')">English(en)</li>
-                <li onclick="onClickLanguageMenu('zh')">简体中文(zh)</li>
-                <li onclick="onClickLanguageMenu('ja')">日本語(ja)</li>
-                <li onclick="onClickLanguageMenu('de')">Deutsch(de)</li>
-                <li onclick="onClickLanguageMenu('fr')">Français(fr)</li>
+                <li onclick="onClickLanguageMenu('en')" class="active">English(en)</li>
+                <li onclick="onClickLanguageMenu('zh')" class="active">简体中文(zh)</li>
+                <li onclick="onClickLanguageMenu('ja')" class="active">日本語(ja)</li>
+                <li onclick="onClickLanguageMenu('de')" class="active">Deutsch(de)</li>
+                <li onclick="onClickLanguageMenu('fr')" class="active">Français(fr)</li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
+                <li> </li>
             </ul>
             <div class="menus">
                 <ul>
@@ -1587,7 +1621,10 @@
             <div class="content">
                 <div class="content-left">
                     <h2>
-                        <%= two1 %><br />
+                        <%= two1 %>
+                        <% if (two12Br) { %>
+                            <br />
+                        <% } %>
                         <%= two2 %>
                     </h2>
                     <h4>- No login communication -</h4>
