@@ -1,3 +1,103 @@
+<%
+    let one1 = 'No login,';
+    let one2 = 'Communication that';
+    let one3 = 'kept warm.';
+    let two1 = "Let's talk with the viewer";
+    let two2 = 'of the same web site.';
+    let three1 = "Let's embed it on web sites";
+    let three2 = 'all over the world.';
+    let three12Br = false;
+    let fourth1 = "Let's talk at No login,";
+    let fourth2 = "about Fun & Impression.";
+    let fiveCompanyKey = "COMPANY";
+    let fiveCompanyNameKey = "NAME";
+    let fiveCompanyNameValue = "talkn Co.,Ltd.";
+    let fiveCompanyFoundedKey = "FOUNDED";
+    let fiveCompanyFoundedValue = "May 20, 2019";
+    let fiveCompanyRepresentativeKey = "REPRESENTATIVE";
+    let fiveCompanyRepresentativeValue = "Hiroyuki Miyazaki";
+    let fiveCompanyPolicyKey = "POLICY";
+    let fiveCompanyPolicyValue = "Update the internet.";
+    let fiveContactKey = "CONTACT";
+    let fiveContactNameKey = "Your name";
+    let fiveContactMailKey = "Your email";
+    let fiveContactTitleKey = "Title";
+    let fiveContactContentKey = "Contents";
+    let fiveContactSendKey = "Send";
+    let letterSpacing = 0;
+
+    switch( language ){
+    case "zh":
+        one1 = "没有登录。";
+        one2 = "'保持温度'";
+        one3 = "让我们沟通吧。";
+        two1 = "我们来谈谈吧";
+        two2 = "同一网站的浏览者。";
+        three1 = "我们将它嵌入网站";
+        three2 = "世界各地的。";
+        three12Br = true;
+        fourth1 = "让我们谈谈'不要登录',";
+        fourth2 = "关于'有趣'和'印象'。";
+        break;
+    case "ja":
+        one1 = "ログイン要らずの";
+        one2 = "'温度を保った'";
+        one3 = "コミニュケーションを。";
+        two1 = "同じWEBサイトを";
+        two2 = "見ている人と話そう。";
+        three1 = "世界中のWEBサイトに";
+        three2 = "埋め込もう。";
+        three12Br = true;
+        fourth1 = "世界中の「楽しい」「感動」を";
+        fourth2 = "「ログイン要らず」で話そう。";
+        fiveCompanyKey = "会社";
+        fiveCompanyNameKey = "名前";
+        fiveCompanyNameValue = "株式会社talkn";
+        fiveCompanyFoundedKey = "設立";
+        fiveCompanyFoundedValue = "2019年5月";
+        fiveCompanyRepresentativeKey = "代表取締役";
+        fiveCompanyRepresentativeValue = "宮﨑博之";
+        fiveCompanyPolicyKey = "企業理念";
+        fiveCompanyPolicyValue = "Update the internet.";
+        fiveContactKey = "お問い合わせ";
+        fiveContactNameKey = "お名前";
+        fiveContactMailKey = "ご返信先Eメール";
+        fiveContactTitleKey = "タイトル";
+        fiveContactContentKey = "内容";
+        fiveContactSendKey = "送信";
+        letterSpacing = "2px";
+        break;
+    case "de":
+
+        break;
+    case "fr":
+
+        break;
+    }
+%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <!doctype html>
 <html>
@@ -8,19 +108,8 @@
         color: rgb(255,255,255);
         margin: 0;
         font-family: 游ゴシック, YuGothic, "Hiragino Sans", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, sans-serif;
-        letter-spacing: 0.05em;
-        font-size: 100%;
-    }
-
-    video {
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        z-index: 1;
+        letter-spacing: 0.03em;
+        font-size: 3vw;
     }
 
     .fixBackground {
@@ -71,11 +160,18 @@
         height: 960px;
     }
 
+    h2 {
+        font-size: 1.3em;
+        letter-spacing: <%= letterSpacing %>
+    }
+
     h3 {
         padding: 1vw 0px 0px 0px;
         margin: 0;
-        font-size: 1.5em;
-        letter-spacing: 0.25em;
+    }
+
+    h4 {
+        font-size:0.75em;
     }
 
     header {
@@ -86,6 +182,7 @@
         width: 100%;
         height: 100px;
         z-index: 10;
+        font-size: 15px;
     }
 
     .menus, nav {
@@ -151,7 +248,6 @@
         height: inherit;
         margin: 0;
         padding: 0;
-        font-size: 0.8em;
         cursor: pointer;
     }
 
@@ -169,7 +265,6 @@
         height: 50px;
         background: rgb(0,0,0,0.7);
         border-radius: 100px;
-        font-size: 12px;
     }
 
     .pointerWrap {
@@ -196,13 +291,13 @@
         align-items: flex-end;
         width: 55px;
         height: 55px;
-        font-size: 10px;
         line-height: 35px;
         background: rgba(0,0,0,1);
         position: fixed;
         top: -25px;
         border-radius: 100px;
         color: rgb(255,255,255);
+        font-size: 8px;
         transition: 300ms;
         transform: translate3d(0px,-25px,0px);
     }
@@ -216,10 +311,11 @@
     }
 
     section.one ::placeholder {
+        font-size: 14px;
+        line-height: 14px;
+        letter-spacing: 2px;
         color: rgba( 100,100,100 );
-        font-size: 1.3em;
         text-indent: 3vw;
-        letter-spacing: 0.25vw;
     }
     
 
@@ -235,6 +331,8 @@
     section.one input {
         width: inherit;
         height: 40px;
+        font-size: 14px;
+        letter-spacing: 2px;
         box-sizing: border-box;
         border: 0;
         border-radius: 20px;
@@ -242,8 +340,6 @@
         background: rgba(55,55,55,0.5);
         outline: 0;
         text-indent: 3vw;
-        letter-spacing: 0.25em;
-        font-size: 10px;
         line-height: 14px;
         box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.9);
         transition: 300ms;
@@ -266,13 +362,10 @@
         flex-direction: column;
         height: 120px;
         width: 100%;
-        font-size: 0.65em;
-        letter-spacing: 0.2em;
     }
 
     section .under-bar {
         position: relative;
-        left: -0.35vw;
         height: 4px;
         margin: 13px 0px 0px 0px;
         border-radius: 30px;
@@ -280,7 +373,6 @@
 
     section.one{
         flex-direction: column;
-        font-size: 5vw;
     }
 
     section.one .content {
@@ -304,15 +396,14 @@
     section.one .subtitle {
         width: 100%;
         text-align: center;
-        letter-spacing: 0.75em;
         text-shadow: 0px 0px 3px rgb(0,0,0);
     }
 
-    section.one h1 {
+    section.one h2 {
         margin: 0;
         text-align: center;
-        font-size: 1em;
         color: rgba(255, 255, 255, 1);
+        font-size: 38px;
         text-shadow:
             1px 1px 5px rgb(0,0,0),
             -10px -10px 50px rgb(255,255,255),
@@ -376,7 +467,6 @@
         top: 21px;
         left: -2px;
         background: rgba(255, 255, 255, 0.9);
-        letter-spacing: 1.5px;
         white-space: normal;
         quotes: none;
         content: none;
@@ -387,7 +477,6 @@
     }
 
     section.two{
-        font-size: 5vw;
         flex-direction: column;
         background: linear-gradient(to top right, rgba(9, 104, 89,0.9), rgba(109, 204, 189,0.9));
     }
@@ -402,7 +491,6 @@
     section.two .content-left {
         width: 60%;
         text-align: right;
-        font-size: 0.65em;
     }
 
     section.two .content-right {
@@ -415,15 +503,11 @@
     }
 
     section.two h2 {
-        font-size: 1.2em;
-        letter-spacing: 0.2em;
     }
 
     section.two h3 {
         padding: 0;
         margin: 0;
-        font-size: 0.7em;
-        letter-spacing: 0.25em;
         text-align: right;
     }
 
@@ -431,7 +515,6 @@
         width: 100%;
         height: 50px;
         position: absolute;
-        font-size: 0.6em;
         transform: translate3d(0px,400px,0px);
         background-image: url("//<%= assetsURL %>/img/chrome_extension.png");
         background-position: 95% 50%;
@@ -442,7 +525,6 @@
 
     section.three {
         flex-direction: initial;
-        font-size: 5vw;
     }
 
     section.three .content {
@@ -474,17 +556,9 @@
         width: 90%;
         padding: 0;
         margin: 0;
-        font-size: 1.2em;
-        letter-spacing: 0.075em;
         text-align: left;
     }
 
-    section.three h3 {
-        width: 90%;
-        font-size: 1em;
-        letter-spacing: 0.25em;
-        padding: 3vw 0px 0px 0px;
-    }
 
     section.three code pre .one-line{
         color: rgb(173, 154, 255);
@@ -519,14 +593,13 @@
 
     section.three .content-right-middle {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
         flex-direction: column;
+        box-sizing: border-box;
         width: 100%;
         height: 33.3%;
         background: rgba(70,70,70,0.9);
-        letter-spacing: 0.25em;
-        font-size: 0.65em;
     }
 
     section.three .content-right-bottom {
@@ -536,8 +609,6 @@
     }
 
     section.three h3 {
-        font-size: 0.7em;
-        letter-spacing: 0.075em;
     }
 
     section.three .link {
@@ -554,9 +625,9 @@
         padding: 5px 20px 5px 20px;
         border: 3px solid rgba(0,0,0,0.8);
         border-radius: 30px;
-        font-size: 0.4em;
         margin: 25px;
         color: rgba(0,0,0,0.8);
+        font-size: 0.75em;
         font-weight: bold;
         transition: 300ms;
     }
@@ -578,7 +649,6 @@
         flex-direction: column;
         z-index: 1;
         border-radius: 10px;
-        font-size: 0.5em;
         box-shadow: 0px 0px 10px 1px rgb(0,0,0,1);
         transition: 1000ms;
         opacity: 0;
@@ -586,24 +656,19 @@
 
     section.three code .code-title{
         color: rgb(255, 255, 255);
-        font-size: 1.5em;
         font-weight: bold;
-        letter-spacing: 5px;
     }
 
     section.fourth {
         flex-direction: column;
         justify-content: flex-start;
         background: rgba(65, 105, 225, 0.8);
-        font-size: 5vw;
         padding: 50px 0px 0px 0px;
     }
 
     section.fourth h2 {
         padding: 0;
         margin: 0px 0px 70px 0px;
-        font-size: 0.75em;
-        letter-spacing: 0.1em;
         text-align: center;
     }
 
@@ -638,7 +703,6 @@
         transition: 300ms;
     }
 
-
     section.fourth .content-left:hover, section.fourth .content-right:hover {
         background: rgba(45, 85, 205, 1);
     }
@@ -648,9 +712,7 @@
         align-items: center;
         justify-content: center;
         height: 20%;
-        font-size: 0.8em;
         font-weight: bold;
-        letter-spacing: 0.1em;
     }
 
     section.fourth .status {
@@ -659,7 +721,7 @@
         justify-content: center;
         height: 20%;
         padding: 10px;
-        font-size: 0.5em;
+        font-size: 18px;
     }
 
     section.fourth .tools {
@@ -676,7 +738,6 @@
         background: rgba(255,255,255,0.9);
         color: rgb(0,0,0);
         padding: 50px 0px 0px 0px;
-        font-size: 5vw;
     }
 
     section.five .under-bar {
@@ -688,22 +749,23 @@
         width: 100%;
         max-width: 600px;
         box-sizing: border-box;
-        font-size: 16px;
         color: rgb(70, 70, 70);
     } 
 
     section.five .company th{
-        width: 100px;
+        width: 110px;
         padding: 5px;
         background: rgba(0,0,0,0.1);
         text-align: left;
-        text-indent: 15px;
+        text-indent: 10px;
+        font-size: 12px;
     }
 
     section.five .company td{
-        padding: 5px 20px 5px 20px;
+        padding: 5px 10px 5px 10px;
         background: rgba(0,0,0,0.04);
         text-align: left;
+        font-size: 12px;
     }
 
     section.five .contact {
@@ -737,8 +799,6 @@
         height: 35px;
         padding: 5px 20px 5px 20px;
         width: 100%;
-        font-size: 16px;
-        letter-spacing: 2px;
         text-indent: 5px;
         outline: 0;
         box-shadow: none;
@@ -759,7 +819,6 @@
         border: 1px solid rgb(220, 220, 220);
         border-radius: 5px;
         background: rgba( 200, 200, 200, 0.5 );
-        font-size: 14px;
         color: rgb(100, 100, 100);
         transition: 300ms;
     }
@@ -770,7 +829,6 @@
     }
 
     section.five ::placeholder {
-        letter-spacing: 4px;
         text-indent: 5px;
     }
 
@@ -791,6 +849,7 @@
         height: 300px;
         background: rgba(0,0,0,0.8);
         padding: 0px 0px 40px 0px;
+        font-size: 13px;
     }
 
     .toTop {
@@ -805,7 +864,6 @@
         background: rgba(0, 0, 0, 0.1);
         border: 1px solid rgba( 255, 255, 255, 0.2);
         border-radius: 5px;
-        font-size: 0.75em;
         color: rgb(255,255,255);
         transition: 300ms;
         cursor: pointer;
@@ -834,7 +892,6 @@
     }
 
     a:link {
-        font-size: 0.75em;
         color: rgb(255,255,255);
         text-decoration: none;
     }
@@ -850,23 +907,27 @@
 
     @media screen and (min-width:0px) and ( max-width:600px) {
 
+        header {
+            font-size: 14px;
+        }
+
         section.one ::placeholder {
-            text-indent: 2vw;
-            letter-spacing: 0.5vw;
+            font-size: 1em;
+            letter-spacing: 2px;
+            text-indent: 3vw;
         }
 
         section.one input {
-            height: 40px;
-            text-indent: 2vw;
-            letter-spacing: 0.5vw;
+            font-size: 1em;
+            letter-spacing: 2px;
+            text-indent: 3vw;
         }
 
-        section.one h1 {
-            font-size: 30px !important;
+        section.one h2 {
+            font-size: 26px !important;
         }
 
         section.one .subtitle {
-            font-size: 0.8em !important;
         }
 
         section.one .eyecatch {
@@ -883,13 +944,10 @@
         }
 
         h2 {
-            letter-spacing: 0.1em !important;
-            font-size: 1.5em !important;
+            font-size: 1.5em;
         }
 
         h3 {
-            font-size: 2em;
-            letter-spacing: 0.1em !important;
         }
 
         section {
@@ -898,7 +956,6 @@
 
         section .title {
             height: 100px;
-            font-size: 25px !important;
         }
 
         section.two .bar {
@@ -909,9 +966,11 @@
             background-size: contain;
             transform: rotate(-5deg) scale(1.75) translate3d(35px, 0px, 0px);
         }
-        
+
+        section.two h2 {
+        }
+
         section.two h3 {
-            font-size: 0.9em;
         }
 
         section.two .link {
@@ -930,7 +989,6 @@
         }
 
         section.three .content-left pre {
-            font-size: 0.9em;
             font-weight: bold;
         }
 
@@ -939,17 +997,10 @@
             height: 50% !important;
         }
 
-        section.three h2 {
-            width: 70% !important;
-        }
-
-        section.three h3 {
-            font-size: 0.9em;
-            width: 70% !important;
-        }
-
         section.three .content-right-middle {
             height: 50vw !important;
+            padding-left: 20vw;
+            align-items: flex-start;
         }
 
         section.three .content-left .iframeCap {
@@ -967,16 +1018,13 @@
         section.three .link .copyIframe {
             border: 3px solid rgb(255,255,255);
             color: rgb(255,255,255);
-            font-size: 0.75em;
         }
 
         section.three code pre {
-            font-size: 1.3em;
         }
 
         section.fourth h2 {
             margin: 0px 0px 30px 0px;
-            font-size: 1.0em !important;
         }
 
         section.fourth .content-right, section.fourth .content-left {
@@ -990,11 +1038,9 @@
         }
 
         section.fourth .terminal {
-            font-size: 25px !important;
         }
 
         section.fourth .status {
-            font-size: 15px !important;
         }
 
         section.fourth .tools {
@@ -1003,17 +1049,14 @@
 
         section.five ::placeholder {
             text-indent: 0px !important;
-            letter-spacing: 1px !important;
         }
 
         section.five input {
             text-indent: 0px !important;
-            letter-spacing: 1px !important;
         }
 
         section.five .title {
             height: 50px;
-            font-size: 15px !important;
             font-weight: bold;
         } 
 
@@ -1023,7 +1066,7 @@
 
         section.five .company, section.five .contact {
             width: 96%;
-            font-size: 14px;
+            font-size: 12px;
         } 
 
         section.five .contact [type=submit] {
@@ -1032,39 +1075,55 @@
         }
     }
 
-    @media screen and (min-width:1206px) {
+    @media screen and (min-width:1200px) {
         h2 {
-            font-size: 45px !important;
-            letter-spacing: 0.15em !important;
-        }
-
-        pre {
-            font-size: 30px !important;
+            font-size: 45px;
         }
 
         h3 {
-            font-size: 18px !important;
+            font-size: 40px;
+        }
+
+        h4{
+            font-size: 20px;
         }
 
         section .title {
             height: 150px;
-            font-size: 45px !important;
+        }
+
+        section.one h2 {
+            font-size: 40px;
         }
 
         section.one h1 {
-            font-size: 60px !important;
+        }
+
+        section.two h2 {
+        }
+
+        section.three h2 {
         }
 
         section.three .content-left .iframeCap {
             background-size: 340px;
         }
 
+        section.three .link .copyIframe {
+            font-size: 25px;
+        }
+
         section.three code .code-title{
-            font-size: 35px;
         }
 
         section.three code {
-            font-size: 30px;
+        }
+
+        section.three .content-right-middle {
+            padding-left: 2vw;
+        }
+
+        section.fourth h2 {
         }
 
         section.fourth .under-bar {
@@ -1072,11 +1131,10 @@
         }
 
         section.fourth .terminal {
-            font-size: 45px !important;
+            font-size: 45px;
         }
 
         section.fourth .status {
-            font-size: 22px !important;
         }
 
         section.fourth .tools {
@@ -1091,6 +1149,22 @@
         section.fourth .content-right {
             margin: 0 10%;
             width: 30%;
+        }
+
+        section.fourth .content-left, section.fourth .content-right {
+            padding: 20px;
+        }
+
+        section.five .company th{
+            font-size: 14px;
+        }
+
+        section.five .company td{
+            font-size: 14px;
+        }
+
+        section.five .title{
+            font-size:30px;
         }
     }
 </style>
@@ -1209,10 +1283,10 @@
         const changeAccessoryFunc = ( scrollY ) => {
             const changeNavMenuHeight = ( oneScreenHeight * ( pointerStyles.length - 1 ) ) + headerHeight;
             if( scrollY >= changeNavMenuHeight){
-                accessory.style.transform = "translate3d(0px, -25px, 0px)";
-                accessory.style.width = "80px";
-                accessory.style.height = "80px";
-                accessory.innerText = "Company";
+                accessory.style.transform = "translate3d(0px, -45px, 0px)";
+                accessory.style.width = "100px";
+                accessory.style.height = "100px";
+                accessory.innerText = "Powerd by";
             }else{
                 accessory.style.transform = "translate3d(0px, 0px, 0px)";
                 accessory.style.width = "55px";
@@ -1397,9 +1471,13 @@
         <header>
             <div class="menus">
                 <ul>
-                    <li></li>
+                    <li>
+
+                    </li>
                     <li>talkn</li>
-                    <li>(  EN  |  CH  |  JA  )</li>
+                    <li>
+                        Language(<%= language %>)
+                    </li>
                 </ul>
             </div>
 
@@ -1422,11 +1500,11 @@
         <section class="one">
             <div class="content">
                 <div class="eyecatch">
-                    <h1>
-                        ログイン要らずの<br />
-                        '温度を保った'<br />
-                        コミニュケーションを。
-                    </h1>
+                    <h2>
+                        <%= one1 %><br />
+                        <%= one2 %><br />
+                        <%= one3 %>
+                    </h2>
                 </div>
 
                 <div class="inputWrap">
@@ -1450,16 +1528,10 @@
             <div class="content">
                 <div class="content-left">
                     <h2>
-                        同じWEBサイトを<br />見ている人と話そう。
-                        <!--
-                        <span class="highlight">
-                            Commnet
-                        </span> to<br />
-                        all websites<br />
-                        around the world
-                        -->
+                        <%= two1 %><br />
+                        <%= two2 %>
                     </h2>
-                    <h3>- No login communication -</h3>
+                    <h4>- No login communication -</h4>
                 </div>
                 <div class="content-right"></div>
             </div>
@@ -1475,22 +1547,13 @@
                         <div class="content-right-top"></div>
                         <div class="content-right-middle">
                             <h2>
-                                世界中のWEBサイトに<br />埋め込もう。
-<!--
-                                <div>
-                                    <span class="highlight">
-                                        Embed
-                                    </span>
-                                    </span>
-                                        to
-                                        <br />
-                                        all websites<br />
-                                        around the world
-                                    </span>                                
-                                </div>
-                            -->
+                                <%= three1 %>
+                                <% if (three12Br) { %>
+                                    <br />
+                                <% } %>
+                                <%= three2 %>
                             </h2>
-                            <h3>- Let's write one line in HTML5 -</h3>
+                            <h4>- Let's write one line in HTML5 -</h4>
                         </div>
                         <div class="content-right-bottom"></div>
                     </div>
@@ -1519,12 +1582,13 @@
         <section class="fourth">
 
             <div class="title">
-                Smartphone
+                <h3>Smartphone</h3>
                 <div class="under-bar"></div>
             </div>
         
             <h2>
-                世界中の「楽しい」「感動」を<br />「ログイン要らず」で話そう。<br />
+                <%= fourth1 %><br />
+                <%= fourth2 %><br />
             </h2>
 
             <div class="content">
@@ -1549,50 +1613,50 @@
 
         <section class="five">
             <div class="title">
-                Company
+                <%= fiveCompanyKey %>
                 <div class="under-bar"></div>
             </div>
             <table class="company">
                 <tbody>
                     <tr>
-                        <th>会社名</th>
-                        <td>株式会社talkn</td>
+                        <th><%= fiveCompanyNameKey %></th>
+                        <td><%= fiveCompanyNameValue %></td>
                     </tr>
                     <tr>
-                        <th>設立</th>
-                        <td>2019年5月</td>
+                        <th><%= fiveCompanyFoundedKey %></th>
+                        <td><%= fiveCompanyFoundedValue %></td>
                     </tr>
                     <tr>
-                        <th>代表取締役</th>
-                        <td>宮﨑博之(Hiroyuki Miyazaki)</td>
+                        <th><%= fiveCompanyRepresentativeKey %></th>
+                        <td><%= fiveCompanyRepresentativeValue %></td>
                     </tr>
                     <tr>
-                        <th>企業理念</th>
-                        <td>Update the internet</td>
+                        <th><%= fiveCompanyPolicyKey %></th>
+                        <td><%= fiveCompanyPolicyValue %></td>
                     </tr>
                 </tbody>
             </table>
 
             <br />
             <div class="title">
-                Contact
+                <%= fiveContactKey %>
                 <div class="under-bar"></div>
             </div>
 
             <div class="contact">
                 <form method="POST" action="/mail">
                     <div class="oneline">
-                        <input class="grow" name="inquiry[name]" placeholder="お名前" type="text" maxlength=50 size=20　/>
-                        <input class="grow" name="inquiry[mail]" placeholder="返信先mail" maxlength=50 type="text" size=20　/>
+                        <input class="grow" name="inquiry[name]" placeholder="<%= fiveContactNameKey %>" type="text" maxlength=50 size=20　/>
+                        <input class="grow" name="inquiry[mail]" placeholder="<%= fiveContactMailKey %>" maxlength=50 type="text" size=20　/>
                     </div>
                     <div class="oneline">
-                        <input name="inquiry[title]" placeholder="タイトル" type="text" maxlength=50 size=20 />
+                        <input name="inquiry[title]" placeholder="<%= fiveContactTitleKey %>" type="text" maxlength=50 size=20 />
                     </div>
                     <div class="oneline">
-                        <textarea name="inquiry[content]" placeholder="内容" type="text" maxlength=800 size=20></textarea>
+                        <textarea name="inquiry[content]" placeholder="<%= fiveContactContentKey %>" type="text" maxlength=800 size=20></textarea>
                     </div>
                     <div class="oneline">
-                        <input type="submit" valur=" SEND "/>
+                        <input type="submit" value=" <%=fiveContactSendKey %> "/>
                     </div>
                 </form>
             </div>

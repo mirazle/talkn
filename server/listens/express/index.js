@@ -6,6 +6,7 @@ import url from 'url';
 import define from '~/common/define';
 import Session from '~/server/listens/express/session/';
 import Mail from '~/server/logics/Mail';
+import Geolite from '~/server/logics/Geolite';
 import conf from '~/server/conf';
 
 
@@ -16,7 +17,9 @@ class Express{
     this.httpsApp = express();
     this.httpsApp.set('views', conf.serverPath );
     this.httpsApp.set('view engine', 'ejs');
+    this.httpsApp.set('trust proxy', true);
     this.httpsApp.use(bodyParser.urlencoded({extended: true}));
+
     this.session = new Session( this.httpsApp );
 
     this.routingHttps = this.routingHttps.bind(this);
@@ -52,10 +55,10 @@ class Express{
   routingHttps( req, res, next ){
     switch( req.headers.host ){
     case conf.wwwURL:
-
-    
+      const language = Geolite.getLanguage( req );
       if( req.method === "GET" ){
         res.render( 'www/index', {
+          language,
           domain: conf.domain,
           assetsURL: conf.assetsURL
         });
