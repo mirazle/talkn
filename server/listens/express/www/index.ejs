@@ -25,7 +25,9 @@
     let fiveContactTitleKey = "Title";
     let fiveContactContentKey = "Contents";
     let fiveContactSendKey = "Send";
-    let letterSpacing = 0;
+    let letterSpacingSmall = 0;
+    let letterSpacingMiddle = 0;
+    let letterSpacingLarge = 0;
 
     switch( language ){
     case "zh":
@@ -46,7 +48,7 @@
         one1 = "ログイン要らずの";
         one2 = "'温度を保った'";
         one3 = "コミニュケーションを。";
-        two1 = "同じWEBサイトを　";
+        two1 = "同じWEBサイトを ";
         two2 = "見ている人と話そう。";
         two12Br = true;
         three1 = "世界中のWEBサイトに";
@@ -69,7 +71,9 @@
         fiveContactTitleKey = "タイトル";
         fiveContactContentKey = "内容";
         fiveContactSendKey = "送信";
-        letterSpacing = "2px";
+        letterSpacingSmall = "2px";
+        letterSpacingMiddle = "2px";
+        letterSpacingLarge = "5px";
         break;
     case "de":
         one1 = "Kein Login,";
@@ -91,6 +95,7 @@
         one3 = "reste au chaud.";
         two1 = "Parlons avec le spectateur";
         two2 = "du même site Web.";
+        two12Br = true;
         three1 = "Intégrons-le sur des sites Web";
         three2 = "du monde entier.";
         three12Br = false;
@@ -98,6 +103,81 @@
         fourth2 = "à propos de Fun & Impression.";
         fiveCompanyKey = "Société";
         fiveContactKey = "Enquête";
+        break;
+    case "hi":
+        one1 = "कोई लॉगिन नहीं,";
+        one2 = "संचार कि";
+        one3 = "गर्म रखा गया।";
+        two1 = "के साथ बात करते हैं";
+        two2 = "उसी वेब साइट का दर्शक।";
+        two12Br = true;
+        three1 = "आइए इसे वेब साइटों पर एम्बेड करें";
+        three2 = "पूरी दुनिया में।";
+        three12Br = false;
+        fourth1 = "नो लॉगिन पर बात करते हैं,";
+        fourth2 = "मज़ा और छाप के बारे में";
+        fiveCompanyKey = "कंपनी";
+        fiveContactKey = "संपर्क करें";
+        break;
+    case "pt":
+        one1 = "Sem login,";
+        one2 = "Comunicação que";
+        one3 = "se manteve quente.";
+        two1 = "Vamos conversar com";
+        two2 = "o espectador do mesmo site.";
+        two12Br = true;
+        three1 = "Vamos incorporá-lo em sites";
+        three2 = "No mundo todo.";
+        three12Br = false;
+        fourth1 = "Vamos conversar no No login,";
+        fourth2 = "sobre diversão e impressão.";
+        fiveCompanyKey = "EMPRESA";
+        fiveContactKey = "CONTATO";
+        break;
+    case "it":
+        one1 = "Nessun accesso,";
+        one2 = "Comunicazione che";
+        one3 = "si mantiene calda.";
+        two1 = "Parliamo con lo spettatore";
+        two2 = "dello stesso sito web.";
+        two12Br = true;
+        three1 = "Incorporiamolo sui siti web";
+        three2 = "tutto il mondo.";
+        three12Br = false;
+        fourth1 = "Parliamo senza accesso,";
+        fourth2 = "su Fun & Impression.";
+        fiveCompanyKey = "AZIENDA";
+        fiveContactKey = "CONTATTO";
+        break;
+    case "ru":
+        one1 = "Нет логина,";
+        one2 = "Общение, которое";
+        one3 = "сохраняло тепло.";
+        two1 = "Давайте поговорим со";
+        two2 = "зрителем того же сайта.";
+        two12Br = true;
+        three1 = "Давайте вставим это на веб-сайты";
+        three2 = "по всему миру.";
+        three12Br = false;
+        fourth1 = "Давайте поговорим на Нет входа,";
+        fourth2 = "о веселье и впечатления.";
+        fiveCompanyKey = "КОМПАНИЯ";
+        fiveContactKey = "CONTACT";
+        break;
+    case "ko":
+        one1 = "로그인 없음,";
+        one2 = "따뜻한";
+        one3 = "커뮤니케이션.";
+        two1 = "같은 웹 사이트의";
+        two2 = "시청자와 이야기 해 봅시다.";
+        two12Br = true;
+        three1 = "웹 사이트에 그것을 포함 시키자.";
+        three2 = "전 세계.";
+        three12Br = false;
+        fourth1 = "로그인하지 말자.";
+        fourth2 = "재미와 인상에 대해서.";
+        fiveCompanyKey = "회사";
+        fiveContactKey = "접촉";
         break;
     }
 %>
@@ -168,7 +248,7 @@
 
     h2 {
         font-size: 1.3em;
-        letter-spacing: <%= letterSpacing %>
+        letter-spacing: <%= letterSpacingMiddle %>
     }
 
     h3 {
@@ -194,7 +274,7 @@
     header .language-menu {
         box-sizing: border-box;
         position: absolute;
-        top: -470px;
+        top: -490px;
         display: flex;
         justify-content: center;
         align-items: flex-start;
@@ -203,7 +283,8 @@
         background: rgba(0,0,0,0.8);
         padding: 10px;
         width: 100%;
-        height: 470px;
+        height: 490px;
+        border-radius: 0px 0px 5px 5px;
         z-index: 1;
         transition: 300ms;
         transform: translate3d(0px, 0px, 0px);
@@ -215,7 +296,7 @@
         color: rgba(255,255,255,0.9);
         margin: 2px;
         padding: 10px;
-        width: 120px;
+        width: 30%;
         transition: 300ms;
     }
 
@@ -964,6 +1045,10 @@
             text-indent: 3vw;
         }
 
+        h2 {
+            letter-spacing: <%= letterSpacingSmall %>
+        }
+
         section.one h2 {
             font-size: 26px !important;
         }
@@ -986,9 +1071,6 @@
 
         h2 {
             font-size: 1.5em;
-        }
-
-        h3 {
         }
 
         section {
@@ -1119,6 +1201,7 @@
     @media screen and (min-width:1200px) {
         h2 {
             font-size: 45px;
+            letter-spacing: <%= letterSpacingLarge %>
         }
 
         h3 {
@@ -1255,11 +1338,11 @@
         const languageMenu = document.querySelector(".language-menu");
 
         if( languageMenu.style.transform === "" ){
-            languageMenu.style.transform = "translate3d(0px, 520px, 0px )";
+            languageMenu.style.transform = "translate3d(0px, 540px, 0px )";
         }else{
 
             if( languageMenu.style.transform === "translate3d(0px, 0px, 0px)" ){
-                languageMenu.style.transform = "translate3d(0px, 520px, 0px )";
+                languageMenu.style.transform = "translate3d(0px, 540px, 0px )";
             }else{
                 languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
             }
@@ -1499,8 +1582,17 @@
 
         document.querySelector(".language-menu").addEventListener("transitionend", () => {
             const languageMenu = document.querySelector(".language-menu");
+console.log("@@@ A");
             if( languageMenu.style.transform === "translate3d(0px, 520px, 0px)" ){
+console.log("@@@ B");
                 document.body.addEventListener("click", function temp(){
+console.log("@@@ C");
+                    languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
+                    this.removeEventListener("click", temp);
+                });
+
+                document.querySelector(".container").addEventListener("click", function temp(){
+console.log("@@@ D");
                     languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
                     this.removeEventListener("click", temp);
                 });
@@ -1545,11 +1637,11 @@
                 <li onclick="onClickLanguageMenu('ja')" class="active">日本語(ja)</li>
                 <li onclick="onClickLanguageMenu('de')" class="active">Deutsch(de)</li>
                 <li onclick="onClickLanguageMenu('fr')" class="active">Français(fr)</li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
+                <li onclick="onClickLanguageMenu('hi')" class="active">हिंदी(hi)</li>
+                <li onclick="onClickLanguageMenu('pt')" class="active">Português(pt)</li>
+                <li onclick="onClickLanguageMenu('it')" class="active">Italiano(it)</li>
+                <li onclick="onClickLanguageMenu('ru')" class="active">русский(ru)</li>
+                <li onclick="onClickLanguageMenu('ko')" class="active">한국(ko)</li>
 
                 <li> </li>
                 <li> </li>
