@@ -44,6 +44,12 @@ export default class Geolite {
       return "fa";
     }else if( req.headers['accept-language'].indexOf("nn") === 0 ){
       return "nn";
+    }else if( req.headers['accept-language'].indexOf("ga") === 0 ){
+      return "ga";
+    }else if( req.headers['accept-language'].indexOf("he") === 0 ){
+      return "he";
+    }else if( req.headers['accept-language'].indexOf("mr") === 0 ){
+      return "mr";
     }else{
       return "en";
     }
