@@ -344,6 +344,51 @@
         fiveCompanyKey = "selskapet";
         fiveContactKey = "Kontakt";
         break;
+    case "ga":
+        one1 = "Ingen innlogging,"
+        one2 = "Cumarsáid a choimeád te.";
+        one3 = "";
+        two1 = "Déanaimis labhairt leis an lucht féachana";
+        two2 = "ar an suíomh gréasáin céanna.";
+        two12Br = false;
+        three1 = "A ligean ar é a leabú ar láithreáin";
+        three2 = "ghréasáin ar fud an domhain.";
+        three12Br = true;
+        fourth1 = "Déanaimis caint ar Gan logáil isteach,";
+        fourth2 = "faoi Fun & Impression.";
+        fiveCompanyKey = "Cuideachta";
+        fiveContactKey = "Teagmháil";
+        break;
+    case "he":
+        one1 = "אין כניסה,"
+        one2 = "תקשורת שהחמימה.";
+        one3 = "";
+        two1 = "בואו נדבר עם הצופה ";
+        two2 = "של אותו אתר.";
+        two12Br = true;
+        three1 = "בואו להטביע אותו באתרי אינטרנט";
+        three2 = "בכל העולם.";
+        three12Br = true;
+        fourth1 = "בוא נדבר ב אין כניסה,";
+        fourth2 = "על כיף & הופעות.";
+        fiveCompanyKey = "החברה";
+        fiveContactKey = "איש קשר";
+        break;
+    case "mr":
+        one1 = "Tiada log masuk,";
+        one2 = "Komunikasi yang hangat.";
+        one3 = "";
+        two1 = "Mari kita bercakap dengan penonton";
+        two2 = "laman web yang sama.";
+        two12Br = false;
+        three1 = "Mari benamkannya di laman web";
+        three2 = "seluruh dunia.";
+        three12Br = true;
+        fourth1 = "Mari kita bercakap pada Tiada login,";
+        fourth2 = "mengenai Fun & Impression.";
+        fiveCompanyKey = "Syarikat";
+        fiveContactKey = "Hubungi";
+        break;
     }
 %>
 
@@ -439,7 +484,7 @@
     header .language-menu {
         box-sizing: border-box;
         position: absolute;
-        top: -490px;
+        top: -380px;
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
@@ -448,7 +493,7 @@
         background: rgba(0,0,0,0.8);
         padding: 10px;
         width: 100%;
-        height: 490px;
+        height: 380px;
         border-radius: 0px 0px 5px 5px;
         z-index: 1;
         transition: 300ms;
@@ -462,6 +507,7 @@
         margin: 2px;
         padding: 10px;
         width: 30%;
+        height: 40px;
         transition: 300ms;
     }
 
@@ -1508,11 +1554,11 @@
         const languageMenu = document.querySelector(".language-menu");
 
         if( languageMenu.style.transform === "" ){
-            languageMenu.style.transform = "translate3d(0px, 540px, 0px )";
+            languageMenu.style.transform = "translate3d(0px, 430px, 0px )";
         }else{
 
             if( languageMenu.style.transform === "translate3d(0px, 0px, 0px)" ){
-                languageMenu.style.transform = "translate3d(0px, 540px, 0px )";
+                languageMenu.style.transform = "translate3d(0px, 430px, 0px )";
             }else{
                 languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
             }
@@ -1801,24 +1847,24 @@
                 <li onclick="onClickLanguageMenu('hi')" class="active">हिंदी(hi)</li>
                 <li onclick="onClickLanguageMenu('pt')" class="active">Português(pt)</li>
                 <li onclick="onClickLanguageMenu('it')" class="active">Italiano(it)</li>
+
                 <li onclick="onClickLanguageMenu('ru')" class="active">русский(ru)</li>
                 <li onclick="onClickLanguageMenu('ko')" class="active">한국(ko)</li>
-
                 <li onclick="onClickLanguageMenu('es')" class="active">Español(es)</li>
                 <li onclick="onClickLanguageMenu('id')" class="active">Indonesio(id)</li>
                 <li onclick="onClickLanguageMenu('tr')" class="active">Turco(tr)</li>
                 <li onclick="onClickLanguageMenu('nl')" class="active">Holandes(nl)</li>
                 <li onclick="onClickLanguageMenu('ar')" class="active">العربية(ar)</li>
                 <li onclick="onClickLanguageMenu('zh-TW')" class="active">繁体中文(zh-TW)</li>
+
                 <li onclick="onClickLanguageMenu('pl')" class="active">Polski(pl)</li>
                 <li onclick="onClickLanguageMenu('sv')" class="active">svenska(sv)</li>
                 <li onclick="onClickLanguageMenu('th')" class="active">Thailändska(th)</li>
                 <li onclick="onClickLanguageMenu('fa')" class="active">فارسی(fa)</li>
-
                 <li onclick="onClickLanguageMenu('nn')" class="active">norsk(nn)</li>
-                <li> </li>
-                <li> </li>
-                <li> </li>
+                <li onclick="onClickLanguageMenu('ga')" class="active">Gaeilge(ga)</li>
+                <li onclick="onClickLanguageMenu('he')" class="active">עברית(he)</li>
+                <li onclick="onClickLanguageMenu('mr')" class="active">Melayu(mr)</li>
                 <li> </li>
                 <li> </li>
                 <li> </li>
