@@ -3,7 +3,6 @@ export default class Geolite {
 
     //const splitedAccesptLanguage = req.headers['accept-language'].split(",");
     //return splitedAccesptLanguage[ 0 ];
-    console.log(req.headers['accept-language']); 
     if( req.headers['accept-language'].indexOf("ja") === 0 ){
       return "ja";      
     }else if( req.headers['accept-language'].indexOf("zh-TW") === 0 ){
