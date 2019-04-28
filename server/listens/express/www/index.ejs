@@ -398,7 +398,38 @@
 <!doctype html>
 <html>
 <head>
+<title>talkn</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta content="Comment to web. talkn can share comments with users watching the same web page. Please enjoy the world of talkn." name="description">
+
+<link rel="canonical" href="https://<%= wwwURL %>/">
+<link rel="alternate" hreflang="en" href="https://<%= wwwURL %>/en">
+<link rel="alternate" hreflang="zh" href="https://<%= wwwURL %>/zh">
+<link rel="alternate" hreflang="ja" href="https://<%= wwwURL %>/ja">
+<link rel="alternate" hreflang="de" href="https://<%= wwwURL %>/de">
+<link rel="alternate" hreflang="fr" href="https://<%= wwwURL %>/fr">
+<link rel="alternate" hreflang="hi" href="https://<%= wwwURL %>/hi">
+<link rel="alternate" hreflang="pt" href="https://<%= wwwURL %>/pt">
+<link rel="alternate" hreflang="it" href="https://<%= wwwURL %>/it">
+
+<link rel="alternate" hreflang="ru" href="https://<%= wwwURL %>/ru">
+<link rel="alternate" hreflang="ko" href="https://<%= wwwURL %>/ko">
+<link rel="alternate" hreflang="es" href="https://<%= wwwURL %>/es">
+<link rel="alternate" hreflang="id" href="https://<%= wwwURL %>/id">
+<link rel="alternate" hreflang="tr" href="https://<%= wwwURL %>/tr">
+<link rel="alternate" hreflang="nl" href="https://<%= wwwURL %>/nl">
+<link rel="alternate" hreflang="ar" href="https://<%= wwwURL %>/ar">
+<link rel="alternate" hreflang="zh-TW" href="https://<%= wwwURL %>/zh-TW">
+
+<link rel="alternate" hreflang="pl" href="https://<%= wwwURL %>/pl">
+<link rel="alternate" hreflang="sv" href="https://<%= wwwURL %>/sv">
+<link rel="alternate" hreflang="th" href="https://<%= wwwURL %>/th">
+<link rel="alternate" hreflang="fa" href="https://<%= wwwURL %>/fa">
+<link rel="alternate" hreflang="nn" href="https://<%= wwwURL %>/nn">
+<link rel="alternate" hreflang="ga" href="https://<%= wwwURL %>/ga">
+<link rel="alternate" hreflang="he" href="https://<%= wwwURL %>/he">
+<link rel="alternate" hreflang="mr" href="https://<%= wwwURL %>/mr">
+
 <style type="text/css">
     body {
         color: rgb(255,255,255);
@@ -1566,7 +1597,7 @@
     }
 
     function onClickLanguageMenu(cn){
-        location.href = "https://www.<%= domain %>?lang=" + cn;
+        location.href = "https://<%= wwwURL %>?lang=" + cn;
     }
 
     function onKeyPressSearch(e){
@@ -1798,7 +1829,7 @@
 
         document.querySelector(".language-menu").addEventListener("transitionend", () => {
             const languageMenu = document.querySelector(".language-menu");
-            if( languageMenu.style.transform === "translate3d(0px, 540px, 0px)" ){
+            if( languageMenu.style.transform === "translate3d(0px, 430px, 0px)" ){
                 document.body.addEventListener("click", function temp(){
                     languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
                     this.removeEventListener("click", temp);
@@ -1865,12 +1896,6 @@
                 <li onclick="onClickLanguageMenu('ga')" class="active">Gaeilge(ga)</li>
                 <li onclick="onClickLanguageMenu('he')" class="active">עברית(he)</li>
                 <li onclick="onClickLanguageMenu('mr')" class="active">Melayu(mr)</li>
-                <li> </li>
-                <li> </li>
-                <li> </li>
-                <li> </li>
-                <li> </li>
-                <li> </li>
             </ul>
             <div class="menus">
                 <ul>
