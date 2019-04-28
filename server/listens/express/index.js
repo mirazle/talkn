@@ -20,6 +20,16 @@ class Express{
     this.httpsApp.set('trust proxy', true);
     this.httpsApp.use(bodyParser.urlencoded({extended: true}));
 
+
+    this.httpsApp.use( ( req, res, next ) => {
+      if ('/robots.txt' == req.url) {
+        res.type('text/plain')
+        res.send("User-agent: *\nAllow: /");
+      } else {
+          next();
+      }
+    });
+
     this.session = new Session( this.httpsApp );
 
     this.routingHttps = this.routingHttps.bind(this);
@@ -53,6 +63,7 @@ class Express{
   }
 
   routingHttps( req, res, next ){
+    console.log( "@@@ " + req.headers.host );
     switch( req.headers.host ){
     case conf.wwwURL:
       const language = req.query && req.query.lang ?
@@ -61,9 +72,12 @@ class Express{
         res.render( 'www/index', {
           language,
           domain: conf.domain,
+          wwwURL: conf.wwwURL,
           assetsURL: conf.assetsURL
         });
+
       }else if( req.method === "POST"){
+
         Mail.send( req.body.inquiry );
         res.redirect(`https://${conf.wwwURL}`);
       }
