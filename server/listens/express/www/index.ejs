@@ -63,7 +63,7 @@
         fiveCompanyFoundedKey = "設立";
         fiveCompanyFoundedValue = "2019年5月";
         fiveCompanyRepresentativeKey = "代表取締役";
-        fiveCompanyRepresentativeValue = "宮﨑博之";
+        fiveCompanyRepresentativeValue = "宮﨑博之(Hiroyuki Miyazaki)";
         fiveCompanyPolicyKey = "企業理念";
         fiveCompanyPolicyValue = "Update the internet.";
         fiveContactKey = "お問い合わせ";
@@ -1133,6 +1133,13 @@
         font-size: 12px;
     }
 
+
+    section.five .company img {
+        position: relative;
+        top: 3px;
+        width: 16px;
+    }
+
     section.five .contact {
         width: 100%;
         max-width: 600px;
@@ -1215,6 +1222,11 @@
         background: rgba(0,0,0,0.8);
         padding: 0px 0px 40px 0px;
         font-size: 13px;
+    }
+
+    footer .sns .fb-share-button{
+        position: relative;
+        top: -6px;
     }
 
     .toTop {
@@ -1875,9 +1887,10 @@
 
 </head>
 <body>
-    <!--
-    <video src="https://assets.localhost/www/movie2.mp4" autoplay loop muted></video>
-    -->
+
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"></script>
+
     <div class="fixBackground">
         <div class="background"></div>
     </div>
@@ -2074,7 +2087,16 @@
                     </tr>
                     <tr>
                         <th><%= fiveCompanyRepresentativeKey %></th>
-                        <td><%= fiveCompanyRepresentativeValue %></td>
+                        <td>
+                            <%= fiveCompanyRepresentativeValue %>
+                            <a href="https://twitter.com/messages/compose?recipient_id=mirazle&ref_src=twsrc%5Etfw" class="twitter-dm-button" data-size="large" data-screen-name="mirazle" data-show-count="false">
+                                <img class="twitter" src="https://<%= assetsURL %>/img/twitter.png" />
+                            </a>
+                            <a href="https://www.facebook.com/hiroyuki.miyazaki.5070">
+                                <img class="facebook" src="https://<%= assetsURL %>/img/facebook.png" />                            
+                            </a>
+                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        </td>
                     </tr>
                     <tr>
                         <th><%= fiveCompanyPolicyKey %></th>
@@ -2102,6 +2124,7 @@
                         <textarea name="inquiry[content]" placeholder="<%= fiveContactContentKey %>" type="text" maxlength=800 size=20></textarea>
                     </div>
                     <div class="oneline">
+                        <input type="hidden" value="<%=language %>"/>
                         <input type="submit" value=" <%=fiveContactSendKey %> "/>
                     </div>
                 </form>
@@ -2114,7 +2137,16 @@
         >
             <div class="arrow"></div>
         </div>
+
          <footer>
+            <div class="sns">
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <div class="fb-share-button" data-href="https://www.talkn.io" data-layout="button_count" data-size="large">
+                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.talkn.io%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
+                        Share
+                    </a>
+                </div>
+            </div>
             <div>Copyright © talkn, Inc.</div>
         </footer>
     </div>
