@@ -4,7 +4,7 @@
     let one3 = 'kept warm.';
     let two1 = "Let's talk with the viewer";
     let two2 = 'of the same web site.';
-    let two12Br = false;
+    let two12Br = true;
     let three1 = "Let's embed it on web sites";
     let three2 = 'all over the world.';
     let three12Br = false;
@@ -36,6 +36,7 @@
         one3 = "让我们沟通吧。";
         two1 = "我们来谈谈吧";
         two2 = "同一网站的浏览者。";
+        two12Br = true;
         three1 = "我们将它嵌入网站";
         three2 = "世界各地的。";
         three12Br = true;
@@ -1540,6 +1541,8 @@
     }
 </style>
 
+
+<script type="text/javascript" src="https://<%= assetsURL %>/service_worker.js"></script>
 <script type="text/javascript">
     const wideScreenWidth = 960;
     const smallScreenWidth = 600;
@@ -1560,6 +1563,18 @@
     let screen = 0;
     let isAnimateScrolling = false;
     let oneScreenHeight = smallScreenWidth;
+
+    function onServiceWorker(){
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                // 登録成功
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }).catch(function(err) {
+                // 登録失敗 :(
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        }
+    }
 
     function onMouseOver(num){
         movePointer(num);
