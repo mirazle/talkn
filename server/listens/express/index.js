@@ -19,17 +19,6 @@ class Express{
     this.httpsApp.set('view engine', 'ejs');
     this.httpsApp.set('trust proxy', true);
     this.httpsApp.use(bodyParser.urlencoded({extended: true}));
-
-
-    this.httpsApp.use( ( req, res, next ) => {
-      if ('/robots.txt' == req.url) {
-        res.type('text/plain')
-        res.send("User-agent: *\nAllow: /");
-      } else {
-          next();
-      }
-    });
-
     this.session = new Session( this.httpsApp );
 
     this.routingHttps = this.routingHttps.bind(this);
@@ -63,18 +52,23 @@ class Express{
   }
 
   routingHttps( req, res, next ){
-    console.log( "@@@ " + req.headers.host );
+
     switch( req.headers.host ){
     case conf.wwwURL:
       const language = req.query && req.query.lang ?
         req.query.lang : Geolite.getLanguage( req );
       if( req.method === "GET" ){
-        res.render( 'www/index', {
-          language,
-          domain: conf.domain,
-          wwwURL: conf.wwwURL,
-          assetsURL: conf.assetsURL
-        });
+
+        if ( req.url === "/" || ( req.url && req.url.indexOf("/?lang=") === 0 ) )  {
+          res.render( 'www/index', {
+            language,
+            domain: conf.domain,
+            wwwURL: conf.wwwURL,
+            assetsURL: conf.assetsURL
+          });
+        }else{
+          res.sendFile( `${conf.serverWwwPath}${req.url.replace("/", "")}` );
+        }
 
       }else if( req.method === "POST"){
 
