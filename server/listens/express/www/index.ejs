@@ -1226,7 +1226,18 @@
 
     footer .sns .fb-share-button{
         position: relative;
-        top: -6px;
+        top: -3px;
+    }
+
+    footer .sns {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    footer .sns .twitter, footer .sns .facebook {
+        margin: 20px;
     }
 
     .toTop {
@@ -2140,11 +2151,15 @@
 
          <footer>
             <div class="sns">
-                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                <div class="fb-share-button" data-href="https://www.talkn.io" data-layout="button_count" data-size="large">
-                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.talkn.io%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
-                        Share
-                    </a>
+                <div class="twitter">                    
+                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+                <div class="facebook">
+                    <div class="fb-share-button" data-href="https://www.talkn.io" data-layout="button_count" data-size="large">
+                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.talkn.io%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
+                            Share
+                        </a>
+                    </div>
                 </div>
             </div>
             <div>Copyright © talkn, Inc.</div>
