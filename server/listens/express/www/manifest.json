@@ -1,0 +1,13 @@
+{
+    "short_name": "talkn portal",
+    "name": "talkn portal",
+    "display": "standalone",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "logo1.png",
+            "sizes": "710x710",
+            "type": "image/png"
+        }
+    ]
+}
