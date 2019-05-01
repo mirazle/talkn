@@ -14,7 +14,11 @@ export default class Mail {
       from: 'Inquiry@mail.talkn.io',
       to: 'admin@mail.talkn.io',
       subject: inquiry.title,
-      text: inquiry.content + " FROM " + inquiry.mail
+      text: inquiry.content + 
+        " FRLANGUAGEOM " + inquiry.language + 
+        inquiry.mail +
+        " FROM " + 
+        inquiry.mail
     };
 
     // メール送信
