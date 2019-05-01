@@ -1,6 +1,7 @@
 var CACHE_NAME = 'talknSwCache';
 var urlsToCache = [
-  '/'
+    '/',
+    '/index.ejs'
 ];
 console.log("==== SW");
 self.addEventListener('install', function(event) {
