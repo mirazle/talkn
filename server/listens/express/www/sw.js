@@ -28,12 +28,13 @@ self.addEventListener('activate', function(event) {
 
     event.waitUntil(
         caches.keys().then( (cacheNames) => {
-            return Promise.all(cacheNames.map(function(key) {
-                if( key !== cacheName) {
-                    //console.log('Service Worker: Removing Old Cache', key);
-                    return caches.delete(key);
-                }
-            }));
+            return Promise.all(
+                cacheNames.map(function(cacheName) {
+                  if (cacheWhitelist.indexOf(cacheName) === -1) {
+                    return caches.delete(cacheName);
+                  }
+                })
+            );
         })
     );
     return self.clients.claim();
