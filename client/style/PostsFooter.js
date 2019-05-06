@@ -87,7 +87,6 @@ export default class PostsFooter{
   }
 
   static getSelf( {app} ){
-    let borderRadius = 0;
     const borders = PostsFooter.getBorder(app);
     const borderRadius = PostsFooter.getBorderRadius();
     const layout = Style.getLayoutFlex({
