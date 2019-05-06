@@ -26,9 +26,7 @@ export default class PostsFooter extends Component {
       }
     }
   }
-
-  // TODO スマホのマルチバイト入力は最下位スクロールでいける！？
-
+  
   handleOnChange( e ){
 
     if( !App.validInputPost( e.target.value ) ){

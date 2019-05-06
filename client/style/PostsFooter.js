@@ -47,15 +47,12 @@ export default class PostsFooter{
 
   static getBorderRadius( app, addUnit = false ){
     if( app.type === define.APP_TYPES.EXTENSION ){
-      console.log("A");
       return `${Container.radius} ${Container.radius} 0px 0px`;
     }
 
     if( app.iframe ){
-      console.log("B");
       return `0px 0px ${Container.radius} ${Container.radius}`;
     }
-    console.log("C");
     return 0;
   };
 
@@ -88,7 +85,6 @@ export default class PostsFooter{
 
   static getSelf( {app} ){
     const borders = PostsFooter.getBorder(app);
-    console.log(app);
     const borderRadius = PostsFooter.getBorderRadius(app);
     const layout = Style.getLayoutFlex({
       position: "fixed",

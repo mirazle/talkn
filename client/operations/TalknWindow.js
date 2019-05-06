@@ -17,6 +17,7 @@ export default class TalknWindow {
 	static get resizeInterval(){ return Math.floor(1000 / 60 * 10) };
 
 	static getAppType(e){
+		console.log(window.name + " === " + define.APP_TYPES.EXTENSION );
 		return window.name === define.APP_TYPES.EXTENSION ?
 			define.APP_TYPES.EXTENSION : define.APP_TYPES.PORTAL;
 	}

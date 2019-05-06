@@ -1,7 +1,7 @@
 class ClientScript {
 
     static get APP_NAME(){return "talkn"}
-    static get MODE(){return "DEV"}
+    static get MODE(){return "PROD"}
     static get PROTOCOL(){return "https"}
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
@@ -51,7 +51,6 @@ class ClientScript {
             this.setupWindow();
             this.iframe  = document.createElement("iframe");
             this.loadIframe = this.loadIframe.bind(this);
-            console.log(chrome.runtime.getURL);
             this.talknUrl = refusedFrame ?
                 chrome.runtime.getURL('index.html?' + this.connection) : ClientScript.BASE_HOSTNAME + this.connection;
             this.iframe.setAttribute("id", `${ClientScript.APP_NAME}Extension`);
