@@ -1904,6 +1904,26 @@
 <body>
 
     <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous">
+        const iframe = document.createElement("iframe");
+        iframe.id = "talknExtension";
+        iframe.src = "https://localhost:8080";
+        iframe.frameBorder = 0;
+        iframe.name = "extention";
+        iframe.style = "z-index: 2147483647 !important;" +
+                "display: block;" +
+                "align-items: flex-end;" + 
+                "position: fixed; " +
+                "bottom: 0px !important;" + 
+                "right: 3px !important;" + 
+                "width: 320px !important;" + 
+                `height: 45px !important;` + 
+                "margin: 0;" + 
+                "padding: 0;" + 
+                "transition: 0ms;" + 
+                "transform: translate3d(0px, 0px, 0px);";
+        document.body.appendChild(iframe);
+    </script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"></script>
 
     <div class="fixBackground">

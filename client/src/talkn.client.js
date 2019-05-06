@@ -2,8 +2,6 @@ import 'babel-polyfill';
 import TalknWindow from 'client/operations/TalknWindow';
 import TalknSetupJs from 'client/operations/TalknSetupJs';
 
-
-
 TalknSetupJs.setupMath();
 
 const talknIndex = window.talknIndex ? window.talknIndex + 1 : 1;
