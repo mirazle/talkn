@@ -4,16 +4,16 @@ const filesToCache = [
     '/',
     '/index.ejs'
 ]
-console.log("SW");
+//console.log("SW");
 // Install Service Worker
 self.addEventListener('install', function(event){
-    console.log('[INSTALL]Service Worker: Installing.... ' + cacheName);
+    //console.log('[INSTALL]Service Worker: Installing.... ' + cacheName);
 
     event.waitUntil(
 
         // Open the Cache
         caches.open(cacheName).then(function(cache) {
-            console.log('[INSTALLED]Service Worker: Caching App Shell at the moment...... ' + cacheName);
+            //console.log('[INSTALLED]Service Worker: Caching App Shell at the moment...... ' + cacheName);
 
             // Add Files to the Cache
             return cache.addAll(filesToCache);
@@ -24,13 +24,13 @@ self.addEventListener('install', function(event){
 // Fired when the Service Worker starts up
 self.addEventListener('activate', function(event) {
 
-    console.log('Service Worker: Activating....');
+    //console.log('Service Worker: Activating....');
 
     event.waitUntil(
         caches.keys().then( (cacheNames) => {
             return Promise.all(cacheNames.map(function(key) {
                 if( key !== cacheName) {
-                    console.log('Service Worker: Removing Old Cache', key);
+                    //console.log('Service Worker: Removing Old Cache', key);
                     return caches.delete(key);
                 }
             }));
@@ -45,9 +45,9 @@ if( self.clients && self.clients.claim ){
 
 self.addEventListener('fetch', function(event) {
 
-    console.log('Service Worker: Fetch', event.request.url);
+    //console.log('Service Worker: Fetch', event.request.url);
 
-    console.log("Url", event.request.url);
+    //console.log("Url", event.request.url);
 
     event.respondWith(
         caches.match(event.request).then(function(response) {
