@@ -3,6 +3,8 @@
     "name": "talkn portal",
     "display": "standalone",
     "start_url": "/",
+    "theme_color": "rgb(79, 174, 159)",
+    "background_color": "rgb(255,255,255)",
     "icons": [
         {
             "src": "logo1.png",

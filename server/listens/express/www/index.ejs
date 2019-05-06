@@ -392,16 +392,13 @@
         break;
     }
 %>
-
-
-
-
 <!doctype html>
-<html>
+<html lang=<%= language%>>
 <head>
 <title>talkn</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta content="Comment to web. talkn can share comments with users watching the same web page. Please enjoy the world of talkn." name="description">
+<meta name="theme-color" content="rgb(79, 174, 159)">
 
 <link rel="manifest" href="/manifest.json">
 <link rel="canonical" href="https://<%= wwwURL %>/">
@@ -1566,7 +1563,7 @@
 </style>
 
 
-<script type="text/javascript" src="https://<%= assetsURL %>/service_worker.js"></script>
+<script type="text/javascript" src="https://<%= wwwURL %>/sw.js"></script>
 <script type="text/javascript">
     const wideScreenWidth = 960;
     const smallScreenWidth = 600;
@@ -1724,6 +1721,10 @@
             }
         }
 
+        if( !toTop ){
+            return false;
+        }
+
         if( scrollY < 45 ){
 
             if( nav.style.position === "fixed" ){
@@ -1854,6 +1855,8 @@
     } 
 
     window.onload =  ( e ) => {
+
+        onServiceWorker();
 
         const search = document.querySelector(".search");
         search.addEventListener('keypress', onKeyPressSearch);
