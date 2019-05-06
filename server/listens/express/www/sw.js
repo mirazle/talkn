@@ -25,6 +25,7 @@ self.addEventListener('install', function(event){
 self.addEventListener('activate', function(event) {
 
     //console.log('Service Worker: Activating....');
+    var cacheWhitelist = ['dependencies-cache-**v1**', 'dependencies-2-cache-**v1**'];// Version for your cache list 
 
     event.waitUntil(
         caches.keys().then( (cacheNames) => {
