@@ -231,5 +231,5 @@ class ServiceWorker {
         };
     }
 }
-
+alert("!!!!");
 const c = new ServiceWorker();
