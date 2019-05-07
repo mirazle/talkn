@@ -342,6 +342,7 @@ class Container extends Component {
 
  	render() {
     const { style, app } = this.props.state;
+    alert(app.type);
     if( style && style.container && style.container.self && app.connectioned ){
       if( app.type === define.APP_TYPES.EXTENSION ){
         return this.renderExtension(this);
