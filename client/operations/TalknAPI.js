@@ -46,6 +46,7 @@ export default class TalknAPI{
 		case define.APP_TYPES.EXTENSION :
 			window.addEventListener("message", (e) => {
 				if( e.data.type === "talkn" ){
+					alert( e.data.type );
 					switch( e.data.method ){
 					case "bootExtension":
 						const state = talknAPI.store.getState();
