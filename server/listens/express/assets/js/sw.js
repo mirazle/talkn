@@ -62,8 +62,8 @@ class ServiceWorker {
                 "display: none !important;" +
                 "align-items: flex-end !important;" + 
                 "position: fixed !important; " +
-                "bottom: 0px !important;" + 
-                "right: 0px !important;" + 
+                "top: 0px !important;" + 
+                "left: 0px !important;" + 
                 "width: 100% !important;" + 
                 `height: 100% !important;` + 
                 `background: red !important;` + 
