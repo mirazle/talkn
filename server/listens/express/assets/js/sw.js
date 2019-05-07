@@ -58,17 +58,17 @@ class ServiceWorker {
             this.iframe.setAttribute("name", "extension");
             this.iframe.setAttribute("style",
                 "z-index: 2147483647 !important;" +
-                "display: none;" +
-                "align-items: flex-end;" + 
-                "position: fixed; " +
+                "display: none !important;" +
+                "align-items: flex-end !important;" + 
+                "position: fixed !important; " +
                 "bottom: 0px !important;" + 
                 "right: 0px !important;" + 
                 "width: 320px !important;" + 
                 `height: ${ServiceWorker.iframeCloseHeight} !important;` + 
-                "margin: 0;" + 
-                "padding: 0;" + 
-                "transition: 0ms;" + 
-                "transform: translate3d(0px, 0px, 0px);"
+                "margin: 0 !important;" + 
+                "padding: 0!important;" + 
+                "transition: 0ms!important;" + 
+                "transform: translate3d(0px, 0px, 0px) !important;"
             );
             this.iframe.setAttribute("src", this.talknUrl );
             this.iframe.setAttribute("frameBorder", 0 );
