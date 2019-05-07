@@ -293,6 +293,9 @@ class Container extends Component {
 
     // Close
     }else if( !app.isDispMain && !app.isOpenMain ){
+
+      return ("@@@");
+/*
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
@@ -303,6 +306,7 @@ class Container extends Component {
           </span>
         </span>
       );
+*/
     }
   }
 
