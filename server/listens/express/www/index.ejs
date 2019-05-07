@@ -1589,10 +1589,10 @@
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js').then(function(registration) {
                 // 登録成功
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                console.log('[www]ServiceWorker registration successful with scope: ', registration.scope);
             }).catch(function(err) {
                 // 登録失敗 :(
-                console.log('ServiceWorker registration failed: ', err);
+                console.log('[www]ServiceWorker registration failed: ', err);
             });
         }
     }
@@ -1904,6 +1904,41 @@
 <body>
 
     <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://assets.localhost/js/sw.js"></script>
+    <script async defer crossorigin="anonymous">
+
+/*
+        // 同じオリジンからしか取得できない => すなわち、iframeの中でサービスワーカーを呼ばないといけない
+        navigator.serviceWorker.register(`https://assets.localhost/js/sw.js`).then( (registration) => {
+//        navigator.serviceWorker.register(`./sw.js`).then( (registration) => {
+            // 登録成功
+            console.log('[@TALKN]SW SUCCESS: ', registration.scope);
+        }).catch( (err) => {
+            // 登録失敗
+            console.log('[@TALKN]SW FAULT: ', err);
+        });
+*/
+        /*
+        const iframe = document.createElement("iframe");
+        iframe.id = "talknExtension";
+        iframe.src = "https://localhost:8080";
+        iframe.frameBorder = 0;
+        iframe.name = "extension";
+        iframe.style = "z-index: 2147483647 !important;" +
+                "display: block;" +
+                "align-items: flex-end;" + 
+                "position: fixed; " +
+                "bottom: 0px !important;" + 
+                "right: 3px !important;" + 
+                "width: 320px !important;" + 
+                `height: 45px !important;` + 
+                "margin: 0;" + 
+                "padding: 0;" + 
+                "transition: 0ms;" + 
+                "transform: translate3d(0px, 0px, 0px);";
+        document.body.appendChild(iframe);
+*/
+    </script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"></script>
 
     <div class="fixBackground">
