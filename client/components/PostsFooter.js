@@ -18,7 +18,6 @@ export default class PostsFooter extends Component {
   }
 
   componentDidMount(){
-    alert("DID MOUNT");
   }
 
   handleOnClick( e ){
@@ -95,8 +94,7 @@ export default class PostsFooter extends Component {
 
   render() {
     const { state, handleOnClickToggleMain } = this.props;
-    const { style, app } = state;
-    alert("PostsFooter " + style.postsFooter.self.display + style.postsFooter.self.height + " " + style.postsFooter.self.width );
+    const { style, app } = state;  
     return (
       <div  
         data-component-name={this.constructor.name}
