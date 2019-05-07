@@ -1,19 +1,19 @@
-class ClientScript {
+class ServiceWorker {
 
     static get APP_NAME(){return "talkn"}
-    static get MODE(){return "PROD"}
+    static get MODE(){return "DEV"}
     static get PROTOCOL(){return "https"}
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
     static get BASE_DEV_PORT(){return 8080} 
     static get EXCLUSION_HOSTS(){return ['localhost', 'talkn.io']}    
     static get BASE_HOSTNAME(){
-        if(ClientScript.MODE === "PROD"){
-            return `${ClientScript.PROTOCOL}://${ClientScript.BASE_PROD_HOST}`;
-        }else if(ClientScript.MODE === "START"){
-            return `${ClientScript.PROTOCOL}://${ClientScript.BASE_DEV_HOST}`;
-        }else if(ClientScript.MODE === "DEV"){
-            return `${ClientScript.PROTOCOL}://${ClientScript.BASE_DEV_HOST}:${ClientScript.BASE_DEV_PORT}`;
+        if(ServiceWorker.MODE === "PROD"){
+            return `${ServiceWorker.PROTOCOL}://${ServiceWorker.BASE_PROD_HOST}`;
+        }else if(ServiceWorker.MODE === "START"){
+            return `${ServiceWorker.PROTOCOL}://${ServiceWorker.BASE_DEV_HOST}`;
+        }else if(ServiceWorker.MODE === "DEV"){
+            return `${ServiceWorker.PROTOCOL}://${ServiceWorker.BASE_DEV_HOST}:${ServiceWorker.BASE_DEV_PORT}`;
         }
     };
     static get iframeCloseHeight(){return '45px'};
@@ -27,12 +27,12 @@ class ClientScript {
         this.connection = location.href.replace("http:/", "").replace("https:/", "");
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
         this.connection = hasSlash ? this.connection : this.connection + "/";
-        const noBootFlg = ClientScript.EXCLUSION_HOSTS.some( ( host ) =>{
+        const noBootFlg = ServiceWorker.EXCLUSION_HOSTS.some( ( host ) =>{
             this.connection.indexOf(host) >= 0
         });
 
         if(!noBootFlg){
-            const talknFrame = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+            const talknFrame = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
             if( refusedFrame && talknFrame !== null){
                 talknFrame.remove();
             }
@@ -53,8 +53,8 @@ class ClientScript {
             this.iframe  = document.createElement("iframe");
             this.loadIframe = this.loadIframe.bind(this);
             this.talknUrl = refusedFrame ?
-                chrome.runtime.getURL('index.html?' + this.connection) : ClientScript.BASE_HOSTNAME + this.connection;
-            this.iframe.setAttribute("id", `${ClientScript.APP_NAME}Extension`);
+                chrome.runtime.getURL('index.html?' + this.connection) : ServiceWorker.BASE_HOSTNAME + this.connection;
+            this.iframe.setAttribute("id", `${ServiceWorker.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
             this.iframe.setAttribute("style",
                 "z-index: 2147483647 !important;" +
@@ -64,7 +64,7 @@ class ClientScript {
                 "bottom: 0px !important;" + 
                 "right: 0px !important;" + 
                 "width: 320px !important;" + 
-                `height: ${ClientScript.iframeCloseHeight} !important;` + 
+                `height: ${ServiceWorker.iframeCloseHeight} !important;` + 
                 "margin: 0;" + 
                 "padding: 0;" + 
                 "transition: 0ms;" + 
@@ -83,12 +83,12 @@ class ClientScript {
     }
 
     loadIframe(e){
-        this.iframe = e.path[1].querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+        this.iframe = e.path[1].querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
         this.postMessage("bootExtension");
     }
 
     transitionend(e){
-        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+        const iframe = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
         iframe.backgroundColor = "green";
 
@@ -98,17 +98,17 @@ class ClientScript {
     }
 
     bootExtension(params){
-        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
-        iframe.style.height = ClientScript.iframeCloseHeight;
+        const iframe = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
+        iframe.style.height = ServiceWorker.iframeCloseHeight;
         iframe.style.display = "flex";
         this.postMessage("offTransition");
     }
 
     catchMessage(e){
         const {type, method, params} = e.data;
-        if( type === ClientScript.APP_NAME ){
+        if( type === ServiceWorker.APP_NAME ){
             if(this[ method ] && typeof this[ method ] === "function"){
-                if(this.methodIdMap[ method ] || ClientScript.aacceptPostMessages.includes(method)){
+                if(this.methodIdMap[ method ] || ServiceWorker.aacceptPostMessages.includes(method)){
                     this[ method ]( params );
                     clearTimeout(this.methodIdMap[ method ]);
                     delete this.methodIdMap[ method ];
@@ -119,7 +119,7 @@ class ClientScript {
 
     postMessage(method, params = {}){
         const requestObj = this.getRequestObj( method, params );
-        const methodId = setTimeout( () => this.handleErrorMessage(method), ClientScript.activeMethodSecond);
+        const methodId = setTimeout( () => this.handleErrorMessage(method), ServiceWorker.activeMethodSecond);
         this.methodIdMap[method] = methodId;
         this.iframe.contentWindow.postMessage(requestObj, this.talknUrl);
     }
@@ -129,30 +129,30 @@ class ClientScript {
             switch(method){
             case 'bootExtension':
                 console.log("FAULT");
-                new ClientScript(true);
+                new ServiceWorker(true);
                 break;
             }
         }
     }
 
     toggleIframe(params){
-        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
-        const talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
+        const iframe = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
+        const talknNotifId = sessionStorage.getItem(ServiceWorker.talknNotifId);
 
         if(talknNotifId === "null"){
-            if( iframe.style.height !== ClientScript.iframeOpenHeight ){
+            if( iframe.style.height !== ServiceWorker.iframeOpenHeight ){
                 iframe.style.transition = "600ms";
-                iframe.style.height = ClientScript.iframeOpenHeight;
+                iframe.style.height = ServiceWorker.iframeOpenHeight;
             }else{
                 iframe.style.transition = "600ms";
-                iframe.style.height = ClientScript.iframeCloseHeight;
+                iframe.style.height = ServiceWorker.iframeCloseHeight;
             }
         }else{
             clearTimeout( talknNotifId );
-            sessionStorage.setItem(ClientScript.talknNotifId, null);
+            sessionStorage.setItem(ServiceWorker.talknNotifId, null);
             this.postMessage("closeNotif");
             iframe.style.transition = "600ms";
-            iframe.style.height = ClientScript.iframeOpenHeight;
+            iframe.style.height = ServiceWorker.iframeOpenHeight;
         }
     }
 
@@ -162,27 +162,27 @@ class ClientScript {
     }
 
     openNotif(params){
-        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+        const iframe = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
-        iframe.style.height = ClientScript.iframeCloseNotifHeight;
+        iframe.style.height = ServiceWorker.iframeCloseNotifHeight;
         this.postMessage("openNotif");
 
-        let talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
+        let talknNotifId = sessionStorage.getItem(ServiceWorker.talknNotifId);
         if(talknNotifId){
             clearTimeout( talknNotifId );
         }
 
         talknNotifId = setTimeout( this.closeNotif, params.transition );
-        sessionStorage.setItem(ClientScript.talknNotifId, talknNotifId);
+        sessionStorage.setItem(ServiceWorker.talknNotifId, talknNotifId);
     }
 
     closeNotif(params){
-        let talknNotifId = sessionStorage.getItem(ClientScript.talknNotifId);
+        let talknNotifId = sessionStorage.getItem(ServiceWorker.talknNotifId);
         clearTimeout( talknNotifId );
-        sessionStorage.setItem(ClientScript.talknNotifId, null);
-        const iframe = document.querySelector(`iframe#${ClientScript.APP_NAME}Extension`);
+        sessionStorage.setItem(ServiceWorker.talknNotifId, null);
+        const iframe = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
-        iframe.style.height = ClientScript.iframeCloseHeight;
+        iframe.style.height = ServiceWorker.iframeCloseHeight;
 
         this.postMessage("closeNotif");
     }
@@ -221,7 +221,7 @@ class ClientScript {
 
     getRequestObj(method, params = {}){
         return {
-            type: ClientScript.APP_NAME,
+            type: ServiceWorker.APP_NAME,
             url: location.href,
             href: location.href,
             method: method,
@@ -231,4 +231,4 @@ class ClientScript {
     }
 }
 
-const c = new ClientScript();
+const c = new ServiceWorker();
