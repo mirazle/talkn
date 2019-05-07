@@ -34,6 +34,7 @@ class ServiceWorker {
         if(!noBootFlg){
             const talknFrame = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
             if( refusedFrame && talknFrame !== null){
+                alert("REMOVE");
                 talknFrame.remove();
             }
 
