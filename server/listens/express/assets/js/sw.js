@@ -85,10 +85,8 @@ class ServiceWorker {
 
     loadIframe(e){
         alert("LOAD");
-        alert( e.path );
-        alert( e.path[0] );
-        alert( e.path[1] );
-        this.iframe = e.path[1].querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
+//        this.iframe = e.path[1].querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
+        this.iframe = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
         this.postMessage("bootExtension");
     }
 
