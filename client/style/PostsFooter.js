@@ -46,11 +46,14 @@ export default class PostsFooter{
   };
 
   static getBorderRadius( app, addUnit = false ){
+
     if( app.type === define.APP_TYPES.EXTENSION ){
+      alert("A");
       return `${Container.radius} ${Container.radius} 0px 0px`;
     }
 
     if( app.iframe ){
+      alert("B")
       return `0px 0px ${Container.radius} ${Container.radius}`;
     }
     return 0;

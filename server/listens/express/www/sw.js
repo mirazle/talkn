@@ -1,5 +1,4 @@
 const cacheName = 'pwa-talkn';
-
 const filesToCache = [
     '/',
     '/index.ejs'

@@ -73,12 +73,8 @@ class Container extends Component {
   handleOnClickToggleMain( e ){
     const { onClickToggleMain, onClickOpenLockMenu, state} = this.props;
     const { app } = state;
-
-    
-
     if( app.type ===  define.APP_TYPES.EXTENSION ){
       this.setState({notifs: []});
-
       app.isDispMain = app.isDispMain ? false : true;
       app.isOpenNotif = false;
       
