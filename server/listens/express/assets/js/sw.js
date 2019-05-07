@@ -36,7 +36,7 @@ class ServiceWorker {
             if( refusedFrame && talknFrame !== null){
                 talknFrame.remove();
             }
-alert("@@");
+
             this.methodIdMap = {};
             this.notifId = null;
             this.bootExtension = this.bootExtension.bind(this);
