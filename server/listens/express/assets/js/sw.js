@@ -28,6 +28,7 @@ class ServiceWorker {
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
         this.connection = hasSlash ? this.connection : this.connection + "/";
         const noBootFlg = ServiceWorker.EXCLUSION_HOSTS.some( ( host ) =>{
+            alert( host + " " + this.connection);
             this.connection.indexOf(host) >= 0
         });
 
