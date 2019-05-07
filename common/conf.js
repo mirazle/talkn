@@ -13,6 +13,7 @@ const autoURL = `${SUB_DOMAINS.AUTO}.${domain}` ;
 const extURL = `${SUB_DOMAINS.EXT}.${domain}` ;
 const assetsImgPath = `${assetsURL}/img/` ;
 const assetsIconPath = `${assetsURL}/icon/` ;
+const assetsJsPath = `${assetsURL}/js/` ;
 const sessionURL = `${SUB_DOMAINS.SESSION}.${domain}` ;
 const description = "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.";
 
@@ -28,6 +29,7 @@ export default {
   extURL,
   assetsImgPath,
   assetsIconPath,
+  assetsJsPath,
   sessionURL,
   description,
 }

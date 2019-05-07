@@ -19,6 +19,14 @@ class Express{
     this.httpsApp.set('view engine', 'ejs');
     this.httpsApp.set('trust proxy', true);
     this.httpsApp.use(bodyParser.urlencoded({extended: true}));
+
+    // CORSを許可する
+    this.httpsApp.use( (req, res, next) => {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      next();
+    });
+
     this.session = new Session( this.httpsApp );
 
     this.routingHttps = this.routingHttps.bind(this);
