@@ -244,6 +244,8 @@ class Container extends Component {
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
 
+    alert( app.isDispMain + " && " + app.isOpenMain );
+
     // Open
     if( app.isDispMain && app.isOpenMain ){
       return (
@@ -342,7 +344,6 @@ class Container extends Component {
 
  	render() {
     const { style, app } = this.props.state;
-    alert(app.type);
     if( style && style.container && style.container.self && app.connectioned ){
       if( app.type === define.APP_TYPES.EXTENSION ){
         return this.renderExtension(this);
