@@ -295,7 +295,7 @@ class Container extends Component {
     }else if( !app.isDispMain && !app.isOpenMain ){
 
       return (
-        <div>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</div>
+        <div>=====</div>
         );
 /*
       const Notifs = this.getNotifs( props );
