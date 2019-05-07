@@ -65,9 +65,7 @@ class ServiceWorker {
                 "top: 0px !important;" + 
                 "left: 0px !important;" + 
                 "width: 100% !important;" + 
-                `height: 100% !important;` + 
-                `background: red !important;` + 
-//                `height: ${ServiceWorker.iframeCloseHeight} !important;` + 
+                `height: ${ServiceWorker.iframeCloseHeight} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0!important;" + 
                 "transition: 0ms!important;" + 
@@ -86,6 +84,7 @@ class ServiceWorker {
     }
 
     loadIframe(e){
+        alert("LOAD");
         this.iframe = e.path[1].querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
         this.postMessage("bootExtension");
     }
