@@ -96,7 +96,7 @@ export default class PostsFooter extends Component {
   render() {
     const { state, handleOnClickToggleMain } = this.props;
     const { style, app } = state;
-    alert("PostsFooter");
+    alert("PostsFooter " + style.postsFooter.self.display );
     return (
       <div  
         data-component-name={this.constructor.name}
