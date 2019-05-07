@@ -62,8 +62,8 @@ class ServiceWorker {
                 "display: none !important;" +
                 "align-items: flex-end !important;" + 
                 "position: fixed !important; " +
-                "top: 0px !important;" + 
-                "left: 0px !important;" + 
+                "bottom: 0px !important;" + 
+                "right: 0px !important;" + 
                 "width: 100% !important;" + 
                 `height: ${ServiceWorker.iframeCloseHeight} !important;` + 
                 "margin: 0 !important;" + 
@@ -84,8 +84,6 @@ class ServiceWorker {
     }
 
     loadIframe(e){
-        alert("LOAD");
-//        this.iframe = e.path[1].querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
         this.iframe = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
         this.postMessage("bootExtension");
     }
