@@ -1902,6 +1902,273 @@
 
 </head>
 <body>
+
+    <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" src="https://<%= assetsURL %>/js/sw.js"></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"></script>
+
+    <div class="fixBackground">
+        <div class="background"></div>
+    </div>
+    <div class="container">
+
+        <header>
+            <ul class="language-menu" transitionend="onTransitionEndLanguageMenu()">
+                <li onclick="onClickLanguageMenu('en')" class="active">English(en)</li>
+                <li onclick="onClickLanguageMenu('zh')" class="active">简体中文(zh)</li>
+                <li onclick="onClickLanguageMenu('ja')" class="active">日本語(ja)</li>
+                <li onclick="onClickLanguageMenu('de')" class="active">Deutsch(de)</li>
+                <li onclick="onClickLanguageMenu('fr')" class="active">Français(fr)</li>
+                <li onclick="onClickLanguageMenu('hi')" class="active">हिंदी(hi)</li>
+                <li onclick="onClickLanguageMenu('pt')" class="active">Português(pt)</li>
+                <li onclick="onClickLanguageMenu('it')" class="active">Italiano(it)</li>
+
+                <li onclick="onClickLanguageMenu('ru')" class="active">русский(ru)</li>
+                <li onclick="onClickLanguageMenu('ko')" class="active">한국(ko)</li>
+                <li onclick="onClickLanguageMenu('es')" class="active">Español(es)</li>
+                <li onclick="onClickLanguageMenu('id')" class="active">Indonesio(id)</li>
+                <li onclick="onClickLanguageMenu('tr')" class="active">Turco(tr)</li>
+                <li onclick="onClickLanguageMenu('nl')" class="active">Holandes(nl)</li>
+                <li onclick="onClickLanguageMenu('ar')" class="active">العربية(ar)</li>
+                <li onclick="onClickLanguageMenu('zh-TW')" class="active">繁体中文(zh-TW)</li>
+
+                <li onclick="onClickLanguageMenu('pl')" class="active">Polski(pl)</li>
+                <li onclick="onClickLanguageMenu('sv')" class="active">svenska(sv)</li>
+                <li onclick="onClickLanguageMenu('th')" class="active">Thailändska(th)</li>
+                <li onclick="onClickLanguageMenu('fa')" class="active">فارسی(fa)</li>
+                <li onclick="onClickLanguageMenu('nn')" class="active">norsk(nn)</li>
+                <li onclick="onClickLanguageMenu('ga')" class="active">Gaeilge(ga)</li>
+                <li onclick="onClickLanguageMenu('he')" class="active">עברית(he)</li>
+                <li onclick="onClickLanguageMenu('mr')" class="active">Melayu(mr)</li>
+            </ul>
+            <div class="menus">
+                <ul>
+                    <li>
+
+                    </li>
+                    <li>talkn</li>
+                    <li onclick="onClickLanguage()">
+                        Language(<%= language %>)
+                    </li>
+                </ul>
+            </div>
+
+            <nav>
+                <div class="headBar"></div>
+                <ul>
+                        <li onclick="onClick(0)" onmouseover="onMouseOver(0)" onmouseleave="onMouseLeave(0)">Portal</li>
+                        <li onclick="onClick(1)" onmouseover="onMouseOver(1)" onmouseleave="onMouseLeave(1)">Chrome</li>
+                        <li onclick="onClick(2)" onmouseover="onMouseOver(2)" onmouseleave="onMouseLeave(2)">iframe</li>
+                        <li onclick="onClick(3)" onmouseover="onMouseOver(3)" onmouseleave="onMouseLeave(3)">iOS|Android</li>
+                </ul>
+                <div class="pointerWrap">
+                    <div class="pointer" />
+                </div>
+            </nav>
+            <div class="accessory">Apps</div>
+            <div class="accessory-case"></div>
+        </header>
+
+        <section class="one">
+            <div class="content">
+                <div class="eyecatch">
+                    <h2>
+                        <%= one1 %><br />
+                        <%= one2 %><br />
+                        <%= one3 %>
+                    </h2>
+                </div>
+
+                <div class="inputWrap">
+                    <div class="searchIcon">
+                        <div class="circle"></div>
+                        <div class="bar"></div>
+                    </div>
+                    <input
+                        type="text"
+                        class="search"
+                        size="40"
+                        placeholder="Input URL or Phrase"
+                    />
+                </div>
+            </div>
+        </section>
+        <section class="two">
+
+            <div class="bar"></div>
+
+            <div class="content">
+                <div class="content-left">
+                    <h2>
+                        <%= two1 %>
+                        <% if (two12Br) { %>
+                            <br />
+                        <% } %>
+                        <%= two2 %>
+                    </h2>
+                    <h4>- No login communication -</h4>
+                </div>
+                <div class="content-right"></div>
+            </div>
+            <a class="link" href="https://chrome.google.com/webstore/detail/talkn-for-chrome/dkngnmdlcofambpfaccepbnjgfholgbo"></a>
+        </section>
+
+        <section class="three">
+                <div class="content">
+                     <div class="content-left">
+                         <div class="iframeCap"></div>
+                    </div>
+                    <div class="content-right">
+                        <div class="content-right-top"></div>
+                        <div class="content-right-middle">
+                            <h2>
+                                <%= three1 %>
+                                <% if (three12Br) { %>
+                                    <br />
+                                <% } %>
+                                <%= three2 %>
+                            </h2>
+                            <h4>- Let's write one line in HTML5 -</h4>
+                        </div>
+                        <div class="content-right-bottom"></div>
+                    </div>
+                </div>
+                <div class="link">
+                    <div
+                        onclick="onClickCopyIframe()"
+                        class="copyIframe"
+                    >COPY IFRAME</div>
+                </div>
+                <code>
+                    <div class="code-title">
+                        Copied.
+                    </div>
+                    <pre>
+<span class="one-line">// Embed one line.</span>
+<span class="tag-name">&lt;iframe</span>
+    <span class="property-name">src</span>=<span class="value">"//talkn.io"</span>
+    <span class="property-name">width</span>=<span class="value">"300px"</span>
+    <span class="property-name">height</span>=<span class="value">"420px"</span>
+    <span class="property-name">frameBorder</span>=<span class="value">"0"</span>
+<span class="tag-name">/&gt;</span></pre>
+                </code>
+        </section>
+
+        <section class="fourth">
+
+            <div class="title">
+                <h3>Smartphone</h3>
+                <div class="under-bar"></div>
+            </div>
+        
+            <h2>
+                <%= fourth1 %><br />
+                <%= fourth2 %><br />
+            </h2>
+
+            <div class="content">
+                <div class="content-left">
+                    <div class="terminal">iOS</div>
+                    <div class="status">
+                        Expected to be released<br/>
+                        in August 2019.
+                    </div>
+                    <div class="tools"></div>
+                </div>
+                <div class="content-right">
+                    <div class="terminal">Android</div>
+                    <div class="status">
+                        Expected to be released<br/>
+                        in August 2019.
+                    </div>
+                    <div class="tools"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="five">
+            <div class="title">
+                <%= fiveCompanyKey %>
+                <div class="under-bar"></div>
+            </div>
+            <table class="company">
+                <tbody>
+                    <tr>
+                        <th><%= fiveCompanyNameKey %></th>
+                        <td><%= fiveCompanyNameValue %></td>
+                    </tr>
+                    <tr>
+                        <th><%= fiveCompanyFoundedKey %></th>
+                        <td><%= fiveCompanyFoundedValue %></td>
+                    </tr>
+                    <tr>
+                        <th><%= fiveCompanyRepresentativeKey %></th>
+                        <td>
+                            <%= fiveCompanyRepresentativeValue %>
+                            <a href="https://twitter.com/messages/compose?recipient_id=mirazle&ref_src=twsrc%5Etfw" class="twitter-dm-button" data-size="large" data-screen-name="mirazle" data-show-count="false">
+                                <img class="twitter" src="https://<%= assetsURL %>/img/twitter.png" />
+                            </a>
+                            <a href="https://www.facebook.com/hiroyuki.miyazaki.5070">
+                                <img class="facebook" src="https://<%= assetsURL %>/img/facebook.png" />                            
+                            </a>
+                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><%= fiveCompanyPolicyKey %></th>
+                        <td><%= fiveCompanyPolicyValue %></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br />
+            <div class="title">
+                <%= fiveContactKey %>
+                <div class="under-bar"></div>
+            </div>
+
+            <div class="contact">
+                <form method="POST" action="/mail">
+                    <div class="oneline">
+                        <input class="grow" name="inquiry[name]" placeholder="<%= fiveContactNameKey %>" type="text" maxlength=50 size=20　/>
+                        <input class="grow" name="inquiry[mail]" placeholder="<%= fiveContactMailKey %>" maxlength=50 type="text" size=20　/>
+                    </div>
+                    <div class="oneline">
+                        <input name="inquiry[title]" placeholder="<%= fiveContactTitleKey %>" type="text" maxlength=50 size=20 />
+                    </div>
+                    <div class="oneline">
+                        <textarea name="inquiry[content]" placeholder="<%= fiveContactContentKey %>" type="text" maxlength=800 size=20></textarea>
+                    </div>
+                    <div class="oneline">
+                        <input type="hidden" value="<%=language %>"/>
+                        <input type="submit" value=" <%=fiveContactSendKey %> "/>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <div
+            class="toTop"
+            onclick="onClickToTop()"
+        >
+            <div class="arrow"></div>
+        </div>
+
+         <footer>
+            <div class="sns">
+                <div class="twitter">                    
+                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+                <div class="facebook">
+                    <div class="fb-share-button" data-href="https://www.talkn.io" data-layout="button_count" data-size="large">
+                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.talkn.io%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
+                            Share
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div>Copyright © talkn, Inc.</div>
+        </footer>
+    </div>
 </body>
 </html>
