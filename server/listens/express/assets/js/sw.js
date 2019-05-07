@@ -32,6 +32,7 @@ class ServiceWorker {
             this.connection.indexOf(host) >= 0
         });
 
+        alert( noBootFlg );
         if(!noBootFlg){
             const talknFrame = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
             if( refusedFrame && talknFrame !== null){
@@ -231,5 +232,5 @@ class ServiceWorker {
         };
     }
 }
-alert("!!!!");
+
 const c = new ServiceWorker();
