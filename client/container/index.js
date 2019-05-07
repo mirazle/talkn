@@ -244,8 +244,6 @@ class Container extends Component {
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
 
-    alert( app.isDispMain + " && " + app.isOpenMain );
-
     // Open
     if( app.isDispMain && app.isOpenMain ){
       return (
@@ -295,6 +293,7 @@ class Container extends Component {
 
     // Close
     }else if( !app.isDispMain && !app.isOpenMain ){
+      alert( app.isDispMain + " @&&@ " + app.isOpenMain );
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
