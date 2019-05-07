@@ -62,7 +62,7 @@ class ServiceWorker {
                 "display: none !important;" +
                 "align-items: flex-end !important;" + 
                 "position: fixed !important; " +
-                "bottom: 45px !important;" + 
+                "bottom: 40px !important;" + 
                 "right: 0px !important;" + 
                 "width: 100% !important;" + 
                 `height: ${ServiceWorker.iframeCloseHeight} !important;` + 
