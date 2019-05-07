@@ -235,7 +235,8 @@ export default class TalknWindow {
 	}
 
 	async renderDOM(){
-		alert("@@@@@@@!!!");
+		alert("@@@@@@@!!! " + this.id) ;
+		alert(document.getElementById( this.id )) ;
 		ReactDOM.render(
 			<Provider store={ this.talknAPI.store }>
 				<Container talknAPI={ this.talknAPI } timeago={new timeago()} />
