@@ -17,6 +17,10 @@ export default class PostsFooter extends Component {
     this.handleOnBlur = this.handleOnBlur.bind(this);
   }
 
+  componentDidMount(){
+    alert("DID MOUNT");
+  }
+
   handleOnClick( e ){
     const value = this.refs.postArea.innerHTML;
     if( !App.validInputPost( value ) ){
@@ -28,7 +32,6 @@ export default class PostsFooter extends Component {
   }
   
   handleOnChange( e ){
-
     if( !App.validInputPost( e.target.value ) ){
 
       const { app } = this.props.state;
@@ -93,6 +96,7 @@ export default class PostsFooter extends Component {
   render() {
     const { state, handleOnClickToggleMain } = this.props;
     const { style, app } = state;
+    alert("PostsFooter");
     return (
       <div  
         data-component-name={this.constructor.name}

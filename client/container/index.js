@@ -293,7 +293,6 @@ class Container extends Component {
 
     // Close
     }else if( !app.isDispMain && !app.isOpenMain ){
-      alert( app.isDispMain + " @&&@ " + app.isOpenMain );
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
