@@ -1,12 +1,1907 @@
+<%
+    let one1 = 'No login,';
+    let one2 = 'Communication that';
+    let one3 = 'kept warm.';
+    let two1 = "Let's talk with the viewer";
+    let two2 = 'of the same web site.';
+    let two12Br = true;
+    let three1 = "Let's embed it on web sites";
+    let three2 = 'all over the world.';
+    let three12Br = false;
+    let fourth1 = "Let's talk at No login,";
+    let fourth2 = "about Fun & Impression.";
+    let fiveCompanyKey = "COMPANY";
+    let fiveCompanyNameKey = "NAME";
+    let fiveCompanyNameValue = "talkn Co.,Ltd.";
+    let fiveCompanyFoundedKey = "FOUNDED";
+    let fiveCompanyFoundedValue = "May 20, 2019";
+    let fiveCompanyRepresentativeKey = "REPRESENTATIVE";
+    let fiveCompanyRepresentativeValue = "Hiroyuki Miyazaki";
+    let fiveCompanyPolicyKey = "POLICY";
+    let fiveCompanyPolicyValue = "Update the internet.";
+    let fiveContactKey = "CONTACT";
+    let fiveContactNameKey = "Your name";
+    let fiveContactMailKey = "Your email";
+    let fiveContactTitleKey = "Title";
+    let fiveContactContentKey = "Contents";
+    let fiveContactSendKey = "Send";
+    let letterSpacingSmall = 0;
+    let letterSpacingMiddle = 0;
+    let letterSpacingLarge = 0;
+
+    switch( language ){
+    case "zh":
+        one1 = "不需要登录,";
+        one2 = "'保持温度'";
+        one3 = "让我们沟通吧。";
+        two1 = "我们来谈谈吧";
+        two2 = "同一网站的浏览者。";
+        two12Br = true;
+        three1 = "我们将它嵌入网站";
+        three2 = "世界各地的。";
+        three12Br = true;
+        fourth1 = "让我们谈谈'不需要登录',";
+        fourth2 = "关于'有趣'和'印象'。";
+        fiveCompanyKey = "公司";
+        fiveContactKey = "联系";
+        break;
+    case "ja":
+        one1 = "ログイン要らずの";
+        one2 = "'温度を保った'";
+        one3 = "コミニュケーションを。";
+        two1 = "同じWEBサイトを ";
+        two2 = "見ている人と話そう。";
+        two12Br = true;
+        three1 = "世界中のWEBサイトに";
+        three2 = "埋め込もう。";
+        three12Br = true;
+        fourth1 = "世界中の「楽しい」「感動」を";
+        fourth2 = "「ログイン要らず」で話そう。";
+        fiveCompanyKey = "会社";
+        fiveCompanyNameKey = "名前";
+        fiveCompanyNameValue = "株式会社talkn";
+        fiveCompanyFoundedKey = "設立";
+        fiveCompanyFoundedValue = "2019年5月";
+        fiveCompanyRepresentativeKey = "代表取締役";
+        fiveCompanyRepresentativeValue = "宮﨑博之(Hiroyuki Miyazaki)";
+        fiveCompanyPolicyKey = "企業理念";
+        fiveCompanyPolicyValue = "Update the internet.";
+        fiveContactKey = "お問い合わせ";
+        fiveContactNameKey = "お名前";
+        fiveContactMailKey = "ご返信先Eメール";
+        fiveContactTitleKey = "タイトル";
+        fiveContactContentKey = "内容";
+        fiveContactSendKey = "送信";
+        letterSpacingSmall = "2px";
+        letterSpacingMiddle = "2px";
+        letterSpacingLarge = "5px";
+        break;
+    case "de":
+        one1 = "Kein Login,";
+        one2 = "Lass uns ein warmes";
+        one3 = "Gespräch führen.";
+        two1 = "Sprechen wir mit Leuten,";
+        two2 = "die dieselbe Website besuchen.";
+        three1 = "Lassen Sie uns es auf Webseiten";
+        three2 = "auf der ganzen Welt einbetten.";
+        three12Br = false;
+        fourth1 = "Reden wir unter Kein Login,";
+        fourth2 = "über Spaß & Eindruck";
+        fiveCompanyKey = "Firma";
+        fiveContactKey = "Anfrage";
+        break;
+    case "fr":
+        one1 = "Pas de login,";
+        one2 = "Une communication qui";
+        one3 = "reste au chaud.";
+        two1 = "Parlons avec le spectateur";
+        two2 = "du même site Web.";
+        two12Br = true;
+        three1 = "Intégrons-le sur des sites Web";
+        three2 = "du monde entier.";
+        three12Br = false;
+        fourth1 = "Parlons à pas de connexion,";
+        fourth2 = "à propos de Fun & Impression.";
+        fiveCompanyKey = "Société";
+        fiveContactKey = "Enquête";
+        break;
+    case "hi":
+        one1 = "कोई लॉगिन नहीं,";
+        one2 = "संचार कि";
+        one3 = "गर्म रखा गया।";
+        two1 = "के साथ बात करते हैं";
+        two2 = "उसी वेब साइट का दर्शक।";
+        two12Br = true;
+        three1 = "आइए इसे वेब साइटों पर एम्बेड करें";
+        three2 = "पूरी दुनिया में।";
+        three12Br = false;
+        fourth1 = "नो लॉगिन पर बात करते हैं,";
+        fourth2 = "मज़ा और छाप के बारे में";
+        fiveCompanyKey = "कंपनी";
+        fiveContactKey = "संपर्क करें";
+        break;
+    case "pt":
+        one1 = "Sem login,";
+        one2 = "Comunicação que";
+        one3 = "se manteve quente.";
+        two1 = "Vamos conversar com";
+        two2 = "o espectador do mesmo site.";
+        two12Br = true;
+        three1 = "Vamos incorporá-lo em sites";
+        three2 = "No mundo todo.";
+        three12Br = false;
+        fourth1 = "Vamos conversar no No login,";
+        fourth2 = "sobre diversão e impressão.";
+        fiveCompanyKey = "EMPRESA";
+        fiveContactKey = "CONTATO";
+        break;
+    case "it":
+        one1 = "Nessun accesso,";
+        one2 = "Comunicazione che";
+        one3 = "si mantiene calda.";
+        two1 = "Parliamo con lo spettatore";
+        two2 = "dello stesso sito web.";
+        two12Br = true;
+        three1 = "Incorporiamolo sui siti web";
+        three2 = "tutto il mondo.";
+        three12Br = false;
+        fourth1 = "Parliamo senza accesso,";
+        fourth2 = "su Fun & Impression.";
+        fiveCompanyKey = "AZIENDA";
+        fiveContactKey = "CONTATTO";
+        break;
+    case "ru":
+        one1 = "Нет логина,";
+        one2 = "Общение, которое";
+        one3 = "сохраняло тепло.";
+        two1 = "Давайте поговорим со";
+        two2 = "зрителем того же сайта.";
+        two12Br = true;
+        three1 = "Давайте вставим это на веб-сайты";
+        three2 = "по всему миру.";
+        three12Br = false;
+        fourth1 = "Давайте поговорим на Нет входа,";
+        fourth2 = "о веселье и впечатления.";
+        fiveCompanyKey = "КОМПАНИЯ";
+        fiveContactKey = "CONTACT";
+        break;
+    case "ko":
+        one1 = "로그인 없음,";
+        one2 = "따뜻한";
+        one3 = "커뮤니케이션.";
+        two1 = "같은 웹 사이트의";
+        two2 = "시청자와 이야기 해 봅시다.";
+        two12Br = true;
+        three1 = "웹 사이트에 그것을 포함 시키자.";
+        three2 = "전 세계.";
+        three12Br = false;
+        fourth1 = "로그인하지 말자.";
+        fourth2 = "재미와 인상에 대해서.";
+        fiveCompanyKey = "회사";
+        fiveContactKey = "접촉";
+        break;
+    case "es":
+        one1 = "Sin inicio de sesión,";
+        one2 = "Comunicación que";
+        one3 = "mantenido caliente.";
+        two1 = "Hablemos con el espectador";
+        two2 = "del mismo sitio web.";
+        two12Br = true;
+        three1 = "Vamos a insertarlo en sitios web,";
+        three2 = "en todo el mundo.";
+        three12Br = false;
+        fourth1 = "Hablemos al no iniciar sesión,";
+        fourth2 = "sobre la diversión y la impresión.";
+        fiveCompanyKey = "EMPRESA";
+        fiveContactKey = "CONTACTO";
+        break;
+    case "id":
+        one1 = "Tanpa login,";
+        one2 = "Komunikasi yang";
+        one3 = "tetap hangat.";
+        two1 = "Mari kita bicara dengan";
+        two2 = "pengunjung situs web yang sama.";
+        two12Br = true;
+        three1 = "Mari kita tanamkan di situs web";
+        three2 = "di seluruh dunia.";
+        three12Br = false;
+        fourth1 = "Mari kita bicara tanpa login,";
+        fourth2 = "entang Kesenangan & Impresi.";
+        fiveCompanyKey = "PERUSAHAAN";
+        fiveContactKey = "HUBUNGI KAMI";
+        break;
+    case "tr":
+        one1 = "Giriş yok,";
+        one2 = "İletişim sıcak";
+        one3 = "tuttu.";
+        two1 = "Aynı web sitesinin";
+        two2 = "izleyicisiyle konuşalım.";
+        two12Br = true;
+        three1 = "Web sitelerine yerleştirelim";
+        three2 = "tüm dünyada.";
+        three12Br = false;
+        fourth1 = "Giriş yapmadan konuşalım.";
+        fourth2 = "Eğlence ve İzlenim hakkında.";
+        fiveCompanyKey = "ŞİRKET";
+        fiveContactKey = "İLETİŞİM";
+        break;
+    case "nl":
+        one1 = "Geen login,";
+        one2 = "Communicatie die";
+        one3 = "warm bleef.";
+        two1 = "Laten we praten met de kijker";
+        two2 = "van dezelfde website.";
+        two12Br = true;
+        three1 = "van dezelfde website.";
+        three2 = "over de hele wereld.";
+        three12Br = false;
+        fourth1 = "Laten we praten op Geen login,";
+        fourth2 = "over plezier en indrukken.";
+        fiveCompanyKey = "COMPANY";
+        fiveContactKey = "CONTACT";
+        break;
+    case "ar":
+        one1 = "لا تسجيل الدخول ،";
+        one2 = "الاتصالات التي أبقى دافئة.";
+        one3 = "";
+        two1 = "دعنا نتحدث مع المشاهد من نفس الموقع.";
+        two2 = "";
+        two12Br = true;
+        three1 = "فلنضمّنه على مواقع الويب";
+        three2 = "في جميع أنحاء العالم.";
+        three12Br = false;
+        fourth1 = "دعنا نتحدث في عدم تسجيل الدخول ،";
+        fourth2 = "عن المرح والانطباع.";
+        fiveCompanyKey = "شركة";
+        fiveContactKey = "اتصال";
+        break;
+    case "zh-TW":
+        one1 = "沒有登錄，";
+        one2 = "保持溫暖的";
+        one3 = "溝通。";
+        two1 = "讓我們與同一網站的";
+        two2 = "觀眾交談。";
+        two12Br = true;
+        three1 = "我們將它嵌入網站";
+        three2 = "世界各地。";
+        three12Br = true;
+        fourth1 = "讓我們談談沒有登錄，";
+        fourth2 = "關於娛樂和印象。";
+        fiveCompanyKey = "公司";
+        fiveContactKey = "聯繫";
+        break;
+    case "pl":
+        one1 = "Brak logowania,";
+        one2 = "Komunikacja,";
+        one3 = "która utrzymywała ciepło.";
+        two1 = "Porozmawiajmy z widzem";
+        two2 = "tej samej strony internetowej.";
+        two12Br = true;
+        three1 = "Umieśćmy je na stronach";
+        three2 = "internetowych na całym świecie.";
+        three12Br = false;
+        fourth1 = "Porozmawiajmy na Brak logowania,";
+        fourth2 = "o Fun & Impression.";
+        fiveCompanyKey = "Firma";
+        fiveContactKey = "Kontakt";
+        break;
+    case "sv":
+        one1 = "Ingen inloggning,";
+        one2 = "Kommunikation som";
+        one3 = "hålls varm.";
+        two1 = "Låt oss prata med tittaren";
+        two2 = "på samma webbplats.";
+        two12Br = true;
+        three1 = "Låt oss bädda in den på webbplatser";
+        three2 = "över hela världen.";
+        three12Br = true;
+        fourth1 = "Låt oss prata vid ingen inloggning,";
+        fourth2 = "om kul och intryck.";
+        fiveCompanyKey = "företag";
+        fiveContactKey = "Kontakta";
+        break;
+    case "th":
+        one1 = "ไม่มีการลงชื่อเข้าใช้";
+        one2 = "การสื่อสารที่อบอุ่น";
+        one3 = "";
+        two1 = "มาพูดคุยกับ";
+        two2 = "ผู้ดูเว็บไซต์เดียวกัน";
+        two12Br = true;
+        three1 = "ลองฝังไว้ในเว็บไซต์";
+        three2 = "ทั่วทุกมุมโลก";
+        three12Br = true;
+        fourth1 = "พูดคุยกันที่ไม่มีการเข้าสู่ระบบ";
+        fourth2 = "เกี่ยวกับความสนุกและความประทับใจ";
+        fiveCompanyKey = "บริษัท";
+        fiveContactKey = "ติดต่อ";
+        break;
+    case "fa":
+        one1 = "بدون ورود";
+        one2 = "ارتباطی که گرم شد";
+        one3 = "";
+        two1 = "بیایید صحبت کنیم";
+        two2 = "بیننده ی همان وب سایت.";
+        two12Br = true;
+        three1 = "ลองฝังไว้ในเว็บไซต์";
+        three2 = "ทั่วทุกมุมโลก";
+        three12Br = true;
+        fourth1 = "بگذارید آن را در وب سایت ها جاسازی کنیم";
+        fourth2 = "در سراسر جهان";
+        fiveCompanyKey = "شرکت";
+        fiveContactKey = "تماس بگیرید";
+        break;
+    case "nn":
+        one1 = "Ingen innlogging,"
+        one2 = "Kommunikasjon som";
+        one3 = "holdt seg varm.";
+        two1 = "La oss snakke med";
+        two2 = "seeren på samme nettsted.";
+        two12Br = true;
+        three1 = "La oss legge det inn på nettsider";
+        three2 = "over hele verden.";
+        three12Br = true;
+        fourth1 = "La oss snakke ved Ingen innlogging,";
+        fourth2 = "om moro og inntrykk.";
+        fiveCompanyKey = "selskapet";
+        fiveContactKey = "Kontakt";
+        break;
+    case "ga":
+        one1 = "Ingen innlogging,"
+        one2 = "Cumarsáid a choimeád te.";
+        one3 = "";
+        two1 = "Déanaimis labhairt leis an lucht féachana";
+        two2 = "ar an suíomh gréasáin céanna.";
+        two12Br = false;
+        three1 = "A ligean ar é a leabú ar láithreáin";
+        three2 = "ghréasáin ar fud an domhain.";
+        three12Br = true;
+        fourth1 = "Déanaimis caint ar Gan logáil isteach,";
+        fourth2 = "faoi Fun & Impression.";
+        fiveCompanyKey = "Cuideachta";
+        fiveContactKey = "Teagmháil";
+        break;
+    case "he":
+        one1 = "אין כניסה,"
+        one2 = "תקשורת שהחמימה.";
+        one3 = "";
+        two1 = "בואו נדבר עם הצופה ";
+        two2 = "של אותו אתר.";
+        two12Br = true;
+        three1 = "בואו להטביע אותו באתרי אינטרנט";
+        three2 = "בכל העולם.";
+        three12Br = true;
+        fourth1 = "בוא נדבר ב אין כניסה,";
+        fourth2 = "על כיף & הופעות.";
+        fiveCompanyKey = "החברה";
+        fiveContactKey = "איש קשר";
+        break;
+    case "mr":
+        one1 = "Tiada log masuk,";
+        one2 = "Komunikasi yang hangat.";
+        one3 = "";
+        two1 = "Mari kita bercakap dengan penonton";
+        two2 = "laman web yang sama.";
+        two12Br = false;
+        three1 = "Mari benamkannya di laman web";
+        three2 = "seluruh dunia.";
+        three12Br = true;
+        fourth1 = "Mari kita bercakap pada Tiada login,";
+        fourth2 = "mengenai Fun & Impression.";
+        fiveCompanyKey = "Syarikat";
+        fiveContactKey = "Hubungi";
+        break;
+    }
+%>
 <!doctype html>
 <html lang=<%= language%>>
 <head>
 <title>talkn</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta content="Comment to web. talkn can share comments with users watching the same web page. Please enjoy the world of talkn." name="description">
+<meta name="theme-color" content="rgb(79, 174, 159)">
+
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="https://<%= wwwURL %>/">
+<link rel="alternate" hreflang="en" href="https://<%= wwwURL %>/en">
+<link rel="alternate" hreflang="zh" href="https://<%= wwwURL %>/zh">
+<link rel="alternate" hreflang="ja" href="https://<%= wwwURL %>/ja">
+<link rel="alternate" hreflang="de" href="https://<%= wwwURL %>/de">
+<link rel="alternate" hreflang="fr" href="https://<%= wwwURL %>/fr">
+<link rel="alternate" hreflang="hi" href="https://<%= wwwURL %>/hi">
+<link rel="alternate" hreflang="pt" href="https://<%= wwwURL %>/pt">
+<link rel="alternate" hreflang="it" href="https://<%= wwwURL %>/it">
+
+<link rel="alternate" hreflang="ru" href="https://<%= wwwURL %>/ru">
+<link rel="alternate" hreflang="ko" href="https://<%= wwwURL %>/ko">
+<link rel="alternate" hreflang="es" href="https://<%= wwwURL %>/es">
+<link rel="alternate" hreflang="id" href="https://<%= wwwURL %>/id">
+<link rel="alternate" hreflang="tr" href="https://<%= wwwURL %>/tr">
+<link rel="alternate" hreflang="nl" href="https://<%= wwwURL %>/nl">
+<link rel="alternate" hreflang="ar" href="https://<%= wwwURL %>/ar">
+<link rel="alternate" hreflang="zh-TW" href="https://<%= wwwURL %>/zh-TW">
+
+<link rel="alternate" hreflang="pl" href="https://<%= wwwURL %>/pl">
+<link rel="alternate" hreflang="sv" href="https://<%= wwwURL %>/sv">
+<link rel="alternate" hreflang="th" href="https://<%= wwwURL %>/th">
+<link rel="alternate" hreflang="fa" href="https://<%= wwwURL %>/fa">
+<link rel="alternate" hreflang="nn" href="https://<%= wwwURL %>/nn">
+<link rel="alternate" hreflang="ga" href="https://<%= wwwURL %>/ga">
+<link rel="alternate" hreflang="he" href="https://<%= wwwURL %>/he">
+<link rel="alternate" hreflang="mr" href="https://<%= wwwURL %>/mr">
+
+<style type="text/css">
+    body {
+        color: rgb(255,255,255);
+        margin: 0;
+        font-family: 游ゴシック, YuGothic, "Hiragino Sans", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, sans-serif;
+        letter-spacing: 0.03em;
+        font-size: 3vw;
+    }
+
+    .fixBackground {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .background {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        height: 0;
+        width: inherit;
+        height: inherit;
+        background: url("//<%= assetsURL %>/www/img1.jpg") center center no-repeat;
+        background-size: cover;
+        overflow: hidden;
+    }
+
+    .container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        margin: 0;
+        width: auto;
+        height: auto;
+        overflow: hidden;
+        z-index: 2;
+    }
+
+    section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        box-sizing: border-box;
+        width: 100%;
+        height: 960px;
+    }
+
+    h2 {
+        font-size: 1.3em;
+        letter-spacing: <%= letterSpacingMiddle %>
+    }
+
+    h3 {
+        padding: 1vw 0px 0px 0px;
+        margin: 0;
+    }
+
+    h4 {
+        font-size:0.75em;
+    }
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100px;
+        z-index: 10;
+        font-size: 15px;
+    }
+
+    header .language-menu {
+        box-sizing: border-box;
+        position: absolute;
+        top: -380px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column;
+        flex-wrap: wrap;
+        background: rgba(0,0,0,0.8);
+        padding: 10px;
+        width: 100%;
+        height: 380px;
+        border-radius: 0px 0px 5px 5px;
+        z-index: 1;
+        transition: 300ms;
+        transform: translate3d(0px, 0px, 0px);
+    }
+
+    header .language-menu li {
+        display: inline-block;
+        box-sizing: border-box;
+        color: rgba(255,255,255,0.9);
+        margin: 2px;
+        padding: 10px;
+        width: 30%;
+        height: 40px;
+        transition: 300ms;
+    }
+
+    header .language-menu li.active:hover {
+        color: rgba(0,0,0,0.8);
+        background: rgba(255,255,255,0.8);
+    }
+
+    .menus, nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .headBar {
+        position: absolute;
+        top: 0px;
+        width: 100%;
+        min-height: 5px;
+        background-color: rgba(0,0,0,0.9);
+    }
+
+    nav {
+        position: absolute;
+        top: 45px;
+        width: inherit;
+        height: 55px;
+        background: rgba(255,255,255,0.9);
+        color: rgb(100, 100, 100);
+        box-sizing: border-box;
+        border-bottom: 1px solid rgba(0,0,0,0.1)
+    }
+
+    nav ul {
+        position: absolute;
+        top: -5px;
+        max-width: 800px;
+        min-width: 320px;
+    }
+    
+    .menus {
+        position: absolute;
+        top: 0px;
+        flex-direction: row;
+        height: 45px;
+        background: rgba(0,0,0,0.8);
+        z-index: 1;
+    }
+
+    ul, .pointerWrap {
+        display: flex;
+        justify-content: space-between;
+        width: inherit;
+        height: 70px;
+        max-width: 800px;
+        min-width: 320px;
+        margin: 0;
+        padding: 0;
+    }
+
+    nav li, .menus li, footer li {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: inherit;
+        height: inherit;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+    }
+
+    nav li {
+        
+    }
+
+    .selectMenuWrap {
+        position: fixed;
+        top: -27px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        background: rgb(0,0,0,0.7);
+        border-radius: 100px;
+    }
+
+    .pointerWrap {
+        position: absolute;
+        height: initial;
+        top: 43px;
+        z-index: 0;
+    }
+
+    .pointer{
+        width: calc( 10% );
+        margin: 0px 7.5% 0px 7.5%;
+        height: 5px;
+        border-radius: 10px;
+        background: rgb(79, 174,159);
+        color: rgb( 255, 255, 255 );
+        z-index: 1;
+        transition: 300ms;
+        transform: translate3d( 0px, 0px, 0px );
+    }
+
+    .accessory {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        width: 55px;
+        height: 55px;
+        line-height: 35px;
+        background: rgba(0,0,0,1);
+        position: fixed;
+        top: -25px;
+        border-radius: 100px;
+        color: rgb(255,255,255);
+        font-size: 8px;
+        transition: 300ms;
+        transform: translate3d(0px,-25px,0px);
+    }
+
+    .accessory-case {
+        position: fixed;
+        top: -100px;
+        width: 100%;
+        height: 100px;
+        background: rgb(255,255,255);
+    }
+
+    section.one ::placeholder {
+        font-size: 14px;
+        line-height: 14px;
+        letter-spacing: 2px;
+        color: rgba( 100,100,100 );
+        text-indent: 3vw;
+    }
+    
+
+    section.one input:hover, section.one input:focus {
+        color: rgba( 255,255,255 );
+        background: rgba(79, 174, 159, 0.7);
+    }
+
+    section.one ::placeholder {
+        color: rgba( 255,255,255 );
+    }
+
+    section.one input {
+        width: inherit;
+        height: 40px;
+        font-size: 14px;
+        letter-spacing: 2px;
+        box-sizing: border-box;
+        border: 0;
+        border-radius: 20px;
+        padding: 10px 50px 10px 10px;
+        background: rgba(55,55,55,0.5);
+        outline: 0;
+        text-indent: 3vw;
+        line-height: 14px;
+        box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.9);
+        transition: 300ms;
+    }
+
+    section .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        position: absolute;
+        width: 100%;
+    }
+
+    section .title {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 120px;
+        width: 100%;
+    }
+
+    section .under-bar {
+        position: relative;
+        height: 4px;
+        margin: 13px 0px 0px 0px;
+        border-radius: 30px;
+    }
+
+    section.one{
+        flex-direction: column;
+    }
+
+    section.one .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    section.one .eyecatch {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        width: 100%;
+        margin: 0px 0px 100px 0px;
+    }
+
+    section.one .subtitle {
+        width: 100%;
+        text-align: center;
+        text-shadow: 0px 0px 3px rgb(0,0,0);
+    }
+
+    section.one h2 {
+        margin: 0;
+        text-align: center;
+        color: rgba(255, 255, 255, 1);
+        font-size: 38px;
+        text-shadow:
+            1px 1px 5px rgb(0,0,0),
+            -10px -10px 50px rgb(255,255,255),
+            10px 10px 50px rgb(255,255,255),
+            10px 10px 50px rgb(255,255,255);
+    }
+
+    section.one form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 70%;
+        margin: 0px 0px 100px 0px;
+    }
+
+    section.one .inputWrap {
+        min-width: 300px;
+        width: 86%;
+        max-width: 600px;
+        margin: 0px 0px 130px 0px;
+    }
+
+    section.one .inputWrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    section.one .searchIcon {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        position: relative;
+        top: 34px;
+        left: 15px;
+        height: 32px;
+        z-index: 0;
+        margin: 0px 0px 0px 70%;
+    }
+
+    section.one .searchIcon .circle{
+        overflow: hidden;
+        width: 16px;
+        height: 16px;
+        padding: 0px;
+        margin: 0px;
+        border: 3px solid rgba(255, 255, 255, 0.9);
+        border-radius: 100px;
+        z-index: 1;
+        transform: scale(1);
+    }
+
+    section.one .searchIcon .bar{
+        width: 4px;
+        height: 10px;
+        border: 0px;
+        border-radius: 10px;
+        z-index: 1;
+        position: absolute;
+        top: 21px;
+        left: -2px;
+        background: rgba(255, 255, 255, 0.9);
+        white-space: normal;
+        quotes: none;
+        content: none;
+        cursor: default;
+        text-align: center;
+        transition: all 600ms ease 0s;
+        transform: scale(1) translate3d(0px, 0px, 0px) rotate(45deg);
+    }
+
+    section.two{
+        flex-direction: column;
+        background: linear-gradient(to top right, rgba(9, 104, 89,0.9), rgba(109, 204, 189,0.9));
+    }
+
+    section.two .bar {
+        width: 100%;
+        height: 30vw;
+        max-height: 300px;
+        background: rgba( 79,174,159, 0.8);
+    }
+
+    section.two .content-left {
+        width: 60%;
+        text-align: right;
+    }
+
+    section.two .content-right {
+        width: 40%;
+        height: 500px;
+        background-image: url("//<%= assetsURL %>/www/cap1.png");
+        background-position: 10% 50%;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    section.two h2 {
+    }
+
+    section.two h3 {
+        padding: 0;
+        margin: 0;
+        text-align: right;
+    }
+
+    section.two .link {
+        width: 100%;
+        height: 50px;
+        position: absolute;
+        transform: translate3d(0px,400px,0px);
+        background-image: url("//<%= assetsURL %>/img/chrome_extension.png");
+        background-position: 95% 50%;
+        background-repeat: no-repeat;
+        background-size: contain;
+        cursor: pointer;
+    }
+
+    section.three {
+        flex-direction: initial;
+    }
+
+    section.three .content {
+        height: inherit;
+    }
+
+    section.three .content-left {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 50%;
+        height: inherit;
+        background: rgba(70,70,70,0.9);
+        overflow: visible;
+    }
+
+    section.three .content-left .iframeCap{
+        width: 80%;
+        height: 50%;
+        background-image: url("//<%= assetsURL %>/www/iframe.png");
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: contain;
+        transform: translate3d(0% ,0px, 0px) rotate(0deg);
+    }
+
+    section.three h2 {
+        width: 90%;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+    }
+
+
+    section.three code pre .one-line{
+        color: rgb(173, 154, 255);
+    }
+
+    section.three code pre .tag-name{
+        color: rgb(255, 115, 157);
+    }
+
+    section.three code pre .property-name{
+        color: rgb(216, 255, 121);
+    }
+
+    section.three code pre .value{
+        color: rgb(220, 220, 30);
+    }
+
+    section.three .content-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
+        width: 50%;
+        height: inherit;
+    }
+
+    section.three .content-right-top {
+        width: 100%;
+        height: 33.3%;
+        background: rgba(255,255,255,0.9);
+    }
+
+    section.three .content-right-middle {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        box-sizing: border-box;
+        width: 100%;
+        height: 33.3%;
+        background: rgba(70,70,70,0.9);
+    }
+
+    section.three .content-right-bottom {
+        width: 100%;
+        height: 33.3%;
+        background: rgba(255,255,255,0.9);
+    }
+
+    section.three h3 {
+    }
+
+    section.three .link {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        color: rgb(0,0,0);
+    }
+
+    section.three .link .copyIframe {
+        padding: 5px 20px 5px 20px;
+        border: 3px solid rgba(0,0,0,0.8);
+        border-radius: 30px;
+        margin: 25px;
+        color: rgba(0,0,0,0.8);
+        font-size: 0.75em;
+        font-weight: bold;
+        transition: 300ms;
+    }
+
+    section.three .link .copyIframe:hover {
+        color: rgb(255,255,255,1);
+        background: rgb(79, 174, 159);
+    }
+
+    section.three code {
+        position: absolute;
+        width: 40%;
+        background: rgba(0,0,0,0.825);
+        padding: 30px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 1;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px 1px rgb(0,0,0,1);
+        transition: 1000ms;
+        opacity: 0;
+    }
+
+    section.three code .code-title{
+        color: rgb(255, 255, 255);
+        font-weight: bold;
+    }
+
+    section.fourth {
+        flex-direction: column;
+        justify-content: flex-start;
+        background: rgba(65, 105, 225, 0.8);
+        padding: 50px 0px 0px 0px;
+    }
+
+    section.fourth h2 {
+        padding: 0;
+        margin: 0px 0px 70px 0px;
+        text-align: center;
+    }
+
+    section.fourth .under-bar {
+        width: 14vw;
+        background: rgb( 255,255,255);
+    }
+
+    section.fourth .content{
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: row;
+        width: 100%;
+        height: calc( 80% - 80px );
+    }
+
+    section.fourth .content-left, section.fourth .content-right {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        flex-direction: column;
+        box-sizing: border-box;
+        margin: 0 5%;
+        border: 5px solid rgb(255,255,255);
+        border-radius: 20px;
+        width: 40%;
+        height: 70%;
+        text-align: center;
+        background: rgba(55, 95, 215, 1);
+        transition: 300ms;
+    }
+
+    section.fourth .content-left:hover, section.fourth .content-right:hover {
+        background: rgba(45, 85, 205, 1);
+    }
+
+    section.fourth .terminal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 20%;
+        font-weight: bold;
+    }
+
+    section.fourth .status {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 20%;
+        padding: 10px;
+        font-size: 18px;
+    }
+
+    section.fourth .tools {
+        width: 100%;
+        height: 60%;
+        background-image: url("//<%= assetsURL %>/www/tools.png");
+        background-position: 50% 33%;
+        background-repeat: no-repeat;
+        background-size: 33%;
+    }
+
+    section.five {
+        justify-content: flex-start;
+        background: rgba(255,255,255,0.9);
+        color: rgb(0,0,0);
+        padding: 50px 0px 0px 0px;
+    }
+
+    section.five .under-bar {
+        width: 160px;
+        background: rgba( 0,0,0,0.8);
+    }
+    
+    section.five .company {
+        width: 100%;
+        max-width: 600px;
+        box-sizing: border-box;
+        color: rgb(70, 70, 70);
+    } 
+
+    section.five .company th{
+        width: 110px;
+        padding: 5px;
+        background: rgba(0,0,0,0.1);
+        text-align: left;
+        text-indent: 10px;
+        font-size: 12px;
+    }
+
+    section.five .company td{
+        padding: 5px 10px 5px 10px;
+        background: rgba(0,0,0,0.04);
+        text-align: left;
+        font-size: 12px;
+    }
+
+
+    section.five .company img {
+        position: relative;
+        top: 3px;
+        width: 16px;
+    }
+
+    section.five .contact {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    section.five .contact form {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-direction: column;
+    }
+
+    section.five .contact .oneline {
+        display: flex;
+        width: 100%;
+    }
+
+    section.five .contact .oneline .grow {
+        flex-grow: 1;
+    }
+
+    section.five .contact input, section.five .contact textarea {
+        box-sizing: border-box;
+        border: 0;
+        border-radius: 3px;
+        background: rgba(0,0,0,0.1);
+        margin: 1px;
+        height: 35px;
+        padding: 5px 20px 5px 20px;
+        width: 100%;
+        text-indent: 5px;
+        outline: 0;
+        box-shadow: none;
+        transition: 300ms;
+    }
+
+    section.five .contact input:hover, section.five .contact textarea:hover {
+        background: rgba(100,100,100,0.1);
+    }
+
+    section.five .contact [type=submit] {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 40px auto 0px auto;
+        width: 30%;
+        height: 50px;
+        border: 1px solid rgb(220, 220, 220);
+        border-radius: 5px;
+        background: rgba( 200, 200, 200, 0.5 );
+        color: rgb(100, 100, 100);
+        transition: 300ms;
+    }
+
+    section.five .contact [type=submit]:hover {
+        background: rgba( 79, 174, 159, 1 );
+        color: rgb(255, 255, 255);
+    }
+
+    section.five ::placeholder {
+        text-indent: 5px;
+    }
+
+    section.five .contact textarea {
+        text-indent: 0px;
+        min-height: 100px;
+        min-width: 100%;
+        resize: none;
+    }
+
+    footer {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-direction: column;
+        width: 100%;
+        height: 300px;
+        background: rgba(0,0,0,0.8);
+        padding: 0px 0px 40px 0px;
+        font-size: 13px;
+    }
+
+    footer .sns .fb-share-button{
+        position: relative;
+        top: -3px;
+    }
+
+    footer .sns {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    footer .sns .twitter, footer .sns .facebook {
+        margin: 20px;
+    }
+
+    .toTop {
+        position: fixed;
+        bottom: 18px;
+        right: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 54px;
+        height: 54px;
+        background: rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba( 255, 255, 255, 0.2);
+        border-radius: 5px;
+        color: rgb(255,255,255);
+        transition: 300ms;
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .toTop:hover {
+        background: rgba(255,255,255,0.8);
+    }
+
+    .toTop .arrow {
+        width: 0px;
+        height: 0px;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid rgba( 255, 255, 255, 0.4);
+        border-left: 10px solid transparent;
+        transition: 300ms;
+    }
+
+    .toTop:hover .arrow {
+        border-bottom: 10px solid rgba( 0, 0, 0, 0.2);
+    }
+
+    .highlight {
+        color: yellow;
+    }
+
+    a:link {
+        color: rgb(255,255,255);
+        text-decoration: none;
+    }
+    a:visited {
+        color: rgb(255,255,255);
+    }
+    a:hover {
+        color: rgb(255,255,255);
+    }
+    a:active {
+        color: rgb(255,255,255);
+    }
+
+    @media screen and (min-width:0px) and ( max-width:600px) {
+
+        header {
+            font-size: 13px;
+        }
+
+        header .language-menu {
+            font-size: 12px;
+            letter-spacing: 0;        
+        }
+
+        section.one ::placeholder {
+            font-size: 1em;
+            letter-spacing: 2px;
+            text-indent: 3vw;
+        }
+
+        section.one input {
+            font-size: 1em;
+            letter-spacing: 2px;
+            text-indent: 3vw;
+        }
+
+        h2 {
+            letter-spacing: <%= letterSpacingSmall %>
+        }
+
+        section.one h2 {
+            font-size: 26px !important;
+        }
+
+        section.one .subtitle {
+        }
+
+        section.one .eyecatch {
+            margin: 0px 0px 75px 0px;
+        }
+        
+        section.one form {
+            margin: 0px 0px 200px 0px;
+        }
+
+        section.one .searchIcon {
+            top: 34px;
+            left: 0px;
+        }
+
+        h2 {
+            font-size: 1.5em;
+        }
+
+        section {
+            height: 600px;
+        }
+
+        section .title {
+            height: 100px;
+        }
+
+        section.two .bar {
+            height: 40vw !important;
+        }
+
+        section.two .content-right {
+            background-size: contain;
+            transform: rotate(-5deg) scale(1.75) translate3d(35px, 0px, 0px);
+        }
+
+        section.two h2 {
+        }
+
+        section.two h3 {
+        }
+
+        section.two .link {
+            background-position: 10% 50%;
+            transform: translate3d(0px,240px,0px);
+        }
+
+        section.three .content {
+            flex-direction: column-reverse !important;
+        }
+
+        section.three .content-left {
+            align-items: flex-start !important;
+            width: 100% !important;
+            height: 50% !important;
+        }
+
+        section.three .content-left pre {
+            font-weight: bold;
+        }
+
+        section.three .content-right {
+            width: 100% !important;
+            height: 50% !important;
+        }
+
+        section.three .content-right-middle {
+            height: 50vw !important;
+            padding-left: 20vw;
+            align-items: flex-start;
+        }
+
+        section.three .content-left .iframeCap {
+            position: relative;
+            top: -50%;
+            left: -50%;
+            bottom: 0vw;
+            width: 100%;
+            min-height: 200%;
+            background-position: 92% 95%;
+            background-size: 43%;
+            background-origin: border-box;
+        }
+
+        section.three .link .copyIframe {
+            border: 3px solid rgb(255,255,255);
+            color: rgb(255,255,255);
+        }
+
+        section.three code pre {
+        }
+
+        section.fourth h2 {
+            margin: 0px 0px 30px 0px;
+        }
+
+        section.fourth .content-right, section.fourth .content-left {
+            border: 3px solid rgb(255,255,255);
+            height: 90%;
+        }
+
+        section.fourth .under-bar {
+            height: 3px;
+            width: 115px !important
+        }
+
+        section.fourth .terminal {
+        }
+
+        section.fourth .status {
+        }
+
+        section.fourth .tools {
+            background-size: 50%;
+        }
+
+        section.five ::placeholder {
+            text-indent: 0px !important;
+        }
+
+        section.five input {
+            text-indent: 0px !important;
+        }
+
+        section.five .title {
+            height: 50px;
+            font-weight: bold;
+        } 
+
+        section.five .under-bar {
+            display: none;
+        } 
+
+        section.five .company, section.five .contact {
+            width: 96%;
+            font-size: 12px;
+        } 
+
+        section.five .contact [type=submit] {
+            height: 35px;
+            margin: 20px auto 0px auto;
+        }
+    }
+
+    @media screen and (min-width:1200px) {
+        h2 {
+            font-size: 45px;
+            letter-spacing: <%= letterSpacingLarge %>
+        }
+
+        h3 {
+            font-size: 40px;
+        }
+
+        h4{
+            font-size: 20px;
+        }
+
+        section .title {
+            height: 150px;
+        }
+
+        section.one h2 {
+            font-size: 40px;
+        }
+
+        section.one h1 {
+        }
+
+        section.two h2 {
+        }
+
+        section.three h2 {
+        }
+
+        section.three .content-left .iframeCap {
+            background-size: 340px;
+        }
+
+        section.three .link .copyIframe {
+            font-size: 25px;
+        }
+
+        section.three code .code-title{
+        }
+
+        section.three code {
+        }
+
+        section.three .content-right-middle {
+            padding-left: 2vw;
+        }
+
+        section.fourth h2 {
+        }
+
+        section.fourth .under-bar {
+            width: 200px;
+        }
+
+        section.fourth .terminal {
+            font-size: 45px;
+        }
+
+        section.fourth .status {
+        }
+
+        section.fourth .tools {
+            background-size: 128px;
+        }
+
+        section.fourth .content-left {
+            margin: 0 10%;
+            width: 30%;
+        }
+
+        section.fourth .content-right {
+            margin: 0 10%;
+            width: 30%;
+        }
+
+        section.fourth .content-left, section.fourth .content-right {
+            padding: 20px;
+        }
+
+        section.five .company th{
+            font-size: 14px;
+        }
+
+        section.five .company td{
+            font-size: 14px;
+        }
+
+        section.five .title{
+            font-size:30px;
+        }
+    }
+</style>
+
+
 <script type="text/javascript" src="https://<%= wwwURL %>/sw.js"></script>
+<script type="text/javascript">
+    const wideScreenWidth = 960;
+    const smallScreenWidth = 600;
+    const responsiveWidth = 640;
+    const headerHeight = 100;
+
+    const pointerStyles = [
+        {height: "5px", width: "10%", transform: "translate3d(0%,0px,0px)"},
+        {height: "5px",  width: "10%", transform: "translate3d(250%,0px,0px)"},
+        {height: "5px", width: "10%", transform: "translate3d(500%,0px,0px)"},
+        {height: "5px", width: "10%", transform: "translate3d(750%,0px,0px)"},
+        {height: "0px", width: "10%", transform: "translate3d(750%,0px,0px)"}
+    ];
+    const menuStyles = {
+        active: {color: "rgb(79, 174, 159)"},
+        unactive: {color: "rgb(55, 55, 55)"},
+    }
+    let screen = 0;
+    let isAnimateScrolling = false;
+    let oneScreenHeight = smallScreenWidth;
+
+    function onServiceWorker(){
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                // 登録成功
+                console.log('[www]ServiceWorker registration successful with scope: ', registration.scope);
+            }).catch(function(err) {
+                // 登録失敗 :(
+                console.log('[www]ServiceWorker registration failed: ', err);
+            });
+        }
+    }
+
+    function onMouseOver(num){
+        movePointer(num);
+        setMenuColor();
+    }
+
+    function onMouseLeave(num){
+        movePointer(screen);
+        setMenuColor();
+    }
+
+    function onClick(num){
+        setScreen(num);
+        movePointer(num, true);
+        setMenuColor();
+    }
+
+    function onClickToTop(){
+        animateScrollTo(0);
+    }
+
+    function onClickLanguage(){
+        const languageMenu = document.querySelector(".language-menu");
+
+        if( languageMenu.style.transform === "" ){
+            languageMenu.style.transform = "translate3d(0px, 430px, 0px )";
+        }else{
+
+            if( languageMenu.style.transform === "translate3d(0px, 0px, 0px)" ){
+                languageMenu.style.transform = "translate3d(0px, 430px, 0px )";
+            }else{
+                languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
+            }
+        }
+    }
+
+    function onClickLanguageMenu(cn){
+        location.href = "https://<%= wwwURL %>?lang=" + cn;
+    }
+
+    function onKeyPressSearch(e){
+        if ( e.key === "Enter" ) {
+            let value = e.target.value;
+            let isUrl = false;
+            let url = "";
+            if( value.indexOf("https:/") === 0 ){
+                value = value.replace("https:/", "");
+                isUrl = true;
+            }
+            if( value.indexOf("http:/") === 0 ){
+                value = value.replace("http:/", "");
+                isUrl = true;
+            }
+
+            url = isUrl ? value : "/" + value;
+            location.href = "https://<%= domain %>" + url;
+        }
+    }
+
+    function getCalcScreen(){
+        const { scrollY, innerHeight } = window;
+        if( 0 <= scrollY && scrollY < ( oneScreenHeight * 1 ) + headerHeight) {
+            screen = 0;
+        }else if( oneScreenHeight + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 2 ) + headerHeight ){
+            screen = 1;
+        }else if( ( oneScreenHeight * 2 ) + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 3 ) + headerHeight ){
+            screen = 2;
+        }else if( ( oneScreenHeight * 3 ) + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 4 ) + headerHeight ){
+            screen = 3;
+        }else if( ( oneScreenHeight * 4 ) + headerHeight <= scrollY ){
+            screen = 4;
+        }
+        return screen;
+    }
+
+    function setScreen(num){
+        if(num){
+            screen = num;
+        }else{
+            screen = getCalcScreen();
+        }
+        return screen;
+    }
+
+    function setMenuColor(){
+        if( window.menuLis ){
+            window.menuLis.forEach( (menuLi, i) => {
+                menuLi.style.color = screen === i ? menuStyles.active.color : menuStyles.unactive.color;
+            } );
+        }
+    }
+
+    function movePointer(num = 0, animateScroll = false){
+        const { scrollY, innerHeight } = window.scrollY;
+        const pointerStyle = pointerStyles[ num ];
+        const pointer = document.querySelector(".pointer");
+        pointer.style.width = pointerStyle.width;
+        pointer.style.height = pointerStyle.height;
+        pointer.style.transform = pointerStyle.transform;
+        const moveScrollY = num === 0 ? 0 : ( oneScreenHeight * num ) + headerHeight ;
+        if( animateScroll ){
+            animateScrollTo( moveScrollY, 600 );
+        }
+    }
+
+    function setNavStyles(){
+        const nav = document.querySelector("nav");
+        const accessory = document.querySelector(".accessory");
+        const toTop = document.querySelector(".toTop");
+        const scrollY = window.scrollY;
+        const changeAccessoryFunc = ( scrollY ) => {
+            const changeNavMenuHeight = ( oneScreenHeight * ( pointerStyles.length - 1 ) ) + headerHeight;
+            if( scrollY >= changeNavMenuHeight){
+                accessory.style.transform = "translate3d(0px, -45px, 0px)";
+                accessory.style.width = "100px";
+                accessory.style.height = "100px";
+                accessory.innerText = "Powerd by";
+            }else{
+                accessory.style.transform = "translate3d(0px, 0px, 0px)";
+                accessory.style.width = "55px";
+                accessory.style.height = "55px";
+                accessory.innerText = "Apps";
+            }
+        }
+
+        if( !toTop ){
+            return false;
+        }
+
+        if( scrollY < 45 ){
+
+            if( nav.style.position === "fixed" ){
+                nav.style.position = "absolute";
+                nav.style.top = "45px";
+                accessory.style.transform = "translate3d(0px, -25px, 0px)";
+            }
+
+            toTop.style.display = "none";
+        }else{
+
+            if(nav.style.position === "absolute"){
+                nav.style.position = "fixed";
+                nav.style.top = "0px";
+                accessory.style.transform = "translate3d(0px, 0px, 0px)";
+
+                changeAccessoryFunc(scrollY);
+            }else if(nav.style.position === "fixed"){
+                changeAccessoryFunc(scrollY);
+            }else if( nav.style.position === "" ){
+                nav.style.position = "absolute";
+                nav.style.top = "45px";
+                accessory.style.transform = "translate3d(0px, -25px, 0px)";
+            }
+            toTop.style.display = "flex";
+        }
+    }
+
+	function animateScrollTo( to = 99999, duration = 400,  callback = () => {} ){
+
+        if( duration === 0 ){
+            window.scrollTo(0, to);
+        }else{
+
+            if( !isAnimateScrolling ){
+                let start = window.scrollY;
+                let change = to - start;
+                let currentTime = 0;
+                let increment = 20;
+
+                const animateScroll = ()　=>　{
+                    currentTime += increment;
+                    let scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);
+                    screenTop = Math.floor( scrollTop );
+                    window.scrollTo(0, scrollTop);
+
+                    if(currentTime < duration){
+                        isAnimateScrolling = true;
+                        setTimeout(animateScroll, increment);
+                    }
+
+                    if( to === screenTop){
+                        isAnimateScrolling = false;
+                        callback();
+                    }
+                };
+                animateScroll();
+            }
+        }
+    }
+
+    function setupMath(){
+		Math.easeInOutQuad = function (t, b, c, d) {
+			t /= d/2;
+			if (t < 1) return c/2*t*t + b;
+			t--;
+			return -c/2 * (t*(t-2) - 1) + b;
+		};
+	}
+
+    function onMouseOverInput( className ){
+        document.querySelector("section." + className ).style.border = "5px solid rgba( 79,174,159,0.8)";
+    } 
+
+    function onMouseLeaveInput( className ){
+        document.querySelector("section." + className ).style.border = "5px solid rgba( 0,0,0,0.2)";
+    } 
+
+    function onFocusInput( className ){
+        document.querySelector("section." + className ).style.border = "5px solid rgba( 79,174,159,0.8)";
+    } 
+
+    function onBlurInput( className ){
+        document.querySelector("section." + className ).style.border = "5px solid rgba( 0,0,0,0.2)";
+    } 
+
+    function onClickCopyIframe(){
+        document.querySelector("section.three code" ).style.opacity = "1";
+
+        const copyIframe = document.createElement("input");
+        copyIframe.value = document.querySelector("code pre")
+                                .innerText
+                                .replace("// Embed one line.", "")
+                                .replace(/\r?\n/g, '')
+                                .replace( /    /g, " ");
+
+        copyIframe.id = "copyIframe";
+        copyIframe.type = "text";
+        copyIframe.style = "opacity: 0";
+        document.querySelector("section.three code pre").appendChild(copyIframe);
+        copyIframe.focus();
+        copyIframe.select();
+        document.execCommand("copy"); 
+
+        setTimeout( () => {
+            document.querySelector("section.three code" ).style.opacity = "0";
+            setTimeout( () => {
+    	        copyIframe.parentNode.removeChild(copyIframe);
+            }, 1000 );
+        }, 3000 );
+    } 
+
+    function onResizeWindow(){
+        let newOneScreenHeight = 0;
+        if( window.innerWidth < responsiveWidth ){
+            newOneScreenHeight = smallScreenWidth;
+        }else{
+            newOneScreenHeight = wideScreenWidth;
+        }
+
+        if( oneScreenHeight !== newOneScreenHeight ){
+            oneScreenHeight = newOneScreenHeight;
+            screen = setScreen();
+            movePointer(screen);
+            setNavStyles();
+            setMenuColor();
+        }
+    } 
+
+    window.onload =  ( e ) => {
+
+        onServiceWorker();
+
+        const search = document.querySelector(".search");
+        search.addEventListener('keypress', onKeyPressSearch);
+
+        onResizeWindow();
+        setupMath();
+        window.pointer = document.querySelector(".pointer");
+        window.menuLis = document.querySelectorAll("nav li");
+        window.nav = document.querySelector("nav");
+        setNavStyles();
+        setMenuColor();
+
+        document.querySelector(".language-menu").addEventListener("transitionend", () => {
+            const languageMenu = document.querySelector(".language-menu");
+            if( languageMenu.style.transform === "translate3d(0px, 430px, 0px)" ){
+                document.body.addEventListener("click", function temp(){
+                    languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
+                    this.removeEventListener("click", temp);
+                });
+            }
+        });
+    };
+
+    window.onscroll =  ( e ) => {
+
+        setNavStyles();
+
+        if( !isAnimateScrolling ){
+
+            let beforeScreen = screen;
+            screen = setScreen();
+
+            if( screen !== beforeScreen){
+                movePointer(screen);
+                setMenuColor();
+            }
+        }
+    };
+
+    window.onresize = onResizeWindow;
+
+</script>
+
 </head>
 <body>
-TEST
+    <script async defer crossorigin="anonymous" src="https://<%= assetsURL %>/js/sw.js"></script>
 </body>
 </html>
