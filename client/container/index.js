@@ -293,7 +293,6 @@ class Container extends Component {
 
     // Close
     }else if( !app.isDispMain && !app.isOpenMain ){
-      alert("@@");
       return (
         <div>=====</div>
         );
