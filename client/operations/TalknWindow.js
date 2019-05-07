@@ -224,25 +224,6 @@ export default class TalknWindow {
 	}
 
 	addBackgroundListener( state ){
-		console.log('[TALKN]SW START: ');
-		if ('serviceWorker' in navigator) {
-			console.log('[TALKN]SW START: ');
-			navigator.serviceWorker.register(`./sw.js`).then( (registration) => {
-				// 登録成功
-                console.log('[TALKN]SW SUCCESS: ', registration.scope);
-            }).catch( (err) => {
-				// 登録失敗 :(
-				console.log('[TALKN]SW FAULT: ', err);
-            });
-		}
-		/*
-		const { type, talknIndex } = state.app;
-		let promiseCondition = () => {};
-		promiseCondition = ( resolve, reject ) => {
-			resolve( { setting: JSON.parse( localStorage.getItem( conf.cacheKey.setting + talknIndex ) ), self: self } );
-		}
-		return new Promise( promiseCondition );
-		*/
 	}
 
 	loadedTalkn(e){
@@ -250,11 +231,11 @@ export default class TalknWindow {
 
 	async render( state ){
 //		this.resizeEndWindow();
-		//await this.addBackgroundListener( state );
 		await this.renderDOM();
 	}
 
 	async renderDOM(){
+		alert("@@@@@@@!!!");
 		ReactDOM.render(
 			<Provider store={ this.talknAPI.store }>
 				<Container talknAPI={ this.talknAPI } timeago={new timeago()} />
