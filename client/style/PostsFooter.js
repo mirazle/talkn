@@ -89,7 +89,7 @@ export default class PostsFooter{
     const borderRadius = PostsFooter.getBorderRadius(app);
     const layout = Style.getLayoutFlex({
       position: "fixed",
-      top: 0,
+      bottom: 0,
       left: PostsFooter.getLeft( app ),
       flexGrow: 1,
       height: PostsFooter.selfHeight,
