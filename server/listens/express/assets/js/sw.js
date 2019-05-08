@@ -232,4 +232,4 @@ class ServiceWorker {
 
 window.onload( () => {
     const c = new ServiceWorker();
-}
+});
