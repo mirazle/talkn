@@ -59,10 +59,10 @@ class ServiceWorker {
             this.iframe.setAttribute("name", "extension");
             this.iframe.setAttribute("style",
                 "z-index: 2147483647 !important;" +
-                "display: block !important;" +
+                "display: none !important;" +
                 "align-items: flex-end !important;" + 
                 "position: fixed !important; " +
-                "top: calc( 100vh - 45px ) !important;" + 
+                "bottom: 0px !important;" + 
                 "right: 0px !important;" + 
                 "width: 100% !important;" + 
                 `height: ${ServiceWorker.iframeCloseHeight} !important;` + 
