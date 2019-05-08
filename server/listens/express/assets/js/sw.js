@@ -76,8 +76,8 @@ class ServiceWorker {
             this.iframe.addEventListener( "load", this.loadIframe );
             this.iframe.addEventListener( "transitionend", this.transitionend );
 
-            document.querySelector("#talknTest").appendChild(this.iframe);
-//            document.body.appendChild(this.iframe);
+//            document.querySelector("#talknTest").appendChild(this.iframe);
+            document.body.appendChild(this.iframe);
         }
     }
 
