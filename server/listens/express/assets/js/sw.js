@@ -34,7 +34,6 @@ class ServiceWorker {
         if(!noBootFlg){
             const talknFrame = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
             if( refusedFrame && talknFrame !== null){
-                alert("REMOVE");
                 talknFrame.remove();
             }
 
@@ -92,7 +91,6 @@ class ServiceWorker {
         const iframe = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
         iframe.backgroundColor = "green";
-        alert( iframe.style.bottom + iframe.style.transform);
         // TODO onTransitionしないとdetail開くときにアニメーションにならない。
         this.postMessage("onTransitionEnd");
         this.postMessage("onTransition");
@@ -232,4 +230,6 @@ class ServiceWorker {
     }
 }
 
-const c = new ServiceWorker();
+window.onload( () => {
+    const c = new ServiceWorker();
+}
