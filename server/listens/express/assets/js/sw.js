@@ -1,7 +1,8 @@
 class ServiceWorker {
 
+    static get MODE(){return "SCRIPT"}
     static get APP_NAME(){return "talkn"}
-    static get MODE(){return "PROD"}
+    static get MODE(){return "DEV"}
     static get PROTOCOL(){return "https"}
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
@@ -18,7 +19,7 @@ class ServiceWorker {
     };
     static get iframeCloseHeight(){return '45px'};
     static get iframeCloseNotifHeight(){return '85px'};
-    static get iframeOpenHeight(){return '450px'};
+    static get iframeOpenHeight(){return ServiceWorker.MODE === "SCRIPT" ? '90vh' : '450px'};
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'getClientMetas']};
