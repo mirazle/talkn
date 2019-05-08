@@ -10,7 +10,6 @@ export default class Notif {
   
   static getNotifsDisplay(app){
     if(define.APP_TYPES.EXTENSION === app.type ){
-      console.log( app.isOpenMain + " && " + app.isOpenNotif );
       if( app.isOpenMain ){
         return 'none';
       }else{
