@@ -10,9 +10,34 @@ export default class Notif {
   
   static getNotifsDisplay(app){
     if(define.APP_TYPES.EXTENSION === app.type ){
-      return app.isOpenMain ? 'none' : 'block';
+      console.log( app.isOpenMain + " && " + app.isOpenNotif );
+      if( app.isOpenMain ){
+        return 'none';
+      }else{
+        if( app.isOpenNotif ){
+          return 'block';
+        }else{
+          return 'block';
+        }
+      }
     }else{
       return 'none';
+    }
+  }
+
+  static getNotifsHeight(app){
+    if(define.APP_TYPES.EXTENSION === app.type ){
+      if( app.isOpenMain ){
+        return '0px';
+      }else{
+        if( app.isOpenNotif ){
+          return `${Footer.selfHeight + Notif.selfHeight}px`;
+        }else{
+          return `${Notif.selfHeight}px`;
+        }
+      }
+    }else{
+      return '0px';
     }
   }
 
@@ -33,12 +58,13 @@ export default class Notif {
 
   static getNotifs({app}){
     const display = Notif.getNotifsDisplay(app);
+    const height = Notif.getNotifsHeight(app);
     const layout = Style.getLayoutBlock({
       display,
       position: "absolute",
       top: "0px",
       width: '100%',
-      height: `${Footer.selfHeight + Notif.selfHeight}px`,
+      height,
       overflow: 'visible',
     });
     const content = Style.getContentBase();

@@ -111,6 +111,11 @@ export default ( state = {} , action ) => {
 					display: Container.getNewPostDisplay( action.app ),
 				}
 			},
+			notif: {...state.notif,
+				notifs: {...state.notif.notifs,
+					height: Notif.getNotifsHeight( action.app ),
+				}
+			},
 			posts: {...state.posts,
 				self: {...state.posts.self,
 					display: Screen.getSelfDisplay( action.app ),
