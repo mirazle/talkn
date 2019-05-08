@@ -68,7 +68,7 @@ class ServiceWorker {
                 "margin: 0 !important;" + 
                 "padding: 0!important;" + 
                 "transition: 0ms!important;" + 
-                "transform-origin: center; !important;" + 
+                "transform-origin: 100%; !important;" + 
                 "transform: translate3d(0px, 0px, 0px) !important;"
             );
             this.iframe.setAttribute("src", this.talknUrl );
