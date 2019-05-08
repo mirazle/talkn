@@ -59,7 +59,7 @@ class ServiceWorker {
             this.iframe.setAttribute("name", "extension");
             this.iframe.setAttribute("style",
                 "z-index: 2147483647 !important;" +
-                "display: none !important;" +
+                "display: block !important;" +
                 "align-items: flex-end !important;" + 
                 "position: fixed !important; " +
                 "top: calc( 100vh - 45px ) !important;" + 
