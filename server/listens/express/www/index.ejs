@@ -1585,7 +1585,7 @@
 
     function onServiceWorker(){
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+            navigator.serviceWorker.register('/www_sw.js').then(function(registration) {
                 // 登録成功
                 console.log('[www]ServiceWorker registration successful with scope: ', registration.scope);
             }).catch(function(err) {
@@ -1902,7 +1902,7 @@
 <body>
 
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://<%= assetsURL %>/js/sw.js"></script>
+    <script async defer crossorigin="anonymous" src="https://<%= assetsURL %>/js/script_sw.js"></script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"></script>
 
     <div class="fixBackground">
