@@ -19,7 +19,10 @@ class ServiceWorker {
     };
     static get iframeCloseHeight(){return '45px'};
     static get iframeCloseNotifHeight(){return '85px'};
-    static get iframeOpenHeight(){return ServiceWorker.MODE === "SCRIPT" ? '90vh' : '450px'};
+    static get iframeOpenHeight(){
+        
+        return ServiceWorker.MODE === "SCRIPT" ? '90vh' : '450px'
+    };
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'getClientMetas']};
