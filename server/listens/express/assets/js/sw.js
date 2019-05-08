@@ -67,9 +67,7 @@ class ServiceWorker {
                 `height: ${ServiceWorker.iframeCloseHeight} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0!important;" + 
-                "background: red !important;" + 
                 "transition: 0ms !important;" + 
-                "transform-origin: 0%; !important;" + 
                 "transform: translate3d(0px, 0px, 0px) !important;"
             );
             this.iframe.setAttribute("src", this.talknUrl );
