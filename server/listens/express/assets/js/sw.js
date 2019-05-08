@@ -74,6 +74,9 @@ class ServiceWorker {
             this.iframe.setAttribute("frameBorder", 0 );
             this.iframe.addEventListener( "load", this.loadIframe );
             this.iframe.addEventListener( "transitionend", this.transitionend );
+
+            alert("SW " + window.innerHeight);
+
             document.body.appendChild(this.iframe);
         }
     }
@@ -230,6 +233,4 @@ class ServiceWorker {
     }
 }
 
-window.onload( () => {
-    const c = new ServiceWorker();
-});
+const c = new ServiceWorker();
