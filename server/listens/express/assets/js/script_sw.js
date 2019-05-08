@@ -235,5 +235,5 @@ class ServiceWorker {
         };
     }
 }
-console.log("SCRIPT SW");
+
 const c = new ServiceWorker();

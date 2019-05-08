@@ -111,6 +111,8 @@ const functions = {
     action.app.height = App.getHeight();
     action.app.isOpenMain = action.app.isOpenMain ?
       action.app.isOpenMain : App.getIsOpenMain( action.app );
+    
+    console.log( action.app.isOpenMain );
     return action;
   },
   "ON_TRANSITION": ( state, action ) => {

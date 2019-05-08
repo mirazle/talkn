@@ -7,7 +7,7 @@ export default class Main {
 
   static get selfHeight(){ return '100%' };
   static get closeHeight(){ return 45 };
-  static get openHeight(){ return 450 };
+  static get openHeight(){ return 741 };
   static get headerHeight(){ return 45 };
   static get notifHeight(){ return 20 };
   static get notifOpenTranslate(){ return 20 };
