@@ -136,6 +136,8 @@ export default class Posts {
       margin: Posts.getMargin( app ),
       padding: Posts.getPadding( app ),
       background: Container.whiteRGBA,
+      overflowScrolling: "touch",
+      WebkitOverflowScrolling: "touch",
       overflow,
       ...borders
     });
