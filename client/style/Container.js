@@ -174,6 +174,7 @@ export default class Container{
   static getMultistreamIconWrapRight( app ){
     switch( app.screenMode ){
     case App.screenModeSmallLabel:
+    return "10%" ;
     case App.screenModeMiddleLabel:
       return "20px" ;
     case App.screenModeLargeLabel:

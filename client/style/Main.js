@@ -11,10 +11,8 @@ export default class Main {
   static getOpenHeight(app, called){
     if( app.type === define.APP_TYPES.EXTENSION ){
       if( app.extensionMode === "SCRIPT"){
-        console.log("A " + called);
         return window.innerHeight;
       }else{
-        console.log("B " + called);
         return 450;
       }
     } else {
