@@ -105,6 +105,7 @@ export default class App extends Schema{
     const screenModePointer = params.screenModePointer ? params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
     const screenContents = App.getScreenContentsMap( screenMode, screenModePointer );
     const iframe = Schema.isSet( params.iframe ) ? JSON.parse( params.iframe ) : false ;
+    const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
 
     // Index情報
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
@@ -134,7 +135,7 @@ export default class App extends Schema{
 
     // 各パーツの状態(フラグ制御)
     const isOpenMainPossible = params.isOpenMainPossible ? params.isOpenMainPossible : false;
-    const isOpenMain =  App.getIsOpenMain({type, height});
+    const isOpenMain =  App.getIsOpenMain({type, height, extensionMode}, "CONST");
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
@@ -167,6 +168,7 @@ export default class App extends Schema{
       screenModePointer,
       screenContents,
       iframe,
+      extensionMode,
 
       // Index情報
       menuComponent,
@@ -228,10 +230,10 @@ export default class App extends Schema{
     return App.screenModeLargeLabel;
   }
 
-  static getIsOpenMain(app){
+  static getIsOpenMain(app, called){
     const {type, height} = app;
     if( define.APP_TYPES.EXTENSION === type ){
-      return Main.openHeight === height ? true : false;
+      return Main.getOpenHeight(app, called) === height ? true : false;
     }else{
       return true;
     }
