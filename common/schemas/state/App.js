@@ -234,7 +234,9 @@ export default class App extends Schema{
     const {type, height, extensionMode} = app;
     if( app.type === define.APP_TYPES.EXTENSION ){
 
-      if( PostsFooter.selfHeight === height ){
+      console.log( height );
+
+      if( PostsFooter.selfHeight === height || height === 0 ){
         return false;
       }else{
         return ( window.innerHeight === height );
