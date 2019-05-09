@@ -2,7 +2,7 @@ class ServiceWorker {
 
     static get MODE(){return "SCRIPT"}
     static get APP_NAME(){return "talkn"}
-    static get ENV(){return "PROD"}
+    static get ENV(){return "DEV"}
     static get PROTOCOL(){return "https"}
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}

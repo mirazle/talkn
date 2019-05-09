@@ -22,6 +22,7 @@ export default class Posts extends Component {
       const{ app } = this.props.state;
 
       if( app.type === define.APP_TYPES.EXTENSION ){
+        console.log(app);
         if( app.isOpenMain ){
           talknAPI.extension("loadTalkn", this.props.state);
           this.setState({scrollHeight: this.refs.thread.scrollHeight});
