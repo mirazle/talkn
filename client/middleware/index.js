@@ -95,7 +95,6 @@ const functions = {
     return action;
   },
   "ON_CLICK_TOGGLE_MAIN": ( state, action ) => {
-
     return action;
   },  
   "ON_CLICK_MENU": ( state, action ) => {
@@ -110,9 +109,7 @@ const functions = {
     action.app = {...state.app, ...action.app};
     action.app.height = App.getHeight();
     action.app.isOpenMain = action.app.isOpenMain ?
-      action.app.isOpenMain : App.getIsOpenMain( action.app );
-    
-    console.log( action.app.isOpenMain );
+      action.app.isOpenMain : App.getIsOpenMain( action.app, action.type );
     return action;
   },
   "ON_TRANSITION": ( state, action ) => {
@@ -126,13 +123,11 @@ const functions = {
   "ON_TRANSITION_END": ( state, action ) => {
     action.app = {...state.app, ...action.app};
     action.app.height = App.getHeight();
-    action.app.isOpenMain = App.getIsOpenMain( action.app );
+    action.app.isOpenMain = App.getIsOpenMain( action.app, action.type );
     return action;
   },
   "RESIZE_START_WINDOW": ( state, action ) => {
-    console.log("RESIZE_START_WINDOW " + state.app.screenMode);
     action.app = {...state.app, ...action.app};
-    console.log("RESIZE_START_WINDOW " + action.app.screenMode);
     return action;
   },
   "RESIZE_END_WINDOW": ( state, action ) => {

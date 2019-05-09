@@ -1,3 +1,4 @@
+import define from '~/common/define';
 import Style from './index';
 import Container from './Container';
 import Footer from './Footer';
@@ -7,7 +8,20 @@ export default class Main {
 
   static get selfHeight(){ return '100%' };
   static get closeHeight(){ return 45 };
-  static get openHeight(){ return 741 };
+  static getOpenHeight(app, called){
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      if( app.extensionMode === "SCRIPT"){
+        console.log("A " + called);
+        return window.innerHeight;
+      }else{
+        console.log("B " + called);
+        return 450;
+      }
+    } else {
+      return window.innerHeight;
+    }
+
+  };
   static get headerHeight(){ return 45 };
   static get notifHeight(){ return 20 };
   static get notifOpenTranslate(){ return 20 };

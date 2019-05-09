@@ -2,26 +2,26 @@ class ServiceWorker {
 
     static get MODE(){return "SCRIPT"}
     static get APP_NAME(){return "talkn"}
-    static get MODE(){return "DEV"}
+    static get ENV(){return "DEV"}
     static get PROTOCOL(){return "https"}
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
     static get BASE_DEV_PORT(){return 8080} 
     static get EXCLUSION_HOSTS(){return ['localhost', 'talkn.io']}    
     static get BASE_HOSTNAME(){
-        if(ServiceWorker.MODE === "PROD"){
+        if(ServiceWorker.ENV === "PROD"){
             return `${ServiceWorker.PROTOCOL}://${ServiceWorker.BASE_PROD_HOST}`;
-        }else if(ServiceWorker.MODE === "START"){
+        }else if(ServiceWorker.ENV === "START"){
             return `${ServiceWorker.PROTOCOL}://${ServiceWorker.BASE_DEV_HOST}`;
-        }else if(ServiceWorker.MODE === "DEV"){
+        }else if(ServiceWorker.ENV === "DEV"){
             return `${ServiceWorker.PROTOCOL}://${ServiceWorker.BASE_DEV_HOST}:${ServiceWorker.BASE_DEV_PORT}`;
         }
     };
     static get iframeCloseHeight(){return '45px'};
     static get iframeCloseNotifHeight(){return '85px'};
     static get iframeOpenHeight(){
-        
-        return ServiceWorker.MODE === "SCRIPT" ? '90vh' : '450px'
+        return ServiceWorker.MODE === "SCRIPT" ?
+            `${Math.floor( window.innerHeight * 0.9 )}px` : '450px';
     };
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
@@ -90,7 +90,7 @@ class ServiceWorker {
 
     loadIframe(e){
         this.iframe = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
-        this.postMessage("bootExtension");
+        this.postMessage("bootExtension", {extensionMode: ServiceWorker.MODE});
     }
 
     transitionend(e){
@@ -235,5 +235,5 @@ class ServiceWorker {
         };
     }
 }
-
+console.log("SCRIPT SW");
 const c = new ServiceWorker();
