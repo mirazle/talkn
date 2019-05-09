@@ -1,6 +1,6 @@
 import define from '~/common/define';
 import Schema from '~/common/schemas/Schema';
-import Main from '~/client/style/Main';
+import PostsFooter from '~/client/style/PostsFooter';
 import Post from '~/common/schemas/state/Post';
 
 export default class App extends Schema{
@@ -231,10 +231,17 @@ export default class App extends Schema{
   }
 
   static getIsOpenMain(app, called){
-    const {type, height} = app;
-    if( define.APP_TYPES.EXTENSION === type ){
-      return Main.getOpenHeight(app, called) === height ? true : false;
-    }else{
+    const {type, height, extensionMode} = app;
+    if( app.type === define.APP_TYPES.EXTENSION ){
+
+      if( PostsFooter.selfHeight === height ){
+        return false;
+      }else{
+        return ( window.innerHeight === height );
+      }
+
+    } else {
+
       return true;
     }
   }
