@@ -139,6 +139,20 @@ class ServiceWorker {
             }
         }
     }
+    
+/*
+
+        TODO
+
+        トースト通知の挙動がおかしい！！！！
+
+
+
+
+
+
+*/
+
 
     toggleIframe(params){
         const iframe = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
