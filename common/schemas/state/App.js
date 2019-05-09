@@ -233,9 +233,6 @@ export default class App extends Schema{
   static getIsOpenMain(app, called){
     const {type, height, extensionMode} = app;
     if( app.type === define.APP_TYPES.EXTENSION ){
-
-      console.log( height );
-
       if( PostsFooter.selfHeight === height || height === 0 ){
         return false;
       }else{
