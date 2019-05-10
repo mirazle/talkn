@@ -158,14 +158,18 @@ class Ext {
         const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
 
         if(talknNotifId === "null"){
+
             if( iframe.style.height !== Ext.iframeOpenHeight ){
+                console.log("@@@A");
                 iframe.style.transition = "600ms";
                 iframe.style.height = Ext.iframeOpenHeight;
             }else{
+                console.log("@@@B");
                 iframe.style.transition = "600ms";
                 iframe.style.height = Ext.iframeCloseHeight;
             }
         }else{
+            console.log("@@@C");
             clearTimeout( talknNotifId );
             sessionStorage.setItem(Ext.talknNotifId, null);
             this.postMessage("closeNotif");
