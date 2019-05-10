@@ -1,7 +1,9 @@
-console.log(chrome);
+console.log();
 
 class Ext {
-    static get MODE(){return "SCRIPT"}
+    static get MODE(){
+        return chrome.extension ? "BROESER" : "SCRIPT";
+    }
     static get APP_NAME(){return "talkn"}
     static get ENV(){
         if( location.host.indexOf( Ext.BASE_DEV_HOST) >= 0 ) return "DEV";
