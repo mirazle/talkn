@@ -1,6 +1,12 @@
 # Setting Localhost SSL 
 ## ●localhostのSSL設定
 
+### path
+
+```
+cd common/pems
+```
+
 ### command
 
 ```
