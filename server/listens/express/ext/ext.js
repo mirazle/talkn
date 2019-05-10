@@ -73,7 +73,7 @@ class Ext {
                 "position: fixed !important; " +
                 "bottom: 0px !important;" + 
                 "right: 0px !important;" + 
-                "width: 100% !important;" + 
+                `width: ${Ext.iframeWidth} !important;` + 
                 `height: ${Ext.iframeCloseHeight} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0!important;" + 
