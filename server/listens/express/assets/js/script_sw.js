@@ -139,20 +139,6 @@ class ServiceWorker {
             }
         }
     }
-    
-/*
-
-        TODO
-
-        トースト通知の挙動がおかしい！！！！
-
-
-
-
-
-
-*/
-
 
     toggleIframe(params){
         const iframe = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
@@ -185,7 +171,6 @@ class ServiceWorker {
         iframe.style.transition = "0ms";
         iframe.style.height = ServiceWorker.iframeCloseNotifHeight;
         this.postMessage("openNotif");
-
         let talknNotifId = sessionStorage.getItem(ServiceWorker.talknNotifId);
         if(talknNotifId){
             clearTimeout( talknNotifId );
@@ -202,7 +187,6 @@ class ServiceWorker {
         const iframe = document.querySelector(`iframe#${ServiceWorker.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
         iframe.style.height = ServiceWorker.iframeCloseHeight;
-
         this.postMessage("closeNotif");
     }
 

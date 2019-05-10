@@ -57,12 +57,12 @@ export default class Notif extends Component {
       status:  Notif.STATUS_START_OPEN,
       style: {...style,
         self: {...style.self,
-          transition: `90000ms`,
+          transition: `900ms`,
           transform: 'translate3d(0px, 0px, 0px)'
         }
       }
     });
-    setTimeout(this.startNotif, transition *100);
+    setTimeout(this.startNotif, transition *1);
   }
 
   startNotif(){
@@ -72,11 +72,11 @@ export default class Notif extends Component {
       status:  Notif.STATUS_START_NOTIF,
       style: {...style,
         self: {...style.self,
-          transition: `${transition * 10000}ms`,
+          transition: `${transition * 1}ms`,
         }
       }
     });
-    setTimeout(this.startClose, Container.transitionNotifDisp *1000);
+    setTimeout(this.startClose, Container.transitionNotifDisp * 1);
   }
 
   startClose(){
@@ -140,7 +140,7 @@ export default class Notif extends Component {
       case Notif.STATUS_START_OPEN :
       case Notif.STATUS_START_NOTIF :
       case Notif.STATUS_START_CLOSE :
-
+this.log(status);
         return (
           <Post
             key={post._id}
