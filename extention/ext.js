@@ -1,3 +1,5 @@
+console.log(chrome);
+
 class Ext {
     static get MODE(){return "SCRIPT"}
     static get APP_NAME(){return "talkn"}
