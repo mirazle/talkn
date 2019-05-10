@@ -1,5 +1,5 @@
 # Setting Localhost SSL 
-## ○localhostのSSL設定
+## ●localhostのSSL設定
 
 ### command
 
@@ -49,7 +49,7 @@ https://qiita.com/suin/items/37313aee4543c5d01285
 
 https://sterfield.co.jp/programmer/%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%AE%E8%87%AA%E5%B7%B1%E8%A8%BC%E6%98%8E%E6%9B%B8%E3%82%92%E3%83%96%E3%83%A9%E3%82%A6%E3%82%B6%E3%81%AB%E4%BF%A1%E9%A0%BC%E3%81%95%E3%81%9B%E3%82%8B/
 
-# Setting Letsencrypt(root & Wildcard)
+# ●Setting Letsencrypt(root & Wildcard)
 
 ```
 ./certbot-auto certonly --manual \
