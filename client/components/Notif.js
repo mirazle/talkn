@@ -32,6 +32,10 @@ export default class Notif extends Component {
     //console.log("CONST");
   }
 
+  componentWillUnmount(){
+    
+  }
+
   componentDidMount(){
     this.display();
   }

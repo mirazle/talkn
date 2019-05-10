@@ -35,7 +35,7 @@ export default class PostsFooter extends Component {
 
       const { app } = this.props.state;
       if( app.screenMode === App.screenModeSmallLabel ){
-        clearInterval(this.state.focusSetIntervalId);    clearInterval(this.state.focusSetIntervalId);
+        clearInterval(this.state.focusSetIntervalId);
         window.scrollTo(0, 9999999);
         if( !talknWindow.isScrollBottom ){
             window.scrollTo(0, 9999999);

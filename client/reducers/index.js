@@ -14,6 +14,7 @@ import posts from './posts';
 import postsMulti from './postsMulti';
 import postsSingle from './postsSingle';
 import postsChild from './postsChild';
+import ext from './ext';
 import style from './style';
 import actionLog from './actionLog';
 
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
 	postsMulti,
 	postsSingle,
 	postsChild,
+	ext,
 	style,
 	actionLog,
 })

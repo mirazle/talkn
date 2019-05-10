@@ -6,6 +6,7 @@ echo "@@@@@@ YARN RUN BUILD"
 yarn run build
 echo "@@@@@@ RESOLVE EXTENSION"
 cp server/listens/express/client/talkn.client.js extention/talkn.client.js
+cp server/listens/express/ext/ext.js extention/ext.js
 zip -r chromeExtension extention/*
 echo "@@@@@@ GIT PUSH"
 git add ./*
