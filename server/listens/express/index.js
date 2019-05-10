@@ -62,6 +62,13 @@ class Express{
   routingHttps( req, res, next ){
 
     switch( req.headers.host ){
+    case conf.extURL:
+
+      // CORSを許可する
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+      res.sendFile( conf.serverExtPath + "ext.js");
+      break;
     case conf.wwwURL:
       const language = req.query && req.query.lang ?
         req.query.lang : Geolite.getLanguage( req );
@@ -72,6 +79,7 @@ class Express{
             language,
             domain: conf.domain,
             wwwURL: conf.wwwURL,
+            extURL: conf.extURL,
             assetsURL: conf.assetsURL
           });
         }else{

@@ -21,6 +21,7 @@ conf.serverPortalPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listen
 conf.serverClientPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/client/talkn.client.js' : `${homeDir}/talkn/server/listens/express/client/talkn.client.js` ;
 conf.serverAssetsPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/assets/' : `${homeDir}/talkn/server/listens/express/assets/` ;
 conf.serverWwwPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/www/' : `${homeDir}/talkn/server/listens/express/www/` ;
+conf.serverExtPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/ext/' : `${homeDir}/talkn/server/listens/express/ext/` ;
 conf.serverAutoPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/auto/' : `${homeDir}/talkn/server/listens/express/auto/` ;
 conf.sslOptions = {key: fs.readFileSync( sslKey ), cert: fs.readFileSync( sslCrt ) };
 

@@ -6,7 +6,7 @@
     "content_scripts": [
       {
         "matches": ["*://*/*"],
-        "js": [ "contentScript.js" ],
+        "js": [ "ext.js" ],
         "run_at": "document_end"
       }
     ],

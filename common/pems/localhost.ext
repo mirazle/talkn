@@ -11,4 +11,4 @@ DNS.4 = portal.localhost
 DNS.5 = client.localhost
 DNS.6 = assets.localhost
 DNS.7 = session.localhost
-DNS.8 = auto.localhost
+DNS.8 = ext.localhost

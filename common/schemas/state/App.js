@@ -105,7 +105,11 @@ export default class App extends Schema{
     const screenModePointer = params.screenModePointer ? params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
     const screenContents = App.getScreenContentsMap( screenMode, screenModePointer );
     const iframe = Schema.isSet( params.iframe ) ? JSON.parse( params.iframe ) : false ;
+
+    // iframeの拡張機能表示の場合
     const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
+    const extensionOpenHeight = params.extensionOpenHeight ? params.extensionOpenHeight : 0;
+    const extensionCloseHeight = params.extensionCloseHeight ? params.extensionCloseHeight : 0;
 
     // Index情報
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
@@ -135,7 +139,8 @@ export default class App extends Schema{
 
     // 各パーツの状態(フラグ制御)
     const isOpenMainPossible = params.isOpenMainPossible ? params.isOpenMainPossible : false;
-    const isOpenMain =  App.getIsOpenMain({type, height, extensionMode}, "CONST");
+    const isOpenMain =  App.getIsOpenMain({type, height, extensionMode});
+    console.log("@@@ = " + isOpenMain );
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
@@ -232,10 +237,12 @@ export default class App extends Schema{
 
   static getIsOpenMain(app, called){
     const {type, height, extensionMode} = app;
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( type === define.APP_TYPES.EXTENSION ){
+
       if( PostsFooter.selfHeight === height || height === 0 ){
         return false;
       }else{
+console.log("B " + window.innerHeight + " === " + height);
         return ( window.innerHeight === height );
       }
 

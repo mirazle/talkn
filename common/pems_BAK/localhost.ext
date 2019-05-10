@@ -1,0 +1,14 @@
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = localhost
+DNS.2 = www.localhost
+DNS.3 = desc.localhost
+DNS.4 = portal.localhost
+DNS.5 = client.localhost
+DNS.6 = assets.localhost
+DNS.7 = session.localhost
+DNS.8 = auto.localhost
