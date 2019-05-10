@@ -246,7 +246,6 @@ class Container extends Component {
 
     // Open
     if( app.isDispMain && app.isOpenMain ){
-      console.log("OPEN " + app.isDispMain+ " && " + app.isOpenMain);
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -264,7 +263,6 @@ class Container extends Component {
 
     // Opening
     }else if( app.isDispMain ){
-      console.log("OPENING " + app.isDispMain+ " && " + app.isOpenMain);
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -280,7 +278,6 @@ class Container extends Component {
     
     // Closing
     }else if( !app.isDispMain && app.isOpenMain ){
-      console.log("CLOSING " + app.isDispMain+ " && " + app.isOpenMain);
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -296,7 +293,6 @@ class Container extends Component {
 
     // Close
     }else if( !app.isDispMain && !app.isOpenMain ){
-      console.log("CLOSE " + app.isDispMain+ " && " + app.isOpenMain);
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
