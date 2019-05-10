@@ -120,13 +120,13 @@ const functions = {
     action.app = {...state.app, ...action.app};
     action.app.height = App.getHeight();
     action.app.isOpenMain = action.app.isOpenMain ?
-      action.app.isOpenMain : App.getIsOpenMain( action.app, action.type );
+      action.app.isOpenMain : App.getIsOpenMain( action.app );
     return action;
   },
   "ON_TRANSITION_END": ( state, action ) => {
     action.app = {...state.app, ...action.app};
     action.app.height = App.getHeight();
-    action.app.isOpenMain = App.getIsOpenMain( action.app, action.type );
+    action.app.isOpenMain = App.getIsOpenMain( action.app );
     return action;
   },
   "RESIZE_START_WINDOW": ( state, action ) => {

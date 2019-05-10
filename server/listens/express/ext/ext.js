@@ -98,8 +98,8 @@ class Ext {
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.postMessage("bootExtension", {
             extensionMode: Ext.MODE,
-            extensionOpenHeight: Ext.iframeOpenHeight,
-            extensionCloseHeight: Ext.iframeCloseHeight
+            extensionOpenHeight: Number( Ext.iframeOpenHeight.replace("px", "") ),
+            extensionCloseHeight: Number( Ext.iframeCloseHeight.replace("px", "") )
         });
     }
 

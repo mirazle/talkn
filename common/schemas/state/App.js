@@ -139,8 +139,7 @@ export default class App extends Schema{
 
     // 各パーツの状態(フラグ制御)
     const isOpenMainPossible = params.isOpenMainPossible ? params.isOpenMainPossible : false;
-    const isOpenMain =  App.getIsOpenMain({type, height, extensionMode});
-    console.log("@@@ = " + isOpenMain );
+    const isOpenMain =  App.getIsOpenMain({type, height, extensionMode, extensionOpenHeight, extensionCloseHeight});
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
@@ -173,7 +172,11 @@ export default class App extends Schema{
       screenModePointer,
       screenContents,
       iframe,
+
+    // iframeの拡張機能表示の場合
       extensionMode,
+      extensionOpenHeight,
+      extensionCloseHeight,
 
       // Index情報
       menuComponent,
@@ -236,16 +239,21 @@ export default class App extends Schema{
   }
 
   static getIsOpenMain(app, called){
-    const {type, height, extensionMode} = app;
+    const {type, height, extensionMode, extensionOpenHeight, extensionCloseHeight} = app;
     if( type === define.APP_TYPES.EXTENSION ){
 
-      if( PostsFooter.selfHeight === height || height === 0 ){
+      if( height === 0 ){
         return false;
-      }else{
-console.log("B " + window.innerHeight + " === " + height);
-        return ( window.innerHeight === height );
       }
 
+      if( extensionCloseHeight === height ){
+        return false;
+      }
+
+      if( extensionOpenHeight === height ){
+        return true;
+      }
+      return false;
     } else {
 
       return true;
