@@ -27,10 +27,10 @@ subjectAltName = @alt_names
 [alt_names]
 DNS.1 = localhost
 DNS.2 = portal.localhost
-DNS.2 = client.localhost
-DNS.3 = assets.localhost
-DNS.4 = session.localhost
-DNS.5 = auto.localhost
+DNS.3 = client.localhost
+DNS.4 = assets.localhost
+DNS.5 = session.localhost
+DNS.6 = ext.localhost
 ```
 
 ### command 
