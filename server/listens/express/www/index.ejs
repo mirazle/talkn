@@ -1817,12 +1817,13 @@
 
     function onClickCopyTag(type){
         const selector = `section.three code.${type}Code`;
+        const replaceComment = type === "copyIframe" ? "<%= copyIframeComment %>" : "<%= copyScriptComment %>";
         document.querySelector( selector ).style.opacity = "1";
 
         const copyTag = document.createElement("input");
         copyTag.value = document.querySelector(`${selector} pre`)
                                 .innerText
-                                .replace("// <%= copyIframeComment %>", "")
+                                .replace(`// ${replaceComment}`, "")
                                 .replace(/\r?\n/g, '')
                                 .replace( /    /g, " ");
 
@@ -1904,12 +1905,11 @@
     window.onresize = onResizeWindow;
 
 </script>
-
+<script type="text/javascript" async src="//<%= extURL %>"></script>
 </head>
 <body>
 
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://<%= extURL %>"></script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"></script>
 
     <div class="fixBackground">
@@ -2049,7 +2049,7 @@
                     <pre>
 <span class="comment">// <%= copyIframeComment %></span>
 <span class="tag-name">&lt;iframe</span>
-    <span class="property-name">src</span>=<span class="value">"//talkn.io"</span>
+    <span class="property-name">src</span>=<span class="value">"//<%= domain %>"</span>
     <span class="property-name">width</span>=<span class="value">"300px"</span>
     <span class="property-name">height</span>=<span class="value">"420px"</span>
     <span class="property-name">frameBorder</span>=<span class="value">"0"</span>
@@ -2062,12 +2062,12 @@
                     </div>
                     <pre>
 <span class="comment">// <%= copyScriptComment %></span>
-<span class="tag-name">&lt;script</span>    
+<span class="tag-name">&lt;script</span>
     <span class="property-name">async</span>
-    <span class="property-name">defer</span>
-    <span class="property-name">src</span>=<span class="value">"//ext.talkn.io"</span>
-    <span class="property-name">crossorigin</span>=<span class="value">"anonymous"</span>
-<span class="tag-name">/&gt;</span></pre>
+    <span class="property-name">type</span>=<span class="value">"text/javascript"</span>
+    <span class="property-name">src</span>=<span class="value">"//<%= extURL %>"</span>
+&gt;
+<span class="tag-name">&lt;/script&gt;</span></pre>
                 </code>
         </section>
 
