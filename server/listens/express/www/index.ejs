@@ -18,7 +18,7 @@
     let fiveCompanyRepresentativeKey = "REPRESENTATIVE";
     let fiveCompanyRepresentativeValue = "Hiroyuki Miyazaki";
     let fiveCompanyPolicyKey = "POLICY";
-    let fiveCompanyPolicyValue = "Update the internet.";
+    let fiveCompanyPolicyValue = "Update the internet for creaters.";
     let fiveContactKey = "CONTACT";
     let fiveContactNameKey = "Your name";
     let fiveContactMailKey = "Your email";
@@ -28,6 +28,8 @@
     let letterSpacingSmall = 0;
     let letterSpacingMiddle = 0;
     let letterSpacingLarge = 0;
+    let copyIframeComment = "Embed in any position of HTML5"
+    let copyScriptComment = "Fixed at the bottom of the browser"
 
     switch( language ){
     case "zh":
@@ -65,7 +67,6 @@
         fiveCompanyRepresentativeKey = "代表取締役";
         fiveCompanyRepresentativeValue = "宮﨑博之(Hiroyuki Miyazaki)";
         fiveCompanyPolicyKey = "企業理念";
-        fiveCompanyPolicyValue = "Update the internet.";
         fiveContactKey = "お問い合わせ";
         fiveContactNameKey = "お名前";
         fiveContactMailKey = "ご返信先Eメール";
@@ -921,9 +922,12 @@
         margin: 0;
         text-align: left;
     }
+    section.three code pre {
+        font-size: 0.75em;
+    }
 
-
-    section.three code pre .one-line{
+    section.three code pre .comment{
+        font-size: 0.5em;
         color: rgb(173, 154, 255);
     }
 
@@ -978,24 +982,25 @@
         display: flex;
         align-items: flex-end;
         justify-content: flex-end;
+        flex-direction: column;
         z-index: 1;
         width: 100%;
         height: 100%;
         color: rgb(0,0,0);
     }
 
-    section.three .link .copyIframe {
+    section.three .link div {
         padding: 5px 20px 5px 20px;
         border: 3px solid rgba(0,0,0,0.8);
         border-radius: 30px;
-        margin: 25px;
+        margin: 10px;
         color: rgba(0,0,0,0.8);
         font-size: 0.75em;
         font-weight: bold;
         transition: 300ms;
     }
 
-    section.three .link .copyIframe:hover {
+    section.three .link div:hover {
         color: rgb(255,255,255,1);
         background: rgb(79, 174, 159);
     }
@@ -1408,7 +1413,7 @@
             background-origin: border-box;
         }
 
-        section.three .link .copyIframe {
+        section.three .link div {
             border: 3px solid rgb(255,255,255);
             color: rgb(255,255,255);
         }
@@ -1503,7 +1508,7 @@
             background-size: 340px;
         }
 
-        section.three .link .copyIframe {
+        section.three .link div {
             font-size: 25px;
         }
 
@@ -1810,28 +1815,29 @@
         document.querySelector("section." + className ).style.border = "5px solid rgba( 0,0,0,0.2)";
     } 
 
-    function onClickCopyIframe(){
-        document.querySelector("section.three code" ).style.opacity = "1";
+    function onClickCopyTag(type){
+        const selector = `section.three code.${type}Code`;
+        document.querySelector( selector ).style.opacity = "1";
 
-        const copyIframe = document.createElement("input");
-        copyIframe.value = document.querySelector("code pre")
+        const copyTag = document.createElement("input");
+        copyTag.value = document.querySelector(`${selector} pre`)
                                 .innerText
-                                .replace("// Embed one line.", "")
+                                .replace("// <%= copyIframeComment %>", "")
                                 .replace(/\r?\n/g, '')
                                 .replace( /    /g, " ");
 
-        copyIframe.id = "copyIframe";
-        copyIframe.type = "text";
-        copyIframe.style = "opacity: 0";
-        document.querySelector("section.three code pre").appendChild(copyIframe);
-        copyIframe.focus();
-        copyIframe.select();
+        copyTag.id = type;
+        copyTag.type = "text";
+        copyTag.style = "opacity: 0";
+        document.querySelector(selector).appendChild(copyTag);
+        copyTag.focus();
+        copyTag.select();
         document.execCommand("copy"); 
 
         setTimeout( () => {
-            document.querySelector("section.three code" ).style.opacity = "0";
+            document.querySelector( selector ).style.opacity = "0";
             setTimeout( () => {
-    	        copyIframe.parentNode.removeChild(copyIframe);
+    	        copyTag.parentNode.removeChild(copyTag);
             }, 1000 );
         }, 3000 );
     } 
@@ -1903,7 +1909,7 @@
 <body>
 
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://<%= assetsURL %>/js/script_sw.js"></script>
+    <script async defer crossorigin="anonymous" src="https://<%= assetsURL %>/js/ext.js"></script>
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"></script>
 
     <div class="fixBackground">
@@ -2033,22 +2039,34 @@
                     </div>
                 </div>
                 <div class="link">
-                    <div
-                        onclick="onClickCopyIframe()"
-                        class="copyIframe"
-                    >COPY IFRAME</div>
+                    <div onclick="onClickCopyTag('copyIframe')" class="copyIframe">COPY IFRAME</div>
+                    <div onclick="onClickCopyTag('copyScript')" class="copyScript">COPY SCRIPT</div>
                 </div>
-                <code>
+                <code class="copyIframeCode">
                     <div class="code-title">
                         Copied.
                     </div>
                     <pre>
-<span class="one-line">// Embed one line.</span>
+<span class="comment">// <%= copyIframeComment %></span>
 <span class="tag-name">&lt;iframe</span>
     <span class="property-name">src</span>=<span class="value">"//talkn.io"</span>
     <span class="property-name">width</span>=<span class="value">"300px"</span>
     <span class="property-name">height</span>=<span class="value">"420px"</span>
     <span class="property-name">frameBorder</span>=<span class="value">"0"</span>
+<span class="tag-name">/&gt;</span></pre>
+                </code>
+       
+                <code class="copyScriptCode">
+                    <div class="code-title">
+                        Copied.
+                    </div>
+                    <pre>
+<span class="comment">// <%= copyScriptComment %></span>
+<span class="tag-name">&lt;script</span>    
+    <span class="property-name">async</span>
+    <span class="property-name">defer</span>
+    <span class="property-name">src</span>=<span class="value">"//ext.talkn.io"</span>
+    <span class="property-name">crossorigin</span>=<span class="value">"anonymous"</span>
 <span class="tag-name">/&gt;</span></pre>
                 </code>
         </section>
