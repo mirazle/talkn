@@ -75,7 +75,6 @@ class Ext {
             this.iframe.setAttribute("name", "extension");
             alert( this.getIframeWidth );
             alert(Ext.getIframeCloseHeight());
-            alert(chrome);
             alert(this.getIframeWidth());
             this.iframe.setAttribute("style",
                 "z-index: 2147483647 !important;" +
