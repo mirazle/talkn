@@ -75,6 +75,8 @@ class Ext {
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
             alert("@@@@@!!");
+            alert( Ext );
+            alert( Ext.getIframeWidth );
             alert(Ext.getIframeWidth());
             alert(Ext.getIframeCloseHeight());
             this.iframe.setAttribute("style",
