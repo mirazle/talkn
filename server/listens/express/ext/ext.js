@@ -23,16 +23,17 @@ class Ext {
             return `${Ext.PROTOCOL}://${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
         }
     };
-    static get iframeCloseHeight(){return '45px'};
-    static get iframeCloseNotifHeight(){return '85px'};
-    static get iframeWidth(){
+    static getIframeCloseHeight(){return '45px'};
+    static getIframeCloseNotifHeight(){return '85px'};
+    static getIframeWidth(){
         return Ext.MODE === "SCRIPT" ?
             "100%" : Ext.iframeBrowserWidth + "px"; 
     };
-    static get iframeOpenHeight(){
+    static getIframeOpenHeight(){
         return Ext.MODE === "SCRIPT" ?
             `${Math.floor( window.innerHeight * 0.9 )}px` : '450px';
     };
+    static get iframeBrowserWidth(){return 320};
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'getClientMetas']};
@@ -72,9 +73,9 @@ class Ext {
                 chrome.runtime.getURL('index.html?' + this.connection) : Ext.BASE_HOSTNAME + this.connection;
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
-            alert("@@@@@!");
-            alert(Ext.iframeWidth);
-            alert(Ext.iframeCloseHeight);
+            alert("@@@@@!!");
+            alert(Ext.getIframeWidth());
+            alert(Ext.getIframeCloseHeight());
             this.iframe.setAttribute("style",
                 "z-index: 2147483647 !important;" +
                 "display: none !important;" +
@@ -82,8 +83,8 @@ class Ext {
                 "position: fixed !important; " +
                 "bottom: 0px !important;" + 
                 "right: 0px !important;" + 
-                `width: ${Ext.iframeWidth} !important;` + 
-                `height: ${Ext.iframeCloseHeight} !important;` + 
+                `width: ${Ext.getIframeWidth()} !important;` + 
+                `height: ${Ext.getIframeCloseHeight()} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0!important;" + 
                 "transition: 0ms !important;" + 
@@ -107,8 +108,8 @@ class Ext {
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.postMessage("bootExtension", {
             extensionMode: Ext.MODE,
-            extensionOpenHeight: Number( Ext.iframeOpenHeight.replace("px", "") ),
-            extensionCloseHeight: Number( Ext.iframeCloseHeight.replace("px", "") )
+            extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
+            extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
         });
     }
 
@@ -122,7 +123,7 @@ class Ext {
 
     bootExtension(params){
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        iframe.style.height = Ext.iframeCloseHeight;
+        iframe.style.height = Ext.getIframeCloseHeight();
         iframe.style.display = "flex";
         this.postMessage("offTransition");
     }
@@ -164,14 +165,14 @@ class Ext {
 
         if(talknNotifId === "null"){
 
-            if( iframe.style.height !== Ext.iframeOpenHeight ){
+            if( iframe.style.height !== Ext.getIframeOpenHeight() ){
                 console.log("@@@A");
                 iframe.style.transition = "600ms";
-                iframe.style.height = Ext.iframeOpenHeight;
+                iframe.style.height = Ext.getIframeOpenHeight();
             }else{
                 console.log("@@@B");
                 iframe.style.transition = "600ms";
-                iframe.style.height = Ext.iframeCloseHeight;
+                iframe.style.height = Ext.getIframeCloseHeight();
             }
         }else{
             console.log("@@@C");
@@ -179,7 +180,7 @@ class Ext {
             sessionStorage.setItem(Ext.talknNotifId, null);
             this.postMessage("closeNotif");
             iframe.style.transition = "600ms";
-            iframe.style.height = Ext.iframeOpenHeight;
+            iframe.style.height = Ext.getIframeOpenHeight();
         }
     }
 
@@ -208,7 +209,7 @@ class Ext {
         sessionStorage.setItem(Ext.talknNotifId, null);
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
-        iframe.style.height = Ext.iframeCloseHeight;
+        iframe.style.height = Ext.getIframeCloseHeight();
         this.postMessage("closeNotif");
     }
 
