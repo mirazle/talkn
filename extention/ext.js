@@ -2,7 +2,7 @@ console.log();
 
 class Ext {
     static get MODE(){
-        return chrome.extension ? "BROESER" : "SCRIPT";
+        return chrome && chrome.extension ? "BROESER" : "SCRIPT";
     }
     static get APP_NAME(){return "talkn"}
     static get ENV(){
@@ -74,6 +74,8 @@ class Ext {
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
             alert( this.getIframeWidth );
+            alert(Ext.getIframeCloseHeight());
+            alert(chrome);
             alert(this.getIframeWidth());
             this.iframe.setAttribute("style",
                 "z-index: 2147483647 !important;" +
