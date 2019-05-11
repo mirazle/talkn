@@ -2,7 +2,7 @@ console.log();
 
 class Ext {
     static get MODE(){
-        return chrome.extension ? "BROESER" : "SCRIPT";
+        return chrome && chrome.extension ? "BROESER" : "SCRIPT";
     }
     static get APP_NAME(){return "talkn"}
     static get ENV(){
@@ -26,7 +26,7 @@ class Ext {
     static getIframeCloseHeight(){return '45px'};
     static getIframeCloseNotifHeight(){return '85px'};
     static getIframeWidth(){
-        alert("IN");
+        alert("IN " + Ext.MODE );
         return Ext.MODE === "SCRIPT" ?
             "100%" : Ext.iframeBrowserWidth + "px"; 
     };
@@ -74,7 +74,6 @@ class Ext {
                 chrome.runtime.getURL('index.html?' + this.connection) : Ext.BASE_HOSTNAME + this.connection;
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
-            alert("@@@@@!!");
             alert(Ext.getIframeWidth());
             alert(Ext.getIframeCloseHeight());
             this.iframe.setAttribute("style",
