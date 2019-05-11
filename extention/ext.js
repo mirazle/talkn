@@ -2,7 +2,7 @@ console.log();
 
 class Ext {
     static get MODE(){
-        return chrome && chrome.extension ? "BROESER" : "SCRIPT";
+        return chrome.extension ? "BROESER" : "SCRIPT";
     }
     static get APP_NAME(){return "talkn"}
     static get ENV(){
@@ -25,7 +25,8 @@ class Ext {
     };
     static getIframeCloseHeight(){return '45px'};
     static getIframeCloseNotifHeight(){return '85px'};
-    getIframeWidth(){
+    static getIframeWidth(){
+        alert("IN");
         return Ext.MODE === "SCRIPT" ?
             "100%" : Ext.iframeBrowserWidth + "px"; 
     };
@@ -73,9 +74,9 @@ class Ext {
                 chrome.runtime.getURL('index.html?' + this.connection) : Ext.BASE_HOSTNAME + this.connection;
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
-            alert( this.getIframeWidth );
+            alert("@@@@@!!");
+            alert(Ext.getIframeWidth());
             alert(Ext.getIframeCloseHeight());
-            alert(this.getIframeWidth());
             this.iframe.setAttribute("style",
                 "z-index: 2147483647 !important;" +
                 "display: none !important;" +
@@ -83,7 +84,7 @@ class Ext {
                 "position: fixed !important; " +
                 "bottom: 0px !important;" + 
                 "right: 0px !important;" + 
-                `width: ${this.getIframeWidth()} !important;` + 
+                `width: ${Ext.getIframeWidth()} !important;` + 
                 `height: ${Ext.getIframeCloseHeight()} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0!important;" + 
