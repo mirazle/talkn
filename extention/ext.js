@@ -2,7 +2,7 @@ console.log();
 
 class Ext {
     static get MODE(){
-        return chrome && chrome.extension ? "BROESER" : "SCRIPT";
+        return window.chrome && window.chrome.extension ? "BROESER" : "SCRIPT";
     }
     static get APP_NAME(){return "talkn"}
     static get ENV(){
@@ -26,7 +26,7 @@ class Ext {
     static getIframeCloseHeight(){return '45px'};
     static getIframeCloseNotifHeight(){return '85px'};
     static getIframeWidth(){
-        alert("IN " + Ext.MODE );
+        alert("IN "  );
         return Ext.MODE === "SCRIPT" ?
             "100%" : Ext.iframeBrowserWidth + "px"; 
     };
