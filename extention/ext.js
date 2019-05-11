@@ -13,7 +13,7 @@ class Ext {
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
     static get BASE_DEV_PORT(){return 8080} 
-    static get EXCLUSION_HOSTS(){return ['localhost', 'talkn.io']}    
+    static get EXCLUSION_ORIGINS(){return ['https://localhost', 'https://talkn.io']}    
     static get BASE_HOSTNAME(){
         if(Ext.ENV === "PROD"){
             return `${Ext.PROTOCOL}://${Ext.BASE_PROD_HOST}`;
@@ -38,15 +38,16 @@ class Ext {
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'getClientMetas']};
 
     constructor(refusedFrame = false){
-        this.connection = location.href.replace("http:/", "").replace("https:/", "");
+        this.href = location.href;
+        this.connection = this.href.replace("http:/", "").replace("https:/", "");
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
         this.connection = hasSlash ? this.connection : this.connection + "/";
-        const bootFlg = Ext.EXCLUSION_HOSTS.some( ( host ) =>{
-            alert( `${Ext.PROTOCOL}://${host}` + " " + this.connection);
-            this.connection.indexOf( `${Ext.PROTOCOL}://${host}`) === 0
+        const bootFlg = Ext.EXCLUSION_ORIGINS.some( ( origin ) =>{
+            alert( `${Ext.PROTOCOL}://${origin}` + " " + this.connection);
+            this.connection.indexOf( origin ) === 0
         });
 
-        if(!bootFlg){
+        if(bootFlg){
             const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
             if( refusedFrame && talknFrame !== null){
                 talknFrame.remove();
