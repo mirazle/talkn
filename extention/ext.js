@@ -26,6 +26,7 @@ class Ext {
     static getIframeCloseHeight(){return '45px'};
     static getIframeCloseNotifHeight(){return '85px'};
     static getIframeWidth(){
+        alert(Ext.MODE + " " + Ext.iframeBrowserWidth);
         return Ext.MODE === "SCRIPT" ?
             "100%" : Ext.iframeBrowserWidth + "px"; 
     };
