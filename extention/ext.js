@@ -38,15 +38,15 @@ class Ext {
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'getClientMetas']};
 
     constructor(refusedFrame = false){
-        this.href = location.href;
+        this.href = window.location.href;
         this.connection = this.href.replace("http:/", "").replace("https:/", "");
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
         this.connection = hasSlash ? this.connection : this.connection + "/";
         const bootFlg = Ext.EXCLUSION_ORIGINS.some( ( origin ) =>{
-            alert( `${Ext.PROTOCOL}://${origin}` + " " + this.connection);
+            alert( `${Ext.PROTOCOL}://${origin}` + " " + this.href);
             this.connection.indexOf( origin ) === 0
         });
-
+        alert( "BOOT " + bootFlg);
         if(bootFlg){
             const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
             if( refusedFrame && talknFrame !== null){
