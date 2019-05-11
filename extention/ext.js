@@ -44,7 +44,7 @@ class Ext {
         const noBootFlg = Ext.EXCLUSION_HOSTS.some( ( host ) =>{
             this.connection.indexOf(host) >= 0
         });
-
+        alert("HEY B ");
         if(!noBootFlg){
             const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
             if( refusedFrame && talknFrame !== null){
@@ -88,7 +88,7 @@ class Ext {
             this.iframe.setAttribute("frameBorder", 0 );
             this.iframe.addEventListener( "load", this.loadIframe );
             this.iframe.addEventListener( "transitionend", this.transitionend );
-alert("HEY");
+
 //            document.querySelector("#talknTest").appendChild(this.iframe);
             document.body.appendChild(this.iframe);
         }
@@ -250,4 +250,6 @@ alert("HEY");
         };
     }
 }
+
+alert("HEY A");
 const e = new Ext();
