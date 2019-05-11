@@ -72,7 +72,7 @@ class Ext {
                 chrome.runtime.getURL('index.html?' + this.connection) : Ext.BASE_HOSTNAME + this.connection;
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
-
+            alert("@@@@@!");
             alert(Ext.iframeWidth);
             alert(Ext.iframeCloseHeight);
             this.iframe.setAttribute("style",
