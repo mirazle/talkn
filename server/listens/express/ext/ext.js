@@ -75,9 +75,7 @@ class Ext {
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
             alert( Ext.getIframeWidth );
-            alert(this.getIframeWidth() );
             alert(Ext.getIframeWidth());
-            alert(Ext.getIframeCloseHeight());
             this.iframe.setAttribute("style",
                 "z-index: 2147483647 !important;" +
                 "display: none !important;" +
