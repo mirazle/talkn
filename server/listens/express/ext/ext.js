@@ -26,7 +26,6 @@ class Ext {
     static getIframeCloseHeight(){return '45px'};
     static getIframeCloseNotifHeight(){return '85px'};
     static getIframeWidth(){
-        alert("IN "  );
         return Ext.MODE === "SCRIPT" ?
             "100%" : Ext.iframeBrowserWidth + "px"; 
     };
@@ -74,8 +73,6 @@ class Ext {
                 chrome.runtime.getURL('index.html?' + this.connection) : Ext.BASE_HOSTNAME + this.connection;
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
-            alert(Ext.getIframeWidth());
-            alert(Ext.getIframeCloseHeight());
             this.iframe.setAttribute("style",
                 "z-index: 2147483647 !important;" +
                 "display: none !important;" +
