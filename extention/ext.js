@@ -44,7 +44,7 @@ class Ext {
         this.connection = hasSlash ? this.connection : this.connection + "/";
         const bootFlg = Ext.EXCLUSION_ORIGINS.some( ( origin ) =>{
             alert( origin + " " + this.href);
-            this.connection.indexOf( origin ) === 0
+            this.connection.indexOf( origin ) !== 0
         });
         alert( "BOOT " + bootFlg);
         if(bootFlg){
