@@ -45,12 +45,15 @@ class Ext {
         const bootFlg = Ext.EXCLUSION_ORIGINS.every( ( origin ) =>{
             return this.href.indexOf( origin ) === -1;
         });
-        alert( "BOOT " + bootFlg);
+
         if(bootFlg){
+            alert( "BOOT A" );
             const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
             if( refusedFrame && talknFrame !== null){
                 talknFrame.remove();
             }
+
+            alert( "BOOT B" );
 
             this.methodIdMap = {};
             this.notifId = null;
@@ -62,7 +65,7 @@ class Ext {
             this.openNotif = this.openNotif.bind(this);
             this.closeNotif = this.closeNotif.bind(this);
             this.transitionend = this.transitionend.bind(this);
-
+            alert( "BOOT C" );
             // setupWindow
             this.setupWindow();
             this.iframe  = document.createElement("iframe");
@@ -89,7 +92,7 @@ class Ext {
             this.iframe.setAttribute("frameBorder", 0 );
             this.iframe.addEventListener( "load", this.loadIframe );
             this.iframe.addEventListener( "transitionend", this.transitionend );
-
+            alert( "BOOT D" );
 //            document.querySelector("#talknTest").appendChild(this.iframe);
             document.body.appendChild(this.iframe);
         }
