@@ -41,12 +41,12 @@ class Ext {
         this.connection = location.href.replace("http:/", "").replace("https:/", "");
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
         this.connection = hasSlash ? this.connection : this.connection + "/";
-        const noBootFlg = Ext.EXCLUSION_HOSTS.some( ( host ) =>{
-            alert( host + " " + this.connection);
-            this.connection.indexOf(host) >= 0
+        const bootFlg = Ext.EXCLUSION_HOSTS.some( ( host ) =>{
+            alert( `${Ext.PROTOCOL}://${host}` + " " + this.connection);
+            this.connection.indexOf( `${Ext.PROTOCOL}://${host}`) === 0
         });
 
-        if(!noBootFlg){
+        if(!bootFlg){
             const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
             if( refusedFrame && talknFrame !== null){
                 talknFrame.remove();
