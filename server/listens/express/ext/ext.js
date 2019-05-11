@@ -75,7 +75,7 @@ class Ext {
                 "display: none !important;" +
                 "align-items: flex-end !important;" + 
                 "position: fixed !important; " +
-                "bottom: 0px !important;" + 
+                "bottom: 90px !important;" + 
                 "right: 0px !important;" + 
                 `width: ${Ext.iframeWidth} !important;` + 
                 `height: ${Ext.iframeCloseHeight} !important;` + 
