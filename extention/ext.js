@@ -43,8 +43,7 @@ class Ext {
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
         this.connection = hasSlash ? this.connection : this.connection + "/";
         const bootFlg = Ext.EXCLUSION_ORIGINS.every( ( origin ) =>{
-            alert( origin + " " + this.href);
-            this.connection.indexOf( origin ) !== 0
+            return this.href.indexOf( origin ) === -1;
         });
         alert( "BOOT " + bootFlg);
         if(bootFlg){
@@ -77,7 +76,7 @@ class Ext {
                 "display: none !important;" +
                 "align-items: flex-end !important;" + 
                 "position: fixed !important; " +
-                "bottom: 90px !important;" + 
+                "bottom: 0px !important;" + 
                 "right: 0px !important;" + 
                 `width: ${Ext.iframeWidth} !important;` + 
                 `height: ${Ext.iframeCloseHeight} !important;` + 
