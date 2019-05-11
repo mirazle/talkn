@@ -63,21 +63,18 @@ class Ext {
             this.openNotif = this.openNotif.bind(this);
             this.closeNotif = this.closeNotif.bind(this);
             this.transitionend = this.transitionend.bind(this);
-            alert( "BOOT A" );
+
             // setupWindow
             this.setupWindow();
-            alert( "BOOT B" );
             this.iframe  = document.createElement("iframe");
-            alert( "BOOT C" );
             this.loadIframe = this.loadIframe.bind(this);
-            alert( "BOOT D" );
             this.talknUrl = refusedFrame ?
                 chrome.runtime.getURL('index.html?' + this.connection) : Ext.BASE_HOSTNAME + this.connection;
-            alert( "BOOT E" );
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
-            alert( "BOOT F" );
             this.iframe.setAttribute("name", "extension");
-            alert( "BOOT G" );
+
+            alert(Ext.iframeWidth);
+            alert(Ext.iframeCloseHeight);
             this.iframe.setAttribute("style",
                 "z-index: 2147483647 !important;" +
                 "display: none !important;" +
@@ -92,15 +89,11 @@ class Ext {
                 "transition: 0ms !important;" + 
                 "transform: translate3d(0px, 0px, 0px) !important;"
             );
-            alert( "BOOT H" );
             this.iframe.setAttribute("src", this.talknUrl );
-            alert( "BOOT I" );
             this.iframe.setAttribute("frameBorder", 0 );
-            alert( "BOOT J" );
             this.iframe.addEventListener( "load", this.loadIframe );
-            alert( "BOOT K" );
             this.iframe.addEventListener( "transitionend", this.transitionend );
-            alert( "BOOT L" );
+
 //            document.querySelector("#talknTest").appendChild(this.iframe);
             document.body.appendChild(this.iframe);
         }
