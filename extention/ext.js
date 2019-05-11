@@ -43,7 +43,7 @@ class Ext {
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
         this.connection = hasSlash ? this.connection : this.connection + "/";
         const bootFlg = Ext.EXCLUSION_ORIGINS.some( ( origin ) =>{
-            alert( `${Ext.PROTOCOL}://${origin}` + " " + this.href);
+            alert( origin + " " + this.href);
             this.connection.indexOf( origin ) === 0
         });
         alert( "BOOT " + bootFlg);
