@@ -1,5 +1,3 @@
-console.log();
-
 class Ext {
     static get MODE(){
         return window.chrome && window.chrome.extension ? "BROESER" : "SCRIPT";
@@ -23,15 +21,23 @@ class Ext {
             return `${Ext.PROTOCOL}://${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
         }
     };
+    static getIframeOpenHeight(){
+        if( Ext.MODE === "SCRIPT" ){
+            if( window.innerWidth < 600 ){
+                return `${Math.floor( window.innerHeight * 0.9 )}px`;
+            }
+        }
+        return "450px";
+    };
     static getIframeCloseHeight(){return '45px'};
     static getIframeCloseNotifHeight(){return '85px'};
     static getIframeWidth(){
-        return Ext.MODE === "SCRIPT" ?
-            "100%" : Ext.iframeBrowserWidth + "px"; 
-    };
-    static getIframeOpenHeight(){
-        return Ext.MODE === "SCRIPT" ?
-            `${Math.floor( window.innerHeight * 0.9 )}px` : '450px';
+        if( Ext.MODE === "SCRIPT" ){
+            if( window.innerWidth < 600 ){
+                return "100%";
+            }
+        }
+        return Ext.iframeBrowserWidth + "px"; 
     };
     static get iframeBrowserWidth(){return 320};
     static get talknNotifId(){return "talknNotifId"};
@@ -56,6 +62,7 @@ class Ext {
 
             this.methodIdMap = {};
             this.notifId = null;
+            this.resizeMethodId = null;
             this.bootExtension = this.bootExtension.bind(this);
             this.catchMessage = this.catchMessage.bind(this);
             this.handleErrorMessage = this.handleErrorMessage.bind(this);
@@ -64,6 +71,9 @@ class Ext {
             this.openNotif = this.openNotif.bind(this);
             this.closeNotif = this.closeNotif.bind(this);
             this.transitionend = this.transitionend.bind(this);
+            this.loadWindow = this.loadWindow.bind(this);
+            this.resizeWindow = this.resizeWindow.bind(this);
+            this.resizedWindow = this.resizedWindow.bind(this);
 
             // setupWindow
             this.setupWindow();
@@ -92,13 +102,14 @@ class Ext {
             this.iframe.addEventListener( "load", this.loadIframe );
             this.iframe.addEventListener( "transitionend", this.transitionend );
 
-//            document.querySelector("#talknTest").appendChild(this.iframe);
             document.body.appendChild(this.iframe);
         }
     }
 
     setupWindow(){
         window.addEventListener('message', this.catchMessage, false);
+        window.addEventListener('load', this.loadWindow);
+        window.addEventListener('resize', this.resizeWindow);
     }
 
     loadIframe(e){
@@ -138,6 +149,36 @@ class Ext {
         }
     }
 
+    loadWindow(e){
+        this.resizedWindow();
+    }
+
+    resizeWindow(e){
+        if( this.resizeMethodId === null ){
+            this.resizeMethodId = setTimeout( this.resizedWindow, 500);
+        }
+    }
+
+    resizedWindow(e){
+        this.resizeMethodId = null;
+        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+        const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
+        iframe.style.width = Ext.getIframeWidth();
+
+        if(talknNotifId === "null"){
+            if( iframe.style.height !== Ext.getIframeOpenHeight() ){
+console.log("A");
+                iframe.style.height = Ext.getIframeOpenHeight();
+            }else{
+console.log("B");
+                iframe.style.height = Ext.getIframeCloseHeight();
+            }
+        }else{
+console.log("C");
+            iframe.style.height = Ext.getIframeCloseHeight();
+        }
+    }
+
     postMessage(method, params = {}){
         const requestObj = this.getRequestObj( method, params );
         const methodId = setTimeout( () => this.handleErrorMessage(method), Ext.activeMethodSecond);
@@ -163,16 +204,13 @@ class Ext {
         if(talknNotifId === "null"){
 
             if( iframe.style.height !== Ext.getIframeOpenHeight() ){
-                console.log("@@@A");
                 iframe.style.transition = "600ms";
                 iframe.style.height = Ext.getIframeOpenHeight();
             }else{
-                console.log("@@@B");
                 iframe.style.transition = "600ms";
                 iframe.style.height = Ext.getIframeCloseHeight();
             }
         }else{
-            console.log("@@@C");
             clearTimeout( talknNotifId );
             sessionStorage.setItem(Ext.talknNotifId, null);
             this.postMessage("closeNotif");
