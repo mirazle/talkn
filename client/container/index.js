@@ -313,6 +313,9 @@ class Container extends Component {
           <Style {...props} />
 
           <span data-component-name="fixedComponents">
+            { MultistreamIcon }
+
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
             </span>
         </span>
@@ -335,6 +338,7 @@ class Container extends Component {
           <Style {...props} />
 
           <span data-component-name="fixedComponents">
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
             </span>
         </span>
