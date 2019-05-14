@@ -52,14 +52,14 @@ class Container extends Component {
     const {app, actionLog} = props.state;
     switch( app.type ){
     case define.APP_TYPES.EXTENSION:
-      console.log(actionLog[0]);
       return [
         "SERVER_TO_CLIENT[BROADCAST]:find",
         "ON_CLICK_TOGGLE_MAIN",
         "ON_CLICK_TOGGLE_DISP_DETAIL",
         "ON_CLICK_OPEN_LOCK_MENU",
         "SERVER_TO_CLIENT[EMIT]:getMore",
-        "ON_CLICK_MULTISTREAM"
+        "ON_CLICK_MULTISTREAM",
+        "RESIZE_END_WINDOW"
       ].includes( actionLog[0] );
     default: 
       return true;
@@ -261,7 +261,7 @@ class Container extends Component {
     const props = this.getProps();
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
-    const log = false;
+    const log = true;
 
     // Open
     if( app.isDispMain && app.isOpenMain ){
@@ -401,7 +401,6 @@ class Container extends Component {
     const { style, app } = this.props.state;
     if( style && style.container && style.container.self && app.connectioned ){
       if( app.type === define.APP_TYPES.EXTENSION ){
-        console.log("CONTAINER RENDER");
         return this.renderExtension(this);
       } else {
         switch( app.screenMode ){
