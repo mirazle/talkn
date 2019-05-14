@@ -48,6 +48,13 @@ class Container extends Component {
     componentDidUpdates( this );
   }
 
+  shouldComponentUpdate(props){
+    return [
+      "SERVER_TO_CLIENT[BROADCAST]:find",
+      "ON_CLICK_TOGGLE_MAIN"
+   ].includes( props.state.actionLog[0] );
+  }
+
   getProps(){
     return {
       ...this.props,
@@ -380,10 +387,10 @@ class Container extends Component {
   }
 
  	render() {
-    const { style, app, actionLog } = this.props.state;
+    const { style, app } = this.props.state;
     if( style && style.container && style.container.self && app.connectioned ){
       if( app.type === define.APP_TYPES.EXTENSION ){
-        console.log("RENDER");
+        console.log("CONTAINER RENDER");
         return this.renderExtension(this);
       } else {
         switch( app.screenMode ){
