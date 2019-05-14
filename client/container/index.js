@@ -54,7 +54,6 @@ class Container extends Component {
     case define.APP_TYPES.EXTENSION:
       console.log(actionLog[0]);
       return [
-        "ON_TRANSITION",
         "SERVER_TO_CLIENT[BROADCAST]:find",
         "ON_CLICK_TOGGLE_MAIN",
         "ON_CLICK_TOGGLE_DISP_DETAIL",
