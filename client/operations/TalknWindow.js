@@ -118,24 +118,8 @@ export default class TalknWindow {
 		if( app.type === define.APP_TYPES.EXTENSION ){
 			if( app.extensionMode === "SCRIPT" ){
 				if( this.resizeTimer === null ){
-
-					//this.resizeStartWindow(app);
-					this.resizeTimer = setTimeout( () => {		
-						/*		
-						console.log(" END @@@@@@@@@@@@@@@@@@@@@ !!!");
-						console.log( "isDispMain = " + app.isDispMain );
-						console.log( "isOpenMain = " + app.isOpenMain );
-						*/
-						/*
-						if(app.isDispMain && !app.isOpenMain){
-							app.isDispMain = true;
-							app.isOpenMain = true;
-						}
-						*/
-/*
-						console.log( "isDispMain = " + app.isDispMain );
-						console.log( "isOpenMain = " + app.isOpenMain );
-*/
+					this.resizeTimer = setTimeout( () => {
+						console.log( app );
 						this.resizeEndWindow(app)
 					}, TalknWindow.resizeInterval );
 				}
@@ -162,7 +146,6 @@ export default class TalknWindow {
 	resizeEndWindow( app ){
 		clearTimeout(this.resizeTimer);
 		this.resizeTimer = null;
-console.log( app.connectioned );
 		app.width = window.innerWidth;
 		app.height = window.innerHeight;
 		app.isTransition = true;
