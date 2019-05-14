@@ -19,6 +19,6 @@ export default ( _state, _props ) => {
     state = storageResults.state;
     props = storageResults.props;
   }
-  //alert(state.app.isOpenMain + " " + state.app.isDispMain);
+
   return {state, talknAPI: props.talknAPI};
 }
