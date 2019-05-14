@@ -33,7 +33,9 @@ export default class PostsFooter extends Component {
 
       ].includes( actionLog[0] );
 */
+      return false;
     }
+    return false;
   }
 
   componentDidMount(){
@@ -103,7 +105,6 @@ export default class PostsFooter extends Component {
   getIconStyle(){
     const { thread, style } = this.props.state;
     const favicon = `https://${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}`;
-    alert( style.postsFooter.icon.display );
     return thread.favicon ? {...style.postsFooter.icon, backgroundImage: `url(${favicon})` } : style.postsFooter.icon ;
   }
 
@@ -113,6 +114,7 @@ export default class PostsFooter extends Component {
   }
 
   render() {
+    console.log("POSTS FOOTER RENDER");
     const { state, handleOnClickToggleMain } = this.props;
     const { style, app } = state;  
     return (
