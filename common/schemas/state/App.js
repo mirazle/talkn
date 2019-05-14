@@ -108,9 +108,10 @@ export default class App extends Schema{
 
     // iframeの拡張機能表示の場合
     const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
+    const extensionWidth = params.extensionWidth ? params.extensionWidth : 0;
     const extensionOpenHeight = params.extensionOpenHeight ? params.extensionOpenHeight : 0;
     const extensionCloseHeight = params.extensionCloseHeight ? params.extensionCloseHeight : 0;
-
+console.log(extensionWidth);
     // Index情報
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
 
@@ -173,8 +174,9 @@ export default class App extends Schema{
       screenContents,
       iframe,
 
-    // iframeの拡張機能表示の場合
+      // iframeの拡張機能表示の場合
       extensionMode,
+      extensionWidth,
       extensionOpenHeight,
       extensionCloseHeight,
 
@@ -239,23 +241,37 @@ export default class App extends Schema{
   }
 
   static getIsOpenMain(app, called){
-    const {type, height, extensionMode, extensionOpenHeight, extensionCloseHeight} = app;
+    const {
+      type,
+      height,
+      extensionMode,
+      extensionWidth,
+      extensionOpenHeight,
+      extensionCloseHeight
+    } = app;
     if( type === define.APP_TYPES.EXTENSION ){
 
       if( height === 0 ){
+        console.log("@getIsOpenMain A " + " " + extensionOpenHeight + " " +  height);
         return false;
       }
 
       if( extensionCloseHeight === height ){
+        console.log("@getIsOpenMain B " + " " + extensionOpenHeight + " " +  height);
         return false;
       }
 
       if( extensionOpenHeight === height ){
+        console.log("@getIsOpenMain C " + " " + extensionOpenHeight + " " +  height);
         return true;
       }
+
+      // @getIsOpenMain D  618 450 !!!!!!!!!!!!!!!!!!!! ここの判定が誤っている！！！！
+      console.log( extensionWidth );
+      console.log("@getIsOpenMain D " + " " + extensionOpenHeight + " " +  height);
       return false;
     } else {
-
+      console.log("@getIsOpenMain E " + " " + extensionOpenHeight + " " +  height);
       return true;
     }
   }

@@ -50,8 +50,10 @@ export default class TalknAPI{
 					case "bootExtension":
 						const state = talknAPI.store.getState();
 						state.app.extensionMode = e.data.params.extensionMode;
+						state.app.extensionWidth = e.data.params.extensionWidth;
 						state.app.extensionOpenHeight = e.data.params.extensionOpenHeight;
 						state.app.extensionCloseHeight = e.data.params.extensionCloseHeight;
+						console.log(state.app);
 						this.offTransition();
 						this.parentUrl = e.data.url;
 						this.extension( "bootExtension", state.app );

@@ -11,6 +11,7 @@ class Ext {
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
     static get BASE_DEV_PORT(){return 8080} 
+    static get FULL_WIDTH_THRESHOLD(){return 600}
     static get EXCLUSION_ORIGINS(){return ['https://localhost', 'https://talkn.io']}    
     static get BASE_HOSTNAME(){
         if(Ext.ENV === "PROD"){
@@ -23,7 +24,7 @@ class Ext {
     };
     static getIframeOpenHeight(){
         if( Ext.MODE === "SCRIPT" ){
-            if( window.innerWidth < 600 ){
+            if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
                 return `${Math.floor( window.innerHeight * 0.9 )}px`;
             }
         }
@@ -33,7 +34,7 @@ class Ext {
     static getIframeCloseNotifHeight(){return '85px'};
     static getIframeWidth(){
         if( Ext.MODE === "SCRIPT" ){
-            if( window.innerWidth < 600 ){
+            if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
                 return "100%";
             }
         }
@@ -94,6 +95,7 @@ class Ext {
                 `height: ${Ext.getIframeCloseHeight()} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0!important;" + 
+                "background: red !important;" + 
                 "transition: 0ms !important;" + 
                 "transform: translate3d(0px, 0px, 0px) !important;"
             );
@@ -114,8 +116,10 @@ class Ext {
 
     loadIframe(e){
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+        console.log( Ext.getIframeWidth().replace("px", "" ) );
         this.postMessage("bootExtension", {
             extensionMode: Ext.MODE,
+            extensionWidth: Ext.getIframeWidth().replace("px", "" ),
             extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
             extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
         });
@@ -166,16 +170,13 @@ class Ext {
         iframe.style.width = Ext.getIframeWidth();
 
         if(talknNotifId === "null"){
-            if( iframe.style.height !== Ext.getIframeOpenHeight() ){
-console.log("A");
-                iframe.style.height = Ext.getIframeOpenHeight();
-            }else{
-console.log("B");
-                iframe.style.height = Ext.getIframeCloseHeight();
-            }
-        }else{
-console.log("C");
-            iframe.style.height = Ext.getIframeCloseHeight();
+            
+            this.postMessage("bootExtension", {
+                extensionMode: Ext.MODE,
+                extensionWidth: Number( Ext.getIframeWidth().replace("px", "" ) ),
+                extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
+                extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
+            });
         }
     }
 

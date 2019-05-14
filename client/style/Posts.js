@@ -168,7 +168,7 @@ export default class Posts {
       height: `calc( 100% - ${Main.headerHeight}px )`,
       minHeight: "inherit",
       borderRight,
-      borderLeft,
+      borderLeft
     });
     const content = {};
     const animation = Style.getAnimationBase({

@@ -96,11 +96,10 @@ export default {
       app: {inputPost},
     };
   },
-  onResizeStartWindow: ( {app, setting} ) => {
+  onResizeStartWindow: ( params = {app: {}, setting: {}} ) => {
     return {
       type: 'RESIZE_START_WINDOW',
-      app,
-      setting
+      ...params
     };
   },
   onResizeEndWindow: ( {app, setting, bootOption} ) => {
@@ -190,12 +189,14 @@ export default {
     };
   },
   dispMain: () => {
+    alert("DISP MAIN");
     return {
       type: 'DISP_MAIN',
       app: {isDispMain: true}
     };
   },
   undispMain: () => {
+    alert("UNDISP MAIN");
     return {
       type: 'DISP_MAIN',
       app: {isDispMain: false}

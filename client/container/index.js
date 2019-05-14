@@ -246,6 +246,14 @@ class Container extends Component {
 
     // Open
     if( app.isDispMain && app.isOpenMain ){
+
+      console.log("=============================================");
+      console.log("CONTANIER @@@ OPEN ");
+      console.log( "isDispMain = " + app.isDispMain + " @");
+			console.log( "isOpenMain = " + app.isOpenMain + " @");
+      console.log( "isTransition = " + app.isTransition + " @");
+      console.log("=============================================");
+
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -263,6 +271,14 @@ class Container extends Component {
 
     // Opening
     }else if( app.isDispMain ){
+      
+      console.log("=============================================");
+      console.log("CONTANIER OPENING " );
+      console.log( "isDispMain = " + app.isDispMain + " @");
+      console.log( "isOpenMain = " + app.isOpenMain + " @");
+      console.log( "isTransition = " + app.isTransition + " @");
+      console.log("=============================================");
+      
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -278,6 +294,14 @@ class Container extends Component {
     
     // Closing
     }else if( !app.isDispMain && app.isOpenMain ){
+      
+      console.log("=============================================");
+      console.log("CONTANIER CLOSING " );
+      console.log( "isDispMain = " + app.isDispMain + " @");
+      console.log( "isOpenMain = " + app.isOpenMain + " @");
+      console.log( "isTransition = " + app.isTransition + " @");
+      console.log("=============================================");
+      
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -293,6 +317,14 @@ class Container extends Component {
 
     // Close
     }else if( !app.isDispMain && !app.isOpenMain ){
+      
+      console.log("=============================================");
+      console.log("CONTANIER CLOSE " );
+      console.log( "isDispMain = " + app.isDispMain + " @");
+      console.log( "isOpenMain = " + app.isOpenMain + " @");
+      console.log( "isTransition = " + app.isTransition + " @");
+      console.log("=============================================");
+      
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
