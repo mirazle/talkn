@@ -264,7 +264,7 @@ class Container extends Component {
     const props = this.getProps();
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
-    const log = true;
+    const log = false;
 
     // Open
     if( app.isDispMain && app.isOpenMain ){

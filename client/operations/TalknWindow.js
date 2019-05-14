@@ -143,14 +143,15 @@ export default class TalknWindow {
 	}
 
 	resizeEndWindow( app ){
-		app = talknAPI.store.getState().app;
 		clearTimeout(this.resizeTimer);
 		this.resizeTimer = null;
+/*
+		app = talknAPI.store.getState().app;
 		app.width = window.innerWidth;
 		app.height = window.innerHeight;
-		//app.isTransition = true;
+		app.isTransition = true;
 		app.screenMode = App.getScreenMode();
-
+*/
 		const setting = talknAPI.store.getState().setting;
 		const bootOption = talknAPI.store.getState().bootOption;
 
