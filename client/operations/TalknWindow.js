@@ -150,26 +150,9 @@ export default class TalknWindow {
 		}
 	}
 
-/*
-	OPENINGからOPENになっていない！！！！
-	getIsOpenMainの返り値がおかしい！！！！
-
-
-*/
-
-
-
 	resizeStartWindow(app){
-/*
-		console.log("@@@@@@@@@@@@@@@@");
-		console.log("START!!!");
-		console.log( "isDispMain = " + app.isDispMain );
-		console.log( "isOpenMain = " + app.isOpenMain );
-		console.log("@@@@@@@@@@@@@@@@");
-*/
 		app.width = window.innerWidth;
 		app.height = window.innerHeight;
-		// iframe側のアニメーションを操作するので、中身のPostsは高さが変わるだけ
 		app.isTransition = false;
 		app.screenMode = App.getScreenMode();
 		const setting = talknAPI.store.getState().setting;
@@ -177,16 +160,9 @@ export default class TalknWindow {
 	}
 
 	resizeEndWindow( app ){
-/*
-		console.log("@@@@@@@@@@@@@@@@");
-		console.log("END!!!");
-		console.log( "isDispMain = " + app.isDispMain );
-		console.log( "isOpenMain = " + app.isOpenMain );
-		console.log("@@@@@@@@@@@@@@@@");
-*/
 		clearTimeout(this.resizeTimer);
 		this.resizeTimer = null;
-
+console.log( app.connectioned );
 		app.width = window.innerWidth;
 		app.height = window.innerHeight;
 		app.isTransition = true;
@@ -194,7 +170,6 @@ export default class TalknWindow {
 
 		const setting = talknAPI.store.getState().setting;
 		const bootOption = talknAPI.store.getState().bootOption;
-//		console.log( app );
 
 		talknAPI.onResizeEndWindow( {app, setting, bootOption} );
 
