@@ -31,7 +31,7 @@ class Ext {
         return "450px";
     };
     static getIframeCloseHeight(){return '45px'};
-    static getIframeCloseNotifHeight(){return '85px'};
+    static getIframeOpenNotifHeight(){return '85px'};
     static getIframeWidth(){
         if( Ext.MODE === "SCRIPT" ){
             if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
@@ -126,7 +126,6 @@ class Ext {
     transitionend(e){
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
-        // TODO onTransitionしないとdetail開くときにアニメーションにならない。
         this.postMessage("onTransitionEnd");
         this.postMessage("onTransition");
     }
@@ -224,20 +223,21 @@ class Ext {
     }
 
     openNotif(params){
+        console.log("OPEN NOTIF");
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
-        iframe.style.height = Ext.iframeCloseNotifHeight;
+        iframe.style.height = Ext.getIframeOpenNotifHeight();
         this.postMessage("openNotif");
         let talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
         if(talknNotifId){
             clearTimeout( talknNotifId );
         }
-
         talknNotifId = setTimeout( this.closeNotif, params.transition );
         sessionStorage.setItem(Ext.talknNotifId, talknNotifId);
     }
 
     closeNotif(params){
+        console.log("CLOSE NOTIF");
         let talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
         clearTimeout( talknNotifId );
         sessionStorage.setItem(Ext.talknNotifId, null);

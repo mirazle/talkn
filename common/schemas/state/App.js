@@ -119,7 +119,6 @@ export default class App extends Schema{
     const isRootConnection = params.isRootConnection ? params.isRootConnection : false;
     const rootConnection = params.rootConnection ? params.rootConnection : connection;
 
-    console.log( "APP: " + params.connectioned );
     const connectioned = params && params.connectioned ? params.connectioned : '';
     const dispThreadType = params && params.dispThreadType ? params.dispThreadType : App.dispThreadTypeMulti;
     const multistream = Schema.isSet( params.multistream ) ? params.multistream : true;
