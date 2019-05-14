@@ -54,7 +54,14 @@ class Container extends Component {
     case define.APP_TYPES.EXTENSION:
       return [
         "SERVER_TO_CLIENT[BROADCAST]:find",
-        "ON_CLICK_TOGGLE_MAIN"
+        "ON_CLICK_TOGGLE_MAIN",
+/*
+        "ON_CLICK_TOGGLE_DISP_DETAIL",
+        "ON_CLICK_OPEN_LOCK_MENU",
+        "SERVER_TO_CLIENT[EMIT]:getMore",
+        "ON_CLICK_MULTISTREAM",
+*/
+        "RESIZE_END_WINDOW"
       ].includes( actionLog[0] );
     default: 
       return true;
