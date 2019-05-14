@@ -14,7 +14,7 @@ import Container from 'client/container/';
 
 export default class TalknWindow {
 
-	static get resizeInterval(){ return Math.floor(1000 / 60 * 10) };
+	static get resizeInterval(){ return 600 };
 
 	static getAppType(e){
 		return window.name === define.APP_TYPES.EXTENSION ?
@@ -49,8 +49,7 @@ export default class TalknWindow {
 	constructor( talknIndex ){
 		this.id = "talkn1";
 		this.talknAPI = {};
-		this.resizeTimer = false;
-		this.resizing = false;
+		this.resizeTimer = null;
 
 		this.threadHeight = 0;
 		this.innerHeight = 0;
@@ -99,19 +98,9 @@ export default class TalknWindow {
 		window.talknAPI = window.__talknAPI__[ window.talknIndex ];
 	}
 
-	resize( ev ){
-		let app = talknAPI.store.getState().app;
-		if( app.type !== define.APP_TYPES.EXTENSION ){
-			if ( !this.resizing ) this.resizeStartWindow();
-			if ( this.resizeTimer !== false ) clearTimeout(this.resizeTimer);
-			this.resizeTimer = setTimeout( this.resizeEndWindow, TalknWindow.resizeInterval );
-		}
-	}
-
 	scroll( ev ){
 		const { app } = talknAPI.store.getState();
 		if( app.isOpenNewPost ){
-
 			talknAPI.closeNewPost();
 		}		
 		this.setIsScrollBottom();
@@ -124,39 +113,91 @@ export default class TalknWindow {
 		this.isScrollBottom = ( htmlScrollHeight === ( this.innerHeight + this.scrollHeight ) );
 	}
 
-	resizeStartWindow(){
-		this.resizing = true;
-		let app = talknAPI.store.getState().app;
+	resize( ev ){
+		const app = talknAPI.store.getState().app;
+		if( app.type === define.APP_TYPES.EXTENSION ){
+			if( app.extensionMode === "SCRIPT" ){
+				if( this.resizeTimer === null ){
 
-		if( app.type !== define.APP_TYPES.EXTENSION ){
-			const width = window.innerWidth;
-			const height = window.innerHeight;
-			const onTransition = false;
-			const screenMode = App.getScreenMode();
-			app = talknAPI.store.getState().app.merge({width, height, screenMode, onTransition});
-			const setting = talknAPI.store.getState().setting;
-
-			//talknAPI.offTransition();
-			talknAPI.onResizeStartWindow( {app, setting} );
+					//this.resizeStartWindow(app);
+					this.resizeTimer = setTimeout( () => {		
+						/*		
+						console.log(" END @@@@@@@@@@@@@@@@@@@@@ !!!");
+						console.log( "isDispMain = " + app.isDispMain );
+						console.log( "isOpenMain = " + app.isOpenMain );
+						*/
+						/*
+						if(app.isDispMain && !app.isOpenMain){
+							app.isDispMain = true;
+							app.isOpenMain = true;
+						}
+						*/
+/*
+						console.log( "isDispMain = " + app.isDispMain );
+						console.log( "isOpenMain = " + app.isOpenMain );
+*/
+						this.resizeEndWindow(app)
+					}, TalknWindow.resizeInterval );
+				}
+			}
+		}else{
+			if( this.resizeTimer === null ){
+				//this.resizeStartWindow(app);
+				this.resizeTimer = setTimeout( (app) => {
+					this.resizeEndWindow
+				}, TalknWindow.resizeInterval );
+			}
 		}
 	}
 
-	resizeEndWindow( ev ){
-		let app = talknAPI.store.getState().app;
-		if( app.type !== define.APP_TYPES.EXTENSION ){
-			clearTimeout(this.resizeTimer);
-			const width = ev ? ev.target.innerWidth : window.innerWidth;
-			const height = ev ? ev.target.innerHeight : window.innerHeight;
-			const onTransition = true;
-			const screenMode = App.getScreenMode();
-			const app = talknAPI.store.getState().app.merge({width, height, onTransition, screenMode});
-			const setting = talknAPI.store.getState().setting;
-			const bootOption = talknAPI.store.getState().bootOption;
+/*
+	OPENINGからOPENになっていない！！！！
+	getIsOpenMainの返り値がおかしい！！！！
 
-			this.resizeTimer = false;
-			this.resizing = false;
-			talknAPI.onResizeEndWindow( {app, setting, bootOption} );
-		}
+
+*/
+
+
+
+	resizeStartWindow(app){
+/*
+		console.log("@@@@@@@@@@@@@@@@");
+		console.log("START!!!");
+		console.log( "isDispMain = " + app.isDispMain );
+		console.log( "isOpenMain = " + app.isOpenMain );
+		console.log("@@@@@@@@@@@@@@@@");
+*/
+		app.width = window.innerWidth;
+		app.height = window.innerHeight;
+		// iframe側のアニメーションを操作するので、中身のPostsは高さが変わるだけ
+		app.isTransition = false;
+		app.screenMode = App.getScreenMode();
+		const setting = talknAPI.store.getState().setting;
+		talknAPI.onResizeStartWindow({app, setting});
+	}
+
+	resizeEndWindow( app ){
+/*
+		console.log("@@@@@@@@@@@@@@@@");
+		console.log("END!!!");
+		console.log( "isDispMain = " + app.isDispMain );
+		console.log( "isOpenMain = " + app.isOpenMain );
+		console.log("@@@@@@@@@@@@@@@@");
+*/
+		clearTimeout(this.resizeTimer);
+		this.resizeTimer = null;
+
+		app.width = window.innerWidth;
+		app.height = window.innerHeight;
+		app.isTransition = true;
+		app.screenMode = App.getScreenMode();
+
+		const setting = talknAPI.store.getState().setting;
+		const bootOption = talknAPI.store.getState().bootOption;
+//		console.log( app );
+
+		talknAPI.onResizeEndWindow( {app, setting, bootOption} );
+
 	}
 
 	animateScrollTo( to = 99999, duration = 400,  callback = () => {} ){
