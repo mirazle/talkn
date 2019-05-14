@@ -383,6 +383,7 @@ class Container extends Component {
     const { style, app, actionLog } = this.props.state;
     if( style && style.container && style.container.self && app.connectioned ){
       if( app.type === define.APP_TYPES.EXTENSION ){
+        console.log("RENDER");
         return this.renderExtension(this);
       } else {
         switch( app.screenMode ){

@@ -113,7 +113,7 @@ export default class PostsFooter extends Component {
           onFocus={this.handleOnFocus}
           onBlur={this.handleOnBlur}
           value={app.inputPost}
-          placeholder='Comment to this web'
+          placeholder='Comment to web'
         />
         <button
           style={style.postsFooter.button}
