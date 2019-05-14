@@ -55,8 +55,8 @@ class Container extends Component {
     const {app, actionLog} = props.state;
     switch( app.type ){
     case define.APP_TYPES.EXTENSION:
-//      return true;
-
+      return true;
+/*
       return [
         "SERVER_TO_CLIENT[BROADCAST]:find",
         "ON_CLICK_TOGGLE_MAIN",
@@ -68,7 +68,7 @@ class Container extends Component {
 //        "RESIZE_END_WINDOW"
 
       ].includes( actionLog[0] );
-
+*/
     default: 
       return true;
     }
@@ -308,20 +308,17 @@ class Container extends Component {
         console.log("=============================================");
       }
 
+      const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
-          <Posts {...props} />
           <span data-component-name="fixedComponents">
-            { MultistreamIcon }
-            <Header {...props} />
-            <DetailModal {...props} /> 
             <PostsFooter {...props} />
-            </span>
+          </span>
         </span>
       );
-    
-    // Closing
+
+      // Closing
     }else if( !app.isDispMain && app.isOpenMain ){
       
       if(log){
