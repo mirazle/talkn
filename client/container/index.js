@@ -28,11 +28,14 @@ class Container extends Component {
   constructor(props){
     super(props);
     const { state, talknAPI } = props;
-    const { thread } = state;
+    const { app, thread } = state;
     this.state = {notifs: []};
 
     talknAPI.find( thread.connection );
-    talknAPI.findMenuIndex( thread.connection );
+
+    if(app.type !== define.APP_TYPES.EXTENSION){
+      talknAPI.findMenuIndex( thread.connection );
+    }
     this.getProps = this.getProps.bind(this);
     this.getNotifs = this.getNotifs.bind(this);
     this.renderSmall = this.renderSmall.bind(this);
