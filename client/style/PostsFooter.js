@@ -115,6 +115,7 @@ export default class PostsFooter{
       backgroundPosition: 'center center',
       backgroundSize: '20px 20px',
       backgroundRepeat: 'no-repeat',
+      zIndex: 9999
     });
     const content = Style.getContentBase({
       cursor: 'pointer',
