@@ -282,14 +282,18 @@ class Container extends Component {
         console.log( "isTransition = " + app.isTransition + " @");
         console.log("=============================================");
       }
-      const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
+
           <span data-component-name="fixedComponents">
-            { Notifs }
+            { MultistreamIcon }
+            { NewPost }
+            <Header {...props} />
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
-          </span>
+            <InnerNotif {...this.props}/>
+            </span>
         </span>
       );
 
@@ -303,14 +307,17 @@ class Container extends Component {
         console.log( "isTransition = " + app.isTransition + " @");
         console.log("=============================================");
       }
-      const Notifs = this.getNotifs( props );
+
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
+
           <span data-component-name="fixedComponents">
-            { Notifs }
+            { MultistreamIcon }
+            <Header {...props} />
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
-          </span>
+            </span>
         </span>
       );
     
@@ -325,14 +332,17 @@ class Container extends Component {
         console.log( "isTransition = " + app.isTransition + " @");
         console.log("=============================================");
       }
-      const Notifs = this.getNotifs( props );
+
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
+
           <span data-component-name="fixedComponents">
-            { Notifs }
+            { MultistreamIcon }
+            <Header {...props} />
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
-          </span>
+            </span>
         </span>
       );
 
