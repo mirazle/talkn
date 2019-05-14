@@ -223,7 +223,6 @@ class Ext {
     }
 
     openNotif(params){
-        console.log("OPEN NOTIF");
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
         iframe.style.height = Ext.getIframeOpenNotifHeight();
@@ -237,7 +236,6 @@ class Ext {
     }
 
     closeNotif(params){
-        console.log("CLOSE NOTIF");
         let talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
         clearTimeout( talknNotifId );
         sessionStorage.setItem(Ext.talknNotifId, null);
