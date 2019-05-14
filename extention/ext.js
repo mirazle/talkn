@@ -94,7 +94,8 @@ class Ext {
                 `width: ${Ext.getIframeWidth()} !important;` + 
                 `height: ${Ext.getIframeCloseHeight()} !important;` + 
                 "margin: 0 !important;" + 
-                "padding: 0!important;" + 
+                "padding: 0 !important;" + 
+                "background: red !important;" + 
                 "transition: 0ms !important;" + 
                 "transform: translate3d(0px, 0px, 0px) !important;"
             );
