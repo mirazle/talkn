@@ -3,6 +3,7 @@ node_modules/
 npm-debug.log
 chromeExtension.zip
 server/listens/express/assets/icon/*
+extention/talkn.client.js
 common/pems/*
 dump.rdb
 package-lock.json
