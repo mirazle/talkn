@@ -311,11 +311,8 @@ class Container extends Component {
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
-          <Posts {...props} />
+
           <span data-component-name="fixedComponents">
-            { MultistreamIcon }
-            <Header {...props} />
-            <DetailModal {...props} /> 
             <PostsFooter {...props} />
             </span>
         </span>
@@ -336,8 +333,8 @@ class Container extends Component {
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
+
           <span data-component-name="fixedComponents">
-            { MultistreamIcon }
             <PostsFooter {...props} />
             </span>
         </span>
