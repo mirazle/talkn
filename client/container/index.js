@@ -285,6 +285,7 @@ class Container extends Component {
 
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
+          <Style {...props} />
           <span data-component-name="fixedComponents">
             <PostsFooter {...props} />
             </span>
@@ -304,6 +305,7 @@ class Container extends Component {
 
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
+          <Style {...props} />
           <span data-component-name="fixedComponents">
             <PostsFooter {...props} />
             </span>
@@ -324,6 +326,7 @@ class Container extends Component {
 
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
+          <Style {...props} />
           <span data-component-name="fixedComponents">
             <PostsFooter {...props} />
             </span>
@@ -345,6 +348,7 @@ class Container extends Component {
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
+          <Style {...props} />
           <span data-component-name="fixedComponents">
             <PostsFooter {...props} />
           </span>
