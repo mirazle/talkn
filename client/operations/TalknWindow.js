@@ -119,7 +119,6 @@ export default class TalknWindow {
 			if( app.extensionMode === "SCRIPT" ){
 				if( this.resizeTimer === null ){
 					this.resizeTimer = setTimeout( () => {
-						console.log( app );
 						this.resizeEndWindow(app)
 					}, TalknWindow.resizeInterval );
 				}
@@ -144,6 +143,7 @@ export default class TalknWindow {
 	}
 
 	resizeEndWindow( app ){
+		app = talknAPI.store.getState().app;
 		clearTimeout(this.resizeTimer);
 		this.resizeTimer = null;
 		app.width = window.innerWidth;
