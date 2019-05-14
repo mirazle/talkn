@@ -56,7 +56,7 @@ class Container extends Component {
     switch( app.type ){
     case define.APP_TYPES.EXTENSION:
       return true;
-/*
+・＊
       return [
         "SERVER_TO_CLIENT[BROADCAST]:find",
         "ON_CLICK_TOGGLE_MAIN",
@@ -68,7 +68,7 @@ class Container extends Component {
 //        "RESIZE_END_WINDOW"
 
       ].includes( actionLog[0] );
-*/
+
     default: 
       return true;
     }
@@ -282,13 +282,12 @@ class Container extends Component {
         console.log( "isTransition = " + app.isTransition + " @");
         console.log("=============================================");
       }
-
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
           <span data-component-name="fixedComponents">
             <PostsFooter {...props} />
-            </span>
+          </span>
         </span>
       );
 
@@ -308,7 +307,7 @@ class Container extends Component {
           <Style {...props} />
           <span data-component-name="fixedComponents">
             <PostsFooter {...props} />
-            </span>
+          </span>
         </span>
       );
     
@@ -329,7 +328,7 @@ class Container extends Component {
           <Style {...props} />
           <span data-component-name="fixedComponents">
             <PostsFooter {...props} />
-            </span>
+          </span>
         </span>
       );
 
@@ -350,6 +349,7 @@ class Container extends Component {
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
           <span data-component-name="fixedComponents">
+            { Notifs }
             <PostsFooter {...props} />
           </span>
         </span>
