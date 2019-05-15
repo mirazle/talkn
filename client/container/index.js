@@ -73,7 +73,7 @@ class Container extends Component {
       return true;
     }
   }
-*/
+
   getProps(){
     return {
       ...this.props,
