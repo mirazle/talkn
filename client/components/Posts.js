@@ -163,7 +163,16 @@ export default class Posts extends Component {
 
  	render() {
     const { style } = this.props.state;
-		return (
+    return (
+      <ol
+        data-component-name={this.constructor.name}
+        style={ style.posts.self }
+        ref="thread"
+        onScroll={this.handleOnScroll}
+      >POSTS</ol>
+    );
+/*
+    return (
       <ol
         data-component-name={this.constructor.name}
         style={ style.posts.self }
@@ -174,5 +183,6 @@ export default class Posts extends Component {
           {this.renderPostList()}
       </ol>
     );
+*/
  	}
 }
