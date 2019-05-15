@@ -53,12 +53,13 @@ export default class Detail {
   }
 
   static getDetailModalSelf( {app} ){
-    const screenMode = App.getScreenMode();
+    const screenMode = App.getScreenMode(app.width);
     const display = screenMode === App.screenModeLargeLabel ? "none" : "block";
     const left = screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
     const background = app.type === define.APP_TYPES.EXTENSION ?
       "none" : Container.reliefRGB;
     const height = DetailModal.getHeight(app);
+    console.log( display + " " + screenMode + " " + left);
     const layout = Style.getLayoutBlock({
       display,
       position: 'fixed',
