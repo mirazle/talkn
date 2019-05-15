@@ -282,10 +282,12 @@ class Container extends Component {
         console.log( "isTransition = " + app.isTransition + " @");
         console.log("=============================================");
       }
+      const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
           <span data-component-name="fixedComponents">
+          { Notifs }
             <PostsFooter {...props} />
           </span>
         </span>
