@@ -206,7 +206,9 @@ class Ext {
             if( iframe.style.height !== Ext.getIframeOpenHeight() ){
                 iframe.style.transition = "0ms";
                 iframe.style.height = Ext.getIframeOpenHeight();
+                this.postMessage("dispPosts");
             }else{
+                this.postMessage("undispPosts");
                 setTimeout( () =>{ 
                     iframe.style.transition = "0ms";
                     iframe.style.height = Ext.getIframeCloseHeight();

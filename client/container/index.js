@@ -101,7 +101,7 @@ class Container extends Component {
     const { app } = state;
     if( app.type ===  define.APP_TYPES.EXTENSION ){
       this.setState({notifs: []});
-      app.isDispMain = app.isDispMain ? false : true;
+      app.isDispPosts = app.isDispPosts ? false : true;
       app.isOpenNotif = false;
       
       onClickToggleMain( {app} );
@@ -272,7 +272,7 @@ class Container extends Component {
     const log = false;
 
     // Open
-    if( app.isDispMain && app.isOpenMain ){
+    if( app.isDispPosts && app.isOpenPosts ){
 
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
@@ -284,7 +284,7 @@ class Container extends Component {
         </span>
       );
     // Opening
-    }else if( app.isDispMain ){
+    }else if( app.isDispPosts ){
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -296,7 +296,7 @@ class Container extends Component {
       );
     
     // Closing
-    }else if( !app.isDispMain && app.isOpenMain ){
+    }else if( !app.isDispPosts && app.isOpenPosts ){
       
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
@@ -309,7 +309,7 @@ class Container extends Component {
       );
 
     // Close
-    }else if( !app.isDispMain && !app.isOpenMain ){
+    }else if( !app.isDispPosts && !app.isOpenPosts ){
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
@@ -331,13 +331,13 @@ class Container extends Component {
     const log = false;
 
     // Open
-    if( app.isDispMain && app.isOpenMain ){
+    if( app.isDispPosts && app.isOpenPosts ){
 
       if(log){
         console.log("=============================================");
         console.log("CONTANIER @@@ OPEN ");
-        console.log( "isDispMain = " + app.isDispMain + " @");
-        console.log( "isOpenMain = " + app.isOpenMain + " @");
+        console.log( "isDispPosts = " + app.isDispPosts + " @");
+        console.log( "isOpenPosts = " + app.isOpenPosts + " @");
         console.log( "isTransition = " + app.isTransition + " @");
         console.log("=============================================");
       }
@@ -357,12 +357,12 @@ class Container extends Component {
       );
 
     // Opening
-    }else if( app.isDispMain ){
+    }else if( app.isDispPosts ){
       if(log){
         console.log("=============================================");
         console.log("CONTANIER OPENING " );
-        console.log( "isDispMain = " + app.isDispMain + " @");
-        console.log( "isOpenMain = " + app.isOpenMain + " @");
+        console.log( "isDispPosts = " + app.isDispPosts + " @");
+        console.log( "isOpenPosts = " + app.isOpenPosts + " @");
         console.log( "isTransition = " + app.isTransition + " @");
         console.log("=============================================");
       }
@@ -381,13 +381,13 @@ class Container extends Component {
       );
     
     // Closing
-    }else if( !app.isDispMain && app.isOpenMain ){
+    }else if( !app.isDispPosts && app.isOpenPosts ){
       
       if(log){
         console.log("=============================================");
         console.log("CONTANIER CLOSING " );
-        console.log( "isDispMain = " + app.isDispMain + " @");
-        console.log( "isOpenMain = " + app.isOpenMain + " @");
+        console.log( "isDispPosts = " + app.isDispPosts + " @");
+        console.log( "isOpenPosts = " + app.isOpenPosts + " @");
         console.log( "isTransition = " + app.isTransition + " @");
         console.log("=============================================");
       }
@@ -406,13 +406,13 @@ class Container extends Component {
       );
 
     // Close
-    }else if( !app.isDispMain && !app.isOpenMain ){
+    }else if( !app.isDispPosts && !app.isOpenPosts ){
       
       if(log){
         console.log("=============================================");
         console.log("CONTANIER CLOSE " );
-        console.log( "isDispMain = " + app.isDispMain + " @");
-        console.log( "isOpenMain = " + app.isOpenMain + " @");
+        console.log( "isDispPosts = " + app.isDispPosts + " @");
+        console.log( "isOpenPosts = " + app.isOpenPosts + " @");
         console.log( "isTransition = " + app.isTransition + " @");
         console.log("=============================================");
       }

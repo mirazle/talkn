@@ -140,14 +140,13 @@ export default class App extends Schema{
     const inputSearch = params.inputSearch ? params.inputSearch : '';
 
     // 各パーツの状態(フラグ制御)
-    const isOpenMainPossible = params.isOpenMainPossible ? params.isOpenMainPossible : false;
-    const isOpenMain =  App.getIsOpenMain({type, height, extensionMode, extensionOpenHeight, extensionCloseHeight});
+    const isOpenPosts =  App.getIsOpenPosts({type, height, extensionMode, extensionOpenHeight, extensionCloseHeight});
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNewPost = params.isOpenNewPost ? params.isOpenNewPost : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
-    const isDispMain = params.isDispMain ? params.isDispMain : 
+    const isDispPosts = params.isDispPosts ? params.isDispPosts : 
       params.type === define.APP_TYPES.EXTENSION ?
         false : true;
 
@@ -208,14 +207,13 @@ export default class App extends Schema{
       inputSearch,
 
       // 各パーツの状態
-      isOpenMainPossible,
-      isOpenMain,
+      isOpenPosts,
       isOpenSetting,
       isOpenMenu,
       isOpenDetail,
       isOpenNewPost,
       isOpenNotif,
-      isDispMain,
+      isDispPosts,
 
       // 各パーツの状態(文字列制御)
       openInnerNotif,
@@ -241,7 +239,7 @@ export default class App extends Schema{
     return App.screenModeLargeLabel;
   }
 
-  static getIsOpenMain(app, called){
+  static getIsOpenPosts(app, called){
     const {
       type,
       height,
@@ -254,25 +252,25 @@ export default class App extends Schema{
     if( type === define.APP_TYPES.EXTENSION ){
 
       if( height === 0 ){
-        if(log) console.log("@getIsOpenMain A " + " " + extensionOpenHeight + " " +  height);
+        if(log) console.log("@getIsOpenPosts A " + " " + extensionOpenHeight + " " +  height);
         return false;
       }
 
       if( extensionCloseHeight === height ){
-        if(log) console.log("@getIsOpenMain B " + " " + extensionOpenHeight + " " +  height);
+        if(log) console.log("@getIsOpenPosts B " + " " + extensionOpenHeight + " " +  height);
         return false;
       }
 
       if( extensionOpenHeight === height ){
-        if(log) console.log("@getIsOpenMain C " + " " + extensionOpenHeight + " " +  height);
+        if(log) console.log("@getIsOpenPosts C " + " " + extensionOpenHeight + " " +  height);
         return true;
       }
 
-      // @getIsOpenMain D  618 450 !!!!!!!!!!!!!!!!!!!! ここの判定が誤っている！！！！
-      if(log) console.log("@getIsOpenMain D " + " " + extensionOpenHeight + " " +  height);
+      // @getIsOpenPosts D  618 450 !!!!!!!!!!!!!!!!!!!! ここの判定が誤っている！！！！
+      if(log) console.log("@getIsOpenPosts D " + " " + extensionOpenHeight + " " +  height);
       return false;
     } else {
-      if(log) console.log("@getIsOpenMain E " + " " + extensionOpenHeight + " " +  height);
+      if(log) console.log("@getIsOpenPosts E " + " " + extensionOpenHeight + " " +  height);
       return true;
     }
   }

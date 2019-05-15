@@ -188,18 +188,16 @@ export default {
       app: {threadScrollY}
     };
   },
-  dispMain: () => {
-    alert("DISP MAIN");
+  dispPosts: () => {
     return {
-      type: 'DISP_MAIN',
-      app: {isDispMain: true}
+      type: 'DISP_POSTS',
+      app: {isDispPosts: true}
     };
   },
-  undispMain: () => {
-    alert("UNDISP MAIN");
+  undispPosts: () => {
     return {
-      type: 'DISP_MAIN',
-      app: {isDispMain: false}
+      type: 'UNDISP_POSTS',
+      app: {isDispPosts: false}
     };
   },
   getClientMetas: ( clientMetas ) => {
