@@ -6,8 +6,6 @@ import Footer from './Footer';
 import PostsFooter from './PostsFooter';
 import MenuFooter from './MenuFooter';
 import Icon from './Icon';
-import Main from './Main';
-import Screen from './Screen';
 import Menu from './Menu';
 import MenuIndex from './Menu/index';
 import MenuIndexList from './Menu/MenuIndexList';
@@ -18,6 +16,7 @@ import Post from './Post';
 import InnerNotif from './InnerNotif';
 import Notif from './Notif';
 import Loading from './Loading';
+import ExtScreen from './ExtScreen';
 
 export default class Style{
 
@@ -73,8 +72,7 @@ export default class Style{
     const menuIndex = new MenuIndex( params );
     const menuIndexList = new MenuIndexList( params );
     const menuUsers = new MenuUsers( params );
-//    const main = new Main( params );
-//    const screen = new Screen( params );
+    const extScreen = new ExtScreen( params );
     const lockMenu = new LockMenu( params );
     const posts = new Posts( params );
     const post = new Post( params );
@@ -96,7 +94,7 @@ export default class Style{
       menuIndexList,
       menuUsers,
 //      main,
-//      screen,
+      extScreen,
       lockMenu,
       posts,
       post,

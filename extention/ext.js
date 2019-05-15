@@ -126,10 +126,11 @@ class Ext {
     }
 
     transitionend(e){
+        console.log("EXT TRANSITION END");
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        iframe.style.transition = "0ms";
-        this.postMessage("onTransitionEnd");
-        this.postMessage("onTransition");
+//        iframe.style.transition = "0ms";
+//        this.postMessage("onTransitionEnd");
+//        this.postMessage("onTransition");
     }
 
     bootExtension(params){
@@ -206,9 +207,9 @@ class Ext {
             if( iframe.style.height !== Ext.getIframeOpenHeight() ){
                 iframe.style.transition = "0ms";
                 iframe.style.height = Ext.getIframeOpenHeight();
-                this.postMessage("dispPosts");
+                this.postMessage("startDispPosts");
             }else{
-                this.postMessage("undispPosts");
+                this.postMessage("startUndispPosts");
                 setTimeout( () =>{ 
                     iframe.style.transition = "0ms";
                     iframe.style.height = Ext.getIframeCloseHeight();
@@ -295,4 +296,4 @@ class Ext {
     }
 }
 
-const e = new Ext();
+const ext = new Ext();

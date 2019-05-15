@@ -50,17 +50,17 @@ class Container extends Component {
   componentDidUpdate(){
     componentDidUpdates( this );
   }
-
+/*
   shouldComponentUpdate(props){
     const {app, actionLog} = props.state;
     switch( app.type ){
     case define.APP_TYPES.EXTENSION:
-//      return true;
+      return true;
 
       return [
         "SERVER_TO_CLIENT[BROADCAST]:find",
         "ON_CLICK_TOGGLE_MAIN",
-
+        "START_DISP_POSTS",
 //        "ON_CLICK_TOGGLE_DISP_DETAIL",
 //        "ON_CLICK_OPEN_LOCK_MENU",
 //        "SERVER_TO_CLIENT[EMIT]:getMore",
@@ -73,7 +73,7 @@ class Container extends Component {
       return true;
     }
   }
-
+*/
   getProps(){
     return {
       ...this.props,
@@ -101,7 +101,6 @@ class Container extends Component {
     const { app } = state;
     if( app.type ===  define.APP_TYPES.EXTENSION ){
       this.setState({notifs: []});
-      app.isDispPosts = app.isDispPosts ? false : true;
       app.isOpenNotif = false;
       
       onClickToggleMain( {app} );
@@ -265,33 +264,39 @@ class Container extends Component {
   }
 
   renderExtension(){
-    const { app, style } = this.props.state;
+    const { app, style, actionLog } = this.props.state;
     const props = this.getProps();
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
+    const extScreenStyle = props.state.style.extScreen.self;
     const log = false;
-
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@ CONTAINER RENDER " + actionLog[0]);
     // Open
     if( app.isDispPosts && app.isOpenPosts ){
-
+      //console.log("CONTANIER @@@ OPEN " + extScreenStyle.transform + " " + extScreenStyle.transition);
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
-          <Posts {...props} />
-          <span data-component-name="fixedComponents">
+          <div style={extScreenStyle} data-component-name={"extScreen"}>
+            <Posts {...props} />
             <Header {...props} />
+          </div>
+          <span data-component-name="fixedComponents">
             <PostsFooter {...props} />
           </span>
         </span>
       );
     // Opening
     }else if( app.isDispPosts ){
+      //console.log("CONTANIER @@@ OPENING " + extScreenStyle.transform + " " + extScreenStyle.transition);
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
-          <Posts {...props} />
-          <span data-component-name="fixedComponents">
+          <div style={extScreenStyle} data-component-name={"extScreen"}>
+            <Posts {...props} />
             <Header {...props} />
+          </div>
+          <span data-component-name="fixedComponents">
             <PostsFooter {...props} />
           </span>
         </span>
@@ -299,13 +304,15 @@ class Container extends Component {
     
     // Closing
     }else if( !app.isDispPosts && app.isOpenPosts ){
-      
+      //console.log("CONTANIER @@@ CLOSING " + extScreenStyle.transform + " " + extScreenStyle.transition);
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
-          <Posts {...props} />
-          <span data-component-name="fixedComponents">
+          <div style={extScreenStyle} data-component-name={"extScreen"}>
+            <Posts {...props} />
             <Header {...props} />
+          </div>
+          <span data-component-name="fixedComponents">
             <PostsFooter {...props} />
           </span>
         </span>
@@ -313,14 +320,17 @@ class Container extends Component {
 
     // Close
     }else if( !app.isDispPosts && !app.isOpenPosts ){
+      //console.log("CONTANIER @@@ CLOSE " + extScreenStyle.transform + " " + extScreenStyle.transition);
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
-          <Posts {...props} />
-          <span data-component-name="fixedComponents">
+          <div style={extScreenStyle} data-component-name={"extScreen"}>
+            <Posts {...props} />
             <Header {...props} />
-            <PostsFooter {...props} />
+          </div>
+          <span data-component-name="fixedComponents">
+              <PostsFooter {...props} />
           </span>
         </span>
       );
@@ -445,7 +455,6 @@ class Container extends Component {
         { MultistreamIcon }
         { NewPost }
         <Style {...props} />
-        <Main {...props} />
         <Footer {...props} />
         { HideScreenBottom }
       </div>
@@ -462,7 +471,6 @@ class Container extends Component {
         { MultistreamIcon }
         { NewPost }
         <Style {...props} />
-        <Main {...props} />
         <Footer {...props} />
         { HideScreenBottom }
       </div>

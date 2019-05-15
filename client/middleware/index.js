@@ -138,7 +138,14 @@ const functions = {
   },
   "ON_CLICK_TOGGLE_DISP_DETAIL": ( state, action ) => {
     action.app = {...action.app, ...state.app};
- //   action.app.isOpenDetail = action.app.isOpenDetail ? false : true;
+    return action;
+  },
+  "START_DISP_POSTS": ( state, action ) => {
+    action.app = {...state.app, ...action.app};
+    return action;
+  },
+  "START_UNDISP_POSTS": ( state, action ) => {
+    action.app = {...state.app, ...action.app};
     return action;
   },
 }

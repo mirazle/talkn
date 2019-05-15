@@ -13,6 +13,7 @@ import MenuFooter from 'client/style/MenuFooter';
 import PostsFooter from 'client/style/PostsFooter';
 import Notif from 'client/style/Notif';
 import InnerNotif from 'client/style/InnerNotif';
+import ExtScreen from 'client/style/ExtScreen';
 
 export default ( state = {} , action ) => {
 
@@ -165,6 +166,20 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
+		break;
+	case 'START_DISP_POSTS' :
+	case 'START_UNDISP_POSTS' :
+
+		console.log("REDUCER");
+		console.log(ExtScreen.getSelfTransform(action.app) + ExtScreen.getSelfTransition(action.app) );
+		return {...state,
+				extScreen: {...state.extScreen,
+					self: {...state.extScreen.self,
+						transform: ExtScreen.getSelfTransform(action.app),
+						transition: ExtScreen.getSelfTransition(action.app),
+					}
+				}
+			}
 	default:
 		return action.style ? action.style : state ;
 	}

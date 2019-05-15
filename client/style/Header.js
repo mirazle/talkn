@@ -102,7 +102,6 @@ export default class Header {
       textAlign: 'center',
     });
     const animation = Style.getAnimationBase({
-      transition: "0ms",
       transform: Header.getNotifTranslateY(app)
     });
     return Style.get({layout, content, animation});
