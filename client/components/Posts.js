@@ -159,7 +159,9 @@ export default class Posts extends Component {
   }
 
  	render() {
-    const { style } = this.props.state;
+    const { style, actionLog } = this.props.state;
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@ POSTS RENDER " + actionLog[0]);
+    console.log( "POSTS " + style.posts.self.transform + " " + style.posts.self.transition);
     return (
       <ol
         data-component-name={this.constructor.name}

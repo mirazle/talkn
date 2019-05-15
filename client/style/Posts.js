@@ -96,6 +96,15 @@ export default class Posts {
     }
   }
 
+  static getSelfTransform(app){
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      return app.isDispPosts ?
+        "translate3d(0px, 0px, 0px)" : `translate3d(0px, calc( 100% + ${PostsFooter.selfHeight}px ), 0px)`;
+    }else{
+      return "translate3d(0px, 0px, 0px)";
+    }
+  }
+
   static getSelf( {app} ){
     let position = "relative";
     let top = 0;
@@ -106,6 +115,8 @@ export default class Posts {
       borderRight: 0,
       borderLeft: 0
     }
+    let transform = Posts.getSelfTransform(app);
+
     if( app.type === define.APP_TYPES.EXTENSION ){
       position = "fixed";
       top = `${Header.headerHeight}px`;
@@ -142,10 +153,8 @@ export default class Posts {
       ...borders
     });
     const content = {};
-    const animation = Style.getAnimationBase({
-      transform: 'translate3d(0px, 0px, 0px) scale(1.0)',
-      transformOrigin: "top"
-    });
+    const animation = Style.getAnimationBase({});
+
     return Style.get({layout, content, animation});
   }
 

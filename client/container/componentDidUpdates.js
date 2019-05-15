@@ -59,12 +59,16 @@ const componentDidUpdates = {
         'ON_CLICK_TOGGLE_MAIN': ( self ) => {
             const { app } = self.props.state;
             if( app.type === define.APP_TYPES.EXTENSION ){
-                talknAPI.extension("getClientMetas");
+                
+                // TODO CHROME拡張の開閉のコントールをする際にコメントアウト
+                //talknAPI.extension("getClientMetas");
             }
         },
         'GET_CLIENT_METAS': ( self ) => {
             const { serverMetas } = self.props.state.thread;
-            talknAPI.updateThreadServerMetas(serverMetas);
+            
+            // TODO CHROME拡張の開閉のコントールをする際にコメントアウト
+            //talknAPI.updateThreadServerMetas(serverMetas);
         }
     },
     Posts: {
@@ -125,16 +129,12 @@ const componentDidUpdates = {
 }
 
 const updateThreadServerMetas = ( self ) => {
+    
     const { thread } = self.props.state;
 
     // TODO talknWindowに移動する
-    console.log
     const clientMetas = document.querySelectorAll('meta');
-/*
-    console.log("@@@@@@@@@@@@@@@@@@@@ " + Object.keys( thread.serverMetas ).length + " " + clientMetas.length );
-    console.log( thread.serverMetas );
-    console.log( clientMetas );
-*/
+
     if( Object.keys( thread.serverMetas ).length !== clientMetas.length ){
         let serverMetas = {};
         for( let i = 0; i < clientMetas.length; i++ ){
@@ -161,6 +161,8 @@ const updateThreadServerMetas = ( self ) => {
                 serverMetas[ key ] = content;
             //}
         }
-        talknAPI.updateThreadServerMetas(serverMetas);
+        
+        // TODO CHROME拡張の開閉のコントールをする際にコメントアウト
+        //talknAPI.updateThreadServerMetas(serverMetas);
     }
 }

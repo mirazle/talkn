@@ -188,15 +188,15 @@ export default {
       app: {threadScrollY}
     };
   },
-  dispPosts: () => {
+  startDispPosts: () => {
     return {
-      type: 'DISP_POSTS',
+      type: 'START_DISP_POSTS',
       app: {isDispPosts: true}
     };
   },
-  undispPosts: () => {
+  startUndispPosts: () => {
     return {
-      type: 'UNDISP_POSTS',
+      type: 'START_UNDISP_POSTS',
       app: {isDispPosts: false}
     };
   },
