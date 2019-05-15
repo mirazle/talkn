@@ -282,6 +282,7 @@ class Container extends Component {
             <Header {...props} />
           </div>
           <span data-component-name="fixedComponents">
+            <div></div>
             <PostsFooter {...props} />
           </span>
         </span>
@@ -297,6 +298,7 @@ class Container extends Component {
             <Header {...props} />
           </div>
           <span data-component-name="fixedComponents">
+            <div></div>
             <PostsFooter {...props} />
           </span>
         </span>
@@ -313,6 +315,7 @@ class Container extends Component {
             <Header {...props} />
           </div>
           <span data-component-name="fixedComponents">
+            <div></div>
             <PostsFooter {...props} />
           </span>
         </span>
