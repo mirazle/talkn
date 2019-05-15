@@ -166,20 +166,10 @@ export default class Posts extends Component {
         style={ style.posts.self }
         ref="thread"
         onScroll={this.handleOnScroll}
-      >POSTS</ol>
-    );
-/*
-    return (
-      <ol
-        data-component-name={this.constructor.name}
-        style={ style.posts.self }
-        ref="thread"
-        onScroll={this.handleOnScroll}
       >
           {this.renderGetMore()}
           {this.renderPostList()}
       </ol>
     );
-*/
  	}
 }
