@@ -210,7 +210,7 @@ class Ext {
                 setTimeout( () =>{ 
                     iframe.style.transition = "0ms";
                     iframe.style.height = Ext.getIframeCloseHeight();
-                }, Ext.BASE_TRANSITION + 10 );
+                }, Ext.BASE_TRANSITION );
             }
         }else{
             clearTimeout( talknNotifId );
