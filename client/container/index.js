@@ -50,7 +50,7 @@ class Container extends Component {
   componentDidUpdate(){
     componentDidUpdates( this );
   }
-/*
+
   shouldComponentUpdate(props){
     const {app, actionLog} = props.state;
     switch( app.type ){
@@ -270,7 +270,7 @@ class Container extends Component {
     const NewPost = this.getNewPost( props );
     const extScreenStyle = props.state.style.extScreen.self;
     const log = false;
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@ CONTAINER RENDER " + actionLog[0]);
+
     // Open
     if( app.isDispPosts && app.isOpenPosts ){
       //console.log("CONTANIER @@@ OPEN " + extScreenStyle.transform + " " + extScreenStyle.transition);
@@ -330,6 +330,7 @@ class Container extends Component {
             <Header {...props} />
           </div>
           <span data-component-name="fixedComponents">
+            { Notifs }
               <PostsFooter {...props} />
           </span>
         </span>
