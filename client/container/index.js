@@ -284,10 +284,11 @@ class Container extends Component {
       );
     // Opening
     }else if( app.isDispMain ){
+      const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <span data-component-name="fixedComponents">
-            <div></div>
+          { Notifs }
             <PostsFooter {...props} />
           </span>
         </span>
