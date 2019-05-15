@@ -65,7 +65,7 @@ class Container extends Component {
 //        "ON_CLICK_OPEN_LOCK_MENU",
 //        "SERVER_TO_CLIENT[EMIT]:getMore",
 //        "ON_CLICK_MULTISTREAM",
-//        "RESIZE_END_WINDOW"
+        "RESIZE_END_WINDOW"
 
       ].includes( actionLog[0] );
 
