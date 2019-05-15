@@ -182,11 +182,18 @@ class Container extends Component {
   }
 
   getNotifs(props){
-    const { style } = props.state;
+    const { app, style } = props.state;
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      if( !app.isOpenPosts && !app.isDispPosts && app.isOpenNotif ){
+        return (
+          <ol data-component-name="Notifs" style={style.notif.notifs}>
+            {this.state.notifs}
+          </ol>
+        );
+      }
+    }
     return (
-      <ol data-component-name="Notifs" style={style.notif.notifs}>
-        {this.state.notifs}
-      </ol>
+      <ol data-component-name="Notifs" style={style.notif.notifs} />
     );
   }
 
@@ -266,6 +273,7 @@ class Container extends Component {
   renderExtension(){
     const { app, style, actionLog } = this.props.state;
     const props = this.getProps();
+    const Notifs = this.getNotifs( props );
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     const extScreenStyle = props.state.style.extScreen.self;
@@ -282,7 +290,7 @@ class Container extends Component {
             <Header {...props} />
           </div>
           <span data-component-name="fixedComponents">
-            <div></div>
+            { Notifs }
             <PostsFooter {...props} />
           </span>
         </span>
@@ -298,7 +306,7 @@ class Container extends Component {
             <Header {...props} />
           </div>
           <span data-component-name="fixedComponents">
-            <div></div>
+            { Notifs }
             <PostsFooter {...props} />
           </span>
         </span>
@@ -315,7 +323,7 @@ class Container extends Component {
             <Header {...props} />
           </div>
           <span data-component-name="fixedComponents">
-            <div></div>
+            { Notifs }
             <PostsFooter {...props} />
           </span>
         </span>
@@ -324,7 +332,7 @@ class Container extends Component {
     // Close
     }else if( !app.isDispPosts && !app.isOpenPosts ){
       //console.log("CONTANIER @@@ CLOSE " + extScreenStyle.transform + " " + extScreenStyle.transition);
-      const Notifs = this.getNotifs( props );
+
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
@@ -333,7 +341,7 @@ class Container extends Component {
             <Header {...props} />
           </div>
           <span data-component-name="fixedComponents">
-            { Notifs }
+              { Notifs }
               <PostsFooter {...props} />
           </span>
         </span>
