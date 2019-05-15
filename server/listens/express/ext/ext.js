@@ -12,7 +12,8 @@ class Ext {
     static get BASE_DEV_HOST(){return "localhost"}
     static get BASE_DEV_PORT(){return 8080} 
     static get FULL_WIDTH_THRESHOLD(){return 600}
-    static get EXCLUSION_ORIGINS(){return ['https://localhost', 'https://talkn.io']}    
+    static get BASE_TRANSITION(){return 600}
+    static get EXCLUSION_ORIGINS(){return ['https://localhost', 'https://talkn.io']}
     static get BASE_HOSTNAME(){
         if(Ext.ENV === "PROD"){
             return `${Ext.PROTOCOL}://${Ext.BASE_PROD_HOST}`;
@@ -157,7 +158,7 @@ class Ext {
 
     resizeWindow(e){
         if( this.resizeMethodId === null ){
-            this.resizeMethodId = setTimeout( this.resizedWindow, 500);
+            this.resizeMethodId = setTimeout( this.resizedWindow, Ext.BASE_TRANSITION );
         }
     }
 
@@ -206,8 +207,10 @@ class Ext {
                 iframe.style.transition = "0ms";
                 iframe.style.height = Ext.getIframeOpenHeight();
             }else{
-                iframe.style.transition = "0ms";
-                iframe.style.height = Ext.getIframeCloseHeight();
+                setTimeout( () =>{ 
+                    iframe.style.transition = "0ms";
+                    iframe.style.height = Ext.getIframeCloseHeight();
+                }, Ext.BASE_TRANSITION + 10 );
             }
         }else{
             clearTimeout( talknNotifId );
