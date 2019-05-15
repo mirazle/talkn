@@ -203,17 +203,17 @@ class Ext {
         if(talknNotifId === "null"){
 
             if( iframe.style.height !== Ext.getIframeOpenHeight() ){
-                iframe.style.transition = "600ms";
+                iframe.style.transition = "0ms";
                 iframe.style.height = Ext.getIframeOpenHeight();
             }else{
-                iframe.style.transition = "600ms";
+                iframe.style.transition = "0ms";
                 iframe.style.height = Ext.getIframeCloseHeight();
             }
         }else{
             clearTimeout( talknNotifId );
             sessionStorage.setItem(Ext.talknNotifId, null);
             this.postMessage("closeNotif");
-            iframe.style.transition = "600ms";
+            iframe.style.transition = "0ms";
             iframe.style.height = Ext.getIframeOpenHeight();
         }
     }
