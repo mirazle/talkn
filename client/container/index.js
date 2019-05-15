@@ -273,7 +273,7 @@ class Container extends Component {
 
     // Open
     if( app.isDispMain && app.isOpenMain ){
-      const Notifs = this.getNotifs( props );
+
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <span data-component-name="fixedComponents">
@@ -284,7 +284,6 @@ class Container extends Component {
       );
     // Opening
     }else if( app.isDispMain ){
-      const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <span data-component-name="fixedComponents">
@@ -300,7 +299,7 @@ class Container extends Component {
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <span data-component-name="fixedComponents">
-            { Notifs }
+            <div>@@@</div>
             <PostsFooter {...props} />
           </span>
         </span>
