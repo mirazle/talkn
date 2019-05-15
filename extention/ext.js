@@ -136,7 +136,7 @@ class Ext {
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         iframe.style.height = Ext.getIframeCloseHeight();
         iframe.style.display = "flex";
-        this.postMessage("offTransition");
+        this.postMessage("onTransition");
     }
 
     catchMessage(e){

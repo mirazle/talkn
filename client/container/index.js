@@ -291,6 +291,7 @@ class Container extends Component {
           </div>
           <span data-component-name="fixedComponents">
             { Notifs }
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
           </span>
         </span>
@@ -307,6 +308,7 @@ class Container extends Component {
           </div>
           <span data-component-name="fixedComponents">
             { Notifs }
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
           </span>
         </span>
@@ -324,6 +326,7 @@ class Container extends Component {
           </div>
           <span data-component-name="fixedComponents">
             { Notifs }
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
           </span>
         </span>
@@ -342,6 +345,7 @@ class Container extends Component {
           </div>
           <span data-component-name="fixedComponents">
               { Notifs }
+              <DetailModal {...props} /> 
               <PostsFooter {...props} />
           </span>
         </span>
