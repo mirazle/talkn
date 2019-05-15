@@ -33,7 +33,6 @@ export default class ExtScreen {
     const layout = Style.getLayoutFlex({
       position: "fixed",
       top: "100%",
-      background: "green",
       justifyContent: "flex-start",
       alignItems: "flex-start"
     });
