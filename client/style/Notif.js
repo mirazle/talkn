@@ -10,7 +10,7 @@ export default class Notif {
   
   static getNotifsDisplay(app){
     if(define.APP_TYPES.EXTENSION === app.type ){
-      if( app.isOpenMain ){
+      if( app.isOpenPosts ){
         return 'none';
       }else{
         if( app.isOpenNotif ){
@@ -26,7 +26,7 @@ export default class Notif {
 
   static getNotifsHeight(app){
     if(define.APP_TYPES.EXTENSION === app.type ){
-      if( app.isOpenMain ){
+      if( app.isOpenPosts ){
         return '0px';
       }else{
         if( app.isOpenNotif ){

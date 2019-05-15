@@ -56,7 +56,7 @@ const functions = {
   "SERVER_TO_CLIENT[BROADCAST]:post": ( state, action ) => {
     const app = state.app;
     action.app = app;
-    if(define.APP_TYPES.EXTENSION === app.type && !app.isOpenMain){
+    if(define.APP_TYPES.EXTENSION === app.type && !app.isOpenPosts){
       action.app.isOpenNotif = true;
       const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
       talknAPI.extension("openNotif", {transition});
@@ -95,8 +95,8 @@ const functions = {
     return action;
   },
   "ON_CLICK_TOGGLE_MAIN": ( state, action ) => {
-    action.app.isOpenMain = action.app.isOpenMain ?
-      action.app.isOpenMain : App.getIsOpenPosts( action.app );
+    action.app.isOpenPosts = action.app.isOpenPosts ?
+      action.app.isOpenPosts : App.getIsOpenPosts( action.app );
     return action;
   },
   "ON_CLICK_MENU": ( state, action ) => {
@@ -110,8 +110,8 @@ const functions = {
   "ON_CLICK_FOOTER_ICON": ( state, action ) => {
     action.app = {...state.app, ...action.app};
     action.app.height = App.getHeight();
-    action.app.isOpenMain = action.app.isOpenMain ?
-      action.app.isOpenMain : App.getIsOpenPosts( action.app, action.type );
+    action.app.isOpenPosts = action.app.isOpenPosts ?
+      action.app.isOpenPosts : App.getIsOpenPosts( action.app, action.type );
     return action;
   },
   "ON_TRANSITION": ( state, action ) => {
@@ -121,14 +121,14 @@ const functions = {
   "OFF_TRANSITION": ( state, action ) => {    
     action.app = {...state.app, ...action.app};
     action.app.height = App.getHeight();
-    action.app.isOpenMain = action.app.isOpenMain ?
-      action.app.isOpenMain : App.getIsOpenPosts( action.app );
+    action.app.isOpenPosts = action.app.isOpenPosts ?
+      action.app.isOpenPosts : App.getIsOpenPosts( action.app );
     return action;
   },
   "ON_TRANSITION_END": ( state, action ) => {
     action.app = {...state.app, ...action.app};
     action.app.height = App.getHeight();
-    action.app.isOpenMain = App.getIsOpenPosts( action.app );
+    action.app.isOpenPosts = App.getIsOpenPosts( action.app );
     return action;
   },
   "ON_CLICK_TOGGLE_DISP_MENU": ( state, action ) => {

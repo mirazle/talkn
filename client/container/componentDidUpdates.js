@@ -37,7 +37,7 @@ const componentDidUpdates = {
                 const posts = state[ `posts${app.dispThreadType}` ];
                 const lastPost = posts[posts.length - 1];
 
-                if( lastPost && !app.isOpenMain ){
+                if( lastPost && !app.isOpenPosts ){
             
                     self.props.createNotif();
 
@@ -86,7 +86,7 @@ const componentDidUpdates = {
             self.props.updatePostsHeight(app.postsHeight);
             if( app.type === define.APP_TYPES.EXTENSION ){
                 const { isScrollBottom } = self.state;
-                if( app.isOpenMain && isScrollBottom ){
+                if( app.isOpenPosts && isScrollBottom ){
                     self.animateScrollTo(
                       self.refs.thread,
                       self.refs.thread.scrollHeight,
@@ -94,19 +94,19 @@ const componentDidUpdates = {
                       self.props.endAnimateScrollTo
                     );
                 }
-                if( app.isOpenMain ){
+                if( app.isOpenPosts ){
                     self.props.openNewPost();
                 }
             }else{
                 talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
-                if( app.isOpenMain && talknWindow.isScrollBottom ){
+                if( app.isOpenPosts && talknWindow.isScrollBottom ){
                     talknWindow.animateScrollTo(
                         talknWindow.threadHeight,
                         400,
                         self.props.endAnimateScrollTo
                     );
                 }
-                if( app.isOpenMain ){
+                if( app.isOpenPosts ){
                     self.props.openNewPost();
                 }
             }

@@ -107,7 +107,7 @@ export default class Detail {
 
   static getFooterBorders( app ){
     if( define.APP_TYPES.EXTENSION === app.type ){
-      return app.isOpenMain ? 
+      return app.isOpenPosts ? 
         {borderTop: Container.border} :
         {};
     }else{
