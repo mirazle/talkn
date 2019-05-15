@@ -349,7 +349,6 @@ class Container extends Component {
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
           <span data-component-name="fixedComponents">
-            { Notifs }
             <PostsFooter {...props} />
           </span>
         </span>
