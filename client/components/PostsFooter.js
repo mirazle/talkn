@@ -107,12 +107,7 @@ export default class PostsFooter extends Component {
     const favicon = `https://${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}`;
     return thread.favicon ? {...style.postsFooter.icon, backgroundImage: `url(${favicon})` } : style.postsFooter.icon ;
   }
-
-  getIconProps(){
-    const { app } = this.props.state;
-    return app.isOpenMainPossible ? Icon.getDecolationProps1( 'footer', 'icon' ) : {};
-  }
-
+  
   render() {
     console.log("POSTS FOOTER RENDER");
     const { state, handleOnClickToggleMain } = this.props;
