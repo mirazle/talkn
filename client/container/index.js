@@ -274,6 +274,60 @@ class Container extends Component {
     // Open
     if( app.isDispMain && app.isOpenMain ){
 
+      return (
+        <span data-component-name={this.constructor.name} style={ style.container.self }>
+          <span data-component-name="fixedComponents">
+            <div>@@@</div>
+            <PostsFooter {...props} />
+          </span>
+        </span>
+      );
+    // Opening
+    }else if( app.isDispMain ){
+      return (
+        <span data-component-name={this.constructor.name} style={ style.container.self }>
+          <span data-component-name="fixedComponents">
+            <div>@@@</div>
+            <PostsFooter {...props} />
+          </span>
+        </span>
+      );
+    
+    // Closing
+    }else if( !app.isDispMain && app.isOpenMain ){
+      
+      return (
+        <span data-component-name={this.constructor.name} style={ style.container.self }>
+          <span data-component-name="fixedComponents">
+            <div>@@@</div>
+            <PostsFooter {...props} />
+          </span>
+        </span>
+      );
+
+    // Close
+    }else if( !app.isDispMain && !app.isOpenMain ){
+      return (
+        <span data-component-name={this.constructor.name} style={ style.container.self }>
+          <span data-component-name="fixedComponents">
+            <div>@@@</div>
+            <PostsFooter {...props} />
+          </span>
+        </span>
+      );
+    }
+  }
+/*
+  renderExtension(){
+    const { app, style } = this.props.state;
+    const props = this.getProps();
+    const MultistreamIcon = Icon.getMultistreamIcon( props );
+    const NewPost = this.getNewPost( props );
+    const log = false;
+
+    // Open
+    if( app.isDispMain && app.isOpenMain ){
+
       if(log){
         console.log("=============================================");
         console.log("CONTANIER @@@ OPEN ");
@@ -282,14 +336,18 @@ class Container extends Component {
         console.log( "isTransition = " + app.isTransition + " @");
         console.log("=============================================");
       }
-      const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
+          <Posts {...props} />
           <span data-component-name="fixedComponents">
-          { Notifs }
+            { MultistreamIcon }
+            { NewPost }
+            <Header {...props} />
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
-          </span>
+            <InnerNotif {...this.props}/>
+            </span>
         </span>
       );
 
@@ -303,14 +361,17 @@ class Container extends Component {
         console.log( "isTransition = " + app.isTransition + " @");
         console.log("=============================================");
       }
-      const Notifs = this.getNotifs( props );
+
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
+          <Posts {...props} />
           <span data-component-name="fixedComponents">
-          { Notifs }
+            { MultistreamIcon }
+            <Header {...props} />
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
-          </span>
+            </span>
         </span>
       );
     
@@ -329,9 +390,13 @@ class Container extends Component {
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
           <Style {...props} />
+          <Posts {...props} />
           <span data-component-name="fixedComponents">
+            { MultistreamIcon }
+            <Header {...props} />
+            <DetailModal {...props} /> 
             <PostsFooter {...props} />
-          </span>
+            </span>
         </span>
       );
 
@@ -346,7 +411,7 @@ class Container extends Component {
         console.log( "isTransition = " + app.isTransition + " @");
         console.log("=============================================");
       }
-
+        
       const Notifs = this.getNotifs( props );
       return (
         <span data-component-name={this.constructor.name} style={ style.container.self }>
@@ -359,6 +424,7 @@ class Container extends Component {
       );
     }
   }
+*/
 
   renderIos(){
     const { style } = this.props.state;
@@ -395,7 +461,7 @@ class Container extends Component {
   }
 
  	render() {
-    const { style, app } = this.props.state;
+    const { style, app, actionLog } = this.props.state;
     if( style && style.container && style.container.self && app.connectioned ){
       if( app.type === define.APP_TYPES.EXTENSION ){
         return this.renderExtension(this);
