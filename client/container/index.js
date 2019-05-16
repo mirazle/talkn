@@ -289,7 +289,6 @@ class Container extends Component {
             <Posts {...props} />
             <Header {...props} />
             { MultistreamIcon }
-
           </div>
           <span data-component-name="fixedComponents">
             { Notifs }
@@ -346,9 +345,10 @@ class Container extends Component {
           <div style={extScreenStyle} data-component-name={"extScreen"}>
             <Posts {...props} />
             <Header {...props} />
+            { MultistreamIcon }
           </div>
           <span data-component-name="fixedComponents">
-              { MultistreamIcon }
+
               { Notifs }
               <DetailModal {...props} /> 
               <PostsFooter {...props} />
