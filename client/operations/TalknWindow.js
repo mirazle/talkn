@@ -50,7 +50,8 @@ export default class TalknWindow {
 		this.id = "talkn1";
 		this.talknAPI = {};
 		this.resizeTimer = null;
-
+		window.onload = this.onLoad;
+		console.log("TALKN WINDOW");
 		this.threadHeight = 0;
 		this.innerHeight = 0;
 		this.scrollHeight = 0;
@@ -83,6 +84,7 @@ export default class TalknWindow {
 
 	addWindowEventListener(){
 		window.onload = this.onLoad;
+		console.log("LISTEN");
 		window.addEventListener('resize', this.resize );
 		window.addEventListener('scroll', this.scroll );
 	}
@@ -114,6 +116,7 @@ export default class TalknWindow {
 	}
 
 	resize( ev ){
+		console.log("RESIZE");
 		const app = talknAPI.store.getState().app;
 		if( app.type === define.APP_TYPES.EXTENSION ){
 			if( app.extensionMode === "SCRIPT" ){
@@ -125,8 +128,10 @@ export default class TalknWindow {
 			}
 		}else{
 			if( this.resizeTimer === null ){
+console.log("A");
 				//this.resizeStartWindow(app);
 				this.resizeTimer = setTimeout( (app) => {
+console.log("B");
 					this.resizeEndWindow
 				}, TalknWindow.resizeInterval );
 			}
@@ -155,8 +160,7 @@ export default class TalknWindow {
 		const setting = talknAPI.store.getState().setting;
 		const bootOption = talknAPI.store.getState().bootOption;
 
-		//talknAPI.onResizeEndWindow( {app, setting, bootOption} );
-
+		talknAPI.onResizeEndWindow( {app, setting, bootOption} );
 	}
 
 	animateScrollTo( to = 99999, duration = 400,  callback = () => {} ){
