@@ -84,7 +84,6 @@ export default class TalknWindow {
 
 	addWindowEventListener(){
 		window.onload = this.onLoad;
-		console.log("LISTEN");
 		window.addEventListener('resize', this.resize );
 		window.addEventListener('scroll', this.scroll );
 	}
