@@ -56,7 +56,7 @@ const functions = {
   "SERVER_TO_CLIENT[BROADCAST]:post": ( state, action ) => {
     const app = state.app;
     action.app = app;
-    if(define.APP_TYPES.EXTENSION === app.type && !app.isOpenPosts){
+    if(define.APP_TYPES.EXTENSION === app.type && !app.isOpenPosts && !app.isDispPosts){
       action.app.isOpenNotif = true;
       const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
       talknAPI.extension("openNotif", {transition});
