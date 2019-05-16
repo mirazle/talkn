@@ -3,8 +3,6 @@ import App from '../../common/schemas/state/App';
 import Container from './Container';
 import Header from './Header';
 import Main from './Main';
-import Menu from './Menu';
-import Posts from './Posts';
 
 export default class LockMenu {
 
@@ -52,9 +50,10 @@ export default class LockMenu {
   }
 
   static getCommonTransform(app){
+    console.log(app);
     return app.openLockMenu === App.openLockMenuLabelNo ?
       'translate3d(0px, 0px, 0px)' :
-      `translate3d(0px, calc( ( ( -${app.height}px / 2 ) - 50% ) - ${Header.headerHeight}px ), 0px)`;
+      `translate3d(0px, -70vh, 0px)`;
   }
 
   static getPaddingLi(app){
