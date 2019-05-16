@@ -50,7 +50,6 @@ export default class LockMenu {
   }
 
   static getCommonTransform(app){
-    console.log(app);
     return app.openLockMenu === App.openLockMenuLabelNo ?
       'translate3d(0px, 0px, 0px)' :
       `translate3d(0px, -70vh, 0px)`;

@@ -284,7 +284,6 @@ class Container extends Component {
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     const extScreenStyle = props.state.style.extScreen.self;
-    const log = false;
 
     return (
       <span data-component-name={this.constructor.name} style={ style.container.self }>
