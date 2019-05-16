@@ -307,6 +307,7 @@ export default class App extends Schema{
 
   static getAppUpdatedOpenFlgs({app}, call){
     switch( call ){
+    case 'toggleMain':
     case 'headerDetailIcon':
       switch( app.screenMode ){
       case App.screenModeSmallLabel :

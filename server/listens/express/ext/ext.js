@@ -116,7 +116,6 @@ class Ext {
 
     loadIframe(e){
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        console.log("EXT BOOT EXTENSION");
         this.postMessage("bootExtension", {
             extensionMode: Ext.MODE,
             extensionWidth: Ext.getIframeWidth().replace("px", "" ),
@@ -126,7 +125,6 @@ class Ext {
     }
 
     transitionend(e){
-        console.log("EXT TRANSITION END");
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
 //        iframe.style.transition = "0ms";
 //        this.postMessage("onTransitionEnd");
