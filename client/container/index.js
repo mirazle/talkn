@@ -97,14 +97,20 @@ class Container extends Component {
   }
 
   handleOnClickToggleMain( e ){
-    console.log("!!");
-    const { onClickToggleMain, onClickOpenLockMenu, state} = this.props;
-    const { app } = state;
+    const { onClickToggleMain, onClickToggleDispDetail, onClickOpenLockMenu, state} = this.props;
+    let { app, thread, threadDetail } = state;
+
     if( app.type ===  define.APP_TYPES.EXTENSION ){
+
       this.setState({notifs: []});
       app.isOpenNotif = false;
-      
+
       onClickToggleMain( {app} );
+
+      if(app.isOpenDetail ){
+        app.isOpenDetail = false;
+        onClickToggleDispDetail( {threadDetail, thread, app} );
+      }
 
       if(app.openLockMenu !== App.openLockMenuLabelNo){
         onClickOpenLockMenu(App.openLockMenuLabelNo);
@@ -288,10 +294,11 @@ class Container extends Component {
           <Header {...props} />
           { MultistreamIcon }
           { NewPost }
+          <DetailModal {...props} /> 
         </div>
         <span data-component-name="fixedComponents">
           { Notifs }
-          <DetailModal {...props} /> 
+
           <PostsFooter {...props} />
         </span>
       </span>
