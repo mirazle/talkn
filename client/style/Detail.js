@@ -59,7 +59,6 @@ export default class Detail {
     const background = app.type === define.APP_TYPES.EXTENSION ?
       "none" : Container.reliefRGB;
     const height = DetailModal.getHeight(app);
-    console.log( display + " " + screenMode + " " + left);
     const layout = Style.getLayoutBlock({
       display,
       position: 'fixed',

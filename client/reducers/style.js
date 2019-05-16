@@ -169,14 +169,16 @@ export default ( state = {} , action ) => {
 		break;
 	case 'START_DISP_POSTS' :
 	case 'START_UNDISP_POSTS' :
-
-		console.log("REDUCER");
-		console.log(ExtScreen.getSelfTransform(action.app) + ExtScreen.getSelfTransition(action.app) );
 		return {...state,
 				extScreen: {...state.extScreen,
 					self: {...state.extScreen.self,
 						transform: ExtScreen.getSelfTransform(action.app),
 						transition: ExtScreen.getSelfTransition(action.app),
+					}
+				},
+				notif: {...state.notif,
+					self: {...state.notif.notifs,
+						display: Notif.getNotifsDisplay(action.app),
 					}
 				}
 			}
