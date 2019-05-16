@@ -107,9 +107,7 @@ export default class Detail {
 
   static getFooterBorders( app ){
     if( define.APP_TYPES.EXTENSION === app.type ){
-      return app.isOpenPosts ? 
-        {borderTop: Container.border} :
-        {};
+      return {borderTop: Container.border} ;
     }else{
       return app.screenMode === App.screenModeSmallLabel ?
         {borderTop: Container.border} :

@@ -177,7 +177,7 @@ export default ( state = {} , action ) => {
 					}
 				},
 				notif: {...state.notif,
-					self: {...state.notif.notifs,
+					notifs: {...state.notif.notifs,
 						display: Notif.getNotifsDisplay(action.app),
 					}
 				}
