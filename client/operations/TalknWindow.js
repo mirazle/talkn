@@ -14,7 +14,7 @@ import Container from 'client/container/';
 
 export default class TalknWindow {
 
-	static get resizeInterval(){ return 600 };
+	static get resizeInterval(){ return 300 };
 
 	static getAppType(e){
 		return window.name === define.APP_TYPES.EXTENSION ?

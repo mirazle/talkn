@@ -201,7 +201,6 @@ export default {
     };
   },
   updateExtension: (app) => {
-    console.log(app);
     return {
       type: 'UPDATE_EXTENSION',
       app

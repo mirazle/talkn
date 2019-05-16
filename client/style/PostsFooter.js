@@ -48,7 +48,8 @@ export default class PostsFooter{
   static getBorderRadius( app, addUnit = false ){
 
     if( app.type === define.APP_TYPES.EXTENSION ){
-      return `${Container.radius} ${Container.radius} 0px 0px`;
+      return app.extensionWidth === "100%" ?
+        "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
     }
 
     if( app.iframe ){
@@ -87,6 +88,7 @@ export default class PostsFooter{
   static getSelf( {app} ){
     const borders = PostsFooter.getBorder(app);
     const borderRadius = PostsFooter.getBorderRadius(app);
+    console.log( borderRadius );
     const layout = Style.getLayoutFlex({
       position: "fixed",
       bottom: 0,

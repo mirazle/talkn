@@ -20,7 +20,8 @@ export default class PostsFooter extends Component {
   shouldComponentUpdate(props){
     const {actionLog} = props.state;
     return [
-      "ON_CHANGE_INPUT_POST"
+      "ON_CHANGE_INPUT_POST",
+      "RESIZE_END_WINDOW"
     ].includes( actionLog[0] );
   }
 
