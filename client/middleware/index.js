@@ -94,11 +94,7 @@ const functions = {
     action.postsLogs = state.postsLogs;
     return action;
   },
-  "ON_CLICK_TOGGLE_MAIN": ( state, action ) => {
-    action.app.isOpenPosts = action.app.isOpenPosts ?
-      action.app.isOpenPosts : App.getIsOpenPosts( action.app );
-    return action;
-  },
+
   "ON_CLICK_MENU": ( state, action ) => {
     action.app.desc = action.app.menuComponent;
     return action;
@@ -107,15 +103,9 @@ const functions = {
     action.app = {...state.app, ...action.app};
     return action;
   },
-  "ON_CLICK_FOOTER_ICON": ( state, action ) => {
-    action.app = {...state.app, ...action.app};
-    action.app.height = App.getHeight();
+  "ON_CLICK_TOGGLE_MAIN": ( state, action ) => {
     action.app.isOpenPosts = action.app.isOpenPosts ?
-      action.app.isOpenPosts : App.getIsOpenPosts( action.app, action.type );
-    return action;
-  },
-  "ON_TRANSITION": ( state, action ) => {
-    action.app = {...state.app, ...action.app};
+      action.app.isOpenPosts : App.getIsOpenPosts( action.app );
     return action;
   },
   "OFF_TRANSITION": ( state, action ) => {    
@@ -125,9 +115,19 @@ const functions = {
       action.app.isOpenPosts : App.getIsOpenPosts( action.app );
     return action;
   },
+  "ON_TRANSITION": ( state, action ) => {
+    action.app = {...state.app, ...action.app};
+    return action;
+  },
+
   "ON_TRANSITION_END": ( state, action ) => {
     action.app = {...state.app, ...action.app};
     action.app.height = App.getHeight();
+    action.app.isOpenPosts = App.getIsOpenPosts( action.app );
+    return action;
+  },
+  "RESIZE_END_WINDOW": ( state, action ) => {
+    action.app = {...state.app, ...action.app};
     action.app.isOpenPosts = App.getIsOpenPosts( action.app );
     return action;
   },

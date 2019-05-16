@@ -13,6 +13,7 @@ export default class  Style extends Component {
           #talkn1 textarea::placeholder {
             text-indent: 3%;
             font-size: ${fontSize}px;
+            letter-spacing: 2px;
             color: rgb(170, 170, 170);
           }
           #talkn1 input::placeholder {
