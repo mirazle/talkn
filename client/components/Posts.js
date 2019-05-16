@@ -22,11 +22,13 @@ export default class Posts extends Component {
       const{ app } = this.props.state;
 
       if( app.type === define.APP_TYPES.EXTENSION ){
-        if( app.isOpenPosts ){
-          talknAPI.extension("loadTalkn", this.props.state);
-          this.setState({scrollHeight: this.refs.thread.scrollHeight});
-          this.animateScrollTo( this.refs.thread, 9999999, 400 );
-        }
+
+        // TODO 使用してる？
+//        talknAPI.extension("loadTalkn", this.props.state);
+
+
+        this.setState({scrollHeight: this.refs.thread.scrollHeight});
+        this.animateScrollTo( this.refs.thread, 9999999, 400 );
       }else{
         talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
         talknWindow.animateScrollTo( talknWindow.threadHeight, 0 );
@@ -159,7 +161,7 @@ export default class Posts extends Component {
   }
 
  	render() {
-    const { style, actionLog } = this.props.state;
+    const { style } = this.props.state;
     return (
       <ol
         data-component-name={this.constructor.name}
