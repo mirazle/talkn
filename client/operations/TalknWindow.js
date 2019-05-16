@@ -155,7 +155,7 @@ export default class TalknWindow {
 
 		const setting = talknAPI.store.getState().setting;
 		const bootOption = talknAPI.store.getState().bootOption;
-		talknAPI.onResizeEndWindow( {app, setting, bootOption} );
+		//talknAPI.onResizeEndWindow( {app, setting, bootOption} );
 	}
 
 	animateScrollTo( to = 99999, duration = 400,  callback = () => {} ){
