@@ -5,8 +5,8 @@ import TalknWindow from 'client/operations/TalknWindow';
 
 export default ( self ) => {
     const { props } = self;
-    const { state } = props;
-    const actionName = state.actionLog[0] ;
+    const { actionLog } = props.state;
+    const actionName = actionLog[0] ;
     const { name: constructorName } = self.constructor;
 
     if( componentDidUpdates[ constructorName ] ){
@@ -90,8 +90,6 @@ const componentDidUpdates = {
             self.props.updatePostsHeight(app.postsHeight);
             if( app.type === define.APP_TYPES.EXTENSION ){
                 const { isScrollBottom } = self.state;
-                console.log("POSTS @@ " + isScrollBottom + " " + app.isOpenPosts );
-                console.log( app );
                 if( app.isOpenPosts && isScrollBottom ){
                     self.animateScrollTo(
                       self.refs.thread,

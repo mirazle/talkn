@@ -288,7 +288,10 @@ class Container extends Component {
     return (
       <span data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />
-        <div style={extScreenStyle} data-component-name={"extScreen"}>
+        <div
+          style={extScreenStyle}
+          data-component-name={"extScreen"}
+        >
           <Posts {...props} />
           <Header {...props} />
           { MultistreamIcon }

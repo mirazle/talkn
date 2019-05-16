@@ -177,13 +177,11 @@ class Ext {
                 iframe.style.height = Ext.getIframeOpenHeight();
             }
 
-            this.postMessage("updateExtension", {
-                app:{
-                    extensionMode: Ext.MODE,
-                    extensionWidth: Ext.getIframeWidth().replace("px", "" ),
-                    extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
-                    extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
-                }
+            this.postMessage("updateExtension", {                
+                extensionMode: Ext.MODE,
+                extensionWidth: Ext.getIframeWidth().replace("px", "" ),
+                extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
+                extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
             });
         }
     }
