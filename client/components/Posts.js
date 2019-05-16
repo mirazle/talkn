@@ -156,7 +156,7 @@ export default class Posts extends Component {
     return postList;
   }
 
- 	render() {
+  render() {
     const { style } = this.props.state;
     return (
       <ol
