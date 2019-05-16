@@ -88,6 +88,7 @@ const componentDidUpdates = {
             const { app } = self.props.state;
             app.postsHeight += TalknWindow.getLastPostHeight();
             self.props.updatePostsHeight(app.postsHeight);
+            console.log("POSTS @@ " + isScrollBottom );
             if( app.type === define.APP_TYPES.EXTENSION ){
                 const { isScrollBottom } = self.state;
                 if( app.isOpenPosts && isScrollBottom ){

@@ -89,6 +89,7 @@ export default class Posts extends Component {
 
     const { clientHeight, scrollTop, scrollHeight } = e.target;
     const isScrollBottom = ( scrollHeight === ( scrollTop + clientHeight ) );
+console.log("HANDLE ON SCEOLL " + isScrollBottom);
     this.setState({isScrollBottom});
     this.props.scrollThread();
   }
