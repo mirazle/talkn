@@ -279,192 +279,23 @@ class Container extends Component {
     const extScreenStyle = props.state.style.extScreen.self;
     const log = false;
 
-    // Open
-    if( app.isDispPosts && app.isOpenPosts ){
-      //console.log("CONTANIER @@@ OPEN " + extScreenStyle.transform + " " + extScreenStyle.transition);
-      return (
-        <span data-component-name={this.constructor.name} style={ style.container.self }>
-          <Style {...props} />
-          <div style={extScreenStyle} data-component-name={"extScreen"}>
-            <Posts {...props} />
-            <Header {...props} />
-            { MultistreamIcon }
-          </div>
-          <span data-component-name="fixedComponents">
-            { Notifs }
-            <DetailModal {...props} /> 
-            <PostsFooter {...props} />
-          </span>
+    return (
+      <span data-component-name={this.constructor.name} style={ style.container.self }>
+        <Style {...props} />
+        <div style={extScreenStyle} data-component-name={"extScreen"}>
+          <Posts {...props} />
+          <Header {...props} />
+          { MultistreamIcon }
+          { NewPost }
+        </div>
+        <span data-component-name="fixedComponents">
+          { Notifs }
+          <DetailModal {...props} /> 
+          <PostsFooter {...props} />
         </span>
-      );
-    // Opening
-    }else if( app.isDispPosts ){
-      //console.log("CONTANIER @@@ OPENING " + extScreenStyle.transform + " " + extScreenStyle.transition);
-      return (
-        <span data-component-name={this.constructor.name} style={ style.container.self }>
-          <Style {...props} />
-          <div style={extScreenStyle} data-component-name={"extScreen"}>
-            <Posts {...props} />
-            <Header {...props} />
-            { MultistreamIcon }
-          </div>
-          <span data-component-name="fixedComponents">
-            { Notifs }
-            <DetailModal {...props} /> 
-            <PostsFooter {...props} />
-          </span>
-        </span>
-      );
-    
-    // Closing
-    }else if( !app.isDispPosts && app.isOpenPosts ){
-      //console.log("CONTANIER @@@ CLOSING " + extScreenStyle.transform + " " + extScreenStyle.transition);
-      return (
-        <span data-component-name={this.constructor.name} style={ style.container.self }>
-          <Style {...props} />
-          <div style={extScreenStyle} data-component-name={"extScreen"}>
-            <Posts {...props} />
-            <Header {...props} />
-            { MultistreamIcon }
-          </div>
-          <span data-component-name="fixedComponents">
-            { Notifs }
-            <DetailModal {...props} /> 
-            <PostsFooter {...props} />
-          </span>
-        </span>
-      );
-
-    // Close
-    }else if( !app.isDispPosts && !app.isOpenPosts ){
-      //console.log("CONTANIER @@@ CLOSE " + extScreenStyle.transform + " " + extScreenStyle.transition);
-
-      return (
-        <span data-component-name={this.constructor.name} style={ style.container.self }>
-          <Style {...props} />
-          <div style={extScreenStyle} data-component-name={"extScreen"}>
-            <Posts {...props} />
-            <Header {...props} />
-            { MultistreamIcon }
-          </div>
-          <span data-component-name="fixedComponents">
-
-              { Notifs }
-              <DetailModal {...props} /> 
-              <PostsFooter {...props} />
-          </span>
-        </span>
-      );
-    }
+      </span>
+    );
   }
-/*
-  renderExtension(){
-    const { app, style } = this.props.state;
-    const props = this.getProps();
-    const MultistreamIcon = Icon.getMultistreamIcon( props );
-    const NewPost = this.getNewPost( props );
-    const log = false;
-
-    // Open
-    if( app.isDispPosts && app.isOpenPosts ){
-
-      if(log){
-        console.log("=============================================");
-        console.log("CONTANIER @@@ OPEN ");
-        console.log( "isDispPosts = " + app.isDispPosts + " @");
-        console.log( "isOpenPosts = " + app.isOpenPosts + " @");
-        console.log( "isTransition = " + app.isTransition + " @");
-        console.log("=============================================");
-      }
-      return (
-        <span data-component-name={this.constructor.name} style={ style.container.self }>
-          <Style {...props} />
-          <Posts {...props} />
-          <span data-component-name="fixedComponents">
-            { MultistreamIcon }
-            { NewPost }
-            <Header {...props} />
-            <DetailModal {...props} /> 
-            <PostsFooter {...props} />
-            <InnerNotif {...this.props}/>
-            </span>
-        </span>
-      );
-
-    // Opening
-    }else if( app.isDispPosts ){
-      if(log){
-        console.log("=============================================");
-        console.log("CONTANIER OPENING " );
-        console.log( "isDispPosts = " + app.isDispPosts + " @");
-        console.log( "isOpenPosts = " + app.isOpenPosts + " @");
-        console.log( "isTransition = " + app.isTransition + " @");
-        console.log("=============================================");
-      }
-
-      return (
-        <span data-component-name={this.constructor.name} style={ style.container.self }>
-          <Style {...props} />
-          <Posts {...props} />
-          <span data-component-name="fixedComponents">
-            { MultistreamIcon }
-            <Header {...props} />
-            <DetailModal {...props} /> 
-            <PostsFooter {...props} />
-            </span>
-        </span>
-      );
-    
-    // Closing
-    }else if( !app.isDispPosts && app.isOpenPosts ){
-      
-      if(log){
-        console.log("=============================================");
-        console.log("CONTANIER CLOSING " );
-        console.log( "isDispPosts = " + app.isDispPosts + " @");
-        console.log( "isOpenPosts = " + app.isOpenPosts + " @");
-        console.log( "isTransition = " + app.isTransition + " @");
-        console.log("=============================================");
-      }
-
-      return (
-        <span data-component-name={this.constructor.name} style={ style.container.self }>
-          <Style {...props} />
-          <Posts {...props} />
-          <span data-component-name="fixedComponents">
-            { MultistreamIcon }
-            <Header {...props} />
-            <DetailModal {...props} /> 
-            <PostsFooter {...props} />
-            </span>
-        </span>
-      );
-
-    // Close
-    }else if( !app.isDispPosts && !app.isOpenPosts ){
-      
-      if(log){
-        console.log("=============================================");
-        console.log("CONTANIER CLOSE " );
-        console.log( "isDispPosts = " + app.isDispPosts + " @");
-        console.log( "isOpenPosts = " + app.isOpenPosts + " @");
-        console.log( "isTransition = " + app.isTransition + " @");
-        console.log("=============================================");
-      }
-        
-      const Notifs = this.getNotifs( props );
-      return (
-        <span data-component-name={this.constructor.name} style={ style.container.self }>
-          <Style {...props} />
-          <span data-component-name="fixedComponents">
-            { Notifs }
-            <PostsFooter {...props} />
-          </span>
-        </span>
-      );
-    }
-  }
-*/
 
   renderIos(){
     const { style } = this.props.state;
