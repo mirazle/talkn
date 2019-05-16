@@ -116,6 +116,7 @@ class Ext {
 
     loadIframe(e){
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+        console.log("EXT BOOT EXTENSION");
         this.postMessage("bootExtension", {
             extensionMode: Ext.MODE,
             extensionWidth: Ext.getIframeWidth().replace("px", "" ),
@@ -133,6 +134,8 @@ class Ext {
     }
 
     bootExtension(params){
+
+        // Display
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         iframe.style.height = Ext.getIframeCloseHeight();
         iframe.style.display = "flex";
@@ -170,11 +173,19 @@ class Ext {
 
         if(talknNotifId === "null"){
 
-            this.postMessage("bootExtension", {
-                extensionMode: Ext.MODE,
-                extensionWidth: Ext.getIframeWidth().replace("px", "" ),
-                extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
-                extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
+            if( iframe.style.height === Ext.getIframeCloseHeight() ){
+                iframe.style.height = Ext.getIframeCloseHeight();
+            }else{
+                iframe.style.height = Ext.getIframeOpenHeight();
+            }
+
+            this.postMessage("updateExtension", {
+                app:{
+                    extensionMode: Ext.MODE,
+                    extensionWidth: Ext.getIframeWidth().replace("px", "" ),
+                    extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
+                    extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
+                }
             });
         }
     }
