@@ -200,6 +200,13 @@ export default {
       app: {isDispPosts: false}
     };
   },
+  updateExtension: (app) => {
+    console.log(app);
+    return {
+      type: 'UPDATE_EXTENSION',
+      app
+    };
+  },
   getClientMetas: ( clientMetas ) => {
     const htmlSchema = new HtmlSchema();
     let { serverMetas } = htmlSchema;

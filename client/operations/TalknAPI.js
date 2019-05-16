@@ -46,19 +46,15 @@ export default class TalknAPI{
 		case define.APP_TYPES.EXTENSION :
 		window.addEventListener("message", (e) => {
 				if( e.data.type === "talkn" ){
+					const state = talknAPI.store.getState();
 					switch( e.data.method ){
 					case "bootExtension":
-						const state = talknAPI.store.getState();
-						state.app.extensionMode = e.data.params.extensionMode;
-						state.app.extensionWidth = e.data.params.extensionWidth;
-						state.app.extensionOpenHeight = e.data.params.extensionOpenHeight;
-						state.app.extensionCloseHeight = e.data.params.extensionCloseHeight;
-						//this.offTransition();
 						this.parentUrl = e.data.url;
 						this.extension( "bootExtension", state.app );
 						this[ "extension" ] = this.extension;
 						break;
 					default:
+						console.log(e.data.method);
 						if(talknAPI[ e.data.method ] && typeof talknAPI[ e.data.method ] === "function"){
 							talknAPI[ e.data.method ]( e.data.params );
 						}
