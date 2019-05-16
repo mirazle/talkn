@@ -22,11 +22,6 @@ export default class Posts extends Component {
       const{ app } = this.props.state;
 
       if( app.type === define.APP_TYPES.EXTENSION ){
-
-        // TODO 使用してる？
-//        talknAPI.extension("loadTalkn", this.props.state);
-
-
         this.setState({scrollHeight: this.refs.thread.scrollHeight});
         this.animateScrollTo( this.refs.thread, 9999999, 400 );
       }else{
