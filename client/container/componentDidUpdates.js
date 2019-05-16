@@ -90,7 +90,8 @@ const componentDidUpdates = {
             self.props.updatePostsHeight(app.postsHeight);
             if( app.type === define.APP_TYPES.EXTENSION ){
                 const { isScrollBottom } = self.state;
-                console.log("POSTS @@ " + isScrollBottom );
+                console.log("POSTS @@ " + isScrollBottom + " " + app.isOpenPosts );
+                console.log( app );
                 if( app.isOpenPosts && isScrollBottom ){
                     self.animateScrollTo(
                       self.refs.thread,
