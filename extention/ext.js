@@ -169,7 +169,7 @@ class Ext {
         iframe.style.width = Ext.getIframeWidth();
 
         if(talknNotifId === "null"){
-            
+
             this.postMessage("bootExtension", {
                 extensionMode: Ext.MODE,
                 extensionWidth: Ext.getIframeWidth().replace("px", "" ),
