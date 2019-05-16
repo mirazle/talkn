@@ -20,7 +20,8 @@ export default class PostsFooter extends Component {
   shouldComponentUpdate(props){
     const {actionLog} = props.state;
     return [
-      "ON_CHANGE_INPUT_POST"
+      "ON_CHANGE_INPUT_POST",
+      "RESIZE_END_WINDOW"
     ].includes( actionLog[0] );
   }
 
@@ -95,8 +96,9 @@ export default class PostsFooter extends Component {
   }
 
   render() {
-    const { state, handleOnClickToggleMain } = this.props;
+    const { state, handleOnClickToggleMain, debug } = this.props;
     const { style, app } = state;  
+    const value = debug && debug !== "" ? debug : app.inputPost;
     return (
       <div  
         data-component-name={this.constructor.name}
@@ -114,7 +116,7 @@ export default class PostsFooter extends Component {
           onKeyPress={this.handleOnKeyPress}
           onFocus={this.handleOnFocus}
           onBlur={this.handleOnBlur}
-          value={app.inputPost}
+          value={value}
           placeholder='Comment to web'
         />
         <button
