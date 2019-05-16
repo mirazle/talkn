@@ -97,6 +97,7 @@ class Container extends Component {
   }
 
   handleOnClickToggleMain( e ){
+    console.log("!!");
     const { onClickToggleMain, onClickOpenLockMenu, state} = this.props;
     const { app } = state;
     if( app.type ===  define.APP_TYPES.EXTENSION ){
