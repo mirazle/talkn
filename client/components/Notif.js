@@ -137,7 +137,7 @@ export default class Notif extends Component {
     const {post, app, thread, handleOnClickToggleMain} = this.props;
     const {status, style} = this.state;
     const childLayerCnt = post.layer - thread.layer;
-console.log("@@@@@@!!!! " + app.isOpenNotif + " " + status );
+console.log("@@@@@@!!!! " + app.isOpenNotif + " " + status + " " + style.self.display );
     if(app.isOpenNotif){
       switch(status){
       case Notif.STATUS_CONSTRUCT :
@@ -145,7 +145,8 @@ console.log("@@@@@@!!!! " + app.isOpenNotif + " " + status );
       case Notif.STATUS_START_OPEN :
       case Notif.STATUS_START_NOTIF :
       case Notif.STATUS_START_CLOSE :
-this.log(status + " " + style.self.display);
+
+        this.log(status);
         return (
           <Post
             key={post._id}
