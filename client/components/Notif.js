@@ -145,7 +145,7 @@ export default class Notif extends Component {
       case Notif.STATUS_START_OPEN :
       case Notif.STATUS_START_NOTIF :
       case Notif.STATUS_START_CLOSE :
-this.log(status);
+this.log(status + " " + style.self.display);
         return (
           <Post
             key={post._id}
