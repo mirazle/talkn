@@ -136,6 +136,8 @@ export default class Posts extends Component {
       postList = Object.keys( posts ).map( ( index ) => {
         const post = posts[ index ];
         const childLayerCnt = post.layer - thread.layer;
+        return (<div>POST</div>);
+        /*
         return (
           <Post
             key={post._id}
@@ -150,6 +152,7 @@ export default class Posts extends Component {
             timeago={timeago}
           />
         )
+        */
       });
     }
 
