@@ -49,7 +49,6 @@ export default class Notif {
 
   static getNotifs({app}){
     const display = Notif.getNotifsDisplay(app);
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " + display);
     const height = Notif.getNotifsHeight(app);
     const layout = Style.getLayoutBlock({
       display,
