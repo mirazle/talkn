@@ -61,14 +61,14 @@ const componentDidUpdates = {
             if( app.type === define.APP_TYPES.EXTENSION ){
                 
                 // TODO CHROME拡張の開閉のコントールをする際にコメントアウト
-                //talknAPI.extension("getClientMetas");
+                talknAPI.extension("getClientMetas");
             }
         },
         'GET_CLIENT_METAS': ( self ) => {
             const { serverMetas } = self.props.state.thread;
             
             // TODO CHROME拡張の開閉のコントールをする際にコメントアウト
-            //talknAPI.updateThreadServerMetas(serverMetas);
+            talknAPI.updateThreadServerMetas(serverMetas);
         }
     },
     Posts: {
@@ -163,6 +163,6 @@ const updateThreadServerMetas = ( self ) => {
         }
         
         // TODO CHROME拡張の開閉のコントールをする際にコメントアウト
-        //talknAPI.updateThreadServerMetas(serverMetas);
+        talknAPI.updateThreadServerMetas(serverMetas);
     }
 }
