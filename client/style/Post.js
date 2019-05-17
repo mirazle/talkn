@@ -31,7 +31,8 @@ export default class Post {
 
   static getSelf(){
     const layout = Style.getLayoutBlock({
-      width: 'auto',
+      width: 'calc( 100% - 20px )',
+      minWidth: 'calc( 100% - 20px )',
       height: 'auto',
       margin: '20px 20px 20px 0px',
     });
