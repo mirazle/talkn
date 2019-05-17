@@ -227,6 +227,7 @@ class Ext {
             this.postMessage("closeNotif");
             iframe.style.transition = "0ms";
             iframe.style.height = Ext.getIframeOpenHeight();
+            this.postMessage("startDispPosts");
         }
     }
 

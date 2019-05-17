@@ -103,7 +103,7 @@ class Container extends Component {
     if( app.type ===  define.APP_TYPES.EXTENSION ){
 
       this.setState({notifs: []});
-      app.isOpenNotif = false;
+      //app.isOpenNotif = false;
 
       onClickToggleMain( {app} );
 
