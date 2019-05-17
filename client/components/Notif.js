@@ -33,7 +33,8 @@ export default class Notif extends Component {
   }
 
   componentWillUnmount(){
-    
+    return true;
+    //Post.removeListener("transitionend");
   }
 
   componentDidMount(){
