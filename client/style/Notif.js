@@ -10,7 +10,6 @@ export default class Notif {
   
   static getNotifsDisplay(app){
     if(define.APP_TYPES.EXTENSION === app.type ){
-      console.log( app.isDispPosts + " " + app.isOpenPosts );
       return "block";
     }else{
       return 'none';
@@ -50,6 +49,7 @@ export default class Notif {
 
   static getNotifs({app}){
     const display = Notif.getNotifsDisplay(app);
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " + display);
     const height = Notif.getNotifsHeight(app);
     const layout = Style.getLayoutBlock({
       display,
