@@ -116,12 +116,14 @@ export default ( state = {} , action ) => {
 				notifs: {...state.notif.notifs,
 					height: Notif.getNotifsHeight( action.app ),
 				}
-			},
+			}
+			/*,
 			posts: {...state.posts,
 				self: {...state.posts.self,
 					display: Screen.getSelfDisplay( action.app ),
 				}
 			}
+			*/
 		}
 	case 'ON_CLICK_TOGGLE_MAIN':
 		const notifDisplay= Notif.getNotifsDisplay( action.app );
