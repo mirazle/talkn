@@ -102,7 +102,6 @@ export default ( state = {} , action ) => {
 	case 'OPEN_NOTIF':
 	case 'CLOSE_NOTIF':
 		const notifDisplay= Notif.getNotifsDisplay( action.app );
-		console.log("REDUCER " + notifDisplay);
 		return {...state,
 			header: {...state.header,
 				self: {...state.header.self,

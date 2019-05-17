@@ -140,6 +140,14 @@ const functions = {
     action.app = {...action.app, ...state.app};
     return action;
   },
+  "OPEN_NOTIF": ( state, action ) => {
+    action.app = {...state.app, ...action.app};
+    return action;
+  },
+  "CLOSE_NOTIF": ( state, action ) => {
+    action.app = {...state.app, ...action.app};
+    return action;
+  },
   "START_DISP_POSTS": ( state, action ) => {
     action.app = {...state.app, ...action.app};
     return action;
