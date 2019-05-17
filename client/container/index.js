@@ -284,7 +284,7 @@ class Container extends Component {
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     const extScreenStyle = props.state.style.extScreen.self;
-    console.log( this.props.state.postsMulti.length );
+
     return (
       <span data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />
@@ -297,7 +297,7 @@ class Container extends Component {
         </div>
         <span data-component-name="fixedComponents">
           { Notifs }
-          <PostsFooter {...props} debug={this.props.state.postsMulti.length} />
+          <PostsFooter {...props} debug={this.props.state.postsMulti.length + " " + app.dispThreadType} />
           <InnerNotif {...this.props}/>
         </span>
       </span>
