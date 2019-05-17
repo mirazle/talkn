@@ -10,15 +10,8 @@ export default class Notif {
   
   static getNotifsDisplay(app){
     if(define.APP_TYPES.EXTENSION === app.type ){
-      if( app.isDispPosts ){
-        return 'none';
-      }else{
-        if( app.isOpenNotif ){
-          return 'block';
-        }else{
-          return 'block';
-        }
-      }
+      console.log( app.isDispPosts + " " + app.isOpenPosts );
+      return "block";
     }else{
       return 'none';
     }
