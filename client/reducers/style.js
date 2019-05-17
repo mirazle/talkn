@@ -101,6 +101,8 @@ export default ( state = {} , action ) => {
 */
 	case 'OPEN_NOTIF':
 	case 'CLOSE_NOTIF':
+		const notifDisplay= Notif.getNotifsDisplay( action.app );
+		console.log("REDUCER " + notifDisplay);
 		return {...state,
 			header: {...state.header,
 				self: {...state.header.self,
@@ -115,6 +117,9 @@ export default ( state = {} , action ) => {
 			notif: {...state.notif,
 				notifs: {...state.notif.notifs,
 					height: Notif.getNotifsHeight( action.app ),
+				},
+				self: {...state.notif.self,
+					display: notifDisplay,
 				}
 			}
 			/*,
@@ -125,8 +130,10 @@ export default ( state = {} , action ) => {
 			}
 			*/
 		}
+/*
 	case 'ON_CLICK_TOGGLE_MAIN':
 		const notifDisplay= Notif.getNotifsDisplay( action.app );
+		console.log("REDUCER " + notifDisplay);
 		return {...state,
 			notif: {...state.notif,
 				notifs: {...state.notif.notifs,
@@ -137,6 +144,7 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
+*/
 	case 'OPEN_INNER_NOTIF' :
 	case 'CLOSE_INNER_NOTIF' :
 		return {...state,
