@@ -34,6 +34,7 @@ export default class Post {
       width: 'calc( 100% - 20px )',
       minWidth: 'calc( 100% - 20px )',
       height: 'auto',
+      minHeight: "75px",
       margin: '20px 20px 20px 0px',
     });
     const content = Style.getContentBase();
