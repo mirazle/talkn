@@ -117,13 +117,13 @@ export default class TalknWindow {
 	resize( ev ){
 		const app = talknAPI.store.getState().app;
 		if( app.type === define.APP_TYPES.EXTENSION ){
-			if( app.extensionMode === "SCRIPT" ){
+//			if( app.extensionMode === "SCRIPT" ){
 				if( this.resizeTimer === null ){
 					this.resizeTimer = setTimeout( () => {
 						this.resizeEndWindow(app);
 					}, TalknWindow.resizeInterval );
 				}
-			}
+//			}
 		}else{
 			if( this.resizeTimer === null ){
 				//this.resizeStartWindow(app);
