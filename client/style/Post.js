@@ -98,7 +98,9 @@ export default class Post {
   }
 
   static getBottom(){
-    const layout = Style.getLayoutFlex();
+    const layout = Style.getLayoutFlex({
+      width: "100%"
+    });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

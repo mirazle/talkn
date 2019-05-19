@@ -94,7 +94,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const{ state } = this.props;
+    const{ state, handleOnClickToggleMain } = this.props;
     const { style, app } = state;
     const { icon } = style;
     const HeadTabIcon = Icon.getHeadTab( icon.headTab );
@@ -109,7 +109,7 @@ export default class Header extends Component {
         <span
           data-component-name={`${this.constructor.name}-center`}
           style={ style.header.headTab }
-          onClick={ this.handleOnClickHeadTabIcon }>
+          onClick={ handleOnClickToggleMain }>
           { HeadTabIcon }
         </span>
 
