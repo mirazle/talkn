@@ -32,13 +32,13 @@ const componentDidUpdates = {
             const { app } = self.props.state;
 
             if( app.type === define.APP_TYPES.EXTENSION ){
-                const { handleOnClickToggleMain, state } = self.props;
-                const { style, thread } = state;
-                const posts = state[ `posts${app.dispThreadType}` ];
+                const { handleOnClickToggleMain, props } = self;
+                const { style, thread } = props.state;
+                const posts = props.state[ `posts${app.dispThreadType}` ];
                 const lastPost = posts[posts.length - 1];
 
                 if( lastPost && !app.isOpenPosts ){
-            
+
                     self.props.createNotif();
 
                     self.setState({
