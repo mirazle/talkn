@@ -242,13 +242,17 @@ class Ext {
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
         iframe.style.height = Ext.getIframeOpenNotifHeight();
-        this.postMessage("openNotif");
+
         let talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
         if(talknNotifId){
             clearTimeout( talknNotifId );
         }
         talknNotifId = setTimeout( this.closeNotif, params.transition );
         sessionStorage.setItem(Ext.talknNotifId, talknNotifId);
+
+        setTimeout( () => {
+            this.postMessage("openNotif");
+        }, 10 );
     }
 
     closeNotif(params){

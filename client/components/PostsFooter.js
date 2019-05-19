@@ -99,6 +99,7 @@ export default class PostsFooter extends Component {
     const { state, handleOnClickToggleMain, debug } = this.props;
     const { style, app } = state;  
     const value = debug && debug !== "" ? debug : app.inputPost;
+
     return (
       <div  
         data-component-name={this.constructor.name}

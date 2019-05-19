@@ -56,6 +56,11 @@ const componentDidUpdates = {
                 }
             }
         },
+        'CLOSE_NOTIF': ( self ) => {
+            if( self.state.notifs.length > 0 ){
+                self.setState({notifs: []});
+            }
+        },
         'ON_CLICK_TOGGLE_MAIN': ( self ) => {
             const { app } = self.props.state;
             if( app.type === define.APP_TYPES.EXTENSION ){

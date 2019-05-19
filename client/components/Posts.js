@@ -58,6 +58,7 @@ export default class Posts extends Component {
   }
 
   animateScrollTo( element, to, duration, callback = ()=>{}) {
+    console.log("SCROLL!");
     if( !this.state.isAnimateScrolling ){
       let start = element.scrollTop;
       let change = to - start;
