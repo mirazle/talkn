@@ -18,7 +18,15 @@ export default class Notif {
 
   static getNotifsHeight(app){
     if(define.APP_TYPES.EXTENSION === app.type ){
-      return `${Notif.selfHeight}px`;
+      if( app.isOpenPosts ){
+        return '0px';
+      }else{
+        if( app.isOpenNotif ){
+          return `${Footer.selfHeight + Notif.selfHeight}px`;
+        }else{
+          return `${Notif.selfHeight}px`;
+        }
+      }
     }else{
       return '0px';
     }
