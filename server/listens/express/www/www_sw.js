@@ -56,7 +56,7 @@ self.addEventListener('fetch', function(event) {
                 return response;
             }else{
                 console.log(event.request);
-                return fetch ? fetch(event.request) : () => {};
+                return fetch ? fetch(event.request, { mode: 'no-cors' }) : () => {};
             }
         })
     );
