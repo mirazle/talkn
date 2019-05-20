@@ -55,11 +55,11 @@ self.addEventListener('fetch', function(event) {
             if(response){
                 return response;
             }else{
-//                if( event.request.cache !== "only-if-cached" ){
+                if( event.request.cache !== "only-if-cached" ){
                     return fetch(event.request);
-//                }else{
-//                    return false;
-//                }
+                }else{
+                    return false;
+                }
             }
         })
     );
