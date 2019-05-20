@@ -124,6 +124,8 @@ export default class Post extends Component {
     const { style } = this.state;
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
 
+    console.log( dispFavicon );
+
     if(
       dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 && 
       dispFavicon.indexOf(Sequence.HTTP_PROTOCOL) !== 0
