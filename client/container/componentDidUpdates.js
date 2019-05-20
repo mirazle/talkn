@@ -65,13 +65,23 @@ const componentDidUpdates = {
             const { app } = self.props.state;
             if( app.type === define.APP_TYPES.EXTENSION ){
                 
+<<<<<<< HEAD
                 talknAPI.extension("getClientMetas");
+=======
+                // TODO CHROME拡張の開閉のコントールをする際にコメントアウト
+                //talknAPI.extension("getClientMetas");
+>>>>>>> parent of fab6e3b9... Execute deploy command
             }
         },
         'GET_CLIENT_METAS': ( self ) => {
             const { serverMetas } = self.props.state.thread;
             
+<<<<<<< HEAD
             talknAPI.updateThreadServerMetas(serverMetas);
+=======
+            // TODO CHROME拡張の開閉のコントールをする際にコメントアウト
+            //talknAPI.updateThreadServerMetas(serverMetas);
+>>>>>>> parent of fab6e3b9... Execute deploy command
         }
     },
     Posts: {
@@ -165,6 +175,11 @@ const updateThreadServerMetas = ( self ) => {
             //}
         }
         
+<<<<<<< HEAD
         talknAPI.updateThreadServerMetas(serverMetas);
+=======
+        // TODO CHROME拡張の開閉のコントールをする際にコメントアウト
+        //talknAPI.updateThreadServerMetas(serverMetas);
+>>>>>>> parent of fab6e3b9... Execute deploy command
     }
 }
