@@ -53,11 +53,14 @@ self.addEventListener('fetch', function(event) {
     event.respondWith(
         caches.match(event.request).then(function(response) {
             if(response){
-                console.log("RESPONSE " + response);
                 return response;
             }else{
                 console.log("FETCH ");
-                return fetch(event.request);
+                if( event.request.cache !== "only-if-cached" ){
+                    return fetch(event.request);
+                }else{
+                    return false;
+                }
             }
         })
     );
