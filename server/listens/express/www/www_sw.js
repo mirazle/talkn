@@ -55,11 +55,22 @@ self.addEventListener('fetch', function(event) {
             if(response){
                 return response;
             }else{
-                
-                Object.keys(event.request).forEach( ( key )=>{
-                    console.log( key );
-                } );
-                
+
+                console.log("@@@@@@@@@@@@@@@@@@@@@@@ ");
+                console.log(event.request.bodyUsed);
+                console.log(event.request.cache);
+                console.log(event.request.credentials);
+                console.log(event.request.destination);
+                console.log(event.request.integrity);
+                console.log(event.request.isHistoryNavigation);
+                console.log(event.request.keepalive);
+                console.log(event.request.method);
+                console.log(event.request.mode);
+                console.log(event.request.redirect);
+                console.log(event.request.referrer);
+                console.log(event.request.referrerPolicy);
+                console.log(event.request.url);
+
                 return fetch ? fetch(event.request, { mode: 'no-cors' }) : () => {};
             }
         })
