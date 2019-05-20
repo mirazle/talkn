@@ -56,7 +56,7 @@ self.addEventListener('fetch', function(event) {
                 return response;
             }else{
 
-                console.log("@@@@@@@@@@@@@@@@@@@@@@@ ");
+                console.log("@@@@@@@@@@@@@@@@@@@@@@@ " + event.request.destination);
                 console.log(event.request.bodyUsed);
                 console.log(event.request.cache);
                 console.log(event.request.credentials);
