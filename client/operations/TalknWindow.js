@@ -95,7 +95,6 @@ export default class TalknWindow {
 		this.threadHeight = document.querySelector("html").scrollHeight;
 		this.scrollHeight = window.scrollY;
 		this.innerHeight = window.innerHeight;
-		this.onServiceWorker();
 		this.boot( appType, window.talknIndex, script.attributes );
 		window.talknAPI = window.__talknAPI__[ window.talknIndex ];
 	}
@@ -228,18 +227,6 @@ export default class TalknWindow {
 
 	loadedTalkn(e){
 	}
-
-	onServiceWorker(){
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/portal_sw.js').then(function(registration) {
-                // 登録成功
-                console.log('[www]ServiceWorker registration successful with scope: ', registration.scope);
-            }).catch(function(err) {
-                // 登録失敗 :(
-                console.log('[www]ServiceWorker registration failed: ', err);
-            });
-        }
-    }
 	
 	async render( state ){
 		await this.renderDOM();
