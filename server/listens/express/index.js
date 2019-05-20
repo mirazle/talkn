@@ -107,10 +107,6 @@ class Express{
         // CORSを許可する
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-        console.log("= @@@@@@@@@@@@@@@@@@ MANIFEST.JSON");
-        console.log("= @@@@@@@@@@@@@@@@@@ MANIFEST.JSON");
-        console.log("= @@@@@@@@@@@@@@@@@@ MANIFEST.JSON");
         res.sendFile( conf.serverAssetsPath + req.originalUrl.replace("/", ""));
         return true;
       }
