@@ -55,9 +55,9 @@ self.addEventListener('fetch', function(event) {
             if(response){
                 return response;
             }else{
-                if( event.request.destination !== "unknown" ){
+                //if( event.request.destination !== "unknown" ){
                     fetch(event.request, { mode: 'no-cors' });
-                }
+                //}
             }
         })
     );
