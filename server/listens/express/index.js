@@ -102,12 +102,12 @@ class Express{
       let connection = "/";
       let hasSlash = false;
 
-      if( req.originalUrl === "/manifest.json" ){
+      if( req.originalUrl === "/manifest.json" || req.originalUrl === "/portal_sw.js"){
 
         // CORSを許可する
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        res.sendFile( conf.serverAssetsPath + req.originalUrl.replace("/", ""));
+        res.sendFile( conf.serverPortalPath + req.originalUrl.replace("/", ""));
         return true;
       }
 

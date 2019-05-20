@@ -1,0 +1,15 @@
+{
+    "short_name": "talkn",
+    "name": "talkn",
+    "display": "standalone",
+    "start_url": "/",
+    "theme_color": "rgb(79, 174, 159)",
+    "background_color": "rgb(255,255,255)",
+    "icons": [
+        {
+            "src": "https://assets.localhost/logo1.png",
+            "sizes": "710x710",
+            "type": "image/png"
+        }
+    ]
+}
