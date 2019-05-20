@@ -51,15 +51,15 @@ self.addEventListener('fetch', function(event) {
     //console.log("Url", event.request.url);
 
     event.respondWith(
-        caches.match(event.request).then(fsnction(response) {
+        caches.match(event.request).then(function(response) {
             if(response){
                 return response;
             }else{
-//                if( event.request.cache !== "only-if-cached" ){
+                if( event.request.cache !== "only-if-cached" ){
                     return fetch(event.request);
-//                }else{
-//                    return false;
-//                }
+                }else{
+                    return false;
+                }
             }
         })
     );
