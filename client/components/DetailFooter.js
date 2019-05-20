@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import conf from 'common/conf';
 import define from 'common/define';
 import App from 'common/schemas/state/App';
 import Icon from './Icon';
@@ -34,10 +35,11 @@ export default class DetailFooter extends Component {
   }
 
   handleOnClickPortal(){
-    const { state, onClickOpenLockMenu, openInnerNotif } = this.props;
-    const { app } = state
-    if(app.openLockMenu !== App.openLockMenuLabelNo){
-      onClickOpenLockMenu(App.openLockMenuLabelNo);
+    const { app } = this.props.state;
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      talknAPI.extension("linkTo", {href: `https://${conf.wwwURL}` });
+    }else{
+      location.href = `https://${conf.wwwURL}`;
     }
   }
   
