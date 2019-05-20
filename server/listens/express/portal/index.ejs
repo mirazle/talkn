@@ -16,6 +16,9 @@
             });
         }
     }
+
+    onServiceWorker();
+
     var connection = "<%= connection %>" ? "<%= connection %>" : location.href.replace(location.origin, '');
     var hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
     connection = hasSlash ? connection : connection + "/";
