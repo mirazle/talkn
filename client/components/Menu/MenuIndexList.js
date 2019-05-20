@@ -155,16 +155,16 @@ export default class MenuIndexList extends Component {
         if( thread.favicon === defaultFavicon ){
           return `//${conf.assetsIconPath}${util.getSaveFaviconName( menuIndexList.favicon )}`;
         }else{
-          return thread.favicon;
+          return `//${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}`;
         }
       }else{
-        return menuIndexList.favicon;
+        return `//${conf.assetsIconPath}${util.getSaveFaviconName( menuIndexList.favicon )}`;
       }
     }else{
       if( menuIndexList.favicon === defaultFavicon ){
         return `//${conf.assetsIconPath}${util.getSaveFaviconName( menuIndex.favicon )}`;
       }else{
-        return menuIndexList.favicon;
+        return `//${conf.assetsIconPath}${util.getSaveFaviconName( menuIndexList.favicon )}`;
       }
     }
   }

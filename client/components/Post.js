@@ -122,9 +122,8 @@ export default class Post extends Component {
     const timeId = this.getTimeId();
     const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
     const { style } = this.state;
+    
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
-
-    console.log( dispFavicon );
 
     if(
       dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 && 

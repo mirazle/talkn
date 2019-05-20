@@ -24,8 +24,9 @@ export default class Posts extends Component {
         this.setState({scrollHeight: this.refs.thread.scrollHeight});
         this.animateScrollTo( this.refs.thread, 9999999, 400 );
       }else{
-        talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
-        talknWindow.animateScrollTo( talknWindow.threadHeight, 0 );
+        //talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
+        //talknWindow.animateScrollTo( talknWindow.threadHeight, 0 );
+        talknWindow.animateScrollTo( 99999999, 0 );
       }
   }
 
