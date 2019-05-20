@@ -102,6 +102,19 @@ class Express{
       let connection = "/";
       let hasSlash = false;
 
+      if( req.originalUrl === "/manifest.json" ){
+
+        // CORSを許可する
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        console.log("= @@@@@@@@@@@@@@@@@@ MANIFEST.JSON");
+        console.log("= @@@@@@@@@@@@@@@@@@ MANIFEST.JSON");
+        console.log("= @@@@@@@@@@@@@@@@@@ MANIFEST.JSON");
+        res.sendFile( conf.serverAssetsPath + req.originalUrl.replace("/", ""));
+        return true;
+      }
+
       // No Assests Url
       if( `/${req.originalUrl}/` !== conf.assetsPath ){
 
@@ -153,7 +166,18 @@ class Express{
       res.sendFile( conf.serverClientPath );
       break;
     case conf.assetsURL:
-      res.sendFile( conf.serverAssetsPath + req.originalUrl);
+      if( req.originalUrl === "/manifest.json" ){
+
+        // CORSを許可する
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+        console.log("@@@@@@@@@@@@@@@@@@ MANIFEST.JSON");
+        console.log("@@@@@@@@@@@@@@@@@@ MANIFEST.JSON");
+        console.log("@@@@@@@@@@@@@@@@@@ MANIFEST.JSON");
+      }
+
+      res.sendFile( conf.serverAssetsPath + req.originalUrl.replace("/", ""));
       break;
     case conf.sessionURL:
       const proccess = req._parsedUrl.pathname.split('/');
