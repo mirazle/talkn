@@ -8,7 +8,7 @@ export default ( self ) => {
     const { actionLog } = props.state;
     const actionName = actionLog[0] ;
     const { name: constructorName } = self.constructor;
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@ " + actionName );
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@ " + constructorName + " " + actionName );
     if( componentDidUpdates[ constructorName ] ){
         if( componentDidUpdates[ constructorName ][ actionName ] ){
             componentDidUpdates[ constructorName ][ actionName ]( self );
@@ -89,7 +89,7 @@ const componentDidUpdates = {
         },
         'SERVER_TO_CLIENT[BROADCAST]:post': ( self ) => {
             const { app } = self.props.state;
-            console.log("@@@ " + app.type );
+            console.log("@@@- " + app.type );
             app.postsHeight += TalknWindow.getLastPostHeight();
             self.props.updatePostsHeight(app.postsHeight);
             if( app.type === define.APP_TYPES.EXTENSION ){
