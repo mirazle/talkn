@@ -1,7 +1,6 @@
 import define from '~/common/define';
 import App from '~/common/schemas/state/App';
 import User from '~/common/schemas/state/User'
-import UserAgent from '~/common/schemas/state/UserAgent';
 import MenuIndex from '~/common/schemas/state/MenuIndex';
 import MenuLogs from '~/common/schemas/state/MenuLogs';
 import Posts from '~/common/schemas/state/Posts';
@@ -14,7 +13,6 @@ import Style from '~/common/schemas/state/Style';
 export default class State{
 
   constructor( appType = define.APP_TYPES.PORTAL, talknIndex, window, bootOption = {}, caches = {} ){
-    this.userAgent = new UserAgent( window );
 		this.menuIndex = new MenuIndex();
 		this.menuLogs = new MenuLogs( caches.menuLogs );
     this.posts = new Posts();
