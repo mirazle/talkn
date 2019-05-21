@@ -1,7 +1,9 @@
 const path = require('path');
 
+console.log(`@@@ ${process.env.WEBPACK_ENV} @@@`);
+
 module.exports = {
-  mode: 'development',
+  mode: process.env.WEBPACK_ENV,
   context: __dirname + "/client/src/",
   entry: {
     javascript: __dirname + "/client/src/talkn.client.js",
