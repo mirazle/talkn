@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "nodebrew use v10.9.0;babel-node server/run.js --exec babel-node --presets env,react,stage-2",
-    "dev": "WEBPACK_ENV=production webpack-dev-server --hot --inline --colors --https --cert=./conf/localhost.crt --key=./conf/localhost.key",
+    "dev": "WEBPACK_ENV=development webpack-dev-server --hot --inline --colors --https --cert=./conf/localhost.crt --key=./conf/localhost.key",
     "build": "WEBPACK_ENV=production webpack"
   },
   "name": "talkn",

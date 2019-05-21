@@ -1,7 +1,5 @@
 const path = require('path');
 
-console.log(`@@@ ${process.env.WEBPACK_ENV} @@@`);
-
 module.exports = {
   mode: process.env.WEBPACK_ENV,
   context: __dirname + "/client/src/",

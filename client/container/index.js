@@ -56,7 +56,7 @@ class Container extends Component {
     switch( app.type ){
     case define.APP_TYPES.EXTENSION:
       return true;
-
+/*
       return [
         "SERVER_TO_CLIENT[BROADCAST]:find",
         "ON_CLICK_TOGGLE_MAIN",
@@ -68,7 +68,7 @@ class Container extends Component {
         "RESIZE_END_WINDOW"
 
       ].includes( actionLog[0] );
-
+*/
     default: 
       return true;
     }
