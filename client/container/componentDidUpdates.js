@@ -8,7 +8,7 @@ export default ( self ) => {
     const { actionLog } = props.state;
     const actionName = actionLog[0] ;
     const { name: constructorName } = self.constructor;
-
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@ " + actionName );
     if( componentDidUpdates[ constructorName ] ){
         if( componentDidUpdates[ constructorName ][ actionName ] ){
             componentDidUpdates[ constructorName ][ actionName ]( self );
