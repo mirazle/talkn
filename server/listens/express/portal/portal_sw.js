@@ -55,7 +55,6 @@ self.addEventListener('fetch', function(event) {
             if(response){
                 return response;
             }else{
-                console.log("FETCH ");
                 if( event.request.cache !== "only-if-cached" ){
                     return fetch(event.request);
                 }else{
