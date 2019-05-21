@@ -105,7 +105,7 @@ const componentDidUpdates = {
                     self.props.openNewPost();
                 }
             }else{
-                console.log("A");
+                console.log("A " + app.isOpenPosts + " && " + talknWindow.isScrollBottom );
                 talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
                 if( app.isOpenPosts && talknWindow.isScrollBottom ){
                     console.log("B");
