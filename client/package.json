@@ -1,9 +1,7 @@
 {
   "scripts": {
     "start": "nodebrew use v10.9.0;babel-node server/run.js --exec babel-node --presets env,react,stage-2",
-    "dev": "WEBPACK_ENV=production webpack-dev-server --hot --inline --colors --https --cert=./client/conf/localhost.crt --key=./client/conf/localhost.key",
-    "prod": "forever start -c 'node_modules/.bin/babel-node' server/run.js",
-    "stop": "forever stopall",
+    "dev": "WEBPACK_ENV=production webpack-dev-server --hot --inline --colors --https --cert=./conf/localhost.crt --key=./conf/localhost.key",
     "build": "WEBPACK_ENV=production webpack"
   },
   "name": "talkn",
@@ -28,40 +26,14 @@
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "buffer": "^5.2.0",
-    "cheerio": "^0.22.0",
-    "compression": "^1.7.4",
-    "ejs": "*",
-    "express": "*",
-    "express-session": "*",
-    "forever": "*",
-    "forever-monitor": "*",
-    "fs": "0.0.2",
-    "http": "*",
-    "https": "*",
-    "iconv": "*",
-    "jschardet": "*",
-    "mongoose": "^5.2.8",
-    "node": "^10.9.0",
-    "nodemailer": "^6.1.0",
-    "npm": "^6.4.0",
-    "passport": "*",
-    "passport-facebook": "*",
-    "passport-twitter": "*",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-marquee": "^1.0.0",
     "react-redux": "*",
     "redux": "^4.0.0",
     "redux-logger": "*",
-    "request": "^2.88.0",
-    "socket.io": "^2.1.1",
     "socket.io-client": "*",
-    "socket.io-emitter": "^3.1.1",
-    "socket.io-redis": "^5.2.0",
-    "timeago.js": "*",
-    "yarn": "^1.13.0"
+    "timeago.js": "*"
   },
   "author": "mirazle",
   "license": "ISC"

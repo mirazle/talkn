@@ -2,7 +2,7 @@ import http from 'http';
 import https from 'https';
 import express from 'express';
 import bodyParser from 'body-parser';
-import url from 'url';
+import compression from 'compression';
 import define from '~/common/define';
 import Session from '~/server/listens/express/session/';
 import Mail from '~/server/logics/Mail';
@@ -19,13 +19,6 @@ class Express{
     this.httpsApp.set('view engine', 'ejs');
     this.httpsApp.set('trust proxy', true);
     this.httpsApp.use(bodyParser.urlencoded({extended: true}));
-
-    // CORSを許可する
-    this.httpsApp.use( (req, res, next) => {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-      next();
-    });
 
     this.session = new Session( this.httpsApp );
 
@@ -159,6 +152,8 @@ class Express{
       }
       break;
     case conf.clientURL:
+      compression();
+      console.log("RESPONSE talkn.client.js");
       res.sendFile( conf.serverClientPath );
       break;
     case conf.assetsURL:
@@ -167,10 +162,6 @@ class Express{
         // CORSを許可する
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-        console.log("@@@@@@@@@@@@@@@@@@ MANIFEST.JSON");
-        console.log("@@@@@@@@@@@@@@@@@@ MANIFEST.JSON");
-        console.log("@@@@@@@@@@@@@@@@@@ MANIFEST.JSON");
       }
 
       res.sendFile( conf.serverAssetsPath + req.originalUrl.replace("/", ""));
