@@ -8,7 +8,7 @@ echo "@@@@@@ RESOLVE EXTENSION"
 cp server/listens/express/client/talkn.client.js extention/talkn.client.js
 cp server/listens/express/ext/ext.js extention/ext.js
 echo "@@@@@@ COMPRESSIONS(SEREVR&EXTENSION)"
-gzip server/listens/express/client/talkn.client.jss
+gzip server/listens/express/client/talkn.client.js
 zip -r chromeExtension extention/*
 echo "@@@@@@ GIT PUSH"
 git add ./*
