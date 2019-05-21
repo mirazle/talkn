@@ -285,8 +285,7 @@ class Container extends Component {
     const NewPost = this.getNewPost( props );
     const extScreenStyle = props.state.style.extScreen.self;
 
-    return (<div>HOHO</div>
-/*
+    return (
       <span data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />
         <div style={extScreenStyle} data-component-name={"extScreen"}>
@@ -302,7 +301,6 @@ class Container extends Component {
           <InnerNotif {...this.props}/>
         </span>
       </span>
-*/
     );
   }
 
@@ -338,7 +336,7 @@ class Container extends Component {
     );
   }
 
-  render() {
+ 	render() {
     const { style, app, actionLog } = this.props.state;
     if( style && style.container && style.container.self && app.connectioned ){
       if( app.type === define.APP_TYPES.EXTENSION ){
@@ -356,7 +354,7 @@ class Container extends Component {
     }else{
       return <Loading />;
     }
-  }
+ 	}
 }
 
 export default connect(
