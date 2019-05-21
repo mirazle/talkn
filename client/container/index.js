@@ -285,7 +285,8 @@ class Container extends Component {
     const NewPost = this.getNewPost( props );
     const extScreenStyle = props.state.style.extScreen.self;
 
-    return (
+    return (<div>HOHO</div>
+/*
       <span data-component-name={this.constructor.name} style={ style.container.self }>
         <Style {...props} />
         <div style={extScreenStyle} data-component-name={"extScreen"}>
@@ -301,6 +302,7 @@ class Container extends Component {
           <InnerNotif {...this.props}/>
         </span>
       </span>
+*/
     );
   }
 
