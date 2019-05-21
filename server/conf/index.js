@@ -18,7 +18,7 @@ conf.redis = { host: 'localhost', port: PORTS.REDIS };
 conf.mongoDB = { host: 'localhost', port: PORTS.MONGO, dbName: 'talkn', option: { useNewUrlParser: true } };
 conf.serverPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/' : `${homeDir}/talkn/server/listens/express/` ;
 conf.serverPortalPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/portal/' : `${homeDir}/talkn/server/listens/express/portal/` ;
-conf.serverClientPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/client/talkn.client.js.gz' : `${homeDir}/talkn/server/listens/express/client/talkn.client.js.gz` ;
+conf.serverClientPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/client/talkn.client.js' : `${homeDir}/talkn/server/listens/express/client/talkn.client.js` ;
 conf.serverAssetsPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/assets/' : `${homeDir}/talkn/server/listens/express/assets/` ;
 conf.serverWwwPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/www/' : `${homeDir}/talkn/server/listens/express/www/` ;
 conf.serverExtPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/ext/' : `${homeDir}/talkn/server/listens/express/ext/` ;
