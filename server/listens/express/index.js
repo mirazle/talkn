@@ -19,6 +19,7 @@ class Express{
     this.httpsApp.set('view engine', 'ejs');
     this.httpsApp.set('trust proxy', true);
     this.httpsApp.use(bodyParser.urlencoded({extended: true}));
+    this.httpsApp.use(compression());
 
     this.session = new Session( this.httpsApp );
 
@@ -152,8 +153,6 @@ class Express{
       }
       break;
     case conf.clientURL:
-      compression();
-      console.log("RESPONSE talkn.client.js");
       res.sendFile( conf.serverClientPath );
       break;
     case conf.assetsURL:
