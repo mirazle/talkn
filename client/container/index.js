@@ -338,7 +338,7 @@ class Container extends Component {
     );
   }
 
- 	render() {
+  render() {
     const { style, app, actionLog } = this.props.state;
     if( style && style.container && style.container.self && app.connectioned ){
       if( app.type === define.APP_TYPES.EXTENSION ){
@@ -356,7 +356,7 @@ class Container extends Component {
     }else{
       return <Loading />;
     }
- 	}
+  }
 }
 
 export default connect(
