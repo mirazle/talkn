@@ -88,6 +88,8 @@ const componentDidUpdates = {
             }
         },
         'SERVER_TO_CLIENT[BROADCAST]:post': ( self ) => {
+            console.log("@@@ " + app.type );
+
             const { app } = self.props.state;
             app.postsHeight += TalknWindow.getLastPostHeight();
             self.props.updatePostsHeight(app.postsHeight);
