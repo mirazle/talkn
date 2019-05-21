@@ -45,5 +45,8 @@ module.exports = {
     contentBase: "./client/src/",
   },
 
+  performance: {
+    hints: false
+  },
   devtool: 'inline-source-map',
 }
