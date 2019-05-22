@@ -11,7 +11,7 @@ export default class Loading{
   static getSelf(){
     const layout = Style.getLayoutFlex({
       margin: '0 auto',
-      height: '100%',
+      height: '100vh',
       width: '10%',
     });
     const content = {};

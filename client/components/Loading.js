@@ -6,7 +6,7 @@ export default class Loading extends Component {
  	render() {
     return (
       <img
-        data-component-name={this.constructor.name}
+        data-component-name={"Loading"}
         style={LoadingStyle.getSelf()}
         src={`https://${conf.assetsURL}/img/loading.svg`}
       />
