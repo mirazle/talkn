@@ -100,7 +100,7 @@ export default class Header extends Component {
     const HeadTabIcon = Icon.getHeadTab( icon.headTab );
 
     return (
-      <header data-component-name={this.constructor.name} style={ style.header.self }>
+      <header data-component-name={"Header"} style={ style.header.self }>
 
         {/* User Icon */}
         {this.renderLeft()}

@@ -10,6 +10,7 @@ export default {
 	favicon: { type: String, default: Favicon.defaultFaviconPath },
 	post: { type: String, default: '' },
 	data: { type: Object, default:{} },
+	currentTime: { type: Number, default: 0 },
 	// Time
 	createTime: { type: Date, default: Date },
 	updateTime: { type: Date, default: Date },
