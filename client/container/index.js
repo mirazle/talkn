@@ -270,7 +270,7 @@ class Container extends Component {
           <DetailModal {...props} /> 
           <PostsFooter {...props} />
           <Menu {...props} />
-          <InnerNotif {...this.props}/>;
+          <InnerNotif {...this.props}/>
           { HideScreenBottom }
         </span>
       </span>
