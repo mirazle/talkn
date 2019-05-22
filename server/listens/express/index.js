@@ -97,8 +97,8 @@ class Express{
       language = req.query && req.query.lang ?
         req.query.lang : Geolite.getLanguage( req );
 
-      if( req.originalUrl === "/manifest.json" || req.originalUrl === "/portal_sw.js"){
-
+      if( req.originalUrl === "/robots.txt" || req.originalUrl === "/manifest.json" || req.originalUrl === "/portal_sw.js"){
+console.log(req.originalUrl);
         // CORSを許可する
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
