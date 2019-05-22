@@ -5,7 +5,7 @@ export default class Geolite {
     if(req.headers && req.headers['accept-language']){
 
       if( req.headers['accept-language'].indexOf("ja") === 0 ){
-        language = "ja";      
+        language = "ja";        
       }else if( req.headers['accept-language'].indexOf("zh-TW") === 0 ){
         language = "zh-TW";
       }else if( req.headers['accept-language'].indexOf("zh") === 0 ){
