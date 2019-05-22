@@ -48,7 +48,7 @@ class Container extends Component {
   }
 
   componentDidUpdate(){
-    componentDidUpdates( this );
+    componentDidUpdates( this, "Container" );
   }
 
   shouldComponentUpdate(props){
