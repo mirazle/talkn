@@ -88,7 +88,6 @@ const componentDidUpdates = {
         },
         'SERVER_TO_CLIENT[BROADCAST]:post': ( self ) => {
             const { app } = self.props.state;
-            console.log("@@@- " + app.type );
             app.postsHeight += TalknWindow.getLastPostHeight();
             self.props.updatePostsHeight(app.postsHeight);
             if( app.type === define.APP_TYPES.EXTENSION ){
@@ -105,11 +104,8 @@ const componentDidUpdates = {
                     self.props.openNewPost();
                 }
             }else{
-                console.log("A " + app.isOpenPosts + " && " + talknWindow.isScrollBottom );
-                console.log( document.querySelector("[data-component-name=Posts]") );
                 talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
                 if( app.isOpenPosts && talknWindow.isScrollBottom ){
-                    console.log("B");
                     talknWindow.animateScrollTo(
                         talknWindow.threadHeight,
                         400,
