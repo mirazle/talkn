@@ -1,24 +1,25 @@
 
 <!doctype html>
-<html style="width: 100%; height: 100%; margin: 0 auto;">
+<html amp style="width: 100%; height: 100%; margin: 0 auto;" lang="<%= language %>">
 <head>
+  <title>talkn</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta name="theme-color" content="rgb(79, 174, 159)">
   <meta name="description" content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn.">
   <meta name="keywords" content="talkn">
   <meta name="title" content="talkn">
-
   <link rel="manifest" href="https://<%= domain %>/manifest.json">
   <link rel="shortcut icon" href="https://<%= assetsURL %>/favicon.ico">
-
+  <link rel="canonical" href="https://<%= domain %>">
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
   <script type='text/javascript'>
 
     function onServiceWorker(){
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/portal_sw.js').then(function(registration) {
                 // 登録成功
-                console.log('[www]ServiceWorker registration successful with scope: ', registration.scope);
+                console.log('[www]ServiceWorker resgistration suscessful with scope: ', registration.scope);
             }).catch(function(err) {
                 // 登録失敗 :(
                 console.log('[www]ServiceWorker registration failed: ', err);
@@ -42,6 +43,8 @@
     document.head.appendChild( script );
   </script>
   <noscript key="noscript">Your browser does not support JavaScript!</noscript>
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+
 </head>
 <body style="width: 100%; height: 100%; margin: 0 auto">
   <div id="talkn1" style="width: inherit; height: inherit; margin: 0 auto"></div>
