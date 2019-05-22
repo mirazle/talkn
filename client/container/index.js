@@ -352,7 +352,6 @@ class Container extends Component {
         }
       }
     }else{
-      alert("LORD");
       return <Loading />;
     }
  	}
