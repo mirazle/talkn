@@ -243,8 +243,6 @@ export default class App extends Schema{
     const {
       type,
       height,
-      extensionMode,
-      extensionWidth,
       extensionOpenHeight,
       extensionCloseHeight
     } = app;
@@ -266,7 +264,6 @@ export default class App extends Schema{
         return true;
       }
 
-      // @getIsOpenPosts D  618 450 !!!!!!!!!!!!!!!!!!!! ここの判定が誤っている！！！！
       if(log) console.log("@getIsOpenPosts D " + " " + extensionOpenHeight + " " +  height);
       return false;
     } else {

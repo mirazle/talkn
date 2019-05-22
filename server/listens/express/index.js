@@ -54,7 +54,7 @@ class Express{
   }
 
   routingHttps( req, res, next ){
-
+    let language = "en";
     switch( req.headers.host ){
     case conf.extURL:
 
@@ -64,7 +64,7 @@ class Express{
       res.sendFile( conf.serverExtPath + "ext.js");
       break;
     case conf.wwwURL:
-      const language = req.query && req.query.lang ?
+      language = req.query && req.query.lang ?
         req.query.lang : Geolite.getLanguage( req );
       if( req.method === "GET" ){
 
@@ -90,11 +90,12 @@ class Express{
       res.render( 'desc/index', {});
       break;
     case conf.domain:
-
       let iframe = false;
       let portalUrlSearch = false;
       let connection = "/";
       let hasSlash = false;
+      language = req.query && req.query.lang ?
+        req.query.lang : Geolite.getLanguage( req );
 
       if( req.originalUrl === "/manifest.json" || req.originalUrl === "/portal_sw.js"){
 
@@ -145,6 +146,7 @@ class Express{
         res.render( 'portal/index', {
           connection,
           hasSlash,
+          language,
           iframe, 
           domain: conf.domain,
           clientURL: conf.clientURL,

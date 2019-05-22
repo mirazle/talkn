@@ -1,5 +1,5 @@
 <!doctype html>
-<html style="overflow: inherit; width: 100%; height: 100%; margin: 0 auto;">
+<html amp style="overflow: inherit; width: 100%; height: 100%; margin: 0 auto;" lang="en">
 <head>
 	<title>talkn</title>
 	<meta charset="utf-8">
@@ -8,6 +8,10 @@
 	<meta name="description" content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn.">
 	<meta name="keywords" content="talkn">
 	<meta name="title" content="talkn">
+	<link rel="manifest" href="//localhost/manifest.json">
+	<link rel="shortcut icon" href="//assets.localhost/favicon.ico">
+	<link rel="canonical" href="https://<%= domain %>">
+	<script async src="https://cdn.ampproject.org/v0.js"></script>
 	<script type='text/javascript'>
 		var portalDevHost = "/localhost:8080";
 		var script = document.createElement("script");
@@ -36,8 +40,8 @@
 			document.head.appendChild( script );
 		}
 	</script>
-	<link rel="manifest" href="//localhost/manifest.json">
-	<link rel="shortcut icon" href="//assets.localhost/favicon.ico">
+	<noscript key="noscript">Your browser does not support JavaScript!</noscript>
+	<style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
 </head>
 <body style="overflow: inherit; width: inherit; height: inherit; margin: 0 auto">
 <div id="talkn1" style="overflow: inherit; width: inherit; height: inherit; margin: 0 auto"></div>
