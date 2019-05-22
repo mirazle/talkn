@@ -59,7 +59,7 @@ export default class MenuLi extends Component {
     const { style } = this.state;
     onClick = onClick ? onClick : () => {} ;
 		return (
-      <li data-component-name={this.constructor.name} style={ style } onClick={ onClick } {...this.getDecolationProps()}>
+      <li data-component-name={"MenuLi"} style={ style } onClick={ onClick } {...this.getDecolationProps()}>
         {label}
       </li>
 		);

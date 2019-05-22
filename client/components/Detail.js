@@ -364,7 +364,7 @@ export default class Detail extends Component {
     const { state } = this.props;
     const { style } = state;
     return (
-      <div data-component-name={this.constructor.name} style={ style.detail.self }>
+      <div data-component-name={"Detail"} style={ style.detail.self }>
         {this.renderHeader()}
         <div style={ style.detail.body } >
           {this.renderMeta()}

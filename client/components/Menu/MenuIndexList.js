@@ -204,7 +204,7 @@ export default class MenuIndexList extends Component {
 
     return (
       <li
-        data-component-name={this.constructor.name}
+        data-component-name={"MenuIndexList"}
         key={menuIndexList.connection}
         style={ baseStyle }
         onClick={this.onClickEvents}

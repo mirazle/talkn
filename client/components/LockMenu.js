@@ -147,7 +147,7 @@ export default class LockMenu extends Component {
 
     return (
       <div
-        data-component-name={this.constructor.name}
+        data-component-name={"LockMenu"}
         style={style.lockMenu.menuShare}
       >
         <header

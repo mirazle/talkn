@@ -7,7 +7,7 @@ export default ( self, constructorName ) => {
     const { props } = self;
     const { actionLog } = props.state;
     const actionName = actionLog[0] ;
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@ " + constructorName + " " + actionName );
+
     if( componentDidUpdates[ constructorName ] ){
         if( componentDidUpdates[ constructorName ][ actionName ] ){
             componentDidUpdates[ constructorName ][ actionName ]( self );
@@ -106,6 +106,7 @@ const componentDidUpdates = {
                 }
             }else{
                 console.log("A " + app.isOpenPosts + " && " + talknWindow.isScrollBottom );
+                console.log( document.querySelector("[data-component-name=Posts]") );
                 talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
                 if( app.isOpenPosts && talknWindow.isScrollBottom ){
                     console.log("B");

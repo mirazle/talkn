@@ -57,7 +57,7 @@ export default class DetailFooter extends Component {
 
       return(
         <footer
-          data-component-name={this.constructor.name}
+          data-component-name={"DetailFooter"}
           style={ style.detailFooter.self }>
           <div style={ style.detailFooter.childLike } onClick={this.handleOnClickLike}>
             { HeartIcon }

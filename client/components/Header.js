@@ -33,7 +33,7 @@ export default class Header extends Component {
     if(app.iframe || app.type === define.APP_TYPES.EXTENSION){
       return (
         <span
-          data-component-name={`${this.constructor.name}-left`}
+          data-component-name={`Header-left`}
           style={ style.header.leftIcon }
         >
           {/* Watch Cnt */}

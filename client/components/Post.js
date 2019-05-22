@@ -138,7 +138,7 @@ export default class Post extends Component {
 
     if(mode === 'post'){
       return (
-        <li data-component-name={this.constructor.name} id={_id} style={style.self} {...this.getDecolationProps()}>
+        <li data-component-name={"Post"} id={_id} style={style.self} {...this.getDecolationProps()}>
           <div style={style.upper}>
             <span style={style.upperSpace} />
   

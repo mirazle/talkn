@@ -161,7 +161,7 @@ export default class Posts extends Component {
     const { style } = this.props.state;
     return (
       <ol
-        data-component-name={this.constructor.name}
+        data-component-name={"Posts"}
         style={ style.posts.self }
         ref="thread"
         onScroll={this.handleOnScroll}
