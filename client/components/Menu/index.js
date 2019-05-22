@@ -107,7 +107,7 @@ export default class Menu extends Component {
     const { style } = this.props.state;
 		return (
       <div  
-        data-component-name={this.constructor.name}
+        data-component-name={"Menu"}
         onTransitionEnd={this.handleOnTransitionEnd}
         style={ style.menu.self }
       >

@@ -36,7 +36,7 @@ export default class InnerNotif extends Component {
     const { style, notif } = this.state;
     return (
       <div
-        data-component-name={this.constructor.name} 
+        data-component-name={"InnerNotif"} 
         style={style.self}
       >
         {notif}

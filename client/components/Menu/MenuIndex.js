@@ -119,7 +119,7 @@ export default class MenuIndex extends Component {
     const Search = Icon.getSearch( icon.search );
     const Update = Icon.getUpdate( icon.update );
 		return (
-      <nav data-component-name={this.constructor.name} style={style.menuIndex.self}>
+      <nav data-component-name={"MenuIndex"} style={style.menuIndex.self}>
 
         <header style={style.menuIndex.header}>
           <div style={style.menuIndex.headerSearchIcon}>

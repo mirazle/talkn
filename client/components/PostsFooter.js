@@ -102,7 +102,7 @@ export default class PostsFooter extends Component {
 
     return (
       <div  
-        data-component-name={this.constructor.name}
+        data-component-name={PostsFooter}
         style={ style.postsFooter.self }
       >
         <div

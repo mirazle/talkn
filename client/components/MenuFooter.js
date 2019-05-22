@@ -29,7 +29,7 @@ export default class MenuFooter extends Component {
     const Logs = Icon.getLogs();
     const Setting = Icon.getSetting();
     return (
-      <div data-component-name={this.constructor.name} style={ style.menuFooter.self }>
+      <div data-component-name={"MenuFooter"} style={ style.menuFooter.self }>
         <div style={ style.menuFooter.child } onClick={() => openInnerNotif()} {...Icon.getDecolationProps1( 'icon', 'user', 'div' )}>
           { UserIcon }
           <div>SOCIAL</div>

@@ -39,7 +39,7 @@ export default class MenuUsers extends Component {
  	render() {
     const { style } = this.props.state;
 		return (
-      <div data-component-name={this.constructor.name} style={ style.menuUsers.self}>
+      <div data-component-name={"MenuUsers"} style={ style.menuUsers.self}>
         <ol style={ style.menuUsers.columns }>
         </ol>
       </div>
