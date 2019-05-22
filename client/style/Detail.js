@@ -57,7 +57,7 @@ export default class Detail {
     const display = screenMode === App.screenModeLargeLabel ? "none" : "block";
     const left = screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
     const background = app.type === define.APP_TYPES.EXTENSION ?
-      "none" : Container.reliefRGB;
+      Container.reliefRGB : Container.reliefRGB;
     const height = DetailModal.getHeight(app);
     const layout = Style.getLayoutBlock({
       display,
