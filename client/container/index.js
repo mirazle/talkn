@@ -211,7 +211,7 @@ class Container extends Component {
     const NewPost = this.getNewPost( props );
     const HideScreenBottom = this.getHideScreenBottom( props );
     return (
-      <div data-component-name={this.constructor.name} style={ style.container.self }>
+      <div data-component-name={"Container"} style={ style.container.self }>
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
@@ -236,7 +236,7 @@ class Container extends Component {
     const NewPost = this.getNewPost( props );
     const HideScreenBottom = this.getHideScreenBottom( props );
     return (
-      <div data-component-name={this.constructor.name} style={ style.container.self }>
+      <div data-component-name={"Container"} style={ style.container.self }>
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
@@ -260,7 +260,7 @@ class Container extends Component {
     const NewPost = this.getNewPost( props );
     const HideScreenBottom = this.getHideScreenBottom( props );
     return (
-      <span data-component-name={this.constructor.name} style={ style.container.self }>
+      <span data-component-name={"Container"} style={ style.container.self }>
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
@@ -286,7 +286,7 @@ class Container extends Component {
     const extScreenStyle = props.state.style.extScreen.self;
 
     return (
-      <span data-component-name={this.constructor.name} style={ style.container.self }>
+      <span data-component-name={"Container"} style={ style.container.self }>
         <Style {...props} />
         <div style={extScreenStyle} data-component-name={"extScreen"}>
           <Posts {...props} />
@@ -310,7 +310,7 @@ class Container extends Component {
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     return (
-      <div data-component-name={this.constructor.name} style={ style.container.self }>
+      <div data-component-name={"Container"} style={ style.container.self }>
         { MultistreamIcon }
         { NewPost }
         <Style {...props} />
@@ -326,7 +326,7 @@ class Container extends Component {
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     return (
-      <div data-component-name={this.constructor.name} style={ style.container.self }>
+      <div data-component-name={"Container"} style={ style.container.self }>
         { MultistreamIcon }
         { NewPost }
         <Style {...props} />
