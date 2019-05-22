@@ -3,12 +3,10 @@ import define from 'common/define';
 import Notif from 'client/components/Notif';
 import TalknWindow from 'client/operations/TalknWindow';
 
-export default ( self ) => {
+export default ( self, constructorName ) => {
     const { props } = self;
     const { actionLog } = props.state;
     const actionName = actionLog[0] ;
-    const { name: constructorName } = self.constructor;
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@ " + constructorName + " " + actionName );
     if( componentDidUpdates[ constructorName ] ){
         if( componentDidUpdates[ constructorName ][ actionName ] ){
             componentDidUpdates[ constructorName ][ actionName ]( self );
