@@ -84,8 +84,7 @@ export default class Posts extends Component {
   handleOnMouseDown(){
     const{ app } = this.props.state;
     if(app.type === define.APP_TYPES.EXTENSION){
-      console.log("@@@@@@@@-@-@-@");
-      this.refs.thread.scrollTop = this.refs.thread.scrollTop + 1;
+//      this.refs.thread.scrollTop = this.refs.thread.scrollTop + 1;
     }
   }
 
