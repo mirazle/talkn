@@ -207,18 +207,9 @@ export default {
     };
   },
   getClientMetas: ( clientMetas ) => {
-    const htmlSchema = new HtmlSchema();
-    let { serverMetas } = htmlSchema;
-
-    Object.keys( clientMetas ).forEach( ( key, i ) => {
-      if( serverMetas[ key ] ){
-        serverMetas[ key ] = clientMetas[ key ];
-      }
-    } );
-
     return {
       type: 'GET_CLIENT_METAS',
-      thread: {serverMetas}
+      clientMetas
     };
   }
 }

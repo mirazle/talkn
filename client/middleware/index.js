@@ -10,11 +10,16 @@ export default {
     if( functions[ action.type ] ){
       const state = store.getState();
       action = functions[ action.type ]( state, action );
-      if(!action.app) action.app = state.app;
-      if(!action.app.actioned) action.app.actioned = state.app.actioned;
-      action.app.actioned.unshift(action.type);
+      if( action ){
+        if(!action.app) action.app = state.app;
+        if(!action.app.actioned) action.app.actioned = state.app.actioned;
+        action.app.actioned.unshift(action.type);
+      }
     }
-    next(action);
+
+    if(action){
+      next(action);
+    }
   }
 };
 
@@ -25,7 +30,6 @@ const functions = {
   },
   'SERVER_TO_CLIENT[BROADCAST]:changeThread': ( state, action ) => {
     action.app = state.app;
-    console.log(action);
     return action;
   },
   'SERVER_TO_CLIENT[BROADCAST]:disconnect': ( state, action ) => {
@@ -156,6 +160,26 @@ const functions = {
     action.app = {...state.app, ...action.app};
     return action;
   },
+  "GET_CLIENT_METAS": ( state, action ) => {
+    let updateFlg = false;
+    let { clientMetas } = action; 
+    let { serverMetas } = state.thread;
+
+    Object.keys( clientMetas ).forEach( ( key, i ) => {
+      if( 
+        serverMetas[ key ] &&
+        serverMetas[ key ] !== clientMetas[key] 
+      ){
+        updateFlg = true;
+        serverMetas[ key ] = clientMetas[ key ];
+      }
+    } );
+
+    if( updateFlg ){
+      action.thread = {serverMetas};
+      return action;
+    }
+  }
 }
 
 const resolve = {
