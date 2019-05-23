@@ -105,21 +105,32 @@ class Express{
         res.sendFile( conf.serverPortalPath + req.originalUrl.replace("/", ""));
         return true;
       }
-
+console.log("@@@ A");
       // No Assests Url
       if( `/${req.originalUrl}/` !== conf.assetsPath ){
 
         portalUrlSearch = req.originalUrl.indexOf(`https://${conf.domain}`) !== false;
 
-        // Open Portal Site
-        if( !req.headers.referer || portalUrlSearch ){
 
+        /*
+          TODO
+          ifarameでの埋め込みでPostsFooterに横のBorderがない！！
+        */
+
+
+        console.log(req.originalUrl);
+        console.log(req.headers.referer);
+        console.log(portalUrlSearch);
+
+// Open Portal Site
+        if( !req.headers.referer || portalUrlSearch ){
+console.log("@@@ B");
           iframe = false;
           connection = req.originalUrl.replace(`/${conf.domain}`, '');
 
         // Open iFrame
         }else{
-
+console.log("@@@ C");
           /*
             MultiConnectionBootはreq.originalUrlのpathnameで配列形式でリクエストを受け付ける
           */

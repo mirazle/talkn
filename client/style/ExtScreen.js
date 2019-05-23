@@ -34,7 +34,9 @@ export default class ExtScreen {
       position: "fixed",
       top: "100%",
       justifyContent: "flex-start",
-      alignItems: "flex-start"
+      alignItems: "flex-start",
+      height: "100%"
+
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
