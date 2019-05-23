@@ -84,13 +84,7 @@ export default class Posts extends Component {
   handleOnClick(){
     const{ app } = this.props.state;
     if(app.type === define.APP_TYPES.EXTENSION){
-      console.log(Number( this.refs.thread.scrollTop ) );
-      this.animateScrollTo(
-        this.refs.thread,
-        Number( this.refs.thread.scrollTop ),
-        1,
-        () => { console.log("END") }
-      );
+      this.refs.thread.scrollTop = this.refs.thread.scrollTop + 1;
     }
   }
 
