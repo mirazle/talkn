@@ -8,7 +8,7 @@ export default class Posts extends Component {
 
   constructor(props){
     super(props);
-    this.handleOnClick = this.handleOnClick.bind(this);
+    this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
     this.handleOnScroll = this.handleOnScroll.bind(this);
     this.handleOnClickGetMore = this.handleOnClickGetMore.bind(this);
     this.state = {
@@ -81,7 +81,7 @@ export default class Posts extends Component {
     }
   }
 
-  handleOnClick(){
+  handleOnMouseDown(){
     const{ app } = this.props.state;
     if(app.type === define.APP_TYPES.EXTENSION){
       this.refs.thread.scrollTop = this.refs.thread.scrollTop + 1;
@@ -172,7 +172,7 @@ export default class Posts extends Component {
         data-component-name={"Posts"}
         style={ style.posts.self }
         ref="thread"
-        onClick={this.handleOnClick}
+        onClick={this.handleOnMouseDown}
         onScroll={this.handleOnScroll}
       >
           {this.renderGetMore()}
