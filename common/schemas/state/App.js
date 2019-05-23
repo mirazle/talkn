@@ -95,8 +95,8 @@ export default class App extends Schema{
     // 全体
     const name = params.name ? params.name : 'talkn';
     const talknIndex = params.talknIndex ? params.talknIndex : 0;
-console.log(window.parent);
-    // 基本表示関連
+console.log(window.parent.name);
+    // 基本表示関連 
     const type = params.type ? params.type : '';
     const width = App.getWidth( params );
     const height = App.getHeight( params );
