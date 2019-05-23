@@ -8,6 +8,7 @@ export default class Posts extends Component {
 
   constructor(props){
     super(props);
+    this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnScroll = this.handleOnScroll.bind(this);
     this.handleOnClickGetMore = this.handleOnClickGetMore.bind(this);
     this.state = {
@@ -77,6 +78,19 @@ export default class Posts extends Component {
         }
       };
       animateScroll();
+    }
+  }
+
+  handleOnClick(){
+    const{ app } = this.props.state;
+    if(app.type === define.APP_TYPES.EXTENSION){
+      console.log(Number( this.refs.thread.scrollTop ) );
+      this.animateScrollTo(
+        this.refs.thread,
+        Number( this.refs.thread.scrollTop ),
+        1,
+        () => { console.log("END") }
+      );
     }
   }
 
@@ -158,12 +172,13 @@ export default class Posts extends Component {
   }
 
   render() {
-    const { style } = this.props.state;
+    const { style, app } = this.props.state;
     return (
       <ol
         data-component-name={"Posts"}
         style={ style.posts.self }
         ref="thread"
+        onClick={this.handleOnClick}
         onScroll={this.handleOnScroll}
       >
           {this.renderGetMore()}
