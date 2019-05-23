@@ -55,6 +55,9 @@ class Express{
 
   routingHttps( req, res, next ){
     let language = "en";
+
+    console.log(req.headers.host);
+
     switch( req.headers.host ){
     case conf.extURL:
 
@@ -106,6 +109,7 @@ class Express{
         return true;
       }
 console.log("@@@ A");
+
       // No Assests Url
       if( `/${req.originalUrl}/` !== conf.assetsPath ){
 

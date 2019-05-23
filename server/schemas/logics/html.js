@@ -35,7 +35,7 @@ export default class Html {
         'al:android:app_name': { type: String, default: "" },
         'al:android:app_store_id': { type: String, default: "" },
         'al:android:package': { type: String, default: "" },
-        'al:android:url': { type: String, default: "" },
+        'al:android:url': { type: String, default: "" }
       },
       links:{ type: [], default: []},
       h1s:{ type: [], default: []},

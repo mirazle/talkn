@@ -133,7 +133,6 @@ export default class Html {
     const metaLength = $( "meta" ).length;
 
     serverMetas.title = this.getTitle( $ );
-
     for( var i = 0; i < metaLength; i++ ){
       const item = $( "meta" ).get( i );
       let key = i;
@@ -161,6 +160,7 @@ export default class Html {
       key = key.toString().replace( '.', '_' );
       serverMetas[ key ] = content;
     }
+
     return serverMetas;
   }
 
