@@ -65,7 +65,7 @@ export default class Header extends Component {
     if(app.iframe || app.type === define.APP_TYPES.EXTENSION){
       return (
         <span
-          data-component-name={`${this.constructor.name}-right`}
+          data-component-name={`Header-right`}
           style={ style.header.rightIcon }
           onClick={ handleOnClickToggleDetail }
           {...Icon.getDecolationProps3( 'icon', 'detail', 'div' )} >
@@ -107,7 +107,7 @@ export default class Header extends Component {
 
         {/* Head Tab Icon */}
         <span
-          data-component-name={`${this.constructor.name}-center`}
+          data-component-name={`Header-center`}
           style={ style.header.headTab }
           onClick={ handleOnClickToggleMain }>
           { HeadTabIcon }

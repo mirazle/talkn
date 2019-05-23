@@ -131,7 +131,7 @@ export default class Header {
     const layout = Style.getLayoutFlex({
       justifyContent: "center",
       flexGrow: 2,
-      height: 'auto',
+      height: '100%',
     });
     const content = {};
     const animation = Style.getAnimationBase();
