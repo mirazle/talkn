@@ -84,6 +84,7 @@ export default class Posts extends Component {
   handleOnMouseDown(){
     const{ app } = this.props.state;
     if(app.type === define.APP_TYPES.EXTENSION){
+      console.log("@@@@@@@@-@-@-@");
       this.refs.thread.scrollTop = this.refs.thread.scrollTop + 1;
     }
   }
@@ -172,7 +173,7 @@ export default class Posts extends Component {
         data-component-name={"Posts"}
         style={ style.posts.self }
         ref="thread"
-        onClick={this.handleOnMouseDown}
+        onMouseDown={this.handleOnMouseDown}
         onScroll={this.handleOnScroll}
       >
           {this.renderGetMore()}
