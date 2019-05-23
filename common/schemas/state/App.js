@@ -95,7 +95,7 @@ export default class App extends Schema{
     // 全体
     const name = params.name ? params.name : 'talkn';
     const talknIndex = params.talknIndex ? params.talknIndex : 0;
-
+console.log(window.parent);
     // 基本表示関連
     const type = params.type ? params.type : '';
     const width = App.getWidth( params );
@@ -104,7 +104,7 @@ export default class App extends Schema{
     const screenMode = App.getScreenMode( width );
     const screenModePointer = params.screenModePointer ? params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
     const screenContents = App.getScreenContentsMap( screenMode, screenModePointer );
-    const iframe = Schema.isSet( params.iframe ) ? JSON.parse( params.iframe ) : false ;
+    const iframe = Schema.isSet( params.iframe ) ? JSON.parse( params.iframe ) : true ;
 
     // iframeの拡張機能表示の場合
     const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
