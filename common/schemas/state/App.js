@@ -249,26 +249,10 @@ export default class App extends Schema{
 
     // PORTAL
     if( window.name === "talkn" ){
-      console.log("----- " + window.name + " " + Schema.isSet( params.iframe ) );
-      console.log("params.iframe = " + params.iframe);
-      console.log("getBool() = " + Schema.getBool( params.iframe ) );
-      iframe = Schema.isSet( params.iframe ) ? Schema.getBool( params.iframe ) : true; 
+      iframe = Schema.isSet( params.iframe ) ?
+        Schema.getBool( params.iframe ) : true; 
     }
-
-    console.log( "@ " + typeof iframe + " " + iframe );
     return iframe;
-/*
-    console.log("@@@@@@@@ getIframe ");
-    console.log( window.name );
-    console.log( window.parent );
-    console.log( params );
-    if(window.name === "talkn" && params.type === "portal" && params.extensionMode === "NONE"){
-      if(window.parent.name && window.parent.name === "talkn"){
-        return false;
-      }
-    }
-    return true;
-    */
   }
 
   static getIsOpenPosts(app, called){

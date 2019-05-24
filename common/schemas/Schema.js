@@ -29,7 +29,6 @@ export default class Schema {
   }
 
   static getBool( val ){
-    console.log( "ININI GET BOOL " + typeof val + " " + val );
     if( typeof( val ) === "boolean") return val;
     return val === 'true' ? true : false;
   }

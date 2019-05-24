@@ -168,11 +168,6 @@ console.log("B");
 */
         hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
 
-        console.log("@@@@@@");
-        console.log( req.originalUrl );
-        console.log( req.headers.referer );
-        console.log( iframe );
-
         res.render( 'portal/index', {
           connection,
           hasSlash,
