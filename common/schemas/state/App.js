@@ -242,6 +242,10 @@ export default class App extends Schema{
   }
 
   static getIframe( params ){
+    console.log("@@@@@@@@@@@@@@@@@@");
+    console.log(params.type + " " + params.iframe);
+    console.log( "window.name = " + window.name );
+    console.log("@@@@@@@@@@@@@@@@@@");
     if( Schema.isSet( params.iframe ) ){
       return params.iframe;
     }else{
