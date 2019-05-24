@@ -104,7 +104,7 @@ export default class App extends Schema{
     const screenMode = App.getScreenMode( width );
     const screenModePointer = params.screenModePointer ? params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
     const screenContents = App.getScreenContentsMap( screenMode, screenModePointer );
-    const iframe = window && window.name === "talkn" ? false : true;
+    const iframe = Schema.isSet( params.iframe ) ? params.iframe : true;
 
     // iframeの拡張機能表示の場合
     const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
@@ -237,6 +237,18 @@ export default class App extends Schema{
       return App.screenModeMiddleLabel;
     }
     return App.screenModeLargeLabel;
+  }
+
+  static getScreenMode( app ){
+    if( Schema.isSet( params.iframe ) ){
+      return params.iframe;
+    }else{
+      if( app.type === define.APP_TYPES.EXTENSION ){
+        return true;
+      }else{
+        return true;
+      }
+    }
   }
 
   static getIsOpenPosts(app, called){
