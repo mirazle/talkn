@@ -91,7 +91,7 @@ export default class App extends Schema{
 
 
     console.log("^^^^^^^^^^^^^^^^^^ @@@ ");
-    console.log( params );
+    console.log( params.iframe );
     console.log("^^^^^^^^^^^^^^^^^^ @@@ ");
 
     // 準備
