@@ -43,7 +43,7 @@ export default class PostsFooter{
         {borderTop: Container.border, borderBottom: Container.border} :
         {borderTop: Container.border, borderBottom: Container.border} ;
     }
-  };
+  }
 
   static getBorderRadius( app, addUnit = false ){
 
@@ -54,7 +54,7 @@ export default class PostsFooter{
       return `0px 0px 0px 0px`;
     }
     return 0;
-  };
+  }
 
   static getTransform( app ){
     let transform = 'translate3d( 0px, 0px, 0px )';
