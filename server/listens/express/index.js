@@ -98,14 +98,11 @@ class Express{
       language = req.query && req.query.lang ?
         req.query.lang : Geolite.getLanguage( req );
 
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
       if( req.originalUrl === "/robots.txt" || req.originalUrl === "/manifest.json" || req.originalUrl === "/portal_sw.js"){
 
         // CORSを許可する
-//        res.header("Access-Control-Allow-Origin", "*");
-//        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.sendFile( conf.serverPortalPath + req.originalUrl.replace("/", ""));
         return true;
       }
@@ -114,19 +111,46 @@ class Express{
       if( `/${req.originalUrl}/` !== conf.assetsPath ){
 
         portalUrlSearch = req.originalUrl.indexOf(`https://${conf.domain}`) !== false;
+console.log("@@@@@@");
+console.log( req.originalUrl );
+console.log( req.headers.referer );
+        /*
+          MultiConnectionBootはreq.originalUrlのpathnameで配列形式でリクエストを受け付ける
+        */
 
+        // ポータル以外からアクセス
+        if(req.headers.referer){
+          const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
+          iframe = true;
+
+          // Auto Connection
+          if(req.originalUrl === "/"){
+            connection = referer;
+
+          // Extension
+          }else if(req.originalUrl !== "/"){
+            connection = referer;
+
+          // User Input Connection
+          }else{
+
+          }
+        // ポータルからアクセス
+        }else{
+          connection = req.originalUrl.replace(`/${conf.domain}`, '');
+          iframe = false;
+        }
+/*
         // Open Portal Site
         if( !req.headers.referer || portalUrlSearch ){
-
+console.log("A");
           iframe = false;
           connection = req.originalUrl.replace(`/${conf.domain}`, '');
 
         // Open iFrame
         }else{
-          /*
-            MultiConnectionBootはreq.originalUrlのpathnameで配列形式でリクエストを受け付ける
-          */
 
+console.log("B");
           const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
           iframe = true;
 
@@ -143,7 +167,7 @@ class Express{
 
           }
         }
-
+*/
         hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
 
         res.render( 'portal/index', {
