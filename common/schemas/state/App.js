@@ -244,7 +244,8 @@ export default class App extends Schema{
     // ポータル
     if(
         window.name === "talkn" &&
-        window.parent.name && window.parent.name === "talkn" 
+        window.parent.name &&
+        window.parent.name === "talkn" 
       ){
         console.log("false");
         return false;
