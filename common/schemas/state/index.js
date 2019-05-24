@@ -28,9 +28,11 @@ export default class State{
   static getAppParams(appType, talknIndex, thread, bootOption, caches){
     switch(appType){
     case define.APP_TYPES.PORTAL :
-      if(caches && caches.app && caches.app.type){
+
+    if(caches && caches.app && caches.app.type){
         return {...caches.app, type: appType};
       }else{
+        console.log( bootOption.iframe );
         return {
           type: appType,
           isTransition: true,
