@@ -241,8 +241,9 @@ export default class App extends Schema{
   }
 
   static getIframe( params ){
-    console.log(window);
-    if(window.name === "talkn" && params.type === "portal" && app.extensionMode === "NONE"){
+    console.log( window );
+    console.log( params );
+    if(window.name === "talkn" && params.type === "portal" && params.extensionMode === "NONE"){
       return false;
     }
     return true;
