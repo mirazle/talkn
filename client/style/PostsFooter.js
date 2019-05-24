@@ -34,11 +34,6 @@ export default class PostsFooter{
   };
 
   static getBorder( app, addUnit = false ){
-
-    console.log(app.iframe);
-    console.log(window.name);
-
-
     if( app.type === define.APP_TYPES.EXTENSION ){
       return {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border};
     }else if( app.iframe ){
