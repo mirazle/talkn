@@ -111,7 +111,6 @@ export default class App extends Schema{
     const extensionOpenHeight = params.extensionOpenHeight ? params.extensionOpenHeight : 0;
     const extensionCloseHeight = params.extensionCloseHeight ? params.extensionCloseHeight : 0;
     const iframe = App.getIframe({...params, type });
-    console.log( "@@@ iframe " + iframe );
 
     // Index情報
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
@@ -243,7 +242,15 @@ export default class App extends Schema{
   static getIframe( params ){
     console.log(window.parent);
     // ポータル
+    if(
+        window.name === "talkn" &&
+        window.parent.name && window.parent.name === "talkn" 
+      ){
+        console.log("false");
+        return false;
+      }
 
+    console.log("true");
     return true;
 /*
     console.log("@@@@@@@@ getIframe ");
