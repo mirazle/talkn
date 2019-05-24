@@ -98,11 +98,14 @@ class Express{
       language = req.query && req.query.lang ?
         req.query.lang : Geolite.getLanguage( req );
 
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
       if( req.originalUrl === "/robots.txt" || req.originalUrl === "/manifest.json" || req.originalUrl === "/portal_sw.js"){
 
         // CORSを許可する
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//        res.header("Access-Control-Allow-Origin", "*");
+//        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.sendFile( conf.serverPortalPath + req.originalUrl.replace("/", ""));
         return true;
       }
