@@ -110,11 +110,6 @@ export default class App extends Schema{
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
     const extensionOpenHeight = params.extensionOpenHeight ? params.extensionOpenHeight : 0;
     const extensionCloseHeight = params.extensionCloseHeight ? params.extensionCloseHeight : 0;
-
-    console.log("^^^^^^^^^^^^^^^^^^ @@@ @@@");
-    console.log( params.iframe );
-    console.log("^^^^^^^^^^^^^^^^^^ @@@ @@@");
-
     const iframe = App.getIframe({...params, type });
 
     // Index情報
