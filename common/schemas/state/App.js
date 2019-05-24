@@ -242,15 +242,13 @@ export default class App extends Schema{
   static getIframe( params ){
     let iframe = true;
     console.log("-----");
-    console.log("window.name = " + window.name);
-    console.log( window.parent);
-    console.log("" + params.iframe);
+    console.log("params.iframe = " + params.iframe);
 
     // PORTAL
     if(
         window.name === "talkn" 
       ){
-        iframe = false;
+        iframe = Schema.isSet( params.iframe ) ? params.iframe : true; 
       }
 
     console.log("" + iframe);
