@@ -92,9 +92,6 @@ export default class TalknWindow {
 		const appType = TalknWindow.getAppType(ev);
 		const scriptName = TalknWindow.getScriptName(appType);
 		const script = document.querySelector(`script#talkn`);
-		
-		console.log( script );
-
 		this.threadHeight = document.querySelector("html").scrollHeight;
 		this.scrollHeight = window.scrollY;
 		this.innerHeight = window.innerHeight;
@@ -209,6 +206,7 @@ export default class TalknWindow {
 	boot(appType, talknIndex, attributes){
 		const store = configureStore();
 		const bootOption = BootOption.rebuildAttributes(attributes);
+		console.log( bootOption );
 		const caches = TalknSession.getCaches(bootOption.connection);
 		const state = new State( appType, talknIndex, window, bootOption, caches );
 		this.talknAPI = new TalknAPI( talknIndex, store, state, bootOption.connection );
