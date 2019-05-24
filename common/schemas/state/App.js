@@ -104,15 +104,14 @@ export default class App extends Schema{
     const screenMode = App.getScreenMode( width );
     const screenModePointer = params.screenModePointer ? params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
     const screenContents = App.getScreenContentsMap( screenMode, screenModePointer );
-    const iframe = App.getIframe({...params, type });
-
-    console.log( "@@@ iframe " + iframe );
 
     // iframeの拡張機能表示の場合
     const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
     const extensionOpenHeight = params.extensionOpenHeight ? params.extensionOpenHeight : 0;
     const extensionCloseHeight = params.extensionCloseHeight ? params.extensionCloseHeight : 0;
+    const iframe = App.getIframe({...params, type });
+    console.log( "@@@ iframe " + iframe );
 
     // Index情報
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
@@ -242,19 +241,11 @@ export default class App extends Schema{
   }
 
   static getIframe( params ){
-    console.log("@@@@@@@@@@@@@@@@@@");
-    console.log(params.type + " " + params.iframe);
-    console.log( "window.name = " + window.name );
-    console.log("@@@@@@@@@@@@@@@@@@");
-    if( Schema.isSet( params.iframe ) ){
-      return params.iframe;
-    }else{
-      if( params.type === define.APP_TYPES.EXTENSION ){
-        return true;
-      }else{
-        return true;
-      }
+    console.log(window);
+    if(window.name === "talkn" && params.type === "portal" && app.extensionMode === "NONE"){
+      return false;
     }
+    return true;
   }
 
   static getIsOpenPosts(app, called){
