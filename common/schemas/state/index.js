@@ -32,7 +32,6 @@ export default class State{
     if(caches && caches.app && caches.app.type){
         return {...caches.app, type: appType};
       }else{
-        console.log( bootOption.iframe );
         return {
           type: appType,
           isTransition: true,
