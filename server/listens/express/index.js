@@ -111,9 +111,7 @@ class Express{
       if( `/${req.originalUrl}/` !== conf.assetsPath ){
 
         portalUrlSearch = req.originalUrl.indexOf(`https://${conf.domain}`) !== false;
-console.log("@@@@@@");
-console.log( req.originalUrl );
-console.log( req.headers.referer );
+
         /*
           MultiConnectionBootはreq.originalUrlのpathnameで配列形式でリクエストを受け付ける
         */
@@ -169,6 +167,11 @@ console.log("B");
         }
 */
         hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
+
+        console.log("@@@@@@");
+        console.log( req.originalUrl );
+        console.log( req.headers.referer );
+        console.log( iframe );
 
         res.render( 'portal/index', {
           connection,
