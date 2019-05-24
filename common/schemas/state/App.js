@@ -241,6 +241,7 @@ export default class App extends Schema{
   }
 
   static getIframe( params ){
+    console.log("@@@@@@@@ getIframe ");
     console.log( window.name );
     console.log( window.parent );
     console.log( params );
