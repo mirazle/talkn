@@ -240,19 +240,21 @@ export default class App extends Schema{
   }
 
   static getIframe( params ){
-    console.log(window.parent);
-    // ポータル
+    let iframe = true;
+    console.log("-----");
+    console.log("window.name = " + window.name);
+    console.log( window.parent);
+    console.log("" + params.iframe);
+
+    // PORTAL
     if(
-        window.name === "talkn" &&
-        typeof( window.parent.name ) !== "undefined" &&
-        window.parent.name === "talkn" 
+        window.name === "talkn" 
       ){
-        console.log("false");
-        return false;
+        iframe = false;
       }
 
-    console.log("true");
-    return true;
+    console.log("" + iframe);
+    return iframe;
 /*
     console.log("@@@@@@@@ getIframe ");
     console.log( window.name );
