@@ -207,11 +207,6 @@ export default class TalknWindow {
 		const store = configureStore();
 		const bootOption = BootOption.rebuildAttributes(attributes);
 		const caches = TalknSession.getCaches(bootOption.connection);
-
-		console.log("@@@@@@@");
-		console.log( bootOption );
-		console.log("@@@@@@@");
-
 		const state = new State( appType, talknIndex, window, bootOption, caches );
 		this.talknAPI = new TalknAPI( talknIndex, store, state, bootOption.connection );
 
