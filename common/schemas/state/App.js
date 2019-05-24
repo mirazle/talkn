@@ -251,8 +251,7 @@ export default class App extends Schema{
     if( window.name === "talkn" ){
       console.log("----- " + window.name + " " + Schema.isSet( params.iframe ) );
       console.log("params.iframe = " + params.iframe);
-      console.log( Schema.isSet( params.iframe ) ? Schema.getBool( params.iframe ) : true );
-      console.log( Schema.getBool( params.iframe ) );
+      console.log("getBool() = " + Schema.getBool( params.iframe ) );
       iframe = Schema.isSet( params.iframe ) ? Schema.getBool( params.iframe ) : true; 
     }
 
