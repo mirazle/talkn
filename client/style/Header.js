@@ -79,15 +79,19 @@ export default class Header {
     }
   }
 
-  static getSelf( {app} ){
-    let borderRadius = 0;
-    const width = app.type === define.APP_TYPES.EXTENSION ?    
-      '90%' : '100%';
+  static getBorderRadius( app, addUnit = false ){
 
-    if( app.type === define.APP_TYPES.EXTENSION || app.iframe ){
-      borderRadius = Container.radiuses;
+    if( app.type === define.APP_TYPES.EXTENSION ){
+      return app.extensionWidth === "100%" ?
+        "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
+    }else if( app.iframe ){
+      return `0px 0px 0px 0px`;
     }
+    return 0;
+  };
 
+  static getSelf( {app} ){
+    let borderRadius = Header.getBorderRadius( app );
     const layout = Style.getLayoutFlex({
       position: "fixed",
       top: "0px",
