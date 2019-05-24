@@ -28,6 +28,10 @@ export default class Schema {
     return Schema.getType( val ) === 'Undefined' ? false : true ;
   }
 
+  static getBool( val ){
+    return val === 'true' ? true : false;
+  }
+
   static isAnonymousFunc(fn){
     const fnString = fn.toString();
     if( fnString === "function () {}" ) return true;

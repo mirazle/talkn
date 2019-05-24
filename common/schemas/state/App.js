@@ -245,13 +245,11 @@ export default class App extends Schema{
     console.log("params.iframe = " + params.iframe);
 
     // PORTAL
-    if(
-        window.name === "talkn" 
-      ){
-        iframe = Schema.isSet( params.iframe ) ? params.iframe : true; 
-      }
+    if( window.name === "talkn" ){
+      iframe = Schema.isSet( params.iframe ) ? Schema.getBool( params.iframe ) : true; 
+    }
 
-    console.log("" + iframe);
+    console.log( "@ " + typeof iframe + " " + iframe );
     return iframe;
 /*
     console.log("@@@@@@@@ getIframe ");
