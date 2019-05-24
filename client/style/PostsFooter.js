@@ -35,13 +35,10 @@ export default class PostsFooter{
 
   static getBorder( app, addUnit = false ){
     if( app.type === define.APP_TYPES.EXTENSION ){
-      console.log("@ A");
       return {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border};
     }else if( app.iframe ){
-      console.log("@ B");
       return {border: Container.border};
     }else{
-      console.log("@ C");
       return app.screenMode === App.screenModeSmallLabel ?
         {borderTop: Container.border, borderBottom: Container.border} :
         {borderTop: Container.border, borderBottom: Container.border} ;
@@ -53,10 +50,8 @@ export default class PostsFooter{
     if( app.type === define.APP_TYPES.EXTENSION ){
       return app.extensionWidth === "100%" ?
         "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
-    }
-
-    if( app.iframe ){
-      return `0px 0px ${Container.radius} ${Container.radius}`;
+    }else if( app.iframe ){
+      return `0px 0px 0px 0px`;
     }
     return 0;
   };
