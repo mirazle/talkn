@@ -241,6 +241,9 @@ export default class App extends Schema{
   }
 
   static getIframe( params ){
+
+    return true;
+/*
     console.log("@@@@@@@@ getIframe ");
     console.log( window.name );
     console.log( window.parent );
@@ -251,6 +254,7 @@ export default class App extends Schema{
       }
     }
     return true;
+    */
   }
 
   static getIsOpenPosts(app, called){
