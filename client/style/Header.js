@@ -89,9 +89,11 @@ export default class Header {
     }
     return 0;
   };
-
+  
   static getSelf( {app} ){
-    let borderRadius = Header.getBorderRadius( app );
+    const width = app.type === define.APP_TYPES.EXTENSION ?    
+      '90%' : '100%';
+    const borderRadius = Header.getBorderRadius( app );
     const layout = Style.getLayoutFlex({
       position: "fixed",
       top: "0px",
