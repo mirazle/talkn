@@ -183,8 +183,7 @@ class Ext {
                 extensionMode: Ext.MODE,
                 extensionWidth: Ext.getIframeWidth().replace("px", "" ),
                 extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
-                extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") ),
-                iframe: false,
+                extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
             });
         }
     }
