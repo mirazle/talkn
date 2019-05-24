@@ -245,7 +245,9 @@ export default class App extends Schema{
     console.log( window.parent );
     console.log( params );
     if(window.name === "talkn" && params.type === "portal" && params.extensionMode === "NONE"){
-      return false;
+      if(window.parent.name && window.parent.name === "talkn"){
+        return false;
+      }
     }
     return true;
   }
