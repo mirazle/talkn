@@ -241,6 +241,8 @@ export default class App extends Schema{
   }
 
   static getIframe( params ){
+    console.log(window.parent);
+    // ポータル
 
     return true;
 /*
