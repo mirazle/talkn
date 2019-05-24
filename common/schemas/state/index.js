@@ -20,11 +20,6 @@ export default class State{
     this.bootOption = new BootOption( bootOption );
     this.thread = new Thread( window, this.bootOption, caches.thread );
     this.setting = new Setting( caches.setting );
-
-    console.log("^^^^^^^^^^^^^^^^^^");
-    console.log( this.bootOption );
-    console.log("^^^^^^^^^^^^^^^^^^");
-
     this.app = new App( State.getAppParams(appType, talknIndex, this.thread, this.bootOption, caches ) );
     this.user = new User(State.getUserParams(this, caches));
     this.style = new Style( this );

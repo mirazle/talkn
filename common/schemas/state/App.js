@@ -89,6 +89,11 @@ export default class App extends Schema{
   constructor( params = {}, call ){
     super();
 
+
+    console.log("^^^^^^^^^^^^^^^^^^ @@@ ");
+    console.log( this.bootOption );
+    console.log("^^^^^^^^^^^^^^^^^^ @@@ ");
+
     // 準備
     const connection = params.connection ? params.connection : '/';
 
