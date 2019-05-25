@@ -165,6 +165,9 @@ const functions = {
     let { clientMetas } = action; 
     let { serverMetas } = state.thread;
 
+    console.log( clientMetas );
+    console.log( serverMetas );
+
     Object.keys( clientMetas ).forEach( ( key, i ) => {
       if( 
         serverMetas[ key ] &&
