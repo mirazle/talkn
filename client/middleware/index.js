@@ -163,21 +163,32 @@ const functions = {
   "GET_CLIENT_METAS": ( state, action ) => {
     let updateFlg = false;
     let { clientMetas } = action; 
-    let { serverMetas } = state.thread;
+    let { serverMetas, title, description } = state.thread;
 
-    Object.keys( clientMetas ).forEach( ( key, i ) => {
+    // Title
+    if( clientMetas.title !== title ){
+      updateFlg = true;
+      action.thread.title = clientMetas.title;
+    }
 
+    // Description
+    if( clientMetas.description !== description ){
+      updateFlg = true;
+      action.thread.description = clientMetas.description;
+    }
+
+    // Metas
+    Object.keys( clientMetas.metas ).forEach( ( key, i ) => {
       if( 
         clientMetas[ key ] !== "" &&
         serverMetas[ key ] !== clientMetas[key] 
       ){
-
         updateFlg = true;
-        serverMetas[ key ] = clientMetas[ key ];
+        action.thread.serverMetas[ key ] = clientMetas[ key ];
       }
     } );
+
     if( updateFlg ){
-      action.thread = {serverMetas};
       return action;
     }
   }

@@ -150,7 +150,6 @@ export default {
 
   updateThreadServerMetas: async ( ioUser, requestState, setting ) => {
     const { connection } = requestState.thread;
-    console.log( requestState.thread.serverMetas['al:android:url'] );
     await Logics.db.threads.update( connection, requestState.thread );
     const {response: thread} = await Logics.db.threads.findOne( connection );
     await Logics.io.updateThreadServerMetas( ioUser, {requestState, thread} );
