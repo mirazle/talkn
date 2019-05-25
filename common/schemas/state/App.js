@@ -257,7 +257,7 @@ export default class App extends Schema{
       extensionOpenHeight,
       extensionCloseHeight
     } = app;
-    const log = false;
+    const log = true;
     if( type === define.APP_TYPES.EXTENSION ){
 
       if( height === 0 ){

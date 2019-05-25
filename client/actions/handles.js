@@ -200,9 +200,9 @@ export default {
       app: {isDispPosts: false}
     };
   },
-  updateExtension: (app) => {
+  postExtensionData: (app) => {
     return {
-      type: 'UPDATE_EXTENSION',
+      type: 'POST_EXTENSION_DATA',
       app
     };
   },
