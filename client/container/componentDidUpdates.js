@@ -63,6 +63,7 @@ const componentDidUpdates = {
         'ON_CLICK_TOGGLE_MAIN': ( self ) => {
             const { app } = self.props.state;
             if( app.type === define.APP_TYPES.EXTENSION ){
+                console.log("GET CLIENT");
                 talknAPI.extension("getClientMetas");
             }
         },
