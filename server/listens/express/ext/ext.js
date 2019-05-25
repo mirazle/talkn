@@ -280,8 +280,6 @@ class Ext {
         const metas = document.querySelectorAll('meta');
         let clientMetas = {metas:{}, title, description};
 
-        console.log("TITLE " + title);
-        console.log("DESCRIPTION " + description);
         for( let i = 0; i < metas.length; i++ ){
             const item = metas[ i ];
             let key = i;

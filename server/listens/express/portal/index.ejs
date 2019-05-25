@@ -47,6 +47,9 @@
     var iframe =  "<%= iframe %>" ? "<%= iframe %>" : true;
     var connection = "<%= connection %>" ? "<%= connection %>" : location.href.replace(location.origin, '');
     var hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
+
+    console.log("INDEX EJS HAS SLASH " + hasSlash );
+
     connection = hasSlash ? connection : connection + "/";
     var script = document.createElement("script");
     script.setAttribute( 'id', 'talkn' );
