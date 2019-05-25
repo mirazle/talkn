@@ -118,7 +118,9 @@ class Ext {
 
     loadIframe(e){
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        this.postMessage("bootExtension", {
+        console.log("EXT BOOT EXTENSION");
+        this.postMessage("bootExtension");
+        this.postMessage("postExtensionData", {
             extensionMode: Ext.MODE,
             extensionWidth: Ext.getIframeWidth().replace("px", "" ),
             extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
@@ -179,7 +181,7 @@ class Ext {
                 iframe.style.height = Ext.getIframeOpenHeight();
             }
 
-            this.postMessage("updateExtension", {                
+            this.postMessage("postExtensionData", {                
                 extensionMode: Ext.MODE,
                 extensionWidth: Ext.getIframeWidth().replace("px", "" ),
                 extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),

@@ -52,6 +52,7 @@ export default class TalknAPI{
 						this.parentUrl = e.data.url;
 						this.extension( "bootExtension", state.app );
 						this[ "extension" ] = this.extension;
+						
 						break;
 					default:
 						if(talknAPI[ e.data.method ] && typeof talknAPI[ e.data.method ] === "function"){
