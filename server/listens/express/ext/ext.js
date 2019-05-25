@@ -273,9 +273,13 @@ class Ext {
     }
 
     getClientMetas(){
+        const title = document.querySelector('title');
+        const description = document.querySelector('description');
         const metas = document.querySelectorAll('meta');
-        let clientMetas = {};
+        let clientMetas = {metas:{}, title, description};
 
+        console.log("TITLE " + title);
+        console.log("DESCRIPTION " + description);
         for( let i = 0; i < metas.length; i++ ){
             const item = metas[ i ];
             let key = i;
@@ -293,7 +297,7 @@ class Ext {
                 key = item.getAttribute('http-equiv');
                 content = item.getAttribute('content');
             }
-            clientMetas[ key ] = content;
+            clientMetas.metas[ key ] = content;
         }
         this.postMessage("getClientMetas", clientMetas);
     }
