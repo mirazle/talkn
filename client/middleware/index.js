@@ -164,7 +164,8 @@ const functions = {
     let updateFlg = false;
     let { clientMetas } = action; 
     let { serverMetas, title, description } = state.thread;
-console.log(action);
+    action.thread = {};
+    console.log(action);
     // Title
     if( clientMetas.title !== title ){
       updateFlg = true;
