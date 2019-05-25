@@ -184,6 +184,9 @@ const functions = {
         clientMetas[ key ] !== "" &&
         serverMetas[ key ] !== clientMetas[key] 
       ){
+        if( !action.thread.serverMetas ){
+          action.thread.serverMetas = {};
+        }
         updateFlg = true;
         action.thread.serverMetas[ key ] = clientMetas[ key ];
       }
