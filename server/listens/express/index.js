@@ -55,7 +55,6 @@ class Express{
 
   routingHttps( req, res, next ){
     let language = "en";
-    console.log(req.headers.host );
     switch( req.headers.host ){
     case conf.extURL:
 

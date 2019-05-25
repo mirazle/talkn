@@ -17,6 +17,8 @@ export default class Html {
     const requestConnection = JSON.parse(hasSlash) ? connection : connection.replace(/\/$/, '');
     let response = null;
 
+    console.log("HAS SLASH " + hasSlash);
+
     switch( protocol ){
     case Sequence.HTTPS_PROTOCOL:
       response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, requestConnection );
@@ -48,11 +50,13 @@ export default class Html {
 
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
+console.log("URL" + url);
       request( option, ( error, response, body ) => {
 
         let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
 
         if( !error && response && response.statusCode === 200 ){
+          console.log("RESPONSE 200");
           const utf8Body = this.toUtf8Str( body );
           const $ = cheerio.load( utf8Body );
           responseSchema.protocol = protocol;
@@ -160,7 +164,7 @@ export default class Html {
       key = key.toString().replace( '.', '_' );
       serverMetas[ key ] = content;
     }
-
+console.log(serverMetas);
     return serverMetas;
   }
 
