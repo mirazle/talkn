@@ -118,7 +118,6 @@ class Ext {
 
     loadIframe(e){
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        console.log("EXT BOOT EXTENSION");
         this.postMessage("bootExtension");
         this.postMessage("postExtensionData", {
             extensionMode: Ext.MODE,
@@ -201,7 +200,7 @@ class Ext {
         if(this.methodIdMap[method]){
             switch(method){
             case 'bootExtension':
-                console.log("FAULT");
+                console.warn("FAULT");
                 new Ext(true);
                 break;
             }
