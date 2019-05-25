@@ -165,11 +165,13 @@ const functions = {
     let { clientMetas } = action; 
     let { serverMetas } = state.thread;
 
-    console.log("METAS ");
-    console.log( clientMetas );
-    console.log( serverMetas );
+    console.log("@@@ METAS ");
 
     Object.keys( clientMetas ).forEach( ( key, i ) => {
+
+      console.log( "@KEY " + key + " " + serverMetas[ key ] + " " + serverMetas[ key ] !== clientMetas[key] );
+      console.log( " [SERVER] : " + serverMetas[ key ] + " [CLIENT] : " + clientMetas[key] );
+
       if( 
         serverMetas[ key ] &&
         serverMetas[ key ] !== clientMetas[key] 
@@ -178,7 +180,7 @@ const functions = {
         serverMetas[ key ] = clientMetas[ key ];
       }
     } );
-
+    console.log("@@@ METAS " + updateFlg);
     if( updateFlg ){
       action.thread = {serverMetas};
       return action;
