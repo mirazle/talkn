@@ -165,6 +165,7 @@ const functions = {
     let { clientMetas } = action; 
     let { serverMetas } = state.thread;
 
+    console.log("METAS ");
     console.log( clientMetas );
     console.log( serverMetas );
 

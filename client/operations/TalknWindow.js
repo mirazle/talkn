@@ -117,9 +117,7 @@ export default class TalknWindow {
 	resize( ev ){
 		const app = talknAPI.store.getState().app;
 		if( app.type === define.APP_TYPES.EXTENSION ){
-			console.log("RESIZE TIMER " + this.resizeTimer);
 			if( this.resizeTimer === null ){
-				console.log("@@@");
 				this.resizeTimer = setTimeout( () => {
 					this.resizeEndWindow(app);
 				}, TalknWindow.resizeInterval );
