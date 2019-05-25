@@ -273,8 +273,10 @@ class Ext {
     }
 
     getClientMetas(){
-        const title = document.querySelector('title');
-        const description = document.querySelector('description');
+        let title = document.querySelector('title');
+        title = title && title !== "" ? title : "";
+        let description = document.querySelector('description');
+        description = description && description !== "" ? description : "";
         const metas = document.querySelectorAll('meta');
         let clientMetas = {metas:{}, title, description};
 
