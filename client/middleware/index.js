@@ -193,6 +193,7 @@ const functions = {
       if( 
         clientMetas[ key ] &&
         clientMetas[ key ] !== "" &&
+        serverMetas[ key ] &&
         serverMetas[ key ] !== clientMetas[key] 
       ){
         if( !action.thread.serverMetas ){
