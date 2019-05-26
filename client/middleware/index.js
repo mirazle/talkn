@@ -168,14 +168,14 @@ const functions = {
 
     // Title
     if( clientMetas.title !== title ){
-      console.log( "UPDATE TITLE" );
+      console.log( "UPDATE TITLE " + clientMetas.title + " !== " + title);
       updateFlg = true;
       action.thread.title = clientMetas.title;
     }
 
     // Description
     if( clientMetas.description !== description ){
-      console.log( "UPDATE DESCRIPTION" );
+      console.log( "UPDATE DESCRIPTION " + clientMetas.description + " !== " + description );
       updateFlg = true;
       action.thread.description = clientMetas.description;
     }
@@ -184,14 +184,14 @@ const functions = {
     Object.keys( clientMetas.metas ).forEach( ( key, i ) => {
       if( 
         clientMetas[ key ] !== "" &&
-        serverMetas[ key ] !== clientMetas[key] 
+        serverMetas[ key ] !== clientMetas.metas[key] 
       ){
         if( !action.thread.serverMetas ){
-          console.log( "UPDATE METAS" );
           action.thread.serverMetas = {};
         }
         updateFlg = true;
-        action.thread.serverMetas[ key ] = clientMetas[ key ];
+        console.log( "UPDATE METAS " + clientMetas.metas[ key ] + " " + serverMetas[ key ] );
+        action.thread.serverMetas[ key ] = clientMetas.metas[ key ];
       }
     } );
 
