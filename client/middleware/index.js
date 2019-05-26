@@ -163,9 +163,9 @@ const functions = {
   "GET_CLIENT_METAS": ( state, action ) => {
     let updateFlg = false;
     let { clientMetas } = action; 
-    let { serverMetas, title, description } = state.thread;
+    let { serverMetas } = state.thread;
     action.thread = {};
-
+/*
     // Title
     if(
       clientMetas.title &&
@@ -187,20 +187,20 @@ const functions = {
       updateFlg = true;
       action.thread.description = clientMetas.description;
     }
-
+*/
     // Metas
-    Object.keys( clientMetas.metas ).forEach( ( key, i ) => {
+    Object.keys( clientMetas ).forEach( ( key, i ) => {
       if( 
         clientMetas[ key ] &&
         clientMetas[ key ] !== "" &&
-        serverMetas[ key ] !== clientMetas.metas[key] 
+        serverMetas[ key ] !== clientMetas[key] 
       ){
         if( !action.thread.serverMetas ){
           action.thread.serverMetas = {};
         }
         updateFlg = true;
-        console.log( "UPDATE METAS " + clientMetas.metas[ key ] + " " + serverMetas[ key ] );
-        action.thread.serverMetas[ key ] = clientMetas.metas[ key ];
+        console.log( "UPDATE METAS " + clientMetas[ key ] + " " + serverMetas[ key ] );
+        action.thread.serverMetas[ key ] = clientMetas[ key ];
       }
     } );
 

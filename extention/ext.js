@@ -278,7 +278,7 @@ class Ext {
         let description = document.querySelector('description');
         description = description && description.text !== "" ? description.text : "";
         const metas = document.querySelectorAll('meta');
-        let clientMetas = {metas:{}, title, description};
+        let clientMetas = {title, description};
 
         for( let i = 0; i < metas.length; i++ ){
             const item = metas[ i ];
@@ -297,7 +297,7 @@ class Ext {
                 key = item.getAttribute('http-equiv');
                 content = item.getAttribute('content');
             }
-            clientMetas.metas[ key ] = content;
+            clientMetas[ key ] = content;
         }
         this.postMessage("getClientMetas", clientMetas);
     }
