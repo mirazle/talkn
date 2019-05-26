@@ -47,22 +47,6 @@
     var iframe =  "<%= iframe %>" ? "<%= iframe %>" : true;
     var connection = "<%= connection %>" ? "<%= connection %>" : location.href.replace(location.origin, '');
     var hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
-
-    console.log("@@@@@@@@@@@@@@@@@@@@@@ ");
-    console.log("ORIGIN = " + location.origin );
-    console.log("HREF   = " +  location.href );
-    console.log("CONNECTION " + connection );
-    console.log("INDEX EJS HAS SLASH " + hasSlash );
-
-    /*
-      hasSlashの判定はフロント側だけで機能しているので、サーバー側では不要の可能性
-      但し、Layer2(/www.localhost/)の場合、ブラウザのURL欄に/を入力しようが、しなかろうが
-      表示上は/が付かないが、location.hrefで見ると必ず/が付いている。
-
-      よってLayer2でHTMLの取得をする際はhasSlashの値に関わらず、
-      必ず
-    */
-
     connection = hasSlash ? connection : connection + "/";
     var script = document.createElement("script");
     script.setAttribute( 'id', 'talkn' );
