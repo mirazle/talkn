@@ -192,6 +192,8 @@ const functions = {
       }
     } );
 
+    console.log("@@@@@@@@@ " + updateFlg);
+    console.log( action );
     if( updateFlg ){
       return action;
     }
