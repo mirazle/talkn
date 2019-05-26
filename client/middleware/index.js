@@ -167,14 +167,22 @@ const functions = {
     action.thread = {};
 
     // Title
-    if( clientMetas.title !== title ){
+    if(
+      clientMetas.title &&
+      clientMetas.title !== "" &&
+      clientMetas.title !== title
+      ){
       console.log( "UPDATE TITLE " + clientMetas.title + " !== " + title);
       updateFlg = true;
       action.thread.title = clientMetas.title;
     }
 
     // Description
-    if( clientMetas.description !== description ){
+    if(
+      clientMetas.description &&
+      clientMetas.description !== "" &&
+      clientMetas.description !== description
+    ){
       console.log( "UPDATE DESCRIPTION " + clientMetas.description + " !== " + description );
       updateFlg = true;
       action.thread.description = clientMetas.description;
@@ -183,6 +191,7 @@ const functions = {
     // Metas
     Object.keys( clientMetas.metas ).forEach( ( key, i ) => {
       if( 
+        clientMetas[ key ] &&
         clientMetas[ key ] !== "" &&
         serverMetas[ key ] !== clientMetas.metas[key] 
       ){
