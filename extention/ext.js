@@ -5,7 +5,7 @@ class Ext {
     static get APP_NAME(){return "talkn"}
     static get ENV(){
         if( location.host.indexOf( Ext.BASE_DEV_HOST) >= 0 ){
-            return "DEV";
+            return "START";
         }
         return "PROD";
     }

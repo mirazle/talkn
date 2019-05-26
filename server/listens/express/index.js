@@ -117,6 +117,7 @@ class Express{
 
         // ポータル以外からアクセス
         if(req.headers.referer){
+          console.log( "A " + req.headers.referer );
           const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
           iframe = true;
 
@@ -134,6 +135,7 @@ class Express{
           }
         // ポータルからアクセス
         }else{
+          console.log( "B" );
           connection = req.originalUrl.replace(`/${conf.domain}`, '');
           iframe = false;
         }

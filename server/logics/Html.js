@@ -4,20 +4,28 @@ import jschardet from 'jschardet';
 import {Iconv} from 'iconv';
 import {Buffer} from 'buffer';
 import Sequence from '~/common/Sequence';
+import Thread from '~/common/schemas/state/Thread';
 import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
 import HtmlSchema from '~/server/schemas/logics/Html';
 
 export default class Html {
 
+
   async fetch( thread, requestState ){
 
     const { hasSlash } = requestState.thread;
     const { protocol, connection } = thread;
-    const requestConnection = JSON.parse(hasSlash) ? connection : connection.replace(/\/$/, '');
-    let response = null;
+    const layer = Thread.getLayer( connection );
+    let requestConnection = connection;
 
-    console.log("HAS SLASH " + hasSlash);
+    if( layer === 2 ){
+      requestConnection = connection.replace(/\/$/, '');
+    }else{
+      requestConnection = JSON.parse(hasSlash) ? connection : connection.replace(/\/$/, '');
+    }
+
+    let response = null;
 
     switch( protocol ){
     case Sequence.HTTPS_PROTOCOL:
@@ -50,13 +58,12 @@ export default class Html {
 
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
-console.log("URL" + url);
+
       request( option, ( error, response, body ) => {
 
         let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
 
         if( !error && response && response.statusCode === 200 ){
-          console.log("RESPONSE 200");
           const utf8Body = this.toUtf8Str( body );
           const $ = cheerio.load( utf8Body );
           responseSchema.protocol = protocol;
