@@ -207,9 +207,11 @@ class Ext {
         if(this.methodIdMap[method]){
             switch(method){
             case 'bootExtension':
+                this.postMessage("removeExtension");   
                 const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
                 talknFrame.remove();
                 this.iframe.remove();
+
                 console.warn("CSP REMOVE: " + method );
                 new Ext(true);
                 break;
