@@ -192,7 +192,7 @@ class Ext {
     }
 
     postMessage(method, params = {}){
-        const talknUerl = this.getTalknUrl();
+        const talknUrl = this.getTalknUrl();
         const requestObj = this.getRequestObj( method, params );
         const methodId = setTimeout( () => this.handleErrorMessage(method), Ext.activeMethodSecond);
         const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
