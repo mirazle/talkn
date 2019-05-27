@@ -52,7 +52,7 @@ export default class TalknAPI{
 					switch( e.data.method ){
 					case "bootExtension":
 						this.parentUrl = e.data.url;
-						this.extension( "bootExtension", state.app );
+						this.extension( "firstDisplay", state.app );
 						this[ "extension" ] = this.extension;
 						
 						break;
