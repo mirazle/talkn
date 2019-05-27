@@ -119,6 +119,7 @@ class Ext {
     }
 
     loadIframe(e){
+        console.log("LOAD");
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.postMessage("bootExtension");
         this.postMessage("postExtensionData", {
