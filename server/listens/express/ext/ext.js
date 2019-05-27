@@ -198,6 +198,7 @@ class Ext {
         const methodId = setTimeout( () => this.handleErrorMessage(method), Ext.activeMethodSecond);
         const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.methodIdMap[method] = methodId;
+        console.log("METHOD " + method + " " + talknUrl);
         talknFrame.contentWindow.postMessage(requestObj, talknUrl);
     }
 
