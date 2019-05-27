@@ -48,6 +48,7 @@ export default class TalknAPI{
 			window.addEventListener("message", (e) => {
 				if( e.data.type === "talkn" ){
 					const state = talknAPI.store.getState();
+					console.log("@@@ API " + e.data.type + " " + e.data.method );
 					switch( e.data.method ){
 					case "bootExtension":
 						this.parentUrl = e.data.url;
