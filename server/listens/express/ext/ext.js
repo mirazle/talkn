@@ -114,6 +114,7 @@ class Ext {
     }
 
     setupWindow(){
+        console.log(window);
         window.addEventListener('message', this.catchMessage, false);
         window.addEventListener('load', this.loadWindow);
         window.addEventListener('resize', this.resizeWindow);
