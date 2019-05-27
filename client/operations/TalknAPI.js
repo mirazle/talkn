@@ -56,6 +56,8 @@ export default class TalknAPI{
 						this[ "extension" ] = this.extension;
 						
 						break;
+					case "removeExtension":
+						break;
 					default:
 						if(talknAPI[ e.data.method ] && typeof talknAPI[ e.data.method ] === "function"){
 							talknAPI[ e.data.method ]( e.data.params );
@@ -73,6 +75,15 @@ export default class TalknAPI{
 
 	extension( method, params ){
 		if(this.parentUrl){
+
+
+
+
+
+
+
+
+			console.log("!!!!! API " + method);
 			window.top.postMessage({type: 'talkn', method, params}, this.parentUrl);
 		}
 	}
