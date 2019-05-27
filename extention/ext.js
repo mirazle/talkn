@@ -116,16 +116,7 @@ class Ext {
     setupWindow(){
         //if( window.isTalknListener ){
             window.addEventListener('message', this.catchMessage, false);
-            window.addEventListener('message', this.catchMessage, false);
-            window.addEventListener('message', this.catchMessage, false);
-            window.addEventListener('message', this.catchMessage, false);
             window.addEventListener('load', this.loadWindow);
-            window.addEventListener('load', this.loadWindow);
-            window.addEventListener('load', this.loadWindow);
-            window.addEventListener('load', this.loadWindow);
-            window.addEventListener('resize', this.resizeWindow);
-            window.addEventListener('resize', this.resizeWindow);
-            window.addEventListener('resize', this.resizeWindow);
             window.addEventListener('resize', this.resizeWindow);
             window.isTalknListener = true;
         //}
