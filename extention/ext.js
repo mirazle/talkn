@@ -65,7 +65,7 @@ class Ext {
             this.methodIdMap = {};
             this.notifId = null;
             this.resizeMethodId = null;
-            this.bootExtension = this.bootExtension.bind(this);
+            this.firstDisplay = this.firstDisplay.bind(this);
             this.catchMessage = this.catchMessage.bind(this);
             this.handleErrorMessage = this.handleErrorMessage.bind(this);
             this.toggleIframe = this.toggleIframe.bind(this);
