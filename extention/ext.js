@@ -206,7 +206,7 @@ class Ext {
         if(this.methodIdMap[method]){
             switch(method){
             case 'bootExtension':
-                console.warn("FAULT");
+                console.warn("FAULT: " + method );
                 new Ext(true);
                 break;
             }
