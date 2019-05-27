@@ -114,13 +114,12 @@ class Ext {
     }
 
     setupWindow(){
-        console.log(window.message);
-        console.log(window.onmessage);
-        window.addEventListener('message', this.catchMessage, false);
-        window.addEventListener('load', this.loadWindow);
-        window.addEventListener('resize', this.resizeWindow);
-        console.log(window.message);
-        console.log(window.onmessage);
+        if( window.isTalknListener ){
+            window.addEventListener('message', this.catchMessage, false);
+            window.addEventListener('load', this.loadWindow);
+            window.addEventListener('resize', this.resizeWindow);
+            window.isTalknListener = true;
+        }
     }
 
     loadIframe(e){
