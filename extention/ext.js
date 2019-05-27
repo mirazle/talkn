@@ -151,7 +151,7 @@ class Ext {
         if( type === Ext.APP_NAME ){
             if(this[ method ] && typeof this[ method ] === "function"){
                 if(this.methodIdMap[ method ] || Ext.aacceptPostMessages.includes(method)){
-                    console.log("CATCH " + method );
+                    console.log("@@@@ CATCH " + method );
                     this[ method ]( params );
                     clearTimeout(this.methodIdMap[ method ]);
                     delete this.methodIdMap[ method ];
