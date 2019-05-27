@@ -116,14 +116,24 @@ class Ext {
     setupWindow(){
         //if( window.isTalknListener ){
             window.addEventListener('message', this.catchMessage, false);
+            window.addEventListener('message', this.catchMessage, false);
+            window.addEventListener('message', this.catchMessage, false);
+            window.addEventListener('message', this.catchMessage, false);
             window.addEventListener('load', this.loadWindow);
+            window.addEventListener('load', this.loadWindow);
+            window.addEventListener('load', this.loadWindow);
+            window.addEventListener('load', this.loadWindow);
+            window.addEventListener('resize', this.resizeWindow);
+            window.addEventListener('resize', this.resizeWindow);
+            window.addEventListener('resize', this.resizeWindow);
             window.addEventListener('resize', this.resizeWindow);
             window.isTalknListener = true;
         //}
+        console.log();
     }
 
     loadIframe(e){
-        console.log("LOAD");
+        console.log("========== LOAD");
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.postMessage("bootExtension");
         this.postMessage("postExtensionData", {
