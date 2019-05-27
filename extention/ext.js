@@ -50,6 +50,7 @@ class Ext {
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'getClientMetas']};
 
     constructor(refusedFrame = false){
+        console.log(this);
         this.refusedFrame = refusedFrame;
         this.href = window.location.href;
         this.connection = this.href.replace("http:/", "").replace("https:/", "");
@@ -212,7 +213,7 @@ class Ext {
                 talknFrame.remove();
                 this.iframe.remove();
                 delete this;
-                console.warn("CSP REBOOT: " + method );
+                console.warn("CSP Reboot: " + method );
                 new Ext(true);
                 break;
             }
