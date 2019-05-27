@@ -178,13 +178,10 @@ const functions = {
           action.thread.serverMetas = {};
         }
         updateFlg = true;
-        console.log( "UPDATE METAS " + clientMetas[ key ] + " " + serverMetas[ key ] );
         action.thread.serverMetas[ key ] = clientMetas[ key ];
       }
     } );
 
-    console.log("@@@@@@@@@ " + updateFlg);
-    console.log( action );
     if( updateFlg ){
       return action;
     }
