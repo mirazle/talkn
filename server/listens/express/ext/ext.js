@@ -1,3 +1,4 @@
+const ENV = "DEV";
 class Ext {
     static get MODE(){
         return window.chrome && window.chrome.extension ? "BROESER" : "SCRIPT";
@@ -17,11 +18,11 @@ class Ext {
     static get BASE_TRANSITION(){return 600}
     static get EXCLUSION_ORIGINS(){return ['https://localhost', 'https://talkn.io']}
     static get BASE_HOSTNAME(){
-        if(Ext.ENV === "PROD"){
+        if(ENV === "PROD"){
             return `${Ext.PROTOCOL}://${Ext.BASE_PROD_HOST}`;
-        }else if(Ext.ENV === "START"){
+        }else if(ENV === "START"){
             return `${Ext.PROTOCOL}://${Ext.BASE_DEV_HOST}`;
-        }else if(Ext.ENV === "DEV"){
+        }else if(ENV === "DEV"){
             return `${Ext.PROTOCOL}://${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
         }
     };
