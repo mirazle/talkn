@@ -165,29 +165,7 @@ const functions = {
     let { clientMetas } = action; 
     let { serverMetas } = state.thread;
     action.thread = {};
-/*
-    // Title
-    if(
-      clientMetas.title &&
-      clientMetas.title !== "" &&
-      clientMetas.title !== title
-      ){
-      console.log( "UPDATE TITLE " + clientMetas.title + " !== " + title);
-      updateFlg = true;
-      action.thread.title = clientMetas.title;
-    }
 
-    // Description
-    if(
-      clientMetas.description &&
-      clientMetas.description !== "" &&
-      clientMetas.description !== description
-    ){
-      console.log( "UPDATE DESCRIPTION " + clientMetas.description + " !== " + description );
-      updateFlg = true;
-      action.thread.description = clientMetas.description;
-    }
-*/
     // Metas
     Object.keys( clientMetas ).forEach( ( key, i ) => {
       if( 
