@@ -107,13 +107,7 @@ class Ext {
     }
 
     getTalknUrl(){
-        console.log("GET TALKN URL " + this.refusedFrame );
-        if(this.refusedFrame){
-            console.log(chrome.runtime.getURL('index.html?' + this.connection));
-        }else{
-            console.log(Ext.BASE_HOSTNAME + this.connection);
-        }
-        this.refusedFrame ?
+        return this.refusedFrame ?
             chrome.runtime.getURL('index.html?' + this.connection) :
             Ext.BASE_HOSTNAME + this.connection;
     }
