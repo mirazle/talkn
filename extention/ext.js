@@ -195,6 +195,7 @@ class Ext {
         const methodId = setTimeout( () => this.handleErrorMessage(method), Ext.activeMethodSecond);
         this.methodIdMap[method] = methodId;
         if(this.iframe.contentWindow.postMessage){
+            console.log("POST MESSAGE " + method + " URL: " + this.talknUrl);
             this.iframe.contentWindow.postMessage(requestObj, this.talknUrl);
         }else{
             console.warn( "NULL postMessage METHOD: " + method + " URL: " + this.talknUrl);
