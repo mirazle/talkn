@@ -61,12 +61,6 @@ class Ext {
 
         if(bootFlg){
 
-            const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-            if( this.refusedFrame && talknFrame !== null){
-                console.warn(`Remove iframe#${Ext.APP_NAME}Extension`);
-                this.talknFrame.remove();
-            }
-
             this.methodIdMap = {};
             this.notifId = null;
             this.resizeMethodId = null;
@@ -86,8 +80,7 @@ class Ext {
             this.setupWindow();
             this.iframe  = document.createElement("iframe");
             this.loadIframe = this.loadIframe.bind(this);
-            this.talknUrl = refusedFrame ?
-                chrome.runtime.getURL('index.html?' + this.connection) : Ext.BASE_HOSTNAME + this.connection;
+            this.talknUrl = this.getTalknUrl();
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
             this.iframe.setAttribute("style",
@@ -111,6 +104,12 @@ class Ext {
 
             document.body.appendChild(this.iframe);
         }
+    }
+
+    getTalknUrl(){
+        this.refusedFrame ?
+            chrome.runtime.getURL('index.html?' + this.connection) :
+            Ext.BASE_HOSTNAME + this.connection;
     }
 
     setupWindow(){
@@ -204,7 +203,9 @@ class Ext {
         if(this.methodIdMap[method]){
             switch(method){
             case 'bootExtension':
-                console.warn("FAULT: " + method );
+                const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+                talknFrame.remove();
+                console.warn("CSP REMOVE: " + method );
                 new Ext(true);
                 break;
             }
