@@ -143,7 +143,7 @@ class Ext {
 //        this.postMessage("onTransition");
     }
 
-    bootExtension(params){
+    firstDisplay(params){
 
         // Display
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
@@ -192,7 +192,10 @@ class Ext {
         if( type === Ext.APP_NAME ){
             if(this[ method ] && typeof this[ method ] === "function"){
                 if(this.methodIdMap[ method ] || Ext.aacceptPostMessages.includes(method)){
+                    const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
                     console.log("@@@@ CATCH " + method );
+                    console.log( getEventListeners( window ) );
+                    console.log( getEventListeners( iframe.contentWindow ) );
                     this[ method ]( params );
                     clearTimeout(this.methodIdMap[ method ]);
                     delete this.methodIdMap[ method ];
