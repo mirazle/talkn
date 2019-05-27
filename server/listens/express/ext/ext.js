@@ -192,11 +192,12 @@ class Ext {
     }
 
     postMessage(method, params = {}){
+        const talknUerl = this.getTalknUrl();
         const requestObj = this.getRequestObj( method, params );
         const methodId = setTimeout( () => this.handleErrorMessage(method), Ext.activeMethodSecond);
+        const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.methodIdMap[method] = methodId;
-        console.log("POST MESSAGE " + method + " URL: " + this.talknUrl);
-        this.iframe.contentWindow.postMessage(requestObj, this.talknUrl);
+        talknFrame.contentWindow.postMessage(requestObj, talknUrl);
     }
 
     handleErrorMessage(method){
@@ -205,6 +206,7 @@ class Ext {
             case 'bootExtension':
                 const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
                 talknFrame.remove();
+                this.iframe.remove();
                 console.warn("CSP REMOVE: " + method );
                 new Ext(true);
                 break;
