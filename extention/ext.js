@@ -65,7 +65,7 @@ class Ext {
             this.methodIdMap = {};
             this.notifId = null;
             this.resizeMethodId = null;
-            this.firstDisplay = this.firstDisplay.bind(this);
+            this.bootExtension = this.bootExtension.bind(this);
             this.catchMessage = this.catchMessage.bind(this);
             this.handleErrorMessage = this.handleErrorMessage.bind(this);
             this.toggleIframe = this.toggleIframe.bind(this);
@@ -144,7 +144,7 @@ class Ext {
     }
 
     firstDisplay(params){
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@ firstDisplay " );
+
         // Display
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         iframe.style.height = Ext.getIframeCloseHeight();
@@ -194,6 +194,8 @@ class Ext {
                 if(this.methodIdMap[ method ] || Ext.aacceptPostMessages.includes(method)){
                     const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
                     console.log("@@@@ CATCH " + method );
+                    console.log( getEventListeners( window ) );
+                    console.log( getEventListeners( window ) );
                     this[ method ]( params );
                     clearTimeout(this.methodIdMap[ method ]);
                     delete this.methodIdMap[ method ];
