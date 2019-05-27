@@ -156,12 +156,14 @@ class Ext {
     }
 
     resizeWindow(e){
+        console.log("EXT RESIZE!");
         if( this.resizeMethodId === null ){
             this.resizeMethodId = setTimeout( this.resizedWindow, Ext.BASE_TRANSITION );
         }
     }
 
     resizedWindow(e){
+        console.log("EXT RESIZED!");
         this.resizeMethodId = null;
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
