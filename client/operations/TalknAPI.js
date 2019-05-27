@@ -44,7 +44,8 @@ export default class TalknAPI{
 	onMessage(){
 		switch(this.state.app.type){
 		case define.APP_TYPES.EXTENSION :
-		window.addEventListener("message", (e) => {
+			console.log("API EVENT LISTENER");
+			window.addEventListener("message", (e) => {
 				if( e.data.type === "talkn" ){
 					const state = talknAPI.store.getState();
 					switch( e.data.method ){
