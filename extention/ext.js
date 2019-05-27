@@ -50,6 +50,7 @@ class Ext {
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'getClientMetas']};
 
     constructor(refusedFrame = false){
+        this.refusedFrame = refusedFrame;
         this.href = window.location.href;
         this.connection = this.href.replace("http:/", "").replace("https:/", "");
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
@@ -61,8 +62,9 @@ class Ext {
         if(bootFlg){
 
             const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-            if( refusedFrame && talknFrame !== null){
-                talknFrame.remove();
+            if( this.refusedFrame && talknFrame !== null){
+                console.warn(`Remove iframe#${Ext.APP_NAME}Extension`);
+                this.talknFrame.remove();
             }
 
             this.methodIdMap = {};
