@@ -217,7 +217,6 @@ class Ext {
                 talknFrame.removeEventListener( "load", this.loadIframe );
                 talknFrame.removeEventListener( "transitionend", this.transitionend );
                 talknFrame.remove();
-                delete talknFrame;
 
                 this.iframe.removeEventListener( "load", this.loadIframe );
                 this.iframe.removeEventListener( "transitionend", this.transitionend );
