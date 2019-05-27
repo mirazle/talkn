@@ -143,7 +143,7 @@ class Ext {
 //        this.postMessage("onTransition");
     }
 
-    firstDisplay(params){
+    bootExtension(params){
 
         // Display
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
