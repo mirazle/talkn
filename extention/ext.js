@@ -194,7 +194,12 @@ class Ext {
         const requestObj = this.getRequestObj( method, params );
         const methodId = setTimeout( () => this.handleErrorMessage(method), Ext.activeMethodSecond);
         this.methodIdMap[method] = methodId;
-        this.iframe.contentWindow.postMessage(requestObj, this.talknUrl);
+        if(this.iframe.contentWindow.postMessage){
+            this.iframe.contentWindow.postMessage(requestObj, this.talknUrl);
+        }else{
+            console.warn( "NULL postMessage METHOD: " + method + " URL: " + this.talknUrl);
+            console.warn( requestObj );
+        }
     }
 
     handleErrorMessage(method){
