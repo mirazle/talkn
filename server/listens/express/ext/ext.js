@@ -120,7 +120,6 @@ class Ext {
     }
 
     loadIframe(e){
-        console.log("========== LOAD");
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.postMessage("bootExtension");
         this.postMessage("postExtensionData", {
@@ -152,14 +151,12 @@ class Ext {
     }
 
     resizeWindow(e){
-        console.log("EXT RESIZE!");
         if( this.resizeMethodId === null ){
             this.resizeMethodId = setTimeout( this.resizedWindow, Ext.BASE_TRANSITION );
         }
     }
 
     resizedWindow(e){
-        console.log("EXT RESIZED!");
         this.resizeMethodId = null;
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
@@ -188,7 +185,6 @@ class Ext {
             if(this[ method ] && typeof this[ method ] === "function"){
                 if(this.methodIdMap[ method ] || Ext.aacceptPostMessages.includes(method)){
                     const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-                    console.log("@@@@ CATCH " + method );
                     this[ method ]( params );
                     clearTimeout(this.methodIdMap[ method ]);
                     delete this.methodIdMap[ method ];
@@ -203,7 +199,6 @@ class Ext {
         const methodId = setTimeout( () => this.handleErrorMessage(method), Ext.activeMethodSecond);
         const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.methodIdMap[method] = methodId;
-        console.log("METHOD " + method + " " + talknUrl);
         talknFrame.contentWindow.postMessage(requestObj, talknUrl);
     }
 
