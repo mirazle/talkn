@@ -146,20 +146,6 @@ class Ext {
         this.postMessage("onTransition");
     }
 
-    catchMessage(e){
-        const {type, method, params} = e.data;
-        if( type === Ext.APP_NAME ){
-            if(this[ method ] && typeof this[ method ] === "function"){
-                if(this.methodIdMap[ method ] || Ext.aacceptPostMessages.includes(method)){
-                    console.log("@@@@ CATCH " + method );
-                    this[ method ]( params );
-                    clearTimeout(this.methodIdMap[ method ]);
-                    delete this.methodIdMap[ method ];
-                }
-            }
-        }
-    }
-
     loadWindow(e){
         this.resizedWindow();
     }
@@ -193,6 +179,20 @@ class Ext {
         }
     }
 
+    catchMessage(e){
+        const {type, method, params} = e.data;
+        if( type === Ext.APP_NAME ){
+            if(this[ method ] && typeof this[ method ] === "function"){
+                if(this.methodIdMap[ method ] || Ext.aacceptPostMessages.includes(method)){
+                    console.log("@@@@ CATCH " + method );
+                    this[ method ]( params );
+                    clearTimeout(this.methodIdMap[ method ]);
+                    delete this.methodIdMap[ method ];
+                }
+            }
+        }
+    }
+
     postMessage(method, params = {}){
         const talknUrl = this.getTalknUrl();
         const requestObj = this.getRequestObj( method, params );
@@ -211,8 +211,8 @@ class Ext {
                 const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
                 talknFrame.remove();
                 this.iframe.remove();
-
-                console.warn("CSP REMOVE: " + method );
+                delete this;
+                console.warn("CSP REBOOT: " + method );
                 new Ext(true);
                 break;
             }
