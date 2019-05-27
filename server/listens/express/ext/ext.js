@@ -194,8 +194,6 @@ class Ext {
                 if(this.methodIdMap[ method ] || Ext.aacceptPostMessages.includes(method)){
                     const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
                     console.log("@@@@ CATCH " + method );
-                    console.log( getEventListeners( window ) );
-                    console.log( getEventListeners( window ) );
                     this[ method ]( params );
                     clearTimeout(this.methodIdMap[ method ]);
                     delete this.methodIdMap[ method ];
