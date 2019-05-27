@@ -50,10 +50,10 @@ class Ext {
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'getClientMetas']};
 
     constructor(refusedFrame = false){
-        console.log(this);
         this.refusedFrame = refusedFrame;
         this.href = window.location.href;
         this.connection = this.href.replace("http:/", "").replace("https:/", "");
+        const talknUrl = this.getTalknUrl();
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
         this.connection = hasSlash ? this.connection : this.connection + "/";
         const bootFlg = Ext.EXCLUSION_ORIGINS.every( ( origin ) =>{
@@ -81,7 +81,6 @@ class Ext {
             this.setupWindow();
             this.iframe  = document.createElement("iframe");
             this.loadIframe = this.loadIframe.bind(this);
-            this.talknUrl = this.getTalknUrl();
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
             this.iframe.setAttribute("style",
@@ -98,7 +97,7 @@ class Ext {
                 "transition: 0ms !important;" + 
                 "transform: translate3d(0px, 0px, 0px) !important;"
             );
-            this.iframe.setAttribute("src", this.talknUrl );
+            this.iframe.setAttribute("src", talknUrl );
             this.iframe.setAttribute("frameBorder", 0 );
             this.iframe.addEventListener( "load", this.loadIframe );
             this.iframe.addEventListener( "transitionend", this.transitionend );
@@ -114,10 +113,6 @@ class Ext {
     }
 
     setupWindow(){
-
-        window.removeEventListener('message', this.catchMessage);
-        window.removeEventListener('load', this.loadWindow);
-        window.removeEventListener('resize', this.resizeWindow);
         window.addEventListener('message', this.catchMessage);
         window.addEventListener('load', this.loadWindow);
         window.addEventListener('resize', this.resizeWindow);
@@ -217,10 +212,22 @@ class Ext {
             switch(method){
             case 'bootExtension':
                 this.postMessage("removeExtension");   
+
                 const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+                talknFrame.removeEventListener( "load", this.loadIframe );
+                talknFrame.removeEventListener( "transitionend", this.transitionend );
                 talknFrame.remove();
+                delete talknFrame;
+
+                this.iframe.removeEventListener( "load", this.loadIframe );
+                this.iframe.removeEventListener( "transitionend", this.transitionend );
                 this.iframe.remove();
                 delete this;
+
+                window.removeEventListener('message', this.catchMessage);
+                window.removeEventListener('load', this.loadWindow);
+                window.removeEventListener('resize', this.resizeWindow);
+
                 console.warn("CSP Reboot: " + method );
                 new Ext(true);
                 break;
