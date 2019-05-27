@@ -114,13 +114,14 @@ class Ext {
     }
 
     setupWindow(){
-        //if( window.isTalknListener ){
-            window.addEventListener('message', this.catchMessage, false);
-            window.addEventListener('load', this.loadWindow);
-            window.addEventListener('resize', this.resizeWindow);
-            window.isTalknListener = true;
-        //}
-        console.log();
+
+        window.addEventListener('message', this.catchMessage);
+        window.removeEventListener('message', this.catchMessage);
+        window.addEventListener('load', this.loadWindow);
+        window.removeEventListener('load', this.loadWindow);
+        window.addEventListener('resize', this.resizeWindow);
+        window.removeEventListener('resize', this.resizeWindow);
+        window.isTalknListener = true;
     }
 
     loadIframe(e){
