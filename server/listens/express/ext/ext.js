@@ -114,10 +114,13 @@ class Ext {
     }
 
     setupWindow(){
-        console.log(window);
+        console.log(window.message);
+        console.log(window.onmessage);
         window.addEventListener('message', this.catchMessage, false);
         window.addEventListener('load', this.loadWindow);
         window.addEventListener('resize', this.resizeWindow);
+        console.log(window.message);
+        console.log(window.onmessage);
     }
 
     loadIframe(e){
