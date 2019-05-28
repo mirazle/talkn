@@ -1,6 +1,7 @@
 const ENV = "PROD";
 class Ext {
     static get MODE(){
+        console.log(window);
         return window.chrome && window.chrome.extension ? "BROESER" : "SCRIPT";
     }
     static get APP_NAME(){return "talkn"}
@@ -114,8 +115,6 @@ console.log( chrome );
     }
 
     loadIframe(e){
-        alert(2);
-
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.postMessage("bootExtension");
         this.postMessage("postExtensionData", {
