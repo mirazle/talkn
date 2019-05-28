@@ -117,27 +117,27 @@ class Express{
 
         // ポータル以外からアクセス
         if(req.headers.referer){
-          console.log( "A " + req.headers.referer );
           const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
           iframe = true;
 
           // Auto Connection
           if(req.originalUrl === "/"){
-            connection = referer;
+            connection = req.originalUrl;
 
           // Extension
           }else if(req.originalUrl !== "/"){
-            connection = referer;
+            connection = req.originalUrl;
 
           // User Input Connection
           }else{
 
           }
+
         // ポータルからアクセス
         }else{
-          console.log( "B" );
           connection = req.originalUrl.replace(`/${conf.domain}`, '');
           iframe = false;
+          console.log("B " + connection );
         }
 /*
         // Open Portal Site
