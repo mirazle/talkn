@@ -33,17 +33,12 @@ export default class LockMenu {
 
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
-        layout.width = `${100 * Container.widthRatio}`;
-        layout.left = ( 100 - layout.width ) / 2;
-        layout.width = layout.width + "%";
-        layout.left = layout.left + "%";  
-        layout.zIndex = "1";
     case App.screenModeMiddleLabel :
       layout.width = `${100 * Container.widthRatio}`;
       layout.left = ( 100 - layout.width ) / 2;
       layout.width = layout.width + "%";
       layout.left = layout.left + "%";
-      layout.zIndex = "1";
+      layout.zIndex = "0";
       break;
     case App.screenModeLargeLabel :
       layout.width = `33.3%`;
