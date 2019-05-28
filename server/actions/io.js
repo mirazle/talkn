@@ -152,13 +152,9 @@ export default {
 
   updateThreadServerMetas: async ( ioUser, requestState, setting ) => {
     const { connection } = requestState.thread;
-console.log("A");
-    const {response: baseThread} = await Logics.db.threads.findOne( connection );
-console.log("B");
-    const {response: thread} = await Logics.db.threads.updateServerMetas( connection, baseThread, requestState.thread );
-console.log("C");
-    await Logics.io.updateThreadServerMetas( ioUser, {requestState, thread} );
-console.log("D");
+    const {response: baseThread} = await Logics.db.threads.findOne( connection );console.log("B");
+    const serverMetas = await Logics.db.threads.updateServerMetas( connection, baseThread, requestState.thread );
+    await Logics.io.updateThreadServerMetas( ioUser, {requestState, thread: {serverMetas}} );
     return true;
   },
 
