@@ -129,6 +129,15 @@ export default class Threads {
     return await this.collection.update( condition, set, option );
   }
 
+  async updateServerMetas( connection, baseThread, updateThread ){
+    const condition = {connection};
+    const serverMetas = {...baseThread.serverMetas, ...updateThread.serverMetas};
+    const set = {connection, serverMetas, updateTime: new Date()};
+    const option = {upsert:true};
+    await this.collection.update( condition, set, option );
+    return {thread: {serverMetas}};
+  }
+
   /******************/
   /* COLUMN LOGIC   */
   /******************/

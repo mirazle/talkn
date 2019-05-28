@@ -171,7 +171,7 @@ export default class Html {
       key = key.toString().replace( '.', '_' );
       serverMetas[ key ] = content;
     }
-console.log(serverMetas);
+
     return serverMetas;
   }
 

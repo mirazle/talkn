@@ -44,17 +44,14 @@ export default class TalknAPI{
 	onMessage(){
 		switch(this.state.app.type){
 		case define.APP_TYPES.EXTENSION :
-			console.log("API EVENT LISTENER");
 			window.addEventListener("message", (e) => {
 				if( e.data.type === "talkn" ){
 					const state = talknAPI.store.getState();
-					console.log("@@@ API " + e.data.type + " " + e.data.method );
 					switch( e.data.method ){
 					case "bootExtension":
 						this.parentUrl = e.data.url;
 						this.extension( "bootExtension", state.app );
 						this[ "extension" ] = this.extension;
-						
 						break;
 					case "removeExtension":
 						break;

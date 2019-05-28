@@ -17,6 +17,8 @@ export default {
     Object.keys( Sequence.map ).forEach( endpoint => {
       const oneSequence = Sequence.map[ endpoint ];
       ioUser.on( endpoint, ( requestState ) => {
+        console.log("------------------------------- " + endpoint);
+        console.log( requestState );
         Actions.io[ endpoint ]( ioUser, requestState, setting );
       });
     });
@@ -141,7 +143,7 @@ export default {
     let thread = {connection};
     const isMultistream = Threads.getStatusIsMultistream( app );
     const post = await Logics.db.posts.save( requestState );
-    const response = await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost: post } );
+    const response = await Logics.db.threads.updateMany( connection, {$inc: {postCnt: 1}, lastPost: post } );
     const postCntKey = isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts( requestState, isMultistream );
     await Logics.io.post( ioUser, {requestState, posts:[ post ] , thread } );
@@ -150,10 +152,13 @@ export default {
 
   updateThreadServerMetas: async ( ioUser, requestState, setting ) => {
     const { connection } = requestState.thread;
-    console.log(requestState.thread);
-    await Logics.db.threads.update( connection, {$set: requestState.thread} );
-    const {response: thread} = await Logics.db.threads.findOne( connection );
+console.log("A");
+    const {response: baseThread} = await Logics.db.threads.findOne( connection );
+console.log("B");
+    const {response: thread} = await Logics.db.threads.updateServerMetas( connection, baseThread, requestState.thread );
+console.log("C");
     await Logics.io.updateThreadServerMetas( ioUser, {requestState, thread} );
+console.log("D");
     return true;
   },
 
