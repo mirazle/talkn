@@ -28,7 +28,7 @@ export default class LockMenu {
       border: Container.border,
       borderRadius: "5px",
       background: Container.whiteRGB,
-      zIndex: "0"
+      zIndex: "1"
     }
 
     switch( app.screenMode ){
