@@ -183,7 +183,8 @@ const functions = {
     } );
 
     if( updateFlg ){
-      action.threadDetail = action.thread;
+      action.threadDetail = state.threadDetail;
+      action.threadDetail.serverMetas = action.thread.serverMetas;
       return action;
     }
   }
