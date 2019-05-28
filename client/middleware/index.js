@@ -185,6 +185,7 @@ const functions = {
     if( updateFlg ){
       action.threadDetail = state.threadDetail;
       action.threadDetail.serverMetas = action.thread.serverMetas;
+      console.log(action);
       return action;
     }
   }
