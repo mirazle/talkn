@@ -1,8 +1,9 @@
 const ENV = "PROD";
 class Ext {
     static get MODE(){
-        console.log(window);
-        return window.chrome && window.chrome.extension ? "BROESER" : "SCRIPT";
+        const domain = ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
+        const scriptTag = document.querySelector(`script[src='//ext.${domain}']`);
+        return scriptTag ? "SCRIPT" : "BROWSER";
     }
     static get APP_NAME(){return "talkn"}
     static get PROTOCOL(){return "https"}
@@ -96,7 +97,6 @@ class Ext {
             this.iframe.setAttribute("frameBorder", 0 );
             this.iframe.addEventListener( "load", this.loadIframe );
             this.iframe.addEventListener( "transitionend", this.transitionend );
-console.log( chrome );
             document.body.appendChild(this.iframe);
         }
     }
