@@ -28,17 +28,22 @@ export default class LockMenu {
       border: Container.border,
       borderRadius: "5px",
       background: Container.whiteRGB,
-      zIndex: "1"
+      zIndex: "0"
     }
 
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
+        layout.width = `${100 * Container.widthRatio}`;
+        layout.left = ( 100 - layout.width ) / 2;
+        layout.width = layout.width + "%";
+        layout.left = layout.left + "%";  
+        layout.zIndex = "1";
     case App.screenModeMiddleLabel :
       layout.width = `${100 * Container.widthRatio}`;
       layout.left = ( 100 - layout.width ) / 2;
       layout.width = layout.width + "%";
       layout.left = layout.left + "%";
-      layout.zIndex = "0";
+      layout.zIndex = "1";
       break;
     case App.screenModeLargeLabel :
       layout.width = `33.3%`;
