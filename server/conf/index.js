@@ -10,8 +10,10 @@ const localhostPemKey = `${homeDir}/talkn/common/pems/localhost.key`;
 const localhostPemCrt = `${homeDir}/talkn/common/pems/localhost.crt`;
 const productPemKey = '/etc/letsencrypt/live/talkn.io/privkey.pem';
 const productPemCrt = '/etc/letsencrypt/live/talkn.io/cert.pem';
+const productPemChain = '/etc/letsencrypt/live/talkn.io/chain.pem';
 const sslKey = env === PRODUCTION ? productPemKey :  localhostPemKey;
 const sslCrt = env === PRODUCTION ? productPemCrt:  localhostPemCrt;
+const sslChain = env === PRODUCTION ? productPemChain:  null;
 
 conf.socketIO = { host: 'localhost', port: PORTS.SOCKET_IO };
 conf.redis = { host: 'localhost', port: PORTS.REDIS };
@@ -23,6 +25,8 @@ conf.serverAssetsPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listen
 conf.serverWwwPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/www/' : `${homeDir}/talkn/server/listens/express/www/` ;
 conf.serverExtPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/ext/' : `${homeDir}/talkn/server/listens/express/ext/` ;
 conf.serverAutoPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/express/auto/' : `${homeDir}/talkn/server/listens/express/auto/` ;
-conf.sslOptions = {key: fs.readFileSync( sslKey ), cert: fs.readFileSync( sslCrt ) };
+conf.sslOptions = env === PRODUCTION ?  
+    {key: fs.readFileSync( sslKey ), cert: fs.readFileSync( sslCrt ), ca: fs.readFileSync( sslChain ) } :
+    {key: fs.readFileSync( sslKey ), cert: fs.readFileSync( sslCrt )} ;
 
 export default conf;
