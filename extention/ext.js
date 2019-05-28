@@ -101,7 +101,7 @@ class Ext {
             this.iframe.setAttribute("frameBorder", 0 );
             this.iframe.addEventListener( "load", this.loadIframe );
             this.iframe.addEventListener( "transitionend", this.transitionend );
-
+alert(1);
             document.body.appendChild(this.iframe);
         }
     }
@@ -120,6 +120,8 @@ class Ext {
     }
 
     loadIframe(e){
+        alert(2);
+
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.postMessage("bootExtension");
         this.postMessage("postExtensionData", {
