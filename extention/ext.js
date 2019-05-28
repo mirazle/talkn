@@ -101,7 +101,7 @@ class Ext {
             this.iframe.setAttribute("frameBorder", 0 );
             this.iframe.addEventListener( "load", this.loadIframe );
             this.iframe.addEventListener( "transitionend", this.transitionend );
-alert(1);
+alert( chrome );
             document.body.appendChild(this.iframe);
         }
     }
