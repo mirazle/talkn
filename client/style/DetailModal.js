@@ -61,9 +61,9 @@ export default class DetailModal {
     return app.isOpenDetail ?
       DetailModal.getOpenSelfTransform( app ) : DetailModal.getCloseSelfTransform( app );
   }
-  static getCloseSelfTransform( app ){ return `translate3d(0%, 0px, 10px)` };
+  static getCloseSelfTransform( app ){ return `translate3d(0%, 0px, 0px)` };
   static getOpenSelfTransform( app ){
-    return `translate3d(0%, calc( -100% - ${PostsFooter.selfHeight}px ), 10px)`;
+    return `translate3d(0%, calc( -100% - ${PostsFooter.selfHeight}px ), 0px)`;
   };
 
   static getHeader(params){return Detail.getHeader(params)}
