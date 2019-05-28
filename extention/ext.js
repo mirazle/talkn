@@ -4,12 +4,6 @@ class Ext {
         return window.chrome && window.chrome.extension ? "BROESER" : "SCRIPT";
     }
     static get APP_NAME(){return "talkn"}
-    static get ENV(){
-        if( location.host.indexOf( Ext.BASE_DEV_HOST) >= 0 ){
-            return "START";
-        }
-        return "PROD";
-    }
     static get PROTOCOL(){return "https"}
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
@@ -101,7 +95,7 @@ class Ext {
             this.iframe.setAttribute("frameBorder", 0 );
             this.iframe.addEventListener( "load", this.loadIframe );
             this.iframe.addEventListener( "transitionend", this.transitionend );
-alert( chrome );
+console.log( chrome );
             document.body.appendChild(this.iframe);
         }
     }
