@@ -1,4 +1,4 @@
-const ENV = "PROD";
+const ENV = "START";
 class Ext {
     static get MODE(){
         return window.chrome && window.chrome.extension ? "BROESER" : "SCRIPT";
