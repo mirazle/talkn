@@ -37,12 +37,7 @@ const componentDidUpdates = {
                 const lastPost = posts[posts.length - 1];
 
                 if( lastPost && !app.isOpenPosts ){
-            
                     self.props.createNotif();
-console.log("NOTIF!");
-console.log( self );
-console.log( self.props );
-console.log( handleOnClickToggleMain );
                     self.setState({
                         notifs: self.state.notifs.concat(
                             <Notif
@@ -159,7 +154,6 @@ const updateThreadServerMetas = ( self ) => {
                 content = item.getAttribute('content');
             }
 
-            console.log( key + " = " + content );
 
             //if( !serverMetas[ key ] ){
                 serverMetas[ key ] = content;
