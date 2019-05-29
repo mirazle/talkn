@@ -180,6 +180,7 @@ export default class Detail {
       width: '100%',
       height: `calc( 100% - ${ Header.headerHeight * 2 }px )`,
       background: Container.lightGrayRGBA,
+      zIndex: 0
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -375,13 +376,13 @@ export default class Detail {
       width: "100%",
       background: Container.offWhiteRGB,
       height: Header.headerHeight,
-      zÎndex: "2px",
+      zÎndex: "1px",
       ...positions,
       ...borders
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transform: "translate3d(0px, 0px, 10px)"
+      transform: "translate3d(0px, 0px, 0px)"
     });
     return Style.get({layout, content, animation});
   }
