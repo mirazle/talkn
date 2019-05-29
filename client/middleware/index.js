@@ -46,6 +46,9 @@ const functions = {
     action = Posts.getAnyActionPosts(action);
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = action.thread;
+    if(define.APP_TYPES.EXTENSION === action.app.type && !action.app.isOpenPosts && !action.app.isDispPosts){
+      talknAPI.extension("openNotif");
+    }
     return action;
   },
   "CLIENT_TO_SERVER[EMIT]:changeThread": ( state, action ) => {
