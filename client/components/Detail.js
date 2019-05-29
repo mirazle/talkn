@@ -78,6 +78,7 @@ export default class Detail extends Component {
     const { threadDetail, style } = state;
     return(
       <header
+        data-component-name={"DetailHeader"}
         onClick={handleOnClickToggleDetail}
         style={ style.detail.header }
       >
@@ -197,7 +198,10 @@ export default class Detail extends Component {
     */
 
     return(
-      <div style={ style.detail.meta } >
+      <div
+        data-component-name={"DetaiMeta"}
+        style={ style.detail.meta }
+      >
         <div style={ style.detail.img } />
         <div style={ style.detail.description }>{ description }</div>
 
