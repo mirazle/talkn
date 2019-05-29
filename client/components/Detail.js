@@ -370,7 +370,10 @@ export default class Detail extends Component {
     return (
       <div data-component-name={"Detail"} style={ style.detail.self }>
         {this.renderHeader()}
-        <div style={ style.detail.body } >
+        <div
+          data-component-name={"DetailBody"} 
+          style={ style.detail.body }
+        >
           {this.renderMeta()}
           {this.renderExtension()}
 
