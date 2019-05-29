@@ -30,15 +30,17 @@ export default class LockMenu {
       background: Container.whiteRGB,
       zIndex: "0"
     }
-
+    console.log(app);
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
+      console.log("A");
       layout.width = `${100 * Container.widthRatio}`;
       layout.left = ( 100 - layout.width ) / 2;
       layout.width = layout.width + "%";
       layout.left = layout.left + "%";
       layout.zIndex = 1;
     case App.screenModeMiddleLabel :
+        console.log("B");
       layout.width = `${100 * Container.widthRatio}`;
       layout.left = ( 100 - layout.width ) / 2;
       layout.width = layout.width + "%";
@@ -46,6 +48,7 @@ export default class LockMenu {
       layout.zIndex = "0";
       break;
     case App.screenModeLargeLabel :
+        console.log("C");
       layout.width = `33.3%`;
       layout.left = `33.3%`;
       layout.zIndex = "1";
