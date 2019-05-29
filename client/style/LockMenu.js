@@ -28,30 +28,27 @@ export default class LockMenu {
       border: Container.border,
       borderRadius: "5px",
       background: Container.whiteRGB,
-      zIndex: "0"
+      zIndex: 0
     }
-    console.log(app);
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
-      console.log("A");
       layout.width = `${100 * Container.widthRatio}`;
       layout.left = ( 100 - layout.width ) / 2;
       layout.width = layout.width + "%";
       layout.left = layout.left + "%";
       layout.zIndex = 1;
+      break;
     case App.screenModeMiddleLabel :
-        console.log("B");
       layout.width = `${100 * Container.widthRatio}`;
       layout.left = ( 100 - layout.width ) / 2;
       layout.width = layout.width + "%";
       layout.left = layout.left + "%";
-      layout.zIndex = "0";
+      layout.zIndex = 0;
       break;
     case App.screenModeLargeLabel :
-        console.log("C");
       layout.width = `33.3%`;
       layout.left = `33.3%`;
-      layout.zIndex = "1";
+      layout.zIndex = 1;
       break;
     }
     return layout;
@@ -104,7 +101,6 @@ export default class LockMenu {
       transition: Container.getTransition(app),
       transform: LockMenu.getCommonTransform(app)
     });
-    console.log( commonLayout );
     return Style.get({layout, content, animation});
   }
 
