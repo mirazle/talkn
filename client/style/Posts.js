@@ -115,6 +115,7 @@ export default class Posts {
       borderRight: 0,
       borderLeft: 0
     }
+    let zIndex = 1;
     let transform = Posts.getSelfTransform(app);
 
     if( app.type === define.APP_TYPES.EXTENSION ){
@@ -125,6 +126,7 @@ export default class Posts {
       overflow = "scroll";
       borders.borderRight = Container.border;
       borders.borderLeft = Container.border;
+      zIndex = 0;
     }else if( app.iframe ){
       position = "relative";
       top = "45px";
@@ -150,7 +152,8 @@ export default class Posts {
       overflowScrolling: "touch",
       WebkitOverflowScrolling: "touch",
       overflow,
-      ...borders
+      ...borders,
+      zIndex
     });
     const content = {};
     const animation = Style.getAnimationBase({});
