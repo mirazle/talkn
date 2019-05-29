@@ -39,7 +39,7 @@ const componentDidUpdates = {
                 if( lastPost && !app.isOpenPosts ){
             
                     self.props.createNotif();
-
+console.log("NOTIF!");
                     self.setState({
                         notifs: self.state.notifs.concat(
                             <Notif
