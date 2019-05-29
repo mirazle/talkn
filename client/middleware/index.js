@@ -47,6 +47,7 @@ const functions = {
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = action.thread;
     if(define.APP_TYPES.EXTENSION === action.app.type && !action.app.isOpenPosts && !action.app.isDispPosts){
+      const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
       talknAPI.extension("openNotif");
     }
     return action;
