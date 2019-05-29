@@ -72,7 +72,7 @@ export default class Detail {
       borderBottom: 0,
       borderRadius: Container.radiuses,
       WebkitOverflowScrolling: 'touch',
-      zIndex: 1
+      zIndex: 100
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
