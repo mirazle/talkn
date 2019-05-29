@@ -40,6 +40,9 @@ const componentDidUpdates = {
             
                     self.props.createNotif();
 console.log("NOTIF!");
+console.log( self );
+console.log( self.props );
+console.log( handleOnClickToggleMain );
                     self.setState({
                         notifs: self.state.notifs.concat(
                             <Notif
