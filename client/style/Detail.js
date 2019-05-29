@@ -375,7 +375,7 @@ export default class Detail {
       width: "100%",
       background: Container.offWhiteRGB,
       height: Header.headerHeight,
-      zÎndex: "1px",
+      zÎndex: "2px",
       ...positions,
       ...borders
     });
