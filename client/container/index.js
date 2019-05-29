@@ -101,7 +101,7 @@ class Container extends Component {
     let { app, thread, threadDetail } = state;
 
     if( app.type ===  define.APP_TYPES.EXTENSION ){
-
+      console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@s");
       this.setState({notifs: []});
       app.isOpenNotif = false;
 
@@ -352,7 +352,11 @@ class Container extends Component {
         }
       }
     }else{
-      return <Loading />;
+      if( app.type === define.APP_TYPES.EXTENSION ){
+        return null;
+      }else{
+        return <Loading />;
+      }
     }
  	}
 }
