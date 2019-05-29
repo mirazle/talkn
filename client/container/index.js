@@ -99,7 +99,6 @@ class Container extends Component {
   handleOnClickToggleMain( e ){
     const { onClickToggleMain, onClickToggleDispDetail, onClickOpenLockMenu, state} = this.props;
     let { app, thread, threadDetail } = state;
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ss");
     if( app.type ===  define.APP_TYPES.EXTENSION ){
 
       this.setState({notifs: []});
