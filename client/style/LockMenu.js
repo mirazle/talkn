@@ -101,6 +101,7 @@ export default class LockMenu {
       transition: Container.getTransition(app),
       transform: LockMenu.getCommonTransform(app)
     });
+    console.log( commonLayout );
     return Style.get({layout, content, animation});
   }
 
