@@ -126,7 +126,7 @@ export default class Posts {
       overflow = "scroll";
       borders.borderRight = Container.border;
       borders.borderLeft = Container.border;
-      zIndex = 0;
+      zIndex = -2;
     }else if( app.iframe ){
       position = "relative";
       top = "45px";
