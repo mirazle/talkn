@@ -108,7 +108,7 @@ export default class TalknWindow {
 	}
 
 	setIsScrollBottom(){
-		const htmlScrollHeight = document.querySelector("html").scrollHeight;
+		const htmlScrollHeight = document.querySelector("body").scrollHeight;
 		this.innerHeight = window.innerHeight;
 		this.scrollHeight = window.scrollY ;
 		document.querySelector("button").textContent = htmlScrollHeight + " " + this.innerHeight + " " + this.scrollHeight;
