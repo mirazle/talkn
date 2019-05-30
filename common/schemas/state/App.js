@@ -240,6 +240,7 @@ export default class App extends Schema{
   }
 
   static getIframe( params ){
+    
     // Open Portal(Judge server side)
     // Open Portal from iframe(Judge server side)
     // Open Extension( Judge ext.js ) 
@@ -247,6 +248,7 @@ export default class App extends Schema{
     if( Schema.isSet( params.iframe ) ){
       return Schema.getBool( params.iframe );
     }else{
+      // localhost:8080の場合server listenを介さないので正しい判定が取れない
       return false;
     }
   }
