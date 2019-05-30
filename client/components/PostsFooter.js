@@ -91,7 +91,7 @@ export default class PostsFooter extends Component {
       setTimeout( () => {
 //        if(!talknWindow.isScrollBottom ){
 
-          console.log("FOCUS SCROLL");
+          console.log("FOCUS SCROLL!");
           document.querySelector("button").textContent = document.querySelector("[data-component-name='Posts']").scrollTop;
 
           document.querySelector("[data-component-name='Posts']").scrollTop === 99999999;
