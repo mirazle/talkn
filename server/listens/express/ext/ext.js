@@ -117,9 +117,9 @@ class Ext {
         this.windowScrollY = window.screenY;
         this.windowHeight = document.querySelector("body").scrollHeight;
         alert(
-            "WINDOW " + this.windowScrollY + " " + window.scrollHeight + 
-            "HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + 
-            "BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight
+            "WINDOW " + this.windowScrollY + " " + window.innerHeight + " " + window.outerHeight + 
+            " HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + 
+            " BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight
         );
     }
 
@@ -307,6 +307,11 @@ class Ext {
         const windowScrollY = window.screenY;
         const windowHeight = document.querySelector("body").scrollHeight;
 //        alert( this.windowScrollY + " " + this.windowHeight + " : " + windowScrollY + " " + windowHeight );
+        alert(
+            "WINDOW " + this.windowScrollY + " " + window.innerHeight + " " + window.outerHeight + 
+            " HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + 
+            " BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight
+        );
     }
 
     getClientMetas(){
