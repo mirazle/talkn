@@ -73,9 +73,13 @@ export default class PostsFooter extends Component {
     if( app.screenMode === App.screenModeSmallLabel ){
       if( this.state.focusSetIntervalId === 0 ){
         window.scrollTo(0, 9999999);
+
         const focusSetIntervalId = setInterval(  () => {
-          window.scrollTo(0, 9999999)
+          if(!talknWindow.isScrollBottom ){
+            window.scrollTo(0, 9999999)
+          }
         }, 500);
+
         this.setState({focusSetIntervalId});
       }
     }
@@ -99,7 +103,6 @@ export default class PostsFooter extends Component {
     const { state, handleOnClickToggleMain, debug } = this.props;
     const { style, app } = state;  
     const value = debug && debug !== "" ? debug : app.inputPost;
-
     return (
       <div  
         data-component-name={"PostsFooter"}
