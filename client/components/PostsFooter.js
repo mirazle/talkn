@@ -40,9 +40,13 @@ export default class PostsFooter extends Component {
   
   handleOnChange( e ){
     if( !App.validInputPost( e.target.value ) ){
-
       const { app } = this.props.state;
+
       if( app.screenMode === App.screenModeSmallLabel ){
+
+        const input = e.target.value.replace( app.inputPost, "" );
+        console.log( "CHANGE " + input );
+
         clearInterval(this.state.focusSetIntervalId);
         window.scrollTo(0, 9999999);
         if( !talknWindow.isScrollBottom ){
@@ -50,12 +54,20 @@ export default class PostsFooter extends Component {
           talknWindow.setIsScrollBottom();
         }
       }
+
       talknAPI.onChangeInputPost( e.target.value );
     }
   }
 
   handleOnKeyPress( e ){
     clearInterval(this.state.focusSetIntervalId);
+
+    const { app } = this.props.state;
+    if( app.screenMode === App.screenModeSmallLabel ){
+      const input = e.target.value.replace( app.inputPost, "" );
+      console.log( "KEY PRESS " + input);
+    }
+
     if ( e.nativeEvent.keyCode === 13 ) {
       if( e.nativeEvent.shiftKey ){
         talknAPI.onChangeInputPost( e.target.value + '\n');
@@ -72,20 +84,19 @@ export default class PostsFooter extends Component {
     const { app } = this.props.state;
     if( app.screenMode === App.screenModeSmallLabel ){
       if( this.state.focusSetIntervalId === 0 ){
-        console.log("FOCUS"):
+        console.log("FOCUS SCROLL");
         window.scrollTo(0, 9999999);
-
+/*
         const focusSetIntervalId = setInterval(  () => {
-          console.log("A");
           if(!talknWindow.isScrollBottom ){
-            console.log("B");
-
+            console.log("INTERVAL SCROLL");
             window.scrollTo(0, 9999999);
             talknWindow.setIsScrollBottom();
           }
-        }, 500);
+        }, 1000);
 
         this.setState({focusSetIntervalId});
+*/
       }
     }
   }
