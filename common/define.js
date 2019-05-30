@@ -24,8 +24,7 @@ export default {
   },
   APP_TYPES: {
     PORTAL: 'portal',
-    EXTENSION: 'extension',
-    IFRAME: 'iframe'
+    EXTENSION: 'extension'
   },
   URL: {
     twitter: "https://twitter.com/",

@@ -122,22 +122,22 @@ class Express{
 
           // Auto Connection
           if(req.originalUrl === "/"){
-            connection = req.originalUrl;
+            connection = referer;
 
           // Extension
           }else if(req.originalUrl !== "/"){
-            connection = req.originalUrl;
+            connection = referer;
 
           // User Input Connection
           }else{
 
           }
-
+          console.log("ACCESS NOT PORTAL " + connection );
         // ポータルからアクセス
         }else{
           connection = req.originalUrl.replace(`/${conf.domain}`, '');
           iframe = false;
-          console.log("B " + connection );
+          console.log("ACCESS PORTAL " + connection );
         }
 /*
         // Open Portal Site

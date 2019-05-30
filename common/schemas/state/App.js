@@ -1,7 +1,7 @@
 import define from '~/common/define';
 import Schema from '~/common/schemas/Schema';
-import PostsFooter from '~/client/style/PostsFooter';
 import Post from '~/common/schemas/state/Post';
+import conf from '~/client/conf/';
 
 export default class App extends Schema{
   static get openLockMenuLabelNo(){ return 'No' };
@@ -240,14 +240,15 @@ export default class App extends Schema{
   }
 
   static getIframe( params ){
-    let iframe = true;
+    // Open Portal(Judge server side)
+    // Open Portal from iframe(Judge server side)
+    // Open Extension( Judge ext.js ) 
 
-    // PORTAL
-    if( window.name === "talkn" ){
-      iframe = Schema.isSet( params.iframe ) ?
-        Schema.getBool( params.iframe ) : true; 
+    if( Schema.isSet( params.iframe ) ){
+      return Schema.getBool( params.iframe );
+    }else{
+      return false;
     }
-    return iframe;
   }
 
   static getIsOpenPosts(app, called){
