@@ -337,7 +337,7 @@ class Ext {
             this.windowOuterHeight = window.outerHeight;
             this.htmlScrollY = document.querySelector("html").scrollTop;
             this.htmlHeight = document.querySelector("html").scrollHeight;        
-            this.bodyScrollY = document.querySelector("bpdy").scrollTop;
+            this.bodyScrollY = document.querySelector("body").scrollTop;
             this.bodyHeight = document.querySelector("body").scrollHeight;     
 
                 (
