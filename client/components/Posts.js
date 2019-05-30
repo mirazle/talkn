@@ -90,6 +90,7 @@ export default class Posts extends Component {
 
   handleOnScroll( e ){
 		const{ app } = this.props.state;
+    document.querySelector("button").textContent = document.querySelector("[data-component-name='Posts']").scrollTop;
 
     if( app.isOpenNewPost ){
       this.props.closeNewPost();
