@@ -43,7 +43,7 @@ class Ext {
     static get iframeBrowserWidth(){return 320};
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
-    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'optimizeScrollY', 'getClientMetas']};
+    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'optimizeScrollAndHeight', 'getClientMetas']};
 
     constructor(refusedFrame = false){
         this.refusedFrame = refusedFrame;
@@ -57,6 +57,7 @@ class Ext {
         });
 
         if(bootFlg){
+            this.windowHeight = 0;
             this.windowScrollY = 0;
             this.methodIdMap = {};
             this.notifId = null;
@@ -111,7 +112,9 @@ class Ext {
         window.addEventListener('message', this.catchMessage);
         window.addEventListener('load', this.loadWindow);
         window.addEventListener('resize', this.resizeWindow);
-        this.windowHeight = window.screenY;
+
+        this.windowScrollY = window.screenY;
+        this.windowHeight = document.querySelector("body").scrollHeight;
     }
 
     loadIframe(e){
@@ -289,8 +292,10 @@ class Ext {
         }
     }
 
-    optimizeScrollY(){
-        alert("optimizeScrollY");
+    optimizeScrollAndHeight(){
+        const windowScrollY = window.screenY;
+        const windowHeight = document.querySelector("body").scrollHeight;
+        alert( this.windowScrollY + " " + this.windowHeight + " : " + windowScrollY + " " + windowHeight );
     }
 
     getClientMetas(){
