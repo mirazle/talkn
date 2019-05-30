@@ -199,7 +199,7 @@ export default class Container{
       width: '50px',
       height: '50px',
       margin: '0 auto',
-      zIndex: -1,
+      zIndex: 1,
       border: Container.getMultistreamIconWrapBorder( {app} ),
       background: 'rgba(255, 255, 255, 0.8)',
       borderRadius: '50px',
