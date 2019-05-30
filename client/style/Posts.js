@@ -72,22 +72,16 @@ export default class Posts {
 
   static getMargin( app, addUnit = false ){
     if( app.type === define.APP_TYPES.EXTENSION ){
-      console.log("A");
       return `0px 5% ${Header.headerHeight}px 5%`;
     }else if(app.iframe){
-      console.log( app );
-      console.log("B");
-      return "0";
+      return `0px 0px ${PostsFooter.selfHeight}px 0px`;
     }else{
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
-          console.log("C");
         return `${Header.headerHeight}px 0px 0px 0px`;
       case App.screenModeMiddleLabel :
-          console.log("D");
         return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
       case App.screenModeLargeLabel :
-          console.log("E");
         return `${Header.headerHeight}px 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
       }
     }
