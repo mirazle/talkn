@@ -43,7 +43,7 @@ class Ext {
     static get iframeBrowserWidth(){return 320};
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
-    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'optimizeScrollAndHeight', 'getClientMetas']};
+    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'optimizeScrollAndHeight', 'setScrollAndHeight', 'getClientMetas']};
 
     constructor(refusedFrame = false){
         this.refusedFrame = refusedFrame;
@@ -313,6 +313,16 @@ class Ext {
         if( params && params.href ){
             location.href = params.href
         }
+    }
+
+    setScrollAndHeight(){
+        this.windowScrollY = window.screenY;
+        this.windowInnerHeight = window.innerHeight;
+        this.windowOuterHeight = window.outerHeight;
+        this.htmlScrollY = document.querySelector("html").scrollTop;
+        this.htmlHeight = document.querySelector("html").scrollHeight;        
+        this.bodyScrollY = document.querySelector("html").scrollTop;
+        this.bodyHeight = document.querySelector("html").scrollHeight;
     }
 
     optimizeScrollAndHeight(){
