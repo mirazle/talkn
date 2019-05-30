@@ -92,7 +92,7 @@ export default class PostsFooter extends Component {
       document.querySelector("button").textContent = "Focus " + window.scrollY;
 
 
-      talknAPI.extension("optimizeScrollAndHeight");
+//      talknAPI.extension("optimizeScrollAndHeight");
 
       setTimeout( () => {
 //        if(!talknWindow.isScrollBottom ){
