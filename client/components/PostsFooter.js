@@ -72,10 +72,14 @@ export default class PostsFooter extends Component {
     const { app } = this.props.state;
     if( app.screenMode === App.screenModeSmallLabel ){
       if( this.state.focusSetIntervalId === 0 ){
+        console.log("FOCUS"):
         window.scrollTo(0, 9999999);
 
         const focusSetIntervalId = setInterval(  () => {
+          console.log("A");
           if(!talknWindow.isScrollBottom ){
+            console.log("B");
+
             window.scrollTo(0, 9999999);
             talknWindow.setIsScrollBottom();
           }
