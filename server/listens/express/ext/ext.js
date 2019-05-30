@@ -326,29 +326,23 @@ class Ext {
     }
 
     optimizeScrollAndHeight(){
-        const windowScrollY = window.screenY;
-        const windowHeight = document.querySelector("body").scrollHeight;
-//        alert( this.windowScrollY + " " + this.windowHeight + " : " + windowScrollY + " " + windowHeight );
 
-        setTimeout( () => {
+        this.windowScrollY = window.screenY;
+        this.windowInnerHeight = window.innerHeight;
+        this.windowOuterHeight = window.outerHeight;
+        this.htmlScrollY = document.querySelector("html").scrollTop;
+        this.htmlHeight = document.querySelector("html").scrollHeight;        
+        this.bodyScrollY = document.querySelector("body").scrollTop;
+        this.bodyHeight = document.querySelector("body").scrollHeight;     
 
-            this.windowScrollY = window.screenY;
-            this.windowInnerHeight = window.innerHeight;
-            this.windowOuterHeight = window.outerHeight;
-            this.htmlScrollY = document.querySelector("html").scrollTop;
-            this.htmlHeight = document.querySelector("html").scrollHeight;        
-            this.bodyScrollY = document.querySelector("body").scrollTop;
-            this.bodyHeight = document.querySelector("body").scrollHeight;     
-
-                (
-                "B WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + "\n" + 
-                "  HTML " + this.htmlScrollY + " " + this.htmlHeight  + "\n" + 
-                "  BODY " + this.bodyScrollY + " " + this.bodyHeight + "\n" +
-                "A WINDOW " + window.scrollY + " " + window.innerHeight + " " + window.outerHeight + "\n" +
-                "  HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + "\n" +
-                "  BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight  
-            );
-        }, 0  );
+        alert(
+            "B WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + "\n" + 
+            "  HTML " + this.htmlScrollY + " " + this.htmlHeight  + "\n" + 
+            "  BODY " + this.bodyScrollY + " " + this.bodyHeight + "\n" +
+            "A WINDOW " + window.scrollY + " " + window.innerHeight + " " + window.outerHeight + "\n" +
+            "  HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + "\n" +
+            "  BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight  
+        );
     }
 
     getClientMetas(){
