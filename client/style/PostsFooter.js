@@ -4,7 +4,6 @@ import Style from './index';
 import Container from './Container';
 import Posts from './Posts';
 import Menu from './Menu';
-import Detail from './Detail';
 
 export default class PostsFooter{
 
@@ -65,7 +64,8 @@ export default class PostsFooter{
     case App.screenModeMiddleLabel :
       transform = app.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
       break;
-    case App.screenModeLargeLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+    case App.screenModeLargeLabel : transform = 'translate3d( 0px ,0px, 0px )';
+      break;
     }
     return transform ;
   }
