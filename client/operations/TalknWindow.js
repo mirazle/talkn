@@ -104,7 +104,6 @@ export default class TalknWindow {
 		if( app.isOpenNewPost ){
 			talknAPI.closeNewPost();
 		}
-		document.querySelector("button").textContent = "Scroll " + window.scrollY;
 		this.setIsScrollBottom();
 	}
 

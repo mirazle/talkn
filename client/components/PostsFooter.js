@@ -47,8 +47,11 @@ export default class PostsFooter extends Component {
 
         clearInterval(this.state.focusSetIntervalId);
         //if( !talknWindow.isScrollBottom ){
-          window.scrollTo(0, 9999999);
-          document.querySelector("button").textContent = "Change " + window.scrollY;
+//          window.scrollTo(0, 9999999);
+          document.querySelector("[data-component-name='Posts']").scrollTop === 99999999;
+
+          document.querySelector("button").textContent = document.querySelector("[data-component-name='Posts']").scrollTop;
+
 
           talknWindow.setIsScrollBottom();
         //}
@@ -89,9 +92,10 @@ export default class PostsFooter extends Component {
 //        if(!talknWindow.isScrollBottom ){
 
           console.log("FOCUS SCROLL");
-          document.querySelector("button").textContent = "Focus " + window.scrollY;
+          document.querySelector("button").textContent = document.querySelector("[data-component-name='Posts']").scrollTop;
 
-          window.scrollTo(0, 9999999);
+          document.querySelector("[data-component-name='Posts']").scrollTop === 99999999;
+//          window.scrollTo(0, 9999999);
           talknWindow.setIsScrollBottom();
 //        }
       }, 100 );
