@@ -334,15 +334,17 @@ class Ext {
         this.htmlHeight = document.querySelector("html").scrollHeight;        
         this.bodyScrollY = document.querySelector("body").scrollTop;
         this.bodyHeight = document.querySelector("body").scrollHeight;     
+        setTimeout( () => {
 
-        alert(
-            "B WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + "\n" + 
-            "  HTML " + this.htmlScrollY + " " + this.htmlHeight  + "\n" + 
-            "  BODY " + this.bodyScrollY + " " + this.bodyHeight + "\n" +
-            "A WINDOW " + window.scrollY + " " + window.innerHeight + " " + window.outerHeight + "\n" +
-            "  HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + "\n" +
-            "  BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight  
-        );
+            alert(
+                "B WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + "\n" + 
+                "  HTML " + this.htmlScrollY + " " + this.htmlHeight  + "\n" + 
+                "  BODY " + this.bodyScrollY + " " + this.bodyHeight + "\n" +
+                "A WINDOW " + window.scrollY + " " + window.innerHeight + " " + window.outerHeight + "\n" +
+                "  HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + "\n" +
+                "  BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight  
+            );
+        }, 2000 );
     }
 
     getClientMetas(){
