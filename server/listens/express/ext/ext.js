@@ -43,7 +43,7 @@ class Ext {
     static get iframeBrowserWidth(){return 320};
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
-    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'getClientMetas']};
+    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'optimizeScrollY', 'getClientMetas']};
 
     constructor(refusedFrame = false){
         this.refusedFrame = refusedFrame;
@@ -57,7 +57,7 @@ class Ext {
         });
 
         if(bootFlg){
-
+            this.windowScrollY = 0;
             this.methodIdMap = {};
             this.notifId = null;
             this.resizeMethodId = null;
@@ -111,7 +111,7 @@ class Ext {
         window.addEventListener('message', this.catchMessage);
         window.addEventListener('load', this.loadWindow);
         window.addEventListener('resize', this.resizeWindow);
-        window.isTalknListener = true;
+        this.windowHeight = window.screenY;
     }
 
     loadIframe(e){
@@ -287,6 +287,10 @@ class Ext {
         if( params && params.href ){
             location.href = params.href
         }
+    }
+
+    optimizeScrollY(){
+        alert("optimizeScrollY");
     }
 
     getClientMetas(){
