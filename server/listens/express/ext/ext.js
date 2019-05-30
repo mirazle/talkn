@@ -115,6 +115,7 @@ class Ext {
 
         this.windowScrollY = window.screenY;
         this.windowHeight = document.querySelector("body").scrollHeight;
+        alert(this.windowScrollY + " " + this.windowHeight);
     }
 
     loadIframe(e){
