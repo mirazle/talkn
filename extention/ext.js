@@ -57,8 +57,14 @@ class Ext {
         });
 
         if(bootFlg){
-            this.windowHeight = 0;
+            this.windowInnerHeight = 0;
+            this.windowOuterHeight = 0;
             this.windowScrollY = 0;
+            this.htmlHeight = 0;
+            this.htmlScrollY = 0;
+            this.bodyHeight = 0;
+            this.bodyScrollY = 0;
+            
             this.methodIdMap = {};
             this.notifId = null;
             this.resizeMethodId = null;
@@ -115,12 +121,12 @@ class Ext {
         window.addEventListener('scroll', this.scrollWindow);
 
         this.windowScrollY = window.screenY;
-        this.windowHeight = document.querySelector("body").scrollHeight;
-        alert(
-            "WINDOW " + this.windowScrollY + " " + window.innerHeight + " " + window.outerHeight + 
-            " HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + 
-            " BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight
-        );
+        this.windowInnerHeight = window.innerHeight;
+        this.windowOuterHeight = window.outerHeight;
+        this.htmlScrollY = document.querySelector("html").scrollTop;
+        this.htmlHeight = document.querySelector("html").scrollHeight;        
+        this.bodyScrollY = document.querySelector("html").scrollTop;
+        this.bodyHeight = document.querySelector("html").scrollHeight;        
     }
 
     loadIframe(e){
@@ -307,11 +313,26 @@ class Ext {
         const windowScrollY = window.screenY;
         const windowHeight = document.querySelector("body").scrollHeight;
 //        alert( this.windowScrollY + " " + this.windowHeight + " : " + windowScrollY + " " + windowHeight );
-        alert(
-            "WINDOW " + this.windowScrollY + " " + window.innerHeight + " " + window.outerHeight + 
-            " HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + 
-            " BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight
-        );
+
+        setTimeout( () => {
+
+            this.windowScrollY = window.screenY;
+            this.windowInnerHeight = window.innerHeight;
+            this.windowOuterHeight = window.outerHeight;
+            this.htmlScrollY = document.querySelector("html").scrollTop;
+            this.htmlHeight = document.querySelector("html").scrollHeight;        
+            this.bodyScrollY = document.querySelector("html").scrollTop;
+            this.bodyHeight = document.querySelector("html").scrollHeight;     
+
+            alert(
+                "@WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + 
+                " HTML " + this.htmlScrollY + " " + this.htmlHeight  + 
+                " BODY " + this.bodyScrollY + " " + this.bodyHeight +
+                "@WINDOW " + window.scrollY + " " + window.innerHeight + " " + window.outerHeight + 
+                " HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + 
+                " BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight  
+            );
+        }, 5000 );
     }
 
     getClientMetas(){
