@@ -46,10 +46,10 @@ export default class PostsFooter extends Component {
         talknWindow.setIsScrollBottom();
 
         clearInterval(this.state.focusSetIntervalId);
-        if( !talknWindow.isScrollBottom ){
+        //if( !talknWindow.isScrollBottom ){
           window.scrollTo(0, 9999999);
           talknWindow.setIsScrollBottom();
-        }
+        //}
       }
 
       talknAPI.onChangeInputPost( e.target.value );
@@ -79,18 +79,19 @@ export default class PostsFooter extends Component {
   handleOnFocus( e ){
     const { app } = this.props.state;
     if( app.screenMode === App.screenModeSmallLabel ){
+
+      talknWindow.setIsScrollBottom();
+      //alert( talknWindow.isScrollBottom );
+
+      setTimeout( () => {
+//        if(!talknWindow.isScrollBottom ){
+          console.log("FOCUS SCROLL");
+          window.scrollTo(0, 9999999);
+          talknWindow.setIsScrollBottom();
+//        }
+      }, 100 );
+
       if( this.state.focusSetIntervalId === 0 ){
-
-        talknWindow.setIsScrollBottom();
-        //alert( talknWindow.isScrollBottom );
-
-        setTimeout( () => {
-          if(!talknWindow.isScrollBottom ){
-            console.log("FOCUS SCROLL");
-            window.scrollTo(0, 9999999);
-            talknWindow.setIsScrollBottom();
-          }
-        }, 100 );
 /*
         const focusSetIntervalId = setInterval(  () => {
           if(!talknWindow.isScrollBottom ){
