@@ -112,6 +112,7 @@ class Ext {
         window.addEventListener('message', this.catchMessage);
         window.addEventListener('load', this.loadWindow);
         window.addEventListener('resize', this.resizeWindow);
+        window.addEventListener('scroll', this.scrollWindow);
 
         this.windowScrollY = window.screenY;
         this.windowHeight = document.querySelector("body").scrollHeight;
@@ -150,9 +151,14 @@ class Ext {
     }
 
     resizeWindow(e){
+        alert("RESIZE WINDOW");
         if( this.resizeMethodId === null ){
             this.resizeMethodId = setTimeout( this.resizedWindow, Ext.BASE_TRANSITION );
         }
+    }
+
+    scrollWindow(e){
+        this.windowScrollY = window.screenY;
     }
 
     resizedWindow(e){
