@@ -43,9 +43,9 @@ export default class PostsFooter extends Component {
       const { app } = this.props.state;
 
       if( app.screenMode === App.screenModeSmallLabel ){
-
+        talknWindow.setIsScrollBottom();
 //        const input = e.target.value.replace( app.inputPost, "" );
-
+        alert( talknWindow.isScrollBottom );
         clearInterval(this.state.focusSetIntervalId);
         if( !talknWindow.isScrollBottom ){
           window.scrollTo(0, 9999999);
@@ -81,6 +81,9 @@ export default class PostsFooter extends Component {
     const { app } = this.props.state;
     if( app.screenMode === App.screenModeSmallLabel ){
       if( this.state.focusSetIntervalId === 0 ){
+
+        talknWindow.setIsScrollBottom();
+        alert( talknWindow.isScrollBottom );
 
         setTimeout( () => {
           if(!talknWindow.isScrollBottom ){
