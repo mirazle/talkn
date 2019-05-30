@@ -116,7 +116,7 @@ class Ext {
 
         this.windowScrollY = window.screenY;
         this.windowHeight = document.querySelector("body").scrollHeight;
-        alert(this.windowScrollY + " " + this.windowHeight);
+        //alert(this.windowScrollY + " " + this.windowHeight);
     }
 
     loadIframe(e){
@@ -302,7 +302,7 @@ class Ext {
     optimizeScrollAndHeight(){
         const windowScrollY = window.screenY;
         const windowHeight = document.querySelector("body").scrollHeight;
-        alert( this.windowScrollY + " " + this.windowHeight + " : " + windowScrollY + " " + windowHeight );
+//        alert( this.windowScrollY + " " + this.windowHeight + " : " + windowScrollY + " " + windowHeight );
     }
 
     getClientMetas(){
