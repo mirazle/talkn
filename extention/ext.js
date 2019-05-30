@@ -169,6 +169,12 @@ class Ext {
 
     scrollWindow(e){
         this.windowScrollY = window.screenY;
+        this.windowInnerHeight = window.innerHeight;
+        this.windowOuterHeight = window.outerHeight;
+        this.htmlScrollY = document.querySelector("html").scrollTop;
+        this.htmlHeight = document.querySelector("html").scrollHeight;        
+        this.bodyScrollY = document.querySelector("html").scrollTop;
+        this.bodyHeight = document.querySelector("html").scrollHeight;
     }
 
     resizedWindow(e){
@@ -332,7 +338,7 @@ class Ext {
                 "  HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + "\n" +
                 "  BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight  
             );
-        }, 5000  );
+        }, 0  );
     }
 
     getClientMetas(){
