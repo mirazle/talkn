@@ -116,7 +116,11 @@ class Ext {
 
         this.windowScrollY = window.screenY;
         this.windowHeight = document.querySelector("body").scrollHeight;
-        //alert(this.windowScrollY + " " + this.windowHeight);
+        alert(
+            "WINDOW " + this.windowScrollY + " " + window.scrollHeight + 
+            "HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + 
+            "BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight
+        );
     }
 
     loadIframe(e){
@@ -151,7 +155,7 @@ class Ext {
     }
 
     resizeWindow(e){
-        alert("RESIZE WINDOW");
+    //    alert("RESIZE WINDOW");
         if( this.resizeMethodId === null ){
             this.resizeMethodId = setTimeout( this.resizedWindow, Ext.BASE_TRANSITION );
         }
