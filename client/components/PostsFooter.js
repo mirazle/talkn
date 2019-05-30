@@ -44,13 +44,11 @@ export default class PostsFooter extends Component {
 
       if( app.screenMode === App.screenModeSmallLabel ){
 
-        const input = e.target.value.replace( app.inputPost, "" );
-        console.log( "CHANGE " + input );
+//        const input = e.target.value.replace( app.inputPost, "" );
 
         clearInterval(this.state.focusSetIntervalId);
-        window.scrollTo(0, 9999999);
         if( !talknWindow.isScrollBottom ){
-            window.scrollTo(0, 9999999);
+          window.scrollTo(0, 9999999);
           talknWindow.setIsScrollBottom();
         }
       }
@@ -65,7 +63,6 @@ export default class PostsFooter extends Component {
     const { app } = this.props.state;
     if( app.screenMode === App.screenModeSmallLabel ){
       const input = e.target.value.replace( app.inputPost, "" );
-      console.log( "KEY PRESS " + input);
     }
 
     if ( e.nativeEvent.keyCode === 13 ) {
@@ -84,8 +81,14 @@ export default class PostsFooter extends Component {
     const { app } = this.props.state;
     if( app.screenMode === App.screenModeSmallLabel ){
       if( this.state.focusSetIntervalId === 0 ){
-        console.log("FOCUS SCROLL");
-        window.scrollTo(0, 9999999);
+
+        setTimeout( () => {
+          if(!talknWindow.isScrollBottom ){
+            console.log("FOCUS SCROLL");
+            window.scrollTo(0, 9999999);
+            talknWindow.setIsScrollBottom();
+          }
+        }, 100 );
 /*
         const focusSetIntervalId = setInterval(  () => {
           if(!talknWindow.isScrollBottom ){
