@@ -97,7 +97,10 @@ export default class Posts extends Component {
 
     const { clientHeight, scrollTop, scrollHeight } = e.target;
     const isScrollBottom = ( scrollHeight === ( scrollTop + clientHeight ) );
-		document.querySelector("button").textContent = "PScroll " + window.scrollY;
+
+    document.querySelector("button").textContent = 
+    "PScroll " + window.scrollY + " " + this.refs.thread.scrollTop;
+
     this.setState({isScrollBottom});
     this.props.scrollThread();
   }
