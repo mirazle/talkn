@@ -76,7 +76,8 @@ export default class PostsFooter extends Component {
 
         const focusSetIntervalId = setInterval(  () => {
           if(!talknWindow.isScrollBottom ){
-            window.scrollTo(0, 9999999)
+            window.scrollTo(0, 9999999);
+            talknWindow.setIsScrollBottom();
           }
         }, 500);
 
