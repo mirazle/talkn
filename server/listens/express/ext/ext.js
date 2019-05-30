@@ -325,14 +325,14 @@ class Ext {
             this.bodyHeight = document.querySelector("html").scrollHeight;     
 
             alert(
-                "@WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + 
-                " HTML " + this.htmlScrollY + " " + this.htmlHeight  + 
-                " BODY " + this.bodyScrollY + " " + this.bodyHeight +
-                "@WINDOW " + window.scrollY + " " + window.innerHeight + " " + window.outerHeight + 
-                " HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + 
-                " BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight  
+                "B WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + "\n" + 
+                "  HTML " + this.htmlScrollY + " " + this.htmlHeight  + "\n" + 
+                "  BODY " + this.bodyScrollY + " " + this.bodyHeight + "\n" +
+                "A WINDOW " + window.scrollY + " " + window.innerHeight + " " + window.outerHeight + "\n" +
+                "  HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + "\n" +
+                "  BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight  
             );
-        }, 5000 );
+        }, 5000  );
     }
 
     getClientMetas(){
