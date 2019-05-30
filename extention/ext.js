@@ -125,8 +125,8 @@ class Ext {
         this.windowOuterHeight = window.outerHeight;
         this.htmlScrollY = document.querySelector("html").scrollTop;
         this.htmlHeight = document.querySelector("html").scrollHeight;        
-        this.bodyScrollY = document.querySelector("html").scrollTop;
-        this.bodyHeight = document.querySelector("html").scrollHeight;        
+        this.bodyScrollY = document.querySelector("body").scrollTop;
+        this.bodyHeight = document.querySelector("body").scrollHeight;        
     }
 
     loadIframe(e){
@@ -173,8 +173,8 @@ class Ext {
         this.windowOuterHeight = window.outerHeight;
         this.htmlScrollY = document.querySelector("html").scrollTop;
         this.htmlHeight = document.querySelector("html").scrollHeight;        
-        this.bodyScrollY = document.querySelector("html").scrollTop;
-        this.bodyHeight = document.querySelector("html").scrollHeight;
+        this.bodyScrollY = document.querySelector("body").scrollTop;
+        this.bodyHeight = document.querySelector("body").scrollHeight;
     }
 
     resizedWindow(e){
@@ -321,8 +321,8 @@ class Ext {
         this.windowOuterHeight = window.outerHeight;
         this.htmlScrollY = document.querySelector("html").scrollTop;
         this.htmlHeight = document.querySelector("html").scrollHeight;        
-        this.bodyScrollY = document.querySelector("html").scrollTop;
-        this.bodyHeight = document.querySelector("html").scrollHeight;
+        this.bodyScrollY = document.querySelector("body").scrollTop;
+        this.bodyHeight = document.querySelector("body").scrollHeight;
     }
 
     optimizeScrollAndHeight(){
@@ -337,10 +337,10 @@ class Ext {
             this.windowOuterHeight = window.outerHeight;
             this.htmlScrollY = document.querySelector("html").scrollTop;
             this.htmlHeight = document.querySelector("html").scrollHeight;        
-            this.bodyScrollY = document.querySelector("html").scrollTop;
-            this.bodyHeight = document.querySelector("html").scrollHeight;     
+            this.bodyScrollY = document.querySelector("bpdy").scrollTop;
+            this.bodyHeight = document.querySelector("body").scrollHeight;     
 
-            alert(
+                (
                 "B WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + "\n" + 
                 "  HTML " + this.htmlScrollY + " " + this.htmlHeight  + "\n" + 
                 "  BODY " + this.bodyScrollY + " " + this.bodyHeight + "\n" +
