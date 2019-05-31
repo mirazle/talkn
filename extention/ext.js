@@ -119,7 +119,7 @@ class Ext {
                     "display: flex !important;" +
                     "align-items: flex-start !important;" + 
                     "position: fixed !important; " +
-                    "bottom: 75px !important;" + 
+                    "bottom: 80px !important;" + 
                     `width: 80vw !important;` + 
                     `height: 40vh !important;` + 
                     "margin: 0px 0px 0px 10vw !important;" + 
@@ -395,18 +395,14 @@ class Ext {
             this.scrollHeight = body.scrollHeight;
 
             talknDebug.innerHTML = 
-                "@BEFORE@ " + beforeDebugAction + "@<br />" +
-                " window.scrollY = " + beforeWindowScrollY + 
-                "<br /> window.innerHeight = " + beforeWindowInnerHeight + 
-                "<br /> window.outerHeight = " + beforeWindowOuterHeight + 
-                "<br /> body.scrollTop = " + beforeBodyScrollTop + 
-                "<br /> body.scrollHeight = " + beforeBodyScrollHeight + "<br /><br />" +
-                "@NOW@ " + actionName + "@<br />" +
-                " window.scrollY = " + this.windowScrollY + 
-                "<br /> window.innerHeight = " + this.windowInnerHeight + 
-                "<br /> window.outerHeight = " + this.windowOuterHeight + 
-                "<br /> body.scrollTop = " + this.bodyScrollTop + 
-                "<br /> body.scrollHeight = " + this.bodyScrollHeight;
+                "@BEFORE@ " + beforeDebugAction + "<br />" +
+                " w.scrollY = " + beforeWindowScrollY + " b.scrollTop = " + beforeBodyScrollTop + 
+                "<br /> w.innerHeight = " + beforeWindowInnerHeight + 
+                "<br /> w.outerHeight = " + beforeWindowOuterHeight + "<br /><br />" + 
+                "@NOW@ " + actionName + "<br />" +
+                " w.scrollY = " + this.windowScrollY + " b.scrollTop = " + this.bodyScrollTop +
+                "<br /> w.innerHeight = " + this.windowInnerHeight + 
+                "<br /> w.outerHeight = " + this.windowOuterHeight;
         }
     }
 
