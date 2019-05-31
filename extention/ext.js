@@ -343,7 +343,7 @@ class Ext {
                
             "@CALC@<br />" +
             " INNER HEIGHT = " + calcWindowInnerHeight - + "<br />" +
-            " SCROLL = " + calcBodyScrollY - + "<br />" +
+            " SCROLL = " + calcBodyScrollY - + "<br />";
 
             this.postMessage("debug", {debug});
         }, timeout );
