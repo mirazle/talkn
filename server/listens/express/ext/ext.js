@@ -60,8 +60,6 @@ class Ext {
             this.windowInnerHeight = 0;
             this.windowOuterHeight = 0;
             this.windowScrollY = 0;
-            this.htmlHeight = 0;
-            this.htmlScrollY = 0;
             this.bodyHeight = 0;
             this.bodyScrollY = 0;
             
@@ -122,9 +120,7 @@ class Ext {
 
         this.windowScrollY = window.screenY;
         this.windowInnerHeight = window.innerHeight;
-        this.windowOuterHeight = window.outerHeight;
-        this.htmlScrollY = document.querySelector("html").scrollTop;
-        this.htmlHeight = document.querySelector("html").scrollHeight;        
+        this.windowOuterHeight = window.outerHeight;   
         this.bodyScrollY = document.querySelector("body").scrollTop;
         this.bodyHeight = document.querySelector("body").scrollHeight;        
     }
@@ -169,11 +165,29 @@ class Ext {
     }
 
     scrollWindow(e){
+        let debug =
+        "@BEFORE WINDOW<br />" + 
+        " SCROLLY = " + this.windowScrollY + "<br />" + 
+        " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
+        " OUTER HEIGHT = " + this.windowOuterHeight + "<br />" + 
+        "@BEFORE BODY<br/> " +
+        " SCROLLY = " + this.bodyScrollY + HEIGHT = " + this.bodyHeight + "<br /><br />";
+
+        setTimeout( () => {
+            debug = debug + 
+            "@AFTER WINDOW<br />" +
+            " SCROLLY = " + window.scrollY + "<br />" +
+            " INNER HEIGHT = " + window.innerHeight + " OUTER HEIGHT = " + window.outerHeight + "<br />" +
+            "@BEFIRE BODY<br />" +
+            " SCROLLY = " + document.querySelector("body").scrollTop + "<br />" + 
+            " HEIGHT = " + document.querySelector("body").scrollHeight;
+    
+            this.postMessage("debug", {debug});
+        }, 2000 );
+        
         this.windowScrollY = window.screenY;
         this.windowInnerHeight = window.innerHeight;
-        this.windowOuterHeight = window.outerHeight;
-        this.htmlScrollY = document.querySelector("html").scrollTop;
-        this.htmlHeight = document.querySelector("html").scrollHeight;        
+        this.windowOuterHeight = window.outerHeight;    
         this.bodyScrollY = document.querySelector("body").scrollTop;
         this.bodyHeight = document.querySelector("body").scrollHeight;
     }
@@ -317,11 +331,30 @@ class Ext {
     }
 
     setScrollAndHeight(){
+
+        let debug =
+        "@BEFORE WINDOW<br />" + 
+        " SCROLLY = " + this.windowScrollY + "<br />" + 
+        " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
+        " OUTER HEIGHT = " + this.windowOuterHeight + "<br />" + 
+        "@BEFORE BODY<br/> " +
+        " SCROLLY = " + this.bodyScrollY + HEIGHT = " + this.bodyHeight + "<br /><br />";
+
+        setTimeout( () => {
+            debug = debug + 
+            "@AFTER WINDOW<br />" +
+            " SCROLLY = " + window.scrollY + "<br />" +
+            " INNER HEIGHT = " + window.innerHeight + " OUTER HEIGHT = " + window.outerHeight + "<br />" +
+            "@BEFIRE BODY<br />" +
+            " SCROLLY = " + document.querySelector("body").scrollTop + "<br />" + 
+            " HEIGHT = " + document.querySelector("body").scrollHeight;
+    
+            this.postMessage("debug", {debug});
+        }, 2000 );
+
         this.windowScrollY = window.screenY;
         this.windowInnerHeight = window.innerHeight;
-        this.windowOuterHeight = window.outerHeight;
-        this.htmlScrollY = document.querySelector("html").scrollTop;
-        this.htmlHeight = document.querySelector("html").scrollHeight;        
+        this.windowOuterHeight = window.outerHeight;    
         this.bodyScrollY = document.querySelector("body").scrollTop;
         this.bodyHeight = document.querySelector("body").scrollHeight;
     }
@@ -342,15 +375,13 @@ class Ext {
         " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
         " OUTER HEIGHT = " + this.windowOuterHeight + "<br />" + 
         "@BEFORE BODY<br/> " +
-        " SCROLLY = " + this.bodyScrollY + "<br />" +
-        " HEIGHT = " + this.bodyHeight + "<br /><br />";
+        " SCROLLY = " + this.bodyScrollY + HEIGHT = " + this.bodyHeight + "<br /><br />";
 
         setTimeout( () => {
             debug = debug + 
             "@AFTER WINDOW<br />" +
             " SCROLLY = " + window.scrollY + "<br />" +
-            " INNER HEIGHT = " + window.innerHeight + "<br />" + 
-            " OUTER HEIGHT = " + window.outerHeight + "<br />" +
+            " INNER HEIGHT = " + window.innerHeight + " OUTER HEIGHT = " + window.outerHeight + "<br />" +
             "@BEFIRE BODY<br />" +
             " SCROLLY = " + document.querySelector("body").scrollTop + "<br />" + 
             " HEIGHT = " + document.querySelector("body").scrollHeight;
