@@ -374,15 +374,18 @@ class Ext {
     }
 
     debugWindow(){
-        const body = document.querySelector("body");
-        document.querySelector("#talknDebug").innerHTML = 
-            " window.scrollY = " + window.scrollY + 
-            "<br /> window.innerHeight = " + window.innerHeight + 
-            "<br /> window.outerHeight = " + window.outerHeight + 
-            "<br /> body.scrollTop = " + body.scrollTop + 
-            "<br /> body.scrollHeight = " + body.scrollHeight + 
-            "<br /> body.offsetHeight = " + body.offsetHeight + 
-            "<br /> body.clientHeight = " + body.clientHeight;
+        const talknDebug = document.querySelector("#talknDebug");
+        if(talknDebug){
+            const body = document.querySelector("body");
+            talknDebug.innerHTML = 
+                " window.scrollY = " + window.scrollY + 
+                "<br /> window.innerHeight = " + window.innerHeight + 
+                "<br /> window.outerHeight = " + window.outerHeight + 
+                "<br /> body.scrollTop = " + body.scrollTop + 
+                "<br /> body.scrollHeight = " + body.scrollHeight + 
+                "<br /> body.offsetHeight = " + body.offsetHeight + 
+                "<br /> body.clientHeight = " + body.clientHeight;
+        }
     }
 
     getClientMetas(){
