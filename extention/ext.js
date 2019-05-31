@@ -66,6 +66,8 @@ class Ext {
             this.methodIdMap = {};
             this.notifId = null;
             this.resizeMethodId = null;
+
+            this.setupWindow = this.setupWindow.bind(this);
             this.bootExtension = this.bootExtension.bind(this);
             this.catchMessage = this.catchMessage.bind(this);
             this.handleErrorMessage = this.handleErrorMessage.bind(this);
@@ -77,6 +79,8 @@ class Ext {
             this.loadWindow = this.loadWindow.bind(this);
             this.resizeWindow = this.resizeWindow.bind(this);
             this.resizedWindow = this.resizedWindow.bind(this);
+            this.scrollWindow = this.scrollWindow.bind(this);
+            this.setScrollAndHeight = this.setScrollAndHeight.bind(this);
             this.debug = this.debug.bind(this);
 
             // setupWindow
