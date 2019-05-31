@@ -163,7 +163,7 @@ class Ext {
     }
 
     scrollWindow(e){
-        this.debug("scrollWindow");
+        //this.debug("scrollWindow");
     }
 
     resizedWindow(e){
