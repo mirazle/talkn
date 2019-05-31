@@ -43,17 +43,17 @@ export default class InnerNotif extends Component {
         <div
           data-component-name={"InnerNotif"} 
           style={style.self}
-        >
-          {notif}
-        </div>
+          dangerouslySetInnerHTML={{__html: notif }}
+        />
       );
     }else{
       return (
         <div
           data-component-name={"InnerNotif"} 
           style={style.self}
-          dangerouslySetInnerHTML={{__html: notif }}
-        />
+        >
+          {notif}
+        </div>
       );
     }
   }
