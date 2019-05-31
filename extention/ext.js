@@ -378,7 +378,7 @@ class Ext {
         if(talknDebug){
             const body = document.querySelector("body");
             talknDebug.innerHTML = 
-                "@" + actionName + "@<br />"
+                "@" + actionName + "@<br />" +
                 " window.scrollY = " + window.scrollY + 
                 "<br /> window.innerHeight = " + window.innerHeight + 
                 "<br /> window.outerHeight = " + window.outerHeight + 
