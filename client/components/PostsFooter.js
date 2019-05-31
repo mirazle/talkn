@@ -48,7 +48,7 @@ export default class PostsFooter extends Component {
         clearInterval(this.state.focusSetIntervalId);
         //if( !talknWindow.isScrollBottom ){
 //          window.scrollTo(0, 9999999);
-          talknAPI.extension("optimizeScrollAndHeight");
+          talknAPI.extension("changePost");
 
           setTimeout( () => {
             document.querySelector("[data-component-name='Posts']").scrollTop = 99999999;
@@ -92,8 +92,7 @@ export default class PostsFooter extends Component {
       document.querySelector("button").textContent = "Focus " + window.scrollY;
 
 
-      talknAPI.extension("optimizeScrollAndHeight");
-      talknAPI.extension("setScrollAndHeight");
+      talknAPI.extension("focusPost");
 
       setTimeout( () => {
 //        if(!talknWindow.isScrollBottom ){

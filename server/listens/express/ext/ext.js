@@ -43,7 +43,7 @@ class Ext {
     static get iframeBrowserWidth(){return 320};
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
-    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'optimizeScrollAndHeight', 'setScrollAndHeight', 'getClientMetas']};
+    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'focusPost', 'changePost', 'getClientMetas']};
 
     constructor(refusedFrame = false){
         this.refusedFrame = refusedFrame;
@@ -81,7 +81,7 @@ class Ext {
             this.resizeWindow = this.resizeWindow.bind(this);
             this.resizedWindow = this.resizedWindow.bind(this);
             this.scrollWindow = this.scrollWindow.bind(this);
-            this.setScrollAndHeight = this.setScrollAndHeight.bind(this);
+            this.changePost = this.changePost.bind(this);
             this.debug = this.debug.bind(this);
 
             // setupWindow
@@ -305,12 +305,12 @@ class Ext {
         }
     }
 
-    setScrollAndHeight(){
-        this.debug( "setScrollAndHeight" );
+    changePost(){
+        this.debug( "changePost" );
     }
 
-    optimizeScrollAndHeight(){
-        this.debug( "optimizeScrollAndHeight", 1500);
+    focusPost(){
+        this.debug( "focusPost", 1500);
     }
 
     debug( actionName = "debug", timeout = 0 ){
