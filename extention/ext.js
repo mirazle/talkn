@@ -119,9 +119,9 @@ class Ext {
                     "display: flex !important;" +
                     "align-items: flex-start !important;" + 
                     "position: fixed !important; " +
-                    "bottom: 60px !important;" + 
+                    "bottom: 55px !important;" + 
                     `width: 80vw !important;` + 
-                    `height: 35vh !important;` + 
+                    `height: 33vh !important;` + 
                     "margin: 0px 0px 0px 10vw !important;" + 
                     "color: rgba(0,0,0,1) !important;" + 
                     "background: rgba(255,255,255,0.95) !important;" + 
