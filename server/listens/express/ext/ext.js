@@ -400,7 +400,7 @@ class Ext {
                 "<br /> window.innerHeight = " + beforeWindowInnerHeight + 
                 "<br /> window.outerHeight = " + beforeWindowOuterHeight + 
                 "<br /> body.scrollTop = " + beforeBodyScrollTop + 
-                "<br /> body.scrollHeight = " + beforeBodyScrollHeight + "<br />" +
+                "<br /> body.scrollHeight = " + beforeBodyScrollHeight + "<br /><br />" +
                 "@NOW@ " + actionName + "@<br />" +
                 " window.scrollY = " + this.windowScrollY + 
                 "<br /> window.innerHeight = " + this.windowInnerHeight + 
