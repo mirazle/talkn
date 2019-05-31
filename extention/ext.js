@@ -315,7 +315,8 @@ class Ext {
             " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
             " OUTER HEIGHT = " + this.windowOuterHeight + "<br />" + 
             "@BEFORE BODY<br/> " +
-            " SCROLLY = " + this.bodyScrollY + "HEIGHT = " + this.bodyHeight + "<br /><br />";
+            " SCROLLY = " + this.bodyScrollY + "<br />" +
+            " HEIGHT = " + this.bodyHeight + "<br /><br />";
 
         this.windowScrollY = window.screenY;
         this.windowInnerHeight = window.innerHeight;
