@@ -314,7 +314,7 @@ class Ext {
 
     debug( actionName = "debug", timeout = 0 ){
         let debug =
-            "<br /> " + actionName + "<br />" + 
+            "<br /> " + actionName + "<br /><br />" + 
             "@BEFORE WINDOW<br />" + 
             " SCROLLY = " + this.windowScrollY + "<br />" + 
             " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
@@ -333,7 +333,8 @@ class Ext {
             debug = debug + 
             "@AFTER WINDOW<br />" +
             " SCROLLY = " + this.windowScrollY + "<br />" +
-            " INNER HEIGHT = " + this.windowInnerHeight + " OUTER HEIGHT = " + this.windowOuterHeight  + "<br />" +
+            " INNER HEIGHT = " + this.windowInnerHeight + "<br />" +
+            " OUTER HEIGHT = " + this.windowOuterHeight  + "<br />" +
             "@BEFIRE BODY<br />" +
             " SCROLLY = " + this.bodyScrollY  + "<br />" + 
             " HEIGHT = " + this.bodyHeight;
