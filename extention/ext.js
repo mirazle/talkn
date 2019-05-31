@@ -57,6 +57,7 @@ class Ext {
         });
 
         if(bootFlg){
+            this.beforeDebugAction = "";
             this.windowInnerHeight = 0;
             this.windowOuterHeight = 0;
             this.windowScrollY = 0;
@@ -314,8 +315,8 @@ class Ext {
 
     debug( actionName = "debug", timeout = 0 ){
         let debug =
-            "<br /> " + actionName + "<br /><br />" + 
-            "@BEFORE WINDOW<br />" + 
+            "<br /><br />" + 
+            "@BEFORE WINDOW[ " + this.beforeDebugAction + " ]<br />" + 
             " SCROLLY = " + this.windowScrollY + "<br />" + 
             " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
             " OUTER HEIGHT = " + this.windowOuterHeight + "<br />" + 
@@ -328,16 +329,17 @@ class Ext {
         this.windowOuterHeight = window.outerHeight;
         this.bodyScrollY = document.querySelector("body").scrollTop;
         this.bodyHeight = document.querySelector("body").scrollHeight; 
+        this.beforeDebugAction = actionName;
 
         setTimeout( () => {
             debug = debug + 
-            "@AFTER WINDOW<br />" +
+            "@AFTER WINDOW[ " + actionName + " ]<br />" +
             " SCROLLY = " + this.windowScrollY + "<br />" +
             " INNER HEIGHT = " + this.windowInnerHeight + "<br />" +
             " OUTER HEIGHT = " + this.windowOuterHeight  + "<br />" +
             "@BEFIRE BODY<br />" +
             " SCROLLY = " + this.bodyScrollY  + "<br />" + 
-            " HEIGHT = " + this.bodyHeight;
+            " HEIGHT = " + this.bodyHeight + "<br /><br />";
     
             this.postMessage("debug", {debug});
         }, timeout );
