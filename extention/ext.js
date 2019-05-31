@@ -121,7 +121,7 @@ class Ext {
                     "position: fixed !important; " +
                     "bottom: 90px !important;" + 
                     `width: 80vw !important;` + 
-                    `height: 20vh !important;` + 
+                    `height: 40vh !important;` + 
                     "margin: 0px 0px 0px 10vw !important;" + 
                     "color: rgba(0,0,0,1) !important;" + 
                     "background: rgba(255,255,255,0.95) !important;" + 
