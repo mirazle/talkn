@@ -177,23 +177,15 @@ class Ext {
     }
 
     resizeWindow(e){
-        //this.debug("resizeWindow");
+        this.debugWindow();
         if( this.resizeMethodId === null ){
             this.resizeMethodId = setTimeout( this.resizedWindow, Ext.BASE_TRANSITION );
         }
     }
 
     scrollWindow(e){
-        const body = document.querySelector("body");
-        document.querySelector("#talknDebug").innerHTML = 
-            " window.scrollY = " + window.scrollY + 
-            "<br /> window.innerHeight = " + window.innerHeight + 
-            "<br /> window.outerHeight = " + window.outerHeight + 
-            "<br /> body.scrollTop = " + body.scrollTop + 
-            "<br /> body.scrollHeight = " + body.scrollHeight + 
-            "<br /> body.offsetHeight = " + body.offsetHeight + 
-            "<br /> body.clientHeight = " + body.clientHeight;
-        }
+        this.debugWindow();
+    }
 
     resizedWindow(e){
         this.resizeMethodId = null;
@@ -342,6 +334,7 @@ class Ext {
     }
 
     debug( actionName = "debug", timeout = 0 ){
+        this.debugWindow();
         const beforeWindowInnerHeight = this.windowInnerHeight ;
         const beforeWindowOuterHeight = this.windowOuterHeight ;
         const beforeBodyScrollY = this.bodyScrollY ;
@@ -378,6 +371,18 @@ class Ext {
 
             this.postMessage("debug", {debug});
         }, timeout );
+    }
+
+    debugWindow(){
+        const body = document.querySelector("body");
+        document.querySelector("#talknDebug").innerHTML = 
+            " window.scrollY = " + window.scrollY + 
+            "<br /> window.innerHeight = " + window.innerHeight + 
+            "<br /> window.outerHeight = " + window.outerHeight + 
+            "<br /> body.scrollTop = " + body.scrollTop + 
+            "<br /> body.scrollHeight = " + body.scrollHeight + 
+            "<br /> body.offsetHeight = " + body.offsetHeight + 
+            "<br /> body.clientHeight = " + body.clientHeight;
     }
 
     getClientMetas(){
