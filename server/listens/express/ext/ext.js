@@ -58,10 +58,11 @@ class Ext {
 
         if(bootFlg){
             this.beforeDebugAction = "";
+            this.windowScrollY = 0;
             this.windowInnerHeight = 0;
             this.windowOuterHeight = 0;
-            this.windowScrollY = 0;
             this.bodyHeight = 0;
+            this.bodyScrollHeight = 0;
             this.bodyScrollY = 0;
             
             this.methodIdMap = {};
@@ -335,6 +336,7 @@ class Ext {
 
     debug( actionName = "debug", timeout = 0 ){
         this.debugWindow(actionName);
+/*
         const beforeWindowInnerHeight = this.windowInnerHeight ;
         const beforeWindowOuterHeight = this.windowOuterHeight ;
         const beforeBodyScrollY = this.bodyScrollY ;
@@ -371,19 +373,40 @@ class Ext {
 
             this.postMessage("debug", {debug});
         }, timeout );
+*/
     }
 
     debugWindow( actionName ){
         const talknDebug = document.querySelector("#talknDebug");
         if(talknDebug){
             const body = document.querySelector("body");
+            const beforeDebugAction = this.beforeDebugAction ;
+            const beforeWindowScrollY = this.windowScrollY ;
+            const beforeWindowInnerHeight = this.windowInnerHeight ;
+            const beforeWindowOuterHeight = this.windowOuterHeight ;
+            const beforeBodyScrollY = this.bodyScrollY ;
+            const beforeBodyScrollHeight = this.bodyScrollHeight ;
+    
+            this.beforeDebugAction = actionName;
+            this.windowScrollY = window.scrollY;
+            this.windowInnerHeight = window.innerHeight;
+            this.windowOuterHeight = window.outerHeight;
+            this.bodyScrollTop = body.scrollTop;
+            this.scrollHeight = body.scrollHeight;
+
             talknDebug.innerHTML = 
-                "@" + actionName + "@<br />" +
-                " window.scrollY = " + window.scrollY + 
-                "<br /> window.innerHeight = " + window.innerHeight + 
-                "<br /> window.outerHeight = " + window.outerHeight + 
-                "<br /> body.scrollTop = " + body.scrollTop + 
-                "<br /> body.scrollHeight = " + body.scrollHeight;
+                "@BEFORE@ " + this.beforeDebugAction + "@<br />" +
+                " window.scrollY = " + this.windowScrollY + 
+                "<br /> window.innerHeight = " + this.windowInnerHeight + 
+                "<br /> window.outerHeight = " + this.windowOuterHeight + 
+                "<br /> body.scrollTop = " + this.bodyScrollTop + 
+                "<br /> body.scrollHeight = " + this.bodyScrollHeight;
+                "@NOW@ " + actionName + "@<br />" +
+                " window.scrollY = " + this.windowScrollY + 
+                "<br /> window.innerHeight = " + this.windowInnerHeight + 
+                "<br /> window.outerHeight = " + this.windowOuterHeight + 
+                "<br /> body.scrollTop = " + this.bodyScrollTop + 
+                "<br /> body.scrollHeight = " + this.bodyScrollHeight;
         }
     }
 
