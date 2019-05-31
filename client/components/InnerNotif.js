@@ -24,6 +24,7 @@ export default class InnerNotif extends Component {
       }
 
       this.setState({
+        isDebug,
         notif,
         style: {...style,
           self: {...style.self,
@@ -36,14 +37,24 @@ export default class InnerNotif extends Component {
   }
 
   render() {
-    const { style, notif } = this.state;
-    return (
-      <div
-        data-component-name={"InnerNotif"} 
-        style={style.self}
-      >
-        {notif}
-      </div>
-    );
+    const { style, notif, isDebug } = this.state;
+    if(isDebug){
+      return (
+        <div
+          data-component-name={"InnerNotif"} 
+          style={style.self}
+        >
+          {notif}
+        </div>
+      );
+    }else{
+      return (
+        <div
+          data-component-name={"InnerNotif"} 
+          style={style.self}
+          dangerouslySetInnerHTML={__html: notif}
+        />
+      );
+    }
   }
 }
