@@ -395,14 +395,17 @@ class Ext {
             this.scrollHeight = body.scrollHeight;
 
             talknDebug.innerHTML = 
-                "@BEFORE@ " + beforeDebugAction + "<br />" +
-                " w.scrollY = " + beforeWindowScrollY + " b.scrollTop = " + beforeBodyScrollTop + 
+                "@BEFORE@ " + beforeDebugAction +
+                "<br /> w.scrollY = " + beforeWindowScrollY +
                 "<br /> w.innerHeight = " + beforeWindowInnerHeight + 
-                "<br /> w.outerHeight = " + beforeWindowOuterHeight + "<br /><br />" + 
-                "@NOW@ " + actionName + "<br />" +
-                " w.scrollY = " + this.windowScrollY + " b.scrollTop = " + this.bodyScrollTop +
+                "<br /> w.outerHeight = " + beforeWindowOuterHeight + "<br />" + 
+                "@NOW@ " + actionName + 
+                "<br /> w.scrollY = " + this.windowScrollY + 
                 "<br /> w.innerHeight = " + this.windowInnerHeight + 
-                "<br /> w.outerHeight = " + this.windowOuterHeight;
+                "<br /> w.outerHeight = " + this.windowOuterHeight + 
+                "@CALC@ " + 
+                "<br /> w.scrollY = " + ( this.windowScrollY - beforeWindowScrollY ) +
+                "<br /> w.innerHeight = " + ( this.windowInnerHeight - beforeWindowInnerHeight );
         }
     }
 
