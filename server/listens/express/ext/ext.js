@@ -336,7 +336,7 @@ class Ext {
 
         setTimeout( () => {
             debug = debug + 
-            "@BEFORE@<br />" + 
+            "@AFTER@<br />" + 
             "WINDOW[ " + actionName + " ]<br />" +
             " INNER HEIGHT = " + this.windowInnerHeight + "<br />" +
             " OUTER HEIGHT = " + this.windowOuterHeight  + "<br />" +
