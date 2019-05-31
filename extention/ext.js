@@ -156,8 +156,7 @@ class Ext {
     }
 
     resizeWindow(e){
-        this.debug("resizeWindow");
-    //    alert("RESIZE WINDOW");
+        //this.debug("resizeWindow");
         if( this.resizeMethodId === null ){
             this.resizeMethodId = setTimeout( this.resizedWindow, Ext.BASE_TRANSITION );
         }
