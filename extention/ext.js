@@ -118,11 +118,7 @@ class Ext {
         window.addEventListener('resize', this.resizeWindow);
         window.addEventListener('scroll', this.scrollWindow);
 
-        this.windowScrollY = window.screenY;
-        this.windowInnerHeight = window.innerHeight;
-        this.windowOuterHeight = window.outerHeight;   
-        this.bodyScrollY = document.querySelector("body").scrollTop;
-        this.bodyHeight = document.querySelector("body").scrollHeight;        
+        this.debug();   
     }
 
     loadIframe(e){
@@ -137,10 +133,6 @@ class Ext {
     }
 
     transitionend(e){
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-//        iframe.style.transition = "0ms";
-//        this.postMessage("onTransitionEnd");
-//        this.postMessage("onTransition");
     }
 
     bootExtension(params){
@@ -150,7 +142,7 @@ class Ext {
         iframe.style.height = Ext.getIframeCloseHeight();
         iframe.style.display = "flex";
         this.postMessage("onTransition");
-        this.postMessage("debug", {debug: "BOOT"});
+        this.debug();
     }
 
     loadWindow(e){
@@ -158,6 +150,7 @@ class Ext {
     }
 
     resizeWindow(e){
+        this.debug();
     //    alert("RESIZE WINDOW");
         if( this.resizeMethodId === null ){
             this.resizeMethodId = setTimeout( this.resizedWindow, Ext.BASE_TRANSITION );
@@ -165,31 +158,7 @@ class Ext {
     }
 
     scrollWindow(e){
-        let debug =
-        "@BEFORE WINDOW<br />" + 
-        " SCROLLY = " + this.windowScrollY + "<br />" + 
-        " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
-        " OUTER HEIGHT = " + this.windowOuterHeight + "<br />" + 
-        "@BEFORE BODY<br/> " +
-        " SCROLLY = " + this.bodyScrollY + HEIGHT = " + this.bodyHeight + "<br /><br />";
-
-        setTimeout( () => {
-            debug = debug + 
-            "@AFTER WINDOW<br />" +
-            " SCROLLY = " + window.scrollY + "<br />" +
-            " INNER HEIGHT = " + window.innerHeight + " OUTER HEIGHT = " + window.outerHeight + "<br />" +
-            "@BEFIRE BODY<br />" +
-            " SCROLLY = " + document.querySelector("body").scrollTop + "<br />" + 
-            " HEIGHT = " + document.querySelector("body").scrollHeight;
-    
-            this.postMessage("debug", {debug});
-        }, 2000 );
-        
-        this.windowScrollY = window.screenY;
-        this.windowInnerHeight = window.innerHeight;
-        this.windowOuterHeight = window.outerHeight;    
-        this.bodyScrollY = document.querySelector("body").scrollTop;
-        this.bodyHeight = document.querySelector("body").scrollHeight;
+        this.debug();
     }
 
     resizedWindow(e){
@@ -331,63 +300,39 @@ class Ext {
     }
 
     setScrollAndHeight(){
-
-        let debug =
-        "@BEFORE WINDOW<br />" + 
-        " SCROLLY = " + this.windowScrollY + "<br />" + 
-        " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
-        " OUTER HEIGHT = " + this.windowOuterHeight + "<br />" + 
-        "@BEFORE BODY<br/> " +
-        " SCROLLY = " + this.bodyScrollY + HEIGHT = " + this.bodyHeight + "<br /><br />";
-
-        setTimeout( () => {
-            debug = debug + 
-            "@AFTER WINDOW<br />" +
-            " SCROLLY = " + window.scrollY + "<br />" +
-            " INNER HEIGHT = " + window.innerHeight + " OUTER HEIGHT = " + window.outerHeight + "<br />" +
-            "@BEFIRE BODY<br />" +
-            " SCROLLY = " + document.querySelector("body").scrollTop + "<br />" + 
-            " HEIGHT = " + document.querySelector("body").scrollHeight;
-    
-            this.postMessage("debug", {debug});
-        }, 2000 );
-
-        this.windowScrollY = window.screenY;
-        this.windowInnerHeight = window.innerHeight;
-        this.windowOuterHeight = window.outerHeight;    
-        this.bodyScrollY = document.querySelector("body").scrollTop;
-        this.bodyHeight = document.querySelector("body").scrollHeight;
+        this.debug();
     }
 
     optimizeScrollAndHeight(){
-/*
+        this.debug(1500);
+    }
+
+    debug( timrout = 0 ){
+        let debug =
+            "@BEFORE WINDOW<br />" + 
+            " SCROLLY = " + this.windowScrollY + "<br />" + 
+            " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
+            " OUTER HEIGHT = " + this.windowOuterHeight + "<br />" + 
+            "@BEFORE BODY<br/> " +
+            " SCROLLY = " + this.bodyScrollY + "HEIGHT = " + this.bodyHeight + "<br /><br />";
+
         this.windowScrollY = window.screenY;
         this.windowInnerHeight = window.innerHeight;
         this.windowOuterHeight = window.outerHeight;
-        this.htmlScrollY = document.querySelector("html").scrollTop;
-        this.htmlHeight = document.querySelector("html").scrollHeight;        
         this.bodyScrollY = document.querySelector("body").scrollTop;
         this.bodyHeight = document.querySelector("body").scrollHeight; 
-*/ 
-        let debug =
-        "@BEFORE WINDOW<br />" + 
-        " SCROLLY = " + this.windowScrollY + "<br />" + 
-        " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
-        " OUTER HEIGHT = " + this.windowOuterHeight + "<br />" + 
-        "@BEFORE BODY<br/> " +
-        " SCROLLY = " + this.bodyScrollY + HEIGHT = " + this.bodyHeight + "<br /><br />";
 
         setTimeout( () => {
             debug = debug + 
             "@AFTER WINDOW<br />" +
-            " SCROLLY = " + window.scrollY + "<br />" +
-            " INNER HEIGHT = " + window.innerHeight + " OUTER HEIGHT = " + window.outerHeight + "<br />" +
+            " SCROLLY = " + this.windowScrollY + "<br />" +
+            " INNER HEIGHT = " + this.windowInnerHeight + " OUTER HEIGHT = " + this.windowOuterHeight  + "<br />" +
             "@BEFIRE BODY<br />" +
-            " SCROLLY = " + document.querySelector("body").scrollTop + "<br />" + 
-            " HEIGHT = " + document.querySelector("body").scrollHeight;
+            " SCROLLY = " + this.bodyScrollY  + "<br />" + 
+            " HEIGHT = " + this.bodyHeight;
     
             this.postMessage("debug", {debug});
-        }, 2000 );
+        }, timeout );
     }
 
     getClientMetas(){
