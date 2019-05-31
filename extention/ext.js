@@ -316,12 +316,10 @@ class Ext {
         let debug =
             "<br /><br />" + 
             "@BEFORE WINDOW[ " + this.beforeDebugAction + " ]<br />" + 
-            " SCROLLY = " + this.windowScrollY + "<br />" + 
             " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
             " OUTER HEIGHT = " + this.windowOuterHeight + "<br />" + 
             "@BEFORE BODY<br/> " +
-            " SCROLLY = " + this.bodyScrollY + "<br />" +
-            " HEIGHT = " + this.bodyHeight + "<br /><br />";
+            " SCROLLY = " + this.bodyScrollY + "<br />";
 
         this.windowScrollY = window.screenY;
         this.windowInnerHeight = window.innerHeight;
@@ -333,13 +331,11 @@ class Ext {
         setTimeout( () => {
             debug = debug + 
             "@AFTER WINDOW[ " + actionName + " ]<br />" +
-            " SCROLLY = " + this.windowScrollY + "<br />" +
             " INNER HEIGHT = " + this.windowInnerHeight + "<br />" +
             " OUTER HEIGHT = " + this.windowOuterHeight  + "<br />" +
             "@BEFIRE BODY<br />" +
-            " SCROLLY = " + this.bodyScrollY  + "<br />" + 
-            " HEIGHT = " + this.bodyHeight + "<br /><br />";
-    
+            " SCROLLY = " + this.bodyScrollY  + "<br />" ; 
+               
             this.postMessage("debug", {debug});
         }, timeout );
     }
