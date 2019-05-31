@@ -28,6 +28,7 @@ export default class InnerNotif extends Component {
         notif,
         style: {...style,
           self: {...style.self,
+            fontSize: isDebug ? "8px" : "auto",
             wordBreak: isDebug ? "break-word" : "normal",
             top: isDebug ? "auto" : "45px",
             bottom: isDebug ? "45px" : "auto",
