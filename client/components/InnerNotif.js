@@ -11,13 +11,15 @@ export default class InnerNotif extends Component {
   }
 
   componentWillReceiveProps(props){
-    const {style} = this.state;
-    const height = props.state.style.innerNotif.self.height;
-    const notif = props.state.app.openInnerNotif;
+    const { style } = this.state;
+    const { debug } = this.props;
+    const height = debug ? "45px" : props.state.style.innerNotif.self.height;
+    const isDebug = debug && debug !== "";
+    const notif = isDebug ? debug : props.state.app.openInnerNotif;
 
-    if( style.self.height !== height ){
+    if( style.self.height !== height || isDebug ){
 
-      if( height === `${InnerNotifStyle.selfHeight}px` ){
+      if( height === `${InnerNotifStyle.selfHeight}px` && !isDebug ){
         setTimeout( props.closeInnerNotif, 3000 );
       }
 
@@ -33,9 +35,7 @@ export default class InnerNotif extends Component {
   }
 
   render() {
-    const { debug } = this.props;
     const { style, notif } = this.state;
-    console.log( debug );
     return (
       <div
         data-component-name={"InnerNotif"} 

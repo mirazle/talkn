@@ -154,6 +154,7 @@ class Ext {
         iframe.style.height = Ext.getIframeCloseHeight();
         iframe.style.display = "flex";
         this.postMessage("onTransition");
+        this.postMessage("debug", {debug: "BOOT"});
     }
 
     loadWindow(e){
@@ -334,17 +335,18 @@ class Ext {
         this.htmlHeight = document.querySelector("html").scrollHeight;        
         this.bodyScrollY = document.querySelector("body").scrollTop;
         this.bodyHeight = document.querySelector("body").scrollHeight; 
-*/    
-        setTimeout( () => {
+*/ 
+        let debug =
+        "B WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + "\n" + 
+        "  HTML " + this.htmlScrollY + " " + this.htmlHeight  + "\n" + 
+        "  BODY " + this.bodyScrollY + " " + this.bodyHeight + "\n\n";
 
-            alert(
-                "B WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + "\n" + 
-                "  HTML " + this.htmlScrollY + " " + this.htmlHeight  + "\n" + 
-                "  BODY " + this.bodyScrollY + " " + this.bodyHeight + "\n" +
-                "A WINDOW " + window.scrollY + " " + window.innerHeight + " " + window.outerHeight + "\n" +
-                "  HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + "\n" +
-                "  BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight  
-            );
+        setTimeout( () => {
+            debug = debug + "A WINDOW " + window.scrollY + " " + window.innerHeight + " " + window.outerHeight + "\n" +
+            "  HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + "\n" +
+            "  BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight;
+    
+            this.postMessage("debug", {debug});
         }, 2000 );
     }
 
