@@ -253,7 +253,7 @@ class Container extends Component {
   }
 
   renderSmall(){
-    const { style } = this.props.state;
+    const { style, app } = this.props.state;
     const props = this.getProps();
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
@@ -269,7 +269,7 @@ class Container extends Component {
           <DetailModal {...props} /> 
           <PostsFooter {...props} />
           <Menu {...props} />
-          <InnerNotif {...this.props} debug={"A"} />
+          <InnerNotif {...this.props} debug={app.debug} />
           { HideScreenBottom }
         </span>
       </span>
