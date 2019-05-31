@@ -326,14 +326,15 @@ class Ext {
     }
 
     optimizeScrollAndHeight(){
-
+/*
         this.windowScrollY = window.screenY;
         this.windowInnerHeight = window.innerHeight;
         this.windowOuterHeight = window.outerHeight;
         this.htmlScrollY = document.querySelector("html").scrollTop;
         this.htmlHeight = document.querySelector("html").scrollHeight;        
         this.bodyScrollY = document.querySelector("body").scrollTop;
-        this.bodyHeight = document.querySelector("body").scrollHeight;     
+        this.bodyHeight = document.querySelector("body").scrollHeight; 
+*/    
         setTimeout( () => {
 
             alert(
