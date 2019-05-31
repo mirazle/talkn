@@ -383,9 +383,7 @@ class Ext {
                 "<br /> window.innerHeight = " + window.innerHeight + 
                 "<br /> window.outerHeight = " + window.outerHeight + 
                 "<br /> body.scrollTop = " + body.scrollTop + 
-                "<br /> body.scrollHeight = " + body.scrollHeight + 
-                "<br /> body.offsetHeight = " + body.offsetHeight + 
-                "<br /> body.clientHeight = " + body.clientHeight;
+                "<br /> body.scrollHeight = " + body.scrollHeight;
         }
     }
 
