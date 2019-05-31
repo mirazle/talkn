@@ -211,5 +211,11 @@ export default {
       type: 'GET_CLIENT_METAS',
       clientMetas
     };
+  },
+  debug: ( app ) => {
+    return {
+      type: 'GET_CLIENT_METAS',
+      app
+    };
   }
 }
