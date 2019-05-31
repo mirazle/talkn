@@ -318,6 +318,7 @@ class Ext {
         const beforeBodyScrollY = this.bodyScrollY ;
         let debug =
             "<br /><br />" + 
+            "@BEFORE@<br />" + 
             "WINDOW[ " + this.beforeDebugAction + " ]<br />" + 
             " INNER HEIGHT = " + beforeWindowInnerHeight + "<br />" + 
             " OUTER HEIGHT = " + beforeWindowOuterHeight + "<br />" + 
@@ -335,6 +336,7 @@ class Ext {
 
         setTimeout( () => {
             debug = debug + 
+            "@BEFORE@<br />" + 
             "WINDOW[ " + actionName + " ]<br />" +
             " INNER HEIGHT = " + this.windowInnerHeight + "<br />" +
             " OUTER HEIGHT = " + this.windowOuterHeight  + "<br />" +
@@ -343,7 +345,7 @@ class Ext {
                
             "@CALC@<br />" +
             " INNER HEIGHT = " + calcWindowInnerHeight + "<br />" +
-            " SCROLL = " + calcBodyScrollY + "<br />";
+            " SCROLL = " + calcBodyScrollY + "<br /><br />";
 
             this.postMessage("debug", {debug});
         }, timeout );
