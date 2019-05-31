@@ -124,7 +124,7 @@ class Ext {
                     `height: 33vh !important;` + 
                     "margin: 0px 0px 0px 10vw !important;" + 
                     "color: rgba(0,0,0,1) !important;" + 
-                    "background: rgba(255,255,255,0.95) !important;" + 
+                    "background: rgba(255,255,255,0.9) !important;" + 
                     "padding: 10px !important;" + 
                     "transition: 0ms !important;" + 
                     "transform: translate3d(0px, 0px, 0px) !important;"
