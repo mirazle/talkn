@@ -313,29 +313,38 @@ class Ext {
     }
 
     debug( actionName = "debug", timeout = 0 ){
+        const beforeWindowInnerHeight = this.windowInnerHeight ;
+        const beforeWindowOuterHeight = this.windowOuterHeight ;
+        const beforeBodyScrollY = this.bodyScrollY ;
         let debug =
             "<br /><br />" + 
-            "@BEFORE WINDOW[ " + this.beforeDebugAction + " ]<br />" + 
-            " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
-            " OUTER HEIGHT = " + this.windowOuterHeight + "<br />" + 
-            "@BEFORE BODY<br/> " +
-            " SCROLLY = " + this.bodyScrollY + "<br />";
+            "WINDOW[ " + this.beforeDebugAction + " ]<br />" + 
+            " INNER HEIGHT = " + beforeWindowInnerHeight + "<br />" + 
+            " OUTER HEIGHT = " + beforeWindowOuterHeight + "<br />" + 
+            "BODY<br/> " +
+            " SCROLLY = " + beforeBodyScrollY + "<br />";
 
-        this.windowScrollY = window.screenY;
         this.windowInnerHeight = window.innerHeight;
         this.windowOuterHeight = window.outerHeight;
         this.bodyScrollY = document.querySelector("body").scrollTop;
-        this.bodyHeight = document.querySelector("body").scrollHeight; 
         this.beforeDebugAction = actionName;
+
+        const calcWindowInnerHeight = this.windowInnerHeight - beforeWindowInnerHeight;
+        const calcWindowOuterHeight = this.windowOuterHeight - beforeWindowOuterHeight;
+        const calcBodyScrollY = this.bodyScrollY - beforeBodyScrollY;
 
         setTimeout( () => {
             debug = debug + 
-            "@AFTER WINDOW[ " + actionName + " ]<br />" +
+            "WINDOW[ " + actionName + " ]<br />" +
             " INNER HEIGHT = " + this.windowInnerHeight + "<br />" +
             " OUTER HEIGHT = " + this.windowOuterHeight  + "<br />" +
-            "@BEFIRE BODY<br />" +
-            " SCROLLY = " + this.bodyScrollY  + "<br />" ; 
+            "BODY<br />" +
+            " SCROLLY = " + this.bodyScrollY  + "<br /><br />" +
                
+            "@CALC@<br />" +
+            " INNER HEIGHT = " + calcWindowInnerHeight - + "<br />" +
+            " SCROLL = " + calcBodyScrollY - + "<br />" +
+
             this.postMessage("debug", {debug});
         }, timeout );
     }
