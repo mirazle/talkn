@@ -33,7 +33,9 @@ export default class InnerNotif extends Component {
   }
 
   render() {
+    const { debug } = this.props;
     const { style, notif } = this.state;
+    console.log( debug );
     return (
       <div
         data-component-name={"InnerNotif"} 
