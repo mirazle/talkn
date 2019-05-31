@@ -123,7 +123,7 @@ class Ext {
         window.addEventListener('resize', this.resizeWindow);
         window.addEventListener('scroll', this.scrollWindow);
 
-        this.debug();   
+        this.debug("setupWindow");   
     }
 
     loadIframe(e){
@@ -147,7 +147,7 @@ class Ext {
         iframe.style.height = Ext.getIframeCloseHeight();
         iframe.style.display = "flex";
         this.postMessage("onTransition");
-        this.debug();
+        this.debug("bootExtension");
     }
 
     loadWindow(e){
@@ -155,7 +155,7 @@ class Ext {
     }
 
     resizeWindow(e){
-        this.debug();
+        this.debug("resizeWindow");
     //    alert("RESIZE WINDOW");
         if( this.resizeMethodId === null ){
             this.resizeMethodId = setTimeout( this.resizedWindow, Ext.BASE_TRANSITION );
@@ -163,7 +163,7 @@ class Ext {
     }
 
     scrollWindow(e){
-        this.debug();
+        this.debug("scrollWindow");
     }
 
     resizedWindow(e){
@@ -305,15 +305,16 @@ class Ext {
     }
 
     setScrollAndHeight(){
-        this.debug();
+        this.debug( "setScrollAndHeight" );
     }
 
     optimizeScrollAndHeight(){
-        this.debug(1500);
+        this.debug( "optimizeScrollAndHeight", 1500);
     }
 
-    debug( timeout = 0 ){
+    debug( actionName = "debug", timeout = 0 ){
         let debug =
+            "<br /> " + actionName + "<br />" + 
             "@BEFORE WINDOW<br />" + 
             " SCROLLY = " + this.windowScrollY + "<br />" + 
             " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
