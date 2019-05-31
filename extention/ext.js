@@ -77,6 +77,7 @@ class Ext {
             this.loadWindow = this.loadWindow.bind(this);
             this.resizeWindow = this.resizeWindow.bind(this);
             this.resizedWindow = this.resizedWindow.bind(this);
+            this.debug = this.debug.bind(this);
 
             // setupWindow
             this.setupWindow();
@@ -307,7 +308,7 @@ class Ext {
         this.debug(1500);
     }
 
-    debug( timrout = 0 ){
+    debug( timeout = 0 ){
         let debug =
             "@BEFORE WINDOW<br />" + 
             " SCROLLY = " + this.windowScrollY + "<br />" + 
