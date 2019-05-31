@@ -177,14 +177,14 @@ class Ext {
     }
 
     resizeWindow(e){
-        this.debugWindow();
+        this.debugWindow("resizeWindow");
         if( this.resizeMethodId === null ){
             this.resizeMethodId = setTimeout( this.resizedWindow, Ext.BASE_TRANSITION );
         }
     }
 
     scrollWindow(e){
-        this.debugWindow();
+        this.debugWindow("scrollWindow");
     }
 
     resizedWindow(e){
@@ -334,7 +334,7 @@ class Ext {
     }
 
     debug( actionName = "debug", timeout = 0 ){
-        this.debugWindow();
+        this.debugWindow(actionName);
         const beforeWindowInnerHeight = this.windowInnerHeight ;
         const beforeWindowOuterHeight = this.windowOuterHeight ;
         const beforeBodyScrollY = this.bodyScrollY ;
@@ -373,11 +373,12 @@ class Ext {
         }, timeout );
     }
 
-    debugWindow(){
+    debugWindow( actionName ){
         const talknDebug = document.querySelector("#talknDebug");
         if(talknDebug){
             const body = document.querySelector("body");
             talknDebug.innerHTML = 
+                "@" + actionName + "@<br />"
                 " window.scrollY = " + window.scrollY + 
                 "<br /> window.innerHeight = " + window.innerHeight + 
                 "<br /> window.outerHeight = " + window.outerHeight + 
