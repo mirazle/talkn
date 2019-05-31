@@ -384,7 +384,7 @@ class Ext {
             const beforeWindowScrollY = this.windowScrollY ;
             const beforeWindowInnerHeight = this.windowInnerHeight ;
             const beforeWindowOuterHeight = this.windowOuterHeight ;
-            const beforeBodyScrollY = this.bodyScrollY ;
+            const beforeBodyScrollTop = this.bodyScrollTop ;
             const beforeBodyScrollHeight = this.bodyScrollHeight ;
     
             this.beforeDebugAction = actionName;
@@ -395,12 +395,12 @@ class Ext {
             this.scrollHeight = body.scrollHeight;
 
             talknDebug.innerHTML = 
-                "@BEFORE@ " + this.beforeDebugAction + "@<br />" +
-                " window.scrollY = " + this.windowScrollY + 
-                "<br /> window.innerHeight = " + this.windowInnerHeight + 
-                "<br /> window.outerHeight = " + this.windowOuterHeight + 
-                "<br /> body.scrollTop = " + this.bodyScrollTop + 
-                "<br /> body.scrollHeight = " + this.bodyScrollHeight + "<br />" +
+                "@BEFORE@ " + beforeDebugAction + "@<br />" +
+                " window.scrollY = " + beforeWindowScrollY + 
+                "<br /> window.innerHeight = " + beforeWindowInnerHeight + 
+                "<br /> window.outerHeight = " + beforeWindowOuterHeight + 
+                "<br /> body.scrollTop = " + beforeBodyScrollTop + 
+                "<br /> body.scrollHeight = " + beforeBodyScrollHeight + "<br />" +
                 "@NOW@ " + actionName + "@<br />" +
                 " window.scrollY = " + this.windowScrollY + 
                 "<br /> window.innerHeight = " + this.windowInnerHeight + 
