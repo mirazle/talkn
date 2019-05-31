@@ -337,14 +337,23 @@ class Ext {
         this.bodyHeight = document.querySelector("body").scrollHeight; 
 */ 
         let debug =
-        "B WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + "<br />" + 
-        "  HTML " + this.htmlScrollY + " " + this.htmlHeight  + "<br />" + 
-        "  BODY " + this.bodyScrollY + " " + this.bodyHeight + "<br /><br />";
+        "@BEFORE WINDOW<br />" + 
+        " SCROLLY = " + this.windowScrollY + "<br />" + 
+        " INNER HEIGHT = " + this.windowInnerHeight + "<br />" + 
+        " OUTER HEIGHT = " + this.windowOuterHeight + "<br />" + 
+        "@BEFORE BODY<br/> " +
+        " SCROLLY = " + this.bodyScrollY + "<br />" +
+        " HEIGHT = " + this.bodyHeight + "<br /><br />";
 
         setTimeout( () => {
-            debug = debug + "A WINDOW " + window.scrollY + " " + window.innerHeight + " " + window.outerHeight + "<br />" +
-            "  HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + "<br />" +
-            "  BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight;
+            debug = debug + 
+            "@AFTER WINDOW<br />" +
+            " SCROLLY = " + window.scrollY + "<br />" +
+            " INNER HEIGHT = " + window.innerHeight + "<br />" + 
+            " OUTER HEIGHT = " + window.outerHeight + "<br />" +
+            "@BEFIRE BODY<br />" +
+            " SCROLLY = " + document.querySelector("body").scrollTop + "<br />" + 
+            " HEIGHT = " + document.querySelector("body").scrollHeight;
     
             this.postMessage("debug", {debug});
         }, 2000 );
