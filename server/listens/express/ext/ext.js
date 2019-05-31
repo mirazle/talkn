@@ -109,6 +109,27 @@ class Ext {
             this.iframe.addEventListener( "load", this.loadIframe );
             this.iframe.addEventListener( "transitionend", this.transitionend );
             document.body.appendChild(this.iframe);
+
+            if(true){
+                const debug = document.createElement("div");
+                debug.setAttribute("id", "talknDebug");
+                debug.setAttribute("style", 
+                    "z-index: 2147483647 !important;" +
+                    "display: flex !important;" +
+                    "align-items: flex-start !important;" + 
+                    "position: fixed !important; " +
+                    "bottom: 90px !important;" + 
+                    `width: 80vw !important;` + 
+                    `height: 40vh !important;` + 
+                    "margin: 0px 0px 0px 10vw !important;" + 
+                    "color: rgba(0,0,0,1) !important;" + 
+                    "background: rgba(255,255,255,0.95) !important;" + 
+                    "padding: 10px !important;" + 
+                    "transition: 0ms !important;" + 
+                    "transform: translate3d(0px, 0px, 0px) !important;"
+                );
+                document.body.appendChild(debug);
+            }
         }
     }
 
@@ -163,8 +184,16 @@ class Ext {
     }
 
     scrollWindow(e){
-        //this.debug("scrollWindow");
-    }
+        const body = document.querySelector("body");
+        document.querySelector("#talknDebug").innerHTML = 
+            " window.scrollY = " + window.scrollY + 
+            "<br /> window.innerHeight = " + window.innerHeight + 
+            "<br /> window.outerHeight = " + window.outerHeight + 
+            "<br /> body.scrollTop = " + body.scrollTop + 
+            "<br /> body.scrollHeight = " + body.scrollHeight + 
+            "<br /> body.offsetHeight = " + body.offsetHeight + 
+            "<br /> body.clientHeight = " + body.clientHeight;
+        }
 
     resizedWindow(e){
         this.resizeMethodId = null;
