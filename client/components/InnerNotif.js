@@ -52,7 +52,7 @@ export default class InnerNotif extends Component {
         <div
           data-component-name={"InnerNotif"} 
           style={style.self}
-          dangerouslySetInnerHTML={__html: notif}
+          dangerouslySetInnerHTML={{__html: post }}
         />
       );
     }
