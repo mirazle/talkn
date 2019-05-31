@@ -322,7 +322,7 @@ class Ext {
             " INNER HEIGHT = " + beforeWindowInnerHeight + "<br />" + 
             " OUTER HEIGHT = " + beforeWindowOuterHeight + "<br />" + 
             "BODY<br/> " +
-            " SCROLLY = " + beforeBodyScrollY + "<br />";
+            " SCROLLY = " + beforeBodyScrollY + "<br /><br />";
 
         this.windowInnerHeight = window.innerHeight;
         this.windowOuterHeight = window.outerHeight;
@@ -342,8 +342,8 @@ class Ext {
             " SCROLLY = " + this.bodyScrollY  + "<br /><br />" +
                
             "@CALC@<br />" +
-            " INNER HEIGHT = " + calcWindowInnerHeight - + "<br />" +
-            " SCROLL = " + calcBodyScrollY - + "<br />";
+            " INNER HEIGHT = " + calcWindowInnerHeight + "<br />" +
+            " SCROLL = " + calcBodyScrollY + "<br />";
 
             this.postMessage("debug", {debug});
         }, timeout );
