@@ -337,13 +337,13 @@ class Ext {
         this.bodyHeight = document.querySelector("body").scrollHeight; 
 */ 
         let debug =
-        "B WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + "\n" + 
-        "  HTML " + this.htmlScrollY + " " + this.htmlHeight  + "\n" + 
-        "  BODY " + this.bodyScrollY + " " + this.bodyHeight + "\n\n";
+        "B WINDOW " + this.windowScrollY + " " + this.windowInnerHeight + " " + this.windowOuterHeight + "<br />" + 
+        "  HTML " + this.htmlScrollY + " " + this.htmlHeight  + "<br />" + 
+        "  BODY " + this.bodyScrollY + " " + this.bodyHeight + "<br /><br />";
 
         setTimeout( () => {
-            debug = debug + "A WINDOW " + window.scrollY + " " + window.innerHeight + " " + window.outerHeight + "\n" +
-            "  HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + "\n" +
+            debug = debug + "A WINDOW " + window.scrollY + " " + window.innerHeight + " " + window.outerHeight + "<br />" +
+            "  HTML " + document.querySelector("html").scrollTop + " " + document.querySelector("html").scrollHeight + "<br />" +
             "  BODY " + document.querySelector("body").scrollTop + " " + document.querySelector("body").scrollHeight;
     
             this.postMessage("debug", {debug});
