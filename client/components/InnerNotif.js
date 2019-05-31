@@ -27,6 +27,7 @@ export default class InnerNotif extends Component {
         notif,
         style: {...style,
           self: {...style.self,
+            wordBreak: isDebug ? "break-word" : "normal",
             height
           }
         }

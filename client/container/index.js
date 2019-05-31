@@ -297,7 +297,7 @@ class Container extends Component {
         <span data-component-name="fixedComponents">
           { Notifs }
           <PostsFooter {...props} debug={""} />
-          <InnerNotif {...this.props} debug={"A"} />
+          <InnerNotif {...this.props} debug={app.debug} />
         </span>
       </span>
     );

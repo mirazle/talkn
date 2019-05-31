@@ -157,7 +157,7 @@ export default class App extends Schema{
     // その他
     const actioned = params && params.actioned ? params.actioned : [];
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
-    const debug = Schema.isSet( params.debug ) ? params.debug : "HETY" ;
+    const debug = Schema.isSet( params.debug ) ? params.debug : "" ;
     return this.create({
 
       // 全体
