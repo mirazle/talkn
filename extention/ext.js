@@ -119,7 +119,7 @@ class Ext {
                     "display: flex !important;" +
                     "align-items: flex-start !important;" + 
                     "position: fixed !important; " +
-                    "bottom: 70px !important;" + 
+                    "bottom: 75px !important;" + 
                     `width: 80vw !important;` + 
                     `height: 40vh !important;` + 
                     "margin: 0px 0px 0px 10vw !important;" + 
