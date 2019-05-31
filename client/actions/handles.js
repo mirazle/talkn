@@ -214,7 +214,7 @@ export default {
   },
   debug: ( app ) => {
     return {
-      type: 'GET_CLIENT_METAS',
+      type: 'DEBUG',
       app
     };
   }
