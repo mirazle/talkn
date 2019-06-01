@@ -51,7 +51,7 @@ export default class PostsFooter extends Component {
           talknAPI.extension("changePost");
 
           setTimeout( () => {
-            document.querySelector("[data-component-name='Posts']").scrollTop = 99999999;
+            //document.querySelector("[data-component-name='Posts']").scrollTop = 99999999;
             document.querySelector("button").textContent = document.querySelector("[data-component-name='Posts']").scrollTop;  
           }, 100);
 
@@ -96,7 +96,7 @@ export default class PostsFooter extends Component {
 
       setTimeout( () => {
 //        if(!talknWindow.isScrollBottom ){
-          document.querySelector("[data-component-name='Posts']").scrollTop = 99999999;
+          //document.querySelector("[data-component-name='Posts']").scrollTop = 99999999;
 
           document.querySelector("button").textContent = "Foucus: " + document.querySelector("[data-component-name='Posts']").scrollTop;
 
