@@ -101,8 +101,9 @@ export default class PostsFooter extends Component {
           document.querySelector("[data-component-name='Posts']").scrollTop = 99999999;
 //          window.scrollTo(0, 9999999);
           talknWindow.setIsScrollBottom();
-//        }
-      }, 100 );
+//        
+        alert("SCROLL");
+      }, 1000 );
 
       if( this.state.focusSetIntervalId === 0 ){
 /*
