@@ -148,9 +148,10 @@ class Ext {
         window.addEventListener('scroll', this.scrollWindow);
 
         const agent = window.navigator.userAgent.toLowerCase();
+        alert( agent );
         if(agent.indexOf("edge") > -1){
             this.browser = 'Edge';
-        }else if (agent.indexOf("chrome") > -1){
+        }else if ( (agent.indexOf('chrome') !== -1) && (agent.indexOf('edge') === -1) ){
             this.browser = 'Chrome';
         }else if (agent.indexOf("safari") > -1){
             this.browser = 'Safari';
@@ -409,7 +410,7 @@ class Ext {
             this.scrollHeight = body.scrollHeight;
 
             talknDebug.innerHTML = 
-                "@@@@@@@@ " + this.browser + " @@@@@@@@" +
+                "@@@@@@@@ " + this.browser + " @@@@@@@@<br />" +
                 "@@@@@ BEFORE " + beforeDebugAction +
                 "<br /> w.scrollY = " + beforeWindowScrollY +
                 "<br /> w.innerHeight = " + beforeWindowInnerHeight + 
@@ -427,7 +428,6 @@ class Ext {
     getClientMetas(){
         let title = document.querySelector('title');
         title = title && title.text !== "" ? title.text : "";
-        console.log( "TITLE " + title );
         let description = document.querySelector('description');
         description = description && description.text !== "" ? description.text : "";
         const metas = document.querySelectorAll('meta');
