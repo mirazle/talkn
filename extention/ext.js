@@ -112,7 +112,7 @@ class Ext {
             this.iframe.addEventListener( "transitionend", this.transitionend );
             document.body.appendChild(this.iframe);
 
-            if(true){
+            if(false){
                 const debug = document.createElement("div");
                 debug.setAttribute("id", "talknDebug");
                 debug.setAttribute("style", 
