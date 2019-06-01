@@ -52,7 +52,7 @@ export default class PostsFooter extends Component {
 
           setTimeout( () => {
             //document.querySelector("[data-component-name='Posts']").scrollTop = 99999999;
-            document.querySelector("button").textContent = document.querySelector("[data-component-name='Posts']").scrollTop;  
+            //document.querySelector("button").textContent = document.querySelector("[data-component-name='Posts']").scrollTop;  
           }, 100);
 
 
@@ -89,7 +89,7 @@ export default class PostsFooter extends Component {
     if( app.screenMode === App.screenModeSmallLabel ){
 
       talknWindow.setIsScrollBottom();
-      document.querySelector("button").textContent = "Focus " + window.scrollY;
+      //document.querySelector("button").textContent = "Focus " + window.scrollY;
 
 
       talknAPI.extension("focusPost");
@@ -98,7 +98,7 @@ export default class PostsFooter extends Component {
 //        if(!talknWindow.isScrollBottom ){
           //document.querySelector("[data-component-name='Posts']").scrollTop = 99999999;
 
-          document.querySelector("button").textContent = "Foucus: " + document.querySelector("[data-component-name='Posts']").scrollTop;
+          //document.querySelector("button").textContent = "Foucus: " + document.querySelector("[data-component-name='Posts']").scrollTop;
 
           //          window.scrollTo(0, 9999999);
           talknWindow.setIsScrollBottom();
