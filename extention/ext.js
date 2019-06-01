@@ -149,11 +149,9 @@ class Ext {
 
         const agent = window.navigator.userAgent.toLowerCase();
         alert( agent );
-        if(agent.indexOf("edge") > -1){
-            this.browser = 'Edge';
-        }else if ( (agent.indexOf('chrome') !== -1) && (agent.indexOf('edge') === -1) ){
+        if ( (agent.indexOf('crios') !== -1) && (agent.indexOf('safari') === -1) ){
             this.browser = 'Chrome';
-        }else if (agent.indexOf("safari") > -1){
+        }else if ( (agent.indexOf('crios') === -1) && (agent.indexOf('safari') === -1) ){
             this.browser = 'Safari';
         }else if (agent.indexOf("opera") > -1){
             this.browser = 'Opera';
