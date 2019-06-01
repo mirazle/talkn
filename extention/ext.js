@@ -57,6 +57,7 @@ class Ext {
         });
 
         if(bootFlg){
+            this.browser = "";
             this.beforeDebugAction = "";
             this.windowScrollY = 0;
             this.windowInnerHeight = 0;
@@ -145,6 +146,18 @@ class Ext {
         window.addEventListener('load', this.loadWindow);
         window.addEventListener('resize', this.resizeWindow);
         window.addEventListener('scroll', this.scrollWindow);
+
+        if(agent.indexOf("edge") > -1){
+            this.browser = 'Edge';
+        }else if (agent.indexOf("chrome") > -1){
+            this.browser = 'Chrome';
+        }else if (agent.indexOf("safari") > -1){
+            this.browser = 'Safari';
+        }else if (agent.indexOf("opera") > -1){
+            this.browser = 'Opera';
+        }else if (agent.indexOf("firefox") > -1){
+            this.browser = 'Firefox';
+        }
 
         this.debug("setupWindow");   
     }
@@ -395,6 +408,7 @@ class Ext {
             this.scrollHeight = body.scrollHeight;
 
             talknDebug.innerHTML = 
+                "@@@@@@@@ " + this.browser + " @@@@@@@@" +
                 "@@@@@ BEFORE " + beforeDebugAction +
                 "<br /> w.scrollY = " + beforeWindowScrollY +
                 "<br /> w.innerHeight = " + beforeWindowInnerHeight + 
