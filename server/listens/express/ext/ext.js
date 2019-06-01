@@ -148,17 +148,17 @@ class Ext {
         window.addEventListener('scroll', this.scrollWindow);
 
         const agent = window.navigator.userAgent.toLowerCase();
-        alert( agent );
-        if ( (agent.indexOf('crios') !== -1) && (agent.indexOf('safari') === -1) ){
+
+        if ( (agent.indexOf('crios') !== -1) && (agent.indexOf('safari') > 0) ){
             this.browser = 'Chrome';
-        }else if ( (agent.indexOf('crios') === -1) && (agent.indexOf('safari') === -1) ){
+        }else if ( (agent.indexOf('crios') === -1) && (agent.indexOf('safari') > 0 ) ){
             this.browser = 'Safari';
         }else if (agent.indexOf("opera") > -1){
             this.browser = 'Opera';
         }else if (agent.indexOf("firefox") > -1){
             this.browser = 'Firefox';
         }
-
+        alert( this.browser + " " + agent );
         this.debug("setupWindow");   
     }
 
