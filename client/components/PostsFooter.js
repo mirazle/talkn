@@ -96,13 +96,13 @@ export default class PostsFooter extends Component {
 
       setTimeout( () => {
 //        if(!talknWindow.isScrollBottom ){
-          document.querySelector("button").textContent = document.querySelector("[data-component-name='Posts']").scrollTop;
-
           document.querySelector("[data-component-name='Posts']").scrollTop = 99999999;
-//          window.scrollTo(0, 9999999);
+
+          document.querySelector("button").textContent = "Foucus: " + document.querySelector("[data-component-name='Posts']").scrollTop;
+
+          //          window.scrollTo(0, 9999999);
           talknWindow.setIsScrollBottom();
-//        
-        alert("SCROLL");
+//
       }, 1000 );
 
       if( this.state.focusSetIntervalId === 0 ){
