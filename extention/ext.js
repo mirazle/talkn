@@ -147,6 +147,7 @@ class Ext {
         window.addEventListener('resize', this.resizeWindow);
         window.addEventListener('scroll', this.scrollWindow);
 
+        const agent = window.navigator.userAgent.toLowerCase();
         if(agent.indexOf("edge") > -1){
             this.browser = 'Edge';
         }else if (agent.indexOf("chrome") > -1){
