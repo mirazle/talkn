@@ -158,7 +158,6 @@ class Ext {
         }else if (agent.indexOf("firefox") > -1){
             this.browser = 'Firefox';
         }
-        alert( this.browser + " " + agent );
         this.debug("setupWindow");   
     }
 
