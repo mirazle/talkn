@@ -12,7 +12,7 @@ import Style from '~/common/schemas/state/Style';
 
 export default class State{
 
-  constructor( appType = define.APP_TYPES.PORTAL, talknIndex, window, bootOption = {}, caches = {} ){
+  constructor( talknIndex, window, bootOption = {}, caches = {} ){
 		this.menuIndex = new MenuIndex();
 		this.menuLogs = new MenuLogs( caches.menuLogs );
     this.posts = new Posts();
@@ -20,38 +20,18 @@ export default class State{
     this.bootOption = new BootOption( bootOption );
     this.thread = new Thread( window, this.bootOption, caches.thread );
     this.setting = new Setting( caches.setting );
-    this.app = new App( State.getAppParams(appType, talknIndex, this.thread, this.bootOption, caches ) );
+    this.app = new App( State.getAppParams( talknIndex, this.thread, this.bootOption, caches ) );
     this.user = new User(State.getUserParams(this, caches));
     this.style = new Style( this );
   }
 
-  static getAppParams(appType, talknIndex, thread, bootOption, caches){
-    switch(appType){
-    case define.APP_TYPES.PORTAL :
-
-    if(caches && caches.app && caches.app.type){
-        return {...caches.app, type: appType};
-      }else{
-        return {
-          type: appType,
-          isTransition: true,
-          talknIndex,
-          iframe: bootOption.iframe,
-          ...thread
-        };
-      }      
-    case define.APP_TYPES.EXTENSION :
-      if(caches && caches.app && caches.app.type){
-        return {...caches.app, type: appType};
-      }else{
-        return {
-          type: appType,
-          talknIndex,
-          iframe: bootOption.iframe,
-          ...thread
-        };
-      }
-    }
+  static getAppParams( talknIndex, thread, bootOption, caches){
+    return {
+      isTransition: true,
+      talknIndex,
+      ...bootOption,
+      ...thread
+    };
   }
 
   static getUserParams(self, caches){
@@ -62,10 +42,6 @@ export default class State{
         User.dispThreadTypeMulti : User.dispThreadTypeSingle;
       return {dispThreadType}
     }
-  }
-
-  get appType(){
-    return this.app.type;
   }
 
   get appName(){

@@ -29,38 +29,9 @@ export default class App extends Schema{
 
   static get screenModeSmallLabel(){ return 'SMALL' };
   static get screenModeMiddleLabel(){ return 'MIDDLE' };
-  static get screenModeLargeLabel(){ return 'LARGE' };
-  static getScreenModeDefaultPointer( screenMode ){
-    const screenModeDefaultPointers = {
-      [ App.screenModeSmallLabel ]: 2,
-      [ App.screenModeMiddleLabel ]: 1,
-      [ App.screenModeLargeLabel ]: 1
-    }
-    return screenModeDefaultPointers[ screenMode ];
-  };
-  static getScreenContentsMap( screenMode, screenModePointer ){
-    const screenContentsMap = {
-      [ App.screenModeSmallLabel ]: {
-        // screenModePointer
-        1: [ App.screenModeIndexLabel ],
-        2: [ App.screenModeThreadLabel ],
-        3: [ App.screenModeDetailLabel ]
-      },
-      [ App.screenModeMiddleLabel ]: {
-        1: [ App.screenModeIndexLabel, App.screenModeThreadLabel ],
-        2: [ App.screenModeThreadLabel, App.screenModeDetailLabel ]
-      },
-      [ App.screenModeLargeLabel ]: {
-        1: [ App.screenModeIndexLabel, App.screenModeThreadLabel, App.screenModeDetailLabel ]
-      },
-    }
-
-    if( screenContentsMap[ screenMode ][ screenModePointer ] ){
-      return screenContentsMap[ screenMode ][ screenModePointer ];
-    }else{
-      return false;
-    }
-  }
+  static get screenModeLargeLabel(){ return 'LARGE' }; 
+  static get extensionModeExtModalLabel(){ return 'EXT_MODAL' };
+  static get extensionModeExtBottomLabel(){ return 'EXT_BOTTOM' };
 
   static validInputPost(value){
     if( /\r\n$|\n$|\r$/mgi.test( value ) ) return 'LAST TYPE BREAK LINE.';
@@ -97,20 +68,16 @@ export default class App extends Schema{
     const talknIndex = params.talknIndex ? params.talknIndex : 0;
 
     // 基本表示関連 
-    const type = params.type ? params.type : '';
     const width = App.getWidth( params );
     const height = App.getHeight( params );
     const postsHeight = params.postsHeight ? params.postsHeight : 0;
     const screenMode = App.getScreenMode( width );
-    const screenModePointer = params.screenModePointer ? params.screenModePointer : App.getScreenModeDefaultPointer( screenMode );
-    const screenContents = App.getScreenContentsMap( screenMode, screenModePointer );
 
     // iframeの拡張機能表示の場合
     const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
     const extensionOpenHeight = params.extensionOpenHeight ? params.extensionOpenHeight : 0;
     const extensionCloseHeight = params.extensionCloseHeight ? params.extensionCloseHeight : 0;
-    const iframe = App.getIframe({...params, type });
 
     // Index情報
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
@@ -140,15 +107,13 @@ export default class App extends Schema{
     const inputSearch = params.inputSearch ? params.inputSearch : '';
 
     // 各パーツの状態(フラグ制御)
-    const isOpenPosts =  App.getIsOpenPosts({type, height, extensionMode, extensionOpenHeight, extensionCloseHeight});
+    const isOpenPosts =  App.getIsOpenPosts({ height, extensionMode, extensionOpenHeight, extensionCloseHeight});
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNewPost = params.isOpenNewPost ? params.isOpenNewPost : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
-    const isDispPosts = params.isDispPosts ? params.isDispPosts : 
-      params.type === define.APP_TYPES.EXTENSION ?
-        false : true;
+    const isDispPosts = Schema.isSet( params.isDispPosts ) ? params.isDispPosts : false ;
 
     // 各パーツの状態(文字列制御)
     const openInnerNotif = params.openInnerNotif ? params.openInnerNotif : '';
@@ -165,14 +130,10 @@ export default class App extends Schema{
       talknIndex,
 
       // 基本表示関連
-      type,
       width,
       height,
       postsHeight,
       screenMode,
-      screenModePointer,
-      screenContents,
-      iframe,
 
       // iframeの拡張機能表示の場合
       extensionMode,
@@ -227,16 +188,16 @@ export default class App extends Schema{
   }
 
   static getScreenMode( widthPx ){
-    if( window && window.innerWidth ){
-      widthPx = window.innerWidth;
-    }
+      if( window && window.innerWidth ){
+        widthPx = window.innerWidth;
+      }
 
-    if( App.screenModeSmallWidthPx >= widthPx ){
-     return App.screenModeSmallLabel;
-    }
-    if( App.screenModeSmallWidthPx < widthPx &&　App.screenModeMiddleWidthPx >= widthPx ){
-      return App.screenModeMiddleLabel;
-    }
+      if( App.screenModeSmallWidthPx >= widthPx ){
+      return App.screenModeSmallLabel;
+      }
+      if( App.screenModeSmallWidthPx < widthPx &&　App.screenModeMiddleWidthPx >= widthPx ){
+        return App.screenModeMiddleLabel;
+      }
     return App.screenModeLargeLabel;
   }
 
@@ -256,13 +217,16 @@ export default class App extends Schema{
 
   static getIsOpenPosts(app, called){
     const {
-      type,
+      extensionMode,
       height,
       extensionOpenHeight,
       extensionCloseHeight
     } = app;
     const log = false;
-    if( type === define.APP_TYPES.EXTENSION ){
+    if(
+      extensionMode === App.extensionModeExtBottomLabel ||
+      extensionMode === App.extensionModeExtModalLabel 
+    ){
 
       if( height === 0 ){
         if(log) console.log("@getIsOpenPosts A " + " " + extensionOpenHeight + " " +  height);
@@ -368,11 +332,5 @@ export default class App extends Schema{
       break;
     }
     return app;
-  }
-
-  updateScreenModePointer( calcScreenModePointer ){
-    const screenModePointer = this.screenModePointer + calcScreenModePointer;
-    const screenContents = App.getScreenContentsMap( this.screenMode, screenModePointer );
-    return screenContents ? new App( {screenModePointer} ) : this.screenModePointer ;
   }
 }
