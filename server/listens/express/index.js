@@ -90,7 +90,6 @@ class Express{
       res.render( 'desc/index', {});
       break;
     case conf.domain:
-      let iframe = false;
       let portalUrlSearch = false;
       let connection = "/";
       let hasSlash = false;
@@ -118,7 +117,6 @@ class Express{
         // ポータル以外からアクセス
         if(req.headers.referer){
           const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
-          iframe = true;
 
           // Auto Connection
           if(req.originalUrl === "/"){
@@ -136,44 +134,15 @@ class Express{
         // ポータルからアクセス
         }else{
           connection = req.originalUrl.replace(`/${conf.domain}`, '');
-          iframe = false;
           console.log("ACCESS PORTAL " + connection );
         }
-/*
-        // Open Portal Site
-        if( !req.headers.referer || portalUrlSearch ){
-console.log("A");
-          iframe = false;
-          connection = req.originalUrl.replace(`/${conf.domain}`, '');
 
-        // Open iFrame
-        }else{
-
-console.log("B");
-          const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
-          iframe = true;
-
-          // Auto Connection
-          if(req.originalUrl === "/"){
-            connection = referer;
-
-          // Extension
-          }else if(req.originalUrl !== "/"){
-            connection = referer;
-
-          // User Input Connection
-          }else{
-
-          }
-        }
-*/
         hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
 
         res.render( 'portal/index', {
           connection,
           hasSlash,
           language,
-          iframe, 
           domain: conf.domain,
           clientURL: conf.clientURL,
           assetsURL: conf.assetsURL

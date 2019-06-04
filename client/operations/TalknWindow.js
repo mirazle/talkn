@@ -15,21 +15,10 @@ import Container from 'client/container/';
 export default class TalknWindow {
 
 	static get resizeInterval(){ return 300 };
-
-	static getAppType(e){
+	static getAppType(){
 		return window.name === define.APP_TYPES.EXTENSION ?
 			define.APP_TYPES.EXTENSION : define.APP_TYPES.PORTAL;
 	}
-
-	static getScriptName(appType){
-		const { PORTS, APP_TYPES } = define;
-		let scriptName = 'talkn.client.js';
-		if( appType !== APP_TYPES.EXTENSION ){
-			scriptName = Number( location.port ) === PORTS.DEVELOPMENT ? 'talkn.client.js' : conf.clientURL;
-		}
-		return scriptName;
-	}
-
 	static getPostsHeight(){
 		let postsHeight = 0;
 		document.querySelectorAll("[data-component-name=Post]").forEach( (post) => {
@@ -48,24 +37,31 @@ export default class TalknWindow {
 
 	constructor( talknIndex ){
 		this.id = "talkn1";
+		this.talknIndex = talknIndex;
+		this.appType = TalknWindow.getAppType();;
 		this.talknAPI = {};
 		this.resizeTimer = null;
-		window.onload = this.onLoad;
-
+		this.parentUrl = null;
 		this.threadHeight = 0;
 		this.innerHeight = 0;
 		this.scrollHeight = 0;
+		
+		this.isLoaded = false;
+		this.isMessageed = false;
+		this.isExistParentWindow = false;
 		this.isAnimateScrolling = false;
 		this.isScrollBottom = false;
 
+		this.load = this.load.bind(this);
 		this.resize = this.resize.bind( this );
 		this.scroll = this.scroll.bind( this );
+		this.message = this.message.bind( this );
+		this.parentTo = this.parentTo.bind( this );
+
 		this.resizeStartWindow = this.resizeStartWindow.bind( this );
 		this.resizeEndWindow = this.resizeEndWindow.bind( this );
 		this.setIsScrollBottom = this.setIsScrollBottom.bind( this );
 
-		this.onLoad = this.onLoad.bind(this);
-		window.onload = this.onLoad.bind(this);
 
 		this.dom = {};
 		this.dom.html = document.querySelector("html");
@@ -73,48 +69,87 @@ export default class TalknWindow {
 		this.dom.talkn1 = document.querySelector("#talkn1");
 
 		this.setupWindow( talknIndex );
-		this.addWindowEventListener();
+		this.listenAsyncBoot();
 	}
 
 	setupWindow( talknIndex ){
 		if( !window.TalknAPI ) window.TalknAPI = TalknAPI;
 		if( !window.__talknAPI__ ) window.__talknAPI__ = [];
-		if( !window.name ) window.name = "talkn";
+		//if( !window.name ) window.name = "talkn";
 	}
 
-	addWindowEventListener(){
-		window.onload = this.onLoad;
-		window.addEventListener('resize', this.resize );
-		window.addEventListener('scroll', this.scroll );
+	listenAsyncBoot(){
+		const bootPromises = [];
+		bootPromises.push(
+			new Promise( ( resolve ) => {
+				window.addEventListener('load',  ( ev ) => {
+					this.load(ev, resolve);
+				});
+			})
+		);
+
+		switch( this.appType ){
+		case define.APP_TYPES.PORTAL :	
+			window.addEventListener('resize', this.resize );
+			window.addEventListener('scroll', this.scroll );
+			break;
+		case define.APP_TYPES.EXTENSION:
+			bootPromises.push(
+				new Promise( ( resolve ) => {
+					window.addEventListener('message',  ( ev ) => {
+						this.message( ev, resolve );
+					});
+				})
+			);
+			window.addEventListener('resize', this.resize );
+			window.addEventListener('scroll', this.scroll );
+			break;
+		}
+
+		Promise.all( bootPromises ).then( ( bootParams ) => {
+			const script = document.querySelector(`script#talkn`);
+			const scriptOption = BootOption.rebuildAttributes(script.attributes);
+			const bootOption = bootParams[1] ? {...scriptOption, ...bootParams[1]} : scriptOption;
+			this.boot( bootOption );
+		});
 	}
 
-	onLoad( ev ){
-		const appType = TalknWindow.getAppType(ev);
-		const scriptName = TalknWindow.getScriptName(appType);
-		const script = document.querySelector(`script#talkn`);
+	boot( bootOption ){
+		const connection = bootOption.connection;
+		const store = configureStore();
+		const caches = TalknSession.getCaches(connection);
+		const state = new State( this.talknIndex, window, bootOption, caches );
+		this.talknAPI = new TalknAPI( this.talknIndex, store, state, connection );
+		this.talknAPI.initClientState( state );
+		this.render( state );
+	}
+
+	message(e, resolve){
+		if( e.data.type === "talkn" ){
+			switch( e.data.method ){
+			case "bootExtension" :
+				this.parentUrl = e.data.url;
+				this.parentTo( "bootExtension" );
+				resolve(e.data.params);
+				break;
+			default: 
+				if(	
+					talknAPI[ e.data.method ] &&
+					typeof talknAPI[ e.data.method ] === "function"
+				){
+					talknAPI[ e.data.method ]( e.data.params );
+				}
+				break;
+			}
+		}
+	}
+
+	load( ev, resolve ){
 		this.threadHeight = document.querySelector("html").scrollHeight;
 		this.scrollHeight = window.scrollY;
 		this.innerHeight = window.innerHeight;
-		this.boot( appType, window.talknIndex, script.attributes );
 		window.talknAPI = window.__talknAPI__[ window.talknIndex ];
-	}
-
-	scroll( ev ){
-		const { app } = talknAPI.store.getState();
-		if( app.isOpenNewPost ){
-			talknAPI.closeNewPost();
-		}
-		this.setIsScrollBottom();
-	}
-
-	setIsScrollBottom(){
-
-		// ここがスマホブラウザだと正しく取得されていない模様
-		const htmlScrollHeight = document.querySelector("html").scrollHeight;
-		this.innerHeight = window.innerHeight;
-		this.scrollHeight = window.scrollY ;
-		const bodyScrollHeight = document.querySelector("body").scrollTop;
-		this.isScrollBottom = ( htmlScrollHeight === ( this.innerHeight + this.scrollHeight ) );
+		resolve(true);
 	}
 
 	resize( ev ){
@@ -133,6 +168,24 @@ export default class TalknWindow {
 				}, TalknWindow.resizeInterval );
 			}
 		}
+	}
+
+	scroll( ev ){
+		const { app } = talknAPI.store.getState();
+		if( app.isOpenNewPost ){
+			talknAPI.closeNewPost();
+		}
+		this.setIsScrollBottom();
+	}
+
+	setIsScrollBottom(){
+
+		// ここがスマホブラウザだと正しく取得されていない模様
+		const htmlScrollHeight = document.querySelector("html").scrollHeight;
+		this.innerHeight = window.innerHeight;
+		this.scrollHeight = window.scrollY ;
+		const bodyScrollHeight = document.querySelector("body").scrollTop;
+		this.isScrollBottom = ( htmlScrollHeight === ( this.innerHeight + this.scrollHeight ) );
 	}
 
 	resizeStartWindow(app){
@@ -204,18 +257,6 @@ export default class TalknWindow {
 		this.dom.talkn1.style.overflow = overflow;
 	}
 
-	boot(appType, talknIndex, attributes){
-		const store = configureStore();
-		const bootOption = BootOption.rebuildAttributes(attributes);
-		const caches = TalknSession.getCaches(bootOption.connection);
-		const state = new State( appType, talknIndex, window, bootOption, caches );
-		this.talknAPI = new TalknAPI( talknIndex, store, state, bootOption.connection );
-
-		this.talknAPI.initClientState( state );
-		this.render( state );
-		TalknSession.listenWorker( state );
-	}
-
 	appendRoot(){
 		const container = document.createElement( 'talkn' );
 		container.id = this.id;
@@ -229,6 +270,15 @@ export default class TalknWindow {
 	loadedTalkn(e){
 	}
 	
+	parentTo( method, params ){
+		if(this.parentUrl){
+			window.top.postMessage({
+				type: 'talkn',
+				method, params
+			}, this.parentUrl );
+		}
+	}
+
 	async render( state ){
 		await this.renderDOM();
 	}

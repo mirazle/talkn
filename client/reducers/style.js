@@ -1,5 +1,5 @@
+import Schema from 'common/schemas/Schema';
 import Style from 'client/style/index';
-import Screen from 'client/style/Screen';
 import Menu from 'client/style/Menu';
 import LockMenu from 'client/style/LockMenu';
 import Container from 'client/style/Container';
@@ -18,6 +18,12 @@ import ExtScreen from 'client/style/ExtScreen';
 export default ( state = {} , action ) => {
 
 	switch( action.type ){
+	case 'RESIZE_START_WINDOW':
+	case 'RESIZE_END_WINDOW':
+	case 'ON_TRANSITION' :
+	case 'OFF_TRANSITION' :
+	case 'ON_TRANSITION_END' :
+		return new Style( action );
 	case 'TOGGLE_DISP_MAIN':
 		return {...state};
 	case 'ON_CLICK_MULTISTREAM':
@@ -26,7 +32,7 @@ export default ( state = {} , action ) => {
 				multistreamIconWrap: {...state.container.multistreamIconWrap,
 					border: Container.getMultistreamIconWrapBorder( action)
 				}
-			},
+			}
 		}
 	case 'ON_CLICK_TOGGLE_DISP_MENU':
 	case 'ON_CLICK_TOGGLE_DISP_DETAIL':
@@ -76,9 +82,6 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
-	case 'RESIZE_START_WINDOW':
-	case 'RESIZE_END_WINDOW':
-		return new Style( action );
 	case 'OPEN_NEW_POST':
 	case 'CLOSE_NEW_POST':
 		return {...state,
@@ -88,17 +91,6 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
-/*
-	case 'SERVER_TO_CLIENT[BROADCAST]:post':
-		return {...state,
-			header: {...state.header,
-				self: {...state.header.self,
-					transform: Header.getNotifTranslateY( action.app ),
-				}
-			}
-		}
-		break;
-*/
 	case 'OPEN_NOTIF':
 	case 'CLOSE_NOTIF':
 		const notifDisplay= Notif.getNotifsDisplay( action.app );
@@ -121,29 +113,7 @@ export default ( state = {} , action ) => {
 					display: notifDisplay,
 				}
 			}
-			/*,
-			posts: {...state.posts,
-				self: {...state.posts.self,
-					display: Screen.getSelfDisplay( action.app ),
-				}
-			}
-			*/
 		}
-/*
-	case 'ON_CLICK_TOGGLE_MAIN':
-		const notifDisplay= Notif.getNotifsDisplay( action.app );
-		console.log("REDUCER " + notifDisplay);
-		return {...state,
-			notif: {...state.notif,
-				notifs: {...state.notif.notifs,
-					display: notifDisplay,
-				},
-				self: {...state.notif.self,
-					display: notifDisplay,
-				}
-			}
-		}
-*/
 	case 'OPEN_INNER_NOTIF' :
 	case 'CLOSE_INNER_NOTIF' :
 		return {...state,
@@ -153,10 +123,6 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
-	case 'ON_TRANSITION' :
-	case 'OFF_TRANSITION' :
-	case 'ON_TRANSITION_END' :
-		return new Style( action );
 	case 'UPDATE_STYLE':
 		const { styleKey, eleType, tagName, style } = action;
 

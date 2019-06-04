@@ -32,8 +32,8 @@ class Container extends Component {
     this.state = {notifs: []};
 
     talknAPI.find( thread.connection );
-
-    if(app.type !== define.APP_TYPES.EXTENSION){
+  
+    if( app.extensionMode === "NONE" ){
       talknAPI.findMenuIndex( thread.connection );
     }
     this.getProps = this.getProps.bind(this);
@@ -53,8 +53,10 @@ class Container extends Component {
 
   shouldComponentUpdate(props){
     const {app, actionLog} = props.state;
-    switch( app.type ){
-    case define.APP_TYPES.EXTENSION:
+    if(
+      app.extensionMode === App.extensionModeExtBottomLabel ||
+      app.extensionMode === App.extensionModeExtModalLabel
+    ){
       return true;
 /*
       return [
@@ -69,9 +71,8 @@ class Container extends Component {
 
       ].includes( actionLog[0] );
 */
-    default: 
-      return true;
     }
+    return true;
   }
 
   getProps(){
@@ -97,9 +98,18 @@ class Container extends Component {
   }
 
   handleOnClickToggleMain( e ){
-    const { onClickToggleMain, onClickToggleDispDetail, onClickOpenLockMenu, state} = this.props;
+    const {
+      onClickToggleMain,
+      onClickToggleDispDetail,
+      onClickOpenLockMenu,
+      closeInnerNotif,
+      state
+    } = this.props;
     let { app, thread, threadDetail } = state;
-    if( app.type ===  define.APP_TYPES.EXTENSION ){
+    if(
+      app.extensionMode === App.extensionModeExtBottomLabel ||
+      app.extensionMode === App.extensionModeExtModalLabel
+    ){
 
       this.setState({notifs: []});
       app.isOpenNotif = false;
@@ -114,7 +124,8 @@ class Container extends Component {
       if(app.openLockMenu !== App.openLockMenuLabelNo){
         onClickOpenLockMenu(App.openLockMenuLabelNo);
       }
-      talknAPI.extension("toggleIframe");
+
+      talknWindow.parentTo("toggleIframe");
     }
   }
 
@@ -189,7 +200,10 @@ class Container extends Component {
 
   getNotifs(props){
     const { app, style } = props.state;
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if(
+      app.extensionMode === App.extensionModeExtBottomLabel ||
+      app.extensionMode === App.extensionModeExtModalLabel
+    ){
       if( !app.isOpenPosts && !app.isDispPosts && app.isOpenNotif ){
         return (
           <ol data-component-name="Notifs" style={style.notif.notifs}>
@@ -292,11 +306,11 @@ class Container extends Component {
           { MultistreamIcon }
           { NewPost }
           <DetailModal {...props} /> 
+          <InnerNotif {...this.props} debug={""} />
         </div>
         <span data-component-name="fixedComponents">
           { Notifs }
           <PostsFooter {...props} debug={""} />
-          <InnerNotif {...this.props} debug={""} />
         </span>
       </span>
     );
@@ -337,7 +351,10 @@ class Container extends Component {
  	render() {
     const { style, app, actionLog } = this.props.state;
     if( style && style.container && style.container.self && app.connectioned ){
-      if( app.type === define.APP_TYPES.EXTENSION ){
+      if(
+        app.extensionMode === App.extensionModeExtBottomLabel ||
+        app.extensionMode === App.extensionModeExtModalLabel 
+      ){
         return this.renderExtension(this);
       } else {
         switch( app.screenMode ){
@@ -350,7 +367,10 @@ class Container extends Component {
         }
       }
     }else{
-      if( app.type === define.APP_TYPES.EXTENSION ){
+      if(
+        app.extensionMode === App.extensionModeExtBottomLabel ||
+        app.extensionMode === App.extensionModeExtModalLabel
+      ){
         return null;
       }else{
         return <Loading />;

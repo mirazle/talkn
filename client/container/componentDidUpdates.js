@@ -1,5 +1,6 @@
 import React from "react"
 import define from 'common/define';
+import App from 'common/schemas/state/App';
 import Notif from 'client/components/Notif';
 import TalknWindow from 'client/operations/TalknWindow';
 
@@ -30,7 +31,24 @@ const componentDidUpdates = {
         'OPEN_NOTIF': ( self ) => {
             const { app } = self.props.state;
 
-            if( app.type === define.APP_TYPES.EXTENSION ){
+            /*
+            
+                TOGGLE_MAINを正しく動作するようにする
+            
+            
+            
+            
+            */
+
+
+
+
+
+
+            if(
+                app.extensionMode === App.extensionModeExtBottomLabel ||
+                app.extensionMode === App.extensionModeExtModalLabel
+            ){
                 const { handleOnClickToggleMain, props } = self;
                 const { style, thread } = props.state;
                 const posts = props.state[ `posts${app.dispThreadType}` ];
@@ -60,8 +78,11 @@ const componentDidUpdates = {
         },
         'ON_CLICK_TOGGLE_MAIN': ( self ) => {
             const { app } = self.props.state;
-            if( app.type === define.APP_TYPES.EXTENSION ){
-                talknAPI.extension("getClientMetas");
+            if(
+                app.extensionMode === App.extensionModeExtBottomLabel ||
+                app.extensionMode === App.extensionModeExtModalLabel
+            ){
+                talknWindow.parentTo("getClientMetas");
             }
         },
         'GET_CLIENT_METAS': ( self ) => {
@@ -73,21 +94,23 @@ const componentDidUpdates = {
     Posts: {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
             const { app } = self.props.state;
-            if( app.type !== define.APP_TYPES.EXTENSION ){
+            if( app.extensionMode === "NONE" ){
                 talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
             }
         },
         'SERVER_TO_CLIENT[EMIT]:changeThread': ( self ) => {
             const { app } = self.props.state;
-            if( app.type !== define.APP_TYPES.EXTENSION ){
+            if( app.extensionMode === "NONE" ){
                 window.scrollTo(0, 9999999);
             }
         },
         'SERVER_TO_CLIENT[BROADCAST]:post': ( self ) => {
             const { app } = self.props.state;
             app.postsHeight += TalknWindow.getLastPostHeight();
-            self.props.updatePostsHeight(app.postsHeight);
-            if( app.type === define.APP_TYPES.EXTENSION ){
+            if(
+                app.extensionMode === App.extensionModeExtBottomLabel ||
+                app.extensionMode === App.extensionModeExtModalLabel
+            ){
                 const { isScrollBottom } = self.state;
                 if( app.isOpenPosts && isScrollBottom ){
                     self.animateScrollTo(
@@ -116,7 +139,10 @@ const componentDidUpdates = {
         },
         'SERVER_TO_CLIENT[EMIT]:getMore': ( self ) => {
             const { app } = self.props.state;
-            if( app.type === define.APP_TYPES.EXTENSION ){
+            if(
+                app.extensionMode === App.extensionModeExtBottomLabel ||
+                app.extensionMode === App.extensionModeExtModalLabel
+            ){
                 self.refs.thread.scrollTop = self.refs.thread.scrollHeight - self.state.scrollHeight;
             }else{
                 const threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;

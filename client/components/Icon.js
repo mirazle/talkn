@@ -286,6 +286,16 @@ export default class Icon extends Component{
     );
   }
 
+  static getHeaderUser( overStyle = {}){
+    const style = Icon.getOveredStyle( IconStyle.getHeaderUser(), overStyle );
+    return (
+      <div data-component-type={'IconUser'} style={ style.div }>
+        <span style={ style.bottom }></span>
+        <span style={ style.top }></span>
+      </div>
+    );
+  }
+
   static getLogs( overStyle ){
     const style = Icon.getOveredStyle( IconStyle.getLogs(), overStyle );
     return (

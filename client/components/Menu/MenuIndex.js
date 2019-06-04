@@ -118,7 +118,7 @@ export default class MenuIndex extends Component {
     const { icon } = style;
     const Search = Icon.getSearch( icon.search );
     const Update = Icon.getUpdate( icon.update );
-		return (
+    return (
       <nav data-component-name={"MenuIndex"} style={style.menuIndex.self}>
 
         <header style={style.menuIndex.header}>

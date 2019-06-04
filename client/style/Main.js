@@ -2,6 +2,7 @@ import define from '~/common/define';
 import Style from './index';
 import Container from './Container';
 import Footer from './Footer';
+import App from '../../common/schemas/state/App';
 
 export default class Main {
 
@@ -9,22 +10,19 @@ export default class Main {
   static get selfHeight(){ return '100%' };
   static get closeHeight(){ return 45 };
   static getOpenHeight(app, called){
-    if( app.type === define.APP_TYPES.EXTENSION ){
-      if( app.extensionMode === "SCRIPT"){
-        return window.innerHeight;
-      }else{
-        return 450;
-      }
-    } else {
+    switch(app.extensionMode){
+    case App.extensionModeExtModalLabel:
+    case App.extensionModeExtBottomLabel:
+      return 450;
+    default:
       return window.innerHeight;
     }
-
-  };
-  static get headerHeight(){ return 45 };
-  static get notifHeight(){ return 20 };
-  static get notifOpenTranslate(){ return 20 };
-  static get notifHeight(){ return 20 };
-  static get widthRatio(){ return 0.94 };
+  }
+  static get headerHeight(){ return 45 }
+  static get notifHeight(){ return 20 }
+  static get notifOpenTranslate(){ return 20 }
+  static get notifHeight(){ return 20 }
+  static get widthRatio(){ return 0.94 }
 
   constructor( params ){
     const self = Main.getSelf( params );

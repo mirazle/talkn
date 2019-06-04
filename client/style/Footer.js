@@ -31,7 +31,7 @@ export default class Footer{
   static getTransform( app ){
     let transform = 'translate3d( 0px, 0px, 0px )';
 
-    if( app.type ===  define.APP_TYPES.EXTENSION){
+    if( app.extensionMode === App.extensionModeExtBottomLabel){
       transform = app.isOpenMenu ? 'translate3d( 0%, 0px, 0px )' : 'translate3d( -50%, 0px, 0px )';
     }else{
       switch( app.screenMode ){
@@ -48,7 +48,7 @@ export default class Footer{
   }
 
   static getBorders( app ){
-    if( app.type ===  define.APP_TYPES.EXTENSION){
+    if( app.extensionMode === App.extensionModeExtBottomLabel){
       return {border: 0};
     }else{
       return app.screenMode === App.screenModeSmallLabel ?
@@ -68,7 +68,7 @@ export default class Footer{
 
     const borders = Footer.getBorders(app);
 
-    const borderRadius = app.type === define.APP_TYPES.EXTENSION ?
+    const borderRadius = app.extensionMode === App.extensionModeExtBottomLabel ?
       Container.radiuses : '0px';
 
     const layout = Style.getLayoutFlex({

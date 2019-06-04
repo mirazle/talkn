@@ -48,7 +48,7 @@ export default class PostsFooter extends Component {
         clearInterval(this.state.focusSetIntervalId);
         //if( !talknWindow.isScrollBottom ){
 //          window.scrollTo(0, 9999999);
-          talknAPI.extension("changePost");
+          talknWindow.parentTo("changePost");
 
           setTimeout( () => {
             //document.querySelector("[data-component-name='Posts']").scrollTop = 99999999;
@@ -89,10 +89,7 @@ export default class PostsFooter extends Component {
     if( app.screenMode === App.screenModeSmallLabel ){
 
       talknWindow.setIsScrollBottom();
-      //document.querySelector("button").textContent = "Focus " + window.scrollY;
-
-
-      talknAPI.extension("focusPost");
+      talknWindow.parentTo("focusPost");
 
       setTimeout( () => {
 //        if(!talknWindow.isScrollBottom ){
@@ -138,7 +135,8 @@ export default class PostsFooter extends Component {
   render() {
     const { state, handleOnClickToggleMain, debug } = this.props;
     const { style, app } = state;  
-    const value = debug && debug !== "" ? debug : app.inputPost;
+    const value = app.inputPost;
+
     return (
       <div  
         data-component-name={"PostsFooter"}

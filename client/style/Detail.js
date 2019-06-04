@@ -33,6 +33,7 @@ export default class Detail {
     styles.description = DetailClass.getDescription( params );
     styles.metaContentTypeWrap = DetailClass.getMetaContentTypeWrap( params );
     styles.metaContentType = DetailClass.getMetaContentType( params );
+    styles.connection = DetailClass.getConnection( params );
     styles.analyze = DetailClass.getAnalyze( params );
     styles.analyzeRow = DetailClass.getAnalyzeRow( params );
     styles.analyzeCol = DetailClass.getAnalyzeCol( params );
@@ -56,7 +57,7 @@ export default class Detail {
     const screenMode = App.getScreenMode(app.width);
     const display = screenMode === App.screenModeLargeLabel ? "none" : "block";
     const left = screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
-    const background = app.type === define.APP_TYPES.EXTENSION ?
+    const background = app.extensionMode === App.extensionModeExtBottomLabel ?
       Container.reliefRGB : Container.reliefRGB;
     const height = DetailModal.getHeight(app);
     const layout = Style.getLayoutBlock({
@@ -106,13 +107,7 @@ export default class Detail {
   }
 
   static getFooterBorders( app ){
-    if( define.APP_TYPES.EXTENSION === app.type ){
-      return {borderTop: Container.border} ;
-    }else{
-      return app.screenMode === App.screenModeSmallLabel ?
-        {borderTop: Container.border} :
-        {borderTop: Container.border} ;
-    }
+    return {borderTop: Container.border};
   }
 
   static getFooterPositions( app ){
@@ -259,6 +254,25 @@ export default class Detail {
       fontSize: "12px",
       color: Container.whiteRGB,
       textAlign: "right"
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getConnection(){
+    const layout = Style.getLayoutBlock({
+      width: '100%',
+      height: 'initial',
+      background: Container.whiteRGB,
+      borderTop: Container.border,
+      borderBottom: Container.border,
+      padding: "15px",
+      margin: "0px 0px 45px 0px"
+    });
+    const content = Style.getContentBase({
+      textAlign: 'left',
+      lineHeight: '30px',
+      wordBreak: "break-word"
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

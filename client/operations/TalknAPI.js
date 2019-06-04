@@ -26,10 +26,7 @@ export default class TalknAPI{
 		this.onCatchConnectionAPI();
 		this.onTalknAPI();
 
-		this.parentUrl = null;
 		window.__talknAPI__[ talknIndex ] = this;
-
-		this.onMessage();
 	}
 
 	static handle( talknIndex ){
@@ -38,41 +35,6 @@ export default class TalknAPI{
 		}else{
 			window.talknAPI = window.__talknAPI__[ talknIndex ];
 			return true;
-		}
-	}
-
-	onMessage(){
-		switch(this.state.app.type){
-		case define.APP_TYPES.EXTENSION :
-			window.addEventListener("message", (e) => {
-				if( e.data.type === "talkn" ){
-					const state = talknAPI.store.getState();
-					switch( e.data.method ){
-					case "bootExtension":
-						this.parentUrl = e.data.url;
-						this.extension( "bootExtension", state.app );
-						this[ "extension" ] = this.extension;
-						break;
-					case "removeExtension":
-						break;
-					default:
-						if(talknAPI[ e.data.method ] && typeof talknAPI[ e.data.method ] === "function"){
-							talknAPI[ e.data.method ]( e.data.params );
-						}
-					}
-				}
-			}, false);
-			break;
-		case define.APP_TYPES.PORTAL :
-//			this.onTransition(this.state);
-			break;
-		}
-		return true;
-	}
-
-	extension( method, params ){
-		if(this.parentUrl){
-			window.top.postMessage({type: 'talkn', method, params}, this.parentUrl);
 		}
 	}
 

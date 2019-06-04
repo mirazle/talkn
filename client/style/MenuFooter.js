@@ -10,7 +10,7 @@ export default class MenuFooter{
 
   static getWidth( app, addUnit = false ){
     let width = 0;
-    if( app.type ===  define.APP_TYPES.EXTENSION){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       width = '50%';
     }else{
       switch( app.screenMode ){
@@ -34,13 +34,11 @@ export default class MenuFooter{
   }
 
   static getSelf({app}){
-
     const borders = app.screenMode === App.screenModeSmallLabel ?
       {border: Container.border} :
       {border: Container.border} ;
-    const borderRadius = app.type === define.APP_TYPES.EXTENSION ?
+    const borderRadius = app.extensionMode === App.extensionModeExtBottomLabel ?
       Container.radiuses : '0px';
-
     const layout = Style.getLayoutFlex({
       width: MenuFooter.getWidth(app),
       minWidth: MenuFooter.getWidth(app),
@@ -54,7 +52,6 @@ export default class MenuFooter{
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
-
 
   static getChild(){
     const layout = Style.getLayoutBlock({

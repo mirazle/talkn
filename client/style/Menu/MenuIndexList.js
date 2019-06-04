@@ -31,7 +31,7 @@ export default class MenuIndexList {
   static get unactiveLiSelfBorderRightColor(){ return Container.border };
 
   static getUnactiveLiBorder(app){
-    if( app.type ===  define.APP_TYPES.EXTENSION){
+    if( app.extensionMode === App.extensionModeExtBottomLabel){
       return {borderBottom: Container.border};
     }else{
     return app.screenMode === App.screenModeSmallLabel ?

@@ -12,7 +12,7 @@ export default class DetailModal {
 
   static getWidth( app, addUnit = false ){
     let width = 0;
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return "84%";
     }else{
       width = app.screenMode === App.screenModeSmallLabel ?
@@ -31,7 +31,7 @@ export default class DetailModal {
   }
 
   static getMargin( app, addUnit = false ){
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return "0% 8%";
     }else{
       switch( app.screenMode ){
@@ -74,6 +74,7 @@ export default class DetailModal {
   static getDescription(params){return Detail.getDescription(params)}
   static getMetaContentTypeWrap(params){return Detail.getMetaContentTypeWrap(params)}
   static getMetaContentType(params){return Detail.getMetaContentType(params)}
+  static getConnection(params){return Detail.getConnection(params)}
   static getAnalyze(params){return Detail.getAnalyze(params)}
   static getAnalyzeRow(params){return Detail.getAnalyzeRow(params)}
   static getAnalyzeCol(params){return Detail.getAnalyzeCol(params)}
