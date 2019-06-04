@@ -76,3 +76,18 @@ Before continuing, verify the record is deployed.
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Press Enter to Continue
 ```
+
+SSL GRADE "A" SETTING CAA ( then Regist _acme-challenge that remove )
+```
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+-------------------------------------------------------------------------
+|   HOST_NAME   |   TYPE    |                   DATA                    |    
+|   @           |   CAA     | 0 issue "letsencrypt.org"                 |
+|   @           |   CAA     | 0 issuewild ";"                           |
+|   @           |   CAA     | 0 iodef "mailto:inquiry@mail.talkn.io"    |
+-------------------------------------------------------------------------
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
