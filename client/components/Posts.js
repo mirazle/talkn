@@ -21,7 +21,10 @@ export default class Posts extends Component {
 
   componentDidMount(){
       const{ app } = this.props.state;
-      if( app.type === define.APP_TYPES.EXTENSION ){
+      if(
+        app.extensionMode === App.extensionModeExtBottomLabel ||
+        app.extensionMode === App.extensionModeExtModalLabel 
+      ){
         this.setState({scrollHeight: this.refs.thread.scrollHeight});
         this.animateScrollTo( this.refs.thread, 9999999, 400 );
       }else{
@@ -83,15 +86,16 @@ export default class Posts extends Component {
 
   handleOnMouseDown(){
     const{ app } = this.props.state;
-    if(app.type === define.APP_TYPES.EXTENSION){
+    if(
+      app.extensionMode === App.extensionModeExtBottomLabel ||
+      app.extensionMode === App.extensionModeExtModalLabel 
+    ){
 //      this.refs.thread.scrollTop = this.refs.thread.scrollTop + 1;
     }
   }
 
   handleOnScroll( e ){
 		const{ app } = this.props.state;
-    //document.querySelector("button").textContent = document.querySelector("[data-component-name='Posts']").scrollTop;
-
     if( app.isOpenNewPost ){
       this.props.closeNewPost();
     }
@@ -144,7 +148,6 @@ export default class Posts extends Component {
       postList = Object.keys( posts ).map( ( index ) => {
         const post = posts[ index ];
         const childLayerCnt = post.layer - thread.layer;
-//        return (<div></div>);
         return (
           <Post
             key={post._id}

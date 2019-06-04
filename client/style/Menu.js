@@ -51,7 +51,7 @@ export default class Menu {
   }
 
   static getSelf( {app} ){
-    const background = app.type === define.APP_TYPES.EXTENSION ?
+    const background = app.extensionMode === App.extensionModeExtBottomLabel ?
       "none" : Container.reliefRGB;
     const layout = Style.getLayoutBlock({
       position: 'fixed',
@@ -77,7 +77,7 @@ export default class Menu {
 
   static getWrapComponent( {app} ){
 
-    const width = app.type === define.APP_TYPES.EXTENSION ?    
+    const width = app.extensionMode === App.extensionModeExtBottomLabel ?    
       '90%' : '100%';
 
     const borders = app.screenMode === App.screenModeSmallLabel ?

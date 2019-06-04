@@ -31,7 +31,6 @@
 	<script type='text/javascript'>
 		var portalDevHost = "/localhost:8080";
 		var script = document.createElement("script");
-		var iframe = false; // // localhost:8080の場合server listenを介さないので正しい判定が取れない
 		var href = location.href;
 		var replaceStr = location.origin + '/?';
 		var jsPath = '//' + location.host + '/';
@@ -52,7 +51,6 @@
 			script.setAttribute( 'src', jsPath + jsFileName );
 			script.setAttribute( 'connection', connection );
 			script.setAttribute( 'hasSlash', hasSlash );
-			script.setAttribute( 'iframe', iframe );
 			document.head.appendChild( script );
 		}
 	</script>

@@ -13,7 +13,7 @@ export default class Header extends Component {
   handleOnClickMenuIcon( e ){
     const { state } = this.props;
     let { app } = state;
-    if(app.type !== define.APP_TYPES.EXTENSION ){
+    if(app.extensionMode === "NONE" ){
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
         break;
@@ -25,22 +25,37 @@ export default class Header extends Component {
     }
   }
 
-  renderLeft(){
-    const {  app, thread, style } = this.props.state;
-    const { icon } = style;
-    const MenuIcon = Icon.getMenu( icon.menu );
+  renderWatchCntComponent(){
+    const { thread, style } = this.props.state;
+    return (
+      <span
+        data-component-name={"Header-WatchCnt"}
+        style={ style.header.childAnalyzeWrap }
+      >
+        <div style={ style.header.childAnalyzeType }>LIVE</div>
+        <div style={ style.header.childAnalyzeCnt }>{thread.watchCnt}</div>
+      </span>
+    );
+  }
 
-    if(app.iframe || app.type === define.APP_TYPES.EXTENSION){
+  renderLeft(){
+    const { openInnerNotif, state } = this.props;
+    const {  app, style } = state;
+    const { icon } = style;
+    const HeaderUserIcon = Icon.getHeaderUser( );
+    const MenuIcon = Icon.getMenu( icon.menu );
+    if(
+      app.extensionMode === App.extensionModeExtBottomLabel ||
+      app.extensionMode === App.extensionModeExtModalLabel 
+    ){
       return (
         <span
           data-component-name={`Header-left`}
           style={ style.header.leftIcon }
+          onClick={() => openInnerNotif()}
+          {...Icon.getDecolationProps3( 'icon', 'headerUser', 'div' )} 
         >
-          {/* Watch Cnt */}
-          <span style={ style.header.childAnalyzeWrap }>
-            <div style={ style.header.childAnalyzeType }>LIVE</div>
-            <div style={ style.header.childAnalyzeCnt }>{thread.watchCnt}</div>
-          </span>
+        { HeaderUserIcon }
         </span>
 
       );
@@ -62,35 +77,19 @@ export default class Header extends Component {
     const {  app, thread, style } = this.props.state;
     const { icon } = style;
     const DetailIcon = Icon.getDetail( icon.detail );
-    if(app.iframe || app.type === define.APP_TYPES.EXTENSION){
-      return (
-        <span
-          data-component-name={`Header-right`}
-          style={ style.header.rightIcon }
-          onClick={ handleOnClickToggleDetail }
-          {...Icon.getDecolationProps3( 'icon', 'detail', 'div' )} >
+    return (
+      <span
+        data-component-name={`${this.constructor.name}-right`}
+        style={ style.header.rightIcon }
+        onClick={ handleOnClickToggleDetail }
+        {...Icon.getDecolationProps3( 'icon', 'detail', 'div' )} >
 
-          { DetailIcon }
-        </span>
-      );
-    }else{
-      return (
-        <span
-          data-component-name={`${this.constructor.name}-right`}
-          style={ style.header.rightIcon }
-          onClick={ handleOnClickToggleDetail }
-          {...Icon.getDecolationProps3( 'icon', 'detail', 'div' )} >
+        { DetailIcon }
 
-          { DetailIcon }
-
-          {/* Watch Cnt */}
-          <span style={ style.header.childAnalyzeWrap }>
-            <div style={ style.header.childAnalyzeType }>LIVE</div>
-            <div style={ style.header.childAnalyzeCnt }>{thread.watchCnt}</div>
-          </span>
-        </span>
-      );
-    }
+        {/* Watch Cnt */}
+        {this.renderWatchCntComponent()}
+      </span>
+    );
   }
 
   render() {

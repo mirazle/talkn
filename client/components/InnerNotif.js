@@ -13,25 +13,19 @@ export default class InnerNotif extends Component {
   componentWillReceiveProps(props){
     const { style } = this.state;
     const { debug } = this.props;
-    const height = debug ? "auto" : props.state.style.innerNotif.self.height;
-    const isDebug = debug && debug !== "";
-    const notif = isDebug ? debug : props.state.app.openInnerNotif;
+    const height = props.state.style.innerNotif.self.height;
+    const notif = props.state.app.openInnerNotif;
 
-    if( style.self.height !== height || isDebug ){
+    if( style.self.height !== height ){
 
-      if( height === `${InnerNotifStyle.selfHeight}px` && !isDebug ){
+      if( height === `${InnerNotifStyle.selfHeight}px` ){
         setTimeout( props.closeInnerNotif, 3000 );
       }
 
       this.setState({
-        isDebug,
         notif,
         style: {...style,
           self: {...style.self,
-            fontSize: isDebug ? "9px" : "auto",
-            wordBreak: isDebug ? "break-word" : "normal",
-            top: isDebug ? "auto" : "45px",
-            bottom: isDebug ? "45px" : "auto",
             height
           }
         }

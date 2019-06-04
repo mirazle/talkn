@@ -17,6 +17,7 @@ export default class Icon {
     const menu = Icon.getMenu( params );
     const talknLogo = Icon.getTalknLogo( params );
     const user = Icon.getUser( params );
+    const headerUser = Icon.getHeaderUser( params );
     const tag = Icon.getTag( params );
     const home = Icon.getHome( params );
     const graph = Icon.getGraph( params );
@@ -36,6 +37,7 @@ export default class Icon {
       menu,
       talknLogo,
       user,
+      headerUser,
       search,
       tag,
       home,
@@ -512,6 +514,55 @@ export default class Icon {
         borderRadius: '6px',
         position: 'relative',
         top: '8px',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+//        transition: Container.getTransition( app ),
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+    return {div, top, bottom};
+  }
+
+  static getHeaderUser(){
+    const div = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        width: "40px",
+        height: "40px",
+        margin: '5px'
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: 'scale( 1 )'
+      }),
+    });
+
+    const top = Style.get({
+      layout: Style.getLayoutBlock({
+        margin: '0 auto',
+        background: `${Container.chromeOffTabRGB}`,
+        width: '14px',
+        height: '14px',
+        borderRadius: '10px',
+        position: 'relative',
+        top: '-12px',
+        border: '3px solid rgb(250, 250, 250)',
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
+
+    const bottom = Style.get({
+      layout: Style.getLayoutBlock({
+        margin: '0 auto',
+        background: `${Container.chromeOffTabRGB}`,
+        width: '10px',
+        height: '16px',
+        borderRadius: '6px',
+        position: 'relative',
+        top: '12px',
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({

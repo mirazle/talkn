@@ -10,7 +10,7 @@ export default class PostsFooter{
   static get selfHeight(){ return 45 };
   static getWidth( app, addUnit = false ){
     let width = 0;
-    if( app.type ===  define.APP_TYPES.EXTENSION){
+    if( app.extensionMode === App.extensionModeExtBottomLabel){
       width = '100%';
     }else{
       switch( app.screenMode ){
@@ -33,9 +33,9 @@ export default class PostsFooter{
   };
 
   static getBorder( app, addUnit = false ){
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border};
-    }else if( app.iframe ){
+    }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       return {border: Container.border};
     }else{
       return app.screenMode === App.screenModeSmallLabel ?
@@ -45,11 +45,10 @@ export default class PostsFooter{
   }
 
   static getBorderRadius( app, addUnit = false ){
-
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return app.extensionWidth === "100%" ?
         "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
-    }else if( app.iframe ){
+    }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       return `0px 0px 0px 0px`;
     }
     return 0;

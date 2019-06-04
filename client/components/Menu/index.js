@@ -64,7 +64,7 @@ export default class Menu extends Component {
   }
   
   renderMenuComponent(){
-    const {  app } = this.props.state;
+    const { app } = this.props.state;
     let menuComponent;
     switch( app.menuComponent ){
     case App.menuComponentUsersLabel :
@@ -85,13 +85,19 @@ export default class Menu extends Component {
 
   renderHeader(){
     const{ app } = this.props.state;
-    return app.type === define.APP_TYPES.EXTENSION ?
-      <Header {...this.props} /> : null;
+    
+      return (
+        app.extensionMode === App.extensionModeExtBottomLabel ||
+        app.extensionMode === App.extensionModeExtModalLabel ) ?
+          <Header {...this.props} /> : null;
   }
 
   renderFooter(){
     const { app } = this.props.state;
-    if( app.type ===  define.APP_TYPES.EXTENSION){
+    if(
+      app.extensionMode === App.extensionModeExtBottomLabel ||
+      app.extensionMode === App.extensionModeExtModalLabel 
+    ){
       return null;
     }else{
       switch( app.screenMode ){
@@ -112,7 +118,10 @@ export default class Menu extends Component {
         style={ style.menu.self }
       >
         {this.renderHeader()}
-        <div style={ style.menu.wrapComponent } >
+        <div
+          data-component-name={"MenuBody"}
+          style={ style.menu.wrapComponent }
+        >
           {this.renderMenuComponent()}
         </div>
         {this.renderFooter()}

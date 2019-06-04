@@ -1,4 +1,5 @@
 import define from '../../common/define';
+import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
 import Footer from './Footer';
@@ -9,7 +10,7 @@ export default class Notif {
   static get selfHeight(){ return 40 };
   
   static getNotifsDisplay(app){
-    if(define.APP_TYPES.EXTENSION === app.type ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return "block";
     }else{
       return 'none';
@@ -17,7 +18,7 @@ export default class Notif {
   }
 
   static getNotifsHeight(app){
-    if(define.APP_TYPES.EXTENSION === app.type ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       if( app.isOpenPosts ){
         return '0px';
       }else{

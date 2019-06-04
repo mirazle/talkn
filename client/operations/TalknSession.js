@@ -32,28 +32,4 @@ export default class TalknSession{
 		const setting = TalknSession.getStorage( rootConnection, define.storageKey.setting );
 		return {menuLogs, app, thread, setting};
 	}
-
-	static listenWorker( state ){
-		const { talknIndex } = state.app;
-/*
-		if( window.chrome && chrome.runtime && chrome.runtime.onMessage ){
-
-			chrome.runtime.onMessage.addListener( ( result, sender, sendResponse ) => {
-
-				console.log("LISTEN WORKER");
-				// Session setting .
-				if( result.requestKey === conf.cacheKey.setting + talknIndex ){
-					resolve( { setting: result.response, self: self } );
-				}
-
-				// Session index .
-				if( result.requestKey === conf.cacheKey.index + talknIndex ){
-					let connectionList = result.response;
-					// TODO FIND
-					//func.findMap( talknIndex, connectionList, focusMeta );
-				}
-			});
-		}
-*/
-	}
 }

@@ -17,13 +17,13 @@ export default class Posts {
   }
 
   static getOlWidth( {app}, addUnit = false ){
-    const width = app.type === define.APP_TYPES.EXTENSION ? '90%' : '100%';
+    const width = app.extensionMode === App.extensionModeExtBottomLabel ? '90%' : '100%';
     return addUnit ? Style.trimUnit( width ) : width ;
   }
 
   static getWidth( app, addUnit = false ){
     let width = 0;
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       width = "90%";
     }else{
       switch( app.screenMode ){
@@ -65,15 +65,15 @@ export default class Posts {
   static get headerHeight(){ return 35 };
 
   static getBorders( app ){
-    return app.screenMode === App.screenModeSmallLabel ?
+    return app.extensionMode === App.screenModeSmallLabel ?
       {borderRight: Container.border, borderLeft: Container.border} :
       {} ;
   }
 
   static getMargin( app, addUnit = false ){
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return `0px 5% ${Header.headerHeight}px 5%`;
-    }else if(app.iframe){
+    }else if(app.extensionMode === App.extensionModeExtModalLabel ){
       return `0px 0px ${PostsFooter.selfHeight}px 0px`;
     }else{
       switch( app.screenMode ){
@@ -88,7 +88,9 @@ export default class Posts {
   }
 
   static getPadding( app, addUnit = false ){
-    if(app.iframe){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
+      return "0px";
+    }else if(app.extensionMode === App.extensionModeExtModalLabel ){
       return "0px";
     }else{
       switch( app.screenMode ){
@@ -100,7 +102,7 @@ export default class Posts {
   }
 
   static getSelfTransform(app){
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return app.isDispPosts ?
         "translate3d(0px, 0px, 0px)" : `translate3d(0px, calc( 100% + ${PostsFooter.selfHeight}px ), 0px)`;
     }else{
@@ -121,7 +123,7 @@ export default class Posts {
     let zIndex = 1;
     let transform = Posts.getSelfTransform(app);
 
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       position = "fixed";
       top = `${Header.headerHeight}px`;
       height = `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
@@ -130,7 +132,7 @@ export default class Posts {
       borders.borderRight = Container.border;
       borders.borderLeft = Container.border;
       zIndex = -2;
-    }else if( app.iframe ){
+    }else if( app.screenMode === App.extensionModeExtModalLabel ){
       position = "relative";
       top = "45px";
       height = `calc( 100% - ${Header.headerHeight + Footer.selfHeight}px)`;
@@ -170,7 +172,7 @@ export default class Posts {
     let borderRight = '0';
     let borderLeft = '0';
 
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       width = Posts.getOlWidth({app});
       margin = '0px 0px 0px 5%';
       borderRight = Container.border;

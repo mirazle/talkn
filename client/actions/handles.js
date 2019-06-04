@@ -200,9 +200,14 @@ export default {
       app: {isDispPosts: false}
     };
   },
-  postExtensionData: (app) => {
+  bootExtension: (app) => {
     return {
-      type: 'POST_EXTENSION_DATA',
+      type: 'BOOT_EXTENSION'
+    };
+  },
+  updateExtension: (app) => {
+    return {
+      type: 'UPDATE_EXTENSION',
       app
     };
   },

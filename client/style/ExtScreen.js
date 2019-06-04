@@ -1,4 +1,5 @@
 import define from '../../common/define';
+import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
 import PostsFooter from './PostsFooter';
@@ -12,8 +13,9 @@ export default class ExtScreen {
     }
   }
 
-  static getSelfTransform(app){
-    if( app.type === define.APP_TYPES.EXTENSION ){
+  static getSelfTransform(app, call){
+
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return app.isDispPosts ?
         "translate3d(0px, -100%, 0px)" : `translate3d(0px, 0%, 0px)`;
     }else{
@@ -22,7 +24,7 @@ export default class ExtScreen {
   }
 
   static getSelfTransition(app){
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return app.isDispPosts ? `${Container.transitionOn}ms` :  `${Container.transitionOn}ms`;
     }else{
       return "0ms";

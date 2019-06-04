@@ -46,9 +46,14 @@ const functions = {
     action = Posts.getAnyActionPosts(action);
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = action.thread;
-    if(define.APP_TYPES.EXTENSION === action.app.type && !action.app.isOpenPosts && !action.app.isDispPosts){
+
+    if(
+        action.app.extensionMode === "EXT_BOTTOM" &&
+        !action.app.isOpenPosts &&
+        !action.app.isDispPosts
+    ){
       const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
-      talknAPI.extension("openNotif", {transition});
+      talknWindow.parentTo("openNotif", {transition});
     }
     return action;
   },
@@ -64,10 +69,14 @@ const functions = {
   "SERVER_TO_CLIENT[BROADCAST]:post": ( state, action ) => {
     const app = state.app;
     action.app = app;
-    if(define.APP_TYPES.EXTENSION === app.type && !app.isOpenPosts && !app.isDispPosts){
+    if(
+      action.app.extensionMode !== "NONE" &&
+      !action.app.isOpenPosts &&
+      !action.app.isDispPosts
+    ){
       action.app.isOpenNotif = true;
       const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
-      talknAPI.extension("openNotif", {transition});
+      talknWindow.parentTo("openNotif", {transition});
     }
     action = Posts.getAnyActionPosts(action);
     return action;

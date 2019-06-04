@@ -116,32 +116,23 @@ export default class Container{
   }
 
   static getRightPx( {app}, widthPx ){
-    switch( app.type ){
-    case define.APP_TYPES.PORTSL:
-    case define.APP_TYPES.EXTENSION:
-      return '0%';
-    default :
-      if( widthPx === '100%' ){
-        return '0%';
-      }else if( widthPx === '100vw' ){
-        return '0vw';
-      }else{
-        return '10px';
-      }
-    }
+    return '0%'
   }
 
   static get multistreamWrapDefaultTop(){return 5}
 
   static getSelf( params ){
     const { app, bootOption } = params;
-    const overflow = app.iframe ?
+    const overflow = app.extensionMode === App.extensionModeExtBottomLabel ?
       "hidden" : "inherit";
     let borderRadius = "0px";
     if( bootOption && bootOption["border-radius"] ){
       borderRadius = bootOption["border-radius"];
     }else{
-      if( borderRadius === "0px" && app.iframe ){
+      if(
+        borderRadius === "0px" &&
+        app.extensionMode === App.extensionModeExtModalLabel
+      ){
         borderRadius = "3px";
       }
     }
@@ -158,16 +149,13 @@ export default class Container{
     return Style.get({layout, content, animation});
   }
 
-  static getMultistreamIconWrapTop( app ){
-    if( app.type === define.APP_TYPES.EXTENSION ){
+  static getMultistreamIconWrapTop( app ){    
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
+      return ( Header.headerHeight + Container.multistreamWrapDefaultTop ) + "px" ;
+    }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       return ( Header.headerHeight + Container.multistreamWrapDefaultTop ) + "px" ;
     }else{
-      switch( app.screenMode ){
-      case App.screenModeSmallLabel:
-      case App.screenModeMiddleLabel:
-      case App.screenModeLargeLabel:
         return ( Header.headerHeight + Container.multistreamWrapDefaultTop ) + "px" ;
-      }
     }
   }
 
@@ -181,7 +169,6 @@ export default class Container{
       return `calc( ${DetailRight.getWidth(app)} + 20px)` ;
     }
   }
-
 
   static getMultistreamIconWrapBorder( {app} ){
     return !app.dispThreadType || app.dispThreadType === App.dispThreadTypeMulti ?

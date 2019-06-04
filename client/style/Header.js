@@ -46,7 +46,7 @@ export default class Header {
   }
 
   static getMargin(app){
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return "0px 5% 0px 5%";
     }else{
       return "0 auto";
@@ -65,10 +65,15 @@ export default class Header {
   }
 
   static getChildAnalyzePositions(app){
-    if( app.iframe || app.type === define.APP_TYPES.EXTENSION ){
+    if(
+      app.extensionMode === App.extensionModeExtBottomLabel ||
+      app.extensionMode === App.extensionModeExtModalLabel
+    ){
       return {
+        position: "absolute",
+        top: "0px",
         margin: "8px"
-      }
+      };
     }else{
       return {
         position: "absolute",
@@ -80,18 +85,17 @@ export default class Header {
   }
 
   static getBorderRadius( app, addUnit = false ){
-
-    if( app.type === define.APP_TYPES.EXTENSION ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return app.extensionWidth === "100%" ?
         "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
-    }else if( app.iframe ){
+    }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       return `0px 0px 0px 0px`;
     }
     return 0;
   };
   
   static getSelf( {app} ){
-    const width = app.type === define.APP_TYPES.EXTENSION ?    
+    const width = app.extensionMode === App.extensionModeExtBottomLabel ?    
       '90%' : '100%';
     const borderRadius = Header.getBorderRadius( app );
     const layout = Style.getLayoutFlex({

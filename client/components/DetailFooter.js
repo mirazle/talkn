@@ -36,8 +36,11 @@ export default class DetailFooter extends Component {
 
   handleOnClickPortal(){
     const { app } = this.props.state;
-    if( app.type === define.APP_TYPES.EXTENSION ){
-      talknAPI.extension("linkTo", {href: `https://${conf.wwwURL}` });
+    if(
+      app.extensionMode === App.extensionModeExtBottomLabel ||
+      app.extensionMode === App.extensionModeExtModalLabel 
+    ){
+      talknWindow.parentTo("linkTo", {href: `https://${conf.wwwURL}` });
     }else{
       location.href = `https://${conf.wwwURL}`;
     }
@@ -47,7 +50,11 @@ export default class DetailFooter extends Component {
     const { mode, state } = this.props;
     const { app, style } = state
 
-    if( define.APP_TYPES.EXTENSION === app.type && mode === "default"){
+    if(
+     ( app.extensionMode === App.extensionModeExtBottomLabel || 
+      app.extensionMode === App.extensionModeExtModalLabel ) && 
+      mode === "default"
+    ){
       return null;
     }else{
       const HeartIcon = Icon.getHeart( {}, state );
