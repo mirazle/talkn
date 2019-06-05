@@ -130,7 +130,7 @@ class Express{
 
           // User Input Connection
           }else{
-
+            connection = referer;
           }
           console.log("ACCESS NOT PORTAL " + connection + " includeIframeTag " + includeIframeTag);
         // ポータルからアクセス

@@ -47,8 +47,15 @@ export default class App extends Schema{
   }
 
   static getWidth( params ){
-    if( params.width ) return params.width;
     if( typeof window === 'object' && window.innerWidth ) return window.innerWidth;
+    if( params.width ){
+      if( typeof params.width === "string" ){
+        if( params.width.indexOf( "px" ) >= 0 ){
+          return Number( params.width.replace("px", "") );
+        }
+      }
+      return params.width;
+    }
     return 0;
   }
 
