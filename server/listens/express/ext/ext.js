@@ -1,4 +1,4 @@
-const ENV = "START";
+const ENV = "PROD";
 class Ext {
     static get MODE(){
         const domain = ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
@@ -6,6 +6,7 @@ class Ext {
         
         console.log(`@@@ script[src='//ext.${domain}']`);
         console.log(scriptTag);
+        console.log( scriptTag.attributes );
 
         return scriptTag ? "EXT_MODAL" : "EXT_BOTTOM";
     }
