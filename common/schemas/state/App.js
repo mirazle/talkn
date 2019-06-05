@@ -73,14 +73,14 @@ export default class App extends Schema{
     const postsHeight = params.postsHeight ? params.postsHeight : 0;
     const screenMode = App.getScreenMode( width );
 
-    // iframe埋め込み表示の場合
-    const includeIframeTag = App.getIncludeIframeTag( params );
-
     // 拡張表示の場合
     const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
     const extensionOpenHeight = params.extensionOpenHeight ? params.extensionOpenHeight : 0;
     const extensionCloseHeight = params.extensionCloseHeight ? params.extensionCloseHeight : 0;
+
+    // iframe埋め込み表示の場合
+    const includeIframeTag = App.getIncludeIframeTag( params, extensionMode );
 
     // Index情報
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
@@ -126,6 +126,7 @@ export default class App extends Schema{
     const actioned = params && params.actioned ? params.actioned : [];
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
     const debug = Schema.isSet( params.debug ) ? params.debug : "" ;
+
     return this.create({
 
       // 全体
@@ -209,14 +210,17 @@ export default class App extends Schema{
       return App.screenModeLargeLabel;
   }
  
-  static getIncludeIframeTag( params ){
+  static getIncludeIframeTag( params, extensionMode ){
     
     // Open Portal(Judge server side)
     // Open Portal from iframe(Judge server side)
     // Open Extension( Judge ext.js ) 
+    console.log( "extensionMode = " + extensionMode );
 
     if( Schema.isSet( params.includeIframeTag ) ){
       return Schema.getBool( params.includeIframeTag );
+    
+    // script attributes is lowercase.
     }else if(Schema.isSet( params.includeiframetag ) ){
       return Schema.getBool( params.includeiframetag );
     }else{
