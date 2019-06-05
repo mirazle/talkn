@@ -154,7 +154,11 @@ export default class TalknWindow {
 
 	resize( ev ){
 		const app = talknAPI.store.getState().app;
-		if( app.type === define.APP_TYPES.EXTENSION ){
+		if(
+			app.extensionMode === "EXT_BOTTOM" ||
+			app.extensionMode === "EXT_MODAL"
+		){
+			console.log("APP RESIZING");
 			if( this.resizeTimer === null ){
 				this.resizeTimer = setTimeout( () => {
 					this.resizeEndWindow(app);
@@ -198,6 +202,7 @@ export default class TalknWindow {
 	}
 
 	resizeEndWindow( app ){
+		console.log("APP RESIZED!!!!!");
 		clearTimeout(this.resizeTimer);
 		this.resizeTimer = null;
 

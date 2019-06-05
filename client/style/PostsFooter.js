@@ -10,7 +10,7 @@ export default class PostsFooter{
   static get selfHeight(){ return 45 };
   static getWidth( app, addUnit = false ){
     let width = 0;
-    if( app.extensionMode === App.extensionModeExtBottomLabel){
+    if(app.extensionMode === App.extensionModeExtBottomLabel){
       width = '100%';
     }else{
       switch( app.screenMode ){
@@ -24,10 +24,16 @@ export default class PostsFooter{
 
   static getLeft( app, addUnit = false ){
     let left = 0;
-    switch( app.screenMode ){
-    case App.screenModeSmallLabel : left = '0px';break;
-    case App.screenModeMiddleLabel :left = `${Menu.getWidth(app)}`;break;
-    case App.screenModeLargeLabel : left = Menu.getWidth( app );break;
+    if( app.extensionMode === "EXT_BOTTOM" ){
+      return 0;
+    }else if(app.extensionMode === "EXT_MODAL" ){
+      return 0;
+    }else{
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel : left = '0px';break;
+      case App.screenModeMiddleLabel :left = `${Menu.getWidth(app)}`;break;
+      case App.screenModeLargeLabel : left = Menu.getWidth( app );break;
+      }
     }
     return addUnit ? Style.trimUnit( left ) : left ;
   };

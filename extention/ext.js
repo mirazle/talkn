@@ -1,14 +1,17 @@
 const ENV = "PROD";
 class Ext {
+    static get MODE_MODAL(){return "EXT_MODAL"}
+    static get MODE_BOTTOM(){return "EXT_BOTTOM"}
+    static get DEFAULT_MODE(){return Ext.MODE_MODAL}
     static get MODE(){
         const domain = ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
         const scriptTag = document.querySelector(`script[src='//ext.${domain}']`);
-        
-        console.log(`@@@ script[src='//ext.${domain}']`);
-        console.log(scriptTag);
-        console.log( scriptTag.attributes );
-
-        return scriptTag ? "EXT_MODAL" : "EXT_BOTTOM";
+        let mode = scriptTag.attributes.mode && scriptTag.attributes.mode.value ?
+            scriptTag.attributes.mode.value : null;
+        if( mode === Ext.MODE_BOTTOM ){
+            return mode;
+        }
+        return Ext.MODE_MODAL;
     }
     static get APP_NAME(){return "talkn"}
     static get PROTOCOL(){return "https"}
@@ -30,7 +33,7 @@ class Ext {
     static getIframeOpenHeight(){
         if( Ext.MODE === "EXT_BOTTOM" ){
             if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
-                return `${Math.floor( window.innerHeight * 0.9 )}px`;
+                return `${Math.floor( window.innerHeight * 0.95 )}px`;
             }
         }
         return "450px";
@@ -38,11 +41,13 @@ class Ext {
     static getIframeCloseHeight(){return '45px'};
     static getIframeOpenNotifHeight(){return '85px'};
     static getIframeWidth(){
-        if( Ext.MODE === "EXT_BOTTOM" ){
+
+        if( Ext.MODE === Ext.MODE_BOTTOM ){
             if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
                 return "100%";
             }
         }
+
         return Ext.iframeBrowserWidth + "px"; 
     }
     static get iframeBrowserWidth(){return 320};
@@ -92,6 +97,7 @@ class Ext {
             this.debug = this.debug.bind(this);
 
             // setupWindow
+            const width = `${Ext.getIframeWidth()} !important;`;
             this.setupWindow();
             this.iframe  = document.createElement("iframe");
             this.loadIframe = this.loadIframe.bind(this);
@@ -104,9 +110,9 @@ class Ext {
                 "position: fixed !important; " +
                 "bottom: 0px !important;" + 
                 "right: 0px !important;" + 
-                `width: ${Ext.getIframeWidth()} !important;` + 
-                `min-width: ${Ext.getIframeWidth()} !important;` + 
-                `max-width: ${Ext.getIframeWidth()} !important;` + 
+                `width: ${width}` + 
+                `min-width: ${width}` + 
+                `max-width: ${width}` + 
                 `height: ${Ext.getIframeCloseHeight()} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0 !important;" + 
@@ -175,7 +181,6 @@ class Ext {
     }
 
     resizeWindow(e){
-        //this.debugWindow("resizeWindow");
         if( this.resizeMethodId === null ){
             this.resizeMethodId = setTimeout( this.resizedWindow, Ext.BASE_TRANSITION );
         }
@@ -188,8 +193,11 @@ class Ext {
     resizedWindow(e){
         this.resizeMethodId = null;
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
-        iframe.style.width = Ext.getIframeWidth();
+        const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);  
+        const width = Ext.getIframeWidth();
+        iframe.style['width'] = width;
+        iframe.style['min-width']  = width;
+        iframe.style['max-width'] = width;
 
         if(talknNotifId === "null"){
 
@@ -198,14 +206,14 @@ class Ext {
             }else{
                 iframe.style.height = Ext.getIframeOpenHeight();
             }
-
-            this.postMessage("updateExtension", {                
-                extensionMode: Ext.MODE,
-                extensionWidth: Ext.getIframeWidth().replace("px", "" ),
-                extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
-                extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
-            });
         }
+
+        this.postMessage("updateExtension", {                
+            extensionMode: Ext.MODE,
+            extensionWidth: Ext.getIframeWidth().replace("px", "" ),
+            extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
+            extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
+        });
     }
 
     catchMessage(e){
@@ -332,45 +340,6 @@ class Ext {
     }
 
     debug( actionName = "debug", timeout = 0 ){
-        //this.debugWindow(actionName);
-/*
-        const beforeWindowInnerHeight = this.windowInnerHeight ;
-        const beforeWindowOuterHeight = this.windowOuterHeight ;
-        const beforeBodyScrollY = this.bodyScrollY ;
-        let debug =
-            "<br /><br />" + 
-            "@BEFORE@<br />" + 
-            "WINDOW[ " + this.beforeDebugAction + " ]<br />" + 
-            " INNER HEIGHT = " + beforeWindowInnerHeight + "<br />" + 
-            " OUTER HEIGHT = " + beforeWindowOuterHeight + "<br />" + 
-            "BODY<br/> " +
-            " SCROLLY = " + beforeBodyScrollY + "<br /><br />";
-
-        this.windowInnerHeight = window.innerHeight;
-        this.windowOuterHeight = window.outerHeight;
-        this.bodyScrollY = document.querySelector("body").scrollTop;
-        this.beforeDebugAction = actionName;
-
-        const calcWindowInnerHeight = this.windowInnerHeight - beforeWindowInnerHeight;
-        const calcWindowOuterHeight = this.windowOuterHeight - beforeWindowOuterHeight;
-        const calcBodyScrollY = this.bodyScrollY - beforeBodyScrollY;
-
-        setTimeout( () => {
-            debug = debug + 
-            "@AFTER@<br />" + 
-            "WINDOW[ " + actionName + " ]<br />" +
-            " INNER HEIGHT = " + this.windowInnerHeight + "<br />" +
-            " OUTER HEIGHT = " + this.windowOuterHeight  + "<br />" +
-            "BODY<br />" +
-            " SCROLLY = " + this.bodyScrollY  + "<br /><br />" +
-               
-            "@CALC@<br />" +
-            " INNER HEIGHT = " + calcWindowInnerHeight + "<br />" +
-            " SCROLL = " + calcBodyScrollY + "<br /><br />";
-
-            this.postMessage("debug", {debug});
-        }, timeout );
-*/
     }
 
     debugWindow( actionName ){

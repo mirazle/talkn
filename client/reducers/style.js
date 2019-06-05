@@ -141,9 +141,10 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
-		break;
+		break; 
 	case 'START_DISP_POSTS' :
 	case 'START_UNDISP_POSTS' :
+
 		return {...state,
 				extScreen: {...state.extScreen,
 					self: {...state.extScreen.self,

@@ -90,6 +90,7 @@ class Express{
       res.render( 'desc/index', {});
       break;
     case conf.domain:
+      let includeIframeTag = false;
       let portalUrlSearch = false;
       let connection = "/";
       let hasSlash = false;
@@ -117,6 +118,7 @@ class Express{
         // ポータル以外からアクセス
         if(req.headers.referer){
           const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
+          includeIframeTag = true;
 
           // Auto Connection
           if(req.originalUrl === "/"){
@@ -134,12 +136,14 @@ class Express{
         // ポータルからアクセス
         }else{
           connection = req.originalUrl.replace(`/${conf.domain}`, '');
+          includeIframeTag = false;
           console.log("ACCESS PORTAL " + connection );
         }
 
         hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
 
         res.render( 'portal/index', {
+          includeIframeTag,
           connection,
           hasSlash,
           language,
