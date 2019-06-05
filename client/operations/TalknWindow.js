@@ -109,6 +109,7 @@ export default class TalknWindow {
 		Promise.all( bootPromises ).then( ( bootParams ) => {
 			const script = document.querySelector(`script#talkn`);
 			const scriptOption = BootOption.rebuildAttributes(script.attributes);
+			console.log( scriptOption );
 			const bootOption = bootParams[1] ? {...scriptOption, ...bootParams[1]} : scriptOption;
 			this.boot( bootOption );
 		});

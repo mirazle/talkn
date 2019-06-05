@@ -192,7 +192,6 @@ export default class App extends Schema{
   }
 
   static getScreenMode( widthPx ){
-    console.log("@@@@@@@@@@@@@@@ START ");
       if( window && window.innerWidth >= 0 ){
         widthPx = window.innerWidth;
       }
@@ -202,14 +201,11 @@ export default class App extends Schema{
       }
 
       if( App.screenModeSmallWidthPx >= widthPx ){
-        console.log("SMALL " + widthPx);
         return App.screenModeSmallLabel;
       }
       if( App.screenModeSmallWidthPx < widthPx &&　App.screenModeMiddleWidthPx >= widthPx ){
-        console.log("MIDDLE " + widthPx);
         return App.screenModeMiddleLabel;
       }
-      console.log("LARGE " + widthPx );
       return App.screenModeLargeLabel;
   }
  
