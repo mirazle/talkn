@@ -216,17 +216,20 @@ export default class App extends Schema{
     // Open Portal from iframe(Judge server side)
     // Open Extension( Judge ext.js ) 
     console.log( "extensionMode = " + extensionMode );
+    if( extensionMode === "NONE" ){
 
-    if( Schema.isSet( params.includeIframeTag ) ){
-      return Schema.getBool( params.includeIframeTag );
-    
-    // script attributes is lowercase.
-    }else if(Schema.isSet( params.includeiframetag ) ){
-      return Schema.getBool( params.includeiframetag );
-    }else{
-      // localhost:8080の場合server listenを介さないので正しい判定が取れない
-      return false;
+      if( Schema.isSet( params.includeIframeTag ) ){
+        return Schema.getBool( params.includeIframeTag );
+      
+      // script attributes is lowercase.
+      }else if(Schema.isSet( params.includeiframetag ) ){
+        return Schema.getBool( params.includeiframetag );
+      }else{
+        // localhost:8080の場合server listenを介さないので正しい判定が取れない
+        return false;
+      }
     }
+    return false;
   }
 
   static getIsOpenPosts(app, called){
