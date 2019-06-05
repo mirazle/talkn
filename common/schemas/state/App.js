@@ -73,7 +73,10 @@ export default class App extends Schema{
     const postsHeight = params.postsHeight ? params.postsHeight : 0;
     const screenMode = App.getScreenMode( width );
 
-    // iframeの拡張機能表示の場合
+    // iframe埋め込み表示の場合
+    const includeIframeTag = App.getIncludeIframeTag( params );
+
+    // 拡張表示の場合
     const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
     const extensionOpenHeight = params.extensionOpenHeight ? params.extensionOpenHeight : 0;
@@ -136,6 +139,7 @@ export default class App extends Schema{
       screenMode,
 
       // iframeの拡張機能表示の場合
+      includeIframeTag,
       extensionMode,
       extensionWidth,
       extensionOpenHeight,
@@ -188,27 +192,35 @@ export default class App extends Schema{
   }
 
   static getScreenMode( widthPx ){
-      if( window && window.innerWidth ){
+    console.log("@@@@@@@@@@@@@@@ START ");
+      if( window && window.innerWidth >= 0 ){
         widthPx = window.innerWidth;
       }
 
+      if( typeof widthPx === "string" ){
+        widthPx = widthPx.replace("px", "");
+      }
+
       if( App.screenModeSmallWidthPx >= widthPx ){
-      return App.screenModeSmallLabel;
+        console.log("SMALL " + widthPx);
+        return App.screenModeSmallLabel;
       }
       if( App.screenModeSmallWidthPx < widthPx &&　App.screenModeMiddleWidthPx >= widthPx ){
+        console.log("MIDDLE " + widthPx);
         return App.screenModeMiddleLabel;
       }
-    return App.screenModeLargeLabel;
+      console.log("LARGE " + widthPx );
+      return App.screenModeLargeLabel;
   }
-
-  static getIframe( params ){
+ 
+  static getIncludeIframeTag( params ){
     
     // Open Portal(Judge server side)
     // Open Portal from iframe(Judge server side)
     // Open Extension( Judge ext.js ) 
 
-    if( Schema.isSet( params.iframe ) ){
-      return Schema.getBool( params.iframe );
+    if( Schema.isSet( params.includeIframeTag ) ){
+      return Schema.getBool( params.includeIframeTag );
     }else{
       // localhost:8080の場合server listenを介さないので正しい判定が取れない
       return false;
