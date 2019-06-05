@@ -76,13 +76,17 @@ export default class Posts {
     }else if(app.extensionMode === App.extensionModeExtModalLabel ){
       return `0px 0px ${PostsFooter.selfHeight}px 0px`;
     }else{
-      switch( app.screenMode ){
-      case App.screenModeSmallLabel :
+      if( app.includeIframeTag ){
         return `${Header.headerHeight}px 0px 0px 0px`;
-      case App.screenModeMiddleLabel :
-        return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
-      case App.screenModeLargeLabel :
-        return `${Header.headerHeight}px 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
+      }else{
+        switch( app.screenMode ){
+        case App.screenModeSmallLabel :
+          return `${Header.headerHeight}px 0px 0px 0px`;
+        case App.screenModeMiddleLabel :
+          return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
+        case App.screenModeLargeLabel :
+          return `${Header.headerHeight}px 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
+        }
       }
     }
   }
@@ -93,10 +97,14 @@ export default class Posts {
     }else if(app.extensionMode === App.extensionModeExtModalLabel ){
       return "0px";
     }else{
-      switch( app.screenMode ){
-      case App.screenModeSmallLabel : return `0px 0px 25px 0px`;
-      case App.screenModeMiddleLabel : return `0px`;
-      case App.screenModeLargeLabel : return `0px`
+      if( app.includeIframeTag ){
+        return "0px";
+      }else{
+        switch( app.screenMode ){
+        case App.screenModeSmallLabel : return `0px 0px 25px 0px`;
+        case App.screenModeMiddleLabel : return `0px`;
+        case App.screenModeLargeLabel : return `0px`
+        }
       }
     }
   }
@@ -120,7 +128,7 @@ export default class Posts {
       borderRight: 0,
       borderLeft: 0
     }
-    let background = app.includeIframeTag ? Container.whiteRGBA : "rgba(255,255,255,0)";
+    let background = Container.whiteRGBA;
     let zIndex = 1;
     let transform = Posts.getSelfTransform(app);
 
@@ -143,14 +151,15 @@ export default class Posts {
       minHeight = 0;
     }else{
       if( app.includeIframeTag ){
-        return {border: Container.border};
+        height = `calc( 100vh - ${Header.headerHeight + Footer.selfHeight}px)`;
+        minHeight = height;
+        borders.borderRight = Container.border;
+        borders.borderLeft = Container.border;
+        overflow = "scroll";
       }else{
         borders = Posts.getBorders(app);
       }
     }
-    
-    console.log(app);
-    console.log("background " + background);
 
     const layout = Style.getLayoutBlock({
       position,

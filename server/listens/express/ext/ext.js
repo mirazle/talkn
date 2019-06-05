@@ -2,16 +2,19 @@ const ENV = "PROD";
 class Ext {
     static get MODE_MODAL(){return "EXT_MODAL"}
     static get MODE_BOTTOM(){return "EXT_BOTTOM"}
-    static get DEFAULT_MODE(){return Ext.MODE_MODAL}
+    static get DEFAULT_MODE(){return Ext.MODE_BOTTOM}
     static get MODE(){
         const domain = ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
         const scriptTag = document.querySelector(`script[src='//ext.${domain}']`);
-        let mode = scriptTag.attributes.mode && scriptTag.attributes.mode.value ?
-            scriptTag.attributes.mode.value : null;
+        let mode = scriptTag &&
+            scriptTag.attributes &&
+            scriptTag.attributes.mode &&
+            scriptTag.attributes.mode.value ?
+                scriptTag.attributes.mode.value : null;
         if( mode === Ext.MODE_BOTTOM ){
             return mode;
         }
-        return Ext.MODE_MODAL;
+        return Ext.DEFAULT_MODE;
     }
     static get APP_NAME(){return "talkn"}
     static get PROTOCOL(){return "https"}
