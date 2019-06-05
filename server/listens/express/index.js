@@ -132,12 +132,12 @@ class Express{
           }else{
 
           }
-          console.log("ACCESS NOT PORTAL " + connection );
+          console.log("ACCESS NOT PORTAL " + connection + " includeIframeTag " + includeIframeTag);
         // ポータルからアクセス
         }else{
           connection = req.originalUrl.replace(`/${conf.domain}`, '');
           includeIframeTag = false;
-          console.log("ACCESS PORTAL " + connection );
+          console.log("ACCESS PORTAL " + connection + " includeIframeTag " + includeIframeTag);
         }
 
         hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
