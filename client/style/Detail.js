@@ -28,6 +28,7 @@ export default class Detail {
     styles[ `self${Detail.detailModalSelfKey}` ] = Detail.getDetailModalSelf( params );
     styles.header = DetailClass.getHeader( params );
     styles.headerP = DetailClass.getHeaderP( params );
+    styles.body = DetailClass.getBody( params );
     styles.meta = DetailClass.getMeta( params );
     styles.img = DetailClass.getImg( params );
     styles.description = DetailClass.getDescription( params );
@@ -40,7 +41,6 @@ export default class Detail {
     styles.analyzeLabel = DetailClass.getAnalyzeLabel( params );
     styles.analyzeValue = DetailClass.getAnalyzeValue( params );
     styles.analyzeHr = DetailClass.getAnalyzeHr( params );
-    styles.body = DetailClass.getBody( params );
     styles.h1s = DetailClass.getH1s( params );
     styles.h1sLi = DetailClass.getH1sLi( params );
     styles.footer = DetailClass.getFooter( params );
@@ -174,7 +174,7 @@ export default class Detail {
       overflow: 'scroll',
       width: '100%',
       height: `calc( 100% - ${ Header.headerHeight * 2 }px )`,
-      background: Container.lightGrayRGBA,
+      background: Container.reliefRGB,
       zIndex: 0
     });
     const content = Style.getContentBase();
