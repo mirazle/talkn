@@ -6,15 +6,33 @@ class Ext {
     static get MODE(){
         const domain = ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
         const scriptTag = document.querySelector(`script[src='//ext.${domain}']`);
-        let mode = scriptTag &&
-            scriptTag.attributes &&
-            scriptTag.attributes.mode &&
-            scriptTag.attributes.mode.value ?
-                scriptTag.attributes.mode.value : null;
-        if( mode === Ext.MODE_BOTTOM ){
-            return mode;
+        let mode = Ext.DEFAULT_MODE;
+
+        if( scriptTag && scriptTag.attributes ){
+            if( scriptTag.attributes.mode && scriptTag.attributes.mode.value ){
+                mode = scriptTag.attributes.mode.value;
+            }
+            if( mode !== Ext.MODE_BOTTOM && mode !== Ext.MODE_MODAL ){
+                mode = Ext.DEFAULT_MODE;
+            }
         }
-        return Ext.DEFAULT_MODE;
+        return mode;
+    }
+    static getScriptTag(){
+        const domain = ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
+        return document.querySelector(`script[src='//ext.${domain}']`);
+    }
+    static getMode( scriptTag ){    
+        let mode = Ext.DEFAULT_MODE;
+        if( scriptTag && scriptTag.attributes ){
+            if( scriptTag.attributes.mode && scriptTag.attributes.mode.value ){
+                mode = scriptTag.attributes.mode.value;
+            }
+            if( mode !== Ext.MODE_BOTTOM && mode !== Ext.MODE_MODAL ){
+                mode = Ext.DEFAULT_MODE;
+            }
+        }
+        return mode;
     }
     static get APP_NAME(){return "talkn"}
     static get PROTOCOL(){return "https"}
@@ -33,8 +51,8 @@ class Ext {
             return `${Ext.PROTOCOL}://${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
         }
     }
-    static getIframeOpenHeight(){
-        if( Ext.MODE === "EXT_BOTTOM" ){
+    static getIframeOpenHeight( mode ){
+        if( mode === "EXT_BOTTOM" ){
             if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
                 return `${Math.floor( window.innerHeight * 0.95 )}px`;
             }
@@ -43,9 +61,9 @@ class Ext {
     }
     static getIframeCloseHeight(){return '45px'};
     static getIframeOpenNotifHeight(){return '85px'};
-    static getIframeWidth(){
+    static getIframeWidth( mode ){
 
-        if( Ext.MODE === Ext.MODE_BOTTOM ){
+        if( mode === Ext.MODE_BOTTOM ){
             if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
                 return "100%";
             }
@@ -59,7 +77,9 @@ class Ext {
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'focusPost', 'changePost', 'getClientMetas']};
 
     constructor(refusedFrame = false){
+
         this.refusedFrame = refusedFrame;
+        this.render = "#talkn";
         this.href = window.location.href;
         this.connection = this.href.replace("http:/", "").replace("https:/", "");
         const talknUrl = this.getTalknUrl();
@@ -70,6 +90,8 @@ class Ext {
         });
 
         if(bootFlg){
+            this.scriptTag = Ext.getScriptTag();
+            this.mode = Ext.getMode( this.scriptTag );
             this.browser = "";
             this.beforeDebugAction = "";
             this.windowScrollY = 0;
@@ -159,7 +181,7 @@ class Ext {
     loadIframe(e){
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.postMessage("bootExtension", {
-            extensionMode: Ext.MODE,
+            extensionMode: this.mode,
             extensionWidth: Ext.getIframeWidth().replace("px", "" ),
             extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
             extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
@@ -212,7 +234,7 @@ class Ext {
         }
 
         this.postMessage("updateExtension", {                
-            extensionMode: Ext.MODE,
+            extensionMode: this.mode,
             extensionWidth: Ext.getIframeWidth().replace("px", "" ),
             extensionOpenHeight: Number( Ext.getIframeOpenHeight().replace("px", "") ),
             extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )

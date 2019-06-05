@@ -100,7 +100,7 @@ export default class Detail extends Component {
     const { serverMetas } = threadDetail;
     const active = serverMetas['twitter:site'] !== "";
     const href = active ? `${define.URL.twitter}${serverMetas['twitter:site'].replace( "@", "" )}` : "";
-    const onClick = app.iframe ? () => {talknWindow.extension("linkTo", {href})} : () => {}; 
+    const onClick = app.extensionMode !== "NONE" ? () => {talknWindow.extension("linkTo", {href})} : () => {}; 
     return Icon.getTwitter( {}, state, {active, href, onClick});
   }
 
@@ -109,7 +109,7 @@ export default class Detail extends Component {
     const { serverMetas } = threadDetail;
     const active = serverMetas['fb:page_id'] !== "";
     const href = active ? `${define.URL.facebook}${serverMetas['fb:page_id']}` : "";
-    const onClick = app.iframe ? () => {talknWindow.extension("linkTo", {href})} : () => {}; 
+    const onClick = app.extensionMode !== "NONE" ? () => {talknWindow.extension("linkTo", {href})} : () => {}; 
     return Icon.getFacebook( {}, state, {active, href, onClick});
   }
 
@@ -118,7 +118,7 @@ export default class Detail extends Component {
     const { serverMetas } = threadDetail;
     const active = serverMetas["al:ios:app_store_id"] !== "";
     const href = active ? `${define.URL.appstore}${serverMetas["al:ios:app_store_id"]}` : "";
-    const onClick = app.iframe ? () => {talknWindow.extension("linkTo", {href})} : () => {}; 
+    const onClick = app.extensionMode !== "NONE" ? () => {talknWindow.extension("linkTo", {href})} : () => {}; 
     return Icon.getAppstore( {}, state, {active, href, onClick});
   }
 
@@ -127,7 +127,7 @@ export default class Detail extends Component {
     const { serverMetas } = threadDetail;
     const active = serverMetas["al:android:package"] !== "";
     const href = active ? `${define.URL.playstore}${serverMetas["al:android:package"]}` : "";
-    const onClick = app.iframe ? () => {talknWindow.extension("linkTo", {href})} : () => {}; 
+    const onClick = app.extensionMode !== "NONE" ? () => {talknWindow.extension("linkTo", {href})} : () => {}; 
     return Icon.getAndroid( {}, state, {active, href, onClick});
   }
 
@@ -154,7 +154,7 @@ export default class Detail extends Component {
     const { connection, hasSlash } = threadDetail;
     const active = true;
     const href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${connection}`;
-    const onClick = app.iframe ? () => {talknWindow.extension("linkTo", {href})} : () => {}; 
+    const onClick = app.extensionMode !== "NONE" ? () => {talknWindow.extension("linkTo", {href})} : () => {}; 
     return Icon.getTalkn( {}, state, {active, href, onClick});
   }
 
