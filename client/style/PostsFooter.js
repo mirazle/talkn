@@ -60,6 +60,10 @@ export default class PostsFooter{
         "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
     }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       return `0px 0px 0px 0px`;
+    }else{
+      if(app.includeIframeTag){
+        return `0px 0px ${Container.radius} ${Container.radius}`;
+      }
     }
     return 0;
   }

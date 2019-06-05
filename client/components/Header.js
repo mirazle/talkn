@@ -46,7 +46,8 @@ export default class Header extends Component {
     const MenuIcon = Icon.getMenu( icon.menu );
     if(
       app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel 
+      app.extensionMode === App.extensionModeExtModalLabel ||
+      app.includeIframeTag
     ){
       return (
         <span
