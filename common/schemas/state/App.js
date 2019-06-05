@@ -211,11 +211,11 @@ export default class App extends Schema{
   }
  
   static getIncludeIframeTag( params, extensionMode ){
-    
+
     // Open Portal(Judge server side)
     // Open Portal from iframe(Judge server side)
     // Open Extension( Judge ext.js ) 
-    console.log( "extensionMode = " + extensionMode );
+
     if( extensionMode === "NONE" ){
 
       if( Schema.isSet( params.includeIframeTag ) ){

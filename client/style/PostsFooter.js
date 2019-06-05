@@ -44,9 +44,13 @@ export default class PostsFooter{
     }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       return {border: Container.border};
     }else{
-      return app.screenMode === App.screenModeSmallLabel ?
-        {borderTop: Container.border, borderBottom: Container.border} :
-        {borderTop: Container.border, borderBottom: Container.border} ;
+      if( app.includeIframeTag ){
+        return {border: Container.border};
+      }else{
+        return app.screenMode === App.screenModeSmallLabel ?
+          {borderTop: Container.border, borderBottom: Container.border} :
+          {borderTop: Container.border, borderBottom: Container.border} ;
+      }
     }
   }
 

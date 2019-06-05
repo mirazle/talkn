@@ -120,6 +120,7 @@ export default class Posts {
       borderRight: 0,
       borderLeft: 0
     }
+    let background = app.includeIframeTag ? Container.whiteRGBA : "rgba(255,255,255,0)";
     let zIndex = 1;
     let transform = Posts.getSelfTransform(app);
 
@@ -141,8 +142,16 @@ export default class Posts {
       overflow = "scroll";
       minHeight = 0;
     }else{
-      borders = Posts.getBorders(app);
+      if( app.includeIframeTag ){
+        return {border: Container.border};
+      }else{
+        borders = Posts.getBorders(app);
+      }
     }
+    
+    console.log(app);
+    console.log("background " + background);
+
     const layout = Style.getLayoutBlock({
       position,
       top,
@@ -153,7 +162,7 @@ export default class Posts {
       maxHeight: "auto",
       margin: Posts.getMargin( app ),
       padding: Posts.getPadding( app ),
-      background: Container.whiteRGBA,
+      background,
       overflowScrolling: "touch",
       WebkitOverflowScrolling: "touch",
       overflow,
