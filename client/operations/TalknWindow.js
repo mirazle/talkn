@@ -158,7 +158,6 @@ export default class TalknWindow {
 			app.extensionMode === "EXT_BOTTOM" ||
 			app.extensionMode === "EXT_MODAL"
 		){
-			console.log("APP RESIZING");
 			if( this.resizeTimer === null ){
 				this.resizeTimer = setTimeout( () => {
 					this.resizeEndWindow(app);
@@ -202,7 +201,6 @@ export default class TalknWindow {
 	}
 
 	resizeEndWindow( app ){
-		console.log("APP RESIZED!!!!!");
 		clearTimeout(this.resizeTimer);
 		this.resizeTimer = null;
 
