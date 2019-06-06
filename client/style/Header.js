@@ -90,10 +90,8 @@ export default class Header {
         "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
     }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       return `0px 0px 0px 0px`;
-    }else{
-      if(app.includeIframeTag){
-        return `${Container.radius} ${Container.radius} 0px 0px`;
-      }
+    }else if( app.extensionMode === App.extensionModeExtIncludeLabel ){
+      return `${Container.radius} ${Container.radius} 0px 0px`;
     }
     return 0;
   };
