@@ -22,18 +22,6 @@ class Ext {
         const domain = ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
         return document.querySelector(`script[src='//ext.${domain}']`);
     }
-    static getMode( scriptTag ){    
-        let mode = Ext.DEFAULT_MODE;
-        if( scriptTag && scriptTag.attributes ){
-            if( scriptTag.attributes.mode && scriptTag.attributes.mode.value ){
-                mode = scriptTag.attributes.mode.value;
-            }
-            if( mode !== Ext.MODE_BOTTOM && mode !== Ext.MODE_MODAL ){
-                mode = Ext.DEFAULT_MODE;
-            }
-        }
-        return mode;
-    }
     static get APP_NAME(){return "talkn"}
     static get PROTOCOL(){return "https"}
     static get BASE_PROD_HOST(){return "talkn.io"}
@@ -79,10 +67,8 @@ class Ext {
     constructor(refusedFrame = false){
 
         this.refusedFrame = refusedFrame;
-        this.render = "#talkn";
         this.href = window.location.href;
         this.connection = this.href.replace("http:/", "").replace("https:/", "");
-        const talknUrl = this.getTalknUrl();
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
         this.connection = hasSlash ? this.connection : this.connection + "/";
         const bootFlg = Ext.EXCLUSION_ORIGINS.every( ( origin ) =>{
@@ -90,17 +76,10 @@ class Ext {
         });
 
         if(bootFlg){
+            this.isRender = false;
             this.scriptTag = Ext.getScriptTag();
-            this.mode = Ext.getMode( this.scriptTag );
-            this.browser = "";
-            this.beforeDebugAction = "";
-            this.windowScrollY = 0;
-            this.windowInnerHeight = 0;
-            this.windowOuterHeight = 0;
-            this.bodyHeight = 0;
-            this.bodyScrollHeight = 0;
-            this.bodyScrollY = 0;
-            
+            this.mode = this.getMode();
+            this.browser = this.getBrowser();
             this.methodIdMap = {};
             this.notifId = null;
             this.resizeMethodId = null;
@@ -121,8 +100,10 @@ class Ext {
             this.changePost = this.changePost.bind(this);
             this.debug = this.debug.bind(this);
 
-            // setupWindow
+            const talknUrl = this.getTalknUrl();
             const width = `${Ext.getIframeWidth()} !important;`;
+
+            // setupWindow
             this.setupWindow();
             this.iframe  = document.createElement("iframe");
             this.loadIframe = this.loadIframe.bind(this);
@@ -152,10 +133,41 @@ class Ext {
         }
     }
 
+    getMode(){
+        const scriptTag = this.scriptTag;
+        let mode = Ext.DEFAULT_MODE;
+        if( scriptTag && scriptTag.attributes ){
+            if( scriptTag.attributes.mode && scriptTag.attributes.mode.value ){
+                mode = scriptTag.attributes.mode.value;
+            }
+            if( mode !== Ext.MODE_BOTTOM && mode !== Ext.MODE_MODAL ){
+                if( mode.indexOf( "#" ) === 0 ){
+                    this.isRender = true;
+                }else{
+                    mode = Ext.DEFAULT_MODE;
+                }
+            }
+        }
+        return mode;
+    }
+
     getTalknUrl(){
         return this.refusedFrame ?
             chrome.runtime.getURL('index.html?' + this.connection) :
             Ext.BASE_HOSTNAME + this.connection;
+    }
+
+    getBrowser(){
+        const agent = window.navigator.userAgent.toLowerCase();
+        if ( (agent.indexOf('crios') !== -1) && (agent.indexOf('safari') > 0) ){
+            return 'Chrome';
+        }else if ( (agent.indexOf('crios') === -1) && (agent.indexOf('safari') > 0 ) ){
+            return 'Safari';
+        }else if (agent.indexOf("opera") > -1){
+            return 'Opera';
+        }else if (agent.indexOf("firefox") > -1){
+            return 'Firefox';
+        }
     }
 
     setupWindow(){
@@ -163,19 +175,6 @@ class Ext {
         window.addEventListener('load', this.loadWindow);
         window.addEventListener('resize', this.resizeWindow);
         window.addEventListener('scroll', this.scrollWindow);
-
-        const agent = window.navigator.userAgent.toLowerCase();
-
-        if ( (agent.indexOf('crios') !== -1) && (agent.indexOf('safari') > 0) ){
-            this.browser = 'Chrome';
-        }else if ( (agent.indexOf('crios') === -1) && (agent.indexOf('safari') > 0 ) ){
-            this.browser = 'Safari';
-        }else if (agent.indexOf("opera") > -1){
-            this.browser = 'Opera';
-        }else if (agent.indexOf("firefox") > -1){
-            this.browser = 'Firefox';
-        }
-        this.debug("setupWindow");   
     }
 
     loadIframe(e){
@@ -365,40 +364,6 @@ class Ext {
     }
 
     debug( actionName = "debug", timeout = 0 ){
-    }
-
-    debugWindow( actionName ){
-        const talknDebug = document.querySelector("#talknDebug");
-        if(talknDebug){
-            const body = document.querySelector("body");
-            const beforeDebugAction = this.beforeDebugAction ;
-            const beforeWindowScrollY = this.windowScrollY ;
-            const beforeWindowInnerHeight = this.windowInnerHeight ;
-            const beforeWindowOuterHeight = this.windowOuterHeight ;
-            const beforeBodyScrollTop = this.bodyScrollTop ;
-            const beforeBodyScrollHeight = this.bodyScrollHeight ;
-    
-            this.beforeDebugAction = actionName;
-            this.windowScrollY = window.scrollY;
-            this.windowInnerHeight = window.innerHeight;
-            this.windowOuterHeight = window.outerHeight;
-            this.bodyScrollTop = body.scrollTop;
-            this.scrollHeight = body.scrollHeight;
-
-            talknDebug.innerHTML = 
-                "@@@@@@@@ " + this.browser + " @@@@@@@@<br />" +
-                "@@@@@ BEFORE " + beforeDebugAction +
-                "<br /> w.scrollY = " + beforeWindowScrollY +
-                "<br /> w.innerHeight = " + beforeWindowInnerHeight + 
-                "<br /> w.outerHeight = " + beforeWindowOuterHeight + "<br />" + 
-                "@@@@@ NOW " + actionName + 
-                "<br /> w.scrollY = " + this.windowScrollY + 
-                "<br /> w.innerHeight = " + this.windowInnerHeight + 
-                "<br /> w.outerHeight = " + this.windowOuterHeight + "<br />" +
-                "@@@@@ CALC " + 
-                "<br /> w.scrollY = " + ( this.windowScrollY - beforeWindowScrollY ) +
-                "<br /> w.innerHeight = " + ( this.windowInnerHeight - beforeWindowInnerHeight );
-        }
     }
 
     getClientMetas(){
