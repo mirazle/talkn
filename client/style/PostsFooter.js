@@ -10,7 +10,11 @@ export default class PostsFooter{
   static get selfHeight(){ return 45 };
   static getWidth( app, addUnit = false ){
     let width = 0;
-    if(app.extensionMode === App.extensionModeExtBottomLabel){
+    if(
+      app.extensionMode === App.extensionModeExtBottomLabel ||
+      app.extensionMode === App.extensionModeExtModalLabel ||
+      app.extensionMode === App.extensionModeExtIncludeLabel
+    ){
       width = '100%';
     }else{
       switch( app.screenMode ){
@@ -24,10 +28,12 @@ export default class PostsFooter{
 
   static getLeft( app, addUnit = false ){
     let left = 0;
-    if( app.extensionMode === "EXT_BOTTOM" ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return 0;
-    }else if(app.extensionMode === "EXT_MODAL" ){
+    }else if(app.extensionMode ===  App.extensionModeExtModalLabel ){
       return 0;
+    }else if(app.extensionMode ===  App.extensionModeExtIncludeLabel ){
+      return 0;  
     }else{
       switch( app.screenMode ){
       case App.screenModeSmallLabel : left = '0px';break;
@@ -43,14 +49,12 @@ export default class PostsFooter{
       return {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border};
     }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       return {border: Container.border};
+    }else if( app.extensionMode === App.extensionModeExtModalLabel ){
+      return {border: Container.border};
     }else{
-      if( app.includeIframeTag ){
-        return {border: Container.border};
-      }else{
         return app.screenMode === App.screenModeSmallLabel ?
           {borderTop: Container.border, borderBottom: Container.border} :
           {borderTop: Container.border, borderBottom: Container.border} ;
-      }
     }
   }
 
@@ -60,10 +64,8 @@ export default class PostsFooter{
         "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
     }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       return `0px 0px 0px 0px`;
-    }else{
-      if(app.includeIframeTag){
-        return `0px 0px ${Container.radius} ${Container.radius}`;
-      }
+    }else if( app.extensionMode === App.extensionModeExtIncludeLabel ){
+      return `0px 0px ${Container.radius} ${Container.radius}`;
     }
     return 0;
   }

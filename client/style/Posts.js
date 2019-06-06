@@ -75,18 +75,16 @@ export default class Posts {
       return `0px 5% ${Header.headerHeight}px 5%`;
     }else if(app.extensionMode === App.extensionModeExtModalLabel ){
       return `0px 0px ${PostsFooter.selfHeight}px 0px`;
+    }else if(app.extensionMode === App.extensionModeExtIncludeLabel ){
+      return `${Header.headerHeight}px 0px 0px 0px`;
     }else{
-      if( app.includeIframeTag ){
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
         return `${Header.headerHeight}px 0px 0px 0px`;
-      }else{
-        switch( app.screenMode ){
-        case App.screenModeSmallLabel :
-          return `${Header.headerHeight}px 0px 0px 0px`;
-        case App.screenModeMiddleLabel :
-          return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
-        case App.screenModeLargeLabel :
-          return `${Header.headerHeight}px 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
-        }
+      case App.screenModeMiddleLabel :
+        return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
+      case App.screenModeLargeLabel :
+        return `${Header.headerHeight}px 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
       }
     }
   }
@@ -96,15 +94,13 @@ export default class Posts {
       return "0px";
     }else if(app.extensionMode === App.extensionModeExtModalLabel ){
       return "0px";
+    }else if(app.extensionMode === App.extensionModeExtIncludeLabel ){
+      return "0px";
     }else{
-      if( app.includeIframeTag ){
-        return "0px";
-      }else{
-        switch( app.screenMode ){
-        case App.screenModeSmallLabel : return `0px 0px 25px 0px`;
-        case App.screenModeMiddleLabel : return `0px`;
-        case App.screenModeLargeLabel : return `0px`
-        }
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel : return `0px 0px 25px 0px`;
+      case App.screenModeMiddleLabel : return `0px`;
+      case App.screenModeLargeLabel : return `0px`
       }
     }
   }
@@ -141,7 +137,7 @@ export default class Posts {
       borders.borderRight = Container.border;
       borders.borderLeft = Container.border;
       zIndex = -2;
-    }else if( app.screenMode === App.extensionModeExtModalLabel ){
+    }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       position = "relative";
       top = "45px";
       height = `calc( 100% - ${Header.headerHeight + Footer.selfHeight}px)`;
@@ -149,16 +145,14 @@ export default class Posts {
       borders.borderLeft = Container.border;
       overflow = "scroll";
       minHeight = 0;
+    }else if( app.extensionMode === App.extensionModeExtIncludeLabel ){
+      height = `calc( 100vh - ${Header.headerHeight + Footer.selfHeight}px)`;
+      minHeight = height;
+      borders.borderRight = Container.border;
+      borders.borderLeft = Container.border;
+      overflow = "scroll";
     }else{
-      if( app.includeIframeTag ){
-        height = `calc( 100vh - ${Header.headerHeight + Footer.selfHeight}px)`;
-        minHeight = height;
-        borders.borderRight = Container.border;
-        borders.borderLeft = Container.border;
-        overflow = "scroll";
-      }else{
-        borders = Posts.getBorders(app);
-      }
+      borders = Posts.getBorders(app);
     }
 
     const layout = Style.getLayoutBlock({

@@ -47,7 +47,7 @@ export default class Header extends Component {
     if(
       app.extensionMode === App.extensionModeExtBottomLabel ||
       app.extensionMode === App.extensionModeExtModalLabel ||
-      app.includeIframeTag
+      app.extensionMode === App.extensionModeExtIncludeLabel
     ){
       return (
         <span

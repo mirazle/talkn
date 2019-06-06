@@ -38,7 +38,7 @@ export default class TalknWindow {
 	constructor( talknIndex ){
 		this.id = "talkn1";
 		this.talknIndex = talknIndex;
-		this.appType = TalknWindow.getAppType();;
+		this.appType = TalknWindow.getAppType();
 		this.talknAPI = {};
 		this.resizeTimer = null;
 		this.parentUrl = null;
@@ -68,13 +68,13 @@ export default class TalknWindow {
 		this.dom.body = document.querySelector("body");
 		this.dom.talkn1 = document.querySelector("#talkn1");
 
-		this.setupWindow( talknIndex );
 		this.listenAsyncBoot();
 	}
 
-	setupWindow( talknIndex ){
+	setupWindow( talknIndex = 0 ){
 		if( !window.TalknAPI ) window.TalknAPI = TalknAPI;
 		if( !window.__talknAPI__ ) window.__talknAPI__ = [];
+		window.talknAPI = window.__talknAPI__[ window.talknIndex ];
 		//if( !window.name ) window.name = "talkn";
 	}
 
@@ -148,27 +148,29 @@ export default class TalknWindow {
 		this.threadHeight = document.querySelector("html").scrollHeight;
 		this.scrollHeight = window.scrollY;
 		this.innerHeight = window.innerHeight;
-		window.talknAPI = window.__talknAPI__[ window.talknIndex ];
+		this.setupWindow();
 		resolve(true);
 	}
 
 	resize( ev ){
-		const app = talknAPI.store.getState().app;
-		if(
-			app.extensionMode === "EXT_BOTTOM" ||
-			app.extensionMode === "EXT_MODAL"
-		){
-			if( this.resizeTimer === null ){
-				this.resizeTimer = setTimeout( () => {
-					this.resizeEndWindow(app);
-				}, TalknWindow.resizeInterval );
-			}
-		}else{
-			if( this.resizeTimer === null ){
-				//this.resizeStartWindow(app);
-				this.resizeTimer = setTimeout( (app) => {
-					this.resizeEndWindow(app);
-				}, TalknWindow.resizeInterval );
+		if( window.talknAPI ){
+			const app = window.talknAPI.store.getState().app;
+			if(
+				app.extensionMode === "EXT_BOTTOM" ||
+				app.extensionMode === "EXT_MODAL"
+			){
+				if( this.resizeTimer === null ){
+					this.resizeTimer = setTimeout( () => {
+						this.resizeEndWindow(app);
+					}, TalknWindow.resizeInterval );
+				}
+			}else{
+				if( this.resizeTimer === null ){
+					//this.resizeStartWindow(app);
+					this.resizeTimer = setTimeout( (app) => {
+						this.resizeEndWindow(app);
+					}, TalknWindow.resizeInterval );
+				}
 			}
 		}
 	}

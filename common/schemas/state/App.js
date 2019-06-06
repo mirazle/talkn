@@ -32,6 +32,7 @@ export default class App extends Schema{
   static get screenModeLargeLabel(){ return 'LARGE' }; 
   static get extensionModeExtModalLabel(){ return 'EXT_MODAL' };
   static get extensionModeExtBottomLabel(){ return 'EXT_BOTTOM' };
+  static get extensionModeExtIncludeLabel(){ return 'EXT_INCLUDE' };
 
   static validInputPost(value){
     if( /\r\n$|\n$|\r$/mgi.test( value ) ) return 'LAST TYPE BREAK LINE.';
@@ -85,9 +86,6 @@ export default class App extends Schema{
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
     const extensionOpenHeight = params.extensionOpenHeight ? params.extensionOpenHeight : 0;
     const extensionCloseHeight = params.extensionCloseHeight ? params.extensionCloseHeight : 0;
-
-    // iframe埋め込み表示の場合
-    const includeIframeTag = App.getIncludeIframeTag( params, extensionMode );
 
     // Index情報
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
@@ -147,7 +145,6 @@ export default class App extends Schema{
       screenMode,
 
       // iframeの拡張機能表示の場合
-      includeIframeTag,
       extensionMode,
       extensionWidth,
       extensionOpenHeight,
