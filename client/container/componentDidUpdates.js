@@ -1,5 +1,4 @@
 import React from "react"
-import define from 'common/define';
 import App from 'common/schemas/state/App';
 import Notif from 'client/components/Notif';
 import TalknWindow from 'client/operations/TalknWindow';
@@ -23,6 +22,11 @@ const componentDidUpdates = {
             app.postsHeight += TalknWindow.getPostsHeight();
             self.props.updatePostsHeight(app.postsHeight);
         },
+        'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': (self) => {
+            let { app, threads } = self.props.state;
+            app = App.getAppUpdatedOpenFlgs({app}, "post");
+            talknAPI.onClickToggleDispDetail( {threadDetail: threads[ connection ], app} );
+        },
         'ON_TRANSITION_END': ( self ) => {
             const { app } = self.props.state;
             app.postsHeight += TalknWindow.getPostsHeight();
@@ -30,23 +34,9 @@ const componentDidUpdates = {
         },
         'OPEN_NOTIF': ( self ) => {
             const { app } = self.props.state;
-
-            /*
-            
-                TOGGLE_MAINを正しく動作するようにする
-            
-            
-            
-            
-            */
-
-
-
-
-
-
             if(
                 app.extensionMode === App.extensionModeExtBottomLabel ||
+                app.extensionMode === App.extensionModeExtIncludeLabel ||
                 app.extensionMode === App.extensionModeExtModalLabel
             ){
                 const { handleOnClickToggleMain, props } = self;
@@ -78,10 +68,7 @@ const componentDidUpdates = {
         },
         'ON_CLICK_TOGGLE_MAIN': ( self ) => {
             const { app } = self.props.state;
-            if(
-                app.extensionMode === App.extensionModeExtBottomLabel ||
-                app.extensionMode === App.extensionModeExtModalLabel
-            ){
+            if( app.extensionMode === App.extensionModeExtBottomLabel ){
                 talknWindow.parentTo("getClientMetas");
             }
         },
@@ -89,6 +76,15 @@ const componentDidUpdates = {
             const { serverMetas } = self.props.state.thread;
             
             talknAPI.updateThreadServerMetas(serverMetas);
+        },
+        'ON_CLICK_TOGGLE_DISP_DETAIL': (self) => {
+            const { app } = self.props.state;
+            if(
+                app.extensionMode === App.extensionModeExtModalLabel ||
+                app.extensionMode === App.extensionModeExtIncludeLabel
+            ){
+                talknWindow.parentTo("getClientMetas");
+            }
         }
     },
     Posts: {
@@ -109,6 +105,7 @@ const componentDidUpdates = {
             app.postsHeight += TalknWindow.getLastPostHeight();
             if(
                 app.extensionMode === App.extensionModeExtBottomLabel ||
+                app.extensionMode === App.extensionModeExtIncludeLabel ||
                 app.extensionMode === App.extensionModeExtModalLabel
             ){
                 const { isScrollBottom } = self.state;
@@ -141,6 +138,7 @@ const componentDidUpdates = {
             const { app } = self.props.state;
             if(
                 app.extensionMode === App.extensionModeExtBottomLabel ||
+                app.extensionMode === App.extensionModeExtIncludeLabel ||
                 app.extensionMode === App.extensionModeExtModalLabel
             ){
                 self.refs.thread.scrollTop = self.refs.thread.scrollHeight - self.state.scrollHeight;

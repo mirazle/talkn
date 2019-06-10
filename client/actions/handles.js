@@ -200,6 +200,12 @@ export default {
       app: {isDispPosts: false}
     };
   },
+  componentDidMounts: ( componentName ) => {
+    return {
+      type: 'COMPONENT_DID_MOUNTS',
+      componentDidMounts: componentName
+    };
+  },
   bootExtension: (app) => {
     return {
       type: 'BOOT_EXTENSION'

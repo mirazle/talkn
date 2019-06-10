@@ -34,7 +34,7 @@ export default class MenuIndexList {
     if( app.extensionMode === App.extensionModeExtBottomLabel){
       return {borderBottom: Container.border};
     }else{
-    return app.screenMode === App.screenModeSmallLabel ?
+    return app.screenMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel ?
       {borderBottom: Container.border, borderLeft: 0} :
       {borderRight: Container.border, borderBottom: Container.border, borderLeft: 0} ;
     }

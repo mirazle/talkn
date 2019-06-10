@@ -33,7 +33,10 @@ class Container extends Component {
 
     talknAPI.find( thread.connection );
   
-    if( app.extensionMode === "NONE" ){
+    if(
+      app.extensionMode === App.extensionModeExtIncludeLabel ||
+      app.extensionMode === App.extensionModeExtNoneLabel
+    ){
       talknAPI.findMenuIndex( thread.connection );
     }
     this.getProps = this.getProps.bind(this);
@@ -45,6 +48,10 @@ class Container extends Component {
     this.handleOnClickToggleMain = this.handleOnClickToggleMain.bind(this);
     this.handleOnClickToggleDetail = this.handleOnClickToggleDetail.bind(this);
     this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
+  }
+
+  componentDidMount(){
+    talknAPI.componentDidMounts( "Container" );
   }
 
   componentDidUpdate(){
@@ -88,7 +95,6 @@ class Container extends Component {
   handleOnClickToggleDetail( e ){
     const { state, onClickOpenLockMenu } = this.props;
     let { app, thread, threadDetail } = state
-
     if(app.openLockMenu !== App.openLockMenuLabelNo){
       onClickOpenLockMenu(App.openLockMenuLabelNo);
     }else{
@@ -350,13 +356,20 @@ class Container extends Component {
 
  	render() {
     const { style, app, actionLog } = this.props.state;
-    if( style && style.container && style.container.self && app.connectioned ){
-      if(
+    if(
+        style &&
+        style.container &&
+        style.container.self &&
+        app.connectioned &&
+        app.screenMode !== App.screenModeUndispLabel 
+    ){
+      if( 
         app.extensionMode === App.extensionModeExtBottomLabel ||
         app.extensionMode === App.extensionModeExtModalLabel 
       ){
         return this.renderExtension(this);
       } else {
+
         switch( app.screenMode ){
         case App.screenModeSmallLabel :
           return this.renderSmall(this);

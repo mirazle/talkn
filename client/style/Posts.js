@@ -22,11 +22,12 @@ export default class Posts {
   }
 
   static getWidth( app, addUnit = false ){
-    let width = 0;
+    let width = "100%";
     if( app.extensionMode === App.extensionModeExtBottomLabel ){
       width = "90%";
     }else{
       switch( app.screenMode ){
+      case App.screenModeUndispLabel :
       case App.screenModeSmallLabel :
         return "100%";
       case App.screenModeMiddleLabel :
@@ -52,6 +53,7 @@ export default class Posts {
 
   static closeIndexTransform( {app} ){
     switch( app.screenMode ){
+    case App.screenModeUndispLabel : return `translate3d( -${app.width}px, 0px, 0px)`;
     case App.screenModeSmallLabel : return `translate3d( -${app.width}px, 0px, 0px)`;
     case App.screenModeMiddleLabel : return `translate3d( -${Menu.getWidth( app )}px, 0px, 0px)`;
     case App.screenModeLargeLabel : return `translate3d( -${Menu.getWidth( app )}px, 0px, 0px)`;
@@ -65,28 +67,33 @@ export default class Posts {
   static get headerHeight(){ return 35 };
 
   static getBorders( app ){
-    return app.extensionMode === App.screenModeSmallLabel ?
+    return app.extensionMode === App.screenModeUndispLabel || app.extensionMode === App.screenModeSmallLabel ?
       {borderRight: Container.border, borderLeft: Container.border} :
       {} ;
   }
 
   static getMargin( app, addUnit = false ){
+    let margin = `${Header.headerHeight}px 0px 0px 0px`;
     if( app.extensionMode === App.extensionModeExtBottomLabel ){
-      return `0px 5% ${Header.headerHeight}px 5%`;
+      margin = `0px 5% ${Header.headerHeight}px 5%`;
     }else if(app.extensionMode === App.extensionModeExtModalLabel ){
-      return `0px 0px ${PostsFooter.selfHeight}px 0px`;
-    }else if(app.extensionMode === App.extensionModeExtIncludeLabel ){
-      return `${Header.headerHeight}px 0px 0px 0px`;
+      margin = `0px 0px ${PostsFooter.selfHeight}px 0px`;
     }else{
       switch( app.screenMode ){
+      case App.screenModeUndispLabel :
       case App.screenModeSmallLabel :
-        return `${Header.headerHeight}px 0px 0px 0px`;
+          margin = `0px 0px 0px 0px`;
+          break;
       case App.screenModeMiddleLabel :
-        return `${Header.headerHeight}px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
+          margin = `0px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
+          break;
       case App.screenModeLargeLabel :
-        return `${Header.headerHeight}px 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
+          margin = `0px 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
+          break;
       }
     }
+//    console.log( app.extensionMode + " " + app.screenMode + " " + margin );
+    return margin;
   }
 
   static getPadding( app, addUnit = false ){
@@ -94,10 +101,9 @@ export default class Posts {
       return "0px";
     }else if(app.extensionMode === App.extensionModeExtModalLabel ){
       return "0px";
-    }else if(app.extensionMode === App.extensionModeExtIncludeLabel ){
-      return "0px";
     }else{
       switch( app.screenMode ){
+      case App.screenModeUndispLabel : return `0px 0px 25px 0px`;
       case App.screenModeSmallLabel : return `0px 0px 25px 0px`;
       case App.screenModeMiddleLabel : return `0px`;
       case App.screenModeLargeLabel : return `0px`
@@ -116,7 +122,7 @@ export default class Posts {
 
   static getSelf( {app} ){
     let position = "relative";
-    let top = 0;
+    let top = `${Header.headerHeight}px`;
     let height = "auto";
     let minHeight = `calc( 100vh - ${Header.headerHeight}px)`;
     let overflow = "hidden";
@@ -139,22 +145,16 @@ export default class Posts {
       zIndex = -2;
     }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       position = "relative";
-      top = "45px";
+      top = `${Header.headerHeight}px`;
       height = `calc( 100% - ${Header.headerHeight + Footer.selfHeight}px)`;
       borders.borderRight = Container.border;
       borders.borderLeft = Container.border;
       overflow = "scroll";
       minHeight = 0;
-    }else if( app.extensionMode === App.extensionModeExtIncludeLabel ){
-      height = `calc( 100vh - ${Header.headerHeight + Footer.selfHeight}px)`;
-      minHeight = height;
-      borders.borderRight = Container.border;
-      borders.borderLeft = Container.border;
-      overflow = "scroll";
     }else{
       borders = Posts.getBorders(app);
     }
-
+  
     const layout = Style.getLayoutBlock({
       position,
       top,

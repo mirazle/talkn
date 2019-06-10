@@ -14,6 +14,7 @@ export default class MenuFooter{
       width = '50%';
     }else{
       switch( app.screenMode ){
+      case App.screenModeUndispLabel : width = '100%';break;
       case App.screenModeSmallLabel : width = '100%';break;
       case App.screenModeMiddleLabel : width = Menu.baseWidth;break;
       case App.screenModeLargeLabel : width = Menu.baseWidth;break;
@@ -34,7 +35,7 @@ export default class MenuFooter{
   }
 
   static getSelf({app}){
-    const borders = app.screenMode === App.screenModeSmallLabel ?
+    const borders = app.screenMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel ?
       {border: Container.border} :
       {border: Container.border} ;
     const borderRadius = app.extensionMode === App.extensionModeExtBottomLabel ?

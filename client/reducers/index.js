@@ -14,6 +14,7 @@ import postsMulti from './postsMulti';
 import postsSingle from './postsSingle';
 import postsChild from './postsChild';
 import style from './style';
+import componentDidMounts from './componentDidMounts';
 import actionLog from './actionLog';
 
 const rootReducer = combineReducers({
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
 	postsSingle,
 	postsChild,
 	style,
+	componentDidMounts,
 	actionLog,
 })
 

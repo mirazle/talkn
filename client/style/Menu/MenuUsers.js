@@ -7,6 +7,7 @@ export default class MenuUsers {
   static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
+    case App.screenModeUndispLabel : width = '100.0%';break;
     case App.screenModeSmallLabel : width = '100.0%';break;
     case App.screenModeMiddleLabel : width = '300px';break;
     case App.screenModeLargeLabel : width = '300px';break;
@@ -18,11 +19,16 @@ export default class MenuUsers {
   static getTransform( app ){
     let transform = 'translate3d( 0px ,0px, 0px )';
     switch( app.screenMode ){
-    case App.screenModeSmallLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+    case App.screenModeUndispLabel :
+    case App.screenModeSmallLabel :
+      transform = 'translate3d( 0px ,0px, 0px )';
+      break;
     case App.screenModeMiddleLabel :
       transform = app.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
       break;
-    case App.screenModeLargeLabel : transform = 'translate3d( 0px ,0px, 0px )';break;
+    case App.screenModeLargeLabel :
+      transform = 'translate3d( 0px ,0px, 0px )';
+      break;
     }
     return transform ;
   }

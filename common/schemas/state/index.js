@@ -12,7 +12,7 @@ import Style from '~/common/schemas/state/Style';
 
 export default class State{
 
-  constructor( talknIndex, window, bootOption = {}, caches = {} ){
+  constructor( talknIndex, window, bootOption = {}, initialApp = {}, caches = {} ){
 		this.menuIndex = new MenuIndex();
 		this.menuLogs = new MenuLogs( caches.menuLogs );
     this.posts = new Posts();
@@ -20,16 +20,17 @@ export default class State{
     this.bootOption = new BootOption( bootOption );
     this.thread = new Thread( window, this.bootOption, caches.thread );
     this.setting = new Setting( caches.setting );
-    this.app = new App( State.getAppParams( talknIndex, this.thread, this.bootOption, caches ) );
+    this.app = new App( State.getAppParams( talknIndex, this.thread, this.bootOption, initialApp, caches ) );
     this.user = new User(State.getUserParams(this, caches));
     this.style = new Style( this );
   }
 
-  static getAppParams( talknIndex, thread, bootOption, caches){
+  static getAppParams( talknIndex, thread, bootOption, initialApp, caches){
     return {
       isTransition: true,
       talknIndex,
       ...bootOption,
+      ...initialApp,
       ...thread
     };
   }

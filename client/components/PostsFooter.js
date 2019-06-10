@@ -1,9 +1,7 @@
 import React, { Component } from "react"
-import define from 'common/define';
 import App from 'common/schemas/state/App';
 import util from 'common/util';
 import conf from 'common/conf';
-import Icon from 'client/components/Icon';
 
 export default class PostsFooter extends Component {
 
@@ -26,6 +24,7 @@ export default class PostsFooter extends Component {
   }
 
   componentDidMount(){
+    talknAPI.componentDidMounts( "PostsFooter" );
   }
 
   handleOnClick( e ){

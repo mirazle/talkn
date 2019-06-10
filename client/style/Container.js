@@ -1,4 +1,3 @@
-import define from '../../common/define';
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Header from './Header';
@@ -139,8 +138,8 @@ export default class Container{
 
     const layout = Style.getLayoutBlock({
       display: "initial",
-      width: 'inherit',
-      height: 'inherit',
+      width: '100%',
+      height: '100%',
       overflow,
       borderRadius
     });
@@ -161,8 +160,9 @@ export default class Container{
 
   static getMultistreamIconWrapRight( app ){
     switch( app.screenMode ){
+    case App.screenModeUndispLabel:
     case App.screenModeSmallLabel:
-    return "10%" ;
+      return "10%" ;
     case App.screenModeMiddleLabel:
       return "20px" ;
     case App.screenModeLargeLabel:
@@ -210,6 +210,7 @@ export default class Container{
     let left = "0px";
     let width = "0px";
     switch(app.screenMode){
+    case App.screenModeUndispLabel :
     case App.screenModeSmallLabel :
       left = "25%";
       width = "50%";
