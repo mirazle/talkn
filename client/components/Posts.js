@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import define from 'common/define';
 import App from 'common/schemas/state/App';
 import { default as PostsSchems } from 'common/schemas/state/Posts';
 import Post from 'client/components/Post';
@@ -23,6 +22,7 @@ export default class Posts extends Component {
       const{ app } = this.props.state;
       if(
         app.extensionMode === App.extensionModeExtBottomLabel ||
+        app.extensionMode === App.extensionModeExtIncludeLabel ||
         app.extensionMode === App.extensionModeExtModalLabel 
       ){
         this.setState({scrollHeight: this.refs.thread.scrollHeight});
@@ -32,6 +32,7 @@ export default class Posts extends Component {
         //talknWindow.animateScrollTo( talknWindow.threadHeight, 0 );
         talknWindow.animateScrollTo( 99999999, 0 );
       }
+      talknAPI.componentDidMounts( "Posts" );
   }
 
   componentWillReceiveProps(props){

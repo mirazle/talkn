@@ -18,6 +18,10 @@ export default class Menu extends Component {
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind(this);
   }
 
+  componentDidMount(){
+    talknAPI.componentDidMounts( "Menu" );
+  }
+
   handleOnClickMultistream(){
     const{ app } = this.props.state;
     if( app.isOpenNotif ){

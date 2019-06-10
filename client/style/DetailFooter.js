@@ -1,18 +1,16 @@
 import App from '../../common/schemas/state/App';
-import Style from './index';
-import Container from './Container';
-import Main from './Main';
 import Detail from './Detail';
 
 export default class DetailFooter {
 
   static getDetailClass( app ){
-    return app.screenMode === App.screenModeSmallLabel ? DetailModal : DetailRight ;
+    return app.screenMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel ? DetailModal : DetailRight ;
   }
   static get padding(){ return 20 };
   static get margin(){ return 5 }
   static getWidth( app, addUnit = false ){
     switch( app.screenMode ){
+    case App.screenModeUndispLabel :
     case App.screenModeSmallLabel :
       return '100%';
     case App.screenModeMiddleLabel : 

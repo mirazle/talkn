@@ -6,7 +6,6 @@ import define from 'common/define';
 import App from 'common/schemas/state/App';
 import State from 'common/schemas/state';
 import BootOption from 'common/schemas/state/BootOption';
-import conf from 'client/conf'
 import TalknSession from 'client/operations/TalknSession';
 import TalknAPI from 'client/operations/TalknAPI';
 import configureStore from 'client/store/configureStore'
@@ -18,6 +17,17 @@ export default class TalknWindow {
 	static getAppType(){
 		return window.name === define.APP_TYPES.EXTENSION ?
 			define.APP_TYPES.EXTENSION : define.APP_TYPES.PORTAL;
+	}
+	static getInitialApp( bootOption ){
+		let initialApp = {}
+		if( bootOption.extensionMode && bootOption.extensionMode === "EXT_INCLUDE"){
+			return {
+				width: bootOption.extensionWidth,
+				height: bootOption.extensionOpenHeight
+			};
+		}else{
+			return initialApp;
+		}
 	}
 	static getPostsHeight(){
 		let postsHeight = 0;
@@ -116,12 +126,22 @@ export default class TalknWindow {
 
 	boot( bootOption ){
 		const connection = bootOption.connection;
+		const initialApp = TalknWindow.getInitialApp( bootOption );
 		const store = configureStore();
 		const caches = TalknSession.getCaches(connection);
-		const state = new State( this.talknIndex, window, bootOption, caches );
+		const state = new State( this.talknIndex, window, bootOption, initialApp, caches );
 		this.talknAPI = new TalknAPI( this.talknIndex, store, state, connection );
 		this.talknAPI.initClientState( state );
-		this.render( state );
+
+		ReactDOM.render(
+			<Provider store={ this.talknAPI.store }>
+				<Container talknAPI={ this.talknAPI } timeago={new timeago()} />
+			</Provider>,
+			document.getElementById( this.id ),
+			() => { 
+			}
+		)
+		return true;
 	}
 
 	message(e, resolve){
@@ -150,6 +170,10 @@ export default class TalknWindow {
 		this.innerHeight = window.innerHeight;
 		this.setupWindow();
 		resolve(true);
+	}
+
+	ready(ev){
+
 	}
 
 	resize( ev ){
@@ -268,12 +292,6 @@ export default class TalknWindow {
 		document.body.appendChild( container );
 		return true;
 	}
-
-	addBackgroundListener( state ){
-	}
-
-	loadedTalkn(e){
-	}
 	
 	parentTo( method, params ){
 		if(this.parentUrl){
@@ -282,20 +300,5 @@ export default class TalknWindow {
 				method, params
 			}, this.parentUrl );
 		}
-	}
-
-	async render( state ){
-		await this.renderDOM();
-	}
-
-	async renderDOM(){
-		ReactDOM.render(
-			<Provider store={ this.talknAPI.store }>
-				<Container talknAPI={ this.talknAPI } timeago={new timeago()} />
-			</Provider>,
-			document.getElementById( this.id ),
-			this.loadedTalkn
-		)
-		return true;
 	}
 }

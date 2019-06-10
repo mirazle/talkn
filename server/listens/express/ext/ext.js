@@ -28,7 +28,6 @@ class Ext {
     }
     static getIframeCloseHeight(){return '45px'};
     static getIframeOpenNotifHeight(){return '85px'};
-
     static get iframeBrowserWidth(){return 320};
     static get iframeBrowserHeight(){return 420};
     static get talknNotifId(){return "talknNotifId"};
@@ -68,8 +67,8 @@ class Ext {
             "transition: 0ms !important;" + 
             "transform: translate3d(0px, 0px, 0px) !important;";
     }
-    constructor(refusedFrame = false){
 
+    constructor(refusedFrame = false){
         this.refusedFrame = refusedFrame;
         this.href = window.location.href;
         this.connection = this.href.replace("http:/", "").replace("https:/", "");
@@ -176,17 +175,15 @@ class Ext {
             width = Ext.iframeBrowserWidth + "px";
             break;
         case Ext.MODE_INCLUDE:
-            width = "100%";
-            break;
+            const talknTag = document.querySelector( Ext.INCLUDE_ID );
+            width = talknTag ? talknTag.clientWidth : "100%";
+            return addUnit ? width + "px" : width ;
         }
-        console.log( mode );
-        console.log( window.innerWidth );
-        console.log( width );
-        return addUnit ? width.replace("px", "").replace("%", "") : width;
+        return addUnit ? width : width.replace("px", "").replace("%", "") ;
     }
 
     getIframeOpenHeight( addUnit = false ){
-        const mode = this.mode;
+        const mode = this.mode; 
         let height = Ext.iframeBrowserHeight + "px";
         switch( mode ){
         case Ext.MODE_BOTTOM:
@@ -196,10 +193,11 @@ class Ext {
             break;
         case Ext.MODE_MODAL:
         case Ext.MODE_INCLUDE:
-            height = "100%";
-            break;
+            const talknTag = document.querySelector( Ext.INCLUDE_ID );
+            height = talknTag ? talknTag.clientHeight : "100%";
+            return addUnit ? height + "px" : height ;
         } 
-        return addUnit ? height.replace("px", "").replace("%", "") : height;
+        return addUnit ? height : height.replace("px", "").replace("%", "");
     }
 
     setupWindow(){
@@ -214,7 +212,7 @@ class Ext {
         this.postMessage("bootExtension", {
             extensionMode: this.mode,
             extensionWidth: this.getIframeWidth(true),
-            extensionOpenHeight: Number( this.getIframeOpenHeight() ),
+            extensionOpenHeight: this.getIframeOpenHeight(false),
             extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
         });
     }
@@ -328,15 +326,17 @@ class Ext {
 
         if(talknNotifId === "null"){
 
-            if( iframe.style.height !== this.getIframeOpenHeight() ){
+            console.log( iframe.style.height + " " + this.getIframeOpenHeight(true) );
+
+            if( iframe.style.height !== this.getIframeOpenHeight(true) ){
                 iframe.style.transition = "0ms";
-                iframe.style.height = this.getIframeOpenHeight();
+                iframe.style.height = this.getIframeOpenHeight(true);
                 this.postMessage("startDispPosts");
             }else{
                 this.postMessage("startUndispPosts");
                 setTimeout( () =>{ 
                     iframe.style.transition = "0ms";
-                    iframe.style.height = Ext.getIframeCloseHeight();
+                    iframe.style.height = Ext.getIframeCloseHeight(true);
                 }, Ext.BASE_TRANSITION );
             }
         }else{
@@ -344,7 +344,7 @@ class Ext {
             sessionStorage.setItem(Ext.talknNotifId, null);
             this.postMessage("closeNotif");
             iframe.style.transition = "0ms";
-            iframe.style.height = this.getIframeOpenHeight();
+            iframe.style.height = this.getIframeOpenHeight(true);
             this.postMessage("startDispPosts");
         }
     }

@@ -55,6 +55,7 @@ export default class Header {
 
   static getChildAnalyzeRight(app){
     switch( app.screenMode ){
+    case App.screenModeUndispLabel:
     case App.screenModeSmallLabel:
       return '5%';
     case App.screenModeMiddleLabel:
@@ -90,8 +91,6 @@ export default class Header {
         "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
     }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       return `0px 0px 0px 0px`;
-    }else if( app.extensionMode === App.extensionModeExtIncludeLabel ){
-      return `${Container.radius} ${Container.radius} 0px 0px`;
     }
     return 0;
   };
@@ -190,7 +189,7 @@ export default class Header {
   }
 
   static getChildAnalyzeType( {app} ){
-    const fontSize = app.screenMode === App.screenModeSmallLabel ? '10px' : '12px';
+    const fontSize = app.screenMode === App.screenModeUndispLabel || app.extensionMode === App.screenModeSmallLabel ? '10px' : '12px';
     const layout = Style.getLayoutBlock({
       height: "10px",
       marginBottom: "6px",
@@ -205,7 +204,7 @@ export default class Header {
   }
 
   static getChildAnalyzeCnt( {app} ){
-    const fontDatas = app.screenMode === App.screenModeSmallLabel ?
+    const fontDatas = app.extensionMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel ?
       {fontSize: '10px', color: Container.themeRGBA } :
       {fontSize: '12px'} ;
 

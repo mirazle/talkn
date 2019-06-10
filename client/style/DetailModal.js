@@ -18,7 +18,7 @@ export default class DetailModal {
     ){
       return "84%";
     }else{
-      width = app.screenMode === App.screenModeSmallLabel ?
+      width = app.screenMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel ?
         Math.floor( app.width * Container.widthRatio ) :
         `calc( ${100 * Container.widthRatio }% - ${Menu.getWidth(app)} )`;
     }
@@ -38,6 +38,7 @@ export default class DetailModal {
       return "0% 8%";
     }else{
       switch( app.screenMode ){
+      case App.screenModeUndispLabel :
       case App.screenModeSmallLabel :
       case App.screenModeMiddleLabel :
       case App.screenModeLargeLabel :
@@ -50,6 +51,7 @@ export default class DetailModal {
   static getHeight( app, addUnit = false){
     const marginRate = DetailModal.getBaseMarginRate();
     switch( app.screenMode ){
+    case App.screenModeUndispLabel :
     case App.screenModeSmallLabel :
       return `calc( ${100 - marginRate}% - ${Header.headerHeight * 2}px )`;
     case App.screenModeMiddleLabel :

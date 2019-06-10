@@ -31,6 +31,7 @@ export default class LockMenu {
       zIndex: 0
     }
     switch( app.screenMode ){
+    case App.screenModeUndispLabel :
     case App.screenModeSmallLabel :
       layout.width = `${100 * Container.widthRatio}`;
       layout.left = ( 100 - layout.width ) / 2;
@@ -62,6 +63,7 @@ export default class LockMenu {
 
   static getPaddingLi(app){
     switch( app.screenMode ){
+    case App.screenModeUndispLabel :
     case App.screenModeSmallLabel :
       return '15px';
     case App.screenModeMiddleLabel :

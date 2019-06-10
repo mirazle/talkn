@@ -44,7 +44,7 @@ export default class MenuIndex {
 
   static getHeader( {app} ){
 
-    const borders = app.screenMode === App.screenModeSmallLabel ?
+    const borders = app.screenMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel?
       {borderBottom: Container.border, borderLeft: 0} :
       {borderBottom: Container.border, borderLeft: 0, borderRight: Container.border} ;
 

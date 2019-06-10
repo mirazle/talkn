@@ -18,7 +18,7 @@ export default class App extends Schema{
   static get screenModeIndexLabel(){ return 'MENU' };
   static get screenModeThreadLabel(){ return 'THREAD' };
   static get screenModeDetailLabel(){ return 'DETAIL' };
-  static get screenModeSmallWidthPx(){ return 640 };
+  static get screenModeSmallWidthPx(){ return 600 };
   static get screenModeMiddleWidthPx(){ return 960 };
 
   static get defaultOffsetFindId(){ return Post.defaultFindId }
@@ -27,9 +27,11 @@ export default class App extends Schema{
   static get dispThreadTypeChild(){ return 'Child' }
   static get dispThreadTypeLogs(){ return 'Logs' }
 
+  static get screenModeUndispLabel(){ return 'UNDISP' };
   static get screenModeSmallLabel(){ return 'SMALL' };
   static get screenModeMiddleLabel(){ return 'MIDDLE' };
   static get screenModeLargeLabel(){ return 'LARGE' }; 
+  static get extensionModeExtNoneLabel(){ return 'NONE' };
   static get extensionModeExtModalLabel(){ return 'EXT_MODAL' };
   static get extensionModeExtBottomLabel(){ return 'EXT_BOTTOM' };
   static get extensionModeExtIncludeLabel(){ return 'EXT_INCLUDE' };
@@ -80,6 +82,8 @@ export default class App extends Schema{
     const height = App.getHeight( params );
     const postsHeight = params.postsHeight ? params.postsHeight : 0;
     const screenMode = App.getScreenMode( width );
+
+
 
     // 拡張表示の場合
     const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
@@ -197,8 +201,16 @@ export default class App extends Schema{
   }
 
   static getScreenMode( widthPx ){
-      if( window && window.innerWidth >= 0 ){
-        widthPx = window.innerWidth;
+
+      if( !widthPx ){
+
+        if( window && window.innerWidth === 0 || window.innerHeight === 0 ){
+          return App.screenModeUndispLabel;
+        }
+
+        if( window && window.innerWidth > 0 ){
+          widthPx = window.innerWidth;
+        }
       }
 
       if( typeof widthPx === "string" ){
@@ -208,6 +220,7 @@ export default class App extends Schema{
       if( App.screenModeSmallWidthPx >= widthPx ){
         return App.screenModeSmallLabel;
       }
+      
       if( App.screenModeSmallWidthPx < widthPx &&　App.screenModeMiddleWidthPx >= widthPx ){
         return App.screenModeMiddleLabel;
       }

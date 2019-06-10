@@ -56,7 +56,7 @@ export default class Detail {
   static getDetailModalSelf( {app} ){
     const screenMode = App.getScreenMode(app.width);
     const display = screenMode === App.screenModeLargeLabel ? "none" : "block";
-    const left = screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
+    const left = screenMode === App.scrennModeUndispLabel || screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
     const background = app.extensionMode === App.extensionModeExtBottomLabel ?
       Container.reliefRGB : Container.reliefRGB;
     const height = DetailModal.getHeight(app);
@@ -112,6 +112,7 @@ export default class Detail {
 
   static getFooterPositions( app ){
     switch( app.screenMode ){
+    case App.screenModeUndispLabel :
     case App.screenModeSmallLabel :
       return {
 

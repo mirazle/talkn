@@ -9,6 +9,7 @@ export default class DetailRight {
   static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
+    case App.screenModeUndispLabel : width = '0%';break;
     case App.screenModeSmallLabel : width = '0%';break;
     case App.screenModeMiddleLabel :width = '0%';break;
     case App.screenModeLargeLabel :width =  '30%';break;
@@ -19,6 +20,7 @@ export default class DetailRight {
   static getMinWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
+    case App.screenModeUndispLabel : width = '0%';break;
     case App.screenModeSmallLabel : width = '0%';break;
     case App.screenModeMiddleLabel :width = '320px';break;
     case App.screenModeLargeLabel :width =  '320px';break;
@@ -29,6 +31,7 @@ export default class DetailRight {
   static getTransform( app ){
     let transform = DetailRight.closeTransform;
     switch( app.screenMode ){
+    case App.screenModeUndispLabel : transform = DetailRight.closeTransform; break;
     case App.screenModeSmallLabel : transform = DetailRight.closeTransform; break;
     case App.screenModeMiddleLabel : transform = DetailRight.closeTransform; break;
     case App.screenModeLargeLabel :

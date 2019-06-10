@@ -11,6 +11,7 @@ export default class Menu {
   static getWidth( app, addUnit = false ){
     let width = 0;
     switch( app.screenMode ){
+    case App.screenModeUndispLabel : width = '100.0%';break;
     case App.screenModeSmallLabel : width = '100.0%';break;
     case App.screenModeMiddleLabel : width = Menu.baseWidth;break;
     case App.screenModeLargeLabel : width = Menu.baseWidth;break;
@@ -20,10 +21,11 @@ export default class Menu {
   }
 
   static getTransform( app ){
-    let transform = 'translate3d( 0px ,0px, 0px )';
+    let transform = 'translate3d( 0px, 0px, 0px )';
     switch( app.screenMode ){
+    case App.screenModeUndispLabel :
     case App.screenModeSmallLabel :
-      transform = app.isOpenMenu ? 'translate3d( 0% , 0%, 0px )' : 'translate3d( -100% , 0%, 0px )';
+      transform = app.isOpenMenu ? 'translate3d( 0%, 0%, 0px )' : 'translate3d( -100% , 0%, 0px )';
       break;
     case App.screenModeMiddleLabel :
       transform = app.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : 'translate3d( 0px ,0px, 0px )';
@@ -51,9 +53,11 @@ export default class Menu {
   }
 
   static getSelf( {app} ){
+    const display = app.screenMode === App.screenModeUndispLabel ? "none" : "block";
     const background = app.extensionMode === App.extensionModeExtBottomLabel ?
       "none" : Container.reliefRGB;
     const layout = Style.getLayoutBlock({
+      display,
       position: 'fixed',
       top: "0px",
       left: "0px",
@@ -80,7 +84,7 @@ export default class Menu {
     const width = app.extensionMode === App.extensionModeExtBottomLabel ?    
       '90%' : '100%';
 
-    const borders = app.screenMode === App.screenModeSmallLabel ?
+    const borders = app.screenMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel ?
       {borderRight: Container.border, borderLeft: Container.border,} :
       {borderLeft: Container.border} ;
 
@@ -114,7 +118,7 @@ export default class Menu {
 
   static getFooter({app}){
 
-    const borders = app.screenMode === App.screenModeSmallLabel ?
+    const borders = app.screenMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel?
       {border: Container.border} :
       {border: Container.border} ;
 

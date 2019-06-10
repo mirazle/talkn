@@ -12,12 +12,12 @@ export default class PostsFooter{
     let width = 0;
     if(
       app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel ||
-      app.extensionMode === App.extensionModeExtIncludeLabel
+      app.extensionMode === App.extensionModeExtModalLabel 
     ){
       width = '100%';
     }else{
       switch( app.screenMode ){
+      case App.screenModeUndispLabel : width = '100%';break;
       case App.screenModeSmallLabel : width = '100%';break;
       case App.screenModeMiddleLabel : width = Posts.getWidth( app );break;
       case App.screenModeLargeLabel : width = Posts.getWidth( app );break;
@@ -32,10 +32,9 @@ export default class PostsFooter{
       return 0;
     }else if(app.extensionMode ===  App.extensionModeExtModalLabel ){
       return 0;
-    }else if(app.extensionMode ===  App.extensionModeExtIncludeLabel ){
-      return 0;  
     }else{
       switch( app.screenMode ){
+      case App.screenModeUndispLabel : left = '0px';break;
       case App.screenModeSmallLabel : left = '0px';break;
       case App.screenModeMiddleLabel :left = `${Menu.getWidth(app)}`;break;
       case App.screenModeLargeLabel : left = Menu.getWidth( app );break;
@@ -49,10 +48,8 @@ export default class PostsFooter{
       return {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border};
     }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       return {border: Container.border};
-    }else if( app.extensionMode === App.extensionModeExtModalLabel ){
-      return {border: Container.border};
     }else{
-        return app.screenMode === App.screenModeSmallLabel ?
+        return app.screenMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel ?
           {borderTop: Container.border, borderBottom: Container.border} :
           {borderTop: Container.border, borderBottom: Container.border} ;
     }
@@ -64,8 +61,6 @@ export default class PostsFooter{
         "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
     }else if( app.extensionMode === App.extensionModeExtModalLabel ){
       return `0px 0px 0px 0px`;
-    }else if( app.extensionMode === App.extensionModeExtIncludeLabel ){
-      return `0px 0px ${Container.radius} ${Container.radius}`;
     }
     return 0;
   }
@@ -73,6 +68,7 @@ export default class PostsFooter{
   static getTransform( app ){
     let transform = 'translate3d( 0px, 0px, 0px )';
     switch( app.screenMode ){
+    case App.screenModeUndispLabel :
     case App.screenModeSmallLabel :
       transform = app.isOpenMenu ? 'translate3d( 0%, 0px, 0px )' : 'translate3d( 0px, 0px, 0px )';
       break;
