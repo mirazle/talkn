@@ -325,9 +325,6 @@ class Ext {
         const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
 
         if(talknNotifId === "null"){
-
-            console.log( iframe.style.height + " " + this.getIframeOpenHeight(true) );
-
             if( iframe.style.height !== this.getIframeOpenHeight(true) ){
                 iframe.style.transition = "0ms";
                 iframe.style.height = this.getIframeOpenHeight(true);
