@@ -98,7 +98,7 @@ class Ext {
                     "background: rgba( 235,235,235,0.6 ) !important;" +
                     "border: 1px solid rgba( 255,255,255, 0.6) !important;" +
                     "border-radius: 100px !important;" +
-                    "transition: 300ms !important;" +
+                    `transition: ${Ext.BASE_TRANSITION}ms !important;` +
                     "transform: scale(1.0) !important;" 
                 );
                 modalIcon.addEventListener( "load", () => {} );
@@ -160,7 +160,7 @@ class Ext {
                 "align-items: flex-end !important;" + 
                 "position: fixed !important; " +
                 `bottom: ${Ext.modeModalBottom}px !important;` + 
-                "right: 10px !important;" + 
+                `right: ${this.getRight(true)} !important;` + 
                 `width: ${width}` + 
                 `min-width: ${width}` + 
                 `max-width: ${width}` + 
@@ -168,7 +168,7 @@ class Ext {
                 "margin: 0 !important;" + 
                 "padding: 0 !important;" + 
                 "opacity: 0 !important;" + 
-                "transition: 600ms !important;" + 
+                `transition: ${Ext.BASE_TRANSITION}ms !important;` + 
                 `transform: ${ this.getModeModalCloseTransform() } !important;`;
         case Ext.MODE_BOTTOM:
             return "" +
@@ -234,7 +234,7 @@ class Ext {
             width = window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ? "100%" : Ext.iframeBrowserWidth + "px";
             break;
         case Ext.MODE_MODAL:
-            width = Ext.iframeModalWidth + "px";
+            width = window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ? "96%" : Ext.iframeModalWidth + "px";
             break;
         case Ext.MODE_INCLUDE:
             const talknTag = document.querySelector( Ext.INCLUDE_ID );
@@ -254,14 +254,30 @@ class Ext {
             }
             break;
         case Ext.MODE_MODAL:
-            height = Ext.iframeBrowserHeight + "px";
+            if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
+                height = `${Math.floor( window.innerHeight * 0.9 )}px`;
+            }
             break;
         case Ext.MODE_INCLUDE:
             const talknTag = document.querySelector( Ext.INCLUDE_ID );
             height = talknTag ? talknTag.clientHeight : "100%";
             return addUnit ? height + "px" : height ;
-        } 
+        }
         return addUnit ? height : height.replace("px", "").replace("%", "");
+    }
+
+    getRight( addUnit = false ){
+        const mode = this.mode;
+        let right = 0
+        switch( mode ){
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            break;
+        case Ext.MODE_MODAL:
+            right = window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ? "2%" : "5px";            
+            break;
+        }
+        return addUnit ? right : right.replace("px", "").replace("%", "") ;
     }
 
     setupWindow(){
@@ -312,37 +328,37 @@ class Ext {
     }
 
     resizedWindow(e){
-        switch(this.mode){
-        case Ext.MODE_BOTTOM:
-        case Ext.MODE_INCLUDE:
-            this.resizeMethodId = null;
-            const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-            const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);  
-            const width = this.getIframeWidth(true);
-            iframe.style['width'] = width;
-            iframe.style['min-width']  = width;
-            iframe.style['max-width'] = width;
+        this.resizeMethodId = null;
+        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+        const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);  
+        const width = this.getIframeWidth(true);
+        iframe.style['width'] = width;
+        iframe.style['min-width']  = width;
+        iframe.style['max-width'] = width;
 
-            if(talknNotifId === "null"){
-
+        if( ( talknNotifId === "null" ) === false && typeof talknNotifId === "object"){
+            switch(this.mode){
+            case Ext.MODE_BOTTOM:
+            case Ext.MODE_INCLUDE:
                 if( iframe.style.height === Ext.getIframeCloseHeight() ){
                     iframe.style.height = Ext.getIframeCloseHeight();
                 }else{
                     iframe.style.height = this.getIframeOpenHeight();
                 }
-            }
-
-            this.postMessage("updateExtension", {                
-                extensionMode: this.mode,
-                extensionWidth: this.getIframeWidth(true),
-                extensionOpenHeight: Number( this.getIframeOpenHeight() ),
-                extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
-            });
-            break;
-        case Ext.MODE_MODAL:
                 break;
+            case Ext.MODE_MODAL:
+                iframe.style.height = this.getIframeOpenHeight(true);
+                iframe.style.right = this.getRight(true);
+                break;
+            }
         }
 
+        this.postMessage("updateExtension", {                
+            extensionMode: this.mode,
+            extensionWidth: this.getIframeWidth(true),
+            extensionOpenHeight: Number( this.getIframeOpenHeight() ),
+            extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
+        });
     }
 
     catchMessage(e){
@@ -434,11 +450,6 @@ class Ext {
         }
     }
 
-    location(params){
-        const {protocol, connection} = params;
-        location.href = `${protocol}/${connection}`;
-    }
-
     openNotif(params){
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         iframe.style.transition = "0ms";
@@ -464,6 +475,11 @@ class Ext {
         iframe.style.transition = "0ms";
         iframe.style.height = Ext.getIframeCloseHeight();
         this.postMessage("closeNotif");
+    }
+
+    location(params){
+        const {protocol, connection} = params;
+        location.href = `${protocol}/${connection}`;
     }
 
     linkTo(params){
