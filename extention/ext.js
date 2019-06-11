@@ -495,7 +495,7 @@ class Ext {
 	}
 
 	unlockWindow(){
-        const overflow = "hidden";
+        const overflow = "auto";
         const html = document.querySelector("html");
         const body = document.querySelector("body");
         html.style.overflow = overflow;
