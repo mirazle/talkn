@@ -490,20 +490,16 @@ class Ext {
         const overflow = "hidden";
         const html = document.querySelector("html");
         const body = document.querySelector("body");
-        const talkn = document.querySelector( Ext.INCLUDE_ID );
         html.style.overflow = overflow;
 		body.style.overflow = overflow;
-		talkn.style.overflow = overflow;
 	}
 
 	unlockWindow(){
         const overflow = "hidden";
         const html = document.querySelector("html");
         const body = document.querySelector("body");
-        const talkn = document.querySelector( Ext.INCLUDE_ID );
         html.style.overflow = overflow;
 		body.style.overflow = overflow;
-		talkn.style.overflow = overflow;
     }
     
     location(params){
