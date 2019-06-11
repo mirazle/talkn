@@ -60,7 +60,7 @@ export default class PostsFooter{
       return app.extensionWidth === "100%" ?
         "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
     }else if( app.extensionMode === App.extensionModeExtModalLabel ){
-      return `0px 0px 0px 0px`;
+      return `${Container.radius} ${Container.radius} 0px 0px`;
     }
     return 0;
   }
