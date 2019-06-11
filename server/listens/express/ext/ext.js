@@ -34,6 +34,7 @@ class Ext {
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
     static get zIndex(){return 2147483647};
+    static get modeModalBottom(){return 40};
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'changePost', 'getClientMetas']};
 
     constructor(refusedFrame = false){
@@ -141,15 +142,24 @@ class Ext {
         return mode;
     }
 
+    getModeModalOpenTransform(){
+        return `translate3d(0px, 0px, 0px) scale( 1 )`;
+    }
+
+    getModeModalCloseTransform(){
+        const translateY = Number( this.getIframeOpenHeight() ) + Number( Ext.modeModalBottom );
+        return `translate3d( 0px, ${translateY}px, 0px ) scale( 0.5 )`;
+    }
+
     getStyles( width ){
         switch( this.mode ){
         case Ext.MODE_MODAL:
             return "" +
                 `z-index: ${Ext.zIndex - 1} !important;` +
-                "display: none !important;" +
+                "display: block !important;" +
                 "align-items: flex-end !important;" + 
                 "position: fixed !important; " +
-                "bottom: 0px !important;" + 
+                `bottom: ${Ext.modeModalBottom}px !important;` + 
                 "right: 10px !important;" + 
                 `width: ${width}` + 
                 `min-width: ${width}` + 
@@ -158,8 +168,8 @@ class Ext {
                 "margin: 0 !important;" + 
                 "padding: 0 !important;" + 
                 "opacity: 0 !important;" + 
-                "transition: 0ms !important;" + 
-                "transform: translate3d(0px,0px,0px) scale(0.95) !important;";
+                "transition: 400ms !important;" + 
+                `transform: ${ this.getModeModalCloseTransform() } !important;`;
         case Ext.MODE_BOTTOM:
             return "" +
                 `z-index: ${Ext.zIndex} !important;` +
@@ -413,23 +423,26 @@ class Ext {
             }
             break;
         case Ext.MODE_MODAL:
-            if( iframe.style.display === "none" ){
-                iframe.style.display = "block";
-                iframe.style.transition = "300ms";
-                iframe.style.opacity = 0;
+            console.log(iframe.style.opacity);
+            if( iframe.style.opacity === "0" ){
+                console.log("A");
+                iframe.style.opacity = 1;
+                iframe.style.transform = this.getModeModalOpenTransform(); 
+/*
                 setTimeout( () => {
                     iframe.style.opacity = 1;
-                    iframe.style.transform = `translate3d(0px,-40px,0px) scale(1)`;    
+                    iframe.style.transform = this.getModeModalOpenTransform(); 
                 }, 100 );
+*/
             }else{
-
-                iframe.style.transition = "300ms";
-                iframe.style.transform = `translate3d(0px,0px,0px) scale(0.95)`;
+                console.log("B");
+                iframe.style.transform = this.getModeModalCloseTransform();
                 iframe.style.opacity = 0;
+  /*
                 setTimeout( () => {
-                    iframe.style.transition = "0ms";
-                    iframe.style.display = "none";
-                }, 400 );
+                    //iframe.style.transition = "0ms";
+                }, 500 );
+*/
             }
             break;
         }
