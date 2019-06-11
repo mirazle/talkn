@@ -487,7 +487,7 @@ class Ext {
     }
 
     lockWindow(){
-        const overflow = "clip";
+        const overflow = "hidden";
         const html = document.querySelector("html");
         const body = document.querySelector("body");
         html.style.overflow = overflow;
