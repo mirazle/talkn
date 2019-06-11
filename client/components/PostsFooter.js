@@ -135,7 +135,7 @@ export default class PostsFooter extends Component {
     const { state, handleOnClickToggleMain, debug } = this.props;
     const { style, app } = state;  
     const value = app.inputPost;
-    const placeholder = style.postsFooter.self.bottom + " " + style.postsFooter.self.position;
+    const placeholder = style.postsFooter.self.bottom + " " + style.postsFooter.self.top;
     return (
       <div  
         data-component-name={"PostsFooter"}
