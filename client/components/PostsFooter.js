@@ -135,7 +135,9 @@ export default class PostsFooter extends Component {
     const { state, handleOnClickToggleMain, debug } = this.props;
     const { style, app } = state;  
     const value = app.inputPost;
-    const placeholder = style.postsFooter.self.bottom + " " + 
+    const placeholder = "" +
+      style.postsFooter.self.position + " " + 
+      style.postsFooter.self.bottom + " " + 
       style.postsFooter.self.margin + " " +
       style.postsFooter.self.padding;
 
