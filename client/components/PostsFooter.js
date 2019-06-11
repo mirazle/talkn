@@ -135,7 +135,7 @@ export default class PostsFooter extends Component {
     const { state, handleOnClickToggleMain, debug } = this.props;
     const { style, app } = state;  
     const value = app.inputPost;
-
+    const placeholder = style.postsFooter.self.bottom + " " + style.postsFooter.self.transform;
     return (
       <div  
         data-component-name={"PostsFooter"}
@@ -154,7 +154,7 @@ export default class PostsFooter extends Component {
           onFocus={this.handleOnFocus}
           onBlur={this.handleOnBlur}
           value={value}
-          placeholder='Comment to web'
+          placeholder={ placeholder }
         />
         <button
           style={style.postsFooter.button}
