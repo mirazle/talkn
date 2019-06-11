@@ -168,7 +168,7 @@ class Ext {
                 "margin: 0 !important;" + 
                 "padding: 0 !important;" + 
                 "opacity: 0 !important;" + 
-                "transition: 400ms !important;" + 
+                "transition: 600ms !important;" + 
                 `transform: ${ this.getModeModalCloseTransform() } !important;`;
         case Ext.MODE_BOTTOM:
             return "" +
@@ -423,26 +423,12 @@ class Ext {
             }
             break;
         case Ext.MODE_MODAL:
-            console.log(iframe.style.opacity);
             if( iframe.style.opacity === "0" ){
-                console.log("A");
                 iframe.style.opacity = 1;
                 iframe.style.transform = this.getModeModalOpenTransform(); 
-/*
-                setTimeout( () => {
-                    iframe.style.opacity = 1;
-                    iframe.style.transform = this.getModeModalOpenTransform(); 
-                }, 100 );
-*/
             }else{
-                console.log("B");
                 iframe.style.transform = this.getModeModalCloseTransform();
                 iframe.style.opacity = 0;
-  /*
-                setTimeout( () => {
-                    //iframe.style.transition = "0ms";
-                }, 500 );
-*/
             }
             break;
         }
