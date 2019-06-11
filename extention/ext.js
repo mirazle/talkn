@@ -3,7 +3,7 @@ class Ext {
     static get MODE_MODAL(){return "EXT_MODAL"}
     static get MODE_BOTTOM(){return "EXT_BOTTOM"}
     static get MODE_INCLUDE(){return "EXT_INCLUDE"}
-    static get DEFAULT_MODE(){return Ext.MODE_BOTTOM}
+    static get DEFAULT_MODE(){return Ext.MODE_MODAL}
     static getScriptTag(){
         const domain = ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
         return document.querySelector(`script[src='//ext.${domain}']`);
@@ -28,45 +28,13 @@ class Ext {
     }
     static getIframeCloseHeight(){return '45px'};
     static getIframeOpenNotifHeight(){return '85px'};
+    static get iframeModalWidth(){return 300};
     static get iframeBrowserWidth(){return 320};
     static get iframeBrowserHeight(){return 420};
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
-    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'focusPost', 'changePost', 'getClientMetas']};
-    static getDefaultStyle( width ){
-        return "z-index: 2147483647 !important;" +
-            "display: none !important;" +
-            "align-items: flex-end !important;" + 
-            "position: fixed !important; " +
-            "bottom: 0px !important;" + 
-            "right: 0px !important;" + 
-            `width: ${width}` + 
-            `min-width: ${width}` + 
-            `max-width: ${width}` + 
-            `height: ${Ext.getIframeCloseHeight()} !important;` + 
-            "margin: 0 !important;" + 
-            "padding: 0 !important;" + 
-            "transition: 0ms !important;" + 
-            "transform: translate3d(0px, 0px, 0px) !important;";
-    }
-    static get includeStyle(){
-        return "z-index: 2147483647 !important;" +
-            "display: none !important;" +
-            "align-items: flex-end !important;" + 
-            "position: absolute !important; " +
-            "bottom: 0px !important;" + 
-            "right: 0px !important;" + 
-            `width: 100% !important;` + 
-            `min-width: 100% !important;` + 
-            `max-width: 100% !important;` + 
-            `height: 100% !important;` + 
-            `min-height: 100% !important;` + 
-            `max-height: 100% !important;` + 
-            "margin: 0 !important;" + 
-            "padding: 0 !important;" + 
-            "transition: 0ms !important;" + 
-            "transform: translate3d(0px, 0px, 0px) !important;";
-    }
+    static get zIndex(){return 2147483647};
+    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'changePost', 'getClientMetas']};
 
     constructor(refusedFrame = false){
         this.refusedFrame = refusedFrame;
@@ -99,28 +67,56 @@ class Ext {
             this.resizeWindow = this.resizeWindow.bind(this);
             this.resizedWindow = this.resizedWindow.bind(this);
             this.scrollWindow = this.scrollWindow.bind(this);
-            this.changePost = this.changePost.bind(this);
-            this.debug = this.debug.bind(this);
 
             // setupWindow
             this.setupWindow();
             const talknUrl = this.getTalknUrl();
-            const width = `${this.getIframeWidth()} !important;`;
-            const style = this.mode === Ext.MODE_INCLUDE ? Ext.includeStyle : Ext.getDefaultStyle( width );
+            const width = `${this.getIframeWidth(true)} !important;`;
+            const styles = this.getStyles( width );
             this.iframe  = document.createElement("iframe");
             this.loadIframe = this.loadIframe.bind(this);
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
             this.iframe.setAttribute("name", "extension");
-            this.iframe.setAttribute("style", style );
+            this.iframe.setAttribute("style", styles );
             this.iframe.setAttribute("src", talknUrl );
             this.iframe.setAttribute("frameBorder", 0 );
             this.iframe.addEventListener( "load", this.loadIframe );
             this.iframe.addEventListener( "transitionend", this.transitionend );
 
-            if( this.mode === Ext.MODE_INCLUDE ){
-                document.querySelector( Ext.INCLUDE_ID ).appendChild( this.iframe );
-            }else{
+            switch( this.mode ){
+            case Ext.MODE_MODAL:
+                const modalIcon  = document.createElement("div");
+                modalIcon.setAttribute("id", `${Ext.APP_NAME}Handle`);
+                modalIcon.setAttribute("style", 
+                    "position: fixed !important;" +
+                    "bottom: 15px !important;" +
+                    "right: 15px !important;" +
+                    `z-index: ${Ext.zIndex} !important;` +
+                    "width: 60px !important;" +
+                    "height: 60px !important;" +
+                    "background: rgba( 235,235,235,0.6 ) !important;" +
+                    "border: 1px solid rgba( 255,255,255, 0.6) !important;" +
+                    "border-radius: 100px !important;" +
+                    "transition: 300ms !important;" +
+                    "transform: scale(1.0) !important;" 
+                );
+                modalIcon.addEventListener( "load", () => {} );
+                modalIcon.addEventListener( "click", this.toggleIframe );
+                modalIcon.addEventListener( "mouseover", () => {
+                    modalIcon.style.transform = "scale(1.1)";
+                });
+                modalIcon.addEventListener( "mouseout", () => {
+                    modalIcon.style.transform = "scale(1.0)";
+                });
+                document.body.appendChild(modalIcon);
                 document.body.appendChild(this.iframe);
+                break;
+            case Ext.MODE_INCLUDE:
+                document.querySelector( Ext.INCLUDE_ID ).appendChild( this.iframe );
+                break;
+            case Ext.MODE_BOTTOM:
+                document.body.appendChild(this.iframe);
+                break;
             }
         }
     }
@@ -143,6 +139,62 @@ class Ext {
             }
         }
         return mode;
+    }
+
+    getStyles( width ){
+        switch( this.mode ){
+        case Ext.MODE_MODAL:
+            return "" +
+                `z-index: ${Ext.zIndex - 1} !important;` +
+                "display: none !important;" +
+                "align-items: flex-end !important;" + 
+                "position: fixed !important; " +
+                "bottom: 0px !important;" + 
+                "right: 10px !important;" + 
+                `width: ${width}` + 
+                `min-width: ${width}` + 
+                `max-width: ${width}` + 
+                `height: ${this.getIframeOpenHeight(true)} !important;` + 
+                "margin: 0 !important;" + 
+                "padding: 0 !important;" + 
+                "opacity: 0 !important;" + 
+                "transition: 0ms !important;" + 
+                "transform: translate3d(0px,0px,0px) scale(0.95) !important;";
+        case Ext.MODE_BOTTOM:
+            return "" +
+                `z-index: ${Ext.zIndex} !important;` +
+                "display: none !important;" +
+                "align-items: flex-end !important;" + 
+                "position: fixed !important; " +
+                "bottom: 0px !important;" + 
+                "right: 0px !important;" + 
+                `width: ${width}` + 
+                `min-width: ${width}` + 
+                `max-width: ${width}` + 
+                `height: ${Ext.getIframeCloseHeight()} !important;` + 
+                "margin: 0 !important;" + 
+                "padding: 0 !important;" + 
+                "transition: 0ms !important;" + 
+                "transform: translate3d(0px, 0px, 0px) !important;";
+        case Ext.MODE_INCLUDE:
+            return "" +
+                `z-index: ${Ext.zIndex} !important;` +
+                "display: none !important;" +
+                "align-items: flex-end !important;" + 
+                "position: absolute !important; " +
+                "bottom: 0px !important;" + 
+                "right: 0px !important;" + 
+                `width: 100% !important;` + 
+                `min-width: 100% !important;` + 
+                `max-width: 100% !important;` + 
+                `height: 100% !important;` + 
+                `min-height: 100% !important;` + 
+                `max-height: 100% !important;` + 
+                "margin: 0 !important;" + 
+                "padding: 0 !important;" + 
+                "transition: 0ms !important;" + 
+                "transform: translate3d(0px, 0px, 0px) !important;";
+        }
     }
 
     getTalknUrl(){
@@ -172,7 +224,7 @@ class Ext {
             width = window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ? "100%" : Ext.iframeBrowserWidth + "px";
             break;
         case Ext.MODE_MODAL:
-            width = Ext.iframeBrowserWidth + "px";
+            width = Ext.iframeModalWidth + "px";
             break;
         case Ext.MODE_INCLUDE:
             const talknTag = document.querySelector( Ext.INCLUDE_ID );
@@ -192,6 +244,8 @@ class Ext {
             }
             break;
         case Ext.MODE_MODAL:
+            height = Ext.iframeBrowserHeight + "px";
+            break;
         case Ext.MODE_INCLUDE:
             const talknTag = document.querySelector( Ext.INCLUDE_ID );
             height = talknTag ? talknTag.clientHeight : "100%";
@@ -217,17 +271,21 @@ class Ext {
         });
     }
 
-    transitionend(e){
+    bootExtension(params){
+        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+        switch(this.mode){
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            iframe.style.height = Ext.getIframeCloseHeight();
+            iframe.style.display = "flex";
+            break;
+        case Ext.MODE_MODAL:
+            break;
+        }
+        this.postMessage("onTransition");
     }
 
-    bootExtension(params){
-
-        // Display
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        iframe.style.height = Ext.getIframeCloseHeight();
-        iframe.style.display = "flex";
-        this.postMessage("onTransition");
-        //this.debug("bootExtension");
+    transitionend(e){
     }
 
     loadWindow(e){
@@ -241,33 +299,40 @@ class Ext {
     }
 
     scrollWindow(e){
-        //this.debugWindow("scrollWindow");
     }
 
     resizedWindow(e){
-        this.resizeMethodId = null;
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);  
-        const width = this.getIframeWidth(true);
-        iframe.style['width'] = width;
-        iframe.style['min-width']  = width;
-        iframe.style['max-width'] = width;
+        switch(this.mode){
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            this.resizeMethodId = null;
+            const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+            const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);  
+            const width = this.getIframeWidth(true);
+            iframe.style['width'] = width;
+            iframe.style['min-width']  = width;
+            iframe.style['max-width'] = width;
 
-        if(talknNotifId === "null"){
+            if(talknNotifId === "null"){
 
-            if( iframe.style.height === Ext.getIframeCloseHeight() ){
-                iframe.style.height = Ext.getIframeCloseHeight();
-            }else{
-                iframe.style.height = this.getIframeOpenHeight();
+                if( iframe.style.height === Ext.getIframeCloseHeight() ){
+                    iframe.style.height = Ext.getIframeCloseHeight();
+                }else{
+                    iframe.style.height = this.getIframeOpenHeight();
+                }
             }
+
+            this.postMessage("updateExtension", {                
+                extensionMode: this.mode,
+                extensionWidth: this.getIframeWidth(true),
+                extensionOpenHeight: Number( this.getIframeOpenHeight() ),
+                extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
+            });
+            break;
+        case Ext.MODE_MODAL:
+                break;
         }
 
-        this.postMessage("updateExtension", {                
-            extensionMode: this.mode,
-            extensionWidth: this.getIframeWidth(true),
-            extensionOpenHeight: Number( this.getIframeOpenHeight() ),
-            extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
-        });
     }
 
     catchMessage(e){
@@ -322,27 +387,51 @@ class Ext {
 
     toggleIframe(params){
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
-
-        if(talknNotifId === "null"){
-            if( iframe.style.height !== this.getIframeOpenHeight(true) ){
+        switch( this.mode ){
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
+            if(talknNotifId === "null"){
+                if( iframe.style.height !== this.getIframeOpenHeight(true) ){
+                    iframe.style.transition = "0ms";
+                    iframe.style.height = this.getIframeOpenHeight(true);
+                    this.postMessage("startDispPosts");
+                }else{
+                    this.postMessage("startUndispPosts");
+                    setTimeout( () =>{ 
+                        iframe.style.transition = "0ms";
+                        iframe.style.height = Ext.getIframeCloseHeight(true);
+                    }, Ext.BASE_TRANSITION );
+                }
+            }else{
+                clearTimeout( talknNotifId );
+                sessionStorage.setItem(Ext.talknNotifId, null);
+                this.postMessage("closeNotif");
                 iframe.style.transition = "0ms";
                 iframe.style.height = this.getIframeOpenHeight(true);
                 this.postMessage("startDispPosts");
-            }else{
-                this.postMessage("startUndispPosts");
-                setTimeout( () =>{ 
-                    iframe.style.transition = "0ms";
-                    iframe.style.height = Ext.getIframeCloseHeight(true);
-                }, Ext.BASE_TRANSITION );
             }
-        }else{
-            clearTimeout( talknNotifId );
-            sessionStorage.setItem(Ext.talknNotifId, null);
-            this.postMessage("closeNotif");
-            iframe.style.transition = "0ms";
-            iframe.style.height = this.getIframeOpenHeight(true);
-            this.postMessage("startDispPosts");
+            break;
+        case Ext.MODE_MODAL:
+            if( iframe.style.display === "none" ){
+                iframe.style.display = "block";
+                iframe.style.transition = "300ms";
+                iframe.style.opacity = 0;
+                setTimeout( () => {
+                    iframe.style.opacity = 1;
+                    iframe.style.transform = `translate3d(0px,-40px,0px) scale(1)`;    
+                }, 100 );
+            }else{
+
+                iframe.style.transition = "300ms";
+                iframe.style.transform = `translate3d(0px,0px,0px) scale(0.95)`;
+                iframe.style.opacity = 0;
+                setTimeout( () => {
+                    iframe.style.transition = "0ms";
+                    iframe.style.display = "none";
+                }, 400 );
+            }
+            break;
         }
     }
 
@@ -382,17 +471,6 @@ class Ext {
         if( params && params.href ){
             location.href = params.href
         }
-    }
-
-    changePost(){
-        //this.debug( "changePost" );
-    }
-
-    focusPost(){
-        //this.debug( "focusPost", 1500);
-    }
-
-    debug( actionName = "debug", timeout = 0 ){
     }
 
     getClientMetas(){

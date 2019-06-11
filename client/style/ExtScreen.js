@@ -13,6 +13,11 @@ export default class ExtScreen {
     }
   }
 
+  static getTop(app){
+    return app.extensionMode === App.extensionModeExtModalLabel ?
+      "0%" : "100%";
+  }
+
   static getSelfTransform(app, call){
 
     if( app.extensionMode === App.extensionModeExtBottomLabel ){
@@ -34,11 +39,10 @@ export default class ExtScreen {
   static getSelf({app}){
     const layout = Style.getLayoutFlex({
       position: "fixed",
-      top: "100%",
+      top: ExtScreen.getTop( app ),
       justifyContent: "flex-start",
       alignItems: "flex-start",
       height: "100%"
-
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({

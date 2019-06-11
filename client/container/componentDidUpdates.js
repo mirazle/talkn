@@ -74,7 +74,6 @@ const componentDidUpdates = {
         },
         'GET_CLIENT_METAS': ( self ) => {
             const { serverMetas } = self.props.state.thread;
-            
             talknAPI.updateThreadServerMetas(serverMetas);
         },
         'ON_CLICK_TOGGLE_DISP_DETAIL': (self) => {
@@ -90,18 +89,20 @@ const componentDidUpdates = {
     Posts: {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
             const { app } = self.props.state;
+            const Posts = document.querySelector("[data-component-name=Posts]");
             if( app.extensionMode === "NONE" ){
-                talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
+                talknWindow.threadHeight = Posts.clientHeight;
             }
         },
         'SERVER_TO_CLIENT[EMIT]:changeThread': ( self ) => {
             const { app } = self.props.state;
-            if( app.extensionMode === "NONE" ){
+//            if( app.extensionMode === "NONE" ){
                 window.scrollTo(0, 9999999);
-            }
+//            }
         },
         'SERVER_TO_CLIENT[BROADCAST]:post': ( self ) => {
             const { app } = self.props.state;
+            const Posts = document.querySelector("[data-component-name=Posts]");
             app.postsHeight += TalknWindow.getLastPostHeight();
             if(
                 app.extensionMode === App.extensionModeExtBottomLabel ||
@@ -111,8 +112,8 @@ const componentDidUpdates = {
                 const { isScrollBottom } = self.state;
                 if( app.isOpenPosts && isScrollBottom ){
                     self.animateScrollTo(
-                      self.refs.thread,
-                      self.refs.thread.scrollHeight,
+                      Posts,
+                      Posts.scrollHeight,
                       400,
                       self.props.endAnimateScrollTo
                     );
@@ -121,7 +122,7 @@ const componentDidUpdates = {
                     self.props.openNewPost();
                 }
             }else{
-                talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
+                talknWindow.threadHeight = Posts.clientHeight;
                 if( app.isOpenPosts && talknWindow.isScrollBottom ){
                     talknWindow.animateScrollTo(
                         talknWindow.threadHeight,
@@ -136,54 +137,18 @@ const componentDidUpdates = {
         },
         'SERVER_TO_CLIENT[EMIT]:getMore': ( self ) => {
             const { app } = self.props.state;
+            const Posts = document.querySelector("[data-component-name=Posts]");
             if(
                 app.extensionMode === App.extensionModeExtBottomLabel ||
                 app.extensionMode === App.extensionModeExtIncludeLabel ||
                 app.extensionMode === App.extensionModeExtModalLabel
             ){
-                self.refs.thread.scrollTop = self.refs.thread.scrollHeight - self.state.scrollHeight;
+                Posts.scrollTop = Posts.scrollHeight - self.state.scrollHeight;
             }else{
-                const threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
-                window.scrollTo(0, threadHeight - talknWindow.threadHeight);
-                talknWindow.threadHeight = threadHeight;
+                const scrollTo = Posts.clientHeight - talknWindow.threadHeight;
+                window.scrollTo(0, scrollTo );
+                talknWindow.threadHeight = Posts.clientHeight;
             }
         }
-    }
-}
-
-const updateThreadServerMetas = ( self ) => {
-    
-    const { thread } = self.props.state;
-
-    // TODO talknWindowに移動する
-    const clientMetas = document.querySelectorAll('meta');
-
-    if( Object.keys( thread.serverMetas ).length !== clientMetas.length ){
-        let serverMetas = {};
-        for( let i = 0; i < clientMetas.length; i++ ){
-            const item = clientMetas[ i ];
-            let key = i;
-            let content = '';
-            if( item.getAttribute('name') ){
-                key = item.getAttribute('name');
-                content = item.getAttribute('content');
-            }else if( item.getAttribute('property') ){
-                key = item.getAttribute('property');
-                content = item.getAttribute('content');
-            }else if( item.getAttribute('chaset') ){
-                key = 'charset';
-                content = item.getAttribute('chaset');
-            }else if( item.getAttribute('http-equiv') ){
-                key = item.getAttribute('http-equiv');
-                content = item.getAttribute('content');
-            }
-
-
-            //if( !serverMetas[ key ] ){
-                serverMetas[ key ] = content;
-            //}
-        }
-        
-        talknAPI.updateThreadServerMetas(serverMetas);
     }
 }
