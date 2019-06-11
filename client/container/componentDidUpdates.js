@@ -90,9 +90,9 @@ const componentDidUpdates = {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
             const { app } = self.props.state;
             const Posts = document.querySelector("[data-component-name=Posts]");
-            if( app.extensionMode === "NONE" ){
+ //           if( app.extensionMode === "NONE" ){
                 talknWindow.threadHeight = Posts.clientHeight;
-            }
+ //ss           }
         },
         'SERVER_TO_CLIENT[EMIT]:changeThread': ( self ) => {
             const { app } = self.props.state;
