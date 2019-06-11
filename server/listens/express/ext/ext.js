@@ -28,7 +28,7 @@ class Ext {
     }
     static getIframeCloseHeight(){return '45px'};
     static getIframeOpenNotifHeight(){return '85px'};
-    static get iframeModalWidth(){return 300};
+    static get iframeModalWidth(){return 280};
     static get iframeBrowserWidth(){return 320};
     static get iframeBrowserHeight(){return 420};
     static get talknNotifId(){return "talknNotifId"};
@@ -442,9 +442,18 @@ class Ext {
             if( iframe.style.opacity === "0" ){
                 iframe.style.opacity = 1;
                 iframe.style.transform = this.getModeModalOpenTransform(); 
+
+                if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
+                    this.lockWindow();
+                }
+
             }else{
                 iframe.style.transform = this.getModeModalCloseTransform();
                 iframe.style.opacity = 0;
+
+                if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
+                    this.unlockWindow();
+                }
             }
             break;
         }
@@ -477,6 +486,26 @@ class Ext {
         this.postMessage("closeNotif");
     }
 
+    lockWindow(){
+        const overflow = "hidden";
+        const html = document.querySelector("html");
+        const body = document.querySelector("body");
+        const talkn = document.querySelector( Ext.INCLUDE_ID );
+        html.style.overflow = overflow;
+		body.style.overflow = overflow;
+		talkn.style.overflow = overflow;
+	}
+
+	unlockWindow(){
+        const overflow = "hidden";
+        const html = document.querySelector("html");
+        const body = document.querySelector("body");
+        const talkn = document.querySelector( Ext.INCLUDE_ID );
+        html.style.overflow = overflow;
+		body.style.overflow = overflow;
+		talkn.style.overflow = overflow;
+    }
+    
     location(params){
         const {protocol, connection} = params;
         location.href = `${protocol}/${connection}`;
