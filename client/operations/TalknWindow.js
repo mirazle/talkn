@@ -82,6 +82,22 @@ export default class TalknWindow {
 	}
 
 	setupWindow( talknIndex = 0 ){
+		const html = document.querySelector("html");
+		html.style.cssText += "" + 
+			"width 100% !important;" +
+			"height: 100% !important;" + 
+			"margin: 0px auto !important;" +
+			"padding-top: 0px !important;";
+
+		const body = document.querySelector("body");
+		body.style.cssText += "" + 
+			"width 100% !important;" +
+			"height: 100% !important;" + 
+			"margin: 0px auto !important;" +
+			"visibility: visible !important;" +
+			"opacity: 1 !important;";
+	
+
 		if( !window.TalknAPI ) window.TalknAPI = TalknAPI;
 		if( !window.__talknAPI__ ) window.__talknAPI__ = [];
 		window.talknAPI = window.__talknAPI__[ window.talknIndex ];

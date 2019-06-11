@@ -48,7 +48,7 @@ const functions = {
     action.threadDetail = action.thread;
 
     if(
-        action.app.extensionMode === "EXT_BOTTOM" &&
+        action.app.extensionMode === App.extensionModeExtBottomLabel &&
         !action.app.isOpenPosts &&
         !action.app.isDispPosts
     ){
@@ -70,7 +70,7 @@ const functions = {
     const app = state.app;
     action.app = app;
     if(
-      action.app.extensionMode !== "NONE" &&
+      action.app.extensionMode === App.extensionModeExtBottomLabel &&
       !action.app.isOpenPosts &&
       !action.app.isDispPosts
     ){

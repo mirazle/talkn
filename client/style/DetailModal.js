@@ -12,11 +12,10 @@ export default class DetailModal {
 
   static getWidth( app, addUnit = false ){
     let width = 0;
-    if(
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel     
-    ){
+    if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return "84%";
+    }else if( app.extensionMode === App.extensionModeExtModalLabel ){
+      return "94%";
     }else{
       width = app.screenMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel ?
         Math.floor( app.width * Container.widthRatio ) :

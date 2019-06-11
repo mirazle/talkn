@@ -134,7 +134,10 @@ export default class Posts {
     let zIndex = 1;
     let transform = Posts.getSelfTransform(app);
 
-    if( app.extensionMode === App.extensionModeExtBottomLabel ){
+    if(
+      app.extensionMode === App.extensionModeExtBottomLabel ||
+      app.extensionMode === App.extensionModeExtModalLabel 
+    ){
       position = "fixed";
       top = `${Header.headerHeight}px`;
       height = `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
@@ -143,18 +146,10 @@ export default class Posts {
       borders.borderRight = Container.border;
       borders.borderLeft = Container.border;
       zIndex = -2;
-    }else if( app.extensionMode === App.extensionModeExtModalLabel ){
-      position = "relative";
-      top = `${Header.headerHeight}px`;
-      height = `calc( 100% - ${Header.headerHeight + Footer.selfHeight}px)`;
-      borders.borderRight = Container.border;
-      borders.borderLeft = Container.border;
-      overflow = "scroll";
-      minHeight = 0;
     }else{
       borders = Posts.getBorders(app);
     }
-  
+
     const layout = Style.getLayoutBlock({
       position,
       top,

@@ -250,7 +250,7 @@ export default class App extends Schema{
   }
 
   static getIsOpenPosts(app, called){
-    const {
+    let {
       extensionMode,
       height,
       extensionOpenHeight,
@@ -261,6 +261,9 @@ export default class App extends Schema{
       extensionMode === App.extensionModeExtBottomLabel ||
       extensionMode === App.extensionModeExtModalLabel 
     ){
+
+      if( typeof height !== "number" ) height = Number( height );
+      if( typeof extensionOpenHeight !== "number" ) extensionOpenHeight = Number( extensionOpenHeight );
 
       if( height === 0 ){
         if(log) console.log("@getIsOpenPosts A " + " " + extensionOpenHeight + " " +  height);
@@ -277,7 +280,10 @@ export default class App extends Schema{
         return true;
       }
 
-      if(log) console.log("@getIsOpenPosts D " + " " + extensionOpenHeight + " " +  height);
+      if(log){
+        console.log("@getIsOpenPosts D " + " " + extensionOpenHeight + " " +  height);
+        console.log( typeof extensionOpenHeight + " " + typeof height);
+      }
       return false;
     } else {
       if(log) console.log("@getIsOpenPosts E " + " " + extensionOpenHeight + " " +  height);
