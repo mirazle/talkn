@@ -274,7 +274,7 @@ class Ext {
         case Ext.MODE_INCLUDE:
             break;
         case Ext.MODE_MODAL:
-            right = window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ? "2%" : "5px";            
+            right = window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ? "2%" : "10px";            
             break;
         }
         return addUnit ? right : right.replace("px", "").replace("%", "") ;
