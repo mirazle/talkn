@@ -8,6 +8,7 @@ export default class PostsFooter extends Component {
   constructor(props) {
     super(props);
     this.state = {focusSetIntervalId: 0};
+    this.renderButton = this.renderButton.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
@@ -43,20 +44,8 @@ export default class PostsFooter extends Component {
 
       if( app.screenMode === App.screenModeSmallLabel ){
         talknWindow.setIsScrollBottom();
-
         clearInterval(this.state.focusSetIntervalId);
-        //if( !talknWindow.isScrollBottom ){
-//          window.scrollTo(0, 9999999);
-          talknWindow.parentTo("changePost");
-
-          setTimeout( () => {
-            //document.querySelector("[data-component-name='Posts']").scrollTop = 99999999;
-            //document.querySelector("button").textContent = document.querySelector("[data-component-name='Posts']").scrollTop;  
-          }, 100);
-
-
-          talknWindow.setIsScrollBottom();
-        //}
+        talknWindow.setIsScrollBottom();
       }
 
       talknAPI.onChangeInputPost( e.target.value );
@@ -86,34 +75,8 @@ export default class PostsFooter extends Component {
   handleOnFocus( e ){
     const { app } = this.props.state;
     if( app.screenMode === App.screenModeSmallLabel ){
-
       talknWindow.setIsScrollBottom();
       talknWindow.parentTo("focusPost");
-
-      setTimeout( () => {
-//        if(!talknWindow.isScrollBottom ){
-          //document.querySelector("[data-component-name='Posts']").scrollTop = 99999999;
-
-          //document.querySelector("button").textContent = "Foucus: " + document.querySelector("[data-component-name='Posts']").scrollTop;
-
-          //          window.scrollTo(0, 9999999);
-          talknWindow.setIsScrollBottom();
-//
-      }, 1000 );
-
-      if( this.state.focusSetIntervalId === 0 ){
-/*
-        const focusSetIntervalId = setInterval(  () => {
-          if(!talknWindow.isScrollBottom ){
-            console.log("INTERVAL SCROLL");
-            window.scrollTo(0, 9999999);
-            talknWindow.setIsScrollBottom();
-          }
-        }, 1000);
-
-        this.setState({focusSetIntervalId});
-*/
-      }
     }
   }
 
@@ -129,6 +92,25 @@ export default class PostsFooter extends Component {
     const { thread, style } = this.props.state;
     const favicon = `https://${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}`;
     return thread.favicon ? {...style.postsFooter.icon, backgroundImage: `url(${favicon})` } : style.postsFooter.icon ;
+  }
+
+  renderButton(){
+    const { style, app } = this.props.state;
+
+    if(app.extensionMode !== App.extensionModeExtModalLabel){
+      return (
+        <button
+          style={style.postsFooter.button}
+          onClick={this.handleOnClick}
+        >
+          talkn
+        </button>
+      )
+    }else{
+      return (
+      <div style={{...style.postsFooter.button, border: 0 } } />
+      )
+    }
   }
 
   render() {
@@ -156,12 +138,7 @@ export default class PostsFooter extends Component {
           value={value}
           placeholder='Comment to web'
         />
-        <button
-          style={style.postsFooter.button}
-          onClick={this.handleOnClick}
-          >
-          talkn
-        </button>
+        {this.renderButton()}
       </div>
 		);
  	}

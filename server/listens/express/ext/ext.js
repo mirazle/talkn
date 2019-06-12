@@ -118,7 +118,7 @@ class Ext {
                 });
                 talknHandle.addEventListener( "mouseout", () => {
                     const translates = talknHandle.style.transform.split("translate3d(")[1].split(") ")[0]
-                    talknHandle.style.transform = `translate3d(${translates}) scale(1.0)`
+                    talknHandle.style.transform = `translate3d(${translates}) scale(1.)`
                 });
                 document.body.appendChild(talknHandle);
                 document.body.appendChild(this.iframe);
@@ -481,6 +481,9 @@ class Ext {
                 }
 
             }else{
+
+                
+
                 const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
                 const talknHandleStyles = this.getModalHandleCloseStyles();
                 talknHandle.style.background = talknHandleStyles.background;
