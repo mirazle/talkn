@@ -124,7 +124,7 @@ class Ext {
                     talknHandle.style.transform = `translate3d(${translates}) scale(1.0)`
                 });
 
-                const rgba = "rgba( 220, 220,220, 0.5 )";
+                const rgba = "rgba( 200, 200,200, 0.7 )";
                 window.c = talknHandle.getContext("2d");
                 c.beginPath();
                 c.moveTo(50,60);
