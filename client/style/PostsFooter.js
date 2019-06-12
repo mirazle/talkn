@@ -7,7 +7,7 @@ import Menu from './Menu';
 
 export default class PostsFooter{
 
-  static get selfHeight(){ return 90 };
+  static get selfHeight(){ return 45 };
   static getWidth( app, addUnit = false ){
     let width = 0;
     if(

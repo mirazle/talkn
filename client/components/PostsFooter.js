@@ -67,6 +67,7 @@ export default class PostsFooter extends Component {
   handleOnFocus( e ){
     const { app } = this.props.state;
     if( app.screenMode === App.screenModeSmallLabel ){
+
       talknWindow.setIsScrollBottom();
       talknWindow.parentTo("focusPost");
     }
@@ -91,48 +92,33 @@ export default class PostsFooter extends Component {
     const { style, app } = state;  
     const value = app.inputPost;
 
-    if( app.extensionMode === App.extensionModeExtModalLabel ){
-      return (
-        <div data-component-name={"PostsFooter"} style={ style.postsFooter.self }>
-          <div style={style.postsFooter.upper}>
-            <div style={ this.getIconStyle() }/>
-            <textarea
-              style={style.postsFooter.modalTextarea}
-              ref={"postArea"}
-              rows={1}
-              onChange={this.handleOnChange}
-              onKeyPress={this.handleOnKeyPress}
-              onFocus={this.handleOnFocus}
-              onBlur={this.handleOnBlur}
-              value={value}
-              placeholder='Comment to web'
-            />
-          </div>
-          <div style={style.postsFooter.bottom}>
-            Powered by talkn.io.
-          </div>
-        </div>
-      );
-    }else{
-      return (
-        <div data-component-name={"PostsFooter"} style={ style.postsFooter.self }>
-          <div style={ this.getIconStyle() } onClick={handleOnClickToggleMain}/>
-          <textarea
-            style={style.postsFooter.textarea}
-            ref={"postArea"}
-            rows={1}
-            onChange={this.handleOnChange}
-            onKeyPress={this.handleOnKeyPress}
-            onFocus={this.handleOnFocus}
-            onBlur={this.handleOnBlur}
-            value={value}
-            placeholder='Comment to web'
-          />
-          <button style={style.postsFooter.button} onClick={this.handleOnClick}>
-            talkn
-          </button>
-        </div>
-      );
-    }
+    return (
+      <div  
+        data-component-name={"PostsFooter"}
+        style={ style.postsFooter.self }
+      >
+        <div
+          style={ this.getIconStyle() }
+          onClick={handleOnClickToggleMain}
+        />
+        <textarea
+          style={style.postsFooter.textarea}
+          ref={"postArea"}
+          rows={1}
+          onChange={this.handleOnChange}
+          onKeyPress={this.handleOnKeyPress}
+          onFocus={this.handleOnFocus}
+          onBlur={this.handleOnBlur}
+          value={value}
+          placeholder='Comment to web'
+        />
+        <button
+          style={style.postsFooter.button}
+          onClick={this.handleOnClick}
+          >
+          talkn
+        </button>
+      </div>
+		);
  	}
 }
