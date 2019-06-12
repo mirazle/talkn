@@ -1259,9 +1259,7 @@
     }
 
     .toTop {
-        position: fixed;
-        bottom: 60px;
-        right: 18px;
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -2178,14 +2176,14 @@
             </div>
         </section>
 
-        <div
-            class="toTop"
-            onclick="onClickToTop()"
-        >
-            <div class="arrow"></div>
-        </div>
 
          <footer>
+            <div
+                class="toTop"
+                onclick="onClickToTop()"
+            >
+                <div class="arrow"></div>
+            </div>
             <div class="sns">
                 <div class="twitter">                    
                     <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

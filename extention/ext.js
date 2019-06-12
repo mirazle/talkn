@@ -505,31 +505,15 @@ class Ext {
         this.htmlPosition = html.style.position;
         this.htmlOverflow = html.style.overflow;
         this.htmlWidth = html.style.width;
-/*
-        html.style.position = position;
-        html.style.overflow = overflow;
-        html.style.width = width;
-        html.style.height = height;
-*/
         body.style.position = position;
         body.style.overflow = overflow;
         body.style.width = width;
         body.style.height = height;
         body.style.marginTop = -( this.windowScrollY ) + "px";
-
-        console.log( -( this.windowScrollY ));
-        console.log( body.style.marginTop );
     }
 
 	unlockWindow(){
-        const html = document.querySelector("html");
         const body = document.querySelector("body");
-/*
-        html.style.position = this.htmlPosition;
-        html.style.overflow = this.htmlOverflow;
-        html.style.width = this.htmlWidth;
-        html.style.height = this.htmlHeight;
-*/
         body.style.position = this.htmlPosition;
         body.style.overflow = this.htmlOverflow;
         body.style.width = this.htmlWidth;
