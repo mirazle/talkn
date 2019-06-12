@@ -83,20 +83,28 @@ export default class PostsFooter{
 
   constructor( params ){
     const self = PostsFooter.getSelf( params );
-    const icon = PostsFooter.getIcon( params ); 
-    const textarea = PostsFooter.getTextarea();
-    const button = PostsFooter.getButton();
+    const icon = PostsFooter.getIcon( params );
+    const textarea = PostsFooter.getTextarea( params );
+    const modalTextarea = PostsFooter.getModalTextarea( params );
+    const button = PostsFooter.getButton( params );
+    const upper = PostsFooter.getUpper( params );
+    const bottom = PostsFooter.getBottom( params );
     return {
       self,
       icon,
       textarea,
+      modalTextarea,
       button,
+      upper,
+      bottom
     }
   }
 
   static getSelf( {app} ){
     const borders = PostsFooter.getBorder(app);
     const borderRadius = PostsFooter.getBorderRadius(app);
+    const flexDirection = app.extensionMode === App.extensionModeExtModalLabel ?
+      "column" : "row";
     const layout = Style.getLayoutFlex({
       position: "fixed",
       bottom: 0,
@@ -106,6 +114,7 @@ export default class PostsFooter{
       width: PostsFooter.getWidth( app ),
       maxWidth:  PostsFooter.getWidth( app ),
       background: Container.offWhiteRGBA,
+      flexDirection,
       borderRadius,
       ...borders
     });
@@ -158,7 +167,31 @@ export default class PostsFooter{
     return Style.get({layout, content, animation});
   }
 
-  static getButton(){
+  static getModalTextarea(){
+    const layout = Style.getLayoutInlineBlock({
+      width: '60%',
+      maxWidth: '60%',
+      height: '55%',
+      background: Container.whiteRGB,
+      padding: '6px 0% 5px 2%',
+      margin: '0 0% 0 0',
+      outline: 'none',
+      resize: 'none',
+      lineHeight: '0.9',
+      border: Container.border,
+      borderRadius: '3px',
+      WebkitAppearance: 'none',
+    });
+    const content = Style.getContentBase({
+      fontSize: '12px',
+      textAlign: 'left',
+    });
+    const animation = Style.getAnimationBase();
+
+    return Style.get({layout, content, animation});
+  }
+
+  static getButton({app}){
     const layout = Style.getLayoutInlineBlock({
       outline: 'none',
       width: '20%',
@@ -172,6 +205,29 @@ export default class PostsFooter{
     const content = Style.getContentBase({
       fontSize: '12px',
       cursor: 'pointer',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getUpper(){
+    const layout = Style.getLayoutFlex({
+      alignItems: "center",
+      justifyContent: "flex-start"
+    });
+    const content = Style.getContentBase({
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getBottom(){
+    const layout = Style.getLayoutFlex({
+      alignItems: "center",
+      justifyContent: "center"
+    });
+    const content = Style.getContentBase({
+      fontSize: "10px"
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
