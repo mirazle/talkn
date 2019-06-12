@@ -8,7 +8,6 @@ export default class PostsFooter extends Component {
   constructor(props) {
     super(props);
     this.state = {focusSetIntervalId: 0};
-    this.renderButton = this.renderButton.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
@@ -41,13 +40,6 @@ export default class PostsFooter extends Component {
   handleOnChange( e ){
     if( !App.validInputPost( e.target.value ) ){
       const { app } = this.props.state;
-
-      if( app.screenMode === App.screenModeSmallLabel ){
-        talknWindow.setIsScrollBottom();
-        clearInterval(this.state.focusSetIntervalId);
-        talknWindow.setIsScrollBottom();
-      }
-
       talknAPI.onChangeInputPost( e.target.value );
     }
   }
@@ -94,53 +86,53 @@ export default class PostsFooter extends Component {
     return thread.favicon ? {...style.postsFooter.icon, backgroundImage: `url(${favicon})` } : style.postsFooter.icon ;
   }
 
-  renderButton(){
-    const { style, app } = this.props.state;
-
-    if(app.extensionMode !== App.extensionModeExtModalLabel){
-      return (
-        <button
-          style={style.postsFooter.button}
-          onClick={this.handleOnClick}
-        >
-          talkn
-        </button>
-      )
-    }else{
-      return (
-      <div style={{...style.postsFooter.button, border: 0 } } />
-      )
-    }
-  }
-
   render() {
     const { state, handleOnClickToggleMain, debug } = this.props;
     const { style, app } = state;  
     const value = app.inputPost;
 
-    return (
-      <div  
-        data-component-name={"PostsFooter"}
-        style={ style.postsFooter.self }
-      >
-        <div
-          style={ this.getIconStyle() }
-          onClick={handleOnClickToggleMain}
-        />
-        <textarea
-          style={style.postsFooter.textarea}
-          ref={"postArea"}
-          rows={1}
-          onChange={this.handleOnChange}
-          onKeyPress={this.handleOnKeyPress}
-          onFocus={this.handleOnFocus}
-          onBlur={this.handleOnBlur}
-          value={value}
-          placeholder='Comment to web'
-        />
-        {this.renderButton()}
-        powerd by talkn.
-      </div>
-		);
+    if( app.extensionMode === App.extensionModeExtModalLabel ){
+      return (
+        <div data-component-name={"PostsFooter"} style={ style.postsFooter.self }>
+          <div style={style.postsFooter.upper}>
+            <div style={ this.getIconStyle() }/>
+            <textarea
+              style={style.postsFooter.modalTextarea}
+              ref={"postArea"}
+              rows={1}
+              onChange={this.handleOnChange}
+              onKeyPress={this.handleOnKeyPress}
+              onFocus={this.handleOnFocus}
+              onBlur={this.handleOnBlur}
+              value={value}
+              placeholder='Comment to web'
+            />
+          </div>
+          <div style={style.postsFooter.bottom}>
+            Powered by talkn.io.
+          </div>
+        </div>
+      );
+    }else{
+      return (
+        <div data-component-name={"PostsFooter"} style={ style.postsFooter.self }>
+          <div style={ this.getIconStyle() } onClick={handleOnClickToggleMain}/>
+          <textarea
+            style={style.postsFooter.textarea}
+            ref={"postArea"}
+            rows={1}
+            onChange={this.handleOnChange}
+            onKeyPress={this.handleOnKeyPress}
+            onFocus={this.handleOnFocus}
+            onBlur={this.handleOnBlur}
+            value={value}
+            placeholder='Comment to web'
+          />
+          <button style={style.postsFooter.button} onClick={this.handleOnClick}>
+            talkn
+          </button>
+        </div>
+      );
+    }
  	}
 }
