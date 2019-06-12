@@ -196,7 +196,7 @@ class Ext {
         return {
             transform: `translate3d(0px, -17px, 0px) scale( 1 )`,
             background: "rgba(255, 255, 255, 0.95)",
-            border: "1px solid rgba(245, 245, 245, 0.95)"
+            border: "1px solid rgba(235, 235, 235, 0.95)"
         }
     }
 
