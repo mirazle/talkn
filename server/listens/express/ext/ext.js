@@ -34,7 +34,7 @@ class Ext {
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
     static get zIndex(){return 2147483647};
-    static get modeModalBottom(){return 40};
+    static get modeModalBottom(){return 0};
     static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'changePost', 'getClientMetas']};
 
     constructor(refusedFrame = false){
