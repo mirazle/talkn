@@ -83,7 +83,7 @@ export default class PostsFooter{
 
   constructor( params ){
     const self = PostsFooter.getSelf( params );
-    const icon = PostsFooter.getIcon( params );
+    const icon = PostsFooter.getIcon( params ); 
     const textarea = PostsFooter.getTextarea();
     const button = PostsFooter.getButton();
     return {

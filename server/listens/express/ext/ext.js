@@ -48,13 +48,20 @@ class Ext {
         });
 
         if(bootFlg){
+
+            // Variable
             this.scriptTag = Ext.getScriptTag();
             this.mode = this.getMode();
             this.browser = this.getBrowser();
             this.methodIdMap = {};
             this.notifId = null;
             this.resizeMethodId = null;
+            this.htmlOverflow = null;
+            this.htmlPosition = null;
+            this.htmlWidth = null;
+            this.htmlHeight = null;
 
+            // Methods
             this.setupWindow = this.setupWindow.bind(this);
             this.bootExtension = this.bootExtension.bind(this);
             this.catchMessage = this.catchMessage.bind(this);
@@ -488,18 +495,35 @@ class Ext {
 
     lockWindow(){
         const overflow = "hidden";
+        const position = "fixed";
+        const width = "100%";
+        const height = "100%";
         const html = document.querySelector("html");
         const body = document.querySelector("body");
+        this.htmlPosition = html.style.position;
+        this.htmlOverflow = html.style.overflow;
+        this.htmlWidth = html.style.width;
+        html.style.position = position;
         html.style.overflow = overflow;
-		body.style.overflow = overflow;
-	}
+        html.style.width = width;
+        html.style.height = height;
+        body.style.position = position;
+        body.style.overflow = overflow;
+        body.style.width = width;
+        body.style.height = height;
+    }
 
 	unlockWindow(){
-        const overflow = "auto";
         const html = document.querySelector("html");
         const body = document.querySelector("body");
-        html.style.overflow = overflow;
-		body.style.overflow = overflow;
+        html.style.position = this.htmlPosition;
+        html.style.overflow = this.htmlOverflow;
+        html.style.width = this.htmlWidth;
+        html.style.height = this.htmlHeight;
+        body.style.position = this.htmlPosition;
+        body.style.overflow = this.htmlOverflow;
+        body.style.width = this.htmlWidth;
+        body.style.height = this.htmlHeight;
     }
     
     location(params){

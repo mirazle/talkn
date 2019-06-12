@@ -7,7 +7,7 @@ export default class Icon {
 
   static get defaultOption(){ return {sizePx: Icon.middleSize, active: true} };
   static get smallSize(){ return '24px' };
-  static get middleSize(){ return '32px' };
+  static get middleSize(){ return '36px' };
   static get largeSize(){ return '48px' };
   static get bigSize(){ return '64px' };
 
