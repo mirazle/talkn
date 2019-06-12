@@ -7,7 +7,8 @@ export default class PostsFooter extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {focusSetIntervalId: 0};
+    this.state = {focusSetIntervalId: 0};  
+    this.renderButton = this.renderButton.bind(this);    
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
@@ -87,20 +88,28 @@ export default class PostsFooter extends Component {
     return thread.favicon ? {...style.postsFooter.icon, backgroundImage: `url(${favicon})` } : style.postsFooter.icon ;
   }
 
+  renderButton(){
+    const { style, app } = this.props.state;
+
+    if( app.extensionMode === App.extensionModeExtModalLabel ){
+      return null;
+    }else{
+      return (
+        <button style={style.postsFooter.button} onClick={this.handleOnClick}>
+          talkn
+        </button>
+      )
+    }
+  }
+
   render() {
-    const { state, handleOnClickToggleMain, debug } = this.props;
+    const { state, handleOnClickToggleMain } = this.props;
     const { style, app } = state;  
     const value = app.inputPost;
 
     return (
-      <div  
-        data-component-name={"PostsFooter"}
-        style={ style.postsFooter.self }
-      >
-        <div
-          style={ this.getIconStyle() }
-          onClick={handleOnClickToggleMain}
-        />
+      <div data-component-name={"PostsFooter"} style={ style.postsFooter.self }>
+        <div style={ this.getIconStyle() } onClick={handleOnClickToggleMain}/>
         <textarea
           style={style.postsFooter.textarea}
           ref={"postArea"}
@@ -112,12 +121,7 @@ export default class PostsFooter extends Component {
           value={value}
           placeholder='Comment to web'
         />
-        <button
-          style={style.postsFooter.button}
-          onClick={this.handleOnClick}
-          >
-          talkn
-        </button>
+        {this.renderButton()}
       </div>
 		);
  	}
