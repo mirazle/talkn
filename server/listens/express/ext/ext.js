@@ -519,9 +519,6 @@ class Ext {
         body.style.width = this.htmlWidth;
         body.style.height = this.htmlHeight;
         body.style.marginTop = "0px";
-
-
-        console.log( Number( this.windowScrollY ) );
         window.scrollTo( 0, Number( this.windowScrollY ) );
     }
     
