@@ -195,16 +195,16 @@ class Ext {
     getModalHandleOpenStyles(){
         return {
             transform: `translate3d(0px, -17px, 0px) scale( 1 )`,
-            background: "rgba(245, 245, 245, 0.95)",
-            border: "1px solid rgba(230, 230, 230, 0.95)"
+            background: "rgba(255, 255, 255, 0.95)",
+            border: "1px solid rgba(245, 245, 245, 0.95)"
         }
     }
 
     getModalHandleCloseStyles(){
         return {
             transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
-            background: "rgba(245, 245, 245, 0.55)",
-            border: "1px solid rgba(230, 230, 230, 0.55)"
+            background: "rgba(255, 255, 255, 0.55)",
+            border: "1px solid rgba(245, 245, 245, 0.55)"
         }
     }
 
