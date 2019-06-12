@@ -7,7 +7,7 @@ import Menu from './Menu';
 
 export default class PostsFooter{
 
-  static get selfHeight(){ return 45 };
+  static get selfHeight(){ return 90 };
   static getWidth( app, addUnit = false ){
     let width = 0;
     if(
@@ -120,7 +120,7 @@ export default class PostsFooter{
     const layout = Style.getLayoutInlineBlock({
       width: '20%',
       maxWidth: '20%',
-      height: '25px',
+      height: '55%',
       backgroundImage: `url()`,
       backgroundPosition: 'center center',
       backgroundSize: '20px 20px',
@@ -138,7 +138,7 @@ export default class PostsFooter{
     const layout = Style.getLayoutInlineBlock({
       width: '54%',
       maxWidth: '54%',
-      height: '25px',
+      height: '55%',
       background: Container.whiteRGB,
       padding: '6px 0% 5px 2%',
       margin: '0 3% 0 0',
@@ -163,7 +163,7 @@ export default class PostsFooter{
       outline: 'none',
       width: '20%',
       maxWidth: '20%',
-      height: '25px',
+      height: '55%',
       margin: '0px 3% 0px 0%',
       background: 'rgb(245, 245, 245)',
       border: Container.border,
