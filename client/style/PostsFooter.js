@@ -103,8 +103,7 @@ export default class PostsFooter{
   static getSelf( {app} ){
     const borders = PostsFooter.getBorder(app);
     const borderRadius = PostsFooter.getBorderRadius(app);
-    const flexDirection = app.extensionMode === App.extensionModeExtModalLabel ?
-      "column" : "row";
+    const justifyContent = app.extensionMode === App.extensionModeExtModalLabel ? "flex-start" : "flex-start";
     const layout = Style.getLayoutFlex({
       position: "fixed",
       bottom: 0,
@@ -114,7 +113,7 @@ export default class PostsFooter{
       width: PostsFooter.getWidth( app ),
       maxWidth:  PostsFooter.getWidth( app ),
       background: Container.offWhiteRGBA,
-      flexDirection,
+      justifyContent,
       borderRadius,
       ...borders
     });
@@ -143,10 +142,12 @@ export default class PostsFooter{
     return Style.get({layout, content, animation});
   }
 
-  static getTextarea(){
+  static getTextarea({app}){
+    const width = app.extensionMode === App.extensionModeExtModalLabel ? "60%" : "54%" ;
+    console.log(width);
     const layout = Style.getLayoutInlineBlock({
-      width: '54%',
-      maxWidth: '54%',
+      width,
+      maxWidth: width,
       height: '55%',
       background: Container.whiteRGB,
       padding: '6px 0% 5px 2%',
