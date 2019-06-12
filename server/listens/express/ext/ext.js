@@ -94,30 +94,33 @@ class Ext {
 
             switch( this.mode ){
             case Ext.MODE_MODAL:
-                const modalIcon  = document.createElement("div");
-                modalIcon.setAttribute("id", `${Ext.APP_NAME}Handle`);
-                modalIcon.setAttribute("style", 
+                const talknHandle  = document.createElement("div");
+                const talknHandleStyles = this.getModalHandleCloseStyles();
+                talknHandle.setAttribute("id", `${Ext.APP_NAME}Handle`);
+                talknHandle.setAttribute("style", 
                     "position: fixed !important;" +
                     "bottom: 15px !important;" +
                     "right: 15px !important;" +
                     `z-index: ${Ext.zIndex} !important;` +
                     "width: 60px !important;" +
                     "height: 60px !important;" +
-                    "background: rgba( 235,235,235,0.6 ) !important;" +
-                    "border: 1px solid rgba( 255,255,255, 0.6) !important;" +
+                    `background: ${talknHandleStyles.background} !important;` +
+                    `border: ${talknHandleStyles.border} !important;` +
                     "border-radius: 100px !important;" +
                     `transition: ${Ext.BASE_TRANSITION}ms !important;` +
-                    "transform: scale(1.0) !important;" 
+                    `transform: ${talknHandleStyles.transform} !important;` 
                 );
-                modalIcon.addEventListener( "load", () => {} );
-                modalIcon.addEventListener( "click", this.toggleIframe );
-                modalIcon.addEventListener( "mouseover", () => {
-                    modalIcon.style.transform = "scale(1.1)";
+                talknHandle.addEventListener( "load", () => {} );
+                talknHandle.addEventListener( "click", this.toggleIframe );
+                talknHandle.addEventListener( "mouseover", () => {
+                    const translates = talknHandle.style.transform.split("translate3d(")[1].split(") ")[0]
+                    talknHandle.style.transform = `translate3d(${translates}) scale(1.1)`
                 });
-                modalIcon.addEventListener( "mouseout", () => {
-                    modalIcon.style.transform = "scale(1.0)";
+                talknHandle.addEventListener( "mouseout", () => {
+                    const translates = talknHandle.style.transform.split("translate3d(")[1].split(") ")[0]
+                    talknHandle.style.transform = `translate3d(${translates}) scale(1.0)`
                 });
-                document.body.appendChild(modalIcon);
+                document.body.appendChild(talknHandle);
                 document.body.appendChild(this.iframe);
                 break;
             case Ext.MODE_INCLUDE:
@@ -148,6 +151,22 @@ class Ext {
             }
         }
         return mode;
+    }
+
+    getModalHandleOpenStyles(){
+        return {
+            transform: `translate3d(0px, -17px, 0px) scale( 1 )`,
+            background: "rgba(245, 245, 245, 0.95)",
+            border: "1px solid rgba(230, 230, 230, 0.95)"
+        }
+    }
+
+    getModalHandleCloseStyles(){
+        return {
+            transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
+            background: "rgba(245, 245, 245, 0.55)",
+            border: "1px solid rgba(230, 230, 230, 0.55)"
+        }
     }
 
     getModeModalOpenTransform(){
@@ -448,6 +467,12 @@ class Ext {
             break;
         case Ext.MODE_MODAL:
             if( iframe.style.opacity === "0" ){
+                
+                const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
+                const talknHandleStyles = this.getModalHandleOpenStyles();
+                talknHandle.style.background = talknHandleStyles.background;
+                talknHandle.style.border = talknHandleStyles.border;
+                talknHandle.style.transform = talknHandleStyles.transform;
                 iframe.style.opacity = 1;
                 iframe.style.transform = this.getModeModalOpenTransform(); 
 
@@ -456,6 +481,12 @@ class Ext {
                 }
 
             }else{
+                const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
+                const talknHandleStyles = this.getModalHandleCloseStyles();
+                talknHandle.style.background = talknHandleStyles.background;
+                talknHandle.style.border = talknHandleStyles.border;
+                talknHandle.style.transform = talknHandleStyles.transform;
+
                 iframe.style.transform = this.getModeModalCloseTransform();
                 iframe.style.opacity = 0;
 
