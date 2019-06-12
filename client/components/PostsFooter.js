@@ -139,6 +139,7 @@ export default class PostsFooter extends Component {
           placeholder='Comment to web'
         />
         {this.renderButton()}
+        powerd by talkn.
       </div>
 		);
  	}
