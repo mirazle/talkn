@@ -94,14 +94,16 @@ class Ext {
 
             switch( this.mode ){
             case Ext.MODE_MODAL:
-                const talknHandleIcon  = document.createElement("div");
-                const talknHandle  = document.createElement("div");
+                const talknHandle  = document.createElement("canvas");
                 const talknHandleStyles = this.getModalHandleCloseStyles();
                 talknHandle.setAttribute("id", `${Ext.APP_NAME}Handle`);
                 talknHandle.setAttribute("style", 
                     "position: fixed !important;" +
                     "bottom: 15px !important;" +
                     "right: 15px !important;" +
+                    "display: flex;" + 
+                    "align-items: center;" + 
+                    "justify-content: center;" + 
                     `z-index: ${Ext.zIndex} !important;` +
                     "width: 60px !important;" +
                     "height: 60px !important;" +
@@ -119,11 +121,44 @@ class Ext {
                 });
                 talknHandle.addEventListener( "mouseout", () => {
                     const translates = talknHandle.style.transform.split("translate3d(")[1].split(") ")[0]
-                    talknHandle.style.transform = `translate3d(${translates}) scale(1.)`
+                    talknHandle.style.transform = `translate3d(${translates}) scale(1.0)`
                 });
-                talknHandleIcon.style = "display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; font-size: 40px; color: rgba(0,0,0,0.2)";
-                talknHandleIcon.innerText = "t";
-                talknHandle.appendChild( talknHandleIcon );
+
+                const rgba = "rgba( 220, 220,220, 0.5 )";
+                window.c = talknHandle.getContext("2d");
+                c.beginPath();
+                c.moveTo(50,60);
+                c.lineTo(240,40);
+                c.lineTo(140,80);
+                c.closePath();    
+                c.strokeStyle = rgba; //枠線の色
+                c.stroke();
+                c.fillStyle= rgba;//塗りつぶしの色
+                c.fill();
+                c.closePath();
+
+                c.beginPath();
+                c.moveTo(241, 40);
+                c.lineTo(150, 83);
+                c.lineTo(230,100);
+                c.closePath();    
+                c.strokeStyle = rgba;
+                c.stroke();
+                c.fillStyle= rgba;
+                c.fill();
+                c.closePath();
+
+                c.beginPath();
+                c.moveTo(125, 80);
+                c.lineTo(170, 90);
+                c.lineTo(130,105);
+                c.closePath();
+                c.strokeStyle = rgba;
+                c.stroke();
+                c.fillStyle = rgba;
+                c.fill();
+                c.closePath();
+
                 document.body.appendChild(talknHandle);
                 document.body.appendChild(this.iframe);
                 break;
