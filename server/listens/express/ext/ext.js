@@ -94,6 +94,7 @@ class Ext {
 
             switch( this.mode ){
             case Ext.MODE_MODAL:
+                const talknHandleIcon  = document.createElement("div");
                 const talknHandle  = document.createElement("div");
                 const talknHandleStyles = this.getModalHandleCloseStyles();
                 talknHandle.setAttribute("id", `${Ext.APP_NAME}Handle`);
@@ -120,6 +121,9 @@ class Ext {
                     const translates = talknHandle.style.transform.split("translate3d(")[1].split(") ")[0]
                     talknHandle.style.transform = `translate3d(${translates}) scale(1.)`
                 });
+                talknHandleIcon.style = "display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; font-size: 40px; color: rgba(0,0,0,0.2)";
+                talknHandleIcon.innerText = "t";
+                talknHandle.appendChild( talknHandleIcon );
                 document.body.appendChild(talknHandle);
                 document.body.appendChild(this.iframe);
                 break;
