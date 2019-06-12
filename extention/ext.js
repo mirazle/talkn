@@ -203,8 +203,8 @@ class Ext {
     getModalHandleCloseStyles(){
         return {
             transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
-            background: "rgba(255, 255, 255, 0.55)",
-            border: "1px solid rgba(245, 245, 245, 0.55)"
+            background: "rgba(255, 255, 255, 0.75)",
+            border: "1px solid rgba(245, 245, 245, 0.75)"
         }
     }
 
