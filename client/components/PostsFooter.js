@@ -34,7 +34,6 @@ export default class PostsFooter extends Component {
       if(value && value !== ""){
         talknAPI.post();
         talknAPI.onChangeInputPost(''); 
-
         if(app.extensionMode === App.extensionModeExtModalLabel){
           talknWindow.parentTo( "setInputPost", {inputPost: false} );
         }
@@ -122,6 +121,7 @@ export default class PostsFooter extends Component {
       <div data-component-name={"PostsFooter"} style={ style.postsFooter.self }>
         <div style={ this.getIconStyle() } onClick={handleOnClickToggleMain}/>
         <textarea
+          data-component-name={"postArea"}
           style={style.postsFooter.textarea}
           ref={"postArea"}
           rows={1}
