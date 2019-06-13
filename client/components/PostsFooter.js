@@ -15,7 +15,7 @@ export default class PostsFooter extends Component {
     this.handleOnFocus = this.handleOnFocus.bind(this);
     this.handleOnBlur = this.handleOnBlur.bind(this);
   }
-
+/*
   shouldComponentUpdate(props){
     const {actionLog} = props.state;
     return [
@@ -23,7 +23,7 @@ export default class PostsFooter extends Component {
       "RESIZE_END_WINDOW"
     ].includes( actionLog[0] );
   }
-
+*/
   componentDidMount(){
     talknAPI.componentDidMounts( "PostsFooter" );
   }
