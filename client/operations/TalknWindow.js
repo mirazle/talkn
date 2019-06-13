@@ -172,10 +172,10 @@ export default class TalknWindow {
 			case "onChangeInputPost":
 				 //document.querySelector("[data-component-name='postArea']").focus( ()=>{} );
 				break;
+*/
 			case "blurInputPost":
 				//document.querySelector("[data-component-name='postArea']").blur( ()=>{} );
-				break;
-*/	
+				break;	
 			default: 
 				if(	
 					talknAPI[ e.data.method ] &&

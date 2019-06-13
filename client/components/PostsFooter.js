@@ -76,7 +76,7 @@ export default class PostsFooter extends Component {
       }
     }
   }
-
+/*
   handleOnFocus( e ){
     const { app } = this.props.state;
     if( app.screenMode === App.screenModeSmallLabel ){
@@ -91,7 +91,7 @@ export default class PostsFooter extends Component {
       this.setState({focusSetIntervalId: 0});
     }
   }
-
+*/
   getIconStyle(){
     const { thread, style } = this.props.state;
     const favicon = `https://${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}`;
