@@ -12,8 +12,9 @@ export default class PostsFooter extends Component {
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
-    this.handleOnFocus = this.handleOnFocus.bind(this);
-    this.handleOnBlur = this.handleOnBlur.bind(this);
+
+//    this.handleOnFocus = this.handleOnFocus.bind(this);
+//    this.handleOnBlur = this.handleOnBlur.bind(this);
   }
 /*
   shouldComponentUpdate(props){
