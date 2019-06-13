@@ -417,6 +417,7 @@ class Ext {
                     if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
                         this.unlockWindow();
                     }
+                    document.querySelector("body").focus(()=>{});
                     this.postMessage("blurInputPost");
                 }
             }
