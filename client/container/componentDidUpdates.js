@@ -100,6 +100,13 @@ const componentDidUpdates = {
                 window.scrollTo(0, 9999999);
 //            }
         },
+        'CLIENT_TO_SERVER[EMIT]:post': (self) => {
+            const { app } = self.props.state;
+            if( app.extensionMode === App.extensionModeExtModalLabel ){ 
+                alert( document.querySelector("[data-component-name='postArea']") );
+                document.querySelector("[data-component-name='postArea']").focus( ()=>{} );
+            }
+        },
         'SERVER_TO_CLIENT[BROADCAST]:post': ( self ) => {
             const { app } = self.props.state;
             const Posts = document.querySelector("[data-component-name=Posts]");
@@ -121,12 +128,6 @@ const componentDidUpdates = {
                 if( app.isOpenPosts ){
                     self.props.openNewPost();
                 }
-
-                if( app.extensionMode === App.extensionModeExtModalLabel ){ 
-                    console.log("FOCUS");
-                    document.querySelector("[data-component-name='postArea']").focus( ()=>{} );
-                }
-
             }else{
                 talknWindow.threadHeight = Posts.clientHeight;
                 if( app.isOpenPosts && talknWindow.isScrollBottom ){
