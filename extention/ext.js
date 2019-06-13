@@ -35,7 +35,15 @@ class Ext {
     static get activeMethodSecond(){return 1000};
     static get zIndex(){return 2147483647};
     static get modeModalBottom(){return 40};
-    static get aacceptPostMessages(){return ['toggleIframe', 'location', 'openNotif', 'closeNotif', 'linkTo', 'changePost', 'getClientMetas']};
+    static get aacceptPostMessages(){return [
+        'toggleIframe',
+        'location',
+        'openNotif',
+        'closeNotif',
+        'linkTo',
+        'setInputPost',
+        'getClientMetas'
+    ]};
 
     constructor(refusedFrame = false){
         this.refusedFrame = refusedFrame;
@@ -50,6 +58,7 @@ class Ext {
         if(bootFlg){
 
             // Variable
+            this.inputPost = false;
             this.scriptTag = Ext.getScriptTag();
             this.mode = this.getMode();
             this.browser = this.getBrowser();
@@ -94,7 +103,7 @@ class Ext {
 
             switch( this.mode ){
             case Ext.MODE_MODAL:
-                const talknHandle  = document.createElement("canvas");
+                let talknHandle  = document.createElement("canvas");
                 const talknHandleStyles = this.getModalHandleCloseStyles();
                 talknHandle.setAttribute("id", `${Ext.APP_NAME}Handle`);
                 talknHandle.setAttribute("style", 
@@ -124,41 +133,7 @@ class Ext {
                     talknHandle.style.transform = `translate3d(${translates}) scale(1.0)`
                 });
 
-                const rgba = "rgba( 200, 200,200, 0.7 )";
-                window.c = talknHandle.getContext("2d");
-                c.beginPath();
-                c.moveTo(50,60);
-                c.lineTo(240,40);
-                c.lineTo(140,80);
-                c.closePath();    
-                c.strokeStyle = rgba; //枠線の色
-                c.stroke();
-                c.fillStyle= rgba;//塗りつぶしの色
-                c.fill();
-                c.closePath();
-
-                c.beginPath();
-                c.moveTo(241, 40);
-                c.lineTo(150, 83);
-                c.lineTo(230,100);
-                c.closePath();    
-                c.strokeStyle = rgba;
-                c.stroke();
-                c.fillStyle= rgba;
-                c.fill();
-                c.closePath();
-
-                c.beginPath();
-                c.moveTo(125, 80);
-                c.lineTo(170, 90);
-                c.lineTo(130,105);
-                c.closePath();
-                c.strokeStyle = rgba;
-                c.stroke();
-                c.fillStyle = rgba;
-                c.fill();
-                c.closePath();
-
+                talknHandle = drawCanvas( talknHandle );
                 document.body.appendChild(talknHandle);
                 document.body.appendChild(this.iframe);
                 break;
@@ -377,6 +352,177 @@ class Ext {
         this.postMessage("onTransition");
     }
 
+    /********************************/
+    /* Accept Communication methods */
+    /********************************/
+
+    toggleIframe(params){
+        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+        switch( this.mode ){
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
+            if(talknNotifId === "null"){
+                if( iframe.style.height !== this.getIframeOpenHeight(true) ){
+                    iframe.style.transition = "0ms";
+                    iframe.style.height = this.getIframeOpenHeight(true);
+                    this.postMessage("startDispPosts");
+                }else{
+                    this.postMessage("startUndispPosts");
+                    setTimeout( () =>{ 
+                        iframe.style.transition = "0ms";
+                        iframe.style.height = Ext.getIframeCloseHeight(true);
+                    }, Ext.BASE_TRANSITION );
+                }
+            }else{
+                clearTimeout( talknNotifId );
+                sessionStorage.setItem(Ext.talknNotifId, null);
+                this.postMessage("closeNotif");
+                iframe.style.transition = "0ms";
+                iframe.style.height = this.getIframeOpenHeight(true);
+                this.postMessage("startDispPosts");
+            }
+            break;
+        case Ext.MODE_MODAL:
+            if( iframe.style.opacity === "0" ){
+                
+                const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
+                const talknHandleStyles = this.getModalHandleOpenStyles();
+                talknHandle.style.background = talknHandleStyles.background;
+                talknHandle.style.border = talknHandleStyles.border;
+                talknHandle.style.transform = talknHandleStyles.transform;
+                iframe.style.opacity = 1;
+                iframe.style.transform = this.getModeModalOpenTransform(); 
+
+                if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
+                    this.lockWindow();
+                }
+
+            }else{
+
+                if( this.inputPost ){
+                    this.postMessage("post");
+                    this.postMessage("onChangeInputPost");
+                    this.inputPost = false;
+                }else{
+                    const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
+                    const talknHandleStyles = this.getModalHandleCloseStyles();
+                    talknHandle.style.background = talknHandleStyles.background;
+                    talknHandle.style.border = talknHandleStyles.border;
+                    talknHandle.style.transform = talknHandleStyles.transform;
+
+                    iframe.style.transform = this.getModeModalCloseTransform();
+                    iframe.style.opacity = 0;
+
+                    if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
+                        this.unlockWindow();
+                    }
+                }
+            }
+            break;
+        }
+    }
+
+    openNotif(params){
+        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+        iframe.style.transition = "0ms";
+        iframe.style.height = Ext.getIframeOpenNotifHeight();
+
+        let talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
+        if(talknNotifId){
+            clearTimeout( talknNotifId );
+        }
+        talknNotifId = setTimeout( this.closeNotif, params.transition );
+        sessionStorage.setItem(Ext.talknNotifId, talknNotifId);
+
+        setTimeout( () => {
+            this.postMessage("openNotif");
+        }, 10 );
+    }
+
+    closeNotif(params){
+        let talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
+        clearTimeout( talknNotifId );
+        sessionStorage.setItem(Ext.talknNotifId, null);
+        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+        iframe.style.transition = "0ms";
+        iframe.style.height = Ext.getIframeCloseHeight();
+        this.postMessage("closeNotif");
+    }
+    
+    location(params){
+        const {protocol, connection} = params;
+        location.href = `${protocol}/${connection}`;
+    }
+
+    linkTo(params){
+        if( params && params.href ){
+            location.href = params.href
+        }
+    }
+
+    setInputPost(params){
+        this.inputPost = params.inputPost;
+    }
+
+    getClientMetas(){
+        let title = document.querySelector('title');
+        title = title && title.text !== "" ? title.text : "";
+        let description = document.querySelector('description');
+        description = description && description.text !== "" ? description.text : "";
+        const metas = document.querySelectorAll('meta');
+        let clientMetas = {title, description};
+
+        for( let i = 0; i < metas.length; i++ ){
+            const item = metas[ i ];
+            let key = i;
+            let content = '';
+            if( item.getAttribute('name') ){
+                key = item.getAttribute('name');
+                content = item.getAttribute('content');
+            }else if( item.getAttribute('property') ){
+                key = item.getAttribute('property');
+                content = item.getAttribute('content');
+            }else if( item.getAttribute('chaset') ){
+                key = 'charset';
+                content = item.getAttribute('chaset');
+            }else if( item.getAttribute('http-equiv') ){
+                key = item.getAttribute('http-equiv');
+                content = item.getAttribute('content');
+            }
+            clientMetas[ key ] = content;
+        }
+        this.postMessage("getClientMetas", clientMetas);
+    }
+
+    lockWindow(){
+        const overflow = "hidden";
+        const position = "fixed";
+        const width = "100%";
+        const height = "100%";
+        const html = document.querySelector("html");
+        const body = document.querySelector("body");
+        this.windowScrollY = window.scrollY;
+        this.htmlPosition = html.style.position;
+        this.htmlOverflow = html.style.overflow;
+        this.htmlWidth = html.style.width;
+        body.style.position = position;
+        body.style.overflow = overflow;
+        body.style.width = width;
+        body.style.height = height;
+        body.style.marginTop = -( this.windowScrollY ) + "px";
+    }
+
+	unlockWindow(){
+        const body = document.querySelector("body");
+        body.style.position = this.htmlPosition;
+        body.style.overflow = this.htmlOverflow;
+        body.style.width = this.htmlWidth;
+        body.style.height = this.htmlHeight;
+        body.style.marginTop = "0px";
+        window.scrollTo( 0, Number( this.windowScrollY ) );
+    }
+
     transitionend(e){
     }
 
@@ -427,6 +573,11 @@ class Ext {
         });
     }
 
+    /*************************/
+    /* COMMUNICATION METHODS */
+    /*************************/
+
+    // From child window message.
     catchMessage(e){
         const {type, method, params} = e.data;
         if( type === Ext.APP_NAME ){
@@ -441,6 +592,7 @@ class Ext {
         }
     }
 
+    // To child window message.
     postMessage(method, params = {}){
         const talknUrl = this.getTalknUrl();
         const requestObj = this.getRequestObj( method, params );
@@ -477,165 +629,6 @@ class Ext {
         }
     }
 
-    toggleIframe(params){
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        switch( this.mode ){
-        case Ext.MODE_BOTTOM:
-        case Ext.MODE_INCLUDE:
-            const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
-            if(talknNotifId === "null"){
-                if( iframe.style.height !== this.getIframeOpenHeight(true) ){
-                    iframe.style.transition = "0ms";
-                    iframe.style.height = this.getIframeOpenHeight(true);
-                    this.postMessage("startDispPosts");
-                }else{
-                    this.postMessage("startUndispPosts");
-                    setTimeout( () =>{ 
-                        iframe.style.transition = "0ms";
-                        iframe.style.height = Ext.getIframeCloseHeight(true);
-                    }, Ext.BASE_TRANSITION );
-                }
-            }else{
-                clearTimeout( talknNotifId );
-                sessionStorage.setItem(Ext.talknNotifId, null);
-                this.postMessage("closeNotif");
-                iframe.style.transition = "0ms";
-                iframe.style.height = this.getIframeOpenHeight(true);
-                this.postMessage("startDispPosts");
-            }
-            break;
-        case Ext.MODE_MODAL:
-            if( iframe.style.opacity === "0" ){
-                
-                const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
-                const talknHandleStyles = this.getModalHandleOpenStyles();
-                talknHandle.style.background = talknHandleStyles.background;
-                talknHandle.style.border = talknHandleStyles.border;
-                talknHandle.style.transform = talknHandleStyles.transform;
-                iframe.style.opacity = 1;
-                iframe.style.transform = this.getModeModalOpenTransform(); 
-
-                if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
-                    this.lockWindow();
-                }
-
-            }else{
-
-                
-
-                const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
-                const talknHandleStyles = this.getModalHandleCloseStyles();
-                talknHandle.style.background = talknHandleStyles.background;
-                talknHandle.style.border = talknHandleStyles.border;
-                talknHandle.style.transform = talknHandleStyles.transform;
-
-                iframe.style.transform = this.getModeModalCloseTransform();
-                iframe.style.opacity = 0;
-
-                if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
-                    this.unlockWindow();
-                }
-            }
-            break;
-        }
-    }
-
-    openNotif(params){
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        iframe.style.transition = "0ms";
-        iframe.style.height = Ext.getIframeOpenNotifHeight();
-
-        let talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
-        if(talknNotifId){
-            clearTimeout( talknNotifId );
-        }
-        talknNotifId = setTimeout( this.closeNotif, params.transition );
-        sessionStorage.setItem(Ext.talknNotifId, talknNotifId);
-
-        setTimeout( () => {
-            this.postMessage("openNotif");
-        }, 10 );
-    }
-
-    closeNotif(params){
-        let talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
-        clearTimeout( talknNotifId );
-        sessionStorage.setItem(Ext.talknNotifId, null);
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        iframe.style.transition = "0ms";
-        iframe.style.height = Ext.getIframeCloseHeight();
-        this.postMessage("closeNotif");
-    }
-
-    lockWindow(){
-        const overflow = "hidden";
-        const position = "fixed";
-        const width = "100%";
-        const height = "100%";
-        const html = document.querySelector("html");
-        const body = document.querySelector("body");
-        this.windowScrollY = window.scrollY;
-        this.htmlPosition = html.style.position;
-        this.htmlOverflow = html.style.overflow;
-        this.htmlWidth = html.style.width;
-        body.style.position = position;
-        body.style.overflow = overflow;
-        body.style.width = width;
-        body.style.height = height;
-        body.style.marginTop = -( this.windowScrollY ) + "px";
-    }
-
-	unlockWindow(){
-        const body = document.querySelector("body");
-        body.style.position = this.htmlPosition;
-        body.style.overflow = this.htmlOverflow;
-        body.style.width = this.htmlWidth;
-        body.style.height = this.htmlHeight;
-        body.style.marginTop = "0px";
-        window.scrollTo( 0, Number( this.windowScrollY ) );
-    }
-    
-    location(params){
-        const {protocol, connection} = params;
-        location.href = `${protocol}/${connection}`;
-    }
-
-    linkTo(params){
-        if( params && params.href ){
-            location.href = params.href
-        }
-    }
-
-    getClientMetas(){
-        let title = document.querySelector('title');
-        title = title && title.text !== "" ? title.text : "";
-        let description = document.querySelector('description');
-        description = description && description.text !== "" ? description.text : "";
-        const metas = document.querySelectorAll('meta');
-        let clientMetas = {title, description};
-
-        for( let i = 0; i < metas.length; i++ ){
-            const item = metas[ i ];
-            let key = i;
-            let content = '';
-            if( item.getAttribute('name') ){
-                key = item.getAttribute('name');
-                content = item.getAttribute('content');
-            }else if( item.getAttribute('property') ){
-                key = item.getAttribute('property');
-                content = item.getAttribute('content');
-            }else if( item.getAttribute('chaset') ){
-                key = 'charset';
-                content = item.getAttribute('chaset');
-            }else if( item.getAttribute('http-equiv') ){
-                key = item.getAttribute('http-equiv');
-                content = item.getAttribute('content');
-            }
-            clientMetas[ key ] = content;
-        }
-        this.postMessage("getClientMetas", clientMetas);
-    }
-
     getRequestObj(method, params = {}){
         return {
             type: Ext.APP_NAME,
@@ -649,3 +642,42 @@ class Ext {
 }
 
 const ext = new Ext();
+
+function drawCanvas(talknHandle){
+    const rgba = "rgba( 200, 200,200, 0.7 )";
+    const c = talknHandle.getContext("2d");
+    c.beginPath();
+    c.moveTo(50,60);
+    c.lineTo(240,40);
+    c.lineTo(140,80);
+    c.closePath();    
+    c.strokeStyle = rgba; //枠線の色
+    c.stroke();
+    c.fillStyle= rgba;//塗りつぶしの色
+    c.fill();
+    c.closePath();
+
+    c.beginPath();
+    c.moveTo(241, 40);
+    c.lineTo(150, 83);
+    c.lineTo(230,100);
+    c.closePath();    
+    c.strokeStyle = rgba;
+    c.stroke();
+    c.fillStyle= rgba;
+    c.fill();
+    c.closePath();
+
+    c.beginPath();
+    c.moveTo(125, 80);
+    c.lineTo(170, 90);
+    c.lineTo(130,105);
+    c.closePath();
+    c.strokeStyle = rgba;
+    c.stroke();
+    c.fillStyle = rgba;
+    c.fill();
+    c.closePath();
+
+    return talknHandle
+}
