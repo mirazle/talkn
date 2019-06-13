@@ -418,7 +418,7 @@ class Ext {
                         this.unlockWindow();
                     }
                     document.querySelector("body").focus(()=>{});
-                    this.postMessage("blurInputPost");
+                    //this.postMessage("blurInputPost");
                 }
             }
             break;

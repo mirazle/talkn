@@ -121,6 +121,12 @@ const componentDidUpdates = {
                 if( app.isOpenPosts ){
                     self.props.openNewPost();
                 }
+
+                if( app.extensionMode === App.extensionModeExtModalLabel ){ 
+                    console.log("FOCUS");
+                    document.querySelector("[data-component-name='postArea']").focus( ()=>{} );
+                }
+
             }else{
                 talknWindow.threadHeight = Posts.clientHeight;
                 if( app.isOpenPosts && talknWindow.isScrollBottom ){
