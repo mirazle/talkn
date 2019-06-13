@@ -169,7 +169,8 @@ export default class TalknWindow {
 				resolve(e.data.params);
 				break;
 			case "blurInputPost":
-				document.querySelector("[data-component-name='postArea']").blur()
+				alert(document.querySelector("[data-component-name='postArea']"));
+				document.querySelector("[data-component-name='postArea']").blur();
 				break;
 			default: 
 				if(	
