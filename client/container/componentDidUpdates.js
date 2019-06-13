@@ -103,7 +103,6 @@ const componentDidUpdates = {
         'CLIENT_TO_SERVER[EMIT]:post': (self) => {
             const { app } = self.props.state;
             if( app.extensionMode === App.extensionModeExtModalLabel ){ 
-                alert( document.querySelector("[data-component-name='postArea']") );
                 document.querySelector("[data-component-name='postArea']").focus( ()=>{} );
             }
         },
