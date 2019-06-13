@@ -33,7 +33,11 @@ export default class PostsFooter extends Component {
     if( !App.validInputPost( value ) ){
       if(value && value !== ""){
         talknAPI.post();
-        talknAPI.onChangeInputPost('');
+        talknAPI.onChangeInputPost(''); 
+
+        if(app.extensionMode === App.extensionModeExtModalLabel){
+          talknWindow.parentTo( "setInputPost", {inputPost: false} );
+        }
       }
     }
   }
@@ -42,6 +46,10 @@ export default class PostsFooter extends Component {
     if( !App.validInputPost( e.target.value ) ){
       const { app } = this.props.state;
       talknAPI.onChangeInputPost( e.target.value );
+      if(app.extensionMode === App.extensionModeExtModalLabel){
+        const inputPost = e.target.value !== ""; 
+        talknWindow.parentTo( "setInputPost", {inputPost} );
+      }
     }
   }
 
@@ -49,17 +57,22 @@ export default class PostsFooter extends Component {
     clearInterval(this.state.focusSetIntervalId);
 
     const { app } = this.props.state;
-    if( app.screenMode === App.screenModeSmallLabel ){
-      const input = e.target.value.replace( app.inputPost, "" );
-    }
 
     if ( e.nativeEvent.keyCode === 13 ) {
       if( e.nativeEvent.shiftKey ){
         talknAPI.onChangeInputPost( e.target.value + '\n');
+
+        if(app.extensionMode === App.extensionModeExtModalLabel){
+          talknWindow.parentTo( "setInputPost", {inputPost:true} );
+        }
       }else{
         if(e.target.value !== ""){
           talknAPI.post();
           talknAPI.onChangeInputPost('');
+
+          if(app.extensionMode === App.extensionModeExtModalLabel){
+            talknWindow.parentTo( "setInputPost", {inputPost: false} );
+          }
         }
       }
     }
@@ -68,9 +81,7 @@ export default class PostsFooter extends Component {
   handleOnFocus( e ){
     const { app } = this.props.state;
     if( app.screenMode === App.screenModeSmallLabel ){
-
       talknWindow.setIsScrollBottom();
-      talknWindow.parentTo("focusPost");
     }
   }
 

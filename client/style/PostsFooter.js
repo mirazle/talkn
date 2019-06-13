@@ -144,7 +144,6 @@ export default class PostsFooter{
 
   static getTextarea({app}){
     const width = app.extensionMode === App.extensionModeExtModalLabel ? "60%" : "54%" ;
-    console.log(width);
     const layout = Style.getLayoutInlineBlock({
       width,
       maxWidth: width,

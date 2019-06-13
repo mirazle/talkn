@@ -46,7 +46,8 @@ export default {
       thread: { connection },
     };
   },
-  onChangeInputPost: ( inputPost ) => {
+  onChangeInputPost: ( inputPost = "") => {
+    inputPost = typeof inputPost === "string" ? inputPost : "";
     return {
       type: 'ON_CHANGE_INPUT_POST',
       app: {inputPost},
