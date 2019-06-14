@@ -118,22 +118,33 @@ class Express{
         // ポータル以外からアクセス
         if(req.headers.referer){
           const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
-          includeIframeTag = true;
 
-          // Auto Connection
-          if(req.originalUrl === "/"){
-            connection = referer;
-
-          // Extension
-          }else if(req.originalUrl !== "/"){
-            connection = referer;
-
-          // User Input Connection
+          // www.talkn.ioからアクセス
+          if( referer.indexOf( "/" + conf.wwwURL ) === 0 ){
+            connection = req.originalUrl;
+            console.log( connection );
+            connection = connection.indexOf( "//" ) === 0 ? connection.replace(/^\/\//, '/') : connection ;
+            console.log("ACCESS WWW " + connection + " includeIframeTag " + includeIframeTag);
           }else{
-            connection = referer;
+
+            includeIframeTag = true;
+
+            // Auto Connection
+            if(req.originalUrl === "/"){
+              connection = referer;
+
+            // Extension
+            }else if(req.originalUrl !== "/"){
+              connection = referer;
+
+            // User Input Connection
+            }else{
+              connection = referer;
+            }
+            console.log("ACCESS NOT PORTAL " + connection + " includeIframeTag " + includeIframeTag);
           }
-          console.log("ACCESS NOT PORTAL " + connection + " includeIframeTag " + includeIframeTag);
-        // ポータルからアクセス
+
+          // ポータルにアクセス
         }else{
           connection = req.originalUrl.replace(`/${conf.domain}`, '');
           includeIframeTag = false;
