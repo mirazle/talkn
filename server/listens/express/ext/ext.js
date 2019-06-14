@@ -109,7 +109,7 @@ class Ext {
                 talknHandle.setAttribute("style", 
                     "position: fixed !important;" +
                     "bottom: 15px !important;" +
-                    "right: 15px !important;" +
+                    "right: 10px !important;" +
                     "display: flex;" + 
                     "align-items: center;" + 
                     "justify-content: center;" + 
@@ -179,7 +179,7 @@ class Ext {
         return {
             transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
             background: "rgba(255, 255, 255, 0.75)",
-            border: "1px solid rgba(245, 245, 245, 0.75)"
+            border: "1px solid rgba(235, 235, 235, 0.75)"
         }
     }
 
@@ -646,7 +646,7 @@ class Ext {
 const ext = new Ext();
 
 function drawCanvas(talknHandle){
-    const rgba = "rgba( 200, 200,200, 0.7 )";
+    const rgba = "rgba( 180, 180, 180, 0.7 )";
     const c = talknHandle.getContext("2d");
     c.beginPath();
     c.moveTo(50,60);
