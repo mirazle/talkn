@@ -1,19 +1,21 @@
 const cacheName = 'pwa-talkn';
-
+const log = true;
 const filesToCache = [
     '/',
     '/index.ejs'
 ]
-//console.log("SW");
+
+if(log)console.log("SW");
+
 // Install Service Worker
 self.addEventListener('install', function(event){
-//    console.log('[INSTALL]Service Worker: Installing.... ' + cacheName);
+    if(log)console.log('[INSTALL]Service Worker: Installing.... ' + cacheName);
 
     event.waitUntil(
 
         // Open the Cache
         caches.open(cacheName).then(function(cache) {
-//            console.log('[INSTALLED]Service Worker: Caching App Shell at the moment...... ' + cacheName);
+            if(log)console.log('[INSTALLED]Service Worker: Caching App Shell at the moment...... ' + cacheName);
 
             // Add Files to the Cache
             return cache.addAll(filesToCache);
@@ -24,18 +26,18 @@ self.addEventListener('install', function(event){
 // Fired when the Service Worker starts up
 self.addEventListener('activate', function(event) {
 
-    //console.log('Service Worker: Activating....');
+    if(log)console.log('Service Worker: Activating....');
     var cacheWhitelist = ['dependencies-cache-**v1**', 'dependencies-2-cache-**v1**'];// Version for your cache list 
-//console.log("A");
+    if(log)console.log("A");
     event.waitUntil(
         caches.keys().then( (cacheNames) => {
-//            console.log("B");
+            if(log)console.log("B");
             return Promise.all(
 
                 cacheNames.map(function(cacheName) {
-//                    console.log("C");
+                    if(log)console.log("C");
                     if (cacheWhitelist.indexOf(cacheName) === -1) {
-//                        console.log("D");
+                        if(log)console.log("D");
                         return caches.delete(cacheName);
                     }
                 })
@@ -47,20 +49,24 @@ self.addEventListener('activate', function(event) {
 
 self.addEventListener('fetch', function(event) {
 
-    //console.log('Service Worker: Fetch', event.request.url);
-    //console.log("Url", event.request.url);
+    if(log)console.log('Service Worker: Fetch', event.request.url);
+    if(log)console.log("Url", event.request.url);
 
-    event.respondWith(
-        caches.match(event.request).then(function(response) {
-            if(response){
-                return response;
-            }else{
-                if( event.request.cache !== "only-if-cached" ){
-                    return fetch(event.request);
+    // Https request image is error and undisplay.
+    if( event.request.url.indexOf( "https:" ) === 0 ){
+        event.respondWith(
+            caches.match(event.request).then(function(response) {
+                console
+                if(response){
+                    return response;
                 }else{
-                    return false;
+                    if( event.request.cache !== "only-if-cached" ){
+                        return fetch(event.request);
+                    }else{
+                        return false;
+                    }
                 }
-            }
-        })
-    );
+            })
+        );
+    }
 });

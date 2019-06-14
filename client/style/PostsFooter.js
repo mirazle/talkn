@@ -44,7 +44,6 @@ export default class PostsFooter{
   };
 
   static getBorder( app, addUnit = false ){
-    console.log( app.extensionMode + " " + App.extensionModeExtModalLabel );
     switch( app.extensionMode ){
     case App.extensionModeExtBottomLabel:
       return {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border};  
