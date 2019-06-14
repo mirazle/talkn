@@ -34,11 +34,9 @@
     function onServiceWorker(){
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/portal_sw.js').then(function(registration) {
-                // 登録成功
-                console.log('[www]ServiceWorker resgistration suscessful with scope: ', registration.scope);
+                console.log('[ServiceWorker] suscessful: ', registration.scope);
             }).catch(function(err) {
-                // 登録失敗 :(
-                console.log('[www]ServiceWorker registration failed: ', err);
+                console.log('[ServiceWorker] failed: ', err);
             });
         }
     }

@@ -1,9 +1,9 @@
 import React, { Component } from "react"
-import Marquee from 'react-marquee';
 import conf from 'common/conf';
 import define from 'common/define';
 import Sequence from 'common/Sequence';
 import App from 'common/schemas/state/App';
+import Marquee from 'client/container/util/Marquee';
 import DetailFooter from 'client/components/DetailFooter';
 import LockMenu from './LockMenu';
 import Icon from './Icon';
@@ -61,6 +61,18 @@ export default class Detail extends Component {
       backgroundSize = 'cover';
     }
     return {...style.detail.img, backgroundImage, backgroundSize};
+/*
+          // HTTP
+          if( `${serverMetas['og:image']}`.indexOf(Sequence.HTTP_PROTOCOL) === 0 ){
+            if( serverMetas['og:image'].indexOf( "?" ) >= 0){
+              backgroundImage = `url("${ serverMetas['og:image'] + Math.random() }")`;
+            }else{
+              backgroundImage = `url("${ serverMetas['og:image'] + "?" + Math.random() }")`;
+            }
+            console.log( backgroundImage );
+            return {...style.detail.img, backgroundImage, backgroundSize};
+          }
+*/
   }
 
   getDescription( serverMetas ){
@@ -83,6 +95,8 @@ export default class Detail extends Component {
         style={ style.detail.header }
       >
         <span style={ style.detail.headerP }>
+        {/*threadDetail.serverMetas.title*/}
+
         <Marquee
           text={threadDetail.serverMetas.title}
           loop={true}
@@ -90,6 +104,7 @@ export default class Detail extends Component {
           trailing={0}
           leading={0}
         />
+
         </span>
       </header>
     )

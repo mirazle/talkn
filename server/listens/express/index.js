@@ -103,6 +103,7 @@ class Express{
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.sendFile( conf.serverPortalPath + req.originalUrl.replace("/", ""));
+        console.log( conf.serverPortalPath );
         return true;
       }
 

@@ -214,6 +214,8 @@ export default class MenuIndexList extends Component {
         <div style={style.upper}>
           <span style={style.upperSpace} />
           <span style={style.upperRight}>
+            {title}
+{/*
             <Marquee
               text={title}
               loop={true}
@@ -221,6 +223,7 @@ export default class MenuIndexList extends Component {
               trailing={0}
               leading={0}
             />
+*/}
           </span>
         </div>
 
