@@ -22,6 +22,8 @@ export default class LockMenu {
       position: 'fixed',
       width: '90%',
       height: 'fit-content',
+      minHeight: 'fit-content',
+      maxHeight: 'fit-content',
       top: `calc( 100% + ${Header.headerHeight}px)`,
       left: '5%',
       flexFlow: "column",
