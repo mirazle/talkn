@@ -67,9 +67,15 @@ export default class Posts {
   static get headerHeight(){ return 35 };
 
   static getBorders( app ){
-    return app.extensionMode === App.screenModeUndispLabel || app.extensionMode === App.screenModeSmallLabel ?
-      {borderRight: Container.border, borderLeft: Container.border} :
-      {} ;
+
+    if( app.includeIframeTag ){
+      return {borderRight: Container.border, borderLeft: Container.border};
+    }else{
+      return app.extensionMode === App.screenModeUndispLabel ||
+            app.extensionMode === App.screenModeSmallLabel ?
+        {borderRight: Container.border, borderLeft: Container.border} :
+        {} ;
+    }
   }
 
   static getMargin( app, addUnit = false ){

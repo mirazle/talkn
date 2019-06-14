@@ -44,14 +44,19 @@ export default class PostsFooter{
   };
 
   static getBorder( app, addUnit = false ){
-    if( app.extensionMode === App.extensionModeExtBottomLabel ){
-      return {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border};
-    }else if( app.extensionMode === App.extensionModeExtModalLabel ){
+    switch( app.extensionMode ){
+    case app.extensionMode === App.extensionModeExtBottomLabel:
+      return {borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border};  
+    case app.extensionMode === App.extensionModeExtModalLabel:
       return {border: Container.border};
-    }else{
-        return app.screenMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel ?
-          {borderTop: Container.border, borderBottom: Container.border} :
-          {borderTop: Container.border, borderBottom: Container.border} ;
+    default:
+        if( app.includeIframeTag ){
+          return {border: Container.border};
+        }else{
+          return app.screenMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel ?
+            {borderTop: Container.border, borderBottom: Container.border} :
+            {borderTop: Container.border, borderBottom: Container.border} ;
+        }
     }
   }
 
