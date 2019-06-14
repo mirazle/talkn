@@ -83,8 +83,6 @@ export default class App extends Schema{
     const postsHeight = params.postsHeight ? params.postsHeight : 0;
     const screenMode = App.getScreenMode( width );
 
-
-
     // 拡張表示の場合
     const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
@@ -130,6 +128,8 @@ export default class App extends Schema{
     // 各パーツの状態(文字列制御)
     const openInnerNotif = params.openInnerNotif ? params.openInnerNotif : '';
     const openLockMenu = params.openLockMenu ? params.openLockMenu : App.openLockMenuLabelNo;
+
+    const includeIframeTag = App.getIncludeIframeTag( params, extensionMode );
 
     // その他
     const actioned = params && params.actioned ? params.actioned : [];
@@ -192,6 +192,9 @@ export default class App extends Schema{
       // 各パーツの状態(文字列制御)
       openInnerNotif,
       openLockMenu, 
+
+      // iframe直接埋め込み
+      includeIframeTag,
 
       // その他
       actioned,
