@@ -61,18 +61,6 @@ export default class Detail extends Component {
       backgroundSize = 'cover';
     }
     return {...style.detail.img, backgroundImage, backgroundSize};
-/*
-          // HTTP
-          if( `${serverMetas['og:image']}`.indexOf(Sequence.HTTP_PROTOCOL) === 0 ){
-            if( serverMetas['og:image'].indexOf( "?" ) >= 0){
-              backgroundImage = `url("${ serverMetas['og:image'] + Math.random() }")`;
-            }else{
-              backgroundImage = `url("${ serverMetas['og:image'] + "?" + Math.random() }")`;
-            }
-            console.log( backgroundImage );
-            return {...style.detail.img, backgroundImage, backgroundSize};
-          }
-*/
   }
 
   getDescription( serverMetas ){

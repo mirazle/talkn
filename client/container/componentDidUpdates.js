@@ -22,11 +22,6 @@ const componentDidUpdates = {
             app.postsHeight += TalknWindow.getPostsHeight();
             self.props.updatePostsHeight(app.postsHeight);
         },
-        'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': (self) => {
-            let { app, threads } = self.props.state;
-            app = App.getAppUpdatedOpenFlgs({app}, "post");
-            talknAPI.onClickToggleDispDetail( {threadDetail: threads[ connection ], app} );
-        },
         'ON_TRANSITION_END': ( self ) => {
             const { app } = self.props.state;
             app.postsHeight += TalknWindow.getPostsHeight();
