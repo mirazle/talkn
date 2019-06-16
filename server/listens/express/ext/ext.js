@@ -394,7 +394,7 @@ class Ext {
                     setTimeout( () => {
                     
                         notif.style.opacity = 0;
-                    
+                        notif.style.transform = "translate3d(0px, 20px, 0px) scale(1.0)";
                         setTimeout( () => {
                             const removeNotif = document.getElementById(id);
                             document.body.removeChild(removeNotif);
