@@ -369,7 +369,7 @@ class Ext {
 
                 notif.addEventListener( "click", () => {
                     const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
-                    const talknHandleStyles = Styles.getModalHandleCloseStyles();
+                    const talknHandleStyles = Styles.getModalHandleOpenStyles();
                     talknHandle.style.background = talknHandleStyles.background;
                     talknHandle.style.border = talknHandleStyles.border;
                     talknHandle.style.transform = talknHandleStyles.transform;
