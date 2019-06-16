@@ -351,6 +351,9 @@ class Ext {
 
                 const notifPost = document.createElement("div");
                 notifPost.setAttribute("style", 
+                    "display: flex !important;" +
+                    "justify-content: flex-start !important;" + 
+                    "align-items: center !important;";
                     "width: 80% !important;" +
                     "min-width: 80% !important;" +
                     "max-width: 80% !important;" +
@@ -386,10 +389,8 @@ class Ext {
                 document.body.appendChild(notif);
 
                 setTimeout( () => {
-                    
                     notif.style.opacity = 1;
                     notif.style.transform = "translate3d(0px, 0px, 0px) scale(1.0)";
-                    
                     setTimeout( () => {
                     
                         notif.style.opacity = 0;
