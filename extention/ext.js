@@ -355,7 +355,7 @@ class Ext {
                     "min-width: 80% !important;" +
                     "max-width: 80% !important;" +
                     "height: inherit !important;" +
-                    "font-size: 15px !important;" +
+                    "font-size: 14px !important;" +
                     "line-height: 27px;" +
                     "text-indent: 10px;"
                 );
