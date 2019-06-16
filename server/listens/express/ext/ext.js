@@ -353,7 +353,7 @@ class Ext {
                 notifPost.setAttribute("style", 
                     "display: flex !important;" +
                     "justify-content: flex-start !important;" + 
-                    "align-items: center !important;";
+                    "align-items: center !important;" +
                     "width: 80% !important;" +
                     "min-width: 80% !important;" +
                     "max-width: 80% !important;" +
