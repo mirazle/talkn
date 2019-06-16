@@ -375,7 +375,7 @@ export default class Detail extends Component {
     const { app } = state
     const active = true;
     const href = "https://chrome.google.com/webstore/detail/talkn-for-chrome/dkngnmdlcofambpfaccepbnjgfholgbo?hl=en";
-    const onClick = app.iframe ? () => {talknWindow.parentTo("linkTo", {href})} : () => {}; 
+    const onClick = app.extensionMode !== "NONE" ? () => {talknWindow.parentTo("linkTo", {href})} : () => {}; 
     return Icon.getChromeExtension( {}, state, {active, href, onClick});
   }
 
