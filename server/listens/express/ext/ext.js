@@ -4,7 +4,7 @@ class Ext {
     static get MODE_MODAL(){return "EXT_MODAL"}
     static get MODE_BOTTOM(){return "EXT_BOTTOM"}
     static get MODE_INCLUDE(){return "EXT_INCLUDE"}
-    static get DEFAULT_MODE(){return Ext.MODE_MODAL}
+    static get DEFAULT_MODE(){return Ext.MODE_BOTTOM}
     static getScriptTag(){
         const domain = ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
         return document.querySelector(`script[src='//ext.${domain}']`);
