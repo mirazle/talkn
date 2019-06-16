@@ -1,5 +1,7 @@
 import Container from 'client/style/Container';
-import define from 'common/define';
+import Sequence from 'common/Sequence';
+import conf from 'common/conf';
+import util from 'common/util';
 import App from 'common/schemas/state/App';
 import Posts from 'common/schemas/state/Posts';
 import Threads from 'common/schemas/state/Threads';
@@ -47,13 +49,22 @@ const functions = {
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = action.thread;
 
-    if(
-        action.app.extensionMode === App.extensionModeExtBottomLabel &&
-        !action.app.isOpenPosts &&
-        !action.app.isDispPosts
-    ){
-      const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
-      talknWindow.parentTo("openNotif", {transition});
+    switch(action.app.extensionMode){
+    case App.extensionModeExtBottomLabel:
+      if( !action.app.isOpenPosts && !action.app.isDispPosts ){
+        const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
+        talknWindow.parentTo("openNotif", {transition});
+      }
+      break;
+    case App.extensionModeExtModalLabel:
+      if( action.posts.length > 0 ){
+        const id = action.posts[ action.posts.length - 1 ]['_id'];
+        const post = action.posts[ action.posts.length - 1 ]['post'];
+        let favicon = action.posts[ action.posts.length - 1 ]['favicon'];
+        favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
+        talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon});
+      }
+      break;
     }
     return action;
   },
@@ -69,15 +80,25 @@ const functions = {
   "SERVER_TO_CLIENT[BROADCAST]:post": ( state, action ) => {
     const app = state.app;
     action.app = app;
-    if(
-      action.app.extensionMode === App.extensionModeExtBottomLabel &&
-      !action.app.isOpenPosts &&
-      !action.app.isDispPosts
-    ){
-      action.app.isOpenNotif = true;
-      const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
-      talknWindow.parentTo("openNotif", {transition});
+
+    switch(action.app.extensionMode){
+    case App.extensionModeExtBottomLabel:
+      if( !action.app.isOpenPosts && !action.app.isDispPosts ){
+        const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
+        talknWindow.parentTo("openNotif", {transition});
+      }
+      break;
+    case App.extensionModeExtModalLabel:
+      if( action.posts.length > 0 ){
+        const id = action.posts[ action.posts.length - 1 ]['_id'];
+        const post = action.posts[ action.posts.length - 1 ]['post'];
+        let favicon = action.posts[ action.posts.length - 1 ]['favicon'];
+        favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
+        talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon});
+      }
+      break;
     }
+
     action = Posts.getAnyActionPosts(action);
     return action;
   }, 

@@ -1,4 +1,5 @@
 const ENV = "PROD";
+
 class Ext {
     static get MODE_MODAL(){return "EXT_MODAL"}
     static get MODE_BOTTOM(){return "EXT_BOTTOM"}
@@ -8,14 +9,11 @@ class Ext {
         const domain = ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
         return document.querySelector(`script[src='//ext.${domain}']`);
     }
-    static get INCLUDE_ID(){return "#talkn"}
     static get APP_NAME(){return "talkn"}
     static get PROTOCOL(){return "https"}
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
-    static get BASE_DEV_PORT(){return 8080} 
-    static get FULL_WIDTH_THRESHOLD(){return 600}
-    static get BASE_TRANSITION(){return 600}
+    static get BASE_DEV_PORT(){return 8080}
     static get EXCLUSION_ORIGINS(){return ['https://localhost', 'https://talkn.io']}
     static get BASE_HOSTNAME(){
         if(ENV === "PROD"){
@@ -26,15 +24,8 @@ class Ext {
             return `${Ext.PROTOCOL}://${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
         }
     }
-    static getIframeCloseHeight(){return '45px'};
-    static getIframeOpenNotifHeight(){return '85px'};
-    static get iframeModalWidth(){return 280};
-    static get iframeBrowserWidth(){return 320};
-    static get iframeBrowserHeight(){return 420};
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
-    static get zIndex(){return 2147483647};
-    static get modeModalBottom(){return 40};
     static get aacceptPostMessages(){return [
         'toggleIframe',
         'location',
@@ -46,12 +37,13 @@ class Ext {
     ]};
 
     constructor(refusedFrame = false){
+
         this.refusedFrame = refusedFrame;
         this.href = window.location.href;
         this.connection = this.href.replace("http:/", "").replace("https:/", "");
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
         this.connection = hasSlash ? this.connection : this.connection + "/";
-        const bootFlg = Ext.EXCLUSION_ORIGINS.every( ( origin ) =>{
+        const bootFlg = Ext.EXCLUSION_ORIGINS.every( ( origin ) => {
             return this.href.indexOf( origin ) === -1;
         });
 
@@ -61,8 +53,10 @@ class Ext {
             this.inputPost = false;
             this.scriptTag = Ext.getScriptTag();
             this.mode = this.getMode();
+            this.styles = new Styles( this.mode );
             this.browser = this.getBrowser();
             this.methodIdMap = {};
+            this.notifCnt = 0;
             this.notifId = null;
             this.resizeMethodId = null;
             this.windowScrollY = window.scrollY;
@@ -89,8 +83,8 @@ class Ext {
             // setupWindow
             this.setupWindow();
             const talknUrl = this.getTalknUrl();
-            const width = `${this.getIframeWidth(true)} !important;`;
-            const styles = this.getStyles( width );
+            const width = `${this.styles.getIframeWidth(true)} !important;`;
+            const styles = this.styles.getStyles( width );
             this.iframe  = document.createElement("iframe");
             this.loadIframe = this.loadIframe.bind(this);
             this.iframe.setAttribute("id", `${Ext.APP_NAME}Extension`);
@@ -104,7 +98,7 @@ class Ext {
             switch( this.mode ){
             case Ext.MODE_MODAL:
                 let talknHandle  = document.createElement("canvas");
-                const talknHandleStyles = this.getModalHandleCloseStyles();
+                const talknHandleStyles = Styles.getModalHandleCloseStyles();
                 talknHandle.setAttribute("id", `${Ext.APP_NAME}Handle`);
                 talknHandle.setAttribute("style", 
                     "position: fixed !important;" +
@@ -113,13 +107,13 @@ class Ext {
                     "display: flex;" + 
                     "align-items: center;" + 
                     "justify-content: center;" + 
-                    `z-index: ${Ext.zIndex} !important;` +
+                    `z-index: ${Styles.zIndex} !important;` +
                     "width: 60px !important;" +
                     "height: 60px !important;" +
                     `background: ${talknHandleStyles.background} !important;` +
                     `border: ${talknHandleStyles.border} !important;` +
                     "border-radius: 100px !important;" +
-                    `transition: ${Ext.BASE_TRANSITION}ms !important;` +
+                    `transition: ${Styles.BASE_TRANSITION}ms !important;` +
                     `transform: ${talknHandleStyles.transform} !important;` 
                 );
                 talknHandle.addEventListener( "load", () => {} );
@@ -133,12 +127,12 @@ class Ext {
                     talknHandle.style.transform = `translate3d(${translates}) scale(1.0)`
                 });
 
-                talknHandle = drawCanvas( talknHandle );
+                talknHandle = Styles.getDrawCanvas( talknHandle );
                 document.body.appendChild(talknHandle);
                 document.body.appendChild(this.iframe);
                 break;
             case Ext.MODE_INCLUDE:
-                document.querySelector( Ext.INCLUDE_ID ).appendChild( this.iframe );
+                document.querySelector( Styles.INCLUDE_ID ).appendChild( this.iframe );
                 break;
             case Ext.MODE_BOTTOM:
                 document.body.appendChild(this.iframe);
@@ -147,8 +141,12 @@ class Ext {
         }
     }
 
+    /********************************/
+    /* Initial methods              */
+    /********************************/
+
     getMode(){
-        const includeTag = document.querySelector( Ext.INCLUDE_ID );
+        const includeTag = document.querySelector( Styles.INCLUDE_ID );
         const scriptTag = this.scriptTag;
         let mode = Ext.DEFAULT_MODE;
 
@@ -165,87 +163,6 @@ class Ext {
             }
         }
         return mode;
-    }
-
-    getModalHandleOpenStyles(){
-        return {
-            transform: `translate3d(0px, -17px, 0px) scale( 1 )`,
-            background: "rgba(255, 255, 255, 0.95)",
-            border: "1px solid rgba(235, 235, 235, 0.95)"
-        }
-    }
-
-    getModalHandleCloseStyles(){
-        return {
-            transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
-            background: "rgba(255, 255, 255, 0.75)",
-            border: "1px solid rgba(235, 235, 235, 0.75)"
-        }
-    }
-
-    getModeModalOpenTransform(){
-        return `translate3d(0px, 0px, 0px) scale( 1 )`;
-    }
-
-    getModeModalCloseTransform(){
-        const translateY = Number( this.getIframeOpenHeight() ) + Number( Ext.modeModalBottom );
-        return `translate3d( 0px, ${translateY}px, 0px ) scale( 0.5 )`;
-    }
-
-    getStyles( width ){
-        switch( this.mode ){
-        case Ext.MODE_MODAL:
-            return "" +
-                `z-index: ${Ext.zIndex - 1} !important;` +
-                "display: block !important;" +
-                "align-items: flex-end !important;" + 
-                "position: fixed !important; " +
-                `bottom: ${Ext.modeModalBottom}px !important;` + 
-                `right: ${this.getRight(true)} !important;` + 
-                `width: ${width}` + 
-                `min-width: ${width}` + 
-                `max-width: ${width}` + 
-                `height: ${this.getIframeOpenHeight(true)} !important;` + 
-                "margin: 0 !important;" + 
-                "padding: 0 !important;" + 
-                "opacity: 0 !important;" + 
-                `transition: ${Ext.BASE_TRANSITION}ms !important;` + 
-                `transform: ${ this.getModeModalCloseTransform() } !important;`;
-        case Ext.MODE_BOTTOM:
-            return "" +
-                `z-index: ${Ext.zIndex} !important;` +
-                "display: none !important;" +
-                "align-items: flex-end !important;" + 
-                "position: fixed !important; " +
-                "bottom: 0px !important;" + 
-                "right: 0px !important;" + 
-                `width: ${width}` + 
-                `min-width: ${width}` + 
-                `max-width: ${width}` + 
-                `height: ${Ext.getIframeCloseHeight()} !important;` + 
-                "margin: 0 !important;" + 
-                "padding: 0 !important;" + 
-                "transition: 0ms !important;" + 
-                "transform: translate3d(0px, 0px, 0px) !important;";
-        case Ext.MODE_INCLUDE:
-            return "" +
-                `z-index: ${Ext.zIndex} !important;` +
-                "display: none !important;" +
-                "align-items: flex-end !important;" + 
-                "position: absolute !important; " +
-                "bottom: 0px !important;" + 
-                "right: 0px !important;" + 
-                `width: 100% !important;` + 
-                `min-width: 100% !important;` + 
-                `max-width: 100% !important;` + 
-                `height: 100% !important;` + 
-                `min-height: 100% !important;` + 
-                `max-height: 100% !important;` + 
-                "margin: 0 !important;" + 
-                "padding: 0 !important;" + 
-                "transition: 0ms !important;" + 
-                "transform: translate3d(0px, 0px, 0px) !important;";
-        }
     }
 
     getTalknUrl(){
@@ -267,60 +184,6 @@ class Ext {
         }
     }
 
-    getIframeWidth( addUnit = false ){
-        const mode = this.mode;
-        let width = Ext.iframeBrowserWidth + "px";
-        switch( mode ){
-        case Ext.MODE_BOTTOM:
-            width = window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ? "100%" : Ext.iframeBrowserWidth + "px";
-            break;
-        case Ext.MODE_MODAL:
-            width = window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ? "96%" : Ext.iframeModalWidth + "px";
-            break;
-        case Ext.MODE_INCLUDE:
-            const talknTag = document.querySelector( Ext.INCLUDE_ID );
-            width = talknTag ? talknTag.clientWidth : "100%";
-            return addUnit ? width + "px" : width ;
-        }
-        return addUnit ? width : width.replace("px", "").replace("%", "") ;
-    }
-
-    getIframeOpenHeight( addUnit = false ){
-        const mode = this.mode; 
-        let height = Ext.iframeBrowserHeight + "px";
-        switch( mode ){
-        case Ext.MODE_BOTTOM:
-            if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
-                height = `${Math.floor( window.innerHeight * 0.95 )}px`;
-            }
-            break;
-        case Ext.MODE_MODAL:
-            if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
-                height = `${Math.floor( window.innerHeight * 0.9 )}px`;
-            }
-            break;
-        case Ext.MODE_INCLUDE:
-            const talknTag = document.querySelector( Ext.INCLUDE_ID );
-            height = talknTag ? talknTag.clientHeight : "100%";
-            return addUnit ? height + "px" : height ;
-        }
-        return addUnit ? height : height.replace("px", "").replace("%", "");
-    }
-
-    getRight( addUnit = false ){
-        const mode = this.mode;
-        let right = 0
-        switch( mode ){
-        case Ext.MODE_BOTTOM:
-        case Ext.MODE_INCLUDE:
-            break;
-        case Ext.MODE_MODAL:
-            right = window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ? "2%" : "10px";            
-            break;
-        }
-        return addUnit ? right : right.replace("px", "").replace("%", "") ;
-    }
-
     setupWindow(){
         window.addEventListener('message', this.catchMessage);
         window.addEventListener('load', this.loadWindow);
@@ -329,12 +192,13 @@ class Ext {
     }
 
     loadIframe(e){
+        console.log("LOAD IFRAME");
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.postMessage("bootExtension", {
             extensionMode: this.mode,
-            extensionWidth: this.getIframeWidth(true),
-            extensionOpenHeight: this.getIframeOpenHeight(false),
-            extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
+            extensionWidth: this.styles.getIframeWidth(true),
+            extensionOpenHeight: this.styles.getIframeOpenHeight(false),
+            extensionCloseHeight: Number( Styles.getIframeCloseHeight().replace("px", "") )
         });
     }
 
@@ -343,7 +207,7 @@ class Ext {
         switch(this.mode){
         case Ext.MODE_BOTTOM:
         case Ext.MODE_INCLUDE:
-            iframe.style.height = Ext.getIframeCloseHeight();
+            iframe.style.height = Styles.getIframeCloseHeight();
             iframe.style.display = "flex";
             break;
         case Ext.MODE_MODAL:
@@ -363,23 +227,23 @@ class Ext {
         case Ext.MODE_INCLUDE:
             const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
             if(talknNotifId === "null"){
-                if( iframe.style.height !== this.getIframeOpenHeight(true) ){
+                if( iframe.style.height !== this.styles.getIframeOpenHeight(true) ){
                     iframe.style.transition = "0ms";
-                    iframe.style.height = this.getIframeOpenHeight(true);
+                    iframe.style.height = this.styles.getIframeOpenHeight(true);
                     this.postMessage("startDispPosts");
                 }else{
                     this.postMessage("startUndispPosts");
                     setTimeout( () =>{ 
                         iframe.style.transition = "0ms";
-                        iframe.style.height = Ext.getIframeCloseHeight(true);
-                    }, Ext.BASE_TRANSITION );
+                        iframe.style.height = Styles.getIframeCloseHeight(true);
+                    }, Styles.BASE_TRANSITION );
                 }
             }else{
                 clearTimeout( talknNotifId );
                 sessionStorage.setItem(Ext.talknNotifId, null);
                 this.postMessage("closeNotif");
                 iframe.style.transition = "0ms";
-                iframe.style.height = this.getIframeOpenHeight(true);
+                iframe.style.height = this.styles.getIframeOpenHeight(true);
                 this.postMessage("startDispPosts");
             }
             break;
@@ -387,14 +251,14 @@ class Ext {
             if( iframe.style.opacity === "0" ){
                 
                 const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
-                const talknHandleStyles = this.getModalHandleOpenStyles();
+                const talknHandleStyles = Styles.getModalHandleOpenStyles();
                 talknHandle.style.background = talknHandleStyles.background;
                 talknHandle.style.border = talknHandleStyles.border;
                 talknHandle.style.transform = talknHandleStyles.transform;
                 iframe.style.opacity = 1;
-                iframe.style.transform = this.getModeModalOpenTransform(); 
+                iframe.style.transform = Styles.getModeModalOpenTransform(); 
 
-                if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
+                if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
                     this.lockWindow();
                 }
 
@@ -406,15 +270,15 @@ class Ext {
                     this.inputPost = false;
                 }else{
                     const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
-                    const talknHandleStyles = this.getModalHandleCloseStyles();
+                    const talknHandleStyles = Styles.getModalHandleCloseStyles();
                     talknHandle.style.background = talknHandleStyles.background;
                     talknHandle.style.border = talknHandleStyles.border;
                     talknHandle.style.transform = talknHandleStyles.transform;
 
-                    iframe.style.transform = this.getModeModalCloseTransform();
+                    iframe.style.transform = this.styles.getModeModalCloseTransform();
                     iframe.style.opacity = 0;
 
-                    if( window.innerWidth < Ext.FULL_WIDTH_THRESHOLD ){
+                    if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
                         this.unlockWindow();
                     }
                     document.querySelector("body").focus(()=>{});
@@ -427,29 +291,135 @@ class Ext {
 
     openNotif(params){
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        iframe.style.transition = "0ms";
-        iframe.style.height = Ext.getIframeOpenNotifHeight();
+        switch( this.mode ){
+        case Ext.MODE_BOTTOM:
+            iframe.style.transition = "0ms";
+            iframe.style.height = Styles.getIframeOpenNotifHeight();
 
-        let talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
-        if(talknNotifId){
-            clearTimeout( talknNotifId );
+            let talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
+            if(talknNotifId){
+                clearTimeout( talknNotifId );
+            }
+            talknNotifId = setTimeout( this.closeNotif, params.transition );
+            sessionStorage.setItem(Ext.talknNotifId, talknNotifId);
+
+            setTimeout( () => {
+                this.postMessage("openNotif");
+            }, 10 );
+            break;
+        case Ext.MODE_MODAL:
+            if( iframe.style.opacity === "0" ){
+                const id ="notif" + params.id;
+                const notif = document.createElement("div");
+                const width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "calc( 100% - 110px )" : "190px";
+                notif.setAttribute("id", id);
+                notif.setAttribute("name", "notif");
+                notif.setAttribute("style", 
+                    "position: fixed !important;" +
+                    "bottom: 20px !important;" +
+                    "right: 80px !important;" +
+                    "display: flex;" + 
+                    "align-items: center;" + 
+                    "justify-content: flex-start;" + 
+                    `z-index: ${Styles.zIndex} !important;` +
+                    `width: ${width} !important;` +
+                    "height: 30px !important;" + 
+                    "padding: 10px !important;" +
+                    "opacity: 0 !important;" +
+                    `background: rgba(255,255,255,0.7) !important;` +
+                    `border: rgba(235, 235, 235, 0.7) !important;` +
+                    "border-radius: 3px !important;" +
+                    "color: rgba( 120, 120, 120, 0.9) !important;" +
+                    `transition: ${Styles.BASE_TRANSITION}ms !important;` +
+                    `transform: translate3d(0px, 20px,0px) scale(1.0) !important;` 
+                );
+
+                const notifIcon = document.createElement("div");
+                notifIcon.setAttribute("style", 
+                    "display: flex;" + 
+                    "align-items: center;" + 
+                    "justify-content: flex-start;" + 
+                    `background-image: url(${params.favicon});` +
+                    "background-position: 50% 50%;" +
+                    "background-size: 20px 20px;" +
+                    "background-repeat: no-repeat;" + 
+                    "width: 20% !important;" +
+                    "min-width: 20% !important;" +
+                    "max-width: 20% !important;" +
+                    "height: inherit !important;" 
+                );
+
+                const notifPost = document.createElement("div");
+                notifPost.setAttribute("style", 
+                    "width: 80% !important;" +
+                    "min-width: 80% !important;" +
+                    "max-width: 80% !important;" +
+                    "height: inherit !important;" +
+                    "font-size: 15px !important;" +
+                    "line-height: 27px;" +
+                    "text-indent: 10px;"
+                );
+                notifPost.innerText = params.post;
+                notif.appendChild( notifIcon );
+                notif.appendChild( notifPost );
+
+                notif.addEventListener( "click", () => {
+                    const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
+                    const talknHandleStyles = Styles.getModalHandleCloseStyles();
+                    talknHandle.style.background = talknHandleStyles.background;
+                    talknHandle.style.border = talknHandleStyles.border;
+                    talknHandle.style.transform = talknHandleStyles.transform;
+                    iframe.style.transform = Styles.getModeModalOpenTransform();
+                    iframe.style.opacity = 1;
+                } );
+
+                notif.addEventListener( "mouseover", () => {
+                    const translates = notif.style.transform.split("translate3d(")[1].split(") ")[0]
+                    notif.style.transform = `translate3d(${translates}) scale(1.05)`
+                });
+
+                notif.addEventListener( "mouseout", () => {
+                    const translates = notif.style.transform.split("translate3d(")[1].split(") ")[0]
+                    notif.style.transform = `translate3d(${translates}) scale(1.0)`
+                });
+
+                document.body.appendChild(notif);
+
+                setTimeout( () => {
+                    
+                    notif.style.opacity = 1;
+                    notif.style.transform = "translate3d(0px, 0px, 0px) scale(1.0)";
+                    
+                    setTimeout( () => {
+                    
+                        notif.style.opacity = 0;
+                    
+                        setTimeout( () => {
+                            const removeNotif = document.getElementById(id);
+                            document.body.removeChild(removeNotif);
+                        }, 1000)
+                    }, 2100 );
+                }, 100 );
+            }
+            break;
         }
-        talknNotifId = setTimeout( this.closeNotif, params.transition );
-        sessionStorage.setItem(Ext.talknNotifId, talknNotifId);
-
-        setTimeout( () => {
-            this.postMessage("openNotif");
-        }, 10 );
     }
 
     closeNotif(params){
-        let talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
-        clearTimeout( talknNotifId );
-        sessionStorage.setItem(Ext.talknNotifId, null);
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        iframe.style.transition = "0ms";
-        iframe.style.height = Ext.getIframeCloseHeight();
-        this.postMessage("closeNotif");
+        switch( this.mode ){
+        case Ext.MODE_BOTTOM:7
+            let talknNotifId = sessionStorage.getItem(Ext.talknNotifId);
+            clearTimeout( talknNotifId );
+            sessionStorage.setItem(Ext.talknNotifId, null);
+            const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+            iframe.style.transition = "0ms";
+            iframe.style.height = Styles.getIframeCloseHeight();
+            this.postMessage("closeNotif");
+            break;
+        case Ext.MODAL_MODAL:
+            console.log( "CLOSE NOTIF!" );
+            break;
+        }
     }
     
     location(params){
@@ -497,6 +467,7 @@ class Ext {
         this.postMessage("getClientMetas", clientMetas);
     }
 
+
     lockWindow(){
         const overflow = "hidden";
         const position = "fixed";
@@ -534,7 +505,7 @@ class Ext {
 
     resizeWindow(e){
         if( this.resizeMethodId === null ){
-            this.resizeMethodId = setTimeout( this.resizedWindow, Ext.BASE_TRANSITION );
+            this.resizeMethodId = setTimeout( this.resizedWindow, Styles.BASE_TRANSITION );
         }
     }
 
@@ -545,7 +516,7 @@ class Ext {
         this.resizeMethodId = null;
         const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         const talknNotifId = sessionStorage.getItem(Ext.talknNotifId);  
-        const width = this.getIframeWidth(true);
+        const width = this.styles.getIframeWidth(true);
         iframe.style['width'] = width;
         iframe.style['min-width']  = width;
         iframe.style['max-width'] = width;
@@ -554,24 +525,24 @@ class Ext {
             switch(this.mode){
             case Ext.MODE_BOTTOM:
             case Ext.MODE_INCLUDE:
-                if( iframe.style.height === Ext.getIframeCloseHeight() ){
-                    iframe.style.height = Ext.getIframeCloseHeight();
+                if( iframe.style.height === Styles.getIframeCloseHeight() ){
+                    iframe.style.height = Styles.getIframeCloseHeight();
                 }else{
-                    iframe.style.height = this.getIframeOpenHeight();
+                    iframe.style.height = this.styles.getIframeOpenHeight();
                 }
                 break;
             case Ext.MODE_MODAL:
-                iframe.style.height = this.getIframeOpenHeight(true);
-                iframe.style.right = this.getRight(true);
+                iframe.style.height = this.styles.getIframeOpenHeight(true);
+                iframe.style.right = this.styles.getRight(true);
                 break;
             }
         }
 
         this.postMessage("updateExtension", {                
             extensionMode: this.mode,
-            extensionWidth: this.getIframeWidth(true),
-            extensionOpenHeight: Number( this.getIframeOpenHeight() ),
-            extensionCloseHeight: Number( Ext.getIframeCloseHeight().replace("px", "") )
+            extensionWidth: this.styles.getIframeWidth(true),
+            extensionOpenHeight: Number( this.styles.getIframeOpenHeight() ),
+            extensionCloseHeight: Number( Styles.getIframeCloseHeight().replace("px", "") )
         });
     }
 
@@ -604,6 +575,7 @@ class Ext {
         talknFrame.contentWindow.postMessage(requestObj, talknUrl);
     }
 
+    // handle error.
     handleErrorMessage(method){
         if(this.methodIdMap[method]){
             switch(method){
@@ -643,43 +615,204 @@ class Ext {
     }
 }
 
-const ext = new Ext();
 
-function drawCanvas(talknHandle){
-    const rgba = "rgba( 180, 180, 180, 0.7 )";
-    const c = talknHandle.getContext("2d");
-    c.beginPath();
-    c.moveTo(50,60);
-    c.lineTo(240,40);
-    c.lineTo(140,80);
-    c.closePath();    
-    c.strokeStyle = rgba; //枠線の色
-    c.stroke();
-    c.fillStyle= rgba;//塗りつぶしの色
-    c.fill();
-    c.closePath();
+class Element{
+    constructor( mode ){
+        this.mode = mode;
+    }
 
-    c.beginPath();
-    c.moveTo(241, 40);
-    c.lineTo(150, 83);
-    c.lineTo(230,100);
-    c.closePath();    
-    c.strokeStyle = rgba;
-    c.stroke();
-    c.fillStyle= rgba;
-    c.fill();
-    c.closePath();
-
-    c.beginPath();
-    c.moveTo(125, 80);
-    c.lineTo(170, 90);
-    c.lineTo(130,105);
-    c.closePath();
-    c.strokeStyle = rgba;
-    c.stroke();
-    c.fillStyle = rgba;
-    c.fill();
-    c.closePath();
-
-    return talknHandle
+    static get
 }
+
+class Styles{
+
+    static getIframeCloseHeight(){return '45px'};
+    static getIframeOpenNotifHeight(){return '85px'};
+    static get INCLUDE_ID(){return "#talkn"}
+    static get iframeModalWidth(){return 280};
+    static get iframeBrowserWidth(){return 320};
+    static get iframeBrowserHeight(){return 420};
+    static get zIndex(){return 2147483647};
+    static get modeModalBottom(){return 40};
+    static get FULL_WIDTH_THRESHOLD(){return 600}
+    static get BASE_TRANSITION(){return 600}
+
+    constructor( mode ){
+        this.mode = mode;
+    }
+
+    static getDrawCanvas(talknHandle){
+        const rgba = "rgba( 180, 180, 180, 0.7 )";
+        const c = talknHandle.getContext("2d");
+        c.beginPath();
+        c.moveTo(50,60);
+        c.lineTo(240,40);
+        c.lineTo(140,80);
+        c.closePath();    
+        c.strokeStyle = rgba;
+        c.stroke();
+        c.fillStyle= rgba;
+        c.fill();
+        c.closePath();
+    
+        c.beginPath();
+        c.moveTo(241, 40);
+        c.lineTo(150, 83);
+        c.lineTo(230,100);
+        c.closePath();    
+        c.strokeStyle = rgba;
+        c.stroke();
+        c.fillStyle= rgba;
+        c.fill();
+        c.closePath();
+    
+        c.beginPath();
+        c.moveTo(125, 80);
+        c.lineTo(170, 90);
+        c.lineTo(130,105);
+        c.closePath();
+        c.strokeStyle = rgba;
+        c.stroke();
+        c.fillStyle = rgba;
+        c.fill();
+        c.closePath();
+    
+        return talknHandle
+    }
+
+    static getModalHandleOpenStyles(){
+        return {
+            transform: `translate3d(0px, -17px, 0px) scale( 1 )`,
+            background: "rgba(255, 255, 255, 0.95)",
+            border: "1px solid rgba(235, 235, 235, 0.95)"
+        }
+    }
+
+    static getModalHandleCloseStyles(){
+        return {
+            transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
+            background: "rgba(255, 255, 255, 0.75)",
+            border: "1px solid rgba(235, 235, 235, 0.75)"
+        }
+    }
+
+    static getModeModalOpenTransform(){
+        return `translate3d(0px, 0px, 0px) scale( 1 )`;
+    }
+
+    getIframeWidth( addUnit = false ){
+
+        let width = Styles.iframeBrowserWidth + "px";
+        switch( this.mode ){
+        case Ext.MODE_BOTTOM:
+            width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "100%" : Styles.iframeBrowserWidth + "px";
+            break;
+        case Ext.MODE_MODAL:
+            width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : Styles.iframeModalWidth + "px";
+            break;
+        case Ext.MODE_INCLUDE:
+            const talknTag = document.querySelector( Styles.INCLUDE_ID );
+            width = talknTag ? talknTag.clientWidth : "100%";
+            return addUnit ? width + "px" : width ;
+        }
+        return addUnit ? width : width.replace("px", "").replace("%", "") ;
+    }
+
+    getIframeOpenHeight( addUnit = false ){
+        let height = Styles.iframeBrowserHeight + "px";
+        switch( this.mode ){
+        case Ext.MODE_BOTTOM:
+            if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
+                height = `${Math.floor( window.innerHeight * 0.95 )}px`;
+            }
+            break;
+        case Ext.MODE_MODAL:
+            if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
+                height = `${Math.floor( window.innerHeight * 0.9 )}px`;
+            }
+            break;
+        case Ext.MODE_INCLUDE:
+            const talknTag = document.querySelector( Styles.INCLUDE_ID );
+            height = talknTag ? talknTag.clientHeight : "100%";
+            return addUnit ? height + "px" : height ;
+        }
+        return addUnit ? height : height.replace("px", "").replace("%", "");
+    }
+
+    getRight( addUnit = false ){
+
+        let right = 0
+        switch( this.mode ){
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            break;
+        case Ext.MODE_MODAL:
+            right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : "10px";            
+            break;
+        }
+        return addUnit ? right : right.replace("px", "").replace("%", "") ;
+    }
+
+    getModeModalCloseTransform(){
+        const translateY = Number( this.getIframeOpenHeight() ) + Number( Styles.modeModalBottom );
+        return `translate3d( 0px, ${translateY}px, 0px ) scale( 0.5 )`;
+    }
+
+    getStyles( width ){
+        switch( this.mode ){
+        case Ext.MODE_MODAL:
+            return "" +
+                `z-index: ${Styles.zIndex - 1} !important;` +
+                "display: block !important;" +
+                "align-items: flex-end !important;" + 
+                "position: fixed !important; " +
+                `bottom: ${Styles.modeModalBottom}px !important;` + 
+                `right: ${this.getRight(true)} !important;` + 
+                `width: ${width}` + 
+                `min-width: ${width}` + 
+                `max-width: ${width}` + 
+                `height: ${this.getIframeOpenHeight(true)} !important;` + 
+                "margin: 0 !important;" + 
+                "padding: 0 !important;" + 
+                "opacity: 0 !important;" + 
+                `transition: ${Styles.BASE_TRANSITION}ms !important;` + 
+                `transform: ${ this.getModeModalCloseTransform() } !important;`;
+        case Ext.MODE_BOTTOM:
+            return "" +
+                `z-index: ${Styles.zIndex} !important;` +
+                "display: none !important;" +
+                "align-items: flex-end !important;" + 
+                "position: fixed !important; " +
+                "bottom: 0px !important;" + 
+                "right: 0px !important;" + 
+                `width: ${width}` + 
+                `min-width: ${width}` + 
+                `max-width: ${width}` + 
+                `height: ${Styles.getIframeCloseHeight()} !important;` + 
+                "margin: 0 !important;" + 
+                "padding: 0 !important;" + 
+                "transition: 0ms !important;" + 
+                "transform: translate3d(0px, 0px, 0px) !important;";
+        case Ext.MODE_INCLUDE:
+            return "" +
+                `z-index: ${Styles.zIndex} !important;` +
+                "display: none !important;" +
+                "align-items: flex-end !important;" + 
+                "position: absolute !important; " +
+                "bottom: 0px !important;" + 
+                "right: 0px !important;" + 
+                `width: 100% !important;` + 
+                `min-width: 100% !important;` + 
+                `max-width: 100% !important;` + 
+                `height: 100% !important;` + 
+                `min-height: 100% !important;` + 
+                `max-height: 100% !important;` + 
+                "margin: 0 !important;" + 
+                "padding: 0 !important;" + 
+                "transition: 0ms !important;" + 
+                "transform: translate3d(0px, 0px, 0px) !important;";
+        }
+    }
+}
+
+const ext = new Ext();
