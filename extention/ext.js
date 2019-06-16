@@ -615,15 +615,6 @@ class Ext {
     }
 }
 
-
-class Element{
-    constructor( mode ){
-        this.mode = mode;
-    }
-
-    static get
-}
-
 class Styles{
 
     static getIframeCloseHeight(){return '45px'};
