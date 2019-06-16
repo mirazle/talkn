@@ -311,7 +311,7 @@ class Ext {
             if( iframe.style.opacity === "0" ){
                 const id ="notif" + params.id;
                 const notif = document.createElement("div");
-                const bottom = "22px";
+                const bottom = "21px";
                 const width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "calc( 100% - 110px )" : "190px";
                 notif.setAttribute("id", id);
                 notif.setAttribute("name", "notif");
