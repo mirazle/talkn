@@ -104,9 +104,10 @@ class Ext {
                     "position: fixed !important;" +
                     "bottom: 15px !important;" +
                     "right: 10px !important;" +
-                    "display: flex;" + 
-                    "align-items: center;" + 
-                    "justify-content: center;" + 
+                    "cursor: pointer !important;" + 
+                    "display: flex !important;" + 
+                    "align-items: center !important;" + 
+                    "justify-content: center !important;" + 
                     `z-index: ${Styles.zIndex} !important;` +
                     "width: 60px !important;" +
                     "height: 60px !important;" +
@@ -319,8 +320,9 @@ class Ext {
                     "position: fixed !important;" +
                     `bottom: ${bottom} !important;` +
                     "right: 80px !important;" +
-                    "display: flex;" + 
-                    "align-items: center;" + 
+                    "display: flex !important;" + 
+                    "align-items: center !important;" + 
+                    "cursor: pointer !important;" + 
                     "justify-content: flex-start;" + 
                     `z-index: ${Styles.zIndex} !important;` +
                     `width: ${width} !important;` +
@@ -352,6 +354,7 @@ class Ext {
 
                 const notifPost = document.createElement("div");
                 notifPost.setAttribute("style", 
+                    "overflow: hidden !important;" +
                     "display: flex !important;" +
                     "justify-content: flex-start !important;" + 
                     "align-items: center !important;" +
@@ -359,6 +362,7 @@ class Ext {
                     "min-width: 80% !important;" +
                     "max-width: 80% !important;" +
                     "height: inherit !important;" +
+                    "white-space: nowrap !important;",
                     "font-size: 13px !important;" +
                     "line-height: 27px;" +
                     "text-indent: 10px;"
