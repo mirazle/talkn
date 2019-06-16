@@ -1,5 +1,5 @@
 const ENV = "PROD";
-alert("HEY");
+
 class Ext {
     static get MODE_MODAL(){return "EXT_MODAL"}
     static get MODE_BOTTOM(){return "EXT_BOTTOM"}
