@@ -311,12 +311,13 @@ class Ext {
             if( iframe.style.opacity === "0" ){
                 const id ="notif" + params.id;
                 const notif = document.createElement("div");
+                const bottom = "22px";
                 const width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "calc( 100% - 110px )" : "190px";
                 notif.setAttribute("id", id);
                 notif.setAttribute("name", "notif");
                 notif.setAttribute("style", 
                     "position: fixed !important;" +
-                    "bottom: 20px !important;" +
+                    `bottom: ${bottom} !important;` +
                     "right: 80px !important;" +
                     "display: flex;" + 
                     "align-items: center;" + 
@@ -331,7 +332,7 @@ class Ext {
                     "border-radius: 3px !important;" +
                     "color: rgba( 120, 120, 120, 0.9) !important;" +
                     `transition: ${Styles.BASE_TRANSITION}ms !important;` +
-                    `transform: translate3d(0px, 20px,0px) scale(1.0) !important;` 
+                    `transform: translate3d(0px, ${bottom} ,0px) scale(1.0) !important;` 
                 );
 
                 const notifIcon = document.createElement("div");
@@ -394,7 +395,7 @@ class Ext {
                     setTimeout( () => {
                     
                         notif.style.opacity = 0;
-                        notif.style.transform = "translate3d(0px, 20px, 0px) scale(1.0)";
+                        notif.style.transform = `translate3d(0px, ${bottom}, 0px) scale(1.0)`;
                         setTimeout( () => {
                             const removeNotif = document.getElementById(id);
                             document.body.removeChild(removeNotif);
