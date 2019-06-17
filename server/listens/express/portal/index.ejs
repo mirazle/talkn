@@ -43,7 +43,8 @@
 
     onServiceWorker();
     var includeIframeTag =  "<%= includeIframeTag %>" ? "<%= includeIframeTag %>" : true;
-    var connection = "<%= connection %>" ? "<%= connection %>" : location.href.replace(location.origin, '');
+    //var connection = "<%= connection %>" ? "<%= connection %>" : location.href.replace(location.origin, '');
+    var connection = location.href.replace(location.origin, '');
     var hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
     connection = hasSlash ? connection : connection + "/";
     var script = document.createElement("script");
