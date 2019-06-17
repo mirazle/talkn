@@ -313,7 +313,7 @@ class Ext {
                 const id ="notif" + params.id;
                 const notif = document.createElement("div");
                 const bottom = "21px";
-                const width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "calc( 100% - 110px )" : "190px";
+                const width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "calc( 100% - 130px )" : "190px";
                 notif.setAttribute("id", id);
                 notif.setAttribute("name", "notif");
                 notif.setAttribute("style", 
@@ -327,14 +327,14 @@ class Ext {
                     `z-index: ${Styles.zIndex} !important;` +
                     `width: ${width} !important;` +
                     `min-width: ${width} !important;` +
-                    `man-width: ${width} !important;` +
+                    `max-width: ${width} !important;` +
                     "height: 30px !important;" + 
                     "min-height: 30px !important;" + 
                     "max-height: 30px !important;" + 
-                    "padding: 10px !important;" +
+                    "padding: 10px 20px 10px 10px !important;" +
                     "opacity: 0 !important;" +
                     `background: rgba(255,255,255,0.8) !important;` +
-                    `border: rgba(220, 220, 220, 0.9) !important;` +
+                    `border: 1px solid rgba(235, 235, 235, 0.8) !important;` +
                     "border-radius: 3px !important;" +
                     "color: rgba( 120, 120, 120, 0.9) !important;" +
                     `transition: ${Styles.BASE_TRANSITION}ms !important;` +
@@ -405,13 +405,14 @@ class Ext {
                     notif.style.opacity = 1;
                     notif.style.transform = "translate3d(0px, 0px, 0px) scale(1.0)";
                     setTimeout( () => {
-                    
+
                         notif.style.opacity = 0;
                         notif.style.transform = `translate3d(0px, ${bottom}, 0px) scale(1.0)`;
                         setTimeout( () => {
                             const removeNotif = document.getElementById(id);
                             document.body.removeChild(removeNotif);
                         }, 1000)
+
                     }, 2100 );
                 }, 100 );
             }
