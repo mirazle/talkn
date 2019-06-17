@@ -54,7 +54,7 @@ export default class PostsFooter extends Component {
       console.log("B");
       if(app.extensionMode === App.extensionModeExtModalLabel){
         console.log("C");
-        if( e.target.value ){
+        if( !regex.test( e.target.value ) ){
           console.log("D");
           talknWindow.parentTo( "setInputPost", {inputPost: true} );
         }else{
