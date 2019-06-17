@@ -36,6 +36,7 @@ export default class PostsFooter extends Component {
         talknAPI.post();
         talknAPI.onChangeInputPost(''); 
         if(app.extensionMode === App.extensionModeExtModalLabel){
+          console.log("A");
           talknWindow.parentTo( "setInputPost", {inputPost: false} );
         }
       }
@@ -46,10 +47,11 @@ export default class PostsFooter extends Component {
     if( !App.validInputPost( e.target.value ) ){
       const { app } = this.props.state;
       talknAPI.onChangeInputPost( e.target.value );
+      console.log("B");
       if(app.extensionMode === App.extensionModeExtModalLabel){
-        console.log("A");
+        console.log("C");
         if( !e.target.value ){
-          console.log("B");
+          console.log("D");
           talknWindow.parentTo( "setInputPost", {inputPost:true} );
         }
       }
@@ -64,8 +66,9 @@ export default class PostsFooter extends Component {
     if ( e.nativeEvent.keyCode === 13 ) {
       if( e.nativeEvent.shiftKey ){
         talknAPI.onChangeInputPost( e.target.value + '\n');
-
+        console.log("E");
         if(app.extensionMode === App.extensionModeExtModalLabel){
+          console.log("F");
           talknWindow.parentTo( "setInputPost", {inputPost:true} );
         }
       }else{
@@ -74,6 +77,7 @@ export default class PostsFooter extends Component {
           talknAPI.onChangeInputPost('');
 
           if(app.extensionMode === App.extensionModeExtModalLabel){
+            console.log("G");
             talknWindow.parentTo( "setInputPost", {inputPost: false} );
           }
         }
