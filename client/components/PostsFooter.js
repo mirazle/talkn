@@ -3,6 +3,8 @@ import App from 'common/schemas/state/App';
 import util from 'common/util';
 import conf from 'common/conf';
 
+const regex = /^\s*$/;
+
 export default class PostsFooter extends Component {
 
   constructor(props) {
@@ -30,6 +32,7 @@ export default class PostsFooter extends Component {
   }
 
   handleOnClick( e ){
+    console.log("ON CLICK");
     const value = this.refs.postArea.innerHTML;
     if( !App.validInputPost( value ) ){
       if( !value ){
@@ -44,6 +47,7 @@ export default class PostsFooter extends Component {
   }
   
   handleOnChange( e ){
+    console.log("ON CHANGE");
     if( !App.validInputPost( e.target.value ) ){
       const { app } = this.props.state;
       talknAPI.onChangeInputPost( e.target.value );
@@ -65,7 +69,7 @@ export default class PostsFooter extends Component {
     clearInterval(this.state.focusSetIntervalId);
 
     const { app } = this.props.state;
-
+    console.log("KEY PRESS");
     if ( e.nativeEvent.keyCode === 13 ) {
       if( e.nativeEvent.shiftKey ){
         talknAPI.onChangeInputPost( e.target.value + '\n');
@@ -75,12 +79,12 @@ export default class PostsFooter extends Component {
           talknWindow.parentTo( "setInputPost", {inputPost:true} );
         }
       }else{
-        if(e.target.value !== ""){
+        console.log( "H " + e.target.value );
+        if( !regex.test( e.target.value ) ){
           talknAPI.post();
           talknAPI.onChangeInputPost('');
 
           if(app.extensionMode === App.extensionModeExtModalLabel){
-            console.log("H");
             talknWindow.parentTo( "setInputPost", {inputPost: false} );
           }
         }
