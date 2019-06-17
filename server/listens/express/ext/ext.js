@@ -326,7 +326,11 @@ class Ext {
                     "justify-content: flex-start;" + 
                     `z-index: ${Styles.zIndex} !important;` +
                     `width: ${width} !important;` +
+                    `min-width: ${width} !important;` +
+                    `man-width: ${width} !important;` +
                     "height: 30px !important;" + 
+                    "min-height: 30px !important;" + 
+                    "max-height: 30px !important;" + 
                     "padding: 10px !important;" +
                     "opacity: 0 !important;" +
                     `background: rgba(255,255,255,0.7) !important;` +
@@ -349,7 +353,9 @@ class Ext {
                     "width: 20% !important;" +
                     "min-width: 20% !important;" +
                     "max-width: 20% !important;" +
-                    "height: inherit !important;" 
+                    "height: inherit !important;" +
+                    "min-height: inherit !important;" +
+                    "max-height: inherit !important;" 
                 );
 
                 const notifPost = document.createElement("div");
@@ -362,6 +368,8 @@ class Ext {
                     "min-width: 80% !important;" +
                     "max-width: 80% !important;" +
                     "height: inherit !important;" +
+                    "min-height: inherit !important;" +
+                    "max-height: inherit !important;" +
                     "white-space: nowrap !important;" +
                     "font-size: 13px !important;" +
                     "line-height: 27px;" +
