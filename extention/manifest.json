@@ -6,7 +6,7 @@
     "content_scripts": [
       {
         "matches": ["*://*/*"],
-        "js": [ "script.js" ],
+        "js": [ "ext.js" ],
         "run_at": "document_end"
       }
     ],
@@ -23,6 +23,8 @@
       "default_popup": "index.html"
     },
     "web_accessible_resources": [
+      "ext.js",
+      "script.js",
       "index.html",
       "include.js",
       "talkn.client.js"

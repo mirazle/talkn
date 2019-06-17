@@ -356,6 +356,7 @@ class Container extends Component {
 
  	render() {
     const { style, app, actionLog } = this.props.state;
+    console.log(app);
     if(
         style &&
         style.container &&
