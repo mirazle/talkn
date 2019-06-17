@@ -264,7 +264,7 @@ class Ext {
                 }
 
             }else{
-                if( !this.inputPost ){
+                if( this.inputPost ){
                     this.postMessage("post");
                     this.postMessage("onChangeInputPost");
                     this.inputPost = false;
