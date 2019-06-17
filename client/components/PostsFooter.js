@@ -47,7 +47,9 @@ export default class PostsFooter extends Component {
       const { app } = this.props.state;
       talknAPI.onChangeInputPost( e.target.value );
       if(app.extensionMode === App.extensionModeExtModalLabel){
+        console.log("A");
         if( !e.target.value ){
+          console.log("B");
           talknWindow.parentTo( "setInputPost", {inputPost} );
         }
       }
