@@ -98,7 +98,9 @@ const componentDidUpdates = {
         'CLIENT_TO_SERVER[EMIT]:post': (self) => {
             const { app } = self.props.state;
             if( app.extensionMode === App.extensionModeExtModalLabel ){ 
-                alert("EMIT");
+
+                alert( document.querySelector("[data-component-name='postArea']") );
+                alert( document.querySelector("[data-component-name='postAreaaa']") );
                 document.querySelector("[data-component-name='postArea']").focus( ()=>{
                     alert("FOCUS");
                 } );
@@ -122,10 +124,6 @@ const componentDidUpdates = {
                 app.extensionMode === App.extensionModeExtIncludeLabel ||
                 app.extensionMode === App.extensionModeExtModalLabel
             ){
-                alert("BROADCAST");
-                document.querySelector("[data-component-name='postArea']").focus( ()=>{
-                    alert("FOCUS");
-                } );
                 const { isScrollBottom } = self.state;
                 if( app.isOpenPosts && isScrollBottom ){
                     self.animateScrollTo(
