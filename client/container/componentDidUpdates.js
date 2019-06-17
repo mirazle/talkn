@@ -122,6 +122,9 @@ const componentDidUpdates = {
                 app.extensionMode === App.extensionModeExtIncludeLabel ||
                 app.extensionMode === App.extensionModeExtModalLabel
             ){
+                document.querySelector("[data-component-name='postArea']").focus( ()=>{
+                    alert("FOCUS");
+                } );
                 const { isScrollBottom } = self.state;
                 if( app.isOpenPosts && isScrollBottom ){
                     self.animateScrollTo(

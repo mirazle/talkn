@@ -179,7 +179,7 @@ export default class LockMenu extends Component {
             onClick={ () => {
                 document.querySelector("[data-component-share-input]").select();
                 document.execCommand("copy");
-                openInnerNotif('Success Copy iFrame Tag.');
+                openInnerNotif('Success copy script tag.');
               }
             }
             {...this.getDecolationProps1('liEmbed')}
