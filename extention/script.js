@@ -1,15 +1,15 @@
-const ENV = "START";
+const TALKN_SCRIPT_ENV = "START";
 
 class Script {
     static get BASE_PROD_HOST(){return "https://ext.talkn.io"}
     static get BASE_DEV_HOST(){return "https://ext.localhost"}
     static get BASE_DEV_PORT(){return 8080}
     static get BASE_HOSTNAME(){
-        if(ENV === "PROD"){
+        if(TALKN_SCRIPT_ENV === "PROD"){
             return `${Script.BASE_PROD_HOST}`;
-        }else if(ENV === "START"){
+        }else if(TALKN_SCRIPT_ENV === "START"){
             return `${Script.BASE_DEV_HOST}`;
-        }else if(ENV === "DEV"){
+        }else if(TALKN_SCRIPT_ENV === "DEV"){
             return `${Script.BASE_DEV_HOST}:${Script.BASE_DEV_PORT}`;
         }
     }
