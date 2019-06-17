@@ -22,6 +22,13 @@ const componentDidUpdates = {
             app.postsHeight += TalknWindow.getPostsHeight();
             self.props.updatePostsHeight(app.postsHeight);
         },
+        'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
+            const { app, threadDetail, thread } = self.props.state;
+            if( !app.isOpenDetail ){
+                app.isOpenDetail = true;
+                talknAPI.onClickToggleDispDetail( {threadDetail, thread, app} );
+            }
+        },
         'ON_TRANSITION_END': ( self ) => {
             const { app } = self.props.state;
             app.postsHeight += TalknWindow.getPostsHeight();
