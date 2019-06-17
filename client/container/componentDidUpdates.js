@@ -99,11 +99,7 @@ const componentDidUpdates = {
             const { app } = self.props.state;
             if( app.extensionMode === App.extensionModeExtModalLabel ){ 
 
-                alert( document.querySelector("[data-component-name='postArea']") );
-                alert( document.querySelector("[data-component-name='postAreaaa']") );
-                document.querySelector("[data-component-name='postArea']").focus( ()=>{
-                    alert("FOCUS");
-                } );
+                document.querySelector("[data-component-name='postArea']").focus();
                 /*
                 alert(
                     document.activeElement.tagName + " " + 
