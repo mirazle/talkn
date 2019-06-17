@@ -66,7 +66,7 @@ export default class PostsFooter extends Component {
           talknWindow.parentTo( "setInputPost", {inputPost:true} );
         }
       }else{
-        if( !e.target.value ){
+        if(e.target.value !== ""){
           talknAPI.post();
           talknAPI.onChangeInputPost('');
 
