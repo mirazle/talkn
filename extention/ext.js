@@ -264,8 +264,7 @@ class Ext {
                 }
 
             }else{
-
-                if( this.inputPost ){
+                if( !this.inputPost ){
                     this.postMessage("post");
                     this.postMessage("onChangeInputPost");
                     this.inputPost = false;
@@ -282,8 +281,6 @@ class Ext {
                     if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
                         this.unlockWindow();
                     }
-                    document.querySelector("body").focus(()=>{});
-                    //this.postMessage("blurInputPost");
                 }
             }
             break;
