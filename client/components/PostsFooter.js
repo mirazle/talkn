@@ -32,7 +32,7 @@ export default class PostsFooter extends Component {
   handleOnClick( e ){
     const value = this.refs.postArea.innerHTML;
     if( !App.validInputPost( value ) ){
-      if(value && value !== ""){
+      if( !value ){
         talknAPI.post();
         talknAPI.onChangeInputPost(''); 
         if(app.extensionMode === App.extensionModeExtModalLabel){
@@ -66,7 +66,7 @@ export default class PostsFooter extends Component {
           talknWindow.parentTo( "setInputPost", {inputPost:true} );
         }
       }else{
-        if(e.target.value !== ""){
+        if( !e.target.value ){
           talknAPI.post();
           talknAPI.onChangeInputPost('');
 
