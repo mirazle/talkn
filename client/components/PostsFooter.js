@@ -50,7 +50,7 @@ export default class PostsFooter extends Component {
         console.log("A");
         if( !e.target.value ){
           console.log("B");
-          talknWindow.parentTo( "setInputPost", {inputPost} );
+          talknWindow.parentTo( "setInputPost", {inputPost:true} );
         }
       }
     }
