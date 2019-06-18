@@ -132,7 +132,7 @@ class Ext {
                 talknHandle = Styles.getDrawCanvas( talknHandle );
                 document.body.appendChild(talknHandle);
                 document.body.appendChild(this.iframe);
-                this.textarea = new Textarea( this.mode );
+                //this.textarea = new Textarea( this.mode );
                 break;
             case Ext.MODE_INCLUDE:
                 document.querySelector( Styles.INCLUDE_ID ).appendChild( this.iframe );
@@ -254,10 +254,7 @@ class Ext {
         case Ext.MODE_MODAL:
 
             const textarea = this.textarea.get();
-            if( textarea.value && textarea.value !== ""){
-                textarea.focus( () => { 
-                    alert("OK!!");
-                 });
+            if( textarea && textarea.value && textarea.value !== ""){
                 this.postMessage("delegatePost", textarea.value );
                 textarea.value = "";
                 return false;
@@ -651,7 +648,7 @@ class Textarea {
         const wrap = document.createElement("textarea");
         wrap.id = Textarea.id;
         wrap.style = this.getStyle();
-        wrap.placeholder = "スマホで投稿アイコンを押した時にフォーカスが外れないようにする検証中";
+        wrap.placeholder = "スマホで投稿アイコンを押した時の挙動の調整中";
         document.body.appendChild( wrap );
     }
 
