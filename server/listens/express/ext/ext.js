@@ -664,7 +664,7 @@ class Textarea {
             "position: fixed !important;" + 
             "bottom: 80px !important;" + 
             "right: 70px !important;" + 
-            "width: 280px !important;" + 
+            "width: 270px !important;" + 
             "height: 30px !important;" + 
             "padding: 10px !important;" + 
             "border: 0px !important;" + 
