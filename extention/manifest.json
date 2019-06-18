@@ -23,6 +23,8 @@
       "default_popup": "index.html"
     },
     "web_accessible_resources": [
+      "https://ext.localhost",
+      "https://ext.talkn.io",
       "ext.js",
       "script.js",
       "index.html",

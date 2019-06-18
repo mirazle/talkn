@@ -1,4 +1,4 @@
-const ENV = "PROD";
+const TALKN_EXT_ENV = "PROD";
 
 class Ext {
     static get MODE_MODAL(){return "EXT_MODAL"}
@@ -6,7 +6,7 @@ class Ext {
     static get MODE_INCLUDE(){return "EXT_INCLUDE"}
     static get DEFAULT_MODE(){return Ext.MODE_MODAL}
     static getScriptTag(){
-        const domain = ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
+        const domain = TALKN_EXT_ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
         return document.querySelector(`script[src='//ext.${domain}']`);
     }
     static get APP_NAME(){return "talkn"}
@@ -16,11 +16,11 @@ class Ext {
     static get BASE_DEV_PORT(){return 8080}
     static get EXCLUSION_ORIGINS(){return ['https://localhost', 'https://talkn.io']}
     static get BASE_HOSTNAME(){
-        if(ENV === "PROD"){
+        if(TALKN_EXT_ENV === "PROD"){
             return `${Ext.PROTOCOL}://${Ext.BASE_PROD_HOST}`;
-        }else if(ENV === "START"){
+        }else if(TALKN_EXT_ENV === "START"){
             return `${Ext.PROTOCOL}://${Ext.BASE_DEV_HOST}`;
-        }else if(ENV === "DEV"){
+        }else if(TALKN_EXT_ENV === "DEV"){
             return `${Ext.PROTOCOL}://${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
         }
     }
@@ -54,6 +54,7 @@ class Ext {
             this.scriptTag = Ext.getScriptTag();
             this.mode = this.getMode();
             this.styles = new Styles( this.mode );
+
             this.browser = this.getBrowser();
             this.methodIdMap = {};
             this.notifCnt = 0;
@@ -131,6 +132,7 @@ class Ext {
                 talknHandle = Styles.getDrawCanvas( talknHandle );
                 document.body.appendChild(talknHandle);
                 document.body.appendChild(this.iframe);
+                this.textarea = new Textarea( this.mode );
                 break;
             case Ext.MODE_INCLUDE:
                 document.querySelector( Styles.INCLUDE_ID ).appendChild( this.iframe );
@@ -167,9 +169,11 @@ class Ext {
     }
 
     getTalknUrl(){
-        return this.refusedFrame ?
-            chrome.runtime.getURL('index.html?' + this.connection) :
-            Ext.BASE_HOSTNAME + this.connection;
+        if( this.refusedFrame ){
+            return chrome.runtime.getURL('index.html?' + this.connection);
+        }else{
+            return Ext.BASE_HOSTNAME + this.connection;
+        }
     }
 
     getBrowser(){
@@ -193,7 +197,6 @@ class Ext {
     }
 
     loadIframe(e){
-        console.log("LOAD IFRAME");
         this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
         this.postMessage("bootExtension", {
             extensionMode: this.mode,
@@ -249,8 +252,16 @@ class Ext {
             }
             break;
         case Ext.MODE_MODAL:
+
+            const textarea = this.textarea.get();
+            if( textarea.value && textarea.value !== ""){
+                textarea.focus();
+                this.postMessage("delegatePost", textarea.value );
+                textarea.value = "";
+                return false;
+            }
+            
             if( iframe.style.opacity === "0" ){
-                
                 const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
                 const talknHandleStyles = Styles.getModalHandleOpenStyles();
                 talknHandle.style.background = talknHandleStyles.background;
@@ -258,12 +269,12 @@ class Ext {
                 talknHandle.style.transform = talknHandleStyles.transform;
                 iframe.style.opacity = 1;
                 iframe.style.transform = Styles.getModeModalOpenTransform(); 
-
                 if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
                     this.lockWindow();
                 }
 
             }else{
+
                 if( this.inputPost ){
                     this.postMessage("post");
                     this.postMessage("onChangeInputPost");
@@ -384,6 +395,10 @@ class Ext {
                     talknHandle.style.transform = talknHandleStyles.transform;
                     iframe.style.transform = Styles.getModeModalOpenTransform();
                     iframe.style.opacity = 1;
+
+                    if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
+                        this.lockWindow();
+                    }
                 } );
 
                 notif.addEventListener( "mouseover", () => {
@@ -429,7 +444,6 @@ class Ext {
             this.postMessage("closeNotif");
             break;
         case Ext.MODAL_MODAL:
-            console.log( "CLOSE NOTIF!" );
             break;
         }
     }
@@ -625,6 +639,42 @@ class Ext {
             params: params
         };
     }
+}
+
+class Textarea {
+
+    static get id(){return `${Ext.APP_NAME}${this.name}`}
+
+    constructor(){
+        const wrap = document.createElement("textarea");
+        wrap.id = Textarea.id;
+        wrap.style = this.getStyle();
+        wrap.placeholder = "スマホで投稿アイコンを押した時にフォーカスが外れないようにする検証中";
+        document.body.appendChild( wrap );
+    }
+
+    get(){
+        return document.querySelector(`#${Textarea.id}`);
+    }
+
+    getStyle(){
+        return "" + 
+            "position: fixed !important;" + 
+            "bottom: 80px !important;" + 
+            "right: 70px !important;" + 
+            "width: 300px !important;" + 
+            "height: 30px !important;" + 
+            "padding: 10px !important;" + 
+            "border: 0px !important;" + 
+            `z-index: ${Styles.zIndex} !important;` + 
+            "background: rgba(255,255,255,0.8) !important;"; 
+    }
+
+    getValue(){
+        return this.value;
+    }
+
+
 }
 
 class Styles{

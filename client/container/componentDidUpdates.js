@@ -68,6 +68,9 @@ const componentDidUpdates = {
                 self.setState({notifs: []});
             }
         },
+        'DELEGATE_POST': ( self ) => {
+            talknAPI.post();
+        },
         'ON_CLICK_TOGGLE_MAIN': ( self ) => {
             const { app } = self.props.state;
             if( app.extensionMode === App.extensionModeExtBottomLabel ){

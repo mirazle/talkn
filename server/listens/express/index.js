@@ -57,11 +57,15 @@ class Express{
     let language = "en";
     switch( req.headers.host ){
     case conf.extURL:
+      if( req.originalUrl === "/" ){
 
-      // CORSを許可する
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-      res.sendFile( conf.serverExtPath + "ext.js");
+        // CORSを許可する
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.sendFile( conf.serverExtPath + "ext.js");
+      }else{
+        res.sendFile( conf.serverExtPath + req.originalUrl.replace("/", ""));
+      }
       break;
     case conf.wwwURL:
       language = req.query && req.query.lang ?
@@ -103,7 +107,6 @@ class Express{
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.sendFile( conf.serverPortalPath + req.originalUrl.replace("/", ""));
-        console.log( conf.serverPortalPath );
         return true;
       }
 

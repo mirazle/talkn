@@ -16,6 +16,7 @@ class Script {
 
     constructor(){
         const script = document.createElement("script");
+        script.extension = true;
         script.async = true;
         script.type = "text/javascript";
         script.src = Script.BASE_HOSTNAME;
