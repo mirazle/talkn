@@ -255,7 +255,9 @@ class Ext {
 
             const textarea = this.textarea.get();
             if( textarea.value && textarea.value !== ""){
-                textarea.focus();
+                textarea.focus( () => { 
+                    alert("OK!!");
+                 });
                 this.postMessage("delegatePost", textarea.value );
                 textarea.value = "";
                 return false;
@@ -662,7 +664,7 @@ class Textarea {
             "position: fixed !important;" + 
             "bottom: 80px !important;" + 
             "right: 70px !important;" + 
-            "width: 300px !important;" + 
+            "width: 280px !important;" + 
             "height: 30px !important;" + 
             "padding: 10px !important;" + 
             "border: 0px !important;" + 
