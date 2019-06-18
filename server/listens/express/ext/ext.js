@@ -252,14 +252,14 @@ class Ext {
             }
             break;
         case Ext.MODE_MODAL:
-
+/*
             const textarea = this.textarea.get();
             if( textarea && textarea.value && textarea.value !== ""){
                 this.postMessage("delegatePost", textarea.value );
                 textarea.value = "";
                 return false;
             }
-            
+*/            
             if( iframe.style.opacity === "0" ){
                 const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
                 const talknHandleStyles = Styles.getModalHandleOpenStyles();
