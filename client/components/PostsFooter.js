@@ -47,18 +47,13 @@ export default class PostsFooter extends Component {
   }
   
   handleOnChange( e ){
-    console.log("ON CHANGE");
     if( !App.validInputPost( e.target.value ) ){
       const { app } = this.props.state;
       talknAPI.onChangeInputPost( e.target.value );
-      console.log("B");
       if(app.extensionMode === App.extensionModeExtModalLabel){
-        console.log("C");
         if( !regex.test( e.target.value ) ){
-          console.log("D");
           talknWindow.parentTo( "setInputPost", {inputPost: true} );
         }else{
-          console.log("E");
           talknWindow.parentTo( "setInputPost", {inputPost: false} );
         }
       }
@@ -69,17 +64,13 @@ export default class PostsFooter extends Component {
     clearInterval(this.state.focusSetIntervalId);
 
     const { app } = this.props.state;
-    console.log("KEY PRESS");
     if ( e.nativeEvent.keyCode === 13 ) {
       if( e.nativeEvent.shiftKey ){
         talknAPI.onChangeInputPost( e.target.value + '\n');
-        console.log("F");
         if(app.extensionMode === App.extensionModeExtModalLabel){
-          console.log("G");
           talknWindow.parentTo( "setInputPost", {inputPost:true} );
         }
       }else{
-        console.log( "H " + e.target.value );
         if( !regex.test( e.target.value ) ){
           talknAPI.post();
           talknAPI.onChangeInputPost('');

@@ -224,6 +224,13 @@ export default {
       clientMetas
     };
   },
+  delegatePost: ( inputPost ) => {
+    console.log( inputPost );
+    return {
+      type: 'DELEGATE_POST',
+      app: {inputPost}
+    };
+  },
   debug: ( app ) => {
     return {
       type: 'DEBUG',

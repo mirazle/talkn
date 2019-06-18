@@ -167,12 +167,7 @@ export default class TalknWindow {
 				this.parentUrl = e.data.url;
 				this.parentTo( "bootExtension" );
 				resolve(e.data.params);
-				break;
-			case "blurInputPost":
-				//document.querySelector("[data-component-name='postArea']").blur( ()=>{} );
-				break;
-			case "onChangeInputPost":
-				//document.querySelector("[data-component-name='postArea']").focus( ()=>{} );		
+				break;	
 			default: 
 				if(	
 					talknAPI[ e.data.method ] &&

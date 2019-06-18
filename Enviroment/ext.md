@@ -1,5 +1,17 @@
+#iframeで直接talkn.ioを読み込まない理由
 
-仮説：
+<iframe src="talkn.io" />で読み込むとハッシュ値以下がサーバー側でrefererとして取得出来ないため正確なコネクションを生成出来ない。
+そのため親Window側で<script src="ext.talkn.io" />を読み込み、親Window側のlocation.hrefでコネクションを確定する必要がある。
+(子Windowから、親Windowからは双方のグローバル領域のデータにはアクセス出来ないため、必ず親Window側でコネクションを確定する必要があるのでscriptタグの埋め込みが必要。)
+
+#ext.jsが二つある理由
+
+本来はChrome拡張を起動した際にext.talkn.ioから親jsを取得したいが(extension/ext.js, extension/talkn.client.jsは本来は不要)、
+TwitterなどのCSP(コンテンツセキュリティポリシー)が厳格なサイトだとXSSで外部ファイルを取得することが制限される。
+そのためchrome.runtime.getURL()で取得出来るchrome拡張内の「ローカルファイル」で必要なファイルを全て扱う必要がある。
+それがdeploy.shでextensionフォルダ内にコピーするようにしている理由。talkn.client.jsも同じ。
+
+#Redux.Provider.Container(Posts)開閉の仕組み整理：
 Reactコンポーネントをreturn nullする表示制御の仕方をすると、
 スマホブラウザで操作した際に他コンポーネントの画像がチラつくことがあるので、
 CSSのdisplay: noneで制御に統一すべき。
