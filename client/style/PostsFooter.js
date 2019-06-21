@@ -111,10 +111,11 @@ export default class PostsFooter{
   }
 
   static getSelf( {app} ){
+    //const display = app.extensionMode === App.extensionModeExtModalLabel ? "none": "flex";
     const borders = PostsFooter.getBorder(app);
     const borderRadius = PostsFooter.getBorderRadius(app);
-    const justifyContent = app.extensionMode === App.extensionModeExtModalLabel ? "flex-start" : "flex-start";
     const layout = Style.getLayoutFlex({
+      //display,
       position: "fixed",
       bottom: 0,
       left: PostsFooter.getLeft( app ),
@@ -123,7 +124,7 @@ export default class PostsFooter{
       width: PostsFooter.getWidth( app ),
       maxWidth:  PostsFooter.getWidth( app ),
       background: Container.offWhiteRGBA,
-      justifyContent,
+      justifyContent: "flex-start",
       borderRadius,
       ...borders
     });

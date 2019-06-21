@@ -113,12 +113,14 @@ const componentDidUpdates = {
         'SERVER_TO_CLIENT[BROADCAST]:post': ( self ) => {
             const { app } = self.props.state;
             const Posts = document.querySelector("[data-component-name=Posts]");
+            console.log("@@@ A");
             app.postsHeight += TalknWindow.getLastPostHeight();
             if(
                 app.extensionMode === App.extensionModeExtBottomLabel ||
                 app.extensionMode === App.extensionModeExtIncludeLabel ||
                 app.extensionMode === App.extensionModeExtModalLabel
             ){
+
                 const { isScrollBottom } = self.state;
                 if( app.isOpenPosts && isScrollBottom ){
                     self.animateScrollTo(

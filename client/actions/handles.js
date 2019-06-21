@@ -225,7 +225,6 @@ export default {
     };
   },
   delegatePost: ( inputPost ) => {
-    console.log( inputPost );
     return {
       type: 'DELEGATE_POST',
       app: {inputPost}

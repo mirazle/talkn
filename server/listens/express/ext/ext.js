@@ -10,6 +10,12 @@ class Ext {
     static get BASE_DEV_HOST(){return "localhost"}
     static get BASE_DEV_PORT(){return 8080}
     static get EXCLUSION_ORIGINS(){return ['https://localhost', 'https://talkn.io']}
+    static get DEFAULT_DISPLAY_MODE_KEY(){return 0 }
+    static get DEFAULT_DISPLAY_MODE_DIRECTION(){return "ASC" }
+    static get DISPLAY_MODE(){return [ Ext.DISPLAY_MODE_ACTIVE, Ext.DISPLAY_MODE_STANBY, Ext.DISPLAY_MODE_OPEN ] }
+    static get DISPLAY_MODE_ACTIVE(){return "ACTIVE" }
+    static get DISPLAY_MODE_STANBY(){return "STANBY" }
+    static get DISPLAY_MODE_OPEN(){return "OPEN" }
     static get INCLUDE_ID(){return `#${Ext.APP_NAME}`}
     static get APP_ENDPOINT(){
         if(TALKN_EXT_ENV === "PROD"){
@@ -26,7 +32,7 @@ class Ext {
             return Ext.MODE_INCLUDE;
         }
 
-        let mode = Window.DEFAULT_MODE;
+        let mode = Ext.DEFAULT_MODE;
         const domain = TALKN_EXT_ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
         const scriptTag =  document.querySelector(`script[src='//ext.${domain}']`);
         if( scriptTag && scriptTag.attributes ){
@@ -34,24 +40,76 @@ class Ext {
                 mode = scriptTag.attributes.mode.value;
             }
             if( mode !== Ext.MODE_BOTTOM && mode !== Ext.MODE_MODAL ){
-                    mode = Window.DEFAULT_MODE;
+                mode = Window.DEFAULT_MODE;
             }
         }
         return mode;
     }
-    constructor(){
-        return Ext.getMode();
+    static getRequestObj(method, params = {}){
+        return {
+            type: Ext.APP_NAME,
+            url: location.href,
+            href: location.href,
+            method: method,
+            methodId: 0,
+            params: params
+        };
     }
 }
 
 class Styles{
-    static get zIndex(){return 2147483647};
-    static get modeModalBottom(){return 40};
+    static get zIndex(){return 2147483647}
     static get FULL_WIDTH_THRESHOLD(){return 600}
     static get BASE_TRANSITION(){return 600}
+    static get WIDTH(){return 280}
+    static get BOTTOM(){return 45}
+    static get BORDER_RADIUS(){return 5}
+    static get BASE_ACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.95) !important;"}
+    static get BASE_UNACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.75) !important;"}
+    static get BASE_ACTIVE_BORDER(){return "1px solid rgba(235, 235, 235, 0.95) !important;"}
+    static get BASE_UNACTIVE_BORDER(){return "1px solid rgba(235, 235, 235, 0.75) !important;"}
+    constructor(){
+        const style = document.createElement("style");
+        const css = document.createTextNode(`footer#${Footer.id} textarea::placeholder { ` + 
+            `font-size: 12px; ` +
+            `line-height: 8px; ` +
+            `letter-spacing: 2px; ` +
+            `color: rgb(170, 170, 170); ` +
+        `}`);
+
+        style.type = "text/css";
+        style.appendChild(css);
+        document.head.appendChild(style);
+    }
 }
 
-class Window {
+class Elements {
+    constructor(_window){
+        this.window = _window;
+        this.action = this.action.bind( this );
+    }
+    action( name ){
+        const elm = this.get();
+        const styles = this[`get${name}Styles`]();
+
+        if( styles ){
+//            console.log( "@@@ " + name + " " + this.constructor.name );
+//            console.log( styles );
+            Object.keys( styles ).forEach( ( key ) => {
+                elm.style[ key ] = styles[ key ];
+            });
+        }
+    }
+    callback( displayMode, displayModeDirection, actionName, _window ){
+        if( displayMode === Ext.DISPLAY_MODE_STANBY ){
+            if( displayModeDirection === "DESC" ){
+                window.scrollTo( 0, _window.ins.window.scrollY );
+            }
+        }
+    }
+}
+
+class Window extends Elements {
     static get talknNotifId(){return "talknNotifId"};
     static get activeMethodSecond(){return 1000};
     static get aacceptPostMessages(){return [
@@ -64,8 +122,20 @@ class Window {
         'getClientMetas'
     ]};
 
-    constructor( refusedFrame = false ){
+    static getActiveStyles( mode ){
 
+    }
+
+    static getStanbyStyles( mode ){
+
+    }
+
+    static getOpenStyles( mode ){
+
+    }
+
+    constructor( refusedFrame = false ){
+        super( window );
         this.refusedFrame = refusedFrame;
         this.href = window.location.href;
         this.connection = this.href.replace("http:/", "").replace("https:/", "");
@@ -78,8 +148,12 @@ class Window {
         if(bootFlg){
 
             // Variable
-            this.mode = new Ext();
+            this.extMode = Ext.getMode();
+            this.displayModeKey = Ext.DEFAULT_DISPLAY_MODE_KEY;
+            this.displayModeDirection = "ASC";
             this.browser = this.getBrowser();
+            this.scrollY = window.scrollY;
+            this.ins = {};
 
             // Communication talkn Window
             this.methodIdMap = {};
@@ -91,12 +165,23 @@ class Window {
             this.htmlPosition = null;
             this.htmlWidth = null;
             this.htmlHeight = null;       
-            
+
+            // Callback Methods.
             this.load = this.load.bind(this);
             this.resize = this.resize.bind(this);
             this.resized = this.resized.bind(this);
             this.scroll = this.scroll.bind(this);
             this.transitionend = this.transitionend.bind(this);
+
+            this.updateDisplayMode = this.updateDisplayMode.bind(this);
+            this.transformDisplayMode = this.transformDisplayMode.bind(this);
+            this.openNotif = this.openNotif.bind(this);
+            this.closeNotif = this.closeNotif.bind(this);
+
+            // Communicarion Methods.
+            this.childTo = this.childTo.bind(this);
+            this.catchMessage = this.catchMessage.bind(this);
+            this.handleErrorMessage = this.handleErrorMessage.bind(this);
 
             window.addEventListener('message', this.catchMessage);
             window.addEventListener('load', this.load);
@@ -104,13 +189,69 @@ class Window {
             window.addEventListener('scroll', this.scroll);
             window.addEventListener('transitionend', this.transitionend);
 
-            const iframe = new Iframe( this.mode );
+            this.ins.window = this;
+            this.ins.styles = new Styles( this );
+            this.ins.body = new Body( this );
+            this.ins.iframe = new Iframe( this );
+            this.ins.handleIcon = new HandleIcon( this );
+            this.ins.footer = new Footer( this );
         }
+    }
+
+    /********************************/
+    /* Control transform            */
+    /********************************/
+
+    updateDisplayMode( called, transform = true, option = {}){
+        if( option.displayModeKey !== undefined ){
+            this.displayModeKey = option.displayModeKey;
+            if( option.displayModeDirection ){
+                this.displayModeDirection = option.displayModeDirection;
+            }
+        }else{
+            if( this.displayModeDirection === "ASC" ){
+                this.displayModeKey++;
+                if( this.displayModeKey >= Ext.DISPLAY_MODE.length ){
+                    this.displayModeDirection = "DESC";
+                    this.displayModeKey = this.displayModeKey - 2;
+                }
+            }else{
+                this.displayModeKey--;
+                if( this.displayModeKey < 0 ){
+                    this.displayModeDirection = "ASC";
+                    this.displayModeKey = 1
+                }
+            }
+        }
+
+        if( transform ){
+            this.transformDisplayMode( this.displayModeKey );
+        }
+    }
+
+    transformDisplayMode( displayModeKey ){
+        const { body, iframe, handleIcon, footer } = this.ins;
+        const displayMode = Ext.DISPLAY_MODE[ displayModeKey ].toLowerCase();
+        const actionName = displayMode.charAt(0).toUpperCase() + displayMode.slice(1);
+
+        const beforeDisplayMode = Ext.DISPLAY_MODE[ this.displayModeKey ];
+        const beforeDisplayModeDirection = this.displayModeDirection;
+
+        this.action( actionName );
+        body.action( actionName );
+        iframe.action( actionName );
+        handleIcon.action( actionName );
+        footer.action( actionName );
+        this.callback( beforeDisplayMode, beforeDisplayModeDirection, actionName, this );
     }
 
     /********************************/
     /* Initial methods              */
     /********************************/
+
+    get(){
+        return window;
+    }
 
     getBrowser(){
         const agent = window.navigator.userAgent.toLowerCase();
@@ -126,17 +267,75 @@ class Window {
     }
 
     bootExtension(params){
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        switch(this.mode){
+        const { iframe } = this.ins;
+        const iframeElm = iframe.get();
+        switch(this.extMode){
         case Ext.MODE_BOTTOM:
         case Ext.MODE_INCLUDE:
-            iframe.style.height = Iframe.getCloseHeight();
-            iframe.style.display = "flex";
+            iframeElm.style.height = Iframe.getCloseHeight();
+            iframeElm.style.display = "flex";
             break;
         case Ext.MODE_MODAL:
             break;
         }
-        this.postMessage("onTransition");
+        this.childTo("onTransition");
+    }
+
+    /*************************/
+    /* Communication methods */
+    /*************************/
+
+    // From child window message.
+    catchMessage(e){
+        const {type, method, params} = e.data;
+        if( type === Ext.APP_NAME ){
+            if(this[ method ] && typeof this[ method ] === "function"){
+                if(this.methodIdMap[ method ] || Window.aacceptPostMessages.includes(method)){
+                    const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+                    this[ method ]( params );
+                    clearTimeout(this.methodIdMap[ method ]);
+                    delete this.methodIdMap[ method ];
+                }
+            }
+        }
+    }
+
+    // handle error.
+    handleErrorMessage(method){
+        if(this.methodIdMap[method]){
+            switch(method){
+            case 'bootExtension':
+                this.childTo("removeExtension");
+
+                const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+                talknFrame.removeEventListener( "load", this.loadIframe );
+                talknFrame.removeEventListener( "transitionend", this.transitionend );
+                talknFrame.remove();
+
+                this.iframe.removeEventListener( "load", this.loadIframe );
+                this.iframe.removeEventListener( "transitionend", this.transitionend );
+                this.iframe.remove();
+                delete this;
+
+                window.removeEventListener('message', this.catchMessage);
+                window.removeEventListener('load', this.loadWindow);
+                window.removeEventListener('resize', this.resizeWindow);
+
+                console.warn("CSP Reboot: " + method );
+                new Window(true);
+                break;
+            }
+        }
+    }
+
+    // To child window message.
+    childTo(method, params = {}){
+        const iframe = this.ins.iframe.get();
+        const src = this.ins.iframe.getSrc();
+        const requestObj = Ext.getRequestObj( method, params );
+        const methodId = setTimeout( () => this.handleErrorMessage(method), Window.activeMethodSecond);
+        this.methodIdMap[method] = methodId;
+        iframe.contentWindow.postMessage(requestObj, src);
     }
 
     /********************************/
@@ -144,84 +343,16 @@ class Window {
     /********************************/
 
     toggleIframe(params){
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        switch( this.mode ){
-        case Ext.MODE_BOTTOM:
-        case Ext.MODE_INCLUDE:
-            const talknNotifId = sessionStorage.getItem(Window.talknNotifId);
-            if(talknNotifId === "null"){
-                if( iframe.style.height !== this.styles.getIframeOpenHeight(true) ){
-                    iframe.style.transition = "0ms";
-                    iframe.style.height = this.styles.getIframeOpenHeight(true);
-                    this.postMessage("startDispPosts");
-                }else{
-                    this.postMessage("startUndispPosts");
-                    setTimeout( () =>{ 
-                        iframe.style.transition = "0ms";
-                        iframe.style.height = Iframe.getCloseHeight(true);
-                    }, Styles.BASE_TRANSITION );
-                }
-            }else{
-                clearTimeout( talknNotifId );
-                sessionStorage.setItem(Window.talknNotifId, null);
-                this.postMessage("closeNotif");
-                iframe.style.transition = "0ms";
-                iframe.style.height = this.styles.getIframeOpenHeight(true);
-                this.postMessage("startDispPosts");
-            }
-            break;
-        case Ext.MODE_MODAL:
-/*
-            const textarea = this.textarea.get();
-            if( textarea && textarea.value && textarea.value !== ""){
-                this.postMessage("delegatePost", textarea.value );
-                textarea.value = "";
-                return false;
-            }
-*/            
-            if( iframe.style.opacity === "0" ){
-                const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
-                const talknHandleStyles = Styles.getModalHandleOpenStyles();
-                talknHandle.style.background = talknHandleStyles.background;
-                talknHandle.style.border = talknHandleStyles.border;
-                talknHandle.style.transform = talknHandleStyles.transform;
-                iframe.style.opacity = 1;
-                iframe.style.transform = Iframe.getModalOpenTransform(); 
-                if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-                    this.lockWindow();
-                }
-
-            }else{
-
-                if( this.inputPost ){
-                    this.postMessage("post");
-                    this.postMessage("onChangeInputPost");
-                    this.inputPost = false;
-                }else{
-                    const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
-                    const talknHandleStyles = Styles.getModalHandleCloseStyles();
-                    talknHandle.style.background = talknHandleStyles.background;
-                    talknHandle.style.border = talknHandleStyles.border;
-                    talknHandle.style.transform = talknHandleStyles.transform;
-
-                    iframe.style.transform = this.styles.geModalCloseTransform();
-                    iframe.style.opacity = 0;
-
-                    if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-                        this.unlockWindow();
-                    }
-                }
-            }
-            break;
-        }
+        this.updateDisplayMode("toggleIframe");
     }
 
     openNotif(params){
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        switch( this.mode ){
+        const { iframe, handleIcon } = this.ins; 
+        const iframeElm = iframe.get();
+        switch( this.extMode ){
         case Ext.MODE_BOTTOM:
-            iframe.style.transition = "0ms";
-            iframe.style.height = Styles.getIframeOpenNotifHeight();
+            iframeElm.style.transition = "0ms";
+            iframeElm.style.height = Iframe.getIframeOpenNotifHeight();
 
             let talknNotifId = sessionStorage.getItem(Window.talknNotifId);
             if(talknNotifId){
@@ -231,127 +362,22 @@ class Window {
             sessionStorage.setItem(Window.talknNotifId, talknNotifId);
 
             setTimeout( () => {
-                this.postMessage("openNotif");
-            }, 10 );
+                this.childTo("openNotif");
+            }, 50 );
             break;
         case Ext.MODE_MODAL:
-            if( iframe.style.opacity === "0" ){
-                const id ="notif" + params.id;
-                const notif = document.createElement("div");
-                const bottom = "21px";
-                const width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "calc( 100% - 130px )" : "190px";
-                notif.setAttribute("id", id);
-                notif.setAttribute("name", "notif");
-                notif.setAttribute("style", 
-                    "position: fixed !important;" +
-                    `bottom: ${bottom} !important;` +
-                    "right: 80px !important;" +
-                    "display: flex !important;" + 
-                    "align-items: center !important;" + 
-                    "cursor: pointer !important;" + 
-                    "justify-content: flex-start;" + 
-                    `z-index: ${Styles.zIndex} !important;` +
-                    `width: ${width} !important;` +
-                    `min-width: ${width} !important;` +
-                    `max-width: ${width} !important;` +
-                    "height: 30px !important;" + 
-                    "min-height: 30px !important;" + 
-                    "max-height: 30px !important;" + 
-                    "padding: 10px 20px 10px 10px !important;" +
-                    "opacity: 0 !important;" +
-                    `background: rgba(255,255,255,0.8) !important;` +
-                    `border: 1px solid rgba(235, 235, 235, 0.8) !important;` +
-                    "border-radius: 3px !important;" +
-                    "color: rgba( 120, 120, 120, 0.9) !important;" +
-                    `transition: ${Styles.BASE_TRANSITION}ms !important;` +
-                    `transform: translate3d(0px, ${bottom} ,0px) scale(1.0) !important;` 
-                );
-
-                const notifIcon = document.createElement("div");
-                notifIcon.setAttribute("style", 
-                    "display: flex;" + 
-                    "align-items: center;" + 
-                    "justify-content: flex-start;" + 
-                    `background-image: url(${params.favicon});` +
-                    "background-position: 50% 50%;" +
-                    "background-size: 20px 20px;" +
-                    "background-repeat: no-repeat;" + 
-                    "width: 20% !important;" +
-                    "min-width: 20% !important;" +
-                    "max-width: 20% !important;" +
-                    "height: inherit !important;" +
-                    "min-height: inherit !important;" +
-                    "max-height: inherit !important;" 
-                );
-
-                const notifPost = document.createElement("div");
-                notifPost.setAttribute("style", 
-                    "overflow: hidden !important;" +
-                    "display: flex !important;" +
-                    "justify-content: flex-start !important;" + 
-                    "align-items: center !important;" +
-                    "width: 80% !important;" +
-                    "min-width: 80% !important;" +
-                    "max-width: 80% !important;" +
-                    "height: inherit !important;" +
-                    "min-height: inherit !important;" +
-                    "max-height: inherit !important;" +
-                    "white-space: nowrap !important;" +
-                    "font-size: 13px !important;" +
-                    "line-height: 27px;" +
-                    "text-indent: 10px;"
-                );
-                notifPost.innerText = params.post;
-                notif.appendChild( notifIcon );
-                notif.appendChild( notifPost );
-
-                notif.addEventListener( "click", () => {
-                    const talknHandle = document.querySelector(`#${Ext.APP_NAME}Handle`);
-                    const talknHandleStyles = Styles.getModalHandleOpenStyles();
-                    talknHandle.style.background = talknHandleStyles.background;
-                    talknHandle.style.border = talknHandleStyles.border;
-                    talknHandle.style.transform = talknHandleStyles.transform;
-                    iframe.style.transform = Iframe.getModalOpenTransform();
-                    iframe.style.opacity = 1;
-
-                    if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-                        this.lockWindow();
-                    }
-                } );
-
-                notif.addEventListener( "mouseover", () => {
-                    const translates = notif.style.transform.split("translate3d(")[1].split(") ")[0]
-                    notif.style.transform = `translate3d(${translates}) scale(1.05)`
-                });
-
-                notif.addEventListener( "mouseout", () => {
-                    const translates = notif.style.transform.split("translate3d(")[1].split(") ")[0]
-                    notif.style.transform = `translate3d(${translates}) scale(1.0)`
-                });
-
-                document.body.appendChild(notif);
-
-                setTimeout( () => {
-                    notif.style.opacity = 1;
-                    notif.style.transform = "translate3d(0px, 0px, 0px) scale(1.0)";
-                    setTimeout( () => {
-
-                        notif.style.opacity = 0;
-                        notif.style.transform = `translate3d(0px, ${bottom}, 0px) scale(1.0)`;
-                        setTimeout( () => {
-                            const removeNotif = document.getElementById(id);
-                            document.body.removeChild(removeNotif);
-                        }, 1000)
-
-                    }, 2100 );
-                }, 100 );
+            switch( Ext.DISPLAY_MODE[ this.displayModeKey ] ){
+            case Ext.DISPLAY_MODE_ACTIVE:
+            case Ext.DISPLAY_MODE_STANBY:
+                new Notif(this, params);
+                break;
             }
             break;
         }
     }
 
     closeNotif(params){
-        switch( this.mode ){
+        switch( this.extMode ){
         case Ext.MODE_BOTTOM:7
             let talknNotifId = sessionStorage.getItem(Window.talknNotifId);
             clearTimeout( talknNotifId );
@@ -359,7 +385,7 @@ class Window {
             const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
             iframe.style.transition = "0ms";
             iframe.style.height = Iframe.getCloseHeight();
-            this.postMessage("closeNotif");
+            this.childTo("closeNotif");
             break;
         case Ext.MODAL_MODAL:
             break;
@@ -409,39 +435,17 @@ class Window {
             }
             clientMetas[ key ] = content;
         }
-        this.postMessage("getClientMetas", clientMetas);
-    }
-
-
-    lockWindow(){
-        const overflow = "hidden";
-        const position = "fixed";
-        const width = "100%";
-        const height = "100%";
-        const html = document.querySelector("html");
-        const body = document.querySelector("body");
-        this.windowScrollY = window.scrollY;
-        this.htmlPosition = html.style.position;
-        this.htmlOverflow = html.style.overflow;
-        this.htmlWidth = html.style.width;
-        body.style.position = position;
-        body.style.overflow = overflow;
-        body.style.width = width;
-        body.style.height = height;
-        body.style.marginTop = -( this.windowScrollY ) + "px";
-    }
-
-	unlockWindow(){
-        const body = document.querySelector("body");
-        body.style.position = this.htmlPosition;
-        body.style.overflow = this.htmlOverflow;
-        body.style.width = this.htmlWidth;
-        body.style.height = this.htmlHeight;
-        body.style.marginTop = "0px";
-        window.scrollTo( 0, Number( this.windowScrollY ) );
+        this.childTo("getClientMetas", clientMetas);
     }
 
     transitionend(e){
+        const { iframe } = this.ins;
+        this.childTo("updateExtension", {                
+            extensionMode: this.extMode,
+            extensionWidth: iframe.getWidth(true),
+            extensionOpenHeight: Number( iframe.getHeight() ),
+            extensionCloseHeight: Number( Iframe.getCloseHeight() )
+        });
     }
 
     load(e){
@@ -450,70 +454,140 @@ class Window {
 
     resize(e){
         if( this.resizeMethodId === null ){
-            this.resizeMethodId = setTimeout( this.resizedWindow, Styles.BASE_TRANSITION );
+            this.resizeMethodId = setTimeout( this.resized, Styles.BASE_TRANSITION );
         }
     }
 
     scroll(e){
+        //console.log("SCROLL " + window.scrollY);
+        //this.scrollY = window.scrollY;
     }
 
     resized(e){
+        const { iframe } = this.ins;
         this.resizeMethodId = null;
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        const talknNotifId = sessionStorage.getItem(Window.talknNotifId);  
-        const width = this.styles.getIframeWidth(true);
-        iframe.style['width'] = width;
-        iframe.style['min-width']  = width;
-        iframe.style['max-width'] = width;
 
-        if( ( talknNotifId === "null" ) === false && typeof talknNotifId === "object"){
-            switch(this.mode){
-            case Ext.MODE_BOTTOM:
-            case Ext.MODE_INCLUDE:
-                if( iframe.style.height === Iframe.getCloseHeight() ){
-                    iframe.style.height = Iframe.getCloseHeight();
-                }else{
-                    iframe.style.height = this.styles.getIframeOpenHeight();
-                }
-                break;
-            case Ext.MODE_MODAL:
-                iframe.style.height = this.styles.getIframeOpenHeight(true);
-                iframe.style.right = this.styles.getRight(true);
-                break;
-            }
-        }
+        this.updateDisplayMode( "resized", true, {displayModeKey: this.displayModeKey, displayModeDirection: this.displayModeDirection} );
 
-        this.postMessage("updateExtension", {                
-            extensionMode: this.mode,
-            extensionWidth: this.styles.getIframeWidth(true),
-            extensionOpenHeight: Number( this.styles.getIframeOpenHeight() ),
-            extensionCloseHeight: Number( Iframe.getCloseHeight().replace("px", "") )
+        this.childTo("updateExtension", {                
+            extensionMode: this.extMode,
+            extensionWidth: iframe.getWidth(true),
+            extensionOpenHeight: Number( iframe.getHeight() ),
+            extensionCloseHeight: Number( Iframe.getCloseHeight() )
         });
+    }
+
+    /*************************/
+    /* ANIMATION             */
+    /*************************/
+
+    getActiveStyles(){
+        return {}
+    }
+
+    getStanbyStyles(){
+        return {}
+    }
+
+    getOpenStyles(){
+        this.scrollY = window.scrollY;
+        return {}
     }
 }
 
-class Iframe {
+class Body extends Elements {
+    constructor( _window ){
+        super(_window);
+        const bodyElm = this.get();
+        this.overflow = bodyElm.style.overflow;
+        this.position = bodyElm.style.position;
+        this.width = bodyElm.style.width;
+        this.height = bodyElm.style.height;
+        this.marginTop = bodyElm.style.marginTop;
+    }
+
+    get(){
+        return document.querySelector(`body`);
+    }
+
+    /*************************/
+    /* ANIMATION             */
+    /*************************/
+
+    getActiveStyles(){
+        if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
+            return {
+                overflow: this.overflow,
+                position: this.position,
+                width: this.width,
+                height: this.height,
+                marginTop: this.marginTop
+            }
+        }
+        return {};
+    }
+
+    getStanbyStyles(){
+        if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
+            return {
+                overflow: this.overflow,
+                position: this.position,
+                width: this.width,
+                height: this.height,
+                marginTop: this.marginTop
+            }
+        }
+        return {};
+    }
+
+    getOpenStyles(){
+        if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
+            return {
+                overflow: "hidden",
+                position: "fixed",
+                width: "100%",
+                height: "100%" ,
+                marginTop: -( window.scrollY ) + "px"
+            }
+        }
+    }
+}
+
+
+class Iframe extends Elements {
 
     static get id(){return `${Ext.APP_NAME}Extension`}
-    static getCloseHeight(){return '45px'};
+    static getCloseHeight(addUnit = false){
+        return addUnit ? '45px' : 45 ;
+    }
     static getIframeOpenNotifHeight(){return '85px'};
-    static get modalWidth(){return 280};
-    static get browserWidth(){return 320};
-    static get browserHeight(){return 420};
-    static get closeHeight(){return 45};
-    static get modeModalBottom(){return 40};
-    static get FULL_WIDTH_THRESHOLD(){return 600}
-    static get BASE_TRANSITION(){return 600}
+    static get width(){
+        return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : 280;
+    }
+    static get height(){
+        return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : 420;
+    }
+    static get right(){
+        return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : 10;
+    }
+    static get transform(){
+        return `translate3d( 0px, ${Styles.BOTTOM}px, 0px )`;
+    }
+    static get closeHeight(){return 0};
+    static get modeModalBottom(){return 45};
 
-    constructor( mode ){
-        this.mode = mode;
+    constructor( _window ){
+        super( _window );
+        this.methodIdMap = {};
+        this.load = this.load.bind(this);
+        this.getSrc = this.getSrc.bind(this);
+        this.getWidth = this.getWidth.bind(this);
+        this.getHeight = this.getHeight.bind(this);
+        this.getRight = this.getRight.bind(this);
+        this.getTransform = this.getTransform.bind(this);
+
         const width = `${this.getWidth(true)} !important;`;
         const iframe  = document.createElement("iframe");
-        this.load = this.load.bind(this);
-        this.catchMessage = this.catchMessage.bind(this);
-        this.handleErrorMessage = this.handleErrorMessage.bind(this);
-        this.methodIdMap = {};
-
         iframe.id = Iframe.id
         iframe.name = "extension";
         iframe.style = this.getStyles( width );
@@ -521,7 +595,7 @@ class Iframe {
         iframe.frameBorder =  0;
         iframe.addEventListener( "load", this.load );
 
-        switch( this.mode ){
+        switch( this.window.extMode ){
         case Ext.MODE_MODAL:
             document.body.appendChild(iframe);
             break;
@@ -534,37 +608,45 @@ class Iframe {
         }
     }
 
+
+    getSrc(){
+        if( this.window.refusedFrame ){
+            return window.chrome.runtime.getURL('index.html?' + this.window.connection);
+        }else{
+            return Ext.APP_ENDPOINT + this.window.connection;
+        }
+    }
+
+    /*************************/
+    /* UI DATAS              */
+    /*************************/
+
     get(){
         return document.querySelector(`#${Iframe.id}`);
     }
 
-    getSrc(){
-        if( this.refusedFrame ){
-            return chrome.runtime.getURL('index.html?' + this.connection);
-        }else{
-            return Iframe.SRC + this.connection;
-        }
-    }
-
     getStyles( width ){
-        switch( this.mode ){
+        switch( this.window.extMode ){
         case Ext.MODE_MODAL:
+            const styles = this.getActiveStyles();
             return "" +
                 `z-index: ${Styles.zIndex - 1} !important;` +
                 "display: block !important;" +
                 "align-items: flex-end !important;" + 
                 "position: fixed !important; " +
-                `bottom: ${Styles.modeModalBottom}px !important;` + 
-                `right: ${this.getRight(true)} !important;` + 
-                `width: ${width}` + 
-                `min-width: ${width}` + 
-                `max-width: ${width}` + 
-                `height: ${this.getOpenHeight(true)} !important;` + 
+                `bottom: ${Styles.BOTTOM}px !important;` + 
+                `right: ${styles.right} !important;` + 
+                `width: ${styles.width}` + 
+                `min-width: ${styles.width}` + 
+                `max-width: ${styles.width}` + 
+                `height: ${styles.height} !important;` + 
+                `min-height: ${styles.height} !important;` + 
+                `max-height: ${styles.height} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0 !important;" + 
-                "opacity: 0 !important;" + 
+                "opacity: 1 !important;" + 
                 `transition: ${Styles.BASE_TRANSITION}ms !important;` + 
-                `transform: ${ this.geModalCloseTransform() } !important;`;
+                `transform: ${ styles.transform } !important;`;
         case Ext.MODE_BOTTOM:
             return "" +
                 `z-index: ${Styles.zIndex} !important;` +
@@ -576,7 +658,7 @@ class Iframe {
                 `width: ${width}` + 
                 `min-width: ${width}` + 
                 `max-width: ${width}` + 
-                `height: ${Iframe.getCloseHeight}px !important;` + 
+                `height: ${Iframe.getCloseHeight(true)} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0 !important;" + 
                 "transition: 0ms !important;" + 
@@ -603,14 +685,13 @@ class Iframe {
     }
 
     getWidth( addUnit = false ){
-
-        let width = Iframe.browserWidth + "px";
-        switch( this.mode ){
+        let width = Styles.WIDTH;
+        switch( this.window.extMode ){
         case Ext.MODE_BOTTOM:
-            width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "100%" : Iframe.browserWidth + "px";
+            width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "100%" : width;
             break;
         case Ext.MODE_MODAL:
-            width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : Iframe.modalWidth + "px";
+            width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : Styles.WIDTH + "px";
             break;
         case Ext.MODE_INCLUDE:
             const talknTag = document.querySelector( Ext.INCLUDE_ID );
@@ -620,17 +701,25 @@ class Iframe {
         return addUnit ? width : width.replace("px", "").replace("%", "") ;
     }
 
-    getOpenHeight( addUnit = false ){
-        let height = Iframe.browserHeight + "px";
-        switch( this.mode ){
+    getHeight( addUnit = false ){
+        let height = Iframe.height + "px";
+        switch( this.window.extMode ){
         case Ext.MODE_BOTTOM:
             if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-                height = `${Math.floor( window.innerHeight * 0.95 )}px`;
+                height = `${Math.floor( window.innerHeight * 0.9 )}px`;
             }
             break;
         case Ext.MODE_MODAL:
-            if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-                height = `${Math.floor( window.innerHeight * 0.9 )}px`;
+            switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+            case Ext.DISPLAY_MODE_ACTIVE:
+            case Ext.DISPLAY_MODE_STANBY:
+                height = "0px";
+                break;
+            case Ext.DISPLAY_MODE_OPEN:
+                if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
+                    height = `${Math.floor( window.innerHeight * 0.9 )}px`;
+                }
+                break;
             }
             break;
         case Ext.MODE_INCLUDE:
@@ -642,131 +731,122 @@ class Iframe {
     }
 
     getRight( addUnit = false ){
-
         let right = 0
-        switch( this.mode ){
+        switch( this.window.extMode ){
         case Ext.MODE_BOTTOM:
         case Ext.MODE_INCLUDE:
             break;
         case Ext.MODE_MODAL:
-            right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : "10px";            
+            right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : "10px";
             break;
         }
         return addUnit ? right : right.replace("px", "").replace("%", "") ;
+    }
+
+    getTransform(){
+        let transform = "translate3d( 0px 0px 0px)";
+        switch( this.window.extMode ){
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            break;
+        case Ext.MODE_MODAL:
+            switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+            case Ext.DISPLAY_MODE_ACTIVE:
+                return `translate3d( 0px, ${Styles.BOTTOM}px, 0px )`;
+            case Ext.DISPLAY_MODE_STANBY:
+                return `translate3d( 0px, 0px, 0px )`;
+            case Ext.DISPLAY_MODE_OPEN:
+                return `translate3d( 0px, 0px, 0px )`;
+            }
+            break;
+        }
+        return transform;
     }
     
     static getModalOpenTransform(){
         return `translate3d(0px, 0px, 0px) scale( 1 )`;
     }
 
-    geModalCloseTransform(){
-        const translateY = Number( this.getOpenHeight() ) + Number( Styles.modeModalBottom );
-        return `translate3d( 0px, ${translateY}px, 0px ) scale( 0.5 )`;
+    getModalCloseTransform(){
+        const translateY = Number( this.getHeight() ) + Number( Iframe.modeModalBottom );
+        return `translate3d( 0px, ${translateY}px, 0px )`;
     }
 
     load(e){
-        this.iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        this.postMessage("bootExtension", {
-            extensionMode: this.mode,
+        this.window.childTo("bootExtension", {
+            extensionMode: this.window.extMode,
             extensionWidth: this.getWidth(true),
-            extensionOpenHeight: this.getOpenHeight(false),
-            extensionCloseHeight: Number( Iframe.getCloseHeight )
+            extensionOpenHeight: this.getHeight(false),
+            extensionCloseHeight: Number( Iframe.getCloseHeight() )
         });
     }
 
     /*************************/
-    /* COMMUNICATION METHODS */
+    /* ANIMATION             */
     /*************************/
 
-    // From child window message.
-    catchMessage(e){
-        const {type, method, params} = e.data;
-        if( type === Ext.APP_NAME ){
-            if(this[ method ] && typeof this[ method ] === "function"){
-                if(this.methodIdMap[ method ] || Window.aacceptPostMessages.includes(method)){
-                    const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-                    this[ method ]( params );
-                    clearTimeout(this.methodIdMap[ method ]);
-                    delete this.methodIdMap[ method ];
-                }
-            }
-        }
-    }
-
-    // To child window message.
-    postMessage(method, params = {}){
-        const talknUrl = this.getSrc();
-        const requestObj = this.getRequestObj( method, params );
-        const methodId = setTimeout( () => this.handleErrorMessage(method), Window.activeMethodSecond);
-        const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        this.methodIdMap[method] = methodId;
-        talknFrame.contentWindow.postMessage(requestObj, talknUrl);
-    }
-
-    // handle error.
-    handleErrorMessage(method){
-        if(this.methodIdMap[method]){
-            switch(method){
-            case 'bootExtension':
-                this.postMessage("removeExtension");
-
-                const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-                talknFrame.removeEventListener( "load", this.loadIframe );
-                talknFrame.removeEventListener( "transitionend", this.transitionend );
-                talknFrame.remove();
-
-                this.iframe.removeEventListener( "load", this.loadIframe );
-                this.iframe.removeEventListener( "transitionend", this.transitionend );
-                this.iframe.remove();
-                delete this;
-
-                window.removeEventListener('message', this.catchMessage);
-                window.removeEventListener('load', this.loadWindow);
-                window.removeEventListener('resize', this.resizeWindow);
-
-                console.warn("CSP Reboot: " + method );
-                new Window(true);
-                break;
-            }
-        }
-    }
-
-    getRequestObj(method, params = {}){
+    getActiveStyles(){
+        const width = this.getWidth(true);
+        const height = this.getHeight(true);
+        const right = this.getRight(true);
+        const transform = this.getTransform();
         return {
-            type: Ext.APP_NAME,
-            url: location.href,
-            href: location.href,
-            method: method,
-            methodId: 0,
-            params: params
-        };
+            transform,
+            right,
+            width: width,
+            minWidth: width,
+            maxWidth: width,
+            height: height,
+            minHeight: height,
+            maxHeight: height
+        }
+    }
+
+    getStanbyStyles(){
+        const { iframe } = this.window.ins;
+        const width = this.getWidth(true);
+        const height = this.getHeight(true);
+        const right = this.getRight(true);
+        const transform = iframe.getTransform();
+        return {
+            transform,
+            right,
+            minWidth: width,
+            maxWidth: width,
+            height: height,
+            minHeight: height,
+            maxHeight: height
+        }
+    }
+
+    getOpenStyles(){
+        const { iframe } = this.window.ins;
+        const width = this.getWidth(true);
+        const height = this.getHeight(true);
+        const right = this.getRight(true);
+        const transform = iframe.getTransform();
+        return {
+            transform,
+            right,
+            minWidth: width,
+            maxWidth: width,
+            height: height,
+            minHeight: height,
+            maxHeight: height
+        }
     }
 }
 
-class HandleIcon {
+class HandleIcon extends Elements {
 
     static get id(){return `${Ext.APP_NAME}${this.name}`}
-    static getOpenStyles(){
-        return {
-            transform: `translate3d(0px, -17px, 0px) scale( 1 )`,
-            background: "rgba(255, 255, 255, 0.95)",
-            border: "1px solid rgba(235, 235, 235, 0.95)"
-        }
-    }
-
-    static getCloseStyles(){
-        return {
-            transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
-            background: "rgba(255, 255, 255, 0.75)",
-            border: "1px solid rgba(235, 235, 235, 0.75)"
-        }
-    }
-
-    constructor(mode){
-        this.mode = mode;
+    static get width(){return 54}
+    static get right(){return 10}
+    constructor(_window){
+        super( _window );
         let handleIcon  = document.createElement("canvas");
         handleIcon = this.drawCanvas( handleIcon );
-        handleIcon.id = Handle.id;
+        handleIcon.id = HandleIcon.id;
         handleIcon.style = this.getStyle();
 
         this.click = this.click.bind( this );
@@ -780,121 +860,42 @@ class HandleIcon {
         document.body.appendChild(handleIcon);
     }
 
+    /*************************/
+    /* UI DATAS              */
+    /*************************/
+
     get(){
         return document.querySelector(`#${HandleIcon.id}`);
     }
 
     getStyle(){
-        const talknHandleStyles = HandleIcon.getCloseStyles();
+        const talknHandleStyles = this.getActiveStyles();
         return "" + 
-                    "position: fixed !important;" +
-                    "bottom: 15px !important;" +
-                    "right: 10px !important;" +
-                    "cursor: pointer !important;" + 
-                    "display: flex !important;" + 
-                    "align-items: center !important;" + 
-                    "justify-content: center !important;" + 
+                    `position: fixed !important;` +
+                    `bottom: 15px !important;` +
+                    `right: ${HandleIcon.right}px !important;` +
+                    `cursor: pointer !important;` + 
+                    `display: flex !important;` + 
+                    `align-items: center !important;` + 
+                    `justify-content: center !important;` + 
                     `z-index: ${Styles.zIndex} !important;` +
-                    "width: 50px !important;" +
-                    "height: 50px !important;" +
+                    `width: ${HandleIcon.width}px  !important;` +
+                    `height: ${HandleIcon.width}px !important;` +
                     `background: ${talknHandleStyles.background} !important;` +
                     `border: ${talknHandleStyles.border} !important;` +
-                    "border-radius: 100px !important;" +
+                    `border-radius: 100px !important;` +
                     `transition: ${Styles.BASE_TRANSITION}ms !important;` +
                     `transform: ${talknHandleStyles.transform} !important;` 
     }
-
-    click(){
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        switch( this.mode ){
-        case Ext.MODE_BOTTOM:
-        case Ext.MODE_INCLUDE:
-            const talknNotifId = sessionStorage.getItem(Window.talknNotifId);
-            if(talknNotifId === "null"){
-                if( iframe.style.height !== this.styles.getIframeOpenHeight(true) ){
-                    iframe.style.transition = "0ms";
-                    iframe.style.height = this.styles.getIframeOpenHeight(true);
-                    this.postMessage("startDispPosts");
-                }else{
-                    this.postMessage("startUndispPosts");
-                    setTimeout( () =>{ 
-                        iframe.style.transition = "0ms";
-                        iframe.style.height = Iframe.getCloseHeight(true);
-                    }, Styles.BASE_TRANSITION );
-                }
-            }else{
-                clearTimeout( talknNotifId );
-                sessionStorage.setItem(Window.talknNotifId, null);
-                this.postMessage("closeNotif");
-                iframe.style.transition = "0ms";
-                iframe.style.height = this.styles.getIframeOpenHeight(true);
-                this.postMessage("startDispPosts");
-            }
-            break;
-        case Ext.MODE_MODAL:
-/*
-            const textarea = this.textarea.get();
-            if( textarea && textarea.value && textarea.value !== ""){
-                this.postMessage("delegatePost", textarea.value );
-                textarea.value = "";
-                return false;
-            }
-*/            
-            if( iframe.style.opacity === "0" ){
-                const handleIcon = this.get();
-                const styles = Handle.getOpenStyles();
-                handleIcon.style.background = styles.background;
-                handleIcon.style.border = styles.border;
-                handleIcon.style.transform = styles.transform;
-                iframeIcon.style.opacity = 1;
-                iframeIcon.style.transform = HandleIcon.getOpenTransform(); 
-                if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-                    this.lockWindow();
-                }
-
-            }else{
-
-                if( this.inputPost ){
-                    this.postMessage("post");
-                    this.postMessage("onChangeInputPost");
-                    this.inputPost = false;
-                }else{
-                    const handleIcon = this.get();
-                    const styles = Handle.getCloseStyles();
-                    handleIcon.style.background = styles.background;
-                    handleIcon.style.border = styles.border;
-                    handleIcon.style.transform = styles.transform;
-
-                    iframe.style.transform = HandleIcon.geModalCloseTransform();
-                    iframe.style.opacity = 0;
-
-                    if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-                        this.unlockWindow();
-                    }
-                }
-            }
-            break;
-        }
-    }
-
-    mouseover(){
-        const handleIcon = this.get();
-        const translates = handleIcon.style.transform.split("translate3d(")[1].split(") ")[0]
-        handleIcon.style.transform = `translate3d(${translates}) scale(1.1)`
-    }
-
-    mouseout(){
-        const handleIcon = this.get();
-        const translates = handleIcon.style.transform.split("translate3d(")[1].split(") ")[0]
-        handleIcon.style.transform = `translate3d(${translates}) scale(1.0)`
-    }
-
+    
     drawCanvas(handle){
         const rgba = "rgba( 180, 180, 180, 0.7 )";
         const c = handle.getContext("2d");
         c.beginPath();
+
+        // 横 縦
         c.moveTo(50,60);
-        c.lineTo(240,40);
+        c.lineTo(230,40);
         c.lineTo(140,80);
         c.closePath();    
         c.strokeStyle = rgba;
@@ -904,9 +905,9 @@ class HandleIcon {
         c.closePath();
     
         c.beginPath();
-        c.moveTo(241, 40);
+        c.moveTo(231, 40);
         c.lineTo(150, 83);
-        c.lineTo(230,100);
+        c.lineTo(240,100);
         c.closePath();    
         c.strokeStyle = rgba;
         c.stroke();
@@ -926,40 +927,623 @@ class HandleIcon {
         c.closePath();
         return handle;
     }
+
+    /*************************/
+    /* EVENT LISTENER        */
+    /*************************/
+
+    click(){
+        const { iframe, footer } = this.window.ins;
+        const iframeElm = iframe.get();
+
+        switch( this.window.extMode ){
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            const talknNotifId = sessionStorage.getItem(Window.talknNotifId);
+            if(talknNotifId === "null"){
+                if( iframeElm.style.height !== this.styles.getIframeOpenHeight(true) ){
+                    iframeElm.style.transition = "0ms";
+                    iframeElm.style.height = this.styles.getIframeOpenHeight(true);
+                    this.childTo("startDispPosts");
+                }else{
+                    this.childTo("startUndispPosts");
+                    setTimeout( () =>{ 
+                        iframeElm.style.transition = "0ms";
+                        iframeElm.style.height = Iframe.getCloseHeight(true);
+                    }, Styles.BASE_TRANSITION );
+                }
+            }else{
+                clearTimeout( talknNotifId );
+                sessionStorage.setItem(Window.talknNotifId, null);
+                this.childTo("closeNotif");
+                iframeElm.style.transition = "0ms";
+                iframeElm.style.height = this.styles.getIframeOpenHeight(true);
+                this.childTo("startDispPosts");
+            }
+            break;
+        case Ext.MODE_MODAL:
+            const regex = /^\s*$/;
+            const value = footer.getValue();
+
+            if( value !== "" && !regex.test( value )){
+                this.window.childTo("delegatePost", value );
+                this.window.childTo("onChangeInputPost");
+                footer.clearValue();
+                footer.focus();
+            }else{
+                this.window.updateDisplayMode("clickHandleIcon");
+            }
+            break;
+        }
+    }
+
+    mouseover(){
+        const handleIcon = this.get();
+        const translates = handleIcon.style.transform.split("translate3d(")[1].split(") ")[0]
+        handleIcon.style.transform = `translate3d(${translates}) scale(1.1)`
+    }
+
+    mouseout(){
+        const handleIcon = this.get();
+        const translates = handleIcon.style.transform.split("translate3d(")[1].split(") ")[0]
+        handleIcon.style.transform = `translate3d(${translates}) scale(1.0)`
+    }
+
+    /*************************/
+    /* ANIMATION             */
+    /*************************/
+
+    getActiveStyles(){
+        return {
+            transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
+            background: Styles.BASE_UNACTIVE_BG_COLOR,
+            border: Styles.BASE_UNACTIVE_BORDER
+        }
+    }
+
+    getStanbyStyles(){
+        return {
+            transform: `translate3d(0px, -25px, 0px) scale( 1 )`,
+            background: Styles.BASE_ACTIVE_BG_COLOR,
+            border: Styles.BASE_ACTIVE_BORDER
+        }
+    }
+
+    getOpenStyles(){
+        return {
+            transform: `translate3d(0px, -25px, 0px) scale( 1 )`,
+            background: Styles.BASE_ACTIVE_BG_COLOR,
+            border: Styles.BASE_ACTIVE_BORDER
+        }
+    }
 }
 
-class Textarea {
+class Notif extends Elements{
 
     static get id(){return `${Ext.APP_NAME}${this.name}`}
+    constructor( _window, params ){
+        super( _window );
 
-    constructor(mode){
-        this.mode = mode;
-        const wrap = document.createElement("textarea");
-        wrap.id = Textarea.id;
-        wrap.style = this.getStyle();
-        wrap.placeholder = "スマホで投稿アイコンを押した時の挙動の調整中";
-        document.body.appendChild( wrap );
+        this.getWidth = this.getWidth.bind( this );
+        this.getHeight = this.getHeight.bind( this );
+        this.getBottom = this.getBottom.bind( this );
+        this.getRight = this.getRight.bind( this );
+        this.getTranslateY = this.getTranslateY.bind( this );
+        this.getBorderRadius = this.getBorderRadius.bind( this );
+
+        const notif = document.createElement("div");
+        const id = Notif.id + params.id;
+        const width = this.getWidth(true);
+        const height = this.getHeight(true);
+        const padding = this.getPadding(true);
+        const bottom = this.getBottom(true);
+        const right = this.getRight(true);
+        const translateY = this.getTranslateY(true);
+        const borderRadius = this.getBorderRadius();
+
+        notif.setAttribute("id", id);
+        notif.setAttribute("name", "notif");
+        notif.setAttribute("style", 
+            `position: fixed !important;` +
+            `bottom: ${bottom} !important;` +
+            `right: ${right} !important;` +
+            `display: flex !important;` + 
+            `align-items: center !important;` + 
+            `cursor: pointer !important;` + 
+            `justify-content: flex-start;` + 
+            `z-index: ${Styles.zIndex - 2} !important;` +
+            `width: ${width} !important;` +
+            `min-width: ${width} !important;` +
+            `max-width: ${width} !important;` +
+            `height: ${height} !important;` + 
+            `min-height: ${height} !important;` + 
+            `max-height: ${height} !important;` + 
+            `padding: ${padding} !important;` +
+            `opacity: 0 !important;` +
+            `background: ${Styles.BASE_UNACTIVE_BG_COLOR}` +
+            `border: ${Styles.BASE_UNACTIVE_BORDER}` +
+            `border-radius: ${borderRadius} !important;` +
+            `color: rgba( 120, 120, 120, 0.9) !important;` +
+            `transition: ${Styles.BASE_TRANSITION}ms !important;` +
+            `transform: translate3d( 0px, 0px, 0px ) !important;` 
+        );
+
+        const notifIcon = document.createElement("div");
+        notifIcon.setAttribute("style", 
+            "display: flex;" + 
+            "align-items: center;" + 
+            "justify-content: flex-start;" + 
+            `background-image: url(${params.favicon});` +
+            "background-position: 50% 50%;" +
+            "background-size: 20px 20px;" +
+            "background-repeat: no-repeat;" + 
+            "width: 20% !important;" +
+            "min-width: 20% !important;" +
+            "max-width: 20% !important;" +
+            "height: inherit !important;" +
+            "min-height: inherit !important;" +
+            "max-height: inherit !important;" 
+        );
+
+        const notifPost = document.createElement("div");
+        notifPost.setAttribute("style", 
+            "overflow: hidden !important;" +
+            "display: flex !important;" +
+            "justify-content: flex-start !important;" + 
+            "align-items: center !important;" +
+            "width: 80% !important;" +
+            "min-width: 80% !important;" +
+            "max-width: 80% !important;" +
+            "height: inherit !important;" +
+            "min-height: inherit !important;" +
+            "max-height: inherit !important;" +
+            "white-space: nowrap !important;" +
+            "font-size: 13px !important;" +
+            "line-height: 27px;" +
+            "text-indent: 10px;"
+        );
+        notifPost.innerText = params.post;
+        notif.appendChild( notifIcon );
+        notif.appendChild( notifPost );
+
+        notif.addEventListener( "click", () => {
+            switch( this.window.extMode ){
+            case Ext.MODE_MODAL:
+                switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+                case Ext.DISPLAY_MODE_ACTIVE:
+                    this.window.updateDisplayMode("clickNotif");
+                    break;
+                case Ext.DISPLAY_MODE_STANBY:
+                    this.window.updateDisplayMode("clickNotif", {displayMode: 2});
+                    break;
+                case Ext.DISPLAY_MODE_OPEN:
+                    break;        
+                }
+            case Ext.MODE_BOTTOM:
+            case Ext.MODE_INCLUDE:
+                break;
+            }
+            /*
+            
+            TODO    STANBY状態の時に、FOOTERが閉じてしまう場合がある
+            
+            */
+        } );
+
+        notif.addEventListener( "mouseover", () => {
+            const translates = notif.style.transform.split("translate3d(")[1].split(") ")[0]
+            notif.style.transform = `translate3d(${translates}) scale(1.05)`
+        });
+
+        notif.addEventListener( "mouseout", () => {
+            const translates = notif.style.transform.split("translate3d(")[1].split(") ")[0]
+            notif.style.transform = `translate3d(${translates}) scale(1.0)`
+        });
+
+        document.body.appendChild(notif);
+
+        const debugRate = 1;
+        setTimeout( () => {
+            notif.style.opacity = 1;
+            notif.style.transform = `translate3d(0px, ${translateY}, 0px) scale(1.0)`;
+            setTimeout( () => {
+
+                notif.style.opacity = 0;
+                notif.style.transform = `translate3d(0px, 0px, 0px) scale(1.0)`;
+                setTimeout( () => {
+                    const removeNotif = document.getElementById(id);
+                    document.body.removeChild(removeNotif);
+                }, 1000 * debugRate )
+
+            }, 2100 * debugRate );
+        }, 50 );
+    }
+
+    getWidth(addUnit = false){
+        let width = 0
+        switch( this.window.extMode ){
+        case Ext.MODE_MODAL:
+            switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+            case Ext.DISPLAY_MODE_ACTIVE:
+                width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "calc( 100% - 130px )" : "180px";
+                break;
+            case Ext.DISPLAY_MODE_STANBY:
+                width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "90%" : "245px";
+                break;
+            case Ext.DISPLAY_MODE_OPEN:
+                break;        
+            }
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            break;
+        }
+        return addUnit ? width : width.replace( "px", "" ).replace("%", "");
+    }
+
+    getHeight(addUnit = false){
+        let height = "20px";
+        return addUnit ? height : height.replace( "px", "" ).replace("%", "");
+    }
+
+    getPadding(addUnit = false){
+        let padding = "0px";
+        switch( this.window.extMode ){
+        case Ext.MODE_MODAL:
+            switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+            case Ext.DISPLAY_MODE_ACTIVE:
+                padding =  "10px 20px 10px 10px";
+                break;
+            case Ext.DISPLAY_MODE_STANBY:
+                padding = "6px 1% 12px 1%";
+                break;
+            case Ext.DISPLAY_MODE_OPEN:
+                break;        
+            }
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            break;
+        }
+        return addUnit ? padding : padding.replace( "px", "" ).replace("%", "");
+    }
+
+    getBottom(addUnit = false){
+        let bottom = "0px";
+        switch( this.window.extMode ){
+        case Ext.MODE_MODAL:
+            switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+            case Ext.DISPLAY_MODE_ACTIVE:
+                bottom =  "0px";
+                break;
+            case Ext.DISPLAY_MODE_STANBY:
+                bottom = `${Styles.BOTTOM}px`;
+                break;
+            case Ext.DISPLAY_MODE_OPEN:
+                break;        
+            }
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            break;
+        }
+        return addUnit ? bottom : bottom.replace( "px", "" ).replace("%", "");
+    }
+
+    getRight(addUnit = false){
+        let right = "75px";
+        switch( this.window.extMode ){
+        case Ext.MODE_MODAL:
+            switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+            case Ext.DISPLAY_MODE_ACTIVE:
+                right = "75px";
+                break;
+            case Ext.DISPLAY_MODE_STANBY:
+                right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "4%" : "20px";
+                break;
+            case Ext.DISPLAY_MODE_OPEN:
+                break;        
+            }
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            break;
+        }
+        return addUnit ? right : right.replace( "px", "" ).replace("%", "");
+    }
+
+
+    getTranslateY(addUnit = false){
+        let transformY = `-21px`;
+        switch( this.window.extMode ){
+        case Ext.MODE_MODAL:
+            switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+            case Ext.DISPLAY_MODE_ACTIVE:
+                    transformY = "-21px";
+                break;
+            case Ext.DISPLAY_MODE_STANBY:
+                    transformY = "-40px";
+                break;
+            case Ext.DISPLAY_MODE_OPEN:
+                break;        
+            }
+        case Ext.MODE_BOTTOM:
+        case Ext.MODE_INCLUDE:
+            break;
+        }
+        return addUnit ? transformY : transformY.replace( "px", "" ).replace("%", "");
+    }
+
+    getBorderRadius(){
+        let borderRadius = `4px 4px 4px 4px`;
+        return borderRadius;
+    }
+}
+
+class Footer extends Elements {
+
+    static get id(){return `${Ext.APP_NAME}${this.name}`}
+    static get openBorderRadius(){
+        return `0px 0px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px`;
+    };
+    static get closeBorderRadius(){
+        return `${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px`;
+    };
+    static getBottom(addUnit = false){
+        return addUnit ? "45px" : 45;
+    }
+    static getHeight(addUnit = false){
+        return addUnit ? "45px" : 45 ;
+    }
+    static getWidth(addUnit = false){
+        const width =  window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : `${Styles.WIDTH}px`;
+        return addUnit ? width : width.replace( "px", "" ).replace("%", "");
+    }
+    static getRight(addUnit = false){
+        const right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : "10px";
+        return addUnit ? right : right.replace( "px", "" ).replace("%", "");
+    }
+    static getOpenTransform(){
+        return "translate3d(0px, 0px, 0px)";
+    }
+    static getCloseTransform(){
+        return `translate3d(0px, ${Footer.getBottom() * 2}px, 0px)`;
+    }
+
+    constructor(_window){
+        super( _window );
+        const footer = document.createElement("footer");
+        const icon = document.createElement("div");
+        const textarea = document.createElement("textarea");
+
+        this.clickIcon = this.clickIcon.bind( this )
+        this.keypress = this.keypress.bind( this );
+
+        footer.id = Footer.id;
+        footer.style = this.getFooterStyle();
+        icon.style = this.getIconStyle();
+        icon.addEventListener("click", this.clickIcon );
+        textarea.style = this.getTextateaStyle();
+        textarea.placeholder = "Comment to web";
+        textarea.addEventListener("keypress", this.keypress );
+        footer.appendChild( icon );
+        footer.appendChild( textarea );
+        document.body.appendChild( footer );
     }
 
     get(){
-        return document.querySelector(`#${Textarea.id}`);
+        return document.querySelector(`#${Footer.id}`);
     }
 
-    getStyle(){
-        return "" + 
-            "position: fixed !important;" + 
-            "bottom: 80px !important;" + 
-            "right: 70px !important;" + 
-            "width: 270px !important;" + 
-            "height: 30px !important;" + 
-            "padding: 10px !important;" + 
-            "border: 0px !important;" + 
-            `z-index: ${Styles.zIndex} !important;` + 
-            "background: rgba(255,255,255,0.8) !important;"; 
+    getText(){
+        return document.querySelector("#talknFooter textarea");
     }
 
     getValue(){
-        return this.value;
+        return this.getText().value;
+    }
+
+    setValue( addValue ){
+        return this.getText().value = this.getText().value + addValue;
+    }
+
+    clearValue(){
+        console.log("CLEAR");
+        console.log( this.getText().value );
+        this.getText().value = "";
+        this.getText().value = null;
+        console.log( this.getText().value );
+    }
+
+    focus(){
+        this.getText().focus();
+    }
+
+    getFooterStyle(){
+        const width = Footer.getWidth(true);
+        const height = Footer.getHeight(true);
+        const bottom = Footer.getBottom(true);
+        const right = Footer.getRight(true);
+        const transform = Footer.getCloseTransform();
+        return "" + 
+            `display: flex !important;` +
+            `box-sizing: border-box !important;` +
+            `overflow: hidden !important;` + 
+            `width: ${width} !important;` +
+            `min-width: ${width} !important;` +
+            `max-width: ${width} !important;` +
+            `height: ${height} !important;` +
+            `min-width: auto !important;` + 
+            `min-height: auto !important;` + 
+            `max-width: 100% !important;` +
+            `max-height: inherit !important;` + 
+            `padding: 0px !important;` +
+            `margin: 0px !important;` +
+            `line-height: 1 !important;` + 
+            `list-style: none !important;` +
+            `user-select: none !important;` +
+            `text-decoration: none !important;` + 
+            `vertical-align: baseline !important;` +
+            `border-collapse: collapse !important;` + 
+            `border-spacing: 0px !important;` +
+            `border: 1px solid rgb(220, 220, 220) !important;` +
+            `border-radius: ${Footer.closeBorderRadius} !important;` + 
+            `z-index: ${Styles.zIndex - 1} !important;` +
+            `justify-content: flex-start !important;` + 
+            `align-items: center !important;` +
+            `flex-direction: row !important;` +
+            `position: fixed !important;` + 
+            `bottom: ${bottom} !important;` +
+            `right: ${right} !important;` +
+            `flex-grow: 1 !important;` +
+            `background: rgba(250, 250, 250, 0.96) !important;` +
+            `transition: ${Styles.BASE_TRANSITION}ms !important;` +
+            `transform: ${transform} !important;`
+    }
+
+    getIconStyle(){
+        return "" +
+            `display: inline-block !important;` +
+            `box-sizing: border-box !important;` +
+            `overflow: hidden !important;` +
+            `width: 20% !important;` +
+            `height: 55% !important;` +
+            `min-width: auto !important;` +
+            `min-height: auto !important;` +
+            `max-width: 20% !important;` +
+            `max-height: inherit !important;` +
+            `padding: 0px !important;` +
+            `margin: 0px !important;` +
+            `font-style: inherit !important;` +
+            `font-variant: inherit !important;` +
+            `font-weight: inherit !important;` +
+            `font-stretch: inherit !important;` +
+            `font-size: inherit !important;` +
+            `line-height: 1 !important;` +
+            `font-family: "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif !important;` +
+            `list-style: none !important;` +
+            `user-select: none !important;` +
+            `text-decoration: none !important;` +
+            `vertical-align: middle !important;` +
+            `border-collapse: collapse !important;` +
+            `border-spacing: 0px !important;` +
+            `border: 0px !important;` +
+            `border-radius: 0px !important;` +
+            `z-index: 9999 !important;` +
+            `background-image: url(https://assets.localhost/icon/https:__assets.localhost_favicon.ico.png) !important;` +
+            `background-position: center center; !important;` +
+            `background-size: 20px 20px !important;` +
+            `background-repeat: no-repeat !important;` +
+            `letter-spacing: 1.5px !important;` +
+            `white-space: normal !important;` +
+            `quotes: none !important;` +
+            `content: none !important;` +
+            `cursor: pointer !important;` +
+            `text-align: center !important;` +
+            `color: rgb(160, 160, 160) !important;` 
+    }
+
+    getTextateaStyle(){
+        return "" + 
+            `display: inline-block !important;` +
+            `box-sizing: border-box !important;` +
+            `overflow: hidden !important;` +
+            `width: 60% !important;` +
+            `height: 55% !important;` + 
+            `min-width: auto !important;` +
+            `min-height: auto !important;` +
+            `max-width: 60% !important;` +
+            `max-height: inherit !important;` +
+            `padding: 6px 0% 5px 2% !important;` +
+            `margin: 0px 3% 0px 0px !important;` +
+            `font-style: inherit !important;` +
+            `font-variant: inherit !important;` + 
+            `font-weight: inherit !important;` +
+            `font-stretch: inherit !important;` +
+            `font-size: 12px !important;` +
+            `line-height: 0.9 !important;` +
+            `font-family: "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif !important;` +
+            `list-style: none !important;` +
+            `user-select: none !important;` +
+            `text-decoration: none !important;` +
+            `vertical-align: middle !important;` +
+            `border-collapse: collapse !important;` +
+            `border-spacing: 0px !important;` +
+            `border: 1px solid rgb(220, 220, 220) !important;` +
+            `border-radius: 3px !important;` +
+            `z-index: 1 !important;` +
+            `background: rgb(255, 255, 255) !important;` +
+            `outline: none !important;` +
+            `resize: none !important;` +
+            `-webkit-appearance: none !important;` +
+            `letter-spacing: 1.5px !important;` +
+            `white-space: normal !important;` +
+            `quotes: none !important;` +
+            `content: none !important;` +
+            `cursor: default !important;` + 
+            `text-align: left !important;` +
+            `color: rgb(160, 160, 160) !important;` +
+            `transform: translate3d(0px, 0px, 0px) !important;`
+    }
+
+    keypress( e ){
+        if ( e.keyCode === 13 ) {
+            if( e.shiftKey ){
+                this.setValue( '\n' );
+            }else{
+                const { footer } = this.window.ins;
+                const regex = /^\s*$/;
+                const value = footer.getValue();
+
+                if( value !== "" && !regex.test( value )){
+                    this.window.childTo("delegatePost", value );
+                    this.window.childTo("onChangeInputPost");
+                    footer.clearValue();
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        }
+    }
+
+    clickIcon(){
+        switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+        case Ext.DISPLAY_MODE_ACTIVE:
+            break;
+        case Ext.DISPLAY_MODE_STANBY:
+            this.window.updateDisplayMode( "clickFooterIcon", true, {displayModeKey: 2, displayModeDirection: "ASC"} );
+            break;
+        case Ext.DISPLAY_MODE_OPEN:
+            this.window.updateDisplayMode( "clickFooterIcon", true, {displayModeKey: 1, displayModeDirection: "DESC"} );
+            break;
+        }
+    }
+
+    /*************************/
+    /* ANIMATION             */
+    /*************************/
+
+    getActiveStyles(){
+        return {
+            "width": Footer.getWidth(true),
+            "right": Footer.getRight(true),
+            "transform": `translate3d(0px, ${Footer.getBottom() * 2}px, 0px)`,
+            "border-radius": `${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px`
+        }
+    }
+
+    getStanbyStyles(){
+        return {
+            "width": Footer.getWidth(true),
+            "right": Footer.getRight(true),
+            "transform": `translate3d(0px, 0px, 0px)`,
+            "border-radius": `${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px`
+        }
+    }
+
+    getOpenStyles(){
+        return {
+            "width": Footer.getWidth(true),
+            "right": Footer.getRight(true),
+            "transform": `translate3d(0px, 0px, 0px)`,
+            "border-radius": `0px 0px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px`
+        }
     }
 }
 
