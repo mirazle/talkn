@@ -91,7 +91,7 @@ export default class Container{
   static get notifOpenTranslate(){ return 20 };
   static get notifHeight(){ return 20 };
   static get notifOpenTranslateY(){
-    return `translate3d( 0px, ${-( Footer.selfHeight * 2 )}px, 0px )`;
+    return `translate3d( 0px, -80px, 0px )`;
   }
 
   static get notifCloseTranslateY(){ return `translate3d( 0px, 0px, 0px )`; }
@@ -162,7 +162,7 @@ export default class Container{
     switch( app.screenMode ){
     case App.screenModeUndispLabel:
     case App.screenModeSmallLabel:
-      return "10%" ;
+      return "5%" ;
     case App.screenModeMiddleLabel:
       return "20px" ;
     case App.screenModeLargeLabel:
@@ -230,7 +230,7 @@ export default class Container{
     const layout = Style.getLayoutFlex({
       display,
       position: 'fixed',
-      top: `calc( 100vh )`,
+      bottom: `-${Container.notifHeight}px`,
       left,
       width,
       height: Container.notifHeight,
