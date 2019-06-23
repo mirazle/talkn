@@ -1265,14 +1265,18 @@ class Textarea extends Elements {
     static get id(){return `${Ext.APP_NAME}${this.name}`}
     constructor(_window){
         super(_window);
-        const textarea = document.createElement("textarea");
         this.get = this.get.bind( this );   
         this.getValue = this.getValue.bind( this );   
         this.setValue = this.setValue.bind( this );   
         this.clear = this.clear.bind( this );   
-        this.focuse = this.getValue.bind( this );   
+        this.focuse = this.focus.bind( this );   
         this.keypress = this.keypress.bind( this );
         this.transitionEnd = this.transitionEnd.bind( this );
+        this.create();
+    }
+
+    create(){
+        const textarea = document.createElement("textarea");
         textarea.id = Textarea.id;
         textarea.style = this.getStyle();
         textarea.placeholder = "Comment to web";
