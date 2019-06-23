@@ -1270,6 +1270,7 @@ class Textarea extends Elements {
         textarea.placeholder = "Comment to web";
         textarea.addEventListener("keypress", this.keypress );
         document.body.appendChild( textarea );
+        console.log("CREATE");
     }
 
     get(){
@@ -1337,10 +1338,8 @@ class Textarea extends Elements {
 
     clear(){
         this.get().value = "";
-/*
         document.body.removeChild(this.get());
         this.create();
-*/
     }
 
     focus(){
