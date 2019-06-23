@@ -715,8 +715,6 @@ class Iframe extends Elements {
             height = talknTag ? talknTag.clientHeight : "100%";
             return addUnit ? height + "px" : height ;
         }
-        console.log("B " + height);
-
         return addUnit ? height : height.replace("px", "").replace("%", "");
     }
 
@@ -743,10 +741,6 @@ class Iframe extends Elements {
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
                 const translateY = Styles.BOTTOM + Number( this.getHeight() );
-                console.log( Styles.BOTTOM );
-                console.log(  Number( this.getHeight() ) );
-                console.log( translateY );
-
                 return `translate3d( 0px, ${ translateY }px, 0px ) scale( 0.5 )`;
             case Ext.DISPLAY_MODE_OPEN:
                 return `translate3d( 0px, 0px, 0px ) scale( 1.0 )`;
@@ -975,7 +969,7 @@ class HandleIcon extends Elements {
             if( value !== "" && !regex.test( value )){
                 this.window.childTo("delegatePost", value );
                 this.window.childTo("onChangeInputPost");
-                textarea.clearValue();
+                textarea.clear();
                 textarea.focus();
             }else{
                 this.window.updateDisplayMode("clickHandleIcon");
@@ -1349,6 +1343,10 @@ class Textarea extends Elements {
 
     clear(){
         this.get().value = "";
+/*
+        document.body.removeChild(this.get());
+        this.create();
+*/
     }
 
     focus(){
@@ -1360,14 +1358,14 @@ class Textarea extends Elements {
             if( e.shiftKey ){
                 this.setValue( '\n' );
             }else{
-                const { footer } = this.window.ins;
+                const { textarea } = this.window.ins;
                 const regex = /^\s*$/;
-                const value = footer.getValue();
+                const value = textarea.getValue();
 
                 if( value !== "" && !regex.test( value )){
                     this.window.childTo("delegatePost", value );
                     this.window.childTo("onChangeInputPost");
-                    footer.clearValue();
+                    textarea.clear();
                     e.preventDefault();
                     return false;
                 }
