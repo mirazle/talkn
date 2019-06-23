@@ -698,23 +698,15 @@ class Iframe extends Elements {
             }
             break;
         case Ext.MODE_MODAL:
-            switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
-            case Ext.DISPLAY_MODE_ACTIVE:
-                height = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ?
-                    `${Math.floor( window.innerHeight * 0.9 )}px` : "420px";
-                break;
-            case Ext.DISPLAY_MODE_OPEN:
-                if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-                    height = `${Math.floor( window.innerHeight * 0.9 )}px`;
-                }
-                break;
-            }
+            height = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ?
+                `${Math.floor( window.innerHeight * 0.9 )}px` : "420px";
             break;
         case Ext.MODE_INCLUDE:
             const talknTag = document.querySelector( Ext.INCLUDE_ID );
             height = talknTag ? talknTag.clientHeight : "100%";
             return addUnit ? height + "px" : height ;
         }
+        console.log( height );
         return addUnit ? height : height.replace("px", "").replace("%", "");
     }
 
@@ -801,6 +793,7 @@ class Iframe extends Elements {
         const right = this.getRight(true);
         const opacity = this.getOpacity();
         const transform = this.getTransform();
+        console.log("ACTIVE " + height );
         return {
             transform,
             opacity,
@@ -821,6 +814,7 @@ class Iframe extends Elements {
         const right = this.getRight(true);
         const opacity = this.getOpacity();
         const transform = iframe.getTransform();
+        console.log("OPEN " + height );
         return {
             transform,
             opacity,
@@ -1378,7 +1372,7 @@ class Textarea extends Elements {
     /*************************/
 
     getRight(addUnit = false){
-        let right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "18%" : "25px";
+        let right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "18%" : "39px";
         return addUnit ? right : right.replace("px", "").replace("%", "") ;
     }
 
