@@ -1283,7 +1283,7 @@ class Textarea extends Elements {
         return "" + 
             `position: fixed !important;` +
             `bottom: 55px !important;` +
-            `right: 37px !important;` +
+            `right: 31px !important;` +
             `display: ${styles.display} !important;` +
             `box-sizing: border-box !important;` +
             `overflow: hidden !important;` +
