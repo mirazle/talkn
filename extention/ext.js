@@ -690,7 +690,7 @@ class Iframe extends Elements {
     }
 
     getHeight( addUnit = false ){
-        let height = Iframe.height + "px";
+        let height = "0px";
         switch( this.window.extMode ){
         case Ext.MODE_BOTTOM:
             if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
@@ -700,6 +700,8 @@ class Iframe extends Elements {
         case Ext.MODE_MODAL:
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
+                height = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ?
+                    `${Math.floor( window.innerHeight * 0.9 )}px` : "420px";
                 break;
             case Ext.DISPLAY_MODE_OPEN:
                 if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
@@ -713,6 +715,8 @@ class Iframe extends Elements {
             height = talknTag ? talknTag.clientHeight : "100%";
             return addUnit ? height + "px" : height ;
         }
+        console.log("B " + height);
+
         return addUnit ? height : height.replace("px", "").replace("%", "");
     }
 
@@ -739,6 +743,10 @@ class Iframe extends Elements {
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
                 const translateY = Styles.BOTTOM + Number( this.getHeight() );
+                console.log( Styles.BOTTOM );
+                console.log(  Number( this.getHeight() ) );
+                console.log( translateY );
+
                 return `translate3d( 0px, ${ translateY }px, 0px ) scale( 0.5 )`;
             case Ext.DISPLAY_MODE_OPEN:
                 return `translate3d( 0px, 0px, 0px ) scale( 1.0 )`;
@@ -1280,10 +1288,11 @@ class Textarea extends Elements {
         const styles = this.getActiveStyles();
         const width = this.getWidth(true);
         const height = this.getHeight(true);
+        const right = this.getRight(true);
         return "" + 
             `position: fixed !important;` +
             `bottom: 55px !important;` +
-            `right: 31px !important;` +
+            `right: ${right} !important;` +
             `display: ${styles.display} !important;` +
             `box-sizing: border-box !important;` +
             `overflow: hidden !important;` +
@@ -1366,13 +1375,18 @@ class Textarea extends Elements {
     /* ANIMATION             */
     /*************************/
 
+    getRight(addUnit = false){
+        let right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "18%" : "25px";
+        return addUnit ? right : right.replace("px", "").replace("%", "") ;
+    }
+
     getWidth(addUnit = false){
-        let width = "167px";
+        let width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "60%" : "166px";
         return addUnit ? width : width.replace("px", "").replace("%", "") ;
     }
 
     getHeight(addUnit = false){
-        let height = "25px";
+        let height = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "25px" : "25px";
         return addUnit ? height : height.replace("px", "").replace("%", "") ;
     }
 
@@ -1382,25 +1396,35 @@ class Textarea extends Elements {
         const textareaElm = textarea.get();
         switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
         case Ext.DISPLAY_MODE_ACTIVE:
-            console.log("ACTIVE");
             textareaElm.style.display = "none";
             break;
         case Ext.DISPLAY_MODE_OPEN:
-            console.log("OPEN");
             textareaElm.style.display = "block";
             break;        
         }
     }
 
     getActiveStyles(){
+        const width = this.getWidth(true);
+        const height = this.getHeight(true);
+        const right = this.getRight(true);
         return {
-            display: "none"
+            display: "none",
+            width,
+            height,
+            right
         }
     }
 
     getOpenStyles(){
+        const width = this.getWidth(true);
+        const height = this.getHeight(true);
+        const right = this.getRight(true);
         return {
-            display: "none"
+            display: "none",
+            width,
+            height,
+            right
         }
     }
 }
