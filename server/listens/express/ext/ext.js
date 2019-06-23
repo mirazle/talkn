@@ -1330,7 +1330,7 @@ class Textarea extends Elements {
             `content: none !important;` +
             `cursor: default !important;` + 
             `text-align: left !important;` +
-            `text-indent: 4px !important;` +
+            `text-indent: 3% !important;` +
             `color: rgb(160, 160, 160) !important;` +
             `transform: translate3d(0px, 0px, 0px) !important;`
     }
