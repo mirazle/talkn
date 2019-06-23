@@ -12,7 +12,7 @@ class Ext {
     static get EXCLUSION_ORIGINS(){return ['https://localhost', 'https://talkn.io']}
     static get DEFAULT_DISPLAY_MODE_KEY(){return 0 }
     static get DEFAULT_DISPLAY_MODE_DIRECTION(){return "ASC" }
-    static get DISPLAY_MODE(){return [ Ext.DISPLAY_MODE_ACTIVE, Ext.DISPLAY_MODE_STANBY, Ext.DISPLAY_MODE_OPEN ] }
+    static get DISPLAY_MODE(){return [ Ext.DISPLAY_MODE_ACTIVE, Ext.DISPLAY_MODE_OPEN ] }
     static get DISPLAY_MODE_ACTIVE(){return "ACTIVE" }
     static get DISPLAY_MODE_STANBY(){return "STANBY" }
     static get DISPLAY_MODE_OPEN(){return "OPEN" }
@@ -70,9 +70,9 @@ class Styles{
     static get BASE_UNACTIVE_BORDER(){return "1px solid rgba(235, 235, 235, 0.75) !important;"}
     constructor(){
         const style = document.createElement("style");
-        const css = document.createTextNode(`footer#${Footer.id} textarea::placeholder { ` + 
+        const css = document.createTextNode(`#${Textarea.id}::placeholder { ` + 
             `font-size: 12px; ` +
-            `line-height: 8px; ` +
+            `line-height: 10px; ` +
             `letter-spacing: 2px; ` +
             `color: rgb(170, 170, 170); ` +
         `}`);
@@ -101,7 +101,7 @@ class Elements {
         }
     }
     callback( displayMode, displayModeDirection, actionName, _window ){
-        if( displayMode === Ext.DISPLAY_MODE_STANBY ){
+        if( displayMode === Ext.DISPLAY_MODE_OPEN ){
             if( displayModeDirection === "DESC" ){
                 window.scrollTo( 0, _window.ins.window.scrollY );
             }
@@ -123,10 +123,6 @@ class Window extends Elements {
     ]};
 
     static getActiveStyles( mode ){
-
-    }
-
-    static getStanbyStyles( mode ){
 
     }
 
@@ -194,7 +190,7 @@ class Window extends Elements {
             this.ins.body = new Body( this );
             this.ins.iframe = new Iframe( this );
             this.ins.handleIcon = new HandleIcon( this );
-            this.ins.footer = new Footer( this );
+            this.ins.textarea = new Textarea( this );
         }
     }
 
@@ -230,7 +226,7 @@ class Window extends Elements {
     }
 
     transformDisplayMode( displayModeKey ){
-        const { body, iframe, handleIcon, footer } = this.ins;
+        const { body, iframe, handleIcon, textarea } = this.ins;
         const displayMode = Ext.DISPLAY_MODE[ displayModeKey ].toLowerCase();
         const actionName = displayMode.charAt(0).toUpperCase() + displayMode.slice(1);
 
@@ -241,7 +237,7 @@ class Window extends Elements {
         body.action( actionName );
         iframe.action( actionName );
         handleIcon.action( actionName );
-        footer.action( actionName );
+        textarea.action( actionName );
         this.callback( beforeDisplayMode, beforeDisplayModeDirection, actionName, this );
     }
 
@@ -368,7 +364,6 @@ class Window extends Elements {
         case Ext.MODE_MODAL:
             switch( Ext.DISPLAY_MODE[ this.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
-            case Ext.DISPLAY_MODE_STANBY:
                 new Notif(this, params);
                 break;
             }
@@ -439,7 +434,13 @@ class Window extends Elements {
     }
 
     transitionend(e){
-        const { iframe } = this.ins;
+        const { body, iframe, handleIcon, textarea} = this.ins;
+
+//        body.transitionEnd();
+//        iframe.transitionEnd();
+//        handleIcon.transitionEnd();
+        textarea.transitionEnd();
+
         this.childTo("updateExtension", {                
             extensionMode: this.extMode,
             extensionWidth: iframe.getWidth(true),
@@ -485,10 +486,6 @@ class Window extends Elements {
         return {}
     }
 
-    getStanbyStyles(){
-        return {}
-    }
-
     getOpenStyles(){
         this.scrollY = window.scrollY;
         return {}
@@ -527,19 +524,6 @@ class Body extends Elements {
         return {};
     }
 
-    getStanbyStyles(){
-        if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-            return {
-                overflow: this.overflow,
-                position: this.position,
-                width: this.width,
-                height: this.height,
-                marginTop: this.marginTop
-            }
-        }
-        return {};
-    }
-
     getOpenStyles(){
         if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
             return {
@@ -550,6 +534,10 @@ class Body extends Elements {
                 marginTop: -( window.scrollY ) + "px"
             }
         }
+    }
+
+    transitionEnd(){
+        
     }
 }
 
@@ -644,7 +632,7 @@ class Iframe extends Elements {
                 `max-height: ${styles.height} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0 !important;" + 
-                "opacity: 1 !important;" + 
+                "opacity: 0 !important;" + 
                 `transition: ${Styles.BASE_TRANSITION}ms !important;` + 
                 `transform: ${ styles.transform } !important;`;
         case Ext.MODE_BOTTOM:
@@ -712,8 +700,6 @@ class Iframe extends Elements {
         case Ext.MODE_MODAL:
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
-            case Ext.DISPLAY_MODE_STANBY:
-                height = "0px";
                 break;
             case Ext.DISPLAY_MODE_OPEN:
                 if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
@@ -752,17 +738,39 @@ class Iframe extends Elements {
         case Ext.MODE_MODAL:
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
-                return `translate3d( 0px, ${Styles.BOTTOM}px, 0px )`;
-            case Ext.DISPLAY_MODE_STANBY:
-                return `translate3d( 0px, 0px, 0px )`;
+                const translateY = Styles.BOTTOM + Number( this.getHeight() );
+                return `translate3d( 0px, ${ translateY }px, 0px ) scale( 0.5 )`;
             case Ext.DISPLAY_MODE_OPEN:
-                return `translate3d( 0px, 0px, 0px )`;
+                return `translate3d( 0px, 0px, 0px ) scale( 1.0 )`;
             }
             break;
         }
         return transform;
     }
     
+    getOpacity( addUnit = false ){
+        let width = Styles.WIDTH;
+        switch( this.window.extMode ){
+        case Ext.MODE_BOTTOM:
+            width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "100%" : width;
+            break;
+        case Ext.MODE_MODAL:
+                switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+                case Ext.DISPLAY_MODE_ACTIVE:
+                    return 0;
+                case Ext.DISPLAY_MODE_OPEN:
+                    return 1;
+                }
+            break;
+        case Ext.MODE_INCLUDE:
+            const talknTag = document.querySelector( Ext.INCLUDE_ID );
+            width = talknTag ? talknTag.clientWidth : "100%";
+            return addUnit ? width + "px" : width ;
+        }
+        return addUnit ? width : width.replace("px", "").replace("%", "") ;
+    }
+
+
     static getModalOpenTransform(){
         return `translate3d(0px, 0px, 0px) scale( 1 )`;
     }
@@ -789,28 +797,13 @@ class Iframe extends Elements {
         const width = this.getWidth(true);
         const height = this.getHeight(true);
         const right = this.getRight(true);
+        const opacity = this.getOpacity();
         const transform = this.getTransform();
         return {
             transform,
+            opacity,
             right,
             width: width,
-            minWidth: width,
-            maxWidth: width,
-            height: height,
-            minHeight: height,
-            maxHeight: height
-        }
-    }
-
-    getStanbyStyles(){
-        const { iframe } = this.window.ins;
-        const width = this.getWidth(true);
-        const height = this.getHeight(true);
-        const right = this.getRight(true);
-        const transform = iframe.getTransform();
-        return {
-            transform,
-            right,
             minWidth: width,
             maxWidth: width,
             height: height,
@@ -824,9 +817,11 @@ class Iframe extends Elements {
         const width = this.getWidth(true);
         const height = this.getHeight(true);
         const right = this.getRight(true);
+        const opacity = this.getOpacity();
         const transform = iframe.getTransform();
         return {
             transform,
+            opacity,
             right,
             minWidth: width,
             maxWidth: width,
@@ -834,6 +829,10 @@ class Iframe extends Elements {
             minHeight: height,
             maxHeight: height
         }
+    }
+
+    transitionEnd(){
+        
     }
 }
 
@@ -933,7 +932,7 @@ class HandleIcon extends Elements {
     /*************************/
 
     click(){
-        const { iframe, footer } = this.window.ins;
+        const { iframe, textarea } = this.window.ins;
         const iframeElm = iframe.get();
 
         switch( this.window.extMode ){
@@ -963,13 +962,13 @@ class HandleIcon extends Elements {
             break;
         case Ext.MODE_MODAL:
             const regex = /^\s*$/;
-            const value = footer.getValue();
+            const value = textarea.getValue();
 
             if( value !== "" && !regex.test( value )){
                 this.window.childTo("delegatePost", value );
                 this.window.childTo("onChangeInputPost");
-                footer.clearValue();
-                footer.focus();
+                textarea.clearValue();
+                textarea.focus();
             }else{
                 this.window.updateDisplayMode("clickHandleIcon");
             }
@@ -1001,7 +1000,7 @@ class HandleIcon extends Elements {
         }
     }
 
-    getStanbyStyles(){
+    getOpenStyles(){
         return {
             transform: `translate3d(0px, -25px, 0px) scale( 1 )`,
             background: Styles.BASE_ACTIVE_BG_COLOR,
@@ -1009,12 +1008,8 @@ class HandleIcon extends Elements {
         }
     }
 
-    getOpenStyles(){
-        return {
-            transform: `translate3d(0px, -25px, 0px) scale( 1 )`,
-            background: Styles.BASE_ACTIVE_BG_COLOR,
-            border: Styles.BASE_ACTIVE_BORDER
-        }
+    transitionEnd(){
+        
     }
 }
 
@@ -1113,9 +1108,6 @@ class Notif extends Elements{
                 case Ext.DISPLAY_MODE_ACTIVE:
                     this.window.updateDisplayMode("clickNotif");
                     break;
-                case Ext.DISPLAY_MODE_STANBY:
-                    this.window.updateDisplayMode("clickNotif", {displayMode: 2});
-                    break;
                 case Ext.DISPLAY_MODE_OPEN:
                     break;        
                 }
@@ -1167,9 +1159,6 @@ class Notif extends Elements{
             case Ext.DISPLAY_MODE_ACTIVE:
                 width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "calc( 100% - 130px )" : "180px";
                 break;
-            case Ext.DISPLAY_MODE_STANBY:
-                width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "90%" : "245px";
-                break;
             case Ext.DISPLAY_MODE_OPEN:
                 break;        
             }
@@ -1193,9 +1182,6 @@ class Notif extends Elements{
             case Ext.DISPLAY_MODE_ACTIVE:
                 padding =  "10px 20px 10px 10px";
                 break;
-            case Ext.DISPLAY_MODE_STANBY:
-                padding = "6px 1% 12px 1%";
-                break;
             case Ext.DISPLAY_MODE_OPEN:
                 break;        
             }
@@ -1214,9 +1200,6 @@ class Notif extends Elements{
             case Ext.DISPLAY_MODE_ACTIVE:
                 bottom =  "0px";
                 break;
-            case Ext.DISPLAY_MODE_STANBY:
-                bottom = `${Styles.BOTTOM}px`;
-                break;
             case Ext.DISPLAY_MODE_OPEN:
                 break;        
             }
@@ -1234,9 +1217,6 @@ class Notif extends Elements{
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
                 right = "75px";
-                break;
-            case Ext.DISPLAY_MODE_STANBY:
-                right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "4%" : "20px";
                 break;
             case Ext.DISPLAY_MODE_OPEN:
                 break;        
@@ -1257,9 +1237,6 @@ class Notif extends Elements{
             case Ext.DISPLAY_MODE_ACTIVE:
                     transformY = "-21px";
                 break;
-            case Ext.DISPLAY_MODE_STANBY:
-                    transformY = "-40px";
-                break;
             case Ext.DISPLAY_MODE_OPEN:
                 break;        
             }
@@ -1276,181 +1253,47 @@ class Notif extends Elements{
     }
 }
 
-class Footer extends Elements {
-
+class Textarea extends Elements {
     static get id(){return `${Ext.APP_NAME}${this.name}`}
-    static get openBorderRadius(){
-        return `0px 0px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px`;
-    };
-    static get closeBorderRadius(){
-        return `${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px`;
-    };
-    static getBottom(addUnit = false){
-        return addUnit ? "45px" : 45;
-    }
-    static getHeight(addUnit = false){
-        return addUnit ? "45px" : 45 ;
-    }
-    static getWidth(addUnit = false){
-        const width =  window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : `${Styles.WIDTH}px`;
-        return addUnit ? width : width.replace( "px", "" ).replace("%", "");
-    }
-    static getRight(addUnit = false){
-        const right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : "10px";
-        return addUnit ? right : right.replace( "px", "" ).replace("%", "");
-    }
-    static getOpenTransform(){
-        return "translate3d(0px, 0px, 0px)";
-    }
-    static getCloseTransform(){
-        return `translate3d(0px, ${Footer.getBottom() * 2}px, 0px)`;
-    }
-
     constructor(_window){
-        super( _window );
-        const footer = document.createElement("footer");
-        const icon = document.createElement("div");
+        super(_window);
         const textarea = document.createElement("textarea");
-
-        this.clickIcon = this.clickIcon.bind( this )
+        this.get = this.get.bind( this );   
+        this.getValue = this.getValue.bind( this );   
+        this.setValue = this.setValue.bind( this );   
+        this.clear = this.clear.bind( this );   
+        this.focuse = this.getValue.bind( this );   
         this.keypress = this.keypress.bind( this );
-
-        footer.id = Footer.id;
-        footer.style = this.getFooterStyle();
-        icon.style = this.getIconStyle();
-        icon.addEventListener("click", this.clickIcon );
-        textarea.style = this.getTextateaStyle();
+        this.transitionEnd = this.transitionEnd.bind( this );
+        textarea.id = Textarea.id;
+        textarea.style = this.getStyle();
         textarea.placeholder = "Comment to web";
         textarea.addEventListener("keypress", this.keypress );
-        footer.appendChild( icon );
-        footer.appendChild( textarea );
-        document.body.appendChild( footer );
+        document.body.appendChild( textarea );
     }
 
     get(){
-        return document.querySelector(`#${Footer.id}`);
+        return document.querySelector(`#${Textarea.id}`);
     }
 
-    getText(){
-        return document.querySelector("#talknFooter textarea");
-    }
-
-    getValue(){
-        return this.getText().value;
-    }
-
-    setValue( addValue ){
-        return this.getText().value = this.getText().value + addValue;
-    }
-
-    clearValue(){
-        console.log("CLEAR");
-        console.log( this.getText().value );
-        this.getText().value = "";
-        this.getText().value = null;
-        console.log( this.getText().value );
-    }
-
-    focus(){
-        this.getText().focus();
-    }
-
-    getFooterStyle(){
-        const width = Footer.getWidth(true);
-        const height = Footer.getHeight(true);
-        const bottom = Footer.getBottom(true);
-        const right = Footer.getRight(true);
-        const transform = Footer.getCloseTransform();
+    getStyle(){
+        const styles = this.getActiveStyles();
+        const width = this.getWidth(true);
+        const height = this.getHeight(true);
         return "" + 
-            `display: flex !important;` +
+            `position: fixed !important;` +
+            `bottom: 55px !important;` +
+            `right: 42px !important;` +
+            `display: ${styles.display} !important;` +
             `box-sizing: border-box !important;` +
-            `overflow: hidden !important;` + 
+            `overflow: hidden !important;` +
             `width: ${width} !important;` +
             `min-width: ${width} !important;` +
             `max-width: ${width} !important;` +
-            `height: ${height} !important;` +
-            `min-width: auto !important;` + 
-            `min-height: auto !important;` + 
-            `max-width: 100% !important;` +
-            `max-height: inherit !important;` + 
-            `padding: 0px !important;` +
-            `margin: 0px !important;` +
-            `line-height: 1 !important;` + 
-            `list-style: none !important;` +
-            `user-select: none !important;` +
-            `text-decoration: none !important;` + 
-            `vertical-align: baseline !important;` +
-            `border-collapse: collapse !important;` + 
-            `border-spacing: 0px !important;` +
-            `border: 1px solid rgb(220, 220, 220) !important;` +
-            `border-radius: ${Footer.closeBorderRadius} !important;` + 
-            `z-index: ${Styles.zIndex - 1} !important;` +
-            `justify-content: flex-start !important;` + 
-            `align-items: center !important;` +
-            `flex-direction: row !important;` +
-            `position: fixed !important;` + 
-            `bottom: ${bottom} !important;` +
-            `right: ${right} !important;` +
-            `flex-grow: 1 !important;` +
-            `background: rgba(250, 250, 250, 0.96) !important;` +
-            `transition: ${Styles.BASE_TRANSITION}ms !important;` +
-            `transform: ${transform} !important;`
-    }
-
-    getIconStyle(){
-        return "" +
-            `display: inline-block !important;` +
-            `box-sizing: border-box !important;` +
-            `overflow: hidden !important;` +
-            `width: 20% !important;` +
-            `height: 55% !important;` +
-            `min-width: auto !important;` +
-            `min-height: auto !important;` +
-            `max-width: 20% !important;` +
-            `max-height: inherit !important;` +
-            `padding: 0px !important;` +
-            `margin: 0px !important;` +
-            `font-style: inherit !important;` +
-            `font-variant: inherit !important;` +
-            `font-weight: inherit !important;` +
-            `font-stretch: inherit !important;` +
-            `font-size: inherit !important;` +
-            `line-height: 1 !important;` +
-            `font-family: "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif !important;` +
-            `list-style: none !important;` +
-            `user-select: none !important;` +
-            `text-decoration: none !important;` +
-            `vertical-align: middle !important;` +
-            `border-collapse: collapse !important;` +
-            `border-spacing: 0px !important;` +
-            `border: 0px !important;` +
-            `border-radius: 0px !important;` +
-            `z-index: 9999 !important;` +
-            `background-image: url(https://assets.localhost/icon/https:__assets.localhost_favicon.ico.png) !important;` +
-            `background-position: center center; !important;` +
-            `background-size: 20px 20px !important;` +
-            `background-repeat: no-repeat !important;` +
-            `letter-spacing: 1.5px !important;` +
-            `white-space: normal !important;` +
-            `quotes: none !important;` +
-            `content: none !important;` +
-            `cursor: pointer !important;` +
-            `text-align: center !important;` +
-            `color: rgb(160, 160, 160) !important;` 
-    }
-
-    getTextateaStyle(){
-        return "" + 
-            `display: inline-block !important;` +
-            `box-sizing: border-box !important;` +
-            `overflow: hidden !important;` +
-            `width: 60% !important;` +
-            `height: 55% !important;` + 
-            `min-width: auto !important;` +
-            `min-height: auto !important;` +
-            `max-width: 60% !important;` +
-            `max-height: inherit !important;` +
-            `padding: 6px 0% 5px 2% !important;` +
+            `height: ${height} !important;` + 
+            `min-height: ${height} !important;` +
+            `max-height: ${height} !important;` +
+            `padding: 6px !important;` +
             `margin: 0px 3% 0px 0px !important;` +
             `font-style: inherit !important;` +
             `font-variant: inherit !important;` + 
@@ -1467,8 +1310,8 @@ class Footer extends Elements {
             `border-spacing: 0px !important;` +
             `border: 1px solid rgb(220, 220, 220) !important;` +
             `border-radius: 3px !important;` +
-            `z-index: 1 !important;` +
-            `background: rgb(255, 255, 255) !important;` +
+            `z-index: ${Styles.zIndex} !important;` +
+            `background: rgb(255,255,255) !important;` +
             `outline: none !important;` +
             `resize: none !important;` +
             `-webkit-appearance: none !important;` +
@@ -1478,8 +1321,25 @@ class Footer extends Elements {
             `content: none !important;` +
             `cursor: default !important;` + 
             `text-align: left !important;` +
+            `text-indent: 4px !important;` +
             `color: rgb(160, 160, 160) !important;` +
             `transform: translate3d(0px, 0px, 0px) !important;`
+    }
+
+    getValue(){
+        return this.get().value;
+    }
+
+    setValue( addValue ){
+        return this.get().value = this.getText().value + addValue;
+    }
+
+    clear(){
+        this.get().value = "";
+    }
+
+    focus(){
+        this.get().focus();
     }
 
     keypress( e ){
@@ -1502,47 +1362,45 @@ class Footer extends Elements {
         }
     }
 
-    clickIcon(){
-        switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
-        case Ext.DISPLAY_MODE_ACTIVE:
-            break;
-        case Ext.DISPLAY_MODE_STANBY:
-            this.window.updateDisplayMode( "clickFooterIcon", true, {displayModeKey: 2, displayModeDirection: "ASC"} );
-            break;
-        case Ext.DISPLAY_MODE_OPEN:
-            this.window.updateDisplayMode( "clickFooterIcon", true, {displayModeKey: 1, displayModeDirection: "DESC"} );
-            break;
-        }
-    }
-
     /*************************/
     /* ANIMATION             */
     /*************************/
 
-    getActiveStyles(){
-        return {
-            "width": Footer.getWidth(true),
-            "right": Footer.getRight(true),
-            "transform": `translate3d(0px, ${Footer.getBottom() * 2}px, 0px)`,
-            "border-radius": `${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px`
+    getWidth(addUnit = false){
+        let width = "167px";
+        return addUnit ? width : width.replace("px", "").replace("%", "") ;
+    }
+
+    getHeight(addUnit = false){
+        let height = "25px";
+        return addUnit ? height : height.replace("px", "").replace("%", "") ;
+    }
+
+
+    transitionEnd(){
+        const { textarea } = this.window.ins; 
+        const textareaElm = textarea.get();
+        switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+        case Ext.DISPLAY_MODE_ACTIVE:
+            console.log("ACTIVE");
+            textareaElm.style.display = "none";
+            break;
+        case Ext.DISPLAY_MODE_OPEN:
+            console.log("OPEN");
+            textareaElm.style.display = "block";
+            break;        
         }
     }
 
-    getStanbyStyles(){
+    getActiveStyles(){
         return {
-            "width": Footer.getWidth(true),
-            "right": Footer.getRight(true),
-            "transform": `translate3d(0px, 0px, 0px)`,
-            "border-radius": `${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px`
+            display: "none"
         }
     }
 
     getOpenStyles(){
         return {
-            "width": Footer.getWidth(true),
-            "right": Footer.getRight(true),
-            "transform": `translate3d(0px, 0px, 0px)`,
-            "border-radius": `0px 0px ${Styles.BORDER_RADIUS}px ${Styles.BORDER_RADIUS}px`
+            display: "none"
         }
     }
 }

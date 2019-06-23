@@ -111,29 +111,23 @@ export default class PostsFooter extends Component {
     const { style, app } = state;  
     const value = app.inputPost;
 
-    if( app.extensionMode === App.extensionModeExtModalLabel ){
-      return (
-        <div data-component-name={"PostsFooter"} style={ style.postsFooter.self } />
-      );
-    }else{
-      return (
-        <div data-component-name={"PostsFooter"} style={ style.postsFooter.self }>
-          <div style={ this.getIconStyle() } onClick={handleOnClickToggleMain}/>
-          <textarea
-            data-component-name={"postArea"}
-            style={style.postsFooter.textarea}
-            ref={"postArea"}
-            rows={1}
-            onChange={this.handleOnChange}
-            onKeyPress={this.handleOnKeyPress}
-            onFocus={this.handleOnFocus}
-            onBlur={this.handleOnBlur}
-            value={value}
-            placeholder='Comment to web'
-          />
-          {this.renderButton()}
-        </div>
-      );
-    }
- 	}
+    return (
+      <div data-component-name={"PostsFooter"} style={ style.postsFooter.self }>
+        <div style={ this.getIconStyle() } onClick={handleOnClickToggleMain}/>
+        <textarea
+          data-component-name={"postArea"}
+          style={style.postsFooter.textarea}
+          ref={"postArea"}
+          rows={1}
+          onChange={this.handleOnChange}
+          onKeyPress={this.handleOnKeyPress}
+          onFocus={this.handleOnFocus}
+          onBlur={this.handleOnBlur}
+          value={value}
+          placeholder='Comment to web'
+        />
+        {this.renderButton()}
+      </div>
+    );
+  }
 }
