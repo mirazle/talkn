@@ -122,7 +122,6 @@ const componentDidUpdates = {
             ){
 
                 const { isScrollBottom } = self.state;
-                alert("POSTED " + app.isOpenPosts + " && " + isScrollBottom);
                 if( app.isOpenPosts && isScrollBottom ){
                     self.animateScrollTo(
                       Posts,
