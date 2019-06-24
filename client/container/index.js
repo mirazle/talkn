@@ -192,9 +192,11 @@ class Container extends Component {
         padding: "2%"
       }}>
         <pre>
+        {`
           @isOpenPosts: { app.isOpenPosts }
           @height: { app.height } 
           @extensionOpenHeight: { app.extensionOpenHeight } 
+        `}
         </pre>
       </div>
     )
