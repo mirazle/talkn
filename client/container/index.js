@@ -193,9 +193,9 @@ class Container extends Component {
       }}>
         <pre>
         {`
-          @isOpenPosts: { app.isOpenPosts }
-          @height: { app.height } 
-          @extensionOpenHeight: { app.extensionOpenHeight } 
+          @isOpenPosts: { ${app.isOpenPosts} }
+          @height: { ${app.height} } 
+          @extensionOpenHeight: { ${app.extensionOpenHeight} } 
         `}
         </pre>
       </div>
