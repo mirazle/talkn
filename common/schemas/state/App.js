@@ -281,7 +281,8 @@ export default class App extends Schema{
         return false;
       }
 
-      if( extensionOpenHeight === height ){
+      // MEMO: スマホで入力モードになった時にheightがextensionOpenHeightを上回る時があるため
+      if( extensionOpenHeight <= height ){
         if(log) console.log("@getIsOpenPosts C " + " " + extensionOpenHeight + " " +  height);
         if(al) alert("@getIsOpenPosts C " + " " + extensionOpenHeight + " " +  height);
         return true;
