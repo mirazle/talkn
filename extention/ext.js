@@ -813,7 +813,6 @@ class Iframe extends Elements {
         const right = this.getRight(true);
         const opacity = this.getOpacity();
         const transform = iframe.getTransform();
-        console.log("OPEN " + height );
         return {
             transform,
             opacity,
@@ -958,14 +957,21 @@ class HandleIcon extends Elements {
         case Ext.MODE_MODAL:
             const regex = /^\s*$/;
             const value = textarea.getValue();
+            
+            switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+            case Ext.DISPLAY_MODE_ACTIVE:
 
-            if( value !== "" && !regex.test( value )){
-                this.window.childTo("delegatePost", value );
-                this.window.childTo("onChangeInputPost");
-                textarea.clear();
-                textarea.focus();
-            }else{
-                this.window.updateDisplayMode("clickHandleIcon");
+                break;
+            case Ext.DISPLAY_MODE_OPEN:
+                if( value !== "" && !regex.test( value )){
+                    this.window.childTo("delegatePost", value );
+                    this.window.childTo("onChangeInputPost");
+                    textarea.clear();
+                    textarea.focus();
+                }else{
+                    this.window.updateDisplayMode("clickHandleIcon");
+                }        
+                break;
             }
             break;
         }
