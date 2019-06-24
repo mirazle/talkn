@@ -175,6 +175,29 @@ class Container extends Component {
     }
   }
 
+  getDebug(props){
+    const { state } = props;
+    const { app } = state;
+    return(
+      <div style={{
+        position: "fixed",
+        top: "300px",
+        right: "3%",
+        width: "90%",
+        height: "100px",
+        background: "rgba(255,255,255, 0.8)",
+        border: "1px solid rgba(230, 230, 230, 0.8)",
+        borderRadius: "3px",
+        "zIndex": 10000000,
+        padding: "2%"
+      }}>
+        <div>
+          @isOpenPosts: { app.isOpenPosts }
+        </div>
+      </div>
+    )
+  }
+
   getNewPost(props){
     const { state} = props;
     const { style, app } = state;
@@ -278,6 +301,7 @@ class Container extends Component {
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     const HideScreenBottom = this.getHideScreenBottom( props );
+    const Debug = this.getDebug( props );
     return (
       <span data-component-name={"Container"} style={ style.container.self }>
         <Style {...props} />
@@ -290,6 +314,7 @@ class Container extends Component {
           <PostsFooter {...props} />
           <Menu {...props} />
           <InnerNotif {...this.props} debug={""} />
+          { Debug }
           { HideScreenBottom }
         </span>
       </span>
@@ -303,6 +328,7 @@ class Container extends Component {
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     const extScreenStyle = props.state.style.extScreen.self;
+    const Debug = this.getDebug( props );
     return (
       <span data-component-name={"Container"} style={ style.container.self }>
         <Style {...props} />
@@ -317,6 +343,7 @@ class Container extends Component {
         <span data-component-name="fixedComponents">
           { Notifs }
           <PostsFooter {...props} />
+          { Debug }
         </span>
       </span>
     );
