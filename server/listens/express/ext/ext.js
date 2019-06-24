@@ -706,7 +706,6 @@ class Iframe extends Elements {
             height = talknTag ? talknTag.clientHeight : "100%";
             return addUnit ? height + "px" : height ;
         }
-        console.log( height );
         return addUnit ? height : height.replace("px", "").replace("%", "");
     }
 
@@ -959,12 +958,13 @@ class HandleIcon extends Elements {
         case Ext.MODE_MODAL:
             const regex = /^\s*$/;
             const value = textarea.getValue();
-
+console.log("@@@ A " + value );
             if( value !== "" && !regex.test( value )){
                 this.window.childTo("delegatePost", value );
                 this.window.childTo("onChangeInputPost");
                 textarea.clear();
                 textarea.focus();
+                console.log("@@@ B");
             }else{
                 this.window.updateDisplayMode("clickHandleIcon");
             }
@@ -1359,6 +1359,8 @@ class Textarea extends Elements {
                     this.window.childTo("delegatePost", value );
                     this.window.childTo("onChangeInputPost");
                     textarea.clear();
+                    const textareaElm = textarea.get();
+                    textareaElm.focus();
                     e.preventDefault();
                     return false;
                 }
