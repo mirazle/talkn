@@ -21,15 +21,13 @@ export default class PostsFooter extends Component {
   }
 
   handleOnClick( e ){
-    console.log("ON CLICK");
     const value = this.refs.postArea.innerHTML;
     if( !App.validInputPost( value ) ){
-      if( !value ){
-        talknAPI.post();
-        talknAPI.onChangeInputPost(''); 
-        if(app.extensionMode === App.extensionModeExtModalLabel){
-          talknWindow.parentTo( "setInputPost", {inputPost: false} );
-        }
+      const { app } = this.props.state;
+      talknAPI.post();
+      talknAPI.onChangeInputPost(''); 
+      if(app.extensionMode === App.extensionModeExtModalLabel){
+        talknWindow.parentTo( "setInputPost", {inputPost: false} );
       }
     }
   }
@@ -110,7 +108,7 @@ export default class PostsFooter extends Component {
     const { state, handleOnClickToggleMain } = this.props;
     const { style, app } = state;  
     const value = app.inputPost;
-
+    const readOnly = app.extensionMode === App.extensionModeExtModalLabel;
     return (
       <div data-component-name={"PostsFooter"} style={ style.postsFooter.self }>
         <div style={ this.getIconStyle() } onClick={handleOnClickToggleMain}/>
@@ -119,6 +117,7 @@ export default class PostsFooter extends Component {
           style={style.postsFooter.textarea}
           ref={"postArea"}
           rows={1}
+          readOnly={readOnly}
           onChange={this.handleOnChange}
           onKeyPress={this.handleOnKeyPress}
           onFocus={this.handleOnFocus}
