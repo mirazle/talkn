@@ -1,0 +1,317 @@
+<!doctype html>
+<html>
+<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<style>
+
+			body {
+				background: rgba( 79, 174, 159, 0.1 );
+				margin: 0;
+				padding: 0;
+			}
+
+			h1 {
+				font-size: 23px;
+			}
+
+			h2 {
+				font-size: 20px;
+				margin: 50px;
+				background: rgb( 79, 174, 159);
+				color: rgb( 255,255,255 );
+				border-radius: 50px;
+				padding: 20px 70px 20px 70px;
+			}
+
+			header {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 25px;
+				position: fixed;
+				width: 100%;
+				height: 70px;
+				background: rgba( 79, 174, 159, 1 );
+				color: rgb(255,255,255);
+				letter-spacing: 2px;
+				font-weight: bold;
+			}
+
+			hr {
+				height: 10px;
+				min-height: 10px;
+				width: 100%;
+				background: rgb( 79, 174, 159);
+				margin: 50px 0px;
+				border: 0;
+			}
+
+			::placeholder{
+				color: rgba( 255, 255, 255, 1 );
+				letter-spacing: 4px;
+			}
+
+			#container {
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				flex-direction: column;
+				font-weight: bold;
+			}
+
+			#selectMode {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: row;
+				width: 50%;
+				height: 55px;
+				background: rgb( 255,255,255);
+				color: rgb( 79, 174, 159 );
+				border-radius: 100px;
+			}
+
+			#selectMode div {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 50%;
+				height: 20px;
+				min-height: 20px;
+				padding: 20px;
+				font-size: 20px;
+				cursor: pointer;
+				border: 1px solid rgb( 79, 174, 159 )
+			}
+
+			#selectMode div#modal {
+				color: rgb( 79, 174, 159 );
+				border-radius: 100px 0px 0px 100px;
+			}
+
+			#selectMode div#bottom {
+				color: rgb( 79, 174, 159 );
+				border-radius: 0px 0px 0px 0px;
+			}
+
+			#selectMode div#include {
+				color: rgb( 79, 174, 159 );
+				border-radius: 0px 100px 100px 0px;
+			}
+
+			#selectMode div#modal.active {
+				background: rgb( 79, 174, 159 );
+				color: rgb( 255,255,255 );
+				border-radius: 100px 0px 0px 100px;
+			}
+
+			#selectMode div#bottom.active {
+				background: rgb( 79, 174, 159 );
+				color: rgb( 255,255,255 );
+				border-radius: 0px 0px 0px 0px;
+			}
+
+			#selectMode div#include.active {
+				background: rgb( 79, 174, 159 );
+				color: rgb( 255,255,255 );
+				border-radius: 0px 100px 100px 0px;
+			}
+
+
+
+			#includeModeProperties{
+				width: 100%;
+				height: auto;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: column;
+				overflow: hidden;
+				transition: 600ms;
+			}
+
+			table {
+				width: 50%;
+				font-size: 20px;
+				color: rgb( 79, 174, 159 );
+				font-weight: bold;
+			}
+
+			input {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				height: 50px;
+				font-size: 20px;
+				letter-spacing: 4px;
+				color: rgba( 79, 174, 159, 1 );
+				background: rgb( 255, 255, 255);
+				border: 10px solid rgb( 79, 174, 159, 1);
+				border-radius: 50px;
+				outline: 0;
+				text-indent: 20px;
+				margin: 10px;
+				transition: 600ms;
+				cursor: pointer;
+			}
+
+			#buttonWrap {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+			}
+
+			.button {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 30%;
+				height: 40px;
+				min-height: 40px;
+				font-size: 20px;
+				letter-spacing: 3px;
+				color: rgba( 255, 255, 255, 1 );
+				background: rgb( 79, 174, 159);
+				border: 10px solid rgb( 79, 174, 159);
+				border-radius: 50px;
+				outline: 0;
+				margin: 50px 50px 100px 50px;
+				transition: 600ms;
+				cursor: pointer;
+			}
+
+			#notifWrap {
+				display: none;
+				position: fixed;
+				width: 100vw;
+			    height: 100vh;
+				top: 0;
+				left: 0;
+				opacity: 0;
+				align-items: center;
+				justify-content: center;
+				transition: 1000ms;
+			}
+
+			#notif {
+				position: fixed;
+				top: 70px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: rgba( 255, 255, 255, 0.975 );
+				padding: 20px;
+				width: 100%;
+				height: 25px;
+				font-size: 20px;
+				color: rgb( 79, 174, 159);
+			}
+		</style>
+		
+		<script type="text/javascript" charset="utf-8" src="./option.js"></script>
+</head>
+<body>
+
+<div id="notifWrap">
+	<div id="notif">SAVED</div>
+</div>
+
+<header>
+	<h1>talkn for chrome options</h1>
+</header>
+
+<div id="container">
+
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+
+	<h2>Select mode</h2>
+
+	<br />
+	<br />
+	<br />
+
+
+	<div id="selectMode">
+		<div id="modal" class="">modal</div>
+		<!-- div id="bottom" class="">bottom</div-->
+		<div id="include" class="">include</div>
+	</div>
+
+	<br />
+	<br />
+	<hr />
+	
+	<span id="includeModeProperties">
+		<h2>Include mode properties</h2>
+
+		<table>
+			<tr>
+				<td>
+					Query Selector
+				</td>
+				<td>
+					<input id="selector" type="text" name="" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Position
+				</td>
+				<td>
+					<input id="position" type="text" name="" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Width
+				</td>
+				<td>
+					<input id="width" type="text" name="" value="" />
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					Height
+				</td>
+				<td>
+					<input id="height" type="text" name="" value="" />
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					Z-index
+				</td>
+				<td>
+					<input id="zIndex" type="text" name="" value="" />
+				</td>
+			</tr>
+		</table>
+
+		<br />
+		<br />
+		<hr />
+	</span>
+
+	<div id="buttonWrap">
+		<div id="save" class="button">
+			SAVE
+		</div>
+		<div id="reset" class="button">
+			RESET
+		</div>
+	</div>
+</div>
+</body>
+</html>

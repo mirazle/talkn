@@ -125,8 +125,13 @@ class Express{
 
           // www.talkn.ioからアクセス
           if( referer.indexOf( "/" + conf.wwwURL ) === 0 ){
+
+            // www.talkn.ioでの<script呼び出しの場合
+            if( req.originalUrl.indexOf( referer ) === 0 ) {
+              includeIframeTag = true;
+            }
+
             connection = req.originalUrl;
-            console.log( connection );
             connection = connection.indexOf( "//" ) === 0 ? connection.replace(/^\/\//, '/') : connection ;
             console.log("ACCESS WWW " + connection + " includeIframeTag " + includeIframeTag);
           }else{

@@ -43,6 +43,7 @@
 
     onServiceWorker();
     var includeIframeTag =  "<%= includeIframeTag %>" ? "<%= includeIframeTag %>" : true;
+    console.log( includeIframeTag );
     //var connection = "<%= connection %>" ? "<%= connection %>" : location.href.replace(location.origin, '');
     var connection = location.href.replace(location.origin, '');
     var hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
