@@ -1372,7 +1372,7 @@ class Textarea extends Elements {
     /*************************/
 
     getRight(addUnit = false){
-        let right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "18%" : "27px";
+        let right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "18%" : "67px";
         return addUnit ? right : right.replace("px", "").replace("%", "") ;
     }
 
