@@ -193,6 +193,7 @@ class Container extends Component {
       }}>
         <div>
           @isOpenPosts: { app.isOpenPosts }
+          @extensionOpenHeight: { app.extensionOpenHeight } 
         </div>
       </div>
     )
