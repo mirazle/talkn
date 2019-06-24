@@ -181,7 +181,7 @@ class Container extends Component {
     return(
       <div style={{
         position: "fixed",
-        top: "40vh",
+        top: "60vh",
         right: "3%",
         width: "90%",
         height: "100px",
