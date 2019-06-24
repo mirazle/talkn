@@ -960,7 +960,7 @@ class HandleIcon extends Elements {
             
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
-
+                this.window.updateDisplayMode("clickHandleIcon");
                 break;
             case Ext.DISPLAY_MODE_OPEN:
                 if( value !== "" && !regex.test( value )){
