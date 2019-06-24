@@ -958,13 +958,12 @@ class HandleIcon extends Elements {
         case Ext.MODE_MODAL:
             const regex = /^\s*$/;
             const value = textarea.getValue();
-console.log("@@@ A " + value );
+
             if( value !== "" && !regex.test( value )){
                 this.window.childTo("delegatePost", value );
                 this.window.childTo("onChangeInputPost");
                 textarea.clear();
                 textarea.focus();
-                console.log("@@@ B");
             }else{
                 this.window.updateDisplayMode("clickHandleIcon");
             }
@@ -1296,7 +1295,7 @@ class Textarea extends Elements {
             `min-height: ${height} !important;` +
             `max-height: ${height} !important;` +
             `padding: 6px !important;` +
-            `margin: 0px 3% 0px 0px !important;` +
+            `margin: 0 !important;` +
             `font-style: inherit !important;` +
             `font-variant: inherit !important;` + 
             `font-weight: inherit !important;` +
@@ -1373,7 +1372,7 @@ class Textarea extends Elements {
     /*************************/
 
     getRight(addUnit = false){
-        let right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "18%" : "39px";
+        let right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "18%" : "27px";
         return addUnit ? right : right.replace("px", "").replace("%", "") ;
     }
 
