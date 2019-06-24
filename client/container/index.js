@@ -318,7 +318,7 @@ class Container extends Component {
           <PostsFooter {...props} />
           <Menu {...props} />
           <InnerNotif {...this.props} debug={""} />
-          { Debug }
+          { /*Debug*/ }
           { HideScreenBottom }
         </span>
       </span>
@@ -347,7 +347,7 @@ class Container extends Component {
         <span data-component-name="fixedComponents">
           { Notifs }
           <PostsFooter {...props} />
-          { Debug }
+          { /*Debug*/ }
         </span>
       </span>
     );
