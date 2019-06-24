@@ -260,6 +260,7 @@ export default class App extends Schema{
       extensionCloseHeight
     } = app;
     const log = false;
+    const al = false;
     if(
       extensionMode === App.extensionModeExtBottomLabel ||
       extensionMode === App.extensionModeExtModalLabel 
@@ -270,26 +271,28 @@ export default class App extends Schema{
 
       if( height === 0 ){
         if(log) console.log("@getIsOpenPosts A " + " " + extensionOpenHeight + " " +  height);
+        if(al) alert("@getIsOpenPosts A " + " " + extensionOpenHeight + " " +  height);
         return false;
       }
 
       if( extensionCloseHeight === height ){
         if(log) console.log("@getIsOpenPosts B " + " " + extensionOpenHeight + " " +  height);
+        if(al) alert("@getIsOpenPosts B " + " " + extensionOpenHeight + " " +  height);
         return false;
       }
 
       if( extensionOpenHeight === height ){
         if(log) console.log("@getIsOpenPosts C " + " " + extensionOpenHeight + " " +  height);
+        if(al) alert("@getIsOpenPosts C " + " " + extensionOpenHeight + " " +  height);
         return true;
       }
 
-      if(log){
-        console.log("@getIsOpenPosts D " + " " + extensionOpenHeight + " " +  height);
-        console.log( typeof extensionOpenHeight + " " + typeof height);
-      }
+      if(log)console.log("@getIsOpenPosts D " + " " + extensionOpenHeight + " " +  height);
+      if(al) alert("@getIsOpenPosts D " + " " + extensionOpenHeight + " " +  height);
       return false;
     } else {
       if(log) console.log("@getIsOpenPosts E " + " " + extensionOpenHeight + " " +  height);
+      if(al) alert("@getIsOpenPosts E " + " " + extensionOpenHeight + " " +  height);
       return true;
     }
   }

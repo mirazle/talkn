@@ -312,11 +312,11 @@ class Container extends Component {
           { MultistreamIcon }
           { NewPost }
           <DetailModal {...props} /> 
-          <InnerNotif {...this.props} debug={""} />
+          <InnerNotif {...this.props} />
         </div>
         <span data-component-name="fixedComponents">
           { Notifs }
-          <PostsFooter {...props} debug={""} />
+          <PostsFooter {...props} />
         </span>
       </span>
     );
