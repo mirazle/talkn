@@ -326,7 +326,7 @@ class Container extends Component {
   }
 
   renderExtension(){
-    const { app, style, actionLog } = this.props.state;
+    const { style } = this.props.state;
     const props = this.getProps();
     const Notifs = this.getNotifs( props );
     const MultistreamIcon = Icon.getMultistreamIcon( props );
