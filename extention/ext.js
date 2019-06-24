@@ -92,9 +92,7 @@ class Elements {
         const elm = this.get();
         const styles = this[`get${name}Styles`]();
 
-        if( styles ){
-//            console.log( "@@@ " + name + " " + this.constructor.name );
-//            console.log( styles );
+        if( elm && styles ){
             Object.keys( styles ).forEach( ( key ) => {
                 elm.style[ key ] = styles[ key ];
             });
@@ -233,11 +231,11 @@ class Window extends Elements {
         const beforeDisplayMode = Ext.DISPLAY_MODE[ this.displayModeKey ];
         const beforeDisplayModeDirection = this.displayModeDirection;
 
-        this.action( actionName );
-        body.action( actionName );
-        iframe.action( actionName );
-        handleIcon.action( actionName );
-        textarea.action( actionName );
+        if( this) this.action( actionName );
+        if( body ) body.action( actionName );
+        if( iframe ) iframe.action( actionName );
+        if( handleIcon ) handleIcon.action( actionName );
+        if( textarea )  textarea.action( actionName );
         this.callback( beforeDisplayMode, beforeDisplayModeDirection, actionName, this );
     }
 
@@ -343,7 +341,7 @@ class Window extends Elements {
     }
 
     openNotif(params){
-        const { iframe, handleIcon } = this.ins; 
+        const { iframe } = this.ins; 
         const iframeElm = iframe.get();
         switch( this.extMode ){
         case Ext.MODE_BOTTOM:
@@ -436,10 +434,10 @@ class Window extends Elements {
     transitionend(e){
         const { body, iframe, handleIcon, textarea} = this.ins;
 
-//        body.transitionEnd();
-//        iframe.transitionEnd();
-//        handleIcon.transitionEnd();
-        textarea.transitionEnd();
+        if( body && body.transitionEnd ) body.transitionEnd();
+        if( iframe && iframe.transitionEnd ) iframe.transitionEnd();
+        if( handleIcon && handleIcon.transitionEnd ) handleIcon.transitionEnd();
+        if( textarea && textarea.transitionEnd ) textarea.transitionEnd();
 
         this.childTo("updateExtension", {                
             extensionMode: this.extMode,
@@ -837,20 +835,23 @@ class HandleIcon extends Elements {
     static get right(){return 10}
     constructor(_window){
         super( _window );
-        let handleIcon  = document.createElement("canvas");
-        handleIcon = this.drawCanvas( handleIcon );
-        handleIcon.id = HandleIcon.id;
-        handleIcon.style = this.getStyle();
 
-        this.click = this.click.bind( this );
-        this.mouseover = this.mouseover.bind( this );
-        this.mouseout = this.mouseout.bind( this );
+        if( this.window.extMode === Ext.MODE_MODAL ){
+            let handleIcon  = document.createElement("canvas");
+            handleIcon = this.drawCanvas( handleIcon );
+            handleIcon.id = HandleIcon.id;
+            handleIcon.style = this.getStyle();
 
-        handleIcon.addEventListener( "click", this.click );
-        handleIcon.addEventListener( "mouseover", this.mouseover );
-        handleIcon.addEventListener( "mouseout", this.mouseout );
+            this.click = this.click.bind( this );
+            this.mouseover = this.mouseover.bind( this );
+            this.mouseout = this.mouseout.bind( this );
 
-        document.body.appendChild(handleIcon);
+            handleIcon.addEventListener( "click", this.click );
+            handleIcon.addEventListener( "mouseover", this.mouseover );
+            handleIcon.addEventListener( "mouseout", this.mouseout );
+
+            document.body.appendChild(handleIcon);
+        }
     }
 
     /*************************/
