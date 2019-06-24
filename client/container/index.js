@@ -191,10 +191,11 @@ class Container extends Component {
         "zIndex": 10000000,
         padding: "2%"
       }}>
-        <div>
+        <pre>
           @isOpenPosts: { app.isOpenPosts }
+          @height: { app.height } 
           @extensionOpenHeight: { app.extensionOpenHeight } 
-        </div>
+        </pre>
       </div>
     )
   }
