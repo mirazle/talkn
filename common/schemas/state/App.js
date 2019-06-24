@@ -260,7 +260,7 @@ export default class App extends Schema{
       extensionCloseHeight
     } = app;
     const log = false;
-    const al = true;
+    const al = false;
     if(
       extensionMode === App.extensionModeExtBottomLabel ||
       extensionMode === App.extensionModeExtModalLabel 
