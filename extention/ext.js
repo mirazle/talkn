@@ -205,6 +205,7 @@ class Window extends Elements {
                 this.notifCnt = 0;
                 this.notifId = null;
 
+                this.transitionEndId = null;
                 this.resizeMethodId = null;
                 this.htmlOverflow = null;
                 this.htmlPosition = null;
@@ -495,17 +496,24 @@ class Window extends Elements {
     transitionend(e){
         const { body, iframe, handleIcon, textarea} = this.ins;
 
+        if( this.transitionEndId === null ){
+
+            this.transitionEndId = setTimeout( () => {
+                this.transitionEndId = null;
+
+                this.childTo("updateExtension", {                
+                    extensionMode: this.extMode,
+                    extensionWidth: iframe.getWidth(true),
+                    extensionOpenHeight: Number( iframe.getHeight() ),
+                    extensionCloseHeight: Number( Iframe.getCloseHeight() )
+                });
+            }, Styles.BASE_TRANSITION );
+        }
+
         if( body && body.transitionEnd ) body.transitionEnd(e);
         if( iframe && iframe.transitionEnd ) iframe.transitionEnd(e);
         if( handleIcon && handleIcon.transitionEnd ) handleIcon.transitionEnd(e);
         if( textarea && textarea.transitionEnd ) textarea.transitionEnd(e);
-
-        this.childTo("updateExtension", {                
-            extensionMode: this.extMode,
-            extensionWidth: iframe.getWidth(true),
-            extensionOpenHeight: Number( iframe.getHeight() ),
-            extensionCloseHeight: Number( Iframe.getCloseHeight() )
-        });
     }
 
     load(e){
@@ -513,9 +521,7 @@ class Window extends Elements {
     }
 
     resize(e){
-        console.log("A");
         if( this.resizeMethodId === null ){
-            console.log("B");
             this.resizeMethodId = setTimeout( this.resized, Styles.BASE_TRANSITION );
         }
     }
@@ -1470,20 +1476,38 @@ class Textarea extends Elements {
         return addUnit ? height : height.replace("px", "").replace("%", "") ;
     }
 
-
     transitionEnd(e){
-        console.log( e.target.id + " === " + HandleIcon.id );
-        if( e.target.id === HandleIcon.id ){
+
+        console.log( "@@@ Textarea TransitionEnd " );
+        console.log( "e.target.id : " +  e.target.id );
+        console.log( "HandleIcon.id : " +  HandleIcon.id);
+
+        switch( e.target.id ){
+        case Iframe.id :
+        case HandleIcon.id :
             const { textarea } = this.window.ins; 
             const textareaElm = textarea.get();
+            const width = textarea.getWidth(true);
+
+            console.log("UPDATE");
+
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
+                console.log("A");
+                textareaElm.style.width = width;
+                textareaElm.style.minWidth = width;
+                textareaElm.style.maxWidth = width;
                 textareaElm.style.display = "none";
                 break;
             case Ext.DISPLAY_MODE_OPEN:
+                console.log("B");
+                textareaElm.style.width = width;
+                textareaElm.style.minWidth = width;
+                textareaElm.style.maxWidth = width;
                 textareaElm.style.display = "block";
                 break;        
             }
+            break;
         }
     }
 
