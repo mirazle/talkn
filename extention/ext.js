@@ -492,10 +492,10 @@ class Window extends Elements {
     transitionend(e){
         const { body, iframe, handleIcon, textarea} = this.ins;
 
-        if( body && body.transitionEnd ) body.transitionEnd();
-        if( iframe && iframe.transitionEnd ) iframe.transitionEnd();
-        if( handleIcon && handleIcon.transitionEnd ) handleIcon.transitionEnd();
-        if( textarea && textarea.transitionEnd ) textarea.transitionEnd();
+        if( body && body.transitionEnd ) body.transitionEnd(e);
+        if( iframe && iframe.transitionEnd ) iframe.transitionEnd(e);
+        if( handleIcon && handleIcon.transitionEnd ) handleIcon.transitionEnd(e);
+        if( textarea && textarea.transitionEnd ) textarea.transitionEnd(e);
 
         this.childTo("updateExtension", {                
             extensionMode: this.extMode,
@@ -696,7 +696,7 @@ class Iframe extends Elements {
                 `max-height: ${activeStyles.height} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0 !important;" + 
-                "opacity: 0 !important;" + 
+                `opacity: ${activeStyles.opacity} !important;` + 
                 `transition: ${Styles.BASE_TRANSITION}ms !important;` + 
                 `transform: ${ activeStyles.transform } !important;`;
         case Ext.MODE_BOTTOM:
@@ -815,7 +815,7 @@ class Iframe extends Elements {
         case Ext.MODE_MODAL:
                 switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
                 case Ext.DISPLAY_MODE_ACTIVE:
-                    return 0;
+                    return 1;
                 case Ext.DISPLAY_MODE_OPEN:
                     return 1;
                 }
@@ -1466,16 +1466,19 @@ class Textarea extends Elements {
     }
 
 
-    transitionEnd(){
-        const { textarea } = this.window.ins; 
-        const textareaElm = textarea.get();
-        switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
-        case Ext.DISPLAY_MODE_ACTIVE:
-            textareaElm.style.display = "none";
-            break;
-        case Ext.DISPLAY_MODE_OPEN:
-            textareaElm.style.display = "block";
-            break;        
+    transitionEnd(e){
+        console.log( e.target.id + " === " + HandleIcon.id );
+        if( e.target.id === HandleIcon.id ){
+            const { textarea } = this.window.ins; 
+            const textareaElm = textarea.get();
+            switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+            case Ext.DISPLAY_MODE_ACTIVE:
+                textareaElm.style.display = "none";
+                break;
+            case Ext.DISPLAY_MODE_OPEN:
+                textareaElm.style.display = "block";
+                break;        
+            }
         }
     }
 
