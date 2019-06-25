@@ -41,7 +41,8 @@ class Ext {
     }
     static isExt(){
         const scriptTag = document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
-        return scriptTag === null ? false : true ;
+        console.log( typeof scriptTag );
+        return typeof scriptTag === "object" ? false : true ;
     }
     static getMode( options ){
 
