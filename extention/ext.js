@@ -6,6 +6,7 @@ class Ext {
     static get MODE_BOTTOM(){return "EXT_BOTTOM"}
     static get MODE_INCLUDE(){return "EXT_INCLUDE"}
     static get DEFAULT_MODE(){return Ext.MODE_MODAL}
+    static get BASE_EXT_SUBDOMAIN(){return "ext"}
     static get BASE_PROD_HOST(){return "talkn.io"}
     static get BASE_DEV_HOST(){return "localhost"}
     static get BASE_DEV_PORT(){return 8080}
@@ -17,14 +18,30 @@ class Ext {
     static get DISPLAY_MODE_STANBY(){return "STANBY" }
     static get DISPLAY_MODE_OPEN(){return "OPEN" }
     static get INCLUDE_ID(){return `#${Ext.APP_NAME}`}
-    static get APP_ENDPOINT(){
+    static get APP_HOST(){
         if(TALKN_EXT_ENV === "PROD"){
-            return `https://${Ext.BASE_PROD_HOST}`;
+            return `//${Ext.BASE_PROD_HOST}`;
         }else if(TALKN_EXT_ENV === "START"){
-            return `https://${Ext.BASE_DEV_HOST}`;
+            return `//${Ext.BASE_DEV_HOST}`;
         }else if(TALKN_EXT_ENV === "DEV"){
-            return `https://${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
+            return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
         }
+    }
+    static get APP_EXT_HOST(){
+        if(TALKN_EXT_ENV === "PROD"){
+            return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_PROD_HOST}`;
+        }else if(TALKN_EXT_ENV === "START"){
+            return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
+        }else if(TALKN_EXT_ENV === "DEV"){
+            return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
+        }
+    }
+    static get APP_ENDPOINT(){
+        return `https:${Ext.APP_HOST}`;
+    }
+    static isExt(){
+        const scriptTag = document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
+        return scriptTag ? false : true;
     }
     static getMode( options ){
 
@@ -160,6 +177,7 @@ class Window extends Elements {
     constructor( refusedFrame = false ){
         super( window );
         this.refusedFrame = refusedFrame;
+        this.isExt = Ext.isExt();
         this.href = window.location.href;
         this.connection = this.href.replace("http:/", "").replace("https:/", "");
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
@@ -169,12 +187,13 @@ class Window extends Elements {
         });
 
         if(bootFlg){
-            chrome.runtime.sendMessage({ message: "message"}, (res) => {
+            
+            let init = ( options = {} ) => {
 
                 // Variable
-                this.options = res ? JSON.parse( res ) : {};
-                this.extMode = Ext.getMode(this.options);
-                this.includeId = this.extMode === Ext.MODE_INCLUDE ? this.options.selector : Ext.INCLUDE_ID;
+                this.extMode = Ext.getMode(options);
+                this.includeId = this.extMode === Ext.MODE_INCLUDE && options && options.selector ?
+                    options.selector : Ext.INCLUDE_ID;
                 this.displayModeKey = Ext.DEFAULT_DISPLAY_MODE_KEY;
                 this.displayModeDirection = "ASC";
                 this.browser = this.getBrowser();
@@ -222,7 +241,20 @@ class Window extends Elements {
                 this.ins.iframe = new Iframe( this );
                 this.ins.handleIcon = new HandleIcon( this );
                 this.ins.textarea = new Textarea( this );
-            });
+            };
+
+            init = init.bind( this );
+
+            if( this.isExt ){
+
+                // Communication to background.js
+                chrome.runtime.sendMessage({ message: "message"}, (res) => {
+                    const options = res ? JSON.parse( res ) : {};
+                    init( options );
+                });
+            }else{
+                init();   
+            }
         }
     }
 
