@@ -1,8 +1,12 @@
-const cacheKey = "talknExtensionSetting";
+const cacheKey = "talknExtensionOptions";
 const defaultCacheValues = {
-	mode: "modal",
+	mode: "MODAL",
 	selector: "#talkn",
-	position: "relative",
+	position: "static",
+	top: "0px",
+	right: "0px",
+	bottom: "0px",
+	left: "0px",
 	width: "280px",
 	height: "420px",
 	zIndex: 2147483647
@@ -15,36 +19,55 @@ window.onload = () => {
 	const modes = document.querySelectorAll("#selectMode div");
 
 	modes.forEach( (div) => {
-		div.id === cache.mode ? div.classList.add( "active" ) : div.classList.remove( "active" );
+		if( div.id === cache.mode ){
+			div.classList.add( "active" );
+			switch( div.id ){
+			case "MODAL":
+				document.querySelector("#includeModeProperties").style.height = "0px";
+				break;
+			case "INCLUDE":
+				document.querySelector("#includeModeProperties").style.height = "auto";
+				break;
+			}
+		 }else{
+			div.classList.remove( "active" );
+		 }
 
 		div.addEventListener("click" , (e) => {
 
 			modes.forEach( div => div.classList.remove( "active" ));
 
-			if( e.target.id === "modal"){
-				document.querySelector("#modal").classList.add("active");
+			if( e.target.id === "MODAL"){
+				document.querySelector("#MODAL").classList.add("active");
+				document.querySelector("#includeModeProperties").style.height = "0px";
 			}
 
-			if( e.target.id === "include"){
-				document.querySelector("#include").classList.add("active");
+			if( e.target.id === "INCLUDE"){
+				document.querySelector("#INCLUDE").classList.add("active");
+				document.querySelector("#includeModeProperties").style.height = "auto";
 			}
 
 			cache.mode = e.target.id;
 		} );
 	} );
 
-	Object.keys( cache ).forEach( ( key ) => {
-		const elm = document.querySelector( `input#${key}` );
+	Object.keys( defaultCacheValues ).forEach( ( key ) => {
+		const elm = document.querySelector( `#${key}` );
 		if( elm && cache[ key ] && cache[ key ] !== "" ){
 			elm.value = cache[ key ];
+		}else if( elm ){
+			elm.value = defaultCacheValues[ key ];
 		}
 	} );
 
 	save.addEventListener("click", () => {
-		const inputs = document.querySelectorAll("input");
+		const inputs = document.querySelectorAll(".input");
 		const notifWrap = document.querySelector("#notifWrap");
 
-		inputs.forEach( input => cache[ input.id ] = input.value );
+		inputs.forEach( (input) => {
+			console.log( input.id + " = " + input.value );
+			cache[ input.id ] = input.value
+		});
 
 		setCache( cache );
 		fadeNotif( "SAVED", notifWrap );
@@ -58,6 +81,7 @@ window.onload = () => {
 				modes.forEach( div => div.classList.remove( "active" ));
 				document.querySelector(`#${defaultCacheValues[ key ]}`).classList.add("active");
 			}else{
+				console.log( key );
 				document.querySelector(`#${key}`).value = defaultCacheValues[ key ];
 			}
 		});
@@ -74,6 +98,7 @@ function setCache( value ){
 
 function getCache(){
 	const cache = localStorage.getItem(cacheKey);
+	console.log( cache );
 	return cache && typeof JSON.parse( cache ) === "object" ?
 		JSON.parse( cache ) : defaultCacheValues;
 }

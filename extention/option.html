@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
 		<meta charset="utf-8"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -85,34 +85,34 @@
 				border: 1px solid rgb( 79, 174, 159 )
 			}
 
-			#selectMode div#modal {
+			#selectMode div#MODAL {
 				color: rgb( 79, 174, 159 );
 				border-radius: 100px 0px 0px 100px;
 			}
 
-			#selectMode div#bottom {
+			#selectMode div#BOTTOM {
 				color: rgb( 79, 174, 159 );
 				border-radius: 0px 0px 0px 0px;
 			}
 
-			#selectMode div#include {
+			#selectMode div#INCLUDE {
 				color: rgb( 79, 174, 159 );
 				border-radius: 0px 100px 100px 0px;
 			}
 
-			#selectMode div#modal.active {
+			#selectMode div#MODAL.active {
 				background: rgb( 79, 174, 159 );
 				color: rgb( 255,255,255 );
 				border-radius: 100px 0px 0px 100px;
 			}
 
-			#selectMode div#bottom.active {
+			#selectMode div#BOTTOM.active {
 				background: rgb( 79, 174, 159 );
 				color: rgb( 255,255,255 );
 				border-radius: 0px 0px 0px 0px;
 			}
 
-			#selectMode div#include.active {
+			#selectMode div#INCLUDE.active {
 				background: rgb( 79, 174, 159 );
 				color: rgb( 255,255,255 );
 				border-radius: 0px 100px 100px 0px;
@@ -138,7 +138,7 @@
 				font-weight: bold;
 			}
 
-			input {
+			input, select {
 				display: flex;
 				align-items: center;
 				justify-content: center;
@@ -149,12 +149,17 @@
 				color: rgba( 79, 174, 159, 1 );
 				background: rgb( 255, 255, 255);
 				border: 10px solid rgb( 79, 174, 159, 1);
-				border-radius: 50px;
+				border-radius: 10px;
 				outline: 0;
 				text-indent: 20px;
 				margin: 10px;
 				transition: 600ms;
 				cursor: pointer;
+			}
+
+			select {
+				width: calc( 100% + 20px );
+				height: 70px;
 			}
 
 			#buttonWrap {
@@ -242,9 +247,9 @@
 
 
 	<div id="selectMode">
-		<div id="modal" class="">modal</div>
+		<div id="MODAL" class="">MODAL</div>
 		<!-- div id="bottom" class="">bottom</div-->
-		<div id="include" class="">include</div>
+		<div id="INCLUDE" class="">INCLUDE</div>
 	</div>
 
 	<br />
@@ -260,7 +265,7 @@
 					Query Selector
 				</td>
 				<td>
-					<input id="selector" type="text" name="" value="" />
+					<input id="selector" class="input" type="text" name="" value="" />
 				</td>
 			</tr>
 			<tr>
@@ -268,7 +273,44 @@
 					Position
 				</td>
 				<td>
-					<input id="position" type="text" name="" value="" />
+					<select id="position" class="input">
+						<option value="static">static</option>
+						<option value="relative">relative</option>
+						<option value="absolute">absolute</option>
+						<option value="fixed">fixed</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Top
+				</td>
+				<td>
+					<input id="top"  class="input" type="text" name="" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Right
+				</td>
+				<td>
+					<input id="right"  class="input" type="text" name="" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Bottom
+				</td>
+				<td>
+					<input id="bottom" class="input" type="text" name="" value="" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Left
+				</td>
+				<td>
+					<input id="left" class="input" type="text" name="" value="" />
 				</td>
 			</tr>
 			<tr>
@@ -276,7 +318,7 @@
 					Width
 				</td>
 				<td>
-					<input id="width" type="text" name="" value="" />
+					<input id="width" class="input" type="text" name="" value="" />
 				</td>
 			</tr>
 			
@@ -285,7 +327,7 @@
 					Height
 				</td>
 				<td>
-					<input id="height" type="text" name="" value="" />
+					<input id="height" class="input" type="text" name="" value="" />
 				</td>
 			</tr>
 
@@ -294,7 +336,7 @@
 					Z-index
 				</td>
 				<td>
-					<input id="zIndex" type="text" name="" value="" />
+					<input id="zIndex" class="input" type="text" name="" value="" />
 				</td>
 			</tr>
 		</table>
