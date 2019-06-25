@@ -41,7 +41,7 @@ class Ext {
     }
     static isExt(){
         const scriptTag = document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
-        return scriptTag ? false : true;
+        return scriptTag === null ? false : true ;
     }
     static getMode( options ){
 
@@ -110,6 +110,7 @@ class Styles{
     static get WIDTH(){return 280}
     static get BOTTOM(){return 45}
     static get BORDER_RADIUS(){return 5}
+    static get BASE_SHADOW(){return "rgba(220, 220, 220, 0.95) 0px 0px 4px 0px !important;"}
     static get BASE_ACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.95) !important;"}
     static get BASE_UNACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.75) !important;"}
     static get BASE_ACTIVE_BORDER(){return "1px solid rgba(235, 235, 235, 0.95) !important;"}
@@ -957,6 +958,7 @@ class HandleIcon extends Elements {
                     `background: ${talknHandleStyles.background} !important;` +
                     `border: ${talknHandleStyles.border} !important;` +
                     `border-radius: 100px !important;` +
+                    `box-shadow: ${Styles.BASE_SHADOW}` +
                     `transition: ${Styles.BASE_TRANSITION}ms !important;` +
                     `transform: ${talknHandleStyles.transform} !important;` 
     }
@@ -992,6 +994,7 @@ class HandleIcon extends Elements {
         c.moveTo(125, 80);
         c.lineTo(170, 90);
         c.lineTo(130,105);
+
         c.closePath();
         c.strokeStyle = rgba;
         c.stroke();
@@ -1075,6 +1078,7 @@ class HandleIcon extends Elements {
 
     getActiveStyles(){
         return {
+            boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
             transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
             background: Styles.BASE_UNACTIVE_BG_COLOR,
             border: Styles.BASE_UNACTIVE_BORDER
@@ -1083,6 +1087,7 @@ class HandleIcon extends Elements {
 
     getOpenStyles(){
         return {
+            boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
             transform: `translate3d(0px, -25px, 0px) scale( 1 )`,
             background: Styles.BASE_ACTIVE_BG_COLOR,
             border: Styles.BASE_ACTIVE_BORDER
@@ -1139,6 +1144,7 @@ class Notif extends Elements{
             `background: ${Styles.BASE_UNACTIVE_BG_COLOR}` +
             `border: ${Styles.BASE_UNACTIVE_BORDER}` +
             `border-radius: ${borderRadius} !important;` +
+            `box-shadow: ${Styles.BASE_SHADOW}` +
             `color: rgba( 120, 120, 120, 0.9) !important;` +
             `transition: ${Styles.BASE_TRANSITION}ms !important;` +
             `transform: translate3d( 0px, 0px, 0px ) !important;` 
@@ -1344,14 +1350,15 @@ class Textarea extends Elements {
         this.clear = this.clear.bind( this );   
         this.focuse = this.focus.bind( this );   
         this.keypress = this.keypress.bind( this );
+        this.getDisplay = this.getDisplay.bind( this );
         this.transitionEnd = this.transitionEnd.bind( this );
         this.create();
     }
 
-    create(){
+    create( display = "none" ){
         const textarea = document.createElement("textarea");
         textarea.id = Textarea.id;
-        textarea.style = this.getStyle();
+        textarea.style = this.getStyle( display );
         textarea.placeholder = "Comment to web";
         textarea.addEventListener("keypress", this.keypress );
         document.body.appendChild( textarea );
@@ -1361,8 +1368,7 @@ class Textarea extends Elements {
         return document.querySelector(`#${Textarea.id}`);
     }
 
-    getStyle(){
-        const styles = this.getActiveStyles();
+    getStyle( display ){
         const width = this.getWidth(true);
         const height = this.getHeight(true);
         const right = this.getRight(true);
@@ -1370,7 +1376,7 @@ class Textarea extends Elements {
             `position: fixed !important;` +
             `bottom: 55px !important;` +
             `right: ${right} !important;` +
-            `display: ${styles.display} !important;` +
+            `display: ${display} !important;` +
             `box-sizing: border-box !important;` +
             `overflow: hidden !important;` +
             `width: ${width} !important;` +
@@ -1423,7 +1429,7 @@ class Textarea extends Elements {
     clear(){
         this.get().value = "";
         document.body.removeChild(this.get());
-        this.create();
+        this.create("block");
     }
 
     focus(){
@@ -1455,6 +1461,16 @@ class Textarea extends Elements {
     /*************************/
     /* ANIMATION             */
     /*************************/
+
+    getDisplay(){
+        switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+        case Ext.DISPLAY_MODE_ACTIVE:
+            return "none";
+        case Ext.DISPLAY_MODE_OPEN:
+            return "none";
+        }
+        return "none";
+    }
 
     getRight(addUnit = false){
         let right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "21%" : "67px";
@@ -1498,11 +1514,12 @@ class Textarea extends Elements {
     }
 
     getActiveStyles(){
+        const display = this.getDisplay();
         const width = this.getWidth(true);
         const height = this.getHeight(true);
         const right = this.getRight(true);
         return {
-            display: "none",
+            display,
             width,
             height,
             right
@@ -1510,11 +1527,12 @@ class Textarea extends Elements {
     }
 
     getOpenStyles(){
+        const display = this.getDisplay();
         const width = this.getWidth(true);
         const height = this.getHeight(true);
         const right = this.getRight(true);
         return {
-            display: "none",
+            display,
             width,
             height,
             right
