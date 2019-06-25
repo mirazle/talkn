@@ -265,6 +265,9 @@ class Window extends Elements {
     /********************************/
 
     updateDisplayMode( called, transform = true, option = {}){
+
+        console.log( called + " " + option.displayModeKey + " " + option.displayModeDirection );
+
         if( option.displayModeKey !== undefined ){
             this.displayModeKey = option.displayModeKey;
             if( option.displayModeDirection ){
@@ -510,7 +513,9 @@ class Window extends Elements {
     }
 
     resize(e){
+        console.log("A");
         if( this.resizeMethodId === null ){
+            console.log("B");
             this.resizeMethodId = setTimeout( this.resized, Styles.BASE_TRANSITION );
         }
     }
