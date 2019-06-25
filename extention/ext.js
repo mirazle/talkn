@@ -26,8 +26,37 @@ class Ext {
             return `https://${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
         }
     }
-    static getMode(){
-        const includeTag = document.querySelector( Ext.INCLUDE_ID );
+    static getMode( options ){
+
+        let includeTag;
+
+        /************/
+        /*  OPTION  */
+        /************/
+
+        if( options && options.mode ){
+
+            if( "EXT_" + options.mode ===  Ext.MODE_MODAL ){
+                return Ext.MODE_MODAL;
+            }
+            if( "EXT_" + options.mode ===  Ext.MODE_INCLUDE && options.selector ){
+                includeTag = document.querySelector( options.selector );
+                if( includeTag ){                  
+                    Object.keys( options ).forEach( (key) => {
+                        if( key !== "mode" ){
+                            includeTag.style[ key ] = options[ key ];
+                        }
+                    } );
+                    return Ext.MODE_INCLUDE;
+                }
+            }
+        }
+
+        /************/
+        /*  NORMAL  */
+        /************/
+
+        includeTag = document.querySelector( Ext.INCLUDE_ID );
         if( includeTag ){
             return Ext.MODE_INCLUDE;
         }
@@ -140,57 +169,64 @@ class Window extends Elements {
         });
 
         if(bootFlg){
+            chrome.runtime.sendMessage({ message: "message"}, (res) => {
 
-            // Variable
-            this.extMode = Ext.getMode();
-            this.displayModeKey = Ext.DEFAULT_DISPLAY_MODE_KEY;
-            this.displayModeDirection = "ASC";
-            this.browser = this.getBrowser();
-            this.scrollY = window.scrollY;
-            this.ins = {};
+                // Variable
+                this.options = res ? JSON.parse( res ) : {};
+                this.extMode = Ext.getMode(this.options);
+                this.includeId = this.extMode === Ext.MODE_INCLUDE ? this.options.selector : Ext.INCLUDE_ID;
+                this.displayModeKey = Ext.DEFAULT_DISPLAY_MODE_KEY;
+                this.displayModeDirection = "ASC";
+                this.browser = this.getBrowser();
+                this.scrollY = window.scrollY;
+                this.ins = {};
 
-            // Communication talkn Window
-            this.methodIdMap = {};
-            this.notifCnt = 0;
-            this.notifId = null;
+                // Communication talkn Window
+                this.methodIdMap = {};
+                this.notifCnt = 0;
+                this.notifId = null;
 
-            this.resizeMethodId = null;
-            this.htmlOverflow = null;
-            this.htmlPosition = null;
-            this.htmlWidth = null;
-            this.htmlHeight = null;       
+                this.resizeMethodId = null;
+                this.htmlOverflow = null;
+                this.htmlPosition = null;
+                this.htmlWidth = null;
+                this.htmlHeight = null;       
 
-            // Callback Methods.
-            this.load = this.load.bind(this);
-            this.resize = this.resize.bind(this);
-            this.resized = this.resized.bind(this);
-            this.scroll = this.scroll.bind(this);
-            this.transitionend = this.transitionend.bind(this);
+                // Callback Methods.
+                this.load = this.load.bind(this);
+                this.resize = this.resize.bind(this);
+                this.resized = this.resized.bind(this);
+                this.scroll = this.scroll.bind(this);
+                this.transitionend = this.transitionend.bind(this);
+                this.remove = this.remove.bind(this);
 
-            this.updateDisplayMode = this.updateDisplayMode.bind(this);
-            this.transformDisplayMode = this.transformDisplayMode.bind(this);
-            this.openNotif = this.openNotif.bind(this);
-            this.closeNotif = this.closeNotif.bind(this);
+                this.updateDisplayMode = this.updateDisplayMode.bind(this);
+                this.transformDisplayMode = this.transformDisplayMode.bind(this);
+                this.openNotif = this.openNotif.bind(this);
+                this.closeNotif = this.closeNotif.bind(this);
 
-            // Communicarion Methods.
-            this.childTo = this.childTo.bind(this);
-            this.catchMessage = this.catchMessage.bind(this);
-            this.handleErrorMessage = this.handleErrorMessage.bind(this);
+                // Communicarion Methods.
+                this.childTo = this.childTo.bind(this);
+                this.catchMessage = this.catchMessage.bind(this);
+                this.handleErrorMessage = this.handleErrorMessage.bind(this);
 
-            window.addEventListener('message', this.catchMessage);
-            window.addEventListener('load', this.load);
-            window.addEventListener('resize', this.resize);
-            window.addEventListener('scroll', this.scroll);
-            window.addEventListener('transitionend', this.transitionend);
+                window.addEventListener('message', this.catchMessage);
+                window.addEventListener('load', this.load);
+                window.addEventListener('resize', this.resize);
+                window.addEventListener('scroll', this.scroll);
+                window.addEventListener('transitionend', this.transitionend);
 
-            this.ins.window = this;
-            this.ins.styles = new Styles( this );
-            this.ins.body = new Body( this );
-            this.ins.iframe = new Iframe( this );
-            this.ins.handleIcon = new HandleIcon( this );
-            this.ins.textarea = new Textarea( this );
+                this.ins.window = this;
+                this.ins.styles = new Styles( this );
+                this.ins.body = new Body( this );
+                this.ins.iframe = new Iframe( this );
+                this.ins.handleIcon = new HandleIcon( this );
+                this.ins.textarea = new Textarea( this );
+            });
         }
     }
+
+
 
     /********************************/
     /* Control transform            */
@@ -260,6 +296,11 @@ class Window extends Elements {
         }
     }
 
+    /*************************/
+    /* Child Window          */
+    /* Communication methods */
+    /*************************/
+
     bootExtension(params){
         const { iframe } = this.ins;
         const iframeElm = iframe.get();
@@ -274,10 +315,6 @@ class Window extends Elements {
         }
         this.childTo("onTransition");
     }
-
-    /*************************/
-    /* Communication methods */
-    /*************************/
 
     // From child window message.
     catchMessage(e){
@@ -300,20 +337,9 @@ class Window extends Elements {
             switch(method){
             case 'bootExtension':
                 this.childTo("removeExtension");
-
-                const talknFrame = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-                talknFrame.removeEventListener( "load", this.loadIframe );
-                talknFrame.removeEventListener( "transitionend", this.transitionend );
-                talknFrame.remove();
-
-                this.iframe.removeEventListener( "load", this.loadIframe );
-                this.iframe.removeEventListener( "transitionend", this.transitionend );
-                this.iframe.remove();
-                delete this;
-
-                window.removeEventListener('message', this.catchMessage);
-                window.removeEventListener('load', this.loadWindow);
-                window.removeEventListener('resize', this.resizeWindow);
+                const { iframe } = this.window.ins;
+                iframe.remove();
+                this.remove();
 
                 console.warn("CSP Reboot: " + method );
                 new Window(true);
@@ -476,6 +502,14 @@ class Window extends Elements {
         });
     }
 
+    remove(){
+        window.removeEventListener('message', this.catchMessage);
+        window.removeEventListener('load', this.load);
+        window.removeEventListener('resize', this.resize);
+        window.removeEventListener('scroll', this.scroll);
+        window.removeEventListener('transitionend', this.transitionend);
+    }
+
     /*************************/
     /* ANIMATION             */
     /*************************/
@@ -571,6 +605,7 @@ class Iframe extends Elements {
         this.getHeight = this.getHeight.bind(this);
         this.getRight = this.getRight.bind(this);
         this.getTransform = this.getTransform.bind(this);
+        this.remove = this.remove.bind( this );
 
         const width = `${this.getWidth(true)} !important;`;
         const iframe  = document.createElement("iframe");
@@ -586,14 +621,13 @@ class Iframe extends Elements {
             document.body.appendChild(iframe);
             break;
         case Ext.MODE_INCLUDE:
-            document.querySelector( Ext.INCLUDE_ID ).appendChild( iframe );
+            document.querySelector( this.window.includeId ).appendChild( iframe );
             break;
         case Ext.MODE_BOTTOM:
             document.body.appendChild(iframe);
             break;
         }
     }
-
 
     getSrc(){
         if( this.window.refusedFrame ){
@@ -614,25 +648,25 @@ class Iframe extends Elements {
     getStyles( width ){
         switch( this.window.extMode ){
         case Ext.MODE_MODAL:
-            const styles = this.getActiveStyles();
+            const activeStyles = this.getActiveStyles();
             return "" +
                 `z-index: ${Styles.zIndex - 1} !important;` +
                 "display: block !important;" +
                 "align-items: flex-end !important;" + 
                 "position: fixed !important; " +
                 `bottom: ${Styles.BOTTOM}px !important;` + 
-                `right: ${styles.right} !important;` + 
-                `width: ${styles.width}` + 
-                `min-width: ${styles.width}` + 
-                `max-width: ${styles.width}` + 
-                `height: ${styles.height} !important;` + 
-                `min-height: ${styles.height} !important;` + 
-                `max-height: ${styles.height} !important;` + 
+                `right: ${activeStyles.right} !important;` + 
+                `width: ${activeStyles.width}` + 
+                `min-width: ${activeStyles.width}` + 
+                `max-width: ${activeStyles.width}` + 
+                `height: ${activeStyles.height} !important;` + 
+                `min-height: ${activeStyles.height} !important;` + 
+                `max-height: ${activeStyles.height} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0 !important;" + 
                 "opacity: 0 !important;" + 
                 `transition: ${Styles.BASE_TRANSITION}ms !important;` + 
-                `transform: ${ styles.transform } !important;`;
+                `transform: ${ activeStyles.transform } !important;`;
         case Ext.MODE_BOTTOM:
             return "" +
                 `z-index: ${Styles.zIndex} !important;` +
@@ -680,7 +714,8 @@ class Iframe extends Elements {
             width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : Styles.WIDTH + "px";
             break;
         case Ext.MODE_INCLUDE:
-            const talknTag = document.querySelector( Ext.INCLUDE_ID );
+            
+            const talknTag = document.querySelector( this.window.includeId );
             width = talknTag ? talknTag.clientWidth : "100%";
             return addUnit ? width + "px" : width ;
         }
@@ -700,7 +735,7 @@ class Iframe extends Elements {
                 `${Math.floor( window.innerHeight * 0.9 )}px` : "420px";
             break;
         case Ext.MODE_INCLUDE:
-            const talknTag = document.querySelector( Ext.INCLUDE_ID );
+            const talknTag = document.querySelector( this.window.includeId );
             height = talknTag ? talknTag.clientHeight : "100%";
             return addUnit ? height + "px" : height ;
         }
@@ -754,7 +789,7 @@ class Iframe extends Elements {
                 }
             break;
         case Ext.MODE_INCLUDE:
-            const talknTag = document.querySelector( Ext.INCLUDE_ID );
+            const talknTag = document.querySelector( this.window.includeId );
             width = talknTag ? talknTag.clientWidth : "100%";
             return addUnit ? width + "px" : width ;
         }
@@ -780,6 +815,13 @@ class Iframe extends Elements {
         });
     }
 
+    remove(){
+        const iframeElm = this.get();
+        iframeElm.removeEventListener( "load", this.loadIframe );
+        iframeElm.remove();
+        delete this;
+    }
+
     /*************************/
     /* ANIMATION             */
     /*************************/
@@ -790,7 +832,6 @@ class Iframe extends Elements {
         const right = this.getRight(true);
         const opacity = this.getOpacity();
         const transform = this.getTransform();
-        console.log("ACTIVE " + height );
         return {
             transform,
             opacity,
@@ -1276,7 +1317,6 @@ class Textarea extends Elements {
         textarea.placeholder = "Comment to web";
         textarea.addEventListener("keypress", this.keypress );
         document.body.appendChild( textarea );
-        console.log("CREATE");
     }
 
     get(){

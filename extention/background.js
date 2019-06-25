@@ -1,4 +1,5 @@
-const setting = localStorage.getItem("talknExtensionSetting");
 chrome.runtime.onMessage.addListener( (request, sender, callback) => {
-    callback(setting);
+    const options = localStorage.getItem("talknExtensionOptions");
+    console.log( options );
+    callback(options);
 });
