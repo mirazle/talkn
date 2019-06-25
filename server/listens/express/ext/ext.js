@@ -266,9 +266,6 @@ class Window extends Elements {
     /********************************/
 
     updateDisplayMode( called, transform = true, option = {}){
-
-        console.log( called + " " + option.displayModeKey + " " + option.displayModeDirection );
-
         if( option.displayModeKey !== undefined ){
             this.displayModeKey = option.displayModeKey;
             if( option.displayModeDirection ){
@@ -527,8 +524,6 @@ class Window extends Elements {
     }
 
     scroll(e){
-        //console.log("SCROLL " + window.scrollY);
-        //this.scrollY = window.scrollY;
     }
 
     resized(e){
@@ -1477,11 +1472,6 @@ class Textarea extends Elements {
     }
 
     transitionEnd(e){
-
-        console.log( "@@@ Textarea TransitionEnd " );
-        console.log( "e.target.id : " +  e.target.id );
-        console.log( "HandleIcon.id : " +  HandleIcon.id);
-
         switch( e.target.id ){
         case Iframe.id :
         case HandleIcon.id :
@@ -1489,18 +1479,14 @@ class Textarea extends Elements {
             const textareaElm = textarea.get();
             const width = textarea.getWidth(true);
 
-            console.log("UPDATE");
-
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
-                console.log("A");
                 textareaElm.style.width = width;
                 textareaElm.style.minWidth = width;
                 textareaElm.style.maxWidth = width;
                 textareaElm.style.display = "none";
                 break;
             case Ext.DISPLAY_MODE_OPEN:
-                console.log("B");
                 textareaElm.style.width = width;
                 textareaElm.style.minWidth = width;
                 textareaElm.style.maxWidth = width;
