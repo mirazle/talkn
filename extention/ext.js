@@ -112,9 +112,9 @@ class Styles{
     static get BOTTOM(){return 45}
     static get BORDER_RADIUS(){return 5}
     static get BASE_SHADOW(){return "rgba(220, 220, 220, 0.95) 0px 0px 4px 0px !important;"}
-    static get BASE_ACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.95) !important;"}
+    static get BASE_ACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.975) !important;"}
     static get BASE_UNACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.75) !important;"}
-    static get BASE_ACTIVE_BORDER(){return "1px solid rgba(235, 235, 235, 0.95) !important;"}
+    static get BASE_ACTIVE_BORDER(){return "1px solid rgba(235, 235, 235, 0.975) !important;"}
     static get BASE_UNACTIVE_BORDER(){return "1px solid rgba(235, 235, 235, 0.75) !important;"}
     constructor(){
         const style = document.createElement("style");
@@ -1142,7 +1142,7 @@ class Notif extends Elements{
             `max-height: ${height} !important;` + 
             `padding: ${padding} !important;` +
             `opacity: 0 !important;` +
-            `background: ${Styles.BASE_UNACTIVE_BG_COLOR}` +
+            `background: ${Styles.BASE_ACTIVE_BG_COLOR}` +
             `border: ${Styles.BASE_UNACTIVE_BORDER}` +
             `border-radius: ${borderRadius} !important;` +
             `box-shadow: ${Styles.BASE_SHADOW}` +
