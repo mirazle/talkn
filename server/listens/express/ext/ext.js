@@ -1140,7 +1140,7 @@ class Notif extends Elements{
             `height: ${height} !important;` + 
             `min-height: ${height} !important;` + 
             `max-height: ${height} !important;` + 
-            `padding-right: 20px !important;` +
+            `padding: 0px 20px !important;` +
             `opacity: 0 !important;` +
             `background: ${Styles.BASE_ACTIVE_BG_COLOR}` +
             `border: ${Styles.BASE_UNACTIVE_BORDER}` +
