@@ -111,7 +111,7 @@ class Styles{
     static get WIDTH(){return 280}
     static get BOTTOM(){return 45}
     static get BORDER_RADIUS(){return 5}
-    static get BASE_SHADOW(){return "rgba(220, 220, 220, 0.95) 0px 0px 4px 0px !important;"}
+    static get BASE_SHADOW(){return "rgba(220, 220, 220, 0.95) 0px 0px 3px 0px !important;"}
     static get BASE_ACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.975) !important;"}
     static get BASE_UNACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.75) !important;"}
     static get BASE_ACTIVE_BORDER(){return "1px solid rgba(235, 235, 235, 0.975) !important;"}
@@ -1122,7 +1122,7 @@ class Notif extends Elements{
         const right = this.getRight(true);
         const translateY = this.getTranslateY(true);
         const borderRadius = this.getBorderRadius();
-
+        
         notif.setAttribute("id", id);
         notif.setAttribute("name", "notif");
         notif.setAttribute("style", 
@@ -1140,7 +1140,7 @@ class Notif extends Elements{
             `height: ${height} !important;` + 
             `min-height: ${height} !important;` + 
             `max-height: ${height} !important;` + 
-            `padding: ${padding} !important;` +
+            `padding-right: 20px !important;` +
             `opacity: 0 !important;` +
             `background: ${Styles.BASE_ACTIVE_BG_COLOR}` +
             `border: ${Styles.BASE_UNACTIVE_BORDER}` +
@@ -1203,11 +1203,6 @@ class Notif extends Elements{
             case Ext.MODE_INCLUDE:
                 break;
             }
-            /*
-            
-            TODO    STANBY状態の時に、FOOTERが閉じてしまう場合がある
-            
-            */
         } );
 
         notif.addEventListener( "mouseover", () => {
@@ -1258,7 +1253,7 @@ class Notif extends Elements{
     }
 
     getHeight(addUnit = false){
-        let height = "20px";
+        let height = "40px";
         return addUnit ? height : height.replace( "px", "" ).replace("%", "");
     }
 
