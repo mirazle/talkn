@@ -533,7 +533,7 @@ class Window extends Elements {
         const { iframe } = this.ins;
         this.resizeMethodId = null;
 
-        //this.updateDisplayMode( "resized", true, {displayModeKey: this.displayModeKey, displayModeDirection: this.displayModeDirection} );
+        this.updateDisplayMode( "resized", true, {displayModeKey: this.displayModeKey, displayModeDirection: this.displayModeDirection} );
 
         this.childTo("updateExtension", {                
             extensionMode: this.extMode,
