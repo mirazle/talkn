@@ -135,9 +135,9 @@ class Elements {
         this.window = _window;
         this.action = this.action.bind( this );
     }
-    action( name ){
+    action( called, name ){
         const elm = this.get();
-        const styles = this[`get${name}Styles`]();
+        const styles = this[`get${name}Styles`]( called　);
 
         if( elm && styles ){
             Object.keys( styles ).forEach( ( key ) => {
@@ -145,8 +145,8 @@ class Elements {
             });
         }
     }
-    callback( displayMode, displayModeDirection, actionName, _window ){
-        console.log("@@@@@@@@@@@@@@@@@ callback " + displayMode );
+    callback( called, displayMode, displayModeDirection, actionName, _window ){
+        alert(called + " " + displayMode + " " + displayModeDirection + " " + actionName);
         switch( displayMode ){
         case Ext.DISPLAY_MODE_ACTIVE :
             if( displayModeDirection === "DESC" ){
@@ -175,11 +175,11 @@ class Window extends Elements {
         'getClientMetas'
     ]};
 
-    static getActiveStyles( mode ){
+    static getActiveStyles( called ){
 
     }
 
-    static getOpenStyles( mode ){
+    static getOpenStyles( called ){
 
     }
 
@@ -256,14 +256,12 @@ class Window extends Elements {
             init = init.bind( this );
 
             if( this.isExt ){
-                console.log("Extension!");
                 // Communication to background.js
                 chrome.runtime.sendMessage({ message: "message"}, (res) => {
                     const options = res ? JSON.parse( res ) : {};
                     init( options );
                 });
             }else{
-                console.log("ScriptTag");
                 init();   
             }
         }
@@ -298,11 +296,11 @@ class Window extends Elements {
         }
 
         if( transform ){
-            this.transformDisplayMode( this.displayModeKey );
+            this.transformDisplayMode( called, this.displayModeKey );
         }
     }
 
-    transformDisplayMode( displayModeKey ){
+    transformDisplayMode( called, displayModeKey ){
         const { body, iframe, handleIcon, textarea } = this.ins;
         const displayMode = Ext.DISPLAY_MODE[ displayModeKey ].toLowerCase();
         const actionName = displayMode.charAt(0).toUpperCase() + displayMode.slice(1);
@@ -310,12 +308,12 @@ class Window extends Elements {
         const beforeDisplayMode = Ext.DISPLAY_MODE[ this.displayModeKey ];
         const beforeDisplayModeDirection = this.displayModeDirection;
 
-        if( this) this.action( actionName );
-        if( body ) body.action( actionName );
-        if( iframe ) iframe.action( actionName );
-        if( handleIcon ) handleIcon.action( actionName );
-        if( textarea )  textarea.action( actionName );
-        this.callback( beforeDisplayMode, beforeDisplayModeDirection, actionName, this );
+        if( this) this.action( called, actionName );
+        if( body ) body.action( called, actionName );
+        if( iframe ) iframe.action( called, actionName );
+        if( handleIcon ) handleIcon.action( called, actionName );
+        if( textarea )  textarea.action( called, actionName );
+        this.callback( called, beforeDisplayMode, beforeDisplayModeDirection, actionName, this );
     }
 
     /********************************/
@@ -537,6 +535,8 @@ class Window extends Elements {
     }
 
     resized(e){
+        console.log("RESIZED");
+
         const { iframe } = this.ins;
         this.resizeMethodId = null;
 
@@ -562,11 +562,11 @@ class Window extends Elements {
     /* ANIMATION             */
     /*************************/
 
-    getActiveStyles(){
+    getActiveStyles( called ){
         return {}
     }
 
-    getOpenStyles(){
+    getOpenStyles( called ){
         this.scrollY = window.scrollY;
         return {}
     }
@@ -591,7 +591,7 @@ class Body extends Elements {
     /* ANIMATION             */
     /*************************/
 
-    getActiveStyles(){
+    getActiveStyles( called ){
         if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
             return {
 //                overflow: this.overflow,
@@ -604,7 +604,7 @@ class Body extends Elements {
         return {};
     }
 
-    getOpenStyles(){
+    getOpenStyles( called ){
         if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
             return {
 //                overflow: "hidden",
@@ -874,7 +874,7 @@ class Iframe extends Elements {
     /* ANIMATION             */
     /*************************/
 
-    getActiveStyles(){
+    getActiveStyles( called ){
         const width = this.getWidth(true);
         const height = this.getHeight(true);
         const right = this.getRight(true);
@@ -893,7 +893,7 @@ class Iframe extends Elements {
         }
     }
 
-    getOpenStyles(){
+    getOpenStyles( called ){
         const { iframe } = this.window.ins;
         const width = this.getWidth(true);
         const height = this.getHeight(true);
@@ -1085,7 +1085,7 @@ class HandleIcon extends Elements {
     /* ANIMATION             */
     /*************************/
 
-    getActiveStyles(){
+    getActiveStyles( called ){
         return {
             boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
             transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
@@ -1094,7 +1094,7 @@ class HandleIcon extends Elements {
         }
     }
 
-    getOpenStyles(){
+    getOpenStyles( called ){
         return {
             boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
             transform: `translate3d(0px, -25px, 0px) scale( 1 )`,
@@ -1517,7 +1517,7 @@ class Textarea extends Elements {
         }
     }
 
-    getActiveStyles(){
+    getActiveStyles( called ){
         const display = this.getDisplay();
         const width = this.getWidth(true);
         const height = this.getHeight(true);
@@ -1530,7 +1530,7 @@ class Textarea extends Elements {
         }
     }
 
-    getOpenStyles(){
+    getOpenStyles( called ){
         const display = this.getDisplay();
         const width = this.getWidth(true);
         const height = this.getHeight(true);
