@@ -150,12 +150,11 @@ class Elements {
         if(
             called === "resized" &&
             displayMode === "OPEN" &&
-            displayModeDirection === "DESC" &&
+            displayModeDirection === "ASC" &&
             actionName === "Open"
         ){
-            //alert(called + " " + displayMode + " " + displayModeDirection + " " + actionName);
+            alert(called + " " + displayMode + " " + displayModeDirection + " " + actionName);
         }
-        alert(called + " " + displayMode + " " + displayModeDirection + " " + actionName);
         switch( displayMode ){
         case Ext.DISPLAY_MODE_ACTIVE :
             if( displayModeDirection === "DESC" ){
