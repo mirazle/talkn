@@ -153,7 +153,8 @@ class Elements {
             displayModeDirection === "ASC" &&
             actionName === "Open"
         ){
-            alert(called + " " + displayMode + " " + displayModeDirection + " " + actionName);
+            alert( _window.ins.body.style.marginTop );
+
         }
         switch( displayMode ){
         case Ext.DISPLAY_MODE_ACTIVE :
