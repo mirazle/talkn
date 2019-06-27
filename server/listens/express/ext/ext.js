@@ -153,7 +153,8 @@ class Elements {
             displayModeDirection === "ASC" &&
             actionName === "Open"
         ){
-            alert( _window.ins.body.style.marginTop );
+            alert( document.querySelector("body").style.marginTop );
+//            alert( _window.ins.body.style.marginTop );
 
         }
         switch( displayMode ){
