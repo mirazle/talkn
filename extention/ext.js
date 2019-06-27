@@ -495,7 +495,7 @@ class Window extends Elements {
 
     transitionend(e){
         const { body, iframe, handleIcon, textarea} = this.ins;
-
+alert( body.get().style.marginTop );
         if( this.transitionEndId === null ){
 
             this.transitionEndId = setTimeout( () => {
