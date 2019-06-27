@@ -153,7 +153,7 @@ class Elements {
             displayModeDirection === "ASC" &&
             actionName === "Open"
         ){
-            alert( document.querySelector("body").style.marginTop + " " + window.scrollY );
+            //alert( document.querySelector("body").style.marginTop + " " + window.scrollY );
 //            alert( _window.ins.body.style.marginTop );
 
         }
@@ -616,6 +616,7 @@ class Body extends Elements {
 
     getOpenStyles( called ){
         if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
+            console.log( -( window.scrollY ) + "px" );
             return {
 //                overflow: "hidden",
                 position: "fixed",
