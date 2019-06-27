@@ -41,8 +41,7 @@ class Ext {
     }
     static isExt(){
         const scriptTag = document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
-        console.log( typeof scriptTag );
-        return typeof scriptTag === "object" ? false : true ;
+        return scriptTag === null ? true : false ;
     }
     static getMode( options ){
 
@@ -52,7 +51,7 @@ class Ext {
         /*  OPTION  */
         /************/
 
-        if( options && options.mode ){
+        if( options && options.mode ){  
 
             if( "EXT_" + options.mode ===  Ext.MODE_MODAL ){
                 return Ext.MODE_MODAL;
@@ -180,6 +179,7 @@ class Window extends Elements {
         super( window );
         this.refusedFrame = refusedFrame;
         this.isExt = Ext.isExt();
+        console.log(this.isExt);
         this.href = window.location.href;
         this.connection = this.href.replace("http:/", "").replace("https:/", "");
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
@@ -249,13 +249,14 @@ class Window extends Elements {
             init = init.bind( this );
 
             if( this.isExt ){
-
+                console.log("Extension!");
                 // Communication to background.js
                 chrome.runtime.sendMessage({ message: "message"}, (res) => {
                     const options = res ? JSON.parse( res ) : {};
                     init( options );
                 });
             }else{
+                console.log("ScriptTag");
                 init();   
             }
         }
