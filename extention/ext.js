@@ -147,7 +147,7 @@ class Elements {
     }
     callback( called, displayMode, displayModeDirection, actionName, _window ){
 
-        alert(  called + " " + displayMode + " " + displayModeDirection + " " + actionName );
+        alert(  called + " " + displayMode + " " + displayModeDirection + " " + actionName + " " + _window.ins.window.scrollY );
 
         switch( displayMode ){
         case Ext.DISPLAY_MODE_ACTIVE :
