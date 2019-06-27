@@ -155,12 +155,12 @@ class Elements {
         switch( displayMode ){
         case Ext.DISPLAY_MODE_ACTIVE :
             if( displayModeDirection === "DESC" ){
-                window.scrollTo( 0, _window.ins.window.scrollY );
+                window.scrollTo( 0, _window.ins.body.locktimeMarginTop );
             }
             break;
         case Ext.DISPLAY_MODE_OPEN :
             if( displayModeDirection === "DESC" ){
-                window.scrollTo( 0, _window.ins.window.scrollY );
+                window.scrollTo( 0, _window.ins.body.locktimeMarginTop );
             }
             break;
         }
