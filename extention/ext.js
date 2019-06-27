@@ -147,16 +147,8 @@ class Elements {
     }
     callback( called, displayMode, displayModeDirection, actionName, _window ){
 
-        if(
-            called === "resized" &&
-            displayMode === "OPEN" &&
-            displayModeDirection === "ASC" &&
-            actionName === "Open"
-        ){
-            //alert( document.querySelector("body").style.marginTop + " " + window.scrollY );
-//            alert( _window.ins.body.style.marginTop );
+        alert(  called + " " + displayMode + " " + displayModeDirection + " " + actionName );
 
-        }
         switch( displayMode ){
         case Ext.DISPLAY_MODE_ACTIVE :
             if( displayModeDirection === "DESC" ){
@@ -616,13 +608,10 @@ class Body extends Elements {
 
     getOpenStyles( called ){
         if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-            //alert( called + " " + -( window.scrollY ) + "px" );
+
+            // スマホでOPENした際にresizedが実行されるため排他制御
             if( called === "resized" ){
-                return {
-                    position: "fixed",
-                    width: "100%",
-                    height: "100%" 
-                }
+                return {};
             }else{
                 return {
                     position: "fixed",
