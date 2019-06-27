@@ -180,7 +180,6 @@ class Window extends Elements {
         super( window );
         this.refusedFrame = refusedFrame;
         this.isExt = Ext.isExt();
-        console.log(this.isExt);
         this.href = window.location.href;
         this.connection = this.href.replace("http:/", "").replace("https:/", "");
         const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
@@ -588,7 +587,7 @@ class Body extends Elements {
     getActiveStyles(){
         if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
             return {
-                overflow: this.overflow,
+//                overflow: this.overflow,
                 position: this.position,
                 width: this.width,
                 height: this.height,
@@ -601,7 +600,7 @@ class Body extends Elements {
     getOpenStyles(){
         if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
             return {
-                overflow: "hidden",
+//                overflow: "hidden",
                 position: "fixed",
                 width: "100%",
                 height: "100%" ,
