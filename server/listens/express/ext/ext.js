@@ -147,22 +147,20 @@ class Elements {
     }
     callback( called, displayMode, displayModeDirection, actionName, _window ){
 
-        alert(  called + " " + displayMode + " " + displayModeDirection + " " + actionName + " " + _window.ins.window.scrollY + " " + _window.ins.body.locktimeMarginTop );
-
-        // clickHandleIcon ACTIVE DESC Active 0(window.scrollY) の時にスマホで一番上にスクロールされてしまう。
-        // resized ACTIVE DESC Active 0(window.scrollY) の時にスマホで一番上にスクロールされてしまう。
-
-        switch( displayMode ){
-        case Ext.DISPLAY_MODE_ACTIVE :
-            if( displayModeDirection === "DESC" ){
-                window.scrollTo( 0, _window.ins.body.locktimeMarginTop );
+        // スマホだと頻繁にNativeのヘッダーやフッターが表示、非表示を繰り返しresizedが実行されてしまうため排他制御
+        if( called !== "resized" ){
+            switch( displayMode ){
+            case Ext.DISPLAY_MODE_ACTIVE :
+                if( displayModeDirection === "DESC" ){
+                    window.scrollTo( 0, _window.ins.body.locktimeMarginTop );
+                }
+                break;
+            case Ext.DISPLAY_MODE_OPEN :
+                if( displayModeDirection === "DESC" ){
+                    window.scrollTo( 0, _window.ins.body.locktimeMarginTop );
+                }
+                break;
             }
-            break;
-        case Ext.DISPLAY_MODE_OPEN :
-            if( displayModeDirection === "DESC" ){
-                window.scrollTo( 0, _window.ins.body.locktimeMarginTop );
-            }
-            break;
         }
     }
 }
