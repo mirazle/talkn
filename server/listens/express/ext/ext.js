@@ -616,13 +616,20 @@ class Body extends Elements {
 
     getOpenStyles( called ){
         if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-            alert( called + " " + -( window.scrollY ) + "px" );
-            return {
-//                overflow: "hidden",
-                position: "fixed",
-                width: "100%",
-                height: "100%" ,
-                marginTop: -( window.scrollY ) + "px"
+            //alert( called + " " + -( window.scrollY ) + "px" );
+            if( called === "resized" ){
+                return {
+                    position: "fixed",
+                    width: "100%",
+                    height: "100%" 
+                }
+            }else{
+                return {
+                    position: "fixed",
+                    width: "100%",
+                    height: "100%" ,
+                    marginTop: -( window.scrollY ) + "px"
+                }
             }
         }
     }
