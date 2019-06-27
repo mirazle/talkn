@@ -148,6 +148,7 @@ class Elements {
     callback( displayMode, displayModeDirection, actionName, _window ){
         if( displayMode === Ext.DISPLAY_MODE_OPEN ){
             if( displayModeDirection === "DESC" ){
+                alert("SCROLL " + _window.ins.window.scrollY );
                 window.scrollTo( 0, _window.ins.window.scrollY );
             }
         }
