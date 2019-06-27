@@ -147,7 +147,10 @@ class Elements {
     }
     callback( called, displayMode, displayModeDirection, actionName, _window ){
 
-        alert(  called + " " + displayMode + " " + displayModeDirection + " " + actionName + " " + _window.ins.window.scrollY );
+        alert(  called + " " + displayMode + " " + displayModeDirection + " " + actionName + " " + _window.ins.window.scrollY + " " + _window.ins.body.locktimeMarginTop );
+
+        // clickHandleIcon ACTIVE DESC Active 0(window.scrollY) の時にスマホで一番上にスクロールされてしまう。
+        // resized ACTIVE DESC Active 0(window.scrollY) の時にスマホで一番上にスクロールされてしまう。
 
         switch( displayMode ){
         case Ext.DISPLAY_MODE_ACTIVE :
@@ -502,7 +505,7 @@ class Window extends Elements {
 
     transitionend(e){
         const { body, iframe, handleIcon, textarea} = this.ins;
-//alert( "TEST " +    window.scrollY + " " + body.get().style.marginTop );
+
         if( this.transitionEndId === null ){
 
             this.transitionEndId = setTimeout( () => {
@@ -578,6 +581,7 @@ class Body extends Elements {
     constructor( _window ){
         super(_window);
         const bodyElm = this.get();
+        this.locktimeMarginTop = 0;
         this.overflow = bodyElm.style.overflow;
         this.position = bodyElm.style.position;
         this.width = bodyElm.style.width;
@@ -613,6 +617,7 @@ class Body extends Elements {
             if( called === "resized" ){
                 return {};
             }else{
+                this.locktimeMarginTop = window.scrollY;
                 return {
                     position: "fixed",
                     width: "100%",
