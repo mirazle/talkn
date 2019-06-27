@@ -616,7 +616,7 @@ class Body extends Elements {
 
     getOpenStyles( called ){
         if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-            console.log( -( window.scrollY ) + "px" );
+            alert( -( window.scrollY ) + "px" );
             return {
 //                overflow: "hidden",
                 position: "fixed",
