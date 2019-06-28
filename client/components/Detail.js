@@ -235,7 +235,7 @@ export default class Detail extends Component {
     return(
       <div 
         style={ style.detail.connection }
-      >
+      > CH:<br />
         { threadDetail.connection }
       </div>
     )

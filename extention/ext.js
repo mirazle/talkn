@@ -219,6 +219,7 @@ class Window extends Elements {
                 this.notifCnt = 0;
                 this.notifId = null;
 
+                this.unreadCnt = 0;
                 this.transitionEndId = null;
                 this.resizeMethodId = null;
                 this.htmlOverflow = null;
@@ -410,6 +411,10 @@ class Window extends Elements {
 
     toggleIframe(params){
         this.updateDisplayMode("toggleIframe");
+    }
+
+    posted(){
+
     }
 
     openNotif(params){
@@ -774,7 +779,6 @@ class Iframe extends Elements {
             width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : Styles.WIDTH + "px";
             break;
         case Ext.MODE_INCLUDE:
-            
             const talknTag = document.querySelector( this.window.includeId );
             width = talknTag ? talknTag.clientWidth : "100%";
             return addUnit ? width + "px" : width ;
