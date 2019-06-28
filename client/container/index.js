@@ -328,7 +328,7 @@ class Container extends Component {
   renderExtension(){
     const { style } = this.props.state;
     const props = this.getProps();
-    const Notifs = this.getNotifs( props );
+    //const Notifs = this.getNotifs( props );
     const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     const extScreenStyle = props.state.style.extScreen.self;
@@ -345,9 +345,9 @@ class Container extends Component {
           <InnerNotif {...this.props} />
         </div>
         <span data-component-name="fixedComponents">
-          { Notifs }
+          { /* Notifs */}
           <PostsFooter {...props} />
-          { /*Debug*/ }
+          { /* Debug */ }
         </span>
       </span>
     );

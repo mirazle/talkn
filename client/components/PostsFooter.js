@@ -23,26 +23,14 @@ export default class PostsFooter extends Component {
   handleOnClick( e ){
     const value = this.refs.postArea.innerHTML;
     if( !App.validInputPost( value ) ){
-      const { app } = this.props.state;
       talknAPI.post();
       talknAPI.onChangeInputPost(''); 
-      if(app.extensionMode === App.extensionModeExtModalLabel){
-        talknWindow.parentTo( "setInputPost", {inputPost: false} );
-      }
     }
   }
   
   handleOnChange( e ){
     if( !App.validInputPost( e.target.value ) ){
-      const { app } = this.props.state;
       talknAPI.onChangeInputPost( e.target.value );
-      if(app.extensionMode === App.extensionModeExtModalLabel){
-        if( !regex.test( e.target.value ) ){
-          talknWindow.parentTo( "setInputPost", {inputPost: true} );
-        }else{
-          talknWindow.parentTo( "setInputPost", {inputPost: false} );
-        }
-      }
     }
   }
 
@@ -53,37 +41,15 @@ export default class PostsFooter extends Component {
     if ( e.nativeEvent.keyCode === 13 ) {
       if( e.nativeEvent.shiftKey ){
         talknAPI.onChangeInputPost( e.target.value + '\n');
-        if(app.extensionMode === App.extensionModeExtModalLabel){
-          talknWindow.parentTo( "setInputPost", {inputPost:true} );
-        }
       }else{
         if( !regex.test( e.target.value ) ){
           talknAPI.post();
           talknAPI.onChangeInputPost('');
-
-          if(app.extensionMode === App.extensionModeExtModalLabel){
-            talknWindow.parentTo( "setInputPost", {inputPost: false} );
-          }
         }
       }
     }
   }
-/*
-  handleOnFocus( e ){
-    const { app } = this.props.state;
-    if( app.screenMode === App.screenModeSmallLabel ){
-      talknWindow.setIsScrollBottom();
-    }
-  }
 
-  handleOnBlur( e ){
-    const { app } = this.props.state;
-    if( app.screenMode === App.screenModeSmallLabel ){
-      clearInterval(this.state.focusSetIntervalId);
-      this.setState({focusSetIntervalId: 0});
-    }
-  }
-*/
   getIconStyle(){
     const { thread, style } = this.props.state;
     const favicon = `https://${conf.assetsIconPath}${util.getSaveFaviconName( thread.favicon )}`;
