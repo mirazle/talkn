@@ -1219,7 +1219,6 @@ class NotifStatus extends Elements{
         const openStyles = this.getOpenStyles();
         statusNotif.innerHTML = 0;
         statusNotif.style.transform = openStyles.transform;
-        console.log( "RESET" );
     }
 
     getActiveStyles( called ){
@@ -1287,7 +1286,7 @@ class Notif extends Elements{
             `max-height: ${height} !important;` + 
             `padding: 0px 20px 0px 10px!important;` +
             `opacity: 0 !important;` +
-            `background: ${Styles.BASE_ACTIVE_BG_COLOR}` +
+            `background: ${Styles.BASE_UNACTIVE_BG_COLOR}` +
             `border: ${Styles.BASE_UNACTIVE_BORDER}` +
             `border-radius: ${borderRadius} !important;` +
             `box-shadow: ${Styles.BASE_SHADOW}` +
