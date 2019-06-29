@@ -62,7 +62,7 @@ const functions = {
         const post = action.posts[ action.posts.length - 1 ]['post'];
         let favicon = action.posts[ action.posts.length - 1 ]['favicon'];
         favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
-        talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon});
+        talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon, addUnreadCnt: action.posts.length });
       }
       break;
     }
@@ -94,7 +94,7 @@ const functions = {
         const post = action.posts[ action.posts.length - 1 ]['post'];
         let favicon = action.posts[ action.posts.length - 1 ]['favicon'];
         favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
-        talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon});
+        talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon, addUnreadCnt: action.posts.length });
       }
       break;
     }
