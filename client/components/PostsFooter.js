@@ -59,7 +59,10 @@ export default class PostsFooter extends Component {
   renderButton(){
     const { style, app } = this.props.state;
 
-    if( app.extensionMode === App.extensionModeExtModalLabel ){
+    if(
+      app.extensionMode === App.extensionModeExtModalLabel ||
+      app.extensionMode === App.extensionModeExtBottomLabel 
+    ){
       return null;
     }else{
       return (
@@ -74,7 +77,9 @@ export default class PostsFooter extends Component {
     const { state, handleOnClickToggleMain } = this.props;
     const { style, app } = state;  
     const value = app.inputPost;
-    const readOnly = app.extensionMode === App.extensionModeExtModalLabel;
+    const readOnly =
+      app.extensionMode === App.extensionModeExtModalLabel || 
+      app.extensionMode === App.extensionModeExtBottomLabel ;
     return (
       <div data-component-name={"PostsFooter"} style={ style.postsFooter.self }>
         <div style={ this.getIconStyle() } onClick={handleOnClickToggleMain}/>

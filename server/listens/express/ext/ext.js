@@ -82,11 +82,16 @@ class Ext {
         const domain = TALKN_EXT_ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
         const scriptTag =  document.querySelector(`script[src='//ext.${domain}']`);
         if( scriptTag && scriptTag.attributes ){
+            
             if( scriptTag.attributes.mode && scriptTag.attributes.mode.value ){
-                mode = scriptTag.attributes.mode.value;
+                mode = "EXT_" + scriptTag.attributes.mode.value.toUpperCase();
             }
-            if( mode !== Ext.MODE_BOTTOM && mode !== Ext.MODE_MODAL ){
-                mode = Window.DEFAULT_MODE;
+
+            // 定義しているどのモードにも該当しない場合
+            if( mode !== Ext.MODE_BOTTOM && mode !== Ext.MODE_MODAL && mode !== Ext.MODE_INCLUDE ){
+
+                // デフォルトのモードを設定する
+                mode = Ext.DEFAULT_MODE;
             }
         }
         return mode;
@@ -219,7 +224,6 @@ class Window extends Elements {
                 this.notifCnt = 0;
                 this.notifId = null;
 
-                this.unreadCnt = 0;
                 this.transitionEndId = null;
                 this.resizeMethodId = null;
                 this.htmlOverflow = null;
@@ -257,6 +261,7 @@ class Window extends Elements {
                 this.ins.iframe = new Iframe( this );
                 this.ins.handleIcon = new HandleIcon( this );
                 this.ins.textarea = new Textarea( this );
+                this.ins.notifStatus = new NotifStatus( this );
             };
 
             init = init.bind( this );
@@ -307,7 +312,7 @@ class Window extends Elements {
     }
 
     transformDisplayMode( called, displayModeKey ){
-        const { body, iframe, handleIcon, textarea } = this.ins;
+        const { body, iframe, handleIcon, textarea, notifStatus } = this.ins;
         const displayMode = Ext.DISPLAY_MODE[ displayModeKey ].toLowerCase();
         const actionName = displayMode.charAt(0).toUpperCase() + displayMode.slice(1);
 
@@ -318,7 +323,8 @@ class Window extends Elements {
         if( body ) body.action( called, actionName );
         if( iframe ) iframe.action( called, actionName );
         if( handleIcon ) handleIcon.action( called, actionName );
-        if( textarea )  textarea.action( called, actionName );
+        if( textarea ) textarea.action( called, actionName );
+        if( notifStatus ) notifStatus.action( called, actionName );
         this.callback( called, beforeDisplayMode, beforeDisplayModeDirection, actionName, this );
     }
 
@@ -413,12 +419,8 @@ class Window extends Elements {
         this.updateDisplayMode("toggleIframe");
     }
 
-    posted(){
-
-    }
-
     openNotif(params){
-        const { iframe } = this.ins; 
+        const { iframe, notifStatus } = this.ins; 
         const iframeElm = iframe.get();
         switch( this.extMode ){
         case Ext.MODE_BOTTOM:
@@ -439,6 +441,7 @@ class Window extends Elements {
         case Ext.MODE_MODAL:
             switch( Ext.DISPLAY_MODE[ this.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
+                notifStatus.addCnt(params.addUnreadCnt);
                 new Notif(this, params);
                 break;
             }
@@ -545,8 +548,6 @@ class Window extends Elements {
     }
 
     resized(e){
-        console.log("RESIZED");
-
         const { iframe } = this.ins;
         this.resizeMethodId = null;
 
@@ -733,6 +734,7 @@ class Iframe extends Elements {
                 `transition: ${Styles.BASE_TRANSITION}ms !important;` + 
                 `transform: ${ activeStyles.transform } !important;`;
         case Ext.MODE_BOTTOM:
+            const height = Iframe.getCloseHeight(true);
             return "" +
                 `z-index: ${Styles.zIndex} !important;` +
                 "display: none !important;" +
@@ -743,7 +745,9 @@ class Iframe extends Elements {
                 `width: ${width}` + 
                 `min-width: ${width}` + 
                 `max-width: ${width}` + 
-                `height: ${Iframe.getCloseHeight(true)} !important;` + 
+                `height: ${height} !important;` + 
+                `min-height: ${height} !important;` + 
+                `max-height: ${height} !important;` + 
                 "margin: 0 !important;" + 
                 "padding: 0 !important;" + 
                 "transition: 0ms !important;" + 
@@ -790,9 +794,7 @@ class Iframe extends Elements {
         let height = "0px";
         switch( this.window.extMode ){
         case Ext.MODE_BOTTOM:
-            if( window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ){
-                height = `${Math.floor( window.innerHeight * 0.9 )}px`;
-            }
+            height = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? `${Math.floor( window.innerHeight * 0.9 )}px` : Iframe.getCloseHeight(true);
             break;
         case Ext.MODE_MODAL:
             height = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ?
@@ -822,9 +824,10 @@ class Iframe extends Elements {
     getTransform(){
         let transform = "translate3d( 0px 0px 0px)";
         switch( this.window.extMode ){
-        case Ext.MODE_BOTTOM:
+
         case Ext.MODE_INCLUDE:
             break;
+        case Ext.MODE_BOTTOM:
         case Ext.MODE_MODAL:
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
@@ -839,7 +842,7 @@ class Iframe extends Elements {
     }
     
     getOpacity( addUnit = false ){
-        let width = Styles.WIDTH;
+        let width = Styles.WIDTH + "px";
         switch( this.window.extMode ){
         case Ext.MODE_BOTTOM:
             width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "100%" : width;
@@ -941,7 +944,7 @@ class HandleIcon extends Elements {
     constructor(_window){
         super( _window );
 
-        if( this.window.extMode === Ext.MODE_MODAL ){
+        if( this.window.extMode !== Ext.MODE_INCLUDE ){
             let handleIcon  = document.createElement("canvas");
             handleIcon = this.drawCanvas( handleIcon );
             handleIcon.id = HandleIcon.id;
@@ -971,7 +974,7 @@ class HandleIcon extends Elements {
         const talknHandleStyles = this.getActiveStyles();
         return "" + 
                     `position: fixed !important;` +
-                    `bottom: 15px !important;` +
+                    `bottom: ${talknHandleStyles.bottom} !important;` +
                     `right: ${HandleIcon.right}px !important;` +
                     `cursor: pointer !important;` + 
                     `display: flex !important;` + 
@@ -1034,11 +1037,10 @@ class HandleIcon extends Elements {
     /*************************/
 
     click(){
-        const { iframe, textarea } = this.window.ins;
+        const { iframe, textarea, notifStatus } = this.window.ins;
         const iframeElm = iframe.get();
 
         switch( this.window.extMode ){
-        case Ext.MODE_BOTTOM:
         case Ext.MODE_INCLUDE:
             const talknNotifId = sessionStorage.getItem(Window.talknNotifId);
             if(talknNotifId === "null"){
@@ -1062,10 +1064,13 @@ class HandleIcon extends Elements {
                 this.childTo("startDispPosts");
             }
             break;
+        case Ext.MODE_BOTTOM:
         case Ext.MODE_MODAL:
+
+            notifStatus.resetCnt();
+
             const regex = /^\s*$/;
             const value = textarea.getValue();
-            
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
                 this.window.updateDisplayMode("clickHandleIcon");
@@ -1102,25 +1107,141 @@ class HandleIcon extends Elements {
     /*************************/
 
     getActiveStyles( called ){
-        return {
-            boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
-            transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
-            background: Styles.BASE_UNACTIVE_BG_COLOR,
-            border: Styles.BASE_UNACTIVE_BORDER
+        switch( this.window.extMode ){
+        case Ext.MODE_MODAL:
+            return {
+                bottom: "15px",
+                boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
+                transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
+                background: Styles.BASE_ACTIVE_BG_COLOR,
+                border: Styles.BASE_UNACTIVE_BORDER
+            }
+        case Ext.MODE_BOTTOM:
+            return {
+                bottom: "0px",
+                boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
+                transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
+                background: Styles.BASE_ACTIVE_BG_COLOR,
+                border: Styles.BASE_UNACTIVE_BORDER
+            }
         }
     }
 
     getOpenStyles( called ){
-        return {
-            boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
-            transform: `translate3d(0px, -25px, 0px) scale( 1 )`,
-            background: Styles.BASE_ACTIVE_BG_COLOR,
-            border: Styles.BASE_ACTIVE_BORDER
+        switch( this.window.extMode ){
+        case Ext.MODE_MODAL:
+            return {
+                boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
+                transform: `translate3d(0px, -25px, 0px) scale( 1 )`,
+                background: Styles.BASE_ACTIVE_BG_COLOR,
+                border: Styles.BASE_ACTIVE_BORDER
+            }
+        case Ext.MODE_BOTTOM:
+            return {
+                boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
+                transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
+                background: Styles.BASE_ACTIVE_BG_COLOR,
+                border: Styles.BASE_ACTIVE_BORDER
+            }
         }
     }
 
     transitionEnd(){
         
+    }
+}
+
+class NotifStatus extends Elements{
+    static get id(){return `${Ext.APP_NAME}${this.name}`}
+    constructor( _window, params ){
+        super( _window );
+
+        const id = NotifStatus.id;
+        const notifStatus = document.createElement("div");
+        const width = "24px";
+        const height = "24px";
+        const openStyles = this.getOpenStyles();
+
+        this.getActiveStyles = this.getActiveStyles.bind( this );
+        this.getOpenStyles = this.getOpenStyles.bind( this );
+        this.addCnt = this.addCnt.bind( this );
+        this.resetCnt = this.resetCnt.bind( this );
+
+        notifStatus.id = id;
+        notifStatus.innerText = 0;
+        notifStatus.style = "" + 
+            `position: fixed !important;` +
+            `bottom: 20px !important;` +
+            `right: 10px !important;` +
+            `display: flex !important;` + 
+            `align-items: center !important;` + 
+            `justify-content: center !important;` + 
+            `cursor: pointer !important;` + 
+            `z-index: ${Styles.zIndex} !important;` +
+            `width: 24px !important;` +
+            `min-width: ${width} !important;` +
+            `max-width: ${width} !important;` +
+            `height: ${height} !important;` + 
+            `min-height: ${height} !important;` + 
+            `max-height: ${height} !important;` + 
+            `padding: 0px !important;` +
+            `opacity: 1 !important;` +
+            `font-size: 8px !important;` +
+            `color: rgb(255,255,255) !important;` +
+            `background: rgba( 79, 174, 159, 0.6 ) !important;` +
+            `border: ${Styles.BASE_UNACTIVE_BORDER} !important;` +
+            `border-radius: 100px !important;` +
+            `transition: ${Styles.BASE_TRANSITION}ms !important;` +
+            `transform: ${openStyles.transform} !important;`;
+        document.body.appendChild( notifStatus );
+    }
+
+    get(){
+        return document.querySelector(`#${NotifStatus.id}`);
+    }
+
+    addCnt( cnt ){
+        const statusNotif = this.get();
+        const baseCnt = Number( statusNotif.innerText );
+        const updatedCnt = baseCnt + Number( cnt );
+
+        if( updatedCnt > 0 ){
+            statusNotif.innerHTML = updatedCnt;
+            const activeStyles = this.getActiveStyles("addCnt");
+            statusNotif.style.transform = activeStyles.transform;
+        }else{
+            this.reset();
+        }
+    }
+
+    resetCnt(){
+        const statusNotif = this.get();
+        const openStyles = this.getOpenStyles();
+        statusNotif.innerHTML = 0;
+        statusNotif.style.transform = openStyles.transform;
+        console.log( "RESET" );
+    }
+
+    getActiveStyles( called ){
+        const statusNotif = this.get();
+        const baseCnt = Number( statusNotif.innerText );
+        console.log( called + " " + baseCnt );
+        if( baseCnt > 0 ){
+            return {
+                transform: "scale(1.0)"
+            }
+        }else{
+            return {
+                transform: "scale(0.0)"
+            }
+        }
+    }
+
+    getOpenStyles( called ){
+        return {
+            transform: "scale(0.0)"
+
+        }
     }
 }
 
@@ -1372,6 +1493,7 @@ class Textarea extends Elements {
         this.keypress = this.keypress.bind( this );
         this.getDisplay = this.getDisplay.bind( this );
         this.transitionEnd = this.transitionEnd.bind( this );
+        this.transitionEnd = this.transitionEnd.bind( this );
         this.create();
     }
 
@@ -1392,9 +1514,10 @@ class Textarea extends Elements {
         const width = this.getWidth(true);
         const height = this.getHeight(true);
         const right = this.getRight(true);
+        const bottom = this.getBottom(true);
         return "" + 
             `position: fixed !important;` +
-            `bottom: 55px !important;` +
+            `bottom: ${bottom} !important;` +
             `right: ${right} !important;` +
             `display: ${display} !important;` +
             `box-sizing: border-box !important;` +
@@ -1483,17 +1606,30 @@ class Textarea extends Elements {
     /*************************/
 
     getDisplay(){
-        switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
-        case Ext.DISPLAY_MODE_ACTIVE:
-            return "none";
-        case Ext.DISPLAY_MODE_OPEN:
-            return "none";
+        switch( this.window.extMode ){
+        case Ext.MODE_MODAL:
+            switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+            case Ext.DISPLAY_MODE_ACTIVE:
+                return "none";
+            case Ext.DISPLAY_MODE_OPEN:
+                return "none";
+            }
+        case Ext.MODE_BOTTOM:
+            return "block";
         }
         return "none";
     }
 
     getRight(addUnit = false){
-        let right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "21%" : "67px";
+        let right = 0;
+        switch( this.window.extMode ){
+        case Ext.MODE_BOTTOM:
+            right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "21%" : "73px";
+            break;
+        case Ext.MODE_MODAL:
+            right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "21%" : "67px";
+            break;
+        }
         return addUnit ? right : right.replace("px", "").replace("%", "") ;
     }
 
@@ -1507,29 +1643,47 @@ class Textarea extends Elements {
         return addUnit ? height : height.replace("px", "").replace("%", "") ;
     }
 
-    transitionEnd(e){
-        switch( e.target.id ){
-        case Iframe.id :
-        case HandleIcon.id :
-            const { textarea } = this.window.ins; 
-            const textareaElm = textarea.get();
-            const width = textarea.getWidth(true);
-
-            switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
-            case Ext.DISPLAY_MODE_ACTIVE:
-                textareaElm.style.width = width;
-                textareaElm.style.minWidth = width;
-                textareaElm.style.maxWidth = width;
-                textareaElm.style.display = "none";
-                break;
-            case Ext.DISPLAY_MODE_OPEN:
-                textareaElm.style.width = width;
-                textareaElm.style.minWidth = width;
-                textareaElm.style.maxWidth = width;
-                textareaElm.style.display = "block";
-                break;        
-            }
+    getBottom(addUnit = false){
+        let bottom = "0px";
+        switch( this.window.extMode ){
+        case Ext.MODE_BOTTOM:
+            bottom = "9px";
             break;
+        case Ext.MODE_MODAL:
+            bottom = "55px"
+            break;
+        }
+        return addUnit ? bottom : bottom.replace("px", "").replace("%", "") ;
+    }
+
+    transitionEnd(e){
+        switch( this.window.extMode ){
+        case Ext.MODE_BOTTOM:
+            break;
+        case Ext.MODE_MODAL:
+            switch( e.target.id ){
+            case Iframe.id :
+            case HandleIcon.id :
+                const { textarea } = this.window.ins; 
+                const textareaElm = textarea.get();
+                const width = textarea.getWidth(true);
+
+                switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
+                case Ext.DISPLAY_MODE_ACTIVE:
+                    textareaElm.style.width = width;
+                    textareaElm.style.minWidth = width;
+                    textareaElm.style.maxWidth = width;
+                    textareaElm.style.display = "none";
+                    break;
+                case Ext.DISPLAY_MODE_OPEN:
+                    textareaElm.style.width = width;
+                    textareaElm.style.minWidth = width;
+                    textareaElm.style.maxWidth = width;
+                    textareaElm.style.display = "block";
+                    break;        
+                }
+                break;
+            }
         }
     }
 
@@ -1538,11 +1692,13 @@ class Textarea extends Elements {
         const width = this.getWidth(true);
         const height = this.getHeight(true);
         const right = this.getRight(true);
+        const bottom = this.getBottom(true);
         return {
             display,
             width,
             height,
-            right
+            right,
+            bottom
         }
     }
 
@@ -1551,11 +1707,13 @@ class Textarea extends Elements {
         const width = this.getWidth(true);
         const height = this.getHeight(true);
         const right = this.getRight(true);
+        const bottom = this.getBottom(true);
         return {
             display,
             width,
             height,
-            right
+            right,
+            bottom
         }
     }
 }
