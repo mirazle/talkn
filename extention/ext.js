@@ -1189,7 +1189,6 @@ class NotifStatus extends Elements{
             `font-size: 8px !important;` +
             `color: rgb(255,255,255) !important;` +
             `background: rgba( 79, 174, 159, 0.6 ) !important;` +
-            `border: ${Styles.BASE_UNACTIVE_BORDER} !important;` +
             `border-radius: 100px !important;` +
             `transition: ${Styles.BASE_TRANSITION}ms !important;` +
             `transform: ${openStyles.transform} !important;`;
