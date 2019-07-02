@@ -1327,8 +1327,8 @@ class Notif extends Elements{
             "line-height: 27px;" +
             "text-indent: 10px;"
         );
-        notifPost.innerText = this.isEmojiStamp( params.post ) ?
-            params.post + " (STAMP)" : params.post ;
+
+        notifPost.innerText = this.convertEmojiStamp( params.post );
         console.log( notifPost.innerText );
         notif.appendChild( notifIcon );
         notif.appendChild( notifPost );
@@ -1378,8 +1378,17 @@ class Notif extends Elements{
         }, 50 );
     }
 
-    isEmojiStamp( value ){
-        return ( value.indexOf( '<div class="talknStamps"' ) === 0 );
+    convertEmojiStamp( value ){
+        if( value.indexOf( '<div class="talknStamps"' ) === 0 ){
+            const v1 = value.split(';">');
+            if( v1 && v1[1] ){
+                const v2 = v1[1].split("</div>");
+                if( v2 && v2[0] ){
+                    return v2[0] + " (STAMP)";
+                }
+            }
+        }
+        return value;
     }
 
     getWidth(addUnit = false){
