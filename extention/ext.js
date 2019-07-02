@@ -1376,6 +1376,10 @@ class Notif extends Elements{
         }, 50 );
     }
 
+    isEmojiStamp( value ){
+        return ( value.indexOf( '<div class="talknStamps"' ) === 0 )
+    }
+
     getWidth(addUnit = false){
         let width = 0
         switch( this.window.extMode ){
