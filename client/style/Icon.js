@@ -1364,7 +1364,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: size,
         height: size,
-         minWidth: size,
+        minWidth: size,
         minHeight: size,
         borderRight: `${size} solid rgba(200,200,200,0.8)`,
         borderTop: `${size} solid transparent`,

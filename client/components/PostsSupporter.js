@@ -117,7 +117,16 @@ export default class PostsSupporter extends Component {
         onClick: ( e ) => {
           if( i !== 0 ){
             const post = PostsSupporter[ menu ][ toLabel ][ i - 1 ];
-            talknAPI.delegatePost( `<font style="font-size:130px;">${post}</font>` );
+            talknAPI.delegatePost( 
+              `<div style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                transform: scale(2);
+                font-size: 50px;
+              ">${post}</div>` );
           }
           this.setState( {  menu: "Cover", label: "" } );
         }
