@@ -39,7 +39,7 @@ export default ( state = {} , action ) => {
 		return {...state,
 			postsSupporter: {...state.postsSupporter,
 				self: {...state.postsSupporter.self,
-					display: PostsSupporter.getDisplay( action.app )
+					transform: PostsSupporter.getTransform( action.app )
 				}
 			}
 		}
