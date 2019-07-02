@@ -123,6 +123,7 @@ export default class App extends Schema{
     const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
     const isOpenNewPost = params.isOpenNewPost ? params.isOpenNewPost : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
+    const isOpenPostsSupporter = Schema.isSet( params.isOpenPostsSupporter ) ? params.isOpenPostsSupporter : false ;
     const isDispPosts = Schema.isSet( params.isDispPosts ) ? params.isDispPosts : false ;
 
     // 各パーツの状態(文字列制御)
@@ -187,6 +188,7 @@ export default class App extends Schema{
       isOpenDetail,
       isOpenNewPost,
       isOpenNotif,
+      isOpenPostsSupporter,
       isDispPosts,
 
       // 各パーツの状態(文字列制御)

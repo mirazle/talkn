@@ -38,6 +38,8 @@ export default class Container{
   static get borderRGB(){ return Style.mono220RGB };
   static get border(){ return `1px solid ${Container.borderRGB}` };
   static get shadow(){ return `${Style.mono230RGB} 0px 0px 5px 0px` };
+  static get darkRGB(){ return Style.darkRGB };
+  static get darkRGBA(){ return Style.darkRGBA };
 
   static get reliefRGB(){ return Style.mono180RGB };
   static get reliefRGBA(){ return Style.mono180RGBA };
@@ -238,7 +240,7 @@ export default class Container{
       alignItems: "center",
       justifyContent: "center",
       zIndex: '1',
-      background: 'rgba(0, 0, 0, 0.4)',
+      background: Container.darkRGBA,
       borderRadius: '20px',
     });
     const content = Style.getContentBase({

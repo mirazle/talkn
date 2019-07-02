@@ -133,7 +133,11 @@ const functions = {
     action.postsLogs = state.postsLogs;
     return action;
   },
-
+  "ON_CLICK_FOOTER_ICON": ( state, action ) => {
+    console.log( state.app.isOpenPostsSupporter );
+    state.app.isOpenPostsSupporter = !state.app.isOpenPostsSupporter;
+    return action;
+  },
   "ON_CLICK_MENU": ( state, action ) => {
     action.app.desc = action.app.menuComponent;
     return action;

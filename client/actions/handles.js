@@ -224,6 +224,11 @@ export default {
       clientMetas
     };
   },
+  onClickFooterIcon: () => {
+    return {
+      type: 'ON_CLICK_FOOTER_ICON'
+    };
+  },
   delegatePost: ( inputPost ) => {
     return {
       type: 'DELEGATE_POST',

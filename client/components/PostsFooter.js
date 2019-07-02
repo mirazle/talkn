@@ -74,7 +74,7 @@ export default class PostsFooter extends Component {
   }
 
   render() {
-    const { state, handleOnClickToggleMain } = this.props;
+    const { state, handleOnClickFooterIcon } = this.props;
     const { style, app } = state;  
     const value = app.inputPost;
     const readOnly =
@@ -82,7 +82,7 @@ export default class PostsFooter extends Component {
       app.extensionMode === App.extensionModeExtBottomLabel ;
     return (
       <div data-component-name={"PostsFooter"} style={ style.postsFooter.self }>
-        <div style={ this.getIconStyle() } onClick={handleOnClickToggleMain}/>
+        <div style={ this.getIconStyle() } onClick={handleOnClickFooterIcon}/>
         <textarea
           data-component-name={"postArea"}
           style={style.postsFooter.textarea}

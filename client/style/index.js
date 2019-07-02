@@ -3,6 +3,7 @@ import Detail from './Detail';
 import DetailFooter from './DetailFooter';
 import Header from './Header';
 import Footer from './Footer';
+import PostsSupporter from './PostsSupporter';
 import PostsFooter from './PostsFooter';
 import MenuFooter from './MenuFooter';
 import Icon from './Icon';
@@ -21,6 +22,10 @@ import ExtScreen from './ExtScreen';
 export default class Style{
 
   static get fontBaseRGB(){ return 'rgb(160, 160, 160)' };
+
+  static get darkRGB(){ return 'rgb(0, 0, 0)' };
+  static get darkRGBA(){ return 'rgba(0, 0, 0, 0.4)' };
+
   static get mono180RGB(){ return 'rgb(180, 180, 180)' };
   static get mono192RGB(){ return 'rgb(192, 192, 192)' };
   static get mono200RGB(){ return 'rgb(200, 200, 200)' };
@@ -66,6 +71,7 @@ export default class Style{
     const container = new Container( params );
     const header = new Header( params );
     const footer = new Footer( params );
+    const postsSupporter = new PostsSupporter( params );
     const postsFooter = new PostsFooter( params );
     const menuFooter = new MenuFooter( params );
     const menu = new Menu( params );
@@ -86,6 +92,7 @@ export default class Style{
       container,
       header,
       footer,
+      postsSupporter,
       postsFooter,
       menuFooter,
       detailFooter,

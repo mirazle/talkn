@@ -12,6 +12,7 @@ import handles from 'client/actions/handles';
 import callbacks from 'client/actions/callbacks';
 import Header from 'client/components/Header';
 import PostsFooter from 'client/components/PostsFooter';
+import PostsSupporter from 'client/components/PostsSupporter';
 import Footer from 'client/components/Footer';
 import DetailRight from 'client/components/DetailRight';
 import DetailModal from 'client/components/DetailModal';
@@ -45,6 +46,7 @@ class Container extends Component {
     this.renderMiddle = this.renderMiddle.bind(this);
     this.renderLarge = this.renderLarge.bind(this);
     this.renderExtension = this.renderExtension.bind(this);
+    this.handleOnClickFooterIcon = this.handleOnClickFooterIcon.bind(this);
     this.handleOnClickToggleMain = this.handleOnClickToggleMain.bind(this);
     this.handleOnClickToggleDetail = this.handleOnClickToggleDetail.bind(this);
     this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
@@ -86,6 +88,7 @@ class Container extends Component {
     return {
       ...this.props,
       componentDidUpdates,
+      handleOnClickFooterIcon: this.handleOnClickFooterIcon,
       handleOnClickMultistream: this.handleOnClickMultistream,
       handleOnClickToggleMain: this.handleOnClickToggleMain,
       handleOnClickToggleDetail: this.handleOnClickToggleDetail
@@ -116,9 +119,8 @@ class Container extends Component {
       app.extensionMode === App.extensionModeExtBottomLabel ||
       app.extensionMode === App.extensionModeExtModalLabel
     ){
-
-      this.setState({notifs: []});
-      app.isOpenNotif = false;
+      //this.setState({notifs: []});
+      //app.isOpenNotif = false;
 
       onClickToggleMain( {app} );
 
@@ -132,7 +134,13 @@ class Container extends Component {
       }
 
       talknWindow.parentTo("toggleIframe");
+      talknWindow.parentTo("getClientMetas");
     }
+  }
+
+  handleOnClickFooterIcon( e ){
+    const { onClickFooterIcon } = this.props;
+    onClickFooterIcon();
   }
 
   handleOnClickMultistream(){
@@ -264,6 +272,7 @@ class Container extends Component {
           { MultistreamIcon }
           { NewPost }
           <Header {...props} />
+          <PostsSupporter {...props} />
           <DetailRight {...props} /> 
           <LockMenu {...props} />
           <PostsFooter {...props} />
@@ -289,6 +298,7 @@ class Container extends Component {
           { MultistreamIcon }
           { NewPost }
           <Header {...props} />
+          <PostsSupporter {...props} />
           <DetailModal {...props} /> 
           <PostsFooter {...props} />
           <Menu {...props} />
@@ -314,6 +324,7 @@ class Container extends Component {
           { MultistreamIcon }
           { NewPost }
           <Header {...props} />
+          <PostsSupporter {...props} />
           <DetailModal {...props} /> 
           <PostsFooter {...props} />
           <Menu {...props} />
@@ -341,6 +352,7 @@ class Container extends Component {
           <Header {...props} />
           { MultistreamIcon }
           { NewPost }
+          <PostsSupporter {...props} />
           <DetailModal {...props} /> 
           <InnerNotif {...this.props} />
         </div>

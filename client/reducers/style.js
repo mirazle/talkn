@@ -14,6 +14,7 @@ import PostsFooter from 'client/style/PostsFooter';
 import Notif from 'client/style/Notif';
 import InnerNotif from 'client/style/InnerNotif';
 import ExtScreen from 'client/style/ExtScreen';
+import PostsSupporter from 'client/style/PostsSupporter';
 
 export default ( state = {} , action ) => {
 
@@ -31,6 +32,14 @@ export default ( state = {} , action ) => {
 			container: {...state.container,
 				multistreamIconWrap: {...state.container.multistreamIconWrap,
 					border: Container.getMultistreamIconWrapBorder( action)
+				}
+			}
+		}
+	case 'ON_CLICK_FOOTER_ICON':
+		return {...state,
+			postsSupporter: {...state.postsSupporter,
+				self: {...state.postsSupporter.self,
+					display: PostsSupporter.getDisplay( action.app )
 				}
 			}
 		}
