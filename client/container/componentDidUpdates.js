@@ -71,7 +71,7 @@ const componentDidUpdates = {
         'DELEGATE_POST': ( self ) => {
             talknAPI.post();
             talknAPI.onChangeInputPost('');
-            talknAPI.toggleDispPostsSupporter();
+            talknAPI.closeDispPostsSupporter();
         },
         'GET_CLIENT_METAS': ( self ) => {
             const { serverMetas } = self.props.state.thread;
@@ -109,7 +109,6 @@ const componentDidUpdates = {
         'SERVER_TO_CLIENT[BROADCAST]:post': ( self ) => {
             const { app } = self.props.state;
             const Posts = document.querySelector("[data-component-name=Posts]");
-            console.log("@@@ A");
             app.postsHeight += TalknWindow.getLastPostHeight();
             if(
                 app.extensionMode === App.extensionModeExtBottomLabel ||

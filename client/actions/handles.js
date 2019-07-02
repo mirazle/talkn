@@ -229,6 +229,12 @@ export default {
       type: 'TOGGLE_DISP_POSTS_SUPPORTER'
     };
   },
+  closeDispPostsSupporter: () => {
+    return {
+      type: 'CLOSE_DISP_POSTS_SUPPORTER',
+      app: { isOpenPostsSupporter: false }
+    };
+  },
   delegatePost: ( inputPost ) => {
     return {
       type: 'DELEGATE_POST',
