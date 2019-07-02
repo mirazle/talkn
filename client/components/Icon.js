@@ -423,6 +423,20 @@ export default class Icon extends Component{
     );
   }
 
+  static getOpenEmoji( overStyle, params = {} ){
+    const style = Icon.getOveredStyle( IconStyle.getOpenEmoji(params), overStyle );
+    return (
+      <div data-component-type={'IconOpenEmoji'} style={ style.div } />
+    );
+  }
+
+  static getCloseEmoji( overStyle, params = {} ){
+    const style = Icon.getOveredStyle( IconStyle.getCloseEmoji(params), overStyle );
+    return (
+      <div data-component-type={'IconCloseEmoji'} style={ style.div } />
+    );
+  }
+
   static getClose( overStyle, params = {} ){
     const style = Icon.getOveredStyle( IconStyle.getClose(params), overStyle );
     return (

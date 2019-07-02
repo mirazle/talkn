@@ -30,6 +30,7 @@ export default class Icon {
     const heart = Icon.getHeart( params );
     const share = Icon.getShare( params );
     const money = Icon.getMoney( params );
+    const openEmoji = Icon.getOpenEmoji( params );
     const close = Icon.getClose( params );
     const update = Icon.getUpdate( params );
     return {
@@ -50,6 +51,7 @@ export default class Icon {
       heart,
       share,
       money,
+      openEmoji,
       close,
       update
     }
@@ -1330,6 +1332,53 @@ export default class Icon {
       }),
     });
     return {div, outer, inner};
+  }
+
+  static getOpenEmoji( {app} ){
+    const size = "5px";
+    const div = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        width: size,
+        height: size,
+        minWidth: size,
+        minHeight: size,
+        borderRight: `${size} solid transparent`,
+        borderTop: `${size} solid transparent`,
+        borderBottom: `${size} solid transparent`,
+        borderLeft: `${size} solid rgba(200,200,200,0.8)`
+      }),
+      content: Style.getContentBase({
+
+      }),
+      animation: Style.getAnimationBase({
+        transform: "translate3d( 5px, 0px, 0px )",
+        transition: Container.getTransition( app ),
+      }),
+    });
+    return {div};
+  }
+
+  static getCloseEmoji( {app} ){
+    const size = "5px";
+    const div = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        width: size,
+        height: size,
+         minWidth: size,
+        minHeight: size,
+        borderRight: `${size} solid rgba(200,200,200,0.8)`,
+        borderTop: `${size} solid transparent`,
+        borderBottom: `${size} solid transparent`,
+        borderLeft: `${size} solid transparent`
+      }),
+      content: Style.getContentBase({
+      }),
+      animation: Style.getAnimationBase({
+        transform: "translate3d( 5px, 0px, 0px )",
+        transition: Container.getTransition( app ),
+      }),
+    });
+    return {div};
   }
 
   static getClose(){

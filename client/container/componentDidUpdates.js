@@ -70,12 +70,7 @@ const componentDidUpdates = {
         },
         'DELEGATE_POST': ( self ) => {
             talknAPI.post();
-        },
-        'ON_CLICK_TOGGLE_MAIN': ( self ) => {
-            const { app } = self.props.state;
-            if( app.extensionMode === App.extensionModeExtBottomLabel ){
-                talknWindow.parentTo("getClientMetas");
-            }
+            talknAPI.onChangeInputPost('');
         },
         'GET_CLIENT_METAS': ( self ) => {
             const { serverMetas } = self.props.state.thread;

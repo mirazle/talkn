@@ -1223,7 +1223,6 @@ class NotifStatus extends Elements{
     getActiveStyles( called ){
         const statusNotif = this.get();
         const baseCnt = Number( statusNotif.innerText );
-        console.log( called + " " + baseCnt );
         if( baseCnt > 0 ){
             return {
                 transform: "scale(1.0)"
@@ -1262,7 +1261,7 @@ class Notif extends Elements{
         const height = this.getHeight(true);
         const padding = this.getPadding(true);
         const bottom = this.getBottom(true);
-        const right = this.getRight(true);
+        const right = this.getRight(true); 
         const translateY = this.getTranslateY(true);
         const borderRadius = this.getBorderRadius();
         
