@@ -118,9 +118,8 @@ export default class PostsSupporter extends Component {
             talknAPI.delegatePost( 
               `<div class="talknStamps" style="display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;transform: scale(2);font-size: 50px;">${post}</div>`
             );
-          }else{
-            this.setState( {  menu: "Cover", label: "" } );
           }
+          this.setState( {  menu: "Cover", label: "" } );
         }
       }
     }
