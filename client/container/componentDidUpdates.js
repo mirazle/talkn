@@ -71,6 +71,7 @@ const componentDidUpdates = {
         'DELEGATE_POST': ( self ) => {
             talknAPI.post();
             talknAPI.onChangeInputPost('');
+            talknAPI.toggleDispPostsSupporter();
         },
         'GET_CLIENT_METAS': ( self ) => {
             const { serverMetas } = self.props.state.thread;

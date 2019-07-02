@@ -49,9 +49,6 @@ export default class PostsSupporter extends Component {
       menu: "Cover",
       label: "",
     };
-
-
-
     this.getDisplay = this.getDisplay.bind( this );
   }
 
@@ -116,13 +113,14 @@ export default class PostsSupporter extends Component {
         },
         onClick: ( e ) => {
           if( i !== 0 ){
+            const { toggleDispPostsSupporter } = this.props;
             const post = PostsSupporter[ menu ][ toLabel ][ i - 1 ];
             talknAPI.delegatePost( 
-              `<div class="talknStamps" style="display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;transform: scale(2);font-size: 50px;">
-                ${post}
-              </div>` );
+              `<div class="talknStamps" style="display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;transform: scale(2);font-size: 50px;">${post}</div>`
+            );
+          }else{
+            this.setState( {  menu: "Cover", label: "" } );
           }
-          this.setState( {  menu: "Cover", label: "" } );
         }
       }
     }

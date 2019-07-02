@@ -139,8 +139,8 @@ class Container extends Component {
   }
 
   handleOnClickFooterIcon( e ){
-    const { onClickFooterIcon } = this.props;
-    onClickFooterIcon();
+    const { toggleDispPostsSupporter } = this.props;
+    toggleDispPostsSupporter();
   }
 
   handleOnClickMultistream(){
