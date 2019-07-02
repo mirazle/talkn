@@ -18,13 +18,6 @@ export default {
     return {state, props};
   },
   "ON__CLICK_MULTISTREAM": setStoragePosts,
-  "ON_CLICK_FOOTER_ICON": ( state, props ) => {
-/*
-    const { rootConnection } = state.app;
-    TalknSession.setStorage( rootConnection, define.storageKey.app, state.app.toJSON() );
-*/
-    return {state, props};
-  },
   "ON_CLICK_TOGGLE_DISP_MENU": ( state, props ) => {
     const { app } = state; 
     if( app.screenMode === App.screenModeSmallLabel ){

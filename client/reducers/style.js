@@ -35,7 +35,7 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
-	case 'ON_CLICK_FOOTER_ICON':
+	case 'TOGGLE_DISP_POSTS_SUPPORTER':
 		return {...state,
 			postsSupporter: {...state.postsSupporter,
 				self: {...state.postsSupporter.self,

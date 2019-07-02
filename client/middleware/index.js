@@ -133,8 +133,7 @@ const functions = {
     action.postsLogs = state.postsLogs;
     return action;
   },
-  "ON_CLICK_FOOTER_ICON": ( state, action ) => {
-    console.log( state.app.isOpenPostsSupporter );
+  "TOGGLE_DISP_POSTS_SUPPORTER": ( state, action ) => {
     state.app.isOpenPostsSupporter = !state.app.isOpenPostsSupporter;
     return action;
   },

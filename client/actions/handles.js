@@ -224,9 +224,9 @@ export default {
       clientMetas
     };
   },
-  onClickFooterIcon: () => {
+  toggleDispPostsSupporter: () => {
     return {
-      type: 'ON_CLICK_FOOTER_ICON'
+      type: 'TOGGLE_DISP_POSTS_SUPPORTER'
     };
   },
   delegatePost: ( inputPost ) => {
