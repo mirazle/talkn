@@ -1327,7 +1327,9 @@ class Notif extends Elements{
             "line-height: 27px;" +
             "text-indent: 10px;"
         );
-        notifPost.innerText = params.post;
+        notifPost.innerText = this.isEmojiStamp( params.post ) ?
+            params.post + " (STAMP)" : params.post ;
+        console.log( notifPost.innerText );
         notif.appendChild( notifIcon );
         notif.appendChild( notifPost );
 
@@ -1377,7 +1379,7 @@ class Notif extends Elements{
     }
 
     isEmojiStamp( value ){
-        return ( value.indexOf( '<div class="talknStamps"' ) === 0 )
+        return ( value.indexOf( '<div class="talknStamps"' ) === 0 );
     }
 
     getWidth(addUnit = false){
