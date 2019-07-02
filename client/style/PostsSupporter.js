@@ -118,6 +118,8 @@ export default class PostsSupporter{
       justifyContent: "flex-start",
       background: Container.darkRGBA,
       whiteSpace: "nowrap",
+      overflowScrolling: "touch",
+      WebkitOverflowScrolling: "touch",
       overflowX: "scroll",
       overflowY: "hidden"
     });
