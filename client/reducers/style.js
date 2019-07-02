@@ -36,6 +36,7 @@ export default ( state = {} , action ) => {
 			}
 		}
 	case 'TOGGLE_DISP_POSTS_SUPPORTER':
+	case 'CLOSE_DISP_POSTS_SUPPORTER':
 		return {...state,
 			postsSupporter: {...state.postsSupporter,
 				self: {...state.postsSupporter.self,
