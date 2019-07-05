@@ -43,30 +43,6 @@ export default class Post extends Component {
         isBubblePost: afterIsBubblePost
       });
     }
-/*
-    const {transform: beforeTransform} = style.self;
-    const {transform: afterTransform} = props.style.self;  
-    if(beforeTransform !== afterTransform){
-      this.setState({
-        style: {...style,
-          self: {...style.self,
-            transform: afterTransform
-          }
-        }
-      });
-    }
-
-    const {color: beforeColor} = style.bottomPost;
-    const {color: afterColor} = props.style.bottomPost;
-    if(beforeColor !== afterColor){
-      this.setState({
-        style: {...style,
-          self: {...props.style.self},
-          bottomPost: {...props.style.bottomPost}
-        }
-      });
-    }
-*/
   }
 
   getDecolationProps(){
@@ -174,8 +150,9 @@ export default class Post extends Component {
           style={style.upperTimeago}
           ref={this.state.timeId}
           className={'timeAgo'} 
-          dateTime={ createTime }>
-            {createTime}
+          dateTime={ createTime }
+        >
+          {createTime}
         </time>
       );
     }
@@ -188,7 +165,6 @@ export default class Post extends Component {
     return (
       <div style={ style.upper }>
         <span style={style.upperSpace} />
-
         <span style={style.upperRight}>
           <div style={style.upperChild}>{childLabel}</div>
           { this.renderTime() }
