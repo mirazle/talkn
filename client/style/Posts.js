@@ -207,7 +207,8 @@ export default class Posts {
     return Style.get({layout, content, animation});
   }
 
-  static getMore(){
+  static getMore({app}){
+    const background = app.isBubblePost ? Container.themeRGBA : Container.reliefRGBA;
     const layout = Style.getLayoutFlex({
       width: '50%',
       height: Container.notifHeight,
@@ -215,7 +216,7 @@ export default class Posts {
       alignItems: "center",
       justifyContent: "center",
       zIndex: '10',
-      background: Container.themeRGBA,
+      background,
       borderRadius: '20px',
     });
     const content = Style.getContentBase({

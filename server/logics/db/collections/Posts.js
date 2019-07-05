@@ -22,7 +22,8 @@ export default class Posts {
     return await this.collection.find( condition ).count();
   }
 
-  async find( requestState, setting, isMultistream = false, getMore = false ){
+  async find( requestState, setting, status = {isMultistream: false, getMore: false, isMediaConnection: false} ){
+    const { isMultistream, getMore, isMediaConnection } = status;
     const { thread, app } = requestState;
     const { connection } = thread;
     const getDirection = getMore ? '$lt' : '$gt';
@@ -32,11 +33,15 @@ export default class Posts {
       _id: { [ getDirection ]: mongoose.Types.ObjectId( app.offsetFindId ) },
     };
 
+    const sort = isMediaConnection ? {currentTime: 1} : {_id: -1};
     const selector = {};
-    const option = {limit: setting.server.findOnePostCnt, sort: {_id: -1}};
+    const option = {limit: setting.server.findOnePostCnt, sort};
     const result = await this.collection.find( condition, selector, option );
 
-    result.response.reverse();
+    if( !isMediaConnection ){
+      result.response.reverse();
+    }
+
     return result;
   }
 
@@ -51,6 +56,7 @@ export default class Posts {
       utype: user.utype,
       favicon: thread.favicon,
       post: app.inputPost,
+      currentTime: app.inputCurrentTime,
       data: '',
       updateTime: new Date(),
     });

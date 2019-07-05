@@ -1,5 +1,3 @@
-import define from '~/common/define';
-import conf from '~/common/conf';
 import Posts from './Posts';
 import Html from '~/server/schemas/logics/Html';
 import Favicon from '~/server/logics/Favicon';
@@ -8,6 +6,7 @@ const html = new Html();
 export default {
 	connection: { type: String, default: "/"  },
 	connections: { type: [String], default: ['/'] },
+	ext: { type: String, default: "html"  },
 	hasSlash:  { type: String, default: false },
 	host: { type: String, default: "" },
 	layer: { type: Number, default: 0 },

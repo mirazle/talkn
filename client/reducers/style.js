@@ -15,6 +15,8 @@ import Notif from 'client/style/Notif';
 import InnerNotif from 'client/style/InnerNotif';
 import ExtScreen from 'client/style/ExtScreen';
 import PostsSupporter from 'client/style/PostsSupporter';
+import Board from 'client/style/Board';
+import Post from '../style/Post';
 
 export default ( state = {} , action ) => {
 
@@ -29,10 +31,27 @@ export default ( state = {} , action ) => {
 		return {...state};
 	case 'ON_CLICK_MULTISTREAM':
 		return {...state,
-			container: {...state.container,
-				multistreamIconWrap: {...state.container.multistreamIconWrap,
-					border: Container.getMultistreamIconWrapBorder( action)
+			board: {...state.board,
+				liChild: {...state.board.liChild,
+					color: ( action.app.multistream ?
+						Board.activeColor : Board.unactiveColor )
 				}
+			}
+		}
+	case 'TOGGLE_BUBBLE_POST':
+		return {...state,
+			board: {...state.board,
+				liBubble: {...state.board.liBubble,
+					color: ( action.app.isBubblePost ?
+						Board.activeColor : Board.unactiveColor )
+				}
+			},
+			posts: {...state.posts,
+				more: Posts.getMore({app: action.app})
+			},
+			post: {...state.post,
+				self: Post.getSelf( {app: action.app} ),
+				bottomPost: Post.getBottomPost( {app: action.app} )
 			}
 		}
 	case 'TOGGLE_DISP_POSTS_SUPPORTER':
@@ -41,6 +60,22 @@ export default ( state = {} , action ) => {
 			postsSupporter: {...state.postsSupporter,
 				self: {...state.postsSupporter.self,
 					transform: PostsSupporter.getTransform( action.app )
+				}
+			}
+		}
+	case 'ON_CLICK_TO_MULTI_THREAD':
+		return {...state,
+			board: {...state.board,
+				liChild: {...state.board.liChild,
+					color: Board.activeColor
+				}
+			}
+		}
+	case 'ON_CLICK_TO_CHILD_THREAD':
+		return {...state,
+			board: {...state.board,
+				liChild: {...state.board.liChild,
+					color: Board.unactiveColor
 				}
 			}
 		}
@@ -122,6 +157,12 @@ export default ( state = {} , action ) => {
 				self: {...state.notif.self,
 					display: notifDisplay,
 				}
+			}
+		}
+	case 'TOGGLE_DISP_BOARD' :
+		return {...state,
+			board: {...state.board,
+				self: Board.getSelf( {app:action.app} )
 			}
 		}
 	case 'OPEN_INNER_NOTIF' :

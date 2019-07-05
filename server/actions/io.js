@@ -42,8 +42,7 @@ export default {
     const isMultistream = Threads.getStatusIsMultistream( app );
     const postCntKey = isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts( requestState, isMultistream );
-    const {response: posts} = await Logics.db.posts.find(requestState, setting, isMultistream, true );
-
+    const {response: posts} = await Logics.db.posts.find(requestState, setting, {isMultistream, getMore: true} );
 
     app = Collections.getNewApp(requestState.type, app, thread, posts);
     Logics.io.getMore( ioUser, {requestState, thread, posts, app} );
@@ -94,7 +93,7 @@ export default {
     // Posts
     const postCntKey = threadStatus.isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts( requestState, threadStatus.isMultistream );
-    const {response: posts} = await Logics.db.posts.find(requestState, setting, threadStatus.isMultistream );
+    const {response: posts} = await Logics.db.posts.find(requestState, setting, threadStatus );
 
     // appの状況を更新する
     app = Collections.getNewApp(requestState.type, app, thread, posts);

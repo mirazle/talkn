@@ -4,18 +4,23 @@ import Container from './Container';
 
 export default class Post {
 
+  static get bubbleStampScale(){ return 2 };
+  static get stampScale(){ return 1 };
+  static get stampStyle(){ 
+    return `display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;transform: scale(${Post.bubbleStampScale});font-size: 50px;`
+  }
   static get iconSize(){ return '25px' };
 
   constructor( params ){
-    const self = Post.getSelf();
-    const upper = Post.getUpper();
-    const upperSpace = Post.getUpperSpace();
-    const upperRight = Post.getUpperRight();
-    const upperChild = Post.getUpperChild();
-    const upperTimeago = Post.getUpperTimeago();
-    const bottom = Post.getBottom();
-    const bottomIcon = Post.getBottomIcon();
-    const bottomPost = Post.getBottomPost();
+    const self = Post.getSelf(params);
+    const upper = Post.getUpper(params);
+    const upperSpace = Post.getUpperSpace(params);
+    const upperRight = Post.getUpperRight(params);
+    const upperChild = Post.getUpperChild(params);
+    const upperTimeago = Post.getUpperTimeago(params);
+    const bottom = Post.getBottom(params);
+    const bottomIcon = Post.getBottomIcon(params);
+    const bottomPost = Post.getBottomPost(params);
     return {
       self,
       upper,
@@ -29,13 +34,15 @@ export default class Post {
     }
   }
 
-  static getSelf(){
+  static getSelf({app}){
+    const padding = app.isBubblePost ? '20px 20px 20px 0px' : '0px 20px 0px 0px';
+    const minHeight = app.isBubblePost ? "75px" : "60px";
     const layout = Style.getLayoutBlock({
       width: 'calc( 100% - 20px )',
       minWidth: 'calc( 100% - 20px )',
       height: 'auto',
-      minHeight: "75px",
-      margin: '20px 20px 20px 0px',
+      minHeight,
+      padding,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -121,18 +128,21 @@ export default class Post {
     return Style.get({layout, content, animation});
   }
 
-  static getBottomPost(){
+  static getBottomPost({app}){
+    const background = app.isBubblePost ? Container.themeRGBA : "none";
+    const color = app.isBubblePost ? Container.whiteRGBA : "rgba(160, 160, 160)";
+    const padding = app.isBubblePost ? '15px 15px 15px 25px' : '0px 15px 0px 25px';
     const layout = Style.getLayoutBlock({
       flexGrow:  5,
       width: 'min-content',
-      background: Container.themeRGBA,
-      padding: '15px 15px 15px 25px',
+      background,
+      padding,
       margin: "0px 1% 0px 0px",
       borderRadius: '10px',
       maxWidth: '79%',
     });
     const content = Style.getContentBase({
-      color: 'rgb(255,255,255)',
+      color,
       lineHeight: 2.0,
       fontSize: '13px',
       textAlign: 'left',

@@ -55,6 +55,7 @@ export default class TalknWindow {
 		this.threadHeight = 0;
 		this.innerHeight = 0;
 		this.scrollHeight = 0;
+		this.currentTime = 0;
 		
 		this.isLoaded = false;
 		this.isMessageed = false;
@@ -96,7 +97,6 @@ export default class TalknWindow {
 			"margin: 0px auto !important;" +
 			"visibility: visible !important;" +
 			"opacity: 1 !important;";
-	
 
 		if( !window.TalknAPI ) window.TalknAPI = TalknAPI;
 		if( !window.__talknAPI__ ) window.__talknAPI__ = [];

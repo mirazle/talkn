@@ -59,6 +59,17 @@ export default {
       app,
     };
   },
+  toggleDispBoard: ( app ) => {
+    return {
+      type: 'TOGGLE_DISP_BOARD',
+      app,
+    };
+  },
+  toggleBubblePost: () => {
+    return {
+      type: 'TOGGLE_BUBBLE_POST'
+    };
+  },
   onClickMultistream: ({app, postsMulti, postsSingle}) => {
     return {
       type: 'ON_CLICK_MULTISTREAM',
@@ -235,10 +246,10 @@ export default {
       app: { isOpenPostsSupporter: false }
     };
   },
-  delegatePost: ( inputPost ) => {
+  delegatePost: ( {inputPost, inputCurrentTime} ) => {
     return {
       type: 'DELEGATE_POST',
-      app: {inputPost}
+      app: {inputPost, inputCurrentTime}
     };
   },
   debug: ( app ) => {
