@@ -11,6 +11,7 @@ export default class Post extends Component {
     const {style} = props;
     super(props);
     this.state = {style}
+    this.renderUpper = this.renderUpper.bind(this);
     this.renderTime = this.renderTime.bind(this);
     this.getDecolationProps = this.getDecolationProps.bind(this);
     this.handleOnClickPost = this.handleOnClickPost.bind(this);
@@ -143,6 +144,30 @@ export default class Post extends Component {
     }
   }
 
+  renderUpper(){
+    const {
+      app,
+      childLayerCnt,
+    } = this.props;
+
+    if(app.isBubblePost){
+      const { style } = this.state;
+      const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
+      return (
+        <div style={style.upper}>
+          <span style={style.upperSpace} />
+
+          <span style={style.upperRight}>
+            <div style={style.upperChild}>{childLabel}</div>
+            { this.renderTime() }
+          </span>
+        </div>
+      );
+    }else{
+      return null;
+    }
+  }
+
   renderPost( post, app ){
     if( !app.isBubblePost ){
       if( post.indexOf( '<div class="talknStamps"' ) === 0 ){
@@ -165,7 +190,6 @@ export default class Post extends Component {
       childLayerCnt,
       _id,
      } = this.props;
-    const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
     const { style } = this.state;
     
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
@@ -183,14 +207,8 @@ export default class Post extends Component {
 
     return (
       <li data-component-name={"Post"} id={_id} style={style.self} {...this.getDecolationProps()}>
-        <div style={style.upper}>
-          <span style={style.upperSpace} />
 
-          <span style={style.upperRight}>
-            <div style={style.upperChild}>{childLabel}</div>
-            { this.renderTime() }
-          </span>
-        </div>
+        {this.renderUpper()}
 
         <div onClick={this.handleOnClickPost} style={style.bottom}>
           <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
