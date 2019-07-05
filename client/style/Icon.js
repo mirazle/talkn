@@ -2,6 +2,7 @@ import Style from './index';
 import Container from './Container';
 import conf from '../conf';
 import App from '../../common/schemas/state/App';
+import { relative } from 'path';
 
 export default class Icon {
 
@@ -26,6 +27,7 @@ export default class Icon {
     const logs = Icon.getLogs( params );
     const setting = Icon.getSetting( params );
     const thunder = Icon.getThunder( params );
+    const bubble = Icon.getBubble( params );
     const detail = Icon.getDetail( params );
     const heart = Icon.getHeart( params );
     const share = Icon.getShare( params );
@@ -47,6 +49,7 @@ export default class Icon {
       logs,
       setting,
       thunder,
+      bubble,
       detail,
       heart,
       share,
@@ -895,13 +898,15 @@ export default class Icon {
   }
 
   static getThunder( { app } ){
-    const borderColor = app.dispThreadType ===  App.dispThreadTypeMulti ?
-      Container.themeRGBA : Container.reliefRGBA;
+    let borderColor = Container.reliefRGBA;
+    if( App.isActiveMultistream( app ) ){
+      borderColor = Container.themeRGBA;
+    }
+
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: "50px",
-        height: "50px",
-        borderRadius: "50px"
+        width: "30px",
+        height: "30px"
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -917,7 +922,7 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: Container.transitionOff,
-        transform: "rotate(90deg) translate3d(-2px,8px,0px)",
+        transform: "rotate(90deg) translate3d(0px,0px,0px)",
       }),
     });
 
@@ -925,7 +930,7 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         position: "relative",
         top: "0px",
-        left: "-10px",
+        left: "0px",
         width: "0px",
         height: "0px",
         margin: "0 auto",
@@ -947,19 +952,18 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: Container.transitionOff,
-        transform: "skew(60deg, 0deg) rotate(0deg) translate(0px, 0px)"
+        transform: "skew(60deg, 0deg) rotate(0deg) translate(-3px, -3px)"
       }),
     });
 
     const bottom = Style.get({
-      layout: Style.getLayoutBlock({
+      layout: Style.getLayoutFlex({
         position: "relative",
         top: "0px",
-        left: "10px",
+        left: "0px",
         width: "0px",
         height: "0px",
         margin: "0 auto",
-
         borderWidth: "8px 8px 10px 8px",
         borderTopStyle: "solid",
         borderRightStyle: "solid",
@@ -973,20 +977,116 @@ export default class Icon {
         borderTopRightRadius: "0px",
         borderBottomRightRadius: "0px",
         borderBottomLeftRadius: "0px"
-/*
-        borderBottom: "8px solid transparent",
-        borderRight: "8px solid transparent",
-        borderTop: `10px solid ${borderColor}`,
-        borderLeft: "8px solid transparent",
-*/
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: Container.transitionOff,
-        transform: "skew(60deg, 0deg) rotate(0deg) translate(0px, 0px)"
+        transform: "skew(60deg, 0deg) rotate(0deg) translate(15px, -3px)"
       }),
     });
     return {div, wrap, top, bottom};
+  }
+
+  static getPlay( { app } ){
+    const div = Style.get({
+      layout: Style.getLayoutFlex({
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "flex-start",  
+        width: "30px",
+        height: "30px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.transitionOff,
+        transform: "translate(0px, 0px)",
+      }),
+    });
+
+    const playCircle = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: "relative",
+        top: "5px",
+        width: "18px",
+        height: "14px",
+        background: Container.themeRGB,
+        borderRadius: "30px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.transitionOff,
+        transform: "translate3d(0px,0px,0px)",
+      }),
+    });
+
+    const playTriangle = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: "relative",
+        top: "5px",
+        width: "5px",
+        height: "9px",
+        background: Container.themeRGB,
+        border: `3px solid ${Container.themeRGB}`
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.transitionOff,
+        transform: "skew(0deg, 30deg) rotate(30deg) translate3d(-5px, -3.5px, 0px)",
+      }),
+    });
+    return {div, playCircle, playTriangle};
+  }
+
+  static getBubble( { app } ){
+    const background = app.isBubblePost ?
+      Container.themeRGB : Container.reliefRGBA;
+    const div = Style.get({
+      layout: Style.getLayoutFlex({
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "flex-start",  
+        width: "30px",
+        height: "30px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.transitionOff,
+        transform: "translate(0px, 0px)",
+      }),
+    });
+
+    const bubble = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: "relative",
+        top: "5px",
+        width: "18px",
+        height: "14px",
+        background,
+        borderRadius: "30px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.transitionOff,
+        transform: "translate3d(0px,0px,0px)",
+      }),
+    });
+
+    const bubbleBar = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: "relative",
+        top: "5px",
+        width: "5px",
+        height: "10px",
+        background,
+        border: `3px solid ${background}`
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.transitionOff,
+        transform: "skew(30deg, 28deg) rotate(30deg) translate3d(-2px, -7px, 0px)",
+      }),
+    });
+    return {div, bubble, bubbleBar};
   }
 
   static getDetail( {app} ){

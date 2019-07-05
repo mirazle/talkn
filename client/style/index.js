@@ -16,6 +16,7 @@ import Posts from './Posts';
 import Post from './Post';
 import InnerNotif from './InnerNotif';
 import Notif from './Notif';
+import Board from './Board';
 import Loading from './Loading';
 import ExtScreen from './ExtScreen';
 
@@ -83,6 +84,7 @@ export default class Style{
     const posts = new Posts( params );
     const post = new Post( params );
     const notif = new Notif( params );
+    const board = new Board( params );
     const innerNotif = new InnerNotif( params );
     const detail = new Detail( params );
     const detailFooter = new DetailFooter( params );
@@ -106,6 +108,7 @@ export default class Style{
       posts,
       post,
       notif,
+      board,
       innerNotif,
       detail,
       icon,

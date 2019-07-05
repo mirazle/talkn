@@ -174,6 +174,7 @@ class Elements {
 
 class Window extends Elements {
     static get talknNotifId(){return "talknNotifId"};
+    static get mediaSecondInterval(){ return 333 };
     static get activeMethodSecond(){return 1000};
     static get aacceptPostMessages(){return [
         'toggleIframe',
@@ -184,6 +185,10 @@ class Window extends Elements {
         'setInputPost',
         'getClientMetas'
     ]};
+
+    static getCurrentTime( currentTime, base = 10 ){
+        return Math.floor( currentTime * base ) / base;
+    }
 
     static getActiveStyles( called ){
 
@@ -216,6 +221,7 @@ class Window extends Elements {
                 this.displayModeKey = Ext.DEFAULT_DISPLAY_MODE_KEY;
                 this.displayModeDirection = "ASC";
                 this.browser = this.getBrowser();
+                this.handleMediaCurrentTime = 0;
                 this.scrollY = window.scrollY;
                 this.ins = {};
 
@@ -243,6 +249,7 @@ class Window extends Elements {
                 this.transformDisplayMode = this.transformDisplayMode.bind(this);
                 this.openNotif = this.openNotif.bind(this);
                 this.closeNotif = this.closeNotif.bind(this);
+                this.setupMedia = this.setupMedia.bind(this);
 
                 // Communicarion Methods.
                 this.childTo = this.childTo.bind(this);
@@ -262,6 +269,8 @@ class Window extends Elements {
                 this.ins.handleIcon = new HandleIcon( this );
                 this.ins.textarea = new Textarea( this );
                 this.ins.notifStatus = new NotifStatus( this );
+
+                this.setupMedia();
             };
 
             init = init.bind( this );
@@ -336,6 +345,36 @@ class Window extends Elements {
         return window;
     }
 
+    isMediaConnection(){
+        const href = location.href;
+        let isMediaConnection = false;
+        if( href.match(/mp3$/) || href.match(/mp3\/$/) ){
+            isMediaConnection = true;
+		}
+
+		if( href.match(/mp4$/) || href.match(/mp4\/$/) ){
+            isMediaConnection = true;
+        }
+
+		if( href.match(/m4a$/) || href.match(/m4a\/$/) ){
+            isMediaConnection = true;
+        }
+        return isMediaConnection;
+    }
+
+    setupMedia(){
+		const href = location.href;
+		let isMediaConnection = this.isMediaConnection();
+        if( isMediaConnection ){
+            const media = document.querySelector("video");
+            setInterval( () => {
+                if( !media.paused ){  
+                    this.handleMediaCurrentTime = media.currentTime;
+                }
+            }, Window.mediaSecondInterval );
+        }
+    }
+    
     getBrowser(){
         const agent = window.navigator.userAgent.toLowerCase();
         if ( (agent.indexOf('crios') !== -1) && (agent.indexOf('safari') > 0) ){
@@ -874,7 +913,9 @@ class Iframe extends Elements {
     }
 
     load(e){
+        const isMediaConnection = this.window.isMediaConnection();
         this.window.childTo("bootExtension", {
+            isMediaConnection,
             extensionMode: this.window.extMode,
             extensionWidth: this.getWidth(true),
             extensionOpenHeight: this.getHeight(false),
@@ -1070,17 +1111,20 @@ class HandleIcon extends Elements {
             notifStatus.resetCnt();
 
             const regex = /^\s*$/;
-            const value = textarea.getValue();
+            const inputPost = textarea.getValue();
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
                 this.window.updateDisplayMode("clickHandleIcon");
                 break;
             case Ext.DISPLAY_MODE_OPEN:
-                if( value !== "" && !regex.test( value )){
-                    this.window.childTo("delegatePost", value );
+                if( inputPost !== "" && !regex.test( inputPost )){
+
+                    const inputCurrentTime = Window.getCurrentTime( this.window.handleMediaCurrentTime );
+                    this.window.childTo("delegatePost", {inputPost, inputCurrentTime} );
                     this.window.childTo("onChangeInputPost");
                     textarea.clear();
                     textarea.focus();
+
                 }else{
                     this.window.updateDisplayMode("clickHandleIcon");
                 }        
@@ -1329,7 +1373,6 @@ class Notif extends Elements{
         );
 
         notifPost.innerText = this.convertEmojiStamp( params.post );
-        console.log( notifPost.innerText );
         notif.appendChild( notifIcon );
         notif.appendChild( notifPost );
 
@@ -1598,14 +1641,17 @@ class Textarea extends Elements {
             }else{
                 const { textarea } = this.window.ins;
                 const regex = /^\s*$/;
-                const value = textarea.getValue();
+                const inputPost = textarea.getValue();
 
-                if( value !== "" && !regex.test( value )){
-                    this.window.childTo("delegatePost", value );
+                if( inputPost !== "" && !regex.test( inputPost )){
+
+                    const inputCurrentTime = Window.getCurrentTime( this.window.handleMediaCurrentTime );
+                    this.window.childTo("delegatePost", {inputPost, inputCurrentTime} );
                     this.window.childTo("onChangeInputPost");
                     textarea.clear();
                     const textareaElm = textarea.get();
                     textareaElm.focus();
+                    
                     e.preventDefault();
                     return false;
                 }

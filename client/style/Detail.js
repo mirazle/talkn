@@ -215,7 +215,7 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: '90%',
       height: 'initial',
-      margin: `${Detail.margin}% ${Detail.margin}% 7% ${Detail.margin}%`,
+      margin: `7%`,
     });
     const content = Style.getContentBase({
       lineHeight: 2,

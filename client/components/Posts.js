@@ -18,15 +18,6 @@ export default class Posts extends Component {
     };
   }
 
-/*
-
-  スクロール系のメソッドをまとめて、MODALを開いた時にblockにしたタイミングで、
-  一番下までのスクロールを実行するようにする
-
-*/
-
-
-
   componentDidMount(){
       const{ app } = this.props.state;
       if(

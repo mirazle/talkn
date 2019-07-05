@@ -93,7 +93,8 @@ export default class App extends Schema{
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
 
     // スレッド基本関連
-    const isRootConnection = params.isRootConnection ? params.isRootConnection : false;
+    const isMediaConnection = Schema.isSet( params.isMediaConnection ) ? params.isMediaConnection : false;
+    const isRootConnection = Schema.isSet( params.isRootConnection ) ? params.isRootConnection : false;
     const rootConnection = params.rootConnection ? params.rootConnection : connection;
 
     const connectioned = params && params.connectioned ? params.connectioned : '';
@@ -114,6 +115,7 @@ export default class App extends Schema{
 
     // 入力状態
     const inputPost = params.inputPost ? params.inputPost : '';
+    const inputCurrentTime = params.inputCurrentTime ? params.inputCurrentTime : 0.0;
     const inputSearch = params.inputSearch ? params.inputSearch : '';
 
     // 各パーツの状態(フラグ制御)
@@ -124,6 +126,8 @@ export default class App extends Schema{
     const isOpenNewPost = params.isOpenNewPost ? params.isOpenNewPost : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     const isOpenPostsSupporter = Schema.isSet( params.isOpenPostsSupporter ) ? params.isOpenPostsSupporter : false ;
+    const isOpenBoard = Schema.isSet( params.isOpenBoard ) ? params.isOpenBoard : App.getIsOpenBoard( {screenMode} ) ;
+    const isBubblePost = Schema.isSet( params.isBubblePost ) ? params.isBubblePost : true ;
     const isDispPosts = Schema.isSet( params.isDispPosts ) ? params.isDispPosts : false ;
 
     // 各パーツの状態(文字列制御)
@@ -159,6 +163,7 @@ export default class App extends Schema{
       menuComponent,
 
       // スレッド基本関連
+      isMediaConnection,
       isRootConnection,
       rootConnection,
       connectioned,
@@ -179,6 +184,7 @@ export default class App extends Schema{
 
       // 入力状態
       inputPost,
+      inputCurrentTime,
       inputSearch,
 
       // 各パーツの状態
@@ -189,6 +195,8 @@ export default class App extends Schema{
       isOpenNewPost,
       isOpenNotif,
       isOpenPostsSupporter,
+      isBubblePost,
+      isOpenBoard,
       isDispPosts,
 
       // 各パーツの状態(文字列制御)
@@ -298,6 +306,30 @@ export default class App extends Schema{
       if(al) alert("@getIsOpenPosts E " + " " + extensionOpenHeight + " " +  height);
       return true;
     }
+  }
+
+  static getIsOpenBoard(app){
+    switch( app.screenMode ){
+    case App.screenModeSmallLabel :
+      return false
+    case App.screenModeMiddleLabel :
+    case App.screenModeLargeLabel :
+      return true
+    }
+  }
+
+  static isActiveMultistream(app, called){
+/*
+    console.log("@@@@@@@ " );
+    console.log( app.menuComponent );
+    console.log( app.isRootConnection );
+    console.log( app.dispThreadType );
+*/
+    return (
+      app.menuComponent === "Index" &&
+  //    app.isRootConnection &&
+      app.dispThreadType ===  App.dispThreadTypeMulti 
+    );
   }
 
   static getOffsetFindId({posts}){

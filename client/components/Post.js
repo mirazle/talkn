@@ -3,6 +3,7 @@ import Sequence from 'common/Sequence';
 import util from 'common/util';
 import conf from 'common/conf';
 import App from 'common/schemas/state/App';
+import PostStyle from 'client/style/Post';
 
 export default class Post extends Component {
 
@@ -10,6 +11,7 @@ export default class Post extends Component {
     const {style} = props;
     super(props);
     this.state = {style}
+    this.renderTime = this.renderTime.bind(this);
     this.getDecolationProps = this.getDecolationProps.bind(this);
     this.handleOnClickPost = this.handleOnClickPost.bind(this);
   }
@@ -17,8 +19,7 @@ export default class Post extends Component {
   componentWillReceiveProps(props){
     const {style} = this.state;
     const {transform: beforeTransform} = style.self;
-    const {transform: afterTransform} = props.style.self;
-
+    const {transform: afterTransform} = props.style.self;    
     if(beforeTransform !== afterTransform){
       this.setState({
         style: {...style,
@@ -28,13 +29,24 @@ export default class Post extends Component {
         }
       });
     }
+
+    const {color: beforeColor} = style.bottomPost;
+    const {color: afterColor} = props.style.bottomPost;
+    if(beforeColor !== afterColor){
+      this.setState({
+        style: {...style,
+          self: {...props.style.self},
+          bottomPost: {...props.style.bottomPost}
+        }
+      });
+    }
   }
 
   getDecolationProps(){
-    const{ mode } = this.props;
-    if( mode === 'post'){
-      return {
-        onMouseOver: () => {
+    const{ app } = this.props;
+    return {
+      onMouseOver: () => {
+        if( app.isBubblePost ){
           this.setState(
             { style:
               {...this.state.style,
@@ -46,8 +58,10 @@ export default class Post extends Component {
               }
             }
           );
-        },
-        onMouseLeave: () => {
+        }
+      },
+      onMouseLeave: () => {
+        if( app.isBubblePost ){
           this.setState( {style:
             {...this.state.style,
               self: { ...this.state.style.self,
@@ -57,8 +71,10 @@ export default class Post extends Component {
               }
             }
           });
-        },
-        onMouseDown: () => {
+        }
+      },
+      onMouseDown: () => {
+        if( app.isBubblePost ){
           this.setState( {style:
             {...this.state.style,
               self: { ...this.state.style.self,
@@ -67,8 +83,10 @@ export default class Post extends Component {
               }
             }
           });
-        },
-        onMouseUp: () => {
+        }
+      },
+      onMouseUp: () => {
+        if( app.isBubblePost ){
           this.setState( {style:
             {...this.state.style,
               self: { ...this.state.style.self,
@@ -77,10 +95,8 @@ export default class Post extends Component {
               }
             }
           });
-        },
+        }
       }
-    }else{
-      return {};
     }
   }
 
@@ -89,11 +105,12 @@ export default class Post extends Component {
   }
 
   componentDidMount(){
-    const { timeago } = this.props;
+    const { timeago, app } = this.props;
     const timeId = this.getTimeId();
-    if(timeago){
-      timeago.render( this.refs[ timeId ] );
-    }
+    if( !app.isMediaConnection )
+      if( timeago ){
+        timeago.render( this.refs[ timeId ] );
+      }
   }  
 
   handleOnClickPost(){
@@ -107,19 +124,47 @@ export default class Post extends Component {
     }
   }
 
+  renderTime(){
+    const { style } = this.state;
+    const{
+      app,
+      createTime,
+      currentTime
+    } = this.props;
+
+    if( app.isMediaConnection ){
+      const dispCurrentTime = String( currentTime ).split( "." )[ 0 ];
+      return( 
+        <time style={style.upperTimeago}>{dispCurrentTime} Second.</time>
+      );
+    }else{
+      const timeId = this.getTimeId();
+      return( <time style={style.upperTimeago} ref={timeId} className={'timeAgo'} dateTime={ createTime }>{createTime}</time> );
+    }
+  }
+
+  renderPost( post, app ){
+    if( !app.isBubblePost ){
+      if( post.indexOf( '<div class="talknStamps"' ) === 0 ){
+        if( post.indexOf( `scale(${PostStyle.bubbleStampScale})` ) ){
+          return post.replace( `scale(${PostStyle.bubbleStampScale})`, `scale(${PostStyle.stampScale})` )
+                    .replace( `height: 100%`, `height:60px` )
+                    .replace( `height:100%`, `height:60px` );
+        }
+      }
+    }
+    return post;
+  }
+
  	render() {
 		const{
-      mode,
+      app,
       thread,
-      createTime,
       post,
       favicon,
       childLayerCnt,
-      onTransitionEnd,
-      handleOnClickToggleMain,
       _id,
      } = this.props;
-    const timeId = this.getTimeId();
     const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
     const { style } = this.state;
     
@@ -136,39 +181,22 @@ export default class Post extends Component {
       }
     }
 
-    if(mode === 'post'){
-      return (
-        <li data-component-name={"Post"} id={_id} style={style.self} {...this.getDecolationProps()}>
-          <div style={style.upper}>
-            <span style={style.upperSpace} />
-  
-            <span style={style.upperRight}>
-              <div style={style.upperChild}>{childLabel}</div>
-              <time style={style.upperTimeago} ref={timeId} className={'timeAgo'} dateTime={ createTime }>{createTime}</time>
-            </span>
-          </div>
-  
-          <div onClick={this.handleOnClickPost} style={style.bottom}>
-            <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
-            <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: post }} />
-          </div>
-        </li>
-      );
-    }else{
-      return (
-        <li
-          data-component-name={this.constructor.name}
-          id={_id}
-          style={style.self}
-          onTransitionEnd={(onTransitionEnd)}
-          onClick={handleOnClickToggleMain}
-          >  
-          <div data-component-name={`${this.constructor.name}-bottom`} style={style.bottom}>
-            <span data-component-name={`${this.constructor.name}-image`} style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
-            <span data-component-name={`${this.constructor.name}-post`} style={style.bottomPost} dangerouslySetInnerHTML={{__html: post }} />
-          </div>
-        </li>
-      );    
-    }
+    return (
+      <li data-component-name={"Post"} id={_id} style={style.self} {...this.getDecolationProps()}>
+        <div style={style.upper}>
+          <span style={style.upperSpace} />
+
+          <span style={style.upperRight}>
+            <div style={style.upperChild}>{childLabel}</div>
+            { this.renderTime() }
+          </span>
+        </div>
+
+        <div onClick={this.handleOnClickPost} style={style.bottom}>
+          <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
+          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: this.renderPost( post, app ) }} />
+        </div>
+      </li>
+    );
  	}
 }

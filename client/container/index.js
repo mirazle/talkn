@@ -17,6 +17,7 @@ import Footer from 'client/components/Footer';
 import DetailRight from 'client/components/DetailRight';
 import DetailModal from 'client/components/DetailModal';
 import Menu from 'client/components/Menu';
+import Board from 'client/components/Board';
 import LockMenu from 'client/components/LockMenu';
 import Icon from 'client/components/Icon';
 import InnerNotif from 'client/components/InnerNotif';
@@ -269,7 +270,8 @@ class Container extends Component {
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
-          { MultistreamIcon }
+          <Board {...props} />
+          { /* MultistreamIcon */ }
           { NewPost }
           <Header {...props} />
           <PostsSupporter {...props} />
@@ -295,7 +297,8 @@ class Container extends Component {
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
-          { MultistreamIcon }
+        { /* MultistreamIcon */ }
+          <Board {...props} />
           { NewPost }
           <Header {...props} />
           <PostsSupporter {...props} />
@@ -321,7 +324,8 @@ class Container extends Component {
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
-          { MultistreamIcon }
+          { /* MultistreamIcon */ }
+          <Board {...props} />
           { NewPost }
           <Header {...props} />
           <PostsSupporter {...props} />

@@ -196,6 +196,7 @@ export default class Threads {
       isSchema: false,
       isRequireUpsert: false,
       isMultistream: false,
+      isMediaConnection: false,
       isToggleMultistream: false,
     };
 
@@ -222,6 +223,22 @@ export default class Threads {
     /*******************************************************/
 
     status.isToggleMultistream = Threads.getStatusIsToggleMultistream( app );
+
+    /*******************************************************/
+    /* threadが空のSchemaかどうか(DBにデータが存在しない)        */
+    /*******************************************************/
+
+    if( thread && thread.connection && thread.connection.match(/mp3$/) || thread.connection.match(/mp3\/$/) ){
+      status.isMediaConnection = true;
+    }
+
+    if( thread && thread.connection && thread.connection.match(/mp4$/) || thread.connection.match(/mp4\/$/) ){
+      status.isMediaConnection = true;
+    }
+
+    if( thread && thread.connection && thread.connection.match(/m4a$/) || thread.connection.match(/m4a\/$/) ){
+      status.isMediaConnection = true;
+    }
 
     return status;
   }

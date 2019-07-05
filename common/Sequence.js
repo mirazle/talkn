@@ -88,10 +88,9 @@ export default class Sequence {
       post: {
         requestPublicState: {},
         requestPrivateState: {
-          'app':[ {columnName: 'inputPost', valid: App.validPost}],
           'user':[ {columnName: 'uid'}, {columnName: 'utype'}],
-          'app': [{columnName: 'multistream'}, {columnName: 'inputPost'}, {columnName: 'dispThreadType'}, {columnName: 'multistreamed'} ],
-          'thread': [{columnName: 'protocol'}, {columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}]
+          'app': [{columnName: 'multistream'}, {columnName: 'inputPost'}, {columnName: 'inputCurrentTime'}, {columnName: 'dispThreadType'}, {columnName: 'multistreamed'} ],
+          'thread': [{columnName: 'protocol'}, {columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}, {columnName: 'contentType'}]
         },
         responseEmitState: {},
         responseBroadcastState: {'posts': '*', 'thread': '*', 'menuIndex': '*'},
@@ -130,7 +129,6 @@ export default class Sequence {
     if( Object.keys( requestPrivateState ).length > 0 ){
       Object.keys( requestPrivateState ).forEach( ( stateKey ) => {
         const columnDatas = requestPrivateState[ stateKey ];
-
         if( !requestState[ stateKey ] ){
           requestState[ stateKey ] = {}
         }

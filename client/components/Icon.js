@@ -191,7 +191,6 @@ export default class Icon extends Component{
         <div
           data-component-name={"multistreamIcon"}
           style={style.container.multistreamIconWrap}
-          onClick={props.handleOnClickMultistream}
         >
           { ThunderIcon }
         </div>
@@ -375,6 +374,24 @@ export default class Icon extends Component{
           <span data-component-type={'IconThunderTop'} style={ style.top }></span>
           <span data-component-type={'IconThunderBottom'} style={ style.bottom }></span>
         </div>
+      </div>
+    );
+  }
+
+  static getBubble( style ){
+    return (
+      <div data-component-type={'IconBubbleDiv'} style={ style.div }>
+        <div data-component-type={'IconBubble'} style={ style.bubble }></div>
+        <div data-component-type={'IconBubbleBar'} style={ style.bubbleBar }></div>
+      </div>
+    );
+  }
+
+  static getPlay( style ){
+    return (
+      <div data-component-type={'IconPlayDiv'} style={ style.div }>
+        <div data-component-type={'IconPlayCircle'} style={ style.playCircle }></div>
+        <div data-component-type={'IconPlayTriangle'} style={ style.playTriangle }></div>
       </div>
     );
   }

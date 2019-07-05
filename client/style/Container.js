@@ -172,26 +172,13 @@ export default class Container{
     }
   }
 
-  static getMultistreamIconWrapBorder( {app} ){
-    return !app.dispThreadType || app.dispThreadType === App.dispThreadTypeMulti ?
-      `1px solid ${Container.themeRGBA}` :
-      `1px solid ${Container.calmRGBA}`;
-  }
-
   static getMultistreamIconWrap( {app} ){
-    const top = Container.getMultistreamIconWrapTop( app );
-    const right = Container.getMultistreamIconWrapRight( app );
     const layout = Style.getLayoutBlock({
-      position: 'fixed',
-      top,
-      right,
-      width: '50px',
-      height: '50px',
+      width: '30px',
+      height: '30px',
       margin: '0 auto',
-      zIndex: 1,
-      border: Container.getMultistreamIconWrapBorder( {app} ),
       background: 'rgba(255, 255, 255, 0.8)',
-      borderRadius: '50px',
+
     });
 
     const content = Style.getContentBase({

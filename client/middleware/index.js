@@ -175,11 +175,21 @@ const functions = {
   },
   "ON_CLICK_TOGGLE_DISP_MENU": ( state, action ) => {
     action.app = {...action.app, ...state.app};
-    action.app.isOpenMenu = action.app.isOpenMenu ? false : true;
+    action.app.isOpenMenu = !action.app.isOpenMenu;
     return action;
   },
   "ON_CLICK_TOGGLE_DISP_DETAIL": ( state, action ) => {
     action.app = {...action.app, ...state.app};
+    return action;
+  },
+  "TOGGLE_DISP_BOARD": ( state, action ) => {
+    action.app = {...action.app, ...state.app};
+    action.app.isOpenBoard = !state.app.isOpenBoard;
+    return action;
+  },
+  "TOGGLE_BUBBLE_POST": ( state, action ) => {
+    action.app = {...action.app, ...state.app};
+    action.app.isBubblePost = !state.app.isBubblePost;
     return action;
   },
   "OPEN_NOTIF": ( state, action ) => {

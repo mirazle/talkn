@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import Icon from './Icon';
+import PostStyle from 'client/style/Post';
 
 export default class PostsSupporter extends Component {
 
@@ -41,8 +42,6 @@ export default class PostsSupporter extends Component {
         style.Emojis[ label ][ i ] = {...props.state.style.postsSupporter.emoji };
       });
     });
-
-    console.log( style );
 
     this.state = {
       style,
@@ -113,11 +112,11 @@ export default class PostsSupporter extends Component {
         },
         onClick: ( e ) => {
           if( i !== 0 ){
-            const { toggleDispPostsSupporter } = this.props;
             const post = PostsSupporter[ menu ][ toLabel ][ i - 1 ];
-            talknAPI.delegatePost( 
-              `<div class="talknStamps" style="display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;transform: scale(2);font-size: 50px;">${post}</div>`
-            );
+            talknAPI.delegatePost( {
+              inputPost: `<div class="talknStamps" style="${PostStyle.stampStyle}">${post}</div>`,
+              inputCurrentTime: 0
+            } );
           }
           this.setState( {  menu: "Cover", label: "" } );
         }
