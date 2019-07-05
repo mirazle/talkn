@@ -209,10 +209,11 @@ export default class Posts {
 
   static getMore({app}){
     const background = app.isBubblePost ? Container.themeRGBA : Container.reliefRGBA;
+    const margin = app.isBubblePost ? '15px auto' : '10px auto';
     const layout = Style.getLayoutFlex({
       width: '50%',
       height: Container.notifHeight,
-      margin: '15px auto',
+      margin,
       alignItems: "center",
       justifyContent: "center",
       zIndex: '10',
