@@ -51,6 +51,7 @@ export default ( state = {} , action ) => {
 			},
 			post: {...state.post,
 				self: Post.getSelf( {app: action.app} ),
+				upper: Post.getUpper( {app: action.app}),
 				bottomPost: Post.getBottomPost( {app: action.app} )
 			}
 		}

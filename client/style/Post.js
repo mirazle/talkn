@@ -36,7 +36,7 @@ export default class Post {
 
   static getSelf({app}){
     const padding = app.isBubblePost ? '20px 20px 20px 0px' : '0px 20px 0px 0px';
-    const minHeight = app.isBubblePost ? "75px" : "60px";
+    const minHeight = app.isBubblePost ? "75px" : "40px";
     const layout = Style.getLayoutBlock({
       width: 'calc( 100% - 20px )',
       minWidth: 'calc( 100% - 20px )',
@@ -49,8 +49,10 @@ export default class Post {
     return Style.get({layout, content, animation});
   }
 
-  static getUpper(){
+  static getUpper({app}){
+    const display = app.isBubblePost ? "flex" : "none";
     const layout = Style.getLayoutFlex({
+      display,
       justifyContent: 'space-between',
       height: '20px',
     });
