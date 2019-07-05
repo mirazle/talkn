@@ -133,7 +133,7 @@ export default class Post {
   static getBottomPost({app}){
     const background = app.isBubblePost ? Container.themeRGBA : "none";
     const color = app.isBubblePost ? Container.whiteRGBA : "rgba(160, 160, 160)";
-    const padding = app.isBubblePost ? '15px 15px 15px 25px' : '0px 15px 0px 25px';
+    const padding = app.isBubblePost ? '15px 15px 15px 25px' : '0px';
     const layout = Style.getLayoutBlock({
       flexGrow:  5,
       width: 'min-content',
