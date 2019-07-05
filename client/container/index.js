@@ -354,7 +354,7 @@ class Container extends Component {
         <div style={extScreenStyle} data-component-name={"extScreen"}>
           <Posts {...props} />
           <Header {...props} />
-          { MultistreamIcon }
+          <Board {...props} />
           { NewPost }
           <PostsSupporter {...props} />
           <DetailModal {...props} /> 
