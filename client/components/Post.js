@@ -33,10 +33,17 @@ export default class Post extends Component {
       }
 
       this.setState({
+        style: {...style,
+          self: {...props.style.self},
+          upper: {...style.upper,
+            display: props.style.upper.display
+          },
+          bottomPost: {...props.style.bottomPost}
+        },
         isBubblePost: afterIsBubblePost
       });
     }
-
+/*
     const {transform: beforeTransform} = style.self;
     const {transform: afterTransform} = props.style.self;  
     if(beforeTransform !== afterTransform){
@@ -59,6 +66,7 @@ export default class Post extends Component {
         }
       });
     }
+*/
   }
 
   getDecolationProps(){
@@ -130,10 +138,7 @@ export default class Post extends Component {
   mountTimeago(){
     const { app, timeago } = this.props;
     if( !app.isMediaConnection ){
-      console.log("TRY MOUNT " + this.state.timeId );
-      console.log( this.refs );
       if( this.refs[ this.state.timeId ] ){
-        console.log( "RENDER " + this.state.timeId );
         timeago.render( this.refs[ this.state.timeId ] );
       }
     }
@@ -177,12 +182,7 @@ export default class Post extends Component {
   }
 
   renderUpper(){
-    const {
-      app,
-      childLayerCnt,
-    } = this.props;
-
-
+    const { childLayerCnt } = this.props;
     const { style } = this.state;
     const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
     return (
@@ -219,7 +219,6 @@ export default class Post extends Component {
       _id,
      } = this.props;
     const { style } = this.state;
-    
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
 
     if(
