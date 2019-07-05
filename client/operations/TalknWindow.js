@@ -170,7 +170,7 @@ export default class TalknWindow {
 				break;	
 			default: 
 				if(	
-					talknAPI && 
+					typeof window.talknAPI !== "undefined" && 
 					talknAPI[ e.data.method ] &&
 					typeof talknAPI[ e.data.method ] === "function"
 				){

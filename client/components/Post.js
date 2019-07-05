@@ -8,9 +8,14 @@ import PostStyle from 'client/style/Post';
 export default class Post extends Component {
 
   constructor(props) {
-    const {style} = props;
+    const {style, app} = props;
     super(props);
-    this.state = {style}
+    this.state = {
+      style, 
+      timeId: this.getTimeId(),
+      isBubblePost: app.isBubblePost
+    }
+    this.mountTimeago = this.mountTimeago.bind(this);
     this.renderUpper = this.renderUpper.bind(this);
     this.renderTime = this.renderTime.bind(this);
     this.getDecolationProps = this.getDecolationProps.bind(this);
@@ -18,9 +23,22 @@ export default class Post extends Component {
   }
 
   componentWillReceiveProps(props){
-    const {style} = this.state;
+    const {style, isBubblePost} = this.state;
+
+    const beforeIsBubblePost = isBubblePost;
+    const afterIsBubblePost = props.app.isBubblePost;
+    if( beforeIsBubblePost !== afterIsBubblePost ){
+      if( !beforeIsBubblePost && afterIsBubblePost ){
+        this.mountTimeago();
+      }
+
+      this.setState({
+        isBubblePost: afterIsBubblePost
+      });
+    }
+
     const {transform: beforeTransform} = style.self;
-    const {transform: afterTransform} = props.style.self;    
+    const {transform: afterTransform} = props.style.self;  
     if(beforeTransform !== afterTransform){
       this.setState({
         style: {...style,
@@ -106,13 +124,20 @@ export default class Post extends Component {
   }
 
   componentDidMount(){
-    const { timeago, app } = this.props;
-    const timeId = this.getTimeId();
-    if( !app.isMediaConnection )
-      if( timeago ){
-        timeago.render( this.refs[ timeId ] );
+    this.mountTimeago();
+  }
+
+  mountTimeago(){
+    const { app, timeago } = this.props;
+    if( !app.isMediaConnection ){
+      console.log("TRY MOUNT " + this.state.timeId );
+      console.log( this.refs );
+      if( this.refs[ this.state.timeId ] ){
+        console.log( "RENDER " + this.state.timeId );
+        timeago.render( this.refs[ this.state.timeId ] );
       }
-  }  
+    }
+  }
 
   handleOnClickPost(){
     const { threads } = this.props;
@@ -139,8 +164,15 @@ export default class Post extends Component {
         <time style={style.upperTimeago}>{dispCurrentTime} Second.</time>
       );
     }else{
-      const timeId = this.getTimeId();
-      return( <time style={style.upperTimeago} ref={timeId} className={'timeAgo'} dateTime={ createTime }>{createTime}</time> );
+      return(
+        <time
+          style={style.upperTimeago}
+          ref={this.state.timeId}
+          className={'timeAgo'} 
+          dateTime={ createTime }>
+            {createTime}
+        </time>
+      );
     }
   }
 
@@ -150,22 +182,19 @@ export default class Post extends Component {
       childLayerCnt,
     } = this.props;
 
-    if(app.isBubblePost){
-      const { style } = this.state;
-      const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
-      return (
-        <div style={style.upper}>
-          <span style={style.upperSpace} />
 
-          <span style={style.upperRight}>
-            <div style={style.upperChild}>{childLabel}</div>
-            { this.renderTime() }
-          </span>
-        </div>
-      );
-    }else{
-      return null;
-    }
+    const { style } = this.state;
+    const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
+    return (
+      <div style={ style.upper }>
+        <span style={style.upperSpace} />
+
+        <span style={style.upperRight}>
+          <div style={style.upperChild}>{childLabel}</div>
+          { this.renderTime() }
+        </span>
+      </div>
+    );
   }
 
   renderPost( post, app ){
@@ -187,7 +216,6 @@ export default class Post extends Component {
       thread,
       post,
       favicon,
-      childLayerCnt,
       _id,
      } = this.props;
     const { style } = this.state;
