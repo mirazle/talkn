@@ -119,6 +119,7 @@ export default class Post {
     const layout = Style.getLayoutBlock({
       flexGrow:  1,
       width: Post.iconSize,
+      minWidth: "61px",
       height: Post.iconSize,
       backgroundImage: `url(${conf.protcol}:${conf.assetsPath}favicon.ico")`,
       backgroundPosition: '50% 50%',
