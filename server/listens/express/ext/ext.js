@@ -980,8 +980,8 @@ class Iframe extends Elements {
 class HandleIcon extends Elements {
 
     static get id(){return `${Ext.APP_NAME}${this.name}`}
-    static get width(){return 54}
-    static get right(){return 10}
+    static get width(){return 62}
+    static get right(){return 5}
     constructor(_window){
         super( _window );
 
