@@ -1600,7 +1600,7 @@ class Textarea extends Elements {
             `border-spacing: 0px !important;` +
             `border: 1px solid rgb(220, 220, 220) !important;` +
             `border-radius: 3px !important;` +
-            `z-index: ${Styles.zIndex} !important;` +
+            `z-index: ${Styles.zIndex - 1} !important;` +
             `background: rgb(255,255,255) !important;` +
             `outline: none !important;` +
             `resize: none !important;` +
