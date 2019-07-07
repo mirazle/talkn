@@ -988,6 +988,7 @@ export default class Icon {
   }
 
   static getPlay( { app } ){
+    let borderColor = Container.reliefRGBA;
     const div = Style.get({
       layout: Style.getLayoutFlex({
         flexDirection: "column",
@@ -1012,7 +1013,7 @@ export default class Icon {
         height: playCircleSize,
         minWidth: playCircleSize,
         minHeight: playCircleSize,
-        border: `2px solid ${Container.themeRGB}`,
+        border: `2px solid ${borderColor}`,
         borderRadius: "30px"
       }),
       content: Style.getContentBase(),
@@ -1031,7 +1032,7 @@ export default class Icon {
         borderTop: `${playTriangleSize} solid transparent`,
         borderRight: `${playTriangleSize} solid transparent`,
         borderBottom: `${playTriangleSize} solid transparent`,
-        borderLeft: `${playTriangleSize} solid ${Container.themeRGB}`
+        borderLeft: `${playTriangleSize} solid ${borderColor}`
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
