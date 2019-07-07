@@ -44,6 +44,7 @@ export default class Board extends Component {
     const { state } = this.props;
     const { style, app } = state;
     const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
+    const PlayIcon = Icon.getPlay( IconStyle.getPlay(state) );
     return (
       <div data-componet-name={"Board"} style={style.board.self}>
         <ul style={style.board.ul}>
@@ -56,7 +57,14 @@ export default class Board extends Component {
               BUBBLE
             </div>
           </li>
-          <li style={style.board.li}>PLAY</li>
+          <li style={style.board.li}>
+          <div>
+              { PlayIcon }
+            </div>
+            <div style={style.board.liPlay}>
+              PLAY
+            </div>
+          </li>
         </ul>
         <div onClick={this.handleOnClickToggleBoard} style={style.board.toggle}>
           { app.isOpenBoard ? "▲" : "▼" }

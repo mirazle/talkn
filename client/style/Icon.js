@@ -992,7 +992,7 @@ export default class Icon {
       layout: Style.getLayoutFlex({
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "flex-start",  
+        justifyContent: "center",  
         width: "30px",
         height: "30px"
       }),
@@ -1003,13 +1003,16 @@ export default class Icon {
       }),
     });
 
+    const playCircleSize = "24px";
     const playCircle = Style.get({
       layout: Style.getLayoutInlineBlock({
-        position: "relative",
+        position: "absolute",
         top: "5px",
-        width: "18px",
-        height: "14px",
-        background: Container.themeRGB,
+        width: playCircleSize,
+        height: playCircleSize,
+        minWidth: playCircleSize,
+        minHeight: playCircleSize,
+        border: `2px solid ${Container.themeRGB}`,
         borderRadius: "30px"
       }),
       content: Style.getContentBase(),
@@ -1019,19 +1022,21 @@ export default class Icon {
       }),
     });
 
+    const playTriangleSize = "6px";
     const playTriangle = Style.get({
       layout: Style.getLayoutInlineBlock({
         position: "relative",
-        top: "5px",
-        width: "5px",
-        height: "9px",
-        background: Container.themeRGB,
-        border: `3px solid ${Container.themeRGB}`
+        width: playTriangleSize,
+        height: playTriangleSize,
+        borderTop: `${playTriangleSize} solid transparent`,
+        borderRight: `${playTriangleSize} solid transparent`,
+        borderBottom: `${playTriangleSize} solid transparent`,
+        borderLeft: `${playTriangleSize} solid ${Container.themeRGB}`
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: Container.transitionOff,
-        transform: "skew(0deg, 30deg) rotate(30deg) translate3d(-5px, -3.5px, 0px)",
+        transform: "translate3d(4px, 1.5px, 0px)",
       }),
     });
     return {div, playCircle, playTriangle};
