@@ -127,7 +127,7 @@ export default class Board{
   static getLiPlay( {app} ){
     const layout = {};
     const content = Style.getContentBase({
-      color: Container.themeRGB
+      color: Container.reliefRGB
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
