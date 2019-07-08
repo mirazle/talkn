@@ -35,7 +35,9 @@ export default class App extends Schema{
   static get extensionModeExtModalLabel(){ return 'EXT_MODAL' };
   static get extensionModeExtBottomLabel(){ return 'EXT_BOTTOM' };
   static get extensionModeExtIncludeLabel(){ return 'EXT_INCLUDE' };
-
+  static get mediaConnections(){
+    return ["mp3", "mp4", "m4a"];
+  }
   static validInputPost(value){
     if( /\r\n$|\n$|\r$/mgi.test( value ) ) return 'LAST TYPE BREAK LINE.';
     return false;
@@ -93,7 +95,8 @@ export default class App extends Schema{
     const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent( params );
 
     // スレッド基本関連
-    const isMediaConnection = Schema.isSet( params.isMediaConnection ) ? params.isMediaConnection : false;
+    const isMediaConnection = Schema.isSet( params.isMediaConnection ) ?
+      params.isMediaConnection : App.getIsMediaConnection( connection );
     const isRootConnection = Schema.isSet( params.isRootConnection ) ? params.isRootConnection : false;
     const rootConnection = params.rootConnection ? params.rootConnection : connection;
 
@@ -260,6 +263,13 @@ export default class App extends Schema{
         return false;
       }  
     }
+  }
+
+  static getIsMediaConnection( connection ){
+    return App.mediaConnections.some( (ext) => {
+      const regexp = new RegExp( `.${ext}\/$` );
+      return connection.match(regexp);
+    } );
   }
 
   static getIsOpenPosts(app, called){

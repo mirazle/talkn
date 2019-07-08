@@ -20,6 +20,7 @@ import Menu from 'client/components/Menu';
 import Board from 'client/components/Board';
 import LockMenu from 'client/components/LockMenu';
 import Icon from 'client/components/Icon';
+import Audio from 'client/components/Audio';
 import InnerNotif from 'client/components/InnerNotif';
 import mapToStateToProps from 'client/mapToStateToProps/';
 import componentDidUpdates from 'client/container/componentDidUpdates';
@@ -262,7 +263,6 @@ class Container extends Component {
   renderLarge(){
     const { style } = this.props.state;
     const props = this.getProps();
-    const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     const HideScreenBottom = this.getHideScreenBottom( props );
     return (
@@ -270,8 +270,8 @@ class Container extends Component {
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
+          <Audio {...props} />
           <Board {...props} />
-          { /* MultistreamIcon */ }
           { NewPost }
           <Header {...props} />
           <PostsSupporter {...props} />
@@ -289,7 +289,6 @@ class Container extends Component {
   renderMiddle(){
     const { style } = this.props.state;
     const props = this.getProps();
-    const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     const HideScreenBottom = this.getHideScreenBottom( props );
     return (
@@ -297,7 +296,7 @@ class Container extends Component {
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
-        { /* MultistreamIcon */ }
+          <Audio {...props} />
           <Board {...props} />
           { NewPost }
           <Header {...props} />
@@ -315,7 +314,6 @@ class Container extends Component {
   renderSmall(){
     const { style, app } = this.props.state;
     const props = this.getProps();
-    const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     const HideScreenBottom = this.getHideScreenBottom( props );
     const Debug = this.getDebug( props );
@@ -324,7 +322,7 @@ class Container extends Component {
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
-          { /* MultistreamIcon */ }
+          <Audio {...props} />
           <Board {...props} />
           { NewPost }
           <Header {...props} />
@@ -343,8 +341,6 @@ class Container extends Component {
   renderExtension(){
     const { style } = this.props.state;
     const props = this.getProps();
-    //const Notifs = this.getNotifs( props );
-    const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     const extScreenStyle = props.state.style.extScreen.self;
     const Debug = this.getDebug( props );
@@ -354,6 +350,7 @@ class Container extends Component {
         <div style={extScreenStyle} data-component-name={"extScreen"}>
           <Posts {...props} />
           <Header {...props} />
+          <Audio {...props} />
           <Board {...props} />
           { NewPost }
           <PostsSupporter {...props} />
@@ -372,11 +369,9 @@ class Container extends Component {
   renderIos(){
     const { style } = this.props.state;
     const props = this.getProps();
-    const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     return (
       <div data-component-name={"Container"} style={ style.container.self }>
-        { MultistreamIcon }
         { NewPost }
         <Style {...props} />
         <Footer {...props} />
@@ -388,11 +383,9 @@ class Container extends Component {
   renderAndroid(){
     const { style } = this.props.state;
     const props = this.getProps();
-    const MultistreamIcon = Icon.getMultistreamIcon( props );
     const NewPost = this.getNewPost( props );
     return (
       <div data-component-name={"Container"} style={ style.container.self }>
-        { MultistreamIcon }
         { NewPost }
         <Style {...props} />
         <Footer {...props} />

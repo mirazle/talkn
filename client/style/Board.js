@@ -5,6 +5,8 @@ import Detail from './Detail';
 
 export default class Board{
   static get size(){ return 54 }; 
+  static get padding(){ return 5 }; 
+  static get right(){ return 10 }; 
   static get activeColor(){ return Container.themeRGB }; 
   static get unactiveColor(){ return Container.fontBaseRGB }; 
   constructor( params ){
@@ -26,6 +28,10 @@ export default class Board{
     }
   }
 
+  static getTotalWidth(app){
+    return Board.size + ( Board.padding * 2 ) + Board.right;
+  }
+
   static getSelfHeight(app){
     return app.isOpenBoard ? "237px" : "60px";
   }
@@ -38,12 +44,17 @@ export default class Board{
     return app.isOpenBoard ? Container.lightRGBA : Container.whiteRGBA;
   }
 
+  static getSelfRight(app, addUnit = false){
+    const right =  app.screenMode === App.screenModeLargeLabel ?
+      `calc( ${Detail.getWidth(app, true)} + ${Board.right}px )` : `${Board.right}px`;
+    return addUnit ? right : Style.trimUnit( right ) ;
+  }
+
   static getSelf( {app} ){
     const height = Board.getSelfHeight( app );
     const borderRadius = Board.getSelfBorderRadius( app );
     const background = Board.getSelfBackground( app );
-    const right = app.screenMode === App.screenModeLargeLabel ?
-      `calc( ${Detail.getWidth(app, true)} + 10px )` : "10px";
+    const right = Board.getSelfRight( app, true );
     const layout = Style.getLayoutFlex({
       position: 'fixed',
       top: '55px',
@@ -125,9 +136,10 @@ export default class Board{
   }
 
   static getLiPlay( {app} ){
+    const bgColor = app.isMediaConnection ? Container.themeRGB : Container.reliefRGB;
     const layout = {};
     const content = Style.getContentBase({
-      color: Container.reliefRGB
+      color: bgColor
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
