@@ -15,6 +15,8 @@ import LockMenu from './LockMenu';
 import Posts from './Posts';
 import Post from './Post';
 import InnerNotif from './InnerNotif';
+import Audio from './Audio';
+import Video from './Video';
 import Notif from './Notif';
 import Board from './Board';
 import Loading from './Loading';
@@ -85,6 +87,8 @@ export default class Style{
     const post = new Post( params );
     const notif = new Notif( params );
     const board = new Board( params );
+    const audio = new Audio( params );
+    const video = new Video( params );
     const innerNotif = new InnerNotif( params );
     const detail = new Detail( params );
     const detailFooter = new DetailFooter( params );
@@ -102,12 +106,13 @@ export default class Style{
       menuIndex,
       menuIndexList,
       menuUsers,
-//      main,
       extScreen,
       lockMenu,
       posts,
       post,
       notif,
+      audio,
+      video,
       board,
       innerNotif,
       detail,

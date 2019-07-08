@@ -62,7 +62,7 @@ export default class Board extends Component {
               { PlayIcon }
             </div>
             <div style={style.board.liPlay}>
-              PLAY
+              LIST
             </div>
           </li>
         </ul>
