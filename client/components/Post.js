@@ -179,7 +179,9 @@ export default class Post extends Component {
         if( post.indexOf( `scale(${PostStyle.bubbleStampScale})` ) ){
           return post.replace( `scale(${PostStyle.bubbleStampScale})`, `scale(${PostStyle.stampScale})` )
                     .replace( `height: 100%`, `height:60px` )
-                    .replace( `height:100%`, `height:60px` );
+                    .replace( `height:100%`, `height:60px` )
+                    .replace( `justify-content: center`, "justify-content: flex-start" )
+                    .replace( `justify-content:center`, "justify-content: flex-start" );
         }
       }
     }
