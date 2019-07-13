@@ -22,6 +22,7 @@ export default class App extends Schema{
   static get screenModeMiddleWidthPx(){ return 960 };
 
   static get defaultOffsetFindId(){ return Post.defaultFindId }
+  static get dispThreadTypeTimeline(){ return 'Timeline' }
   static get dispThreadTypeSingle(){ return 'Single' }
   static get dispThreadTypeMulti(){ return 'Multi' }
   static get dispThreadTypeChild(){ return 'Child' }
@@ -35,8 +36,21 @@ export default class App extends Schema{
   static get extensionModeExtModalLabel(){ return 'EXT_MODAL' };
   static get extensionModeExtBottomLabel(){ return 'EXT_BOTTOM' };
   static get extensionModeExtIncludeLabel(){ return 'EXT_INCLUDE' };
+  static get mediaTagTypeAudio(){ return 'audio' };
+  static get mediaTagTypeVideo(){ return 'video' };
+  static get mediaTypeM4a(){ return 'm4a' };
+  static get mediaTypeMp3(){ return 'mp3' };
+  static get mediaTypeMp4(){ return 'mp4' };
+  static get mediaTypeM4a(){ return 'm4a' };
   static get mediaConnections(){
-    return ["mp3", "mp4", "m4a"];
+    return [App.mediaTypeMp3, App.mediaTypeMp4, App.mediaTypeM4a];
+  }
+  static get mediaConnectionTagTypes(){
+    return {
+      [ App.mediaTypeMp3 ] : App.mediaTagTypeAudio, 
+      [ App.mediaTypeMp4 ]: App.mediaTagTypeVideo, 
+      [ App.mediaTypeM4a ]: App.mediaTagTypeAudio
+    };
   }
   static validInputPost(value){
     if( /\r\n$|\n$|\r$/mgi.test( value ) ) return 'LAST TYPE BREAK LINE.';
@@ -101,13 +115,14 @@ export default class App extends Schema{
     const rootConnection = params.rootConnection ? params.rootConnection : connection;
 
     const connectioned = params && params.connectioned ? params.connectioned : '';
-    const dispThreadType = params && params.dispThreadType ? params.dispThreadType : App.dispThreadTypeMulti;
+    const dispThreadType = App.getDispThreadType( params, isMediaConnection );
     const multistream = Schema.isSet( params.multistream ) ? params.multistream : true;
     const multistreamed = params && params.multistreamed ? params.multistreamed : false;
     const threadScrollY = params && params.threadScrollY ? params.threadScrollY : 0;
 
     // 投稿情報
     const offsetFindId = params && params.offsetFindId ? params.offsetFindId : App.defaultOffsetFindId ;
+    const offsetTimelineFindId = params && params.offsetTimelineFindId ? params.offsetTimelineFindId : App.defaultOffsetFindId ;
     const offsetSingleFindId = params && params.offsetSingleFindId ? params.offsetSingleFindId : App.defaultOffsetFindId ;
     const offsetMultiFindId = params && params.offsetMultiFindId ? params.offsetMultiFindId : App.defaultOffsetFindId ;
     const offsetChildFindId = params && params.offsetChildFindId ? params.offsetChildFindId : App.defaultOffsetFindId ;
@@ -177,6 +192,7 @@ export default class App extends Schema{
 
       // 投稿情報
       offsetFindId,
+      offsetTimelineFindId,
       offsetSingleFindId,
       offsetMultiFindId,
       offsetChildFindId,
@@ -337,9 +353,22 @@ export default class App extends Schema{
 */
     return (
       app.menuComponent === "Index" &&
-  //    app.isRootConnection &&
+      !app.isMediaConnection &&
       app.dispThreadType ===  App.dispThreadTypeMulti 
     );
+  }
+
+
+  static getDispThreadType(params, isMediaConnection){
+    if( params && params.dispThreadType ){
+      return params.dispThreadType;
+    }else{
+      if( isMediaConnection ){
+        return App.dispThreadTypeTimeline;
+      }else{
+        return App.dispThreadTypeMulti;
+      }
+    }
   }
 
   static getOffsetFindId({posts}){
@@ -349,14 +378,21 @@ export default class App extends Schema{
     return Post.defaultFindId;
   }
 
-  static getStepToDispThreadType( {app}, toConnection ){
+  static getStepToDispThreadType( {app}, threadStatus, toConnection ){
     const beforeDispThreadType = app.dispThreadType;
-    app = App.getStepDispThreadType({app}, toConnection);
+    app = App.getStepDispThreadType({app}, threadStatus, toConnection);
     const afterDispThreadType = app.dispThreadType;
     return {app, stepTo: `${beforeDispThreadType} to ${afterDispThreadType}`};
   }
 
-  static getStepDispThreadType( {app}, toConnection ){
+  static getStepDispThreadType( {app}, threadStatus = {}, toConnection ){
+    if( threadStatus.isMediaConnection ){
+      app.dispThreadType = App.dispThreadTypeTimeline;
+      app.offsetFindId = app.offsetTimelineFindId ? app.offsetTimelineFindId : App.defaultOffsetFindId;
+      app.isMediaConnection = true;
+      return app;
+    }
+
     if(app.rootConnection === toConnection){
       if(app.multistream){
         app.dispThreadType = App.dispThreadTypeMulti;

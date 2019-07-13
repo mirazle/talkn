@@ -246,6 +246,30 @@ export default {
       app: { isOpenPostsSupporter: false }
     };
   },
+  nextPostsTimeline: ( postsTimeline = [] ) => {
+    return {
+      type: 'NEXT_POSTS_TIMELINE',
+      postsTimeline
+    };
+  },
+  unmountPostsTimeline: ( mediaCurrentTime = 0 ) => {
+    return {
+      type: 'UNMOUNT_POSTS_TIMELINE',
+      mediaCurrentTime
+    };
+  },
+  clearPostsTimeline: ( mediaCurrentTime = 0 ) => {
+    return {
+      type: 'CLEAR_POSTS_TIMELINE',
+      mediaCurrentTime
+    };
+  },
+  prevPostsTimeline: ( postsTimeline = [] ) => {
+    return {
+      type: 'PREV_POSTS_TIMELINE',
+      postsTimeline
+    };
+  },
   delegatePost: ( {inputPost, inputCurrentTime} ) => {
     return {
       type: 'DELEGATE_POST',

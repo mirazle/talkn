@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import PostSchema from '~/common/schemas/state/Post';
 import Thread from '~/common/schemas/state/Thread'
+import conf from '~/common/conf'
 
 export default class Posts {
 
@@ -9,9 +10,15 @@ export default class Posts {
     return this;
   }
 
-  async getCounts( requestState, isMultistream = false ){
+  async getCounts( requestState, threadStatus = {isMultistream: false, isMediaConnection: false} ){
     const { connection } = requestState.thread;
-    const condition = isMultistream ? {connections: connection} : {connection};
+    const { isMultistream, isMediaConnection } = threadStatus;
+    let condition = {}
+    if( isMediaConnection ){
+      condition = {connection, currentTime: 0};
+    }else{
+      condition = isMultistream ? {connections: connection} : {connection};
+    }
     const {response: postCnt} = await this.collection.count( condition );
     return postCnt;
   }
@@ -22,20 +29,27 @@ export default class Posts {
     return await this.collection.find( condition ).count();
   }
 
-  async find( requestState, setting, status = {isMultistream: false, getMore: false, isMediaConnection: false} ){
+  async find( requestState, setting, status = {
+    isMultistream: false,
+    getMore: false,
+    isMediaConnection: false
+  }){
     const { isMultistream, getMore, isMediaConnection } = status;
     const { thread, app } = requestState;
     const { connection } = thread;
     const getDirection = getMore ? '$lt' : '$gt';
-    const condition_part = isMultistream ? {connections: connection} : {connection};
+    const connectionPart = isMultistream ? {connections: connection} : {connection};
+    const currentTimePart = isMediaConnection ? {} : {currentTime: 0};
     const condition = {
-      ...condition_part,
+      ...currentTimePart,
+      ...connectionPart,
       _id: { [ getDirection ]: mongoose.Types.ObjectId( app.offsetFindId ) },
     };
 
     const sort = isMediaConnection ? {currentTime: 1} : {_id: -1};
+    const limit = isMediaConnection ? conf.findOneLimitCnt : conf.findOnePostCnt;
     const selector = {};
-    const option = {limit: setting.server.findOnePostCnt, sort};
+    const option = {limit, sort};
     const result = await this.collection.find( condition, selector, option );
 
     if( !isMediaConnection ){

@@ -23,7 +23,7 @@ export default class Board extends Component {
   renderLiChild(){
     const { state, handleOnClickMultistream } = this.props;
     const { app, style } = state;
-    let onClick = app.isRootConnection ?
+    let onClick = app.isRootConnection && !app.isMediaConnection ?
       handleOnClickMultistream : () => {};
 
     const ThunderIcon = Icon.getThunder( IconStyle.getThunder(state) );
@@ -48,7 +48,6 @@ export default class Board extends Component {
     return (
       <div data-componet-name={"Board"} style={style.board.self}>
         <ul style={style.board.ul}>
-          { this.renderLiChild() }
           <li style={style.board.li} onClick={this.handleOnClickToggleBubblePost}>
             <div>
               { BubbleIcon }
@@ -57,6 +56,7 @@ export default class Board extends Component {
               BUBBLE
             </div>
           </li>
+          { this.renderLiChild() }
           <li style={style.board.li}>
           <div>
               { PlayIcon }

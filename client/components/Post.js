@@ -4,6 +4,7 @@ import util from 'common/util';
 import conf from 'common/conf';
 import App from 'common/schemas/state/App';
 import PostStyle from 'client/style/Post';
+import TalknWindow from '../operations/TalknWindow';
 
 export default class Post extends Component {
 
@@ -11,6 +12,7 @@ export default class Post extends Component {
     const {style, app} = props;
     super(props);
     this.state = {
+      active: true,
       style, 
       timeId: this.getTimeId(),
       isBubblePost: app.isBubblePost
@@ -21,27 +23,31 @@ export default class Post extends Component {
     this.getDecolationProps = this.getDecolationProps.bind(this);
     this.handleOnClickPost = this.handleOnClickPost.bind(this);
   }
-
+  
   componentWillReceiveProps(props){
-    const {style, isBubblePost} = this.state;
-
-    const beforeIsBubblePost = isBubblePost;
-    const afterIsBubblePost = props.app.isBubblePost;
-    if( beforeIsBubblePost !== afterIsBubblePost ){
-      if( !beforeIsBubblePost && afterIsBubblePost ){
-        this.mountTimeago();
-      }
-
-      this.setState({
-        style: {...style,
-          self: {...props.style.self},
-          upper: {...style.upper,
-            display: props.style.upper.display
+    const { actionLog, dispFlg } = props;
+    const { style, isBubblePost} = this.state;
+    if( !dispFlg ){
+      this.setState({active: false});
+    }else{
+      const beforeIsBubblePost = isBubblePost;
+      const afterIsBubblePost = props.app.isBubblePost;
+      if( beforeIsBubblePost !== afterIsBubblePost ){
+        if( !beforeIsBubblePost && afterIsBubblePost ){
+          this.mountTimeago();
+        }
+  
+        this.setState({
+          style: {...style,
+            self: {...props.style.self},
+            upper: {...style.upper,
+              display: props.style.upper.display
+            },
+            bottomPost: {...props.style.bottomPost}
           },
-          bottomPost: {...props.style.bottomPost}
-        },
-        isBubblePost: afterIsBubblePost
-      });
+          isBubblePost: afterIsBubblePost
+        });
+      }
     }
   }
 
@@ -109,6 +115,29 @@ export default class Post extends Component {
 
   componentDidMount(){
     this.mountTimeago();
+  }
+
+  componentWillUnmount(){
+    const {_id} = this.props;
+    console.log( " WILL UNMOUNT " + _id );
+    this.setState({active: false});
+  }
+
+
+  shouldComponentUpdate(props){
+    const {app, actionLog } = props;
+    if( app.isMediaConnection ){
+      return true;
+/*
+      return [
+        "NEXT_POSTS_TIMELINE",
+        "CLEAR_POSTS_TIMELINE",
+        "PREV_POSTS_TIMELINE"
+      ].includes( actionLog[0] );
+*/
+    }else{
+      return true;
+    }
   }
 
   mountTimeago(){
@@ -194,9 +223,11 @@ export default class Post extends Component {
       thread,
       post,
       favicon,
+      currentTime,
+      dispFlg,
       _id,
      } = this.props;
-    const { style } = this.state;
+    const { active, style } = this.state;
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
 
     if(
@@ -210,16 +241,21 @@ export default class Post extends Component {
       }
     }
 
-    return (
-      <li data-component-name={"Post"} id={_id} style={style.self} {...this.getDecolationProps()}>
-
-        {this.renderUpper()}
-
-        <div onClick={this.handleOnClickPost} style={style.bottom}>
-          <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
-          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: this.renderPost( post, app ) }} />
-        </div>
-      </li>
-    );
+    if( active ){
+      return (
+        <li data-component-name={"Post"} id={_id} style={style.self} {...this.getDecolationProps()}>
+  
+          {this.renderUpper()}
+  
+          <div onClick={this.handleOnClickPost} style={style.bottom}>
+            <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
+            <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: this.renderPost( post, app ) }} />
+          </div>
+        </li>
+      );
+    }else{
+      console.log("UNMOUNT " + _id);
+      return null;
+    }
  	}
 }

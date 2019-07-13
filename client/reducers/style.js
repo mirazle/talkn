@@ -33,7 +33,7 @@ export default ( state = {} , action ) => {
 		return {...state,
 			board: {...state.board,
 				liChild: {...state.board.liChild,
-					color: ( action.app.multistream ?
+					color: ( !action.app.isMediaConnection && action.app.multistream ?
 						Board.activeColor : Board.unactiveColor )
 				}
 			}
@@ -196,7 +196,6 @@ export default ( state = {} , action ) => {
 		break; 
 	case 'START_DISP_POSTS' :
 	case 'START_UNDISP_POSTS' :
-
 		return {...state,
 				extScreen: {...state.extScreen,
 					self: {...state.extScreen.self,

@@ -215,6 +215,7 @@ class Window extends Elements {
             let init = ( options = {} ) => {
 
                 // Variable
+                this.talknParams = {};
                 this.extMode = Ext.getMode(options);
                 this.includeId = this.extMode === Ext.MODE_INCLUDE && options && options.selector ?
                     options.selector : Ext.INCLUDE_ID;
@@ -405,6 +406,8 @@ class Window extends Elements {
         case Ext.MODE_MODAL:
             break;
         }
+
+        this.talknParams = params;
         this.childTo("onTransition");
     }
 

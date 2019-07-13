@@ -1,5 +1,6 @@
 import conf from '~/client/conf';
 import Schema from '~/common/schemas/Schema';
+import App from '~/common/schemas/state/App';
 
 export default class Thread extends Schema{
 
@@ -166,6 +167,21 @@ export default class Thread extends Schema{
     const layerCnt = connection.split( '/' ).length - 1;
     return connection.match(/\u002f$/) ? layerCnt - 1 : layerCnt ;
     */
+  }
+
+  getMediaSrc(){
+    return this.protocol + "/" +  this.connection.replace(/\/$/, '');
+  }
+
+  getMediaTagType(){
+    let tagType = "audio";
+    Object.keys( App.mediaConnectionTagTypes ).forEach( (ext) => {
+      const regExp = new RegExp(`.${ext}\/$`);
+      if( this.connection.match(regExp) ){
+        tagType = App.mediaConnectionTagTypes[ ext ];
+      }
+    } );
+    return tagType;
   }
 
   setConnection( _connection = '/' ){

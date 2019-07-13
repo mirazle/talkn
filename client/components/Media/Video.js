@@ -6,13 +6,9 @@ export default class Video extends Component {
     super(props);
   }
 
-  getSrc(){
-    const { thread } = this.props.state;
-    return thread.protocol + "/" +  thread.connection.replace(/\/$/, '');
-  }
-
   render(){
-    const src = this.getSrc();
+    const { src, state } = this.props;
+    const { style } = state;
     return (
       <video
         src={ src }
@@ -21,8 +17,8 @@ export default class Video extends Component {
         loop={ false }
         controls={ true }
         autoPlay={ false }
-        controlslist={"nodownload"}
-        data-component-name={"Audio"}
+        controlsList={"nodownload"}
+        data-component-name={"Video"}
       />
     );
   }

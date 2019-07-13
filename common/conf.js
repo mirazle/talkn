@@ -16,6 +16,8 @@ const assetsIconPath = `${assetsURL}/icon/` ;
 const assetsJsPath = `${assetsURL}/js/` ;
 const sessionURL = `${SUB_DOMAINS.SESSION}.${domain}` ;
 const description = "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.";
+const findOnePostCnt = 30;
+const findOneLimitCnt = 300;
 
 export default {
   domain,
@@ -32,4 +34,6 @@ export default {
   assetsJsPath,
   sessionURL,
   description,
+  findOnePostCnt,
+  findOneLimitCnt
 }

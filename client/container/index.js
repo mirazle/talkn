@@ -20,7 +20,7 @@ import Menu from 'client/components/Menu';
 import Board from 'client/components/Board';
 import LockMenu from 'client/components/LockMenu';
 import Icon from 'client/components/Icon';
-import Audio from 'client/components/Audio';
+import Media from 'client/components/Media/';
 import InnerNotif from 'client/components/InnerNotif';
 import mapToStateToProps from 'client/mapToStateToProps/';
 import componentDidUpdates from 'client/container/componentDidUpdates';
@@ -60,30 +60,6 @@ class Container extends Component {
 
   componentDidUpdate(){
     componentDidUpdates( this, "Container" );
-  }
-
-  shouldComponentUpdate(props){
-    const {app, actionLog} = props.state;
-    if(
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
-    ){
-      return true;
-/*
-      return [
-        "SERVER_TO_CLIENT[BROADCAST]:find",
-        "ON_CLICK_TOGGLE_MAIN",
-        "START_DISP_POSTS",
-//        "ON_CLICK_TOGGLE_DISP_DETAIL",
-//        "ON_CLICK_OPEN_LOCK_MENU",
-//        "SERVER_TO_CLIENT[EMIT]:getMore",
-//        "ON_CLICK_MULTISTREAM",
-        "RESIZE_END_WINDOW"
-
-      ].includes( actionLog[0] );
-*/
-    }
-    return true;
   }
 
   getProps(){
@@ -270,7 +246,8 @@ class Container extends Component {
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
-          <Audio {...props} />
+
+          <Media {...props} />
           <Board {...props} />
           { NewPost }
           <Header {...props} />
@@ -281,6 +258,17 @@ class Container extends Component {
           <Menu {...props} />
           <InnerNotif {...this.props}/>;
           { HideScreenBottom }
+
+{/*
+          <iframe
+            style={{position: "fixed", top: "0px", zIndex: 10000}}
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/NOcoQD4bZUw?enablejsapi=1"
+            frameBorder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
+          />
+*/}
         </span>
       </div>
     );
@@ -296,7 +284,7 @@ class Container extends Component {
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
-          <Audio {...props} />
+          <Media {...props} />
           <Board {...props} />
           { NewPost }
           <Header {...props} />
@@ -322,7 +310,7 @@ class Container extends Component {
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
-          <Audio {...props} />
+          <Media {...props} />
           <Board {...props} />
           { NewPost }
           <Header {...props} />
@@ -350,7 +338,7 @@ class Container extends Component {
         <div style={extScreenStyle} data-component-name={"extScreen"}>
           <Posts {...props} />
           <Header {...props} />
-          <Audio {...props} />
+          <Media {...props} />
           <Board {...props} />
           { NewPost }
           <PostsSupporter {...props} />

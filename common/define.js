@@ -35,6 +35,8 @@ export default {
   noInnerNotif: "Sorry, No Function.",
   storageKey: {
     baseKey: '@talkn@',
+    postsTimelineZero: 'postsTimelineZero',
+    postsTimeline: 'postsTimeline',
     postsSingle: 'postsSingle',
     postsMulti: 'postsMulti',
     postsChild: 'postsChild',
