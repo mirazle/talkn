@@ -192,7 +192,7 @@ export default class Threads {
   getStatus( thread, app, setting ){
 
     let status = {
-      dispType: '', // MULTI, SINGLE, CHILD, LOGS
+      dispType: '', // TIMELINE, MULTI, SINGLE, CHILD, LOGS
       isSchema: false,
       isRequireUpsert: false,
       isMultistream: false,
@@ -228,17 +228,7 @@ export default class Threads {
     /* threadが空のSchemaかどうか(DBにデータが存在しない)        */
     /*******************************************************/
 
-    if( thread && thread.connection && thread.connection.match(/mp3$/) || thread.connection.match(/mp3\/$/) ){
-      status.isMediaConnection = true;
-    }
-
-    if( thread && thread.connection && thread.connection.match(/mp4$/) || thread.connection.match(/mp4\/$/) ){
-      status.isMediaConnection = true;
-    }
-
-    if( thread && thread.connection && thread.connection.match(/m4a$/) || thread.connection.match(/m4a\/$/) ){
-      status.isMediaConnection = true;
-    }
+    status.isMediaConnection = Threads.getStatusIsMediaConnection( thread.connection );
 
     return status;
   }
@@ -280,6 +270,21 @@ export default class Threads {
 
   static getStatusIsMultistream( app ){
     return app.dispThreadType === App.dispThreadTypeMulti && app.multistream;
+  }
+
+  static getStatusIsMediaConnection( connection ){
+    if( connection.match(/mp3$/) || connection.match(/mp3\/$/) ){
+      return true;
+    }
+
+    if( connection.match(/mp4$/) || connection.match(/mp4\/$/) ){
+      return true;
+    }
+
+    if( connection.match(/m4a$/) || connection.match(/m4a\/$/) ){
+      return true;
+    }
+    return false
   }
 
   static getStatusIsToggleMultistream( app ){

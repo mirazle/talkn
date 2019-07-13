@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Thread from 'common/schemas/state/Thread';
 
 export default class Audio extends Component {
 
@@ -6,14 +7,9 @@ export default class Audio extends Component {
     super(props);
   }
 
-  getSrc(){
-    const { thread } = this.props.state;
-    return thread.protocol + "/" +  thread.connection.replace(/\/$/, '');
-  }
-
   render(){
-    const { style } = this.props.state;
-    const src = this.getSrc();
+    const { src, state } = this.props;
+    const { style } = state;
     return (
       <audio
         src={ src }

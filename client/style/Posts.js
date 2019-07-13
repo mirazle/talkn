@@ -7,7 +7,7 @@ import PostsFooter from './PostsFooter';
 import Main from './Main';
 import Menu from './Menu';
 import Detail from './Detail';
-import Footer from './Footer';
+import Audio from './Media/Audio';
 
 export default class Posts {
   static getSelfDisplay(app){return app.isOpenNotif ? 'none' : 'flex'}
@@ -80,21 +80,23 @@ export default class Posts {
 
   static getMargin( app, addUnit = false ){
     let margin = `${Header.headerHeight}px 0px 0px 0px`;
+    let marginTop = app.isMediaConnection ? `${Audio.height + 20}px` : "0px";
+
     if( app.extensionMode === App.extensionModeExtBottomLabel ){
-      margin = `0px 5% ${Header.headerHeight}px 5%`;
+      margin = `${marginTop} 5% ${Header.headerHeight}px 5%`;
     }else if(app.extensionMode === App.extensionModeExtModalLabel ){
-      margin = `0px 0px ${PostsFooter.selfHeight}px 0px`;
+      margin = `${marginTop} 0px ${PostsFooter.selfHeight}px 0px`;
     }else{
       switch( app.screenMode ){
       case App.screenModeUndispLabel :
       case App.screenModeSmallLabel :
-          margin = `0px 0px 0px 0px`;
+          margin = `${marginTop} 0px 0px 0px`;
           break;
       case App.screenModeMiddleLabel :
-          margin = `0px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
+          margin = `${marginTop} 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
           break;
       case App.screenModeLargeLabel :
-          margin = `0px 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
+          margin = `${marginTop} 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
           break;
       }
     }

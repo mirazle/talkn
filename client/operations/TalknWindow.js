@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux';
 import timeago from 'timeago.js';
 import define from 'common/define';
+import conf from 'client/conf';
 import App from 'common/schemas/state/App';
 import State from 'common/schemas/state';
 import BootOption from 'common/schemas/state/BootOption';
@@ -10,6 +11,7 @@ import TalknSession from 'client/operations/TalknSession';
 import TalknAPI from 'client/operations/TalknAPI';
 import configureStore from 'client/store/configureStore'
 import Container from 'client/container/';
+import storage from 'client/mapToStateToProps/storage';
 
 export default class TalknWindow {
 
@@ -44,6 +46,11 @@ export default class TalknWindow {
 		}
 		return 0;
 	}
+	
+	static sleep(waitMsec) {
+		const startMsec = new Date();
+		while (new Date() - startMsec < waitMsec);
+	}
 
 	constructor( talknIndex ){
 		this.id = "talkn1";
@@ -55,8 +62,9 @@ export default class TalknWindow {
 		this.threadHeight = 0;
 		this.innerHeight = 0;
 		this.scrollHeight = 0;
-		this.currentTime = 0;
-		
+		this.mediaTasking = false;
+		this.mediaCurrentTime = 0;
+
 		this.isLoaded = false;
 		this.isMessageed = false;
 		this.isExistParentWindow = false;
@@ -72,7 +80,7 @@ export default class TalknWindow {
 		this.resizeStartWindow = this.resizeStartWindow.bind( this );
 		this.resizeEndWindow = this.resizeEndWindow.bind( this );
 		this.setIsScrollBottom = this.setIsScrollBottom.bind( this );
-
+		this.setupPostsTimeline = this.setupPostsTimeline.bind( this );
 
 		this.dom = {};
 		this.dom.html = document.querySelector("html");
@@ -118,11 +126,18 @@ export default class TalknWindow {
 		case define.APP_TYPES.PORTAL :	
 			window.addEventListener('resize', this.resize );
 			window.addEventListener('scroll', this.scroll );
+			window.addEventListener('message',  ( ev ) => {
+				if(ev.origin === "https://www.youtube.com"){
+					console.log(ev);
+				}
+			});
+
 			break;
 		case define.APP_TYPES.EXTENSION:
 			bootPromises.push(
 				new Promise( ( resolve ) => {
 					window.addEventListener('message',  ( ev ) => {
+						console.log(ev);
 						this.message( ev, resolve );
 					});
 				})
@@ -165,7 +180,7 @@ export default class TalknWindow {
 			switch( e.data.method ){
 			case "bootExtension" :
 				this.parentUrl = e.data.url;
-				this.parentTo( "bootExtension" );
+				this.parentTo( "bootExtension", conf );
 				resolve(e.data.params);
 				break;	
 			default: 
@@ -309,7 +324,107 @@ export default class TalknWindow {
 		document.body.appendChild( container );
 		return true;
 	}
-	
+
+	getMediaCurrentTime( mediaCurrentTime, base = 10 ){
+		return Math.floor( mediaCurrentTime * base ) / base;
+	}
+
+	setupPostsTimeline(rootConnection, src, tagType = "audio"){
+		const postsTimelineZero = storage.getStoragePostsTimelineZero( rootConnection );
+		const postsTimelineBase = storage.getStoragePostsTimeline( rootConnection );
+		let loopPostsTimeline = [ ...postsTimelineBase ];
+		let loopPostsTimelineLength = loopPostsTimeline.length;
+		const media = document.querySelector(`${tagType}[src='${src}']`)
+
+		if( media === null ) return false;
+
+		media.addEventListener( "ended", () => {
+			this.mediaCurrentTime = this.getMediaCurrentTime( media.currentTime );
+			const length = loopPostsTimeline.length;
+			for( let i = 0; i < length; i++ ){
+				if( loopPostsTimeline[ i ] && loopPostsTimeline[ i ].currentTime <= this.mediaCurrentTime ){
+					this.talknAPI.nextPostsTimeline([ loopPostsTimeline[ i ] ]);
+				}else{
+					break;
+				}
+			}
+		} );
+		const log = true;
+		setInterval( () => {
+			if( media && media.paused ){
+				if( log ) console.log("Media Pause");
+				return false;
+			}
+
+			if( this.mediaTasking ){
+				if( log ) console.log("Tasking");
+				return false;
+			}
+
+			// Get current time.
+			const mediaCurrentTime = this.getMediaCurrentTime( media.currentTime );
+			this.mediaTasking = true
+
+			// Timeline is next.
+			if(
+				this.mediaCurrentTime === mediaCurrentTime ||
+				this.mediaCurrentTime < mediaCurrentTime
+			){
+				this.mediaCurrentTime = mediaCurrentTime;
+
+				if( log ) console.log("START WHILE " + this.mediaCurrentTime );
+				if( log && loopPostsTimeline && loopPostsTimeline[0] && loopPostsTimelineLength > 0 ) console.log( loopPostsTimeline[ 0 ].currentTime );
+
+				while( this.mediaTasking ){
+					if( loopPostsTimelineLength === 0 ){
+						this.mediaCurrentTime = addPost.currentTime;
+						this.mediaTasking = false;
+					}else if( loopPostsTimeline[ 0 ] && loopPostsTimeline[ 0 ].currentTime <= mediaCurrentTime ){
+						const addPost = loopPostsTimeline.shift();
+						this.mediaCurrentTime = addPost.currentTime;
+						if(log) console.log( addPost.post );
+						this.talknAPI.nextPostsTimeline([ addPost ]);
+					}else{
+						this.mediaTasking = false;
+						break;
+					}
+				}
+
+			// Timeline is prev.
+			}else{
+				if( this.mediaTasking  ){
+
+					const { postsTimeline } = window.talknAPI.store.getState();
+
+					this.mediaCurrentTime = mediaCurrentTime;
+
+					// 指定した秒数を経過しているPostをreducerでdispFlgをfalseにしてPostをUnmountする
+					this.talknAPI.clearPostsTimeline(mediaCurrentTime);
+
+					if(log) console.log( "BACK " + mediaCurrentTime );
+					if(log) console.log( postsTimeline );
+
+
+					// これから表示するpost一覧を保持
+					//loopPostsTimeline = postsTimelineBase.filter( (pt) => pt.currentTime > mediaCurrentTime);
+
+					loopPostsTimeline= postsTimeline.concat( postsTimelineBase ).filter( (pt, index, self) => {
+						if(self.indexOf(pt) === index){
+							if( pt.currentTime > mediaCurrentTime ){
+								return true;
+							}
+						}
+						return false;
+					});
+
+					
+					if(log) console.log( loopPostsTimeline );
+					this.mediaTasking = false;
+				}
+			}
+		}, conf.mediaSecondInterval );
+	}
+
 	parentTo( method, params ){
 		if(this.parentUrl){
 			window.top.postMessage({

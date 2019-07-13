@@ -83,7 +83,8 @@ export default class MenuIndexList extends Component {
       }
     }else{
 
-      const { stepTo } = App.getStepToDispThreadType( {app}, connection );
+      const { stepTo } = App.getStepToDispThreadType( {app}, {}, connection );
+      console.log( stepTo );
       switch(stepTo){
       case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
       case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:

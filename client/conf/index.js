@@ -4,7 +4,7 @@ import conf from '../../common/conf';
 const { PRODUCTION, DEVELOPMENT, PRODUCTION_DOMAIN, DEVELOPMENT_DOMAIN, PORTS, SUB_DOMAINS } = define;
 const { env, domain } = conf;
 const existLocation = typeof location === 'object' ? true : false ;
-
+conf.mediaSecondInterval = 200;
 conf.protcol = existLocation ? ( location.href.indexOf( 'https' ) === 0 ? 'https' : 'http' ) : '' ;
 conf.server = domain;
 conf.portalPath = `//${SUB_DOMAINS.PORTAL}.${domain}/` ;

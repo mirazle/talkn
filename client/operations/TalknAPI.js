@@ -75,7 +75,8 @@ export default class TalknAPI{
 		for( let actionNodeCnt = 0; actionNodeCnt < actionLength; actionNodeCnt++ ){
 			const actionName = actionKeys[ actionNodeCnt ];
 			const actionPlainName = actionName.replace( Sequence.CLIENT_TO_SERVER_EMIT, '' );
-			this[ actionPlainName ] = this.getTalknAPI( talknIndex, actionName );
+			const beforeFunction = actions[ actionName ];
+			this[ actionPlainName ] = this.getTalknAPI( talknIndex, actionName, beforeFunction );
 		}
 	}
 
@@ -101,12 +102,13 @@ export default class TalknAPI{
 		}
 	}
 
-	getTalknAPI( talknIndex, actionName ){
-		return ( requestParams ) => {
+	getTalknAPI( talknIndex, actionName, beforeFunction ){
+		return ( _requestParams ) => {
 			if( TalknAPI.handle( talknIndex ) ){
 				const reduxState = window.talknAPI.store.getState();
-				const requestState = Sequence.getRequestState( actionName, reduxState, requestParams );
-				const actionState = Sequence.getRequestActionState( actionName, requestParams );
+				let _requestState = Sequence.getRequestState( actionName, reduxState, _requestParams );
+				let _actionState = Sequence.getRequestActionState( actionName, _requestParams );
+				const { requestState, actionState, } = beforeFunction( reduxState, _requestState, _actionState );
 				this.ws.emit( requestState.type, requestState );
 				return window.talknAPI.store.dispatch( actionState );
 			}

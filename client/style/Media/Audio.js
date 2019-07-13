@@ -1,10 +1,10 @@
-import App from '../../common/schemas/state/App';
-import Style from './index';
-import Container from './Container';
-import Header from './Header';
-import Detail from './Detail';
-import Menu from './Menu';
-import Board from './Board';
+import App from '../../../common/schemas/state/App';
+import Style from '../index';
+import Container from '../Container';
+import Header from '../Header';
+import Detail from '../Detail';
+import Menu from '../Menu';
+import Board from '../Board';
 
 export default class Audio{
   static get marginBase(){ return 5 };
@@ -12,6 +12,7 @@ export default class Audio{
   static get marginRightMag(){ return 1 }
   static get marginLeft(){ return ( Math.floor( window.innerWidth * 0.05 ) ) }
   static get marginRight(){ return Audio.marginBase * Audio.marginRightMag }
+  static get height(){ return 50 }
   constructor( params ){
     const self = Audio.getSelf( params );
     return {
@@ -63,7 +64,7 @@ export default class Audio{
       left,
       margin: `0px ${Audio.marginRight}px 0px ${Audio.marginLeft}px`,
       width,
-      height: "50px"
+      height: `${Audio.height}px`
     });
     const content = {};
     const animation = {};

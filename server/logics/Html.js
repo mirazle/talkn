@@ -180,7 +180,12 @@ export default class Html {
     const encoding = this.getCharset( body );//jschardet.detect( body ).encoding;
     const buf = Buffer.from( body, 'binary');
     const iconv = new Iconv( encoding, 'UTF-8//TRANSLIT//IGNORE');
-    return iconv.convert( buf ).toString();
+    try{
+      return iconv.convert( buf ).toString();
+    }catch(e){
+      console.warn( e );
+      return body;
+    }
   }
 
   getCharset( body ){

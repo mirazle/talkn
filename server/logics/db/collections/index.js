@@ -13,15 +13,18 @@ export default class Collections {
     return this;
   }
 
-  static getNewApp(type, app, thread, posts){
+  static getNewApp(type, app, threadStatus, thread, posts){
     const connectioned = thread.connection;
     let dispThreadType = "";
 
     if(type === "getMore"){
       dispThreadType = app.dispThreadType;
     }else{
-      const { stepTo } = App.getStepToDispThreadType( {app}, thread.connection );
+      const { stepTo } = App.getStepToDispThreadType( {app}, threadStatus, thread.connection );
       switch(stepTo){
+      case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeTimeline}`:
+        dispThreadType = App.dispThreadTypeTimeline;
+        break;
       case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeMulti}`:
         dispThreadType = App.dispThreadTypeMulti;
         break;

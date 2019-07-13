@@ -18,9 +18,15 @@ export default ( self, constructorName ) => {
 const componentDidUpdates = {
     Container: {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
-            const { app } = self.props.state;
+            const { app, thread } = self.props.state;
             app.postsHeight += TalknWindow.getPostsHeight();
             self.props.updatePostsHeight(app.postsHeight);
+
+            if( app.dispThreadType === App.dispThreadTypeTimeline){
+                const src = thread.getMediaSrc();
+                const tagType = thread.getMediaTagType();
+                talknWindow.setupPostsTimeline(app.rootConnection, src, tagType);
+            }
         },
         'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
             const { app, threadDetail, thread } = self.props.state;
@@ -101,47 +107,8 @@ const componentDidUpdates = {
                 window.scrollTo(0, 9999999);
 //            }
         },
-        'CLIENT_TO_SERVER[EMIT]:post': (self) => {
-            const { app } = self.props.state;
-            if( app.extensionMode === App.extensionModeExtModalLabel ){ 
-            }
-        },
-        'SERVER_TO_CLIENT[BROADCAST]:post': ( self ) => {
-            const { app } = self.props.state;
-            const Posts = document.querySelector("[data-component-name=Posts]");
-            app.postsHeight += TalknWindow.getLastPostHeight();
-            if(
-                app.extensionMode === App.extensionModeExtBottomLabel ||
-                app.extensionMode === App.extensionModeExtIncludeLabel ||
-                app.extensionMode === App.extensionModeExtModalLabel
-            ){
-
-                const { isScrollBottom } = self.state;
-                if( app.isOpenPosts && isScrollBottom ){
-                    self.animateScrollTo(
-                      Posts,
-                      Posts.scrollHeight,
-                      400,
-                      self.props.endAnimateScrollTo
-                    );
-                }
-                if( app.isOpenPosts ){
-                    self.props.openNewPost();
-                }
-            }else{
-                talknWindow.threadHeight = Posts.clientHeight;
-                if( app.isOpenPosts && talknWindow.isScrollBottom ){
-                    talknWindow.animateScrollTo(
-                        talknWindow.threadHeight,
-                        400,
-                        self.props.endAnimateScrollTo
-                    );
-                }
-                if( app.isOpenPosts ){
-                    self.props.openNewPost();
-                }
-            }
-        },
+        'NEXT_POSTS_TIMELINE': post,
+        'SERVER_TO_CLIENT[BROADCAST]:post': post,
         'SERVER_TO_CLIENT[EMIT]:getMore': ( self ) => {
             const { app } = self.props.state;
             const Posts = document.querySelector("[data-component-name=Posts]");
@@ -156,6 +123,43 @@ const componentDidUpdates = {
                 window.scrollTo(0, scrollTo );
                 talknWindow.threadHeight = Posts.clientHeight;
             }
+        }
+    }
+}
+
+function post( self ){
+    const { app } = self.props.state;
+    const Posts = document.querySelector("[data-component-name=Posts]");
+    app.postsHeight += TalknWindow.getLastPostHeight();
+    if(
+        app.extensionMode === App.extensionModeExtBottomLabel ||
+        app.extensionMode === App.extensionModeExtIncludeLabel ||
+        app.extensionMode === App.extensionModeExtModalLabel
+    ){
+
+        const { isScrollBottom } = self.state;
+        if( app.isOpenPosts && isScrollBottom ){
+            self.animateScrollTo(
+              Posts,
+              Posts.scrollHeight,
+              400,
+              self.props.endAnimateScrollTo
+            );
+        }
+        if( app.isOpenPosts ){
+            self.props.openNewPost();
+        }
+    }else{
+        talknWindow.threadHeight = Posts.clientHeight;
+        if( app.isOpenPosts && talknWindow.isScrollBottom ){
+            talknWindow.animateScrollTo(
+                talknWindow.threadHeight,
+                400,
+                self.props.endAnimateScrollTo
+            );
+        }
+        if( app.isOpenPosts ){
+            self.props.openNewPost();
         }
     }
 }

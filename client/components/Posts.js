@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import conf from 'common/conf';
 import App from 'common/schemas/state/App';
 import { default as PostsSchems } from 'common/schemas/state/Posts';
 import Post from 'client/components/Post';
@@ -36,9 +37,12 @@ export default class Posts extends Component {
   }
 
   componentWillReceiveProps(props){
-    const {app, postsMulti, postsSingle, postsChild} = props.state;
+    const {app, postsTimeline, postsMulti, postsSingle, postsChild} = props.state;
     let posts = [];
     switch(app.dispThreadType){
+    case App.dispThreadTypeTimeline:
+      posts = postsTimeline;
+      break;
     case App.dispThreadTypeMulti:
       posts = postsMulti;
       break;
@@ -114,14 +118,16 @@ export default class Posts extends Component {
 
   renderGetMore(){
 		const { state } = this.props;
-    const { style, thread, app, setting } = state;
-    const { getThreadChildrenCnt } = setting.server;
+    const { style, thread, app } = state;
     const posts = PostsSchems.getDispPosts(state);
     const dispPostCnt = posts.length;
     const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
     let isDisp = false;
-    
-    if( thread[postCntKey] > getThreadChildrenCnt ){
+
+//    console.log( thread[postCntKey] );
+//    console.log( conf.findOnePostCnt );
+
+    if( thread[postCntKey] > conf.findOnePostCnt ){
       if( dispPostCnt < thread[postCntKey] ){
         isDisp = true;
       }
@@ -140,37 +146,27 @@ export default class Posts extends Component {
 
   renderPostList(){
 		const{ state, talknAPI, timeago } = this.props;
-    const{ app, style, thread, threads } = state;
-    let postList = [];
-
-    const posts = state[ `posts${app.dispThreadType}`];
-
-    if( Object.keys( posts ).length > 0 ){
-      postList = Object.keys( posts ).map( ( index ) => {
-        const post = posts[ index ];
-        const childLayerCnt = post.layer - thread.layer;
-        return (
-          <Post
-            key={post._id}
-            mode={'post'}
-            {...post}
-            app={app}
-            thread={thread}
-            threads={threads}
-            childLayerCnt={childLayerCnt}
-            style={style.post}
-            talknAPI={talknAPI}
-            timeago={timeago}
-          />
-        )
-      });
-    }
-
-    return postList;
+    const{ app, style, thread, threads, actionLog } = state;
+    return state[ `posts${app.dispThreadType}`].map( ( post ) => {
+      return (
+        <Post
+          key={post._id}
+          {...post}
+          app={app}
+          actionLog={actionLog}
+          thread={thread}
+          threads={threads}
+          childLayerCnt={post.layer - thread.layer}
+          style={style.post}
+          talknAPI={talknAPI}
+          timeago={timeago}
+        />
+      )
+    });
   }
 
   render() {
-    const { style, app } = this.props.state;
+    const { style } = this.props.state;
     return (
       <ol
         data-component-name={"Posts"}

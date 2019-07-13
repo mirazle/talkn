@@ -1,4 +1,5 @@
 import Container from 'client/style/Container';
+import storage from 'client/mapToStateToProps/storage';
 import Sequence from 'common/Sequence';
 import conf from 'common/conf';
 import util from 'common/util';
@@ -66,6 +67,11 @@ const functions = {
       }
       break;
     }
+
+    if( action.app.isMediaConnection ){
+      const _action = storage.setStoragePostsTimeline( action );
+      action.postsTimeline = _action.postsTimeline;
+    }
     return action;
   },
   "CLIENT_TO_SERVER[EMIT]:changeThread": ( state, action ) => {
@@ -78,8 +84,9 @@ const functions = {
     return action;
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": ( state, action ) => {
-    const app = state.app;
+    const { app, user } = state;
     action.app = app;
+    action.user = user;
 
     switch(action.app.extensionMode){
     case App.extensionModeExtBottomLabel:
