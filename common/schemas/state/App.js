@@ -55,7 +55,7 @@ export default class App extends Schema{
   static getMediaType( src ){
     const mediaConnectionTagTypeKeys = Object.keys( App.mediaConnectionTagTypes );
     const mediaConnectionTagTypeLength = mediaConnectionTagTypeKeys.length;
-    let mediaType = App.mediaTagTypeAudio;
+    let mediaType = "";
     for(let i = 0; i < mediaConnectionTagTypeLength; i++){
       const regExp = new RegExp(`.${mediaConnectionTagTypeKeys[ i ]}$`);
       if( src.match( regExp) ){
@@ -128,7 +128,7 @@ export default class App extends Schema{
     const isRootConnection = Schema.isSet( params.isRootConnection ) ? params.isRootConnection : false;
     const rootConnection = params.rootConnection ? params.rootConnection : connection;
     const src = App.getMediaSrc( params.protocol, connection );
-    const mediaConnectionType = App.getMediaType( src );
+    const connectionType = App.getMediaType( src );
 
     const connectioned = params && params.connectioned ? params.connectioned : '';
     const dispThreadType = App.getDispThreadType( params, isMediaConnection );
@@ -201,7 +201,7 @@ export default class App extends Schema{
       isRootConnection,
       isMediaConnection,
       rootConnection,
-      mediaConnectionType,
+      connectionType,
       dispThreadType,
       connectioned,
       multistream,
