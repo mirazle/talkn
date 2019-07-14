@@ -349,7 +349,7 @@ export default class TalknWindow {
 				}
 			}
 		} );
-		const log = true;
+		const log = false;
 		setInterval( () => {
 			if( media && media.paused ){
 				if( log ) console.log("Media Pause");
