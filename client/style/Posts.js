@@ -7,6 +7,7 @@ import PostsFooter from './PostsFooter';
 import Main from './Main';
 import Menu from './Menu';
 import Detail from './Detail';
+import Video from './Media/Video';
 import Audio from './Media/Audio';
 
 export default class Posts {
@@ -82,6 +83,10 @@ export default class Posts {
     let margin = `${Header.headerHeight}px 0px 0px 0px`;
     let marginTop = app.isMediaConnection ? `${Audio.height + 20}px` : "0px";
 
+    if( app.connectionType === App.mediaTagTypeVideo ){
+      return 0;
+    }
+
     if( app.extensionMode === App.extensionModeExtBottomLabel ){
       margin = `${marginTop} 5% ${Header.headerHeight}px 5%`;
     }else if(app.extensionMode === App.extensionModeExtModalLabel ){
@@ -127,11 +132,47 @@ export default class Posts {
     }
   }
 
+  static getSelfHeight( app ){
+    if( app.connectionType === App.mediaTagTypeVideo ){
+      return `auto`;
+    }else{
+      if(
+        app.extensionMode === App.extensionModeExtBottomLabel ||
+        app.extensionMode === App.extensionModeExtModalLabel 
+      ){
+        return `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
+      }else{
+        return "auto";
+      }
+    }
+  }
+
+  static getSelfMinHeight( app ){
+    if( app.connectionType === App.mediaTagTypeVideo ){
+      return `calc( 100% - ${Video.height}px)`;
+    }else{
+      if(
+        app.extensionMode === App.extensionModeExtBottomLabel ||
+        app.extensionMode === App.extensionModeExtModalLabel 
+      ){
+        return `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
+      }else{
+        return "auto";
+      }
+    }
+  }
+
+  static getSelfTop( app ){
+    if( app.connectionType === App.mediaTagTypeVideo ){
+      console.log( Video );
+      return `${Header.headerHeight + Video.height}px`;
+    }else{
+      return `${Header.headerHeight}px`;
+    }
+  }
+
   static getSelf( {app} ){
     let position = "relative";
-    let top = `${Header.headerHeight}px`;
-    let height = "auto";
-    let minHeight = `calc( 100vh - ${Header.headerHeight}px)`;
     let overflow = "hidden";
     let borders = {
       borderRight: 0,
@@ -146,9 +187,6 @@ export default class Posts {
       app.extensionMode === App.extensionModeExtModalLabel 
     ){
       position = "fixed";
-      top = `${Header.headerHeight}px`;
-      height = `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
-      minHeight = height;
       overflow = "scroll";
       borders.borderRight = Container.border;
       borders.borderLeft = Container.border;
@@ -159,11 +197,11 @@ export default class Posts {
 
     const layout = Style.getLayoutBlock({
       position,
-      top,
+      top: Posts.getSelfTop( app ),
       width: Posts.getWidth( app ),
       minWidth: Posts.getMinWidth( app ),
-      height,
-      minHeight,
+      height: Posts.getSelfHeight( app ),
+      minHeight: Posts.getSelfMinHeight( app ),
       maxHeight: "auto",
       margin: Posts.getMargin( app ),
       padding: Posts.getPadding( app ),

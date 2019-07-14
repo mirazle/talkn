@@ -8,11 +8,11 @@ import Board from '../Board';
 
 export default class Video{
   static get marginBase(){ return 5 };
-  static get marginLeftMag(){ return 1 }
-  static get marginRightMag(){ return 1 }
+  static get marginLeftMag(){ return 0 }
+  static get marginRightMag(){ return 0 }
   static get marginLeft(){ return Video.marginBase * Video.marginLeftMag }
   static get marginRight(){ return Video.marginBase * Video.marginRightMag }
-  static get height(){ return 237 }
+  static get height(){ return 260 }
   constructor( params ){
     const self = Video.getSelf( params );
     return {
@@ -28,7 +28,7 @@ export default class Video{
       width = `${ 100 - reduce}%`;
       break;
     case App.screenModeMiddleLabel :
-      width = `calc( 100% - ${ Menu.getWidth( app, true ) + reduce }px )`
+      width = `calc( ${ 100 - reduce }% - ${ Menu.getWidth( app, true ) }px )`
       break;
     case App.screenModeLargeLabel :
       width = `calc( ${ 100 - Detail.getWidth( app, false ) - reduce }% - ${ Menu.getWidth( app, true ) + reduce }px )`;
@@ -59,13 +59,12 @@ export default class Video{
       display,
       position: 'fixed',
       background: "black",
-      top: ( Header.headerHeight + 10 ) + "px",
+      top: ( Header.headerHeight ) + "px",
       left,
       margin: `0px ${Video.marginRightMag}% 0px ${Video.marginLeftMag}%`,
       width,
       zIndex: 1,
-      height: `${Video.height}px`,
-      boxShadow: "rgba(0, 0, 0, 0.75) 0px 0px 5px 0px"
+      height: `${Video.height}px`
     });
     const content = {};
     const animation = {};
