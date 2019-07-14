@@ -353,6 +353,7 @@ export default class TalknWindow {
 		setInterval( () => {
 			if( media && media.paused ){
 				if( log ) console.log("Media Pause");
+				if( log ) console.log( media );
 				return false;
 			}
 
