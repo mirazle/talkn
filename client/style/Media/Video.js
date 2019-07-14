@@ -8,11 +8,11 @@ import Board from '../Board';
 
 export default class Video{
   static get marginBase(){ return 5 };
-  static get marginLeftMag(){ return 5 }
+  static get marginLeftMag(){ return 1 }
   static get marginRightMag(){ return 1 }
-  static get marginLeft(){ return ( Math.floor( window.innerWidth * 0.05 ) ) }
+  static get marginLeft(){ return Video.marginBase * Video.marginLeftMag }
   static get marginRight(){ return Video.marginBase * Video.marginRightMag }
-  static get height(){ return 250 }
+  static get height(){ return 237 }
   constructor( params ){
     const self = Video.getSelf( params );
     return {
@@ -22,18 +22,16 @@ export default class Video{
 
   static getSelfWidth(app){
     let width = 0;
-    const reduceMargin = ( Video.marginLeft ) + ( Video.marginRight );
-    const reduceWidth = Board.getTotalWidth(app);
-    const reduce = reduceMargin + reduceWidth;
+    const reduce = ( Video.marginLeftMag ) + ( Video.marginRightMag );
     switch( app.screenMode ){
     case App.screenModeSmallLabel :
-      width = `calc( 100% - ${reduce}px )`;
+      width = `${ 100 - reduce}%`;
       break;
     case App.screenModeMiddleLabel :
       width = `calc( 100% - ${ Menu.getWidth( app, true ) + reduce }px )`
       break;
     case App.screenModeLargeLabel :
-      width = `calc( ${ 100 - Detail.getWidth( app, false ) }% - ${ Menu.getWidth( app, true ) + reduce }px )`;
+      width = `calc( ${ 100 - Detail.getWidth( app, false ) - reduce }% - ${ Menu.getWidth( app, true ) + reduce }px )`;
       break;
     }
     return width;
@@ -60,11 +58,14 @@ export default class Video{
     const layout = Style.getLayoutBlock({
       display,
       position: 'fixed',
-      top: ( Header.headerHeight + 15 ) + "px",
+      background: "black",
+      top: ( Header.headerHeight + 10 ) + "px",
       left,
-      margin: `0px ${Video.marginRight}px 0px ${Video.marginLeft}px`,
+      margin: `0px ${Video.marginRightMag}% 0px ${Video.marginLeftMag}%`,
       width,
-      height: `${Video.height}px`
+      zIndex: 1,
+      height: `${Video.height}px`,
+      boxShadow: "rgba(0, 0, 0, 0.75) 0px 0px 5px 0px"
     });
     const content = {};
     const animation = {};

@@ -163,25 +163,15 @@ export default class Thread extends Schema{
 
   static getLayer( connection ){
     return connection.split( '/' ).length - 1;
-    /*
-    const layerCnt = connection.split( '/' ).length - 1;
-    return connection.match(/\u002f$/) ? layerCnt - 1 : layerCnt ;
-    */
   }
 
   getMediaSrc(){
-    return this.protocol + "/" +  this.connection.replace(/\/$/, '');
+    return App.getMediaSrc( this.protocol, this.connection );
   }
 
   getMediaTagType(){
-    let tagType = "audio";
-    Object.keys( App.mediaConnectionTagTypes ).forEach( (ext) => {
-      const regExp = new RegExp(`.${ext}\/$`);
-      if( this.connection.match(regExp) ){
-        tagType = App.mediaConnectionTagTypes[ ext ];
-      }
-    } );
-    return tagType;
+    const src = this.getMediaSrc();
+    return App.getMediaType( src );
   }
 
   setConnection( _connection = '/' ){

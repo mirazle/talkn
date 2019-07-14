@@ -60,7 +60,7 @@ export default class Audio{
     const layout = Style.getLayoutBlock({
       display,
       position: 'fixed',
-      top: ( Header.headerHeight + 15 ) + "px",
+      top: ( Header.headerHeight + 10 ) + "px",
       left,
       margin: `0px ${Audio.marginRight}px 0px ${Audio.marginLeft}px`,
       width,

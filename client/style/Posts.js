@@ -100,7 +100,6 @@ export default class Posts {
           break;
       }
     }
-//    console.log( app.extensionMode + " " + app.screenMode + " " + margin );
     return margin;
   }
 
