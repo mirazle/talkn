@@ -378,7 +378,6 @@ export default class TalknWindow {
 
 				while( this.mediaTasking ){
 					if( loopPostsTimelineLength === 0 ){
-						this.mediaCurrentTime = addPost.currentTime;
 						this.mediaTasking = false;
 					}else if( loopPostsTimeline[ 0 ] && loopPostsTimeline[ 0 ].currentTime <= mediaCurrentTime ){
 						const addPost = loopPostsTimeline.shift();
