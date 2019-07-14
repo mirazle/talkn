@@ -276,6 +276,16 @@ export default {
       app: {inputPost, inputCurrentTime}
     };
   },
+  playVideo: () => {
+    return {
+      type: 'PLAY_VIDEO'
+    };
+  },
+  stopVideo: () => {
+    return {
+      type: 'STOP_VIDEO'
+    };
+  },
   debug: ( app ) => {
     return {
       type: 'DEBUG',

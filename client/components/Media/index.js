@@ -9,27 +9,16 @@ export default class Media extends Component {
     super(props);
     const { thread } = props.state;
     const src = thread.protocol + "/" +  thread.connection.replace(/\/$/, '');
-    const mediaConnectionTagTypeKeys = Object.keys( App.mediaConnectionTagTypes );
-    const mediaConnectionTagTypeLength = mediaConnectionTagTypeKeys.length;
-    let componentType = App.mediaTagTypeAudio;
-
-    for(let i = 0; i < mediaConnectionTagTypeLength; i++){
-      const regExp = new RegExp(`.${mediaConnectionTagTypeKeys[ i ]}$`);
-      if( src.match( regExp) ){
-        componentType = App.mediaConnectionTagTypes[ mediaConnectionTagTypeKeys[ i ] ];
-        break;
-      }
-    }
-
+    const mediaType = App.getMediaType( src );
     this.state = {
       src,
-      componentType
+      mediaType
     }
   }
 
   render(){
-    const { src, componentType } = this.state;
-    switch( componentType ){
+    const { src, mediaType } = this.state;
+    switch( mediaType ){
     case App.mediaTagTypeAudio:
       return <Audio {...this.props} src={src} />;
     case App.mediaTagTypeVideo:

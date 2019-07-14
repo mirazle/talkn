@@ -52,6 +52,20 @@ export default class App extends Schema{
       [ App.mediaTypeM4a ]: App.mediaTagTypeAudio
     };
   }
+  static getMediaType( src ){
+    const mediaConnectionTagTypeKeys = Object.keys( App.mediaConnectionTagTypes );
+    const mediaConnectionTagTypeLength = mediaConnectionTagTypeKeys.length;
+    let mediaType = App.mediaTagTypeAudio;
+    for(let i = 0; i < mediaConnectionTagTypeLength; i++){
+      const regExp = new RegExp(`.${mediaConnectionTagTypeKeys[ i ]}$`);
+      if( src.match( regExp) ){
+        mediaType = App.mediaConnectionTagTypes[ mediaConnectionTagTypeKeys[ i ] ];
+        break;
+      }
+    }
+    return mediaType;
+  }
+
   static validInputPost(value){
     if( /\r\n$|\n$|\r$/mgi.test( value ) ) return 'LAST TYPE BREAK LINE.';
     return false;
@@ -113,6 +127,8 @@ export default class App extends Schema{
       params.isMediaConnection : App.getIsMediaConnection( connection );
     const isRootConnection = Schema.isSet( params.isRootConnection ) ? params.isRootConnection : false;
     const rootConnection = params.rootConnection ? params.rootConnection : connection;
+    const src = App.getMediaSrc( params.protocol, connection );
+    const mediaConnectionType = App.getMediaType( src );
 
     const connectioned = params && params.connectioned ? params.connectioned : '';
     const dispThreadType = App.getDispThreadType( params, isMediaConnection );
@@ -181,11 +197,13 @@ export default class App extends Schema{
       menuComponent,
 
       // スレッド基本関連
-      isMediaConnection,
+
       isRootConnection,
+      isMediaConnection,
       rootConnection,
-      connectioned,
+      mediaConnectionType,
       dispThreadType,
+      connectioned,
       multistream,
       multistreamed,
       threadScrollY,
@@ -232,6 +250,10 @@ export default class App extends Schema{
     });
   }
 
+  static getMediaSrc( protocol, connection){
+    return protocol + "/" +  connection.replace(/\/$/, '');
+  }
+  
   static getScreenMode( widthPx ){
 
       if( !widthPx ){
