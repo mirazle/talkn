@@ -23,6 +23,8 @@ export default class Media extends Component {
       return <Audio {...this.props} src={src} />;
     case App.mediaTagTypeVideo:
       return <Video {...this.props} src={src} />;
+    default:
+      return null;
     }
   }
 }
