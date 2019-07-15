@@ -33,7 +33,7 @@ export default class Board{
   }
 
   static getSelfHeight(app){
-    return app.isOpenBoard ? "237px" : "60px";
+    return app.isOpenBoard ? "237px" : "64px";
   }
 
   static getSelfBorderRadius(app){

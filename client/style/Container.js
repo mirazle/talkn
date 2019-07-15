@@ -86,7 +86,7 @@ export default class Container{
   static get transitionOn(){ return 600 };
   static get transitionNotif(){ return 300 };
   static get transitionNotifDisp(){ return 3000 };
-  static get transitionFirstOn(){ return 200 };
+  static get transitionFirstOn(){ return 300 };
   static get transitionOff(){ return 0 };
 
   static get notifHeight(){ return 20 };
