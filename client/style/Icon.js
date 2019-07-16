@@ -988,7 +988,8 @@ export default class Icon {
   }
 
   static getPlay( { app } ){
-    const bgColor = app.isMediaConnection ? Container.themeRGB : Container.reliefRGB;
+//    const bgColor = app.isMediaConnection ? Container.themeRGB : Container.reliefRGB;
+    const bgColor = Container.reliefRGB;
     const div = Style.get({
       layout: Style.getLayoutFlex({
         flexDirection: "column",
