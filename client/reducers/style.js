@@ -47,6 +47,7 @@ export default ( state = {} , action ) => {
 				}
 			},
 			posts: {...state.posts,
+				self: Posts.getSelf({app: action.app}),
 				more: Posts.getMore({app: action.app})
 			},
 			post: {...state.post,

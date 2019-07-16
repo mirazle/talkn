@@ -85,7 +85,9 @@ export default class Posts {
     let marginTop = 0;
 
     if( app.connectionType === App.mediaTagTypeVideo ){
-      return `0px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
+      return app.isBubblePost ? 
+        `0px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}` :
+        `10px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}` ;
     }
     
     margin = `${Header.headerHeight}px 0px 0px 0px`;
@@ -164,7 +166,7 @@ export default class Posts {
 
   static getSelfMinHeight( app ){
     if( app.connectionType === App.mediaTagTypeVideo ){
-      return `calc( 100% - ${Video.height}px)`;
+      return `calc( 100% - ${Video.height + PostsFooter.selfHeight + Header.headerHeight}px)`;
     }else{
       if(
         app.extensionMode === App.extensionModeExtBottomLabel ||
@@ -178,7 +180,6 @@ export default class Posts {
   }
 
   static getSelfTop( app ){
-    console.log( "POSTS connection type " + app.connectionType);
     if( app.connectionType === App.mediaTagTypeVideo ){
       return `${Header.headerHeight + Video.height}px`;
     }else{
