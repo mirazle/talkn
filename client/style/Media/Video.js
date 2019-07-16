@@ -64,7 +64,8 @@ export default class Video{
       margin: `0px ${Video.marginRightMag}% 0px ${Video.marginLeftMag}%`,
       width,
       zIndex: 1,
-      height: `${Video.height}px`
+      height: `${Video.height}px`,
+      outline: "none"
     });
     const content = {};
     const animation = {};

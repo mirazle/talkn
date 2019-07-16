@@ -236,6 +236,7 @@ export default class Detail {
       margin: `${Detail.margin * 2 }% ${Detail.margin}%`,
     });
     const content = Style.getContentBase({
+      fontsize: "14px",
       textAlign: "right"
     });
     const animation = Style.getAnimationBase();
@@ -272,6 +273,7 @@ export default class Detail {
       margin: "0px 0px 45px 0px"
     });
     const content = Style.getContentBase({
+      fontSize: "14px",
       textAlign: 'left',
       lineHeight: '30px',
       wordBreak: "break-word"

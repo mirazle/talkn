@@ -52,13 +52,18 @@ export default class App extends Schema{
       [ App.mediaTypeM4a ]: App.mediaTagTypeAudio
     };
   }
-  static getMediaType( src ){
+  static getMediaType( src, params){
+
+    if( params && params.connectionType){
+      return params.connectionType;
+    }
+
     const mediaConnectionTagTypeKeys = Object.keys( App.mediaConnectionTagTypes );
     const mediaConnectionTagTypeLength = mediaConnectionTagTypeKeys.length;
     let mediaType = "";
     for(let i = 0; i < mediaConnectionTagTypeLength; i++){
       const regExp = new RegExp(`.${mediaConnectionTagTypeKeys[ i ]}$`);
-      if( src.match( regExp) ){
+      if( src.match( regExp ) ){
         mediaType = App.mediaConnectionTagTypes[ mediaConnectionTagTypeKeys[ i ] ];
         break;
       }
@@ -128,8 +133,7 @@ export default class App extends Schema{
     const isRootConnection = Schema.isSet( params.isRootConnection ) ? params.isRootConnection : false;
     const rootConnection = params.rootConnection ? params.rootConnection : connection;
     const src = App.getMediaSrc( params.protocol, connection );
-    const connectionType = App.getMediaType( src );
-
+    const connectionType = App.getMediaType( src, params );
     const connectioned = params && params.connectioned ? params.connectioned : '';
     const dispThreadType = App.getDispThreadType( params, isMediaConnection );
     const multistream = Schema.isSet( params.multistream ) ? params.multistream : true;
