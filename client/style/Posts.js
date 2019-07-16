@@ -80,10 +80,26 @@ export default class Posts {
   }
 
   static getMargin( app, addUnit = false ){
-    let margin = `${Header.headerHeight}px 0px 0px 0px`;
-    let marginTop = app.isMediaConnection ? `${Audio.height + 20}px` : "0px";
+
+    let margin = 0;
+    let marginTop = 0;
 
     if( app.connectionType === App.mediaTagTypeVideo ){
+      return `0px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
+    }
+    
+    margin = `${Header.headerHeight}px 0px 0px 0px`;
+    marginTop = app.isMediaConnection ? `${Audio.height + 20}px` : "0px";
+
+    if( app.connectionType === App.mediaTagTypeVideo ){
+      switch( app.screenMode ){
+      case App.screenModeSmallLabel :
+          return 0;
+      case App.screenModeMiddleLabel :
+          return `0px 0px 0px ${Menu.getWidth( app )}`;
+      case App.screenModeLargeLabel :
+          return `0px 0px 0px ${Menu.getWidth( app )}`;
+      }
       return 0;
     }
 
@@ -93,7 +109,6 @@ export default class Posts {
       margin = `${marginTop} 0px ${PostsFooter.selfHeight}px 0px`;
     }else{
       switch( app.screenMode ){
-      case App.screenModeUndispLabel :
       case App.screenModeSmallLabel :
           margin = `${marginTop} 0px 0px 0px`;
           break;
@@ -163,8 +178,8 @@ export default class Posts {
   }
 
   static getSelfTop( app ){
+    console.log( "POSTS connection type " + app.connectionType);
     if( app.connectionType === App.mediaTagTypeVideo ){
-      console.log( Video );
       return `${Header.headerHeight + Video.height}px`;
     }else{
       return `${Header.headerHeight}px`;
@@ -174,13 +189,9 @@ export default class Posts {
   static getSelf( {app} ){
     let position = "relative";
     let overflow = "hidden";
-    let borders = {
-      borderRight: 0,
-      borderLeft: 0
-    }
+    let borders = {borderRight: 0, borderLeft: 0};
     let background = Container.whiteRGBA;
     let zIndex = 1;
-    let transform = Posts.getSelfTransform(app);
 
     if(
       app.extensionMode === App.extensionModeExtBottomLabel ||

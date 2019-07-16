@@ -199,7 +199,6 @@ export default class Detail extends Component {
       return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>・{h1}</li> );
     });
     */
-
     return(
       <div
         data-component-name={"DetaiMeta"}
@@ -250,18 +249,18 @@ export default class Detail extends Component {
   }
 
   renderAnalyze(){
-    const { thread } = this.state;
-    const { style } = this.props.state
+    const { state } = this.props;
+    const { threadDetail, style } = state
     return(
       <div style={ style.detail.analyze }>
         <div style={ style.detail.analyzeRow }>
           <div style={ style.detail.analyzeCol }>
             <div style={ style.detail.analyzeLabel }>
-              VIEWING
+              LIVE
             </div>
             <hr style={ style.detail.analyzeHr } />
             <div style={ style.detail.analyzeValue }>
-              {thread.watchCnt}
+              {threadDetail.watchCnt}
             </div>
           </div>
           <div style={ style.detail.analyzeCol }>
@@ -290,7 +289,7 @@ export default class Detail extends Component {
             </div>
             <hr style={ style.detail.analyzeHr } />
             <div style={ style.detail.analyzeValue }>
-              {thread.postCnt}
+              {threadDetail.postCnt}
             </div>
           </div>
           <div style={ style.detail.analyzeCol }>
@@ -319,7 +318,7 @@ export default class Detail extends Component {
             </div>
             <hr style={ style.detail.analyzeHr } />
             <div style={ style.detail.analyzeValue }>
-              {thread.postCnt}
+              {threadDetail.postCnt}
             </div>
           </div>
           <div style={ style.detail.analyzeCol }>
@@ -400,7 +399,12 @@ export default class Detail extends Component {
           {this.renderMeta()}
           {this.renderExtension()}
           {this.renderConnection()}
-
+          { /* this.renderAnalyze() */ }
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
         {this.renderLockMenu()}
         {this.renderDetailFooter()}
