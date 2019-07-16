@@ -188,16 +188,14 @@ export default class Post extends Component {
   }
 
   renderUpper(){
-    const { childLayerCnt } = this.props;
+    const { childLayerCnt, thread } = this.props;
     const { style } = this.state;
     const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
     return (
       <div style={ style.upper }>
-        <span style={style.upperSpace} />
-        <span style={style.upperRight}>
-          <div style={style.upperChild}>{childLabel}</div>
-          { this.renderTime() }
-        </span>
+        <div style={style.upperChild}>{childLabel}</div>
+        <div style={style.upperTitle}>{thread.title}</div>
+        { this.renderTime() }
       </div>
     );
   }

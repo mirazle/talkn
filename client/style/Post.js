@@ -15,9 +15,8 @@ export default class Post {
   constructor( params ){
     const self = Post.getSelf(params);
     const upper = Post.getUpper(params);
-    const upperSpace = Post.getUpperSpace(params);
-    const upperRight = Post.getUpperRight(params);
     const upperChild = Post.getUpperChild(params);
+    const upperTitle = Post.getUpperTitle(params);
     const upperTimeago = Post.getUpperTimeago(params);
     const bottom = Post.getBottom(params);
     const bottomIcon = Post.getBottomIcon(params);
@@ -25,9 +24,8 @@ export default class Post {
     return {
       self,
       upper,
-      upperSpace,
-      upperRight,
       upperChild,
+      upperTitle,
       upperTimeago,
       bottom,
       bottomIcon,
@@ -36,7 +34,7 @@ export default class Post {
   }
 
   static getSelf({app}){
-    const padding = app.isBubblePost ? '20px 20px 20px 0px' : '0px 20px 0px 0px';
+    const padding = app.isBubblePost ? '15px 20px 15px 0px' : '0px 20px 0px 0px';
     const minHeight = app.isBubblePost ? "75px" : "40px";
     const layout = Style.getLayoutBlock({
       width: 'calc( 100% - 0px )',
@@ -55,37 +53,21 @@ export default class Post {
     const layout = Style.getLayoutFlex({
       display,
       justifyContent: 'space-between',
-      height: '20px',
+      height: '14px',
     });
     const content = Style.getContentBase({
-      fontSize: '11px',
+      fontSize: '8px',
     });
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getUpperSpace(){
-    const layout = Style.getLayoutBlock({
-      width: Post.iconSize,
-      flexGrow: 1,
-    });
-    const content = Style.getContentBase();
-    const animation = Style.getAnimationBase();
-    return Style.get({layout, content, animation});
-  }
-
-  static getUpperRight(){
-    const layout = Style.getLayoutFlex({
-      flexGrow: 5,
-    });
-    const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
   static getUpperChild(){
     const layout = Style.getLayoutBlock({
-      flexGrow: 1,
+      flexGrow:  2,
+      width: "20%",
+      minWidth: "20%",
+      maxWidth: "20%",
     });
     const content = Style.getContentBase({
       textAlign: 'left',
@@ -95,22 +77,37 @@ export default class Post {
     return Style.get({layout, content, animation});
   }
 
-  static getUpperTimeago(){
+  static getUpperTitle(){
     const layout = Style.getLayoutBlock({
-      flexGrow: 4,
+      flexGrow:  6,
+      width: "60%",
+      minWidth: "60%",
+      maxWidth: "60%",
     });
     const content = Style.getContentBase({
-      textAlign: 'right',
-      fontSize: '11px',
+      textAlign: 'left',
+      textIndent: '10px',
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getUpperTimeago(){
+    const layout = Style.getLayoutBlock({
+      flexGrow:  2,
+      width: "20%",
+      minWidth: "20%",
+      maxWidth: "20%",
+    });
+    const content = Style.getContentBase({
+      textAlign: 'right'
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
   static getBottom(){
-    const layout = Style.getLayoutFlex({
-      width: "100%"
-    });
+    const layout = Style.getLayoutFlex({});
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
@@ -118,9 +115,10 @@ export default class Post {
 
   static getBottomIcon(){
     const layout = Style.getLayoutBlock({
-      flexGrow:  1,
-      width: Post.iconSize,
-      minWidth: "61px",
+      flexGrow:  2,
+      width: "20%",
+      minWidth: "20%",
+      maxWidth: "20%",
       height: Post.iconSize,
       backgroundImage: `url(${conf.protcol}:${conf.assetsPath}favicon.ico")`,
       backgroundPosition: '50% 50%',
@@ -137,13 +135,15 @@ export default class Post {
     const color = app.isBubblePost ? Container.whiteRGBA : "rgba(160, 160, 160)";
     const padding = app.isBubblePost ? '15px 15px 15px 25px' : '0px';
     const layout = Style.getLayoutBlock({
-      flexGrow:  5,
-      width: 'min-content',
+      flexGrow:  8,
+      width: "79%",
+      minWidth: "79%",
+      maxWidth: "79%",
       background,
       padding,
       margin: "0px 1% 0px 0px",
       borderRadius: '10px',
-      maxWidth: '79%',
+
     });
     const content = Style.getContentBase({
       color,
