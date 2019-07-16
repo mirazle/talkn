@@ -146,7 +146,7 @@ export default class Post {
     });
     const content = Style.getContentBase({
       color,
-      lineHeight: 2.0,
+      lineHeight: 1.7,
       fontSize: '13px',
       textAlign: 'left',
       cursor: 'pointer',
