@@ -119,7 +119,6 @@ export default class Post extends Component {
 
   componentWillUnmount(){
     const {_id} = this.props;
-    console.log( " WILL UNMOUNT " + _id );
     this.setState({active: false});
   }
 
@@ -190,7 +189,7 @@ export default class Post extends Component {
   renderUpper(){
     const { childLayerCnt, thread } = this.props;
     const { style } = this.state;
-    const childLabel = childLayerCnt > 0 ? `( ${childLayerCnt} child )` : '' ;
+    const childLabel = childLayerCnt > 0 ? `${childLayerCnt}child` : '' ;
     return (
       <div style={ style.upper }>
         <div style={style.upperChild}>{childLabel}</div>
@@ -252,7 +251,6 @@ export default class Post extends Component {
         </li>
       );
     }else{
-      console.log("UNMOUNT " + _id);
       return null;
     }
  	}

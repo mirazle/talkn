@@ -240,7 +240,7 @@ export default class MenuIndexList {
   static getBottomWatchCntWrap(){
     const layout = Style.getLayoutInlineFlex({
       position: "relative",
-      top: "-8px",
+      top: "-7px",
       width: "26px",
       height: "26px",
       background: Container.themeRGBA,

@@ -53,7 +53,7 @@ export default class Post {
     const layout = Style.getLayoutFlex({
       display,
       justifyContent: 'space-between',
-      height: '14px',
+      height: '20px'
     });
     const content = Style.getContentBase({
       fontSize: '8px',
@@ -63,7 +63,9 @@ export default class Post {
   }
 
   static getUpperChild(){
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
+      alignItems: "flex-start",
+      justifyContent: "flex-start",
       flexGrow:  2,
       width: "20%",
       minWidth: "20%",
@@ -71,29 +73,34 @@ export default class Post {
     });
     const content = Style.getContentBase({
       textAlign: 'left',
-      textIndent: '25px',
+      textIndent: '15px',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
   static getUpperTitle(){
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
+      alignItems: "flex-start",
+      justifyContent: "flex-start",
       flexGrow:  6,
       width: "60%",
       minWidth: "60%",
       maxWidth: "60%",
+      padding: "0px 0px 0px 10px"
     });
     const content = Style.getContentBase({
       textAlign: 'left',
-      textIndent: '10px',
+      wordBreak: "break-all"
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 
   static getUpperTimeago(){
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
+      alignItems: "flex-start",
+      justifyContent: "flex-start",
       flexGrow:  2,
       width: "20%",
       minWidth: "20%",
