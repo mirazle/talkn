@@ -142,7 +142,7 @@ export default class PostsFooter{
       height: '55%',
       backgroundImage: `url()`,
       backgroundPosition: 'center center',
-      backgroundSize: '20px 20px',
+      backgroundSize: '24px 24px',
       backgroundRepeat: 'no-repeat',
       zIndex: 9999
     });

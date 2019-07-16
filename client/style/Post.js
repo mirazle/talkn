@@ -9,6 +9,7 @@ export default class Post {
   static get stampStyle(){ 
     return `display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;transform: scale(${Post.bubbleStampScale});font-size: 50px;`
   }
+  static get fontSize(){ return 14 };
   static get iconSize(){ return '25px' };
 
   constructor( params ){
@@ -147,7 +148,7 @@ export default class Post {
     const content = Style.getContentBase({
       color,
       lineHeight: 1.7,
-      fontSize: '13px',
+      fontSize: `${Post.fontSize}px`,
       textAlign: 'left',
       cursor: 'pointer',
       wordWrap: "break-word",
