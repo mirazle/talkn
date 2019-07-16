@@ -10,9 +10,9 @@ export default class MenuIndexList {
   static get rank2RGB(){ return 'rgb(255, 147, 0)' };
   static get rank3RGB(){ return 'rgb(0, 162, 255)' };
   static get rankOtherRGB(){ return Container.silverRGB };
-  static get oneDigitWidth(){ return "15%" };
-  static get twoDigitWidth(){ return "16%" };
-  static get thirdDigitWidth(){ return "17%" };
+  static get oneDigitWidth(){ return "17%" };
+  static get twoDigitWidth(){ return "18%" };
+  static get thirdDigitWidth(){ return "19%" };
 
   static get fontSize(){ return 14 };
   static get iconSize(){ return 24 };
@@ -144,12 +144,12 @@ export default class MenuIndexList {
   }
 
   static getUpperRankWrap(){
-    const layout = Style.getLayoutInlineBlock({
+    const layout = Style.getLayoutInlineFlex({
       position: "absolute",
-      left: "13px",
+      left: "5px",
       top: "10px",
       width: MenuIndexList.thirdDigitWidth,
-      height: "16px",
+      height: "20px",
       background: MenuIndexList.rankOtherRGB,
       borderRadius: "10px",
       margin: "0"
@@ -160,11 +160,12 @@ export default class MenuIndexList {
   }
 
   static getUpperRank(){
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
       width: "100%"
     });
     const content = Style.getContentBase({
       fontSize: "10px",
+      fontWeight: "bold",
       color: Container.whiteRGB,
       lineHeight: "1.5"
     });
@@ -216,7 +217,7 @@ export default class MenuIndexList {
     });
     const content = Style.getContentBase({
       fontSize: `${MenuIndexList.fontSize}px`,
-      lineHeight: 2.6,
+      lineHeight: 2.8,
       textAlign: 'left',
       whiteSpace: 'nowrap'
 
@@ -239,7 +240,7 @@ export default class MenuIndexList {
   static getBottomWatchCntWrap(){
     const layout = Style.getLayoutInlineFlex({
       position: "relative",
-      top: "-10px",
+      top: "-8px",
       width: "26px",
       height: "26px",
       background: Container.themeRGBA,
