@@ -136,7 +136,8 @@ export default class Board{
   }
 
   static getLiPlay( {app} ){
-    const bgColor = app.isMediaConnection ? Container.themeRGB : Container.reliefRGB;
+//    const bgColor = app.isMediaConnection ? Container.themeRGB : Container.reliefRGB;
+    const bgColor = Container.reliefRGB;
     const layout = {};
     const content = Style.getContentBase({
       color: bgColor
