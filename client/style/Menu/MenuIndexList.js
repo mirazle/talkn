@@ -218,6 +218,8 @@ export default class MenuIndexList {
       fontSize: `${MenuIndexList.fontSize}px`,
       lineHeight: 2.6,
       textAlign: 'left',
+      whiteSpace: 'nowrap'
+
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
