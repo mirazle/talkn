@@ -163,7 +163,7 @@ export default class Detail {
     });
     const content = Style.getContentBase({
       lineHeight: '1.8',
-      fontSize: '14px',
+      fontSize: '16px',
       textOverflow: 'ellipsis',
     });
     const animation = Style.getAnimationBase();
@@ -219,7 +219,7 @@ export default class Detail {
     });
     const content = Style.getContentBase({
       lineHeight: 2,
-      fontSize: '14px',
+      fontSize: '16px',
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
