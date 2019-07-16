@@ -6,7 +6,7 @@ import { relative } from 'path';
 
 export default class Icon {
 
-  static get defaultOption(){ return {sizePx: Icon.middleSize, active: true} };
+  static get defaultOption(){ return {sizePx: Icon.largeSize, active: true} };
   static get smallSize(){ return '24px' };
   static get middleSize(){ return '36px' };
   static get largeSize(){ return '48px' };
