@@ -14,7 +14,8 @@ export default class MenuIndexList {
   static get twoDigitWidth(){ return "16%" };
   static get thirdDigitWidth(){ return "17%" };
 
-  static get iconSize(){ return '25px' };
+  static get fontSize(){ return 14 };
+  static get iconSize(){ return 24 };
   static get liHeight(){ return 90 };
 
   static get activeLiSelfLabel(){ return "activeLiSelf" };
@@ -126,7 +127,7 @@ export default class MenuIndexList {
       height: '20px',
     });
     const content = Style.getContentBase({
-      fontSize: '13px',
+      fontSize: `${MenuIndexList.fontSize}px`,
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
@@ -200,8 +201,8 @@ export default class MenuIndexList {
       width: "20%",
       height: '50px',
       backgroundImage: `url("${conf.assetsURL}/favicon.ico")`,
-      backgroundPosition: '50% 15%',
-      backgroundSize: '20px 20px',
+      backgroundPosition: '50% 30%',
+      backgroundSize: '24px 24px',
       backgroundRepeat: 'no-repeat',
     });
     const content = Style.getContentBase();
@@ -214,8 +215,8 @@ export default class MenuIndexList {
       width: "60%",
     });
     const content = Style.getContentBase({
-      fontSize: '13px',
-      lineHeight: 2.2,
+      fontSize: `${MenuIndexList.fontSize}px`,
+      lineHeight: 2.6,
       textAlign: 'left',
     });
     const animation = Style.getAnimationBase();
@@ -223,7 +224,7 @@ export default class MenuIndexList {
   }
 
   static getBottomWatchCnt(){
-    const layout = Style.getLayoutInlineBlock({
+    const layout = Style.getLayoutInlineFlex({
       width: "20%",
     });
     const content = Style.getContentBase({
@@ -234,11 +235,11 @@ export default class MenuIndexList {
   }
 
   static getBottomWatchCntWrap(){
-    const layout = Style.getLayoutInlineBlock({
+    const layout = Style.getLayoutInlineFlex({
       position: "relative",
-      top: "5px",
-      width: "22px",
-      height: "22px",
+      top: "-10px",
+      width: "26px",
+      height: "26px",
       background: Container.themeRGBA,
       borderRadius: "20px",
     });
