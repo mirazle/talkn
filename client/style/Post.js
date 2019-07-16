@@ -124,7 +124,7 @@ export default class Post {
       height: Post.iconSize,
       backgroundImage: `url(${conf.protcol}:${conf.assetsPath}favicon.ico")`,
       backgroundPosition: '50% 50%',
-      backgroundSize: '20px 20px',
+      backgroundSize: '24px 24px',
       backgroundRepeat: 'no-repeat',
     });
     const content = Style.getContentBase();
