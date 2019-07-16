@@ -35,7 +35,7 @@ export default class Thread extends Schema{
       thread.href = '' ;
       thread.connection = connection;
       thread.connections = ['/'];
-      thread.hasSlash = bootOption.hasslash ? bootOption.hasslash : false;
+      thread.hasSlash = bootOption.hasslash ? Schema.getBool( bootOption.hasslash ) : false;
       thread.protocol = 'talkn:';
       thread.contentType = '';
       thread.charset = 'UTF-8';
@@ -76,6 +76,8 @@ export default class Thread extends Schema{
       thread.isSelfConnection = Thread.getIsSelfConnection( thread.href, thread.connection );
       thread.createTime = '';
       thread.updateTime = '';
+
+      console.log( "THREAD CONNECTION " + thread.connection );
       return thread;
     }
   }

@@ -1,5 +1,6 @@
 import Container from 'client/style/Container';
 import storage from 'client/mapToStateToProps/storage';
+import Schema from 'common/schemas/Schema';
 import Sequence from 'common/Sequence';
 import conf from 'common/conf';
 import util from 'common/util';
@@ -47,6 +48,7 @@ const functions = {
     action.app.desc = action.thread.serverMetas.title;
     action.app.isRootConnection = action.app.rootConnection === action.thread.connection;
     action = Posts.getAnyActionPosts(action);
+    action.thread.hasSlash = Schema.getBool( action.thread.hasSlash );
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = action.thread;
 

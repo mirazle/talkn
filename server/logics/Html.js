@@ -113,7 +113,8 @@ export default class Html {
   }
 
   getAudios( $ ){
-    const audioLength = $('audio').length;
+    const audioLength = $('body audio').length;
+    console.log( audioLength );
     let audios = [];
     for( let i = 0; i < audioLength; i++ ){
       const audio = $('audio').get( i );
