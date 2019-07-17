@@ -146,6 +146,10 @@ const functions = {
     state.app.isOpenPostsSupporter = !state.app.isOpenPostsSupporter;
     return action;
   },
+  "TOGGLE_MEDIA_LIST": ( state, action ) => {
+    state.app.isOpenMediaList = !state.app.isOpenMediaList;
+    return action;
+  },
   "ON_CLICK_MENU": ( state, action ) => {
     action.app.desc = action.app.menuComponent;
     return action;
