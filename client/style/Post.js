@@ -73,7 +73,7 @@ export default class Post {
     });
     const content = Style.getContentBase({
       textAlign: 'left',
-      textIndent: '15px',
+      textIndent: '10px',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
