@@ -1038,12 +1038,14 @@ class HandleIcon extends Elements {
     drawCanvas(handle){
         const rgba = "rgba( 180, 180, 180, 0.7 )";
         const c = handle.getContext("2d");
+        const hoseiX = -5;
+        const hoseiY = 0;
         c.beginPath();
 
         // 横 縦
-        c.moveTo(50,60);
-        c.lineTo(230,40);
-        c.lineTo(140,80);
+        c.moveTo( 50 + hoseiX, 60 + hoseiY );
+        c.lineTo( 230 + hoseiX, 40 + hoseiY );
+        c.lineTo( 140 + hoseiX, 80 + hoseiY );
         c.closePath();    
         c.strokeStyle = rgba;
         c.stroke();
@@ -1052,9 +1054,9 @@ class HandleIcon extends Elements {
         c.closePath();
     
         c.beginPath();
-        c.moveTo(231, 40);
-        c.lineTo(150, 83);
-        c.lineTo(240,100);
+        c.moveTo( 231 + hoseiX, 40 + hoseiY );
+        c.lineTo( 150 + hoseiX, 83 + hoseiY );
+        c.lineTo( 240 + hoseiX, 100 + hoseiY );
         c.closePath();    
         c.strokeStyle = rgba;
         c.stroke();
@@ -1063,9 +1065,9 @@ class HandleIcon extends Elements {
         c.closePath();
     
         c.beginPath();
-        c.moveTo(125, 80);
-        c.lineTo(170, 90);
-        c.lineTo(130,105);
+        c.moveTo( 125 + hoseiX, 80 + hoseiY );
+        c.lineTo( 170 + hoseiX, 90 + hoseiY );
+        c.lineTo( 130 + hoseiX,105 + hoseiY );
 
         c.closePath();
         c.strokeStyle = rgba;
@@ -1218,8 +1220,8 @@ class NotifStatus extends Elements{
         notifStatus.innerText = 0;
         notifStatus.style = "" + 
             `position: fixed !important;` +
-            `bottom: 20px !important;` +
-            `right: 10px !important;` +
+            `bottom: 15px !important;` +
+            `right: 5px !important;` +
             `display: flex !important;` + 
             `align-items: center !important;` + 
             `justify-content: center !important;` + 
