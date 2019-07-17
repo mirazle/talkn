@@ -107,7 +107,8 @@ export default class Post {
       maxWidth: "20%",
     });
     const content = Style.getContentBase({
-      textAlign: 'right'
+      textAlign: 'right',
+      letterSpacing: "0.5px"
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
