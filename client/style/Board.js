@@ -110,8 +110,7 @@ export default class Board{
     });
     const content = Style.getContentBase({
       fontSize: "10px",
-      lineHeight: "17px",
-      letterSpacing: "0.5px"
+      lineHeight: "17px"
     });
     const animation = Style.getAnimationBase({
       transition: Container.getTransition( app )
