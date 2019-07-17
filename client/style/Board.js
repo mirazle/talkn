@@ -6,7 +6,7 @@ import Detail from './Detail';
 export default class Board{
   static get size(){ return 54 }; 
   static get padding(){ return 5 }; 
-  static get right(){ return 10 }; 
+  static get right(){ return 0 }; 
   static get activeColor(){ return Container.themeRGB }; 
   static get unactiveColor(){ return Container.fontBaseRGB }; 
   constructor( params ){
@@ -37,7 +37,7 @@ export default class Board{
   }
 
   static getSelfBorderRadius(app){
-    return app.isOpenBoard ? "5px" : "50px";
+    return "15px 2px 2px 15px";
   }
 
   static getSelfBackground(app){
