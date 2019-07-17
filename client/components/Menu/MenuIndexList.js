@@ -7,6 +7,7 @@ import util from 'common/util';
 import conf from 'common/conf';
 import Container from 'client/style/Container';
 import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
+import PostStyle from 'client/style/Post';
 
 export default class MenuIndexList extends Component {
 
@@ -20,9 +21,7 @@ export default class MenuIndexList extends Component {
 
   componentDidMount(){
     const { app, menuIndexList } = this.props;
-    //if( app.rootConnection === menuIndexList.connection ){
     talknAPI.onCatchConnectionAPI( menuIndexList.connection );
-    //}
   }
 
   getDecolationEvents(styleKey){
@@ -189,9 +188,22 @@ export default class MenuIndexList extends Component {
     }
   }
 
+  renderPost( post, app ){
+    console.log( post );
+    console.log( app );
+    if( post.indexOf( '<div class="talknStamps"' ) === 0 ){
+      if( post.indexOf( `scale(${PostStyle.bubbleStampScale})` ) ){
+        return post.replace( `scale(${PostStyle.bubbleStampScale})`, `scale(${PostStyle.stampScale})` )
+                  .replace( `height: 100%`, `height:60px` )
+                  .replace( `height:100%`, `height:60px` );
+      }
+    }
+    return post;
+  }
+
  	render() {
     const { style } = this.state;
-    const { thread, menuIndexList, rank } = this.props;
+    const { app, thread, menuIndexList, rank } = this.props;
     const isFocusConnection =  thread.connection === menuIndexList.connection ? true : false ;
     const styleKey = isFocusConnection ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel ;
     const title = menuIndexList.title;
@@ -229,7 +241,7 @@ export default class MenuIndexList extends Component {
 
         <div style={style.bottom}>
           <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
-          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: menuIndexList.post }} />
+          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: this.renderPost( menuIndexList.post, app ) }} />
           {dispWatchCnt}
         </div>
       </li>
