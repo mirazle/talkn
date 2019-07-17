@@ -8,7 +8,7 @@ import Board from '../Board';
 
 export default class List{
   static get marginBase(){ return 5 };
-  static get marginLeftMag(){ return 1 }
+  static get marginLeftMag(){ return 3 }
   static get marginRightMag(){ return 0 }
   static get marginLeft(){ return List.marginBase * List.marginLeftMag }
   static get marginRight(){ return List.marginBase * List.marginRightMag }
@@ -18,6 +18,10 @@ export default class List{
     return {
       self
     }
+  }
+
+  static getSelfBorderRadius(app){
+    return Board.getSelfBackground(app);
   }
 
   static getSelfTop(app){
@@ -62,13 +66,14 @@ export default class List{
   }
 
   static getSelf( {app} ){
+    const background = List.getSelfBorderRadius( app );
     const top = List.getSelfTop( app );
     const width = List.getSelfWidth( app );
     const height = List.getSelfHeight( app );
     const right = List.getSelfRight( app );
     const layout = Style.getLayoutFlex({
       position: 'fixed',
-      background: Container.whiteRGBA,
+      background,
       top,
       right,
       margin: `0px ${List.marginRightMag}% 0px ${List.marginLeftMag}%`,

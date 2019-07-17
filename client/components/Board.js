@@ -35,10 +35,10 @@ export default class Board extends Component {
     return(
       <li
         onClick={onClick}
-        style={style.board.li}
+        style={style.board.menuLi}
       >
         { ThunderIcon }
-        <div style={style.board.liChild}>
+        <div style={style.board.menuLiChild}>
           CHILD
         </div>
       </li>
@@ -52,30 +52,32 @@ export default class Board extends Component {
     const PlayIcon = Icon.getPlay( IconStyle.getPlay(state) );
     return (
       <div data-componet-name={"Board"} style={style.board.self}>
-        <ul style={style.board.ul}>
-          <li style={style.board.li} onClick={this.handleOnClickToggleBubblePost}>
-            <div>
-              { BubbleIcon }
-            </div>
-            <div style={style.board.liBubble}>
-              BUBBLE
-            </div>
-          </li>
-          { this.renderLiChild() }
-          <li
-            onClick={this.handleOnClickMediaList}
-            style={style.board.li}
-          >
-            <div>
-              { PlayIcon }
-            </div>
-            <div style={style.board.liPlay}>
-              LIST
-            </div>
-          </li>
-        </ul>
-        <div onClick={this.handleOnClickToggleBoard} style={style.board.toggle}>
-          { app.isOpenBoard ? "▲" : "▼" }
+        <div style={style.board.menu}>
+          <ul style={style.board.menuUl}>
+            <li style={style.board.menuLi} onClick={this.handleOnClickToggleBubblePost}>
+              <div>
+                { BubbleIcon }
+              </div>
+              <div style={style.board.menuLiBubble}>
+                BUBBLE
+              </div>
+            </li>
+            { this.renderLiChild() }
+            <li
+              onClick={this.handleOnClickMediaList}
+              style={style.board.menuLi}
+            >
+              <div>
+                { PlayIcon }
+              </div>
+              <div style={style.board.menuLiPlay}>
+                LIST
+              </div>
+            </li>
+          </ul>
+          <div onClick={this.handleOnClickToggleBoard} style={style.board.menuToggle}>
+            { app.isOpenBoard ? "▲" : "▼" }
+          </div>
         </div>
       </div>
     );
