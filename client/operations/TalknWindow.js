@@ -137,7 +137,6 @@ export default class TalknWindow {
 			bootPromises.push(
 				new Promise( ( resolve ) => {
 					window.addEventListener('message',  ( ev ) => {
-						console.log(ev);
 						this.message( ev, resolve );
 					});
 				})
