@@ -87,7 +87,7 @@ export default class Post {
       width: "60%",
       minWidth: "60%",
       maxWidth: "60%",
-      padding: "0px 0px 0px 5px"
+      padding: "0px 5px 0px 5px"
     });
     const content = Style.getContentBase({
       textAlign: 'left',
