@@ -40,8 +40,6 @@ export default ( state = {} , action ) => {
 			}
 		}
 	case 'TOGGLE_MEDIA_LIST':
-		console.log(( action.app.isOpenMediaList ?
-			Board.activeColor : Board.unactiveColor ));
 		return {...state,
 			board: {...state.board,
 				self: {...state.board.self,
@@ -57,7 +55,7 @@ export default ( state = {} , action ) => {
 	case 'TOGGLE_BUBBLE_POST':
 		return {...state,
 			board: {...state.board,
-				liBubble: {...state.board.liBubble,
+				menuLiBubble: {...state.board.menuLiBubble,
 					color: ( action.app.isBubblePost ?
 						Board.activeColor : Board.unactiveColor )
 				}
