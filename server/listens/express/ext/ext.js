@@ -1157,7 +1157,7 @@ class HandleIcon extends Elements {
         switch( this.window.extMode ){
         case Ext.MODE_MODAL:
             return {
-                bottom: "15px",
+                bottom: "10px",
                 boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
                 transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
                 background: Styles.BASE_ACTIVE_BG_COLOR,
