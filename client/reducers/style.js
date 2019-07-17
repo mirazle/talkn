@@ -49,6 +49,9 @@ export default ( state = {} , action ) => {
 				menuLiPlay: {...state.board.menuLiPlay,
 					color: ( action.app.isOpenMediaList ?
 						Board.activeColor : Board.unactiveColor )
+				},
+				mediaList: {...state.board.mediaList,
+					display: Board.getMediaListDisplay( action.app )
 				}
 			}
 		}

@@ -7,14 +7,22 @@ export default class Board extends Component {
 
   constructor(props) {
     super(props);
+    this.state = { displayMediaList: false };
+    this.renderMediaListUl = this.renderMediaListUl.bind( this );
     this.renderLiChild = this.renderLiChild.bind( this );
+    this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind( this );
     this.handleOnClickToggleBoard = this.handleOnClickToggleBoard.bind( this );
     this.handleOnClickToggleBubblePost = this.handleOnClickToggleBubblePost.bind( this );
     this.handleOnClickMediaList = this.handleOnClickMediaList.bind( this );
   }
 
   handleOnClickToggleBoard(){
-    talknAPI.toggleDispBoard();
+    const { app } = this.props.state;
+    if( app.isOpenMediaList ){
+      talknAPI.toggleMediaList();
+    }else{
+      talknAPI.toggleDispBoard();
+    }
   }
 
   handleOnClickToggleBubblePost(){
@@ -23,6 +31,15 @@ export default class Board extends Component {
 
   handleOnClickMediaList(){
     talknAPI.toggleMediaList();
+  }
+
+  handleOnTransitionEnd(){
+    const { app } = this.props.state;
+    if( app.isOpenMediaList ){
+      this.setState({ displayMediaList: !this.state.displayMediaList } )
+    }else{
+      this.setState({ displayMediaList: false } )
+    }
   }
 
   renderLiChild(){
@@ -45,13 +62,39 @@ export default class Board extends Component {
     );
   }
 
+  renderMediaListUl(){
+    const { thread } = this.props.state;
+    const { displayMediaList } = this.state;
+    console.log( thread.audios );
+    console.log( thread.videos );
+    if( displayMediaList ){
+      return (
+        <ul>
+          <li>
+            HI!
+          </li>
+        </ul>
+      )
+    }else{
+      return null;
+    }
+  }
+
  	render() {
     const { state } = this.props;
     const { style, app } = state;
     const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
     const PlayIcon = Icon.getPlay( IconStyle.getPlay(state) );
+    const mediaListUl = this.renderMediaListUl();
     return (
-      <div data-componet-name={"Board"} style={style.board.self}>
+      <div
+        data-componet-name={"Board"}
+        style={style.board.self}
+        onTransitionEnd={ this.handleOnTransitionEnd }
+      >
+        <div style={style.board.mediaList}>
+          { mediaListUl } 
+        </div>
         <div style={style.board.menu}>
           <ul style={style.board.menuUl}>
             <li style={style.board.menuLi} onClick={this.handleOnClickToggleBubblePost}>
@@ -71,7 +114,7 @@ export default class Board extends Component {
                 { PlayIcon }
               </div>
               <div style={style.board.menuLiPlay}>
-                LIST
+                MEDIA
               </div>
             </li>
           </ul>

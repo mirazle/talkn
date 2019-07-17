@@ -20,6 +20,7 @@ export default class Board{
     const menuLiBubble = Board.getMenuLiBubble( params );
     const menuLiPlay = Board.getMenuLiPlay( params );
     const menuToggle = Board.getMenuToggle( params );
+    const mediaList = Board.getMediaList( params );
     return {
       self,
       menu,
@@ -28,7 +29,8 @@ export default class Board{
       menuLiChild,
       menuLiBubble,
       menuLiPlay,
-      menuToggle
+      menuToggle,
+      mediaList
     }
   }
 
@@ -67,7 +69,7 @@ export default class Board{
   }
 
   static getSelfBorderRadius(app){
-    return "15px 2px 2px 15px";
+    return "10px 0px 0px 10px";
   }
 
   static getSelfBackground(app){
@@ -82,6 +84,10 @@ export default class Board{
 
   static getSelfBoxShadow(app, addUnit = false){
     return app.isOpenMediaList ? "rgb(220, 220, 220) 0px 0px 5px" : "rgb(220, 220, 220) 0px 0px 5px";
+  }
+
+  static getMediaListDisplay(app){
+    return app.isOpenMediaList ? "flex" : "none";
   }
 
   static getSelf( {app} ){
@@ -99,7 +105,7 @@ export default class Board{
       width,
       padding: "5px",
       background,
-      flexDirection: "column",
+      flexDirection: "row",
       alignItems: "flex-end",
       justifyContent: "flex-end",
       boxShadow,
@@ -115,6 +121,7 @@ export default class Board{
   static getMenu( {app} ){
     const layout = Style.getLayoutFlex({
       width: Board.getTotalWidth( app ) + "px",
+      height: "100%",
       flexDirection: "column",
       alignItems: "flex-end"
     });
@@ -205,6 +212,22 @@ export default class Board{
     const animation = Style.getAnimationBase({
       transition: Container.getTransition( app )
     });
+    return Style.get({layout, content, animation});
+  }
+
+  static getMediaList( {app} ){
+    const display = Board.getMediaListDisplay(app);
+    const layout = Style.getLayoutFlex({
+      display,
+      width: "100%",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center"
+    });
+    const content = Style.getContentBase({
+      fontSize: "14px"
+    });
+    const animation = {};
     return Style.get({layout, content, animation});
   }
 }
