@@ -33,23 +33,24 @@ export default ( state = {} , action ) => {
 	case 'ON_CLICK_MULTISTREAM':
 		return {...state,
 			board: {...state.board,
-				liChild: {...state.board.liChild,
+				menuLiChild: {...state.board.menuLiChild,
 					color: ( !action.app.isMediaConnection && action.app.multistream ?
 						Board.activeColor : Board.unactiveColor )
 				}
 			}
 		}
 	case 'TOGGLE_MEDIA_LIST':
+		console.log(( action.app.isOpenMediaList ?
+			Board.activeColor : Board.unactiveColor ));
 		return {...state,
 			board: {...state.board,
-				liPlay: {...state.board.liPlay,
+				self: {...state.board.self,
+					width: Board.getSelfWidth( action.app ),
+					boxShadow: Board.getSelfBoxShadow( action.app )
+				},
+				menuLiPlay: {...state.board.menuLiPlay,
 					color: ( action.app.isOpenMediaList ?
 						Board.activeColor : Board.unactiveColor )
-				}
-			},
-			mediaList: {...state.mediaList,
-				self: {...state.mediaList.self,
-					width: MediaList.getSelfWidth( action.app )
 				}
 			}
 		}
