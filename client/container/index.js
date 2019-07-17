@@ -21,6 +21,7 @@ import Board from 'client/components/Board';
 import LockMenu from 'client/components/LockMenu';
 import Icon from 'client/components/Icon';
 import Media from 'client/components/Media/';
+import MediaList from 'client/components/Media/List';
 import InnerNotif from 'client/components/InnerNotif';
 import mapToStateToProps from 'client/mapToStateToProps/';
 import componentDidUpdates from 'client/container/componentDidUpdates';
@@ -246,7 +247,7 @@ class Container extends Component {
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
-
+          <MediaList {...props} />
           <Media {...props} />
           <Board {...props} />
           { NewPost }
@@ -286,6 +287,7 @@ class Container extends Component {
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
+          <MediaList {...props} />
           <Media {...props} />
           <Board {...props} />
           { NewPost }
@@ -312,6 +314,7 @@ class Container extends Component {
         <Style {...props} />
         <Posts {...props} />
         <span data-component-name="fixedComponents">
+          <MediaList {...props} />
           <Media {...props} />
           <Board {...props} />
           { NewPost }
@@ -340,6 +343,7 @@ class Container extends Component {
         <div style={extScreenStyle} data-component-name={"extScreen"}>
           <Posts {...props} />
           <Header {...props} />
+          <MediaList {...props} />
           <Media {...props} />
           <Board {...props} />
           { NewPost }

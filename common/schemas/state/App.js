@@ -167,6 +167,7 @@ export default class App extends Schema{
     const isOpenBoard = Schema.isSet( params.isOpenBoard ) ? params.isOpenBoard : App.getIsOpenBoard( {screenMode} ) ;
     const isBubblePost = Schema.isSet( params.isBubblePost ) ? params.isBubblePost : true ;
     const isDispPosts = Schema.isSet( params.isDispPosts ) ? params.isDispPosts : false ;
+    const isOpenMediaList = Schema.isSet( params.isOpenMediaList ) ? params.isOpenMediaList : false ;
 
     // 各パーツの状態(文字列制御)
     const openInnerNotif = params.openInnerNotif ? params.openInnerNotif : '';
@@ -239,6 +240,7 @@ export default class App extends Schema{
       isBubblePost,
       isOpenBoard,
       isDispPosts,
+      isOpenMediaList,
 
       // 各パーツの状態(文字列制御)
       openInnerNotif,

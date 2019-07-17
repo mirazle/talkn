@@ -189,8 +189,6 @@ export default class MenuIndexList extends Component {
   }
 
   renderPost( post, app ){
-    console.log( post );
-    console.log( app );
     if( post.indexOf( '<div class="talknStamps"' ) === 0 ){
       if( post.indexOf( `scale(${PostStyle.bubbleStampScale})` ) ){
         return post.replace( `scale(${PostStyle.bubbleStampScale})`, `scale(${PostStyle.stampScale})` )

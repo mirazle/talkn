@@ -17,6 +17,7 @@ import ExtScreen from 'client/style/ExtScreen';
 import PostsSupporter from 'client/style/PostsSupporter';
 import Board from 'client/style/Board';
 import Post from '../style/Post';
+import MediaList from '../style/Media/List';
 
 export default ( state = {} , action ) => {
 
@@ -35,6 +36,20 @@ export default ( state = {} , action ) => {
 				liChild: {...state.board.liChild,
 					color: ( !action.app.isMediaConnection && action.app.multistream ?
 						Board.activeColor : Board.unactiveColor )
+				}
+			}
+		}
+	case 'TOGGLE_MEDIA_LIST':
+		return {...state,
+			board: {...state.board,
+				liPlay: {...state.board.liPlay,
+					color: ( action.app.isOpenMediaList ?
+						Board.activeColor : Board.unactiveColor )
+				}
+			},
+			mediaList: {...state.mediaList,
+				self: {...state.mediaList.self,
+					width: MediaList.getSelfWidth( action.app )
 				}
 			}
 		}

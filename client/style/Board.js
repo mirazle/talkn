@@ -32,6 +32,10 @@ export default class Board{
     return Board.size + ( Board.padding * 2 ) + Board.right;
   }
 
+  static getSelfTop(app){
+    return "55px";
+  }
+
   static getSelfHeight(app){
     return app.isOpenBoard ? "237px" : "64px";
   }
@@ -57,7 +61,7 @@ export default class Board{
     const right = Board.getSelfRight( app, true );
     const layout = Style.getLayoutFlex({
       position: 'fixed',
-      top: '55px',
+      top: Board.getSelfTop(app),
       right,
       height,
       width: "auto",
@@ -101,12 +105,13 @@ export default class Board{
       maxWidth: size,
       maxHeight: size,
       background: Container.whiteRGBA,
-      borderRadius: "10px",
+      borderRadius: "5px",
       marginBottom: "5px"
     });
     const content = Style.getContentBase({
       fontSize: "10px",
-      lineHeight: "17px"
+      lineHeight: "17px",
+      letterSpacing: "0.5px"
     });
     const animation = Style.getAnimationBase({
       transition: Container.getTransition( app )
@@ -136,8 +141,7 @@ export default class Board{
   }
 
   static getLiPlay( {app} ){
-//    const bgColor = app.isMediaConnection ? Container.themeRGB : Container.reliefRGB;
-    const bgColor = Container.reliefRGB;
+    const bgColor = app.isOpenMediaList ? Container.themeRGB : Container.reliefRGB;
     const layout = {};
     const content = Style.getContentBase({
       color: bgColor

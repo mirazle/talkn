@@ -1,10 +1,8 @@
 import App from '../../../common/schemas/state/App';
 import Style from '../index';
-import Container from '../Container';
 import Header from '../Header';
 import Detail from '../Detail';
 import Menu from '../Menu';
-import Board from '../Board';
 
 export default class Video{
   static get marginBase(){ return 5 };

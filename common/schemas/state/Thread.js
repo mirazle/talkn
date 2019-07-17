@@ -76,8 +76,6 @@ export default class Thread extends Schema{
       thread.isSelfConnection = Thread.getIsSelfConnection( thread.href, thread.connection );
       thread.createTime = '';
       thread.updateTime = '';
-
-      console.log( "THREAD CONNECTION " + thread.connection );
       return thread;
     }
   }

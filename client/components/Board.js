@@ -10,6 +10,7 @@ export default class Board extends Component {
     this.renderLiChild = this.renderLiChild.bind( this );
     this.handleOnClickToggleBoard = this.handleOnClickToggleBoard.bind( this );
     this.handleOnClickToggleBubblePost = this.handleOnClickToggleBubblePost.bind( this );
+    this.handleOnClickMediaList = this.handleOnClickMediaList.bind( this );
   }
 
   handleOnClickToggleBoard(){
@@ -18,6 +19,10 @@ export default class Board extends Component {
 
   handleOnClickToggleBubblePost(){
     talknAPI.toggleBubblePost();
+  }
+
+  handleOnClickMediaList(){
+    talknAPI.toggleMediaList();
   }
 
   renderLiChild(){
@@ -57,8 +62,11 @@ export default class Board extends Component {
             </div>
           </li>
           { this.renderLiChild() }
-          <li style={style.board.li}>
-          <div>
+          <li
+            onClick={this.handleOnClickMediaList}
+            style={style.board.li}
+          >
+            <div>
               { PlayIcon }
             </div>
             <div style={style.board.liPlay}>
