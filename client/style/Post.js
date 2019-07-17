@@ -65,7 +65,7 @@ export default class Post {
   static getUpperChild(){
     const layout = Style.getLayoutFlex({
       alignItems: "flex-start",
-      justifyContent: "flex-start",
+      justifyContent: "center",
       flexGrow:  2,
       width: "20%",
       minWidth: "20%",
