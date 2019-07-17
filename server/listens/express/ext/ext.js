@@ -123,7 +123,7 @@ class Styles{
     constructor(){
         const style = document.createElement("style");
         const css = document.createTextNode(`#${Textarea.id}::placeholder { ` + 
-            `font-size: 12px; ` +
+            `font-size: 13px; ` +
             `line-height: 9px; ` +
             `letter-spacing: 2px; ` +
             `color: rgb(170, 170, 170); ` +
