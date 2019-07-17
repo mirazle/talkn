@@ -6,7 +6,6 @@ import { relative } from 'path';
 
 export default class Icon {
 
-  static get defaultOption(){ return {sizePx: Icon.largeSize, active: true} };
   static get smallSize(){ return '24px' };
   static get middleSize(){ return '36px' };
   static get largeSize(){ return '48px' };
@@ -59,9 +58,16 @@ export default class Icon {
       update
     }
   }
+  static getDefaultOption(app){
+    if( app.screenMode === App.screenModeSmallLabel ){
+      return {sizePx: Icon.middleSize, active: true}
+    }else{
+      return {sizePx: Icon.largeSize, active: true}
+    }
+  }
 
   static getEmpty({app}, option = {}){
-    option = {...Icon.defaultOption, ...option};
+    option = {...Icon.getDefaultOption( app ), ...option};
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const cursor = option.active ? "pointer" : "default";
     return Style.get({
@@ -85,7 +91,7 @@ export default class Icon {
   }
 
   static getTwitter({app}, option = {}){
-    option = {...Icon.defaultOption, ...option};
+    option = {...Icon.getDefaultOption( app ), ...option};
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "twitter.png" : "twitter_gray.png";
     const cursor = option.active ? "pointer" : "default";
@@ -111,7 +117,7 @@ export default class Icon {
   }
 
   static getFacebook({app}, option = {}){
-    option = {...Icon.defaultOption, ...option};
+    option = {...Icon.getDefaultOption( app ), ...option};
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "facebook.png" : "facebook_gray.png";
     const cursor = option.active ? "pointer" : "default";
@@ -137,7 +143,7 @@ export default class Icon {
   }
 
   static getAppstore({app}, option = {}){
-    option = {...Icon.defaultOption, ...option};
+    option = {...Icon.getDefaultOption( app ), ...option};
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "appstore.png" : "appstore_gray.png";
     const cursor = option.active ? "pointer" : "default";
@@ -163,7 +169,7 @@ export default class Icon {
   }
 
   static getAndroid({app}, option = {}){
-    option = {...Icon.defaultOption, ...option};
+    option = {...Icon.getDefaultOption( app ), ...option};
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "android.png" : "android_gray.png";
     const cursor = option.active ? "pointer" : "default";
@@ -189,7 +195,7 @@ export default class Icon {
   }
 
   static getHome({app}, option = {}){
-    option = {...Icon.defaultOption, ...option};
+    option = {...Icon.getDefaultOption( app ), ...option};
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "home.png" : "home_gray.png";
     const cursor = option.active ? "pointer" : "default";
@@ -215,7 +221,7 @@ export default class Icon {
   }
 
   static getGraph({app}, option = {}){
-    option = {...Icon.defaultOption, ...option};
+    option = {...Icon.getDefaultOption( app ), ...option};
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "graph.png" : "graph_gray.png";
     const cursor = option.active ? "pointer" : "default";
@@ -241,7 +247,7 @@ export default class Icon {
   }
 
   static getTalkn({app}, option = {}){
-    option = {...Icon.defaultOption, ...option};
+    option = {...Icon.getDefaultOption( app ), ...option};
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "talkn.png" : "talkn.png";
     const cursor = option.active ? "pointer" : "default";
@@ -283,7 +289,7 @@ export default class Icon {
   }
 
   static getChromeExtension({app}, option = {}){
-    option = {...Icon.defaultOption, ...option};
+    option = {...Icon.getDefaultOption( app ), ...option};
     const sizeWidthPx = "100%";
     const sizeHeightPx = "60px";
     const image = option.active ? "chrome_extension.png" : "chrome_extension.png";

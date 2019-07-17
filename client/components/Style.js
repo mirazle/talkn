@@ -5,7 +5,7 @@ export default class  Style extends Component {
  	render() {
 		const{ state } = this.props;
     const { app } = state;  
-    let fontSize = 13;
+    let fontSize = 12;
 
     return (
       <style type='text/css'>

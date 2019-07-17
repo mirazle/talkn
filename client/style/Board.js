@@ -101,7 +101,7 @@ export default class Board{
       maxWidth: size,
       maxHeight: size,
       background: Container.whiteRGBA,
-      borderRadius: "5px",
+      borderRadius: "10px",
       marginBottom: "5px"
     });
     const content = Style.getContentBase({
