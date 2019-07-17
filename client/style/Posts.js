@@ -133,7 +133,7 @@ export default class Posts {
     }else{
       switch( app.screenMode ){
       case App.screenModeUndispLabel : return `0px 0px 25px 0px`;
-      case App.screenModeSmallLabel : return `0px 0px 25px 0px`;
+      case App.screenModeSmallLabel : return `0px 0px ${PostsFooter.selfHeight}px 0px`;
       case App.screenModeMiddleLabel : return `0px`;
       case App.screenModeLargeLabel : return `0px`
       }
