@@ -20,7 +20,7 @@ export default class Board{
     const menuLiBubble = Board.getMenuLiBubble( params );
     const menuLiPlay = Board.getMenuLiPlay( params );
     const menuToggle = Board.getMenuToggle( params );
-    const mediaList = Board.getLinks( params );
+    const links = Board.getLinks( params );
     return {
       self,
       menu,
@@ -30,7 +30,7 @@ export default class Board{
       menuLiBubble,
       menuLiPlay,
       menuToggle,
-      mediaList
+      links
     }
   }
 
