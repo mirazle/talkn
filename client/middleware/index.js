@@ -128,6 +128,12 @@ const functions = {
   "ON_CLICK_TO_MULTI_THREAD":  (state, action) => {
     return action;
   },
+  "ON_CLICK_TO_TIMELINE_THREAD":  (state, action) => {
+    action.postsTimeline = [];
+    action.app.offsetFindId = App.defaultOffsetFindId;
+    action.app.offsetChildFindId = App.defaultOffsetFindId;
+    return action;
+  },
   "ON_CLICK_TO_SINGLE_THREAD":  (state, action) => {
     return action;
   },

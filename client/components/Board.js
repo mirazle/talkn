@@ -8,7 +8,7 @@ export default class Board extends Component {
   constructor(props) {
     super(props);
     this.state = { displayMediaList: false };
-    this.renderMediaListUl = this.renderMediaListUl.bind( this );
+    this.renderLinksUl = this.renderLinksUl.bind( this );
     this.renderLiChild = this.renderLiChild.bind( this );
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind( this );
     this.handleOnClickToggleBoard = this.handleOnClickToggleBoard.bind( this );
@@ -62,14 +62,25 @@ export default class Board extends Component {
     );
   }
 
-  renderMediaListUl(){
-    const { thread } = this.props.state;
+  renderLinksUl(){
+    const { style, thread } = this.props.state;
     const { displayMediaList } = this.state;
     if( displayMediaList ){
       return (
-        <ul>
-          <li>
-            HI!
+        <ul
+          data-componet-name={"LinksUl"}
+          style={style.board.linksUl}
+        >
+          <li style={style.board.linksLi}>
+
+          </li>
+          <li style={style.board.linksLi}>
+          </li>
+          <li style={style.board.linksLi}>
+          </li>
+          <li style={style.board.linksLi}>
+          </li>
+          <li style={style.board.linksLi}>
           </li>
         </ul>
       )
@@ -83,17 +94,23 @@ export default class Board extends Component {
     const { style, app } = state;
     const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
     const PlayIcon = Icon.getPlay( IconStyle.getPlay(state) );
-    const linksUl = this.renderMediaListUl();
+    const linksUl = this.renderLinksUl();
     return (
       <div
         data-componet-name={"Board"}
         style={style.board.self}
         onTransitionEnd={ this.handleOnTransitionEnd }
       >
-        <div style={style.board.links}>
+        <div
+          data-componet-name={"Links"}
+          style={style.board.links}
+        >
           { linksUl } 
         </div>
-        <div style={style.board.menu}>
+        <div
+          data-componet-name={"BoardMenu"}
+          style={style.board.menu}
+        >
           <ul style={style.board.menuUl}>
             <li style={style.board.menuLi} onClick={this.handleOnClickToggleBubblePost}>
               <div>

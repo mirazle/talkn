@@ -379,6 +379,7 @@ export default class App extends Schema{
     console.log( app.isRootConnection );
     console.log( app.dispThreadType );
 */
+    console.log( app );
     return (
       app.menuComponent === "Index" &&
       !app.isMediaConnection &&
