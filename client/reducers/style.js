@@ -39,7 +39,7 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
-	case 'TOGGLE_MEDIA_LIST':
+	case 'TOGGLE_LINKS':
 		return {...state,
 			board: {...state.board,
 				self: {...state.board.self,
@@ -47,11 +47,11 @@ export default ( state = {} , action ) => {
 					boxShadow: Board.getSelfBoxShadow( action.app )
 				},
 				menuLiPlay: {...state.board.menuLiPlay,
-					color: ( action.app.isOpenMediaList ?
+					color: ( action.app.isOpenLinks ?
 						Board.activeColor : Board.unactiveColor )
 				},
-				mediaList: {...state.board.mediaList,
-					display: Board.getMediaListDisplay( action.app )
+				links: {...state.board.links,
+					display: Board.getLinksDisplay( action.app )
 				}
 			}
 		}

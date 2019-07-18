@@ -70,9 +70,9 @@ export default {
       type: 'TOGGLE_BUBBLE_POST'
     };
   },
-  toggleMediaList: () => {
+  toggleLinks: () => {
     return {
-      type: 'TOGGLE_MEDIA_LIST'
+      type: 'TOGGLE_LINKS'
     };
   },
   onClickMultistream: ({app, postsMulti, postsSingle}) => {

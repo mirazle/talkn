@@ -20,7 +20,7 @@ export default class Board{
     const menuLiBubble = Board.getMenuLiBubble( params );
     const menuLiPlay = Board.getMenuLiPlay( params );
     const menuToggle = Board.getMenuToggle( params );
-    const mediaList = Board.getMediaList( params );
+    const mediaList = Board.getLinks( params );
     return {
       self,
       menu,
@@ -44,7 +44,7 @@ export default class Board{
 
   static getSelfWidth(app, addUnit = false){
     let width = "93%";
-    if( app.isOpenMediaList ){
+    if( app.isOpenLinks ){
       if( app.extensionMode === App.extensionModeExtBottomLabel ){
         width = "93%";
       }else{
@@ -83,11 +83,11 @@ export default class Board{
   }
 
   static getSelfBoxShadow(app, addUnit = false){
-    return app.isOpenMediaList ? "rgb(220, 220, 220) 0px 0px 5px" : "rgb(220, 220, 220) 0px 0px 5px";
+    return app.isOpenLinks ? "rgb(220, 220, 220) 0px 0px 5px" : "rgb(220, 220, 220) 0px 0px 5px";
   }
 
-  static getMediaListDisplay(app){
-    return app.isOpenMediaList ? "flex" : "none";
+  static getLinksDisplay(app){
+    return app.isOpenLinks ? "flex" : "none";
   }
 
   static getSelf( {app} ){
@@ -215,8 +215,8 @@ export default class Board{
     return Style.get({layout, content, animation});
   }
 
-  static getMediaList( {app} ){
-    const display = Board.getMediaListDisplay(app);
+  static getLinks( {app} ){
+    const display = Board.getLinksDisplay(app);
     const layout = Style.getLayoutFlex({
       display,
       width: "100%",
