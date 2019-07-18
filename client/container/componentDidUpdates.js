@@ -31,6 +31,7 @@ const componentDidUpdates = {
             if( app.extensionMode === "NONE"){
                 window.scrollTo(0, 9999999);
             }else{
+/*
                 const Posts = document.querySelector("[data-component-name=Posts]");
                 self.animateScrollTo(
                     Posts,
@@ -38,6 +39,7 @@ const componentDidUpdates = {
                     0,
                     9999999
                 );
+*/
             }
         },
         'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
