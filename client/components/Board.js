@@ -13,13 +13,13 @@ export default class Board extends Component {
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind( this );
     this.handleOnClickToggleBoard = this.handleOnClickToggleBoard.bind( this );
     this.handleOnClickToggleBubblePost = this.handleOnClickToggleBubblePost.bind( this );
-    this.handleOnClickMediaList = this.handleOnClickMediaList.bind( this );
+    this.handleOnClickLinks = this.handleOnClickLinks.bind( this );
   }
 
   handleOnClickToggleBoard(){
     const { app } = this.props.state;
     if( app.isOpenMediaList ){
-      talknAPI.toggleMediaList();
+      talknAPI.toggleLinks();
     }else{
       talknAPI.toggleDispBoard();
     }
@@ -29,8 +29,8 @@ export default class Board extends Component {
     talknAPI.toggleBubblePost();
   }
 
-  handleOnClickMediaList(){
-    talknAPI.toggleMediaList();
+  handleOnClickLinks(){
+    talknAPI.toggleLinks();
   }
 
   handleOnTransitionEnd(){
@@ -85,15 +85,15 @@ export default class Board extends Component {
     const { style, app } = state;
     const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
     const PlayIcon = Icon.getPlay( IconStyle.getPlay(state) );
-    const mediaListUl = this.renderMediaListUl();
+    const linksUl = this.renderMediaListUl();
     return (
       <div
         data-componet-name={"Board"}
         style={style.board.self}
         onTransitionEnd={ this.handleOnTransitionEnd }
       >
-        <div style={style.board.mediaList}>
-          { mediaListUl } 
+        <div style={style.board.links}>
+          { linksUl } 
         </div>
         <div style={style.board.menu}>
           <ul style={style.board.menuUl}>
@@ -107,14 +107,14 @@ export default class Board extends Component {
             </li>
             { this.renderLiChild() }
             <li
-              onClick={this.handleOnClickMediaList}
+              onClick={this.handleOnClickLinks}
               style={style.board.menuLi}
             >
               <div>
                 { PlayIcon }
               </div>
               <div style={style.board.menuLiPlay}>
-                MEDIA
+                LINKS
               </div>
             </li>
           </ul>
