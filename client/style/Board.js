@@ -21,6 +21,8 @@ export default class Board{
     const menuLiLinks = Board.getMenuLiLinks( params );
     const menuToggle = Board.getMenuToggle( params );
     const links = Board.getLinks( params );
+    const linksUl = Board.getLinksUl( params );
+    const linksLi = Board.getLinksLi( params );
     return {
       self,
       menu,
@@ -30,7 +32,9 @@ export default class Board{
       menuLiBubble,
       menuLiLinks,
       menuToggle,
-      links
+      links,
+      linksUl,
+      linksLi
     }
   }
 
@@ -100,6 +104,7 @@ export default class Board{
     const layout = Style.getLayoutFlex({
       position: 'fixed',
       top: Board.getSelfTop(app),
+      overflow: "hide",
       right,
       height,
       width,
@@ -220,14 +225,56 @@ export default class Board{
     const layout = Style.getLayoutFlex({
       display,
       width: "100%",
+      height: "100%",
       flexDirection: "column",
       alignItems: "center",
-      justifyContent: "center"
+      justifyContent: "center",
+      padding: "0px 3px 0px 0px"
     });
     const content = Style.getContentBase({
       fontSize: "14px"
     });
     const animation = {};
+    return Style.get({layout, content, animation});
+  }
+
+  static getLinksUl( {app} ){
+    const layout = Style.getLayoutFlex({
+      height: "100%",
+      width: "100%",
+      justifyContent: "flex-start",
+      alignItems: "flex-end",
+      flexDirection: "column",
+      overflow: "scroll",
+      overflowScrolling: "touch",
+      WebkitOverflowScrolling: "touch"
+    });
+    const content = {};
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransition( app )
+    });
+    return Style.get({layout, content, animation});
+  }
+
+  static getLinksLi( {app} ){
+    const size = Board.size + "px";
+    const layout = Style.getLayoutFlex({
+      flexDirection: "column",
+      width: "100%",
+      height: size,
+      minHeight: size,
+      maxHeight: size,
+      background: Container.whiteRGBA,
+      borderRadius: "5px",
+      marginBottom: "5px"
+    });
+    const content = Style.getContentBase({
+      fontSize: "14px",
+      lineHeight: "17px"
+    });
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransition( app )
+    });
     return Style.get({layout, content, animation});
   }
 }

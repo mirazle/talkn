@@ -17,6 +17,7 @@ import ExtScreen from 'client/style/ExtScreen';
 import PostsSupporter from 'client/style/PostsSupporter';
 import Board from 'client/style/Board';
 import Post from '../style/Post';
+import Icon from '../style/Icon';
 
 export default ( state = {} , action ) => {
 
@@ -90,11 +91,15 @@ export default ( state = {} , action ) => {
 			}
 		}
 	case 'ON_CLICK_TO_CHILD_THREAD':
+		console.log( action );
 		return {...state,
 			board: {...state.board,
 				menuLiChild: {...state.board.menuLiChild,
 					color: Board.unactiveColor
 				}
+			},
+			icon: {...state.icon,
+				thunder: Icon.getThunder( {app: action.app} )	
 			}
 		}
 	case 'ON_CLICK_TOGGLE_DISP_MENU':
