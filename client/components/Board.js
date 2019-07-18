@@ -2,18 +2,25 @@ import React, { Component } from "react"
 import App from 'common/schemas/state/App';
 import Icon from 'client/components/Icon';
 import { default as IconStyle } from 'client/style/Icon';
+import { default as BoardStyle } from 'client/style/Board';
 
 export default class Board extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { displayMediaList: false };
+    this.state = { displayLinks: false };
     this.renderLinksUl = this.renderLinksUl.bind( this );
     this.renderLiChild = this.renderLiChild.bind( this );
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind( this );
     this.handleOnClickToggleBoard = this.handleOnClickToggleBoard.bind( this );
     this.handleOnClickToggleBubblePost = this.handleOnClickToggleBubblePost.bind( this );
     this.handleOnClickLinks = this.handleOnClickLinks.bind( this );
+  }
+
+  componentDidMount(){
+    const { app } = this.props.state;
+    const displayLinks = !( BoardStyle.getLinksDisplay(app) === "none" );
+    this.setState({ displayLinks } )
   }
 
   handleOnClickToggleBoard(){
@@ -33,12 +40,33 @@ export default class Board extends Component {
     talknAPI.toggleLinks();
   }
 
-  handleOnTransitionEnd(){
+  handleOnTransitionEnd(e){
     const { app } = this.props.state;
     if( app.isOpenLinks ){
-      this.setState({ displayMediaList: !this.state.displayMediaList } )
+      this.setState({ displayLinks: !this.state.displayLinks } )
     }else{
-      this.setState({ displayMediaList: false } )
+      this.setState({ displayLinks: false } )
+    }
+  }
+
+  handleOnClickLinkLi(){
+    const { app } = this.props.state;
+    const { stepTo } = App.getStepToDispThreadType( {app}, {}, connection );
+    switch(stepTo){
+    case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
+    case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
+    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
+      onClickToChildThread( connection, {app} );
+      talknAPI.changeThread( connection );
+      break;
+    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
+      onClickToMultiThread( connection, {app} );
+      talknAPI.changeThread( connection );
+      break;
+    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
+      onClickToSingleThread( connection, {app} );
+      talknAPI.changeThread( connection );
+      break;
     }
   }
 
@@ -47,7 +75,9 @@ export default class Board extends Component {
     const { app, style } = state;
     let onClick = app.isRootConnection && !app.isMediaConnection ?
       handleOnClickMultistream : () => {};
-
+    console.log( "app.isRootConnection = " + app.isRootConnection  );
+    console.log( "app.isMediaConnection = " + app.isMediaConnection  );
+    console.log( App.isActiveMultistream( app ) );
     const ThunderIcon = Icon.getThunder( IconStyle.getThunder(state) );
     return(
       <li
@@ -64,28 +94,31 @@ export default class Board extends Component {
 
   renderLinksUl(){
     const { style, thread } = this.props.state;
-    const { displayMediaList } = this.state;
-    if( displayMediaList ){
+    const { displayLinks } = this.state;
+    const audios = thread.audios.map( (audio) => {
+      return (
+        <li style={style.board.linksLi}>
+          {audio.src}
+        </li>
+      );
+    } );
+
+    if( displayLinks ){
       return (
         <ul
           data-componet-name={"LinksUl"}
           style={style.board.linksUl}
         >
-          <li style={style.board.linksLi}>
-
-          </li>
-          <li style={style.board.linksLi}>
-          </li>
-          <li style={style.board.linksLi}>
-          </li>
-          <li style={style.board.linksLi}>
-          </li>
-          <li style={style.board.linksLi}>
-          </li>
+          { audios }
         </ul>
       )
     }else{
-      return null;
+      return (
+        <ul
+          data-componet-name={"LinksUl"}
+          style={style.board.linksUl}
+        />
+      );
     }
   }
 
@@ -97,6 +130,7 @@ export default class Board extends Component {
     const linksUl = this.renderLinksUl();
     return (
       <div
+        ref="Board"
         data-componet-name={"Board"}
         style={style.board.self}
         onTransitionEnd={ this.handleOnTransitionEnd }

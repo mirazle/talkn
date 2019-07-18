@@ -18,6 +18,8 @@ import PostsSupporter from 'client/style/PostsSupporter';
 import Board from 'client/style/Board';
 import Post from '../style/Post';
 import Icon from '../style/Icon';
+import Audio from '../style/Media/Audio';
+import Video from '../style/Media/Video';
 
 export default ( state = {} , action ) => {
 
@@ -82,6 +84,12 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
+	case 'ON_CLICK_TO_TIMELINE_THREAD':
+		return {...state,
+			audio: {...state.audio,
+				self: Audio.getSelf( {app: action.app} )
+			}
+		}
 	case 'ON_CLICK_TO_MULTI_THREAD':
 		return {...state,
 			board: {...state.board,
@@ -91,7 +99,6 @@ export default ( state = {} , action ) => {
 			}
 		}
 	case 'ON_CLICK_TO_CHILD_THREAD':
-		console.log( action );
 		return {...state,
 			board: {...state.board,
 				menuLiChild: {...state.board.menuLiChild,

@@ -18,6 +18,13 @@ export default {
       app,
     };
   },
+  onClickToTimelineThread: ( connection, {app} ) => {
+    return {
+      type: 'ON_CLICK_TO_TIMELINE_THREAD',
+      app,
+      thread: { connection },
+    };
+  },
   onClickToMultiThread: ( connection, {app} ) => {
     return {
       type: 'ON_CLICK_TO_MULTI_THREAD',

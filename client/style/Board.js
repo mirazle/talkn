@@ -259,6 +259,7 @@ export default class Board{
   static getLinksLi( {app} ){
     const size = Board.size + "px";
     const layout = Style.getLayoutFlex({
+      alignItems: "flex-start",
       flexDirection: "column",
       width: "100%",
       height: size,
@@ -269,6 +270,8 @@ export default class Board{
       marginBottom: "5px"
     });
     const content = Style.getContentBase({
+      cursor: 'pointer',
+      textIndent: "10%",
       fontSize: "14px",
       lineHeight: "17px"
     });

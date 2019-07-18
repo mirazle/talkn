@@ -114,7 +114,6 @@ export default class Html {
 
   getAudios( $ ){
     const audioLength = $('body audio').length;
-    console.log( audioLength );
     let audios = [];
     for( let i = 0; i < audioLength; i++ ){
       const audio = $('audio').get( i );
@@ -132,9 +131,9 @@ export default class Html {
 
   getLinks( $ ){
     let links = [];
-    const linkLength = $( "link" ).length;
+    const linkLength = $( "body a" ).length;
     for( var i = 0; i < linkLength; i++ ){
-      const item = $( "link" ).get( i );
+      const item = $( "body a" ).get( i );
       links.push( item.attribs )
     }
     return links;

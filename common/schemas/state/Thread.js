@@ -212,4 +212,95 @@ export default class Thread extends Schema{
       return '';
     }
   }
+
+  static getStatus( thread, app, setting = {}){
+
+    let status = {
+      dispType: '', // TIMELINE, MULTI, SINGLE, CHILD, LOGS
+      isSchema: false,
+      isRequireUpsert: false,
+      isMultistream: false,
+      isMediaConnection: false,
+      isToggleMultistream: false,
+    };
+
+    /*******************************************************/
+    /* threadが空のSchemaかどうか(DBにデータが存在しない)        */
+    /*******************************************************/
+
+    status.isSchema = Thread.getStatusIsSchema( thread );
+
+    /*******************************************************/
+    /* 更新が必要なthreadかどうか                             */
+    /*******************************************************/
+
+    status.isRequireUpsert = Thread.getStatusIsRequireUpsert( thread, setting, status.isSchema );
+
+    /*******************************************************/
+    /* Multistream形式かどうか                               */
+    /*******************************************************/
+
+    status.isMultistream = Thread.getStatusIsMultistream( app );
+
+    /*******************************************************/
+    /* Multistreamのボタンを押したか                          */
+    /*******************************************************/
+
+    status.isToggleMultistream = Thread.getStatusIsToggleMultistream( app );
+
+    /*******************************************************/
+    /* threadが空のSchemaかどうか(DBにデータが存在しない)        */
+    /*******************************************************/
+
+    status.isMediaConnection = Thread.getStatusIsMediaConnection( thread.connection );
+
+    return status;
+  }
+
+
+  static getStatusIsSchema( thread ){
+    const threadCreateTime = thread.createTime.getTime ? thread.createTime.getTime() : thread.createTime;
+    const threadUpdateTime = thread.updateTime.getTime ? thread.updateTime.getTime() : thread.updateTime;
+
+    if( threadCreateTime === threadUpdateTime ){
+
+      const lastPostCreateTime = thread.lastPost.createTime.getTime();
+      const lastPostUpdateTime = thread.lastPost.updateTime.getTime();
+
+      if( lastPostCreateTime === lastPostUpdateTime ){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static getStatusIsRequireUpsert( thread, setting, isSchema = false ){
+
+    const threadUpdateTime = thread.updateTime.getTime ? thread.updateTime.getTime() : thread.updateTime;
+
+    // 現在時刻を取得
+    const now = new Date();
+    const nowYear = now.getFullYear();
+    const nowMonth = now.getMonth();
+    const nowDay = now.getDate();
+    const nowHour = now.getHours();
+    const nowMinutes = now.getMinutes();
+    const activeDate = new Date(nowYear, nowMonth, nowDay, ( nowHour - setting.server.findOneThreadActiveHour ) );
+    const activeTime = activeDate.getTime();
+
+    // スレッドの更新時間と、現在時間 - n を比較して、スレッドの更新時間が古かったらtrueを返す
+    return isSchema ? true : threadUpdateTime < activeTime;
+  }
+
+  static getStatusIsMultistream( app ){
+    return app.dispThreadType === App.dispThreadTypeMulti && app.multistream;
+  }
+
+  static getStatusIsMediaConnection( connection ){
+    return App.getIsMediaConnection( connection );
+  }
+
+  static getStatusIsToggleMultistream( app ){
+    return app.actioned === "ON_CLICK_MULTISTREAM";
+  }
 }

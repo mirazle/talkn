@@ -1,4 +1,5 @@
 import Sequence from '~/common/Sequence'
+import Thread from '~/common/schemas/state/Thread';
 import Collections from '~/server/logics/db/collections/'
 import Logics from '~/server/logics';
 import Threads from '~/server/logics/db/collections/Threads';
@@ -39,7 +40,7 @@ export default {
     const { connection } = requestState.thread;
     let thread = {connection};
 
-    const isMultistream = Threads.getStatusIsMultistream( app );
+    const isMultistream = Thread.getStatusIsMultistream( app );
     const postCntKey = isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts( requestState, {isMultistream} );
     const {response: posts} = await Logics.db.posts.find(requestState, setting, {isMultistream, getMore: true} );
@@ -88,7 +89,7 @@ export default {
     thread.hasSlash = requestState.thread.hasSlash;
 
     // Threadの状態
-    const threadStatus = Logics.db.threads.getStatus( thread, app, setting );  
+    const threadStatus = Thread.getStatus( thread, app, setting );  
 
     // Posts
     const postCntKey = threadStatus.isMultistream ? 'multiPostCnt' : 'postCnt';
@@ -140,7 +141,7 @@ export default {
     const { app } = requestState;
     const { connection } = requestState.thread;
     let thread = {connection};
-    const isMultistream = Threads.getStatusIsMultistream( app );
+    const isMultistream = Thread.getStatusIsMultistream( app );
     const post = await Logics.db.posts.save( requestState );
     const response = await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost: post } );
     const postCntKey = isMultistream ? 'multiPostCnt' : 'postCnt';
@@ -151,7 +152,7 @@ export default {
 
   updateThreadServerMetas: async ( ioUser, requestState, setting ) => {
     const { connection } = requestState.thread;
-    const {response: baseThread} = await Logics.db.threads.findOne( connection );console.log("B");
+    const {response: baseThread} = await Logics.db.threads.findOne( connection );
     const serverMetas = await Logics.db.threads.updateServerMetas( connection, baseThread, requestState.thread );
     await Logics.io.updateThreadServerMetas( ioUser, {requestState, thread: {serverMetas}} );
     return true;

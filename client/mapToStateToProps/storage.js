@@ -60,7 +60,8 @@ function setStoragePostsTimeline( action ){
 
   const { storageKey } = define;
   if( app.isMediaConnection ){
-    const postsTimelineAllLength = postsTimelineAll.length;
+    const postsTimelineAllLength = postsTimelineAll && postsTimelineAll.length ?
+      postsTimelineAll.length : 0;
     let postsTimelineZero = [];
     let postsTimeline = [];
 
@@ -71,7 +72,6 @@ function setStoragePostsTimeline( action ){
         postsTimeline.push( postsTimelineAll[ i ] );
       }
     }
-
     action.postsTimeline = postsTimelineZero;
     TalknSession.setStorage( app.rootConnection, storageKey.postsTimelineZero, postsTimelineZero );
     TalknSession.setStorage( app.rootConnection, storageKey.postsTimeline, postsTimeline );
