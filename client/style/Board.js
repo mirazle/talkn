@@ -18,7 +18,7 @@ export default class Board{
     const menuLi = Board.getMenuLi( params );
     const menuLiChild = Board.getMenuLiChild( params );
     const menuLiBubble = Board.getMenuLiBubble( params );
-    const menuLiPlay = Board.getMenuLiPlay( params );
+    const menuLiLinks = Board.getMenuLiLinks( params );
     const menuToggle = Board.getMenuToggle( params );
     const links = Board.getLinks( params );
     return {
@@ -28,7 +28,7 @@ export default class Board{
       menuLi,
       menuLiChild,
       menuLiBubble,
-      menuLiPlay,
+      menuLiLinks,
       menuToggle,
       links
     }
@@ -190,8 +190,8 @@ export default class Board{
     return Style.get({layout, content, animation});
   }
 
-  static getMenuLiPlay( {app} ){
-    const bgColor = app.isOpenMediaList ? Container.themeRGB : Container.reliefRGB;
+  static getMenuLiLinks( {app} ){
+    const bgColor = app.isOpenLinks ? Container.themeRGB : Container.reliefRGB;
     const layout = {};
     const content = Style.getContentBase({
       color: bgColor

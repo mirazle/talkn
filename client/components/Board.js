@@ -65,8 +65,6 @@ export default class Board extends Component {
   renderMediaListUl(){
     const { thread } = this.props.state;
     const { displayMediaList } = this.state;
-    console.log( thread.audios );
-    console.log( thread.videos );
     if( displayMediaList ){
       return (
         <ul>
@@ -113,7 +111,7 @@ export default class Board extends Component {
               <div>
                 { PlayIcon }
               </div>
-              <div style={style.board.menuLiPlay}>
+              <div style={style.board.menuLiLinks}>
                 LINKS
               </div>
             </li>

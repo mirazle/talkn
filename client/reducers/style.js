@@ -17,7 +17,6 @@ import ExtScreen from 'client/style/ExtScreen';
 import PostsSupporter from 'client/style/PostsSupporter';
 import Board from 'client/style/Board';
 import Post from '../style/Post';
-import MediaList from '../style/Media/List';
 
 export default ( state = {} , action ) => {
 
@@ -46,7 +45,7 @@ export default ( state = {} , action ) => {
 					width: Board.getSelfWidth( action.app ),
 					boxShadow: Board.getSelfBoxShadow( action.app )
 				},
-				menuLiPlay: {...state.board.menuLiPlay,
+				menuLiLinks: {...state.board.menuLiLinks,
 					color: ( action.app.isOpenLinks ?
 						Board.activeColor : Board.unactiveColor )
 				},
@@ -85,7 +84,7 @@ export default ( state = {} , action ) => {
 	case 'ON_CLICK_TO_MULTI_THREAD':
 		return {...state,
 			board: {...state.board,
-				liChild: {...state.board.liChild,
+				menuLiChild: {...state.board.menuLiChild,
 					color: Board.activeColor
 				}
 			}
@@ -93,7 +92,7 @@ export default ( state = {} , action ) => {
 	case 'ON_CLICK_TO_CHILD_THREAD':
 		return {...state,
 			board: {...state.board,
-				liChild: {...state.board.liChild,
+				menuLiChild: {...state.board.menuLiChild,
 					color: Board.unactiveColor
 				}
 			}
