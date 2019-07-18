@@ -18,7 +18,7 @@ export default class Board extends Component {
 
   handleOnClickToggleBoard(){
     const { app } = this.props.state;
-    if( app.isOpenMediaList ){
+    if( app.isOpenLinks ){
       talknAPI.toggleLinks();
     }else{
       talknAPI.toggleDispBoard();
@@ -35,7 +35,7 @@ export default class Board extends Component {
 
   handleOnTransitionEnd(){
     const { app } = this.props.state;
-    if( app.isOpenMediaList ){
+    if( app.isOpenLinks ){
       this.setState({ displayMediaList: !this.state.displayMediaList } )
     }else{
       this.setState({ displayMediaList: false } )
