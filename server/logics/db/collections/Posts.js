@@ -69,6 +69,7 @@ export default class Posts {
       uid: user.uid,
       utype: user.utype,
       favicon: thread.favicon,
+      title: thread.title,
       post: app.inputPost,
       currentTime: app.inputCurrentTime,
       data: '',

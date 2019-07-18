@@ -10,6 +10,7 @@ export default {
 	hasSlash:  { type: String, default: false },
 	host: { type: String, default: "" },
 	layer: { type: Number, default: 0 },
+	title: { type: String, default: "talkn"},
 	favicon: { type: String, default: Favicon.defaultFaviconPath},
 	faviconType: { type: String, default: Favicon.defaultFaviconData.faviconType },
 
