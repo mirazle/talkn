@@ -47,6 +47,7 @@ const functions = {
     action.app.detailConnection = action.thread.connection;
     action.app.desc = action.thread.serverMetas.title;
     action.app.isRootConnection = action.app.rootConnection === action.thread.connection;
+    action.app.isMediaConnection = App.getIsMediaConnection( action.thread.connection );
     action = Posts.getAnyActionPosts(action);
     action.thread.hasSlash = Schema.getBool( action.thread.hasSlash );
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
@@ -71,14 +72,17 @@ const functions = {
     }
 
     if( action.app.isMediaConnection ){
-      const _action = storage.setStoragePostsTimeline( action );
-      action.postsTimeline = _action.postsTimeline;
+      const src = App.getMediaSrc( action.thread.protocol, action.thread.connection );
+      action.app.connectionType = App.getMediaTypeFromSrc( src );
+      action = Posts.getAnyActionPosts(action);
+      action = storage.setStoragePostsTimeline( action );
     }
     return action;
   },
   "CLIENT_TO_SERVER[EMIT]:changeThread": ( state, action ) => {
     action.app = {...state.app, ...action.app};
     action.app.offsetFindId = App.defaultOffsetFindId;
+    action.app.offsetTimelineFindId = App.defaultOffsetFindId;
     action.app.offsetMultiFindId = App.defaultOffsetFindId;
     action.app.offsetSingleFindId = App.defaultOffsetFindId;
     action.app.offsetChildFindId = App.defaultOffsetFindId;
@@ -130,6 +134,7 @@ const functions = {
   },
   "ON_CLICK_TO_TIMELINE_THREAD":  (state, action) => {
     action.postsTimeline = [];
+    action.app.isMediaConnection = true;
     action.app.offsetFindId = App.defaultOffsetFindId;
     action.app.offsetChildFindId = App.defaultOffsetFindId;
     return action;

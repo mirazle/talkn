@@ -52,12 +52,13 @@ export default class App extends Schema{
       [ App.mediaTypeM4a ]: App.mediaTagTypeAudio
     };
   }
-  static getMediaType( src, params){
-
+  static getMediaType( src, params ){
     if( params && params.connectionType){
       return params.connectionType;
     }
-
+    return App.getMediaTypeFromSrc( src );
+  }
+  static getMediaTypeFromSrc( src ){
     const mediaConnectionTagTypeKeys = Object.keys( App.mediaConnectionTagTypes );
     const mediaConnectionTagTypeLength = mediaConnectionTagTypeKeys.length;
     let mediaType = "html";
@@ -70,7 +71,6 @@ export default class App extends Schema{
     }
     return mediaType;
   }
-
   static validInputPost(value){
     if( /\r\n$|\n$|\r$/mgi.test( value ) ) return 'LAST TYPE BREAK LINE.';
     return false;
@@ -379,7 +379,6 @@ export default class App extends Schema{
     console.log( app.isRootConnection );
     console.log( app.dispThreadType );
 */
-    console.log( app );
     return (
       app.menuComponent === "Index" &&
       !app.isMediaConnection &&
