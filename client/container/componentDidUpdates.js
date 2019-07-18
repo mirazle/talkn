@@ -31,11 +31,12 @@ const componentDidUpdates = {
             if( app.extensionMode === "NONE"){
                 window.scrollTo(0, 9999999);
             }else{
+                const Posts = document.querySelector("[data-component-name=Posts]");
                 self.animateScrollTo(
                     Posts,
                     Posts.scrollHeight,
-                    400,
-                    self.props.endAnimateScrollTo
+                    0,
+                    9999999
                 );
             }
         },
