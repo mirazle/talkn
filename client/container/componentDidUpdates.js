@@ -27,6 +27,17 @@ const componentDidUpdates = {
                 const tagType = thread.getMediaTagType();
                 talknWindow.setupPostsTimeline(app.rootConnection, src, tagType);
             }
+
+            if( app.extensionMode === "NONE"){
+                window.scrollTo(0, 9999999);
+            }else{
+                self.animateScrollTo(
+                    Posts,
+                    Posts.scrollHeight,
+                    400,
+                    self.props.endAnimateScrollTo
+                );
+            }
         },
         'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
             const { app, threadDetail, thread } = self.props.state;
@@ -97,15 +108,7 @@ const componentDidUpdates = {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
             const { app } = self.props.state;
             const Posts = document.querySelector("[data-component-name=Posts]");
- //           if( app.extensionMode === "NONE" ){
-                talknWindow.threadHeight = Posts.clientHeight;
- //ss           }
-        },
-        'SERVER_TO_CLIENT[EMIT]:changeThread': ( self ) => {
-            const { app } = self.props.state;
-//            if( app.extensionMode === "NONE" ){
-                window.scrollTo(0, 9999999);
-//            }
+            talknWindow.threadHeight = Posts.clientHeight;
         },
         'NEXT_POSTS_TIMELINE': post,
         'SERVER_TO_CLIENT[BROADCAST]:post': post,
@@ -131,12 +134,22 @@ function post( self ){
     const { app } = self.props.state;
     const Posts = document.querySelector("[data-component-name=Posts]");
     app.postsHeight += TalknWindow.getLastPostHeight();
-    if(
-        app.extensionMode === App.extensionModeExtBottomLabel ||
-        app.extensionMode === App.extensionModeExtIncludeLabel ||
-        app.extensionMode === App.extensionModeExtModalLabel
-    ){
 
+    if( app.extensionMode === "NONE" ){
+
+        talknWindow.threadHeight = Posts.clientHeight;
+        if( app.isOpenPosts && talknWindow.isScrollBottom ){
+            talknWindow.animateScrollTo(
+                talknWindow.threadHeight,
+                400,
+                self.props.endAnimateScrollTo
+            );
+        }
+        if( app.isOpenPosts ){
+            self.props.openNewPost();
+        }
+
+    }else{
         const { isScrollBottom } = self.state;
         if( app.isOpenPosts && isScrollBottom ){
             self.animateScrollTo(
@@ -144,18 +157,6 @@ function post( self ){
               Posts.scrollHeight,
               400,
               self.props.endAnimateScrollTo
-            );
-        }
-        if( app.isOpenPosts ){
-            self.props.openNewPost();
-        }
-    }else{
-        talknWindow.threadHeight = Posts.clientHeight;
-        if( app.isOpenPosts && talknWindow.isScrollBottom ){
-            talknWindow.animateScrollTo(
-                talknWindow.threadHeight,
-                400,
-                self.props.endAnimateScrollTo
             );
         }
         if( app.isOpenPosts ){
