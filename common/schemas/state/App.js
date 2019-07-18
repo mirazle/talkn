@@ -60,7 +60,7 @@ export default class App extends Schema{
 
     const mediaConnectionTagTypeKeys = Object.keys( App.mediaConnectionTagTypes );
     const mediaConnectionTagTypeLength = mediaConnectionTagTypeKeys.length;
-    let mediaType = "";
+    let mediaType = "html";
     for(let i = 0; i < mediaConnectionTagTypeLength; i++){
       const regExp = new RegExp(`.${mediaConnectionTagTypeKeys[ i ]}$`);
       if( src.match( regExp ) ){

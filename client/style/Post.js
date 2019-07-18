@@ -36,9 +36,11 @@ export default class Post {
   static getSelf({app}){
     const padding = app.isBubblePost ? '10px 0px 10px 0px' : '0px 0px 0px 0px';
     const minHeight = app.isBubblePost ? "75px" : "40px";
+    const width = 'calc( 100% - 0px )';
     const layout = Style.getLayoutBlock({
-      width: 'calc( 100% - 0px )',
+      width,
       minWidth: 'calc( 100% - 20px )',
+      maxWidth: width,
       height: 'auto',
       minHeight,
       padding,
