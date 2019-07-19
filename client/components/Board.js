@@ -137,7 +137,7 @@ export default class Board extends Component {
           >
             <li style={style.board.linkMenuLi}>html</li>
             <li style={style.board.linkMenuLi}>music</li>
-            <li style={style.board.linkMenuLi}>movie</li>
+            <li style={style.board.linkMenuLiLast}>movie</li>
           </ul>
         </div>
       )
