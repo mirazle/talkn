@@ -99,13 +99,20 @@ export default class Board extends Component {
         </li>
       );
     } );
-
+    const videos = thread.videos.map( (video) => {
+      return (
+        <li style={style.board.linksLi}>
+          {video.src}
+        </li>
+      );
+    } );
     if( displayLinks ){
       return (
         <ul
           data-componet-name={"LinksUl"}
           style={style.board.linksUl}
         >
+          { videos }
           { audios }
         </ul>
       )

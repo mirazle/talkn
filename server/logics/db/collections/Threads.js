@@ -52,18 +52,27 @@ export default class Threads {
     const option = {sort: {watchCnt: -1, layer: -1}, limit: setting.server.getThreadChildrenCnt};
 
     let {error, response} = await this.collection.find( condition, selector, option );
-
+    console.log("@@@@@@@@@@@@@@@@");
+    console.log( response[0] );
+    console.log("@@@@@@@@@@@@@@@@");
+    const responseLength = response.length;
     let mainConnectionExist = false;
 
-    if( response.length === 0 ){
+    if( responseLength === 0 ){
+      console.log("A");
       response = await this.getUnshiftBaseConnectionResponse( connection, response );
     }else{
 
-      response.forEach( ( res, index ) => {
-        if( res.lastPost.connection === connection ) mainConnectionExist = true;
-      });
+      for( let i = 0; i < responseLength; i++ ){
+        if( res.lastPost.connection === connection ){
+          console.log("B");
+          mainConnectionExist = true;
+          break;
+        }
+      }
 
       if( !mainConnectionExist ){
+        console.log("C");
         response = await this.getUnshiftBaseConnectionResponse( connection, response );
       }
     }
