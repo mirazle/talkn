@@ -33,6 +33,7 @@ export default class Sequence {
             {columnName: 'multistream'},
             {columnName: 'rootConnection'},
             {columnName: 'dispThreadType'}, 
+            {columnName: 'actioned'}, 
             {columnName: 'offsetFindId'}
           ],
         },

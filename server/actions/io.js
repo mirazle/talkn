@@ -119,9 +119,10 @@ export default {
     // スレッドが存在して、更新も必要ない場合
     }else{
 
-      console.log( threadStatus );
+      //console.log( threadStatus );
       // Multistreamボタンを押した場合
       if( !threadStatus.isToggleMultistream ){
+        console.log("IN");
         thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
       }
       Logics.io.find( ioUser, {requestState, thread, posts, app} );

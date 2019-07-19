@@ -10,15 +10,16 @@ import Threads from 'common/schemas/state/Threads';
 
 export default {
   updateAction: store => next => action => {
+    
+    const state = store.getState();
 
     if( functions[ action.type ] ){
-      const state = store.getState();
       action = functions[ action.type ]( state, action );
-      if( action ){
-        if(!action.app) action.app = state.app;
-        if(!action.app.actioned) action.app.actioned = state.app.actioned;
-        action.app.actioned.unshift(action.type);
-      }
+    }
+
+    if( action ){
+      if(!action.app) action.app = state.app;
+      action.app.actioned = action.type;
     }
 
     if(action){
