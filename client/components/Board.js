@@ -135,7 +135,7 @@ export default class Board extends Component {
             data-componet-name={"LinkMenuUl"}
             style={style.board.linkMenuUl}
           >
-            <li style={style.board.linkMenuLi}>html</li>
+            <li style={style.board.linkMenuLiActive}>html</li>
             <li style={style.board.linkMenuLi}>music</li>
             <li style={style.board.linkMenuLiLast}>movie</li>
           </ul>
