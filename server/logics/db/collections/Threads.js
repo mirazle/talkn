@@ -52,9 +52,6 @@ export default class Threads {
     const option = {sort: {watchCnt: -1, layer: -1}, limit: setting.server.getThreadChildrenCnt};
 
     let {error, response} = await this.collection.find( condition, selector, option );
-    console.log("@@@@@@@@@@@@@@@@");
-    console.log( response[0] );
-    console.log("@@@@@@@@@@@@@@@@");
     const responseLength = response.length;
     let mainConnectionExist = false;
 
@@ -64,7 +61,7 @@ export default class Threads {
     }else{
 
       for( let i = 0; i < responseLength; i++ ){
-        if( res.lastPost.connection === connection ){
+        if( response[ i ].lastPost.connection === connection ){
           console.log("B");
           mainConnectionExist = true;
           break;
