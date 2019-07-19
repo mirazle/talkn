@@ -140,12 +140,47 @@ export default class Html {
   }
 
   getLinks( $ ){
-    let links = [];
     const linkLength = $( "body a" ).length;
+    const getHref = ( item ) => {
+      if( item && item.attribs && item.attribs.href && item.attribs.href !== "" ){
+        return item.attribs.href;
+      }
+      return "";
+    }
+    const getText = ( item ) => {
+      const itemLength = item.children.length;
+      let text = "";
+      for( let i = 0; i < itemLength; i++ ){
+        const child = item.children[ i ];
+        if( child.name === "img" && child.attribs && child.attribs.alt && child.attribs.alt !== "" ){
+          text = child.attribs.alt;
+          break;
+        }else if( child.type === "text" && child.data !== "" ){
+          text = child.data;
+          break;
+        }else{
+          if( child.children && child.children.length > 0 ){
+            text = getText( child );
+            break;
+          }
+          return "";
+        }
+      }
+      return text;
+    }
+
+    let links = [];
+
     for( var i = 0; i < linkLength; i++ ){
       const item = $( "body a" ).get( i );
-      links.push( item.attribs )
+      const href = getHref( item );
+      const text = getText( item );
+
+      if( href && href !== "" && text && text !== ""){
+        links.push( {href, text} );
+      }
     }
+    console.log( links );
     return links;
   }
 
