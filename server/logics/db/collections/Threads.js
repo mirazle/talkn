@@ -56,20 +56,17 @@ export default class Threads {
     let mainConnectionExist = false;
 
     if( responseLength === 0 ){
-      console.log("A");
       response = await this.getUnshiftBaseConnectionResponse( connection, response );
     }else{
 
       for( let i = 0; i < responseLength; i++ ){
         if( response[ i ].lastPost.connection === connection ){
-          console.log("B");
           mainConnectionExist = true;
           break;
         }
       }
 
       if( !mainConnectionExist ){
-        console.log("C");
         response = await this.getUnshiftBaseConnectionResponse( connection, response );
       }
     }

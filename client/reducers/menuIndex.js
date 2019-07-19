@@ -5,10 +5,12 @@ export default ( state = new MenuIndex() , action ) => {
 
 	switch( action.type ){
 	case 'ON_CLICK_MULTISTREAM':
+		console.log("A");
 		const multistreamPosts = action.app.dispThreadType === App.dispThreadTypeMulti ?
 			action.postsMulti : action.postsSingle;
 		const multistreamPostLength = multistreamPosts && multistreamPosts.length ? multistreamPosts.length : 0;
 		if(multistreamPostLength > 0 ){
+			console.log("A2");
 			return state.map( mi => {
 				if( action.app.rootConnection === mi.connection ){
 					return {...mi,
@@ -25,7 +27,7 @@ export default ( state = new MenuIndex() , action ) => {
 	case 'SERVER_TO_CLIENT[EMIT]:find':
 		const postLength = action.posts && action.posts.length ? action.posts.length : 0;
 		if(postLength === 0 ){
-
+			console.log("B");
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
 					return {...mi,
@@ -40,6 +42,7 @@ export default ( state = new MenuIndex() , action ) => {
 		}
 
 		if(action.app.dispThreadType === App.dispThreadTypeMulti){
+			console.log("C");
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
 					return {...mi,
@@ -53,10 +56,10 @@ export default ( state = new MenuIndex() , action ) => {
 				}
 			});
 		}else{
+			console.log("D");
 			return state.map( ( mi ) => {
 				if( action.posts[ 0 ].connection === mi.connection ){
 					return {...mi,
-						title: action.posts[ postLength - 1].title,
 						favicon: action.posts[ postLength - 1 ].favicon,
 						post: action.posts[ postLength - 1 ].post,
 						watchCnt: action.thread.watchCnt
@@ -69,6 +72,7 @@ export default ( state = new MenuIndex() , action ) => {
 	case 'SERVER_TO_CLIENT[BROADCAST]:find':
 	case 'SERVER_TO_CLIENT[BROADCAST]:changeThread':
 	case 'SERVER_TO_CLIENT[BROADCAST]:disconnect':
+			console.log("E");
 		return state.map( ( mi ) => {
 			if( action.thread.connection === mi.connection ){
 				return {...mi,
