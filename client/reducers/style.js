@@ -1,4 +1,5 @@
 import Schema from 'common/schemas/Schema';
+import App from 'common/schemas/state/App';
 import Style from 'client/style/index';
 import Menu from 'client/style/Menu';
 import LockMenu from 'client/style/LockMenu';
@@ -86,6 +87,12 @@ export default ( state = {} , action ) => {
 		}
 	case 'ON_CLICK_TO_TIMELINE_THREAD':
 		return {...state,
+			board: {...state.board,
+				menuLiChild: {...state.menuLiChild,
+					color: App.isActiveMultistream( action.app, "reducer" ) ?
+						Board.activeColor : Board.unactiveColor
+				}
+			},
 			audio: {...state.audio,
 				self: Audio.getSelf( {app: action.app} )
 			}

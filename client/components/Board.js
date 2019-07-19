@@ -75,9 +75,6 @@ export default class Board extends Component {
     const { app, style } = state;
     let onClick = app.isRootConnection && !app.isMediaConnection ?
       handleOnClickMultistream : () => {};
-    console.log( "app.isRootConnection = " + app.isRootConnection  );
-    console.log( "app.isMediaConnection = " + app.isMediaConnection  );
-    console.log( App.isActiveMultistream( app ) );
     const ThunderIcon = Icon.getThunder( IconStyle.getThunder(state) );
     return(
       <li

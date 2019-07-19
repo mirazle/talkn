@@ -4,7 +4,7 @@ import util from 'common/util';
 import conf from 'common/conf';
 import App from 'common/schemas/state/App';
 import PostStyle from 'client/style/Post';
-import TalknWindow from '../operations/TalknWindow';
+import Marquee from 'client/container/util/Marquee';
 
 export default class Post extends Component {
 
@@ -193,7 +193,15 @@ export default class Post extends Component {
     return (
       <div style={ style.upper }>
         <div style={style.upperChild}>{childLabel}</div>
-        <div style={style.upperTitle}>{thread.title}</div>
+        <div style={style.upperTitle}>
+          <Marquee
+            text={thread.title}
+            loop={true}
+            hoverToStop={false}
+            trailing={0}
+            leading={0}
+          />
+        </div>
         { this.renderTime() }
       </div>
     );
@@ -220,8 +228,6 @@ export default class Post extends Component {
       thread,
       post,
       favicon,
-      currentTime,
-      dispFlg,
       _id,
      } = this.props;
     const { active, style } = this.state;
