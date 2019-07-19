@@ -23,6 +23,8 @@ export default class Board{
     const links = Board.getLinks( params );
     const linksUl = Board.getLinksUl( params );
     const linksLi = Board.getLinksLi( params );
+    const linkMenuUl = Board.getLinkMenuUl( params );
+    const linkMenuLi = Board.getLinkMenuLi( params );
     return {
       self,
       menu,
@@ -34,7 +36,9 @@ export default class Board{
       menuToggle,
       links,
       linksUl,
-      linksLi
+      linksLi,
+      linkMenuUl,
+      linkMenuLi
     }
   }
 
@@ -111,7 +115,7 @@ export default class Board{
       padding: "5px",
       background,
       flexDirection: "row",
-      alignItems: "flex-end",
+      alignItems: "flex-start",
       justifyContent: "flex-end",
       boxShadow,
       borderRadius
@@ -225,10 +229,10 @@ export default class Board{
     const layout = Style.getLayoutFlex({
       display,
       width: "100%",
-      height: "100%",
+      height: `calc( 100% )`,
       flexDirection: "column",
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: "flex-start",
       padding: "0px 3px 0px 0px"
     });
     const content = Style.getContentBase({
@@ -274,6 +278,49 @@ export default class Board{
       cursor: 'pointer',
       fontSize: "14px",
       lineHeight: "17px"
+    });
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransition( app )
+    });
+    return Style.get({layout, content, animation});
+  }
+
+  static getLinkMenuUl( {app} ){
+    const size = Board.size + "px";
+    const layout = Style.getLayoutFlex({
+      minHeight: size,
+      height: size,
+      width: "100%",
+      justifyContent: "flex-start",
+      alignItems: "flex-end",
+      flexDirection: "row"
+    });
+    const content = {};
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransition( app )
+    });
+    return Style.get({layout, content, animation});
+  }
+
+  static getLinkMenuLi( {app} ){
+    const size = ( Board.size - 4 ) + "px";
+    const layout = Style.getLayoutFlex({
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "row",
+      width: "32%",
+      margin: "5px 1% 0px 0px",
+      height: size,
+      minHeight: size,
+      maxHeight: size,
+      background: Container.chromeOffTabRGBA,
+      borderRadius: "5px"
+    });
+    const content = Style.getContentBase({
+      cursor: 'pointer',
+      fontSize: "14px",
+      lineHeight: "17px",
+      color: Container.whiteRGB
     });
     const animation = Style.getAnimationBase({
       transition: Container.getTransition( app )

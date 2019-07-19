@@ -10,9 +10,9 @@ export default class Board extends Component {
     super(props);
     this.state = {
       displayLinks: false,
-      linkTab: ""
+      linkTab: "html"
     };
-    this.renderLinksUl = this.renderLinksUl.bind( this );
+    this.renderLinks = this.renderLinks.bind( this );
     this.renderLiChild = this.renderLiChild.bind( this );
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind( this );
     this.handleOnClickToggleBoard = this.handleOnClickToggleBoard.bind( this );
@@ -92,10 +92,10 @@ export default class Board extends Component {
     );
   }
 
-  renderLinksUl(){
+  renderLinks(){
     const { style, thread } = this.props.state;
     const { displayLinks } = this.state;
-    const links = thread.links.map( (link, i) => {
+    const htmls = thread.links.map( (link, i) => {
       return (
         <li key={`link${i}`} style={style.board.linksLi}>
           {link.text}
@@ -116,23 +116,42 @@ export default class Board extends Component {
         </li>
       );
     } );
+
     if( displayLinks ){
       return (
-        <ul
-          data-componet-name={"LinksUl"}
-          style={style.board.linksUl}
+        <div
+          data-componet-name={"Links"}
+          style={style.board.links}
         >
-          { videos }
-          { audios }
-          { links }
-        </ul>
+          <ul
+            data-componet-name={"LinksUl"}
+            style={style.board.linksUl}
+          >
+            { videos }
+            { audios }
+            { htmls }
+          </ul>
+          <ul
+            data-componet-name={"LinkMenuUl"}
+            style={style.board.linkMenuUl}
+          >
+            <li style={style.board.linkMenuLi}>html</li>
+            <li style={style.board.linkMenuLi}>music</li>
+            <li style={style.board.linkMenuLi}>movie</li>
+          </ul>
+        </div>
       )
     }else{
       return (
-        <ul
-          data-componet-name={"LinksUl"}
-          style={style.board.linksUl}
-        />
+        <div
+          data-componet-name={"Links"}
+          style={style.board.links}
+        >
+          <ul
+            data-componet-name={"LinksUl"}
+            style={style.board.linksUl}
+          />
+        </div>
       );
     }
   }
@@ -142,7 +161,7 @@ export default class Board extends Component {
     const { style, app } = state;
     const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
     const PlayIcon = Icon.getPlay( IconStyle.getPlay(state) );
-    const linksUl = this.renderLinksUl();
+    const links = this.renderLinks();
     return (
       <div
         ref="Board"
@@ -150,12 +169,7 @@ export default class Board extends Component {
         style={style.board.self}
         onTransitionEnd={ this.handleOnTransitionEnd }
       >
-        <div
-          data-componet-name={"Links"}
-          style={style.board.links}
-        >
-          { linksUl } 
-        </div>
+        { links } 
         <div
           data-componet-name={"BoardMenu"}
           style={style.board.menu}
