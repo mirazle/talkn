@@ -8,7 +8,10 @@ export default class Board extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { displayLinks: false };
+    this.state = {
+      displayLinks: false,
+      linkTab: ""
+    };
     this.renderLinksUl = this.renderLinksUl.bind( this );
     this.renderLiChild = this.renderLiChild.bind( this );
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind( this );
