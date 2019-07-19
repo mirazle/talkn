@@ -293,6 +293,7 @@ export default class Thread extends Schema{
   }
 
   static getStatusIsMultistream( app ){
+    console.log( app.dispThreadType + " @ " + app.multistream );
     return app.dispThreadType === App.dispThreadTypeMulti && app.multistream;
   }
 
