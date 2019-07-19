@@ -105,6 +105,7 @@ export default class Post {
       alignItems: "flex-start",
       justifyContent: "flex-start",
       flexGrow:  2,
+      padding: "0px 20px 0px 0px",
       width: "20%",
       minWidth: "20%",
       maxWidth: "20%",
