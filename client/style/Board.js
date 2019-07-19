@@ -25,6 +25,7 @@ export default class Board{
     const linksLi = Board.getLinksLi( params );
     const linkMenuUl = Board.getLinkMenuUl( params );
     const linkMenuLi = Board.getLinkMenuLi( params );
+    const linkMenuLiActive = Board.getLinkMenuLiActive( params );
     const linkMenuLiLast = Board.getLinkMenuLiLast( params );
     return {
       self,
@@ -40,6 +41,7 @@ export default class Board{
       linksLi,
       linkMenuUl,
       linkMenuLi,
+      linkMenuLiActive,
       linkMenuLiLast
     }
   }
@@ -328,6 +330,12 @@ export default class Board{
       transition: Container.getTransition( app )
     });
     return Style.get({layout, content, animation});
+  }
+
+  static getLinkMenuLiActive( {app} ){
+    const styles = Board.getLinkMenuLi( {app} );
+    styles.background = Container.themeRGBA;
+    return styles;
   }
 
   static getLinkMenuLiLast( {app} ){
