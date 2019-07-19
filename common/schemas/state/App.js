@@ -176,7 +176,7 @@ export default class App extends Schema{
     const includeIframeTag = App.getIncludeIframeTag( params, extensionMode );
 
     // その他
-    const actioned = params && params.actioned ? params.actioned : [];
+    const actioned = params && params.actioned ? params.actioned : "";
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
     const debug = Schema.isSet( params.debug ) ? params.debug : "" ;
 

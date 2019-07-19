@@ -214,7 +214,7 @@ export default class Thread extends Schema{
   }
 
   static getStatus( thread, app, setting = {}){
-
+console.log( app );
     let status = {
       dispType: '', // TIMELINE, MULTI, SINGLE, CHILD, LOGS
       isSchema: false,
@@ -293,7 +293,6 @@ export default class Thread extends Schema{
   }
 
   static getStatusIsMultistream( app ){
-    console.log( app.dispThreadType + " @ " + app.multistream );
     return app.dispThreadType === App.dispThreadTypeMulti && app.multistream;
   }
 
@@ -302,6 +301,7 @@ export default class Thread extends Schema{
   }
 
   static getStatusIsToggleMultistream( app ){
+    console.log(app.actioned);
     return app.actioned === "ON_CLICK_MULTISTREAM";
   }
 }

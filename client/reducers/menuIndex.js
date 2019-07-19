@@ -12,7 +12,7 @@ export default ( state = new MenuIndex() , action ) => {
 			return state.map( mi => {
 				if( action.app.rootConnection === mi.connection ){
 					return {...mi,
-						title: multistreamPosts[ multistreamPostLength - 1].title,
+//						title: multistreamPosts[ multistreamPostLength - 1].title,
 						favicon: multistreamPosts[ multistreamPostLength - 1].favicon,
 						post: multistreamPosts[ multistreamPostLength - 1].post
 					}
