@@ -267,11 +267,11 @@ export default class Board{
       maxHeight: size,
       background: Container.whiteRGBA,
       borderRadius: "5px",
+      padding: "0px 0px 0px 10px",
       marginBottom: "5px"
     });
     const content = Style.getContentBase({
       cursor: 'pointer',
-      textIndent: "10%",
       fontSize: "14px",
       lineHeight: "17px"
     });

@@ -92,16 +92,23 @@ export default class Board extends Component {
   renderLinksUl(){
     const { style, thread } = this.props.state;
     const { displayLinks } = this.state;
+    const links = thread.links.map( (link, i) => {
+      return (
+        <li key={`link${i}`} style={style.board.linksLi}>
+          {link.text}
+        </li>
+      );
+    } );
     const audios = thread.audios.map( (audio) => {
       return (
-        <li style={style.board.linksLi}>
+        <li key={`audio${i}`} style={style.board.linksLi}>
           {audio.src}
         </li>
       );
     } );
     const videos = thread.videos.map( (video) => {
       return (
-        <li style={style.board.linksLi}>
+        <li key={`video${i}`} style={style.board.linksLi}>
           {video.src}
         </li>
       );
@@ -114,6 +121,7 @@ export default class Board extends Component {
         >
           { videos }
           { audios }
+          { links }
         </ul>
       )
     }else{
