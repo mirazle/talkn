@@ -142,7 +142,7 @@ export default {
     const { connection } = requestState.thread;
     let thread = {connection};
     const isMultistream = Thread.getStatusIsMultistream( app );
-    const post = await Logics.db.posts.save( requestState );
+    const post = await Logics.db.posts.save( requestState );    
     const response = await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost: post } );
     const postCntKey = isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts( requestState, {isMultistream} );

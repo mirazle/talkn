@@ -12,6 +12,7 @@ export default ( state = new MenuIndex() , action ) => {
 			return state.map( mi => {
 				if( action.app.rootConnection === mi.connection ){
 					return {...mi,
+						title: multistreamPosts[ multistreamPostLength - 1].title,
 						favicon: multistreamPosts[ multistreamPostLength - 1].favicon,
 						post: multistreamPosts[ multistreamPostLength - 1].post
 					}
@@ -24,9 +25,11 @@ export default ( state = new MenuIndex() , action ) => {
 	case 'SERVER_TO_CLIENT[EMIT]:find':
 		const postLength = action.posts && action.posts.length ? action.posts.length : 0;
 		if(postLength === 0 ){
+
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
 					return {...mi,
+						title: action.thread.title,
 						favicon: action.thread.favicon,
 						watchCnt: action.thread.watchCnt,
 					}
@@ -40,6 +43,7 @@ export default ( state = new MenuIndex() , action ) => {
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
 					return {...mi,
+						title: action.posts[ postLength - 1].title,
 						favicon: action.posts[ postLength - 1].favicon,
 						watchCnt: action.thread.watchCnt,
 						post: action.posts[ postLength - 1].post
@@ -52,6 +56,7 @@ export default ( state = new MenuIndex() , action ) => {
 			return state.map( ( mi ) => {
 				if( action.posts[ 0 ].connection === mi.connection ){
 					return {...mi,
+						title: action.posts[ postLength - 1].title,
 						favicon: action.posts[ postLength - 1 ].favicon,
 						post: action.posts[ postLength - 1 ].post,
 						watchCnt: action.thread.watchCnt
@@ -91,6 +96,7 @@ export default ( state = new MenuIndex() , action ) => {
 			if(action.app.rootConnection === mi.connection){
 				if(action.app.multistream){
 					return {...mi,
+						title: action.posts[ 0 ].title,
 						favicon: action.posts[ 0 ].favicon,
 						post: action.posts[ 0 ].post
 					}
@@ -102,6 +108,7 @@ export default ( state = new MenuIndex() , action ) => {
 			// childConnection
 			if(action.posts[0].connection === mi.connection){
 				return {...mi,
+					title: action.posts[ 0 ].title,
 					favicon: action.posts[ 0 ].favicon,
 					post: action.posts[ 0 ].post
 				}

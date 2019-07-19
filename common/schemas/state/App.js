@@ -256,6 +256,21 @@ export default class App extends Schema{
     });
   }
 
+  static isMediaContentType( contentType ){
+    return (
+      App.isAudioContentType( contentType ) ||
+      App.isVideoContentType( contentType ) 
+    );
+  }
+
+  static isAudioContentType( contentType ){
+    return ( contentType.indexOf( App.mediaTagTypeAudio ) >= 0 );
+  }
+
+  static isVideoContentType( contentType ){
+    return ( contentType.indexOf( App.mediaTagTypeVideo ) >= 0 );
+  }
+
   static getMediaSrc( protocol, connection){
     return protocol + "/" +  connection.replace(/\/$/, '');
   }

@@ -4,6 +4,7 @@ import jschardet from 'jschardet';
 import {Iconv} from 'iconv';
 import {Buffer} from 'buffer';
 import Sequence from '~/common/Sequence';
+import App from '~/common/schemas/state/App';
 import Thread from '~/common/schemas/state/Thread';
 import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
@@ -65,15 +66,16 @@ export default class Html {
         let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
 
         if( !error && response && response.statusCode === 200 ){
+          const contentType = response.headers['content-type'];
           const utf8Body = this.toUtf8Str( body );
           const $ = cheerio.load( utf8Body );
+          responseSchema.contentType = contentType;
           responseSchema.protocol = protocol;
-          responseSchema.serverMetas = this.getMetas( $, response.request.uri.href );
           responseSchema.links = this.getLinks( $ );
           responseSchema.h1s = this.getH1s( $ );
           responseSchema.videos = this.getVideos( $ );
           responseSchema.audios = this.getAudios( $ );
-          responseSchema.contentType = response.headers['content-type'];
+          responseSchema.serverMetas = this.getMetas( $, connection, responseSchema, response.request.uri.href );
           resolve( responseSchema );
         }else{
           resolve( null );
@@ -82,8 +84,16 @@ export default class Html {
     });
   }
 
-  getTitle( $ ){
-    return $('head title').text();
+  getTitle( $, connection, parentSchema ){
+    const { contentType } = parentSchema; 
+    let title = "";
+    if( App.isMediaContentType( contentType )){
+      const splitedConnection = connection.split("/");
+      title = splitedConnection[ splitedConnection.length - 1 ];
+    }else{
+      title = $('head title').text();
+    }
+    return title;
   }
 
   getH1s( $ ){
@@ -139,12 +149,13 @@ export default class Html {
     return links;
   }
 
-  getMetas( $, href ){
+  getMetas( $, connection, parentSchema, href ){
     let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
     let serverMetas = responseSchema.serverMetas;
     const metaLength = $( "meta" ).length;
 
-    serverMetas.title = this.getTitle( $ );
+    serverMetas.title = this.getTitle( $, connection, parentSchema );
+
     for( var i = 0; i < metaLength; i++ ){
       const item = $( "meta" ).get( i );
       let key = i;

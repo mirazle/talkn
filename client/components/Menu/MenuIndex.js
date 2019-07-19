@@ -97,6 +97,7 @@ export default class MenuIndex extends Component {
     const { state, onClickToTimelineThread, onClickToMultiThread, onClickToSingleThread, onClickToChildThread, onClickToLogsThread } = this.props;
     const { menuIndex } = state;
     return menuIndex.map( ( mi, index ) => {
+      console.log( mi );
       return(
         <MenuIndexList
           key={ mi.connection }
