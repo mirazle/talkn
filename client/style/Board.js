@@ -25,6 +25,7 @@ export default class Board{
     const linksLi = Board.getLinksLi( params );
     const linkMenuUl = Board.getLinkMenuUl( params );
     const linkMenuLi = Board.getLinkMenuLi( params );
+    const linkMenuLiLast = Board.getLinkMenuLiLast( params );
     return {
       self,
       menu,
@@ -38,7 +39,8 @@ export default class Board{
       linksUl,
       linksLi,
       linkMenuUl,
-      linkMenuLi
+      linkMenuLi,
+      linkMenuLiLast
     }
   }
 
@@ -308,12 +310,12 @@ export default class Board{
       justifyContent: "center",
       alignItems: "center",
       flexDirection: "row",
-      width: "32%",
+      flexGrow: 1,
       margin: "5px 1% 0px 0px",
       height: size,
       minHeight: size,
       maxHeight: size,
-      background: Container.chromeOffTabRGBA,
+      background: Container.silverRGBA,
       borderRadius: "5px"
     });
     const content = Style.getContentBase({
@@ -326,5 +328,11 @@ export default class Board{
       transition: Container.getTransition( app )
     });
     return Style.get({layout, content, animation});
+  }
+
+  static getLinkMenuLiLast( {app} ){
+    const styles = Board.getLinkMenuLi( {app} );
+    styles.margin = "5px 0px 0px 0px";
+    return styles;
   }
 }
