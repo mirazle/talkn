@@ -50,11 +50,12 @@ export default class Style{
   static get mono255RGB(){ return 'rgb(255, 255, 255)' };
 
   static get mono180RGBA(){ return 'rgba(180, 180, 180, 0.96)' };
-  static get mono192RGBA(){ return 'rgb(192, 192, 192, 0.96)' };
-  static get mono200RGBA(){ return 'rgb(200, 200, 200, 0.96)' };
-  static get mono205RGBA(){ return 'rgb(205, 205, 205, 0.96)' };
-  static get mono210RGBA(){ return 'rgb(210, 210, 210, 0.96)' };
-  static get mono215RGBA(){ return 'rgb(215, 215, 215, 0.96)' };
+  static get mono192RGBA(){ return 'rgba(192, 192, 192, 0.96)' };
+  static get mono200RGBA(){ return 'rgba(200, 200, 200, 0.96)' };
+  static get mono205RGBA(){ return 'rgba(205, 205, 205, 0.96)' };
+  static get mono210RGBA(){ return 'rgba(210, 210, 210, 0.96)' };
+  static get mono211RGBA(){ return 'rgba(211, 211, 211, 0.96)' };
+  static get mono215RGBA(){ return 'rgba(215, 215, 215, 0.96)' };
   static get mono220RGBA(){ return 'rgba(220, 220, 220, 0.96)' };
   static get mono225RGBA(){ return 'rgba(225, 225, 225, 0.96)' };
   static get mono230RGBA(){ return 'rgba(230, 230, 230, 0.96)' };
