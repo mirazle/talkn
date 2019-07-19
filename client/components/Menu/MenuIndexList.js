@@ -84,7 +84,7 @@ export default class MenuIndexList extends Component {
       thread.connection = connection;
       const threadStatus = Thread.getStatus( thread, app, setting );
       const { stepTo } = App.getStepToDispThreadType( {app}, threadStatus, connection );
-      console.log( stepTo );
+
       switch(stepTo){
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeChild}`:
       case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
@@ -236,16 +236,13 @@ export default class MenuIndexList extends Component {
         <div style={style.upper}>
           <span style={style.upperSpace} />
           <span style={style.upperRight}>
-            {title}
-{/*
-            <Marquee
-              text={title}
-              loop={true}
-              hoverToStop={false}
-              trailing={0}
-              leading={0}
-            />
-*/}
+          <Marquee
+            text={title}
+            loop={true}
+            hoverToStop={false}
+            trailing={0}
+            leading={0}
+          />
           </span>
         </div>
 
