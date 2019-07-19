@@ -187,7 +187,7 @@ export default class Post extends Component {
   }
 
   renderUpper(){
-    const { childLayerCnt, thread } = this.props;
+    const { childLayerCnt, title } = this.props;
     const { style } = this.state;
     const childLabel = childLayerCnt > 0 ? `${childLayerCnt}child` : '' ;
     return (
@@ -195,7 +195,7 @@ export default class Post extends Component {
         <div style={style.upperChild}>{childLabel}</div>
         <div style={style.upperTitle}>
           <Marquee
-            text={thread.title}
+            text={title}
             loop={true}
             hoverToStop={false}
             trailing={0}
