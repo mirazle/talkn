@@ -317,7 +317,7 @@ export default class Board{
       height: size,
       minHeight: size,
       maxHeight: size,
-      background: Container.silverRGBA,
+      background: Container.reliefRGB,
       borderRadius: "5px"
     });
     const content = Style.getContentBase({
@@ -333,13 +333,14 @@ export default class Board{
   }
 
   static getLinkMenuLiActive( {app} ){
-    const styles = Board.getLinkMenuLi( {app} );
-    styles.background = Container.themeRGBA;
+    const styles = {}
+    styles.background = Container.whiteRGBA;
+    styles.color = Container.fontBaseRGB;
     return styles;
   }
 
   static getLinkMenuLiLast( {app} ){
-    const styles = Board.getLinkMenuLi( {app} );
+    const styles = {}
     styles.margin = "5px 0px 0px 0px";
     return styles;
   }
