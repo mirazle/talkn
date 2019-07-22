@@ -39,14 +39,14 @@ export default class Board extends Component {
         </li>
       );
     } );
-    linkContents.music = thread.audios.map( (audio) => {
+    linkContents.music = thread.audios.map( (audio, i) => {
       return (
         <li key={`audio${i}`} style={style.board.linksLi}>
           {audio.src}
         </li>
       );
     } );
-    linkContents.movie = thread.videos.map( (video) => {
+    linkContents.movie = thread.videos.map( (video, i) => {
       return (
         <li key={`video${i}`} style={style.board.linksLi}>
           {video.src}
