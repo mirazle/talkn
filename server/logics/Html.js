@@ -12,6 +12,7 @@ import HtmlSchema from '~/server/schemas/logics/Html';
 
 export default class Html {
 
+  static get checkSpace(){ return /^\s*$/};
 
   async fetch( thread, requestState ){
 
@@ -152,25 +153,28 @@ export default class Html {
       let text = "";
       for( let i = 0; i < itemLength; i++ ){
         const child = item.children[ i ];
-        if( child.name === "img" && child.attribs && child.attribs.alt && child.attribs.alt !== "" ){
-          text = child.attribs.alt;
-          break;
-        }else if( child.type === "text" && child.data !== "" ){
+        console.log( child.data );
+        if( child.type === "text" && child.data !== "" && !Html.checkSpace.test( child.data) ){
           text = child.data;
           break;
-        }else{
-          if( child.children && child.children.length > 0 ){
-            text = getText( child );
-            break;
-          }
-          return "";
         }
+
+        if( child.name === "img" && child.attribs && child.attribs.alt && child.attribs.alt !== "" && !Html.checkSpace.test( child.attribs.alt ) ){
+          text = child.attribs.alt;
+          break;
+        }
+        
+        if( child.children && child.children.length > 0 ){
+          text = getText( child );
+          break;
+        }
+        break;
       }
       return text;
     }
 
     let links = [];
-
+console.log("LINK LENGTH " + linkLength);
     for( var i = 0; i < linkLength; i++ ){
       const item = $( "body a" ).get( i );
       const href = getHref( item );
