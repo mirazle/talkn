@@ -19,6 +19,8 @@ import Audio from './Media/Audio';
 import Video from './Media/Video';
 import Notif from './Notif';
 import Board from './Board';
+import Links from './Links';
+import Link from './Link';
 import Loading from './Loading';
 import ExtScreen from './ExtScreen';
 
@@ -88,6 +90,8 @@ export default class Style{
     const post = new Post( params );
     const notif = new Notif( params );
     const board = new Board( params );
+    const links = new Links( params );
+    const link = new Link( params );
     const audio = new Audio( params );
     const video = new Video( params );
     const innerNotif = new InnerNotif( params );
@@ -115,6 +119,8 @@ export default class Style{
       audio,
       video,
       board,
+      links,
+      link,
       innerNotif,
       detail,
       icon,
