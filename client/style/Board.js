@@ -13,6 +13,7 @@ export default class Board{
   static get activeColor(){ return Container.themeRGB }; 
   static get unactiveColor(){ return Container.fontBaseRGB }; 
   constructor( params ){
+    // BOARD DEFAULT LAYOUT
     const self = Board.getSelf( params );
     const menu = Board.getMenu( params );
     const menuUl = Board.getMenuUl( params );
@@ -21,15 +22,25 @@ export default class Board{
     const menuLiBubble = Board.getMenuLiBubble( params );
     const menuLiLinks = Board.getMenuLiLinks( params );
     const menuToggle = Board.getMenuToggle( params );
+
+    // LINKS LAYOUT
     const links = Board.getLinks( params );
     const linksUl = Board.getLinksUl( params );
     const linksLi = Board.getLinksLi( params );
+
+    const linksLiActive = Board.getLinksLiActive( params );
+    const linksLiUnactive = Board.getLinksLiUnactive( params );
+
     const linksTuneLi = Board.getLinksTuneLi( params );
     const linkMenuUl = Board.getLinkMenuUl( params );
     const linkMenuLi = Board.getLinkMenuLi( params );
-    const linkMenuLiActive = Board.getLinkMenuLiActive( params );
-    const linkMenuLiLast = Board.getLinkMenuLiLast( params );
+
+    // LINK TAB LAYOUT
+    const linksTabActive = Board.getLinksTabActive( params );
+    const linksTabUnactive = Board.getLinksTabUnactive( params );
+    const linksTabLast = Board.getLinksTabLast( params );
     return {
+      // BOARD DEFAULT LAYOUT
       self,
       menu,
       menuUl,
@@ -38,14 +49,22 @@ export default class Board{
       menuLiBubble,
       menuLiLinks,
       menuToggle,
+
       links,
       linksUl,
       linksLi,
+
+      linksLiActive,
+      linksLiUnactive,
+
       linksTuneLi,
       linkMenuUl,
       linkMenuLi,
-      linkMenuLiActive,
-      linkMenuLiLast
+
+      // LINK TAB LAYOUT
+      linksTabActive,
+      linksTabUnactive,
+      linksTabLast
     }
   }
 
@@ -292,29 +311,24 @@ export default class Board{
     return Style.get({layout, content, animation});
   }
 
+  static getLinksLiActive( {app} ){
+    const styles = Board.getLinksLi( {app} );
+    styles.background = Container.whiteRGB;
+    styles.color = Container.fontBaseRGB;
+    return styles;
+  }
+
+  static getLinksLiUnactive( {app} ){
+    const styles = Board.getLinksLi( {app} );
+    styles.background = Container.calmRGB;
+    styles.color = Container.fontBaseRGB;
+    return styles;
+  }
+
   static getLinksTuneLi( {app} ){
-    const size = Board.size + "px";
-    const layout = Style.getLayoutFlex({
-      alignItems: "center",
-      flexDirection: "column",
-      width: "100%",
-      height: size,
-      minHeight: size,
-      maxHeight: size,
-      background: Container.whiteRGBA,
-      borderRadius: "5px",
-      padding: "0px 0px 0px 10px",
-      marginBottom: "5px"
-    });
-    const content = Style.getContentBase({
-      cursor: 'pointer',
-      fontSize: "14px",
-      lineHeight: "17px"
-    });
-    const animation = Style.getAnimationBase({
-      transition: Container.getTransition( app )
-    });
-    return Style.get({layout, content, animation});
+    const styles = Board.getLinksLi( {app} );
+    styles.alignItems = "center";
+    return styles;
   }
   
   static getLinkMenuUl( {app} ){
@@ -360,15 +374,20 @@ export default class Board{
     return Style.get({layout, content, animation});
   }
 
-  static getLinkMenuLiActive( {app} ){
+  static getLinksTabActive( {app} ){
     const styles = {}
     styles.background = Container.whiteRGBA;
     styles.color = Container.fontBaseRGB;
     return styles;
   }
 
-  static getLinkMenuLiLast( {app} ){
-    const styles = {}
+  static getLinksTabUnactive( {app} ){
+    const styles = Board.getLinkMenuLi({app});
+    return styles;
+  }
+
+  static getLinksTabLast( {app} ){
+    const styles = {};
     styles.margin = "5px 0px 0px 0px";
     return styles;
   }

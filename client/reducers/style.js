@@ -17,6 +17,7 @@ import InnerNotif from 'client/style/InnerNotif';
 import ExtScreen from 'client/style/ExtScreen';
 import PostsSupporter from 'client/style/PostsSupporter';
 import Board from 'client/style/Board';
+import Links from 'client/style/Links';
 import Post from '../style/Post';
 import Icon from '../style/Icon';
 import Audio from '../style/Media/Audio';
@@ -52,9 +53,11 @@ export default ( state = {} , action ) => {
 				menuLiLinks: {...state.board.menuLiLinks,
 					color: ( action.app.isOpenLinks ?
 						Board.activeColor : Board.unactiveColor )
-				},
-				links: {...state.board.links,
-					display: Board.getLinksDisplay( action.app )
+				}
+			},
+			links: {...state.links,
+				self: {...state.links.self,
+					display: Links.getSelfDisplay( action.app )
 				}
 			}
 		}

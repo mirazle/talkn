@@ -142,7 +142,7 @@ export default class MenuIndex extends Component {
             rows={1}
             onChange={this.handleOnChange}
             onKeyPress={this.handleOnKeyPress}
-            placeholder={"Input favorite url"}
+            placeholder={"Tune ch"}
             value={this.state.rootConnection}
           />
           <div
