@@ -131,6 +131,7 @@ export default class App extends Schema{
     const isMediaConnection = Schema.isSet( params.isMediaConnection ) ?
       params.isMediaConnection : App.getIsMediaConnection( connection );
     const isRootConnection = Schema.isSet( params.isRootConnection ) ? params.isRootConnection : false;
+    const isLinkConnection = Schema.isSet( params.isLinkConnection ) ? params.isLinkConnection : false;
     const rootConnection = params.rootConnection ? params.rootConnection : connection;
     const src = App.getMediaSrc( params.protocol, connection );
     const connectionType = App.getMediaType( src, params );
@@ -204,6 +205,7 @@ export default class App extends Schema{
       // スレッド基本関連
 
       isRootConnection,
+      isLinkConnection,
       isMediaConnection,
       rootConnection,
       connectionType,
@@ -326,7 +328,7 @@ export default class App extends Schema{
 
   static getIsMediaConnection( connection ){
     return App.mediaConnections.some( (ext) => {
-      const regexp = new RegExp( `.${ext}\/$` );
+      const regexp = new RegExp( `.${ext}\/$|.${ext}$` );
       return connection.match(regexp);
     } );  
   }
@@ -415,14 +417,27 @@ export default class App extends Schema{
     return Post.defaultFindId;
   }
 
-  static getStepToDispThreadType( {app}, threadStatus, toConnection ){
+  static getStepToDispThreadType( {app, menuIndex}, threadStatus, toConnection ){
+    let afterDispThreadType = "";
     const beforeDispThreadType = app.dispThreadType;
-    app = App.getStepDispThreadType({app}, threadStatus, toConnection);
-    const afterDispThreadType = app.dispThreadType;
+    app = App.getStepDispThreadType({app, menuIndex}, threadStatus, toConnection);
+    afterDispThreadType = app.dispThreadType;
     return {app, stepTo: `${beforeDispThreadType} to ${afterDispThreadType}`};
   }
 
-  static getStepDispThreadType( {app}, threadStatus = {}, toConnection ){
+  static getStepDispThreadType( {app, menuIndex}, threadStatus = {}, toConnection ){
+
+    if( menuIndex && menuIndex.length > 0 ){
+      const haveMenuIndex = menuIndex.some( (mi) => {
+        return ( mi.connection === connection ||  mi.connection === connection + "/");
+      });
+
+      if( !haveMenuIndex ){
+        app.multistream = false;
+        app.isLinkConnection = true;
+      }
+    }
+
     if( threadStatus.isMediaConnection ){
       app.dispThreadType = App.dispThreadTypeTimeline;
       app.offsetFindId = app.offsetTimelineFindId ? app.offsetTimelineFindId : App.defaultOffsetFindId;

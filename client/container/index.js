@@ -164,7 +164,8 @@ class Container extends Component {
     }
   }
 
-  handleOnClickConnection( connection ){
+  handleOnClickConnection( connection, called ){
+    console.log( called );
     const {
       state,
       onClickToTimelineThread,
@@ -177,14 +178,7 @@ class Container extends Component {
     let { thread } = state;
     thread.connection = connection;
     const threadStatus = Thread.getStatus( thread, app, setting );
-    const { stepTo } = App.getStepToDispThreadType( {app}, threadStatus, connection );
-    
-    console.log( " ====== " + connection );
-    console.log( stepTo );
-
-    menuIndex.some( (mi) => {
-      return ( mi.connection === connection ||  mi.connection === connection + "/");
-    });
+    const { stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, connection );
 
     switch(stepTo){
     case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeChild}`:

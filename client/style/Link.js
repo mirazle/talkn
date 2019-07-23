@@ -11,7 +11,7 @@ export default class Link{
   static get activeColor(){ return Container.themeRGB }; 
   static get unactiveColor(){ return Container.fontBaseRGB }; 
   static get activeBgColor(){ return Container.whiteRGBA} ;
-  static get unactiveBgColor(){ return "rgba( 240, 240, 240, 0.96 )"} ; 
+  static get unactiveBgColor(){ return "rgba( 235, 235, 235, 0.96 )"} ; 
   constructor( params ){    
     const self = Link.getSelf( params );
     const tuneLi = Link.getTuneLi( params );
@@ -54,7 +54,6 @@ export default class Link{
   static getTuneLi( {app} ){
     const styles = Link.getActiveLi( {app} );
     styles.alignItems = "center";
-    console.log( styles );
     return styles;
   }
 
