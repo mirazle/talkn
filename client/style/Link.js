@@ -1,7 +1,7 @@
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
-import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
+import MenuIndexListStyle from './Menu/MenuIndexList';
 
 export default class Link{
   static get tuneSize(){ return 50 }; 
