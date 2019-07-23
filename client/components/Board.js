@@ -1,10 +1,39 @@
 import React, { Component } from "react"
 import App from 'common/schemas/state/App';
+import Sequence from 'common/Sequence';
 import Icon from 'client/components/Icon';
-import { default as IconStyle } from 'client/style/Icon';
-import { default as BoardStyle } from 'client/style/Board';
+import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
+import IconStyle from 'client/style/Icon';
+import BoardStyle from 'client/style/Board';
 
 export default class Board extends Component {
+
+  static getConnection( str, thread ){
+    const isIncludeProtocol = Board.isIncludeProtocol( str );
+    if( isIncludeProtocol ){
+      return Board.removeProtocol( str );
+    }else{
+      if( str.indexOf( "/" ) === 0 ){
+        return "/" + thread.host + str;
+      }else{
+        return "/" + thread.host + "/" + str;
+      }
+    }
+  }
+
+  static isIncludeProtocol( str ){
+    if( str.indexOf( Sequence.HTTP_PROTOCOL ) >= 0 ){
+      return true;
+    }
+    if( str.indexOf( Sequence.HTTPS_PROTOCOL ) >= 0 ){
+      return true;
+    }
+    return false;
+  }
+
+  static removeProtocol( str ){
+    return str.replace(`${Sequence.HTTP_PROTOCOL}/`, "").replace(`${Sequence.HTTPS_PROTOCOL}/`, "");
+  }
 
   constructor(props) {
     super(props);
@@ -26,33 +55,52 @@ export default class Board extends Component {
     this.handleOnClickToggleBubblePost = this.handleOnClickToggleBubblePost.bind( this );
     this.handleOnClickLinks = this.handleOnClickLinks.bind( this );
     this.handleOnClickLinkTabs = this.handleOnClickLinkTabs.bind( this );
+    //this.handleOnClickLink = this.handleOnClickLink.bind( this );
   }
 
   componentDidMount(){
-    const { app, thread, style } = this.props.state;
+    const { state, handleOnClickConnection } = this.props;
+    const { app, thread, style } = state;
+    let { upperRankWrap, upperRank } = style.menuIndexList;
+    const background = MenuIndexListStyle.getDispRankBackground( 0 );
+    const width = BoardStyle.tuneSize;
     const displayLinks = !( BoardStyle.getLinksDisplay(app) === "none" );
     const linkContents = this.state.linkContents;
-    linkContents.html = thread.links.map( (link, i) => {
+    const tuneLi = (
+      <li
+        key={`linkTune`}
+        style={style.board.linksTuneLi}
+        onClick={() => { handleOnClickConnection( thread.connection ) } }
+      >
+        <span style={{...upperRankWrap, background, width}}>
+          <span style={upperRank}>
+            TUNE
+          </span>
+        </span>
+        <span>
+          {thread.title}
+        </span>
+      </li>
+    );
+    const getLi = ( connectionKey, textKey ) => ( obj, i) => {
+      const connection = Board.getConnection( obj[ connectionKey ], thread );
       return (
-        <li key={`link${i}`} style={style.board.linksLi}>
-          {link.text}
+        <li
+          key={`${connectionKey}${i}`}
+          style={style.board.linksLi}
+          onClick={() => { handleOnClickConnection( connection ) } }
+        >
+          ∟{obj[ textKey ]}
         </li>
       );
-    } );
-    linkContents.music = thread.audios.map( (audio, i) => {
-      return (
-        <li key={`audio${i}`} style={style.board.linksLi}>
-          {audio.src}
-        </li>
-      );
-    } );
-    linkContents.movie = thread.videos.map( (video, i) => {
-      return (
-        <li key={`video${i}`} style={style.board.linksLi}>
-          {video.src}
-        </li>
-      );
-    } );
+    };
+
+    linkContents.html = thread.links.map( getLi("href", "text") );
+    linkContents.music = thread.audios.map( getLi("src", "src") );
+    linkContents.movie = thread.videos.map( getLi("src", "src") );
+    linkContents.html.unshift( tuneLi );
+    linkContents.music.unshift( tuneLi );
+    linkContents.movie.unshift( tuneLi );
 
     this.setState({
       linkContents,
@@ -96,27 +144,6 @@ export default class Board extends Component {
     }
   }
 
-  handleOnClickLinkLi(){
-    const { app } = this.props.state;
-    const { stepTo } = App.getStepToDispThreadType( {app}, {}, connection );
-    switch(stepTo){
-    case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
-    case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
-    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
-      onClickToChildThread( connection, {app} );
-      talknAPI.changeThread( connection );
-      break;
-    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
-      onClickToMultiThread( connection, {app} );
-      talknAPI.changeThread( connection );
-      break;
-    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
-      onClickToSingleThread( connection, {app} );
-      talknAPI.changeThread( connection );
-      break;
-    }
-  }
-
   handleOnClickLinkTabs(e){
     this.setState({
       linkContentsKey: e.target.innerText
@@ -149,6 +176,7 @@ export default class Board extends Component {
     const lastStyle = BoardStyle.getLinkMenuLiLast({app});
     const linkContentKeys = Object.keys( linkContents );
     const lastIndex = linkContentKeys.length - 1;
+
     return linkContentKeys.map( ( linkKey, index ) => {
       let liStyle = style.board.linkMenuLi;
       if( lastIndex === index ){

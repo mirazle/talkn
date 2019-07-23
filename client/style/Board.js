@@ -6,6 +6,7 @@ import Posts from './Posts';
 import Menu from './Menu';
 
 export default class Board{
+  static get tuneSize(){ return 50 }; 
   static get size(){ return 54 }; 
   static get padding(){ return 5 }; 
   static get right(){ return 0 }; 
@@ -23,6 +24,7 @@ export default class Board{
     const links = Board.getLinks( params );
     const linksUl = Board.getLinksUl( params );
     const linksLi = Board.getLinksLi( params );
+    const linksTuneLi = Board.getLinksTuneLi( params );
     const linkMenuUl = Board.getLinkMenuUl( params );
     const linkMenuLi = Board.getLinkMenuLi( params );
     const linkMenuLiActive = Board.getLinkMenuLiActive( params );
@@ -39,6 +41,7 @@ export default class Board{
       links,
       linksUl,
       linksLi,
+      linksTuneLi,
       linkMenuUl,
       linkMenuLi,
       linkMenuLiActive,
@@ -289,6 +292,31 @@ export default class Board{
     return Style.get({layout, content, animation});
   }
 
+  static getLinksTuneLi( {app} ){
+    const size = Board.size + "px";
+    const layout = Style.getLayoutFlex({
+      alignItems: "center",
+      flexDirection: "column",
+      width: "100%",
+      height: size,
+      minHeight: size,
+      maxHeight: size,
+      background: Container.whiteRGBA,
+      borderRadius: "5px",
+      padding: "0px 0px 0px 10px",
+      marginBottom: "5px"
+    });
+    const content = Style.getContentBase({
+      cursor: 'pointer',
+      fontSize: "14px",
+      lineHeight: "17px"
+    });
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransition( app )
+    });
+    return Style.get({layout, content, animation});
+  }
+  
   static getLinkMenuUl( {app} ){
     const size = Board.size + "px";
     const layout = Style.getLayoutFlex({

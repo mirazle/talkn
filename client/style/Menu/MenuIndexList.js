@@ -6,6 +6,7 @@ import Container from '../Container';
 
 export default class MenuIndexList {
 
+  static get tuneRGB(){ return Container.themeRGB };
   static get rank1RGB(){ return 'rgb(255, 100, 78)' };
   static get rank2RGB(){ return 'rgb(255, 147, 0)' };
   static get rank3RGB(){ return 'rgb(0, 162, 255)' };
@@ -43,6 +44,7 @@ export default class MenuIndexList {
 
   static getDispRankBackground( rank ){
     switch( rank ){
+    case 0: return MenuIndexList.tuneRGB;
     case 1: return MenuIndexList.rank1RGB;
     case 2: return MenuIndexList.rank2RGB;
     case 3: return MenuIndexList.rank3RGB;
@@ -52,6 +54,7 @@ export default class MenuIndexList {
 
   static getDispRankWidth( rank ){
     switch( String(rank).length ){
+    case 0: return MenuIndexList.oneDigitWidth;
     case 1: return MenuIndexList.oneDigitWidth;
     case 2: return MenuIndexList.twoDigitWidth;
     case 3: return MenuIndexList.thirdDigitWidth;
