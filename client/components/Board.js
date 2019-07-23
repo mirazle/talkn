@@ -90,7 +90,7 @@ export default class Board extends Component {
           style={style.board.linksLi}
           onClick={() => { handleOnClickConnection( connection ) } }
         >
-          ∟{obj[ textKey ]}
+          {obj[ textKey ]}
         </li>
       );
     };
