@@ -77,7 +77,6 @@ export default class Links extends Component {
     const getLi = ( connectionKey, textKey ) => ( obj, i) => {
       const connection = Links.getConnection( obj[ connectionKey ], thread );
       const isActive = thread.connection === connection;
-      console.log( thread.connection + " === " + connection + " " + isActive );
       return (
         <Link 
           key={`${connectionKey}${i}`}

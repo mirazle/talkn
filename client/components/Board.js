@@ -27,8 +27,16 @@ export default class Board extends Component {
     const { app } = state;
     const displayLinks = !( BoardStyle.getLinksDisplay(app) === "none" );
     this.setState({
+      exeTransitionEnd: false,
       displayLinks
     })
+  }
+
+  componentWillReceiveProps(props){
+    const { actioned, isOpenLinks } = props.state.app;
+    if( actioned === "TOGGLE_DISP_BOARD" ){
+      this.setState({displayLinks: isOpenLinks});
+    }
   }
 
   handleOnClickToggleBoard(){
@@ -51,15 +59,18 @@ export default class Board extends Component {
   }
 
   handleOnTransitionEnd(e){
-    const { exeTransitionEnd } = this.state;
+    const { exeTransitionEnd, displayLinks } = this.state;
     const { app } = this.props.state;
     let updateState = {};
+
     if( exeTransitionEnd ){
+
       if( app.isOpenLinks ){
         updateState = { displayLinks: !this.state.displayLinks };
       }else{
         updateState = { displayLinks: false };
       }
+
       this.setState({
         ...updateState,
         exeTransitionEnd: false

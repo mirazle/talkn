@@ -165,6 +165,7 @@ export default class App extends Schema{
     const isOpenNewPost = params.isOpenNewPost ? params.isOpenNewPost : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     const isOpenPostsSupporter = Schema.isSet( params.isOpenPostsSupporter ) ? params.isOpenPostsSupporter : false ;
+    const isOpenLinkSupporter = Schema.isSet( params.isOpenLinkSupporter ) ? params.isOpenLinkSupporter : false ;
     const isOpenBoard = Schema.isSet( params.isOpenBoard ) ? params.isOpenBoard : App.getIsOpenBoard( {screenMode} ) ;
     const isBubblePost = Schema.isSet( params.isBubblePost ) ? params.isBubblePost : true ;
     const isDispPosts = Schema.isSet( params.isDispPosts ) ? params.isDispPosts : false ;
@@ -239,6 +240,7 @@ export default class App extends Schema{
       isOpenNewPost,
       isOpenNotif,
       isOpenPostsSupporter,
+      isOpenLinkSupporter,
       isBubblePost,
       isOpenBoard,
       isDispPosts,
@@ -429,11 +431,14 @@ export default class App extends Schema{
 
     if( menuIndex && menuIndex.length > 0 ){
       const haveMenuIndex = menuIndex.some( (mi) => {
-        return ( mi.connection === connection ||  mi.connection === connection + "/");
+        return ( mi.connection === toConnection ||  mi.connection === toConnection + "/");
       });
 
       if( !haveMenuIndex ){
+        app.isOpenLinkSupporter = true;
         app.multistream = false;
+        app.isOpenBoard = false;
+        app.isOpenLinks = false;
         app.isLinkConnection = true;
       }
     }

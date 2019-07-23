@@ -87,7 +87,9 @@ export default class MenuIndex extends Component {
     case 'SERVER_TO_CLIENT[EMIT]:changeThread':
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
-        talknAPI.onClickToggleDispMenu();
+        if( !app.isOpenLinkSupporter ){
+          talknAPI.onClickToggleDispMenu();
+        }
         break;
       }
     }
