@@ -7,20 +7,20 @@ export default class Link extends Component {
 
   constructor(props) {
     super(props);
-    console.log("!");
-    const {active, state} = props;
+    const {isActive, state} = props;
     const {link} = state.style;
     this.getEvents = this.getEvents.bind( this );
     this.state = {
-      active,
+      isActive,
       style: link.unactiveLi
     };
   }
 
-  getEvents( active ){
+  getEvents( isActive ){
     const { style } = this.state;
-    if( !active ){
+    if( !isActive ){
       return {
+        onClick: this.props.handleOnClick,
         onMouseOver: () => {
           this.setState({
             style: {...style,
@@ -42,16 +42,15 @@ export default class Link extends Component {
   }
 
  	render() {
-    const { active, style } = this.state;
-    const { text, handleOnClick,  } = this.props;
+    const { isActive, style } = this.state;
+    const { text } = this.props;
     let { upperRankWrap, upperRank } = this.props.state.style.menuIndexList;
     const background = MenuIndexListStyle.getDispRankBackground( 0 );
     const width = BoardStyle.tuneSize;
 
-    if( active ){
+    if( isActive ){
       return (
         <li
-          key={`linkTune`}
           style={this.props.state.style.link.tuneLi}
         >
           <span style={{...upperRankWrap, background, width}}>
@@ -66,11 +65,7 @@ export default class Link extends Component {
       );
     }else{
       return (
-        <li
-          style={style}
-          onClick={handleOnClick}
-          {...this.getEvents(active)}
-        >
+        <li style={style} {...this.getEvents(isActive)}>
           { text }
         </li>
       );

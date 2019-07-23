@@ -35,7 +35,9 @@ export default class Links extends Component {
 
   constructor(props) {
     super(props);
+    const { thread } = this.props.state;
     this.state = {
+      connection: thread.connection,
       linkContents: {
         html: [],
         music: [],
@@ -50,28 +52,43 @@ export default class Links extends Component {
   componentDidMount(){
     const { state, handleOnClickConnection } = this.props;
     const { app, thread, style } = state;
-    let { upperRankWrap, upperRank } = style.menuIndexList;
-    const background = MenuIndexListStyle.getDispRankBackground( 0 );
-    const width = BoardStyle.tuneSize;
     const displayLinks = !( BoardStyle.getLinksDisplay(app) === "none" );
     const linkContents = this.state.linkContents;
+    let isTuneActive = false;
+
+    if( app.isRootConnection ){
+      isTuneActive = true;
+    }
+
     const tuneLi = (
       <Link 
         key={`linkTune`}
-        active={true}
+        isMainConnection={true}
+        isActive={isTuneActive}
         text={thread.title}
-        handleOnClick={() => { handleOnClickConnection( connection ) } }
+        handleOnClick={() => {
+          talknAPI.toggleLinks();
+          talknAPI.toggleDispBoard();
+          handleOnClickConnection( thread.connection, "toLinks" )
+        } }
         {...this.props}
       />
     );
     const getLi = ( connectionKey, textKey ) => ( obj, i) => {
       const connection = Links.getConnection( obj[ connectionKey ], thread );
+      const isActive = thread.connection === connection;
+      console.log( thread.connection + " === " + connection + " " + isActive );
       return (
         <Link 
           key={`${connectionKey}${i}`}
-          active={false}
+          isMainConnection={false}
+          isActive={isActive}
           text={obj[ textKey ]}
-          handleOnClick={() => { handleOnClickConnection( connection ) } }
+          handleOnClick={() => {
+            talknAPI.toggleLinks();
+            talknAPI.toggleDispBoard();
+            handleOnClickConnection( connection, "toLinks" )
+          } }
           {...this.props}
         />
       );
