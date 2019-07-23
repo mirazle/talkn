@@ -35,7 +35,7 @@ export default class Link{
       height: size,
       minHeight: size,
       maxHeight: size,
-      background: MenuIndexListStyle.activeLiSelfBackground,
+      background: Link.activeBgColor,
       borderRadius: "5px",
       padding: "0px 0px 0px 10px",
       marginBottom: "5px"

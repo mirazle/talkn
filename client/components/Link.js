@@ -7,6 +7,7 @@ export default class Link extends Component {
 
   constructor(props) {
     super(props);
+    console.log("!");
     const {active, state} = props;
     const {link} = state.style;
     this.getEvents = this.getEvents.bind( this );
