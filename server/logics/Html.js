@@ -66,6 +66,11 @@ export default class Html {
 
         let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
 
+        if( error ){
+          console.log( response );
+          console.warn( error );
+        }
+
         if( !error && response && response.statusCode === 200 ){
           const contentType = response.headers['content-type'];
           const utf8Body = this.toUtf8Str( body );
@@ -153,7 +158,7 @@ export default class Html {
       let text = "";
       for( let i = 0; i < itemLength; i++ ){
         const child = item.children[ i ];
-        console.log( child.data );
+
         if( child.type === "text" && child.data !== "" && !Html.checkSpace.test( child.data) ){
           text = child.data;
           break;
@@ -174,18 +179,16 @@ export default class Html {
     }
 
     let links = [];
-console.log("LINK LENGTH " + linkLength);
+
     for( var i = 0; i < linkLength; i++ ){
       const item = $( "body a" ).get( i );
       const href = getHref( item );
       const text = getText( item );
-console.log( href + " " + text );
 
       if( href && href !== "" && text && text !== ""){
         links.push( {href, text} );
       }
     }
-    console.log( links );
     return links;
   }
 

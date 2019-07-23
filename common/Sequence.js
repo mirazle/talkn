@@ -80,6 +80,12 @@ export default class Sequence {
         responseEmitState: {'thread': '*'},
         responseBroadcastState: {},
       },
+      addFindChild: {
+        requestPublicState: {'thread': [{columnName: 'connection'}]},
+        requestPrivateState: {},
+        responseEmitState: {'thread': '*'},
+        responseBroadcastState: {},
+      },
       findMenuIndex: {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {},

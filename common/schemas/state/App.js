@@ -328,7 +328,7 @@ export default class App extends Schema{
     return App.mediaConnections.some( (ext) => {
       const regexp = new RegExp( `.${ext}\/$` );
       return connection.match(regexp);
-    } );
+    } );  
   }
 
   static getIsOpenPosts(app, called){
@@ -388,12 +388,6 @@ export default class App extends Schema{
   }
 
   static isActiveMultistream(app, called){
-/*
-    console.log("@@@@@@@ " );
-    console.log( app.menuComponent );
-    console.log( app.isRootConnection );
-    console.log( app.dispThreadType );
-*/
     return (
       app.menuComponent === "Index" &&
       !app.isMediaConnection &&

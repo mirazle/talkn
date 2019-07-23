@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { connect } from 'react-redux';
 import define from 'common/define';
 import App from 'common/schemas/state/App';
+import Thread from 'common/schemas/state/Thread';
 import TalknSession from 'client/operations/TalknSession';
 import Loading from 'client/components/Loading';
 import Style from 'client/components/Style';
@@ -52,6 +53,7 @@ class Container extends Component {
     this.handleOnClickToggleMain = this.handleOnClickToggleMain.bind(this);
     this.handleOnClickToggleDetail = this.handleOnClickToggleDetail.bind(this);
     this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
+    this.handleOnClickConnection = this.handleOnClickConnection.bind(this);
   }
 
   componentDidMount(){
@@ -69,7 +71,8 @@ class Container extends Component {
       handleOnClickFooterIcon: this.handleOnClickFooterIcon,
       handleOnClickMultistream: this.handleOnClickMultistream,
       handleOnClickToggleMain: this.handleOnClickToggleMain,
-      handleOnClickToggleDetail: this.handleOnClickToggleDetail
+      handleOnClickToggleDetail: this.handleOnClickToggleDetail,
+      handleOnClickConnection: this.handleOnClickConnection
     }
   }
 
@@ -158,6 +161,56 @@ class Container extends Component {
 
     if(findFlg){
       talknAPI.find( app.rootConnection );
+    }
+  }
+
+  handleOnClickConnection( connection ){
+    const {
+      state,
+      onClickToTimelineThread,
+      onClickToMultiThread,
+      onClickToSingleThread,
+      onClickToChildThread,
+      onClickToLogsThread
+    } = this.props;
+    const { app, menuIndex, setting } = state;
+    let { thread } = state;
+    thread.connection = connection;
+    const threadStatus = Thread.getStatus( thread, app, setting );
+    const { stepTo } = App.getStepToDispThreadType( {app}, threadStatus, connection );
+    
+    console.log( " ====== " + connection );
+    console.log( stepTo );
+
+    menuIndex.some( (mi) => {
+      return ( mi.connection === connection ||  mi.connection === connection + "/");
+    });
+
+    switch(stepTo){
+    case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeChild}`:
+    case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
+    case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
+    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
+      onClickToChildThread( connection, {app} );
+      talknAPI.changeThread( connection );
+      break;
+    case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeMulti}`:
+    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
+      onClickToMultiThread( connection, {app} );
+      talknAPI.changeThread( connection );
+      break;
+    case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeSingle}`:
+    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
+      onClickToSingleThread( connection, {app} );
+      talknAPI.changeThread( connection );
+      break;
+    case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeTimeline}`:
+    case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeTimeline}`:
+    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeTimeline}`:
+    case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeTimeline}`:
+      onClickToTimelineThread( connection, {app} );
+      talknAPI.changeThread( connection );
+      break;
     }
   }
 

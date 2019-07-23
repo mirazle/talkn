@@ -70,7 +70,12 @@ export default class MenuIndexList extends Component {
   }
 
   onClickEvents(){
-    const { thread, setting, menuIndexList, onClickToTimelineThread, onClickToMultiThread, onClickToSingleThread, onClickToChildThread, onClickToLogsThread } = this.props;
+    const {
+      thread,
+      setting,
+      menuIndexList,
+      handleOnClickConnection
+    } = this.props;
     const { connection } = menuIndexList;
     const isFocusConnection =  thread.connection === connection ? true : false ;
     const styleKey = isFocusConnection ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel ;
@@ -81,36 +86,7 @@ export default class MenuIndexList extends Component {
         talknAPI.onClickToggleDispMenu();
       }
     }else{
-      thread.connection = connection;
-      const threadStatus = Thread.getStatus( thread, app, setting );
-      const { stepTo } = App.getStepToDispThreadType( {app}, threadStatus, connection );
-
-      switch(stepTo){
-      case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeChild}`:
-      case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
-      case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
-      case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
-        onClickToChildThread( connection, {app} );
-        talknAPI.changeThread( connection );
-        break;
-      case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeMulti}`:
-      case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
-        onClickToMultiThread( connection, {app} );
-        talknAPI.changeThread( connection );
-        break;
-      case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeSingle}`:
-      case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
-        onClickToSingleThread( connection, {app} );
-        talknAPI.changeThread( connection );
-        break;
-      case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeTimeline}`:
-      case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeTimeline}`:
-      case `${App.dispThreadTypeChild} to ${App.dispThreadTypeTimeline}`:
-      case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeTimeline}`:
-        onClickToTimelineThread( connection, {app} );
-        talknAPI.changeThread( connection );
-        break;
-      }
+      handleOnClickConnection( connection ); 
     }
 
     this.setState( {style:
@@ -124,7 +100,6 @@ export default class MenuIndexList extends Component {
 
   getDispRank( rank ){
     let { upperRankWrap, upperRank } = this.state.style;
-
     if( rank ){
       const background = MenuIndexListStyle.getDispRankBackground( rank );
       const width = MenuIndexListStyle.getDispRankWidth( rank );
@@ -132,6 +107,16 @@ export default class MenuIndexList extends Component {
         <span style={{...upperRankWrap, background, width}}>
           <span style={upperRank}>
             RANK{rank}
+          </span>
+        </span>
+      )
+    }else if( rank === 0 ){
+      const background = MenuIndexListStyle.getDispRankBackground( rank );
+      const width = MenuIndexListStyle.getDispRankWidth( rank );
+      return (
+        <span style={{...upperRankWrap, background, width}}>
+          <span style={upperRank}>
+            TUNE
           </span>
         </span>
       )
