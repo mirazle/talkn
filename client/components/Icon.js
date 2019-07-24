@@ -396,6 +396,17 @@ export default class Icon extends Component{
     );
   }
 
+  static getLinks( style ){
+    return (
+      <div data-component-type={'IconLinksDiv'} style={ style.div }>
+        <div data-component-type={'IconLinksA1'} style={ style.linksA1 }></div>
+        <div data-component-type={'IconLinksB1'} style={ style.linksB1 }></div>
+        <div data-component-type={'IconLinksA2'} style={ style.linksA2 }></div>
+        <div data-component-type={'IconLinksB2'} style={ style.linksB2 }></div>
+      </div>
+    );
+  }
+
   static getHeadTab( overStyle, params = {} ){
     const style = Icon.getOveredStyle( IconStyle.getHeadTab(params), overStyle );
     return (

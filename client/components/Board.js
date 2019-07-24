@@ -107,7 +107,7 @@ export default class Board extends Component {
     const { state } = this.props;
     const { style, app } = state;
     const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
-    const PlayIcon = Icon.getPlay( IconStyle.getPlay(state) );
+    const PlayIcon = Icon.getLinks( IconStyle.getLinks(state) );
     return (
       <div
         ref="Board"
