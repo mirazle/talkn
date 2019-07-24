@@ -132,6 +132,8 @@ const functions = {
     return action;
   },
   "ON_CLICK_TO_MULTI_THREAD":  (state, action) => {
+    action.app = state.app;
+    action.app.isLinkConnection = false;
     return action;
   },
   "ON_CLICK_TO_TIMELINE_THREAD":  (state, action) => {
@@ -142,6 +144,8 @@ const functions = {
     return action;
   },
   "ON_CLICK_TO_SINGLE_THREAD":  (state, action) => {
+    action.app = state.app;
+    action.app.isLinkConnection = false;
     return action;
   },
   "ON_CLICK_TO_CHILD_THREAD":  (state, action) => {
