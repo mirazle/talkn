@@ -75,12 +75,12 @@ export default class Links extends Component {
     );
     const getLi = ( connectionKey, textKey ) => ( obj, i) => {
       const connection = Links.getConnection( obj[ connectionKey ], thread );
-      const isActive = thread.connection === connection;
+      //const isActive = thread.connection === connection;
       return (
         <Link 
           key={`${connectionKey}${i}`}
           isMainConnection={false}
-          isActive={isActive}
+          isActive={false}
           text={obj[ textKey ]}
           handleOnClick={() => {
             talknAPI.toggleLinks();

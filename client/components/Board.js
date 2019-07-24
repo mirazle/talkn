@@ -33,9 +33,14 @@ export default class Board extends Component {
   }
 
   componentWillReceiveProps(props){
-    const { actioned, isOpenLinks } = props.state.app;
-    if( actioned === "TOGGLE_DISP_BOARD" ){
-      this.setState({displayLinks: isOpenLinks});
+    const { actioned, isLinkConnection, isOpenLinks } = props.state.app;
+
+    console.log( actioned + 
+      " isLinkConnection = " + isLinkConnection + 
+      " displayLinks = " + this.state.displayLinks );
+
+    if( actioned === "SERVER_TO_CLIENT[EMIT]:find" ){
+      this.setState({displayLinks: false});
     }
   }
 

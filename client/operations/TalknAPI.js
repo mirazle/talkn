@@ -80,7 +80,7 @@ export default class TalknAPI{
 		}
 	}
 
-	on( onKey, callback ){
+	on( onKey, callback = () => {} ){
 		if( !this.connectionKeys.includes( onKey ) ){
 			this.ws.on( onKey, callback );
 			this.connectionKeys.push( onKey );
@@ -89,7 +89,7 @@ export default class TalknAPI{
 
 	off( offKey ){
 		this.ws.off( offKey );
-		delete ws.indexConnectionMap[ offKey ];
+		this.connectionKeys = this.connectionKeys.filter( key =>  key === offKey );
 	}
 
 	getHandleAPI( talknIndex, actionName ){

@@ -7,6 +7,7 @@ import util from 'common/util';
 import App from 'common/schemas/state/App';
 import Posts from 'common/schemas/state/Posts';
 import Threads from 'common/schemas/state/Threads';
+import TalknAPI from '../operations/TalknAPI';
 
 export default {
   updateAction: store => next => action => {
@@ -79,6 +80,7 @@ const functions = {
       action = Posts.getAnyActionPosts(action);
       action = storage.setStoragePostsTimeline( action );
     }
+
     return action;
   },
   "CLIENT_TO_SERVER[EMIT]:changeThread": ( state, action ) => {
@@ -115,6 +117,7 @@ const functions = {
     }
 
     action = Posts.getAnyActionPosts(action);
+    console.log( action );
     return action;
   }, 
   "SERVER_TO_CLIENT[EMIT]:getMore": ( state, action ) => {

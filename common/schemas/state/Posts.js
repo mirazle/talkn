@@ -25,6 +25,7 @@ export default class Posts {
   static getAnyActionPosts(action){
     const {app, posts} = action;
     const existPosts = posts && posts.length > 0;
+    console.log(app.dispThreadType);
     switch(app.dispThreadType){
     case App.dispThreadTypeTimeline:
         action.postsTimeline = existPosts ? posts : [];

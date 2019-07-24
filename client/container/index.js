@@ -174,11 +174,28 @@ class Container extends Component {
       onClickToLogsThread
     } = this.props;
     let { app, menuIndex, setting } = state;
+
+    console.log("START " + app.isLinkConnection );
+
     let { thread } = state;
     thread.connection = connection;
+    const isLinkConnection = app.isLinkConnection;
     const threadStatus = Thread.getStatus( thread, app, setting );
-    let { app: updateApp, stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, connection, called );
-    app = updateApp;
+    let { app: updatedApp, stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, connection, called );
+    
+    console.log("START " + isLinkConnection + " && " + updatedApp.isLinkConnection );
+
+    if( !isLinkConnection && updatedApp.isLinkConnection ){
+      console.log("ON!");
+      talknAPI.on( connection );
+    }
+
+    if( isLinkConnection && !updatedApp.isLinkConnection ){
+      console.log("OFF!");
+      talknAPI.off( connection );
+    }
+
+    app = updatedApp;
 
     switch(stepTo){
     case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeChild}`:
