@@ -1079,14 +1079,15 @@ export default class Icon {
       }),
     });
 
-    const whiteSize = "3px";
+    const whiteSize = "4px";
     const linksA2 = Style.get({
       layout: Style.getLayoutInlineBlock({
         position: "relative",
         top: "5px",
-        left: "6px",
+        left: "5px",
         width: whiteSize,
         height: whiteSize,
+        borderRadius: "10px",
         background: Container.whiteRGB,
       }),
       content: Style.getContentBase(),
@@ -1114,10 +1115,11 @@ export default class Icon {
     const linksB2 = Style.get({
       layout: Style.getLayoutInlineBlock({
         position: "relative",
-        top: "-4px",
+        top: "-5px",
         left: "-5px",
         width: whiteSize,
         height: whiteSize,
+        borderRadius: "10px",
         background: Container.whiteRGB,
       }),
       content: Style.getContentBase(),
