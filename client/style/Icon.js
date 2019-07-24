@@ -1043,6 +1043,89 @@ export default class Icon {
     return {div, playCircle, playTriangle};
   }
 
+  static getLinks( { app } ){
+    const bgColor = app.isOpenLinks ? Container.themeRGB : Container.reliefRGB;
+    const div = Style.get({
+      layout: Style.getLayoutFlex({
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",  
+        width: "30px",
+        height: "30px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.transitionOff,
+        transform: "translate(0px, 0px)",
+      }),
+    });
+
+    const blockWidth = "24px";
+    const blockHeight = "14px";
+    const linksA1 = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: "absolute",
+        top: "5px",
+        left: "6px",
+        width: blockWidth,
+        height: blockHeight,
+        border: `2px solid ${bgColor}`,
+        borderRadius: "30px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.transitionOff,
+        transform: "translate3d(0px,0px,0px)",
+      }),
+    });
+
+    const whiteSize = "3px";
+    const linksA2 = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: "relative",
+        top: "5px",
+        left: "6px",
+        width: whiteSize,
+        height: whiteSize,
+        background: Container.whiteRGB,
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({}),
+    });
+
+
+    const linksB1 = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: "absolute",
+        top: "11px",
+        left: "0px",
+        width: blockWidth,
+        height: blockHeight,
+        border: `2px solid ${bgColor}`,
+        borderRadius: "30px"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({
+        transition: Container.transitionOff,
+        transform: "translate3d(0px,0px,0px)",
+      }),
+    });
+
+    const linksB2 = Style.get({
+      layout: Style.getLayoutInlineBlock({
+        position: "relative",
+        top: "-4px",
+        left: "-5px",
+        width: whiteSize,
+        height: whiteSize,
+        background: Container.whiteRGB,
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({}),
+    });
+    return {div, linksA1, linksA2, linksB1, linksB2};
+  }
+
   static getBubble( { app } ){
     const background = app.isBubblePost ?
       Container.themeRGB : Container.reliefRGBA;
