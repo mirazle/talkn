@@ -417,16 +417,22 @@ export default class App extends Schema{
     return Post.defaultFindId;
   }
 
-  static getStepToDispThreadType( {app, menuIndex}, threadStatus, toConnection ){
+  static getStepToDispThreadType( {app, menuIndex}, threadStatus, toConnection, called ){
     let afterDispThreadType = "";
     const beforeDispThreadType = app.dispThreadType;
-    app = App.getStepDispThreadType({app, menuIndex}, threadStatus, toConnection);
+    app = App.getStepDispThreadType({app, menuIndex}, threadStatus, toConnection, called);
     afterDispThreadType = app.dispThreadType;
     return {app, stepTo: `${beforeDispThreadType} to ${afterDispThreadType}`};
   }
 
-  static getStepDispThreadType( {app, menuIndex}, threadStatus = {}, toConnection ){
+  static getStepDispThreadType( {app, menuIndex}, threadStatus = {}, toConnection, called ){
 
+    if( called === "backToRootConnection" ){
+      if( app.screenMode === App.screenModeSmallLabel ){
+        app.isOpenMenu = true;
+      }
+    }
+    
     if( menuIndex && menuIndex.length > 0 ){
       const haveMenuIndex = menuIndex.some( (mi) => {
         return ( mi.connection === toConnection ||  mi.connection === toConnection + "/");

@@ -164,7 +164,7 @@ class Container extends Component {
     }
   }
 
-  handleOnClickConnection( connection, called ){
+  handleOnClickConnection( connection, called = ""){
     const {
       state,
       onClickToTimelineThread,
@@ -177,7 +177,7 @@ class Container extends Component {
     let { thread } = state;
     thread.connection = connection;
     const threadStatus = Thread.getStatus( thread, app, setting );
-    let { app: updateApp, stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, connection );
+    let { app: updateApp, stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, connection, called );
     app = updateApp;
 
     switch(stepTo){

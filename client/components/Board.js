@@ -54,8 +54,20 @@ export default class Board extends Component {
   }
 
   handleOnClickLinks(){
-    this.setState({exeTransitionEnd: true});
-    talknAPI.toggleLinks();
+    const { handleOnClickConnection } = this.props;
+    const { app } = this.props.state;
+
+    switch( app.dispThreadType ){
+    case App.dispThreadTypeMulti :
+    case App.dispThreadTypeSingle :
+      this.setState({exeTransitionEnd: true});
+      talknAPI.toggleLinks();
+      break;
+    case App.dispThreadTypeChild :
+      if( app.isLinkConnection ){
+        handleOnClickConnection( app.rootConnection, "backToRootConnection" );
+      }
+    }
   }
 
   handleOnTransitionEnd(e){
