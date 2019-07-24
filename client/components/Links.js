@@ -68,7 +68,6 @@ export default class Links extends Component {
         text={thread.title}
         handleOnClick={() => {
           talknAPI.toggleLinks();
-          talknAPI.toggleDispBoard();
           handleOnClickConnection( thread.connection, "toLinks" )
         } }
         {...this.props}
@@ -85,7 +84,6 @@ export default class Links extends Component {
           text={obj[ textKey ]}
           handleOnClick={() => {
             talknAPI.toggleLinks();
-            talknAPI.toggleDispBoard();
             handleOnClickConnection( connection, "toLinks" )
           } }
           {...this.props}
