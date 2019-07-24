@@ -107,7 +107,7 @@ export default class Board extends Component {
     const { state } = this.props;
     const { style, app } = state;
     const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
-    const PlayIcon = Icon.getLinks( IconStyle.getLinks(state) );
+    const LinksIcon = Icon.getLinks( IconStyle.getLinks(state) );
     const linksLabel = app.isLinkConnection ? "BACK" : "LINKS";
     return (
       <div
@@ -136,7 +136,7 @@ export default class Board extends Component {
               style={style.board.menuLi}
             >
               <div>
-                { PlayIcon }
+                { LinksIcon }
               </div>
               <div style={style.board.menuLiLinks}>
                 { linksLabel }
