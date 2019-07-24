@@ -54,6 +54,23 @@ export default class Io {
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts, thread, menuIndex: posts } );
     const connections = posts[0].connections;
     connections.forEach( ( connection ) => {
+      console.log( connection );
+
+
+      /*
+        
+
+        linkConnectionに対してBroardcastしてるのに、client側で受信していない！
+        
+
+      */
+
+
+
+
+
+
+
       responseBroadcastState.thread.connection = connection;
       this.io.broadcast( connection, responseBroadcastState );
     });

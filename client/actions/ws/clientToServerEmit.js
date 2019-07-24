@@ -15,17 +15,13 @@ Object.keys( Sequence.map ).forEach( endpoint => {
 const beforeFunctions = {
 	post: ( reduxState, requestState, actionState ) => {
 		const { app, thread } = reduxState;
-		console.log( app );
 		if( app.isMediaConnection ){
 			const src = thread.getMediaSrc();
 			const tagType = thread.getMediaTagType();
 			const media = document.querySelector(`${tagType}[src='${src}']`)
 
-			console.log("clientToServer @@@@@@@@@ " + talknWindow.mediaCurrentTime );
-
 			if( media && talknWindow.mediaCurrentTime !== 0 ){
 				requestState.app.inputCurrentTime = talknWindow.mediaCurrentTime;
-				console.log( requestState.app.inputCurrentTime );
 				return { requestState, actionState };
 			}
 		}

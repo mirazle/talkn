@@ -23,6 +23,10 @@ export default ( state = new MenuIndex() , action ) => {
 		}
 		return state;
 	case 'SERVER_TO_CLIENT[EMIT]:find':
+		if( action.app.isLinkConnection ){
+			return state;
+		}
+
 		const postLength = action.posts && action.posts.length ? action.posts.length : 0;
 		if(postLength === 0 ){
 			return state.map( mi => {

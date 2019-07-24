@@ -427,9 +427,14 @@ export default class App extends Schema{
 
   static getStepDispThreadType( {app, menuIndex}, threadStatus = {}, toConnection, called ){
 
+    app.isLinkConnection = false;
+
     if( called === "backToRootConnection" ){
       if( app.screenMode === App.screenModeSmallLabel ){
+
+        // onClickToggleDispMenuで強制的にメニューが開いてしまうため、開けた状態にしておく。
         app.isOpenMenu = true;
+        app.isOpenBoard = true;
       }
     }
     
@@ -440,8 +445,8 @@ export default class App extends Schema{
 
       if( !haveMenuIndex ){
         app.multistream = false;
-        app.isOpenBoard = false;
         app.isOpenLinks = false;
+        app.isOpenMenu = true;
         app.isLinkConnection = true;
       }
     }
