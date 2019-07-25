@@ -190,7 +190,7 @@ class Container extends Component {
     }
 
     app = updatedApp;
-    console.log( stepTo );
+
     switch(stepTo){
     case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeChild}`:
     case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:

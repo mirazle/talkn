@@ -426,13 +426,15 @@ export default class App extends Schema{
   }
 
   static getStepDispThreadType( {app, menuIndex}, threadStatus = {}, toConnection, called ){
-
+    const log = false;
     app.isLinkConnection = false;
     app.isOpenLinks = false;
 
+    if( log ) console.log( called + " rootConnection = " + app.rootConnection + " toConnection " + toConnection );
+
     if( called === "backToRootConnection" ){
       if( app.screenMode === App.screenModeSmallLabel ){
-
+        if( log ) console.log("A");
         // onClickToggleDispMenuで強制的にメニューが開いてしまうため、開けた状態にしておく。
         app.isOpenMenu = true;
         app.isOpenBoard = true;
@@ -440,18 +442,21 @@ export default class App extends Schema{
     }
 
     if( threadStatus.isMediaConnection ){
-
+      if( log ) console.log("B");
       app.dispThreadType = App.dispThreadTypeTimeline;
       app.offsetFindId = app.offsetTimelineFindId ? app.offsetTimelineFindId : App.defaultOffsetFindId;
       app.isMediaConnection = true;
     }
 
-    if( menuIndex && menuIndex.length > 0 ){
+    if( log ) console.log(menuIndex);
+
+    if( called === "toLinks"){
       const haveMenuIndex = menuIndex.some( (mi) => {
         return ( mi.connection === toConnection ||  mi.connection === toConnection + "/");
       });
-
+      if( log ) console.log("C " + haveMenuIndex + "");
       if( !haveMenuIndex ){
+        if( log ) console.log("D");
         app.offsetFindId = App.defaultOffsetFindId;
         app.dispThreadType = App.dispThreadTypeChild;
 //        app.multistream = false;
@@ -464,20 +469,20 @@ export default class App extends Schema{
 
     if(app.rootConnection === toConnection){
       if(app.multistream){
-
+        if( log ) console.log("E");
         app.dispThreadType = App.dispThreadTypeMulti;
         app.offsetFindId = app.offsetMultiFindId ? app.offsetMultiFindId : App.defaultOffsetFindId;
       }else{
-
+        if( log ) console.log("F");
         app.dispThreadType = App.dispThreadTypeSingle;
         app.offsetFindId = app.offsetSingleFindId ? app.offsetSingleFindId : App.defaultOffsetFindId;
       }
     }else{
-      console.log("G");
+      if( log ) console.log("G");
       app.dispThreadType = App.dispThreadTypeChild;
       app.offsetFindId = app.offsetChildFindId ? app.offsetChildFindId : App.defaultOffsetFindId;
     }
-    console.log(app);
+    if( log ) console.log(app);
     return app;
   }
 
