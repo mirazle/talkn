@@ -18,6 +18,7 @@ export default class State{
     this.posts = new Posts();
     this.analyze = new Analyze();
     this.bootOption = new BootOption( bootOption );
+    console.log( this.bootOption );
     this.thread = new Thread( window, this.bootOption, caches.thread );
     this.setting = new Setting( caches.setting );
     this.app = new App( State.getAppParams( talknIndex, this.thread, this.bootOption, initialApp, caches ) );

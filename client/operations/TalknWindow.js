@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import timeago from 'timeago.js';
 import define from 'common/define';
 import conf from 'client/conf';
+import Schema from 'common/schemas/Schema';
 import App from 'common/schemas/state/App';
 import State from 'common/schemas/state';
 import BootOption from 'common/schemas/state/BootOption';
@@ -22,13 +23,27 @@ export default class TalknWindow {
 	}
 	static getInitialApp( bootOption ){
 		let initialApp = {}
-		if( bootOption.extensionMode && bootOption.extensionMode === "EXT_INCLUDE"){
-			return {
-				width: bootOption.extensionWidth,
-				height: bootOption.extensionOpenHeight
-			};
+		if( bootOption.extensionMode ){
+			
+			switch( bootOption.extensionMode ){
+			case App.extensionModeExtIncludeLabel:
+				initialApp.width = bootOption.extensionWidth;
+				initialApp.height = bootOption.extensionOpenHeight;
+				break;
+			case App.extensionModeExtModalLabel:
+				const connection = bootOption.href.replace('https:/', '').replace("http:/", "");
+				initialApp.hasslash = connection.lastIndexOf("/") === ( connection.length - 1 );
+				break;
+			}
+		}
+		return initialApp;
+	}
+	static getHasSlach( bootOption ){
+		if( bootOption.href ){
+			const connection = bootOption.href.replace('https:/', '').replace("http:/", "");
+			return connection.lastIndexOf("/") === ( connection.length - 1 );
 		}else{
-			return initialApp;
+			return bootOption.hasslash ? Schema.getBool( bootOption.hasslash ) : false;
 		}
 	}
 	static getPostsHeight(){
@@ -149,7 +164,8 @@ export default class TalknWindow {
 		Promise.all( bootPromises ).then( ( bootParams ) => {
 			const script = document.querySelector(`script#talkn`);
 			const scriptOption = BootOption.rebuildAttributes(script.attributes);
-			const bootOption = bootParams[1] ? {...scriptOption, ...bootParams[1]} : scriptOption;
+			let bootOption = bootParams[1] ? {...scriptOption, ...bootParams[1]} : scriptOption;
+			bootOption.hasslash = TalknWindow.getHasSlach(bootOption);
 			this.boot( bootOption );
 		});
 	}

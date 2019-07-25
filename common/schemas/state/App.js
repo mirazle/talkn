@@ -438,39 +438,46 @@ export default class App extends Schema{
         app.isOpenBoard = true;
       }
     }
-    
+
+    if( threadStatus.isMediaConnection ){
+
+      app.dispThreadType = App.dispThreadTypeTimeline;
+      app.offsetFindId = app.offsetTimelineFindId ? app.offsetTimelineFindId : App.defaultOffsetFindId;
+      app.isMediaConnection = true;
+    }
+
     if( menuIndex && menuIndex.length > 0 ){
       const haveMenuIndex = menuIndex.some( (mi) => {
         return ( mi.connection === toConnection ||  mi.connection === toConnection + "/");
       });
 
       if( !haveMenuIndex ){
-        app.multistream = false;
+        app.offsetFindId = App.defaultOffsetFindId;
+        app.dispThreadType = App.dispThreadTypeChild;
+//        app.multistream = false;
         app.isOpenLinks = false;
         app.isOpenMenu = true;
         app.isLinkConnection = true;
+        return app;
       }
-    }
-
-    if( threadStatus.isMediaConnection ){
-      app.dispThreadType = App.dispThreadTypeTimeline;
-      app.offsetFindId = app.offsetTimelineFindId ? app.offsetTimelineFindId : App.defaultOffsetFindId;
-      app.isMediaConnection = true;
-      return app;
     }
 
     if(app.rootConnection === toConnection){
       if(app.multistream){
+
         app.dispThreadType = App.dispThreadTypeMulti;
         app.offsetFindId = app.offsetMultiFindId ? app.offsetMultiFindId : App.defaultOffsetFindId;
       }else{
+
         app.dispThreadType = App.dispThreadTypeSingle;
         app.offsetFindId = app.offsetSingleFindId ? app.offsetSingleFindId : App.defaultOffsetFindId;
       }
     }else{
+      console.log("G");
       app.dispThreadType = App.dispThreadTypeChild;
       app.offsetFindId = app.offsetChildFindId ? app.offsetChildFindId : App.defaultOffsetFindId;
     }
+    console.log(app);
     return app;
   }
 
