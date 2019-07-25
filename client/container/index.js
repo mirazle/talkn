@@ -175,24 +175,18 @@ class Container extends Component {
     } = this.props;
     let { app, menuIndex, setting } = state;
 
-    console.log("START " + app.isLinkConnection );
-
     let { thread } = state;
     thread.connection = connection;
     const isLinkConnection = app.isLinkConnection;
     const threadStatus = Thread.getStatus( thread, app, setting );
     let { app: updatedApp, stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, connection, called );
-    
-    console.log("START " + isLinkConnection + " && " + updatedApp.isLinkConnection );
 
     if( !isLinkConnection && updatedApp.isLinkConnection ){
-      console.log("ON!");
-      talknAPI.on( connection );
+      talknAPI.onCatchConnectionAPI( connection );
     }
 
     if( isLinkConnection && !updatedApp.isLinkConnection ){
-      console.log("OFF!");
-      talknAPI.off( connection );
+      talknAPI.offCatchConnectionAPI( connection );
     }
 
     app = updatedApp;

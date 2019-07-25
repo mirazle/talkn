@@ -40,17 +40,16 @@ export default class Threads {
     const { thread } = requestState;
     const { connection } = thread;
     const layer = Thread.getLayer( connection );
-    const regexConnection = connection.replace(/\//, '\/');
-    const regex = new RegExp( `^${regexConnection}` );
+//    const regexConnection = connection.replace(/\//, '\/');
+//    const regex = new RegExp( `^${regexConnection}` );
     const condition = {
-      connection: regex,
+      connections: connection,
       postCnt: {'$ne': 0},
-      "lastPost.connection": regex, 
+//      "lastPost.connection": regex, 
       layer : { $gt : layer  }
     };
     const selector = {"serverMetas.title": 1, lastPost: 1, watchCnt: 1};
     const option = {sort: {watchCnt: -1, layer: -1}, limit: setting.server.getThreadChildrenCnt};
-
     let {error, response} = await this.collection.find( condition, selector, option );
     const responseLength = response.length;
     let mainConnectionExist = false;
