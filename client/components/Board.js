@@ -34,11 +34,6 @@ export default class Board extends Component {
 
   componentWillReceiveProps(props){
     const { actioned, isLinkConnection, isOpenLinks } = props.state.app;
-
-    console.log( actioned + 
-      " isLinkConnection = " + isLinkConnection + 
-      " displayLinks = " + this.state.displayLinks );
-
     if( actioned === "SERVER_TO_CLIENT[EMIT]:find" ){
       this.setState({displayLinks: false});
     }

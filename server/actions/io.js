@@ -122,7 +122,6 @@ export default {
       //console.log( threadStatus );
       // Multistreamボタンを押した場合
       if( !threadStatus.isToggleMultistream ){
-        console.log("IN");
         thread = await Logics.db.threads.saveOnWatchCnt( thread, +1 );
       }
       Logics.io.find( ioUser, {requestState, thread, posts, app} );
@@ -146,18 +145,9 @@ export default {
     let thread = {connection};
     const isMultistream = Thread.getStatusIsMultistream( app );
     const post = await Logics.db.posts.save( requestState );
-
-
-    /*
-      TODO そもそもlinkConnectionで存在しないThreadをupdateしようとした場合がケアされていない    
-    */
-
-
     const response = await Logics.db.threads.update( connection, {$inc: {postCnt: 1}, lastPost: post } );
-
     const postCntKey = isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts( requestState, {isMultistream} );
-
     await Logics.io.post( ioUser, {requestState, posts:[ post ] , thread } );
     return true;
   },
