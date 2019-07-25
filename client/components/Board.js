@@ -34,8 +34,14 @@ export default class Board extends Component {
 
   componentWillReceiveProps(props){
     const { actioned, isLinkConnection, isOpenLinks } = props.state.app;
-    if( actioned === "SERVER_TO_CLIENT[EMIT]:find" ){
-      this.setState({displayLinks: false});
+    let updateState = {};
+
+    if( !isOpenLinks ){
+      updateState.displayLinks = false;
+    }
+
+    if( Object.keys( updateState ).length > 0 ){
+      this.setState(updateState);
     }
   }
 
@@ -76,9 +82,8 @@ export default class Board extends Component {
     let updateState = {};
 
     if( exeTransitionEnd ){
-
       if( app.isOpenLinks ){
-        updateState = { displayLinks: !this.state.displayLinks };
+        updateState = { displayLinks: true };
       }else{
         updateState = { displayLinks: false };
       }

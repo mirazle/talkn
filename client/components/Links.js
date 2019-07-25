@@ -146,6 +146,7 @@ export default class Links extends Component {
     const contents = this.state.linkContents[ this.state.linkContentsKey ];
 
     if( displayLinks ){
+
       return (
         <div
           data-componet-name={"Links"}
@@ -166,6 +167,7 @@ export default class Links extends Component {
         </div>
       )
     }else{
+
       return (
         <div
           data-componet-name={"Links"}

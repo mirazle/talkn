@@ -41,6 +41,10 @@ const componentDidUpdates = {
                 );
 */
             }
+
+            if( !app.isOpenLinks ){
+                talknAPI.closeLinks();
+            }
         },
         'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
             const { app, threadDetail, thread } = self.props.state;

@@ -25,6 +25,16 @@ import Video from '../style/Media/Video';
 
 export default ( state = {} , action ) => {
 
+	/*
+
+		LINKSの色を整える
+		LINK CHの動作確認
+		LINK CHのTIMELINE動作確認
+
+		THREADのUPDATE機能を実装
+		findをALL, HTML, MUSIC, MOVIEで選択できるようにする
+
+*/
 	switch( action.type ){
 	case 'RESIZE_START_WINDOW':
 	case 'RESIZE_END_WINDOW':
@@ -43,16 +53,15 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
+
+	case 'OPEN_LINKS':
+	case 'CLOSE_LINKS':
 	case 'TOGGLE_LINKS':
 		return {...state,
 			board: {...state.board,
 				self: {...state.board.self,
 					width: Board.getSelfWidth( action.app ),
 					boxShadow: Board.getSelfBoxShadow( action.app )
-				},
-				menuLiLinks: {...state.board.menuLiLinks,
-					color: ( action.app.isOpenLinks ?
-						Board.activeColor : Board.unactiveColor )
 				}
 			},
 			links: {...state.links,
@@ -94,6 +103,9 @@ export default ( state = {} , action ) => {
 				menuLiChild: {...state.menuLiChild,
 					color: App.isActiveMultistream( action.app, "reducer" ) ?
 						Board.activeColor : Board.unactiveColor
+				},
+				menuLiLinks: {...state.menuLiLinks,
+					color: Board.unactiveColor
 				}
 			},
 			audio: {...state.audio,
@@ -105,13 +117,27 @@ export default ( state = {} , action ) => {
 			board: {...state.board,
 				menuLiChild: {...state.board.menuLiChild,
 					color: Board.activeColor
+				},
+				menuLiLinks: {...state.menuLiLinks,
+					color: Board.activeColor
 				}
 			}
 		}
+	case 'ON_CLICK_TO_SINGLE_THREAD':
+			return {...state,
+				board: {...state.board,
+					menuLiLinks: {...state.menuLiLinks,
+						color: Board.activeColor
+					}
+				}
+			}
 	case 'ON_CLICK_TO_CHILD_THREAD':
 		return {...state,
 			board: {...state.board,
 				menuLiChild: {...state.board.menuLiChild,
+					color: Board.unactiveColor
+				},
+				menuLiLinks: {...state.menuLiLinks,
 					color: Board.unactiveColor
 				}
 			},

@@ -226,7 +226,8 @@ export default class Board{
   }
 
   static getMenuLiLinks( {app} ){
-    const bgColor = app.isOpenLinks ? Container.themeRGB : Container.reliefRGB;
+    const bgColor = app.dispThreadType === App.dispThreadTypeMulti || app.dispThreadType === App.dispThreadTypeSingle ?
+      Container.themeRGB : Container.reliefRGB;
     const layout = {};
     const content = Style.getContentBase({
       color: bgColor

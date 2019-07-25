@@ -428,6 +428,7 @@ export default class App extends Schema{
   static getStepDispThreadType( {app, menuIndex}, threadStatus = {}, toConnection, called ){
 
     app.isLinkConnection = false;
+    app.isOpenLinks = false;
 
     if( called === "backToRootConnection" ){
       if( app.screenMode === App.screenModeSmallLabel ){
