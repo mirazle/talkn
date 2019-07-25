@@ -20,7 +20,7 @@ export default class Html {
     const { protocol, connection } = thread;
     const layer = Thread.getLayer( connection );
     let requestConnection = connection;
-
+    console.log( requestState );
     if( layer === 2 ){
       requestConnection = connection.replace(/\/$/, '');
     }else{
@@ -67,7 +67,7 @@ export default class Html {
         let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
 
         if( error ){
-          console.log( response );
+          console.warn( "html.js " + url );
           console.warn( error );
         }
 
@@ -158,7 +158,7 @@ export default class Html {
       let text = "";
       for( let i = 0; i < itemLength; i++ ){
         const child = item.children[ i ];
-
+        console.log( child );
         if( child.type === "text" && child.data !== "" && !Html.checkSpace.test( child.data) ){
           text = child.data;
           break;

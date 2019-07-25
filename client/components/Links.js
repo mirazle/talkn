@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import Sequence from 'common/Sequence';
-import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
 import BoardStyle from 'client/style/Board';
 import Link from 'client/components/Link';
 
