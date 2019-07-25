@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import BoardStyle from 'client/style/Board';
 import LinkStyle from 'client/style/Link';
 import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
+import Marquee from 'client/container/util/Marquee';
 
 export default class Link extends Component {
 
@@ -58,15 +59,25 @@ export default class Link extends Component {
               TUNE
             </span>
           </span>
-          <span>
-            {text}
-          </span>
+          <Marquee
+            text={text}
+            loop={true}
+            hoverToStop={false}
+            trailing={0}
+            leading={0}
+          />
         </li>
       );
     }else{
       return (
         <li style={style} {...this.getEvents(isActive)}>
-          { text }
+          <Marquee
+            text={text}
+            loop={true}
+            hoverToStop={false}
+            trailing={0}
+            leading={0}
+          />
         </li>
       );
     }

@@ -1,11 +1,10 @@
 import React, { Component } from "react"
 import App from 'common/schemas/state/App';
-import Sequence from 'common/Sequence';
 import Icon from 'client/components/Icon';
 import Links from 'client/components/Links';
-import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
 import IconStyle from 'client/style/Icon';
 import BoardStyle from 'client/style/Board';
+import Marquee from 'client/container/util/Marquee';
 
 export default class Board extends Component {
 
