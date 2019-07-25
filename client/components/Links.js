@@ -7,16 +7,22 @@ import Link from 'client/components/Link';
 export default class Links extends Component {
 
   static getConnection( str, thread ){
+    let connection = "";
     const isIncludeProtocol = Links.isIncludeProtocol( str );
     if( isIncludeProtocol ){
-      return Links.removeProtocol( str );
+      connection = Links.removeProtocol( str );
     }else{
       if( str.indexOf( "/" ) === 0 ){
-        return "/" + thread.host + str;
+        connection = "/" + thread.host + str;
       }else{
-        return "/" + thread.host + "/" + str;
+        connection = "/" + thread.host + "/" + str;
       }
     }
+
+    if( connection.lastIndexOf("/") !== ( connection.length - 1 ) ){
+      connection = connection + "/";
+    }
+    return connection;
   }
 
   static isIncludeProtocol( str ){
@@ -76,6 +82,7 @@ export default class Links extends Component {
     const getLi = ( connectionKey, textKey ) => ( obj, i) => {
       const connection = Links.getConnection( obj[ connectionKey ], thread );
       //const isActive = thread.connection === connection;
+      console.log( connection );
       return (
         <Link 
           key={`${connectionKey}${i}`}
