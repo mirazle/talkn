@@ -97,10 +97,11 @@ class Ext {
         return mode;
     }
     static getRequestObj(method, params = {}){
+        const href = location.href;
+        params.href = href;
         return {
             type: Ext.APP_NAME,
-            url: location.href,
-            href: location.href,
+            href,
             method: method,
             methodId: 0,
             params: params
