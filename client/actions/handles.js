@@ -77,7 +77,19 @@ export default {
       type: 'TOGGLE_BUBBLE_POST'
     };
   },
-  toggleLinks: () => {
+  openLinks: () => {
+    return {
+      type: 'OPEN_LINKS',
+      app: {isOpenLinks: true}
+    };
+  },
+  closeLinks: () => {
+    return {
+      type: 'CLOSE_LINKS',
+      app: {isOpenLinks: false}
+    };
+  },
+  toggleLinks: (isOpenLinks) => {
     return {
       type: 'TOGGLE_LINKS'
     };

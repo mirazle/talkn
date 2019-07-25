@@ -57,6 +57,8 @@ export default class TalknAPI{
 
 	onCatchConnectionAPI( connection = this.connection ){
 		const talknIndex = this.talknIndex;
+
+		// To connect redux flow.
 		const callback = this.getCatchConnectionAPI(talknIndex, WsServerToClientBroadcastAction);
 		this.on( connection, callback );
 	}
