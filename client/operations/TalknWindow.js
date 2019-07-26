@@ -194,8 +194,7 @@ export default class TalknWindow {
 		if( e.data.type === "talkn" ){
 			switch( e.data.method ){
 			case "bootExtension" :
-				console.log(e.data);
-				this.parentUrl = e.data.url;
+				this.parentUrl = e.data.href;
 				this.parentTo( "bootExtension", conf );
 				resolve(e.data.params);
 				break;	
