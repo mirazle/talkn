@@ -158,11 +158,11 @@ export default class Threads {
   /******************/
 
   async requestHtmlParams( thread, requestState ){
-    const htmlParams = await Logics.html.fetch( thread, requestState );
+    const { response: htmlParams, iconHrefs } = await Logics.html.fetch( thread, requestState );
     thread = MongoDB.getBuiltinObjToSchema( thread, htmlParams );
 
     if( thread.favicon === Favicon.defaultFaviconPath ){
-      const faviconParams = await Logics.favicon.fetch( thread );
+      const faviconParams = await Logics.favicon.fetch( thread, iconHrefs );
 
       thread = MongoDB.getBuiltinObjToSchema(
         thread, {...faviconParams, favicon: faviconParams.faviconName }

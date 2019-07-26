@@ -20,39 +20,45 @@ export default class Html {
     const { protocol, connection } = thread;
     const layer = Thread.getLayer( connection );
     let requestConnection = connection;
-    console.log( requestState );
+
     if( layer === 2 ){
       requestConnection = connection.replace(/\/$/, '');
     }else{
       requestConnection = JSON.parse(hasSlash) ? connection : connection.replace(/\/$/, '');
     }
 
-    let response = null;
+    let result = {response: null, iconHrefs: []};
 
     switch( protocol ){
     case Sequence.HTTPS_PROTOCOL:
-      response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, requestConnection );
-      if( !response ){
-        response = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, requestConnection );
+      result = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, requestConnection );
+
+      if( !result.response ){
+        result = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, requestConnection );
       }
       break;
     case Sequence.HTTP_PROTOCOL:
-      response = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, requestConnection );
-      if( !response ){
-        response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, requestConnection );
+      result = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, requestConnection );
+      if( !result.response ){
+        result = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, requestConnection );
       }
       break;
     case Sequence.TALKN_PROTOCOL:
     case Sequence.UNKNOWN_PROTOCOL:
     default:
-      response = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, requestConnection );
-      if( !response ){
-        response = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, requestConnection );
+      result = await Logics.html.exeFetch( Sequence.HTTPS_PROTOCOL, requestConnection );
+      if( !result.response ){
+        result = await Logics.html.exeFetch( Sequence.HTTP_PROTOCOL, requestConnection );
       }
       break;
     }
 
-    return response ? response : MongoDB.getDefineSchemaObj( new HtmlSchema() );
+    if( result.response ){
+      return result;
+    }else{
+      result.response = resultMongoDB.getDefineSchemaObj( new HtmlSchema() );
+      return result;
+    }
   }
 
   exeFetch( protocol, connection ){
@@ -75,6 +81,7 @@ export default class Html {
           const contentType = response.headers['content-type'];
           const utf8Body = this.toUtf8Str( body );
           const $ = cheerio.load( utf8Body );
+          let iconHrefs = this.getIconHrefs( $ );
           responseSchema.contentType = contentType;
           responseSchema.protocol = protocol;
           responseSchema.links = this.getLinks( $ );
@@ -82,9 +89,9 @@ export default class Html {
           responseSchema.videos = this.getVideos( $ );
           responseSchema.audios = this.getAudios( $ );
           responseSchema.serverMetas = this.getMetas( $, connection, responseSchema, response.request.uri.href );
-          resolve( responseSchema );
+          resolve( {response: responseSchema, iconHrefs });
         }else{
-          resolve( null );
+          resolve( {response: null, iconHrefs: [] } );
         }
       });
     });
@@ -145,6 +152,30 @@ export default class Html {
     return audios;
   }
 
+  getIconHrefs( $ ){
+    let iconHrefs = [];
+    const icon = $('head link[rel="icon"]');
+    const Icon = $('head link[rel="Icon"]');
+    const iconLength = icon.length;
+    const IconLength = Icon.length;
+
+    if( iconLength > 0 ){
+      for( let i = 0; i < iconLength; i++ ){
+        if( icon[ i ].attribs.href !== "" ){
+          iconHrefs.push( icon[ i ].attribs.href );
+        }
+      }
+    }
+    if( IconLength > 0 ){
+      for( let i = 0; i < IconLength; i++ ){
+        if( Icon[ i ].attribs.href !== "" ){
+          iconHrefs.push( Icon[ i ].attribs.href );
+        }
+      }
+    }
+    return iconHrefs;
+  }
+
   getLinks( $ ){
     const linkLength = $( "body a" ).length;
     const getHref = ( item ) => {
@@ -158,7 +189,7 @@ export default class Html {
       let text = "";
       for( let i = 0; i < itemLength; i++ ){
         const child = item.children[ i ];
-        console.log( child );
+
         if( child.type === "text" && child.data !== "" && !Html.checkSpace.test( child.data) ){
           text = child.data;
           break;
