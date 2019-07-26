@@ -467,6 +467,7 @@ export default class App extends Schema{
         app.dispThreadType = App.dispThreadTypeChild;
 //        app.multistream = false;
         app.isOpenLinks = false;
+        app.isLinkConnection = true;
         app.isOpenMenu = true;
         return app;
       }
