@@ -433,7 +433,7 @@ class Window extends Elements {
             switch(method){
             case 'bootExtension':
                 this.childTo("removeExtension");
-                const { iframe } = this.window.ins;
+                const { iframe } = this.ins;
                 iframe.remove();
                 this.remove();
 
