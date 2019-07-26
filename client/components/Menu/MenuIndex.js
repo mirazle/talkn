@@ -146,7 +146,7 @@ export default class MenuIndex extends Component {
             rows={1}
             onChange={this.handleOnChange}
             onKeyPress={this.handleOnKeyPress}
-            placeholder={"Tune ch"}
+            placeholder={"CH"}
             value={this.state.rootConnection}
           />
           <div
