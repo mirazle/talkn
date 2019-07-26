@@ -426,7 +426,7 @@ export default class App extends Schema{
   }
 
   static getStepDispThreadType( {app, menuIndex}, threadStatus = {}, toConnection, called ){
-    const log = true;
+    const log = false;
     app.isLinkConnection = false;
     app.isOpenLinks = false;
 
@@ -465,7 +465,6 @@ export default class App extends Schema{
         if( log ) console.log("D");
         app.offsetFindId = App.defaultOffsetFindId;
         app.dispThreadType = App.dispThreadTypeChild;
-//        app.multistream = false;
         app.isOpenLinks = false;
         app.isLinkConnection = true;
         app.isOpenMenu = true;
