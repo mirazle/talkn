@@ -426,11 +426,14 @@ export default class App extends Schema{
   }
 
   static getStepDispThreadType( {app, menuIndex}, threadStatus = {}, toConnection, called ){
-    const log = false;
+    const log = true;
     app.isLinkConnection = false;
     app.isOpenLinks = false;
 
-    if( log ) console.log( called + " rootConnection = " + app.rootConnection + " toConnection " + toConnection );
+    if( log ) console.log( called +
+      " rootConnection = " + app.rootConnection +
+      " toConnection = " + toConnection
+    );
 
     if( called === "backToRootConnection" ){
       if( app.screenMode === App.screenModeSmallLabel ){
@@ -441,16 +444,19 @@ export default class App extends Schema{
       }
     }
 
+    if( log ) console.log(menuIndex);
+
     if( threadStatus.isMediaConnection ){
       if( log ) console.log("B");
       app.dispThreadType = App.dispThreadTypeTimeline;
       app.offsetFindId = app.offsetTimelineFindId ? app.offsetTimelineFindId : App.defaultOffsetFindId;
+      app.isLinkConnection = true;
       app.isMediaConnection = true;
+      return app;
     }
 
-    if( log ) console.log(menuIndex);
-
     if( called === "toLinks"){
+
       const haveMenuIndex = menuIndex.some( (mi) => {
         return ( mi.connection === toConnection ||  mi.connection === toConnection + "/");
       });
@@ -462,7 +468,6 @@ export default class App extends Schema{
 //        app.multistream = false;
         app.isOpenLinks = false;
         app.isOpenMenu = true;
-        app.isLinkConnection = true;
         return app;
       }
     }
