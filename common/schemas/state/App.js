@@ -28,7 +28,12 @@ export default class App extends Schema{
   static get dispThreadTypeChild(){ return 'Child' }
   static get dispThreadTypeLogs(){ return 'Logs' }
 
-  static get screenModeUndispLabel(){ return 'UNDISP' };
+  static get findTypeAll(){ return 'All' };
+  static get findTypeHtml(){ return 'Html' };
+  static get findTypeMusic(){ return 'Music' };
+  static get findTypeMovie(){ return 'Movie' };
+  static get findTypeMovie(){ return 'Other' };
+
   static get screenModeSmallLabel(){ return 'SMALL' };
   static get screenModeMiddleLabel(){ return 'MIDDLE' };
   static get screenModeLargeLabel(){ return 'LARGE' }; 
@@ -142,6 +147,7 @@ export default class App extends Schema{
     const threadScrollY = params && params.threadScrollY ? params.threadScrollY : 0;
 
     // 投稿情報
+    const findType = params && params.findType ? params.findType : App.findTypeAll;
     const offsetFindId = params && params.offsetFindId ? params.offsetFindId : App.defaultOffsetFindId ;
     const offsetTimelineFindId = params && params.offsetTimelineFindId ? params.offsetTimelineFindId : App.defaultOffsetFindId ;
     const offsetSingleFindId = params && params.offsetSingleFindId ? params.offsetSingleFindId : App.defaultOffsetFindId ;
@@ -232,6 +238,7 @@ export default class App extends Schema{
       inputSearch,
 
       // 各パーツの状態
+      findType,
       isOpenPosts,
       isOpenSetting,
       isOpenMenu,
