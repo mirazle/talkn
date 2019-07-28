@@ -205,15 +205,6 @@ export default class Detail extends Component {
         style={ style.detail.meta }
       >
         <div style={ style.detail.img } />
-      
-      { /*
-        <video 
-          controls 
-          autoPlay
-          style={{position: "relative", top: "-45px", left: "5%", display: "block",height: "40px", width: "90%"}}
-          src={"http://mangekyo.sakura.ne.jp/mp3/hidamarinouta(rock).mp3"} />
-      */}
-
         <div style={ style.detail.description }>{ description }</div>
         <div style={ style.detail.metaItems }>
           { TwitterIcon }

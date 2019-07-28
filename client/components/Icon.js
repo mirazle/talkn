@@ -477,6 +477,21 @@ export default class Icon extends Component{
     );
   }
 
+  static getCh( overStyle, params = {} ){
+    const style = Icon.getOveredStyle( IconStyle.getCh(params), overStyle );
+    return (
+      <div data-component-type={'IconCh'} style={ style.div } >
+        <div data-component-type={'IconChCircle1'} style={ style.circle1 }>
+          <div data-component-type={'IconChCircle2'} style={ style.circle2 }>
+            <div data-component-type={'IconChStr'} style={ style.str }>CH</div>
+          </div>
+        </div>
+        <div data-component-type={'IconShadow1'} style={ style.shadow1 } />
+        <div data-component-type={'IconShadow2'} style={ style.shadow2 } />
+      </div>
+    );
+  }
+
   static getUpdate( overStyle, params = {} ){
     const style = Icon.getOveredStyle( IconStyle.getUpdate(params), overStyle );
     return (

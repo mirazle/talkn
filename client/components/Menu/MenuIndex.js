@@ -17,6 +17,8 @@ export default class MenuIndex extends Component {
   }
 
   getDecolationProps(){
+    return {};
+    /*
     return {
       onMouseOver: () => {
         this.setState(
@@ -51,6 +53,7 @@ export default class MenuIndex extends Component {
         });
       },
     }
+    */
   }
 
   handleOnClickUpdate( connection ){
@@ -131,14 +134,15 @@ export default class MenuIndex extends Component {
     const headerUpdateIconStyle = this.state.style;
     const { style } = this.props.state;
     const { icon } = style;
-    const Search = Icon.getSearch( icon.search );
-    const Update = Icon.getUpdate( icon.update );
+    const IconCh = Icon.getCh( icon.ch );
+    const IconSearch = Icon.getSearch( icon.search );
+    //const IconUpdate = Icon.getUpdate( icon.update );
     return (
       <nav data-component-name={"MenuIndex"} style={style.menuIndex.self}>
 
         <header style={style.menuIndex.header}>
           <div style={style.menuIndex.headerSearchIcon}>
-            { Search }
+            { IconSearch }
           </div>
           <input
             type={ 'text' }
@@ -152,9 +156,15 @@ export default class MenuIndex extends Component {
           <div
             style={headerUpdateIconStyle}
             onClick={this.handleOnClickUpdate}
-            {...this.getDecolationProps()}
+            { ...this.getDecolationProps()  }
           >
-            { Update }
+            { /* IconUpdate */ }
+            <select style={style.menuIndex.headerFindSelect}>
+              <option>All</option>
+              <option>html</option>
+              <option>music</option>
+              <option>movie</option>
+            </select>
           </div>
         </header>
 

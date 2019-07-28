@@ -34,6 +34,7 @@ export default class Icon {
     const money = Icon.getMoney( params );
     const openEmoji = Icon.getOpenEmoji( params );
     const close = Icon.getClose( params );
+    const ch = Icon.getCh( params );
     const update = Icon.getUpdate( params );
     return {
       headTab,
@@ -56,6 +57,7 @@ export default class Icon {
       money,
       openEmoji,
       close,
+      ch,
       update
     }
   }
@@ -1633,6 +1635,87 @@ export default class Icon {
     return {div, circle, bar1, bar2};
   }
 
+  static getCh(){
+    const color = Container.lightGrayRGB;
+    const div = Style.get({
+      layout: Style.getLayoutFlex({
+        width: "44px",
+        height: "44px"
+      }),
+      content: Style.getContentBase({
+        cursor: "pointer"
+      }),
+      animation: Style.getAnimationBase({}),
+    });
+
+    const circle1 = Style.get({
+      layout: Style.getLayoutFlex({
+        position: "absolute",
+        top: "0px",
+        width: "inherit",
+        height: "inherit",
+        border: `2px solid ${ color }`,
+        borderRadius: "30px"
+      }),
+      content: {},
+      animation: {},
+    });
+
+    const circle2 = Style.get({
+      layout: Style.getLayoutFlex({
+        width: "75%",
+        height: "75%",
+        border: `2px solid ${ color }`,
+        borderRadius: "30px"
+      }),
+      content: Style.getContentBase({
+        cursor: "pointer"
+      }),
+      animation: Style.getAnimationBase({}),
+    });
+
+    const str = Style.get({
+      layout: Style.getLayoutFlex({
+        width: "inherit",
+        height: "inherit",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: "30px"
+      }),
+      content: Style.getContentBase({
+        lineHeight: 2,
+        color,
+        fontSize: "10px"
+      }),
+      animation: Style.getAnimationBase({}),
+    });
+
+    const commonShadowLayout = {
+      width: "24px",
+      height: "24px",
+      background: Container.lightRGB,
+      position: "absolute",
+      zIndex: 10
+    };
+
+    const shadow1 = Style.get({
+      layout: {...commonShadowLayout, top: "-4px"},
+      content: {},
+      animation: {
+        transform: "rotate(45deg) scale3d(1, 1, 1) skew(-57deg, -57deg)"
+      }
+     });
+
+     const shadow2 = Style.get({
+      layout: {...commonShadowLayout, top: "24px"},
+      content: {},
+      animation: {
+        transform: "rotate(45deg) scale3d(1, 1, 1) skew(-57deg, -57deg)"
+      }
+     });
+
+    return {div, circle1, circle2, str, shadow1, shadow2};
+  }
 
   static getUpdate({app}){
     const div = Style.get({
