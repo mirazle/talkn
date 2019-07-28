@@ -124,7 +124,8 @@ export default class MenuIndex {
       height: '50px',
       alignItems: "center",
       justifyContent: "center",
-      background: "transparent"
+      background: "transparent",
+      padding: "10px"
     });
     const content = Style.getContentBase({
       outline: 0,
