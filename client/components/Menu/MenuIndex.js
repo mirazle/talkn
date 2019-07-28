@@ -160,10 +160,10 @@ export default class MenuIndex extends Component {
           >
             { /* IconUpdate */ }
             <select style={style.menuIndex.headerFindSelect}>
-              <option>All</option>
-              <option>html</option>
-              <option>music</option>
-              <option>movie</option>
+              <option>{App.findTypeAll}</option>
+              <option>{App.findTypeHtml}</option>
+              <option>{App.findTypeMusic}</option>
+              <option>{App.findTypeMovie}</option>
             </select>
           </div>
         </header>

@@ -118,13 +118,13 @@ export default class MenuIndex {
     return Style.get({layout, content, animation});
   }
 
-
   static getHeaderFindSelect( {app} ){
     const layout = Style.getLayoutFlex({
-      width: '65px',
+      width: '100%',
       height: '50px',
       alignItems: "center",
-      justifyContent: "center"
+      justifyContent: "center",
+      background: "transparent"
     });
     const content = Style.getContentBase({
       outline: 0,
