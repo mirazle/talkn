@@ -4,10 +4,6 @@ import Style from '../index';
 import Container from '../Container';
 import Main from '../Main';
 
-
-// 未使用？
-
-
 export default class MenuIndex {
 
   static get iconSize(){ return '25px' };
@@ -18,6 +14,7 @@ export default class MenuIndex {
     const header = MenuIndex.getHeader( params );
     const headerSearchIcon = MenuIndex.getHeaderSearchIcon( params );
     const headerInput = MenuIndex.getHeaderInput( params );
+    const headerFindSelect = MenuIndex.getHeaderFindSelect( params );
     const headerUpdateIcon = MenuIndex.getHeaderUpdateIcon( params );
     const ol = MenuIndex.getOl( params );
 
@@ -26,6 +23,7 @@ export default class MenuIndex {
       header,
       headerSearchIcon,
       headerInput,
+      headerFindSelect,
       headerUpdateIcon,
       ol,
     }
@@ -64,11 +62,17 @@ export default class MenuIndex {
   }
 
   static getHeaderSearchIcon( {app} ){
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
+      justifyContent: "center",
+      alignItems: "center",
       width: '50px',
       height: '45px',
     });
-    const content = Style.getContentBase({});
+    const content = Style.getContentBase({
+      fontSize: "13px",
+      color: Container.reliefRGBA,
+      fontWeight: "bold"
+    });
     const animation = Style.getAnimationBase({
       transition: Container.getTransition( app ),
     });
@@ -77,7 +81,7 @@ export default class MenuIndex {
 
   static getHeaderInput(){
     const layout = Style.getLayoutInlineBlock({
-      width: 'calc( 100% - 100px )',
+      width: 'calc( 100% - 120px )',
       height: '25px',
       padding: "0px 0px 0px 10px",
       background: Container.whiteRGB,
@@ -100,13 +104,32 @@ export default class MenuIndex {
 
   static getHeaderUpdateIcon( {app} ){
     const layout = Style.getLayoutFlex({
-      width: '50px',
+      width: '70px',
+      height: '50px',
+      alignItems: "center",
+      justifyContent: "flex-start"
+    });
+    const content = Style.getContentBase({
+      cursor: "pointer"
+    });
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransition( app ),
+    });
+    return Style.get({layout, content, animation});
+  }
+
+
+  static getHeaderFindSelect( {app} ){
+    const layout = Style.getLayoutFlex({
+      width: '65px',
       height: '50px',
       alignItems: "center",
       justifyContent: "center"
     });
     const content = Style.getContentBase({
-      cursor: "pointer"
+      outline: 0,
+      cursor: "pointer",
+      fontSize: "12px"
     });
     const animation = Style.getAnimationBase({
       transition: Container.getTransition( app ),

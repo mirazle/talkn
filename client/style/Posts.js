@@ -68,12 +68,11 @@ export default class Posts {
   static get headerHeight(){ return 35 };
 
   static getBorders( app ){
-
+console.log( app.includeIframeTag );
     if( app.includeIframeTag ){
       return {borderRight: Container.border, borderLeft: Container.border};
     }else{
-      return app.extensionMode === App.screenModeUndispLabel ||
-            app.extensionMode === App.screenModeSmallLabel ?
+      return app.extensionMode === App.screenModeSmallLabel ?
         {borderRight: Container.border, borderLeft: Container.border} :
         {} ;
     }
