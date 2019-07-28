@@ -125,7 +125,8 @@ export default class MenuIndex {
       alignItems: "center",
       justifyContent: "center",
       background: "transparent",
-      margin: "5px"
+      WebkitAppearance: "none",
+      padding: "10px"
     });
     const content = Style.getContentBase({
       outline: 0,

@@ -32,7 +32,7 @@ export default class App extends Schema{
   static get findTypeHtml(){ return 'Html' };
   static get findTypeMusic(){ return 'Music' };
   static get findTypeMovie(){ return 'Movie' };
-  static get findTypeMovie(){ return 'Other' };
+  static get findTypeOther(){ return 'Other' };
 
   static get screenModeSmallLabel(){ return 'SMALL' };
   static get screenModeMiddleLabel(){ return 'MIDDLE' };
