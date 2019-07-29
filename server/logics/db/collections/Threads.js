@@ -89,15 +89,15 @@ export default class Threads {
   }
 
   async save( thread ){
-
+    const contentType = thread.contentType.split(";")[0]
     thread.findType = Thread.findTypeHtml;
-    if( findTypeHtml.includes( thread.contentType ) ){
+    if( findTypeHtml.includes( contentType ) ){
       thread.findType = Thread.findTypeHtml;
     }
-    if( findTypeMusic.includes( thread.contentType ) ){
+    if( findTypeMusic.includes( contentType ) ){
       thread.findType = Thread.findTypeMusic;
     }
-    if( findTypeMovie.includes( thread.contentType ) ){
+    if( findTypeMovie.includes( contentType ) ){
       thread.findType = Thread.findTypeMovie;
     }
 
