@@ -45,8 +45,6 @@ export default class Io {
   async updateThread(ioUser, {requestState, thread} ){
     const responseEmitState = Sequence.getResponseState( 'Emit', requestState, {thread} );
     this.io.emit( ioUser, Sequence.CATCH_ME_KEY, responseEmitState );
-    console.log( responseEmitState );
-    console.log( "RESPONSE !");
     return true;
   }
 
@@ -62,7 +60,6 @@ export default class Io {
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts, thread, menuIndex: posts } );
     const connections = posts[0].connections;
     connections.forEach( ( connection ) => {
-      console.log( connection );
       responseBroadcastState.thread.connection = connection;
       this.io.broadcast( connection, responseBroadcastState );
     });
