@@ -92,13 +92,13 @@ export default class Threads {
 
     thread.findType = Thread.findTypeHtml;
     if( findTypeHtml.includes( thread.contentType ) ){
-      findType = Thread.findTypeHtml;
+      thread.findType = Thread.findTypeHtml;
     }
     if( findTypeMusic.includes( thread.contentType ) ){
-      findType = Thread.findTypeMusic;
+      thread.findType = Thread.findTypeMusic;
     }
     if( findTypeMovie.includes( thread.contentType ) ){
-      findType = Thread.findTypeMovie;
+      thread.findType = Thread.findTypeMovie;
     }
 
     thread.updateTime = new Date();
