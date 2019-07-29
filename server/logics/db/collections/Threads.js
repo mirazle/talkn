@@ -1,8 +1,17 @@
-import Thread from '~/common/schemas/state/Thread';
 import App from '~/common/schemas/state/App';
+import Thread from '~/common/schemas/state/Thread';
 import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
 import Favicon from '~/server/logics/Favicon';
+
+console.log( Thread.findTypes );
+console.log( Thread.findTypeHtml );
+console.log( Thread.findTypeMusic );
+console.log( Thread.findTypeMovie );
+
+const findTypeHtml = Thread.findTypes[ Thread.findTypeHtml ];
+const findTypeMusic = Thread.findTypes[ Thread.findTypeMusic ];
+const findTypeMovie = Thread.findTypes[ Thread.findTypeMovie ];
 
 export default class Threads {
 
@@ -40,14 +49,18 @@ export default class Threads {
     const { thread } = requestState;
     const { connection } = thread;
     const layer = Thread.getLayer( connection );
-//    const regexConnection = connection.replace(/\//, '\/');
+
+    //    const regexConnection = connection.replace(/\//, '\/');
 //    const regex = new RegExp( `^${regexConnection}` );
-    const condition = {
-      connections: connection,
-      postCnt: {'$ne': 0},
-//      "lastPost.connection": regex, 
-      layer : { $gt : layer  }
-    };
+    let condition = {};
+    condition.connections = connection;
+    condition.postCnt = {'$ne': 0};
+    condition.layer = { $gt : layer  };
+    condition.findType = thread.findType;
+
+    console.log("@@@ findType " );
+    console.log( condition );
+
     const selector = {"serverMetas.title": 1, lastPost: 1, watchCnt: 1};
     const option = {sort: {watchCnt: -1, layer: -1}, limit: setting.server.getThreadChildrenCnt};
     let {error, response} = await this.collection.find( condition, selector, option );
@@ -80,6 +93,24 @@ export default class Threads {
   }
 
   async save( thread ){
+    console.log( findTypeHtml );
+    console.log( findTypeMusic );
+    console.log( findTypeMovie );
+
+    thread.findType = Thread.findTypeAll;
+    if( findTypeHtml.includes( thread.contentType ) ){
+      console.log("C");
+      findType = Thread.findTypeHtml;
+    }
+    if( findTypeMusic.includes( thread.contentType ) ){
+      console.log("D");
+      findType = Thread.findTypeMusic;
+    }
+    if( findTypeMovie.includes( thread.contentType ) ){
+      console.log("E");
+      findType = Thread.findTypeMovie;
+    }
+    console.log( thread.findType );
     thread.updateTime = new Date();
     thread.watchCnt = thread.watchCnt < 0 ? 0 : thread.watchCnt ;
     thread.title = thread.serverMetas.title ? thread.serverMetas.title : thread.serverMetas["og:title"];

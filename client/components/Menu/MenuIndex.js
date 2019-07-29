@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import App from 'common/schemas/state/App';
+import Thread from 'common/schemas/state/Thread';
 import conf from 'common/conf';
 import Icon from '../Icon';
 import MenuIndexList from './MenuIndexList';
@@ -155,15 +156,18 @@ export default class MenuIndex extends Component {
           />
           <div
             style={headerUpdateIconStyle}
-            onClick={this.handleOnClickUpdate}
+//            onClick={this.handleOnClickUpdate}
             { ...this.getDecolationProps()  }
           >
             { /* IconUpdate */ }
-            <select style={style.menuIndex.headerFindSelect}>
-              <option>{App.findTypeAll}</option>
-              <option>{App.findTypeHtml}</option>
-              <option>{App.findTypeMusic}</option>
-              <option>{App.findTypeMovie}</option>
+            <select
+              onChange={talknAPI.onChangeFindType}
+              style={style.menuIndex.headerFindSelect}
+            >
+              <option>{Thread.findTypeAll}</option>
+              <option>{Thread.findTypeHtml}</option>
+              <option>{Thread.findTypeMusic}</option>
+              <option>{Thread.findTypeMovie}</option>
             </select>
           </div>
         </header>

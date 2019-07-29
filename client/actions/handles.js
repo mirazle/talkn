@@ -310,6 +310,12 @@ export default {
       type: 'STOP_VIDEO'
     };
   },
+  onChangeFindType: ( e ) => {
+    return {
+      type: 'ON_CHANGE_FIND_TYPE',
+      app: {findType: e.target.value}
+    };
+  },
   debug: ( app ) => {
     return {
       type: 'DEBUG',

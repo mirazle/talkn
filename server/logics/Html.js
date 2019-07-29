@@ -56,7 +56,7 @@ export default class Html {
     if( result.response ){
       return result;
     }else{
-      result.response = resultMongoDB.getDefineSchemaObj( new HtmlSchema() );
+      result.response = MongoDB.getDefineSchemaObj( new HtmlSchema() );
       return result;
     }
   }
@@ -73,8 +73,8 @@ export default class Html {
         let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
 
         if( error ){
-          console.warn( "html.js " + url );
-          console.warn( error );
+          //console.warn( "html.js " + url );
+          //console.warn( error );
         }
 
         if( !error && response && response.statusCode === 200 ){

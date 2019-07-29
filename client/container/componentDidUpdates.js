@@ -87,6 +87,10 @@ const componentDidUpdates = {
                 }
             }
         },
+        'ON_CHANGE_FIND_TYPE': ( self ) => {
+            const { connection } = self.props.state.thread;
+            talknAPI.findMenuIndex( connection );
+        },
         'CLOSE_NOTIF': ( self ) => {
             if( self.state.notifs.length > 0 ){
                 self.setState({notifs: []});

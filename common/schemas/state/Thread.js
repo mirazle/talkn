@@ -3,7 +3,18 @@ import Schema from '~/common/schemas/Schema';
 import App from '~/common/schemas/state/App';
 
 export default class Thread extends Schema{
-
+  static get findTypeAll(){ return 'All' };
+  static get findTypeHtml(){ return 'Html' };
+  static get findTypeMusic(){ return 'Music' };
+  static get findTypeMovie(){ return 'Movie' };
+  static get findTypeOther(){ return 'Other' };
+  static get findTypes(){
+    return {
+      [Thread.findTypeHtml]: [ "text/html"],
+      [Thread.findTypeMusic]: [ "audio/mpeg", "audio/mp4", "audio/x-wav", "audio/midi", "application/x-smaf"],
+      [Thread.findTypeMovie]: [ "video/mpeg", "video/x-ms-wmv", "application/x-shockwave-flash", "video/3gpp2"]
+    }
+  }
   static getDefaultTitle(){
     return 'talkn';
   }
