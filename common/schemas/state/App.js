@@ -27,13 +27,6 @@ export default class App extends Schema{
   static get dispThreadTypeMulti(){ return 'Multi' }
   static get dispThreadTypeChild(){ return 'Child' }
   static get dispThreadTypeLogs(){ return 'Logs' }
-
-  static get findTypeAll(){ return 'All' };
-  static get findTypeHtml(){ return 'Html' };
-  static get findTypeMusic(){ return 'Music' };
-  static get findTypeMovie(){ return 'Movie' };
-  static get findTypeOther(){ return 'Other' };
-
   static get screenModeSmallLabel(){ return 'SMALL' };
   static get screenModeMiddleLabel(){ return 'MIDDLE' };
   static get screenModeLargeLabel(){ return 'LARGE' }; 

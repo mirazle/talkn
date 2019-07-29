@@ -5,7 +5,7 @@ export default class Html {
   constructor(){
     return {
       protocol: { type: String, default: Sequence.TALKN_PROTOCOL },
-      contentType: { type: String, default: "text/html" },
+      contentType: { type: String, default: "talkn/thread" },
       serverMetas: {
         title: { type: String, default: "talkn" },
         keywords: { type: String, default: "talkn, blockchain, art, internet" },
