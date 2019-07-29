@@ -52,6 +52,7 @@ export default class Thread extends Schema{
       thread.charset = 'UTF-8';
       thread.host = '';
       thread.favicon = Thread.getDefaultFavicon();
+      thread.findType = Thread.findTypeAll;
 
       if( bootConnection ){
 

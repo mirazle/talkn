@@ -215,6 +215,7 @@ export default class App extends Schema{
       threadScrollY,
 
       // 投稿情報
+      findType,
       offsetFindId,
       offsetTimelineFindId,
       offsetSingleFindId,
