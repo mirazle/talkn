@@ -42,6 +42,10 @@ const functions = {
     action.app = state.app;
     return action;
   },
+  "SERVER_TO_CLIENT[EMIT]:updateThread": ( state, action ) => {
+    action.threads = Threads.getMergedThreads( state.threads, action.thread );
+    action.threadDetail = action.thread;
+  },
   "SERVER_TO_CLIENT[EMIT]:find": ( state, action ) => {
     action = resolve.caseNoExistResponsePost(state, action);
     action.app = {...state.app, ...action.app};
