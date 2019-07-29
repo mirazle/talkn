@@ -12,6 +12,7 @@ export default class Detail extends Component {
 
   constructor(props) {
     super(props);
+    this.handleOnClickUpdate = this.handleOnClickUpdate.bind( this );
   }
 
   handleOnClickLike(){
@@ -40,6 +41,12 @@ export default class Detail extends Component {
     if(app.openLockMenu !== App.openLockMenuLabelNo){
       onClickOpenLockMenu(App.openLockMenuLabelNo);
     }
+  }
+
+  handleOnClickUpdate(){
+    const { openInnerNotif } = this.props;
+    openInnerNotif();
+    talknAPI.updateThread( threadDetail.connection );
   }
 
   getImgStyle( style, protocol, serverMetas ){
@@ -238,7 +245,7 @@ export default class Detail extends Component {
         CH<br />
         { threadDetail.connection }<br /><br />
         <div
-          onClick={ () => { talknAPI.updateThread( threadDetail.connection ) } }
+          onClick={ this.handleOnClickUpdate }
           style={ style.detail.updateWrap }
         >
           <div style={ style.detail.update }>
