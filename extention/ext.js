@@ -1,4 +1,4 @@
-const TALKN_EXT_ENV = "PROD";
+const TALKN_EXT_ENV = "START";
 
 class Ext {
     static get APP_NAME(){return "talkn"}
