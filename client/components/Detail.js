@@ -237,7 +237,10 @@ export default class Detail extends Component {
       >
         CH<br />
         { threadDetail.connection }<br /><br />
-        <div style={ style.detail.updateWrap }>
+        <div
+          onClick={ () => { talknAPI.updateThread( threadDetail.connection ) } }
+          style={ style.detail.updateWrap }
+        >
           <div style={ style.detail.update }>
             UPDATE
             { IconUpdate }

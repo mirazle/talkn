@@ -152,6 +152,15 @@ export default {
     return true;
   },
 
+  updateThread: async ( ioUser, requestState, setting ) => {
+    const { connection } = requestState.thread;
+    let {response: thread} = await Logics.db.threads.findOne( connection, {}, {}, true );
+    thread = await Logics.db.threads.requestHtmlParams( thread, requestState );
+    thread = await Logics.db.threads.save( thread );
+    Logics.io.updateThread( ioUser, {requestState, thread} );
+    return true;
+  },
+
   updateThreadServerMetas: async ( ioUser, requestState, setting ) => {
     const { connection } = requestState.thread;
     const {response: baseThread} = await Logics.db.threads.findOne( connection );

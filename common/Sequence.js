@@ -58,6 +58,16 @@ export default class Sequence {
         responseEmitState: {'thread': '*', 'app': ['dispThreadType', 'offsetFindId'], 'posts': '*'},
         responseBroadcastState: {},
       },
+      updateThread: {
+        requestPublicState: {'thread': [{columnName: 'connection'}]},
+        requestPrivateState: {
+          'thread': [{columnName: 'protocol'}, {columnName: 'host'}, {columnName: 'hasSlash'}]
+        },
+        responseEmitState: {
+          'thread': '*'
+        },
+        responseBroadcastState: {},
+      },
       changeThread: {
         requestPublicState: {'thread': [{columnName: 'connection'}]},
         requestPrivateState: {
