@@ -69,4 +69,6 @@ export default class DetailRight {
   static getFooterChildMoney(params){return Detail.getFooterChildMoney(params)}
   static getFooterChildShare(params){return Detail.getFooterChildShare(params)}
   static getMetaItems(params){return Detail.getMetaItems(params)}
+  static getUpdateWrap(params){return Detail.getUpdateWrap(params)}
+  static getUpdate(params){return Detail.getUpdate(params)}
 }

@@ -230,11 +230,19 @@ export default class Detail extends Component {
   renderConnection(){
     const { state } = this.props;
     const { threadDetail, style } = state
+    const IconUpdate = Icon.getUpdate( style.icon.update );
     return(
       <div 
         style={ style.detail.connection }
-      > CH<br />
-        { threadDetail.connection }
+      >
+        CH<br />
+        { threadDetail.connection }<br /><br />
+        <div style={ style.detail.updateWrap }>
+          <div style={ style.detail.update }>
+            UPDATE
+            { IconUpdate }
+          </div>
+        </div>
       </div>
     )
   }

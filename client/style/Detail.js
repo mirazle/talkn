@@ -49,6 +49,8 @@ export default class Detail {
     styles.footerChildMoney = DetailClass.getFooterChildMoney( params );
     styles.footerChildShare = DetailClass.getFooterChildShare( params );
     styles.metaItems = DetailClass.getMetaItems( params );
+    styles.updateWrap = DetailClass.getUpdateWrap( params );
+    styles.update = DetailClass.getUpdate( params );
 
     return styles;
   }
@@ -460,6 +462,33 @@ export default class Detail {
       margin: `${Detail.margin}%`
     });
     const content = Style.getContentBase({
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getUpdateWrap({app}){
+    const layout = Style.getLayoutFlex({
+      justifyContent: "flex-end",
+      alignItems: "flex-end",
+      margin: "0px 0px 30px 0px"
+    });
+    const content = Style.getContentBase({});
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getUpdate({app}){
+    const layout = Style.getLayoutFlex({
+      width: "160px",
+      borderRadius: "30px",
+      background: Container.themeRGBA
+    });
+    const content = Style.getContentBase({
+      textIndent: "15px",
+      cursor: "pointer",
+      fontSize: "12px",
+      color: Container.whiteRGB
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});

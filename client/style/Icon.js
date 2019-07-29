@@ -1718,6 +1718,7 @@ export default class Icon {
   }
 
   static getUpdate({app}){
+    const color = Container.whiteRGB;
     const div = Style.get({
       layout: Style.getLayoutFlex({
         width: Icon.middleSize,
@@ -1726,7 +1727,9 @@ export default class Icon {
       content: Style.getContentBase({
         cursor: "pointer"
       }),
-      animation: Style.getAnimationBase({}),
+      animation: Style.getAnimationBase({
+        transform: "scale( 0.75)"
+      }),
     });
 
     const circle = Style.get({
@@ -1734,7 +1737,7 @@ export default class Icon {
         width: '55%',
         height: '55%',
         borderRadius: '30px',
-        border: `2px solid ${Container.borderRGB}`,
+        border: `2px solid ${color}`,
         overflow: "visible"
       }),
       content: Style.getContentBase({
@@ -1747,14 +1750,15 @@ export default class Icon {
     const bar = Style.get({
       layout: Style.getLayoutBase({
         position: "relative",
-        left: "10px",
+        top: "1px",
+        left: "12px",
         width: '8px',
         height: '8px',
         background: "none",
-        borderTop: `0px solid ${Container.lightRGB}`,
-        borderRight: `2px solid ${Container.borderRGB}`,
-        borderBottom: `2px solid ${Container.borderRGB}`,
-        borderLeft: `0px solid ${Container.lightRGB}`
+        borderTop: `0px solid ${Container.themeRGB}`,
+        borderRight: `2px solid ${color}`,
+        borderBottom: `2px solid ${color}`,
+        borderLeft: `0px solid ${Container.themeRGB}`
       }),
       content: Style.getContentBase({
         cursor: "pointer"
@@ -1771,7 +1775,7 @@ export default class Icon {
         left: "12px",
         width: '10px',
         height: '4px',
-        background: Container.lightRGB
+        background: "rgba(100, 192, 170, 1)"
       }),
       content: Style.getContentBase({
         cursor: "pointer"
