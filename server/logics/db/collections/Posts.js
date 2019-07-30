@@ -71,6 +71,7 @@ export default class Posts {
       favicon: thread.favicon,
       title: thread.title,
       post: app.inputPost,
+      findType: thread.findType,
       currentTime: app.inputCurrentTime,
       data: '',
       updateTime: new Date(),

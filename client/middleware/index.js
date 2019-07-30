@@ -122,7 +122,6 @@ const functions = {
     }
 
     action = Posts.getAnyActionPosts(action);
-    console.log( action );
     return action;
   }, 
   "SERVER_TO_CLIENT[EMIT]:getMore": ( state, action ) => {

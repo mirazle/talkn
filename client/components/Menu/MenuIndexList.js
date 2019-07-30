@@ -212,8 +212,8 @@ export default class MenuIndexList extends Component {
     const dispFavicon = this.getDispFavicon()
     const dispWatchCnt = this.getDispWatchCnt();
     const baseStyle = style[ styleKey ];
-
-    //if( styleKey === MenuIndexListStyle.unactiveLiSelfLabel ) console.log(baseStyle.borderRight);
+    const dispExt = menuIndexList.findType === Thread.findTypeHtml ?
+      null : menuIndexList.findType;
 
     return (
       <li
@@ -242,6 +242,8 @@ export default class MenuIndexList extends Component {
           <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: this.renderPost( menuIndexList.post, app ) }} />
           {dispWatchCnt}
         </div>
+
+      { dispExt && <span style={style.ext}>{ dispExt }</span> }
       </li>
     )
  	}

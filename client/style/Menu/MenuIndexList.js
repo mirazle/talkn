@@ -75,6 +75,7 @@ export default class MenuIndexList {
     const bottomPost = MenuIndexList.getBottomPost();
     const bottomWatchCnt = MenuIndexList.getBottomWatchCnt();
     const bottomWatchCntWrap = MenuIndexList.getBottomWatchCntWrap();
+    const ext = MenuIndexList.getExt();
     return {
       activeLiSelf,
       unactiveLiSelf,
@@ -87,7 +88,8 @@ export default class MenuIndexList {
       bottomIcon,
       bottomPost,
       bottomWatchCnt,
-      bottomWatchCntWrap
+      bottomWatchCntWrap,
+      ext
     }
   }
 
@@ -252,6 +254,28 @@ export default class MenuIndexList {
     const content = Style.getContentBase({
       fontSize: "10px",
       lineHeight: 2,
+      textAlign: 'center',
+      color: Container.whiteRGB,
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getExt(){
+    const layout = Style.getLayoutFlex({
+      position: "absolute",
+      alignItems: "center",
+      justifyContent: "center",
+      bottom: "0px",
+      right: "0px",
+      width: "50px",
+      height: "15px",
+      background: Container.softCalmRGBA,
+      borderRadius: "3px 0px 0px 0px",
+    });
+    const content = Style.getContentBase({
+      textIndent: "5px",
+      fontSize: "8px",
       textAlign: 'center',
       color: Container.whiteRGB,
     });
