@@ -78,17 +78,25 @@ export default class Html {
         }
 
         if( !error && response && response.statusCode === 200 ){
+
           const contentType = response.headers['content-type'];
-          const utf8Body = this.toUtf8Str( body );
-          const $ = cheerio.load( utf8Body );
-          let iconHrefs = this.getIconHrefs( $ );
+          let iconHrefs = [];
+
           responseSchema.contentType = contentType;
           responseSchema.protocol = protocol;
-          responseSchema.links = this.getLinks( $ );
-          responseSchema.h1s = this.getH1s( $ );
-          responseSchema.videos = this.getVideos( $ );
-          responseSchema.audios = this.getAudios( $ );
-          responseSchema.serverMetas = this.getMetas( $, connection, responseSchema, response.request.uri.href );
+          if( App.isMediaContentType( contentType ) ){
+            responseSchema.serverMetas.title = this.getTitle( null, connection, contentType );
+          }else{
+            const utf8Body = this.toUtf8Str( body, contentType );
+            const $ = cheerio.load( utf8Body );
+            iconHrefs = this.getIconHrefs( $ );
+
+            responseSchema.links = this.getLinks( $ );
+            responseSchema.h1s = this.getH1s( $ );
+            responseSchema.videos = this.getVideos( $ );
+            responseSchema.audios = this.getAudios( $ );
+            responseSchema.serverMetas = this.getMetas( $, connection, responseSchema, response.request.uri.href );
+          }
           resolve( {response: responseSchema, iconHrefs });
         }else{
           resolve( {response: null, iconHrefs: [] } );
@@ -97,15 +105,16 @@ export default class Html {
     });
   }
 
-  getTitle( $, connection, parentSchema ){
-    const { contentType } = parentSchema; 
+  getTitle( $, connection, contentType ){
     let title = "";
     if( App.isMediaContentType( contentType )){
       const splitedConnection = connection.split("/");
       const _title1 = splitedConnection[ splitedConnection.length - 1 ];
       const _title2 = splitedConnection[ splitedConnection.length - 2 ];
+      const _title3 = splitedConnection[ splitedConnection.length - 3 ];
       if( _title1 !== "" ) title = _title1;
       if( _title2 !== "" ) title = _title2;
+      if( _title3 !== "" ) title = _title3;
     }else{
       title = $('head title').text();
     }
@@ -231,7 +240,7 @@ export default class Html {
     let serverMetas = responseSchema.serverMetas;
     const metaLength = $( "meta" ).length;
 
-    serverMetas.title = this.getTitle( $, connection, parentSchema );
+    serverMetas.title = this.getTitle( $, connection, parentSchema.contentType );
 
     for( var i = 0; i < metaLength; i++ ){
       const item = $( "meta" ).get( i );
@@ -264,11 +273,11 @@ export default class Html {
     return serverMetas;
   }
 
-  toUtf8Str( body ){
+  toUtf8Str( body, contentType ){
     const encoding = this.getCharset( body );//jschardet.detect( body ).encoding;
     const buf = Buffer.from( body, 'binary');
-    const iconv = new Iconv( encoding, 'UTF-8//TRANSLIT//IGNORE');
     try{
+      const iconv = new Iconv( encoding, 'UTF-8//TRANSLIT//IGNORE');
       return iconv.convert( buf ).toString();
     }catch(e){
       console.warn( e );
