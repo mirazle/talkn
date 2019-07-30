@@ -46,6 +46,10 @@ export default class TalknWindow {
 			return bootOption.hasslash ? Schema.getBool( bootOption.hasslash ) : false;
 		}
 	}
+	static getPostsClientHeight(){
+		const postsClient = document.querySelector("[data-component-name=Posts]");
+		return postsClient ? postsClient.clientHeight : 0;
+	}
 	static getPostsHeight(){
 		let postsHeight = 0;
 		document.querySelectorAll("[data-component-name=Post]").forEach( (post) => {

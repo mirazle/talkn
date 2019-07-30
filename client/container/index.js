@@ -249,9 +249,13 @@ class Container extends Component {
   getNewPost(props){
     const { state} = props;
     const { style, app } = state;
+
+    // 実際に目視できるスレッドの高さ
     const frameHeight = HeaderStyle.headerHeight + PostsFooterStyle.selfHeight;
-    const postsFrameHeight = app.height - frameHeight;
-    const postsRealHeight = app.postsHeight + frameHeight - TalknWindow.getLastPostHeight();
+    const postsFrameHeight = window.innerHeight - frameHeight;
+
+    // 実際のスレッドの高さ
+    const postsRealHeight = TalknWindow.getPostsClientHeight();
 
     if( postsFrameHeight < postsRealHeight ){
       return (

@@ -60,7 +60,6 @@ export default class Io {
     const responseBroadcastState = Sequence.getResponseState( 'Broadcast', requestState, {posts, thread, menuIndex: posts } );
     const connections = posts[0].connections;
     connections.forEach( ( connection ) => {
-      console.log( connection );
       responseBroadcastState.thread.connection = connection;
       this.io.broadcast( connection, responseBroadcastState );
     });
