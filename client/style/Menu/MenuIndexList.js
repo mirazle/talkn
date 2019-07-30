@@ -275,12 +275,13 @@ export default class MenuIndexList {
       width: "50px",
       height: "15px",
       background: Container.lightGrayRGBA,
-      borderRadius: "4px 4px 0px 0px"
+      borderRadius: "2px 2px 0px 0px"
     });
     const content = Style.getContentBase({
-      textIndent: "5px",
+      textIndent: "3px",
       fontSize: "8px",
       textAlign: 'center',
+      lineHeight: "1.5px",
       color: Container.whiteRGB
     });
     const animation = Style.getAnimationBase();
@@ -289,13 +290,14 @@ export default class MenuIndexList {
 
   static getExtMusic(){
     let ext = MenuIndexList.getExt();
-    ext.background = "darkseagreen";
+//    ext.background = "rgba(143,198,143, 1)";
+    ext.background = "rgba(143,198,143, 1)";
     return ext;
   }
 
   static getExtMovie(){
     let ext = MenuIndexList.getExt();
-    ext.background = "red";
+    ext.background = "rgba(200, 10, 100, 1)";
     return ext;
   }
 }

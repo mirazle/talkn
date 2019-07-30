@@ -94,8 +94,6 @@ export default {
     // Posts
     const postCntKey = threadStatus.isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts( requestState, threadStatus );
-    console.log( thread[ postCntKey ] );
-    console.log( threadStatus  );
     const {response: posts} = await Logics.db.posts.find(requestState, setting, threadStatus );
 
     // appの状況を更新する

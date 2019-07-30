@@ -125,9 +125,6 @@ export default class Posts extends Component {
       "multiPostCnt" : "postCnt";
     let isDisp = false;
 
-    console.log( "@@@ " + postCntKey + " > " + conf.findOnePostCnt  );
-    console.log( dispPostCnt + " < " + thread[postCntKey] );
-
     if( thread[postCntKey] > conf.findOnePostCnt ){
       if( dispPostCnt < thread[postCntKey] ){
         isDisp = true;
