@@ -97,7 +97,7 @@ export default class MenuIndexList {
     const layout = Style.getLayoutBlock({
       width: 'initial',
       height: `${MenuIndexList.liHeight}px`,
-      padding: '10px',
+      padding: '5px',
       borderBottom: Container.border,
       borderRight: `1px solid ${Container.whiteRGB}`,
       background: MenuIndexList.activeLiSelfBackground,
@@ -113,7 +113,7 @@ export default class MenuIndexList {
     const layout = Style.getLayoutBlock({
       width: 'initial',
       height: `${MenuIndexList.liHeight}px`,
-      padding: '10px',
+      padding: '5px',
       ...borders,
       background: MenuIndexList.unactiveLiSelfBackground,
       cursor: 'pointer',
@@ -152,7 +152,7 @@ export default class MenuIndexList {
     const layout = Style.getLayoutInlineFlex({
       position: "absolute",
       left: "5px",
-      top: "10px",
+      top: "7px",
       width: MenuIndexList.thirdDigitWidth,
       height: "20px",
       background: MenuIndexList.rankOtherRGB,
@@ -270,7 +270,7 @@ export default class MenuIndexList {
       right: "0px",
       width: "50px",
       height: "15px",
-      background: Container.softCalmRGBA,
+      background: Container.lightGrayRGBA,
       borderRadius: "0px 0px 0px 0px",
     });
     const content = Style.getContentBase({
