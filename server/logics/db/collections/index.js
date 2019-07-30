@@ -51,7 +51,7 @@ export default class Collections {
         break;
       }
     }
-
+    
     const offsetFindId = App.getOffsetFindId( {posts} );
     const multistreamed = dispThreadType === App.dispThreadTypeMulti;
     return {...app,

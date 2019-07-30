@@ -14,11 +14,17 @@ export default class Posts {
     const { connection } = requestState.thread;
     const { isMultistream, isMediaConnection } = threadStatus;
     let condition = {}
+    condition.currentTime = 0;
     if( isMediaConnection ){
-      condition = {connection, currentTime: 0};
+      condition.connection = connection;
     }else{
-      condition = isMultistream ? {connections: connection} : {connection};
+      if( isMultistream ){
+        condition.connections = connection
+      }else{
+        condition.connection = connection
+      }
     }
+
     const {response: postCnt} = await this.collection.count( condition );
     return postCnt;
   }
@@ -50,12 +56,24 @@ export default class Posts {
     const limit = isMediaConnection ? conf.findOneLimitCnt : conf.findOnePostCnt;
     const selector = {};
     const option = {limit, sort};
+
+
+
     const result = await this.collection.find( condition, selector, option );
 
     if( !isMediaConnection ){
       result.response.reverse();
     }
 
+    /*
+    console.log("===== CONDITION ");
+    console.log( condition );
+    console.log("===== SORT ");
+    console.log( sort );
+    console.log("------------- RESULT ");
+    console.log( result.response.length );
+    console.log("-------------");
+    */
     return result;
   }
 

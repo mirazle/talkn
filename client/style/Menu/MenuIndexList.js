@@ -76,6 +76,8 @@ export default class MenuIndexList {
     const bottomWatchCnt = MenuIndexList.getBottomWatchCnt();
     const bottomWatchCntWrap = MenuIndexList.getBottomWatchCntWrap();
     const ext = MenuIndexList.getExt();
+    const extMusic = MenuIndexList.getExtMusic();
+    const extMovie = MenuIndexList.getExtMovie();
     return {
       activeLiSelf,
       unactiveLiSelf,
@@ -89,7 +91,9 @@ export default class MenuIndexList {
       bottomPost,
       bottomWatchCnt,
       bottomWatchCntWrap,
-      ext
+      ext,
+      extMusic,
+      extMovie
     }
   }
 
@@ -267,19 +271,31 @@ export default class MenuIndexList {
       alignItems: "center",
       justifyContent: "center",
       bottom: "0px",
-      right: "0px",
+      right: "10px",
       width: "50px",
       height: "15px",
       background: Container.lightGrayRGBA,
-      borderRadius: "0px 0px 0px 0px",
+      borderRadius: "4px 4px 0px 0px"
     });
     const content = Style.getContentBase({
       textIndent: "5px",
       fontSize: "8px",
       textAlign: 'center',
-      color: Container.whiteRGB,
+      color: Container.whiteRGB
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
+  }
+
+  static getExtMusic(){
+    let ext = MenuIndexList.getExt();
+    ext.background = "darkseagreen";
+    return ext;
+  }
+
+  static getExtMovie(){
+    let ext = MenuIndexList.getExt();
+    ext.background = "red";
+    return ext;
   }
 }
