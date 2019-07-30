@@ -13,6 +13,7 @@ export default {
 	title: { type: String, default: '' },
 	post: { type: String, default: '' },
 	data: { type: Object, default:{} },
+	findType: { type: String, default: ""  },
 	currentTime: { type: Number, default: 0.0 },
 	// Time
 	createTime: { type: Date, default: Date },

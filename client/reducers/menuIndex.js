@@ -119,12 +119,9 @@ export default ( state = new MenuIndex() , action ) => {
 		});
 	case "SERVER_TO_CLIENT[EMIT]:findMenuIndex":
 		if( state && state.length > 0 && action.menuIndex && action.menuIndex.length > 0 ){
-			console.log("@@@ A" + action.app.findType );
-			console.log( action.menuIndex );
 			action.menuIndex.shift();
 			return [ state[0] ].concat( action.menuIndex );
 		}else{
-			console.log("@@@ B");
 			return action.menuIndex ? action.menuIndex : state ;			
 		}
 	default:
