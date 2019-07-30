@@ -44,7 +44,8 @@ export default class Detail extends Component {
   }
 
   handleOnClickUpdate(){
-    const { openInnerNotif } = this.props;
+    const { openInnerNotif, state } = this.props;
+    const { threadDetail } = state;
     openInnerNotif("Thread data has been updated.");
     talknAPI.updateThread( threadDetail.connection );
   }

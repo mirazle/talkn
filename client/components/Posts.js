@@ -121,8 +121,12 @@ export default class Posts extends Component {
     const { style, thread, app } = state;
     const posts = PostsSchems.getDispPosts(state);
     const dispPostCnt = posts.length;
-    const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
+    const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ?
+      "multiPostCnt" : "postCnt";
     let isDisp = false;
+
+    console.log( "@@@ " + postCntKey + " > " + conf.findOnePostCnt  );
+    console.log( dispPostCnt + " < " + thread[postCntKey] );
 
     if( thread[postCntKey] > conf.findOnePostCnt ){
       if( dispPostCnt < thread[postCntKey] ){

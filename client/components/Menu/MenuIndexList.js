@@ -243,7 +243,7 @@ export default class MenuIndexList extends Component {
           {dispWatchCnt}
         </div>
 
-      { dispExt && <span style={style.ext}>{ dispExt }</span> }
+      { dispExt && <span style={style[ `ext${dispExt}` ]}>{ dispExt }</span> }
       </li>
     )
  	}

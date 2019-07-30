@@ -5,6 +5,7 @@ import Logics from '~/server/logics';
 import Threads from '~/server/logics/db/collections/Threads';
 import Actions from '~/server/actions';
 import tests from '~/server/utils/testRequestState';
+import { request } from 'http';
 
 export default {
 
@@ -39,12 +40,11 @@ export default {
     let { app } = requestState;
     const { connection } = requestState.thread;
     let thread = {connection};
-
     const isMultistream = Thread.getStatusIsMultistream( app );
     const postCntKey = isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts( requestState, {isMultistream} );
+    console.log( requestState );
     const {response: posts} = await Logics.db.posts.find(requestState, setting, {isMultistream, getMore: true} );
-
     app = Collections.getNewApp(requestState.type, app, thread, posts);
     Logics.io.getMore( ioUser, {requestState, thread, posts, app} );
   },
@@ -94,6 +94,8 @@ export default {
     // Posts
     const postCntKey = threadStatus.isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts( requestState, threadStatus );
+    console.log( thread[ postCntKey ] );
+    console.log( threadStatus  );
     const {response: posts} = await Logics.db.posts.find(requestState, setting, threadStatus );
 
     // appの状況を更新する
@@ -154,6 +156,9 @@ export default {
   updateThread: async ( ioUser, requestState, setting ) => {
     const { connection } = requestState.thread;
     let {response: thread} = await Logics.db.threads.findOne( connection, {}, {}, true );
+    const isMultistream = false;
+    const isMediaConnection = Thread.getStatusIsMediaConnection( connection );
+    thread.postCnt = await Logics.db.posts.getCounts( requestState, {isMediaConnection, isMultistream});
     thread = await Logics.db.threads.requestHtmlParams( thread, requestState );
     thread = await Logics.db.threads.save( thread );
     Logics.io.updateThread( ioUser, {requestState, thread} );
