@@ -108,7 +108,9 @@ export default class MenuIndexList {
       cursor: 'pointer',
     });
     const content = Style.getContentBase();
-    const animation = Style.getAnimationBase();
+    const animation = Style.getAnimationBase({
+      transition: `${Container.transitionFirstOn}ms`
+    });
     return Style.get({layout, content, animation});
   }
 
@@ -124,7 +126,7 @@ export default class MenuIndexList {
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transition: Container.transitionFirstOn,
+      transition: `${Container.transitionFirstOn}ms`
     });
 
     return Style.get({layout, content, animation});
