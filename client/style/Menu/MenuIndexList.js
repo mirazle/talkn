@@ -271,7 +271,7 @@ export default class MenuIndexList {
       width: "50px",
       height: "15px",
       background: Container.softCalmRGBA,
-      borderRadius: "3px 0px 0px 0px",
+      borderRadius: "0px 0px 0px 0px",
     });
     const content = Style.getContentBase({
       textIndent: "5px",
