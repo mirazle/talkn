@@ -102,7 +102,10 @@ export default class Html {
     let title = "";
     if( App.isMediaContentType( contentType )){
       const splitedConnection = connection.split("/");
-      title = splitedConnection[ splitedConnection.length - 1 ];
+      const _title1 = splitedConnection[ splitedConnection.length - 1 ];
+      const _title2 = splitedConnection[ splitedConnection.length - 2 ];
+      if( _title1 !== "" ) title = _title1;
+      if( _title2 !== "" ) title = _title2;
     }else{
       title = $('head title').text();
     }
