@@ -168,8 +168,11 @@ export default class Html {
     let iconHrefs = [];
     const icon = $('head link[rel="icon"]');
     const Icon = $('head link[rel="Icon"]');
+    const shortcutIcon = $('head link[rel="shortcut icon"]');
+    console.log( shortcutIcon );
     const iconLength = icon.length;
     const IconLength = Icon.length;
+    const shortcutIconLength = shortcutIcon.length;
 
     if( iconLength > 0 ){
       for( let i = 0; i < iconLength; i++ ){
@@ -182,6 +185,13 @@ export default class Html {
       for( let i = 0; i < IconLength; i++ ){
         if( Icon[ i ].attribs.href !== "" ){
           iconHrefs.push( Icon[ i ].attribs.href );
+        }
+      }
+    }
+    if( shortcutIconLength > 0 ){
+      for( let i = 0; i < shortcutIconLength; i++ ){
+        if( shortcutIcon[ i ].attribs.href !== "" ){
+          iconHrefs.push( shortcutIcon[ i ].attribs.href );
         }
       }
     }
