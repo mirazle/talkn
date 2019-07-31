@@ -187,7 +187,8 @@ export default class Posts {
 
   static getSelf( {app} ){
     let position = "relative";
-    let overflow = "hidden";
+    let overflowX = "hidden";
+    let overflowY = "hidden";
     let borders = {borderRight: 0, borderLeft: 0};
     let background = Container.whiteRGBA;
     let zIndex = 1;
@@ -197,14 +198,15 @@ export default class Posts {
       app.extensionMode === App.extensionModeExtModalLabel 
     ){
       position = "fixed";
-      overflow = "scroll";
+      overflowX = "hidden";
+      overflowY = "scroll";
       borders.borderRight = Container.border;
       borders.borderLeft = Container.border;
       zIndex = -2;
     }else{
       borders = Posts.getBorders(app);
     }
-
+console.log( "X " + overflowX + " Y " + overflowY );
     const layout = Style.getLayoutBlock({
       position,
       top: Posts.getSelfTop( app ),
@@ -218,7 +220,8 @@ export default class Posts {
       background,
       overflowScrolling: "touch",
       WebkitOverflowScrolling: "touch",
-      overflow,
+      overflowX,
+      overflowY,
       ...borders,
       zIndex
     });
