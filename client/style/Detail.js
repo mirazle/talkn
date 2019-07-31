@@ -96,7 +96,8 @@ export default class Detail {
       height: `calc( 100% - ${Header.headerHeight}px )`,
       WebkitOverflowScrolling: 'touch',
       background: Container.calmRGB,
-      overflow: 'scroll',
+      overflowX: "hidden",
+      overflowY: "scroll",
       margin: `${Header.headerHeight}px 0px 0px 0px`,
       borderLeft: Container.border,
       zIndex: 0
@@ -174,7 +175,8 @@ export default class Detail {
 
   static getBody(){
     const layout = Style.getLayoutBlock({
-      overflow: 'scroll',
+      overflowX: "hidden",
+      overflowY: "scroll",
       width: '100%',
       height: `calc( 100% - ${ Header.headerHeight * 2 }px )`,
       background: Container.reliefRGB,
