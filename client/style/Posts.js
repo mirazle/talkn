@@ -206,7 +206,7 @@ export default class Posts {
     }else{
       borders = Posts.getBorders(app);
     }
-console.log( "X " + overflowX + " Y " + overflowY );
+
     const layout = Style.getLayoutBlock({
       position,
       top: Posts.getSelfTop( app ),
