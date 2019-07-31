@@ -109,9 +109,6 @@ export default class Html {
     let title = "";
     if( App.isMediaContentType( contentType )){
       const splitedConnection = connection.split("/");
-
-      console.log( splitedConnection );
-
       const _title1 = splitedConnection[ splitedConnection.length - 1 ];
       const _title2 = splitedConnection[ splitedConnection.length - 2 ];
       const _title3 = splitedConnection[ splitedConnection.length - 3 ];

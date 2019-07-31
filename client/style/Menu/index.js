@@ -143,7 +143,8 @@ export default class MenuIndex {
     const layout = Style.getLayoutBlock({
       width: '100%',
       height: `calc( 100% - ${Main.headerHeight}px )`,
-      overflow: 'scroll'
+      overflowX:"hidden",
+      overflowY:"scroll"
     });
     const content = {};
     const animation = Style.getAnimationBase({
