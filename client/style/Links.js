@@ -1,9 +1,6 @@
 import App from '../../common/schemas/state/App';
 import Style from './index';
 import Container from './Container';
-import Detail from './Detail';
-import Posts from './Posts';
-import Menu from './Menu';
 
 export default class Links{
   static get tuneSize(){ return 50 }; 
@@ -51,6 +48,10 @@ export default class Links{
     return app.isOpenLinks ? "flex" : "none";
   }
 
+  static getLinksUlOevrflowY(app){
+    return app.isOpenLinks ? "scroll" : "hidden";
+  }
+
   static getSelf( {app} ){
     const display = Links.getSelfDisplay(app);
     const layout = Style.getLayoutFlex({
@@ -70,13 +71,15 @@ export default class Links{
   }
 
   static getLinksUl( {app} ){
+    const overflowY = Links.getLinksUlOevrflowY(app);
     const layout = Style.getLayoutFlex({
       height: "100%",
       width: "100%",
       justifyContent: "flex-start",
       alignItems: "flex-end",
       flexDirection: "column",
-      overflow: "scroll",
+      overflowX: "hidden",
+      overflowY,
       overflowScrolling: "touch",
       WebkitOverflowScrolling: "touch"
     });
