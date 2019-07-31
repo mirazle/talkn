@@ -149,7 +149,7 @@ export default class Links extends Component {
     const { displayLinks } = this.props; 
     const { style } = this.props.state;
     const contents = this.state.linkContents[ this.state.linkContentsKey ];
-
+    console.log( displayLinks + " " + style.links.self.width );
     if( displayLinks ){
 
       return (
