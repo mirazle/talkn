@@ -30,6 +30,9 @@ const componentDidUpdates = {
 
             if( app.extensionMode === "NONE"){
                 window.scrollTo(0, 9999999);
+                const { app } = self.props.state;
+                const Posts = document.querySelector("[data-component-name=Posts]");
+                talknWindow.threadHeight = Posts.clientHeight;
             }else{
 /*
                 const Posts = document.querySelector("[data-component-name=Posts]");
@@ -40,6 +43,7 @@ const componentDidUpdates = {
                     9999999
                 );
 */
+
             }
 
             if( !app.isOpenLinks ){
@@ -117,9 +121,7 @@ const componentDidUpdates = {
     },
     Posts: {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
-            const { app } = self.props.state;
-            const Posts = document.querySelector("[data-component-name=Posts]");
-            talknWindow.threadHeight = Posts.clientHeight;
+
         },
         'NEXT_POSTS_TIMELINE': post,
         'SERVER_TO_CLIENT[BROADCAST]:post': post,
