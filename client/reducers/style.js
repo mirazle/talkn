@@ -67,6 +67,9 @@ export default ( state = {} , action ) => {
 			links: {...state.links,
 				self: {...state.links.self,
 					display: Links.getSelfDisplay( action.app )
+				},
+				linksUl: {...state.links.linksUl,
+					overflowY: Links.getLinksUlOevrflowY(action.app)
 				}
 			}
 		}
