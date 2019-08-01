@@ -8,15 +8,16 @@ export default class Media extends Component {
 
   constructor(props) {
     super(props);
-    const { thread } = props.state;
+    const { app, thread } = props.state;
     let src = "";
     let mediaType = "";
 
-    if( thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL ){
-      src = thread.protocol + "/" +  thread.connection.replace(/\/$/, '');
-      mediaType = App.getMediaTypeFromSrc( src );
+    if( app.extensionMode !== App.extensionModeExtNoneLabel ){
+      if( thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL ){
+        src = thread.protocol + "/" +  thread.connection.replace(/\/$/, '');
+        mediaType = App.getMediaTypeFromSrc( src );
+      }
     }
-
     this.state = {
       src,
       mediaType
