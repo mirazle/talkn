@@ -12,7 +12,7 @@ export default class Media extends Component {
     let src = "";
     let mediaType = "";
 
-    if( app.extensionMode !== App.extensionModeExtNoneLabel ){
+    if( app.extensionMode === App.extensionModeExtNoneLabel ){
       if( thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL ){
         src = thread.protocol + "/" +  thread.connection.replace(/\/$/, '');
         mediaType = App.getMediaTypeFromSrc( src );
