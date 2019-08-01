@@ -8,12 +8,16 @@ export default class Links extends Component {
   static getConnection( str, thread ){
     let connection = "";
     const isIncludeProtocol = Links.isIncludeProtocol( str );
+    console.log("-----------------");
     if( isIncludeProtocol ){
+      console.log("A");
       connection = Links.removeProtocol( str );
     }else{
       if( str && typeof str === "string" && str.indexOf( "/" ) === 0 ){
+        console.log("B");
         connection = "/" + thread.host + str;
       }else{
+        console.log("C");
         connection = "/" + thread.host + "/" + str;
       }
     }
@@ -83,6 +87,7 @@ export default class Links extends Component {
     const getLi = ( connectionKey, textKey ) => ( obj, i) => {
       const connection = Links.getConnection( obj[ connectionKey ], thread );
       //const isActive = thread.connection === connection;
+
       return (
         <Link 
           key={`${connectionKey}${i}`}
