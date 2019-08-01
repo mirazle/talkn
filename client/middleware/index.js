@@ -215,6 +215,7 @@ const functions = {
     return action;
   },
   "RESIZE_END_WINDOW": ( state, action ) => {
+    action.thread = state.thread;
     action.app = {...state.app, ...action.app};
     action.app.isOpenPosts = App.getIsOpenPosts( action.app );
     return action;
