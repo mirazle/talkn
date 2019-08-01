@@ -69,6 +69,7 @@ export default class Board extends Component {
       talknAPI.toggleLinks();
       break;
     case App.dispThreadTypeChild :
+    case App.dispThreadTypeTimeline :
       if( app.isLinkConnection ){
         handleOnClickConnection( app.rootConnection, "backToRootConnection" );
       }

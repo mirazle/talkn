@@ -8,17 +8,20 @@ export default class Links extends Component {
   static getConnection( str, thread ){
     let connection = "";
     const isIncludeProtocol = Links.isIncludeProtocol( str );
-    console.log("-----------------");
+
     if( isIncludeProtocol ){
-      console.log("A");
       connection = Links.removeProtocol( str );
     }else{
       if( str && typeof str === "string" && str.indexOf( "/" ) === 0 ){
-        console.log("B");
         connection = "/" + thread.host + str;
       }else{
-        console.log("C");
-        connection = "/" + thread.host + "/" + str;
+        const splitedConnection = thread.connection.split("/");
+        const splitedConnectionLength = splitedConnection.length - 2;
+        let connectionPart = "";
+        for( let i = 0; i < splitedConnectionLength; i++ ){
+          connectionPart = connectionPart + splitedConnection[ i ] + "/";
+        }
+        connection = connectionPart + str + "/";
       }
     }
 
