@@ -169,7 +169,6 @@ export default class Html {
     const icon = $('head link[rel="icon"]');
     const Icon = $('head link[rel="Icon"]');
     const shortcutIcon = $('head link[rel="shortcut icon"]');
-    console.log( shortcutIcon );
     const iconLength = icon.length;
     const IconLength = Icon.length;
     const shortcutIconLength = shortcutIcon.length;
