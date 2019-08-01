@@ -1782,8 +1782,9 @@ class Textarea extends Elements {
     }
 }
 
-const isExist = document.querySelector("div#talknExtension");
+const talknExtension = document.querySelector("iframe#talknExtension");
 console.log( Ext.APP_HOST );
-if( !isExist ){
+console.log( talknExtension );
+if( !talknExtension ){
     new Window();
 }
