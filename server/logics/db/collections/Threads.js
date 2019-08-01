@@ -89,18 +89,7 @@ export default class Threads {
   }
 
   async save( thread ){
-    const contentType = thread.contentType.split(";")[0]
-    thread.findType = Thread.findTypeHtml;
-    if( findTypeHtml.includes( contentType ) ){
-      thread.findType = Thread.findTypeHtml;
-    }
-    if( findTypeMusic.includes( contentType ) ){
-      thread.findType = Thread.findTypeMusic;
-    }
-    if( findTypeMovie.includes( contentType ) ){
-      thread.findType = Thread.findTypeMovie;
-    }
-
+    thread.findType = Thread.getContentTypeFromFindType( thread.contentType );
     thread.updateTime = new Date();
     thread.watchCnt = thread.watchCnt < 0 ? 0 : thread.watchCnt ;
     thread.title = thread.serverMetas.title ? thread.serverMetas.title : thread.serverMetas["og:title"];

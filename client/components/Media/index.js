@@ -18,6 +18,7 @@ export default class Media extends Component {
         mediaType = App.getMediaTypeFromSrc( src );
       }
     }
+
     this.state = {
       src,
       mediaType
@@ -25,12 +26,14 @@ export default class Media extends Component {
   }
 
   componentWillReceiveProps(props){
-    const { thread } = props.state;
-    if( thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL ){
-      const src = thread.protocol + "/" +  thread.connection.replace(/\/$/, '');
-      const mediaType = App.getMediaTypeFromSrc( src );
-      if( this.state.src !== src || this.state.mediaType !== mediaType ){
-        this.setState({src,mediaType});
+    const { app, thread } = props.state;
+    if( app.extensionMode === App.extensionModeExtNoneLabel ){
+      if( thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL ){
+        const src = thread.protocol + "/" +  thread.connection.replace(/\/$/, '');
+        const mediaType = App.getMediaTypeFromSrc( src );
+        if( this.state.src !== src || this.state.mediaType !== mediaType ){
+          this.setState({src,mediaType});
+        }
       }
     }
   }

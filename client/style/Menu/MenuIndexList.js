@@ -299,7 +299,7 @@ export default class MenuIndexList {
 
   static getExtMovie(){
     let ext = MenuIndexList.getExt();
-    ext.background = "rgba(200, 10, 100, 1)";
+    ext.background = "rgba(105, 70, 255, 1)";
     return ext;
   }
 }
