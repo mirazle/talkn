@@ -89,7 +89,7 @@ export default class Posts {
     }
     
     margin = `${Header.headerHeight}px 0px 0px 0px`;
-    marginTop = app.isMediaConnection ? `${Audio.height + 20}px` : "0px";
+    marginTop = app.isMediaConnection ? `0px` : "0px";
 
     if( app.connectionType === App.mediaTagTypeVideo ){
       switch( app.screenMode ){
@@ -127,7 +127,8 @@ export default class Posts {
     if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return "0px";
     }else if(app.extensionMode === App.extensionModeExtModalLabel ){
-      return "0px";
+      return app.isMediaConnection ? 
+        `${Audio.height + 20}px 0px 0px 0px` : "0px";
     }else{
       switch( app.screenMode ){
       case App.screenModeUndispLabel : return `0px 0px 25px 0px`;
