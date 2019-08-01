@@ -6,6 +6,7 @@ import conf from 'common/conf';
 import util from 'common/util';
 import App from 'common/schemas/state/App';
 import Posts from 'common/schemas/state/Posts';
+import Thread from 'common/schemas/state/Thread';
 import Threads from 'common/schemas/state/Threads';
 import TalknAPI from '../operations/TalknAPI';
 
@@ -144,6 +145,14 @@ const functions = {
     return action;
   },
   "ON_CLICK_TO_TIMELINE_THREAD":  (state, action) => {
+    const connection = action.thread.connection;
+    action.thread = state.thread;
+    action.thread.connection = connection;
+    console.log( action.thread.contentType );
+    
+    const src = App.getMediaSrc( action.thread.protocol, action.thread.connection );
+    action.thread.findType = Thread.getFindTypeFromSrc( src );
+    console.log( action.thread.findType  );
     action.postsTimeline = [];
     action.app.isMediaConnection = true;
     action.app.offsetFindId = App.defaultOffsetFindId;

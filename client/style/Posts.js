@@ -82,32 +82,22 @@ export default class Posts {
     let margin = 0;
     let marginTop = 0;
 
-    if( app.connectionType === App.mediaTagTypeVideo ){
-      return app.isBubblePost ? 
-        `0px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}` :
-        `10px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}` ;
-    }
-    
+
     margin = `${Header.headerHeight}px 0px 0px 0px`;
     marginTop = app.isMediaConnection ? `0px` : "0px";
-
-    if( app.connectionType === App.mediaTagTypeVideo ){
-      switch( app.screenMode ){
-      case App.screenModeSmallLabel :
-          return 0;
-      case App.screenModeMiddleLabel :
-          return `0px 0px 0px ${Menu.getWidth( app )}`;
-      case App.screenModeLargeLabel :
-          return `0px 0px 0px ${Menu.getWidth( app )}`;
-      }
-      return 0;
-    }
 
     if( app.extensionMode === App.extensionModeExtBottomLabel ){
       margin = `${marginTop} 5% ${Header.headerHeight}px 5%`;
     }else if(app.extensionMode === App.extensionModeExtModalLabel ){
       margin = `${marginTop} 0px ${PostsFooter.selfHeight}px 0px`;
     }else{
+
+      if( app.connectionType === App.mediaTagTypeVideo ){
+        return app.isBubblePost ? 
+          `0px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}` :
+          `10px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}` ;
+      }
+
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
           margin = `${marginTop} 0px 0px 0px`;
@@ -127,9 +117,18 @@ export default class Posts {
     if( app.extensionMode === App.extensionModeExtBottomLabel ){
       return "0px";
     }else if(app.extensionMode === App.extensionModeExtModalLabel ){
-      return app.isMediaConnection ? 
-        `${Audio.height + 20}px 0px 0px 0px` : "0px";
+      return "0px";
     }else{
+
+      if( app.isMediaConnection ){ 
+        switch( app.connectionType ){
+        case App.mediaTagTypeAudio:
+          return `0px`;
+        case App.mediaTagTypeVideo:
+          return `${Audio.height + 20}px 0px 0px 0px`;
+        }
+      }
+
       switch( app.screenMode ){
       case App.screenModeUndispLabel : return `0px 0px 25px 0px`;
       case App.screenModeSmallLabel : return `0px 0px ${PostsFooter.selfHeight}px 0px`;
@@ -149,17 +148,13 @@ export default class Posts {
   }
 
   static getSelfHeight( app ){
-    if( app.connectionType === App.mediaTagTypeVideo ){
-      return `auto`;
+    if(
+      app.extensionMode === App.extensionModeExtBottomLabel ||
+      app.extensionMode === App.extensionModeExtModalLabel 
+    ){
+      return `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
     }else{
-      if(
-        app.extensionMode === App.extensionModeExtBottomLabel ||
-        app.extensionMode === App.extensionModeExtModalLabel 
-      ){
-        return `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
-      }else{
-        return "auto";
-      }
+      return "auto";
     }
   }
 
@@ -178,15 +173,16 @@ export default class Posts {
     }
   }
 
-  static getSelfTop( app ){
-    if( app.connectionType === App.mediaTagTypeVideo ){
-      return `${Header.headerHeight + Video.height}px`;
-    }else{
-      return `${Header.headerHeight}px`;
+  static getSelfTop( app, thread ){
+    if( app.extensionMode === App.extensionModeExtNoneLabel ){
+      if( thread.findType === App.mediaTagTypeVideo ){
+        return `${Header.headerHeight + Video.height}px`;
+      }
     }
+    return `${Header.headerHeight}px`;
   }
 
-  static getSelf( {app} ){
+  static getSelf( {app, thread} ){
     let position = "relative";
     let overflowX = "hidden";
     let overflowY = "hidden";
@@ -210,7 +206,7 @@ export default class Posts {
 
     const layout = Style.getLayoutBlock({
       position,
-      top: Posts.getSelfTop( app ),
+      top: Posts.getSelfTop( app, thread ),
       width: Posts.getWidth( app ),
       minWidth: Posts.getMinWidth( app ),
       height: Posts.getSelfHeight( app ),

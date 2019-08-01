@@ -304,7 +304,7 @@ export default class App extends Schema{
       }
       return App.screenModeLargeLabel;
   }
- 
+
   static getIncludeIframeTag( params, extensionMode ){
 
     // Open Portal(Judge server side)

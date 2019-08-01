@@ -11,8 +11,8 @@ export default class Thread extends Schema{
   static get findTypes(){
     return {
       [Thread.findTypeHtml]: [ "text/html"],
-      [Thread.findTypeMusic]: [ "audio/mpeg", "audio/mp4", "audio/x-wav", "audio/midi", "application/x-smaf"],
-      [Thread.findTypeMovie]: [ "video/mpeg", "video/x-ms-wmv", "application/x-shockwave-flash", "video/3gpp2"]
+      [Thread.findTypeMusic]: [ "audio", "audio/mpeg", "audio/mp4", "audio/x-wav", "audio/midi", "application/x-smaf"],
+      [Thread.findTypeMovie]: [ "video", "video/mpeg", "video/mp4", "video/x-ms-wmv", "application/x-shockwave-flash", "video/3gpp2"]
     }
   }
   static getDefaultTitle(){
@@ -314,5 +314,36 @@ export default class Thread extends Schema{
 
   static getStatusIsToggleMultistream( app ){
     return app.actioned === "ON_CLICK_MULTISTREAM";
+  }
+
+  static getContentTypeFromFindType( contentType ){
+    const findTypeHtml = Thread.findTypes[ Thread.findTypeHtml ];
+    const findTypeMusic = Thread.findTypes[ Thread.findTypeMusic ];
+    const findTypeMovie = Thread.findTypes[ Thread.findTypeMovie ];
+
+    let findType = "";
+    let splitedContentType = "";
+    if( contentType.indexOf(";") > 0 ){
+      splitedContentType = contentType.split(";")[0];
+    }
+    if( contentType.indexOf("/") > 0 ){
+      splitedContentType = contentType.split("/")[0];
+    }
+
+    findType = Thread.findTypeHtml;
+    if( findTypeHtml.includes( splitedContentType ) ){
+      findType = Thread.findTypeHtml;
+    }
+    if( findTypeMusic.includes( splitedContentType ) ){
+      findType = Thread.findTypeMusic;
+    }
+    if( findTypeMovie.includes( splitedContentType ) ){
+      findType = Thread.findTypeMovie;
+    }
+    return findType;
+  }
+
+  static getFindTypeFromSrc( src ){
+    return App.getMediaTypeFromSrc( src );
   }
 }

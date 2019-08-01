@@ -102,6 +102,9 @@ export default ( state = {} , action ) => {
 		}
 	case 'ON_CLICK_TO_TIMELINE_THREAD':
 		return {...state,
+			posts: {...state.posts,
+				self: Posts.getSelf( action )
+			},
 			board: {...state.board,
 				menuLiChild: {...state.menuLiChild,
 					color: App.isActiveMultistream( action.app, "reducer" ) ?
@@ -110,6 +113,9 @@ export default ( state = {} , action ) => {
 				menuLiLinks: {...state.menuLiLinks,
 					color: Board.unactiveColor
 				}
+			},
+			video: {...state.video,
+				self: Video.getSelf( {app: action.app} )
 			},
 			audio: {...state.audio,
 				self: Audio.getSelf( {app: action.app} )
