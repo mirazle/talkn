@@ -11,7 +11,7 @@ export default class Links extends Component {
     if( isIncludeProtocol ){
       connection = Links.removeProtocol( str );
     }else{
-      if( str.indexOf( "/" ) === 0 ){
+      if( str && typeof str === "string" && str.indexOf( "/" ) === 0 ){
         connection = "/" + thread.host + str;
       }else{
         connection = "/" + thread.host + "/" + str;
@@ -25,11 +25,13 @@ export default class Links extends Component {
   }
 
   static isIncludeProtocol( str ){
-    if( str.indexOf( Sequence.HTTP_PROTOCOL ) >= 0 ){
-      return true;
-    }
-    if( str.indexOf( Sequence.HTTPS_PROTOCOL ) >= 0 ){
-      return true;
+    if( str && typeof str === "string" ){
+      if( str.indexOf( Sequence.HTTP_PROTOCOL ) >= 0 ){
+        return true;
+      }
+      if( str.indexOf( Sequence.HTTPS_PROTOCOL ) >= 0 ){
+        return true;
+      }
     }
     return false;
   }

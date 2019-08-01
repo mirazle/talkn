@@ -109,7 +109,6 @@ export default class Html {
     let title = "";
     if( App.isMediaContentType( contentType )){
       const splitedConnection = connection.split("/");
-      console.log( splitedConnection );
       const _title1 = splitedConnection[ splitedConnection.length - 1 ];
       const _title2 = splitedConnection[ splitedConnection.length - 2 ];
       const _title3 = splitedConnection[ splitedConnection.length - 3 ];
@@ -135,15 +134,19 @@ export default class Html {
   getVideos( $ ){
     const videoLength = $('video').length;
     let videos = [];
+
     for( let i = 0; i < videoLength; i++ ){
       const video = $('video').get( i );
       const sources = $( video ).find('source');
       const sourceLength = sources.length;
-      let srcs = [];
-      for( var j = 0; j < sourceLength; j++ ){
-        srcs.push( sources[ j ].attribs.src );
+
+      if( video.attribs.src ){
+        video.push( {...video.attribs} );
       }
-      videos.push( {...video.attribs, srcs } );
+
+      for( var j = 0; j < sourceLength; j++ ){
+        videos.push( {...videos.attribs, src: sources[ j ].attribs.src } );
+      }
     }
     return videos;
   }
@@ -155,12 +158,14 @@ export default class Html {
       const audio = $('audio').get( i );
       const sources = $( audio ).find('source');
       const sourceLength = sources.length;
-      let srcs = [];
-      for( var j = 0; j < sourceLength; j++ ){
-        srcs.push( sources[ j ].attribs.src );
+
+      if( audio.attribs.src ){
+        audios.push( {...audio.attribs} );
       }
 
-      audios.push( {...audio.attribs, srcs } );
+      for( var j = 0; j < sourceLength; j++ ){
+        audios.push( {...audio.attribs, src: sources[ j ].attribs.src } );
+      }
     }
     return audios;
   }

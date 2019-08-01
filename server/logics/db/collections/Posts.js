@@ -65,15 +65,6 @@ export default class Posts {
       result.response.reverse();
     }
 
-    /*
-    console.log("===== CONDITION ");
-    console.log( condition );
-    console.log("===== SORT ");
-    console.log( sort );
-    console.log("------------- RESULT ");
-    console.log( result.response.length );
-    console.log("-------------");
-    */
     return result;
   }
 
