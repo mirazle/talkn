@@ -310,7 +310,8 @@ export default class App extends Schema{
     // Open Portal(Judge server side)
     // Open Portal from iframe(Judge server side)
     // Open Extension( Judge ext.js ) 
-
+    return extensionMode === App.extensionModeExtNoneLabel ? false : true ;
+/*
     switch( extensionMode ){
     case App.extensionModeExtIncludeLabel:
       return true;
@@ -325,6 +326,7 @@ export default class App extends Schema{
         return false;
       }  
     }
+*/
   }
 
   static getIsMediaConnection( connection ){
