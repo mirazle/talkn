@@ -20,7 +20,7 @@ export default {
       const oneSequence = Sequence.map[ endpoint ];
       ioUser.on( endpoint, ( requestState ) => {
         console.log("------------------------------- " + endpoint);
-        //console.log( requestState );
+        console.log( requestState );
         Actions.io[ endpoint ]( ioUser, requestState, setting );
       });
     });
