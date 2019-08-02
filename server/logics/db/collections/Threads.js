@@ -41,8 +41,8 @@ export default class Threads {
   }
 
   async findMenuIndex( requestState, setting ){
-    const { thread, app } = requestState;
-    const { connection } = thread;
+    const { app } = requestState;
+    const { rootConnection: connection } = app;
     const layer = Thread.getLayer( connection );
 
     //    const regexConnection = connection.replace(/\//, '\/');
