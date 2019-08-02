@@ -83,7 +83,7 @@ export default class MenuIndex {
     const layout = Style.getLayoutInlineBlock({
       width: 'calc( 100% - 120px )',
       height: '25px',
-      padding: "0px 0px 0px 10px",
+      padding: "0px 0px 1px 10px",
       background: Container.whiteRGB,
       outline: 'none',
       resize: 'none',

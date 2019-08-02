@@ -918,6 +918,7 @@ class Iframe extends Elements {
 
     load(e){
         const isMediaConnection = this.window.isMediaConnection();
+        console.log("----EXT");
         this.window.childTo("bootExtension", {
             isMediaConnection,
             extensionMode: this.window.extMode,
