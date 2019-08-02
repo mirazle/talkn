@@ -257,7 +257,9 @@ class Container extends Component {
     // 実際のスレッドの高さ
     const postsRealHeight = TalknWindow.getPostsClientHeight();
 
-    if( postsFrameHeight < postsRealHeight ){
+    console.log( postsFrameHeight + " < " + postsRealHeight );
+
+    if( postsFrameHeight <= postsRealHeight ){
       return (
         <div data-component-name="newPost" style={style.container.newPost}>
           NEW POST
