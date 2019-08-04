@@ -233,7 +233,6 @@ class Window extends Elements {
                 this.notifCnt = 0;
                 this.notifId = null;
 
-                this.connection = "";
                 this.transitionEndId = null;
                 this.resizeMethodId = null;
                 this.htmlOverflow = null;
