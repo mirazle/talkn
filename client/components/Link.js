@@ -69,7 +69,6 @@ export default class Link extends Component {
         </li>
       );
     }else{
-      console.log( text );
       return (
         <li style={style} {...this.getEvents(isActive)}>
           <Marquee
