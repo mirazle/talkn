@@ -107,7 +107,7 @@ export default class Favicon {
   getFaviconDatas(thread, iconHrefs){
     const log = true;
     const { protocol, host, connection } = thread;
-console.log( iconHrefs );
+
     // Faviconの初期値を設定
     let faviconDatas = [Favicon.defaultFaviconData];
     faviconDatas[ 0 ]['isExist'] = Logics.fs.isExistFavicon(

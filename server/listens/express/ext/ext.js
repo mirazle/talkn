@@ -180,6 +180,7 @@ class Window extends Elements {
     static get aacceptPostMessages(){return [
         'toggleIframe',
         'location',
+        'find',
         'openNotif',
         'closeNotif',
         'linkTo',
@@ -232,6 +233,7 @@ class Window extends Elements {
                 this.notifCnt = 0;
                 this.notifId = null;
 
+                this.connection = "";
                 this.transitionEndId = null;
                 this.resizeMethodId = null;
                 this.htmlOverflow = null;
@@ -365,16 +367,54 @@ class Window extends Elements {
     }
 
     setupMedia(){
-		const href = location.href;
+        let activeMedia = {};
+        const videos = document.querySelectorAll("video");
+        const audios = document.querySelectorAll("audio");
+        const events = ( media ) => {
+            
+            //this.childTo("onTransition");
+
+            media.addEventListener( "play", ( e ) => {
+                const m = e.path[0];
+                
+                console.log("PLAY!!!");
+                if( m.tagName === "VIDEO" ){
+                    if(m.src === ""){
+
+                    }else{
+                        if( temp1.children > 0 ){
+
+                        }
+                    }
+                }
+                console.log( e.path[0].tagName );
+                console.log( e.path[0].tagName );
+                console.log( e.path[0].currentTime );
+            } );
+
+            media.addEventListener( "ended", ( e ) => {
+                console.log("ENDED!!!");
+            } );
+        };
+        videos.forEach( events );
+        audios.forEach( events );    
+         
+        setInterval( () => {
+
+        }, Window.mediaSecondInterval );
+/*
+        
+        const href = location.href;
 		let isMediaConnection = this.isMediaConnection();
         if( isMediaConnection ){
-            const media = document.querySelector("video");
+
             setInterval( () => {
-                if( !media.paused ){  
+                if( media && !media.paused ){  
                     this.handleMediaCurrentTime = media.currentTime;
                 }
             }, Window.mediaSecondInterval );
         }
+*/
     }
     
     getBrowser(){
@@ -460,6 +500,11 @@ class Window extends Elements {
 
     toggleIframe(params){
         this.updateDisplayMode("toggleIframe");
+    }
+
+    find( params ){
+        console.log("EXT FIND");
+        console.log( params );
     }
 
     openNotif(params){
@@ -918,7 +963,6 @@ class Iframe extends Elements {
 
     load(e){
         const isMediaConnection = this.window.isMediaConnection();
-        console.log("----EXT");
         this.window.childTo("bootExtension", {
             isMediaConnection,
             extensionMode: this.window.extMode,
