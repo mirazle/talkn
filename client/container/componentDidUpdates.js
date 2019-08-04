@@ -34,8 +34,7 @@ const componentDidUpdates = {
                 const Posts = document.querySelector("[data-component-name=Posts]");
                 talknWindow.threadHeight = Posts.clientHeight;
             }else{
-                console.log( "APP CONNECTION " + thread.connection );
-                talknWindow.parentTo("find", thread.connection);
+
 /*
                 const Posts = document.querySelector("[data-component-name=Posts]");
                 self.animateScrollTo(
@@ -50,6 +49,13 @@ const componentDidUpdates = {
 
             if( !app.isOpenLinks ){
                 talknAPI.closeLinks();
+            }
+        },
+        'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
+            const { app, thread } = self.props.state;
+            if( app.extensionMode !== "NONE"){
+                console.log( "APP CONNECTION !! " + thread.connection );
+                talknWindow.parentTo("find", thread.connection);
             }
         },
         'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
