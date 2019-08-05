@@ -141,7 +141,7 @@ export default class Html {
       const sourceLength = sources.length;
 
       if( video.attribs.src ){
-        video.push( {...video.attribs} );
+        videos.push( {...video.attribs} );
       }
 
       for( var j = 0; j < sourceLength; j++ ){

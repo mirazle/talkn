@@ -201,7 +201,10 @@ export default class TalknWindow {
 				this.parentUrl = e.data.href;
 				this.parentTo( "bootExtension", conf );
 				resolve(e.data.params);
-				break;	
+				break;
+			case "intervalMedia" :
+				console.log( e.data.params );
+				break;
 			default: 
 				if(	
 					typeof window.talknAPI !== "undefined" && 
