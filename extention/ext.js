@@ -500,6 +500,7 @@ class Window extends Elements {
     }
 
     find( state ){
+        console.log(state.test);
         this.state = {...state};
     }
 
