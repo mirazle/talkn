@@ -250,14 +250,41 @@ class Container extends Component {
     const { state} = props;
     const { style, app } = state;
 
+    let dispNewPost = false;
+
     // 実際に目視できるスレッドの高さ
     const frameHeight = HeaderStyle.headerHeight + PostsFooterStyle.selfHeight;
     const postsFrameHeight = window.innerHeight - frameHeight;
 
     // 実際のスレッドの高さ
     const postsRealHeight = TalknWindow.getPostsClientHeight();
+    const PostsComponent = document.querySelector("[data-component-name=Posts]");
+    //console.log( PostsComponent.scrollHeight );
+/*
+      console.log( "フレーム枠の縦幅： " + postsFrameHeight );
+      console.log( "実際の投稿縦幅： " + PostsComponent.scrollHeight );
+      console.log( "最下位スクロール：　" + talknWindow.isScrollBottom );
+*/
+      
+    // フレーム縦幅よりも、実際の投稿縦幅のほうが小さい場合
+    if( PostsComponent && PostsComponent.scrollHeight < postsFrameHeight ){
+      // 表示しない
+      console.log(" A NO DISP");
+    // フレーム縦幅よりも、実際の投稿縦幅のほうが大きい場合
+    }else{
+      if( talknWindow.isScrollBottom /* 一番下までスクロールしている場合 */ ){
+        console.log(" B NO DISP");
 
-    if( postsFrameHeight <= postsRealHeight ){
+      // 一番下までスクロールしていない場合
+      }else{
+        dispNewPost = true;
+        // 表示しない
+        console.log(" C DISP!!! " + talknWindow.isScrollBottom );
+      }
+    }
+
+    if( dispNewPost ){
+//    if( postsFrameHeight < postsRealHeight ){
       return (
         <div data-component-name="newPost" style={style.container.newPost}>
           NEW POST

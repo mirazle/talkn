@@ -32,7 +32,6 @@ const componentDidUpdates = {
                     const test = ( () => {console.log('HEYHEY')} ).toString();
                     talknWindow.parentTo("find", {...self.props.state, test});
                 }
-
             }
 
             if( app.extensionMode === "NONE"){
@@ -171,8 +170,8 @@ function post( self ){
         }
 
     }else{
-        const { isScrollBottom } = self.state;
-        if( app.isOpenPosts && isScrollBottom ){
+        if( app.isOpenPosts && talknWindow.isScrollBottom ){
+            console.log("@@@@@@@@@@@@@@@@ SCROLL POSTS! " + Posts.scrollHeight );
             self.animateScrollTo(
               Posts,
               Posts.scrollHeight,
