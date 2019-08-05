@@ -392,7 +392,7 @@ class Window extends Elements {
                     return false;
                 }
                 console.log( "@@@ " + media.currentSrc + " " + media.currentTime );
-                this.childTo( "intervalMedia" {
+                this.childTo( "intervalMedia", {
                     currentTime: media.currentTime,
                     currentSrc: media.currentSrc
                 });
