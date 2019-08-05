@@ -7,7 +7,7 @@ export default ( self, constructorName ) => {
     const { props } = self;
     const { actionLog } = props.state;
     const actionName = actionLog[0] ;
-
+    
     if( componentDidUpdates[ constructorName ] ){
         if( componentDidUpdates[ constructorName ][ actionName ] ){
             componentDidUpdates[ constructorName ][ actionName ]( self );

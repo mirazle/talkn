@@ -88,7 +88,7 @@ export default class TalknWindow {
 		this.isMessageed = false;
 		this.isExistParentWindow = false;
 		this.isAnimateScrolling = false;
-		this.isScrollBottom = false;
+		this.isScrollBottom = true;
 
 		this.load = this.load.bind(this);
 		this.resize = this.resize.bind( this );
@@ -261,7 +261,7 @@ export default class TalknWindow {
 		this.setIsScrollBottom( app );
 	}
 
-	setIsScrollBottom( app, isScrollBottom = false ){
+	setIsScrollBottom( app, isScrollBottom = true ){
 		if( app.extensionMode === App.extensionModeExtNoneLabel ){
 			console.log("SCROLL CONTAINER!!!");
 			// ここがスマホブラウザだと正しく取得されていない模様
@@ -271,7 +271,7 @@ export default class TalknWindow {
 			const bodyScrollHeight = document.querySelector("body").scrollTop;
 			this.isScrollBottom = ( htmlScrollHeight === ( this.innerHeight + this.scrollHeight ) );	
 		}else{
-			console.log("SCROLL POSTS!!!");
+			console.log("SCROLL POSTS!!!!!!!!!!!!!!!!!!!!!! " + isScrollBottom );
 			this.isScrollBottom = isScrollBottom;
 		}
 	}
