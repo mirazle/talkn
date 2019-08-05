@@ -66,7 +66,7 @@ export default class Posts extends Component {
     this.props.componentDidUpdates( this, "Posts" );
   }
 
-  animateScrollTo( element, to, duration, callback = ()=>{}) {
+  animateScrollTo( element, to, duration, callback = ()=>{} ) {
     if( !this.state.isAnimateScrolling ){
       let start = element.scrollTop;
       let change = to - start;
@@ -107,7 +107,14 @@ export default class Posts extends Component {
 
     const { clientHeight, scrollTop, scrollHeight } = e.target;
     const isScrollBottom = ( scrollHeight === ( scrollTop + clientHeight ) );
-    this.setState({isScrollBottom});
+    console.log( "@@@@@@@@@@@@@@@@@@@@@@@@ POSTS " );
+    console.log( "POSTS " + scrollHeight );
+    console.log( "POSTS " + scrollTop );
+    console.log( "POSTS " + clientHeight );
+    console.log( "POSTS " + isScrollBottom );
+    talknWindow.setIsScrollBottom( app, isScrollBottom );
+
+//    this.setState({isScrollBottom});
     this.props.scrollThread();
   }
 

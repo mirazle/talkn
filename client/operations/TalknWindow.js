@@ -258,17 +258,22 @@ export default class TalknWindow {
 		if( app.isOpenNewPost ){
 			talknAPI.closeNewPost();
 		}
-		this.setIsScrollBottom();
+		this.setIsScrollBottom( app );
 	}
 
-	setIsScrollBottom(){
-
-		// ここがスマホブラウザだと正しく取得されていない模様
-		const htmlScrollHeight = document.querySelector("html").scrollHeight;
-		this.innerHeight = window.innerHeight;
-		this.scrollHeight = window.scrollY ;
-		const bodyScrollHeight = document.querySelector("body").scrollTop;
-		this.isScrollBottom = ( htmlScrollHeight === ( this.innerHeight + this.scrollHeight ) );
+	setIsScrollBottom( app, isScrollBottom = false ){
+		if( app.extensionMode === App.extensionModeExtNoneLabel ){
+			console.log("SCROLL CONTAINER!!!");
+			// ここがスマホブラウザだと正しく取得されていない模様
+			const htmlScrollHeight = document.querySelector("html").scrollHeight;
+			this.innerHeight = window.innerHeight;
+			this.scrollHeight = window.scrollY ;
+			const bodyScrollHeight = document.querySelector("body").scrollTop;
+			this.isScrollBottom = ( htmlScrollHeight === ( this.innerHeight + this.scrollHeight ) );	
+		}else{
+			console.log("SCROLL POSTS!!!");
+			this.isScrollBottom = isScrollBottom;
+		}
 	}
 
 	resizeStartWindow(app){
@@ -386,7 +391,6 @@ export default class TalknWindow {
 			addEventListener
 			interal処理
 		*/
-
 
 		/**
 		* メディアファイルの投稿を管理するメソッド
