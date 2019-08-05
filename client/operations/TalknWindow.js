@@ -100,6 +100,8 @@ export default class TalknWindow {
 		this.resizeEndWindow = this.resizeEndWindow.bind( this );
 		this.setIsScrollBottom = this.setIsScrollBottom.bind( this );
 		this.setupPostsTimeline = this.setupPostsTimeline.bind( this );
+		this.getMediaInterval = this.getMediaInterval.bind( this );
+		this.getMediaEnded = this.getMediaEnded.bind( this );
 
 		this.dom = {};
 		this.dom.html = document.querySelector("html");
@@ -263,7 +265,6 @@ export default class TalknWindow {
 
 	setIsScrollBottom( app, isScrollBottom = true ){
 		if( app.extensionMode === App.extensionModeExtNoneLabel ){
-			console.log("SCROLL CONTAINER!!!");
 			// ここがスマホブラウザだと正しく取得されていない模様
 			const htmlScrollHeight = document.querySelector("html").scrollHeight;
 			this.innerHeight = window.innerHeight;
@@ -271,7 +272,6 @@ export default class TalknWindow {
 			const bodyScrollHeight = document.querySelector("body").scrollTop;
 			this.isScrollBottom = ( htmlScrollHeight === ( this.innerHeight + this.scrollHeight ) );	
 		}else{
-			console.log("SCROLL POSTS!!!!!!!!!!!!!!!!!!!!!! " + isScrollBottom );
 			this.isScrollBottom = isScrollBottom;
 		}
 	}
@@ -356,121 +356,112 @@ export default class TalknWindow {
 		return Math.floor( mediaCurrentTime * base ) / base;
 	}
 
-	setupPostsTimeline( connection, src, tagType = "audio"){
-		const postsTimelineZero = storage.getStoragePostsTimelineZero( connection );
-		const postsTimelineBase = storage.getStoragePostsTimeline( connection );
-		let loopPostsTimeline = [ ...postsTimelineBase ];
-		let loopPostsTimelineLength = loopPostsTimeline.length;
-		const media = document.querySelector(`${tagType}[src='${src}']`)
-		console.log( loopPostsTimeline );
-		const ended = () => {
-			this.mediaCurrentTime = this.getMediaCurrentTime( media.currentTime );
-			const length = loopPostsTimeline.length;
-			for( let i = 0; i < length; i++ ){
-				if( loopPostsTimeline[ i ] && loopPostsTimeline[ i ].currentTime <= this.mediaCurrentTime ){
-					this.talknAPI.nextPostsTimeline([ loopPostsTimeline[ i ] ]);
+	getMediaEnded( media, loopPostsTimeline ){
+		this.mediaCurrentTime = this.getMediaCurrentTime( media.currentTime );
+		const length = loopPostsTimeline.length;
+		for( let i = 0; i < length; i++ ){
+			if( loopPostsTimeline[ i ] && loopPostsTimeline[ i ].currentTime <= this.mediaCurrentTime ){
+				this.talknAPI.nextPostsTimeline([ loopPostsTimeline[ i ] ]);
+			}else{
+				break;
+			}
+		}
+	}
+
+	/**
+	* メディアファイルの投稿を管理するメソッド
+	* @param {Element} media メディアファイル自体
+	* @param {Array} loopPostsTimeline 実際の制御に使用される投稿済みの一覧
+	* @param {Array} postsTimelineBase 実際の制御には使用しない投稿済みの一覧
+	*/
+	getMediaInterval( media, loopPostsTimeline, postsTimelineBase, log = false ){
+
+		if( media && media.paused ){
+			if( log ) console.log("Media Pause");
+			if( log ) console.log( media );
+			return false;
+		}
+
+		if( this.mediaTasking ){
+			if( log ) console.log("Tasking");
+			return false;
+		}
+
+
+		const loopPostsTimelineLength = loopPostsTimeline.length;
+
+		// Get current time.
+		const mediaCurrentTime = this.getMediaCurrentTime( media.currentTime );
+		this.mediaTasking = true
+
+		// Timeline is next.
+		if(
+			this.mediaCurrentTime === mediaCurrentTime ||
+			this.mediaCurrentTime < mediaCurrentTime
+		){
+			this.mediaCurrentTime = mediaCurrentTime;
+
+			if( log ) console.log("START WHILE " + this.mediaCurrentTime );
+			if( log && loopPostsTimeline && loopPostsTimeline[0] && loopPostsTimelineLength > 0 ) console.log( loopPostsTimeline[ 0 ].currentTime );
+
+			while( this.mediaTasking ){
+				if( loopPostsTimelineLength === 0 ){
+					this.mediaTasking = false;
+				}else if( loopPostsTimeline[ 0 ] && loopPostsTimeline[ 0 ].currentTime <= mediaCurrentTime ){
+					const addPost = loopPostsTimeline.shift();
+					this.mediaCurrentTime = addPost.currentTime;
+					if(log) console.log( addPost.post );
+					this.talknAPI.nextPostsTimeline([ addPost ]);
 				}else{
+					this.mediaTasking = false;
 					break;
 				}
 			}
-		}
-		
-		if( media === null ) return false;
 
-		/*
-			this.mediaCurrentTime
-			loopPostsTimeline
-			this.talknAPI
-		*/
-		media.addEventListener( "ended", ended );
-		const log = false;
+		// Timeline is prev.
+		}else{
+			if( this.mediaTasking  ){
 
-		/*
-			共通化する処理
+				const { postsTimeline } = window.talknAPI.store.getState();
 
-			addEventListener
-			interal処理
-		*/
-
-		/**
-		* メディアファイルの投稿を管理するメソッド
-		*@param {Element} media メディアファイル自体
-		*@param {Boolean} mediaTasking メディアファイル投稿の制御をしている最中に立つフラグ
-		*@param {Number} mediaCurrentTime メディアファイル再生秒数
-		*@param {Object} talknAPI talknAPI
-		*@param {Array} loopPostsTimeline 実際の制御に使用される投稿済みの一覧
-		*@param {Array} postsTimelineBase 実際の制御には使用しない投稿済みの一覧
-		*/
-		setInterval( () => {
-			if( media && media.paused ){
-				if( log ) console.log("Media Pause");
-				if( log ) console.log( media );
-				return false;
-			}
-
-			if( this.mediaTasking ){
-				if( log ) console.log("Tasking");
-				return false;
-			}
-
-			// Get current time.
-			const mediaCurrentTime = this.getMediaCurrentTime( media.currentTime );
-			this.mediaTasking = true
-
-			// Timeline is next.
-			if(
-				this.mediaCurrentTime === mediaCurrentTime ||
-				this.mediaCurrentTime < mediaCurrentTime
-			){
 				this.mediaCurrentTime = mediaCurrentTime;
 
-				if( log ) console.log("START WHILE " + this.mediaCurrentTime );
-				if( log && loopPostsTimeline && loopPostsTimeline[0] && loopPostsTimelineLength > 0 ) console.log( loopPostsTimeline[ 0 ].currentTime );
+				// 指定した秒数を経過しているPostをreducerでdispFlgをfalseにしてPostをUnmountする
+				this.talknAPI.clearPostsTimeline(mediaCurrentTime);
 
-				while( this.mediaTasking ){
-					if( loopPostsTimelineLength === 0 ){
-						this.mediaTasking = false;
-					}else if( loopPostsTimeline[ 0 ] && loopPostsTimeline[ 0 ].currentTime <= mediaCurrentTime ){
-						const addPost = loopPostsTimeline.shift();
-						this.mediaCurrentTime = addPost.currentTime;
-						if(log) console.log( addPost.post );
-						this.talknAPI.nextPostsTimeline([ addPost ]);
-					}else{
-						this.mediaTasking = false;
-						break;
-					}
-				}
+				if(log) console.log( "BACK " + mediaCurrentTime );
+				if(log) console.log( postsTimeline );
 
-			// Timeline is prev.
-			}else{
-				if( this.mediaTasking  ){
+				// これから表示するpost一覧を保持
+				//loopPostsTimeline = postsTimelineBase.filter( (pt) => pt.currentTime > mediaCurrentTime);
 
-					const { postsTimeline } = window.talknAPI.store.getState();
-
-					this.mediaCurrentTime = mediaCurrentTime;
-
-					// 指定した秒数を経過しているPostをreducerでdispFlgをfalseにしてPostをUnmountする
-					this.talknAPI.clearPostsTimeline(mediaCurrentTime);
-
-					if(log) console.log( "BACK " + mediaCurrentTime );
-					if(log) console.log( postsTimeline );
-
-					// これから表示するpost一覧を保持
-					//loopPostsTimeline = postsTimelineBase.filter( (pt) => pt.currentTime > mediaCurrentTime);
-
-					loopPostsTimeline = postsTimeline.concat( postsTimelineBase ).filter( (pt, index, self) => {
-						if(self.indexOf(pt) === index){
-							if( pt.currentTime > mediaCurrentTime ){
-								return true;
-							}
+				loopPostsTimeline = postsTimeline.concat( postsTimelineBase ).filter( (pt, index, self) => {
+					if(self.indexOf(pt) === index){
+						if( pt.currentTime > mediaCurrentTime ){
+							return true;
 						}
-						return false;
-					});
-					
-					if(log) console.log( loopPostsTimeline );
-					this.mediaTasking = false;
-				}
+					}
+					return false;
+				});
+				
+				if(log) console.log( loopPostsTimeline );
+				this.mediaTasking = false;
 			}
+		}
+	}
+
+	setupPostsTimeline( postsTimelineBase, media ){
+		if( media === null ) return false;
+
+		const log = false;
+		let loopPostsTimeline = [ ...postsTimelineBase ];
+
+		media.addEventListener( "ended", () => {
+			this.getMediaEnded( media, loopPostsTimeline )
+		} );
+
+		setInterval( () => {
+			this.getMediaInterval( media, loopPostsTimeline, postsTimelineBase, log );
 		}, conf.mediaSecondInterval );
 	}
 
