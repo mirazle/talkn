@@ -234,6 +234,7 @@ const functions = {
   "TOGGLE_BUBBLE_POST": ( state, action ) => {
     action.app = {...action.app, ...state.app};
     action.app.isBubblePost = !state.app.isBubblePost;
+    action.thread = state.thread;
     return action;
   },
   "OPEN_NOTIF": ( state, action ) => {
