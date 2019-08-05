@@ -54,7 +54,8 @@ const componentDidUpdates = {
         'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
             const { app, thread } = self.props.state;
             if( app.extensionMode !== "NONE"){
-                talknWindow.parentTo("find", self.props.state);
+                const test = "() => {}";
+                talknWindow.parentTo("find", {...self.props.state, test});
             }
         },
         'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
