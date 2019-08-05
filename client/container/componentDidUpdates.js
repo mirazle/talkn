@@ -2,6 +2,7 @@ import React from "react"
 import App from 'common/schemas/state/App';
 import Notif from 'client/components/Notif';
 import TalknWindow from 'client/operations/TalknWindow';
+import storage from 'client/mapToStateToProps/storage';
 
 export default ( self, constructorName ) => {
     const { props } = self;
@@ -19,6 +20,7 @@ const componentDidUpdates = {
     Container: {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
             const { app, thread } = self.props.state;
+            const connection = thread.connection;
             app.postsHeight += TalknWindow.getPostsHeight();
             self.props.updatePostsHeight(app.postsHeight);
 
@@ -27,10 +29,14 @@ const componentDidUpdates = {
                 const tagType = thread.getMediaTagType();
 
                 if( app.extensionMode === "NONE"){
-                    talknWindow.setupPostsTimeline(thread.connection, src, tagType);
+
+                    const postsTimelineBase = storage.getStoragePostsTimeline( connection );
+                    const media = document.querySelector(`${tagType}[src='${src}']`)
+                    talknWindow.setupPostsTimeline( postsTimelineBase, media );
                 }else{
-                    const test = ( () => {console.log('HEYHEY')} ).toString();
-                    talknWindow.parentTo("find", {...self.props.state, test});
+                    const setupPostsTimeline = talknWindow.setupPostsTimeline.toString();
+                    console.log(setupPostsTimeline);
+                    talknWindow.parentTo("find", {...self.props.state, setupPostsTimeline});
                 }
             }
 
@@ -40,7 +46,6 @@ const componentDidUpdates = {
                 const Posts = document.querySelector("[data-component-name=Posts]");
                 talknWindow.threadHeight = Posts.clientHeight;
             }else{
-
 /*
                 const Posts = document.querySelector("[data-component-name=Posts]");
                 self.animateScrollTo(
@@ -50,11 +55,28 @@ const componentDidUpdates = {
                     9999999
                 );
 */
-
             }
 
             if( !app.isOpenLinks ){
                 talknAPI.closeLinks();
+            }
+        },
+        'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
+
+            const { app, thread } = self.props.state;
+
+            if( app.dispThreadType === App.dispThreadTypeTimeline){
+                const src = thread.getMediaSrc();
+                const tagType = thread.getMediaTagType();
+
+                if( app.extensionMode !== "NONE"){
+                    const a = {name:"takuya",say:function(){console.log(this.name)}};
+                    const test = a.say.toString();
+                    //const test = talknWindow.setupPostsTimeline.toString();
+
+                    console.log(test);
+                    talknWindow.parentTo("find", {...self.props.state, test: a.say.toString() });
+                }
             }
         },
         'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
