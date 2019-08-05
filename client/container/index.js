@@ -273,7 +273,9 @@ class Container extends Component {
         console.log(" A NO DISP");
       // フレーム縦幅よりも、実際の投稿縦幅のほうが大きい場合
       }else{
-        if( talknWindow.isScrollBottom /* 一番下までスクロールしている場合 */ ){
+        
+        // 一番下までスクロールしている場合
+        if( talknWindow.isScrollBottom ){
           console.log(" B NO DISP");
 
         // 一番下までスクロールしていない場合
