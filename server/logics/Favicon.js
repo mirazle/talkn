@@ -105,7 +105,7 @@ export default class Favicon {
   }
 
   getFaviconDatas(thread, iconHrefs){
-    const log = true;
+    const log = false;
     const { protocol, host, connection } = thread;
 
     // Faviconの初期値を設定

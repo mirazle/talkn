@@ -217,6 +217,7 @@ class Window extends Elements {
             let init = ( options = {} ) => {
 
                 // Variable
+                this.state = {};
                 this.talknParams = {};
                 this.extMode = Ext.getMode(options);
                 this.includeId = this.extMode === Ext.MODE_INCLUDE && options && options.selector ?
@@ -366,32 +367,18 @@ class Window extends Elements {
     }
 
     setupMedia(){
-        let activeMedia = {};
+        let media = null;
         const videos = document.querySelectorAll("video");
         const audios = document.querySelectorAll("audio");
-        const events = ( media ) => {
+        const events = ( m ) => {
             
             //this.childTo("onTransition");
 
-            media.addEventListener( "play", ( e ) => {
-                const m = e.path[0];
-                
-                console.log("PLAY!!!");
-                if( m.tagName === "VIDEO" ){
-                    if(m.src === ""){
-
-                    }else{
-                        if( temp1.children > 0 ){
-
-                        }
-                    }
-                }
-                console.log( e.path[0].tagName );
-                console.log( e.path[0].tagName );
-                console.log( e.path[0].currentTime );
+            m.addEventListener( "play", ( e ) => {
+                media = e.srcElement;
             } );
 
-            media.addEventListener( "ended", ( e ) => {
+            m.addEventListener( "ended", ( e ) => {
                 console.log("ENDED!!!");
             } );
         };
@@ -399,6 +386,17 @@ class Window extends Elements {
         audios.forEach( events );    
          
         setInterval( () => {
+
+            if( media ){
+                if( media && media.paused ){
+                    return false;
+                }
+                console.log( "@@@ " + media.currentSrc + " " + media.currentTime );
+                this.childTo( "intervalMedia" {
+                    currentTime: media.currentTime,
+                    currentSrc: media.currentSrc
+                });
+            }
 
         }, Window.mediaSecondInterval );
 /*
@@ -501,9 +499,8 @@ class Window extends Elements {
         this.updateDisplayMode("toggleIframe");
     }
 
-    find( params ){
-        console.log("EXT FIND");
-        console.log( params );
+    find( state ){
+        this.state = {...state};
     }
 
     openNotif(params){
