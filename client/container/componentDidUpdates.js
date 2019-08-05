@@ -2,6 +2,7 @@ import React from "react"
 import App from 'common/schemas/state/App';
 import Notif from 'client/components/Notif';
 import TalknWindow from 'client/operations/TalknWindow';
+import TalknMedia from 'client/operations/TalknMedia';
 import storage from 'client/mapToStateToProps/storage';
 
 export default ( self, constructorName ) => {
@@ -19,6 +20,9 @@ export default ( self, constructorName ) => {
 const componentDidUpdates = {
     Container: {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
+
+            if( window.talnkMedia ) delete window.talnkMedia;
+
             const { app, thread } = self.props.state;
             const connection = thread.connection;
             app.postsHeight += TalknWindow.getPostsHeight();
@@ -27,16 +31,15 @@ const componentDidUpdates = {
             if( app.dispThreadType === App.dispThreadTypeTimeline){
                 const src = thread.getMediaSrc();
                 const tagType = thread.getMediaTagType();
+                const media = document.querySelector(`${tagType}[src='${src}']`)
+                const timeline = storage.getStoragePostsTimeline( connection );
 
                 if( app.extensionMode === "NONE"){
-
-                    const postsTimelineBase = storage.getStoragePostsTimeline( connection );
-                    const media = document.querySelector(`${tagType}[src='${src}']`)
-                    talknWindow.setupPostsTimeline( postsTimelineBase, media );
+                    window.talnkMedia = new TalknMedia( timeline, media );
                 }else{
-                    const setupPostsTimeline = talknWindow.setupPostsTimeline.toString();
-                    console.log(setupPostsTimeline);
-                    talknWindow.parentTo("find", {...self.props.state, setupPostsTimeline});
+                    let test = talknWindow.test;
+                    test = ( () => { return test( src ) } ).toString();
+                    talknWindow.parentTo("find", {...self.props.state, postsTimelineBase, test });
                 }
             }
 
@@ -70,12 +73,14 @@ const componentDidUpdates = {
                 const tagType = thread.getMediaTagType();
 
                 if( app.extensionMode !== "NONE"){
+                    /*
                     const a = {name:"takuya",say:function(){console.log(this.name)}};
                     const test = a.say.toString();
                     //const test = talknWindow.setupPostsTimeline.toString();
 
                     console.log(test);
-                    talknWindow.parentTo("find", {...self.props.state, test: a.say.toString() });
+                    talknWindow.parentTo("find", test);
+                    */
                 }
             }
         },

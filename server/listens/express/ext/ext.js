@@ -392,7 +392,7 @@ class Window extends Elements {
                     return false;
                 }
                 console.log( "@@@ " + media.currentSrc + " " + media.currentTime );
-                this.childTo( "intervalMedia", {
+                this.childTo( "playMedia", {
                     currentTime: media.currentTime,
                     currentSrc: media.currentSrc
                 });
@@ -500,13 +500,19 @@ class Window extends Elements {
     }
 
     find( state ){
-        console.log( state );
+        setupMedia
+        console.log( state.postsTimelineBase );
         console.log( state.test );
+        //const func = Function.call( null, "return "　+ state.setupPostsTimeline )();
+        //console.log(func);
         const func = Function.call( null, "return "　+ state.test )();
-        console.log(func);
-
+        const media = document.querySelector("video");
+        console.log( media );
+        //func.call();
         func.call();
-        this.state = {...state};
+
+                //this.state = {...state};
+
     }
 
     openNotif(params){

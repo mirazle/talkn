@@ -82,7 +82,7 @@ export default ( state = {} , action ) => {
 				}
 			},
 			posts: {...state.posts,
-				self: Posts.getSelf({app: action.app}),
+				self: Posts.getSelf(action),
 				more: Posts.getMore({app: action.app})
 			},
 			post: {...state.post,
