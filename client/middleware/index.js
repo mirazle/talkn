@@ -147,12 +147,9 @@ const functions = {
   "ON_CLICK_TO_TIMELINE_THREAD":  (state, action) => {
     const connection = action.thread.connection;
     action.thread = state.thread;
-    action.thread.connection = connection;
-    console.log( action.thread.contentType );
-    
+    action.thread.connection = connection;    
     const src = App.getMediaSrc( action.thread.protocol, action.thread.connection );
     action.thread.findType = Thread.getFindTypeFromSrc( src );
-    console.log( action.thread.findType  );
     action.postsTimeline = [];
     action.app.isMediaConnection = true;
     action.app.offsetFindId = App.defaultOffsetFindId;

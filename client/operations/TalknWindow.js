@@ -351,16 +351,14 @@ export default class TalknWindow {
 		return Math.floor( mediaCurrentTime * base ) / base;
 	}
 
-	setupPostsTimeline(rootConnection, src, tagType = "audio"){
-		const postsTimelineZero = storage.getStoragePostsTimelineZero( rootConnection );
-		const postsTimelineBase = storage.getStoragePostsTimeline( rootConnection );
+	setupPostsTimeline( connection, src, tagType = "audio"){
+		const postsTimelineZero = storage.getStoragePostsTimelineZero( connection );
+		const postsTimelineBase = storage.getStoragePostsTimeline( connection );
 		let loopPostsTimeline = [ ...postsTimelineBase ];
 		let loopPostsTimelineLength = loopPostsTimeline.length;
 		const media = document.querySelector(`${tagType}[src='${src}']`)
-
-		if( media === null ) return false;
-
-		media.addEventListener( "ended", () => {
+		console.log( loopPostsTimeline );
+		const ended = () => {
 			this.mediaCurrentTime = this.getMediaCurrentTime( media.currentTime );
 			const length = loopPostsTimeline.length;
 			for( let i = 0; i < length; i++ ){
@@ -370,8 +368,35 @@ export default class TalknWindow {
 					break;
 				}
 			}
-		} );
+		}
+		
+		if( media === null ) return false;
+
+		/*
+			this.mediaCurrentTime
+			loopPostsTimeline
+			this.talknAPI
+		*/
+		media.addEventListener( "ended", ended );
 		const log = false;
+
+		/*
+			共通化する処理
+
+			addEventListener
+			interal処理
+		*/
+
+
+		/**
+		* メディアファイルの投稿を管理するメソッド
+		*@param {Element} media メディアファイル自体
+		*@param {Boolean} mediaTasking メディアファイル投稿の制御をしている最中に立つフラグ
+		*@param {Number} mediaCurrentTime メディアファイル再生秒数
+		*@param {Object} talknAPI talknAPI
+		*@param {Array} loopPostsTimeline 実際の制御に使用される投稿済みの一覧
+		*@param {Array} postsTimelineBase 実際の制御には使用しない投稿済みの一覧
+		*/
 		setInterval( () => {
 			if( media && media.paused ){
 				if( log ) console.log("Media Pause");
@@ -426,11 +451,10 @@ export default class TalknWindow {
 					if(log) console.log( "BACK " + mediaCurrentTime );
 					if(log) console.log( postsTimeline );
 
-
 					// これから表示するpost一覧を保持
 					//loopPostsTimeline = postsTimelineBase.filter( (pt) => pt.currentTime > mediaCurrentTime);
 
-					loopPostsTimeline= postsTimeline.concat( postsTimelineBase ).filter( (pt, index, self) => {
+					loopPostsTimeline = postsTimeline.concat( postsTimelineBase ).filter( (pt, index, self) => {
 						if(self.indexOf(pt) === index){
 							if( pt.currentTime > mediaCurrentTime ){
 								return true;
@@ -438,7 +462,6 @@ export default class TalknWindow {
 						}
 						return false;
 					});
-
 					
 					if(log) console.log( loopPostsTimeline );
 					this.mediaTasking = false;

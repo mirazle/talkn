@@ -25,7 +25,14 @@ const componentDidUpdates = {
             if( app.dispThreadType === App.dispThreadTypeTimeline){
                 const src = thread.getMediaSrc();
                 const tagType = thread.getMediaTagType();
-                talknWindow.setupPostsTimeline(app.rootConnection, src, tagType);
+
+                if( app.extensionMode === "NONE"){
+                    talknWindow.setupPostsTimeline(thread.connection, src, tagType);
+                }else{
+                    const test = ( () => {console.log('HEYHEY')} ).toString();
+                    talknWindow.parentTo("find", {...self.props.state, test});
+                }
+
             }
 
             if( app.extensionMode === "NONE"){
@@ -49,13 +56,6 @@ const componentDidUpdates = {
 
             if( !app.isOpenLinks ){
                 talknAPI.closeLinks();
-            }
-        },
-        'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
-            const { app, thread } = self.props.state;
-            if( app.extensionMode !== "NONE"){
-                const test = "() => {}";
-                talknWindow.parentTo("find", {...self.props.state, test});
             }
         },
         'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
