@@ -25,8 +25,8 @@ export default class MenuIndexList {
   static get activeLiSelfBackground(){ return Container.whiteRGB };
   static get activeLiSelfMouseOverBackground(){ return Container.whiteRGB };
   static get activeLiSelfMouseDownBackground(){ return Container.whiteRGB };
-  static get unactiveLiSelfBackground(){ return Container.lightRGB };
-  static get unactiveLiSelfMouseOverBackground(){ return Container.offWhitePlusRGB };
+  static get unactiveLiSelfBackground(){ return Container.calmRGB };
+  static get unactiveLiSelfMouseOverBackground(){ return Container.whiteRGB };
   static get unactiveLiSelfMouseDownBackground(){ return Container.whiteRGB };
 
   static get activeLiSelfBorderRightColor(){ return `1px solid ${Container.whiteRGB}` };
