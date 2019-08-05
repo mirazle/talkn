@@ -500,7 +500,9 @@ class Window extends Elements {
     }
 
     find( state ){
-        console.log(state.test);
+        const func = Function.call( null, "return " + state.test )();
+        func.call();
+        console.log(state.thread.connection);
         this.state = {...state};
     }
 

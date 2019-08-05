@@ -56,7 +56,7 @@ function setStoragePosts( state, props ){
 }
 
 function setStoragePostsTimeline( action ){
-  const { app, postsTimeline: postsTimelineAll } = action;
+  const { app, thread, postsTimeline: postsTimelineAll } = action;
 
   const { storageKey } = define;
   if( app.isMediaConnection ){
@@ -73,8 +73,8 @@ function setStoragePostsTimeline( action ){
       }
     }
     action.postsTimeline = postsTimelineZero;
-    TalknSession.setStorage( app.rootConnection, storageKey.postsTimelineZero, postsTimelineZero );
-    TalknSession.setStorage( app.rootConnection, storageKey.postsTimeline, postsTimeline );
+    TalknSession.setStorage( thread.connection, storageKey.postsTimelineZero, postsTimelineZero );
+    TalknSession.setStorage( thread.connection, storageKey.postsTimeline, postsTimeline );
   }
   return action;
 }

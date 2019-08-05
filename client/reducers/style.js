@@ -41,7 +41,6 @@ export default ( state = {} , action ) => {
 	case 'ON_TRANSITION' :
 	case 'OFF_TRANSITION' :
 	case 'ON_TRANSITION_END' :
-		console.log( action );
 		return new Style( action );
 	case 'TOGGLE_DISP_MAIN':
 		return {...state};
