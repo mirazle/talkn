@@ -279,7 +279,11 @@ class Container extends Component {
       }else{
         dispNewPost = true;
         // 表示しない
-        console.log(" C DISP!!! " + talknWindow.isScrollBottom );
+        console.log(
+          " C DISP!!! " +
+          talknWindow.isScrollBottom + " " +
+          PostsComponent.scrollHeight + " < " + postsFrameHeight
+        );
       }
     }
 
