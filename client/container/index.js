@@ -267,23 +267,25 @@ class Container extends Component {
 */
       
     // フレーム縦幅よりも、実際の投稿縦幅のほうが小さい場合
-    if( PostsComponent && PostsComponent.scrollHeight < postsFrameHeight ){
-      // 表示しない
-      console.log(" A NO DISP");
-    // フレーム縦幅よりも、実際の投稿縦幅のほうが大きい場合
-    }else{
-      if( talknWindow.isScrollBottom /* 一番下までスクロールしている場合 */ ){
-        console.log(" B NO DISP");
-
-      // 一番下までスクロールしていない場合
-      }else{
-        dispNewPost = true;
+    if( PostsComponent ){
+      if( PostsComponent.scrollHeight < postsFrameHeight ){
         // 表示しない
-        console.log(
-          " C DISP!!! " +
-          talknWindow.isScrollBottom + " " +
-          PostsComponent.scrollHeight + " < " + postsFrameHeight
-        );
+        console.log(" A NO DISP");
+      // フレーム縦幅よりも、実際の投稿縦幅のほうが大きい場合
+      }else{
+        if( talknWindow.isScrollBottom /* 一番下までスクロールしている場合 */ ){
+          console.log(" B NO DISP");
+
+        // 一番下までスクロールしていない場合
+        }else{
+          dispNewPost = true;
+          // 表示しない
+          console.log(
+            " C DISP!!! " +
+            talknWindow.isScrollBottom + " " +
+            PostsComponent.scrollHeight + " < " + postsFrameHeight
+          );
+        }
       }
     }
 
