@@ -4,10 +4,6 @@ import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
 import Favicon from '~/server/logics/Favicon';
 
-const findTypeHtml = Thread.findTypes[ Thread.findTypeHtml ];
-const findTypeMusic = Thread.findTypes[ Thread.findTypeMusic ];
-const findTypeMovie = Thread.findTypes[ Thread.findTypeMovie ];
-
 export default class Threads {
 
   constructor( collection ){
