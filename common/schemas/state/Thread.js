@@ -6,13 +6,13 @@ export default class Thread extends Schema{
   static get findTypeAll(){ return 'All' };
   static get findTypeHtml(){ return 'Html' };
   static get findTypeMusic(){ return 'Music' };
-  static get findTypeMovie(){ return 'Movie' };
+  static get findTypeVideo(){ return 'Video' };
   static get findTypeOther(){ return 'Other' };
   static get findTypes(){
     return {
       [Thread.findTypeHtml]: [ "text/html"],
       [Thread.findTypeMusic]: [ "audio", "audio/mpeg", "audio/mp4", "audio/x-wav", "audio/midi", "application/x-smaf"],
-      [Thread.findTypeMovie]: [ "video", "video/mpeg", "video/mp4", "video/x-ms-wmv", "application/x-shockwave-flash", "video/3gpp2"]
+      [Thread.findTypeVideo]: [ "video", "video/mpeg", "video/mp4", "video/x-ms-wmv", "application/x-shockwave-flash", "video/3gpp2"]
     }
   }
   static getDefaultTitle(){
@@ -319,7 +319,7 @@ export default class Thread extends Schema{
   static getContentTypeFromFindType( contentType ){
     const findTypeHtml = Thread.findTypes[ Thread.findTypeHtml ];
     const findTypeMusic = Thread.findTypes[ Thread.findTypeMusic ];
-    const findTypeMovie = Thread.findTypes[ Thread.findTypeMovie ];
+    const findTypeVideo = Thread.findTypes[ Thread.findTypeVideo ];
 
     let findType = "";
     let splitedContentType = "";
@@ -337,13 +337,14 @@ export default class Thread extends Schema{
     if( findTypeMusic.includes( splitedContentType ) ){
       findType = Thread.findTypeMusic;
     }
-    if( findTypeMovie.includes( splitedContentType ) ){
-      findType = Thread.findTypeMovie;
+    if( findTypeVideo.includes( splitedContentType ) ){
+      findType = Thread.findTypeVideo;
     }
     return findType;
   }
 
   static getFindTypeFromSrc( src ){
-    return App.getMediaTypeFromSrc( src );
+    const str = App.getMediaTypeFromSrc( src );
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 }

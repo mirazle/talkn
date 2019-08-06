@@ -77,7 +77,7 @@ export default class MenuIndexList {
     const bottomWatchCntWrap = MenuIndexList.getBottomWatchCntWrap();
     const ext = MenuIndexList.getExt();
     const extMusic = MenuIndexList.getExtMusic();
-    const extMovie = MenuIndexList.getExtMovie();
+    const extVideo = MenuIndexList.getExtVideo();
     return {
       activeLiSelf,
       unactiveLiSelf,
@@ -93,7 +93,7 @@ export default class MenuIndexList {
       bottomWatchCntWrap,
       ext,
       extMusic,
-      extMovie
+      extVideo
     }
   }
 
@@ -297,7 +297,7 @@ export default class MenuIndexList {
     return ext;
   }
 
-  static getExtMovie(){
+  static getExtVideo(){
     let ext = MenuIndexList.getExt();
     ext.background = "rgba(105, 70, 255, 1)";
     return ext;

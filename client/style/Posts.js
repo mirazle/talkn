@@ -1,5 +1,6 @@
 import define from '../../common/define';
 import App from '../../common/schemas/state/App';
+import Thread from '../../common/schemas/state/Thread';
 import Style from './index';
 import Container from './Container';
 import Header from './Header';
@@ -175,7 +176,7 @@ export default class Posts {
 
   static getSelfTop( app, thread ){
     if( app.extensionMode === App.extensionModeExtNoneLabel ){
-      if( thread.findType === App.mediaTagTypeVideo ){
+      if( thread.findType === Thread.findTypeVideo ){
         return `${Header.headerHeight + Video.height}px`;
       }
     }
@@ -204,6 +205,8 @@ export default class Posts {
       borders = Posts.getBorders(app);
     }
 
+    console.log("@@@@@@@@@@@@");
+    console.log( thread.findType );
     const layout = Style.getLayoutBlock({
       position,
       top: Posts.getSelfTop( app, thread ),

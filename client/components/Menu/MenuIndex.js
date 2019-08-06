@@ -137,6 +137,7 @@ export default class MenuIndex extends Component {
     const { icon } = style;
     const IconCh = Icon.getCh( icon.ch );
     const IconSearch = Icon.getSearch( icon.search );
+    console.log( Thread.findTypeVideo );
     return (
       <nav data-component-name={"MenuIndex"} style={style.menuIndex.self}>
 
@@ -166,7 +167,7 @@ export default class MenuIndex extends Component {
               <option>{Thread.findTypeAll}</option>
               <option>{Thread.findTypeHtml}</option>
               <option>{Thread.findTypeMusic}</option>
-              <option>{Thread.findTypeMovie}</option>
+              <option>{Thread.findTypeVideo}</option>
             </select>
           </div>
         </header>
