@@ -1,51 +1,60 @@
-import React, { Component, PropTypes } from "react"
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux';
-import timeago from 'timeago.js';
-import define from 'common/define';
 import conf from 'client/conf';
-import Schema from 'common/schemas/Schema';
-import App from 'common/schemas/state/App';
-import State from 'common/schemas/state';
-import BootOption from 'common/schemas/state/BootOption';
-import TalknSession from 'client/operations/TalknSession';
-import TalknAPI from 'client/operations/TalknAPI';
-import configureStore from 'client/store/configureStore'
-import Container from 'client/container/';
-import storage from 'client/mapToStateToProps/storage';
 
 export default class TalknMedia {
 
-	constructor( timeline, media ){
-		if( timeline && timeline.length > 0 && media !== null ){
+	static getMedia( thread ){
+		const src = thread.getMediaSrc();
+		const tagType = thread.getMediaTagType();
+		return document.querySelector(`${tagType}[src='${src}']`)
+	}
 
-			this.log = false;
-			this.timeline = timeline;
-			this.timelineBase = [ ...timeline ];	
-			this.media = media;
-			this.currentTime = 0;
-			this.tasking = false;
-
-			this.proccess = this.proccess.bind( this );
-			this.getEnded = this.getEnded.bind( this );
-
-			media.addEventListener( "ended", this.getEnded );
-	
-			setInterval( () => {
-				this.proccess();
-			}, conf.mediaSecondInterval );
+	static init(){
+		if( window.talknMedia ){
+			delete window.talknMedia;
+			window.talknMedia = new TalknMedia();
+			window.talknMedia.intervalId = null;
 		}
 	}
 
-	getCurrentTime( base = 10 ){
-		return Math.floor( this.media.currentTime * base ) / base;
+	constructor(){
+		this.intervalId = null;
+		this.currentTime = 0;
+		this.tasking = false;
+		this.timeline = [];
+		this.timelineBase = [];
+
+		this.setTimeline = this.setTimeline.bind( this );
+		this.startMedia = this.startMedia.bind( this );
+		this.proccess = this.proccess.bind( this );
+		this.endedFunc = this.endedFunc.bind( this );
 	}
 
-	getEnded(){
-		this.currentTime = this.getCurrentTime();
+	setTimeline( timeline = [] ){
+		this.timeline = timeline;
+		this.timelineBase = [ ...timeline ];	
+	}
+
+	startMedia( media ){
+		media.addEventListener( "ended", this.endedFunc );
+
+		this.intervalId = setInterval( () => { 
+			if( media && !media.paused ){
+				this.proccess( media.currentTime );
+			}
+		}, conf.mediaSecondInterval );
+	}
+
+	getCurrentTime( currentTime, base = 10 ){
+		return Math.floor( currentTime * base ) / base;
+	}
+
+	endedFunc( ){
+		const currentTime =  Number.MAX_SAFE_INTEGER;
+		const timeline = this.timeline;
 		const length = this.timeline.length;
+
 		for( let i = 0; i < length; i++ ){
-			if( timeline[ i ] && timeline[ i ].currentTime <= this.currentTime ){
+			if( timeline[ i ] && timeline[ i ].currentTime <= currentTime ){
 				talknAPI.nextPostsTimeline([ timeline[ i ] ]);
 			}else{
 				break;
@@ -55,16 +64,12 @@ export default class TalknMedia {
 
 	/**
 	* メディアファイルの投稿を管理するメソッド
+	* パラメータを与えて直接実行も可能
 	*/
-	proccess(){
+	proccess( _currentTime = 0 ){
 
 		const log = false;
-
-		if( this.media && this.media.paused ){
-			if( log ) console.log("Media Pause");
-			if( log ) console.log( this.media );
-			return false;
-		}
+		const currentTime = this.getCurrentTime( _currentTime );
 
 		if( this.tasking ){
 			if( log ) console.log("Tasking");
@@ -74,8 +79,6 @@ export default class TalknMedia {
 
 		const timelineLength = this.timeline.length;
 
-		// Get current time.
-		const currentTime = this.getCurrentTime();
 		this.tasking = true
 
 		// Timeline is next.

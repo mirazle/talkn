@@ -240,6 +240,7 @@ class Window extends Elements {
                 this.htmlPosition = null;
                 this.htmlWidth = null;
                 this.htmlHeight = null;       
+                this.intervalMediaId = null;
 
                 // Callback Methods.
                 this.load = this.load.bind(this);
@@ -274,7 +275,7 @@ class Window extends Elements {
                 this.ins.textarea = new Textarea( this );
                 this.ins.notifStatus = new NotifStatus( this );
 
-                this.setupMedia();
+                this.intervalMediaId = this.setupMedia();
             };
 
             init = init.bind( this );
@@ -368,10 +369,12 @@ class Window extends Elements {
 
     setupMedia(){
         let media = null;
+        let playCnt = 0;
         const videos = document.querySelectorAll("video");
         const audios = document.querySelectorAll("audio");
         const events = ( m ) => {
             
+
             //this.childTo("onTransition");
 
             m.addEventListener( "play", ( e ) => {
@@ -379,39 +382,49 @@ class Window extends Elements {
             } );
 
             m.addEventListener( "ended", ( e ) => {
-                console.log("ENDED!!!");
+                this.childTo( "endMedia", {
+                    playCnt,
+                    thread: this.state.thread
+                });
             } );
         };
+
         videos.forEach( events );
         audios.forEach( events );    
-         
-        setInterval( () => {
-
-            if( media ){
-                if( media && media.paused ){
-                    return false;
-                }
-                console.log( "@@@ " + media.currentSrc + " " + media.currentTime );
-                this.childTo( "playMedia", {
-                    currentTime: media.currentTime,
-                    currentSrc: media.currentSrc
-                });
-            }
-
-        }, Window.mediaSecondInterval );
-/*
         
-        const href = location.href;
-		let isMediaConnection = this.isMediaConnection();
-        if( isMediaConnection ){
+        if( videos.length > 0 || audios.length > 0 ){
 
-            setInterval( () => {
-                if( media && !media.paused ){  
-                    this.handleMediaCurrentTime = media.currentTime;
+
+            return setInterval( () => {
+
+                if( media ){
+                    if( media && media.paused ){
+                        return false;
+                    }
+
+                    const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
+
+                    if( this.state.thread.connection === mediaConnection ){
+
+                        this.childTo( "playMedia", {
+                            playCnt,
+                            thread: this.state.thread,
+                            currentTime: media.currentTime
+                        });
+
+                        playCnt++;
+
+                    }else{
+                        playCnt = 0;
+                    }
+                }else{
+                    playCnt = 0;
                 }
+
             }, Window.mediaSecondInterval );
+        }else{
+            return null;
         }
-*/
     }
     
     getBrowser(){
@@ -500,19 +513,7 @@ class Window extends Elements {
     }
 
     find( state ){
-        setupMedia
-        console.log( state.postsTimelineBase );
-        console.log( state.test );
-        //const func = Function.call( null, "return "　+ state.setupPostsTimeline )();
-        //console.log(func);
-        const func = Function.call( null, "return "　+ state.test )();
-        const media = document.querySelector("video");
-        console.log( media );
-        //func.call();
-        func.call();
-
-                //this.state = {...state};
-
+        this.state = state;
     }
 
     openNotif(params){
