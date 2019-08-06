@@ -96,7 +96,7 @@ export default class Posts {
       if( app.connectionType === App.mediaTagTypeVideo ){
         return app.isBubblePost ? 
           `0px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}` :
-          `10px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}` ;
+          `0px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}` ;
       }
 
       switch( app.screenMode ){
@@ -126,7 +126,7 @@ export default class Posts {
         case App.mediaTagTypeAudio:
           return `0px`;
         case App.mediaTagTypeVideo:
-          return `${Audio.height + 20}px 0px 0px 0px`;
+          return `0px 0px 0px 0px`;
         }
       }
 
@@ -205,8 +205,6 @@ export default class Posts {
       borders = Posts.getBorders(app);
     }
 
-    console.log("@@@@@@@@@@@@");
-    console.log( thread.findType );
     const layout = Style.getLayoutBlock({
       position,
       top: Posts.getSelfTop( app, thread ),
