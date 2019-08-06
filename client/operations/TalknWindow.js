@@ -201,8 +201,25 @@ export default class TalknWindow {
 				resolve(e.data.params);
 				break;
 			case "playMedia" :
-				console.log("@@@@@@@@@@@@@");
-				console.log( e.data.params );
+
+				if( e.data.params.playCnt === 0 ){
+					TalknMedia.init();
+					const connection = e.data.params.thread.connection;
+					const timeline = storage.getStoragePostsTimeline( connection );
+					window.talknMedia = new TalknMedia();
+					window.talknMedia.setTimeline( timeline );
+
+				}else{
+
+					if( window.talknMedia && window.talknMedia.timeline.length > 0 ){
+						window.talknMedia.proccess( e.data.params.currentTime );
+					}
+				}
+				break;
+			case "endMedia" :
+				if( e.data.params.playCnt > 0 ){
+					window.talknMedia.endedFunc();
+				}
 				break;
 			default: 
 				if(	
@@ -347,17 +364,6 @@ export default class TalknWindow {
 		container.id = this.id;
 		document.body.appendChild( container );
 		return true;
-	}
-
-	test( src ){
-		const func1 = (e) => {
-			console.log("AAAAAAA "+ e );
-		}
-		console.log( this );
-		console.log( src );
-		console.log( document.querySelectorAll("video") );
-		func1("MOMO!");
-
 	}
 
 	parentTo( method, params ){

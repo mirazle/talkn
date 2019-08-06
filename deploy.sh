@@ -8,7 +8,6 @@ sed -i -e "1s/DEV/PROD/" server/listens/express/ext/ext.js
 sed -i -e "1s/START/PROD/" server/listens/express/ext/ext.js
 rm -f server/listens/express/ext/ext.js-e
 echo "@@@@@@ COMPRESSIONS EXTENSION"
-cp client/container/util/Media.js extention/Media.js
 cp server/listens/express/client/talkn.client.js extention/talkn.client.js
 cp server/listens/express/ext/ext.js extention/ext.js
 zip -r chromeExtension extention/*

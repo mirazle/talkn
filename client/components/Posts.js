@@ -107,11 +107,6 @@ export default class Posts extends Component {
 
     const { clientHeight, scrollTop, scrollHeight } = e.target;
     const isScrollBottom = ( scrollHeight === ( scrollTop + clientHeight ) );
-    console.log( "@@@@@@@@@@@@@@@@@@@@@@@@ POSTS " );
-    console.log( "POSTS " + scrollHeight );
-    console.log( "POSTS " + scrollTop );
-    console.log( "POSTS " + clientHeight );
-    console.log( "POSTS " + isScrollBottom );
     talknWindow.setIsScrollBottom( app, isScrollBottom );
 
 //    this.setState({isScrollBottom});

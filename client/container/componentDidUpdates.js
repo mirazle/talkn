@@ -21,48 +21,33 @@ const componentDidUpdates = {
     Container: {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
 
-            if( window.talnkMedia ) delete window.talnkMedia;
+            TalknMedia.init();
 
             const { app, thread } = self.props.state;
             const connection = thread.connection;
             app.postsHeight += TalknWindow.getPostsHeight();
             self.props.updatePostsHeight(app.postsHeight);
 
-            if( app.dispThreadType === App.dispThreadTypeTimeline){
-                const src = thread.getMediaSrc();
-                const tagType = thread.getMediaTagType();
-                const media = document.querySelector(`${tagType}[src='${src}']`)
-                const timeline = storage.getStoragePostsTimeline( connection );
-
-                if( app.extensionMode === "NONE"){
-                    window.talnkMedia = new TalknMedia( timeline, media );
-                }else{
-                    let test = talknWindow.test;
-                    test = ( () => { return test( src ) } ).toString();
-                    talknWindow.parentTo("find", {...self.props.state, postsTimelineBase, test });
-                }
-            }
-
             if( app.extensionMode === "NONE"){
+
                 window.scrollTo(0, 9999999);
-                const { app } = self.props.state;
                 const Posts = document.querySelector("[data-component-name=Posts]");
                 talknWindow.threadHeight = Posts.clientHeight;
-            }else{
-/*
-                const Posts = document.querySelector("[data-component-name=Posts]");
-                self.animateScrollTo(
-                    Posts,
-                    Posts.scrollHeight,
-                    0,
-                    9999999
-                );
-*/
+
+                if( app.dispThreadType === App.dispThreadTypeTimeline){
+                    const timeline = storage.getStoragePostsTimeline( connection );
+                    const media = TalknMedia.getMedia( thread );
+                    window.talknMedia = new TalknMedia();
+                    window.talknMedia.setTimeline( timeline );
+                    window.talknMedia.startMedia( media );
+                }
             }
 
             if( !app.isOpenLinks ){
                 talknAPI.closeLinks();
             }
+
+            talknWindow.parentTo("find", self.props.state);
         },
         'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
 
@@ -198,7 +183,6 @@ function post( self ){
 
     }else{
         if( app.isOpenPosts && talknWindow.isScrollBottom ){
-            console.log("@@@@@@@@@@@@@@@@ SCROLL POSTS! " + Posts.scrollHeight );
             self.animateScrollTo(
               Posts,
               Posts.scrollHeight,

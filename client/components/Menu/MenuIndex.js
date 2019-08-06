@@ -137,7 +137,6 @@ export default class MenuIndex extends Component {
     const { icon } = style;
     const IconCh = Icon.getCh( icon.ch );
     const IconSearch = Icon.getSearch( icon.search );
-    console.log( Thread.findTypeVideo );
     return (
       <nav data-component-name={"MenuIndex"} style={style.menuIndex.self}>
 

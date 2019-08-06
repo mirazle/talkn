@@ -1,4 +1,5 @@
 import Sequence from 'common/Sequence';
+import TalknMedia from 'client/operations/TalknMedia';
 
 let actions = {};
 
@@ -16,12 +17,9 @@ const beforeFunctions = {
 	post: ( reduxState, requestState, actionState ) => {
 		const { app, thread } = reduxState;
 		if( app.isMediaConnection ){
-			const src = thread.getMediaSrc();
-			const tagType = thread.getMediaTagType();
-			const media = document.querySelector(`${tagType}[src='${src}']`)
-
-			if( media && talknWindow.mediaCurrentTime !== 0 ){
-				requestState.app.inputCurrentTime = talknWindow.mediaCurrentTime;
+			console.log(window.talknMedia);
+			if( window.talknMedia ){
+				requestState.app.inputCurrentTime = window.talknMedia.currentTime;
 				return { requestState, actionState };
 			}
 		}
