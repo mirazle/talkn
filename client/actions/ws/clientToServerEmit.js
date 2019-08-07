@@ -30,7 +30,6 @@ const beforeFunctions = {
 
 		console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@ POST");
 		console.log( talknAPI.ws._callbacks );
-		console.log( talknAPI.connectionKeys );
 		return { requestState, actionState };
 	}
 }
