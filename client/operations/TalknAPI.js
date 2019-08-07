@@ -87,7 +87,7 @@ export default class TalknAPI{
 			this.ws.on( onKey, callback );
 			this.connectionKeys.push( onKey );
 			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@ ON");
-			console.log( talknAPI.ws._callbacks );
+			console.log( this.ws._callbacks );
 			console.log( this.connectionKeys );
 		}
 	}
@@ -96,7 +96,7 @@ export default class TalknAPI{
 		this.ws.off( offKey );
 		this.connectionKeys = this.connectionKeys.filter( key =>  key === offKey );
 		console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@ OFF");
-		console.log( talknAPI.ws._callbacks );
+		console.log( this.ws._callbacks );
 		console.log( this.connectionKeys );
 	}
 
