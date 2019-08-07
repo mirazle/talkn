@@ -90,7 +90,7 @@ export default class TalknAPI{
 	}
 
 	off( offKey ){
-		if( this.ws._callbacks[ `$${onKey}` ] ){
+		if( this.ws._callbacks[ `$${offKey}` ] ){
 			this.ws.off( offKey );
 			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@ OFF");
 			console.log( this.ws._callbacks );
