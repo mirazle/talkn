@@ -368,7 +368,7 @@ class Window extends Elements {
     }
 
     setupMedia(){
-        console.log("PLAY MEDIA A");
+
         let media = null;
         let playCnt = 0;
         const videos = document.querySelectorAll("video");
@@ -376,7 +376,6 @@ class Window extends Elements {
         const events = ( m ) => {
             
             m.addEventListener( "play", ( e ) => {
-                console.log("PLAY MEDIA B");
                 media = e.srcElement;
             } );
 
@@ -387,26 +386,23 @@ class Window extends Elements {
                 });
             } );
         };
-        console.log("PLAY MEDIA C");
+
         videos.forEach( events );
         audios.forEach( events );    
         
         if( videos.length > 0 || audios.length > 0 ){
 
-            console.log("PLAY MEDIA D");
             return setInterval( () => {
-                console.log("PLAY MEDIA E");
+
                 if( media ){
                     if( media && media.paused ){
-                        console.log("PLAY MEDIA F");
                         return false;
                     }
-                    console.log("PLAY MEDIA G");
+
                     const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
 
                     if( this.state.thread.connection === mediaConnection ){
-                        console.log("PLAY MEDIA H");
-                        console.log( playCnt + " " + media.currentTime );
+
                         this.childTo( "playMedia", {
                             playCnt,
                             thread: this.state.thread,

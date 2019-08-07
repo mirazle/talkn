@@ -130,7 +130,6 @@ export default class TalknWindow {
 	}
 
 	listenAsyncBoot(){
-		console.log("listenAsyncBoot");
 		const bootPromises = [];
 		bootPromises.push(
 			new Promise( ( resolve ) => {
@@ -154,9 +153,7 @@ export default class TalknWindow {
 		case define.APP_TYPES.EXTENSION:
 			bootPromises.push(
 				new Promise( ( resolve ) => {
-					console.log("LISTEN MESSAGE");
 					window.addEventListener('message',  ( ev ) => {
-						console.log("LISTENED MESSAGE");
 						this.message( ev, resolve );
 					});
 				})
@@ -196,9 +193,7 @@ export default class TalknWindow {
 	}
 
 	message(e, resolve){
-		console.log(e);
 		if( e.data.type === "talkn" ){
-			console.log("==== A " + e.data.method);
 			switch( e.data.method ){
 			case "bootExtension" :
 				this.parentUrl = e.data.href;
@@ -206,9 +201,8 @@ export default class TalknWindow {
 				resolve(e.data.params);
 				break;
 			case "playMedia" :
-				console.log("APP A");
+
 				if( e.data.params.playCnt === 0 ){
-					console.log("APP B");
 					TalknMedia.init();
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
@@ -216,10 +210,8 @@ export default class TalknWindow {
 					window.talknMedia.setTimeline( timeline );
 
 				}else{
-					console.log("APP C");
 
 					if( window.talknMedia && window.talknMedia.timeline.length > 0 ){
-						console.log("APP D");
 						window.talknMedia.proccess( e.data.params.currentTime );
 					}
 				}
