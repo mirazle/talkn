@@ -94,7 +94,7 @@ export default class Detail extends Component {
         {/*threadDetail.serverMetas.title*/}
 
         <Marquee
-          text={threadDetail.serverMetas.title}
+          text={threadDetail.title}
           loop={true}
           hoverToStop={false}
           trailing={0}
