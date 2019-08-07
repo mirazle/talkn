@@ -27,6 +27,7 @@ export default ( state = new Posts() , action ) => {
 		}
 		break;
 	case 'SERVER_TO_CLIENT[BROADCAST]:post':
+		console.log( action.postsTimeline );
 		if(
 			action.postsTimeline　&&
 			action.postsTimeline.length > 0 &&
