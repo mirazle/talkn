@@ -127,7 +127,6 @@ const componentDidUpdates = {
         'GET_CLIENT_METAS': ( self ) => {
             const { app, thread } = self.props.state;
             const { serverMetas } = thread;
-            console.log( "APP IS LINK " + app.isLinkConnection );
             if( !app.isLinkConnection ){
                 talknAPI.updateThreadServerMetas(serverMetas);
             }
