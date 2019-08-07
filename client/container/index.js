@@ -167,7 +167,7 @@ class Container extends Component {
     }
   }
 
-  handleOnClickConnection( connection, called = ""){
+  handleOnClickConnection( toConnection, called = ""){
     const {
       state,
       onClickToTimelineThread,
@@ -179,17 +179,20 @@ class Container extends Component {
     let { app, menuIndex, setting } = state;
 
     let { thread } = state;
-    thread.connection = connection;
+    const beforeConnection = thread.connection;
+    thread.connection = toConnection;
     const isLinkConnection = app.isLinkConnection;
     const threadStatus = Thread.getStatus( thread, app, setting );
-    let { app: updatedApp, stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, connection, called );
+    let { app: updatedApp, stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, toConnection, called );
+
+    console.log("@@@@@@@@@@@ " + stepTo );
 
     if( !isLinkConnection && updatedApp.isLinkConnection ){
-      talknAPI.onCatchConnectionAPI( connection );
+      talknAPI.onCatchConnectionAPI( toConnection );
     }
 
     if( isLinkConnection && !updatedApp.isLinkConnection ){
-      talknAPI.offCatchConnectionAPI( connection );
+      talknAPI.offCatchConnectionAPI( beforeConnection );
     }
 
     app = updatedApp;
@@ -199,25 +202,25 @@ class Container extends Component {
     case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
     case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
     case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
-      onClickToChildThread( connection, {app} );
-      talknAPI.changeThread( connection );
+      onClickToChildThread( toConnection, {app} );
+      talknAPI.changeThread( toConnection );
       break;
     case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeMulti}`:
     case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
-      onClickToMultiThread( connection, {app} );
-      talknAPI.changeThread( connection );
+      onClickToMultiThread( toConnection, {app} );
+      talknAPI.changeThread( toConnection );
       break;
     case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeSingle}`:
     case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
-      onClickToSingleThread( connection, {app} );
-      talknAPI.changeThread( connection );
+      onClickToSingleThread( toConnection, {app} );
+      talknAPI.changeThread( toConnection );
       break;
     case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeTimeline}`:
     case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeTimeline}`:
     case `${App.dispThreadTypeChild} to ${App.dispThreadTypeTimeline}`:
     case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeTimeline}`:
-      onClickToTimelineThread( connection, {app} );
-      talknAPI.changeThread( connection );
+      onClickToTimelineThread( toConnection, {app} );
+      talknAPI.changeThread( toConnection );
       break;
     }
   }

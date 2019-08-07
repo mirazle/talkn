@@ -86,12 +86,18 @@ export default class TalknAPI{
 		if( !this.connectionKeys.includes( onKey ) ){
 			this.ws.on( onKey, callback );
 			this.connectionKeys.push( onKey );
+			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@ ON");
+			console.log( talknAPI.ws._callbacks );
+			console.log( this.connectionKeys );
 		}
 	}
 
 	off( offKey ){
 		this.ws.off( offKey );
 		this.connectionKeys = this.connectionKeys.filter( key =>  key === offKey );
+		console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@ OFF");
+		console.log( talknAPI.ws._callbacks );
+		console.log( this.connectionKeys );
 	}
 
 	getHandleAPI( talknIndex, actionName ){

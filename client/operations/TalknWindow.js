@@ -207,13 +207,12 @@ export default class TalknWindow {
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
 					window.talknMedia = new TalknMedia();
+					console.log( timeline );
 					window.talknMedia.setTimeline( timeline );
 
 				}else{
-
-					if( window.talknMedia && window.talknMedia.timeline.length > 0 ){
-						window.talknMedia.proccess( e.data.params.currentTime );
-					}
+					console.log("----------- " + e.data.params.currentTime );
+					window.talknMedia.proccess( e.data.params.currentTime );
 				}
 				break;
 			case "endMedia" :
