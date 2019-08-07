@@ -115,7 +115,10 @@ class Container extends Component {
       }
 
       talknWindow.parentTo("toggleIframe");
-      talknWindow.parentTo("getClientMetas");
+
+      if( !app.isLinkConnection ){
+        talknWindow.parentTo("getClientMetas");
+      }
     }
   }
 
