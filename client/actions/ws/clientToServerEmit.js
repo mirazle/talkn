@@ -1,5 +1,4 @@
 import Sequence from 'common/Sequence';
-import TalknMedia from 'client/operations/TalknMedia';
 
 let actions = {};
 
@@ -12,10 +11,6 @@ Object.keys( Sequence.map ).forEach( endpoint => {
 		return { requestState, actionState };
 	}
 });
-
-/*
-	ReducerでTIMELINEのLINKが表示されないようになっている？
-*/
 
 const beforeFunctions = {
 	post: ( reduxState, requestState, actionState ) => {
