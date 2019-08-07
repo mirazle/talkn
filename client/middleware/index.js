@@ -60,7 +60,7 @@ const functions = {
     action.thread.title = action.thread.serverMetas.title;
     action.thread.hasSlash = Schema.getBool( action.thread.hasSlash );
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
-    action.threadDetail = action.thread;
+    action.threadDetail = {...action.thread};
 
     switch(action.app.extensionMode){
     case App.extensionModeExtBottomLabel:

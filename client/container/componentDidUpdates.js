@@ -125,8 +125,12 @@ const componentDidUpdates = {
             talknAPI.closeDispPostsSupporter();
         },
         'GET_CLIENT_METAS': ( self ) => {
-            const { serverMetas } = self.props.state.thread;
-            talknAPI.updateThreadServerMetas(serverMetas);
+            const { app, thread } = self.props.state;
+            const { serverMetas } = thread;
+            console.log( "APP IS LINK " + app.isLinkConnection );
+            if( !app.isLinkConnection ){
+                talknAPI.updateThreadServerMetas(serverMetas);
+            }
         },
         'ON_CLICK_TOGGLE_DISP_DETAIL': (self) => {
             const { app } = self.props.state;

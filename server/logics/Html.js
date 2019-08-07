@@ -85,7 +85,10 @@ export default class Html {
           responseSchema.contentType = contentType;
           responseSchema.protocol = protocol;
           if( App.isMediaContentType( contentType ) ){
-            responseSchema.serverMetas.title = this.getTitle( null, connection, contentType );
+            responseSchema.title = this.getTitle( null, connection, contentType );
+            responseSchema.serverMetas.title = responseSchema.title;
+            console.log("MEDIA " + responseSchema.title );
+            console.log("MEDIA " + responseSchema.serverMetas.title );
           }else{
             const utf8Body = this.toUtf8Str( body, contentType );
             const $ = cheerio.load( utf8Body );
@@ -96,6 +99,8 @@ export default class Html {
             responseSchema.videos = this.getVideos( $ );
             responseSchema.audios = this.getAudios( $ );
             responseSchema.serverMetas = this.getMetas( $, connection, responseSchema, response.request.uri.href );
+          
+            console.log( responseSchema );
           }
           resolve( {response: responseSchema, iconHrefs });
         }else{
@@ -108,14 +113,18 @@ export default class Html {
   getTitle( $, connection, contentType ){
     let title = "";
     if( App.isMediaContentType( contentType )){
+
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAA");
       const splitedConnection = connection.split("/");
+
       const _title1 = splitedConnection[ splitedConnection.length - 1 ];
-      const _title2 = splitedConnection[ splitedConnection.length - 2 ];
-      const _title3 = splitedConnection[ splitedConnection.length - 3 ];
       if( _title1 !== "" ) return _title1;
+      const _title2 = splitedConnection[ splitedConnection.length - 2 ];
       if( _title2 !== "" ) return _title2;
+      const _title3 = splitedConnection[ splitedConnection.length - 3 ];
       if( _title3 !== "" ) return _title3;
     }else{
+      console.log("BBBBBBBBBBBBBBBBBBBBBBBBB");
       title = $('head title').text();
     }
     return title;
@@ -256,7 +265,7 @@ export default class Html {
     const metaLength = $( "meta" ).length;
 
     serverMetas.title = this.getTitle( $, connection, parentSchema.contentType );
-
+    console.log("HTML " + responseSchema.title );
     for( var i = 0; i < metaLength; i++ ){
       const item = $( "meta" ).get( i );
       let key = i;

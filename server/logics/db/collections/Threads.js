@@ -88,7 +88,7 @@ export default class Threads {
     thread.findType = Thread.getContentTypeFromFindType( thread.contentType );
     thread.updateTime = new Date();
     thread.watchCnt = thread.watchCnt < 0 ? 0 : thread.watchCnt ;
-    thread.title = thread.serverMetas.title ? thread.serverMetas.title : thread.serverMetas["og:title"];
+    //thread.title = thread.serverMetas.title ? thread.serverMetas.title : thread.serverMetas["og:title"];
     const {response: resThread} =  await this.collection.save( thread );
     return resThread;
   }
