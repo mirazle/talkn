@@ -84,16 +84,12 @@ export default class TalknAPI{
 	on( onKey, callback = () => {} ){
 		if( !this.ws._callbacks[ `$${onKey}` ] ){
 			this.ws.on( onKey, callback );
-			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@ ON");
-			console.log( this.ws._callbacks );
 		}
 	}
 
 	off( offKey ){
 		if( this.ws._callbacks[ `$${offKey}` ] ){
 			this.ws.off( offKey );
-			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@ OFF");
-			console.log( this.ws._callbacks );
 		}
 	}
 
