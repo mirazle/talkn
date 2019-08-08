@@ -131,6 +131,7 @@ export default class App extends Schema{
     const isRootConnection = Schema.isSet( params.isRootConnection ) ? params.isRootConnection : false;
     const isLinkConnection = Schema.isSet( params.isLinkConnection ) ? params.isLinkConnection : false;
     const rootConnection = params.rootConnection ? params.rootConnection : connection;
+    const rootTitle = params.rootTitle ? params.rootTitle : "talkn";
     const src = App.getMediaSrc( params.protocol, connection );
     const connectionType = App.getMediaType( src, params );
     const connectioned = params && params.connectioned ? params.connectioned : '';
@@ -207,6 +208,7 @@ export default class App extends Schema{
       isLinkConnection,
       isMediaConnection,
       rootConnection,
+      rootTitle,
       connectionType,
       dispThreadType,
       connectioned,
