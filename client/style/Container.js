@@ -273,7 +273,7 @@ export default class Container{
       height: "20px",
       padding: "5px 10px",
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: "flex-start",
       background: "rgba(0, 0, 0, 0.4)",
       zIndex: '10',
       borderRadius: "0px 0px 2px 0px"
