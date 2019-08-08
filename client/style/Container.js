@@ -281,6 +281,7 @@ export default class Container{
     const content = Style.getContentBase({
       lineHeight: 2,
       fontSize: '10px',
+      whiteSpace: "nowrap",
       color: Container.whiteRGB
     });
     const animation = Style.getAnimationBase();
