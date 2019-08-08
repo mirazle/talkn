@@ -201,7 +201,8 @@ export default class MenuIndexList extends Component {
     const { app, thread, menuIndexList, rank } = this.props;
     const isFocusConnection =  thread.connection === menuIndexList.connection ? true : false ;
     const styleKey = isFocusConnection ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel ;
-    const title = menuIndexList.title !== "" ? menuIndexList.title : "NO TITLE";
+    const title = app.rootConnection === menuIndexList.connection ?
+      app.rootTitle : menuIndexList.title ;
 
     const dispRank = this.getDispRank( rank );
     const dispFavicon = this.getDispFavicon()

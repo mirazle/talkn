@@ -29,6 +29,7 @@ export default class State{
     return {
       isTransition: true,
       talknIndex,
+      rootTitle: thread.title,
       ...bootOption,
       ...initialApp,
       ...thread

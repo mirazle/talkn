@@ -56,11 +56,13 @@ const functions = {
     action.app.desc = action.thread.serverMetas.title;
     action.app.isRootConnection = action.app.rootConnection === action.thread.connection;
     action.app.isMediaConnection = App.getIsMediaConnection( action.thread.connection );
+
     action = Posts.getAnyActionPosts(action);
     action.thread.title = action.thread.serverMetas.title;
     action.thread.hasSlash = Schema.getBool( action.thread.hasSlash );
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = {...action.thread};
+    if( action.app.isRootConnection ) action.app.rootTitle = action.thread.title;
 
     switch(action.app.extensionMode){
     case App.extensionModeExtBottomLabel:
