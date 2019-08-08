@@ -270,11 +270,12 @@ export default class Container{
       top,
       left,
       height: "20px",
-      padding: "5px",
+      padding: "5px 10px",
       alignItems: "center",
       justifyContent: "center",
       background: "rgba(0, 0, 0, 0.4)",
-      zIndex: '10'
+      zIndex: '10',
+      borderRadius: "0px 0px 2px 0px"
     });
     const content = Style.getContentBase({
       lineHeight: 2,
