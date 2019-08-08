@@ -11,11 +11,13 @@ export default class Container{
     const multistreamIconWrap = Container.getMultistreamIconWrap( params );
     const newPost = Container.getNewPost( params );
     const hideScreenBottom =  Container.getHideScreenBottom( params );
+    const linkLabel = Container.getLinkLabel( params );
     return {
       self,
       multistreamIconWrap,
       newPost,
-      hideScreenBottom
+      hideScreenBottom,
+      linkLabel
     }
   }
 
@@ -255,6 +257,31 @@ export default class Container{
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase({});
+    return Style.get({layout, content, animation});
+  }
+
+  static getLinkLabel({app}){
+    const top = Header.headerHeight + "px";
+    const left = app.screenMode === App.screenModeSmallLabel ?
+      "0px" : `${Menu.getWidth(app)}`;
+      console.log(Menu.getWidth(app));
+    const layout = Style.getLayoutFlex({
+      position: "fixed",
+      top,
+      left,
+      height: "20px",
+      padding: "5px",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "rgba(0, 0, 0, 0.4)",
+      zIndex: '10'
+    });
+    const content = Style.getContentBase({
+      lineHeight: 2,
+      fontSize: '10px',
+      color: Container.whiteRGB
+    });
+    const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
 }
