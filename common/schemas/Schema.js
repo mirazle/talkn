@@ -35,6 +35,7 @@ export default class Schema {
 
   static isAnonymousFunc(fn){
     const fnString = fn.toString();
+    if( fnString === "function(){}" ) return true;
     if( fnString === "function () {}" ) return true;
     if( fnString === "()=>{}" ) return true;
     return false;

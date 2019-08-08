@@ -155,7 +155,6 @@ export default class Detail extends Component {
         href = `${protocol}/${connection}`;
       }
     }
-
     const onClick = app.extensionMode !== "NONE" ? () => {talknWindow.parentTo("linkTo", {href})} : () => {}; 
     return Icon.getHome( {}, state, {active, href, onClick});
   }
