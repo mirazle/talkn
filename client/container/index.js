@@ -185,8 +185,6 @@ class Container extends Component {
     const threadStatus = Thread.getStatus( thread, app, setting );
     let { app: updatedApp, stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, toConnection, called );
 
-    console.log("@@@@@@@@@@@ " + stepTo );
-
     if( !isLinkConnection && updatedApp.isLinkConnection ){
       talknAPI.onCatchConnectionAPI( toConnection );
     }
@@ -250,6 +248,23 @@ class Container extends Component {
         </pre>
       </div>
     )
+  }
+
+  getLinkLabel(){
+    const { state } = this.props;
+    const { app, style, thread } = state;
+    if( app.isLinkConnection ){
+      return (
+        <div
+          data-component-name={"linkLabel"}
+          style={style.container.linkLabel}
+        >
+            { thread.title }
+        </div>
+      );
+    }else{
+      return null;
+    }
   }
 
   getNewPost(props){
@@ -336,6 +351,7 @@ class Container extends Component {
     const { style } = this.props.state;
     const props = this.getProps();
     const NewPost = this.getNewPost( props );
+    const LinkLabel = this.getLinkLabel( props );
     const HideScreenBottom = this.getHideScreenBottom( props );
     return (
       <div data-component-name={"Container"} style={ style.container.self }>
@@ -344,6 +360,7 @@ class Container extends Component {
         <span data-component-name="fixedComponents">
           <Media {...props} />
           <Board {...props} />
+          { LinkLabel }
           { NewPost }
           <Header {...props} />
           <PostsSupporter {...props} />
@@ -375,6 +392,7 @@ class Container extends Component {
     const { style } = this.props.state;
     const props = this.getProps();
     const NewPost = this.getNewPost( props );
+    const LinkLabel = this.getLinkLabel( props );
     const HideScreenBottom = this.getHideScreenBottom( props );
     return (
       <div data-component-name={"Container"} style={ style.container.self }>
@@ -383,6 +401,7 @@ class Container extends Component {
         <span data-component-name="fixedComponents">
           <Media {...props} />
           <Board {...props} />
+          { LinkLabel }
           { NewPost }
           <Header {...props} />
           <PostsSupporter {...props} />
@@ -400,6 +419,7 @@ class Container extends Component {
     const { style, app } = this.props.state;
     const props = this.getProps();
     const NewPost = this.getNewPost( props );
+    const LinkLabel = this.getLinkLabel( props );
     const HideScreenBottom = this.getHideScreenBottom( props );
     const Debug = this.getDebug( props );
     return (
@@ -409,6 +429,7 @@ class Container extends Component {
         <span data-component-name="fixedComponents">
           <Media {...props} />
           <Board {...props} />
+          { LinkLabel }
           { NewPost }
           <Header {...props} />
           <PostsSupporter {...props} />
@@ -427,6 +448,7 @@ class Container extends Component {
     const { style } = this.props.state;
     const props = this.getProps();
     const NewPost = this.getNewPost( props );
+    const LinkLabel = this.getLinkLabel( props );
     const extScreenStyle = props.state.style.extScreen.self;
     const Debug = this.getDebug( props );
     return (
@@ -435,8 +457,8 @@ class Container extends Component {
         <div style={extScreenStyle} data-component-name={"extScreen"}>
           <Posts {...props} />
           <Header {...props} />
-          <Media {...props} />
           <Board {...props} />
+          { LinkLabel }
           { NewPost }
           <PostsSupporter {...props} />
           <DetailModal {...props} /> 
