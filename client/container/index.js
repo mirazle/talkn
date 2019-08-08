@@ -259,7 +259,7 @@ class Container extends Component {
           data-component-name={"linkLabel"}
           style={style.container.linkLabel}
         >
-            { thread.title }
+            Link: { thread.title }
         </div>
       );
     }else{
