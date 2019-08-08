@@ -49,26 +49,7 @@ const componentDidUpdates = {
 
             talknWindow.parentTo("find", self.props.state);
         },
-        'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
-
-            const { app, thread } = self.props.state;
-
-            if( app.dispThreadType === App.dispThreadTypeTimeline){
-                const src = thread.getMediaSrc();
-                const tagType = thread.getMediaTagType();
-
-                if( app.extensionMode !== "NONE"){
-                    /*
-                    const a = {name:"takuya",say:function(){console.log(this.name)}};
-                    const test = a.say.toString();
-                    //const test = talknWindow.setupPostsTimeline.toString();
-
-                    console.log(test);
-                    talknWindow.parentTo("find", test);
-                    */
-                }
-            }
-        },
+        'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {},
         'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
             const { app, threadDetail, thread } = self.props.state;
             if( !app.isOpenDetail ){

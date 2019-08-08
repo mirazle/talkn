@@ -10,9 +10,11 @@ export default class TalknMedia {
 
 	static init(){
 		if( window.talknMedia ){
+			window.talknMedia.timeline = [];
+			window.talknMedia.timelineBase = [];
+			window.talknMedia.intervalId = null;
 			delete window.talknMedia;
 			window.talknMedia = new TalknMedia();
-			window.talknMedia.intervalId = null;
 		}
 	}
 
@@ -64,7 +66,7 @@ export default class TalknMedia {
 
 	/**
 	* メディアファイルの投稿を管理するメソッド
-	* パラメータを与えて直接実行も可能
+	* パラメータを与えて直接実行も可能(拡張機能から間接的に実行する)
 	*/
 	proccess( _currentTime = 0 ){
 
