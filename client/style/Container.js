@@ -266,7 +266,7 @@ export default class Container{
       "0px" : `${Menu.getWidth(app)}`;
       console.log(Menu.getWidth(app));
     const layout = Style.getLayoutFlex({
-      maxWidth: "200px",
+      maxWidth: "180px",
       position: "fixed",
       top,
       left,
