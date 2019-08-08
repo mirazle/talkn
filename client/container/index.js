@@ -24,6 +24,7 @@ import Icon from 'client/components/Icon';
 import Media from 'client/components/Media/';
 import InnerNotif from 'client/components/InnerNotif';
 import mapToStateToProps from 'client/mapToStateToProps/';
+import Marquee from 'client/container/util/Marquee';
 import componentDidUpdates from 'client/container/componentDidUpdates';
 import TalknWindow from 'client/operations/TalknWindow';
 
@@ -259,7 +260,13 @@ class Container extends Component {
           data-component-name={"linkLabel"}
           style={style.container.linkLabel}
         >
-            Link: { thread.title }
+          <Marquee
+            text={`Link: ${thread.title }`}
+            loop={true}
+            hoverToStop={false}
+            trailing={0}
+            leading={0}
+          />
         </div>
       );
     }else{
