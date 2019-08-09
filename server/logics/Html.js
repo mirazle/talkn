@@ -66,7 +66,7 @@ export default class Html {
 
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
-
+console.log( "@@@ " + url );
       // localhost is not get.
       request( option, ( error, response, body ) => {
 
@@ -112,8 +112,6 @@ export default class Html {
   getTitle( $, connection, contentType ){
     let title = "";
     if( App.isMediaContentType( contentType )){
-
-      console.log("AAAAAAAAAAAAAAAAAAAAAAAAA");
       const splitedConnection = connection.split("/");
 
       const _title1 = splitedConnection[ splitedConnection.length - 1 ];
@@ -123,7 +121,6 @@ export default class Html {
       const _title3 = splitedConnection[ splitedConnection.length - 3 ];
       if( _title3 !== "" ) return _title3;
     }else{
-      console.log("BBBBBBBBBBBBBBBBBBBBBBBBB");
       title = $('head title').text();
     }
     return title;
