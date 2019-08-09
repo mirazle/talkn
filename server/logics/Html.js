@@ -72,7 +72,7 @@ export default class Html {
         let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
 
         if( error ){
-          console.warn( "html.js " + url + " " + response.statusCode);
+          console.warn( "html.js " + url );
           console.warn( error );
         }
 
