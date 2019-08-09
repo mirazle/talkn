@@ -85,25 +85,21 @@ export default class Html {
           responseSchema.contentType = contentType;
           responseSchema.protocol = protocol;
           if( App.isMediaContentType( contentType ) ){
-            console.log("@@@@@ AA");
 
             responseSchema.title = this.getTitle( null, connection, contentType );
             responseSchema.serverMetas.title = responseSchema.title;
-            console.log("MEDIA " + responseSchema.title );
-            console.log("MEDIA " + responseSchema.serverMetas.title );
+
           }else{
-            console.log("@@@@@ BB");
+
             const utf8Body = this.toUtf8Str( body, contentType );
             const $ = cheerio.load( utf8Body );
             iconHrefs = this.getIconHrefs( $ );
-
+            console.log("@@@@@ BBB2");
             responseSchema.links = this.getLinks( $ );
             responseSchema.h1s = this.getH1s( $ );
             responseSchema.videos = this.getVideos( $ );
             responseSchema.audios = this.getAudios( $ );
             responseSchema.serverMetas = this.getMetas( $, connection, responseSchema, response.request.uri.href );
-          
-            console.log( responseSchema );
           }
           resolve( {response: responseSchema, iconHrefs });
         }else{
@@ -217,6 +213,7 @@ export default class Html {
 
   getLinks( $ ){
     const linkLength = $( "body a" ).length;
+    console.log("START LINK FUNC " + linkLength);
     const getHref = ( item ) => {
       console.log( item );
       if( item && item.attribs && item.attribs.href && item.attribs.href !== "" ){
@@ -253,6 +250,7 @@ export default class Html {
 
     for( var i = 0; i < linkLength; i++ ){
       const item = $( "body a" ).get( i );
+      console.log( item );
       const href = getHref( item );
       const text = getText( item );
 
