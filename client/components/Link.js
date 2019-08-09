@@ -52,6 +52,7 @@ export default class Link extends Component {
     if( isActive ){
       return (
         <li
+          connection={connection}
           style={this.props.state.style.link.tuneLi}
         >
           <span style={{...upperRankWrap, background, width}}>
@@ -70,7 +71,11 @@ export default class Link extends Component {
       );
     }else{
       return (
-        <li style={style} {...this.getEvents(isActive)}>
+        <li
+          connection={connection}
+          style={style}
+          {...this.getEvents(isActive)}
+        >
           <Marquee
             text={text}
             loop={true}
