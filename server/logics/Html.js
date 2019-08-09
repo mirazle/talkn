@@ -66,15 +66,15 @@ export default class Html {
 
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
-
+console.log( url );
       // localhost is not get.
       request( option, ( error, response, body ) => {
 
         let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
 
         if( error ){
-          //console.warn( "html.js " + url );
-          //console.warn( error );
+          console.warn( "html.js " + url );
+          console.warn( error );
         }
 
         if( !error && response && response.statusCode === 200 ){
@@ -99,7 +99,6 @@ export default class Html {
             responseSchema.videos = this.getVideos( $ );
             responseSchema.audios = this.getAudios( $ );
             responseSchema.serverMetas = this.getMetas( $, connection, responseSchema, response.request.uri.href );
-            console.log( responseSchema );
           }
           resolve( {response: responseSchema, iconHrefs });
         }else{
