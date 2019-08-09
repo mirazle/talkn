@@ -33,18 +33,6 @@ export default class Links extends Component {
           console.log( "---" );
           connection = "/" + thread.host + connection;
         }
-        /*
-
-
-          HOSTが入っていなかったら、HOSTを入れて返す        
-
-
-
-
-
-          */
-
-        console.log( "getConnection C " + connection );
       }
     }
 
