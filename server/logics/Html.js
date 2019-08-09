@@ -214,6 +214,8 @@ export default class Html {
   getLinks( $ ){
     const linkLength = $( "body a" ).length;
     console.log("START LINK FUNC " + linkLength);
+    console.log( $( "body a" ) );
+
     const getHref = ( item ) => {
       console.log( item );
       if( item && item.attribs && item.attribs.href && item.attribs.href !== "" ){
@@ -267,7 +269,7 @@ export default class Html {
     const metaLength = $( "meta" ).length;
 
     serverMetas.title = this.getTitle( $, connection, parentSchema.contentType );
-    console.log("HTML " + responseSchema.title );
+
     for( var i = 0; i < metaLength; i++ ){
       const item = $( "meta" ).get( i );
       let key = i;
