@@ -215,6 +215,7 @@ export default class Html {
   getLinks( $ ){
     const linkLength = $( "body a" ).length;
     const getHref = ( item ) => {
+      console.log( item );
       if( item && item.attribs && item.attribs.href && item.attribs.href !== "" ){
         return item.attribs.href;
       }
