@@ -85,11 +85,14 @@ export default class Html {
           responseSchema.contentType = contentType;
           responseSchema.protocol = protocol;
           if( App.isMediaContentType( contentType ) ){
+            console.log("@@@@@ AA");
+
             responseSchema.title = this.getTitle( null, connection, contentType );
             responseSchema.serverMetas.title = responseSchema.title;
             console.log("MEDIA " + responseSchema.title );
             console.log("MEDIA " + responseSchema.serverMetas.title );
           }else{
+            console.log("@@@@@ BB");
             const utf8Body = this.toUtf8Str( body, contentType );
             const $ = cheerio.load( utf8Body );
             iconHrefs = this.getIconHrefs( $ );
