@@ -275,7 +275,7 @@ export default class Container{
       alignItems: "center",
       justifyContent: "flex-start",
       background: "rgba(0, 0, 0, 0.4)",
-      zIndex: '10',
+      zIndex: '1',
       borderRadius: "0px 0px 2px 0px"
     });
     const content = Style.getContentBase({
