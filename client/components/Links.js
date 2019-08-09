@@ -10,11 +10,17 @@ export default class Links extends Component {
     const isIncludeProtocol = Links.isIncludeProtocol( str );
 
     if( isIncludeProtocol ){
+      console.log( "getConnection A " + str );
       connection = Links.removeProtocol( str );
     }else{
+
       if( str && typeof str === "string" && str.indexOf( "/" ) === 0 ){
+
         connection = "/" + thread.host + str;
+        console.log( "getConnection B " + connection );
+
       }else{
+
         const splitedConnection = thread.connection.split("/");
         const splitedConnectionLength = splitedConnection.length - 2;
         let connectionPart = "";
@@ -22,6 +28,23 @@ export default class Links extends Component {
           connectionPart = connectionPart + splitedConnection[ i ] + "/";
         }
         connection = connectionPart + str + "/";
+        console.log( connection.indexOf( thread.host ) );
+        if( connection.indexOf( thread.host ) === -1 ){
+          console.log( "---" );
+          connection = "/" + thread.host + connection;
+        }
+        /*
+
+
+          HOSTが入っていなかったら、HOSTを入れて返す        
+
+
+
+
+
+          */
+
+        console.log( "getConnection C " + connection );
       }
     }
 
@@ -80,6 +103,7 @@ export default class Links extends Component {
         isMainConnection={true}
         isActive={isTuneActive}
         text={thread.title}
+        connection={connection}
         handleOnClick={() => {
           talknAPI.toggleLinks();
           handleOnClickConnection( thread.connection, "toLinks" )
@@ -89,14 +113,13 @@ export default class Links extends Component {
     );
     const getLi = ( connectionKey, textKey ) => ( obj, i) => {
       const connection = Links.getConnection( obj[ connectionKey ], thread );
-      //const isActive = thread.connection === connection;
-
       return (
         <Link 
           key={`${connectionKey}${i}`}
           isMainConnection={false}
           isActive={false}
           text={obj[ textKey ]}
+          connection={connection}
           handleOnClick={() => {
             talknAPI.toggleLinks();
             handleOnClickConnection( connection, "toLinks" )
