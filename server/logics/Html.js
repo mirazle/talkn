@@ -15,7 +15,7 @@ export default class Html {
   static get checkSpace(){ return /^\s*$/};
 
   async fetch( thread, requestState ){
-
+    console.log( requestState );
     const { hasSlash } = requestState.thread;
     const { protocol, connection } = thread;
     const layer = Thread.getLayer( connection );
@@ -66,7 +66,7 @@ export default class Html {
 
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
-console.log( "@@@ " + url );
+
       // localhost is not get.
       request( option, ( error, response, body ) => {
 
@@ -94,7 +94,6 @@ console.log( "@@@ " + url );
             const utf8Body = this.toUtf8Str( body, contentType );
             const $ = cheerio.load( utf8Body );
             iconHrefs = this.getIconHrefs( $ );
-            console.log("@@@@@ BBB2");
             responseSchema.links = this.getLinks( $ );
             responseSchema.h1s = this.getH1s( $ );
             responseSchema.videos = this.getVideos( $ );
@@ -210,11 +209,8 @@ console.log( "@@@ " + url );
 
   getLinks( $ ){
     const linkLength = $( "body a" ).length;
-    console.log("START LINK FUNC " + linkLength);
-    console.log( $( "body a" ) );
 
     const getHref = ( item ) => {
-      console.log( item );
       if( item && item.attribs && item.attribs.href && item.attribs.href !== "" ){
         return item.attribs.href;
       }
@@ -249,7 +245,6 @@ console.log( "@@@ " + url );
 
     for( var i = 0; i < linkLength; i++ ){
       const item = $( "body a" ).get( i );
-      console.log( item );
       const href = getHref( item );
       const text = getText( item );
 
