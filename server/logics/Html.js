@@ -99,6 +99,7 @@ export default class Html {
             responseSchema.videos = this.getVideos( $ );
             responseSchema.audios = this.getAudios( $ );
             responseSchema.serverMetas = this.getMetas( $, connection, responseSchema, response.request.uri.href );
+            console.log( responseSchema );
           }
           resolve( {response: responseSchema, iconHrefs });
         }else{
