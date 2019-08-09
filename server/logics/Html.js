@@ -15,7 +15,6 @@ export default class Html {
   static get checkSpace(){ return /^\s*$/};
 
   async fetch( thread, requestState ){
-    console.log( requestState );
     const { hasSlash } = requestState.thread;
     const { protocol, connection } = thread;
     const layer = Thread.getLayer( connection );
@@ -72,10 +71,10 @@ export default class Html {
 
         let responseSchema = MongoDB.getDefineSchemaObj( new HtmlSchema() );
 
-//        if( error ){
+        if( error ){
           console.warn( "html.js " + url + " " + response.statusCode);
           console.warn( error );
-//        }
+        }
 
         if( !error && response && response.statusCode === 200 ){
 
