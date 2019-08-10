@@ -62,6 +62,8 @@ const functions = {
     action.thread.hasSlash = Schema.getBool( action.thread.hasSlash );
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = {...action.thread};
+    //.action.threadDetail.serverMetas = {...action.thread};
+    console.log( action.threadDetail );
     if( action.app.isRootConnection ) action.app.rootTitle = action.thread.title;
 
     switch(action.app.extensionMode){
@@ -142,13 +144,14 @@ const functions = {
     return action;
   },
   "ON_CLICK_TO_MULTI_THREAD":  (state, action) => {
+    action.thread = {...state.thread, ...action.thread};
     action.app = state.app;
     action.app.isLinkConnection = false;
     return action;
   },
   "ON_CLICK_TO_TIMELINE_THREAD":  (state, action) => {
     const connection = action.thread.connection;
-    action.thread = state.thread;
+    action.thread = {...state.thread, ...action.thread};
     action.thread.connection = connection;    
     const src = App.getMediaSrc( action.thread.protocol, action.thread.connection );
     action.thread.findType = Thread.getFindTypeFromSrc( src );
@@ -159,11 +162,13 @@ const functions = {
     return action;
   },
   "ON_CLICK_TO_SINGLE_THREAD":  (state, action) => {
+    action.thread = {...state.thread, ...action.thread};
     action.app = state.app;
     action.app.isLinkConnection = false;
     return action;
   },
   "ON_CLICK_TO_CHILD_THREAD":  (state, action) => {
+    action.thread = {...state.thread, ...action.thread};
     action.postsChild = [];
     action.app.offsetFindId = App.defaultOffsetFindId;
     action.app.offsetChildFindId = App.defaultOffsetFindId;

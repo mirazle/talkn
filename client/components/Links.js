@@ -101,6 +101,8 @@ export default class Links extends Component {
     );
     const getLi = ( connectionKey, textKey ) => ( obj, i) => {
       const connection = Links.getConnection( obj[ connectionKey ], thread );
+      const hasSlash = ( obj[ connectionKey ].lastIndexOf("/") === ( connection.length - 1 ) ) ? true : false;
+      
       return (
         <Link 
           key={`${connectionKey}${i}`}
@@ -110,7 +112,7 @@ export default class Links extends Component {
           connection={connection}
           handleOnClick={() => {
             talknAPI.toggleLinks();
-            handleOnClickConnection( connection, "toLinks" )
+            handleOnClickConnection( connection, hasSlash, "toLinks" )
           } }
           {...this.props}
         />

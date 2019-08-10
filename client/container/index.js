@@ -168,7 +168,7 @@ class Container extends Component {
     }
   }
 
-  handleOnClickConnection( toConnection, called = ""){
+  handleOnClickConnection( toConnection, overWriteHasSlash, called = ""){
     const {
       state,
       onClickToTimelineThread,
@@ -182,6 +182,7 @@ class Container extends Component {
     let { thread } = state;
     const beforeConnection = thread.connection;
     thread.connection = toConnection;
+    if( overWriteHasSlash ) thread.hasSlash = overWriteHasSlash;
     const isLinkConnection = app.isLinkConnection;
     const threadStatus = Thread.getStatus( thread, app, setting );
     let { app: updatedApp, stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, toConnection, called );
@@ -201,24 +202,24 @@ class Container extends Component {
     case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
     case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
     case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
-      onClickToChildThread( toConnection, {app} );
+      onClickToChildThread( toConnection, {app, thread} );
       talknAPI.changeThread( toConnection );
       break;
     case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeMulti}`:
     case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
-      onClickToMultiThread( toConnection, {app} );
+      onClickToMultiThread( toConnection, {app, thread} );
       talknAPI.changeThread( toConnection );
       break;
     case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeSingle}`:
     case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
-      onClickToSingleThread( toConnection, {app} );
+      onClickToSingleThread( toConnection, {app, thread} );
       talknAPI.changeThread( toConnection );
       break;
     case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeTimeline}`:
     case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeTimeline}`:
     case `${App.dispThreadTypeChild} to ${App.dispThreadTypeTimeline}`:
     case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeTimeline}`:
-      onClickToTimelineThread( toConnection, {app} );
+      onClickToTimelineThread( toConnection, {app, thread} );
       talknAPI.changeThread( toConnection );
       break;
     }

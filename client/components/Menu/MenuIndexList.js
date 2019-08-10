@@ -86,7 +86,7 @@ export default class MenuIndexList extends Component {
         talknAPI.onClickToggleDispMenu();
       }
     }else{
-      handleOnClickConnection( connection ); 
+      handleOnClickConnection( connection, null, "menuIndexList" ); 
     }
 
     this.setState( {style:
