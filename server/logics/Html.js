@@ -26,10 +26,6 @@ export default class Html {
       requestConnection = JSON.parse(hasSlash) ? connection : connection.replace(/\/$/, '');
     }
 
-    console.log("----------- " + connection);
-    console.log( "@@@@@ " + requestConnection );
-    console.log("HAS SLASH " + hasSlash );
-
     let result = {response: null, iconHrefs: []};
 
     switch( protocol ){
@@ -69,7 +65,7 @@ export default class Html {
 
       const url = `${protocol}/${connection}`;
       const option = {method: 'GET', encoding: 'binary', url };
-
+console.log("@@@ url " + url );
       // localhost is not get.
       request( option, ( error, response, body ) => {
 
@@ -102,6 +98,8 @@ export default class Html {
             responseSchema.videos = this.getVideos( $ );
             responseSchema.audios = this.getAudios( $ );
             responseSchema.serverMetas = this.getMetas( $, connection, responseSchema, response.request.uri.href );
+
+            console.log( responseSchema );
           }
           resolve( {response: responseSchema, iconHrefs });
         }else{

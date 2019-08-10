@@ -63,7 +63,7 @@ const functions = {
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = {...action.thread};
     //.action.threadDetail.serverMetas = {...action.thread};
-    console.log( action.threadDetail );
+
     if( action.app.isRootConnection ) action.app.rootTitle = action.thread.title;
 
     switch(action.app.extensionMode){
