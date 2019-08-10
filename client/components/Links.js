@@ -10,14 +10,12 @@ export default class Links extends Component {
     const isIncludeProtocol = Links.isIncludeProtocol( str );
 
     if( isIncludeProtocol ){
-      console.log( "getConnection A " + str );
       connection = Links.removeProtocol( str );
     }else{
 
       if( str && typeof str === "string" && str.indexOf( "/" ) === 0 ){
 
-        connection = "/" + thread.host + str;
-        console.log( "getConnection B " + connection );
+        connection = "/" + thread.host + str
 
       }else{
 
@@ -28,9 +26,7 @@ export default class Links extends Component {
           connectionPart = connectionPart + splitedConnection[ i ] + "/";
         }
         connection = connectionPart + str + "/";
-        console.log( connection.indexOf( thread.host ) );
         if( connection.indexOf( thread.host ) === -1 ){
-          console.log( "---" );
           connection = "/" + thread.host + connection;
         }
       }
