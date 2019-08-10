@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { connect } from 'react-redux';
+import Schema from 'common/schemas/Schema';
 import define from 'common/define';
 import App from 'common/schemas/state/App';
 import Thread from 'common/schemas/state/Thread';
@@ -182,7 +183,9 @@ class Container extends Component {
     let { thread } = state;
     const beforeConnection = thread.connection;
     thread.connection = toConnection;
-    if( overWriteHasSlash ) thread.hasSlash = overWriteHasSlash;
+    if( Schema.isSet( overWriteHasSlash ) ){
+      thread.hasSlash = overWriteHasSlash;
+    }
     const isLinkConnection = app.isLinkConnection;
     const threadStatus = Thread.getStatus( thread, app, setting );
     let { app: updatedApp, stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, toConnection, called );
@@ -196,6 +199,8 @@ class Container extends Component {
     }
 
     app = updatedApp;
+    console.log( overWriteHasSlash );
+    console.log( thread );
 
     switch(stepTo){
     case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeChild}`:
