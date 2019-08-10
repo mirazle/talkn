@@ -143,6 +143,31 @@ const functions = {
     delete action.thread;
     return action;
   },
+  "NEXT_POSTS_TIMELINE": ( state, action ) => {
+    console.log( action );
+    
+    const { app } = state;
+    switch(app.extensionMode){
+    case App.extensionModeExtBottomLabel:
+      if( !app.isOpenPosts && !app.isDispPosts ){
+        const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
+        talknWindow.parentTo("openNotif", {transition});
+      }
+      break;
+    case App.extensionModeExtModalLabel:
+      const postsTimelineLength = action.postsTimeline.length;
+      if( postsTimelineLength > 0 ){
+        const id = action.postsTimeline[ postsTimelineLength - 1 ]['_id'];
+        const post = action.postsTimeline[ postsTimelineLength - 1 ]['post'];
+        let favicon = action.postsTimeline[ postsTimelineLength - 1 ]['favicon'];
+        favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
+        talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon, addUnreadCnt: postsTimelineLength });
+      }
+      break;
+    }
+    
+    return action;
+  },
   "ON_CLICK_TO_MULTI_THREAD":  (state, action) => {
     action.thread = {...state.thread, ...action.thread};
     action.app = state.app;
