@@ -26,6 +26,10 @@ export default class Html {
       requestConnection = JSON.parse(hasSlash) ? connection : connection.replace(/\/$/, '');
     }
 
+    console.log("----------- " + connection);
+    console.log( "@@@@@ " + requestConnection );
+    console.log("HAS SLASH " + hasSlash );
+
     let result = {response: null, iconHrefs: []};
 
     switch( protocol ){

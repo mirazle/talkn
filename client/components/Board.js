@@ -60,7 +60,7 @@ export default class Board extends Component {
 
   handleOnClickLinks(){
     const { handleOnClickConnection } = this.props;
-    const { app } = this.props.state;
+    const { app, thread } = this.props.state;
 
     switch( app.dispThreadType ){
     case App.dispThreadTypeMulti :
@@ -71,7 +71,7 @@ export default class Board extends Component {
     case App.dispThreadTypeChild :
     case App.dispThreadTypeTimeline :
       if( app.isLinkConnection ){
-        handleOnClickConnection( app.rootConnection, "backToRootConnection" );
+        handleOnClickConnection( app.rootConnection, null,  "backToRootConnection" );
       }
     }
   }
