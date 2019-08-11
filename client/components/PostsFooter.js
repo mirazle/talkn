@@ -20,14 +20,6 @@ export default class PostsFooter extends Component {
     talknAPI.componentDidMounts( "PostsFooter" );
   }
 
-
-/*
-        ポラリスでリアルライム閲覧数がポータルで更新されない！！！
-
-*/
-
-
-
   handleOnClick( e ){
     const value = this.refs.postArea.innerHTML;
 
