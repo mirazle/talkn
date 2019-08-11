@@ -22,7 +22,8 @@ export default class PostsFooter extends Component {
 
   handleOnClick( e ){
     const value = this.refs.postArea.innerHTML;
-    if( !App.validInputPost( value ) ){
+
+    if( value !== "" & !App.validInputPost( value ) ){
       talknAPI.post();
       talknAPI.onChangeInputPost(''); 
     }
