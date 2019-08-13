@@ -6,12 +6,12 @@ export default class PostsSupporter extends Component {
 
   static get Cover(){
     return [
-      {menu: "Emojis", display: '😀', label: "Positive"},
-      {menu: "Emojis", display: '🤔', label: "Neutral"},
-      {menu: "Emojis", display: '🙁', label: "Negative"},
-      {menu: "Emojis", display: '😷', label: "Sick"},
-      {menu: "Emojis", display: '😇', label: "Role"},
-      {menu: "Emojis", display: '😺', label: "Cat"},
+      {menu: "Emojis", display: '😀', label: "Love"},
+      {menu: "Emojis", display: '🤔', label: "Smile"},
+      {menu: "Emojis", display: '🙁', label: "Delicious"},
+      {menu: "Emojis", display: '😷', label: "Neutral"},
+      {menu: "Emojis", display: '😇', label: "Angry"},
+      {menu: "Emojis", display: '😺', label: "Role"},
       {menu: "Emojis", display: '🙈', label: "Monkey"},
       {menu: "Emojis", display: '😈', label: "Creature"}
     ];
