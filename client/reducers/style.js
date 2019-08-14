@@ -101,6 +101,7 @@ export default ( state = {} , action ) => {
 			}
 		}
 	case 'ON_CLICK_TO_TIMELINE_THREAD':
+		console.log(action.app);
 		return {...state,
 			posts: {...state.posts,
 				self: Posts.getSelf( action )

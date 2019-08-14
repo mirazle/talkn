@@ -444,7 +444,7 @@ export default class App extends Schema{
       return app;
     }
 
-    if( called === "toLinks" || called === "findPlayConnection" ){
+    if( called === "toLinks" ){
 
       const haveMenuIndex = menuIndex.some( (mi) => {
         return ( mi.connection === toConnection ||  mi.connection === toConnection + "/");
