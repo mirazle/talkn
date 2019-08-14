@@ -204,19 +204,24 @@ export default class TalknWindow {
 			case "findPlayConnection" :
 				if( e.data.params.connection && e.data.params.playCnt === 0 ){
 					actionWrap.onClickConnection( e.data.params.connection, false, e.data.method );
-				}
-				break;
-			case "playMedia" :
 
-				if( e.data.params.playCnt === 0 ){
 					TalknMedia.init();
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
+				}
+				break;
+			case "playMedia" :
 
-				}else{
+				if( window.talknMedia && window.talknMedia.proccess ){
 					window.talknMedia.proccess( e.data.params.currentTime );
+				}else{
+					TalknMedia.init();
+					const connection = e.data.params.thread.connection;
+					const timeline = storage.getStoragePostsTimeline( connection );
+					window.talknMedia = new TalknMedia();
+					window.talknMedia.setTimeline( timeline );
 				}
 				break;
 			case "endMedia" :
