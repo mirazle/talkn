@@ -207,7 +207,6 @@ export default class Board{
   static getMenuLiChild( {app} ){
     const color = App.isActiveMultistream( app, "getLiChild" ) ?
       Board.activeColor : Board.unactiveColor;
-    console.log( "== " + color );
     const layout = {};
     const content = Style.getContentBase({
       color
