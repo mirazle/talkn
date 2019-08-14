@@ -54,7 +54,7 @@ export default ( state = {} , action ) => {
 			}
 		}
 
-	case 'SERVER_TO_CLIENT[EMIT]:changeThread':
+	case 'CLIENT_TO_SERVER[EMIT]:changeThread':
 	case 'OPEN_LINKS':
 	case 'CLOSE_LINKS':
 	case 'TOGGLE_LINKS':
