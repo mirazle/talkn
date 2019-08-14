@@ -1134,6 +1134,7 @@ export default class Icon {
   static getBubble( { app } ){
     const background = app.isBubblePost ?
       Container.themeRGB : Container.reliefRGBA;
+    console.log("GET BUBBLE " + background);
     const div = Style.get({
       layout: Style.getLayoutFlex({
         flexDirection: "column",

@@ -65,20 +65,6 @@ export default ( state = {} , action ) => {
 					width: Board.getSelfWidth( action.app ),
 					boxShadow: Board.getSelfBoxShadow( action.app )
 				}
-				/*
-				,
-				menuLiBubble: {...state.board.menuLiBubble,
-					color: ( action.app.isBubblePost ?
-						Board.activeColor : Board.unactiveColor )
-				},
-				menuLiChild: {...state.menuLiChild,
-					color: App.isActiveMultistream( action.app, "reducer" ) ?
-						Board.activeColor : Board.unactiveColor
-				},
-				menuLiLinks: {...state.menuLiLinks,
-					color: Board.unactiveColor
-				}
-				*/
 			},
 			links: {...state.links,
 				self: {...state.links.self,
@@ -87,6 +73,11 @@ export default ( state = {} , action ) => {
 				linksUl: {...state.links.linksUl,
 					overflowY: Links.getLinksUlOevrflowY(action.app)
 				}
+			},
+			icon: {...state.icon,
+				thunder: Icon.getThunder( {app: action.app} ),
+				bubble: Icon.getBubble( {app: action.app } ),
+				links: Icon.getLinks( {app: action.app } )
 			}
 		}
 	case 'TOGGLE_BUBBLE_POST':
