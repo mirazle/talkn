@@ -6,7 +6,7 @@ import handles from 'client/actions/handles';
 export default {
     onClickConnection: ( toConnection, overWriteHasSlash, called ) => {
         let { app, thread, menuIndex, setting } = window.talknAPI.store.getState();
-
+        const beforeConnection = thread.connection;
         thread.connection = toConnection;
         if( Schema.isSet( overWriteHasSlash ) ){
             thread.hasSlash = overWriteHasSlash;
