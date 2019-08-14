@@ -64,7 +64,9 @@ export default ( state = {} , action ) => {
 				self: {...state.board.self,
 					width: Board.getSelfWidth( action.app ),
 					boxShadow: Board.getSelfBoxShadow( action.app )
-				},
+				}
+				/*
+				,
 				menuLiBubble: {...state.board.menuLiBubble,
 					color: ( action.app.isBubblePost ?
 						Board.activeColor : Board.unactiveColor )
@@ -76,6 +78,7 @@ export default ( state = {} , action ) => {
 				menuLiLinks: {...state.menuLiLinks,
 					color: Board.unactiveColor
 				}
+				*/
 			},
 			links: {...state.links,
 				self: {...state.links.self,
