@@ -44,7 +44,6 @@ export default ( state = new MenuIndex() , action ) => {
 		const postLength = action.posts && action.posts.length ? action.posts.length : 0;
 
 		if(postLength === 0 ){
-			console.log("MENU INDEX A");
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
 					return {...mi,
@@ -59,7 +58,6 @@ export default ( state = new MenuIndex() , action ) => {
 		}
 
 		if(action.app.dispThreadType === App.dispThreadTypeMulti){
-			console.log("MENU INDEX B");
 
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){

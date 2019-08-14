@@ -24,17 +24,6 @@ import Audio from '../style/Media/Audio';
 import Video from '../style/Media/Video';
 
 export default ( state = {} , action ) => {
-
-	/*
-
-		LINKSの色を整える
-		LINK CHの動作確認
-		LINK CHのTIMELINE動作確認
-
-		THREADのUPDATE機能を実装
-		findをALL, HTML, MUSIC, MOVIEで選択できるようにする
-
-*/
 	switch( action.type ){
 	case 'RESIZE_START_WINDOW':
 	case 'RESIZE_END_WINDOW':
