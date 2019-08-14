@@ -45,7 +45,7 @@ export default class Posts {
     const { connection } = thread;
     const getDirection = getMore ? '$lt' : '$gt';
     const connectionPart = isMultistream ? {connections: connection} : {connection};
-    const currentTimePart = isMediaConnection ? {} : {currentTime: 0};
+    const currentTimePart = isMediaConnection ? {} : {};
     const condition = {
       ...currentTimePart,
       ...connectionPart,
@@ -56,8 +56,6 @@ export default class Posts {
     const limit = isMediaConnection ? conf.findOneLimitCnt : conf.findOnePostCnt;
     const selector = {};
     const option = {limit, sort};
-
-
 
     const result = await this.collection.find( condition, selector, option );
 
