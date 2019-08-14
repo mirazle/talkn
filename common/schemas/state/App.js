@@ -415,7 +415,7 @@ export default class App extends Schema{
   }
 
   static getStepDispThreadType( {app, menuIndex}, threadStatus = {}, toConnection, called ){
-    const log = true;
+    const log = false;
     app.isLinkConnection = false;
     app.isOpenLinks = false;
 
