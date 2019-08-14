@@ -54,6 +54,7 @@ export default ( state = {} , action ) => {
 			}
 		}
 
+	case 'SERVER_TO_CLIENT[EMIT]:changeThread':
 	case 'OPEN_LINKS':
 	case 'CLOSE_LINKS':
 	case 'TOGGLE_LINKS':
@@ -101,7 +102,6 @@ export default ( state = {} , action ) => {
 			}
 		}
 	case 'ON_CLICK_TO_TIMELINE_THREAD':
-		console.log(action.app);
 		return {...state,
 			posts: {...state.posts,
 				self: Posts.getSelf( action )
