@@ -58,6 +58,7 @@ export default ( state = {} , action ) => {
 	case 'OPEN_LINKS':
 	case 'CLOSE_LINKS':
 	case 'TOGGLE_LINKS':
+		console.log( action.app );
 		return {...state,
 			board: {...state.board,
 				self: {...state.board.self,
