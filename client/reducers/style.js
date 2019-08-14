@@ -64,6 +64,17 @@ export default ( state = {} , action ) => {
 				self: {...state.board.self,
 					width: Board.getSelfWidth( action.app ),
 					boxShadow: Board.getSelfBoxShadow( action.app )
+				},
+				menuLiBubble: {...state.board.menuLiBubble,
+					color: ( action.app.isBubblePost ?
+						Board.activeColor : Board.unactiveColor )
+				},
+				menuLiChild: {...state.menuLiChild,
+					color: App.isActiveMultistream( action.app, "reducer" ) ?
+						Board.activeColor : Board.unactiveColor
+				},
+				menuLiLinks: {...state.menuLiLinks,
+					color: Board.unactiveColor
 				}
 			},
 			links: {...state.links,
