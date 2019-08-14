@@ -54,11 +54,13 @@ export default ( state = {} , action ) => {
 			}
 		}
 
-	case 'CLIENT_TO_SERVER[EMIT]:changeThread':
+	case 'SERVER_TO_CLIENT[EMIT]:find':
 	case 'OPEN_LINKS':
 	case 'CLOSE_LINKS':
 	case 'TOGGLE_LINKS':
+		console.log("@@@@@@@@@@@@@@@@@@@@");
 		console.log( action.app );
+		console.log("@@@@@@@@@@@@@@@@@@@@");
 		return {...state,
 			board: {...state.board,
 				self: {...state.board.self,
