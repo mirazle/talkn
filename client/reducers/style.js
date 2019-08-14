@@ -64,7 +64,9 @@ export default ( state = {} , action ) => {
 				self: {...state.board.self,
 					width: Board.getSelfWidth( action.app ),
 					boxShadow: Board.getSelfBoxShadow( action.app )
-				}
+				},
+				menuLiChild: Board.getMenuLiChild( action ),
+				menuLiLinks: Board.getMenuLiLinks( action )
 			},
 			links: {...state.links,
 				self: {...state.links.self,

@@ -1050,7 +1050,6 @@ export default class Icon {
       app.dispThreadType === App.dispThreadTypeSingle ?
         Container.themeRGB : Container.reliefRGB;
 
-    console.log( "@@@ " + app.dispThreadType + " " + bgColor );
     const div = Style.get({
       layout: Style.getLayoutFlex({
         flexDirection: "column",
