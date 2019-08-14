@@ -202,7 +202,7 @@ export default class TalknWindow {
 				resolve(e.data.params);
 				break;
 			case "findPlayConnection" :
-				if( e.data.params.connection ){
+				if( e.data.params.connection && e.data.params.playCnt === 0 ){
 					actionWrap.onClickConnection( e.data.params.connection, false, e.data.method );
 				}
 				break;
