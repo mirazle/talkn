@@ -1050,7 +1050,7 @@ export default class Icon {
       app.dispThreadType === App.dispThreadTypeSingle ?
         Container.themeRGB : Container.reliefRGB;
 
-    console.log( "@@@ " + bgColor );
+    console.log( "@@@ " + app.dispThreadType + " " + bgColor );
     const div = Style.get({
       layout: Style.getLayoutFlex({
         flexDirection: "column",
@@ -1137,7 +1137,6 @@ export default class Icon {
   static getBubble( { app } ){
     const background = app.isBubblePost ?
       Container.themeRGB : Container.reliefRGBA;
-    console.log("GET BUBBLE " + background);
     const div = Style.get({
       layout: Style.getLayoutFlex({
         flexDirection: "column",
