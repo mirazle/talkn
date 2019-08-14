@@ -377,6 +377,10 @@ class Window extends Elements {
             
             m.addEventListener( "play", ( e ) => {
                 media = e.srcElement;
+                const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
+                this.childTo( "findPlayConnection", {
+                    connection: mediaConnection
+                });
             } );
 
             m.addEventListener( "ended", ( e ) => {
