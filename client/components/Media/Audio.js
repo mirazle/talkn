@@ -10,6 +10,7 @@ export default class Audio extends Component {
   render(){
     const { src, state } = this.props;
     const { style } = state;
+
     return (
       <audio
         src={ src }

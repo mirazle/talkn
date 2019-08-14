@@ -264,7 +264,6 @@ export default class Container{
     const top = Header.headerHeight + "px";
     const left = app.screenMode === App.screenModeSmallLabel ?
       "0px" : `${Menu.getWidth(app)}`;
-      console.log(Menu.getWidth(app));
     const layout = Style.getLayoutFlex({
       maxWidth: "180px",
       position: "fixed",
