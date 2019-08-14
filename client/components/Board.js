@@ -123,9 +123,6 @@ export default class Board extends Component {
  	render() {
     const { state } = this.props;
     const { style, app } = state;
-
-    console.log( IconStyle.getLinks(state) );
-
     const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
     const LinksIcon = Icon.getLinks( IconStyle.getLinks(state) );
     const linksLabel = app.isLinkConnection ? "BACK" : "LINKS";
