@@ -94,13 +94,14 @@ const functions = {
     return action;
   },
   "CLIENT_TO_SERVER[EMIT]:changeThread": ( state, action ) => {
-    action.app = {...state.app, ...action.app};
+    action.app = action.app ? {...state.app, ...action.app} : state.app;
     action.app.offsetFindId = App.defaultOffsetFindId;
     action.app.offsetTimelineFindId = App.defaultOffsetFindId;
     action.app.offsetMultiFindId = App.defaultOffsetFindId;
     action.app.offsetSingleFindId = App.defaultOffsetFindId;
     action.app.offsetChildFindId = App.defaultOffsetFindId;
     action.app.offsetLogsFindId = App.defaultOffsetFindId;
+    action.thread = action.thread ? {...state.thread, ...action.thread} : state.thread;
     return action;
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": ( state, action ) => {
