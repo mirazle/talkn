@@ -144,8 +144,6 @@ const functions = {
     return action;
   },
   "NEXT_POSTS_TIMELINE": ( state, action ) => {
-    console.log( action );
-    
     const { app } = state;
     switch(app.extensionMode){
     case App.extensionModeExtBottomLabel:
