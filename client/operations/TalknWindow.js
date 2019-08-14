@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux';
 import timeago from 'timeago.js';
 import define from 'common/define';
-import conf from 'client/conf';
 import Schema from 'common/schemas/Schema';
 import App from 'common/schemas/state/App';
 import State from 'common/schemas/state';
 import BootOption from 'common/schemas/state/BootOption';
+import conf from 'client/conf';
+import actionWrap from 'client/container/util/actionWrap';
 import TalknSession from 'client/operations/TalknSession';
 import TalknAPI from 'client/operations/TalknAPI';
 import TalknMedia from 'client/operations/TalknMedia';
@@ -200,6 +201,11 @@ export default class TalknWindow {
 				this.parentTo( "bootExtension", conf );
 				resolve(e.data.params);
 				break;
+			case "findPlayConnection" :
+				if( e.data.params.connection ){
+					actionWrap.onClickConnection( e.data.params.connection, false, e.data.method );
+				}
+				break;
 			case "playMedia" :
 
 				if( e.data.params.playCnt === 0 ){
@@ -207,11 +213,9 @@ export default class TalknWindow {
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
 					window.talknMedia = new TalknMedia();
-					console.log( timeline );
 					window.talknMedia.setTimeline( timeline );
 
 				}else{
-					console.log("----------- " + e.data.params.currentTime );
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}
 				break;

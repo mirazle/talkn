@@ -18,35 +18,35 @@ export default {
       app,
     };
   },
-  onClickToTimelineThread: ( connection, {app} ) => {
+  onClickToTimelineThread: ( connection, {app, thread} ) => {
     return {
       type: 'ON_CLICK_TO_TIMELINE_THREAD',
       app,
       thread: { connection },
     };
   },
-  onClickToMultiThread: ( connection, {app} ) => {
+  onClickToMultiThread: ( connection, {app, thread} ) => {
     return {
       type: 'ON_CLICK_TO_MULTI_THREAD',
       app,
       thread: { connection },
     };
   },
-  onClickToSingleThread: ( connection, {app} ) => {
+  onClickToSingleThread: ( connection, {app, thread} ) => {
     return {
       type: 'ON_CLICK_TO_SINGLE_THREAD',
       app,
       thread: { connection },
     };
   },
-  onClickToChildThread: ( connection, {app} ) => {
+  onClickToChildThread: ( connection, {app, thread} ) => {
     return {
       type: 'ON_CLICK_TO_CHILD_THREAD',
       app,
       thread: { connection },
     };
   },
-  onClickToLogsThread: ( connection, {app} ) => {
+  onClickToLogsThread: ( connection, {app, thread} ) => {
     return {
       type: 'ON_CLICK_TO_LOGS_THREAD',
       app,

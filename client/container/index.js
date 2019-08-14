@@ -26,6 +26,7 @@ import Media from 'client/components/Media/';
 import InnerNotif from 'client/components/InnerNotif';
 import mapToStateToProps from 'client/mapToStateToProps/';
 import Marquee from 'client/container/util/Marquee';
+import actionWrap from 'client/container/util/actionWrap';
 import componentDidUpdates from 'client/container/componentDidUpdates';
 import TalknWindow from 'client/operations/TalknWindow';
 
@@ -170,64 +171,7 @@ class Container extends Component {
   }
 
   handleOnClickConnection( toConnection, overWriteHasSlash, called = ""){
-    const {
-      state,
-      onClickToTimelineThread,
-      onClickToMultiThread,
-      onClickToSingleThread,
-      onClickToChildThread,
-      onClickToLogsThread
-    } = this.props;
-    let { app, menuIndex, setting } = state;
-
-    let { thread } = state;
-    const beforeConnection = thread.connection;
-    thread.connection = toConnection;
-    if( Schema.isSet( overWriteHasSlash ) ){
-      thread.hasSlash = overWriteHasSlash;
-    }
-    const isLinkConnection = app.isLinkConnection;
-    const threadStatus = Thread.getStatus( thread, app, setting );
-    let { app: updatedApp, stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, toConnection, called );
-
-    if( !isLinkConnection && updatedApp.isLinkConnection ){
-      talknAPI.onCatchConnectionAPI( toConnection );
-    }
-
-    if( isLinkConnection && !updatedApp.isLinkConnection ){
-      talknAPI.offCatchConnectionAPI( beforeConnection );
-    }
-
-    app = updatedApp;
-    console.log( overWriteHasSlash );
-    console.log( thread );
-
-    switch(stepTo){
-    case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeChild}`:
-    case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
-    case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
-    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
-      onClickToChildThread( toConnection, {app, thread} );
-      talknAPI.changeThread( toConnection );
-      break;
-    case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeMulti}`:
-    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
-      onClickToMultiThread( toConnection, {app, thread} );
-      talknAPI.changeThread( toConnection );
-      break;
-    case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeSingle}`:
-    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
-      onClickToSingleThread( toConnection, {app, thread} );
-      talknAPI.changeThread( toConnection );
-      break;
-    case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeTimeline}`:
-    case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeTimeline}`:
-    case `${App.dispThreadTypeChild} to ${App.dispThreadTypeTimeline}`:
-    case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeTimeline}`:
-      onClickToTimelineThread( toConnection, {app, thread} );
-      talknAPI.changeThread( toConnection );
-      break;
-    }
+    actionWrap.onClickConnection( toConnection, overWriteHasSlash, called );
   }
 
   getDebug(props){
