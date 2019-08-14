@@ -313,22 +313,6 @@ export default class App extends Schema{
     // Open Portal from iframe(Judge server side)
     // Open Extension( Judge ext.js ) 
     return extensionMode === App.extensionModeExtNoneLabel ? false : true ;
-/*
-    switch( extensionMode ){
-    case App.extensionModeExtIncludeLabel:
-      return true;
-    default:
-      if( Schema.isSet( params.includeIframeTag ) ){
-        return Schema.getBool( params.includeIframeTag );
-      // script attributes is lowercase.
-      }else if(Schema.isSet( params.includeiframetag ) ){
-        return Schema.getBool( params.includeiframetag );
-      }else{
-        // localhost:8080の場合server listenを介さないので正しい判定が取れない
-        return false;
-      }  
-    }
-*/
   }
 
   static getIsMediaConnection( connection ){
@@ -431,7 +415,7 @@ export default class App extends Schema{
   }
 
   static getStepDispThreadType( {app, menuIndex}, threadStatus = {}, toConnection, called ){
-    const log = false;
+    const log = true;
     app.isLinkConnection = false;
     app.isOpenLinks = false;
 
@@ -460,7 +444,7 @@ export default class App extends Schema{
       return app;
     }
 
-    if( called === "toLinks"){
+    if( called === "toLinks" || called === "findPlayConnection" ){
 
       const haveMenuIndex = menuIndex.some( (mi) => {
         return ( mi.connection === toConnection ||  mi.connection === toConnection + "/");
