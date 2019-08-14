@@ -379,8 +379,10 @@ class Window extends Elements {
                 media = e.srcElement;
                 const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
                 this.childTo( "findPlayConnection", {
+                    playCnt,
                     connection: mediaConnection
                 });
+                playCnt++;
             } );
 
             m.addEventListener( "ended", ( e ) => {
