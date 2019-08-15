@@ -51,6 +51,7 @@ const functions = {
   "SERVER_TO_CLIENT[EMIT]:find": ( state, action ) => {
     action = resolve.caseNoExistResponsePost(state, action);
     action.app = {...state.app, ...action.app};
+    console.log( action.app.offsetFindId );
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     action.app.detailConnection = action.thread.connection;
     action.app.desc = action.thread.serverMetas.title;
@@ -63,9 +64,8 @@ const functions = {
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = {...action.thread};
     //.action.threadDetail.serverMetas = {...action.thread};
-    console.log( action.app.rootTitle );
+
     if( action.app.isRootConnection ) action.app.rootTitle = action.thread.title;
-    console.log( action.thread.title );
     switch(action.app.extensionMode){
     case App.extensionModeExtBottomLabel:
       if( !action.app.isOpenPosts && !action.app.isDispPosts ){
@@ -106,12 +106,6 @@ const functions = {
   },
   "CLOSE_LINKS": ( state, action ) => {
     action.app = action.app ? {...state.app, ...action.app} : state.app;
-    action.app.offsetFindId = App.defaultOffsetFindId;
-    action.app.offsetTimelineFindId = App.defaultOffsetFindId;
-    action.app.offsetMultiFindId = App.defaultOffsetFindId;
-    action.app.offsetSingleFindId = App.defaultOffsetFindId;
-    action.app.offsetChildFindId = App.defaultOffsetFindId;
-    action.app.offsetLogsFindId = App.defaultOffsetFindId;
     action.thread = action.thread ? {...state.thread, ...action.thread} : state.thread;
     return action;
   },

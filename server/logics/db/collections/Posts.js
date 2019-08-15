@@ -56,7 +56,6 @@ export default class Posts {
     const limit = isMediaConnection ? conf.findOneLimitCnt : conf.findOnePostCnt;
     const selector = {};
     const option = {limit, sort};
-
     const result = await this.collection.find( condition, selector, option );
 
     if( !isMediaConnection ){
