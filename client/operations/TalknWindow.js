@@ -211,11 +211,13 @@ export default class TalknWindow {
 					const timeline = storage.getStoragePostsTimeline( connection );
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
+					console.log( window.talknMedia.timeline );
 					talknAPI[ e.data.method ]( e.data.params );
 				}
 				break;
 			case "playMedia" :
 				console.log("playMedia A");
+				console.log( window.talknMedia.timeline );
 				if( window.talknMedia && window.talknMedia.proccess &&　window.talknMedia.timeline.length > 0 ){
 					console.log("playMedia B");
 					window.talknMedia.proccess( e.data.params.currentTime );
