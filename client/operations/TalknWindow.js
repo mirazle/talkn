@@ -212,8 +212,12 @@ export default class TalknWindow {
 					TalknMedia.init();
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
+
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
+					
+					console.log( window.talknMedia.timeline );
+
 					talknAPI.startLinkMedia( e.data.params );
 				}
 
