@@ -50,7 +50,7 @@ export default class PostsSupporter{
 
   static getEmoji( {app} ){
     const layout = Style.getLayoutFlex({
-      minWidth: "60px",
+      minWidth: "70px",
       alignItems: "center",
       justifyContent: "center",
     });
