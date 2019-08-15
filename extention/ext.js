@@ -378,10 +378,13 @@ class Window extends Elements {
             m.addEventListener( "play", ( e ) => {
                 media = e.srcElement;
                 const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
-                this.childTo( "startLinkMedia", {
+
+                this.childTo( "playMedia", {
                     playCnt,
-                    connection: mediaConnection
+                    thread: {...this.state.thread, connection: mediaConnection},
+                    currentTime: media.currentTime
                 });
+
                 console.log( "PLAY " + playCnt );
                 playCnt++;
                 console.log( "PLAY " + playCnt );
