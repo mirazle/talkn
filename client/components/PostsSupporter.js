@@ -7,12 +7,12 @@ export default class PostsSupporter extends Component {
   static get Cover(){
     return [
       {menu: "Emojis", display: '👍', label: "Mark"},
+      {menu: "Emojis", display: '💓', label: "PosiHigh"},
       {menu: "Emojis", display: '😄', label: "PosiFlat"},
-      {menu: "Emojis", display: '🤣', label: "PosiHigh"},
       {menu: "Emojis", display: '😌', label: "PosiLow"},
-      {menu: "Emojis", display: '😥', label: "NegaFlat"},
       {menu: "Emojis", display: '😅', label: "NegaHigh"},
-      {menu: "Emojis", display: '😤', label: "NegaLow"},
+      {menu: "Emojis", display: '😭', label: "NegaFlat"},
+      {menu: "Emojis", display: '😡', label: "NegaLow"},
       {menu: "Emojis", display: '💰', label: "Money"}
     ];
   }
@@ -21,11 +21,11 @@ export default class PostsSupporter extends Component {
     return {
       Mark: ['👍','😉','💡','👀','✌️', '💪', '☀️'],
       PosiFlat: [ '😄','✨','😁','🍺','😊','😘','🌟','🥳','😃','😋','🎂','🍰','🧁'],
-      PosiHigh: ['🤣', '😳','😵','😆','🤩','💓','🥰','😍','😻'],
+      PosiHigh: ['💓', '🤣', '😳','😵','😆','🤩','🥰','😍','😻'],
       PosiLow: [ '😌','🤤','🙂','😐','😮','😯'],
-      NegaFlat: ['😥','😭','🤢','🤮','🤕','🤒','😷','🤧','🧐','🤔','🤨'],
+      NegaFlat: ['😭','😥','🤢','🤮','🤕','🤒','😷','🤧','🧐','🤔','🤨'],
       NegaHigh: ['😅','💦','😲','🙄','😒','😑','😕','😩','😞','😔','😟','😩','😞','😔','😟'],
-      NegaLow: [ '😠','😾','😡','🤬','💔','💢','😤','👿','😣','🥺','😫','😓','😖','😨','😰','😿','🥶','🥵','😱','🙀','💀'],
+      NegaLow: [ '😡', '😠','😾','🤬','💔','💢','😤','👿','😣','🥺','😫','😓','😖','😨','😰','😿','🥶','🥵','😱','🙀','💀'],
       Money: [],
     }
           /*
