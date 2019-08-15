@@ -218,11 +218,11 @@ export default class TalknWindow {
 
 					talknAPI.startLinkMedia( e.data.params );
 				}
-
+/*
 				console.log("@@@@ PLAY MEDIA");
 				console.log( window );
 				console.log( window.talknMedia );
-
+*/
 				if(
 					window.talknMedia &&
 					window.talknMedia.proccess &&
