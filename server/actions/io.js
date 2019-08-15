@@ -43,7 +43,6 @@ export default {
     const isMultistream = Thread.getStatusIsMultistream( app );
     const postCntKey = isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts( requestState, {isMultistream} );
-    console.log( requestState );
     const {response: posts} = await Logics.db.posts.find(requestState, setting, {isMultistream, getMore: true} );
     app = Collections.getNewApp(requestState.type, app, thread, posts);
     Logics.io.getMore( ioUser, {requestState, thread, posts, app} );
