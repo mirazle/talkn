@@ -202,7 +202,9 @@ export default class TalknWindow {
 				resolve(e.data.params);
 				break;
 			case "startLinkMedia" :
+				console.log("startLinkMedia A");
 				if( e.data.params.connection && e.data.params.playCnt === 0 ){
+					console.log("startLinkMedia B");
 					actionWrap.onClickConnection( e.data.params.connection, false, e.data.method );
 					TalknMedia.init();
 					const connection = e.data.params.connection;
@@ -213,10 +215,9 @@ export default class TalknWindow {
 				}
 				break;
 			case "playMedia" :
+				console.log("playMedia A");
 				if( window.talknMedia && window.talknMedia.proccess &&　window.talknMedia.timeline.length > 0 ){
-					console.log("@@@@@@@@@@@@@@@");
-					console.log("PROCCESS " + e.data.params.currentTime);
-					console.log("@@@@@@@@@@@@@@@");
+					console.log("playMedia B");
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}
 				break;
