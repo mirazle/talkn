@@ -202,7 +202,7 @@ export default class TalknWindow {
 				resolve(e.data.params);
 				break;
 			case "playMedia" :
-
+				console.log("PLAY MEDIA");
 				if(
 					e.data.params.thread &&
 					e.data.params.thread.connection &&
