@@ -293,6 +293,10 @@ const functions = {
     action.app = {...state.app, ...action.app};
     return action;
   },
+  "START_LINK_MEDIA": ( state, action ) => {
+    console.log( action );
+    return action;
+  },
   "GET_CLIENT_METAS": ( state, action ) => {
     let updateFlg = false;
     let { clientMetas } = action; 
