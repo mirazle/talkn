@@ -215,15 +215,9 @@ export default class TalknWindow {
 			case "playMedia" :
 				if( window.talknMedia && window.talknMedia.proccess &&　window.talknMedia.timeline.length > 0 ){
 					console.log("@@@@@@@@@@@@@@@");
-					console.log("PROCCESS");
+					console.log("PROCCESS " + e.data.params.currentTime);
 					console.log("@@@@@@@@@@@@@@@");
 					window.talknMedia.proccess( e.data.params.currentTime );
-				}else{
-					TalknMedia.init();
-					const connection = e.data.params.thread.connection;
-					const timeline = storage.getStoragePostsTimeline( connection );
-					window.talknMedia = new TalknMedia();
-					window.talknMedia.setTimeline( timeline );
 				}
 				break;
 			case "endMedia" :

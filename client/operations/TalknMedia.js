@@ -78,7 +78,6 @@ export default class TalknMedia {
 			return false;
 		}
 
-
 		const timelineLength = this.timeline.length;
 
 		this.tasking = true
