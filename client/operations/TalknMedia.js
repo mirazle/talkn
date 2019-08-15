@@ -9,10 +9,12 @@ export default class TalknMedia {
 	}
 
 	static init(){
-		window.talknMedia.timeline = [];
-		window.talknMedia.timelineBase = [];
-		window.talknMedia.intervalId = null;
-		delete window.talknMedia;
+		if( window.talknMedia ){
+			window.talknMedia.timeline = [];
+			window.talknMedia.timelineBase = [];
+			window.talknMedia.intervalId = null;
+			delete window.talknMedia;
+		}
 	}
 
 	constructor(){
