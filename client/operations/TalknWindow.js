@@ -218,7 +218,7 @@ export default class TalknWindow {
 					window.talknMedia.setTimeline( timeline );
 					
 					console.log("@@@@@@@@@");
-					console.log( window.talknMedia );
+					console.log( window.talknMedia.timeline );
 					console.log("@@@@@@@@@");
 
 					talknAPI.startLinkMedia( e.data.params );

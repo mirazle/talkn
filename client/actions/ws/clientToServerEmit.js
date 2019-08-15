@@ -16,7 +16,7 @@ const beforeFunctions = {
 	post: ( reduxState, requestState, actionState ) => {
 		const { app, thread } = reduxState;
 		if( app.isMediaConnection ){
-			if( window.talknMedia ){
+			if( window.talknMedia && window.talknMedia.currentTime ){
 				console.log("@@@@@@@@@@@@ A " + window.talknMedia.currentTime );
 				requestState.app.inputCurrentTime = window.talknMedia.currentTime;
 			}else{
