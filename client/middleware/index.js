@@ -65,27 +65,30 @@ const functions = {
     //.action.threadDetail.serverMetas = {...action.thread};
 
     if( action.app.isRootConnection ) action.app.rootTitle = action.thread.title;
-    switch(action.app.extensionMode){
-    case App.extensionModeExtBottomLabel:
-      if( !action.app.isOpenPosts && !action.app.isDispPosts ){
-        const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
-        talknWindow.parentTo("openNotif", {transition});
+
+    if( !action.app.isLinkConnection ){
+      switch(action.app.extensionMode){
+      case App.extensionModeExtBottomLabel:
+        if( !action.app.isOpenPosts && !action.app.isDispPosts ){
+          const transition = ( Container.transitionNotif * 4 ) + Container.transitionNotifDisp;
+          talknWindow.parentTo("openNotif", {transition});
+        }
+        break;
+      case App.extensionModeExtModalLabel:
+        if( action.posts.length > 0 ){
+          const id = action.posts[ action.posts.length - 1 ]['_id'];
+          const post = action.posts[ action.posts.length - 1 ]['post'];
+          let favicon = action.posts[ action.posts.length - 1 ]['favicon'];
+          console.log( "@@@@@ " );
+          console.log( state.app.actioned );
+          console.log( state.actionLog );
+          console.log( action.app.actioned );
+          console.log( "-- " + action.app.isLinkConnection );
+          favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
+          talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon, addUnreadCnt: action.posts.length });
+        }
+        break;
       }
-      break;
-    case App.extensionModeExtModalLabel:
-      if( action.posts.length > 0 ){
-        const id = action.posts[ action.posts.length - 1 ]['_id'];
-        const post = action.posts[ action.posts.length - 1 ]['post'];
-        let favicon = action.posts[ action.posts.length - 1 ]['favicon'];
-        console.log( "@@@@@ " );
-        console.log( state.app.actioned );
-        console.log( state.actionLog );
-        console.log( action.app.actioned );
-        console.log( "-- " + action.app.isLinkConnection );
-        favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
-        talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon, addUnreadCnt: action.posts.length });
-      }
-      break;
     }
 
     if( action.app.isMediaConnection ){
@@ -295,9 +298,6 @@ const functions = {
   },
   "START_LINK_MEDIA": ( state, action ) => {
     action.app = {...state.app};
-    console.log( action );
-    console.log( action.app );
-    console.log( action.app.isLinkConnection );
     action.app.isLinkConnection = true;
     return action;
   },
