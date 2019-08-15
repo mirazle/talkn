@@ -228,6 +228,7 @@ export default class TalknWindow {
 					window.talknMedia.proccess &&
 					e.data.params.playCnt > 0
 				){
+					console.log( "PROCCESS @@@ ");
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}
 
