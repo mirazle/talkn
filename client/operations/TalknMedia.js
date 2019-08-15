@@ -13,7 +13,6 @@ export default class TalknMedia {
 		window.talknMedia.timelineBase = [];
 		window.talknMedia.intervalId = null;
 		delete window.talknMedia;
-		window.talknMedia = new TalknMedia();
 	}
 
 	constructor(){
