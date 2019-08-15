@@ -241,7 +241,7 @@ export default class PostsSupporter extends Component {
         break;
     default:
       display = PostsSupporter[ menu ][ label ].map( (emoji, i) => {
-        const index = i + 1;
+        const index = i ;
         return ( 
           <li
             key={ menu + label + "_" + index }
