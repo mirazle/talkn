@@ -215,6 +215,8 @@ export default class TalknWindow {
 				break;
 			case "playMedia" :
 				console.log("@@@ B");
+				console.log( window.talknMedia );
+
 				if( window.talknMedia && window.talknMedia.proccess ){
 					console.log("@@@ C");
 					window.talknMedia.proccess( e.data.params.currentTime );
