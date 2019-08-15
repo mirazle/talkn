@@ -51,7 +51,6 @@ const functions = {
   "SERVER_TO_CLIENT[EMIT]:find": ( state, action ) => {
     action = resolve.caseNoExistResponsePost(state, action);
     action.app = {...state.app, ...action.app};
-    console.log( action.app.offsetFindId );
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     action.app.detailConnection = action.thread.connection;
     action.app.desc = action.thread.serverMetas.title;
