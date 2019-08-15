@@ -203,25 +203,20 @@ export default class TalknWindow {
 				break;
 			case "playMedia" :
 
-				console.log("playMedia A");
-				console.log( e.data.params.thread );
-				console.log( e.data.params.thread.connection );
-				console.log( e.data.params.playCnt );
 				if(
 					e.data.params.thread &&
 					e.data.params.thread.connection &&
 					e.data.params.playCnt === 0
 				){
-
-					console.log("playMedia B");
-					console.log( window.talknMedia );
-
 					actionWrap.onClickConnection( e.data.params.thread.connection, false, e.data.method );
 					TalknMedia.init();
 					const connection = e.data.params.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
+
+					console.log("playMedia INITIAL");
+					console.log( window.talknMedia.timeline );
 
 					talknAPI.startLinkMedia( e.data.params );
 				}
@@ -232,9 +227,12 @@ export default class TalknWindow {
 					window.talknMedia.timeline && 
 					window.talknMedia.timeline.length > 0
 				){
-					console.log("playMedia C");
+					console.log("@@@@@@@@@@@@@@ playMedia PROCCESS");
+					console.log( e.data.params.currentTime );
+					console.log("@@@@@@@@@@@@@@ playMedia PROCCESS");
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}
+
 				break;
 			case "endMedia" :
 				if( e.data.params.playCnt > 0 ){
