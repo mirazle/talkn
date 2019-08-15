@@ -64,7 +64,7 @@ const functions = {
     action.threadDetail = {...action.thread};
     //.action.threadDetail.serverMetas = {...action.thread};
     console.log( action.app.rootTitle );
-//    if( action.app.isRootConnection ) action.app.rootTitle = action.thread.title;
+    if( action.app.isRootConnection ) action.app.rootTitle = action.thread.title;
     console.log( action.thread.title );
     switch(action.app.extensionMode){
     case App.extensionModeExtBottomLabel:
