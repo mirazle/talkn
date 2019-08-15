@@ -210,7 +210,6 @@ export default class MenuIndexList extends Component {
     const baseStyle = style[ styleKey ];
     const dispExt = menuIndexList.findType === Thread.findTypeHtml ?
       null : menuIndexList.findType;
-    console.log( dispExt );
     return (
       <li
         data-component-name={"MenuIndexList"}

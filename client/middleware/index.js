@@ -63,9 +63,9 @@ const functions = {
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = {...action.thread};
     //.action.threadDetail.serverMetas = {...action.thread};
-
-    if( action.app.isRootConnection ) action.app.rootTitle = action.thread.title;
-
+    console.log( action.app.rootTitle );
+//    if( action.app.isRootConnection ) action.app.rootTitle = action.thread.title;
+    console.log( action.app.rootTitle );
     switch(action.app.extensionMode){
     case App.extensionModeExtBottomLabel:
       if( !action.app.isOpenPosts && !action.app.isDispPosts ){
