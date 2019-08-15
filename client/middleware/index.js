@@ -66,7 +66,7 @@ const functions = {
 
     if( action.app.isRootConnection ) action.app.rootTitle = action.thread.title;
 
-    //if( !action.app.isLinkConnection ){
+    if( !action.app.isLinkConnection ){
       switch(action.app.extensionMode){
       case App.extensionModeExtBottomLabel:
         if( !action.app.isOpenPosts && !action.app.isDispPosts ){
@@ -89,7 +89,7 @@ const functions = {
         }
         break;
       }
-    //}
+    }
 
     if( action.app.isMediaConnection ){
       const src = App.getMediaSrc( action.thread.protocol, action.thread.connection );
