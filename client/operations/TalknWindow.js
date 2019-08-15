@@ -202,9 +202,7 @@ export default class TalknWindow {
 				resolve(e.data.params);
 				break;
 			case "playMedia" :
-				console.log("PLAY MEDIA");
-				console.log( window );
-				console.log( window.talknMedia );
+
 				if(
 					e.data.params.thread &&
 					e.data.params.thread.connection &&
@@ -218,12 +216,12 @@ export default class TalknWindow {
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
 
-					console.log("@@@@@@@@@");
-					console.log( talknMedia.timeline );
-					console.log("@@@@@@@@@");
-
 					talknAPI.startLinkMedia( e.data.params );
 				}
+
+				console.log("@@@@ PLAY MEDIA");
+				console.log( window );
+				console.log( window.talknMedia );
 
 				if(
 					window.talknMedia &&
