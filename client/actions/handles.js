@@ -316,9 +316,9 @@ export default {
       app: {findType: e.target.value}
     };
   },
-  startMedia: () => {
+  startLinkMedia: () => {
     return {
-      type: 'START_MEDIA'
+      type: 'START_LINK_MEDIA'
     };
   },
   debug: ( app ) => {

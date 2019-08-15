@@ -201,7 +201,7 @@ export default class TalknWindow {
 				this.parentTo( "bootExtension", conf );
 				resolve(e.data.params);
 				break;
-			case "startMedia" :
+			case "startLinkMedia" :
 				if( e.data.params.connection && e.data.params.playCnt === 0 ){
 					actionWrap.onClickConnection( e.data.params.connection, false, e.data.method );
 					TalknMedia.init();
@@ -209,7 +209,7 @@ export default class TalknWindow {
 					const timeline = storage.getStoragePostsTimeline( connection );
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
-					talknAPI[ e.data.method ]( e.data.params );
+					talknAPI[ e.data.method ]( {...e.data.params, app: {isLinkConnection: true } } );
 				}
 				break;
 			case "playMedia" :
