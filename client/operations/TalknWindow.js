@@ -217,7 +217,7 @@ export default class TalknWindow {
 				console.log("@@@ B");
 				console.log( window.talknMedia );
 
-				if( window.talknMedia && window.talknMedia.proccess ){
+				if( window.talknMedia && window.talknMedia.proccess &&　window.talknMedia.timeline.length > 0 ){
 					console.log("@@@ C");
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}else{
