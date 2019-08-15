@@ -201,30 +201,29 @@ export default class TalknWindow {
 				this.parentTo( "bootExtension", conf );
 				resolve(e.data.params);
 				break;
-			case "startLinkMedia" :
+			case "playMedia" :
 
-				console.log("startLinkMedia A " + e.data.params.playCnt );
+				console.log("playMedia A");
+				console.log( window.talknMedia );
 
-				if( e.data.params.connection && e.data.params.playCnt === 0 ){
+				if(
+					e.data.params.thread &&
+					e.data.params.connection &&
+					e.data.params.playCnt === 0
+				){
 
-					console.log("startLinkMedia B " + e.data.params.playCnt );
+					console.log("playMedia B");
+					console.log( window.talknMedia );
 
-					actionWrap.onClickConnection( e.data.params.connection, false, e.data.method );
+					actionWrap.onClickConnection( e.data.params.thread.connection, false, e.data.method );
 					TalknMedia.init();
 					const connection = e.data.params.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
 
-					console.log( window.talknMedia.timeline );
-
-					talknAPI[ e.data.method ]( e.data.params );
+					talknAPI.startLinkMedia( e.data.params );
 				}
-				console.log( window.talknMedia.timeline );
-				break;
-			case "playMedia" :
-				console.log("playMedia A");
-				console.log( window.talknMedia );
 
 				if(
 					window.talknMedia &&
@@ -232,7 +231,7 @@ export default class TalknWindow {
 					window.talknMedia.timeline && 
 					window.talknMedia.timeline.length > 0
 				){
-					console.log("playMedia B");
+					console.log("playMedia C");
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}
 				break;
