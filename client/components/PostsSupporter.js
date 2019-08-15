@@ -12,7 +12,8 @@ export default class PostsSupporter extends Component {
       {menu: "Emojis", display: '😌', label: "PosiLow"},
       {menu: "Emojis", display: '😥', label: "NegaFlat"},
       {menu: "Emojis", display: '😅', label: "NegaHigh"},
-      {menu: "Emojis", display: '😤', label: "NegaLow"}
+      {menu: "Emojis", display: '😤', label: "NegaLow"},
+      {menu: "Emojis", display: '💰', label: "Money"}
     ];
   }
 
@@ -24,7 +25,8 @@ export default class PostsSupporter extends Component {
       PosiLow: [ '😌','🤤','🙂','😐','😮','😯'],
       NegaFlat: ['😥','😭','🤢','🤮','🤕','🤒','😷','🤧','🧐','🤔','🤨'],
       NegaHigh: ['😅','💦','😲','🙄','😒','😑','😕','😩','😞','😔','😟','😩','😞','😔','😟'],
-      NegaLow: [ '😠','😾','😡','🤬','💔','💢','😤','👿','😣','🥺','😫','😓','😖','😨','😰','😿','🥶','🥵','😱','🙀','💀']
+      NegaLow: [ '😠','😾','😡','🤬','💔','💢','😤','👿','😣','🥺','😫','😓','😖','😨','😰','😿','🥶','🥵','😱','🙀','💀'],
+      Money: [],
     }
           /*
         記号（良いね）
