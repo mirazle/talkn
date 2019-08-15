@@ -382,7 +382,10 @@ class Window extends Elements {
                     playCnt,
                     connection: mediaConnection
                 });
+                console.log( "PLAY " + playCnt );
                 playCnt++;
+                console.log( "PLAY " + playCnt );
+
             } );
 
             m.addEventListener( "ended", ( e ) => {
