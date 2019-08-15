@@ -201,7 +201,7 @@ export default class TalknWindow {
 				this.parentTo( "bootExtension", conf );
 				resolve(e.data.params);
 				break;
-			case "findPlayConnection" :
+			case "startMedia" :
 				if( e.data.params.connection && e.data.params.playCnt === 0 ){
 					actionWrap.onClickConnection( e.data.params.connection, false, e.data.method );
 					TalknMedia.init();

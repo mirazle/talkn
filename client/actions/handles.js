@@ -316,9 +316,9 @@ export default {
       app: {findType: e.target.value}
     };
   },
-  findPlayConnection: () => {
+  startMedia: () => {
     return {
-      type: 'FIND_PLAY_CONNECTION'
+      type: 'START_MEDIA'
     };
   },
   debug: ( app ) => {
