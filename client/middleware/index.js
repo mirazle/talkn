@@ -294,6 +294,7 @@ const functions = {
     return action;
   },
   "START_LINK_MEDIA": ( state, action ) => {
+    action.app = {...state.app};
     console.log( action );
     console.log( action.app );
     console.log( action.app.isLinkConnection );
