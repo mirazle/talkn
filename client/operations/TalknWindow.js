@@ -204,8 +204,9 @@ export default class TalknWindow {
 			case "playMedia" :
 
 				console.log("playMedia A");
-				console.log( e.data.params );
-
+				console.log( e.data.params.thread );
+				console.log( e.data.params.connection );
+				console.log( e.data.params.playCnt );
 				if(
 					e.data.params.thread &&
 					e.data.params.connection &&
