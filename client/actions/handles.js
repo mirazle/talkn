@@ -316,6 +316,11 @@ export default {
       app: {findType: e.target.value}
     };
   },
+  findPlayConnection: () => {
+    return {
+      type: 'FIND_PLAY_CONNECTION'
+    };
+  },
   debug: ( app ) => {
     return {
       type: 'DEBUG',
