@@ -202,7 +202,7 @@ export default class TalknWindow {
 				resolve(e.data.params);
 				break;
 			case "playMedia" :
-
+				console.log("PLAY MEDIA");
 				if(
 					e.data.params.thread &&
 					e.data.params.thread.connection &&
@@ -211,14 +211,9 @@ export default class TalknWindow {
 					actionWrap.onClickConnection( e.data.params.thread.connection, false, e.data.method );
 					TalknMedia.init();
 					const connection = e.data.params.thread.connection;
-					console.log( "@@@@ playMedia INITIAL " + connection );
 					const timeline = storage.getStoragePostsTimeline( connection );
-					console.log( timeline );
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
-
-					console.log( window.talknMedia.timeline );
-
 					talknAPI.startLinkMedia( e.data.params );
 				}
 
@@ -228,9 +223,6 @@ export default class TalknWindow {
 					window.talknMedia.timeline && 
 					window.talknMedia.timeline.length > 0
 				){
-					console.log("@@@@@@@@@@@@@@ playMedia PROCCESS");
-					console.log( e.data.params.currentTime );
-					console.log("@@@@@@@@@@@@@@ playMedia PROCCESS");
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}
 
