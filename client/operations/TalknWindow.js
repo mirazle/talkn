@@ -225,8 +225,13 @@ export default class TalknWindow {
 			case "playMedia" :
 				console.log("playMedia A");
 				console.log( window.talknMedia );
-				console.log( window.talknMedia.timeline );
-				if( window.talknMedia && window.talknMedia.proccess &&　window.talknMedia.timeline.length > 0 ){
+
+				if(
+					window.talknMedia &&
+					window.talknMedia.proccess &&
+					window.talknMedia.timeline && 
+					window.talknMedia.timeline.length > 0
+				){
 					console.log("playMedia B");
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}
