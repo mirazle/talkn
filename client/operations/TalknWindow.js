@@ -203,6 +203,7 @@ export default class TalknWindow {
 				break;
 			case "playMedia" :
 				console.log("PLAY MEDIA");
+				if( window.talknMedia )console.log( window.talknMedia.timeline );
 				if(
 					e.data.params.thread &&
 					e.data.params.thread.connection &&
@@ -215,7 +216,7 @@ export default class TalknWindow {
 
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
-					console.log( timeline );
+					console.log( window.talknMedia.timeline );
 					talknAPI.startLinkMedia( e.data.params );
 				}
 /*
