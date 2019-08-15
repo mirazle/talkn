@@ -215,13 +215,11 @@ export default class TalknWindow {
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
 
-					window.talknMedia = new TalknMedia();
-					window.talknMedia.setTimeline( timeline );
+					const talknMedia = new TalknMedia();
+					const talknMedia.setTimeline( timeline );
 
 					console.log("@@@@@@@@@");
-					console.log( window );
-					console.log( window.talknMedia );
-					console.log( window.talknMedia.timeline );
+					console.log( talknMedia.timeline );
 					console.log("@@@@@@@@@");
 
 					talknAPI.startLinkMedia( e.data.params );
