@@ -54,7 +54,8 @@ export default class TalknMedia {
 		const currentTime =  Number.MAX_SAFE_INTEGER;
 		const timeline = this.timeline;
 		const length = this.timeline.length;
-
+		console.log("@@@@@@@@@@@@@@@@@@@@@@@@ END");
+		console.log(timeline);
 		for( let i = 0; i < length; i++ ){
 			if( timeline[ i ] && timeline[ i ].currentTime <= currentTime ){
 				talknAPI.nextPostsTimeline([ timeline[ i ] ]);
