@@ -214,6 +214,9 @@ export default class TalknWindow {
 				break;
 			case "playMedia" :
 				if( window.talknMedia && window.talknMedia.proccess &&　window.talknMedia.timeline.length > 0 ){
+					console.log("@@@@@@@@@@@@@@@");
+					console.log("PROCCESS");
+					console.log("@@@@@@@@@@@@@@@");
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}else{
 					TalknMedia.init();
