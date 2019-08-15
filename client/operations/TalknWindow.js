@@ -220,6 +220,7 @@ export default class TalknWindow {
 					
 					console.log("@@@@@@@@@");
 					console.log( window );
+					console.log( window.talknMedia );
 					console.log( window.talknMedia.timeline );
 					console.log("@@@@@@@@@");
 
