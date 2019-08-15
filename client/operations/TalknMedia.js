@@ -9,13 +9,11 @@ export default class TalknMedia {
 	}
 
 	static init(){
-		if( window.talknMedia ){
-			window.talknMedia.timeline = [];
-			window.talknMedia.timelineBase = [];
-			window.talknMedia.intervalId = null;
-			delete window.talknMedia;
-			window.talknMedia = new TalknMedia();
-		}
+		window.talknMedia.timeline = [];
+		window.talknMedia.timelineBase = [];
+		window.talknMedia.intervalId = null;
+		delete window.talknMedia;
+		window.talknMedia = new TalknMedia();
 	}
 
 	constructor(){
