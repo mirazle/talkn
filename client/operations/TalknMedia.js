@@ -28,6 +28,8 @@ export default class TalknMedia {
 		this.startMedia = this.startMedia.bind( this );
 		this.proccess = this.proccess.bind( this );
 		this.endedFunc = this.endedFunc.bind( this );
+
+		if( !window.talknMedia ) window.talknMedia = this;
 	}
 
 	setTimeline( timeline = [] ){
