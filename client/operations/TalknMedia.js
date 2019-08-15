@@ -41,6 +41,7 @@ export default class TalknMedia {
 
 		this.intervalId = setInterval( () => { 
 			if( media && !media.paused ){
+				console.log( this.intervalId + " " + media.currentTime );
 				this.proccess( media.currentTime );
 			}
 		}, conf.mediaSecondInterval );
@@ -50,7 +51,7 @@ export default class TalknMedia {
 		return Math.floor( currentTime * base ) / base;
 	}
 
-	endedFunc( ){
+	endedFunc(){
 		const currentTime =  Number.MAX_SAFE_INTEGER;
 		const timeline = this.timeline;
 		const length = this.timeline.length;
