@@ -294,8 +294,10 @@ const functions = {
     return action;
   },
   "START_LINK_MEDIA": ( state, action ) => {
-    action.app.isLinkConnection = true;
     console.log( action );
+    console.log( action.app );
+    console.log( action.app.isLinkConnection );
+    action.app.isLinkConnection = true;
     return action;
   },
   "GET_CLIENT_METAS": ( state, action ) => {
