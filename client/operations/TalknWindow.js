@@ -208,10 +208,10 @@ export default class TalknWindow {
 					e.data.params.thread.connection &&
 					e.data.params.playCnt === 0
 				){
-					console.log( "playMedia INITIAL " + e.data.params.thread.connection );
 					actionWrap.onClickConnection( e.data.params.thread.connection, false, e.data.method );
 					TalknMedia.init();
-					const connection = e.data.params.connection;
+					const connection = e.data.params.thread.connection;
+					console.log( "playMedia INITIAL " + connection );
 					const timeline = storage.getStoragePostsTimeline( connection );
 					console.log( timeline );
 					window.talknMedia = new TalknMedia();
