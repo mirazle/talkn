@@ -210,18 +210,22 @@ export default class TalknWindow {
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
 					talknAPI[ e.data.method ]( e.data.params );
+					console.log("@@@ A");
 				}
 				break;
 			case "playMedia" :
-
+				console.log("@@@ B");
 				if( window.talknMedia && window.talknMedia.proccess ){
+					console.log("@@@ C");
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}else{
+					console.log("@@@ D");
 					TalknMedia.init();
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
+					console.log( timeline );
 				}
 				break;
 			case "endMedia" :
