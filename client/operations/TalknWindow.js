@@ -202,9 +202,9 @@ export default class TalknWindow {
 				resolve(e.data.params);
 				break;
 			case "startLinkMedia" :
-				console.log("startLinkMedia A");
+				console.log("startLinkMedia A " + e.data.params.playCnt );
 				if( e.data.params.connection && e.data.params.playCnt === 0 ){
-					console.log("startLinkMedia B");
+					console.log("startLinkMedia B " + e.data.params.playCnt );
 					actionWrap.onClickConnection( e.data.params.connection, false, e.data.method );
 					TalknMedia.init();
 					const connection = e.data.params.connection;
