@@ -81,6 +81,7 @@ const functions = {
         console.log( state.app.actioned );
         console.log( state.actionLog );
         console.log( action.app.actioned );
+        console.log( "-- " + action.app.isLinkConnection );
         favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
         talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon, addUnreadCnt: action.posts.length });
       }
