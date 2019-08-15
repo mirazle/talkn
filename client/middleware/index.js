@@ -79,11 +79,6 @@ const functions = {
           const id = action.posts[ action.posts.length - 1 ]['_id'];
           const post = action.posts[ action.posts.length - 1 ]['post'];
           let favicon = action.posts[ action.posts.length - 1 ]['favicon'];
-          console.log( "@@@@@ " );
-          console.log( state.app.actioned );
-          console.log( state.actionLog );
-          console.log( action.app.actioned );
-          console.log( "-- " + action.app.isLinkConnection );
           favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
           talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon, addUnreadCnt: action.posts.length });
         }
