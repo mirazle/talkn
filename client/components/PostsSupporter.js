@@ -207,7 +207,7 @@ export default class PostsSupporter extends Component {
         },
         onClick: ( e ) => {
           if( i !== 0 ){
-            const post = PostsSupporter[ menu ][ toLabel ][ i - 1 ];
+            const post = PostsSupporter[ menu ][ toLabel ][ i  ];
             talknAPI.delegatePost( {
               inputPost: `<div class="talknStamps" style="${PostStyle.stampStyle}">${post}</div>`,
               inputCurrentTime: 0
