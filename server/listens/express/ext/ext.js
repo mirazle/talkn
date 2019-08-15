@@ -385,10 +385,7 @@ class Window extends Elements {
                     currentTime: media.currentTime
                 });
 
-                console.log( "PLAY " + playCnt );
                 playCnt++;
-                console.log( "PLAY " + playCnt );
-
             } );
 
             m.addEventListener( "ended", ( e ) => {
