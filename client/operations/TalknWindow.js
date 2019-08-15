@@ -204,7 +204,6 @@ export default class TalknWindow {
 			case "findPlayConnection" :
 				if( e.data.params.connection && e.data.params.playCnt === 0 ){
 					actionWrap.onClickConnection( e.data.params.connection, false, e.data.method );
-					console.log( e.data.params );
 					TalknMedia.init();
 					const connection = e.data.params.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
