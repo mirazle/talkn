@@ -294,6 +294,7 @@ const functions = {
     return action;
   },
   "START_LINK_MEDIA": ( state, action ) => {
+    action.app.isLinkConnection = true;
     console.log( action );
     return action;
   },

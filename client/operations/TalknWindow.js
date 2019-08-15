@@ -209,7 +209,7 @@ export default class TalknWindow {
 					const timeline = storage.getStoragePostsTimeline( connection );
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
-					talknAPI[ e.data.method ]( {...e.data.params, app: {isLinkConnection: true } } );
+					talknAPI[ e.data.method ]( e.data.params );
 				}
 				break;
 			case "playMedia" :
