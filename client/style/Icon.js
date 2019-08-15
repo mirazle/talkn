@@ -1538,6 +1538,7 @@ export default class Icon {
         height: size,
         minWidth: size,
         minHeight: size,
+        marginLeft: "5px",
         borderRight: `${size} solid transparent`,
         borderTop: `${size} solid transparent`,
         borderBottom: `${size} solid transparent`,
