@@ -65,7 +65,7 @@ const functions = {
     //.action.threadDetail.serverMetas = {...action.thread};
     console.log( action.app.rootTitle );
 //    if( action.app.isRootConnection ) action.app.rootTitle = action.thread.title;
-    console.log( action.app.rootTitle );
+    console.log( action.thread.title );
     switch(action.app.extensionMode){
     case App.extensionModeExtBottomLabel:
       if( !action.app.isOpenPosts && !action.app.isDispPosts ){
