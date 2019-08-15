@@ -225,7 +225,8 @@ export default class TalknWindow {
 
 				if(
 					window.talknMedia &&
-					window.talknMedia.proccess 
+					window.talknMedia.proccess &&
+					e.data.params.playCnt > 0
 				){
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}
