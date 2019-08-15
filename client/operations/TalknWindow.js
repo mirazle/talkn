@@ -215,7 +215,7 @@ export default class TalknWindow {
 
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
-
+					console.log( timeline );
 					talknAPI.startLinkMedia( e.data.params );
 				}
 /*
@@ -229,7 +229,6 @@ export default class TalknWindow {
 					e.data.params.playCnt > 0
 				){
 					console.log( "PROCCESS @@@ ");
-					console.log( window.talknMedia.timeline );
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}
 
