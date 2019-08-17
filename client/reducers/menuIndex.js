@@ -56,14 +56,14 @@ export default ( state = new MenuIndex() , action ) => {
 				}
 			});
 		}
-
-		if(action.app.dispThreadType === App.dispThreadTypeMulti){
+		console.log( action.thread );
+		if( action.app.dispThreadType === App.dispThreadTypeMulti ){
 
 			return state.map( mi => {
 				if( action.thread.connection === mi.connection ){
 					return {...mi,
 //						title: action.posts[ postLength - 1].title,
-//						favicon: action.posts[ postLength - 1].favicon,
+						favicon: action.thread.favicon,
 //						watchCnt: action.thread.watchCnt,
 						post: action.posts[ postLength - 1].post
 					}
