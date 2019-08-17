@@ -1424,6 +1424,7 @@ class Notif extends Elements{
 
         const notifPost = document.createElement("div");
         notifPost.setAttribute("style", 
+            `font-family: "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif !important;` +
             "overflow: hidden !important;" +
             "display: flex !important;" +
             "justify-content: flex-start !important;" + 
