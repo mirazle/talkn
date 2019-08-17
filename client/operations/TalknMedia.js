@@ -42,7 +42,6 @@ export default class TalknMedia {
 
 		this.intervalId = setInterval( () => { 
 			if( media && !media.paused ){
-				console.log( this.intervalId + " " + media.currentTime );
 				this.proccess( media.currentTime );
 			}
 		}, conf.mediaSecondInterval );
