@@ -202,21 +202,31 @@ export default class TalknWindow {
 				resolve(e.data.params);
 				break;
 			case "playMedia" :
+
 				console.log("PLAY MEDIA");
-				if( window.talknMedia )console.log( window.talknMedia.timeline );
+	
+				if( window.talknMedia ){
+					console.log( window.talknMedia );
+					console.log( window.talknMedia.timeline );
+				}
+
 				if(
 					e.data.params.thread &&
 					e.data.params.thread.connection &&
 					e.data.params.playCnt === 0
 				){
+					console.log("@@@@@@@ PRE INIT " );
 					actionWrap.onClickConnection( e.data.params.thread.connection, false, e.data.method );
-					TalknMedia.init();
+					TalknMedia.init( "TalknWindow" );
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
-
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
+
+					console.log("TIMELINE @@@@@@@@@@@@@@@@" );
+					console.log( window.talknMedia );
 					console.log( window.talknMedia.timeline );
+					console.log("@@@@@@@@@@@@@@@@@");
 					talknAPI.startLinkMedia( e.data.params );
 				}
 /*

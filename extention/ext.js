@@ -241,6 +241,7 @@ class Window extends Elements {
                 this.htmlWidth = null;
                 this.htmlHeight = null;       
                 this.intervalMediaId = null;
+                this.playCnt = 0;
 
                 // Callback Methods.
                 this.load = this.load.bind(this);
@@ -370,27 +371,27 @@ class Window extends Elements {
     setupMedia(){
 
         let media = null;
-        let playCnt = 0;
         const videos = document.querySelectorAll("video");
         const audios = document.querySelectorAll("audio");
         const events = ( m ) => {
             
             m.addEventListener( "play", ( e ) => {
+
                 media = e.srcElement;
                 const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
+                this.state.thread.connection = mediaConnection;
+                console.log("======================= EXT PLAY MEDIA " + this.playCnt);
 
                 this.childTo( "playMedia", {
-                    playCnt,
-                    thread: {...this.state.thread, connection: mediaConnection},
+                    playCnt: this.playCnt++,
+                    thread: this.state.thread,
                     currentTime: media.currentTime
                 });
-
-                playCnt++;
             } );
 
             m.addEventListener( "ended", ( e ) => {
                 this.childTo( "endMedia", {
-                    playCnt,
+                    playCnt: this.playCnt,
                     thread: this.state.thread
                 });
             } );
@@ -409,22 +410,18 @@ class Window extends Elements {
                     }
 
                     const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
+                    this.state.thread.connection = mediaConnection;
+                    console.log("======================= EXT PLAYING MEDIA " + this.playCnt);
 
-                    if( this.state.thread.connection === mediaConnection ){
+                    this.childTo( "playMedia", {
+                        playCnt: this.playCnt++,
+                        thread: this.state.thread,
+                        currentTime: media.currentTime
+                    });
 
-                        this.childTo( "playMedia", {
-                            playCnt,
-                            thread: this.state.thread,
-                            currentTime: media.currentTime
-                        });
-
-                        playCnt++;
-
-                    }else{
-                        playCnt = 0;
-                    }
                 }else{
-                    playCnt = 0;
+                    console.log("======================= EXT RESET B 0 " );
+                    this.playCnt = 0;
                 }
 
             }, Window.mediaSecondInterval );
@@ -691,11 +688,16 @@ class Body extends Elements {
         super(_window);
         const bodyElm = this.get();
         this.locktimeMarginTop = 0;
-        this.overflow = bodyElm.style.overflow;
-        this.position = bodyElm.style.position;
-        this.width = bodyElm.style.width;
-        this.height = bodyElm.style.height;
-        this.marginTop = bodyElm.style.marginTop;
+
+        if( bodyElm && bodyElm.style ){
+            this.overflow = bodyElm.style.overflow;
+            this.position = bodyElm.style.position;
+            this.width = bodyElm.style.width;
+            this.height = bodyElm.style.height;
+            this.marginTop = bodyElm.style.marginTop;
+        }else{
+            console.log( bodyElm );
+        }
     }
 
     get(){

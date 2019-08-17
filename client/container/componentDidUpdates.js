@@ -21,8 +21,6 @@ const componentDidUpdates = {
     Container: {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
 
-            TalknMedia.init();
-
             const { app, thread } = self.props.state;
             const connection = thread.connection;
             app.postsHeight += TalknWindow.getPostsHeight();
@@ -35,6 +33,8 @@ const componentDidUpdates = {
                 talknWindow.threadHeight = Posts.clientHeight;
 
                 if( app.dispThreadType === App.dispThreadTypeTimeline){
+                    TalknMedia.init("FIND");
+                    console.log("@@@ componentDidMount ----------------------------------------------");
                     const timeline = storage.getStoragePostsTimeline( connection );
                     const media = TalknMedia.getMedia( thread );
                     window.talknMedia = new TalknMedia();
