@@ -34,7 +34,6 @@ const componentDidUpdates = {
 
                 if( app.dispThreadType === App.dispThreadTypeTimeline){
                     TalknMedia.init("FIND");
-                    console.log("@@@ componentDidMount ----------------------------------------------");
                     const timeline = storage.getStoragePostsTimeline( connection );
                     const media = TalknMedia.getMedia( thread );
                     window.talknMedia = new TalknMedia();
