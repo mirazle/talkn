@@ -439,7 +439,7 @@ export default class App extends Schema{
       if( log ) console.log("B");
       app.dispThreadType = App.dispThreadTypeTimeline;
       app.offsetFindId = app.offsetTimelineFindId ? app.offsetTimelineFindId : App.defaultOffsetFindId;
-      app.isLinkConnection =  called === "toLinks" || called === "findPlayConnection"  ? true : false;
+      app.isLinkConnection =  called === "toLinks" || called === "playMedia"  ? true : false;
       app.isMediaConnection = true;
       return app;
     }
