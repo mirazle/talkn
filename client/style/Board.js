@@ -99,7 +99,11 @@ export default class Board{
   }
 
   static getSelfHeight(app){
-    return app.isOpenBoard ? "237px" : "64px";
+    if( app.dispThreadType === App.dispThreadTypeMulti || app.dispThreadTypeSingle ){
+      return app.isOpenBoard ? "237px" : "64px";
+    }else{
+      return app.isOpenBoard ? "120px" : "64px";
+    }
   }
 
   static getSelfBorderRadius(app){

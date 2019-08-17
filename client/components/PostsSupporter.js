@@ -206,8 +206,10 @@ export default class PostsSupporter extends Component {
           });
         },
         onClick: ( e ) => {
+
           if( i !== 0 ){
-            const post = PostsSupporter[ menu ][ toLabel ][ i  ];
+            const post = PostsSupporter[ menu ][ toLabel ][ i - 1 ];
+            console.log("CLICK " + i + " " + post );
             talknAPI.delegatePost( {
               inputPost: `<div class="talknStamps" style="${PostStyle.stampStyle}">${post}</div>`,
               inputCurrentTime: 0
@@ -246,7 +248,7 @@ export default class PostsSupporter extends Component {
           <li
             key={ menu + label + "_" + index }
             style={ style[ menu ][ label ][ index ] }
-            {...this.getEvents( menu, menu, label, index ) }
+            {...this.getEvents( menu, menu, label, index + 1) }
           >
             {emoji}
           </li>
