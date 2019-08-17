@@ -11,9 +11,6 @@ export default class TalknMedia {
 	static init( called ){
 		if( !window.talknMedia ){
 			window.talknMedia = this;
-			console.log("@@@@@@@ INIT A" );
-		}else{
-			console.log("@@@@@@@ INIT B " + called );
 		}
 
 		window.talknMedia.timeline = [];
@@ -22,7 +19,6 @@ export default class TalknMedia {
 	}
 
 	constructor(){
-		console.log("@@@@@@@ CONSTRUCTER");
 		this.intervalId = null;
 		this.currentTime = 0;
 		this.tasking = false;

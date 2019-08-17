@@ -380,8 +380,6 @@ class Window extends Elements {
                 media = e.srcElement;
                 const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
                 this.state.thread.connection = mediaConnection;
-                console.log("======================= EXT PLAY MEDIA " + this.playCnt);
-
                 this.childTo( "playMedia", {
                     playCnt: this.playCnt++,
                     thread: this.state.thread,
@@ -411,8 +409,6 @@ class Window extends Elements {
 
                     const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
                     this.state.thread.connection = mediaConnection;
-                    console.log("======================= EXT PLAYING MEDIA " + this.playCnt);
-
                     this.childTo( "playMedia", {
                         playCnt: this.playCnt++,
                         thread: this.state.thread,
@@ -420,7 +416,6 @@ class Window extends Elements {
                     });
 
                 }else{
-                    console.log("======================= EXT RESET B 0 " );
                     this.playCnt = 0;
                 }
 
@@ -541,6 +536,7 @@ class Window extends Elements {
         case Ext.MODE_MODAL:
             switch( Ext.DISPLAY_MODE[ this.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
+                console.log( params );
                 notifStatus.addCnt(params.addUnreadCnt);
                 new Notif(this, params);
                 break;
@@ -696,7 +692,7 @@ class Body extends Elements {
             this.height = bodyElm.style.height;
             this.marginTop = bodyElm.style.marginTop;
         }else{
-            console.log( bodyElm );
+            console.warn( bodyElm );
         }
     }
 
