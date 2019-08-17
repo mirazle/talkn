@@ -8,16 +8,21 @@ export default class TalknMedia {
 		return document.querySelector(`${tagType}[src='${src}']`)
 	}
 
-	static init(){
-		if( window.talknMedia ){
-			window.talknMedia.timeline = [];
-			window.talknMedia.timelineBase = [];
-			window.talknMedia.intervalId = null;
-			//delete window.talknMedia;
+	static init( called ){
+		if( !window.talknMedia ){
+			window.talknMedia = this;
+			console.log("@@@@@@@ INIT A" );
+		}else{
+			console.log("@@@@@@@ INIT B " + called );
 		}
+
+		window.talknMedia.timeline = [];
+		window.talknMedia.timelineBase = [];
+		window.talknMedia.intervalId = null;
 	}
 
 	constructor(){
+		console.log("@@@@@@@ CONSTRUCTER");
 		this.intervalId = null;
 		this.currentTime = 0;
 		this.tasking = false;
@@ -28,8 +33,7 @@ export default class TalknMedia {
 		this.startMedia = this.startMedia.bind( this );
 		this.proccess = this.proccess.bind( this );
 		this.endedFunc = this.endedFunc.bind( this );
-
-		if( !window.talknMedia ) window.talknMedia = this;
+		//if( !window.talknMedia ) window.talknMedia = this;
 	}
 
 	setTimeline( timeline = [] ){
