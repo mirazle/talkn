@@ -242,6 +242,7 @@ class Window extends Elements {
                 this.htmlHeight = null;       
                 this.intervalMediaId = null;
                 this.playCnt = 0;
+                this.notifedId = [];
 
                 // Callback Methods.
                 this.load = this.load.bind(this);
@@ -536,8 +537,11 @@ class Window extends Elements {
         case Ext.MODE_MODAL:
             switch( Ext.DISPLAY_MODE[ this.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
-                console.log( params );
-                notifStatus.addCnt(params.addUnreadCnt);
+
+                if( !this.notifedId.includes( params.id ) ){
+                    notifStatus.addCnt(params.addUnreadCnt);
+                    this.notifedId.push( params.id );
+                }
                 new Notif(this, params);
                 break;
             }
