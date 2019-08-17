@@ -13,6 +13,8 @@ export default class Board extends Component {
     this.state = {
       displayLinks: false
     };
+    this.renderMain = this.renderMain.bind( this );
+    this.renderSub = this.renderSub.bind( this );
     this.renderLiChild = this.renderLiChild.bind( this );
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind( this );
     this.handleOnClickToggleBoard = this.handleOnClickToggleBoard.bind( this );
@@ -120,7 +122,7 @@ export default class Board extends Component {
     );
   }
 
- 	render() {
+  renderMain(){
     const { state } = this.props;
     const { style, app } = state;
     const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
@@ -166,5 +168,50 @@ export default class Board extends Component {
         </div>
       </div>
     );
+  }
+
+  renderSub(){
+    const { state } = this.props;
+    const { style, app } = state;
+    const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
+    return (
+      <div
+        ref="Board"
+        data-componet-name={"Board"}
+        style={style.board.self}
+        onTransitionEnd={ this.handleOnTransitionEnd }
+      >
+        <div
+          data-componet-name={"BoardMenu"}
+          style={style.board.menu}
+        >
+          <ul style={style.board.menuUl}>
+            <li style={style.board.menuLi} onClick={this.handleOnClickToggleBubblePost}>
+              <div>
+                { BubbleIcon }
+              </div>
+              <div style={style.board.menuLiBubble}>
+                BUBBLE
+              </div>
+            </li>
+          </ul>
+          <div onClick={this.handleOnClickToggleBoard} style={style.board.menuToggle}>
+            { app.isOpenBoard ? "▲" : "▼" }
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+ 	render() {
+    const { state } = this.props;
+    const { app } = state;
+    const isMain = app.dispThreadType === App.dispThreadTypeMulti || app.dispThreadType === App.dispThreadTypeSingle ;
+
+    if( isMain ){
+      return this.renderMain();
+    }else{
+      return this.renderSub();
+    }
  	}
 }

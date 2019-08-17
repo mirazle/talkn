@@ -103,6 +103,9 @@ export default ( state = {} , action ) => {
 				self: Posts.getSelf( action )
 			},
 			board: {...state.board,
+				self: {...state.board.self,
+					height: Board.getSelfHeight( action.app )
+				},
 				menuLiChild: {...state.menuLiChild,
 					color: App.isActiveMultistream( action.app, "reducer" ) ?
 						Board.activeColor : Board.unactiveColor
@@ -121,6 +124,9 @@ export default ( state = {} , action ) => {
 	case 'ON_CLICK_TO_MULTI_THREAD':
 		return {...state,
 			board: {...state.board,
+				self: {...state.board.self,
+					height: Board.getSelfHeight( action.app )
+				},
 				menuLiChild: {...state.board.menuLiChild,
 					color: Board.activeColor
 				},
@@ -132,6 +138,9 @@ export default ( state = {} , action ) => {
 	case 'ON_CLICK_TO_SINGLE_THREAD':
 			return {...state,
 				board: {...state.board,
+					self: {...state.board.self,
+						height: Board.getSelfHeight( action.app )
+					},
 					menuLiLinks: {...state.menuLiLinks,
 						color: Board.activeColor
 					}
@@ -140,6 +149,9 @@ export default ( state = {} , action ) => {
 	case 'ON_CLICK_TO_CHILD_THREAD':
 		return {...state,
 			board: {...state.board,
+				self: {...state.board.self,
+					height: Board.getSelfHeight( action.app )
+				},
 				menuLiChild: {...state.board.menuLiChild,
 					color: Board.unactiveColor
 				},
