@@ -18,7 +18,11 @@ const sessionURL = `${SUB_DOMAINS.SESSION}.${domain}` ;
 const description = "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.";
 const findOnePostCnt = 30;
 const findOneLimitCnt = 300;
-
+const ogpImages = {
+  Html: `//${assetsImgPath}talkn_logo_html.png`,
+  Music: `//${assetsImgPath}talkn_logo_music.png`,
+  Video: `//${assetsImgPath}talkn_logo_video.png`,
+}
 export default {
   domain,
   env,
@@ -35,5 +39,6 @@ export default {
   sessionURL,
   description,
   findOnePostCnt,
-  findOneLimitCnt
+  findOneLimitCnt,
+  ogpImages
 }
