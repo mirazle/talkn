@@ -220,9 +220,6 @@ export default class Detail extends Component {
     });
     */
 
-   console.log( "== " + style.detail.img.backgroundImage );
-   console.log( style.detail.img );
-
    return(
       <div
         data-component-name={"DetaiMeta"}

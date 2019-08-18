@@ -3,8 +3,8 @@ import App from 'common/schemas/state/App';
 import TalknSession from 'client/operations/TalknSession';
 
 export default {
-  "SERVER_TO_CLIENT[BROADCAST]:post": setStoragePosts,
-  "SERVER_TO_CLIENT[EMIT]:getMore": setStoragePosts,
+  "SERVER_TO_CLIENT[BROADCAST]:post": setStorageHtmlPosts,
+  "SERVER_TO_CLIENT[EMIT]:getMore": setStorageHtmlPosts,
   "SERVER_TO_CLIENT[EMIT]:find": ( state, props ) => {
     //setStoragePosts( state, props );
     return {state, props}
@@ -17,7 +17,7 @@ export default {
     TalknSession.setStorage( rootConnection, define.storageKey[ postKey ], [] );
     return {state, props};
   },
-  "ON__CLICK_MULTISTREAM": setStoragePosts,
+//  "ON__CLICK_MULTISTREAM": setStoragePosts,
   "ON_CLICK_TOGGLE_DISP_MENU": ( state, props ) => {
     const { app } = state; 
     if( app.screenMode === App.screenModeSmallLabel ){
@@ -37,13 +37,23 @@ export default {
     return {state, props}
   },
   setStoragePosts,
+  setStorageHtmlPosts,
   setStoragePostsTimeline,
-  addStoragePostsTimeline,
   getStoragePostsTimeline,
   getStoragePostsTimelineZero
 }
 
-function setStoragePosts( state, props ){
+function setStoragePosts(state, props ){
+  const { app } = state;
+  if( app.isMediaConnection ){
+    state = setStoragePostsTimeline( state );
+    return { state, props };
+  }else{
+    return setStorageHtmlPosts( state, props );
+  }
+}
+
+function setStorageHtmlPosts( state, props ){
   const { app } = state;
   const { storageKey } = define;
   if( app.isRootConnection ){
@@ -57,7 +67,6 @@ function setStoragePosts( state, props ){
 
 function setStoragePostsTimeline( action ){
   const { app, thread, postsTimeline: postsTimelineAll } = action;
-
   const { storageKey } = define;
   if( app.isMediaConnection ){
     const postsTimelineAllLength = postsTimelineAll && postsTimelineAll.length ?
@@ -72,6 +81,7 @@ function setStoragePostsTimeline( action ){
         postsTimeline.push( postsTimelineAll[ i ] );
       }
     }
+    
     action.postsTimeline = postsTimelineZero;
     TalknSession.setStorage( thread.connection, storageKey.postsTimelineZero, postsTimelineZero );
     TalknSession.setStorage( thread.connection, storageKey.postsTimeline, postsTimeline );

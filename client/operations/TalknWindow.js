@@ -195,32 +195,66 @@ export default class TalknWindow {
 
 	message(e, resolve){
 		if( e.data.type === "talkn" ){
+			const log = false;
 			switch( e.data.method ){
 			case "bootExtension" :
 				this.parentUrl = e.data.href;
 				this.parentTo( "bootExtension", conf );
 				resolve(e.data.params);
 				break;
+			case "findMediaConnection":
+				if(
+					e.data.params.thread &&
+					e.data.params.thread.connection 
+				){
+					if(log)console.log("@@@@@@@@@@@@@@ findMediaConnection A");
+					if(log)console.log( e.data.params.thread.connection );
+					if(log)console.log("@@@@@@@@@@@@@@");
+					actionWrap.onClickConnection( e.data.params.thread.connection, false, e.data.method );
+					TalknMedia.init( "TalknWindow" );
+					talknAPI.startLinkMedia( e.data.params );
+				}
+				break;
 			case "playMedia" :
-
+				
+				if(log)console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@ playMedia " + e.data.params.playCnt );
+				if(log)console.log( talknMedia.currentTime );
 				if(
 					e.data.params.thread &&
 					e.data.params.thread.connection &&
-					e.data.params.playCnt === 0
+					e.data.params.playCnt === 1
 				){
-					actionWrap.onClickConnection( e.data.params.thread.connection, false, e.data.method );
-					TalknMedia.init( "TalknWindow" );
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
+
+					if(log)console.log("@@@@@@@@@@@@@@ playMedia B");
+					if(log)console.log(timeline);
+					if(log)console.log("@@@@@@@@@@@@@@");
 					window.talknMedia = new TalknMedia();
 					window.talknMedia.setTimeline( timeline );
-					talknAPI.startLinkMedia( e.data.params );
+
 				}
+
 				if(
 					window.talknMedia &&
-					window.talknMedia.proccess &&
-					e.data.params.playCnt > 0
+					Schema.isSet( window.talknMedia.currentTime ) &&
+					e.data.params.playCnt > 1 
 				){
+					talknMedia.currentTime = talknMedia.getCurrentTime( e.data.params.currentTime );
+					if(log)console.log("@@@@@@@@@@@@@@ playMedia C");
+					if(log)console.log(talknMedia.currentTime);
+					if(log)console.log("@@@@@@@@@@@@@@");
+				}
+
+				if(
+					window.talknMedia &&
+					e.data.params.playCnt > 1 &&
+					window.talknMedia.timeline && 
+					window.talknMedia.timeline.length > 0 
+				){
+					if(log)console.log("@@@@@@@@@@@@@@ playMedia D");
+					if(log)console.log(window.talknMedia.timeline);
+					if(log)console.log("@@@@@@@@@@@@@@");
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}
 
