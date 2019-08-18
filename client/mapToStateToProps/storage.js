@@ -132,5 +132,6 @@ function getStoragePostsTimeline( rootConnection ){
   const { storageKey } = define;
   const response = TalknSession.getStorage( rootConnection, storageKey.postsTimeline );
   console.log(response);
-  return constructor.name === "Array" ? response : [] ;
+  console.log( response.constructor.name );
+  return response.constructor.name === "Array" ? response : [] ;
 }
