@@ -56,7 +56,7 @@ export default ( state = new MenuIndex() , action ) => {
 				}
 			});
 		}
-		console.log( action.thread );
+
 		if( action.app.dispThreadType === App.dispThreadTypeMulti ){
 
 			return state.map( mi => {
