@@ -71,11 +71,6 @@ function setStoragePostsTimeline( action ){
   if( app.isMediaConnection ){
     const postsTimelineAllLength = postsTimelineAll && postsTimelineAll.length ?
       postsTimelineAll.length : 0;
-
-    console.log("@@@@@@@@@@@@@@@@@ ===");
-    console.log( postsTimelineAll );
-    console.log( postsTimelineAllLength );
-
     let postsTimelineZero = [];
     let postsTimeline = [];
 

@@ -244,7 +244,8 @@ export default class TalknWindow {
 					const timeline = storage.getStoragePostsTimeline( connection );
 
 					if(log)console.log("@@@@@@@@@@@@@@ playMedia B");
-					if(log)console.log(timeline);
+					//if(log)
+					console.log(timeline);
 					if(log)console.log("@@@@@@@@@@@@@@");
 
 					window.talknMedia.setTimeline( timeline );
