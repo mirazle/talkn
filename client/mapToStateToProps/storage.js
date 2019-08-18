@@ -124,10 +124,12 @@ function addStoragePostsTimeline( action ){
 
 function getStoragePostsTimelineZero( rootConnection ){
   const { storageKey } = define;
-  return TalknSession.getStorage( rootConnection, storageKey.postsTimelineZero );
+  const response = TalknSession.getStorage( rootConnection, storageKey.postsTimelineZero );
+  return constructor.name === "Array" ? response : [] ;
 }
 
 function getStoragePostsTimeline( rootConnection ){
   const { storageKey } = define;
-  return TalknSession.getStorage( rootConnection, storageKey.postsTimeline );
+  const response = TalknSession.getStorage( rootConnection, storageKey.postsTimeline );
+  return constructor.name === "Array" ? response : [] ;
 }

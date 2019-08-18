@@ -227,7 +227,7 @@ export default class TalknWindow {
 					e.data.params.playCnt >= 1 
 				){
 					talknMedia.currentTime = talknMedia.getCurrentTime( e.data.params.currentTime );
-					if(log)console.log("@@@@@@@@@@@@@@ playMedia C");
+					if(log)console.log("@@@@@@@@@@@@@@ playMedia B");
 					if(log)console.log(talknMedia.currentTime);
 					if(log)console.log("@@@@@@@@@@@@@@");
 				}
@@ -243,7 +243,7 @@ export default class TalknWindow {
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
 
-					if(log)console.log("@@@@@@@@@@@@@@ playMedia B");
+					if(log)console.log("@@@@@@@@@@@@@@ playMedia C " + connection );
 					//if(log)
 					console.log(timeline);
 					if(log)console.log("@@@@@@@@@@@@@@");
