@@ -195,7 +195,7 @@ export default class TalknWindow {
 
 	message(e, resolve){
 		if( e.data.type === "talkn" ){
-			const log = true;
+			const log = false;
 			switch( e.data.method ){
 			case "bootExtension" :
 				this.parentUrl = e.data.href;
@@ -244,8 +244,7 @@ export default class TalknWindow {
 					const timeline = storage.getStoragePostsTimeline( connection );
 
 					if(log)console.log("@@@@@@@@@@@@@@ playMedia C " + connection );
-					//if(log)
-					console.log(timeline);
+					if(log)console.log(timeline);
 					if(log)console.log("@@@@@@@@@@@@@@");
 
 					window.talknMedia.setTimeline( timeline );
