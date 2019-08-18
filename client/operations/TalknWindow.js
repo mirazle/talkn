@@ -213,16 +213,31 @@ export default class TalknWindow {
 					actionWrap.onClickConnection( e.data.params.thread.connection, false, e.data.method );
 					TalknMedia.init( "TalknWindow" );
 					talknAPI.startLinkMedia( e.data.params );
+					window.talknMedia = new TalknMedia();
 				}
 				break;
 			case "playMedia" :
 				
 				if(log)console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@ playMedia " + e.data.params.playCnt );
 				if(log)console.log( talknMedia.currentTime );
+
+				if(
+					window.talknMedia &&
+					Schema.isSet( window.talknMedia.currentTime ) &&
+					e.data.params.playCnt >= 1 
+				){
+					talknMedia.currentTime = talknMedia.getCurrentTime( e.data.params.currentTime );
+					if(log)console.log("@@@@@@@@@@@@@@ playMedia C");
+					if(log)console.log(talknMedia.currentTime);
+					if(log)console.log("@@@@@@@@@@@@@@");
+				}
+
 				if(
 					e.data.params.thread &&
 					e.data.params.thread.connection &&
-					e.data.params.playCnt === 1
+					e.data.params.playCnt >= 1 &&
+					window.talknMedia.timeline &&
+					window.talknMedia.timeline.length === 0
 				){
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
@@ -230,20 +245,9 @@ export default class TalknWindow {
 					if(log)console.log("@@@@@@@@@@@@@@ playMedia B");
 					if(log)console.log(timeline);
 					if(log)console.log("@@@@@@@@@@@@@@");
-					window.talknMedia = new TalknMedia();
+
 					window.talknMedia.setTimeline( timeline );
 
-				}
-
-				if(
-					window.talknMedia &&
-					Schema.isSet( window.talknMedia.currentTime ) &&
-					e.data.params.playCnt > 1 
-				){
-					talknMedia.currentTime = talknMedia.getCurrentTime( e.data.params.currentTime );
-					if(log)console.log("@@@@@@@@@@@@@@ playMedia C");
-					if(log)console.log(talknMedia.currentTime);
-					if(log)console.log("@@@@@@@@@@@@@@");
 				}
 
 				if(
