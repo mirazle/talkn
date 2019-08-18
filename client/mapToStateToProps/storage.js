@@ -3,7 +3,7 @@ import App from 'common/schemas/state/App';
 import TalknSession from 'client/operations/TalknSession';
 
 export default {
-  "SERVER_TO_CLIENT[BROADCAST]:post": setStorageHtmlPosts,
+  "SERVER_TO_CLIENT[BROADCAST]:post": setStoragePosts,
   "SERVER_TO_CLIENT[EMIT]:getMore": setStorageHtmlPosts,
   "SERVER_TO_CLIENT[EMIT]:find": ( state, props ) => {
     //setStoragePosts( state, props );
@@ -81,7 +81,7 @@ function setStoragePostsTimeline( action ){
         postsTimeline.push( postsTimelineAll[ i ] );
       }
     }
-    
+
     action.postsTimeline = postsTimelineZero;
     TalknSession.setStorage( thread.connection, storageKey.postsTimelineZero, postsTimelineZero );
     TalknSession.setStorage( thread.connection, storageKey.postsTimeline, postsTimeline );
