@@ -3,7 +3,7 @@ import App from 'common/schemas/state/App';
 import TalknSession from 'client/operations/TalknSession';
 
 export default {
-  "SERVER_TO_CLIENT[BROADCAST]:post": setStorageHtmlosts,
+  "SERVER_TO_CLIENT[BROADCAST]:post": setStorageHtmlPosts,
   "SERVER_TO_CLIENT[EMIT]:getMore": setStorageHtmlPosts,
   "SERVER_TO_CLIENT[EMIT]:find": ( state, props ) => {
     //setStoragePosts( state, props );
