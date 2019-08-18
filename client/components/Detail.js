@@ -7,6 +7,7 @@ import Marquee from 'client/container/util/Marquee';
 import DetailFooter from 'client/components/DetailFooter';
 import LockMenu from './LockMenu';
 import Icon from './Icon';
+import Thread from "../../common/schemas/state/Thread";
 
 export default class Detail extends Component {
 
@@ -50,24 +51,36 @@ export default class Detail extends Component {
     talknAPI.updateThread( threadDetail.connection );
   }
 
-  getImgStyle( style, protocol, serverMetas ){
+  getImgStyle( state, style, protocol, serverMetas ){
+    const { threadDetail } = state;
     let backgroundImage = style.detail.img.backgroundImage;
     let backgroundSize = style.detail.img.backgroundSize;
-    if( serverMetas['og:image'] ){
-      if(
-          `${serverMetas['og:image']}`.indexOf(Sequence.HTTPS_PROTOCOL) === 0 || 
-          `${serverMetas['og:image']}`.indexOf(Sequence.HTTP_PROTOCOL) === 0
-      ){
-        backgroundImage = `url("${serverMetas['og:image']}")`;
-      }else{
-        if(protocol === Sequence.TALKN_PROTOCOL){
-          backgroundImage = `url("${Sequence.HTTPS_PROTOCOL}${serverMetas['og:image']}")`;        
+    switch( threadDetail.findType ){
+    case Thread.findTypeHtml:
+      if( serverMetas['og:image'] ){
+        if(
+            `${serverMetas['og:image']}`.indexOf(Sequence.HTTPS_PROTOCOL) === 0 || 
+            `${serverMetas['og:image']}`.indexOf(Sequence.HTTP_PROTOCOL) === 0
+        ){
+          backgroundImage = `url("${serverMetas['og:image']}")`;
         }else{
-          backgroundImage = `url("${protocol}${serverMetas['og:image']}")`;
+          if(protocol === Sequence.TALKN_PROTOCOL){
+            backgroundImage = `url("${Sequence.HTTPS_PROTOCOL}${serverMetas['og:image']}")`;        
+          }else{
+            backgroundImage = `url("${protocol}${serverMetas['og:image']}")`;
+          }
         }
+        backgroundSize = 'cover';
       }
-      backgroundSize = 'cover';
+      break;
+    case Thread.findTypeMusic:
+      backgroundImage = `url("${conf.ogpImages.Music}")`;
+      break;
+    case Thread.findTypeVideo:
+        backgroundImage = `url("${conf.ogpImages.Video}")`;
+      break;
     }
+
     return {...style.detail.img, backgroundImage, backgroundSize};
   }
 
@@ -184,7 +197,7 @@ export default class Detail extends Component {
     const { state } = this.props;
     const { threadDetail, style } = state
     const { serverMetas, contentType, h1s, protocol } = threadDetail;
-    style.detail.img = this.getImgStyle( style, protocol, serverMetas );
+    style.detail.img = this.getImgStyle( state, style, protocol, serverMetas );
     const description = this.getDescription( serverMetas );
 
     // Have item icons.
@@ -206,7 +219,11 @@ export default class Detail extends Component {
       return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>・{h1}</li> );
     });
     */
-    return(
+
+   console.log( "== " + style.detail.img.backgroundImage );
+   console.log( style.detail.img );
+
+   return(
       <div
         data-component-name={"DetaiMeta"}
         style={ style.detail.meta }

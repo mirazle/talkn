@@ -1,8 +1,13 @@
 import conf from '~/common/conf';
 import Sequence from '~/common/Sequence';
+import Thread from '~/common/schemas/state/Thread';
 
 export default class Html {
-  constructor(){
+  constructor( params ){
+    const findType = params && params.findType ? params.findType : Thread.findTypeHtml;
+    const ogpImage = conf.ogpImages[ findType ] ? 
+      conf.ogpImages[ findType ] : conf.ogpImages[ Thread.findTypeHtml ]
+
     return {
       protocol: { type: String, default: Sequence.TALKN_PROTOCOL },
       contentType: { type: String, default: "talkn/ch" },
@@ -12,7 +17,7 @@ export default class Html {
         description: { type: String, default: conf.description },
         'og:type': { type: String, default: "" },
         'og:title': { type: String, default: "talkn" },
-        'og:image': { type: String, default: `//${conf.assetsImgPath}talkn_logo1.png`},
+        'og:image': { type: String, default: ogpImage },
         'og:description': { type: String, default: conf.description },
         'og:locale': { type: String, default: "" },
         'fb:app_id': { type: String, default: "" },
