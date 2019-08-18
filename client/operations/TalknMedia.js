@@ -21,6 +21,7 @@ export default class TalknMedia {
 	constructor(){
 		this.intervalId = null;
 		this.currentTime = 0;
+		this.started = false;
 		this.tasking = false;
 		this.timeline = [];
 		this.timelineBase = [];
@@ -80,6 +81,7 @@ export default class TalknMedia {
 
 		const timelineLength = this.timeline.length;
 
+		this.started = true;
 		this.tasking = true
 
 		// Timeline is next.

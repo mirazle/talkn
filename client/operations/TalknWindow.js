@@ -237,7 +237,8 @@ export default class TalknWindow {
 					e.data.params.thread.connection &&
 					e.data.params.playCnt >= 1 &&
 					window.talknMedia.timeline &&
-					window.talknMedia.timeline.length === 0
+					window.talknMedia.timeline.length === 0 &&
+					window.talknMedia.started === false
 				){
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
