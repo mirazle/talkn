@@ -135,6 +135,9 @@ const functions = {
     }
 
     action = Posts.getAnyActionPosts(action);
+    if( action.app.isMediaConnection ){
+      action = storage.setStoragePostsTimeline( action );
+    }
     return action;
   }, 
   "SERVER_TO_CLIENT[EMIT]:getMore": ( state, action ) => {

@@ -104,18 +104,20 @@ function addStoragePostsTimeline( action ){
     if( addPostsTimeline.currentTime === 0 ){
       postsTimelineZero = getStoragePostsTimelineZero( app.rootConnection );
       postsTimelineZeroLength = postsTimelineZero.length;
-
+/*
       for(let i = 0; i < postsTimelineZeroLength; i++){
-
       }
       p.splice(4,0,p2);
+*/
     }else{
       postsTimeline = getStoragePostsTimeline( app.rootConnection );
       postsTimelineLength = postsTimeline.length;
-    }
+      console.log(addPostsTimeline);
+      if( postsTimelineLength > 0 ){
+        for(let i = 0; i < postsTimelineLength; i++){
 
-    for( let i = 0; i < postsTimelineZeroLength; i++){
-
+        }
+      }
     }
   }
 }
