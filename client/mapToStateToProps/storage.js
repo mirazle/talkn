@@ -112,7 +112,6 @@ function addStoragePostsTimeline( action ){
     }else{
       postsTimeline = getStoragePostsTimeline( app.rootConnection );
       postsTimelineLength = postsTimeline.length;
-      console.log(addPostsTimeline);
       if( postsTimelineLength > 0 ){
         for(let i = 0; i < postsTimelineLength; i++){
 
@@ -131,7 +130,5 @@ function getStoragePostsTimelineZero( rootConnection ){
 function getStoragePostsTimeline( rootConnection ){
   const { storageKey } = define;
   const response = TalknSession.getStorage( rootConnection, storageKey.postsTimeline );
-  console.log(response);
-  console.log( response.constructor.name );
   return response.constructor.name === "Array" ? response : [] ;
 }
