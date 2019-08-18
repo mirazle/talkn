@@ -135,8 +135,9 @@ const functions = {
     }
 
     action = Posts.getAnyActionPosts(action);
+    
     if( action.app.isMediaConnection ){
-      //action = storage.setStoragePostsTimeline( action );
+      //action = storage.addStoragePostsTimeline( action );
     }
     return action;
   }, 
