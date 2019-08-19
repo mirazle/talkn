@@ -118,9 +118,9 @@ class Styles{
     static get BORDER_RADIUS(){return 5}
     static get BASE_SHADOW(){return "rgba(220, 220, 220, 0.95) 0px 0px 3px 0px !important;"}
     static get BASE_ACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.975) !important;"}
-    static get BASE_UNACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.75) !important;"}
+    static get BASE_UNACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.85) !important;"}
     static get BASE_ACTIVE_BORDER(){return "1px solid rgba(235, 235, 235, 0.975) !important;"}
-    static get BASE_UNACTIVE_BORDER(){return "1px solid rgba(235, 235, 235, 0.75) !important;"}
+    static get BASE_UNACTIVE_BORDER(){return "1px solid rgba(235, 235, 235, 0.85) !important;"}
     constructor(){
         const style = document.createElement("style");
         const css = document.createTextNode(`#${Textarea.id}::placeholder { ` + 
