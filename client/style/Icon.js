@@ -1046,9 +1046,7 @@ export default class Icon {
   }
 
   static getLinks( { app } ){
-    const bgColor = app.dispThreadType === App.dispThreadTypeMulti ||
-      app.dispThreadType === App.dispThreadTypeSingle ?
-        Container.themeRGB : Container.reliefRGB;
+    const bgColor = Container.themeRGB;
 
     const div = Style.get({
       layout: Style.getLayoutFlex({

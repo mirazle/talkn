@@ -6,7 +6,7 @@ export default class PostsSupporter extends Component {
 
   static get Cover(){
     return [
-      {menu: "Emojis", display: '👍', label: "Mark"},
+      {menu: "Emojis", display: '👍', label: "Like"},
       {menu: "Emojis", display: '💓', label: "PosiHigh"},
       {menu: "Emojis", display: '😄', label: "PosiFlat"},
       {menu: "Emojis", display: '😌', label: "PosiLow"},
@@ -19,7 +19,7 @@ export default class PostsSupporter extends Component {
 
   static get Emojis(){
     return {
-      Mark: ['👍','😉','💡','👀','✌️', '💪', '☀️'],
+      Like: ['👍','😉','💡','👀','✌️', '💪', '☀️'],
       PosiFlat: [ '😄','✨','😁','🍺','😊','😘','🌟','🥳','😃','😋','🎂','🍰','🧁'],
       PosiHigh: ['💓', '🤣', '😳','😵','😆','🤩','🥰','😍','😻'],
       PosiLow: [ '😌','🤤','🙂','😐','😮','😯'],
@@ -75,54 +75,7 @@ export default class PostsSupporter extends Component {
             Fear(恐れ)
               🥶🥵😱🙀💀
 
-*/      /*
-        記号（良いね）
-            👍😉💡👀
-            
-        プラス
-
-            Surprise(驚き)
-              😳😵
-            Excite(興奮)
-              😆🤣🤩
-            Happy(幸福)
-              💓🥰😍😻
-            Jou(喜び)
-              😄✨😁🍺😊😘🌟
-            Glad(嬉しい)
-              🥳😃
-            Satisfaction(満足)
-              😋🎂🍰🧁
-            Comfort(気楽)
-              😌🤤
-            Relax(リラックス)
-              🙂
-            Tired(飽き)
-              😐😮😯
-        マイナス    Sleepy(😪😴)
-
-            Slack(たるみ)
-              😅💦😲🙄
-            Boring(退屈)
-              😒😑😕
-            Melancholy(憂鬱)
-              😩😞😔😟
-            Sad(悲しみ)
-              😥😭
-            Unpleasant(不愉快)
-              🤢🤮🤕🤒😷🤧
-            Frustrated(イライラ)
-              🧐🤔🤨
-            Dissatisfied(不満)
-              😠😾
-            Anger(怒り)
-              😡🤬💔💢😤👿
-            Worry(心配)
-              😣🥺😫😓😖😨😰😿
-            Fear(恐れ)
-              🥶🥵😱🙀💀
-
-*/
+*/ 
   }
 
   constructor(props) {
