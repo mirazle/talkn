@@ -75,9 +75,11 @@ export default class Detail extends Component {
       break;
     case Thread.findTypeMusic:
       backgroundImage = `url("${conf.ogpImages.Music}")`;
+      backgroundSize = 'cover';
       break;
     case Thread.findTypeVideo:
-        backgroundImage = `url("${conf.ogpImages.Video}")`;
+      backgroundImage = `url("${conf.ogpImages.Video}")`;
+      backgroundSize = 'cover';
       break;
     }
 
