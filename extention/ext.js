@@ -116,7 +116,7 @@ class Styles{
     static get WIDTH(){return 280}
     static get BOTTOM(){return 45}
     static get BORDER_RADIUS(){return 5}
-    static get BASE_SHADOW(){return "rgba(220, 220, 220, 0.95) 0px 0px 2px 0px !important;"}
+    static get BASE_SHADOW(){return "rgba(220, 220, 220, 0.95) 0px 0px 1px 0px !important;"}
     static get BASE_ACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.975) !important;"}
     static get BASE_UNACTIVE_BG_COLOR(){return "rgba(255, 255, 255, 0.85) !important;"}
     static get BASE_ACTIVE_BORDER(){return "1px solid rgba(235, 235, 235, 0.975) !important;"}
