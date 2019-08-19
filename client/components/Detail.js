@@ -428,6 +428,15 @@ export default class Detail extends Component {
           <br />
           <br />
           <br />
+          <span style={{color: "gray"}}>特許出願中</span>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
         {this.renderLockMenu()}
         {this.renderDetailFooter()}
