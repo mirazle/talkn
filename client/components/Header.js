@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import define from 'common/define';
+import Marquee from 'client/container/util/Marquee';
 import App from 'common/schemas/state/App';
 import Icon from 'client/components/Icon';
 
@@ -110,7 +110,13 @@ export default class Header extends Component {
           data-component-name={`Header-center`}
           style={ style.header.headTab }
           onClick={ handleOnClickToggleMain }>
-          { HeadTabIcon }
+          <Marquee
+            text={app.rootTitle}
+            loop={true}
+            hoverToStop={false}
+            trailing={0}
+            leading={0}
+          />
         </span>
 
         {/* Menu Icon */}

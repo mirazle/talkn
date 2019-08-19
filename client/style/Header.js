@@ -145,7 +145,9 @@ export default class Header {
       flexGrow: 2,
       height: '100%',
     });
-    const content = {};
+    const content = Style.getContentBase({
+      fontSize: '15px',
+    });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
   }
