@@ -123,9 +123,9 @@ export default class Board{
       case Board.typesMain:
         return "237px";
       case Board.typesLink:
-          return "180px";
+          return "178px";
       case Board.typesSub:
-          return "120px";
+          return "178px";
       default:
           return "0px";
       }

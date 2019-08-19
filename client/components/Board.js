@@ -68,14 +68,20 @@ export default class Board extends Component {
     switch( app.dispThreadType ){
     case App.dispThreadTypeMulti :
     case App.dispThreadTypeSingle :
+      console.log("AAAA");
       this.setState({exeTransitionEnd: true});
       talknAPI.toggleLinks();
       break;
     case App.dispThreadTypeChild :
+      console.log("BBBB " + app.dispThreadType );
+      handleOnClickConnection( app.rootConnection, null,  "backToRootConnection" );
+      break;
     case App.dispThreadTypeTimeline :
-      if( app.isLinkConnection ){
+      console.log("CCCC " + app.dispThreadType );
+      //if( app.isLinkConnection ){
+        console.log("DDDD");
         handleOnClickConnection( app.rootConnection, null,  "backToRootConnection" );
-      }
+      //}
     }
   }
 
@@ -260,7 +266,7 @@ export default class Board extends Component {
     case BoardStyle.typesLink:
       return this.renderLink();
     case BoardStyle.typesSub:
-      return this.renderSub();
+      return this.renderLink();
     default:
       return null;
     }
