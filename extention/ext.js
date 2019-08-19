@@ -1523,7 +1523,7 @@ class Notif extends Elements{
     }
 
     getHeight(addUnit = false){
-        let height = "40px";
+        let height = "44px";
         return addUnit ? height : height.replace( "px", "" ).replace("%", "");
     }
 
@@ -1583,12 +1583,12 @@ class Notif extends Elements{
 
 
     getTranslateY(addUnit = false){
-        let transformY = `-21px`;
+        let transformY = `-20px`;
         switch( this.window.extMode ){
         case Ext.MODE_MODAL:
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
-                    transformY = "-21px";
+                    transformY = "-20px";
                 break;
             case Ext.DISPLAY_MODE_OPEN:
                 break;        
