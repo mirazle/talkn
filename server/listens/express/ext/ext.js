@@ -1583,12 +1583,12 @@ class Notif extends Elements{
 
 
     getTranslateY(addUnit = false){
-        let transformY = `-20px`;
+        let transformY = `-19px`;
         switch( this.window.extMode ){
         case Ext.MODE_MODAL:
             switch( Ext.DISPLAY_MODE[ this.window.displayModeKey ] ){
             case Ext.DISPLAY_MODE_ACTIVE:
-                    transformY = "-20px";
+                    transformY = "-19px";
                 break;
             case Ext.DISPLAY_MODE_OPEN:
                 break;        
@@ -1601,7 +1601,7 @@ class Notif extends Elements{
     }
 
     getBorderRadius(){
-        let borderRadius = `4px 4px 4px 4px`;
+        let borderRadius = `3px`;
         return borderRadius;
     }
 }
