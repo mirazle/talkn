@@ -12,6 +12,24 @@ export default class Board{
   static get right(){ return 0 }; 
   static get activeColor(){ return Container.themeRGB }; 
   static get unactiveColor(){ return Container.fontBaseRGB }; 
+  static get typesMain(){ return "MAIN"};
+  static get typesLink(){ return "LINK"}; 
+  static get typeSub(){ return "SUB"};
+
+  static getType( {app} ){
+    switch( app.dispThreadType ){
+    case App.dispThreadTypeMulti:
+    case App.dispThreadTypeSingle:
+      return Board.typesMain;
+    default:
+      if( app.isLinkConnection ){
+        return Board.typesLink;
+      }else{
+        return Board.typesSub;
+      }
+    }
+  }
+
   constructor( params ){
     // BOARD DEFAULT LAYOUT
     const self = Board.getSelf( params );
@@ -99,10 +117,20 @@ export default class Board{
   }
 
   static getSelfHeight(app){
-    if( app.dispThreadType === App.dispThreadTypeMulti || app.dispThreadTypeSingle ){
-      return app.isOpenBoard ? "237px" : "64px";
+    if( app.isOpenBoard ){
+      const type = Board.getType( {app} );
+      switch( type ){
+      case Board.typesMain:
+        return "237px";
+      case Board.typesLink:
+          return "180px";
+      case Board.typesSub:
+          return "120px";
+      default:
+          return "0px";
+      }
     }else{
-      return app.isOpenBoard ? "120px" : "64px";
+      return "60px";
     }
   }
 
@@ -230,8 +258,7 @@ export default class Board{
   }
 
   static getMenuLiLinks( {app} ){
-    const bgColor = app.dispThreadType === App.dispThreadTypeMulti || app.dispThreadType === App.dispThreadTypeSingle ?
-      Container.themeRGB : Container.reliefRGB;
+    const bgColor = Container.themeRGB;
     const layout = {};
     const content = Style.getContentBase({
       color: bgColor

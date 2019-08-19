@@ -14,6 +14,7 @@ export default class Board extends Component {
       displayLinks: false
     };
     this.renderMain = this.renderMain.bind( this );
+    this.renderLink = this.renderLink.bind( this );
     this.renderSub = this.renderSub.bind( this );
     this.renderLiChild = this.renderLiChild.bind( this );
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind( this );
@@ -203,15 +204,65 @@ export default class Board extends Component {
     );
   }
 
+  renderLink(){
+    const { state } = this.props;
+    const { style, app } = state;
+    const LinksIcon = Icon.getLinks( IconStyle.getLinks(state) );
+    const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
+    const linksLabel = "BACK";
+    return (
+      <div
+        ref="Board"
+        data-componet-name={"Board"}
+        style={style.board.self}
+        onTransitionEnd={ this.handleOnTransitionEnd }
+      >
+        <div
+          data-componet-name={"BoardMenu"}
+          style={style.board.menu}
+        >
+          <ul style={style.board.menuUl}>
+            <li style={style.board.menuLi} onClick={this.handleOnClickToggleBubblePost}>
+              <div>
+                { BubbleIcon }
+              </div>
+              <div style={style.board.menuLiBubble}>
+                BUBBLE
+              </div>
+            </li>
+            <li
+              onClick={this.handleOnClickLinks}
+              style={style.board.menuLi}
+            >
+              <div>
+                { LinksIcon }
+              </div>
+              <div style={style.board.menuLiLinks}>
+                { linksLabel }
+              </div>
+            </li>
+          </ul>
+          <div onClick={this.handleOnClickToggleBoard} style={style.board.menuToggle}>
+            { app.isOpenBoard ? "▲" : "▼" }
+          </div>
+        </div>
+      </div>
+    );
+  }
+
  	render() {
     const { state } = this.props;
     const { app } = state;
-    const isMain = app.dispThreadType === App.dispThreadTypeMulti || app.dispThreadType === App.dispThreadTypeSingle ;
-
-    if( isMain ){
+    const type = BoardStyle.getType( {app} );
+    switch( type ){
+    case BoardStyle.typesMain:
       return this.renderMain();
-    }else{
+    case BoardStyle.typesLink:
+      return this.renderLink();
+    case BoardStyle.typesSub:
       return this.renderSub();
+    default:
+      return null;
     }
  	}
 }
