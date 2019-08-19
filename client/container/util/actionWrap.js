@@ -15,8 +15,6 @@ export default {
         const isLinkConnection = app.isLinkConnection;
         const threadStatus = Thread.getStatus( thread, app, setting );
         let { app: updatedApp, stepTo } = App.getStepToDispThreadType( {app, menuIndex}, threadStatus, toConnection, called );
-
-        console.log( "@@@ ACTION WRAP " + called + " " + isLinkConnection + " && " + updatedApp.isLinkConnection );
         if( !isLinkConnection && updatedApp.isLinkConnection ){
             talknAPI.onCatchConnectionAPI( toConnection );
         }

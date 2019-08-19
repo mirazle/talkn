@@ -76,7 +76,11 @@ export default class Links extends Component {
     const displayLinks = !( BoardStyle.getLinksDisplay(app) === "none" );
     const linkContents = this.state.linkContents;
     let isTuneActive = false;
-
+console.log("LINKS DID MOUNT " + thread.connection );
+console.log( "@@@ ROOT " + app.isRootConnection );
+console.log( thread.links );
+console.log( thread.videos );
+console.log( thread.audios );
     if( app.isRootConnection ){
       isTuneActive = true;
     }

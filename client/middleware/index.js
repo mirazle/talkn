@@ -179,9 +179,16 @@ const functions = {
     return action;
   },
   "ON_CLICK_TO_MULTI_THREAD":  (state, action) => {
-    action.thread = {...state.thread, ...action.thread};
     action.app = state.app;
     action.app.isLinkConnection = false;
+    action.app.isRootConnection = action.thread.connection === state.app.rootConnection;
+
+    if( state.threads[ action.thread.connection ] ){
+      action.thread = state.threads[ action.thread.connection ];
+    }else{
+      action.thread = {...state.thread, ...action.thread};
+    }
+
     return action;
   },
   "ON_CLICK_TO_TIMELINE_THREAD":  (state, action) => {
