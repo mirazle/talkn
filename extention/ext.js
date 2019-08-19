@@ -1298,7 +1298,7 @@ class NotifStatus extends Elements{
             `max-height: ${height} !important;` + 
             `padding: 0px !important;` +
             `opacity: 1 !important;` +
-            `font-size: 8px !important;` +
+            `font-size: 9px !important;` +
             `font-family: "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif !important;` +
             `color: rgb(255,255,255) !important;` +
             `background: rgba( 79, 174, 159, 0.6 ) !important;` +
