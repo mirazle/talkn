@@ -201,7 +201,7 @@ export default class MenuIndexList {
   static getBottom(){
     const layout = Style.getLayoutBlock({
       width: '100%',
-      height: '50px',
+      height: '55px',
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
