@@ -376,6 +376,10 @@ class Window extends Elements {
         const audios = document.querySelectorAll("audio");
         const events = ( m ) => {
             
+            m.addEventListener( "timeupdate", () => {
+                console.log("TIME UPDATE");
+            } );
+            
             m.addEventListener( "play", ( e ) => {
 
                 media = e.srcElement;
