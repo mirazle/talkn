@@ -381,15 +381,15 @@ class Window extends Elements {
                 media = e.srcElement;
                 const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
 
-                if( this.state.thread.connection !== mediaConnection ){
+                const talknMethod =  this.state.thread.connection !== mediaConnection ? "findMediaConnection" : "playMedia";
                     
-                    this.state.thread.connection = mediaConnection;
-                    this.childTo( "findMediaConnection", {
-                        playCnt: this.playCnt++,
-                        thread: this.state.thread,
-                        currentTime: media.currentTime,
-                        event: "play"
-                    });
+                this.state.thread.connection = mediaConnection;
+                this.childTo( talknMethod, {
+                    playCnt: this.playCnt++,
+                    thread: this.state.thread,
+                    currentTime: media.currentTime,
+                    event: "play"
+                });
                 }
             } );
 
