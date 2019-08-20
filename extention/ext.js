@@ -370,7 +370,7 @@ class Window extends Elements {
     }
 
     setupMedia(){
-
+        const log = false;
         let media = null;
         const videos = document.querySelectorAll("video");
         const audios = document.querySelectorAll("audio");
@@ -382,7 +382,7 @@ class Window extends Elements {
                 const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
 
                 const talknMethod =  this.state.thread.connection !== mediaConnection ? "findMediaConnection" : "playMedia";
-                console.log(":::::::::::::::: EXT play METHOD " + talknMethod + " " +  media.currentTime);
+                if(log) console.log(":::::::::::::::: EXT play METHOD " + talknMethod + " " +  media.currentTime);
                 this.state.thread.connection = mediaConnection;
                 this.childTo( talknMethod, {
                     playCnt: this.playCnt++,
@@ -397,7 +397,7 @@ class Window extends Elements {
                 media = e.srcElement;
                 const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
                 this.state.thread.connection = mediaConnection;
-                console.log(":::::::::::::::: EXT seeked METHOD seeked " );
+                if(log) console.log(":::::::::::::::: EXT seeked METHOD seeked " );
                 this.childTo( "playMedia", {
                     playCnt: this.playCnt++,
                     thread: this.state.thread,
@@ -407,7 +407,7 @@ class Window extends Elements {
             } );
 
             m.addEventListener( "ended", ( e ) => {
-                console.log(":::::::::::::::: EXT ended METHOD ended " );
+                if(log) console.log(":::::::::::::::: EXT ended METHOD ended " );
                 this.childTo( "endMedia", {
                     playCnt: this.playCnt,
                     thread: this.state.thread,
@@ -429,7 +429,7 @@ class Window extends Elements {
                     }
 
                     const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
-                    console.log("EXT " + media.currentTime );
+                    if(log) console.log("EXT " + media.currentTime );
                     this.state.thread.connection = mediaConnection;
                     this.childTo( "playMedia", {
                         playCnt: this.playCnt++,
