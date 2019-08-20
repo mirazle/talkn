@@ -377,9 +377,18 @@ class Window extends Elements {
         const events = ( m ) => {
             
             m.addEventListener( "timeupdate", () => {
-                console.log("TIME UPDATE");
+                console.log("timeupdate");
             } );
-            
+
+            m.addEventListener( "seeking", () => {
+                console.log("seeking");
+            } );
+
+            m.addEventListener( "seeked", () => {
+                console.log("seeked");
+                alert("SEEKED");
+            } );
+
             m.addEventListener( "play", ( e ) => {
 
                 media = e.srcElement;
