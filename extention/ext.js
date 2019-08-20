@@ -376,6 +376,23 @@ class Window extends Elements {
         const audios = document.querySelectorAll("audio");
         const events = ( m ) => {
             
+            m.addEventListener( "play", ( e ) => {
+
+                media = e.srcElement;
+                const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
+
+                if( this.state.thread.connection !== mediaConnection ){
+                    
+                    this.state.thread.connection = mediaConnection;
+                    this.childTo( "findMediaConnection", {
+                        playCnt: this.playCnt++,
+                        thread: this.state.thread,
+                        currentTime: media.currentTime,
+                        event: "play"
+                    });
+                }
+            } );
+
             m.addEventListener( "seeked", (e) => {
                 media = e.srcElement;
                 const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
@@ -386,19 +403,6 @@ class Window extends Elements {
                     thread: this.state.thread,
                     currentTime: media.currentTime,
                     event: "seeked"
-                });
-            } );
-
-            m.addEventListener( "play", ( e ) => {
-
-                media = e.srcElement;
-                const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
-                this.state.thread.connection = mediaConnection;
-                this.childTo( "findMediaConnection", {
-                    playCnt: this.playCnt++,
-                    thread: this.state.thread,
-                    currentTime: media.currentTime,
-                    event: "play"
                 });
             } );
 
