@@ -74,6 +74,7 @@ export default class Header {
       return {
         position: "absolute",
         top: "0px",
+        right: Header.getChildAnalyzeRight(app),
         margin
       };
     }else{
