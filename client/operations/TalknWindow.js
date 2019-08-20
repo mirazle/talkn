@@ -236,6 +236,7 @@ export default class TalknWindow {
 					e.data.params.thread &&
 					e.data.params.thread.connection &&
 					e.data.params.playCnt >= 1 &&
+					window.talknMedia &&
 					window.talknMedia.timeline &&
 					window.talknMedia.timeline.length === 0 &&
 					window.talknMedia.started === false
