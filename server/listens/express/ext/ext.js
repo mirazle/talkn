@@ -380,6 +380,7 @@ class Window extends Elements {
                 media = e.srcElement;
                 const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
                 this.state.thread.connection = mediaConnection;
+                alert( media.currentTime );
                 this.childTo( "playMedia", {
                     playCnt: this.playCnt++,
                     thread: this.state.thread,
