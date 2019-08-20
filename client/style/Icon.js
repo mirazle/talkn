@@ -1187,7 +1187,7 @@ export default class Icon {
     const margin = app.screenMode === App.screenModeSmallLabel ? "3px 0px 0px 0px" : '1px auto';
     const div = Style.get({
       layout: Style.getLayoutFlex({
-        width: '30px',
+        width: '40px',
         height: '40px',
         borderRadius: '100px',
         margin,
