@@ -76,11 +76,11 @@ class Marquee extends Component {
   }
 
   render() {
-    const style = {
+    const style = {...{
       'position': 'relative',
       'right': this.state.animatedWidth,
       'whiteSpace': 'nowrap'
-    };
+    }, ...this.props.style};
 
     if (this.state.overflowWidth < 0) {
       return (
@@ -163,7 +163,8 @@ Marquee.defaultProps = {
   hoverToStop: false,
   loop: false,
   leading: 0,
-  trailing: 0
+  trailing: 0,
+  style: {}
 }
 
 Marquee.propTypes = {

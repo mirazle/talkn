@@ -139,10 +139,11 @@ export default class Header {
     return Style.get({layout, content, animation});
   }
 
-  static getHeadTab( params ){
+  static getHeadTab( {app} ){
+    const width = app.screenMode === App.screenModeSmallLabel ? "60%" : "40%";
     const layout = Style.getLayoutFlex({
       justifyContent: "center",
-      flexGrow: 2,
+      width,
       height: '100%',
     });
     const content = Style.getContentBase({
@@ -152,12 +153,13 @@ export default class Header {
     return Style.get({layout, content, animation});
   }
 
-  static getRightIcon( params ){
+  static getRightIcon( {app} ){
+    const width = app.screenMode === App.screenModeSmallLabel ? "20%" : "30%";
     const layout = Style.getLayoutBlock({
       flexFlow: "column",
       alignItems: "center",
       justifyContent: "center",
-      flexGrow: 1,
+      width,
       height: '100%',
     });
     const content = {};
@@ -165,12 +167,13 @@ export default class Header {
     return Style.get({layout, content, animation});
   }
 
-  static getLeftIcon( params ){
+  static getLeftIcon( {app} ){
+    const width = app.screenMode === App.screenModeSmallLabel ? "20%" : "30%";
     const layout = Style.getLayoutFlex({
       flexFlow: "column",
       alignItems: "center",
       justifyContent: "center",
-      flexGrow: 1,
+      width,
       height: '100%',
     });
     const content = Style.getContentBase({
