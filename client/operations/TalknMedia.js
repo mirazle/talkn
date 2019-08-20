@@ -112,14 +112,15 @@ export default class TalknMedia {
 		// Timeline is prev.
 		}else{
 			if(log) console.log( "BACK " + currentTime );
-			if(log) console.log( postsTimeline );
+
 
 			if( this.tasking  ){
 
-				if(log) console.log( "BACK PROCCESS " + currentTime );
-
 				const { postsTimeline } = window.talknAPI.store.getState();
-				alert("@@@ BACK " + currentTime );
+
+				if(log) console.log( "BACK PROCCESS " + currentTime );
+				if(log) console.log( postsTimeline );
+
 				this.currentTime = currentTime;
 
 				// 指定した秒数を経過しているPostをreducerでdispFlgをfalseにしてPostをUnmountする
