@@ -32,14 +32,17 @@ export default class Media extends Component {
         const src = thread.protocol + "/" +  thread.connection.replace(/\/$/, '');
         const mediaType = App.getMediaTypeFromSrc( src );
         if( this.state.src !== src || this.state.mediaType !== mediaType ){
-          this.setState({src,mediaType});
+          this.setState({src, mediaType});
         }
+      }else{
+        this.setState({src: "", mediaType: ""});
       }
     }
   }
 
   render(){
     const { src, mediaType } = this.state;
+
     switch( mediaType ){
     case App.mediaTagTypeAudio:
       return <Audio {...this.props} src={src} />;
