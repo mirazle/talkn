@@ -114,7 +114,7 @@ export default class TalknMedia {
 			if( this.tasking  ){
 
 				const { postsTimeline } = window.talknAPI.store.getState();
-
+				alert("@@@ BACK " + currentTime );
 				this.currentTime = currentTime;
 
 				// 指定した秒数を経過しているPostをreducerでdispFlgをfalseにしてPostをUnmountする
