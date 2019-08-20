@@ -224,7 +224,7 @@ export default class TalknWindow {
 				if(
 					window.talknMedia &&
 					Schema.isSet( window.talknMedia.currentTime ) &&
-					e.data.params.playCnt >= 1 
+					window.talknMedia.started === false
 				){
 					talknMedia.currentTime = talknMedia.getCurrentTime( e.data.params.currentTime );
 					if(log)console.log("@@@@@@@@@@@@@@ playMedia B");
