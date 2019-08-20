@@ -72,7 +72,7 @@ export default class TalknMedia {
 	*/
 	proccess( _currentTime = 0 ){
 
-		const log = false;
+		const log = true;
 		const currentTime = this.getCurrentTime( _currentTime );
 
 		if( this.tasking ){
