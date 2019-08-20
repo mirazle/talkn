@@ -376,17 +376,15 @@ class Window extends Elements {
         const audios = document.querySelectorAll("audio");
         const events = ( m ) => {
             
-            m.addEventListener( "timeupdate", () => {
-                console.log("timeupdate");
-            } );
-
-            m.addEventListener( "seeking", () => {
-                console.log("seeking");
-            } );
-
-            m.addEventListener( "seeked", () => {
-                console.log("seeked");
-                alert("SEEKED");
+            m.addEventListener( "seeked", (e) => {
+                media = e.srcElement;
+                const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
+                this.state.thread.connection = mediaConnection;
+                this.childTo( "playMedia", {
+                    playCnt: this.playCnt++,
+                    thread: this.state.thread,
+                    currentTime: media.currentTime
+                });
             } );
 
             m.addEventListener( "play", ( e ) => {
