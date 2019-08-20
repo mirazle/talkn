@@ -148,7 +148,7 @@ export default class Header {
       height: '100%',
     });
     const content = Style.getContentBase({
-      fontSize: '15px',
+      fontSize: '16px',
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
