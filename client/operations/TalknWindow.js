@@ -207,9 +207,8 @@ export default class TalknWindow {
 					e.data.params.thread &&
 					e.data.params.thread.connection 
 				){
-					if(log)console.log("@@@@@@@@@@@@@@ findMediaConnection A");
+					if(log)console.log("============== findMediaConnection A");
 					if(log)console.log( e.data.params.thread.connection );
-					if(log)console.log("@@@@@@@@@@@@@@");
 					actionWrap.onClickConnection( e.data.params.thread.connection, false, e.data.method );
 					TalknMedia.init( "TalknWindow" );
 					talknAPI.startLinkMedia( e.data.params );
@@ -218,8 +217,7 @@ export default class TalknWindow {
 				break;
 			case "playMedia" :
 				
-				if(log)console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@ playMedia " + e.data.params.playCnt );
-				if(log)console.log( talknMedia.currentTime );
+				if(log)console.log("========================= playMedia " + talknMedia.currentTime );
 
 				if(
 					window.talknMedia &&
@@ -227,15 +225,13 @@ export default class TalknWindow {
 					window.talknMedia.started === false
 				){
 					talknMedia.currentTime = talknMedia.getCurrentTime( e.data.params.currentTime );
-					if(log)console.log("@@@@@@@@@@@@@@ playMedia B");
-					if(log)console.log(talknMedia.currentTime);
-					if(log)console.log("@@@@@@@@@@@@@@");
+					if(log)console.log("============== playMedia B " + talknMedia.currentTime);
 				}
 
 				if(
 					e.data.params.thread &&
 					e.data.params.thread.connection &&
-					e.data.params.playCnt >= 1 &&
+//					e.data.params.playCnt >= 1 &&
 					window.talknMedia &&
 					window.talknMedia.timeline &&
 					window.talknMedia.timeline.length === 0 &&
@@ -244,9 +240,7 @@ export default class TalknWindow {
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
 
-					if(log)console.log("@@@@@@@@@@@@@@ playMedia C " + connection );
-					if(log)console.log(timeline);
-					if(log)console.log("@@@@@@@@@@@@@@");
+					if(log)console.log("============== playMedia C " + connection );
 
 					window.talknMedia.setTimeline( timeline );
 
@@ -254,13 +248,13 @@ export default class TalknWindow {
 
 				if(
 					window.talknMedia &&
-					e.data.params.playCnt > 1 &&
+//					e.data.params.playCnt > 1 &&
 					window.talknMedia.timeline && 
 					window.talknMedia.timeline.length > 0 
 				){
-					if(log)console.log("@@@@@@@@@@@@@@ playMedia D");
+					if(log)console.log("============== playMedia D");
 					if(log)console.log(window.talknMedia.timeline);
-					if(log)console.log("@@@@@@@@@@@@@@");
+					if(log)console.log("============== ");
 					window.talknMedia.proccess( e.data.params.currentTime );
 				}
 

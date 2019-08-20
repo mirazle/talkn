@@ -85,15 +85,15 @@ export default class TalknMedia {
 		this.started = true;
 		this.tasking = true
 
-		if( log ) console.log("@ PROCCESS " + this.currentTime + " <= " + currentTime );
+		if( log ) console.log("@@@@ PROCCESS " + this.currentTime + " <= " + currentTime );
 
 		// Timeline is next.
 		if( this.currentTime <= currentTime ){
 
 			this.currentTime = currentTime;
 
-			if( log ) console.log("START WHILE " + this.currentTime );
-			if( log && this.timeline && this.timeline[0] && timelineLength > 0 ) console.log( this.timeline[ 0 ].currentTime );
+			if( log ) console.log("@START WHILE " + this.currentTime );
+			if( log && this.timeline && this.timeline[0] && timelineLength > 0 ) console.log( "@ " + this.timeline[ 0 ].currentTime );
 
 			while( this.tasking ){
 				if( timelineLength === 0 ){
@@ -101,7 +101,6 @@ export default class TalknMedia {
 				}else if( this.timeline[ 0 ] && this.timeline[ 0 ].currentTime <= currentTime ){
 					const addPost = this.timeline.shift();
 					this.currentTime = addPost.currentTime;
-					if(log) console.log( addPost.post );
 					talknWindow.talknAPI.nextPostsTimeline([ addPost ]);
 				}else{
 					this.tasking = false;
@@ -111,15 +110,14 @@ export default class TalknMedia {
 
 		// Timeline is prev.
 		}else{
-			if(log) console.log( "BACK " + currentTime );
+			if(log) console.log( "@BACK " + currentTime );
 
 
 			if( this.tasking  ){
 
 				const { postsTimeline } = window.talknAPI.store.getState();
 
-				if(log) console.log( "BACK PROCCESS " + currentTime );
-				if(log) console.log( postsTimeline );
+				if(log) console.log( "@ BACK PROCCESS " + currentTime );
 				if(log) alert( "BACK PROCCESS " + currentTime );
 
 				this.currentTime = currentTime;
