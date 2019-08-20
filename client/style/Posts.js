@@ -84,7 +84,6 @@ export default class Posts {
     let marginTop = 0;
     let marginBottom = 0;
 
-
     margin = `${Header.headerHeight}px 0px 0px 0px`;
     marginTop = app.isMediaConnection ? `0px` : "0px";
     marginBottom = app.isMediaConnection ? `0px` : "0px";
@@ -98,15 +97,12 @@ export default class Posts {
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
         margin = `${marginTop} 0px ${marginBottom} 0px`;
-        console.log("C " + margin );
         break;
       case App.screenModeMiddleLabel :
         margin = `${marginTop} 0px ${marginBottom} ${Menu.getWidth( app )}`;
-        console.log("D " + margin );
         break;
       case App.screenModeLargeLabel :
         margin = `${marginTop} 0px ${marginBottom} ${Menu.getWidth( app )}`
-        console.log("E " + margin );
         break;
       }
     }
@@ -114,27 +110,36 @@ export default class Posts {
   }
 
   static getPadding( app, addUnit = false ){
+
+    let padding = 0;
+    let paddingTop = 0;
+    let paddingBottom = 0;
+
     if( app.extensionMode === App.extensionModeExtBottomLabel ){
-      return "0px";
+      padding = "0px";
     }else if(app.extensionMode === App.extensionModeExtModalLabel ){
-      return "0px";
+      padding = "0px";
     }else{
 
       if( app.isMediaConnection ){ 
         switch( app.connectionType ){
         case App.mediaTagTypeAudio:
-          return `0px 0px ${PostsFooter.selfHeight}px 0px`;
+          paddingBottom = `${PostsFooter.selfHeight}px`;
         case App.mediaTagTypeVideo:
-          return `0px 0px ${PostsFooter.selfHeight}px 0px`;
+          paddingBottom = `${PostsFooter.selfHeight}px`;
         }
       }
 
       switch( app.screenMode ){
-      case App.screenModeSmallLabel : return `0px 0px ${PostsFooter.selfHeight}px 0px`;
-      case App.screenModeMiddleLabel : return `0px`;
-      case App.screenModeLargeLabel : return `0px`
+      case App.screenModeSmallLabel :
+        padding = `0px 0px ${PostsFooter.selfHeight}px 0px`;
+      case App.screenModeMiddleLabel :
+        padding = `0px 0px ${PostsFooter.selfHeight}px 0px`;
+      case App.screenModeLargeLabel :
+        padding = `0px 0px ${PostsFooter.selfHeight}px 0px`;
       }
     }
+    return padding;
   }
 
   static getSelfTransform(app){
