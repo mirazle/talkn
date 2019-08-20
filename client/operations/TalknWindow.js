@@ -195,7 +195,7 @@ export default class TalknWindow {
 
 	message(e, resolve){
 		if( e.data.type === "talkn" ){
-			const log = true;
+			const log = false;
 			switch( e.data.method ){
 			case "bootExtension" :
 				this.parentUrl = e.data.href;
