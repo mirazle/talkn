@@ -85,11 +85,10 @@ export default class TalknMedia {
 		this.started = true;
 		this.tasking = true
 
+		if( log ) console.log("@ PROCCESS " + currentTime );
+		
 		// Timeline is next.
-		if(
-			this.currentTime === currentTime ||
-			this.currentTime < currentTime
-		){
+		if( this.currentTime <= currentTime ){
 			this.currentTime = currentTime;
 
 			if( log ) console.log("START WHILE " + this.currentTime );
