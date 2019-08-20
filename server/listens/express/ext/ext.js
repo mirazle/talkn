@@ -397,7 +397,7 @@ class Window extends Elements {
                 media = e.srcElement;
                 const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
                 this.state.thread.connection = mediaConnection;
-
+                console.log(":::::::::::::::: EXT seeked METHOD seeked " );
                 this.childTo( "playMedia", {
                     playCnt: this.playCnt++,
                     thread: this.state.thread,
@@ -407,6 +407,7 @@ class Window extends Elements {
             } );
 
             m.addEventListener( "ended", ( e ) => {
+                console.log(":::::::::::::::: EXT ended METHOD ended " );
                 this.childTo( "endMedia", {
                     playCnt: this.playCnt,
                     thread: this.state.thread,
