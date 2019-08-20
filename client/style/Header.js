@@ -198,7 +198,7 @@ export default class Header {
   }
 
   static getChildAnalyzeType( {app} ){
-    const fontSize = app.screenMode === App.screenModeSmallLabel ? '8px' : '12px';
+    const fontSize = app.screenMode === App.screenModeSmallLabel ? '9px' : '12px';
     const layout = Style.getLayoutBlock({
       height: "10px",
       marginBottom: "6px",
@@ -213,7 +213,7 @@ export default class Header {
   }
 
   static getChildAnalyzeCnt( {app} ){
-    const fontSize = app.screenMode === App.screenModeSmallLabel ? '8px' : '12px';
+    const fontSize = app.screenMode === App.screenModeSmallLabel ? '9px' : '12px';
     const layout = Style.getLayoutBlock({
       height: "10px"
     });
