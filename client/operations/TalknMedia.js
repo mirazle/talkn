@@ -111,7 +111,12 @@ export default class TalknMedia {
 
 		// Timeline is prev.
 		}else{
+			if(log) console.log( "BACK " + currentTime );
+			if(log) console.log( postsTimeline );
+
 			if( this.tasking  ){
+
+				if(log) console.log( "BACK PROCCESS " + currentTime );
 
 				const { postsTimeline } = window.talknAPI.store.getState();
 				alert("@@@ BACK " + currentTime );
@@ -120,8 +125,7 @@ export default class TalknMedia {
 				// 指定した秒数を経過しているPostをreducerでdispFlgをfalseにしてPostをUnmountする
 				talknWindow.talknAPI.clearPostsTimeline(currentTime);
 
-				if(log) console.log( "BACK " + currentTime );
-				if(log) console.log( postsTimeline );
+
 
 				// これから表示するpost一覧を保持
 				//loopPostsTimeline = postsTimelineBase.filter( (pt) => pt.currentTime > currentTime);
