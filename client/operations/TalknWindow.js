@@ -222,7 +222,7 @@ export default class TalknWindow {
 				if(
 					window.talknMedia &&
 					Schema.isSet( window.talknMedia.currentTime ) &&
-					window.talknMedia.started === false
+					( window.talknMedia.started === false )
 				){
 					talknMedia.currentTime = talknMedia.getCurrentTime( e.data.params.currentTime );
 					if(log)console.log("============== playMedia B " + talknMedia.currentTime);
@@ -231,7 +231,6 @@ export default class TalknWindow {
 				if(
 					e.data.params.thread &&
 					e.data.params.thread.connection &&
-//					e.data.params.playCnt >= 1 &&
 					window.talknMedia &&
 					window.talknMedia.timeline &&
 					window.talknMedia.timeline.length === 0 &&
@@ -248,9 +247,8 @@ export default class TalknWindow {
 
 				if(
 					window.talknMedia &&
-//					e.data.params.playCnt > 1 &&
 					window.talknMedia.timeline && 
-					window.talknMedia.timeline.length > 0 
+					//window.talknMedia.timeline.length > 0 
 				){
 					if(log)console.log("============== playMedia D");
 					if(log)console.log(window.talknMedia.timeline);
