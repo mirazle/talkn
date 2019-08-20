@@ -382,7 +382,7 @@ class Window extends Elements {
                 const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
 
                 const talknMethod =  this.state.thread.connection !== mediaConnection ? "findMediaConnection" : "playMedia";
-                console.log("EXT " + play + " METHOD " + talknMethod );
+                console.log("EXT play METHOD " + talknMethod );
                 this.state.thread.connection = mediaConnection;
                 this.childTo( talknMethod, {
                     playCnt: this.playCnt++,
