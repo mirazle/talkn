@@ -51,6 +51,7 @@ export default ( state = {} , action ) => {
 			board: {...state.board,
 				self: {...state.board.self,
 					width: Board.getSelfWidth( action.app ),
+					height: Board.getSelfHeight( action.app ),
 					boxShadow: Board.getSelfBoxShadow( action.app )
 				},
 				menuLiChild: Board.getMenuLiChild( action ),
