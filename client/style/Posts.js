@@ -82,10 +82,12 @@ export default class Posts {
 
     let margin = 0;
     let marginTop = 0;
+    let marginBottom = 0;
 
 
     margin = `${Header.headerHeight}px 0px 0px 0px`;
     marginTop = app.isMediaConnection ? `0px` : "0px";
+    marginBottom = app.isMediaConnection ? `0px` : "0px";
 
     if( app.extensionMode === App.extensionModeExtBottomLabel ){
       margin = `${marginTop} 5% ${Header.headerHeight}px 5%`;
@@ -93,22 +95,19 @@ export default class Posts {
       margin = `${marginTop} 0px ${PostsFooter.selfHeight}px 0px`;
     }else{
 
-      if( app.connectionType === App.mediaTagTypeVideo ){
-        return app.isBubblePost ? 
-          `0px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}` :
-          `0px 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}` ;
-      }
-
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
-          margin = `${marginTop} 0px 0px 0px`;
-          break;
+        margin = `${marginTop} 0px ${marginBottom} 0px`;
+        console.log("C " + margin );
+        break;
       case App.screenModeMiddleLabel :
-          margin = `${marginTop} 0px ${PostsFooter.selfHeight}px ${Menu.getWidth( app )}`;
-          break;
+        margin = `${marginTop} 0px ${marginBottom} ${Menu.getWidth( app )}`;
+        console.log("D " + margin );
+        break;
       case App.screenModeLargeLabel :
-          margin = `${marginTop} 0px ${Header.headerHeight}px ${Menu.getWidth( app )}`
-          break;
+        margin = `${marginTop} 0px ${marginBottom} ${Menu.getWidth( app )}`
+        console.log("E " + margin );
+        break;
       }
     }
     return margin;
