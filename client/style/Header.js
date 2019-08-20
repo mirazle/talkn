@@ -66,6 +66,7 @@ export default class Header {
   }
 
   static getChildAnalyzePositions(app){
+    const margin = app.screenMode === App.screenModeSmallLabel ? "8px 0px 0px 0px" : '7px auto';
     if(
       app.extensionMode === App.extensionModeExtBottomLabel ||
       app.extensionMode === App.extensionModeExtModalLabel
@@ -73,14 +74,14 @@ export default class Header {
       return {
         position: "absolute",
         top: "0px",
-        margin: "8px"
+        margin
       };
     }else{
       return {
         position: "absolute",
         top: "0px",
         right: Header.getChildAnalyzeRight(app),
-        margin: "8px"
+        margin
       }
     }
   }
@@ -184,10 +185,11 @@ export default class Header {
 
   static getChildAnalyzeWrap( {app} ){
     const positions = Header.getChildAnalyzePositions(app);
-    const layout = Style.getLayoutInlineBlock({
+    const layout = Style.getLayoutFlex({
       ...positions,
-      width: '40px',
-      height: '40px'
+      flexDirection: "column",
+      width: '30px',
+      height: '28px'
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
