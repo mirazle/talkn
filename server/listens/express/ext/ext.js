@@ -390,7 +390,7 @@ class Window extends Elements {
                     currentTime: media.currentTime,
                     event: "play"
                 });
-                }
+                
             } );
 
             m.addEventListener( "seeked", (e) => {
