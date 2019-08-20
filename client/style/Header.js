@@ -213,8 +213,8 @@ export default class Header {
   }
 
   static getChildAnalyzeCnt( {app} ){
-    const fontDatas = app.extensionMode === App.screenModeUndispLabel || app.screenMode === App.screenModeSmallLabel ?
-      {fontSize: '10px', color: Container.themeRGBA } :
+    const fontDatas = app.screenMode === App.screenModeSmallLabel ?
+      {fontSize: '8px', color: Container.themeRGBA } :
       {fontSize: '12px'} ;
 
     const layout = Style.getLayoutBlock({
