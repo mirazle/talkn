@@ -124,14 +124,13 @@ export default class Posts {
       if( app.isMediaConnection ){ 
         switch( app.connectionType ){
         case App.mediaTagTypeAudio:
-          return `0px`;
+          return `0px 0px ${PostsFooter.selfHeight}px 0px`;
         case App.mediaTagTypeVideo:
-          return `0px 0px 0px 0px`;
+          return `0px 0px ${PostsFooter.selfHeight}px 0px`;
         }
       }
 
       switch( app.screenMode ){
-      case App.screenModeUndispLabel : return `0px 0px 25px 0px`;
       case App.screenModeSmallLabel : return `0px 0px ${PostsFooter.selfHeight}px 0px`;
       case App.screenModeMiddleLabel : return `0px`;
       case App.screenModeLargeLabel : return `0px`
