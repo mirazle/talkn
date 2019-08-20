@@ -120,13 +120,12 @@ export default class TalknMedia {
 
 				if(log) console.log( "BACK PROCCESS " + currentTime );
 				if(log) console.log( postsTimeline );
+				if(log) alert( "BACK PROCCESS " + currentTime );
 
 				this.currentTime = currentTime;
 
 				// 指定した秒数を経過しているPostをreducerでdispFlgをfalseにしてPostをUnmountする
 				talknWindow.talknAPI.clearPostsTimeline(currentTime);
-
-
 
 				// これから表示するpost一覧を保持
 				//loopPostsTimeline = postsTimelineBase.filter( (pt) => pt.currentTime > currentTime);
