@@ -16,13 +16,14 @@ export default class Board{
   static get typesLink(){ return "LINK"}; 
   static get typeSub(){ return "SUB"};
 
-  static getType( {app} ){
+  static getType( {app, thread} ){
     switch( app.dispThreadType ){
     case App.dispThreadTypeMulti:
     case App.dispThreadTypeSingle:
       return Board.typesMain;
     default:
-      if( app.isLinkConnection ){
+
+      if( !app.isRootConnection && app.isLinkConnection ){
         return Board.typesLink;
       }else{
         return Board.typesSub;
@@ -125,7 +126,7 @@ export default class Board{
       case Board.typesLink:
           return "178px";
       case Board.typesSub:
-          return "178px";
+          return "118px";
       default:
           return "0px";
       }
