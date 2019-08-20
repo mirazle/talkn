@@ -20,15 +20,12 @@ export default class Board{
     switch( app.dispThreadType ){
     case App.dispThreadTypeMulti:
     case App.dispThreadTypeSingle:
-      console.log("A");
       return Board.typesMain;
     default:
 
       if( !app.isRootConnection && app.isLinkConnection ){
-        console.log("B");
         return Board.typesLink;
       }else{
-        console.log("C");
         return Board.typesSub;
       }
     }
