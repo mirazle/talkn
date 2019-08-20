@@ -387,6 +387,7 @@ export default class TalknWindow {
 	}
 
 	lockWindow(){
+		console.log("LOCK WINDOW");
 		const overflow = "hidden";
 		this.dom.html.style.overflow = overflow;
 		this.dom.body.style.overflow = overflow;
@@ -395,6 +396,7 @@ export default class TalknWindow {
 	}
 
 	unlockWindow(){
+		console.log("UNLOCK WINDOW");
         const overflow = "inherit";
 		this.dom.html.style.overflow = overflow;
 		this.dom.body.style.overflow = overflow;

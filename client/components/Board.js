@@ -131,6 +131,7 @@ export default class Board extends Component {
     const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
     const LinksIcon = Icon.getLinks( IconStyle.getLinks(state) );
     const linksLabel = app.isLinkConnection ? "BACK" : "LINKS";
+    console.log("MAIN");
     return (
       <div
         ref="Board"
@@ -177,6 +178,7 @@ export default class Board extends Component {
     const { state } = this.props;
     const { style, app } = state;
     const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
+    console.log("SUB");
     return (
       <div
         ref="Board"
@@ -212,6 +214,7 @@ export default class Board extends Component {
     const LinksIcon = Icon.getLinks( IconStyle.getLinks(state) );
     const BubbleIcon = Icon.getBubble( IconStyle.getBubble(state) );
     const linksLabel = "BACK";
+    console.log("LINK");
     return (
       <div
         ref="Board"
@@ -262,7 +265,7 @@ export default class Board extends Component {
     case BoardStyle.typesLink:
       return this.renderLink();
     case BoardStyle.typesSub:
-      return this.renderLink();
+      return this.renderSub();
     default:
       return null;
     }
