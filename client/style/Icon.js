@@ -1184,12 +1184,13 @@ export default class Icon {
   }
 
   static getDetail( {app} ){
+    const margin = app.screenMode === App.screenModeSmallLabel ? "3px 0px 0px 0px" : '1px auto';
     const div = Style.get({
-      layout: Style.getLayoutBlock({
-        width: '40px',
+      layout: Style.getLayoutFlex({
+        width: '30px',
         height: '40px',
         borderRadius: '100px',
-        margin: '1px auto',
+        margin,
         cursor: 'pointer',
       }),
       content: Style.getContentBase(),
