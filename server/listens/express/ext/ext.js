@@ -1180,7 +1180,7 @@ class HandleIcon extends Elements {
                     this.childTo("startDispPosts");
                 }else{
                     this.childTo("startUndispPosts");
-                    setTimeout( () =>{ 
+                    setTimeout( () => { 
                         iframeElm.style.transition = "0ms";
                         iframeElm.style.height = Iframe.getCloseHeight(true);
                     }, Styles.BASE_TRANSITION );
@@ -1211,8 +1211,9 @@ class HandleIcon extends Elements {
                     const inputCurrentTime = Window.getCurrentTime( this.window.handleMediaCurrentTime );
                     this.window.childTo("delegatePost", {inputPost, inputCurrentTime} );
                     this.window.childTo("onChangeInputPost");
+                    alert("START");
                     textarea.clear();
-                    textarea.focus();
+//                    textarea.focus();
 
                 }else{
                     this.window.updateDisplayMode("clickHandleIcon");
