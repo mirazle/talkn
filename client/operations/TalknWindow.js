@@ -219,7 +219,7 @@ export default class TalknWindow {
 				
 				if(log && talknMedia )console.log("========================= playMedia " + talknMedia.currentTime );
 
-				if( !window.talknMedia ){
+				if( window.talknMedia === undefined ){
 					TalknMedia.init( "TalknWindow" );
 					talknAPI.startLinkMedia( e.data.params );
 					window.talknMedia = new TalknMedia();
