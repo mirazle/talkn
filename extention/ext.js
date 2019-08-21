@@ -370,7 +370,7 @@ class Window extends Elements {
     }
 
     setupMedia(){
-        const log = true;
+        const log = false;
         let media = null;
         const videos = document.querySelectorAll("video");
         const audios = document.querySelectorAll("audio");
@@ -389,8 +389,7 @@ class Window extends Elements {
                     thread: this.state.thread,
                     currentTime: media.currentTime,
                     event: talknMethod
-                });
-                
+                });                
             } );
 
             m.addEventListener( "seeked", (e) => {
