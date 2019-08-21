@@ -69,7 +69,7 @@ export default class Menu {
       margin: `${Header.headerHeight}px 0px 0px 0px`,
       background,
       WebkitOverflowScrolling: 'touch',
-      overflow: 'scroll',
+      overflow: 'hidden',
     });
     const content = {};
     const animation = Style.getAnimationBase({
