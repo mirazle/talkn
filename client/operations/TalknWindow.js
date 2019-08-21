@@ -208,8 +208,7 @@ export default class TalknWindow {
 					e.data.params.thread &&
 					e.data.params.thread.connection 
 				){
-					if(log)console.log("============== findMediaConnection A");
-					if(log)console.log( e.data.params.thread.connection );
+					if(log)console.log("============== findMediaConnection A " + e.data.params.thread.connection );
 					actionWrap.onClickConnection( e.data.params.thread.connection, false, e.data.method );
 					TalknMedia.init( "TalknWindow" );
 					talknAPI.startLinkMedia( e.data.params );
@@ -242,7 +241,8 @@ export default class TalknWindow {
 					window.talknMedia &&
 					window.talknMedia.timeline &&
 					window.talknMedia.timeline.length === 0 &&
-					window.talknMedia.started === false
+					window.talknMedia.started === false &&
+					window.talknAPI.store.getState().threads[ e.data.params.thread.connection ] 
 				){
 					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
