@@ -1716,7 +1716,6 @@ class Textarea extends Elements {
     }
 
     clear(){
-        alert("CLEAR! " + this.get().value );
         this.get().value = "";
         document.body.removeChild(this.get());
         this.create("block");
