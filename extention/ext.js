@@ -1719,6 +1719,7 @@ class Textarea extends Elements {
         const textarea = this.get();
         const exeClear = ( textarea ) => {
             if( textarea.value === ""){
+                alert("OK CLEAR");
                 return true;
             }else{
                 alert("EXE CLEAR");
@@ -1728,8 +1729,10 @@ class Textarea extends Elements {
             }
         }
         exeClear(textarea);
+/*
         document.body.removeChild(this.get());
         this.create("block");
+*/
     }
 
     focus(){
