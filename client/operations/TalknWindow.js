@@ -196,7 +196,7 @@ export default class TalknWindow {
 
 	message(e, resolve){
 		if( e.data.type === "talkn" ){
-			const log = true;
+			const log = false;
 			switch( e.data.method ){
 			case "bootExtension" :
 				this.parentUrl = e.data.href;
@@ -216,7 +216,10 @@ export default class TalknWindow {
 				}
 				break;
 			case "playMedia" :
-				
+
+				const connection = e.data.params.thread.connection;
+				const isExistThreadData = window.talknAPI.store.getState().threads[ connection ];
+
 				if(log && talknMedia )console.log("========================= playMedia " + talknMedia.currentTime );
 
 				if( window.talknMedia === undefined ){
@@ -242,9 +245,8 @@ export default class TalknWindow {
 					window.talknMedia.timeline &&
 					window.talknMedia.timeline.length === 0 &&
 					window.talknMedia.started === false &&
-					window.talknAPI.store.getState().threads[ e.data.params.thread.connection ] 
+					isExistThreadData 
 				){
-					const connection = e.data.params.thread.connection;
 					const timeline = storage.getStoragePostsTimeline( connection );
 
 					if(log)console.log("============== playMedia C " + connection );
@@ -256,7 +258,7 @@ export default class TalknWindow {
 				if(
 					window.talknMedia &&
 					window.talknMedia.timeline &&
-					window.talknAPI.store.getState().threads[ e.data.params.thread.connection ] ||
+					isExistThreadData ||
 					e.data.params.event === "seeked"
 					//window.talknMedia.timeline.length > 0 
 				){
