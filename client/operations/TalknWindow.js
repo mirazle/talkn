@@ -219,6 +219,13 @@ export default class TalknWindow {
 				
 				if(log && talknMedia )console.log("========================= playMedia " + talknMedia.currentTime );
 
+				if( !window.talknMedia ){
+					TalknMedia.init( "TalknWindow" );
+					talknAPI.startLinkMedia( e.data.params );
+					window.talknMedia = new TalknMedia();
+					if(log)console.log("============== playMedia A " + talknMedia.currentTime);
+				}
+
 				if(
 					window.talknMedia &&
 					Schema.isSet( window.talknMedia.currentTime ) &&
