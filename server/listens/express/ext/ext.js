@@ -1211,7 +1211,7 @@ class HandleIcon extends Elements {
                     const inputCurrentTime = Window.getCurrentTime( this.window.handleMediaCurrentTime );
                     this.window.childTo("delegatePost", {inputPost, inputCurrentTime} );
                     this.window.childTo("onChangeInputPost");
-                    alert("START");
+
                     textarea.clear();
 //                    textarea.focus();
 
