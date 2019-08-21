@@ -1716,8 +1716,8 @@ class Textarea extends Elements {
     }
 
     clear(){
-        this.get().value = "";
-        this.get().value = null;
+        this.get().value = "aaaaaaaaa";
+//        this.get().value = null;
 /*
         document.body.removeChild(this.get());
         this.create("block");
