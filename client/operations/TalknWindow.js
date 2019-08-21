@@ -217,7 +217,7 @@ export default class TalknWindow {
 				break;
 			case "playMedia" :
 				
-				if(log)console.log("========================= playMedia " + talknMedia.currentTime );
+				if(log && talknMedia )console.log("========================= playMedia " + talknMedia.currentTime );
 
 				if(
 					window.talknMedia &&
