@@ -22,14 +22,15 @@ const componentDidUpdates = {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
 
             const { app, thread } = self.props.state;
+            const Posts = document.querySelector("[data-component-name=Posts]");
             const connection = thread.connection;
             app.postsHeight += TalknWindow.getPostsHeight();
             self.props.updatePostsHeight(app.postsHeight);
 
-            if( app.extensionMode === "NONE"){
+            if( app.extensionMode === "NONE" && Posts ){
 
                 window.scrollTo(0, 9999999);
-                const Posts = document.querySelector("[data-component-name=Posts]");
+
                 talknWindow.threadHeight = Posts.clientHeight;
 
                 if( app.dispThreadType === App.dispThreadTypeTimeline){

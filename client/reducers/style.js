@@ -124,6 +124,9 @@ export default ( state = {} , action ) => {
 		}
 	case 'ON_CLICK_TO_MULTI_THREAD':
 		return {...state,
+			posts: {...state.posts,
+				self: Posts.getSelf( action )
+			},
 			board: {...state.board,
 				self: {...state.board.self,
 					height: Board.getSelfHeight( action.app )
