@@ -1716,12 +1716,19 @@ class Textarea extends Elements {
     }
 
     clear(){
-        this.get().value = "aaaaaaaaa";
-//        this.get().value = null;
-/*
+        const textarea = this.get();
+        const exeClear = ( textarea ) => {
+            if( textarea.value === ""){
+                return true;
+            }else{
+                textarea.value = "";
+                setTimeout( exeClear(textarea), 100);
+                return false;
+            }
+        }
+        exeClear(textarea);
         document.body.removeChild(this.get());
         this.create("block");
-*/
     }
 
     focus(){
