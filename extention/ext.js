@@ -1644,7 +1644,6 @@ class Textarea extends Elements {
     }
 
     create( display = "none" ){
-        alert("CREATE!");
         const textarea = document.createElement("textarea");
         textarea.id = Textarea.id;
         textarea.style = this.getStyle( display );
@@ -1717,7 +1716,7 @@ class Textarea extends Elements {
     }
 
     clear(){
-        alert("CLEAR!");
+        alert("CLEAR! " + this.get().value );
         this.get().value = "";
         document.body.removeChild(this.get());
         this.create("block");
