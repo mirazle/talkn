@@ -96,8 +96,7 @@ export default class Detail {
       height: `calc( 100% - ${Header.headerHeight}px )`,
       WebkitOverflowScrolling: 'touch',
       background: Container.calmRGB,
-      overflowX: "hidden",
-      overflowY: "scroll",
+      overflow: "hidden",
       margin: `${Header.headerHeight}px 0px 0px 0px`,
       borderLeft: Container.border,
       zIndex: 0
