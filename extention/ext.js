@@ -1721,6 +1721,7 @@ class Textarea extends Elements {
             if( textarea.value === ""){
                 return true;
             }else{
+                alert("EXE CLEAR");
                 textarea.value = "";
                 setTimeout( exeClear(textarea), 100);
                 return false;
