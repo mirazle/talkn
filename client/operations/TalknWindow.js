@@ -161,6 +161,7 @@ export default class TalknWindow {
 			);
 			window.addEventListener('resize', this.resize );
 			window.addEventListener('scroll', this.scroll );
+			window.talknMedia = new TalknMedia();
 			break;
 		}
 
@@ -218,9 +219,11 @@ export default class TalknWindow {
 			case "playMedia" :
 				
 				if(log && talknMedia )console.log("========================= playMedia " + talknMedia.currentTime );
+
 				console.log(window.talknMedia);
 				console.log(typeof window.talknMedia);
 				console.log(window.talknMedia === undefined );
+
 				if( window.talknMedia === undefined ){
 					TalknMedia.init( "TalknWindow" );
 					talknAPI.startLinkMedia( e.data.params );
