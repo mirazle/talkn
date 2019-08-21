@@ -196,7 +196,7 @@ export default class TalknWindow {
 
 	message(e, resolve){
 		if( e.data.type === "talkn" ){
-			const log = false;
+			const log = true;
 			switch( e.data.method ){
 			case "bootExtension" :
 				this.parentUrl = e.data.href;
@@ -219,10 +219,6 @@ export default class TalknWindow {
 			case "playMedia" :
 				
 				if(log && talknMedia )console.log("========================= playMedia " + talknMedia.currentTime );
-
-				console.log(window.talknMedia);
-				console.log(typeof window.talknMedia);
-				console.log(window.talknMedia === undefined );
 
 				if( window.talknMedia === undefined ){
 					TalknMedia.init( "TalknWindow" );
