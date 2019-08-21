@@ -1719,10 +1719,10 @@ class Textarea extends Elements {
         const exeClear = () => {
             const textarea = this.get();
             if( textarea.value === ""){
-                alert("OK CLEAR");
+                //alert("OK CLEAR");
                 return true;
             }else{
-                alert("EXE CLEAR");
+                //alert("EXE CLEAR");
                 textarea.value = "";
                 setTimeout( exeClear(), 100);
                 return false;
