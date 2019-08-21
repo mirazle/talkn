@@ -255,8 +255,9 @@ export default class TalknWindow {
 
 				if(
 					window.talknMedia &&
-					window.talknMedia.timeline ||
-					e.data.params.evvent === "seeked"
+					window.talknMedia.timeline &&
+					window.talknAPI.store.getState().threads[ e.data.params.thread.connection ] ||
+					e.data.params.event === "seeked"
 					//window.talknMedia.timeline.length > 0 
 				){
 					if(log)console.log("============== playMedia D");
