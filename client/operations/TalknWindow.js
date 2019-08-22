@@ -109,7 +109,7 @@ export default class TalknWindow {
 	}
 
 	setupWindow( talknIndex = 0 ){
-		console.log( "SETUP WINDOW" );
+
 		const html = document.querySelector("html");
 		html.style.cssText += "" + 
 			"width 100% !important;" +
@@ -143,6 +143,7 @@ export default class TalknWindow {
 
 		switch( this.appType ){
 		case define.APP_TYPES.PORTAL :	
+			console.log("RESIZE LISTEN");
 			window.addEventListener('resize', this.resize );
 			window.addEventListener('scroll', this.scroll );
 			window.addEventListener('message',  ( ev ) => {
@@ -307,16 +308,18 @@ export default class TalknWindow {
 				app.extensionMode === "EXT_BOTTOM" ||
 				app.extensionMode === "EXT_MODAL"
 			){
+
 				if( this.resizeTimer === null ){
 					this.resizeTimer = setTimeout( () => {
-						this.resizeEndWindow(app);
+						this.resizeEndWindow();
 					}, TalknWindow.resizeInterval );
 				}
+
 			}else{
 				if( this.resizeTimer === null ){
 					//this.resizeStartWindow(app);
 					this.resizeTimer = setTimeout( (app) => {
-						this.resizeEndWindow(app);
+						this.resizeEndWindow();
 					}, TalknWindow.resizeInterval );
 				}
 			}
@@ -354,14 +357,13 @@ export default class TalknWindow {
 		talknAPI.onResizeStartWindow({app, setting});
 	}
 
-	resizeEndWindow( app ){
+	resizeEndWindow(){
 		clearTimeout(this.resizeTimer);
 		this.resizeTimer = null;
 
-		app = talknAPI.store.getState().app;
+		const app = talknAPI.store.getState().app;
 		app.width = window.innerWidth;
 		app.height = window.innerHeight;
-		//app.isTransition = true;
 		app.screenMode = App.getScreenMode();
 
 		const setting = talknAPI.store.getState().setting;
@@ -369,7 +371,7 @@ export default class TalknWindow {
 		talknAPI.onResizeEndWindow( {app, setting, bootOption} );
 	}
 
-	animateScrollTo( to = 99999, duration = 400,  callback = () => {} ){
+	animateScrollTo( to = 9999999, duration = 400,  callback = () => {} ){
 
 		if( duration === 0 ){
 			window.scrollTo(0, to);

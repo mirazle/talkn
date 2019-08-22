@@ -9,7 +9,7 @@ export default ( self, constructorName ) => {
     const { props } = self;
     const { actionLog } = props.state;
     const actionName = actionLog[0] ;
-    
+
     if( componentDidUpdates[ constructorName ] ){
         if( componentDidUpdates[ constructorName ][ actionName ] ){
             componentDidUpdates[ constructorName ][ actionName ]( self );
@@ -120,17 +120,27 @@ const componentDidUpdates = {
             ){
                 talknWindow.parentTo("getClientMetas");
             }
-        }
+        },
+        'RESIZE_END_WINDOW': ( self ) => {
+            const Posts = document.querySelector("[data-component-name=Posts]");
+            talknWindow.threadHeight = Posts.clientHeight;
+            changeLockMode( self, "Container" );
+        },
     },
     Posts: {
-        'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
-
+        'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
+            changeLockMode( self, "Posts" );
+        },
+        'RESIZE_END_WINDOW': ( self ) => {
+            changeLockMode( self, "Posts" );
         },
         'NEXT_POSTS_TIMELINE': post,
         'SERVER_TO_CLIENT[BROADCAST]:post': post,
         'SERVER_TO_CLIENT[EMIT]:getMore': ( self ) => {
             const { app } = self.props.state;
             const Posts = document.querySelector("[data-component-name=Posts]");
+
+            // ADJUSTMENT GET MORE SCROLL VOLUME
             if(
                 app.extensionMode === App.extensionModeExtBottomLabel ||
                 app.extensionMode === App.extensionModeExtIncludeLabel ||
@@ -138,10 +148,51 @@ const componentDidUpdates = {
             ){
                 Posts.scrollTop = Posts.scrollHeight - self.state.scrollHeight;
             }else{
-                const scrollTo = Posts.clientHeight - talknWindow.threadHeight;
-                window.scrollTo(0, scrollTo );
-                talknWindow.threadHeight = Posts.clientHeight;
+                
+                if( app.screenMode === App.screenModeLargeLabel ){
+                    Posts.scrollTop = Posts.scrollHeight - self.state.scrollHeight;
+                    console.log( "POSTS " + Posts.scrollTop + " = " + Posts.scrollHeight + " - " + self.state.scrollHeight );
+                }else{
+                    const scrollTo = Posts.clientHeight - talknWindow.threadHeight;
+                    console.log( "WINDOW " + scrollTo + " = " + Posts.clientHeight + " - " + talknWindow.threadHeight );
+                    window.scrollTo(0, scrollTo );
+                    talknWindow.threadHeight = Posts.clientHeight;    
+                }
             }
+        }
+    }
+}
+
+function changeLockMode( self, called ){
+    const { app, actionLog } = self.props.state;
+    if( app.extensionMode === App.extensionModeExtNoneLabel ){
+        if( app.screenMode === App.screenModeLargeLabel ){
+
+            if( called === "Posts" ){
+                if( actionLog[ 0 ] === "SERVER_TO_CLIENT[BROADCAST]:find" ){
+                    self.refs.thread.scrollTop = 99999;
+                }else{
+
+                }
+            }else{
+                console.log( self );
+                if( actionLog[ 0 ] === "SERVER_TO_CLIENT[EMIT]:find" ){
+
+                }else{
+                    
+                }
+            }
+/*
+            self.props.animateScrollTo(
+                9999999,
+                0
+            );
+*/
+            talknWindow.lockWindow({});
+        }else{
+            
+            window.scrollTo(0, 9999999);
+            talknWindow.unlockWindow({});
         }
     }
 }

@@ -158,7 +158,11 @@ export default class Posts {
     ){
       return `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
     }else{
-      return "auto";
+      if( app.screenMode === App.screenModeLargeLabel ){
+        return `calc( 100% - ${Main.headerHeight}px )`;
+      }else{
+        return "auto";
+      }
     }
   }
 
@@ -172,7 +176,11 @@ export default class Posts {
       ){
         return `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
       }else{
-        return "auto";
+        if( app.screenMode === App.screenModeLargeLabel ){
+          return `calc( 100% - ${Main.headerHeight}px )`;
+        }else{
+          return "auto";
+        }
       }
     }
   }
@@ -205,6 +213,12 @@ export default class Posts {
       borders.borderLeft = Container.border;
       zIndex = -2;
     }else{
+      console.log("@@@ A");
+      if( app.screenMode === App.screenModeLargeLabel ){
+        console.log("@@@ B");
+        overflowX = "hidden";
+        overflowY = "scroll";
+      }
       borders = Posts.getBorders(app);
     }
 
