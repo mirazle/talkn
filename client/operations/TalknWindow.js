@@ -160,7 +160,7 @@ export default class TalknWindow {
 				})
 			);
 			window.addEventListener('resize', this.resize );
-			window.addEventListener('scroll', this.scroll );
+			//window.addEventListener('scroll', this.scroll );
 			window.talknMedia = new TalknMedia();
 			break;
 		}
