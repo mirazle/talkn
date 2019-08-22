@@ -18,8 +18,8 @@ export default class App extends Schema{
   static get screenModeIndexLabel(){ return 'MENU' };
   static get screenModeThreadLabel(){ return 'THREAD' };
   static get screenModeDetailLabel(){ return 'DETAIL' };
-  static get screenModeSmallWidthPx(){ return 600 };
-  static get screenModeMiddleWidthPx(){ return 960 };
+  static get screenModeSmallWidthPx(){ return conf.screenMode.small };
+  static get screenModeMiddleWidthPx(){ return conf.screenMode.middle };
 
   static get defaultOffsetFindId(){ return Post.defaultFindId }
   static get dispThreadTypeTimeline(){ return 'Timeline' }
