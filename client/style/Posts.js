@@ -200,7 +200,7 @@ export default class Posts {
     ){
       position = "fixed";
       overflowX = "hidden";
-      overflowY = "hidden";
+      overflowY = "scroll";
       borders.borderRight = Container.border;
       borders.borderLeft = Container.border;
       zIndex = -2;
