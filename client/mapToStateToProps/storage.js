@@ -33,8 +33,10 @@ export default {
     TalknSession.setStorage( rootConnection, define.storageKey.app, state.app );
     return {state, props};
   },
+  "SERVER_TO_CLIENT[EMIT]:initClientState ": ( state, props ) => {
+    return {state, props}
+  },
   "RESIZE_END_WINDOW": ( state, props ) => {
-    console.log( state );
     return {state, props}
   },
   setStoragePosts,
