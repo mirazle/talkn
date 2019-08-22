@@ -164,18 +164,24 @@ const componentDidUpdates = {
 }
 
 function changeLockMode( self, called ){
+    console.log( "A" );
     const { app, actionLog } = self.props.state;
     if( app.extensionMode === App.extensionModeExtNoneLabel ){
+        console.log( "B" );
         if( app.screenMode === App.screenModeLargeLabel ){
+            console.log( "C" );
 
             if( called === "Posts" ){
+                console.log( "D" );
                 if( actionLog[ 0 ] === "SERVER_TO_CLIENT[BROADCAST]:find" ){
-                    self.refs.thread.scrollTop = 99999;
+                    console.log( "E" );
+                    self.refs.thread.scrollTop = 999999;
                 }else{
-
+                    console.log( "F" );
                 }
             }else{
-                console.log( self );
+
+                console.log( "G" );
                 if( actionLog[ 0 ] === "SERVER_TO_CLIENT[EMIT]:find" ){
 
                 }else{
