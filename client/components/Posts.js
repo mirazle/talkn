@@ -100,6 +100,7 @@ export default class Posts extends Component {
   }
 
   handleOnScroll( e ){
+    console.log("POSTS SCROLL");
 		const{ app } = this.props.state;
     if( app.isOpenNewPost ){
       this.props.closeNewPost();
