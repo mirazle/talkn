@@ -195,7 +195,7 @@ export default class Posts {
   }
 
   static getSelf( {app, thread} ){
-    let position = "relative";
+    let position = "absolute";
     let overflowX = "hidden";
     let overflowY = "hidden";
     let borders = {borderRight: 0, borderLeft: 0};
@@ -213,9 +213,7 @@ export default class Posts {
       borders.borderLeft = Container.border;
       zIndex = -2;
     }else{
-      console.log("@@@ A");
       if( app.screenMode === App.screenModeLargeLabel ){
-        console.log("@@@ B");
         overflowX = "hidden";
         overflowY = "scroll";
       }
