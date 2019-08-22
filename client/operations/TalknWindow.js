@@ -109,6 +109,7 @@ export default class TalknWindow {
 	}
 
 	setupWindow( talknIndex = 0 ){
+		console.log( "SETUP WINDOW" );
 		const html = document.querySelector("html");
 		html.style.cssText += "" + 
 			"width 100% !important;" +

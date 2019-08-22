@@ -34,6 +34,7 @@ export default {
     return {state, props};
   },
   "RESIZE_END_WINDOW": ( state, props ) => {
+    console.log( state );
     return {state, props}
   },
   setStoragePosts,

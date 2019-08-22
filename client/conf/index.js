@@ -5,6 +5,10 @@ const { PRODUCTION, DEVELOPMENT, PRODUCTION_DOMAIN, DEVELOPMENT_DOMAIN, PORTS, S
 const { env, domain } = conf;
 const existLocation = typeof location === 'object' ? true : false ;
 conf.mediaSecondInterval = 200;
+conf.screenMode = {
+    small: 600,
+    middle: 960
+}
 conf.protcol = existLocation ? ( location.href.indexOf( 'https' ) === 0 ? 'https' : 'http' ) : '' ;
 conf.server = domain;
 conf.portalPath = `//${SUB_DOMAINS.PORTAL}.${domain}/` ;
