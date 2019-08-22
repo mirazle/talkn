@@ -123,8 +123,10 @@ const componentDidUpdates = {
         },
         'RESIZE_END_WINDOW': ( self ) => {
             const Posts = document.querySelector("[data-component-name=Posts]");
-            talknWindow.threadHeight = Posts.clientHeight;
-            changeLockMode( self, "Container" );
+            if( Posts ){
+                talknWindow.threadHeight = Posts.clientHeight;
+                changeLockMode( self, "Container" );
+            }
         },
     },
     Posts: {
@@ -164,24 +166,18 @@ const componentDidUpdates = {
 }
 
 function changeLockMode( self, called ){
-    console.log( "A" );
+
     const { app, actionLog } = self.props.state;
     if( app.extensionMode === App.extensionModeExtNoneLabel ){
-        console.log( "B" );
         if( app.screenMode === App.screenModeLargeLabel ){
-            console.log( "C" );
 
             if( called === "Posts" ){
-                console.log( "D" );
                 if( actionLog[ 0 ] === "SERVER_TO_CLIENT[BROADCAST]:find" ){
-                    console.log( "E" );
                     self.refs.thread.scrollTop = 999999;
                 }else{
-                    console.log( "F" );
                 }
             }else{
 
-                console.log( "G" );
                 if( actionLog[ 0 ] === "SERVER_TO_CLIENT[EMIT]:find" ){
 
                 }else{
