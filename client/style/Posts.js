@@ -133,10 +133,13 @@ export default class Posts {
       switch( app.screenMode ){
       case App.screenModeSmallLabel :
         padding = `0px 0px ${PostsFooter.selfHeight}px 0px`;
+        break;
       case App.screenModeMiddleLabel :
         padding = `0px 0px ${PostsFooter.selfHeight}px 0px`;
+        break;
       case App.screenModeLargeLabel :
-        padding = `0px 0px ${PostsFooter.selfHeight}px 0px`;
+        padding = `0px 0px 0px 0px`;
+        break;
       }
     }
     return padding;
@@ -156,10 +159,10 @@ export default class Posts {
       app.extensionMode === App.extensionModeExtBottomLabel ||
       app.extensionMode === App.extensionModeExtModalLabel 
     ){
-      return `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
+      return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
     }else{
       if( app.screenMode === App.screenModeLargeLabel ){
-        return `calc( 100% - ${Main.headerHeight}px )`;
+        return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
       }else{
         return "auto";
       }
@@ -174,10 +177,10 @@ export default class Posts {
         app.extensionMode === App.extensionModeExtBottomLabel ||
         app.extensionMode === App.extensionModeExtModalLabel 
       ){
-        return `calc( 100% - ${PostsFooter.selfHeight * 2}px )`;
+        return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
       }else{
         if( app.screenMode === App.screenModeLargeLabel ){
-          return `calc( 100% - ${Main.headerHeight}px )`;
+          return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
         }else{
           return "auto";
         }
