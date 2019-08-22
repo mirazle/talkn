@@ -323,6 +323,7 @@ export default class TalknWindow {
 	}
 
 	scroll( ev ){
+		console.log("WINDOW SCROLL");
 		const { app } = talknAPI.store.getState();
 		if( app.isOpenNewPost ){
 			talknAPI.closeNewPost();
