@@ -143,7 +143,6 @@ export default class TalknWindow {
 
 		switch( this.appType ){
 		case define.APP_TYPES.PORTAL :	
-			console.log("RESIZE LISTEN");
 			window.addEventListener('resize', this.resize );
 			window.addEventListener('scroll', this.scroll );
 			window.addEventListener('message',  ( ev ) => {
@@ -327,22 +326,27 @@ export default class TalknWindow {
 	}
 
 	scroll( ev ){
-		console.log("WINDOW SCROLL");
 		const { app } = talknAPI.store.getState();
 		if( app.isOpenNewPost ){
 			talknAPI.closeNewPost();
 		}
+
 		this.setIsScrollBottom( app );
 	}
 
-	setIsScrollBottom( app, isScrollBottom = true ){
+	setIsScrollBottom( app, isScrollBottom = true,  ){
+
 		if( app.extensionMode === App.extensionModeExtNoneLabel ){
-			// ここがスマホブラウザだと正しく取得されていない模様
-			const htmlScrollHeight = document.querySelector("html").scrollHeight;
-			this.innerHeight = window.innerHeight;
-			this.scrollHeight = window.scrollY ;
-			const bodyScrollHeight = document.querySelector("body").scrollTop;
-			this.isScrollBottom = ( htmlScrollHeight === ( this.innerHeight + this.scrollHeight ) );	
+			if( app.screenMode === App.screenModeLargeLabel ){
+				this.isScrollBottom = isScrollBottom;
+			}else{
+				// ここがスマホブラウザだと正しく取得されていない模様
+				const htmlScrollHeight = document.querySelector("html").scrollHeight;
+				this.innerHeight = window.innerHeight;
+				this.scrollHeight = window.scrollY ;
+				const bodyScrollHeight = document.querySelector("body").scrollTop;
+				this.isScrollBottom = ( htmlScrollHeight === ( this.innerHeight + this.scrollHeight ) );	
+			}
 		}else{
 			this.isScrollBottom = isScrollBottom;
 		}
@@ -402,7 +406,6 @@ export default class TalknWindow {
 	}
 
 	lockWindow(){
-		console.log("LOCK WINDOW");
 		const overflow = "hidden";
 		this.dom.html.style.overflow = overflow;
 		this.dom.body.style.overflow = overflow;
@@ -411,7 +414,6 @@ export default class TalknWindow {
 	}
 
 	unlockWindow(){
-		console.log("UNLOCK WINDOW");
         const overflow = "inherit";
 		this.dom.html.style.overflow = overflow;
 		this.dom.body.style.overflow = overflow;

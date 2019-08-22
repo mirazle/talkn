@@ -204,21 +204,8 @@ function post( self ){
     const Posts = document.querySelector("[data-component-name=Posts]");
     app.postsHeight += TalknWindow.getLastPostHeight();
 
-    if( app.extensionMode === "NONE" ){
 
-        talknWindow.threadHeight = Posts.clientHeight;
-        if( app.isOpenPosts && talknWindow.isScrollBottom ){
-            talknWindow.animateScrollTo(
-                talknWindow.threadHeight,
-                400,
-                self.props.endAnimateScrollTo
-            );
-        }
-        if( app.isOpenPosts ){
-            self.props.openNewPost();
-        }
-
-    }else{
+    const postsScrollFunc = () => {
         if( app.isOpenPosts && talknWindow.isScrollBottom ){
             self.animateScrollTo(
               Posts,
@@ -230,5 +217,27 @@ function post( self ){
         if( app.isOpenPosts ){
             self.props.openNewPost();
         }
+    }
+
+    if( app.extensionMode === "NONE" ){
+
+        if( app.screenMode === App.screenModeLargeLabel ){
+            postsScrollFunc();
+        }else{
+            talknWindow.threadHeight = Posts.clientHeight;
+            if( app.isOpenPosts && talknWindow.isScrollBottom ){
+                talknWindow.animateScrollTo(
+                    talknWindow.threadHeight,
+                    400,
+                    self.props.endAnimateScrollTo
+                );
+            }
+            if( app.isOpenPosts ){
+                self.props.openNewPost();
+            }
+        }
+
+    }else{
+        postsScrollFunc();
     }
 }
