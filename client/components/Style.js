@@ -58,7 +58,7 @@ export default class  Style extends Component {
             width: inherit;
             height: inherit;
             background-image: url(//${conf.assetsImgPath}talkn.png);
-            background-position: 50% 35%;
+            background-position: 50% 30%;
             background-size: 160px;
             background-repeat: no-repeat;
             transition: 600ms;
