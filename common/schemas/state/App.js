@@ -34,6 +34,7 @@ export default class App extends Schema{
   static get extensionModeExtModalLabel(){ return 'EXT_MODAL' };
   static get extensionModeExtBottomLabel(){ return 'EXT_BOTTOM' };
   static get extensionModeExtIncludeLabel(){ return 'EXT_INCLUDE' };
+  static get mediaTagTypeNo(){ return 'html' };
   static get mediaTagTypeAudio(){ return 'audio' };
   static get mediaTagTypeVideo(){ return 'video' };
   static get mediaTypeM4a(){ return 'm4a' };
