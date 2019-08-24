@@ -194,7 +194,7 @@ export default class Posts {
 
   static getSelfTop( app, thread ){
     if( app.extensionMode === App.extensionModeExtNoneLabel ){
-      if( thread.findType === Thread.findTypeVideo ){
+      if( app.connectionType === App.mediaTagTypeVideo ){
         return `${Header.headerHeight + Video.height}px`;
       }
     }
