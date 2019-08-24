@@ -159,10 +159,21 @@ export default class Posts {
       app.extensionMode === App.extensionModeExtBottomLabel ||
       app.extensionMode === App.extensionModeExtModalLabel 
     ){
+      console.log("A");
       return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
     }else{
+      console.log("B");
       if( app.screenMode === App.screenModeLargeLabel ){
-        return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
+        console.log("C " + app.connectionType);
+        if( app.connectionType === App.mediaTagTypeVideo ){
+          console.log("D");
+
+          return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight + Video.height}px )`;
+        }else{
+          console.log("E");
+
+          return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;          
+        }
       }else{
         return "auto";
       }

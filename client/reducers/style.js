@@ -48,6 +48,9 @@ export default ( state = {} , action ) => {
 	case 'CLOSE_LINKS':
 	case 'TOGGLE_LINKS':
 		return {...state,
+			posts: {...state.posts,
+				self: Posts.getSelf(action)
+			},
 			board: {...state.board,
 				self: {...state.board.self,
 					width: Board.getSelfWidth( action.app ),
