@@ -321,6 +321,11 @@ export default {
       type: 'START_LINK_MEDIA'
     };
   },
+  loadingEnd: () => {
+    return {
+      type: 'LOADING_END'
+    };
+  },
   debug: ( app ) => {
     return {
       type: 'DEBUG',

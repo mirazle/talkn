@@ -9,6 +9,7 @@ export default class Loading extends Component {
     return (
       <div className={"LogoScreen"}>
         <Style {...this.props} />
+        {/*<div className={"LogoCircle"} />*/}
         <div className={"LogoWrap1"}>
           <div className={"Logo"} />
         </div>
