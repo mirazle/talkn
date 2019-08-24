@@ -36,8 +36,8 @@ export default class  Style extends Component {
             100%   { transform: scale(0.84) translate3d(0px, 0px, 0px); opacity: 0.7; }
           }
           .LogoScreen{
-            width: inherit;
-            height: inherit;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;

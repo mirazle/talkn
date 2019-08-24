@@ -460,7 +460,7 @@ class Container extends Component {
 
  	render() {
     const { style, app, actionLog } = this.props.state;
-/*
+
     if(
         style &&
         style.container &&
@@ -491,10 +491,9 @@ class Container extends Component {
       ){
         return null;
       }else{
-*/
         return <Loading />;
- //     }
- //   }
+      }
+    }
  	}
 }
 
