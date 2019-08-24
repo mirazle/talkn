@@ -46,8 +46,8 @@ export default class  Style extends Component {
             animation-duration: 1600ms;
             animation-name: LogoWrap1;
             animation-iteration-count: infinite;
-            width: 160px;
-            height: 160px;
+            width: 100px;
+            height: 100px;
             border-radius: 1000px;
             box-shadow: 0px 0px 80px 0px rgba( 200,200,200, 0.9 ), 80px 80px 80px 0px rgba( 79,174,159, 0.8 ) inset;
           }
@@ -59,7 +59,7 @@ export default class  Style extends Component {
             height: inherit;
             background-image: url(//${conf.assetsImgPath}talkn.png);
             background-position: 50% 30%;
-            background-size: 160px;
+            background-size: 100px;
             background-repeat: no-repeat;
             transition: 600ms;
           }
