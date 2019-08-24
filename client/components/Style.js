@@ -57,7 +57,7 @@ export default class  Style extends Component {
             height: 80px;
             border-radius: 10000px;
             box-shadow: 0px 0px 80px 0px rgba( 190, 190, 190, 0.9 ), 80px 80px 80px 0px rgba( 79,174,159, 0.8 ) inset;
-            transform: tlanslate3d( 0px, -30px, 0px );
+            transform: tlanslate3d( 0px, -20px, 0px );
           }
           .Logo {
             animation-name: Logo;
