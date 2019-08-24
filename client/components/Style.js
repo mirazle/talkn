@@ -29,11 +29,11 @@ export default class  Style extends Component {
             100%   { transform: scale(0.8); opacity: 0.8; }
           }
           @keyframes Logo {
-            0%   { transform: scale(0.8) translate3d(0px, 0px, 0px); opacity: 0.8; }
-            25%   { transform: scale(0.9) translate3d(0px, 0px, 0px); opacity: 0.9; }
+            0%   { transform: scale(0.84) translate3d(0px, 0px, 0px); opacity: 0.7; }
+            25%   { transform: scale(0.92) translate3d(0px, 0px, 0px); opacity: 0.8; }
             50%   { transform: scale(1.00) translate3d(0px, 0px, 0px); opacity: 1.0; }
-            75%   { transform: scale(0.9) translate3d(0px, 0px, 0px); opacity: 0.9; }
-            100%   { transform: scale(0.8) translate3d(0px, 0px, 0px); opacity: 0.8; }
+            75%   { transform: scale(0.92) translate3d(0px, 0px, 0px); opacity: 0.8; }
+            100%   { transform: scale(0.84) translate3d(0px, 0px, 0px); opacity: 0.7; }
           }
           .LogoScreen{
             width: inherit;
@@ -49,7 +49,7 @@ export default class  Style extends Component {
             width: 160px;
             height: 160px;
             border-radius: 1000px;
-            box-shadow: 0px 0px 50px 0px rgba( 200,200,200, 0.9 ), 0px 0px 50px 0px rgba( 79,174,159, 0.6 ) inset;
+            box-shadow: 0px 0px 80px 0px rgba( 200,200,200, 0.9 ), 80px 80px 80px 0px rgba( 79,174,159, 0.8 ) inset;
           }
           .Logo {
             animation-duration: 4000ms;
