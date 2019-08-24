@@ -147,10 +147,13 @@ export default class Container{
       width: '100%',
       height: '100%',
       overflow,
-      borderRadius
+      borderRadius,
+      opacity: 1
     });
     const content = Style.getContentBase({});
-    const animation = Style.getAnimationBase();
+    const animation = Style.getAnimationBase({
+      transition: `${Container.transitionFirstOn}ms`
+    });
     return Style.get({layout, content, animation});
   }
 

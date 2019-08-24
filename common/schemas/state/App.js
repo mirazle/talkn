@@ -180,6 +180,7 @@ export default class App extends Schema{
     // その他
     const actioned = params && params.actioned ? params.actioned : "";
     const isTransition = Schema.isSet( params.isTransition ) ? params.isTransition : false ;
+    const isLoadingEnd = Schema.isSet( params.isLoadingEnd ) ? params.isLoadingEnd : false ;
     const debug = Schema.isSet( params.debug ) ? params.debug : "" ;
 
     return this.create({
@@ -258,6 +259,7 @@ export default class App extends Schema{
       // その他
       actioned,
       isTransition,
+      isLoadingEnd,
       debug
     });
   }
