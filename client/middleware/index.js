@@ -91,6 +91,8 @@ const functions = {
       action.app.connectionType = App.getMediaTypeFromSrc( src );
       action = Posts.getAnyActionPosts(action);
       action = storage.setStoragePostsTimeline( action );
+    }else{
+      action.app.connectionType = App.mediaTagTypeNo;
     }
 
     return action;
