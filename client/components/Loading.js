@@ -5,15 +5,17 @@ import conf from 'common/conf';
 
 export default class Loading extends Component {
  	render() {
-     /*
+
     return (
-      <div style={{width: "inherit", height: "inherit"}}>
+      <div className={"LogoScreen"}>
         <Style {...this.props} />
-        <div className={"Logo"} />
+        <div className={"LogoWrap1"}>
+          <div className={"Logo"} />
+        </div>
       </div>
     );
-    */
-
+  
+/*
     return (
       <img
         data-component-name={"Loading"}
@@ -21,5 +23,6 @@ export default class Loading extends Component {
         src={`https://${conf.assetsURL}/img/loading.svg`}
       />
     );
+*/
   }
 }
