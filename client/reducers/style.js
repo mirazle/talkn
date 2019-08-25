@@ -48,6 +48,12 @@ export default ( state = {} , action ) => {
 	case 'CLOSE_LINKS':
 	case 'TOGGLE_LINKS':
 		return {...state,
+			menus: {...state.menus,
+				self: Menu.getSelf(action)
+			},
+			posts: {...state.posts,
+				self: Posts.getSelf(action)
+			},
 			posts: {...state.posts,
 				self: Posts.getSelf(action)
 			},
