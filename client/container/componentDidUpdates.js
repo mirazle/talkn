@@ -52,9 +52,6 @@ const componentDidUpdates = {
 
             talknWindow.resizeEndWindow();
         },
-        'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
-
-        },
         'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
             const { app, threadDetail, thread } = self.props.state;
             if( !app.isOpenDetail ){
@@ -138,6 +135,10 @@ const componentDidUpdates = {
         },
     },
     Posts: {
+        'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
+            const { app } = self.props.state;
+            alert( app.isTransition );
+        },
         'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
             changeLockMode( self, "Posts" );
         },
