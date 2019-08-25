@@ -42,15 +42,17 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
-
+	case 'SERVER_TO_CLIENT[BROADCAST]:find':
+		return {...state,
+			menus: {...state.menus,
+				self: Menu.getSelf(action)
+			}
+		}
 	case 'SERVER_TO_CLIENT[EMIT]:find':
 	case 'OPEN_LINKS':
 	case 'CLOSE_LINKS':
 	case 'TOGGLE_LINKS':
 		return {...state,
-			menus: {...state.menus,
-				self: Menu.getSelf(action)
-			},
 			posts: {...state.posts,
 				self: Posts.getSelf(action)
 			},
