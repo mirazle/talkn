@@ -68,7 +68,6 @@ const componentDidUpdates = {
         },
         'ON_TRANSITION': ( self ) => {
             const { app } = self.props.state;
-            alert(app.isTransition);
         },
         'ON_TRANSITION_END': ( self ) => {
             const { app } = self.props.state;
