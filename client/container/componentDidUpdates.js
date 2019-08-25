@@ -62,9 +62,9 @@ const componentDidUpdates = {
         },
         'ON_TRANSITION': ( self ) => {
             const { app } = self.props.state;
-            if(location.search === "?test"){
+            //if(location.search === "?test"){
                 alert(app.isTransition);
-            }
+            //}
         },
         'ON_TRANSITION_END': ( self ) => {
             const { app } = self.props.state;
