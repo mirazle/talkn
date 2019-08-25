@@ -111,7 +111,7 @@ export default class Header extends Component {
           style={ style.header.headTab }
           onClick={ handleOnClickToggleMain }>
           <Marquee
-            text={app.rootTitle}
+            text={`${app.rootTitle}(${app.isTransition})`}
             loop={true}
             hoverToStop={false}
             trailing={0}
