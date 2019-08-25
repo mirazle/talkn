@@ -42,6 +42,12 @@ export default ( state = {} , action ) => {
 				}
 			}
 		}
+	case 'COMPONENT_DID_MOUNTS':
+		return {...state,
+			menus: {...state.menus,
+				self: Menu.getSelf(action)
+			}
+		}
 	case 'SERVER_TO_CLIENT[BROADCAST]:find':
 		return {...state,
 			menus: {...state.menus,
