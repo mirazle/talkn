@@ -266,6 +266,7 @@ const functions = {
     action.thread = state.thread;
     action.app = {...state.app, ...action.app};
     action.app.isOpenPosts = App.getIsOpenPosts( action.app );
+    action.app.isTransition = true;
     return action;
   },
   "ON_CLICK_TOGGLE_DISP_MENU": ( state, action ) => {
