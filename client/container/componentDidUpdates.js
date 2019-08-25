@@ -137,7 +137,6 @@ const componentDidUpdates = {
     Posts: {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
             const { app } = self.props.state;
-            alert( app.isTransition );
         },
         'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
             changeLockMode( self, "Posts" );
