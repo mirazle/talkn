@@ -56,7 +56,8 @@ const functions = {
     action.app.desc = action.thread.serverMetas.title;
     action.app.isRootConnection = action.app.rootConnection === action.thread.connection;
     action.app.isMediaConnection = App.getIsMediaConnection( action.thread.connection );
-
+    action.app.isTransition = true;
+    
     action = Posts.getAnyActionPosts(action);
     action.thread.title = action.thread.serverMetas.title;
     action.thread.hasSlash = Schema.getBool( action.thread.hasSlash );
