@@ -52,6 +52,8 @@ const componentDidUpdates = {
         'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
             talknWindow.resizeEndWindow();
             talknAPI.onTransition();
+            const { app } = self.props.state;
+            alert(app.isTransition);
         },
         'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
             const { app, threadDetail, thread } = self.props.state;
@@ -62,9 +64,7 @@ const componentDidUpdates = {
         },
         'ON_TRANSITION': ( self ) => {
             const { app } = self.props.state;
-            //if(location.search === "?test"){
-                alert(app.isTransition);
-            //}
+            alert(app.isTransition);
         },
         'ON_TRANSITION_END': ( self ) => {
             const { app } = self.props.state;
