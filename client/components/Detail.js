@@ -183,6 +183,7 @@ export default class Detail extends Component {
       alert("A");
       talknWindow.parentTo("linkTo", {href})
     } : () => {
+      alert("BB");
     }; 
     return Icon.getTalkn( {}, state, {active, href, onClick});
   }
