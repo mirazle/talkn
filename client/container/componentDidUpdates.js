@@ -27,6 +27,8 @@ const componentDidUpdates = {
             app.postsHeight += TalknWindow.getPostsHeight();
             self.props.updatePostsHeight(app.postsHeight);
 
+            alert( "@@@ " + app.isTransition);
+
             if( app.extensionMode === "NONE" && Posts ){
 
                 window.scrollTo(0, 9999999);
@@ -50,11 +52,6 @@ const componentDidUpdates = {
             talknWindow.parentTo("find", self.props.state);
 
             talknWindow.resizeEndWindow();
-
-            //alert( "@" + app.isTransition);
-
-            talknAPI.onTransition();
-
         },
         'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
 
