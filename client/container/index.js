@@ -60,6 +60,8 @@ class Container extends Component {
   }
 
   componentDidMount(){
+    const { app } = this.props.state;
+    alert("@ " + app.isTransition );
     talknAPI.componentDidMounts( "Container" );
   }
 
