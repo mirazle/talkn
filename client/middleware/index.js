@@ -33,10 +33,12 @@ export default {
 const functions = {
   'SERVER_TO_CLIENT[BROADCAST]:find': ( state, action ) => {
     action.app = state.app;
+    action.app.isTransition = true;
     return action;
   },
   'SERVER_TO_CLIENT[BROADCAST]:changeThread': ( state, action ) => {
     action.app = state.app;
+    action.app.isTransition = true;
     return action;
   },
   'SERVER_TO_CLIENT[BROADCAST]:disconnect': ( state, action ) => {
@@ -57,7 +59,7 @@ const functions = {
     action.app.isRootConnection = action.app.rootConnection === action.thread.connection;
     action.app.isMediaConnection = App.getIsMediaConnection( action.thread.connection );
     action.app.isTransition = true;
-    
+
     action = Posts.getAnyActionPosts(action);
     action.thread.title = action.thread.serverMetas.title;
     action.thread.hasSlash = Schema.getBool( action.thread.hasSlash );
@@ -106,11 +108,13 @@ const functions = {
     action.app.offsetSingleFindId = App.defaultOffsetFindId;
     action.app.offsetChildFindId = App.defaultOffsetFindId;
     action.app.offsetLogsFindId = App.defaultOffsetFindId;
+    action.app.isTransition = true;
     action.thread = action.thread ? {...state.thread, ...action.thread} : state.thread;
     return action;
   },
   "CLOSE_LINKS": ( state, action ) => {
     action.app = action.app ? {...state.app, ...action.app} : state.app;
+    action.app.isTransition = true;
     action.thread = action.thread ? {...state.thread, ...action.thread} : state.thread;
     return action;
   },
