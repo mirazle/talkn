@@ -50,9 +50,11 @@ const componentDidUpdates = {
             talknWindow.parentTo("find", self.props.state);
 
             talknWindow.resizeEndWindow();
+
+            alert( "@" + app.isTransition);
+
             talknAPI.onTransition();
-            const { app } = self.props.state;
-            alert(app.isTransition);
+
         },
         'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
 
