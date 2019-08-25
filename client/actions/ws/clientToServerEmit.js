@@ -14,7 +14,7 @@ Object.keys( Sequence.map ).forEach( endpoint => {
 
 const beforeFunctions = {
 	post: ( reduxState, requestState, actionState ) => {
-		const { app, thread } = reduxState;
+		const { app } = reduxState;
 		if( app.isMediaConnection ){
 			if( window.talknMedia && window.talknMedia.currentTime ){
 				requestState.app.inputCurrentTime = window.talknMedia.currentTime;

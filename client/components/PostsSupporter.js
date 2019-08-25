@@ -17,6 +17,177 @@ export default class PostsSupporter extends Component {
     ];
   }
 
+  static get RussellModel(){
+    return {
+      1: { PosiNega: 1, tensionType: 1, tensionLv: 1, 'has': [1001, 1002 ] }
+    }
+  }
+
+  static get Emotions(){
+    return {
+      // Positive(high)
+      1001: 'surprise',
+      1002: 'excite',
+      1003: 'happy',
+      1004: 'joy',
+
+      // Positive(middle)
+      2001: 'glad',
+      2002: 'satisfaction',
+
+      // Positive(low)
+      3001: 'comfort',
+      3002: 'relax',
+      3003: 'tired',
+
+      // Negatie(low)
+      5001: 'sleepy',
+      
+      6001: 'slack',
+      6002: 'boring',
+
+      // Negatie(middle)
+      7001: 'melancholy',
+      7002: 'sad',
+      7003: 'unpleasant',
+      7004: 'frustrated',
+
+      // Negatie(high)
+      8001: 'dissatisfied',
+      8002: 'anger',
+      8003: 'worry',
+      8004: 'fear',
+
+      // Flat like
+      10001: 'like',
+      10002: 'interest',
+      10003: 'discovery',
+      10004: 'sunny',
+      10005: 'peace',
+    }
+  }
+
+  static get EmotionMap(){
+    return {
+      '👍': [{ 10001: 1 }],
+      '😉': [{ }],
+      '💡': {},
+      '👀': {},
+      '✌️': {},
+      '💪': {},
+      '☀️': {},
+
+      // Suprise
+      '😳': [{ 1001: 1 }],
+      '😵': [{ 1001: 1 }],
+
+      // Excite
+      '🤣': [{ 1002: 1 }],
+      '😆': [{ 1002: 1 }],
+      '🤩': [{ 1002: 1 }],
+
+      // Happy
+      '💓': [{ 1003: 1 }],
+      '🥰': [{ 1003: 1 }],
+      '😍': [{ 1003: 1 }],
+      '😻': [{ 1003: 1 }],
+
+      // Joy
+      '😄': [{ 1004: 1 }],
+      '✨': [{ 1004: 1 }],
+      '😁': [{ 1004: 1 }],
+      '🍺': [{ 1004: 1 }],
+      '😊': [{ 1004: 1 }],
+      '😘': [{ 1004: 1 }],
+      '🌟': [{ 1004: 1 }],
+
+      // Glad
+      '🥳': [{ 2001: 1 }],
+      '😃': [{ 2002: 1 }],
+
+      // Satisfaction
+      '😋': [{ 2003: 1 }],
+      '🎂': [{ 2003: 1 }],
+      '🍰': [{ 2003: 1 }],
+      '🧁': [{ 2003: 1 }],
+
+      // Comfort
+      '😌': [{ 3001: 1 }],
+      '🤤': [{ 3001: 1 }],
+
+      // Relax
+      '🙂': [{ 3002: 1 }],
+
+      // Tired
+      '😐': [{ 3003: 1 }],
+      '😮': [{ 3003: 1 }],
+      '😯': [{ 3003: 1 }],
+
+      // Slack
+      '😅': [{ 6001: 1 }],
+      '💦': [{ 6001: 1 }],
+      '😲': [{ 6001: 1 }],
+      '🙄': [{ 6001: 1 }],
+
+      // Boring
+      '😒': [{ 6002: 1 }],
+      '😑': [{ 6002: 1 }],
+      '😕': [{ 6002: 1 }],
+
+      // Melancholy
+      '😩': [{ 7001: 1 }],
+      '😞': [{ 7001: 1 }],
+      '😔': [{ 7001: 1 }],
+      '😟': [{ 7001: 1 }],
+
+      // Sad
+      '😭': [{ 7002: 1 }],
+      '😥': [{ 7002: 1 }],
+
+      '🤢': {},
+      '🤮': {},
+      '🤕': {},
+      '🤒': {},
+      '😷': {},
+      '🤧': {},
+      '🧐': {},
+      '🤔': {},
+      '🤨': {},
+
+
+
+
+
+
+
+      '😩': {},
+      '😞': {},
+      '😔': {},
+      '😟': {},
+      '😡': {},
+      '😠': {},
+      '😾': {},
+      '🤬': {},
+      '💔': {},
+      '💢': {},
+      '😤': {},
+      '👿': {},
+      '😣': {},
+      '🥺': {},
+      '😫': {},
+      '😓': {},
+      '😖': {},
+      '😨': {},
+      '😰': {},
+      '😿': {},
+      '🥶': {},
+      '🥵': {},
+      '😱': {},
+      '🙀': {},
+      '💀': {}
+    }
+  }
+
   static get Emojis(){
     return {
       Like: ['👍','😉','💡','👀','✌️', '💪', '☀️'],
@@ -161,10 +332,11 @@ export default class PostsSupporter extends Component {
         onClick: ( e ) => {
 
           if( i !== 0 ){
+            console.log( toLabel );
             const post = PostsSupporter[ menu ][ toLabel ][ i - 1 ];
-            console.log("CLICK " + i + " " + post );
+
             talknAPI.delegatePost( {
-              inputPost: `<div class="talknStamps" style="${PostStyle.stampStyle}">${post}</div>`,
+              inputPost: `<div class="talknStamps" data-component-name="${toLabel}" style="${PostStyle.stampStyle}">${post}</div>`,
               inputCurrentTime: 0
             } );
           }
