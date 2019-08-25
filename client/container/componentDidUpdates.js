@@ -22,12 +22,11 @@ const componentDidUpdates = {
         'SERVER_TO_CLIENT[EMIT]:find': ( self ) => {
 
             const { app, thread } = self.props.state;
+            alert( "@@@! " + app.isTransition);
             const Posts = document.querySelector("[data-component-name=Posts]");
             const connection = thread.connection;
             app.postsHeight += TalknWindow.getPostsHeight();
             self.props.updatePostsHeight(app.postsHeight);
-
-            alert( "@@@ " + app.isTransition);
 
             if( app.extensionMode === "NONE" && Posts ){
 
