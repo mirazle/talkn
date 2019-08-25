@@ -51,7 +51,7 @@ const componentDidUpdates = {
 
             talknWindow.resizeEndWindow();
 
-            alert( "@" + app.isTransition);
+            //alert( "@" + app.isTransition);
 
             talknAPI.onTransition();
 
