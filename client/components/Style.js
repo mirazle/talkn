@@ -24,9 +24,9 @@ export default class  Style extends Component {
             color: rgb(170, 170, 170);
           }
           @keyframes LogoWrap1 {
-            0%   { transform: scale(0.8); opacity: 0.8; 0px 0px 80px 80px rgba( 190, 190, 190, 0.9 ), 80px 80px 80px 0px rgba( 0, 0, 0, 1 ) inset; }
-            50%   { transform: scale(1.00); opacity: 1.0; 0px 0px 80px 0px rgba( 190, 190, 190, 0.9 ), 80px 80px 80px 0px rgba( 200, 200, 200, 0.8 ) inset; }
-            100%   { transform: scale(0.8); opacity: 0.8; 0px 0px 80px 0px rgba( 190, 190, 190, 0.9 ), 80px 80px 80px 0px rgba( 79,174,159, 0.8 ) inset; }
+            0%   { transform: scale(0.8); opacity: 0.8; }
+            50%   { transform: scale(1.00); opacity: 1.0; }
+            100%   { transform: scale(0.8); opacity: 0.8; }
           }
           @keyframes Logo {
             0%   { transform: scale(0.84) translate3d(0px, 0px, 0px); opacity: 0.7; }
@@ -56,7 +56,7 @@ export default class  Style extends Component {
             width: 80px;
             height: 80px;
             border-radius: 10000px;
-            box-shadow: 0px 0px 80px 0px rgba( 190, 190, 190, 0.9 ), 80px 80px 80px 0px rgba( 79,174,159, 0.8 ) inset;
+            box-shadow: 0px 0px 80px 0px rgba( 159, 254, 239, 0.5 ), 80px 80px 80px 0px rgba( 79,174,159, 0.8 ) inset;
             transform: tlanslate3d( 0px, -20px, 0px );
           }
           .Logo {
