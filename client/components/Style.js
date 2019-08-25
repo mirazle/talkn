@@ -56,7 +56,7 @@ export default class  Style extends Component {
             width: 80px;
             height: 80px;
             border-radius: 10000px;
-            box-shadow: 0px 0px 80px 0px rgba( 159, 254, 239, 0.5 ), 80px 80px 80px 0px rgba( 79,174,159, 0.8 ) inset;
+            box-shadow: 0px 0px 80px 0px rgba( 200, 200, 200, 0.9 ), 80px 80px 80px 0px rgba( 79,174,159, 0.8 ) inset;
             transform: tlanslate3d( 0px, -20px, 0px );
           }
           .Logo {
