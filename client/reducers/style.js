@@ -45,13 +45,17 @@ export default ( state = {} , action ) => {
 	case 'COMPONENT_DID_MOUNTS':
 		return {...state,
 			menus: {...state.menus,
-				self: Menu.getSelf(action)
+				self: {...state.menus,
+					transform: Menu.getTransform(action.app)
+				}
 			}
 		}
 	case 'SERVER_TO_CLIENT[BROADCAST]:find':
 		return {...state,
 			menus: {...state.menus,
-				self: Menu.getSelf(action)
+				self: {...state.menus,
+					transform: Menu.getTransform(action.app)
+				}
 			}
 		}
 	case 'SERVER_TO_CLIENT[EMIT]:find':
@@ -59,8 +63,10 @@ export default ( state = {} , action ) => {
 	case 'CLOSE_LINKS':
 	case 'TOGGLE_LINKS':
 		return {...state,
-			posts: {...state.posts,
-				self: Posts.getSelf(action)
+			menus: {...state.menus,
+				self: {...state.menus,
+					transform: Menu.getTransform(action.app)
+				}
 			},
 			posts: {...state.posts,
 				self: Posts.getSelf(action)
