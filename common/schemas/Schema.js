@@ -37,6 +37,7 @@ export default class Schema {
     const fnString = fn.toString();
 
     if( fnString === "function(){}" ) return true;
+    if( fnString === "function() {}" ) return true;
     if( fnString === "function (){}" ) return true;
     if( fnString === "function () {}" ) return true;
     if( fnString === "()=>{}" ) return true;
