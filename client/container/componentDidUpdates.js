@@ -161,7 +161,6 @@ const componentDidUpdates = {
                 
                 if( app.screenMode === App.screenModeLargeLabel ){
                     Posts.scrollTop = Posts.scrollHeight - self.state.scrollHeight;
-                    console.log( "POSTS " + Posts.scrollTop + " = " + Posts.scrollHeight + " - " + self.state.scrollHeight );
                 }else{
                     const scrollTo = Posts.clientHeight - talknWindow.threadHeight;
                     console.log( "WINDOW " + scrollTo + " = " + Posts.clientHeight + " - " + talknWindow.threadHeight );
