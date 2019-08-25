@@ -49,7 +49,9 @@ const componentDidUpdates = {
 
             talknWindow.parentTo("find", self.props.state);
         },
-        'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {},
+        'SERVER_TO_CLIENT[BROADCAST]:find': ( self ) => {
+            talknWindow.resizeEndWindow();
+        },
         'SERVER_TO_CLIENT[EMIT]:changeThreadDetail': ( self ) => {
             const { app, threadDetail, thread } = self.props.state;
             if( !app.isOpenDetail ){
