@@ -179,12 +179,7 @@ export default class Detail extends Component {
     const { connection, hasSlash } = threadDetail;
     const active = true;
     const href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${connection}`;
-    const onClick = app.extensionMode !== "NONE" ? () => {
-      alert("A");
-      talknWindow.parentTo("linkTo", {href})
-    } : () => {
-      alert("BB");
-    }; 
+    const onClick = app.extensionMode !== "NONE" ? () => {talknWindow.parentTo("linkTo", {href})} : () => {}; 
     return Icon.getTalkn( {}, state, {active, href, onClick});
   }
 
