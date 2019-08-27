@@ -106,7 +106,7 @@ export default class Sequence {
         requestPublicState: {},
         requestPrivateState: {
           'user':[ {columnName: 'uid'}, {columnName: 'utype'}],
-          'app': [{columnName: 'multistream'}, {columnName: 'inputPost'}, {columnName: 'inputCurrentTime'}, {columnName: 'dispThreadType'}, {columnName: 'multistreamed'} ],
+          'app': [{columnName: 'multistream'}, {columnName: 'inputPost'}, {columnName: 'inputIsStamp'}, {columnName: 'inputCurrentTime'}, {columnName: 'dispThreadType'}, {columnName: 'multistreamed'} ],
           'thread': [{columnName: 'findType'}, {columnName: 'title'}, {columnName: 'protocol'}, {columnName: 'connection'},{columnName: 'connections'}, {columnName: 'favicon'}, {columnName: 'contentType'}]
         },
         responseEmitState: {},

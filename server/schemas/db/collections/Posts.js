@@ -12,6 +12,8 @@ export default {
 	favicon: { type: String, default: Favicon.defaultFaviconPath },
 	title: { type: String, default: '' },
 	post: { type: String, default: '' },
+	emotions: { type: [String], default: [] },
+	emotionMark: { type: String, default: '' },
 	data: { type: Object, default:{} },
 	findType: { type: String, default: ""  },
 	currentTime: { type: Number, default: 0.0 },
