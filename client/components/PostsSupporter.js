@@ -6,14 +6,17 @@ export default class PostsSupporter extends Component {
 
   static get Cover(){
     return [
-      {menu: "Emojis", display: '👍', label: "Like"},
-      {menu: "Emojis", display: '💓', label: "PosiHigh"},
-      {menu: "Emojis", display: '😄', label: "PosiFlat"},
-      {menu: "Emojis", display: '😌', label: "PosiLow"},
-      {menu: "Emojis", display: '😅', label: "NegaHigh"},
-      {menu: "Emojis", display: '😭', label: "NegaFlat"},
-      {menu: "Emojis", display: '😡', label: "NegaLow"},
-      {menu: "Emojis", display: '💰', label: "Money"}
+      {menu: "Emojis", display: '👍', dispKey: "Like", "label": "LIKE"},
+      {menu: "Emojis", display: '💰', dispKey: "Money", "label": "MONEY"},
+      {menu: "Emojis", display: '😳', dispKey: "Posi1", "label": "EXCITE"},
+      {menu: "Emojis", display: '💓', dispKey: "Posi2", "label": "HAPPY"},
+      {menu: "Emojis", display: '🥳', dispKey: "Posi3", "label": "JOY"},
+      {menu: "Emojis", display: '😌', dispKey: "Posi4", "label": "RELAX"},
+
+      {menu: "Emojis", display: '😅', dispKey: "Nega4", "label": "SLACK"},
+      {menu: "Emojis", display: '😭', dispKey: "Nega3", "label": "MELANCHOLY"},
+      {menu: "Emojis", display: '🤮', dispKey: "Nega2", "label": "DISSAT"},
+      {menu: "Emojis", display: '😡', dispKey: "Nega1", "label": "ANGRY&FEAR"},
     ];
   }
 
@@ -25,247 +28,209 @@ export default class PostsSupporter extends Component {
 
   static get Emotions(){
     return {
-      // Positive(high)
-      1001: 'surprise',
-      1002: 'excite',
-      1003: 'happy',
-      1004: 'joy',
-
-      // Positive(middle)
-      2001: 'glad',
-      2002: 'satisfaction',
-
-      // Positive(low)
-      3001: 'comfort',
-      3002: 'relax',
-      3003: 'tired',
-
-      // Negatie(low)
-      5001: 'sleepy',
-      
-      6001: 'slack',
-      6002: 'boring',
-
-      // Negatie(middle)
-      7001: 'melancholy',
-      7002: 'sad',
-      7003: 'unpleasant',
-      7004: 'frustrated',
-
-      // Negatie(high)
-      8001: 'dissatisfied',
-      8002: 'anger',
-      8003: 'worry',
-      8004: 'fear',
 
       // Flat like
-      10001: 'like',
-      10002: 'interest',
-      10003: 'discovery',
-      10004: 'sunny',
-      10005: 'peace',
+      1001: 'like',
+      1002: 'interest',
+      1003: 'discovery',
+      1004: 'sunny',
+      1005: 'peace',
+      1006: 'cheer',
+
+      3000: 'love',
+
+      2002: 'unlike',
+
+      // Positive(high)
+      10001: 'surprise',
+      10002: 'excite',
+      10003: 'happy',
+      10004: 'joy',
+
+      // Positive(middle)
+      20001: 'glad',
+      20002: 'satisfaction',
+
+      // Positive(low)
+      30001: 'comfort',
+      30002: 'relax',
+      30003: 'tired',
+
+      // Negatie(low)
+      50001: 'sleepy',
+      
+      60001: 'slack',
+      60002: 'boring',
+
+      // Negatie(middle)
+      70001: 'melancholy',
+      70002: 'sad',
+      70003: 'unpleasant',
+      70004: 'frustrated',
+
+      // Negatie(high)
+      80001: 'dissatisfied',
+      80002: 'anger',
+      80003: 'worry',
+      80004: 'fear',
     }
   }
 
-  static get EmotionMap(){
+  static get EmotionBalance(){
     return {
-      '👍': [{ 10001: 1 }],
-      '😉': [{ }],
-      '💡': {},
-      '👀': {},
-      '✌️': {},
-      '💪': {},
-      '☀️': {},
 
-      // Suprise
-      '😳': [{ 1001: 1 }],
-      '😵': [{ 1001: 1 }],
+      // Flat like
+      '👍': [{ 1001: 1 }],
+      '😉': [{ 1001: 1 }],
+      '✌️': [{ 1001: 1 }],
+      '👀': [{ 1002: 1 }],
+      '💡': [{ 1003: 1 }],
+      '💪': [{ 1006: 1 }],
 
-      // Excite
-      '🤣': [{ 1002: 1 }],
-      '😆': [{ 1002: 1 }],
-      '🤩': [{ 1002: 1 }],
+      // Suprise(Posi1)
+      '😳': [{ 10001: 1 }],
+      '😵': [{ 10001: 1 }],
 
-      // Happy
-      '💓': [{ 1003: 1 }],
-      '🥰': [{ 1003: 1 }],
-      '😍': [{ 1003: 1 }],
-      '😻': [{ 1003: 1 }],
+      // Excite(Posi1)
+      '🤣': [{ 10002: 1 }],
+      '😆': [{ 10002: 1 }],
+      '🤩': [{ 10002: 1 }],
 
-      // Joy
-      '😄': [{ 1004: 1 }],
-      '✨': [{ 1004: 1 }],
-      '😁': [{ 1004: 1 }],
-      '🍺': [{ 1004: 1 }],
-      '😊': [{ 1004: 1 }],
-      '😘': [{ 1004: 1 }],
-      '🌟': [{ 1004: 1 }],
+      // Happy(Posi2)
+      '💓': [{ 10003: 1 }],
+      '🥰': [{ 10003: 1 }],
+      '😍': [{ 10003: 1 }],
+      '😻': [{ 10003: 1 }],
 
-      // Glad
-      '🥳': [{ 2001: 1 }],
-      '😃': [{ 2002: 1 }],
+      // Joy(Posi2)
+      '😄': [{ 10004: 1 }],
+      '✨': [{ 10004: 1 }],
+      '😁': [{ 10004: 1 }],
+      '🍺': [{ 10004: 1 }],
+      '😊': [{ 10004: 1 }],
+      '😘': [{ 10004: 1 }],
+      '🌟': [{ 10004: 1 }],
 
-      // Satisfaction
-      '😋': [{ 2003: 1 }],
-      '🎂': [{ 2003: 1 }],
-      '🍰': [{ 2003: 1 }],
-      '🧁': [{ 2003: 1 }],
+      // Glad(Posi3)
+      '🥳': [{ 20001: 1 }],
+      '😃': [{ 20002: 1 }],
 
-      // Comfort
-      '😌': [{ 3001: 1 }],
-      '🤤': [{ 3001: 1 }],
+      // Satisfaction(Posi3)
+      '😋': [{ 20003: 1 }],
+      '🎂': [{ 20003: 1 }],
+      '🍰': [{ 20003: 1 }],
+      '🧁': [{ 20003: 1 }],
 
-      // Relax
-      '🙂': [{ 3002: 1 }],
+      // Comfort(Posi4)
+      '😌': [{ 30001: 1 }],
+      '🤤': [{ 30001: 1 }],
 
-      // Tired
-      '😐': [{ 3003: 1 }],
-      '😮': [{ 3003: 1 }],
-      '😯': [{ 3003: 1 }],
+      // Relax(Posi4)
+      '🙂': [{ 30002: 1 }],
 
-      // Slack
-      '😅': [{ 6001: 1 }],
-      '💦': [{ 6001: 1 }],
-      '😲': [{ 6001: 1 }],
-      '🙄': [{ 6001: 1 }],
+      // Tired(Posi4)
+      '😐': [{ 30003: 1 }],
+      '😮': [{ 30003: 1 }],
+      '😯': [{ 30003: 1 }],
 
-      // Boring
-      '😒': [{ 6002: 1 }],
-      '😑': [{ 6002: 1 }],
-      '😕': [{ 6002: 1 }],
+      // Slack(Nega4)
+      '😅': [{ 60001: 1 }],
+      '💦': [{ 60001: 1 }],
+      '😲': [{ 60001: 1 }],
+      '🙄': [{ 60001: 1 }],
 
-      // Melancholy
-      '😩': [{ 7001: 1 }],
-      '😞': [{ 7001: 1 }],
-      '😔': [{ 7001: 1 }],
-      '😟': [{ 7001: 1 }],
+      // Boring(Nega4)
+      '😒': [{ 60002: 1 }],
+      '😑': [{ 60002: 1 }],
+      '😕': [{ 60002: 1 }],
 
-      // Sad
-      '😭': [{ 7002: 1 }],
-      '😥': [{ 7002: 1 }],
+      // Melancholy(Nega4)
+      '😩': [{ 70001: 1 }],
+      '😞': [{ 70001: 1 }],
+      '😔': [{ 70001: 1 }],
+      '😟': [{ 70001: 1 }],
+      '🤢': [{ 70001: 1 }],
 
-      '🤢': {},
-      '🤮': {},
-      '🤕': {},
-      '🤒': {},
-      '😷': {},
-      '🤧': {},
-      '🧐': {},
-      '🤔': {},
-      '🤨': {},
+      // Sad(Nega3)
+      '😭': [{ 70002: 1 }],
+      '😥': [{ 70002: 1 }],
 
+      // Unpleasant(Nega3)
+      '🤮': [{ 70003: 1 }],
+      '🤕': [{ 70003: 1 }],
+      '🤒': [{ 70003: 1 }],
+      '😷': [{ 70003: 1 }],
+      '🤧': [{ 70003: 1 }],
 
+      // frustrated(Nega3)
+      '🧐': [{ 70004: 1 }],
+      '🤔': [{ 70004: 1 }],
+      '🤨': [{ 70004: 1 }],
 
+      // dissatisfied(Nega2)
+      '😠': [{ 80001: 1 }],
+      '😾': [{ 80001: 1 }],
+ 
+      // Anger(Nega2)
+      '😡': [{ 80002: 1 }],
+      '🤬': [{ 80002: 1 }],
+      '💔': [{ 80002: 1 }],
+      '💢': [{ 80002: 1 }],
+      '😤': [{ 80002: 1 }],
+      '👿': [{ 80002: 1 }],
 
+      // Worry(Nega1)
+      '😣': [{ 80003: 1 }],
+      '🥺': [{ 80003: 1 }],
+      '😫': [{ 80003: 1 }],
+      '😓': [{ 80003: 1 }],
+      '😖': [{ 80003: 1 }],
+      '😨': [{ 80003: 1 }],
+      '😰': [{ 80003: 1 }],
+      '😿': [{ 80003: 1 }],
 
-
-
-      '😩': {},
-      '😞': {},
-      '😔': {},
-      '😟': {},
-      '😡': {},
-      '😠': {},
-      '😾': {},
-      '🤬': {},
-      '💔': {},
-      '💢': {},
-      '😤': {},
-      '👿': {},
-      '😣': {},
-      '🥺': {},
-      '😫': {},
-      '😓': {},
-      '😖': {},
-      '😨': {},
-      '😰': {},
-      '😿': {},
-      '🥶': {},
-      '🥵': {},
-      '😱': {},
-      '🙀': {},
-      '💀': {}
+      // Fear(Nega1)
+      '🥶': [{ 80004: 1 }],
+      '🥵': [{ 80004: 1 }],
+      '😱': [{ 80004: 1 }],
+      '🙀': [{ 80004: 1 }],
+      '💀': [{ 80004: 1 }],
     }
   }
 
   static get Emojis(){
     return {
       Like: ['👍','😉','💡','👀','✌️', '💪', '☀️'],
-      PosiFlat: [ '😄','✨','😁','🍺','😊','😘','🌟','🥳','😃','😋','🎂','🍰','🧁'],
-      PosiHigh: ['💓', '🤣', '😳','😵','😆','🤩','🥰','😍','😻'],
-      PosiLow: [ '😌','🤤','🙂','😐','😮','😯'],
-      NegaFlat: ['😭','😥','🤢','🤮','🤕','🤒','😷','🤧','🧐','🤔','🤨'],
-      NegaHigh: ['😅','💦','😲','🙄','😒','😑','😕','😩','😞','😔','😟','😩','😞','😔','😟'],
-      NegaLow: [ '😡', '😠','😾','🤬','💔','💢','😤','👿','😣','🥺','😫','😓','😖','😨','😰','😿','🥶','🥵','😱','🙀','💀'],
       Money: [],
+      Posi1: ['😳', '😵', '🤣','😆','🤩'],
+      Posi2: ['💓','🥰','😍','😻','😄','✨','😁','🍺','😊','😘','🌟'],
+      Posi3: ['🥳','😃','😋','🎂','🍰','🧁'],
+      Posi4: [ '😌','🤤','🙂','😐','😮','😯'],
+
+      Nega4: ['😅','💦','😲','🙄','😒','😑','😕','😩','😞','😔','😟','🤢'],
+      Nega3: ['😭', '😥', '🧐','🤔','🤨'],
+      Nega2: ['🤮','🤕','🤒','😷','🤧','😠','😾'],
+      Nega1: [ '😡', '🤬','💔','💢','😤','👿','😣','🥺','😫','😓','😖','😨','😰','😿','🥶','🥵','😱','🙀','💀']
     }
-          /*
-        記号（良いね）
-            👍😉💡👀✌️
-            
-        プラス
-
-            Surprise(驚き)
-              😳😵
-            Excite(興奮)
-              😆🤣🤩
-            Happy(幸福)
-              💓🥰😍😻
-            Jou(喜び)
-              😄✨😁🍺😊😘🌟
-            Glad(嬉しい)
-              🥳😃
-            Satisfaction(満足)
-              😋🎂🍰🧁
-            Comfort(気楽)
-              😌🤤
-            Relax(リラックス)
-              🙂
-            Tired(飽き)
-              😐😮😯
-        マイナス    Sleepy(😪😴)
-
-            Slack(たるみ)
-              😅💦😲🙄
-            Boring(退屈)
-              😒😑😕
-            Melancholy(憂鬱)
-              😩😞😔😟
-            Sad(悲しみ)
-              😥😭
-            Unpleasant(不愉快)
-              🤢🤮🤕🤒😷🤧
-            Frustrated(イライラ)
-              🧐🤔🤨
-            Dissatisfied(不満)
-              😠😾
-            Anger(怒り)
-              😡🤬💔💢😤👿
-            Worry(心配)
-              😣🥺😫😓😖😨😰😿
-            Fear(恐れ)
-              🥶🥵😱🙀💀
-
-*/ 
   }
 
   constructor(props) {
     super(props);
     let style = {Cover: [], Emojis: {}};
     PostsSupporter.Cover.forEach( ( obj ) => {
-      style.Cover[ obj.label ] = {...props.state.style.postsSupporter.emoji };
+      style.Cover[ obj.dispKey ] = {...props.state.style.postsSupporter.emoji };
     });
-    Object.keys( PostsSupporter.Emojis ).forEach( ( label ) => {
-      PostsSupporter.Emojis[ label ].forEach( ( display, i ) => {
-        if( !style.Emojis[ label ] ) style.Emojis[ label ] = [];
-        style.Emojis[ label ][ i ] = {...props.state.style.postsSupporter.emoji };
+    Object.keys( PostsSupporter.Emojis ).forEach( ( dispKey ) => {
+      PostsSupporter.Emojis[ dispKey ].forEach( ( display, i ) => {
+        if( !style.Emojis[ dispKey ] ) style.Emojis[ dispKey ] = [];
+        style.Emojis[ dispKey ][ i ] = {...props.state.style.postsSupporter.emoji };
       });
     });
 
     this.state = {
       style,
       menu: "Cover",
-      label: "",
+      dispKey: "",
     };
     this.getDisplay = this.getDisplay.bind( this );
   }
@@ -298,7 +263,7 @@ export default class PostsSupporter extends Component {
           });
         },
         onClick: ( e ) => {
-          this.setState( {  menu: toMenu, label: toLabel } );
+          this.setState( {  menu: toMenu, dispKey: toLabel } );
         }
       }
     default:
@@ -308,7 +273,7 @@ export default class PostsSupporter extends Component {
             style: {...this.state.style,
               [ menu ]: {...this.state.style[ menu ],
                 [ toLabel ]: { ...this.state.style[ menu ][ toLabel ],
-                  [ i ]: {...this.state.style[ menu ][ toLabel ][ i ],
+                  [ i - 1 ]: {...this.state.style[ menu ][ toLabel ][ i - 1 ],
                     transform: "scale(1.1)"
                   }
                 }
@@ -340,40 +305,46 @@ export default class PostsSupporter extends Component {
               inputCurrentTime: 0
             } );
           }
-          this.setState( {  menu: "Cover", label: "" } );
+          this.setState( {  menu: "Cover", dispKey: "" } );
         }
       }
     }
   }
 
-  getDisplay( menu, label ){
-    const IconOpenEmoji = Icon.getOpenEmoji();
+  getDisplay( menu, dispKey ){
+    const { state } = this.props;
+    const { style: propsStyle } = state;
+    const IconOpenEmoji = Icon.getOpenEmoji( {}, state );
     const IconCloseEmoji = Icon.getCloseEmoji();
     const { style } = this.state;
     let display = [];
+
     switch( menu ){
     case "Cover":
         display = PostsSupporter.Cover.map( (obj, index) => {
           return ( 
             <li
               key={ menu + "_" + index }
-              style={ style[ menu ][ obj.label ] }
-              {...this.getEvents( menu, obj.menu, obj.label ) }
+              style={ style[ menu ][ obj.dispKey ] }
+              {...this.getEvents( menu, obj.menu, obj.dispKey ) }
             >
-              {obj.display}
-              { menu === "Cover" && IconOpenEmoji }
+              <div>{obj.display}</div>
+              <div style={ propsStyle.postsSupporter.emojiLabel }>
+                { menu === "Cover" && IconOpenEmoji }
+                { obj.label }
+              </div>
             </li>
           );
         });
         break;
     default:
-      display = PostsSupporter[ menu ][ label ].map( (emoji, i) => {
+      display = PostsSupporter[ menu ][ dispKey ].map( (emoji, i) => {
         const index = i ;
         return ( 
           <li
-            key={ menu + label + "_" + index }
-            style={ style[ menu ][ label ][ index ] }
-            {...this.getEvents( menu, menu, label, index + 1) }
+            key={ menu + dispKey + "_" + index }
+            style={ style[ menu ][ dispKey ][ index ] }
+            {...this.getEvents( menu, menu, dispKey, index + 1) }
           >
             {emoji}
           </li>
@@ -383,8 +354,8 @@ export default class PostsSupporter extends Component {
       display.unshift(
         <li
           key={"backCover" }
-          style={ style[ "Cover" ][ label ] }
-          {...this.getEvents( menu, menu, label, 0 ) }
+          style={ style[ "Cover" ][ dispKey ] }
+          {...this.getEvents( menu, menu, dispKey, 0 ) }
         >
           { IconCloseEmoji }
         </li>
@@ -397,8 +368,8 @@ export default class PostsSupporter extends Component {
 
   render() {
     const { style } = this.props.state;
-    const { menu, label } = this.state;
-    const lis = this.getDisplay( menu, label );
+    const { menu, dispKey } = this.state;
+    const lis = this.getDisplay( menu, dispKey );
     return (
       <ul
         data-component-name={"PostsSupporter"}

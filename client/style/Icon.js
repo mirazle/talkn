@@ -1529,15 +1529,18 @@ export default class Icon {
     return {div, outer, inner};
   }
 
-  static getOpenEmoji( {app} ){
+  static getOpenEmoji( state ){
+    const { app } = state;
     const size = "5px";
+    const display = App.screenModeSmallLabel === app.screenMode ? "none" : "inline-block";
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
+        display,
         width: size,
         height: size,
         minWidth: size,
         minHeight: size,
-        marginLeft: "5px",
+        margin: "0px 5px 0px 0px",
         borderRight: `${size} solid transparent`,
         borderTop: `${size} solid transparent`,
         borderBottom: `${size} solid transparent`,
@@ -1555,13 +1558,14 @@ export default class Icon {
   }
 
   static getCloseEmoji( {app} ){
-    const size = "5px";
+    const size = "8px";
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: size,
         height: size,
         minWidth: size,
         minHeight: size,
+        margin: "0px 0px 0px -20px",
         borderRight: `${size} solid rgba(200,200,200,0.8)`,
         borderTop: `${size} solid transparent`,
         borderBottom: `${size} solid transparent`,
