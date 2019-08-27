@@ -3,6 +3,7 @@ import Sequence from 'common/Sequence';
 import util from 'common/util';
 import conf from 'common/conf';
 import App from 'common/schemas/state/App';
+import PostState from 'common/schemas/state/Post';
 import PostStyle from 'client/style/Post';
 import Marquee from 'client/container/util/Marquee';
 
@@ -208,18 +209,19 @@ export default class Post extends Component {
   }
 
   renderPost( post, app ){
+    const isStamp = PostState.isStamp( post );
     if( !app.isBubblePost ){
-      if( post.indexOf( '<div class="talknStamps"' ) === 0 ){
+      if( isStamp ){
         if( post.indexOf( `scale(${PostStyle.bubbleStampScale})` ) ){
           return post.replace( `scale(${PostStyle.bubbleStampScale})`, `scale(${PostStyle.stampScale})` )
                     .replace( `height: 100%`, `height:60px` )
                     .replace( `height:100%`, `height:60px` )
                     .replace( `justify-content: center`, "justify-content: flex-start" )
-                    .replace( `justify-content:center`, "justify-content: flex-start" );
+                    .replace( `justify-content:center`, "justify-content: flex-start" ) + "<div>@</div>";
         }
       }
     }
-    return post;
+    return post + "<div>@</div>";
   }
 
  	render() {

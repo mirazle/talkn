@@ -1,4 +1,5 @@
 import Sequence from 'common/Sequence';
+import PostState from 'common/schemas/state/Post';
 
 let actions = {};
 
@@ -22,6 +23,7 @@ const beforeFunctions = {
 				requestState.app.inputCurrentTime = 0;
 			}
 		}
+		requestState.app.inputIsStamp = PostState.isStamp( requestState.app.inputPost );
 
 		return { requestState, actionState };
 	}

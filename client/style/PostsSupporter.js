@@ -6,7 +6,7 @@ import PostsFooter from './PostsFooter';
 
 export default class PostsSupporter{
 
-  static get selfHeight(){ return 180 };
+  static get selfHeight(){ return 172 };
   static getTransform( app ){
     return app.isOpenPostsSupporter ? 
     `translate3d( 0px, -${ PostsSupporter.selfHeight + PostsFooter.selfHeight }px, 0px )` : 'translate3d( 0px, 0px, 0px )';
@@ -56,7 +56,7 @@ export default class PostsSupporter{
     const layout = Style.getLayoutFlex({
       minWidth: "20%",
       maxWidth: "20%",
-      height: '90px',
+      height: '86px',
       flexFlow: "row wrap",
       alignItems: "center",
       justifyContent: "center",

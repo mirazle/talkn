@@ -155,6 +155,7 @@ export default class App extends Schema{
 
     // 入力状態
     const inputPost = params.inputPost ? params.inputPost : '';
+    const inputStampId = params.inputStampId ? params.inputStampId : false;
     const inputCurrentTime = params.inputCurrentTime ? params.inputCurrentTime : 0.0;
     const inputSearch = params.inputSearch ? params.inputSearch : '';
 
@@ -232,6 +233,7 @@ export default class App extends Schema{
 
       // 入力状態
       inputPost,
+      inputStampId,
       inputCurrentTime,
       inputSearch,
 

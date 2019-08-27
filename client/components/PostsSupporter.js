@@ -6,17 +6,17 @@ export default class PostsSupporter extends Component {
 
   static get Cover(){
     return [
-      {menu: "Emojis", display: '👍', dispKey: "Like", "label": "LIKE"},
-      {menu: "Emojis", display: '💰', dispKey: "Money", "label": "MONEY"},
-      {menu: "Emojis", display: '😳', dispKey: "Posi1", "label": "EXCITE"},
-      {menu: "Emojis", display: '💓', dispKey: "Posi2", "label": "HAPPY"},
-      {menu: "Emojis", display: '🥳', dispKey: "Posi3", "label": "JOY"},
-      {menu: "Emojis", display: '😌', dispKey: "Posi4", "label": "RELAX"},
+      {menu: "Emojis", emojiId: 1, dispKey: "Like", "label": "LIKE"},
+      {menu: "Emojis", emojiId: 100, dispKey: "Money", "label": "MONEY"},
+      {menu: "Emojis", emojiId: 1001, dispKey: "Posi1", "label": "EXCITE"},
+      {menu: "Emojis", emojiId: 1201, dispKey: "Posi2", "label": "HAPPY"},
+      {menu: "Emojis", emojiId: 1401, dispKey: "Posi3", "label": "JOY"},
+      {menu: "Emojis", emojiId: 1601, dispKey: "Posi4", "label": "RELAX"},
 
-      {menu: "Emojis", display: '😅', dispKey: "Nega4", "label": "SLACK"},
-      {menu: "Emojis", display: '😭', dispKey: "Nega3", "label": "MELANCHOLY"},
-      {menu: "Emojis", display: '🤮', dispKey: "Nega2", "label": "DISSAT"},
-      {menu: "Emojis", display: '😡', dispKey: "Nega1", "label": "ANGRY&FEAR"},
+      {menu: "Emojis", emojiId: 2001, dispKey: "Nega4", "label": "SLACK"},
+      {menu: "Emojis", emojiId: 2401, dispKey: "Nega3", "label": "MELANCHOLY"},
+      {menu: "Emojis", emojiId: 2601, dispKey: "Nega2", "label": "DISSAT"},
+      {menu: "Emojis", emojiId: 2801, dispKey: "Nega1", "label": "ANGRY&FEAR"},
     ];
   }
 
@@ -36,6 +36,7 @@ export default class PostsSupporter extends Component {
       1004: 'sunny',
       1005: 'peace',
       1006: 'cheer',
+      1007: 'money',
 
       3000: 'love',
 
@@ -76,141 +77,143 @@ export default class PostsSupporter extends Component {
     }
   }
 
-  static get EmotionBalance(){
+  static get EmotionMap(){
     return {
 
       // Flat like
-      '👍': [{ 1001: 1 }],
-      '😉': [{ 1001: 1 }],
-      '✌️': [{ 1001: 1 }],
-      '👀': [{ 1002: 1 }],
-      '💡': [{ 1003: 1 }],
-      '💪': [{ 1006: 1 }],
+      1: { emoji: '👍', balance: [{ 1001: 1 }]},
+      2: { emoji: '😉', balance: [{ 1001: 1 }]},
+      3: { emoji: '💡', balance: [{ 1003: 1 }]},
+      4: { emoji: '✌️', balance: [{ 1001: 1 }]},
+      5: { emoji: '👀', balance: [{ 1002: 1 }]},
+      6: { emoji: '💪', balance: [{ 1006: 1 }]},
+
+      100: { emoji: '💵', balance: [{ 1007: 1 }]},
 
       // Suprise(Posi1)
-      '😳': [{ 10001: 1 }],
-      '😵': [{ 10001: 1 }],
+      1001: { emoji: '😳', balance: [{ 10001: 1 }]},
+      1002: { emoji: '😵', balance: [{ 10001: 1 }]},
 
       // Excite(Posi1)
-      '🤣': [{ 10002: 1 }],
-      '😆': [{ 10002: 1 }],
-      '🤩': [{ 10002: 1 }],
+      1101: { emoji: '🤣', balance: [{ 10002: 1 }]},
+      1102: { emoji: '😆', balance: [{ 10002: 1 }]},
+      1103: { emoji: '🤩', balance: [{ 10002: 1 }]},
 
       // Happy(Posi2)
-      '💓': [{ 10003: 1 }],
-      '🥰': [{ 10003: 1 }],
-      '😍': [{ 10003: 1 }],
-      '😻': [{ 10003: 1 }],
+      1201: { emoji: '💓', balance: [{ 10003: 1 }]},
+      1202: { emoji: '🥰', balance: [{ 10003: 1 }]},
+      1203: { emoji: '😍', balance: [{ 10003: 1 }]},
+      1204: { emoji: '😻', balance: [{ 10003: 1 }]},
 
       // Joy(Posi2)
-      '😄': [{ 10004: 1 }],
-      '✨': [{ 10004: 1 }],
-      '😁': [{ 10004: 1 }],
-      '🍺': [{ 10004: 1 }],
-      '😊': [{ 10004: 1 }],
-      '😘': [{ 10004: 1 }],
-      '🌟': [{ 10004: 1 }],
+      1301: { emoji: '😄', balance: [{ 10004: 1 }]},
+      1302: { emoji: '✨', balance: [{ 10004: 1 }]},
+      1303: { emoji: '😁', balance: [{ 10004: 1 }]},
+      1304: { emoji: '🍺', balance: [{ 10004: 1 }]},
+      1305: { emoji: '😊', balance: [{ 10004: 1 }]},
+      1306: { emoji: '😘', balance: [{ 10004: 1 }]},
+      1307: { emoji: '🌟', balance: [{ 10004: 1 }]},
 
       // Glad(Posi3)
-      '🥳': [{ 20001: 1 }],
-      '😃': [{ 20002: 1 }],
+      1401: { emoji: '🥳', balance: [{ 20001: 1 }]},
+      1402: { emoji: '😃', balance: [{ 20002: 1 }]},
 
       // Satisfaction(Posi3)
-      '😋': [{ 20003: 1 }],
-      '🎂': [{ 20003: 1 }],
-      '🍰': [{ 20003: 1 }],
-      '🧁': [{ 20003: 1 }],
+      1501: { emoji: '😋', balance: [{ 20003: 1 }]},
+      1502: { emoji: '🎂', balance: [{ 20003: 1 }]},
+      1503: { emoji: '🍰', balance: [{ 20003: 1 }]},
+      1504: { emoji: '🧁', balance: [{ 20003: 1 }]},
 
       // Comfort(Posi4)
-      '😌': [{ 30001: 1 }],
-      '🤤': [{ 30001: 1 }],
+      1601: { emoji: '😌', balance: [{ 30001: 1 }]},
+      1602: { emoji: '🤤', balance: [{ 30001: 1 }]},
 
       // Relax(Posi4)
-      '🙂': [{ 30002: 1 }],
+      1701: { emoji: '🙂', balance: [{ 30002: 1 }]},
 
       // Tired(Posi4)
-      '😐': [{ 30003: 1 }],
-      '😮': [{ 30003: 1 }],
-      '😯': [{ 30003: 1 }],
+      1801: { emoji: '😐', balance: [{ 30003: 1 }]},
+      1802: { emoji: '😮', balance: [{ 30003: 1 }]},
+      1803: { emoji: '😯', balance: [{ 30003: 1 }]},
 
       // Slack(Nega4)
-      '😅': [{ 60001: 1 }],
-      '💦': [{ 60001: 1 }],
-      '😲': [{ 60001: 1 }],
-      '🙄': [{ 60001: 1 }],
+      2001: { emoji: '😅', balance: [{ 60001: 1 }]},
+      2002: { emoji: '💦', balance: [{ 60001: 1 }]},
+      2003: { emoji: '😲', balance: [{ 60001: 1 }]},
+      2004: { emoji: '🙄', balance: [{ 60001: 1 }]},
 
       // Boring(Nega4)
-      '😒': [{ 60002: 1 }],
-      '😑': [{ 60002: 1 }],
-      '😕': [{ 60002: 1 }],
+      2101: { emoji: '😒', balance: [{ 60002: 1 }]},
+      2102: { emoji: '😑', balance: [{ 60002: 1 }]},
+      2103: { emoji: '😕', balance: [{ 60002: 1 }]},
 
       // Melancholy(Nega4)
-      '😩': [{ 70001: 1 }],
-      '😞': [{ 70001: 1 }],
-      '😔': [{ 70001: 1 }],
-      '😟': [{ 70001: 1 }],
-      '🤢': [{ 70001: 1 }],
+      2201: { emoji: '😩', balance: [{ 70001: 1 }]},
+      2202: { emoji: '😞', balance: [{ 70001: 1 }]},
+      2203: { emoji: '😔', balance: [{ 70001: 1 }]},
+      2204: { emoji: '😟', balance: [{ 70001: 1 }]},
+      2205: { emoji: '🤢', balance: [{ 70001: 1 }]},
 
       // Sad(Nega3)
-      '😭': [{ 70002: 1 }],
-      '😥': [{ 70002: 1 }],
+      2301: { emoji: '😭', balance: [{ 70002: 1 }]},
+      2302: { emoji: '😥', balance: [{ 70002: 1 }]},
 
       // Unpleasant(Nega3)
-      '🤮': [{ 70003: 1 }],
-      '🤕': [{ 70003: 1 }],
-      '🤒': [{ 70003: 1 }],
-      '😷': [{ 70003: 1 }],
-      '🤧': [{ 70003: 1 }],
+      2401: { emoji: '🤮', balance: [{ 70003: 1 }]},
+      2402: { emoji: '🤕', balance: [{ 70003: 1 }]},
+      2403: { emoji: '🤒', balance: [{ 70003: 1 }]},
+      2404: { emoji: '😷', balance: [{ 70003: 1 }]},
+      2405: { emoji: '🤧', balance: [{ 70003: 1 }]},
 
       // frustrated(Nega3)
-      '🧐': [{ 70004: 1 }],
-      '🤔': [{ 70004: 1 }],
-      '🤨': [{ 70004: 1 }],
+      2501: { emoji: '🧐', balance: [{ 70004: 1 }]},
+      2502: { emoji: '🤔', balance: [{ 70004: 1 }]},
+      2503: { emoji: '🤨', balance: [{ 70004: 1 }]},
 
       // dissatisfied(Nega2)
-      '😠': [{ 80001: 1 }],
-      '😾': [{ 80001: 1 }],
+      2601: { emoji: '😠', balance: [{ 80001: 1 }]},
+      2602: { emoji: '😾', balance: [{ 80001: 1 }]},
  
       // Anger(Nega2)
-      '😡': [{ 80002: 1 }],
-      '🤬': [{ 80002: 1 }],
-      '💔': [{ 80002: 1 }],
-      '💢': [{ 80002: 1 }],
-      '😤': [{ 80002: 1 }],
-      '👿': [{ 80002: 1 }],
+      2701: { emoji: '😡', balance: [{ 80002: 1 }]},
+      2702: { emoji: '🤬', balance: [{ 80002: 1 }]},
+      2703: { emoji: '💔', balance: [{ 80002: 1 }]},
+      2704: { emoji: '💢', balance: [{ 80002: 1 }]},
+      2705: { emoji: '😤', balance: [{ 80002: 1 }]},
+      2706: { emoji: '👿', balance: [{ 80002: 1 }]},
 
       // Worry(Nega1)
-      '😣': [{ 80003: 1 }],
-      '🥺': [{ 80003: 1 }],
-      '😫': [{ 80003: 1 }],
-      '😓': [{ 80003: 1 }],
-      '😖': [{ 80003: 1 }],
-      '😨': [{ 80003: 1 }],
-      '😰': [{ 80003: 1 }],
-      '😿': [{ 80003: 1 }],
+      2801: { emoji: '😣', balance: [{ 80003: 1 }]},
+      2802: { emoji: '🥺', balance: [{ 80003: 1 }]},
+      2803: { emoji: '😫', balance: [{ 80003: 1 }]},
+      2804: { emoji: '😓', balance: [{ 80003: 1 }]},
+      2805: { emoji: '😖', balance: [{ 80003: 1 }]},
+      2806: { emoji: '😨', balance: [{ 80003: 1 }]},
+      2807: { emoji: '😰', balance: [{ 80003: 1 }]},
+      2808: { emoji: '😿', balance: [{ 80003: 1 }]},
 
       // Fear(Nega1)
-      '🥶': [{ 80004: 1 }],
-      '🥵': [{ 80004: 1 }],
-      '😱': [{ 80004: 1 }],
-      '🙀': [{ 80004: 1 }],
-      '💀': [{ 80004: 1 }],
+      2901: { emoji: '🥶', balance: [{ 80004: 1 }]},
+      2902: { emoji: '🥵', balance: [{ 80004: 1 }]},
+      2903: { emoji: '😱', balance: [{ 80004: 1 }]},
+      2904: { emoji: '🙀', balance: [{ 80004: 1 }]},
+      2905: { emoji: '💀', balance: [{ 80004: 1 }]}
     }
   }
 
   static get Emojis(){
     return {
-      Like: ['👍','😉','💡','👀','✌️', '💪', '☀️'],
-      Money: [],
-      Posi1: ['😳', '😵', '🤣','😆','🤩'],
-      Posi2: ['💓','🥰','😍','😻','😄','✨','😁','🍺','😊','😘','🌟'],
-      Posi3: ['🥳','😃','😋','🎂','🍰','🧁'],
-      Posi4: [ '😌','🤤','🙂','😐','😮','😯'],
+      Like: [ 1, 2, 3, 4, 5, 6 ],
+      Money: [ 100 ],
+      Posi1: [ 1001, 1002, 1101, 1102, 1103 ],
+      Posi2: [ 1201, 1202, 1203, 1204, 1301, 1302, 1303, 1304, 1305, 1306, 1307 ],
+      Posi3: [ 1401, 1402, 1501, 1502, 1503, 1504 ],
+      Posi4: [ 1601, 1602, 1701, 1801, 1802, 1803 ],
 
-      Nega4: ['😅','💦','😲','🙄','😒','😑','😕','😩','😞','😔','😟','🤢'],
-      Nega3: ['😭', '😥', '🧐','🤔','🤨'],
-      Nega2: ['🤮','🤕','🤒','😷','🤧','😠','😾'],
-      Nega1: [ '😡', '🤬','💔','💢','😤','👿','😣','🥺','😫','😓','😖','😨','😰','😿','🥶','🥵','😱','🙀','💀']
+      Nega4: [ 2001, 2002, 2003, 2004, 2101, 2102, 2103, 2201, 2202, 2203, 2204, 2205, 2301, 2302 ],
+      Nega3: [ 2401, 2402, 2403, 2404, 2405, 2501, 2502, 2503 ],
+      Nega2: [ 2601, 2602, 2701, 2702, 2703, 2704, 2705, 2706 ],
+      Nega1: [ 2801, 2802, 2803, 2804, 2805, 2806, 2807, 2808, 2901, 2902, 2903, 2904, 2905 ]
     }
   }
 
@@ -221,9 +224,9 @@ export default class PostsSupporter extends Component {
       style.Cover[ obj.dispKey ] = {...props.state.style.postsSupporter.emoji };
     });
     Object.keys( PostsSupporter.Emojis ).forEach( ( dispKey ) => {
-      PostsSupporter.Emojis[ dispKey ].forEach( ( display, i ) => {
+      PostsSupporter.Emojis[ dispKey ].forEach( ( emojiId, i ) => {
         if( !style.Emojis[ dispKey ] ) style.Emojis[ dispKey ] = [];
-        style.Emojis[ dispKey ][ i ] = {...props.state.style.postsSupporter.emoji };
+        style.Emojis[ dispKey ][ emojiId ] = {...props.state.style.postsSupporter.emoji };
       });
     });
 
@@ -235,7 +238,7 @@ export default class PostsSupporter extends Component {
     this.getDisplay = this.getDisplay.bind( this );
   }
 
-  getEvents(menu, toMenu, toLabel, i){
+  getEvents(menu, toMenu, toLabel, emojiId ){
 
     switch( menu ){
     case "Cover":
@@ -273,7 +276,7 @@ export default class PostsSupporter extends Component {
             style: {...this.state.style,
               [ menu ]: {...this.state.style[ menu ],
                 [ toLabel ]: { ...this.state.style[ menu ][ toLabel ],
-                  [ i - 1 ]: {...this.state.style[ menu ][ toLabel ][ i - 1 ],
+                  [ emojiId ]: {...this.state.style[ menu ][ toLabel ][ emojiId ],
                     transform: "scale(1.1)"
                   }
                 }
@@ -286,7 +289,7 @@ export default class PostsSupporter extends Component {
             style: {...this.state.style,
               [ menu ]: {...this.state.style[ menu ],
                 [ toLabel ]: { ...this.state.style[ menu ][ toLabel ],
-                  [ i ]: {...this.state.style[ menu ][ toLabel ][ i ],
+                  [ emojiId ]: {...this.state.style[ menu ][ toLabel ][ emojiId ],
                     transform: "scale(1.0)"
                   }
                 }
@@ -296,12 +299,11 @@ export default class PostsSupporter extends Component {
         },
         onClick: ( e ) => {
 
-          if( i !== 0 ){
-            console.log( toLabel );
-            const post = PostsSupporter[ menu ][ toLabel ][ i - 1 ];
-
+          if( emojiId !== 0 ){
+            const post = PostsSupporter.EmotionMap[ emojiId ].emoji;
             talknAPI.delegatePost( {
               inputPost: `<div class="talknStamps" data-component-name="${toLabel}" style="${PostStyle.stampStyle}">${post}</div>`,
+              inputStampId: true,
               inputCurrentTime: 0
             } );
           }
@@ -328,7 +330,7 @@ export default class PostsSupporter extends Component {
               style={ style[ menu ][ obj.dispKey ] }
               {...this.getEvents( menu, obj.menu, obj.dispKey ) }
             >
-              <div>{obj.display}</div>
+              <div>{ PostsSupporter.EmotionMap[ obj.emojiId ].emoji }</div>
               <div style={ propsStyle.postsSupporter.emojiLabel }>
                 { menu === "Cover" && IconOpenEmoji }
                 { obj.label }
@@ -338,15 +340,15 @@ export default class PostsSupporter extends Component {
         });
         break;
     default:
-      display = PostsSupporter[ menu ][ dispKey ].map( (emoji, i) => {
+      display = PostsSupporter[ menu ][ dispKey ].map( ( emojiId, i) => {
         const index = i ;
         return ( 
           <li
-            key={ menu + dispKey + "_" + index }
-            style={ style[ menu ][ dispKey ][ index ] }
-            {...this.getEvents( menu, menu, dispKey, index + 1) }
+            key={ menu + dispKey + "_" + emojiId }
+            style={ style[ menu ][ dispKey ][ emojiId ] }
+            {...this.getEvents( menu, menu, dispKey, emojiId ) }
           >
-            {emoji}
+            { PostsSupporter.EmotionMap[ emojiId ].emoji }
           </li>
         );
       });
