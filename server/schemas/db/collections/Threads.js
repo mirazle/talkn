@@ -1,7 +1,12 @@
 import Posts from './Posts';
+import Russell from '~/common/emotions/model/Russell';
+import RussellSimple from '~/common/emotions/model/RussellSimple';
 import Html from '~/server/schemas/logics/Html';
 import Favicon from '~/server/logics/Favicon';
+
 const html = new Html();
+const russell = Russell.getSchemas();
+const russellSimple = RussellSimple.getSchemas();
 
 export default {
 	connection: { type: String, default: "/"  },
@@ -28,9 +33,9 @@ export default {
 	// Emotions
 	like: { type: Number, default: 0 },
 
-	russell: {
-
-	},
+	// Emotions
+	russell,	
+	russellSimple,
 
 	// Time
 	createTime: { type: Date, default: Date },

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Sequence from 'common/Sequence';
-import Emotions from 'common/Emotions';
+import Emotions from 'common/emotions/index';
 import util from 'common/util';
 import conf from 'common/conf';
 import App from 'common/schemas/state/App';
