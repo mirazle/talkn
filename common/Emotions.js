@@ -26,6 +26,23 @@ export default class Emotions {
     };
   }
 
+  static get russellSimpleModel(){
+    return [
+      "Excite",
+      "Happy",
+      "Joy",
+      "Relax",
+      "Slack",
+      "Melancholy",
+      "Dissat",
+      "Angry&Fear"
+    ];
+  }
+
+  static get russellModel(){
+    
+  }
+
   static get datas(){
     return {
 

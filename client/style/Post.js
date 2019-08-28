@@ -1,3 +1,4 @@
+import App from '../../common/schemas/state/App';
 import conf from '../../common/conf';
 import Style from './index';
 import Container from './Container';
@@ -177,16 +178,18 @@ export default class Post {
   }
 
   static getStampLabelWrap({app}){
+    console.log(app.screenMode);
+    const right = App.screenModeSmallLabel === app.screenMode ? "10%" : "7%";
+    console.log( right );
     const layout = Style.getLayoutFlex({
       position: "absolute",
       bottom: "10px",
-      right: "16px",
+      right,
       width: "100%",
       height: "20px",
       justifyContent: "flex-end",
       alignItems: "center",
-      zIndex: 10,
-      borderRadius: "0px 0px 10px 0px"
+      zIndex: 10
     });
     const content = Style.getContentBase({
       textAlign: "right"
@@ -203,6 +206,7 @@ export default class Post {
       background: "rgba(80, 80 ,80, 0.2)",
       justifyContent: "center",
       alignItems: "center",
+      borderRadius: "5px 5px 0px 0px"
     });
     const content = Style.getContentBase({
       fontSize: "10px",

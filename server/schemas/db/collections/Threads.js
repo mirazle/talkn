@@ -25,6 +25,13 @@ export default {
 	// Post
 	lastPost: Posts,
 
+	// Emotions
+	like: { type: Number, default: 0 },
+
+	russell: {
+
+	},
+
 	// Time
 	createTime: { type: Date, default: Date },
 	updateTime: { type: Date, default: Date }
