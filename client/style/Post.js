@@ -21,6 +21,8 @@ export default class Post {
     const bottom = Post.getBottom(params);
     const bottomIcon = Post.getBottomIcon(params);
     const bottomPost = Post.getBottomPost(params);
+    const stampLabelWrap = Post.getStampLabelWrap(params);
+    const stampLabel = Post.getStampLabel(params);
     return {
       self,
       upper,
@@ -30,6 +32,8 @@ export default class Post {
       bottom,
       bottomIcon,
       bottomPost,
+      stampLabelWrap,
+      stampLabel
     }
   }
 
@@ -167,6 +171,42 @@ export default class Post {
       cursor: 'pointer',
       wordWrap: "break-word",
       overflowWrap: "break-word"
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getStampLabelWrap({app}){
+    const layout = Style.getLayoutFlex({
+      position: "absolute",
+      bottom: "10px",
+      right: "16px",
+      width: "100%",
+      height: "20px",
+      justifyContent: "flex-end",
+      alignItems: "center",
+      zIndex: 10,
+      borderRadius: "0px 0px 10px 0px"
+    });
+    const content = Style.getContentBase({
+      textAlign: "right"
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({layout, content, animation});
+  }
+
+  static getStampLabel({app}){
+    const layout = Style.getLayoutFlex({
+      width: "100px",
+      height: "inherit",
+      padding: "5px",
+      background: "rgba(80, 80 ,80, 0.2)",
+      justifyContent: "center",
+      alignItems: "center",
+    });
+    const content = Style.getContentBase({
+      fontSize: "10px",
+      color: Container.whiteRGB
     });
     const animation = Style.getAnimationBase();
     return Style.get({layout, content, animation});
