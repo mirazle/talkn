@@ -90,7 +90,7 @@ export default class PostsSupporter extends Component {
         },
         onClick: ( e ) => {
           if( stampId !== 0 ){
-            const post = Emotions.map[ stampId ].emoji;
+            const post = Emotions.map[ stampId ];
             talknAPI.delegatePost( {
               inputPost: `<div class="talknStamps" style="${PostStyle.stampStyle}">${post}</div>`,
               inputStampId: stampId,
@@ -121,7 +121,7 @@ export default class PostsSupporter extends Component {
               style={ style.Cover[ stampId ] }
               {...this.getEvents( menu, obj.dispKey, obj.dispKey, stampId ) }
             >
-              <div>{ Emotions.map[ stampId ].emoji }</div>
+              <div>{ Emotions.map[ stampId ] }</div>
               <div style={ propsStyle.postsSupporter.emojiLabel }>
                 { menu === "Cover" && IconOpenEmoji }
                 { obj.dispKey }
@@ -138,7 +138,7 @@ export default class PostsSupporter extends Component {
             style={ style.Emojis[ dispKey ][ stampId ] }
             {...this.getEvents( menu, menu, dispKey, stampId ) }
           >
-            { Emotions.map[ stampId ].emoji }
+            { Emotions.map[ stampId ] }
           </li>
         );
       });
