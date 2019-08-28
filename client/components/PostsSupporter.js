@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import Emotions from 'common/Emotions';
+import Emotions from 'common/emotions/index';
 import Icon from './Icon';
 import PostStyle from 'client/style/Post';
 
