@@ -116,6 +116,7 @@ const functions = {
   "SERVER_TO_CLIENT[BROADCAST]:post": ( state, action ) => {
     const { app, user } = state;
     action.app = app;
+    action.app.inputStampId = 0;
     action.user = user;
 
     switch(action.app.extensionMode){
@@ -138,9 +139,6 @@ const functions = {
 
     action = Posts.getAnyActionPosts(action);
     
-    if( action.app.isMediaConnection ){
-      //action = storage.addStoragePostsTimeline( action );
-    }
     return action;
   }, 
   "SERVER_TO_CLIENT[EMIT]:getMore": ( state, action ) => {

@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import Sequence from 'common/Sequence';
+import Emotions from 'common/Emotions';
 import util from 'common/util';
 import conf from 'common/conf';
 import App from 'common/schemas/state/App';
 import PostState from 'common/schemas/state/Post';
 import PostStyle from 'client/style/Post';
 import Marquee from 'client/container/util/Marquee';
+
+const emotionCoverTypes = new Emotions();
 
 export default class Post extends Component {
 
@@ -21,6 +24,7 @@ export default class Post extends Component {
     this.mountTimeago = this.mountTimeago.bind(this);
     this.renderUpper = this.renderUpper.bind(this);
     this.renderTime = this.renderTime.bind(this);
+    this.renderStampLabel = this.renderStampLabel.bind(this);
     this.getDecolationProps = this.getDecolationProps.bind(this);
     this.handleOnClickPost = this.handleOnClickPost.bind(this);
   }
@@ -208,20 +212,38 @@ export default class Post extends Component {
     );
   }
 
-  renderPost( post, app ){
+  renderPost( post, stampId, app ){
     const isStamp = PostState.isStamp( post );
+    let postComponent = post;
+
     if( !app.isBubblePost ){
       if( isStamp ){
         if( post.indexOf( `scale(${PostStyle.bubbleStampScale})` ) ){
-          return post.replace( `scale(${PostStyle.bubbleStampScale})`, `scale(${PostStyle.stampScale})` )
+           postComponent = post.replace( `scale(${PostStyle.bubbleStampScale})`, `scale(${PostStyle.stampScale})` )
                     .replace( `height: 100%`, `height:60px` )
                     .replace( `height:100%`, `height:60px` )
                     .replace( `justify-content: center`, "justify-content: flex-start" )
-                    .replace( `justify-content:center`, "justify-content: flex-start" ) + "<div>@</div>";
+                    .replace( `justify-content:center`, "justify-content: flex-start" );
         }
       }
     }
-    return post + "<div>@</div>";
+    return postComponent;
+  }
+
+  renderStampLabel( stampId ){
+    const { style } = this.props;
+    
+    if( stampId ){
+      return ( 
+        <div data-component-name={"stamp-label"} style={style.stampLabelWrap}>
+          <div style={style.stampLabel}>
+            {emotionCoverTypes.belongCoverTypes[ stampId ]}
+          </div>
+        </div>
+      );
+    }else{
+      return null;
+    }
   }
 
  	render() {
@@ -230,9 +252,11 @@ export default class Post extends Component {
       thread,
       post,
       favicon,
+      stampId,
       _id,
      } = this.props;
     const { active, style } = this.state;
+    const stampLabel = this.renderStampLabel( stampId );
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName( favicon );
 
     if(
@@ -254,8 +278,9 @@ export default class Post extends Component {
   
           <div onClick={this.handleOnClickPost} style={style.bottom}>
             <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
-            <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: this.renderPost( post, app ) }} />
+            <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: this.renderPost( post, stampId, app ) }} />
           </div>
+            { stampLabel }
         </li>
       );
     }else{

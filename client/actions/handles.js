@@ -294,10 +294,10 @@ export default {
       postsTimeline
     };
   },
-  delegatePost: ( {inputPost, inputCurrentTime, inputIsStamp} ) => {
+  delegatePost: ( {inputPost, inputCurrentTime, inputStampId} ) => {
     return {
       type: 'DELEGATE_POST',
-      app: {inputPost, inputCurrentTime, inputIsStamp}
+      app: {inputPost, inputCurrentTime, inputStampId}
     };
   },
   playVideo: () => {

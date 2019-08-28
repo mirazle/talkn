@@ -67,6 +67,7 @@ export default class Posts {
 
   async save( requestState ){
     const { app, user, thread } = requestState;
+    console.log( app.inputStampId );
     const post = this.collection.getSchema({
       protocol: thread.protocol,
       connection: thread.connection,
@@ -77,6 +78,7 @@ export default class Posts {
       favicon: thread.favicon,
       title: thread.title,
       post: app.inputPost,
+      stampId: ( app.inputStampId ) ? app.inputStampId : 0 ,
       findType: thread.findType,
       currentTime: app.inputCurrentTime,
       data: '',

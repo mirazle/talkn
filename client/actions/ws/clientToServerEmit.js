@@ -23,8 +23,6 @@ const beforeFunctions = {
 				requestState.app.inputCurrentTime = 0;
 			}
 		}
-		requestState.app.inputIsStamp = PostState.isStamp( requestState.app.inputPost );
-
 		return { requestState, actionState };
 	}
 }
