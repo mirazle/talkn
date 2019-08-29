@@ -163,7 +163,6 @@ const componentDidUpdates = {
                     Posts.scrollTop = Posts.scrollHeight - self.state.scrollHeight;
                 }else{
                     const scrollTo = Posts.clientHeight - talknWindow.threadHeight;
-                    console.log( "WINDOW " + scrollTo + " = " + Posts.clientHeight + " - " + talknWindow.threadHeight );
                     window.scrollTo(0, scrollTo );
                     talknWindow.threadHeight = Posts.clientHeight;    
                 }
@@ -200,7 +199,7 @@ function changeLockMode( self, called ){
             talknWindow.lockWindow({});
         }else{
             
-            window.scrollTo(0, 9999999);
+            //window.scrollTo(0, 9999999);
             talknWindow.unlockWindow({});
         }
     }
