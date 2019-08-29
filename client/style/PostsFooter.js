@@ -207,7 +207,7 @@ export default class PostsFooter{
       outline: 'none',
       width: '20%',
       maxWidth: '20%',
-      height: '55%',
+      height: '56%',
       margin: '0px 3% 0px 0%',
       background: 'rgb(245, 245, 245)',
       border: Container.border,

@@ -4,26 +4,26 @@ export default class Russell {
 
     static get DATAS(){
         return [
-            Emotions.SUPRISE,
-            Emotions.EXCITE,
-            Emotions.HAPPY,
-            Emotions.JOY,
-            Emotions.GLAD,
-            Emotions.SATISFACTION,
-            Emotions.COMFORT,
-            Emotions.RELAX,
-            Emotions.TIRED,
-            Emotions.SLEEPY,
-            Emotions.SLACK,
-            Emotions.BORING,
-            Emotions.MELANCHOLY,
-            Emotions.SAD,
-            Emotions.UNPLEASANT,
-            Emotions.FRUSTRATED,
-            Emotions.DISSATISFIED,
-            Emotions.ANGER,
-            Emotions.WORRY,
-            Emotions.FEAR
+            Emotions.TYPES_SUPRISE,
+            Emotions.TYPES_EXCITE,
+            Emotions.TYPES_HAPPY,
+            Emotions.TYPES_JOY,
+            Emotions.TYPES_GLAD,
+            Emotions.TYPES_SATISFACTION,
+            Emotions.TYPES_COMFORT,
+            Emotions.TYPES_RELAX,
+            Emotions.TYPES_TIRED,
+            Emotions.TYPES_SLEEPY,
+            Emotions.TYPES_SLACK,
+            Emotions.TYPES_BORING,
+            Emotions.TYPES_MELANCHOLY,
+            Emotions.TYPES_SAD,
+            Emotions.TYPES_UNPLEASANT,
+            Emotions.TYPES_FRUSTRATED,
+            Emotions.TYPES_DISSATISFIED,
+            Emotions.TYPES_ANGER,
+            Emotions.TYPES_WORRY,
+            Emotions.TYPES_FEAR
         ];
     }
 

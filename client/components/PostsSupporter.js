@@ -4,41 +4,38 @@ import Icon from './Icon';
 import PostStyle from 'client/style/Post';
 
 export default class PostsSupporter extends Component {
-
+  static get COVER(){return "Cover"};
   constructor(props) {
     super(props);
-    let style = {Cover: [], Emojis: {}};
-    Object.keys( Emotions.covers ).forEach( ( stampId ) => {
-      style.Cover[ stampId ] = {...props.state.style.postsSupporter.emoji };
-    });
-    Object.keys( Emotions.emojis ).forEach( ( dispKey ) => {
-      Emotions.emojis[ dispKey ].forEach( ( stampId, i ) => {
-        if( !style.Emojis[ dispKey ] ){
-          style.Emojis[ dispKey ] = {};
-          style.Emojis[ dispKey ][ 0 ] = {...props.state.style.postsSupporter.emoji };
-        }
-        style.Emojis[ dispKey ][ stampId ] = {...props.state.style.postsSupporter.emoji };
+    let style = {[ PostsSupporter.COVER ]: {}, Emojis: {}};
+
+    Object.keys( Emotions.covers ).forEach( ( menu ) => {
+      const coverStampId = Emotions.covers[ menu ][ 0 ] ;
+      style[ PostsSupporter.COVER ][ coverStampId ] = {...props.state.style.postsSupporter.emoji };
+      style.Emojis[ menu ] = {};
+      style.Emojis[ menu ][ 0 ] = {...props.state.style.postsSupporter.emoji };
+      Emotions.covers[ menu ].forEach( ( stampId ) => {
+        style.Emojis[ menu ][ stampId ] = {...props.state.style.postsSupporter.emoji };
       });
     });
 
     this.state = {
       style,
-      menu: "Cover",
-      dispKey: "",
+      menu: PostsSupporter.COVER
     };
     this.getDisplay = this.getDisplay.bind( this );
   }
 
-  getEvents(menu, toMenu, dispKey, stampId ){
+  getEvents(menu, toMenu, stampId ){
 
     switch( menu ){
-    case "Cover":
+    case PostsSupporter.COVER:
       return {
         onMouseOver: ( e ) => {
           this.setState( {
             style: {...this.state.style,
-              Cover: {...this.state.style.Cover,
-                [ stampId ]: { ...this.state.style.Cover[ stampId ],
+              [ PostsSupporter.COVER ]: {...this.state.style[ PostsSupporter.COVER ],
+                [ stampId ]: { ...this.state.style[ PostsSupporter.COVER ][ stampId ],
                   transform: "scale(1.1)"
                 }
               }
@@ -48,8 +45,8 @@ export default class PostsSupporter extends Component {
         onMouseOut: ( e ) => {
           this.setState( {
             style: {...this.state.style,
-              Cover: {...this.state.style.Cover,
-                [ stampId ]: { ...this.state.style.Cover[ stampId ],
+              [ PostsSupporter.COVER ]: {...this.state.style[ PostsSupporter.COVER ],
+                [ stampId ]: { ...this.state.style[ PostsSupporter.COVER ][ stampId ],
                   transform: "scale(1.0)"
                 }
               }
@@ -57,7 +54,7 @@ export default class PostsSupporter extends Component {
           });
         },
         onClick: ( e ) => {
-          this.setState( {  menu: toMenu, dispKey: toMenu } );
+          this.setState( {  menu: toMenu } );
         }
       }
     default:
@@ -66,8 +63,8 @@ export default class PostsSupporter extends Component {
           this.setState( {
             style: {...this.state.style,
               Emojis: {...this.state.style.Emojis,
-                [ dispKey ]: { ...this.state.style.Emojis[ dispKey ],
-                  [ stampId ]: {...this.state.style.Emojis[ dispKey ][ stampId ],
+                [ menu ]: { ...this.state.style.Emojis[ menu ],
+                  [ stampId ]: {...this.state.style.Emojis[ menu ][ stampId ],
                     transform: "scale(1.1)"
                   }
                 }
@@ -79,8 +76,8 @@ export default class PostsSupporter extends Component {
           this.setState( {
             style: {...this.state.style,
               Emojis: {...this.state.style.Emojis,
-                [ dispKey ]: { ...this.state.style.Emojis[ dispKey ],
-                  [ stampId ]: {...this.state.style.Emojis[ dispKey ][ stampId ],
+                [ menu ]: { ...this.state.style.Emojis[ menu ],
+                  [ stampId ]: {...this.state.style.Emojis[ menu ][ stampId ],
                     transform: "scale(1.0)"
                   }
                 }
@@ -97,13 +94,13 @@ export default class PostsSupporter extends Component {
               inputCurrentTime: 0
             } );
           }
-          this.setState( {  menu: "Cover", dispKey: "" } );
+          this.setState( {  menu: toMenu } );
         }
       }
     }
   }
 
-  getDisplay( menu, dispKey ){
+  getDisplay( menu ){
     const { state } = this.props;
     const { style: propsStyle } = state;
     const IconOpenEmoji = Icon.getOpenEmoji( {}, state );
@@ -111,32 +108,31 @@ export default class PostsSupporter extends Component {
     const { style } = this.state;
     let display = [];
     switch( menu ){
-    case "Cover":
-        display = Object.keys( Emotions.covers ).map( (stampId, index) => {
-
-          const obj = Emotions.covers[ stampId ];
+    case PostsSupporter.COVER:
+        display = Object.keys( Emotions.covers ).map( ( label ) => {
+          const coverStampId = Emotions.covers[ label ][ 0 ];
           return ( 
             <li
-              key={ menu + "_" + index }
-              style={ style.Cover[ stampId ] }
-              {...this.getEvents( menu, obj.dispKey, obj.dispKey, stampId ) }
+              key={ menu + "_" + coverStampId }
+              style={ style[ PostsSupporter.COVER ][ coverStampId ] }
+              {...this.getEvents( menu, label, coverStampId ) }
             >
-              <div>{ Emotions.map[ stampId ] }</div>
+              <div>{ Emotions.map[ coverStampId ] }</div>
               <div style={ propsStyle.postsSupporter.emojiLabel }>
-                { menu === "Cover" && IconOpenEmoji }
-                { obj.dispKey }
+                { menu === PostsSupporter.COVER && IconOpenEmoji }
+                { label }
               </div>
             </li>
           );
         });
         break;
     default:
-      display = Emotions.emojis[ dispKey ].map( ( stampId, i) => {
+      display = Emotions.covers[ menu ].map( ( stampId ) => {
         return ( 
           <li
-            key={ menu + dispKey + "_" + stampId }
-            style={ style.Emojis[ dispKey ][ stampId ] }
-            {...this.getEvents( menu, menu, dispKey, stampId ) }
+            key={ menu + "_" + stampId }
+            style={ style.Emojis[ menu ][ stampId ] }
+            {...this.getEvents( menu, PostsSupporter.COVER, stampId ) }
           >
             { Emotions.map[ stampId ] }
           </li>
@@ -145,9 +141,9 @@ export default class PostsSupporter extends Component {
 
       display.unshift(
         <li
-          key={"backCover" }
-          style={ style[ "Emojis" ][ dispKey ][ 0 ] }
-          {...this.getEvents( menu, menu, dispKey, 0 ) }
+          key={"backCover"}
+          style={ style[ "Emojis" ][ menu ][ 0 ] }
+          {...this.getEvents( menu, PostsSupporter.COVER, 0 ) }
         >
           { IconCloseEmoji }
         </li>
@@ -160,8 +156,8 @@ export default class PostsSupporter extends Component {
 
   render() {
     const { style } = this.props.state;
-    const { menu, dispKey } = this.state;
-    const lis = this.getDisplay( menu, dispKey );
+    const { menu } = this.state;
+    const lis = this.getDisplay( menu );
     return (
       <ul
         data-component-name={"PostsSupporter"}

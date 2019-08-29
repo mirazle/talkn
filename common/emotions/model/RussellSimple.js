@@ -3,14 +3,14 @@ import Emotions from '~/common/emotions/index';
 export default class RussellSimple {
     static get DATAS(){
         return [
-            Emotions.EXCITE,
-            Emotions.HAPPY,
-            Emotions.JOY,
-            Emotions.RELAX,
-            Emotions.SLACK,
-            Emotions.MELANCHOLY,
-            Emotions.ANGER,
-            Emotions.WORRY_FEAR
+            Emotions.TYPES_EXCITE,
+            Emotions.TYPES_HAPPY,
+            Emotions.TYPES_JOY,
+            Emotions.TYPES_RELAX,
+            Emotions.TYPES_SLACK,
+            Emotions.TYPES_MELANCHOLY,
+            Emotions.TYPES_ANGER,
+            Emotions.TYPES_WORRY_FEAR
         ];
     }
 
