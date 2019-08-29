@@ -38,14 +38,14 @@ export default class Emotions {
 
     constructor( type ){
       this.belongCoverTypes = {};
-      Object.keys( Emotions.covers ).forEach( ( dispKey ) => {
-        Emotions.covers[ dispKey ].forEach( ( stampId ) => {
-          this.belongCoverTypes[ stampId ] = dispKey;
+      Object.keys( Emotions.inputs ).forEach( ( label ) => {
+        Emotions.inputs[ label ].forEach( ( stampId ) => {
+          this.belongCoverTypes[ stampId ] = label;
         });
       });
     }
 
-    static get covers(){
+    static get inputs(){
         return {
             [ Emotions.TYPES_LIKE.LABEL ]: [ 1, 2, 3, 4, 5, 6],
             [ Emotions.TYPES_MONEY.LABEL ]: [ 100 ],
@@ -62,64 +62,9 @@ export default class Emotions {
         }
     }
     
-    static get datas(){
-        return {
-    
-          // Flat like
-          1001: Emotions.TYPES_LIKE.LABEL,
-          1002: Emotions.TYPES_INTEREST.LABEL,
-          1003: Emotions.TYPES_DISCOVERY.LABEL,
-          1004: Emotions.TYPES_SUNNY.LABEL,
-          1005: Emotions.TYPES_PEACE.LABEL,
-          1006: Emotions.TYPES_CHEER.LABEL,
-          1007: Emotions.TYPES_MONEY.LABEL,
-          1008: Emotions.TYPES_LOL.LABEL,
-
-          2002: Emotions.TYPES_UNLIKE.LABEL,
-
-          3000: Emotions.TYPES_LOVE.LABEL,
-    
-          // Money
-          5000: Emotions.TYPES_MONEY.LABEL,
-
-          // Positive(high)
-          10001: Emotions.TYPES_SUPRISE.LABEL,
-          10002: Emotions.TYPES_EXCITE.LABEL,
-          10003: Emotions.TYPES_HAPPY.LABEL,
-          10004: Emotions.TYPES_JOY.LABEL,
-    
-          // Positive(middle)
-          20001: Emotions.TYPES_GLAD.LABEL,
-          20002: Emotions.TYPES_SATISFACTION.LABEL,
-    
-          // Positive(low)
-          30001: Emotions.TYPES_OMFORT.LABEL,
-          30002: Emotions.TYPES_ELAX.LABEL,
-          30003: Emotions.TYPES_IRED.LABEL,
-    
-          // Negatie(low)
-          50001: Emotions.TYPES_SLEEPY.LABEL,
-          
-          60001: Emotions.TYPES_SLACK.LABEL,
-          60002: Emotions.TYPES_BORING.LABEL,
-    
-          // Negatie(middle)
-          70001: Emotions.TYPES_MELANCHOLY.LABEL,
-          70002: Emotions.TYPES_SAD.LABEL,
-          70003: Emotions.TYPES_UNPLEASANT.LABEL,
-          70004: Emotions.TYPES_FRUSTRATED.LABEL,
-    
-          // Negatie(high)
-          80001: Emotions.TYPES_DISSATISFIED.LABEL,
-          80002: Emotions.TYPES_ANGER.LABEL,
-          80003: Emotions.TYPES_WORRY.LABEL,
-          80004: Emotions.TYPES_FEAR.LABEL,
-        }
-    }
-    
     static get map(){
         return {
-    
+        
           // Flat like
           1: '👍',
           2: '✌️',

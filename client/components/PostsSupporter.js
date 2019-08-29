@@ -9,12 +9,12 @@ export default class PostsSupporter extends Component {
     super(props);
     let style = {[ PostsSupporter.COVER ]: {}, Emojis: {}};
 
-    Object.keys( Emotions.covers ).forEach( ( menu ) => {
-      const coverStampId = Emotions.covers[ menu ][ 0 ] ;
+    Object.keys( Emotions.inputs ).forEach( ( menu ) => {
+      const coverStampId = Emotions.inputs[ menu ][ 0 ] ;
       style[ PostsSupporter.COVER ][ coverStampId ] = {...props.state.style.postsSupporter.emoji };
       style.Emojis[ menu ] = {};
       style.Emojis[ menu ][ 0 ] = {...props.state.style.postsSupporter.emoji };
-      Emotions.covers[ menu ].forEach( ( stampId ) => {
+      Emotions.inputs[ menu ].forEach( ( stampId ) => {
         style.Emojis[ menu ][ stampId ] = {...props.state.style.postsSupporter.emoji };
       });
     });
@@ -109,8 +109,8 @@ export default class PostsSupporter extends Component {
     let display = [];
     switch( menu ){
     case PostsSupporter.COVER:
-        display = Object.keys( Emotions.covers ).map( ( label ) => {
-          const coverStampId = Emotions.covers[ label ][ 0 ];
+        display = Object.keys( Emotions.inputs ).map( ( label ) => {
+          const coverStampId = Emotions.inputs[ label ][ 0 ];
           return ( 
             <li
               key={ menu + "_" + coverStampId }
@@ -127,7 +127,7 @@ export default class PostsSupporter extends Component {
         });
         break;
     default:
-      display = Emotions.covers[ menu ].map( ( stampId ) => {
+      display = Emotions.inputs[ menu ].map( ( stampId ) => {
         return ( 
           <li
             key={ menu + "_" + stampId }
