@@ -31,115 +31,115 @@ export default class Russell {
         return {
         
             // Suprise(Posi1)
-            1001: [{ 10001: 1 }],
-            1002: [{ 10001: 1 }],
+            1001: [{ [ Emotions.TYPES_SUPRISE.ID ]: 1 }],
+            1002: [{ [ Emotions.TYPES_SUPRISE.ID ]: 1 }],
     
             // Excite(Posi1)
-            1101: [{ 1001: 1 }],
-            1102: [{ 1001: 1 }],
-            1103: [{ 1001: 1 }],
+            1101: [{ [ Emotions.TYPES_EXCITE.ID ]: 1 }],
+            1102: [{ [ Emotions.TYPES_EXCITE.ID ]: 1 }],
+            1103: [{ [ Emotions.TYPES_EXCITE.ID ]: 1 }],
     
             // Happy(Posi2)
-            1201: [{ 10003: 1 }],
-            1202: [{ 10003: 1 }],
-            1203: [{ 10003: 1 }],
-            1204: [{ 10003: 1 }],
+            1201: [{ [ Emotions.TYPES_HAPPY.ID ]: 1 }],
+            1202: [{ [ Emotions.TYPES_HAPPY.ID ]: 1 }],
+            1203: [{ [ Emotions.TYPES_HAPPY.ID ]: 1 }],
+            1204: [{ [ Emotions.TYPES_HAPPY.ID ]: 1 }],
     
             // Joy(Posi2)
-            1301: [{ 10004: 1 }],
-            1302: [{ 10004: 1 }],
-            1303: [{ 10004: 1 }],
-            1304: [{ 10004: 1 }],
-            1305: [{ 10004: 1 }],
-            1306: [{ 10004: 1 }],
-            1307: [{ 10004: 1 }],
+            1301: [{ [ Emotions.TYPES_JOY.ID ]: 1 }],
+            1302: [{ [ Emotions.TYPES_JOY.ID ]: 1 }],
+            1303: [{ [ Emotions.TYPES_JOY.ID ]: 1 }],
+            1304: [{ [ Emotions.TYPES_JOY.ID ]: 1 }],
+            1305: [{ [ Emotions.TYPES_JOY.ID ]: 1 }],
+            1306: [{ [ Emotions.TYPES_JOY.ID ]: 1 }],
+            1307: [{ [ Emotions.TYPES_JOY.ID ]: 1 }],
     
             // Glad(Posi3)
-            1401: [{ 20001: 1 }],
-            1402: [{ 20001: 1 }],
+            1401: [{ [ Emotions.TYPES_GLAD.ID ]: 1 }],
+            1402: [{ [ Emotions.TYPES_GLAD.ID ]: 1 }],
     
             // Satisfaction(Posi3)
-            1501: [{ 20002: 1 }],
-            1502: [{ 20002: 1 }],
-            1503: [{ 20002: 1 }],
-            1504: [{ 20002: 1 }],
+            1501: [{ [ Emotions.TYPES_SATISFACTION.ID ]: 1 }],
+            1502: [{ [ Emotions.TYPES_SATISFACTION.ID ]: 1 }],
+            1503: [{ [ Emotions.TYPES_SATISFACTION.ID ]: 1 }],
+            1504: [{ [ Emotions.TYPES_SATISFACTION.ID ]: 1 }],
     
             // Comfort(Posi4)
-            1601: [{ 30001: 1 }],
-            1602: [{ 30001: 1 }],
+            1601: [{ [ Emotions.TYPES_COMFORT.ID ]: 1 }],
+            1602: [{ [ Emotions.TYPES_COMFORT.ID ]: 1 }],
 
             // Relax(Posi4)
-            1701: [{ 30002: 1 }],
-            1702: [{ 30002: 1 }],
-            1703: [{ 30002: 1 }],
+            1701: [{ [ Emotions.TYPES_RELAX.ID ]: 1 }],
+            1702: [{ [ Emotions.TYPES_RELAX.ID ]: 1 }],
+            1703: [{ [ Emotions.TYPES_RELAX.ID ]: 1 }],
     
             // Tired(Posi4)
-            1801: [{ 30003: 1 }],
-            1802: [{ 30003: 1 }],
-            1803: [{ 30003: 1 }],
+            1801: [{ [ Emotions.TYPES_TIRED.ID ]: 1 }],
+            1802: [{ [ Emotions.TYPES_TIRED.ID ]: 1 }],
+            1803: [{ [ Emotions.TYPES_TIRED.ID ]: 1 }],
     
             // Slack(Nega4)
-            2001: [{ 60001: 1 }],
-            2002: [{ 60001: 1 }],
-            2003: [{ 60001: 1 }],
-            2004: [{ 60001: 1 }],
+            2001: [{ [ Emotions.TYPES_SLACK.ID ]: 1 }],
+            2002: [{ [ Emotions.TYPES_SLACK.ID ]: 1 }],
+            2003: [{ [ Emotions.TYPES_SLACK.ID ]: 1 }],
+            2004: [{ [ Emotions.TYPES_SLACK.ID ]: 1 }],
     
             // Boring(Nega4)
-            2101: [{ 60002: 1 }],
-            2102: [{ 60002: 1 }],
-            2103: [{ 60002: 1 }],
+            2101: [{ [ Emotions.TYPES_BORING.ID ]: 1 }],
+            2102: [{ [ Emotions.TYPES_BORING.ID ]: 1 }],
+            2103: [{ [ Emotions.TYPES_BORING.ID ]: 1 }],
     
             // Melancholy(Nega4)
-            2201: [{ 70001: 2 }],
-            2202: [{ 70001: 1 }],
-            2203: [{ 70001: 1 }],
-            2204: [{ 70001: 1 }],
-            2205: [{ 70001: 1 }],
+            2201: [{ [ Emotions.TYPES_MELANCHOLY.ID ]: 1 }],
+            2202: [{ [ Emotions.TYPES_MELANCHOLY.ID ]: 1 }],
+            2203: [{ [ Emotions.TYPES_MELANCHOLY.ID ]: 1 }],
+            2204: [{ [ Emotions.TYPES_MELANCHOLY.ID ]: 1 }],
+            2205: [{ [ Emotions.TYPES_MELANCHOLY.ID ]: 1 }],
     
             // Sad(Nega3)
-            2301: [{ 70002: 1}],
-            2302: [{ 70002: 1 }],
-            2303: [{ 70002: 1 }],
+            2301: [{ [ Emotions.TYPES_SAD.ID ]: 1 }],
+            2302: [{ [ Emotions.TYPES_SAD.ID ]: 1 }],
+            2303: [{ [ Emotions.TYPES_SAD.ID ]: 1 }],
 
             // Unpleasant(Nega3)
-            2401: [{ 70003: 1 }],
-            2402: [{ 70003: 1 }],
-            2403: [{ 70003: 1 }],
-            2404: [{ 70003: 1 }],
+            2401: [{ [ Emotions.TYPES_UNPLEASANT.ID ]: 1 }],
+            2402: [{ [ Emotions.TYPES_UNPLEASANT.ID ]: 1 }],
+            2403: [{ [ Emotions.TYPES_UNPLEASANT.ID ]: 1 }],
+            2404: [{ [ Emotions.TYPES_UNPLEASANT.ID ]: 1 }],
 
             // frustrated(Nega3)
-            2501: [{ 70004: 1 }],
-            2502: [{ 70004: 1 }],
-            2503: [{ 70004: 1 }],
+            2501: [{ [ Emotions.TYPES_FRUSTRATED.ID ]: 1 }],
+            2502: [{ [ Emotions.TYPES_FRUSTRATED.ID ]: 1 }],
+            2503: [{ [ Emotions.TYPES_FRUSTRATED.ID ]: 1 }],
 
             // dissatisfied(Nega2)
-            2601: [{ 80001: 1 }],
-            2602: [{ 80001: 1 }],
+            2601: [{ [ Emotions.TYPES_DISSATISFIED.ID ]: 1 }],
+            2602: [{ [ Emotions.TYPES_DISSATISFIED.ID ]: 1 }],
     
             // Anger(Nega2)
-            2701: [{ 80002: 1 }],
-            2702: [{ 80002: 1 }],
-            2703: [{ 80002: 1 }],
-            2704: [{ 80002: 1 }],
-            2705: [{ 80002: 1 }],
-            2706: [{ 80002: 1 }],
+            2701: [{ [ Emotions.TYPES_ANGER.ID ]: 1 }],
+            2702: [{ [ Emotions.TYPES_ANGER.ID ]: 1 }],
+            2703: [{ [ Emotions.TYPES_ANGER.ID ]: 1 }],
+            2704: [{ [ Emotions.TYPES_ANGER.ID ]: 1 }],
+            2705: [{ [ Emotions.TYPES_ANGER.ID ]: 1 }],
+            2706: [{ [ Emotions.TYPES_ANGER.ID ]: 1 }],
     
             // Worry(Nega1)
-            2801: [{ 80003: 1 }],
-            2802: [{ 80003: 1 }],
-            2803: [{ 80003: 1 }],
-            2804: [{ 80003: 1 }],
-            2805: [{ 80003: 1 }],
-            2806: [{ 80003: 1 }],
-            2807: [{ 80003: 1 }],
+            2801: [{ [ Emotions.TYPES_WORRY.ID ]: 1 }],
+            2802: [{ [ Emotions.TYPES_WORRY.ID ]: 1 }],
+            2803: [{ [ Emotions.TYPES_WORRY.ID ]: 1 }],
+            2804: [{ [ Emotions.TYPES_WORRY.ID ]: 1 }],
+            2805: [{ [ Emotions.TYPES_WORRY.ID ]: 1 }],
+            2806: [{ [ Emotions.TYPES_WORRY.ID ]: 1 }],
+            2807: [{ [ Emotions.TYPES_WORRY.ID ]: 1 }],
     
             // Fear(Nega1)
-            2901: [{ 80004: 1 }],
-            2902: [{ 80004: 1 }],
-            2903: [{ 80004: 1 }],
-            2904: [{ 80004: 1 }],
-            2905: [{ 80004: 1 }],
-            2906: [{ 80004: 1 }]
+            2901: [{ [ Emotions.TYPES_FEAR.ID ]: 1 }],
+            2902: [{ [ Emotions.TYPES_FEAR.ID ]: 1 }],
+            2903: [{ [ Emotions.TYPES_FEAR.ID ]: 1 }],
+            2904: [{ [ Emotions.TYPES_FEAR.ID ]: 1 }],
+            2905: [{ [ Emotions.TYPES_FEAR.ID ]: 1 }],
+            2906: [{ [ Emotions.TYPES_FEAR.ID ]: 1 }],
         };
     }
 
