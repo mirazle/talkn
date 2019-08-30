@@ -3,6 +3,31 @@ import RussellSimple from '~/common/emotions/model/RussellSimple';
 
 export default class Emotions {
 
+    static TOTAL_POST_LIMITS( totalPostCnt, isHarf = false ){
+        if( isHarf ){
+            return {
+                5: 2,
+                30: 4,
+                100: 6,
+                500: 8,
+                1000: 10
+            };
+        }else{
+            return {
+                1: 1,
+                5: 2,
+                10: 3,
+                30: 4,
+                70: 5,
+                100: 6,
+                250: 7,
+                500: 8,
+                750: 9, 
+                1000: 10
+            };
+        }
+    }
+
     static get TYPES_LIKE(){return { ID: 1, LABEL: 'Like' } }
     static get TYPES_INTEREST(){return { ID: 1002, LABEL: 'Interest' } }
     static get TYPES_DISCOVERY(){return { ID: 1003, LABEL: 'Discovery' } }
@@ -47,7 +72,7 @@ export default class Emotions {
 
     static get inputs(){
         return {
-            [ Emotions.TYPES_LIKE.LABEL ]: [ 1, 2, 3, 4, 5, 6],
+            [ Emotions.TYPES_LIKE.LABEL ]: [ 1, 2, 3, 4, 5],
             [ Emotions.TYPES_MONEY.LABEL ]: [ 100 ],
 
             [ Emotions.TYPES_EXCITE.LABEL ]: [ 1101, 1102, 1103, 1001, 1002 ],
@@ -55,10 +80,10 @@ export default class Emotions {
             [ Emotions.TYPES_JOY.LABEL ]: [ 1401, 1402, 1501, 1502, 1503, 1504 ],
             [ Emotions.TYPES_RELAX.LABEL ]: [ 1601, 1602, 1603, 1701, 1702, 1703, 1801, 1802, 1803 ],
 
-            [ Emotions.TYPES_SLACK.LABEL ]: [ 2001, 2002, 2003, 2004, 2101, 2102, 2103 ],
+            [ Emotions.TYPES_SLACK.LABEL ]: [ 2001, 2002, 2003, 2004, 2005, 2101, 2102, 2103 ],
             [ Emotions.TYPES_MELANCHOLY.LABEL ]: [ 2301, 2302, 2303, 2201, 2202, 2203, 2204, 2205, 2401, 2402, 2403, 2404, 2501, 2502, 2503 ],
             [ Emotions.TYPES_ANGER.LABEL ]: [ 2701, 2702, 2703, 2704, 2705, 2706, 2601, 2602 ],
-            [ Emotions.TYPES_WORRY_FEAR.LABEL ]: [ 2904, 2905, 2906, 2801, 2802, 2803, 2804, 2805, 2806, 2807, 2901, 2903 ],
+            [ Emotions.TYPES_WORRY_FEAR.LABEL ]: [ 2904, 2905, 2906, 2801, 2802, 2803, 2804, 2805, 2806, 2901, 2903 ],
         }
     }
     
@@ -126,8 +151,9 @@ export default class Emotions {
           // Slack(Nega4)
           2001: '😅',
           2002: '💦',
-          2003: '😲',
-          2004: '🙄',
+          2003: '🥺',
+          2004: '😲',
+          2005: '🙄',
     
           // Boring(Nega4)
           2101: '😒',
@@ -171,12 +197,11 @@ export default class Emotions {
     
           // Worry(Nega1)
           2801: '😣',
-          2802: '🥺',
-          2803: '😫',
-          2804: '😓',
-          2805: '😖',
-          2806: '😨',
-          2807: '😰',
+          2802: '😫',
+          2803: '😓',
+          2804: '😖',
+          2805: '😨',
+          2806: '😰',
     
           // Fear(Nega1)
           2901: '🥶',
