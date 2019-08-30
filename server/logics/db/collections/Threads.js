@@ -21,7 +21,7 @@ export default class Threads {
 
     if( buildinSchema ){
       if( !responses.response ){
-        const builtinSchema = await this.getUnshiftBaseConnectionResponse( connection );
+        const builtinSchema = await this.getUnshiftMainConnectionResponse( connection );
         responses = {...responses, response: builtinSchema[ 0 ] };
       }
     }
@@ -60,7 +60,7 @@ export default class Threads {
     let mainConnectionExist = false;
 
     if( responseLength === 0 ){
-      response = await this.getUnshiftBaseConnectionResponse( connection, response );
+      response = await this.getUnshiftMainConnectionResponse( connection, response );
     }else{
 
       for( let i = 0; i < responseLength; i++ ){
@@ -71,7 +71,8 @@ export default class Threads {
       }
 
       if( !mainConnectionExist ){
-        response = await this.getUnshiftBaseConnectionResponse( connection, response );
+        const { response: mainThread } = await this.collection.findOne( {connection}, {lastPost: 1} );
+        response.unshift( mainThread );
       }
     }
 
@@ -119,7 +120,7 @@ export default class Threads {
     }
   }
 
-  async update( connection, upset ){
+  async update( connection, app, upset ){
     const condition = {connection};
     const set = {connection, ...upset, updateTime: new Date()}
     const option = {upsert:true};
@@ -139,7 +140,7 @@ export default class Threads {
   /* COLUMN LOGIC   */
   /******************/
 
-  async getUnshiftBaseConnectionResponse( connection, response = [] ){
+  async getUnshiftMainConnectionResponse( connection, response = [] ){
     let schema = this.collection.getSchema({connection});
     schema.title = Thread.getDefaultTitle();
     schema.connections = Thread.getConnections( connection );
@@ -147,6 +148,7 @@ export default class Threads {
     schema.layer = Thread.getLayer( connection );
     schema.lastPost.connection = connection;
     schema.lastPost.connections = Thread.getConnections( connection );
+    schema.lastPost.stampId = 0;
     response.unshift( schema );
     return response;
   }
@@ -180,4 +182,10 @@ export default class Threads {
 
     return thread;
   }
+
+  /**********************/
+  /* EMOTIONS LOGIC     */
+  /**********************/
+
+
 }

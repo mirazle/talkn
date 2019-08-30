@@ -64,7 +64,8 @@ export default ( state = new MenuIndex() , action ) => {
 					return {...mi,
 //						title: action.posts[ postLength - 1].title,
 						favicon: action.thread.favicon,
-//						watchCnt: action.thread.watchCnt,
+						stampId: action.posts[ postLength - 1].stampId,
+						//						watchCnt: action.thread.watchCnt,
 						post: action.posts[ postLength - 1].post
 					}
 				}else{
@@ -121,6 +122,7 @@ export default ( state = new MenuIndex() , action ) => {
 			if(action.posts[0].connection === mi.connection){
 				return {...mi,
 					title: action.posts[ 0 ].title,
+					stampId: action.posts[ 0 ].stampId,
 					favicon: action.posts[ 0 ].favicon,
 					post: action.posts[ 0 ].post
 				}

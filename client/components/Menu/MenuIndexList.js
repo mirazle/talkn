@@ -185,14 +185,14 @@ export default class MenuIndexList extends Component {
     }
   }
 
-  renderPost( post, app ){
-    if( post.indexOf( '<div class="talknStamps"' ) === 0 ){
-      if( post.indexOf( `scale(${PostStyle.bubbleStampScale})` ) ){
-        return post.replace( `scale(${PostStyle.bubbleStampScale})`, `scale(${PostStyle.stampScale})` )
-                  .replace( `height: 100%`, `height:60px` )
-                  .replace( `height:100%`, `height:60px` );
-      }
+  renderPost( menuIndexList, app ){
+    let { connection, post, stampId } = menuIndexList;
+    //console.log( menuIndexList );
+
+    if( stampId > 0 ){
+      post = PostStyle.getStampTag( post, false );
     }
+
     return post;
   }
 
@@ -234,7 +234,7 @@ export default class MenuIndexList extends Component {
 
         <div style={style.bottom}>
           <span style={{...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )`}} />
-          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: this.renderPost( menuIndexList.post, app ) }} />
+          <span style={style.bottomPost} dangerouslySetInnerHTML={{__html: this.renderPost( menuIndexList, app ) }} />
           {dispWatchCnt}
         </div>
 
