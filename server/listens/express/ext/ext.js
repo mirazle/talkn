@@ -1464,7 +1464,7 @@ class Notif extends Elements{
             "text-indent: 10px;"
         );
 
-        notifPost.innerText = this.convertEmojiStamp( params.post );
+        notifPost.innerText = this.convertEmojiStamp( params );
         notif.appendChild( notifIcon );
         notif.appendChild( notifPost );
 
@@ -1513,9 +1513,9 @@ class Notif extends Elements{
         }, 50 );
     }
 
-    convertEmojiStamp( value ){
-        if( value.indexOf( '<div class="talknStamps"' ) === 0 ){
-            const v1 = value.split(';">');
+    convertEmojiStamp( {post, stampId} ){
+        if( post.indexOf( '<div class="talknStamps"' ) === 0 ){
+            const v1 = post.split(';">');
             if( v1 && v1[1] ){
                 const v2 = v1[1].split("</div>");
                 if( v2 && v2[0] ){
@@ -1523,7 +1523,7 @@ class Notif extends Elements{
                 }
             }
         }
-        return value;
+        return post;
     }
 
     getWidth(addUnit = false){

@@ -78,9 +78,10 @@ const functions = {
         if( action.posts.length > 0 ){
           const id = action.posts[ action.posts.length - 1 ]['_id'];
           const post = action.posts[ action.posts.length - 1 ]['post'];
+          const stampId = action.posts[ action.posts.length - 1 ]['stampId'];
           let favicon = action.posts[ action.posts.length - 1 ]['favicon'];
           favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
-          talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon, addUnreadCnt: action.posts.length });
+          talknWindow.parentTo("openNotif", {id, post, stampId, favicon, addUnreadCnt: action.posts.length });
         }
         break;
       }
@@ -130,9 +131,10 @@ const functions = {
       if( action.posts.length > 0 ){
         const id = action.posts[ action.posts.length - 1 ]['_id'];
         const post = action.posts[ action.posts.length - 1 ]['post'];
+        const stampId = action.posts[ action.posts.length - 1 ]['stampId'];
         let favicon = action.posts[ action.posts.length - 1 ]['favicon'];
         favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
-        talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon, addUnreadCnt: action.posts.length });
+        talknWindow.parentTo("openNotif", {id, post, stampId, favicon, addUnreadCnt: action.posts.length });
       }
       break;
     }
@@ -169,9 +171,10 @@ const functions = {
       if( postsTimelineLength > 0 ){
         const id = action.postsTimeline[ postsTimelineLength - 1 ]['_id'];
         const post = action.postsTimeline[ postsTimelineLength - 1 ]['post'];
+        const stampId = action.postsTimeline[ postsTimelineLength - 1 ]['stampId'];
         let favicon = action.postsTimeline[ postsTimelineLength - 1 ]['favicon'];
         favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
-        talknWindow.parentTo("openNotif", {id: id, post: post, favicon: favicon, addUnreadCnt: postsTimelineLength });
+        talknWindow.parentTo("openNotif", {id, post, stampId, favicon, addUnreadCnt: postsTimelineLength });
       }
       break;
     }
