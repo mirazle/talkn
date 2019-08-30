@@ -27,7 +27,7 @@ export default class Russell {
         ];
     }
 
-    static getBalance( stampId ){
+    static getSaveBalance( stampId ){
         return {
         
             // Suprise(Posi1)
