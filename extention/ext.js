@@ -1463,7 +1463,7 @@ class Notif extends Elements{
             "line-height: 27px;" +
             "text-indent: 10px;"
         );
-
+        console.log( params );
         notifPost.innerText = this.convertEmojiStamp( params );
         notif.appendChild( notifIcon );
         notif.appendChild( notifPost );
@@ -1514,7 +1514,7 @@ class Notif extends Elements{
     }
 
     convertEmojiStamp( {post, stampId} ){
-        if( post.indexOf( '<div class="talknStamps"' ) === 0 ){
+        if( stampId ){
             const v1 = post.split(';">');
             if( v1 && v1[1] ){
                 const v2 = v1[1].split("</div>");
