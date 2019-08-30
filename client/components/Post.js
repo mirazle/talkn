@@ -211,33 +211,53 @@ export default class Post extends Component {
       </div>
     );
   }
-
+/*
   renderPost( post, stampId, app ){
-    const isStamp = PostState.isStamp( post );
-    let postComponent = post;
+
+    if( stampId > 0 ){
+      post = PostStyle.getStampTag( post, app.isBubblePost );
+    }
 
     if( !app.isBubblePost ){
-      if( isStamp ){
         if( post.indexOf( `scale(${PostStyle.bubbleStampScale})` ) ){
-           postComponent = post.replace( `scale(${PostStyle.bubbleStampScale})`, `scale(${PostStyle.stampScale})` )
+           post = post.replace( `scale(${PostStyle.bubbleStampScale})`, `scale(${PostStyle.stampScale})` )
                     .replace( `height: 100%`, `height:60px` )
                     .replace( `height:100%`, `height:60px` )
                     .replace( `justify-content: center`, "justify-content: flex-start" )
                     .replace( `justify-content:center`, "justify-content: flex-start" );
         }
-      }
     }
-    return postComponent;
+    return post;
+  }
+
+    renderPost( menuIndexList, app ){
+    let { post, stampId } = menuIndexList
+    console.log( menuIndexList.connection + " " + post + " " + stampId );
+    if( stampId > 0 ){
+      post = PostStyle.getStampTag( post, app.isBubblePost );
+    }
+    return post;
+  }
+*/
+  renderPost( post, stampId, app ){
+
+    if( stampId ){
+      post = PostStyle.getStampTag( post, app.isBubblePost );
+    }
+    return post;
   }
 
   renderStampLabel( stampId ){
     const { style } = this.props;
     
     if( stampId ){
+      let stampType = emotionCoverTypes.belongCoverTypes[ stampId ] ? 
+        emotionCoverTypes.belongCoverTypes[ stampId ] : "No";
+
       return ( 
         <div data-component-name={"stamp-label"} style={style.stampLabelWrap}>
           <div style={style.stampLabel}>
-            {emotionCoverTypes.belongCoverTypes[ stampId ]}
+            {stampType}
           </div>
         </div>
       );

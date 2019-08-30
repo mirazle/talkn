@@ -89,7 +89,7 @@ export default class PostsSupporter extends Component {
           if( stampId !== 0 ){
             const post = Emotions.map[ stampId ];
             talknAPI.delegatePost( {
-              inputPost: `<div class="talknStamps" style="${PostStyle.stampStyle}">${post}</div>`,
+              inputPost: post,
               inputStampId: stampId,
               inputCurrentTime: 0
             } );

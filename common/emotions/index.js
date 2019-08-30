@@ -96,7 +96,7 @@ export default class Emotions {
           3: '👀',
           4: '💡',
           5: '💪',
-    
+          10: '',
           100: '💵',
     
           // Suprise(Posi1)

@@ -5,11 +5,8 @@ import Container from './Container';
 
 export default class Post {
 
-  static get bubbleStampScale(){ return 2 };
+  static get bubblestampScale(){ return 2 };
   static get stampScale(){ return 1 };
-  static get stampStyle(){ 
-    return `display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;transform: scale(${Post.bubbleStampScale});font-size: 50px;`
-  }
   static get fontSize(){ return 14 };
   static get iconSize(){ return '25px' };
 
@@ -36,6 +33,16 @@ export default class Post {
       stampLabelWrap,
       stampLabel
     }
+  }
+
+  static getStampTag( post, isBubble = true ){ 
+    const style = Post.getStampStyle( isBubble );
+    return `<div class="talknStamps" style="${style}">${post}</div>`
+  }
+
+  static getStampStyle( isBubble = true ){
+    const scale =  isBubble ? Post.bubblestampScale : Post.stampScale ;
+    return `display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;transform: scale(${scale});font-size: 50px;`
   }
 
   static getSelf({app}){
