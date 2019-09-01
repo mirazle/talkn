@@ -162,6 +162,7 @@ export default class Schema {
   merge( params = {}, immutable = true ){
     try{
       const paramsType = Schema.getType( params );
+      console.log( paramsType );
       const objKeys = Object.keys( params );
 
       if( objKeys.length > 0 ){
