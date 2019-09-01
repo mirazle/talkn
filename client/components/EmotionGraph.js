@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Emotions from 'common/emotions/index';
-console.log( Emotions.TOTAL_POST_LIMITS() );
+
 export default class EmotionGraph extends Component {
 
   constructor(props){
@@ -26,9 +26,6 @@ export default class EmotionGraph extends Component {
   }
 
   componentWillReceiveProps(props){
-    
-    console.log(props.state.app.actioned);
-
     if( props.state.app.actioned === "SERVER_TO_CLIENT[BROADCAST]:post" ){
       const { emotions } = props.state.thread;  
       let totalNums = {};
