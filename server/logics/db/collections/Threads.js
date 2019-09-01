@@ -120,7 +120,7 @@ export default class Threads {
     }
   }
 
-  async update( connection, app, upset ){
+  async update( connection, upset ){
     const condition = {connection};
     const set = {connection, ...upset, updateTime: new Date()}
     const option = {upsert:true};

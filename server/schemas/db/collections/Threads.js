@@ -1,10 +1,12 @@
 import Posts from './Posts';
+import Plain from '~/common/emotions/model/Plain';
 import Russell from '~/common/emotions/model/Russell';
 import RussellSimple from '~/common/emotions/model/RussellSimple';
 import Html from '~/server/schemas/logics/Html';
 import Favicon from '~/server/logics/Favicon';
 
 const html = new Html();
+const plain = Plain.getSchemas();
 const russell = Russell.getSchemas();
 const russellSimple = RussellSimple.getSchemas();
 
@@ -34,8 +36,11 @@ export default {
 	like: { type: Number, default: 0 },
 
 	// Emotions
-	russell,	
-	russellSimple,
+	emotions: {
+		plain,
+		russell,	
+		russellSimple
+	},
 
 	// Time
 	createTime: { type: Date, default: Date },

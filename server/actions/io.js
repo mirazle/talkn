@@ -139,11 +139,22 @@ export default {
 
   post: async ( ioUser, requestState, setting ) => {
     const { app } = requestState;
-    const { connection } = requestState.thread;
-    let thread = {connection};
+    const { connection, emotions } = requestState.thread;
+    const thread = {connection, emotions};
     const isMultistream = Thread.getStatusIsMultistream( app );
     const post = await Logics.db.posts.save( requestState );
-    const response = await Logics.db.threads.update( connection, app, {$inc: {postCnt: 1}, lastPost: post } );
+    const emotionKeys = Object.keys( emotions );
+
+    let set = {$inc: {postCnt: 1}, lastPost: post };
+    if( emotionKeys.length > 0 ){
+      emotionKeys.forEach( (emotionModelKey) => {
+
+        Object.keys( emotions[ emotionModelKey ] ).forEach( (emotionKey) => {
+          set['$inc'][ `emotions.${emotionModelKey}.${emotionKey}` ] = emotions[ emotionModelKey ][ emotionKey ];
+        });
+      });
+    }
+    const response = await Logics.db.threads.update(connection, set);
     const postCntKey = isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts( requestState, {isMultistream} );
     await Logics.io.post( ioUser, {requestState, posts:[ post ] , thread } );

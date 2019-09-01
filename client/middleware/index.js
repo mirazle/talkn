@@ -116,9 +116,28 @@ const functions = {
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": ( state, action ) => {
     const { app, user } = state;
+    const postLength = action.posts.length - 1;
     action.app = app;
     action.app.inputStampId = 0;
     action.user = user;
+
+    const emotionKeys = Object.keys( action.thread.emotions );
+
+    if( action.thread.connection === action.posts[ postLength ].connection && emotionKeys.length > 0 ){
+
+      const actionEmotions = { ...action.thread.emotions };
+      action.thread.emotions = {...state.thread.emotions};
+
+      Object.keys( actionEmotions ).forEach( ( emotionModelKey ) => {
+        Object.keys( actionEmotions[ emotionModelKey ] ).forEach( ( emotionKey ) => {
+          action.thread.emotions[ emotionModelKey ][ emotionKey ] = 
+            action.thread.emotions[ emotionModelKey ][ emotionKey ] + actionEmotions[ emotionModelKey ][ emotionKey ];
+        });
+      });
+
+    }else{
+      action.thread.emotions = state.thread.emotions;
+    }
 
     switch(action.app.extensionMode){
     case App.extensionModeExtBottomLabel:
@@ -129,10 +148,10 @@ const functions = {
       break;
     case App.extensionModeExtModalLabel:
       if( action.posts.length > 0 ){
-        const id = action.posts[ action.posts.length - 1 ]['_id'];
-        const post = action.posts[ action.posts.length - 1 ]['post'];
-        const stampId = action.posts[ action.posts.length - 1 ]['stampId'];
-        let favicon = action.posts[ action.posts.length - 1 ]['favicon'];
+        const id = action.posts[ postLength ]['_id'];
+        const post = action.posts[ postLength ]['post'];
+        const stampId = action.posts[ postLength ]['stampId'];
+        let favicon = action.posts[ postLength ]['favicon'];
         favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName( favicon );
         talknWindow.parentTo("openNotif", {id, post, stampId, favicon, addUnreadCnt: action.posts.length });
       }

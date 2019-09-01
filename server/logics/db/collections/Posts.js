@@ -67,7 +67,6 @@ export default class Posts {
 
   async save( requestState ){
     const { app, user, thread } = requestState;
-    console.log( app.inputStampId );
     const post = this.collection.getSchema({
       protocol: thread.protocol,
       connection: thread.connection,

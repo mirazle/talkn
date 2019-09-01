@@ -4,20 +4,20 @@ export default class Plain {
 
     static get DATAS(){
         return [
-            Emotions.TYPES_LIKE
+            Emotions.TYPES.LIKE
         ];
     }
 
-    static getBalance( stampId ){
-        return {
-            1: [{ [ Emotions.TYPES_LIKE.ID ]: 1 }],
+    static getSaveBalance( stampId ){
+        const balance = {
+            1: [{ [ Emotions.TYPES.LIKE.ID ]: 1 }],
         }
-
+        return balance[ stampId ] ? balance[ stampId ] : null;
     }
 
     static getSchemas(){
         let schemas = {};
-        Russell.DATAS.forEach( ( obj, i ) => {
+        Plain.DATAS.forEach( ( obj, i ) => {
             schemas[ obj.LABEL ] = { type: Number, default: 0, min: 0};
         });
         return schemas;
