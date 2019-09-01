@@ -168,7 +168,6 @@ export default class Schema {
         objKeys.forEach( ( key ) => {
           if( this[ key ] !== params[ key ]){
             if(this.canSet( key, params[ key ] )){
-              console.log( key + " " + params[ key ] );
               mergedObj[ key ] = params[ key ];
             }
           }
@@ -178,8 +177,8 @@ export default class Schema {
           mergedObj = Object.values( mergedObj );
           return immutable ? new this.constructor( mergedObj ) : mergedObj;
         }else{
-          //console.log( this );
-          //console.log( mergedObj );
+          console.log( this );
+          console.log( mergedObj );
           return immutable ? new this.constructor( mergedObj ) : mergedObj;
         }
 
