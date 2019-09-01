@@ -168,6 +168,7 @@ export default class Schema {
         objKeys.forEach( ( key ) => {
           if( this[ key ] !== params[ key ]){
             if(this.canSet( key, params[ key ] )){
+              console.log( key + params[ key ]);
               mergedObj[ key ] = params[ key ];
             }
           }
