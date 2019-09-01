@@ -151,7 +151,6 @@ export default class Schema {
     console.log( validValue );
     */
     if(error){
-      console.warn("BAD: canSet: " + key + " " + validValue );
       return false;
     }else{
       this[ key ] = currentValue;
@@ -163,32 +162,27 @@ export default class Schema {
     try{
       const paramsType = Schema.getType( params );
       const objKeys = Object.keys( params );
-console.log( objKeys.length );
+
       if( objKeys.length > 0 ){
-console.log( "A" );
         let mergedObj = {...this};
         objKeys.forEach( ( key ) => {
-console.log( "B" );
           if( this[ key ] !== params[ key ]){
-console.log( "C" );
             if(this.canSet( key, params[ key ] )){
-console.log( "D" );
               mergedObj[ key ] = params[ key ];
             }
           }
         });
 
         if( paramsType === 'Array' ){
-          console.log("E");
           mergedObj = Object.values( mergedObj );
           return immutable ? new this.constructor( mergedObj ) : mergedObj;
         }else{
-          console.log("F");
+          console.log( this );
+          console.log( mergedObj );
           return immutable ? new this.constructor( mergedObj ) : mergedObj;
         }
 
       }else{
-        console.log("G");
         return params;
       }
     }catch( e ){
