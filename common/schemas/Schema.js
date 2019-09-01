@@ -178,11 +178,13 @@ export default class Schema {
           return immutable ? new this.constructor( mergedObj ) : mergedObj;
         }else{
           if( immutable ){
+            /*
             const ww = new this.constructor( mergedObj );
             console.log( this );
             console.log( mergedObj );
             console.log( ww );
             console.log( ww.merge );
+            */
             return new this.constructor( mergedObj );
           }else{ 
             return mergedObj;
