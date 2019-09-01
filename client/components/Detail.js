@@ -5,6 +5,7 @@ import Sequence from 'common/Sequence';
 import App from 'common/schemas/state/App';
 import Marquee from 'client/container/util/Marquee';
 import DetailFooter from 'client/components/DetailFooter';
+import EmotionGraph from 'client/components/EmotionGraph';
 import LockMenu from './LockMenu';
 import Icon from './Icon';
 import Thread from "../../common/schemas/state/Thread";
@@ -229,6 +230,7 @@ export default class Detail extends Component {
       >
         <div style={ style.detail.img } />
         <div style={ style.detail.description }>{ description }</div>
+        <EmotionGraph {...this.props} />
         <div style={ style.detail.metaItems }>
           { TwitterIcon }
           { FacebookIcon }
@@ -431,11 +433,6 @@ export default class Detail extends Component {
           <br />
           <br />
           {/*<span style={{color: "gray"}}>特許出願中</span>*/}
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
           <br />
           <br />
           <br />

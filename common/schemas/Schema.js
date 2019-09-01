@@ -145,6 +145,11 @@ export default class Schema {
   canSet( key, validValue ){
     const currentValue = this[key];
     const { error } = this[ key ] = validValue;
+    /*
+    console.log( "@@@ @@@ " + key );
+    console.log( currentValue );
+    console.log( validValue );
+    */
     if(error){
       return false;
     }else{
