@@ -162,27 +162,33 @@ export default class Schema {
   merge( params = {}, immutable = true ){
     try{
       const paramsType = Schema.getType( params );
-      console.log( paramsType );
       const objKeys = Object.keys( params );
-
+console.log( objKeys.length );
       if( objKeys.length > 0 ){
+console.log( "A" );
         let mergedObj = {...this};
         objKeys.forEach( ( key ) => {
+console.log( "B" );
           if( this[ key ] !== params[ key ]){
+console.log( "C" );
             if(this.canSet( key, params[ key ] )){
+console.log( "D" );
               mergedObj[ key ] = params[ key ];
             }
           }
         });
 
         if( paramsType === 'Array' ){
+          console.log("E");
           mergedObj = Object.values( mergedObj );
           return immutable ? new this.constructor( mergedObj ) : mergedObj;
         }else{
+          console.log("F");
           return immutable ? new this.constructor( mergedObj ) : mergedObj;
         }
 
       }else{
+        console.log("G");
         return params;
       }
     }catch( e ){
