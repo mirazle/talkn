@@ -177,7 +177,7 @@ export default class Schema {
           mergedObj = Object.values( mergedObj );
           return immutable ? new this.constructor( mergedObj ) : mergedObj;
         }else{
-          console.log( this.name );
+          console.log( this );
           console.log( mergedObj );
           return immutable ? new this.constructor( mergedObj ) : mergedObj;
         }
