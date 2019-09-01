@@ -151,6 +151,7 @@ export default class Schema {
     console.log( validValue );
     */
     if(error){
+      console.warn("BAD: canSet: " + key + " " + validValue );
       return false;
     }else{
       this[ key ] = currentValue;
