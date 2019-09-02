@@ -90,4 +90,5 @@ SSL GRADE "A" SETTING CAA ( then Regist _acme-challenge that remove )
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+ps -aux | grep ./cert*
 
