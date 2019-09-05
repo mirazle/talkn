@@ -78,6 +78,12 @@ Press Enter to Continue
 ```
 
 SSL GRADE "A" SETTING CAA ( then Regist _acme-challenge that remove )
+
+check
+```
+ dig -t TXT _acme-challenge.example.com
+```
+
 ```
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
