@@ -77,22 +77,26 @@ export default class EmotionGraph extends Component {
     console.log( data );
     console.log( options );
 
-    return (
-      <div style={ style.emotionGraph.self }>
-        <Radar data={data} options={options} width={200} />
-  {/*
-        TOTAL: { totalNum }<br />
-        ------<br />
-        EXCITE: { emotions.russellSimple.Excite }<br />
-        HAPPY: { emotions.russellSimple.Happy }<br />
-        JOY: { emotions.russellSimple.Joy }<br />
-        RELAX: { emotions.russellSimple.Relax }<br />
-        SLACK: { emotions.russellSimple.Slack }<br />
-        MELANCHOLY: { emotions.russellSimple.Melancholy }<br />
-        ANGER: { emotions.russellSimple.Anger }<br />
-        WORRY_FEAR: { emotions.russellSimple['Worry&Fear'] }<br />
-*/}
-      </div>
-    );
+    if( data.length > 0 ){
+      return (
+        <div style={ style.emotionGraph.self }>
+          <Radar data={data} options={options} width={200} />
+    {/*
+          TOTAL: { totalNum }<br />
+          ------<br />
+          EXCITE: { emotions.russellSimple.Excite }<br />
+          HAPPY: { emotions.russellSimple.Happy }<br />
+          JOY: { emotions.russellSimple.Joy }<br />
+          RELAX: { emotions.russellSimple.Relax }<br />
+          SLACK: { emotions.russellSimple.Slack }<br />
+          MELANCHOLY: { emotions.russellSimple.Melancholy }<br />
+          ANGER: { emotions.russellSimple.Anger }<br />
+          WORRY_FEAR: { emotions.russellSimple['Worry&Fear'] }<br />
+  */}
+        </div>
+      );
+    }else{
+      return null;
+    }
  	}
 }
