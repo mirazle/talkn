@@ -103,3 +103,18 @@ check
 cd /root
 ps -aux | grep ./cert*
 
+* なぜか上手くいかない時
+
+1 _acme-challengeが合わない&CAAレコードが妨げているとエラー
+          .
+          .(loop)
+          .
+2 
+
+以前のインスタンスが残っている場合がある
+```
+ Another instance of Certbot is already running.
+```
+
+3 前回の上記インスタンスを生成した時のコマンドを実行
+
