@@ -78,10 +78,13 @@ Press Enter to Continue
 ```
 
 SSL GRADE "A" SETTING CAA ( then Regist _acme-challenge that remove )
+```
+https://www.ssllabs.com/ssltest/analyze.html?d=talkn.io
+```
 
 check
 ```
- dig -t TXT _acme-challenge.example.com
+ dig -t TXT _acme-challenge.talkn.io
 ```
 
 ```
