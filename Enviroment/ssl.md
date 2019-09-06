@@ -103,7 +103,8 @@ check
 cd /root
 ps -aux | grep ./cert*
 
-# なぜか上手くいかない時
+
+## なぜか上手くいかない時
 
 1 _acme-challengeが合わない&CAAレコードが妨げているとエラー
           .
