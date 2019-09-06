@@ -1,7 +1,7 @@
 import Emotions from '~/common/emotions/index';
 
 export default class RussellSimple {
-    static get DATAS(){
+    static get TYPES(){
         return [
             Emotions.TYPES.EXCITE,
             Emotions.TYPES.HAPPY,
@@ -14,6 +14,13 @@ export default class RussellSimple {
         ];
     }
 
+    constructor( type ){
+        this.typesArray = [];
+        Object.keys( RussellSimple.TYPES ).forEach( ( index ) => {
+            this.typesArray.push( RussellSimple.TYPES[ index ].LABEL );
+        });
+    }
+    
     static getSaveBalance( stampId ){
         const balance = {
         
@@ -133,7 +140,7 @@ export default class RussellSimple {
 
     static getSchemas(){
         let schemas = {};
-        RussellSimple.DATAS.forEach( ( obj, i ) => {
+        RussellSimple.TYPES.forEach( ( obj, i ) => {
             schemas[ obj.LABEL ] = { type: Number, default: 0, min: 0};
         });
         return schemas;

@@ -1,6 +1,6 @@
-import Plain from '/common/emotions/model/Plain';
-import Russell from '/common/emotions/model/Russell';
-import RussellSimple from '/common/emotions/model/RussellSimple';
+import Plain from './Plain';
+import Russell from './Russell';
+import RussellSimple from './RussellSimple';
 
 export default {
     Plain,

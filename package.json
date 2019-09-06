@@ -31,6 +31,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "buffer": "^5.2.0",
+    "chart.js": "^2.8.0",
+    "chat.js": "^1.0.2",
     "cheerio": "^0.22.0",
     "compression": "^1.7.4",
     "ejs": "*",
@@ -52,6 +54,7 @@
     "passport-twitter": "*",
     "puppeteer": "^1.16.0",
     "react": "^16.4.2",
+    "react-chartjs-2": "^2.7.6",
     "react-dom": "^16.4.2",
     "react-redux": "*",
     "redux": "^4.0.0",

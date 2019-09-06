@@ -1,6 +1,7 @@
 import Container from './Container';
 import Detail from './Detail';
 import DetailFooter from './DetailFooter';
+import EmotionGraph from './EmotionGraph';
 import Header from './Header';
 import Footer from './Footer';
 import PostsSupporter from './PostsSupporter';
@@ -97,6 +98,7 @@ export default class Style{
     const innerNotif = new InnerNotif( params );
     const detail = new Detail( params );
     const detailFooter = new DetailFooter( params );
+    const emotionGraph = new EmotionGraph( params );
     const icon = new Icon( params );
     const loading = new Loading( params );
     return {
@@ -123,6 +125,7 @@ export default class Style{
       link,
       innerNotif,
       detail,
+      emotionGraph,
       icon,
       loading,
     };
