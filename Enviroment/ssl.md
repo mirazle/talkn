@@ -85,6 +85,7 @@ https://www.ssllabs.com/ssltest/analyze.html?d=talkn.io
 check
 ```
  dig -t TXT _acme-challenge.talkn.io
+ dig -t CAA talkn.io
 ```
 
 ```
