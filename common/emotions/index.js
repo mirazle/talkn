@@ -1,34 +1,7 @@
-import Plain from '~/common/emotions/model/Plain';
-import Russell from '~/common/emotions/model/Russell';
-import RussellSimple from '~/common/emotions/model/RussellSimple';
+import EmotionModel from '~/common/emotions/model/index';
 
 export default class Emotions {
-
-    static TOTAL_POST_LIMITS( totalPostCnt, isHarf = false ){
-        if( isHarf ){
-            return {
-                5: 2,
-                30: 4,
-                100: 6,
-                500: 8,
-                1000: 10
-            };
-        }else{
-            return {
-                1: 1,
-                5: 2,
-                10: 3,
-                30: 4,
-                70: 5,
-                100: 6,
-                250: 7,
-                500: 8,
-                750: 9, 
-                1000: 10
-            };
-        }
-    }
-
+    static get defaultModelKey(){ return "russellSimple" }
     static get TYPES(){
         return {
             LIKE: { ID: 1, LABEL: 'Like' },
@@ -64,9 +37,68 @@ export default class Emotions {
         };
     }
 
+    static getGraphMaxNum( modelKey = Emotions.defaultModelKey, totalNum = 0 ){
+        let graphMaxNum = 0;
+        let limits = {};
+        switch( modelKey ){
+        case "plain":
+            limits = {
+                1: 1,
+                5: 2,
+                10: 3,
+                30: 4,
+                70: 5,
+                100: 6,
+                250: 7,
+                500: 8,
+                750: 9, 
+                1000: 10
+            };
+            break;
+        case "russellSimple":
+            limits = {
+                5: 2,
+                30: 4,
+                100: 6,
+                500: 8,
+                1000: 10
+            };
+            break;
+        case "russell":
+            limits = {
+                1: 1,
+                5: 2,
+                10: 3,
+                30: 4,
+                70: 5,
+                100: 6,
+                250: 7,
+                500: 8,
+                750: 9, 
+                1000: 10
+            };
+            break;
+        }
+        
+        const limitKeys = Object.keys( limits );
+        const limitLength = limitKeys.length - 1;
+        for(let i = 0; i < limitLength; i++){
+            const keyNum = limitKeys[ i ];
+            const limit = limits[ keyNum ];
+            console.log( keyNum + " < " + totalNum );
+            graphMaxNum = limit;
+            if( keyNum < totalNum ){
+                break;
+            }
+        }
+        console.log( totalNum + " " + graphMaxNum );
+        return graphMaxNum;
+    }
+
     constructor( type ){
         this.belongCoverTypes = {};
         this.idKeyTypes = {};
+        this.typesArray = [];
 
         Object.keys( Emotions.inputs ).forEach( ( label ) => {
             Emotions.inputs[ label ].forEach( ( stampId ) => {
@@ -75,14 +107,17 @@ export default class Emotions {
         });
 
         Object.keys( Emotions.TYPES ).forEach( ( key ) => {
+            this.typesArray.push( key );
             const obj = Emotions.TYPES[ key ];
             this.idKeyTypes[ obj.ID ] = obj.LABEL;
         });
 
+        this.model = EmotionModel;
+
         this.balances = {
-            plain: Plain.getSaveBalance,
-            russell: Russell.getSaveBalance,
-            russellSimple: RussellSimple.getSaveBalance
+            plain: EmotionModel.Plain.getSaveBalance,
+            russell: EmotionModel.Russell.getSaveBalance,
+            russellSimple: EmotionModel.RussellSimple.getSaveBalance
         }
     }
 

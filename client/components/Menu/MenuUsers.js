@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Marquee from 'react-marquee';
+import Marquee from 'client/container/util/Marquee';
 import TwitterLi from 'client/components/Menu/TwitterLi';
 
 export default class MenuUsers extends Component {

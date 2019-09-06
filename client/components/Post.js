@@ -4,7 +4,6 @@ import Emotions from 'common/emotions/index';
 import util from 'common/util';
 import conf from 'common/conf';
 import App from 'common/schemas/state/App';
-import PostState from 'common/schemas/state/Post';
 import PostStyle from 'client/style/Post';
 import Marquee from 'client/container/util/Marquee';
 

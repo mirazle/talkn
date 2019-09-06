@@ -1,11 +1,10 @@
 import define from 'common/define';
 import React, { Component } from "react";
-import Marquee from 'react-marquee';
 import App from 'common/schemas/state/App';
 import Thread from 'common/schemas/state/Thread';
 import util from 'common/util';
 import conf from 'common/conf';
-import Container from 'client/style/Container';
+import Marquee from 'client/container/util/Marquee';
 import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
 import PostStyle from 'client/style/Post';
 

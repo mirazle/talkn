@@ -1,24 +1,49 @@
 import React, { Component } from 'react'
+import { Radar } from 'react-chartjs-2';
 import Emotions from 'common/emotions/index';
+import EmotionGraphStyle from 'client/style/EmotionGraph';
+
+const emotions = new Emotions();
+const russellSimple = new emotions.model.RussellSimple();
 
 export default class EmotionGraph extends Component {
 
   constructor(props){
     super(props);
-    const { emotions } = props.state.thread; 
-    let totalNums = {};
+    const emotionModelKey = Emotions.defaultModelKey;
+    const { thread } = props.state;
+    const { emotions } = thread; 
+    const emotionKeys = Object.keys( emotions[ emotionModelKey ] );
+    const emotionKeyLength = emotionKeys.length;
+    let totalNum = 0;
+    let maxNum = 0;
+    let maxGraphNum = 0;
+    let rateOne = 0;
+    let rateMap = {};
 
-    Object.keys( emotions ).forEach( ( emotionModelKey ) => {
-      totalNums[ emotionModelKey ] = 0;
-      Object.keys( emotions[ emotionModelKey ] ).forEach( ( emotionKey ) => {
-        totalNums[ emotionModelKey ] = totalNums[ emotionModelKey ] + emotions[ emotionModelKey ][ emotionKey ];
-      } );
+    emotionKeys.forEach( ( emotionKey ) => {
+      const num = emotions[ emotionModelKey ][ emotionKey ];
+      if( maxNum < num ) maxNum = num;
+      rateMap[ emotionKey ] = {num, rate: 0}; 
+      totalNum = totalNum + num;
     } );
 
+    maxGraphNum = Emotions.getGraphMaxNum( emotionModelKey, totalNum );
+    rateOne = Math.round( maxNum / totalNum * 10000 ) / 10000
+    emotionKeys.forEach( ( emotionKey ) => {
+      //console.log( rateMap[ emotionKey ]);
+    } );
+    // 小数第一位を基準とした方法
+
+
     this.state = {
-      emotionModelKey: "russellSimple",
-      totalNums,
-      graphParams:[]
+      emotionModelKey,
+      totalNum,
+      data: {
+        labels: russellSimple.typesArray,
+        datasets: EmotionGraphStyle.datasetsBase
+      },
+      options: EmotionGraphStyle.optionsBase
     }
   }
 
@@ -27,19 +52,17 @@ export default class EmotionGraph extends Component {
 
   componentWillReceiveProps(props){
     if( props.state.app.actioned === "SERVER_TO_CLIENT[BROADCAST]:post" ){
+      const { emotionModelKey } = this.state;
       const { emotions } = props.state.thread;  
-      let totalNums = {};
+      let totalNum = 0;
 
-      Object.keys( emotions ).forEach( ( emotionModelKey ) => {
-        totalNums[ emotionModelKey ] = 0;
-        Object.keys( emotions[ emotionModelKey ] ).forEach( ( emotionKey ) => {
-          totalNums[ emotionModelKey ] = totalNums[ emotionModelKey ] + emotions[ emotionModelKey ][ emotionKey ];
-        } );
+      Object.keys( emotions[ emotionModelKey ] ).forEach( ( emotionKey ) => {
+        totalNum = totalNum + emotions[ emotionModelKey ][ emotionKey ];
       } );
 
-      this.state = {
-        totalNums
-      }
+      this.setState({
+        totalNum
+      });
     }
   }
 
@@ -47,11 +70,18 @@ export default class EmotionGraph extends Component {
   }
 
   render() {
+    const { totalNum, data, options } = this.state;
+    const { thread, style } = this.props.state; 
+    const { emotions } = thread;
 
-    const { emotions } = this.props.state.thread; 
+    console.log( data );
+    console.log( options );
+
     return (
-      <div>
-        LIKE: { emotions.plain.Like }<br />
+      <div style={ style.emotionGraph.self }>
+        <Radar data={data} options={options} width={200} />
+  {/*
+        TOTAL: { totalNum }<br />
         ------<br />
         EXCITE: { emotions.russellSimple.Excite }<br />
         HAPPY: { emotions.russellSimple.Happy }<br />
@@ -61,6 +91,7 @@ export default class EmotionGraph extends Component {
         MELANCHOLY: { emotions.russellSimple.Melancholy }<br />
         ANGER: { emotions.russellSimple.Anger }<br />
         WORRY_FEAR: { emotions.russellSimple['Worry&Fear'] }<br />
+*/}
       </div>
     );
  	}
