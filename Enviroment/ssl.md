@@ -121,7 +121,7 @@ ps -aux | grep ./cert*
 
 その時のzone.conf
 
-
+```
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 |   HOST_NAME                 |   TYPE    |                   DATA                    |
 |   _acme-challenge.talkn.io. |   TXT     |"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" |
@@ -129,3 +129,4 @@ ps -aux | grep ./cert*
 |   @                         |   CAA     | 0 issuewild ";"                           |
 |   @                         |   CAA     | 0 iodef "mailto:mirazle2069@gmail.com"    |
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+```
