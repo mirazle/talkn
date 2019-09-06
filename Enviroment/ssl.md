@@ -111,14 +111,12 @@ ps -aux | grep ./cert*
           .(loop)
           .
 
-2 
-
-以前のインスタンスが残っている場合がある
+2 以前のインスタンスが残っている場合がある
 ```
  Another instance of Certbot is already running.
 ```
 
-3 前回の上記インスタンスを生成した時のコマンドを実行
+3 前回の上記インスタンスを生成した時の./cert-autoコマンドを実行
 
 その時のzone.conf
 
