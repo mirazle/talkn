@@ -37,7 +37,7 @@ export default class Emotions {
         };
     }
 
-    static getGraphMaxNum( modelKey = Emotions.defaultModelKey, totalNum = 0 ){
+    static getGraphMaxNum( modelKey = Emotions.defaultModelKey, totalNum = 0, addZero = true ){
         let graphMaxNum = 0;
         let limits = {};
         switch( modelKey ){
@@ -90,7 +90,7 @@ export default class Emotions {
         }
 
         // add zero graph space
-        return graphMaxNum + 1;
+        return addZero ? graphMaxNum + 1 : graphMaxNum;
     }
 
     constructor( type ){
