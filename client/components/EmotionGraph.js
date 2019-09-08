@@ -6,24 +6,6 @@ import EmotionGraphStyle from 'client/style/EmotionGraph';
 const calcRate = 1000000;
 const emotions = new Emotions();
 const russellSimple = new emotions.model.RussellSimple();
-const data = {
-  labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
-  datasets: [
-    {
-      label: 'My First dataset!!',
-      backgroundColor: 'rgba(79, 174, 159, 0.2)',
-      borderColor: 'rgba(79, 174, 159, 0.8)',
-      pointBackgroundColor: 'rgba(179,181,198,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(179,181,198,1)',
-      data: [65, 59, 90, 81, 56, 55, 40]
-    }
-  ],
-  options: {
-    label: false
-  }
-};
 
 export default class EmotionGraph extends Component {
 
@@ -121,26 +103,9 @@ export default class EmotionGraph extends Component {
       data.datasets[0].data.length > 0
     ){
 
-      console.log("RENDER");
-      console.log( data.labels );
-      console.log( data.datasets[0].data );
-      console.log("RENDER");
-
       return (
         <div style={ style.emotionGraph.self }>
           <Radar data={data} options={options} width={200} />
-    {/*
-          TOTAL: { totalNum }<br />
-          ------<br />
-          EXCITE: { emotions.russellSimple.Excite }<br />
-          HAPPY: { emotions.russellSimple.Happy }<br />
-          JOY: { emotions.russellSimple.Joy }<br />
-          RELAX: { emotions.russellSimple.Relax }<br />
-          SLACK: { emotions.russellSimple.Slack }<br />
-          MELANCHOLY: { emotions.russellSimple.Melancholy }<br />
-          ANGER: { emotions.russellSimple.Anger }<br />
-          WORRY_FEAR: { emotions.russellSimple['Worry&Fear'] }<br />
-  */}
         </div>
       );
     }else{
