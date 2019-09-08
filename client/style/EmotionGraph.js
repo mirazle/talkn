@@ -7,8 +7,7 @@ import App from '../../common/schemas/state/App';
 export default class EmotionGraph {
 
   static get datasetsBase(){
-    return [
-      {
+    return {
         backgroundColor: 'rgba(124, 166, 158, 0.2)',
         borderColor: 'rgba(124, 166, 158, 0.8)',
         pointBackgroundColor: 'rgba(124, 166, 158, 1)',
@@ -16,13 +15,12 @@ export default class EmotionGraph {
         pointHoverBackgroundColor: '#fff',
         pointHoverBorderColor: 'rgba(124, 166, 158,1)',
         data: []
-      }
-    ];
+      };
   }
 
   static get optionsBase(){
     return {
-      esponsive: true,
+      responsive: true,
       responsiveAnimationDuration: 0,
       legend: {
         display: false
@@ -31,6 +29,12 @@ export default class EmotionGraph {
         enabled: true
       },
       scale: {
+        ticks: {
+            beginAtZero: true,
+            max: 5,
+            min: 0,
+            stepSize: 1
+        },
         pointLabels: {
             fontSize: 14,
             fontColor: Container.fontBaseRGB

@@ -57,11 +57,11 @@ export default class Emotions {
             break;
         case "russellSimple":
             limits = {
-                5: 2,
-                30: 4,
-                100: 6,
-                500: 8,
-                1000: 10
+                5: 1,
+                30: 2,
+                100: 3,
+                500: 4,
+                1000: 5
             };
             break;
         case "russell":
@@ -79,20 +79,18 @@ export default class Emotions {
             };
             break;
         }
-        
+
         const limitKeys = Object.keys( limits );
         const limitLength = limitKeys.length - 1;
         for(let i = 0; i < limitLength; i++){
             const keyNum = limitKeys[ i ];
-            const limit = limits[ keyNum ];
-            console.log( keyNum + " < " + totalNum );
-            graphMaxNum = limit;
-            if( keyNum < totalNum ){
-                break;
-            }
+            const emotionLimitNum = limits[ keyNum ];
+            if( keyNum > totalNum ) break;
+            graphMaxNum = emotionLimitNum;
         }
-        console.log( totalNum + " " + graphMaxNum );
-        return graphMaxNum;
+
+        // add zero graph space
+        return graphMaxNum + 1;
     }
 
     constructor( type ){
