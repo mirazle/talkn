@@ -1,8 +1,5 @@
-import define from '~/common/define';
 import Style from './index';
 import Container from './Container';
-import Footer from './Footer';
-import App from '../../common/schemas/state/App';
 
 export default class EmotionGraph {
 
