@@ -16,6 +16,7 @@ export default class EmotionGraph extends Component {
     const { emotions } = thread; 
     const emotionKeys = Object.keys( emotions[ emotionModelKey ] );
     const emotionKeyLength = emotionKeys.length;
+    const log = false;
     let totalNum = 0;
     let maxNum = 0;
     let graphMaxNum = 0;
@@ -37,13 +38,20 @@ export default class EmotionGraph extends Component {
       rateMap[ emotionKey ].rate = Math.round( num / totalNum * calcRate ) / calcRate;
     });
 
-    graphMaxNum = Emotions.getGraphMaxNum( emotionModelKey, totalNum );
+    graphMaxNum = Emotions.getGraphMaxNum( emotionModelKey, totalNum, true );
     rateMax = Math.round( maxNum / totalNum * calcRate ) / calcRate;
     rateOne = rateMax / graphMaxNum;
     rateOne = Math.round( rateOne * calcRate ) / calcRate;
 
-    for( let ratePointlimit = rateOne; ( Math.round( ratePointlimit * 1000 ) / 1000 ) <= rateMax; ratePointlimit = ratePointlimit + rateOne ){
-      graphRateMap.push(ratePointlimit);
+    for(
+      let ratePointLimit = rateOne;
+      ( Math.round( ratePointLimit * 1000 ) / 1000 ) <= rateMax;
+      ratePointLimit = ratePointLimit + rateOne
+    ){
+      graphRateMap.push(ratePointLimit);
+    }
+    if( graphRateMap.length < graphMaxNum ){
+      graphRateMap.push( rateMax );
     }
 
     emotionKeys.forEach( ( emotionKey ) => {
@@ -57,6 +65,22 @@ export default class EmotionGraph extends Component {
         }
       }
     });
+
+    if( log ){
+      console.log( "@@@@@@@@@@@@@@@@@@@@" );
+      console.log( "totalNum " + totalNum );
+      console.log( "maxNum " + maxNum );
+      console.log( "graphMaxNum " + graphMaxNum );
+      console.log( "rateMax " + rateMax );
+      console.log( "rateOne " + rateOne );
+      console.log( "rateMap " );
+      console.log( rateMap );
+      console.log( "graphRateMap " );
+      console.log( graphRateMap );
+      console.log( "russellSimple " + emotions.russellSimple );
+      console.log( "data " );
+      console.log( data );
+    }
 
     this.state = {
       emotionModelKey,
