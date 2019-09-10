@@ -16,7 +16,8 @@ export default class EmotionGraph extends Component {
     const { emotions } = thread; 
     const emotionKeys = Object.keys( emotions[ emotionModelKey ] );
     const emotionKeyLength = emotionKeys.length;
-    const log = false;
+    const log = true;
+    let graphType = "within5";
     let totalNum = 0;
     let maxNum = 0;
     let graphMaxNum = 0;
@@ -29,45 +30,54 @@ export default class EmotionGraph extends Component {
     emotionKeys.forEach( ( emotionKey ) => {
       const num = emotions[ emotionModelKey ][ emotionKey ];
       if( maxNum < num ) maxNum = num;
+      if( num > 5 ) graphType = "over5";
       rateMap[ emotionKey ] = {num, rate: 0, graphNum: 0}; 
       totalNum = totalNum + num;
     } );
 
-    emotionKeys.forEach( ( emotionKey ) => {
-      const { num } = rateMap[ emotionKey ];
-      rateMap[ emotionKey ].rate = Math.round( num / totalNum * calcRate ) / calcRate;
-    });
-
-    graphMaxNum = Emotions.getGraphMaxNum( emotionModelKey, totalNum, true );
-    rateMax = Math.round( maxNum / totalNum * calcRate ) / calcRate;
-    rateOne = rateMax / graphMaxNum;
-    rateOne = Math.round( rateOne * calcRate ) / calcRate;
-
-    for(
-      let ratePointLimit = rateOne;
-      ( Math.round( ratePointLimit * 1000 ) / 1000 ) <= rateMax;
-      ratePointLimit = ratePointLimit + rateOne
-    ){
-      graphRateMap.push(ratePointLimit);
-    }
-    if( graphRateMap.length < graphMaxNum ){
-      graphRateMap.push( rateMax );
-    }
-
-    emotionKeys.forEach( ( emotionKey ) => {
-      const { rate } = rateMap[ emotionKey ];
-      for(let graphIndex = 0; graphIndex < graphMaxNum; graphIndex++ ){
-        const graphRate = graphRateMap[ graphIndex ];
-        if( rate < graphRate ){
-          rateMap[ emotionKey ].graphNum = graphIndex;
-          data.push( graphIndex );
-          break;
-        }
+    if( graphType === "within5" ){
+      emotionKeys.forEach( ( emotionKey ) => {
+        const num = emotions[ emotionModelKey ][ emotionKey ];
+        data.push( num );
+      } );
+    }else{
+      
+      emotionKeys.forEach( ( emotionKey ) => {
+        const { num } = rateMap[ emotionKey ];
+        rateMap[ emotionKey ].rate = Math.round( num / totalNum * calcRate ) / calcRate;
+      });
+  
+      graphMaxNum = Emotions.getGraphMaxNum( emotionModelKey, totalNum, true );
+      rateMax = Math.round( maxNum / totalNum * calcRate ) / calcRate;
+      rateOne = rateMax / graphMaxNum;
+      rateOne = Math.round( rateOne * calcRate ) / calcRate;
+  
+      for(
+        let ratePointLimit = rateOne;
+        ( Math.round( ratePointLimit * 1000 ) / 1000 ) <= rateMax;
+        ratePointLimit = ratePointLimit + rateOne
+      ){
+        graphRateMap.push(ratePointLimit);
       }
-    });
+      if( graphRateMap.length < graphMaxNum ){
+        graphRateMap.push( rateMax );
+      }
+  
+      emotionKeys.forEach( ( emotionKey ) => {
+        const { rate } = rateMap[ emotionKey ];
+        for(let graphIndex = 0; graphIndex < graphMaxNum; graphIndex++ ){
+          const graphRate = graphRateMap[ graphIndex ];
+          if( rate < graphRate ){
+            rateMap[ emotionKey ].graphNum = graphIndex;
+            data.push( graphIndex );
+            break;
+          }
+        }
+      }); 
+    }
 
     if( log ){
-      console.log( "@@@@@@@@@@@@@@@@@@@@" );
+      console.log( "RESULT @@@@@@@@@@@@@@@@@@@@ " + graphType );
       console.log( "totalNum " + totalNum );
       console.log( "maxNum " + maxNum );
       console.log( "graphMaxNum " + graphMaxNum );
@@ -77,7 +87,8 @@ export default class EmotionGraph extends Component {
       console.log( rateMap );
       console.log( "graphRateMap " );
       console.log( graphRateMap );
-      console.log( "russellSimple " + emotions.russellSimple );
+      console.log( "russellSimple ");
+      console.log( emotions.russellSimple );
       console.log( "data " );
       console.log( data );
     }
