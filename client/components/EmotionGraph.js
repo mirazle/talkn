@@ -11,11 +11,26 @@ export default class EmotionGraph extends Component {
 
   constructor(props){
     super(props);
+    this.getGraphDatas = this.getGraphDatas.bind(this);
+
+    const { emotionModelKey, totalNum, data } = this.getGraphDatas();
+
+    this.state = {
+      emotionModelKey,
+      totalNum,
+      data: {
+        labels: russellSimple.typesArray,
+        datasets: [ {...EmotionGraphStyle.datasetsBase, data} ]
+      },
+      options: EmotionGraphStyle.optionsBase
+    }
+  }
+
+  getGraphDatas(){
     const emotionModelKey = Emotions.defaultModelKey;
-    const { thread } = props.state;
+    const { thread } = this.props.state;
     const { emotions } = thread; 
     const emotionKeys = Object.keys( emotions[ emotionModelKey ] );
-    const emotionKeyLength = emotionKeys.length;
     const log = true;
     let graphType = "within5";
     let totalNum = 0;
@@ -27,6 +42,7 @@ export default class EmotionGraph extends Component {
     let graphRateMap = [];
     let data = [];
 
+    // 合計数と各指標の数値を取得
     emotionKeys.forEach( ( emotionKey ) => {
       const num = emotions[ emotionModelKey ][ emotionKey ];
       if( maxNum < num ) maxNum = num;
@@ -36,17 +52,21 @@ export default class EmotionGraph extends Component {
     } );
 
     if( graphType === "within5" ){
+
       emotionKeys.forEach( ( emotionKey ) => {
         const num = emotions[ emotionModelKey ][ emotionKey ];
         data.push( num );
       } );
+
     }else{
-      
+
+      // 合計数と各指標の数値の割合を算出
       emotionKeys.forEach( ( emotionKey ) => {
         const { num } = rateMap[ emotionKey ];
         rateMap[ emotionKey ].rate = Math.round( num / totalNum * calcRate ) / calcRate;
       });
   
+      // グラフの表示最上値を取得
       graphMaxNum = Emotions.getGraphMaxNum( emotionModelKey, totalNum, true );
       rateMax = Math.round( maxNum / totalNum * calcRate ) / calcRate;
       rateOne = rateMax / graphMaxNum;
@@ -93,33 +113,23 @@ export default class EmotionGraph extends Component {
       console.log( data );
     }
 
-    this.state = {
-      emotionModelKey,
-      totalNum,
-      data: {
-        labels: russellSimple.typesArray,
-        datasets: [ {...EmotionGraphStyle.datasetsBase, data} ]
-      },
-      options: EmotionGraphStyle.optionsBase
-    }
-  }
-
-  componentDidMount(){
+    return { emotionModelKey, totalNum, data } ;
   }
 
   componentWillReceiveProps(props){
     if( props.state.app.actioned === "SERVER_TO_CLIENT[BROADCAST]:post" ){
-      const { emotionModelKey } = this.state;
-      const { emotions } = props.state.thread;  
-      let totalNum = 0;
 
-      Object.keys( emotions[ emotionModelKey ] ).forEach( ( emotionKey ) => {
-        totalNum = totalNum + emotions[ emotionModelKey ][ emotionKey ];
-      } );
+      const { emotionModelKey, totalNum, data } = this.getGraphDatas();
 
-      this.setState({
-        totalNum
-      });
+      this.state = {
+        emotionModelKey,
+        totalNum,
+        data: {
+          labels: russellSimple.typesArray,
+          datasets: [ {...EmotionGraphStyle.datasetsBase, data} ]
+        },
+        options: EmotionGraphStyle.optionsBase
+      }
     }
   }
 
