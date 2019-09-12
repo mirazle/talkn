@@ -153,6 +153,11 @@ export default class Schema {
         return true;
       }
     }catch( e ){
+
+      /*
+        TODO そもそもNULLを代入できないのか？
+      */
+
       console.warn( "BAD CAN SET KEY: " + key );
       console.warn( "BEFOER VALUE" );
       console.warn( typeof this[key] );
