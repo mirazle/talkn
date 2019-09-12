@@ -161,10 +161,17 @@ export default class Schema {
       if( objKeys.length > 0 ){
         let mergedObj = {...this};
         objKeys.forEach( ( key ) => {
-          if( this[ key ] !== params[ key ]){
-            if(this.canSet( key, params[ key ] )){
-              mergedObj[ key ] = params[ key ];
+          try{
+            if( this[ key ] !== params[ key ]){
+              if(this.canSet( key, params[ key ] )){
+                mergedObj[ key ] = params[ key ];
+              }
             }
+          }catch( e ){
+            console.warn( "BAD MERGE ERROR:" );
+            console.warn( key );
+            console.warn( params[ key ] );
+            throw `BAD MERGE 1 : ${Schema.getType(params)} ${e}`;
           }
         });
 
@@ -186,11 +193,11 @@ export default class Schema {
       if(this.errorThrow){
         console.warn( params );
         console.warn( e );
-        throw `BAD MERGE: ${Schema.getType(params)} ${e}`;
+        throw `BAD MERGE 2 : ${Schema.getType(params)} ${e}`;
       }else{
         console.warn( params );
         console.warn( e );
-        console.warn(`BAD MERGE: ${Schema.getType(params)} ${e}`);
+        console.warn(`BAD MERGE 3 : ${Schema.getType(params)} ${e}`);
         return params;
       }
     }
