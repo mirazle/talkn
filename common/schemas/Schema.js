@@ -155,10 +155,11 @@ export default class Schema {
     }catch( e ){
       console.warn( "BAD CAN SET KEY: " + key );
       console.warn( "BEFOER VALUE" );
+      console.warn( typeof this[key] );
       console.warn( this[key] );
       console.warn( "AFTER VVALUE" );
+      console.warn( typeof validValue );
       console.warn( validValue );
-      console.warn( error );
       throw `BAD CAN SET: ${e}`;
     }
   }
