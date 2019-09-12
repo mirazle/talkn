@@ -199,7 +199,9 @@ export default class MenuIndexList {
   }
 
   static getBottom(){
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
+      justifyContent: "center",
+      alignItems: "center",
       width: '100%',
       height: '55px',
     });
