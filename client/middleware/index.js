@@ -60,8 +60,10 @@ const functions = {
     action = Posts.getAnyActionPosts(action);
     action.thread.title = action.thread.serverMetas.title;
     console.log( action.thread.hasSlash );
+    console.log( typeof action.thread.hasSlash );
     action.thread.hasSlash = Schema.getBool( action.thread.hasSlash );
     console.log( action.thread.hasSlash );
+    console.log( typeof action.thread.hasSlash );
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = {...action.thread};
     //.action.threadDetail.serverMetas = {...action.thread};
