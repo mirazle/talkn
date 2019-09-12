@@ -154,8 +154,12 @@ export default class Schema {
       }
     }catch( e ){
       console.warn( "BAD CAN SET KEY: " + key );
+      console.warn( "BEFOER" );
+      console.warn( currentValue );
+      console.warn( "AFTER" );
       console.warn( validValue );
-      throw `BAD MERGE 1 : ${Schema.getType(params)} ${e}`;
+      console.warn( error );
+      throw `BAD CAN SET: ${e}`;
     }
   }
 
