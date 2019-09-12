@@ -23,14 +23,14 @@ export default class EmotionGraph {
       responsive: true,
       responsiveAnimationDuration: 0,
       elements:{
-        arc: {
-          backgroundColor: "red",
+        point: {
+          backgroundColor: "rgba(79, 174, 159, 0.6)",
           borderAlign: "left",
-          borderColor: "red",
-          borderWidth:  "10"
+          borderColor: "rgba(79, 174, 159, 0.6)",
+          borderWidth:  100
         },
         line: {
-          tension: 0.01,//0.000001
+          tension: 0.1,//0.000001
           backgroundColor: "rgba(79, 174, 159, 0.6)",
           borderWidth: "10",
           borderColor: "rgba(79, 174, 159, 0.6)",
