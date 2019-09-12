@@ -57,11 +57,11 @@ export default class Emotions {
             break;
         case "russellSimple":
             limits = {
-                1: 1,
-                2: 2,
-                3: 3,
-                4: 4,
-                5: 5
+                6: 5,
+                10: 5,
+                20: 5,
+                30: 5,
+                50: 5
             };
             break;
         case "russell":

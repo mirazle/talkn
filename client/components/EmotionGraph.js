@@ -74,26 +74,37 @@ export default class EmotionGraph extends Component {
   
       for(
         let ratePointLimit = rateOne;
-        ( Math.round( ratePointLimit * 1000 ) / 1000 ) <= rateMax;
-        ratePointLimit = ratePointLimit + rateOne
+        ratePointLimit <= rateMax;
+        ratePointLimit = ( Math.round( ( ratePointLimit + rateOne ) * 100000 ) / 100000 )
       ){
         graphRateMap.push(ratePointLimit);
       }
+
       if( graphRateMap.length < graphMaxNum ){
         graphRateMap.push( rateMax );
       }
   
       emotionKeys.forEach( ( emotionKey ) => {
         const { rate } = rateMap[ emotionKey ];
+        let assignedFlg = false;
         for(let graphIndex = 0; graphIndex < graphMaxNum; graphIndex++ ){
           const graphRate = graphRateMap[ graphIndex ];
+
           if( rate < graphRate ){
             rateMap[ emotionKey ].graphNum = graphIndex;
             data.push( graphIndex );
+            assignedFlg = true;
             break;
           }
-        }
-      }); 
+
+          if( graphIndex === graphMaxNum - 1 ){
+
+            if( !assignedFlg ){
+              data.push( graphIndex );
+            }
+          }
+        } 
+      });
     }
 
     if( log ){

@@ -45,12 +45,8 @@ const beforeFunctions = {
 
 							if( !requestState.thread.emotions[ balanceKey ] ) requestState.thread.emotions[ balanceKey ] = {}
 							if( !requestState.thread.emotions[ balanceKey ][ typeLabel ] ) requestState.thread.emotions[ balanceKey ][ typeLabel ] = 0;
-							//if( !actionState.thread ) actionState.thread = reduxState.thread;
 
 							requestState.thread.emotions[ balanceKey ][ typeLabel ] = b[ typeId ];
-
-							console.log( actionState );
-							//actionState.thread.emotions[ balanceKey ][ typeLabel ] = reduxState.thread.emotions[ balanceKey ][ typeLabel ] + b[ typeId ];
 						} );
 					}
 				};
