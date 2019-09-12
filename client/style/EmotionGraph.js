@@ -54,8 +54,10 @@ export default class EmotionGraph {
                   label += ': ';
               }
               label += Math.round(tooltipItem.yLabel * 100) / 100;
-              console.log( label );
-              return label;
+              return label !== "0" ? label : null;
+          },
+          title: (tooltipItem, data) => {
+            return tooltipItem.map( (item) => data.labels[ item.index ]);
           }
         }
       },
