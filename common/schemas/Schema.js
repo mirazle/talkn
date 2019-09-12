@@ -143,13 +143,19 @@ export default class Schema {
   }
 
   canSet( key, validValue ){
-    const currentValue = this[key];
-    const { error } = this[ key ] = validValue;
-    if(error){
-      return false;
-    }else{
-      this[ key ] = currentValue;
-      return true;
+    try{
+      const currentValue = this[key];
+      const { error } = this[ key ] = validValue;
+      if(error){
+        return false;
+      }else{
+        this[ key ] = currentValue;
+        return true;
+      }
+    }catch( e ){
+      console.warn( "BAD CAN SET KEY: " + key );
+      console.warn( validValue );
+      throw `BAD MERGE 1 : ${Schema.getType(params)} ${e}`;
     }
   }
 
@@ -161,20 +167,10 @@ export default class Schema {
       if( objKeys.length > 0 ){
         let mergedObj = {...this};
         objKeys.forEach( ( key ) => {
-          try{
-            if( this[ key ] !== params[ key ]){
-              if(this.canSet( key, params[ key ] )){
-                mergedObj[ key ] = params[ key ];
-              }
+          if( this[ key ] !== params[ key ]){
+            if(this.canSet( key, params[ key ] )){
+              mergedObj[ key ] = params[ key ];
             }
-          }catch( e ){
-            const before = {...this};
-            console.warn( "BAD MERGE KEY: " + key );
-            console.warn( "BEFORE" );
-            console.warn( before[ key ] );            
-            console.warn( "AFTER" );
-            console.warn( params[ key ] );
-            throw `BAD MERGE 1 : ${Schema.getType(params)} ${e}`;
           }
         });
 
@@ -196,11 +192,11 @@ export default class Schema {
       if(this.errorThrow){
         console.warn( params );
         console.warn( e );
-        throw `BAD MERGE 2 : ${Schema.getType(params)} ${e}`;
+        throw `BAD MERGE A : ${Schema.getType(params)} ${e}`;
       }else{
         console.warn( params );
         console.warn( e );
-        console.warn(`BAD MERGE 3 : ${Schema.getType(params)} ${e}`);
+        console.warn(`BAD MERGE B : ${Schema.getType(params)} ${e}`);
         return params;
       }
     }
