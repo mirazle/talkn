@@ -13,7 +13,7 @@ export default class EmotionGraph extends Component {
     super(props);
     this.getGraphDatas = this.getGraphDatas.bind(this);
 
-    const { emotionModelKey, totalNum, data } = this.getGraphDatas();
+    const { emotionModelKey, totalNum, data } = this.getGraphDatas(props);
 
     this.state = {
       emotionModelKey,
@@ -26,10 +26,10 @@ export default class EmotionGraph extends Component {
     }
   }
 
-  getGraphDatas(){
+  getGraphDatas(props){
     const emotionModelKey = Emotions.defaultModelKey;
-    const { thread } = this.props.state;
-    const { emotions } = thread; 
+    const { threadDetail } = props.state;
+    const { emotions } = threadDetail;
     const emotionKeys = Object.keys( emotions[ emotionModelKey ] );
     const log = false;
     let graphType = "within5";
@@ -116,12 +116,15 @@ export default class EmotionGraph extends Component {
     return { emotionModelKey, totalNum, data } ;
   }
 
-  componentWillReceiveProps(props){
-    if( props.state.app.actioned === "SERVER_TO_CLIENT[BROADCAST]:post" ){
+  componentWillReceiveProps(nextProps){
+    if(
+      nextProps.state.app.actioned === "SERVER_TO_CLIENT[BROADCAST]:post" ||
+      nextProps.state.app.actioned === "SERVER_TO_CLIENT[EMIT]:find"  
+    ){
 
-      const { emotionModelKey, totalNum, data } = this.getGraphDatas();
+      const { emotionModelKey, totalNum, data } = this.getGraphDatas(nextProps);
 
-      this.state = {
+      this.setState({
         emotionModelKey,
         totalNum,
         data: {
@@ -129,7 +132,7 @@ export default class EmotionGraph extends Component {
           datasets: [ {...EmotionGraphStyle.datasetsBase, data} ]
         },
         options: EmotionGraphStyle.optionsBase
-      }
+      });
     }
   }
 
