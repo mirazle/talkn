@@ -172,7 +172,7 @@ const functions = {
     action.app = state.app;
     action.app.detailConnection = action.thread.connection;
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
-    action.threadDetail = action.threads[ action.thread.connection ];
+    action.threadDetail = {...action.threads[ action.thread.connection ]};
     delete action.thread;
     return action;
   },
