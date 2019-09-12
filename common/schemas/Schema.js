@@ -168,8 +168,11 @@ export default class Schema {
               }
             }
           }catch( e ){
-            console.warn( "BAD MERGE ERROR:" );
-            console.warn( key );
+            const before = {...this};
+            console.warn( "BAD MERGE KEY: " + key );
+            console.warn( "BEFORE" );
+            console.warn( before[ key ] );            
+            console.warn( "AFTER" );
             console.warn( params[ key ] );
             throw `BAD MERGE 1 : ${Schema.getType(params)} ${e}`;
           }
