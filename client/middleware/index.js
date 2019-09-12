@@ -174,6 +174,7 @@ const functions = {
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = {...action.threads[ action.thread.connection ]};
     delete action.thread;
+    console.log(action.threadDetail);
     return action;
   },
   "NEXT_POSTS_TIMELINE": ( state, action ) => {
