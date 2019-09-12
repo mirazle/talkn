@@ -31,7 +31,7 @@ export default class EmotionGraph extends Component {
     const { threadDetail } = props.state;
     const { emotions } = threadDetail;
     const emotionKeys = Object.keys( emotions[ emotionModelKey ] );
-    const log = true;
+    const log = false;
     let graphType = "within5";
     let totalNum = 0;
     let maxNum = 0;
