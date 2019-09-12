@@ -119,7 +119,8 @@ export default class EmotionGraph extends Component {
   componentWillReceiveProps(nextProps){
     if(
       nextProps.state.app.actioned === "SERVER_TO_CLIENT[BROADCAST]:post" ||
-      nextProps.state.app.actioned === "SERVER_TO_CLIENT[EMIT]:find"  
+      nextProps.state.app.actioned === "SERVER_TO_CLIENT[EMIT]:find" ||
+      nextProps.state.app.actioned === "SERVER_TO_CLIENT[EMIT]:changeThreadDetail"
     ){
 
       const { emotionModelKey, totalNum, data } = this.getGraphDatas(nextProps);
