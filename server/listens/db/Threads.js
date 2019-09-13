@@ -28,7 +28,7 @@ export default class Threads {
     });
   }
 
-  findOne( condition = {}, selector = {}, option = {} ){
+  findOne( condition = {}, selector = {}, option = {}, called ){
     return new Promise( resolve => {
       this.collection.findOne( condition, selector, option, (error, response) => {
         if(error) console.warn( error );

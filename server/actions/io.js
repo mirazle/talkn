@@ -134,6 +134,7 @@ export default {
 
   findMenuIndex: async ( ioUser, requestState, setting ) => {
     const menuIndex = await Logics.db.threads.findMenuIndex( requestState, setting );
+    console.log( menuIndex );
     Logics.io.findMenuIndex( ioUser, {requestState, menuIndex} );
   },
 
