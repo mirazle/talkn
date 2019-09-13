@@ -62,8 +62,7 @@ const functions = {
     action.thread.hasSlash = Schema.getBool( action.thread.hasSlash );
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = {...action.thread};
-    //.action.threadDetail.serverMetas = {...action.thread};
-
+    
     if( action.app.isRootConnection ) action.app.rootTitle = action.thread.title;
 
     if( !action.app.isLinkConnection ){
@@ -178,7 +177,7 @@ const functions = {
     // hasSlashはlocationが参照できないPORTALだと正しい値を取得出来ないため、
     // 拡張機能ではGET_CLIENT_METASを実行して正しい値をサーバーに渡して更新してやる必要がある。
     action.threadDetail.hasSlash = action.threadDetail.hasSlash === null ?
-      true : action.threadDetail.hasSlash;
+      true : Schema.getBool( action.threadDetail.hasSlash );
     return action;
   },
   "NEXT_POSTS_TIMELINE": ( state, action ) => {
@@ -310,7 +309,7 @@ const functions = {
     // hasSlashはlocationが参照できないPORTALだと正しい値を取得出来ないため、
     // 拡張機能ではGET_CLIENT_METASを実行して正しい値をサーバーに渡して更新してやる必要がある。
     action.threadDetail.hasSlash = action.threadDetail.hasSlash === null ?
-      true : action.threadDetail.hasSlash;
+      true : Schema.getBool( action.threadDetail.hasSlash );
     return action;
   },
   "TOGGLE_DISP_BOARD": ( state, action ) => {

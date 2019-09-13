@@ -14,7 +14,7 @@ export default {
 	connection: { type: String, default: "/"  },
 	connections: { type: [String], default: ['/'] },
 	findType: { type: String, default: ""  },
-	hasSlash:  { type: String, default: false },
+	hasSlash:  { type: Boolean, default: false },
 	host: { type: String, default: "" },
 	layer: { type: Number, default: 0 },
 	title: { type: String, default: "talkn"},
