@@ -59,11 +59,7 @@ const functions = {
 
     action = Posts.getAnyActionPosts(action);
     action.thread.title = action.thread.serverMetas.title;
-    console.log( action.thread.hasSlash );
-    console.log( typeof action.thread.hasSlash );
     action.thread.hasSlash = Schema.getBool( action.thread.hasSlash );
-    console.log( action.thread.hasSlash );
-    console.log( typeof action.thread.hasSlash );
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = {...action.thread};
     //.action.threadDetail.serverMetas = {...action.thread};
@@ -99,8 +95,11 @@ const functions = {
     }else{
       action.app.connectionType = App.mediaTagTypeNo;
     }
+    console.log("@@@@@ MIDDLEWARE @@@@@");
     console.log( action.threadDetail.hasSlash );
     console.log( typeof action.threadDetail.hasSlash );
+    console.log("@@@@@ MIDDLEWARE @@@@@");
+
     return action;
   },
   "CLIENT_TO_SERVER[EMIT]:changeThread": ( state, action ) => {
