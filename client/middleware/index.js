@@ -172,7 +172,6 @@ const functions = {
     action.app = state.app;
     action.app.detailConnection = action.thread.connection;
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
-    console.log( action.thread );
     action.threadDetail = {...action.thread};
 
     // TODO 古い仕様だとhasSlashが格納されていないcollectionが存在する
@@ -300,7 +299,16 @@ const functions = {
     return action;
   },
   "ON_CLICK_TOGGLE_DISP_DETAIL": ( state, action ) => {
-    action.app = {...action.app, ...state.app};
+    action.app = state.app;
+    action.app.detailConnection = action.thread.connection;
+    action.threads = Threads.getMergedThreads( state.threads, action.thread );
+    action.threadDetail = {...action.thread};
+
+    // TODO 古い仕様だとhasSlashが格納されていないcollectionが存在する
+    // hasSlashはlocationが参照できないPORTALだと正しい値を取得出来ないため、
+    // 拡張機能ではGET_CLIENT_METASを実行して正しい値をサーバーに渡して更新してやる必要がある。
+    action.threadDetail.hasSlash = action.threadDetail.hasSlash === null ?
+      true : action.threadDetail.hasSlash;
     return action;
   },
   "TOGGLE_DISP_BOARD": ( state, action ) => {
