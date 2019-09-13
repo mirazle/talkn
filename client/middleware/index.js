@@ -99,7 +99,8 @@ const functions = {
     }else{
       action.app.connectionType = App.mediaTagTypeNo;
     }
-
+    console.log( action.threadDetail.hasSlash );
+    console.log( typeof action.threadDetail.hasSlash );
     return action;
   },
   "CLIENT_TO_SERVER[EMIT]:changeThread": ( state, action ) => {
