@@ -174,7 +174,7 @@ const functions = {
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     console.log( action.threadDetail );
     action.threadDetail = {...action.thread};
-    console.log( action.threadDetail.connection );
+    console.log( action.threadDetail );
 
 //    delete action.thread;
     return action;
