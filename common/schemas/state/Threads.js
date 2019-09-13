@@ -8,7 +8,7 @@ export default class Threads extends Schema{
   }
 
   static getMergedThreads( baseThreads, mergeThread ){
-    baseThreads[ mergeThread.connection ] = mergeThread;
+    baseThreads[ mergeThread.connection ] = {...mergeThread};
     return baseThreads;
   } 
 }
