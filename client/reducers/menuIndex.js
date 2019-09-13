@@ -110,6 +110,7 @@ export default ( state = new MenuIndex() , action ) => {
 				if(action.app.multistream){
 					return {...mi,
 						title: action.posts[ 0 ].title,
+						stampId: action.posts[ 0 ].stampId,
 						favicon: action.posts[ 0 ].favicon,
 						post: action.posts[ 0 ].post
 					}

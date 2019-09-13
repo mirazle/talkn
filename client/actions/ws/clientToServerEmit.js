@@ -51,6 +51,10 @@ const beforeFunctions = {
 					}
 				};
 			} );
+		}else{
+			actionState.app = {...app};
+			actionState.app.inputStampId = 0;
+			requestState.app.inputStampId = 0;
 		}
 
 		return { requestState, actionState };
