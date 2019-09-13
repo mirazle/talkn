@@ -275,6 +275,11 @@ export default class TalknWindow {
 					window.talknMedia.endedFunc();
 				}
 				break;
+			case "delegatePost" :
+				let { app } = window.talknAPI.store.getState();
+				app = {...app, ...e.data.params};
+				talknAPI.delegatePost( app );
+				break;
 			default: 
 				if(	
 					typeof window.talknAPI !== "undefined" && 

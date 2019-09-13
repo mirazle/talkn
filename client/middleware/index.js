@@ -339,6 +339,10 @@ const functions = {
     action.app.isLinkConnection = true;
     return action;
   },
+  "DELEGATE_POST": ( state, action ) => {
+    action.app = {...state.app, ...action.app};
+    return action;
+  },
   "GET_CLIENT_METAS": ( state, action ) => {
     let updateFlg = false;
     let { clientMetas } = action; 
