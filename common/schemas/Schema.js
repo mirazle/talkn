@@ -146,9 +146,7 @@ export default class Schema {
     try{
 
       const currentValue = this[key];
-      if( key === "hasSlash" ) console.log("CAN SET A " + this.constructor.name + " " + key + " " + validValue + " " + typeof validValue);
       const { error } = this[ key ] = validValue;
-      if( key === "hasSlash" ) console.log("CAN SET B " + this.constructor.name + " " + key + " " + this[ key ] + " " + typeof this[ key ]);
 
       if(error){
         return false;
@@ -178,7 +176,6 @@ export default class Schema {
         objKeys.forEach( ( key ) => {
           if( this[ key ] !== params[ key ]){
             if(this.canSet( key, params[ key ] )){
-              if( key === "hasSlash" ) console.log("OK SET " + key + " " + params[ key ] + " " + typeof params[ key ] );
               mergedObj[ key ] = params[ key ];
             }else{
               console.warn("BAD MERGE A : " + key + " " + params[ key ] + " " + typeof params[ key ] );
