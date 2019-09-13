@@ -145,9 +145,9 @@ export default class Schema {
   canSet( key, validValue ){
     try{
       const currentValue = this[key];
-      if( key === "hasSlash" ) console.log("CAN SET A " + key + " " + validValue );
+      if( key === "hasSlash" ) console.log("CAN SET A " + key + " " + validValue + " " + typeof validValue);
       const { error } = this[ key ] = validValue;
-      if( key === "hasSlash" ) console.log("CAN SET B " + key + " " + this[ key ] );
+      if( key === "hasSlash" ) console.log("CAN SET B " + key + " " + this[ key ] + " " + typeof this[ key ]);
       if(error){
         return false;
       }else{
