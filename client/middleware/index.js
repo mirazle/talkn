@@ -59,7 +59,7 @@ const functions = {
 
     action = Posts.getAnyActionPosts(action);
     action.thread.title = action.thread.serverMetas.title;
-    action.thread.hasSlash = Schema.getBool( action.thread.hasSlash );
+    //action.thread.hasSlash = Schema.getBool( action.thread.hasSlash );
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = {...action.thread};
     //.action.threadDetail.serverMetas = {...action.thread};
