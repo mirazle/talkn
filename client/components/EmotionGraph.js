@@ -131,6 +131,7 @@ export default class EmotionGraph extends Component {
     if(
       nextProps.state.app.actioned === "SERVER_TO_CLIENT[BROADCAST]:post" ||
       nextProps.state.app.actioned === "SERVER_TO_CLIENT[EMIT]:find" ||
+      nextProps.state.app.actioned === "ON_CLICK_TOGGLE_DISP_DETAIL" ||
       nextProps.state.app.actioned === "SERVER_TO_CLIENT[EMIT]:changeThreadDetail"
     ){
 
