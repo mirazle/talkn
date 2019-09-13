@@ -15,24 +15,24 @@ export default class Threads {
   /* MONGO DB       */
   /******************/
 
-  async findOne( connection, selector = {}, option = {}, buildinSchema = false ){
+  async findOne( connection, selector = {}, option = {}, buildinSchema = false, called = "Default" ){
     const condition = {connection};
-    let responses = await this.collection.findOne( condition, selector, option );
+    let {error, response} = await this.collection.findOne( condition, selector, option );
 
     if( buildinSchema ){
-      if( !responses.response ){
-        const builtinSchema = await this.getUnshiftMainConnectionResponse( connection );
-        responses = {...responses, response: builtinSchema[ 0 ] };
+      if( !response ){
+        const anyConnectionResponse = await this.getUnshifAnyConnectionResponse( connection, [] );
+        response = anyConnectionResponse[ 0 ];
       }
     }
-    return responses;
+    return {error, response};
   }
 
   async findOneWatchCnt( connection ){
     const condition = {connection};
     const selector = {watchCnt: 1};
     const option = {};
-    const { error, response } = await this.collection.findOne( condition, selector, option );
+    const { error, response } = await this.collection.findOne( condition, selector, option, false, "finedMenuIndex" );
     return response.watchCnt < 0 ? 0 : response.watchCnt ;
   }
 
@@ -57,21 +57,20 @@ export default class Threads {
     const option = {sort: {watchCnt: -1, layer: -1}, limit: setting.server.getThreadChildrenCnt};
     let {error, response} = await this.collection.find( condition, selector, option );
     const responseLength = response.length;
-    let mainConnectionExist = false;
+    let ExistMainConnection = false;
 
     if( responseLength === 0 ){
-      response = await this.getUnshiftMainConnectionResponse( connection, response );
+      response = await this.getUnshifAnyConnectionResponse( connection, response );
     }else{
-
       for( let i = 0; i < responseLength; i++ ){
         if( response[ i ].lastPost.connection === connection ){
-          mainConnectionExist = true;
+          ExistMainConnection = true;
           break;
         }
       }
 
-      if( !mainConnectionExist ){
-        const { response: mainThread } = await this.collection.findOne( {connection}, {lastPost: 1} );
+      if( !ExistMainConnection ){
+        const { response: mainThread } = await this.findOne( connection, {lastPost: 1}, {}, true );
         response.unshift( mainThread );
       }
     }
@@ -140,7 +139,7 @@ export default class Threads {
   /* COLUMN LOGIC   */
   /******************/
 
-  async getUnshiftMainConnectionResponse( connection, response = [] ){
+  async getUnshifAnyConnectionResponse( connection, response = [] ){
     let schema = this.collection.getSchema({connection});
     schema.title = Thread.getDefaultTitle();
     schema.connections = Thread.getConnections( connection );
