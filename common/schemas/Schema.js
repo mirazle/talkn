@@ -157,11 +157,11 @@ export default class Schema {
         return true;
       }
     }catch( e ){
-      console.warn( "BAD CAN SET KEY: " + this.name + " " + key );
+      console.warn( "BAD CAN SET KEY: " + this.constructor.name + " " + key );
       console.warn( "BEFOER VALUE" );
       console.warn( typeof this[key] );
       console.warn( this[key] );
-      console.warn( "AFTER VVALUE" );
+      console.warn( "AFTER VALUE" );
       console.warn( typeof validValue );
       console.warn( validValue );
       throw `BAD CAN SET: ${e}`;
@@ -178,7 +178,7 @@ export default class Schema {
         objKeys.forEach( ( key ) => {
           if( this[ key ] !== params[ key ]){
             if(this.canSet( key, params[ key ] )){
-              if( key === "hasSlash" ) console.log("MERGE " + key + " " + params[ key ] + " " + typeof params[ key ] );
+              if( key === "hasSlash" ) console.log("OK SET " + key + " " + params[ key ] + " " + typeof params[ key ] );
               mergedObj[ key ] = params[ key ];
             }else{
               console.warn("BAD MERGE A : " + key + " " + params[ key ] + " " + typeof params[ key ] );
