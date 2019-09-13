@@ -45,7 +45,7 @@ const functions = {
   },
   "SERVER_TO_CLIENT[EMIT]:updateThread": ( state, action ) => {
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
-    action.threadDetail = action.thread;
+    action.threadDetail = {...action.thread};
     return action;
   },
   "SERVER_TO_CLIENT[EMIT]:find": ( state, action ) => {
@@ -358,7 +358,7 @@ const functions = {
     } );
 
     if( updateFlg ){
-      action.threadDetail = state.threadDetail;
+      action.threadDetail = {...state.threadDetail};
       action.threadDetail.serverMetas = {...action.threadDetail.serverMetas, ...action.thread.serverMetas};
       return action;
     }
