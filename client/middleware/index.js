@@ -172,11 +172,14 @@ const functions = {
     action.app = state.app;
     action.app.detailConnection = action.thread.connection;
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
-    console.log( action.threadDetail );
+    console.log( action.thread );
     action.threadDetail = {...action.thread};
-    console.log( action.threadDetail );
 
-//    delete action.thread;
+    // TODO 古い仕様だとhasSlashが格納されていないcollectionが存在する
+    // hasSlashはlocationが参照できないPORTALだと正しい値を取得出来ないため、
+    // 拡張機能ではGET_CLIENT_METASを実行して正しい値をサーバーに渡して更新してやる必要がある。
+    action.threadDetail.hasSlash = action.threadDetail.hasSlash === null ?
+      true : action.threadDetail.hasSlash;
     return action;
   },
   "NEXT_POSTS_TIMELINE": ( state, action ) => {
