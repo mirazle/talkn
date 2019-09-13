@@ -191,6 +191,7 @@ export default class Schema {
           return immutable ? new this.constructor( mergedObj ) : mergedObj;
         }else{
           if( immutable ){
+            console.log( mergedObj );
             return new this.constructor( mergedObj );
           }else{ 
             return mergedObj;
