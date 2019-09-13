@@ -144,10 +144,12 @@ export default class Schema {
 
   canSet( key, validValue ){
     try{
+
       const currentValue = this[key];
       if( key === "hasSlash" ) console.log("CAN SET A " + key + " " + validValue + " " + typeof validValue);
       const { error } = this[ key ] = validValue;
       if( key === "hasSlash" ) console.log("CAN SET B " + key + " " + this[ key ] + " " + typeof this[ key ]);
+
       if(error){
         return false;
       }else{
@@ -155,12 +157,7 @@ export default class Schema {
         return true;
       }
     }catch( e ){
-
-      /*
-        TODO そもそもNULLを代入できないのか？
-      */
-
-      console.warn( "BAD CAN SET KEY: " + key );
+      console.warn( "BAD CAN SET KEY: " + this.name + " " + key );
       console.warn( "BEFOER VALUE" );
       console.warn( typeof this[key] );
       console.warn( this[key] );
@@ -181,7 +178,10 @@ export default class Schema {
         objKeys.forEach( ( key ) => {
           if( this[ key ] !== params[ key ]){
             if(this.canSet( key, params[ key ] )){
+              if( key === "hasSlash" ) console.log("MERGE " + key + " " + params[ key ] + " " + typeof params[ key ] );
               mergedObj[ key ] = params[ key ];
+            }else{
+              console.warn("BAD MERGE A : " + key + " " + params[ key ] + " " + typeof params[ key ] );
             }
           }
         });
@@ -204,11 +204,11 @@ export default class Schema {
       if(this.errorThrow){
         console.warn( params );
         console.warn( e );
-        throw `BAD MERGE A : ${Schema.getType(params)} ${e}`;
+        throw `BAD MERGE B : ${Schema.getType(params)} ${e}`;
       }else{
         console.warn( params );
         console.warn( e );
-        console.warn(`BAD MERGE B : ${Schema.getType(params)} ${e}`);
+        console.warn(`BAD MERGE C : ${Schema.getType(params)} ${e}`);
         return params;
       }
     }
