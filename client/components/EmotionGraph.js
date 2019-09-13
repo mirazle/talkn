@@ -75,7 +75,7 @@ export default class EmotionGraph extends Component {
       for(
         let ratePointLimit = rateOne;
         ratePointLimit <= rateMax;
-        ratePointLimit = ( Math.round( ( ratePointLimit + rateOne ) * 100000 ) / 100000 )
+        ratePointLimit = ( Math.round( ( ratePointLimit + rateOne ) * calcRate ) / calcRate )
       ){
         graphRateMap.push(ratePointLimit);
       }
