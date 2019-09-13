@@ -169,6 +169,7 @@ const functions = {
   },
   "SERVER_TO_CLIENT[EMIT]:changeThreadDetail": ( state, action ) => {
     action.app = state.app;
+    console.log(action.thread);
     action.app.detailConnection = action.thread.connection;
     action.threads = Threads.getMergedThreads( state.threads, action.thread );
     action.threadDetail = {...action.thread};
