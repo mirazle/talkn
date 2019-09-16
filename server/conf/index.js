@@ -28,5 +28,7 @@ conf.serverAutoPath = env === PRODUCTION ? '/usr/share/app/talkn/server/listens/
 conf.sslOptions = env === PRODUCTION ?  
     {key: fs.readFileSync( sslKey ), cert: fs.readFileSync( sslCrt ), ca: fs.readFileSync( sslChain ) } :
     {key: fs.readFileSync( sslKey ), cert: fs.readFileSync( sslCrt )} ;
+conf.transactionSecretKey = env === PRODUCTION ? "sk_live_2eedbf7e396bc5ecd7b7d6d64245539a63d04f4b0051b683c60c2263" : "sk_test_077fecb899eb9307d9f51a2f";
+conf.transactionPublicKey = env === PRODUCTION ? "pk_live_5798d265c8573ae59dae624f" : "pk_test_6b2b80fa9812d8b45ee3b822";
 
 export default conf;
