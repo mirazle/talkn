@@ -186,10 +186,6 @@ export default class MenuIndexList extends Component {
 
   renderPost( menuIndexList, app ){
     let { connection, post, stampId } = menuIndexList;
-    
-    if( connection === "/" ){
-      console.log( stampId );
-    }
 
     if( stampId > 0 ){
       post = PostStyle.getStampTag( post, false );

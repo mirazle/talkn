@@ -173,6 +173,9 @@ class Express{
         });
       }
       break;
+    case conf.transactionURL:
+      console.log("TRANSACTION");
+      break;
     case conf.clientURL:
       // CORSを許可する
       res.header("Access-Control-Allow-Origin", "*");
