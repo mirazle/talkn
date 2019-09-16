@@ -8,7 +8,7 @@ import Setting from '~/server/listens/db/Setting';
 
 class MongoDB {
   constructor(){
-    mongoose.set('useFindAndModify', false);
+    mongoose.set('useFindAndModify', true);
     mongoose.set('useCreateIndex', true);
     mongoose.Promise	= global.Promise;
     const {host, port, dbName, option} = conf.mongoDB;
