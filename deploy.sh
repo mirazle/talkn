@@ -1,5 +1,6 @@
 [ $1 ] && comment=$1 || comment="Execute deploy command"
 echo "@@@@@@ GIT PULL"
+git rm -r --cached .
 git pull
 echo "@@@@@@ YARN RUN BUILD"
 yarn run build
