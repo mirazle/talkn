@@ -3,7 +3,7 @@
 /* ( MONGODB /  SOCKET.IO / REDIS / EXPRESS )
 /**************************************/
 
-import Actions from '~/server/actions/index';
+import Actions from './actions';
 
 class TalknServer{
 
