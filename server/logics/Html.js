@@ -8,7 +8,7 @@ import App from '~/common/schemas/state/App';
 import Thread from '~/common/schemas/state/Thread';
 import MongoDB from '~/server/listens/db/MongoDB';
 import Logics from '~/server/logics';
-import HtmlSchema from '~/server/schemas/logics/Html';
+import HtmlSchema from '~/server/schemas/logics/html';
 
 export default class Html {
 
