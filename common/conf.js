@@ -11,6 +11,7 @@ const clientURL = `${SUB_DOMAINS.CLIENT}.${domain}` ;
 const assetsURL = `${SUB_DOMAINS.ASSETS}.${domain}` ;
 const autoURL = `${SUB_DOMAINS.AUTO}.${domain}` ;
 const extURL = `${SUB_DOMAINS.EXT}.${domain}` ;
+const transactionURL = `${SUB_DOMAINS.TRANSACTION}.${domain}` ;
 const assetsImgPath = `${assetsURL}/img/` ;
 const assetsIconPath = `${assetsURL}/icon/` ;
 const assetsJsPath = `${assetsURL}/js/` ;
@@ -33,6 +34,7 @@ export default {
   assetsURL,
   autoURL,
   extURL,
+  transactionURL,
   assetsImgPath,
   assetsIconPath,
   assetsJsPath,

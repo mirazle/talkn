@@ -46,6 +46,7 @@ export default class Thread extends Schema{
       thread.href = '' ;
       thread.connection = connection;
       thread.connections = ['/'];
+      console.log( "@@@ " + bootOption.hasSlash );
       thread.hasSlash = bootOption.hasslash ? Schema.getBool( bootOption.hasslash ) : false;
       thread.protocol = 'talkn:';
       thread.contentType = '';

@@ -21,6 +21,7 @@ export default {
     SESSION: 'session',
     AUTO: 'auto',
     EXT: 'ext',
+    TRANSACTION: 'transaction',
   },
   APP_TYPES: {
     PORTAL: 'portal',
