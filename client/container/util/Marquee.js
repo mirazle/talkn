@@ -32,6 +32,16 @@ class Marquee extends Component {
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    if( this.state.overflowWidth === 0 ){
+      return false;
+    }
+    if( this.props.text === nextProps.text){
+//      return false;
+    }
+    return true;
+  }
+
   componentDidUpdate() {
     this._measureText();
 
