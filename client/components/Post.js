@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import Sequence from 'common/Sequence';
-import Emotions from 'common/emotions/index';
-import util from 'common/util';
-import conf from 'common/conf';
-import App from 'common/schemas/state/App';
-import PostStyle from 'client/style/Post';
-import Marquee from 'client/container/util/Marquee';
+import Sequence from '~/common/Sequence';
+import Emotions from '~/common/emotions/index';
+import util from '~/common/util';
+import conf from '~/common/conf';
+import App from '~/common/schemas/state/App';
+import PostStyle from '~/client/style/Post';
+import Marquee from '~/client/container/util/Marquee';
 
 const emotionCoverTypes = new Emotions();
 

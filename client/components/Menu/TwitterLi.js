@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Container from 'client/style/Container';
+import Container from '~/client/style/Container';
 
 export default class TwitterLi extends Component {
 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Thread from 'common/schemas/state/Thread';
 
 export default class Audio extends Component {
 

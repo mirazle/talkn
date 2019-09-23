@@ -1,6 +1,5 @@
 import App from '../../../common/schemas/state/App';
 import Style from '../index';
-import Container from '../Container';
 import Header from '../Header';
 import Detail from '../Detail';
 import Menu from '../Menu';

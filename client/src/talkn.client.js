@@ -1,6 +1,6 @@
 import 'babel-polyfill';
-import TalknWindow from 'client/operations/TalknWindow';
-import TalknSetupJs from 'client/operations/TalknSetupJs';
+import TalknWindow from '../operations/TalknWindow';
+import TalknSetupJs from '../operations/TalknSetupJs';
 
 TalknSetupJs.setupMath();
 

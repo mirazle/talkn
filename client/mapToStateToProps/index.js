@@ -1,5 +1,5 @@
-import storage from './storage';
-import scroll from './scroll';
+import storage from '~/client/mapToStateToProps/storage';
+import scroll from '~/client/mapToStateToProps/scroll';
 
 export default ( _state, _props ) => {
 

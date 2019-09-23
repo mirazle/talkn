@@ -1,0 +1,60 @@
+Arguments: 
+  /Users/hmiyazaki/.nodebrew/node/v10.9.0/bin/node /Users/hmiyazaki/.nodebrew/current/bin/yarn install
+
+PATH: 
+  /Users/hmiyazaki/google-cloud-sdk/bin:/Users/hmiyazaki/.rbenv/shims:/Users/hmiyazaki/.rbenv/shims:/Users/hmiyazaki/.rbenv/bin:/Users/hmiyazaki/.nodebrew/current/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+
+Yarn version: 
+  1.10.1
+
+Node version: 
+  10.9.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: unable to verify the first certificate
+      at TLSSocket.onConnectSecure (_tls_wrap.js:1047:34)
+      at TLSSocket.emit (events.js:182:13)
+      at TLSSocket._finishInit (_tls_wrap.js:629:8)
+
+npm manifest: 
+  {
+    "scripts": {
+    },
+    "name": "talkn",
+    "version": "0.0.1",
+    "description": "talkn is token communication dapps on url.",
+    "devDependencies": {
+      "babel-cli": "^6.26.0",
+      "babel-core": "^6.26.0",
+      "babel-eslint": "^9.0.0",
+      "babel-loader": "^7.1.4",
+      "babel-polyfill": "^6.26.0",
+      "babel-preset-env": "^1.6.1",
+      "babel-preset-react": "^6.24.1",
+      "babel-preset-stage-2": "^6.24.1",
+      "babel-register": "^6.26.0",
+      "babel-plugin-root-import": "^4.1.8",
+      "babel-runtime": "^6.26.0",
+      "eslint": "^5.6.0",
+      "eslint-plugin-react": "^7.11.1",
+      "webpack": "^4.17.1",
+      "webpack-cli": "^3.1.0",
+      "webpack-dev-server": "^3.1.14"
+    },
+    "dependencies": {
+      "yarn": "^1.13.0",
+      "node": "^10.9.0",
+      "npm": "^6.4.0"
+    },
+    "author": "mirazle",
+    "license": "ISC"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

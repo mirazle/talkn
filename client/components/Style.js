@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from "react"
-import conf from 'common/conf';
+import React, { Component } from "react"
+import conf from '~/common/conf';
 
 export default class  Style extends Component {
 

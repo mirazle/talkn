@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import Sequence from 'common/Sequence';
-import App from 'common/schemas/state/App';
-import Audio from 'client/components/Media/Audio';
-import Video from 'client/components/Media/Video';
+import Sequence from '~/common/Sequence';
+import App from '~/common/schemas/state/App';
+import Audio from '~/client/components/Media/Audio';
+import Video from '~/client/components/Media/Video';
 
 export default class Media extends Component {
 

@@ -1,9 +1,7 @@
 import { applyMiddleware, createStore } from 'redux'
 import { createLogger } from 'redux-logger';
-import define from 'common/define'
-import conf from 'client/conf/'
-import rootReducer from 'client/reducers'
-import middleware from 'client/middleware/'
+import rootReducer from '~/client/reducers'
+import middleware from '~/client/middleware/'
 
 export default function configureStore( initialState ={} ) {
 

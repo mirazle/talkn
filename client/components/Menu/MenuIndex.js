@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import App from 'common/schemas/state/App';
-import Thread from 'common/schemas/state/Thread';
-import conf from 'common/conf';
-import Icon from '../Icon';
-import MenuIndexList from './MenuIndexList';
+import App from '~/common/schemas/state/App';
+import Thread from '~/common/schemas/state/Thread';
+import conf from '~/common/conf';
+import Icon from '~/client/components/Icon';
+import MenuIndexList from '~/client/components/Menu/MenuIndexList';
 
 export default class MenuIndex extends Component {
 

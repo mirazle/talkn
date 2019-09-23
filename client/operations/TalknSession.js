@@ -1,5 +1,4 @@
-import conf from 'client/conf'
-import define from 'common/define';
+import define from '~/common/define';
 
 export default class TalknSession{
 

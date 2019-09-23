@@ -1,4 +1,5 @@
 echo "@@@@@@ STOP PROCCESS"
+cd server
 forever stopall
 ps -x | grep node | awk '{print $1}' > p.txt
 
@@ -12,4 +13,5 @@ yarn install
 echo "@@@@@@ YARN RUN PROD"
 yarn run prod
 echo "@@@@@@ PROCCESS LIST"
+cd ../
 ps -aux | grep node

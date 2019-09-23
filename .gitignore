@@ -1,5 +1,7 @@
 .DS_Store
-.*/node_modules
+client/node_modules/
+common/node_modules/
+server/node_modules/
 .*/npm-debug.log
 chromeExtension.zip
 server/listens/express/assets/icon/*

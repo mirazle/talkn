@@ -1,7 +1,7 @@
 import React, { Component } from "react"
-import Sequence from 'common/Sequence';
-import BoardStyle from 'client/style/Board';
-import Link from 'client/components/Link';
+import Sequence from '~/common/Sequence';
+import BoardStyle from '~/client/style/Board';
+import Link from '~/client/components/Link';
 
 export default class Links extends Component {
 

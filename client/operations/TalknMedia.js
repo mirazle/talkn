@@ -1,4 +1,4 @@
-import conf from 'client/conf';
+import conf from '~/client/conf';
 
 export default class TalknMedia {
 

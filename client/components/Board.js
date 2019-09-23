@@ -1,10 +1,9 @@
 import React, { Component } from "react"
-import App from 'common/schemas/state/App';
-import Icon from 'client/components/Icon';
-import Links from 'client/components/Links';
-import IconStyle from 'client/style/Icon';
-import BoardStyle from 'client/style/Board';
-import Marquee from 'client/container/util/Marquee';
+import App from '~/common/schemas/state/App';
+import Icon from '~/client/components/Icon';
+import Links from '~/client/components/Links';
+import IconStyle from '~/client/style/Icon';
+import BoardStyle from '~/client/style/Board';
 
 export default class Board extends Component {
 

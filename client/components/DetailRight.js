@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Detail from 'client/components/Detail';
-import DetailStyle from 'client/style/Detail';
+import Detail from '~/client/components/Detail';
+import DetailStyle from '~/client/style/Detail';
 
 export default class DetailRight extends Component {
  	render() {

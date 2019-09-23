@@ -1,14 +1,14 @@
 import React, { Component } from "react"
-import conf from 'common/conf';
-import define from 'common/define';
-import Sequence from 'common/Sequence';
-import App from 'common/schemas/state/App';
-import Marquee from 'client/container/util/Marquee';
-import DetailFooter from 'client/components/DetailFooter';
-import EmotionGraph from 'client/components/EmotionGraph';
-import LockMenu from './LockMenu';
-import Icon from './Icon';
-import Thread from "../../common/schemas/state/Thread";
+import conf from '~/common/conf';
+import define from '~/common/define';
+import Sequence from '~/common/Sequence';
+import App from '~/common/schemas/state/App';
+import Thread from "~/common/schemas/state/Thread";
+import Marquee from '~/client/container/util/Marquee';
+import DetailFooter from '~/client/components/DetailFooter';
+import EmotionGraph from '~/client/components/EmotionGraph';
+import LockMenu from '~/client/components/LockMenu';
+import Icon from '~/client/components/Icon';
 
 export default class Detail extends Component {
 

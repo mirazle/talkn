@@ -1,6 +1,5 @@
-import Sequence from 'common/Sequence';
+import Sequence from '~common/Sequence';
 import Emotions from '~/common/emotions/index';
-import PostState from 'common/schemas/state/Post';
 
 const emotions = new Emotions();
 let actions = {};

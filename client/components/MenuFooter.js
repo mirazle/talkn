@@ -1,7 +1,6 @@
 import React, { Component } from "react"
-import App from 'common/schemas/state/App';
-import Container from 'client/style/Container';
-import Icon from 'client/components/Icon';
+import Container from '~/client/style/Container';
+import Icon from '~/client/components/Icon';
 
 export default class MenuFooter extends Component {
 
