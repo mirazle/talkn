@@ -1,9 +1,8 @@
 import React, { Component } from "react"
-import conf from 'common/conf';
-import define from 'common/define';
-import App from 'common/schemas/state/App';
-import Icon from './Icon';
-import Container from 'client/style/Container';
+import conf from '~/common/conf';
+import App from '~/common/schemas/state/App';
+import Icon from '~/client/components/Icon';
+import Container from '~/client/style/Container';
 
 export default class DetailFooter extends Component {
 

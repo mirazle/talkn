@@ -1,7 +1,6 @@
-import define from '~/common/define';
 import Schema from '~/common/schemas/Schema';
 import Post from '~/common/schemas/state/Post';
-import conf from '~/client/conf/';
+import conf from '~/client/conf';
 
 export default class App extends Schema{
   static get openLockMenuLabelNo(){ return 'No' };

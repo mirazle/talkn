@@ -1,6 +1,4 @@
-import define from 'common/define';
-//import MongoDB from 'server/listens/db/MongoDB';
-import HtmlSchema from 'server/schemas/logics/Html';
+import define from '~/common/define';
 
 export default {
   updateStyle: ( {styleKey, eleType, tagName, style} ) => {

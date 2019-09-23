@@ -1,6 +1,6 @@
 import React, { Component } from "react"
-import Post from './Post';
-import Container from 'client/style/Container';
+import Post from '~/client/components/Post';
+import Container from '~/client/style/Container';
 
 export default class Notif extends Component {
 

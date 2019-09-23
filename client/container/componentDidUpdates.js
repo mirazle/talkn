@@ -1,9 +1,9 @@
 import React from "react"
-import App from 'common/schemas/state/App';
-import Notif from 'client/components/Notif';
-import TalknWindow from 'client/operations/TalknWindow';
-import TalknMedia from 'client/operations/TalknMedia';
-import storage from 'client/mapToStateToProps/storage';
+import App from '~/common/schemas/state/App';
+import Notif from '~/client/components/Notif';
+import TalknWindow from '~/client/operations/TalknWindow';
+import TalknMedia from '~/client/operations/TalknMedia';
+import storage from '~/client/mapToStateToProps/storage';
 
 export default ( self, constructorName ) => {
     const { props } = self;

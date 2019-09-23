@@ -1,11 +1,11 @@
 import io from 'socket.io-client';
-import Sequence from 'common/Sequence';
-import define from 'common/define';
-import conf from 'client/conf';
-import handleActions from 'client/actions/handles'
-import WsServerToClientEmitAction from 'client/actions/ws/serverToClientEmit'
-import WsClientToServerEmitActions from 'client/actions/ws/clientToServerEmit'
-import WsServerToClientBroadcastAction from 'client/actions/ws/serverToClientBradcast'
+import Sequence from '~/common/Sequence';
+import define from '~/common/define';
+import conf from '~/client/conf';
+import handleActions from '~/client/actions/handles'
+import WsServerToClientEmitAction from '~/client/actions/ws/serverToClientEmit'
+import WsClientToServerEmitActions from '~/client/actions/ws/clientToServerEmit'
+import WsServerToClientBroadcastAction from '~/client/actions/ws/serverToClientBradcast'
 
 export default class TalknAPI{
 	constructor( talknIndex, store, state, connection ){

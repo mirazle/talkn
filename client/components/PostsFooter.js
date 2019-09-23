@@ -1,7 +1,7 @@
 import React, { Component } from "react"
-import App from 'common/schemas/state/App';
-import util from 'common/util';
-import conf from 'common/conf';
+import App from '~/common/schemas/state/App';
+import util from '~/common/util';
+import conf from '~/common/conf';
 
 const regex = /^\s*$/;
 

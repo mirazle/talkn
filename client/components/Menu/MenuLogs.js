@@ -1,7 +1,7 @@
-import React, { Component, PropTypes } from "react";
-import App from 'common/schemas/state/App';
-import Icon from '../Icon';
-import MenuIndexList from './MenuIndexList';
+import React, { Component } from "react";
+import App from '~/common/schemas/state/App';
+import Icon from '~/client/components/Icon';
+import MenuIndexList from '~/client/components/Menu/MenuIndexList';
 
 export default class MenuLogs extends Component {
   componentDidUpdate(){

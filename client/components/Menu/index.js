@@ -1,12 +1,11 @@
 import React, { Component } from "react"
-import define from 'common/define';
-import App from 'common/schemas/state/App';
-import MenuUsers from 'client/components/Menu/MenuUsers';
-import MenuIndex from 'client/components/Menu/MenuIndex';
-import MenuLogs from 'client/components/Menu/MenuLogs';
-import MenuSetting from 'client/components/Menu/MenuSetting';
-import Header from '../Header';
-import MenuFooter from '../MenuFooter';
+import App from '~/common/schemas/state/App';
+import MenuUsers from '~/client/components/Menu/MenuUsers';
+import MenuIndex from '~/client/components/Menu/MenuIndex';
+import MenuLogs from '~/client/components/Menu/MenuLogs';
+import MenuSetting from '~/client/components/Menu/MenuSetting';
+import Header from '~/client/components/Header';
+import MenuFooter from '~/client/components/MenuFooter';
 
 export default class Menu extends Component {
 

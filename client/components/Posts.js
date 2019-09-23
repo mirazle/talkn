@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import conf from 'common/conf';
-import App from 'common/schemas/state/App';
-import { default as PostsSchems } from 'common/schemas/state/Posts';
-import Post from 'client/components/Post';
+import conf from '~/common/conf';
+import App from '~/common/schemas/state/App';
+import { default as PostsSchems } from '~/common/schemas/state/Posts';
+import Post from '~/client/components/Post';
 
 export default class Posts extends Component {
 

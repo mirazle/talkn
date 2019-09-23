@@ -3,7 +3,9 @@ echo "@@@@@@ GIT PULL"
 #git rm -r --cached .
 git pull
 echo "@@@@@@ YARN RUN BUILD"
+cd client
 yarn run build
+cd ../
 echo "@@@@@@ RESOLVE EXTENSION　ext.js"
 sed -i -e "1s/DEV/PROD/" server/listens/express/ext/ext.js
 sed -i -e "1s/START/PROD/" server/listens/express/ext/ext.js

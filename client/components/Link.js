@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import BoardStyle from 'client/style/Board';
-import LinkStyle from 'client/style/Link';
-import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
-import Marquee from 'client/container/util/Marquee';
+import BoardStyle from '~/client/style/Board';
+import LinkStyle from '~/client/style/Link';
+import MenuIndexListStyle from '~/client/style/Menu/MenuIndexList';
+import Marquee from '~/client/container/util/Marquee';
 
 export default class Link extends Component {
 

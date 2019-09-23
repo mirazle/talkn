@@ -1,5 +1,4 @@
-import Posts from 'common/schemas/state/Posts';
-import User from 'common/schemas/state/User';
+import Posts from '~/common/schemas/state/Posts';
 
 export default ( state = new Posts() , action ) => {
 	switch( action.type ){	

@@ -1,7 +1,7 @@
 import React, { Component } from "react"
-import Marquee from 'client/container/util/Marquee';
-import App from 'common/schemas/state/App';
-import Icon from 'client/components/Icon';
+import App from '~/common/schemas/state/App';
+import Marquee from '~/client/container/util/Marquee';
+import Icon from '~/client/components/Icon';
 
 export default class Header extends Component {
 

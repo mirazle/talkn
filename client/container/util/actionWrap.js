@@ -1,7 +1,7 @@
-import Schema from 'common/schemas/Schema';
-import App from 'common/schemas/state/App';
-import Thread from 'common/schemas/state/Thread';
-import handles from 'client/actions/handles';
+import Schema from '~/common/schemas/Schema';
+import App from '~/common/schemas/state/App';
+import Thread from '~/common/schemas/state/Thread';
+import handles from '~/client/actions/handles';
 
 export default {
     onClickConnection: ( toConnection, overWriteHasSlash, called ) => {

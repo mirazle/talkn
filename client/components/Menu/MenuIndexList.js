@@ -1,12 +1,11 @@
-import define from 'common/define';
 import React, { Component } from "react";
-import App from 'common/schemas/state/App';
-import Thread from 'common/schemas/state/Thread';
-import util from 'common/util';
-import conf from 'common/conf';
-import Marquee from 'client/container/util/Marquee';
-import MenuIndexListStyle from 'client/style/Menu/MenuIndexList';
-import PostStyle from 'client/style/Post';
+import App from '~/common/schemas/state/App';
+import Thread from '~/common/schemas/state/Thread';
+import util from '~/common/util';
+import conf from '~/common/conf';
+import Marquee from '~/client/container/util/Marquee';
+import MenuIndexListStyle from '~/client/style/Menu/MenuIndexList';
+import PostStyle from '~/client/style/Post';
 
 export default class MenuIndexList extends Component {
 

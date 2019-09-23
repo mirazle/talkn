@@ -1,11 +1,11 @@
 import React, { Component } from "react"
-import conf from 'common/conf';
-import Sequence from 'common/Sequence';
-import App from 'common/schemas/state/App';
-import Style from 'client/style/index/';
-import Container from 'client/style/Container';
-import {default as LockMenuStyle} from 'client/style/LockMenu';
-import Icon from 'client/components/Icon';
+import conf from '~/common/conf';
+import Sequence from '~/common/Sequence';
+import App from '~/common/schemas/state/App';
+import Style from '~/client/style/index';
+import Container from '~/client/style/Container';
+import {default as LockMenuStyle} from '~/client/style/LockMenu';
+import Icon from '~/client/components/Icon';
 
 export default class LockMenu extends Component {
 

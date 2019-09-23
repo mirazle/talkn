@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { default as IconStyle } from 'client/style/Icon';
-import Schema from 'common/schemas/Schema';
+import Schema from '~/common/schemas/Schema';
+import { default as IconStyle } from '~/client/style/Icon';
 
 export default class Icon extends Component{
 

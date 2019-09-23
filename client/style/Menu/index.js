@@ -1,5 +1,5 @@
-import conf from '../../../common/conf';
-import App from '../../../common/schemas/state/App';
+import conf from '~/common/conf';
+import App from '~/common/schemas/state/App';
 import Style from '../index';
 import Container from '../Container';
 import Main from '../Main';

@@ -1,14 +1,13 @@
-import Container from 'client/style/Container';
-import storage from 'client/mapToStateToProps/storage';
-import Schema from 'common/schemas/Schema';
-import Sequence from 'common/Sequence';
-import conf from 'common/conf';
-import util from 'common/util';
-import App from 'common/schemas/state/App';
-import Posts from 'common/schemas/state/Posts';
-import Thread from 'common/schemas/state/Thread';
-import Threads from 'common/schemas/state/Threads';
-import TalknAPI from '../operations/TalknAPI';
+import Schema from '~/common/schemas/Schema';
+import Sequence from '~/common/Sequence';
+import conf from '~/common/conf';
+import util from '~/common/util';
+import App from '~/common/schemas/state/App';
+import Posts from '~/common/schemas/state/Posts';
+import Thread from '~/common/schemas/state/Thread';
+import Threads from '~/common/schemas/state/Threads';
+import Container from '~/client/style/Container';
+import storage from '~/client/mapToStateToProps/storage';
 
 export default {
   updateAction: store => next => action => {

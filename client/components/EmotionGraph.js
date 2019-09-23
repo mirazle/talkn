@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Radar } from 'react-chartjs-2';
-import Emotions from 'common/emotions/index';
-import EmotionGraphStyle from 'client/style/EmotionGraph';
+import Emotions from '~/common/emotions/index';
+import EmotionGraphStyle from '~/client/style/EmotionGraph';
 
 const calcRate = 1000000;
 const emotions = new Emotions();

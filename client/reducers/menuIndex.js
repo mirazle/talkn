@@ -1,5 +1,5 @@
-import MenuIndex from 'common/schemas/state/MenuIndex';
-import App from 'common/schemas/state/App';
+import MenuIndex from '~/common/schemas/state/MenuIndex';
+import App from '~/common/schemas/state/App';
 
 export default ( state = new MenuIndex() , action ) => {
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import {default as InnerNotifStyle} from 'client/style/InnerNotif';
+import {default as InnerNotifStyle} from '~/client/style/InnerNotif';
 
 export default class InnerNotif extends Component {
 

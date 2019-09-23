@@ -2,19 +2,19 @@ import React, { Component, PropTypes } from "react"
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux';
 import timeago from 'timeago.js';
-import define from 'common/define';
-import Schema from 'common/schemas/Schema';
-import App from 'common/schemas/state/App';
-import State from 'common/schemas/state';
-import BootOption from 'common/schemas/state/BootOption';
-import conf from 'client/conf';
-import actionWrap from 'client/container/util/actionWrap';
-import TalknSession from 'client/operations/TalknSession';
-import TalknAPI from 'client/operations/TalknAPI';
-import TalknMedia from 'client/operations/TalknMedia';
-import configureStore from 'client/store/configureStore'
-import Container from 'client/container/';
-import storage from 'client/mapToStateToProps/storage';
+import define from '~/common/define';
+import Schema from '~/common/schemas/Schema';
+import App from '~/common/schemas/state/App';
+import State from '~/common/schemas/state';
+import BootOption from '~/common/schemas/state/BootOption';
+import conf from '~/client/conf';
+import actionWrap from '~/client/container/util/actionWrap';
+import TalknSession from '~/client/operations/TalknSession';
+import TalknAPI from '~/client/operations/TalknAPI';
+import TalknMedia from '~/client/operations/TalknMedia';
+import configureStore from '~/client/store/configureStore'
+import Container from '~/client/container/';
+import storage from '~/client/mapToStateToProps/storage';
 
 export default class TalknWindow {
 

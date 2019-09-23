@@ -1,4 +1,4 @@
-import MenuLogs from 'common/schemas/state/MenuLogs';
+import MenuLogs from '~/common/schemas/state/MenuLogs';
 
 export default ( state = new MenuLogs() , action ) => {
 	switch( action.type ){
