@@ -116,7 +116,7 @@ export default class EmotionGraph extends Component<Props, State> {
     }
 
     if (log) {
-      console.log("RESULT @@@@@@@@@@@@@@@@@@@@ " + graphType);
+      console.log("RESULT @@@@@@@@@@@@@@@@@@@@@ " + graphType);
       console.log("totalNum " + totalNum);
       console.log("maxNum " + maxNum);
       console.log("graphMaxNum " + graphMaxNum);

@@ -28,6 +28,7 @@
     "@types/request": "^2.48.3",
     "@types/socket.io-redis": "^1.0.25",
     "@types/webpack-env": "^1.14.0",
+    "@types/express-session": "^1.15.14",
     "nodemon": "^1.19.2",
     "redux-logger": "^3.0.6",
     "ts-loader": "^6.2.0",
@@ -41,7 +42,6 @@
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
-    "@types/express-session": "^1.15.14",
     "body-parser": "^1.19.0",
     "chart.js": "^2.8.0",
     "cheerio": "^1.0.0-rc.3",
