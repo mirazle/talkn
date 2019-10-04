@@ -1,6 +1,3 @@
-import User from "common/schemas/state/User";
-import Logics from "server/logics";
-
 export default class Users {
   collection: any;
   constructor(collection) {

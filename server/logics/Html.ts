@@ -1,6 +1,6 @@
 import request from "request";
 import cheerio from "cheerio";
-import jschardet from "jschardet";
+// import jschardet from "jschardet";
 import { Iconv } from "iconv";
 import { Buffer } from "buffer";
 import Sequence from "common/Sequence";
