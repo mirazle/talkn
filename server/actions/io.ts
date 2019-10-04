@@ -4,7 +4,6 @@ import Collections from "server/logics/db/collections/";
 import Logics from "server/logics";
 import Actions from "server/actions";
 import tests from "server/utils/testRequestState";
-import { request } from "http";
 
 export default {
   setUp: async () => {

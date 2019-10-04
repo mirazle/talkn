@@ -81,7 +81,7 @@ class Express {
             req.url === "/" ||
             (req.url && req.url.indexOf("/?lang=") === 0)
           ) {
-            res.render("www/", {
+            res.render("www/index", {
               language,
               domain: conf.domain,
               wwwURL: conf.wwwURL,
@@ -196,7 +196,7 @@ class Express {
 
           hasSlash = connection.lastIndexOf("/") === connection.length - 1;
 
-          res.render("portal/", {
+          res.render("portal/index", {
             includeIframeTag,
             connection,
             hasSlash,

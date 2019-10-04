@@ -1,4 +1,3 @@
-import App from "common/schemas/state/App";
 import Thread from "common/schemas/state/Thread";
 import MongoDB from "server/listens/db/MongoDB";
 import Logics from "server/logics";
