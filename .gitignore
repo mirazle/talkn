@@ -10,3 +10,4 @@ extention/talkn.client.js
 common/pems/*
 dump.rdb
 package-lock.json
+yarn-error.log
