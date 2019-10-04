@@ -51,6 +51,8 @@ export default class DetailRight {
         break;
       case App.screenModeLargeLabel:
         if (app.isOpenDetail) {
+          transform = `translate3d(0px, 0px, 0px)`;
+        } else {
           transform = DetailRight.closeSelfTransform;
         }
         break;

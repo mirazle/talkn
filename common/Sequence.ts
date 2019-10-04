@@ -224,7 +224,6 @@ export default class Sequence {
             [stateKey]: reduxState[stateKey].toJSON()
           };
         } else {
-          console.log(columnDatas);
           columnDatas.forEach(columnData => {
             const { columnName, valid } = columnData;
             let value = reduxState[stateKey][columnName];
