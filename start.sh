@@ -1,5 +1,4 @@
 echo "@@@@@@ STOP PROCCESS"
-cd server
 forever stopall
 ps -x | grep node | awk '{print $1}' > p.txt
 
