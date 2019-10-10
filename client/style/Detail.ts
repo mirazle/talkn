@@ -101,7 +101,6 @@ export default class Detail {
       transform: DetailModal.getTransform(app),
       transition: Container.getTransition(app)
     });
-
     return Style.get({ layout, content, animation });
   }
 
