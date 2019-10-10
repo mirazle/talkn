@@ -95,6 +95,7 @@ class Container extends Component<Props, State> {
   handleOnClickToggleDetail(e) {
     const { state, onClickOpenLockMenu } = this.props;
     let { app, thread, threadDetail } = state;
+    console.log("@@@@@@@@@@@@@@@@@@@");
     console.log(app);
     if (app.openLockMenu !== App.openLockMenuLabelNo) {
       console.log("AAAAAAAA");
