@@ -185,6 +185,7 @@ export default class Post extends Component<Props, State> {
   handleOnClickPost() {
     const { threads } = this.props;
     let { app, connection } = this.props;
+    console.log("@@@@@@@@@@");
     if (threads[connection]) {
       console.log("handleOnClickPost A");
       app = App.getAppUpdatedOpenFlgs({ app }, "post");
