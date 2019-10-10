@@ -277,7 +277,8 @@ export default class App extends Schema {
     });
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
-    const isOpenDetail = params.isOpenDetail ? params.isOpenDetail : false;
+    const isOpenDetail = screenMode === App.screenModeDetailLabel ?
+      true : ( Schema.isSet(params.isOpenDetail) ? params.isOpenDetail : false );
     const isOpenNewPost = params.isOpenNewPost ? params.isOpenNewPost : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     const isOpenPostsSupporter = Schema.isSet(params.isOpenPostsSupporter)
