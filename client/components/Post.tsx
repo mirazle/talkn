@@ -186,12 +186,15 @@ export default class Post extends Component<Props, State> {
     const { threads } = this.props;
     let { app, connection } = this.props;
     if (threads[connection]) {
+      console.log("handleOnClickPost A");
       app = App.getAppUpdatedOpenFlgs({ app }, "post");
+      console.log(app);
       window.talknAPI.onClickToggleDispDetail({
         threadDetail: threads[connection],
         app
       });
     } else {
+      console.log("handleOnClickPost B");
       window.talknAPI.changeThreadDetail(connection);
     }
   }
