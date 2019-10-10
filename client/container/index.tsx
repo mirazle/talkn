@@ -99,6 +99,7 @@ class Container extends Component<Props, State> {
       onClickOpenLockMenu(App.openLockMenuLabelNo);
     } else {
       app = App.getAppUpdatedOpenFlgs(state, "headerDetailIcon");
+      console.log(app);
       window.talknAPI.onClickToggleDispDetail({ threadDetail, thread, app });
     }
   }
