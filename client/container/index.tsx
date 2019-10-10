@@ -95,11 +95,13 @@ class Container extends Component<Props, State> {
   handleOnClickToggleDetail(e) {
     const { state, onClickOpenLockMenu } = this.props;
     let { app, thread, threadDetail } = state;
+    console.log(app);
     if (app.openLockMenu !== App.openLockMenuLabelNo) {
+      console.log("AAAAAAAA");
       onClickOpenLockMenu(App.openLockMenuLabelNo);
     } else {
+      console.log("BBBBBBBB");
       app = App.getAppUpdatedOpenFlgs(state, "headerDetailIcon");
-      console.log(app);
       window.talknAPI.onClickToggleDispDetail({ threadDetail, thread, app });
     }
   }
