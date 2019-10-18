@@ -667,9 +667,7 @@ export default class App extends Schema {
     return app;
   }
 
-  static getAppUpdatedOpenFlgs({ app }, call) {
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " + call);
-    console.log(app.screenMode);
+  static getAppUpdatedOpenFlgs({ app }, call = "") {
     switch (call) {
       case "toggleMain":
       case "headerDetailIcon":
