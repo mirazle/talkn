@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "server": "nodebrew use v10.9.0;nodemon -L",
+    "server": "nodemon -L",
     "client": "WEBPACK_ENV=development webpack-dev-server --hot --inline --colors --https --cert=./client/conf/localhost.crt --key=./client/conf/localhost.key",
     "build": "WEBPACK_ENV=production webpack",
     "prod": "forever start -c 'ts-node -r tsconfig-paths/register' server/run.ts",
