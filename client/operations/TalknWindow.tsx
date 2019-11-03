@@ -120,6 +120,8 @@ export default class TalknWindow {
     this.dom.body = document.querySelector("body");
     this.dom.talkn1 = document.querySelector("#talkn1");
 
+    window.talknAPI = window.__talknAPI__[window.talknIndex];
+
     this.listenAsyncBoot();
   }
 
@@ -140,15 +142,20 @@ export default class TalknWindow {
       "margin: 0px auto !important;" +
       "visibility: visible !important;" +
       "opacity: 1 !important;";
-
-    if (!window.TalknAPI) window.TalknAPI = TalknAPI;
-    if (!window.__talknAPI__) window.__talknAPI__ = [];
-    window.talknAPI = window.__talknAPI__[window.talknIndex];
     //if( !window.name ) window.name = "talkn";
   }
 
   listenAsyncBoot() {
     const bootPromises: any = [];
+
+    bootPromises.push(
+      new Promise(resolve => {
+        const store = configureStore();
+        this.talknAPI = new TalknAPI(this.talknIndex, resolve);
+        this.talknAPI.connectioned(this.talknIndex, store);    
+      })
+    );
+
     bootPromises.push(
       new Promise(resolve => {
         window.addEventListener("load", ev => {
@@ -195,7 +202,7 @@ export default class TalknWindow {
   boot(bootOption) {
     const connection = bootOption.connection;
     const initialApp = TalknWindow.getInitialApp(bootOption);
-    const store = configureStore();
+
     const caches = TalknSession.getCaches(connection);
 
     const state = new State(
@@ -205,7 +212,7 @@ export default class TalknWindow {
       initialApp,
       caches
     );
-    this.talknAPI = new TalknAPI(this.talknIndex, store, state, connection);
+    this.talknAPI.booted(state, connection);
     this.talknAPI.initClientState(state);
 
     ReactDOM.render(

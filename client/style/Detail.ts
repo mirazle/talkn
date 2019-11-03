@@ -90,8 +90,7 @@ export default class Detail {
       height,
       margin: DetailModal.getMargin(app),
       background,
-      border: Container.border,
-      borderBottom: 0,
+      border: 0,
       borderRadius: Container.radiuses,
       WebkitOverflowScrolling: "touch",
       zIndex: 1
@@ -116,7 +115,6 @@ export default class Detail {
       background: Container.calmRGB,
       overflow: "hidden",
       margin: `${Header.headerHeight}px 0px 0px 0px`,
-      borderLeft: Container.border,
       zIndex: 0
     });
     const content = Style.getContentBase();

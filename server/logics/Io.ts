@@ -11,6 +11,12 @@ export default class Io {
     return this.io.get();
   }
 
+  async connectioned(ioUser) {
+    return this.io.emit(ioUser, Sequence.CATCH_ME_KEY, {
+      type: "connectioned"
+    });
+  }
+
   async initClientState(ioUser, requestState, setting) {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
       user: { uid: ioUser.conn.id },
@@ -52,6 +58,7 @@ export default class Io {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
       menuIndex
     });
+    console.log(responseEmitState);
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
     return true;
   }

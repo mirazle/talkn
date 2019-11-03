@@ -21,6 +21,7 @@ export default {
         Actions.io[endpoint](ioUser, requestState, setting);
       });
     });
+    Logics.io.connectioned(ioUser);
   },
 
   initClientState: (ioUser, requestState, setting) => {
@@ -92,6 +93,7 @@ export default {
       {},
       true
     );
+
     thread.hasSlash = requestState.thread.hasSlash;
 
     // Threadの状態
@@ -158,7 +160,6 @@ export default {
       requestState,
       setting
     );
-    console.log(menuIndex);
     Logics.io.findMenuIndex(ioUser, { requestState, menuIndex });
   },
 

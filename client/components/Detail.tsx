@@ -99,11 +99,13 @@ export default class Detail extends Component<Props, State> {
   }
 
   getDescription(serverMetas) {
-    if (serverMetas["description"] !== conf.description) {
-      return serverMetas["description"];
-    }
-    if (serverMetas["og:description"]) {
-      return serverMetas["og:description"];
+    if (serverMetas) {
+      if (serverMetas["description"] !== conf.description) {
+        return serverMetas["description"];
+      }
+      if (serverMetas["og:description"]) {
+        return serverMetas["og:description"];
+      }
     }
     return conf.description;
   }
@@ -135,7 +137,7 @@ export default class Detail extends Component<Props, State> {
   getTwitterIcon(state) {
     const { app, threadDetail } = state;
     const { serverMetas } = threadDetail;
-    const active = serverMetas["twitter:site"] !== "";
+    const active = serverMetas && serverMetas["twitter:site"] !== "";
     const href = active
       ? `${define.URL.twitter}${serverMetas["twitter:site"].replace("@", "")}`
       : "";
@@ -151,7 +153,7 @@ export default class Detail extends Component<Props, State> {
   getFacebookIcon(state) {
     const { app, threadDetail } = state;
     const { serverMetas } = threadDetail;
-    const active = serverMetas["fb:page_id"] !== "";
+    const active = serverMetas && serverMetas["fb:page_id"] !== "";
     const href = active
       ? `${define.URL.facebook}${serverMetas["fb:page_id"]}`
       : "";
@@ -167,7 +169,7 @@ export default class Detail extends Component<Props, State> {
   getAppstoreIcon(state) {
     const { app, threadDetail } = state;
     const { serverMetas } = threadDetail;
-    const active = serverMetas["al:ios:app_store_id"] !== "";
+    const active = serverMetas && serverMetas["al:ios:app_store_id"] !== "";
     const href = active
       ? `${define.URL.appstore}${serverMetas["al:ios:app_store_id"]}`
       : "";
@@ -183,7 +185,7 @@ export default class Detail extends Component<Props, State> {
   getAndroidIcon(state) {
     const { app, threadDetail } = state;
     const { serverMetas } = threadDetail;
-    const active = serverMetas["al:android:package"] !== "";
+    const active = serverMetas && serverMetas["al:android:package"] !== "";
     const href = active
       ? `${define.URL.playstore}${serverMetas["al:android:package"]}`
       : "";
@@ -234,11 +236,14 @@ export default class Detail extends Component<Props, State> {
 
   getDispContentType(contentType) {
     const { style } = this.props.state;
-    return contentType.split(";").map((c, i) => (
-      <div key={`${c}_${i}`} style={style.detail.metaContentType}>
-        {c}
-      </div>
-    ));
+    if (contentType) {
+      return contentType.split(";").map((c, i) => (
+        <div key={`${c}_${i}`} style={style.detail.metaContentType}>
+          {c}
+        </div>
+      ));
+    }
+    return "";
   }
 
   renderMeta() {

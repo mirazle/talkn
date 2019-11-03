@@ -1,3 +1,4 @@
+import TalknAPI from "client/operations/TalknAPI";
 import TalknWindow from "client/operations/TalknWindow";
 import TalknSetup from "client/operations/TalknSetup";
 TalknSetup.setupMath();
@@ -20,6 +21,8 @@ declare global {
     easeInOutQuad: any;
   }
 }
+if (!window.TalknAPI) window.TalknAPI = TalknAPI;
+if (!window.__talknAPI__) window.__talknAPI__ = [];
 
 const talknIndex = window.talknIndex ? window.talknIndex + 1 : 1;
 const talknWindow = new TalknWindow(talknIndex);
