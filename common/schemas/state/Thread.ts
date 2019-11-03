@@ -79,6 +79,9 @@ export default class Thread extends Schema {
       thread.hasSlash = bootOption.hasslash
         ? Schema.getBool(bootOption.hasslash)
         : false;
+
+      console.log( "constructorFromWindow @@@@@@@@@@@@@" + thread.hasSlash );
+
       thread.protocol = "talkn:";
       thread.contentType = "";
       thread.charset = "UTF-8";

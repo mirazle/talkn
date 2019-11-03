@@ -48,7 +48,6 @@ class Container extends Component<Props, State> {
     const { state, talknAPI } = props;
     const { app, thread } = state;
     this.state = { notifs: [] };
-
     talknAPI.find(thread.connection);
 
     if (
@@ -72,6 +71,7 @@ class Container extends Component<Props, State> {
 
   componentDidMount() {
     const { app } = this.props.state;
+    console.log("CONTAINER DID MOUNT");
     //alert("@ " + app.isTransition );
     window.talknAPI.componentDidMounts("Container");
   }
@@ -461,7 +461,6 @@ class Container extends Component<Props, State> {
 
   render() {
     const { style, app, actionLog } = this.props.state;
-
     if (style && style.container && style.container.self && app.connectioned) {
       if (
         app.extensionMode === App.extensionModeExtBottomLabel ||

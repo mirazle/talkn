@@ -325,11 +325,10 @@ export default class Container {
         const postsWidth = Math.floor(
           detailOtherWidth - Menu.getWidth(app, true)
         );
-        width = String(postsWidth * 0.5);
+        width = String(postsWidth * 0.5) + "px";
         left = Menu.getWidth(app, true) + Math.floor(parseInt(width) / 2);
         break;
     }
-
     const layout = Style.getLayoutFlex({
       display,
       position: "fixed",

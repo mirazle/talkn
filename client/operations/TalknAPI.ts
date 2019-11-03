@@ -14,12 +14,41 @@ export default class TalknAPI {
   any;
   state: any;
   connection: any;
-  constructor(talknIndex, store, state, connection) {
-    const { server } = conf;
-    const { PORTS } = define;
-    this.ws = io(`https://${server}:${PORTS.SOCKET_IO}`, { forceNew: true });
+
+  /*
+    このコンストラクを2つに分ける。
+    wsの接続(connection)とfinnishOnをtalknWindowのbootより前にする！！
+  */
+  constructor(talknIndex, resolve) {
     this.talknIndex = talknIndex;
+    window.__talknAPI__[talknIndex] = this;
+    this.ws = io(`https://${conf.server}:${define.PORTS.SOCKET_IO}`, {
+      forceNew: true
+    });
+    this.onCatchMeAPI(resolve);
+/*
+    this.ws.on(Sequence.CATCH_ME_KEY, () => {
+      resolve(this);
+    });
+*/
+  }
+
+  static handle(talknIndex) {
+    if (typeof window.__talknAPI__[talknIndex] === "undefined") {
+      throw `BAD TALKN_API HANDLE TALKN_INDEX ${talknIndex}.`;
+    } else {
+
+      window.talknAPI = window.__talknAPI__[talknIndex];
+      return true;
+    }
+  }
+
+  connectioned(talknIndex, store){
     this.store = store;
+  }
+
+  booted(state, connection) {
+
     this.state = state;
     this.connection = connection;
 
@@ -27,20 +56,8 @@ export default class TalknAPI {
     this.onHandleAPI();
 
     // COMMUNUCATION API’s
-    this.onCatchMeAPI();
     this.onCatchConnectionAPI();
     this.onTalknAPI();
-
-    window.__talknAPI__[talknIndex] = this;
-  }
-
-  static handle(talknIndex) {
-    if (typeof window.__talknAPI__[talknIndex] === "undefined") {
-      throw `BAD TALKN_API HANDLE TALKN_INDEX ${talknIndex}.`;
-    } else {
-      window.talknAPI = window.__talknAPI__[talknIndex];
-      return true;
-    }
   }
 
   onHandleAPI() {
@@ -54,11 +71,12 @@ export default class TalknAPI {
     }
   }
 
-  onCatchMeAPI() {
+  onCatchMeAPI(resolve: Promise<boolean> | null = null) {
     const talknIndex = this.talknIndex;
     const callback: any = this.getToMeAPI(
       talknIndex,
-      WsServerToClientEmitAction
+      WsServerToClientEmitAction,
+      resolve
     );
     this.on(Sequence.CATCH_ME_KEY, callback);
   }
@@ -102,6 +120,7 @@ export default class TalknAPI {
 
   on(onKey, callback = () => {}) {
     if (!this.ws._callbacks[`$${onKey}`]) {
+      console.log("ON @@@@@ " + onKey);
       this.ws.on(onKey, callback);
     }
   }
@@ -146,9 +165,14 @@ export default class TalknAPI {
     };
   }
 
-  getToMeAPI(talknIndex, action) {
+  getToMeAPI(talknIndex, action, resolve = null) {
     return response => {
       if (TalknAPI.handle(talknIndex)) {
+
+        if( resolve ){
+          resolve();
+        }
+
         const actionState = action(response);
         return window.talknAPI.store.dispatch(actionState);
       }

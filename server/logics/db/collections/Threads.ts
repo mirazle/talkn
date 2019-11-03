@@ -75,11 +75,8 @@ export default class Threads {
       sort: { watchCnt: -1, layer: -1 },
       limit: setting.server.getThreadChildrenCnt
     };
-    let { error, response } = await this.collection.find(
-      condition,
-      selector,
-      option
-    );
+
+    let { response } = await this.collection.find(condition, selector, option);
     const responseLength = response.length;
     let ExistMainConnection = false;
 
@@ -97,6 +94,7 @@ export default class Threads {
       }
 
       if (!ExistMainConnection) {
+
         const { response: mainThread } = await this.findOne(
           connection,
           { lastPost: 1 },

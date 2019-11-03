@@ -31,6 +31,7 @@ export default {
 const functions = {
   "SERVER_TO_CLIENT[BROADCAST]:find": (state, action) => {
     action.app = state.app;
+    action.app.connectioned = action.thread.connection;
     return action;
   },
   "SERVER_TO_CLIENT[BROADCAST]:changeThread": (state, action) => {
