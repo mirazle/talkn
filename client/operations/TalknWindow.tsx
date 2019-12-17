@@ -189,6 +189,7 @@ export default class TalknWindow {
     }
 
     Promise.all(bootPromises).then(bootParams => {
+      console.log(conf.clientPath);
       const script = document.querySelector(`script[src='${conf.clientPath}']`);
       // const script = document.querySelector(`script#talkn`);
       const scriptOption = BootOption.rebuildAttributes(script.attributes);
