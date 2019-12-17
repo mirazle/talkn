@@ -122,6 +122,7 @@ export default {
 
     // 作成・更新が必要なスレッドの場合
     if (threadStatus.isRequireUpsert) {
+
       thread = await Logics.db.threads.requestHtmlParams(thread, requestState);
 
       // スレッド新規作成

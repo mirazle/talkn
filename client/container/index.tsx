@@ -71,8 +71,6 @@ class Container extends Component<Props, State> {
 
   componentDidMount() {
     const { app } = this.props.state;
-    console.log("CONTAINER DID MOUNT");
-    //alert("@ " + app.isTransition );
     window.talknAPI.componentDidMounts("Container");
   }
 
@@ -95,13 +93,9 @@ class Container extends Component<Props, State> {
   handleOnClickToggleDetail(e) {
     const { state, onClickOpenLockMenu } = this.props;
     let { app, thread, threadDetail } = state;
-    console.log("@@@@@@@@@@@@@@@@@@@");
-    console.log(app);
     if (app.openLockMenu !== App.openLockMenuLabelNo) {
-      console.log("AAAAAAAA");
       onClickOpenLockMenu(App.openLockMenuLabelNo);
     } else {
-      console.log("BBBBBBBB");
       app = App.getAppUpdatedOpenFlgs(state, "headerDetailIcon");
       window.talknAPI.onClickToggleDispDetail({ threadDetail, thread, app });
     }
@@ -120,9 +114,6 @@ class Container extends Component<Props, State> {
       app.extensionMode === App.extensionModeExtBottomLabel ||
       app.extensionMode === App.extensionModeExtModalLabel
     ) {
-      //this.setState({notifs: []});
-      //app.isOpenNotif = false;
-
       onClickToggleMain({ app });
 
       if (app.isOpenDetail) {
