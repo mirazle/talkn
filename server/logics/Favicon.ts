@@ -87,7 +87,7 @@ export default class Favicon {
   }
 
   request(faviconData) {
-    const log = true;
+    const log = false;
     return new Promise((resolve, reject) => {
       const { faviconName } = faviconData;
 

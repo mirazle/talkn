@@ -58,7 +58,6 @@ export default class Io {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
       menuIndex
     });
-    console.log(responseEmitState);
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
     return true;
   }

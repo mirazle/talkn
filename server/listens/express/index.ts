@@ -86,7 +86,8 @@ class Express {
               domain: conf.domain,
               wwwURL: conf.wwwURL,
               extURL: conf.extURL,
-              assetsURL: conf.assetsURL
+              assetsURL: conf.assetsURL,
+              clientURL: conf.clientURL
             });
           } else {
             res.sendFile(`${conf.serverWwwPath}${req.url.replace("/", "")}`);
@@ -153,12 +154,6 @@ class Express {
                 connection.indexOf("//") === 0
                   ? connection.replace(/^\/\//, "/")
                   : connection;
-              console.log(
-                "ACCESS WWW " +
-                  connection +
-                  " includeIframeTag " +
-                  includeIframeTag
-              );
             } else {
               includeIframeTag = true;
 
@@ -174,24 +169,12 @@ class Express {
               } else {
                 connection = referer;
               }
-              console.log(
-                "ACCESS NOT PORTAL " +
-                  connection +
-                  " includeIframeTag " +
-                  includeIframeTag
-              );
             }
 
             // ポータルにアクセス
           } else {
             connection = req.originalUrl.replace(`/${conf.domain}`, "");
             includeIframeTag = false;
-            console.log(
-              "ACCESS PORTAL " +
-                connection +
-                " includeIframeTag " +
-                includeIframeTag
-            );
           }
 
           hasSlash = connection.lastIndexOf("/") === connection.length - 1;
