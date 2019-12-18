@@ -72,20 +72,18 @@ class Express {
         }
         break;
       case conf.wwwURL:
+        console.log("@@@@@@ A");
         language =
           req.query && req.query.lang
             ? req.query.lang
             : Geolite.getLanguage(req);
         if (req.method === "GET") {
+          console.log("@@@@@@ B");
           if (
             req.url === "/" ||
             (req.url && req.url.indexOf("/?lang=") === 0)
           ) {
-            console.log(conf.domain);
-            console.log(conf.wwwURL);
-            console.log(conf.extURL);
-            console.log(conf.assetsURL);
-            console.log(conf.clientURL);
+            console.log("@@@@@@ C");
             res.render("www/", {
               language,
               domain: conf.domain,
@@ -95,12 +93,15 @@ class Express {
               clientURL: conf.clientURL
             });
           } else {
+            console.log("@@@@@@ D");
             res.sendFile(`${conf.serverWwwPath}${req.url.replace("/", "")}`);
           }
         } else if (req.method === "POST") {
+          console.log("@@@@@@ E");
           Mail.send(req.body.inquiry);
           res.redirect(`https://${conf.wwwURL}`);
         }
+        console.log("@@@@@@ F");
         break;
       case conf.descURL:
         res.render("desc/index", {});
