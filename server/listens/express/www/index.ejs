@@ -1668,6 +1668,7 @@
         }
     } 
     window.onload =  ( e ) => {
+        console.log("//<%= extURL %>");
         onServiceWorker();
         const search = document.querySelector(".search");
         search.addEventListener('keypress', onKeyPressSearch);
