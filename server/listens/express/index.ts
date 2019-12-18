@@ -81,6 +81,7 @@ class Express {
             req.url === "/" ||
             (req.url && req.url.indexOf("/?lang=") === 0)
           ) {
+            console.log(conf);
             res.render("www/", {
               language,
               domain: conf.domain,
