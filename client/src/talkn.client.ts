@@ -31,3 +31,5 @@ if (!window.talknWindow) window.talknWindow = talknWindow;
 if (!window.__talknWindow__) window.__talknWindow__ = [];
 if (!window.__talknWindow__[talknIndex])
   window.__talknWindow__[talknIndex] = talknWindow;
+
+  
