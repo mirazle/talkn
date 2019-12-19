@@ -9,15 +9,15 @@ sed -i -e "1s/DEV/PROD/" server/listens/express/ext/ext.js
 sed -i -e "1s/START/PROD/" server/listens/express/ext/ext.js
 rm -f server/listens/express/ext/ext.js-e
 echo "@@@@@@ COMPRESSIONS EXTENSION"
-cp server/listens/express/client/talkn.client.js extention/talkn.client.js
-cp server/listens/express/ext/ext.js extention/ext.js
-zip -r chromeExtension extention/*
+cp server/listens/express/client/talkn.client.js extension/talkn.client.js
+cp server/listens/express/ext/ext.js extension/ext.js
+zip -r chromeExtension extension/*
 echo "@@@@@@ GIT PUSH"
 git add ./*
 git commit -m "$comment"
 git push
 echo "@@@@@@ SETTING LOCALHOST"
-sed -i -e "1s/PROD/START/" extention/ext.js
+sed -i -e "1s/PROD/START/" extension/ext.js
 sed -i -e "1s/PROD/START/" server/listens/express/ext/ext.js
-rm -f extention/ext.js-e
+rm -f extension/ext.js-e
 rm -f server/listens/express/ext/ext.js-e
