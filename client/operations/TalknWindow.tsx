@@ -234,10 +234,9 @@ export default class TalknWindow {
       const log = false;
       switch (e.data.method) {
         case "bootExtension":
-          console.log("BOOT EXTENSION");
-          console.log(e.data.params);
           this.parentUrl = e.data.href;
           this.parentTo("bootExtension", conf);
+          window.talknAPI.bootExtension(e.data.params);
           resolve(e.data.params);
           break;
         case "findMediaConnection":

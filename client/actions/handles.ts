@@ -242,7 +242,8 @@ export default {
   },
   bootExtension: app => {
     return {
-      type: "BOOT_EXTENSION"
+      type: "BOOT_EXTENSION",
+      app
     };
   },
   updateExtension: app => {
