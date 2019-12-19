@@ -84,17 +84,14 @@ export default class PostsFooter {
   }
 
   static getBorderRadius(app: any, addUnit = false) {
-console.log("--A");
+console.log("--A " + app.extensionMode);
     if (app.extensionMode === App.extensionModeExtBottomLabel) {
-      console.log("--B");
       return app.extensionWidth === "100%"
         ? "0px 0px 0px 0px"
         : `${Container.radius} ${Container.radius} 0px 0px`;
     } else if (app.extensionMode === App.extensionModeExtModalLabel) {
-      console.log("--C");
       return `0px 0px ${Container.radius} ${Container.radius}`;
     }
-    console.log("--D");
     return 0;
   }
 
