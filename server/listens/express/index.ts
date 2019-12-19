@@ -86,7 +86,7 @@ class Express {
           ) {
             console.log("@@@@@@ C");
             console.log(conf.serverPath);
-            res.render("./www/", {
+            res.render("www/", {
               language,
               domain: conf.domain,
               wwwURL: conf.wwwURL,
