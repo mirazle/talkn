@@ -191,7 +191,7 @@ export default class TalknWindow {
       let bootOption: any = bootParams[1] ? { ...scriptOption, ...bootParams[1] } : scriptOption;
       bootOption.hasslash = TalknWindow.getHasSlach(bootOption);
       console.log(bootParams);
-      console.log(bootOption):
+      console.log(bootOption);
       this.boot(bootOption);
     });
   }
