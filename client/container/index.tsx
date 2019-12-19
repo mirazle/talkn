@@ -452,13 +452,18 @@ class Container extends Component<Props, State> {
 
   render() {
     const { style, app, actionLog } = this.props.state;
+    console.log("@@@@ A");
+    console.log(app);
     if (style && style.container && style.container.self && app.connectioned) {
+      console.log("@@@@ B");
       if (
         app.extensionMode === App.extensionModeExtBottomLabel ||
         app.extensionMode === App.extensionModeExtModalLabel
       ) {
+        console.log("@@@@ C");
         return this.renderExtension();
       } else {
+        console.log("@@@@ D");
         switch (app.screenMode) {
           case App.screenModeSmallLabel:
             return this.renderSmall();
@@ -469,12 +474,15 @@ class Container extends Component<Props, State> {
         }
       }
     } else {
+      console.log("@@@@ E");
       if (
         app.extensionMode === App.extensionModeExtBottomLabel ||
         app.extensionMode === App.extensionModeExtModalLabel
       ) {
+        console.log("@@@@ F");
         return null;
       } else {
+        console.log("@@@@ G");
         return <Loading />;
       }
     }
