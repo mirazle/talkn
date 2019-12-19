@@ -11,10 +11,7 @@ export default class PostsFooter {
   }
   static getWidth(app, addUnit = false) {
     let width = "0";
-    if (
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
-    ) {
+    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
       width = "100%";
     } else {
       switch (app.screenMode) {
@@ -84,11 +81,8 @@ export default class PostsFooter {
   }
 
   static getBorderRadius(app: any, addUnit = false) {
-console.log("--A " + app.extensionMode);
     if (app.extensionMode === App.extensionModeExtBottomLabel) {
-      return app.extensionWidth === "100%"
-        ? "0px 0px 0px 0px"
-        : `${Container.radius} ${Container.radius} 0px 0px`;
+      return app.extensionWidth === "100%" ? "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
     } else if (app.extensionMode === App.extensionModeExtModalLabel) {
       return `0px 0px ${Container.radius} ${Container.radius}`;
     }
@@ -99,14 +93,10 @@ console.log("--A " + app.extensionMode);
     let transform = "translate3d( 0px, 0px, 0px )";
     switch (app.screenMode) {
       case App.screenModeSmallLabel:
-        transform = app.isOpenMenu
-          ? "translate3d( 0%, 0px, 0px )"
-          : "translate3d( 0px, 0px, 0px )";
+        transform = app.isOpenMenu ? "translate3d( 0%, 0px, 0px )" : "translate3d( 0px, 0px, 0px )";
         break;
       case App.screenModeMiddleLabel:
-        transform = app.isOpenDetail
-          ? `translate3d( 0px ,0px, 0px )`
-          : "translate3d( 0px ,0px, 0px )";
+        transform = app.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : "translate3d( 0px ,0px, 0px )";
         break;
       case App.screenModeLargeLabel:
         transform = "translate3d( 0px ,0px, 0px )";
@@ -178,8 +168,7 @@ console.log("--A " + app.extensionMode);
   }
 
   static getTextarea({ app }) {
-    const width =
-      app.extensionMode === App.extensionModeExtModalLabel ? "60%" : "54%";
+    const width = app.extensionMode === App.extensionModeExtModalLabel ? "60%" : "54%";
     const layout = Style.getLayoutInlineBlock({
       width,
       maxWidth: width,
