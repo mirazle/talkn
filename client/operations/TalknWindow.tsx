@@ -185,7 +185,7 @@ export default class TalknWindow {
       const script1 = document.querySelector(`script[src='${conf.clientPath.replace(/\/$/, "")}']`);
       const script2 = document.querySelector(`script[src='https:${conf.clientPath.replace(/\/$/, "")}']`);
       const script = script1 ? script1 : script2;
-
+      console.log(bootParams);
       // const script = document.querySelector(`script#talkn`);
       const scriptOption = BootOption.rebuildAttributes(script.attributes);
       let bootOption: any = bootParams[1] ? { ...scriptOption, ...bootParams[1] } : scriptOption;
@@ -221,7 +221,6 @@ export default class TalknWindow {
         case "bootExtension":
           this.parentUrl = e.data.href;
           this.parentTo("bootExtension", conf);
-          console.log(window.talknAPI);
           window.talknAPI.bootExtension(e.data.params);
           resolve(e.data.params);
           break;
