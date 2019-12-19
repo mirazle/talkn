@@ -50,10 +50,7 @@ class Container extends Component<Props, State> {
     this.state = { notifs: [] };
     talknAPI.find(thread.connection);
 
-    if (
-      app.extensionMode === App.extensionModeExtIncludeLabel ||
-      app.extensionMode === App.extensionModeExtNoneLabel
-    ) {
+    if (app.extensionMode === App.extensionModeExtIncludeLabel || app.extensionMode === App.extensionModeExtNoneLabel) {
       talknAPI.findMenuIndex(thread.connection);
     }
     this.getProps = this.getProps.bind(this);
@@ -102,18 +99,9 @@ class Container extends Component<Props, State> {
   }
 
   handleOnClickToggleMain(e) {
-    const {
-      onClickToggleMain,
-      onClickToggleDispDetail,
-      onClickOpenLockMenu,
-      closeInnerNotif,
-      state
-    } = this.props;
+    const { onClickToggleMain, onClickToggleDispDetail, onClickOpenLockMenu, closeInnerNotif, state } = this.props;
     let { app, thread, threadDetail } = state;
-    if (
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
-    ) {
+    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
       onClickToggleMain({ app });
 
       if (app.isOpenDetail) {
@@ -142,27 +130,13 @@ class Container extends Component<Props, State> {
     const { app } = this.props.state;
     let { postsMulti, postsSingle } = this.props.state;
     let findFlg = false;
-    const postsMultiCache = TalknSession.getStorage(
-      app.rootConnection,
-      define.storageKey.postsMulti
-    );
-    const postsSingleCache = TalknSession.getStorage(
-      app.rootConnection,
-      define.storageKey.postsSingle
-    );
-    postsMulti =
-      postsMultiCache && postsMultiCache.length > 0
-        ? postsMultiCache
-        : postsMulti;
-    postsSingle =
-      postsSingleCache && postsSingleCache.length > 0
-        ? postsSingleCache
-        : postsSingle;
+    const postsMultiCache = TalknSession.getStorage(app.rootConnection, define.storageKey.postsMulti);
+    const postsSingleCache = TalknSession.getStorage(app.rootConnection, define.storageKey.postsSingle);
+    postsMulti = postsMultiCache && postsMultiCache.length > 0 ? postsMultiCache : postsMulti;
+    postsSingle = postsSingleCache && postsSingleCache.length > 0 ? postsSingleCache : postsSingle;
 
     app.dispThreadType =
-      app.dispThreadType === App.dispThreadTypeMulti
-        ? App.dispThreadTypeSingle
-        : App.dispThreadTypeMulti;
+      app.dispThreadType === App.dispThreadTypeMulti ? App.dispThreadTypeSingle : App.dispThreadTypeMulti;
     app.multistreamed = !(app.dispThreadType === App.dispThreadTypeMulti);
     app.multistream = app.dispThreadType === App.dispThreadTypeMulti;
 
@@ -202,17 +176,8 @@ class Container extends Component<Props, State> {
     const { app, style, thread } = state;
     if (app.isLinkConnection) {
       return (
-        <div
-          data-component-name={"linkLabel"}
-          style={style.container.linkLabel}
-        >
-          <Marquee
-            text={`Link: ${thread.title}`}
-            loop={true}
-            hoverToStop={false}
-            trailing={0}
-            leading={0}
-          />
+        <div data-component-name={"linkLabel"} style={style.container.linkLabel}>
+          <Marquee text={`Link: ${thread.title}`} loop={true} hoverToStop={false} trailing={0} leading={0} />
         </div>
       );
     } else {
@@ -233,15 +198,12 @@ class Container extends Component<Props, State> {
 
     // 実際のスレッドの高さ
     const postsRealHeight = TalknWindow.getPostsClientHeight();
-    const PostsComponent = document.querySelector(
-      "[data-component-name=Posts]"
-    );
+    const PostsComponent = document.querySelector("[data-component-name=Posts]");
     //console.log( PostsComponent.scrollHeight );
 
     if (log) console.log("フレーム枠の縦幅： " + postsFrameHeight);
     if (log) console.log("実際の投稿縦幅： " + PostsComponent.scrollHeight);
-    if (log)
-      console.log("最下位スクロール：　" + window.talknWindow.isScrollBottom);
+    if (log) console.log("最下位スクロール：　" + window.talknWindow.isScrollBottom);
 
     // フレーム縦幅よりも、実際の投稿縦幅のほうが小さい場合
     if (PostsComponent) {
@@ -272,20 +234,12 @@ class Container extends Component<Props, State> {
   getHideScreenBottom(props) {
     const { state } = props;
     const { style } = state;
-    return (
-      <div
-        data-component-name={"hideScreenBottom"}
-        style={style.container.hideScreenBottom}
-      />
-    );
+    return <div data-component-name={"hideScreenBottom"} style={style.container.hideScreenBottom} />;
   }
 
   getNotifs(props) {
     const { app, style } = props.state;
-    if (
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
-    ) {
+    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
       if (!app.isOpenPosts && !app.isDispPosts && app.isOpenNotif) {
         return (
           <ol data-component-name="Notifs" style={style.notif.notifs}>
@@ -481,7 +435,4 @@ class Container extends Component<Props, State> {
   }
 }
 
-export default connect(
-  mapToStateToProps,
-  { ...handles, ...callbacks }
-)(Container);
+export default connect(mapToStateToProps, { ...handles, ...callbacks })(Container);
