@@ -20,9 +20,7 @@ export default class TalknWindow {
     return 300;
   }
   static getAppType() {
-    return window.name === define.APP_TYPES.EXTENSION
-      ? define.APP_TYPES.EXTENSION
-      : define.APP_TYPES.PORTAL;
+    return window.name === define.APP_TYPES.EXTENSION ? define.APP_TYPES.EXTENSION : define.APP_TYPES.PORTAL;
   }
   static getInitialApp(bootOption) {
     let initialApp: any = {};
@@ -33,11 +31,8 @@ export default class TalknWindow {
           initialApp.height = bootOption.extensionOpenHeight;
           break;
         case App.extensionModeExtModalLabel:
-          const connection = bootOption.href
-            .replace("https:/", "")
-            .replace("http:/", "");
-          initialApp.hasslash =
-            connection.lastIndexOf("/") === connection.length - 1;
+          const connection = bootOption.href.replace("https:/", "").replace("http:/", "");
+          initialApp.hasslash = connection.lastIndexOf("/") === connection.length - 1;
           break;
       }
     }
@@ -45,9 +40,7 @@ export default class TalknWindow {
   }
   static getHasSlach(bootOption) {
     if (bootOption.href) {
-      const connection = bootOption.href
-        .replace("https:/", "")
-        .replace("http:/", "");
+      const connection = bootOption.href.replace("https:/", "").replace("http:/", "");
       return connection.lastIndexOf("/") === connection.length - 1;
     } else {
       return bootOption.hasslash ? Schema.getBool(bootOption.hasslash) : false;
@@ -152,7 +145,7 @@ export default class TalknWindow {
       new Promise(resolve => {
         const store = configureStore();
         this.talknAPI = new TalknAPI(this.talknIndex, resolve);
-        this.talknAPI.connectioned(this.talknIndex, store);    
+        this.talknAPI.connectioned(this.talknIndex, store);
       })
     );
 
@@ -195,9 +188,7 @@ export default class TalknWindow {
 
       // const script = document.querySelector(`script#talkn`);
       const scriptOption = BootOption.rebuildAttributes(script.attributes);
-      let bootOption: any = bootParams[1]
-        ? { ...scriptOption, ...bootParams[1] }
-        : scriptOption;
+      let bootOption: any = bootParams[1] ? { ...scriptOption, ...bootParams[1] } : scriptOption;
       bootOption.hasslash = TalknWindow.getHasSlach(bootOption);
       this.boot(bootOption);
     });
@@ -209,13 +200,7 @@ export default class TalknWindow {
 
     const caches = TalknSession.getCaches(connection);
 
-    const state = new State(
-      this.talknIndex,
-      window,
-      bootOption,
-      initialApp,
-      caches
-    );
+    const state = new State(this.talknIndex, window, bootOption, initialApp, caches);
     this.talknAPI.booted(state, connection);
     this.talknAPI.initClientState(state);
 
@@ -236,21 +221,14 @@ export default class TalknWindow {
         case "bootExtension":
           this.parentUrl = e.data.href;
           this.parentTo("bootExtension", conf);
+          console.log(window.talknAPI);
           window.talknAPI.bootExtension(e.data.params);
           resolve(e.data.params);
           break;
         case "findMediaConnection":
           if (e.data.params.thread && e.data.params.thread.connection) {
-            if (log)
-              console.log(
-                "============== findMediaConnection A " +
-                  e.data.params.thread.connection
-              );
-            actionWrap.onClickConnection(
-              e.data.params.thread.connection,
-              false,
-              e.data.method
-            );
+            if (log) console.log("============== findMediaConnection A " + e.data.params.thread.connection);
+            actionWrap.onClickConnection(e.data.params.thread.connection, false, e.data.method);
             TalknMedia.init("TalknWindow");
             window.talknAPI.startLinkMedia(e.data.params);
             window.talknMedia = new TalknMedia();
@@ -258,38 +236,21 @@ export default class TalknWindow {
           break;
         case "playMedia":
           const connection = e.data.params.thread.connection;
-          const isExistThreadData = window.talknAPI.store.getState().threads[
-            connection
-          ];
+          const isExistThreadData = window.talknAPI.store.getState().threads[connection];
 
           if (log && window.talknMedia)
-            console.log(
-              "========================= playMedia " +
-                window.talknMedia.currentTime
-            );
+            console.log("========================= playMedia " + window.talknMedia.currentTime);
 
           if (window.talknMedia === undefined) {
             TalknMedia.init("TalknWindow");
             window.talknAPI.startLinkMedia(e.data.params);
             window.talknMedia = new TalknMedia();
-            if (log)
-              console.log(
-                "============== playMedia A " + window.talknMedia.currentTime
-              );
+            if (log) console.log("============== playMedia A " + window.talknMedia.currentTime);
           }
 
-          if (
-            window.talknMedia &&
-            Schema.isSet(window.talknMedia.currentTime) &&
-            window.talknMedia.started === false
-          ) {
-            window.talknMedia.currentTime = window.talknMedia.getCurrentTime(
-              e.data.params.currentTime
-            );
-            if (log)
-              console.log(
-                "============== playMedia B " + window.talknMedia.currentTime
-              );
+          if (window.talknMedia && Schema.isSet(window.talknMedia.currentTime) && window.talknMedia.started === false) {
+            window.talknMedia.currentTime = window.talknMedia.getCurrentTime(e.data.params.currentTime);
+            if (log) console.log("============== playMedia B " + window.talknMedia.currentTime);
           }
 
           if (
@@ -309,9 +270,7 @@ export default class TalknWindow {
           }
 
           if (
-            (window.talknMedia &&
-              window.talknMedia.timeline &&
-              isExistThreadData) ||
+            (window.talknMedia && window.talknMedia.timeline && isExistThreadData) ||
             e.data.params.event === "seeked"
             //window.talknMedia.timeline.length > 0
           ) {
@@ -358,10 +317,7 @@ export default class TalknWindow {
   resize(ev) {
     if (window.talknAPI) {
       const app = window.talknAPI.store.getState().app;
-      if (
-        app.extensionMode === "EXT_BOTTOM" ||
-        app.extensionMode === "EXT_MODAL"
-      ) {
+      if (app.extensionMode === "EXT_BOTTOM" || app.extensionMode === "EXT_MODAL") {
         if (this.resizeTimer === null) {
           this.resizeTimer = setTimeout(() => {
             this.resizeEndWindow();
@@ -397,8 +353,7 @@ export default class TalknWindow {
         this.innerHeight = window.innerHeight;
         this.scrollHeight = window.scrollY;
         const bodyScrollHeight = document.querySelector("body").scrollTop;
-        this.isScrollBottom =
-          htmlScrollHeight === this.innerHeight + this.scrollHeight;
+        this.isScrollBottom = htmlScrollHeight === this.innerHeight + this.scrollHeight;
       }
     } else {
       this.isScrollBottom = isScrollBottom;
@@ -440,12 +395,7 @@ export default class TalknWindow {
 
         const animateScroll = () => {
           currentTime += increment;
-          let scrollTop = Math.easeInOutQuad(
-            currentTime,
-            start,
-            change,
-            duration
-          );
+          let scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);
           screenTop = Math.floor(scrollTop);
           window.scrollTo(0, scrollTop);
           if (currentTime < duration) {
