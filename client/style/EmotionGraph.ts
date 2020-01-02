@@ -64,6 +64,7 @@ export default class EmotionGraph {
         ticks: {
           fontSize: 17,
           fontColor: Container.fontBaseRGB,
+          backdropColor: "rgba(255,255,255,0)",
           beginAtZero: true,
           max: 5,
           min: 0,
