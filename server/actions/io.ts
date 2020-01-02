@@ -43,11 +43,7 @@ export default {
     thread[postCntKey] = await Logics.db.posts.getCounts(requestState, {
       isMultistream
     });
-    const { response: posts } = await Logics.db.posts.find(
-      requestState,
-      setting,
-      { isMultistream, getMore: true }
-    );
+    const { response: posts } = await Logics.db.posts.find(requestState, setting, { isMultistream, getMore: true });
     app = Collections.getNewApp(requestState.type, app, thread, posts);
     Logics.io.getMore(ioUser, { requestState, thread, posts, app });
   },
@@ -57,10 +53,7 @@ export default {
 
     if (connectioned !== "") {
       const connection = requestState.thread.connection;
-      const thread = await Logics.db.threads.saveOnWatchCnt(
-        { connection: connectioned },
-        -1
-      );
+      const thread = await Logics.db.threads.saveOnWatchCnt({ connection: connectioned }, -1);
       //const user = Collections.getNewApp(requestState.type, app, thread, [], requestState.user);
 
       // ユーザーの接続情報を更新
@@ -87,12 +80,7 @@ export default {
     const { connection } = requestState.thread;
 
     // Thread
-    let { response: thread } = await Logics.db.threads.findOne(
-      connection,
-      {},
-      {},
-      true
-    );
+    let { response: thread } = await Logics.db.threads.findOne(connection, {}, {}, true);
 
     thread.hasSlash = requestState.thread.hasSlash;
 
@@ -101,28 +89,14 @@ export default {
 
     // Posts
     const postCntKey = threadStatus.isMultistream ? "multiPostCnt" : "postCnt";
-    thread[postCntKey] = await Logics.db.posts.getCounts(
-      requestState,
-      threadStatus
-    );
-    const { response: posts } = await Logics.db.posts.find(
-      requestState,
-      setting,
-      threadStatus
-    );
+    thread[postCntKey] = await Logics.db.posts.getCounts(requestState, threadStatus);
+    const { response: posts } = await Logics.db.posts.find(requestState, setting, threadStatus);
 
     // appの状況を更新する
-    app = Collections.getNewApp(
-      requestState.type,
-      app,
-      threadStatus,
-      thread,
-      posts
-    );
+    app = Collections.getNewApp(requestState.type, app, threadStatus, thread, posts);
 
     // 作成・更新が必要なスレッドの場合
     if (threadStatus.isRequireUpsert) {
-
       thread = await Logics.db.threads.requestHtmlParams(thread, requestState);
 
       // スレッド新規作成
@@ -147,20 +121,12 @@ export default {
 
   changeThreadDetail: async (ioUser, requestState, setting) => {
     const { connection } = requestState.thread;
-    let { response: thread } = await Logics.db.threads.findOne(
-      connection,
-      {},
-      {},
-      true
-    );
+    let { response: thread } = await Logics.db.threads.findOne(connection, {}, {}, true);
     await Logics.io.changeThreadDetail(ioUser, { requestState, thread });
   },
 
   findMenuIndex: async (ioUser, requestState, setting) => {
-    const menuIndex = await Logics.db.threads.findMenuIndex(
-      requestState,
-      setting
-    );
+    const menuIndex = await Logics.db.threads.findMenuIndex(requestState, setting);
     Logics.io.findMenuIndex(ioUser, { requestState, menuIndex });
   },
 
@@ -176,8 +142,7 @@ export default {
     if (emotionKeys.length > 0) {
       emotionKeys.forEach(emotionModelKey => {
         Object.keys(emotions[emotionModelKey]).forEach(emotionKey => {
-          set["$inc"][`emotions.${emotionModelKey}.${emotionKey}`] =
-            emotions[emotionModelKey][emotionKey];
+          set["$inc"][`emotions.${emotionModelKey}.${emotionKey}`] = emotions[emotionModelKey][emotionKey];
         });
       });
     }
@@ -192,12 +157,7 @@ export default {
 
   updateThread: async (ioUser, requestState, setting) => {
     const { connection } = requestState.thread;
-    let { response: thread } = await Logics.db.threads.findOne(
-      connection,
-      {},
-      {},
-      true
-    );
+    let { response: thread } = await Logics.db.threads.findOne(connection, {}, {}, true);
     const isMultistream = false;
     const isMediaConnection = Thread.getStatusIsMediaConnection(connection);
     thread.postCnt = await Logics.db.posts.getCounts(requestState, {
@@ -212,14 +172,8 @@ export default {
 
   updateThreadServerMetas: async (ioUser, requestState, setting) => {
     const { connection } = requestState.thread;
-    const { response: baseThread } = await Logics.db.threads.findOne(
-      connection
-    );
-    const serverMetas = await Logics.db.threads.updateServerMetas(
-      connection,
-      baseThread,
-      requestState.thread
-    );
+    const { response: baseThread } = await Logics.db.threads.findOne(connection);
+    const serverMetas = await Logics.db.threads.updateServerMetas(connection, baseThread, requestState.thread);
     await Logics.io.updateThreadServerMetas(ioUser, {
       requestState,
       thread: { serverMetas }
@@ -236,11 +190,7 @@ export default {
 
       // userコレクションからwatchCntの実数を取得(thread.watchCntは読み取り専用)
       const watchCnt = await Logics.db.users.getConnectionCnt(user.connection);
-      const thread = await Logics.db.threads.saveOnWatchCnt(
-        { connection: user.connection },
-        watchCnt,
-        true
-      );
+      const thread = await Logics.db.threads.saveOnWatchCnt({ connection: user.connection }, watchCnt, true);
 
       // 配信
       Logics.io.saveOnWatchCnt(ioUser, {
