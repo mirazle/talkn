@@ -36,10 +36,7 @@ export default class Header extends Component<Props, State> {
   renderWatchCntComponent() {
     const { thread, style } = this.props.state;
     return (
-      <span
-        data-component-name={"Header-WatchCnt"}
-        style={style.header.childAnalyzeWrap}
-      >
+      <span data-component-name={"Header-WatchCnt"} style={style.header.childAnalyzeWrap}>
         <div style={style.header.childAnalyzeType}>LIVE</div>
         <div style={style.header.childAnalyzeCnt}>{thread.watchCnt}</div>
       </span>
@@ -113,18 +110,8 @@ export default class Header extends Component<Props, State> {
         {this.renderLeft()}
 
         {/* Head Tab Icon */}
-        <span
-          data-component-name={`Header-center`}
-          style={style.header.headTab}
-          onClick={handleOnClickToggleMain}
-        >
-          <Marquee
-            text={`${app.rootTitle}`}
-            loop={true}
-            hoverToStop={false}
-            trailing={0}
-            leading={0}
-          />
+        <span data-component-name={`Header-center`} style={style.header.headTab} onClick={handleOnClickToggleMain}>
+          <Marquee text={`${app.rootTitle}`} loop={true} hoverToStop={false} trailing={0} leading={0} />
         </span>
 
         {/* Menu Icon */}

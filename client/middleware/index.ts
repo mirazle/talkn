@@ -50,15 +50,11 @@ const functions = {
   "SERVER_TO_CLIENT[EMIT]:find": (state, action) => {
     action = resolve.caseNoExistResponsePost(state, action);
     action.app = { ...state.app, ...action.app };
-    action.app[`offset${action.app.dispThreadType}FindId`] =
-      action.app.offsetFindId;
+    action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     action.app.detailConnection = action.thread.connection;
     action.app.desc = action.thread.serverMetas.title;
-    action.app.isRootConnection =
-      action.app.rootConnection === action.thread.connection;
-    action.app.isMediaConnection = App.getIsMediaConnection(
-      action.thread.connection
-    );
+    action.app.isRootConnection = action.app.rootConnection === action.thread.connection;
+    action.app.isMediaConnection = App.getIsMediaConnection(action.thread.connection);
 
     action = Posts.getAnyActionPosts(action);
     action.thread.title = action.thread.serverMetas.title;
@@ -72,8 +68,7 @@ const functions = {
       switch (action.app.extensionMode) {
         case App.extensionModeExtBottomLabel:
           if (!action.app.isOpenPosts && !action.app.isDispPosts) {
-            const transition =
-              Container.transitionNotif * 4 + Container.transitionNotifDisp;
+            const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
             window.talknWindow.parentTo("openNotif", { transition });
           }
           break;
@@ -83,11 +78,7 @@ const functions = {
             const post = action.posts[action.posts.length - 1]["post"];
             const stampId = action.posts[action.posts.length - 1]["stampId"];
             let favicon = action.posts[action.posts.length - 1]["favicon"];
-            favicon =
-              Sequence.HTTPS_PROTOCOL +
-              "//" +
-              conf.assetsIconPath +
-              util.getSaveFaviconName(favicon);
+            favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
             window.talknWindow.parentTo("openNotif", {
               id,
               post,
@@ -101,10 +92,7 @@ const functions = {
     }
 
     if (action.app.isMediaConnection) {
-      const src = App.getMediaSrc(
-        action.thread.protocol,
-        action.thread.connection
-      );
+      const src = App.getMediaSrc(action.thread.protocol, action.thread.connection);
       action.app.connectionType = App.getMediaTypeFromSrc(src);
       action = Posts.getAnyActionPosts(action);
       action = storage.setStoragePostsTimeline(action);
@@ -122,16 +110,12 @@ const functions = {
     action.app.offsetSingleFindId = App.defaultOffsetFindId;
     action.app.offsetChildFindId = App.defaultOffsetFindId;
     action.app.offsetLogsFindId = App.defaultOffsetFindId;
-    action.thread = action.thread
-      ? { ...state.thread, ...action.thread }
-      : state.thread;
+    action.thread = action.thread ? { ...state.thread, ...action.thread } : state.thread;
     return action;
   },
   CLOSE_LINKS: (state, action) => {
     action.app = action.app ? { ...state.app, ...action.app } : state.app;
-    action.thread = action.thread
-      ? { ...state.thread, ...action.thread }
-      : state.thread;
+    action.thread = action.thread ? { ...state.thread, ...action.thread } : state.thread;
     return action;
   },
   "SERVER_TO_CLIENT[BROADCAST]:post": (state, action) => {
@@ -143,18 +127,14 @@ const functions = {
 
     const emotionKeys = Object.keys(action.thread.emotions);
 
-    if (
-      action.thread.connection === action.posts[postLength].connection &&
-      emotionKeys.length > 0
-    ) {
+    if (action.thread.connection === action.posts[postLength].connection && emotionKeys.length > 0) {
       const actionEmotions = { ...action.thread.emotions };
       action.thread.emotions = { ...state.thread.emotions };
 
       Object.keys(actionEmotions).forEach(emotionModelKey => {
         Object.keys(actionEmotions[emotionModelKey]).forEach(emotionKey => {
           action.thread.emotions[emotionModelKey][emotionKey] =
-            action.thread.emotions[emotionModelKey][emotionKey] +
-            actionEmotions[emotionModelKey][emotionKey];
+            action.thread.emotions[emotionModelKey][emotionKey] + actionEmotions[emotionModelKey][emotionKey];
         });
       });
     } else {
@@ -164,8 +144,7 @@ const functions = {
     switch (action.app.extensionMode) {
       case App.extensionModeExtBottomLabel:
         if (!action.app.isOpenPosts && !action.app.isDispPosts) {
-          const transition =
-            Container.transitionNotif * 4 + Container.transitionNotifDisp;
+          const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
           window.talknWindow.parentTo("openNotif", { transition });
         }
         break;
@@ -175,11 +154,7 @@ const functions = {
           const post = action.posts[postLength]["post"];
           const stampId = action.posts[postLength]["stampId"];
           let favicon = action.posts[postLength]["favicon"];
-          favicon =
-            Sequence.HTTPS_PROTOCOL +
-            "//" +
-            conf.assetsIconPath +
-            util.getSaveFaviconName(favicon);
+          favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
           window.talknWindow.parentTo("openNotif", {
             id,
             post,
@@ -197,8 +172,7 @@ const functions = {
   },
   "SERVER_TO_CLIENT[EMIT]:getMore": (state, action) => {
     action.app.offsetFindId = App.getOffsetFindId({ posts: action.posts });
-    action.app[`offset${action.app.dispThreadType}FindId`] =
-      action.app.offsetFindId;
+    action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     action = Posts.getAnyActionPosts(action);
     return action;
   },
@@ -212,9 +186,8 @@ const functions = {
     // hasSlashはlocationが参照できないPORTALだと正しい値を取得出来ないため、
     // 拡張機能ではGET_CLIENT_METASを実行して正しい値をサーバーに渡して更新してやる必要がある。
     action.threadDetail.hasSlash =
-      action.threadDetail.hasSlash === null
-        ? true
-        : Schema.getBool(action.threadDetail.hasSlash);
+      action.threadDetail.hasSlash === null ? true : Schema.getBool(action.threadDetail.hasSlash);
+    delete action.thread;
     return action;
   },
   NEXT_POSTS_TIMELINE: (state, action) => {
@@ -222,8 +195,7 @@ const functions = {
     switch (app.extensionMode) {
       case App.extensionModeExtBottomLabel:
         if (!app.isOpenPosts && !app.isDispPosts) {
-          const transition =
-            Container.transitionNotif * 4 + Container.transitionNotifDisp;
+          const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
           window.talknWindow.parentTo("openNotif", { transition });
         }
         break;
@@ -232,15 +204,9 @@ const functions = {
         if (postsTimelineLength > 0) {
           const id = action.postsTimeline[postsTimelineLength - 1]["_id"];
           const post = action.postsTimeline[postsTimelineLength - 1]["post"];
-          const stampId =
-            action.postsTimeline[postsTimelineLength - 1]["stampId"];
-          let favicon =
-            action.postsTimeline[postsTimelineLength - 1]["favicon"];
-          favicon =
-            Sequence.HTTPS_PROTOCOL +
-            "//" +
-            conf.assetsIconPath +
-            util.getSaveFaviconName(favicon);
+          const stampId = action.postsTimeline[postsTimelineLength - 1]["stampId"];
+          let favicon = action.postsTimeline[postsTimelineLength - 1]["favicon"];
+          favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
           window.talknWindow.parentTo("openNotif", {
             id,
             post,
@@ -257,8 +223,7 @@ const functions = {
   ON_CLICK_TO_MULTI_THREAD: (state, action) => {
     action.app = state.app;
     action.app.isLinkConnection = false;
-    action.app.isRootConnection =
-      action.thread.connection === state.app.rootConnection;
+    action.app.isRootConnection = action.thread.connection === state.app.rootConnection;
 
     if (state.threads[action.thread.connection]) {
       action.thread = state.threads[action.thread.connection];
@@ -272,10 +237,7 @@ const functions = {
     const connection = action.thread.connection;
     action.thread = { ...state.thread, ...action.thread };
     action.thread.connection = connection;
-    const src = App.getMediaSrc(
-      action.thread.protocol,
-      action.thread.connection
-    );
+    const src = App.getMediaSrc(action.thread.protocol, action.thread.connection);
     action.thread.findType = Thread.getFindTypeFromSrc(src);
     action.postsTimeline = [];
     action.app.isMediaConnection = true;
@@ -318,17 +280,13 @@ const functions = {
     return action;
   },
   ON_CLICK_TOGGLE_MAIN: (state, action) => {
-    action.app.isOpenPosts = action.app.isOpenPosts
-      ? action.app.isOpenPosts
-      : App.getIsOpenPosts(action.app);
+    action.app.isOpenPosts = action.app.isOpenPosts ? action.app.isOpenPosts : App.getIsOpenPosts(action.app);
     return action;
   },
   OFF_TRANSITION: (state, action) => {
     action.app = { ...state.app, ...action.app };
     action.app.height = App.getHeight();
-    action.app.isOpenPosts = action.app.isOpenPosts
-      ? action.app.isOpenPosts
-      : App.getIsOpenPosts(action.app);
+    action.app.isOpenPosts = action.app.isOpenPosts ? action.app.isOpenPosts : App.getIsOpenPosts(action.app);
     return action;
   },
   ON_TRANSITION: (state, action) => {
@@ -360,9 +318,7 @@ const functions = {
     // hasSlashはlocationが参照できないPORTALだと正しい値を取得出来ないため、
     // 拡張機能ではGET_CLIENT_METASを実行して正しい値をサーバーに渡して更新してやる必要がある。
     action.threadDetail.hasSlash =
-      action.threadDetail.hasSlash === null
-        ? true
-        : Schema.getBool(action.threadDetail.hasSlash);
+      action.threadDetail.hasSlash === null ? true : Schema.getBool(action.threadDetail.hasSlash);
     return action;
   },
   TOGGLE_DISP_BOARD: (state, action) => {
@@ -409,11 +365,7 @@ const functions = {
 
     // Metas
     Object.keys(clientMetas).forEach((key, i) => {
-      if (
-        clientMetas[key] &&
-        clientMetas[key] !== "" &&
-        serverMetas[key] !== clientMetas[key]
-      ) {
+      if (clientMetas[key] && clientMetas[key] !== "" && serverMetas[key] !== clientMetas[key]) {
         if (!action.thread.serverMetas) {
           action.thread.serverMetas = {};
         }

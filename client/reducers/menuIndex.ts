@@ -10,7 +10,6 @@ export default (state: any = new MenuIndex(), action) => {
     if (a.watchCnt > b.watchCnt) return -1;
     return 0;
   };
-
   switch (action.type) {
     case "ON_CLICK_MULTISTREAM":
       const multistreamPosts =

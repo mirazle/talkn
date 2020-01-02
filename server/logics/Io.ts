@@ -31,16 +31,9 @@ export default class Io {
       posts,
       app
     });
-    const responseBroadcastState = Sequence.getResponseState(
-      "Broadcast",
-      requestState,
-      { thread }
-    );
+    const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
-    this.io.broadcast(
-      responseBroadcastState.thread.connection,
-      responseBroadcastState
-    );
+    this.io.broadcast(responseBroadcastState.thread.connection, responseBroadcastState);
     return true;
   }
 
@@ -63,9 +56,7 @@ export default class Io {
   }
 
   async changeThreadDetail(ioUser, { requestState, thread }) {
-    const responseEmitState = Sequence.getResponseState("Emit", requestState, {
-      thread
-    });
+    const responseEmitState = Sequence.getResponseState("Emit", requestState, { thread });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
     return true;
   }
@@ -82,25 +73,18 @@ export default class Io {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
       app
     });
-    const responseBroadcastState = Sequence.getResponseState(
-      "Broadcast",
-      requestState,
-      { thread }
-    );
+    const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
-    this.io.broadcast(
-      responseBroadcastState.thread.connection,
-      responseBroadcastState
-    );
+    this.io.broadcast(responseBroadcastState.thread.connection, responseBroadcastState);
     return true;
   }
 
   async post(ioUser, { requestState, posts, thread }) {
-    const responseBroadcastState = Sequence.getResponseState(
-      "Broadcast",
-      requestState,
-      { posts, thread, menuIndex: posts }
-    );
+    const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, {
+      posts,
+      thread,
+      menuIndex: posts
+    });
     const connections = posts[0].connections;
     connections.forEach(connection => {
       responseBroadcastState.thread.connection = connection;
@@ -119,14 +103,7 @@ export default class Io {
   }
 
   async saveOnWatchCnt(ioUser, { requestState, thread }) {
-    const responseBroadcastState = Sequence.getResponseState(
-      "Broadcast",
-      requestState,
-      { thread }
-    );
-    return this.io.broadcast(
-      responseBroadcastState.thread.connection,
-      responseBroadcastState
-    );
+    const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
+    return this.io.broadcast(responseBroadcastState.thread.connection, responseBroadcastState);
   }
 }
