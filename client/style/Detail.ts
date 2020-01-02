@@ -36,12 +36,8 @@ export default class Detail {
     const styles: any = {};
     const DetailClass = Detail.getDetailClass(app);
 
-    styles[`self${Detail.detailRightSelfKey}`] = Detail.getDetailRightSelf(
-      params
-    );
-    styles[`self${Detail.detailModalSelfKey}`] = Detail.getDetailModalSelf(
-      params
-    );
+    styles[`self${Detail.detailRightSelfKey}`] = Detail.getDetailRightSelf(params);
+    styles[`self${Detail.detailModalSelfKey}`] = Detail.getDetailModalSelf(params);
     styles.header = DetailClass.getHeader(params);
     styles.headerP = DetailClass.getHeaderP(params);
     styles.body = DetailClass.getBody(params);
@@ -74,12 +70,9 @@ export default class Detail {
   static getDetailModalSelf({ app }) {
     const screenMode = App.getScreenMode(app.width);
     const display = screenMode === App.screenModeLargeLabel ? "none" : "block";
-    const left =
-      screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
+    const left = screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
     const background =
-      app.extensionMode === App.extensionModeExtBottomLabel
-        ? Container.reliefRGB
-        : Container.reliefRGB;
+      app.extensionMode === App.extensionModeExtBottomLabel ? Container.reliefRGB : Container.reliefRGB;
     const height = DetailModal.getHeight(app);
     const layout = Style.getLayoutBlock({
       display,
@@ -90,7 +83,7 @@ export default class Detail {
       height,
       margin: DetailModal.getMargin(app),
       background,
-      border: 0,
+      border: Container.border,
       borderRadius: Container.radiuses,
       WebkitOverflowScrolling: "touch",
       zIndex: 1
