@@ -26,21 +26,19 @@ export default class Style extends Component<Props> {
             color: rgb(170, 170, 170);
           }
           @keyframes LogoWrap1 {
-            0%   { transform: scale(0.8); opacity: 0.8; }
-            50%   { transform: scale(1.00); opacity: 1.0; }
-            100%   { transform: scale(0.8); opacity: 0.8; }
+            0%   { transform: scale(1); opacity: 1.0; }
+            50%   { transform: scale(1); opacity: 1.0; }
+            100%   { transform: scale(1); opacity: 1.0; }
           }
           @keyframes Logo {
-            0%   { transform: scale(0.84) translate3d(0px, 0px, 0px); opacity: 0.7; }
-            25%   { transform: scale(0.92) translate3d(0px, 0px, 0px); opacity: 0.8; }
-            50%   { transform: scale(1.00) translate3d(0px, 0px, 0px); opacity: 1.0; }
-            75%   { transform: scale(0.92) translate3d(0px, 0px, 0px); opacity: 0.8; }
-            100%   { transform: scale(0.84) translate3d(0px, 0px, 0px); opacity: 0.7; }
+            0%   { transform: scale(0.95) translate3d(0px, 0px, 0px); opacity: 0.98; }
+            50%   { transform: scale(1.05) translate3d(0px, 0px, 0px); opacity: 1.0; }
+            100%   { transform: scale(0.95) translate3d(0px, 0px, 0px); opacity: 0.98; }
           }
           @keyframes LogoCircle {
-            0%   { transform: translate3d(0px, -60px, 0px) scale(10); box-shadow: 0px 0px 0px 0px rgba(200, 200,200, 1); background: rgba( 240, 240, 240, 0.8); }
+            0%   { transform: translate3d(0px, -60px, 0px) scale(1); box-shadow: 0px 0px 0px 0px rgba(200, 200,200, 1); background: rgba( 240, 240, 240, 0.9); }
             50%   { transform: translate3d(0px, -60px, 0px) scale(0); box-shadow: 0px 0px 10px 1px rgba(240, 240,240, 1); background: rgba( 245, 245, 245, 0.0); }
-            100%   { transform: translate3d(0px, -60px, 0px) scale(20); box-shadow: 0px 0px 10px 10px rgba(240, 240,240, 1); background: rgba( 240, 240, 240, 0.8); }
+            100%   { transform: translate3d(0px, -60px, 0px) scale(1); box-shadow: 0px 0px 10px 10px rgba(240, 240,240, 1); background: rgba( 240, 240, 240, 0.9); }
           }
           .LogoScreen{
             width: 100vw;
@@ -53,17 +51,17 @@ export default class Style extends Component<Props> {
             position: absolute;
             top: 35vh;
             animation-name: LogoWrap1;
-            animation-duration: 1600ms;
+            animation-duration: 500ms;
             animation-iteration-count: infinite;
             width: 80px;
             height: 80px;
             border-radius: 10000px;
-            box-shadow: 0px 0px 80px 0px rgba( 200, 200, 200, 0.9 ), 80px 80px 80px 0px rgba( 79,174,159, 0.8 ) inset;
+            box-shadow: 0px 0px 15px 1px rgba( 150, 150, 150, 0.4 ), 80px 80px 80px 0px rgba( 79,174,159, 0.22 ) inset;
             transform: tlanslate3d( 0px, -20px, 0px );
           }
           .Logo {
             animation-name: Logo;
-            animation-duration: 4000ms;
+            animation-duration: 2000ms;
             animation-iteration-count: infinite;
             width: inherit;
             height: inherit;
@@ -75,7 +73,7 @@ export default class Style extends Component<Props> {
           }
           .LogoCircle {
             animation-name: LogoCircle1;
-            animation-duration: 1600ms;
+            animation-duration: 400ms;
             animation-iteration-count: 1;
             animation-fill-mode: forwards;
             background: rgba( 240, 240, 240, 0.8);

@@ -1,18 +1,8 @@
 import define from "./define";
 import os from "os";
-const {
-  PRODUCTION,
-  DEVELOPMENT,
-  PRODUCTION_IP,
-  PRODUCTION_DOMAIN,
-  DEVELOPMENT_DOMAIN,
-  SUB_DOMAINS
-} = define;
+const { PRODUCTION, DEVELOPMENT, PRODUCTION_IP, PRODUCTION_DOMAIN, DEVELOPMENT_DOMAIN, SUB_DOMAINS } = define;
 const hostName = os.hostname();
-const env =
-  hostName === PRODUCTION_IP || hostName.indexOf(PRODUCTION_DOMAIN) >= 0
-    ? PRODUCTION
-    : DEVELOPMENT;
+const env = hostName === PRODUCTION_IP || hostName.indexOf(PRODUCTION_DOMAIN) >= 0 ? PRODUCTION : DEVELOPMENT;
 const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN;
 const wwwURL = `${SUB_DOMAINS.WWW}.${domain}`;
 const descURL = `${SUB_DOMAINS.DESC}.${domain}`;
@@ -26,8 +16,7 @@ const assetsImgPath = `${assetsURL}/img/`;
 const assetsIconPath = `${assetsURL}/icon/`;
 const assetsJsPath = `${assetsURL}/js/`;
 const sessionURL = `${SUB_DOMAINS.SESSION}.${domain}`;
-const description =
-  "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.";
+const description = "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.";
 const findOnePostCnt = 30;
 const findOneLimitCnt = 300;
 const ogpImages = {
@@ -38,6 +27,7 @@ const ogpImages = {
 const conf: any = {
   domain,
   env,
+  hostName,
   wwwURL,
   descURL,
   portalURL,

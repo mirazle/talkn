@@ -33,6 +33,7 @@ const define: any = {
     appstore: "https://itunes.apple.com/app/id",
     playstore: "https://play.google.com/store/apps/details?id="
   },
+  talknClientJs: "talkn.client.js",
   noInnerNotif: "Sorry, No Function.",
   storageKey: {
     baseKey: "@talkn@",

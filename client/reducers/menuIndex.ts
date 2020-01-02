@@ -3,10 +3,7 @@ import App from "common/schemas/state/App";
 
 export default (state: any = new MenuIndex(), action) => {
   const sortWatchCnt = (a, b) => {
-    if (
-      a.connection === action.app.rootConnection ||
-      b.connection === action.app.rootConnection
-    ) {
+    if (a.connection === action.app.rootConnection || b.connection === action.app.rootConnection) {
       return 0;
     }
     if (a.watchCnt < b.watchCnt) return 1;
@@ -17,13 +14,8 @@ export default (state: any = new MenuIndex(), action) => {
   switch (action.type) {
     case "ON_CLICK_MULTISTREAM":
       const multistreamPosts =
-        action.app.dispThreadType === App.dispThreadTypeMulti
-          ? action.postsMulti
-          : action.postsSingle;
-      const multistreamPostLength =
-        multistreamPosts && multistreamPosts.length
-          ? multistreamPosts.length
-          : 0;
+        action.app.dispThreadType === App.dispThreadTypeMulti ? action.postsMulti : action.postsSingle;
+      const multistreamPostLength = multistreamPosts && multistreamPosts.length ? multistreamPosts.length : 0;
       if (multistreamPostLength > 0) {
         return state.map(mi => {
           if (action.app.rootConnection === mi.connection) {
@@ -44,8 +36,7 @@ export default (state: any = new MenuIndex(), action) => {
         return state;
       }
 
-      const postLength =
-        action.posts && action.posts.length ? action.posts.length : 0;
+      const postLength = action.posts && action.posts.length ? action.posts.length : 0;
 
       if (postLength === 0) {
         return state.map(mi => {
@@ -137,12 +128,7 @@ export default (state: any = new MenuIndex(), action) => {
         return mi;
       });
     case "SERVER_TO_CLIENT[EMIT]:findMenuIndex":
-      if (
-        state &&
-        state.length > 0 &&
-        action.menuIndex &&
-        action.menuIndex.length > 0
-      ) {
+      if (state && state.length > 0 && action.menuIndex && action.menuIndex.length > 0) {
         action.menuIndex.shift();
         return [state[0]].concat(action.menuIndex);
       } else {
