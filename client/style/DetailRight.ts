@@ -42,19 +42,27 @@ export default class DetailRight {
 
   static getTransform(app) {
     let transform = DetailRight.closeSelfTransform;
+    console.log(app.screenMode);
     switch (app.screenMode) {
       case App.screenModeSmallLabel:
+        console.log("A");
         transform = DetailRight.closeSelfTransform;
         break;
       case App.screenModeMiddleLabel:
+        console.log("B");
         transform = DetailRight.closeSelfTransform;
         break;
       case App.screenModeLargeLabel:
+        transform = `translate3d(0px, 0px, 0px)`;
+        /*
         if (app.isOpenDetail) {
+          console.log("C");
           transform = `translate3d(0px, 0px, 0px)`;
         } else {
+          console.log("D");
           transform = DetailRight.closeSelfTransform;
         }
+        */
         break;
     }
     return transform;
