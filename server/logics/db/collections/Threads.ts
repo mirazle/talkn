@@ -14,26 +14,13 @@ export default class Threads {
   /* MONGO DB       */
   /******************/
 
-  async findOne(
-    connection,
-    selector = {},
-    option = {},
-    buildinSchema = false,
-    called = "Default"
-  ) {
+  async findOne(connection, selector = {}, option = {}, buildinSchema = false, called = "Default") {
     const condition = { connection };
-    let { error, response } = await this.collection.findOne(
-      condition,
-      selector,
-      option
-    );
+    let { error, response } = await this.collection.findOne(condition, selector, option);
 
     if (buildinSchema) {
       if (!response) {
-        const anyConnectionResponse = await this.getUnshifAnyConnectionResponse(
-          connection,
-          []
-        );
+        const anyConnectionResponse = await this.getUnshifAnyConnectionResponse(connection, []);
         response = anyConnectionResponse[0];
       }
     }
@@ -44,13 +31,7 @@ export default class Threads {
     const condition = { connection };
     const selector = { watchCnt: 1 };
     const option = {};
-    const { error, response } = await this.collection.findOne(
-      condition,
-      selector,
-      option,
-      false,
-      "finedMenuIndex"
-    );
+    const { error, response } = await this.collection.findOne(condition, selector, option, false, "finedMenuIndex");
     return response.watchCnt < 0 ? 0 : response.watchCnt;
   }
 
@@ -81,10 +62,7 @@ export default class Threads {
     let ExistMainConnection = false;
 
     if (responseLength === 0) {
-      response = await this.getUnshifAnyConnectionResponse(
-        connection,
-        response
-      );
+      response = await this.getUnshifAnyConnectionResponse(connection, response);
     } else {
       for (let i = 0; i < responseLength; i++) {
         if (response[i].lastPost.connection === connection) {
@@ -94,13 +72,7 @@ export default class Threads {
       }
 
       if (!ExistMainConnection) {
-
-        const { response: mainThread } = await this.findOne(
-          connection,
-          { lastPost: 1 },
-          {},
-          true
-        );
+        const { response: mainThread } = await this.findOne(connection, { lastPost: 1 }, {}, true);
         response.unshift(mainThread);
       }
     }
@@ -110,10 +82,7 @@ export default class Threads {
       return {
         ...res.lastPost,
         title: res.serverMetas.title,
-        watchCnt:
-          res.lastPost.connection === connection
-            ? res.watchCnt + 1
-            : res.watchCnt
+        watchCnt: res.lastPost.connection === connection ? res.watchCnt + 1 : res.watchCnt
       };
     });
   }
@@ -122,6 +91,9 @@ export default class Threads {
     thread.findType = Thread.getContentTypeFromFindType(thread.contentType);
     thread.updateTime = new Date();
     thread.watchCnt = thread.watchCnt < 0 ? 0 : thread.watchCnt;
+    console.log(thread.hasSlash);
+    thread.hasSlash = thread.hasSlash === null ? false : thread.hasSlash;
+    console.log(thread.hasSlash);
     //thread.title = thread.serverMetas.title ? thread.serverMetas.title : thread.serverMetas["og:title"];
     const { response: resThread } = await this.collection.save(thread);
     return resThread;
@@ -140,9 +112,7 @@ export default class Threads {
       thread.watchCnt = update ? watchCnt : thread.watchCnt + watchCnt;
       return await Logics.db.threads.save(thread);
     } else {
-      const { response: resThread } = await Logics.db.threads.findOne(
-        connection
-      );
+      const { response: resThread } = await Logics.db.threads.findOne(connection);
 
       if (update) {
         resThread.watchCnt = watchCnt;
@@ -203,10 +173,7 @@ export default class Threads {
   /******************/
 
   async requestHtmlParams(thread, requestState) {
-    const { response: htmlParams, iconHrefs } = await Logics.html.fetch(
-      thread,
-      requestState
-    );
+    const { response: htmlParams, iconHrefs } = await Logics.html.fetch(thread, requestState);
     thread = MongoDB.getBuiltinObjToSchema(thread, htmlParams);
 
     if (thread.favicon === Favicon.defaultFaviconPath) {
@@ -217,10 +184,7 @@ export default class Threads {
       });
     }
 
-    if (
-      thread.favicon !== Favicon.defaultFaviconPath &&
-      thread.lastPost.favicon === Favicon.defaultFaviconPath
-    ) {
+    if (thread.favicon !== Favicon.defaultFaviconPath && thread.lastPost.favicon === Favicon.defaultFaviconPath) {
       thread.lastPost.favicon = thread.favicon;
     }
 

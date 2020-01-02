@@ -26,7 +26,7 @@ export default class TalknAPI {
       forceNew: true
     });
     this.onCatchMeAPI(resolve);
-/*
+    /*
     this.ws.on(Sequence.CATCH_ME_KEY, () => {
       resolve(this);
     });
@@ -37,18 +37,16 @@ export default class TalknAPI {
     if (typeof window.__talknAPI__[talknIndex] === "undefined") {
       throw `BAD TALKN_API HANDLE TALKN_INDEX ${talknIndex}.`;
     } else {
-
       window.talknAPI = window.__talknAPI__[talknIndex];
       return true;
     }
   }
 
-  connectioned(talknIndex, store){
+  connectioned(talknIndex, store) {
     this.store = store;
   }
 
   booted(state, connection) {
-
     this.state = state;
     this.connection = connection;
 
@@ -73,11 +71,7 @@ export default class TalknAPI {
 
   onCatchMeAPI(resolve: Promise<boolean> | null = null) {
     const talknIndex = this.talknIndex;
-    const callback: any = this.getToMeAPI(
-      talknIndex,
-      WsServerToClientEmitAction,
-      resolve
-    );
+    const callback: any = this.getToMeAPI(talknIndex, WsServerToClientEmitAction, resolve);
     this.on(Sequence.CATCH_ME_KEY, callback);
   }
 
@@ -85,10 +79,7 @@ export default class TalknAPI {
     const talknIndex = this.talknIndex;
 
     // To connect redux flow.
-    const callback: any = this.getCatchConnectionAPI(
-      talknIndex,
-      WsServerToClientBroadcastAction
-    );
+    const callback: any = this.getCatchConnectionAPI(talknIndex, WsServerToClientBroadcastAction);
     this.on(connection, callback);
   }
 
@@ -105,22 +96,14 @@ export default class TalknAPI {
 
     for (let actionNodeCnt = 0; actionNodeCnt < actionLength; actionNodeCnt++) {
       const actionName = actionKeys[actionNodeCnt];
-      const actionPlainName = actionName.replace(
-        Sequence.CLIENT_TO_SERVER_EMIT,
-        ""
-      );
+      const actionPlainName = actionName.replace(Sequence.CLIENT_TO_SERVER_EMIT, "");
       const beforeFunction = actions[actionName];
-      this[actionPlainName] = this.getTalknAPI(
-        talknIndex,
-        actionName,
-        beforeFunction
-      );
+      this[actionPlainName] = this.getTalknAPI(talknIndex, actionName, beforeFunction);
     }
   }
 
   on(onKey, callback = () => {}) {
     if (!this.ws._callbacks[`$${onKey}`]) {
-      console.log("ON @@@@@ " + onKey);
       this.ws.on(onKey, callback);
     }
   }
@@ -145,20 +128,9 @@ export default class TalknAPI {
     return _requestParams => {
       if (TalknAPI.handle(talknIndex)) {
         const reduxState = window.talknAPI.store.getState();
-        let _requestState = Sequence.getRequestState(
-          actionName,
-          reduxState,
-          _requestParams
-        );
-        let _actionState = Sequence.getRequestActionState(
-          actionName,
-          _requestParams
-        );
-        const { requestState, actionState } = beforeFunction(
-          reduxState,
-          _requestState,
-          _actionState
-        );
+        let _requestState = Sequence.getRequestState(actionName, reduxState, _requestParams);
+        let _actionState = Sequence.getRequestActionState(actionName, _requestParams);
+        const { requestState, actionState } = beforeFunction(reduxState, _requestState, _actionState);
         this.ws.emit(requestState.type, requestState);
         return window.talknAPI.store.dispatch(actionState);
       }
@@ -168,8 +140,7 @@ export default class TalknAPI {
   getToMeAPI(talknIndex, action, resolve = null) {
     return response => {
       if (TalknAPI.handle(talknIndex)) {
-
-        if( resolve ){
+        if (resolve) {
           resolve();
         }
 
