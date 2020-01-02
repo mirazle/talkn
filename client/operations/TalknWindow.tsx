@@ -184,21 +184,24 @@ export default class TalknWindow {
     Promise.all(bootPromises).then((bootParams: any) => {
       let script1: Element;
       let script2: Element;
+      let script3: Element;
       let script: Element;
-
+      console.log(conf.env);
+      console.log(conf);
       if (conf.env === define.DEVELOPMENT) {
         script1 = document.querySelector(
           `script[src='//${conf.hostName}:${define.PORTS.DEVELOPMENT}/${define.talknClientJs}']`
         );
-        script2 = document.querySelector(
-          `script[src='https://${conf.hostName}:${define.PORTS.DEVELOPMENT}/${define.talknClientJs}']`
-        );
+        script2 = document.querySelector(`script[src='https://${conf.clientURL}']`);
+        console.log("A");
       } else {
         console.log("B");
         script1 = document.querySelector(`script[src='${conf.clientPath.replace(/\/$/, "")}']`);
         script2 = document.querySelector(`script[src='https:${conf.clientPath.replace(/\/$/, "")}']`);
       }
       script = script1 ? script1 : script2;
+
+      console.log();
 
       // const script = document.querySelector(`script#talkn`);
       const scriptOption = BootOption.rebuildAttributes(script.attributes);
