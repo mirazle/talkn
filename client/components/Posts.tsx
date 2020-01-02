@@ -53,13 +53,7 @@ export default class Posts extends Component<Props, State> {
   }
 
   componentWillReceiveProps(props) {
-    const {
-      app,
-      postsTimeline,
-      postsMulti,
-      postsSingle,
-      postsChild
-    } = props.state;
+    const { app, postsTimeline, postsMulti, postsSingle, postsChild } = props.state;
     let posts = [];
     switch (app.dispThreadType) {
       case App.dispThreadTypeTimeline:
@@ -97,12 +91,7 @@ export default class Posts extends Component<Props, State> {
 
       const animateScroll = () => {
         currentTime += increment;
-        let scrollTop = Math.easeInOutQuad(
-          currentTime,
-          start,
-          change,
-          duration
-        );
+        let scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);
         element.scrollTop = scrollTop;
         if (currentTime < duration) {
           this.setState({ isAnimateScrolling: true });
@@ -118,10 +107,7 @@ export default class Posts extends Component<Props, State> {
 
   handleOnMouseDown() {
     const { app } = this.props.state;
-    if (
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
-    ) {
+    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
       //      this.refs.thread.scrollTop = this.refs.thread.scrollTop + 1;
     }
   }
@@ -154,15 +140,14 @@ export default class Posts extends Component<Props, State> {
     const { style, thread, app } = state;
     const posts = PostsSchems.getDispPosts(state);
     const dispPostCnt = posts.length;
-    const postCntKey =
-      app.dispThreadType === App.dispThreadTypeMulti
-        ? "multiPostCnt"
-        : "postCnt";
+    const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
     let isDisp = false;
 
-    if (thread[postCntKey] > conf.findOnePostCnt) {
-      if (dispPostCnt < thread[postCntKey]) {
-        isDisp = true;
+    if (dispPostCnt > 0) {
+      if (thread[postCntKey] > conf.findOnePostCnt) {
+        if (dispPostCnt < thread[postCntKey]) {
+          isDisp = true;
+        }
       }
     }
 
