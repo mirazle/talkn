@@ -118,7 +118,13 @@ export default class Detail {
   }
 
   static getFooterBorders(app) {
-    return { borderTop: Container.border };
+    switch (app.screenMode) {
+      case App.screenModeSmallLabel:
+      case App.screenModeMiddleLabel:
+        return { borderTop: Container.border };
+      case App.screenModeLargeLabel:
+        return { borderTop: Container.border, borderLeft: Container.border };
+    }
   }
 
   static getFooterPositions(app) {
