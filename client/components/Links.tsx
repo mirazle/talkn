@@ -104,24 +104,26 @@ export default class Links extends Component<Props, State> {
       />
     );
     const getLi = (chKey, textKey) => (obj, i) => {
-      const ch = Links.getCh(obj[chKey], thread);
-      console.log(obj[chKey]);
-      const hasSlash = obj[chKey].lastIndexOf("/") === ch.length - 1 ? true : false;
-
-      return (
-        <Link
-          key={`${chKey}${i}`}
-          isMainCh={false}
-          isActive={false}
-          text={obj[textKey]}
-          ch={ch}
-          handleOnClick={() => {
-            window.talknAPI.toggleLinks();
-            handleOnClickCh(ch, hasSlash, "toLinks");
-          }}
-          {...this.props}
-        />
-      );
+      if (obj[chKey]) {
+        const ch = Links.getCh(obj[chKey], thread);
+        const hasSlash = obj[chKey].lastIndexOf("/") === ch.length - 1 ? true : false;
+        return (
+          <Link
+            key={`${chKey}${i}`}
+            isMainCh={false}
+            isActive={false}
+            text={obj[textKey]}
+            ch={ch}
+            handleOnClick={() => {
+              window.talknAPI.toggleLinks();
+              handleOnClickCh(ch, hasSlash, "toLinks");
+            }}
+            {...this.props}
+          />
+        );
+      } else {
+        return null;
+      }
     };
 
     linkContents.html = thread.links.map(getLi("href", "text"));
