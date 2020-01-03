@@ -205,7 +205,8 @@ class Window extends Elements {
         this.refusedFrame = refusedFrame;
         this.isExt = Ext.isExt();
         this.href = window.location.href;
-        this.ch = this.href.replace("http:/", "").replace("https:/", "");
+        this.ch = this.href.replace( "http:/", "" ).replace( "https:/", "" );
+        console.log("@@@@@@@ CH " + this.ch );
         const hasSlash = this.ch.lastIndexOf("/") === ( this.ch.length - 1 );
         this.ch = hasSlash ? this.ch : this.ch + "/";
         const bootFlg = Ext.EXCLUSION_ORIGINS.every( ( origin ) => {
