@@ -105,6 +105,7 @@ export default class Links extends Component<Props, State> {
     );
     const getLi = (chKey, textKey) => (obj, i) => {
       const ch = Links.getCh(obj[chKey], thread);
+      console.log(obj[chKey]);
       const hasSlash = obj[chKey].lastIndexOf("/") === ch.length - 1 ? true : false;
 
       return (
