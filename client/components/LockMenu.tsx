@@ -22,8 +22,10 @@ export default class LockMenu extends Component<Props, State> {
     return {
       onMouseOver: () => {
         if (type === "liEmbed") {
-          const Input = document.getElementById("Id") as HTMLInputElement;
-          Input.select();
+          const input = document.getElementById("Id") as HTMLInputElement;
+          if (input) {
+            input.select();
+          }
         }
         this.setState({
           style: {
