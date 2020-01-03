@@ -428,9 +428,10 @@ class Window extends Elements {
                         return false;
                     }
 
+                    let ch = this.state && this.state.thread ? this.state.thread.ch : this.window.ch;
                     const mediaCh = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
                     if(log) console.log("EXT " + media.currentTime );
-                    this.state.thread.ch = mediaCh;
+                    ch = mediaCh;
                     this.childTo( "playMedia", {
                         playCnt: this.playCnt++,
                         thread: this.state.thread,
