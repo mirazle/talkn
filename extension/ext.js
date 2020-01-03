@@ -380,7 +380,6 @@ class Window extends Elements {
 
                 media = e.srcElement;
                 const mediaCh = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
-                console.log(this.state);
                 const talknMethod =  this.state.thread.ch !== mediaCh ? "findMediaCh" : "playMedia";
                 if(log) console.log(":::::::::::::::: EXT play METHOD " + talknMethod + " " +  media.currentTime);
                 this.state.thread.ch = mediaCh;
@@ -489,6 +488,8 @@ class Window extends Elements {
             if(this[ method ] && typeof this[ method ] === "function"){
                 if(this.methodIdMap[ method ] || Window.aacceptPostMessages.includes(method)){
                     const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
+                    console.log( "----- " + method );
+                    console.log(params);
                     this[ method ]( params );
                     clearTimeout(this.methodIdMap[ method ]);
                     delete this.methodIdMap[ method ];
