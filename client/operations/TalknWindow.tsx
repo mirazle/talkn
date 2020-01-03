@@ -227,6 +227,7 @@ export default class TalknWindow {
   message(e, resolve) {
     if (e.data.type === "talkn") {
       const log = false;
+      const state = window.talknAPI.store.getState();
       switch (e.data.method) {
         case "bootExtension":
           this.parentUrl = e.data.href;
@@ -243,8 +244,8 @@ export default class TalknWindow {
           }
           break;
         case "playMedia":
-          const ch = e.data.params.thread.ch;
-          const isExistThreadData = window.talknAPI.store.getState().threads[ch];
+          const ch = e.data.params.thread && e.data.params.thread.ch ? e.data.params.thread.ch : state.thread.ch;
+          const isExistThreadData = state.threads[ch];
 
           if (log && window.talknMedia)
             console.log("========================= playMedia " + window.talknMedia.currentTime);
@@ -295,7 +296,7 @@ export default class TalknWindow {
           }
           break;
         case "delegatePost":
-          let { app } = window.talknAPI.store.getState();
+          let { app } = state;
           app = { ...app, ...e.data.params };
           window.talknAPI.delegatePost(app);
           break;
