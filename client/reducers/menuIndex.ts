@@ -3,7 +3,7 @@ import App from "common/schemas/state/App";
 
 export default (state: any = new MenuIndex(), action) => {
   const sortWatchCnt = (a, b) => {
-    if (a.connection === action.app.rootConnection || b.connection === action.app.rootConnection) {
+    if (a.ch === action.app.rootCh || b.ch === action.app.rootCh) {
       return 0;
     }
     if (a.watchCnt < b.watchCnt) return 1;
@@ -17,7 +17,7 @@ export default (state: any = new MenuIndex(), action) => {
       const multistreamPostLength = multistreamPosts && multistreamPosts.length ? multistreamPosts.length : 0;
       if (multistreamPostLength > 0) {
         return state.map(mi => {
-          if (action.app.rootConnection === mi.connection) {
+          if (action.app.rootCh === mi.ch) {
             return {
               ...mi,
               //						title: multistreamPosts[ multistreamPostLength - 1].title,
@@ -31,7 +31,7 @@ export default (state: any = new MenuIndex(), action) => {
       }
       return state;
     case "SERVER_TO_CLIENT[EMIT]:find":
-      if (action.app.isLinkConnection) {
+      if (action.app.isLinkCh) {
         return state;
       }
 
@@ -39,7 +39,7 @@ export default (state: any = new MenuIndex(), action) => {
 
       if (postLength === 0) {
         return state.map(mi => {
-          if (action.thread.connection === mi.connection) {
+          if (action.thread.ch === mi.ch) {
             return {
               ...mi,
               title: action.thread.title,
@@ -54,7 +54,7 @@ export default (state: any = new MenuIndex(), action) => {
 
       if (action.app.dispThreadType === App.dispThreadTypeMulti) {
         return state.map(mi => {
-          if (action.thread.connection === mi.connection) {
+          if (action.thread.ch === mi.ch) {
             return {
               ...mi,
               //						title: action.posts[ postLength - 1].title,
@@ -72,7 +72,7 @@ export default (state: any = new MenuIndex(), action) => {
 		console.log("MENU INDEX C");
 
 		return state.map( ( mi ) => {
-			if( action.posts[ 0 ].connection === mi.connection ){
+			if( action.posts[ 0 ].ch === mi.ch ){
 				return {...mi,
 //					favicon: action.posts[ postLength - 1 ].favicon,
 //					post: action.posts[ postLength - 1 ].post,
@@ -90,7 +90,7 @@ export default (state: any = new MenuIndex(), action) => {
     case "SERVER_TO_CLIENT[BROADCAST]:disconnect":
       return state
         .map(mi => {
-          if (action.thread.connection === mi.connection) {
+          if (action.thread.ch === mi.ch) {
             return { ...mi, watchCnt: action.thread.watchCnt };
           } else {
             return mi;
@@ -99,8 +99,8 @@ export default (state: any = new MenuIndex(), action) => {
         .sort(sortWatchCnt);
     case "SERVER_TO_CLIENT[BROADCAST]:post":
       return state.map(mi => {
-        // rootConnection
-        if (action.app.rootConnection === mi.connection) {
+        // rootCh
+        if (action.app.rootCh === mi.ch) {
           if (action.app.multistream) {
             return {
               ...mi,
@@ -114,8 +114,8 @@ export default (state: any = new MenuIndex(), action) => {
           }
         }
 
-        // childConnection
-        if (action.posts[0].connection === mi.connection) {
+        // childCh
+        if (action.posts[0].ch === mi.ch) {
           return {
             ...mi,
             title: action.posts[0].title,

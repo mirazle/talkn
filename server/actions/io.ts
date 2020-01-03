@@ -21,11 +21,11 @@ export default {
         Actions.io[endpoint](ioUser, requestState, setting);
       });
     });
-    Logics.io.connectioned(ioUser);
+    Logics.io.tuned(ioUser);
   },
 
   initClientState: (ioUser, requestState, setting) => {
-    Logics.db.users.update(ioUser.conn.id, requestState.thread.connection);
+    Logics.db.users.update(ioUser.conn.id, requestState.thread.ch);
     Logics.io.initClientState(ioUser, requestState, setting);
     return true;
   },
@@ -36,8 +36,8 @@ export default {
 
   getMore: async (ioUser, requestState, setting) => {
     let { app } = requestState;
-    const { connection } = requestState.thread;
-    let thread = { connection };
+    const { ch } = requestState.thread;
+    let thread = { ch };
     const isMultistream = Thread.getStatusIsMultistream(app);
     const postCntKey = isMultistream ? "multiPostCnt" : "postCnt";
     thread[postCntKey] = await Logics.db.posts.getCounts(requestState, {
@@ -49,22 +49,22 @@ export default {
   },
 
   changeThread: async (ioUser, requestState, setting) => {
-    const connectioned = requestState.app.connectioned;
+    const tuned = requestState.app.tuned;
 
-    if (connectioned !== "") {
-      const connection = requestState.thread.connection;
-      const thread = await Logics.db.threads.saveOnWatchCnt({ connection: connectioned }, -1);
+    if (tuned !== "") {
+      const ch = requestState.thread.ch;
+      const thread = await Logics.db.threads.saveOnWatchCnt({ ch: tuned }, -1);
       //const user = Collections.getNewApp(requestState.type, app, thread, [], requestState.user);
 
       // ユーザーの接続情報を更新
-      Logics.db.users.update(ioUser.conn.id, connection);
+      Logics.db.users.update(ioUser.conn.id, ch);
 
       // 配信
       Logics.io.changeThread(ioUser, {
         requestState,
         thread,
         app: {
-          connectioned: connection
+          tuned: ch
         }
       });
     }
@@ -76,11 +76,11 @@ export default {
   exeFind: async (ioUser, requestState, setting) => {
     let { app } = requestState;
 
-    // リクエストのあったconnectionを取得する
-    const { connection } = requestState.thread;
+    // リクエストのあったchを取得する
+    const { ch } = requestState.thread;
 
     // Thread
-    let { response: thread } = await Logics.db.threads.findOne(connection, {}, {}, true);
+    let { response: thread } = await Logics.db.threads.findOne(ch, {}, {}, true);
 
     thread.hasSlash = requestState.thread.hasSlash;
 
@@ -120,8 +120,8 @@ export default {
   },
 
   changeThreadDetail: async (ioUser, requestState, setting) => {
-    const { connection } = requestState.thread;
-    let { response: thread } = await Logics.db.threads.findOne(connection, {}, {}, true);
+    const { ch } = requestState.thread;
+    let { response: thread } = await Logics.db.threads.findOne(ch, {}, {}, true);
     await Logics.io.changeThreadDetail(ioUser, { requestState, thread });
   },
 
@@ -132,8 +132,8 @@ export default {
 
   post: async (ioUser, requestState, setting) => {
     const { app } = requestState;
-    const { connection, emotions } = requestState.thread;
-    const thread = { connection, emotions };
+    const { ch, emotions } = requestState.thread;
+    const thread = { ch, emotions };
     const isMultistream = Thread.getStatusIsMultistream(app);
     const post = await Logics.db.posts.save(requestState);
     const emotionKeys = Object.keys(emotions);
@@ -146,7 +146,7 @@ export default {
         });
       });
     }
-    const response = await Logics.db.threads.update(connection, set);
+    const response = await Logics.db.threads.update(ch, set);
     const postCntKey = isMultistream ? "multiPostCnt" : "postCnt";
     thread[postCntKey] = await Logics.db.posts.getCounts(requestState, {
       isMultistream
@@ -156,12 +156,12 @@ export default {
   },
 
   updateThread: async (ioUser, requestState, setting) => {
-    const { connection } = requestState.thread;
-    let { response: thread } = await Logics.db.threads.findOne(connection, {}, {}, true);
+    const { ch } = requestState.thread;
+    let { response: thread } = await Logics.db.threads.findOne(ch, {}, {}, true);
     const isMultistream = false;
-    const isMediaConnection = Thread.getStatusIsMediaConnection(connection);
+    const isMediaCh = Thread.getStatusIsMediaCh(ch);
     thread.postCnt = await Logics.db.posts.getCounts(requestState, {
-      isMediaConnection,
+      isMediaCh,
       isMultistream
     });
     thread = await Logics.db.threads.requestHtmlParams(thread, requestState);
@@ -171,9 +171,9 @@ export default {
   },
 
   updateThreadServerMetas: async (ioUser, requestState, setting) => {
-    const { connection } = requestState.thread;
-    const { response: baseThread } = await Logics.db.threads.findOne(connection);
-    const serverMetas = await Logics.db.threads.updateServerMetas(connection, baseThread, requestState.thread);
+    const { ch } = requestState.thread;
+    const { response: baseThread } = await Logics.db.threads.findOne(ch);
+    const serverMetas = await Logics.db.threads.updateServerMetas(ch, baseThread, requestState.thread);
     await Logics.io.updateThreadServerMetas(ioUser, {
       requestState,
       thread: { serverMetas }
@@ -184,13 +184,13 @@ export default {
   disconnect: async (ioUser, requestState, setting) => {
     const { response: user } = await Logics.db.users.findOne(ioUser.conn.id);
 
-    if (user && user.connection) {
+    if (user && user.ch) {
       // ユーザーデータ削除
       await Logics.db.users.remove(ioUser.conn.id);
 
       // userコレクションからwatchCntの実数を取得(thread.watchCntは読み取り専用)
-      const watchCnt = await Logics.db.users.getConnectionCnt(user.connection);
-      const thread = await Logics.db.threads.saveOnWatchCnt({ connection: user.connection }, watchCnt, true);
+      const watchCnt = await Logics.db.users.getChCnt(user.ch);
+      const thread = await Logics.db.threads.saveOnWatchCnt({ ch: user.ch }, watchCnt, true);
 
       // 配信
       Logics.io.saveOnWatchCnt(ioUser, {
@@ -203,12 +203,12 @@ export default {
 
   testAPI: (ioUser, setting) => {
     if (Object.keys(tests).length > 0) {
-      let { connections, state } = tests.find();
+      let { chs, state } = tests.find();
 
-      connections.forEach((connection, index) => {
+      chs.forEach((ch, index) => {
         const requestState = {
           ...state,
-          thread: { ...state.thread, connection }
+          thread: { ...state.thread, ch }
         };
         Actions.io["find"](ioUser, requestState, setting);
       });

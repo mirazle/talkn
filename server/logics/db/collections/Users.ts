@@ -5,15 +5,15 @@ export default class Users {
     return this;
   }
 
-  async getConnectionCnt(connection) {
-    const condition = { connection };
+  async getChCnt(ch) {
+    const condition = { ch };
     const { response: user } = await this.collection.find(condition);
     return user.length;
   }
 
   async find(requestState, setting) {
     const condition = {
-      connections: requestState.thread.connection,
+      chs: requestState.thread.ch,
       _id: { $lt: requestState.user.offsetFindId }
     };
     const selector = {};
@@ -34,9 +34,9 @@ export default class Users {
     return this.collection.save(set, option);
   }
 
-  async update(uid, connection) {
+  async update(uid, ch) {
     const condition = { uid };
-    const set = { $set: { connection } };
+    const set = { $set: { ch } };
     const option = { upsert: true };
     return this.collection.update(condition, set, option);
   }

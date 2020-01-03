@@ -30,27 +30,22 @@ export default class MenuLogs extends Component<Props> {
     const { menuLogs } = state;
     return menuLogs.map((mi, index) => {
       return (
-        <MenuIndexList
-          key={mi.connection}
-          menuIndexList={mi}
-          onClickOtherThread={onClickOtherThread}
-          {...this.props.state}
-        />
+        <MenuIndexList key={mi.ch} menuIndexList={mi} onClickOtherThread={onClickOtherThread} {...this.props.state} />
       );
     });
   }
 
   render() {
     const { style, thread } = this.props.state;
-    const { connection } = thread;
+    const { ch } = thread;
     const { icon } = style;
     const Search = Icon.getSearch(icon.search);
-    const dispConnection = connection.replace("/", "");
+    const dispCh = ch.replace("/", "");
     return (
       <nav data-component-name={"MenuLogs"} style={style.menuIndex.self}>
         <header style={style.menuIndex.header}>
           <span style={style.menuIndex.headerSearchIcon}>{Search}</span>
-          <span style={style.menuIndex.headerConnection}>
+          <span style={style.menuIndex.headerCh}>
             <input
               type={"text"}
               style={style.menuIndex.headerInput}

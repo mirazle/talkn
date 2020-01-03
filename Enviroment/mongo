@@ -1,1 +1,14 @@
-db.Threads.find({}, {connection: 1}).forEach((t)=>{ db.Threads.update( {connection: t.connection}, {$set:{postCnt: db.Posts.find( {connection: t.connection } ).size() } } );
+```
+db.Threads.find({}, {ch: 1}).forEach((t)=>{ db.Threads.update( {ch: t.ch}, {$set:{postCnt: db.Posts.find( {ch: t.ch } ).size() } } );
+```
+
+// コレクション「myCollection」のフィールド「oldname」を「newname」に変更
+```
+db.Posts.update({}, {$rename:{connection : 'ch'}}, {multi:true});
+db.Posts.update({}, {$rename:{connections : 'chs'}}, {multi:true});
+db.Threads.update({}, {$rename:{connection : 'ch'}}, {multi:true});
+db.Threads.update({}, {$rename:{connections : 'chs'}}, {multi:true});
+db.Threads.update({}, {$rename:{'lastPost.connection' : 'lastPost.ch'}}, {multi:true});
+db.Threads.update({}, {$rename:{'lastPost.connections' : 'lastPost.chs'}}, {multi:true});
+db.Users.update({}, {$rename:{connection : 'ch'}}, {multi:true});
+```

@@ -13,18 +13,16 @@ export default class TalknAPI {
   store;
   any;
   state: any;
-  connection: any;
+  ch: any;
 
   /*
     このコンストラクを2つに分ける。
-    wsの接続(connection)とfinnishOnをtalknWindowのbootより前にする！！
+    wsの接続(ch)とfinnishOnをtalknWindowのbootより前にする！！
   */
   constructor(talknIndex, resolve) {
     this.talknIndex = talknIndex;
     window.__talknAPI__[talknIndex] = this;
-    this.ws = io(`https://${conf.server}:${define.PORTS.SOCKET_IO}`, {
-      forceNew: true
-    });
+    this.ws = io(`https://${conf.server}:${define.PORTS.SOCKET_IO}`, { forceNew: true });
     this.onCatchMeAPI(resolve);
     /*
     this.ws.on(Sequence.CATCH_ME_KEY, () => {
@@ -42,19 +40,19 @@ export default class TalknAPI {
     }
   }
 
-  connectioned(talknIndex, store) {
+  tuned(talknIndex, store) {
     this.store = store;
   }
 
-  booted(state, connection) {
+  booted(state, ch) {
     this.state = state;
-    this.connection = connection;
+    this.ch = ch;
 
     // CLIENT API's
     this.onHandleAPI();
 
     // COMMUNUCATION API’s
-    this.onCatchConnectionAPI();
+    this.onCatchChAPI();
     this.onTalknAPI();
   }
 
@@ -75,17 +73,17 @@ export default class TalknAPI {
     this.on(Sequence.CATCH_ME_KEY, callback);
   }
 
-  onCatchConnectionAPI(connection = this.connection) {
+  onCatchChAPI(ch = this.ch) {
     const talknIndex = this.talknIndex;
 
     // To connect redux flow.
-    const callback: any = this.getCatchConnectionAPI(talknIndex, WsServerToClientBroadcastAction);
-    this.on(connection, callback);
+    const callback: any = this.getCatchChAPI(talknIndex, WsServerToClientBroadcastAction);
+    this.on(ch, callback);
   }
 
-  offCatchConnectionAPI(connection = this.connection) {
+  offCatchChAPI(ch = this.ch) {
     const talknIndex = this.talknIndex;
-    this.off(connection);
+    this.off(ch);
   }
 
   onTalknAPI() {
@@ -150,7 +148,7 @@ export default class TalknAPI {
     };
   }
 
-  getCatchConnectionAPI(talknIndex, actionMethod) {
+  getCatchChAPI(talknIndex, actionMethod) {
     return response => {
       if (TalknAPI.handle(talknIndex)) {
         const actionState = actionMethod(response);

@@ -41,8 +41,7 @@ export default class Video {
         width = `calc( ${100 - reduce}% - ${Menu.getWidth(app, true)}px )`;
         break;
       case App.screenModeLargeLabel:
-        width = `calc( ${100 -
-          Detail.getWidth(app, false) - reduce}% - ${Menu.getWidth(app, true) + reduce}px )`;
+        width = `calc( ${100 - Detail.getWidth(app, false) - reduce}% - ${Menu.getWidth(app, true) + reduce}px )`;
         break;
     }
     return width;
@@ -63,7 +62,7 @@ export default class Video {
   }
 
   static getSelf({ app }) {
-    const display = app.isMediaConnection ? "block" : "none";
+    const display = app.isMediaCh ? "block" : "none";
     const width = Video.getSelfWidth(app);
     const left = Video.getSelfLeft(app);
     const layout = Style.getLayoutBlock({

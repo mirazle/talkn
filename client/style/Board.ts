@@ -40,7 +40,7 @@ export default class Board {
       case App.dispThreadTypeSingle:
         return Board.typesMain;
       default:
-        if (!app.isRootConnection && app.isLinkConnection) {
+        if (!app.isRootCh && app.isLinkCh) {
           return Board.typesLink;
         } else {
           return Board.typesSub;
@@ -124,8 +124,7 @@ export default class Board {
           case App.screenModeMiddleLabel:
             return `calc(97% - ${Menu.getWidth(app, false)})`;
           case App.screenModeLargeLabel:
-            width = `calc( ${97 -
-              Detail.getWidth(app, false)}% - ${Menu.getWidth(app, false)} )`;
+            width = `calc( ${97 - Detail.getWidth(app, false)}% - ${Menu.getWidth(app, false)} )`;
             break;
         }
       }
@@ -170,9 +169,7 @@ export default class Board {
   }
 
   static getSelfBoxShadow(app, addUnit = false) {
-    return app.isOpenLinks
-      ? "rgb(220, 220, 220) 0px 0px 5px"
-      : "rgb(220, 220, 220) 0px 0px 5px";
+    return app.isOpenLinks ? "rgb(220, 220, 220) 0px 0px 5px" : "rgb(220, 220, 220) 0px 0px 5px";
   }
 
   static getLinksDisplay(app) {
@@ -260,9 +257,7 @@ export default class Board {
   }
 
   static getMenuLiChild({ app }) {
-    const color = App.isActiveMultistream(app, "getLiChild")
-      ? Board.activeColor
-      : Board.unactiveColor;
+    const color = App.isActiveMultistream(app, "getLiChild") ? Board.activeColor : Board.unactiveColor;
     const layout = {};
     const content = Style.getContentBase({
       color

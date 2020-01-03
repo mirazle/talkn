@@ -8,18 +8,18 @@ export default {
         protocol: "talkn:",
         host: "",
         href: "",
-        connection: "/www.livedoor.com/"
+        ch: "/www.livedoor.com/"
       },
       user: {
         uid: "",
         utype: "",
         href: "http://localhost:8080/?http://www.livedoor.com/",
-        connectioned: "",
+        tuned: "",
         offsetFindId: "ffffffffffffffffffffffff",
         friends: []
       }
     };
-    const connections = [
+    const chs = [
       "/blog.livedoor.jp/goldennews/archives/52035268.html",
       "/tabelog.com",
       "/qiita.com/shoma2da/items/aaaae9eb9e803cce9eb1",
@@ -51,6 +51,6 @@ export default {
       common: { test: 1 }
     };
 
-    return { ioUser, state, connections, setting };
+    return { ioUser, state, chs, setting };
   }
 };

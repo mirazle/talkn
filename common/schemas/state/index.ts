@@ -22,13 +22,7 @@ export default class State {
   app: any;
   user: any;
   style: any;
-  constructor(
-    talknIndex: any,
-    window: any,
-    bootOption: any = {},
-    initialApp: any = {},
-    caches: any = {}
-  ) {
+  constructor(talknIndex: any, window: any, bootOption: any = {}, initialApp: any = {}, caches: any = {}) {
     this.menuIndex = new MenuIndex();
     this.menuLogs = new MenuLogs(caches.menuLogs);
     this.posts = new Posts();
@@ -36,15 +30,7 @@ export default class State {
     this.bootOption = new BootOption(bootOption);
     this.thread = new Thread(window, this.bootOption, caches.thread);
     this.setting = new Setting(caches.setting);
-    this.app = new App(
-      State.getAppParams(
-        talknIndex,
-        this.thread,
-        this.bootOption,
-        initialApp,
-        caches
-      )
-    );
+    this.app = new App(State.getAppParams(talknIndex, this.thread, this.bootOption, initialApp, caches));
     this.user = new User(State.getUserParams(this, caches));
     this.style = new Style(this);
   }
@@ -64,10 +50,7 @@ export default class State {
     if (caches && caches.user && caches.user.uid) {
       return { ...caches.user };
     } else {
-      const dispThreadType =
-        self.thread.connection === self.app.rootConnection
-          ? App.dispThreadTypeMulti
-          : App.dispThreadTypeSingle;
+      const dispThreadType = self.thread.ch === self.app.rootCh ? App.dispThreadTypeMulti : App.dispThreadTypeSingle;
       return { dispThreadType };
     }
   }
@@ -80,7 +63,7 @@ export default class State {
     return this.app.talknIndex;
   }
 
-  get connection() {
-    return this.thread.connection;
+  get ch() {
+    return this.thread.ch;
   }
 }

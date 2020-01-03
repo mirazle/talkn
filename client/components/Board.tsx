@@ -8,7 +8,7 @@ import BoardStyle from "client/style/Board";
 interface Props {
   app?: any;
   state: any;
-  handleOnClickConnection?: any;
+  handleOnClickCh?: any;
   handleOnClickMultistream?: any;
   timeago?: any;
 }
@@ -33,9 +33,7 @@ export default class Board extends Component<Props, State> {
     this.renderLiChild = this.renderLiChild.bind(this);
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind(this);
     this.handleOnClickToggleBoard = this.handleOnClickToggleBoard.bind(this);
-    this.handleOnClickToggleBubblePost = this.handleOnClickToggleBubblePost.bind(
-      this
-    );
+    this.handleOnClickToggleBubblePost = this.handleOnClickToggleBubblePost.bind(this);
     this.handleOnClickLinks = this.handleOnClickLinks.bind(this);
     this.handleOnClickLinkTabs = this.handleOnClickLinkTabs.bind(this);
   }
@@ -51,7 +49,7 @@ export default class Board extends Component<Props, State> {
   }
 
   componentWillReceiveProps(props) {
-    const { actioned, isLinkConnection, isOpenLinks } = props.state.app;
+    const { actioned, isLinkCh, isOpenLinks } = props.state.app;
     let updateState: any = {};
 
     if (!isOpenLinks) {
@@ -78,7 +76,7 @@ export default class Board extends Component<Props, State> {
   }
 
   handleOnClickLinks() {
-    const { handleOnClickConnection } = this.props;
+    const { handleOnClickCh } = this.props;
     const { app, thread } = this.props.state;
 
     switch (app.dispThreadType) {
@@ -88,19 +86,11 @@ export default class Board extends Component<Props, State> {
         window.talknAPI.toggleLinks();
         break;
       case App.dispThreadTypeChild:
-        handleOnClickConnection(
-          app.rootConnection,
-          null,
-          "backToRootConnection"
-        );
+        handleOnClickCh(app.rootCh, null, "backToRootCh");
         break;
       case App.dispThreadTypeTimeline:
-        //if( app.isLinkConnection ){
-        handleOnClickConnection(
-          app.rootConnection,
-          null,
-          "backToRootConnection"
-        );
+        //if( app.isLinkCh ){
+        handleOnClickCh(app.rootCh, null, "backToRootCh");
       //}
     }
   }
@@ -133,10 +123,7 @@ export default class Board extends Component<Props, State> {
   renderLiChild() {
     const { state, handleOnClickMultistream } = this.props;
     const { app, style } = state;
-    let onClick =
-      app.isRootConnection && !app.isMediaConnection
-        ? handleOnClickMultistream
-        : () => {};
+    let onClick = app.isRootCh && !app.isMediaCh ? handleOnClickMultistream : () => {};
     const ThunderIcon = Icon.getThunder(IconStyle.getThunder(state));
     return (
       <li onClick={onClick} style={style.board.menuLi}>
@@ -151,7 +138,7 @@ export default class Board extends Component<Props, State> {
     const { style, app } = state;
     const BubbleIcon = Icon.getBubble(IconStyle.getBubble(state));
     const LinksIcon = Icon.getLinks(IconStyle.getLinks(state));
-    const linksLabel = app.isLinkConnection ? "BACK" : "LINKS";
+    const linksLabel = app.isLinkCh ? "BACK" : "LINKS";
 
     return (
       <div
@@ -163,10 +150,7 @@ export default class Board extends Component<Props, State> {
         <Links {...this.props} displayLinks={this.state.displayLinks} />
         <div data-componet-name={"BoardMenu"} style={style.board.menu}>
           <ul style={style.board.menuUl}>
-            <li
-              style={style.board.menuLi}
-              onClick={this.handleOnClickToggleBubblePost}
-            >
+            <li style={style.board.menuLi} onClick={this.handleOnClickToggleBubblePost}>
               <div>{BubbleIcon}</div>
               <div style={style.board.menuLiBubble}>BUBBLE</div>
             </li>
@@ -176,10 +160,7 @@ export default class Board extends Component<Props, State> {
               <div style={style.board.menuLiLinks}>{linksLabel}</div>
             </li>
           </ul>
-          <div
-            onClick={this.handleOnClickToggleBoard}
-            style={style.board.menuToggle}
-          >
+          <div onClick={this.handleOnClickToggleBoard} style={style.board.menuToggle}>
             {app.isOpenBoard ? "▲" : "▼"}
           </div>
         </div>
@@ -201,18 +182,12 @@ export default class Board extends Component<Props, State> {
       >
         <div data-componet-name={"BoardMenu"} style={style.board.menu}>
           <ul style={style.board.menuUl}>
-            <li
-              style={style.board.menuLi}
-              onClick={this.handleOnClickToggleBubblePost}
-            >
+            <li style={style.board.menuLi} onClick={this.handleOnClickToggleBubblePost}>
               <div>{BubbleIcon}</div>
               <div style={style.board.menuLiBubble}>BUBBLE</div>
             </li>
           </ul>
-          <div
-            onClick={this.handleOnClickToggleBoard}
-            style={style.board.menuToggle}
-          >
+          <div onClick={this.handleOnClickToggleBoard} style={style.board.menuToggle}>
             {app.isOpenBoard ? "▲" : "▼"}
           </div>
         </div>
@@ -236,10 +211,7 @@ export default class Board extends Component<Props, State> {
       >
         <div data-componet-name={"BoardMenu"} style={style.board.menu}>
           <ul style={style.board.menuUl}>
-            <li
-              style={style.board.menuLi}
-              onClick={this.handleOnClickToggleBubblePost}
-            >
+            <li style={style.board.menuLi} onClick={this.handleOnClickToggleBubblePost}>
               <div>{BubbleIcon}</div>
               <div style={style.board.menuLiBubble}>BUBBLE</div>
             </li>
@@ -248,10 +220,7 @@ export default class Board extends Component<Props, State> {
               <div style={style.board.menuLiLinks}>{linksLabel}</div>
             </li>
           </ul>
-          <div
-            onClick={this.handleOnClickToggleBoard}
-            style={style.board.menuToggle}
-          >
+          <div onClick={this.handleOnClickToggleBoard} style={style.board.menuToggle}>
             {app.isOpenBoard ? "▲" : "▼"}
           </div>
         </div>

@@ -9,21 +9,18 @@ export default class Posts {
     return this;
   }
 
-  async getCounts(
-    requestState,
-    threadStatus = { isMultistream: false, isMediaConnection: false }
-  ) {
-    const { connection } = requestState.thread;
-    const { isMultistream, isMediaConnection } = threadStatus;
+  async getCounts(requestState, threadStatus = { isMultistream: false, isMediaCh: false }) {
+    const { ch } = requestState.thread;
+    const { isMultistream, isMediaCh } = threadStatus;
     let condition: any = {};
     condition.currentTime = 0;
-    if (isMediaConnection) {
-      condition.connection = connection;
+    if (isMediaCh) {
+      condition.ch = ch;
     } else {
       if (isMultistream) {
-        condition.connections = connection;
+        condition.chs = ch;
       } else {
-        condition.connection = connection;
+        condition.ch = ch;
       }
     }
 
@@ -32,8 +29,8 @@ export default class Posts {
   }
 
   async count(requestState) {
-    const { connection } = requestState.thread;
-    const condition = { connection };
+    const { ch } = requestState.thread;
+    const condition = { ch };
     return await this.collection.find(condition).count();
   }
 
@@ -43,32 +40,28 @@ export default class Posts {
     status = {
       isMultistream: false,
       getMore: false,
-      isMediaConnection: false
+      isMediaCh: false
     }
   ) {
-    const { isMultistream, getMore, isMediaConnection } = status;
+    const { isMultistream, getMore, isMediaCh } = status;
     const { thread, app } = requestState;
-    const { connection } = thread;
+    const { ch } = thread;
     const getDirection = getMore ? "$lt" : "$gt";
-    const connectionPart = isMultistream
-      ? { connections: connection }
-      : { connection };
-    const currentTimePart = isMediaConnection ? {} : {};
+    const chPart = isMultistream ? { chs: ch } : { ch };
+    const currentTimePart = isMediaCh ? {} : {};
     const condition = {
       ...currentTimePart,
-      ...connectionPart,
+      ...chPart,
       _id: { [getDirection]: mongoose.Types.ObjectId(app.offsetFindId) }
     };
 
-    const sort = isMediaConnection ? { currentTime: 1 } : { _id: -1 };
-    const limit = isMediaConnection
-      ? conf.findOneLimitCnt
-      : conf.findOnePostCnt;
+    const sort = isMediaCh ? { currentTime: 1 } : { _id: -1 };
+    const limit = isMediaCh ? conf.findOneLimitCnt : conf.findOnePostCnt;
     const selector = {};
     const option = { limit, sort };
     const result = await this.collection.find(condition, selector, option);
 
-    if (!isMediaConnection) {
+    if (!isMediaCh) {
       result.response.reverse();
     }
 
@@ -79,9 +72,9 @@ export default class Posts {
     const { app, user, thread } = requestState;
     const post = this.collection.getSchema({
       protocol: thread.protocol,
-      connection: thread.connection,
-      connections: thread.connections,
-      layer: Thread.getLayer(thread.connection),
+      ch: thread.ch,
+      chs: thread.chs,
+      layer: Thread.getLayer(thread.ch),
       uid: user.uid,
       utype: user.utype,
       favicon: thread.favicon,
@@ -97,8 +90,8 @@ export default class Posts {
   }
 
   async update(requestState, posts) {
-    const condition = { connection: requestState.connection };
-    const set = { connection: requestState.connection, ...posts };
+    const condition = { ch: requestState.ch };
+    const set = { ch: requestState.ch, ...posts };
     const option = { upsert: true };
     return this.collection.update(condition, set, option);
   }

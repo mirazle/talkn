@@ -96,8 +96,8 @@ export default class DetailRight {
   static getMetaContentType(params) {
     return Detail.getMetaContentType(params);
   }
-  static getConnection(params) {
-    return Detail.getConnection(params);
+  static getCh(params) {
+    return Detail.getCh(params);
   }
   static getAnalyze(params) {
     return Detail.getAnalyze(params);

@@ -39,10 +39,7 @@ export default (state: any = {}, action: any) => {
           ...state.board,
           menuLiChild: {
             ...state.board.menuLiChild,
-            color:
-              !action.app.isMediaConnection && action.app.multistream
-                ? Board.activeColor
-                : Board.unactiveColor
+            color: !action.app.isMediaCh && action.app.multistream ? Board.activeColor : Board.unactiveColor
           }
         }
       };
@@ -109,9 +106,7 @@ export default (state: any = {}, action: any) => {
           ...state.board,
           menuLiBubble: {
             ...state.board.menuLiBubble,
-            color: action.app.isBubblePost
-              ? Board.activeColor
-              : Board.unactiveColor
+            color: action.app.isBubblePost ? Board.activeColor : Board.unactiveColor
           }
         },
         posts: {
@@ -150,9 +145,7 @@ export default (state: any = {}, action: any) => {
           },
           menuLiChild: {
             ...state.menuLiChild,
-            color: App.isActiveMultistream(action.app, "reducer")
-              ? Board.activeColor
-              : Board.unactiveColor
+            color: App.isActiveMultistream(action.app, "reducer") ? Board.activeColor : Board.unactiveColor
           },
           menuLiLinks: { ...state.menuLiLinks, color: Board.unactiveColor }
         },
@@ -317,10 +310,7 @@ export default (state: any = {}, action: any) => {
           ...state.innerNotif,
           self: {
             ...state.innerNotif.self,
-            height:
-              action.app.openInnerNotif !== ""
-                ? `${InnerNotif.selfHeight}px`
-                : "0px"
+            height: action.app.openInnerNotif !== "" ? `${InnerNotif.selfHeight}px` : "0px"
           }
         }
       };

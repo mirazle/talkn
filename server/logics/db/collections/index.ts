@@ -18,17 +18,13 @@ export default class Collections {
   }
 
   static getNewApp(type, app, threadStatus, thread, posts = []) {
-    const connectioned = thread.connection;
+    const tuned = thread.ch;
     let dispThreadType = "";
 
     if (type === "getMore") {
       dispThreadType = app.dispThreadType;
     } else {
-      const { stepTo } = App.getStepToDispThreadType(
-        { app },
-        threadStatus,
-        thread.connection
-      );
+      const { stepTo } = App.getStepToDispThreadType({ app }, threadStatus, thread.ch);
       switch (stepTo) {
         case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeTimeline}`:
           dispThreadType = App.dispThreadTypeTimeline;
@@ -64,7 +60,7 @@ export default class Collections {
     const multistreamed = dispThreadType === App.dispThreadTypeMulti;
     return {
       ...app,
-      connectioned,
+      tuned,
       offsetFindId,
       dispThreadType,
       multistreamed

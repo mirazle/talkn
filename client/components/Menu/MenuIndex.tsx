@@ -7,7 +7,7 @@ import MenuIndexList from "client/components/Menu/MenuIndexList";
 
 interface Props {
   state: any;
-  handleOnClickConnection?: any;
+  handleOnClickCh?: any;
   onClickToTimelineThread?: any;
   onClickToMultiThread?: any;
   onClickToSingleThread?: any;
@@ -16,15 +16,15 @@ interface Props {
 }
 
 interface State {
-  rootConnection: any;
+  rootCh: any;
   style: any;
 }
 export default class MenuIndex extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     const { app, style } = props.state;
-    const { rootConnection } = app;
-    this.state = { rootConnection, style: style.menuIndex.headerUpdateIcon };
+    const { rootCh } = app;
+    this.state = { rootCh, style: style.menuIndex.headerUpdateIcon };
     this.handleOnClickUpdate = this.handleOnClickUpdate.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
@@ -70,13 +70,13 @@ export default class MenuIndex extends React.Component<Props, State> {
     */
   }
 
-  handleOnClickUpdate(connection) {
-    const { rootConnection } = this.props.state.app;
-    window.talknAPI.findMenuIndex(rootConnection);
+  handleOnClickUpdate(ch) {
+    const { rootCh } = this.props.state.app;
+    window.talknAPI.findMenuIndex(rootCh);
   }
 
   handleOnChange(e) {
-    this.setState({ rootConnection: e.target.value });
+    this.setState({ rootCh: e.target.value });
   }
 
   handleOnKeyPress(e) {
@@ -104,7 +104,7 @@ export default class MenuIndex extends React.Component<Props, State> {
       case "SERVER_TO_CLIENT[EMIT]:changeThread":
         switch (app.screenMode) {
           case App.screenModeSmallLabel:
-            if (!app.isLinkConnection) {
+            if (!app.isLinkCh) {
               window.talknAPI.onClickToggleDispMenu();
             }
             break;
@@ -115,7 +115,7 @@ export default class MenuIndex extends React.Component<Props, State> {
   renderLi() {
     const {
       state,
-      handleOnClickConnection,
+      handleOnClickCh,
       onClickToTimelineThread,
       onClickToMultiThread,
       onClickToSingleThread,
@@ -127,9 +127,9 @@ export default class MenuIndex extends React.Component<Props, State> {
     return menuIndex.map((mi, index) => {
       return (
         <MenuIndexList
-          key={mi.connection}
+          key={`${mi.ch}_${index}`}
           menuIndexList={mi}
-          handleOnClickConnection={handleOnClickConnection}
+          handleOnClickCh={handleOnClickCh}
           onClickToTimelineThread={onClickToTimelineThread}
           onClickToMultiThread={onClickToMultiThread}
           onClickToSingleThread={onClickToSingleThread}
@@ -158,7 +158,7 @@ export default class MenuIndex extends React.Component<Props, State> {
             onChange={this.handleOnChange}
             onKeyPress={this.handleOnKeyPress}
             placeholder={"CH"}
-            value={this.state.rootConnection}
+            value={this.state.rootCh}
           />
           <div
             style={headerUpdateIconStyle}
@@ -166,10 +166,7 @@ export default class MenuIndex extends React.Component<Props, State> {
             {...this.getDecolationProps()}
           >
             {/* IconUpdate */}
-            <select
-              onChange={window.talknAPI.onChangeFindType}
-              style={style.menuIndex.headerFindSelect}
-            >
+            <select onChange={window.talknAPI.onChangeFindType} style={style.menuIndex.headerFindSelect}>
               <option>{Thread.findTypeAll}</option>
               <option>{Thread.findTypeHtml}</option>
               <option>{Thread.findTypeMusic}</option>

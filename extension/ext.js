@@ -205,9 +205,9 @@ class Window extends Elements {
         this.refusedFrame = refusedFrame;
         this.isExt = Ext.isExt();
         this.href = window.location.href;
-        this.connection = this.href.replace("http:/", "").replace("https:/", "");
-        const hasSlash = this.connection.lastIndexOf("/") === ( this.connection.length - 1 );
-        this.connection = hasSlash ? this.connection : this.connection + "/";
+        this.ch = this.href.replace("http:/", "").replace("https:/", "");
+        const hasSlash = this.ch.lastIndexOf("/") === ( this.ch.length - 1 );
+        this.ch = hasSlash ? this.ch : this.ch + "/";
         const bootFlg = Ext.EXCLUSION_ORIGINS.every( ( origin ) => {
             return this.href.indexOf( origin ) === -1;
         });
@@ -352,21 +352,21 @@ class Window extends Elements {
         return window;
     }
 
-    isMediaConnection(){
+    isMediaCh(){
         const href = location.href;
-        let isMediaConnection = false;
+        let isMediaCh = false;
         if( href.match(/mp3$/) || href.match(/mp3\/$/) ){
-            isMediaConnection = true;
+            isMediaCh = true;
 		}
 
 		if( href.match(/mp4$/) || href.match(/mp4\/$/) ){
-            isMediaConnection = true;
+            isMediaCh = true;
         }
 
 		if( href.match(/m4a$/) || href.match(/m4a\/$/) ){
-            isMediaConnection = true;
+            isMediaCh = true;
         }
-        return isMediaConnection;
+        return isMediaCh;
     }
 
     setupMedia(){
@@ -379,11 +379,11 @@ class Window extends Elements {
             m.addEventListener( "play", ( e ) => {
 
                 media = e.srcElement;
-                const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
+                const mediaCh = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
 
-                const talknMethod =  this.state.thread.connection !== mediaConnection ? "findMediaConnection" : "playMedia";
+                const talknMethod =  this.state.thread.ch !== mediaCh ? "findMediaCh" : "playMedia";
                 if(log) console.log(":::::::::::::::: EXT play METHOD " + talknMethod + " " +  media.currentTime);
-                this.state.thread.connection = mediaConnection;
+                this.state.thread.ch = mediaCh;
                 this.childTo( talknMethod, {
                     playCnt: this.playCnt++,
                     thread: this.state.thread,
@@ -394,8 +394,8 @@ class Window extends Elements {
 
             m.addEventListener( "seeked", (e) => {
                 media = e.srcElement;
-                const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
-                this.state.thread.connection = mediaConnection;
+                const mediaCh = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
+                this.state.thread.ch = mediaCh;
                 if(log) console.log(":::::::::::::::: EXT seeked METHOD seeked " );
                 this.childTo( "playMedia", {
                     playCnt: this.playCnt++,
@@ -427,9 +427,9 @@ class Window extends Elements {
                         return false;
                     }
 
-                    const mediaConnection = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
+                    const mediaCh = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
                     if(log) console.log("EXT " + media.currentTime );
-                    this.state.thread.connection = mediaConnection;
+                    this.state.thread.ch = mediaCh;
                     this.childTo( "playMedia", {
                         playCnt: this.playCnt++,
                         thread: this.state.thread,
@@ -587,8 +587,8 @@ class Window extends Elements {
     }
     
     location(params){
-        const {protocol, connection} = params;
-        location.href = `${protocol}/${connection}`;
+        const {protocol, ch} = params;
+        location.href = `${protocol}/${ch}`;
     }
 
     linkTo(params){
@@ -823,9 +823,9 @@ class Iframe extends Elements {
 
     getSrc(){
         if( this.window.refusedFrame ){
-            return window.chrome.runtime.getURL('index.html?' + this.window.connection);
+            return window.chrome.runtime.getURL('index.html?' + this.window.ch);
         }else{
-            return Ext.APP_ENDPOINT + this.window.connection;
+            return Ext.APP_ENDPOINT + this.window.ch;
         }
     }
 
@@ -1000,9 +1000,9 @@ class Iframe extends Elements {
     }
 
     load(e){
-        const isMediaConnection = this.window.isMediaConnection();
+        const isMediaCh = this.window.isMediaCh();
         this.window.childTo("bootExtension", {
-            isMediaConnection,
+            isMediaCh,
             extensionMode: this.window.extMode,
             extensionWidth: this.getWidth(true),
             extensionOpenHeight: this.getHeight(false),

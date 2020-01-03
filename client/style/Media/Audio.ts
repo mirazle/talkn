@@ -44,10 +44,7 @@ export default class Audio {
         width = `calc( 100% - ${Menu.getWidth(app, true) + reduce}px )`;
         break;
       case App.screenModeLargeLabel:
-        width = `calc( ${100 - Detail.getWidth(app, false)}% - ${Menu.getWidth(
-          app,
-          true
-        ) + reduce}px )`;
+        width = `calc( ${100 - Detail.getWidth(app, false)}% - ${Menu.getWidth(app, true) + reduce}px )`;
         break;
     }
     return width;
@@ -68,7 +65,7 @@ export default class Audio {
   }
 
   static getSelf({ app }) {
-    const display = app.isMediaConnection ? "block" : "none";
+    const display = app.isMediaCh ? "block" : "none";
     const width = Audio.getSelfWidth(app);
     const left = Audio.getSelfLeft(app);
     const layout = Style.getLayoutBlock({

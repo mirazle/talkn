@@ -16,34 +16,18 @@ export default class Icon extends Component {
     return IconStyle.bigSize;
   }
 
-  static generateImageIcon(
-    name = "Twitter",
-    overStyle,
-    state: any = {},
-    option: any = {}
-  ) {
+  static generateImageIcon(name = "Twitter", overStyle, state: any = {}, option: any = {}) {
     if (IconStyle[`get${name}`]) {
       const onClick = option.onClick ? option.onClick : () => {};
       const href = option.href ? option.href : "";
-      const style = Icon.getOveredStyle(
-        IconStyle[`get${name}`](state, option),
-        overStyle
-      );
+      const style = Icon.getOveredStyle(IconStyle[`get${name}`](state, option), overStyle);
 
       if (!Schema.isAnonymousFunc(onClick)) {
-        return (
-          <div
-            data-component-type={`Icon${name}`}
-            onClick={onClick}
-            style={style}
-          />
-        );
+        return <div data-component-type={`Icon${name}`} onClick={onClick} style={style} />;
       }
 
       if (href !== "") {
-        return (
-          <a href={href} data-component-type={`Icon${name}`} style={style} />
-        );
+        return <a href={href} data-component-type={`Icon${name}`} style={style} />;
       }
 
       return <div data-component-type={`Icon${name}`} style={style} />;
@@ -242,10 +226,7 @@ export default class Icon extends Component {
   }
 
   static getEmpty(overStyle, state: any = {}, option: any = {}) {
-    const style = Icon.getOveredStyle(
-      IconStyle.getEmpty(state, option),
-      overStyle
-    );
+    const style = Icon.getOveredStyle(IconStyle.getEmpty(state, option), overStyle);
     return <div data-component-type={"IconEmpty"} style={style} />;
   }
 
@@ -253,12 +234,9 @@ export default class Icon extends Component {
     const { state } = props;
     const { style, app } = state;
     const ThunderIcon = Icon.getThunder(IconStyle.getThunder(state));
-    if (app.menuComponent === "Index" && app.isRootConnection) {
+    if (app.menuComponent === "Index" && app.isRootCh) {
       return (
-        <div
-          data-component-name={"multistreamIcon"}
-          style={style.container.multistreamIconWrap}
-        >
+        <div data-component-name={"multistreamIcon"} style={style.container.multistreamIconWrap}>
           {ThunderIcon}
         </div>
       );
@@ -289,13 +267,8 @@ export default class Icon extends Component {
 
   static getGraph(overStyle, state: any = {}, option: any = {}) {
     const onClick = option.onClick ? option.onClick : () => {};
-    const style = Icon.getOveredStyle(
-      IconStyle.getGraph(state, option),
-      overStyle
-    );
-    return (
-      <div data-component-type={"IconGraph"} onClick={onClick} style={style} />
-    );
+    const style = Icon.getOveredStyle(IconStyle.getGraph(state, option), overStyle);
+    return <div data-component-type={"IconGraph"} onClick={onClick} style={style} />;
   }
 
   static getTalkn(overStyle, state = {}, option = {}) {
@@ -350,10 +323,7 @@ export default class Icon extends Component {
   }
 
   static getHeaderUser(overStyle = {}) {
-    const style: any = Icon.getOveredStyle(
-      IconStyle.getHeaderUser({}),
-      overStyle
-    );
+    const style: any = Icon.getOveredStyle(IconStyle.getHeaderUser({}), overStyle);
     return (
       <div data-component-type={"IconUser"} style={style.div}>
         <span style={style.bottom}></span>
@@ -439,10 +409,7 @@ export default class Icon extends Component {
       <div data-component-type={"IconThunder"} style={style.div}>
         <div data-component-type={"IconThunderWrap"} style={style.wrap}>
           <span data-component-type={"IconThunderTop"} style={style.top}></span>
-          <span
-            data-component-type={"IconThunderBottom"}
-            style={style.bottom}
-          ></span>
+          <span data-component-type={"IconThunderBottom"} style={style.bottom}></span>
         </div>
       </div>
     );
@@ -452,10 +419,7 @@ export default class Icon extends Component {
     return (
       <div data-component-type={"IconBubbleDiv"} style={style.div}>
         <div data-component-type={"IconBubble"} style={style.bubble}></div>
-        <div
-          data-component-type={"IconBubbleBar"}
-          style={style.bubbleBar}
-        ></div>
+        <div data-component-type={"IconBubbleBar"} style={style.bubbleBar}></div>
       </div>
     );
   }
@@ -463,14 +427,8 @@ export default class Icon extends Component {
   static getPlay(style) {
     return (
       <div data-component-type={"IconPlayDiv"} style={style.div}>
-        <div
-          data-component-type={"IconPlayCircle"}
-          style={style.playCircle}
-        ></div>
-        <div
-          data-component-type={"IconPlayTriangle"}
-          style={style.playTriangle}
-        ></div>
+        <div data-component-type={"IconPlayCircle"} style={style.playCircle}></div>
+        <div data-component-type={"IconPlayTriangle"} style={style.playTriangle}></div>
       </div>
     );
   }
@@ -487,10 +445,7 @@ export default class Icon extends Component {
   }
 
   static getHeadTab(overStyle, params = {}) {
-    const style: any = Icon.getOveredStyle(
-      IconStyle.getHeadTab(params),
-      overStyle
-    );
+    const style: any = Icon.getOveredStyle(IconStyle.getHeadTab(params), overStyle);
     return (
       <div data-component-type={"IconHeadTab"} style={style.div}>
         <span style={style.left}></span>
@@ -500,10 +455,7 @@ export default class Icon extends Component {
   }
 
   static getHeart(overStyle, params = {}) {
-    const style: any = Icon.getOveredStyle(
-      IconStyle.getHeart(params),
-      overStyle
-    );
+    const style: any = Icon.getOveredStyle(IconStyle.getHeart(params), overStyle);
     return (
       <div data-component-type={"IconHeart"} style={style.div}>
         <div style={style.before}></div>
@@ -513,10 +465,7 @@ export default class Icon extends Component {
   }
 
   static getShare(overStyle, params = {}) {
-    const style: any = Icon.getOveredStyle(
-      IconStyle.getShare(params),
-      overStyle
-    );
+    const style: any = Icon.getOveredStyle(IconStyle.getShare(params), overStyle);
     return (
       <div data-component-type={"IconShare"} style={style.div}>
         <div style={style.arrow}></div>
@@ -529,10 +478,7 @@ export default class Icon extends Component {
   }
 
   static getMoney(overStyle, params = {}) {
-    const style: any = Icon.getOveredStyle(
-      IconStyle.getMoney(params),
-      overStyle
-    );
+    const style: any = Icon.getOveredStyle(IconStyle.getMoney(params), overStyle);
     return (
       <div data-component-type={"IconMoney"} style={style.div}>
         <div style={style.outer}>
@@ -543,26 +489,17 @@ export default class Icon extends Component {
   }
 
   static getOpenEmoji(overStyle, params = {}) {
-    const style: any = Icon.getOveredStyle(
-      IconStyle.getOpenEmoji(params),
-      overStyle
-    );
+    const style: any = Icon.getOveredStyle(IconStyle.getOpenEmoji(params), overStyle);
     return <div data-component-type={"IconOpenEmoji"} style={style.div} />;
   }
 
   static getCloseEmoji(overStyle, params: any = {}) {
-    const style: any = Icon.getOveredStyle(
-      IconStyle.getCloseEmoji(params),
-      overStyle
-    );
+    const style: any = Icon.getOveredStyle(IconStyle.getCloseEmoji(params), overStyle);
     return <div data-component-type={"IconCloseEmoji"} style={style.div} />;
   }
 
   static getClose(overStyle, params = {}) {
-    const style: any = Icon.getOveredStyle(
-      IconStyle.getClose(params),
-      overStyle
-    );
+    const style: any = Icon.getOveredStyle(IconStyle.getClose(params), overStyle);
     return (
       <div data-component-type={"IconClose"} style={style.div}>
         <div style={style.circle}>
@@ -591,10 +528,7 @@ export default class Icon extends Component {
   }
 
   static getUpdate(overStyle, params = {}) {
-    const style: any = Icon.getOveredStyle(
-      IconStyle.getUpdate(params),
-      overStyle
-    );
+    const style: any = Icon.getOveredStyle(IconStyle.getUpdate(params), overStyle);
     return (
       <div data-component-type={"IconUpdate"} style={style.div}>
         <div style={style.circle}>

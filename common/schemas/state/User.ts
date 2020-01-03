@@ -12,40 +12,22 @@ export default class User extends Schema {
     const utype = params && params.utype ? params.utype : "";
 
     // 削除予定
-    const connectioned =
-      params && params.connectioned ? params.connectioned : "";
-    const multistreamed =
-      params && params.multistreamed ? params.multistreamed : false;
+    const tuned = params && params.tuned ? params.tuned : "";
+    const multistreamed = params && params.multistreamed ? params.multistreamed : false;
     const actioned = params && params.actioned ? params.actioned : "";
-    const offsetFindId =
-      params && params.offsetFindId
-        ? params.offsetFindId
-        : User.defaultOffsetFindId;
+    const offsetFindId = params && params.offsetFindId ? params.offsetFindId : User.defaultOffsetFindId;
     const offsetSingleFindId =
-      params && params.offsetSingleFindId
-        ? params.offsetSingleFindId
-        : User.defaultOffsetFindId;
-    const offsetMultiFindId =
-      params && params.offsetMultiFindId
-        ? params.offsetMultiFindId
-        : User.defaultOffsetFindId;
-    const offsetChildFindId =
-      params && params.offsetChildFindId
-        ? params.offsetChildFindId
-        : User.defaultOffsetFindId;
-    const offsetLogsFindId =
-      params && params.offsetLogsFindId
-        ? params.offsetLogsFindId
-        : User.defaultOffsetFindId;
+      params && params.offsetSingleFindId ? params.offsetSingleFindId : User.defaultOffsetFindId;
+    const offsetMultiFindId = params && params.offsetMultiFindId ? params.offsetMultiFindId : User.defaultOffsetFindId;
+    const offsetChildFindId = params && params.offsetChildFindId ? params.offsetChildFindId : User.defaultOffsetFindId;
+    const offsetLogsFindId = params && params.offsetLogsFindId ? params.offsetLogsFindId : User.defaultOffsetFindId;
 
-    const requestLoginType = params.requestLoginType
-      ? params.requestLoginType
-      : "";
+    const requestLoginType = params.requestLoginType ? params.requestLoginType : "";
     const friends = [];
     return this.create({
       uid,
       utype,
-      connectioned,
+      tuned,
       multistreamed,
       actioned,
       offsetFindId,
@@ -65,11 +47,7 @@ export default class User extends Schema {
   }
 
   static getHref(params: any = {}) {
-    if (
-      typeof window !== "undefined" &&
-      window.location &&
-      window.location.href
-    ) {
+    if (typeof window !== "undefined" && window.location && window.location.href) {
       return window.location.href;
     }
 

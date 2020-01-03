@@ -46,7 +46,7 @@ export default class Detail {
     styles.description = DetailClass.getDescription(params);
     styles.metaContentTypeWrap = DetailClass.getMetaContentTypeWrap(params);
     styles.metaContentType = DetailClass.getMetaContentType(params);
-    styles.connection = DetailClass.getConnection(params);
+    styles.ch = DetailClass.getCh(params);
     styles.analyze = DetailClass.getAnalyze(params);
     styles.analyzeRow = DetailClass.getAnalyzeRow(params);
     styles.analyzeCol = DetailClass.getAnalyzeCol(params);
@@ -276,7 +276,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getConnection({ app }) {
+  static getCh({ app }) {
     const layout = Style.getLayoutBlock({
       width: "100%",
       height: "initial",

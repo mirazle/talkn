@@ -106,10 +106,10 @@ export default class App extends Schema {
   static get mediaTypeM4a() {
     return "m4a";
   }
-  static get mediaConnections() {
+  static get mediaChs() {
     return [App.mediaTypeMp3, App.mediaTypeMp4, App.mediaTypeM4a];
   }
-  static get mediaConnectionTagTypes() {
+  static get mediaChTagTypes() {
     return {
       [App.mediaTypeMp3]: App.mediaTagTypeAudio,
       [App.mediaTypeMp4]: App.mediaTagTypeVideo,
@@ -117,19 +117,19 @@ export default class App extends Schema {
     };
   }
   static getMediaType(src, params) {
-    if (params && params.connectionType) {
-      return params.connectionType;
+    if (params && params.chType) {
+      return params.chType;
     }
     return App.getMediaTypeFromSrc(src);
   }
   static getMediaTypeFromSrc(src) {
-    const mediaConnectionTagTypeKeys = Object.keys(App.mediaConnectionTagTypes);
-    const mediaConnectionTagTypeLength = mediaConnectionTagTypeKeys.length;
+    const mediaChTagTypeKeys = Object.keys(App.mediaChTagTypes);
+    const mediaChTagTypeLength = mediaChTagTypeKeys.length;
     let mediaType = "html";
-    for (let i = 0; i < mediaConnectionTagTypeLength; i++) {
-      const regExp = new RegExp(`.${mediaConnectionTagTypeKeys[i]}$`);
+    for (let i = 0; i < mediaChTagTypeLength; i++) {
+      const regExp = new RegExp(`.${mediaChTagTypeKeys[i]}$`);
       if (src.match(regExp)) {
-        mediaType = App.mediaConnectionTagTypes[mediaConnectionTagTypeKeys[i]];
+        mediaType = App.mediaChTagTypes[mediaChTagTypeKeys[i]];
         break;
       }
     }
@@ -144,14 +144,12 @@ export default class App extends Schema {
     if (value === "") return "NO INPUT POST";
     if (/^\r\n+$|\n+$|\r+$/g.test(value)) return "ONLY NEW LINE";
     if (/^\s+$/g.test(value)) return "only space";
-    if (/^\r\n+(\s|\S)+$|^\n+(\s|\S)+$|^\r+(\s|\S)+$/.test(value))
-      return "EMPTY POST";
+    if (/^\r\n+(\s|\S)+$|^\n+(\s|\S)+$|^\r+(\s|\S)+$/.test(value)) return "EMPTY POST";
     return false;
   }
 
   static getWidth(params) {
-    if (typeof window === "object" && window.innerWidth)
-      return window.innerWidth;
+    if (typeof window === "object" && window.innerWidth) return window.innerWidth;
     if (params.width) {
       if (typeof params.width === "string") {
         if (params.width.indexOf("px") >= 0) {
@@ -164,8 +162,7 @@ export default class App extends Schema {
   }
 
   static getHeight(params = {}) {
-    if (typeof window === "object" && window.innerHeight)
-      return window.innerHeight;
+    if (typeof window === "object" && window.innerHeight) return window.innerHeight;
     return 0;
   }
 
@@ -173,7 +170,7 @@ export default class App extends Schema {
     super();
 
     // 準備
-    const connection = params.connection ? params.connection : "/";
+    const ch = params.ch ? params.ch : "/";
 
     // 全体
     const name = params.name ? params.name : "talkn";
@@ -188,84 +185,44 @@ export default class App extends Schema {
     // 拡張表示の場合
     const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
-    const extensionOpenHeight = params.extensionOpenHeight
-      ? params.extensionOpenHeight
-      : 0;
-    const extensionCloseHeight = params.extensionCloseHeight
-      ? params.extensionCloseHeight
-      : 0;
+    const extensionOpenHeight = params.extensionOpenHeight ? params.extensionOpenHeight : 0;
+    const extensionCloseHeight = params.extensionCloseHeight ? params.extensionCloseHeight : 0;
 
     // Index情報
-    const menuComponent = params.menuComponent
-      ? params.menuComponent
-      : App.getDefaultMenuComponent();
+    const menuComponent = params.menuComponent ? params.menuComponent : App.getDefaultMenuComponent();
 
     // スレッド基本関連
-    const isMediaConnection = Schema.isSet(params.isMediaConnection)
-      ? params.isMediaConnection
-      : App.getIsMediaConnection(connection);
-    const isRootConnection = Schema.isSet(params.isRootConnection)
-      ? params.isRootConnection
-      : false;
-    const isLinkConnection = Schema.isSet(params.isLinkConnection)
-      ? params.isLinkConnection
-      : false;
-    const rootConnection = params.rootConnection
-      ? params.rootConnection
-      : connection;
+    const isMediaCh = Schema.isSet(params.isMediaCh) ? params.isMediaCh : App.getIsMediaCh(ch);
+    const isRootCh = Schema.isSet(params.isRootCh) ? params.isRootCh : false;
+    const isLinkCh = Schema.isSet(params.isLinkCh) ? params.isLinkCh : false;
+    const rootCh = params.rootCh ? params.rootCh : ch;
     const rootTitle = params.rootTitle ? params.rootTitle : "talkn";
-    const src = App.getMediaSrc(params.protocol, connection);
-    const connectionType = App.getMediaType(src, params);
-    const connectioned =
-      params && params.connectioned ? params.connectioned : "";
-    const dispThreadType = App.getDispThreadType(params, isMediaConnection);
-    const multistream = Schema.isSet(params.multistream)
-      ? params.multistream
-      : true;
-    const multistreamed =
-      params && params.multistreamed ? params.multistreamed : false;
-    const threadScrollY =
-      params && params.threadScrollY ? params.threadScrollY : 0;
+    const src = App.getMediaSrc(params.protocol, ch);
+    const chType = App.getMediaType(src, params);
+    const tuned = params && params.tuned ? params.tuned : "";
+    const dispThreadType = App.getDispThreadType(params, isMediaCh);
+    const multistream = Schema.isSet(params.multistream) ? params.multistream : true;
+    const multistreamed = params && params.multistreamed ? params.multistreamed : false;
+    const threadScrollY = params && params.threadScrollY ? params.threadScrollY : 0;
 
     // 投稿情報
-    const findType =
-      params && params.findType ? params.findType : Thread.findTypeAll;
-    const offsetFindId =
-      params && params.offsetFindId
-        ? params.offsetFindId
-        : App.defaultOffsetFindId;
+    const findType = params && params.findType ? params.findType : Thread.findTypeAll;
+    const offsetFindId = params && params.offsetFindId ? params.offsetFindId : App.defaultOffsetFindId;
     const offsetTimelineFindId =
-      params && params.offsetTimelineFindId
-        ? params.offsetTimelineFindId
-        : App.defaultOffsetFindId;
+      params && params.offsetTimelineFindId ? params.offsetTimelineFindId : App.defaultOffsetFindId;
     const offsetSingleFindId =
-      params && params.offsetSingleFindId
-        ? params.offsetSingleFindId
-        : App.defaultOffsetFindId;
-    const offsetMultiFindId =
-      params && params.offsetMultiFindId
-        ? params.offsetMultiFindId
-        : App.defaultOffsetFindId;
-    const offsetChildFindId =
-      params && params.offsetChildFindId
-        ? params.offsetChildFindId
-        : App.defaultOffsetFindId;
-    const offsetLogsFindId =
-      params && params.offsetLogsFindId
-        ? params.offsetLogsFindId
-        : App.defaultOffsetFindId;
+      params && params.offsetSingleFindId ? params.offsetSingleFindId : App.defaultOffsetFindId;
+    const offsetMultiFindId = params && params.offsetMultiFindId ? params.offsetMultiFindId : App.defaultOffsetFindId;
+    const offsetChildFindId = params && params.offsetChildFindId ? params.offsetChildFindId : App.defaultOffsetFindId;
+    const offsetLogsFindId = params && params.offsetLogsFindId ? params.offsetLogsFindId : App.defaultOffsetFindId;
 
     // detail情報
-    const detailConnection = params.detailConnection
-      ? params.detailConnection
-      : connection;
+    const detailCh = params.detailCh ? params.detailCh : ch;
 
     // 入力状態
     const inputPost = params.inputPost ? params.inputPost : "";
     const inputStampId = params.inputStampId ? params.inputStampId : false;
-    const inputCurrentTime = params.inputCurrentTime
-      ? params.inputCurrentTime
-      : 0.0;
+    const inputCurrentTime = params.inputCurrentTime ? params.inputCurrentTime : 0.0;
     const inputSearch = params.inputSearch ? params.inputSearch : "";
 
     // 各パーツの状態(フラグ制御)
@@ -277,42 +234,26 @@ export default class App extends Schema {
     });
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
-    const isOpenDetail = screenMode === App.screenModeDetailLabel ?
-      true : ( Schema.isSet(params.isOpenDetail) ? params.isOpenDetail : false );
+    const isOpenDetail =
+      screenMode === App.screenModeDetailLabel ? true : Schema.isSet(params.isOpenDetail) ? params.isOpenDetail : false;
     const isOpenNewPost = params.isOpenNewPost ? params.isOpenNewPost : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
-    const isOpenPostsSupporter = Schema.isSet(params.isOpenPostsSupporter)
-      ? params.isOpenPostsSupporter
-      : false;
-    const isOpenBoard = Schema.isSet(params.isOpenBoard)
-      ? params.isOpenBoard
-      : App.getIsOpenBoard({ screenMode });
-    const isBubblePost = Schema.isSet(params.isBubblePost)
-      ? params.isBubblePost
-      : true;
-    const isDispPosts = Schema.isSet(params.isDispPosts)
-      ? params.isDispPosts
-      : false;
-    const isOpenLinks = Schema.isSet(params.isOpenLinks)
-      ? params.isOpenLinks
-      : false;
+    const isOpenPostsSupporter = Schema.isSet(params.isOpenPostsSupporter) ? params.isOpenPostsSupporter : false;
+    const isOpenBoard = Schema.isSet(params.isOpenBoard) ? params.isOpenBoard : App.getIsOpenBoard({ screenMode });
+    const isBubblePost = Schema.isSet(params.isBubblePost) ? params.isBubblePost : true;
+    const isDispPosts = Schema.isSet(params.isDispPosts) ? params.isDispPosts : false;
+    const isOpenLinks = Schema.isSet(params.isOpenLinks) ? params.isOpenLinks : false;
 
     // 各パーツの状態(文字列制御)
     const openInnerNotif = params.openInnerNotif ? params.openInnerNotif : "";
-    const openLockMenu = params.openLockMenu
-      ? params.openLockMenu
-      : App.openLockMenuLabelNo;
+    const openLockMenu = params.openLockMenu ? params.openLockMenu : App.openLockMenuLabelNo;
 
     const includeIframeTag = App.getIncludeIframeTag(params, extensionMode);
 
     // その他
     const actioned = params && params.actioned ? params.actioned : "";
-    const isTransition = Schema.isSet(params.isTransition)
-      ? params.isTransition
-      : false;
-    const isLoadingEnd = Schema.isSet(params.isLoadingEnd)
-      ? params.isLoadingEnd
-      : false;
+    const isTransition = Schema.isSet(params.isTransition) ? params.isTransition : false;
+    const isLoadingEnd = Schema.isSet(params.isLoadingEnd) ? params.isLoadingEnd : false;
     const debug = Schema.isSet(params.debug) ? params.debug : "";
 
     return this.create({
@@ -337,14 +278,14 @@ export default class App extends Schema {
 
       // スレッド基本関連
 
-      isRootConnection,
-      isLinkConnection,
-      isMediaConnection,
-      rootConnection,
+      isRootCh,
+      isLinkCh,
+      isMediaCh,
+      rootCh,
       rootTitle,
-      connectionType,
+      chType,
       dispThreadType,
-      connectioned,
+      tuned,
       multistream,
       multistreamed,
       threadScrollY,
@@ -359,7 +300,7 @@ export default class App extends Schema {
       offsetLogsFindId,
 
       // detail情報
-      detailConnection,
+      detailCh,
 
       // 入力状態
       inputPost,
@@ -396,9 +337,7 @@ export default class App extends Schema {
   }
 
   static isMediaContentType(contentType) {
-    return (
-      App.isAudioContentType(contentType) || App.isVideoContentType(contentType)
-    );
+    return App.isAudioContentType(contentType) || App.isVideoContentType(contentType);
   }
 
   static isAudioContentType(contentType) {
@@ -409,8 +348,8 @@ export default class App extends Schema {
     return contentType.indexOf(App.mediaTagTypeVideo) >= 0;
   }
 
-  static getMediaSrc(protocol, connection) {
-    return protocol + "/" + connection.replace(/\/$/, "");
+  static getMediaSrc(protocol, ch) {
+    return protocol + "/" + ch.replace(/\/$/, "");
   }
 
   static getScreenMode(widthPx: any = 0) {
@@ -432,10 +371,7 @@ export default class App extends Schema {
       return App.screenModeSmallLabel;
     }
 
-    if (
-      App.screenModeSmallWidthPx < widthPx &&
-      App.screenModeMiddleWidthPx >= widthPx
-    ) {
+    if (App.screenModeSmallWidthPx < widthPx && App.screenModeMiddleWidthPx >= widthPx) {
       return App.screenModeMiddleLabel;
     }
     return App.screenModeLargeLabel;
@@ -448,81 +384,46 @@ export default class App extends Schema {
     return extensionMode === App.extensionModeExtNoneLabel ? false : true;
   }
 
-  static getIsMediaConnection(connection) {
-    return App.mediaConnections.some(ext => {
+  static getIsMediaCh(ch) {
+    return App.mediaChs.some(ext => {
       const regexp = new RegExp(`.${ext}\/$|.${ext}$`);
-      return connection.match(regexp);
+      return ch.match(regexp);
     });
   }
 
   static getIsOpenPosts(app: any, called: string = "") {
-    let {
-      extensionMode,
-      height,
-      extensionOpenHeight,
-      extensionCloseHeight
-    } = app;
+    let { extensionMode, height, extensionOpenHeight, extensionCloseHeight } = app;
     const log = false;
     const al = false;
-    if (
-      extensionMode === App.extensionModeExtBottomLabel ||
-      extensionMode === App.extensionModeExtModalLabel
-    ) {
+    if (extensionMode === App.extensionModeExtBottomLabel || extensionMode === App.extensionModeExtModalLabel) {
       if (typeof height !== "number") height = Number(height);
-      if (typeof extensionOpenHeight !== "number")
-        extensionOpenHeight = Number(extensionOpenHeight);
+      if (typeof extensionOpenHeight !== "number") extensionOpenHeight = Number(extensionOpenHeight);
 
       if (height === 0) {
-        if (log)
-          console.log(
-            "@getIsOpenPosts A " + " " + extensionOpenHeight + " " + height
-          );
-        if (al)
-          alert(
-            "@getIsOpenPosts A " + " " + extensionOpenHeight + " " + height
-          );
+        if (log) console.log("@getIsOpenPosts A " + " " + extensionOpenHeight + " " + height);
+        if (al) alert("@getIsOpenPosts A " + " " + extensionOpenHeight + " " + height);
         return false;
       }
 
       if (extensionCloseHeight === height) {
-        if (log)
-          console.log(
-            "@getIsOpenPosts B " + " " + extensionOpenHeight + " " + height
-          );
-        if (al)
-          alert(
-            "@getIsOpenPosts B " + " " + extensionOpenHeight + " " + height
-          );
+        if (log) console.log("@getIsOpenPosts B " + " " + extensionOpenHeight + " " + height);
+        if (al) alert("@getIsOpenPosts B " + " " + extensionOpenHeight + " " + height);
         return false;
       }
 
       // MEMO: スマホで入力モードになった時にheightがextensionOpenHeightを上回る時があるため
       if (extensionOpenHeight <= height) {
-        if (log)
-          console.log(
-            "@getIsOpenPosts C " + " " + extensionOpenHeight + " " + height
-          );
-        if (al)
-          alert(
-            "@getIsOpenPosts C " + " " + extensionOpenHeight + " " + height
-          );
+        if (log) console.log("@getIsOpenPosts C " + " " + extensionOpenHeight + " " + height);
+        if (al) alert("@getIsOpenPosts C " + " " + extensionOpenHeight + " " + height);
         return true;
       }
 
-      if (log)
-        console.log(
-          "@getIsOpenPosts D " + " " + extensionOpenHeight + " " + height
-        );
-      if (al)
-        alert("@getIsOpenPosts D " + " " + extensionOpenHeight + " " + height);
+      if (log) console.log("@getIsOpenPosts D " + " " + extensionOpenHeight + " " + height);
+      if (al) alert("@getIsOpenPosts D " + " " + extensionOpenHeight + " " + height);
       return false;
     } else {
-      if (log)
-        console.log(
-          "@getIsOpenPosts E " + " " + extensionOpenHeight + " " + height
-        );
-      if (al)
-        alert("@getIsOpenPosts E " + " " + extensionOpenHeight + " " + height);
+      if (log) console.log("@getIsOpenPosts E " + " " + extensionOpenHeight + " " + height);
+      if (al) alert("@getIsOpenPosts E " + " " + extensionOpenHeight + " " + height);
       return true;
     }
   }
@@ -538,18 +439,14 @@ export default class App extends Schema {
   }
 
   static isActiveMultistream(app, called = "") {
-    return (
-      app.menuComponent === "Index" &&
-      !app.isMediaConnection &&
-      app.dispThreadType === App.dispThreadTypeMulti
-    );
+    return app.menuComponent === "Index" && !app.isMediaCh && app.dispThreadType === App.dispThreadTypeMulti;
   }
 
-  static getDispThreadType(params, isMediaConnection) {
+  static getDispThreadType(params, isMediaCh) {
     if (params && params.dispThreadType) {
       return params.dispThreadType;
     } else {
-      if (isMediaConnection) {
+      if (isMediaCh) {
         return App.dispThreadTypeTimeline;
       } else {
         return App.dispThreadTypeMulti;
@@ -564,44 +461,22 @@ export default class App extends Schema {
     return Post.defaultFindId;
   }
 
-  static getStepToDispThreadType(
-    { app, menuIndex }: any,
-    threadStatus: any,
-    toConnection: any,
-    called: any = ""
-  ) {
+  static getStepToDispThreadType({ app, menuIndex }: any, threadStatus: any, toCh: any, called: any = "") {
     let afterDispThreadType = "";
     const beforeDispThreadType = app.dispThreadType;
-    app = App.getStepDispThreadType(
-      { app, menuIndex },
-      threadStatus,
-      toConnection,
-      called
-    );
+    app = App.getStepDispThreadType({ app, menuIndex }, threadStatus, toCh, called);
     afterDispThreadType = app.dispThreadType;
     return { app, stepTo: `${beforeDispThreadType} to ${afterDispThreadType}` };
   }
 
-  static getStepDispThreadType(
-    { app, menuIndex },
-    threadStatus: any = {},
-    toConnection,
-    called
-  ) {
+  static getStepDispThreadType({ app, menuIndex }, threadStatus: any = {}, toCh, called) {
     const log = false;
-    app.isLinkConnection = false;
+    app.isLinkCh = false;
     app.isOpenLinks = false;
 
-    if (log)
-      console.log(
-        called +
-          " rootConnection = " +
-          app.rootConnection +
-          " toConnection = " +
-          toConnection
-      );
+    if (log) console.log(called + " rootCh = " + app.rootCh + " toCh = " + toCh);
 
-    if (called === "backToRootConnection") {
+    if (called === "backToRootCh") {
       if (app.screenMode === App.screenModeSmallLabel) {
         if (log) console.log("A");
         // onClickToggleDispMenuで強制的にメニューが開いてしまうため、開けた状態にしておく。
@@ -612,23 +487,18 @@ export default class App extends Schema {
 
     if (log) console.log(menuIndex);
 
-    if (threadStatus.isMediaConnection) {
+    if (threadStatus.isMediaCh) {
       if (log) console.log("B");
       app.dispThreadType = App.dispThreadTypeTimeline;
-      app.offsetFindId = app.offsetTimelineFindId
-        ? app.offsetTimelineFindId
-        : App.defaultOffsetFindId;
-      app.isLinkConnection =
-        called === "toLinks" || called === "findMediaConnection" ? true : false;
-      app.isMediaConnection = true;
+      app.offsetFindId = app.offsetTimelineFindId ? app.offsetTimelineFindId : App.defaultOffsetFindId;
+      app.isLinkCh = called === "toLinks" || called === "findMediaCh" ? true : false;
+      app.isMediaCh = true;
       return app;
     }
 
     if (called === "toLinks") {
       const haveMenuIndex = menuIndex.some(mi => {
-        return (
-          mi.connection === toConnection || mi.connection === toConnection + "/"
-        );
+        return mi.ch === toCh || mi.ch === toCh + "/";
       });
       if (log) console.log("C " + haveMenuIndex + "");
       if (!haveMenuIndex) {
@@ -636,32 +506,26 @@ export default class App extends Schema {
         app.offsetFindId = App.defaultOffsetFindId;
         app.dispThreadType = App.dispThreadTypeChild;
         app.isOpenLinks = false;
-        app.isLinkConnection = true;
+        app.isLinkCh = true;
         app.isOpenMenu = true;
         return app;
       }
     }
 
-    if (app.rootConnection === toConnection) {
+    if (app.rootCh === toCh) {
       if (app.multistream) {
         if (log) console.log("E");
         app.dispThreadType = App.dispThreadTypeMulti;
-        app.offsetFindId = app.offsetMultiFindId
-          ? app.offsetMultiFindId
-          : App.defaultOffsetFindId;
+        app.offsetFindId = app.offsetMultiFindId ? app.offsetMultiFindId : App.defaultOffsetFindId;
       } else {
         if (log) console.log("F");
         app.dispThreadType = App.dispThreadTypeSingle;
-        app.offsetFindId = app.offsetSingleFindId
-          ? app.offsetSingleFindId
-          : App.defaultOffsetFindId;
+        app.offsetFindId = app.offsetSingleFindId ? app.offsetSingleFindId : App.defaultOffsetFindId;
       }
     } else {
       if (log) console.log("G");
       app.dispThreadType = App.dispThreadTypeChild;
-      app.offsetFindId = app.offsetChildFindId
-        ? app.offsetChildFindId
-        : App.defaultOffsetFindId;
+      app.offsetFindId = app.offsetChildFindId ? app.offsetChildFindId : App.defaultOffsetFindId;
     }
     if (log) console.log(app);
     return app;
@@ -677,7 +541,7 @@ export default class App extends Schema {
             break;
           case App.screenModeMiddleLabel:
             if (app.isOpenDetail) {
-              if (app.detailConnection === app.rootConnection) {
+              if (app.detailCh === app.rootCh) {
                 app.isOpenDetail = false;
                 app.isOpenMenu = true;
               } else {

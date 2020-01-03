@@ -48,10 +48,10 @@ class Container extends Component<Props, State> {
     const { state, talknAPI } = props;
     const { app, thread } = state;
     this.state = { notifs: [] };
-    talknAPI.find(thread.connection);
+    talknAPI.find(thread.ch);
 
     if (app.extensionMode === App.extensionModeExtIncludeLabel || app.extensionMode === App.extensionModeExtNoneLabel) {
-      talknAPI.findMenuIndex(thread.connection);
+      talknAPI.findMenuIndex(thread.ch);
     }
     this.getProps = this.getProps.bind(this);
     this.getNotifs = this.getNotifs.bind(this);
@@ -63,7 +63,7 @@ class Container extends Component<Props, State> {
     this.handleOnClickToggleMain = this.handleOnClickToggleMain.bind(this);
     this.handleOnClickToggleDetail = this.handleOnClickToggleDetail.bind(this);
     this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
-    this.handleOnClickConnection = this.handleOnClickConnection.bind(this);
+    this.handleOnClickCh = this.handleOnClickCh.bind(this);
   }
 
   componentDidMount() {
@@ -83,7 +83,7 @@ class Container extends Component<Props, State> {
       handleOnClickMultistream: this.handleOnClickMultistream,
       handleOnClickToggleMain: this.handleOnClickToggleMain,
       handleOnClickToggleDetail: this.handleOnClickToggleDetail,
-      handleOnClickConnection: this.handleOnClickConnection
+      handleOnClickCh: this.handleOnClickCh
     };
   }
 
@@ -115,7 +115,7 @@ class Container extends Component<Props, State> {
 
       window.talknWindow.parentTo("toggleIframe");
 
-      if (!app.isLinkConnection) {
+      if (!app.isLinkCh) {
         window.talknWindow.parentTo("getClientMetas");
       }
     }
@@ -130,8 +130,8 @@ class Container extends Component<Props, State> {
     const { app } = this.props.state;
     let { postsMulti, postsSingle } = this.props.state;
     let findFlg = false;
-    const postsMultiCache = TalknSession.getStorage(app.rootConnection, define.storageKey.postsMulti);
-    const postsSingleCache = TalknSession.getStorage(app.rootConnection, define.storageKey.postsSingle);
+    const postsMultiCache = TalknSession.getStorage(app.rootCh, define.storageKey.postsMulti);
+    const postsSingleCache = TalknSession.getStorage(app.rootCh, define.storageKey.postsSingle);
     postsMulti = postsMultiCache && postsMultiCache.length > 0 ? postsMultiCache : postsMulti;
     postsSingle = postsSingleCache && postsSingleCache.length > 0 ? postsSingleCache : postsSingle;
 
@@ -163,18 +163,18 @@ class Container extends Component<Props, State> {
     this.props.onClickMultistream({ app, postsMulti, postsSingle });
 
     if (findFlg) {
-      window.talknAPI.find(app.rootConnection);
+      window.talknAPI.find(app.rootCh);
     }
   }
 
-  handleOnClickConnection(toConnection, overWriteHasSlash, called = "") {
-    actionWrap.onClickConnection(toConnection, overWriteHasSlash, called);
+  handleOnClickCh(toCh, overWriteHasSlash, called = "") {
+    actionWrap.onClickCh(toCh, overWriteHasSlash, called);
   }
 
   getLinkLabel(props) {
     const { state } = this.props;
     const { app, style, thread } = state;
-    if (app.isLinkConnection) {
+    if (app.isLinkCh) {
       return (
         <div data-component-name={"linkLabel"} style={style.container.linkLabel}>
           <Marquee text={`Link: ${thread.title}`} loop={true} hoverToStop={false} trailing={0} leading={0} />
@@ -406,7 +406,7 @@ class Container extends Component<Props, State> {
 
   render() {
     const { style, app, actionLog } = this.props.state;
-    if (style && style.container && style.container.self && app.connectioned) {
+    if (style && style.container && style.container.self && app.tuned) {
       if (
         app.extensionMode === App.extensionModeExtBottomLabel ||
         app.extensionMode === App.extensionModeExtModalLabel

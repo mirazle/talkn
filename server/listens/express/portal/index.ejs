@@ -1,70 +1,139 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html amp lang="<%= language %>">
-<head>
-  <title>talkn</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-  <meta name="theme-color" content="rgb(79, 174, 159)">
-  <meta name="description" content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn.">
-  <meta name="keywords" content="talkn">
-  <meta name="title" content="talkn">
-  <meta name=”robots” content=”index,nofollow,noarchive”>
+  <head>
+    <title>talkn</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+    />
+    <meta name="theme-color" content="rgb(79, 174, 159)" />
+    <meta
+      name="description"
+      content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn."
+    />
+    <meta name="keywords" content="talkn" />
+    <meta name="title" content="talkn" />
+    <meta name="”robots”" content="”index,nofollow,noarchive”" />
 
-  <meta property="og:title" content="talkn">
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://<%= domain %>">
-	<meta property="og:image" content="https://<%= assetsURL %>/img/talkn_logo1.png">
-	<meta property="og:site_name" content="talkn">
-	<meta property="og:description" content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn.">
-	<meta property="fb:page_id" content="641091596303567">
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:site" content="@IoTalkn">
-	<meta name="twitter:url" content="https://<%= domain %>">
-	<meta name="twitter:title" content="talkn">
-	<meta name="twitter:description" content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn.">
-	<meta name="twitter:image" content="https://<%= assetsURL %>/img/talkn_logo1.png">
+    <meta property="og:title" content="talkn" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://<%= domain %>" />
+    <meta property="og:image" content="https://<%= assetsURL %>/img/talkn_logo1.png" />
+    <meta property="og:site_name" content="talkn" />
+    <meta
+      property="og:description"
+      content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn."
+    />
+    <meta property="fb:page_id" content="641091596303567" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@IoTalkn" />
+    <meta name="twitter:url" content="https://<%= domain %>" />
+    <meta name="twitter:title" content="talkn" />
+    <meta
+      name="twitter:description"
+      content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn."
+    />
+    <meta name="twitter:image" content="https://<%= assetsURL %>/img/talkn_logo1.png" />
 
-  <link rel="manifest" href="https://<%= domain %>/manifest.json">
-  <link rel="shortcut icon" href="https://<%= assetsURL %>/favicon.ico">
-  <link rel="canonical" href="https://<%= domain %>">
-  <script async src="https://cdn.ampproject.org/v0.js"></script>
-  <script type='text/javascript'>
-
-    function onServiceWorker(){
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/portal_sw.js').then(function(registration) {
-                console.log('[ServiceWorker] suscessful: ', registration.scope);
-            }).catch(function(err) {
-                console.log('[ServiceWorker] failed: ', err);
+    <link rel="manifest" href="https://<%= domain %>/manifest.json" />
+    <link rel="shortcut icon" href="https://<%= assetsURL %>/favicon.ico" />
+    <link rel="canonical" href="https://<%= domain %>" />
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script type="text/javascript">
+      function onServiceWorker() {
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker
+            .register("/portal_sw.js")
+            .then(function(registration) {
+              console.log("[ServiceWorker] suscessful: ", registration.scope);
+            })
+            .catch(function(err) {
+              console.log("[ServiceWorker] failed: ", err);
             });
         }
-    }
+      }
 
-    onServiceWorker();
-    var includeIframeTag =  "<%= includeIframeTag %>" ? "<%= includeIframeTag %>" : true;
-    //var connection = "<%= connection %>" ? "<%= connection %>" : location.href.replace(location.origin, '');
-    
-    // Caution!! location is talkn.io base or localhost base.
-    // [ Example: https://talkn.io/xxxxxxx.html/ ]
-    var connection = location.href.replace(location.origin, '');
-    var hasSlash = connection.lastIndexOf("/") === ( connection.length - 1 );
-    connection = hasSlash ? connection : connection + "/";
-    var script = document.createElement("script");
-    script.setAttribute( 'id', 'talkn' );
-		script.setAttribute( 'type', 'text/javascript' );
-		script.setAttribute( 'src',"https://<%= clientURL %>" );
-		script.setAttribute( 'connection', connection );
-		script.setAttribute( 'hasSlash', hasSlash );
-    script.setAttribute( 'width', '320px' );
-    script.setAttribute( 'includeIframeTag', includeIframeTag );
-    document.head.appendChild( script );
-  </script>
-  <noscript key="noscript">Your browser does not support JavaScript!</noscript>
-  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+      onServiceWorker();
+      var includeIframeTag = "<%= includeIframeTag %>" ? "<%= includeIframeTag %>" : true;
+      //var ch = "<%= ch %>" ? "<%= ch %>" : location.href.replace(location.origin, '');
 
-</head>
-<body>
-  <div id="talkn1"></div>
-</body>
+      // Caution!! location is talkn.io base or localhost base.
+      // [ Example: https://talkn.io/xxxxxxx.html/ ]
+      var ch = location.href.replace(location.origin, "");
+      var hasSlash = ch.lastIndexOf("/") === ch.length - 1;
+      ch = hasSlash ? ch : ch + "/";
+      var script = document.createElement("script");
+      script.setAttribute("id", "talkn");
+      script.setAttribute("type", "text/javascript");
+      script.setAttribute("src", "https://<%= clientURL %>");
+      script.setAttribute("ch", ch);
+      script.setAttribute("hasSlash", hasSlash);
+      script.setAttribute("width", "320px");
+      script.setAttribute("includeIframeTag", includeIframeTag);
+      document.head.appendChild(script);
+    </script>
+    <noscript key="noscript">Your browser does not support JavaScript!</noscript>
+    <style amp-boilerplate>
+      body {
+        -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        -moz-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        -ms-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+        animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+      }
+      @-webkit-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @-moz-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @-ms-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @-o-keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+      @keyframes -amp-start {
+        from {
+          visibility: hidden;
+        }
+        to {
+          visibility: visible;
+        }
+      }
+    </style>
+    <noscript
+      ><style amp-boilerplate>
+        body {
+          -webkit-animation: none;
+          -moz-animation: none;
+          -ms-animation: none;
+          animation: none;
+        }
+      </style></noscript
+    >
+  </head>
+  <body>
+    <div id="talkn1"></div>
+  </body>
 </html>

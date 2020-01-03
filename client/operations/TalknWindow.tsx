@@ -31,8 +31,8 @@ export default class TalknWindow {
           initialApp.height = bootOption.extensionOpenHeight;
           break;
         case App.extensionModeExtModalLabel:
-          const connection = bootOption.href.replace("https:/", "").replace("http:/", "");
-          initialApp.hasslash = connection.lastIndexOf("/") === connection.length - 1;
+          const ch = bootOption.href.replace("https:/", "").replace("http:/", "");
+          initialApp.hasslash = ch.lastIndexOf("/") === ch.length - 1;
           break;
       }
     }
@@ -40,8 +40,8 @@ export default class TalknWindow {
   }
   static getHasSlach(bootOption) {
     if (bootOption.href) {
-      const connection = bootOption.href.replace("https:/", "").replace("http:/", "");
-      return connection.lastIndexOf("/") === connection.length - 1;
+      const ch = bootOption.href.replace("https:/", "").replace("http:/", "");
+      return ch.lastIndexOf("/") === ch.length - 1;
     } else {
       return bootOption.hasslash ? Schema.getBool(bootOption.hasslash) : false;
     }
@@ -145,7 +145,7 @@ export default class TalknWindow {
       new Promise(resolve => {
         const store = configureStore();
         this.talknAPI = new TalknAPI(this.talknIndex, resolve);
-        this.talknAPI.connectioned(this.talknIndex, store);
+        this.talknAPI.tuned(this.talknIndex, store);
       })
     );
 
@@ -205,13 +205,13 @@ export default class TalknWindow {
   }
 
   boot(bootOption) {
-    const connection = bootOption.connection;
+    const ch = bootOption.ch;
     const initialApp = TalknWindow.getInitialApp(bootOption);
 
-    const caches = TalknSession.getCaches(connection);
+    const caches = TalknSession.getCaches(ch);
 
     const state = new State(this.talknIndex, window, bootOption, initialApp, caches);
-    this.talknAPI.booted(state, connection);
+    this.talknAPI.booted(state, ch);
     this.talknAPI.initClientState(state);
 
     ReactDOM.render(
@@ -233,18 +233,18 @@ export default class TalknWindow {
           this.parentTo("bootExtension", conf);
           resolve(e.data.params);
           break;
-        case "findMediaConnection":
-          if (e.data.params.thread && e.data.params.thread.connection) {
-            if (log) console.log("============== findMediaConnection A " + e.data.params.thread.connection);
-            actionWrap.onClickConnection(e.data.params.thread.connection, false, e.data.method);
+        case "findMediaCh":
+          if (e.data.params.thread && e.data.params.thread.ch) {
+            if (log) console.log("============== findMediaCh A " + e.data.params.thread.ch);
+            actionWrap.onClickCh(e.data.params.thread.ch, false, e.data.method);
             TalknMedia.init("TalknWindow");
             window.talknAPI.startLinkMedia(e.data.params);
             window.talknMedia = new TalknMedia();
           }
           break;
         case "playMedia":
-          const connection = e.data.params.thread.connection;
-          const isExistThreadData = window.talknAPI.store.getState().threads[connection];
+          const ch = e.data.params.thread.ch;
+          const isExistThreadData = window.talknAPI.store.getState().threads[ch];
 
           if (log && window.talknMedia)
             console.log("========================= playMedia " + window.talknMedia.currentTime);
@@ -263,16 +263,16 @@ export default class TalknWindow {
 
           if (
             e.data.params.thread &&
-            e.data.params.thread.connection &&
+            e.data.params.thread.ch &&
             window.talknMedia &&
             window.talknMedia.timeline &&
             window.talknMedia.timeline.length === 0 &&
             window.talknMedia.started === false &&
             isExistThreadData
           ) {
-            const timeline = storage.getStoragePostsTimeline(connection);
+            const timeline = storage.getStoragePostsTimeline(ch);
 
-            if (log) console.log("============== playMedia C " + connection);
+            if (log) console.log("============== playMedia C " + ch);
 
             window.talknMedia.setTimeline(timeline);
           }

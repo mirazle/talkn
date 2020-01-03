@@ -22,14 +22,7 @@ export default class Thread extends Schema {
   static get findTypes() {
     return {
       [Thread.findTypeHtml]: ["text/html"],
-      [Thread.findTypeMusic]: [
-        "audio",
-        "audio/mpeg",
-        "audio/mp4",
-        "audio/x-wav",
-        "audio/midi",
-        "application/x-smaf"
-      ],
+      [Thread.findTypeMusic]: ["audio", "audio/mpeg", "audio/mp4", "audio/x-wav", "audio/midi", "application/x-smaf"],
       [Thread.findTypeVideo]: [
         "video",
         "video/mpeg",
@@ -53,34 +46,28 @@ export default class Thread extends Schema {
   }
 
   protocol: any;
-  connection: any;
+  ch: any;
   constructor(params: any = {}, bootOption: any = {}, cache: any = {}) {
     super();
-    const thread = Thread.isWindowObj(params)
-      ? Thread.constructorFromWindow(params, bootOption, cache)
-      : params;
+    const thread = Thread.isWindowObj(params) ? Thread.constructorFromWindow(params, bootOption, cache) : params;
     return this.create(thread);
   }
 
   static constructorFromWindow(params, bootOption, cache) {
-    const bootConnection = bootOption.connection
-      ? bootOption.connection
-      : false;
-    const connection = Thread.getConnection(bootOption, bootConnection);
+    const bootCh = bootOption.ch ? bootOption.ch : false;
+    const ch = Thread.getCh(bootOption, bootCh);
 
-    if (cache.connection && cache.connection === connection) {
+    if (cache.ch && cache.ch === ch) {
       return cache;
     } else {
       let thread: any = {};
       thread.location = {};
       thread.href = "";
-      thread.connection = connection;
-      thread.connections = ["/"];
-      thread.hasSlash = bootOption.hasslash
-        ? Schema.getBool(bootOption.hasslash)
-        : false;
+      thread.ch = ch;
+      thread.chs = ["/"];
+      thread.hasSlash = bootOption.hasslash ? Schema.getBool(bootOption.hasslash) : false;
 
-      console.log( "constructorFromWindow @@@@@@@@@@@@@" + thread.hasSlash );
+      console.log("constructorFromWindow @@@@@@@@@@@@@" + thread.hasSlash);
 
       thread.protocol = "talkn:";
       thread.contentType = "";
@@ -89,20 +76,14 @@ export default class Thread extends Schema {
       thread.favicon = Thread.getDefaultFavicon();
       thread.findType = Thread.findTypeAll;
 
-      if (bootConnection) {
+      if (bootCh) {
         // URLのコネクション文字列からではPROTOCOLは判別できない。
-        thread.protocol = Thread.getProtocol(bootConnection);
-        thread.host = Thread.getHost(bootConnection);
-        thread.connections =
-          bootConnection.connections && bootConnection.connections.length > 0
-            ? bootConnection.connections
-            : Thread.getConnections(connection);
+        thread.protocol = Thread.getProtocol(bootCh);
+        thread.host = Thread.getHost(bootCh);
+        thread.chs = bootCh.chs && bootCh.chs.length > 0 ? bootCh.chs : Thread.getChs(ch);
       } else {
         thread.protocol = location.protocol ? location.protocol : "????:";
-        thread.connections =
-          params.connections && params.connections.length > 0
-            ? params.connections
-            : Thread.getConnections(connection);
+        thread.chs = params.chs && params.chs.length > 0 ? params.chs : Thread.getChs(ch);
         thread.contentType = document.contentType ? document.contentType : "";
         thread.charset = document.charset ? document.charset : "";
 
@@ -118,23 +99,20 @@ export default class Thread extends Schema {
       thread.h1s = [];
       thread.audios = [];
       thread.videos = [];
-      thread.layer = Thread.getLayer(thread.connection);
+      thread.layer = Thread.getLayer(thread.ch);
       thread.mediaIndex = [];
       thread.postCnt = 0;
       thread.multiPostCnt = 0;
-      thread.isSelfConnection = Thread.getIsSelfConnection(
-        thread.href,
-        thread.connection
-      );
+      thread.isSelfCh = Thread.getIsSelfCh(thread.href, thread.ch);
       thread.createTime = "";
       thread.updateTime = "";
       return thread;
     }
   }
 
-  static getConnection(bootOption: any, bootConnection: any) {
-    if (bootConnection) {
-      return bootConnection;
+  static getCh(bootOption: any, bootCh: any) {
+    if (bootCh) {
+      return bootCh;
     } else {
       const location: any = window.location ? window.location : {};
       let href = location.href ? location.href : "";
@@ -149,59 +127,52 @@ export default class Thread extends Schema {
     }
   }
 
-  static getConnectionTop(connection) {
-    if (connection !== "") {
-      return "/" + connection.split("/")[1];
+  static getChTop(ch) {
+    if (ch !== "") {
+      return "/" + ch.split("/")[1];
     } else {
       return "";
     }
   }
 
-  static getConnections(_connection) {
-    let connections = ["/"];
+  static getChs(_ch) {
+    let chs = ["/"];
 
-    if (_connection !== "") {
-      //connection = connection.replace(/\u002f$/g, '');
-      const connection =
-        _connection.slice(-1) === "/" ? _connection : _connection + "/";
+    if (_ch !== "") {
+      //ch = ch.replace(/\u002f$/g, '');
+      const ch = _ch.slice(-1) === "/" ? _ch : _ch + "/";
 
-      if (connection !== "/") {
-        const connectionArr = connection.split("/");
-        const connectionLength = connectionArr.length;
-        let newConnection = "";
-        let noSlashConnection = "";
-        for (var i = 1; i < connectionLength; i++) {
-          if (connectionArr[i] !== "") {
-            newConnection += connectionArr[i];
+      if (ch !== "/") {
+        const chArr = ch.split("/");
+        const chLength = chArr.length;
+        let newCh = "";
+        let noSlashCh = "";
+        for (var i = 1; i < chLength; i++) {
+          if (chArr[i] !== "") {
+            newCh += chArr[i];
 
             // 一番最後が/の場合
-            newConnection =
-              newConnection.slice(-1) === "/"
-                ? newConnection
-                : newConnection + "/";
+            newCh = newCh.slice(-1) === "/" ? newCh : newCh + "/";
 
             // 一番最初が/の場合
-            newConnection =
-              newConnection.slice(0, 1) === "/"
-                ? newConnection
-                : "/" + newConnection;
+            newCh = newCh.slice(0, 1) === "/" ? newCh : "/" + newCh;
 
             // 最後が/無しのコネクションを生成
-            //noSlashConnection = newConnection.slice(0, -1);
+            //noSlashCh = newCh.slice(0, -1);
 
-            //connections.push( noSlashConnection );
-            connections.push(newConnection);
+            //chs.push( noSlashCh );
+            chs.push(newCh);
           }
         }
       }
     }
-    return connections;
+    return chs;
   }
 
-  static getHost(connection) {
-    if (connection.indexOf(".") >= 0) {
-      connection = connection.replace("https://", "").replace("http://", "");
-      return connection.replace(/^\//, "").replace(/\/.*$/, "");
+  static getHost(ch) {
+    if (ch.indexOf(".") >= 0) {
+      ch = ch.replace("https://", "").replace("http://", "");
+      return ch.replace(/^\//, "").replace(/\/.*$/, "");
     } else {
       return conf.domain;
     }
@@ -213,20 +184,20 @@ export default class Thread extends Schema {
     return "????:";
   }
 
-  static getIsSelfConnection(href, connection) {
+  static getIsSelfCh(href, ch) {
     const replacedHref = href
       .replace("http:/", "")
       .replace("https:/", "")
       .replace(/\u002f$/, "");
-    return replacedHref === connection;
+    return replacedHref === ch;
   }
 
-  static getLayer(connection) {
-    return connection.split("/").length - 1;
+  static getLayer(ch) {
+    return ch.split("/").length - 1;
   }
 
   getMediaSrc() {
-    return App.getMediaSrc(this.protocol, this.connection);
+    return App.getMediaSrc(this.protocol, this.ch);
   }
 
   getMediaTagType() {
@@ -268,7 +239,7 @@ export default class Thread extends Schema {
       isSchema: false,
       isRequireUpsert: false,
       isMultistream: false,
-      isMediaConnection: false,
+      isMediaCh: false,
       isToggleMultistream: false
     };
 
@@ -282,11 +253,7 @@ export default class Thread extends Schema {
     /* 更新が必要なthreadかどうか                             */
     /*******************************************************/
 
-    status.isRequireUpsert = Thread.getStatusIsRequireUpsert(
-      thread,
-      setting,
-      status.isSchema
-    );
+    status.isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, setting, status.isSchema);
 
     /*******************************************************/
     /* Multistream形式かどうか                               */
@@ -304,20 +271,14 @@ export default class Thread extends Schema {
     /* threadが空のSchemaかどうか(DBにデータが存在しない)        */
     /*******************************************************/
 
-    status.isMediaConnection = Thread.getStatusIsMediaConnection(
-      thread.connection
-    );
+    status.isMediaCh = Thread.getStatusIsMediaCh(thread.ch);
 
     return status;
   }
 
   static getStatusIsSchema(thread) {
-    const threadCreateTime = thread.createTime.getTime
-      ? thread.createTime.getTime()
-      : thread.createTime;
-    const threadUpdateTime = thread.updateTime.getTime
-      ? thread.updateTime.getTime()
-      : thread.updateTime;
+    const threadCreateTime = thread.createTime.getTime ? thread.createTime.getTime() : thread.createTime;
+    const threadUpdateTime = thread.updateTime.getTime ? thread.updateTime.getTime() : thread.updateTime;
 
     if (threadCreateTime === threadUpdateTime) {
       const lastPostCreateTime = thread.lastPost.createTime.getTime();
@@ -331,9 +292,7 @@ export default class Thread extends Schema {
   }
 
   static getStatusIsRequireUpsert(thread, setting, isSchema = false) {
-    const threadUpdateTime = thread.updateTime.getTime
-      ? thread.updateTime.getTime()
-      : thread.updateTime;
+    const threadUpdateTime = thread.updateTime.getTime ? thread.updateTime.getTime() : thread.updateTime;
 
     // 現在時刻を取得
     const now = new Date();
@@ -342,12 +301,7 @@ export default class Thread extends Schema {
     const nowDay = now.getDate();
     const nowHour = now.getHours();
     const nowMinutes = now.getMinutes();
-    const activeDate = new Date(
-      nowYear,
-      nowMonth,
-      nowDay,
-      nowHour - setting.server.findOneThreadActiveHour
-    );
+    const activeDate = new Date(nowYear, nowMonth, nowDay, nowHour - setting.server.findOneThreadActiveHour);
     const activeTime = activeDate.getTime();
 
     // スレッドの更新時間と、現在時間 - n を比較して、スレッドの更新時間が古かったらtrueを返す
@@ -358,8 +312,8 @@ export default class Thread extends Schema {
     return app.dispThreadType === App.dispThreadTypeMulti && app.multistream;
   }
 
-  static getStatusIsMediaConnection(connection) {
-    return App.getIsMediaConnection(connection);
+  static getStatusIsMediaCh(ch) {
+    return App.getIsMediaCh(ch);
   }
 
   static getStatusIsToggleMultistream(app) {

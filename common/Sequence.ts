@@ -43,22 +43,18 @@ export default class Sequence {
       initClientState: {
         requestPublicState: {},
         requestPrivateState: {
-          thread: [{ columnName: "connection" }]
+          thread: [{ columnName: "ch" }]
         },
         responseEmitState: { user: ["uid"], setting: "*" },
         responseBroadcastState: {}
       },
       find: {
-        requestPublicState: { thread: [{ columnName: "connection" }] },
+        requestPublicState: { thread: [{ columnName: "ch" }] },
         requestPrivateState: {
-          thread: [
-            { columnName: "protocol" },
-            { columnName: "host" },
-            { columnName: "hasSlash" }
-          ],
+          thread: [{ columnName: "protocol" }, { columnName: "host" }, { columnName: "hasSlash" }],
           app: [
             { columnName: "multistream" },
-            { columnName: "rootConnection" },
+            { columnName: "rootCh" },
             { columnName: "dispThreadType" },
             { columnName: "actioned" },
             { columnName: "offsetFindId" }
@@ -67,19 +63,14 @@ export default class Sequence {
         responseEmitState: {
           posts: "*",
           thread: "*",
-          app: [
-            "dispThreadType",
-            "offsetFindId",
-            "connectioned",
-            "multistreamed"
-          ]
+          app: ["dispThreadType", "offsetFindId", "tuned", "multistreamed"]
         },
-        responseBroadcastState: { thread: ["watchCnt", "connection"] }
+        responseBroadcastState: { thread: ["watchCnt", "ch"] }
       },
       getMore: {
         requestPublicState: {},
         requestPrivateState: {
-          thread: [{ columnName: "connection" }],
+          thread: [{ columnName: "ch" }],
           app: [
             { columnName: "multistream" },
             { columnName: "dispThreadType" },
@@ -95,13 +86,9 @@ export default class Sequence {
         responseBroadcastState: {}
       },
       updateThread: {
-        requestPublicState: { thread: [{ columnName: "connection" }] },
+        requestPublicState: { thread: [{ columnName: "ch" }] },
         requestPrivateState: {
-          thread: [
-            { columnName: "protocol" },
-            { columnName: "host" },
-            { columnName: "hasSlash" }
-          ]
+          thread: [{ columnName: "protocol" }, { columnName: "host" }, { columnName: "hasSlash" }]
         },
         responseEmitState: {
           thread: "*"
@@ -109,33 +96,29 @@ export default class Sequence {
         responseBroadcastState: {}
       },
       changeThread: {
-        requestPublicState: { thread: [{ columnName: "connection" }] },
+        requestPublicState: { thread: [{ columnName: "ch" }] },
         requestPrivateState: {
-          thread: [
-            { columnName: "protocol" },
-            { columnName: "host" },
-            { columnName: "hasSlash" }
-          ],
+          thread: [{ columnName: "protocol" }, { columnName: "host" }, { columnName: "hasSlash" }],
           app: [
-            { columnName: "connectioned" },
-            { columnName: "rootConnection" },
+            { columnName: "tuned" },
+            { columnName: "rootCh" },
             { columnName: "multistream" },
             { columnName: "dispThreadType" },
             { columnName: "offsetFindId" },
             { columnName: "multistreamed" }
           ]
         },
-        responseEmitState: { app: ["connectioned"] },
-        responseBroadcastState: { thread: ["watchCnt", "connection"] }
+        responseEmitState: { app: ["tuned"] },
+        responseBroadcastState: { thread: ["watchCnt", "ch"] }
       },
       changeThreadDetail: {
-        requestPublicState: { thread: [{ columnName: "connection" }] },
+        requestPublicState: { thread: [{ columnName: "ch" }] },
         requestPrivateState: {},
         responseEmitState: { thread: "*" },
         responseBroadcastState: {}
       },
       addFindChild: {
-        requestPublicState: { thread: [{ columnName: "connection" }] },
+        requestPublicState: { thread: [{ columnName: "ch" }] },
         requestPrivateState: {},
         responseEmitState: { thread: "*" },
         responseBroadcastState: {}
@@ -143,7 +126,7 @@ export default class Sequence {
       findMenuIndex: {
         requestPublicState: {},
         requestPrivateState: {
-          app: [{ columnName: "findType" }, { columnName: "rootConnection" }]
+          app: [{ columnName: "findType" }, { columnName: "rootCh" }]
         },
         responseEmitState: { menuIndex: "*" },
         responseBroadcastState: {}
@@ -164,8 +147,8 @@ export default class Sequence {
             { columnName: "findType" },
             { columnName: "title" },
             { columnName: "protocol" },
-            { columnName: "connection" },
-            { columnName: "connections" },
+            { columnName: "ch" },
+            { columnName: "chs" },
             { columnName: "emotions" },
             { columnName: "favicon" },
             { columnName: "contentType" }
@@ -177,11 +160,7 @@ export default class Sequence {
       updateThreadServerMetas: {
         requestPublicState: { thread: [{ columnName: "serverMetas" }] },
         requestPrivateState: {
-          thread: [
-            { columnName: "host" },
-            { columnName: "protocol" },
-            { columnName: "connection" }
-          ],
+          thread: [{ columnName: "host" }, { columnName: "protocol" }, { columnName: "ch" }],
           user: "*" // 懸念
         },
         responseEmitState: { thread: "*" },
@@ -199,16 +178,14 @@ export default class Sequence {
         requestPublicState: {},
         requestPrivateState: {},
         responseEmitState: {},
-        responseBroadcastState: { thread: ["watchCnt", "connection"] }
+        responseBroadcastState: { thread: ["watchCnt", "ch"] }
       }
     };
   }
 
   static getRequestState(actionName, reduxState, requestParams) {
     const endpointKey = actionName.replace(Sequence.CLIENT_TO_SERVER_EMIT, "");
-    const { requestPublicState, requestPrivateState } = Sequence.map[
-      endpointKey
-    ];
+    const { requestPublicState, requestPrivateState } = Sequence.map[endpointKey];
     let requestState = { [Sequence.REDUX_ACTION_KEY]: endpointKey };
 
     if (Object.keys(requestPrivateState).length > 0) {
@@ -280,8 +257,7 @@ export default class Sequence {
 
   static getResponseState(responseType, requestState, updateState) {
     const endpointKey = requestState.type;
-    const responseSchema =
-      Sequence.map[endpointKey][`response${responseType}State`];
+    const responseSchema = Sequence.map[endpointKey][`response${responseType}State`];
     let responseState = { [Sequence.REDUX_ACTION_KEY]: endpointKey };
     Object.keys(responseSchema).forEach(updateStateKey => {
       if (updateState[updateStateKey]) {

@@ -48,7 +48,7 @@ export default class Passport {
     */
   }
 
-  twitterAuth(req, res, next, uid, connection) {
+  twitterAuth(req, res, next, uid, ch) {
     console.log("START TWITTER AUTH!!!");
     passport.authenticate("twitter")(req, res, next);
   }
@@ -58,7 +58,7 @@ export default class Passport {
     console.log("twitterFetchToken");
   }
 
-  twitterCallback(req, res, next, uid, connection) {
+  twitterCallback(req, res, next, uid, ch) {
     passport.authenticate("twitter", { failureRedirect: "/" })(req, res, next);
     res.redirect(`https://${conf.domain}`);
   }

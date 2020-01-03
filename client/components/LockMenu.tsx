@@ -145,15 +145,15 @@ export default class LockMenu extends Component<Props, State> {
   handleOnClickToWeb() {
     const { threadDetail } = this.props.state;
     if (threadDetail.protocol === Sequence.TALKN_PROTOCOL) {
-      location.href = threadDetail.connection;
+      location.href = threadDetail.ch;
     } else {
-      location.href = threadDetail.protocol + "/" + threadDetail.connection;
+      location.href = threadDetail.protocol + "/" + threadDetail.ch;
     }
   }
 
   handleOnClickToTalkn() {
     const { threadDetail } = this.props.state;
-    location.href = `//${conf.domain}${threadDetail.connection}`;
+    location.href = `//${conf.domain}${threadDetail.ch}`;
   }
 
   render() {
@@ -171,19 +171,12 @@ export default class LockMenu extends Component<Props, State> {
 
     return (
       <div data-component-name={"LockMenu"} style={style.lockMenu.menuShare}>
-        <header
-          style={style.lockMenu.header}
-          onClick={() => onClickOpenLockMenu(App.openLockMenuLabelNo)}
-        >
+        <header style={style.lockMenu.header} onClick={() => onClickOpenLockMenu(App.openLockMenuLabelNo)}>
           SHARE
           {IconHeadTab}
         </header>
         <ul style={style.lockMenu.ul}>
-          <li
-            style={stateStyle.liTwitter}
-            onClick={() => openInnerNotif()}
-            {...this.getDecolationProps1("liTwitter")}
-          >
+          <li style={stateStyle.liTwitter} onClick={() => openInnerNotif()} {...this.getDecolationProps1("liTwitter")}>
             {IconTwitter}
             <div style={style.lockMenu.shareLabel}>Twitter</div>
           </li>
@@ -198,9 +191,7 @@ export default class LockMenu extends Component<Props, State> {
           <li
             style={stateStyle.liEmbed}
             onClick={() => {
-              const Input = document.querySelector(
-                "[data-component-share-input]"
-              ) as HTMLInputElement;
+              const Input = document.querySelector("[data-component-share-input]") as HTMLInputElement;
               Input.select();
               document.execCommand("copy");
               openInnerNotif("Success copy script tag.");
@@ -214,7 +205,7 @@ export default class LockMenu extends Component<Props, State> {
                 type="text"
                 style={stateStyle.liEmbedInput}
                 readOnly={true}
-                value={`<script type="text/javascript" async src='//${conf.domain}${threadDetail.connection}'></script>`}
+                value={`<script type="text/javascript" async src='//${conf.domain}${threadDetail.ch}'></script>`}
               />
             </div>
           </li>
