@@ -11,8 +11,8 @@ const russell = Russell.getSchemas();
 const russellSimple = RussellSimple.getSchemas();
 
 export default {
-  connection: { type: String, default: "/" },
-  connections: { type: [String], default: ["/"] },
+  ch: { type: String, default: "/" },
+  chs: { type: [String], default: ["/"] },
   findType: { type: String, default: "" },
   hasSlash: { type: Boolean, default: false },
   host: { type: String, default: "" },

@@ -8,9 +8,9 @@ interface Props {
   state: any;
   text: string;
   handleOnClick?: any;
-  isMainConnection: boolean;
+  isMainCh: boolean;
   isActive: boolean;
-  connection: string;
+  ch: string;
 }
 
 interface State {
@@ -64,25 +64,13 @@ export default class Link extends Component<Props, State> {
           <span style={{ ...upperRankWrap, background, width }}>
             <span style={upperRank}>TUNE</span>
           </span>
-          <Marquee
-            text={text}
-            loop={true}
-            hoverToStop={false}
-            trailing={0}
-            leading={0}
-          />
+          <Marquee text={text} loop={true} hoverToStop={false} trailing={0} leading={0} />
         </li>
       );
     } else {
       return (
         <li style={style} {...this.getEvents(isActive)}>
-          <Marquee
-            text={text}
-            loop={true}
-            hoverToStop={false}
-            trailing={0}
-            leading={0}
-          />
+          <Marquee text={text} loop={true} hoverToStop={false} trailing={0} leading={0} />
         </li>
       );
     }

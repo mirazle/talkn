@@ -4,28 +4,23 @@ import Thread from "common/schemas/state/Thread";
 import handles from "client/actions/handles";
 
 export default {
-  onClickConnection: (toConnection, overWriteHasSlash, called) => {
+  onClickCh: (toCh, overWriteHasSlash, called) => {
     let actionState = {};
     let { app, thread, menuIndex, setting } = window.talknAPI.store.getState();
-    const beforeConnection = thread.connection;
-    thread.connection = toConnection;
+    const beforeCh = thread.ch;
+    thread.ch = toCh;
     if (Schema.isSet(overWriteHasSlash)) {
       thread.hasSlash = overWriteHasSlash;
     }
-    const isLinkConnection = app.isLinkConnection;
+    const isLinkCh = app.isLinkCh;
     const threadStatus = Thread.getStatus(thread, app, setting);
-    let { app: updatedApp, stepTo } = App.getStepToDispThreadType(
-      { app, menuIndex },
-      threadStatus,
-      toConnection,
-      called
-    );
-    if (!isLinkConnection && updatedApp.isLinkConnection) {
-      window.talknAPI.onCatchConnectionAPI(toConnection);
+    let { app: updatedApp, stepTo } = App.getStepToDispThreadType({ app, menuIndex }, threadStatus, toCh, called);
+    if (!isLinkCh && updatedApp.isLinkCh) {
+      window.talknAPI.onCatchChAPI(toCh);
     }
 
-    if (isLinkConnection && !updatedApp.isLinkConnection) {
-      window.talknAPI.offCatchConnectionAPI(beforeConnection);
+    if (isLinkCh && !updatedApp.isLinkCh) {
+      window.talknAPI.offCatchChAPI(beforeCh);
     }
 
     app = updatedApp;
@@ -35,41 +30,41 @@ export default {
       case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
       case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
       case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
-        actionState = handles.onClickToChildThread(toConnection, {
+        actionState = handles.onClickToChildThread(toCh, {
           app,
           thread
         });
         window.talknAPI.store.dispatch(actionState);
-        window.talknAPI.changeThread(toConnection, { app, thread });
+        window.talknAPI.changeThread(toCh, { app, thread });
         break;
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeMulti}`:
       case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
-        actionState = handles.onClickToMultiThread(toConnection, {
+        actionState = handles.onClickToMultiThread(toCh, {
           app,
           thread
         });
         window.talknAPI.store.dispatch(actionState);
-        window.talknAPI.changeThread(toConnection, { app, thread });
+        window.talknAPI.changeThread(toCh, { app, thread });
         break;
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeSingle}`:
       case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
-        actionState = handles.onClickToSingleThread(toConnection, {
+        actionState = handles.onClickToSingleThread(toCh, {
           app,
           thread
         });
         window.talknAPI.store.dispatch(actionState);
-        window.talknAPI.changeThread(toConnection, { app, thread });
+        window.talknAPI.changeThread(toCh, { app, thread });
         break;
       case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeTimeline}`:
       case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeTimeline}`:
       case `${App.dispThreadTypeChild} to ${App.dispThreadTypeTimeline}`:
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeTimeline}`:
-        actionState = handles.onClickToTimelineThread(toConnection, {
+        actionState = handles.onClickToTimelineThread(toCh, {
           app,
           thread
         });
         window.talknAPI.store.dispatch(actionState);
-        window.talknAPI.changeThread(toConnection, { app, thread });
+        window.talknAPI.changeThread(toCh, { app, thread });
         break;
     }
   }

@@ -31,7 +31,7 @@ export default (state: any = new Posts(), action) => {
         action.postsTimeline &&
         action.postsTimeline.length > 0 &&
         action.postsTimeline[0].uid === action.user.uid &&
-        action.postsTimeline[0].connection === action.thread.connection
+        action.postsTimeline[0].ch === action.thread.ch
       ) {
         if (action.postsTimeline && action.postsTimeline.length > 0) {
           return [...state, ...action.postsTimeline];

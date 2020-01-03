@@ -12,11 +12,8 @@ export default class Media extends Component {
     let mediaType: string = "";
 
     if (app.extensionMode === App.extensionModeExtNoneLabel) {
-      if (
-        thread.protocol === Sequence.HTTP_PROTOCOL ||
-        thread.protocol === Sequence.HTTPS_PROTOCOL
-      ) {
-        src = thread.protocol + "/" + thread.connection.replace(/\/$/, "");
+      if (thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL) {
+        src = thread.protocol + "/" + thread.ch.replace(/\/$/, "");
         mediaType = App.getMediaTypeFromSrc(src);
       }
     }
@@ -30,13 +27,9 @@ export default class Media extends Component {
   componentWillReceiveProps(props) {
     const { app, thread } = props.state;
     if (app.extensionMode === App.extensionModeExtNoneLabel) {
-      if (
-        thread.protocol === Sequence.HTTP_PROTOCOL ||
-        thread.protocol === Sequence.HTTPS_PROTOCOL
-      ) {
+      if (thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL) {
         const { src, mediaType }: any = this.state;
-        const newSrc =
-          thread.protocol + "/" + thread.connection.replace(/\/$/, "");
+        const newSrc = thread.protocol + "/" + thread.ch.replace(/\/$/, "");
         const newMediaType = App.getMediaTypeFromSrc(newSrc);
         if (src !== newSrc || mediaType !== newMediaType) {
           this.setState({ src: newSrc, mediaType: newMediaType });

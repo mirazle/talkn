@@ -21,8 +21,7 @@ export default class Posts {
   }
 
   static getOlWidth({ app }, addUnit = false): any {
-    const width =
-      app.extensionMode === App.extensionModeExtBottomLabel ? "90%" : "100%";
+    const width = app.extensionMode === App.extensionModeExtBottomLabel ? "90%" : "100%";
     return addUnit ? Style.trimUnit(width) : width;
   }
 
@@ -37,8 +36,7 @@ export default class Posts {
         case App.screenModeMiddleLabel:
           return `calc(100% - ${Menu.getWidth(app, false)})`;
         case App.screenModeLargeLabel:
-          width = `calc( ${100 -
-            Detail.getWidth(app, false)}% - ${Menu.getWidth(app, false)} )`;
+          width = `calc( ${100 - Detail.getWidth(app, false)}% - ${Menu.getWidth(app, false)} )`;
           break;
       }
     }
@@ -91,8 +89,8 @@ export default class Posts {
     let marginBottom = "0";
 
     margin = `${Header.headerHeight}px 0px 0px 0px`;
-    marginTop = app.isMediaConnection ? `0px` : "0px";
-    marginBottom = app.isMediaConnection ? `0px` : "0px";
+    marginTop = app.isMediaCh ? `0px` : "0px";
+    marginBottom = app.isMediaCh ? `0px` : "0px";
 
     if (app.extensionMode === App.extensionModeExtBottomLabel) {
       margin = `${marginTop} 5% ${Header.headerHeight}px 5%`;
@@ -124,8 +122,8 @@ export default class Posts {
     } else if (app.extensionMode === App.extensionModeExtModalLabel) {
       padding = "0px";
     } else {
-      if (app.isMediaConnection) {
-        switch (app.connectionType) {
+      if (app.isMediaCh) {
+        switch (app.chType) {
           case App.mediaTagTypeAudio:
             paddingBottom = `${PostsFooter.selfHeight}px`;
           case App.mediaTagTypeVideo:
@@ -159,20 +157,14 @@ export default class Posts {
   }
 
   static getSelfHeight(app) {
-    if (
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
-    ) {
+    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
       return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
     } else {
       if (app.screenMode === App.screenModeLargeLabel) {
-        if (app.connectionType === App.mediaTagTypeVideo) {
-          return `calc( 100% - ${Main.headerHeight +
-            PostsFooter.selfHeight +
-            Video.height}px )`;
+        if (app.chType === App.mediaTagTypeVideo) {
+          return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight + Video.height}px )`;
         } else {
-          return `calc( 100% - ${Main.headerHeight +
-            PostsFooter.selfHeight}px )`;
+          return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
         }
       } else {
         return "auto";
@@ -181,10 +173,8 @@ export default class Posts {
   }
 
   static getSelfMinHeight(app) {
-    if (app.connectionType === App.mediaTagTypeVideo) {
-      return `calc( 100% - ${Video.height +
-        PostsFooter.selfHeight +
-        Header.headerHeight}px)`;
+    if (app.chType === App.mediaTagTypeVideo) {
+      return `calc( 100% - ${Video.height + PostsFooter.selfHeight + Header.headerHeight}px)`;
     } else {
       if (
         app.extensionMode === App.extensionModeExtBottomLabel ||
@@ -193,8 +183,7 @@ export default class Posts {
         return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
       } else {
         if (app.screenMode === App.screenModeLargeLabel) {
-          return `calc( 100% - ${Main.headerHeight +
-            PostsFooter.selfHeight}px )`;
+          return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
         } else {
           return "auto";
         }
@@ -204,7 +193,7 @@ export default class Posts {
 
   static getSelfTop(app, thread) {
     if (app.extensionMode === App.extensionModeExtNoneLabel) {
-      if (app.connectionType === App.mediaTagTypeVideo) {
+      if (app.chType === App.mediaTagTypeVideo) {
         return `${Header.headerHeight + Video.height}px`;
       }
     }
@@ -219,10 +208,7 @@ export default class Posts {
     let background = Container.whiteRGBA;
     let zIndex = 1;
 
-    if (
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
-    ) {
+    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
       position = "fixed";
       overflowX = "hidden";
       overflowY = "scroll";
@@ -290,9 +276,7 @@ export default class Posts {
   }
 
   static getMore({ app }) {
-    const background = app.isBubblePost
-      ? Container.themeRGBA
-      : Container.reliefRGBA;
+    const background = app.isBubblePost ? Container.themeRGBA : Container.reliefRGBA;
     const margin = app.isBubblePost ? "15px auto" : "10px auto";
     const layout = Style.getLayoutFlex({
       width: "50%",

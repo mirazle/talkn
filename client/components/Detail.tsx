@@ -59,7 +59,7 @@ export default class Detail extends Component<Props, State> {
     const { openInnerNotif, state } = this.props;
     const { threadDetail } = state;
     openInnerNotif("Thread data has been updated.");
-    window.talknAPI.updateThread(threadDetail.connection);
+    window.talknAPI.updateThread(threadDetail.ch);
   }
 
   getImgStyle(state, style, protocol, serverMetas) {
@@ -70,8 +70,7 @@ export default class Detail extends Component<Props, State> {
       case Thread.findTypeHtml:
         if (serverMetas["og:image"]) {
           if (
-            `${serverMetas["og:image"]}`.indexOf(Sequence.HTTPS_PROTOCOL) ===
-              0 ||
+            `${serverMetas["og:image"]}`.indexOf(Sequence.HTTPS_PROTOCOL) === 0 ||
             `${serverMetas["og:image"]}`.indexOf(Sequence.HTTP_PROTOCOL) === 0
           ) {
             backgroundImage = `url("${serverMetas["og:image"]}")`;
@@ -114,21 +113,11 @@ export default class Detail extends Component<Props, State> {
     const { state, handleOnClickToggleDetail } = this.props;
     const { threadDetail, style } = state;
     return (
-      <header
-        data-component-name={"DetailHeader"}
-        onClick={handleOnClickToggleDetail}
-        style={style.detail.header}
-      >
+      <header data-component-name={"DetailHeader"} onClick={handleOnClickToggleDetail} style={style.detail.header}>
         <span style={style.detail.headerP}>
           {/*threadDetail.serverMetas.title*/}
 
-          <Marquee
-            text={threadDetail.title}
-            loop={true}
-            hoverToStop={false}
-            trailing={0}
-            leading={0}
-          />
+          <Marquee text={threadDetail.title} loop={true} hoverToStop={false} trailing={0} leading={0} />
         </span>
       </header>
     );
@@ -138,9 +127,7 @@ export default class Detail extends Component<Props, State> {
     const { app, threadDetail } = state;
     const { serverMetas } = threadDetail;
     const active = serverMetas && serverMetas["twitter:site"] !== "";
-    const href = active
-      ? `${define.URL.twitter}${serverMetas["twitter:site"].replace("@", "")}`
-      : "";
+    const href = active ? `${define.URL.twitter}${serverMetas["twitter:site"].replace("@", "")}` : "";
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
@@ -154,9 +141,7 @@ export default class Detail extends Component<Props, State> {
     const { app, threadDetail } = state;
     const { serverMetas } = threadDetail;
     const active = serverMetas && serverMetas["fb:page_id"] !== "";
-    const href = active
-      ? `${define.URL.facebook}${serverMetas["fb:page_id"]}`
-      : "";
+    const href = active ? `${define.URL.facebook}${serverMetas["fb:page_id"]}` : "";
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
@@ -170,9 +155,7 @@ export default class Detail extends Component<Props, State> {
     const { app, threadDetail } = state;
     const { serverMetas } = threadDetail;
     const active = serverMetas && serverMetas["al:ios:app_store_id"] !== "";
-    const href = active
-      ? `${define.URL.appstore}${serverMetas["al:ios:app_store_id"]}`
-      : "";
+    const href = active ? `${define.URL.appstore}${serverMetas["al:ios:app_store_id"]}` : "";
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
@@ -186,9 +169,7 @@ export default class Detail extends Component<Props, State> {
     const { app, threadDetail } = state;
     const { serverMetas } = threadDetail;
     const active = serverMetas && serverMetas["al:android:package"] !== "";
-    const href = active
-      ? `${define.URL.playstore}${serverMetas["al:android:package"]}`
-      : "";
+    const href = active ? `${define.URL.playstore}${serverMetas["al:android:package"]}` : "";
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
@@ -200,15 +181,15 @@ export default class Detail extends Component<Props, State> {
 
   getHomeIcon(state) {
     const { app, threadDetail } = state;
-    const { protocol, connection, hasSlash } = threadDetail;
+    const { protocol, ch, hasSlash } = threadDetail;
     const active = true;
-    let href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${connection}`;
+    let href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${ch}`;
 
     if (protocol !== Sequence.TALKN_PROTOCOL) {
-      if (hasSlash && connection.lastIndexOf("/") === connection.length - 1) {
-        href = `${protocol}/${connection}`.replace(/\/$/, "");
+      if (hasSlash && ch.lastIndexOf("/") === ch.length - 1) {
+        href = `${protocol}/${ch}`.replace(/\/$/, "");
       } else {
-        href = `${protocol}/${connection}`;
+        href = `${protocol}/${ch}`;
       }
     }
     const onClick =
@@ -222,9 +203,9 @@ export default class Detail extends Component<Props, State> {
 
   getTalknIcon(state) {
     const { app, threadDetail } = state;
-    const { connection, hasSlash } = threadDetail;
+    const { ch, hasSlash } = threadDetail;
     const active = true;
-    const href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${connection}`;
+    const href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${ch}`;
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
@@ -297,15 +278,15 @@ export default class Detail extends Component<Props, State> {
     );
   }
 
-  renderConnection() {
+  renderCh() {
     const { state } = this.props;
     const { threadDetail, style } = state;
     const IconUpdate = Icon.getUpdate(style.icon.update);
     return (
-      <div style={style.detail.connection}>
+      <div style={style.detail.ch}>
         CH
         <br />
-        {threadDetail.connection}
+        {threadDetail.ch}
         <br />
         <br />
         <div onClick={this.handleOnClickUpdate} style={style.detail.updateWrap}>
@@ -415,8 +396,7 @@ export default class Detail extends Component<Props, State> {
     const { state } = this.props;
     const { app } = state;
     const active = true;
-    const href =
-      "https://chrome.google.com/webstore/detail/talkn-for-chrome/dkngnmdlcofambpfaccepbnjgfholgbo?hl=en";
+    const href = "https://chrome.google.com/webstore/detail/talkn-for-chrome/dkngnmdlcofambpfaccepbnjgfholgbo?hl=en";
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
@@ -435,7 +415,7 @@ export default class Detail extends Component<Props, State> {
         <div data-component-name={"DetailBody"} style={style.detail.body}>
           {this.renderMeta()}
           {this.renderExtension()}
-          {this.renderConnection()}
+          {this.renderCh()}
           {/* this.renderAnalyze() */}
           <br />
           <br />

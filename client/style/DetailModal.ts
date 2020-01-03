@@ -29,9 +29,7 @@ export default class DetailModal {
   }
 
   static getBaseMargin(app, addUnit = false) {
-    return (
-      Posts.getWidth(app, true) * (DetailModal.getBaseMarginRate(app) / 100)
-    );
+    return Posts.getWidth(app, true) * (DetailModal.getBaseMarginRate(app) / 100);
   }
 
   static getMargin(app, addUnit = false) {
@@ -62,9 +60,7 @@ export default class DetailModal {
   }
 
   static getTransform(app) {
-    return app.isOpenDetail
-      ? DetailModal.getOpenSelfTransform(app)
-      : DetailModal.getCloseSelfTransform(app);
+    return app.isOpenDetail ? DetailModal.getOpenSelfTransform(app) : DetailModal.getCloseSelfTransform(app);
   }
   static getCloseSelfTransform(app) {
     return `translate3d(0%, 0px, 0px)`;
@@ -97,8 +93,8 @@ export default class DetailModal {
   static getMetaContentType(params) {
     return Detail.getMetaContentType(params);
   }
-  static getConnection(params) {
-    return Detail.getConnection(params);
+  static getCh(params) {
+    return Detail.getCh(params);
   }
   static getAnalyze(params) {
     return Detail.getAnalyze(params);

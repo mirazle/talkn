@@ -14,21 +14,21 @@ export default class Threads {
   /* MONGO DB       */
   /******************/
 
-  async findOne(connection, selector = {}, option = {}, buildinSchema = false, called = "Default") {
-    const condition = { connection };
+  async findOne(ch, selector = {}, option = {}, buildinSchema = false, called = "Default") {
+    const condition = { ch };
     let { error, response } = await this.collection.findOne(condition, selector, option);
 
     if (buildinSchema) {
       if (!response) {
-        const anyConnectionResponse = await this.getUnshifAnyConnectionResponse(connection, []);
-        response = anyConnectionResponse[0];
+        const anyChResponse = await this.getUnshifAnyChResponse(ch, []);
+        response = anyChResponse[0];
       }
     }
     return { error, response };
   }
 
-  async findOneWatchCnt(connection) {
-    const condition = { connection };
+  async findOneWatchCnt(ch) {
+    const condition = { ch };
     const selector = { watchCnt: 1 };
     const option = {};
     const { error, response } = await this.collection.findOne(condition, selector, option, false, "finedMenuIndex");
@@ -37,13 +37,13 @@ export default class Threads {
 
   async findMenuIndex(requestState, setting) {
     const { app } = requestState;
-    const { rootConnection: connection } = app;
-    const layer = Thread.getLayer(connection);
+    const { rootCh: ch } = app;
+    const layer = Thread.getLayer(ch);
 
-    //    const regexConnection = connection.replace(/\//, '\/');
-    //    const regex = new RegExp( `^${regexConnection}` );
+    //    const regexCh = ch.replace(/\//, '\/');
+    //    const regex = new RegExp( `^${regexCh}` );
     let condition: any = {};
-    condition.connections = connection;
+    condition.chs = ch;
     condition.postCnt = { $ne: 0 };
     condition.layer = { $gt: layer };
 
@@ -59,20 +59,20 @@ export default class Threads {
 
     let { response } = await this.collection.find(condition, selector, option);
     const responseLength = response.length;
-    let ExistMainConnection = false;
+    let ExistMainCh = false;
 
     if (responseLength === 0) {
-      response = await this.getUnshifAnyConnectionResponse(connection, response);
+      response = await this.getUnshifAnyChResponse(ch, response);
     } else {
       for (let i = 0; i < responseLength; i++) {
-        if (response[i].lastPost.connection === connection) {
-          ExistMainConnection = true;
+        if (response[i].lastPost.ch === ch) {
+          ExistMainCh = true;
           break;
         }
       }
 
-      if (!ExistMainConnection) {
-        const { response: mainThread } = await this.findOne(connection, { lastPost: 1 }, {}, true);
+      if (!ExistMainCh) {
+        const { response: mainThread } = await this.findOne(ch, { lastPost: 1 }, {}, true);
         response.unshift(mainThread);
       }
     }
@@ -82,7 +82,7 @@ export default class Threads {
       return {
         ...res.lastPost,
         title: res.serverMetas.title,
-        watchCnt: res.lastPost.connection === connection ? res.watchCnt + 1 : res.watchCnt
+        watchCnt: res.lastPost.ch === ch ? res.watchCnt + 1 : res.watchCnt
       };
     });
   }
@@ -105,12 +105,12 @@ export default class Threads {
   }
 
   async saveOnWatchCnt(thread, watchCnt, update = false) {
-    const { connection } = thread;
+    const { ch } = thread;
     if (thread.save) {
       thread.watchCnt = update ? watchCnt : thread.watchCnt + watchCnt;
       return await Logics.db.threads.save(thread);
     } else {
-      const { response: resThread } = await Logics.db.threads.findOne(connection);
+      const { response: resThread } = await Logics.db.threads.findOne(ch);
 
       if (update) {
         resThread.watchCnt = watchCnt;
@@ -122,20 +122,20 @@ export default class Threads {
     }
   }
 
-  async update(connection, upset) {
-    const condition = { connection };
-    const set = { connection, ...upset, updateTime: new Date() };
+  async update(ch, upset) {
+    const condition = { ch };
+    const set = { ch, ...upset, updateTime: new Date() };
     const option = { upsert: true };
     return await this.collection.update(condition, set, option);
   }
 
-  async updateServerMetas(connection, baseThread, updateThread) {
-    const condition = { connection };
+  async updateServerMetas(ch, baseThread, updateThread) {
+    const condition = { ch };
     const serverMetas = {
       ...baseThread.serverMetas,
       ...updateThread.serverMetas
     };
-    const set = { connection, serverMetas, updateTime: new Date() };
+    const set = { ch, serverMetas, updateTime: new Date() };
     const option = { upsert: true };
     await this.collection.update(condition, set, option);
     return serverMetas;
@@ -145,14 +145,14 @@ export default class Threads {
   /* COLUMN LOGIC   */
   /******************/
 
-  async getUnshifAnyConnectionResponse(connection, response = []) {
-    let schema = this.collection.getSchema({ connection });
+  async getUnshifAnyChResponse(ch, response = []) {
+    let schema = this.collection.getSchema({ ch });
     schema.title = Thread.getDefaultTitle();
-    schema.connections = Thread.getConnections(connection);
-    schema.host = Thread.getHost(connection);
-    schema.layer = Thread.getLayer(connection);
-    schema.lastPost.connection = connection;
-    schema.lastPost.connections = Thread.getConnections(connection);
+    schema.chs = Thread.getChs(ch);
+    schema.host = Thread.getHost(ch);
+    schema.layer = Thread.getLayer(ch);
+    schema.lastPost.ch = ch;
+    schema.lastPost.chs = Thread.getChs(ch);
     schema.lastPost.stampId = 0;
     response.unshift(schema);
     return response;
@@ -162,8 +162,8 @@ export default class Threads {
     return { ...obj, ...mergeObj };
   }
 
-  getConnection(param) {
-    return Thread.getConnection(param, null);
+  getCh(param) {
+    return Thread.getCh(param, null);
   }
 
   /******************/

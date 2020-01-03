@@ -31,7 +31,7 @@ export default {
 const functions = {
   "SERVER_TO_CLIENT[BROADCAST]:find": (state, action) => {
     action.app = state.app;
-    action.app.connectioned = action.thread.connection;
+    action.app.tuned = action.thread.ch;
     return action;
   },
   "SERVER_TO_CLIENT[BROADCAST]:changeThread": (state, action) => {
@@ -51,10 +51,10 @@ const functions = {
     action = resolve.caseNoExistResponsePost(state, action);
     action.app = { ...state.app, ...action.app };
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
-    action.app.detailConnection = action.thread.connection;
+    action.app.detailCh = action.thread.ch;
     action.app.desc = action.thread.serverMetas.title;
-    action.app.isRootConnection = action.app.rootConnection === action.thread.connection;
-    action.app.isMediaConnection = App.getIsMediaConnection(action.thread.connection);
+    action.app.isRootCh = action.app.rootCh === action.thread.ch;
+    action.app.isMediaCh = App.getIsMediaCh(action.thread.ch);
 
     action = Posts.getAnyActionPosts(action);
     action.thread.title = action.thread.serverMetas.title;
@@ -62,9 +62,9 @@ const functions = {
     action.threads = Threads.getMergedThreads(state.threads, action.thread);
     action.threadDetail = { ...action.thread };
 
-    if (action.app.isRootConnection) action.app.rootTitle = action.thread.title;
+    if (action.app.isRootCh) action.app.rootTitle = action.thread.title;
 
-    if (!action.app.isLinkConnection) {
+    if (!action.app.isLinkCh) {
       switch (action.app.extensionMode) {
         case App.extensionModeExtBottomLabel:
           if (!action.app.isOpenPosts && !action.app.isDispPosts) {
@@ -91,13 +91,13 @@ const functions = {
       }
     }
 
-    if (action.app.isMediaConnection) {
-      const src = App.getMediaSrc(action.thread.protocol, action.thread.connection);
-      action.app.connectionType = App.getMediaTypeFromSrc(src);
+    if (action.app.isMediaCh) {
+      const src = App.getMediaSrc(action.thread.protocol, action.thread.ch);
+      action.app.chType = App.getMediaTypeFromSrc(src);
       action = Posts.getAnyActionPosts(action);
       action = storage.setStoragePostsTimeline(action);
     } else {
-      action.app.connectionType = App.mediaTagTypeNo;
+      action.app.chType = App.mediaTagTypeNo;
     }
 
     return action;
@@ -127,7 +127,7 @@ const functions = {
 
     const emotionKeys = Object.keys(action.thread.emotions);
 
-    if (action.thread.connection === action.posts[postLength].connection && emotionKeys.length > 0) {
+    if (action.thread.ch === action.posts[postLength].ch && emotionKeys.length > 0) {
       const actionEmotions = { ...action.thread.emotions };
       action.thread.emotions = { ...state.thread.emotions };
 
@@ -178,7 +178,7 @@ const functions = {
   },
   "SERVER_TO_CLIENT[EMIT]:changeThreadDetail": (state, action) => {
     action.app = state.app;
-    action.app.detailConnection = action.thread.connection;
+    action.app.detailCh = action.thread.ch;
     action.threads = Threads.getMergedThreads(state.threads, action.thread);
     action.threadDetail = { ...action.thread };
     action.threadDetail.title = action.thread.serverMetas.title;
@@ -222,11 +222,11 @@ const functions = {
   },
   ON_CLICK_TO_MULTI_THREAD: (state, action) => {
     action.app = state.app;
-    action.app.isLinkConnection = false;
-    action.app.isRootConnection = action.thread.connection === state.app.rootConnection;
+    action.app.isLinkCh = false;
+    action.app.isRootCh = action.thread.ch === state.app.rootCh;
 
-    if (state.threads[action.thread.connection]) {
-      action.thread = state.threads[action.thread.connection];
+    if (state.threads[action.thread.ch]) {
+      action.thread = state.threads[action.thread.ch];
     } else {
       action.thread = { ...state.thread, ...action.thread };
     }
@@ -234,13 +234,13 @@ const functions = {
     return action;
   },
   ON_CLICK_TO_TIMELINE_THREAD: (state, action) => {
-    const connection = action.thread.connection;
+    const ch = action.thread.ch;
     action.thread = { ...state.thread, ...action.thread };
-    action.thread.connection = connection;
-    const src = App.getMediaSrc(action.thread.protocol, action.thread.connection);
+    action.thread.ch = ch;
+    const src = App.getMediaSrc(action.thread.protocol, action.thread.ch);
     action.thread.findType = Thread.getFindTypeFromSrc(src);
     action.postsTimeline = [];
-    action.app.isMediaConnection = true;
+    action.app.isMediaCh = true;
     action.app.offsetFindId = App.defaultOffsetFindId;
     action.app.offsetChildFindId = App.defaultOffsetFindId;
     return action;
@@ -248,7 +248,7 @@ const functions = {
   ON_CLICK_TO_SINGLE_THREAD: (state, action) => {
     action.thread = { ...state.thread, ...action.thread };
     action.app = state.app;
-    action.app.isLinkConnection = false;
+    action.app.isLinkCh = false;
     return action;
   },
   ON_CLICK_TO_CHILD_THREAD: (state, action) => {
@@ -350,7 +350,7 @@ const functions = {
   },
   START_LINK_MEDIA: (state, action) => {
     action.app = { ...state.app };
-    action.app.isLinkConnection = true;
+    action.app.isLinkCh = true;
     return action;
   },
   DELEGATE_POST: (state, action) => {

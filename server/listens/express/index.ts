@@ -34,9 +34,7 @@ class Express {
   /***************************/
 
   createHttpServer() {
-    http
-      .createServer(this.httpApp.all("*", this.routingHttp))
-      .listen(define.PORTS.HTTP, this.listenedHttp);
+    http.createServer(this.httpApp.all("*", this.routingHttp)).listen(define.PORTS.HTTP, this.listenedHttp);
   }
 
   routingHttp(req, res) {
@@ -63,10 +61,7 @@ class Express {
         if (req.originalUrl === "/") {
           // CORSを許可する
           res.header("Access-Control-Allow-Origin", "*");
-          res.header(
-            "Access-Control-Allow-Headers",
-            "Origin, X-Requested-With, Content-Type, Accept"
-          );
+          res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
           res.sendFile(conf.serverExtPath + "ext.js");
         } else {
           res.sendFile(conf.serverExtPath + req.originalUrl.replace("/", ""));
@@ -74,16 +69,10 @@ class Express {
         break;
       case conf.wwwURL:
         console.log("@@@@@@ A");
-        language =
-          req.query && req.query.lang
-            ? req.query.lang
-            : Geolite.getLanguage(req);
+        language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
         if (req.method === "GET") {
           console.log("@@@@@@ B");
-          if (
-            req.url === "/" ||
-            (req.url && req.url.indexOf("/?lang=") === 0)
-          ) {
+          if (req.url === "/" || (req.url && req.url.indexOf("/?lang=") === 0)) {
             console.log("@@@@@@ C");
             console.log(conf.serverPath);
             res.render("www/", {
@@ -111,12 +100,9 @@ class Express {
       case conf.domain:
         let includeIframeTag = false;
         let portalUrlSearch = false;
-        let connection = "/";
+        let ch = "/";
         let hasSlash = false;
-        language =
-          req.query && req.query.lang
-            ? req.query.lang
-            : Geolite.getLanguage(req);
+        language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
 
         if (
           req.originalUrl === "/robots.txt" ||
@@ -125,30 +111,22 @@ class Express {
         ) {
           // CORSを許可する
           res.header("Access-Control-Allow-Origin", "*");
-          res.header(
-            "Access-Control-Allow-Headers",
-            "Origin, X-Requested-With, Content-Type, Accept"
-          );
-          res.sendFile(
-            conf.serverPortalPath + req.originalUrl.replace("/", "")
-          );
+          res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+          res.sendFile(conf.serverPortalPath + req.originalUrl.replace("/", ""));
           return true;
         }
 
         // No Assests Url
         if (`/${req.originalUrl}/` !== conf.assetsPath) {
-          portalUrlSearch =
-            req.originalUrl.indexOf(`https://${conf.domain}`) !== false;
+          portalUrlSearch = req.originalUrl.indexOf(`https://${conf.domain}`) !== false;
 
           /*
-          MultiConnectionBootはreq.originalUrlのpathnameで配列形式でリクエストを受け付ける
+          MultiChBootはreq.originalUrlのpathnameで配列形式でリクエストを受け付ける
         */
 
           // ポータル以外からアクセス
           if (req.headers.referer) {
-            const referer = req.headers.referer
-              .replace("https:/", "")
-              .replace("http:/", "");
+            const referer = req.headers.referer.replace("https:/", "").replace("http:/", "");
 
             // www.talkn.ioからアクセス
             if (referer.indexOf("/" + conf.wwwURL) === 0) {
@@ -157,39 +135,36 @@ class Express {
                 includeIframeTag = true;
               }
 
-              connection = req.originalUrl;
-              connection =
-                connection.indexOf("//") === 0
-                  ? connection.replace(/^\/\//, "/")
-                  : connection;
+              ch = req.originalUrl;
+              ch = ch.indexOf("//") === 0 ? ch.replace(/^\/\//, "/") : ch;
             } else {
               includeIframeTag = true;
 
-              // Auto Connection
+              // Auto Ch
               if (req.originalUrl === "/") {
-                connection = referer;
+                ch = referer;
 
                 // Extension
               } else if (req.originalUrl !== "/") {
-                connection = referer;
+                ch = referer;
 
-                // User Input Connection
+                // User Input Ch
               } else {
-                connection = referer;
+                ch = referer;
               }
             }
 
             // ポータルにアクセス
           } else {
-            connection = req.originalUrl.replace(`/${conf.domain}`, "");
+            ch = req.originalUrl.replace(`/${conf.domain}`, "");
             includeIframeTag = false;
           }
 
-          hasSlash = connection.lastIndexOf("/") === connection.length - 1;
+          hasSlash = ch.lastIndexOf("/") === ch.length - 1;
 
           res.render("portal/", {
             includeIframeTag,
-            connection,
+            ch,
             hasSlash,
             language,
             domain: conf.domain,
@@ -204,20 +179,14 @@ class Express {
       case conf.clientURL:
         // CORSを許可する
         res.header("Access-Control-Allow-Origin", "*");
-        res.header(
-          "Access-Control-Allow-Headers",
-          "Origin, X-Requested-With, Content-Type, Accept"
-        );
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.sendFile(conf.serverClientPath);
         break;
       case conf.assetsURL:
         if (req.originalUrl === "/manifest.json") {
           // CORSを許可する
           res.header("Access-Control-Allow-Origin", "*");
-          res.header(
-            "Access-Control-Allow-Headers",
-            "Origin, X-Requested-With, Content-Type, Accept"
-          );
+          res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         }
 
         res.sendFile(conf.serverAssetsPath + req.originalUrl.replace("/", ""));
@@ -227,19 +196,12 @@ class Express {
 
         if (proccess.length > 0 && proccess[1] !== "favicon.ico") {
           const socialName = proccess[1];
-          const methodType =
-            proccess[2].charAt(0).toUpperCase() + proccess[2].slice(1);
+          const methodType = proccess[2].charAt(0).toUpperCase() + proccess[2].slice(1);
           const uid = req.query.u;
-          const refererConnection = req.query.c;
+          const refererCh = req.query.c;
 
           if (socialName && methodType) {
-            this.session[socialName + methodType](
-              req,
-              res,
-              next,
-              uid,
-              refererConnection
-            );
+            this.session[socialName + methodType](req, res, next, uid, refererCh);
           } else {
             res.redirect(`https://${conf.domain}`);
           }

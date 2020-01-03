@@ -16,39 +16,39 @@ export default {
       app
     };
   },
-  onClickToTimelineThread: (connection, { app, thread }) => {
+  onClickToTimelineThread: (ch, { app, thread }) => {
     return {
       type: "ON_CLICK_TO_TIMELINE_THREAD",
       app,
-      thread: { connection }
+      thread: { ch }
     };
   },
-  onClickToMultiThread: (connection, { app, thread }) => {
+  onClickToMultiThread: (ch, { app, thread }) => {
     return {
       type: "ON_CLICK_TO_MULTI_THREAD",
       app,
-      thread: { connection }
+      thread: { ch }
     };
   },
-  onClickToSingleThread: (connection, { app, thread }) => {
+  onClickToSingleThread: (ch, { app, thread }) => {
     return {
       type: "ON_CLICK_TO_SINGLE_THREAD",
       app,
-      thread: { connection }
+      thread: { ch }
     };
   },
-  onClickToChildThread: (connection, { app, thread }) => {
+  onClickToChildThread: (ch, { app, thread }) => {
     return {
       type: "ON_CLICK_TO_CHILD_THREAD",
       app,
-      thread: { connection }
+      thread: { ch }
     };
   },
-  onClickToLogsThread: (connection, { app, thread }) => {
+  onClickToLogsThread: (ch, { app, thread }) => {
     return {
       type: "ON_CLICK_TO_LOGS_THREAD",
       app,
-      thread: { connection }
+      thread: { ch }
     };
   },
   onChangeInputPost: (inputPost = "") => {

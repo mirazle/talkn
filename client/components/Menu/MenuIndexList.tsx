@@ -12,7 +12,7 @@ interface Props {
   menuIndexList: any;
   thread: any;
   setting: any;
-  handleOnClickConnection: any;
+  handleOnClickCh: any;
   rank: any;
 }
 
@@ -33,7 +33,7 @@ export default class MenuIndexList extends Component<Props, State> {
 
   componentDidMount() {
     const { app, menuIndexList } = this.props;
-    window.talknAPI.onCatchConnectionAPI(menuIndexList.connection);
+    window.talknAPI.onCatchChAPI(menuIndexList.ch);
   }
 
   getDecolationEvents(styleKey) {
@@ -88,25 +88,18 @@ export default class MenuIndexList extends Component<Props, State> {
   }
 
   onClickEvents() {
-    const {
-      thread,
-      setting,
-      menuIndexList,
-      handleOnClickConnection
-    } = this.props;
-    const { connection } = menuIndexList;
-    const isFocusConnection = thread.connection === connection ? true : false;
-    const styleKey = isFocusConnection
-      ? MenuIndexListStyle.activeLiSelfLabel
-      : MenuIndexListStyle.unactiveLiSelfLabel;
+    const { thread, setting, menuIndexList, handleOnClickCh } = this.props;
+    const { ch } = menuIndexList;
+    const isFocusCh = thread.ch === ch ? true : false;
+    const styleKey = isFocusCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
     let { app } = this.props;
 
-    if (isFocusConnection) {
+    if (isFocusCh) {
       if (app.screenMode === App.screenModeSmallLabel) {
         window.talknAPI.onClickToggleDispMenu();
       }
     } else {
-      handleOnClickConnection(connection, null, "menuIndexList");
+      handleOnClickCh(ch, null, "menuIndexList");
     }
 
     this.setState({
@@ -143,53 +136,41 @@ export default class MenuIndexList extends Component<Props, State> {
     }
   }
 
-  getDispConnection(isFocusConnection) {
+  getDispCh(isFocusCh) {
     const { thread, menuIndexList } = this.props;
-    if (isFocusConnection) {
-      return thread.connection;
+    if (isFocusCh) {
+      return thread.ch;
     } else {
-      if (menuIndexList.connection === "/") {
-        return menuIndexList.connection.replace(thread.connection, "");
-      } else if (!menuIndexList.connection) {
+      if (menuIndexList.ch === "/") {
+        return menuIndexList.ch.replace(thread.ch, "");
+      } else if (!menuIndexList.ch) {
         return "";
       } else {
-        return menuIndexList.connection.indexOf("//") === 0
-          ? menuIndexList.connection.replace("//", "/")
-          : menuIndexList.connection;
+        return menuIndexList.ch.indexOf("//") === 0 ? menuIndexList.ch.replace("//", "/") : menuIndexList.ch;
       }
     }
   }
 
   getDispFavicon() {
-    const { isFocusConnection } = this.state;
+    const { isFocusCh } = this.state;
     const { thread, menuIndexList } = this.props;
     const defaultFavicon = Thread.getDefaultFavicon();
 
-    if (isFocusConnection) {
+    if (isFocusCh) {
       if (menuIndexList.favicon === defaultFavicon) {
         if (thread.favicon === defaultFavicon) {
-          return `//${conf.assetsIconPath}${util.getSaveFaviconName(
-            menuIndexList.favicon
-          )}`;
+          return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
         } else {
-          return `//${conf.assetsIconPath}${util.getSaveFaviconName(
-            thread.favicon
-          )}`;
+          return `//${conf.assetsIconPath}${util.getSaveFaviconName(thread.favicon)}`;
         }
       } else {
-        return `//${conf.assetsIconPath}${util.getSaveFaviconName(
-          menuIndexList.favicon
-        )}`;
+        return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
       }
     } else {
       if (menuIndexList.favicon === defaultFavicon) {
-        return `//${conf.assetsIconPath}${util.getSaveFaviconName(
-          menuIndexList.favicon
-        )}`;
+        return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
       } else {
-        return `//${conf.assetsIconPath}${util.getSaveFaviconName(
-          menuIndexList.favicon
-        )}`;
+        return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
       }
     }
   }
@@ -210,7 +191,7 @@ export default class MenuIndexList extends Component<Props, State> {
   }
 
   renderPost(menuIndexList, app) {
-    let { connection, post, stampId } = menuIndexList;
+    let { ch, post, stampId } = menuIndexList;
 
     if (stampId > 0) {
       post = PostStyle.getStampTag(post, false);
@@ -222,28 +203,19 @@ export default class MenuIndexList extends Component<Props, State> {
   render() {
     const { style } = this.state;
     const { app, thread, menuIndexList, rank } = this.props;
-    const isFocusConnection =
-      thread.connection === menuIndexList.connection ? true : false;
-    const styleKey = isFocusConnection
-      ? MenuIndexListStyle.activeLiSelfLabel
-      : MenuIndexListStyle.unactiveLiSelfLabel;
-    const title =
-      app.rootConnection === menuIndexList.connection
-        ? app.rootTitle
-        : menuIndexList.title;
+    const isFocusCh = thread.ch === menuIndexList.ch ? true : false;
+    const styleKey = isFocusCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
+    const title = app.rootCh === menuIndexList.ch ? app.rootTitle : menuIndexList.title;
 
     const dispRank = this.getDispRank(rank);
     const dispFavicon = this.getDispFavicon();
     const dispWatchCnt = this.getDispWatchCnt();
     const baseStyle = style[styleKey];
-    const dispExt =
-      menuIndexList.findType === Thread.findTypeHtml
-        ? null
-        : menuIndexList.findType;
+    const dispExt = menuIndexList.findType === Thread.findTypeHtml ? null : menuIndexList.findType;
     return (
       <li
         data-component-name={"MenuIndexList"}
-        key={menuIndexList.connection}
+        key={menuIndexList.ch}
         style={baseStyle}
         onClick={this.onClickEvents}
         {...this.getDecolationEvents(styleKey)}
@@ -252,13 +224,7 @@ export default class MenuIndexList extends Component<Props, State> {
         <div style={style.upper}>
           <span style={style.upperSpace} />
           <span style={style.upperRight}>
-            <Marquee
-              text={title}
-              loop={true}
-              hoverToStop={false}
-              trailing={0}
-              leading={0}
-            />
+            <Marquee text={title} loop={true} hoverToStop={false} trailing={0} leading={0} />
           </span>
         </div>
 

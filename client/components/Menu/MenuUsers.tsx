@@ -6,25 +6,13 @@ interface Props {
 }
 
 export default class MenuUsers extends Component<Props> {
-  renderFriendLiLabel(name, icon, connection) {
+  renderFriendLiLabel(name, icon, ch) {
     const { style } = this.props.state;
-    const href = `/${connection}`;
-    const label = connection ? (
-      <div style={style.menuUsers.namesAddConnection}>
-        <Marquee
-          text={name}
-          loop={true}
-          hoverToStop={false}
-          trailing={0}
-          leading={0}
-        />
-        <Marquee
-          text={connection}
-          loop={true}
-          hoverToStop={false}
-          trailing={0}
-          leading={0}
-        />
+    const href = `/${ch}`;
+    const label = ch ? (
+      <div style={style.menuUsers.namesAddCh}>
+        <Marquee text={name} loop={true} hoverToStop={false} trailing={0} leading={0} />
+        <Marquee text={ch} loop={true} hoverToStop={false} trailing={0} leading={0} />
       </div>
     ) : (
       <div style={style.menuUsers.names}>

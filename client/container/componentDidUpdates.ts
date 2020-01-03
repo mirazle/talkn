@@ -23,7 +23,7 @@ const componentDidUpdates = {
       const { app, thread } = self.props.state;
       //alert( "@@@! " + app.isTransition);
       const Posts = document.querySelector("[data-component-name=Posts]");
-      const connection = thread.connection;
+      const ch = thread.ch;
       app.postsHeight += TalknWindow.getPostsHeight();
       self.props.updatePostsHeight(app.postsHeight);
 
@@ -34,7 +34,7 @@ const componentDidUpdates = {
 
         if (app.dispThreadType === App.dispThreadTypeTimeline) {
           TalknMedia.init("FIND");
-          const timeline = storage.getStoragePostsTimeline(connection);
+          const timeline = storage.getStoragePostsTimeline(ch);
           const media = TalknMedia.getMedia(thread);
           window.talknMedia = new TalknMedia();
           window.talknMedia.setTimeline(timeline);
@@ -97,8 +97,8 @@ const componentDidUpdates = {
       }
     },
     ON_CHANGE_FIND_TYPE: self => {
-      const { connection } = self.props.state.thread;
-      window.talknAPI.findMenuIndex(connection);
+      const { ch } = self.props.state.thread;
+      window.talknAPI.findMenuIndex(ch);
     },
     CLOSE_NOTIF: self => {
       if (self.state.notifs.length > 0) {
@@ -113,7 +113,7 @@ const componentDidUpdates = {
     GET_CLIENT_METAS: self => {
       const { app, thread } = self.props.state;
       const { serverMetas } = thread;
-      if (!app.isLinkConnection) {
+      if (!app.isLinkCh) {
         window.talknAPI.updateThreadServerMetas(serverMetas);
       }
     },
@@ -205,12 +205,7 @@ function post(self) {
 
   const postsScrollFunc = () => {
     if (app.isOpenPosts && window.talknWindow.isScrollBottom) {
-      self.animateScrollTo(
-        Posts,
-        Posts.scrollHeight,
-        400,
-        self.props.endAnimateScrollTo
-      );
+      self.animateScrollTo(Posts, Posts.scrollHeight, 400, self.props.endAnimateScrollTo);
     }
     if (app.isOpenPosts) {
       self.props.openNewPost();
@@ -223,11 +218,7 @@ function post(self) {
     } else {
       window.talknWindow.threadHeight = Posts.clientHeight;
       if (app.isOpenPosts && window.talknWindow.isScrollBottom) {
-        window.talknWindow.animateScrollTo(
-          window.talknWindow.threadHeight,
-          400,
-          self.props.endAnimateScrollTo
-        );
+        window.talknWindow.animateScrollTo(window.talknWindow.threadHeight, 400, self.props.endAnimateScrollTo);
       }
       if (app.isOpenPosts) {
         self.props.openNewPost();

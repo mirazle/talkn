@@ -18,9 +18,7 @@ export default class Menu extends React.Component<Props> {
     super(props);
     this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
     this.handleOnClickLoginTwitter = this.handleOnClickLoginTwitter.bind(this);
-    this.handleOnClickLoginFacebook = this.handleOnClickLoginFacebook.bind(
-      this
-    );
+    this.handleOnClickLoginFacebook = this.handleOnClickLoginFacebook.bind(this);
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind(this);
   }
 
@@ -58,14 +56,14 @@ export default class Menu extends React.Component<Props> {
     }
   }
 
-  renderFriendLiLabel(name, icon, connection) {
+  renderFriendLiLabel(name, icon, ch) {
     const { style } = this.props.state;
-    const href = `/${connection}`;
-    const label = connection ? (
-      <span style={style.menu.namesAddConnection}>
+    const href = `/${ch}`;
+    const label = ch ? (
+      <span style={style.menu.namesAddCh}>
         {name}
         <br />
-        {connection}
+        {ch}
       </span>
     ) : (
       <span style={style.menu.names}>
@@ -113,10 +111,7 @@ export default class Menu extends React.Component<Props> {
 
   renderFooter() {
     const { app } = this.props.state;
-    if (
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
-    ) {
+    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
       return null;
     } else {
       switch (app.screenMode) {
@@ -131,11 +126,7 @@ export default class Menu extends React.Component<Props> {
   render() {
     const { style } = this.props.state;
     return (
-      <div
-        data-component-name={"Menu"}
-        onTransitionEnd={this.handleOnTransitionEnd}
-        style={style.menu.self}
-      >
+      <div data-component-name={"Menu"} onTransitionEnd={this.handleOnTransitionEnd} style={style.menu.self}>
         {this.renderHeader()}
         <div data-component-name={"MenuBody"} style={style.menu.wrapComponent}>
           {this.renderMenuComponent()}

@@ -7,7 +7,7 @@ export default (state: any = new Posts(), action) => {
     case "SERVER_TO_CLIENT[EMIT]:find":
     case "SERVER_TO_CLIENT[BROADCAST]:post":
       if (action.postsChild && action.postsChild.length > 0) {
-        if (action.thread.connection === action.posts[0].connection) {
+        if (action.thread.ch === action.posts[0].ch) {
           return [...state, ...action.postsChild];
         }
       }

@@ -12,7 +12,7 @@ interface Props {
   _id: any;
   app: any;
   threads: any;
-  connection: string;
+  ch: string;
   actionLog: any;
   dispFlg: any;
   timeago: any;
@@ -159,7 +159,7 @@ export default class Post extends Component<Props, State> {
 
   shouldComponentUpdate(props) {
     const { app, actionLog } = props;
-    if (app.isMediaConnection) {
+    if (app.isMediaCh) {
       return true;
       /*
       return [
@@ -175,7 +175,7 @@ export default class Post extends Component<Props, State> {
 
   mountTimeago() {
     const { app, timeago } = this.props;
-    if (!app.isMediaConnection) {
+    if (!app.isMediaCh) {
       if (this.refs[this.state.timeId]) {
         // timeago.render(this.refs[this.state.timeId]);
       }
@@ -184,16 +184,16 @@ export default class Post extends Component<Props, State> {
 
   handleOnClickPost() {
     const { threads } = this.props;
-    let { app, connection } = this.props;
+    let { app, ch } = this.props;
 
-    if (threads[connection]) {
+    if (threads[ch]) {
       app = App.getAppUpdatedOpenFlgs({ app }, "post");
       window.talknAPI.onClickToggleDispDetail({
-        threadDetail: threads[connection],
+        threadDetail: threads[ch],
         app
       });
     } else {
-      window.talknAPI.changeThreadDetail(connection);
+      window.talknAPI.changeThreadDetail(ch);
     }
   }
 
@@ -201,17 +201,12 @@ export default class Post extends Component<Props, State> {
     const { style } = this.state;
     const { app, createTime, currentTime } = this.props;
 
-    if (app.isMediaConnection) {
+    if (app.isMediaCh) {
       const dispCurrentTime = String(currentTime).split(".")[0];
       return <time style={style.upperTimeago}>{dispCurrentTime} Second.</time>;
     } else {
       return (
-        <time
-          style={style.upperTimeago}
-          ref={this.state.timeId}
-          className={"timeAgo"}
-          dateTime={createTime}
-        >
+        <time style={style.upperTimeago} ref={this.state.timeId} className={"timeAgo"} dateTime={createTime}>
           <TimeAgo date={createTime} />
         </time>
       );
@@ -226,13 +221,7 @@ export default class Post extends Component<Props, State> {
       <div style={style.upper}>
         <div style={style.upperChild}>{childLabel}</div>
         <div style={style.upperTitle}>
-          <Marquee
-            text={title}
-            loop={true}
-            hoverToStop={false}
-            trailing={0}
-            leading={0}
-          />
+          <Marquee text={title} loop={true} hoverToStop={false} trailing={0} leading={0} />
         </div>
         {this.renderTime()}
       </div>
@@ -259,7 +248,7 @@ export default class Post extends Component<Props, State> {
 
     renderPost( menuIndexList, app ){
     let { post, stampId } = menuIndexList
-    console.log( menuIndexList.connection + " " + post + " " + stampId );
+    console.log( menuIndexList.ch + " " + post + " " + stampId );
     if( stampId > 0 ){
       post = PostStyle.getStampTag( post, app.isBubblePost );
     }
@@ -277,9 +266,7 @@ export default class Post extends Component<Props, State> {
     const { style } = this.props;
 
     if (stampId) {
-      let stampType = emotionCoverTypes.belongCoverTypes[stampId]
-        ? emotionCoverTypes.belongCoverTypes[stampId]
-        : "No";
+      let stampType = emotionCoverTypes.belongCoverTypes[stampId] ? emotionCoverTypes.belongCoverTypes[stampId] : "No";
 
       return (
         <div data-component-name={"stamp-label"} style={style.stampLabelWrap}>
@@ -297,10 +284,7 @@ export default class Post extends Component<Props, State> {
     const stampLabel = this.renderStampLabel(stampId);
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName(favicon);
 
-    if (
-      dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 &&
-      dispFavicon.indexOf(Sequence.HTTP_PROTOCOL) !== 0
-    ) {
+    if (dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 && dispFavicon.indexOf(Sequence.HTTP_PROTOCOL) !== 0) {
       if (thread.protocol === Sequence.TALKN_PROTOCOL) {
         dispFavicon = `${Sequence.HTTPS_PROTOCOL}//${dispFavicon}`;
       } else {
@@ -310,12 +294,7 @@ export default class Post extends Component<Props, State> {
 
     if (active) {
       return (
-        <li
-          data-component-name={"Post"}
-          id={_id}
-          style={style.self}
-          {...this.getDecolationProps()}
-        >
+        <li data-component-name={"Post"} id={_id} style={style.self} {...this.getDecolationProps()}>
           {this.renderUpper()}
 
           <div onClick={this.handleOnClickPost} style={style.bottom}>

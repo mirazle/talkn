@@ -17,58 +17,38 @@ export default class Html {
 
   async fetch(thread, requestState) {
     const { hasSlash } = requestState.thread;
-    const { protocol, connection } = thread;
-    const layer = Thread.getLayer(connection);
-    let requestConnection = connection;
+    const { protocol, ch } = thread;
+    const layer = Thread.getLayer(ch);
+    let requestCh = ch;
 
     if (layer === 2) {
-      requestConnection = connection.replace(/\/$/, "");
+      requestCh = ch.replace(/\/$/, "");
     } else {
-      requestConnection = JSON.parse(hasSlash)
-        ? connection
-        : connection.replace(/\/$/, "");
+      requestCh = JSON.parse(hasSlash) ? ch : ch.replace(/\/$/, "");
     }
 
     let result: any = { response: null, iconHrefs: [] };
 
     switch (protocol) {
       case Sequence.HTTPS_PROTOCOL:
-        result = await Logics.html.exeFetch(
-          Sequence.HTTPS_PROTOCOL,
-          requestConnection
-        );
+        result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, requestCh);
 
         if (!result.response) {
-          result = await Logics.html.exeFetch(
-            Sequence.HTTP_PROTOCOL,
-            requestConnection
-          );
+          result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, requestCh);
         }
         break;
       case Sequence.HTTP_PROTOCOL:
-        result = await Logics.html.exeFetch(
-          Sequence.HTTP_PROTOCOL,
-          requestConnection
-        );
+        result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, requestCh);
         if (!result.response) {
-          result = await Logics.html.exeFetch(
-            Sequence.HTTPS_PROTOCOL,
-            requestConnection
-          );
+          result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, requestCh);
         }
         break;
       case Sequence.TALKN_PROTOCOL:
       case Sequence.UNKNOWN_PROTOCOL:
       default:
-        result = await Logics.html.exeFetch(
-          Sequence.HTTPS_PROTOCOL,
-          requestConnection
-        );
+        result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, requestCh);
         if (!result.response) {
-          result = await Logics.html.exeFetch(
-            Sequence.HTTP_PROTOCOL,
-            requestConnection
-          );
+          result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, requestCh);
         }
         break;
     }
@@ -81,17 +61,17 @@ export default class Html {
     }
   }
 
-  exeFetch(protocol, connection) {
+  exeFetch(protocol, ch) {
     return new Promise((resolve, reject) => {
-      const url = `${protocol}/${connection}`;
+      const url = `${protocol}/${ch}`;
       const option = { method: "GET", encoding: "binary", url };
       // localhost is not get.
       request(option, (error, response, body) => {
         let responseSchema = MongoDB.getDefineSchemaObj(new HtmlSchema({}));
 
         if (error) {
-//          console.warn("html.js " + url);
-//          console.warn(error);
+          //          console.warn("html.js " + url);
+          //          console.warn(error);
         }
 
         if (!error && response && response.statusCode === 200) {
@@ -101,7 +81,7 @@ export default class Html {
           responseSchema.contentType = contentType;
           responseSchema.protocol = protocol;
           if (App.isMediaContentType(contentType)) {
-            responseSchema.title = this.getTitle(null, connection, contentType);
+            responseSchema.title = this.getTitle(null, ch, contentType);
             responseSchema.serverMetas.title = responseSchema.title;
           } else {
             const utf8Body = this.toUtf8Str(body, contentType);
@@ -111,12 +91,7 @@ export default class Html {
             responseSchema.h1s = this.getH1s($);
             responseSchema.videos = this.getVideos($);
             responseSchema.audios = this.getAudios($);
-            responseSchema.serverMetas = this.getMetas(
-              $,
-              connection,
-              responseSchema,
-              response.request.uri.href
-            );
+            responseSchema.serverMetas = this.getMetas($, ch, responseSchema, response.request.uri.href);
           }
           resolve({ response: responseSchema, iconHrefs });
         } else {
@@ -126,16 +101,16 @@ export default class Html {
     });
   }
 
-  getTitle($, connection, contentType) {
+  getTitle($, ch, contentType) {
     let title = "";
     if (App.isMediaContentType(contentType)) {
-      const splitedConnection = connection.split("/");
+      const splitedCh = ch.split("/");
 
-      const _title1 = splitedConnection[splitedConnection.length - 1];
+      const _title1 = splitedCh[splitedCh.length - 1];
       if (_title1 !== "") return _title1;
-      const _title2 = splitedConnection[splitedConnection.length - 2];
+      const _title2 = splitedCh[splitedCh.length - 2];
       if (_title2 !== "") return _title2;
-      const _title3 = splitedConnection[splitedConnection.length - 3];
+      const _title3 = splitedCh[splitedCh.length - 3];
       if (_title3 !== "") return _title3;
     } else {
       title = $("head title").text();
@@ -229,12 +204,7 @@ export default class Html {
     const linkLength = $("body a").length;
 
     const getHref = item => {
-      if (
-        item &&
-        item.attribs &&
-        item.attribs.href &&
-        item.attribs.href !== ""
-      ) {
+      if (item && item.attribs && item.attribs.href && item.attribs.href !== "") {
         return item.attribs.href;
       }
       return "";
@@ -245,11 +215,7 @@ export default class Html {
       for (let i = 0; i < itemLength; i++) {
         const child = item.children[i];
 
-        if (
-          child.type === "text" &&
-          child.data !== "" &&
-          !Html.checkSpace.test(child.data)
-        ) {
+        if (child.type === "text" && child.data !== "" && !Html.checkSpace.test(child.data)) {
           text = child.data;
           break;
         }
@@ -288,12 +254,12 @@ export default class Html {
     return links;
   }
 
-  getMetas($, connection, parentSchema, href) {
+  getMetas($, ch, parentSchema, href) {
     let responseSchema = MongoDB.getDefineSchemaObj(new HtmlSchema({}));
     let serverMetas = responseSchema.serverMetas;
     const metaLength = $("meta").length;
 
-    serverMetas.title = this.getTitle($, connection, parentSchema.contentType);
+    serverMetas.title = this.getTitle($, ch, parentSchema.contentType);
 
     for (var i = 0; i < metaLength; i++) {
       const item = $("meta").get(i);
@@ -314,10 +280,7 @@ export default class Html {
       }
 
       if (key === "og:image") {
-        if (
-          content.indexOf(Sequence.HTTP_PROTOCOL) !== 0 &&
-          content.indexOf(Sequence.HTTPS_PROTOCOL) !== 0
-        ) {
+        if (content.indexOf(Sequence.HTTP_PROTOCOL) !== 0 && content.indexOf(Sequence.HTTPS_PROTOCOL) !== 0) {
           content = `${href}${content}`;
         }
       }

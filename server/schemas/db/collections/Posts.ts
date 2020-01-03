@@ -4,8 +4,8 @@ const SchemaTypes = mongoose.Schema.Types;
 
 export default {
   protocol: { type: String, default: "talkn:" },
-  connection: { type: String, default: "" },
-  connections: { type: [String], default: [] },
+  ch: { type: String, default: "" },
+  chs: { type: [String], default: [] },
   layer: { type: Number, default: 0 },
   uid: { type: String, default: "" },
   utype: { type: String, default: "" },

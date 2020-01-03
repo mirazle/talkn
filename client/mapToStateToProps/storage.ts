@@ -11,13 +11,10 @@ export default {
   },
   "SERVER_TO_CLIENT[EMIT]:changeThread": (state, props) => {
     const { app } = state;
-    const { rootConnection } = app;
+    const { rootCh } = app;
     const { storageKey } = define;
-    const postKey =
-      app.dispThreadType === App.dispThreadTypeMulti
-        ? storageKey.postSingle
-        : storageKey.postMulti;
-    TalknSession.setStorage(rootConnection, define.storageKey[postKey], []);
+    const postKey = app.dispThreadType === App.dispThreadTypeMulti ? storageKey.postSingle : storageKey.postMulti;
+    TalknSession.setStorage(rootCh, define.storageKey[postKey], []);
     return { state, props };
   },
   //  "ON__CLICK_MULTISTREAM": setStoragePosts,
@@ -32,8 +29,8 @@ export default {
     return { state, props };
   },
   ON_CLICK_MENU: (state, props) => {
-    const { rootConnection } = state.app;
-    TalknSession.setStorage(rootConnection, define.storageKey.app, state.app);
+    const { rootCh } = state.app;
+    TalknSession.setStorage(rootCh, define.storageKey.app, state.app);
     return { state, props };
   },
   "SERVER_TO_CLIENT[EMIT]:initClientState ": (state, props) => {
@@ -51,7 +48,7 @@ export default {
 
 function setStoragePosts(state, props) {
   const { app } = state;
-  if (app.isMediaConnection) {
+  if (app.isMediaCh) {
     state = setStoragePostsTimeline(state);
     return { state, props };
   } else {
@@ -62,18 +59,10 @@ function setStoragePosts(state, props) {
 function setStorageHtmlPosts(state, props) {
   const { app } = state;
   const { storageKey } = define;
-  if (app.isRootConnection) {
+  if (app.isRootCh) {
     const { postsMulti, postsSingle } = state;
-    TalknSession.setStorage(
-      app.rootConnection,
-      storageKey.postsMulti,
-      postsMulti
-    );
-    TalknSession.setStorage(
-      app.rootConnection,
-      storageKey.postsSingle,
-      postsSingle
-    );
+    TalknSession.setStorage(app.rootCh, storageKey.postsMulti, postsMulti);
+    TalknSession.setStorage(app.rootCh, storageKey.postsSingle, postsSingle);
   }
 
   return { state, props };
@@ -82,9 +71,8 @@ function setStorageHtmlPosts(state, props) {
 function setStoragePostsTimeline(action) {
   const { app, thread, postsTimeline: postsTimelineAll } = action;
   const { storageKey } = define;
-  if (app.isMediaConnection) {
-    const postsTimelineAllLength =
-      postsTimelineAll && postsTimelineAll.length ? postsTimelineAll.length : 0;
+  if (app.isMediaCh) {
+    const postsTimelineAllLength = postsTimelineAll && postsTimelineAll.length ? postsTimelineAll.length : 0;
     let postsTimelineZero = [];
     let postsTimeline = [];
 
@@ -97,16 +85,8 @@ function setStoragePostsTimeline(action) {
     }
 
     action.postsTimeline = postsTimelineZero;
-    TalknSession.setStorage(
-      thread.connection,
-      storageKey.postsTimelineZero,
-      postsTimelineZero
-    );
-    TalknSession.setStorage(
-      thread.connection,
-      storageKey.postsTimeline,
-      postsTimeline
-    );
+    TalknSession.setStorage(thread.ch, storageKey.postsTimelineZero, postsTimelineZero);
+    TalknSession.setStorage(thread.ch, storageKey.postsTimeline, postsTimeline);
   }
   return action;
 }
@@ -115,7 +95,7 @@ function addStoragePostsTimeline(action) {
   const { app, postsTimeline } = action;
 
   const { storageKey } = define;
-  if (app.isMediaConnection) {
+  if (app.isMediaCh) {
     const addPostsTimeline = postsTimeline[0];
     let postsTimelineZero = [];
     let postsTimeline = [];
@@ -123,14 +103,14 @@ function addStoragePostsTimeline(action) {
     let postsTimelineLength = 0;
 
     if (addPostsTimeline.currentTime === 0) {
-      postsTimelineZero = getStoragePostsTimelineZero(app.rootConnection);
+      postsTimelineZero = getStoragePostsTimelineZero(app.rootCh);
       postsTimelineZeroLength = postsTimelineZero.length;
 
       //      for(let i = 0; i < postsTimelineZeroLength; i++){
       //      }
       //      p.splice(4,0,p2);
     } else {
-      postsTimeline = getStoragePostsTimeline(app.rootConnection);
+      postsTimeline = getStoragePostsTimeline(app.rootCh);
       postsTimelineLength = postsTimeline.length;
       if (postsTimelineLength > 0) {
         for (let i = 0; i < postsTimelineLength; i++) {}
@@ -139,20 +119,14 @@ function addStoragePostsTimeline(action) {
   }
 }
 */
-function getStoragePostsTimelineZero(rootConnection) {
+function getStoragePostsTimelineZero(rootCh) {
   const { storageKey } = define;
-  const response = TalknSession.getStorage(
-    rootConnection,
-    storageKey.postsTimelineZero
-  );
+  const response = TalknSession.getStorage(rootCh, storageKey.postsTimelineZero);
   return response.constructor.name === "Array" ? response : [];
 }
 
-function getStoragePostsTimeline(rootConnection) {
+function getStoragePostsTimeline(rootCh) {
   const { storageKey } = define;
-  const response = TalknSession.getStorage(
-    rootConnection,
-    storageKey.postsTimeline
-  );
+  const response = TalknSession.getStorage(rootCh, storageKey.postsTimeline);
   return response.constructor.name === "Array" ? response : [];
 }

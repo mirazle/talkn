@@ -75,9 +75,7 @@ export default class Favicon {
         // バイナリが存在する場合
         if (resolveResult.faviconBinary) {
           // faviconを保存
-          const saveFaviconName = util.getSaveFaviconName(
-            resolveResult.faviconName
-          );
+          const saveFaviconName = util.getSaveFaviconName(resolveResult.faviconName);
           Logics.fs.writeFavicon(saveFaviconName, resolveResult.faviconBinary);
         } else {
         }
@@ -91,37 +89,32 @@ export default class Favicon {
     return new Promise((resolve, reject) => {
       const { faviconName } = faviconData;
 
-      request(
-        { method: "GET", url: faviconName, encoding: null },
-        (error, response, faviconBinary) => {
-          if (!error && response && response.statusCode === 200) {
-            if (log) console.log("A ");
-            if (log) console.log(response.headers);
-            if (response.headers["content-type"].indexOf("image") === 0) {
-              if (log) console.log("B " + response.headers["content-length"]);
-              if (response.headers["content-length"] !== "0") {
-                if (log) console.log("C");
-                resolve({ ...faviconData, faviconBinary });
-                return true;
-              }
+      request({ method: "GET", url: faviconName, encoding: null }, (error, response, faviconBinary) => {
+        if (!error && response && response.statusCode === 200) {
+          if (log) console.log("A ");
+          if (log) console.log(response.headers);
+          if (response.headers["content-type"].indexOf("image") === 0) {
+            if (log) console.log("B " + response.headers["content-length"]);
+            if (response.headers["content-length"] !== "0") {
+              if (log) console.log("C");
+              resolve({ ...faviconData, faviconBinary });
+              return true;
             }
           }
-          resolve(false);
-          return false;
         }
-      );
+        resolve(false);
+        return false;
+      });
     });
   }
 
   getFaviconDatas(thread, iconHrefs) {
     const log = false;
-    const { protocol, host, connection } = thread;
+    const { protocol, host, ch } = thread;
 
     // Faviconの初期値を設定
     let faviconDatas: any = [Favicon.defaultFaviconData];
-    faviconDatas[0]["isExist"] = Logics.fs.isExistFavicon(
-      util.getSaveFaviconName(faviconDatas[0]["faviconName"])
-    );
+    faviconDatas[0]["isExist"] = Logics.fs.isExistFavicon(util.getSaveFaviconName(faviconDatas[0]["faviconName"]));
 
     // host直下のパターンを検出
     const faviconName = `${protocol}//${host}/${Favicon.defaultFaviconName}`;
@@ -137,18 +130,14 @@ export default class Favicon {
     if (iconHrefsLength > 0) {
       for (let i = 0; i < iconHrefsLength; i++) {
         const href = iconHrefs[i];
-        const faviconHostType =
-          href.indexOf(host) >= 0 ? "[SAME_HOST]" : "[DIF_HOST]";
+        const faviconHostType = href.indexOf(host) >= 0 ? "[SAME_HOST]" : "[DIF_HOST]";
         let faviconName = "";
         let faviconType = "";
         let isDefault = Favicon.defaultFaviconData.isDefault;
         let isExist = Favicon.defaultFaviconData.isExist;
         if (log) console.log("@A");
         // フルパス記述している場合( http://example/favicon.ico )
-        if (
-          href.indexOf(Sequence.HTTP_PROTOCOL) === 0 ||
-          href.indexOf(Sequence.HTTPS_PROTOCOL) === 0
-        ) {
+        if (href.indexOf(Sequence.HTTP_PROTOCOL) === 0 || href.indexOf(Sequence.HTTPS_PROTOCOL) === 0) {
           if (log) console.log("@B");
           faviconName = href;
           faviconType = `[PROTOCOL]//${faviconHostType}/[ICON]`;
@@ -184,23 +173,23 @@ export default class Favicon {
             const splitedHref = href.split("../");
             const updateHref = href.replace(/\.\.\//g, "");
             const backPathCnt = splitedHref.length - 1;
-            const splitedConnection = connection.split("/");
-            const splitedConnectionLength = splitedConnection.length;
+            const splitedCh = ch.split("/");
+            const splitedChLength = splitedCh.length;
             const removePathCnt = backPathCnt + 3;
             let updateHost = "";
 
-            for (let i = 0; i < splitedConnectionLength; i++) {
-              if (i > splitedConnectionLength - removePathCnt) {
+            for (let i = 0; i < splitedChLength; i++) {
+              if (i > splitedChLength - removePathCnt) {
                 console.log("BREAK!");
                 break;
               }
-              updateHost = updateHost + splitedConnection[i] + "/";
+              updateHost = updateHost + splitedCh[i] + "/";
               console.log(i + " " + updateHost);
             }
 
             faviconName = `${protocol}/${updateHost}${updateHref}`;
             faviconType = "[PATH]../[ICON]";
-            if (log) console.log("@G " + connection);
+            if (log) console.log("@G " + ch);
             if (log) console.log("@G " + updateHost);
             if (log) console.log("@G " + updateHref);
             if (log) console.log("@G " + faviconName);
@@ -221,9 +210,7 @@ export default class Favicon {
         // ランダム値を削除する
         faviconName = faviconName.replace(/[?].*$/, "");
         isDefault = Favicon.defaultFaviconData.faviconName === faviconName;
-        isExist = Logics.fs.isExistFavicon(
-          util.getSaveFaviconName(faviconName)
-        );
+        isExist = Logics.fs.isExistFavicon(util.getSaveFaviconName(faviconName));
         faviconDatas.push({ faviconName, faviconType, isExist, isDefault });
       }
 

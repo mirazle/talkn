@@ -26,9 +26,7 @@ export default class MenuUsers {
         transform = "translate3d( 0px ,0px, 0px )";
         break;
       case App.screenModeMiddleLabel:
-        transform = app.isOpenDetail
-          ? `translate3d( 0px ,0px, 0px )`
-          : "translate3d( 0px ,0px, 0px )";
+        transform = app.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : "translate3d( 0px ,0px, 0px )";
         break;
       case App.screenModeLargeLabel:
         transform = "translate3d( 0px ,0px, 0px )";
@@ -46,7 +44,7 @@ export default class MenuUsers {
     const wrap = MenuUsers.getWrap(params);
     const imgWrap = MenuUsers.getImgWrap(params);
     const names = MenuUsers.getNames(params);
-    const namesAddConnection = MenuUsers.getNamesAddConnection(params);
+    const namesAddCh = MenuUsers.getNamesAddCh(params);
     return {
       self,
       columns,
@@ -56,7 +54,7 @@ export default class MenuUsers {
       imgWrap,
       wrap,
       names,
-      namesAddConnection
+      namesAddCh
     };
   }
 
@@ -79,7 +77,7 @@ export default class MenuUsers {
     return Style.get({ layout, content, animation });
   }
 
-  static getColumns({app}) {
+  static getColumns({ app }) {
     const layout = Style.getLayoutBlock({
       width: "inherit",
       minWidth: "inherit",
@@ -97,7 +95,7 @@ export default class MenuUsers {
     return Style.get({ layout, content, animation });
   }
 
-  static getColumn({app}) {
+  static getColumn({ app }) {
     const layout = Style.getLayoutBlock({
       width: "inherit",
       minWidth: "inherit",
@@ -115,7 +113,7 @@ export default class MenuUsers {
     return Style.get({ layout, content, animation });
   }
 
-  static getColumnLast({app}) {
+  static getColumnLast({ app }) {
     const layout = Style.getLayoutBlock({
       width: "inherit",
       minWidth: "inherit",
@@ -132,7 +130,7 @@ export default class MenuUsers {
     return Style.get({ layout, content, animation });
   }
 
-  static getWrap({app}) {
+  static getWrap({ app }) {
     const layout = Style.getLayoutFlex({
       width: "initial",
       height: "60px",
@@ -148,7 +146,7 @@ export default class MenuUsers {
     return Style.get({ layout, content, animation });
   }
 
-  static getImgWrap({app}) {
+  static getImgWrap({ app }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       margin: "22px 0px 0px 0px",
@@ -162,7 +160,7 @@ export default class MenuUsers {
     return Style.get({ layout, content, animation });
   }
 
-  static getImg({app}) {
+  static getImg({ app }) {
     const layout = Style.getLayoutInlineBlock({
       borderRadius: "50%",
       width: "34px",
@@ -173,7 +171,7 @@ export default class MenuUsers {
     return Style.get({ layout, content, animation });
   }
 
-  static getNamesAddConnection({app}) {
+  static getNamesAddCh({ app }) {
     const layout = Style.getLayoutBlock({
       padding: "5px 10px 5px 5px",
       flexGrow: 4
@@ -187,7 +185,7 @@ export default class MenuUsers {
     return Style.get({ layout, content, animation });
   }
 
-  static getNames({app}) {
+  static getNames({ app }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 4
     });

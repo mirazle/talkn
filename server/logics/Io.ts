@@ -11,9 +11,9 @@ export default class Io {
     return this.io.get();
   }
 
-  async connectioned(ioUser) {
+  async tuned(ioUser) {
     return this.io.emit(ioUser, Sequence.CATCH_ME_KEY, {
-      type: "connectioned"
+      type: "tuned"
     });
   }
 
@@ -33,7 +33,7 @@ export default class Io {
     });
     const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
-    this.io.broadcast(responseBroadcastState.thread.connection, responseBroadcastState);
+    this.io.broadcast(responseBroadcastState.thread.ch, responseBroadcastState);
     return true;
   }
 
@@ -75,7 +75,7 @@ export default class Io {
     });
     const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
-    this.io.broadcast(responseBroadcastState.thread.connection, responseBroadcastState);
+    this.io.broadcast(responseBroadcastState.thread.ch, responseBroadcastState);
     return true;
   }
 
@@ -85,10 +85,10 @@ export default class Io {
       thread,
       menuIndex: posts
     });
-    const connections = posts[0].connections;
-    connections.forEach(connection => {
-      responseBroadcastState.thread.connection = connection;
-      this.io.broadcast(connection, responseBroadcastState);
+    const chs = posts[0].chs;
+    chs.forEach(ch => {
+      responseBroadcastState.thread.ch = ch;
+      this.io.broadcast(ch, responseBroadcastState);
     });
 
     return true;
@@ -104,6 +104,6 @@ export default class Io {
 
   async saveOnWatchCnt(ioUser, { requestState, thread }) {
     const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
-    return this.io.broadcast(responseBroadcastState.thread.connection, responseBroadcastState);
+    return this.io.broadcast(responseBroadcastState.thread.ch, responseBroadcastState);
   }
 }

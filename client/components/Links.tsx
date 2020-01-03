@@ -6,44 +6,44 @@ import Link from "client/components/Link";
 interface Props {
   displayLinks: any;
   state: any;
-  handleOnClickConnection?: any;
+  handleOnClickCh?: any;
 }
 
 interface State {
-  connection: any;
+  ch: any;
   linkContents: any;
   linkContentsKey: any;
   displayLinks: any;
 }
 
 export default class Links extends Component<Props, State> {
-  static getConnection(str, thread) {
-    let connection = "";
+  static getCh(str, thread) {
+    let ch = "";
     const isIncludeProtocol = Links.isIncludeProtocol(str);
 
     if (isIncludeProtocol) {
-      connection = Links.removeProtocol(str);
+      ch = Links.removeProtocol(str);
     } else {
       if (str && typeof str === "string" && str.indexOf("/") === 0) {
-        connection = "/" + thread.host + str;
+        ch = "/" + thread.host + str;
       } else {
-        const splitedConnection = thread.connection.split("/");
-        const splitedConnectionLength = splitedConnection.length - 2;
-        let connectionPart = "";
-        for (let i = 0; i < splitedConnectionLength; i++) {
-          connectionPart = connectionPart + splitedConnection[i] + "/";
+        const splitedCh = thread.ch.split("/");
+        const splitedChLength = splitedCh.length - 2;
+        let chPart = "";
+        for (let i = 0; i < splitedChLength; i++) {
+          chPart = chPart + splitedCh[i] + "/";
         }
-        connection = connectionPart + str + "/";
-        if (connection.indexOf(thread.host) === -1) {
-          connection = "/" + thread.host + connection;
+        ch = chPart + str + "/";
+        if (ch.indexOf(thread.host) === -1) {
+          ch = "/" + thread.host + ch;
         }
       }
     }
 
-    if (connection.lastIndexOf("/") !== connection.length - 1) {
-      connection = connection + "/";
+    if (ch.lastIndexOf("/") !== ch.length - 1) {
+      ch = ch + "/";
     }
-    return connection;
+    return ch;
   }
 
   static isIncludeProtocol(str) {
@@ -59,16 +59,14 @@ export default class Links extends Component<Props, State> {
   }
 
   static removeProtocol(str) {
-    return str
-      .replace(`${Sequence.HTTP_PROTOCOL}/`, "")
-      .replace(`${Sequence.HTTPS_PROTOCOL}/`, "");
+    return str.replace(`${Sequence.HTTP_PROTOCOL}/`, "").replace(`${Sequence.HTTPS_PROTOCOL}/`, "");
   }
 
   constructor(props) {
     super(props);
     const { thread } = this.props.state;
     this.state = {
-      connection: thread.connection,
+      ch: thread.ch,
       linkContents: {
         html: [],
         music: [],
@@ -82,46 +80,43 @@ export default class Links extends Component<Props, State> {
   }
 
   componentDidMount() {
-    const { state, handleOnClickConnection } = this.props;
+    const { state, handleOnClickCh } = this.props;
     const { app, thread, style } = state;
     const displayLinks = !(BoardStyle.getLinksDisplay(app) === "none");
     const linkContents = this.state.linkContents;
     let isTuneActive = false;
-    if (app.isRootConnection) {
+    if (app.isRootCh) {
       isTuneActive = true;
     }
 
     const tuneLi = (
       <Link
         key={`linkTune`}
-        isMainConnection={true}
+        isMainCh={true}
         isActive={isTuneActive}
         text={thread.title}
-        connection={thread.connection}
+        ch={thread.ch}
         handleOnClick={() => {
           window.talknAPI.toggleLinks();
-          handleOnClickConnection(thread.connection, "toLinks");
+          handleOnClickCh(thread.ch, "toLinks");
         }}
         {...this.props}
       />
     );
-    const getLi = (connectionKey, textKey) => (obj, i) => {
-      const connection = Links.getConnection(obj[connectionKey], thread);
-      const hasSlash =
-        obj[connectionKey].lastIndexOf("/") === connection.length - 1
-          ? true
-          : false;
+    const getLi = (chKey, textKey) => (obj, i) => {
+      const ch = Links.getCh(obj[chKey], thread);
+      const hasSlash = obj[chKey].lastIndexOf("/") === ch.length - 1 ? true : false;
 
       return (
         <Link
-          key={`${connectionKey}${i}`}
-          isMainConnection={false}
+          key={`${chKey}${i}`}
+          isMainCh={false}
           isActive={false}
           text={obj[textKey]}
-          connection={connection}
+          ch={ch}
           handleOnClick={() => {
             window.talknAPI.toggleLinks();
-            handleOnClickConnection(connection, hasSlash, "toLinks");
+            handleOnClickCh(ch, hasSlash, "toLinks");
           }}
           {...this.props}
         />
