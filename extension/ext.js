@@ -206,7 +206,6 @@ class Window extends Elements {
         this.isExt = Ext.isExt();
         this.href = window.location.href;
         this.ch = this.href.replace( "http:/", "" ).replace( "https:/", "" );
-        console.log("@@@@@@@ CH " + this.ch );
         const hasSlash = this.ch.lastIndexOf("/") === ( this.ch.length - 1 );
         this.ch = hasSlash ? this.ch : this.ch + "/";
         const bootFlg = Ext.EXCLUSION_ORIGINS.every( ( origin ) => {
@@ -380,10 +379,11 @@ class Window extends Elements {
             m.addEventListener( "play", ( e ) => {
 
                 media = e.srcElement;
+                let ch = this.state && this.state.thread ? this.state.thread.ch : this.window.ch;
                 const mediaCh = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
-                const talknMethod =  this.state.thread.ch !== mediaCh ? "findMediaCh" : "playMedia";
+                const talknMethod =  ch !== mediaCh ? "findMediaCh" : "playMedia";
                 if(log) console.log(":::::::::::::::: EXT play METHOD " + talknMethod + " " +  media.currentTime);
-                this.state.thread.ch = mediaCh;
+                ch = mediaCh;
                 this.childTo( talknMethod, {
                     playCnt: this.playCnt++,
                     thread: this.state.thread,
@@ -394,8 +394,9 @@ class Window extends Elements {
 
             m.addEventListener( "seeked", (e) => {
                 media = e.srcElement;
-                const mediaCh = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
-                this.state.thread.ch = mediaCh;
+                let ch = this.state && this.state.thread ? this.state.thread.ch : this.window.ch;
+                const mediaCh = media.currentSrc.replace( "https:/", "" ).replace( "http:/", "" ) + "/";
+                ch = mediaCh;
                 if(log) console.log(":::::::::::::::: EXT seeked METHOD seeked " );
                 this.childTo( "playMedia", {
                     playCnt: this.playCnt++,
