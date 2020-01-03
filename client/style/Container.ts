@@ -75,6 +75,9 @@ export default class Container {
     return Style.darkRGBA;
   }
 
+  static get downreliefRGB() {
+    return Style.mono160RGB;
+  }
   static get reliefRGB() {
     return Style.mono180RGB;
   }
@@ -154,9 +157,7 @@ export default class Container {
   static getTransitionOn(app: any = {}, removeUnit = false) {
     let transition = String(Container.transitionOn);
     if (app) {
-      transition = app.isTransition
-        ? `${Container.transitionOn}ms`
-        : `${Container.transitionOff}ms`;
+      transition = app.isTransition ? `${Container.transitionOn}ms` : `${Container.transitionOff}ms`;
     } else {
       transition = `${Container.transitionOn}ms`;
     }
@@ -164,15 +165,11 @@ export default class Container {
     return removeUnit ? Style.trimUnit(transition) : transition;
   }
   static getTransition(app: any = {}, addUnit = false) {
-    const transition = app.isTransition
-      ? `${Container.transitionOn}ms`
-      : `${Container.transitionOff}ms`;
+    const transition = app.isTransition ? `${Container.transitionOn}ms` : `${Container.transitionOff}ms`;
     return addUnit ? Style.trimUnit(transition) : transition;
   }
   static getTransitionFirstOn(app, addUnit = false) {
-    const transition = app.isTransition
-      ? `${Container.transitionFirstOn}ms`
-      : `${Container.transitionOff}ms`;
+    const transition = app.isTransition ? `${Container.transitionFirstOn}ms` : `${Container.transitionOff}ms`;
     return addUnit ? Style.trimUnit(transition) : transition;
   }
   static get transitionOn() {
@@ -205,9 +202,7 @@ export default class Container {
     return `translate3d( 0px, 0px, 0px )`;
   }
   static getNotifTranslateY(app) {
-    return app.isOpenNewPost
-      ? Container.notifOpenTranslateY
-      : Container.notifCloseTranslateY;
+    return app.isOpenNewPost ? Container.notifOpenTranslateY : Container.notifCloseTranslateY;
   }
 
   static getNewPostDisplay(app) {
@@ -232,18 +227,12 @@ export default class Container {
 
   static getSelf(params) {
     const { app, bootOption } = params;
-    const overflow =
-      app.extensionMode === App.extensionModeExtBottomLabel
-        ? "hidden"
-        : "inherit";
+    const overflow = app.extensionMode === App.extensionModeExtBottomLabel ? "hidden" : "inherit";
     let borderRadius = "0px";
     if (bootOption && bootOption["border-radius"]) {
       borderRadius = bootOption["border-radius"];
     } else {
-      if (
-        borderRadius === "0px" &&
-        app.extensionMode === App.extensionModeExtModalLabel
-      ) {
+      if (borderRadius === "0px" && app.extensionMode === App.extensionModeExtModalLabel) {
         borderRadius = "3px";
       }
     }
@@ -319,12 +308,8 @@ export default class Container {
         left = Menu.getWidth(app, true) + Math.floor(parseInt(width) / 2);
         break;
       case App.screenModeLargeLabel:
-        const detailOtherWidth = Math.floor(
-          app.width * DetailRight.otherWidthRate
-        );
-        const postsWidth = Math.floor(
-          detailOtherWidth - Menu.getWidth(app, true)
-        );
+        const detailOtherWidth = Math.floor(app.width * DetailRight.otherWidthRate);
+        const postsWidth = Math.floor(detailOtherWidth - Menu.getWidth(app, true));
         width = String(postsWidth * 0.5) + "px";
         left = Menu.getWidth(app, true) + Math.floor(parseInt(width) / 2);
         break;
@@ -371,10 +356,7 @@ export default class Container {
 
   static getLinkLabel({ app }) {
     const top = Header.headerHeight + "px";
-    const left =
-      app.screenMode === App.screenModeSmallLabel
-        ? "0px"
-        : `${Menu.getWidth(app)}`;
+    const left = app.screenMode === App.screenModeSmallLabel ? "0px" : `${Menu.getWidth(app)}`;
     const layout = Style.getLayoutFlex({
       maxWidth: "180px",
       position: "fixed",
