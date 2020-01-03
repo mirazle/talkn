@@ -380,7 +380,7 @@ class Window extends Elements {
 
                 media = e.srcElement;
                 const mediaCh = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
-
+                console.log(this.state);
                 const talknMethod =  this.state.thread.ch !== mediaCh ? "findMediaCh" : "playMedia";
                 if(log) console.log(":::::::::::::::: EXT play METHOD " + talknMethod + " " +  media.currentTime);
                 this.state.thread.ch = mediaCh;
