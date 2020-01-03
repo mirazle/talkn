@@ -189,7 +189,7 @@ export default class Detail {
       overflowY: "scroll",
       width: "100%",
       height: `calc( 100% - ${Header.headerHeight * 2}px )`,
-      background: Container.reliefRGB,
+      background: Container.reliefRGBA,
       zIndex: 0
     });
     const content = Style.getContentBase();

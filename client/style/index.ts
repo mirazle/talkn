@@ -37,6 +37,12 @@ export default class Style {
     return "rgba(0, 0, 0, 0.4)";
   }
 
+  static get mono160RGB() {
+    return "rgb(160, 160, 160)";
+  }
+  static get mono160RGBA() {
+    return "rgb(160, 160, 160)";
+  }
   static get mono180RGB() {
     return "rgb(180, 180, 180)";
   }
@@ -348,8 +354,7 @@ export default class Style {
       color: Style.fontBaseRGB,
       font: "inherit",
       //      fontFamily: '"Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif',
-      fontFamily:
-        '"Myriad Set Pro", "Lucida Grande", "Helvetica Neue", "Helvetica", "Arial", "Verdana", "sans-serif"'
+      fontFamily: '"Myriad Set Pro", "Lucida Grande", "Helvetica Neue", "Helvetica", "Arial", "Verdana", "sans-serif"'
     };
     return { ...fontBase, ...style };
   }
