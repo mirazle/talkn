@@ -157,18 +157,22 @@ export default class Posts {
   }
 
   static getSelfHeight(app) {
-    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
-      return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
-    } else {
-      if (app.screenMode === App.screenModeLargeLabel) {
-        if (app.chType === App.mediaTagTypeVideo) {
-          return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight + Video.height}px )`;
+    switch (app.extensionMode) {
+      case App.extensionModeExtBottomLabel:
+      case App.extensionModeExtModalLabel:
+        return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
+      case App.extensionModeExtIncludeLabel:
+        return `100%`;
+      default:
+        if (app.screenMode === App.screenModeLargeLabel) {
+          if (app.chType === App.mediaTagTypeVideo) {
+            return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight + Video.height}px )`;
+          } else {
+            return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
+          }
         } else {
-          return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
+          return "auto";
         }
-      } else {
-        return "auto";
-      }
     }
   }
 
