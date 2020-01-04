@@ -231,88 +231,97 @@ export default class TalknWindow {
   message(e, resolve) {
     if (e.data.type === "talkn") {
       const log = false;
-      const state = window.talknAPI.store.getState();
-      switch (e.data.method) {
-        case "bootExtension":
-          this.parentUrl = e.data.href;
-          this.parentTo("bootExtension", conf);
-          resolve(e.data.params);
-          break;
-        case "findMediaCh":
-          if (e.data.params.thread && e.data.params.thread.ch) {
-            if (log) console.log("============== findMediaCh A " + e.data.params.thread.ch);
-            actionWrap.onClickCh(e.data.params.thread.ch, false, e.data.method);
-            TalknMedia.init("TalknWindow");
-            window.talknAPI.startLinkMedia(e.data.params);
-            window.talknMedia = new TalknMedia();
-          }
-          break;
-        case "playMedia":
-          const ch = e.data.params.thread && e.data.params.thread.ch ? e.data.params.thread.ch : state.thread.ch;
-          const isExistThreadData = state.threads[ch];
+      if (window.talknAPI && window.talknAPI.store && window.talknAPI.getState) {
+        const state = window.talknAPI.store.getState();
+        switch (e.data.method) {
+          case "bootExtension":
+            this.parentUrl = e.data.href;
+            this.parentTo("bootExtension", conf);
+            resolve(e.data.params);
+            break;
+          case "findMediaCh":
+            if (e.data.params.thread && e.data.params.thread.ch) {
+              if (log) console.log("============== findMediaCh A " + e.data.params.thread.ch);
+              actionWrap.onClickCh(e.data.params.thread.ch, false, e.data.method);
+              TalknMedia.init("TalknWindow");
+              window.talknAPI.startLinkMedia(e.data.params);
+              window.talknMedia = new TalknMedia();
+            }
+            break;
+          case "playMedia":
+            const ch = e.data.params.thread && e.data.params.thread.ch ? e.data.params.thread.ch : state.thread.ch;
+            const isExistThreadData = state.threads[ch];
 
-          if (log && window.talknMedia)
-            console.log("========================= playMedia " + window.talknMedia.currentTime);
+            if (log && window.talknMedia)
+              console.log("========================= playMedia " + window.talknMedia.currentTime);
 
-          if (window.talknMedia === undefined) {
-            TalknMedia.init("TalknWindow");
-            window.talknAPI.startLinkMedia(e.data.params);
-            window.talknMedia = new TalknMedia();
-            if (log) console.log("============== playMedia A " + window.talknMedia.currentTime);
-          }
+            if (window.talknMedia === undefined) {
+              TalknMedia.init("TalknWindow");
+              window.talknAPI.startLinkMedia(e.data.params);
+              window.talknMedia = new TalknMedia();
+              if (log) console.log("============== playMedia A " + window.talknMedia.currentTime);
+            }
 
-          if (window.talknMedia && Schema.isSet(window.talknMedia.currentTime) && window.talknMedia.started === false) {
-            window.talknMedia.currentTime = window.talknMedia.getCurrentTime(e.data.params.currentTime);
-            if (log) console.log("============== playMedia B " + window.talknMedia.currentTime);
-          }
+            if (
+              window.talknMedia &&
+              Schema.isSet(window.talknMedia.currentTime) &&
+              window.talknMedia.started === false
+            ) {
+              window.talknMedia.currentTime = window.talknMedia.getCurrentTime(e.data.params.currentTime);
+              if (log) console.log("============== playMedia B " + window.talknMedia.currentTime);
+            }
 
-          if (
-            e.data.params.thread &&
-            e.data.params.thread.ch &&
-            window.talknMedia &&
-            window.talknMedia.timeline &&
-            window.talknMedia.timeline.length === 0 &&
-            window.talknMedia.started === false &&
-            isExistThreadData
-          ) {
-            const timeline = storage.getStoragePostsTimeline(ch);
+            if (
+              e.data.params.thread &&
+              e.data.params.thread.ch &&
+              window.talknMedia &&
+              window.talknMedia.timeline &&
+              window.talknMedia.timeline.length === 0 &&
+              window.talknMedia.started === false &&
+              isExistThreadData
+            ) {
+              const timeline = storage.getStoragePostsTimeline(ch);
 
-            if (log) console.log("============== playMedia C " + ch);
+              if (log) console.log("============== playMedia C " + ch);
 
-            window.talknMedia.setTimeline(timeline);
-          }
+              window.talknMedia.setTimeline(timeline);
+            }
 
-          if (
-            (window.talknMedia && window.talknMedia.timeline && isExistThreadData) ||
-            e.data.params.event === "seeked"
-            //window.talknMedia.timeline.length > 0
-          ) {
-            if (log) console.log("============== playMedia D");
-            if (log) console.log(window.talknMedia.timeline);
-            if (log) console.log("============== ");
-            window.talknMedia.proccess(e.data.params.currentTime);
-          }
+            if (
+              (window.talknMedia && window.talknMedia.timeline && isExistThreadData) ||
+              e.data.params.event === "seeked"
+              //window.talknMedia.timeline.length > 0
+            ) {
+              if (log) console.log("============== playMedia D");
+              if (log) console.log(window.talknMedia.timeline);
+              if (log) console.log("============== ");
+              window.talknMedia.proccess(e.data.params.currentTime);
+            }
 
-          break;
-        case "endMedia":
-          if (e.data.params.playCnt > 0) {
-            window.talknMedia.endedFunc();
-          }
-          break;
-        case "delegatePost":
-          let { app } = state;
-          app = { ...app, ...e.data.params };
-          window.talknAPI.delegatePost(app);
-          break;
-        default:
-          if (
-            typeof window.talknAPI !== "undefined" &&
-            window.talknAPI[e.data.method] &&
-            typeof window.talknAPI[e.data.method] === "function"
-          ) {
-            window.talknAPI[e.data.method](e.data.params);
-          }
-          break;
+            break;
+          case "endMedia":
+            if (e.data.params.playCnt > 0) {
+              window.talknMedia.endedFunc();
+            }
+            break;
+          case "delegatePost":
+            let { app } = state;
+            app = {
+              ...app,
+              ...e.data.params
+            };
+            window.talknAPI.delegatePost(app);
+            break;
+          default:
+            if (
+              typeof window.talknAPI !== "undefined" &&
+              window.talknAPI[e.data.method] &&
+              typeof window.talknAPI[e.data.method] === "function"
+            ) {
+              window.talknAPI[e.data.method](e.data.params);
+            }
+            break;
+        }
       }
     }
   }
