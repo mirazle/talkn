@@ -54,7 +54,7 @@ export default class Post extends Component<Props, State> {
     this.handleOnClickPost = this.handleOnClickPost.bind(this);
   }
 
-  componentWillReceiveProps(props) {
+  SAFE_componentWillReceiveProps(props) {
     const { actionLog, dispFlg } = props;
     const { style, isBubblePost } = this.state;
     if (!dispFlg) {
