@@ -21,7 +21,6 @@ const componentDidUpdates = {
   Container: {
     "SERVER_TO_CLIENT[EMIT]:find": self => {
       const { app, thread } = self.props.state;
-      //alert( "@@@! " + app.isTransition);
       const Posts = document.querySelector("[data-component-name=Posts]");
       const ch = thread.ch;
       app.postsHeight += TalknWindow.getPostsHeight();
