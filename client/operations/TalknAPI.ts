@@ -139,6 +139,7 @@ export default class TalknAPI {
     return response => {
       if (TalknAPI.handle(talknIndex)) {
         if (resolve) {
+          console.log(response);
           resolve();
         }
 
