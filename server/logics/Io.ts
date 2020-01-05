@@ -17,7 +17,7 @@ export default class Io {
     });
   }
 
-  async initClientState(ioUser, requestState, setting) {
+  async tuned(ioUser, requestState, setting) {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
       user: { uid: ioUser.conn.id },
       setting

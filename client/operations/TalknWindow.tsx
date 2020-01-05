@@ -216,7 +216,7 @@ export default class TalknWindow {
 
     const state = new State(this.talknIndex, window, bootOption, initialApp, caches);
     this.talknAPI.booted(state, ch);
-    this.talknAPI.initClientState(state);
+    this.talknAPI.tuned(state);
 
     ReactDOM.render(
       <Provider store={this.talknAPI.store}>

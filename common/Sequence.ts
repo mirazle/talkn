@@ -43,7 +43,7 @@ export default class Sequence {
   }
   static get map() {
     return {
-      initClientState: {
+      tuned: {
         requestPublicState: {},
         requestPrivateState: {
           thread: [{ columnName: "ch" }]

@@ -2,7 +2,7 @@ import Thread from "common/schemas/state/Thread";
 
 export default (state = new Thread(), action) => {
   switch (action.type) {
-    case "CLIENT_TO_SERVER[EMIT]:initClientState":
+    case "CLIENT_TO_SERVER[EMIT]:tuned":
       return action.thread ? state.merge(action.thread) : state;
     case "SERVER_TO_CLIENT[BROADCAST]:find":
     case "SERVER_TO_CLIENT[BROADCAST]:changeThread":
