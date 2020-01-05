@@ -143,7 +143,7 @@ export default class Container {
     return Style.fontBaseRGB;
   }
   static get themeRGBString() {
-    return "79, 174, 159";
+    return "69, 164, 149";
   }
   static get themeRGB() {
     return `rgb(${Container.themeRGBString})`;
