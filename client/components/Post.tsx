@@ -54,7 +54,7 @@ export default class Post extends Component<Props, State> {
     this.handleOnClickPost = this.handleOnClickPost.bind(this);
   }
 
-  SAFE_componentWillReceiveProps(props) {
+  componentWillReceiveProps(props) {
     const { actionLog, dispFlg } = props;
     const { style, isBubblePost } = this.state;
     if (!dispFlg) {
@@ -296,20 +296,9 @@ export default class Post extends Component<Props, State> {
       return (
         <li data-component-name={"Post"} id={_id} style={style.self} {...this.getDecolationProps()}>
           {this.renderUpper()}
-
           <div onClick={this.handleOnClickPost} style={style.bottom}>
-            <span
-              style={{
-                ...style.bottomIcon,
-                backgroundImage: `url( ${dispFavicon} )`
-              }}
-            />
-            <span
-              style={style.bottomPost}
-              dangerouslySetInnerHTML={{
-                __html: this.renderPost(post, stampId, app)
-              }}
-            />
+            <span style={{ ...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )` }} />
+            <span style={style.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, stampId, app) }} />
           </div>
           {stampLabel}
         </li>
