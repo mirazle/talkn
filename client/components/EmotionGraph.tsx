@@ -133,7 +133,7 @@ export default class EmotionGraph extends Component<Props, State> {
     return { emotionModelKey, totalNum, data };
   }
 
-  SAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (
       nextProps.state.app.actioned === "SERVER_TO_CLIENT[BROADCAST]:post" ||
       nextProps.state.app.actioned === "SERVER_TO_CLIENT[EMIT]:find" ||
