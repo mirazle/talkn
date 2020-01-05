@@ -22,7 +22,7 @@ export default class InnerNotif extends Component<Props, State> {
     this.state = { style, notif, isDebug: false };
   }
 
-  SAFE_componentWillReceiveProps(props) {
+  componentWillReceiveProps(props) {
     const { style } = this.state;
     const height = props.state.style.innerNotif.self.height;
     const notif = props.state.app.openInnerNotif;
