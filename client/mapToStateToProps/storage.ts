@@ -33,7 +33,7 @@ export default {
     TalknSession.setStorage(rootCh, define.storageKey.app, state.app);
     return { state, props };
   },
-  "SERVER_TO_CLIENT[EMIT]:initClientState ": (state, props) => {
+  "SERVER_TO_CLIENT[EMIT]:tuned ": (state, props) => {
     return { state, props };
   },
   RESIZE_END_WINDOW: (state, props) => {

@@ -24,9 +24,9 @@ export default {
     Logics.io.connectionServer(ioUser);
   },
 
-  initClientState: (ioUser, requestState, setting) => {
+  tuned: (ioUser, requestState, setting) => {
     Logics.db.users.update(ioUser.conn.id, requestState.thread.ch);
-    Logics.io.initClientState(ioUser, requestState, setting);
+    Logics.io.tuned(ioUser, requestState, setting);
     return true;
   },
 
