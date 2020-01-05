@@ -11,9 +11,9 @@ export default class Io {
     return this.io.get();
   }
 
-  async tuned(ioUser) {
+  async connectionServer(ioUser) {
     return this.io.emit(ioUser, Sequence.CATCH_ME_KEY, {
-      type: "tuned"
+      type: Sequence.CONNECTION_SERVER_KEY
     });
   }
 

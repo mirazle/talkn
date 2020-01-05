@@ -17,6 +17,9 @@ export default class Sequence {
   static get CATCH_ME_KEY() {
     return "@CATCH_ME";
   }
+  static get CONNECTION_SERVER_KEY() {
+    return "connectionServer";
+  }
   static get CLIENT_TO_SERVER_EMIT() {
     return "CLIENT_TO_SERVER[EMIT]:";
   }
