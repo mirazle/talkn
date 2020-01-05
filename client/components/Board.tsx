@@ -48,7 +48,7 @@ export default class Board extends Component<Props, State> {
     });
   }
 
-  componentWillReceiveProps(props) {
+  SAFE_componentWillReceiveProps(props) {
     const { actioned, isLinkCh, isOpenLinks } = props.state.app;
     let updateState: any = {};
 

@@ -40,10 +40,7 @@ export default class EmotionGraph extends Component<Props, State> {
     const emotionModelKey = Emotions.defaultModelKey;
     const { threadDetail } = props.state;
     const { emotions } = threadDetail;
-    const emotionKeys =
-      emotions && emotions[emotionModelKey]
-        ? Object.keys(emotions[emotionModelKey])
-        : [];
+    const emotionKeys = emotions && emotions[emotionModelKey] ? Object.keys(emotions[emotionModelKey]) : [];
     const log = false;
     let graphType = "within5";
     let totalNum = 0;
@@ -73,8 +70,7 @@ export default class EmotionGraph extends Component<Props, State> {
       // 合計数と各指標の数値の割合を算出
       emotionKeys.forEach(emotionKey => {
         const { num } = rateMap[emotionKey];
-        rateMap[emotionKey].rate =
-          Math.round((num / totalNum) * calcRate) / calcRate;
+        rateMap[emotionKey].rate = Math.round((num / totalNum) * calcRate) / calcRate;
       });
 
       // グラフの表示最上値を取得
@@ -86,8 +82,7 @@ export default class EmotionGraph extends Component<Props, State> {
       for (
         let ratePointLimit = rateOne;
         ratePointLimit <= rateMax;
-        ratePointLimit =
-          Math.round((ratePointLimit + rateOne) * calcRate) / calcRate
+        ratePointLimit = Math.round((ratePointLimit + rateOne) * calcRate) / calcRate
       ) {
         graphRateMap.push(ratePointLimit);
       }
@@ -138,13 +133,12 @@ export default class EmotionGraph extends Component<Props, State> {
     return { emotionModelKey, totalNum, data };
   }
 
-  componentWillReceiveProps(nextProps) {
+  SAFE_componentWillReceiveProps(nextProps) {
     if (
       nextProps.state.app.actioned === "SERVER_TO_CLIENT[BROADCAST]:post" ||
       nextProps.state.app.actioned === "SERVER_TO_CLIENT[EMIT]:find" ||
       nextProps.state.app.actioned === "ON_CLICK_TOGGLE_DISP_DETAIL" ||
-      nextProps.state.app.actioned ===
-        "SERVER_TO_CLIENT[EMIT]:changeThreadDetail"
+      nextProps.state.app.actioned === "SERVER_TO_CLIENT[EMIT]:changeThreadDetail"
     ) {
       const { emotionModelKey, totalNum, data } = this.getGraphDatas(nextProps);
 
@@ -167,12 +161,7 @@ export default class EmotionGraph extends Component<Props, State> {
     const { thread, style } = this.props.state;
     const { emotions } = thread;
 
-    if (
-      data &&
-      data.datasets &&
-      data.datasets.length > 0 &&
-      data.datasets[0].data.length > 0
-    ) {
+    if (data && data.datasets && data.datasets.length > 0 && data.datasets[0].data.length > 0) {
       return (
         <div style={style.emotionGraph.self}>
           <Radar data={data} options={options} width={200} />

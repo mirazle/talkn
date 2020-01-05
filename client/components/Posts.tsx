@@ -52,7 +52,7 @@ export default class Posts extends Component<Props, State> {
     window.talknAPI.componentDidMounts("Posts");
   }
 
-  componentWillReceiveProps(props) {
+  SAFE_componentWillReceiveProps(props) {
     const { app, postsTimeline, postsMulti, postsSingle, postsChild } = props.state;
     let posts = [];
     switch (app.dispThreadType) {

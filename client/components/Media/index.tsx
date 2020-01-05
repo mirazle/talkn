@@ -24,7 +24,7 @@ export default class Media extends Component {
     };
   }
 
-  componentWillReceiveProps(props) {
+  SAFE_componentWillReceiveProps(props) {
     const { app, thread } = props.state;
     if (app.extensionMode === App.extensionModeExtNoneLabel) {
       if (thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL) {
