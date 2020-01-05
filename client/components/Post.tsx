@@ -206,9 +206,9 @@ export default class Post extends Component<Props, State> {
       return <time style={style.upperTimeago}>{dispCurrentTime} Second.</time>;
     } else {
       return (
-        <time style={style.upperTimeago} ref={this.state.timeId} className={"timeAgo"} dateTime={createTime}>
-          <TimeAgo date={createTime} />
-        </time>
+        <span style={style.upperTimeago} ref={this.state.timeId} className={"timeAgo"}>
+          <TimeAgo date={createTime} dateTime={createTime} />
+        </span>
       );
     }
   }

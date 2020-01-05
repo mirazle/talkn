@@ -54,9 +54,7 @@ export default class Header {
     return `translate3d( 0px, 0px, 0px )`;
   }
   static getNotifTranslateY(app) {
-    return app.isOpenNotif
-      ? Header.notifOpenTranslateY
-      : Header.notifCloseTranslateY;
+    return app.isOpenNotif ? Header.notifOpenTranslateY : Header.notifCloseTranslateY;
   }
 
   static getMargin(app) {
@@ -79,14 +77,8 @@ export default class Header {
   }
 
   static getChildAnalyzePositions(app) {
-    const margin =
-      app.screenMode === App.screenModeSmallLabel
-        ? "8px 0px 0px 0px"
-        : "7px auto";
-    if (
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
-    ) {
+    const margin = app.screenMode === App.screenModeSmallLabel ? "8px 0px 0px 0px" : "7px auto";
+    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
       return {
         position: "absolute",
         top: "0px",
@@ -105,9 +97,7 @@ export default class Header {
 
   static getBorderRadius(app, addUnit = false) {
     if (app.extensionMode === App.extensionModeExtBottomLabel) {
-      return app.extensionWidth === "100%"
-        ? "0px 0px 0px 0px"
-        : `${Container.radius} ${Container.radius} 0px 0px`;
+      return app.extensionWidth === "100%" ? "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
     } else if (app.extensionMode === App.extensionModeExtModalLabel) {
       return `${Container.radius} ${Container.radius} 0px 0px`;
     }
@@ -115,15 +105,17 @@ export default class Header {
   }
 
   static getSelf({ app }) {
-    const width =
-      app.extensionMode === App.extensionModeExtBottomLabel ? "90%" : "100%";
+    const width = app.extensionMode === App.extensionModeExtBottomLabel ? "90%" : "100%";
     const borderRadius = Header.getBorderRadius(app);
     const layout = Style.getLayoutFlex({
       position: "fixed",
       top: "0px",
       width,
       height: `${Header.headerHeight}px`,
-      border: Container.border,
+      borderTop: 0,
+      borderRight: Container.border,
+      borderBottom: Container.border,
+      borderLeft: Container.border,
       borderRadius,
       background: Container.whiteRGB,
       margin: Header.getMargin(app),
@@ -214,8 +206,7 @@ export default class Header {
   }
 
   static getChildAnalyzeType({ app }) {
-    const fontSize =
-      app.screenMode === App.screenModeSmallLabel ? "9px" : "12px";
+    const fontSize = app.screenMode === App.screenModeSmallLabel ? "9px" : "12px";
     const layout = Style.getLayoutBlock({
       height: "10px",
       marginBottom: "6px"
@@ -230,8 +221,7 @@ export default class Header {
   }
 
   static getChildAnalyzeCnt({ app }) {
-    const fontSize =
-      app.screenMode === App.screenModeSmallLabel ? "9px" : "12px";
+    const fontSize = app.screenMode === App.screenModeSmallLabel ? "9px" : "12px";
     const layout = Style.getLayoutBlock({
       height: "10px"
     });
