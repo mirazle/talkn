@@ -138,8 +138,7 @@ export default class TalknAPI {
   getToMeAPI(talknIndex, action, resolve = null) {
     return response => {
       if (TalknAPI.handle(talknIndex)) {
-        if (resolve) {
-          console.log(response);
+        if (resolve && response.type === Sequence.CONNECTION_SERVER_KEY) {
           resolve();
         }
 

@@ -21,7 +21,7 @@ export default {
         Actions.io[endpoint](ioUser, requestState, setting);
       });
     });
-    Logics.io.tuned(ioUser);
+    Logics.io.connectionServer(ioUser);
   },
 
   initClientState: (ioUser, requestState, setting) => {
