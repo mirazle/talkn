@@ -201,7 +201,7 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: "100%",
       height: "initial",
-      background: Container.whiteRGBA,
+      background: Container.offWhiteRGBA,
       borderBottom: Container.border
     });
     const content = Style.getContentBase();
@@ -280,7 +280,7 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: "100%",
       height: "initial",
-      background: Container.whiteRGB,
+      background: Container.offWhiteRGBA,
       borderTop: Container.border,
       borderBottom: Container.border,
       padding: "15px",
