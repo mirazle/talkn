@@ -27,16 +27,9 @@ export default (state: any = new Posts(), action) => {
         let morePostMulit = [];
 
         if( ( state.length + action.postsMulti.length ) > conf.findOneLimitCnt ){
-          console.log("IN");
           morePostMulit = [...action.postsMulti, ...state];
-          console.log(morePostMulit.slice(0, conf.findOneLimitCnt));
-           return morePostMulit.slice(0, conf.findOneLimitCnt);
+          return morePostMulit.slice(0, conf.findOneLimitCnt);
         }else{
-          console.log("NORMAL");
-          console.log("----------------");
-          console.log(action.postsMulti);
-          console.log(state);
-          console.log([...action.postsMulti, ...morePostMulit]);
           return [...action.postsMulti, ...state];
         }
       }
