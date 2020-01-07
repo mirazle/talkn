@@ -18,7 +18,7 @@ export default class MenuIndexList {
     return "rgb(0, 162, 255)";
   }
   static get rankOtherRGB() {
-    return Container.silverRGB;
+    return Container.downreliefRGB;
   }
   static get oneDigitWidth() {
     return "17%";
