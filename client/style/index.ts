@@ -27,7 +27,7 @@ import ExtScreen from "./ExtScreen";
 
 export default class Style {
   static get fontBaseRGB() {
-    return "rgb(160, 160, 160)";
+    return "rgb(130, 130, 130)";
   }
 
   static get darkRGB() {

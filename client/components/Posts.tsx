@@ -142,8 +142,8 @@ export default class Posts extends Component<Props, State> {
     const dispPostCnt = posts.length;
     const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
     let isDisp = false;
-
-    if (dispPostCnt > 0) {
+    console.log("DISP POST CNT " + dispPostCnt);
+    if ( conf.findOnePostCnt <= dispPostCnt && dispPostCnt < conf.findOneLimitCnt) {
       if (thread[postCntKey] > conf.findOnePostCnt) {
         if (dispPostCnt < thread[postCntKey]) {
           isDisp = true;
