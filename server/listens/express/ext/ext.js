@@ -443,7 +443,7 @@ class Window extends Elements {
   }
 
   setupMedia() {
-    const log = false;
+    const log = true;
     let media = null;
     const videos = document.querySelectorAll("video");
     const audios = document.querySelectorAll("audio");
