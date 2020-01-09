@@ -447,6 +447,9 @@ class Window extends Elements {
     let media = null;
     const videos = document.querySelectorAll("video");
     const audios = document.querySelectorAll("audio");
+
+    if (log) console.log(":::::::::::::::: EXT play start ");
+
     const events = m => {
       m.addEventListener("play", e => {
         media = e.srcElement;
