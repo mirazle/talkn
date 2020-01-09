@@ -28,6 +28,7 @@ export default class Posts {
     switch (app.dispThreadType) {
       case App.dispThreadTypeTimeline:
         console.log("IN " + existPosts);
+        console.log(posts);
         action.postsTimeline = existPosts ? posts : [];
         console.log(action);
         break;
