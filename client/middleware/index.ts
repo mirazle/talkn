@@ -94,7 +94,7 @@ const functions = {
     if (action.app.isMediaCh) {
       const src = App.getMediaSrc(action.thread.protocol, action.thread.ch);
       action.app.chType = App.getMediaTypeFromSrc(src);
-      action = Posts.getAnyActionPosts(action);
+      // action = Posts.getAnyActionPosts(action);
       action = storage.setStoragePostsTimeline(action);
     } else {
       action.app.chType = App.mediaTagTypeNo;
