@@ -9,13 +9,13 @@ export default class MenuIndexList {
     return Container.themeRGB;
   }
   static get rank1RGB() {
-    return "rgb(255, 100, 78)";
+    return "rgb(255, 10, 78)";
   }
   static get rank2RGB() {
-    return "rgb(255, 147, 0)";
+    return "rgb(255, 127, 0)";
   }
   static get rank3RGB() {
-    return "rgb(0, 162, 255)";
+    return "rgb(0, 142, 255)";
   }
   static get rankOtherRGB() {
     return Container.downreliefRGB;
@@ -152,7 +152,7 @@ export default class MenuIndexList {
     };
   }
 
-  static getActiveLiSelf({app}) {
+  static getActiveLiSelf({ app }) {
     const layout = Style.getLayoutBlock({
       width: "initial",
       height: `${MenuIndexList.liHeight}px`,
