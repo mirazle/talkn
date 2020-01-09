@@ -55,8 +55,9 @@ const functions = {
     action.app.desc = action.thread.serverMetas.title;
     action.app.isRootCh = action.app.rootCh === action.thread.ch;
     action.app.isMediaCh = App.getIsMediaCh(action.thread.ch);
-
+    console.log(action);
     action = Posts.getAnyActionPosts(action);
+    console.log(action);
     action.thread.title = action.thread.serverMetas.title;
     action.thread.hasSlash = Schema.getBool(action.thread.hasSlash);
     action.threads = Threads.getMergedThreads(state.threads, action.thread);
