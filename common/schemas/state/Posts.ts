@@ -27,23 +27,19 @@ export default class Posts {
     const existPosts = posts && posts.length > 0;
     switch (app.dispThreadType) {
       case App.dispThreadTypeTimeline:
-        console.log("IN " + existPosts);
-        console.log(posts);
-        action.postsTimeline = existPosts ? posts : [];
-        console.log(action.postsTimeline);
-        console.log(action);
+        action.postsTimeline = existPosts ? [...posts] : [];
         break;
       case App.dispThreadTypeMulti:
-        action.postsMulti = existPosts ? posts : [];
+        action.postsMulti = existPosts ? [...posts] : [];
         break;
       case App.dispThreadTypeSingle:
-        action.postsSingle = existPosts ? posts : [];
+        action.postsSingle = existPosts ? [...posts] : [];
         break;
       case App.dispThreadTypeChild:
-        action.postsChild = existPosts ? posts : [];
+        action.postsChild = existPosts ? [...posts] : [];
         break;
       case App.dispThreadTypeLogs:
-        action.postsLogs = existPosts ? posts : [];
+        action.postsLogs = existPosts ? [...posts] : [];
         break;
     }
     return action;
