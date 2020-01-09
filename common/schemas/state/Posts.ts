@@ -28,6 +28,7 @@ export default class Posts {
     switch (app.dispThreadType) {
       case App.dispThreadTypeTimeline:
         console.log(posts);
+        console.log(action.postsTimeline);
         action.postsTimeline = existPosts ? [...posts] : [];
         console.log(action);
         console.log(action.postsTimeline);
