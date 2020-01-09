@@ -540,176 +540,24 @@ export default class Icon extends Component {
   }
 
   static getTune(overStyle, params = {}) {
-    const style: any = Icon.getOveredStyle(IconStyle.getUpdate(params), overStyle);
-    /*
+    const style: any = Icon.getOveredStyle(IconStyle.getTune(params), overStyle);
     return (
-      <div data-component-type={"IconUpdate"} style={style.div}>
-        <div class="side1"></div>
-        <div class="side2"></div>
-        <div class="cut"></div>
-        <div class="center"></div>
+      <div data-component-type={"IconTune"} style={style.div}>
+        <div data-component-type={"IconSide1"} style={style.side1}></div>
+        <div data-component-type={"IconSide2"} style={style.side2}></div>
+        <div data-component-type={"IconCut"} style={style.cut}></div>
+        <div data-component-type={"IconCenter"} style={style.center}></div>
 
-        <div class="terminalLeftTop1"></div>
-        <div class="terminalLeftTop2"></div>
-        <div class="terminalLeftBottom1"></div>
-        <div class="terminalLeftBottom2"></div>
+        <div data-component-type={"IconTerminalLeftTop1"} style={style.terminalLeftTop1}></div>
+        <div data-component-type={"IconTerminalLeftTop2"} style={style.terminalLeftTop2}></div>
+        <div data-component-type={"IconTerminalLeftBottom1"} style={style.terminalLeftBottom1}></div>
+        <div data-component-type={"IconTerminalLeftBottom2"} style={style.terminalLeftBottom2}></div>
 
-        <div class="terminalRightTop1"></div>
-        <div class="terminalRightTop2"></div>
-        <div class="terminalRightBottom1"></div>
-        <div class="terminalRightBottom2"></div>
+        <div data-component-type={"IconTerminalRightTop1"} style={style.terminalRightTop1}></div>
+        <div data-component-type={"IconTerminalRightTop2"} style={style.terminalRightTop2}></div>
+        <div data-component-type={"IconTerminalRightBottom1"} style={style.terminalRightBottom1}></div>
+        <div data-component-type={"IconTerminalRightBottom2"} style={style.terminalRightBottom2}></div>
       </div>
     );
-    
-    body {
-  font-family: 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  padding: 100px;
-  font-size: 13px;
-}
-
-.wrap {
-  position: absolute;
-  background: #fff;
-  width: 500px;
-  height: 500px;
-  transform: scale(0.1)
-}
-
-.side1 {
-  position: absolute;
-  top: 150px;
-  left: 150px;
-  border: 20px solid rgb(69, 169, 149);
-  border-radius: 300px;
-  width: 150px;
-  height: 150px;
-  z-index: 0;
-}
-
-.side2 {
-  position: absolute;
-  top: 80px;
-  left: 80px;
-  border: 20px solid rgb(69, 169, 149);
-  border-radius: 300px;
-  width: 300px;
-  height: 300px;
-  z-index: 0;
-}
-
-.cut {
-  position: absolute;
-  top: 70px;
-  left: 0px;
-  background: none;
-  width: 0px;
-  height: 0px;
-  border-top: 180px solid #fff;
-  border-right: 250px solid rgba(255,255,255,0);
-  border-bottom: 180px solid #fff;
-  border-left: 250px solid rgba(255,255,255,0);
-  z-index: 1;
-}
-
-.center {
-  position: absolute;
-  top: 210px;
-  left: 210px;
-  width: 70px;
-  height: 70px;
-  border-radius: 100px;
-  background: rgb(69, 169, 149);
-  z-index: 1000000;
-}
-
-.terminalLeftTop1 {
-    position: absolute;
-    top: 148px;
-    left: 109px;
-    width: 20px;
-    height: 20px;
-    border-radius: 100px;
-    background: rgb(69, 169, 149);
-    z-index: 1000000;
-  }
-
-.terminalLeftTop2 {
-    position: absolute;
-    top: 185px;
-    left: 166px;
-    width: 20px;
-    height: 20px;
-    border-radius: 100px;
-    background: rgb(69, 169, 149);
-    z-index: 1000000;
-  }
-
-.terminalLeftBottom1 {
-    position: absolute;
-    top: 332px;
-    left: 109px;
-    width: 20px;
-    height: 20px;
-    border-radius: 100px;
-    background: rgb(69, 169, 149);
-    z-index: 1000000;
-  }
-
-.terminalLeftBottom2 {
-    position: absolute;
-    top: 290px;
-    left: 170px;
-    width: 20px;
-    height: 20px;
-    border-radius: 100px;
-    background: rgb(69, 169, 149);
-    z-index: 1000000;
-  }
-
-.terminalRightTop1 {
-    position: absolute;
-    top: 148px;
-    left: 371px;
-    width: 20px;
-    height: 20px;
-    border-radius: 100px;
-    background: rgb(69, 169, 149);
-    z-index: 1000000;
-  }
-
-.terminalRightTop2 {
-    position: absolute;
-    top: 190px;
-    left: 307px;
-    width: 20px;
-    height: 20px;
-    border-radius: 100px;
-    background: rgb(69, 169, 149);
-    z-index: 1000000;
-  }
-
-.terminalRightBottom1 {
-    position: absolute;
-    top: 332px;
-    left: 371px;
-    width: 20px;
-    height: 20px;
-    border-radius: 100px;
-    background: rgb(69, 169, 149);
-    z-index: 1000000;
-  }
-
-.terminalRightBottom2 {
-    position: absolute;
-    top: 287px;
-    left: 302px;
-    width: 20px;
-    height: 20px;
-    border-radius: 100px;
-    background: rgb(69, 169, 149);
-    z-index: 1000000;
-  }
-    
-    */
   }
 }

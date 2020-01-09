@@ -44,6 +44,7 @@ export default class Icon {
     const close = Icon.getClose(params);
     const ch = Icon.getCh(params);
     const update = Icon.getUpdate(params);
+    const tune = Icon.getTune(params);
     return {
       headTab,
       menu,
@@ -66,7 +67,8 @@ export default class Icon {
       openEmoji,
       close,
       ch,
-      update
+      update,
+      tune
     };
   }
 
@@ -296,9 +298,7 @@ export default class Icon {
     option = { ...Icon.defaultOption, ...option };
     const sizeWidthPx = "100%";
     const sizeHeightPx = "60px";
-    const image = option.active
-      ? "chrome_extension.png"
-      : "chrome_extension.png";
+    const image = option.active ? "chrome_extension.png" : "chrome_extension.png";
     const cursor = option.active ? "pointer" : "default";
     return Style.get({
       layout: Style.getLayoutBlock({
@@ -1161,9 +1161,7 @@ export default class Icon {
   }
 
   static getBubble({ app }: any) {
-    const background = app.isBubblePost
-      ? Container.themeRGB
-      : Container.reliefRGBA;
+    const background = app.isBubblePost ? Container.themeRGB : Container.reliefRGBA;
     const div = Style.get({
       layout: Style.getLayoutFlex({
         flexDirection: "column",
@@ -1207,18 +1205,14 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         transition: Container.transitionOff,
-        transform:
-          "skew(30deg, 28deg) rotate(30deg) translate3d(-2px, -7px, 0px)"
+        transform: "skew(30deg, 28deg) rotate(30deg) translate3d(-2px, -7px, 0px)"
       })
     });
     return { div, bubble, bubbleBar };
   }
 
   static getDetail({ app }: any) {
-    const margin =
-      app.screenMode === App.screenModeSmallLabel
-        ? "3px 0px 0px 0px"
-        : "1px auto";
+    const margin = app.screenMode === App.screenModeSmallLabel ? "3px 0px 0px 0px" : "1px auto";
     const div = Style.get({
       layout: Style.getLayoutFlex({
         width: "40px",
@@ -1393,10 +1387,7 @@ export default class Icon {
   }
 
   static getHeart({ app }: any) {
-    const color =
-      app.openLockMenu === App.openLockMenuLabelShare
-        ? Container.themeRGBA
-        : Container.reliefRGB;
+    const color = app.openLockMenu === App.openLockMenuLabelShare ? Container.themeRGBA : Container.reliefRGB;
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: Icon.smallSize,
@@ -1436,10 +1427,7 @@ export default class Icon {
   }
 
   static getShare({ app }: any) {
-    const color =
-      app.openLockMenu === App.openLockMenuLabelShare
-        ? Container.themeRGBA
-        : Container.reliefRGB;
+    const color = app.openLockMenu === App.openLockMenuLabelShare ? Container.themeRGBA : Container.reliefRGB;
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: Icon.smallSize,
@@ -1579,8 +1567,7 @@ export default class Icon {
   static getOpenEmoji(state: any) {
     const { app } = state;
     const size = "5px";
-    const display =
-      App.screenModeSmallLabel === app.screenMode ? "none" : "inline-block";
+    const display = App.screenModeSmallLabel === app.screenMode ? "none" : "inline-block";
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         display,
@@ -1833,5 +1820,232 @@ export default class Icon {
       })
     });
     return { div, circle, bar, white };
+  }
+
+  static getTune({ app }: any) {
+    const size = "30px";
+    const zIndex = 1000000;
+    const bgColor = Container.chromeOffTabRGB;
+    const top1 = "153px";
+    const top2 = "190px";
+    const top3 = "280px";
+    const top4 = "317px";
+    const left1 = "69px";
+    const left2 = "146px";
+    const left3 = "324px";
+    const left4 = "401px";
+
+    const div = Style.get({
+      layout: Style.getLayoutFlex({
+        position: "absolute",
+        // background: "green",
+        width: "500px",
+        height: "500px"
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({
+        transform: "scale(0.1)"
+      })
+    });
+
+    const side1 = Style.get({
+      layout: Style.getLayoutBase({
+        position: "absolute",
+        top: "135px",
+        left: "135px",
+        border: `${size} solid ${bgColor}`,
+        borderRadius: "300px",
+        width: "230px",
+        height: "230px",
+        zIndex: 0
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    const side2 = Style.get({
+      layout: Style.getLayoutBase({
+        position: "absolute",
+        top: "50px",
+        left: "50px",
+        border: `${size} solid ${bgColor}`,
+        borderRadius: "300px",
+        width: "400px",
+        height: "400px",
+        zIndex: 0
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    const cut = Style.get({
+      layout: Style.getLayoutBase({
+        //       display: "none",
+        position: "absolute",
+        top: "50px",
+        left: "-150px",
+        background: "none",
+        width: "0px",
+        height: "0px",
+        borderTop: `200px solid ${Container.lightRGB}`,
+        borderRight: "400px solid rgba(255,255,255,0)",
+        borderBottom: `200px solid ${Container.lightRGB}`,
+        borderLeft: "400px solid rgba(255,255,255,0)",
+        zIndex: 1
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    const center = Style.get({
+      layout: Style.getLayoutBase({
+        position: "absolute",
+        top: "220px",
+        left: "220px",
+        width: "60px",
+        height: "60px",
+        borderRadius: "100px",
+        background: bgColor,
+        zIndex
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    const terminalLeftTop1 = Style.get({
+      layout: Style.getLayoutBase({
+        position: "absolute",
+        top: top1,
+        left: left1,
+        width: size,
+        height: size,
+        borderRadius: "100px",
+        background: bgColor,
+        zIndex
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    const terminalLeftTop2 = Style.get({
+      layout: Style.getLayoutBase({
+        position: "absolute",
+        top: top2,
+        left: left2,
+        width: size,
+        height: size,
+        borderRadius: "100px",
+        background: bgColor,
+        zIndex
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    const terminalLeftBottom1 = Style.get({
+      layout: Style.getLayoutBase({
+        position: "absolute",
+        top: top4,
+        left: left1,
+        width: size,
+        height: size,
+        borderRadius: "100px",
+        background: bgColor,
+        zIndex
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    const terminalLeftBottom2 = Style.get({
+      layout: Style.getLayoutBase({
+        position: "absolute",
+        top: top3,
+        left: left2,
+        width: size,
+        height: size,
+        borderRadius: "100px",
+        background: bgColor,
+        zIndex
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    const terminalRightTop1 = Style.get({
+      layout: Style.getLayoutBase({
+        position: "absolute",
+        top: top1,
+        left: left4,
+        width: size,
+        height: size,
+        borderRadius: "100px",
+        background: bgColor,
+        zIndex
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    const terminalRightTop2 = Style.get({
+      layout: Style.getLayoutBase({
+        position: "absolute",
+        top: top2,
+        left: left3,
+        width: size,
+        height: size,
+        borderRadius: "100px",
+        background: bgColor,
+        zIndex
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    const terminalRightBottom1 = Style.get({
+      layout: Style.getLayoutBase({
+        position: "absolute",
+        top: top4,
+        left: left4,
+        width: size,
+        height: size,
+        borderRadius: "100px",
+        background: bgColor,
+        zIndex
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    const terminalRightBottom2 = Style.get({
+      layout: Style.getLayoutBase({
+        position: "absolute",
+        top: top3,
+        left: left3,
+        width: size,
+        height: size,
+        borderRadius: "100px",
+        background: bgColor,
+        zIndex
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    return {
+      div,
+      side1,
+      side2,
+      cut,
+      center,
+      terminalLeftTop1,
+      terminalLeftTop2,
+      terminalLeftBottom1,
+      terminalLeftBottom2,
+      terminalRightTop1,
+      terminalRightTop2,
+      terminalRightBottom1,
+      terminalRightBottom2
+    };
   }
 }

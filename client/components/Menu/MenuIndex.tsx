@@ -147,11 +147,12 @@ export default class MenuIndex extends React.Component<Props, State> {
     const { style } = this.props.state;
     const { icon } = style;
     const IconCh = Icon.getCh(icon.ch);
+    const IconTune = Icon.getTune(icon.tune);
     const IconSearch = Icon.getSearch(icon.search);
     return (
       <nav data-component-name={"MenuIndex"} style={style.menuIndex.self}>
         <header style={style.menuIndex.header}>
-          <div style={style.menuIndex.headerSearchIcon}>{IconSearch}</div>
+          <div style={style.menuIndex.headerSearchIcon}>{IconTune}</div>
           <input
             type={"text"}
             style={style.menuIndex.headerInput}
