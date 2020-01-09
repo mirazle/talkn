@@ -7,14 +7,7 @@ export default class Posts {
   }
 
   static getDispPosts(state) {
-    const {
-      app,
-      postsTimeline,
-      postsMulti,
-      postsSingle,
-      postsChild,
-      postsLogs
-    } = state;
+    const { app, postsTimeline, postsMulti, postsSingle, postsChild, postsLogs } = state;
     switch (app.dispThreadType) {
       case App.dispThreadTypeTimeline:
         return postsTimeline;
@@ -32,6 +25,7 @@ export default class Posts {
   static getAnyActionPosts(action) {
     const { app, posts } = action;
     const existPosts = posts && posts.length > 0;
+    console.log(app.dispThreadType);
     switch (app.dispThreadType) {
       case App.dispThreadTypeTimeline:
         action.postsTimeline = existPosts ? posts : [];
