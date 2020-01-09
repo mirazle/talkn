@@ -470,7 +470,7 @@ export default class App extends Schema {
   }
 
   static getStepDispThreadType({ app, menuIndex }, threadStatus: any = {}, toCh, called) {
-    const log = false;
+    const log = true;
     app.isLinkCh = false;
     app.isOpenLinks = false;
 
@@ -500,14 +500,21 @@ export default class App extends Schema {
       const haveMenuIndex = menuIndex.some(mi => {
         return mi.ch === toCh || mi.ch === toCh + "/";
       });
-      if (log) console.log("C " + haveMenuIndex + "");
+
+      if (log) {
+        console.log("C " + haveMenuIndex + "");
+      }
+
       if (!haveMenuIndex) {
-        if (log) console.log("D");
+        if (log) {
+          console.log("D");
+        }
+
         app.offsetFindId = App.defaultOffsetFindId;
         app.dispThreadType = App.dispThreadTypeChild;
         app.isOpenLinks = false;
         app.isLinkCh = true;
-        app.isOpenMenu = true;
+        // app.isOpenMenu = true;
         return app;
       }
     }
