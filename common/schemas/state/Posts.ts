@@ -43,6 +43,7 @@ export default class Posts {
         action.postsLogs = existPosts ? posts : [];
         break;
     }
+    console.log(action);
     return action;
   }
 }
