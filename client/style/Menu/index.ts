@@ -12,7 +12,7 @@ export default class MenuIndex {
     return 90;
   }
 
-  constructor(params:any) {
+  constructor(params: any) {
     const self = MenuIndex.getSelf(params);
     const header = MenuIndex.getHeader(params);
     const headerSearchIcon = MenuIndex.getHeaderSearchIcon(params);
@@ -72,7 +72,7 @@ export default class MenuIndex {
     const layout = Style.getLayoutFlex({
       justifyContent: "center",
       alignItems: "center",
-      width: "50px",
+      width: "70px",
       height: "45px"
     });
     const content = Style.getContentBase({
@@ -86,7 +86,7 @@ export default class MenuIndex {
     return Style.get({ layout, content, animation });
   }
 
-  static getHeaderInput({app}) {
+  static getHeaderInput({ app }) {
     const layout = Style.getLayoutInlineBlock({
       width: "calc( 100% - 120px )",
       height: "25px",
