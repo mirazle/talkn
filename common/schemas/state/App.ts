@@ -470,7 +470,7 @@ export default class App extends Schema {
   }
 
   static getStepDispThreadType({ app, menuIndex }, threadStatus: any = {}, toCh, called) {
-    const log = true;
+    const log = false;
     app.isLinkCh = false;
     app.isOpenLinks = false;
 
