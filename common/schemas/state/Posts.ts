@@ -27,12 +27,12 @@ export default class Posts {
     const existPosts = posts && posts.length > 0;
     switch (app.dispThreadType) {
       case App.dispThreadTypeTimeline:
-        console.log(posts);
+        console.log(action);
         action.postsTimeline = existPosts ? [...posts] : [];
         console.log(action);
         break;
       case App.dispThreadTypeMulti:
-        console.log(posts);
+        console.log(action);
         action.postsMulti = existPosts ? [...posts] : [];
         console.log(action);
         break;
