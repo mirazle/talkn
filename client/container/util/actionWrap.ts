@@ -7,6 +7,7 @@ export default {
   onClickCh: (toCh, overWriteHasSlash, called) => {
     let actionState = {};
     let { app, thread, menuIndex, setting } = window.talknAPI.store.getState();
+
     const beforeCh = thread.ch;
     thread.ch = toCh;
     if (Schema.isSet(overWriteHasSlash)) {
