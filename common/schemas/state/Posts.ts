@@ -31,13 +31,13 @@ export default class Posts {
         console.log(action.postsTimeline);
         if (existPosts) {
           console.log("^^^^");
-          action.postsTimeline = [...posts];
+          action.postsTimeline = [];
+          action.postsTimeline.push(posts);
         } else {
           console.log("=====");
           action.postsTimeline = [];
         }
-        console.log(posts);
-        console.log(action.postsTimeline);
+        console.log(action);
 
         break;
       case App.dispThreadTypeMulti:
