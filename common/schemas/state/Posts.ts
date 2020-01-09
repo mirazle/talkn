@@ -25,11 +25,11 @@ export default class Posts {
   static getAnyActionPosts(action) {
     const { app, posts } = action;
     const existPosts = posts && posts.length > 0;
-    console.log(app.dispThreadType);
     switch (app.dispThreadType) {
       case App.dispThreadTypeTimeline:
-        console.log("IN");
+        console.log("IN " + existPosts);
         action.postsTimeline = existPosts ? posts : [];
+        console.log(action);
         break;
       case App.dispThreadTypeMulti:
         action.postsMulti = existPosts ? posts : [];
@@ -44,7 +44,6 @@ export default class Posts {
         action.postsLogs = existPosts ? posts : [];
         break;
     }
-    console.log(action);
     return action;
   }
 }
