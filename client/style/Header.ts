@@ -106,13 +106,14 @@ export default class Header {
 
   static getSelf({ app }) {
     const width = app.extensionMode === App.extensionModeExtBottomLabel ? "90%" : "100%";
+    const borderTop = app.extensionMode === "NONE" ? 0 : Container.border;
     const borderRadius = Header.getBorderRadius(app);
     const layout = Style.getLayoutFlex({
       position: "fixed",
       top: "0px",
       width,
       height: `${Header.headerHeight}px`,
-      borderTop: 0,
+      borderTop,
       borderRight: Container.border,
       borderBottom: Container.border,
       borderLeft: Container.border,
