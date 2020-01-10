@@ -48,7 +48,6 @@ const functions = {
     return action;
   },
   "SERVER_TO_CLIENT[EMIT]:find": (state, action) => {
-    console.log(action);
     action = resolve.caseNoExistResponsePost(state, action);
     action.app = { ...state.app, ...action.app };
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
@@ -56,9 +55,7 @@ const functions = {
     action.app.desc = action.thread.serverMetas.title;
     action.app.isRootCh = action.app.rootCh === action.thread.ch;
     action.app.isMediaCh = App.getIsMediaCh(action.thread.ch);
-
-    action = Posts.getAnyActionPosts(action);
-    console.log(action);
+    action = { ...Posts.getAnyActionPosts(action) };
     action.thread.title = action.thread.serverMetas.title;
     action.thread.hasSlash = Schema.getBool(action.thread.hasSlash);
     action.threads = Threads.getMergedThreads(state.threads, action.thread);
@@ -100,7 +97,6 @@ const functions = {
     } else {
       action.app.chType = App.mediaTagTypeNo;
     }
-
     return action;
   },
   "CLIENT_TO_SERVER[EMIT]:changeThread": (state, action) => {
