@@ -26,6 +26,7 @@ export default class Posts extends Component<Props, State> {
     this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
     this.handleOnScroll = this.handleOnScroll.bind(this);
     this.handleOnClickGetMore = this.handleOnClickGetMore.bind(this);
+    this.handleOnClickPost = this.handleOnClickPost.bind(this);
     this.state = {
       scrollHeight: 0,
       isAnimateScrolling: false,
@@ -126,6 +127,21 @@ export default class Posts extends Component<Props, State> {
     this.props.scrollThread();
   }
 
+  handleOnClickPost(ch: string) {
+    const { threads } = this.props.state;
+    let { app } = this.props.state;
+
+    if (threads[ch]) {
+      app = App.getAppUpdatedOpenFlgs({ app }, "post");
+      window.talknAPI.onClickToggleDispDetail({
+        threadDetail: threads[ch],
+        app
+      });
+    } else {
+      window.talknAPI.changeThreadDetail(ch);
+    }
+  }
+
   handleOnClickGetMore() {
     const HtmlThread: HTMLElement = this.refs.thread as HTMLElement;
     this.setState({
@@ -142,7 +158,7 @@ export default class Posts extends Component<Props, State> {
     const dispPostCnt = posts.length;
     const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
     let isDisp = false;
-    if ( conf.findOnePostCnt <= dispPostCnt && dispPostCnt < conf.findOneLimitCnt) {
+    if (conf.findOnePostCnt <= dispPostCnt && dispPostCnt < conf.findOneLimitCnt) {
       if (thread[postCntKey] > conf.findOnePostCnt) {
         if (dispPostCnt < thread[postCntKey]) {
           isDisp = true;
@@ -162,20 +178,18 @@ export default class Posts extends Component<Props, State> {
   }
 
   renderPostList() {
-    const { state, talknAPI, timeago } = this.props;
-    const { app, style, thread, threads, actionLog } = state;
+    const { state, timeago } = this.props;
+    const { app, style, thread } = state;
     return state[`posts${app.dispThreadType}`].map(post => {
       return (
         <Post
           key={post._id}
-          {...post}
+          post={post}
           app={app}
-          actionLog={actionLog}
-          thread={thread}
-          threads={threads}
+          protocol={thread.protocol}
           childLayerCnt={post.layer - thread.layer}
           style={style.post}
-          talknAPI={talknAPI}
+          onClickPost={this.handleOnClickPost}
           timeago={timeago}
         />
       );
