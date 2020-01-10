@@ -72,7 +72,7 @@ export default class MenuIndex {
     const layout = Style.getLayoutFlex({
       justifyContent: "center",
       alignItems: "center",
-      width: "80px",
+      width: "72px",
       height: "45px"
     });
     const content = Style.getContentBase({
