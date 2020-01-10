@@ -170,7 +170,6 @@ export default class LockMenu extends Component<Props, State> {
       sizePx: Icon.middleSize
     });
     const IconTalkn = Icon.getTalkn({}, state, { sizePx: Icon.middleSize });
-
     return (
       <div data-component-name={"LockMenu"} style={style.lockMenu.menuShare}>
         <header style={style.lockMenu.header} onClick={() => onClickOpenLockMenu(App.openLockMenuLabelNo)}>
@@ -207,7 +206,7 @@ export default class LockMenu extends Component<Props, State> {
                 type="text"
                 style={stateStyle.liEmbedInput}
                 readOnly={true}
-                value={`<script type="text/javascript" async src='//${conf.domain}${threadDetail.ch}'></script>`}
+                value={`<script type="text/javascript" async src='//${conf.extURL}${threadDetail.ch}'></script>`}
               />
             </div>
           </li>
