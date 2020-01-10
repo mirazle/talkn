@@ -73,19 +73,19 @@ function setStoragePostsTimeline(action) {
   const { storageKey } = define;
   if (app.isMediaCh) {
     const postsTimelineAllLength = postsTimelineAll && postsTimelineAll.length ? postsTimelineAll.length : 0;
-    let postsTimelineZero = [];
+    let postsTimelineZeroSecond = [];
     let postsTimeline = [];
 
     for (let i = 0; i < postsTimelineAllLength; i++) {
       if (postsTimelineAll[i].currentTime === 0) {
-        postsTimelineZero.push(postsTimelineAll[i]);
+        postsTimelineZeroSecond.push(postsTimelineAll[i]);
       } else {
         postsTimeline.push(postsTimelineAll[i]);
       }
     }
 
-    action.postsTimeline = postsTimelineZero;
-    TalknSession.setStorage(thread.ch, storageKey.postsTimelineZero, postsTimelineZero);
+    action.postsTimeline = postsTimelineZeroSecond;
+    TalknSession.setStorage(thread.ch, storageKey.postsTimelineZero, postsTimelineZeroSecond);
     TalknSession.setStorage(thread.ch, storageKey.postsTimeline, postsTimeline);
   }
   return action;

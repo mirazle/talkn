@@ -1,5 +1,8 @@
 import Schema from "common/schemas/Schema";
 import App from "common/schemas/state/App";
+import PostMulti from "common/schemas/state/PostMulti";
+import PostTimeline from "common/schemas/state/PostTimeline";
+import PostSingle from "common/schemas/state/PostSingle";
 
 export default class Posts {
   constructor() {
@@ -25,21 +28,26 @@ export default class Posts {
   static getAnyActionPosts(action) {
     const { app, posts } = action;
     const existPosts = posts && posts.length > 0;
+    action.postsMulti = new PostMulti();
+    action.postsTimeline = new PostTimeline();
+    action.postsSingle = new PostSingle();
+    action.postsChild = [];
+    action.postsLogs = [];
     switch (app.dispThreadType) {
       case App.dispThreadTypeTimeline:
-        action.postsTimeline = existPosts ? [...posts] : [];
+        action.postsTimeline = existPosts ? posts : [];
         break;
       case App.dispThreadTypeMulti:
-        action.postsMulti = existPosts ? [...posts] : [];
+        action.postsMulti = existPosts ? posts : [];
         break;
       case App.dispThreadTypeSingle:
-        action.postsSingle = existPosts ? [...posts] : [];
+        action.postsSingle = existPosts ? posts : [];
         break;
       case App.dispThreadTypeChild:
-        action.postsChild = existPosts ? [...posts] : [];
+        action.postsChild = existPosts ? posts : [];
         break;
       case App.dispThreadTypeLogs:
-        action.postsLogs = existPosts ? [...posts] : [];
+        action.postsLogs = existPosts ? posts : [];
         break;
     }
 

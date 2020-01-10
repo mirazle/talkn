@@ -443,7 +443,7 @@ class Window extends Elements {
   }
 
   setupMedia() {
-    const log = true;
+    const log = false;
     let media = null;
     const videos = document.querySelectorAll("video");
     const audios = document.querySelectorAll("audio");
@@ -456,8 +456,10 @@ class Window extends Elements {
         let ch = this.state && this.state.thread ? this.state.thread.ch : this.window.ch;
         const mediaCh = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
         const talknMethod = ch !== mediaCh ? "findMediaCh" : "playMedia";
-        if (log) console.log(":::::::::::::::: EXT play METHOD " + talknMethod + " " + media.currentTime);
-        ch = mediaCh;
+        if (log) {
+          console.log(":::::::::::::::: EXT play METHOD " + talknMethod + " " + mediaCh + " " + media.currentTime);
+        }
+        this.state.thread.ch = mediaCh;
         this.childTo(talknMethod, {
           playCnt: this.playCnt++,
           thread: this.state.thread,
@@ -502,7 +504,11 @@ class Window extends Elements {
 
           let ch = this.state && this.state.thread ? this.state.thread.ch : this.window.ch;
           const mediaCh = media.currentSrc.replace("https:/", "").replace("http:/", "") + "/";
-          if (log) console.log("EXT " + media.currentTime);
+
+          if (log) {
+            console.log("EXT " + media.currentTime);
+          }
+
           ch = mediaCh;
           this.childTo("playMedia", {
             playCnt: this.playCnt++,

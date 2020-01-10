@@ -230,7 +230,7 @@ export default class TalknWindow {
 
   message(e, resolve) {
     if (e.data.type === "talkn") {
-      const log = true;
+      const log = false;
       switch (e.data.method) {
         case "bootExtension":
           this.parentUrl = e.data.href;
@@ -239,7 +239,9 @@ export default class TalknWindow {
           break;
         case "findMediaCh":
           if (e.data.params.thread && e.data.params.thread.ch) {
-            if (log) console.log("============== findMediaCh A " + e.data.params.thread.ch);
+            if (log) {
+              console.log("============== findMediaCh A " + e.data.params.thread.ch);
+            }
             actionWrap.onClickCh(e.data.params.thread.ch, false, e.data.method);
             TalknMedia.init("TalknWindow");
             window.talknAPI.startLinkMedia(e.data.params);
