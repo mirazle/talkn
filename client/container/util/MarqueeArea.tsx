@@ -22,18 +22,19 @@ const TIMEOUT = (1 / FPS) * 1000;
   */
 interface Props {
   hoverToStop: any;
-  text: string;
   leading: any;
   loop: any;
   trailing: any;
   style?: any;
   className?: any;
+  marqueeRef: string;
+  element?: any;
 }
 interface State {
   animatedWidth: number;
   overflowWidth: number;
 }
-export default class Marquee extends Component<Props, State> {
+export default class MarqueeArea extends Component<Props, State> {
   _marqueeTimer: any;
   constructor(props: Props) {
     super(props);
@@ -58,9 +59,6 @@ export default class Marquee extends Component<Props, State> {
     if (this.state.overflowWidth === 0) {
       return false;
     }
-    if (this.props.text === nextProps.text) {
-      //      return false;
-    }
     return true;
   }
 
@@ -77,12 +75,14 @@ export default class Marquee extends Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
+    /*
     if (this.props.text && this.props.text.length != nextProps.text.length) {
       clearTimeout(this._marqueeTimer);
       this.setState({
         animatedWidth: 0
       });
     }
+*/
   }
 
   handleMouseEnter() {
@@ -105,6 +105,10 @@ export default class Marquee extends Component<Props, State> {
   }
 
   render(): JSX.Element {
+    return this.renderMarquee();
+  }
+
+  renderMarquee(): JSX.Element {
     const style: any = {
       ...{
         position: "relative",
@@ -116,33 +120,22 @@ export default class Marquee extends Component<Props, State> {
 
     if (this.state.overflowWidth < 0) {
       return (
-        <div
-          data-component-name={"Marquee"}
-          className={`ui-marquee ${this.props.className}`}
-          style={{ overflow: "hidden" }}
-        >
-          <span ref="text" style={style} title={this.props.text}>
-            {this.props.text}
+        <div style={{ overflow: "hidden" }}>
+          <span ref="text" style={style} title={"this.props.text"}>
+            {"this.props.text"}
           </span>
         </div>
       );
     } else {
       return (
-        <div
-          data-component-name={"Marquee"}
-          className={`ui-marquee ${this.props.className}`}
-          style={{ overflow: "hidden" }}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-        >
-          <span ref="text" style={style} title={this.props.text}>
-            {this.props.text}
+        <div style={{ overflow: "hidden" }} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
+          <span ref="text" style={style} title={"this.props.text"}>
+            {"this.props.text"}
           </span>
         </div>
       );
     }
   }
-
   _startAnimation() {
     clearTimeout(this._marqueeTimer);
     const isLeading = this.state.animatedWidth === 0;
@@ -182,19 +175,14 @@ export default class Marquee extends Component<Props, State> {
   }
 
   _measureText() {
-    // マーキーさせたいテキストのcontainer
     const container: any = ReactDOM.findDOMNode(this);
     //const container = document.querySelector("[data-component-name='Marquee']");
-
-    // マーキーさせたいテキスト全体(表示されない部分も含めて)
     const node: any = ReactDOM.findDOMNode(this.refs.text);
-    // console.log(node);
-
     if (container && node) {
       const containerWidth = container.offsetWidth;
       const textWidth = node.offsetWidth;
       const overflowWidth = textWidth - containerWidth;
-      // console.log(overflowWidth);
+
       if (overflowWidth !== this.state.overflowWidth) {
         this.setState({
           overflowWidth

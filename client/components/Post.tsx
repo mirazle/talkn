@@ -1,62 +1,78 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import TimeAgo from "react-timeago";
 import Sequence from "common/Sequence";
 import Emotions from "common/emotions/index";
 import util from "common/util";
 import conf from "common/conf";
-import App from "common/schemas/state/App";
 import PostStyle from "client/style/Post";
-import Marquee from "client/container/util/Marquee";
+
+const FPS = 60;
+const STEP = 1;
+const TIMEOUT = (1 / FPS) * 1000;
 
 interface Props {
-  _id: any;
   app: any;
-  threads: any;
-  ch: string;
-  actionLog: any;
-  dispFlg: any;
+  protocol: string;
+  onClickPost: (ch: string) => void;
   timeago: any;
-  createTime: any;
-  currentTime: any;
   childLayerCnt: any;
-  title: string;
-  thread: any;
   post: any;
-  favicon: string;
-  stampId: any;
   style: any;
 }
 
 interface State {
   active: boolean;
-  style: any;
+  postStyle: any;
   timeId: string;
   isBubblePost: boolean;
+  animatedWidth: number;
+  overflowWidth: number;
 }
 
 const emotionCoverTypes = new Emotions();
 
 export default class Post extends Component<Props, State> {
+  public static defaultProps: Props = {
+    app: {},
+    protocol: Sequence.HTTPS_PROTOCOL,
+    onClickPost: () => {},
+    timeago: null,
+    childLayerCnt: 0,
+    post: {},
+    style: {}
+  };
+  marqueeTimer: any;
   constructor(props) {
     const { style, app } = props;
     super(props);
     this.state = {
       active: true,
-      style,
+      postStyle: style,
       timeId: this.getTimeId(),
-      isBubblePost: app.isBubblePost
+      isBubblePost: app.isBubblePost,
+      animatedWidth: 0,
+      overflowWidth: 0
     };
+
     this.mountTimeago = this.mountTimeago.bind(this);
     this.renderUpper = this.renderUpper.bind(this);
     this.renderTime = this.renderTime.bind(this);
     this.renderStampLabel = this.renderStampLabel.bind(this);
     this.getDecolationProps = this.getDecolationProps.bind(this);
-    this.handleOnClickPost = this.handleOnClickPost.bind(this);
   }
 
   componentWillReceiveProps(props) {
-    const { actionLog, dispFlg } = props;
-    const { style, isBubblePost } = this.state;
+    const { title, dispFlg } = this.props.post;
+    const { postStyle, isBubblePost } = this.state;
+
+    if (title && title.length != title.length) {
+      clearTimeout(this.marqueeTimer);
+      this.setState({
+        animatedWidth: 0
+      });
+    }
+
     if (!dispFlg) {
       this.setState({ active: false });
     } else {
@@ -68,10 +84,10 @@ export default class Post extends Component<Props, State> {
         }
 
         this.setState({
-          style: {
-            ...style,
+          postStyle: {
+            ...postStyle,
             self: { ...props.style.self },
-            upper: { ...style.upper, display: props.style.upper.display },
+            upper: { ...postStyle.upper, display: props.style.upper.display },
             bottomPost: { ...props.style.bottomPost }
           },
           isBubblePost: afterIsBubblePost
@@ -84,12 +100,16 @@ export default class Post extends Component<Props, State> {
     const { app } = this.props;
     return {
       onMouseOver: () => {
+        if (this.state.overflowWidth > 0) {
+          this.startAnimation();
+        }
+
         if (app.isBubblePost) {
           this.setState({
-            style: {
-              ...this.state.style,
+            postStyle: {
+              ...this.state.postStyle,
               self: {
-                ...this.state.style.self,
+                ...this.state.postStyle.self,
                 transition: "200ms",
                 transform: "scale( 1.05 )",
                 cursor: "pointer"
@@ -99,12 +119,17 @@ export default class Post extends Component<Props, State> {
         }
       },
       onMouseLeave: () => {
+        clearTimeout(this.marqueeTimer);
+        this.setState({
+          animatedWidth: 0
+        });
+
         if (app.isBubblePost) {
           this.setState({
-            style: {
-              ...this.state.style,
+            postStyle: {
+              ...this.state.postStyle,
               self: {
-                ...this.state.style.self,
+                ...this.state.postStyle.self,
                 transition: "600ms",
                 transform: "scale( 1 )",
                 cursor: "default"
@@ -116,10 +141,10 @@ export default class Post extends Component<Props, State> {
       onMouseDown: () => {
         if (app.isBubblePost) {
           this.setState({
-            style: {
-              ...this.state.style,
+            postStyle: {
+              ...this.state.postStyle,
               self: {
-                ...this.state.style.self,
+                ...this.state.postStyle.self,
                 transform: "scale( 1 )",
                 cursor: "pointer"
               }
@@ -130,10 +155,10 @@ export default class Post extends Component<Props, State> {
       onMouseUp: () => {
         if (app.isBubblePost) {
           this.setState({
-            style: {
-              ...this.state.style,
+            postStyle: {
+              ...this.state.postStyle,
               self: {
-                ...this.state.style.self,
+                ...this.state.postStyle.self,
                 transform: "scale( 1.05 )",
                 cursor: "pointer"
               }
@@ -145,15 +170,16 @@ export default class Post extends Component<Props, State> {
   }
 
   getTimeId() {
-    return `timeAgo:${this.props._id}`;
+    return `timeAgo:${this.props.post._id}`;
   }
 
   componentDidMount() {
     this.mountTimeago();
+    this.measureText();
   }
 
   componentWillUnmount() {
-    const { _id } = this.props;
+    clearTimeout(this.marqueeTimer);
     this.setState({ active: false });
   }
 
@@ -173,6 +199,10 @@ export default class Post extends Component<Props, State> {
     }
   }
 
+  componentDidUpdate() {
+    this.measureText();
+  }
+
   mountTimeago() {
     const { app, timeago } = this.props;
     if (!app.isMediaCh) {
@@ -182,31 +212,17 @@ export default class Post extends Component<Props, State> {
     }
   }
 
-  handleOnClickPost() {
-    const { threads } = this.props;
-    let { app, ch } = this.props;
-
-    if (threads[ch]) {
-      app = App.getAppUpdatedOpenFlgs({ app }, "post");
-      window.talknAPI.onClickToggleDispDetail({
-        threadDetail: threads[ch],
-        app
-      });
-    } else {
-      window.talknAPI.changeThreadDetail(ch);
-    }
-  }
-
   renderTime() {
-    const { style } = this.state;
-    const { app, createTime, currentTime } = this.props;
+    const { postStyle } = this.state;
+    const { app, post } = this.props;
+    const { createTime, currentTime } = post;
 
     if (app.isMediaCh) {
       const dispCurrentTime = String(currentTime).split(".")[0];
-      return <time style={style.upperTimeago}>{dispCurrentTime} Second.</time>;
+      return <time style={postStyle.upperTimeago}>{dispCurrentTime} Second.</time>;
     } else {
       return (
-        <span style={style.upperTimeago} ref={this.state.timeId} className={"timeAgo"}>
+        <span style={postStyle.upperTimeago} ref={this.state.timeId} className={"timeAgo"}>
           <TimeAgo date={createTime} dateTime={createTime} />
         </span>
       );
@@ -214,52 +230,33 @@ export default class Post extends Component<Props, State> {
   }
 
   renderUpper() {
-    const { childLayerCnt, title } = this.props;
-    const { style } = this.state;
+    const { childLayerCnt, post } = this.props;
+    const { _id, title } = post;
+    const { postStyle } = this.state;
     const childLabel = childLayerCnt > 0 ? `${childLayerCnt}child` : "";
+    const marqueeStyle: any = {
+      ...{ position: "relative", right: this.state.animatedWidth, whiteSpace: "nowrap" },
+      ...this.props.style
+    };
     return (
-      <div style={style.upper}>
-        <div style={style.upperChild}>{childLabel}</div>
-        <div style={style.upperTitle}>
-          <Marquee text={title} loop={true} hoverToStop={false} trailing={0} leading={0} />
+      <div style={{ ...postStyle.upper, overflow: "hidden" }}>
+        <div style={postStyle.upperChild}>{childLabel}</div>
+        <div ref={`MarqueeWrap${_id}`} data-component-name={"Marquee"} style={postStyle.upperTitle} title={title}>
+          <span ref={`Marquee${_id}`} style={marqueeStyle}>
+            {title}
+          </span>
         </div>
         {this.renderTime()}
       </div>
     );
   }
-  /*
-  renderPost( post, stampId, app ){
 
-    if( stampId > 0 ){
-      post = PostStyle.getStampTag( post, app.isBubblePost );
+  renderPost(post, app) {
+    if (post.stampId) {
+      return PostStyle.getStampTag(post.post, app.isBubblePost);
+    } else {
+      return post.post;
     }
-
-    if( !app.isBubblePost ){
-        if( post.indexOf( `scale(${PostStyle.bubbleStampScale})` ) ){
-           post = post.replace( `scale(${PostStyle.bubbleStampScale})`, `scale(${PostStyle.stampScale})` )
-                    .replace( `height: 100%`, `height:60px` )
-                    .replace( `height:100%`, `height:60px` )
-                    .replace( `justify-content: center`, "justify-content: flex-start" )
-                    .replace( `justify-content:center`, "justify-content: flex-start" );
-        }
-    }
-    return post;
-  }
-
-    renderPost( menuIndexList, app ){
-    let { post, stampId } = menuIndexList
-    console.log( menuIndexList.ch + " " + post + " " + stampId );
-    if( stampId > 0 ){
-      post = PostStyle.getStampTag( post, app.isBubblePost );
-    }
-    return post;
-  }
-*/
-  renderPost(post, stampId, app) {
-    if (stampId) {
-      post = PostStyle.getStampTag(post, app.isBubblePost);
-    }
-    return post;
   }
 
   renderStampLabel(stampId) {
@@ -279,32 +276,82 @@ export default class Post extends Component<Props, State> {
   }
 
   render() {
-    const { app, thread, post, favicon, stampId, _id } = this.props;
-    const { active, style } = this.state;
-    const stampLabel = this.renderStampLabel(stampId);
-    let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName(favicon);
+    const { app, protocol, post, onClickPost } = this.props;
+    const { active, postStyle } = this.state;
+    const stampLabel = this.renderStampLabel(post.stampId);
+    let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName(post.favicon);
 
     if (dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 && dispFavicon.indexOf(Sequence.HTTP_PROTOCOL) !== 0) {
-      if (thread.protocol === Sequence.TALKN_PROTOCOL) {
+      if (protocol === Sequence.TALKN_PROTOCOL) {
         dispFavicon = `${Sequence.HTTPS_PROTOCOL}//${dispFavicon}`;
       } else {
-        dispFavicon = `${thread.protocol}//${dispFavicon}`;
+        dispFavicon = `${protocol}//${dispFavicon}`;
       }
     }
 
     if (active) {
       return (
-        <li data-component-name={"Post"} id={_id} style={style.self} {...this.getDecolationProps()}>
+        <li data-component-name={"Post"} id={post._id} style={postStyle.self} {...this.getDecolationProps()}>
           {this.renderUpper()}
-          <div onClick={this.handleOnClickPost} style={style.bottom}>
-            <span style={{ ...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )` }} />
-            <span style={style.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, stampId, app) }} />
+          <div
+            onClick={() => {
+              onClickPost(post.ch);
+            }}
+            style={postStyle.bottom}
+          >
+            <span style={{ ...postStyle.bottomIcon, backgroundImage: `url( ${dispFavicon} )` }} />
+            <span style={postStyle.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, app) }} />
           </div>
           {stampLabel}
         </li>
       );
     } else {
       return null;
+    }
+  }
+
+  startAnimation() {
+    clearTimeout(this.marqueeTimer);
+
+    const animate = () => {
+      const { overflowWidth } = this.state;
+      let animatedWidth = this.state.animatedWidth + STEP;
+      const isRoundOver = animatedWidth > overflowWidth;
+      if (isRoundOver) {
+        animatedWidth = 0;
+      }
+      this.setState({
+        animatedWidth
+      });
+
+      this.marqueeTimer = setTimeout(animate, TIMEOUT);
+    };
+
+    this.marqueeTimer = setTimeout(animate, TIMEOUT);
+  }
+
+  measureText() {
+    const { _id } = this.props.post;
+
+    // マーキーさせたいテキストのcontainer
+    //    const container: any = ReactDOM.findDOMNode(this);
+    const container: any = ReactDOM.findDOMNode(this.refs[`MarqueeWrap${_id}`]);
+    // const container = document.querySelector("[data-component-name='Marquee']");
+    //const container = document.querySelector("[data-component-name='Marquee']");
+
+    // マーキーさせたいテキスト全体(表示されない部分も含めて)
+    const node: any = ReactDOM.findDOMNode(this.refs[`Marquee${_id}`]);
+
+    if (container && node) {
+      const containerWidth = container.offsetWidth;
+      const textWidth = node.offsetWidth;
+      const overflowWidth = textWidth - containerWidth;
+
+      if (overflowWidth !== this.state.overflowWidth) {
+        this.setState({
+          overflowWidth
+        });
+      }
     }
   }
 }
