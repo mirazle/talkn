@@ -184,9 +184,9 @@ export default class Posts extends Component<Props, State> {
       return (
         <Post
           key={post._id}
+          id={post._id}
           post={post}
           app={app}
-          protocol={thread.protocol}
           childLayerCnt={post.layer - thread.layer}
           style={style.post}
           onClickPost={this.handleOnClickPost}

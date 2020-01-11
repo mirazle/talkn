@@ -6,14 +6,11 @@ import Emotions from "common/emotions/index";
 import util from "common/util";
 import conf from "common/conf";
 import PostStyle from "client/style/Post";
+import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
 
-const FPS = 60;
-const STEP = 1;
-const TIMEOUT = (1 / FPS) * 1000;
-
-interface Props {
+interface Props extends MarqueeAreaProps {
+  id: number;
   app: any;
-  protocol: string;
   onClickPost: (ch: string) => void;
   timeago: any;
   childLayerCnt: any;
@@ -21,8 +18,7 @@ interface Props {
   style: any;
 }
 
-interface State {
-  active: boolean;
+interface State extends MarqueeAreaState {
   postStyle: any;
   timeId: string;
   isBubblePost: boolean;
@@ -32,30 +28,26 @@ interface State {
 
 const emotionCoverTypes = new Emotions();
 
-export default class Post extends Component<Props, State> {
+export default class Post extends MarqueeArea<Props, State> {
   public static defaultProps: Props = {
+    id: 0,
     app: {},
-    protocol: Sequence.HTTPS_PROTOCOL,
     onClickPost: () => {},
     timeago: null,
     childLayerCnt: 0,
     post: {},
     style: {}
   };
-  marqueeTimer: any;
   constructor(props) {
-    const { style, app } = props;
     super(props);
+    const { style, app } = props;
     this.state = {
-      active: true,
       postStyle: style,
       timeId: this.getTimeId(),
       isBubblePost: app.isBubblePost,
-      animatedWidth: 0,
-      overflowWidth: 0
+      ...this.superState
     };
 
-    this.mountTimeago = this.mountTimeago.bind(this);
     this.renderUpper = this.renderUpper.bind(this);
     this.renderTime = this.renderTime.bind(this);
     this.renderStampLabel = this.renderStampLabel.bind(this);
@@ -63,36 +55,19 @@ export default class Post extends Component<Props, State> {
   }
 
   componentWillReceiveProps(props) {
-    const { title, dispFlg } = this.props.post;
     const { postStyle, isBubblePost } = this.state;
-
-    if (title && title.length != title.length) {
-      clearTimeout(this.marqueeTimer);
+    const beforeIsBubblePost = isBubblePost;
+    const afterIsBubblePost = props.app.isBubblePost;
+    if (beforeIsBubblePost !== afterIsBubblePost) {
       this.setState({
-        animatedWidth: 0
+        postStyle: {
+          ...postStyle,
+          self: { ...props.style.self },
+          upper: { ...postStyle.upper, display: props.style.upper.display },
+          bottomPost: { ...props.style.bottomPost }
+        },
+        isBubblePost: afterIsBubblePost
       });
-    }
-
-    if (!dispFlg) {
-      this.setState({ active: false });
-    } else {
-      const beforeIsBubblePost = isBubblePost;
-      const afterIsBubblePost = props.app.isBubblePost;
-      if (beforeIsBubblePost !== afterIsBubblePost) {
-        if (!beforeIsBubblePost && afterIsBubblePost) {
-          this.mountTimeago();
-        }
-
-        this.setState({
-          postStyle: {
-            ...postStyle,
-            self: { ...props.style.self },
-            upper: { ...postStyle.upper, display: props.style.upper.display },
-            bottomPost: { ...props.style.bottomPost }
-          },
-          isBubblePost: afterIsBubblePost
-        });
-      }
     }
   }
 
@@ -100,10 +75,7 @@ export default class Post extends Component<Props, State> {
     const { app } = this.props;
     return {
       onMouseOver: () => {
-        if (this.state.overflowWidth > 0) {
-          this.startAnimation();
-        }
-
+        this.onMouseOverArea();
         if (app.isBubblePost) {
           this.setState({
             postStyle: {
@@ -119,11 +91,7 @@ export default class Post extends Component<Props, State> {
         }
       },
       onMouseLeave: () => {
-        clearTimeout(this.marqueeTimer);
-        this.setState({
-          animatedWidth: 0
-        });
-
+        this.onMouseLeaveArea();
         if (app.isBubblePost) {
           this.setState({
             postStyle: {
@@ -174,13 +142,11 @@ export default class Post extends Component<Props, State> {
   }
 
   componentDidMount() {
-    this.mountTimeago();
     this.measureText();
   }
 
   componentWillUnmount() {
-    clearTimeout(this.marqueeTimer);
-    this.setState({ active: false });
+    this.clearTimeout();
   }
 
   shouldComponentUpdate(props) {
@@ -203,15 +169,6 @@ export default class Post extends Component<Props, State> {
     this.measureText();
   }
 
-  mountTimeago() {
-    const { app, timeago } = this.props;
-    if (!app.isMediaCh) {
-      if (this.refs[this.state.timeId]) {
-        // timeago.render(this.refs[this.state.timeId]);
-      }
-    }
-  }
-
   renderTime() {
     const { postStyle } = this.state;
     const { app, post } = this.props;
@@ -231,18 +188,16 @@ export default class Post extends Component<Props, State> {
 
   renderUpper() {
     const { childLayerCnt, post } = this.props;
-    const { _id, title } = post;
+    const { title } = post;
     const { postStyle } = this.state;
     const childLabel = childLayerCnt > 0 ? `${childLayerCnt}child` : "";
-    const marqueeStyle: any = {
-      ...{ position: "relative", right: this.state.animatedWidth, whiteSpace: "nowrap" },
-      ...this.props.style
-    };
+    const marqueeStyle: {} = this.getMarqueeStyle();
+
     return (
       <div style={{ ...postStyle.upper, overflow: "hidden" }}>
         <div style={postStyle.upperChild}>{childLabel}</div>
-        <div ref={`MarqueeWrap${_id}`} data-component-name={"Marquee"} style={postStyle.upperTitle} title={title}>
-          <span ref={`Marquee${_id}`} style={marqueeStyle}>
+        <div ref={this.marqueeWrapRef} data-component-name={"MarqueePost"} style={postStyle.upperTitle} title={title}>
+          <span ref={this.marqueeTextRef} style={marqueeStyle}>
             {title}
           </span>
         </div>
@@ -276,20 +231,20 @@ export default class Post extends Component<Props, State> {
   }
 
   render() {
-    const { app, protocol, post, onClickPost } = this.props;
-    const { active, postStyle } = this.state;
+    const { app, post, onClickPost } = this.props;
+    const { postStyle } = this.state;
     const stampLabel = this.renderStampLabel(post.stampId);
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName(post.favicon);
 
     if (dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 && dispFavicon.indexOf(Sequence.HTTP_PROTOCOL) !== 0) {
-      if (protocol === Sequence.TALKN_PROTOCOL) {
+      if (post.protocol === Sequence.TALKN_PROTOCOL) {
         dispFavicon = `${Sequence.HTTPS_PROTOCOL}//${dispFavicon}`;
       } else {
-        dispFavicon = `${protocol}//${dispFavicon}`;
+        dispFavicon = `${post.protocol}//${dispFavicon}`;
       }
     }
 
-    if (active) {
+    if (post.dispFlg) {
       return (
         <li data-component-name={"Post"} id={post._id} style={postStyle.self} {...this.getDecolationProps()}>
           {this.renderUpper()}
@@ -307,51 +262,6 @@ export default class Post extends Component<Props, State> {
       );
     } else {
       return null;
-    }
-  }
-
-  startAnimation() {
-    clearTimeout(this.marqueeTimer);
-
-    const animate = () => {
-      const { overflowWidth } = this.state;
-      let animatedWidth = this.state.animatedWidth + STEP;
-      const isRoundOver = animatedWidth > overflowWidth;
-      if (isRoundOver) {
-        animatedWidth = 0;
-      }
-      this.setState({
-        animatedWidth
-      });
-
-      this.marqueeTimer = setTimeout(animate, TIMEOUT);
-    };
-
-    this.marqueeTimer = setTimeout(animate, TIMEOUT);
-  }
-
-  measureText() {
-    const { _id } = this.props.post;
-
-    // マーキーさせたいテキストのcontainer
-    //    const container: any = ReactDOM.findDOMNode(this);
-    const container: any = ReactDOM.findDOMNode(this.refs[`MarqueeWrap${_id}`]);
-    // const container = document.querySelector("[data-component-name='Marquee']");
-    //const container = document.querySelector("[data-component-name='Marquee']");
-
-    // マーキーさせたいテキスト全体(表示されない部分も含めて)
-    const node: any = ReactDOM.findDOMNode(this.refs[`Marquee${_id}`]);
-
-    if (container && node) {
-      const containerWidth = container.offsetWidth;
-      const textWidth = node.offsetWidth;
-      const overflowWidth = textWidth - containerWidth;
-
-      if (overflowWidth !== this.state.overflowWidth) {
-        this.setState({
-          overflowWidth
-        });
-      }
     }
   }
 }

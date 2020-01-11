@@ -1,183 +1,102 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-
-/*
-Copyright (c) jasonslyvia
-Released under the MIT license
-https://www.npmjs.com/package/react-marquee
-*/
-
 const FPS = 60;
 const STEP = 1;
 const TIMEOUT = (1 / FPS) * 1000;
 
-/*
-  Type '{
-    text: string;
-    loop: boolean;
-    hoverToStop: boolean;
-    trailing: number;
-    leading: number;
-  }' is missing the following properties from type 'Readonly<Props>': style, classNamets(2739)
-  */
-interface Props {
-  hoverToStop: any;
-  leading: any;
-  loop: any;
-  trailing: any;
-  style?: any;
-  className?: any;
-  marqueeRef: string;
-  element?: any;
+export interface MarqueeAreaProps {
+  id: number | string;
 }
-interface State {
+
+export interface MarqueeAreaState {
   animatedWidth: number;
   overflowWidth: number;
 }
-export default class MarqueeArea extends Component<Props, State> {
-  _marqueeTimer: any;
-  constructor(props: Props) {
-    super(props);
-    this.state = {
+
+export default class MarqueeArea<P extends MarqueeAreaProps, S extends MarqueeAreaState> extends Component<P, S> {
+  id: number | string;
+  marqueeTimer: any;
+  marqueeTextStyle: any = {
+    position: "relative",
+    transform: `translateX(0px)`,
+    whiteSpace: "nowrap"
+  };
+  constructor(props: P) {
+    super(props as P);
+    this.id = props.id;
+    this.startAnimation = this.startAnimation.bind(this);
+    this.measureText = this.measureText.bind(this);
+    this.onMouseOverArea = this.onMouseOverArea.bind(this);
+    this.onMouseLeaveArea = this.onMouseLeaveArea.bind(this);
+  }
+
+  get superState() {
+    return ({
       animatedWidth: 0,
       overflowWidth: 0
+    } as MarqueeAreaState) as S;
+  }
+
+  get marqueeWrapRef() {
+    return `MarqueeWrap${this.id}`;
+  }
+
+  get marqueeTextRef() {
+    return `Marquee${this.id}`;
+  }
+
+  clearTimeout() {
+    clearTimeout(this.marqueeTimer);
+  }
+
+  onMouseOverArea() {
+    if (this.state.overflowWidth > 0) {
+      this.startAnimation();
+    }
+  }
+
+  onMouseLeaveArea() {
+    this.clearTimeout();
+    this.setState({
+      animatedWidth: 0
+    });
+  }
+
+  getMarqueeStyle() {
+    return {
+      position: "absolute",
+      transform: `translateX(-${this.state.animatedWidth}px)`,
+      whiteSpace: "nowrap"
     };
-
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
   }
 
-  componentDidMount() {
-    this._measureText();
-
-    if (this.props.hoverToStop) {
-      this._startAnimation();
-    }
-  }
-
-  shouldComponentUpdate(nextProps) {
-    if (this.state.overflowWidth === 0) {
-      return false;
-    }
-    return true;
-  }
-
-  componentDidUpdate() {
-    this._measureText();
-
-    if (this.props.hoverToStop) {
-      this._startAnimation();
-    }
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this._marqueeTimer);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    /*
-    if (this.props.text && this.props.text.length != nextProps.text.length) {
-      clearTimeout(this._marqueeTimer);
-      this.setState({
-        animatedWidth: 0
-      });
-    }
-*/
-  }
-
-  handleMouseEnter() {
-    if (this.props.hoverToStop) {
-      clearTimeout(this._marqueeTimer);
-    } else if (this.state.overflowWidth > 0) {
-      this._startAnimation();
-    }
-  }
-
-  handleMouseLeave() {
-    if (this.props.hoverToStop && this.state.overflowWidth > 0) {
-      this._startAnimation();
-    } else {
-      clearTimeout(this._marqueeTimer);
-      this.setState({
-        animatedWidth: 0
-      });
-    }
-  }
-
-  render(): JSX.Element {
-    return this.renderMarquee();
-  }
-
-  renderMarquee(): JSX.Element {
-    const style: any = {
-      ...{
-        position: "relative",
-        right: this.state.animatedWidth,
-        whiteSpace: "nowrap"
-      },
-      ...this.props.style
-    };
-
-    if (this.state.overflowWidth < 0) {
-      return (
-        <div style={{ overflow: "hidden" }}>
-          <span ref="text" style={style} title={"this.props.text"}>
-            {"this.props.text"}
-          </span>
-        </div>
-      );
-    } else {
-      return (
-        <div style={{ overflow: "hidden" }} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>
-          <span ref="text" style={style} title={"this.props.text"}>
-            {"this.props.text"}
-          </span>
-        </div>
-      );
-    }
-  }
-  _startAnimation() {
-    clearTimeout(this._marqueeTimer);
-    const isLeading = this.state.animatedWidth === 0;
-    const timeout = isLeading ? this.props.leading : TIMEOUT;
-
+  startAnimation() {
+    this.clearTimeout();
+    console.log(this.state.overflowWidth);
     const animate = () => {
       const { overflowWidth } = this.state;
       let animatedWidth = this.state.animatedWidth + STEP;
       const isRoundOver = animatedWidth > overflowWidth;
-
       if (isRoundOver) {
-        if (this.props.loop) {
-          animatedWidth = 0;
-        } else {
-          return;
-        }
+        animatedWidth = 0;
       }
+      this.setState({
+        animatedWidth
+      });
 
-      if (isRoundOver && this.props.trailing) {
-        this._marqueeTimer = setTimeout(() => {
-          this.setState({
-            animatedWidth
-          });
-
-          this._marqueeTimer = setTimeout(animate, TIMEOUT);
-        }, this.props.trailing);
-      } else {
-        this.setState({
-          animatedWidth
-        });
-
-        this._marqueeTimer = setTimeout(animate, TIMEOUT);
-      }
+      this.marqueeTimer = setTimeout(animate, TIMEOUT);
     };
 
-    this._marqueeTimer = setTimeout(animate, timeout);
+    this.marqueeTimer = setTimeout(animate, TIMEOUT);
   }
 
-  _measureText() {
-    const container: any = ReactDOM.findDOMNode(this);
-    //const container = document.querySelector("[data-component-name='Marquee']");
-    const node: any = ReactDOM.findDOMNode(this.refs.text);
+  measureText() {
+    // マーキーさせたいテキストのcontainer
+    const container: any = ReactDOM.findDOMNode(this.refs[`MarqueeWrap${this.id}`]);
+
+    // マーキーさせたいテキスト全体(表示されない部分も含めて)
+    const node: any = ReactDOM.findDOMNode(this.refs[`Marquee${this.id}`]);
+
     if (container && node) {
       const containerWidth = container.offsetWidth;
       const textWidth = node.offsetWidth;

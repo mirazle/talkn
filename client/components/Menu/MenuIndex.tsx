@@ -113,30 +113,20 @@ export default class MenuIndex extends React.Component<Props, State> {
   }
 
   renderLi() {
-    const {
-      state,
-      handleOnClickCh,
-      onClickToTimelineThread,
-      onClickToMultiThread,
-      onClickToSingleThread,
-      onClickToChildThread,
-      onClickToLogsThread
-    } = this.props;
+    const { state, handleOnClickCh } = this.props;
 
-    const { menuIndex } = state;
+    const { app, thread, menuIndex, style } = state;
     return menuIndex.map((mi, index) => {
       return (
         <MenuIndexList
           key={`${mi.ch}_${index}`}
+          id={`${mi.ch}_${index}`}
+          app={app}
+          thread={thread}
           menuIndexList={mi}
           handleOnClickCh={handleOnClickCh}
-          onClickToTimelineThread={onClickToTimelineThread}
-          onClickToMultiThread={onClickToMultiThread}
-          onClickToSingleThread={onClickToSingleThread}
-          onClickToChildThread={onClickToChildThread}
-          onClickToLogsThread={onClickToLogsThread}
           rank={index}
-          {...this.props.state}
+          style={style.menuIndexList}
         />
       );
     });

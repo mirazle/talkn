@@ -6,40 +6,50 @@ import conf from "common/conf";
 import Marquee from "client/container/util/Marquee";
 import MenuIndexListStyle from "client/style/Menu/MenuIndexList";
 import PostStyle from "client/style/Post";
+import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
 
-interface Props {
+interface Props extends MarqueeAreaProps {
   app: any;
-  menuIndexList: any;
   thread: any;
-  setting: any;
+  menuIndexList: any;
   handleOnClickCh: any;
   rank: any;
+  style: any;
 }
 
-interface State {
+interface State extends MarqueeAreaState {
   state: any;
   style: any;
 }
 
-export default class MenuIndexList extends Component<Props, State> {
+export default class MenuIndexList extends MarqueeArea<Props, State> {
   state: any;
   constructor(props) {
     super(props);
-    const { menuIndexList: style } = props.style;
-    this.state = { style };
+    this.state = { style: props.style, ...this.superState };
     this.onClickEvents = this.onClickEvents.bind(this);
     this.getDecolationEvents = this.getDecolationEvents.bind(this);
   }
 
   componentDidMount() {
-    const { app, menuIndexList } = this.props;
+    const { menuIndexList } = this.props;
+    this.measureText();
     window.talknAPI.onCatchChAPI(menuIndexList.ch);
+  }
+
+  componentWillUnmount() {
+    this.clearTimeout();
+  }
+
+  componentDidUpdate() {
+    this.measureText();
   }
 
   getDecolationEvents(styleKey) {
     if (styleKey === MenuIndexListStyle.unactiveLiSelfLabel) {
       return {
         onMouseOver: () => {
+          this.onMouseOverArea();
           this.setState({
             style: {
               ...this.state.style,
@@ -51,6 +61,7 @@ export default class MenuIndexList extends Component<Props, State> {
           });
         },
         onMouseLeave: () => {
+          this.onMouseLeaveArea();
           this.setState({
             style: {
               ...this.state.style,
@@ -88,7 +99,7 @@ export default class MenuIndexList extends Component<Props, State> {
   }
 
   onClickEvents() {
-    const { thread, setting, menuIndexList, handleOnClickCh } = this.props;
+    const { thread, menuIndexList, handleOnClickCh } = this.props;
     const { ch } = menuIndexList;
     const isFocusCh = thread.ch === ch ? true : false;
     const styleKey = isFocusCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
@@ -212,6 +223,7 @@ export default class MenuIndexList extends Component<Props, State> {
     const dispWatchCnt = this.getDispWatchCnt();
     const baseStyle = style[styleKey];
     const dispExt = menuIndexList.findType === Thread.findTypeHtml ? null : menuIndexList.findType;
+    const marqueeStyle: any = this.getMarqueeStyle();
     return (
       <li
         data-component-name={"MenuIndexList"}
@@ -223,8 +235,10 @@ export default class MenuIndexList extends Component<Props, State> {
         {dispRank}
         <div style={style.upper}>
           <span style={style.upperSpace} />
-          <span style={style.upperRight}>
-            <Marquee text={title} loop={true} hoverToStop={false} trailing={0} leading={0} />
+          <span ref={this.marqueeWrapRef} data-component-name={"MarqueeMenuIndex"} style={style.upperRight}>
+            <span ref={this.marqueeTextRef} style={marqueeStyle}>
+              {title}
+            </span>
           </span>
         </div>
 
