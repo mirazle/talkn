@@ -18,7 +18,7 @@ export default class DetailModal {
     } else {
       width =
         app.screenMode === App.screenModeSmallLabel
-          ? String(Math.floor(app.width * Container.widthRatio))
+          ? String(Math.floor(app.width * Container.widthRatio)) + "px"
           : `calc( ${100 * Container.widthRatio}% - ${Menu.getWidth(app)} )`;
     }
     return addUnit ? Style.trimUnit(width) : width;
