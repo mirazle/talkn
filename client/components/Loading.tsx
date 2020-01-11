@@ -3,6 +3,13 @@ import Style from "client/components/Style";
 
 export default class Loading extends Component {
   render() {
+    console.log(this.props);
+    const ch = location.href
+      .replace("https:/", "")
+      .replace("http:/", "")
+      .replace("/localhost:8080", "")
+      .replace("/localhost", "")
+      .replace("/talkn.io", "");
     return (
       <div className={"LogoScreen"}>
         <Style {...this.props} />
@@ -10,6 +17,7 @@ export default class Loading extends Component {
         <div className={"LogoWrap1"}>
           <div className={"Logo"} />
         </div>
+        {/*        <div className={"LogoCh"}>Tune : {ch}</div> */}
       </div>
     );
     /*

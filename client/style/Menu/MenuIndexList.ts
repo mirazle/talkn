@@ -31,7 +31,7 @@ export default class MenuIndexList {
   }
 
   static get fontSize() {
-    return 14;
+    return 15;
   }
   static get iconSize() {
     return 24;
