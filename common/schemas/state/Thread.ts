@@ -178,6 +178,7 @@ export default class Thread extends Schema {
   static getProtocol(href) {
     if (href.indexOf("http:") >= 0) return "http:";
     if (href.indexOf("https:") >= 0) return "https:";
+    if (location && location.protocol) return location.protocol;
     return "????:";
   }
 
