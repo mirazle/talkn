@@ -12,7 +12,6 @@ interface Props extends MarqueeAreaProps {
   id: number;
   app: any;
   onClickPost: (ch: string) => void;
-  timeago: any;
   childLayerCnt: any;
   post: any;
   style: any;
@@ -20,7 +19,6 @@ interface Props extends MarqueeAreaProps {
 
 interface State extends MarqueeAreaState {
   postStyle: any;
-  timeId: string;
   isBubblePost: boolean;
   animatedWidth: number;
   overflowWidth: number;
@@ -33,7 +31,6 @@ export default class Post extends MarqueeArea<Props, State> {
     id: 0,
     app: {},
     onClickPost: () => {},
-    timeago: null,
     childLayerCnt: 0,
     post: {},
     style: {}
@@ -43,7 +40,6 @@ export default class Post extends MarqueeArea<Props, State> {
     const { style, app } = props;
     this.state = {
       postStyle: style,
-      timeId: this.getTimeId(),
       isBubblePost: app.isBubblePost,
       ...this.superState
     };
@@ -137,10 +133,6 @@ export default class Post extends MarqueeArea<Props, State> {
     };
   }
 
-  getTimeId() {
-    return `timeAgo:${this.props.post._id}`;
-  }
-
   componentDidMount() {
     this.measureText();
   }
@@ -179,8 +171,22 @@ export default class Post extends MarqueeArea<Props, State> {
       return <time style={postStyle.upperTimeago}>{dispCurrentTime} Second.</time>;
     } else {
       return (
-        <span style={postStyle.upperTimeago} ref={this.state.timeId} className={"timeAgo"}>
-          <TimeAgo date={createTime} dateTime={createTime} />
+        <span style={postStyle.upperTimeago} className={"timeAgo"}>
+          <TimeAgo
+            date={createTime}
+            formatter={(value, unit, suffix) => {
+              let shortUnit = String(unit);
+              switch (String(unit)) {
+                case "minute":
+                  shortUnit = "min";
+                  break;
+                case "second":
+                  shortUnit = "sec";
+                  break;
+              }
+              return `${value} ${shortUnit} ${suffix}`;
+            }}
+          />
         </span>
       );
     }
