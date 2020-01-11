@@ -77,7 +77,7 @@ export default class Post {
       height: "20px"
     });
     const content = Style.getContentBase({
-      fontSize: "13px"
+      fontSize: "14px"
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -108,7 +108,7 @@ export default class Post {
       width: "60%",
       minWidth: "60%",
       maxWidth: "60%",
-      margin: "0px 10px 0px 5px"
+      margin: "0px 15px 0px 5px"
     });
     const content = Style.getContentBase({
       textAlign: "left",

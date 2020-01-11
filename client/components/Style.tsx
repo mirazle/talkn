@@ -84,6 +84,15 @@ export default class Style extends Component<Props> {
             transform: translate3d(0px, -60px, 0px) scale(10);
             transition: 600ms;
           }
+          .LogoCh {
+            font-size: 20px;
+            font-weight: bold;
+            color: rgba(69, 164, 149, 1);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK JP", "Original Yu Gothic", "Yu Gothic", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Sans Emoji";
+            border: 5px solid rgba(69, 164, 149, 1);
+            border-radius: 100px;
+            padding: 10px 20px 10px 20px;
+          }
         `}
       </style>
     );

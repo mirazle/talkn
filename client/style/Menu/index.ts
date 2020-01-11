@@ -100,7 +100,7 @@ export default class MenuIndex {
     });
     const content = Style.getContentBase({
       whiteSpace: "nowrap",
-      fontSize: "12px",
+      fontSize: "14px",
       lineHeight: "2",
       textAlign: "left"
     });
@@ -138,7 +138,7 @@ export default class MenuIndex {
     const content = Style.getContentBase({
       outline: 0,
       cursor: "pointer",
-      fontSize: "12px"
+      fontSize: "14px"
     });
     const animation = Style.getAnimationBase({
       transition: Container.getTransition(app)
