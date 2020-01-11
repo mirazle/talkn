@@ -211,9 +211,7 @@ export default class TalknWindow {
   boot(bootOption) {
     const ch = bootOption.ch;
     const initialApp = TalknWindow.getInitialApp(bootOption);
-
     const caches = TalknSession.getCaches(ch);
-
     const state = new State(this.talknIndex, window, bootOption, initialApp, caches);
     this.talknAPI.booted(state, ch);
     this.talknAPI.tuned(state);
