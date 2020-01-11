@@ -159,7 +159,7 @@ export default class Header {
       height: "100%"
     });
     const content = Style.getContentBase({
-      fontSize: "16px"
+      fontSize: "17px"
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -198,7 +198,7 @@ export default class Header {
     const layout = Style.getLayoutFlex({
       ...positions,
       flexDirection: "column",
-      width: "30px",
+      width: "40px",
       height: "28px"
     });
     const content = Style.getContentBase({});
@@ -207,10 +207,10 @@ export default class Header {
   }
 
   static getChildAnalyzeType({ app }) {
-    const fontSize = app.screenMode === App.screenModeSmallLabel ? "9px" : "12px";
+    const fontSize = app.screenMode === App.screenModeSmallLabel ? "9px" : "14px";
     const layout = Style.getLayoutBlock({
-      height: "10px",
-      marginBottom: "6px"
+      height: "14px",
+      marginBottom: "4px"
     });
     const content = Style.getContentBase({
       fontSize,
@@ -222,9 +222,9 @@ export default class Header {
   }
 
   static getChildAnalyzeCnt({ app }) {
-    const fontSize = app.screenMode === App.screenModeSmallLabel ? "9px" : "12px";
+    const fontSize = app.screenMode === App.screenModeSmallLabel ? "9px" : "14px";
     const layout = Style.getLayoutBlock({
-      height: "10px"
+      height: "14px"
     });
     const content = Style.getContentBase({
       fontSize,
