@@ -409,6 +409,7 @@ export default class Detail extends Component<Props, State> {
   render() {
     const { state } = this.props;
     const { style } = state;
+    console.log(style.detail.self.width);
     return (
       <div data-component-name={"Detail"} style={style.detail.self}>
         {this.renderHeader()}

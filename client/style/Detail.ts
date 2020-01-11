@@ -79,7 +79,7 @@ export default class Detail {
       position: "fixed",
       top: "100%",
       left,
-      width: DetailModal.getWidth(app),
+      width: DetailModal.getWidth(app, false),
       height,
       margin: DetailModal.getMargin(app),
       background,
