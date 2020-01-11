@@ -177,6 +177,18 @@ export default class Post extends MarqueeArea<Props, State> {
             formatter={(value, unit, suffix) => {
               let shortUnit = String(unit);
               switch (String(unit)) {
+                case "year":
+                  shortUnit = "YR";
+                  break;
+                case "month":
+                  shortUnit = "wk";
+                  break;
+                case "week":
+                  shortUnit = "hr";
+                  break;
+                case "hour":
+                  shortUnit = "hr";
+                  break;
                 case "minute":
                   shortUnit = "min";
                   break;
