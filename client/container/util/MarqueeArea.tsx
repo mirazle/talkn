@@ -72,7 +72,6 @@ export default class MarqueeArea<P extends MarqueeAreaProps, S extends MarqueeAr
 
   startAnimation() {
     this.clearTimeout();
-    console.log(this.state.overflowWidth);
     const animate = () => {
       const { overflowWidth } = this.state;
       let animatedWidth = this.state.animatedWidth + STEP;
