@@ -190,7 +190,6 @@ export default class Posts extends Component<Props, State> {
           childLayerCnt={post.layer - thread.layer}
           style={style.post}
           onClickPost={this.handleOnClickPost}
-          timeago={timeago}
         />
       );
     });

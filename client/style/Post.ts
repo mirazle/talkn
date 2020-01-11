@@ -77,7 +77,7 @@ export default class Post {
       height: "20px"
     });
     const content = Style.getContentBase({
-      fontSize: "8px"
+      fontSize: "13px"
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -112,7 +112,6 @@ export default class Post {
     });
     const content = Style.getContentBase({
       textAlign: "left",
-      fontSize: "12px",
       whiteSpace: "nowrap",
       wordBreak: "break-all"
     });
