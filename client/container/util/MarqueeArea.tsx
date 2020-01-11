@@ -94,7 +94,7 @@ export default class MarqueeArea<P extends MarqueeAreaProps, S extends MarqueeAr
     const container: any = ReactDOM.findDOMNode(this.refs[`MarqueeWrap${this.id}`]);
 
     // マーキーさせたいテキスト全体(表示されない部分も含めて)
-    const node: any = ReactDOM.findDOMNode(this.refs[`Marquee${this.id}`]);
+    const node: any = container.firstChild;
 
     if (container && node) {
       const containerWidth = container.offsetWidth;
