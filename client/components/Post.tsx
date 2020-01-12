@@ -264,14 +264,17 @@ export default class Post extends MarqueeArea<Props, State> {
 
     if (post.dispFlg) {
       return (
-        <li data-component-name={"Post"} id={post._id} style={postStyle.self} {...this.getDecolationProps()}>
+        <li
+          data-component-name={"Post"}
+          id={post._id}
+          style={postStyle.self}
+          onClick={() => {
+            onClickPost(post.ch);
+          }}
+          {...this.getDecolationProps()}
+        >
           {this.renderUpper()}
-          <div
-            onClick={() => {
-              onClickPost(post.ch);
-            }}
-            style={postStyle.bottom}
-          >
+          <div style={postStyle.bottom}>
             <span style={{ ...postStyle.bottomIcon, backgroundImage: `url( ${dispFavicon} )` }} />
             <span style={postStyle.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, app) }} />
           </div>

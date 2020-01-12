@@ -29,7 +29,7 @@ export default class Container {
   }
 
   static get radius() {
-    return "7px";
+    return "10px";
   }
   static get radiuses() {
     return `${Container.radius} ${Container.radius} 0px 0px`;
