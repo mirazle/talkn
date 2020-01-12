@@ -57,10 +57,21 @@ class Express {
     let language = "en";
     switch (req.headers.host) {
       case conf.apiURL:
-        // CORSを許可する
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-        res.sendFile(conf.serverApiPath);
+        if (req.url === `/v${conf.apiVer}`) {
+          // CORSを許可する
+          res.header("Access-Control-Allow-Origin", "*");
+          res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+          res.sendFile(conf.serverApiPath);
+        } else {
+          res.render("api/", {
+            domain: conf.domain,
+            apiURL: conf.apiURL,
+            assetsURL: conf.assetsURL,
+            clientURL: conf.clientURL,
+            wwwURL: conf.wwwURL,
+            apiAccessURL: conf.apiAccessURL
+          });
+        }
         break;
       case conf.extURL:
         if (req.originalUrl === "/") {
