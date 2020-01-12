@@ -14,6 +14,7 @@ const define: any = {
   },
   SUB_DOMAINS: {
     WWW: "www",
+    API: "api",
     DESC: "desc",
     PORTAL: "portal",
     CLIENT: "client",

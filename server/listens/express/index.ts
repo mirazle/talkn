@@ -55,8 +55,13 @@ class Express {
 
   routingHttps(req, res, next) {
     let language = "en";
-    console.log("@@@@@@@@@@@@@ " + req.headers.host);
     switch (req.headers.host) {
+      case conf.apiURL:
+        // CORSを許可する
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.sendFile(conf.serverApiPath);
+        break;
       case conf.extURL:
         if (req.originalUrl === "/") {
           // CORSを許可する
@@ -68,13 +73,9 @@ class Express {
         }
         break;
       case conf.wwwURL:
-        console.log("@@@@@@ A");
         language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
         if (req.method === "GET") {
-          console.log("@@@@@@ B");
           if (req.url === "/" || (req.url && req.url.indexOf("/?lang=") === 0)) {
-            console.log("@@@@@@ C");
-            console.log(conf.serverPath);
             res.render("www/", {
               language,
               domain: conf.domain,
@@ -84,15 +85,12 @@ class Express {
               clientURL: conf.clientURL
             });
           } else {
-            console.log("@@@@@@ D");
             res.sendFile(`${conf.serverWwwPath}${req.url.replace("/", "")}`);
           }
         } else if (req.method === "POST") {
-          console.log("@@@@@@ E");
           Mail.send(req.body.inquiry);
           res.redirect(`https://${conf.wwwURL}`);
         }
-        console.log("@@@@@@ F");
         break;
       case conf.descURL:
         res.render("desc/index", {});

@@ -24,9 +24,7 @@ conf.mongoDB = {
   option: { useNewUrlParser: true }
 };
 conf.serverPath =
-  env === PRODUCTION
-    ? "/usr/share/app/talkn/server/listens/express/"
-    : `${homeDir}/talkn/server/listens/express/`;
+  env === PRODUCTION ? "/usr/share/app/talkn/server/listens/express/" : `${homeDir}/talkn/server/listens/express/`;
 conf.serverPortalPath =
   env === PRODUCTION
     ? "/usr/share/app/talkn/server/listens/express/portal/"
@@ -35,6 +33,10 @@ conf.serverClientPath =
   env === PRODUCTION
     ? "/usr/share/app/talkn/server/listens/express/client/talkn.client.js"
     : `${homeDir}/talkn/server/listens/express/client/talkn.client.js`;
+conf.serverApiPath =
+  env === PRODUCTION
+    ? "/usr/share/app/talkn/server/listens/express/api/talkn.api.js"
+    : `${homeDir}/talkn/server/listens/express/api/talkn.api.js`;
 conf.serverAssetsPath =
   env === PRODUCTION
     ? "/usr/share/app/talkn/server/listens/express/assets/"
@@ -64,8 +66,6 @@ conf.transactionSecretKey =
     ? "sk_live_2eedbf7e396bc5ecd7b7d6d64245539a63d04f4b0051b683c60c2263"
     : "sk_test_077fecb899eb9307d9f51a2f";
 conf.transactionPublicKey =
-  env === PRODUCTION
-    ? "pk_live_5798d265c8573ae59dae624f"
-    : "pk_test_6b2b80fa9812d8b45ee3b822";
+  env === PRODUCTION ? "pk_live_5798d265c8573ae59dae624f" : "pk_test_6b2b80fa9812d8b45ee3b822";
 
 export default conf;
