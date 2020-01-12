@@ -131,6 +131,7 @@ export default class Post {
     });
     const content = Style.getContentBase({
       textAlign: "right",
+      fontSize: "0.75em",
       letterSpacing: "0.5px"
     });
     const animation = Style.getAnimationBase();
