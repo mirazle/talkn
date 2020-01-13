@@ -2,16 +2,17 @@ import io from "socket.io-client";
 import Sequence from "common/Sequence";
 import define from "common/define";
 import conf from "client/conf";
+import configureStore from "client/store/configureStore";
 import handleActions from "client/actions/handles";
 import WsServerToClientEmitAction from "client/actions/ws/serverToClientEmit";
 import WsClientToServerEmitActions from "client/actions/ws/clientToServerEmit";
 import WsServerToClientBroadcastAction from "client/actions/ws/serverToClientBradcast";
+import { request } from "http";
 
 export default class TalknAPI {
   ws: any;
   talknIndex: any;
-  store;
-  any;
+  store: any;
   state: any;
   ch: any;
 
@@ -20,6 +21,7 @@ export default class TalknAPI {
     wsの接続(ch)とfinnishOnをtalknWindowのbootより前にする！！
   */
   constructor(talknIndex, resolve) {
+    this.store = configureStore();
     this.talknIndex = talknIndex;
     window.__talknAPI__[talknIndex] = this;
     this.ws = io(`https://${conf.server}:${define.PORTS.SOCKET_IO}`, { forceNew: true });
@@ -38,10 +40,6 @@ export default class TalknAPI {
       window.talknAPI = window.__talknAPI__[talknIndex];
       return true;
     }
-  }
-
-  tuned(talknIndex, store) {
-    this.store = store;
   }
 
   booted(state, ch) {
@@ -126,9 +124,18 @@ export default class TalknAPI {
     return _requestParams => {
       if (TalknAPI.handle(talknIndex)) {
         const reduxState = window.talknAPI.store.getState();
+
+        console.log(reduxState);
+
         let _requestState = Sequence.getRequestState(actionName, reduxState, _requestParams);
+
+        console.log(_requestState);
+
         let _actionState = Sequence.getRequestActionState(actionName, _requestParams);
         const { requestState, actionState } = beforeFunction(reduxState, _requestState, _actionState);
+
+        console.log(requestState);
+
         this.ws.emit(requestState.type, requestState);
         return window.talknAPI.store.dispatch(actionState);
       }
@@ -139,6 +146,7 @@ export default class TalknAPI {
     return response => {
       if (TalknAPI.handle(talknIndex)) {
         if (resolve && response.type === Sequence.CONNECTION_SERVER_KEY) {
+          window.talknAPI = this;
           resolve();
         }
 

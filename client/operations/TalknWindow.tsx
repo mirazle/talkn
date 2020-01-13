@@ -11,7 +11,6 @@ import actionWrap from "client/container/util/actionWrap";
 import TalknSession from "client/operations/TalknSession";
 import TalknAPI from "client/operations/TalknAPI";
 import TalknMedia from "client/operations/TalknMedia";
-import configureStore from "client/store/configureStore";
 import Container from "client/container/";
 import storage from "client/mapToStateToProps/storage";
 
@@ -143,9 +142,8 @@ export default class TalknWindow {
 
     bootPromises.push(
       new Promise(resolve => {
-        const store = configureStore();
         this.talknAPI = new TalknAPI(this.talknIndex, resolve);
-        this.talknAPI.tuned(this.talknIndex, store);
+        //        this.talknAPI.tuned(this.talknIndex, store);
       })
     );
 
