@@ -33,6 +33,8 @@ export default class Main {
     return 0.94;
   }
 
+  self: Object;
+  notif: Object;
   constructor(params) {
     const self = Main.getSelf(params);
     const notif = {};

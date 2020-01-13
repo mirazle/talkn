@@ -3,6 +3,7 @@ import Style from "./index";
 import Container from "./Container";
 
 export default class ExtScreen {
+  self: Object;
   constructor(params) {
     const self = ExtScreen.getSelf(params);
     return {
@@ -16,9 +17,7 @@ export default class ExtScreen {
 
   static getSelfTransform(app, call = "") {
     if (app.extensionMode === App.extensionModeExtBottomLabel) {
-      return app.isDispPosts
-        ? "translate3d(0px, -100%, 0px)"
-        : `translate3d(0px, 0%, 0px)`;
+      return app.isDispPosts ? "translate3d(0px, -100%, 0px)" : `translate3d(0px, 0%, 0px)`;
     } else {
       return "translate3d(0px, 0px, 0px)";
     }
@@ -26,9 +25,7 @@ export default class ExtScreen {
 
   static getSelfTransition(app) {
     if (app.extensionMode === App.extensionModeExtBottomLabel) {
-      return app.isDispPosts
-        ? `${Container.transitionOn}ms`
-        : `${Container.transitionOn}ms`;
+      return app.isDispPosts ? `${Container.transitionOn}ms` : `${Container.transitionOn}ms`;
     } else {
       return "0ms";
     }

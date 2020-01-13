@@ -12,6 +12,13 @@ export default class MenuIndex {
     return 90;
   }
 
+  self: Object;
+  header: Object;
+  headerSearchIcon: Object;
+  headerInput: Object;
+  headerFindSelect: Object;
+  headerUpdateIcon: Object;
+  ol: Object;
   constructor(params: any) {
     const self = MenuIndex.getSelf(params);
     const header = MenuIndex.getHeader(params);

@@ -1,5 +1,6 @@
 import Schema from "common/schemas/Schema";
 import App from "common/schemas/state/App";
+import Post from "common/schemas/state/Post";
 import PostMulti from "common/schemas/state/PostMulti";
 import PostTimeline from "common/schemas/state/PostTimeline";
 import PostSingle from "common/schemas/state/PostSingle";

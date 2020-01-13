@@ -6,6 +6,11 @@ import Menu from "./Menu";
 import Footer from "./Footer";
 
 export default class Container {
+  self: Object;
+  multistreamIconWrap: Object;
+  newPost: Object;
+  hideScreenBottom: Object;
+  linkLabel: Object;
   constructor(params) {
     const self = Container.getSelf(params);
     const multistreamIconWrap = Container.getMultistreamIconWrap(params);
@@ -225,7 +230,7 @@ export default class Container {
     return 5;
   }
 
-  static getSelf(params) {
+  static getSelf(params): Object {
     const { app, bootOption } = params;
     const overflow = app.extensionMode === App.extensionModeExtBottomLabel ? "hidden" : "inherit";
     let borderRadius = "0px";
@@ -252,7 +257,7 @@ export default class Container {
     return Style.get({ layout, content, animation });
   }
 
-  static getMultistreamIconWrapTop(app) {
+  static getMultistreamIconWrapTop(app): Object {
     if (app.extensionMode === App.extensionModeExtBottomLabel) {
       return Header.headerHeight + Container.multistreamWrapDefaultTop + "px";
     } else if (app.extensionMode === App.extensionModeExtModalLabel) {
@@ -262,7 +267,7 @@ export default class Container {
     }
   }
 
-  static getMultistreamIconWrapRight(app) {
+  static getMultistreamIconWrapRight(app): Object {
     switch (app.screenMode) {
       case App.screenModeSmallLabel:
         return "5%";
@@ -273,7 +278,7 @@ export default class Container {
     }
   }
 
-  static getMultistreamIconWrap({ app }) {
+  static getMultistreamIconWrap({ app }): Object {
     const layout = Style.getLayoutBlock({
       width: "30px",
       height: "30px",
@@ -294,7 +299,7 @@ export default class Container {
     return Style.get({ layout, content, animation });
   }
 
-  static getNewPost({ app }) {
+  static getNewPost({ app }): Object {
     let display = Container.getNewPostDisplay(app);
     let left = "0px";
     let width = "0px";
@@ -341,7 +346,7 @@ export default class Container {
     return Style.get({ layout, content, animation });
   }
 
-  static getHideScreenBottom({ app }) {
+  static getHideScreenBottom({ app }): Object {
     const layout = Style.getLayoutFlex({
       position: "fixed",
       top: `100vh`,
@@ -354,7 +359,7 @@ export default class Container {
     return Style.get({ layout, content, animation });
   }
 
-  static getLinkLabel({ app }) {
+  static getLinkLabel({ app }): Object {
     const top = Header.headerHeight + "px";
     const left = app.screenMode === App.screenModeSmallLabel ? "0px" : `${Menu.getWidth(app)}`;
     const layout = Style.getLayoutFlex({

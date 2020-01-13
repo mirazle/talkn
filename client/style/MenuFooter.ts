@@ -27,6 +27,9 @@ export default class MenuFooter {
     return addUnit ? Style.trimUnit(width) : width;
   }
 
+  self: Object;
+  child: Object;
+  childIndex: Object;
   constructor(params) {
     const self = MenuFooter.getSelf(params);
     const child = MenuFooter.getChild(params);
@@ -40,13 +43,8 @@ export default class MenuFooter {
 
   static getSelf({ app }) {
     const borders =
-      app.screenMode === App.screenModeSmallLabel
-        ? { border: Container.border }
-        : { border: Container.border };
-    const borderRadius =
-      app.extensionMode === App.extensionModeExtBottomLabel
-        ? Container.radiuses
-        : "0px";
+      app.screenMode === App.screenModeSmallLabel ? { border: Container.border } : { border: Container.border };
+    const borderRadius = app.extensionMode === App.extensionModeExtBottomLabel ? Container.radiuses : "0px";
     const layout = Style.getLayoutFlex({
       width: MenuFooter.getWidth(app),
       minWidth: MenuFooter.getWidth(app),

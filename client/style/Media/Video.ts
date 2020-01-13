@@ -23,6 +23,8 @@ export default class Video {
   static get height() {
     return 260;
   }
+
+  self: Object;
   constructor(params) {
     const self = Video.getSelf(params);
     return {

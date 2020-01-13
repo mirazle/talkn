@@ -41,7 +41,11 @@ export default class Menu {
     }
     return transform;
   }
-
+  self: any;
+  wrapComponent: any;
+  footer: any;
+  footerChild: any;
+  footerChildMoney: any;
   constructor(params) {
     const self = Menu.getSelf(params);
     const wrapComponent = Menu.getWrapComponent(params);

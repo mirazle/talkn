@@ -20,6 +20,29 @@ export default class Icon {
     return "64px";
   }
 
+  headTab: Object;
+  menu: Object;
+  talknLogo: Object;
+  user: Object;
+  headerUser: Object;
+  search: Object;
+  tag: Object;
+  home: Object;
+  graph: Object;
+  index: Object;
+  logs: Object;
+  setting: Object;
+  thunder: Object;
+  bubble: Object;
+  detail: Object;
+  heart: Object;
+  share: Object;
+  money: Object;
+  openEmoji: Object;
+  close: Object;
+  ch: Object;
+  update: Object;
+  tune: Object;
   constructor(params: any) {
     const bootOption = { ...params.bootOption, ...params.app };
     const headTab = Icon.getHeadTab(params);

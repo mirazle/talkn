@@ -78,6 +78,7 @@ export default class EmotionGraph {
     };
   }
 
+  self: Object;
   constructor(params) {
     const self = EmotionGraph.getSelf(params);
     return {

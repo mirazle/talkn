@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import app from "./app";
+import ui from "./ui";
 import user from "./user";
 import menuIndex from "./menuIndex";
 import menuLogs from "./menuLogs";
@@ -20,6 +21,7 @@ import actionLog from "./actionLog";
 
 const rootReducer = combineReducers({
   app,
+  ui,
   user,
   menuIndex,
   menuLogs,

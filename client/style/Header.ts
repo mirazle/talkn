@@ -21,6 +21,16 @@ export default class Header {
     return 0.94;
   }
 
+  self: Object;
+  headTab: Object;
+  rightIcon: Object;
+  leftIcon: Object;
+  userIcon: Object;
+  userIconImg: Object;
+  childAnalyzeWrap: Object;
+  childAnalyzeType: Object;
+  childAnalyzeCnt: Object;
+  childTalknLogo: Object;
   constructor(params) {
     const self = Header.getSelf(params);
     const headTab = Header.getHeadTab(params);

@@ -9,6 +9,7 @@ export default class InnerNotif {
     return Header.headerHeight;
   }
 
+  self: Object;
   constructor(params) {
     const self = InnerNotif.getSelf(params);
     return {

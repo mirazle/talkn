@@ -1,22 +1,24 @@
 import conf from "client/conf";
+
+import Sequence from "common/Sequence";
 import Schema from "common/schemas/Schema";
 import App from "common/schemas/state/App";
-import User from "common/schemas/state/User";
+import BootOption from "common/schemas/state/BootOption";
 
 export default class Thread extends Schema {
-  static get findTypeAll() {
+  static get findTypeAll(): "All" {
     return "All";
   }
-  static get findTypeHtml() {
+  static get findTypeHtml(): "Html" {
     return "Html";
   }
-  static get findTypeMusic() {
+  static get findTypeMusic(): "Music" {
     return "Music";
   }
-  static get findTypeVideo() {
+  static get findTypeVideo(): "Video" {
     return "Video";
   }
-  static get findTypeOther() {
+  static get findTypeOther(): "Other" {
     return "Other";
   }
   static get findTypes() {
@@ -45,9 +47,32 @@ export default class Thread extends Schema {
     return params.alert ? true : false;
   }
 
-  protocol: any;
-  ch: any;
-  constructor(params: any = {}, bootOption: any = {}, cache: any = {}) {
+  href: string;
+  ch: string = "/";
+  chs: [string] = ["/"];
+  hasSlash: boolean;
+  protocol: string = Sequence.TALKN_PROTOCOL;
+  contentType: string;
+  charset: string = "UTF-8";
+  host: string = "";
+  favicon: string = Thread.getDefaultFavicon();
+  findType: "All" | "Html" | "Music" | "Video" = Thread.findTypeAll;
+  title: string = Thread.getDefaultTitle();
+  metas: any = [];
+  serverMetas: any = {};
+  clientMetas: any = {};
+  links: any = [];
+  h1s: any = [];
+  audios: any = [];
+  videos: any = [];
+  layer: number = Thread.getLayer();
+  mediaIndex: any = [];
+  postCnt: number = 0;
+  multiPostCnt: number = 0;
+  isSelfCh: boolean = false;
+  createTime: string = "";
+  updateTime: string = "";
+  constructor(params: any = {}, bootOption: BootOption | {}, cache: any = {}) {
     super();
     const thread = Thread.isWindowObj(params) ? Thread.constructorFromWindow(params, bootOption, cache) : params;
     return this.create(thread);
@@ -61,7 +86,6 @@ export default class Thread extends Schema {
       return cache;
     } else {
       let thread: any = {};
-      thread.location = {};
       thread.href = "";
       thread.ch = ch;
       thread.chs = ["/"];
@@ -190,7 +214,7 @@ export default class Thread extends Schema {
     return replacedHref === ch;
   }
 
-  static getLayer(ch) {
+  static getLayer(ch = "/") {
     return ch.split("/").length - 1;
   }
 

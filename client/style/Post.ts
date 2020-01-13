@@ -17,6 +17,16 @@ export default class Post {
     return "25px";
   }
 
+  self: Object;
+  upper: Object;
+  upperChild: Object;
+  upperTitle: Object;
+  upperTimeago: Object;
+  bottom: Object;
+  bottomIcon: Object;
+  bottomPost: Object;
+  stampLabelWrap: Object;
+  stampLabel: Object;
   constructor(params) {
     const self = Post.getSelf(params);
     const upper = Post.getUpper(params);

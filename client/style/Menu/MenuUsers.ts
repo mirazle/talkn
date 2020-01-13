@@ -35,6 +35,15 @@ export default class MenuUsers {
     return transform;
   }
 
+  self: Object;
+  columns: Object;
+  column: Object;
+  columnLast: Object;
+  img: Object;
+  imgWrap: Object;
+  wrap: Object;
+  names: Object;
+  namesAddCh: Object;
   constructor(params: any) {
     const self = MenuUsers.getSelf(params);
     const columns = MenuUsers.getColumns(params);

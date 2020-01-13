@@ -15,9 +15,7 @@ export default class Footer {
         width = "200%";
         break;
       case App.screenModeMiddleLabel:
-        width = app.isOpenDetail
-          ? `calc( 100% + ${Menu.getWidth(app)} )`
-          : `calc( 100% + ${Detail.getWidth(app)} )`;
+        width = app.isOpenDetail ? `calc( 100% + ${Menu.getWidth(app)} )` : `calc( 100% + ${Detail.getWidth(app)} )`;
         break;
       case App.screenModeLargeLabel:
         width = `100%`;
@@ -46,20 +44,14 @@ export default class Footer {
     let transform = "translate3d( 0px, 0px, 0px )";
 
     if (app.extensionMode === App.extensionModeExtBottomLabel) {
-      transform = app.isOpenMenu
-        ? "translate3d( 0%, 0px, 0px )"
-        : "translate3d( -50%, 0px, 0px )";
+      transform = app.isOpenMenu ? "translate3d( 0%, 0px, 0px )" : "translate3d( -50%, 0px, 0px )";
     } else {
       switch (app.screenMode) {
         case App.screenModeSmallLabel:
-          transform = app.isOpenMenu
-            ? "translate3d( 100%, 0px, 0px )"
-            : "translate3d( 0px, 0px, 0px )";
+          transform = app.isOpenMenu ? "translate3d( 100%, 0px, 0px )" : "translate3d( 0px, 0px, 0px )";
           break;
         case App.screenModeMiddleLabel:
-          transform = app.isOpenDetail
-            ? `translate3d( -${Menu.baseWidth}, 0px, 0px )`
-            : "translate3d( 0px ,0px, 0px )";
+          transform = app.isOpenDetail ? `translate3d( -${Menu.baseWidth}, 0px, 0px )` : "translate3d( 0px ,0px, 0px )";
           break;
         case App.screenModeLargeLabel:
           transform = "translate3d( 0px ,0px, 0px )";
@@ -79,6 +71,7 @@ export default class Footer {
     }
   }
 
+  self: Object;
   constructor(params) {
     const self = Footer.getSelf(params);
     return {
@@ -89,10 +82,7 @@ export default class Footer {
   static getSelf({ app }) {
     const borders = Footer.getBorders(app);
 
-    const borderRadius =
-      app.extensionMode === App.extensionModeExtBottomLabel
-        ? Container.radiuses
-        : "0px";
+    const borderRadius = app.extensionMode === App.extensionModeExtBottomLabel ? Container.radiuses : "0px";
 
     const layout = Style.getLayoutFlex({
       position: "fixed",
