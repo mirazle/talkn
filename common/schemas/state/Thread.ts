@@ -48,7 +48,7 @@ export default class Thread extends Schema {
   }
 
   href: string;
-  ch: string = "/";
+  ch: string;
   chs: [string] = ["/"];
   hasSlash: boolean;
   protocol: string = Sequence.TALKN_PROTOCOL;
