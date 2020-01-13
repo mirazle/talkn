@@ -43,6 +43,9 @@ export default class Posts {
     return addUnit ? Style.trimUnit(width) : width;
   }
 
+  self: Object;
+  ol: Object;
+  more: Object;
   constructor(params) {
     const self = Posts.getSelf(params);
     const ol = Posts.getOl(params);

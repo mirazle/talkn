@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import State from "common/schemas/state";
 import App from "common/schemas/state/App";
 import MenuUsers from "client/components/Menu/MenuUsers";
 import MenuIndex from "client/components/Menu/MenuIndex";
@@ -8,7 +9,7 @@ import Header from "client/components/Header";
 import MenuFooter from "client/components/MenuFooter";
 
 interface Props {
-  state: any;
+  state: State;
   closeNewPost?: any;
   openMenuTransitionEnd?: any;
 }
@@ -34,13 +35,11 @@ export default class Menu extends React.Component<Props> {
   }
 
   handleOnClickLoginFacebook() {
-    const { thread } = this.props.state;
     const href = `https://talkn.io:8443/auth/facebook?url=${window.location.href}`;
     location.href = href;
   }
 
   handleOnClickLoginTwitter() {
-    const { thread } = this.props.state;
     const href = `https://talkn.io:8443/auth/twitter?url=${window.location.href}`;
     location.href = href;
   }
@@ -56,6 +55,19 @@ export default class Menu extends React.Component<Props> {
     }
   }
 
+  render() {
+    const { style } = this.props.state;
+    return (
+      <div data-component-name={"Menu"} onTransitionEnd={this.handleOnTransitionEnd} style={style.menu.self}>
+        {this.renderHeader()}
+        <div data-component-name={"MenuBody"} style={style.menu.wrapComponent}>
+          {this.renderMenuComponent()}
+        </div>
+        {this.renderFooter()}
+      </div>
+    );
+  }
+  /*
   renderFriendLiLabel(name, icon, ch) {
     const { style } = this.props.state;
     const href = `/${ch}`;
@@ -79,7 +91,7 @@ export default class Menu extends React.Component<Props> {
       </a>
     );
   }
-
+*/
   renderMenuComponent() {
     const { app } = this.props.state;
     let menuComponent;
@@ -121,18 +133,5 @@ export default class Menu extends React.Component<Props> {
           return <MenuFooter {...this.props} />;
       }
     }
-  }
-
-  render() {
-    const { style } = this.props.state;
-    return (
-      <div data-component-name={"Menu"} onTransitionEnd={this.handleOnTransitionEnd} style={style.menu.self}>
-        {this.renderHeader()}
-        <div data-component-name={"MenuBody"} style={style.menu.wrapComponent}>
-          {this.renderMenuComponent()}
-        </div>
-        {this.renderFooter()}
-      </div>
-    );
   }
 }

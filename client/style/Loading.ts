@@ -1,6 +1,7 @@
 import Style from "./index";
 
 export default class Loading {
+  self: Object;
   constructor(params) {
     const self = Loading.getSelf();
     return {

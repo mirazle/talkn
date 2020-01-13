@@ -1,33 +1,33 @@
 import React, { Component } from "react";
 import App from "common/schemas/state/App";
 import Thread from "common/schemas/state/Thread";
+import Post from "common/schemas/state/Post";
 import util from "common/util";
 import conf from "common/conf";
-import Marquee from "client/container/util/Marquee";
 import MenuIndexListStyle from "client/style/Menu/MenuIndexList";
 import PostStyle from "client/style/Post";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
 
-interface Props extends MarqueeAreaProps {
-  app: any;
-  thread: any;
-  menuIndexList: any;
+interface MenuIndexListProps extends MarqueeAreaProps {
+  app: App;
+  thread: Thread;
+  menuIndexList: Post[] | any;
   handleOnClickCh: any;
-  rank: any;
+  rank: string;
   style: any;
 }
 
-interface State extends MarqueeAreaState {
+interface MenuIndexListState extends MarqueeAreaState {
   state: any;
   style: any;
 }
 
-export default class MenuIndexList extends MarqueeArea<Props, State> {
+export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListProps, MenuIndexListState> {
   state: any;
   constructor(props) {
     super(props);
     this.state = { style: props.style, ...this.superState };
-    this.onClickEvents = this.onClickEvents.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
     this.getDecolationEvents = this.getDecolationEvents.bind(this);
   }
 
@@ -98,7 +98,7 @@ export default class MenuIndexList extends MarqueeArea<Props, State> {
     }
   }
 
-  onClickEvents() {
+  handleOnClick() {
     const { thread, menuIndexList, handleOnClickCh } = this.props;
     const { ch } = menuIndexList;
     const isFocusCh = thread.ch === ch ? true : false;
@@ -124,7 +124,105 @@ export default class MenuIndexList extends MarqueeArea<Props, State> {
     });
   }
 
-  getDispRank(rank) {
+  render() {
+    const { style } = this.state;
+    const { app, thread, menuIndexList, rank } = this.props;
+    const isFocusCh = thread.ch === menuIndexList.ch ? true : false;
+    const styleKey = isFocusCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
+    const title = app.rootCh === menuIndexList.ch ? app.rootTitle : menuIndexList.title;
+
+    const dispRank = this.renderRank(rank);
+    const dispFavicon = this.renderDispFavicon();
+    const dispWatchCnt = this.renderDispWatchCnt();
+    const baseStyle = style[styleKey];
+    const dispExt = menuIndexList.findType === Thread.findTypeHtml ? null : menuIndexList.findType;
+    const marqueeStyle: any = this.getMarqueeStyle();
+    return (
+      <li
+        data-component-name={"MenuIndexList"}
+        key={menuIndexList.ch}
+        style={baseStyle}
+        onClick={this.handleOnClick}
+        {...this.getDecolationEvents(styleKey)}
+      >
+        {dispRank}
+        <div style={style.upper}>
+          <span style={style.upperSpace} />
+          <span ref={this.marqueeWrapRef} data-component-name={"MarqueeMenuIndex"} style={style.upperRight}>
+            <span ref={this.marqueeTextRef} style={marqueeStyle}>
+              {title}
+            </span>
+          </span>
+        </div>
+
+        <div style={style.bottom}>
+          <span
+            style={{
+              ...style.bottomIcon,
+              backgroundImage: `url( ${dispFavicon} )`
+            }}
+          />
+          <span
+            style={style.bottomPost}
+            dangerouslySetInnerHTML={{
+              __html: this.renderPost(menuIndexList, app)
+            }}
+          />
+          {dispWatchCnt}
+        </div>
+
+        {dispExt && <span style={style[`ext${dispExt}`]}>{dispExt}</span>}
+      </li>
+    );
+  }
+
+  renderPost(menuIndexList, app) {
+    let { ch, post, stampId } = menuIndexList;
+    if (stampId > 0) {
+      post = PostStyle.getStampTag(post, false);
+    }
+    return post;
+  }
+
+  renderDispFavicon() {
+    const { isFocusCh } = this.state;
+    const { thread, menuIndexList } = this.props;
+    const defaultFavicon = Thread.getDefaultFavicon();
+
+    if (isFocusCh) {
+      if (menuIndexList.favicon === defaultFavicon) {
+        if (thread.favicon === defaultFavicon) {
+          return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
+        } else {
+          return `//${conf.assetsIconPath}${util.getSaveFaviconName(thread.favicon)}`;
+        }
+      } else {
+        return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
+      }
+    } else {
+      if (menuIndexList.favicon === defaultFavicon) {
+        return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
+      } else {
+        return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
+      }
+    }
+  }
+
+  renderDispWatchCnt() {
+    const { style } = this.state;
+    const { menuIndexList } = this.props;
+
+    if (menuIndexList.watchCnt === 0 || menuIndexList.watchCnt > 0) {
+      return (
+        <span style={style.bottomWatchCnt}>
+          <span style={style.bottomWatchCntWrap}>{menuIndexList.watchCnt}</span>
+        </span>
+      );
+    } else {
+      return <span style={style.bottomWatchCnt}></span>;
+    }
+  }
+  renderRank(rank) {
     let { upperRankWrap, upperRank } = this.state.style;
     if (rank) {
       const background = MenuIndexListStyle.getDispRankBackground(rank);
@@ -160,106 +258,5 @@ export default class MenuIndexList extends MarqueeArea<Props, State> {
         return menuIndexList.ch.indexOf("//") === 0 ? menuIndexList.ch.replace("//", "/") : menuIndexList.ch;
       }
     }
-  }
-
-  getDispFavicon() {
-    const { isFocusCh } = this.state;
-    const { thread, menuIndexList } = this.props;
-    const defaultFavicon = Thread.getDefaultFavicon();
-
-    if (isFocusCh) {
-      if (menuIndexList.favicon === defaultFavicon) {
-        if (thread.favicon === defaultFavicon) {
-          return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
-        } else {
-          return `//${conf.assetsIconPath}${util.getSaveFaviconName(thread.favicon)}`;
-        }
-      } else {
-        return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
-      }
-    } else {
-      if (menuIndexList.favicon === defaultFavicon) {
-        return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
-      } else {
-        return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
-      }
-    }
-  }
-
-  getDispWatchCnt() {
-    const { style } = this.state;
-    const { menuIndexList } = this.props;
-
-    if (menuIndexList.watchCnt === 0 || menuIndexList.watchCnt > 0) {
-      return (
-        <span style={style.bottomWatchCnt}>
-          <span style={style.bottomWatchCntWrap}>{menuIndexList.watchCnt}</span>
-        </span>
-      );
-    } else {
-      return <span style={style.bottomWatchCnt}></span>;
-    }
-  }
-
-  renderPost(menuIndexList, app) {
-    let { ch, post, stampId } = menuIndexList;
-
-    if (stampId > 0) {
-      post = PostStyle.getStampTag(post, false);
-    }
-
-    return post;
-  }
-
-  render() {
-    const { style } = this.state;
-    const { app, thread, menuIndexList, rank } = this.props;
-    const isFocusCh = thread.ch === menuIndexList.ch ? true : false;
-    const styleKey = isFocusCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
-    const title = app.rootCh === menuIndexList.ch ? app.rootTitle : menuIndexList.title;
-
-    const dispRank = this.getDispRank(rank);
-    const dispFavicon = this.getDispFavicon();
-    const dispWatchCnt = this.getDispWatchCnt();
-    const baseStyle = style[styleKey];
-    const dispExt = menuIndexList.findType === Thread.findTypeHtml ? null : menuIndexList.findType;
-    const marqueeStyle: any = this.getMarqueeStyle();
-    return (
-      <li
-        data-component-name={"MenuIndexList"}
-        key={menuIndexList.ch}
-        style={baseStyle}
-        onClick={this.onClickEvents}
-        {...this.getDecolationEvents(styleKey)}
-      >
-        {dispRank}
-        <div style={style.upper}>
-          <span style={style.upperSpace} />
-          <span ref={this.marqueeWrapRef} data-component-name={"MarqueeMenuIndex"} style={style.upperRight}>
-            <span ref={this.marqueeTextRef} style={marqueeStyle}>
-              {title}
-            </span>
-          </span>
-        </div>
-
-        <div style={style.bottom}>
-          <span
-            style={{
-              ...style.bottomIcon,
-              backgroundImage: `url( ${dispFavicon} )`
-            }}
-          />
-          <span
-            style={style.bottomPost}
-            dangerouslySetInnerHTML={{
-              __html: this.renderPost(menuIndexList, app)
-            }}
-          />
-          {dispWatchCnt}
-        </div>
-
-        {dispExt && <span style={style[`ext${dispExt}`]}>{dispExt}</span>}
-      </li>
-    );
   }
 }

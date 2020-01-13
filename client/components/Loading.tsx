@@ -3,7 +3,6 @@ import Style from "client/components/Style";
 
 export default class Loading extends Component {
   render() {
-    console.log(this.props);
     const ch = location.href
       .replace("https:/", "")
       .replace("http:/", "")

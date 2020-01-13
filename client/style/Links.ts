@@ -20,6 +20,21 @@ export default class Links {
   static get unactiveColor() {
     return Container.fontBaseRGB;
   }
+
+  self: Object;
+  linksUl: Object;
+  linksLi: Object;
+
+  linksLiActive: Object;
+  linksLiUnactive: Object;
+
+  linkMenuUl: Object;
+  linkMenuLi: Object;
+
+  // LINK TAB LAYOUT
+  linksTabActive: Object;
+  linksTabUnactive: Object;
+  linksTabLast: Object;
   constructor(params) {
     // LINKS LAYOUT
     const self = Links.getSelf(params);

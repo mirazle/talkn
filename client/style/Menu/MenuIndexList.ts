@@ -117,6 +117,21 @@ export default class MenuIndexList {
     }
   }
 
+  activeLiSelf: Object;
+  unactiveLiSelf: Object;
+  upper: Object;
+  upperSpace: Object;
+  upperRankWrap: Object;
+  upperRank: Object;
+  upperRight: Object;
+  bottom: Object;
+  bottomIcon: Object;
+  bottomPost: Object;
+  bottomWatchCnt: Object;
+  bottomWatchCntWrap: Object;
+  ext: Object;
+  extMusic: Object;
+  extVideo: Object;
   constructor(params) {
     const activeLiSelf = MenuIndexList.getActiveLiSelf(params);
     const unactiveLiSelf = MenuIndexList.getUnactiveLiSelf(params);

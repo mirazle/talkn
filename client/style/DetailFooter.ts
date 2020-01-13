@@ -5,9 +5,7 @@ import DetailModal from "./DetailModal";
 
 export default class DetailFooter {
   static getDetailClass(app) {
-    return app.screenMode === App.screenModeSmallLabel
-      ? DetailModal
-      : DetailRight;
+    return app.screenMode === App.screenModeSmallLabel ? DetailModal : DetailRight;
   }
   static get padding() {
     return 20;
@@ -25,6 +23,11 @@ export default class DetailFooter {
     }
   }
 
+  self: Object;
+  child: Object;
+  childLike: Object;
+  childMoney: Object;
+  childShare: Object;
   constructor(params) {
     const { app } = params;
     const DetailClass = Detail.getDetailClass(app);

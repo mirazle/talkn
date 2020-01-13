@@ -25,6 +25,11 @@ export default class Link {
   static get unactiveBgColor() {
     return "rgba( 235, 235, 235, 0.96 )";
   }
+
+  self: Object;
+  tuneLi: Object;
+  activeLi: Object;
+  unactiveLi: Object;
   constructor(params) {
     const self = Link.getSelf(params);
     const tuneLi = Link.getTuneLi(params);

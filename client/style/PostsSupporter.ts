@@ -10,11 +10,13 @@ export default class PostsSupporter {
   }
   static getTransform(app) {
     return app.isOpenPostsSupporter
-      ? `translate3d( 0px, -${PostsSupporter.selfHeight +
-          PostsFooter.selfHeight}px, 0px )`
+      ? `translate3d( 0px, -${PostsSupporter.selfHeight + PostsFooter.selfHeight}px, 0px )`
       : "translate3d( 0px, 0px, 0px )";
   }
 
+  self: Object;
+  emoji: Object;
+  emojiLabel: Object;
   constructor(params) {
     const self = PostsSupporter.getSelf(params);
     const emoji = PostsSupporter.getEmoji(params);
@@ -55,8 +57,7 @@ export default class PostsSupporter {
   }
 
   static getEmoji({ app }) {
-    const fontSize =
-      App.screenModeSmallLabel === app.screenMode ? "35px" : "40px";
+    const fontSize = App.screenModeSmallLabel === app.screenMode ? "35px" : "40px";
     const layout = Style.getLayoutFlex({
       minWidth: "20%",
       maxWidth: "20%",
@@ -79,8 +80,7 @@ export default class PostsSupporter {
 
   static getEmojiLabel({ app }) {
     const margin = App.screenModeSmallLabel === app.screenMode ? "0px" : "0px";
-    const fontSize =
-      App.screenModeSmallLabel === app.screenMode ? "8px" : "10px";
+    const fontSize = App.screenModeSmallLabel === app.screenMode ? "8px" : "10px";
     const layout = Style.getLayoutFlex({
       width: "100%",
       minWidth: "100%",

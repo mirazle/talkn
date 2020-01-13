@@ -105,6 +105,13 @@ export default class PostsFooter {
     return transform;
   }
 
+  self: Object;
+  icon: Object;
+  textarea: Object;
+  modalTextarea: Object;
+  button: Object;
+  upper: Object;
+  bottom: Object;
   constructor(params) {
     const self = PostsFooter.getSelf(params);
     const icon = PostsFooter.getIcon(params);

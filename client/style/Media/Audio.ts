@@ -24,6 +24,7 @@ export default class Audio {
   static get height() {
     return 50;
   }
+  self: Object;
   constructor(params: any) {
     const self = Audio.getSelf(params);
     return {

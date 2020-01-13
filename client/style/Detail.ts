@@ -30,6 +30,33 @@ export default class Detail {
     return app.screenMode === Detail.screenModeOfRightDetail;
   }
 
+  selfRight: Object;
+  selfModal: Object;
+  header: Object;
+  headerP: Object;
+  body: Object;
+  meta: Object;
+  img: Object;
+  description: Object;
+  metaContentTypeWrap: Object;
+  metaContentType: Object;
+  ch: Object;
+  analyze: Object;
+  analyzeRow: Object;
+  analyzeCol: Object;
+  analyzeLabel: Object;
+  analyzeValue: Object;
+  analyzeHr: Object;
+  h1s: Object;
+  h1sLi: Object;
+  footer: Object;
+  footerChild: Object;
+  footerChildLike: Object;
+  footerChildMoney: Object;
+  footerChildShare: Object;
+  metaItems: Object;
+  updateWrap: Object;
+  update: Object;
   constructor(params) {
     const { app } = params;
 

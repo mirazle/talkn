@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import define from "common/define";
+import State from "common/schemas/state";
 import App from "common/schemas/state/App";
 import TalknSession from "client/operations/TalknSession";
 import Loading from "client/components/Loading";
@@ -27,23 +28,23 @@ import actionWrap from "client/container/util/actionWrap";
 import componentDidUpdates from "client/container/componentDidUpdates";
 import TalknWindow from "client/operations/TalknWindow";
 
-interface Props {
-  state: any;
+interface ContainerProps {
+  state: State;
   talknAPI: any;
-  onClickOpenLockMenu: any;
-  onClickToggleMain: any;
-  onClickToggleDispDetail: any;
-  closeInnerNotif: any;
-  toggleDispPostsSupporter: any;
-  onClickMultistream: any;
+  onClickOpenLockMenu: (any?) => any;
+  onClickToggleMain: (any?) => any;
+  onClickToggleDispDetail: (any?) => any;
+  closeInnerNotif: (any?) => any;
+  toggleDispPostsSupporter: (any?) => any;
+  onClickMultistream: (any?) => any;
 }
 
-interface State {
+interface ContainerState {
   notifs: any;
 }
 
-class Container extends Component<Props, State> {
-  constructor(props) {
+class Container extends Component<ContainerProps, ContainerState> {
+  constructor(props: ContainerProps) {
     super(props);
     const { state, talknAPI } = props;
     const { app, thread } = state;
@@ -67,7 +68,6 @@ class Container extends Component<Props, State> {
   }
 
   componentDidMount() {
-    const { app } = this.props.state;
     window.talknAPI.componentDidMounts("Container");
   }
 

@@ -163,6 +163,32 @@ export default class Style {
     return "rgba(73, 104, 173, 0.96)";
   }
 
+  container: Container;
+  header: Header;
+  footer: Footer;
+  postsSupporter: PostsSupporter;
+  postsFooter: PostsFooter;
+  menuFooter: MenuFooter;
+  menu: Menu;
+  menuIndex: MenuIndex;
+  menuIndexList: MenuIndexList;
+  menuUsers: MenuUsers;
+  extScreen: ExtScreen;
+  lockMenu: LockMenu;
+  posts: Posts;
+  post: Post;
+  notif: Notif;
+  board: Board;
+  links: Links;
+  link: Link;
+  audio: Audio;
+  video: Video;
+  innerNotif: InnerNotif;
+  detail: Detail;
+  detailFooter: DetailFooter;
+  emotionGraph: EmotionGraph;
+  icon: Icon;
+  loading: Loading;
   constructor(params) {
     const container = new Container(params);
     const header = new Header(params);
@@ -220,7 +246,7 @@ export default class Style {
     };
   }
 
-  static get(styles = { layout: {}, content: {}, animation: {} }) {
+  static get(styles = { layout: {}, content: {}, animation: {} }): Object {
     return { ...styles.layout, ...styles.content, ...styles.animation };
   }
 
@@ -228,8 +254,8 @@ export default class Style {
   /*  Layout              */
   /************************/
 
-  static getLayoutBase(style = {}) {
-    const baseLayout = {
+  static getLayoutBase(style = {}): Object {
+    const baseLayout: Object = {
       display: "block",
       boxSizing: "border-box",
       overflow: "hidden",
@@ -257,8 +283,8 @@ export default class Style {
     return { ...baseLayout, ...style };
   }
 
-  static getLayoutFlex(style = {}) {
-    const blockLayout = Style.getLayoutBase({
+  static getLayoutFlex(style = {}): Object {
+    const blockLayout: Object = Style.getLayoutBase({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -268,8 +294,8 @@ export default class Style {
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutInlineFlex(style = {}) {
-    const blockLayout = Style.getLayoutBase({
+  static getLayoutInlineFlex(style = {}): Object {
+    const blockLayout: Object = Style.getLayoutBase({
       display: "inline-flex",
       justifyContent: "center",
       alignItems: "center",
@@ -279,44 +305,44 @@ export default class Style {
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutTable(style = {}) {
-    const blockLayout = Style.getLayoutBase({
+  static getLayoutTable(style = {}): Object {
+    const blockLayout: Object = Style.getLayoutBase({
       display: "table"
     });
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutTableRow(style = {}) {
-    const blockLayout = Style.getLayoutBase({
+  static getLayoutTableRow(style = {}): Object {
+    const blockLayout: Object = Style.getLayoutBase({
       display: "table-row"
     });
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutTableCol(style = {}) {
-    const blockLayout = Style.getLayoutBase({
+  static getLayoutTableCol(style = {}): Object {
+    const blockLayout: Object = Style.getLayoutBase({
       display: "table-cell"
     });
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutFlexChild(style = {}) {
-    const blockLayout = Style.getLayoutBase({
+  static getLayoutFlexChild(style = {}): Object {
+    const blockLayout: Object = Style.getLayoutBase({
       width: "auto",
       height: "auto"
     });
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutBlock(style = {}) {
-    const blockLayout = Style.getLayoutBase({
+  static getLayoutBlock(style = {}): Object {
+    const blockLayout: Object = Style.getLayoutBase({
       display: "block"
     });
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutInlineBlock(style = {}) {
-    const inlineBlockLayout = Style.getLayoutBase({
+  static getLayoutInlineBlock(style = {}): Object {
+    const inlineBlockLayout: Object = Style.getLayoutBase({
       display: "inline-block",
       align: "center",
       verticalAlign: "middle"
@@ -324,8 +350,8 @@ export default class Style {
     return { ...inlineBlockLayout, ...style };
   }
 
-  static getLayoutInline(style = {}) {
-    const blockLayout = Style.getLayoutBase({
+  static getLayoutInline(style = {}): Object {
+    const blockLayout: Object = Style.getLayoutBase({
       display: "inline"
     });
     return { ...blockLayout, ...style };
@@ -335,8 +361,8 @@ export default class Style {
   /* Content              */
   /************************/
 
-  static getContentBase(style = {}) {
-    const contentBase = {
+  static getContentBase(style = {}): Object {
+    const contentBase: Object = {
       letterSpacing: "1.5px",
       wordWrap: "breakWord",
       whiteSpace: "normal",
@@ -348,12 +374,11 @@ export default class Style {
     return { ...contentBase, ...fontBase, ...style };
   }
 
-  static getFontBase(style = {}) {
-    const fontBase = {
+  static getFontBase(style = {}): Object {
+    const fontBase: Object = {
       textAlign: "center",
       color: Style.fontBaseRGB,
       font: "inherit",
-      //      fontFamily: '"Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif',
       fontFamily:
         '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK JP", "Original Yu Gothic", "Yu Gothic", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Sans Emoji"'
     };
@@ -364,7 +389,7 @@ export default class Style {
   /* Animation            */
   /************************/
 
-  static getAnimationBase(style = {}) {
+  static getAnimationBase(style = {}): Object {
     const animationBase = {
       transition: Container.transitionOff,
       transform: "translate3d(0px, 0px, 0px)"

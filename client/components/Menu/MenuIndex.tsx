@@ -1,12 +1,13 @@
 import React, { Component } from "react";
+import State from "common/schemas/state";
 import App from "common/schemas/state/App";
 import Thread from "common/schemas/state/Thread";
 import conf from "common/conf";
 import Icon from "client/components/Icon";
 import MenuIndexList from "client/components/Menu/MenuIndexList";
 
-interface Props {
-  state: any;
+interface MenuIndexProps {
+  state: State;
   handleOnClickCh?: any;
   onClickToTimelineThread?: any;
   onClickToMultiThread?: any;
@@ -15,11 +16,11 @@ interface Props {
   onClickToLogsThread?: any;
 }
 
-interface State {
-  rootCh: any;
+interface MenuIndexState {
+  rootCh: string;
   style: any;
 }
-export default class MenuIndex extends React.Component<Props, State> {
+export default class MenuIndex extends React.Component<MenuIndexProps, MenuIndexState> {
   constructor(props) {
     super(props);
     const { app, style } = props.state;
@@ -112,26 +113,6 @@ export default class MenuIndex extends React.Component<Props, State> {
     }
   }
 
-  renderLi() {
-    const { state, handleOnClickCh } = this.props;
-
-    const { app, thread, menuIndex, style } = state;
-    return menuIndex.map((mi, index) => {
-      return (
-        <MenuIndexList
-          key={`${mi.ch}_${index}`}
-          id={`${mi.ch}_${index}`}
-          app={app}
-          thread={thread}
-          menuIndexList={mi}
-          handleOnClickCh={handleOnClickCh}
-          rank={index}
-          style={style.menuIndexList}
-        />
-      );
-    });
-  }
-
   render() {
     const headerUpdateIconStyle = this.state.style;
     const { style } = this.props.state;
@@ -169,5 +150,25 @@ export default class MenuIndex extends React.Component<Props, State> {
         <ol style={style.menuIndex.ol}>{this.renderLi()}</ol>
       </nav>
     );
+  }
+
+  renderLi() {
+    const { state, handleOnClickCh } = this.props;
+
+    const { app, thread, menuIndex, style } = state;
+    return menuIndex.map((mi, index) => {
+      return (
+        <MenuIndexList
+          key={`${mi.ch}_${index}`}
+          id={`${mi.ch}_${index}`}
+          app={app}
+          thread={thread}
+          menuIndexList={mi}
+          handleOnClickCh={handleOnClickCh}
+          rank={index}
+          style={style.menuIndexList}
+        />
+      );
+    });
   }
 }

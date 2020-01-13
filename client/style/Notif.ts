@@ -34,6 +34,11 @@ export default class Notif {
     }
   }
 
+  notifs: Object;
+  self: Object;
+  bottom: Object;
+  bottomIcon: Object;
+  bottomPost: Object;
   constructor(params) {
     const notifs = Notif.getNotifs(params);
     const self = Notif.getSelf(params);

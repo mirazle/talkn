@@ -52,19 +52,19 @@ export default class App extends Schema {
   static get defaultOffsetFindId() {
     return Post.defaultFindId;
   }
-  static get dispThreadTypeTimeline() {
+  static get dispThreadTypeTimeline(): "Timeline" {
     return "Timeline";
   }
-  static get dispThreadTypeSingle() {
+  static get dispThreadTypeSingle(): "Single" {
     return "Single";
   }
-  static get dispThreadTypeMulti() {
+  static get dispThreadTypeMulti(): "Multi" {
     return "Multi";
   }
-  static get dispThreadTypeChild() {
+  static get dispThreadTypeChild(): "Child" {
     return "Child";
   }
-  static get dispThreadTypeLogs() {
+  static get dispThreadTypeLogs(): "Logs" {
     return "Logs";
   }
   static get screenModeSmallLabel() {
@@ -165,6 +165,81 @@ export default class App extends Schema {
     if (typeof window === "object" && window.innerHeight) return window.innerHeight;
     return 0;
   }
+
+  name: string;
+  talknIndex: number;
+
+  // 基本表示関連
+  width: string | number;
+  height: string | number;
+  postsHeight: string | number;
+  screenMode: "LARGE" | "MIDDLE" | "SMALL" | "NONE";
+
+  // iframeの拡張機能表示の場合
+  extensionMode: "EXT_MODAL" | "EXT_BOTTOM" | "EXT_INCLUDE" | "NONE";
+  extensionWidth: string | number;
+  extensionOpenHeight: string | number;
+  extensionCloseHeight: string | number;
+
+  // Index情報
+  menuComponent: "Users" | "Index" | "Logs" | "Setting";
+
+  // スレッド基本関連
+  isRootCh: boolean;
+  isLinkCh: boolean;
+  isMediaCh: boolean;
+  rootCh: string;
+  rootTitle: string;
+  chType: boolean;
+  dispThreadType: "Multi" | "Single" | "Child" | "Timeline" | "Logs";
+  tuned: boolean;
+  multistream: boolean;
+  multistreamed: boolean;
+  threadScrollY: string | number;
+
+  // 投稿情報
+  findType: "html" | "mp3" | "mp4" | "m4a" | "audio" | "video";
+  offsetFindId: string;
+  offsetTimelineFindId: string = Post.defaultFindId;
+  offsetSingleFindId: string = Post.defaultFindId;
+  offsetMultiFindId: string = Post.defaultFindId;
+  offsetChildFindId: string = Post.defaultFindId;
+  offsetLogsFindId: string = Post.defaultFindId;
+
+  // detail情報
+  detailCh: string;
+
+  // 入力状態
+  inputPost: string;
+  inputStampId: string | number;
+  inputCurrentTime: number;
+  inputSearch: string;
+
+  // 各パーツの状態
+  isOpenPosts: boolean;
+  isOpenSetting: boolean;
+  isOpenMenu: boolean;
+  isOpenDetail: boolean;
+  isOpenNewPost: boolean;
+  isOpenNotif: boolean;
+  isOpenPostsSupporter: boolean;
+  isBubblePost: boolean;
+  isOpenBoard: boolean;
+  isDispPosts: boolean;
+  isOpenLinks: boolean;
+
+  // 各パーツの状態(文字列制御)
+  openInnerNotif: boolean;
+  openLockMenu: "Abount" | "Like" | "Share" | "No";
+
+  // iframe直接埋め込み
+  includeIframeTag: boolean;
+
+  // その他
+  actioned: string;
+  isTransition: boolean;
+  isLoadingEnd: boolean;
+  debug: string;
 
   constructor(params: any = {}, call = "") {
     super();

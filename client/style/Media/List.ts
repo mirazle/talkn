@@ -22,6 +22,7 @@ export default class List {
     return List.marginBase * List.marginRightMag;
   }
 
+  self: Object;
   constructor(params) {
     const self = List.getSelf(params);
     return {
@@ -49,9 +50,7 @@ export default class List {
           width = `calc( ${100 - reduce}% - ${Menu.getWidth(app, true)} )`;
           break;
         case App.screenModeLargeLabel:
-          width = `calc( ${100 -
-            Detail.getWidth(app, false) -
-            reduce}% - ${Menu.getWidth(app, true) + reduce}px )`;
+          width = `calc( ${100 - Detail.getWidth(app, false) - reduce}% - ${Menu.getWidth(app, true) + reduce}px )`;
           break;
       }
     }

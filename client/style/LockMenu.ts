@@ -56,9 +56,7 @@ export default class LockMenu {
   }
 
   static getCommonTransform(app) {
-    return app.openLockMenu === App.openLockMenuLabelNo
-      ? "translate3d(0px, 0px, 0px)"
-      : `translate3d(0px, -70vh, 0px)`;
+    return app.openLockMenu === App.openLockMenuLabelNo ? "translate3d(0px, 0px, 0px)" : `translate3d(0px, -70vh, 0px)`;
   }
 
   static getPaddingLi(app) {
@@ -71,6 +69,15 @@ export default class LockMenu {
     }
   }
 
+  menuShare: Object;
+  header: Object;
+  ul: Object;
+  liGoWeb: Object;
+  liTwitter: Object;
+  liFacebook: Object;
+  liEmbed: Object;
+  liEmbedInput: Object;
+  shareLabel: Object;
   constructor(params) {
     const menuShare = LockMenu.getMenuShare(params);
     const header = LockMenu.getHeader(params);

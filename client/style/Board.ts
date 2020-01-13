@@ -48,6 +48,25 @@ export default class Board {
     }
   }
 
+  self: Object;
+  menu: Object;
+  menuUl: Object;
+  menuLi: Object;
+  menuLiChild: Object;
+  menuLiBubble: Object;
+  menuLiLinks: Object;
+  menuToggle: Object;
+  links: Object;
+  linksUl: Object;
+  linksLi: Object;
+  linksLiActive: Object;
+  linksLiUnactive: Object;
+  linksTuneLi: Object;
+  linkMenuUl: Object;
+  linkMenuLi: Object;
+  linksTabActive: Object;
+  linksTabUnactive: Object;
+  linksTabLast: Object;
   constructor(params) {
     // BOARD DEFAULT LAYOUT
     const self = Board.getSelf(params);

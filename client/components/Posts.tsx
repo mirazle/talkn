@@ -178,12 +178,12 @@ export default class Posts extends Component<Props, State> {
   }
 
   renderPostList() {
-    const { state, timeago } = this.props;
+    const { state } = this.props;
     const { app, style, thread } = state;
-    return state[`posts${app.dispThreadType}`].map(post => {
+    return state[`posts${app.dispThreadType}`].map((post, i) => {
       return (
         <Post
-          key={post._id}
+          key={`${post._id}_${i}`}
           id={post._id}
           post={post}
           app={app}
