@@ -1695,7 +1695,7 @@
     function onClickSearchIcon() {
         const search = document.querySelector( ".search" );
         const href = search.value.replace("https:/", "").replace("http:/", "");
-        location.href = "https://<%= domain %>/" + href;
+        location.href = "https://<%= domain %>" + href;
     }
     window.onload =  ( e ) => {
         onServiceWorker();
