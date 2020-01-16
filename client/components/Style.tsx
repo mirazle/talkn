@@ -65,7 +65,7 @@ export default class Style extends Component<Props> {
             animation-iteration-count: infinite;
             width: inherit;
             height: inherit;
-            background-image: url(//${conf.assetsImgPath}talkn.png);
+            background-image: url(//${conf.assetsImgPath}talkn2.png);
             background-position: 50% 50%;
             background-size: 80px;
             background-repeat: no-repeat;

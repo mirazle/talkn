@@ -352,7 +352,6 @@ export default class TalknWindow {
     if (app.isOpenNewPost) {
       window.talknAPI.closeNewPost();
     }
-
     this.setIsScrollBottom(app);
   }
 
