@@ -1692,6 +1692,10 @@
             setMenuColor();
         }
     } 
+    function onClickSearchIcon() {
+        const search = document.querySelector( ".search" );
+        location.href = "https://<%= domain %>" + search.value;
+    }
     window.onload =  ( e ) => {
         onServiceWorker();
         const search = document.querySelector(".search");
@@ -1806,7 +1810,7 @@
                 </div>
 
                 <div class="inputWrap">
-                    <div class="searchIcon">
+                    <div onclick="onClickSearchIcon()" class="searchIcon">
                         <div class="circle"></div>
                         <div class="bar"></div>
                     </div>
