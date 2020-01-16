@@ -122,7 +122,6 @@ export default class Posts extends Component<Props, State> {
     const { clientHeight, scrollTop, scrollHeight } = e.target;
     const isScrollBottom = scrollHeight === scrollTop + clientHeight;
     window.talknWindow.setIsScrollBottom(app, isScrollBottom);
-    //console.log( scrollHeight );
     //this.setState({scrollHeight});
     this.props.scrollThread();
   }
