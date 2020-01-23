@@ -1,6 +1,7 @@
 import define from "common/define";
 import App from "common/schemas/state/App";
 import Ui from "common/schemas/state/Ui";
+import UiTimeMarker from "common/schemas/state/UiTimeMarker";
 import User from "common/schemas/state/User";
 import MenuIndex from "common/schemas/state/MenuIndex";
 import MenuLogs from "common/schemas/state/MenuLogs";
@@ -32,6 +33,7 @@ export default class State {
   setting: Setting;
   app: App;
   ui: Ui;
+  uiTimeMarker: UiTimeMarker;
   user: User;
   style: Style;
   actionLog: ActionLog;
@@ -51,6 +53,7 @@ export default class State {
     this.setting = new Setting(caches.setting);
     this.app = new App(State.getAppParams(talknIndex, this.thread, this.bootOption, initialApp, caches));
     this.ui = new Ui(State.getAppParams(talknIndex, this.thread, this.bootOption, initialApp, caches));
+    this.uiTimeMarker = new UiTimeMarker();
     this.user = new User(State.getUserParams(this, caches));
     this.style = new Style(this);
     this.actionLog = new ActionLog();

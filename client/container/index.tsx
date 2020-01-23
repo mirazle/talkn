@@ -22,8 +22,10 @@ import Board from "client/components/Board";
 import LockMenu from "client/components/LockMenu";
 import Media from "client/components/Media";
 import InnerNotif from "client/components/InnerNotif";
+import TimeMarker from "client/components/TimeMarker";
 import mapToStateToProps from "client/mapToStateToProps/";
 import Marquee from "client/container/util/Marquee";
+import DateHelper from "client/container/util/DateHelper";
 import actionWrap from "client/container/util/actionWrap";
 import componentDidUpdates from "client/container/componentDidUpdates";
 import TalknWindow from "client/operations/TalknWindow";
@@ -55,7 +57,7 @@ class Container extends Component<ContainerProps, ContainerState> {
       talknAPI.findMenuIndex(thread.ch);
     }
     this.getProps = this.getProps.bind(this);
-    this.getNotifs = this.getNotifs.bind(this);
+    this.renderNotifs = this.renderNotifs.bind(this);
     this.renderSmall = this.renderSmall.bind(this);
     this.renderMiddle = this.renderMiddle.bind(this);
     this.renderLarge = this.renderLarge.bind(this);
@@ -75,7 +77,7 @@ class Container extends Component<ContainerProps, ContainerState> {
     componentDidUpdates(this, "Container");
   }
 
-  getProps() {
+  getProps(): any {
     return {
       ...this.props,
       componentDidUpdates,
@@ -83,7 +85,8 @@ class Container extends Component<ContainerProps, ContainerState> {
       handleOnClickMultistream: this.handleOnClickMultistream,
       handleOnClickToggleMain: this.handleOnClickToggleMain,
       handleOnClickToggleDetail: this.handleOnClickToggleDetail,
-      handleOnClickCh: this.handleOnClickCh
+      handleOnClickCh: this.handleOnClickCh,
+      nowDate: DateHelper.getNowYmdhis()
     };
   }
 
@@ -171,7 +174,43 @@ class Container extends Component<ContainerProps, ContainerState> {
     actionWrap.onClickCh(toCh, overWriteHasSlash, called);
   }
 
-  getLinkLabel(props) {
+  render() {
+    const { style, app } = this.props.state;
+    if (style && style.container && style.container.self && app.tuned) {
+      if (
+        app.extensionMode === App.extensionModeExtBottomLabel ||
+        app.extensionMode === App.extensionModeExtModalLabel
+      ) {
+        return this.renderExtension();
+      } else {
+        switch (app.screenMode) {
+          case App.screenModeSmallLabel:
+            return this.renderSmall();
+          case App.screenModeMiddleLabel:
+            return this.renderMiddle();
+          case App.screenModeLargeLabel:
+            return this.renderLarge();
+        }
+      }
+    } else {
+      if (
+        app.extensionMode === App.extensionModeExtBottomLabel ||
+        app.extensionMode === App.extensionModeExtModalLabel
+      ) {
+        return null;
+      } else {
+        return <Loading />;
+      }
+    }
+  }
+
+  renderFixTimeMarker(props) {
+    const { state } = this.props;
+    const { style, uiTimeMarker } = state;
+    return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
+  }
+
+  renderLinkLabel(props) {
     const { state } = this.props;
     const { app, style, thread } = state;
     if (app.isLinkCh) {
@@ -185,9 +224,9 @@ class Container extends Component<ContainerProps, ContainerState> {
     }
   }
 
-  getNewPost(props) {
+  renderNewPost(props) {
     const { state } = props;
-    const { style, app } = state;
+    const { style } = state;
 
     const log = false;
     let dispNewPost = false;
@@ -231,13 +270,13 @@ class Container extends Component<ContainerProps, ContainerState> {
     }
   }
 
-  getHideScreenBottom(props) {
+  renderHideScreenBottom(props) {
     const { state } = props;
     const { style } = state;
     return <div data-component-name={"hideScreenBottom"} style={style.container.hideScreenBottom} />;
   }
 
-  getNotifs(props) {
+  renderNotifs(props) {
     const { app, style } = props.state;
     if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
       if (!app.isOpenPosts && !app.isDispPosts && app.isOpenNotif) {
@@ -254,9 +293,11 @@ class Container extends Component<ContainerProps, ContainerState> {
   renderLarge() {
     const { style } = this.props.state;
     const props: any = this.getProps();
-    const NewPost = this.getNewPost(props);
-    const LinkLabel = this.getLinkLabel(props);
-    const HideScreenBottom = this.getHideScreenBottom(props);
+    const NewPost = this.renderNewPost(props);
+    const LinkLabel = this.renderLinkLabel(props);
+    const HideScreenBottom = this.renderHideScreenBottom(props);
+    const TimeMarker = this.renderFixTimeMarker(props);
+    const nowDate = DateHelper.getNowYmdhis();
     return (
       <div data-component-name={"Container"} style={style.container.self}>
         <Style {...props} />
@@ -266,6 +307,7 @@ class Container extends Component<ContainerProps, ContainerState> {
           <Board {...props} />
           {LinkLabel}
           {NewPost}
+          {TimeMarker}
           <Header {...props} />
           <PostsSupporter {...props} />
           <DetailRight {...props} />
@@ -294,9 +336,10 @@ class Container extends Component<ContainerProps, ContainerState> {
   renderMiddle() {
     const { style } = this.props.state;
     const props = this.getProps();
-    const NewPost = this.getNewPost(props);
-    const LinkLabel = this.getLinkLabel(props);
-    const HideScreenBottom = this.getHideScreenBottom(props);
+    const NewPost = this.renderNewPost(props);
+    const LinkLabel = this.renderLinkLabel(props);
+    const HideScreenBottom = this.renderHideScreenBottom(props);
+    const TimeMarker = this.renderFixTimeMarker(props);
     return (
       <div data-component-name={"Container"} style={style.container.self}>
         <Style {...props} />
@@ -306,6 +349,7 @@ class Container extends Component<ContainerProps, ContainerState> {
           <Board {...props} />
           {LinkLabel}
           {NewPost}
+          {TimeMarker}
           <Header {...props} />
           <PostsSupporter {...props} />
           <DetailModal {...props} />
@@ -321,9 +365,11 @@ class Container extends Component<ContainerProps, ContainerState> {
   renderSmall() {
     const { style, app } = this.props.state;
     const props = this.getProps();
-    const NewPost = this.getNewPost(props);
-    const LinkLabel = this.getLinkLabel(props);
-    const HideScreenBottom = this.getHideScreenBottom(props);
+    const NewPost = this.renderNewPost(props);
+    const LinkLabel = this.renderLinkLabel(props);
+    const HideScreenBottom = this.renderHideScreenBottom(props);
+    const TimeMarker = this.renderFixTimeMarker(props);
+    const nowDate = DateHelper.getNowYmdhis();
     return (
       <span data-component-name={"Container"} style={style.container.self}>
         <Style {...props} />
@@ -333,6 +379,7 @@ class Container extends Component<ContainerProps, ContainerState> {
           <Board {...props} />
           {LinkLabel}
           {NewPost}
+          {TimeMarker}
           <Header {...props} />
           <PostsSupporter {...props} />
           <DetailModal {...props} />
@@ -349,9 +396,10 @@ class Container extends Component<ContainerProps, ContainerState> {
   renderExtension() {
     const { style } = this.props.state;
     const props = this.getProps();
-    const NewPost = this.getNewPost(props);
-    const LinkLabel = this.getLinkLabel(props);
+    const NewPost = this.renderNewPost(props);
+    const LinkLabel = this.renderLinkLabel(props);
     const extScreenStyle = props.state.style.extScreen.self;
+    const TimeMarker = this.renderFixTimeMarker(props);
     return (
       <span data-component-name={"Container"} style={style.container.self}>
         <Style {...props} />
@@ -361,6 +409,7 @@ class Container extends Component<ContainerProps, ContainerState> {
           <Board {...props} />
           {LinkLabel}
           {NewPost}
+          {TimeMarker}
           <PostsSupporter {...props} />
           <DetailModal {...props} />
           <InnerNotif {...this.props} />
@@ -377,8 +426,8 @@ class Container extends Component<ContainerProps, ContainerState> {
   renderIos() {
     const { style } = this.props.state;
     const props = this.getProps();
-    const NewPost = this.getNewPost(props);
-    const HideScreenBottom = this.getHideScreenBottom(props);
+    const NewPost = this.renderNewPost(props);
+    const HideScreenBottom = this.renderHideScreenBottom(props);
     return (
       <div data-component-name={"Container"} style={style.container.self}>
         {NewPost}
@@ -392,8 +441,8 @@ class Container extends Component<ContainerProps, ContainerState> {
   renderAndroid() {
     const { style } = this.props.state;
     const props = this.getProps();
-    const NewPost = this.getNewPost(props);
-    const HideScreenBottom = this.getHideScreenBottom(props);
+    const NewPost = this.renderNewPost(props);
+    const HideScreenBottom = this.renderHideScreenBottom(props);
     return (
       <div data-component-name={"Container"} style={style.container.self}>
         {NewPost}
@@ -402,36 +451,6 @@ class Container extends Component<ContainerProps, ContainerState> {
         {HideScreenBottom}
       </div>
     );
-  }
-
-  render() {
-    const { style, app, actionLog } = this.props.state;
-    if (style && style.container && style.container.self && app.tuned) {
-      if (
-        app.extensionMode === App.extensionModeExtBottomLabel ||
-        app.extensionMode === App.extensionModeExtModalLabel
-      ) {
-        return this.renderExtension();
-      } else {
-        switch (app.screenMode) {
-          case App.screenModeSmallLabel:
-            return this.renderSmall();
-          case App.screenModeMiddleLabel:
-            return this.renderMiddle();
-          case App.screenModeLargeLabel:
-            return this.renderLarge();
-        }
-      }
-    } else {
-      if (
-        app.extensionMode === App.extensionModeExtBottomLabel ||
-        app.extensionMode === App.extensionModeExtModalLabel
-      ) {
-        return null;
-      } else {
-        return <Loading />;
-      }
-    }
   }
 }
 

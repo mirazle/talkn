@@ -15,6 +15,7 @@ import MenuUsers from "./Menu/MenuUsers";
 import LockMenu from "./LockMenu";
 import Posts from "./Posts";
 import Post from "./Post";
+import TimeMarker from "./TimeMarker";
 import InnerNotif from "./InnerNotif";
 import Audio from "./Media/Audio";
 import Video from "./Media/Video";
@@ -30,9 +31,14 @@ export default class Style {
     return "rgb(130, 130, 130)";
   }
 
+  static get darkLightRGBA() {
+    return "rgba(0, 0, 0, 0.2)";
+  }
+
   static get darkRGB() {
     return "rgb(0, 0, 0)";
   }
+
   static get darkRGBA() {
     return "rgba(0, 0, 0, 0.4)";
   }
@@ -177,6 +183,7 @@ export default class Style {
   lockMenu: LockMenu;
   posts: Posts;
   post: Post;
+  timeMarker: TimeMarker;
   notif: Notif;
   board: Board;
   links: Links;
@@ -204,6 +211,7 @@ export default class Style {
     const lockMenu = new LockMenu(params);
     const posts = new Posts(params);
     const post = new Post(params);
+    const timeMarker = new TimeMarker(params);
     const notif = new Notif(params);
     const board = new Board(params);
     const links = new Links(params);
@@ -232,6 +240,7 @@ export default class Style {
       lockMenu,
       posts,
       post,
+      timeMarker,
       notif,
       audio,
       video,

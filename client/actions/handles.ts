@@ -150,6 +150,12 @@ export default {
       app: { isTransition: true }
     };
   },
+  onScrollUpdateTimeMarker: uiTimeMarker => {
+    return {
+      type: "ON_SCROLL_UPDATE_TIME_MARKER",
+      uiTimeMarker
+    };
+  },
   offTransition: () => {
     return {
       type: "OFF_TRANSITION",

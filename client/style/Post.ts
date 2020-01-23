@@ -79,6 +79,30 @@ export default class Post {
     return Style.get({ layout, content, animation });
   }
 
+  static getFixTimeMarker({ app }) {
+    const timeMarker = Post.getTimeMarker({ app });
+    const fixTimeMarker = { ...timeMarker, position: "fixed" };
+    return fixTimeMarker;
+  }
+
+  static getTimeMarker({ app }) {
+    const layout = Style.getLayoutFlex({
+      width: "18%",
+      height: "auto",
+      margin: "15px auto 10px auto",
+      padding: "5px 10px",
+      background: Container.darkLightRGBA,
+      borderRadius: "20px"
+    });
+    const content = Style.getContentBase({
+      color: Container.whiteRGB,
+      letterSpacing: "2px",
+      fontSize: "0.1em"
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({ layout, content, animation });
+  }
+
   static getUpper({ app }) {
     const display = app.isBubblePost ? "flex" : "none";
     const layout = Style.getLayoutFlex({
