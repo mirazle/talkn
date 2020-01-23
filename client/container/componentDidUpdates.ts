@@ -148,6 +148,19 @@ const componentDidUpdates = {
         window.talknWindow.parentTo("getClientMetas");
       }
     },
+    TOGGLE_BUBBLE_POST: self => {
+      const { app } = self.props.state;
+      switch (app.screenMode) {
+        case App.screenModeLargeLabel:
+          const Posts = document.querySelector("[data-component-name=Posts]");
+          window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+          break;
+        case App.screenModeMiddleLabel:
+        case App.screenModeSmallLabel:
+          window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
+          break;
+      }
+    },
     RESIZE_END_WINDOW: self => {
       const { app } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
