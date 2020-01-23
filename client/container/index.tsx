@@ -206,8 +206,12 @@ class Container extends Component<ContainerProps, ContainerState> {
 
   renderFixTimeMarker(props) {
     const { state } = this.props;
-    const { style, uiTimeMarker } = state;
-    return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
+    const { style, uiTimeMarker, thread } = state;
+    return thread.postCnt > 0 ? (
+      <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />
+    ) : (
+      undefined
+    );
   }
 
   renderLinkLabel(props) {
