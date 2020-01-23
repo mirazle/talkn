@@ -143,6 +143,7 @@ export default class Post extends MarqueeArea<Props, State> {
 
   shouldComponentUpdate(props) {
     const { app, actionLog } = props;
+
     if (app.isMediaCh) {
       return true;
       /*
@@ -153,12 +154,54 @@ export default class Post extends MarqueeArea<Props, State> {
       ].includes( actionLog[0] );
 */
     } else {
-      return true;
+      if (props.app.actioned === "SCROLL_THREAD") {
+        return false;
+      } else {
+        return true;
+      }
     }
   }
 
   componentDidUpdate() {
     this.measureText();
+  }
+
+  render() {
+    const { app, post, onClickPost } = this.props;
+    const { postStyle } = this.state;
+    const stampLabel = this.renderStampLabel(post.stampId);
+    let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName(post.favicon);
+
+    if (dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 && dispFavicon.indexOf(Sequence.HTTP_PROTOCOL) !== 0) {
+      if (post.protocol === Sequence.TALKN_PROTOCOL) {
+        dispFavicon = `${Sequence.HTTPS_PROTOCOL}//${dispFavicon}`;
+      } else {
+        dispFavicon = `${post.protocol}//${dispFavicon}`;
+      }
+    }
+
+    if (post.dispFlg) {
+      return (
+        <li
+          data-component-name={"Post"}
+          id={post._id}
+          style={postStyle.self}
+          onClick={() => {
+            onClickPost(post.ch);
+          }}
+          {...this.getDecolationProps()}
+        >
+          {this.renderUpper()}
+          <div style={postStyle.bottom}>
+            <span style={{ ...postStyle.bottomIcon, backgroundImage: `url( ${dispFavicon} )` }} />
+            <span style={postStyle.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, app) }} />
+          </div>
+          {stampLabel}
+        </li>
+      );
+    } else {
+      return null;
+    }
   }
 
   renderTime() {
@@ -184,7 +227,7 @@ export default class Post extends MarqueeArea<Props, State> {
                   shortUnit = "wk";
                   break;
                 case "week":
-                  shortUnit = "hr";
+                  shortUnit = "wk";
                   break;
                 case "hour":
                   shortUnit = "hr";
@@ -242,44 +285,6 @@ export default class Post extends MarqueeArea<Props, State> {
         <div data-component-name={"stamp-label"} style={style.stampLabelWrap}>
           <div style={style.stampLabel}>{stampType}</div>
         </div>
-      );
-    } else {
-      return null;
-    }
-  }
-
-  render() {
-    const { app, post, onClickPost } = this.props;
-    const { postStyle } = this.state;
-    const stampLabel = this.renderStampLabel(post.stampId);
-    let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName(post.favicon);
-
-    if (dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 && dispFavicon.indexOf(Sequence.HTTP_PROTOCOL) !== 0) {
-      if (post.protocol === Sequence.TALKN_PROTOCOL) {
-        dispFavicon = `${Sequence.HTTPS_PROTOCOL}//${dispFavicon}`;
-      } else {
-        dispFavicon = `${post.protocol}//${dispFavicon}`;
-      }
-    }
-
-    if (post.dispFlg) {
-      return (
-        <li
-          data-component-name={"Post"}
-          id={post._id}
-          style={postStyle.self}
-          onClick={() => {
-            onClickPost(post.ch);
-          }}
-          {...this.getDecolationProps()}
-        >
-          {this.renderUpper()}
-          <div style={postStyle.bottom}>
-            <span style={{ ...postStyle.bottomIcon, backgroundImage: `url( ${dispFavicon} )` }} />
-            <span style={postStyle.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, app) }} />
-          </div>
-          {stampLabel}
-        </li>
       );
     } else {
       return null;

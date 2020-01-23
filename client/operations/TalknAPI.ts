@@ -124,18 +124,9 @@ export default class TalknAPI {
     return _requestParams => {
       if (TalknAPI.handle(talknIndex)) {
         const reduxState = window.talknAPI.store.getState();
-
-        console.log(reduxState);
-
         let _requestState = Sequence.getRequestState(actionName, reduxState, _requestParams);
-
-        console.log(_requestState);
-
         let _actionState = Sequence.getRequestActionState(actionName, _requestParams);
         const { requestState, actionState } = beforeFunction(reduxState, _requestState, _actionState);
-
-        console.log(requestState);
-
         this.ws.emit(requestState.type, requestState);
         return window.talknAPI.store.dispatch(actionState);
       }

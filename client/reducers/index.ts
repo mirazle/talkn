@@ -15,6 +15,7 @@ import postsTimeline from "./postsTimeline";
 import postsMulti from "./postsMulti";
 import postsSingle from "./postsSingle";
 import postsChild from "./postsChild";
+import uiTimeMarker from "./uiTimeMarker";
 import style from "./style";
 import componentDidMounts from "./componentDidMounts";
 import actionLog from "./actionLog";
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   postsMulti,
   postsSingle,
   postsChild,
+  uiTimeMarker,
   style,
   componentDidMounts,
   actionLog

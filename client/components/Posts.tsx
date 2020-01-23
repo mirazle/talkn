@@ -1,21 +1,24 @@
 import React, { Component } from "react";
-import conf from "common/conf";
 import App from "common/schemas/state/App";
-import { default as PostsSchems } from "common/schemas/state/Posts";
+import UiTimeMarker from "common/schemas/state/UiTimeMarker";
+import DateHelper from "client/container/util/DateHelper";
 import Post from "client/components/Post";
+import TimeMarker from "client/components/TimeMarker";
+import conf from "common/conf";
 
 interface Props {
   state: any;
   scrollThread?: any;
   closeNewPost?: any;
   crollThread?: any;
-  talknAPI?: any;
-  timeago?: any;
   componentDidUpdates?: any;
+  nowDate: {};
+  updateUiTimeMarker: (uiTimeMarker) => void;
 }
 
 interface State {
   scrollHeight: number;
+  scrollTop: number;
   isAnimateScrolling: boolean;
   posts: any;
 }
@@ -29,6 +32,7 @@ export default class Posts extends Component<Props, State> {
     this.handleOnClickPost = this.handleOnClickPost.bind(this);
     this.state = {
       scrollHeight: 0,
+      scrollTop: 0,
       isAnimateScrolling: false,
       //isScrollBottom: true,
       posts: []
@@ -114,7 +118,8 @@ export default class Posts extends Component<Props, State> {
   }
 
   handleOnScroll(e) {
-    const { app } = this.props.state;
+    const { app, thread } = this.props.state;
+    let { uiTimeMarker } = this.props.state;
     if (app.isOpenNewPost) {
       this.props.closeNewPost();
     }
@@ -122,8 +127,22 @@ export default class Posts extends Component<Props, State> {
     const { clientHeight, scrollTop, scrollHeight } = e.target;
     const isScrollBottom = scrollHeight === scrollTop + clientHeight;
     window.talknWindow.setIsScrollBottom(app, isScrollBottom);
-    //this.setState({scrollHeight});
-    this.props.scrollThread();
+
+    const newUiTimeMarker = UiTimeMarker.update(scrollTop, uiTimeMarker);
+    if (uiTimeMarker.now.label !== newUiTimeMarker.now.label) {
+      window.talknAPI.onScrollUpdateTimeMarker(newUiTimeMarker);
+    }
+
+    if (scrollTop === 0) {
+      if (thread.postCnt > conf.findOnePostCnt) {
+        const HtmlThread: HTMLElement = this.refs.thread as HTMLElement;
+        this.setState({
+          ...this.state,
+          scrollHeight: HtmlThread.scrollHeight
+        });
+        window.talknWindow.exeGetMore(this.props.state);
+      }
+    }
   }
 
   handleOnClickPost(ch: string) {
@@ -150,50 +169,6 @@ export default class Posts extends Component<Props, State> {
     window.talknAPI.getMore();
   }
 
-  renderGetMore() {
-    const { state } = this.props;
-    const { style, thread, app } = state;
-    const posts = PostsSchems.getDispPosts(state);
-    const dispPostCnt = posts.length;
-    const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
-    let isDisp = false;
-    if (conf.findOnePostCnt <= dispPostCnt && dispPostCnt < conf.findOneLimitCnt) {
-      if (thread[postCntKey] > conf.findOnePostCnt) {
-        if (dispPostCnt < thread[postCntKey]) {
-          isDisp = true;
-        }
-      }
-    }
-
-    if (isDisp) {
-      return (
-        <li style={style.posts.more} onClick={this.handleOnClickGetMore}>
-          GET MORE
-        </li>
-      );
-    }
-
-    return null;
-  }
-
-  renderPostList() {
-    const { state } = this.props;
-    const { app, style, thread } = state;
-    return state[`posts${app.dispThreadType}`].map((post, i) => {
-      return (
-        <Post
-          key={`${post._id}_${i}`}
-          id={post._id}
-          post={post}
-          app={app}
-          childLayerCnt={post.layer - thread.layer}
-          style={style.post}
-          onClickPost={this.handleOnClickPost}
-        />
-      );
-    });
-  }
-
   render() {
     const { style } = this.props.state;
     return (
@@ -204,9 +179,58 @@ export default class Posts extends Component<Props, State> {
         onMouseDown={this.handleOnMouseDown}
         onScroll={this.handleOnScroll}
       >
-        {this.renderGetMore()}
         {this.renderPostList()}
       </ol>
     );
+  }
+
+  renderPostList() {
+    const { state, nowDate } = this.props;
+    const { app, style, thread } = state;
+    const posts = state[`posts${app.dispThreadType}`];
+    const postCnt = posts.length;
+    let dispPosts = [];
+    let beforeDiffDay: number = 0;
+
+    // Add time marker.
+    for (let i = 0; i < postCnt; i++) {
+      let timeLabel = "";
+      const post = posts[i];
+      const postYmdhis = DateHelper.getMongoYmdhis(post.createTime);
+
+      const diffDay = DateHelper.getDiffDay(nowDate, postYmdhis);
+      const isDispTimeMarker = beforeDiffDay !== diffDay;
+      beforeDiffDay = diffDay;
+
+      if (isDispTimeMarker) {
+        switch (diffDay) {
+          case 0:
+            timeLabel = "Today";
+            break;
+          case 1:
+            timeLabel = "Yesterday";
+            break;
+          default:
+            timeLabel = `(${postYmdhis.Day})${postYmdhis.M}/${postYmdhis.D}`;
+            break;
+        }
+        dispPosts.push(
+          <TimeMarker key={`TimeMarker${i}_${timeLabel}`} type="List" label={timeLabel} style={style.timeMarker.self} />
+        );
+      }
+
+      dispPosts.push(
+        <Post
+          key={`${post._id}_${i}`}
+          id={post._id}
+          post={post}
+          app={app}
+          childLayerCnt={post.layer - thread.layer}
+          style={style.post}
+          onClickPost={this.handleOnClickPost}
+        />
+      );
+    }
+    return dispPosts;
   }
 }

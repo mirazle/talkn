@@ -3,15 +3,18 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import define from "common/define";
 import Schema from "common/schemas/Schema";
+import { default as PostsSchems } from "common/schemas/state/Posts";
 import App from "common/schemas/state/App";
 import State from "common/schemas/state";
 import BootOption from "common/schemas/state/BootOption";
+import UiTimeMarker from "common/schemas/state/UiTimeMarker";
 import conf from "client/conf";
 import actionWrap from "client/container/util/actionWrap";
 import TalknSession from "client/operations/TalknSession";
 import TalknAPI from "client/operations/TalknAPI";
 import TalknMedia from "client/operations/TalknMedia";
 import Container from "client/container/";
+
 import storage from "client/mapToStateToProps/storage";
 
 export default class TalknWindow {
@@ -348,11 +351,37 @@ export default class TalknWindow {
   }
 
   scroll(ev) {
-    const { app } = window.talknAPI.store.getState();
+    const state = window.talknAPI.store.getState();
+    const { app, thread, uiTimeMarker } = state;
     if (app.isOpenNewPost) {
       window.talknAPI.closeNewPost();
     }
-    this.setIsScrollBottom(app);
+
+    const newUiTimeMarker = UiTimeMarker.update(window.scrollY, uiTimeMarker);
+    if (uiTimeMarker.now.label !== newUiTimeMarker.now.label) {
+      window.talknAPI.onScrollUpdateTimeMarker(newUiTimeMarker);
+    }
+
+    window.talknWindow.setIsScrollBottom(app);
+    if (window.scrollY === 0) {
+      if (thread.postCnt > conf.findOnePostCnt) {
+        window.talknWindow.exeGetMore(state);
+      }
+    }
+  }
+
+  exeGetMore(state) {
+    const { thread, app } = state;
+    const posts = PostsSchems.getDispPosts(state);
+    const dispPostCnt = posts.length;
+    const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
+    if (conf.findOnePostCnt <= dispPostCnt && dispPostCnt < conf.findOneLimitCnt) {
+      if (thread[postCntKey] > conf.findOnePostCnt) {
+        if (dispPostCnt < thread[postCntKey]) {
+          window.talknAPI.getMore();
+        }
+      }
+    }
   }
 
   setIsScrollBottom(app, isScrollBottom = true) {
@@ -369,6 +398,14 @@ export default class TalknWindow {
       }
     } else {
       this.isScrollBottom = isScrollBottom;
+    }
+  }
+
+  updateUiTimeMarker(scrollTop) {
+    const timeMarkers: any = document.querySelectorAll("li[data-component-name=TimeMarkerList]");
+    const uiTimeMarker = UiTimeMarker.generate(scrollTop, timeMarkers);
+    if (uiTimeMarker.list.length > 0) {
+      window.talknAPI.onScrollUpdateTimeMarker(uiTimeMarker);
     }
   }
 

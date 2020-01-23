@@ -3,7 +3,7 @@ import Style from "./index";
 import Header from "./Header";
 import DetailRight from "./DetailRight";
 import Menu from "./Menu";
-import Footer from "./Footer";
+import TimeMarker from "./TimeMarker";
 
 export default class Container {
   self: Object;
@@ -73,9 +73,14 @@ export default class Container {
   static get shadow() {
     return `${Style.mono230RGB} 0px 0px 5px 0px`;
   }
+  static get darkLightRGBA() {
+    return Style.darkLightRGBA;
+  }
+
   static get darkRGB() {
     return Style.darkRGB;
   }
+
   static get darkRGBA() {
     return Style.darkRGBA;
   }
@@ -301,24 +306,17 @@ export default class Container {
 
   static getNewPost({ app }): Object {
     let display = Container.getNewPostDisplay(app);
-    let left = "0px";
-    let width = "0px";
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
-        left = "25%";
-        width = "50%";
-        break;
-      case App.screenModeMiddleLabel:
-        width = String((app.width - Menu.getWidth(app, true)) * 0.5);
-        left = Menu.getWidth(app, true) + Math.floor(parseInt(width) / 2);
-        break;
-      case App.screenModeLargeLabel:
-        const detailOtherWidth = Math.floor(app.width * DetailRight.otherWidthRate);
-        const postsWidth = Math.floor(detailOtherWidth - Menu.getWidth(app, true));
-        width = String(postsWidth * 0.5) + "px";
-        left = Menu.getWidth(app, true) + Math.floor(parseInt(width) / 2);
-        break;
-    }
+    const styles = TimeMarker.getFixTimeMarker({ app });
+    delete styles.top;
+    return {
+      ...styles,
+      display,
+      zIndex: "1",
+      margin: "0px auto",
+      bottom: `-${Container.notifHeight}px`,
+      transition: Container.getTransition(app)
+    };
+    /*
     const layout = Style.getLayoutFlex({
       display,
       position: "fixed",
@@ -330,7 +328,7 @@ export default class Container {
       alignItems: "center",
       justifyContent: "center",
       zIndex: "1",
-      background: Container.darkRGBA,
+      background: Container.darkLightRGBA,
       borderRadius: "20px"
     });
     const content = Style.getContentBase({
@@ -344,6 +342,7 @@ export default class Container {
       transition: Container.getTransition(app)
     });
     return Style.get({ layout, content, animation });
+    */
   }
 
   static getHideScreenBottom({ app }): Object {

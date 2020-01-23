@@ -1,6 +1,6 @@
 import React from "react";
 import App from "common/schemas/state/App";
-import Notif from "client/components/Notif";
+import UiTimeMarker from "common/schemas/state/UiTimeMarker";
 import TalknWindow from "client/operations/TalknWindow";
 import TalknMedia from "client/operations/TalknMedia";
 import storage from "client/mapToStateToProps/storage";
@@ -22,12 +22,13 @@ const componentDidUpdates = {
     "SERVER_TO_CLIENT[EMIT]:find": self => {
       const { app, thread } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
+
       const ch = thread.ch;
       app.postsHeight += TalknWindow.getPostsHeight();
       self.props.updatePostsHeight(app.postsHeight);
 
       if (app.extensionMode === "NONE" && Posts) {
-        window.scrollTo(0, 9999999);
+        window.scrollTo(0, 99999999);
 
         window.talknWindow.threadHeight = Posts.clientHeight;
 
@@ -41,12 +42,21 @@ const componentDidUpdates = {
         }
       }
 
+      switch (app.screenMode) {
+        case App.screenModeLargeLabel:
+          window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+          break;
+        case App.screenModeMiddleLabel:
+        case App.screenModeSmallLabel:
+          window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
+          break;
+      }
+
       if (!app.isOpenLinks) {
         window.talknAPI.closeLinks();
       }
 
       window.talknWindow.parentTo("find", self.props.state);
-
       window.talknWindow.resizeEndWindow();
     },
     "SERVER_TO_CLIENT[EMIT]:changeThreadDetail": self => {
@@ -54,6 +64,19 @@ const componentDidUpdates = {
       if (!app.isOpenDetail) {
         app.isOpenDetail = true;
         window.talknAPI.onClickToggleDispDetail({ threadDetail, thread, app });
+      }
+    },
+    ON_CLICK_MULTISTREAM: self => {
+      const { app } = self.props.state;
+      switch (app.screenMode) {
+        case App.screenModeLargeLabel:
+          const Posts = document.querySelector("[data-component-name=Posts]");
+          window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+          break;
+        case App.screenModeMiddleLabel:
+        case App.screenModeSmallLabel:
+          window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
+          break;
       }
     },
     ON_TRANSITION: self => {
@@ -126,10 +149,20 @@ const componentDidUpdates = {
       }
     },
     RESIZE_END_WINDOW: self => {
+      const { app } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
       if (Posts) {
         window.talknWindow.threadHeight = Posts.clientHeight;
         changeLockMode(self, "Container");
+      }
+      switch (app.screenMode) {
+        case App.screenModeLargeLabel:
+          window.talknWindow.updateUiTimeMarker(Posts.scrollTop);
+          break;
+        case App.screenModeMiddleLabel:
+        case App.screenModeSmallLabel:
+          window.talknWindow.updateUiTimeMarker(window.scrollY);
+          break;
       }
     }
   },
@@ -143,6 +176,7 @@ const componentDidUpdates = {
     RESIZE_END_WINDOW: self => {
       changeLockMode(self, "Posts");
     },
+    SCROLL_THREAD: self => {},
     NEXT_POSTS_TIMELINE: post,
     "SERVER_TO_CLIENT[BROADCAST]:post": post,
     "SERVER_TO_CLIENT[EMIT]:getMore": self => {
@@ -164,6 +198,16 @@ const componentDidUpdates = {
           window.scrollTo(0, scrollTo);
           window.talknWindow.threadHeight = Posts.clientHeight;
         }
+      }
+
+      switch (app.screenMode) {
+        case App.screenModeLargeLabel:
+          window.talknWindow.updateUiTimeMarker(Posts.scrollTop);
+          break;
+        case App.screenModeMiddleLabel:
+        case App.screenModeSmallLabel:
+          window.talknWindow.updateUiTimeMarker(window.scrollY);
+          break;
       }
     }
   }
