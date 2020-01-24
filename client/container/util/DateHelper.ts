@@ -23,7 +23,7 @@ const DateHelper = class DateHelper {
     const I = Number(splitedHIS[1]);
     const S = Number(splitedHIS[2]);
     const date = new Date(`${Y}-${M}-${D} ${H}:${I}`);
-    console.log(date);
+    console.log(`${Y}-${M}-${D} ${H}:${I}`);
     const Day = DateHelper.getYoubi(date.getDay());
     return { Y, M, D, H, I, S, Day };
   }
