@@ -225,7 +225,7 @@ export default class Post extends MarqueeArea<Props, State> {
                   shortUnit = "YR";
                   break;
                 case "month":
-                  shortUnit = "wk";
+                  shortUnit = "mo";
                   break;
                 case "week":
                   shortUnit = "wk";
