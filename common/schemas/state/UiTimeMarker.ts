@@ -88,7 +88,6 @@ export default class UiTimeMarker extends Schema {
         }
       }
     }
-    console.log({ list, now, before, after });
     return { list, now, before, after };
   }
 
