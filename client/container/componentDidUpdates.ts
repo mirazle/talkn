@@ -161,15 +161,19 @@ const componentDidUpdates = {
       if (app.extensionMode === App.extensionModeExtNoneLabel) {
         switch (app.screenMode) {
           case App.screenModeLargeLabel:
-            window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+            Posts.scrollTop = Posts.scrollHeight - Posts.clientHeight;
+            window.talknWindow.updateUiTimeMarker(Posts.scrollTop);
             break;
           case App.screenModeMiddleLabel:
           case App.screenModeSmallLabel:
-            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
+            const wndowScrollY = window.scrollY - window.innerHeight;
+            window.scrollTo(0, wndowScrollY);
+            window.talknWindow.updateUiTimeMarker(wndowScrollY);
             break;
         }
       } else {
-        window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+        Posts.scrollTop = Posts.scrollHeight - Posts.clientHeight;
+        window.talknWindow.updateUiTimeMarker(Posts.scrollTop);
       }
     },
     RESIZE_END_WINDOW: self => {
