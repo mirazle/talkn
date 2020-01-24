@@ -20,6 +20,10 @@ export default class TimeMarker {
     return 33;
   }
 
+  static getSelfHeightPx() {
+    return 20;
+  }
+
   static getSelfMarginTop() {
     return 15;
   }
@@ -32,7 +36,7 @@ export default class TimeMarker {
     const fontSize = "0.1em";
     let widthRate = TimeMarker.getSelfWidthRate() / 100;
     let width = app.width * widthRate;
-    let height = "20px";
+    let height = `${TimeMarker.getSelfHeightPx()}px`;
     let left = "25%";
     let menuWidthPx = 0;
     let detailWidthPx = 0;
@@ -63,7 +67,7 @@ export default class TimeMarker {
   static getSelf({ app }) {
     const layout = Style.getLayoutFlex({
       width: `${TimeMarker.getSelfWidthRate()}%`,
-      height: "auto",
+      height: `${TimeMarker.getSelfHeightPx()}px`,
       margin: `${TimeMarker.getSelfMarginTop()}px auto 10px auto`,
       padding: "5px 10px",
       background: Container.darkLightRGBA,
@@ -80,11 +84,13 @@ export default class TimeMarker {
 
   static getFixTimeMarker({ app }) {
     const timeMarker: object = TimeMarker.getSelf({ app });
-    const { left, width, fontSize } = TimeMarker.getFixTimeMarkerStyles({ app });
+    const { left, width, height, fontSize } = TimeMarker.getFixTimeMarkerStyles({ app });
+    console.log(height);
     return {
       ...timeMarker,
       position: "fixed",
       width,
+      height,
       top: "45px",
       left,
       fontSize
