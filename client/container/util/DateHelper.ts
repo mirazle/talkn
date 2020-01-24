@@ -14,17 +14,15 @@ const DateHelper = class DateHelper {
   static getMongoYmdhis(d) {
     const splited = d.split("T");
     const splitedYMD = splited[0].split("-");
-    const Y = Number(splitedYMD[0]);
+    const Y = splitedYMD[0];
     const M = splitedYMD[1].length === 1 ? "0" + splitedYMD[1] : splitedYMD[1];
-    const D = Number(splitedYMD[2]);
+    const D = splitedYMD[2].length === 1 ? "0" + splitedYMD[2] : splitedYMD[2];
     const splitedOther = splited[1].split(".");
     const splitedHIS = splitedOther[0].split(":");
-    const H = Number(splitedHIS[0]);
-    const I = Number(splitedHIS[1]);
-    const S = Number(splitedHIS[2]);
-    const date = new Date(`${Y}-${M}-${D} ${H}:${I}`);
-    console.log(`${Y}-${M}-${D} ${H}:${I}`);
-    console.log(date);
+    const H = splitedHIS[0].length === 1 ? "0" + splitedHIS[0] : splitedHIS[0];
+    const I = splitedHIS[1].length === 1 ? "0" + splitedHIS[1] : splitedHIS[1];
+    const S = splitedHIS[2].length === 1 ? "0" + splitedHIS[2] : splitedHIS[2];
+    const date = new Date(`${Y}-${M}-${D}T${H}:${I}`);
     const Day = DateHelper.getYoubi(date.getDay());
     return { Y, M, D, H, I, S, Day };
   }
