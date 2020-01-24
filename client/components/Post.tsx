@@ -240,9 +240,9 @@ export default class Post extends MarqueeArea<Props, State> {
                   shortUnit = "sec";
                   break;
               }
-              shortUnit =
-                app.extensionMode === App.extensionModeExtNoneLabel ? shortUnit : shortUnit.replace("ago", "");
-              return `${value} ${shortUnit} ${suffix}`;
+              const dispSuffix =
+                app.extensionMode === App.extensionModeExtNoneLabel ? suffix : suffix.replace("ago", "");
+              return `${value} ${shortUnit} ${dispSuffix}`;
             }}
           />
         </span>

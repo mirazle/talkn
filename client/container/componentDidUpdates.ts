@@ -177,6 +177,7 @@ const componentDidUpdates = {
       }
     },
     RESIZE_END_WINDOW: self => {
+      /*
       const { app } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
       if (Posts) {
@@ -197,6 +198,7 @@ const componentDidUpdates = {
       } else {
         window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
       }
+      */
     }
   },
   Posts: {
