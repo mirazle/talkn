@@ -33,7 +33,7 @@ export default class TimeMarker {
   }
 
   static getFixTimeMarkerStyles({ app }) {
-    const fontSize = "0.1em";
+    const fontSize = "8px";
     let widthRate = TimeMarker.getSelfWidthRate() / 100;
     let width = app.width * widthRate;
     let height = `${TimeMarker.getSelfHeightPx()}px`;
@@ -76,7 +76,7 @@ export default class TimeMarker {
     const content = Style.getContentBase({
       color: Container.whiteRGB,
       letterSpacing: "2px",
-      fontSize: "0.1em"
+      fontSize: "8px"
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
