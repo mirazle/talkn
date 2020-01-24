@@ -45,18 +45,18 @@ export default class UiTimeMarker extends Schema {
       timeMarkers.forEach((timeMarker, index) => {
         if (now.label === "" && scrollBaseTop <= timeMarker.offsetTop) {
           now.index = index;
-          now.label = timeMarker.textContent;
+          now.label = timeMarker.innerText;
           now.offsetTop = timeMarker.offsetTop;
           if (timeMarkers[index - 1]) {
             before.index = now.index - 1;
-            before.label = timeMarkers[index - 1].textContent;
+            before.label = timeMarkers[index - 1].innerText;
             before.offsetTop = timeMarkers[index - 1].offsetTop;
           } else {
             before = { ...now };
           }
           if (timeMarkers[index + 1]) {
             after.index = now.index + 1;
-            after.label = timeMarkers[index + 1].textContent;
+            after.label = timeMarkers[index + 1].innerText;
             after.offsetTop = timeMarkers[index + 1].offsetTop;
           } else {
             after = { ...now };
@@ -65,25 +65,25 @@ export default class UiTimeMarker extends Schema {
         const addList: uiTimeMarkerObject = {
           index,
           offsetTop: timeMarker.offsetTop,
-          label: timeMarker.textContent
+          label: timeMarker.innerText
         };
         list.push(addList);
       });
 
       if (now.label === "") {
         now.index = timeMarkerSize - 1;
-        now.label = timeMarkers[now.index].textContent;
+        now.label = timeMarkers[now.index].innerText;
         now.offsetTop = timeMarkers[now.index].offsetTop;
         before = { ...now };
         after = { ...now };
         if (timeMarkers[now.index - 1]) {
           before.index = timeMarkers[now.index - 1] ? now.index - 1 : now.index;
-          before.label = timeMarkers[now.index - 1] ? timeMarkers[now.index - 1].textContent : now.label;
+          before.label = timeMarkers[now.index - 1] ? timeMarkers[now.index - 1].innerText : now.label;
           before.offsetTop = timeMarkers[now.index - 1] ? timeMarkers[now.index - 1].offsetTop : now.offsetTop;
         }
         if (timeMarkers[now.index + 1]) {
           after.index = timeMarkers[now.index + 1] ? now.index + 1 : now.index;
-          after.label = timeMarkers[now.index + 1] ? timeMarkers[now.index + 1].textContent : now.label;
+          after.label = timeMarkers[now.index + 1] ? timeMarkers[now.index + 1].innerText : now.label;
           after.offsetTop = timeMarkers[now.index + 1] ? timeMarkers[now.index + 1].offsetTop : now.offsetTop;
         }
       }
