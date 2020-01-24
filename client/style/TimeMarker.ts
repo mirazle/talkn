@@ -32,6 +32,7 @@ export default class TimeMarker {
     const fontSize = "0.1em";
     let widthRate = TimeMarker.getSelfWidthRate() / 100;
     let width = app.width * widthRate;
+    let height = "20px";
     let left = "25%";
     let menuWidthPx = 0;
     let detailWidthPx = 0;
@@ -56,7 +57,7 @@ export default class TimeMarker {
         left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
         break;
     }
-    return { width, left, fontSize };
+    return { width, height, left, fontSize };
   }
 
   static getSelf({ app }) {
