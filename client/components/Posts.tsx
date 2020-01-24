@@ -46,14 +46,16 @@ export default class Posts extends Component<Props, State> {
       app.extensionMode === App.extensionModeExtIncludeLabel ||
       app.extensionMode === App.extensionModeExtModalLabel
     ) {
-      const HtmlThread: HTMLElement = this.refs.thread as HTMLElement;
-      this.setState({ scrollHeight: HtmlThread.scrollHeight });
-      this.animateScrollTo(HtmlThread, 9999999, 400);
+      const Posts = document.querySelector("[data-component-name=Posts]");
+      window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+      this.setState({ scrollHeight: Posts.scrollHeight });
+      this.animateScrollTo(Posts, 9999999, 400);
     } else {
       //talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
       //talknWindow.animateScrollTo( talknWindow.threadHeight, 0 );
       window.talknWindow.animateScrollTo(99999999, 0);
     }
+
     window.talknAPI.componentDidMounts("Posts");
   }
 
