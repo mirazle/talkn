@@ -7,6 +7,7 @@ import util from "common/util";
 import conf from "common/conf";
 import PostStyle from "client/style/Post";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
+import App from "common/schemas/state/App";
 
 interface Props extends MarqueeAreaProps {
   id: number;
@@ -239,6 +240,8 @@ export default class Post extends MarqueeArea<Props, State> {
                   shortUnit = "sec";
                   break;
               }
+              shortUnit =
+                app.extensionMode === App.extensionModeExtNoneLabel ? shortUnit : shortUnit.replace("ago", "");
               return `${value} ${shortUnit} ${suffix}`;
             }}
           />
