@@ -71,15 +71,19 @@ const componentDidUpdates = {
     },
     ON_CLICK_MULTISTREAM: self => {
       const { app } = self.props.state;
-      switch (app.screenMode) {
-        case App.screenModeLargeLabel:
-          const Posts = document.querySelector("[data-component-name=Posts]");
-          window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
-          break;
-        case App.screenModeMiddleLabel:
-        case App.screenModeSmallLabel:
-          window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
-          break;
+      const Posts = document.querySelector("[data-component-name=Posts]");
+      if (app.extensionMode === App.extensionModeExtNoneLabel) {
+        switch (app.screenMode) {
+          case App.screenModeLargeLabel:
+            window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+            break;
+          case App.screenModeMiddleLabel:
+          case App.screenModeSmallLabel:
+            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
+            break;
+        }
+      } else {
+        window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
       }
     },
     ON_TRANSITION: self => {
@@ -153,17 +157,19 @@ const componentDidUpdates = {
     },
     TOGGLE_BUBBLE_POST: self => {
       const { app } = self.props.state;
-      switch (app.screenMode) {
-        case App.screenModeLargeLabel:
-          const Posts = document.querySelector("[data-component-name=Posts]");
-          Posts.scrollTop = Posts.scrollHeight - self.state.scrollHeight;
-          window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
-          break;
-        case App.screenModeMiddleLabel:
-        case App.screenModeSmallLabel:
-          window.scrollTo(0, 99999999);
-          window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
-          break;
+      const Posts = document.querySelector("[data-component-name=Posts]");
+      if (app.extensionMode === App.extensionModeExtNoneLabel) {
+        switch (app.screenMode) {
+          case App.screenModeLargeLabel:
+            window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+            break;
+          case App.screenModeMiddleLabel:
+          case App.screenModeSmallLabel:
+            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
+            break;
+        }
+      } else {
+        window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
       }
     },
     RESIZE_END_WINDOW: self => {
@@ -173,16 +179,19 @@ const componentDidUpdates = {
         window.talknWindow.threadHeight = Posts.clientHeight;
         changeLockMode(self, "Container");
       }
+
       if (app.extensionMode === App.extensionModeExtNoneLabel) {
         switch (app.screenMode) {
           case App.screenModeLargeLabel:
-            window.talknWindow.updateUiTimeMarker(Posts.scrollTop);
+            window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
             break;
           case App.screenModeMiddleLabel:
           case App.screenModeSmallLabel:
-            window.talknWindow.updateUiTimeMarker(window.scrollY);
+            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
             break;
         }
+      } else {
+        window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
       }
     }
   },
