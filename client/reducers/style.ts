@@ -100,14 +100,6 @@ export default (state: any = {}, action: any) => {
         }
       };
     case "TOGGLE_BUBBLE_POST":
-      console.log({
-        post: {
-          ...state.post,
-          self: Post.getSelf({ app: action.app }),
-          upper: Post.getUpper({ app: action.app }),
-          bottomPost: Post.getBottomPost({ app: action.app })
-        }
-      });
       return {
         ...state,
         board: {
