@@ -176,30 +176,7 @@ const componentDidUpdates = {
         window.talknWindow.updateUiTimeMarker(Posts.scrollTop);
       }
     },
-    RESIZE_END_WINDOW: self => {
-      /*
-      const { app } = self.props.state;
-      const Posts = document.querySelector("[data-component-name=Posts]");
-      if (Posts) {
-        window.talknWindow.threadHeight = Posts.clientHeight;
-        changeLockMode(self, "Container");
-      }
-
-      if (app.extensionMode === App.extensionModeExtNoneLabel) {
-        switch (app.screenMode) {
-          case App.screenModeLargeLabel:
-            window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
-            break;
-          case App.screenModeMiddleLabel:
-          case App.screenModeSmallLabel:
-            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
-            break;
-        }
-      } else {
-        window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
-      }
-      */
-    }
+    RESIZE_END_WINDOW: self => {}
   },
   Posts: {
     "SERVER_TO_CLIENT[EMIT]:find": self => {
