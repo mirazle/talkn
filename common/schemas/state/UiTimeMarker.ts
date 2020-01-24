@@ -41,6 +41,7 @@ export default class UiTimeMarker extends Schema {
     let after = { ...initUiTimeMarkerObject };
     if (timeMarkerSize > 0) {
       const scrollBaseTop = TimeMarkerStyle.getSelfMarginTop() + scrollTop;
+
       timeMarkers.forEach((timeMarker, index) => {
         if (now.label === "" && scrollBaseTop <= timeMarker.offsetTop) {
           now.index = index;
@@ -87,6 +88,7 @@ export default class UiTimeMarker extends Schema {
         }
       }
     }
+    console.log({ list, now, before, after });
     return { list, now, before, after };
   }
 

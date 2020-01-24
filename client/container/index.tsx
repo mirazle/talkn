@@ -207,7 +207,7 @@ class Container extends Component<ContainerProps, ContainerState> {
   renderFixTimeMarker(props) {
     const { state } = this.props;
     const { style, uiTimeMarker, thread } = state;
-    return thread.postCnt > 0 ? (
+    return thread.postCnt > 0 && uiTimeMarker.now ? (
       <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />
     ) : (
       undefined

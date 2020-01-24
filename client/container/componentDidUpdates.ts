@@ -29,7 +29,6 @@ const componentDidUpdates = {
 
       if (app.extensionMode === "NONE" && Posts) {
         window.scrollTo(0, 99999999);
-
         window.talknWindow.threadHeight = Posts.clientHeight;
 
         if (app.dispThreadType === App.dispThreadTypeTimeline) {
@@ -42,14 +41,18 @@ const componentDidUpdates = {
         }
       }
 
-      switch (app.screenMode) {
-        case App.screenModeLargeLabel:
-          window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
-          break;
-        case App.screenModeMiddleLabel:
-        case App.screenModeSmallLabel:
-          window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
-          break;
+      if (app.extensionMode === App.extensionModeExtNoneLabel) {
+        switch (app.screenMode) {
+          case App.screenModeLargeLabel:
+            window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+            break;
+          case App.screenModeMiddleLabel:
+          case App.screenModeSmallLabel:
+            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
+            break;
+        }
+      } else {
+        window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
       }
 
       if (!app.isOpenLinks) {
@@ -170,14 +173,16 @@ const componentDidUpdates = {
         window.talknWindow.threadHeight = Posts.clientHeight;
         changeLockMode(self, "Container");
       }
-      switch (app.screenMode) {
-        case App.screenModeLargeLabel:
-          window.talknWindow.updateUiTimeMarker(Posts.scrollTop);
-          break;
-        case App.screenModeMiddleLabel:
-        case App.screenModeSmallLabel:
-          window.talknWindow.updateUiTimeMarker(window.scrollY);
-          break;
+      if (app.extensionMode === App.extensionModeExtNoneLabel) {
+        switch (app.screenMode) {
+          case App.screenModeLargeLabel:
+            window.talknWindow.updateUiTimeMarker(Posts.scrollTop);
+            break;
+          case App.screenModeMiddleLabel:
+          case App.screenModeSmallLabel:
+            window.talknWindow.updateUiTimeMarker(window.scrollY);
+            break;
+        }
       }
     }
   },

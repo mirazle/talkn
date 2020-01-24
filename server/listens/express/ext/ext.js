@@ -1295,6 +1295,7 @@ class HandleIcon extends Elements {
         const inputPost = textarea.getValue();
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
+            // this.window.childTo("onScrollUpdateTimeMarker");
             this.window.updateDisplayMode("clickHandleIcon");
             break;
           case Ext.DISPLAY_MODE_OPEN:
