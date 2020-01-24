@@ -201,11 +201,6 @@ export default class Posts extends Component<Props, State> {
       const isDispTimeMarker = i === 0 ? true : beforeDiffDay !== diffDay;
       beforeDiffDay = diffDay;
 
-      console.log("isDispTimeMarker " + isDispTimeMarker);
-      console.log(postYmdhis);
-      console.log(nowDate);
-      console.log(beforeDiffDay + " = " + diffDay);
-
       if (isDispTimeMarker) {
         switch (diffDay) {
           case 0:

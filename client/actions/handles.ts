@@ -72,7 +72,8 @@ export default {
   },
   toggleBubblePost: () => {
     return {
-      type: "TOGGLE_BUBBLE_POST"
+      type: "TOGGLE_BUBBLE_POST",
+      app: { isTransition: false }
     };
   },
   openLinks: () => {
@@ -144,16 +145,16 @@ export default {
       bootOption
     };
   },
-  onTransition: () => {
-    return {
-      type: "ON_TRANSITION",
-      app: { isTransition: true }
-    };
-  },
   onScrollUpdateTimeMarker: uiTimeMarker => {
     return {
       type: "ON_SCROLL_UPDATE_TIME_MARKER",
       uiTimeMarker
+    };
+  },
+  onTransition: () => {
+    return {
+      type: "ON_TRANSITION",
+      app: { isTransition: true }
     };
   },
   offTransition: () => {

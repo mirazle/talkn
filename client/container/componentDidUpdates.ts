@@ -153,10 +153,12 @@ const componentDidUpdates = {
       switch (app.screenMode) {
         case App.screenModeLargeLabel:
           const Posts = document.querySelector("[data-component-name=Posts]");
+          Posts.scrollTop = Posts.scrollHeight - self.state.scrollHeight;
           window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
           break;
         case App.screenModeMiddleLabel:
         case App.screenModeSmallLabel:
+          window.scrollTo(0, 99999999);
           window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
           break;
       }
