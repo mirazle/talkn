@@ -4,10 +4,11 @@ import define from "common/define";
 import State from "common/schemas/state";
 import App from "common/schemas/state/App";
 import TalknSession from "client/operations/TalknSession";
-import Loading from "client/components/Loading";
+import LoadingLogo from "client/components/LoadingLogo";
 import Style from "client/components/Style";
 import HeaderStyle from "client/style/Header";
 import PostsFooterStyle from "client/style/PostsFooter";
+import Icon from "client/components/Icon";
 import Posts from "client/components/Posts";
 import handles from "client/actions/handles";
 import callbacks from "client/actions/callbacks";
@@ -29,6 +30,7 @@ import DateHelper from "client/container/util/DateHelper";
 import actionWrap from "client/container/util/actionWrap";
 import componentDidUpdates from "client/container/componentDidUpdates";
 import TalknWindow from "client/operations/TalknWindow";
+import IconStyle from "client/style/Icon";
 
 interface ContainerProps {
   state: State;
@@ -199,19 +201,23 @@ class Container extends Component<ContainerProps, ContainerState> {
       ) {
         return null;
       } else {
-        return <Loading />;
+        return <LoadingLogo />;
       }
     }
   }
 
-  renderFixTimeMarker(props) {
+  renderFixMarker(props) {
     const { state } = this.props;
-    const { style, uiTimeMarker, thread } = state;
-    return thread.postCnt > 0 && uiTimeMarker.now ? (
-      <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />
-    ) : (
-      undefined
-    );
+    const { style, uiTimeMarker, app, thread } = state;
+    console.log(app.isLoading);
+    if (app.isLoading) {
+      const loading = Icon.getLoading(IconStyle.getLoading({ app }));
+      return <TimeMarker type={"Fix"} label={loading} style={style.timeMarker.fixTimeMarker} />;
+    } else if (thread.postCnt > 0 && uiTimeMarker.now) {
+      return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
+    } else {
+      return undefined;
+    }
   }
 
   renderLinkLabel(props) {
@@ -300,7 +306,7 @@ class Container extends Component<ContainerProps, ContainerState> {
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
     const HideScreenBottom = this.renderHideScreenBottom(props);
-    const TimeMarker = this.renderFixTimeMarker(props);
+    const FixMarker = this.renderFixMarker(props);
     const nowDate = DateHelper.getNowYmdhis();
     return (
       <div data-component-name={"Container"} style={style.container.self}>
@@ -311,7 +317,7 @@ class Container extends Component<ContainerProps, ContainerState> {
           <Board {...props} />
           {LinkLabel}
           {NewPost}
-          {TimeMarker}
+          {FixMarker}
           <Header {...props} />
           <PostsSupporter {...props} />
           <DetailRight {...props} />
@@ -343,7 +349,7 @@ class Container extends Component<ContainerProps, ContainerState> {
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
     const HideScreenBottom = this.renderHideScreenBottom(props);
-    const TimeMarker = this.renderFixTimeMarker(props);
+    const FixMarker = this.renderFixMarker(props);
     return (
       <div data-component-name={"Container"} style={style.container.self}>
         <Style {...props} />
@@ -353,7 +359,7 @@ class Container extends Component<ContainerProps, ContainerState> {
           <Board {...props} />
           {LinkLabel}
           {NewPost}
-          {TimeMarker}
+          {FixMarker}
           <Header {...props} />
           <PostsSupporter {...props} />
           <DetailModal {...props} />
@@ -372,7 +378,7 @@ class Container extends Component<ContainerProps, ContainerState> {
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
     const HideScreenBottom = this.renderHideScreenBottom(props);
-    const TimeMarker = this.renderFixTimeMarker(props);
+    const FixMarker = this.renderFixMarker(props);
     const nowDate = DateHelper.getNowYmdhis();
     return (
       <span data-component-name={"Container"} style={style.container.self}>
@@ -383,7 +389,7 @@ class Container extends Component<ContainerProps, ContainerState> {
           <Board {...props} />
           {LinkLabel}
           {NewPost}
-          {TimeMarker}
+          {FixMarker}
           <Header {...props} />
           <PostsSupporter {...props} />
           <DetailModal {...props} />
@@ -403,7 +409,7 @@ class Container extends Component<ContainerProps, ContainerState> {
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
     const extScreenStyle = props.state.style.extScreen.self;
-    const TimeMarker = this.renderFixTimeMarker(props);
+    const FixMarker = this.renderFixMarker(props);
     return (
       <span data-component-name={"Container"} style={style.container.self}>
         <Style {...props} />
@@ -413,7 +419,7 @@ class Container extends Component<ContainerProps, ContainerState> {
           <Board {...props} />
           {LinkLabel}
           {NewPost}
-          {TimeMarker}
+          {FixMarker}
           <PostsSupporter {...props} />
           <DetailModal {...props} />
           <InnerNotif {...this.props} />

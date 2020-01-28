@@ -25,6 +25,10 @@ export default class Style extends Component<Props> {
             letter-spacing: 1px;
             color: rgb(170, 170, 170);
           }
+          @keyframes Rotation {
+            0%   { transform: rotate(0deg) scale( 0.7 );  }
+            100%   { transform: rotate(360deg) scale( 0.7 );  }
+          }
           @keyframes LogoWrap1 {
             0%   { transform: scale(1); opacity: 1.0; box-shadow: 0px 0px 1px 0px rgba( 79, 174, 159, 0.4 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.4 ) inset; }
             50%   { transform: scale(1); opacity: 1.0; box-shadow: 0px 20px 80px 10px rgba( 79, 174, 159, 0.6 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.6 ) inset;}

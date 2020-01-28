@@ -191,6 +191,7 @@ const componentDidUpdates = {
     SCROLL_THREAD: self => {},
     NEXT_POSTS_TIMELINE: post,
     "SERVER_TO_CLIENT[BROADCAST]:post": post,
+    "CLIENT_TO_SERVER[EMIT]:getMore": self => {},
     "SERVER_TO_CLIENT[EMIT]:getMore": self => {
       const { app } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");

@@ -238,6 +238,7 @@ export default class App extends Schema {
   // その他
   actioned: string;
   isTransition: boolean;
+  isLoading: boolean;
   isLoadingEnd: boolean;
   debug: string;
 
@@ -328,6 +329,7 @@ export default class App extends Schema {
     // その他
     const actioned = params && params.actioned ? params.actioned : "";
     const isTransition = Schema.isSet(params.isTransition) ? params.isTransition : false;
+    const isLoading = Schema.isSet(params.isLoading) ? params.isLoading : false;
     const isLoadingEnd = Schema.isSet(params.isLoadingEnd) ? params.isLoadingEnd : false;
     const debug = Schema.isSet(params.debug) ? params.debug : "";
 
@@ -406,6 +408,7 @@ export default class App extends Schema {
       // その他
       actioned,
       isTransition,
+      isLoading,
       isLoadingEnd,
       debug
     });

@@ -1,7 +1,7 @@
 import Style from "./index";
 import Container from "./Container";
 import conf from "../conf";
-import App from "../../common/schemas/state/App";
+import App from "common/schemas/state/App";
 
 export default class Icon {
   static get defaultOption() {
@@ -42,6 +42,7 @@ export default class Icon {
   close: Object;
   ch: Object;
   update: Object;
+  loading: Object;
   tune: Object;
   constructor(params: any) {
     const bootOption = { ...params.bootOption, ...params.app };
@@ -67,6 +68,7 @@ export default class Icon {
     const close = Icon.getClose(params);
     const ch = Icon.getCh(params);
     const update = Icon.getUpdate(params);
+    const loading = Icon.getLoading(params);
     const tune = Icon.getTune(params);
     return {
       headTab,
@@ -91,6 +93,7 @@ export default class Icon {
       close,
       ch,
       update,
+      loading,
       tune
     };
   }
@@ -1843,6 +1846,47 @@ export default class Icon {
       })
     });
     return { div, circle, bar, white };
+  }
+
+  static getLoading({ app }: any) {
+    const color = Container.whiteRGB;
+    const div = Style.get({
+      layout: Style.getLayoutFlex({}),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({})
+    });
+
+    const circle = Style.get({
+      layout: Style.getLayoutBase({
+        margin: "0 auto",
+        width: "5em",
+        height: "5em",
+        borderRadius: "50%",
+        borderTop: `0.6em solid rgba(255, 255, 255, 0.2)`,
+        borderRight: "0.6em solid rgba(255, 255, 255, 0.2)",
+        borderBottom: "0.6em solid rgba(255, 255, 255, 0.2)",
+        borderLeft: "0.6em solid #ffffff"
+      }),
+      content: Style.getContentBase({
+        fontSize: "5px"
+      }),
+      animation: Style.getAnimationBase({
+        transform: "translateZ(0)",
+        animation: "Rotation 1.1s infinite linear"
+      })
+    });
+
+    const after = Style.get({
+      layout: Style.getLayoutBase({
+        display: "none",
+        borderRadius: "50%",
+        width: "5em",
+        height: "5em"
+      }),
+      content: Style.getContentBase(),
+      animation: Style.getAnimationBase({})
+    });
+    return { div, circle, after };
   }
 
   static getTune({ app }: any) {

@@ -7,7 +7,6 @@ import handleActions from "client/actions/handles";
 import WsServerToClientEmitAction from "client/actions/ws/serverToClientEmit";
 import WsClientToServerEmitActions from "client/actions/ws/clientToServerEmit";
 import WsServerToClientBroadcastAction from "client/actions/ws/serverToClientBradcast";
-import { request } from "http";
 
 export default class TalknAPI {
   ws: any;
@@ -16,21 +15,12 @@ export default class TalknAPI {
   state: any;
   ch: any;
 
-  /*
-    このコンストラクを2つに分ける。
-    wsの接続(ch)とfinnishOnをtalknWindowのbootより前にする！！
-  */
   constructor(talknIndex, resolve) {
     this.store = configureStore();
     this.talknIndex = talknIndex;
     window.__talknAPI__[talknIndex] = this;
     this.ws = io(`https://${conf.server}:${define.PORTS.SOCKET_IO}`, { forceNew: true });
     this.onCatchMeAPI(resolve);
-    /*
-    this.ws.on(Sequence.CATCH_ME_KEY, () => {
-      resolve(this);
-    });
-*/
   }
 
   static handle(talknIndex) {

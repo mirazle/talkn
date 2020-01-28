@@ -539,6 +539,16 @@ export default class Icon extends Component {
     );
   }
 
+  static getLoading(overStyle, params = {}) {
+    const style: any = Icon.getOveredStyle(IconStyle.getLoading(params), overStyle);
+    return (
+      <div data-component-type={"IconLoading"} style={style.div}>
+        <div style={style.circle} />
+        <div style={style.after} />
+      </div>
+    );
+  }
+
   static getTune(overStyle, params = {}) {
     const style: any = Icon.getOveredStyle(IconStyle.getTune(params), overStyle);
     return (

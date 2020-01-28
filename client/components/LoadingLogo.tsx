@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Style from "client/components/Style";
 
-export default class Loading extends Component {
+export default class LoadingLogo extends Component {
   render() {
     const ch = location.href
       .replace("https:/", "")

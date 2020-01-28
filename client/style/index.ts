@@ -31,6 +31,10 @@ export default class Style {
     return "rgb(130, 130, 130)";
   }
 
+  static get darkLightRGB() {
+    return "rgba(0, 0, 0, 0.2)";
+  }
+
   static get darkLightRGBA() {
     return "rgba(0, 0, 0, 0.2)";
   }

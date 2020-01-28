@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 interface Props {
   style: object;
-  label: string;
+  label: any;
   type: "Fix" | "List";
 }
 
@@ -18,7 +18,7 @@ export default class TimeMarker extends Component<Props, State> {
     const { label, style, type } = this.props;
     return (
       <li data-component-name={`TimeMarker${type}`} style={style}>
-        {`${label}`}
+        {label}
       </li>
     );
   }

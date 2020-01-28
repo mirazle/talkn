@@ -29,6 +29,10 @@ export default {
 };
 
 const functions = {
+  "CLIENT_TO_SERVER[EMIT]:find": (state, action) => {
+    action.app = state.app;
+    action.app.isLoading = true;
+  },
   "SERVER_TO_CLIENT[BROADCAST]:find": (state, action) => {
     action.app = state.app;
     action.app.tuned = action.thread.ch;
@@ -55,6 +59,7 @@ const functions = {
     action.app.desc = action.thread.serverMetas.title;
     action.app.isRootCh = action.app.rootCh === action.thread.ch;
     action.app.isMediaCh = App.getIsMediaCh(action.thread.ch);
+    action.app.isLoading = false;
     action = { ...Posts.getAnyActionPosts(action) };
     action.thread.title = action.thread.serverMetas.title;
     action.thread.hasSlash = Schema.getBool(action.thread.hasSlash);
@@ -167,9 +172,15 @@ const functions = {
 
     return action;
   },
+  "CLIENT_TO_SERVER[EMIT]:getMore": (state, action) => {
+    action.app = state.app;
+    action.app.isLoading = true;
+    return action;
+  },
   "SERVER_TO_CLIENT[EMIT]:getMore": (state, action) => {
     action.app.offsetFindId = App.getOffsetFindId({ posts: action.posts });
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
+    action.app.isLoading = false;
     action = Posts.getAnyActionPosts(action);
     return action;
   },
