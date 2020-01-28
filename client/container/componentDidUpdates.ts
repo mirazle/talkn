@@ -44,7 +44,9 @@ const componentDidUpdates = {
       if (app.extensionMode === App.extensionModeExtNoneLabel) {
         switch (app.screenMode) {
           case App.screenModeLargeLabel:
-            window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+            if (Posts && Posts.scrollHeight) {
+              window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+            }
             break;
           case App.screenModeMiddleLabel:
           case App.screenModeSmallLabel:
