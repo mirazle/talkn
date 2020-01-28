@@ -209,7 +209,6 @@ class Container extends Component<ContainerProps, ContainerState> {
   renderFixMarker(props) {
     const { state } = this.props;
     const { style, uiTimeMarker, app, thread } = state;
-    console.log(app.isLoading);
     if (app.isLoading) {
       const loading = Icon.getLoading(IconStyle.getLoading({ app }));
       return <TimeMarker type={"Fix"} label={loading} style={style.timeMarker.fixTimeMarker} />;
