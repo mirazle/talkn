@@ -69,10 +69,6 @@ export default class Style extends Component<Props> {
             animation-iteration-count: infinite;
             width: inherit;
             height: inherit;
-            background-image: url(//${conf.assetsImgPath}talkn_logo.svg);
-            background-position: 50% 50%;
-            background-size: 90px;
-            background-repeat: no-repeat;
             transition: 600ms;
           }
           .LogoCircle {
