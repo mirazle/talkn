@@ -2,7 +2,6 @@ import App from "../../common/schemas/state/App";
 import Style from "./index";
 import Container from "./Container";
 import Detail from "./Detail";
-import Posts from "./Posts";
 import Menu from "./Menu";
 
 export default class Board {

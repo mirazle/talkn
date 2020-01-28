@@ -72,6 +72,10 @@ export default class Container {
   }
   static get shadow() {
     return `${Style.mono230RGB} 0px 0px 5px 0px`;
+
+  }
+  static get darkLightRGB() {
+    return Style.darkLightRGB;
   }
   static get darkLightRGBA() {
     return Style.darkLightRGBA;

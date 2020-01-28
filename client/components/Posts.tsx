@@ -137,6 +137,10 @@ export default class Posts extends Component<Props, State> {
 
     if (scrollTop === 0) {
       if (thread.postCnt > conf.findOnePostCnt) {
+        const timeMarkerList: any = document.querySelector("[data-component-name=TimeMarkerList]");
+        if (timeMarkerList && timeMarkerList.style) {
+          timeMarkerList.style.opacity = 0;
+        }
         const HtmlThread: HTMLElement = this.refs.thread as HTMLElement;
         this.setState({
           ...this.state,
