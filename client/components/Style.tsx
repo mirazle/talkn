@@ -57,8 +57,8 @@ export default class Style extends Component<Props> {
             animation-name: LogoWrap1;
             animation-duration: 2000ms;
             animation-iteration-count: infinite;
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             border-radius: 10000px;
             box-shadow: 0px 0px 30px 0px rgba( 100, 100, 100, 0.6 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.4 ) inset;
             transform: tlanslate3d( 0px, -20px, 0px );
@@ -69,9 +69,9 @@ export default class Style extends Component<Props> {
             animation-iteration-count: infinite;
             width: inherit;
             height: inherit;
-            background-image: url(//${conf.assetsImgPath}talkn2.png);
+            background-image: url(//${conf.assetsImgPath}talkn_logo.svg);
             background-position: 50% 50%;
-            background-size: 80px;
+            background-size: 90px;
             background-repeat: no-repeat;
             transition: 600ms;
           }
