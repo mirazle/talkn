@@ -365,6 +365,10 @@ export default class TalknWindow {
     window.talknWindow.setIsScrollBottom(app);
     if (window.scrollY === 0) {
       if (thread.postCnt > conf.findOnePostCnt) {
+        const timeMarkerList: any = document.querySelector("[data-component-name=TimeMarkerList]");
+        if (timeMarkerList && timeMarkerList.style) {
+          timeMarkerList.style.opacity = 0;
+        }
         window.talknWindow.exeGetMore(state);
       }
     }
