@@ -14,11 +14,9 @@ export default class LoadingLogo extends Component {
       <div className={"LogoScreen"}>
         <Style {...this.props} />
         {/*<div className={"LogoCircle"} />*/}
-        <div className={"LogoWrap1"}>
-          <div className={"Logo"}>
-            <img src={`//${conf.assetsImgPath}/talkn_logo.svg`} width="90px" />
-          </div>
-        </div>
+        <div className={"LogoWrap1"}/>
+        <img className={"Logo"} src={`//${conf.assetsImgPath}/talkn_logo.svg`} />
+
         {/*        <div className={"LogoCh"}>Tune : {ch}</div> */}
       </div>
     );
