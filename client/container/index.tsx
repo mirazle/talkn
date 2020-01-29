@@ -178,8 +178,6 @@ class Container extends Component<ContainerProps, ContainerState> {
 
   render() {
     const { style, app } = this.props.state;
-    return <LoadingLogo />;
-    /*
     if (style && style.container && style.container.self && app.tuned) {
       if (
         app.extensionMode === App.extensionModeExtBottomLabel ||
@@ -206,7 +204,6 @@ class Container extends Component<ContainerProps, ContainerState> {
         return <LoadingLogo />;
       }
     }
-    */
   }
 
   renderFixMarker(props) {
