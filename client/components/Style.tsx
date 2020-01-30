@@ -32,7 +32,8 @@ export default class Style extends Component<Props> {
           @keyframes LogoWrap1 {
             0%   { transform: translate3d( 0px, 0px, 0px ) scale(0); opacity: 1.0; box-shadow: 0px 0px 1px 0px rgba( 79, 174, 159, 0.4 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.4 ) inset; }
             50%   { transform: translate3d( 0px, 0px, 0px ) scale(1); opacity: 1.0; box-shadow: 0px 20px 80px 10px rgba( 79, 174, 159, 0.6 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.6 ) inset;}
-            100%   { transform: translate3d( 0px, 0px, 0px ) scale(0); opacity: 1.0; box-shadow: 0px 0px 1px 0px rgba( 79, 174, 159, 0.4 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.4 ) inset;}
+            75%   { transform: translate3d( 0px, 0px, 0px ) scale(0.75); opacity: 0.2; box-shadow: 0px 0px 1px 0px rgba( 79, 174, 159, 0.4 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.4 ) inset;}
+            100%   { transform: translate3d( 0px, 0px, 0px ) scale(0); opacity: 0; box-shadow: 0px 0px 1px 0px rgba( 79, 174, 159, 0.4 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.4 ) inset;}
           }
           @keyframes Logo {
             0%   { transform: scale(0.95) translate3d(0px, 0px, 0px); opacity: 1.0; }
@@ -51,9 +52,9 @@ export default class Style extends Component<Props> {
             animation-name: LogoWrap1;
             animation-duration: 2000ms;
             animation-iteration-count: infinite;
-            width: 94px;
-            height: 94px;
-            border-radius: 100px;
+            width: 110px;
+            height: 110px;
+            border-radius: 110px;
             box-shadow: 0px 0px 30px 0px rgba( 100, 100, 100, 0.6 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.4 ) inset;
             transform: translate3d(0px, 0px, 0px) scale(0);
           }
@@ -61,8 +62,8 @@ export default class Style extends Component<Props> {
             animation-name: Logo;
             animation-duration: 2000ms;
             animation-iteration-count: infinite;
-            width: 90px;
-            height: 90px;
+            width: 100px;
+            height: 100px;
             transition: 600ms;
           }
           .LogoCh {
