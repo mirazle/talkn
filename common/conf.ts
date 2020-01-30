@@ -2,6 +2,7 @@ import define from "./define";
 import os from "os";
 const { PRODUCTION, DEVELOPMENT, PRODUCTION_IP, PRODUCTION_DOMAIN, DEVELOPMENT_DOMAIN, SUB_DOMAINS } = define;
 const hostName = os.hostname();
+console.log(os);
 console.log(hostName);
 console.log(PRODUCTION_IP);
 console.log(PRODUCTION_DOMAIN);
