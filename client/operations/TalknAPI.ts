@@ -19,7 +19,8 @@ export default class TalknAPI {
     this.store = configureStore();
     this.talknIndex = talknIndex;
     window.__talknAPI__[talknIndex] = this;
-    this.ws = io(`https://${conf.server}:${define.PORTS.SOCKET_IO}`, { forceNew: true });
+    const connectServer = location.host.indexOf( define.PRODUCTION_DOMAIN ) >= 0 ? define.PRODUCTION_DOMAIN : define.DEVELOPMENT_DOMAIN;
+    this.ws = io(`https://${connectServer}:${define.PORTS.SOCKET_IO}`, { forceNew: true });
     this.onCatchMeAPI(resolve);
   }
 
