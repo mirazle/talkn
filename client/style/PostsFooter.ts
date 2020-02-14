@@ -147,7 +147,8 @@ export default class PostsFooter {
       background: Container.offWhiteRGBA,
       justifyContent: "flex-start",
       borderRadius,
-      ...borders
+      ...borders,
+      zIndex: 10
     });
     const content = {};
     const animation = Style.getAnimationBase({
