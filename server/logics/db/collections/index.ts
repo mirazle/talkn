@@ -26,6 +26,9 @@ export default class Collections {
     } else {
       const { stepTo } = App.getStepToDispThreadType({ app }, threadStatus, thread.ch);
       switch (stepTo) {
+        case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeMulti}`:
+          dispThreadType = App.dispThreadTypeMulti;
+          break;
         case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeTimeline}`:
           dispThreadType = App.dispThreadTypeTimeline;
           break;

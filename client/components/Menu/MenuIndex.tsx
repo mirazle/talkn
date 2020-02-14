@@ -73,7 +73,7 @@ export default class MenuIndex extends React.Component<MenuIndexProps, MenuIndex
 
   handleOnClickUpdate(ch) {
     const { rootCh } = this.props.state.app;
-    window.talknAPI.findMenuIndex(rootCh);
+    window.talknWindow.parentCoreApi("findMenuIndex", rootCh);
   }
 
   handleOnChange(e) {
@@ -106,7 +106,7 @@ export default class MenuIndex extends React.Component<MenuIndexProps, MenuIndex
         switch (app.screenMode) {
           case App.screenModeSmallLabel:
             if (!app.isLinkCh) {
-              window.talknAPI.onClickToggleDispMenu();
+              window.talknWindow.parentCoreApi("onClickToggleDispMenu");
             }
             break;
         }
@@ -115,6 +115,7 @@ export default class MenuIndex extends React.Component<MenuIndexProps, MenuIndex
 
   render() {
     const headerUpdateIconStyle = this.state.style;
+    const { state, onChangeFindType }: any = this.props;
     const { style } = this.props.state;
     const { icon } = style;
     const IconCh = Icon.getCh(icon.ch);
@@ -138,7 +139,7 @@ export default class MenuIndex extends React.Component<MenuIndexProps, MenuIndex
             {...this.getDecolationProps()}
           >
             {/* IconUpdate */}
-            <select onChange={window.talknAPI.onChangeFindType} style={style.menuIndex.headerFindSelect}>
+            <select onChange={onChangeFindType} style={style.menuIndex.headerFindSelect}>
               <option>{Thread.findTypeAll}</option>
               <option>{Thread.findTypeHtml}</option>
               <option>{Thread.findTypeMusic}</option>
@@ -154,7 +155,6 @@ export default class MenuIndex extends React.Component<MenuIndexProps, MenuIndex
 
   renderLi() {
     const { state, handleOnClickCh } = this.props;
-
     const { app, thread, menuIndex, style } = state;
     return menuIndex.map((mi, index) => {
       return (

@@ -97,7 +97,7 @@ export default class Links extends Component<Props, State> {
         text={thread.title}
         ch={thread.ch}
         handleOnClick={() => {
-          window.talknAPI.toggleLinks();
+          window.talknWindow.parentCoreApi("toggleLinks");
           handleOnClickCh(thread.ch, "toLinks");
         }}
         {...this.props}
@@ -115,7 +115,7 @@ export default class Links extends Component<Props, State> {
             text={obj[textKey]}
             ch={ch}
             handleOnClick={() => {
-              window.talknAPI.toggleLinks();
+              window.talknWindow.parentCoreApi("toggleLinks");
               handleOnClickCh(ch, hasSlash, "toLinks");
             }}
             {...this.props}

@@ -1,12 +1,12 @@
+/*
 import io from "socket.io-client";
-import Sequence from "common/Sequence";
 import define from "common/define";
-import conf from "client/conf";
-import configureStore from "client/store/configureStore";
-import handleActions from "client/actions/handles";
-import WsServerToClientEmitAction from "client/actions/ws/serverToClientEmit";
-import WsClientToServerEmitActions from "client/actions/ws/clientToServerEmit";
-import WsServerToClientBroadcastAction from "client/actions/ws/serverToClientBradcast";
+import Sequence from "api/Sequence";
+import configureStore from "api/store/configureStore";
+import handleActions from "api/actions/handles";
+import WsServerToClientEmitAction from "api/actions/ws/serverToClientEmit";
+import WsClientToServerEmitActions from "api/actions/ws/clientToServerEmit";
+import WsServerToClientBroadcastAction from "api/actions/ws/serverToClientBradcast";
 
 export default class TalknAPI {
   ws: any;
@@ -147,3 +147,4 @@ export default class TalknAPI {
     };
   }
 }
+*/

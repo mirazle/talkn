@@ -1,5 +1,3 @@
-import Thread from "common/schemas/state/Thread";
-
-export default (state = new Thread({}, {}, {}), action) => {
-  return action.threadDetail ? state.merge(action.threadDetail) : state;
+export default (state = {}, action) => {
+  return action.threadDetail ? { ...action.threadDetail } : state;
 };

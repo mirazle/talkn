@@ -55,7 +55,7 @@ export default class Icon extends Component {
   static getDecolationProps1(styleKey, eleType, tagName) {
     return {
       onMouseOver: () => {
-        window.talknAPI.updateStyle({
+        window.talknWindow.parentCoreApi("updateStyle", {
           styleKey,
           eleType,
           tagName,
@@ -69,7 +69,7 @@ export default class Icon extends Component {
         });
       },
       onMouseLeave: () => {
-        window.talknAPI.updateStyle({
+        window.talknWindow.parentCoreApi("updateStyle", {
           styleKey,
           eleType,
           tagName,
@@ -83,7 +83,7 @@ export default class Icon extends Component {
         });
       },
       onMouseDown: () => {
-        window.talknAPI.updateStyle({
+        window.talknWindow.parentCoreApi("updateStyle", {
           styleKey,
           eleType,
           tagName,
@@ -96,7 +96,7 @@ export default class Icon extends Component {
         });
       },
       onMouseUp: () => {
-        window.talknAPI.updateStyle({
+        window.talknWindow.parentCoreApi("updateStyle", {
           styleKey,
           eleType,
           tagName,
@@ -114,7 +114,7 @@ export default class Icon extends Component {
   static getDecolationProps2(styleKey, eleType, tagName) {
     return {
       onMouseOver: () => {
-        window.talknAPI.updateStyle({
+        window.talknWindow.parentCoreApi("updateStyle", {
           styleKey,
           eleType,
           tagName,
@@ -128,7 +128,7 @@ export default class Icon extends Component {
         });
       },
       onMouseLeave: () => {
-        window.talknAPI.updateStyle({
+        window.talknWindow.parentCoreApi("updateStyle", {
           styleKey,
           eleType,
           tagName,
@@ -142,7 +142,7 @@ export default class Icon extends Component {
         });
       },
       onMouseDown: () => {
-        window.talknAPI.updateStyle({
+        window.talknWindow.parentCoreApi("updateStyle", {
           styleKey,
           eleType,
           tagName,
@@ -155,7 +155,7 @@ export default class Icon extends Component {
         });
       },
       onMouseUp: () => {
-        window.talknAPI.updateStyle({
+        window.talknWindow.parentCoreApi("updateStyle", {
           styleKey,
           eleType,
           tagName,
@@ -173,7 +173,7 @@ export default class Icon extends Component {
   static getDecolationProps3(styleKey, eleType, tagName) {
     return {
       onMouseOver: () => {
-        window.talknAPI.updateStyle({
+        window.talknWindow.parentCoreApi("updateStyle", {
           styleKey,
           eleType,
           tagName,
@@ -186,7 +186,7 @@ export default class Icon extends Component {
         });
       },
       onMouseLeave: () => {
-        window.talknAPI.updateStyle({
+        window.talknWindow.parentCoreApi("updateStyle", {
           styleKey,
           eleType,
           tagName,
@@ -199,7 +199,7 @@ export default class Icon extends Component {
         });
       },
       onMouseDown: () => {
-        window.talknAPI.updateStyle({
+        window.talknWindow.parentCoreApi("updateStyle", {
           styleKey,
           eleType,
           tagName,
@@ -211,7 +211,7 @@ export default class Icon extends Component {
         });
       },
       onMouseUp: () => {
-        window.talknAPI.updateStyle({
+        window.talknWindow.parentCoreApi("updateStyle", {
           styleKey,
           eleType,
           tagName,

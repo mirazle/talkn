@@ -45,11 +45,8 @@ export default class DetailFooter extends Component<Props, State> {
 
   handleOnClickPortal() {
     const { app } = this.props.state;
-    if (
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
-    ) {
-      window.talknWindow.parentTo("linkTo", { href: `https://${conf.wwwURL}` });
+    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
+      window.talknWindow.parentExtTo("linkTo", { href: `https://${conf.wwwURL}` });
     } else {
       location.href = `https://${conf.wwwURL}`;
     }
@@ -60,8 +57,7 @@ export default class DetailFooter extends Component<Props, State> {
     const { app, style } = state;
 
     if (
-      (app.extensionMode === App.extensionModeExtBottomLabel ||
-        app.extensionMode === App.extensionModeExtModalLabel) &&
+      (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) &&
       mode === "default"
     ) {
       return null;
@@ -70,33 +66,19 @@ export default class DetailFooter extends Component<Props, State> {
       const ShareIcon = Icon.getShare({}, state);
       const MoneyIcon = Icon.getMoney({}, state);
       const shareColor =
-        state.app.openLockMenu === App.openLockMenuLabelShare
-          ? Container.themeRGBA
-          : Container.fontBaseRGB;
+        state.app.openLockMenu === App.openLockMenuLabelShare ? Container.themeRGBA : Container.fontBaseRGB;
 
       return (
-        <footer
-          data-component-name={"DetailFooter"}
-          style={style.detailFooter.self}
-        >
-          <div
-            style={style.detailFooter.childLike}
-            onClick={this.handleOnClickLike}
-          >
+        <footer data-component-name={"DetailFooter"} style={style.detailFooter.self}>
+          <div style={style.detailFooter.childLike} onClick={this.handleOnClickLike}>
             {HeartIcon}
             <div>LIKE</div>
           </div>
-          <div
-            style={style.detailFooter.childShare}
-            onClick={this.handleOnClickShare}
-          >
+          <div style={style.detailFooter.childShare} onClick={this.handleOnClickShare}>
             {ShareIcon}
             <div style={{ color: shareColor }}>SHARE</div>
           </div>
-          <div
-            style={style.detailFooter.childMoney}
-            onClick={this.handleOnClickPortal}
-          >
+          <div style={style.detailFooter.childMoney} onClick={this.handleOnClickPortal}>
             {MoneyIcon}
             <div>ABOUT</div>
           </div>

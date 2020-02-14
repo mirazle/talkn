@@ -1,18 +1,17 @@
-import Schema from "common/schemas/Schema";
-import Sequence from "common/Sequence";
 import conf from "common/conf";
 import util from "common/util";
-import App from "common/schemas/state/App";
-import Posts from "common/schemas/state/Posts";
-import Thread from "common/schemas/state/Thread";
-import Threads from "common/schemas/state/Threads";
+import Schema from "api/store/Schema";
+import Sequence from "api/Sequence";
+import App from "api/store/App";
+import Posts from "api/store/Posts";
+import Thread from "api/store/Thread";
+import Threads from "api/store/Threads";
+import storage from "api/mapToStateToProps/storage";
 import Container from "client/style/Container";
-import storage from "client/mapToStateToProps/storage";
 
 export default {
   updateAction: store => next => action => {
     const state = store.getState();
-
     if (functions[action.type]) {
       action = functions[action.type](state, action);
     }
@@ -73,7 +72,7 @@ const functions = {
         case App.extensionModeExtBottomLabel:
           if (!action.app.isOpenPosts && !action.app.isDispPosts) {
             const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
-            window.talknWindow.parentTo("openNotif", { transition });
+            window.talknWindow.parentExtTo("openNotif", { transition });
           }
           break;
         case App.extensionModeExtModalLabel:
@@ -83,7 +82,7 @@ const functions = {
             const stampId = action.posts[action.posts.length - 1]["stampId"];
             let favicon = action.posts[action.posts.length - 1]["favicon"];
             favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
-            window.talknWindow.parentTo("openNotif", {
+            window.talknWindow.parentExtTo("openNotif", {
               id,
               post,
               stampId,
@@ -147,7 +146,7 @@ const functions = {
       case App.extensionModeExtBottomLabel:
         if (!action.app.isOpenPosts && !action.app.isDispPosts) {
           const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
-          window.talknWindow.parentTo("openNotif", { transition });
+          window.talknWindow.parentExtTo("openNotif", { transition });
         }
         break;
       case App.extensionModeExtModalLabel:
@@ -157,7 +156,7 @@ const functions = {
           const stampId = action.posts[postLength]["stampId"];
           let favicon = action.posts[postLength]["favicon"];
           favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
-          window.talknWindow.parentTo("openNotif", {
+          window.talknWindow.parentExtTo("openNotif", {
             id,
             post,
             stampId,
@@ -204,7 +203,7 @@ const functions = {
       case App.extensionModeExtBottomLabel:
         if (!app.isOpenPosts && !app.isDispPosts) {
           const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
-          window.talknWindow.parentTo("openNotif", { transition });
+          window.talknWindow.parentExtTo("openNotif", { transition });
         }
         break;
       case App.extensionModeExtModalLabel:
@@ -215,7 +214,7 @@ const functions = {
           const stampId = action.postsTimeline[postsTimelineLength - 1]["stampId"];
           let favicon = action.postsTimeline[postsTimelineLength - 1]["favicon"];
           favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
-          window.talknWindow.parentTo("openNotif", {
+          window.talknWindow.parentExtTo("openNotif", {
             id,
             post,
             stampId,
@@ -321,7 +320,6 @@ const functions = {
   },
   ON_CLICK_TOGGLE_DISP_DETAIL: (state, action) => {
     action.app = state.app;
-
     // TODO 古い仕様だとhasSlashが格納されていないcollectionが存在する
     // hasSlashはlocationが参照できないPORTALだと正しい値を取得出来ないため、
     // 拡張機能ではGET_CLIENT_METASを実行して正しい値をサーバーに渡して更新してやる必要がある。

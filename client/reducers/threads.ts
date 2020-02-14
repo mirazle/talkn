@@ -1,5 +1,3 @@
-import Threads from "common/schemas/state/Threads";
-
-export default (state = new Threads(), action) => {
-  return action.threads ? state.merge(action.threads) : state;
+export default (state = {}, action: any) => {
+  return action.threads ? { ...action.threads } : state;
 };

@@ -10,28 +10,19 @@ import MenuFooter from "client/components/MenuFooter";
 
 interface Props {
   state: State;
-  closeNewPost?: any;
   openMenuTransitionEnd?: any;
 }
 
 export default class Menu extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
     this.handleOnClickLoginTwitter = this.handleOnClickLoginTwitter.bind(this);
     this.handleOnClickLoginFacebook = this.handleOnClickLoginFacebook.bind(this);
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind(this);
   }
 
   componentDidMount() {
-    window.talknAPI.componentDidMounts("Menu");
-  }
-
-  handleOnClickMultistream() {
-    const { app } = this.props.state;
-    if (app.isOpenNotif) {
-      this.props.closeNewPost();
-    }
+    window.talknWindow.parentCoreApi("componentDidMounts", "Menu");
   }
 
   handleOnClickLoginFacebook() {

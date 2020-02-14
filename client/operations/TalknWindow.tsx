@@ -3,50 +3,25 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import define from "common/define";
 import Schema from "common/schemas/Schema";
+import Message from "common/Message";
 import { default as PostsSchems } from "common/schemas/state/Posts";
 import App from "common/schemas/state/App";
 import State from "common/schemas/state";
-import BootOption from "common/schemas/state/BootOption";
+// import BootOption from "common/schemas/state/BootOption";
 import UiTimeMarker from "common/schemas/state/UiTimeMarker";
 import conf from "client/conf";
 import actionWrap from "client/container/util/actionWrap";
-import TalknSession from "client/operations/TalknSession";
-import TalknAPI from "client/operations/TalknAPI";
+// import TalknSession from "client/operations/TalknSession";
+// import TalknAPI from "client/operations/TalknAPI";
 import TalknMedia from "client/operations/TalknMedia";
 import Container from "client/container/";
-
+import configureStore from "client/store/configureStore";
+import handles from "api/actions/handles";
 import storage from "client/mapToStateToProps/storage";
 
 export default class TalknWindow {
   static get resizeInterval() {
     return 300;
-  }
-  static getAppType() {
-    return window.name === define.APP_TYPES.EXTENSION ? define.APP_TYPES.EXTENSION : define.APP_TYPES.PORTAL;
-  }
-  static getInitialApp(bootOption) {
-    let initialApp: any = {};
-    if (bootOption.extensionMode) {
-      switch (bootOption.extensionMode) {
-        case App.extensionModeExtIncludeLabel:
-          initialApp.width = bootOption.extensionWidth;
-          initialApp.height = bootOption.extensionOpenHeight;
-          break;
-        case App.extensionModeExtModalLabel:
-          const ch = bootOption.href.replace("https:/", "").replace("http:/", "");
-          initialApp.hasslash = ch.lastIndexOf("/") === ch.length - 1;
-          break;
-      }
-    }
-    return initialApp;
-  }
-  static getHasSlach(bootOption) {
-    if (bootOption.href) {
-      const ch = bootOption.href.replace("https:/", "").replace("http:/", "");
-      return ch.lastIndexOf("/") === ch.length - 1;
-    } else {
-      return bootOption.hasslash ? Schema.getBool(bootOption.hasslash) : false;
-    }
   }
   static getPostsClientHeight() {
     const postsClient = document.querySelector("[data-component-name=Posts]");
@@ -69,9 +44,8 @@ export default class TalknWindow {
   }
 
   id: string;
-  talknIndex: number;
+  bootOption: any;
   appType: string;
-  talknAPI: any;
   resizeTimer: any;
   parentUrl: string;
   threadHeight: any;
@@ -83,11 +57,9 @@ export default class TalknWindow {
   isAnimateScrolling: boolean;
   isScrollBottom: boolean;
   dom: any;
-  constructor(talknIndex) {
+  apiState: any;
+  constructor() {
     this.id = "talkn1";
-    this.talknIndex = talknIndex;
-    this.appType = TalknWindow.getAppType();
-    this.talknAPI = {};
     this.resizeTimer = null;
     this.parentUrl = null;
     this.threadHeight = 0;
@@ -103,24 +75,23 @@ export default class TalknWindow {
     this.load = this.load.bind(this);
     this.resize = this.resize.bind(this);
     this.scroll = this.scroll.bind(this);
-    this.message = this.message.bind(this);
-    this.parentTo = this.parentTo.bind(this);
+    this.onMessage = this.onMessage.bind(this);
+    this.parentExtTo = this.parentExtTo.bind(this);
+    this.parentCoreApi = this.parentCoreApi.bind(this);
 
     this.resizeStartWindow = this.resizeStartWindow.bind(this);
     this.resizeEndWindow = this.resizeEndWindow.bind(this);
     this.setIsScrollBottom = this.setIsScrollBottom.bind(this);
 
+    this.apiState = configureStore();
     this.dom = {};
     this.dom.html = document.querySelector("html");
     this.dom.body = document.querySelector("body");
     this.dom.talkn1 = document.querySelector("#talkn1");
-
-    window.talknAPI = window.__talknAPI__[window.talknIndex];
-
     this.listenAsyncBoot();
   }
 
-  setupWindow(talknIndex = 0) {
+  setupWindow() {
     const html = document.querySelector("html");
     html.style.cssText +=
       "" +
@@ -141,100 +112,60 @@ export default class TalknWindow {
   }
 
   listenAsyncBoot() {
-    const bootPromises: any = [];
-
-    bootPromises.push(
-      new Promise(resolve => {
-        this.talknAPI = new TalknAPI(this.talknIndex, resolve);
-        //        this.talknAPI.tuned(this.talknIndex, store);
+    const bootPromise: any = [];
+    bootPromise.push(
+      new Promise(loadResolve => {
+        if (document.readyState === "complete") {
+          this.load(loadResolve);
+        } else {
+          window.addEventListener("load", ev => {
+            this.load(loadResolve);
+          });
+        }
       })
     );
 
-    bootPromises.push(
-      new Promise(resolve => {
-        window.addEventListener("load", ev => {
-          this.load(ev, resolve);
-        });
-      })
-    );
-
-    switch (this.appType) {
-      case define.APP_TYPES.PORTAL:
-        window.addEventListener("resize", this.resize);
-        window.addEventListener("scroll", this.scroll);
-        window.addEventListener("message", ev => {
-          if (ev.origin === "https://www.youtube.com") {
-            console.log(ev);
+    bootPromise.push(
+      new Promise(messageResolve => {
+        window.addEventListener("message", e => {
+          if (e.data && e.data.type === Message.coreApiToApp) {
+            if (e.data.method === Message.connectionMethod) {
+              this.bootOption = e.data.params;
+              this.parentCoreApi(Message.connectionMethod);
+              messageResolve(e);
+            } else {
+              this.apiState.dispatch({ ...e.data.params, type: e.data.method });
+            }
+          }
+          if (e.origin === "https://www.youtube.com") {
           }
         });
-        break;
-      case define.APP_TYPES.EXTENSION:
-        bootPromises.push(
-          new Promise(resolve => {
-            window.addEventListener("message", ev => {
-              this.message(ev, resolve);
-            });
-          })
-        );
-        window.addEventListener("resize", this.resize);
-        window.addEventListener("scroll", this.scroll);
-        window.talknMedia = new TalknMedia();
-        break;
-    }
+      })
+    );
 
-    Promise.all(bootPromises).then((bootParams: any) => {
-      let script1: Element;
-      let script2: Element;
-      let script3: Element;
-      let script: Element;
-      if (conf.env === define.DEVELOPMENT) {
-        script1 = document.querySelector(
-          `script[src='//${conf.hostName}:${define.PORTS.DEVELOPMENT}/${define.talknClientJs}']`
-        );
-        script2 = document.querySelector(`script[src='https://${conf.clientURL}']`);
-        script3 = document.querySelector(`script[src='${define.talknClientJs}']`);
-      } else {
-        script1 = document.querySelector(`script[src='${conf.clientPath.replace(/\/$/, "")}']`);
-        script2 = document.querySelector(`script[src='https:${conf.clientPath.replace(/\/$/, "")}']`);
-        script3 = document.querySelector(`script[src='${define.talknClientJs}']`);
-      }
-      script = script1 ? script1 : script2;
-      script = script ? script : script3;
+    window.addEventListener("resize", this.resize);
+    window.addEventListener("scroll", this.scroll);
+    window.talknMedia = new TalknMedia();
 
-      const scriptOption = BootOption.rebuildAttributes(script.attributes);
-      let bootOption: any = bootParams[1] ? { ...scriptOption, ...bootParams[1] } : scriptOption;
-      bootOption = bootParams[2] ? { ...bootOption, ...bootParams[2] } : bootOption;
-      bootOption.hasslash = TalknWindow.getHasSlach(bootOption);
-      this.boot(bootOption);
+    Promise.all(bootPromise).then((bootParams: any) => {
+      ReactDOM.render(
+        <Provider store={this.apiState}>
+          <Container />
+        </Provider>,
+        document.getElementById(this.id),
+        () => {}
+      );
     });
   }
 
-  boot(bootOption) {
-    const ch = bootOption.ch;
-    const initialApp = TalknWindow.getInitialApp(bootOption);
-    const caches = TalknSession.getCaches(ch);
-    const state = new State(this.talknIndex, window, bootOption, initialApp, caches);
-    this.talknAPI.booted(state, ch);
-    this.talknAPI.tuned(state);
-
-    ReactDOM.render(
-      <Provider store={this.talknAPI.store}>
-        <Container talknAPI={this.talknAPI} />
-      </Provider>,
-      document.getElementById(this.id),
-      () => {}
-    );
-    return true;
-  }
-
-  message(e, resolve) {
+  onMessage(e) {
     if (e.data.type === "talkn") {
       const log = false;
       switch (e.data.method) {
         case "bootExtension":
           this.parentUrl = e.data.href;
-          this.parentTo("bootExtension", conf);
-          resolve(e.data.params);
+          this.parentExtTo("bootExtension", conf);
+          // resolve(e.data.params);
           break;
         case "findMediaCh":
           if (e.data.params.thread && e.data.params.thread.ch) {
@@ -243,12 +174,12 @@ export default class TalknWindow {
             }
             actionWrap.onClickCh(e.data.params.thread.ch, false, e.data.method);
             TalknMedia.init("TalknWindow");
-            window.talknAPI.startLinkMedia(e.data.params);
+            window.talknWindow.parentCoreApi("startLinkMedia", e.data.params);
             window.talknMedia = new TalknMedia();
           }
           break;
         case "playMedia":
-          const playMediaState = window.talknAPI.store.getState();
+          const playMediaState = window.talknWindow.apiState.getState();
           const ch =
             e.data.params.thread && e.data.params.thread.ch ? e.data.params.thread.ch : playMediaState.thread.ch;
           const isExistThreadData = playMediaState.threads[ch];
@@ -258,7 +189,7 @@ export default class TalknWindow {
 
           if (window.talknMedia === undefined) {
             TalknMedia.init("TalknWindow");
-            window.talknAPI.startLinkMedia(e.data.params);
+            window.talknWindow.parentCoreApi("startLinkMedia", e.data.params);
             window.talknMedia = new TalknMedia();
             if (log) console.log("============== playMedia A " + window.talknMedia.currentTime);
           }
@@ -302,25 +233,18 @@ export default class TalknWindow {
           }
           break;
         case "delegatePost":
-          const delegateState = window.talknAPI.store.getState();
+          const delegateState = window.talknWindow.apiState.getState();
           let { app } = delegateState;
           app = { ...app, ...e.data.params };
-          window.talknAPI.delegatePost(app);
+          window.talknWindow.parentCoreApi("delegatePost", app);
           break;
         default:
-          if (
-            typeof window.talknAPI !== "undefined" &&
-            window.talknAPI[e.data.method] &&
-            typeof window.talknAPI[e.data.method] === "function"
-          ) {
-            window.talknAPI[e.data.method](e.data.params);
-          }
           break;
       }
     }
   }
 
-  load(ev, resolve) {
+  load(resolve) {
     this.threadHeight = document.querySelector("html").scrollHeight;
     this.scrollHeight = window.scrollY;
     this.innerHeight = window.innerHeight;
@@ -331,8 +255,8 @@ export default class TalknWindow {
   ready(ev) {}
 
   resize(ev) {
-    if (window.talknAPI) {
-      const app = window.talknAPI.store.getState().app;
+    if (window.talknWindow) {
+      const app = window.talknWindow.apiState.getState().app;
       if (app.extensionMode === "EXT_BOTTOM" || app.extensionMode === "EXT_MODAL") {
         if (this.resizeTimer === null) {
           this.resizeTimer = setTimeout(() => {
@@ -351,15 +275,16 @@ export default class TalknWindow {
   }
 
   scroll(ev) {
-    const state = window.talknAPI.store.getState();
+    const state = window.talknWindow.apiState.getState();
     const { app, thread, uiTimeMarker } = state;
     if (app.isOpenNewPost) {
-      window.talknAPI.closeNewPost();
+      window.talknWindow.parentCoreApi("closeNewPost");
     }
 
     const newUiTimeMarker = UiTimeMarker.update(window.scrollY, uiTimeMarker);
     if (uiTimeMarker.now.label !== newUiTimeMarker.now.label) {
-      window.talknAPI.onScrollUpdateTimeMarker(newUiTimeMarker);
+      window.talknWindow.parentCoreApi("onScrollUpdateTimeMarker", newUiTimeMarker);
+      // this.apiState.dispatch({ ...e.data.params, type: "onScrollUpdateTimeMarker" });
     }
 
     window.talknWindow.setIsScrollBottom(app);
@@ -382,7 +307,7 @@ export default class TalknWindow {
     if (conf.findOnePostCnt <= dispPostCnt && dispPostCnt < conf.findOneLimitCnt) {
       if (thread[postCntKey] > conf.findOnePostCnt) {
         if (dispPostCnt < thread[postCntKey]) {
-          window.talknAPI.getMore();
+          window.talknWindow.parentCoreApi("getMore");
         }
       }
     }
@@ -409,7 +334,7 @@ export default class TalknWindow {
     const timeMarkers: any = document.querySelectorAll("li[data-component-name=TimeMarkerList]");
     const uiTimeMarker = UiTimeMarker.generate(scrollTop, timeMarkers);
     if (uiTimeMarker.list.length > 0) {
-      window.talknAPI.onScrollUpdateTimeMarker(uiTimeMarker);
+      window.talknWindow.parentAction("onScrollUpdateTimeMarker", uiTimeMarker);
     }
   }
 
@@ -418,22 +343,22 @@ export default class TalknWindow {
     app.height = window.innerHeight;
     app.isTransition = false;
     app.screenMode = App.getScreenMode();
-    const setting = window.talknAPI.store.getState().setting;
-    window.talknAPI.onResizeStartWindow({ app, setting });
+    const setting = window.talknWindow.apiState.getState().setting;
+    window.talknWindow.parentCoreApi("onResizeStartWindow", { app, setting });
   }
 
   resizeEndWindow() {
     clearTimeout(this.resizeTimer);
     this.resizeTimer = null;
-
-    const app = window.talknAPI.store.getState().app;
+    const apiState = window.talknWindow.apiState.getState();
+    const app = apiState.app;
     app.width = window.innerWidth;
     app.height = window.innerHeight;
     app.screenMode = App.getScreenMode();
 
-    const setting = window.talknAPI.store.getState().setting;
-    const bootOption = window.talknAPI.store.getState().bootOption;
-    window.talknAPI.onResizeEndWindow({ app, setting, bootOption });
+    const setting = apiState.setting;
+    const bootOption = apiState.bootOption;
+    window.talknWindow.parentCoreApi("onResizeEndWindow", { app, setting, bootOption });
   }
 
   animateScrollTo(to = 9999999, duration = 400, callback = () => {}) {
@@ -486,16 +411,48 @@ export default class TalknWindow {
     return true;
   }
 
-  parentTo(method, params) {
+  parentExtTo(method, params) {
     if (this.parentUrl) {
       window.top.postMessage(
         {
-          type: "talkn",
+          type: "talknExt",
           method,
           params
         },
         this.parentUrl
       );
     }
+  }
+
+  parentCoreApi(method, params1 = null, params2 = null) {
+    if (params2) {
+    }
+    window.postMessage(
+      {
+        type: Message.appToCoreApi,
+        method,
+        params1,
+        params2
+        //        arg
+      },
+      location.href
+    );
+  }
+
+  parentAction(method, params1 = null, params2 = null) {
+    if (handles[method]) {
+      const action = handles[method](params1, params2);
+      this.apiState.dispatch(action);
+    }
+
+    window.postMessage(
+      {
+        type: Message.appToCoreApi,
+        method,
+        params1,
+        params2
+      },
+      location.href
+    );
   }
 }

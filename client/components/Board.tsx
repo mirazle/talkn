@@ -65,14 +65,14 @@ export default class Board extends Component<Props, State> {
     const { app } = this.props.state;
     if (app.isOpenLinks) {
       this.setState({ exeTransitionEnd: true });
-      window.talknAPI.toggleLinks();
+      window.talknWindow.parentCoreApi("toggleLinks");
     } else {
-      window.talknAPI.toggleDispBoard();
+      window.talknWindow.parentCoreApi("toggleDispBoard");
     }
   }
 
   handleOnClickToggleBubblePost() {
-    window.talknAPI.toggleBubblePost();
+    window.talknWindow.parentCoreApi("toggleBubblePost");
   }
 
   handleOnClickLinks() {
@@ -83,7 +83,7 @@ export default class Board extends Component<Props, State> {
       case App.dispThreadTypeMulti:
       case App.dispThreadTypeSingle:
         this.setState({ exeTransitionEnd: true });
-        window.talknAPI.toggleLinks();
+        window.talknWindow.parentCoreApi("toggleLinks");
         break;
       case App.dispThreadTypeChild:
         handleOnClickCh(app.rootCh, null, "backToRootCh");

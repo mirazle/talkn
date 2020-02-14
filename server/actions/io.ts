@@ -53,6 +53,7 @@ export default {
 
     if (tuned !== "") {
       const ch = requestState.thread.ch;
+
       const thread = await Logics.db.threads.saveOnWatchCnt({ ch: tuned }, -1);
       //const user = Collections.getNewApp(requestState.type, app, thread, [], requestState.user);
 

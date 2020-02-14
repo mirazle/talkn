@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html amp style="overflow: inherit; width: 100%; height: 100%; margin: 0 auto;" lang="ja">
   <head>
-    <title>talkn</title>
+    <title>talknAPI | console</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -40,32 +40,7 @@
     <link rel="shortcut icon" href="//assets.localhost/favicon.ico" />
     <link rel="canonical" href="https://<%= domain %>" />
     <script async src="https://cdn.ampproject.org/v0.js"></script>
-    <script type="text/javascript">
-      var portalDevHost = "/localhost:8080";
-      var script = document.createElement("script");
-      var href = location.href;
-      var replaceStr = location.origin + "/?";
-      var jsPath = "//" + location.host + "/";
-      var jsFileName = "talkn.client.js";
-      var pathname = location.pathname ? location.pathname.replace(portalDevHost, "") : "";
-      var ch = location.href
-        ? location.href.replace("http:/" + portalDevHost, "").replace("https:/" + portalDevHost, "")
-        : "/";
-      var hasSlash = ch.lastIndexOf("/") === ch.length - 1;
-      var layerCnt = ch.split("/").length - 1;
-      ch = hasSlash ? ch : ch + "/";
-
-      if (layerCnt === 1 && !ch.match(/\/$/)) {
-        location.href = location.href + "/";
-      } else {
-        script.setAttribute("id", "talkn");
-        script.setAttribute("type", "text/javascript");
-        script.setAttribute("src", jsPath + jsFileName);
-        script.setAttribute("ch", ch);
-        script.setAttribute("hasSlash", hasSlash);
-        document.head.appendChild(script);
-      }
-    </script>
+    <script async src="https://localhost:8081/talkn.api.js"></script>
     <noscript key="noscript">Your browser does not support JavaScript!</noscript>
     <style amp-boilerplate>
       body {
@@ -127,6 +102,6 @@
     >
   </head>
   <body style="overflow: inherit; width: inherit; height: inherit; margin: 0 auto">
-    <div id="talkn1" style="overflow: inherit; width: inherit; height: inherit; margin: 0 auto"></div>
+    talknAPI.console();
   </body>
 </html>

@@ -59,7 +59,7 @@ export default class Detail extends Component<Props, State> {
     const { openInnerNotif, state } = this.props;
     const { threadDetail } = state;
     openInnerNotif("Thread data has been updated.");
-    window.talknAPI.updateThread(threadDetail.ch);
+    window.talknWindow.parentCoreApi("updateThread", threadDetail.ch);
   }
 
   getImgStyle(state, style, protocol, serverMetas) {
@@ -131,7 +131,7 @@ export default class Detail extends Component<Props, State> {
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
     return Icon.getTwitter({}, state, { active, href, onClick });
@@ -145,7 +145,7 @@ export default class Detail extends Component<Props, State> {
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
     return Icon.getFacebook({}, state, { active, href, onClick });
@@ -159,7 +159,7 @@ export default class Detail extends Component<Props, State> {
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
     return Icon.getAppstore({}, state, { active, href, onClick });
@@ -173,7 +173,7 @@ export default class Detail extends Component<Props, State> {
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
     return Icon.getAndroid({}, state, { active, href, onClick });
@@ -195,7 +195,7 @@ export default class Detail extends Component<Props, State> {
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
     return Icon.getHome({}, state, { active, href, onClick });
@@ -209,7 +209,7 @@ export default class Detail extends Component<Props, State> {
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
     return Icon.getTalkn({}, state, { active, href, onClick });
@@ -400,7 +400,7 @@ export default class Detail extends Component<Props, State> {
     const onClick =
       app.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
     return Icon.getChromeExtension({}, state, { active, href, onClick });

@@ -34,11 +34,9 @@ import IconStyle from "client/style/Icon";
 
 interface ContainerProps {
   state: State;
-  talknAPI: any;
   onClickOpenLockMenu: (any?) => any;
   onClickToggleMain: (any?) => any;
   onClickToggleDispDetail: (any?) => any;
-  closeInnerNotif: (any?) => any;
   toggleDispPostsSupporter: (any?) => any;
   onClickMultistream: (any?) => any;
 }
@@ -50,13 +48,13 @@ interface ContainerState {
 class Container extends Component<ContainerProps, ContainerState> {
   constructor(props: ContainerProps) {
     super(props);
-    const { state, talknAPI } = props;
+    const { state } = props;
     const { app, thread } = state;
     this.state = { notifs: [] };
-    talknAPI.find(thread.ch);
+    window.talknWindow.parentCoreApi("find", thread.ch);
 
     if (app.extensionMode === App.extensionModeExtIncludeLabel || app.extensionMode === App.extensionModeExtNoneLabel) {
-      talknAPI.findMenuIndex(thread.ch);
+      window.talknWindow.parentCoreApi("findMenuIndex", thread.ch);
     }
     this.getProps = this.getProps.bind(this);
     this.renderNotifs = this.renderNotifs.bind(this);
@@ -72,7 +70,7 @@ class Container extends Component<ContainerProps, ContainerState> {
   }
 
   componentDidMount() {
-    window.talknAPI.componentDidMounts("Container");
+    window.talknWindow.parentCoreApi("componentDidMounts", "Container");
   }
 
   componentDidUpdate() {
@@ -94,17 +92,17 @@ class Container extends Component<ContainerProps, ContainerState> {
 
   handleOnClickToggleDetail(e) {
     const { state, onClickOpenLockMenu } = this.props;
-    let { app, thread, threadDetail } = state;
+    let { app, threadDetail } = state;
     if (app.openLockMenu !== App.openLockMenuLabelNo) {
       onClickOpenLockMenu(App.openLockMenuLabelNo);
     } else {
       app = App.getAppUpdatedOpenFlgs(state, "headerDetailIcon");
-      window.talknAPI.onClickToggleDispDetail({ threadDetail, thread, app });
+      window.talknWindow.parentCoreApi("onClickToggleDispDetail", { threadDetail, app });
     }
   }
 
   handleOnClickToggleMain(e) {
-    const { onClickToggleMain, onClickToggleDispDetail, onClickOpenLockMenu, closeInnerNotif, state } = this.props;
+    const { onClickToggleMain, onClickToggleDispDetail, onClickOpenLockMenu, state } = this.props;
     let { app, thread, threadDetail } = state;
     if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
       onClickToggleMain({ app });
@@ -118,10 +116,10 @@ class Container extends Component<ContainerProps, ContainerState> {
         onClickOpenLockMenu(App.openLockMenuLabelNo);
       }
 
-      window.talknWindow.parentTo("toggleIframe");
+      window.talknWindow.parentExtTo("toggleIframe");
 
       if (!app.isLinkCh) {
-        window.talknWindow.parentTo("getClientMetas");
+        window.talknWindow.parentExtTo("getClientMetas");
       }
     }
   }
@@ -168,7 +166,7 @@ class Container extends Component<ContainerProps, ContainerState> {
     this.props.onClickMultistream({ app, postsMulti, postsSingle });
 
     if (findFlg) {
-      window.talknAPI.find(app.rootCh);
+      window.talknWindow.parentCoreApi("find", app.rootCh);
     }
   }
 
@@ -344,7 +342,7 @@ class Container extends Component<ContainerProps, ContainerState> {
 
   renderMiddle() {
     const { style } = this.props.state;
-    const props = this.getProps();
+    const props: any = this.getProps();
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
     const HideScreenBottom = this.renderHideScreenBottom(props);
@@ -373,7 +371,7 @@ class Container extends Component<ContainerProps, ContainerState> {
 
   renderSmall() {
     const { style, app } = this.props.state;
-    const props = this.getProps();
+    const props: any = this.getProps();
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
     const HideScreenBottom = this.renderHideScreenBottom(props);
@@ -429,36 +427,6 @@ class Container extends Component<ContainerProps, ContainerState> {
           {/* Debug */}
         </span>
       </span>
-    );
-  }
-
-  renderIos() {
-    const { style } = this.props.state;
-    const props = this.getProps();
-    const NewPost = this.renderNewPost(props);
-    const HideScreenBottom = this.renderHideScreenBottom(props);
-    return (
-      <div data-component-name={"Container"} style={style.container.self}>
-        {NewPost}
-        <Style {...props} />
-        <Footer {...props} />
-        {HideScreenBottom}
-      </div>
-    );
-  }
-
-  renderAndroid() {
-    const { style } = this.props.state;
-    const props = this.getProps();
-    const NewPost = this.renderNewPost(props);
-    const HideScreenBottom = this.renderHideScreenBottom(props);
-    return (
-      <div data-component-name={"Container"} style={style.container.self}>
-        {NewPost}
-        <Style {...props} />
-        <Footer {...props} />
-        {HideScreenBottom}
-      </div>
     );
   }
 }

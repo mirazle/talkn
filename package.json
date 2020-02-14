@@ -4,8 +4,9 @@
   "description": "",
   "scripts": {
     "server": "nodemon -L",
-    "client": "WEBPACK_ENV=development webpack-dev-server --hot --inline --colors --https --cert=./client/conf/localhost.crt --key=./client/conf/localhost.key",
-    "build": "WEBPACK_ENV=production webpack",
+    "api": "WEBPACK_ENV=development MODE=api webpack-dev-server --hot --inline --colors --https --cert=./client/conf/localhost.crt --key=./client/conf/localhost.key",
+    "client": "WEBPACK_ENV=development MODE=client webpack-dev-server --hot --inline --colors --https --cert=./client/conf/localhost.crt --key=./client/conf/localhost.key",
+    "build": "WEBPACK_ENV=production MODE=client webpack;WEBPACK_ENV=production MODE=api webpack;",
     "prod": "forever start -c 'ts-node -r tsconfig-paths/register' server/run.ts",
     "stop": "forever stopall"
   },
@@ -28,6 +29,7 @@
     "@types/react-timeago": "^4.1.1",
     "@types/redux": "^3.6.0",
     "@types/request": "^2.48.3",
+    "@types/socket.io-client": "^1.4.32",
     "@types/socket.io-redis": "^1.0.25",
     "@types/webpack-env": "^1.14.0",
     "nodemon": "^1.19.2",
