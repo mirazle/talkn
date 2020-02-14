@@ -9,3 +9,4 @@ dump.rdb
 package-lock.json
 yarn-error.log
 chromeExtension.zip
+.vscode

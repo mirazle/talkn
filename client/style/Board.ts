@@ -214,7 +214,8 @@ export default class Board {
       alignItems: "flex-start",
       justifyContent: "flex-end",
       boxShadow,
-      borderRadius
+      borderRadius,
+      zIndex: 2
     });
     const content = {};
     const animation = Style.getAnimationBase({

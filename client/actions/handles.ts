@@ -58,12 +58,6 @@ export default {
       app: { inputPost }
     };
   },
-  toggleDispMain: app => {
-    return {
-      type: "TOGGLE_DISP_MAIN",
-      app
-    };
-  },
   toggleDispBoard: app => {
     return {
       type: "TOGGLE_DISP_BOARD",
@@ -113,24 +107,6 @@ export default {
       app
     };
   },
-  onClickLike: inputPost => {
-    return {
-      type: "ON_CLICK_LIKE",
-      app: { inputPost }
-    };
-  },
-  onClickMoney: inputPost => {
-    return {
-      type: "ON_CLICK_MONEY",
-      app: { inputPost }
-    };
-  },
-  onClickShare: inputPost => {
-    return {
-      type: "ON_CLICK_SHARE",
-      app: { inputPost }
-    };
-  },
   onResizeStartWindow: (params = { app: {}, setting: {} }) => {
     return {
       type: "RESIZE_START_WINDOW",
@@ -168,19 +144,6 @@ export default {
       type: "ON_TRANSITION_END"
     };
   },
-  onClickMenu: menuComponent => {
-    return {
-      type: "ON_CLICK_MENU",
-      app: { menuComponent }
-    };
-  },
-  onClickSetting: (settingType, { setting }) => {
-    return {
-      type: "ON_CLICK_SETTING",
-      settingType,
-      setting
-    };
-  },
   openInnerNotif: (openInnerNotif = define.noInnerNotif) => {
     return {
       type: "OPEN_INNER_NOTIF",
@@ -191,18 +154,6 @@ export default {
     return {
       type: "CLOSE_INNER_NOTIF",
       app: { openInnerNotif: "" }
-    };
-  },
-  openNotif: () => {
-    return {
-      type: "OPEN_NOTIF",
-      app: { isOpenNotif: true }
-    };
-  },
-  closeNotif: () => {
-    return {
-      type: "CLOSE_NOTIF",
-      app: { isOpenNotif: false }
     };
   },
   onClickOpenLockMenu: openLockMenu => {
@@ -227,18 +178,6 @@ export default {
     return {
       type: "OPEN_MENU_TRANSITION_END",
       app: { threadScrollY }
-    };
-  },
-  startDispPosts: () => {
-    return {
-      type: "START_DISP_POSTS",
-      app: { isDispPosts: true }
-    };
-  },
-  startUndispPosts: () => {
-    return {
-      type: "START_UNDISP_POSTS",
-      app: { isDispPosts: false }
     };
   },
   componentDidMounts: componentName => {
@@ -282,22 +221,10 @@ export default {
       postsTimeline
     };
   },
-  unmountPostsTimeline: (mediaCurrentTime = 0) => {
-    return {
-      type: "UNMOUNT_POSTS_TIMELINE",
-      mediaCurrentTime
-    };
-  },
   clearPostsTimeline: (mediaCurrentTime = 0) => {
     return {
       type: "CLEAR_POSTS_TIMELINE",
       mediaCurrentTime
-    };
-  },
-  prevPostsTimeline: (postsTimeline = []) => {
-    return {
-      type: "PREV_POSTS_TIMELINE",
-      postsTimeline
     };
   },
   delegatePost: ({ inputPost, inputCurrentTime, inputStampId }) => {
@@ -325,17 +252,6 @@ export default {
   startLinkMedia: () => {
     return {
       type: "START_LINK_MEDIA"
-    };
-  },
-  loadingEnd: () => {
-    return {
-      type: "LOADING_END"
-    };
-  },
-  debug: app => {
-    return {
-      type: "DEBUG",
-      app
     };
   }
 };
