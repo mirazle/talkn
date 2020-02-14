@@ -18,6 +18,5 @@ export default (_state, _props) => {
     state = storageResults.state;
     props = storageResults.props;
   }
-
-  return { state, talknAPI: props.talknAPI };
+  return { state };
 };

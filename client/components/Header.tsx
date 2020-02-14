@@ -29,17 +29,29 @@ export default class Header extends Component<Props, State> {
           app = App.getAppUpdatedOpenFlgs(state, "headerMenuIcon");
           break;
       }
-      window.talknAPI.onClickToggleDispMenu(app);
+      window.talknWindow.parentCoreApi("onClickToggleDispMenu", app);
     }
   }
 
-  renderWatchCntComponent() {
-    const { thread, style } = this.props.state;
+  render() {
+    const { state, handleOnClickToggleMain } = this.props;
+    const { style, app } = state;
+    const { icon } = style;
+    const HeadTabIcon = Icon.getHeadTab(icon.headTab);
+
     return (
-      <span data-component-name={"Header-WatchCnt"} style={style.header.childAnalyzeWrap}>
-        <div style={style.header.childAnalyzeType}>LIVE</div>
-        <div style={style.header.childAnalyzeCnt}>{thread.watchCnt}</div>
-      </span>
+      <header data-component-name={"Header"} style={style.header.self}>
+        {/* User Icon */}
+        {this.renderLeft()}
+
+        {/* Head Tab Icon */}
+        <span data-component-name={`Header-center`} style={style.header.headTab} onClick={handleOnClickToggleMain}>
+          <Marquee text={`${app.rootTitle}`} loop={true} hoverToStop={false} trailing={0} leading={0} />
+        </span>
+
+        {/* Menu Icon */}
+        {this.renderRight()}
+      </header>
     );
   }
 
@@ -80,7 +92,7 @@ export default class Header extends Component<Props, State> {
 
   renderRight() {
     const { handleOnClickToggleDetail } = this.props;
-    const { app, thread, style } = this.props.state;
+    const { style } = this.props.state;
     const { icon } = style;
     const DetailIcon = Icon.getDetail(icon.detail);
     return (
@@ -98,25 +110,13 @@ export default class Header extends Component<Props, State> {
     );
   }
 
-  render() {
-    const { state, handleOnClickToggleMain } = this.props;
-    const { style, app } = state;
-    const { icon } = style;
-    const HeadTabIcon = Icon.getHeadTab(icon.headTab);
-
+  renderWatchCntComponent() {
+    const { thread, style } = this.props.state;
     return (
-      <header data-component-name={"Header"} style={style.header.self}>
-        {/* User Icon */}
-        {this.renderLeft()}
-
-        {/* Head Tab Icon */}
-        <span data-component-name={`Header-center`} style={style.header.headTab} onClick={handleOnClickToggleMain}>
-          <Marquee text={`${app.rootTitle}`} loop={true} hoverToStop={false} trailing={0} leading={0} />
-        </span>
-
-        {/* Menu Icon */}
-        {this.renderRight()}
-      </header>
+      <span data-component-name={"Header-WatchCnt"} style={style.header.childAnalyzeWrap}>
+        <div style={style.header.childAnalyzeType}>LIVE</div>
+        <div style={style.header.childAnalyzeCnt}>{thread.watchCnt}</div>
+      </span>
     );
   }
 }

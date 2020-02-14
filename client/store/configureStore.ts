@@ -1,39 +1,23 @@
 import { applyMiddleware, createStore } from "redux";
 import { createLogger } from "redux-logger";
-import rootReducer from "client/reducers";
-import middleware from "client/middleware/";
-
-declare global {
-  interface Module {
-    hot: any;
-  }
-}
+import reducers from "client/reducers";
+import conf from "common/conf";
+import define from "common/define";
 
 export default function configureStore(initialState = {}) {
   let composeEnhancers = null;
-  let middlewares = [middleware.updateAction];
+  let middlewares = [];
 
-  //if( conf.env === define.DEVELOPMENT ){
-  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    : null;
-  const logger = createLogger({ collapsed: true, duration: true });
-  middlewares.push(logger);
-  //}
+  if (conf.env === define.DEVELOPMENT) {
+    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null;
+    middlewares.push(createLogger({ collapsed: true, duration: true }));
+  }
 
   const store = createStore(
-    rootReducer,
+    reducers,
     initialState,
-    composeEnhancers
-      ? composeEnhancers(applyMiddleware(...middlewares))
-      : applyMiddleware(...middlewares)
+    composeEnhancers ? composeEnhancers(applyMiddleware(...middlewares)) : applyMiddleware(...middlewares)
   );
 
-  if (module.hot) {
-    module.hot.accept("../reducers", () => {
-      const nextReducer = require("../reducers");
-      store.replaceReducer(nextReducer);
-    });
-  }
   return store;
 }

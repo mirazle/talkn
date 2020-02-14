@@ -1,4 +1,4 @@
-const TALKN_EXT_ENV = "PROD";
+const TALKN_EXT_ENV = "START";
 /*
   Class
     Ext
@@ -563,7 +563,7 @@ class Window extends Elements {
   // From child window message.
   catchMessage(e) {
     const { type, method, params } = e.data;
-    if (type === Ext.APP_NAME) {
+    if (type === `${Ext.APP_NAME}Ext`) {
       if (this[method] && typeof this[method] === "function") {
         if (this.methodIdMap[method] || Window.aacceptPostMessages.includes(method)) {
           const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);

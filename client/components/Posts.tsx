@@ -5,6 +5,7 @@ import DateHelper from "client/container/util/DateHelper";
 import Post from "client/components/Post";
 import TimeMarker from "client/components/TimeMarker";
 import conf from "common/conf";
+import handles from "api/actions/handles";
 
 interface Props {
   state: any;
@@ -56,7 +57,7 @@ export default class Posts extends Component<Props, State> {
       window.talknWindow.animateScrollTo(99999999, 0);
     }
 
-    window.talknAPI.componentDidMounts("Posts");
+    window.talknWindow.parentCoreApi("componentDidMounts", "Posts");
   }
 
   componentWillReceiveProps(props) {
@@ -132,7 +133,8 @@ export default class Posts extends Component<Props, State> {
 
     const newUiTimeMarker = UiTimeMarker.update(scrollTop, uiTimeMarker);
     if (uiTimeMarker.now.label !== newUiTimeMarker.now.label) {
-      window.talknAPI.onScrollUpdateTimeMarker(newUiTimeMarker);
+
+      window.talknWindow.parentCoreApi("onScrollUpdateTimeMarker", newUiTimeMarker);
     }
 
     if (scrollTop === 0) {
@@ -157,12 +159,12 @@ export default class Posts extends Component<Props, State> {
 
     if (threads[ch]) {
       app = App.getAppUpdatedOpenFlgs({ app }, "post");
-      window.talknAPI.onClickToggleDispDetail({
+      window.talknWindow.parentCoreApi("onClickToggleDispDetail", {
         threadDetail: threads[ch],
         app
       });
     } else {
-      window.talknAPI.changeThreadDetail(ch);
+      window.talknWindow.parentCoreApi("changeThreadDetail", ch);
     }
   }
 
@@ -172,7 +174,7 @@ export default class Posts extends Component<Props, State> {
       ...this.state,
       scrollHeight: HtmlThread.scrollHeight
     });
-    window.talknAPI.getMore();
+    window.talknWindow.parentCoreApi("getMore");
   }
 
   render() {

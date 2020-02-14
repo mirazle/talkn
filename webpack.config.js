@@ -1,16 +1,17 @@
 const path = require("path");
+const mode = process.env.MODE;
+const port = mode === "client" ? 8080 : 8081;
 module.exports = {
   mode: process.env.WEBPACK_ENV,
-  context: __dirname + "/client/src/",
+  context: __dirname,
   entry: {
-    javascript: __dirname + "/client/src/talkn.client.ts"
+    javascript: __dirname + `/${mode}/talkn.${mode}.ts`
   },
 
   output: {
-    path: __dirname + "/server/listens/express/client/",
-    filename: "talkn.client.js"
+    path: __dirname + `/server/listens/express/${mode}/`,
+    filename: `talkn.${mode}.js`
   },
-
   module: {
     rules: [
       {
@@ -27,6 +28,7 @@ module.exports = {
   resolve: {
     alias: {
       common: path.resolve(__dirname, "./common") + "/",
+      api: path.resolve(__dirname, "./api") + "/",
       server: path.resolve(__dirname, "./server") + "/",
       client: path.resolve(__dirname, "./client") + "/"
     },
@@ -34,8 +36,9 @@ module.exports = {
   },
 
   devServer: {
-    historyApiFallback: true,
-    contentBase: __dirname + "/client/src/"
+    historyApiFallback: true,   // 存在しないリソースに対するアクセスをindex.htmlにする
+    contentBase: __dirname + `/${mode}/`,
+    port
   },
 
   performance: {

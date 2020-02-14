@@ -19,7 +19,7 @@ export default class MenuLogs extends Component<Props> {
         switch (app.screenMode) {
           case App.screenModeSmallLabel:
             app.isOpenMenu = app.isOpenMenu ? false : true;
-            window.talknAPI.onClickToggleDispMenu(app);
+            window.talknWindow.parentCoreApi("onClickToggleDispMenu", app);
             break;
         }
     }

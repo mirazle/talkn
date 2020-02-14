@@ -19,8 +19,9 @@ import uiTimeMarker from "./uiTimeMarker";
 import style from "./style";
 import componentDidMounts from "./componentDidMounts";
 import actionLog from "./actionLog";
+import { list } from "api/reducers";
 
-const rootReducer = combineReducers({
+const reducers = combineReducers({
   app,
   ui,
   user,
@@ -43,4 +44,25 @@ const rootReducer = combineReducers({
   actionLog
 });
 
-export default rootReducer;
+export default reducers;
+
+/*
+
+export default (state = [], action) => [action.type, ...state];
+
+
+
+
+
+*/
+function getReduceObj(some: string) {
+  return (state = {}, action: any) => {
+    return action[some] ? { ...action[some] } : state;
+  };
+}
+
+function getReduceArray(some: string) {
+  return (state = {}, action: any) => {
+    return action[some] ? [...action[some]] : state;
+  };
+}

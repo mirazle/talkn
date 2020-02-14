@@ -27,7 +27,7 @@ export default class PostsFooter extends Component<Props, State> {
   }
 
   componentDidMount() {
-    window.talknAPI.componentDidMounts("PostsFooter");
+    window.talknWindow.parentCoreApi("componentDidMounts", "PostsFooter");
   }
 
   handleOnClick(e) {
@@ -35,14 +35,14 @@ export default class PostsFooter extends Component<Props, State> {
     const value = postArea.innerHTML;
 
     if (value !== "" && !App.validInputPost(value)) {
-      window.talknAPI.post();
-      window.talknAPI.onChangeInputPost("");
+      window.talknWindow.parentCoreApi("post");
+      window.talknWindow.parentCoreApi("onChangeInputPost", "");
     }
   }
 
   handleOnChange(e) {
     if (!App.validInputPost(e.target.value)) {
-      window.talknAPI.onChangeInputPost(e.target.value);
+      window.talknWindow.parentCoreApi("onChangeInputPost", e.target.value);
     }
   }
 
@@ -52,11 +52,11 @@ export default class PostsFooter extends Component<Props, State> {
     const { app } = this.props.state;
     if (e.nativeEvent.keyCode === 13) {
       if (e.nativeEvent.shiftKey) {
-        window.talknAPI.onChangeInputPost(e.target.value + "\n");
+        window.talknWindow.parentCoreApi("onChangeInputPost", e.target.value + "\n");
       } else {
         if (!regex.test(e.target.value)) {
-          window.talknAPI.post();
-          window.talknAPI.onChangeInputPost("");
+          window.talknWindow.parentCoreApi("post");
+          window.talknWindow.parentCoreApi("onChangeInputPost", "");
         }
       }
     }
@@ -64,21 +64,14 @@ export default class PostsFooter extends Component<Props, State> {
 
   getIconStyle() {
     const { thread, style } = this.props.state;
-    const favicon = `https://${conf.assetsIconPath}${util.getSaveFaviconName(
-      thread.favicon
-    )}`;
-    return thread.favicon
-      ? { ...style.postsFooter.icon, backgroundImage: `url(${favicon})` }
-      : style.postsFooter.icon;
+    const favicon = `https://${conf.assetsIconPath}${util.getSaveFaviconName(thread.favicon)}`;
+    return thread.favicon ? { ...style.postsFooter.icon, backgroundImage: `url(${favicon})` } : style.postsFooter.icon;
   }
 
   renderButton() {
     const { style, app } = this.props.state;
 
-    if (
-      app.extensionMode === App.extensionModeExtModalLabel ||
-      app.extensionMode === App.extensionModeExtBottomLabel
-    ) {
+    if (app.extensionMode === App.extensionModeExtModalLabel || app.extensionMode === App.extensionModeExtBottomLabel) {
       return null;
     } else {
       return (
@@ -94,8 +87,7 @@ export default class PostsFooter extends Component<Props, State> {
     const { style, app } = state;
     const value = app.inputPost;
     const readOnly =
-      app.extensionMode === App.extensionModeExtModalLabel ||
-      app.extensionMode === App.extensionModeExtBottomLabel;
+      app.extensionMode === App.extensionModeExtModalLabel || app.extensionMode === App.extensionModeExtBottomLabel;
     return (
       <div data-component-name={"PostsFooter"} style={style.postsFooter.self}>
         <div style={this.getIconStyle()} onClick={handleOnClickFooterIcon} />

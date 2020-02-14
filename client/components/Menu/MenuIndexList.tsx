@@ -34,7 +34,7 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
   componentDidMount() {
     const { menuIndexList } = this.props;
     this.measureText();
-    window.talknAPI.onCatchChAPI(menuIndexList.ch);
+    window.talknWindow.parentCoreApi("onCatchChApi", menuIndexList.ch);
   }
 
   componentWillUnmount() {
@@ -107,7 +107,7 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
 
     if (isFocusCh) {
       if (app.screenMode === App.screenModeSmallLabel) {
-        window.talknAPI.onClickToggleDispMenu();
+        window.talknWindow.parentCoreApi("onClickToggleDispMenu");
       }
     } else {
       handleOnClickCh(ch, null, "menuIndexList");

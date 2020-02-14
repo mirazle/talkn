@@ -115,7 +115,7 @@ export default class PostsSupporter extends Component<Props, State> {
           onClick: e => {
             if (stampId !== 0) {
               const post = Emotions.map[stampId];
-              window.talknAPI.delegatePost({
+              window.talknWindow.parentCoreApi("delegatePost", {
                 inputPost: post,
                 inputStampId: stampId,
                 inputCurrentTime: 0
@@ -167,11 +167,7 @@ export default class PostsSupporter extends Component<Props, State> {
         });
 
         display.unshift(
-          <li
-            key={"backCover"}
-            style={style["Emojis"][menu][0]}
-            {...this.getEvents(menu, PostsSupporter.COVER, 0)}
-          >
+          <li key={"backCover"} style={style["Emojis"][menu][0]} {...this.getEvents(menu, PostsSupporter.COVER, 0)}>
             {IconCloseEmoji}
           </li>
         );
@@ -186,10 +182,7 @@ export default class PostsSupporter extends Component<Props, State> {
     const { menu } = this.state;
     const lis = this.getDisplay(menu);
     return (
-      <ul
-        data-component-name={"PostsSupporter"}
-        style={style.postsSupporter.self}
-      >
+      <ul data-component-name={"PostsSupporter"} style={style.postsSupporter.self}>
         {lis}
       </ul>
     );

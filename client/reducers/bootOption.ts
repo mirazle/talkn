@@ -1,5 +1,3 @@
-import BootOption from "common/schemas/state/BootOption";
-
-export default (state = new BootOption(), action) => {
-  return action.bootOption ? state.merge(action.bootOption) : state;
+export default (state = {}, action: any) => {
+  return action.bootOption ? { ...action.bootOption } : state;
 };

@@ -29,6 +29,7 @@
       "server/*": ["server/*"],
       "common/*": ["common/*"],
       "client/*": ["client/*"],
+      "api/*": ["api/*"],
       "*": ["node_modules/*", "src/types/*"]
     }
   },

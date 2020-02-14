@@ -218,12 +218,12 @@ export default class Thread extends Schema {
     return ch.split("/").length - 1;
   }
 
-  getMediaSrc() {
-    return App.getMediaSrc(this.protocol, this.ch);
+  static getMediaSrc(thread) {
+    return App.getMediaSrc(thread.protocol, thread.ch);
   }
 
-  getMediaTagType() {
-    const src = this.getMediaSrc();
+  static getMediaTagType(thread) {
+    const src = Thread.getMediaSrc(thread);
     return App.getMediaType(src, null);
   }
 

@@ -1,9 +1,11 @@
+import Thread from "api/store/Thread";
 import conf from "client/conf";
 
 export default class TalknMedia {
   static getMedia(thread) {
-    const src = thread.getMediaSrc();
-    const tagType = thread.getMediaTagType();
+    console.log(thread);
+    const src = Thread.getMediaSrc(thread);
+    const tagType = Thread.getMediaTagType(thread);
     return document.querySelector(`${tagType}[src='${src}']`);
   }
 
@@ -64,7 +66,7 @@ export default class TalknMedia {
     console.log("END FUNC");
     for (let i = 0; i < length; i++) {
       if (timeline[i] && timeline[i].currentTime <= currentTime) {
-        window.talknAPI.nextPostsTimeline([timeline[i]]);
+        window.talknWindow.parentCoreApi("nextPostsTimeline", [timeline[i]]);
       } else {
         break;
       }
@@ -105,7 +107,7 @@ export default class TalknMedia {
         } else if (this.timeline[0] && this.timeline[0].currentTime <= currentTime) {
           const addPost = this.timeline.shift();
           this.currentTime = addPost.currentTime;
-          window.talknWindow.talknAPI.nextPostsTimeline([addPost]);
+          window.talknWindow.parentCoreApi("nextPostsTimeline", [addPost]);
         } else {
           this.tasking = false;
           break;
@@ -117,7 +119,7 @@ export default class TalknMedia {
       if (log) console.log("@BACK " + currentTime);
 
       if (this.tasking) {
-        const { postsTimeline } = window.talknAPI.store.getState();
+        const { postsTimeline } = window.talknWindow.apiState.getState();
 
         if (log) console.log("@ BACK PROCCESS " + currentTime);
         if (log) alert("BACK PROCCESS " + currentTime);
@@ -125,7 +127,7 @@ export default class TalknMedia {
         this.currentTime = currentTime;
 
         // 指定した秒数を経過しているPostをreducerでdispFlgをfalseにしてPostをUnmountする
-        window.talknWindow.talknAPI.clearPostsTimeline(currentTime);
+        window.talknWindow.parentCoreApi("clearPostsTimeline", currentTime);
 
         // これから表示するpost一覧を保持
         //loopPostsTimeline = postsTimelineBase.filter( (pt) => pt.currentTime > currentTime);

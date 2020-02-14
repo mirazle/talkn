@@ -1,6 +1,5 @@
 import React from "react";
 import App from "common/schemas/state/App";
-import UiTimeMarker from "common/schemas/state/UiTimeMarker";
 import TalknWindow from "client/operations/TalknWindow";
 import TalknMedia from "client/operations/TalknMedia";
 import storage from "client/mapToStateToProps/storage";
@@ -26,9 +25,15 @@ const componentDidUpdates = {
       const ch = thread.ch;
       app.postsHeight += TalknWindow.getPostsHeight();
       self.props.updatePostsHeight(app.postsHeight);
-
       if (app.extensionMode === "NONE" && Posts) {
-        window.scrollTo(0, 99999999);
+        switch (app.screenMode) {
+          case App.screenModeLargeLabel:
+            Posts.scrollTop = 99999999;
+            break;
+          default:
+            window.scrollTo(0, 99999999);
+            break;
+        }
         window.talknWindow.threadHeight = Posts.clientHeight;
 
         if (app.dispThreadType === App.dispThreadTypeTimeline) {
@@ -58,17 +63,17 @@ const componentDidUpdates = {
       }
 
       if (!app.isOpenLinks) {
-        window.talknAPI.closeLinks();
+        window.talknWindow.parentCoreApi("closeLinks");
       }
 
-      window.talknWindow.parentTo("find", self.props.state);
+      window.talknWindow.parentExtTo("find", self.props.state);
       window.talknWindow.resizeEndWindow();
     },
     "SERVER_TO_CLIENT[EMIT]:changeThreadDetail": self => {
       const { app, threadDetail, thread } = self.props.state;
       if (!app.isOpenDetail) {
         app.isOpenDetail = true;
-        window.talknAPI.onClickToggleDispDetail({ threadDetail, thread, app });
+        window.talknWindow.parentCoreApi("onClickToggleDispDetail", { threadDetail, thread, app });
       }
     },
     ON_CLICK_MULTISTREAM: self => {
@@ -129,7 +134,7 @@ const componentDidUpdates = {
     },
     ON_CHANGE_FIND_TYPE: self => {
       const { ch } = self.props.state.thread;
-      window.talknAPI.findMenuIndex(ch);
+      window.talknWindow.parentCoreApi("findMenuIndex", ch);
     },
     CLOSE_NOTIF: self => {
       if (self.state.notifs.length > 0) {
@@ -137,15 +142,15 @@ const componentDidUpdates = {
       }
     },
     DELEGATE_POST: self => {
-      window.talknAPI.post();
-      window.talknAPI.onChangeInputPost("");
-      window.talknAPI.closeDispPostsSupporter();
+      window.talknWindow.parentCoreApi("post");
+      window.talknWindow.parentCoreApi("onChangeInputPost");
+      window.talknWindow.parentCoreApi("closeDispPostsSupporter");
     },
     GET_CLIENT_METAS: self => {
       const { app, thread } = self.props.state;
       const { serverMetas } = thread;
       if (!app.isLinkCh) {
-        window.talknAPI.updateThreadServerMetas(serverMetas);
+        window.talknWindow.parentCoreApi("updateThreadServerMetas", serverMetas);
       }
     },
     ON_CLICK_TOGGLE_DISP_DETAIL: self => {
@@ -154,7 +159,7 @@ const componentDidUpdates = {
         app.extensionMode === App.extensionModeExtModalLabel ||
         app.extensionMode === App.extensionModeExtIncludeLabel
       ) {
-        window.talknWindow.parentTo("getClientMetas");
+        window.talknWindow.parentExtTo("getClientMetas");
       }
     },
     TOGGLE_BUBBLE_POST: self => {

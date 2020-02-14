@@ -1,0 +1,20 @@
+import Thread from "api/store/Thread";
+
+export default (state = new Thread({}, {}, {}), action) => {
+  switch (action.type) {
+    case "CLIENT_TO_SERVER[EMIT]:tuned":
+      return action.thread ? state.merge(action.thread) : state;
+    case "SERVER_TO_CLIENT[BROADCAST]:find":
+    case "SERVER_TO_CLIENT[BROADCAST]:changeThread":
+    case "SERVER_TO_CLIENT[BROADCAST]:disconnect":
+    case "SERVER_TO_CLIENT[BROADCAST]:post":
+      // サーバー側でch毎にBroardcastしているのでこの判定でOK
+      if (state.ch === action.thread.ch) {
+        return action.thread ? state.merge(action.thread) : state;
+      }
+      break;
+    default:
+      return action.thread ? state.merge(action.thread) : state;
+  }
+  return state;
+};

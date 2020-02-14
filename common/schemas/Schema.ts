@@ -27,7 +27,7 @@ export default class Schema {
   }
 
   static isSet(val: any) {
-    return Schema.getType(val) === "Undefined" ? false : true;
+    return Schema.getType(val) === "Undefined" || Schema.getType(val) === "Null" ? false : true;
   }
 
   static getBool(val: any) {
@@ -66,14 +66,9 @@ export default class Schema {
         values = state[key];
         let isEmptyObject = Object.keys(values).length === 0;
         isAcceptNull = values.isAcceptNull ? values.isAcceptNull : isAcceptNull;
-        isAcceptBlank = values.isAcceptBlank
-          ? values.isAcceptBlank
-          : isAcceptBlank;
+        isAcceptBlank = values.isAcceptBlank ? values.isAcceptBlank : isAcceptBlank;
         def = !isEmptyObject && values.def ? values.def : def;
-        value =
-          !isEmptyObject && (values.value || values.value === "")
-            ? values.value
-            : values;
+        value = !isEmptyObject && (values.value || values.value === "") ? values.value : values;
         value = isEmptyObject && def ? def : value;
         type = Schema.getType(value);
         valid = values.valid ? values.valid : valid;
@@ -118,14 +113,7 @@ export default class Schema {
         };
       };
 
-      const {
-        pointer,
-        validValue,
-        validType,
-        paramsValue,
-        paramsType,
-        error
-      } = validFunc(value);
+      const { pointer, validValue, validType, paramsValue, paramsType, error } = validFunc(value);
 
       if (error === null) {
         Object.defineProperty(this, key, {
@@ -192,14 +180,7 @@ export default class Schema {
             if (this.canSet(key, params[key])) {
               mergedObj[key] = params[key];
             } else {
-              console.warn(
-                "BAD MERGE A : " +
-                  key +
-                  " " +
-                  params[key] +
-                  " " +
-                  typeof params[key]
-              );
+              console.warn("BAD MERGE A : " + key + " " + params[key] + " " + typeof params[key]);
             }
           }
         });
@@ -215,9 +196,7 @@ export default class Schema {
               }
             }
           */
-          return immutable
-            ? new (<typeof Schema>this.constructor)(mergedObj)
-            : mergedObj;
+          return immutable ? new (<typeof Schema>this.constructor)(mergedObj) : mergedObj;
         } else {
           if (immutable) {
             //console.log( mergedObj );
@@ -319,11 +298,7 @@ export default class Schema {
       } else {
         return new (<typeof Schema>this.constructor)(values);
       }
-    } else if (
-      values[0] &&
-      values[0]["$$typeof"] &&
-      values[0]["$$typeof"].constructor.name === "Symbol"
-    ) {
+    } else if (values[0] && values[0]["$$typeof"] && values[0]["$$typeof"].constructor.name === "Symbol") {
       return values;
     } else {
       return new (<typeof Schema>this.constructor)(values);

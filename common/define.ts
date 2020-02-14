@@ -1,5 +1,6 @@
 const define: any = {
   PRODUCTION: "production",
+  LOCALHOST: "localhost",
   DEVELOPMENT: "development",
   PRODUCTION_IP: "ip-172-31-27-3",
   PRODUCTION_DOMAIN: "talkn.io",
@@ -8,6 +9,7 @@ const define: any = {
     HTTP: 80,
     HTTPS: 443,
     DEVELOPMENT: 8080,
+    DEVELOPMENT_API: 8081,
     REDIS: 6379,
     MONGO: 27017,
     SOCKET_IO: 10443
