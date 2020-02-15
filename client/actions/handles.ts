@@ -1,6 +1,8 @@
 import define from "common/define";
 
 export default {
+  // Stateに則ってない
+
   updateStyle: ({ styleKey, eleType, tagName, style }) => {
     return {
       type: "UPDATE_STYLE",
@@ -8,12 +10,6 @@ export default {
       eleType,
       tagName,
       style
-    };
-  },
-  onClickToggleMain: ({ app }) => {
-    return {
-      type: "ON_CLICK_TOGGLE_MAIN",
-      app
     };
   },
   onClickToTimelineThread: (ch, { app, thread }) => {
@@ -58,6 +54,27 @@ export default {
       app: { inputPost }
     };
   },
+  toggleLinks: isOpenLinks => {
+    return {
+      type: "TOGGLE_LINKS"
+    };
+  },
+  getClientMetas: clientMetas => {
+    return {
+      type: "GET_CLIENT_METAS",
+      clientMetas
+    };
+  },
+
+  // Stateに則ってる
+
+  onClickToggleMain: ({ app }) => {
+    return {
+      type: "ON_CLICK_TOGGLE_MAIN",
+      app
+    };
+  },
+
   toggleDispBoard: app => {
     return {
       type: "TOGGLE_DISP_BOARD",
@@ -82,9 +99,10 @@ export default {
       app: { isOpenLinks: false }
     };
   },
-  toggleLinks: isOpenLinks => {
+  clearPostsTimeline: (mediaCurrentTime = 0) => {
     return {
-      type: "TOGGLE_LINKS"
+      type: "CLEAR_POSTS_TIMELINE",
+      mediaCurrentTime
     };
   },
   onClickMultistream: ({ app, postsMulti, postsSingle }) => {
@@ -198,12 +216,6 @@ export default {
       app
     };
   },
-  getClientMetas: clientMetas => {
-    return {
-      type: "GET_CLIENT_METAS",
-      clientMetas
-    };
-  },
   toggleDispPostsSupporter: () => {
     return {
       type: "TOGGLE_DISP_POSTS_SUPPORTER"
@@ -221,12 +233,7 @@ export default {
       postsTimeline
     };
   },
-  clearPostsTimeline: (mediaCurrentTime = 0) => {
-    return {
-      type: "CLEAR_POSTS_TIMELINE",
-      mediaCurrentTime
-    };
-  },
+
   delegatePost: ({ inputPost, inputCurrentTime, inputStampId }) => {
     return {
       type: "DELEGATE_POST",
@@ -252,6 +259,15 @@ export default {
   startLinkMedia: () => {
     return {
       type: "START_LINK_MEDIA"
+    };
+  },
+  endAnimateScrollTo: () => {
+    return { type: "END_ANIMATE_SCROLL_TO" };
+  },
+  updatePostsHeight: postsHeight => {
+    return {
+      type: "UPDATE_POSTS_HEIGHT",
+      app: { postsHeight }
     };
   }
 };
