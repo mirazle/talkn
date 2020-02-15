@@ -11,11 +11,9 @@ import PostsFooterStyle from "client/style/PostsFooter";
 import Icon from "client/components/Icon";
 import Posts from "client/components/Posts";
 import handles from "client/actions/handles";
-import callbacks from "client/actions/callbacks";
 import Header from "client/components/Header";
 import PostsFooter from "client/components/PostsFooter";
 import PostsSupporter from "client/components/PostsSupporter";
-import Footer from "client/components/Footer";
 import DetailRight from "client/components/DetailRight";
 import DetailModal from "client/components/DetailModal";
 import Menu from "client/components/Menu";
@@ -431,36 +429,6 @@ class Container extends Component<ContainerProps, ContainerState> {
       </span>
     );
   }
-
-  renderIos() {
-    const { style } = this.props.state;
-    const props = this.getProps();
-    const NewPost = this.renderNewPost(props);
-    const HideScreenBottom = this.renderHideScreenBottom(props);
-    return (
-      <div data-component-name={"Container"} style={style.container.self}>
-        {NewPost}
-        <Style {...props} />
-        <Footer {...props} />
-        {HideScreenBottom}
-      </div>
-    );
-  }
-
-  renderAndroid() {
-    const { style } = this.props.state;
-    const props = this.getProps();
-    const NewPost = this.renderNewPost(props);
-    const HideScreenBottom = this.renderHideScreenBottom(props);
-    return (
-      <div data-component-name={"Container"} style={style.container.self}>
-        {NewPost}
-        <Style {...props} />
-        <Footer {...props} />
-        {HideScreenBottom}
-      </div>
-    );
-  }
 }
 
-export default connect(mapToStateToProps, { ...handles, ...callbacks })(Container);
+export default connect(mapToStateToProps, { ...handles })(Container);
