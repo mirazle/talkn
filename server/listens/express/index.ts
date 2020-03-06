@@ -38,7 +38,14 @@ class Express {
   }
 
   routingHttp(req, res) {
-    res.redirect(`https://${req.hostname}${req.url}`);
+    if (
+      req.headers.referer === "http://talkn.io/.well-known/acme-challenge/f262_jHM3_Cai02FwHr681Pzrt0sj1IzOITKG979yGA"
+    ) {
+      res.send("f262_jHM3_Cai02FwHr681Pzrt0sj1IzOITKG979yGA.VgHBkdDj0x8Osq3yY_dfspU9q6NSjU4liw-Tpt6MRLY");
+    } else {
+      res.redirect(`https://${req.hostname}${req.url}`);
+    }
+    //    res.redirect(`https://${req.hostname}${req.url}`);
   }
 
   listenedHttp(): void {}
