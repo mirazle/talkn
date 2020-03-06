@@ -130,8 +130,13 @@ ps -aux | grep ./cert*
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ```
 
-## 自動更新の設定
-認証に不備がある場合に下記のエラーが出る。
+## ●自動更新の設定
+
+期限が切れる30日以内であれば下記が有効になる
+```
+certbot renew 
+```
+但し、認証に不備がある場合に下記のエラーが出る。
 ```
 Attempting to renew cert (talkn.io) from /etc/letsencrypt/renewal/talkn.io.conf produced an unexpected error: The manual plugin is not working; there may be problems with your existing configuration.
 The error was: PluginError('An authentication script must be provided with --manual-auth-hook when using the manual plugin non-interactively.',). Skipping.
@@ -141,9 +146,9 @@ All renewal attempts failed. The following certs could not be renewed:
 
 下記で認証の不備を解消。
 ```
-// expressのhttpレスポンスで指定のテキストを返す
 certbot certonly --manual -d talkn.io
 ```
+
 認証コードの箇所
 ```
   createHttpServer() {
@@ -160,4 +165,20 @@ certbot certonly --manual -d talkn.io
     }
   }
 ```
+
+サブドメインのワイルドカードの認証はdnsの_acme-challenge.talkn.io.　| TXT |の値に指定されたテキストを指定
+```
 certbot certonly --manual -d *.talkn.io
+```
+digでdnsの_acme-challenge.talkn.io.　| TXT |が更新されているが確認出来たら下記を実行。
+```
+./certbot-auto certonly --manual \
+ -d talkn.io -d *.talkn.io -m mirazle2069@gmail.com --agree-tos --manual-public-ip-logging-ok \
+--preferred-challenges dns-01 \
+--server https://acme-v02.api.letsencrypt.org/directory
+```
+
+最後に実行
+```
+certbot renew 
+```
