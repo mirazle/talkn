@@ -129,3 +129,35 @@ ps -aux | grep ./cert*
 |   @                         |   CAA     | 0 iodef "mailto:mirazle2069@gmail.com"    |
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ```
+
+## 自動更新の設定
+認証に不備がある場合に下記のエラーが出る。
+```
+Attempting to renew cert (talkn.io) from /etc/letsencrypt/renewal/talkn.io.conf produced an unexpected error: The manual plugin is not working; there may be problems with your existing configuration.
+The error was: PluginError('An authentication script must be provided with --manual-auth-hook when using the manual plugin non-interactively.',). Skipping.
+All renewal attempts failed. The following certs could not be renewed:
+  /etc/letsencrypt/live/talkn.io/fullchain.pem (failure)
+```
+
+下記で認証の不備を解消。
+```
+// expressのhttpレスポンスで指定のテキストを返す
+certbot certonly --manual -d talkn.io
+```
+認証コードの箇所
+```
+  createHttpServer() {
+    http.createServer(this.httpApp.all("*", this.routingHttp)).listen(define.PORTS.HTTP, this.listenedHttp);
+  }
+
+  routingHttp(req, res) {
+    if (
+      req.originalUrl === "/.well-known/acme-challenge/81Pzrt0sj1IzOITKG979yGA"
+    ) {
+      res.send("f262_jHM3_Cai02FwHr681Pzrt0sj1IzOITKG979yGA.VgHBkdDj0x8Osq3yY_dfspU9q6NSjU4liw-Tpt6MRLY");
+    } else {
+      res.redirect(`https://${req.hostname}${req.url}`);
+    }
+  }
+```
+certbot certonly --manual -d *.talkn.io
