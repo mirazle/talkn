@@ -1,5 +1,5 @@
 import Sequence from "common/Sequence";
-import Thread from "common/schemas/state/Thread";
+import Thread from "api/store/Thread";
 import Collections from "server/logics/db/collections/";
 import Logics from "server/logics";
 import Actions from "server/actions";
@@ -55,7 +55,6 @@ export default {
       const ch = requestState.thread.ch;
 
       const thread = await Logics.db.threads.saveOnWatchCnt({ ch: tuned }, -1);
-      //const user = Collections.getNewApp(requestState.type, app, thread, [], requestState.user);
 
       // ユーザーの接続情報を更新
       Logics.db.users.update(ioUser.conn.id, ch);

@@ -1,11 +1,13 @@
 import React, { Component } from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
 import BoardStyle from "client/style/Board";
 import LinkStyle from "client/style/Link";
 import MenuIndexListStyle from "client/style/Menu/MenuIndexList";
 import Marquee from "client/container/util/Marquee";
 
-interface Props {
-  state: any;
+interface LinkProps {
+  clientState: ClientState;
   text: string;
   handleOnClick?: any;
   isMainCh: boolean;
@@ -13,16 +15,16 @@ interface Props {
   ch: string;
 }
 
-interface State {
+interface LinkState {
   style: any;
   isActive: boolean;
 }
 
-export default class Link extends Component<Props, State> {
+export default class Link extends TalknComponent<LinkProps, LinkState> {
   constructor(props) {
     super(props);
-    const { isActive, state } = props;
-    const { link } = state.style;
+    const { isActive, clientState } = props;
+    const { link } = clientState.style;
     this.getEvents = this.getEvents.bind(this);
     this.state = {
       isActive,
@@ -54,13 +56,13 @@ export default class Link extends Component<Props, State> {
   render() {
     const { isActive, style } = this.state;
     const { text } = this.props;
-    let { upperRankWrap, upperRank } = this.props.state.style.menuIndexList;
+    let { upperRankWrap, upperRank } = this.props.clientState.style.menuIndexList;
     const background = MenuIndexListStyle.getDispRankBackground(0);
     const width = BoardStyle.tuneSize;
 
     if (isActive) {
       return (
-        <li style={this.props.state.style.link.tuneLi}>
+        <li style={this.props.clientState.style.link.tuneLi}>
           <span style={{ ...upperRankWrap, background, width }}>
             <span style={upperRank}>TUNE</span>
           </span>

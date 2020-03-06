@@ -1,24 +1,24 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import define from "common/define";
-import State from "common/schemas/state";
-import App from "common/schemas/state/App";
+import ClientState from "client/store/";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
+import handles from "client/actions/handles";
 import TalknSession from "client/operations/TalknSession";
+import TalknComponent from "client/components/TalknComponent";
 import LoadingLogo from "client/components/LoadingLogo";
 import Style from "client/components/Style";
 import HeaderStyle from "client/style/Header";
 import PostsFooterStyle from "client/style/PostsFooter";
 import Icon from "client/components/Icon";
 import Posts from "client/components/Posts";
-import handles from "client/actions/handles";
-import callbacks from "client/actions/callbacks";
 import Header from "client/components/Header";
 import PostsFooter from "client/components/PostsFooter";
 import PostsSupporter from "client/components/PostsSupporter";
-import Footer from "client/components/Footer";
 import DetailRight from "client/components/DetailRight";
 import DetailModal from "client/components/DetailModal";
-import Menu from "client/components/Menu";
+import Menu from "client/components/Menu/index";
 import Board from "client/components/Board";
 import LockMenu from "client/components/LockMenu";
 import Media from "client/components/Media";
@@ -27,15 +27,14 @@ import TimeMarker from "client/components/TimeMarker";
 import mapToStateToProps from "client/mapToStateToProps/";
 import Marquee from "client/container/util/Marquee";
 import DateHelper from "client/container/util/DateHelper";
-import actionWrap from "client/container/util/actionWrap";
 import componentDidUpdates from "client/container/componentDidUpdates";
 import TalknWindow from "client/operations/TalknWindow";
 import IconStyle from "client/style/Icon";
 
 interface ContainerProps {
-  state: State;
+  clientState: ClientState;
   onClickOpenLockMenu: (any?) => any;
-  onClickToggleMain: (any?) => any;
+  onClickTogglePosts: (any?) => any;
   onClickToggleDispDetail: (any?) => any;
   toggleDispPostsSupporter: (any?) => any;
   onClickMultistream: (any?) => any;
@@ -45,32 +44,31 @@ interface ContainerState {
   notifs: any;
 }
 
-class Container extends Component<ContainerProps, ContainerState> {
+class Container extends TalknComponent<ContainerProps, ContainerState> {
   constructor(props: ContainerProps) {
     super(props);
-    const { state } = props;
-    const { app, thread } = state;
+    const { thread } = this.apiState;
+    const { ui } = props.clientState;
     this.state = { notifs: [] };
-    window.talknWindow.parentCoreApi("find", thread.ch);
-
-    if (app.extensionMode === App.extensionModeExtIncludeLabel || app.extensionMode === App.extensionModeExtNoneLabel) {
-      window.talknWindow.parentCoreApi("findMenuIndex", thread.ch);
+    this.coreApi("find", { thread: thread.ch });
+    if (ui.extensionMode === Ui.extensionModeExtIncludeLabel || ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+      this.coreApi("findMenuIndex", { thread: thread.ch });
     }
+
     this.getProps = this.getProps.bind(this);
-    this.renderNotifs = this.renderNotifs.bind(this);
+    this.renderNewPost = this.renderNewPost.bind(this);
     this.renderSmall = this.renderSmall.bind(this);
     this.renderMiddle = this.renderMiddle.bind(this);
     this.renderLarge = this.renderLarge.bind(this);
     this.renderExtension = this.renderExtension.bind(this);
     this.handleOnClickFooterIcon = this.handleOnClickFooterIcon.bind(this);
-    this.handleOnClickToggleMain = this.handleOnClickToggleMain.bind(this);
+    this.handleOnClickTogglePosts = this.handleOnClickTogglePosts.bind(this);
     this.handleOnClickToggleDetail = this.handleOnClickToggleDetail.bind(this);
     this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
-    this.handleOnClickCh = this.handleOnClickCh.bind(this);
   }
 
   componentDidMount() {
-    window.talknWindow.parentCoreApi("componentDidMounts", "Container");
+    this.clientAction("COMPONENT_DID_MOUNTS", "Container");
   }
 
   componentDidUpdate() {
@@ -83,37 +81,38 @@ class Container extends Component<ContainerProps, ContainerState> {
       componentDidUpdates,
       handleOnClickFooterIcon: this.handleOnClickFooterIcon,
       handleOnClickMultistream: this.handleOnClickMultistream,
-      handleOnClickToggleMain: this.handleOnClickToggleMain,
+      handleOnClickTogglePosts: this.handleOnClickTogglePosts,
       handleOnClickToggleDetail: this.handleOnClickToggleDetail,
-      handleOnClickCh: this.handleOnClickCh,
       nowDate: DateHelper.getNowYmdhis()
     };
   }
 
   handleOnClickToggleDetail(e) {
-    const { state, onClickOpenLockMenu } = this.props;
-    let { app, threadDetail } = state;
-    if (app.openLockMenu !== App.openLockMenuLabelNo) {
-      onClickOpenLockMenu(App.openLockMenuLabelNo);
+    const { clientState, onClickOpenLockMenu } = this.props;
+    let { app, threadDetail } = this.apiState;
+    let { ui } = clientState;
+    if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
+      onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     } else {
-      app = App.getAppUpdatedOpenFlgs(state, "headerDetailIcon");
-      window.talknWindow.parentCoreApi("onClickToggleDispDetail", { threadDetail, app });
+      ui = Ui.getUiUpdatedOpenFlgs({ app, ui }, "headerDetailIcon");
+      this.clientAction("ON_CLICK_TOGGLE_DISP_DETAIL", { threadDetail, ui });
     }
   }
 
-  handleOnClickToggleMain(e) {
-    const { onClickToggleMain, onClickToggleDispDetail, onClickOpenLockMenu, state } = this.props;
-    let { app, thread, threadDetail } = state;
-    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
-      onClickToggleMain({ app });
+  handleOnClickTogglePosts(e) {
+    const { onClickTogglePosts, onClickToggleDispDetail, onClickOpenLockMenu, clientState } = this.props;
+    let { app, thread, threadDetail } = this.apiState;
+    let { ui } = clientState;
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
+      onClickTogglePosts({ app, ui });
 
-      if (app.isOpenDetail) {
-        app.isOpenDetail = false;
-        onClickToggleDispDetail({ threadDetail, thread, app });
+      if (ui.isOpenDetail) {
+        ui.isOpenDetail = false;
+        onClickToggleDispDetail({ threadDetail, thread, app, ui });
       }
 
-      if (app.openLockMenu !== App.openLockMenuLabelNo) {
-        onClickOpenLockMenu(App.openLockMenuLabelNo);
+      if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
+        onClickOpenLockMenu(Ui.openLockMenuLabelNo);
       }
 
       window.talknWindow.parentExtTo("toggleIframe");
@@ -130,8 +129,8 @@ class Container extends Component<ContainerProps, ContainerState> {
   }
 
   handleOnClickMultistream() {
-    const { app } = this.props.state;
-    let { postsMulti, postsSingle } = this.props.state;
+    const { app } = this.apiState;
+    let { postsMulti, postsSingle } = this.apiState;
     let findFlg = false;
     const postsMultiCache = TalknSession.getStorage(app.rootCh, define.storageKey.postsMulti);
     const postsSingleCache = TalknSession.getStorage(app.rootCh, define.storageKey.postsSingle);
@@ -170,45 +169,35 @@ class Container extends Component<ContainerProps, ContainerState> {
     }
   }
 
-  handleOnClickCh(toCh, overWriteHasSlash, called = "") {
-    actionWrap.onClickCh(toCh, overWriteHasSlash, called);
-  }
-
   render() {
-    const { style, app } = this.props.state;
+    const { style, ui } = this.props.clientState;
+    const { app } = this.apiState;
     if (style && style.container && style.container.self && app.tuned) {
-      if (
-        app.extensionMode === App.extensionModeExtBottomLabel ||
-        app.extensionMode === App.extensionModeExtModalLabel
-      ) {
+      if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
         return this.renderExtension();
       } else {
-        switch (app.screenMode) {
-          case App.screenModeSmallLabel:
+        switch (ui.screenMode) {
+          case Ui.screenModeSmallLabel:
             return this.renderSmall();
-          case App.screenModeMiddleLabel:
+          case Ui.screenModeMiddleLabel:
             return this.renderMiddle();
-          case App.screenModeLargeLabel:
+          case Ui.screenModeLargeLabel:
             return this.renderLarge();
         }
       }
     } else {
-      if (
-        app.extensionMode === App.extensionModeExtBottomLabel ||
-        app.extensionMode === App.extensionModeExtModalLabel
-      ) {
+      if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
         return null;
-      } else {
-        return <LoadingLogo />;
       }
     }
+    return <LoadingLogo />;
   }
 
   renderFixMarker(props) {
-    const { state } = this.props;
-    const { style, uiTimeMarker, app, thread } = state;
-    if (app.isLoading) {
-      const loading = Icon.getLoading(IconStyle.getLoading({ app }));
+    const { app, thread } = this.apiState;
+    const { ui, uiTimeMarker, style } = this.props.clientState;
+    if (ui.isLoading) {
+      const loading = Icon.getLoading(IconStyle.getLoading({ app, ui }));
       return <TimeMarker type={"Fix"} label={loading} style={style.timeMarker.fixTimeMarker} />;
     } else if (thread.postCnt > 0 && uiTimeMarker.now) {
       return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
@@ -218,8 +207,8 @@ class Container extends Component<ContainerProps, ContainerState> {
   }
 
   renderLinkLabel(props) {
-    const { state } = this.props;
-    const { app, style, thread } = state;
+    const { style } = this.props.clientState;
+    const { app, thread } = this.apiState;
     if (app.isLinkCh) {
       return (
         <div data-component-name={"linkLabel"} style={style.container.linkLabel}>
@@ -232,8 +221,7 @@ class Container extends Component<ContainerProps, ContainerState> {
   }
 
   renderNewPost(props) {
-    const { state } = props;
-    const { style } = state;
+    const { style } = props.clientState;
 
     const log = false;
     let dispNewPost = false;
@@ -278,27 +266,12 @@ class Container extends Component<ContainerProps, ContainerState> {
   }
 
   renderHideScreenBottom(props) {
-    const { state } = props;
-    const { style } = state;
+    const { style } = props.clientState;
     return <div data-component-name={"hideScreenBottom"} style={style.container.hideScreenBottom} />;
   }
 
-  renderNotifs(props) {
-    const { app, style } = props.state;
-    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
-      if (!app.isOpenPosts && !app.isDispPosts && app.isOpenNotif) {
-        return (
-          <ol data-component-name="Notifs" style={style.notif.notifs}>
-            {this.state.notifs}
-          </ol>
-        );
-      }
-    }
-    return <ol data-component-name="Notifs" style={style.notif.notifs} />;
-  }
-
   renderLarge() {
-    const { style } = this.props.state;
+    const { style } = this.props.clientState;
     const props: any = this.getProps();
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
@@ -321,7 +294,8 @@ class Container extends Component<ContainerProps, ContainerState> {
           <LockMenu {...props} />
           <PostsFooter {...props} />
           <Menu {...props} />
-          <InnerNotif {...this.props} />;{HideScreenBottom}
+          <InnerNotif {...this.props} />
+          {HideScreenBottom}
           {/*
 
           Youtube
@@ -341,7 +315,7 @@ class Container extends Component<ContainerProps, ContainerState> {
   }
 
   renderMiddle() {
-    const { style } = this.props.state;
+    const { style } = this.props.clientState;
     const props: any = this.getProps();
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
@@ -370,7 +344,7 @@ class Container extends Component<ContainerProps, ContainerState> {
   }
 
   renderSmall() {
-    const { style, app } = this.props.state;
+    const { style } = this.props.clientState;
     const props: any = this.getProps();
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
@@ -401,11 +375,11 @@ class Container extends Component<ContainerProps, ContainerState> {
   }
 
   renderExtension() {
-    const { style } = this.props.state;
+    const { style } = this.props.clientState;
     const props = this.getProps();
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
-    const extScreenStyle = props.state.style.extScreen.self;
+    const extScreenStyle = props.clientState.style.extScreen.self;
     const FixMarker = this.renderFixMarker(props);
     return (
       <span data-component-name={"Container"} style={style.container.self}>
@@ -431,4 +405,4 @@ class Container extends Component<ContainerProps, ContainerState> {
   }
 }
 
-export default connect(mapToStateToProps, { ...handles, ...callbacks })(Container);
+export default connect(mapToStateToProps, { ...handles })(Container);

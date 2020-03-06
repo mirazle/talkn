@@ -1,9 +1,10 @@
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
 import Thread from "api/store/Thread";
 import conf from "client/conf";
 
-export default class TalknMedia {
+export default class TalknMedia extends TalknComponent<{}, {}> {
   static getMedia(thread) {
-    console.log(thread);
     const src = Thread.getMediaSrc(thread);
     const tagType = Thread.getMediaTagType(thread);
     return document.querySelector(`${tagType}[src='${src}']`);
@@ -25,7 +26,8 @@ export default class TalknMedia {
   tasking: any;
   timeline: any;
   timelineBase: any;
-  constructor() {
+  constructor(props?) {
+    super(props);
     this.intervalId = null;
     this.currentTime = 0;
     this.started = false;
@@ -66,7 +68,7 @@ export default class TalknMedia {
     console.log("END FUNC");
     for (let i = 0; i < length; i++) {
       if (timeline[i] && timeline[i].currentTime <= currentTime) {
-        window.talknWindow.parentCoreApi("nextPostsTimeline", [timeline[i]]);
+        this.clientAction("NEXT_POSTS_TIMELINE", { postTimeline: [timeline[i]] });
       } else {
         break;
       }
@@ -107,7 +109,13 @@ export default class TalknMedia {
         } else if (this.timeline[0] && this.timeline[0].currentTime <= currentTime) {
           const addPost = this.timeline.shift();
           this.currentTime = addPost.currentTime;
-          window.talknWindow.parentCoreApi("nextPostsTimeline", [addPost]);
+          this.clientAction("NEXT_POSTS_TIMELINE", { postTimeline: [addPost] });
+          /*
+          TODO:
+          そもそもpostsTimelineはapi側にあるので、TalknMediaはapi側に移行する必要がある。
+              移行して、appToしてclient側でactionを実行してPostsに流し込んでいくようにすればOK?
+
+*/
         } else {
           this.tasking = false;
           break;
@@ -119,7 +127,7 @@ export default class TalknMedia {
       if (log) console.log("@BACK " + currentTime);
 
       if (this.tasking) {
-        const { postsTimeline } = window.talknWindow.apiState.getState();
+        const { postsTimeline } = window.talknWindow.stores.api.getState();
 
         if (log) console.log("@ BACK PROCCESS " + currentTime);
         if (log) alert("BACK PROCCESS " + currentTime);
@@ -127,7 +135,7 @@ export default class TalknMedia {
         this.currentTime = currentTime;
 
         // 指定した秒数を経過しているPostをreducerでdispFlgをfalseにしてPostをUnmountする
-        window.talknWindow.parentCoreApi("clearPostsTimeline", currentTime);
+        this.clientAction("CLEAR_POSTS_TIMELINE", currentTime);
 
         // これから表示するpost一覧を保持
         //loopPostsTimeline = postsTimelineBase.filter( (pt) => pt.currentTime > currentTime);

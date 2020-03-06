@@ -1,4 +1,3 @@
-import define from "../../common/define";
 import Style from "./index";
 import Container from "./Container";
 import Header from "./Header";
@@ -17,8 +16,8 @@ export default class InnerNotif {
     };
   }
 
-  static getSelf({ app }) {
-    const width = Posts.getOlWidth({ app }, true);
+  static getSelf({ app, ui }) {
+    const width = Posts.getOlWidth({ app, ui }, true);
     const marginOne = (100 - width) / 2;
     const height = app.isOpenInnerNotif ? Header.headerHeight : 0;
     const layout = Style.getLayoutFlex({
@@ -29,7 +28,8 @@ export default class InnerNotif {
       width: `calc( ${width}% - 2px )`,
       margin: `0px calc( ${marginOne}% + 1px ) 0px calc( ${marginOne}% + 1px )`,
       height,
-      background: Container.themeRGBA
+      background: Container.themeRGBA,
+      zIndex: 20
     });
     const content = Style.getContentBase({
       color: Container.whiteRGB

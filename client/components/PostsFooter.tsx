@@ -1,23 +1,26 @@
-import React, { Component } from "react";
-import App from "common/schemas/state/App";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
 import util from "common/util";
 import conf from "common/conf";
 
 const regex = /^\s*$/;
 
-interface Props {
+interface PostsFooterProps {
   mode?: string;
-  state: any;
+  clientState: ClientState;
   handleOnClickFooterIcon?: any;
   handleOnClickToggleMain?: any;
 }
 
-interface State {
+interface PostsFooterState {
   focusSetIntervalId: any;
 }
 
-export default class PostsFooter extends Component<Props, State> {
-  constructor(props: Props) {
+export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsFooterState> {
+  constructor(props: PostsFooterProps) {
     super(props);
     this.state = { focusSetIntervalId: 0 };
     this.renderButton = this.renderButton.bind(this);
@@ -27,51 +30,52 @@ export default class PostsFooter extends Component<Props, State> {
   }
 
   componentDidMount() {
-    window.talknWindow.parentCoreApi("componentDidMounts", "PostsFooter");
+    window.talknWindow.clientAction("COMPONENT_DID_MOUNTS", "PostsFooter");
   }
 
   handleOnClick(e) {
+    const { ui } = this.clientState;
     const postArea: HTMLElement = this.refs.postArea as HTMLElement;
     const value = postArea.innerHTML;
 
     if (value !== "" && !App.validInputPost(value)) {
-      window.talknWindow.parentCoreApi("post");
-      window.talknWindow.parentCoreApi("onChangeInputPost", "");
+      this.coreApi("post", { app: { inputPost: ui.inputPost } });
+      this.clientAction("ON_CHANGE_INPUT_POST", { ui: { inputPost: "" } });
     }
   }
 
   handleOnChange(e) {
     if (!App.validInputPost(e.target.value)) {
-      window.talknWindow.parentCoreApi("onChangeInputPost", e.target.value);
+      console.log(e.target.value);
+      this.clientAction("ON_CHANGE_INPUT_POST", { ui: { inputPost: e.target.value } });
     }
   }
 
   handleOnKeyPress(e) {
     clearInterval(this.state.focusSetIntervalId);
-
-    const { app } = this.props.state;
     if (e.nativeEvent.keyCode === 13) {
       if (e.nativeEvent.shiftKey) {
-        window.talknWindow.parentCoreApi("onChangeInputPost", e.target.value + "\n");
+        this.clientAction("ON_CHANGE_INPUT_POST", { ui: { inputPost: e.target.value + "\n" } });
       } else {
         if (!regex.test(e.target.value)) {
-          window.talknWindow.parentCoreApi("post");
-          window.talknWindow.parentCoreApi("onChangeInputPost", "");
+          this.coreApi("post", { app: { inputPost: e.target.value } });
+          this.clientAction("ON_CHANGE_INPUT_POST", { ui: { inputPost: "" } });
         }
       }
     }
   }
 
   getIconStyle() {
-    const { thread, style } = this.props.state;
+    const { thread } = this.apiState;
+    const { style } = this.props.clientState;
     const favicon = `https://${conf.assetsIconPath}${util.getSaveFaviconName(thread.favicon)}`;
     return thread.favicon ? { ...style.postsFooter.icon, backgroundImage: `url(${favicon})` } : style.postsFooter.icon;
   }
 
   renderButton() {
-    const { style, app } = this.props.state;
+    const { style, ui } = this.props.clientState;
 
-    if (app.extensionMode === App.extensionModeExtModalLabel || app.extensionMode === App.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeExtModalLabel || ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return null;
     } else {
       return (
@@ -83,11 +87,10 @@ export default class PostsFooter extends Component<Props, State> {
   }
 
   render() {
-    const { state, handleOnClickFooterIcon } = this.props;
-    const { style, app } = state;
-    const value = app.inputPost;
+    const { clientState, handleOnClickFooterIcon } = this.props;
+    const { style, ui } = clientState;
     const readOnly =
-      app.extensionMode === App.extensionModeExtModalLabel || app.extensionMode === App.extensionModeExtBottomLabel;
+      ui.extensionMode === Ui.extensionModeExtModalLabel || ui.extensionMode === Ui.extensionModeExtBottomLabel;
     return (
       <div data-component-name={"PostsFooter"} style={style.postsFooter.self}>
         <div style={this.getIconStyle()} onClick={handleOnClickFooterIcon} />
@@ -99,7 +102,7 @@ export default class PostsFooter extends Component<Props, State> {
           readOnly={readOnly}
           onChange={this.handleOnChange}
           onKeyPress={this.handleOnKeyPress}
-          value={value}
+          value={ui.inputPost}
           placeholder="Comment to web"
         />
         {this.renderButton()}

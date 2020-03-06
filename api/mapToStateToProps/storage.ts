@@ -1,15 +1,16 @@
 import define from "common/define";
-import App from "common/schemas/state/App";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
 import TalknSession from "client/operations/TalknSession";
 
 export default {
-  "SERVER_TO_CLIENT[BROADCAST]:post": setStorageHtmlPosts,
-  "SERVER_TO_CLIENT[EMIT]:getMore": setStorageHtmlPosts,
-  "SERVER_TO_CLIENT[EMIT]:find": (state, props) => {
+  "SERVER_TO_API[BROADCAST]:post": setStorageHtmlPosts,
+  "SERVER_TO_API[EMIT]:getMore": setStorageHtmlPosts,
+  "SERVER_TO_API[EMIT]:find": (state, props) => {
     //setStoragePosts( state, props );
     return { state, props };
   },
-  "SERVER_TO_CLIENT[EMIT]:changeThread": (state, props) => {
+  "SERVER_TO_API[EMIT]:changeThread": (state, props) => {
     const { app } = state;
     const { rootCh } = app;
     const { storageKey } = define;
@@ -18,22 +19,12 @@ export default {
     return { state, props };
   },
   //  "ON__CLICK_MULTISTREAM": setStoragePosts,
-  ON_CLICK_TOGGLE_DISP_MENU: (state, props) => {
-    const { app } = state;
-    if (app.screenMode === App.screenModeSmallLabel) {
-      if (!app.isOpenMenu) {
-        window.talknWindow.unlockWindow();
-        window.scrollTo(0, app.threadScrollY);
-      }
-    }
-    return { state, props };
-  },
   ON_CLICK_MENU: (state, props) => {
     const { rootCh } = state.app;
     TalknSession.setStorage(rootCh, define.storageKey.app, state.app);
     return { state, props };
   },
-  "SERVER_TO_CLIENT[EMIT]:tuned ": (state, props) => {
+  "SERVER_TO_API[EMIT]:tuned ": (state, props) => {
     return { state, props };
   },
   RESIZE_END_WINDOW: (state, props) => {
@@ -87,6 +78,9 @@ function setStoragePostsTimeline(action) {
     action.postsTimeline = postsTimelineZeroSecond;
     TalknSession.setStorage(thread.ch, storageKey.postsTimelineZero, postsTimelineZeroSecond);
     TalknSession.setStorage(thread.ch, storageKey.postsTimeline, postsTimeline);
+
+    console.log(getStoragePostsTimelineZero(thread.ch));
+    console.log(getStoragePostsTimeline(thread.ch));
   }
   return action;
 }

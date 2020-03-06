@@ -1,31 +1,34 @@
 import React, { Component } from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
 import { default as InnerNotifStyle } from "client/style/InnerNotif";
 
-interface Props {
-  state: any;
+interface InnerNotifProps {
+  clientState: ClientState;
   openInnerNotif?: any;
   handleOnClickToggleDetail?: any;
   handleOnClickToggleMain?: any;
 }
 
-interface State {
+interface InnerNotifState {
   style: any;
   notif: any;
   isDebug: boolean;
 }
 
-export default class InnerNotif extends Component<Props, State> {
+export default class InnerNotif extends TalknComponent<InnerNotifProps, InnerNotifState> {
   constructor(props) {
     super(props);
-    const { innerNotif: style } = this.props.state.style;
-    const notif = this.props.state.app.openInnerNotif;
+    const { innerNotif: style } = this.props.clientState.style;
+    const notif = this.props.clientState.ui.openInnerNotif;
     this.state = { style, notif, isDebug: false };
   }
 
   componentWillReceiveProps(props) {
+    const { ui } = props.clientState;
     const { style } = this.state;
-    const height = props.state.style.innerNotif.self.height;
-    const notif = props.state.app.openInnerNotif;
+    const height = props.clientState.style.innerNotif.self.height;
+    const notif = ui.openInnerNotif;
 
     if (style.self.height !== height) {
       if (height === `${InnerNotifStyle.selfHeight}px`) {

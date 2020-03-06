@@ -1,4 +1,4 @@
-import App from "../../common/schemas/state/App";
+import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
 import Menu from "./Menu";
@@ -15,7 +15,7 @@ export default class Detail {
     return "Modal";
   }
   static get screenModeOfRightDetail() {
-    return App.screenModeLargeLabel;
+    return Ui.screenModeLargeLabel;
   }
   static get padding() {
     return 20;
@@ -23,13 +23,14 @@ export default class Detail {
   static get margin() {
     return 5;
   }
-  static getDetailClass(app) {
-    return Detail.isRightDetail(app) ? DetailRight : DetailModal;
+  static getDetailClass({ app, ui }) {
+    return Detail.isRightDetail({ app, ui }) ? DetailRight : DetailModal;
   }
-  static isRightDetail(app) {
-    return app.screenMode === Detail.screenModeOfRightDetail;
+  static isRightDetail({ app, ui }) {
+    return ui.screenMode === Detail.screenModeOfRightDetail;
   }
 
+  self: Object;
   selfRight: Object;
   selfModal: Object;
   header: Object;
@@ -58,10 +59,10 @@ export default class Detail {
   updateWrap: Object;
   update: Object;
   constructor(params) {
-    const { app } = params;
+    const { app, ui } = params;
 
     const styles: any = {};
-    const DetailClass = Detail.getDetailClass(app);
+    const DetailClass = Detail.getDetailClass({ app, ui });
 
     styles[`self${Detail.detailRightSelfKey}`] = Detail.getDetailRightSelf(params);
     styles[`self${Detail.detailModalSelfKey}`] = Detail.getDetailModalSelf(params);
@@ -94,42 +95,41 @@ export default class Detail {
     return styles;
   }
 
-  static getDetailModalSelf({ app }) {
-    const screenMode = App.getScreenMode(app.width);
-    const display = screenMode === App.screenModeLargeLabel ? "none" : "block";
-    const left = screenMode === App.screenModeSmallLabel ? "0px" : Menu.baseWidth;
-    const background =
-      app.extensionMode === App.extensionModeExtBottomLabel ? Container.reliefRGB : Container.reliefRGB;
-    const height = DetailModal.getHeight(app);
+  static getDetailModalSelf({ app, ui }) {
+    const screenMode = Ui.getScreenMode(ui.width);
+    const display = screenMode === Ui.screenModeLargeLabel ? "none" : "block";
+    const left = screenMode === Ui.screenModeSmallLabel ? "0px" : Menu.baseWidth;
+    const background = ui.extensionMode === Ui.extensionModeExtBottomLabel ? Container.reliefRGB : Container.reliefRGB;
+    const height = DetailModal.getHeight({ app, ui });
     const layout = Style.getLayoutBlock({
       display,
       position: "fixed",
       top: "100%",
       left,
-      width: DetailModal.getWidth(app, false),
+      width: DetailModal.getWidth({ app, ui }, false),
       height,
-      margin: DetailModal.getMargin(app),
+      margin: DetailModal.getMargin({ app, ui }),
       background,
       border: Container.border,
       borderRadius: Container.radiuses,
       WebkitOverflowScrolling: "touch",
-      zIndex: 1
+      zIndex: 9
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transform: DetailModal.getTransform(app),
-      transition: Container.getTransition(app)
+      transform: DetailModal.getTransform({ app, ui }),
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getDetailRightSelf({ app }) {
+  static getDetailRightSelf({ app, ui }) {
     const layout = Style.getLayoutBlock({
       position: "fixed",
       top: "0px",
       right: "0px",
-      width: DetailRight.getWidth(app),
-      minWidth: DetailRight.getWidth(app),
+      width: DetailRight.getWidth({ app, ui }),
+      minWidth: DetailRight.getWidth({ app, ui }),
       height: `calc( 100% - ${Header.headerHeight}px )`,
       WebkitOverflowScrolling: "touch",
       background: Container.calmRGB,
@@ -144,22 +144,22 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getFooterBorders(app) {
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
-      case App.screenModeMiddleLabel:
+  static getFooterBorders({ app, ui }) {
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+      case Ui.screenModeMiddleLabel:
         return { borderTop: Container.border };
-      case App.screenModeLargeLabel:
+      case Ui.screenModeLargeLabel:
         return { borderTop: Container.border, borderLeft: Container.border };
     }
   }
 
-  static getFooterPositions(app) {
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+  static getFooterPositions({ app, ui }) {
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         return {};
-      case App.screenModeMiddleLabel:
-      case App.screenModeLargeLabel:
+      case Ui.screenModeMiddleLabel:
+      case Ui.screenModeLargeLabel:
         return {
           position: "absolute",
           right: "0px",
@@ -168,20 +168,20 @@ export default class Detail {
     }
   }
 
-  static getWidth(app, addUnit = false): any {
+  static getWidth({ app, ui }, addUnit = false): any {
     let width = "100%";
-    switch (app.screenMode) {
-      case App.screenModeLargeLabel:
+    switch (ui.screenMode) {
+      case Ui.screenModeLargeLabel:
         width = "30%";
     }
     return addUnit ? width : Style.trimUnit(width);
   }
 
-  static getTransform(app) {
-    return Detail.getDetailClass(app).getTransform(app);
+  static getTransform({ app, ui }) {
+    return Detail.getDetailClass({ app, ui }).getTransform({ app, ui });
   }
 
-  static getHeader({ app }) {
+  static getHeader({ app, ui }) {
     const layout = Style.getLayoutFlex({
       width: "100%",
       height: Header.headerHeight,
@@ -195,7 +195,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getHeaderP({ app }) {
+  static getHeaderP({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "100%",
       height: "auto",
@@ -210,7 +210,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getBody({ app }) {
+  static getBody({ app, ui }) {
     const layout = Style.getLayoutBlock({
       overflowX: "hidden",
       overflowY: "scroll",
@@ -224,7 +224,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getMeta({ app }) {
+  static getMeta({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "100%",
       height: "initial",
@@ -236,7 +236,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getImg({ app }) {
+  static getImg({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "100%",
       height: "30vh",
@@ -252,7 +252,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getDescription({ app }) {
+  static getDescription({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "90%",
       height: "initial",
@@ -267,7 +267,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getMetaContentTypeWrap({ app }) {
+  static getMetaContentTypeWrap({ app, ui }) {
     const layout = Style.getLayoutFlex({
       flexDirection: "column",
       alignItems: "flex-end",
@@ -284,7 +284,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getMetaContentType({ app }) {
+  static getMetaContentType({ app, ui }) {
     const layout = Style.getLayoutBlock({
       background: Container.reliefRGB,
       width: "initial",
@@ -303,7 +303,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getCh({ app }) {
+  static getCh({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "100%",
       height: "initial",
@@ -323,7 +323,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getAnalyze({ app }) {
+  static getAnalyze({ app, ui }) {
     const layout = Style.getLayoutTable({
       width: "100%",
       height: "initial",
@@ -338,14 +338,14 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getAnalyzeRow({ app }) {
+  static getAnalyzeRow({ app, ui }) {
     const layout = Style.getLayoutTableRow({});
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
   }
 
-  static getAnalyzeCol({ app }) {
+  static getAnalyzeCol({ app, ui }) {
     const layout = Style.getLayoutTableCol({
       width: "33.3%",
       height: "120px",
@@ -357,7 +357,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getAnalyzeLabel({ app }) {
+  static getAnalyzeLabel({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "initial",
       height: "initial",
@@ -371,7 +371,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getAnalyzeValue({ app }) {
+  static getAnalyzeValue({ app, ui }) {
     const layout = Style.getLayoutBlock({
       margin: "0 auto",
       width: "initial",
@@ -385,7 +385,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getAnalyzeHr({ app }) {
+  static getAnalyzeHr({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "70%",
       height: "initial",
@@ -397,7 +397,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getH1s({ app }) {
+  static getH1s({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "100%",
       height: "initial",
@@ -413,7 +413,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getH1sLi({ app }) {
+  static getH1sLi({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "90%",
       height: "initial",
@@ -428,9 +428,9 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getFooter({ app }) {
-    const positions = Detail.getFooterPositions(app);
-    const borders = Detail.getFooterBorders(app);
+  static getFooter({ app, ui }) {
+    const positions = Detail.getFooterPositions({ app, ui });
+    const borders = Detail.getFooterBorders({ app, ui });
     const layout = Style.getLayoutFlex({
       width: "100%",
       background: Container.offWhiteRGB,
@@ -446,7 +446,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getFooterChild({ app }) {
+  static getFooterChild({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: "100%"
@@ -459,7 +459,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getFooterChildLike({ app }) {
+  static getFooterChildLike({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: "100%"
@@ -471,7 +471,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getFooterChildMoney({ app }) {
+  static getFooterChildMoney({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: "100%"
@@ -483,7 +483,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getFooterChildShare({ app }) {
+  static getFooterChildShare({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: "100%"
@@ -495,7 +495,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getMetaItems({ app }) {
+  static getMetaItems({ app, ui }) {
     const layout = Style.getLayoutFlex({
       width: "90%",
       margin: `${Detail.margin}%`
@@ -505,7 +505,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getUpdateWrap({ app }) {
+  static getUpdateWrap({ app, ui }) {
     const layout = Style.getLayoutFlex({
       justifyContent: "flex-end",
       alignItems: "flex-end",
@@ -516,7 +516,7 @@ export default class Detail {
     return Style.get({ layout, content, animation });
   }
 
-  static getUpdate({ app }) {
+  static getUpdate({ app, ui }) {
     const layout = Style.getLayoutFlex({
       width: "160px",
       borderRadius: "30px",

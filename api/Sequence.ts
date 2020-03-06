@@ -19,17 +19,23 @@ export default class Sequence {
   static get CONNECTION_SERVER_KEY() {
     return "connectionServer";
   }
-  static get CLIENT_TO_SERVER_EMIT() {
-    return "CLIENT_TO_SERVER[EMIT]:";
+  static get API_TO_SERVER_REQUEST() {
+    return "API_TO_SERVER[REQUEST]:";
   }
-  static get SERVER_TO_CLIENT_EMIT() {
-    return "SERVER_TO_CLIENT[EMIT]:";
+  static get SERVER_TO_API_EMIT() {
+    return "SERVER_TO_API[EMIT]:";
   }
-  static get SERVER_TO_CLIENT_BROADCAST() {
-    return "SERVER_TO_CLIENT[BROADCAST]:";
+  static get SERVER_TO_API_BROADCAST() {
+    return "SERVER_TO_API[BROADCAST]:";
   }
-  static get CLIENT_TO_CLIENT_EMIT() {
-    return "CLIENT_TO_CLIENT[EMIT]:";
+  static get API_TO_CLIENT_REQUEST() {
+    return "API_TO_CLIENT[REQUEST]:";
+  }
+  static get API_TO_CLIENT_EMIT() {
+    return "API_TO_CLIENT[EMIT]:";
+  }
+  static get API_TO_CLIENT_BROADCAST() {
+    return "API_TO_CLIENT[BROADCAST]:";
   }
   static get PREFIX_REQUEST() {
     return "REQUEST:";
@@ -40,27 +46,27 @@ export default class Sequence {
   static get REDUX_ACTION_KEY() {
     return "type";
   }
+  static get METHOD_COLON() {
+    return ":";
+  }
+  static get ADD_CLIENT_ACTION_PREFIX() {
+    return "API_TO_CLIENT";
+  }
   static get map() {
     return {
       tuned: {
         requestPublicState: {},
         requestPrivateState: {
-          thread: [{ columnName: "ch" }]
+          thread: ["ch"]
         },
         responseEmitState: { user: ["uid"], setting: "*" },
         responseBroadcastState: {}
       },
       find: {
-        requestPublicState: { thread: [{ columnName: "ch" }] },
+        requestPublicState: {},
         requestPrivateState: {
-          thread: [{ columnName: "protocol" }, { columnName: "host" }, { columnName: "hasSlash" }],
-          app: [
-            { columnName: "multistream" },
-            { columnName: "rootCh" },
-            { columnName: "dispThreadType" },
-            { columnName: "actioned" },
-            { columnName: "offsetFindId" }
-          ]
+          thread: ["ch", "protocol", "host", "hasSlash"],
+          app: ["multistream", "rootCh", "dispThreadType", "actioned", "offsetFindId"]
         },
         responseEmitState: {
           posts: "*",
@@ -72,13 +78,8 @@ export default class Sequence {
       getMore: {
         requestPublicState: {},
         requestPrivateState: {
-          thread: [{ columnName: "ch" }],
-          app: [
-            { columnName: "multistream" },
-            { columnName: "dispThreadType" },
-            { columnName: "offsetFindId" },
-            { columnName: "multistreamed" }
-          ]
+          thread: ["ch"],
+          app: ["multistream", "dispThreadType", "offsetFindId", "multistreamed"]
         },
         responseEmitState: {
           thread: "*",
@@ -88,9 +89,9 @@ export default class Sequence {
         responseBroadcastState: {}
       },
       updateThread: {
-        requestPublicState: { thread: [{ columnName: "ch" }] },
+        requestPublicState: {},
         requestPrivateState: {
-          thread: [{ columnName: "protocol" }, { columnName: "host" }, { columnName: "hasSlash" }]
+          thread: ["ch", "protocol", "host", "hasSlash"]
         },
         responseEmitState: {
           thread: "*"
@@ -98,37 +99,30 @@ export default class Sequence {
         responseBroadcastState: {}
       },
       changeThread: {
-        requestPublicState: { thread: [{ columnName: "ch" }] },
+        requestPublicState: {},
         requestPrivateState: {
-          thread: [{ columnName: "protocol" }, { columnName: "host" }, { columnName: "hasSlash" }],
-          app: [
-            { columnName: "tuned" },
-            { columnName: "rootCh" },
-            { columnName: "multistream" },
-            { columnName: "dispThreadType" },
-            { columnName: "offsetFindId" },
-            { columnName: "multistreamed" }
-          ]
+          thread: ["ch", "protocol", "host", "hasSlash"],
+          app: ["tuned", "rootCh", "multistream", "dispThreadType", "offsetFindId", "multistreamed"]
         },
         responseEmitState: { app: ["tuned"] },
         responseBroadcastState: { thread: ["watchCnt", "ch"] }
       },
       changeThreadDetail: {
-        requestPublicState: { thread: [{ columnName: "ch" }] },
-        requestPrivateState: {},
+        requestPublicState: {},
+        requestPrivateState: { thread: ["ch"] },
         responseEmitState: { thread: "*" },
         responseBroadcastState: {}
       },
       addFindChild: {
-        requestPublicState: { thread: [{ columnName: "ch" }] },
-        requestPrivateState: {},
+        requestPublicState: {},
+        requestPrivateState: { thread: ["ch"] },
         responseEmitState: { thread: "*" },
         responseBroadcastState: {}
       },
       findMenuIndex: {
         requestPublicState: {},
         requestPrivateState: {
-          app: [{ columnName: "findType" }, { columnName: "rootCh" }]
+          app: ["findType", "rootCh"]
         },
         responseEmitState: { menuIndex: "*" },
         responseBroadcastState: {}
@@ -136,42 +130,26 @@ export default class Sequence {
       post: {
         requestPublicState: {},
         requestPrivateState: {
-          user: [{ columnName: "uid" }, { columnName: "utype" }],
-          app: [
-            { columnName: "multistream" },
-            { columnName: "inputPost" },
-            { columnName: "inputStampId" },
-            { columnName: "inputCurrentTime" },
-            { columnName: "dispThreadType" },
-            { columnName: "multistreamed" }
-          ],
-          thread: [
-            { columnName: "findType" },
-            { columnName: "title" },
-            { columnName: "protocol" },
-            { columnName: "ch" },
-            { columnName: "chs" },
-            { columnName: "emotions" },
-            { columnName: "favicon" },
-            { columnName: "contentType" }
-          ]
+          user: ["uid", "utype"],
+          app: ["multistream", "inputPost", "inputStampId", "inputCurrentTime", "dispThreadType", "multistreamed"],
+          thread: ["findType", "title", "protocol", "ch", "chs", "emotions", "favicon", "contentType"]
         },
         responseEmitState: {},
         responseBroadcastState: { posts: "*", thread: "*", menuIndex: "*" }
       },
       updateThreadServerMetas: {
-        requestPublicState: { thread: [{ columnName: "serverMetas" }] },
+        requestPublicState: { thread: ["serverMetas"] },
         requestPrivateState: {
-          thread: [{ columnName: "host" }, { columnName: "protocol" }, { columnName: "ch" }],
+          thread: ["host", "protocol", "ch"],
           user: "*" // 懸念
         },
         responseEmitState: { thread: "*" },
         responseBroadcastState: {}
       },
       login: {
-        requestPublicState: { user: [{ columnName: "requestLoginType" }] },
+        requestPublicState: { user: ["requestLoginType"] },
         requestPrivateState: {
-          user: [{ columnName: "uid" }, { columnName: "href" }]
+          user: ["uid", "href"]
         },
         responseEmitState: { user: "*" },
         responseBroadcastState: {}
@@ -185,75 +163,47 @@ export default class Sequence {
     };
   }
 
+  static convertApiToClientActionType(actionType) {
+    if (actionType.indexOf(Sequence.API_TO_SERVER_REQUEST) === 0) {
+      return actionType.replace(Sequence.API_TO_SERVER_REQUEST, Sequence.API_TO_CLIENT_REQUEST);
+    }
+    if (actionType.indexOf(Sequence.SERVER_TO_API_EMIT) === 0) {
+      return actionType.replace(Sequence.SERVER_TO_API_EMIT, Sequence.API_TO_CLIENT_EMIT);
+    }
+    if (actionType.indexOf(Sequence.SERVER_TO_API_BROADCAST) === 0) {
+      return actionType.replace(Sequence.SERVER_TO_API_BROADCAST, Sequence.API_TO_CLIENT_BROADCAST);
+    }
+  }
+
   static getRequestState(actionName, reduxState, requestParams) {
-    const endpointKey = actionName.replace(Sequence.CLIENT_TO_SERVER_EMIT, "");
+    const endpointKey = actionName.replace(Sequence.API_TO_SERVER_REQUEST, "");
     const { requestPublicState, requestPrivateState } = Sequence.map[endpointKey];
     let requestState = { [Sequence.REDUX_ACTION_KEY]: endpointKey };
 
-    if (Object.keys(requestPrivateState).length > 0) {
-      Object.keys(requestPrivateState).forEach(stateKey => {
-        const columnDatas = requestPrivateState[stateKey];
-        if (!requestState[stateKey]) {
-          requestState[stateKey] = {};
-        }
+    Object.keys(requestPrivateState).forEach(stateKey => {
+      if (!requestState[stateKey]) requestState[stateKey] = {};
 
-        if (columnDatas === "*") {
-          requestState = {
-            ...requestState,
-            [stateKey]: reduxState[stateKey].toJSON()
-          };
-        } else {
-          columnDatas.forEach(columnData => {
-            const { columnName, valid } = columnData;
-            let value = reduxState[stateKey][columnName];
-            const validError = valid ? valid(value) : false;
-
-            if (!validError) {
-              if (!requestState[stateKey][columnName]) {
-                let value = reduxState[stateKey][columnName];
-                if (
-                  !reduxState[stateKey][columnName] &&
-                  requestParams &&
-                  requestParams[stateKey] &&
-                  requestParams[stateKey][columnName]
-                ) {
-                  value = requestParams[stateKey][columnName];
-                }
-                requestState[stateKey][columnName] = value;
-              }
-            } else {
-              throw `VALID PRIVATE SEQUENCE: ${stateKey}.${columnName}=${value} [${validError}]`;
-            }
-          });
-        }
-      });
-    }
-
-    if (Object.keys(requestPublicState).length > 0) {
-      Object.keys(requestPublicState).forEach(stateKey => {
-        const columnDatas = requestPublicState[stateKey];
-
-        if (!requestState[stateKey]) {
-          requestState[stateKey] = {};
-        }
-
-        columnDatas.forEach(columnData => {
-          const { columnName, valid } = columnData;
-          if (reduxState[stateKey].canSet(columnName, requestParams)) {
-            const validError = valid ? valid(requestParams) : false;
-            if (!validError) {
-              if (!requestState[stateKey][columnName]) {
-                requestState[stateKey][columnName] = requestParams;
-              }
-            } else {
-              throw `VALID PUBLIC SEQUENCE: ${stateKey}.${columnName}=${requestParams} [${validError}]`;
-            }
-          } else {
-            throw `VALID PUBLIC STATE: ${stateKey}.${columnName}=${requestParams}`;
+      requestPrivateState[stateKey].forEach(columnName => {
+        if (!requestState[stateKey][columnName]) {
+          let value = reduxState[stateKey][columnName];
+          if (requestParams && requestParams[stateKey] && requestParams[stateKey][columnName]) {
+            value = requestParams[stateKey][columnName];
           }
-        });
+          requestState[stateKey][columnName] = value;
+        }
       });
-    }
+    });
+
+    Object.keys(requestPublicState).forEach(stateKey => {
+      if (!requestState[stateKey]) requestState[stateKey] = {};
+
+      requestPublicState[stateKey].forEach(columnName => {
+        if (!requestState[stateKey][columnName]) {
+          requestState[stateKey][columnName] = requestParams;
+        }
+      });
+    });
+
     return requestState;
   }
 

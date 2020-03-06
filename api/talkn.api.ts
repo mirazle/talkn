@@ -3,14 +3,14 @@ import conf from "client/conf";
 import define from "common/define";
 import Message from "common/Message";
 import Schema from "api/store/Schema";
-import State from "api/store/";
+import ApiState from "api/store/";
 import Sequence from "api/Sequence";
 import PublicApi from "api/public.api";
-import configureStore from "api/store/configureStore";
-import handleActions from "api/actions/handles";
-import WsServerToClientEmitAction from "api/actions/ws/serverToClientEmit";
-import WsClientToServerEmitActions from "api/actions/ws/clientToServerEmit";
-import WsServerToClientBroadcastAction from "api/actions/ws/serverToClientBradcast";
+import apiStore from "api/store/apiStore";
+import handleActions from "client/actions/handles";
+import WsServerToApiEmitAction from "api/actions/ws/serverToApiEmit";
+import WsClientToApiRequestActions from "api/actions/ws/apiToServerRequest";
+import WsServerToApiBroadcastAction from "api/actions/ws/serverToApiBradcast";
 
 declare global {
   interface Window {
@@ -68,13 +68,13 @@ class BootOption {
 
 class CoreAPI {
   ws: any;
-  store: any;
+  apiStore: any;
   state: any;
   ch: string;
-  constructor(store, resolve) {
+  constructor(apiStore, resolve) {
     const wsServer =
       location.host.indexOf(define.PRODUCTION_DOMAIN) >= 0 ? define.PRODUCTION_DOMAIN : define.DEVELOPMENT_DOMAIN;
-    this.store = store;
+    this.apiStore = apiStore;
     this.ws = io(`https://${wsServer}:${define.PORTS.SOCKET_IO}`, { forceNew: true });
     this.onResponseMeAPI(resolve);
     this.setUp = this.setUp.bind(this);
@@ -90,23 +90,23 @@ class CoreAPI {
   }
 
   onRequestAPI() {
-    const actions = WsClientToServerEmitActions;
+    const actions = WsClientToApiRequestActions;
     const actionKeys = Object.keys(actions);
     const actionLength = actionKeys.length;
     const getCoreAPI = (actionName, beforeFunction) => {
-      return (requestParams1, requestParams2) => {
-        const reduxState = this.store.getState();
-        const _requestState = Sequence.getRequestState(actionName, reduxState, requestParams1);
-        const _actionState = Sequence.getRequestActionState(actionName, requestParams1, requestParams2);
+      return requestParams => {
+        const reduxState = this.apiStore.getState();
+        const _requestState = Sequence.getRequestState(actionName, reduxState, requestParams);
+        const _actionState = Sequence.getRequestActionState(actionName, requestParams);
         const { requestState, actionState } = beforeFunction(reduxState, _requestState, _actionState);
         this.ws.emit(requestState.type, requestState);
-        return this.store.dispatch(actionState);
+        return this.apiStore.dispatch(actionState);
       };
     };
 
     for (let actionNodeCnt = 0; actionNodeCnt < actionLength; actionNodeCnt++) {
       const actionName = actionKeys[actionNodeCnt];
-      const actionPlainName = actionName.replace(Sequence.CLIENT_TO_SERVER_EMIT, "");
+      const actionPlainName = actionName.replace(Sequence.API_TO_SERVER_REQUEST, "");
       const beforeFunction = actions[actionName];
       this[actionPlainName] = getCoreAPI(actionName, beforeFunction);
     }
@@ -121,10 +121,10 @@ class CoreAPI {
         }
 
         const actionState = action(response);
-        return this.store.dispatch(actionState);
+        return this.apiStore.dispatch(actionState);
       };
     };
-    const callback: any = getToMeAPI(WsServerToClientEmitAction, resolve);
+    const callback: any = getToMeAPI(WsServerToApiEmitAction, resolve);
     this.on(Sequence.CATCH_ME_KEY, callback);
   }
 
@@ -132,11 +132,11 @@ class CoreAPI {
     const getResponseChAPI = actionMethod => {
       return response => {
         const actionState = actionMethod(response);
-        return this.store.dispatch(actionState);
+        return this.apiStore.dispatch(actionState);
       };
     };
     // To connect redux flow.
-    const callback: any = getResponseChAPI(WsServerToClientBroadcastAction);
+    const callback: any = getResponseChAPI(WsServerToApiBroadcastAction);
     this.on(ch, callback);
   }
 
@@ -163,7 +163,7 @@ class GlobalWindow {
   globalApi: any;
   coreApi: any;
   origin: string;
-  store: any;
+  apiStore: any;
   static getRequestObj(method, params: any = {}) {
     const href = location.href;
     return {
@@ -174,14 +174,13 @@ class GlobalWindow {
     };
   }
   constructor() {
-    this.store = configureStore();
+    this.apiStore = apiStore();
     this.bootOption = new BootOption();
     this.exeCoreApi = this.exeCoreApi.bind(this);
-    this.exeAction = this.exeAction.bind(this);
     this.appTo = this.appTo.bind(this);
     this.subscribe = this.subscribe.bind(this);
     this.onWsServer = this.onWsServer.bind(this);
-    this.store.subscribe(this.subscribe);
+    this.apiStore.subscribe(this.subscribe);
     this.onActions();
 
     const bootPromises = [];
@@ -200,8 +199,6 @@ class GlobalWindow {
             } else {
               self.exeCoreApi(e);
             }
-          } else if (e.data.type === Message.appToAction) {
-            self.exeAction(e);
           }
         };
       })
@@ -210,10 +207,10 @@ class GlobalWindow {
     bootPromises.push(
       new Promise(resove => {
         if (document.readyState === "complete") {
-          new CoreAPI(self.store, resove);
+          new CoreAPI(self.apiStore, resove);
         } else {
           window.onload = e => {
-            new CoreAPI(self.store, resove);
+            new CoreAPI(self.apiStore, resove);
           };
         }
       }).then(this.onWsServer)
@@ -227,31 +224,17 @@ class GlobalWindow {
   }
 
   exeCoreApi(e) {
-    if (this[e.data.method]) {
-      this[e.data.method](e.data.params1, e.data.params2);
-    } else if (this.coreApi && this.coreApi[e.data.method]) {
-      const { params1, params2 } = e.data;
-      if (params1 && params2) {
-        this.coreApi[e.data.method](params1, params2);
-      } else if (params1) {
-        this.coreApi[e.data.method](params1);
-      } else {
-        this.coreApi[e.data.method]();
-      }
-    }
-  }
-
-  exeAction(e) {
-    if (this[e.data.method]) {
-      this[e.data.method](e.data.params1, e.data.params2);
+    if (this.coreApi && this.coreApi[e.data.method]) {
+      const { method, params } = e.data;
+      this.coreApi[method](params);
     }
   }
 
   onWsServer(coreApi: any) {
     this.coreApi = coreApi;
-    const state = new State(window, this.bootOption);
-    this.coreApi.setUp(state, this.bootOption.ch);
-    this.coreApi.tuned(state);
+    const apiState = new ApiState(window, this.bootOption);
+    this.coreApi.setUp(apiState, this.bootOption.ch);
+    this.coreApi.tuned(apiState);
     window.$t = new PublicApi(this.coreApi);
   }
 
@@ -261,8 +244,8 @@ class GlobalWindow {
     const getActions = actionName => {
       return (params1, params2) => {
         const action = handleActions[actionName](params1);
-        const reduxState = this.store.getState();
-        return this.store.dispatch(action);
+        const reduxState = this.apiStore.getState();
+        return this.apiStore.dispatch(action);
       };
     };
     for (let actionNodeCnt = 0; actionNodeCnt < actionLength; actionNodeCnt++) {
@@ -272,12 +255,8 @@ class GlobalWindow {
   }
 
   subscribe() {
-    const state = this.store.getState();
-    if(state.app.actioned === "ON_SCROLL_UPDATE_TIME_MARKER"){
-      console.log("@@@@@@@@ " + state.app.actioned);
-      console.log(state.uiTimeMarker);
-    }
-    this.appTo(state.app.actioned, state);
+    const apiState = this.apiStore.getState();
+    this.appTo(apiState.app.actioned, apiState);
   }
 
   appTo(method, params = {}) {

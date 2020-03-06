@@ -2,7 +2,7 @@ import define from "common/define";
 import Style from "./index";
 import Container from "./Container";
 import Footer from "./Footer";
-import App from "../../common/schemas/state/App";
+import Ui from "client/store/Ui";
 
 export default class Main {
   static get selfHeight() {
@@ -11,10 +11,10 @@ export default class Main {
   static get closeHeight() {
     return 45;
   }
-  static getOpenHeight(app, called) {
-    switch (app.extensionMode) {
-      case App.extensionModeExtModalLabel:
-      case App.extensionModeExtBottomLabel:
+  static getOpenHeight({ app, ui }, called) {
+    switch (ui.extensionMode) {
+      case Ui.extensionModeExtModalLabel:
+      case Ui.extensionModeExtBottomLabel:
         return 450;
       default:
         return window.innerHeight;
@@ -44,16 +44,16 @@ export default class Main {
     };
   }
 
-  static getWidth(app, addUnit = false) {
+  static getWidth({ app, ui }, addUnit = false) {
     const width = "100%";
     return addUnit ? Style.trimUnit(width) : width;
   }
 
-  static getSelfHeightPx({ app }: any) {
+  static getSelfHeightPx({ app, ui }: any) {
     return `calc( 100vh - ${Footer.selfHeight}px )`;
   }
 
-  static getSelfRight({ bootOption, app }, widthPx, addUnit = false) {
+  static getSelfRight({ bootOption, app, ui }, widthPx, addUnit = false) {
     let right = "0px";
     return addUnit ? Style.trimUnit(right) : right;
   }
@@ -67,7 +67,7 @@ export default class Main {
   }
 
   static getSelf(params) {
-    const { app, bootOption } = params;
+    const { app, ui, bootOption } = params;
     const widthPx = Main.getWidth(app);
     const heightPx = Main.getSelfHeightPx(params);
     const right = Main.getSelfRight(params, widthPx);
@@ -89,7 +89,7 @@ export default class Main {
     });
     const animation = Style.getAnimationBase({
       transform: `translate3d(0px, ${translateY}, 0px)`,
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }

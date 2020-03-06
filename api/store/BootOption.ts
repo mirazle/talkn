@@ -1,5 +1,5 @@
 import Schema from "api/store/Schema";
-import define from "common/define";
+
 export default class BootOption extends Schema {
   constructor(bootOption: any = {}) {
     super();

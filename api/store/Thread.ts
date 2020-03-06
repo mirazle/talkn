@@ -130,7 +130,7 @@ export default class Thread extends Schema {
     }
   }
 
-  static getCh(bootOption: any, bootCh: any) {
+  static getCh(bootOption: any, bootCh: string) {
     if (bootCh) {
       return bootCh;
     } else {

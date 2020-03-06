@@ -1,4 +1,4 @@
-import UiTimeMarker from "common/schemas/state/UiTimeMarker";
+import UiTimeMarker from "client/store/UiTimeMarker";
 
 export default (state = new UiTimeMarker(), action) => {
   return action.uiTimeMarker ? { ...action.uiTimeMarker } : state;

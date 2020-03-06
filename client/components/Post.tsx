@@ -1,24 +1,25 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import TimeAgo from "react-timeago";
-import Sequence from "common/Sequence";
+import Sequence from "api/Sequence";
+import Ui from "client/store/Ui";
 import Emotions from "common/emotions/index";
 import util from "common/util";
 import conf from "common/conf";
 import PostStyle from "client/style/Post";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
-import App from "common/schemas/state/App";
 
-interface Props extends MarqueeAreaProps {
+interface PostProps extends MarqueeAreaProps {
   id: number;
   app: any;
+  ui: any;
   onClickPost: (ch: string) => void;
   childLayerCnt: any;
   post: any;
   style: any;
 }
 
-interface State extends MarqueeAreaState {
+interface PostState extends MarqueeAreaState {
   postStyle: any;
   isBubblePost: boolean;
   animatedWidth: number;
@@ -27,10 +28,11 @@ interface State extends MarqueeAreaState {
 
 const emotionCoverTypes = new Emotions();
 
-export default class Post extends MarqueeArea<Props, State> {
-  public static defaultProps: Props = {
+export default class Post extends MarqueeArea<PostProps, PostState> {
+  public static defaultProps: PostProps = {
     id: 0,
     app: {},
+    ui: {},
     onClickPost: () => {},
     childLayerCnt: 0,
     post: {},
@@ -38,10 +40,10 @@ export default class Post extends MarqueeArea<Props, State> {
   };
   constructor(props) {
     super(props);
-    const { style, app } = props;
+    const { style, ui } = props;
     this.state = {
       postStyle: style,
-      isBubblePost: app.isBubblePost,
+      isBubblePost: ui.isBubblePost,
       ...this.superState
     };
 
@@ -54,7 +56,7 @@ export default class Post extends MarqueeArea<Props, State> {
   componentWillReceiveProps(props) {
     const { postStyle, isBubblePost } = this.state;
     const beforeIsBubblePost = isBubblePost;
-    const afterIsBubblePost = props.app.isBubblePost;
+    const afterIsBubblePost = props.ui.isBubblePost;
     if (beforeIsBubblePost !== afterIsBubblePost) {
       this.setState({
         postStyle: {
@@ -69,11 +71,11 @@ export default class Post extends MarqueeArea<Props, State> {
   }
 
   getDecolationProps() {
-    const { app } = this.props;
+    const { ui } = this.props;
     return {
       onMouseOver: () => {
         this.onMouseOverArea();
-        if (app.isBubblePost) {
+        if (ui.isBubblePost) {
           this.setState({
             postStyle: {
               ...this.state.postStyle,
@@ -89,7 +91,7 @@ export default class Post extends MarqueeArea<Props, State> {
       },
       onMouseLeave: () => {
         this.onMouseLeaveArea();
-        if (app.isBubblePost) {
+        if (ui.isBubblePost) {
           this.setState({
             postStyle: {
               ...this.state.postStyle,
@@ -104,7 +106,7 @@ export default class Post extends MarqueeArea<Props, State> {
         }
       },
       onMouseDown: () => {
-        if (app.isBubblePost) {
+        if (ui.isBubblePost) {
           this.setState({
             postStyle: {
               ...this.state.postStyle,
@@ -118,7 +120,7 @@ export default class Post extends MarqueeArea<Props, State> {
         }
       },
       onMouseUp: () => {
-        if (app.isBubblePost) {
+        if (ui.isBubblePost) {
           this.setState({
             postStyle: {
               ...this.state.postStyle,
@@ -168,7 +170,7 @@ export default class Post extends MarqueeArea<Props, State> {
   }
 
   render() {
-    const { app, post, onClickPost } = this.props;
+    const { ui, post, onClickPost } = this.props;
     const { postStyle } = this.state;
     const stampLabel = this.renderStampLabel(post.stampId);
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName(post.favicon);
@@ -195,7 +197,7 @@ export default class Post extends MarqueeArea<Props, State> {
           {this.renderUpper()}
           <div style={postStyle.bottom}>
             <span style={{ ...postStyle.bottomIcon, backgroundImage: `url( ${dispFavicon} )` }} />
-            <span style={postStyle.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, app) }} />
+            <span style={postStyle.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, ui) }} />
           </div>
           {stampLabel}
         </li>
@@ -207,7 +209,7 @@ export default class Post extends MarqueeArea<Props, State> {
 
   renderTime() {
     const { postStyle } = this.state;
-    const { app, post } = this.props;
+    const { app, ui, post } = this.props;
     const { createTime, currentTime } = post;
 
     if (app.isMediaCh) {
@@ -240,8 +242,7 @@ export default class Post extends MarqueeArea<Props, State> {
                   shortUnit = "sec";
                   break;
               }
-              const dispSuffix =
-                app.extensionMode === App.extensionModeExtNoneLabel ? suffix : suffix.replace("ago", "");
+              const dispSuffix = ui.extensionMode === Ui.extensionModeExtNoneLabel ? suffix : suffix.replace("ago", "");
               return `${value} ${shortUnit} ${dispSuffix}`;
             }}
           />
@@ -270,9 +271,9 @@ export default class Post extends MarqueeArea<Props, State> {
     );
   }
 
-  renderPost(post, app) {
+  renderPost(post, ui) {
     if (post.stampId) {
-      return PostStyle.getStampTag(post.post, app.isBubblePost);
+      return PostStyle.getStampTag(post.post, ui.isBubblePost);
     } else {
       return post.post;
     }

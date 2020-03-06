@@ -1,13 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
 import Marquee from "client/container/util/Marquee";
 
 interface Props {
-  state: any;
+  clientState: ClientState;
 }
 
-export default class MenuUsers extends Component<Props> {
+export default class MenuUsers extends TalknComponent<Props, {}> {
   renderFriendLiLabel(name, icon, ch) {
-    const { style } = this.props.state;
+    const { style } = this.props.clientState;
     const href = `/${ch}`;
     const label = ch ? (
       <div style={style.menuUsers.namesAddCh}>
@@ -32,7 +34,7 @@ export default class MenuUsers extends Component<Props> {
   }
 
   render() {
-    const { style } = this.props.state;
+    const { style } = this.props.clientState;
     return (
       <div data-component-name={"MenuUsers"} style={style.menuUsers.self}>
         <ol style={style.menuUsers.columns}></ol>

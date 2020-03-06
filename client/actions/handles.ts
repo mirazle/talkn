@@ -10,45 +10,45 @@ export default {
       style
     };
   },
-  onClickToggleMain: ({ app }) => {
+  onClickTogglePosts: ({ app }) => {
     return {
-      type: "ON_CLICK_TOGGLE_MAIN",
+      type: "ON_CLICK_TOGGLE_POSTS",
       app
     };
   },
-  onClickToTimelineThread: (ch, { app, thread }) => {
+  onClickToTimelineThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_TIMELINE_THREAD",
       app,
-      thread: { ch }
+      thread: { ch: thread.ch }
     };
   },
-  onClickToMultiThread: (ch, { app, thread }) => {
+  onClickToMultiThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_MULTI_THREAD",
       app,
-      thread: { ch }
+      thread: { ch: thread.ch }
     };
   },
-  onClickToSingleThread: (ch, { app, thread }) => {
+  onClickToSingleThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_SINGLE_THREAD",
       app,
-      thread: { ch }
+      thread: { ch: thread.ch }
     };
   },
-  onClickToChildThread: (ch, { app, thread }) => {
+  onClickToChildThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_CHILD_THREAD",
       app,
-      thread: { ch }
+      thread: { ch: thread.ch }
     };
   },
-  onClickToLogsThread: (ch, { app, thread }) => {
+  onClickToLogsThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_LOGS_THREAD",
       app,
-      thread: { ch }
+      thread: { ch: thread.ch }
     };
   },
   onChangeInputPost: (inputPost = "") => {
@@ -73,19 +73,19 @@ export default {
   toggleBubblePost: () => {
     return {
       type: "TOGGLE_BUBBLE_POST",
-      app: { isTransition: false }
+      ui: { isTransition: false }
     };
   },
   openLinks: () => {
     return {
       type: "OPEN_LINKS",
-      app: { isOpenLinks: true }
+      ui: { isOpenLinks: true }
     };
   },
   closeLinks: () => {
     return {
       type: "CLOSE_LINKS",
-      app: { isOpenLinks: false }
+      ui: { isOpenLinks: false }
     };
   },
   toggleLinks: isOpenLinks => {
@@ -154,13 +154,13 @@ export default {
   onTransition: () => {
     return {
       type: "ON_TRANSITION",
-      app: { isTransition: true }
+      ui: { isTransition: true }
     };
   },
   offTransition: () => {
     return {
       type: "OFF_TRANSITION",
-      app: { isTransition: false }
+      ui: { isTransition: false }
     };
   },
   onTransitionEnd: () => {
@@ -171,7 +171,7 @@ export default {
   onClickMenu: menuComponent => {
     return {
       type: "ON_CLICK_MENU",
-      app: { menuComponent }
+      ui: { menuComponent }
     };
   },
   onClickSetting: (settingType, { setting }) => {
@@ -184,61 +184,61 @@ export default {
   openInnerNotif: (openInnerNotif = define.noInnerNotif) => {
     return {
       type: "OPEN_INNER_NOTIF",
-      app: { openInnerNotif }
+      ui: { openInnerNotif }
     };
   },
   closeInnerNotif: () => {
     return {
       type: "CLOSE_INNER_NOTIF",
-      app: { openInnerNotif: "" }
+      ui: { openInnerNotif: "" }
     };
   },
   openNotif: () => {
     return {
       type: "OPEN_NOTIF",
-      app: { isOpenNotif: true }
+      ui: { isOpenNotif: true }
     };
   },
   closeNotif: () => {
     return {
       type: "CLOSE_NOTIF",
-      app: { isOpenNotif: false }
+      ui: { isOpenNotif: false }
     };
   },
   onClickOpenLockMenu: openLockMenu => {
     return {
       type: "ON_CLICK_OPEN_LOCK_MENU",
-      app: { openLockMenu }
+      ui: { openLockMenu }
     };
   },
   openNewPost: () => {
     return {
       type: "OPEN_NEW_POST",
-      app: { isOpenNewPost: true }
+      ui: { isOpenNewPost: true }
     };
   },
   closeNewPost: () => {
     return {
       type: "CLOSE_NEW_POST",
-      app: { isOpenNewPost: false }
+      ui: { isOpenNewPost: false }
     };
   },
   openMenuTransitionEnd: threadScrollY => {
     return {
       type: "OPEN_MENU_TRANSITION_END",
-      app: { threadScrollY }
+      ui: { threadScrollY }
     };
   },
   startDispPosts: () => {
     return {
       type: "START_DISP_POSTS",
-      app: { isDispPosts: true }
+      ui: { isDispPosts: true }
     };
   },
   startUndispPosts: () => {
     return {
       type: "START_UNDISP_POSTS",
-      app: { isDispPosts: false }
+      ui: { isDispPosts: false }
     };
   },
   componentDidMounts: componentName => {
@@ -273,7 +273,7 @@ export default {
   closeDispPostsSupporter: () => {
     return {
       type: "CLOSE_DISP_POSTS_SUPPORTER",
-      app: { isOpenPostsSupporter: false }
+      ui: { isOpenPostsSupporter: false }
     };
   },
   nextPostsTimeline: (postsTimeline = []) => {
@@ -330,6 +330,23 @@ export default {
   loadingEnd: () => {
     return {
       type: "LOADING_END"
+    };
+  },
+  scrollThread: () => {
+    return { type: "SCROLL_THREAD" };
+  },
+  endAnimateScrollTo: () => {
+    return { type: "END_ANIMATE_SCROLL_TO" };
+  },
+  createNotif: () => {
+    return {
+      type: "CREATE_NOTIF"
+    };
+  },
+  updatePostsHeight: postsHeight => {
+    return {
+      type: "UPDATE_POSTS_HEIGHT",
+      app: { postsHeight }
     };
   },
   debug: app => {

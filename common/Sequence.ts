@@ -1,6 +1,3 @@
-import App from "./schemas/state/App";
-import State from "./schemas/state";
-
 export default class Sequence {
   static get TALKN_PROTOCOL() {
     return "talkn:";

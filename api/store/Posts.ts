@@ -49,7 +49,6 @@ export default class Posts {
         action.postsLogs = existPosts ? posts : [];
         break;
     }
-
     return action;
   }
 }

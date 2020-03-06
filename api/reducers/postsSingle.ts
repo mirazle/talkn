@@ -4,15 +4,15 @@ export default (state: any = new Posts(), action) => {
   switch (action.type) {
     case "ON_CLICK_MULTISTREAM":
       return action.postsSingle;
-    case "CLIENT_TO_SERVER[EMIT]:changeThread":
+    case "API_TO_SERVER[REQUEST]:changeThread":
       return new Posts();
-    case "SERVER_TO_CLIENT[EMIT]:find":
-    case "SERVER_TO_CLIENT[BROADCAST]:post":
+    case "SERVER_TO_API[EMIT]:find":
+    case "SERVER_TO_API[BROADCAST]:post":
       if (action.postsSingle && action.postsSingle.length > 0) {
         return [...state, ...action.postsSingle];
       }
       break;
-    case "SERVER_TO_CLIENT[EMIT]:getMore":
+    case "SERVER_TO_API[EMIT]:getMore":
       if (action.postsSingle && action.postsSingle.length > 0) {
         return [...action.postsSingle, ...state];
       }

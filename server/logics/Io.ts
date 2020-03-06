@@ -48,9 +48,7 @@ export default class Io {
   }
 
   async findMenuIndex(ioUser, { requestState, menuIndex }) {
-    const responseEmitState = Sequence.getResponseState("Emit", requestState, {
-      menuIndex
-    });
+    const responseEmitState = Sequence.getResponseState("Emit", requestState, { menuIndex });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
     return true;
   }

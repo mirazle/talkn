@@ -1,4 +1,4 @@
-import App from "common/schemas/state/App";
+import App from "api/store/App";
 import Threads from "server/logics/db/collections/Threads";
 import Posts from "server/logics/db/collections/Posts";
 import Setting from "server/logics/db/collections/Setting";

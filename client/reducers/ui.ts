@@ -1,4 +1,4 @@
-import Ui from "common/schemas/state/App";
+import Ui from "client/store/Ui";
 
 export default (state = new Ui(), action) => {
   return action.ui ? state.merge(action.ui) : state;

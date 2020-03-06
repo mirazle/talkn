@@ -1,25 +1,27 @@
-import React, { Component } from "react";
-import App from "common/schemas/state/App";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
+import App from "api/store/App";
 import Icon from "client/components/Icon";
 import Links from "client/components/Links";
 import IconStyle from "client/style/Icon";
 import BoardStyle from "client/style/Board";
 
-interface Props {
+interface BoardProps {
   app?: any;
-  state: any;
+  clientState: ClientState;
   handleOnClickCh?: any;
   handleOnClickMultistream?: any;
   timeago?: any;
 }
 
-interface State {
+interface BoardState {
   displayLinks: boolean;
   exeTransitionEnd: boolean;
   linkContentsKey: any;
 }
 
-export default class Board extends Component<Props, State> {
+export default class Board extends TalknComponent<BoardProps, BoardState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,9 +41,10 @@ export default class Board extends Component<Props, State> {
   }
 
   componentDidMount() {
-    const { state } = this.props;
-    const { app } = state;
-    const displayLinks = !(BoardStyle.getLinksDisplay(app) === "none");
+    const { clientState } = this.props;
+    const { app } = this.apiStore;
+    const { ui } = clientState;
+    const displayLinks = !(BoardStyle.getLinksDisplay({ app, ui }) === "none");
     this.setState({
       exeTransitionEnd: false,
       displayLinks
@@ -49,7 +52,7 @@ export default class Board extends Component<Props, State> {
   }
 
   componentWillReceiveProps(props) {
-    const { actioned, isLinkCh, isOpenLinks } = props.state.app;
+    const { isOpenLinks } = props.clientState.ui;
     let updateState: any = {};
 
     if (!isOpenLinks) {
@@ -62,28 +65,26 @@ export default class Board extends Component<Props, State> {
   }
 
   handleOnClickToggleBoard() {
-    const { app } = this.props.state;
-    if (app.isOpenLinks) {
-      this.setState({ exeTransitionEnd: true });
-      window.talknWindow.parentCoreApi("toggleLinks");
+    const { ui } = this.props.clientState;
+    if (ui.isOpenLinks) {
+      this.clientAction("TOGGLE_LINKS");
     } else {
-      window.talknWindow.parentCoreApi("toggleDispBoard");
+      this.clientAction("TOGGLE_DISP_BOARD");
     }
   }
 
   handleOnClickToggleBubblePost() {
-    window.talknWindow.parentCoreApi("toggleBubblePost");
+    this.clientAction("TOGGLE_BUBBLE_POST");
   }
 
   handleOnClickLinks() {
     const { handleOnClickCh } = this.props;
-    const { app, thread } = this.props.state;
-
+    const { app } = this.apiState;
     switch (app.dispThreadType) {
       case App.dispThreadTypeMulti:
       case App.dispThreadTypeSingle:
         this.setState({ exeTransitionEnd: true });
-        window.talknWindow.parentCoreApi("toggleLinks");
+        this.clientAction("TOGGLE_LINKS");
         break;
       case App.dispThreadTypeChild:
         handleOnClickCh(app.rootCh, null, "backToRootCh");
@@ -96,12 +97,12 @@ export default class Board extends Component<Props, State> {
   }
 
   handleOnTransitionEnd(e) {
-    const { exeTransitionEnd, displayLinks } = this.state;
-    const { app } = this.props.state;
+    const { exeTransitionEnd } = this.state;
+    const { ui } = this.props.clientState;
     let updateState = {};
 
     if (exeTransitionEnd) {
-      if (app.isOpenLinks) {
+      if (ui.isOpenLinks) {
         updateState = { displayLinks: true };
       } else {
         updateState = { displayLinks: false };
@@ -121,10 +122,12 @@ export default class Board extends Component<Props, State> {
   }
 
   renderLiChild() {
-    const { state, handleOnClickMultistream } = this.props;
-    const { app, style } = state;
+    const { app } = this.apiState;
+    const { clientState, handleOnClickMultistream } = this.props;
+    const { style, ui } = clientState;
+
     let onClick = app.isRootCh && !app.isMediaCh ? handleOnClickMultistream : () => {};
-    const ThunderIcon = Icon.getThunder(IconStyle.getThunder(state));
+    const ThunderIcon = Icon.getThunder(IconStyle.getThunder({ ui, app }));
     return (
       <li onClick={onClick} style={style.board.menuLi}>
         {ThunderIcon}
@@ -134,10 +137,11 @@ export default class Board extends Component<Props, State> {
   }
 
   renderMain() {
-    const { state } = this.props;
-    const { style, app } = state;
-    const BubbleIcon = Icon.getBubble(IconStyle.getBubble(state));
-    const LinksIcon = Icon.getLinks(IconStyle.getLinks(state));
+    const { clientState } = this.props;
+    const { app } = this.apiState;
+    const { style, ui } = clientState;
+    const BubbleIcon = Icon.getBubble(IconStyle.getBubble(clientState));
+    const LinksIcon = Icon.getLinks(IconStyle.getLinks(clientState));
     const linksLabel = app.isLinkCh ? "BACK" : "LINKS";
 
     return (
@@ -161,7 +165,7 @@ export default class Board extends Component<Props, State> {
             </li>
           </ul>
           <div onClick={this.handleOnClickToggleBoard} style={style.board.menuToggle}>
-            {app.isOpenBoard ? "▲" : "▼"}
+            {ui.isOpenBoard ? "▲" : "▼"}
           </div>
         </div>
       </div>
@@ -169,9 +173,9 @@ export default class Board extends Component<Props, State> {
   }
 
   renderSub() {
-    const { state } = this.props;
-    const { style, app } = state;
-    const BubbleIcon = Icon.getBubble(IconStyle.getBubble(state));
+    const { clientState } = this.props;
+    const { style, ui } = clientState;
+    const BubbleIcon = Icon.getBubble(IconStyle.getBubble(clientState));
 
     return (
       <div
@@ -188,7 +192,7 @@ export default class Board extends Component<Props, State> {
             </li>
           </ul>
           <div onClick={this.handleOnClickToggleBoard} style={style.board.menuToggle}>
-            {app.isOpenBoard ? "▲" : "▼"}
+            {ui.isOpenBoard ? "▲" : "▼"}
           </div>
         </div>
       </div>
@@ -196,10 +200,10 @@ export default class Board extends Component<Props, State> {
   }
 
   renderLink() {
-    const { state } = this.props;
-    const { style, app } = state;
-    const LinksIcon = Icon.getLinks(IconStyle.getLinks(state));
-    const BubbleIcon = Icon.getBubble(IconStyle.getBubble(state));
+    const { clientState } = this.props;
+    const { style, ui } = clientState;
+    const LinksIcon = Icon.getLinks(IconStyle.getLinks(clientState));
+    const BubbleIcon = Icon.getBubble(IconStyle.getBubble(clientState));
     const linksLabel = "BACK";
 
     return (
@@ -221,7 +225,7 @@ export default class Board extends Component<Props, State> {
             </li>
           </ul>
           <div onClick={this.handleOnClickToggleBoard} style={style.board.menuToggle}>
-            {app.isOpenBoard ? "▲" : "▼"}
+            {ui.isOpenBoard ? "▲" : "▼"}
           </div>
         </div>
       </div>
@@ -229,9 +233,9 @@ export default class Board extends Component<Props, State> {
   }
 
   render() {
-    const { state } = this.props;
-    const { app } = state;
-    const type = BoardStyle.getType({ app });
+    const { app } = this.apiState;
+    const { ui } = this.props.clientState;
+    const type = BoardStyle.getType({ app, ui });
     switch (type) {
       case BoardStyle.typesMain:
         return this.renderMain();

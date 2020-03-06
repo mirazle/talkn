@@ -1,17 +1,19 @@
-import React, { Component } from "react";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
 import Emotions from "common/emotions/index";
 import Icon from "client/components/Icon";
 
-interface Props {
-  state: any;
+interface PostsSupporterProps {
+  clientState: ClientState;
 }
 
-interface State {
+interface PostsSupporterState {
   style: any;
   menu: any;
 }
 
-export default class PostsSupporter extends Component<Props, State> {
+export default class PostsSupporter extends TalknComponent<PostsSupporterProps, PostsSupporterState> {
   static get COVER() {
     return "Cover";
   }
@@ -22,13 +24,13 @@ export default class PostsSupporter extends Component<Props, State> {
     Object.keys(Emotions.inputs).forEach(menu => {
       const coverStampId = Emotions.inputs[menu][0];
       style[PostsSupporter.COVER][coverStampId] = {
-        ...props.state.style.postsSupporter.emoji
+        ...props.clientState.style.postsSupporter.emoji
       };
       style.Emojis[menu] = {};
-      style.Emojis[menu][0] = { ...props.state.style.postsSupporter.emoji };
+      style.Emojis[menu][0] = { ...props.clientState.style.postsSupporter.emoji };
       Emotions.inputs[menu].forEach(stampId => {
         style.Emojis[menu][stampId] = {
-          ...props.state.style.postsSupporter.emoji
+          ...props.clientState.style.postsSupporter.emoji
         };
       });
     });
@@ -115,11 +117,13 @@ export default class PostsSupporter extends Component<Props, State> {
           onClick: e => {
             if (stampId !== 0) {
               const post = Emotions.map[stampId];
-              window.talknWindow.parentCoreApi("delegatePost", {
+              const app = {
                 inputPost: post,
                 inputStampId: stampId,
                 inputCurrentTime: 0
-              });
+              };
+              this.coreApi("post", { app });
+              this.clientAction("CLOSE_DISP_POSTS_SUPPORTER", { ui: { isOpenPostsSupporter: false } });
             }
             this.setState({ menu: toMenu });
           }
@@ -128,10 +132,10 @@ export default class PostsSupporter extends Component<Props, State> {
   }
 
   getDisplay(menu) {
-    const { state } = this.props;
-    const { style: propsStyle } = state;
-    const IconOpenEmoji = Icon.getOpenEmoji({}, state);
-    const IconCloseEmoji = Icon.getCloseEmoji({}, {});
+    const { clientState } = this.props;
+    const { style: propsStyle } = clientState;
+    const IconOpenEmoji = Icon.getOpenEmoji({}, clientState);
+    const IconCloseEmoji = Icon.getCloseEmoji({}, clientState);
     const { style } = this.state;
     let display = [];
     switch (menu) {
@@ -178,7 +182,7 @@ export default class PostsSupporter extends Component<Props, State> {
   }
 
   render() {
-    const { style } = this.props.state;
+    const { style } = this.props.clientState;
     const { menu } = this.state;
     const lis = this.getDisplay(menu);
     return (

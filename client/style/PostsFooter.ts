@@ -1,5 +1,6 @@
 import define from "../../common/define";
-import App from "../../common/schemas/state/App";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
 import Posts from "./Posts";
@@ -9,63 +10,63 @@ export default class PostsFooter {
   static get selfHeight() {
     return 45;
   }
-  static getWidth(app, addUnit = false) {
+  static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
       width = "100%";
     } else {
-      switch (app.screenMode) {
-        case App.screenModeSmallLabel:
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
           width = "100%";
           break;
-        case App.screenModeMiddleLabel:
-          width = Posts.getWidth(app);
+        case Ui.screenModeMiddleLabel:
+          width = Posts.getWidth({ app, ui });
           break;
-        case App.screenModeLargeLabel:
-          width = Posts.getWidth(app);
+        case Ui.screenModeLargeLabel:
+          width = Posts.getWidth({ app, ui });
           break;
       }
     }
     return addUnit ? Style.trimUnit(width) : width;
   }
 
-  static getLeft(app, addUnit = false) {
+  static getLeft({ app, ui }, addUnit = false) {
     let left = "0";
-    if (app.extensionMode === App.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return 0;
-    } else if (app.extensionMode === App.extensionModeExtModalLabel) {
+    } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
       return 0;
     } else {
-      switch (app.screenMode) {
-        case App.screenModeSmallLabel:
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
           left = "0px";
           break;
-        case App.screenModeMiddleLabel:
-          left = `${Menu.getWidth(app)}`;
+        case Ui.screenModeMiddleLabel:
+          left = `${Menu.getWidth({ app, ui })}`;
           break;
-        case App.screenModeLargeLabel:
-          left = Menu.getWidth(app);
+        case Ui.screenModeLargeLabel:
+          left = Menu.getWidth({ app, ui });
           break;
       }
     }
     return addUnit ? Style.trimUnit(left) : left;
   }
 
-  static getBorder(app, addUnit = false) {
-    switch (app.extensionMode) {
-      case App.extensionModeExtBottomLabel:
+  static getBorder({ app, ui }, addUnit = false) {
+    switch (ui.extensionMode) {
+      case Ui.extensionModeExtBottomLabel:
         return {
           borderTop: Container.border,
           borderRight: Container.border,
           borderLeft: Container.border
         };
-      case App.extensionModeExtModalLabel:
+      case Ui.extensionModeExtModalLabel:
         return { border: Container.border };
       default:
-        if (app.includeIframeTag) {
+        if (ui.includeIframeTag) {
           return { border: Container.border };
         } else {
-          if (app.screenMode === App.screenModeSmallLabel) {
+          if (ui.screenMode === Ui.screenModeSmallLabel) {
             return {
               borderTop: Container.border,
               borderBottom: Container.border
@@ -80,25 +81,25 @@ export default class PostsFooter {
     }
   }
 
-  static getBorderRadius(app: any, addUnit = false) {
-    if (app.extensionMode === App.extensionModeExtBottomLabel) {
-      return app.extensionWidth === "100%" ? "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
-    } else if (app.extensionMode === App.extensionModeExtModalLabel) {
+  static getBorderRadius({ app, ui }: any, addUnit = false) {
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+      return ui.extensionWidth === "100%" ? "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
+    } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
       return `0px 0px ${Container.radius} ${Container.radius}`;
     }
     return 0;
   }
 
-  static getTransform(app) {
+  static getTransform({ app, ui }) {
     let transform = "translate3d( 0px, 0px, 0px )";
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
-        transform = app.isOpenMenu ? "translate3d( 0%, 0px, 0px )" : "translate3d( 0px, 0px, 0px )";
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+        transform = ui.isOpenMenu ? "translate3d( 0%, 0px, 0px )" : "translate3d( 0px, 0px, 0px )";
         break;
-      case App.screenModeMiddleLabel:
-        transform = app.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : "translate3d( 0px ,0px, 0px )";
+      case Ui.screenModeMiddleLabel:
+        transform = ui.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : "translate3d( 0px ,0px, 0px )";
         break;
-      case App.screenModeLargeLabel:
+      case Ui.screenModeLargeLabel:
         transform = "translate3d( 0px ,0px, 0px )";
         break;
     }
@@ -131,27 +132,28 @@ export default class PostsFooter {
     };
   }
 
-  static getSelf({ app }) {
-    //const display = app.extensionMode === App.extensionModeExtModalLabel ? "none": "flex";
-    const borders = PostsFooter.getBorder(app);
-    const borderRadius = PostsFooter.getBorderRadius(app);
+  static getSelf({ app, ui }) {
+    //const display = ui.extensionMode === Ui.extensionModeExtModalLabel ? "none": "flex";
+    const borders = PostsFooter.getBorder({ app, ui });
+    const borderRadius = PostsFooter.getBorderRadius({ app, ui });
     const layout = Style.getLayoutFlex({
       //display,
       position: "fixed",
       bottom: 0,
-      left: PostsFooter.getLeft(app),
+      left: PostsFooter.getLeft({ app, ui }),
       flexGrow: 1,
       height: PostsFooter.selfHeight,
-      width: PostsFooter.getWidth(app),
-      maxWidth: PostsFooter.getWidth(app),
+      width: PostsFooter.getWidth({ app, ui }),
+      maxWidth: PostsFooter.getWidth({ app, ui }),
       background: Container.offWhiteRGBA,
       justifyContent: "flex-start",
       borderRadius,
-      ...borders
+      ...borders,
+      zIndex: 10
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transform: PostsFooter.getTransform(app)
+      transform: PostsFooter.getTransform({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
@@ -174,8 +176,8 @@ export default class PostsFooter {
     return Style.get({ layout, content, animation });
   }
 
-  static getTextarea({ app }) {
-    const width = app.extensionMode === App.extensionModeExtModalLabel ? "60%" : "54%";
+  static getTextarea({ app, ui }) {
+    const width = ui.extensionMode === Ui.extensionModeExtModalLabel ? "60%" : "54%";
     const layout = Style.getLayoutInlineBlock({
       width,
       maxWidth: width,
@@ -199,7 +201,7 @@ export default class PostsFooter {
     return Style.get({ layout, content, animation });
   }
 
-  static getModalTextarea({ app }) {
+  static getModalTextarea({ app, ui }) {
     const layout = Style.getLayoutInlineBlock({
       width: "60%",
       maxWidth: "60%",
@@ -223,7 +225,7 @@ export default class PostsFooter {
     return Style.get({ layout, content, animation });
   }
 
-  static getButton({ app }) {
+  static getButton({ app, ui }) {
     const layout = Style.getLayoutInlineBlock({
       outline: "none",
       width: "20%",
@@ -242,7 +244,7 @@ export default class PostsFooter {
     return Style.get({ layout, content, animation });
   }
 
-  static getUpper({ app }) {
+  static getUpper({ app, ui }) {
     const layout = Style.getLayoutFlex({
       alignItems: "center",
       justifyContent: "flex-start"
@@ -252,7 +254,7 @@ export default class PostsFooter {
     return Style.get({ layout, content, animation });
   }
 
-  static getBottom({ app }) {
+  static getBottom({ app, ui }) {
     const layout = Style.getLayoutFlex({
       alignItems: "center",
       justifyContent: "center"

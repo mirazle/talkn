@@ -44,7 +44,7 @@ export default class Link {
     };
   }
 
-  static getSelf({ app }) {
+  static getSelf({ app, ui }) {
     const size = Link.size + "px";
     const layout = Style.getLayoutFlex({
       alignItems: "flex-start",
@@ -64,26 +64,26 @@ export default class Link {
       lineHeight: "17px"
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getTuneLi({ app }) {
-    const styles: any = Link.getActiveLi({ app });
+  static getTuneLi({ app, ui }) {
+    const styles: any = Link.getActiveLi({ app, ui });
     styles.alignItems = "center";
     return styles;
   }
 
-  static getActiveLi({ app }) {
-    const styles: any = Link.getSelf({ app });
+  static getActiveLi({ app, ui }) {
+    const styles: any = Link.getSelf({ app, ui });
     styles.background = Link.activeBgColor;
     styles.color = Container.fontBaseRGB;
     return styles;
   }
 
-  static getUnactiveLi({ app }) {
-    const styles: any = Link.getSelf({ app });
+  static getUnactiveLi({ app, ui }) {
+    const styles: any = Link.getSelf({ app, ui });
     styles.background = Link.unactiveBgColor;
     styles.color = Container.fontBaseRGB;
     return styles;

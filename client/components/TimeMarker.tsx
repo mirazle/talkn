@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
 
-interface Props {
+interface TimeMarkerProps {
   style: object;
   label: any;
   type: "Fix" | "List";
 }
 
-interface State {}
+interface TimeMarkerState {}
 
-export default class TimeMarker extends Component<Props, State> {
+export default class TimeMarker extends TalknComponent<TimeMarkerProps, TimeMarkerState> {
   constructor(props) {
     super(props);
   }

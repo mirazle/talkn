@@ -1,7 +1,7 @@
 import Schema from "api/store/Schema";
 
 export default class Threads extends Schema {
-  constructor(params: any = {}) {
+    constructor(params: any = {}) {
     super();
     return this.create(params);
   }

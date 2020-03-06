@@ -30,7 +30,7 @@ export default (state: any = new MenuIndex(), action) => {
         });
       }
       return state;
-    case "SERVER_TO_CLIENT[EMIT]:find":
+    case "SERVER_TO_API[EMIT]:find":
       if (action.app.isLinkCh) {
         return state;
       }
@@ -85,9 +85,9 @@ export default (state: any = new MenuIndex(), action) => {
 */
       return state;
 
-    case "SERVER_TO_CLIENT[BROADCAST]:find":
-    case "SERVER_TO_CLIENT[BROADCAST]:changeThread":
-    case "SERVER_TO_CLIENT[BROADCAST]:disconnect":
+    case "SERVER_TO_API[BROADCAST]:find":
+    case "SERVER_TO_API[BROADCAST]:changeThread":
+    case "SERVER_TO_API[BROADCAST]:disconnect":
       return state
         .map(mi => {
           if (action.thread.ch === mi.ch) {
@@ -97,7 +97,7 @@ export default (state: any = new MenuIndex(), action) => {
           }
         })
         .sort(sortWatchCnt);
-    case "SERVER_TO_CLIENT[BROADCAST]:post":
+    case "SERVER_TO_API[BROADCAST]:post":
       return state.map(mi => {
         // rootCh
         if (action.app.rootCh === mi.ch) {
@@ -126,7 +126,7 @@ export default (state: any = new MenuIndex(), action) => {
         }
         return mi;
       });
-    case "SERVER_TO_CLIENT[EMIT]:findMenuIndex":
+    case "SERVER_TO_API[EMIT]:findMenuIndex":
       if (state && state.length > 0 && action.menuIndex && action.menuIndex.length > 0) {
         action.menuIndex.shift();
         return [state[0]].concat(action.menuIndex);

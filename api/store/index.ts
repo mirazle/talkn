@@ -1,22 +1,16 @@
 import App from "api/store/App";
-import Ui from "api/store/Ui";
-import UiTimeMarker from "api/store/UiTimeMarker";
 import User from "api/store/User";
 import MenuIndex from "api/store/MenuIndex";
 import MenuLogs from "api/store/MenuLogs";
-import ActionLogs from "api/store/ActionLogs";
 import Posts from "api/store/Posts";
 import Analyze from "api/store/Analyze";
 import BootOption from "api/store/BootOption";
 import Thread from "api/store/Thread";
-import Setting from "api/store/Setting";
-import Style from "api/store/Style";
 import ActionLog from "api/store/ActionLogs";
 
-export default class State {
+export default class ApiState {
   menuIndex: MenuIndex;
   menuLogs: MenuLogs;
-  ActionLogs: ActionLogs;
   posts: Posts;
   postsMulti: Posts;
   postsSingle: Posts;
@@ -28,12 +22,8 @@ export default class State {
   threads: [Thread];
   thread: Thread;
   threadDetail: Thread;
-  setting: Setting;
   app: App;
-  ui: Ui;
-  uiTimeMarker: UiTimeMarker;
   user: User;
-  style: Style;
   actionLog: ActionLog;
   constructor(window: any, bootOption: any = {}, caches: any = {}) {
     this.menuIndex = new MenuIndex();
@@ -48,12 +38,8 @@ export default class State {
     this.bootOption = new BootOption(bootOption);
     this.thread = new Thread(window, this.bootOption, caches.thread);
     this.threadDetail = new Thread(window, this.bootOption, caches.thread);
-    this.setting = new Setting(caches.setting);
-    this.app = new App(State.getAppParams(this.thread, this.bootOption, caches));
-    this.ui = new Ui(State.getAppParams(this.thread, this.bootOption, caches));
-    this.uiTimeMarker = new UiTimeMarker();
-    this.user = new User(State.getUserParams(this, caches));
-    this.style = new Style(this);
+    this.app = new App(ApiState.getAppParams(this.thread, this.bootOption, caches));
+    this.user = new User(ApiState.getUserParams(this, caches));
     this.actionLog = new ActionLog();
   }
 

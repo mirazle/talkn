@@ -1,23 +1,25 @@
-import React, { Component } from "react";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
 import conf from "common/conf";
-import Sequence from "common/Sequence";
-import App from "common/schemas/state/App";
+import Sequence from "api/Sequence";
+import Ui from "client/store/Ui";
 import Style from "client/style/index";
 import Container from "client/style/Container";
 import { default as LockMenuStyle } from "client/style/LockMenu";
 import Icon from "client/components/Icon";
 
-interface Props {
-  state: any;
-  openInnerNotif?: any;
+interface LockMenuProps {
+  clientState: ClientState;
   onClickOpenLockMenu?: any;
 }
 
-interface State {
+interface LockMenuState {
   style: any;
 }
+const icon = new Icon();
 
-export default class LockMenu extends Component<Props, State> {
+export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuState> {
   getDecolationProps1(type) {
     return {
       onMouseOver: () => {
@@ -137,7 +139,7 @@ export default class LockMenu extends Component<Props, State> {
 
   constructor(props) {
     super(props);
-    const { lockMenu: style } = props.state.style;
+    const { lockMenu: style } = props.clientState.style;
     this.state = { style };
     this.getDecolationProps1 = this.getDecolationProps1.bind(this);
     this.handleOnClickToWeb = this.handleOnClickToWeb.bind(this);
@@ -145,7 +147,7 @@ export default class LockMenu extends Component<Props, State> {
   }
 
   handleOnClickToWeb() {
-    const { threadDetail } = this.props.state;
+    const { threadDetail } = this.apiState;
     if (threadDetail.protocol === Sequence.TALKN_PROTOCOL) {
       location.href = threadDetail.ch;
     } else {
@@ -154,17 +156,18 @@ export default class LockMenu extends Component<Props, State> {
   }
 
   handleOnClickToTalkn() {
-    const { threadDetail } = this.props.state;
+    const { threadDetail } = this.apiState;
     location.href = `//${conf.domain}${threadDetail.ch}`;
   }
 
   render() {
     const { state } = this;
     const { style: stateStyle } = state;
-    const { openInnerNotif, onClickOpenLockMenu } = this.props;
-    const { style, threadDetail } = this.props.state;
+    const { onClickOpenLockMenu } = this.props;
+    const { threadDetail } = this.apiState;
+    const { style } = this.props.clientState;
 
-    const IconHeadTab = Icon.getHeadTab(LockMenuStyle.headTabUpdate);
+    const IconHeadTab = Icon.getHeadTab(LockMenuStyle.headTabUpdate, this.props.clientState);
     const IconTwitter = Icon.getTwitter({}, state, { sizePx: Icon.middleSize });
     const IconFacebook = Icon.getFacebook({}, state, {
       sizePx: Icon.middleSize
@@ -172,18 +175,22 @@ export default class LockMenu extends Component<Props, State> {
     const IconTalkn = Icon.getTalkn({}, state, { sizePx: Icon.middleSize });
     return (
       <div data-component-name={"LockMenu"} style={style.lockMenu.menuShare}>
-        <header style={style.lockMenu.header} onClick={() => onClickOpenLockMenu(App.openLockMenuLabelNo)}>
+        <header style={style.lockMenu.header} onClick={() => onClickOpenLockMenu(Ui.openLockMenuLabelNo)}>
           SHARE
           {IconHeadTab}
         </header>
         <ul style={style.lockMenu.ul}>
-          <li style={stateStyle.liTwitter} onClick={() => openInnerNotif()} {...this.getDecolationProps1("liTwitter")}>
+          <li
+            style={stateStyle.liTwitter}
+            onClick={() => this.clientAction("OPEN_INNER_NOTIF")}
+            {...this.getDecolationProps1("liTwitter")}
+          >
             {IconTwitter}
             <div style={style.lockMenu.shareLabel}>Twitter</div>
           </li>
           <li
             style={stateStyle.liFacebook}
-            onClick={() => openInnerNotif()}
+            onClick={() => this.clientAction("OPEN_INNER_NOTIF")}
             {...this.getDecolationProps1("liFacebook")}
           >
             {IconFacebook}
@@ -195,7 +202,7 @@ export default class LockMenu extends Component<Props, State> {
               const Input = document.querySelector("[data-component-share-input]") as HTMLInputElement;
               Input.select();
               document.execCommand("copy");
-              openInnerNotif("Success copy script tag.");
+              this.clientAction("OPEN_INNER_NOTIF", { ui: { openInnerNotif: "Success copy script tag." } });
             }}
             {...this.getDecolationProps1("liEmbed")}
           >

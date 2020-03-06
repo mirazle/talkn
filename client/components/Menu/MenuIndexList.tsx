@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import App from "common/schemas/state/App";
-import Thread from "common/schemas/state/Thread";
-import Post from "common/schemas/state/Post";
+import React from "react";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
+import Thread from "api/store/Thread";
+import Post from "api/store/Post";
 import util from "common/util";
 import conf from "common/conf";
 import MenuIndexListStyle from "client/style/Menu/MenuIndexList";
@@ -10,9 +11,10 @@ import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/containe
 
 interface MenuIndexListProps extends MarqueeAreaProps {
   app: App;
+  ui: Ui;
   thread: Thread;
   menuIndexList: Post[] | any;
-  handleOnClickCh: any;
+  onClickOtherThread: any;
   rank: string;
   style: any;
 }
@@ -34,7 +36,7 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
   componentDidMount() {
     const { menuIndexList } = this.props;
     this.measureText();
-    window.talknWindow.parentCoreApi("onCatchChApi", menuIndexList.ch);
+    this.coreApi("onResponseChAPI", menuIndexList.ch);
   }
 
   componentWillUnmount() {
@@ -99,18 +101,18 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
   }
 
   handleOnClick() {
-    const { thread, menuIndexList, handleOnClickCh } = this.props;
+    const { thread, menuIndexList } = this.props;
     const { ch } = menuIndexList;
     const isFocusCh = thread.ch === ch ? true : false;
     const styleKey = isFocusCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
-    let { app } = this.props;
+    let { ui } = this.props;
 
     if (isFocusCh) {
-      if (app.screenMode === App.screenModeSmallLabel) {
-        window.talknWindow.parentCoreApi("onClickToggleDispMenu");
+      if (ui.screenMode === Ui.screenModeSmallLabel) {
+        this.clientAction("ON_CLICK_TOGGLE_DISP_MENU");
       }
     } else {
-      handleOnClickCh(ch, null, "menuIndexList");
+      this.onClickCh(ch, ui, thread.hasSlash, "menuIndexList");
     }
 
     this.setState({
@@ -133,7 +135,7 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
 
     const dispRank = this.renderRank(rank);
     const dispFavicon = this.renderDispFavicon();
-    const dispWatchCnt = this.renderDispWatchCnt();
+    const dispWatchCnt = this.renderDispWatchCnt(isFocusCh);    
     const baseStyle = style[styleKey];
     const dispExt = menuIndexList.findType === Thread.findTypeHtml ? null : menuIndexList.findType;
     const marqueeStyle: any = this.getMarqueeStyle();
@@ -156,18 +158,8 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
         </div>
 
         <div style={style.bottom}>
-          <span
-            style={{
-              ...style.bottomIcon,
-              backgroundImage: `url( ${dispFavicon} )`
-            }}
-          />
-          <span
-            style={style.bottomPost}
-            dangerouslySetInnerHTML={{
-              __html: this.renderPost(menuIndexList, app)
-            }}
-          />
+          <span　style={{　...style.bottomIcon,　backgroundImage: `url( ${dispFavicon} )`}}/>
+          <span　style={style.bottomPost} dangerouslySetInnerHTML={{__html: this.renderPost(menuIndexList, app)}}/>
           {dispWatchCnt}
         </div>
 
@@ -208,19 +200,15 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
     }
   }
 
-  renderDispWatchCnt() {
+  renderDispWatchCnt(isFocusCh) {
     const { style } = this.state;
     const { menuIndexList } = this.props;
-
-    if (menuIndexList.watchCnt === 0 || menuIndexList.watchCnt > 0) {
-      return (
-        <span style={style.bottomWatchCnt}>
-          <span style={style.bottomWatchCntWrap}>{menuIndexList.watchCnt}</span>
-        </span>
-      );
-    } else {
-      return <span style={style.bottomWatchCnt}></span>;
-    }
+    const watchCnt = menuIndexList.watchCnt === 0 || menuIndexList.watchCnt > 0 ? menuIndexList.watchCnt : 0;
+    return (
+      <span style={style.bottomWatchCnt}>
+        <span style={style.bottomWatchCntWrap}>{watchCnt}</span>
+      </span>
+    );
   }
   renderRank(rank) {
     let { upperRankWrap, upperRank } = this.state.style;
