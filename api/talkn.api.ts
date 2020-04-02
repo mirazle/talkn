@@ -2,7 +2,6 @@ import io from "socket.io-client";
 import conf from "client/conf";
 import define from "common/define";
 import PostMessage from "common/PostMessage";
-import Schema from "api/store/Schema";
 import ApiState from "api/store/";
 import Sequence from "api/Sequence";
 import PublicApi from "api/public.api";
@@ -51,7 +50,7 @@ class BootOption {
     bootOption.ch = bootOption.ch
       ? bootOption.ch
       : location.href
-          .replace(`${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}`, "")
+          .replace(`${Sequence.HTTPS_PROTOCOL}//${conf.domain}`, "")
           .replace(`:${define.PORTS.DEVELOPMENT}`, "")
           .replace(`:${define.PORTS.DEVELOPMENT_API}`, "")
           .replace(`${Sequence.HTTPS_PROTOCOL}/`, "")
