@@ -87,6 +87,8 @@ class CoreAPI {
   constructor(apiStore, resolve) {
     const wsServer =
       location.host.indexOf(define.PRODUCTION_DOMAIN) >= 0 ? define.PRODUCTION_DOMAIN : define.DEVELOPMENT_DOMAIN;
+    console.log(conf.domain);
+    console.log(conf.env);
     this.apiStore = apiStore;
     this.ws = io(`${Sequence.HTTPS_PROTOCOL}//${wsServer}:${define.PORTS.SOCKET_IO}`, { forceNew: true });
     this.onResponseMeAPI(resolve);
