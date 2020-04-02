@@ -299,7 +299,6 @@ class GlobalWindow {
   }
 
   afterMediaFilter(apiState) {
-    console.log(apiState.app.actioned);
     switch (apiState.app.actioned) {
       case "SERVER_TO_API[EMIT]:find":
         if (apiState.app.isMediaCh) {
