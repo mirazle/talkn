@@ -71,6 +71,7 @@ class BootOption {
     bootOption.type = clientScript ? define.APP_TYPES.PORTAL : define.APP_TYPES.EXTENSION;
     delete bootOption.src;
     delete bootOption.async;
+    console.log(bootOption);
     return bootOption;
   }
 
