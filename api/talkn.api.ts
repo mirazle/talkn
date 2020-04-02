@@ -71,7 +71,6 @@ class BootOption {
     bootOption.type = clientScript ? define.APP_TYPES.PORTAL : define.APP_TYPES.EXTENSION;
     delete bootOption.src;
     delete bootOption.async;
-    console.log(bootOption);
     return bootOption;
   }
 
@@ -89,6 +88,11 @@ class CoreAPI {
     const wsServer =
       location.host.indexOf(define.PRODUCTION_DOMAIN) >= 0 ? define.PRODUCTION_DOMAIN : define.DEVELOPMENT_DOMAIN;
     this.apiStore = apiStore;
+    console.log("---------------");
+    console.log(location.host);
+    console.log(define.PRODUCTION_DOMAIN);
+    console.log(location.host.indexOf(define.PRODUCTION_DOMAIN));
+    console.log(wsServer);
     this.ws = io(`${Sequence.HTTPS_PROTOCOL}//${wsServer}:${define.PORTS.SOCKET_IO}`, { forceNew: true });
     this.onResponseMeAPI(resolve);
     this.setUp = this.setUp.bind(this);
@@ -587,5 +591,4 @@ export class Media {
   }
 }
 
-console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 const globalWindow = new GlobalWindow();
