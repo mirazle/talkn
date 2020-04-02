@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import ui from "./ui";
 import setting from "./setting";
-import uiTimeMarker from "./uiTimeMarker";
+import uiTimeMarker from "client/reducers/uiTimeMarker";
 import style from "./style";
 import componentDidMounts from "./componentDidMounts";
 import actionLog from "./actionLog";
