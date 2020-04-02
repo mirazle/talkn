@@ -189,7 +189,8 @@ class Script {
     if (this.window.isBrowserExt) {
       return window.chrome.runtime.getURL("talkn.api.js");
     } else {
-      return Ext.API_HOST;
+      console.log(API_ENDPOINT);
+      return Ext.API_ENDPOINT;
     }
   }
 
