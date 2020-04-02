@@ -19,7 +19,8 @@ const beforeFunctions = {
     const { app } = requestState;
 
     if (app.isMediaCh) {
-      if (window.talknMedia && window.talknMedia.currentTime) {
+      //      if (window.talknMedia && window.talknMedia.currentTime) {
+      if (app.currentTime) {
         requestState.app.inputCurrentTime = window.talknMedia.currentTime;
       } else {
         requestState.app.inputCurrentTime = 0;

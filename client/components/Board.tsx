@@ -78,7 +78,8 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
   }
 
   handleOnClickLinks() {
-    const { handleOnClickCh } = this.props;
+    const { handleOnClickCh, clientState } = this.props;
+    const { ui } = clientState;
     const { app } = this.apiState;
     switch (app.dispThreadType) {
       case App.dispThreadTypeMulti:
@@ -87,11 +88,11 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
         this.clientAction("TOGGLE_LINKS");
         break;
       case App.dispThreadTypeChild:
-        handleOnClickCh(app.rootCh, null, "backToRootCh");
+        this.onClickCh(app.rootCh, ui, false, "backToRootCh");
         break;
       case App.dispThreadTypeTimeline:
         //if( app.isLinkCh ){
-        handleOnClickCh(app.rootCh, null, "backToRootCh");
+        this.onClickCh(app.rootCh, ui, false, "backToRootCh");
       //}
     }
   }
@@ -121,12 +122,27 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
     });
   }
 
+  render() {
+    const { app } = this.apiState;
+    const { ui } = this.props.clientState;
+    const type = BoardStyle.getType({ app, ui });
+    switch (type) {
+      case BoardStyle.typesMain:
+        return this.renderMain();
+      case BoardStyle.typesLink:
+        return this.renderLink();
+      case BoardStyle.typesSub:
+        return this.renderSub();
+      default:
+        return null;
+    }
+  }
+
   renderLiChild() {
     const { app } = this.apiState;
     const { clientState, handleOnClickMultistream } = this.props;
     const { style, ui } = clientState;
-
-    let onClick = app.isRootCh && !app.isMediaCh ? handleOnClickMultistream : () => {};
+    let onClick = app.isRootCh ? handleOnClickMultistream : () => {};
     const ThunderIcon = Icon.getThunder(IconStyle.getThunder({ ui, app }));
     return (
       <li onClick={onClick} style={style.board.menuLi}>
@@ -230,21 +246,5 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
         </div>
       </div>
     );
-  }
-
-  render() {
-    const { app } = this.apiState;
-    const { ui } = this.props.clientState;
-    const type = BoardStyle.getType({ app, ui });
-    switch (type) {
-      case BoardStyle.typesMain:
-        return this.renderMain();
-      case BoardStyle.typesLink:
-        return this.renderLink();
-      case BoardStyle.typesSub:
-        return this.renderSub();
-      default:
-        return null;
-    }
   }
 }

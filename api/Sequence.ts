@@ -1,4 +1,4 @@
-import { request } from "express";
+import Schema from "api/store/Schema";
 
 export default class Sequence {
   static get TALKN_PROTOCOL() {
@@ -173,6 +173,7 @@ export default class Sequence {
     if (actionType.indexOf(Sequence.SERVER_TO_API_BROADCAST) === 0) {
       return actionType.replace(Sequence.SERVER_TO_API_BROADCAST, Sequence.API_TO_CLIENT_BROADCAST);
     }
+    return actionType;
   }
 
   static getRequestState(actionName, reduxState, requestParams) {
@@ -186,7 +187,7 @@ export default class Sequence {
       requestPrivateState[stateKey].forEach(columnName => {
         if (!requestState[stateKey][columnName]) {
           let value = reduxState[stateKey][columnName];
-          if (requestParams && requestParams[stateKey] && requestParams[stateKey][columnName]) {
+          if (requestParams && requestParams[stateKey] && Schema.isSet(requestParams[stateKey][columnName])) {
             value = requestParams[stateKey][columnName];
           }
           requestState[stateKey][columnName] = value;
@@ -203,7 +204,6 @@ export default class Sequence {
         }
       });
     });
-
     return requestState;
   }
 

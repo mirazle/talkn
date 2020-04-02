@@ -90,10 +90,12 @@ class Express {
             res.render("www/", {
               language,
               domain: conf.domain,
+              apiURL: conf.apiURL,
               wwwURL: conf.wwwURL,
               extURL: conf.extURL,
               assetsURL: conf.assetsURL,
-              clientURL: conf.clientURL
+              clientURL: conf.clientURL,
+              apiAccessURL: conf.apiAccessURL
             });
           } else {
             res.sendFile(`${conf.serverWwwPath}${req.url.replace("/", "")}`);
@@ -178,7 +180,9 @@ class Express {
             language,
             domain: conf.domain,
             clientURL: conf.clientURL,
-            assetsURL: conf.assetsURL
+            assetsURL: conf.assetsURL,
+            apiURL: conf.apiURL,
+            apiAccessURL: conf.apiAccessURL
           });
         }
         break;

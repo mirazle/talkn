@@ -66,13 +66,15 @@ export default class TimeMarker {
   }
 
   static getSelf({ app, ui }) {
+    const display = app.isMediaCh ? "none" : "flex";
     const layout = Style.getLayoutFlex({
       width: `${TimeMarker.getSelfWidthRate()}%`,
       height: `${TimeMarker.getSelfHeightPx()}px`,
       margin: `${TimeMarker.getSelfMarginTop()}px auto 10px auto`,
       padding: "5px 10px",
       background: Container.darkLightRGBA,
-      borderRadius: "20px"
+      borderRadius: "20px",
+      display
     });
     const content = Style.getContentBase({
       color: Container.whiteRGB,

@@ -1,5 +1,5 @@
 import { Component } from "react";
-import Message from "common/Message";
+import PostMessage from "common/PostMessage";
 import ApiState from "api/store/";
 import ClientState from "client/store/";
 import Schema from "api/store/Schema";
@@ -25,13 +25,25 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     return window.talknWindow.stores.api.getState();
   }
   get clientStore(): ClientState {
-    return window.talknWindow.stores.client;
+    if (window.talknWindow) {
+      return window.talknWindow.stores.client;
+    }
   }
   get clientState() {
-    return window.talknWindow.stores.client.getState();
+    if (window.talknWindow) {
+      return window.talknWindow.stores.client.getState();
+    }
   }
   coreApi(method, params = {}, callback = () => {}) {
-    window.postMessage({ type: Message.appToCoreApi, method, params }, location.href);
+    const postWindow = window.talknWindow.parentUrl === location.href ? window : window.top;
+    postWindow.postMessage(
+      {
+        type: PostMessage.CLIENT_TO_API_TYPE,
+        method,
+        params
+      },
+      window.talknWindow.parentUrl
+    );
   }
   clientAction(type: string, params?, callback = () => {}) {
     const { app } = this.apiState;
@@ -49,6 +61,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
 
     window.talknWindow.stores.client.dispatch(action);
   }
+
   onClickCh(toCh, ui, overWriteHasSlash, called) {
     let { app, thread, menuIndex, setting } = this.apiState;
     const beforeCh = thread.ch;
@@ -134,7 +147,11 @@ export default class TalknComponent<P, S> extends Component<P, S> {
   scrollToDidUpdateGetMore() {
     const { ui } = this.clientState;
     const Posts = document.querySelector("[data-component-name=Posts]");
-    const scrollHeight = ui.screenMode === Ui.screenModeLargeLabel ? Posts.scrollHeight : document.body.scrollHeight;
+    const scrollHeight =
+      ui.screenMode === Ui.screenModeLargeLabel || ui.extensionMode !== Ui.extensionModeExtNoneLabel
+        ? Posts.scrollHeight
+        : document.body.scrollHeight;
+
     window.talknWindow.scrollTop = scrollHeight - window.talknWindow.scrollHeight;
     Posts.scrollTop = window.talknWindow.scrollTop;
     window.scrollTo(0, window.talknWindow.scrollTop);

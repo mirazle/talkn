@@ -41,8 +41,12 @@ export default (state: any = {}, action: any) => {
           ...state.board,
           menuLiChild: {
             ...state.board.menuLiChild,
-            color: !action.app.isMediaCh && action.app.multistream ? Board.activeColor : Board.unactiveColor
+            color: action.app.multistream ? Board.activeColor : Board.unactiveColor
           }
+        },
+        icon: {
+          ...state.icon,
+          thunder: {}
         }
       };
     case "COMPONENT_DID_MOUNTS":

@@ -42,8 +42,9 @@ export default class Menuextends extends TalknComponent<Props, {}> {
     if (ui.screenMode === Ui.screenModeSmallLabel) {
       if (ui.isOpenMenu) {
         openMenuTransitionEnd(window.scrollY);
-        console.log("MENU INDEX LOCK");
         window.talknWindow.lockWindow();
+      } else {
+        window.talknWindow.unlockWindow();
       }
     }
   }

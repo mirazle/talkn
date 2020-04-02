@@ -59,12 +59,36 @@
       if (layerCnt === 1 && !ch.match(/\/$/)) {
         location.href = location.href + "/";
       } else {
+        window.name = window.name ? window.name : "global";
+
+        // load api script.
+        if (window.name === "global") {
+          const apiScript = document.createElement("script");
+          apiScript.setAttribute("id", "talkn");
+          apiScript.setAttribute("type", "text/javascript");
+          apiScript.setAttribute("src", "https://<%= apiAccessURL %>");
+          document.head.appendChild(apiScript);
+        }
+
         script.setAttribute("id", "talkn");
         script.setAttribute("type", "text/javascript");
         script.setAttribute("src", jsPath + jsFileName);
         script.setAttribute("ch", ch);
         script.setAttribute("hasSlash", hasSlash);
         document.head.appendChild(script);
+      }
+
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/portal_sw.js")
+          .then(registration => {
+            // 登録成功
+            console.log("[TALKN_PORTAL]ServiceWorker registration successful with scope: ", registration.scope);
+          })
+          .catch(err => {
+            // 登録失敗 :(
+            console.log("[TALKN_PORTAL]ServiceWorker registration failed: ", err);
+          });
       }
     </script>
     <noscript key="noscript">Your browser does not support JavaScript!</noscript>

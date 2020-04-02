@@ -70,6 +70,13 @@ export default {
       app
     };
   },
+  onClickToggleMain: ({ app, ui }) => {
+    return {
+      type: "ON_CLICK_TOGGLE_MAIN",
+      app,
+      ui
+    };
+  },
   toggleBubblePost: () => {
     return {
       type: "TOGGLE_BUBBLE_POST",

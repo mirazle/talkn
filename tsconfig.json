@@ -17,7 +17,7 @@
     "noFallthroughCasesInSwitch": false,
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "_dist",
     "jsx": "react",
     "lib": ["es2019", "dom"],
     "incremental": true,

@@ -3,7 +3,7 @@ import cheerio from "cheerio";
 // import jschardet from "jschardet";
 import { Iconv } from "iconv";
 import { Buffer } from "buffer";
-import Sequence from "common/Sequence";
+import Sequence from "api/Sequence";
 import App from "api/store/App";
 import Thread from "api/store/Thread";
 import MongoDB from "server/listens/db/MongoDB";

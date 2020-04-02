@@ -1,12 +1,9 @@
-import conf from "common/conf";
-import util from "common/util";
 import Schema from "api/store/Schema";
 import App from "api/store/App";
 import Posts from "api/store/Posts";
 import Thread from "api/store/Thread";
 import Threads from "api/store/Threads";
 import storage from "api/mapToStateToProps/storage";
-import Post from "api/store/Post";
 
 export default {
   updateAction: store => next => action => {
@@ -36,19 +33,19 @@ const functions = {
     return action;
   },
   "SERVER_TO_API[EMIT]:find": (state, action) => {
-    action = resolve.caseNoExistResponsePost(state, action);
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     action.app.detailCh = action.thread.ch;
     action.app.desc = action.thread.serverMetas.title;
     action.app.isRootCh = action.app.rootCh === action.thread.ch;
     action.app.isMediaCh = App.getIsMediaCh(action.thread.ch);
-
-    action = { ...Posts.getAnyActionPosts(action) };
+    action = { ...Posts.getAnyActionPosts(action, state) };
     action.thread.title = action.thread.serverMetas.title;
     action.thread.hasSlash = Schema.getBool(action.thread.hasSlash);
     action.threads = Threads.getMergedThreads(state.threads, action.thread);
     action.threadDetail = { ...action.thread };
-    if (action.app.isRootCh) action.app.rootTitle = action.thread.title;
+    if (action.app.isRootCh) {
+      action.app.rootTitle = action.thread.title;
+    }
     if (action.app.isMediaCh) {
       const src = App.getMediaSrc(action.thread.protocol, action.thread.ch);
       action.app.chType = App.getMediaTypeFromSrc(src);
@@ -100,14 +97,13 @@ const functions = {
     } else {
       action.thread.emotions = state.thread.emotions;
     }
-    action = Posts.getAnyActionPosts(action);
-
+    action = Posts.getAnyActionPosts(action, state);
     return action;
   },
   "SERVER_TO_API[EMIT]:getMore": (state, action) => {
     action.app.offsetFindId = App.getOffsetFindId({ posts: action.posts });
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
-    action = Posts.getAnyActionPosts(action);
+    action = Posts.getAnyActionPosts(action, state);
     return action;
   },
   "SERVER_TO_API[EMIT]:changeThreadDetail": (state, action) => {
@@ -209,17 +205,5 @@ const functions = {
       };
       return action;
     }
-  }
-};
-
-const resolve = {
-  caseNoExistResponsePost: (state, action) => {
-    if (action.posts.length === 0) {
-      action.posts = state.posts;
-      action.existResponsePostFlg = false;
-    } else {
-      action.existResponsePostFlg = true;
-    }
-    return action;
   }
 };

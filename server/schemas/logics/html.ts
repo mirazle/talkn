@@ -1,5 +1,5 @@
 import conf from "common/conf";
-import Sequence from "common/Sequence";
+import Sequence from "api/Sequence";
 import Thread from "api/store/Thread";
 
 export default class Html {

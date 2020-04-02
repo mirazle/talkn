@@ -24,9 +24,6 @@ export default {
     TalknSession.setStorage(rootCh, define.storageKey.app, state.app);
     return { state, props };
   },
-  "SERVER_TO_API[EMIT]:tuned ": (state, props) => {
-    return { state, props };
-  },
   RESIZE_END_WINDOW: (state, props) => {
     return { state, props };
   },
@@ -78,9 +75,6 @@ function setStoragePostsTimeline(action) {
     action.postsTimeline = postsTimelineZeroSecond;
     TalknSession.setStorage(thread.ch, storageKey.postsTimelineZero, postsTimelineZeroSecond);
     TalknSession.setStorage(thread.ch, storageKey.postsTimeline, postsTimeline);
-
-    console.log(getStoragePostsTimelineZero(thread.ch));
-    console.log(getStoragePostsTimeline(thread.ch));
   }
   return action;
 }

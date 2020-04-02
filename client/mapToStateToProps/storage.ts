@@ -18,23 +18,9 @@ export default {
     TalknSession.setStorage(rootCh, define.storageKey[postKey], []);
     return { clientState, apiState, props };
   },
-  //  "ON__CLICK_MULTISTREAM": setStoragePosts,
-  ON_CLICK_TOGGLE_DISP_MENU: (clientState, apiState, props) => {
-    const { ui } = clientState;
-    if (ui.screenMode === Ui.screenModeSmallLabel) {
-      if (!ui.isOpenMenu) {
-        window.talknWindow.unlockWindow();
-        window.scrollTo(0, ui.threadScrollY);
-      }
-    }
-    return { clientState, apiState, props };
-  },
   ON_CLICK_MENU: (clientState, apiState, props) => {
     const { rootCh } = apiState.app;
     TalknSession.setStorage(rootCh, define.storageKey.app, clientState.app);
-    return { clientState, apiState, props };
-  },
-  "API_TO_CLIENT[EMIT]:tuned ": (clientState, apiState, props) => {
     return { clientState, apiState, props };
   },
   RESIZE_END_WINDOW: (clientState, apiState, props) => {

@@ -5,6 +5,7 @@ TalknSetup.setupMath();
 
 declare global {
   interface Window {
+    name: string;
     talknWindow: any;
     talknMedia: any;
     Youtube: any;

@@ -3,6 +3,8 @@ import User from "api/store/User";
 import MenuIndex from "api/store/MenuIndex";
 import MenuLogs from "api/store/MenuLogs";
 import Posts from "api/store/Posts";
+import PostsTimeline from "api/store/PostsTimeline";
+import PostsTimelineStock from "api/store/PostsTimelineStock";
 import Analyze from "api/store/Analyze";
 import BootOption from "api/store/BootOption";
 import Thread from "api/store/Thread";
@@ -15,7 +17,8 @@ export default class ApiState {
   postsMulti: Posts;
   postsSingle: Posts;
   postsChild: Posts;
-  postsTimeline: Posts;
+  postsTimeline: PostsTimeline;
+  postsTimelineStock: PostsTimelineStock;
   postsLogs: Posts;
   analyze: Analyze;
   bootOption: BootOption;
@@ -32,7 +35,8 @@ export default class ApiState {
     this.postsMulti = new Posts();
     this.postsSingle = new Posts();
     this.postsChild = new Posts();
-    this.postsTimeline = new Posts();
+    this.postsTimeline = new PostsTimeline();
+    this.postsTimelineStock = new PostsTimelineStock();
     this.postsLogs = new Posts();
     this.analyze = new Analyze();
     this.bootOption = new BootOption(bootOption);

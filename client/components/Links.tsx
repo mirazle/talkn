@@ -77,12 +77,13 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
       displayLinks: false,
       linkContentsKey: "html"
     };
+    this.setLinkContents = this.setLinkContents.bind(this);
     this.renderLinkTabs = this.renderLinkTabs.bind(this);
     this.handleOnClickLinkTabs = this.handleOnClickLinkTabs.bind(this);
   }
 
-  componentDidMount() {
-    const { clientState, handleOnClickCh } = this.props;
+  setLinkContents() {
+    const { clientState } = this.props;
     const { app, thread } = this.apiState;
     const { ui } = clientState;
     const displayLinks = !(BoardStyle.getLinksDisplay({ app, ui }) === "none");
@@ -140,6 +141,16 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
       linkContents,
       displayLinks
     });
+  }
+
+  componentDidMount() {
+    this.setLinkContents();
+  }
+
+  componentDidUpdate(props) {
+    if (props.clientState.actionLog[0] === "API_TO_CLIENT[EMIT]:find") {
+      this.setLinkContents();
+    }
   }
 
   handleOnClickLinkTabs(e) {

@@ -1,20 +1,17 @@
 import React from "react";
-import Message from "common/Message";
+import PostMessage from "common/PostMessage";
 import TalknComponent from "client/components/TalknComponent";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import Schema from "api/store/Schema";
 import Sequence from "api/Sequence";
 import { default as PostsSchems } from "api/store/Posts";
 import App from "api/store/App";
 import Ui from "client/store/Ui";
 import UiTimeMarker from "client/store/UiTimeMarker";
 import conf from "client/conf";
-import TalknMedia from "client/operations/TalknMedia";
 import Container from "client/container/";
 import apiStore from "api/store/apiStore";
 import clientStore from "client/store/clientStore";
-import storage from "client/mapToStateToProps/storage";
 
 export default class TalknWindow extends TalknComponent<{}, {}> {
   static get resizeInterval() {
@@ -44,12 +41,12 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   bootOption: any;
   appType: string;
   resizeTimer: any = null;
-  parentUrl: string;
   scrollTop: number = 0;
   clientHeight: number = 0;
   scrollHeight: number = 0;
   isScrollBottom: boolean = false;
   isAnimateScrolling: boolean = false;
+  parentUrl: string = location.href;
   private dom: any;
   private stores: any;
   constructor(props = null) {
@@ -58,7 +55,6 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     this.load = this.load.bind(this);
     this.resize = this.resize.bind(this);
     this.scroll = this.scroll.bind(this);
-    this.onMessage = this.onMessage.bind(this);
     this.parentExtTo = this.parentExtTo.bind(this);
     this.listenAsyncBoot = this.listenAsyncBoot.bind(this);
     this.exeGetMore = this.exeGetMore.bind(this);
@@ -90,7 +86,6 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
       "margin: 0px auto !important;" +
       "visibility: visible !important;" +
       "opacity: 1 !important;";
-    //if( !window.name ) window.name = "talkn";
   }
 
   listenAsyncBoot() {
@@ -110,19 +105,40 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     bootPromise.push(
       new Promise(messageResolve => {
         window.addEventListener("message", e => {
-          if (e.data && e.data.type === Message.coreApiToApp) {
-            if (e.data.method === Message.connectionMethod) {
-              this.bootOption = e.data.params;
-              this.coreApi(Message.connectionMethod);
-              messageResolve(e);
-            } else {
-              const apiState = e.data.params;
+          switch (e.data.type) {
+            case PostMessage.EXT_TO_CLIENT_TYPE:
+              switch (e.data.method) {
+                case PostMessage.HANDLE_EXT_AND_CLIENT:
+                  this.parentUrl = e.origin;
+                  this.parentExtTo(PostMessage.HANDLE_EXT_AND_CLIENT, conf);
+                  break;
+              }
               const clientState = this.stores.client.getState();
               const actionType = Sequence.convertApiToClientActionType(e.data.method);
-              const dispatchState = { ...clientState, ...apiState };
-              this.stores.api = apiStore(apiState);
+              const dispatchState = { ...clientState, ...e.data.params };
               this.stores.client.dispatch({ ...dispatchState, type: actionType });
-            }
+              break;
+            case PostMessage.API_TO_CLIENT_TYPE:
+              if (e.data.method === PostMessage.HANDLE_API_AND_CLIENT) {
+                this.bootOption = e.data.params;
+                this.coreApi(PostMessage.HANDLE_API_AND_CLIENT);
+                messageResolve(e);
+              } else {
+                const apiState = e.data.params;
+                const clientState = this.stores.client.getState();
+                const actionType = Sequence.convertApiToClientActionType(e.data.method);
+                const dispatchState = { ...clientState, ...apiState };
+                this.stores.api = apiStore(apiState);
+                this.stores.client.dispatch({ ...dispatchState, type: actionType });
+              }
+              break;
+            case PostMessage.MEDIA_TO_CLIENT_TYPE:
+              this.stores.api.dispatch({
+                type: e.data.method,
+                postsTimeline: e.data.params.postsTimeline
+              });
+              this.stores.client.dispatch({ type: e.data.method });
+              break;
           }
           if (e.origin === "https://www.youtube.com") {
           }
@@ -132,7 +148,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
 
     window.addEventListener("resize", this.resize);
     window.addEventListener("scroll", this.scroll);
-    window.talknMedia = new TalknMedia();
+    //    window.talknMedia = new TalknMedia();
 
     Promise.all(bootPromise).then((bootParams: any) => {
       ReactDOM.render(
@@ -143,93 +159,6 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
         () => {}
       );
     });
-  }
-
-  onMessage(e) {
-    if (e.data.type === "talkn") {
-      const log = false;
-      switch (e.data.method) {
-        case "bootExtension":
-          this.parentUrl = e.data.href;
-          this.parentExtTo("bootExtension", conf);
-          // resolve(e.data.params);
-          break;
-        case "findMediaCh":
-          if (e.data.params.thread && e.data.params.thread.ch) {
-            if (log) {
-              console.log("============== findMediaCh A " + e.data.params.thread.ch);
-            }
-            const { ui } = window.talknWindow.apiStore.getState();
-            this.onClickCh(e.data.params.thread.ch, ui, false, e.data.method);
-            TalknMedia.init("TalknWindow");
-            this.clientAction("START_LINK_MEDIA");
-            window.talknMedia = new TalknMedia();
-          }
-          break;
-        case "playMedia":
-          const playMediaState = window.talknWindow.apiStore.getState();
-          const ch =
-            e.data.params.thread && e.data.params.thread.ch ? e.data.params.thread.ch : playMediaState.thread.ch;
-          const isExistThreadData = playMediaState.threads[ch];
-
-          if (log && window.talknMedia)
-            console.log("========================= playMedia " + window.talknMedia.currentTime);
-
-          if (window.talknMedia === undefined) {
-            TalknMedia.init("TalknWindow");
-            this.clientAction("START_LINK_MEDIA");
-            window.talknMedia = new TalknMedia();
-            if (log) console.log("============== playMedia A " + window.talknMedia.currentTime);
-          }
-
-          if (window.talknMedia && Schema.isSet(window.talknMedia.currentTime) && window.talknMedia.started === false) {
-            window.talknMedia.currentTime = window.talknMedia.getCurrentTime(e.data.params.currentTime);
-            if (log) console.log("============== playMedia B " + window.talknMedia.currentTime);
-          }
-
-          if (
-            e.data.params.thread &&
-            e.data.params.thread.ch &&
-            window.talknMedia &&
-            window.talknMedia.timeline &&
-            window.talknMedia.timeline.length === 0 &&
-            window.talknMedia.started === false &&
-            isExistThreadData
-          ) {
-            const timeline = storage.getStoragePostsTimeline(ch);
-
-            if (log) console.log("============== playMedia C " + ch);
-
-            window.talknMedia.setTimeline(timeline);
-          }
-
-          if (
-            (window.talknMedia && window.talknMedia.timeline && isExistThreadData) ||
-            e.data.params.event === "seeked"
-            //window.talknMedia.timeline.length > 0
-          ) {
-            if (log) console.log("============== playMedia D");
-            if (log) console.log(window.talknMedia.timeline);
-            if (log) console.log("============== ");
-            window.talknMedia.proccess(e.data.params.currentTime);
-          }
-
-          break;
-        case "endMedia":
-          if (e.data.params.playCnt > 0) {
-            window.talknMedia.endedFunc();
-          }
-          break;
-        case "delegatePost":
-          const delegateState = window.talknWindow.apiStore.getState();
-          let { app } = delegateState;
-          app = { ...app, ...e.data.params };
-          this.clientAction("DELEGATE_POST", app);
-          break;
-        default:
-          break;
-      }
-    }
   }
 
   load(resolve) {
@@ -322,7 +251,6 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
         let change = to - start;
         let currentTime = 0;
         let increment = 20;
-
         const animateScroll = () => {
           currentTime += increment;
           let scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);
@@ -342,6 +270,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
 
   lockWindow() {
+    console.log("---- LOCK");
     const overflow = "hidden";
     this.dom.html.style.overflow = overflow;
     this.dom.body.style.overflow = overflow;
@@ -350,6 +279,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
 
   unlockWindow() {
+    console.log("---- UNLOCK");
     const overflow = "inherit";
     this.dom.html.style.overflow = overflow;
     this.dom.body.style.overflow = overflow;
@@ -367,7 +297,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     if (this.parentUrl) {
       window.top.postMessage(
         {
-          type: "talknExt",
+          type: PostMessage.CLIENT_TO_EXT_TYPE,
           method,
           params
         },
@@ -375,19 +305,4 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
       );
     }
   }
-  /*
-  parentCoreApi(method, params = {}, params2 = null) {
-    if (params2 && typeof params2 !== "function") {
-      throw "STOP! " + method + " " + params2;
-    }
-    window.postMessage(
-      {
-        type: Message.appToCoreApi,
-        method,
-        params
-      },
-      location.href
-    );
-  }
-  */
 }

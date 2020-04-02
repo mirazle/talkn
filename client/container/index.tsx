@@ -36,6 +36,7 @@ interface ContainerProps {
   onClickOpenLockMenu: (any?) => any;
   onClickTogglePosts: (any?) => any;
   onClickToggleDispDetail: (any?) => any;
+  onClickToggleMain: (any?) => any;
   toggleDispPostsSupporter: (any?) => any;
   onClickMultistream: (any?) => any;
 }
@@ -65,6 +66,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     this.handleOnClickTogglePosts = this.handleOnClickTogglePosts.bind(this);
     this.handleOnClickToggleDetail = this.handleOnClickToggleDetail.bind(this);
     this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
+    this.handleOnClickToggleMain = this.handleOnClickToggleMain.bind(this);
   }
 
   componentDidMount() {
@@ -82,9 +84,34 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
       handleOnClickFooterIcon: this.handleOnClickFooterIcon,
       handleOnClickMultistream: this.handleOnClickMultistream,
       handleOnClickTogglePosts: this.handleOnClickTogglePosts,
+      handleOnClickToggleMain: this.handleOnClickToggleMain,
       handleOnClickToggleDetail: this.handleOnClickToggleDetail,
       nowDate: DateHelper.getNowYmdhis()
     };
+  }
+
+  handleOnClickToggleMain(e) {
+    const { onClickToggleMain, onClickToggleDispDetail, onClickOpenLockMenu, clientState } = this.props;
+    let { app, thread, threadDetail } = this.apiState;
+    let { ui } = clientState;
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
+      onClickToggleMain({ app, ui });
+
+      if (app.isOpenDetail) {
+        app.isOpenDetail = false;
+        onClickToggleDispDetail({ threadDetail, thread, app });
+      }
+
+      if (app.openLockMenu !== Ui.openLockMenuLabelNo) {
+        onClickOpenLockMenu(Ui.openLockMenuLabelNo);
+      }
+
+      window.talknWindow.parentExtTo("toggleIframe");
+
+      if (!app.isLinkCh) {
+        window.talknWindow.parentExtTo("getClientMetas");
+      }
+    }
   }
 
   handleOnClickToggleDetail(e) {
@@ -162,10 +189,10 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
       }
     }
 
-    this.props.onClickMultistream({ app, postsMulti, postsSingle });
+    this.clientAction("ON_CLICK_MULTISTREAM", { app, postsMulti, postsSingle });
 
     if (findFlg) {
-      window.talknWindow.parentCoreApi("find", app.rootCh);
+      this.coreApi("find", { thread: { ch: app.rootCh }, app });
     }
   }
 
@@ -233,7 +260,6 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     // 実際のスレッドの高さ
     const postsRealHeight = TalknWindow.getPostsClientHeight();
     const PostsComponent = document.querySelector("[data-component-name=Posts]");
-    //console.log( PostsComponent.scrollHeight );
 
     if (log) console.log("フレーム枠の縦幅： " + postsFrameHeight);
     if (log) console.log("実際の投稿縦幅： " + PostsComponent.scrollHeight);

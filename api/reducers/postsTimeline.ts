@@ -1,16 +1,16 @@
-import Posts from "api/store/Posts";
+import PostsTimeline from "api/store/PostsTimeline";
 
-export default (state: any = new Posts(), action) => {
+export default (state: any = new PostsTimeline(), action) => {
   switch (action.type) {
     case "API_TO_SERVER[REQUEST]:changeThread":
-      return new Posts();
+      return new PostsTimeline();
     case "UNMOUNT_POSTS_TIMELINE":
       return state.map(pt => {
         pt.dispFlg = pt.currentTime <= action.mediaCurrentTime;
         return pt;
       });
     case "CLEAR_POSTS_TIMELINE":
-      return state.filter(pt => pt.currentTime <= action.mediaCurrentTime);
+      return [...action.postsTimeline];
     case "SERVER_TO_API[EMIT]:find":
       if (action.postsTimeline && action.postsTimeline.length > 0) {
         return [...state, ...action.postsTimeline];
@@ -33,9 +33,7 @@ export default (state: any = new Posts(), action) => {
         action.postsTimeline[0].uid === action.user.uid &&
         action.postsTimeline[0].ch === action.thread.ch
       ) {
-        if (action.postsTimeline && action.postsTimeline.length > 0) {
-          return [...state, ...action.postsTimeline];
-        }
+        return [...state, ...action.postsTimeline];
       }
       break;
     case "SERVER_TO_API[EMIT]:getMore":

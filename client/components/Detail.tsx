@@ -154,7 +154,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
     const { threadDetail } = this.apiState;
     const { serverMetas } = threadDetail;
     const { ui } = state;
-    const active = serverMetas && serverMetas["twitter:site"] !== "";
+    const active = serverMetas && serverMetas["twitter:site"] && serverMetas["twitter:site"] !== "";
     const href = active ? `${define.URL.twitter}${serverMetas["twitter:site"].replace("@", "")}` : "";
     const onClick =
       ui.extensionMode !== "NONE"

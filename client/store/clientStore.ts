@@ -11,7 +11,7 @@ export default function clientStore(initialState = {}) {
 
   if (conf.env === define.DEVELOPMENT) {
     composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null;
-    middlewares.push(createLogger({ collapsed: true, duration: true }));
+    // middlewares.push(createLogger({ collapsed: true, duration: true }));
   }
 
   const store = createStore(

@@ -338,7 +338,9 @@ export default class Thread extends Schema {
   }
 
   static getStatusIsToggleMultistream(app) {
-    return app.actioned === "ON_CLICK_MULTISTREAM";
+    // TODO: Judge fix actioned.
+    return app.actioned === "SERVER_TO_API[EMIT]:findMenuIndex";
+    //    return app.actioned === "ON_CLICK_MULTISTREAM";
   }
 
   static getContentTypeFromFindType(contentType) {

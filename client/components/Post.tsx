@@ -214,7 +214,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
 
     if (app.isMediaCh) {
       const dispCurrentTime = String(currentTime).split(".")[0];
-      return <time style={postStyle.upperTimeago}>{dispCurrentTime} Second.</time>;
+      return <time style={postStyle.upperTimeago}>{dispCurrentTime} sec.</time>;
     } else {
       return (
         <span style={postStyle.upperTimeago} className={"timeAgo"}>

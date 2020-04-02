@@ -2,8 +2,6 @@ import React from "react";
 import App from "api/store/App";
 import Ui from "client/store/Ui";
 import TalknWindow from "client/operations/TalknWindow";
-import TalknMedia from "client/operations/TalknMedia";
-import storage from "client/mapToStateToProps/storage";
 
 export default (self, constructorName) => {
   const { props } = self;
@@ -26,7 +24,8 @@ const componentDidUpdates = {
       const ch = thread.ch;
       ui.postsHeight += TalknWindow.getPostsHeight();
       self.props.updatePostsHeight(ui.postsHeight);
-      if (ui.extensionMode === "NONE" && Posts) {
+
+      if (ui.extensionMode === Ui.extensionModeExtNoneLabel && Posts) {
         switch (ui.screenMode) {
           case Ui.screenModeLargeLabel:
             Posts.scrollTop = 99999999;
@@ -35,18 +34,20 @@ const componentDidUpdates = {
             window.scrollTo(0, 99999999);
             break;
         }
-        window.talknWindow.threadHeight = Posts.clientHeight;
+
+        window.talknWindow.srollHeight = Posts.clientHeight;
 
         if (app.dispThreadType === App.dispThreadTypeTimeline) {
+          /*
           TalknMedia.init("FIND");
           const timeline = storage.getStoragePostsTimeline(ch);
           const media = TalknMedia.getMedia(thread);
           window.talknMedia = new TalknMedia();
           window.talknMedia.setTimeline(timeline);
           window.talknMedia.startMedia(media);
+          */
         }
       }
-
       if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
         switch (ui.screenMode) {
           case Ui.screenModeLargeLabel:
@@ -94,6 +95,9 @@ const componentDidUpdates = {
       } else {
         window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
       }
+      const wndowScrollY = 9999999;
+      window.scrollTo(0, wndowScrollY);
+      Posts.scrollTop = Posts.scrollHeight - Posts.clientHeight;
     },
     ON_TRANSITION_END: self => {
       const { ui } = self.props.clientState;
@@ -101,12 +105,13 @@ const componentDidUpdates = {
       self.props.updatePostsHeight(ui.postsHeight);
     },
     ON_CHANGE_FIND_TYPE: self => {
-      const { ch } = self.props.clientState.thread;
-      window.talknWindow.parentCoreApi("findMenuIndex", ch);
+      console.log(self);
+      const { ch } = self.apiState.thread;
+      self.coreApi("findMenuIndex", { thread: ch });
     },
     DELEGATE_POST: self => {
-      window.talknWindow.parentCoreApi("post");
-      window.talknWindow.parentCoreApi("onChangeInputPost");
+      self.coreApi("post");
+      self.coreApi("onChangeInputPost");
       self.clientAction("CLOSE_DISP_POSTS_SUPPORTER");
     },
     GET_CLIENT_METAS: self => {
@@ -169,55 +174,26 @@ const componentDidUpdates = {
     }
   }
 };
-/*
-function changeLockMode(self, called) {
-  const { ui } = self.props.clientState;
-  const { actionLog } = self.apiState;
-  if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
-    console.log("AAAAAAAAAAAAA");
-    if (ui.screenMode === Ui.screenModeLargeLabel) {
-      console.log("BBBBBBBBBBBB");
-      if (called === "Posts") {
-        if (actionLog[0] === "API_TO_CLIENT[BROADCAST]:find") {
-          self.refs.thread.scrollTop = 999999;
-        } else {
-        }
-      } else {
-        if (actionLog[0] === "API_TO_CLIENT[EMIT]:find") {
-        } else {
-        }
-      }
-      console.log("LOCK !");
-      // window.talknWindow.lockWindow({});
-    } else {
-      console.log("UNLOCK !");
-      //window.scrollTo(0, 9999999);
-      // window.talknWindow.unlockWindow({});
-    }
-  }
-}
-*/
+
 function post(self) {
   const { ui } = self.props.clientState;
   const Posts = document.querySelector("[data-component-name=Posts]");
-  ui.postsHeight += TalknWindow.getLastPostHeight();
-
+  // ui.postsHeight += TalknWindow.getLastPostHeight();
   const postsScrollFunc = () => {
-    if (ui.isOpenPosts && self.isScrollBottom) {
+    if (ui.isOpenPosts && window.talknWindow.isScrollBottom) {
       self.animateScrollTo(Posts, Posts.scrollHeight, 400, self.props.endAnimateScrollTo);
     }
     if (ui.isOpenPosts) {
       self.props.openNewPost();
     }
   };
-
-  if (ui.extensionMode === "NONE") {
+  if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
     if (ui.screenMode === Ui.screenModeLargeLabel) {
       postsScrollFunc();
     } else {
-      window.talknWindow.threadHeight = Posts.clientHeight;
-      if (ui.isOpenPosts && self.isScrollBottom) {
-        window.talknWindow.animateScrollTo(window.talknWindow.threadHeight, 400, self.props.endAnimateScrollTo);
+      window.talknWindow.scrollHeight = Posts.clientHeight;
+      if (ui.isOpenPosts && window.talknWindow.isScrollBottom) {
+        window.talknWindow.animateScrollTo(window.talknWindow.scrollHeight, 400, self.props.endAnimateScrollTo);
       }
       if (ui.isOpenPosts) {
         self.props.openNewPost();

@@ -53,12 +53,13 @@ const functions = {
           }
           break;
         case Ui.extensionModeExtModalLabel:
-          if (action.posts.length > 0) {
+          if (!action.app.isMediaCh && action.posts.length > 0) {
             const id = action.posts[action.posts.length - 1]["_id"];
             const post = action.posts[action.posts.length - 1]["post"];
             const stampId = action.posts[action.posts.length - 1]["stampId"];
             let favicon = action.posts[action.posts.length - 1]["favicon"];
             favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
+
             window.talknWindow.parentExtTo("openNotif", {
               id,
               post,
@@ -212,17 +213,5 @@ const functions = {
       };
       return action;
     }
-  }
-};
-
-const resolve = {
-  caseNoExistResponsePost: (clientState, action) => {
-    if (action.posts.length === 0) {
-      action.posts = clientState.posts;
-      action.existResponsePostFlg = false;
-    } else {
-      action.existResponsePostFlg = true;
-    }
-    return action;
   }
 };

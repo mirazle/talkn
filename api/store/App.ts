@@ -108,7 +108,7 @@ export default class App extends Schema {
   isMediaCh: boolean;
   rootCh: string;
   rootTitle: string;
-  chType: boolean;
+  chType: "video" | "audio" | "html";
   dispThreadType: "Multi" | "Single" | "Child" | "Timeline" | "Logs";
   tuned: string;
   multistream: boolean;
@@ -242,7 +242,7 @@ export default class App extends Schema {
   }
 
   static isActiveMultistream({ app, ui }, called = "") {
-    return ui.menuComponent === "Index" && !app.isMediaCh && app.dispThreadType === App.dispThreadTypeMulti;
+    return ui.menuComponent === "Index" && app.dispThreadType === App.dispThreadTypeMulti;
   }
 
   static getDispThreadType(params, isMediaCh) {
@@ -279,6 +279,7 @@ export default class App extends Schema {
 
     if (log) console.log(called + " rootCh = " + app.rootCh + " toCh = " + toCh);
     if (log) console.log(menuIndex);
+    if (log) console.log(threadStatus);
 
     if (threadStatus.isMediaCh) {
       if (log) console.log("B");

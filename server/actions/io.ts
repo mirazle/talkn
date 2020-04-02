@@ -1,4 +1,4 @@
-import Sequence from "common/Sequence";
+import Sequence from "api/Sequence";
 import Thread from "api/store/Thread";
 import Collections from "server/logics/db/collections/";
 import Logics from "server/logics";
@@ -152,7 +152,6 @@ export default {
       isMultistream
     });
     await Logics.io.post(ioUser, { requestState, posts: [post], thread });
-    return true;
   },
 
   updateThread: async (ioUser, requestState, setting) => {

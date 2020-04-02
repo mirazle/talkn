@@ -10,6 +10,9 @@ import bootOption from "./bootOption";
 import setting from "./setting";
 import posts from "./posts";
 import postsTimeline from "./postsTimeline";
+import postsTimelineStock from "./postsTimelineStock";
+import postsTimelineZero from "./postsTimelineZero";
+import postsTimelineZeroAfter from "./postsTimelineZeroAfter";
 import postsMulti from "./postsMulti";
 import postsSingle from "./postsSingle";
 import postsChild from "./postsChild";
@@ -27,6 +30,9 @@ const reducers = combineReducers({
   setting,
   posts,
   postsTimeline,
+  postsTimelineStock,
+  postsTimelineZero,
+  postsTimelineZeroAfter,
   postsMulti,
   postsSingle,
   postsChild,

@@ -1,5 +1,5 @@
 import Schema from "api/store/Schema";
-import TimeMarker, { default as TimeMarkerStyle } from "client/style/TimeMarker";
+import { default as TimeMarkerStyle } from "client/style/TimeMarker";
 
 type uiTimeMarkerObject = {
   index: number;

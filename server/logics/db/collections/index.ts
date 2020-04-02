@@ -35,6 +35,9 @@ export default class Collections {
         case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeMulti}`:
           dispThreadType = App.dispThreadTypeMulti;
           break;
+        case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeTimeline}`:
+          dispThreadType = App.dispThreadTypeTimeline;
+          break;
         case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
           dispThreadType = App.dispThreadTypeChild;
           break;
