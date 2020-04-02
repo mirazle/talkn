@@ -29,7 +29,6 @@ declare global {
 class BootOption {
   constructor() {
     const apiScript = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.apiAccessURL}']`);
-    console.log(conf.apiAccessURL);
     const clientScript = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.clientURL}']`);
     const extScript = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.extURL}']`);
     const apiScriptAtt = apiScript ? BootOption.rebuildAttributes(apiScript.attributes) : {};
