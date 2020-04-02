@@ -89,6 +89,7 @@ class CoreAPI {
       location.host.indexOf(define.PRODUCTION_DOMAIN) >= 0 ? define.PRODUCTION_DOMAIN : define.DEVELOPMENT_DOMAIN;
     this.apiStore = apiStore;
     console.log("---------------");
+    console.log(conf.env);
     console.log(location.host);
     console.log(define.PRODUCTION_DOMAIN);
     console.log(location.host.indexOf(define.PRODUCTION_DOMAIN));
