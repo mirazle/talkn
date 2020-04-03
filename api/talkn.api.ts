@@ -28,13 +28,25 @@ declare global {
 
 class BootOption {
   constructor() {
-    const apiScript = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.apiAccessURL}']`);
+    const { SUB_DOMAINS } = define;
+    const devApiSrc = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.DEVELOPMENT_DOMAIN}/v${conf.apiVer}`;
+    const prodApiSrc = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.PRODUCTION_DOMAIN}/v${conf.apiVer}`;
+    const devApiScript = document.querySelector(`script[src='${devApiSrc}']`);
+    const prodApiScript = document.querySelector(`script[src='${prodApiSrc}']`);
+    console.log(devApiSrc);
+    console.log(devApiScript);
+    console.log(prodApiSrc);
+    console.log(prodApiScript);
+
+    const env = devApiScript ? define.DEVELOPMENT : define.PRODUCTION;
+    const apiScript = devApiScript ? devApiScript : prodApiScript;
     const clientScript = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.clientURL}']`);
     const extScript = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.extURL}']`);
     const apiScriptAtt = apiScript ? BootOption.rebuildAttributes(apiScript.attributes) : {};
     const extScriptAtt = extScript ? BootOption.rebuildAttributes(extScript.attributes) : {};
     const bootParams = { ...extScriptAtt, ...apiScriptAtt };
     const bootOption: any = BootOption.initialBootOption(bootParams, clientScript);
+    bootOption.env = env;
     return bootOption;
   }
 
@@ -84,11 +96,8 @@ class CoreAPI {
   apiStore: any;
   state: any;
   ch: string;
-  constructor(apiStore, resolve) {
-    const wsServer =
-      location.host.indexOf(define.PRODUCTION_DOMAIN) >= 0 ? define.PRODUCTION_DOMAIN : define.DEVELOPMENT_DOMAIN;
-    console.log(conf.domain);
-    console.log(conf.env);
+  constructor(env, apiStore, resolve) {
+    const wsServer = env === define.DEVELOPMENT_DOMAIN ? define.DEVELOPMENT_DOMAIN : define.PRODUCTION_DOMAIN;
     this.apiStore = apiStore;
     this.ws = io(`${Sequence.HTTPS_PROTOCOL}//${wsServer}:${define.PORTS.SOCKET_IO}`, { forceNew: true });
     this.onResponseMeAPI(resolve);
@@ -234,10 +243,10 @@ class GlobalWindow {
     bootPromises.push(
       new Promise(resove => {
         if (document.readyState === "complete") {
-          new CoreAPI(self.apiStore, resove);
+          new CoreAPI(this.bootOption.env, self.apiStore, resove);
         } else {
           window.onload = e => {
-            new CoreAPI(self.apiStore, resove);
+            new CoreAPI(this.bootOption.env, self.apiStore, resove);
           };
         }
       }).then(this.onWsServer)

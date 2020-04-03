@@ -38,7 +38,7 @@
 
     <link rel="manifest" href="//localhost/manifest.json" />
     <link rel="shortcut icon" href="//assets.localhost/favicon.ico" />
-    <link rel="canonical" href="https://<%= domain %>" />
+    <link rel="canonical" href="https://localhost" />
     <script type="text/javascript" async src="https://localhost:8081/talkn.api.js"></script>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <script type="text/javascript">
@@ -66,7 +66,7 @@
           const apiScript = document.createElement("script");
           apiScript.setAttribute("id", "talkn");
           apiScript.setAttribute("type", "text/javascript");
-          apiScript.setAttribute("src", "https://<%= apiAccessURL %>");
+          apiScript.setAttribute("src", "https://api.localhost/v1");
           document.head.appendChild(apiScript);
         }
 
