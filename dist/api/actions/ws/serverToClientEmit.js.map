@@ -1,1 +1,0 @@
-{"version":3,"file":"serverToClientEmit.js","sourceRoot":"","sources":["../../../../api/actions/ws/serverToClientEmit.ts"],"names":[],"mappings":";;;;;AAAA,4DAAoC;AAEpC,kBAAe,QAAQ,CAAC,EAAE;IACxB,MAAM,IAAI,GAAG,GAAG,kBAAQ,CAAC,qBAAqB,GAAG,QAAQ,CAAC,IAAI,EAAE,CAAC;IACjE,uCAAY,QAAQ,KAAE,IAAI,IAAG;AAC/B,CAAC,CAAC"}
