@@ -1,11 +1,11 @@
-import App from "../../common/schemas/state/App";
+import Ui from "client/store/Ui";
 import Detail from "./Detail";
 import DetailRight from "./DetailRight";
 import DetailModal from "./DetailModal";
 
 export default class DetailFooter {
-  static getDetailClass(app) {
-    return app.screenMode === App.screenModeSmallLabel ? DetailModal : DetailRight;
+  static getDetailClass({ app, ui }) {
+    return ui.screenMode === Ui.screenModeSmallLabel ? DetailModal : DetailRight;
   }
   static get padding() {
     return 20;
@@ -13,13 +13,13 @@ export default class DetailFooter {
   static get margin() {
     return 5;
   }
-  static getWidth(app, addUnit = false) {
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+  static getWidth({ app, ui }, addUnit = false) {
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         return "100%";
-      case App.screenModeMiddleLabel:
-      case App.screenModeLargeLabel:
-        return Detail.getDetailClass(app).getWidth(app, addUnit);
+      case Ui.screenModeMiddleLabel:
+      case Ui.screenModeLargeLabel:
+        return Detail.getDetailClass({ app, ui }).getWidth({ app, ui }, addUnit);
     }
   }
 
@@ -29,8 +29,8 @@ export default class DetailFooter {
   childMoney: Object;
   childShare: Object;
   constructor(params) {
-    const { app } = params;
-    const DetailClass = Detail.getDetailClass(app);
+    const { app, ui } = params;
+    const DetailClass = Detail.getDetailClass({ app, ui });
     const self = DetailClass.getFooter(params);
     const child = DetailClass.getFooterChild(params);
     const childLike = DetailClass.getFooterChildLike(params);

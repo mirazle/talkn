@@ -1,5 +1,5 @@
 import request from "request";
-import Sequence from "common/Sequence";
+import Sequence from "api/Sequence";
 import util from "common/util";
 import Logics from "server/logics";
 import conf from "server/conf";

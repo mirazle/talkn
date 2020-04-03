@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
 import ReactDOM from "react-dom";
 const FPS = 60;
 const STEP = 1;
@@ -13,7 +14,7 @@ export interface MarqueeAreaState {
   overflowWidth: number;
 }
 
-export default class MarqueeArea<P extends MarqueeAreaProps, S extends MarqueeAreaState> extends Component<P, S> {
+export default class MarqueeArea<P extends MarqueeAreaProps, S extends MarqueeAreaState> extends TalknComponent<P, S> {
   id: number | string;
   marqueeTimer: any;
   marqueeTextStyle: any = {

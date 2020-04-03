@@ -1,21 +1,22 @@
-import React, { Component } from "react";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
 import conf from "common/conf";
-import App from "common/schemas/state/App";
+import Ui from "client/store/Ui";
 import Icon from "client/components/Icon";
 import Container from "client/style/Container";
 
-interface Props {
+interface DetailFooterProps {
   mode?: string;
   onClickOpenLockMenu?: any;
-  openInnerNotif?: any;
-  state: any;
+  clientState: ClientState;
 }
 
-interface State {
+interface DetailFooterState {
   style: any;
 }
 
-export default class DetailFooter extends Component<Props, State> {
+export default class DetailFooter extends TalknComponent<DetailFooterProps, DetailFooterState> {
   constructor(props) {
     super(props);
     this.handleOnClickLike = this.handleOnClickLike.bind(this);
@@ -24,79 +25,63 @@ export default class DetailFooter extends Component<Props, State> {
   }
 
   handleOnClickLike() {
-    const { state, onClickOpenLockMenu, openInnerNotif } = this.props;
-    const { app } = state;
-    if (app.openLockMenu !== App.openLockMenuLabelNo) {
-      onClickOpenLockMenu(App.openLockMenuLabelNo);
+    const { clientState, onClickOpenLockMenu } = this.props;
+    const { ui } = clientState;
+    if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
+      onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     } else {
-      openInnerNotif();
+      this.clientAction("OPEN_INNER_NOTIF");
     }
   }
 
   handleOnClickShare() {
-    const { state, onClickOpenLockMenu, openInnerNotif } = this.props;
-    const { app } = state;
-    if (app.openLockMenu !== App.openLockMenuLabelNo) {
-      onClickOpenLockMenu(App.openLockMenuLabelNo);
+    const { clientState, onClickOpenLockMenu } = this.props;
+    const { ui } = clientState;
+    if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
+      this.clientAction("ON_CLICK_OPEN_LOCK_MENU");
+      onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     } else {
-      onClickOpenLockMenu(App.openLockMenuLabelShare);
+      onClickOpenLockMenu(Ui.openLockMenuLabelShare);
     }
   }
 
   handleOnClickPortal() {
-    const { app } = this.props.state;
-    if (
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
-    ) {
-      window.talknWindow.parentTo("linkTo", { href: `https://${conf.wwwURL}` });
+    const { ui } = this.props.clientState;
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
+      window.talknWindow.parentExtTo("linkTo", { href: `https://${conf.wwwURL}` });
     } else {
       location.href = `https://${conf.wwwURL}`;
     }
   }
 
   render() {
-    const { mode, state } = this.props;
-    const { app, style } = state;
+    const { mode, clientState } = this.props;
+    const { app } = this.apiState;
+    const { ui, style } = clientState;
 
     if (
-      (app.extensionMode === App.extensionModeExtBottomLabel ||
-        app.extensionMode === App.extensionModeExtModalLabel) &&
+      (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) &&
       mode === "default"
     ) {
       return null;
     } else {
-      const HeartIcon = Icon.getHeart({}, state);
-      const ShareIcon = Icon.getShare({}, state);
-      const MoneyIcon = Icon.getMoney({}, state);
+      const HeartIcon = Icon.getHeart({}, { app, ui });
+      const ShareIcon = Icon.getShare({}, { app, ui });
+      const MoneyIcon = Icon.getMoney({}, { app, ui });
       const shareColor =
-        state.app.openLockMenu === App.openLockMenuLabelShare
-          ? Container.themeRGBA
-          : Container.fontBaseRGB;
+        clientState.ui.openLockMenu === Ui.openLockMenuLabelShare ? Container.themeRGBA : Container.fontBaseRGB;
 
       return (
-        <footer
-          data-component-name={"DetailFooter"}
-          style={style.detailFooter.self}
-        >
-          <div
-            style={style.detailFooter.childLike}
-            onClick={this.handleOnClickLike}
-          >
+        <footer data-component-name={"DetailFooter"} style={style.detailFooter.self}>
+          <div style={style.detailFooter.childLike} onClick={this.handleOnClickLike}>
             {HeartIcon}
             <div>LIKE</div>
           </div>
-          <div
-            style={style.detailFooter.childShare}
-            onClick={this.handleOnClickShare}
-          >
+          <div style={style.detailFooter.childShare} onClick={this.handleOnClickShare}>
             {ShareIcon}
             <div style={{ color: shareColor }}>SHARE</div>
           </div>
-          <div
-            style={style.detailFooter.childMoney}
-            onClick={this.handleOnClickPortal}
-          >
+          <div style={style.detailFooter.childMoney} onClick={this.handleOnClickPortal}>
             {MoneyIcon}
             <div>ABOUT</div>
           </div>

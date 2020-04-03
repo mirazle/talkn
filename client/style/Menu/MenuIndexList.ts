@@ -1,6 +1,5 @@
-import define from "../../../common/define";
-import App from "../../../common/schemas/state/App";
-import conf from "../../../common/conf";
+import Ui from "client/store/Ui";
+import conf from "common/conf";
 import Style from "../index";
 import Container from "../Container";
 
@@ -73,11 +72,11 @@ export default class MenuIndexList {
     return Container.border;
   }
 
-  static getUnactiveLiBorder(app) {
-    if (app.extensionMode === App.extensionModeExtBottomLabel) {
+  static getUnactiveLiBorder({ app, ui }) {
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return { borderBottom: Container.border };
     } else {
-      return app.screenMode === App.screenModeSmallLabel
+      return ui.screenMode === Ui.screenModeSmallLabel
         ? { borderBottom: Container.border, borderLeft: 0 }
         : {
             borderRight: Container.border,
@@ -167,7 +166,7 @@ export default class MenuIndexList {
     };
   }
 
-  static getActiveLiSelf({ app }) {
+  static getActiveLiSelf({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "initial",
       height: `${MenuIndexList.liHeight}px`,
@@ -184,8 +183,8 @@ export default class MenuIndexList {
     return Style.get({ layout, content, animation });
   }
 
-  static getUnactiveLiSelf({ app }) {
-    const borders = MenuIndexList.getUnactiveLiBorder(app);
+  static getUnactiveLiSelf({ app, ui }) {
+    const borders = MenuIndexList.getUnactiveLiBorder({ app, ui });
     const layout = Style.getLayoutBlock({
       width: "initial",
       height: `${MenuIndexList.liHeight}px`,

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Thread from "common/schemas/state/Thread";
+import Thread from "api/store/Thread";
 import conf from "common/conf";
 
 export default class Posts {

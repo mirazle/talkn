@@ -1,4 +1,4 @@
-import App from "../../../common/schemas/state/App";
+import Ui from "client/store/Ui";
 import Style from "../index";
 import Header from "../Header";
 import Detail from "../Detail";
@@ -32,43 +32,44 @@ export default class Audio {
     };
   }
 
-  static getSelfWidth(app: any) {
+  static getSelfWidth({ app, ui }) {
     let width = "0";
     const reduceMargin = Audio.marginLeft + Audio.marginRight;
-    const reduceWidth = Board.getTotalWidth(app);
+    const reduceWidth = Board.getTotalWidth({ app, ui });
     const reduce = reduceMargin + reduceWidth;
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         width = `calc( 100% - ${reduce}px )`;
         break;
-      case App.screenModeMiddleLabel:
-        width = `calc( 100% - ${Menu.getWidth(app, true) + reduce}px )`;
+      case Ui.screenModeMiddleLabel:
+        width = `calc( 100% - ${Menu.getWidth({ app, ui }, true) + reduce}px )`;
         break;
-      case App.screenModeLargeLabel:
-        width = `calc( ${100 - Detail.getWidth(app, false)}% - ${Menu.getWidth(app, true) + reduce}px )`;
+      case Ui.screenModeLargeLabel:
+        width = `calc( ${100 - Detail.getWidth({ app, ui }, false)}% - ${Menu.getWidth({ app, ui }, true) +
+          reduce}px )`;
         break;
     }
     return width;
   }
 
-  static getSelfLeft(app: any) {
+  static getSelfLeft({ app, ui }) {
     let left = "0px";
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         left = "0px";
         break;
-      case App.screenModeMiddleLabel:
-      case App.screenModeLargeLabel:
-        left = Menu.getWidth(app, true);
+      case Ui.screenModeMiddleLabel:
+      case Ui.screenModeLargeLabel:
+        left = Menu.getWidth({ app, ui }, true);
         break;
     }
     return left;
   }
 
-  static getSelf({ app }) {
+  static getSelf({ app, ui }) {
     const display = app.isMediaCh ? "block" : "none";
-    const width = Audio.getSelfWidth(app);
-    const left = Audio.getSelfLeft(app);
+    const width = Audio.getSelfWidth({ app, ui });
+    const left = Audio.getSelfLeft({ app, ui });
     const layout = Style.getLayoutBlock({
       display,
       position: "fixed",

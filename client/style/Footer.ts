@@ -1,4 +1,4 @@
-import App from "../../common/schemas/state/App";
+import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
 import Detail from "./Detail";
@@ -8,52 +8,54 @@ export default class Footer {
   static get selfHeight() {
     return 45;
   }
-  static getWidth(app, addUnit = false) {
+  static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         width = "200%";
         break;
-      case App.screenModeMiddleLabel:
-        width = app.isOpenDetail ? `calc( 100% + ${Menu.getWidth(app)} )` : `calc( 100% + ${Detail.getWidth(app)} )`;
+      case Ui.screenModeMiddleLabel:
+        width = app.isOpenDetail
+          ? `calc( 100% + ${Menu.getWidth({ app, ui })} )`
+          : `calc( 100% + ${Detail.getWidth({ app, ui })} )`;
         break;
-      case App.screenModeLargeLabel:
+      case Ui.screenModeLargeLabel:
         width = `100%`;
         break;
     }
     return addUnit ? Style.trimUnit(width) : width;
   }
 
-  static getLeft(app, addUnit = false) {
+  static getLeft({ app, ui }, addUnit = false) {
     let left = "0";
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         left = "0px";
         break;
-      case App.screenModeMiddleLabel:
+      case Ui.screenModeMiddleLabel:
         left = "0px";
         break;
-      case App.screenModeLargeLabel:
+      case Ui.screenModeLargeLabel:
         left = "0px";
         break;
     }
     return addUnit ? Style.trimUnit(left) : left;
   }
 
-  static getTransform(app) {
+  static getTransform({ app, ui }) {
     let transform = "translate3d( 0px, 0px, 0px )";
 
-    if (app.extensionMode === App.extensionModeExtBottomLabel) {
-      transform = app.isOpenMenu ? "translate3d( 0%, 0px, 0px )" : "translate3d( -50%, 0px, 0px )";
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+      transform = ui.isOpenMenu ? "translate3d( 0%, 0px, 0px )" : "translate3d( -50%, 0px, 0px )";
     } else {
-      switch (app.screenMode) {
-        case App.screenModeSmallLabel:
-          transform = app.isOpenMenu ? "translate3d( 100%, 0px, 0px )" : "translate3d( 0px, 0px, 0px )";
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
+          transform = ui.isOpenMenu ? "translate3d( 100%, 0px, 0px )" : "translate3d( 0px, 0px, 0px )";
           break;
-        case App.screenModeMiddleLabel:
-          transform = app.isOpenDetail ? `translate3d( -${Menu.baseWidth}, 0px, 0px )` : "translate3d( 0px ,0px, 0px )";
+        case Ui.screenModeMiddleLabel:
+          transform = ui.isOpenDetail ? `translate3d( -${Menu.baseWidth}, 0px, 0px )` : "translate3d( 0px ,0px, 0px )";
           break;
-        case App.screenModeLargeLabel:
+        case Ui.screenModeLargeLabel:
           transform = "translate3d( 0px ,0px, 0px )";
           break;
       }
@@ -61,11 +63,11 @@ export default class Footer {
     return transform;
   }
 
-  static getBorders(app) {
-    if (app.extensionMode === App.extensionModeExtBottomLabel) {
+  static getBorders({ app, ui }) {
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return { border: 0 };
     } else {
-      return app.screenMode === App.screenModeSmallLabel
+      return ui.screenMode === Ui.screenModeSmallLabel
         ? { border: Container.border }
         : { borderTop: Container.border, borderBottom: Container.border };
     }
@@ -79,17 +81,17 @@ export default class Footer {
     };
   }
 
-  static getSelf({ app }) {
-    const borders = Footer.getBorders(app);
+  static getSelf({ app, ui }) {
+    const borders = Footer.getBorders({ app, ui });
 
-    const borderRadius = app.extensionMode === App.extensionModeExtBottomLabel ? Container.radiuses : "0px";
+    const borderRadius = ui.extensionMode === Ui.extensionModeExtBottomLabel ? Container.radiuses : "0px";
 
     const layout = Style.getLayoutFlex({
       position: "fixed",
       bottom: "0px",
-      left: Footer.getLeft(app),
+      left: Footer.getLeft({ app, ui }),
       height: Footer.selfHeight,
-      width: Footer.getWidth(app),
+      width: Footer.getWidth({ app, ui }),
       //      background: Container.offWhiteRGBA,
       zIndex: Container.maxZIndex,
       borderRadius,
@@ -98,8 +100,8 @@ export default class Footer {
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transform: Footer.getTransform(app),
-      transition: Container.getTransition(app)
+      transform: Footer.getTransform({ app, ui }),
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }

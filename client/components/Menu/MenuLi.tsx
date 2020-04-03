@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
 import Container from "client/style/Container";
 
 interface Props {
@@ -12,7 +13,7 @@ interface State {
   style: any;
 }
 
-export default class MenuLi extends Component<Props, State> {
+export default class MenuLi extends TalknComponent<Props, State> {
   constructor(props) {
     super(props);
     const { style, isLast } = props;
@@ -71,12 +72,7 @@ export default class MenuLi extends Component<Props, State> {
     const { style } = this.state;
     onClick = onClick ? onClick : () => {};
     return (
-      <li
-        data-component-name={"MenuLi"}
-        style={style}
-        onClick={onClick}
-        {...this.getDecolationProps()}
-      >
+      <li data-component-name={"MenuLi"} style={style} onClick={onClick} {...this.getDecolationProps()}>
         {label}
       </li>
     );

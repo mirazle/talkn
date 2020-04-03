@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import conf from "common/conf";
 
 interface Props {
   state?: any;
@@ -30,10 +29,11 @@ export default class Style extends Component<Props> {
             100%   { transform: rotate(360deg) scale( 0.7 );  }
           }
           @keyframes LogoWrap1 {
-            0%   { transform: translate3d( 0px, 0px, 0px ) scale(0); opacity: 1.0; box-shadow: 0px 0px 1px 0px rgba( 79, 174, 159, 0.4 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.4 ) inset; }
-            50%   { transform: translate3d( 0px, 0px, 0px ) scale(1); opacity: 1.0; box-shadow: 0px 20px 80px 10px rgba( 79, 174, 159, 0.6 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.6 ) inset;}
-            75%   { transform: translate3d( 0px, 0px, 0px ) scale(0.75); opacity: 0.2; box-shadow: 0px 0px 1px 0px rgba( 79, 174, 159, 0.4 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.4 ) inset;}
-            100%   { transform: translate3d( 0px, 0px, 0px ) scale(0); opacity: 0; box-shadow: 0px 0px 1px 0px rgba( 79, 174, 159, 0.4 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.4 ) inset;}
+            0%   { transform: translate3d( 0px, 0px, 0px ) scale(0) rotate(0deg); opacity: 0.0; box-shadow: 0px 0px 1px 0px rgba( 79, 174, 159, 0.0 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.0 ) inset; }
+            25%   { transform: translate3d( 0px, 0px, 0px ) scale(1.0) rotate(0deg); opacity: 1.0; box-shadow: 0px 20px 80px 10px rgba( 79, 174, 159, 0.6 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.6 ) inset;}
+            50%   { transform: translate3d( 0px, 2px, 0px ) scale(0.95) rotate(0deg); opacity: 1.0; box-shadow: 0px 20px 80px 10px rgba( 79, 174, 159, 0.65 ), 80px 80px 80px 0px rgba( 79, 174, 159, 0.65 ) inset;}
+            80%   { transform: translate3d( 0px, 50px, 0px ) scale(0.3) rotate(0deg); opacity: 0.0; box-shadow: 0px 0px 1px 0px rgba( 79, 174, 159, 1.0 ), 80px 80px 80px 0px rgba( 79, 174, 159, 1.0 ) inset;}
+            100%   { transform: translate3d( 0px, 0px, 0px ) scale(0.1) rotate(0deg); opacity: 0.0; box-shadow: 0px 0px 1px 0px rgba( 79, 174, 159, 1.0 ), 80px 80px 80px 0px rgba( 79, 174, 159, 1.0 ) inset;}
           }
           @keyframes Logo {
             0%   { transform: scale(0.95) translate3d(0px, 0px, 0px); opacity: 1.0; }

@@ -1,4 +1,4 @@
-import App from "../../../common/schemas/state/App";
+import Ui from "client/store/Ui";
 import Style from "../index";
 import Header from "../Header";
 import Detail from "../Detail";
@@ -32,41 +32,42 @@ export default class Video {
     };
   }
 
-  static getSelfWidth(app) {
+  static getSelfWidth({ app, ui }) {
     let width = "0";
     const reduce = Video.marginLeftMag + Video.marginRightMag;
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         width = `${100 - reduce}%`;
         break;
-      case App.screenModeMiddleLabel:
-        width = `calc( ${100 - reduce}% - ${Menu.getWidth(app, true)}px )`;
+      case Ui.screenModeMiddleLabel:
+        width = `calc( ${100 - reduce}% - ${Menu.getWidth({ app, ui }, true)}px )`;
         break;
-      case App.screenModeLargeLabel:
-        width = `calc( ${100 - Detail.getWidth(app, false) - reduce}% - ${Menu.getWidth(app, true) + reduce}px )`;
+      case Ui.screenModeLargeLabel:
+        width = `calc( ${100 - Detail.getWidth({ app, ui }, false) - reduce}% - ${Menu.getWidth({ app, ui }, true) +
+          reduce}px )`;
         break;
     }
     return width;
   }
 
-  static getSelfLeft(app) {
+  static getSelfLeft({ app, ui }) {
     let left = "0px";
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         left = "0px";
         break;
-      case App.screenModeMiddleLabel:
-      case App.screenModeLargeLabel:
-        left = Menu.getWidth(app, true);
+      case Ui.screenModeMiddleLabel:
+      case Ui.screenModeLargeLabel:
+        left = Menu.getWidth({ app, ui }, true);
         break;
     }
     return left;
   }
 
-  static getSelf({ app }) {
+  static getSelf({ app, ui }) {
     const display = app.isMediaCh ? "block" : "none";
-    const width = Video.getSelfWidth(app);
-    const left = Video.getSelfLeft(app);
+    const width = Video.getSelfWidth({ app, ui });
+    const left = Video.getSelfLeft({ app, ui });
     const layout = Style.getLayoutBlock({
       display,
       position: "fixed",

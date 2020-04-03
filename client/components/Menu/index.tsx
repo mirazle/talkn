@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import State from "common/schemas/state";
-import App from "common/schemas/state/App";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
+import Ui from "client/store/Ui";
 import MenuUsers from "client/components/Menu/MenuUsers";
 import MenuIndex from "client/components/Menu/MenuIndex";
 import MenuLogs from "client/components/Menu/MenuLogs";
@@ -9,29 +10,20 @@ import Header from "client/components/Header";
 import MenuFooter from "client/components/MenuFooter";
 
 interface Props {
-  state: State;
-  closeNewPost?: any;
+  clientState: ClientState;
   openMenuTransitionEnd?: any;
 }
 
-export default class Menu extends React.Component<Props> {
+export default class Menuextends extends TalknComponent<Props, {}> {
   constructor(props: Props) {
     super(props);
-    this.handleOnClickMultistream = this.handleOnClickMultistream.bind(this);
     this.handleOnClickLoginTwitter = this.handleOnClickLoginTwitter.bind(this);
     this.handleOnClickLoginFacebook = this.handleOnClickLoginFacebook.bind(this);
     this.handleOnTransitionEnd = this.handleOnTransitionEnd.bind(this);
   }
 
   componentDidMount() {
-    window.talknAPI.componentDidMounts("Menu");
-  }
-
-  handleOnClickMultistream() {
-    const { app } = this.props.state;
-    if (app.isOpenNotif) {
-      this.props.closeNewPost();
-    }
+    this.clientAction("COMPONENT_DID_MOUNTS", { componentDidMounts: "Menu" });
   }
 
   handleOnClickLoginFacebook() {
@@ -45,18 +37,20 @@ export default class Menu extends React.Component<Props> {
   }
 
   handleOnTransitionEnd() {
-    const { state, openMenuTransitionEnd } = this.props;
-    const { app } = state;
-    if (app.screenMode === App.screenModeSmallLabel) {
-      if (app.isOpenMenu) {
+    const { clientState, openMenuTransitionEnd } = this.props;
+    const { ui } = clientState;
+    if (ui.screenMode === Ui.screenModeSmallLabel) {
+      if (ui.isOpenMenu) {
         openMenuTransitionEnd(window.scrollY);
         window.talknWindow.lockWindow();
+      } else {
+        window.talknWindow.unlockWindow();
       }
     }
   }
 
   render() {
-    const { style } = this.props.state;
+    const { style } = this.props.clientState;
     return (
       <div data-component-name={"Menu"} onTransitionEnd={this.handleOnTransitionEnd} style={style.menu.self}>
         {this.renderHeader()}
@@ -93,19 +87,19 @@ export default class Menu extends React.Component<Props> {
   }
 */
   renderMenuComponent() {
-    const { app } = this.props.state;
+    const { ui } = this.props.clientState;
     let menuComponent;
-    switch (app.menuComponent) {
-      case App.menuComponentUsersLabel:
+    switch (ui.menuComponent) {
+      case Ui.menuComponentUsersLabel:
         menuComponent = <MenuUsers {...this.props} />;
         break;
-      case App.menuComponentIndexLabel:
+      case Ui.menuComponentIndexLabel:
         menuComponent = <MenuIndex {...this.props} />;
         break;
-      case App.menuComponentLogsLabel:
+      case Ui.menuComponentLogsLabel:
         menuComponent = <MenuLogs {...this.props} />;
         break;
-      case App.menuComponentSettingLabel:
+      case Ui.menuComponentSettingLabel:
         menuComponent = <MenuSetting {...this.props} />;
         break;
     }
@@ -113,23 +107,22 @@ export default class Menu extends React.Component<Props> {
   }
 
   renderHeader() {
-    const { app } = this.props.state;
+    const { ui } = this.props.clientState;
 
-    return app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel ? (
+    return ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel ? (
       <Header {...this.props} />
     ) : null;
   }
 
   renderFooter() {
-    const { app } = this.props.state;
-    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
+    const { ui } = this.props.clientState;
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
       return null;
     } else {
-      switch (app.screenMode) {
-        case App.screenModeSmallLabel:
-        case App.screenModeMiddleLabel:
-        case App.screenModeLargeLabel:
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
+        case Ui.screenModeMiddleLabel:
+        case Ui.screenModeLargeLabel:
           return <MenuFooter {...this.props} />;
       }
     }

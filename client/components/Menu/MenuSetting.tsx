@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
 
-export default class MenuSetting extends Component {
+export default class MenuSetting extends TalknComponent<{}, {}> {
   render() {
     return (
       <ol data-component-name={"MenuSetting"}>

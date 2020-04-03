@@ -1,5 +1,6 @@
 import define from "../../common/define";
-import App from "../../common/schemas/state/App";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
 import PostsFooter from "./PostsFooter";
@@ -8,8 +9,8 @@ export default class PostsSupporter {
   static get selfHeight() {
     return 172;
   }
-  static getTransform(app) {
-    return app.isOpenPostsSupporter
+  static getTransform({ app, ui }) {
+    return ui.isOpenPostsSupporter
       ? `translate3d( 0px, -${PostsSupporter.selfHeight + PostsFooter.selfHeight}px, 0px )`
       : "translate3d( 0px, 0px, 0px )";
   }
@@ -28,15 +29,15 @@ export default class PostsSupporter {
     };
   }
 
-  static getSelf({ app }) {
+  static getSelf({ app, ui }) {
     const layout = Style.getLayoutFlex({
       display: "flex",
       position: "fixed",
       bottom: `-${PostsSupporter.selfHeight}px`,
-      left: PostsFooter.getLeft(app),
+      left: PostsFooter.getLeft({ app, ui }),
       height: PostsSupporter.selfHeight,
-      width: PostsFooter.getWidth(app),
-      maxWidth: PostsFooter.getWidth(app),
+      width: PostsFooter.getWidth({ app, ui }),
+      maxWidth: PostsFooter.getWidth({ app, ui }),
       color: Container.whiteRGB,
       flexFlow: "column wrap",
       alignItems: "center",
@@ -46,18 +47,19 @@ export default class PostsSupporter {
       overflowScrolling: "touch",
       WebkitOverflowScrolling: "touch",
       overflowX: "scroll",
-      overflowY: "hidden"
+      overflowY: "hidden",
+      zIndex: 2
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransitionFirstOn(app),
-      transform: PostsSupporter.getTransform(app)
+      transition: Container.getTransitionFirstOn({ app, ui }),
+      transform: PostsSupporter.getTransform({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getEmoji({ app }) {
-    const fontSize = App.screenModeSmallLabel === app.screenMode ? "35px" : "40px";
+  static getEmoji({ app, ui }) {
+    const fontSize = Ui.screenModeSmallLabel === ui.screenMode ? "35px" : "40px";
     const layout = Style.getLayoutFlex({
       minWidth: "20%",
       maxWidth: "20%",
@@ -72,15 +74,15 @@ export default class PostsSupporter {
       cursor: "pointer"
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app),
+      transition: Container.getTransition({ app, ui }),
       transform: "scale(1.0)"
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getEmojiLabel({ app }) {
-    const margin = App.screenModeSmallLabel === app.screenMode ? "0px" : "0px";
-    const fontSize = App.screenModeSmallLabel === app.screenMode ? "8px" : "10px";
+  static getEmojiLabel({ app, ui }) {
+    const margin = Ui.screenModeSmallLabel === ui.screenMode ? "0px" : "0px";
+    const fontSize = Ui.screenModeSmallLabel === ui.screenMode ? "8px" : "10px";
     const layout = Style.getLayoutFlex({
       width: "100%",
       minWidth: "100%",

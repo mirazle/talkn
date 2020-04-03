@@ -1,42 +1,55 @@
-import React, { Component } from "react";
-import App from "common/schemas/state/App";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
+import Ui from "client/store/Ui";
 import Icon from "client/components/Icon";
 import MenuIndexList from "client/components/Menu/MenuIndexList";
 
 interface Props {
-  state: any;
+  clientState: ClientState;
   onClickOtherThread?: any;
 }
 
-export default class MenuLogs extends Component<Props> {
+export default class MenuLogs extends TalknComponent<Props, {}> {
   handleOnKeyPress: any;
   handleOnChange: any;
   componentDidUpdate() {
-    const { app, actionLog } = this.props.state;
+    const { actionLog } = this.apiState;
+    const { ui } = this.props.clientState;
 
     switch (actionLog[0]) {
-      case "SERVER_TO_CLIENT[EMIT]:changeThread":
-        switch (app.screenMode) {
-          case App.screenModeSmallLabel:
-            app.isOpenMenu = app.isOpenMenu ? false : true;
-            window.talknAPI.onClickToggleDispMenu(app);
+      case "API_TO_CLIENT[EMIT]:changeThread":
+        switch (ui.screenMode) {
+          case Ui.screenModeSmallLabel:
+            ui.isOpenMenu = ui.isOpenMenu ? false : true;
+            this.clientAction("ON_CLICK_TOGGLE_DISP_MENU", { ui });
             break;
         }
     }
   }
 
   renderLi() {
-    const { state, onClickOtherThread } = this.props;
-    const { menuLogs } = state;
+    return null;
+    /*
+    const { onClickOtherThread } = this.props;
+    const { menuLogs } = this.apiState;
     return menuLogs.map((mi, index) => {
+      return null;
       return (
-        <MenuIndexList key={mi.ch} menuIndexList={mi} onClickOtherThread={onClickOtherThread} {...this.props.state} />
+        <MenuIndexList
+          key={mi.ch}
+          menuIndexList={mi}
+          onClickOtherThread={onClickOtherThread}
+          {...this.props.clientState}
+        />
       );
     });
+    */
   }
 
   render() {
-    const { style, thread } = this.props.state;
+    const { thread } = this.apiState;
+    const { style } = this.props.clientState;
     const { ch } = thread;
     const { icon } = style;
     const Search = Icon.getSearch(icon.search);

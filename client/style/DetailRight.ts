@@ -1,4 +1,4 @@
-import App from "../../common/schemas/state/App";
+import Ui from "client/store/Ui";
 import Style from "./index";
 import Detail from "./Detail";
 
@@ -9,50 +9,50 @@ export default class DetailRight {
   static get otherWidthRate() {
     return 1 - DetailRight.widthRate;
   }
-  static getWidth(app, addUnit = false) {
+  static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         width = "0%";
         break;
-      case App.screenModeMiddleLabel:
+      case Ui.screenModeMiddleLabel:
         width = "0%";
         break;
-      case App.screenModeLargeLabel:
+      case Ui.screenModeLargeLabel:
         width = "30%";
         break;
     }
     return addUnit ? Style.trimUnit(width) : width;
   }
-  static getMinWidth(app, addUnit = false) {
+  static getMinWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         width = "0%";
         break;
-      case App.screenModeMiddleLabel:
+      case Ui.screenModeMiddleLabel:
         width = "320px";
         break;
-      case App.screenModeLargeLabel:
+      case Ui.screenModeLargeLabel:
         width = "320px";
         break;
     }
     return addUnit ? Style.trimUnit(width) : width;
   }
 
-  static getTransform(app) {
+  static getTransform({ app, ui }) {
     let transform = DetailRight.closeSelfTransform;
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         transform = DetailRight.closeSelfTransform;
         break;
-      case App.screenModeMiddleLabel:
+      case Ui.screenModeMiddleLabel:
         transform = DetailRight.closeSelfTransform;
         break;
-      case App.screenModeLargeLabel:
+      case Ui.screenModeLargeLabel:
         transform = `translate3d(0px, 0px, 0px)`;
         /*
-        if (app.isOpenDetail) {
+        if (ui.isOpenDetail) {
           console.log("C");
           transform = `translate3d(0px, 0px, 0px)`;
         } else {

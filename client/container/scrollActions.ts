@@ -1,14 +1,14 @@
-import App from "common/schemas/state/App";
+import Ui from "client/store/Ui";
 export default {
   /*
     getMore: app => {
     const { props }: any = self;
-    const { app }: any = props;
+    const { ui }: any = props;
     const threadHeight = document.querySelector("[data-component-name=Posts]");
     if (
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtIncludeLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
+      ui.extensionMode === Ui.extensionModeExtBottomLabel ||
+      ui.extensionMode === Ui.extensionModeExtIncludeLabel ||
+      ui.extensionMode === Ui.extensionModeExtModalLabel
     ) {
       self.refs.thread.scrollTop =
         self.refs.thread.scrollHeight - self.state.scrollHeight;

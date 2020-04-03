@@ -1,4 +1,5 @@
-import App from "common/schemas/state/App";
+import App from "api/store/App";
+// import style from "client/store/Style";
 import Style from "client/style/index";
 import Menu from "client/style/Menu";
 import LockMenu from "client/style/LockMenu";
@@ -24,8 +25,9 @@ import Video from "client/style/Media/Video";
 
 export default (state: any = {}, action: any) => {
   switch (action.type) {
+    case "API_TO_CLIENT[EMIT]:connectionServer":
     case "RESIZE_START_WINDOW":
-    case "RESIZE_END_WINDOW":
+    case "ON_RESIZE_END_WINDOW":
     case "ON_TRANSITION":
     case "OFF_TRANSITION":
     case "ON_TRANSITION_END":
@@ -39,8 +41,12 @@ export default (state: any = {}, action: any) => {
           ...state.board,
           menuLiChild: {
             ...state.board.menuLiChild,
-            color: !action.app.isMediaCh && action.app.multistream ? Board.activeColor : Board.unactiveColor
+            color: action.app.multistream ? Board.activeColor : Board.unactiveColor
           }
+        },
+        icon: {
+          ...state.icon,
+          thunder: {}
         }
       };
     case "COMPONENT_DID_MOUNTS":
@@ -48,18 +54,24 @@ export default (state: any = {}, action: any) => {
         ...state,
         menus: {
           ...state.menus,
-          self: { ...state.menus, transform: Menu.getTransform(action.app) }
+          self: { ...state.menus, transform: Menu.getTransform(action) }
         }
       };
-    case "SERVER_TO_CLIENT[BROADCAST]:find":
+    case "API_TO_CLIENT[BROADCAST]:find":
       return {
         ...state,
         menus: {
           ...state.menus,
-          self: { ...state.menus, transform: Menu.getTransform(action.app) }
+          self: { ...state.menus, transform: Menu.getTransform(action) }
         }
       };
-    case "SERVER_TO_CLIENT[EMIT]:find":
+
+    case "API_TO_CLIENT[REQUEST]:find":
+      return {
+        ...state,
+        posts: { ...state.posts, self: Posts.getSelf(action) }
+      };
+    case "API_TO_CLIENT[EMIT]:find":
     case "OPEN_LINKS":
     case "CLOSE_LINKS":
     case "TOGGLE_LINKS":
@@ -67,16 +79,16 @@ export default (state: any = {}, action: any) => {
         ...state,
         menus: {
           ...state.menus,
-          self: { ...state.menus, transform: Menu.getTransform(action.app) }
+          self: { ...state.menus, transform: Menu.getTransform(action) }
         },
         posts: { ...state.posts, self: Posts.getSelf(action) },
         board: {
           ...state.board,
           self: {
             ...state.board.self,
-            width: Board.getSelfWidth(action.app),
-            height: Board.getSelfHeight(action.app),
-            boxShadow: Board.getSelfBoxShadow(action.app)
+            width: Board.getSelfWidth(action),
+            height: Board.getSelfHeight(action),
+            boxShadow: Board.getSelfBoxShadow(action)
           },
           menuLiChild: Board.getMenuLiChild(action),
           menuLiLinks: Board.getMenuLiLinks(action)
@@ -85,18 +97,18 @@ export default (state: any = {}, action: any) => {
           ...state.links,
           self: {
             ...state.links.self,
-            display: Links.getSelfDisplay(action.app)
+            display: Links.getSelfDisplay(action)
           },
           linksUl: {
             ...state.links.linksUl,
-            overflowY: Links.getLinksUlOevrflowY(action.app)
+            overflowY: Links.getLinksUlOevrflowY(action)
           }
         },
         icon: {
           ...state.icon,
-          thunder: Icon.getThunder({ app: action.app }),
-          bubble: Icon.getBubble({ app: action.app }),
-          links: Icon.getLinks({ app: action.app })
+          thunder: Icon.getThunder(action),
+          bubble: Icon.getBubble(action),
+          links: Icon.getLinks(action)
         }
       };
     case "TOGGLE_BUBBLE_POST":
@@ -106,19 +118,19 @@ export default (state: any = {}, action: any) => {
           ...state.board,
           menuLiBubble: {
             ...state.board.menuLiBubble,
-            color: action.app.isBubblePost ? Board.activeColor : Board.unactiveColor
+            color: action.ui.isBubblePost ? Board.activeColor : Board.unactiveColor
           }
         },
         posts: {
           ...state.posts,
           self: Posts.getSelf(action),
-          more: Posts.getMore({ app: action.app })
+          more: Posts.getMore(action)
         },
         post: {
           ...state.post,
-          self: Post.getSelf({ app: action.app }),
-          upper: Post.getUpper({ app: action.app }),
-          bottomPost: Post.getBottomPost({ app: action.app })
+          self: Post.getSelf(action),
+          upper: Post.getUpper(action),
+          bottomPost: Post.getBottomPost(action)
         }
       };
     case "TOGGLE_DISP_POSTS_SUPPORTER":
@@ -129,7 +141,7 @@ export default (state: any = {}, action: any) => {
           ...state.postsSupporter,
           self: {
             ...state.postsSupporter.self,
-            transform: PostsSupporter.getTransform(action.app)
+            transform: PostsSupporter.getTransform(action)
           }
         }
       };
@@ -141,16 +153,16 @@ export default (state: any = {}, action: any) => {
           ...state.board,
           self: {
             ...state.board.self,
-            height: Board.getSelfHeight(action.app)
+            height: Board.getSelfHeight(action)
           },
           menuLiChild: {
             ...state.menuLiChild,
-            color: App.isActiveMultistream(action.app, "reducer") ? Board.activeColor : Board.unactiveColor
+            color: App.isActiveMultistream(action, "reducer") ? Board.activeColor : Board.unactiveColor
           },
           menuLiLinks: { ...state.menuLiLinks, color: Board.unactiveColor }
         },
-        video: { ...state.video, self: Video.getSelf({ app: action.app }) },
-        audio: { ...state.audio, self: Audio.getSelf({ app: action.app }) }
+        video: { ...state.video, self: Video.getSelf(action) },
+        audio: { ...state.audio, self: Audio.getSelf(action) }
       };
     case "ON_CLICK_TO_MULTI_THREAD":
       return {
@@ -160,7 +172,7 @@ export default (state: any = {}, action: any) => {
           ...state.board,
           self: {
             ...state.board.self,
-            height: Board.getSelfHeight(action.app)
+            height: Board.getSelfHeight(action)
           },
           menuLiChild: { ...state.board.menuLiChild, color: Board.activeColor },
           menuLiLinks: { ...state.menuLiLinks, color: Board.activeColor }
@@ -173,7 +185,7 @@ export default (state: any = {}, action: any) => {
           ...state.board,
           self: {
             ...state.board.self,
-            height: Board.getSelfHeight(action.app)
+            height: Board.getSelfHeight(action)
           },
           menuLiLinks: { ...state.menuLiLinks, color: Board.activeColor }
         }
@@ -185,7 +197,7 @@ export default (state: any = {}, action: any) => {
           ...state.board,
           self: {
             ...state.board.self,
-            height: Board.getSelfHeight(action.app)
+            height: Board.getSelfHeight(action)
           },
           menuLiChild: {
             ...state.board.menuLiChild,
@@ -193,7 +205,7 @@ export default (state: any = {}, action: any) => {
           },
           menuLiLinks: { ...state.menuLiLinks, color: Board.unactiveColor }
         },
-        icon: { ...state.icon, thunder: Icon.getThunder({ app: action.app }) }
+        icon: { ...state.icon, thunder: Icon.getThunder(action) }
       };
     case "ON_CLICK_TOGGLE_DISP_MENU":
     case "ON_CLICK_TOGGLE_DISP_DETAIL":
@@ -203,46 +215,46 @@ export default (state: any = {}, action: any) => {
           ...state.menu,
           self: {
             ...state.menu.self,
-            width: Menu.getWidth(action.app),
-            transform: Menu.getTransform(action.app)
+            width: Menu.getWidth(action),
+            transform: Menu.getTransform(action)
           }
         },
         detail: {
           ...state.detail,
           [`self${Detail.detailRightSelfKey}`]: {
             ...state.detail[`self${Detail.detailRightSelfKey}`],
-            transform: DetailRight.getTransform(action.app)
+            transform: DetailRight.getTransform(action)
           },
           [`self${Detail.detailModalSelfKey}`]: {
             ...state.detail[`self${Detail.detailModalSelfKey}`],
-            transform: DetailModal.getTransform(action.app)
+            transform: DetailModal.getTransform(action)
           }
         },
         posts: {
           ...state.posts,
-          self: { ...state.posts.self, width: Posts.getWidth(action.app) }
+          self: { ...state.posts.self, width: Posts.getWidth(action) }
         },
         footer: {
           ...state.footer,
           self: {
             ...state.footer.self,
-            width: Footer.getWidth(action.app),
-            transform: Footer.getTransform(action.app)
+            width: Footer.getWidth(action),
+            transform: Footer.getTransform(action)
           }
         },
         menuFooter: {
           ...state.menuFooter,
           self: {
             ...state.menuFooter.self,
-            width: MenuFooter.getWidth(action.app)
+            width: MenuFooter.getWidth(action)
           }
         },
         postsFooter: {
           ...state.postsFooter,
           self: {
             ...state.postsFooter.self,
-            maxWidth: PostsFooter.getWidth(action.app),
-            width: PostsFooter.getWidth(action.app)
+            maxWidth: PostsFooter.getWidth(action),
+            width: PostsFooter.getWidth(action)
           }
         }
       };
@@ -253,7 +265,7 @@ export default (state: any = {}, action: any) => {
           ...state.lockMenu,
           menuShare: {
             ...state.lockMenu.menuShare,
-            transform: LockMenu.getCommonTransform(action.app)
+            transform: LockMenu.getCommonTransform(action)
           }
         }
       };
@@ -265,34 +277,34 @@ export default (state: any = {}, action: any) => {
           ...state.container,
           newPost: {
             ...state.container.newPost,
-            transform: Container.getNotifTranslateY(action.app)
+            transform: Container.getNotifTranslateY(action)
           }
         }
       };
     case "OPEN_NOTIF":
     case "CLOSE_NOTIF":
-      const notifDisplay = Notif.getNotifsDisplay(action.app);
+      const notifDisplay = Notif.getNotifsDisplay(action);
       return {
         ...state,
         header: {
           ...state.header,
           self: {
             ...state.header.self,
-            transform: Header.getNotifTranslateY(action.app)
+            transform: Header.getNotifTranslateY(action)
           }
         },
         container: {
           ...state.container,
           newPost: {
             ...state.container.newPost,
-            display: Container.getNewPostDisplay(action.app)
+            display: Container.getNewPostDisplay(action)
           }
         },
         notif: {
           ...state.notif,
           notifs: {
             ...state.notif.notifs,
-            height: Notif.getNotifsHeight(action.app)
+            height: Notif.getNotifsHeight(action)
           },
           self: { ...state.notif.self, display: notifDisplay }
         }
@@ -300,7 +312,7 @@ export default (state: any = {}, action: any) => {
     case "TOGGLE_DISP_BOARD":
       return {
         ...state,
-        board: { ...state.board, self: Board.getSelf({ app: action.app }) }
+        board: { ...state.board, self: Board.getSelf(action) }
       };
     case "OPEN_INNER_NOTIF":
     case "CLOSE_INNER_NOTIF":
@@ -310,13 +322,12 @@ export default (state: any = {}, action: any) => {
           ...state.innerNotif,
           self: {
             ...state.innerNotif.self,
-            height: action.app.openInnerNotif !== "" ? `${InnerNotif.selfHeight}px` : "0px"
+            height: action.ui.openInnerNotif !== "" ? `${InnerNotif.selfHeight}px` : "0px"
           }
         }
       };
     case "UPDATE_STYLE":
       const { styleKey, eleType, tagName, style } = action;
-
       if (styleKey && eleType && tagName) {
         return {
           ...state,
@@ -346,15 +357,15 @@ export default (state: any = {}, action: any) => {
           ...state.extScreen,
           self: {
             ...state.extScreen.self,
-            transform: ExtScreen.getSelfTransform(action.app),
-            transition: ExtScreen.getSelfTransition(action.app)
+            transform: ExtScreen.getSelfTransform(action),
+            transition: ExtScreen.getSelfTransition(action)
           }
         },
         notif: {
           ...state.notif,
           notifs: {
             ...state.notif.notifs,
-            display: Notif.getNotifsDisplay(action.app)
+            display: Notif.getNotifsDisplay(action)
           }
         }
       };

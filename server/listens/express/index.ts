@@ -38,10 +38,6 @@ class Express {
   }
 
   routingHttp(req, res) {
-    // LetsEncrypt acme challenge.
-    if (req.originalUrl === "/.well-known/acme-challenge/f262_jHM3_Cai02FwHr681Pzrt0sj1IzOITKG979yGA") {
-      //      res.send("f262_jHM3_Cai02FwHr681Pzrt0sj1IzOITKG979yGA.VgHBkdDj0x8Osq3yY_dfspU9q6NSjU4liw-Tpt6MRLY");
-    }
     res.redirect(`https://${req.hostname}${req.url}`);
   }
 
@@ -65,6 +61,7 @@ class Express {
           // CORSを許可する
           res.header("Access-Control-Allow-Origin", "*");
           res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+          console.log("SEND " + conf.serverApiPath);
           res.sendFile(conf.serverApiPath);
         } else {
           res.render("api/", {
@@ -94,10 +91,12 @@ class Express {
             res.render("www/", {
               language,
               domain: conf.domain,
+              apiURL: conf.apiURL,
               wwwURL: conf.wwwURL,
               extURL: conf.extURL,
               assetsURL: conf.assetsURL,
-              clientURL: conf.clientURL
+              clientURL: conf.clientURL,
+              apiAccessURL: conf.apiAccessURL
             });
           } else {
             res.sendFile(`${conf.serverWwwPath}${req.url.replace("/", "")}`);
@@ -182,7 +181,9 @@ class Express {
             language,
             domain: conf.domain,
             clientURL: conf.clientURL,
-            assetsURL: conf.assetsURL
+            assetsURL: conf.assetsURL,
+            apiURL: conf.apiURL,
+            apiAccessURL: conf.apiAccessURL
           });
         }
         break;

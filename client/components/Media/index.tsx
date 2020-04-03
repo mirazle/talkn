@@ -1,17 +1,25 @@
-import React, { Component } from "react";
-import Sequence from "common/Sequence";
-import App from "common/schemas/state/App";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
+import Sequence from "api/Sequence";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
 import Audio from "client/components/Media/Audio";
 import Video from "client/components/Media/Video";
 
-export default class Media extends Component {
+interface MediaProps {
+  clientState: ClientState;
+}
+
+export default class Media extends TalknComponent<MediaProps, {}> {
   constructor(props) {
     super(props);
-    const { app, thread } = props.state;
+    const { thread } = this.apiState;
+    const { ui } = props.clientState;
     let src: string = "";
     let mediaType: string = "";
 
-    if (app.extensionMode === App.extensionModeExtNoneLabel) {
+    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
       if (thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL) {
         src = thread.protocol + "/" + thread.ch.replace(/\/$/, "");
         mediaType = App.getMediaTypeFromSrc(src);
@@ -25,8 +33,9 @@ export default class Media extends Component {
   }
 
   componentWillReceiveProps(props) {
-    const { app, thread } = props.state;
-    if (app.extensionMode === App.extensionModeExtNoneLabel) {
+    const { thread } = this.apiState;
+    const { ui } = props.clientState;
+    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
       if (thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL) {
         const { src, mediaType }: any = this.state;
         const newSrc = thread.protocol + "/" + thread.ch.replace(/\/$/, "");

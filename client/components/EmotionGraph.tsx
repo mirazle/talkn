@@ -1,13 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
 import { Radar } from "react-chartjs-2";
 import Emotions from "common/emotions/index";
 import EmotionGraphStyle from "client/style/EmotionGraph";
 
-interface Props {
-  state: any;
+interface EmotionGraphProps {
+  clientState: ClientState;
 }
 
-interface State {
+interface EmotionGraphState {
   emotionModelKey: string;
   totalNum: number;
   data: any;
@@ -18,7 +20,7 @@ const calcRate = 1000000;
 const emotions = new Emotions();
 const russellSimple = new emotions.model.RussellSimple();
 
-export default class EmotionGraph extends Component<Props, State> {
+export default class EmotionGraph extends TalknComponent<EmotionGraphProps, EmotionGraphState> {
   constructor(props) {
     super(props);
     this.getGraphDatas = this.getGraphDatas.bind(this);
@@ -38,7 +40,7 @@ export default class EmotionGraph extends Component<Props, State> {
 
   getGraphDatas(props) {
     const emotionModelKey = Emotions.defaultModelKey;
-    const { threadDetail } = props.state;
+    const { threadDetail } = this.apiState;
     const { emotions } = threadDetail;
     const emotionKeys = emotions && emotions[emotionModelKey] ? Object.keys(emotions[emotionModelKey]) : [];
     const log = false;
@@ -134,20 +136,22 @@ export default class EmotionGraph extends Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
+    const clientState = this.clientState;
     if (
-      nextProps.state.app.actioned === "SERVER_TO_CLIENT[BROADCAST]:post" ||
-      nextProps.state.app.actioned === "SERVER_TO_CLIENT[EMIT]:find" ||
-      nextProps.state.app.actioned === "ON_CLICK_TOGGLE_DISP_DETAIL" ||
-      nextProps.state.app.actioned === "SERVER_TO_CLIENT[EMIT]:changeThreadDetail"
+      clientState.actionLog[0] === "API_TO_CLIENT[BROADCAST]:post" ||
+      clientState.actionLog[0] === "API_TO_CLIENT[EMIT]:find" ||
+      clientState.actionLog[0] === "ON_CLICK_TOGGLE_DISP_DETAIL" ||
+      clientState.actionLog[0] === "API_TO_CLIENT[EMIT]:changeThreadDetail"
     ) {
       const { emotionModelKey, totalNum, data } = this.getGraphDatas(nextProps);
+      const datasets = [{ ...EmotionGraphStyle.datasetsBase, data }];
 
       this.setState({
         emotionModelKey,
         totalNum,
         data: {
           labels: russellSimple.typesArray,
-          datasets: [{ ...EmotionGraphStyle.datasetsBase, data }]
+          datasets
         },
         options: EmotionGraphStyle.optionsBase
       });
@@ -158,7 +162,8 @@ export default class EmotionGraph extends Component<Props, State> {
 
   render() {
     const { totalNum, data, options } = this.state;
-    const { thread, style } = this.props.state;
+    const { thread } = this.apiState;
+    const { style } = this.props.clientState;
     const { emotions } = thread;
 
     if (data && data.datasets && data.datasets.length > 0 && data.datasets[0].data.length > 0) {
