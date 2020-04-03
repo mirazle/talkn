@@ -1,4 +1,4 @@
-import Sequence from "common/Sequence";
+import Sequence from "api/Sequence";
 
 export default class Io {
   io: any;
@@ -18,10 +18,13 @@ export default class Io {
   }
 
   async tuned(ioUser, requestState, setting) {
+    const { thread } = requestState;
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
+      //      app: { tuned: thread.ch },
       user: { uid: ioUser.conn.id },
       setting
     });
+
     return this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
   }
 
@@ -48,9 +51,7 @@ export default class Io {
   }
 
   async findMenuIndex(ioUser, { requestState, menuIndex }) {
-    const responseEmitState = Sequence.getResponseState("Emit", requestState, {
-      menuIndex
-    });
+    const responseEmitState = Sequence.getResponseState("Emit", requestState, { menuIndex });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
     return true;
   }
@@ -87,7 +88,8 @@ export default class Io {
     });
     const chs = posts[0].chs;
     chs.forEach(ch => {
-      responseBroadcastState.thread.ch = ch;
+      // responseBroadcastState.thread.ch = ch;
+      responseBroadcastState.posts[0].ch = ch;
       this.io.broadcast(ch, responseBroadcastState);
     });
 

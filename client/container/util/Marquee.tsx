@@ -11,15 +11,6 @@ const FPS = 60;
 const STEP = 1;
 const TIMEOUT = (1 / FPS) * 1000;
 
-/*
-  Type '{
-    text: string;
-    loop: boolean;
-    hoverToStop: boolean;
-    trailing: number;
-    leading: number;
-  }' is missing the following properties from type 'Readonly<Props>': style, classNamets(2739)
-  */
 interface Props {
   hoverToStop: any;
   text: string;
@@ -55,11 +46,11 @@ export default class Marquee extends Component<Props, State> {
   }
 
   shouldComponentUpdate(nextProps) {
+    if (this.props.text !== nextProps.text) {
+      return true;
+    }
     if (this.state.overflowWidth === 0) {
       return false;
-    }
-    if (this.props.text === nextProps.text) {
-      //      return false;
     }
     return true;
   }
@@ -104,7 +95,7 @@ export default class Marquee extends Component<Props, State> {
     }
   }
 
-  render(): JSX.Element {
+  render() {
     const style: any = {
       ...{
         position: "relative",
@@ -121,7 +112,7 @@ export default class Marquee extends Component<Props, State> {
           className={`ui-marquee ${this.props.className}`}
           style={{ overflow: "hidden" }}
         >
-          <span ref="text" style={style} title={this.props.text}>
+          <span ref="text" style={style}>
             {this.props.text}
           </span>
         </div>
@@ -135,7 +126,7 @@ export default class Marquee extends Component<Props, State> {
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
         >
-          <span ref="text" style={style} title={this.props.text}>
+          <span ref="text" style={style}>
             {this.props.text}
           </span>
         </div>

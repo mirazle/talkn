@@ -1,4 +1,4 @@
-import Thread from "common/schemas/state/Thread";
+import Thread from "api/store/Thread";
 import MongoDB from "server/listens/db/MongoDB";
 import Logics from "server/logics";
 import Favicon from "server/logics/Favicon";
@@ -59,32 +59,37 @@ export default class Threads {
 
     let { response } = await this.collection.find(condition, selector, option);
     const responseLength = response.length;
-    let ExistMainCh = false;
-
+    let existMainCh = false;
     if (responseLength === 0) {
       response = await this.getUnshifAnyChResponse(ch, response);
     } else {
       for (let i = 0; i < responseLength; i++) {
         if (response[i].lastPost.ch === ch) {
-          ExistMainCh = true;
+          existMainCh = true;
           break;
         }
       }
 
-      if (!ExistMainCh) {
+      if (!existMainCh) {
         const { response: mainThread } = await this.findOne(ch, { lastPost: 1 }, {}, true);
         response.unshift(mainThread);
       }
     }
 
-    // Response structure is Post Schema Base.
-    return response.map(res => {
+    response = response.map(res => {
       return {
         ...res.lastPost,
         title: res.serverMetas.title,
         watchCnt: res.lastPost.ch === ch ? res.watchCnt + 1 : res.watchCnt
       };
     });
+
+    // TODO delete this proccess.
+    if (response[0] && isNaN(response[0].watchCnt)) {
+      response[0].watchCnt = 1;
+    }
+    // Response structure is Post Schema Base.
+    return response;
   }
 
   async save(thread) {

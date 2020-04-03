@@ -1,8 +1,9 @@
-import React, { Component } from "react";
-import Schema from "common/schemas/Schema";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import Schema from "api/store/Schema";
 import { default as IconStyle } from "client/style/Icon";
 
-export default class Icon extends Component {
+export default class Icon extends TalknComponent<{}, {}> {
   static get smallSize() {
     return IconStyle.smallSize;
   }
@@ -48,14 +49,14 @@ export default class Icon extends Component {
     return baseStyle;
   }
 
-  constructor(props) {
+  constructor(props?) {
     super(props);
   }
 
-  static getDecolationProps1(styleKey, eleType, tagName) {
+  getDecolationProps1(styleKey, eleType, tagName) {
     return {
       onMouseOver: () => {
-        window.talknAPI.updateStyle({
+        this.clientAction("UPDATE_STYLE", {
           styleKey,
           eleType,
           tagName,
@@ -69,7 +70,7 @@ export default class Icon extends Component {
         });
       },
       onMouseLeave: () => {
-        window.talknAPI.updateStyle({
+        this.clientAction("UPDATE_STYLE", {
           styleKey,
           eleType,
           tagName,
@@ -83,7 +84,7 @@ export default class Icon extends Component {
         });
       },
       onMouseDown: () => {
-        window.talknAPI.updateStyle({
+        this.clientAction("UPDATE_STYLE", {
           styleKey,
           eleType,
           tagName,
@@ -96,7 +97,7 @@ export default class Icon extends Component {
         });
       },
       onMouseUp: () => {
-        window.talknAPI.updateStyle({
+        this.clientAction("UPDATE_STYLE", {
           styleKey,
           eleType,
           tagName,
@@ -111,10 +112,10 @@ export default class Icon extends Component {
     };
   }
 
-  static getDecolationProps2(styleKey, eleType, tagName) {
+  getDecolationProps2(styleKey, eleType, tagName) {
     return {
       onMouseOver: () => {
-        window.talknAPI.updateStyle({
+        this.clientAction("UPDATE_STYLE", {
           styleKey,
           eleType,
           tagName,
@@ -128,7 +129,7 @@ export default class Icon extends Component {
         });
       },
       onMouseLeave: () => {
-        window.talknAPI.updateStyle({
+        this.clientAction("UPDATE_STYLE", {
           styleKey,
           eleType,
           tagName,
@@ -142,7 +143,7 @@ export default class Icon extends Component {
         });
       },
       onMouseDown: () => {
-        window.talknAPI.updateStyle({
+        this.clientAction("UPDATE_STYLE", {
           styleKey,
           eleType,
           tagName,
@@ -155,7 +156,7 @@ export default class Icon extends Component {
         });
       },
       onMouseUp: () => {
-        window.talknAPI.updateStyle({
+        this.clientAction("UPDATE_STYLE", {
           styleKey,
           eleType,
           tagName,
@@ -170,10 +171,10 @@ export default class Icon extends Component {
     };
   }
 
-  static getDecolationProps3(styleKey, eleType, tagName) {
+  getDecolationProps3(styleKey, eleType, tagName) {
     return {
       onMouseOver: () => {
-        window.talknAPI.updateStyle({
+        this.clientAction("UPDATE_STYLE", {
           styleKey,
           eleType,
           tagName,
@@ -186,7 +187,7 @@ export default class Icon extends Component {
         });
       },
       onMouseLeave: () => {
-        window.talknAPI.updateStyle({
+        this.clientAction("UPDATE_STYLE", {
           styleKey,
           eleType,
           tagName,
@@ -199,7 +200,7 @@ export default class Icon extends Component {
         });
       },
       onMouseDown: () => {
-        window.talknAPI.updateStyle({
+        this.clientAction("UPDATE_STYLE", {
           styleKey,
           eleType,
           tagName,
@@ -211,7 +212,7 @@ export default class Icon extends Component {
         });
       },
       onMouseUp: () => {
-        window.talknAPI.updateStyle({
+        this.clientAction("UPDATE_STYLE", {
           styleKey,
           eleType,
           tagName,
@@ -229,12 +230,12 @@ export default class Icon extends Component {
     const style = Icon.getOveredStyle(IconStyle.getEmpty(state, option), overStyle);
     return <div data-component-type={"IconEmpty"} style={style} />;
   }
-
+  /*
   static getMultistreamIcon(props) {
     const { state } = props;
-    const { style, app } = state;
+    const { style, ui } = state;
     const ThunderIcon = Icon.getThunder(IconStyle.getThunder(state));
-    if (app.menuComponent === "Index" && app.isRootCh) {
+    if (ui.menuComponent === "Index" && app.isRootCh) {
       return (
         <div data-component-name={"multistreamIcon"} style={style.container.multistreamIconWrap}>
           {ThunderIcon}
@@ -244,7 +245,7 @@ export default class Icon extends Component {
       return null;
     }
   }
-
+*/
   static getTwitter(overStyle, state = {}, option = {}) {
     return Icon.generateImageIcon("Twitter", overStyle, state, option);
   }

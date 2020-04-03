@@ -1,14 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
 import Detail from "client/components/Detail";
 import DetailStyle from "client/style/Detail";
 
-interface Props {
-  state: any;
+interface DetailModalProps {
+  clientState: ClientState;
 }
 
-export default class DetailModal extends Component<Props> {
+export default class DetailModal extends TalknComponent<DetailModalProps, {}> {
   render() {
-    this.props.state.style.detail.self = this.props.state.style.detail[
+    this.props.clientState.style.detail.self = this.props.clientState.style.detail[
       `self${DetailStyle.detailModalSelfKey}`
     ];
     return <Detail {...this.props} />;

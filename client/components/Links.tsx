@@ -1,22 +1,24 @@
 import React, { Component } from "react";
-import Sequence from "common/Sequence";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
+import Sequence from "api/Sequence";
 import BoardStyle from "client/style/Board";
 import Link from "client/components/Link";
 
-interface Props {
+interface LinksProps {
   displayLinks: any;
-  state: any;
+  clientState: ClientState;
   handleOnClickCh?: any;
 }
 
-interface State {
+interface LinksState {
   ch: any;
   linkContents: any;
   linkContentsKey: any;
   displayLinks: any;
 }
 
-export default class Links extends Component<Props, State> {
+export default class Links extends TalknComponent<LinksProps, LinksState> {
   static getCh(str, thread) {
     let ch = "";
     const isIncludeProtocol = Links.isIncludeProtocol(str);
@@ -64,7 +66,7 @@ export default class Links extends Component<Props, State> {
 
   constructor(props) {
     super(props);
-    const { thread } = this.props.state;
+    const { thread } = this.apiState;
     this.state = {
       ch: thread.ch,
       linkContents: {
@@ -75,14 +77,16 @@ export default class Links extends Component<Props, State> {
       displayLinks: false,
       linkContentsKey: "html"
     };
+    this.setLinkContents = this.setLinkContents.bind(this);
     this.renderLinkTabs = this.renderLinkTabs.bind(this);
     this.handleOnClickLinkTabs = this.handleOnClickLinkTabs.bind(this);
   }
 
-  componentDidMount() {
-    const { state, handleOnClickCh } = this.props;
-    const { app, thread, style } = state;
-    const displayLinks = !(BoardStyle.getLinksDisplay(app) === "none");
+  setLinkContents() {
+    const { clientState } = this.props;
+    const { app, thread } = this.apiState;
+    const { ui } = clientState;
+    const displayLinks = !(BoardStyle.getLinksDisplay({ app, ui }) === "none");
     const linkContents = this.state.linkContents;
     let isTuneActive = false;
     if (app.isRootCh) {
@@ -97,8 +101,8 @@ export default class Links extends Component<Props, State> {
         text={thread.title}
         ch={thread.ch}
         handleOnClick={() => {
-          window.talknAPI.toggleLinks();
-          handleOnClickCh(thread.ch, "toLinks");
+          this.clientAction("TOGGLE_LINKS");
+          this.onClickCh(thread.ch, ui, thread.hasSlash, "toLinks");
         }}
         {...this.props}
       />
@@ -115,8 +119,8 @@ export default class Links extends Component<Props, State> {
             text={obj[textKey]}
             ch={ch}
             handleOnClick={() => {
-              window.talknAPI.toggleLinks();
-              handleOnClickCh(ch, hasSlash, "toLinks");
+              this.clientAction("TOGGLE_LINKS");
+              this.onClickCh(ch, ui, hasSlash, "toLinks");
             }}
             {...this.props}
           />
@@ -139,6 +143,16 @@ export default class Links extends Component<Props, State> {
     });
   }
 
+  componentDidMount() {
+    this.setLinkContents();
+  }
+
+  componentDidUpdate(props) {
+    if (props.clientState.actionLog[0] === "API_TO_CLIENT[EMIT]:find") {
+      this.setLinkContents();
+    }
+  }
+
   handleOnClickLinkTabs(e) {
     this.setState({
       linkContentsKey: e.target.innerText
@@ -146,10 +160,11 @@ export default class Links extends Component<Props, State> {
   }
 
   renderLinkTabs() {
-    const { style, app } = this.props.state;
+    const { app } = this.apiState;
+    const { style, ui } = this.props.clientState;
     const { linkContents, linkContentsKey } = this.state;
-    const activeStyle = BoardStyle.getLinksTabActive({ app });
-    const lastStyle = BoardStyle.getLinksTabLast({ app });
+    const activeStyle = BoardStyle.getLinksTabActive({ app, ui });
+    const lastStyle = BoardStyle.getLinksTabLast({ app, ui });
     const linkContentKeys = Object.keys(linkContents);
     const lastIndex = linkContentKeys.length - 1;
 
@@ -173,7 +188,7 @@ export default class Links extends Component<Props, State> {
 
   render() {
     const { displayLinks } = this.props;
-    const { style } = this.props.state;
+    const { style } = this.props.clientState;
     const contents = this.state.linkContents[this.state.linkContentsKey];
     if (displayLinks) {
       return (
@@ -188,7 +203,7 @@ export default class Links extends Component<Props, State> {
       );
     } else {
       return (
-        <div data-componet-name={"Links"} style={style.links.links}>
+        <div data-componet-name={"Links"} style={style.links.self}>
           <ul data-componet-name={"LinksUl"} style={style.links.linksUl} />
         </div>
       );

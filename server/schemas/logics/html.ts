@@ -1,14 +1,11 @@
 import conf from "common/conf";
-import Sequence from "common/Sequence";
-import Thread from "common/schemas/state/Thread";
+import Sequence from "api/Sequence";
+import Thread from "api/store/Thread";
 
 export default class Html {
   constructor(params) {
-    const findType =
-      params && params.findType ? params.findType : Thread.findTypeHtml;
-    const ogpImage = conf.ogpImages[findType]
-      ? conf.ogpImages[findType]
-      : conf.ogpImages[Thread.findTypeHtml];
+    const findType = params && params.findType ? params.findType : Thread.findTypeHtml;
+    const ogpImage = conf.ogpImages[findType] ? conf.ogpImages[findType] : conf.ogpImages[Thread.findTypeHtml];
 
     return {
       protocol: { type: String, default: Sequence.TALKN_PROTOCOL },

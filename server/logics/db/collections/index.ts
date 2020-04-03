@@ -1,4 +1,4 @@
-import App from "common/schemas/state/App";
+import App from "api/store/App";
 import Threads from "server/logics/db/collections/Threads";
 import Posts from "server/logics/db/collections/Posts";
 import Setting from "server/logics/db/collections/Setting";
@@ -26,11 +26,17 @@ export default class Collections {
     } else {
       const { stepTo } = App.getStepToDispThreadType({ app }, threadStatus, thread.ch);
       switch (stepTo) {
+        case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeMulti}`:
+          dispThreadType = App.dispThreadTypeMulti;
+          break;
         case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeTimeline}`:
           dispThreadType = App.dispThreadTypeTimeline;
           break;
         case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeMulti}`:
           dispThreadType = App.dispThreadTypeMulti;
+          break;
+        case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeTimeline}`:
+          dispThreadType = App.dispThreadTypeTimeline;
           break;
         case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
           dispThreadType = App.dispThreadTypeChild;

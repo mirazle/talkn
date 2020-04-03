@@ -1,5 +1,5 @@
 import define from "../../common/define";
-import App from "../../common/schemas/state/App";
+import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
 import Main from "./Main";
@@ -7,19 +7,19 @@ import Main from "./Main";
 import Menu from "./Menu";
 
 export default class MenuFooter {
-  static getWidth(app, addUnit = false) {
+  static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    if (app.extensionMode === App.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       width = "50%";
     } else {
-      switch (app.screenMode) {
-        case App.screenModeSmallLabel:
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
           width = "100%";
           break;
-        case App.screenModeMiddleLabel:
+        case Ui.screenModeMiddleLabel:
           width = Menu.baseWidth;
           break;
-        case App.screenModeLargeLabel:
+        case Ui.screenModeLargeLabel:
           width = Menu.baseWidth;
           break;
       }
@@ -41,13 +41,13 @@ export default class MenuFooter {
     };
   }
 
-  static getSelf({ app }) {
+  static getSelf({ app, ui }) {
     const borders =
-      app.screenMode === App.screenModeSmallLabel ? { border: Container.border } : { border: Container.border };
-    const borderRadius = app.extensionMode === App.extensionModeExtBottomLabel ? Container.radiuses : "0px";
+      ui.screenMode === Ui.screenModeSmallLabel ? { border: Container.border } : { border: Container.border };
+    const borderRadius = ui.extensionMode === Ui.extensionModeExtBottomLabel ? Container.radiuses : "0px";
     const layout = Style.getLayoutFlex({
-      width: MenuFooter.getWidth(app),
-      minWidth: MenuFooter.getWidth(app),
+      width: MenuFooter.getWidth({ app, ui }),
+      minWidth: MenuFooter.getWidth({ app, ui }),
       height: `${Main.headerHeight}px`,
       background: Container.offWhiteRGB,
       borderRadius,
@@ -58,7 +58,7 @@ export default class MenuFooter {
     return Style.get({ layout, content, animation });
   }
 
-  static getChild({ app }) {
+  static getChild({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: "100%"
@@ -70,7 +70,7 @@ export default class MenuFooter {
     return Style.get({ layout, content, animation });
   }
 
-  static getChildIndex({ app }) {
+  static getChildIndex({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: "100%"

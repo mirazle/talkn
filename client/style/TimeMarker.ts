@@ -1,4 +1,5 @@
-import App from "../../common/schemas/state/App";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
 import Menu from "./Menu";
@@ -32,31 +33,31 @@ export default class TimeMarker {
     return 50 - TimeMarker.getSelfWidthRate() / 2;
   }
 
-  static getFixTimeMarkerStyles({ app }) {
+  static getFixTimeMarkerStyles({ app, ui }) {
     const fontSize = "8px";
     let widthRate = TimeMarker.getSelfWidthRate() / 100;
-    let width = app.width * widthRate;
+    let width = ui.width * widthRate;
     let height = `${TimeMarker.getSelfHeightPx()}px`;
     let left = "25%";
     let menuWidthPx = 0;
     let detailWidthPx = 0;
     let postsWidthPx = 0;
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
-        postsWidthPx = app.width;
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+        postsWidthPx = ui.width;
         width = postsWidthPx * widthRate;
         left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
         break;
-      case App.screenModeMiddleLabel:
-        menuWidthPx = Menu.getWidth(app, true);
-        postsWidthPx = app.width - menuWidthPx;
+      case Ui.screenModeMiddleLabel:
+        menuWidthPx = Menu.getWidth({ app, ui }, true);
+        postsWidthPx = ui.width - menuWidthPx;
         width = postsWidthPx * widthRate;
         left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
         break;
-      case App.screenModeLargeLabel:
-        menuWidthPx = Menu.getWidth(app, true);
-        detailWidthPx = (app.width * Number(DetailRight.getWidth(app, true))) / 100;
-        postsWidthPx = app.width - (menuWidthPx + detailWidthPx);
+      case Ui.screenModeLargeLabel:
+        menuWidthPx = Menu.getWidth({ app, ui }, true);
+        detailWidthPx = (ui.width * Number(DetailRight.getWidth({ app, ui }, true))) / 100;
+        postsWidthPx = ui.width - (menuWidthPx + detailWidthPx);
         width = postsWidthPx * widthRate;
         left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
         break;
@@ -64,14 +65,16 @@ export default class TimeMarker {
     return { width, height, left, fontSize };
   }
 
-  static getSelf({ app }) {
+  static getSelf({ app, ui }) {
+    const display = app.isMediaCh ? "none" : "flex";
     const layout = Style.getLayoutFlex({
       width: `${TimeMarker.getSelfWidthRate()}%`,
       height: `${TimeMarker.getSelfHeightPx()}px`,
       margin: `${TimeMarker.getSelfMarginTop()}px auto 10px auto`,
       padding: "5px 10px",
       background: Container.darkLightRGBA,
-      borderRadius: "20px"
+      borderRadius: "20px",
+      display
     });
     const content = Style.getContentBase({
       color: Container.whiteRGB,
@@ -82,9 +85,9 @@ export default class TimeMarker {
     return Style.get({ layout, content, animation });
   }
 
-  static getFixTimeMarker({ app }) {
-    const timeMarker: object = TimeMarker.getSelf({ app });
-    const { left, width, height, fontSize } = TimeMarker.getFixTimeMarkerStyles({ app });
+  static getFixTimeMarker({ app, ui }) {
+    const timeMarker: object = TimeMarker.getSelf({ app, ui });
+    const { left, width, height, fontSize } = TimeMarker.getFixTimeMarkerStyles({ app, ui });
     return {
       ...timeMarker,
       position: "fixed",

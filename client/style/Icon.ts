@@ -1,7 +1,8 @@
 import Style from "./index";
 import Container from "./Container";
 import conf from "../conf";
-import App from "common/schemas/state/App";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
 
 export default class Icon {
   static get defaultOption() {
@@ -98,7 +99,7 @@ export default class Icon {
     };
   }
 
-  static getEmpty({ app }: any, option: any = {}) {
+  static getEmpty({ app, ui }: any, option: any = {}) {
     option = { ...Icon.defaultOption, ...option };
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const cursor = option.active ? "pointer" : "default";
@@ -122,7 +123,7 @@ export default class Icon {
     });
   }
 
-  static getTwitter({ app }: any, option: any = {}) {
+  static getTwitter({ app, ui }: any, option: any = {}) {
     option = { ...Icon.defaultOption, ...option };
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "twitter.png" : "twitter_gray.png";
@@ -148,7 +149,7 @@ export default class Icon {
     });
   }
 
-  static getFacebook({ app }: any, option: any = {}) {
+  static getFacebook({ app, ui }: any, option: any = {}) {
     option = { ...Icon.defaultOption, ...option };
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "facebook.png" : "facebook_gray.png";
@@ -174,7 +175,7 @@ export default class Icon {
     });
   }
 
-  static getAppstore({ app }: any, option: any = {}) {
+  static getAppstore({ app, ui }: any, option: any = {}) {
     option = { ...Icon.defaultOption, ...option };
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "appstore.png" : "appstore_gray.png";
@@ -200,7 +201,7 @@ export default class Icon {
     });
   }
 
-  static getAndroid({ app }: any, option: any = {}) {
+  static getAndroid({ app, ui }: any, option: any = {}) {
     option = { ...Icon.defaultOption, ...option };
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "android.png" : "android_gray.png";
@@ -226,7 +227,7 @@ export default class Icon {
     });
   }
 
-  static getHome({ app }: any, option: any = {}) {
+  static getHome({ app, ui }: any, option: any = {}) {
     option = { ...Icon.defaultOption, ...option };
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "home.png" : "home_gray.png";
@@ -252,7 +253,7 @@ export default class Icon {
     });
   }
 
-  static getGraph({ app }: any, option: any = {}) {
+  static getGraph({ app, ui }: any, option: any = {}) {
     option = { ...Icon.defaultOption, ...option };
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "graph.png" : "graph_gray.png";
@@ -278,7 +279,7 @@ export default class Icon {
     });
   }
 
-  static getTalkn({ app }: any, option: any = {}) {
+  static getTalkn({ app, ui }: any, option: any = {}) {
     option = { ...Icon.defaultOption, ...option };
     const sizePx = option.sizePx ? option.sizePx : Icon.middleSize;
     const image = option.active ? "talkn.png" : "talkn.png";
@@ -304,7 +305,7 @@ export default class Icon {
     });
   }
 
-  static getTalknLogo({ app }: any) {
+  static getTalknLogo({ app, ui }: any) {
     const img = Style.get({
       layout: Style.getLayoutBlock({
         backgroundImage: `url(${conf.assetsImgPath}talkn_logo2.png)`,
@@ -320,7 +321,7 @@ export default class Icon {
     return { img };
   }
 
-  static getChromeExtension({ app }: any, option: any = {}) {
+  static getChromeExtension({ app, ui }: any, option: any = {}) {
     option = { ...Icon.defaultOption, ...option };
     const sizeWidthPx = "100%";
     const sizeHeightPx = "60px";
@@ -348,7 +349,7 @@ export default class Icon {
     });
   }
 
-  static getTag({ app }: any) {
+  static getTag({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "30px",
@@ -406,7 +407,7 @@ export default class Icon {
     return { div, left, right, bar };
   }
 
-  static getHomeCss({ app }: any) {
+  static getHomeCss({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "30px",
@@ -468,7 +469,7 @@ export default class Icon {
     return { div, leaf, door, base };
   }
 
-  static getSearch({ app }: any) {
+  static getSearch({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "45px",
@@ -511,14 +512,14 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransition(app),
+        transition: Container.getTransition({ app, ui }),
         transform: `scale(1) translate3d(0px, 0px, 0px) rotate(45deg)`
       })
     });
     return { div, circle, bar };
   }
 
-  static getUser({ app }: any) {
+  static getUser({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "22px",
@@ -567,7 +568,7 @@ export default class Icon {
     return { div, top, bottom };
   }
 
-  static getHeaderUser({ app }: any) {
+  static getHeaderUser({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "40px",
@@ -616,7 +617,7 @@ export default class Icon {
     return { div, top, bottom };
   }
 
-  static getIndex({ app }: any) {
+  static getIndex({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "22px",
@@ -679,7 +680,7 @@ export default class Icon {
     return { div, wrap, top, middle, bottom };
   }
 
-  static getLogs({ app }: any) {
+  static getLogs({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "22px",
@@ -834,7 +835,7 @@ export default class Icon {
     };
   }
 
-  static getSetting({ app }: any) {
+  static getSetting({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "22px",
@@ -955,9 +956,9 @@ export default class Icon {
     };
   }
 
-  static getThunder({ app }: any) {
+  static getThunder({ app, ui }: any) {
     let borderColor = Container.reliefRGBA;
-    if (App.isActiveMultistream(app)) {
+    if (App.isActiveMultistream({ app, ui })) {
       borderColor = Container.themeRGBA;
     }
 
@@ -1045,8 +1046,8 @@ export default class Icon {
     return { div, wrap, top, bottom };
   }
 
-  static getPlay({ app }: any) {
-    const bgColor = app.isOpenLinks ? Container.themeRGB : Container.reliefRGB;
+  static getPlay({ app, ui }: any) {
+    const bgColor = ui.isOpenLinks ? Container.themeRGB : Container.reliefRGB;
     const div = Style.get({
       layout: Style.getLayoutFlex({
         flexDirection: "column",
@@ -1101,7 +1102,7 @@ export default class Icon {
     return { div, playCircle, playTriangle };
   }
 
-  static getLinks({ app }: any) {
+  static getLinks({ app, ui }: any) {
     const bgColor = Container.themeRGB;
 
     const div = Style.get({
@@ -1186,8 +1187,8 @@ export default class Icon {
     return { div, linksA1, linksA2, linksB1, linksB2 };
   }
 
-  static getBubble({ app }: any) {
-    const background = app.isBubblePost ? Container.themeRGB : Container.reliefRGBA;
+  static getBubble({ app, ui }: any) {
+    const background = ui.isBubblePost ? Container.themeRGB : Container.reliefRGBA;
     const div = Style.get({
       layout: Style.getLayoutFlex({
         flexDirection: "column",
@@ -1237,8 +1238,8 @@ export default class Icon {
     return { div, bubble, bubbleBar };
   }
 
-  static getDetail({ app }: any) {
-    const margin = app.screenMode === App.screenModeSmallLabel ? "3px 0px 0px 0px" : "1px auto";
+  static getDetail({ app, ui }: any) {
+    const margin = ui.screenMode === Ui.screenModeSmallLabel ? "3px 0px 0px 0px" : "1px auto";
     const div = Style.get({
       layout: Style.getLayoutFlex({
         width: "40px",
@@ -1295,7 +1296,7 @@ export default class Icon {
       layout: commonSpan,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransition(app),
+        transition: Container.getTransition({ app, ui }),
         transform: `translate3d( 0px, 0px, 0px )`
       })
     });
@@ -1304,7 +1305,7 @@ export default class Icon {
       layout: commonSpan,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransition(app),
+        transition: Container.getTransition({ app, ui }),
         transform: `translate3d( 0px, 0px, 0px )`
       })
     });
@@ -1331,7 +1332,7 @@ export default class Icon {
     return { div, wrap, bar1, bar2, bar3, bar4, mekuri };
   }
 
-  static getMenu({ app }: any) {
+  static getMenu({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "40px",
@@ -1340,7 +1341,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransition(app)
+        transition: Container.getTransition({ app, ui })
       })
     });
 
@@ -1376,7 +1377,7 @@ export default class Icon {
   static get getHeadTabRightCloseTransform() {
     return "rotate( -90deg ) translate3d(-3px, 5px, 0px)";
   }
-  static getHeadTab({ app }: any) {
+  static getHeadTab({ app, ui }: any) {
     const commonLayout = Style.getLayoutInlineBlock({
       width: "4px",
       borderRadius: "10px",
@@ -1396,7 +1397,7 @@ export default class Icon {
       layout: commonLayout,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransition(app),
+        transition: Container.getTransition({ app, ui }),
         transform: Icon.getHeadTabLeftTransform()
       })
     });
@@ -1405,15 +1406,15 @@ export default class Icon {
       layout: commonLayout,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transition: Container.getTransition(app),
+        transition: Container.getTransition({ app, ui }),
         transform: Icon.getHeadTabRightTransform()
       })
     });
     return { div, left, right };
   }
 
-  static getHeart({ app }: any) {
-    const color = app.openLockMenu === App.openLockMenuLabelShare ? Container.themeRGBA : Container.reliefRGB;
+  static getHeart({ app, ui }: any) {
+    const color = ui.openLockMenu === Ui.openLockMenuLabelShare ? Container.themeRGBA : Container.reliefRGB;
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: Icon.smallSize,
@@ -1452,8 +1453,8 @@ export default class Icon {
     return { div, before, after };
   }
 
-  static getShare({ app }: any) {
-    const color = app.openLockMenu === App.openLockMenuLabelShare ? Container.themeRGBA : Container.reliefRGB;
+  static getShare({ app, ui }: any) {
+    const color = ui.openLockMenu === Ui.openLockMenuLabelShare ? Container.themeRGBA : Container.reliefRGB;
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: Icon.smallSize,
@@ -1549,7 +1550,7 @@ export default class Icon {
     return { div, base, whiteBar1, whiteBar2, bar, arrow };
   }
 
-  static getMoney({ app }: any) {
+  static getMoney({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: Icon.smallSize,
@@ -1591,9 +1592,9 @@ export default class Icon {
   }
 
   static getOpenEmoji(state: any) {
-    const { app } = state;
+    const { app, ui } = state;
     const size = "5px";
-    const display = App.screenModeSmallLabel === app.screenMode ? "none" : "inline-block";
+    const display = Ui.screenModeSmallLabel === ui.screenMode ? "none" : "inline-block";
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         display,
@@ -1610,13 +1611,13 @@ export default class Icon {
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
         transform: "translate3d( 5px, 0px, 0px )",
-        transition: Container.getTransition(app)
+        transition: Container.getTransition({ app, ui })
       })
     });
     return { div };
   }
 
-  static getCloseEmoji({ app }: any) {
+  static getCloseEmoji({ app, ui }: any) {
     const size = "8px";
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
@@ -1633,13 +1634,13 @@ export default class Icon {
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
         transform: "translate3d( 5px, 0px, 0px )",
-        transition: Container.getTransition(app)
+        transition: Container.getTransition({ app, ui })
       })
     });
     return { div };
   }
 
-  static getClose({ app }: any) {
+  static getClose({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "26px",
@@ -1697,7 +1698,7 @@ export default class Icon {
     return { div, circle, bar1, bar2 };
   }
 
-  static getCh({ app }: any) {
+  static getCh({ app, ui }: any) {
     const color = Container.lightGrayRGB;
     const div = Style.get({
       layout: Style.getLayoutFlex({
@@ -1779,7 +1780,7 @@ export default class Icon {
     return { div, circle1, circle2, str, shadow1, shadow2 };
   }
 
-  static getUpdate({ app }: any) {
+  static getUpdate({ app, ui }: any) {
     const color = Container.whiteRGB;
     const div = Style.get({
       layout: Style.getLayoutFlex({
@@ -1848,7 +1849,7 @@ export default class Icon {
     return { div, circle, bar, white };
   }
 
-  static getLoading({ app }: any) {
+  static getLoading({ app, ui }: any) {
     const color = Container.whiteRGB;
     const div = Style.get({
       layout: Style.getLayoutFlex({}),
@@ -1889,7 +1890,7 @@ export default class Icon {
     return { div, circle, after };
   }
 
-  static getTune({ app }: any) {
+  static getTune({ app, ui }: any) {
     const size = "30px";
     const zIndex = 1000000;
     const bgColor = Container.chromeOffTabRGB;

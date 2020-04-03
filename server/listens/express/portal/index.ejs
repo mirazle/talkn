@@ -40,8 +40,9 @@
     <link rel="shortcut icon" href="https://<%= assetsURL %>/favicon.ico" />
     <link rel="canonical" href="https://<%= domain %>/" />
     <script async src="https://cdn.ampproject.org/v0.js"></script>
+
     <script type="text/javascript">
-      function onServiceWorker() {
+      const onServiceWorker = () => {
         if ("serviceWorker" in navigator) {
           navigator.serviceWorker
             .register("/portal_sw.js")
@@ -52,26 +53,34 @@
               console.log("[ServiceWorker] failed: ", err);
             });
         }
-      }
+      };
 
       onServiceWorker();
-      var includeIframeTag = "<%= includeIframeTag %>" ? "<%= includeIframeTag %>" : true;
-      //var ch = "<%= ch %>" ? "<%= ch %>" : location.href.replace(location.origin, '');
+      window.name = window.name ? window.name : "global";
+      const includeIframeTag = "<%= includeIframeTag %>" ? "<%= includeIframeTag %>" : true;
 
-      // Caution!! location is talkn.io base or localhost base.
-      // [ Example: https://talkn.io/xxxxxxx.html/ ]
-      var ch = location.href.replace(location.origin, "");
-      var hasSlash = ch.lastIndexOf("/") === ch.length - 1;
+      // load api script.
+      if (window.name === "global") {
+        const apiScript = document.createElement("script");
+        apiScript.setAttribute("id", "talkn");
+        apiScript.setAttribute("type", "text/javascript");
+        apiScript.setAttribute("src", "https://<%= apiAccessURL %>");
+        document.head.appendChild(apiScript);
+      }
+
+      let ch = location.href.replace(location.origin, "");
+      let hasSlash = ch.lastIndexOf("/") === ch.length - 1;
       ch = hasSlash ? ch : ch + "/";
-      var script = document.createElement("script");
-      script.setAttribute("id", "talkn");
-      script.setAttribute("type", "text/javascript");
-      script.setAttribute("src", "https://<%= clientURL %>");
-      script.setAttribute("ch", ch);
-      script.setAttribute("hasSlash", hasSlash);
-      script.setAttribute("width", "320px");
-      script.setAttribute("includeIframeTag", includeIframeTag);
-      document.head.appendChild(script);
+      
+      const clientScript = document.createElement("script");
+      clientScript.setAttribute("id", "talkn");
+      clientScript.setAttribute("type", "text/javascript");
+      clientScript.setAttribute("src", "https://<%= clientURL %>");
+      clientScript.setAttribute("ch", ch);
+      clientScript.setAttribute("hasSlash", hasSlash);
+      clientScript.setAttribute("width", "320px");
+      clientScript.setAttribute("includeIframeTag", includeIframeTag);
+      document.head.appendChild(clientScript);
     </script>
     <noscript key="noscript">Your browser does not support JavaScript!</noscript>
     <style amp-boilerplate>

@@ -1,15 +1,17 @@
-import React, { Component } from "react";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+
 interface VideoProps {
   src: any;
 }
-export default class Video extends React.Component<VideoProps> {
+export default class Video extends TalknComponent<VideoProps, {}> {
   constructor(props: VideoProps) {
     super(props);
   }
 
   render() {
-    const { src, state }: any = this.props;
-    const { style } = state;
+    const { src, clientState }: any = this.props;
+    const { style } = clientState;
     return (
       <video
         src={src}

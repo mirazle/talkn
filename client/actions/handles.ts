@@ -1,8 +1,6 @@
 import define from "common/define";
 
 export default {
-  // Stateに則ってない
-
   updateStyle: ({ styleKey, eleType, tagName, style }) => {
     return {
       type: "UPDATE_STYLE",
@@ -12,39 +10,45 @@ export default {
       style
     };
   },
-  onClickToTimelineThread: (ch, { app, thread }) => {
+  onClickTogglePosts: ({ app }) => {
+    return {
+      type: "ON_CLICK_TOGGLE_POSTS",
+      app
+    };
+  },
+  onClickToTimelineThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_TIMELINE_THREAD",
       app,
-      thread: { ch }
+      thread: { ch: thread.ch }
     };
   },
-  onClickToMultiThread: (ch, { app, thread }) => {
+  onClickToMultiThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_MULTI_THREAD",
       app,
-      thread: { ch }
+      thread: { ch: thread.ch }
     };
   },
-  onClickToSingleThread: (ch, { app, thread }) => {
+  onClickToSingleThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_SINGLE_THREAD",
       app,
-      thread: { ch }
+      thread: { ch: thread.ch }
     };
   },
-  onClickToChildThread: (ch, { app, thread }) => {
+  onClickToChildThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_CHILD_THREAD",
       app,
-      thread: { ch }
+      thread: { ch: thread.ch }
     };
   },
-  onClickToLogsThread: (ch, { app, thread }) => {
+  onClickToLogsThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_LOGS_THREAD",
       app,
-      thread: { ch }
+      thread: { ch: thread.ch }
     };
   },
   onChangeInputPost: (inputPost = "") => {
@@ -54,55 +58,46 @@ export default {
       app: { inputPost }
     };
   },
-  toggleLinks: isOpenLinks => {
+  toggleDispMain: app => {
     return {
-      type: "TOGGLE_LINKS"
-    };
-  },
-  getClientMetas: clientMetas => {
-    return {
-      type: "GET_CLIENT_METAS",
-      clientMetas
-    };
-  },
-
-  // Stateに則ってる
-
-  onClickToggleMain: ({ app }) => {
-    return {
-      type: "ON_CLICK_TOGGLE_MAIN",
+      type: "TOGGLE_DISP_MAIN",
       app
     };
   },
-
   toggleDispBoard: app => {
     return {
       type: "TOGGLE_DISP_BOARD",
       app
     };
   },
+  onClickToggleMain: ({ app, ui }) => {
+    return {
+      type: "ON_CLICK_TOGGLE_MAIN",
+      app,
+      ui
+    };
+  },
   toggleBubblePost: () => {
     return {
       type: "TOGGLE_BUBBLE_POST",
-      app: { isTransition: false }
+      ui: { isTransition: false }
     };
   },
   openLinks: () => {
     return {
       type: "OPEN_LINKS",
-      app: { isOpenLinks: true }
+      ui: { isOpenLinks: true }
     };
   },
   closeLinks: () => {
     return {
       type: "CLOSE_LINKS",
-      app: { isOpenLinks: false }
+      ui: { isOpenLinks: false }
     };
   },
-  clearPostsTimeline: (mediaCurrentTime = 0) => {
+  toggleLinks: isOpenLinks => {
     return {
-      type: "CLEAR_POSTS_TIMELINE",
-      mediaCurrentTime
+      type: "TOGGLE_LINKS"
     };
   },
   onClickMultistream: ({ app, postsMulti, postsSingle }) => {
@@ -123,6 +118,24 @@ export default {
       type: "ON_CLICK_TOGGLE_DISP_DETAIL",
       threadDetail,
       app
+    };
+  },
+  onClickLike: inputPost => {
+    return {
+      type: "ON_CLICK_LIKE",
+      app: { inputPost }
+    };
+  },
+  onClickMoney: inputPost => {
+    return {
+      type: "ON_CLICK_MONEY",
+      app: { inputPost }
+    };
+  },
+  onClickShare: inputPost => {
+    return {
+      type: "ON_CLICK_SHARE",
+      app: { inputPost }
     };
   },
   onResizeStartWindow: (params = { app: {}, setting: {} }) => {
@@ -148,13 +161,13 @@ export default {
   onTransition: () => {
     return {
       type: "ON_TRANSITION",
-      app: { isTransition: true }
+      ui: { isTransition: true }
     };
   },
   offTransition: () => {
     return {
       type: "OFF_TRANSITION",
-      app: { isTransition: false }
+      ui: { isTransition: false }
     };
   },
   onTransitionEnd: () => {
@@ -162,40 +175,77 @@ export default {
       type: "ON_TRANSITION_END"
     };
   },
+  onClickMenu: menuComponent => {
+    return {
+      type: "ON_CLICK_MENU",
+      ui: { menuComponent }
+    };
+  },
+  onClickSetting: (settingType, { setting }) => {
+    return {
+      type: "ON_CLICK_SETTING",
+      settingType,
+      setting
+    };
+  },
   openInnerNotif: (openInnerNotif = define.noInnerNotif) => {
     return {
       type: "OPEN_INNER_NOTIF",
-      app: { openInnerNotif }
+      ui: { openInnerNotif }
     };
   },
   closeInnerNotif: () => {
     return {
       type: "CLOSE_INNER_NOTIF",
-      app: { openInnerNotif: "" }
+      ui: { openInnerNotif: "" }
+    };
+  },
+  openNotif: () => {
+    return {
+      type: "OPEN_NOTIF",
+      ui: { isOpenNotif: true }
+    };
+  },
+  closeNotif: () => {
+    return {
+      type: "CLOSE_NOTIF",
+      ui: { isOpenNotif: false }
     };
   },
   onClickOpenLockMenu: openLockMenu => {
     return {
       type: "ON_CLICK_OPEN_LOCK_MENU",
-      app: { openLockMenu }
+      ui: { openLockMenu }
     };
   },
   openNewPost: () => {
     return {
       type: "OPEN_NEW_POST",
-      app: { isOpenNewPost: true }
+      ui: { isOpenNewPost: true }
     };
   },
   closeNewPost: () => {
     return {
       type: "CLOSE_NEW_POST",
-      app: { isOpenNewPost: false }
+      ui: { isOpenNewPost: false }
     };
   },
   openMenuTransitionEnd: threadScrollY => {
     return {
       type: "OPEN_MENU_TRANSITION_END",
-      app: { threadScrollY }
+      ui: { threadScrollY }
+    };
+  },
+  startDispPosts: () => {
+    return {
+      type: "START_DISP_POSTS",
+      ui: { isDispPosts: true }
+    };
+  },
+  startUndispPosts: () => {
+    return {
+      type: "START_UNDISP_POSTS",
+      ui: { isDispPosts: false }
     };
   },
   componentDidMounts: componentName => {
@@ -216,6 +266,12 @@ export default {
       app
     };
   },
+  getClientMetas: clientMetas => {
+    return {
+      type: "GET_CLIENT_METAS",
+      clientMetas
+    };
+  },
   toggleDispPostsSupporter: () => {
     return {
       type: "TOGGLE_DISP_POSTS_SUPPORTER"
@@ -224,7 +280,7 @@ export default {
   closeDispPostsSupporter: () => {
     return {
       type: "CLOSE_DISP_POSTS_SUPPORTER",
-      app: { isOpenPostsSupporter: false }
+      ui: { isOpenPostsSupporter: false }
     };
   },
   nextPostsTimeline: (postsTimeline = []) => {
@@ -233,7 +289,24 @@ export default {
       postsTimeline
     };
   },
-
+  unmountPostsTimeline: (mediaCurrentTime = 0) => {
+    return {
+      type: "UNMOUNT_POSTS_TIMELINE",
+      mediaCurrentTime
+    };
+  },
+  clearPostsTimeline: (mediaCurrentTime = 0) => {
+    return {
+      type: "CLEAR_POSTS_TIMELINE",
+      mediaCurrentTime
+    };
+  },
+  prevPostsTimeline: (postsTimeline = []) => {
+    return {
+      type: "PREV_POSTS_TIMELINE",
+      postsTimeline
+    };
+  },
   delegatePost: ({ inputPost, inputCurrentTime, inputStampId }) => {
     return {
       type: "DELEGATE_POST",
@@ -261,13 +334,32 @@ export default {
       type: "START_LINK_MEDIA"
     };
   },
+  loadingEnd: () => {
+    return {
+      type: "LOADING_END"
+    };
+  },
+  scrollThread: () => {
+    return { type: "SCROLL_THREAD" };
+  },
   endAnimateScrollTo: () => {
     return { type: "END_ANIMATE_SCROLL_TO" };
+  },
+  createNotif: () => {
+    return {
+      type: "CREATE_NOTIF"
+    };
   },
   updatePostsHeight: postsHeight => {
     return {
       type: "UPDATE_POSTS_HEIGHT",
       app: { postsHeight }
+    };
+  },
+  debug: app => {
+    return {
+      type: "DEBUG",
+      app
     };
   }
 };

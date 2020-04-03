@@ -1,4 +1,5 @@
-import App from "../../common/schemas/state/App";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
 import Style from "./index";
 import Header from "./Header";
 import DetailRight from "./DetailRight";
@@ -72,7 +73,6 @@ export default class Container {
   }
   static get shadow() {
     return `${Style.mono230RGB} 0px 0px 5px 0px`;
-
   }
   static get darkLightRGB() {
     return Style.darkLightRGB;
@@ -168,22 +168,22 @@ export default class Container {
   static getThemeRGBA(alpha = 0.8) {
     return `rgba(${Container.themeRGBString}, ${alpha})`;
   }
-  static getTransitionOn(app: any = {}, removeUnit = false) {
+  static getTransitionOn({ app, ui }: any = {}, removeUnit = false) {
     let transition = String(Container.transitionOn);
     if (app) {
-      transition = app.isTransition ? `${Container.transitionOn}ms` : `${Container.transitionOff}ms`;
+      transition = ui.isTransition ? `${Container.transitionOn}ms` : `${Container.transitionOff}ms`;
     } else {
       transition = `${Container.transitionOn}ms`;
     }
 
     return removeUnit ? Style.trimUnit(transition) : transition;
   }
-  static getTransition(app: any = {}, addUnit = false) {
-    const transition = app.isTransition ? `${Container.transitionOn}ms` : `${Container.transitionOff}ms`;
+  static getTransition({ app, ui }: any = {}, addUnit = false) {
+    const transition = ui.isTransition ? `${Container.transitionOn}ms` : `${Container.transitionOff}ms`;
     return addUnit ? Style.trimUnit(transition) : transition;
   }
-  static getTransitionFirstOn(app, addUnit = false) {
-    const transition = app.isTransition ? `${Container.transitionFirstOn}ms` : `${Container.transitionOff}ms`;
+  static getTransitionFirstOn({ app, ui }, addUnit = false) {
+    const transition = ui.isTransition ? `${Container.transitionFirstOn}ms` : `${Container.transitionOff}ms`;
     return addUnit ? Style.trimUnit(transition) : transition;
   }
   static get transitionOn() {
@@ -215,19 +215,19 @@ export default class Container {
   static get notifCloseTranslateY() {
     return `translate3d( 0px, 0px, 0px )`;
   }
-  static getNotifTranslateY(app) {
-    return app.isOpenNewPost ? Container.notifOpenTranslateY : Container.notifCloseTranslateY;
+  static getNotifTranslateY({ app, ui }) {
+    return ui.isOpenNewPost ? Container.notifOpenTranslateY : Container.notifCloseTranslateY;
   }
 
-  static getNewPostDisplay(app) {
-    return app.isOpenNotif ? "none" : "flex";
+  static getNewPostDisplay({ app, ui }) {
+    return ui.isOpenNotif ? "none" : "flex";
   }
 
-  static getWidthPx({ bootOption, app }) {
+  static getWidthPx({ bootOption, app, ui }) {
     if (bootOption) {
       return bootOption.width ? bootOption.width : Container.width;
     } else {
-      return app.width;
+      return ui.width;
     }
   }
 
@@ -239,14 +239,13 @@ export default class Container {
     return 5;
   }
 
-  static getSelf(params): Object {
-    const { app, bootOption } = params;
-    const overflow = app.extensionMode === App.extensionModeExtBottomLabel ? "hidden" : "inherit";
+  static getSelf({ app, ui, bootOption, type }): Object {
+    const overflow = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "hidden" : "inherit";
     let borderRadius = "0px";
     if (bootOption && bootOption["border-radius"]) {
       borderRadius = bootOption["border-radius"];
     } else {
-      if (borderRadius === "0px" && app.extensionMode === App.extensionModeExtModalLabel) {
+      if (borderRadius === "0px" && ui.extensionMode === Ui.extensionModeExtModalLabel) {
         borderRadius = "3px";
       }
     }
@@ -266,28 +265,28 @@ export default class Container {
     return Style.get({ layout, content, animation });
   }
 
-  static getMultistreamIconWrapTop(app): Object {
-    if (app.extensionMode === App.extensionModeExtBottomLabel) {
+  static getMultistreamIconWrapTop({ app, ui }): Object {
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return Header.headerHeight + Container.multistreamWrapDefaultTop + "px";
-    } else if (app.extensionMode === App.extensionModeExtModalLabel) {
+    } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
       return Header.headerHeight + Container.multistreamWrapDefaultTop + "px";
     } else {
       return Header.headerHeight + Container.multistreamWrapDefaultTop + "px";
     }
   }
 
-  static getMultistreamIconWrapRight(app): Object {
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+  static getMultistreamIconWrapRight({ app, ui }): Object {
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         return "5%";
-      case App.screenModeMiddleLabel:
+      case Ui.screenModeMiddleLabel:
         return "20px";
-      case App.screenModeLargeLabel:
-        return `calc( ${DetailRight.getWidth(app)} + 20px)`;
+      case Ui.screenModeLargeLabel:
+        return `calc( ${DetailRight.getWidth({ app, ui })} + 20px)`;
     }
   }
 
-  static getMultistreamIconWrap({ app }): Object {
+  static getMultistreamIconWrap({ app, ui }): Object {
     const layout = Style.getLayoutBlock({
       width: "30px",
       height: "30px",
@@ -308,9 +307,9 @@ export default class Container {
     return Style.get({ layout, content, animation });
   }
 
-  static getNewPost({ app }): Object {
-    let display = Container.getNewPostDisplay(app);
-    const styles = TimeMarker.getFixTimeMarker({ app });
+  static getNewPost({ app, ui }): Object {
+    let display = Container.getNewPostDisplay({ app, ui });
+    const styles = TimeMarker.getFixTimeMarker({ app, ui });
     delete styles.top;
     return {
       ...styles,
@@ -318,7 +317,7 @@ export default class Container {
       zIndex: "1",
       margin: "0px auto",
       bottom: `-${Container.notifHeight}px`,
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     };
     /*
     const layout = Style.getLayoutFlex({
@@ -349,7 +348,7 @@ export default class Container {
     */
   }
 
-  static getHideScreenBottom({ app }): Object {
+  static getHideScreenBottom({ app, ui }): Object {
     const layout = Style.getLayoutFlex({
       position: "fixed",
       top: `100vh`,
@@ -362,9 +361,9 @@ export default class Container {
     return Style.get({ layout, content, animation });
   }
 
-  static getLinkLabel({ app }): Object {
+  static getLinkLabel({ app, ui }): Object {
     const top = Header.headerHeight + "px";
-    const left = app.screenMode === App.screenModeSmallLabel ? "0px" : `${Menu.getWidth(app)}`;
+    const left = ui.screenMode === Ui.screenModeSmallLabel ? "0px" : `${Menu.getWidth({ app, ui })}`;
     const layout = Style.getLayoutFlex({
       maxWidth: "180px",
       position: "fixed",

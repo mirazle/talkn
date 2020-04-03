@@ -1,0 +1,1 @@
+{"version":3,"file":"Message.js","sourceRoot":"","sources":["../../common/Message.ts"],"names":[],"mappings":";;AAAA,MAAqB,OAAO;IAC1B,MAAM,KAAK,YAAY;QACrB,OAAO,cAAc,CAAC;IACxB,CAAC;IACD,MAAM,KAAK,gBAAgB;QACzB,OAAO,eAAe,CAAC;IACzB,CAAC;IACD,MAAM,KAAK,YAAY;QACrB,OAAO,cAAc,CAAC;IACxB,CAAC;IACD,MAAM,KAAK,WAAW;QACpB,OAAO,aAAa,CAAC;IACvB,CAAC;CACF;AAbD,0BAaC"}

@@ -1,16 +1,28 @@
 import define from "./define";
 import os from "os";
-const { PRODUCTION, DEVELOPMENT, PRODUCTION_IP, PRODUCTION_DOMAIN, DEVELOPMENT_DOMAIN, SUB_DOMAINS } = define;
-const hostName = os.hostname();
+import process from "process";
+
+const {
+  PRODUCTION,
+  DEVELOPMENT,
+  PRODUCTION_IP,
+  LOCALHOST,
+  PRODUCTION_DOMAIN,
+  DEVELOPMENT_DOMAIN,
+  SUB_DOMAINS,
+  PORTS
+} = define;
 const apiVer = 1;
-const env = hostName === PRODUCTION_IP || hostName.indexOf(PRODUCTION_DOMAIN) >= 0 ? PRODUCTION : DEVELOPMENT;
+const hostName = os.hostname();
+const env = getEnv(hostName);
+const isDev = env === DEVELOPMENT;
 const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN;
 const wwwURL = `${SUB_DOMAINS.WWW}.${domain}`;
 const apiURL = `${SUB_DOMAINS.API}.${domain}`;
-const apiAccessURL = `${apiURL}/v${apiVer}`;
+const apiAccessURL = isDev ? `${LOCALHOST}:${PORTS.DEVELOPMENT_API}/talkn.api.js` : `${apiURL}/v${apiVer}`;
+const clientURL = isDev ? `${LOCALHOST}:${PORTS.DEVELOPMENT}/talkn.client.js` : `${SUB_DOMAINS.CLIENT}.${domain}`;
 const descURL = `${SUB_DOMAINS.DESC}.${domain}`;
 const portalURL = `${SUB_DOMAINS.PORTAL}.${domain}`;
-const clientURL = `${SUB_DOMAINS.CLIENT}.${domain}`;
 const assetsURL = `${SUB_DOMAINS.ASSETS}.${domain}`;
 const autoURL = `${SUB_DOMAINS.AUTO}.${domain}`;
 const extURL = `${SUB_DOMAINS.EXT}.${domain}`;
@@ -28,6 +40,7 @@ const ogpImages = {
   Music: `//${assetsImgPath}talkn_logo_music.png`,
   Video: `//${assetsImgPath}talkn_logo_video.png`
 };
+
 const conf: any = {
   domain,
   env,
@@ -53,3 +66,17 @@ const conf: any = {
   ogpImages
 };
 export default { ...conf };
+
+function getEnv(hostName) {
+  if (hostName === define.PRODUCTION_IP || hostName.indexOf(define.PRODUCTION_DOMAIN) >= 0) {
+    return define.PRODUCTION;
+  } else {
+    if (process.title === "browser") {
+      const port = Number(location.port);
+      if (port === define.PORTS.DEVELOPMENT || port === define.PORTS.DEVELOPMENT_API) {
+        return define.DEVELOPMENT;
+      }
+    }
+    return define.LOCALHOST;
+  }
+}

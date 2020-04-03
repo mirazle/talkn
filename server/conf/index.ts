@@ -6,8 +6,8 @@ import conf from "common/conf";
 const homeDir = os.homedir();
 const { PRODUCTION, SUB_DOMAINS, PORTS } = define;
 const { env, domain } = conf;
-const localhostPemKey = `${homeDir}/talkn/common/pems/localhost.key`;
-const localhostPemCrt = `${homeDir}/talkn/common/pems/localhost.crt`;
+const localhostPemKey = `${homeDir}/talkn/common/pems/server/localhost.key`;
+const localhostPemCrt = `${homeDir}/talkn/common/pems/server/localhost.crt`;
 const productPemKey = "/etc/letsencrypt/live/talkn.io/privkey.pem";
 const productPemCrt = "/etc/letsencrypt/live/talkn.io/cert.pem";
 const productPemChain = "/etc/letsencrypt/live/talkn.io/chain.pem";
@@ -47,8 +47,8 @@ conf.serverWwwPath =
     : `${homeDir}/talkn/server/listens/express/www/`;
 conf.serverExtPath =
   env === PRODUCTION
-    ? "/usr/share/app/talkn/server/listens/express/ext/"
-    : `${homeDir}/talkn/server/listens/express/ext/`;
+    ? "/usr/share/app/talkn/server/listens/express/extension/"
+    : `${homeDir}/talkn/server/listens/express/extension/`;
 conf.serverAutoPath =
   env === PRODUCTION
     ? "/usr/share/app/talkn/server/listens/express/auto/"

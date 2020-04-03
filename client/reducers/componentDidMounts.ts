@@ -1,5 +1,6 @@
-export default (state = new Array(), action) => {
-  return action.componentDidMounts && !state.includes(action.componentDidMounts)
-    ? [...state, action.componentDidMounts]
-    : state;
+export default (state = [], action) => {
+  if (action.componentDidMounts && typeof action.componentDidMounts === "string") {
+    state.push(action.componentDidMounts);
+  }
+  return state;
 };

@@ -33,7 +33,8 @@
     "include.js",
     "option.html",
     "option.js",
-    "talkn.client.js"
+    "talkn.client.js",
+    "talkn.api.js"
   ],
   "permissions": ["storage"]
 }

@@ -1,69 +1,95 @@
-import React, { Component } from "react";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
 import conf from "common/conf";
 import define from "common/define";
-import Sequence from "common/Sequence";
-import App from "common/schemas/state/App";
-import Thread from "common/schemas/state/Thread";
+import Sequence from "api/Sequence";
+import Ui from "client/store/Ui";
+import Thread from "api/store/Thread";
 import Marquee from "client/container/util/Marquee";
 import DetailFooter from "client/components/DetailFooter";
 import EmotionGraph from "client/components/EmotionGraph";
 import LockMenu from "client/components/LockMenu";
 import Icon from "client/components/Icon";
 
-interface Props {
+interface DetailProps {
   onClickOpenLockMenu?: any;
   handleOnClickToggleDetail?: any;
-  openInnerNotif?: any;
-  state: any;
+  clientState: ClientState;
 }
 
-interface State {
+interface DetailState {
   style: any;
 }
 
-export default class Detail extends Component<Props, State> {
+export default class Detail extends TalknComponent<DetailProps, DetailState> {
   constructor(props) {
     super(props);
     this.handleOnClickUpdate = this.handleOnClickUpdate.bind(this);
   }
 
   handleOnClickLike() {
-    const { state, onClickOpenLockMenu, openInnerNotif } = this.props;
-    const { app } = state;
-    if (app.openLockMenu !== App.openLockMenuLabelNo) {
-      onClickOpenLockMenu(App.openLockMenuLabelNo);
+    const { clientState, onClickOpenLockMenu } = this.props;
+    const { ui } = clientState;
+    if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
+      onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     } else {
-      openInnerNotif();
+      this.clientAction("OPEN_INNER_NOTIF");
     }
   }
 
   handleOnClickShare() {
-    const { state, onClickOpenLockMenu } = this.props;
-    const { app } = state;
-    if (app.openLockMenu !== App.openLockMenuLabelNo) {
-      onClickOpenLockMenu(App.openLockMenuLabelNo);
+    const { clientState, onClickOpenLockMenu } = this.props;
+    const { ui } = clientState;
+    if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
+      onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     } else {
-      onClickOpenLockMenu(App.openLockMenuLabelShare);
+      onClickOpenLockMenu(Ui.openLockMenuLabelShare);
     }
   }
 
   handleOnClickPortal() {
-    const { state, onClickOpenLockMenu } = this.props;
-    const { app } = state;
-    if (app.openLockMenu !== App.openLockMenuLabelNo) {
-      onClickOpenLockMenu(App.openLockMenuLabelNo);
+    const { clientState, onClickOpenLockMenu } = this.props;
+    const { ui } = clientState;
+    if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
+      onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     }
   }
 
   handleOnClickUpdate() {
-    const { openInnerNotif, state } = this.props;
-    const { threadDetail } = state;
-    openInnerNotif("Thread data has been updated.");
-    window.talknAPI.updateThread(threadDetail.ch);
+    const { threadDetail } = this.apiState;
+    this.clientAction("OPEN_INNER_NOTIF", "Thread data has been updated.");
+    this.coreApi("updateThread", threadDetail.ch);
+  }
+
+  render() {
+    const { style } = this.props.clientState;
+    return (
+      <div data-component-name={"Detail"} style={style.detail.self}>
+        {this.renderHeader()}
+        <div data-component-name={"DetailBody"} style={style.detail.body}>
+          {this.renderMeta()}
+          {this.renderExtension()}
+          {this.renderCh()}
+          {/* this.renderAnalyze() */}
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          {/*<span style={{color: "gray"}}>特許出願中</span>*/}
+          <br />
+          <br />
+          <br />
+        </div>
+        {this.renderLockMenu()}
+        {this.renderDetailFooter()}
+      </div>
+    );
   }
 
   getImgStyle(state, style, protocol, serverMetas) {
-    const { threadDetail } = state;
+    const { threadDetail } = this.apiState;
     let backgroundImage = style.detail.img.backgroundImage;
     let backgroundSize = style.detail.img.backgroundSize;
     switch (threadDetail.findType) {
@@ -110,8 +136,9 @@ export default class Detail extends Component<Props, State> {
   }
 
   renderHeader() {
-    const { state, handleOnClickToggleDetail } = this.props;
-    const { threadDetail, style } = state;
+    const { threadDetail } = this.apiState;
+    const { clientState, handleOnClickToggleDetail } = this.props;
+    const { style } = clientState;
     return (
       <header data-component-name={"DetailHeader"} onClick={handleOnClickToggleDetail} style={style.detail.header}>
         <span style={style.detail.headerP}>
@@ -124,63 +151,68 @@ export default class Detail extends Component<Props, State> {
   }
 
   getTwitterIcon(state) {
-    const { app, threadDetail } = state;
+    const { threadDetail } = this.apiState;
     const { serverMetas } = threadDetail;
-    const active = serverMetas && serverMetas["twitter:site"] !== "";
+    const { ui } = state;
+    const active = serverMetas && serverMetas["twitter:site"] && serverMetas["twitter:site"] !== "";
     const href = active ? `${define.URL.twitter}${serverMetas["twitter:site"].replace("@", "")}` : "";
     const onClick =
-      app.extensionMode !== "NONE"
+      ui.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
     return Icon.getTwitter({}, state, { active, href, onClick });
   }
 
   getFacebookIcon(state) {
-    const { app, threadDetail } = state;
+    const { threadDetail } = this.apiState;
     const { serverMetas } = threadDetail;
+    const { ui } = state;
     const active = serverMetas && serverMetas["fb:page_id"] !== "";
     const href = active ? `${define.URL.facebook}${serverMetas["fb:page_id"]}` : "";
     const onClick =
-      app.extensionMode !== "NONE"
+      ui.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
     return Icon.getFacebook({}, state, { active, href, onClick });
   }
 
   getAppstoreIcon(state) {
-    const { app, threadDetail } = state;
+    const { threadDetail } = this.apiState;
     const { serverMetas } = threadDetail;
+    const { ui } = state;
     const active = serverMetas && serverMetas["al:ios:app_store_id"] !== "";
     const href = active ? `${define.URL.appstore}${serverMetas["al:ios:app_store_id"]}` : "";
     const onClick =
-      app.extensionMode !== "NONE"
+      ui.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
     return Icon.getAppstore({}, state, { active, href, onClick });
   }
 
   getAndroidIcon(state) {
-    const { app, threadDetail } = state;
+    const { threadDetail } = this.apiState;
     const { serverMetas } = threadDetail;
+    const { ui } = state;
     const active = serverMetas && serverMetas["al:android:package"] !== "";
     const href = active ? `${define.URL.playstore}${serverMetas["al:android:package"]}` : "";
     const onClick =
-      app.extensionMode !== "NONE"
+      ui.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
     return Icon.getAndroid({}, state, { active, href, onClick });
   }
 
   getHomeIcon(state) {
-    const { app, threadDetail } = state;
+    const { threadDetail } = this.apiState;
+    const { ui } = state;
     const { protocol, ch, hasSlash } = threadDetail;
     const active = true;
     let href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${ch}`;
@@ -193,30 +225,31 @@ export default class Detail extends Component<Props, State> {
       }
     }
     const onClick =
-      app.extensionMode !== "NONE"
+      ui.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
     return Icon.getHome({}, state, { active, href, onClick });
   }
 
-  getTalknIcon(state) {
-    const { app, threadDetail } = state;
-    const { ch, hasSlash } = threadDetail;
+  getTalknIcon(clientState) {
+    const { threadDetail } = this.apiState;
+    const { ui } = clientState;
+    const { ch } = threadDetail;
     const active = true;
     const href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${ch}`;
     const onClick =
-      app.extensionMode !== "NONE"
+      ui.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
-    return Icon.getTalkn({}, state, { active, href, onClick });
+    return Icon.getTalkn({}, clientState, { active, href, onClick });
   }
 
   getDispContentType(contentType) {
-    const { style } = this.props.state;
+    const { style } = this.props.clientState;
     if (contentType) {
       return contentType.split(";").map((c, i) => (
         <div key={`${c}_${i}`} style={style.detail.metaContentType}>
@@ -228,23 +261,24 @@ export default class Detail extends Component<Props, State> {
   }
 
   renderMeta() {
-    const { state } = this.props;
-    const { threadDetail, style } = state;
+    const { threadDetail } = this.apiState;
+    const { clientState } = this.props;
+    const { style } = clientState;
     const { serverMetas, contentType, h1s, protocol } = threadDetail;
-    style.detail.img = this.getImgStyle(state, style, protocol, serverMetas);
+    style.detail.img = this.getImgStyle(clientState, style, protocol, serverMetas);
     const description = this.getDescription(serverMetas);
 
     // Have item icons.
-    const TwitterIcon = this.getTwitterIcon(state);
-    const FacebookIcon = this.getFacebookIcon(state);
-    const AppstoreIcon = this.getAppstoreIcon(state);
-    const AndroidIcon = this.getAndroidIcon(state);
+    const TwitterIcon = this.getTwitterIcon(clientState);
+    const FacebookIcon = this.getFacebookIcon(clientState);
+    const AppstoreIcon = this.getAppstoreIcon(clientState);
+    const AndroidIcon = this.getAndroidIcon(clientState);
 
     // Default icons.
-    const HomeIcon = this.getHomeIcon(state);
-    const TalknIcon = this.getTalknIcon(state);
-    const GraphIcon = Icon.getGraph({}, state, { active: false });
-    const EmptyIcon = Icon.getEmpty({}, state, { active: false });
+    const HomeIcon = this.getHomeIcon(clientState);
+    const TalknIcon = this.getTalknIcon(clientState);
+    const GraphIcon = Icon.getGraph({}, clientState, { active: false });
+    const EmptyIcon = Icon.getEmpty({}, clientState, { active: false });
 
     // Content Type
     const dispContentType = this.getDispContentType(contentType);
@@ -279,8 +313,9 @@ export default class Detail extends Component<Props, State> {
   }
 
   renderCh() {
-    const { state } = this.props;
-    const { threadDetail, style } = state;
+    const { threadDetail } = this.apiState;
+    const { clientState } = this.props;
+    const { style } = clientState;
     const IconUpdate = Icon.getUpdate(style.icon.update);
     return (
       <div style={style.detail.ch}>
@@ -300,8 +335,9 @@ export default class Detail extends Component<Props, State> {
   }
 
   renderAnalyze() {
-    const { state } = this.props;
-    const { threadDetail, style } = state;
+    const { clientState } = this.props;
+    const { threadDetail } = this.apiState;
+    const { style } = clientState;
     return (
       <div style={style.detail.analyze}>
         <div style={style.detail.analyzeRow}>
@@ -360,7 +396,8 @@ export default class Detail extends Component<Props, State> {
   }
 
   renderH1s() {
-    const { threadDetail, style } = this.props.state;
+    const { threadDetail } = this.apiState;
+    const { style } = this.props.clientState;
     const liTags = threadDetail.h1s.map((h1, i) => {
       return (
         <li style={style.detail.h1sLi} key={`h1s${i}`}>
@@ -372,64 +409,37 @@ export default class Detail extends Component<Props, State> {
   }
 
   renderLockMenu() {
-    const { app } = this.props.state;
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
-      case App.screenModeMiddleLabel:
+    const { ui } = this.props.clientState;
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+      case Ui.screenModeMiddleLabel:
         return <LockMenu {...this.props} />;
-      case App.screenModeLargeLabel:
+      case Ui.screenModeLargeLabel:
         return null;
     }
   }
 
   renderDetailFooter() {
-    const { app } = this.props.state;
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
-      case App.screenModeMiddleLabel:
-      case App.screenModeLargeLabel:
+    const { ui } = this.props.clientState;
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+      case Ui.screenModeMiddleLabel:
+      case Ui.screenModeLargeLabel:
         return <DetailFooter {...this.props} />;
     }
   }
 
   renderExtension() {
-    const { state } = this.props;
-    const { app } = state;
+    const { clientState } = this.props;
+    const { ui } = clientState;
     const active = true;
     const href = "https://chrome.google.com/webstore/detail/talkn-for-chrome/dkngnmdlcofambpfaccepbnjgfholgbo?hl=en";
     const onClick =
-      app.extensionMode !== "NONE"
+      ui.extensionMode !== "NONE"
         ? () => {
-            window.talknWindow.parentTo("linkTo", { href });
+            window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
-    return Icon.getChromeExtension({}, state, { active, href, onClick });
-  }
-
-  render() {
-    const { state } = this.props;
-    const { style } = state;
-    return (
-      <div data-component-name={"Detail"} style={style.detail.self}>
-        {this.renderHeader()}
-        <div data-component-name={"DetailBody"} style={style.detail.body}>
-          {this.renderMeta()}
-          {this.renderExtension()}
-          {this.renderCh()}
-          {/* this.renderAnalyze() */}
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          {/*<span style={{color: "gray"}}>特許出願中</span>*/}
-          <br />
-          <br />
-          <br />
-        </div>
-        {this.renderLockMenu()}
-        {this.renderDetailFooter()}
-      </div>
-    );
+    return Icon.getChromeExtension({}, clientState, { active, href, onClick });
   }
 }

@@ -1,7 +1,8 @@
-import define from "../../common/define";
+import define from "common/define";
 import Style from "./index";
 import Container from "./Container";
-import App from "../../common/schemas/state/App";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
 import Header from "./Header";
 import Posts from "./Posts";
 import Detail from "./Detail";
@@ -9,63 +10,65 @@ import PostsFooter from "./PostsFooter";
 import Menu from "./Menu";
 
 export default class DetailModal {
-  static getWidth(app, addUnit = false) {
+  static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    if (app.extensionMode === App.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return "84%";
-    } else if (app.extensionMode === App.extensionModeExtModalLabel) {
+    } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
       return "94%";
     } else {
       width =
-        app.screenMode === App.screenModeSmallLabel
-          ? String(Math.floor(app.width * Container.widthRatio)) + "px"
-          : `calc( ${100 * Container.widthRatio}% - ${Menu.getWidth(app)} )`;
+        ui.screenMode === Ui.screenModeSmallLabel
+          ? String(Math.floor(ui.width * Container.widthRatio)) + "px"
+          : `calc( ${100 * Container.widthRatio}% - ${Menu.getWidth({ app, ui })} )`;
     }
     return addUnit ? Style.trimUnit(width) : width;
   }
 
-  static getBaseMarginRate(app, addUnit = false) {
+  static getBaseMarginRate({ app, ui }, addUnit = false) {
     return Math.floor(((1 - Container.widthRatio) / 2) * 100);
   }
 
-  static getBaseMargin(app, addUnit = false) {
-    return Posts.getWidth(app, true) * (DetailModal.getBaseMarginRate(app) / 100);
+  static getBaseMargin({ app, ui }, addUnit = false) {
+    return Posts.getWidth({ app, ui }, true) * (DetailModal.getBaseMarginRate({ app, ui }) / 100);
   }
 
-  static getMargin(app, addUnit = false) {
-    if (app.extensionMode === App.extensionModeExtBottomLabel) {
+  static getMargin({ app, ui }, addUnit = false) {
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return "0% 8%";
     } else {
-      switch (app.screenMode) {
-        case App.screenModeSmallLabel:
-        case App.screenModeMiddleLabel:
-        case App.screenModeLargeLabel:
-          const marginRate = DetailModal.getBaseMarginRate(app);
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
+        case Ui.screenModeMiddleLabel:
+        case Ui.screenModeLargeLabel:
+          const marginRate = DetailModal.getBaseMarginRate({ app, ui });
           return `0% ${marginRate}% 0% ${marginRate}%`;
       }
     }
   }
 
-  static getHeight(app, addUnit = false) {
-    const marginRate = DetailModal.getBaseMarginRate(app);
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+  static getHeight({ app, ui }, addUnit = false) {
+    const marginRate = DetailModal.getBaseMarginRate({ app, ui });
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         return `calc( ${100 - marginRate}% - ${Header.headerHeight * 2}px )`;
-      case App.screenModeMiddleLabel:
+      case Ui.screenModeMiddleLabel:
         return `calc( ${100 - marginRate}% - ${Header.headerHeight * 2}px )`;
-      case App.screenModeLargeLabel:
-        const baseMargin = DetailModal.getBaseMargin(app);
+      case Ui.screenModeLargeLabel:
+        const baseMargin = DetailModal.getBaseMargin({ app, ui });
         return `calc( 100% - ${Header.headerHeight * 2 + baseMargin}px )`;
     }
   }
 
-  static getTransform(app) {
-    return app.isOpenDetail ? DetailModal.getOpenSelfTransform(app) : DetailModal.getCloseSelfTransform(app);
+  static getTransform({ app, ui }) {
+    return ui.isOpenDetail
+      ? DetailModal.getOpenSelfTransform({ app, ui })
+      : DetailModal.getCloseSelfTransform({ app, ui });
   }
-  static getCloseSelfTransform(app) {
+  static getCloseSelfTransform({ app, ui }) {
     return `translate3d(0%, 0px, 0px)`;
   }
-  static getOpenSelfTransform(app) {
+  static getOpenSelfTransform({ app, ui }) {
     return `translate3d(0%, calc( -100% - ${PostsFooter.selfHeight}px ), 0px)`;
   }
 

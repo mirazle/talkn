@@ -1,24 +1,23 @@
 import Style from "./index";
 import Container from "./Container";
 import Header from "./Header";
-import define from "../../common/define";
-import App from "../../common/schemas/state/App";
+import Ui from "client/store/Ui";
 import Main from "./Main";
 
 export default class Menu {
   static get baseWidth() {
     return "300px";
   }
-  static getWidth(app, addUnit = false): any {
+  static getWidth({ app, ui }, addUnit = false): any {
     let width = "0";
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
         width = "100.0%";
         break;
-      case App.screenModeMiddleLabel:
+      case Ui.screenModeMiddleLabel:
         width = Menu.baseWidth;
         break;
-      case App.screenModeLargeLabel:
+      case Ui.screenModeLargeLabel:
         width = Menu.baseWidth;
         break;
     }
@@ -26,16 +25,16 @@ export default class Menu {
     return addUnit ? Style.trimUnit(width) : width;
   }
 
-  static getTransform(app) {
+  static getTransform({ app, ui }) {
     let transform = "translate3d( 0px, 0px, 0px )";
-    switch (app.screenMode) {
-      case App.screenModeSmallLabel:
-        transform = app.isOpenMenu ? "translate3d( 0%, 0%, 0px )" : "translate3d( -100% , 0%, 0px )";
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+        transform = ui.isOpenMenu ? "translate3d( 0%, 0%, 0px )" : "translate3d( -100% , 0%, 0px )";
         break;
-      case App.screenModeMiddleLabel:
-        transform = app.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : "translate3d( 0px ,0px, 0px )";
+      case Ui.screenModeMiddleLabel:
+        transform = ui.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : "translate3d( 0px ,0px, 0px )";
         break;
-      case App.screenModeLargeLabel:
+      case Ui.screenModeLargeLabel:
         transform = "translate3d( 0px ,0px, 0px )";
         break;
     }
@@ -61,34 +60,35 @@ export default class Menu {
     };
   }
 
-  static getSelf({ app }) {
+  static getSelf({ app, ui }) {
     const display = "block";
-    const background = app.extensionMode === App.extensionModeExtBottomLabel ? "none" : Container.reliefRGB;
+    const background = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "none" : Container.reliefRGB;
     const layout = Style.getLayoutBlock({
       display,
       position: "fixed",
       top: "0px",
       left: "0px",
-      width: Menu.getWidth(app),
-      minWidth: Menu.getWidth(app),
+      width: Menu.getWidth({ app, ui }),
+      minWidth: Menu.getWidth({ app, ui }),
       height: "100%",
       minHeight: "auto",
       maHeight: "auto",
       margin: `${Header.headerHeight}px 0px 0px 0px`,
       background,
       WebkitOverflowScrolling: "touch",
-      overflow: "hidden"
+      overflow: "hidden",
+      zIndex: 10
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app),
-      transform: Menu.getTransform(app)
+      transition: Container.getTransition({ app, ui }),
+      transform: Menu.getTransform({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getWrapComponent({ app }) {
-    const width = app.extensionMode === App.extensionModeExtBottomLabel ? "90%" : "100%";
+  static getWrapComponent({ app, ui }) {
+    const width = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "90%" : "100%";
 
     const borders = {};
     /*
@@ -109,7 +109,7 @@ export default class Menu {
     return Style.get({ layout, content, animation });
   }
 
-  static getWrap({ app }) {
+  static getWrap({ app, ui }) {
     const layout = Style.getLayoutFlex({
       width: "initial",
       height: "60px",
@@ -124,9 +124,9 @@ export default class Menu {
     return Style.get({ layout, content, animation });
   }
 
-  static getFooter({ app }) {
+  static getFooter({ app, ui }) {
     const borders =
-      app.screenMode === App.screenModeSmallLabel ? { border: Container.border } : { border: Container.border };
+      ui.screenMode === Ui.screenModeSmallLabel ? { border: Container.border } : { border: Container.border };
 
     const layout = Style.getLayoutFlex({
       width: "100%",
@@ -139,7 +139,7 @@ export default class Menu {
     return Style.get({ layout, content, animation });
   }
 
-  static getFooterChild({ app }) {
+  static getFooterChild({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: "100%"
@@ -151,7 +151,7 @@ export default class Menu {
     return Style.get({ layout, content, animation });
   }
 
-  static getFooterChildMoney({ app }) {
+  static getFooterChildMoney({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
       height: "100%"

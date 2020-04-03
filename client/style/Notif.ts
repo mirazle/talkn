@@ -1,5 +1,5 @@
 import define from "../../common/define";
-import App from "../../common/schemas/state/App";
+import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
 import Footer from "./Footer";
@@ -10,20 +10,20 @@ export default class Notif {
     return 40;
   }
 
-  static getNotifsDisplay(app) {
-    if (app.extensionMode === App.extensionModeExtBottomLabel) {
+  static getNotifsDisplay({ app, ui }) {
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return "block";
     } else {
       return "none";
     }
   }
 
-  static getNotifsHeight(app) {
-    if (app.extensionMode === App.extensionModeExtBottomLabel) {
-      if (app.isOpenPosts) {
+  static getNotifsHeight({ app, ui }) {
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+      if (ui.isOpenPosts) {
         return "0px";
       } else {
-        if (app.isOpenNotif) {
+        if (ui.isOpenNotif) {
           return `${Footer.selfHeight + Notif.selfHeight}px`;
         } else {
           return `${Notif.selfHeight}px`;
@@ -54,9 +54,9 @@ export default class Notif {
     };
   }
 
-  static getNotifs({ app }) {
-    const display = Notif.getNotifsDisplay(app);
-    const height = Notif.getNotifsHeight(app);
+  static getNotifs({ app, ui }) {
+    const display = Notif.getNotifsDisplay({ app, ui });
+    const height = Notif.getNotifsHeight({ app, ui });
     const layout = Style.getLayoutBlock({
       display,
       position: "absolute",
@@ -70,9 +70,9 @@ export default class Notif {
     return Style.get({ layout, content, animation });
   }
 
-  static getSelf({ app }) {
-    const display = Notif.getNotifsDisplay(app);
-    const width = Posts.getOlWidth({ app }, true);
+  static getSelf({ app, ui }) {
+    const display = Notif.getNotifsDisplay({ app, ui });
+    const width = Posts.getOlWidth({ app, ui }, true);
     const merginLeft = (100 - width) / 2;
     const layout = Style.getLayoutBlock({
       display,
@@ -98,7 +98,7 @@ export default class Notif {
     return Style.get({ layout, content, animation });
   }
 
-  static getBottom({ app }) {
+  static getBottom({ app, ui }) {
     const layout = {
       width: "100%"
     };
@@ -107,14 +107,14 @@ export default class Notif {
     return Style.get({ layout, content, animation });
   }
 
-  static getBottomIcon({ app }) {
+  static getBottomIcon({ app, ui }) {
     const layout = {};
     const content = {};
     const animation = {};
     return Style.get({ layout, content, animation });
   }
 
-  static getBottomPost({ app }) {
+  static getBottomPost({ app, ui }) {
     const layout = {
       overflow: "hidden",
       padding: "15px 15px 15px 0px",

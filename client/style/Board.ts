@@ -1,4 +1,5 @@
-import App from "../../common/schemas/state/App";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
 import Detail from "./Detail";
@@ -33,7 +34,7 @@ export default class Board {
     return "SUB";
   }
 
-  static getType({ app }) {
+  static getType({ app, ui }) {
     switch (app.dispThreadType) {
       case App.dispThreadTypeMulti:
       case App.dispThreadTypeSingle:
@@ -122,39 +123,39 @@ export default class Board {
     };
   }
 
-  static getTotalWidth(app) {
+  static getTotalWidth({ app, ui }) {
     return Board.size + Board.padding * 2 + Board.right;
   }
 
-  static getSelfTop(app) {
+  static getSelfTop({ app, ui }) {
     return "55px";
   }
 
-  static getSelfWidth(app, addUnit = false) {
+  static getSelfWidth({ app, ui }, addUnit = false) {
     let width = "93%";
-    if (app.isOpenLinks) {
-      if (app.extensionMode === App.extensionModeExtBottomLabel) {
+    if (ui.isOpenLinks) {
+      if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
         width = "93%";
       } else {
-        switch (app.screenMode) {
-          case App.screenModeSmallLabel:
+        switch (ui.screenMode) {
+          case Ui.screenModeSmallLabel:
             return "93%";
-          case App.screenModeMiddleLabel:
-            return `calc(97% - ${Menu.getWidth(app, false)})`;
-          case App.screenModeLargeLabel:
-            width = `calc( ${97 - Detail.getWidth(app, false)}% - ${Menu.getWidth(app, false)} )`;
+          case Ui.screenModeMiddleLabel:
+            return `calc(97% - ${Menu.getWidth({ app, ui }, false)})`;
+          case Ui.screenModeLargeLabel:
+            width = `calc( ${97 - Detail.getWidth({ app, ui }, false)}% - ${Menu.getWidth({ app, ui }, false)} )`;
             break;
         }
       }
     } else {
-      width = Board.getTotalWidth(app) + "px";
+      width = Board.getTotalWidth({ app, ui }) + "px";
     }
     return addUnit ? Style.trimUnit(width) : width;
   }
 
-  static getSelfHeight(app) {
-    if (app.isOpenBoard) {
-      const type = Board.getType({ app });
+  static getSelfHeight({ app, ui }) {
+    if (ui.isOpenBoard) {
+      const type = Board.getType({ app, ui });
       switch (type) {
         case Board.typesMain:
           return "237px";
@@ -170,40 +171,40 @@ export default class Board {
     }
   }
 
-  static getSelfBorderRadius(app) {
+  static getSelfBorderRadius({ app, ui }) {
     return "10px 0px 0px 10px";
   }
 
-  static getSelfBackground(app) {
-    return app.isOpenBoard ? Container.lightRGBA : Container.whiteRGBA;
+  static getSelfBackground({ app, ui }) {
+    return ui.isOpenBoard ? Container.lightRGBA : Container.whiteRGBA;
   }
 
-  static getSelfRight(app, addUnit = false): any {
+  static getSelfRight({ app, ui }, addUnit = false): any {
     const right =
-      app.screenMode === App.screenModeLargeLabel
-        ? `calc( ${Detail.getWidth(app, true)} + ${Board.right}px )`
+      ui.screenMode === Ui.screenModeLargeLabel
+        ? `calc( ${Detail.getWidth({ app, ui }, true)} + ${Board.right}px )`
         : `${Board.right}px`;
     return addUnit ? right : Style.trimUnit(right);
   }
 
-  static getSelfBoxShadow(app, addUnit = false) {
-    return app.isOpenLinks ? "rgb(220, 220, 220) 0px 0px 5px" : "rgb(220, 220, 220) 0px 0px 5px";
+  static getSelfBoxShadow({ app, ui }, addUnit = false) {
+    return ui.isOpenLinks ? "rgb(220, 220, 220) 0px 0px 5px" : "rgb(220, 220, 220) 0px 0px 5px";
   }
 
-  static getLinksDisplay(app) {
-    return app.isOpenLinks ? "flex" : "none";
+  static getLinksDisplay({ app, ui }) {
+    return ui.isOpenLinks ? "flex" : "none";
   }
 
-  static getSelf({ app }) {
-    const width = Board.getSelfWidth(app);
-    const height = Board.getSelfHeight(app);
-    const borderRadius = Board.getSelfBorderRadius(app);
-    const background = Board.getSelfBackground(app);
-    const right = Board.getSelfRight(app, true);
-    const boxShadow = Board.getSelfBoxShadow(app);
+  static getSelf({ app, ui }) {
+    const width = Board.getSelfWidth({ app, ui });
+    const height = Board.getSelfHeight({ app, ui });
+    const borderRadius = Board.getSelfBorderRadius({ app, ui });
+    const background = Board.getSelfBackground({ app, ui });
+    const right = Board.getSelfRight({ app, ui }, true);
+    const boxShadow = Board.getSelfBoxShadow({ app, ui });
     const layout = Style.getLayoutFlex({
       position: "fixed",
-      top: Board.getSelfTop(app),
+      top: Board.getSelfTop({ app, ui }),
       overflow: "hide",
       right,
       height,
@@ -215,18 +216,18 @@ export default class Board {
       justifyContent: "flex-end",
       boxShadow,
       borderRadius,
-      zIndex: 2
+      zIndex: 3
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransitionFirstOn(app)
+      transition: Container.getTransitionFirstOn({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getMenu({ app }) {
+  static getMenu({ app, ui }) {
     const layout = Style.getLayoutFlex({
-      width: Board.getTotalWidth(app) + "px",
+      width: Board.getTotalWidth({ app, ui }) + "px",
       height: "100%",
       flexDirection: "column",
       alignItems: "flex-end"
@@ -236,7 +237,7 @@ export default class Board {
     return Style.get({ layout, content, animation });
   }
 
-  static getMenuUl({ app }) {
+  static getMenuUl({ app, ui }) {
     const layout = Style.getLayoutFlex({
       height: "100%",
       width: "100%",
@@ -246,12 +247,12 @@ export default class Board {
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getMenuLi({ app }) {
+  static getMenuLi({ app, ui }) {
     const size = Board.size + "px";
     const layout = Style.getLayoutFlex({
       flexDirection: "column",
@@ -270,13 +271,13 @@ export default class Board {
       lineHeight: "17px"
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getMenuLiChild({ app }) {
-    const color = App.isActiveMultistream(app, "getLiChild") ? Board.activeColor : Board.unactiveColor;
+  static getMenuLiChild({ app, ui }) {
+    const color = App.isActiveMultistream({ app, ui }, "getLiChild") ? Board.activeColor : Board.unactiveColor;
     const layout = {};
     const content = Style.getContentBase({
       color
@@ -285,8 +286,8 @@ export default class Board {
     return Style.get({ layout, content, animation });
   }
 
-  static getMenuLiBubble({ app }) {
-    const color = app.isBubblePost ? Board.activeColor : Board.unactiveColor;
+  static getMenuLiBubble({ app, ui }) {
+    const color = ui.isBubblePost ? Board.activeColor : Board.unactiveColor;
     const layout = {};
     const content = Style.getContentBase({
       color
@@ -295,7 +296,7 @@ export default class Board {
     return Style.get({ layout, content, animation });
   }
 
-  static getMenuLiLinks({ app }) {
+  static getMenuLiLinks({ app, ui }) {
     const bgColor = Container.themeRGB;
     const layout = {};
     const content = Style.getContentBase({
@@ -305,7 +306,7 @@ export default class Board {
     return Style.get({ layout, content, animation });
   }
 
-  static getMenuToggle({ app }) {
+  static getMenuToggle({ app, ui }) {
     const size = Board.size - 4 + "px";
     const layout = Style.getLayoutFlex({
       width: size,
@@ -315,13 +316,13 @@ export default class Board {
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getLinks({ app }) {
-    const display = Board.getLinksDisplay(app);
+  static getLinks({ app, ui }) {
+    const display = Board.getLinksDisplay({ app, ui });
     const layout = Style.getLayoutFlex({
       display,
       width: "100%",
@@ -338,7 +339,7 @@ export default class Board {
     return Style.get({ layout, content, animation });
   }
 
-  static getLinksUl({ app }) {
+  static getLinksUl({ app, ui }) {
     const layout = Style.getLayoutFlex({
       height: "100%",
       width: "100%",
@@ -351,12 +352,12 @@ export default class Board {
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getLinksLi({ app }) {
+  static getLinksLi({ app, ui }) {
     const size = Board.size + "px";
     const layout = Style.getLayoutFlex({
       alignItems: "flex-start",
@@ -376,32 +377,32 @@ export default class Board {
       lineHeight: "17px"
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getLinksLiActive({ app }) {
-    const styles: any = Board.getLinksLi({ app });
+  static getLinksLiActive({ app, ui }) {
+    const styles: any = Board.getLinksLi({ app, ui });
     styles.background = Container.whiteRGB;
     styles.color = Container.fontBaseRGB;
     return styles;
   }
 
-  static getLinksLiUnactive({ app }) {
-    const styles: any = Board.getLinksLi({ app });
+  static getLinksLiUnactive({ app, ui }) {
+    const styles: any = Board.getLinksLi({ app, ui });
     styles.background = Container.calmRGB;
     styles.color = Container.fontBaseRGB;
     return styles;
   }
 
-  static getLinksTuneLi({ app }) {
-    const styles: any = Board.getLinksLi({ app });
+  static getLinksTuneLi({ app, ui }) {
+    const styles: any = Board.getLinksLi({ app, ui });
     styles.alignItems = "center";
     return styles;
   }
 
-  static getLinkMenuUl({ app }) {
+  static getLinkMenuUl({ app, ui }) {
     const size = Board.size + "px";
     const layout = Style.getLayoutFlex({
       minHeight: size,
@@ -413,12 +414,12 @@ export default class Board {
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getLinkMenuLi({ app }) {
+  static getLinkMenuLi({ app, ui }) {
     const size = Board.size - 4 + "px";
     const layout = Style.getLayoutFlex({
       justifyContent: "center",
@@ -439,24 +440,24 @@ export default class Board {
       color: Container.whiteRGB
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getLinksTabActive({ app }) {
+  static getLinksTabActive({ app, ui }) {
     const styles: any = {};
     styles.background = Container.whiteRGBA;
     styles.color = Container.fontBaseRGB;
     return styles;
   }
 
-  static getLinksTabUnactive({ app }) {
-    const styles = Board.getLinkMenuLi({ app });
+  static getLinksTabUnactive({ app, ui }) {
+    const styles = Board.getLinkMenuLi({ app, ui });
     return styles;
   }
 
-  static getLinksTabLast({ app }) {
+  static getLinksTabLast({ app, ui }) {
     const styles: any = {};
     styles.margin = "5px 0px 0px 0px";
     return styles;

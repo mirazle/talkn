@@ -1,4 +1,4 @@
-import App from "../../common/schemas/state/App";
+import Ui from "client/store/Ui";
 import conf from "../../common/conf";
 import Style from "./index";
 import Container from "./Container";
@@ -62,9 +62,9 @@ export default class Post {
     return `display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;transform: scale(${scale});font-size: 50px;`;
   }
 
-  static getSelf({ app }) {
-    const padding = app.isBubblePost ? "10px 0px 10px 0px" : "0px 0px 0px 0px";
-    const minHeight = app.isBubblePost ? "75px" : "40px";
+  static getSelf({ app, ui }) {
+    const padding = ui.isBubblePost ? "10px 0px 10px 0px" : "0px 0px 0px 0px";
+    const minHeight = ui.isBubblePost ? "75px" : "40px";
     const width = "calc( 100% - 0px )";
     const layout = Style.getLayoutBlock({
       width,
@@ -79,13 +79,13 @@ export default class Post {
     return Style.get({ layout, content, animation });
   }
 
-  static getFixTimeMarker({ app }) {
-    const timeMarker = Post.getTimeMarker({ app });
+  static getFixTimeMarker({ app, ui }) {
+    const timeMarker = Post.getTimeMarker({ app, ui });
     const fixTimeMarker = { ...timeMarker, position: "fixed" };
     return fixTimeMarker;
   }
 
-  static getTimeMarker({ app }) {
+  static getTimeMarker({ app, ui }) {
     const layout = Style.getLayoutFlex({
       width: "18%",
       height: "auto",
@@ -103,8 +103,8 @@ export default class Post {
     return Style.get({ layout, content, animation });
   }
 
-  static getUpper({ app }) {
-    const display = app.isBubblePost ? "flex" : "none";
+  static getUpper({ app, ui }) {
+    const display = ui.isBubblePost ? "flex" : "none";
     const layout = Style.getLayoutFlex({
       display,
       justifyContent: "space-between",
@@ -117,7 +117,7 @@ export default class Post {
     return Style.get({ layout, content, animation });
   }
 
-  static getUpperChild({ app }) {
+  static getUpperChild({ app, ui }) {
     const layout = Style.getLayoutFlex({
       alignItems: "flex-start",
       justifyContent: "center",
@@ -134,7 +134,7 @@ export default class Post {
     return Style.get({ layout, content, animation });
   }
 
-  static getUpperTitle({ app }) {
+  static getUpperTitle({ app, ui }) {
     const layout = Style.getLayoutFlex({
       alignItems: "flex-start",
       justifyContent: "flex-start",
@@ -153,7 +153,7 @@ export default class Post {
     return Style.get({ layout, content, animation });
   }
 
-  static getUpperTimeago({ app }) {
+  static getUpperTimeago({ app, ui }) {
     const layout = Style.getLayoutFlex({
       alignItems: "flex-start",
       justifyContent: "flex-start",
@@ -172,7 +172,7 @@ export default class Post {
     return Style.get({ layout, content, animation });
   }
 
-  static getBottom({ app }) {
+  static getBottom({ app, ui }) {
     const layout = Style.getLayoutFlex({
       padding: "0px 10px 0px 0px"
     });
@@ -181,7 +181,7 @@ export default class Post {
     return Style.get({ layout, content, animation });
   }
 
-  static getBottomIcon({ app }) {
+  static getBottomIcon({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 2,
       width: "20%",
@@ -198,10 +198,10 @@ export default class Post {
     return Style.get({ layout, content, animation });
   }
 
-  static getBottomPost({ app }) {
-    const background = app.isBubblePost ? Container.themeRGBA : "none";
-    const color = app.isBubblePost ? Container.whiteRGBA : "rgba(160, 160, 160)";
-    const padding = app.isBubblePost ? "15px 15px 15px 25px" : "0px";
+  static getBottomPost({ app, ui }) {
+    const background = ui.isBubblePost ? Container.themeRGBA : "none";
+    const color = ui.isBubblePost ? Container.whiteRGBA : "rgba(160, 160, 160)";
+    const padding = ui.isBubblePost ? "15px 15px 15px 25px" : "0px";
     const layout = Style.getLayoutBlock({
       flexGrow: 8,
       width: "79%",
@@ -225,8 +225,8 @@ export default class Post {
     return Style.get({ layout, content, animation });
   }
 
-  static getStampLabelWrap({ app }) {
-    const right = App.screenModeSmallLabel === app.screenMode ? "9%" : "7%";
+  static getStampLabelWrap({ app, ui }) {
+    const right = Ui.screenModeSmallLabel === ui.screenMode ? "9%" : "7%";
     const layout = Style.getLayoutFlex({
       position: "absolute",
       bottom: "10px",
@@ -244,7 +244,7 @@ export default class Post {
     return Style.get({ layout, content, animation });
   }
 
-  static getStampLabel({ app }) {
+  static getStampLabel({ app, ui }) {
     const layout = Style.getLayoutFlex({
       width: "100px",
       height: "inherit",

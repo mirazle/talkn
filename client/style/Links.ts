@@ -69,16 +69,16 @@ export default class Links {
     };
   }
 
-  static getSelfDisplay(app) {
-    return app.isOpenLinks ? "flex" : "none";
+  static getSelfDisplay({ app, ui }) {
+    return ui.isOpenLinks ? "flex" : "none";
   }
 
-  static getLinksUlOevrflowY(app) {
-    return app.isOpenLinks ? "scroll" : "hidden";
+  static getLinksUlOevrflowY({ app, ui }) {
+    return ui.isOpenLinks ? "scroll" : "hidden";
   }
 
-  static getSelf({ app }) {
-    const display = Links.getSelfDisplay(app);
+  static getSelf({ app, ui }) {
+    const display = Links.getSelfDisplay({ app, ui });
     const layout = Style.getLayoutFlex({
       display,
       width: "100%",
@@ -95,8 +95,8 @@ export default class Links {
     return Style.get({ layout, content, animation });
   }
 
-  static getLinksUl({ app }) {
-    const overflowY = Links.getLinksUlOevrflowY(app);
+  static getLinksUl({ app, ui }) {
+    const overflowY = Links.getLinksUlOevrflowY({ app, ui });
     const layout = Style.getLayoutFlex({
       height: "100%",
       width: "100%",
@@ -110,12 +110,12 @@ export default class Links {
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getLinksLi({ app }) {
+  static getLinksLi({ app, ui }) {
     const size = Links.size + "px";
     const layout = Style.getLayoutFlex({
       alignItems: "flex-start",
@@ -135,26 +135,26 @@ export default class Links {
       lineHeight: "17px"
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getLinksLiActive({ app }) {
-    const styles: any = Links.getLinksLi({ app });
+  static getLinksLiActive({ app, ui }) {
+    const styles: any = Links.getLinksLi({ app, ui });
     styles.background = Container.whiteRGB;
     styles.color = Container.fontBaseRGB;
     return styles;
   }
 
-  static getLinksLiUnactive({ app }) {
-    const styles: any = Links.getLinksLi({ app });
+  static getLinksLiUnactive({ app, ui }) {
+    const styles: any = Links.getLinksLi({ app, ui });
     styles.background = Container.calmRGB;
     styles.color = Container.fontBaseRGB;
     return styles;
   }
 
-  static getLinkMenuUl({ app }) {
+  static getLinkMenuUl({ app, ui }) {
     const size = Links.size + "px";
     const layout = Style.getLayoutFlex({
       minHeight: size,
@@ -166,12 +166,12 @@ export default class Links {
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getLinkMenuLi({ app }) {
+  static getLinkMenuLi({ app, ui }) {
     const size = Links.size - 4 + "px";
     const layout = Style.getLayoutFlex({
       justifyContent: "center",
@@ -192,24 +192,24 @@ export default class Links {
       color: Container.whiteRGB
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
+      transition: Container.getTransition({ app, ui })
     });
     return Style.get({ layout, content, animation });
   }
 
-  static getLinksTabActive({ app }) {
+  static getLinksTabActive({ app, ui }) {
     const styles: any = {};
     styles.background = Container.whiteRGBA;
     styles.color = Container.fontBaseRGB;
     return styles;
   }
 
-  static getLinksTabUnactive({ app }) {
-    const styles = Links.getLinkMenuLi({ app });
+  static getLinksTabUnactive({ app, ui }) {
+    const styles = Links.getLinkMenuLi({ app, ui });
     return styles;
   }
 
-  static getLinksTabLast({ app }) {
+  static getLinksTabLast({ app, ui }) {
     const styles: any = {};
     styles.margin = "5px 0px 0px 0px";
     return styles;

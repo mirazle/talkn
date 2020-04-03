@@ -1,29 +1,31 @@
-import React, { Component } from "react";
-import State from "common/schemas/state";
-import App from "common/schemas/state/App";
-import Thread from "common/schemas/state/Thread";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
+import Ui from "client/store/Ui";
+import Thread from "api/store/Thread";
 import conf from "common/conf";
 import Icon from "client/components/Icon";
 import MenuIndexList from "client/components/Menu/MenuIndexList";
 
 interface MenuIndexProps {
-  state: State;
-  handleOnClickCh?: any;
+  clientState: ClientState;
   onClickToTimelineThread?: any;
   onClickToMultiThread?: any;
   onClickToSingleThread?: any;
   onClickToChildThread?: any;
   onClickToLogsThread?: any;
+  onClickOtherThread?: any;
 }
 
 interface MenuIndexState {
   rootCh: string;
   style: any;
 }
-export default class MenuIndex extends React.Component<MenuIndexProps, MenuIndexState> {
+export default class MenuIndex extends TalknComponent<MenuIndexProps, MenuIndexState> {
   constructor(props) {
     super(props);
-    const { app, style } = props.state;
+    const { app } = this.apiState;
+    const { style } = props.clientState;
     const { rootCh } = app;
     this.state = { rootCh, style: style.menuIndex.headerUpdateIcon };
     this.handleOnClickUpdate = this.handleOnClickUpdate.bind(this);
@@ -72,8 +74,8 @@ export default class MenuIndex extends React.Component<MenuIndexProps, MenuIndex
   }
 
   handleOnClickUpdate(ch) {
-    const { rootCh } = this.props.state.app;
-    window.talknAPI.findMenuIndex(rootCh);
+    const { rootCh } = this.apiState.app;
+    this.coreApi("findMenuIndex", rootCh);
   }
 
   handleOnChange(e) {
@@ -100,13 +102,14 @@ export default class MenuIndex extends React.Component<MenuIndexProps, MenuIndex
   }
 
   componentDidUpdate() {
-    const { app, actionLog } = this.props.state;
+    const { app, actionLog } = this.apiState;
+    const { ui } = this.props.clientState;
     switch (actionLog[0]) {
-      case "SERVER_TO_CLIENT[EMIT]:changeThread":
-        switch (app.screenMode) {
-          case App.screenModeSmallLabel:
+      case "API_TO_CLIENT[EMIT]:changeThread":
+        switch (ui.screenMode) {
+          case Ui.screenModeSmallLabel:
             if (!app.isLinkCh) {
-              window.talknAPI.onClickToggleDispMenu();
+              this.clientAction("ON_CLICK_TOGGLE_DISPMENU");
             }
             break;
         }
@@ -115,7 +118,8 @@ export default class MenuIndex extends React.Component<MenuIndexProps, MenuIndex
 
   render() {
     const headerUpdateIconStyle = this.state.style;
-    const { style } = this.props.state;
+    const { state, onChangeFindType }: any = this.props;
+    const { style } = this.props.clientState;
     const { icon } = style;
     const IconCh = Icon.getCh(icon.ch);
     const IconTune = Icon.getTune(icon.tune);
@@ -138,7 +142,7 @@ export default class MenuIndex extends React.Component<MenuIndexProps, MenuIndex
             {...this.getDecolationProps()}
           >
             {/* IconUpdate */}
-            <select onChange={window.talknAPI.onChangeFindType} style={style.menuIndex.headerFindSelect}>
+            <select onChange={onChangeFindType} style={style.menuIndex.headerFindSelect}>
               <option>{Thread.findTypeAll}</option>
               <option>{Thread.findTypeHtml}</option>
               <option>{Thread.findTypeMusic}</option>
@@ -153,18 +157,19 @@ export default class MenuIndex extends React.Component<MenuIndexProps, MenuIndex
   }
 
   renderLi() {
-    const { state, handleOnClickCh } = this.props;
-
-    const { app, thread, menuIndex, style } = state;
+    const { clientState, onClickOtherThread } = this.props;
+    const { app, thread, menuIndex } = this.apiState;
+    const { ui, style } = clientState;
     return menuIndex.map((mi, index) => {
       return (
         <MenuIndexList
           key={`${mi.ch}_${index}`}
           id={`${mi.ch}_${index}`}
           app={app}
+          ui={ui}
           thread={thread}
           menuIndexList={mi}
-          handleOnClickCh={handleOnClickCh}
+          onClickOtherThread={onClickOtherThread}
           rank={index}
           style={style.menuIndexList}
         />

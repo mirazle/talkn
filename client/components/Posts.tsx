@@ -1,13 +1,16 @@
-import React, { Component } from "react";
-import App from "common/schemas/state/App";
-import UiTimeMarker from "common/schemas/state/UiTimeMarker";
+import React from "react";
+import TalknComponent from "client/components/TalknComponent";
+import ClientState from "client/store/";
+import App from "api/store/App";
+import Ui from "client/store/Ui";
+import UiTimeMarker from "client/store/UiTimeMarker";
 import DateHelper from "client/container/util/DateHelper";
 import Post from "client/components/Post";
 import TimeMarker from "client/components/TimeMarker";
 import conf from "common/conf";
 
-interface Props {
-  state: any;
+interface PostsProps {
+  clientState: ClientState;
   scrollThread?: any;
   closeNewPost?: any;
   crollThread?: any;
@@ -16,35 +19,33 @@ interface Props {
   updateUiTimeMarker: (uiTimeMarker) => void;
 }
 
-interface State {
+interface PostsState {
   scrollHeight: number;
   scrollTop: number;
   isAnimateScrolling: boolean;
   posts: any;
 }
 
-export default class Posts extends Component<Props, State> {
+export default class Posts extends TalknComponent<PostsProps, PostsState> {
   constructor(props) {
     super(props);
     this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
-    this.handleOnScroll = this.handleOnScroll.bind(this);
     this.handleOnClickGetMore = this.handleOnClickGetMore.bind(this);
     this.handleOnClickPost = this.handleOnClickPost.bind(this);
     this.state = {
       scrollHeight: 0,
       scrollTop: 0,
       isAnimateScrolling: false,
-      //isScrollBottom: true,
       posts: []
     };
   }
 
   componentDidMount() {
-    const { app } = this.props.state;
+    const { ui } = this.props.clientState;
     if (
-      app.extensionMode === App.extensionModeExtBottomLabel ||
-      app.extensionMode === App.extensionModeExtIncludeLabel ||
-      app.extensionMode === App.extensionModeExtModalLabel
+      ui.extensionMode === Ui.extensionModeExtBottomLabel ||
+      ui.extensionMode === Ui.extensionModeExtIncludeLabel ||
+      ui.extensionMode === Ui.extensionModeExtModalLabel
     ) {
       const Posts = document.querySelector("[data-component-name=Posts]");
       window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
@@ -55,12 +56,11 @@ export default class Posts extends Component<Props, State> {
       //talknWindow.animateScrollTo( talknWindow.threadHeight, 0 );
       window.talknWindow.animateScrollTo(99999999, 0);
     }
-
-    window.talknAPI.componentDidMounts("Posts");
+    this.clientAction("COMPONENT_DID_MOUNTS", { componentDidMounts: "Posts" });
   }
 
   componentWillReceiveProps(props) {
-    const { app, postsTimeline, postsMulti, postsSingle, postsChild } = props.state;
+    const { app, postsTimeline, postsMulti, postsSingle, postsChild } = this.apiState;
     let posts = [];
     switch (app.dispThreadType) {
       case App.dispThreadTypeTimeline:
@@ -113,56 +113,21 @@ export default class Posts extends Component<Props, State> {
   }
 
   handleOnMouseDown() {
-    const { app } = this.props.state;
-    if (app.extensionMode === App.extensionModeExtBottomLabel || app.extensionMode === App.extensionModeExtModalLabel) {
+    const { ui } = this.props.clientState;
+    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
       //      this.refs.thread.scrollTop = this.refs.thread.scrollTop + 1;
     }
   }
 
-  handleOnScroll(e) {
-    const { app, thread } = this.props.state;
-    let { uiTimeMarker } = this.props.state;
-    if (app.isOpenNewPost) {
-      this.props.closeNewPost();
-    }
-
-    const { clientHeight, scrollTop, scrollHeight } = e.target;
-    const isScrollBottom = scrollHeight === scrollTop + clientHeight;
-    window.talknWindow.setIsScrollBottom(app, isScrollBottom);
-
-    const newUiTimeMarker = UiTimeMarker.update(scrollTop, uiTimeMarker);
-    if (uiTimeMarker.now.label !== newUiTimeMarker.now.label) {
-      window.talknAPI.onScrollUpdateTimeMarker(newUiTimeMarker);
-    }
-
-    if (scrollTop === 0) {
-      if (thread.postCnt > conf.findOnePostCnt) {
-        const timeMarkerList: any = document.querySelector("[data-component-name=TimeMarkerList]");
-        if (timeMarkerList && timeMarkerList.style) {
-          timeMarkerList.style.opacity = 0;
-        }
-        const HtmlThread: HTMLElement = this.refs.thread as HTMLElement;
-        this.setState({
-          ...this.state,
-          scrollHeight: HtmlThread.scrollHeight
-        });
-        window.talknWindow.exeGetMore(this.props.state);
-      }
-    }
-  }
-
   handleOnClickPost(ch: string) {
-    const { threads } = this.props.state;
-    let { app } = this.props.state;
+    const { app, threads } = this.apiState;
+    let { ui } = this.props.clientState;
 
     if (threads[ch]) {
-      app = App.getAppUpdatedOpenFlgs({ app }, "post");
-      window.talknAPI.onClickToggleDispDetail({
-        threadDetail: threads[ch],
-        app
-      });
+      ui = Ui.getUiUpdatedOpenFlgs({ app, ui }, "post");
+      this.clientAction("ON_CLICK_TOGGLE_DISP_DETAIL", { ui: { ...ui, detailCh: ch } });
     } else {
-      window.talknAPI.changeThreadDetail(ch);
+      this.coreApi("changeThreadDetail", { thread: { ch } });
     }
   }
 
@@ -172,18 +137,22 @@ export default class Posts extends Component<Props, State> {
       ...this.state,
       scrollHeight: HtmlThread.scrollHeight
     });
-    window.talknAPI.getMore();
+
+    this.coreApi("getMore", {});
   }
 
   render() {
-    const { style } = this.props.state;
+    const { style } = this.props.clientState;
     return (
       <ol
         data-component-name={"Posts"}
         style={style.posts.self}
         ref="thread"
         onMouseDown={this.handleOnMouseDown}
-        onScroll={this.handleOnScroll}
+        onScroll={e => {
+          const { scrollTop, clientHeight, scrollHeight }: any = e.target;
+          this.onScroll({ scrollTop, clientHeight, scrollHeight });
+        }}
       >
         {this.renderPostList()}
       </ol>
@@ -191,9 +160,10 @@ export default class Posts extends Component<Props, State> {
   }
 
   renderPostList() {
-    const { state, nowDate } = this.props;
-    const { app, style, thread } = state;
-    const posts = state[`posts${app.dispThreadType}`];
+    const { app, thread } = this.apiState;
+    const { clientState, nowDate } = this.props;
+    const { ui, style } = clientState;
+    const posts = this.apiState[`posts${app.dispThreadType}`];
     const postCnt = posts.length;
     let dispPosts = [];
     let beforeDiffDay: number = 0;
@@ -230,6 +200,7 @@ export default class Posts extends Component<Props, State> {
           id={post._id}
           post={post}
           app={app}
+          ui={ui}
           childLayerCnt={post.layer - thread.layer}
           style={style.post}
           onClickPost={this.handleOnClickPost}
