@@ -33,11 +33,6 @@ class BootOption {
     const prodApiSrc = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.PRODUCTION_DOMAIN}/v${conf.apiVer}`;
     const devApiScript = document.querySelector(`script[src='${devApiSrc}']`);
     const prodApiScript = document.querySelector(`script[src='${prodApiSrc}']`);
-    console.log(devApiSrc);
-    console.log(devApiScript);
-    console.log(prodApiSrc);
-    console.log(prodApiScript);
-
     const env = devApiScript ? define.DEVELOPMENT : define.PRODUCTION;
     const apiScript = devApiScript ? devApiScript : prodApiScript;
     const clientScript = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.clientURL}']`);
@@ -97,7 +92,7 @@ class CoreAPI {
   state: any;
   ch: string;
   constructor(env, apiStore, resolve) {
-    const wsServer = env === define.DEVELOPMENT_DOMAIN ? define.DEVELOPMENT_DOMAIN : define.PRODUCTION_DOMAIN;
+    const wsServer = env === define.DEVELOPMENT ? define.DEVELOPMENT_DOMAIN : define.PRODUCTION_DOMAIN;
     this.apiStore = apiStore;
     this.ws = io(`${Sequence.HTTPS_PROTOCOL}//${wsServer}:${define.PORTS.SOCKET_IO}`, { forceNew: true });
     this.onResponseMeAPI(resolve);

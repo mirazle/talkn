@@ -12,10 +12,7 @@ class SocketIo {
     httpsServer.listen(conf.socketIO.port);
     const io = socketIo(httpsServer);
     console.log("SOCKET IO RUN : " + conf.socketIO.port);
-    this.io = io.adapter(
-      redis({ host: conf.redis.host, port: conf.redis.port })
-    );
-    return this;
+    this.io = io.adapter(redis({ host: conf.redis.host, port: conf.redis.port }));
   }
 
   async get() {
