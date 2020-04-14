@@ -11,11 +11,11 @@ export default {
     return io.on("connection", Actions.io.attachAPI);
   },
 
-  attachAPI: async ioUser => {
+  attachAPI: async (ioUser, tt) => {
     const setting = await Actions.db.setUpUser();
-    Object.keys(Sequence.map).forEach(endpoint => {
+    Object.keys(Sequence.map).forEach((endpoint) => {
       const oneSequence = Sequence.map[endpoint];
-      ioUser.on(endpoint, requestState => {
+      ioUser.on(endpoint, (requestState) => {
         console.log("------------------------------- " + endpoint);
         console.log(requestState);
         Actions.io[endpoint](ioUser, requestState, setting);
@@ -41,7 +41,7 @@ export default {
     const isMultistream = Thread.getStatusIsMultistream(app);
     const postCntKey = isMultistream ? "multiPostCnt" : "postCnt";
     thread[postCntKey] = await Logics.db.posts.getCounts(requestState, {
-      isMultistream
+      isMultistream,
     });
     const { response: posts } = await Logics.db.posts.find(requestState, setting, { isMultistream, getMore: true });
     app = Collections.getNewApp(requestState.type, app, thread, posts);
@@ -64,8 +64,8 @@ export default {
         requestState,
         thread,
         app: {
-          tuned: ch
-        }
+          tuned: ch,
+        },
       });
     }
 
@@ -140,8 +140,8 @@ export default {
 
     let set = { $inc: { postCnt: 1 }, lastPost: post };
     if (emotionKeys.length > 0) {
-      emotionKeys.forEach(emotionModelKey => {
-        Object.keys(emotions[emotionModelKey]).forEach(emotionKey => {
+      emotionKeys.forEach((emotionModelKey) => {
+        Object.keys(emotions[emotionModelKey]).forEach((emotionKey) => {
           set["$inc"][`emotions.${emotionModelKey}.${emotionKey}`] = emotions[emotionModelKey][emotionKey];
         });
       });
@@ -149,7 +149,7 @@ export default {
     const response = await Logics.db.threads.update(ch, set);
     const postCntKey = isMultistream ? "multiPostCnt" : "postCnt";
     thread[postCntKey] = await Logics.db.posts.getCounts(requestState, {
-      isMultistream
+      isMultistream,
     });
     await Logics.io.post(ioUser, { requestState, posts: [post], thread });
   },
@@ -161,7 +161,7 @@ export default {
     const isMediaCh = Thread.getStatusIsMediaCh(ch);
     thread.postCnt = await Logics.db.posts.getCounts(requestState, {
       isMediaCh,
-      isMultistream
+      isMultistream,
     });
     thread = await Logics.db.threads.requestHtmlParams(thread, requestState);
     thread = await Logics.db.threads.save(thread);
@@ -175,7 +175,7 @@ export default {
     const serverMetas = await Logics.db.threads.updateServerMetas(ch, baseThread, requestState.thread);
     await Logics.io.updateThreadServerMetas(ioUser, {
       requestState,
-      thread: { serverMetas }
+      thread: { serverMetas },
     });
     return true;
   },
@@ -194,7 +194,7 @@ export default {
       // 配信
       Logics.io.saveOnWatchCnt(ioUser, {
         requestState: { type: "disconnect" },
-        thread
+        thread,
       });
     }
     return true;
@@ -207,10 +207,10 @@ export default {
       chs.forEach((ch, index) => {
         const requestState = {
           ...state,
-          thread: { ...state.thread, ch }
+          thread: { ...state.thread, ch },
         };
         Actions.io["find"](ioUser, requestState, setting);
       });
     }
-  }
+  },
 };

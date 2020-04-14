@@ -266,16 +266,17 @@ export default class App extends Schema {
 
   static getStepToDispThreadType({ app, menuIndex }: any, threadStatus: any, toCh: any, called: any = "") {
     let afterDispThreadType = "";
-    const beforeDispThreadType = app.dispThreadType;
+    const beforeDispThreadType = app && app.dispThreadType ? app.dispThreadType : App.dispThreadTypeMulti;
     app = App.getStepDispThreadType({ app, menuIndex }, threadStatus, toCh, called);
     afterDispThreadType = app.dispThreadType;
     return { app, stepTo: `${beforeDispThreadType} to ${afterDispThreadType}` };
   }
 
-  static getStepDispThreadType({ app, menuIndex }, threadStatus: any = {}, toCh, called) {
+  static getStepDispThreadType({ app , menuIndex }, threadStatus: any = {}, toCh, called) {
     const log = false;
-    app.isLinkCh = false;
-    app.offsetFindId = App.defaultOffsetFindId;
+    const updatedApp = app ? app : {};
+    updatedApp.isLinkCh = false;
+    updatedApp.offsetFindId = App.defaultOffsetFindId;
 
     if (log) console.log(called + " rootCh = " + app.rootCh + " toCh = " + toCh);
     if (log) console.log(menuIndex);
@@ -283,11 +284,11 @@ export default class App extends Schema {
 
     if (threadStatus.isMediaCh) {
       if (log) console.log("B");
-      app.dispThreadType = App.dispThreadTypeTimeline;
-      app.offsetFindId = app.offsetTimelineFindId ? app.offsetTimelineFindId : App.defaultOffsetFindId;
-      app.isLinkCh = called === "toLinks" || called === "findMediaCh" ? true : false;
-      app.isMediaCh = true;
-      return app;
+      updatedApp.dispThreadType = App.dispThreadTypeTimeline;
+      updatedApp.offsetFindId = updatedApp.offsetTimelineFindId ? updatedApp.offsetTimelineFindId : App.defaultOffsetFindId;
+      updatedApp.isLinkCh = called === "toLinks" || called === "findMediaCh" ? true : false;
+      updatedApp.isMediaCh = true;
+      return updatedApp;
     }
 
     if (called === "toLinks") {
@@ -304,28 +305,28 @@ export default class App extends Schema {
           console.log("D");
         }
 
-        app.offsetFindId = App.defaultOffsetFindId;
-        app.dispThreadType = App.dispThreadTypeChild;
+        updatedApp.offsetFindId = App.defaultOffsetFindId;
+        updatedApp.dispThreadType = App.dispThreadTypeChild;
         //        ui.isOpenLinks = false;
-        app.isLinkCh = true;
+        updatedApp.isLinkCh = true;
         // app.isOpenMenu = true;
-        return app;
+        return updatedApp;
       }
     }
 
-    if (app.rootCh === toCh) {
-      if (app.multistream) {
+    if (updatedApp.rootCh === toCh) {
+      if (updatedApp.multistream) {
         if (log) console.log("E");
-        app.dispThreadType = App.dispThreadTypeMulti;
+        updatedApp.dispThreadType = App.dispThreadTypeMulti;
       } else {
         if (log) console.log("F");
-        app.dispThreadType = App.dispThreadTypeSingle;
+        updatedApp.dispThreadType = App.dispThreadTypeSingle;
       }
     } else {
       if (log) console.log("G");
-      app.dispThreadType = App.dispThreadTypeChild;
+      updatedApp.dispThreadType = App.dispThreadTypeChild;
     }
     if (log) console.log(app);
-    return app;
+    return updatedApp;
   }
 }

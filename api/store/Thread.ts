@@ -330,6 +330,7 @@ export default class Thread extends Schema {
   }
 
   static getStatusIsMultistream(app) {
+    if( app === undefined || app.dispThreadType === undefined ) return true;
     return app.dispThreadType === App.dispThreadTypeMulti && app.multistream;
   }
 
@@ -339,6 +340,7 @@ export default class Thread extends Schema {
 
   static getStatusIsToggleMultistream(app) {
     // TODO: Judge fix actioned.
+    if( app === undefined || app.actioned === undefined ) return false;
     return app.actioned === "SERVER_TO_API[EMIT]:findMenuIndex";
     //    return app.actioned === "ON_CLICK_MULTISTREAM";
   }

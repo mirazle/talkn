@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Thread from "api/store/Thread";
+import Post from "api/store/Post";
 import conf from "common/conf";
 
 export default class Posts {
@@ -46,13 +47,14 @@ export default class Posts {
     const { isMultistream, getMore, isMediaCh } = status;
     const { thread, app } = requestState;
     const { ch } = thread;
+    const offsetFindId = app && app.offsetFindId ? app.offsetFindId : Post.defaultFindId;
     const getDirection = getMore ? "$lt" : "$gt";
     const chPart = isMultistream ? { chs: ch } : { ch };
     const currentTimePart = isMediaCh ? {} : {};
     const condition = {
       ...currentTimePart,
       ...chPart,
-      _id: { [getDirection]: mongoose.Types.ObjectId(app.offsetFindId) }
+      _id: { [getDirection]: mongoose.Types.ObjectId(offsetFindId) }
     };
 
     const sort = isMediaCh ? { currentTime: 1 } : { _id: -1 };
