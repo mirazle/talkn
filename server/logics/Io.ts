@@ -12,9 +12,7 @@ export default class Io {
   }
 
   async connectionServer(ioUser) {
-    return this.io.emit(ioUser, Sequence.CATCH_ME_KEY, {
-      type: Sequence.CONNECTION_SERVER_KEY
-    });
+    return this.io.emit(ioUser, Sequence.CATCH_ME_KEY, { type: Sequence.CONNECTION_SERVER_KEY });
   }
 
   async tuned(ioUser, requestState, setting) {
@@ -22,7 +20,7 @@ export default class Io {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
       //      app: { tuned: thread.ch },
       user: { uid: ioUser.conn.id },
-      setting
+      setting,
     });
 
     return this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
@@ -32,7 +30,7 @@ export default class Io {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
       thread,
       posts,
-      app
+      app,
     });
     const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
@@ -44,7 +42,7 @@ export default class Io {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
       thread,
       posts,
-      app
+      app,
     });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
     return true;
@@ -64,7 +62,7 @@ export default class Io {
 
   async updateThread(ioUser, { requestState, thread }) {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
-      thread
+      thread,
     });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
     return true;
@@ -72,7 +70,7 @@ export default class Io {
 
   async changeThread(ioUser, { requestState, thread, app }) {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
-      app
+      app,
     });
     const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
@@ -84,10 +82,10 @@ export default class Io {
     const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, {
       posts,
       thread,
-      menuIndex: posts
+      menuIndex: posts,
     });
     const chs = posts[0].chs;
-    chs.forEach(ch => {
+    chs.forEach((ch) => {
       // responseBroadcastState.thread.ch = ch;
       responseBroadcastState.posts[0].ch = ch;
       this.io.broadcast(ch, responseBroadcastState);
@@ -98,7 +96,7 @@ export default class Io {
 
   async updateThreadServerMetas(ioUser, { requestState, thread }) {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
-      thread
+      thread,
     });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
     return true;

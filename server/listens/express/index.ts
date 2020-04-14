@@ -70,7 +70,7 @@ class Express {
             assetsURL: conf.assetsURL,
             clientURL: conf.clientURL,
             wwwURL: conf.wwwURL,
-            apiAccessURL: conf.apiAccessURL
+            apiAccessURL: conf.apiAccessURL,
           });
         }
         break;
@@ -96,12 +96,13 @@ class Express {
               extURL: conf.extURL,
               assetsURL: conf.assetsURL,
               clientURL: conf.clientURL,
-              apiAccessURL: conf.apiAccessURL
+              apiAccessURL: conf.apiAccessURL,
             });
           } else {
             res.sendFile(`${conf.serverWwwPath}${req.url.replace("/", "")}`);
           }
         } else if (req.method === "POST") {
+          console.log(req.body.inquiry);
           Mail.send(req.body.inquiry);
           res.redirect(`https://${conf.wwwURL}`);
         }
@@ -183,7 +184,7 @@ class Express {
             clientURL: conf.clientURL,
             assetsURL: conf.assetsURL,
             apiURL: conf.apiURL,
-            apiAccessURL: conf.apiAccessURL
+            apiAccessURL: conf.apiAccessURL,
           });
         }
         break;
