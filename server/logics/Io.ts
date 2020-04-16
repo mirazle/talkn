@@ -88,6 +88,7 @@ export default class Io {
     chs.forEach((ch) => {
       // responseBroadcastState.thread.ch = ch;
       responseBroadcastState.posts[0].ch = ch;
+      console.log("@@@ " + ch);
       this.io.broadcast(ch, responseBroadcastState);
     });
 

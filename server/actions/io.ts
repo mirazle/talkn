@@ -13,6 +13,7 @@ export default {
 
   attachAPI: async (ioUser, tt) => {
     const setting = await Actions.db.setUpUser();
+    console.log("@@@@@@ CONNECTION");
     Object.keys(Sequence.map).forEach((endpoint) => {
       const oneSequence = Sequence.map[endpoint];
       ioUser.on(endpoint, (requestState) => {
@@ -136,7 +137,7 @@ export default {
     const thread = { ch, emotions };
     const isMultistream = Thread.getStatusIsMultistream(app);
     const post = await Logics.db.posts.save(requestState);
-    const emotionKeys = Object.keys(emotions);
+    const emotionKeys = emotions ? Object.keys(emotions) : [];
 
     let set = { $inc: { postCnt: 1 }, lastPost: post };
     if (emotionKeys.length > 0) {
