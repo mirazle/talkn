@@ -85,10 +85,6 @@ export default {
     // Threadの状態
     const threadStatus = Thread.getStatus(thread, app, setting);
 
-    console.log("-------------");
-    console.log(threadStatus);
-    console.log("-------------");
-
     // Posts
     const postCntKey = threadStatus.isMultistream ? "multiPostCnt" : "postCnt";
     thread[postCntKey] = await Logics.db.posts.getCounts(requestState, threadStatus);
@@ -136,7 +132,7 @@ export default {
     const { app } = requestState;
     const { ch, emotions } = requestState.thread;
     const thread = { ch, emotions };
-    const threadStatus = Thread.getStatus(app, thread, setting);
+    const threadStatus = Thread.getStatus(thread, app, setting);
     const post = await Logics.db.posts.save(requestState);
     const emotionKeys = emotions ? Object.keys(emotions) : [];
 

@@ -357,7 +357,6 @@ export default class Thread extends Schema {
   static getStatusIsToggleMultistream(app): boolean {
     // TODO: Judge fix actioned.
     if (app === undefined || app.actioned === undefined) return false;
-    console.log(app.isToggleMultistream);
     return app.isToggleMultistream;
   }
 
