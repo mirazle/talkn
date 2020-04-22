@@ -86,7 +86,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
       handleOnClickTogglePosts: this.handleOnClickTogglePosts,
       handleOnClickToggleMain: this.handleOnClickToggleMain,
       handleOnClickToggleDetail: this.handleOnClickToggleDetail,
-      nowDate: DateHelper.getNowYmdhis()
+      nowDate: DateHelper.getNowYmdhis(),
     };
   }
 
@@ -164,9 +164,9 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     postsMulti = postsMultiCache && postsMultiCache.length > 0 ? postsMultiCache : postsMulti;
     postsSingle = postsSingleCache && postsSingleCache.length > 0 ? postsSingleCache : postsSingle;
 
+    app.isToggleMultistream = true;
     app.dispThreadType =
       app.dispThreadType === App.dispThreadTypeMulti ? App.dispThreadTypeSingle : App.dispThreadTypeMulti;
-    app.multistreamed = !(app.dispThreadType === App.dispThreadTypeMulti);
     app.multistream = app.dispThreadType === App.dispThreadTypeMulti;
 
     if (app.multistream) {

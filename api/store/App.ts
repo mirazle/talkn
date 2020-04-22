@@ -46,7 +46,7 @@ export default class App extends Schema {
     return {
       [App.mediaTypeMp3]: App.mediaTagTypeAudio,
       [App.mediaTypeMp4]: App.mediaTagTypeVideo,
-      [App.mediaTypeM4a]: App.mediaTagTypeAudio
+      [App.mediaTypeM4a]: App.mediaTagTypeAudio,
     };
   }
   static getMediaType(src, params) {
@@ -112,8 +112,6 @@ export default class App extends Schema {
   dispThreadType: "Multi" | "Single" | "Child" | "Timeline" | "Logs";
   tuned: string;
   multistream: boolean;
-  multistreamed: boolean;
-  threadScrollY: string | number;
 
   // 投稿情報
   findType: "html" | "mp3" | "mp4" | "m4a" | "audio" | "video";
@@ -131,6 +129,7 @@ export default class App extends Schema {
   inputSearch: string;
 
   // その他
+  isToggleMultistream: boolean;
   actioned: string;
   debug: string;
 
@@ -155,7 +154,7 @@ export default class App extends Schema {
     const tuned = params && params.tuned ? params.tuned : "";
     const dispThreadType = App.getDispThreadType(params, isMediaCh);
     const multistream = Schema.isSet(params.multistream) ? params.multistream : true;
-    const multistreamed = params && params.multistreamed ? params.multistreamed : false;
+
     // 投稿情報
     const findType = params && params.findType ? params.findType : Thread.findTypeAll;
     const offsetFindId = params && params.offsetFindId ? params.offsetFindId : App.defaultOffsetFindId;
@@ -174,6 +173,7 @@ export default class App extends Schema {
     const inputSearch = params.inputSearch ? params.inputSearch : "";
 
     // その他
+    const isToggleMultistream = Schema.isSet(params.isToggleMultistream) ? params.isToggleMultistream : false;
     const actioned = params && params.actioned ? params.actioned : "";
     const debug = Schema.isSet(params.debug) ? params.debug : "";
     return this.create({
@@ -190,8 +190,7 @@ export default class App extends Schema {
       chType,
       dispThreadType,
       tuned,
-      multistream,
-      multistreamed,
+      multistream, // dispThreadTypeがChild, Timelineになってもmultistream状態を維持する
 
       //      threadScrollY,
 
@@ -213,8 +212,9 @@ export default class App extends Schema {
       inputSearch,
 
       // その他
+      isToggleMultistream,
       actioned,
-      debug
+      debug,
     });
   }
 
@@ -235,7 +235,7 @@ export default class App extends Schema {
   }
 
   static getIsMediaCh(ch) {
-    return App.mediaChs.some(ext => {
+    return App.mediaChs.some((ext) => {
       const regexp = new RegExp(`.${ext}\/$|.${ext}$`);
       return ch.match(regexp);
     });
@@ -272,7 +272,7 @@ export default class App extends Schema {
     return { app, stepTo: `${beforeDispThreadType} to ${afterDispThreadType}` };
   }
 
-  static getStepDispThreadType({ app , menuIndex }, threadStatus: any = {}, toCh, called) {
+  static getStepDispThreadType({ app, menuIndex }, threadStatus: any = {}, toCh, called) {
     const log = false;
     const updatedApp = app ? app : {};
     updatedApp.isLinkCh = false;
@@ -285,14 +285,16 @@ export default class App extends Schema {
     if (threadStatus.isMediaCh) {
       if (log) console.log("B");
       updatedApp.dispThreadType = App.dispThreadTypeTimeline;
-      updatedApp.offsetFindId = updatedApp.offsetTimelineFindId ? updatedApp.offsetTimelineFindId : App.defaultOffsetFindId;
+      updatedApp.offsetFindId = updatedApp.offsetTimelineFindId
+        ? updatedApp.offsetTimelineFindId
+        : App.defaultOffsetFindId;
       updatedApp.isLinkCh = called === "toLinks" || called === "findMediaCh" ? true : false;
       updatedApp.isMediaCh = true;
       return updatedApp;
     }
 
     if (called === "toLinks") {
-      const haveMenuIndex = menuIndex.some(mi => {
+      const haveMenuIndex = menuIndex.some((mi) => {
         return mi.ch === toCh || mi.ch === toCh + "/";
       });
 

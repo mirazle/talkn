@@ -74,14 +74,25 @@ export default class MenuIndexList {
 
   static getUnactiveLiBorder({ app, ui }) {
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
-      return { borderBottom: Container.border };
+      return {
+        borderTop: 0,
+        borderRight: 0,
+        borderBottom: Container.border,
+        borderLeft: 0,
+      };
     } else {
       return ui.screenMode === Ui.screenModeSmallLabel
-        ? { borderBottom: Container.border, borderLeft: 0 }
+        ? {
+            borderTop: 0,
+            borderRight: 0,
+            borderBottom: Container.border,
+            borderLeft: 0,
+          }
         : {
+            borderTop: 0,
             borderRight: Container.border,
             borderBottom: Container.border,
-            borderLeft: 0
+            borderLeft: 0,
           };
     }
   }
@@ -162,7 +173,7 @@ export default class MenuIndexList {
       bottomWatchCntWrap,
       ext,
       extMusic,
-      extVideo
+      extVideo,
     };
   }
 
@@ -171,14 +182,16 @@ export default class MenuIndexList {
       width: "initial",
       height: `${MenuIndexList.liHeight}px`,
       padding: "5px",
-      borderBottom: Container.border,
+      borderTop: 0,
       borderRight: `1px solid ${Container.whiteRGB}`,
+      borderBottom: Container.border,
+      borderLeft: 0,
       background: MenuIndexList.activeLiSelfBackground,
-      cursor: "pointer"
+      cursor: "pointer",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transition: `${Container.transitionFirstOn}ms`
+      transition: `${Container.transitionFirstOn}ms`,
     });
     return Style.get({ layout, content, animation });
   }
@@ -191,11 +204,11 @@ export default class MenuIndexList {
       padding: "5px",
       ...borders,
       background: MenuIndexList.unactiveLiSelfBackground,
-      cursor: "pointer"
+      cursor: "pointer",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transition: `${Container.transitionFirstOn}ms`
+      transition: `${Container.transitionFirstOn}ms`,
     });
 
     return Style.get({ layout, content, animation });
@@ -204,10 +217,10 @@ export default class MenuIndexList {
   static getUpper() {
     const layout = Style.getLayoutBlock({
       width: "100%",
-      height: "20px"
+      height: "20px",
     });
     const content = Style.getContentBase({
-      fontSize: `${MenuIndexList.fontSize}px`
+      fontSize: `${MenuIndexList.fontSize}px`,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -216,7 +229,7 @@ export default class MenuIndexList {
   static getUpperSpace() {
     const layout = Style.getLayoutInlineBlock({
       width: "18%",
-      margin: "0px 2% 0px 0px"
+      margin: "0px 2% 0px 0px",
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -232,7 +245,7 @@ export default class MenuIndexList {
       height: "20px",
       background: MenuIndexList.rankOtherRGB,
       borderRadius: "10px",
-      margin: "0"
+      margin: "0",
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -241,27 +254,27 @@ export default class MenuIndexList {
 
   static getUpperRank() {
     const layout = Style.getLayoutFlex({
-      width: "100%"
+      width: "100%",
     });
     const content = Style.getContentBase({
       fontSize: "10px",
       fontWeight: "bold",
       color: Container.whiteRGB,
-      lineHeight: "1.5"
+      lineHeight: "1.5",
     });
     const animation = Style.getAnimationBase({
-      transform: "scale(0.8)"
+      transform: "scale(0.8)",
     });
     return Style.get({ layout, content, animation });
   }
 
   static getUpperRight() {
     const layout = Style.getLayoutInlineBlock({
-      width: "80%"
+      width: "80%",
     });
     const content = Style.getContentBase({
       lineHeight: "1.5",
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -272,7 +285,7 @@ export default class MenuIndexList {
       justifyContent: "center",
       alignItems: "center",
       width: "100%",
-      height: "55px"
+      height: "55px",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -286,7 +299,7 @@ export default class MenuIndexList {
       backgroundImage: `url("${conf.assetsURL}/favicon.ico")`,
       backgroundPosition: "50% 30%",
       backgroundSize: "24px 24px",
-      backgroundRepeat: "no-repeat"
+      backgroundRepeat: "no-repeat",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -295,13 +308,13 @@ export default class MenuIndexList {
 
   static getBottomPost() {
     const layout = Style.getLayoutInlineBlock({
-      width: "60%"
+      width: "60%",
     });
     const content = Style.getContentBase({
       fontSize: `${MenuIndexList.fontSize}px`,
       lineHeight: 2.8,
       textAlign: "left",
-      whiteSpace: "nowrap"
+      whiteSpace: "nowrap",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -309,10 +322,10 @@ export default class MenuIndexList {
 
   static getBottomWatchCnt() {
     const layout = Style.getLayoutInlineFlex({
-      width: "20%"
+      width: "20%",
     });
     const content = Style.getContentBase({
-      textAlign: "center"
+      textAlign: "center",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -325,13 +338,13 @@ export default class MenuIndexList {
       width: "26px",
       height: "26px",
       background: Container.themeRGBA,
-      borderRadius: "20px"
+      borderRadius: "20px",
     });
     const content = Style.getContentBase({
       fontSize: "10px",
       lineHeight: 2,
       textAlign: "center",
-      color: Container.whiteRGB
+      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -347,14 +360,14 @@ export default class MenuIndexList {
       width: "50px",
       height: "15px",
       background: Container.lightGrayRGBA,
-      borderRadius: "3px 3px 0px 0px"
+      borderRadius: "3px 3px 0px 0px",
     });
     const content = Style.getContentBase({
       textIndent: "3px",
       fontSize: "8px",
       textAlign: "center",
       lineHeight: "1.5px",
-      color: Container.whiteRGB
+      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });

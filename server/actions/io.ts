@@ -13,7 +13,6 @@ export default {
 
   attachAPI: async (ioUser, tt) => {
     const setting = await Actions.db.setUpUser();
-    console.log("@@@@@@ CONNECTION");
     Object.keys(Sequence.map).forEach((endpoint) => {
       const oneSequence = Sequence.map[endpoint];
       ioUser.on(endpoint, (requestState) => {
@@ -39,12 +38,10 @@ export default {
     let { app } = requestState;
     const { ch } = requestState.thread;
     let thread = { ch };
-    const isMultistream = Thread.getStatusIsMultistream(app);
-    const postCntKey = isMultistream ? "multiPostCnt" : "postCnt";
-    thread[postCntKey] = await Logics.db.posts.getCounts(requestState, {
-      isMultistream,
-    });
-    const { response: posts } = await Logics.db.posts.find(requestState, setting, { isMultistream, getMore: true });
+    const threadStatus = Thread.getStatus(thread, app, setting);
+    const postCntKey = threadStatus.isMultistream ? "multiPostCnt" : "postCnt";
+    thread[postCntKey] = await Logics.db.posts.getCounts(requestState, threadStatus);
+    const { response: posts } = await Logics.db.posts.find(requestState, setting, threadStatus);
     app = Collections.getNewApp(requestState.type, app, thread, posts);
     Logics.io.getMore(ioUser, { requestState, thread, posts, app });
   },
@@ -87,6 +84,10 @@ export default {
 
     // Threadの状態
     const threadStatus = Thread.getStatus(thread, app, setting);
+
+    console.log("-------------");
+    console.log(threadStatus);
+    console.log("-------------");
 
     // Posts
     const postCntKey = threadStatus.isMultistream ? "multiPostCnt" : "postCnt";
@@ -135,7 +136,7 @@ export default {
     const { app } = requestState;
     const { ch, emotions } = requestState.thread;
     const thread = { ch, emotions };
-    const isMultistream = Thread.getStatusIsMultistream(app);
+    const threadStatus = Thread.getStatus(app, thread, setting);
     const post = await Logics.db.posts.save(requestState);
     const emotionKeys = emotions ? Object.keys(emotions) : [];
 
@@ -148,10 +149,8 @@ export default {
       });
     }
     const response = await Logics.db.threads.update(ch, set);
-    const postCntKey = isMultistream ? "multiPostCnt" : "postCnt";
-    thread[postCntKey] = await Logics.db.posts.getCounts(requestState, {
-      isMultistream,
-    });
+    const postCntKey = threadStatus.isMultistream ? "multiPostCnt" : "postCnt";
+    thread[postCntKey] = await Logics.db.posts.getCounts(requestState, threadStatus);
     await Logics.io.post(ioUser, { requestState, posts: [post], thread });
   },
 

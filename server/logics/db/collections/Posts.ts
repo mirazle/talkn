@@ -39,9 +39,13 @@ export default class Posts {
     requestState,
     setting,
     status = {
+      dispType: "",
+      isSchema: false,
+      isRequireUpsert: false,
       isMultistream: false,
+      isMediaCh: false,
+      isToggleMultistream: false,
       getMore: false,
-      isMediaCh: false
     }
   ) {
     const { isMultistream, getMore, isMediaCh } = status;
@@ -54,7 +58,7 @@ export default class Posts {
     const condition = {
       ...currentTimePart,
       ...chPart,
-      _id: { [getDirection]: mongoose.Types.ObjectId(offsetFindId) }
+      _id: { [getDirection]: mongoose.Types.ObjectId(offsetFindId) },
     };
 
     const sort = isMediaCh ? { currentTime: 1 } : { _id: -1 };
@@ -86,7 +90,7 @@ export default class Posts {
       findType: thread.findType,
       currentTime: app.inputCurrentTime,
       data: "",
-      updateTime: new Date()
+      updateTime: new Date(),
     });
     return post.save();
   }

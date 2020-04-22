@@ -4,6 +4,16 @@ import Schema from "api/store/Schema";
 import App from "api/store/App";
 import BootOption from "api/store/BootOption";
 
+export type ThreadStatusType = {
+  dispType: string;
+  isSchema: boolean;
+  isRequireUpsert: boolean;
+  isMultistream: boolean;
+  isMediaCh: boolean;
+  isToggleMultistream: boolean;
+  getMore: boolean;
+};
+
 export default class Thread extends Schema {
   static get findTypeAll(): "All" {
     return "All";
@@ -30,8 +40,8 @@ export default class Thread extends Schema {
         "video/mp4",
         "video/x-ms-wmv",
         "application/x-shockwave-flash",
-        "video/3gpp2"
-      ]
+        "video/3gpp2",
+      ],
     };
   }
   static getDefaultTitle() {
@@ -254,14 +264,15 @@ export default class Thread extends Schema {
     }
   }
 
-  static getStatus(thread, app, setting = {}) {
+  static getStatus(thread, app, setting = {}): ThreadStatusType {
     let status = {
       dispType: "", // TIMELINE, MULTI, SINGLE, CHILD, LOGS
       isSchema: false,
       isRequireUpsert: false,
       isMultistream: false,
       isMediaCh: false,
-      isToggleMultistream: false
+      isToggleMultistream: false,
+      getMore: false,
     };
 
     /*******************************************************/
@@ -293,44 +304,49 @@ export default class Thread extends Schema {
     /*******************************************************/
 
     status.isMediaCh = Thread.getStatusIsMediaCh(thread.ch);
-
     return status;
   }
 
   static getStatusIsSchema(thread) {
-    const threadCreateTime = thread.createTime.getTime ? thread.createTime.getTime() : thread.createTime;
-    const threadUpdateTime = thread.updateTime.getTime ? thread.updateTime.getTime() : thread.updateTime;
+    if (thread.createTime && thread.updateTime) {
+      const threadCreateTime = thread.createTime.getTime ? thread.createTime.getTime() : thread.createTime;
+      const threadUpdateTime = thread.updateTime.getTime ? thread.updateTime.getTime() : thread.updateTime;
 
-    if (threadCreateTime === threadUpdateTime) {
-      const lastPostCreateTime = thread.lastPost.createTime.getTime();
-      const lastPostUpdateTime = thread.lastPost.updateTime.getTime();
+      if (threadCreateTime === threadUpdateTime) {
+        const lastPostCreateTime = thread.lastPost.createTime.getTime();
+        const lastPostUpdateTime = thread.lastPost.updateTime.getTime();
 
-      if (lastPostCreateTime === lastPostUpdateTime) {
-        return true;
+        if (lastPostCreateTime === lastPostUpdateTime) {
+          return true;
+        }
       }
     }
     return false;
   }
 
   static getStatusIsRequireUpsert(thread, setting, isSchema = false) {
-    const threadUpdateTime = thread.updateTime.getTime ? thread.updateTime.getTime() : thread.updateTime;
+    if (thread.updateTime) {
+      const threadUpdateTime = thread.updateTime.getTime ? thread.updateTime.getTime() : thread.updateTime;
 
-    // 現在時刻を取得
-    const now = new Date();
-    const nowYear = now.getFullYear();
-    const nowMonth = now.getMonth();
-    const nowDay = now.getDate();
-    const nowHour = now.getHours();
-    const nowMinutes = now.getMinutes();
-    const activeDate = new Date(nowYear, nowMonth, nowDay, nowHour - setting.server.findOneThreadActiveHour);
-    const activeTime = activeDate.getTime();
+      // 現在時刻を取得
+      const now = new Date();
+      const nowYear = now.getFullYear();
+      const nowMonth = now.getMonth();
+      const nowDay = now.getDate();
+      const nowHour = now.getHours();
+      const nowMinutes = now.getMinutes();
+      const activeDate = new Date(nowYear, nowMonth, nowDay, nowHour - setting.server.findOneThreadActiveHour);
+      const activeTime = activeDate.getTime();
 
-    // スレッドの更新時間と、現在時間 - n を比較して、スレッドの更新時間が古かったらtrueを返す
-    return isSchema ? true : threadUpdateTime < activeTime;
+      // スレッドの更新時間と、現在時間 - n を比較して、スレッドの更新時間が古かったらtrueを返す
+      return isSchema ? true : threadUpdateTime < activeTime;
+    } else {
+      return false;
+    }
   }
 
-  static getStatusIsMultistream(app) {
-    if( app === undefined || app.dispThreadType === undefined ) return true;
+  static getStatusIsMultistream(app): boolean {
+    if (app === undefined || app.dispThreadType === undefined) return true;
     return app.dispThreadType === App.dispThreadTypeMulti && app.multistream;
   }
 
@@ -338,11 +354,11 @@ export default class Thread extends Schema {
     return App.getIsMediaCh(ch);
   }
 
-  static getStatusIsToggleMultistream(app) {
+  static getStatusIsToggleMultistream(app): boolean {
     // TODO: Judge fix actioned.
-    if( app === undefined || app.actioned === undefined ) return false;
-    return app.actioned === "SERVER_TO_API[EMIT]:findMenuIndex";
-    //    return app.actioned === "ON_CLICK_MULTISTREAM";
+    if (app === undefined || app.actioned === undefined) return false;
+    console.log(app.isToggleMultistream);
+    return app.isToggleMultistream;
   }
 
   static getContentTypeFromFindType(contentType) {

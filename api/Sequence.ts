@@ -57,109 +57,109 @@ export default class Sequence {
       tuned: {
         requestPublicState: {},
         requestPrivateState: {
-          thread: ["ch"]
+          thread: ["ch"],
         },
         responseEmitState: { user: ["uid"], setting: "*" },
-        responseBroadcastState: {}
+        responseBroadcastState: {},
       },
       find: {
         requestPublicState: {},
         requestPrivateState: {
           thread: ["ch", "protocol", "host", "hasSlash"],
-          app: ["multistream", "rootCh", "dispThreadType", "actioned", "offsetFindId"]
+          app: ["multistream", "rootCh", "dispThreadType", "actioned", "offsetFindId", "isToggleMultistream"],
         },
         responseEmitState: {
           posts: "*",
           thread: "*",
-          app: ["dispThreadType", "offsetFindId", "tuned", "multistreamed"]
+          app: ["dispThreadType", "offsetFindId", "tuned"],
         },
-        responseBroadcastState: { thread: ["watchCnt", "ch"] }
+        responseBroadcastState: { thread: ["watchCnt", "ch"] },
       },
       getMore: {
         requestPublicState: {},
         requestPrivateState: {
           thread: ["ch"],
-          app: ["multistream", "dispThreadType", "offsetFindId", "multistreamed"]
+          app: ["multistream", "dispThreadType", "offsetFindId"],
         },
         responseEmitState: {
           thread: "*",
           app: ["dispThreadType", "offsetFindId"],
-          posts: "*"
+          posts: "*",
         },
-        responseBroadcastState: {}
+        responseBroadcastState: {},
       },
       updateThread: {
         requestPublicState: {},
         requestPrivateState: {
-          thread: ["ch", "protocol", "host", "hasSlash"]
+          thread: ["ch", "protocol", "host", "hasSlash"],
         },
         responseEmitState: {
-          thread: "*"
+          thread: "*",
         },
-        responseBroadcastState: {}
+        responseBroadcastState: {},
       },
       changeThread: {
         requestPublicState: {},
         requestPrivateState: {
           thread: ["ch", "protocol", "host", "hasSlash"],
-          app: ["tuned", "rootCh", "multistream", "dispThreadType", "offsetFindId", "multistreamed"]
+          app: ["tuned", "rootCh", "multistream", "dispThreadType", "offsetFindId"],
         },
         responseEmitState: { app: ["tuned"] },
-        responseBroadcastState: { thread: ["watchCnt", "ch"] }
+        responseBroadcastState: { thread: ["watchCnt", "ch"] },
       },
       changeThreadDetail: {
         requestPublicState: {},
         requestPrivateState: { thread: ["ch"] },
         responseEmitState: { thread: "*" },
-        responseBroadcastState: {}
+        responseBroadcastState: {},
       },
       addFindChild: {
         requestPublicState: {},
         requestPrivateState: { thread: ["ch"] },
         responseEmitState: { thread: "*" },
-        responseBroadcastState: {}
+        responseBroadcastState: {},
       },
       findMenuIndex: {
         requestPublicState: {},
         requestPrivateState: {
-          app: ["findType", "rootCh"]
+          app: ["findType", "rootCh"],
         },
         responseEmitState: { menuIndex: "*" },
-        responseBroadcastState: {}
+        responseBroadcastState: {},
       },
       post: {
         requestPublicState: {},
         requestPrivateState: {
           user: ["uid", "utype"],
-          app: ["multistream", "inputPost", "inputStampId", "inputCurrentTime", "dispThreadType", "multistreamed"],
-          thread: ["findType", "title", "protocol", "ch", "chs", "emotions", "favicon", "contentType"]
+          app: ["inputPost", "inputStampId", "inputCurrentTime", "dispThreadType"],
+          thread: ["findType", "title", "protocol", "ch", "chs", "emotions", "favicon", "contentType"],
         },
         responseEmitState: {},
-        responseBroadcastState: { posts: "*", thread: "*", menuIndex: "*" }
+        responseBroadcastState: { posts: "*", thread: "*", menuIndex: "*" },
       },
       updateThreadServerMetas: {
         requestPublicState: { thread: ["serverMetas"] },
         requestPrivateState: {
           thread: ["host", "protocol", "ch"],
-          user: "*" // 懸念
+          user: "*", // 懸念
         },
         responseEmitState: { thread: "*" },
-        responseBroadcastState: {}
+        responseBroadcastState: {},
       },
       login: {
         requestPublicState: { user: ["requestLoginType"] },
         requestPrivateState: {
-          user: ["uid", "href"]
+          user: ["uid", "href"],
         },
         responseEmitState: { user: "*" },
-        responseBroadcastState: {}
+        responseBroadcastState: {},
       },
       disconnect: {
         requestPublicState: {},
         requestPrivateState: {},
         responseEmitState: {},
-        responseBroadcastState: { thread: ["watchCnt", "ch"] }
-      }
+        responseBroadcastState: { thread: ["watchCnt", "ch"] },
+      },
     };
   }
 
@@ -181,10 +181,10 @@ export default class Sequence {
     const { requestPublicState, requestPrivateState } = Sequence.map[endpointKey];
     let requestState = { [Sequence.REDUX_ACTION_KEY]: endpointKey };
 
-    Object.keys(requestPrivateState).forEach(stateKey => {
+    Object.keys(requestPrivateState).forEach((stateKey) => {
       if (!requestState[stateKey]) requestState[stateKey] = {};
 
-      requestPrivateState[stateKey].forEach(columnName => {
+      requestPrivateState[stateKey].forEach((columnName) => {
         if (!requestState[stateKey][columnName]) {
           let value = reduxState[stateKey][columnName];
           if (requestParams && requestParams[stateKey] && Schema.isSet(requestParams[stateKey][columnName])) {
@@ -195,10 +195,10 @@ export default class Sequence {
       });
     });
 
-    Object.keys(requestPublicState).forEach(stateKey => {
+    Object.keys(requestPublicState).forEach((stateKey) => {
       if (!requestState[stateKey]) requestState[stateKey] = {};
 
-      requestPublicState[stateKey].forEach(columnName => {
+      requestPublicState[stateKey].forEach((columnName) => {
         if (!requestState[stateKey][columnName]) {
           requestState[stateKey][columnName] = requestParams;
         }
@@ -211,7 +211,7 @@ export default class Sequence {
     const endpointKey = requestState.type;
     const responseSchema = Sequence.map[endpointKey][`response${responseType}State`];
     let responseState = { [Sequence.REDUX_ACTION_KEY]: endpointKey };
-    Object.keys(responseSchema).forEach(updateStateKey => {
+    Object.keys(responseSchema).forEach((updateStateKey) => {
       if (updateState[updateStateKey]) {
         const columnNames = responseSchema[updateStateKey];
         let updateStateValue = updateState[updateStateKey];
@@ -227,17 +227,17 @@ export default class Sequence {
         if (columnNames === "*") {
           responseState = {
             ...responseState,
-            [updateStateKey]: updateStateValue
+            [updateStateKey]: updateStateValue,
           };
         } else {
-          columnNames.forEach(columnName => {
+          columnNames.forEach((columnName) => {
             if (updateState[updateStateKey][columnName] !== undefined) {
               responseState = {
                 ...responseState,
                 [updateStateKey]: {
                   ...responseState[updateStateKey],
-                  [columnName]: updateState[updateStateKey][columnName]
-                }
+                  [columnName]: updateState[updateStateKey][columnName],
+                },
               };
             } else {
               throw `SEQUENCE ERROR: NO_UPDATE_STATE_COLUMN_NAME: ${requestState.type}: ${updateStateKey}.${columnName}`;

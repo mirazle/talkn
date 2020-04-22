@@ -5,10 +5,10 @@ import Setting from "server/logics/db/collections/Setting";
 import Users from "server/logics/db/collections/Users";
 
 export default class Collections {
-  threads: any;
-  posts: any;
-  setting: any;
-  users: any;
+  threads: Threads;
+  posts: Posts;
+  setting: Setting;
+  users: Users;
   constructor(mongoDB) {
     this.threads = new Threads(mongoDB.Threads);
     this.posts = new Posts(mongoDB.Posts);
@@ -63,13 +63,11 @@ export default class Collections {
     }
 
     const offsetFindId = App.getOffsetFindId({ posts });
-    const multistreamed = dispThreadType === App.dispThreadTypeMulti;
     return {
       ...app,
       tuned,
       offsetFindId,
       dispThreadType,
-      multistreamed
     };
   }
 }
