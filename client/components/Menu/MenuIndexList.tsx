@@ -57,9 +57,9 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
               ...this.state.style,
               [styleKey]: {
                 ...this.state.style[styleKey],
-                background: MenuIndexListStyle[`${styleKey}MouseOverBackground`]
-              }
-            }
+                background: MenuIndexListStyle[`${styleKey}MouseOverBackground`],
+              },
+            },
           });
         },
         onMouseLeave: () => {
@@ -69,9 +69,9 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
               ...this.state.style,
               [styleKey]: {
                 ...this.state.style[styleKey],
-                background: MenuIndexListStyle[`${styleKey}Background`]
-              }
-            }
+                background: MenuIndexListStyle[`${styleKey}Background`],
+              },
+            },
           });
         },
         onMouseDown: () => {
@@ -80,9 +80,9 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
               ...this.state.style,
               [styleKey]: {
                 ...this.state.style[styleKey],
-                background: MenuIndexListStyle[`${styleKey}MouseDownBackground`]
-              }
-            }
+                background: MenuIndexListStyle[`${styleKey}MouseDownBackground`],
+              },
+            },
           });
         },
         onMouseUp: () => {
@@ -91,11 +91,11 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
               ...this.state.style,
               [styleKey]: {
                 ...this.state.style[styleKey],
-                background: MenuIndexListStyle[`${styleKey}MouseOverBackground`]
-              }
-            }
+                background: MenuIndexListStyle[`${styleKey}MouseOverBackground`],
+              },
+            },
           });
-        }
+        },
       };
     }
   }
@@ -120,9 +120,9 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
         ...this.state.style,
         [styleKey]: {
           ...this.state.style[styleKey],
-          background: MenuIndexListStyle[`${styleKey}Background`]
-        }
-      }
+          background: MenuIndexListStyle[`${styleKey}Background`],
+        },
+      },
     });
   }
 
@@ -135,7 +135,7 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
 
     const dispRank = this.renderRank(rank);
     const dispFavicon = this.renderDispFavicon();
-    const dispWatchCnt = this.renderDispWatchCnt(isFocusCh);    
+    const dispWatchCnt = this.renderDispWatchCnt(isFocusCh);
     const baseStyle = style[styleKey];
     const dispExt = menuIndexList.findType === Thread.findTypeHtml ? null : menuIndexList.findType;
     const marqueeStyle: any = this.getMarqueeStyle();
@@ -158,8 +158,8 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
         </div>
 
         <div style={style.bottom}>
-          <span　style={{　...style.bottomIcon,　backgroundImage: `url( ${dispFavicon} )`}}/>
-          <span　style={style.bottomPost} dangerouslySetInnerHTML={{__html: this.renderPost(menuIndexList, app)}}/>
+          <span style={{ ...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )` }} />
+          <span style={style.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(menuIndexList, app) }} />
           {dispWatchCnt}
         </div>
 

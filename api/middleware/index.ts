@@ -6,7 +6,7 @@ import Threads from "api/store/Threads";
 import storage from "api/mapToStateToProps/storage";
 
 export default {
-  updateAction: store => next => action => {
+  updateAction: (store) => (next) => (action) => {
     const state = store.getState();
     if (action) {
       action.app = action.app ? { ...state.app, ...action.app } : state.app;
@@ -19,7 +19,7 @@ export default {
     if (action) {
       next(action);
     }
-  }
+  },
 };
 
 const functions = {
@@ -38,6 +38,7 @@ const functions = {
     action.app.desc = action.thread.serverMetas.title;
     action.app.isRootCh = action.app.rootCh === action.thread.ch;
     action.app.isMediaCh = App.getIsMediaCh(action.thread.ch);
+    action.app.isToggleMultistream = false;
     action = { ...Posts.getAnyActionPosts(action, state) };
     action.thread.title = action.thread.serverMetas.title;
     action.thread.hasSlash = Schema.getBool(action.thread.hasSlash);
@@ -88,8 +89,8 @@ const functions = {
       const actionEmotions = { ...action.thread.emotions };
       action.thread.emotions = { ...state.thread.emotions };
 
-      Object.keys(actionEmotions).forEach(emotionModelKey => {
-        Object.keys(actionEmotions[emotionModelKey]).forEach(emotionKey => {
+      Object.keys(actionEmotions).forEach((emotionModelKey) => {
+        Object.keys(actionEmotions[emotionModelKey]).forEach((emotionKey) => {
           action.thread.emotions[emotionModelKey][emotionKey] =
             action.thread.emotions[emotionModelKey][emotionKey] + actionEmotions[emotionModelKey][emotionKey];
         });
@@ -201,9 +202,9 @@ const functions = {
       action.threadDetail = { ...state.threadDetail };
       action.threadDetail.serverMetas = {
         ...action.threadDetail.serverMetas,
-        ...action.thread.serverMetas
+        ...action.thread.serverMetas,
       };
       return action;
     }
-  }
+  },
 };
