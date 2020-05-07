@@ -16,9 +16,9 @@ import postsTimelineZeroAfter from "./postsTimelineZeroAfter";
 import postsMulti from "./postsMulti";
 import postsSingle from "./postsSingle";
 import postsChild from "./postsChild";
-import actionLog from "./actionLog";
+import actioned from "./actioned";
 
-const reducers = combineReducers({
+export const reducerFiles = {
   app,
   user,
   menuIndex,
@@ -36,7 +36,7 @@ const reducers = combineReducers({
   postsMulti,
   postsSingle,
   postsChild,
-  actionLog
-});
+  actioned,
+};
 
-export default reducers;
+export default combineReducers(reducerFiles);

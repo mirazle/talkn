@@ -15,7 +15,7 @@ import Icon from "client/components/Icon";
 interface DetailProps {
   onClickOpenLockMenu?: any;
   handleOnClickToggleDetail?: any;
-  clientState: ClientState;
+  state: any;
 }
 
 interface DetailState {
@@ -29,8 +29,8 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   handleOnClickLike() {
-    const { clientState, onClickOpenLockMenu } = this.props;
-    const { ui } = clientState;
+    const { state, onClickOpenLockMenu } = this.props;
+    const { ui } = state;
     if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
       onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     } else {
@@ -39,8 +39,8 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   handleOnClickShare() {
-    const { clientState, onClickOpenLockMenu } = this.props;
-    const { ui } = clientState;
+    const { state, onClickOpenLockMenu } = this.props;
+    const { ui } = state;
     if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
       onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     } else {
@@ -49,21 +49,21 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   handleOnClickPortal() {
-    const { clientState, onClickOpenLockMenu } = this.props;
-    const { ui } = clientState;
+    const { state, onClickOpenLockMenu } = this.props;
+    const { ui } = state;
     if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
       onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     }
   }
 
   handleOnClickUpdate() {
-    const { threadDetail } = this.apiState;
+    const { threadDetail } = this.props.state;
     this.clientAction("OPEN_INNER_NOTIF", "Thread data has been updated.");
     this.coreApi("updateThread", threadDetail.ch);
   }
 
   render() {
-    const { style } = this.props.clientState;
+    const { style } = this.props.state;
     return (
       <div data-component-name={"Detail"} style={style.detail.self}>
         {this.renderHeader()}
@@ -89,7 +89,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   getImgStyle(state, style, protocol, serverMetas) {
-    const { threadDetail } = this.apiState;
+    const { threadDetail } = this.props.state;
     let backgroundImage = style.detail.img.backgroundImage;
     let backgroundSize = style.detail.img.backgroundSize;
     switch (threadDetail.findType) {
@@ -136,9 +136,8 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   renderHeader() {
-    const { threadDetail } = this.apiState;
-    const { clientState, handleOnClickToggleDetail } = this.props;
-    const { style } = clientState;
+    const { state, handleOnClickToggleDetail } = this.props;
+    const { style, threadDetail } = state;
     return (
       <header data-component-name={"DetailHeader"} onClick={handleOnClickToggleDetail} style={style.detail.header}>
         <span style={style.detail.headerP}>
@@ -151,9 +150,8 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   getTwitterIcon(state) {
-    const { threadDetail } = this.apiState;
+    const { threadDetail, ui } = this.props.state;
     const { serverMetas } = threadDetail;
-    const { ui } = state;
     const active = serverMetas && serverMetas["twitter:site"] && serverMetas["twitter:site"] !== "";
     const href = active ? `${define.URL.twitter}${serverMetas["twitter:site"].replace("@", "")}` : "";
     const onClick =
@@ -166,7 +164,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   getFacebookIcon(state) {
-    const { threadDetail } = this.apiState;
+    const { threadDetail } = this.props.state;
     const { serverMetas } = threadDetail;
     const { ui } = state;
     const active = serverMetas && serverMetas["fb:page_id"] !== "";
@@ -181,7 +179,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   getAppstoreIcon(state) {
-    const { threadDetail } = this.apiState;
+    const { threadDetail } = this.props.state;
     const { serverMetas } = threadDetail;
     const { ui } = state;
     const active = serverMetas && serverMetas["al:ios:app_store_id"] !== "";
@@ -196,9 +194,8 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   getAndroidIcon(state) {
-    const { threadDetail } = this.apiState;
+    const { ui, threadDetail } = state;
     const { serverMetas } = threadDetail;
-    const { ui } = state;
     const active = serverMetas && serverMetas["al:android:package"] !== "";
     const href = active ? `${define.URL.playstore}${serverMetas["al:android:package"]}` : "";
     const onClick =
@@ -211,8 +208,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   getHomeIcon(state) {
-    const { threadDetail } = this.apiState;
-    const { ui } = state;
+    const { threadDetail, ui } = state;
     const { protocol, ch, hasSlash } = threadDetail;
     const active = true;
     let href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${ch}`;
@@ -233,9 +229,8 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
     return Icon.getHome({}, state, { active, href, onClick });
   }
 
-  getTalknIcon(clientState) {
-    const { threadDetail } = this.apiState;
-    const { ui } = clientState;
+  getTalknIcon(state) {
+    const { threadDetail, ui } = state;
     const { ch } = threadDetail;
     const active = true;
     const href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${ch}`;
@@ -245,11 +240,11 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
             window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
-    return Icon.getTalkn({}, clientState, { active, href, onClick });
+    return Icon.getTalkn({}, state, { active, href, onClick });
   }
 
   getDispContentType(contentType) {
-    const { style } = this.props.clientState;
+    const { style } = this.props.state;
     if (contentType) {
       return contentType.split(";").map((c, i) => (
         <div key={`${c}_${i}`} style={style.detail.metaContentType}>
@@ -261,24 +256,23 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   renderMeta() {
-    const { threadDetail } = this.apiState;
-    const { clientState } = this.props;
-    const { style } = clientState;
+    const { state } = this.props;
+    const { threadDetail, style } = state;
     const { serverMetas, contentType, h1s, protocol } = threadDetail;
-    style.detail.img = this.getImgStyle(clientState, style, protocol, serverMetas);
+    style.detail.img = this.getImgStyle(state, style, protocol, serverMetas);
     const description = this.getDescription(serverMetas);
 
     // Have item icons.
-    const TwitterIcon = this.getTwitterIcon(clientState);
-    const FacebookIcon = this.getFacebookIcon(clientState);
-    const AppstoreIcon = this.getAppstoreIcon(clientState);
-    const AndroidIcon = this.getAndroidIcon(clientState);
+    const TwitterIcon = this.getTwitterIcon(state);
+    const FacebookIcon = this.getFacebookIcon(state);
+    const AppstoreIcon = this.getAppstoreIcon(state);
+    const AndroidIcon = this.getAndroidIcon(state);
 
     // Default icons.
-    const HomeIcon = this.getHomeIcon(clientState);
-    const TalknIcon = this.getTalknIcon(clientState);
-    const GraphIcon = Icon.getGraph({}, clientState, { active: false });
-    const EmptyIcon = Icon.getEmpty({}, clientState, { active: false });
+    const HomeIcon = this.getHomeIcon(state);
+    const TalknIcon = this.getTalknIcon(state);
+    const GraphIcon = Icon.getGraph({}, state, { active: false });
+    const EmptyIcon = Icon.getEmpty({}, state, { active: false });
 
     // Content Type
     const dispContentType = this.getDispContentType(contentType);
@@ -313,9 +307,8 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   renderCh() {
-    const { threadDetail } = this.apiState;
-    const { clientState } = this.props;
-    const { style } = clientState;
+    const { state } = this.props;
+    const { style, threadDetail } = state;
     const IconUpdate = Icon.getUpdate(style.icon.update);
     return (
       <div style={style.detail.ch}>
@@ -335,9 +328,8 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   renderAnalyze() {
-    const { clientState } = this.props;
-    const { threadDetail } = this.apiState;
-    const { style } = clientState;
+    const { state } = this.props;
+    const { style, threadDetail } = state;
     return (
       <div style={style.detail.analyze}>
         <div style={style.detail.analyzeRow}>
@@ -396,8 +388,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   renderH1s() {
-    const { threadDetail } = this.apiState;
-    const { style } = this.props.clientState;
+    const { threadDetail, style } = this.props.state;
     const liTags = threadDetail.h1s.map((h1, i) => {
       return (
         <li style={style.detail.h1sLi} key={`h1s${i}`}>
@@ -409,7 +400,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   renderLockMenu() {
-    const { ui } = this.props.clientState;
+    const { ui } = this.props.state;
     switch (ui.screenMode) {
       case Ui.screenModeSmallLabel:
       case Ui.screenModeMiddleLabel:
@@ -420,7 +411,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   renderDetailFooter() {
-    const { ui } = this.props.clientState;
+    const { ui } = this.props.state;
     switch (ui.screenMode) {
       case Ui.screenModeSmallLabel:
       case Ui.screenModeMiddleLabel:
@@ -430,8 +421,8 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   renderExtension() {
-    const { clientState } = this.props;
-    const { ui } = clientState;
+    const { state } = this.props;
+    const { ui } = state;
     const active = true;
     const href = "https://chrome.google.com/webstore/detail/talkn-for-chrome/dkngnmdlcofambpfaccepbnjgfholgbo?hl=en";
     const onClick =
@@ -440,6 +431,6 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
             window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
-    return Icon.getChromeExtension({}, clientState, { active, href, onClick });
+    return Icon.getChromeExtension({}, state, { active, href, onClick });
   }
 }

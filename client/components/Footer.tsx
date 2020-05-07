@@ -6,7 +6,7 @@ import MenuFooter from "client/components/MenuFooter";
 import DetailFooter from "client/components/DetailFooter";
 
 interface FooterProps {
-  clientState: ClientState;
+  state: any;
   handleOnClickToggleMain?: any;
 }
 
@@ -18,8 +18,8 @@ export default class Footer extends TalknComponent<FooterProps, FooterState> {
   }
 
   render() {
-    const { clientState, handleOnClickToggleMain } = this.props;
-    const { style } = clientState;
+    const { state, handleOnClickToggleMain } = this.props;
+    const { style } = state;
     return (
       <footer data-component-name={"Footer"} style={style.footer.self}>
         <MenuFooter {...this.props} mode={"default"} />

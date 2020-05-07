@@ -7,7 +7,7 @@ import Link from "client/components/Link";
 
 interface LinksProps {
   displayLinks: any;
-  clientState: ClientState;
+  state: any;
   handleOnClickCh?: any;
 }
 
@@ -66,16 +66,16 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
 
   constructor(props) {
     super(props);
-    const { thread } = this.apiState;
+    const { thread } = props.state;
     this.state = {
       ch: thread.ch,
       linkContents: {
         html: [],
         music: [],
-        movie: []
+        movie: [],
       },
       displayLinks: false,
-      linkContentsKey: "html"
+      linkContentsKey: "html",
     };
     this.setLinkContents = this.setLinkContents.bind(this);
     this.renderLinkTabs = this.renderLinkTabs.bind(this);
@@ -83,9 +83,7 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
   }
 
   setLinkContents() {
-    const { clientState } = this.props;
-    const { app, thread } = this.apiState;
-    const { ui } = clientState;
+    const { app, thread, ui } = this.props.state;
     const displayLinks = !(BoardStyle.getLinksDisplay({ app, ui }) === "none");
     const linkContents = this.state.linkContents;
     let isTuneActive = false;
@@ -139,7 +137,7 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
 
     this.setState({
       linkContents,
-      displayLinks
+      displayLinks,
     });
   }
 
@@ -148,20 +146,19 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
   }
 
   componentDidUpdate(props) {
-    if (props.clientState.actionLog[0] === "API_TO_CLIENT[EMIT]:find") {
+    if (props.state.actionLog[0] === "API_TO_CLIENT[EMIT]:find") {
       this.setLinkContents();
     }
   }
 
   handleOnClickLinkTabs(e) {
     this.setState({
-      linkContentsKey: e.target.innerText
+      linkContentsKey: e.target.innerText,
     });
   }
 
   renderLinkTabs() {
-    const { app } = this.apiState;
-    const { style, ui } = this.props.clientState;
+    const { style, ui, app } = this.props.state;
     const { linkContents, linkContentsKey } = this.state;
     const activeStyle = BoardStyle.getLinksTabActive({ app, ui });
     const lastStyle = BoardStyle.getLinksTabLast({ app, ui });
@@ -188,7 +185,7 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
 
   render() {
     const { displayLinks } = this.props;
-    const { style } = this.props.clientState;
+    const { style } = this.props.state;
     const contents = this.state.linkContents[this.state.linkContentsKey];
     if (displayLinks) {
       return (

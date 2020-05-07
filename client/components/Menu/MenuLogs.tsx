@@ -6,7 +6,7 @@ import Icon from "client/components/Icon";
 import MenuIndexList from "client/components/Menu/MenuIndexList";
 
 interface Props {
-  clientState: ClientState;
+  state: any;
   onClickOtherThread?: any;
 }
 
@@ -14,8 +14,8 @@ export default class MenuLogs extends TalknComponent<Props, {}> {
   handleOnKeyPress: any;
   handleOnChange: any;
   componentDidUpdate() {
-    const { actionLog } = this.apiState;
-    const { ui } = this.props.clientState;
+    const { actionLog } = this.props.state;
+    const { ui } = this.props.state;
 
     switch (actionLog[0]) {
       case "API_TO_CLIENT[EMIT]:changeThread":
@@ -32,7 +32,7 @@ export default class MenuLogs extends TalknComponent<Props, {}> {
     return null;
     /*
     const { onClickOtherThread } = this.props;
-    const { menuLogs } = this.apiState;
+    const { menuLogs } = this.props.state;
     return menuLogs.map((mi, index) => {
       return null;
       return (
@@ -48,8 +48,7 @@ export default class MenuLogs extends TalknComponent<Props, {}> {
   }
 
   render() {
-    const { thread } = this.apiState;
-    const { style } = this.props.clientState;
+    const { style, thread } = this.props.state;
     const { ch } = thread;
     const { icon } = style;
     const Search = Icon.getSearch(icon.search);

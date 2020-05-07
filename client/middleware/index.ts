@@ -8,40 +8,39 @@ import storage from "api/mapToStateToProps/storage";
 import Container from "client/style/Container";
 
 export default {
-  updateAction: store => next => action => {
-    const clientState = store.getState();
-    if (action) {
-      action.ui = action.ui ? { ...clientState.ui, ...action.ui } : clientState.ui;
-    }
+  updateAction: (store) => (next) => (action) => {
+    const state = store.getState();
+    action.ui = action.ui ? { ...state.ui, ...action.ui } : state.ui;
+    action.app = action.app ? { ...state.app, ...action.app } : state.app;
 
     if (functions[action.type]) {
-      action = functions[action.type](clientState, action);
+      action = functions[action.type](state, action);
     }
 
     if (action) {
       next(action);
     }
-  }
+  },
 };
 
 const functions = {
-  "API_TO_CLIENT[REQUEST]:getMore": (clientState, action) => {
+  "API_TO_CLIENT[REQUEST]:getMore": (state, action) => {
     action.ui.isLoading = true;
     return action;
   },
-  "API_TO_CLIENT[EMIT]:getMore": (clientState, action) => {
+  "API_TO_CLIENT[EMIT]:getMore": (state, action) => {
     action.ui.isLoading = false;
     return action;
   },
-  "API_TO_CLIENT[REQUEST]:find": (clientState, action) => {
+  "API_TO_CLIENT[REQUEST]:find": (state, action) => {
     action.ui.isLoading = true;
     return action;
   },
-  "API_TO_CLIENT[REQUEST]:changeThread": (clientState, action) => {
+  "API_TO_CLIENT[REQUEST]:changeThread": (state, action) => {
     action.ui.isLoading = true;
     return action;
   },
-  "API_TO_CLIENT[EMIT]:find": (clientState, action) => {
+  "API_TO_CLIENT[EMIT]:find": (state, action) => {
     action.ui.isLoading = false;
     action.ui.detailCh = action.thread.ch;
     if (!action.app.isLinkCh) {
@@ -65,7 +64,7 @@ const functions = {
               post,
               stampId,
               favicon,
-              addUnreadCnt: action.posts.length
+              addUnreadCnt: action.posts.length,
             });
           }
           break;
@@ -73,7 +72,7 @@ const functions = {
     }
     return action;
   },
-  "API_TO_CLIENT[BROADCAST]:post": (clientState, action) => {
+  "API_TO_CLIENT[BROADCAST]:post": (state, action) => {
     const postLength = action.posts.length - 1;
     switch (action.ui.extensionMode) {
       case Ui.extensionModeExtBottomLabel:
@@ -94,19 +93,19 @@ const functions = {
             post,
             stampId,
             favicon,
-            addUnreadCnt: action.posts.length
+            addUnreadCnt: action.posts.length,
           });
         }
         break;
     }
     return action;
   },
-  "CLIENT_TO_API[EMIT]:getMore": (clientState, action) => {
+  "CLIENT_TO_API[EMIT]:getMore": (state, action) => {
     action.ui.isLoading = true;
     return action;
   },
-  NEXT_POSTS_TIMELINE: (clientState, action) => {
-    const { ui } = clientState;
+  NEXT_POSTS_TIMELINE: (state, action) => {
+    const { ui } = state;
     switch (ui.extensionMode) {
       case Ui.extensionModeExtBottomLabel:
         if (!ui.isOpenPosts && !ui.isDispPosts) {
@@ -127,73 +126,79 @@ const functions = {
             post,
             stampId,
             favicon,
-            addUnreadCnt: postsTimelineLength
+            addUnreadCnt: postsTimelineLength,
           });
         }
         break;
     }
     return action;
   },
-  TOGGLE_DISP_POSTS_SUPPORTER: (clientState, action) => {
-    clientState.ui.isOpenPostsSupporter = !clientState.ui.isOpenPostsSupporter;
+  TOGGLE_DISP_POSTS_SUPPORTER: (state, action) => {
+    state.ui.isOpenPostsSupporter = !state.ui.isOpenPostsSupporter;
     return action;
   },
-  TOGGLE_LINKS: (clientState, action) => {
-    action.ui.isOpenLinks = !clientState.ui.isOpenLinks;
+  TOGGLE_LINKS: (state, action) => {
+    action.ui.isOpenLinks = !state.ui.isOpenLinks;
     return action;
   },
-  ON_CLICK_TOGGLE_POSTS: (clientState, action) => {
+  ON_CLICK_TOGGLE_POSTS: (state, action) => {
     action.ui.isOpenPosts = action.ui.isOpenPosts ? action.ui.isOpenPosts : Ui.getIsOpenPosts(action.ui);
     return action;
   },
-  OFF_TRANSITION: (clientState, action) => {
+  ON_CLICK_TOGGLE_DISP_DETAIL: (state, action) => {
+    const threadDetail = state.threads[action.app.detailCh];
+    action.threadDetail = { ...threadDetail };
+    action.threadDetail.title = state.thread.serverMetas.title;
+    console.log(threadDetail);
+    return action;
+  },
+  OFF_TRANSITION: (state, action) => {
     action.ui.height = App.getHeight();
     action.ui.isOpenPosts = action.ui.isOpenPosts ? action.ui.isOpenPosts : Ui.getIsOpenPosts(action.ui);
     return action;
   },
-  ON_TRANSITION_END: (clientState, action) => {
+  ON_TRANSITION_END: (state, action) => {
     action.ui.height = Ui.getHeight();
     action.ui.isOpenPosts = Ui.getIsOpenPosts(action.ui);
     return action;
   },
-  RESIZE_END_WINDOW: (clientState, action) => {
+  RESIZE_END_WINDOW: (state, action) => {
     action.ui.isOpenPosts = Ui.getIsOpenPosts(action.ui);
     return action;
   },
-  ON_CLICK_TO_MULTI_THREAD: (clientState, action) => {
+  ON_CLICK_TO_MULTI_THREAD: (state, action) => {
     action.ui.isLoading = !action.ui.isLoading;
     return action;
   },
-  ON_CLICK_TOGGLE_DISP_MENU: (clientState, action) => {
+  ON_CLICK_TOGGLE_DISP_MENU: (state, action) => {
     action.ui.isOpenMenu = !action.ui.isOpenMenu;
     return action;
   },
-  TOGGLE_DISP_BOARD: (clientState, action) => {
-    action.ui.isOpenBoard = !clientState.ui.isOpenBoard;
+  TOGGLE_DISP_BOARD: (state, action) => {
+    action.ui.isOpenBoard = !state.ui.isOpenBoard;
     return action;
   },
-  OPEN_NEW_POST: (clientState, action) => {
+  OPEN_NEW_POST: (state, action) => {
     action.ui.isOpenNewPost = true;
     return action;
   },
-  TOGGLE_BUBBLE_POST: (clientState, action) => {
-    action.ui.isBubblePost = !clientState.ui.isBubblePost;
+  TOGGLE_BUBBLE_POST: (state, action) => {
+    action.ui.isBubblePost = !state.ui.isBubblePost;
     return action;
   },
-  CLOSE_NEW_POST: (clientState, action) => {
+  CLOSE_NEW_POST: (state, action) => {
     action.ui.isOpenNewPost = false;
     return action;
   },
-  OPEN_INNER_NOTIF: (clientState, action) => {
+  OPEN_INNER_NOTIF: (state, action) => {
     action.ui.openInnerNotif = action.ui.openInnerNotif === "" ? define.noInnerNotif : action.ui.openInnerNotif;
     return action;
   },
-  GET_CLIENT_METAS: (clientState, action) => {
+  GET_CLIENT_METAS: (state, action) => {
     let updateFlg = false;
     let { clientMetas } = action;
-    let { serverMetas } = clientState.thread;
+    let { serverMetas } = state.thread;
     action.thread = {};
-
     // Metas
     Object.keys(clientMetas).forEach((key, i) => {
       if (clientMetas[key] && clientMetas[key] !== "" && serverMetas[key] !== clientMetas[key]) {
@@ -206,12 +211,12 @@ const functions = {
     });
 
     if (updateFlg) {
-      action.threadDetail = { ...clientState.threadDetail };
+      action.threadDetail = { ...state.threadDetail };
       action.threadDetail.serverMetas = {
         ...action.threadDetail.serverMetas,
-        ...action.thread.serverMetas
+        ...action.thread.serverMetas,
       };
       return action;
     }
-  }
+  },
 };

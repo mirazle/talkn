@@ -108,7 +108,7 @@ export default class Detail {
             borderTop: Container.border,
             borderRight: Container.border,
             borderBottom: Container.border,
-            borderLeft: Container.border
+            borderLeft: Container.border,
           };
     const layout = Style.getLayoutBlock({
       display,
@@ -122,12 +122,12 @@ export default class Detail {
       ...border,
       borderRadius: Container.radiuses,
       WebkitOverflowScrolling: "touch",
-      zIndex: 9
+      zIndex: 9,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
       transform: DetailModal.getTransform({ app, ui }),
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -144,11 +144,11 @@ export default class Detail {
       background: Container.calmRGB,
       overflow: "hidden",
       margin: `${Header.headerHeight}px 0px 0px 0px`,
-      zIndex: 0
+      zIndex: 0,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transition: "0ms"
+      transition: "0ms",
     });
     return Style.get({ layout, content, animation });
   }
@@ -172,7 +172,7 @@ export default class Detail {
         return {
           position: "absolute",
           right: "0px",
-          bottom: "0px"
+          bottom: "0px",
         };
     }
   }
@@ -197,7 +197,7 @@ export default class Detail {
       maxHeight: Header.headerHeight,
       borderBottom: Container.border,
       background: Container.whiteRGB,
-      padding: "0px 20px"
+      padding: "0px 20px",
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -208,12 +208,12 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: "100%",
       height: "auto",
-      maxHeight: Header.headerHeight
+      maxHeight: Header.headerHeight,
     });
     const content = Style.getContentBase({
       lineHeight: "1.8",
       fontSize: "16px",
-      textOverflow: "ellipsis"
+      textOverflow: "ellipsis",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -226,7 +226,7 @@ export default class Detail {
       width: "100%",
       height: `calc( 100% - ${Header.headerHeight * 2}px )`,
       background: Container.reliefRGBA,
-      zIndex: 0
+      zIndex: 0,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -238,7 +238,7 @@ export default class Detail {
       width: "100%",
       height: "initial",
       background: Container.offWhiteRGBA,
-      borderBottom: Container.border
+      borderBottom: Container.border,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -253,8 +253,9 @@ export default class Detail {
       backgroundColor: Container.whiteRGB,
       backgroundImage: `url(//${conf.assetsImgPath}talkn_logo1.png)`,
       backgroundPosition: "center center",
-      backgroundSize: "60%",
-      backgroundRepeat: "no-repeat"
+      // backgroundSize: "60%",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -265,12 +266,12 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: "90%",
       height: "initial",
-      margin: `7%`
+      margin: `7%`,
     });
     const content = Style.getContentBase({
       lineHeight: 2,
       fontSize: "16px",
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -283,11 +284,11 @@ export default class Detail {
       width: "initial",
       height: "initial",
       borderRadius: "10px",
-      margin: `${Detail.margin * 2}% ${Detail.margin}%`
+      margin: `${Detail.margin * 2}% ${Detail.margin}%`,
     });
     const content = Style.getContentBase({
       fontsize: "14px",
-      textAlign: "right"
+      textAlign: "right",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -301,12 +302,12 @@ export default class Detail {
       margin: "10px 0px",
       padding: "10px 20px 10px 20px",
       justifyContent: "flex-end",
-      borderRadius: "30px"
+      borderRadius: "30px",
     });
     const content = Style.getContentBase({
       fontSize: "12px",
       color: Container.whiteRGB,
-      textAlign: "right"
+      textAlign: "right",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -320,13 +321,13 @@ export default class Detail {
       borderTop: Container.border,
       borderBottom: Container.border,
       padding: "15px",
-      margin: "0px 0px 45px 0px"
+      margin: "0px 0px 45px 0px",
     });
     const content = Style.getContentBase({
       fontSize: "14px",
       textAlign: "left",
       lineHeight: "30px",
-      wordBreak: "break-word"
+      wordBreak: "break-word",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -338,10 +339,10 @@ export default class Detail {
       height: "initial",
       background: Container.whiteRGB,
       borderTop: Container.border,
-      borderBottom: Container.border
+      borderBottom: Container.border,
     });
     const content = Style.getContentBase({
-      textAlign: "center"
+      textAlign: "center",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -359,7 +360,7 @@ export default class Detail {
       width: "33.3%",
       height: "120px",
       verticalAlign: "middle",
-      margin: "40px auto 40px auto"
+      margin: "40px auto 40px auto",
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -370,11 +371,11 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: "initial",
       height: "initial",
-      marginBottom: "20px"
+      marginBottom: "20px",
     });
     const content = Style.getContentBase({
       lineHeight: "14px",
-      fontSize: "12px"
+      fontSize: "12px",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -384,11 +385,11 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       margin: "0 auto",
       width: "initial",
-      height: "initial"
+      height: "initial",
     });
     const content = Style.getContentBase({
       fontSize: "1.8em",
-      color: Container.themeRGBA
+      color: Container.themeRGBA,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -399,7 +400,7 @@ export default class Detail {
       width: "70%",
       height: "initial",
       margin: "10px auto 10px auto",
-      borderTop: `1px solid ${Container.borderRGB}`
+      borderTop: `1px solid ${Container.borderRGB}`,
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -413,10 +414,10 @@ export default class Detail {
       margin: `${Detail.margin}px auto`,
       background: Container.whiteRGB,
       borderTop: Container.border,
-      borderBottom: Container.border
+      borderBottom: Container.border,
     });
     const content = Style.getContentBase({
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -426,12 +427,12 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: "90%",
       height: "initial",
-      margin: `5px ${Detail.margin}% 5px ${Detail.margin}%`
+      margin: `5px ${Detail.margin}% 5px ${Detail.margin}%`,
     });
     const content = Style.getContentBase({
       fontSize: "14px",
       lineHeight: 2,
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -446,11 +447,11 @@ export default class Detail {
       height: Header.headerHeight,
       zÎndex: "1px",
       ...positions,
-      ...borders
+      ...borders,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transform: "translate3d(0px, 0px, 0px)"
+      transform: "translate3d(0px, 0px, 0px)",
     });
     return Style.get({ layout, content, animation });
   }
@@ -458,11 +459,11 @@ export default class Detail {
   static getFooterChild({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
-      height: "100%"
+      height: "100%",
     });
     const content = Style.getContentBase({
       fontSize: "0.5em",
-      cursor: "pointer"
+      cursor: "pointer",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -471,10 +472,10 @@ export default class Detail {
   static getFooterChildLike({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
-      height: "100%"
+      height: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "0.5em"
+      fontSize: "0.5em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -483,10 +484,10 @@ export default class Detail {
   static getFooterChildMoney({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
-      height: "100%"
+      height: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "0.5em"
+      fontSize: "0.5em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -495,10 +496,10 @@ export default class Detail {
   static getFooterChildShare({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
-      height: "100%"
+      height: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "0.5em"
+      fontSize: "0.5em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -507,7 +508,7 @@ export default class Detail {
   static getMetaItems({ app, ui }) {
     const layout = Style.getLayoutFlex({
       width: "90%",
-      margin: `${Detail.margin}%`
+      margin: `${Detail.margin}%`,
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -518,7 +519,7 @@ export default class Detail {
     const layout = Style.getLayoutFlex({
       justifyContent: "flex-end",
       alignItems: "flex-end",
-      margin: "0px 0px 30px 0px"
+      margin: "0px 0px 30px 0px",
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -529,13 +530,13 @@ export default class Detail {
     const layout = Style.getLayoutFlex({
       width: "160px",
       borderRadius: "30px",
-      background: Container.themeRGBA
+      background: Container.themeRGBA,
     });
     const content = Style.getContentBase({
       textIndent: "15px",
       cursor: "pointer",
       fontSize: "12px",
-      color: Container.whiteRGB
+      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });

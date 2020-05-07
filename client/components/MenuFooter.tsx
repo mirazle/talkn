@@ -6,7 +6,7 @@ import Icon from "client/components/Icon";
 
 interface MenuFooterProps {
   mode?: string;
-  clientState: ClientState;
+  state: any;
 }
 const icon = new Icon();
 
@@ -16,12 +16,12 @@ export default class MenuFooter extends TalknComponent<MenuFooterProps, {}> {
     return {
       top: { background },
       middle: { background },
-      bottom: { background }
+      bottom: { background },
     };
   }
 
   render() {
-    const { style } = this.props.clientState;
+    const { style } = this.props.state;
     const UserIcon = Icon.getUser();
     const IndexIcon = Icon.getIndex(this.getIndexBackground());
     const Logs = Icon.getLogs({});

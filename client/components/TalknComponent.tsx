@@ -18,12 +18,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     this.Posts = document.querySelector("[data-component-name=Posts]");
     this.onScroll = this.onScroll.bind(this);
   }
-  get apiStore(): ApiState {
-    return window.talknWindow.stores.api;
-  }
-  get apiState() {
-    return window.talknWindow.stores.api.getState();
-  }
+
   get clientStore(): ClientState {
     if (window.talknWindow) {
       return window.talknWindow.stores.client;
@@ -34,36 +29,25 @@ export default class TalknComponent<P, S> extends Component<P, S> {
       return window.talknWindow.stores.client.getState();
     }
   }
+
   coreApi(method, params = {}, callback = () => {}) {
     const postWindow = window.talknWindow.parentUrl === location.href ? window : window.top;
     postWindow.postMessage(
       {
         type: PostMessage.CLIENT_TO_API_TYPE,
         method,
-        params
+        params,
       },
       window.talknWindow.parentUrl
     );
   }
   clientAction(type: string, params?, callback = () => {}) {
-    const { app } = this.apiState;
-    let action: any = {};
-    if (typeof params === "object") {
-      action = params ? { ...params, app, type } : { type, app };
-    } else if (typeof params === "string") {
-      action.type = type;
-      action.app = app;
-      action.params = params;
-    } else if (typeof params === "undefined") {
-      action.type = type;
-      action.app = app;
-    }
-
+    const action = params ? { ...params, type } : { type };
     window.talknWindow.stores.client.dispatch(action);
   }
 
   onClickCh(toCh, ui, overWriteHasSlash, called) {
-    let { app, thread, menuIndex, setting } = this.apiState;
+    let { app, thread, menuIndex, setting } = this.clientState;
     const beforeCh = thread.ch;
     thread.ch = toCh;
     ui.isOpenLinks = false;
@@ -71,7 +55,6 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     ui.isOpenBoard = true;
 
     if (Schema.isSet(overWriteHasSlash)) thread.hasSlash = overWriteHasSlash;
-
     const threadStatus = Thread.getStatus(thread, app, setting);
     let { app: updatedApp, stepTo } = App.getStepToDispThreadType({ app, menuIndex }, threadStatus, toCh, called);
 
@@ -79,6 +62,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     if (app.isLinkCh && !updatedApp.isLinkCh) this.coreApi("off", beforeCh);
 
     app = updatedApp;
+    app.offsetFindId = App.defaultOffsetFindId;
 
     switch (stepTo) {
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeChild}`:
@@ -109,8 +93,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
   }
 
   onScroll({ scrollTop = 0, clientHeight = 0, scrollHeight = 0 }) {
-    const { thread } = this.apiState;
-    const { ui, actionLog } = this.clientState;
+    const { thread, ui, actionLog } = this.clientState;
     let { uiTimeMarker } = this.clientState;
 
     if (scrollTop === 0) {

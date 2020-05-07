@@ -23,7 +23,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
   static getPostsHeight() {
     let postsHeight = 0;
-    document.querySelectorAll("[data-component-name=Post]").forEach(post => {
+    document.querySelectorAll("[data-component-name=Post]").forEach((post) => {
       postsHeight += post.clientHeight;
     });
     return postsHeight;
@@ -91,11 +91,11 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   listenAsyncBoot() {
     const bootPromise: any = [];
     bootPromise.push(
-      new Promise(loadResolve => {
+      new Promise((loadResolve) => {
         if (document.readyState === "complete") {
           this.load(loadResolve);
         } else {
-          window.addEventListener("load", ev => {
+          window.addEventListener("load", (ev) => {
             this.load(loadResolve);
           });
         }
@@ -103,8 +103,8 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     );
 
     bootPromise.push(
-      new Promise(messageResolve => {
-        window.addEventListener("message", e => {
+      new Promise((messageResolve) => {
+        window.addEventListener("message", (e) => {
           switch (e.data.type) {
             case PostMessage.EXT_TO_CLIENT_TYPE:
               switch (e.data.method) {
@@ -124,18 +124,15 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
                 this.coreApi(PostMessage.HANDLE_API_AND_CLIENT);
                 messageResolve(e);
               } else {
-                const apiState = e.data.params;
-                const clientState = this.stores.client.getState();
                 const actionType = Sequence.convertApiToClientActionType(e.data.method);
-                const dispatchState = { ...clientState, ...apiState };
-                this.stores.api = apiStore(apiState);
-                this.stores.client.dispatch({ ...dispatchState, type: actionType });
+                const apiState = e.data.params;
+                this.stores.client.dispatch({ ...apiState, type: actionType });
               }
               break;
             case PostMessage.MEDIA_TO_CLIENT_TYPE:
               this.stores.api.dispatch({
                 type: e.data.method,
-                postsTimeline: e.data.params.postsTimeline
+                postsTimeline: e.data.params.postsTimeline,
               });
               this.stores.client.dispatch({ type: e.data.method });
               break;
@@ -185,7 +182,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
       } else {
         if (this.resizeTimer === null) {
           //this.resizeStartWindow(app);
-          this.resizeTimer = setTimeout(app => {
+          this.resizeTimer = setTimeout((app) => {
             this.resizeEndWindow();
           }, TalknWindow.resizeInterval);
         }
@@ -202,8 +199,8 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
 
   exeGetMore(clientState) {
-    const { thread, app } = this.apiState;
-    const posts = PostsSchems.getDispPosts(this.apiState);
+    const { thread, app } = this.clientState;
+    const posts = PostsSchems.getDispPosts(this.clientState);
     const dispPostCnt = posts.length;
     const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
     if (conf.findOnePostCnt <= dispPostCnt && dispPostCnt < conf.findOneLimitCnt) {
@@ -299,7 +296,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
         {
           type: PostMessage.CLIENT_TO_EXT_TYPE,
           method,
-          params
+          params,
         },
         this.parentUrl
       );

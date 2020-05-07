@@ -10,7 +10,7 @@ import TimeMarker from "client/components/TimeMarker";
 import conf from "common/conf";
 
 interface PostsProps {
-  clientState: ClientState;
+  state: any;
   scrollThread?: any;
   closeNewPost?: any;
   crollThread?: any;
@@ -36,12 +36,12 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
       scrollHeight: 0,
       scrollTop: 0,
       isAnimateScrolling: false,
-      posts: []
+      posts: [],
     };
   }
 
   componentDidMount() {
-    const { ui } = this.props.clientState;
+    const { ui } = this.props.state;
     if (
       ui.extensionMode === Ui.extensionModeExtBottomLabel ||
       ui.extensionMode === Ui.extensionModeExtIncludeLabel ||
@@ -60,7 +60,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
   }
 
   componentWillReceiveProps(props) {
-    const { app, postsTimeline, postsMulti, postsSingle, postsChild } = this.apiState;
+    const { app, postsTimeline, postsMulti, postsSingle, postsChild } = props.state;
     let posts = [];
     switch (app.dispThreadType) {
       case App.dispThreadTypeTimeline:
@@ -113,19 +113,21 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
   }
 
   handleOnMouseDown() {
-    const { ui } = this.props.clientState;
+    const { ui } = this.props.state;
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
       //      this.refs.thread.scrollTop = this.refs.thread.scrollTop + 1;
     }
   }
 
   handleOnClickPost(ch: string) {
-    const { app, threads } = this.apiState;
-    let { ui } = this.props.clientState;
+    let { ui, app, threads } = this.props.state;
 
     if (threads[ch]) {
       ui = Ui.getUiUpdatedOpenFlgs({ app, ui }, "post");
-      this.clientAction("ON_CLICK_TOGGLE_DISP_DETAIL", { ui: { ...ui, detailCh: ch } });
+      this.clientAction("ON_CLICK_TOGGLE_DISP_DETAIL", {
+        ui,
+        app: { detailCh: ch },
+      });
     } else {
       this.coreApi("changeThreadDetail", { thread: { ch } });
     }
@@ -135,21 +137,21 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
     const HtmlThread: HTMLElement = this.refs.thread as HTMLElement;
     this.setState({
       ...this.state,
-      scrollHeight: HtmlThread.scrollHeight
+      scrollHeight: HtmlThread.scrollHeight,
     });
 
     this.coreApi("getMore", {});
   }
 
   render() {
-    const { style } = this.props.clientState;
+    const { style } = this.props.state;
     return (
       <ol
         data-component-name={"Posts"}
         style={style.posts.self}
         ref="thread"
         onMouseDown={this.handleOnMouseDown}
-        onScroll={e => {
+        onScroll={(e) => {
           const { scrollTop, clientHeight, scrollHeight }: any = e.target;
           this.onScroll({ scrollTop, clientHeight, scrollHeight });
         }}
@@ -160,10 +162,9 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
   }
 
   renderPostList() {
-    const { app, thread } = this.apiState;
-    const { clientState, nowDate } = this.props;
-    const { ui, style } = clientState;
-    const posts = this.apiState[`posts${app.dispThreadType}`];
+    const { state, nowDate } = this.props;
+    const { app, thread, ui, style } = state;
+    const posts = state[`posts${app.dispThreadType}`];
     const postCnt = posts.length;
     let dispPosts = [];
     let beforeDiffDay: number = 0;

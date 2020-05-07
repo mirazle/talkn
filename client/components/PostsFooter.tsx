@@ -10,7 +10,7 @@ const regex = /^\s*$/;
 
 interface PostsFooterProps {
   mode?: string;
-  clientState: ClientState;
+  state: any;
   handleOnClickFooterIcon?: any;
   handleOnClickToggleMain?: any;
 }
@@ -23,6 +23,7 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
   constructor(props: PostsFooterProps) {
     super(props);
     this.state = { focusSetIntervalId: 0 };
+    this.getIconStyle = this.getIconStyle.bind(this);
     this.renderButton = this.renderButton.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -65,14 +66,13 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
   }
 
   getIconStyle() {
-    const { thread } = this.apiState;
-    const { style } = this.props.clientState;
+    const { style, thread } = this.props.state;
     const favicon = `https://${conf.assetsIconPath}${util.getSaveFaviconName(thread.favicon)}`;
     return thread.favicon ? { ...style.postsFooter.icon, backgroundImage: `url(${favicon})` } : style.postsFooter.icon;
   }
 
   renderButton() {
-    const { style, ui } = this.props.clientState;
+    const { style, ui } = this.props.state;
 
     if (ui.extensionMode === Ui.extensionModeExtModalLabel || ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return null;
@@ -86,8 +86,8 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
   }
 
   render() {
-    const { clientState, handleOnClickFooterIcon } = this.props;
-    const { style, ui } = clientState;
+    const { state, handleOnClickFooterIcon } = this.props;
+    const { style, ui } = state;
     const readOnly =
       ui.extensionMode === Ui.extensionModeExtModalLabel || ui.extensionMode === Ui.extensionModeExtBottomLabel;
     return (

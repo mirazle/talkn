@@ -7,7 +7,7 @@ import MenuIndexListStyle from "client/style/Menu/MenuIndexList";
 import Marquee from "client/container/util/Marquee";
 
 interface LinkProps {
-  clientState: ClientState;
+  state: any;
   text: string;
   handleOnClick?: any;
   isMainCh: boolean;
@@ -23,12 +23,12 @@ interface LinkState {
 export default class Link extends TalknComponent<LinkProps, LinkState> {
   constructor(props) {
     super(props);
-    const { isActive, clientState } = props;
-    const { link } = clientState.style;
+    const { isActive, state } = props;
+    const { link } = state.style;
     this.getEvents = this.getEvents.bind(this);
     this.state = {
       isActive,
-      style: link.unactiveLi
+      style: link.unactiveLi,
     };
   }
 
@@ -39,14 +39,14 @@ export default class Link extends TalknComponent<LinkProps, LinkState> {
         onClick: this.props.handleOnClick,
         onMouseOver: () => {
           this.setState({
-            style: { ...style, background: LinkStyle.activeBgColor }
+            style: { ...style, background: LinkStyle.activeBgColor },
           });
         },
         onMouseLeave: () => {
           this.setState({
-            style: { ...style, background: LinkStyle.unactiveBgColor }
+            style: { ...style, background: LinkStyle.unactiveBgColor },
           });
-        }
+        },
       };
     } else {
       return {};
@@ -56,13 +56,13 @@ export default class Link extends TalknComponent<LinkProps, LinkState> {
   render() {
     const { isActive, style } = this.state;
     const { text } = this.props;
-    let { upperRankWrap, upperRank } = this.props.clientState.style.menuIndexList;
+    let { upperRankWrap, upperRank } = this.props.state.style.menuIndexList;
     const background = MenuIndexListStyle.getDispRankBackground(0);
     const width = BoardStyle.tuneSize;
 
     if (isActive) {
       return (
-        <li style={this.props.clientState.style.link.tuneLi}>
+        <li style={this.props.state.style.link.tuneLi}>
           <span style={{ ...upperRankWrap, background, width }}>
             <span style={upperRank}>TUNE</span>
           </span>

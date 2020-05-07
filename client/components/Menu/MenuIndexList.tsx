@@ -109,6 +109,7 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
 
     if (isFocusCh) {
       if (ui.screenMode === Ui.screenModeSmallLabel) {
+        // change main screen.
         this.clientAction("ON_CLICK_TOGGLE_DISP_MENU");
       }
     } else {
@@ -129,6 +130,9 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
   render() {
     const { style } = this.state;
     const { app, thread, menuIndexList, rank } = this.props;
+
+    // TODO: メインスレッドで子供スレッドを選択した際に、menuIndexListがハイライトされてしまう。
+    // クリックしたときにthread.chは更新しないようにする
     const isFocusCh = thread.ch === menuIndexList.ch ? true : false;
     const styleKey = isFocusCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
     const title = app.rootCh === menuIndexList.ch ? app.rootTitle : menuIndexList.title;

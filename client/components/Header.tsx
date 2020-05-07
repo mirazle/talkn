@@ -6,7 +6,7 @@ import Marquee from "client/container/util/Marquee";
 import Icon from "client/components/Icon";
 
 interface HeaderProps {
-  clientState: ClientState;
+  state: any;
   handleOnClickToggleDetail?: any;
   handleOnClickToggleMain?: any;
 }
@@ -21,9 +21,8 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
   }
 
   handleOnClickMenuIcon(e) {
-    const { clientState } = this.props;
-    let { app } = this.apiState;
-    let { ui } = clientState;
+    const { state } = this.props;
+    let { ui, app } = state;
     if (ui.extensionMode === "NONE") {
       switch (ui.screenMode) {
         case Ui.screenModeSmallLabel:
@@ -37,9 +36,8 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
   }
 
   render() {
-    const { clientState, handleOnClickToggleMain } = this.props;
-    const { app } = this.apiState;
-    const { style, ui } = clientState;
+    const { state, handleOnClickToggleMain } = this.props;
+    const { style, ui, app } = state;
     const { icon } = style;
     const HeadTabIcon = Icon.getHeadTab(icon.headTab, { app, ui });
     return (
@@ -59,8 +57,7 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
   }
 
   renderLeft() {
-    const { clientState } = this.props;
-    const { ui, style } = clientState;
+    const { ui, style } = this.props.state;
     const { icon: IconStyle } = style;
     const HeaderUserIcon = Icon.getHeaderUser();
     const MenuIcon = Icon.getMenu(IconStyle.menu);
@@ -95,7 +92,7 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
 
   renderRight() {
     const { handleOnClickToggleDetail } = this.props;
-    const { style } = this.props.clientState;
+    const { style } = this.props.state;
     const { icon: iconStyle } = style;
     const DetailIcon = Icon.getDetail(iconStyle.detail);
     return (
@@ -114,8 +111,7 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
   }
 
   renderWatchCntComponent() {
-    const { thread } = this.apiState;
-    const { style } = this.props.clientState;
+    const { style, thread } = this.props.state;
     return (
       <span data-component-name={"Header-WatchCnt"} style={style.header.childAnalyzeWrap}>
         <div style={style.header.childAnalyzeType}>LIVE</div>

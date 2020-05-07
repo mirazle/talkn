@@ -10,8 +10,8 @@ export default class Video extends TalknComponent<VideoProps, {}> {
   }
 
   render() {
-    const { src, clientState }: any = this.props;
-    const { style } = clientState;
+    const { src, state }: any = this.props;
+    const { style } = state;
     return (
       <video
         src={src}

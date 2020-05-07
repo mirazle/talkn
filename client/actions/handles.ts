@@ -7,97 +7,97 @@ export default {
       styleKey,
       eleType,
       tagName,
-      style
+      style,
     };
   },
   onClickTogglePosts: ({ app }) => {
     return {
       type: "ON_CLICK_TOGGLE_POSTS",
-      app
+      app,
     };
   },
   onClickToTimelineThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_TIMELINE_THREAD",
       app,
-      thread: { ch: thread.ch }
+      thread: { ch: thread.ch },
     };
   },
   onClickToMultiThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_MULTI_THREAD",
       app,
-      thread: { ch: thread.ch }
+      thread: { ch: thread.ch },
     };
   },
   onClickToSingleThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_SINGLE_THREAD",
       app,
-      thread: { ch: thread.ch }
+      thread: { ch: thread.ch },
     };
   },
   onClickToChildThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_CHILD_THREAD",
       app,
-      thread: { ch: thread.ch }
+      thread: { ch: thread.ch },
     };
   },
   onClickToLogsThread: ({ app, thread }) => {
     return {
       type: "ON_CLICK_TO_LOGS_THREAD",
       app,
-      thread: { ch: thread.ch }
+      thread: { ch: thread.ch },
     };
   },
   onChangeInputPost: (inputPost = "") => {
     inputPost = typeof inputPost === "string" ? inputPost : "";
     return {
       type: "ON_CHANGE_INPUT_POST",
-      app: { inputPost }
+      app: { inputPost },
     };
   },
-  toggleDispMain: app => {
+  toggleDispMain: (app) => {
     return {
       type: "TOGGLE_DISP_MAIN",
-      app
+      app,
     };
   },
-  toggleDispBoard: app => {
+  toggleDispBoard: (app) => {
     return {
       type: "TOGGLE_DISP_BOARD",
-      app
+      app,
     };
   },
   onClickToggleMain: ({ app, ui }) => {
     return {
       type: "ON_CLICK_TOGGLE_MAIN",
       app,
-      ui
+      ui,
     };
   },
   toggleBubblePost: () => {
     return {
       type: "TOGGLE_BUBBLE_POST",
-      ui: { isTransition: false }
+      ui: { isTransition: false },
     };
   },
   openLinks: () => {
     return {
       type: "OPEN_LINKS",
-      ui: { isOpenLinks: true }
+      ui: { isOpenLinks: true },
     };
   },
   closeLinks: () => {
     return {
       type: "CLOSE_LINKS",
-      ui: { isOpenLinks: false }
+      ui: { isOpenLinks: false },
     };
   },
-  toggleLinks: isOpenLinks => {
+  toggleLinks: (isOpenLinks) => {
     return {
-      type: "TOGGLE_LINKS"
+      type: "TOGGLE_LINKS",
     };
   },
   onClickMultistream: ({ app, postsMulti, postsSingle }) => {
@@ -105,43 +105,43 @@ export default {
       type: "ON_CLICK_MULTISTREAM",
       app,
       postsMulti,
-      postsSingle
+      postsSingle,
     };
   },
   onClickToggleDispMenu: () => {
     return {
-      type: "ON_CLICK_TOGGLE_DISP_MENU"
+      type: "ON_CLICK_TOGGLE_DISP_MENU",
     };
   },
-  onClickToggleDispDetail: ({ threadDetail, app }) => {
+  onClickToggleDispDetail: ({ app, ui }) => {
     return {
       type: "ON_CLICK_TOGGLE_DISP_DETAIL",
-      threadDetail,
-      app
+      app,
+      ui,
     };
   },
-  onClickLike: inputPost => {
+  onClickLike: (inputPost) => {
     return {
       type: "ON_CLICK_LIKE",
-      app: { inputPost }
+      app: { inputPost },
     };
   },
-  onClickMoney: inputPost => {
+  onClickMoney: (inputPost) => {
     return {
       type: "ON_CLICK_MONEY",
-      app: { inputPost }
+      app: { inputPost },
     };
   },
-  onClickShare: inputPost => {
+  onClickShare: (inputPost) => {
     return {
       type: "ON_CLICK_SHARE",
-      app: { inputPost }
+      app: { inputPost },
     };
   },
   onResizeStartWindow: (params = { app: {}, setting: {} }) => {
     return {
       type: "RESIZE_START_WINDOW",
-      ...params
+      ...params,
     };
   },
   onResizeEndWindow: ({ app, setting, bootOption }) => {
@@ -149,194 +149,194 @@ export default {
       type: "RESIZE_END_WINDOW",
       app,
       setting,
-      bootOption
+      bootOption,
     };
   },
-  onScrollUpdateTimeMarker: uiTimeMarker => {
+  onScrollUpdateTimeMarker: (uiTimeMarker) => {
     return {
       type: "ON_SCROLL_UPDATE_TIME_MARKER",
-      uiTimeMarker
+      uiTimeMarker,
     };
   },
   onTransition: () => {
     return {
       type: "ON_TRANSITION",
-      ui: { isTransition: true }
+      ui: { isTransition: true },
     };
   },
   offTransition: () => {
     return {
       type: "OFF_TRANSITION",
-      ui: { isTransition: false }
+      ui: { isTransition: false },
     };
   },
   onTransitionEnd: () => {
     return {
-      type: "ON_TRANSITION_END"
+      type: "ON_TRANSITION_END",
     };
   },
-  onClickMenu: menuComponent => {
+  onClickMenu: (menuComponent) => {
     return {
       type: "ON_CLICK_MENU",
-      ui: { menuComponent }
+      ui: { menuComponent },
     };
   },
   onClickSetting: (settingType, { setting }) => {
     return {
       type: "ON_CLICK_SETTING",
       settingType,
-      setting
+      setting,
     };
   },
   openInnerNotif: (openInnerNotif = define.noInnerNotif) => {
     return {
       type: "OPEN_INNER_NOTIF",
-      ui: { openInnerNotif }
+      ui: { openInnerNotif },
     };
   },
   closeInnerNotif: () => {
     return {
       type: "CLOSE_INNER_NOTIF",
-      ui: { openInnerNotif: "" }
+      ui: { openInnerNotif: "" },
     };
   },
   openNotif: () => {
     return {
       type: "OPEN_NOTIF",
-      ui: { isOpenNotif: true }
+      ui: { isOpenNotif: true },
     };
   },
   closeNotif: () => {
     return {
       type: "CLOSE_NOTIF",
-      ui: { isOpenNotif: false }
+      ui: { isOpenNotif: false },
     };
   },
-  onClickOpenLockMenu: openLockMenu => {
+  onClickOpenLockMenu: (openLockMenu) => {
     return {
       type: "ON_CLICK_OPEN_LOCK_MENU",
-      ui: { openLockMenu }
+      ui: { openLockMenu },
     };
   },
   openNewPost: () => {
     return {
       type: "OPEN_NEW_POST",
-      ui: { isOpenNewPost: true }
+      ui: { isOpenNewPost: true },
     };
   },
   closeNewPost: () => {
     return {
       type: "CLOSE_NEW_POST",
-      ui: { isOpenNewPost: false }
+      ui: { isOpenNewPost: false },
     };
   },
-  openMenuTransitionEnd: threadScrollY => {
+  openMenuTransitionEnd: (threadScrollY) => {
     return {
       type: "OPEN_MENU_TRANSITION_END",
-      ui: { threadScrollY }
+      ui: { threadScrollY },
     };
   },
   startDispPosts: () => {
     return {
       type: "START_DISP_POSTS",
-      ui: { isDispPosts: true }
+      ui: { isDispPosts: true },
     };
   },
   startUndispPosts: () => {
     return {
       type: "START_UNDISP_POSTS",
-      ui: { isDispPosts: false }
+      ui: { isDispPosts: false },
     };
   },
-  componentDidMounts: componentName => {
+  componentDidMounts: (componentName) => {
     return {
       type: "COMPONENT_DID_MOUNTS",
-      componentDidMounts: componentName
+      componentDidMounts: componentName,
     };
   },
-  bootExtension: app => {
+  bootExtension: (app) => {
     return {
       type: "BOOT_EXTENSION",
-      app
+      app,
     };
   },
-  updateExtension: app => {
+  updateExtension: (app) => {
     return {
       type: "UPDATE_EXTENSION",
-      app
+      app,
     };
   },
-  getClientMetas: clientMetas => {
+  getClientMetas: (clientMetas) => {
     return {
       type: "GET_CLIENT_METAS",
-      clientMetas
+      clientMetas,
     };
   },
   toggleDispPostsSupporter: () => {
     return {
-      type: "TOGGLE_DISP_POSTS_SUPPORTER"
+      type: "TOGGLE_DISP_POSTS_SUPPORTER",
     };
   },
   closeDispPostsSupporter: () => {
     return {
       type: "CLOSE_DISP_POSTS_SUPPORTER",
-      ui: { isOpenPostsSupporter: false }
+      ui: { isOpenPostsSupporter: false },
     };
   },
   nextPostsTimeline: (postsTimeline = []) => {
     return {
       type: "NEXT_POSTS_TIMELINE",
-      postsTimeline
+      postsTimeline,
     };
   },
   unmountPostsTimeline: (mediaCurrentTime = 0) => {
     return {
       type: "UNMOUNT_POSTS_TIMELINE",
-      mediaCurrentTime
+      mediaCurrentTime,
     };
   },
   clearPostsTimeline: (mediaCurrentTime = 0) => {
     return {
       type: "CLEAR_POSTS_TIMELINE",
-      mediaCurrentTime
+      mediaCurrentTime,
     };
   },
   prevPostsTimeline: (postsTimeline = []) => {
     return {
       type: "PREV_POSTS_TIMELINE",
-      postsTimeline
+      postsTimeline,
     };
   },
   delegatePost: ({ inputPost, inputCurrentTime, inputStampId }) => {
     return {
       type: "DELEGATE_POST",
-      app: { inputPost, inputCurrentTime, inputStampId }
+      app: { inputPost, inputCurrentTime, inputStampId },
     };
   },
   playVideo: () => {
     return {
-      type: "PLAY_VIDEO"
+      type: "PLAY_VIDEO",
     };
   },
   stopVideo: () => {
     return {
-      type: "STOP_VIDEO"
+      type: "STOP_VIDEO",
     };
   },
-  onChangeFindType: e => {
+  onChangeFindType: (e) => {
     return {
       type: "ON_CHANGE_FIND_TYPE",
-      app: { findType: e.target.value }
+      app: { findType: e.target.value },
     };
   },
   startLinkMedia: () => {
     return {
-      type: "START_LINK_MEDIA"
+      type: "START_LINK_MEDIA",
     };
   },
   loadingEnd: () => {
     return {
-      type: "LOADING_END"
+      type: "LOADING_END",
     };
   },
   scrollThread: () => {
@@ -347,19 +347,19 @@ export default {
   },
   createNotif: () => {
     return {
-      type: "CREATE_NOTIF"
+      type: "CREATE_NOTIF",
     };
   },
-  updatePostsHeight: postsHeight => {
+  updatePostsHeight: (postsHeight) => {
     return {
       type: "UPDATE_POSTS_HEIGHT",
-      app: { postsHeight }
+      app: { postsHeight },
     };
   },
-  debug: app => {
+  debug: (app) => {
     return {
       type: "DEBUG",
-      app
+      app,
     };
-  }
+  },
 };

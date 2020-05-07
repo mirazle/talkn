@@ -6,7 +6,7 @@ import Emotions from "common/emotions/index";
 import EmotionGraphStyle from "client/style/EmotionGraph";
 
 interface EmotionGraphProps {
-  clientState: ClientState;
+  state: any;
 }
 
 interface EmotionGraphState {
@@ -32,15 +32,15 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
       totalNum,
       data: {
         labels: russellSimple.typesArray,
-        datasets: [{ ...EmotionGraphStyle.datasetsBase, data }]
+        datasets: [{ ...EmotionGraphStyle.datasetsBase, data }],
       },
-      options: EmotionGraphStyle.optionsBase
+      options: EmotionGraphStyle.optionsBase,
     };
   }
 
   getGraphDatas(props) {
     const emotionModelKey = Emotions.defaultModelKey;
-    const { threadDetail } = this.apiState;
+    const { threadDetail } = props.state;
     const { emotions } = threadDetail;
     const emotionKeys = emotions && emotions[emotionModelKey] ? Object.keys(emotions[emotionModelKey]) : [];
     const log = false;
@@ -55,7 +55,7 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
     let data = [];
 
     // 合計数と各指標の数値を取得
-    emotionKeys.forEach(emotionKey => {
+    emotionKeys.forEach((emotionKey) => {
       const num = emotions[emotionModelKey][emotionKey];
       if (maxNum < num) maxNum = num;
       if (num > 5) graphType = "over5";
@@ -64,13 +64,13 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
     });
 
     if (graphType === "within5") {
-      emotionKeys.forEach(emotionKey => {
+      emotionKeys.forEach((emotionKey) => {
         const num = emotions[emotionModelKey][emotionKey];
         data.push(num);
       });
     } else {
       // 合計数と各指標の数値の割合を算出
-      emotionKeys.forEach(emotionKey => {
+      emotionKeys.forEach((emotionKey) => {
         const { num } = rateMap[emotionKey];
         rateMap[emotionKey].rate = Math.round((num / totalNum) * calcRate) / calcRate;
       });
@@ -93,7 +93,7 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
         graphRateMap.push(rateMax);
       }
 
-      emotionKeys.forEach(emotionKey => {
+      emotionKeys.forEach((emotionKey) => {
         const { rate } = rateMap[emotionKey];
         let assignedFlg = false;
         for (let graphIndex = 0; graphIndex < graphMaxNum; graphIndex++) {
@@ -151,9 +151,9 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
         totalNum,
         data: {
           labels: russellSimple.typesArray,
-          datasets
+          datasets,
         },
-        options: EmotionGraphStyle.optionsBase
+        options: EmotionGraphStyle.optionsBase,
       });
     }
   }
@@ -162,8 +162,7 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
 
   render() {
     const { totalNum, data, options } = this.state;
-    const { thread } = this.apiState;
-    const { style } = this.props.clientState;
+    const { style, thread } = this.props.state;
     const { emotions } = thread;
 
     if (data && data.datasets && data.datasets.length > 0 && data.datasets[0].data.length > 0) {

@@ -10,7 +10,7 @@ import Header from "client/components/Header";
 import MenuFooter from "client/components/MenuFooter";
 
 interface Props {
-  clientState: ClientState;
+  state: any;
   openMenuTransitionEnd?: any;
 }
 
@@ -37,8 +37,8 @@ export default class Menuextends extends TalknComponent<Props, {}> {
   }
 
   handleOnTransitionEnd() {
-    const { clientState, openMenuTransitionEnd } = this.props;
-    const { ui } = clientState;
+    const { state, openMenuTransitionEnd } = this.props;
+    const { ui } = state;
     if (ui.screenMode === Ui.screenModeSmallLabel) {
       if (ui.isOpenMenu) {
         openMenuTransitionEnd(window.scrollY);
@@ -50,7 +50,7 @@ export default class Menuextends extends TalknComponent<Props, {}> {
   }
 
   render() {
-    const { style } = this.props.clientState;
+    const { style } = this.props.state;
     return (
       <div data-component-name={"Menu"} onTransitionEnd={this.handleOnTransitionEnd} style={style.menu.self}>
         {this.renderHeader()}
@@ -87,7 +87,7 @@ export default class Menuextends extends TalknComponent<Props, {}> {
   }
 */
   renderMenuComponent() {
-    const { ui } = this.props.clientState;
+    const { ui } = this.props.state;
     let menuComponent;
     switch (ui.menuComponent) {
       case Ui.menuComponentUsersLabel:
@@ -107,7 +107,7 @@ export default class Menuextends extends TalknComponent<Props, {}> {
   }
 
   renderHeader() {
-    const { ui } = this.props.clientState;
+    const { ui } = this.props.state;
 
     return ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel ? (
       <Header {...this.props} />
@@ -115,7 +115,7 @@ export default class Menuextends extends TalknComponent<Props, {}> {
   }
 
   renderFooter() {
-    const { ui } = this.props.clientState;
+    const { ui } = this.props.state;
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
       return null;
     } else {

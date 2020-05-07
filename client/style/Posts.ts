@@ -51,7 +51,7 @@ export default class Posts {
     return {
       self,
       ol,
-      more
+      more,
     };
   }
 
@@ -245,7 +245,7 @@ export default class Posts {
       overflowY,
       opacity,
       ...borders,
-      zIndex
+      zIndex,
     });
     const content = {};
     const animation = Style.getAnimationBase({});
@@ -272,11 +272,11 @@ export default class Posts {
       height: `calc( 100% - ${Main.headerHeight}px )`,
       minHeight: "inherit",
       borderRight,
-      borderLeft
+      borderLeft,
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -292,13 +292,13 @@ export default class Posts {
       justifyContent: "center",
       zIndex: "10",
       background,
-      borderRadius: "20px"
+      borderRadius: "20px",
     });
     const content = Style.getContentBase({
       lineHeight: 2,
       fontSize: "12px",
       color: Container.whiteRGB,
-      cursor: "pointer"
+      cursor: "pointer",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
