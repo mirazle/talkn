@@ -5,7 +5,7 @@ import Emotions from "common/emotions/index";
 import Icon from "client/components/Icon";
 
 interface PostsSupporterProps {
-  clientState: ClientState;
+  state: any;
 }
 
 interface PostsSupporterState {
@@ -21,23 +21,23 @@ export default class PostsSupporter extends TalknComponent<PostsSupporterProps, 
     super(props);
     let style = { [PostsSupporter.COVER]: {}, Emojis: {} };
 
-    Object.keys(Emotions.inputs).forEach(menu => {
+    Object.keys(Emotions.inputs).forEach((menu) => {
       const coverStampId = Emotions.inputs[menu][0];
       style[PostsSupporter.COVER][coverStampId] = {
-        ...props.clientState.style.postsSupporter.emoji
+        ...props.state.style.postsSupporter.emoji,
       };
       style.Emojis[menu] = {};
-      style.Emojis[menu][0] = { ...props.clientState.style.postsSupporter.emoji };
-      Emotions.inputs[menu].forEach(stampId => {
+      style.Emojis[menu][0] = { ...props.state.style.postsSupporter.emoji };
+      Emotions.inputs[menu].forEach((stampId) => {
         style.Emojis[menu][stampId] = {
-          ...props.clientState.style.postsSupporter.emoji
+          ...props.state.style.postsSupporter.emoji,
         };
       });
     });
 
     this.state = {
       style,
-      menu: PostsSupporter.COVER
+      menu: PostsSupporter.COVER,
     };
     this.getDisplay = this.getDisplay.bind(this);
   }
@@ -46,7 +46,7 @@ export default class PostsSupporter extends TalknComponent<PostsSupporterProps, 
     switch (menu) {
       case PostsSupporter.COVER:
         return {
-          onMouseOver: e => {
+          onMouseOver: (e) => {
             this.setState({
               style: {
                 ...this.state.style,
@@ -54,13 +54,13 @@ export default class PostsSupporter extends TalknComponent<PostsSupporterProps, 
                   ...this.state.style[PostsSupporter.COVER],
                   [stampId]: {
                     ...this.state.style[PostsSupporter.COVER][stampId],
-                    transform: "scale(1.1)"
-                  }
-                }
-              }
+                    transform: "scale(1.1)",
+                  },
+                },
+              },
             });
           },
-          onMouseOut: e => {
+          onMouseOut: (e) => {
             this.setState({
               style: {
                 ...this.state.style,
@@ -68,19 +68,19 @@ export default class PostsSupporter extends TalknComponent<PostsSupporterProps, 
                   ...this.state.style[PostsSupporter.COVER],
                   [stampId]: {
                     ...this.state.style[PostsSupporter.COVER][stampId],
-                    transform: "scale(1.0)"
-                  }
-                }
-              }
+                    transform: "scale(1.0)",
+                  },
+                },
+              },
             });
           },
-          onClick: e => {
+          onClick: (e) => {
             this.setState({ menu: toMenu });
-          }
+          },
         };
       default:
         return {
-          onMouseOver: e => {
+          onMouseOver: (e) => {
             this.setState({
               style: {
                 ...this.state.style,
@@ -90,14 +90,14 @@ export default class PostsSupporter extends TalknComponent<PostsSupporterProps, 
                     ...this.state.style.Emojis[menu],
                     [stampId]: {
                       ...this.state.style.Emojis[menu][stampId],
-                      transform: "scale(1.1)"
-                    }
-                  }
-                }
-              }
+                      transform: "scale(1.1)",
+                    },
+                  },
+                },
+              },
             });
           },
-          onMouseOut: e => {
+          onMouseOut: (e) => {
             this.setState({
               style: {
                 ...this.state.style,
@@ -107,40 +107,40 @@ export default class PostsSupporter extends TalknComponent<PostsSupporterProps, 
                     ...this.state.style.Emojis[menu],
                     [stampId]: {
                       ...this.state.style.Emojis[menu][stampId],
-                      transform: "scale(1.0)"
-                    }
-                  }
-                }
-              }
+                      transform: "scale(1.0)",
+                    },
+                  },
+                },
+              },
             });
           },
-          onClick: e => {
+          onClick: (e) => {
             if (stampId !== 0) {
               const post = Emotions.map[stampId];
               const app = {
                 inputPost: post,
                 inputStampId: stampId,
-                inputCurrentTime: 0
+                inputCurrentTime: 0,
               };
               this.coreApi("post", { app });
               this.clientAction("CLOSE_DISP_POSTS_SUPPORTER", { ui: { isOpenPostsSupporter: false } });
             }
             this.setState({ menu: toMenu });
-          }
+          },
         };
     }
   }
 
   getDisplay(menu) {
-    const { clientState } = this.props;
-    const { style: propsStyle } = clientState;
-    const IconOpenEmoji = Icon.getOpenEmoji({}, clientState);
-    const IconCloseEmoji = Icon.getCloseEmoji({}, clientState);
+    const { state } = this.props;
+    const { style: propsStyle } = state;
+    const IconOpenEmoji = Icon.getOpenEmoji({}, state);
+    const IconCloseEmoji = Icon.getCloseEmoji({}, state);
     const { style } = this.state;
     let display = [];
     switch (menu) {
       case PostsSupporter.COVER:
-        display = Object.keys(Emotions.inputs).map(label => {
+        display = Object.keys(Emotions.inputs).map((label) => {
           const coverStampId = Emotions.inputs[label][0];
           return (
             <li
@@ -158,7 +158,7 @@ export default class PostsSupporter extends TalknComponent<PostsSupporterProps, 
         });
         break;
       default:
-        display = Emotions.inputs[menu].map(stampId => {
+        display = Emotions.inputs[menu].map((stampId) => {
           return (
             <li
               key={menu + "_" + stampId}
@@ -182,7 +182,7 @@ export default class PostsSupporter extends TalknComponent<PostsSupporterProps, 
   }
 
   render() {
-    const { style } = this.props.clientState;
+    const { style } = this.props.state;
     const { menu } = this.state;
     const lis = this.getDisplay(menu);
     return (

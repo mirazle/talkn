@@ -4,12 +4,12 @@ import ClientState from "client/store/";
 import Marquee from "client/container/util/Marquee";
 
 interface Props {
-  clientState: ClientState;
+  state: any;
 }
 
 export default class MenuUsers extends TalknComponent<Props, {}> {
   renderFriendLiLabel(name, icon, ch) {
-    const { style } = this.props.clientState;
+    const { style } = this.props.state;
     const href = `/${ch}`;
     const label = ch ? (
       <div style={style.menuUsers.namesAddCh}>
@@ -34,7 +34,7 @@ export default class MenuUsers extends TalknComponent<Props, {}> {
   }
 
   render() {
-    const { style } = this.props.clientState;
+    const { style } = this.props.state;
     return (
       <div data-component-name={"MenuUsers"} style={style.menuUsers.self}>
         <ol style={style.menuUsers.columns}></ol>

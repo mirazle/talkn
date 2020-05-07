@@ -10,7 +10,7 @@ import { default as LockMenuStyle } from "client/style/LockMenu";
 import Icon from "client/components/Icon";
 
 interface LockMenuProps {
-  clientState: ClientState;
+  state: any;
   onClickOpenLockMenu?: any;
 }
 
@@ -35,9 +35,9 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
             [type]: {
               ...this.state.style[type],
               color: Container.whiteRGB,
-              background: Container.getThemeRGBA(0.7)
-            }
-          }
+              background: Container.getThemeRGBA(0.7),
+            },
+          },
         });
       },
       onMouseLeave: () => {
@@ -51,9 +51,9 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
               ...this.state.style[type],
               color: Style.fontBaseRGB,
               background: Container.whiteRGBA,
-              transform: "scale( 1 )"
-            }
-          }
+              transform: "scale( 1 )",
+            },
+          },
         });
       },
       onMouseDown: () => {
@@ -63,9 +63,9 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
             [type]: {
               ...this.state.style[type],
               transition: "200ms",
-              transform: "scale( 1.05 )"
-            }
-          }
+              transform: "scale( 1.05 )",
+            },
+          },
         });
       },
       onMouseUp: () => {
@@ -75,11 +75,11 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
             [type]: {
               ...this.state.style[type],
               transition: "200ms",
-              transform: "scale( 1 )"
-            }
-          }
+              transform: "scale( 1 )",
+            },
+          },
         });
-      }
+      },
     };
   }
 
@@ -92,9 +92,9 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
             liEmbed: {
               ...this.state.style.liEmbed,
               color: Container.whiteRGB,
-              background: Container.themeRGB
-            }
-          }
+              background: Container.themeRGB,
+            },
+          },
         });
       },
       onMouseLeave: () => {
@@ -105,9 +105,9 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
               ...this.state.style.liEmebed,
               color: Style.fontBaseRGB,
               background: Container.whiteRGBA,
-              transform: "scale( 1 )"
-            }
-          }
+              transform: "scale( 1 )",
+            },
+          },
         });
       },
       onMouseDown: () => {
@@ -117,9 +117,9 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
             liEmbed: {
               ...this.state.style.liEmbed,
               transition: "200ms",
-              transform: "scale( 1.05 )"
-            }
-          }
+              transform: "scale( 1.05 )",
+            },
+          },
         });
       },
       onMouseUp: () => {
@@ -129,17 +129,17 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
             liEmbed: {
               ...this.state.style.liEmbed,
               transition: "200ms",
-              transform: "scale( 1 )"
-            }
-          }
+              transform: "scale( 1 )",
+            },
+          },
         });
-      }
+      },
     };
   }
 
   constructor(props) {
     super(props);
-    const { lockMenu: style } = props.clientState.style;
+    const { lockMenu: style } = props.state.style;
     this.state = { style };
     this.getDecolationProps1 = this.getDecolationProps1.bind(this);
     this.handleOnClickToWeb = this.handleOnClickToWeb.bind(this);
@@ -147,7 +147,7 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
   }
 
   handleOnClickToWeb() {
-    const { threadDetail } = this.apiState;
+    const { threadDetail } = this.props.state;
     if (threadDetail.protocol === Sequence.TALKN_PROTOCOL) {
       location.href = threadDetail.ch;
     } else {
@@ -156,7 +156,7 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
   }
 
   handleOnClickToTalkn() {
-    const { threadDetail } = this.apiState;
+    const { threadDetail } = this.props.state;
     location.href = `//${conf.domain}${threadDetail.ch}`;
   }
 
@@ -164,13 +164,12 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
     const { state } = this;
     const { style: stateStyle } = state;
     const { onClickOpenLockMenu } = this.props;
-    const { threadDetail } = this.apiState;
-    const { style } = this.props.clientState;
+    const { style, threadDetail } = this.props.state;
 
-    const IconHeadTab = Icon.getHeadTab(LockMenuStyle.headTabUpdate, this.props.clientState);
+    const IconHeadTab = Icon.getHeadTab(LockMenuStyle.headTabUpdate, this.props.state);
     const IconTwitter = Icon.getTwitter({}, state, { sizePx: Icon.middleSize });
     const IconFacebook = Icon.getFacebook({}, state, {
-      sizePx: Icon.middleSize
+      sizePx: Icon.middleSize,
     });
     const IconTalkn = Icon.getTalkn({}, state, { sizePx: Icon.middleSize });
     return (

@@ -16,13 +16,13 @@ export default (state: any = new MenuIndex(), action) => {
         action.app.dispThreadType === App.dispThreadTypeMulti ? action.postsMulti : action.postsSingle;
       const multistreamPostLength = multistreamPosts && multistreamPosts.length ? multistreamPosts.length : 0;
       if (multistreamPostLength > 0) {
-        return state.map(mi => {
+        return state.map((mi) => {
           if (action.app.rootCh === mi.ch) {
             return {
               ...mi,
               //						title: multistreamPosts[ multistreamPostLength - 1].title,
               favicon: multistreamPosts[multistreamPostLength - 1].favicon,
-              post: multistreamPosts[multistreamPostLength - 1].post
+              post: multistreamPosts[multistreamPostLength - 1].post,
             };
           } else {
             return mi;
@@ -38,13 +38,13 @@ export default (state: any = new MenuIndex(), action) => {
       const postLength = action.posts && action.posts.length ? action.posts.length : 0;
 
       if (postLength === 0) {
-        return state.map(mi => {
+        return state.map((mi) => {
           if (action.thread.ch === mi.ch) {
             return {
               ...mi,
               title: action.thread.title,
               favicon: action.thread.favicon,
-              watchCnt: action.thread.watchCnt
+              watchCnt: action.thread.watchCnt,
             };
           } else {
             return mi;
@@ -53,7 +53,7 @@ export default (state: any = new MenuIndex(), action) => {
       }
 
       if (action.app.dispThreadType === App.dispThreadTypeMulti) {
-        return state.map(mi => {
+        return state.map((mi) => {
           if (action.thread.ch === mi.ch) {
             return {
               ...mi,
@@ -61,7 +61,7 @@ export default (state: any = new MenuIndex(), action) => {
               favicon: action.thread.favicon,
               stampId: action.posts[postLength - 1].stampId,
               //						watchCnt: action.thread.watchCnt,
-              post: action.posts[postLength - 1].post
+              post: action.posts[postLength - 1].post,
             };
           } else {
             return mi;
@@ -89,7 +89,7 @@ export default (state: any = new MenuIndex(), action) => {
     case "SERVER_TO_API[BROADCAST]:changeThread":
     case "SERVER_TO_API[BROADCAST]:disconnect":
       return state
-        .map(mi => {
+        .map((mi) => {
           if (action.thread.ch === mi.ch) {
             return { ...mi, watchCnt: action.thread.watchCnt };
           } else {
@@ -98,7 +98,7 @@ export default (state: any = new MenuIndex(), action) => {
         })
         .sort(sortWatchCnt);
     case "SERVER_TO_API[BROADCAST]:post":
-      return state.map(mi => {
+      return state.map((mi) => {
         // rootCh
         if (action.app.rootCh === mi.ch) {
           if (action.app.multistream) {
@@ -107,7 +107,7 @@ export default (state: any = new MenuIndex(), action) => {
               title: action.posts[0].title,
               stampId: action.posts[0].stampId,
               favicon: action.posts[0].favicon,
-              post: action.posts[0].post
+              post: action.posts[0].post,
             };
           } else {
             return mi;
@@ -121,7 +121,7 @@ export default (state: any = new MenuIndex(), action) => {
             title: action.posts[0].title,
             stampId: action.posts[0].stampId,
             favicon: action.posts[0].favicon,
-            post: action.posts[0].post
+            post: action.posts[0].post,
           };
         }
         return mi;

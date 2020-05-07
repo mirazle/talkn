@@ -273,7 +273,7 @@ export default class Ui extends Schema {
       height,
       extensionMode,
       extensionOpenHeight,
-      extensionCloseHeight
+      extensionCloseHeight,
     });
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
@@ -331,7 +331,7 @@ export default class Ui extends Schema {
       inputStampId,
       inputCurrentTime,
       inputSearch,
-      isLoading
+      isLoading,
     });
   }
 }

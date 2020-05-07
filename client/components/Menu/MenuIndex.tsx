@@ -8,7 +8,7 @@ import Icon from "client/components/Icon";
 import MenuIndexList from "client/components/Menu/MenuIndexList";
 
 interface MenuIndexProps {
-  clientState: ClientState;
+  state: any;
   onClickToTimelineThread?: any;
   onClickToMultiThread?: any;
   onClickToSingleThread?: any;
@@ -24,8 +24,7 @@ interface MenuIndexState {
 export default class MenuIndex extends TalknComponent<MenuIndexProps, MenuIndexState> {
   constructor(props) {
     super(props);
-    const { app } = this.apiState;
-    const { style } = props.clientState;
+    const { app, style } = props.state;
     const { rootCh } = app;
     this.state = { rootCh, style: style.menuIndex.headerUpdateIcon };
     this.handleOnClickUpdate = this.handleOnClickUpdate.bind(this);
@@ -74,7 +73,7 @@ export default class MenuIndex extends TalknComponent<MenuIndexProps, MenuIndexS
   }
 
   handleOnClickUpdate(ch) {
-    const { rootCh } = this.apiState.app;
+    const { rootCh } = this.props.state.app;
     this.coreApi("findMenuIndex", rootCh);
   }
 
@@ -102,8 +101,7 @@ export default class MenuIndex extends TalknComponent<MenuIndexProps, MenuIndexS
   }
 
   componentDidUpdate() {
-    const { app, actionLog } = this.apiState;
-    const { ui } = this.props.clientState;
+    const { ui, app, actionLog } = this.props.state;
     switch (actionLog[0]) {
       case "API_TO_CLIENT[EMIT]:changeThread":
         switch (ui.screenMode) {
@@ -119,7 +117,7 @@ export default class MenuIndex extends TalknComponent<MenuIndexProps, MenuIndexS
   render() {
     const headerUpdateIconStyle = this.state.style;
     const { state, onChangeFindType }: any = this.props;
-    const { style } = this.props.clientState;
+    const { style } = this.props.state;
     const { icon } = style;
     const IconCh = Icon.getCh(icon.ch);
     const IconTune = Icon.getTune(icon.tune);
@@ -157,9 +155,9 @@ export default class MenuIndex extends TalknComponent<MenuIndexProps, MenuIndexS
   }
 
   renderLi() {
-    const { clientState, onClickOtherThread } = this.props;
-    const { app, thread, menuIndex } = this.apiState;
-    const { ui, style } = clientState;
+    const { state, onClickOtherThread } = this.props;
+    const { app, thread, menuIndex } = state;
+    const { ui, style } = state;
     return menuIndex.map((mi, index) => {
       return (
         <MenuIndexList

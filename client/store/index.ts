@@ -17,6 +17,7 @@ export default class ClientState {
     this.componentDidMounts = new ComponentDidMounts(params);
     this.uiTimeMarker = new UiTimeMarker(params);
     this.style = new Style(params);
+    console.log(this.style);
     this.actionLog = new ActionLog();
   }
 }

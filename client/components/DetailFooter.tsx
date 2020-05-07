@@ -9,7 +9,7 @@ import Container from "client/style/Container";
 interface DetailFooterProps {
   mode?: string;
   onClickOpenLockMenu?: any;
-  clientState: ClientState;
+  state: any;
 }
 
 interface DetailFooterState {
@@ -25,8 +25,8 @@ export default class DetailFooter extends TalknComponent<DetailFooterProps, Deta
   }
 
   handleOnClickLike() {
-    const { clientState, onClickOpenLockMenu } = this.props;
-    const { ui } = clientState;
+    const { state, onClickOpenLockMenu } = this.props;
+    const { ui } = state;
     if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
       onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     } else {
@@ -35,8 +35,8 @@ export default class DetailFooter extends TalknComponent<DetailFooterProps, Deta
   }
 
   handleOnClickShare() {
-    const { clientState, onClickOpenLockMenu } = this.props;
-    const { ui } = clientState;
+    const { state, onClickOpenLockMenu } = this.props;
+    const { ui } = state;
     if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
       this.clientAction("ON_CLICK_OPEN_LOCK_MENU");
       onClickOpenLockMenu(Ui.openLockMenuLabelNo);
@@ -46,7 +46,7 @@ export default class DetailFooter extends TalknComponent<DetailFooterProps, Deta
   }
 
   handleOnClickPortal() {
-    const { ui } = this.props.clientState;
+    const { ui } = this.props.state;
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
       window.talknWindow.parentExtTo("linkTo", { href: `https://${conf.wwwURL}` });
     } else {
@@ -55,9 +55,8 @@ export default class DetailFooter extends TalknComponent<DetailFooterProps, Deta
   }
 
   render() {
-    const { mode, clientState } = this.props;
-    const { app } = this.apiState;
-    const { ui, style } = clientState;
+    const { mode, state } = this.props;
+    const { app, ui, style } = state;
 
     if (
       (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) &&
@@ -69,7 +68,7 @@ export default class DetailFooter extends TalknComponent<DetailFooterProps, Deta
       const ShareIcon = Icon.getShare({}, { app, ui });
       const MoneyIcon = Icon.getMoney({}, { app, ui });
       const shareColor =
-        clientState.ui.openLockMenu === Ui.openLockMenuLabelShare ? Container.themeRGBA : Container.fontBaseRGB;
+        state.ui.openLockMenu === Ui.openLockMenuLabelShare ? Container.themeRGBA : Container.fontBaseRGB;
 
       return (
         <footer data-component-name={"DetailFooter"} style={style.detailFooter.self}>

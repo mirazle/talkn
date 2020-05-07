@@ -9,7 +9,7 @@ import BoardStyle from "client/style/Board";
 
 interface BoardProps {
   app?: any;
-  clientState: ClientState;
+  state: any;
   handleOnClickCh?: any;
   handleOnClickMultistream?: any;
   timeago?: any;
@@ -27,7 +27,7 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
     this.state = {
       displayLinks: false,
       exeTransitionEnd: false,
-      linkContentsKey: ""
+      linkContentsKey: "",
     };
     this.renderMain = this.renderMain.bind(this);
     this.renderLink = this.renderLink.bind(this);
@@ -41,18 +41,17 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
   }
 
   componentDidMount() {
-    const { clientState } = this.props;
-    const { app } = this.apiStore;
-    const { ui } = clientState;
+    const { state } = this.props;
+    const { app, ui } = state;
     const displayLinks = !(BoardStyle.getLinksDisplay({ app, ui }) === "none");
     this.setState({
       exeTransitionEnd: false,
-      displayLinks
+      displayLinks,
     });
   }
 
   componentWillReceiveProps(props) {
-    const { isOpenLinks } = props.clientState.ui;
+    const { isOpenLinks } = props.state.ui;
     let updateState: any = {};
 
     if (!isOpenLinks) {
@@ -65,7 +64,7 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
   }
 
   handleOnClickToggleBoard() {
-    const { ui } = this.props.clientState;
+    const { ui } = this.props.state;
     if (ui.isOpenLinks) {
       this.clientAction("TOGGLE_LINKS");
     } else {
@@ -78,9 +77,8 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
   }
 
   handleOnClickLinks() {
-    const { handleOnClickCh, clientState } = this.props;
-    const { ui } = clientState;
-    const { app } = this.apiState;
+    const { state } = this.props;
+    const { app, ui } = state;
     switch (app.dispThreadType) {
       case App.dispThreadTypeMulti:
       case App.dispThreadTypeSingle:
@@ -99,7 +97,7 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
 
   handleOnTransitionEnd(e) {
     const { exeTransitionEnd } = this.state;
-    const { ui } = this.props.clientState;
+    const { ui } = this.props.state;
     let updateState = {};
 
     if (exeTransitionEnd) {
@@ -111,20 +109,19 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
 
       this.setState({
         ...updateState,
-        exeTransitionEnd: false
+        exeTransitionEnd: false,
       });
     }
   }
 
   handleOnClickLinkTabs(e) {
     this.setState({
-      linkContentsKey: e.target.innerText
+      linkContentsKey: e.target.innerText,
     });
   }
 
   render() {
-    const { app } = this.apiState;
-    const { ui } = this.props.clientState;
+    const { app, ui } = this.props.state;
     const type = BoardStyle.getType({ app, ui });
     switch (type) {
       case BoardStyle.typesMain:
@@ -139,9 +136,8 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
   }
 
   renderLiChild() {
-    const { app } = this.apiState;
-    const { clientState, handleOnClickMultistream } = this.props;
-    const { style, ui } = clientState;
+    const { state, handleOnClickMultistream } = this.props;
+    const { app, style, ui } = state;
     let onClick = app.isRootCh ? handleOnClickMultistream : () => {};
     const ThunderIcon = Icon.getThunder(IconStyle.getThunder({ ui, app }));
     return (
@@ -153,11 +149,10 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
   }
 
   renderMain() {
-    const { clientState } = this.props;
-    const { app } = this.apiState;
-    const { style, ui } = clientState;
-    const BubbleIcon = Icon.getBubble(IconStyle.getBubble(clientState));
-    const LinksIcon = Icon.getLinks(IconStyle.getLinks(clientState));
+    const { state } = this.props;
+    const { app, style, ui } = state;
+    const BubbleIcon = Icon.getBubble(IconStyle.getBubble(state));
+    const LinksIcon = Icon.getLinks(IconStyle.getLinks(state));
     const linksLabel = app.isLinkCh ? "BACK" : "LINKS";
 
     return (
@@ -189,9 +184,9 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
   }
 
   renderSub() {
-    const { clientState } = this.props;
-    const { style, ui } = clientState;
-    const BubbleIcon = Icon.getBubble(IconStyle.getBubble(clientState));
+    const { state } = this.props;
+    const { style, ui } = state;
+    const BubbleIcon = Icon.getBubble(IconStyle.getBubble(state));
 
     return (
       <div
@@ -216,10 +211,10 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
   }
 
   renderLink() {
-    const { clientState } = this.props;
-    const { style, ui } = clientState;
-    const LinksIcon = Icon.getLinks(IconStyle.getLinks(clientState));
-    const BubbleIcon = Icon.getBubble(IconStyle.getBubble(clientState));
+    const { state } = this.props;
+    const { style, ui } = state;
+    const LinksIcon = Icon.getLinks(IconStyle.getLinks(state));
+    const BubbleIcon = Icon.getBubble(IconStyle.getBubble(state));
     const linksLabel = "BACK";
 
     return (

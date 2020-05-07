@@ -107,17 +107,24 @@ const functions = {
     action = Posts.getAnyActionPosts(action, state);
     return action;
   },
+  "API_TO_SERVER[REQUEST]:changeThreadDetail": (state, action) => {
+    delete action.thread;
+    return action;
+  },
   "SERVER_TO_API[EMIT]:changeThreadDetail": (state, action) => {
     action.app.detailCh = action.thread.ch;
     action.threads = Threads.getMergedThreads(state.threads, action.thread);
     action.threadDetail = { ...action.thread };
     action.threadDetail.title = action.thread.serverMetas.title;
+    action.threadDetail.emotions = { ...state.threads[action.app.detailCh].emotions };
+    console.log(action.threadDetail.emotions.russellSimple);
     // TODO 古い仕様だとhasSlashが格納されていないcollectionが存在する
     // hasSlashはlocationが参照できないPORTALだと正しい値を取得出来ないため、
     // 拡張機能ではGET_CLIENT_METASを実行して正しい値をサーバーに渡して更新してやる必要がある。
     action.threadDetail.hasSlash =
       action.threadDetail.hasSlash === null ? true : Schema.getBool(action.threadDetail.hasSlash);
     delete action.thread;
+    action.thread = action;
     return action;
   },
   ON_CLICK_TO_MULTI_THREAD: (state, action) => {

@@ -32,7 +32,7 @@ import TalknWindow from "client/operations/TalknWindow";
 import IconStyle from "client/style/Icon";
 
 interface ContainerProps {
-  clientState: ClientState;
+  state: any;
   onClickOpenLockMenu: (any?) => any;
   onClickTogglePosts: (any?) => any;
   onClickToggleDispDetail: (any?) => any;
@@ -48,8 +48,7 @@ interface ContainerState {
 class Container extends TalknComponent<ContainerProps, ContainerState> {
   constructor(props: ContainerProps) {
     super(props);
-    const { thread } = this.apiState;
-    const { ui } = props.clientState;
+    const { ui, thread } = props.state;
     this.state = { notifs: [] };
     this.coreApi("find", { thread: thread.ch });
     if (ui.extensionMode === Ui.extensionModeExtIncludeLabel || ui.extensionMode === Ui.extensionModeExtNoneLabel) {
@@ -91,9 +90,9 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   }
 
   handleOnClickToggleMain(e) {
-    const { onClickToggleMain, onClickToggleDispDetail, onClickOpenLockMenu, clientState } = this.props;
-    let { app, thread, threadDetail } = this.apiState;
-    let { ui } = clientState;
+    const { onClickToggleMain, onClickToggleDispDetail, onClickOpenLockMenu, state } = this.props;
+    let { app, thread, threadDetail } = state;
+    let { ui } = state;
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
       onClickToggleMain({ app, ui });
 
@@ -115,9 +114,9 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   }
 
   handleOnClickToggleDetail(e) {
-    const { clientState, onClickOpenLockMenu } = this.props;
-    let { app, threadDetail } = this.apiState;
-    let { ui } = clientState;
+    const { state, onClickOpenLockMenu } = this.props;
+    let { app, threadDetail } = this.clientState;
+    let { ui } = state;
     if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
       onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     } else {
@@ -127,9 +126,9 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   }
 
   handleOnClickTogglePosts(e) {
-    const { onClickTogglePosts, onClickToggleDispDetail, onClickOpenLockMenu, clientState } = this.props;
-    let { app, thread, threadDetail } = this.apiState;
-    let { ui } = clientState;
+    const { onClickTogglePosts, onClickToggleDispDetail, onClickOpenLockMenu, state } = this.props;
+    let { app, thread, threadDetail } = state;
+    let { ui } = state;
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
       onClickTogglePosts({ app, ui });
 
@@ -156,8 +155,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   }
 
   handleOnClickMultistream() {
-    const { app } = this.apiState;
-    let { postsMulti, postsSingle } = this.apiState;
+    let { app, postsMulti, postsSingle } = this.props.state;
     let findFlg = false;
     const postsMultiCache = TalknSession.getStorage(app.rootCh, define.storageKey.postsMulti);
     const postsSingleCache = TalknSession.getStorage(app.rootCh, define.storageKey.postsSingle);
@@ -197,8 +195,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   }
 
   render() {
-    const { style, ui } = this.props.clientState;
-    const { app } = this.apiState;
+    const { style, ui, app } = this.props.state;
     if (style && style.container && style.container.self && app.tuned) {
       if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
         return this.renderExtension();
@@ -220,22 +217,20 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     return <LoadingLogo />;
   }
 
-  renderFixMarker(props) {
-    const { app, thread } = this.apiState;
-    const { ui, uiTimeMarker, style } = this.props.clientState;
+  renderFixMarker(props): React.ReactNode {
+    const { app, thread, ui, uiTimeMarker, style } = this.props.state;
     if (ui.isLoading) {
       const loading = Icon.getLoading(IconStyle.getLoading({ app, ui }));
       return <TimeMarker type={"Fix"} label={loading} style={style.timeMarker.fixTimeMarker} />;
-    } else if (thread.postCnt > 0 && uiTimeMarker.now) {
+    } else if (thread.postCnt > 0 && uiTimeMarker.now && uiTimeMarker.now.label) {
       return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
     } else {
       return undefined;
     }
   }
 
-  renderLinkLabel(props) {
-    const { style } = this.props.clientState;
-    const { app, thread } = this.apiState;
+  renderLinkLabel(props): React.ReactNode {
+    const { style, app, thread } = this.props.state;
     if (app.isLinkCh) {
       return (
         <div data-component-name={"linkLabel"} style={style.container.linkLabel}>
@@ -247,8 +242,8 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     }
   }
 
-  renderNewPost(props) {
-    const { style } = props.clientState;
+  renderNewPost(props): React.ReactNode {
+    const { style } = props.state;
 
     const log = false;
     let dispNewPost = false;
@@ -291,13 +286,13 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     }
   }
 
-  renderHideScreenBottom(props) {
-    const { style } = props.clientState;
+  renderHideScreenBottom(props): React.ReactNode {
+    const { style } = props.state;
     return <div data-component-name={"hideScreenBottom"} style={style.container.hideScreenBottom} />;
   }
 
-  renderLarge() {
-    const { style } = this.props.clientState;
+  renderLarge(): React.ReactNode {
+    const { style } = this.props.state;
     const props: any = this.getProps();
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
@@ -340,8 +335,8 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     );
   }
 
-  renderMiddle() {
-    const { style } = this.props.clientState;
+  renderMiddle(): React.ReactNode {
+    const { style } = this.props.state;
     const props: any = this.getProps();
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
@@ -369,8 +364,8 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     );
   }
 
-  renderSmall() {
-    const { style } = this.props.clientState;
+  renderSmall(): React.ReactNode {
+    const { style } = this.props.state;
     const props: any = this.getProps();
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
@@ -400,12 +395,12 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     );
   }
 
-  renderExtension() {
-    const { style } = this.props.clientState;
+  renderExtension(): React.ReactNode {
+    const { style } = this.props.state;
     const props = this.getProps();
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
-    const extScreenStyle = props.clientState.style.extScreen.self;
+    const extScreenStyle = props.state.style.extScreen.self;
     const FixMarker = this.renderFixMarker(props);
     return (
       <span data-component-name={"Container"} style={style.container.self}>

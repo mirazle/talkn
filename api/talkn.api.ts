@@ -47,7 +47,7 @@ class BootOption {
 
   static rebuildAttributes(attributes) {
     let rebuildAttributesObj: any = {};
-    Object.keys(attributes).forEach(i => {
+    Object.keys(attributes).forEach((i) => {
       rebuildAttributesObj[attributes[i].name] = attributes[i].value;
     });
     return rebuildAttributesObj;
@@ -113,7 +113,7 @@ class CoreAPI {
     const actionKeys = Object.keys(actions);
     const actionLength = actionKeys.length;
     const getCoreAPI = (actionName, beforeFunction) => {
-      return requestParams => {
+      return (requestParams) => {
         const reduxState = this.apiStore.getState();
         const _requestState = Sequence.getRequestState(actionName, reduxState, requestParams);
         const _actionState = Sequence.getRequestActionState(actionName, requestParams);
@@ -134,7 +134,7 @@ class CoreAPI {
   onResponseMeAPI(resolve: Promise<boolean> | null = null) {
     const getToMeAPI = (action, resolve = null) => {
       const self = this;
-      return response => {
+      return (response) => {
         if (resolve && response.type === Sequence.CONNECTION_SERVER_KEY) {
           resolve(self);
         }
@@ -148,8 +148,8 @@ class CoreAPI {
   }
 
   onResponseChAPI(ch = this.ch) {
-    const getResponseChAPI = actionMethod => {
-      return response => {
+    const getResponseChAPI = (actionMethod) => {
+      return (response) => {
         const actionState = actionMethod(response);
         return this.apiStore.dispatch(actionState);
       };
@@ -191,7 +191,7 @@ class GlobalWindow {
       type: PostMessage.API_TO_CLIENT_TYPE,
       href,
       method: method,
-      params: params
+      params: params,
     };
   }
   constructor() {
@@ -210,8 +210,8 @@ class GlobalWindow {
     const self = this;
 
     bootPromises.push(
-      new Promise(onMessageResolve => {
-        window.onmessage = e => {
+      new Promise((onMessageResolve) => {
+        window.onmessage = (e) => {
           if (onMessageResolve) {
             self.origin = e.origin;
             onMessageResolve();
@@ -236,11 +236,11 @@ class GlobalWindow {
     );
 
     bootPromises.push(
-      new Promise(resove => {
+      new Promise((resove) => {
         if (document.readyState === "complete") {
           new CoreAPI(this.bootOption.env, self.apiStore, resove);
         } else {
-          window.onload = e => {
+          window.onload = (e) => {
             new CoreAPI(this.bootOption.env, self.apiStore, resove);
           };
         }
@@ -274,7 +274,7 @@ class GlobalWindow {
   onActions() {
     const actionKeys = Object.keys(handleActions);
     const actionLength = actionKeys.length;
-    const getActions = actionName => {
+    const getActions = (actionName) => {
       return (params1, params2) => {
         const action = handleActions[actionName](params1);
         const reduxState = this.apiStore.getState();
@@ -361,7 +361,7 @@ export class Media {
       windowType: window.name,
       type: PostMessage.MEDIA_TO_CLIENT_TYPE,
       method: method,
-      params: params
+      params: params,
     };
   }
   ch: string;
@@ -470,7 +470,7 @@ export class Media {
   }
 
   handleEvents(media) {
-    media.addEventListener("play", e => {
+    media.addEventListener("play", (e) => {
       this.file = e.srcElement;
       const mediaCh = ClientUtil.deleteProtcol(this.file.currentSrc) + "/";
 
@@ -490,15 +490,15 @@ export class Media {
       }
     });
 
-    media.addEventListener("seeked", e => {
+    media.addEventListener("seeked", (e) => {
       this.setStatus("seeking");
     });
 
-    media.addEventListener("pause", e => {
+    media.addEventListener("pause", (e) => {
       this.setStatus("waiting");
     });
 
-    media.addEventListener("ended", e => {
+    media.addEventListener("ended", (e) => {
       this.setStatus("waiting");
       clearInterval(this.playIntervalId);
       const currentTime = Number.MAX_SAFE_INTEGER;
@@ -570,7 +570,7 @@ export class Media {
       // 指定した秒数を経過しているPostをreducerでdispFlgをfalseにしてPostをUnmountする
       this.apiTo("CLEAR_POSTS_TIMELINE", {
         postsTimeline: this.postsTimeline,
-        postsTimelineStock: this.postsTimelineStock
+        postsTimelineStock: this.postsTimelineStock,
       });
 
       this.isPosting = false;

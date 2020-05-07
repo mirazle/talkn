@@ -119,7 +119,7 @@ export default class Board {
       // LINK TAB LAYOUT
       linksTabActive,
       linksTabUnactive,
-      linksTabLast
+      linksTabLast,
     };
   }
 
@@ -216,11 +216,11 @@ export default class Board {
       justifyContent: "flex-end",
       boxShadow,
       borderRadius,
-      zIndex: 3
+      zIndex: 3,
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransitionFirstOn({ app, ui })
+      transition: Container.getTransitionFirstOn({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -230,7 +230,7 @@ export default class Board {
       width: Board.getTotalWidth({ app, ui }) + "px",
       height: "100%",
       flexDirection: "column",
-      alignItems: "flex-end"
+      alignItems: "flex-end",
     });
     const content = {};
     const animation = {};
@@ -243,11 +243,11 @@ export default class Board {
       width: "100%",
       justifyContent: "flex-start",
       alignItems: "flex-end",
-      flexDirection: "column"
+      flexDirection: "column",
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -264,14 +264,14 @@ export default class Board {
       maxHeight: size,
       background: Container.whiteRGBA,
       borderRadius: "5px",
-      marginBottom: "5px"
+      marginBottom: "5px",
     });
     const content = Style.getContentBase({
       fontSize: "10px",
-      lineHeight: "17px"
+      lineHeight: "17px",
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -280,7 +280,7 @@ export default class Board {
     const color = App.isActiveMultistream({ app, ui }, "getLiChild") ? Board.activeColor : Board.unactiveColor;
     const layout = {};
     const content = Style.getContentBase({
-      color
+      color,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -290,7 +290,7 @@ export default class Board {
     const color = ui.isBubblePost ? Board.activeColor : Board.unactiveColor;
     const layout = {};
     const content = Style.getContentBase({
-      color
+      color,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -300,7 +300,7 @@ export default class Board {
     const bgColor = Container.themeRGB;
     const layout = {};
     const content = Style.getContentBase({
-      color: bgColor
+      color: bgColor,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -312,11 +312,11 @@ export default class Board {
       width: size,
       height: size,
       minHeight: size,
-      maxHeight: size
+      maxHeight: size,
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -330,10 +330,10 @@ export default class Board {
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "flex-start",
-      padding: "0px 3px 0px 0px"
+      padding: "0px 3px 0px 0px",
     });
     const content = Style.getContentBase({
-      fontSize: "14px"
+      fontSize: "14px",
     });
     const animation = {};
     return Style.get({ layout, content, animation });
@@ -348,11 +348,11 @@ export default class Board {
       flexDirection: "column",
       overflow: "scroll",
       overflowScrolling: "touch",
-      WebkitOverflowScrolling: "touch"
+      WebkitOverflowScrolling: "touch",
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -369,15 +369,15 @@ export default class Board {
       background: Container.whiteRGBA,
       borderRadius: "5px",
       padding: "0px 0px 0px 10px",
-      marginBottom: "5px"
+      marginBottom: "5px",
     });
     const content = Style.getContentBase({
       cursor: "pointer",
       fontSize: "14px",
-      lineHeight: "17px"
+      lineHeight: "17px",
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -410,11 +410,11 @@ export default class Board {
       width: "100%",
       justifyContent: "flex-start",
       alignItems: "flex-end",
-      flexDirection: "row"
+      flexDirection: "row",
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -431,16 +431,16 @@ export default class Board {
       minHeight: size,
       maxHeight: size,
       background: Container.reliefRGB,
-      borderRadius: "5px"
+      borderRadius: "5px",
     });
     const content = Style.getContentBase({
       cursor: "pointer",
       fontSize: "14px",
       lineHeight: "17px",
-      color: Container.whiteRGB
+      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }

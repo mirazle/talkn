@@ -8,14 +8,13 @@ import Audio from "client/components/Media/Audio";
 import Video from "client/components/Media/Video";
 
 interface MediaProps {
-  clientState: ClientState;
+  state: any;
 }
 
 export default class Media extends TalknComponent<MediaProps, {}> {
   constructor(props) {
     super(props);
-    const { thread } = this.apiState;
-    const { ui } = props.clientState;
+    const { ui, thread } = props.state;
     let src: string = "";
     let mediaType: string = "";
 
@@ -28,13 +27,12 @@ export default class Media extends TalknComponent<MediaProps, {}> {
 
     this.state = {
       src,
-      mediaType
+      mediaType,
     };
   }
 
   componentWillReceiveProps(props) {
-    const { thread } = this.apiState;
-    const { ui } = props.clientState;
+    const { ui, thread } = props.state;
     if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
       if (thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL) {
         const { src, mediaType }: any = this.state;

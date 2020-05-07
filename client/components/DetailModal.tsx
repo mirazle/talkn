@@ -5,14 +5,12 @@ import Detail from "client/components/Detail";
 import DetailStyle from "client/style/Detail";
 
 interface DetailModalProps {
-  clientState: ClientState;
+  state: any;
 }
 
 export default class DetailModal extends TalknComponent<DetailModalProps, {}> {
   render() {
-    this.props.clientState.style.detail.self = this.props.clientState.style.detail[
-      `self${DetailStyle.detailModalSelfKey}`
-    ];
+    this.props.state.style.detail.self = this.props.state.style.detail[`self${DetailStyle.detailModalSelfKey}`];
     return <Detail {...this.props} />;
   }
 }

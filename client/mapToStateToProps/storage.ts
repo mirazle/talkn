@@ -30,7 +30,7 @@ export default {
   setStorageHtmlPosts,
   setStoragePostsTimeline,
   getStoragePostsTimeline,
-  getStoragePostsTimelineZero
+  getStoragePostsTimelineZero,
 };
 
 function setStoragePosts(clientState, apiState, props) {

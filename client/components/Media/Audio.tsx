@@ -10,8 +10,8 @@ export default class Audio extends TalknComponent<AudioProps, {}> {
   }
 
   render() {
-    const { src, clientState }: any = this.props;
-    const { style } = clientState;
+    const { src, state }: any = this.props;
+    const { style } = state;
 
     return (
       <audio
