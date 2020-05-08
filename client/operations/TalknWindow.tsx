@@ -126,6 +126,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
               } else {
                 const actionType = Sequence.convertApiToClientActionType(e.data.method);
                 const apiState = e.data.params;
+                console.log(apiState);
                 this.stores.client.dispatch({ ...apiState, type: actionType });
               }
               break;
