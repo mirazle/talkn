@@ -10,7 +10,7 @@ export default (state: any = new Posts(), action) => {
     case "SERVER_TO_API[EMIT]:find":
       if (action.postsMulti && action.postsMulti.length > 0) {
         if (action.app.isRootCh) {
-          return [...state, ...action.postsMulti];
+          return [...action.postsMulti];
         }
       }
       break;
