@@ -39,6 +39,7 @@ export default {
     const { ch } = requestState.thread;
     let thread = { ch };
     const threadStatus = Thread.getStatus(thread, app, setting);
+    threadStatus.getMore = true;
     const postCntKey = threadStatus.isMultistream ? "multiPostCnt" : "postCnt";
     thread[postCntKey] = await Logics.db.posts.getCounts(requestState, threadStatus);
     const { response: posts } = await Logics.db.posts.find(requestState, setting, threadStatus);

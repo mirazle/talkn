@@ -36,7 +36,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
     onClickPost: () => {},
     childLayerCnt: 0,
     post: {},
-    style: {}
+    style: {},
   };
   constructor(props) {
     super(props);
@@ -44,7 +44,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
     this.state = {
       postStyle: style,
       isBubblePost: ui.isBubblePost,
-      ...this.superState
+      ...this.superState,
     };
 
     this.renderUpper = this.renderUpper.bind(this);
@@ -63,9 +63,9 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
           ...postStyle,
           self: { ...props.style.self },
           upper: { ...postStyle.upper, display: props.style.upper.display },
-          bottomPost: { ...props.style.bottomPost }
+          bottomPost: { ...props.style.bottomPost },
         },
-        isBubblePost: afterIsBubblePost
+        isBubblePost: afterIsBubblePost,
       });
     }
   }
@@ -83,9 +83,9 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
                 ...this.state.postStyle.self,
                 transition: "200ms",
                 transform: "scale( 1.05 )",
-                cursor: "pointer"
-              }
-            }
+                cursor: "pointer",
+              },
+            },
           });
         }
       },
@@ -99,9 +99,9 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
                 ...this.state.postStyle.self,
                 transition: "600ms",
                 transform: "scale( 1 )",
-                cursor: "default"
-              }
-            }
+                cursor: "default",
+              },
+            },
           });
         }
       },
@@ -113,9 +113,9 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
               self: {
                 ...this.state.postStyle.self,
                 transform: "scale( 1 )",
-                cursor: "pointer"
-              }
-            }
+                cursor: "pointer",
+              },
+            },
           });
         }
       },
@@ -127,12 +127,12 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
               self: {
                 ...this.state.postStyle.self,
                 transform: "scale( 1.05 )",
-                cursor: "pointer"
-              }
-            }
+                cursor: "pointer",
+              },
+            },
           });
         }
-      }
+      },
     };
   }
 
@@ -253,7 +253,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
 
   renderUpper() {
     const { childLayerCnt, post } = this.props;
-    const { title } = post;
+    const { title, _id } = post;
     const { postStyle } = this.state;
     const childLabel = childLayerCnt > 0 ? `${childLayerCnt}child` : "";
     const marqueeStyle: {} = this.getMarqueeStyle();
@@ -263,6 +263,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
         <div style={postStyle.upperChild}>{childLabel}</div>
         <div ref={this.marqueeWrapRef} data-component-name={"MarqueePost"} style={postStyle.upperTitle} title={title}>
           <span ref={this.marqueeTextRef} style={marqueeStyle}>
+            {_id}
             {title}
           </span>
         </div>

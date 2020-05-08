@@ -66,7 +66,6 @@ export default class Posts {
     const selector = {};
     const option = { limit, sort };
     const result = await this.collection.find(condition, selector, option);
-    console.log("isMediaCh " + isMediaCh + " LIMIT " + limit);
     if (!isMediaCh) {
       result.response.reverse();
     }

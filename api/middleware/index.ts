@@ -70,8 +70,6 @@ const functions = {
     action.postsChild = new Posts();
     action.postsTimeline = new Posts();
     action.postsSingle = new Posts();
-    console.log("OK!!!!!!!!!!!!");
-    console.log(action);
     return action;
   },
   CLOSE_LINKS: (state, action) => {
