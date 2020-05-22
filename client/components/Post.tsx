@@ -263,7 +263,6 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
         <div style={postStyle.upperChild}>{childLabel}</div>
         <div ref={this.marqueeWrapRef} data-component-name={"MarqueePost"} style={postStyle.upperTitle} title={title}>
           <span ref={this.marqueeTextRef} style={marqueeStyle}>
-            {_id}
             {title}
           </span>
         </div>
