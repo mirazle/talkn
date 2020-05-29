@@ -1,10 +1,25 @@
-FROM scratch
-ADD centos-7-docker.tar.xz /
+FROM node:12
 
-LABEL org.label-schema.schema-version = "1.0" \
-    org.label-schema.name="CentOS Base Image" \
-    org.label-schema.vendor="CentOS" \
-    org.label-schema.license="GPLv2" \
-    org.label-schema.build-date="20180531"
+# アプリケーションディレクトリを作成する
+WORKDIR /usr/src/app
 
-CMD ["/bin/bash"]
+# yarn install
+RUN apk update && \
+    apk add git && \
+    apk add --no-cache curl && \
+    curl -o- -L https://yarnpkg.com/install.sh | sh
+
+# アプリケーションのソースをバンドルする
+COPY . .
+
+# アプリケーションの依存関係をインストールする
+# ワイルドカードを使用して、package.json と package-lock.json の両方が確実にコピーされるようにします。
+# 可能であれば (npm@5+)
+# COPY package*.json ./
+
+RUN yarn install
+# 本番用にコードを作成している場合
+# RUN npm install --only=production
+
+EXPOSE 8080
+CMD [ "yarn ", "run", "client" ]
