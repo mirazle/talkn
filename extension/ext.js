@@ -1,4 +1,4 @@
-const TALKN_EXT_ENV = "PROD";
+const TALKN_EXT_ENV = "START";
 /*
   Class
     Ext
