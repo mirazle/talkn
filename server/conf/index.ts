@@ -21,7 +21,7 @@ conf.mongoDB = {
   host: "localhost",
   port: PORTS.MONGO,
   dbName: "talkn",
-  option: { useNewUrlParser: true }
+  option: { useNewUrlParser: true },
 };
 conf.serverPath =
   env === PRODUCTION ? "/usr/share/app/talkn/server/listens/express/" : `${homeDir}/talkn/server/listens/express/`;
@@ -58,7 +58,7 @@ conf.sslOptions =
     ? {
         key: fs.readFileSync(sslKey),
         cert: fs.readFileSync(sslCrt),
-        ca: fs.readFileSync(sslChain)
+        ca: fs.readFileSync(sslChain),
       }
     : { key: fs.readFileSync(sslKey), cert: fs.readFileSync(sslCrt) };
 conf.transactionSecretKey =
