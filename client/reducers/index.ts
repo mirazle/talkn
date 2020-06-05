@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import Schema from "api/store/Schema";
 import ui from "./ui";
 import setting from "./setting";
 import { reducerFiles } from "api/reducers";

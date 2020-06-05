@@ -15,14 +15,14 @@ export default class Io {
     return this.io.emit(ioUser, Sequence.CATCH_ME_KEY, { type: Sequence.CONNECTION_SERVER_KEY });
   }
 
-  async tuned(ioUser, requestState, setting) {
+  async tune(ioUser, requestState, setting) {
     const { thread } = requestState;
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
-      //      app: { tuned: thread.ch },
+      thread,
       user: { uid: ioUser.conn.id },
       setting,
     });
-
+    console.log(responseEmitState);
     return this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
   }
 

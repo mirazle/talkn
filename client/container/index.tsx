@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import define from "common/define";
-import ClientState from "client/store/";
 import App from "api/store/App";
 import Ui from "client/store/Ui";
 import handles from "client/actions/handles";
@@ -50,11 +49,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     super(props);
     const { ui, thread } = props.state;
     this.state = { notifs: [] };
-    this.coreApi("find", { thread: thread.ch });
-    if (ui.extensionMode === Ui.extensionModeExtIncludeLabel || ui.extensionMode === Ui.extensionModeExtNoneLabel) {
-      this.coreApi("findMenuIndex", { thread: thread.ch });
-    }
-
+    this.coreApi("tune", { thread: { ch: thread.ch } });
     this.getProps = this.getProps.bind(this);
     this.renderNewPost = this.renderNewPost.bind(this);
     this.renderSmall = this.renderSmall.bind(this);
@@ -69,6 +64,11 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   }
 
   componentDidMount() {
+    const { ui, thread } = this.props.state;
+    this.coreApi("find", { thread: { ch: thread.ch } });
+    if (ui.extensionMode === Ui.extensionModeExtIncludeLabel || ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+      this.coreApi("findMenuIndex", { thread: { ch: thread.ch } });
+    }
     this.clientAction("COMPONENT_DID_MOUNTS", "Container");
   }
 

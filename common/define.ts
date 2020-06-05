@@ -12,7 +12,7 @@ const define: any = {
     DEVELOPMENT_API: 8081,
     REDIS: 6379,
     MONGO: 27017,
-    SOCKET_IO: 10443
+    SOCKET_IO: 10443,
   },
   SUB_DOMAINS: {
     WWW: "www",
@@ -24,17 +24,18 @@ const define: any = {
     SESSION: "session",
     AUTO: "auto",
     EXT: "ext",
-    TRANSACTION: "transaction"
+    TRANSACTION: "transaction",
   },
   APP_TYPES: {
     PORTAL: "portal",
-    EXTENSION: "extension"
+    EXTENSION: "extension",
+    API: "api",
   },
   URL: {
     twitter: "https://twitter.com/",
     facebook: "https://www.facebook.com/",
     appstore: "https://itunes.apple.com/app/id",
-    playstore: "https://play.google.com/store/apps/details?id="
+    playstore: "https://play.google.com/store/apps/details?id=",
   },
   talknClientJs: "talkn.client.js",
   noInnerNotif: "Sorry, No Function.",
@@ -46,8 +47,8 @@ const define: any = {
     postsMulti: "postsMulti",
     postsChild: "postsChild",
     postsLogs: "postsLogs",
-    threads: "threads"
-  }
+    threads: "threads",
+  },
 };
 
 export default define;
