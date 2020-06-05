@@ -16,32 +16,38 @@ export default class Sequence {
   static get CATCH_ME_KEY() {
     return "@CATCH_ME";
   }
+  static get API_REQUEST_TYPE() {
+    return "REQUEST";
+  }
+  static get API_RESPONSE_TYPE_EMIT() {
+    return "EMIT";
+  }
+  static get API_RESPONSE_TYPE_BROADCAST() {
+    return "BROADCAST";
+  }
   static get CONNECTION_SERVER_KEY() {
     return "connectionServer";
   }
   static get API_TO_SERVER_REQUEST() {
-    return "API_TO_SERVER[REQUEST]:";
+    return `API_TO_SERVER[${Sequence.API_REQUEST_TYPE}]${Sequence.METHOD_COLON}`;
   }
   static get SERVER_TO_API_EMIT() {
-    return "SERVER_TO_API[EMIT]:";
+    return `SERVER_TO_API[${Sequence.API_RESPONSE_TYPE_EMIT}]${Sequence.METHOD_COLON}`;
   }
   static get SERVER_TO_API_BROADCAST() {
-    return "SERVER_TO_API[BROADCAST]:";
+    return `SERVER_TO_API[${Sequence.API_RESPONSE_TYPE_BROADCAST}]${Sequence.METHOD_COLON}`;
   }
   static get API_TO_CLIENT_REQUEST() {
-    return "API_TO_CLIENT[REQUEST]:";
+    return `API_TO_CLIENT[${Sequence.API_REQUEST_TYPE}]${Sequence.METHOD_COLON}`;
   }
   static get API_TO_CLIENT_EMIT() {
-    return "API_TO_CLIENT[EMIT]:";
+    return `API_TO_CLIENT[${Sequence.API_RESPONSE_TYPE_EMIT}]${Sequence.METHOD_COLON}`;
   }
   static get API_TO_CLIENT_BROADCAST() {
-    return "API_TO_CLIENT[BROADCAST]:";
+    return `API_TO_CLIENT[${Sequence.API_RESPONSE_TYPE_BROADCAST}]${Sequence.METHOD_COLON}`;
   }
-  static get PREFIX_REQUEST() {
-    return "REQUEST:";
-  }
-  static get PREFIX_RESPONSE() {
-    return "RESPONSE:";
+  static get API_BROADCAST_CALLBACK() {
+    return "tune";
   }
   static get REDUX_ACTION_KEY() {
     return "type";
@@ -54,12 +60,12 @@ export default class Sequence {
   }
   static get map() {
     return {
-      tuned: {
+      tune: {
         requestPublicState: {},
         requestPrivateState: {
           thread: ["ch"],
         },
-        responseEmitState: { user: ["uid"], setting: "*" },
+        responseEmitState: { user: ["uid"], setting: "*", thread: ["watchCnt"] },
         responseBroadcastState: {},
       },
       find: {
@@ -161,6 +167,33 @@ export default class Sequence {
         responseBroadcastState: { thread: ["watchCnt", "ch"] },
       },
     };
+  }
+
+  static getSequenceActionMap(method): { sequence: string; actionType: string; actionName: string } {
+    const splited = method.split(Sequence.METHOD_COLON);
+    const sequence = splited[0].split("[")[0];
+    let actionType;
+
+    if (splited[0].indexOf(`[${Sequence.API_REQUEST_TYPE}]`) > 0) {
+      actionType = Sequence.API_REQUEST_TYPE;
+    } else {
+      actionType =
+        splited[0].indexOf(`[${Sequence.API_RESPONSE_TYPE_EMIT}]`) > 0
+          ? Sequence.API_RESPONSE_TYPE_EMIT
+          : Sequence.API_RESPONSE_TYPE_BROADCAST;
+    }
+
+    const actionName = splited[1];
+    return { sequence, actionType, actionName };
+  }
+
+  static updateCallbackExeConditionMap(actionName): { emit: boolean; broadcast: boolean } {
+    let activeResponseMap = { emit: true, broadcast: true };
+    if (Sequence.map[actionName]) {
+      activeResponseMap.emit = !(Object.keys(Sequence.map[actionName].responseEmitState).length > 0);
+      activeResponseMap.broadcast = !(Object.keys(Sequence.map[actionName].responseBroadcastState).length > 0);
+    }
+    return activeResponseMap;
   }
 
   static convertApiToClientActionType(actionType) {

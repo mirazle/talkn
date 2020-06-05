@@ -28,21 +28,34 @@ declare global {
 
 class BootOption {
   constructor() {
-    const { SUB_DOMAINS } = define;
-    const devApiSrc = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.DEVELOPMENT_DOMAIN}/v${conf.apiVer}`;
-    const prodApiSrc = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.PRODUCTION_DOMAIN}/v${conf.apiVer}`;
-    const devApiScript = document.querySelector(`script[src='${devApiSrc}']`);
-    const prodApiScript = document.querySelector(`script[src='${prodApiSrc}']`);
-    const env = devApiScript ? define.DEVELOPMENT : define.PRODUCTION;
-    const apiScript = devApiScript ? devApiScript : prodApiScript;
+    const { env, apiScript } = BootOption.getEnvAndApiScript();
     const clientScript = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.clientURL}']`);
     const extScript = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.extURL}']`);
     const apiScriptAtt = apiScript ? BootOption.rebuildAttributes(apiScript.attributes) : {};
     const extScriptAtt = extScript ? BootOption.rebuildAttributes(extScript.attributes) : {};
     const bootParams = { ...extScriptAtt, ...apiScriptAtt };
-    const bootOption: any = BootOption.initialBootOption(bootParams, clientScript);
+    const bootOption: any = BootOption.initialBootOption(bootParams, clientScript, extScript);
     bootOption.env = env;
     return bootOption;
+  }
+
+  static getEnvAndApiScript() {
+    const { SUB_DOMAINS, PORTS } = define;
+
+    // Prod.
+    const prodApiSrc = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.PRODUCTION_DOMAIN}/v${conf.apiVer}`;
+    const prodApiScript = document.querySelector(`script[src='${prodApiSrc}']`);
+    if (prodApiScript) return { env: define.PRODUCTION, apiScript: prodApiScript };
+
+    // Localhost.
+    const localApiSrc = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.DEVELOPMENT_DOMAIN}/v${conf.apiVer}`;
+    const localApiScript = document.querySelector(`script[src='${localApiSrc}']`);
+    if (localApiScript) return { env: define.LOCALHOST, apiScript: localApiScript };
+
+    // Development(webpack dev server),
+    const devApiSrc = `${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT_API}/talkn.api.js`;
+    const devApiScript = document.querySelector(`script[src='${devApiSrc}']`);
+    if (devApiScript) return { env: define.DEVELOPMENT, apiScript: devApiScript };
   }
 
   static rebuildAttributes(attributes) {
@@ -53,7 +66,7 @@ class BootOption {
     return rebuildAttributesObj;
   }
 
-  static initialBootOption(bootOption, clientScript) {
+  static initialBootOption(bootOption, clientScript, extScript) {
     bootOption.ch = bootOption.ch
       ? bootOption.ch
       : location.href
@@ -75,7 +88,15 @@ class BootOption {
         bootOption.ch = bootOption.ch + "/";
       }
     }
-    bootOption.type = clientScript ? define.APP_TYPES.PORTAL : define.APP_TYPES.EXTENSION;
+
+    bootOption.type = define.APP_TYPES.API;
+    if (extScript) {
+      bootOption.type = define.APP_TYPES.EXTENSION;
+    }
+    if (clientScript) {
+      bootOption.type = define.APP_TYPES.PORTAL;
+    }
+
     delete bootOption.src;
     delete bootOption.async;
     return bootOption;
@@ -91,6 +112,7 @@ class CoreAPI {
   apiStore: any;
   state: any;
   ch: string;
+  callbacks: { key: Function } | {} = {};
   constructor(env, apiStore, resolve) {
     const wsServer = env === define.DEVELOPMENT ? define.DEVELOPMENT_DOMAIN : define.PRODUCTION_DOMAIN;
     this.apiStore = apiStore;
@@ -113,11 +135,13 @@ class CoreAPI {
     const actionKeys = Object.keys(actions);
     const actionLength = actionKeys.length;
     const getCoreAPI = (actionName, beforeFunction) => {
-      return (requestParams) => {
+      return (requestParams, callback = () => {}) => {
         const reduxState = this.apiStore.getState();
         const _requestState = Sequence.getRequestState(actionName, reduxState, requestParams);
         const _actionState = Sequence.getRequestActionState(actionName, requestParams);
         const { requestState, actionState } = beforeFunction(reduxState, _requestState, _actionState);
+
+        this.callbacks[requestState.type] = callback;
         this.ws.emit(requestState.type, requestState);
         return this.apiStore.dispatch(actionState);
       };
@@ -201,6 +225,7 @@ class GlobalWindow {
     this.clientTo = this.clientTo.bind(this);
     this.subscribe = this.subscribe.bind(this);
     this.onWsServer = this.onWsServer.bind(this);
+    this.exeCallback = this.exeCallback.bind(this);
     this.afterMediaFilter = this.afterMediaFilter.bind(this);
     this.apiStore.subscribe(this.subscribe);
 
@@ -267,7 +292,11 @@ class GlobalWindow {
     this.coreApi = coreApi;
     const apiState = new ApiState(window, this.bootOption);
     this.coreApi.setUp(apiState, this.bootOption.ch);
-    this.coreApi.tuned(apiState);
+
+    if (this.bootOption.type !== define.APP_TYPES.API) {
+      this.coreApi.tune(apiState);
+    }
+
     window.$t = new PublicApi(this.coreApi);
   }
 
@@ -288,9 +317,31 @@ class GlobalWindow {
   }
 
   subscribe() {
-    const apiState = this.apiStore.getState();
-    this.afterMediaFilter(apiState);
-    this.clientTo(apiState.app.actioned, apiState);
+    if (this.coreApi) {
+      const apiState = this.apiStore.getState();
+      this.afterMediaFilter(apiState);
+      this.exeCallback(apiState.app.actioned, apiState);
+      this.clientTo(apiState.app.actioned, apiState);
+    }
+  }
+
+  exeCallback(method, apiState) {
+    const { actionType, actionName } = Sequence.getSequenceActionMap(method);
+    if (actionName !== Sequence.API_BROADCAST_CALLBACK) {
+      if (actionType === Sequence.API_RESPONSE_TYPE_EMIT) {
+        if (this.coreApi.callbacks[actionName]) {
+          const { posts, thread } = apiState;
+          this.coreApi.callbacks[actionName](apiState, { posts, thread });
+        }
+      }
+    }
+
+    if (actionType === Sequence.API_RESPONSE_TYPE_BROADCAST) {
+      if (this.coreApi.callbacks[Sequence.API_BROADCAST_CALLBACK]) {
+        const { posts, thread } = apiState;
+        this.coreApi.callbacks[Sequence.API_BROADCAST_CALLBACK](actionName, { posts, thread });
+      }
+    }
   }
 
   beforeMediaFilter({ method, params, apiState }) {
@@ -338,11 +389,19 @@ class GlobalWindow {
 
   clientTo(method, params = {}) {
     const requestObj = GlobalWindow.getRequestObj(method, params);
-    if (this.bootOption.type === "portal") {
+
+    // boot by portal site.
+    if (this.bootOption.type === define.APP_TYPES.PORTAL) {
       window.postMessage(requestObj, this.bootOption.clientHref);
     } else {
       const clientIframe: HTMLIFrameElement = document.querySelector(`iframe#talknExtension`);
-      clientIframe.contentWindow.postMessage(requestObj, clientIframe.src);
+
+      // boot by iframe.
+      if (clientIframe) {
+        clientIframe.contentWindow.postMessage(requestObj, clientIframe.src);
+        // boot by api only.
+      } else {
+      }
     }
   }
 }

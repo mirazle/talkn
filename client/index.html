@@ -41,27 +41,7 @@
     <link rel="canonical" href="https://localhost" />
     <script type="text/javascript" async src="https://localhost:8081/talkn.api.js"></script>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.36.min.js"></script>
     <script type="text/javascript">
-      AWS.config.update({
-        accessKeyId: "AKIA22IF3K74MPEVZ7G5",
-        secretAccessKey: "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",
-      });
-      AWS.config.region = "us-east-1";
-      var lambda = new AWS.Lambda();
-      var params = {
-        FunctionName: "talknSam-HelloWorldFunction-8TQ5FTBQ0TQ4",
-        Payload: JSON.stringify({
-          key1: "value1",
-          key2: "value2",
-          key3: "value3",
-        }),
-      };
-
-      lambda.invoke(params, function (err, data) {
-        if (err) console.log(err, err.stack);
-        else console.log(JSON.parse(data.Payload));
-      });
       var portalDevHost = "/localhost:8080";
       var script = document.createElement("script");
       var href = location.href;
@@ -83,10 +63,11 @@
 
         // load api script.
         if (window.name === "global") {
+          const src = location.port === "8080" ? "https://localhost:8081/talkn.api.js" : "https://api.localhost/v1";
           const apiScript = document.createElement("script");
           apiScript.setAttribute("id", "talkn");
           apiScript.setAttribute("type", "text/javascript");
-          apiScript.setAttribute("src", "https://api.localhost/v1");
+          apiScript.setAttribute("src", src);
           document.head.appendChild(apiScript);
         }
 

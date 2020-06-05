@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import Sequence from "api/Sequence";
 import { default as PostsSchems } from "api/store/Posts";
 import App from "api/store/App";
+import ClientState from "client/store/";
 import Ui from "client/store/Ui";
 import UiTimeMarker from "client/store/UiTimeMarker";
 import conf from "client/conf";
@@ -65,7 +66,6 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     this.dom.html = document.querySelector("html");
     this.dom.body = document.querySelector("body");
     this.dom.posts = document.querySelector("[data-component-name=Posts]");
-
     this.listenAsyncBoot();
   }
 
@@ -126,7 +126,13 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
               } else {
                 const actionType = Sequence.convertApiToClientActionType(e.data.method);
                 const apiState = e.data.params;
-                this.stores.client.dispatch({ ...apiState, type: actionType });
+
+                if (actionType === "API_TO_CLIENT[REQUEST]:tune") {
+                  const clientState = new ClientState(apiState);
+                  this.stores.client.dispatch({ ...apiState, ...clientState, type: actionType });
+                } else {
+                  this.stores.client.dispatch({ ...apiState, type: actionType });
+                }
               }
               break;
             case PostMessage.MEDIA_TO_CLIENT_TYPE:

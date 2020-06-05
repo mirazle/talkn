@@ -5,16 +5,16 @@ export default class Users {
     return this;
   }
 
-  async getChCnt(ch) {
+  async getUserCnt(ch) {
     const condition = { ch };
-    const { response: user } = await this.collection.find(condition);
+    const { response: user } = await this.collection.find(condition, { _id: 1 });
     return user.length;
   }
 
   async find(requestState, setting) {
     const condition = {
       chs: requestState.thread.ch,
-      _id: { $lt: requestState.user.offsetFindId }
+      _id: { $lt: requestState.user.offsetFindId },
     };
     const selector = {};
     const option = { limit: setting.server.findOnePostCnt, sort: { _id: -1 } };
@@ -26,6 +26,13 @@ export default class Users {
   async findOne(uid) {
     const condition = { uid };
     return await this.collection.findOne(condition);
+  }
+
+  async liveCnt(ch) {
+    const condition = { ch };
+    console.log(this.collection);
+    const { response: liveCnt } = await this.collection.count(condition);
+    return liveCnt;
   }
 
   async save(requestState) {

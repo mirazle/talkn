@@ -23,7 +23,7 @@ export default class Container {
       multistreamIconWrap,
       newPost,
       hideScreenBottom,
-      linkLabel
+      linkLabel,
     };
   }
 
@@ -256,11 +256,11 @@ export default class Container {
       height: "100%",
       overflow,
       borderRadius,
-      opacity: 1
+      opacity: 1,
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase({
-      transition: `${Container.transitionFirstOn}ms`
+      transition: `${Container.transitionFirstOn}ms`,
     });
     return Style.get({ layout, content, animation });
   }
@@ -291,7 +291,7 @@ export default class Container {
       width: "30px",
       height: "30px",
       margin: "0 auto",
-      background: "rgba(255, 255, 255, 0.8)"
+      background: "rgba(255, 255, 255, 0.8)",
     });
 
     const content = Style.getContentBase({
@@ -299,10 +299,10 @@ export default class Container {
       textAlign: "center",
       fontSize: "12px",
       lineHeight: 2,
-      cursor: "pointer"
+      cursor: "pointer",
     });
     const animation = Style.getAnimationBase({
-      transition: Container.transitionOff
+      transition: Container.transitionOff,
     });
     return Style.get({ layout, content, animation });
   }
@@ -317,7 +317,7 @@ export default class Container {
       zIndex: "1",
       margin: "0px auto",
       bottom: `-${Container.notifHeight}px`,
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     };
     /*
     const layout = Style.getLayoutFlex({
@@ -354,7 +354,7 @@ export default class Container {
       top: `100vh`,
       width: "100vw",
       height: "300px",
-      background: Container.reliefRGB
+      background: Container.reliefRGB,
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase({});
@@ -375,13 +375,13 @@ export default class Container {
       justifyContent: "flex-start",
       background: "rgba(0, 0, 0, 0.4)",
       zIndex: "1",
-      borderRadius: "0px 0px 2px 0px"
+      borderRadius: "0px 0px 2px 0px",
     });
     const content = Style.getContentBase({
       lineHeight: 2,
       fontSize: "10px",
       whiteSpace: "nowrap",
-      color: Container.whiteRGB
+      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });

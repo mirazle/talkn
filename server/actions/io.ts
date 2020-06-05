@@ -24,10 +24,11 @@ export default {
     Logics.io.connectionServer(ioUser);
   },
 
-  tuned: (ioUser, requestState, setting) => {
+  tune: async (ioUser, requestState, setting) => {
+    requestState.thread.watchCnt = 0;
+    requestState.thread.watchCnt = (await Logics.db.users.getUserCnt(requestState.thread.ch)) + 1;
     Logics.db.users.update(ioUser.conn.id, requestState.thread.ch);
-    Logics.io.tuned(ioUser, requestState, setting);
-    return true;
+    Logics.io.tune(ioUser, requestState, setting);
   },
 
   find: async (ioUser, requestState, setting) => {
@@ -185,7 +186,7 @@ export default {
       await Logics.db.users.remove(ioUser.conn.id);
 
       // userコレクションからwatchCntの実数を取得(thread.watchCntは読み取り専用)
-      const watchCnt = await Logics.db.users.getChCnt(user.ch);
+      const watchCnt = await Logics.db.users.getUserCnt(user.ch);
       const thread = await Logics.db.threads.saveOnWatchCnt({ ch: user.ch }, watchCnt, true);
 
       // 配信
