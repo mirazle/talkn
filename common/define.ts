@@ -2,7 +2,7 @@ const define: any = {
   PRODUCTION: "production",
   LOCALHOST: "localhost",
   DEVELOPMENT: "development",
-  PRODUCTION_IP: "ip-172-26-12-159",
+  PRODUCTION_IP: "ip-172-26-12-159.ec2.internal",
   PRODUCTION_DOMAIN: "talkn.io",
   DEVELOPMENT_DOMAIN: "localhost",
   PORTS: {
