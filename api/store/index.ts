@@ -1,6 +1,6 @@
 import App from "api/store/App";
 import User from "api/store/User";
-import MenuIndex from "api/store/MenuIndex";
+import Rank from "api/store/Rank";
 import MenuLogs from "api/store/MenuLogs";
 import Posts from "api/store/Posts";
 import PostsTimeline from "api/store/PostsTimeline";
@@ -11,7 +11,7 @@ import Thread from "api/store/Thread";
 import ActionLog from "api/store/ActionLogs";
 
 export default class ApiState {
-  menuIndex: MenuIndex;
+  rank: Rank;
   menuLogs: MenuLogs;
   posts: Posts;
   postsMulti: Posts;
@@ -29,7 +29,7 @@ export default class ApiState {
   user: User;
   actionLog: ActionLog;
   constructor(window: any, bootOption: any = {}, caches: any = {}) {
-    this.menuIndex = new MenuIndex();
+    this.rank = new Rank();
     this.menuLogs = new MenuLogs(caches.menuLogs);
     this.posts = new Posts();
     this.postsMulti = new Posts();
@@ -52,7 +52,7 @@ export default class ApiState {
       isTransition: true,
       rootTitle: thread.title,
       ...bootOption,
-      ...thread
+      ...thread,
     };
   }
 

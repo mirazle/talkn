@@ -162,7 +162,6 @@ class CoreAPI {
         if (resolve && response.type === Sequence.CONNECTION_SERVER_KEY) {
           resolve(self);
         }
-
         const actionState = action(response);
         return this.apiStore.dispatch(actionState);
       };
@@ -330,16 +329,16 @@ class GlobalWindow {
     if (actionName !== Sequence.API_BROADCAST_CALLBACK) {
       if (actionType === Sequence.API_RESPONSE_TYPE_EMIT) {
         if (this.coreApi.callbacks[actionName]) {
-          const { posts, thread } = apiState;
-          this.coreApi.callbacks[actionName](apiState, { posts, thread });
+          const { posts, thread, user } = apiState;
+          this.coreApi.callbacks[actionName](apiState, { posts, thread, uid: user.uid });
         }
       }
     }
 
     if (actionType === Sequence.API_RESPONSE_TYPE_BROADCAST) {
       if (this.coreApi.callbacks[Sequence.API_BROADCAST_CALLBACK]) {
-        const { posts, thread } = apiState;
-        this.coreApi.callbacks[Sequence.API_BROADCAST_CALLBACK](actionName, { posts, thread });
+        const { posts, thread, user } = apiState;
+        this.coreApi.callbacks[Sequence.API_BROADCAST_CALLBACK](actionName, { posts, thread, uid: user.uid });
       }
     }
   }
@@ -356,7 +355,7 @@ class GlobalWindow {
 
   afterMediaFilter(apiState) {
     switch (apiState.app.actioned) {
-      case "SERVER_TO_API[EMIT]:find":
+      case "SERVER_TO_API[EMIT]:fetchPosts":
         if (apiState.app.isMediaCh) {
           // 見ているchがmediaChでなく、mediaの再生を始めた場合
           if (this.media && this.media.status === "finding" && this.media.ch === apiState.thread.ch) {

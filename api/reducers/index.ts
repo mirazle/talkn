@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import app from "./app";
 import user from "./user";
-import menuIndex from "./menuIndex";
+import rank from "./rank";
 import thread from "./thread";
 import threads from "./threads";
 import threadDetail from "./threadDetail";
@@ -21,7 +21,7 @@ import actioned from "./actioned";
 export const reducerFiles = {
   app,
   user,
-  menuIndex,
+  rank,
   thread,
   threads,
   threadDetail,

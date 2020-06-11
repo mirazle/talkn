@@ -4,7 +4,7 @@ import Style from "../index";
 import Container from "../Container";
 import Main from "../Main";
 
-export default class MenuIndex {
+export default class Rank {
   static get iconSize() {
     return "25px";
   }
@@ -21,13 +21,13 @@ export default class MenuIndex {
   ol: Object;
   headerCh: Object;
   constructor(params: any) {
-    const self = MenuIndex.getSelf(params);
-    const header = MenuIndex.getHeader(params);
-    const headerSearchIcon = MenuIndex.getHeaderSearchIcon(params);
-    const headerInput = MenuIndex.getHeaderInput(params);
-    const headerFindSelect = MenuIndex.getHeaderFindSelect(params);
-    const headerUpdateIcon = MenuIndex.getHeaderUpdateIcon(params);
-    const ol = MenuIndex.getOl(params);
+    const self = Rank.getSelf(params);
+    const header = Rank.getHeader(params);
+    const headerSearchIcon = Rank.getHeaderSearchIcon(params);
+    const headerInput = Rank.getHeaderInput(params);
+    const headerFindSelect = Rank.getHeaderFindSelect(params);
+    const headerUpdateIcon = Rank.getHeaderUpdateIcon(params);
+    const ol = Rank.getOl(params);
 
     return {
       self,
@@ -37,7 +37,7 @@ export default class MenuIndex {
       headerFindSelect,
       headerUpdateIcon,
       ol,
-      headerCh: {}
+      headerCh: {},
     };
   }
 
@@ -45,7 +45,7 @@ export default class MenuIndex {
     const layout = Style.getLayoutBlock({
       width: "100%",
       height: "100%",
-      margin: "0 auto"
+      margin: "0 auto",
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase({});
@@ -59,20 +59,20 @@ export default class MenuIndex {
         : {
             borderBottom: Container.border,
             borderLeft: 0,
-            borderRight: Container.border
+            borderRight: Container.border,
           };
 
     const layout = Style.getLayoutFlex({
       width: "100%",
-      height: `${MenuIndex.liHeight / 2}px`,
+      height: `${Rank.liHeight / 2}px`,
       ...borders,
-      background: Container.lightRGB
+      background: Container.lightRGB,
     });
     const content = Style.getContentBase({
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -82,15 +82,15 @@ export default class MenuIndex {
       justifyContent: "center",
       alignItems: "center",
       width: "72px",
-      height: "45px"
+      height: "45px",
     });
     const content = Style.getContentBase({
       fontSize: "13px",
       color: Container.reliefRGBA,
-      fontWeight: "bold"
+      fontWeight: "bold",
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -105,13 +105,13 @@ export default class MenuIndex {
       resize: "none",
       border: Container.border,
       borderRadius: "3px",
-      WebkitAppearance: "none"
+      WebkitAppearance: "none",
     });
     const content = Style.getContentBase({
       whiteSpace: "nowrap",
       fontSize: "14px",
       lineHeight: "2",
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase();
 
@@ -123,13 +123,13 @@ export default class MenuIndex {
       width: "70px",
       height: "50px",
       alignItems: "center",
-      justifyContent: "flex-start"
+      justifyContent: "flex-start",
     });
     const content = Style.getContentBase({
-      cursor: "pointer"
+      cursor: "pointer",
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -142,15 +142,15 @@ export default class MenuIndex {
       justifyContent: "center",
       background: "transparent",
       WebkitAppearance: "none",
-      padding: "10px"
+      padding: "10px",
     });
     const content = Style.getContentBase({
       outline: 0,
       cursor: "pointer",
-      fontSize: "14px"
+      fontSize: "14px",
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -160,11 +160,11 @@ export default class MenuIndex {
       width: "100%",
       height: `calc( 100% - ${Main.headerHeight}px )`,
       overflowX: "hidden",
-      overflowY: "scroll"
+      overflowY: "scroll",
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -173,12 +173,12 @@ export default class MenuIndex {
     const layout = Style.getLayoutBlock({
       position: "relative",
       width: "initial",
-      height: `${MenuIndex.liHeight}px`,
+      height: `${Rank.liHeight}px`,
       padding: "10px",
       borderBottom: Container.border,
       zIndex: 3,
       borderRight: `1px solid ${Container.whiteRGB}`,
-      background: Container.whiteRGB
+      background: Container.whiteRGB,
       //      boxShadow: '5px 5px 5px 5px rgb( 240, 240, 240)',
     });
     const content = Style.getContentBase();
@@ -190,11 +190,11 @@ export default class MenuIndex {
     const layout = Style.getLayoutBlock({
       position: "relative",
       width: "initial",
-      height: `${MenuIndex.liHeight}px`,
+      height: `${Rank.liHeight}px`,
       padding: "10px",
       borderBottom: Container.border,
       background: Container.offWhiteRGB,
-      borderRight: Container.border
+      borderRight: Container.border,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -204,10 +204,10 @@ export default class MenuIndex {
   static getUpper() {
     const layout = Style.getLayoutBlock({
       width: "100%",
-      height: "20px"
+      height: "20px",
     });
     const content = Style.getContentBase({
-      fontSize: "10px"
+      fontSize: "10px",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -215,7 +215,7 @@ export default class MenuIndex {
 
   static getUpperSpace() {
     const layout = Style.getLayoutInlineBlock({
-      width: "20%"
+      width: "20%",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -224,10 +224,10 @@ export default class MenuIndex {
 
   static getUpperRight() {
     const layout = Style.getLayoutInlineBlock({
-      width: "80%"
+      width: "80%",
     });
     const content = Style.getContentBase({
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -236,7 +236,7 @@ export default class MenuIndex {
   static getBottom() {
     const layout = Style.getLayoutBlock({
       width: "100%",
-      height: "50px"
+      height: "50px",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -250,7 +250,7 @@ export default class MenuIndex {
       backgroundImage: `url(${conf.protcol}:${conf.assetsPath}favicon.ico")`,
       backgroundPosition: "50% 15%",
       backgroundSize: "20px 20px",
-      backgroundRepeat: "no-repeat"
+      backgroundRepeat: "no-repeat",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -260,11 +260,11 @@ export default class MenuIndex {
   static getBottomPost() {
     const layout = Style.getLayoutInlineBlock({
       width: "80%",
-      flexGrow: 2
+      flexGrow: 2,
     });
     const content = Style.getContentBase({
       lineHeight: 2,
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });

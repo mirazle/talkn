@@ -4,7 +4,7 @@ export default (state: any = new Posts(), action) => {
   switch (action.type) {
     case "API_TO_SERVER[REQUEST]:changeThread":
       return new Posts();
-    case "SERVER_TO_API[EMIT]:find":
+    case "SERVER_TO_API[EMIT]:fetchPosts":
     case "SERVER_TO_API[BROADCAST]:post":
       if (action.postsChild && action.postsChild.length > 0) {
         if (action.thread.ch === action.posts[0].ch) {

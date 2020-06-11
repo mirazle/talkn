@@ -28,10 +28,17 @@ export default class Users {
     return await this.collection.findOne(condition);
   }
 
-  async liveCnt(ch) {
-    const condition = { ch };
-    console.log(this.collection);
-    const { response: liveCnt } = await this.collection.count(condition);
+  async isTuneUser(uid, ch) {
+    const condition = { uid, ch };
+    const { response } = await this.collection.findOne(condition, {}, {});
+    console.log("--------isTuneUser " + Boolean(response));
+    console.log(response);
+    return Boolean(response);
+  }
+
+  async getIncLiveCnt(uid, ch) {
+    const liveCnt = (await this.getUserCnt(ch)) + 1;
+    this.update(uid, ch);
     return liveCnt;
   }
 

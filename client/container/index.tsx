@@ -49,7 +49,10 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     super(props);
     const { ui, thread } = props.state;
     this.state = { notifs: [] };
-    this.coreApi("tune", { thread: { ch: thread.ch } });
+    this.coreApi("fetchPosts", { thread: { ch: thread.ch } });
+    if (ui.extensionMode === Ui.extensionModeExtIncludeLabel || ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+      this.coreApi("rank", { thread: { ch: thread.ch } });
+    }
     this.getProps = this.getProps.bind(this);
     this.renderNewPost = this.renderNewPost.bind(this);
     this.renderSmall = this.renderSmall.bind(this);
@@ -64,11 +67,6 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   }
 
   componentDidMount() {
-    const { ui, thread } = this.props.state;
-    this.coreApi("find", { thread: { ch: thread.ch } });
-    if (ui.extensionMode === Ui.extensionModeExtIncludeLabel || ui.extensionMode === Ui.extensionModeExtNoneLabel) {
-      this.coreApi("findMenuIndex", { thread: { ch: thread.ch } });
-    }
     this.clientAction("COMPONENT_DID_MOUNTS", "Container");
   }
 
@@ -190,7 +188,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     this.clientAction("ON_CLICK_MULTISTREAM", { app, postsMulti, postsSingle });
 
     if (findFlg) {
-      this.coreApi("find", { thread: { ch: app.rootCh }, app });
+      this.coreApi("fetchPosts", { thread: { ch: app.rootCh }, app });
     }
   }
 

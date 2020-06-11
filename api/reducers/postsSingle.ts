@@ -6,7 +6,7 @@ export default (state: any = new PostsSingle(), action) => {
       return action.postsSingle;
     case "API_TO_SERVER[REQUEST]:changeThread":
       return new PostsSingle();
-    case "SERVER_TO_API[EMIT]:find":
+    case "SERVER_TO_API[EMIT]:fetchPosts":
     case "SERVER_TO_API[BROADCAST]:post":
       if (action.postsSingle && action.postsSingle.length > 0) {
         return [...state, ...action.postsSingle];

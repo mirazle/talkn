@@ -6,7 +6,7 @@ import TalknSession from "client/operations/TalknSession";
 export default {
   "SERVER_TO_API[BROADCAST]:post": setStorageHtmlPosts,
   "SERVER_TO_API[EMIT]:getMore": setStorageHtmlPosts,
-  "SERVER_TO_API[EMIT]:find": (state, props) => {
+  "SERVER_TO_API[EMIT]:fetchPosts": (state, props) => {
     //setStoragePosts( state, props );
     return { state, props };
   },
@@ -31,7 +31,7 @@ export default {
   setStorageHtmlPosts,
   setStoragePostsTimeline,
   getStoragePostsTimeline,
-  getStoragePostsTimelineZero
+  getStoragePostsTimelineZero,
 };
 
 function setStoragePosts(state, props) {

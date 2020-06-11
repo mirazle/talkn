@@ -1,9 +1,8 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import Ui from "client/store/Ui";
 import MenuUsers from "client/components/Menu/MenuUsers";
-import MenuIndex from "client/components/Menu/MenuIndex";
+import Rank from "client/components/Menu/Rank";
 import MenuLogs from "client/components/Menu/MenuLogs";
 import MenuSetting from "client/components/Menu/MenuSetting";
 import Header from "client/components/Header";
@@ -94,7 +93,7 @@ export default class Menuextends extends TalknComponent<Props, {}> {
         menuComponent = <MenuUsers {...this.props} />;
         break;
       case Ui.menuComponentIndexLabel:
-        menuComponent = <MenuIndex {...this.props} />;
+        menuComponent = <Rank {...this.props} />;
         break;
       case Ui.menuComponentLogsLabel:
         menuComponent = <MenuLogs {...this.props} />;

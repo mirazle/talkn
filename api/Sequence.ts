@@ -68,7 +68,7 @@ export default class Sequence {
         responseEmitState: { user: ["uid"], setting: "*", thread: ["watchCnt"] },
         responseBroadcastState: {},
       },
-      find: {
+      fetchPosts: {
         requestPublicState: {},
         requestPrivateState: {
           thread: ["ch", "protocol", "host", "hasSlash"],
@@ -125,12 +125,12 @@ export default class Sequence {
         responseEmitState: { thread: "*" },
         responseBroadcastState: {},
       },
-      findMenuIndex: {
+      rank: {
         requestPublicState: {},
         requestPrivateState: {
           app: ["findType", "rootCh"],
         },
-        responseEmitState: { menuIndex: "*" },
+        responseEmitState: { rank: "*" },
         responseBroadcastState: {},
       },
       post: {
@@ -141,7 +141,7 @@ export default class Sequence {
           thread: ["findType", "title", "protocol", "ch", "chs", "emotions", "favicon", "contentType"],
         },
         responseEmitState: {},
-        responseBroadcastState: { posts: "*", thread: "*", menuIndex: "*" },
+        responseBroadcastState: { posts: "*", thread: "*", rank: "*" },
       },
       updateThreadServerMetas: {
         requestPublicState: { thread: ["serverMetas"] },

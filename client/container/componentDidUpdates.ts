@@ -16,7 +16,7 @@ export default (self, constructorName) => {
 
 const componentDidUpdates = {
   Container: {
-    "API_TO_CLIENT[EMIT]:find": (self) => {
+    "API_TO_CLIENT[EMIT]:fetchPosts": (self) => {
       const { app, thread, ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
       ui.postsHeight += TalknWindow.getPostsHeight();
@@ -63,7 +63,7 @@ const componentDidUpdates = {
         self.clientAction("CLOSE_LINKS");
       }
 
-      window.talknWindow.parentExtTo("find", self.props.state);
+      window.talknWindow.parentExtTo("fetchPosts", self.props.state);
       window.talknWindow.resizeEndWindow();
     },
     "API_TO_CLIENT[EMIT]:changeThreadDetail": (self) => {
@@ -100,7 +100,7 @@ const componentDidUpdates = {
     },
     ON_CHANGE_FIND_TYPE: (self) => {
       const { ch } = self.state.thread;
-      self.coreApi("findMenuIndex", { thread: ch });
+      self.coreApi("rank", { thread: ch });
     },
     DELEGATE_POST: (self) => {
       self.coreApi("post");
@@ -144,7 +144,7 @@ const componentDidUpdates = {
     RESIZE_END_WINDOW: (self) => {},
   },
   Posts: {
-    "API_TO_CLIENT[BROADCAST]:find": (self) => {
+    "API_TO_CLIENT[BROADCAST]:fetchPosts": (self) => {
       // changeLockMode(self, "Posts");
     },
     SCROLL_THREAD: (self) => {},

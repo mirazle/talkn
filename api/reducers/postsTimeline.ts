@@ -5,13 +5,13 @@ export default (state: any = new PostsTimeline(), action) => {
     case "API_TO_SERVER[REQUEST]:changeThread":
       return new PostsTimeline();
     case "UNMOUNT_POSTS_TIMELINE":
-      return state.map(pt => {
+      return state.map((pt) => {
         pt.dispFlg = pt.currentTime <= action.mediaCurrentTime;
         return pt;
       });
     case "CLEAR_POSTS_TIMELINE":
       return [...action.postsTimeline];
-    case "SERVER_TO_API[EMIT]:find":
+    case "SERVER_TO_API[EMIT]:fetchPosts":
       if (action.postsTimeline && action.postsTimeline.length > 0) {
         return [...state, ...action.postsTimeline];
       }

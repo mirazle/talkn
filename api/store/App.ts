@@ -264,22 +264,22 @@ export default class App extends Schema {
     return Post.defaultFindId;
   }
 
-  static getStepToDispThreadType({ app, menuIndex }: any, threadStatus: any, toCh: any, called: any = "") {
+  static getStepToDispThreadType({ app, rank }: any, threadStatus: any, toCh: any, called: any = "") {
     let afterDispThreadType = "";
     const beforeDispThreadType = app && app.dispThreadType ? app.dispThreadType : App.dispThreadTypeMulti;
-    app = App.getStepDispThreadType({ app, menuIndex }, threadStatus, toCh, called);
+    app = App.getStepDispThreadType({ app, rank }, threadStatus, toCh, called);
     afterDispThreadType = app.dispThreadType;
     return { app, stepTo: `${beforeDispThreadType} to ${afterDispThreadType}` };
   }
 
-  static getStepDispThreadType({ app, menuIndex }, threadStatus: any = {}, toCh, called) {
+  static getStepDispThreadType({ app, rank }, threadStatus: any = {}, toCh, called) {
     const log = false;
     const updatedApp = app ? app : {};
     updatedApp.isLinkCh = false;
     updatedApp.offsetFindId = App.defaultOffsetFindId;
 
     if (log) console.log(called + " rootCh = " + app.rootCh + " toCh = " + toCh);
-    if (log) console.log(menuIndex);
+    if (log) console.log(rank);
     if (log) console.log(threadStatus);
 
     if (threadStatus.isMediaCh) {
@@ -294,7 +294,7 @@ export default class App extends Schema {
     }
 
     if (called === "toLinks") {
-      const haveMenuIndex = menuIndex.some((mi) => {
+      const haveMenuIndex = rank.some((mi) => {
         return mi.ch === toCh || mi.ch === toCh + "/";
       });
 

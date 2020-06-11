@@ -1,6 +1,5 @@
 import { Component } from "react";
 import PostMessage from "common/PostMessage";
-import ApiState from "api/store/";
 import ClientState from "client/store/";
 import Schema from "api/store/Schema";
 import App from "api/store/App";
@@ -47,7 +46,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
   }
 
   onClickCh(toCh, ui, overWriteHasSlash, called) {
-    let { app, thread, menuIndex, setting } = this.clientState;
+    let { app, thread, rank, setting } = this.clientState;
     const beforeCh = thread.ch;
     thread.ch = toCh;
     ui.isOpenLinks = false;
@@ -56,7 +55,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
 
     if (Schema.isSet(overWriteHasSlash)) thread.hasSlash = overWriteHasSlash;
     const threadStatus = Thread.getStatus(thread, app, setting);
-    let { app: updatedApp, stepTo } = App.getStepToDispThreadType({ app, menuIndex }, threadStatus, toCh, called);
+    let { app: updatedApp, stepTo } = App.getStepToDispThreadType({ app, rank }, threadStatus, toCh, called);
 
     if (!app.isLinkCh && updatedApp.isLinkCh) this.coreApi("on", toCh);
     if (app.isLinkCh && !updatedApp.isLinkCh) this.coreApi("off", beforeCh);

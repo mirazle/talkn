@@ -7,7 +7,7 @@ export default (state: any = new Posts(), action) => {
       return action.postsMulti;
     case "CLIENT_TO_SERVER[EMIT]:changeThread":
       return new Posts();
-    case "SERVER_TO_API[EMIT]:find":
+    case "SERVER_TO_API[EMIT]:fetchPosts":
       if (action.postsMulti && action.postsMulti.length > 0) {
         if (action.app.isRootCh) {
           return [...action.postsMulti];
