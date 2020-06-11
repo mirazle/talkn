@@ -57,7 +57,7 @@ export default (state: any = {}, action: any) => {
           self: { ...state.menus, transform: Menu.getTransform(action) },
         },
       };
-    case "API_TO_CLIENT[BROADCAST]:find":
+    case "API_TO_CLIENT[BROADCAST]:fetchPosts":
       return {
         ...state,
         menus: {
@@ -66,12 +66,12 @@ export default (state: any = {}, action: any) => {
         },
       };
 
-    case "API_TO_CLIENT[REQUEST]:find":
+    case "API_TO_CLIENT[REQUEST]:fetchPosts":
       return {
         ...state,
         posts: { ...state.posts, self: Posts.getSelf(action) },
       };
-    case "API_TO_CLIENT[EMIT]:find":
+    case "API_TO_CLIENT[EMIT]:fetchPosts":
     case "OPEN_LINKS":
     case "CLOSE_LINKS":
     case "TOGGLE_LINKS":

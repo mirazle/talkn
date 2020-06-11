@@ -139,7 +139,7 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
     const clientState = this.clientState;
     if (
       clientState.actionLog[0] === "API_TO_CLIENT[BROADCAST]:post" ||
-      clientState.actionLog[0] === "API_TO_CLIENT[EMIT]:find" ||
+      clientState.actionLog[0] === "API_TO_CLIENT[EMIT]:fetchPosts" ||
       clientState.actionLog[0] === "ON_CLICK_TOGGLE_DISP_DETAIL" ||
       clientState.actionLog[0] === "API_TO_CLIENT[EMIT]:changeThreadDetail"
     ) {

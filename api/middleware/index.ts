@@ -23,7 +23,7 @@ export default {
 };
 
 const functions = {
-  "SERVER_TO_API[BROADCAST]:find": (state, action) => {
+  "SERVER_TO_API[BROADCAST]:fetchPosts": (state, action) => {
     action.app.tuned = action.thread.ch;
     return action;
   },
@@ -32,7 +32,7 @@ const functions = {
     action.threadDetail = { ...action.thread };
     return action;
   },
-  "SERVER_TO_API[EMIT]:find": (state, action) => {
+  "SERVER_TO_API[EMIT]:fetchPosts": (state, action) => {
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     action.app.detailCh = action.thread.ch;
     action.app.desc = action.thread.serverMetas.title;

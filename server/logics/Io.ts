@@ -1,4 +1,5 @@
 import Sequence from "api/Sequence";
+import { response } from "express";
 
 export default class Io {
   io: any;
@@ -22,11 +23,10 @@ export default class Io {
       user: { uid: ioUser.conn.id },
       setting,
     });
-    console.log(responseEmitState);
     return this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
   }
 
-  async find(ioUser, { requestState, thread, posts, app }) {
+  async fetchPosts(ioUser, { requestState, thread, posts, app }) {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, {
       thread,
       posts,
@@ -48,8 +48,8 @@ export default class Io {
     return true;
   }
 
-  async findMenuIndex(ioUser, { requestState, menuIndex }) {
-    const responseEmitState = Sequence.getResponseState("Emit", requestState, { menuIndex });
+  async rank(ioUser, { requestState, rank }) {
+    const responseEmitState = Sequence.getResponseState("Emit", requestState, { rank });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
     return true;
   }
@@ -88,7 +88,6 @@ export default class Io {
     chs.forEach((ch) => {
       // responseBroadcastState.thread.ch = ch;
       responseBroadcastState.posts[0].ch = ch;
-      console.log("@@@ " + ch);
       this.io.broadcast(ch, responseBroadcastState);
     });
 

@@ -4,7 +4,6 @@ import define from "common/define";
 import Sequence from "api/Sequence";
 import App from "api/store/App";
 import Ui from "client/store/Ui";
-import storage from "api/mapToStateToProps/storage";
 import Container from "client/style/Container";
 
 export default {
@@ -12,7 +11,6 @@ export default {
     const state = store.getState();
     action.ui = action.ui ? { ...state.ui, ...action.ui } : state.ui;
     action.app = action.app ? { ...state.app, ...action.app } : state.app;
-
     if (functions[action.type]) {
       action = functions[action.type](state, action);
     }
@@ -32,7 +30,7 @@ const functions = {
     action.ui.isLoading = false;
     return action;
   },
-  "API_TO_CLIENT[REQUEST]:find": (state, action) => {
+  "API_TO_CLIENT[REQUEST]:fetchPosts": (state, action) => {
     action.ui.isLoading = true;
     return action;
   },
@@ -40,7 +38,7 @@ const functions = {
     action.ui.isLoading = true;
     return action;
   },
-  "API_TO_CLIENT[EMIT]:find": (state, action) => {
+  "API_TO_CLIENT[EMIT]:fetchPosts": (state, action) => {
     action.ui.isLoading = false;
     action.ui.detailCh = action.thread.ch;
     if (!action.app.isLinkCh) {

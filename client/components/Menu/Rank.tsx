@@ -7,7 +7,7 @@ import conf from "common/conf";
 import Icon from "client/components/Icon";
 import MenuIndexList from "client/components/Menu/MenuIndexList";
 
-interface MenuIndexProps {
+interface RankProps {
   state: any;
   onClickToTimelineThread?: any;
   onClickToMultiThread?: any;
@@ -17,16 +17,16 @@ interface MenuIndexProps {
   onClickOtherThread?: any;
 }
 
-interface MenuIndexState {
+interface RankState {
   rootCh: string;
   style: any;
 }
-export default class MenuIndex extends TalknComponent<MenuIndexProps, MenuIndexState> {
+export default class Rank extends TalknComponent<RankProps, RankState> {
   constructor(props) {
     super(props);
     const { app, style } = props.state;
     const { rootCh } = app;
-    this.state = { rootCh, style: style.menuIndex.headerUpdateIcon };
+    this.state = { rootCh, style: style.rank.headerUpdateIcon };
     this.handleOnClickUpdate = this.handleOnClickUpdate.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOnKeyPress = this.handleOnKeyPress.bind(this);
@@ -74,7 +74,7 @@ export default class MenuIndex extends TalknComponent<MenuIndexProps, MenuIndexS
 
   handleOnClickUpdate(ch) {
     const { rootCh } = this.props.state.app;
-    this.coreApi("findMenuIndex", rootCh);
+    this.coreApi("rank", rootCh);
   }
 
   handleOnChange(e) {
@@ -123,12 +123,12 @@ export default class MenuIndex extends TalknComponent<MenuIndexProps, MenuIndexS
     const IconTune = Icon.getTune(icon.tune);
     const IconSearch = Icon.getSearch(icon.search);
     return (
-      <nav data-component-name={"MenuIndex"} style={style.menuIndex.self}>
-        <header style={style.menuIndex.header}>
-          <div style={style.menuIndex.headerSearchIcon}>{IconTune}</div>
+      <nav data-component-name={"Rank"} style={style.rank.self}>
+        <header style={style.rank.header}>
+          <div style={style.rank.headerSearchIcon}>{IconTune}</div>
           <input
             type={"text"}
-            style={style.menuIndex.headerInput}
+            style={style.rank.headerInput}
             onChange={this.handleOnChange}
             onKeyPress={this.handleOnKeyPress}
             placeholder={"CH"}
@@ -140,7 +140,7 @@ export default class MenuIndex extends TalknComponent<MenuIndexProps, MenuIndexS
             {...this.getDecolationProps()}
           >
             {/* IconUpdate */}
-            <select onChange={onChangeFindType} style={style.menuIndex.headerFindSelect}>
+            <select onChange={onChangeFindType} style={style.rank.headerFindSelect}>
               <option>{Thread.findTypeAll}</option>
               <option>{Thread.findTypeHtml}</option>
               <option>{Thread.findTypeMusic}</option>
@@ -149,16 +149,16 @@ export default class MenuIndex extends TalknComponent<MenuIndexProps, MenuIndexS
           </div>
         </header>
 
-        <ol style={style.menuIndex.ol}>{this.renderLi()}</ol>
+        <ol style={style.rank.ol}>{this.renderLi()}</ol>
       </nav>
     );
   }
 
   renderLi() {
     const { state, onClickOtherThread } = this.props;
-    const { app, thread, menuIndex } = state;
+    const { app, thread, rank } = state;
     const { ui, style } = state;
-    return menuIndex.map((mi, index) => {
+    return rank.map((mi, index) => {
       return (
         <MenuIndexList
           key={`${mi.ch}_${index}`}

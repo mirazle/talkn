@@ -3,6 +3,18 @@ import MongoDB from "server/listens/db/MongoDB";
 import Logics from "server/logics";
 import Favicon from "server/logics/Favicon";
 
+type ThreadFindOneType = {
+  selector?: {};
+  option?: {};
+  buildinSchema?: boolean;
+};
+
+const ThreadFindOneInit = {
+  selector: {},
+  option: {},
+  buildinSchema: false,
+};
+
 export default class Threads {
   collection: any;
   constructor(collection) {
@@ -14,7 +26,8 @@ export default class Threads {
   /* MONGO DB       */
   /******************/
 
-  async findOne(ch, selector = {}, option = {}, buildinSchema = false, called = "Default") {
+  async findOne(ch, params: ThreadFindOneType = ThreadFindOneInit, called = "Default") {
+    const { selector, option, buildinSchema } = params;
     const condition = { ch };
     let { error, response } = await this.collection.findOne(condition, selector, option);
 
@@ -31,11 +44,15 @@ export default class Threads {
     const condition = { ch };
     const selector = { watchCnt: 1 };
     const option = {};
-    const { error, response } = await this.collection.findOne(condition, selector, option, false, "finedMenuIndex");
+    const { error, response } = await this.collection.findOne(
+      condition,
+      { selector, option, buildinSchema: false },
+      "finedMenuIndex"
+    );
     return response.watchCnt < 0 ? 0 : response.watchCnt;
   }
 
-  async findMenuIndex(requestState, setting) {
+  async rank(requestState, setting) {
     const { app } = requestState;
     const { rootCh: ch } = app;
     const layer = Thread.getLayer(ch);
@@ -54,7 +71,7 @@ export default class Threads {
     const selector = { "serverMetas.title": 1, lastPost: 1, watchCnt: 1 };
     const option = {
       sort: { watchCnt: -1, layer: -1 },
-      limit: setting.server.getThreadChildrenCnt
+      limit: setting.server.getThreadChildrenCnt,
     };
 
     let { response } = await this.collection.find(condition, selector, option);
@@ -71,16 +88,20 @@ export default class Threads {
       }
 
       if (!existMainCh) {
-        const { response: mainThread } = await this.findOne(ch, { lastPost: 1 }, {}, true);
+        const { response: mainThread } = await this.findOne(ch, {
+          selector: { lastPost: 1 },
+          option: {},
+          buildinSchema: true,
+        });
         response.unshift(mainThread);
       }
     }
 
-    response = response.map(res => {
+    response = response.map((res) => {
       return {
         ...res.lastPost,
         title: res.serverMetas.title,
-        watchCnt: res.lastPost.ch === ch ? res.watchCnt + 1 : res.watchCnt
+        watchCnt: res.lastPost.ch === ch ? res.watchCnt + 1 : res.watchCnt,
       };
     });
 
@@ -138,7 +159,7 @@ export default class Threads {
     const condition = { ch };
     const serverMetas = {
       ...baseThread.serverMetas,
-      ...updateThread.serverMetas
+      ...updateThread.serverMetas,
     };
     const set = { ch, serverMetas, updateTime: new Date() };
     const option = { upsert: true };
@@ -183,7 +204,7 @@ export default class Threads {
       const faviconParams: any = await Logics.favicon.fetch(thread, iconHrefs);
       thread = MongoDB.getBuiltinObjToSchema(thread, {
         ...faviconParams,
-        favicon: faviconParams.faviconName
+        favicon: faviconParams.faviconName,
       });
     }
 

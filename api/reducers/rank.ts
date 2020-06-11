@@ -1,7 +1,7 @@
-import MenuIndex from "api/store/MenuIndex";
+import Rank from "api/store/Rank";
 import App from "api/store/App";
 
-export default (state: any = new MenuIndex(), action) => {
+export default (state = [], action) => {
   const sortWatchCnt = (a, b) => {
     if (a.ch === action.app.rootCh || b.ch === action.app.rootCh) {
       return 0;
@@ -30,7 +30,7 @@ export default (state: any = new MenuIndex(), action) => {
         });
       }
       return state;
-    case "SERVER_TO_API[EMIT]:find":
+    case "SERVER_TO_API[EMIT]:fetchPosts":
       if (action.app.isLinkCh) {
         return state;
       }
@@ -85,18 +85,22 @@ export default (state: any = new MenuIndex(), action) => {
 */
       return state;
 
-    case "SERVER_TO_API[BROADCAST]:find":
+    case "SERVER_TO_API[BROADCAST]:fetchPosts":
     case "SERVER_TO_API[BROADCAST]:changeThread":
     case "SERVER_TO_API[BROADCAST]:disconnect":
-      return state
-        .map((mi) => {
-          if (action.thread.ch === mi.ch) {
-            return { ...mi, watchCnt: action.thread.watchCnt };
-          } else {
-            return mi;
-          }
-        })
-        .sort(sortWatchCnt);
+      if (state.length === 0) {
+        return [action.thread];
+      } else {
+        return state
+          .map((mi) => {
+            if (action.thread.ch === mi.ch) {
+              return { ...mi, watchCnt: action.thread.watchCnt };
+            } else {
+              return mi;
+            }
+          })
+          .sort(sortWatchCnt);
+      }
     case "SERVER_TO_API[BROADCAST]:post":
       return state.map((mi) => {
         // rootCh
@@ -126,14 +130,15 @@ export default (state: any = new MenuIndex(), action) => {
         }
         return mi;
       });
-    case "SERVER_TO_API[EMIT]:findMenuIndex":
-      if (state && state.length > 0 && action.menuIndex && action.menuIndex.length > 0) {
-        action.menuIndex.shift();
-        return [state[0]].concat(action.menuIndex);
+    case "SERVER_TO_API[EMIT]:rank":
+      console.log(action.rank);
+      if (state && state.length > 0 && action.rank && action.rank.length > 0) {
+        action.rank.shift();
+        return [state[0]].concat(action.rank);
       } else {
-        return action.menuIndex ? action.menuIndex : state;
+        return action.rank ? action.rank : state;
       }
     default:
-      return action.menuIndex ? action.menuIndex : state;
+      return action.rank ? action.rank : state;
   }
 };

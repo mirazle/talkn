@@ -9,7 +9,7 @@ import PostsFooter from "./PostsFooter";
 import MenuFooter from "./MenuFooter";
 import Icon from "./Icon";
 import Menu from "./Menu";
-import MenuIndex from "./Menu/index";
+import Rank from "./Menu/Rank";
 import MenuIndexList from "./Menu/MenuIndexList";
 import MenuUsers from "./Menu/MenuUsers";
 import LockMenu from "./LockMenu";
@@ -180,7 +180,7 @@ export default class Style {
   postsFooter: PostsFooter;
   menuFooter: MenuFooter;
   menu: Menu;
-  menuIndex: MenuIndex;
+  rank: Rank;
   menuIndexList: MenuIndexList;
   menuUsers: MenuUsers;
   extScreen: ExtScreen;
@@ -215,7 +215,7 @@ export default class Style {
     const postsFooter = new PostsFooter(params);
     const menuFooter = new MenuFooter(params);
     const menu = new Menu(params);
-    const menuIndex = new MenuIndex(params);
+    const rank = new Rank(params);
     const menuIndexList = new MenuIndexList(params);
     const menuUsers = new MenuUsers(params);
     const extScreen = new ExtScreen(params);
@@ -244,7 +244,7 @@ export default class Style {
       menuFooter,
       detailFooter,
       menu,
-      menuIndex,
+      rank,
       menuIndexList,
       menuUsers,
       extScreen,
@@ -262,7 +262,7 @@ export default class Style {
       detail,
       emotionGraph,
       icon,
-      loading
+      loading,
     };
   }
 
@@ -298,7 +298,7 @@ export default class Style {
       border: 0,
       borderRadius: 0,
       zIndex: 1,
-      align: "center"
+      align: "center",
     };
     return { ...baseLayout, ...style };
   }
@@ -309,7 +309,7 @@ export default class Style {
       justifyContent: "center",
       alignItems: "center",
       flexDirection: "row",
-      flexWrap: "no-wrap"
+      flexWrap: "no-wrap",
     });
     return { ...blockLayout, ...style };
   }
@@ -320,28 +320,28 @@ export default class Style {
       justifyContent: "center",
       alignItems: "center",
       flexDirection: "row",
-      flexWrap: "no-wrap"
+      flexWrap: "no-wrap",
     });
     return { ...blockLayout, ...style };
   }
 
   static getLayoutTable(style = {}): Object {
     const blockLayout: Object = Style.getLayoutBase({
-      display: "table"
+      display: "table",
     });
     return { ...blockLayout, ...style };
   }
 
   static getLayoutTableRow(style = {}): Object {
     const blockLayout: Object = Style.getLayoutBase({
-      display: "table-row"
+      display: "table-row",
     });
     return { ...blockLayout, ...style };
   }
 
   static getLayoutTableCol(style = {}): Object {
     const blockLayout: Object = Style.getLayoutBase({
-      display: "table-cell"
+      display: "table-cell",
     });
     return { ...blockLayout, ...style };
   }
@@ -349,14 +349,14 @@ export default class Style {
   static getLayoutFlexChild(style = {}): Object {
     const blockLayout: Object = Style.getLayoutBase({
       width: "auto",
-      height: "auto"
+      height: "auto",
     });
     return { ...blockLayout, ...style };
   }
 
   static getLayoutBlock(style = {}): Object {
     const blockLayout: Object = Style.getLayoutBase({
-      display: "block"
+      display: "block",
     });
     return { ...blockLayout, ...style };
   }
@@ -365,14 +365,14 @@ export default class Style {
     const inlineBlockLayout: Object = Style.getLayoutBase({
       display: "inline-block",
       align: "center",
-      verticalAlign: "middle"
+      verticalAlign: "middle",
     });
     return { ...inlineBlockLayout, ...style };
   }
 
   static getLayoutInline(style = {}): Object {
     const blockLayout: Object = Style.getLayoutBase({
-      display: "inline"
+      display: "inline",
     });
     return { ...blockLayout, ...style };
   }
@@ -388,7 +388,7 @@ export default class Style {
       whiteSpace: "normal",
       quotes: "none",
       content: "none",
-      cursor: "default"
+      cursor: "default",
     };
     const fontBase = Style.getFontBase();
     return { ...contentBase, ...fontBase, ...style };
@@ -400,7 +400,7 @@ export default class Style {
       color: Style.fontBaseRGB,
       font: "inherit",
       fontFamily:
-        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK JP", "Original Yu Gothic", "Yu Gothic", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Sans Emoji"'
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK JP", "Original Yu Gothic", "Yu Gothic", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Sans Emoji"',
     };
     return { ...fontBase, ...style };
   }
@@ -412,7 +412,7 @@ export default class Style {
   static getAnimationBase(style = {}): Object {
     const animationBase = {
       transition: Container.transitionOff,
-      transform: "translate3d(0px, 0px, 0px)"
+      transform: "translate3d(0px, 0px, 0px)",
     };
     return { ...animationBase, ...style };
   }

@@ -6,7 +6,7 @@ import TalknSession from "client/operations/TalknSession";
 export default {
   "API_TO_CLIENT[BROADCAST]:post": setStorageHtmlPosts,
   "API_TO_CLIENT[EMIT]:getMore": setStorageHtmlPosts,
-  "API_TO_CLIENT[EMIT]:find": (clientState, apiState, props) => {
+  "API_TO_CLIENT[EMIT]:fetchPosts": (clientState, apiState, props) => {
     setStoragePosts(clientState, apiState, props);
     return { clientState, apiState, props };
   },

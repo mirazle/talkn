@@ -1,8 +1,6 @@
 import App from "api/store/App";
 import PostMulti from "api/store/PostMulti";
 import PostsTimeline from "api/store/PostsTimeline";
-import PostsTimelineZero from "api/store/PostsTimelineZero";
-import PostsTimelineZeroAfter from "api/store/PostsTimelineZeroAfter";
 import PostsTimelineStock from "api/store/PostsTimelineStock";
 import PostsSingle from "api/store/PostsSingle";
 
@@ -57,8 +55,7 @@ export default class Posts {
     if (action.type === "SERVER_TO_API[BROADCAST]:post") {
       action.postsTimeline = new PostsTimeline();
       action.postsTimeline.push(action.posts[0]);
-      // find, getMore.
-    } else if (action.type === "SERVER_TO_API[EMIT]:find") {
+    } else if (action.type === "SERVER_TO_API[EMIT]:fetchPosts") {
       action.postsTimeline = new PostsTimeline();
       action.postsTimelineStock = new PostsTimelineStock();
 
