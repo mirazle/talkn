@@ -5,7 +5,7 @@ import conf from "common/conf";
 
 const { PRODUCTION, SUB_DOMAINS, PORTS } = define;
 const { env, domain } = conf;
-const homeDir = env === PRODUCTION ? "home/centos" : os.homedir();
+const homeDir = env === PRODUCTION ? "/usr/share/applications" : os.homedir();
 const localhostPemKey = `${homeDir}/talkn/common/pems/server/localhost.key`;
 const localhostPemCrt = `${homeDir}/talkn/common/pems/server/localhost.crt`;
 const productPemKey = "/etc/letsencrypt/live/talkn.io/privkey.pem";
