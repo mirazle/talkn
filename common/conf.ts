@@ -10,7 +10,7 @@ const {
   PRODUCTION_DOMAIN,
   DEVELOPMENT_DOMAIN,
   SUB_DOMAINS,
-  PORTS
+  PORTS,
 } = define;
 const apiVer = 1;
 const hostName = os.hostname();
@@ -32,13 +32,13 @@ const assetsIconPath = `${assetsURL}/icon/`;
 const assetsJsPath = `${assetsURL}/js/`;
 const sessionURL = `${SUB_DOMAINS.SESSION}.${domain}`;
 const description = "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.";
-
+console.log(env);
 const findOnePostCnt = 30;
 const findOneLimitCnt = 300;
 const ogpImages = {
   Html: `//${assetsImgPath}talkn_logo_html.png`,
   Music: `//${assetsImgPath}talkn_logo_music.png`,
-  Video: `//${assetsImgPath}talkn_logo_video.png`
+  Video: `//${assetsImgPath}talkn_logo_video.png`,
 };
 
 const conf: any = {
@@ -63,7 +63,7 @@ const conf: any = {
   apiVer,
   findOnePostCnt,
   findOneLimitCnt,
-  ogpImages
+  ogpImages,
 };
 export default { ...conf };
 
