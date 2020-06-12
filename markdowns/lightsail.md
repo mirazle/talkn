@@ -9,7 +9,7 @@
 - 作成したインスタンスを静的 IP に紐つける
 - グローバルの DNS ゾーンと紐つける
 
-## ネットワーキング(iptable)
+## インスタンスのネットワーキング(iptable)
 
 - 443(https)
 - 6379(redis)
@@ -26,26 +26,31 @@
 
 # Setup SSL (SSH LOGINED)
 
+```
+sudo su -
+```
+
 ## 必要な yum を install
 
-`sudo yum install epel-release -y`
-`sudo yum update -y`
-`sudo yum install git -y`
-`sudo yum install certbot -y`
-`sudo yum install mongodb-org -y`(mongodb-org-xx.repo)
-`sudo yum install redis -y`
-`sudo yum install gcc-c++ -y`
-`sudo yum install glibc-common -y`
+```
+yum install epel-release -y
+yum update -y
+yum install certbot -y
+yum install git -y
+yum install gcc-c++ -y (yarn installで使用する)
+yum install redis -y
+yum install mongodb-org -y`(リポジトリmongodb-org-xx.repo)
+```
 
 ## step1 前提条件を満たす
 
 talkn.io ドメインを静的 IP にアタッチしターミナルで SSH アクセス
-`sudo vi /etc/ssh/sshd_config` で 22 ポートを 56789 に変更してサーバーを再起動して設定を反映。
+`vi /etc/ssh/sshd_config` で 22 ポートを 56789 に変更してサーバーを再起動して設定を反映。
 22 ポートは Connection refused。
 56789 はでアクセスを成功する事を確認。
 
 接続時に Host key verification failed が出る場合は
-`ssh-keygen -R ${IP}`
+`ssh-keygen -R 18.235.161.122`
 `ssh-keygen -R talkn.io`
 もしくは
 `vi /Users/hmiyazaki/.ssh/known_hosts`
@@ -57,7 +62,7 @@ talkn.io ドメインを静的 IP にアタッチしターミナルで SSH ア�
 DOMAIN=talkn.io
 WILDCARD=\*.$DOMAIN
 echo $DOMAIN && echo $WILDCARD
-sudo certbot -d $DOMAIN -d \$WILDCARD --manual --preferred-challenges dns certonly
+certbot -d $DOMAIN -d \$WILDCARD --manual --preferred-challenges dns certonly
 (\は削除して実行する)
 ```
 
@@ -84,7 +89,7 @@ https://lightsail.aws.amazon.com/ls/docs/ja_jp/articles/amazon-lightsail-using-l
 普通に yum install すると古いバージョンが入るので mongodb のリポジトリを登録。
 その時の最新の安定版を選択する事。(4.2 は適宜変更)
 
-`sudo vi /etc/yum.repos.d/mongodb-org-4.2.repo`
+`vi /etc/yum.repos.d/mongodb-org-4.2.repo`
 
 ```
 [mongodb-org-4.2]
@@ -98,12 +103,12 @@ gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc
 下記を実行
 
 ```
-sudo yum -y install mongodb-org
+yum -y install mongodb-org
 mongod -version
-sudo systemctl start mongod
-sudo systemctl status mongod
+systemctl start mongod
+systemctl status mongod
 mongo
-sudo chkconfig mongod on
+chkconfig mongod on
 ```
 
 ## 管理ユーザ作成と認証機能有効化
@@ -113,12 +118,12 @@ https://qiita.com/tomy0610/items/f540150ac8acaa47ff66
 # Redis-Server インストール
 
 ```
-sudo yum install epel-release -y
-sudo yum install -y redis
+yum install epel-release -y
+yum install -y redis
 redis-server --version
-sudo systemctl start redis
-sudo systemctl status redis
-sudo chkconfig redis on
+systemctl start redis
+systemctl status redis
+chkconfig redis on
 ```
 
 # Node 環境 インストール
@@ -142,7 +147,7 @@ node -v
 npm -v
 ```
 
-`/home/centos/.nvm/versions/node/v14.4.0/bin`の$PAHTが追加されるので、
+`$HOME/.nvm/versions/node/v14.4.0/bin`の$PAHTが追加されるので、
 `~/.bash_profile`にも$PATH を通す
 (これをしないと再ログイン時に node, npm, yarn 等が使用出来なくなる)
 
@@ -153,16 +158,24 @@ npm -v
 
 # Github からソースを checkout
 
-`cd home centos`
-`ssh-keygen -t rsa -b 4096 -C "mirazle2069@gmail.com"`
-`view /home/centos/.ssh/id_rsa.pub`
-で公開鍵を github の Setting->Deploy keys に追加
+公開鍵を github の Setting->Deploy keys に追加
 
-`git clone git@github.com:mirazle/talkn.git`
+```
+ssh-keygen -t rsa -b 4096 -C "mirazle2069@gmail.com"
+`view /root/.ssh/id_rsa.pub
+```
+
+チェックアウト
+
+```
+cd /usr/share/applications/
+git clone git@github.com:mirazle/talkn.git
+ln -s /usr/share/applications/talkn/ /root/talkn
+```
 
 # ソースの修正
 
-common/define.ts の
+- common/define.ts の
 
 ```
   PRODUCTION_IP: "ip-172-26-3-161.ec2.internal",
@@ -172,9 +185,7 @@ common/define.ts の
 
 `env | echo $HOSTNAME`で確認出来る文字列
 
-# 権限の解消
-
-sudo chown -R centos /etc/letsencrypt
+- ローカルで変更したら git push してリモートから pull してみる
 
 # Local 設定
 
@@ -182,10 +193,10 @@ sudo chown -R centos /etc/letsencrypt
 
 > -bash: warning: setlocale: LC_CTYPE: cannot change locale (UTF-8): No such file or directory
 
-`sudo yum -y install glibc-common`
+`yum -y install glibc-common`
 `localectl list-locales | grep -i ja`
-`sudo localectl set-locale LANG=ja_JP.UTF-8`
-`sudo localectl set-locale LC_CTYPE=ja_JP.utf8`
+`localectl set-locale LANG=ja_JP.UTF-8`
+`localectl set-locale LC_CTYPE=ja_JP.utf8`
 `source /etc/locale.conf`
 `localectl`
 
