@@ -176,6 +176,10 @@ ln -s /usr/share/applications/talkn/ /root/talkn
 
 # ソースの修正
 
+これらが完了しないと本番で動作しない
+
+### IP アドレス
+
 - common/define.ts の
 
 ```
@@ -186,7 +190,18 @@ ln -s /usr/share/applications/talkn/ /root/talkn
 
 `env | echo $HOSTNAME`で確認出来る文字列
 
-- ローカルで変更したら git push してリモートから pull してみる
+### フォルダ
+
+```
+mkdir /usr/share/applications/talkn/server/listens/express/assets/icon
+```
+
+このようなエラーが出るので
+
+> (node:18715) UnhandledPromiseRejectionWarning: Error: ENOENT: no such file or directory, open '/usr/share/applications/talkn/server/listens/express/assets/icon/https:\_\_assets.talkn.io_favicon.ico.png'
+
+### node_modules
+
 - node_modules/send/index.js を
 
 ```

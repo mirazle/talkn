@@ -82,7 +82,7 @@ export default class Io {
     const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, {
       posts,
       thread,
-      menuIndex: posts,
+      rank: posts,
     });
     const chs = posts[0].chs;
     chs.forEach((ch) => {
