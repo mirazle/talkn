@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "yarn run server & yarn run client & yarn run api",
     "server": "nodemon -L",
+    "devServer": "nodemon -L",
     "api": "WEBPACK_ENV=development MODE=api webpack-dev-server --hot --inline --colors --https --cert=./common/pems/clients/localhost.crt --key=./common/pems/clients/localhost.key",
     "client": "WEBPACK_ENV=development MODE=client webpack-dev-server --hot --inline --colors --https --cert=./common/pems/clients/localhost.crt --key=./common/pems/clients/localhost.key",
     "build": "WEBPACK_ENV=production MODE=client webpack; WEBPACK_ENV=production MODE=api webpack;",
