@@ -114,7 +114,8 @@ class CoreAPI {
   ch: string;
   callbacks: { key: Function } | {} = {};
   constructor(env, apiStore, resolve) {
-    const wsServer = env === define.DEVELOPMENT ? define.DEVELOPMENT_DOMAIN : define.PRODUCTION_DOMAIN;
+    const wsServer =
+      env === define.DEVELOPMENT || env === define.LOCALHOST ? define.DEVELOPMENT_DOMAIN : define.PRODUCTION_DOMAIN;
     this.apiStore = apiStore;
     this.ws = io(`${Sequence.HTTPS_PROTOCOL}//${wsServer}:${define.PORTS.SOCKET_IO}`, { forceNew: true });
     this.onResponseMeAPI(resolve);
