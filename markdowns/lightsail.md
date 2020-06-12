@@ -44,17 +44,17 @@ yum install mongodb-org -y`(リポジトリmongodb-org-xx.repo)
 
 ## step1 前提条件を満たす
 
-talkn.io ドメインを静的 IP にアタッチしターミナルで SSH アクセス
-`vi /etc/ssh/sshd_config` で 22 ポートを 56789 に変更してサーバーを再起動して設定を反映。
-22 ポートは Connection refused。
-56789 はでアクセスを成功する事を確認。
+- talkn.io ドメインを静的 IP にアタッチしターミナルで SSH アクセス
+- `vi /etc/ssh/sshd_config` で 22 ポートを 56789 に変更してサーバーを再起動して設定を反映。
+- 22 ポートは Connection refused。
+- 56789 はでアクセスを成功する事を確認。
 
-接続時に Host key verification failed が出る場合は
-`ssh-keygen -R 18.235.161.122`
-`ssh-keygen -R talkn.io`
-もしくは
-`vi /Users/hmiyazaki/.ssh/known_hosts`
-で該当するドメインや IP のローカルの SSH 認証情報を削除する
+- 接続時に Host key verification failed が出る場合は
+  `ssh-keygen -R 18.235.161.122`
+  `ssh-keygen -R talkn.io`
+- もしくは
+  `vi /Users/hmiyazaki/.ssh/known_hosts`
+  で該当するドメインや IP のローカルの SSH 認証情報を削除する
 
 ## step2 Let's Encrypt の SSL ワイルドカード証明書をリクエストする
 
@@ -66,14 +66,15 @@ certbot -d $DOMAIN -d \$WILDCARD --manual --preferred-challenges dns certonly
 (\は削除して実行する)
 ```
 
-で\_acme-challenge.talkn.io の DNS の TXT レコードが発行されるので
-Lightsail の「ネットワーキング」で「登録済みドメインの入力」に talkn.io で入力し「DND ゾーンの作成」を押す。(作成済み)
-実行したターミナルのコマンドは待機。ZONE ファイルで TXT レコードを追加し
+- \_acme-challenge.talkn.io の DNS の TXT レコードが発行されるので
+  Lightsail の「ネットワーキング」で「登録済みドメインの入力」に talkn.io で入力「DND ゾーンの作成」を押す。(作成済み)
+- 実行したターミナルのコマンドは待機。ZONE ファイルで TXT レコードを追加し
 
 `dig -t TXT \_acme-challenge.talkn.io`
 
 で変更を確認(変更されてなければ待つ)
-実行したターミナルのコマンドでエンターを押し
+
+- 実行したターミナルのコマンドでエンターを押し
 
 > IMPORTANT NOTES:
 >
@@ -86,8 +87,8 @@ https://lightsail.aws.amazon.com/ls/docs/ja_jp/articles/amazon-lightsail-using-l
 
 # MongoDB インストール
 
-普通に yum install すると古いバージョンが入るので mongodb のリポジトリを登録。
-その時の最新の安定版を選択する事。(4.2 は適宜変更)
+- 普通に yum install すると古いバージョンが入るので mongodb のリポジトリを登録。
+- その時の最新の安定版を選択する事。(4.2 は適宜変更)
 
 `vi /etc/yum.repos.d/mongodb-org-4.2.repo`
 
@@ -100,7 +101,7 @@ enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc
 ```
 
-下記を実行
+- 下記を実行
 
 ```
 yum -y install mongodb-org
@@ -136,8 +137,8 @@ source ~/.nvm/nvm.sh
 nvm --version
 ```
 
-`source $HOME/.nvm/nvm.sh`を`~/.bash_profile`に追加しておく。
-(これをしないと再ログイン時に nvm が使用出来なくなる)
+- `source $HOME/.nvm/nvm.sh`を`~/.bash_profile`に追加しておく。
+  (これをしないと再ログイン時に nvm が使用出来なくなる)
 
 ## Node
 
@@ -147,9 +148,9 @@ node -v
 npm -v
 ```
 
-`$HOME/.nvm/versions/node/v14.4.0/bin`の$PAHTが追加されるので、
+- `$HOME/.nvm/versions/node/v14.4.0/bin`の$PAHTが追加されるので、
 `~/.bash_profile`にも$PATH を通す
-(これをしないと再ログイン時に node, npm, yarn 等が使用出来なくなる)
+  (これをしないと再ログイン時に node, npm, yarn 等が使用出来なくなる)
 
 ## yarn
 
@@ -158,14 +159,14 @@ npm -v
 
 # Github からソースを checkout
 
-公開鍵を github の Setting->Deploy keys に追加
+- 公開鍵を github の Setting->Deploy keys に追加
 
 ```
 ssh-keygen -t rsa -b 4096 -C "mirazle2069@gmail.com"
 `view /root/.ssh/id_rsa.pub
 ```
 
-チェックアウト
+- チェックアウト
 
 ```
 cd /usr/share/applications/
@@ -186,10 +187,17 @@ ln -s /usr/share/applications/talkn/ /root/talkn
 `env | echo $HOSTNAME`で確認出来る文字列
 
 - ローカルで変更したら git push してリモートから pull してみる
+- node_modules/send/index.js を
+
+```
+24 var mime = require('mime-types')
+```
+
+に変更する(TODO)
 
 # Local 設定
 
-下記のエラーの対処法
+- 下記のエラーの対処法
 
 > -bash: warning: setlocale: LC_CTYPE: cannot change locale (UTF-8): No such file or directory
 
@@ -199,6 +207,13 @@ ln -s /usr/share/applications/talkn/ /root/talkn
 `localectl set-locale LC_CTYPE=ja_JP.utf8`
 `source /etc/locale.conf`
 `localectl`
+
+# ソースの実行
+
+`cd /usr/share/applications/talkn`
+`git pull`
+`yarn install`
+`sh start.sh`
 
 # dokcer のインストール
 
