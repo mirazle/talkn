@@ -68,6 +68,9 @@ const conf: any = {
 export default { ...conf };
 
 function getEnv(hostName) {
+  console.log(hostName);
+  console.log(define.PRODUCTION_IP);
+  console.log(define.PRODUCTION_DOMAIN);
   if (hostName === define.PRODUCTION_IP || hostName.indexOf(define.PRODUCTION_DOMAIN) >= 0) {
     return define.PRODUCTION;
   } else {
