@@ -3,9 +3,9 @@ import os from "os";
 import define from "common/define";
 import conf from "common/conf";
 
-const homeDir = os.homedir();
 const { PRODUCTION, SUB_DOMAINS, PORTS } = define;
 const { env, domain } = conf;
+const homeDir = env === PRODUCTION ? "home/centos" : os.homedir();
 const localhostPemKey = `${homeDir}/talkn/common/pems/server/localhost.key`;
 const localhostPemCrt = `${homeDir}/talkn/common/pems/server/localhost.crt`;
 const productPemKey = "/etc/letsencrypt/live/talkn.io/privkey.pem";
@@ -23,36 +23,14 @@ conf.mongoDB = {
   dbName: "talkn",
   option: { useNewUrlParser: true },
 };
-conf.serverPath =
-  env === PRODUCTION ? "/usr/share/app/talkn/server/listens/express/" : `${homeDir}/talkn/server/listens/express/`;
-conf.serverPortalPath =
-  env === PRODUCTION
-    ? "/usr/share/app/talkn/server/listens/express/portal/"
-    : `${homeDir}/talkn/server/listens/express/portal/`;
-conf.serverClientPath =
-  env === PRODUCTION
-    ? "/usr/share/app/talkn/server/listens/express/client/talkn.client.js"
-    : `${homeDir}/talkn/server/listens/express/client/talkn.client.js`;
-conf.serverApiPath =
-  env === PRODUCTION
-    ? "/usr/share/app/talkn/server/listens/express/api/talkn.api.js"
-    : `${homeDir}/talkn/server/listens/express/api/talkn.api.js`;
-conf.serverAssetsPath =
-  env === PRODUCTION
-    ? "/usr/share/app/talkn/server/listens/express/assets/"
-    : `${homeDir}/talkn/server/listens/express/assets/`;
-conf.serverWwwPath =
-  env === PRODUCTION
-    ? "/usr/share/app/talkn/server/listens/express/www/"
-    : `${homeDir}/talkn/server/listens/express/www/`;
-conf.serverExtPath =
-  env === PRODUCTION
-    ? "/usr/share/app/talkn/server/listens/express/extension/"
-    : `${homeDir}/talkn/server/listens/express/extension/`;
-conf.serverAutoPath =
-  env === PRODUCTION
-    ? "/usr/share/app/talkn/server/listens/express/auto/"
-    : `${homeDir}/talkn/server/listens/express/auto/`;
+conf.serverPath = `${homeDir}/talkn/server/listens/express/`;
+conf.serverPortalPath = `${homeDir}/talkn/server/listens/express/portal/`;
+conf.serverClientPath = `${homeDir}/talkn/server/listens/express/client/talkn.client.js`;
+conf.serverApiPath = `${homeDir}/talkn/server/listens/express/api/talkn.api.js`;
+conf.serverAssetsPath = `${homeDir}/talkn/server/listens/express/assets/`;
+conf.serverWwwPath = `${homeDir}/talkn/server/listens/express/www/`;
+conf.serverExtPath = `${homeDir}/talkn/server/listens/express/extension/`;
+conf.serverAutoPath = `${homeDir}/talkn/server/listens/express/auto/`;
 conf.sslOptions =
   env === PRODUCTION
     ? {
