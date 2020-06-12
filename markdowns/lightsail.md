@@ -34,6 +34,7 @@
 `sudo yum install certbot -y`
 `sudo yum install mongodb-org -y`(mongodb-org-xx.repo)
 `sudo yum install redis -y`
+`sudo yum install gcc-c++ -y`
 `sudo yum install glibc-common -y`
 
 ## step1 前提条件を満たす
@@ -170,6 +171,10 @@ common/define.ts の
 にプライベート IP を反映させる`172-26-3-161`が可変になる
 
 `env | echo $HOSTNAME`で確認出来る文字列
+
+# 権限の解消
+
+sudo chown -R centos /etc/letsencrypt
 
 # Local 設定
 
