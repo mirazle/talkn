@@ -34,8 +34,8 @@ sudo su -
 
 ```
 yum install epel-release -y
-yum update -y
 yum install certbot -y
+yum update -y
 yum install git -y
 yum install gcc-c++ -y (yarn installで使用する)
 yum install redis -y
@@ -84,6 +84,14 @@ certbot -d $DOMAIN -d \$WILDCARD --manual --preferred-challenges dns certonly
 
 手順参照)
 https://lightsail.aws.amazon.com/ls/docs/ja_jp/articles/amazon-lightsail-using-lets-encrypt-certificates-with-wordpressから抜粋
+
+注意)
+
+週に 5 回を超えると更新できなくなる(Duplicate Certificate limit of 5 per week)
+
+> Renewals are treated specially: they don’t count against your Certificates per Registered Domain limit, but they are subject to a Duplicate Certificate limit of 5 per week. Note: renewals used to count against your Certificate per Registered Domain limit until March 2019, but they don’t anymore. Exceeding the Duplicate Certificate limit is reported with the error message too many certificates already issued for exact set of domains.
+
+https://letsencrypt.org/docs/rate-limits/
 
 # MongoDB インストール
 

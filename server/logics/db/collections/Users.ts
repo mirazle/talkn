@@ -31,8 +31,6 @@ export default class Users {
   async isTuneUser(uid, ch) {
     const condition = { uid, ch };
     const { response } = await this.collection.findOne(condition, {}, {});
-    console.log("--------isTuneUser " + Boolean(response));
-    console.log(response);
     return Boolean(response);
   }
 
