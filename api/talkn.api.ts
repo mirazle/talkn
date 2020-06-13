@@ -29,8 +29,8 @@ declare global {
 class BootOption {
   constructor() {
     const { env, apiScript } = BootOption.getEnvAndApiScript();
-    const clientScript = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.clientURL}']`);
-    const extScript = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.extURL}']`);
+    const clientScript = BootOption.getClientScript();
+    const extScript = BootOption.getExtScript();
     const apiScriptAtt = apiScript ? BootOption.rebuildAttributes(apiScript.attributes) : {};
     const extScriptAtt = extScript ? BootOption.rebuildAttributes(extScript.attributes) : {};
     const bootParams = { ...extScriptAtt, ...apiScriptAtt };
@@ -56,6 +56,18 @@ class BootOption {
     const devApiSrc = `${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT_API}/talkn.api.js`;
     const devApiScript = document.querySelector(`script[src='${devApiSrc}']`);
     if (devApiScript) return { env: define.DEVELOPMENT, apiScript: devApiScript };
+  }
+
+  static getClientScript(): Element | undefined {
+    const clientScript1 = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.clientURL}']`);
+    const clientScript2 = document.querySelector(`script[src='//${conf.clientURL}']`);
+    return clientScript1 || clientScript2;
+  }
+
+  static getExtScript(): Element | undefined {
+    const extScript1 = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.extURL}']`);
+    const extScript2 = document.querySelector(`script[src='//${conf.extURL}']`);
+    return extScript1 || extScript2;
   }
 
   static rebuildAttributes(attributes) {
@@ -292,7 +304,6 @@ class GlobalWindow {
     this.coreApi = coreApi;
     const apiState = new ApiState(window, this.bootOption);
     this.coreApi.setUp(apiState, this.bootOption.ch);
-
     if (this.bootOption.type !== define.APP_TYPES.API) {
       this.coreApi.tune(apiState);
     }

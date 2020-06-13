@@ -61,7 +61,6 @@ class Express {
           // CORSを許可する
           res.header("Access-Control-Allow-Origin", "*");
           res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-          console.log("SEND " + conf.serverApiPath);
           res.sendFile(conf.serverApiPath);
         } else {
           res.render("api/", {

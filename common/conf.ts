@@ -32,7 +32,7 @@ const assetsIconPath = `${assetsURL}/icon/`;
 const assetsJsPath = `${assetsURL}/js/`;
 const sessionURL = `${SUB_DOMAINS.SESSION}.${domain}`;
 const description = "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.";
-console.log(env);
+
 const findOnePostCnt = 30;
 const findOneLimitCnt = 300;
 const ogpImages = {
@@ -68,9 +68,6 @@ const conf: any = {
 export default { ...conf };
 
 function getEnv(hostName) {
-  console.log(hostName);
-  console.log(define.PRODUCTION_IP);
-  console.log(define.PRODUCTION_DOMAIN);
   if (hostName === define.PRODUCTION_IP || hostName.indexOf(define.PRODUCTION_DOMAIN) >= 0) {
     return define.PRODUCTION;
   } else {
