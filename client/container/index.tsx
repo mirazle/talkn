@@ -49,9 +49,6 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     super(props);
     const { ui, thread } = props.state;
     this.state = { notifs: [] };
-
-    console.log(props.state);
-    console.log(thread.ch);
     this.coreApi("fetchPosts", { thread: { ch: thread.ch } });
     if (ui.extensionMode === Ui.extensionModeExtIncludeLabel || ui.extensionMode === Ui.extensionModeExtNoneLabel) {
       this.coreApi("rank", { thread: { ch: thread.ch } });
@@ -397,7 +394,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   }
 
   renderExtension(): React.ReactNode {
-    const { style } = this.props.state;
+    const { style, ui } = this.props.state;
     const props = this.getProps();
     const NewPost = this.renderNewPost(props);
     const LinkLabel = this.renderLinkLabel(props);
@@ -418,9 +415,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
           <InnerNotif {...this.props} />
         </div>
         <span data-component-name="fixedComponents">
-          {/* Notifs */}
           <PostsFooter {...props} />
-          {/* Debug */}
         </span>
       </span>
     );

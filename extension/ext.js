@@ -122,7 +122,7 @@ class Ext {
       if ("EXT_" + options.mode === Ext.MODE_INCLUDE && options.selector) {
         includeTag = document.querySelector(options.selector);
         if (includeTag) {
-          Object.keys(options).forEach(key => {
+          Object.keys(options).forEach((key) => {
             if (key !== "mode") {
               includeTag.style[key] = options[key];
             }
@@ -144,6 +144,7 @@ class Ext {
     let mode = Ext.DEFAULT_MODE;
     const domain = TALKN_EXT_ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
     const scriptTag = document.querySelector(`script[src='//ext.${domain}']`);
+
     if (scriptTag && scriptTag.attributes) {
       if (scriptTag.attributes.mode && scriptTag.attributes.mode.value) {
         mode = "EXT_" + scriptTag.attributes.mode.value.toUpperCase();
@@ -155,20 +156,21 @@ class Ext {
         mode = Ext.DEFAULT_MODE;
       }
     }
+
     return mode;
   }
   static getClientToRequestObj(method, params = {}) {
     return {
       type: "EXT_TO_CLIENT_TYPE",
       method: method,
-      params: params
+      params: params,
     };
   }
   static getApiToRequestObj(method, params = {}) {
     return {
       type: "EXT_TO_API_TYPE",
       method: method,
-      params: params
+      params: params,
     };
   }
 }
@@ -257,7 +259,7 @@ class Elements {
     const styles = this[`get${name}Styles`](called);
 
     if (elm && styles) {
-      Object.keys(styles).forEach(key => {
+      Object.keys(styles).forEach((key) => {
         elm.style[key] = styles[key];
       });
     }
@@ -313,7 +315,7 @@ class Window extends Elements {
     this.ch = this.href.replace("http:/", "").replace("https:/", "");
     const hasSlash = this.ch.lastIndexOf("/") === this.ch.length - 1;
     this.ch = hasSlash ? this.ch : this.ch + "/";
-    const bootFlg = Ext.EXCLUSION_ORIGINS.every(origin => {
+    const bootFlg = Ext.EXCLUSION_ORIGINS.every((origin) => {
       return this.href.indexOf(origin) === -1;
     });
     window.name = "global";
@@ -387,7 +389,7 @@ class Window extends Elements {
 
       if (this.isBrowserExt) {
         // Communication to background.js
-        chrome.runtime.sendMessage({ message: "message" }, res => {
+        chrome.runtime.sendMessage({ message: "message" }, (res) => {
           const options = res ? JSON.parse(res) : {};
           init(options);
         });
@@ -673,10 +675,12 @@ class Window extends Elements {
         this.transitionEndId = null;
 
         this.clientTo("updateExtension", {
-          extensionMode: this.extMode,
-          extensionWidth: iframe.getWidth(true),
-          extensionOpenHeight: Number(iframe.getHeight()),
-          extensionCloseHeight: Number(Iframe.getCloseHeight())
+          ui: {
+            extensionMode: this.extMode,
+            extensionWidth: iframe.getWidth(true),
+            extensionOpenHeight: Number(iframe.getHeight()),
+            extensionCloseHeight: Number(Iframe.getCloseHeight()),
+          },
         });
       }, Styles.BASE_TRANSITION);
     }
@@ -705,14 +709,16 @@ class Window extends Elements {
 
     this.updateDisplayMode("resized", true, {
       displayModeKey: this.displayModeKey,
-      displayModeDirection: this.displayModeDirection
+      displayModeDirection: this.displayModeDirection,
     });
 
     this.clientTo("updateExtension", {
-      extensionMode: this.extMode,
-      extensionWidth: iframe.getWidth(true),
-      extensionOpenHeight: Number(iframe.getHeight()),
-      extensionCloseHeight: Number(Iframe.getCloseHeight())
+      ui: {
+        extensionMode: this.extMode,
+        extensionWidth: iframe.getWidth(true),
+        extensionOpenHeight: Number(iframe.getHeight()),
+        extensionCloseHeight: Number(Iframe.getCloseHeight()),
+      },
     });
   }
 
@@ -770,7 +776,7 @@ class Body extends Elements {
         position: this.position,
         width: this.width,
         height: this.height,
-        marginTop: this.marginTop
+        marginTop: this.marginTop,
       };
     }
     return {};
@@ -787,7 +793,7 @@ class Body extends Elements {
           position: "fixed",
           width: "100%",
           height: "100%",
-          marginTop: -window.scrollY + "px"
+          marginTop: -window.scrollY + "px",
         };
       }
     }
@@ -1003,7 +1009,8 @@ class Iframe extends Elements {
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             const translateY = Styles.BOTTOM + Number(this.getHeight());
-            return `translate3d( 0px, ${translateY}px, 0px ) scale( 0.5 )`;
+            //return `translate3d( 0px, 0px, 0px ) scale( 1 )`;
+            return `translate3d( 0px, ${translateY}px, 0px ) scale( 1 )`;
           case Ext.DISPLAY_MODE_OPEN:
             return `translate3d( 0px, 0px, 0px ) scale( 1.0 )`;
         }
@@ -1050,8 +1057,8 @@ class Iframe extends Elements {
         extensionMode: this.window.extMode,
         extensionWidth: this.getWidth(true),
         extensionOpenHeight: this.getHeight(false),
-        extensionCloseHeight: Number(Iframe.getCloseHeight())
-      }
+        extensionCloseHeight: Number(Iframe.getCloseHeight()),
+      },
     });
   }
 
@@ -1081,7 +1088,7 @@ class Iframe extends Elements {
       maxWidth: width,
       height: height,
       minHeight: height,
-      maxHeight: height
+      maxHeight: height,
     };
   }
 
@@ -1100,7 +1107,7 @@ class Iframe extends Elements {
       maxWidth: width,
       height: height,
       minHeight: height,
-      maxHeight: height
+      maxHeight: height,
     };
   }
 
@@ -1304,7 +1311,7 @@ class HandleIcon extends Elements {
           boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
           transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
           background: Styles.BASE_ACTIVE_BG_COLOR,
-          border: Styles.BASE_UNACTIVE_BORDER
+          border: Styles.BASE_UNACTIVE_BORDER,
         };
       case Ext.MODE_BOTTOM:
         return {
@@ -1312,7 +1319,7 @@ class HandleIcon extends Elements {
           boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
           transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
           background: Styles.BASE_ACTIVE_BG_COLOR,
-          border: Styles.BASE_UNACTIVE_BORDER
+          border: Styles.BASE_UNACTIVE_BORDER,
         };
     }
   }
@@ -1324,14 +1331,14 @@ class HandleIcon extends Elements {
           boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
           transform: `translate3d(0px, -25px, 0px) scale( 1 )`,
           background: Styles.BASE_ACTIVE_BG_COLOR,
-          border: Styles.BASE_ACTIVE_BORDER
+          border: Styles.BASE_ACTIVE_BORDER,
         };
       case Ext.MODE_BOTTOM:
         return {
           boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
           transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
           background: Styles.BASE_ACTIVE_BG_COLOR,
-          border: Styles.BASE_ACTIVE_BORDER
+          border: Styles.BASE_ACTIVE_BORDER,
         };
     }
   }
@@ -1438,18 +1445,18 @@ class NotifStatus extends Elements {
     const baseCnt = Number(statusNotif.innerText);
     if (baseCnt > 0) {
       return {
-        transform: "scale(1.0)"
+        transform: "scale(1.0)",
       };
     } else {
       return {
-        transform: "scale(0.0)"
+        transform: "scale(0.0)",
       };
     }
   }
 
   getOpenStyles(called) {
     return {
-      transform: "scale(0.0)"
+      transform: "scale(0.0)",
     };
   }
 }
@@ -1943,7 +1950,7 @@ class Textarea extends Elements {
       width,
       height,
       right,
-      bottom
+      bottom,
     };
   }
 
@@ -1958,7 +1965,7 @@ class Textarea extends Elements {
       width,
       height,
       right,
-      bottom
+      bottom,
     };
   }
 }

@@ -93,17 +93,21 @@ export default class TalknComponent<P, S> extends Component<P, S> {
 
   onScroll({ scrollTop = 0, clientHeight = 0, scrollHeight = 0 }) {
     const { thread, ui, actionLog } = this.clientState;
+    const actionTypes =
+      ui.extensionMode === Ui.extensionModeExtNoneLabel
+        ? ["ON_RESIZE_END_WINDOW", "ON_SCROLL_UPDATE_TIME_MARKER"]
+        : ["ON_RESIZE_END_WINDOW", "ON_SCROLL_UPDATE_TIME_MARKER"];
     let { uiTimeMarker } = this.clientState;
 
     if (scrollTop === 0) {
-      if (actionLog[0] !== "ON_RESIZE_END_WINDOW") {
+      if (!actionTypes.includes(actionLog[0])) {
         if (thread.postCnt > conf.findOnePostCnt) {
           const timeMarkerList: any = document.querySelector("[data-component-name=TimeMarkerList]");
           if (timeMarkerList && timeMarkerList.style) {
             // UI上、重なるTIME MARKERを非表示にする
             timeMarkerList.style.opacity = 0;
           }
-
+          console.log("EXE GET MORE " + actionLog[0]);
           window.talknWindow.exeGetMore(this.clientStore);
         }
       }
@@ -138,8 +142,4 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     Posts.scrollTop = window.talknWindow.scrollTop;
     window.scrollTo(0, window.talknWindow.scrollTop);
   }
-
-  onScrollTop() {}
-
-  onScrollBottom() {}
 }

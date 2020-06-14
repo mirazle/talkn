@@ -147,7 +147,6 @@ const functions = {
     const threadDetail = state.threads[action.app.detailCh];
     action.threadDetail = { ...threadDetail };
     action.threadDetail.title = state.thread.serverMetas.title;
-    console.log(threadDetail);
     return action;
   },
   OFF_TRANSITION: (state, action) => {
