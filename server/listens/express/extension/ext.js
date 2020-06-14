@@ -1010,7 +1010,7 @@ class Iframe extends Elements {
           case Ext.DISPLAY_MODE_ACTIVE:
             const translateY = Styles.BOTTOM + Number(this.getHeight());
             //return `translate3d( 0px, 0px, 0px ) scale( 1 )`;
-            return `translate3d( 0px, ${translateY}px, 0px ) scale( 0.75 )`;
+            return `translate3d( 0px, ${translateY}px, 0px ) scale( 0.8 )`;
           case Ext.DISPLAY_MODE_OPEN:
             return `translate3d( 0px, 0px, 0px ) scale( 1.0 )`;
         }
