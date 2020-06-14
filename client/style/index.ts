@@ -201,13 +201,6 @@ export default class Style {
   icon: Icon;
   loading: Loading;
   constructor(params) {
-    /*
-    APP, UIをparamsで渡す
-    APIからの場合はuiを混ぜてdispath
-    CLIENTからの場合はappを混ぜてdispatch
-
-*/
-
     const container = new Container(params);
     const header = new Header(params);
     const footer = new Footer(params);

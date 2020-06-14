@@ -131,7 +131,6 @@ export default (state = [], action) => {
         return mi;
       });
     case "SERVER_TO_API[EMIT]:rank":
-      console.log(action.rank);
       if (state && state.length > 0 && action.rank && action.rank.length > 0) {
         action.rank.shift();
         return [state[0]].concat(action.rank);

@@ -53,7 +53,7 @@ export default class Header {
       childAnalyzeWrap,
       childAnalyzeType,
       childAnalyzeCnt,
-      childTalknLogo
+      childTalknLogo,
     };
   }
 
@@ -93,21 +93,21 @@ export default class Header {
         position: "absolute",
         top: "0px",
         right: Header.getChildAnalyzeRight({ app, ui }),
-        margin
+        margin,
       };
     } else {
       return {
         position: "absolute",
         top: "0px",
         right: Header.getChildAnalyzeRight({ app, ui }),
-        margin
+        margin,
       };
     }
   }
 
   static getBorderRadius({ app, ui }, addUnit = false) {
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
-      return ui.extensionWidth === "100%" ? "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
+      return ui.extensionWidth === "100%" ? "0px" : `${Container.radius} ${Container.radius} 0px 0px`;
     } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
       return `${Container.radius} ${Container.radius} 0px 0px`;
     }
@@ -130,13 +130,13 @@ export default class Header {
       borderRadius,
       background: Container.whiteRGB,
       margin: Header.getMargin({ app, ui }),
-      zIndex: 1000
+      zIndex: 1000,
     });
     const content = Style.getContentBase({
-      textAlign: "center"
+      textAlign: "center",
     });
     const animation = Style.getAnimationBase({
-      transform: Header.getNotifTranslateY({ app, ui })
+      transform: Header.getNotifTranslateY({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -144,7 +144,7 @@ export default class Header {
   static getUserIcon(params) {
     const layout = Style.getLayoutBlock({
       flexGrow: 2,
-      height: "auto"
+      height: "auto",
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -154,7 +154,7 @@ export default class Header {
   static getUserIconImg(params) {
     const layout = Style.getLayoutInlineBlock({
       width: "30px",
-      margin: "0px 10px 0px 0px"
+      margin: "0px 10px 0px 0px",
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -166,10 +166,10 @@ export default class Header {
     const layout = Style.getLayoutFlex({
       justifyContent: "center",
       width,
-      height: "100%"
+      height: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "17px"
+      fontSize: "17px",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -182,7 +182,7 @@ export default class Header {
       alignItems: "center",
       justifyContent: "center",
       width,
-      height: "100%"
+      height: "100%",
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -196,7 +196,7 @@ export default class Header {
       alignItems: "center",
       justifyContent: "center",
       width,
-      height: "100%"
+      height: "100%",
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -209,7 +209,7 @@ export default class Header {
       ...positions,
       flexDirection: "column",
       width: "40px",
-      height: "28px"
+      height: "28px",
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -220,12 +220,12 @@ export default class Header {
     const fontSize = ui.screenMode === Ui.screenModeSmallLabel ? "9px" : "14px";
     const layout = Style.getLayoutBlock({
       height: "14px",
-      marginBottom: "4px"
+      marginBottom: "4px",
     });
     const content = Style.getContentBase({
       fontSize,
       color: Container.themeRGBA,
-      fontWeight: "bold"
+      fontWeight: "bold",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -234,12 +234,12 @@ export default class Header {
   static getChildAnalyzeCnt({ app, ui }) {
     const fontSize = ui.screenMode === Ui.screenModeSmallLabel ? "9px" : "14px";
     const layout = Style.getLayoutBlock({
-      height: "14px"
+      height: "14px",
     });
     const content = Style.getContentBase({
       fontSize,
       color: Container.themeRGBA,
-      fontWeight: "bold"
+      fontWeight: "bold",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -249,11 +249,11 @@ export default class Header {
     const layout = Style.getLayoutInlineBlock({
       position: "absolute",
       width: "45px",
-      height: `45px`
+      height: `45px`,
     });
     const content = Style.getContentBase({
       color: Container.themeRGBA,
-      fontWeight: "bold"
+      fontWeight: "bold",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -268,17 +268,17 @@ export default class Header {
       margin: "0 auto",
       zIndex: "10",
       background: "rgba(0, 0, 0, 0.4)",
-      borderRadius: "20px"
+      borderRadius: "20px",
     });
     const content = Style.getContentBase({
       color: "rgb(255,255,255)",
       textAlign: "center",
       fontSize: "12px",
       lineHeight: 2,
-      cursor: "pointer"
+      cursor: "pointer",
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }

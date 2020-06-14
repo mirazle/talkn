@@ -7,12 +7,13 @@ export default class ExtScreen {
   constructor(params) {
     const self = ExtScreen.getSelf(params);
     return {
-      self
+      self,
     };
   }
 
   static getTop({ app, ui }) {
-    return ui.extensionMode === Ui.extensionModeExtModalLabel ? "0%" : "100%";
+    return 0;
+    //    return ui.extensionMode === Ui.extensionModeExtModalLabel ? "0%" : "100%";
   }
 
   static getSelfTransform({ app, ui }, call = "") {
@@ -37,12 +38,12 @@ export default class ExtScreen {
       top: ExtScreen.getTop({ app, ui }),
       justifyContent: "flex-start",
       alignItems: "flex-start",
-      height: "100%"
+      height: "100%",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
       transform: ExtScreen.getSelfTransform({ app, ui }),
-      transition: ExtScreen.getSelfTransition({ app, ui })
+      transition: ExtScreen.getSelfTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }

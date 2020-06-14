@@ -48,6 +48,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   isScrollBottom: boolean = false;
   isAnimateScrolling: boolean = false;
   parentUrl: string = location.href;
+  extUiParams: any = {};
   private dom: any;
   private stores: any;
   constructor(props = null) {
@@ -67,6 +68,12 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     this.dom.body = document.querySelector("body");
     this.dom.posts = document.querySelector("[data-component-name=Posts]");
     this.listenAsyncBoot();
+  }
+
+  createClientState(state) {
+    if (this.stores.client !== null) {
+      this.stores.client = new ClientState(state);
+    }
   }
 
   setupWindow() {
@@ -111,12 +118,15 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
                 case PostMessage.HANDLE_EXT_AND_CLIENT:
                   this.parentUrl = e.origin;
                   this.parentExtTo(PostMessage.HANDLE_EXT_AND_CLIENT, conf);
+                  this.extUiParams = e.data.params.ui;
+                  break;
+                default:
+                  const clientState = this.stores.client.getState();
+                  const actionType = Sequence.convertApiToClientActionType(e.data.method);
+                  const dispatchState = { ...clientState, ...e.data.params };
+                  this.stores.client.dispatch({ ...dispatchState, type: actionType });
                   break;
               }
-              const clientState = this.stores.client.getState();
-              const actionType = Sequence.convertApiToClientActionType(e.data.method);
-              const dispatchState = { ...clientState, ...e.data.params };
-              this.stores.client.dispatch({ ...dispatchState, type: actionType });
               break;
             case PostMessage.API_TO_CLIENT_TYPE:
               if (e.data.method === PostMessage.HANDLE_API_AND_CLIENT) {
@@ -128,8 +138,9 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
                 const apiState = e.data.params;
 
                 if (actionType === "API_TO_CLIENT[REQUEST]:tune") {
-                  const clientState = new ClientState(apiState);
-                  this.stores.client.dispatch({ ...apiState, ...clientState, type: actionType });
+                  const initClientState = { ...apiState, ...this.extUiParams, type: actionType };
+                  const clientState = new ClientState(initClientState);
+                  this.stores.client.dispatch({ ...clientState, type: actionType });
                 } else {
                   this.stores.client.dispatch({ ...apiState, type: actionType });
                 }
@@ -165,11 +176,6 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
 
   load(resolve) {
-    /*
-    this.scrollHeight = document.querySelector("body").scrollHeight;
-    this.scrollTop = window.scrollY;
-    this.innerHeight = window.innerHeight;
-*/
     this.setupWindow();
     resolve(true);
   }
@@ -178,7 +184,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
 
   resize(ev) {
     if (window.talknWindow) {
-      const { ui } = this.clientState;
+      const { app, ui } = this.clientState;
       if (ui.extensionMode === "EXT_BOTTOM" || ui.extensionMode === "EXT_MODAL") {
         if (this.resizeTimer === null) {
           this.resizeTimer = setTimeout(() => {
@@ -238,11 +244,21 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     clearTimeout(this.resizeTimer);
     this.resizeTimer = null;
     const clientStore = window.talknWindow.clientStore.getState();
-    const ui = clientStore.ui;
-    ui.width = window.innerWidth;
-    ui.height = window.innerHeight;
-    ui.screenMode = Ui.getScreenMode();
-    this.clientAction("ON_RESIZE_END_WINDOW", { ui });
+    const { app, ui } = clientStore;
+    let updateWindow = false;
+    if (ui.width !== window.innerWidth) {
+      ui.width = window.innerWidth;
+      updateWindow = true;
+    }
+    if (ui.height !== window.innerHeight) {
+      ui.height = window.innerHeight;
+      updateWindow = true;
+    }
+
+    if (updateWindow) {
+      ui.screenMode = Ui.getScreenMode();
+      this.clientAction("ON_RESIZE_END_WINDOW", { ui });
+    }
   }
 
   animateScrollTo(to = 9999999, duration = 400, callback = () => {}) {
