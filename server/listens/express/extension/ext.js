@@ -238,7 +238,7 @@ class Styles {
       `#${Textarea.id}::placeholder { ` +
         `font-size: 12px; ` +
         `line-height: 9px; ` +
-        `letter-spacing: 2px; ` +
+        `letter-spacing: 1.5px; ` +
         `color: rgb(170, 170, 170); ` +
         `}`
     );
