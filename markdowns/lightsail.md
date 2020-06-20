@@ -37,6 +37,7 @@ yum install epel-release -y
 yum install certbot -y
 yum update -y
 yum install git -y
+yum install gcc -y (yarn installで使用する)
 yum install gcc-c++ -y (yarn installで使用する)
 yum install redis -y
 yum install mongodb-org -y`(リポジトリmongodb-org-xx.repo)
@@ -184,8 +185,27 @@ cd /usr/share/applications/
 git clone git@github.com:mirazle/talkn.git
 ln -s /usr/share/applications/talkn/ /root/talkn
 cd /usr/share/applications/talkn
+
+// iconvのインストールのために先にインストールしておく
+yarn global add node-gyp
 yarn install
 ```
+
+# iconvをインストール
+
+yarn installの際にiconvでエラーが出る。
+iconvの中に1985年の古いPythonファイルが存在しており、途中でエラーが出る。
+```
+error /usr/share/applications/talkn/node_modules/iconv: Command failed.
+Exit code: 1
+Command: node-gyp rebuild
+Arguments:
+Directory: /usr/share/applications/talkn/node_modules/iconv
+```
+
+2.7系の最新を入れる。
+yumはpythonで出来ているのでpythonをUPDATEするとyumが使用出来なくなることがあるので要注意。
+
 
 # ソースの修正
 
@@ -204,7 +224,7 @@ yarn install
 
 `env`か`echo $HOSTNAME`で確認出来る文字列
 
-### フォルダ
+### フォルダ解決
 
 ```
 mkdir /usr/share/applications/talkn/server/listens/express/assets/icon
