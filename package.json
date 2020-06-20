@@ -34,7 +34,7 @@
     "@types/socket.io-client": "^1.4.32",
     "@types/socket.io-redis": "^1.0.25",
     "@types/webpack-env": "^1.14.0",
-    "nodemon": "^1.19.2",
+    "nodemon": "^2.0.4",
     "redux-logger": "^3.0.6",
     "ts-loader": "^6.2.0",
     "ts-node": "^8.4.1",
