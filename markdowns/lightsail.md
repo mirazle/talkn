@@ -72,7 +72,7 @@ certbot -d $DOMAIN -d \$WILDCARD --manual --preferred-challenges dns certonly
 
 `dig -t TXT \_acme-challenge.talkn.io`
 
-で変更を確認(変更されてなければ待つ)
+で変更を確認(変更されていなければ、TTLで設定してある時間待つ)
 
 - 実行したターミナルのコマンドでエンターを押し
 
@@ -169,6 +169,9 @@ npm -v
 
 - 公開鍵を github の Setting->Deploy keys に追加
 
+Title: talknProdApp-root
+key: viewの内容をペースト
+
 ```
 ssh-keygen -t rsa -b 4096 -C "mirazle2069@gmail.com"
 `view /root/.ssh/id_rsa.pub
@@ -180,11 +183,14 @@ ssh-keygen -t rsa -b 4096 -C "mirazle2069@gmail.com"
 cd /usr/share/applications/
 git clone git@github.com:mirazle/talkn.git
 ln -s /usr/share/applications/talkn/ /root/talkn
+cd /usr/share/applications/talkn
+yarn install
 ```
 
 # ソースの修正
 
-これらが完了しないと本番で動作しない
+チェックアウトが正しく完了した後に実行する。
+これらが完了しないと本番で動作しない。
 
 ### IP アドレス
 
@@ -196,7 +202,7 @@ ln -s /usr/share/applications/talkn/ /root/talkn
 
 にプライベート IP を反映させる`172-26-3-161`が可変になる
 
-`env | echo $HOSTNAME`で確認出来る文字列
+`env`か`echo $HOSTNAME`で確認出来る文字列
 
 ### フォルダ
 
@@ -204,19 +210,19 @@ ln -s /usr/share/applications/talkn/ /root/talkn
 mkdir /usr/share/applications/talkn/server/listens/express/assets/icon
 ```
 
-このようなエラーが出るので
+yarn run server時に下記のようなエラーが出るので
 
 > (node:18715) UnhandledPromiseRejectionWarning: Error: ENOENT: no such file or directory, open '/usr/share/applications/talkn/server/listens/express/assets/icon/https:\_\_assets.talkn.io_favicon.ico.png'
 
 ### node_modules
 
-- node_modules/send/index.js を
+`vi node_modules/send/index.js` を
 
 ```
 24 var mime = require('mime-types')
 ```
 
-に変更する(TODO)
+に変更する(TODO: この修正無しでも動作出来るようにうにする)
 
 # Local 設定
 

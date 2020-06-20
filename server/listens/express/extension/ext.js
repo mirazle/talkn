@@ -1128,10 +1128,12 @@ class HandleIcon extends Elements {
     super(_window);
 
     if (this.window.extMode !== Ext.MODE_INCLUDE) {
-      let handleIcon = document.createElement("canvas");
-      handleIcon = this.drawCanvas(handleIcon);
+      let handleIcon = document.createElement("div");
+      // let handleIcon = document.createElement("canvas");
+      // handleIcon = this.drawCanvas(handleIcon);
       handleIcon.id = HandleIcon.id;
       handleIcon.style = this.getStyle();
+      // handleIcon.src = '//assets.localhost/airplane.svg';
 
       this.click = this.click.bind(this);
       this.mouseover = this.mouseover.bind(this);
@@ -1310,15 +1312,16 @@ class HandleIcon extends Elements {
           bottom: "10px",
           boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
           transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
-          background: Styles.BASE_ACTIVE_BG_COLOR,
+//          background: Styles.BASE_ACTIVE_BG_COLOR,
+          background: `#fff url("https://assets.localhost/airplane.svg") -1px 1px / 64px no-repeat`,
           border: Styles.BASE_UNACTIVE_BORDER,
         };
       case Ext.MODE_BOTTOM:
         return {
           bottom: "0px",
           boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
-          transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
-          background: Styles.BASE_ACTIVE_BG_COLOR,
+          background: `#fff url("https://assets.localhost/airplane.svg") -1px 1px / 64px no-repeat`,
+//          background: Styles.BASE_ACTIVE_BG_COLOR,
           border: Styles.BASE_UNACTIVE_BORDER,
         };
     }

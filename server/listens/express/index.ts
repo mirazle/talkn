@@ -63,12 +63,15 @@ class Express {
           res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
           res.sendFile(conf.serverApiPath);
         } else {
+          language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
           res.render("api/", {
+            language,
             domain: conf.domain,
             apiURL: conf.apiURL,
+            wwwURL: conf.wwwURL,
+            extURL: conf.extURL,
             assetsURL: conf.assetsURL,
             clientURL: conf.clientURL,
-            wwwURL: conf.wwwURL,
             apiAccessURL: conf.apiAccessURL,
           });
         }
