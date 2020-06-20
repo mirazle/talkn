@@ -244,6 +244,10 @@ yarn run server時に下記のようなエラーが出るので
 `yarn install`
 `sh start.sh`
 
+## ポートが埋まって実行できない時
+
+
+
 # dokcer のインストール
 
 sudo yum install -y docker # docker のインストール
