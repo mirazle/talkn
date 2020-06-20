@@ -39,6 +39,7 @@ yum update -y
 yum install git -y
 yum install gcc -y (yarn installで使用する)
 yum install gcc-c++ -y (yarn installで使用する)
+yum install lsof -y(ポート使用確認 lsof -i:10443)
 yum install redis -y
 yum install mongodb-org -y`(リポジトリmongodb-org-xx.repo)
 ```
@@ -191,21 +192,20 @@ yarn global add node-gyp
 yarn install
 ```
 
-# iconvをインストール
+# yarn run serverが失敗する
 
-yarn installの際にiconvでエラーが出る。
-iconvの中に1985年の古いPythonファイルが存在しており、途中でエラーが出る。
 ```
-error /usr/share/applications/talkn/node_modules/iconv: Command failed.
-Exit code: 1
-Command: node-gyp rebuild
-Arguments:
-Directory: /usr/share/applications/talkn/node_modules/iconv
+rm -Rf node_modules
+ps aux | grep node | grep -v grep | awk '{ print "kill -9", $2 }' | sh
+systemctl restart redis
+systemctl restart mongod
+nvm use 14.4.0
+yarn cache clean
+yarn global add node-gyp
+yarn global add node-gyp
+yarn install
+
 ```
-
-2.7系の最新を入れる。
-yumはpythonで出来ているのでpythonをUPDATEするとyumが使用出来なくなることがあるので要注意。
-
 
 # ソースの修正
 
