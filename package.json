@@ -57,6 +57,7 @@
     "forever": "*",
     "forever-monitor": "*",
     "fs": "^0.0.1-security",
+    "iconv": "^3.0.0",
     "jschardet": "^2.1.0",
     "mongoose": "^5.9.18",
     "node-gyp": "^6.1.0",
