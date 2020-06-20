@@ -202,7 +202,6 @@ systemctl restart mongod
 nvm use 14.4.0
 yarn cache clean
 yarn global add node-gyp
-yarn global add node-gyp
 yarn install
 
 ```
