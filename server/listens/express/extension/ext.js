@@ -1321,7 +1321,6 @@ class HandleIcon extends Elements {
           bottom: "10px",
           boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
           transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
-//          background: Styles.BASE_ACTIVE_BG_COLOR,
           background: `#fff url("https:${Ext.APP_ASSETS_HOST}/airplane.svg") -1px 1px / 64px no-repeat`,
           border: Styles.BASE_UNACTIVE_BORDER,
         };
@@ -1330,7 +1329,6 @@ class HandleIcon extends Elements {
           bottom: "0px",
           boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
           background: `#fff url("https:${Ext.APP_ASSETS_HOST}/airplane.svg") -1px 1px / 64px no-repeat`,
-//          background: Styles.BASE_ACTIVE_BG_COLOR,
           border: Styles.BASE_UNACTIVE_BORDER,
         };
     }

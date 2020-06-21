@@ -100,7 +100,7 @@ class BootOption {
         bootOption.ch = bootOption.ch + "/";
       }
     }
-
+console.log(bootOption);
     bootOption.type = define.APP_TYPES.API;
     if (extScript) {
       bootOption.type = define.APP_TYPES.EXTENSION;
