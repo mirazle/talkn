@@ -400,7 +400,9 @@ class GlobalWindow {
 
   clientTo(method, params = {}) {
     const requestObj = GlobalWindow.getRequestObj(method, params);
-    console.log(requestObj);
+    console.log('@@@ ' + requestObj.method + ' @@@');
+    console.log(requestObj.params.thread);
+    console.log(this.bootOption);
     // boot by portal site.
     if (this.bootOption.type === define.APP_TYPES.PORTAL) {
 
