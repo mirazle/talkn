@@ -10,6 +10,7 @@ export default (state = [], action) => {
     if (a.watchCnt > b.watchCnt) return -1;
     return 0;
   };
+
   switch (action.type) {
     case "ON_CLICK_MULTISTREAM":
       const multistreamPosts =
@@ -131,9 +132,23 @@ export default (state = [], action) => {
         return mi;
       });
     case "SERVER_TO_API[EMIT]:rank":
-      if (state && state.length > 0 && action.rank && action.rank.length > 0) {
-        action.rank.shift();
-        return [state[0]].concat(action.rank);
+      if (state && state.length === 1 && action.rank && action.rank.length > 0) {
+        const rank = action.rank.map( (data, i) => {
+          if (data.ch === state[0].ch) {
+            return { 
+              ...data,
+              watchCnt: state[0].watchCnt,
+            };
+          }else{
+            return data;
+          }
+        }).sort(sortWatchCnt);
+
+        if(rank[0].post === "" ){
+          rank[0].post = rank[1].post;
+          rank[0].stampId = rank[1].stampId;
+        }
+        return rank;
       } else {
         return action.rank ? action.rank : state;
       }

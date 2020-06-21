@@ -142,6 +142,10 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
                   const clientState = new ClientState(initClientState);
                   this.stores.client.dispatch({ ...clientState, type: actionType });
                 } else {
+                  if(actionType === "API_TO_CLIENT[EMIT]:rank"){
+                    console.log(apiState.rank[0]);
+                    console.log(apiState.rank[1]);
+                  }
                   this.stores.client.dispatch({ ...apiState, type: actionType });
                 }
               }
