@@ -89,6 +89,7 @@ export default class Schema {
         const validType = type;
         const paramsValue = _value;
         const paramsType = Schema.getType(_value);
+        console.log('@@@@@@@@@@@@@@@@---');
         if (paramsType !== type) {
           error = `SCHEMA_TYPE : ${pointer} [validType: ${type}][paramsType: ${paramsType}]`;
         }
@@ -150,23 +151,24 @@ export default class Schema {
       console.log(key);
       console.log(validValue);
       const currentValue = this[key];
-      console.log('in');
+      console.log('in A ' + currentValue);
       if(currentValue === undefined ){
-        console.log('in A');
+        console.log('in B');
         return true;
       }
 
       if(currentValue === null ){
-        console.log('in B');
+        console.log('in C');
         return true;
       }
+      console.log('in D');
       const { error } = (this[key] = validValue);
-
+      console.log('in E');
       if (error) {
-        console.log('in C');
+        console.log('in F');
         return false;
       } else {
-        console.log('in D');
+        console.log('in G');
         this[key] = currentValue;
         return true;
       }
