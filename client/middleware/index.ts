@@ -3,6 +3,7 @@ import util from "common/util";
 import define from "common/define";
 import Sequence from "api/Sequence";
 import App from "api/store/App";
+import Posts from "api/store/Posts";
 import Ui from "client/store/Ui";
 import Container from "client/style/Container";
 
@@ -100,6 +101,27 @@ const functions = {
   },
   "CLIENT_TO_API[EMIT]:getMore": (state, action) => {
     action.ui.isLoading = true;
+    return action;
+  },
+  ON_CLICK_MULTISTREAM: (state, action) => {
+    const posts = Posts.getDispPosts(action);
+    const postLength = posts && posts.length ? posts.length : 0;
+    console.log("IN");
+    if (postLength > 0 && state.rank.length > 0) {
+      action.rank = state.rank.map((mi) => {
+        console.log( action.app.rootCh + " === " + mi.ch );
+        if (state.app.rootCh === mi.ch) {
+          return {
+            ...mi,
+            favicon: posts[postLength - 1].favicon,
+            post: posts[postLength - 1].post,
+            stampId: posts[postLength - 1].stampId,
+          };
+        } else {
+          return mi;
+        }
+      });
+    }
     return action;
   },
   NEXT_POSTS_TIMELINE: (state, action) => {
