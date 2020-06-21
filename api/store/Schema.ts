@@ -147,6 +147,8 @@ export default class Schema {
 
   canSet(key: any, validValue: any) {
     try {
+      console.log(key);
+      console.log(validValue);
       const currentValue = this[key];
 
       if(currentValue === undefined ){
