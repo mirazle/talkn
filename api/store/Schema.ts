@@ -146,7 +146,7 @@ export default class Schema {
   }
 
   canSet(key: any, validValue: any) {
-    try {
+    // try {
       console.log(key);
       console.log(validValue);
       const currentValue = this[key];
@@ -170,6 +170,7 @@ export default class Schema {
         this[key] = currentValue;
         return true;
       }
+    /*
     } catch (e) {
       console.warn("BAD CAN SET KEY: " + this.constructor.name + " " + key);
       console.warn("BEFOER VALUE");
@@ -180,6 +181,7 @@ export default class Schema {
       console.warn(validValue);
       throw `BAD CAN SET: ${e}`;
     }
+    */
   }
 
   merge(params = {}, immutable = true) {
