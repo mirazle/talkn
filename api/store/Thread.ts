@@ -141,6 +141,8 @@ export default class Thread extends Schema {
   }
 
   static getCh(bootOption: any, bootCh: string) {
+    console.log(bootOption);
+    console.log(bootCh);
     if (bootCh) {
       return bootCh;
     } else {
