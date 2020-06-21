@@ -1,8 +1,10 @@
+import process from "process";
+const hostName = process.env.HOSTNAME ? process.env.HOSTNAME : 'localhost';
 const define: any = {
   PRODUCTION: "production",
   LOCALHOST: "localhost",
   DEVELOPMENT: "development",
-  PRODUCTION_IP: "ip-172-26-11-234.ec2.internal",
+  PRODUCTION_IP: hostName,
   PRODUCTION_DOMAIN: "talkn.io",
   DEVELOPMENT_DOMAIN: "localhost",
   PORTS: {

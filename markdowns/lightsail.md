@@ -37,11 +37,11 @@ yum install epel-release -y
 yum install certbot -y
 yum update -y
 yum install git -y
-yum install gcc -y (yarn installで使用する)
-yum install gcc-c++ -y (yarn installで使用する)
-yum install lsof -y(ポート使用確認 lsof -i:10443)
+yum install gcc -y
+yum install gcc-c++ -y
+yum install lsof -y
 yum install redis -y
-yum install mongodb-org -y`(リポジトリmongodb-org-xx.repo)
+yum install mongodb-org -y
 ```
 
 ## step1 前提条件を満たす
@@ -165,7 +165,7 @@ npm -v
 ## yarn
 
 `npm install -g yarn`
-`yarn --version`
+`yarn -v`
 
 # Github からソースを checkout
 
@@ -176,7 +176,7 @@ key: viewの内容をペースト
 
 ```
 ssh-keygen -t rsa -b 4096 -C "mirazle2069@gmail.com"
-`view /root/.ssh/id_rsa.pub
+view /root/.ssh/id_rsa.pub
 ```
 
 - チェックアウト
@@ -189,10 +189,9 @@ cd /usr/share/applications/talkn
 
 // iconvのインストールのために先にインストールしておく
 yarn global add node-gyp
-yarn install
 ```
 
-# yarn installがkilled, yarn run serverがcrashedで失敗するのはout of memoryエラー(推測)
+# 起動( yarn installがkilled, yarn run serverがcrashedで失敗するのはout of memoryエラー(推測))
 
 
 https://qiita.com/mozukuzuku/items/efe80a32c15e323c5d7a
