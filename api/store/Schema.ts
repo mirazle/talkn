@@ -150,7 +150,7 @@ export default class Schema {
       console.log(key);
       console.log(validValue);
       const currentValue = this[key];
-
+      console.log('in');
       if(currentValue === undefined ){
         return true;
       }
