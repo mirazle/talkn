@@ -303,9 +303,6 @@ class GlobalWindow {
   onWsServer(coreApi: any) {
     this.coreApi = coreApi;
     const apiState = new ApiState(window, this.bootOption);
-    console.log('@@@@@@');
-    console.log('bootOption.ch : ' + this.bootOption.ch);
-    console.log('thread.ch : ' + apiState.thread.ch );
     this.coreApi.setUp(apiState, this.bootOption.ch);
     if (this.bootOption.type !== define.APP_TYPES.API) {
       this.coreApi.tune(apiState);

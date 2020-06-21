@@ -90,7 +90,6 @@ export default class Thread extends Schema {
   static constructorFromWindow(params, bootOption, cache) {
     const bootCh = bootOption.ch ? bootOption.ch : false;
     const ch = Thread.getCh(bootOption, bootCh);
-    console.log('=== ' + ch);
     if (cache.ch && cache.ch === ch) {
       return cache;
     } else {
