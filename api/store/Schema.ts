@@ -148,6 +148,15 @@ export default class Schema {
   canSet(key: any, validValue: any) {
     try {
       const currentValue = this[key];
+
+      if(currentValue === undefined ){
+        return true;
+      }
+
+      if(currentValue === null ){
+        return true;
+      }
+
       const { error } = (this[key] = validValue);
 
       if (error) {
