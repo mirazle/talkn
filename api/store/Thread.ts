@@ -141,22 +141,7 @@ export default class Thread extends Schema {
   }
 
   static getCh(bootOption: any, bootCh: string) {
-    console.log('---- GET CH ----');
-    console.log(bootOption);
-    console.log(bootCh);
-    let ch = '/';
-    if (!bootCh) {
-      const location: any = window.location ? window.location : {};
-      let href = location.href ? location.href : "";
-      if (href !== "") {
-        href = href.slice(-1) === "/" ? href.slice(0, -1) : href;
-        href = href.replace("http:/", "");
-        href = href.replace("https:/", "");
-        ch = href;
-      }
-    }
-    console.log(ch);
-    return ch;
+    return bootOption && bootOption.ch && bootOption.ch !== '' ? bootOption.ch : '/'  
   }
 
   static getChTop(ch) {
