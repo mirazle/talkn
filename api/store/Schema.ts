@@ -148,27 +148,23 @@ export default class Schema {
 
   canSet(key: any, validValue: any) {
     // try {
-      console.log(key);
-      console.log(validValue);
       const currentValue = this[key];
-      console.log('in A ' + currentValue);
       if(currentValue === undefined ){
-        console.log('in B');
         return true;
       }
 
       if(currentValue === null ){
-        console.log('in C');
         return true;
       }
-      console.log('in D');
+      console.log('--------------------');
+      console.log('in A');
+      console.log(validValue);
+      console.log(this[key]);
       const { error } = (this[key] = validValue);
-      console.log('in E');
+      console.log('in B');
       if (error) {
-        console.log('in F');
         return false;
       } else {
-        console.log('in G');
         this[key] = currentValue;
         return true;
       }
