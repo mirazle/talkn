@@ -192,18 +192,25 @@ yarn global add node-gyp
 yarn install
 ```
 
-# yarn run serverが失敗する
+# yarn installがkilled, yarn run serverがcrashedで失敗するのはout of memoryエラー(推測)
+
+
+https://qiita.com/mozukuzuku/items/efe80a32c15e323c5d7a
+
+df -Tで確認するとcentosの/のファイルシステムがxfsであることが確認出来る。
+xfsファイルシステムはfallocate(ファイルレベル)でのswapメモリ領域確保は許容されていない。
+`swapon: 512MB.dat: swapon failed: Invalid argument`
+というエラーが出るのでswapメモリ領域確保はdd(物理ディスクレベル)で実行する。
 
 ```
-rm -Rf node_modules
 ps aux | grep node | grep -v grep | awk '{ print "kill -9", $2 }' | sh
 systemctl restart redis
 systemctl restart mongod
 nvm use 14.4.0
+rm -Rf node_modules
 yarn cache clean
 yarn global add node-gyp
 yarn install
-
 ```
 
 # ソースの修正
