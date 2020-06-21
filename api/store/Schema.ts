@@ -156,6 +156,14 @@ export default class Schema {
       if(currentValue === null ){
         return true;
       }
+
+      if(validValue === undefined ){
+        return true;
+      }
+
+      if(validValue === null ){
+        return true;
+      }
       console.log('--------------------');
       console.log('in A');
       console.log(validValue);
