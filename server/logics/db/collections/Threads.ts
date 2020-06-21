@@ -57,8 +57,6 @@ export default class Threads {
     const { rootCh: ch } = app;
     const layer = Thread.getLayer(ch);
 
-    //    const regexCh = ch.replace(/\//, '\/');
-    //    const regex = new RegExp( `^${regexCh}` );
     let condition: any = {};
     condition.chs = ch;
     condition.postCnt = { $ne: 0 };
@@ -109,6 +107,7 @@ export default class Threads {
     if (response[0] && isNaN(response[0].watchCnt)) {
       response[0].watchCnt = 1;
     }
+
     // Response structure is Post Schema Base.
     return response;
   }

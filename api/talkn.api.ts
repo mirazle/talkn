@@ -175,6 +175,10 @@ class CoreAPI {
         if (resolve && response.type === Sequence.CONNECTION_SERVER_KEY) {
           resolve(self);
         }
+        if(response.type === "rank"){
+          console.log(response.rank[0]);
+          console.log(response.rank[1]);
+        }
         const actionState = action(response);
         return this.apiStore.dispatch(actionState);
       };
