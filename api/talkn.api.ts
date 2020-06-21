@@ -330,6 +330,7 @@ class GlobalWindow {
   subscribe() {
     if (this.coreApi) {
       const apiState = this.apiStore.getState();
+      console.log(apiState);
       this.afterMediaFilter(apiState);
       this.exeCallback(apiState.app.actioned, apiState);
       this.clientTo(apiState.app.actioned, apiState);
@@ -402,7 +403,7 @@ class GlobalWindow {
     const requestObj = GlobalWindow.getRequestObj(method, params);
     console.log('@@@ ' + requestObj.method + ' @@@');
     console.log(requestObj.params.thread);
-    console.log(this.bootOption);
+    console.log(this.bootOption.ch);
     // boot by portal site.
     if (this.bootOption.type === define.APP_TYPES.PORTAL) {
 
