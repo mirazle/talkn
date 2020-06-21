@@ -1,7 +1,9 @@
-import Rank from "api/store/Rank";
+import Posts from "api/store/Posts";
 import App from "api/store/App";
 
 export default (state = [], action) => {
+  let posts = [];
+  let postLength = 0;
   const sortWatchCnt = (a, b) => {
     if (a.ch === action.app.rootCh || b.ch === action.app.rootCh) {
       return 0;
@@ -12,80 +14,30 @@ export default (state = [], action) => {
   };
 
   switch (action.type) {
-    case "ON_CLICK_MULTISTREAM":
-      const multistreamPosts =
-        action.app.dispThreadType === App.dispThreadTypeMulti ? action.postsMulti : action.postsSingle;
-      const multistreamPostLength = multistreamPosts && multistreamPosts.length ? multistreamPosts.length : 0;
-      if (multistreamPostLength > 0) {
-        return state.map((mi) => {
-          if (action.app.rootCh === mi.ch) {
-            return {
-              ...mi,
-              //						title: multistreamPosts[ multistreamPostLength - 1].title,
-              favicon: multistreamPosts[multistreamPostLength - 1].favicon,
-              post: multistreamPosts[multistreamPostLength - 1].post,
-            };
-          } else {
-            return mi;
-          }
-        });
-      }
-      return state;
     case "SERVER_TO_API[EMIT]:fetchPosts":
       if (action.app.isLinkCh) {
         return state;
       }
 
-      const postLength = action.posts && action.posts.length ? action.posts.length : 0;
+      posts = Posts.getDispPosts(action);
+      postLength = posts && posts.length ? action.posts.length : 0;
 
       if (postLength === 0) {
-        return state.map((mi) => {
-          if (action.thread.ch === mi.ch) {
-            return {
-              ...mi,
-              title: action.thread.title,
-              favicon: action.thread.favicon,
-              watchCnt: action.thread.watchCnt,
-            };
-          } else {
-            return mi;
-          }
-        });
+        return state;
       }
 
-      if (action.app.dispThreadType === App.dispThreadTypeMulti) {
-        return state.map((mi) => {
-          if (action.thread.ch === mi.ch) {
-            return {
-              ...mi,
-              //						title: action.posts[ postLength - 1].title,
-              favicon: action.thread.favicon,
-              stampId: action.posts[postLength - 1].stampId,
-              //						watchCnt: action.thread.watchCnt,
-              post: action.posts[postLength - 1].post,
-            };
-          } else {
-            return mi;
-          }
-        });
-      }
-      /*
-		console.log("MENU INDEX C");
-
-		return state.map( ( mi ) => {
-			if( action.posts[ 0 ].ch === mi.ch ){
-				return {...mi,
-//					favicon: action.posts[ postLength - 1 ].favicon,
-//					post: action.posts[ postLength - 1 ].post,
-//					watchCnt: action.thread.watchCnt
-				}
-			}else{
-				return mi;
-			}
-		});
-*/
-      return state;
-
+      return state.map((mi) => {
+        if (action.thread.ch === mi.ch) {
+          return {
+            ...mi,
+            favicon: posts[postLength - 1].favicon,
+            stampId: posts[postLength - 1].stampId,
+            post: posts[postLength - 1].post,
+          };
+        } else {
+          return mi;
+        }
+      });
     case "SERVER_TO_API[BROADCAST]:fetchPosts":
     case "SERVER_TO_API[BROADCAST]:changeThread":
     case "SERVER_TO_API[BROADCAST]:disconnect":
@@ -133,22 +85,28 @@ export default (state = [], action) => {
       });
     case "SERVER_TO_API[EMIT]:rank":
       if (state && state.length === 1 && action.rank && action.rank.length > 0) {
-        const rank = action.rank.map( (data, i) => {
-          if (data.ch === state[0].ch) {
-            return { 
-              ...data,
+
+        const newRanks = [];
+        const rankCnt = action.rank.length;
+        let lastPost = action.rank[0];
+        for( let i = 0; i < rankCnt; i++ ){
+          let newRank = action.rank[i];
+          lastPost = newRank.updateTime > lastPost.updateTime ? newRank : lastPost;
+
+          if (newRank.ch === state[0].ch) {
+            newRank = { 
+              ...newRank,
               watchCnt: state[0].watchCnt,
             };
-          }else{
-            return data;
           }
-        }).sort(sortWatchCnt);
+          newRanks.push(newRank);
+        };
 
-        if(rank[0].post === "" ){
-          rank[0].post = rank[1].post;
-          rank[0].stampId = rank[1].stampId;
-        }
-        return rank;
+        newRanks.sort(sortWatchCnt);
+        newRanks[0].faicon = lastPost.favicon;
+        newRanks[0].post = lastPost.post;
+        newRanks[0].stampId = lastPost.stampId;
+        return newRanks;
       } else {
         return action.rank ? action.rank : state;
       }
