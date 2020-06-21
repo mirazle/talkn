@@ -89,7 +89,7 @@ export default class Schema {
         const validType = type;
         const paramsValue = _value;
         const paramsType = Schema.getType(_value);
-        console.log('@@@@@@@@@@@@@@@@---');
+
         if (paramsType !== type) {
           error = `SCHEMA_TYPE : ${pointer} [validType: ${type}][paramsType: ${paramsType}]`;
         }
@@ -147,7 +147,7 @@ export default class Schema {
   }
 
   canSet(key: any, validValue: any) {
-    // try {
+    try {
       const currentValue = this[key];
       if(currentValue === undefined ){
         return true;
@@ -164,19 +164,14 @@ export default class Schema {
       if(validValue === null ){
         return true;
       }
-      console.log('--------------------');
-      console.log('in A');
-      console.log(validValue);
-      console.log(this[key]);
+
       const { error } = (this[key] = validValue);
-      console.log('in B');
       if (error) {
         return false;
       } else {
         this[key] = currentValue;
         return true;
       }
-    /*
     } catch (e) {
       console.warn("BAD CAN SET KEY: " + this.constructor.name + " " + key);
       console.warn("BEFOER VALUE");
@@ -187,7 +182,6 @@ export default class Schema {
       console.warn(validValue);
       throw `BAD CAN SET: ${e}`;
     }
-    */
   }
 
   merge(params = {}, immutable = true) {
