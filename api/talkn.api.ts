@@ -303,6 +303,9 @@ class GlobalWindow {
   onWsServer(coreApi: any) {
     this.coreApi = coreApi;
     const apiState = new ApiState(window, this.bootOption);
+    console.log('@@@@@@');
+    console.log(this.bootOption);
+    console.log(apiState);
     this.coreApi.setUp(apiState, this.bootOption.ch);
     if (this.bootOption.type !== define.APP_TYPES.API) {
       this.coreApi.tune(apiState);
@@ -330,8 +333,6 @@ class GlobalWindow {
   subscribe() {
     if (this.coreApi) {
       const apiState = this.apiStore.getState();
-      console.log('@@@ ' + apiState.app.actioned);
-      console.log(apiState);
       this.afterMediaFilter(apiState);
       this.exeCallback(apiState.app.actioned, apiState);
       this.clientTo(apiState.app.actioned, apiState);
