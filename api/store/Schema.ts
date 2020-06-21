@@ -150,20 +150,23 @@ export default class Schema {
       console.log(key);
       console.log(validValue);
       const currentValue = this[key];
-      console.log('in');
+
       if(currentValue === undefined ){
+        console.log('in A');
         return true;
       }
 
       if(currentValue === null ){
+        console.log('in B');
         return true;
       }
-
       const { error } = (this[key] = validValue);
 
       if (error) {
+        console.log('in C');
         return false;
       } else {
+        console.log('in D');
         this[key] = currentValue;
         return true;
       }
