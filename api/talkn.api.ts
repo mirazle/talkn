@@ -100,7 +100,7 @@ class BootOption {
         bootOption.ch = bootOption.ch + "/";
       }
     }
-console.log(bootOption);
+
     bootOption.type = define.APP_TYPES.API;
     if (extScript) {
       bootOption.type = define.APP_TYPES.EXTENSION;
@@ -400,9 +400,10 @@ class GlobalWindow {
 
   clientTo(method, params = {}) {
     const requestObj = GlobalWindow.getRequestObj(method, params);
-
+    console.log(requestObj);
     // boot by portal site.
     if (this.bootOption.type === define.APP_TYPES.PORTAL) {
+
       window.postMessage(requestObj, this.bootOption.clientHref);
     } else {
       const clientIframe: HTMLIFrameElement = document.querySelector(`iframe#talknExtension`);
