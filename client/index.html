@@ -39,11 +39,10 @@
     <link rel="manifest" href="//localhost/manifest.json" />
     <link rel="shortcut icon" href="//assets.localhost/favicon.ico" />
     <link rel="canonical" href="https://localhost" />
-    <script type="text/javascript" async src="https://localhost:8081/talkn.api.js"></script>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <script type="text/javascript">
       var portalDevHost = "/localhost:8080";
-      var script = document.createElement("script");
+      var clientScript = document.createElement("script");
       var href = location.href;
       var replaceStr = location.origin + "/?";
       var jsPath = "https://" + location.host + "/";
@@ -63,20 +62,22 @@
 
         // load api script.
         if (window.name === "global") {
+          /*
           const src = location.port === "8080" ? "https://localhost:8081/talkn.api.js" : "https://api.localhost/v1";
           const apiScript = document.createElement("script");
           apiScript.setAttribute("id", "talkn");
           apiScript.setAttribute("type", "text/javascript");
           apiScript.setAttribute("src", src);
           document.head.appendChild(apiScript);
+          */
         }
 
-        script.setAttribute("id", "talkn");
-        script.setAttribute("type", "text/javascript");
-        script.setAttribute("src", jsPath + jsFileName);
-        script.setAttribute("ch", ch);
-        script.setAttribute("hasSlash", hasSlash);
-        document.head.appendChild(script);
+        clientScript.setAttribute("id", "talkn");
+        clientScript.setAttribute("type", "text/javascript");
+        clientScript.setAttribute("src", jsPath + jsFileName);
+        clientScript.setAttribute("ch", ch);
+        clientScript.setAttribute("hasSlash", hasSlash);
+        document.head.appendChild(clientScript);
       }
 
       if ("serviceWorker" in navigator) {
@@ -92,6 +93,7 @@
           });
       }
     </script>
+    <script type="text/javascript" async src="https://localhost:8081/talkn.api.js"></script>
     <noscript key="noscript">Your browser does not support JavaScript!</noscript>
     <style amp-boilerplate>
       body {

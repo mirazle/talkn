@@ -137,6 +137,32 @@ systemctl status redis
 chkconfig redis on
 ```
 
+# Swap領域を確保
+
+## 低スペック(512MB程度)サーバーだとyarnでメモリエラーが発生する
+
+`yarn install` `yarn run server`を実行する際にkilled, crashedなどのエラーが発生してしまうので、
+swap領域を確保して、実行メモリ領域を確保する。
+
+下記のコマンドでswap領域を確認する
+```
+free -m
+```
+
+```
+dd if=/dev/zero of=/swap bs=1M count=1024
+sudo mkswap /swap
+chmod 0600 /swap
+sudo swapon /swap
+```
+
+## fallocate出なくddを使用する理由
+
+df -Tで確認するとcentosの/のファイルシステムがxfsであることが確認出来る。
+xfsファイルシステムはfallocate(ファイルレベル)でのswapメモリ領域確保は許容されていない。
+`swapon: 512MB.dat: swapon failed: Invalid argument`
+というエラーが出るのでswapメモリ領域確保はdd(物理ディスクレベル)で実行する。
+
 # Node 環境 インストール
 
 ## nvm
@@ -191,27 +217,6 @@ cd /usr/share/applications/talkn
 yarn global add node-gyp
 ```
 
-# 起動( yarn installがkilled, yarn run serverがcrashedで失敗するのはout of memoryエラー(推測))
-
-
-https://qiita.com/mozukuzuku/items/efe80a32c15e323c5d7a
-
-df -Tで確認するとcentosの/のファイルシステムがxfsであることが確認出来る。
-xfsファイルシステムはfallocate(ファイルレベル)でのswapメモリ領域確保は許容されていない。
-`swapon: 512MB.dat: swapon failed: Invalid argument`
-というエラーが出るのでswapメモリ領域確保はdd(物理ディスクレベル)で実行する。
-
-```
-ps aux | grep node | grep -v grep | awk '{ print "kill -9", $2 }' | sh
-systemctl restart redis
-systemctl restart mongod
-nvm use 14.4.0
-rm -Rf node_modules
-yarn cache clean
-yarn global add node-gyp
-yarn install
-```
-
 # ソースの修正
 
 チェックアウトが正しく完了した後に実行する。
@@ -248,6 +253,25 @@ yarn run server時に下記のようなエラーが出るので
 ```
 
 に変更する(TODO: この修正無しでも動作出来るようにうにする)
+
+# アプリ起動
+
+## 起動
+
+基本は`yarn install`してから`sh start.sh`を実行する。
+
+## 起動失敗時
+
+```
+ps aux | grep node | grep -v grep | awk '{ print "kill -9", $2 }' | sh
+systemctl restart redis
+systemctl restart mongod
+nvm use 14.4.0
+rm -Rf node_modules
+yarn cache clean
+yarn global add node-gyp
+yarn install
+```
 
 # Local 設定
 
