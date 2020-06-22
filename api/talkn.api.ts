@@ -60,8 +60,11 @@ class BootOption {
 
   static getClientScript(): Element | undefined {
     const clientScript1 = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.clientURL}']`);
+    if(clientScript1) return clientScript1;
     const clientScript2 = document.querySelector(`script[src='//${conf.clientURL}']`);
-    return clientScript1 || clientScript2;
+    if(clientScript2) return clientScript2;
+    const clientScript3 = document.querySelector(`script[src='https://${define.DEVELOPMENT_DOMAIN}:8080/talkn.client.js']`);
+    if(clientScript3) return clientScript3;
   }
 
   static getExtScript(): Element | undefined {
@@ -84,10 +87,10 @@ class BootOption {
       : location.href
           .replace(`${Sequence.HTTPS_PROTOCOL}//${conf.domain}`, "")
           .replace(`:${define.PORTS.DEVELOPMENT}`, "")
+          .replace(`${define.DEVELOPMENT_DOMAIN}/`, "")
           .replace(`:${define.PORTS.DEVELOPMENT_API}`, "")
           .replace(`${Sequence.HTTPS_PROTOCOL}/`, "")
           .replace(`${Sequence.HTTP_PROTOCOL}/`, "");
-
     if (conf.env === define.DEVELOPMENT) {
       bootOption.ch = bootOption.ch.replace(`/${define.LOCALHOST}:${define.PORTS.DEVELOPMENT}`, "");
     }
