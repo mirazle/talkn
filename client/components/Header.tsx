@@ -61,33 +61,17 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
     const { icon: IconStyle } = style;
     const HeaderUserIcon = Icon.getHeaderUser();
     const MenuIcon = Icon.getMenu(IconStyle.menu);
-    if (
-      ui.extensionMode === Ui.extensionModeExtBottomLabel ||
-      ui.extensionMode === Ui.extensionModeExtModalLabel ||
-      ui.extensionMode === Ui.extensionModeExtIncludeLabel
-    ) {
-      return (
-        <span
-          data-component-name={`Header-left`}
-          style={style.header.leftIcon}
-          onClick={() => this.clientAction("OPEN_INNER_NOTIF")}
-          {...icon.getDecolationProps3("icon", "headerUser", "div")}
-        >
-          {HeaderUserIcon}
-        </span>
-      );
-    } else {
-      return (
-        <span
-          data-component-name={`${this.constructor.name}-left`}
-          style={style.header.leftIcon}
-          onClick={this.handleOnClickMenuIcon}
-          {...icon.getDecolationProps1("icon", "menu", "div")}
-        >
-          {MenuIcon}
-        </span>
-      );
-    }
+
+    return (
+      <span
+        data-component-name={`${this.constructor.name}-left`}
+        style={style.header.leftIcon}
+        onClick={this.handleOnClickMenuIcon}
+        {...icon.getDecolationProps1("icon", "menu", "div")}
+      >
+        {MenuIcon}
+      </span>
+    );
   }
 
   renderRight() {
