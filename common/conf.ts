@@ -12,9 +12,10 @@ const {
   SUB_DOMAINS,
   PORTS,
 } = define;
+const awsHostKey = "ec2.internal";
 const apiVer = 1;
 const hostName = os.hostname();
-const env = getEnv(hostName);
+const env = getEnv(hostName, awsHostKey);
 const isDev = env === DEVELOPMENT;
 const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN;
 const wwwURL = `${SUB_DOMAINS.WWW}.${domain}`;
@@ -67,8 +68,8 @@ const conf: any = {
 };
 export default { ...conf };
 
-function getEnv(hostName) {
-  if (hostName.indexOf(define.PRODUCTION_DOMAIN) >= 0) {
+function getEnv(hostName, awsHostKey) {
+  if (hostName.indexOf(awsHostKey) >= 0) {
     return define.PRODUCTION;
   }
   if (hostName === define.DEVELOPMENT_DOMAIN) {
