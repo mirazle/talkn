@@ -59,15 +59,18 @@ class BootOption {
   }
 
   static getClientScript(): Element | undefined {
+    console.log(conf.clientURL);
     const clientScript1 = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.clientURL}']`);
-    if(clientScript1) return clientScript1;
+    if (clientScript1) return clientScript1;
     const clientScript2 = document.querySelector(`script[src='//${conf.clientURL}']`);
-    if(clientScript2) return clientScript2;
+    if (clientScript2) return clientScript2;
     const clientScript3 = document.querySelector(`script[src='https://client.${define.DEVELOPMENT_DOMAIN}']`);
-    if(clientScript3) return clientScript3;
-    const clientScript4 = document.querySelector(`script[src='https://${define.DEVELOPMENT_DOMAIN}:8080/talkn.client.js']`);
-    if(clientScript4) return clientScript4;
-    throw 'NO CLIENT JS';
+    if (clientScript3) return clientScript3;
+    const clientScript4 = document.querySelector(
+      `script[src='https://${define.DEVELOPMENT_DOMAIN}:8080/talkn.client.js']`
+    );
+    if (clientScript4) return clientScript4;
+    throw "NO CLIENT JS";
   }
 
   static getExtScript(): Element | undefined {
@@ -408,7 +411,6 @@ class GlobalWindow {
     const requestObj = GlobalWindow.getRequestObj(method, params);
     // boot by portal site.
     if (this.bootOption.type === define.APP_TYPES.PORTAL) {
-
       window.postMessage(requestObj, this.bootOption.clientHref);
     } else {
       const clientIframe: HTMLIFrameElement = document.querySelector(`iframe#talknExtension`);
