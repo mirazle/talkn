@@ -1,5 +1,5 @@
 import process from "process";
-const hostName = process.env.HOSTNAME ? process.env.HOSTNAME : 'localhost';
+const hostName = process.env.HOSTNAME ? process.env.HOSTNAME : "localhost";
 const define: any = {
   PRODUCTION: "production",
   LOCALHOST: "localhost",
