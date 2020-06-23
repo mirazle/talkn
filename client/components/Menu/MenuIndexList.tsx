@@ -103,11 +103,11 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
   handleOnClick() {
     const { thread, menuIndexList } = this.props;
     const { ch } = menuIndexList;
-    const isFocusCh = thread.ch === ch ? true : false;
-    const styleKey = isFocusCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
+    const isRootCh = thread.ch === ch ? true : false;
+    const styleKey = isRootCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
     let { ui } = this.props;
 
-    if (isFocusCh) {
+    if (isRootCh) {
       if (ui.screenMode === Ui.screenModeSmallLabel) {
         // change main screen.
         this.clientAction("ON_CLICK_TOGGLE_DISP_MENU");
@@ -133,13 +133,13 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
 
     // TODO: メインスレッドで子供スレッドを選択した際に、menuIndexListがハイライトされてしまう。
     // クリックしたときにthread.chは更新しないようにする
-    const isFocusCh = thread.ch === menuIndexList.ch ? true : false;
-    const styleKey = isFocusCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
+    const isRootCh = thread.ch === menuIndexList.ch ? true : false;
+    const styleKey = isRootCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
     const title = app.rootCh === menuIndexList.ch ? app.rootTitle : menuIndexList.title;
 
     const dispRank = this.renderRank(rank);
     const dispFavicon = this.renderDispFavicon();
-    const dispWatchCnt = this.renderDispWatchCnt(isFocusCh);
+    const dispWatchCnt = this.renderDispWatchCnt(isRootCh);
     const baseStyle = style[styleKey];
     const dispExt = menuIndexList.findType === Thread.findTypeHtml ? null : menuIndexList.findType;
     const marqueeStyle: any = this.getMarqueeStyle();
@@ -181,11 +181,11 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
   }
 
   renderDispFavicon() {
-    const { isFocusCh } = this.state;
+    const { isRootCh } = this.state;
     const { thread, menuIndexList } = this.props;
     const defaultFavicon = Thread.getDefaultFavicon();
 
-    if (isFocusCh) {
+    if (isRootCh) {
       if (menuIndexList.favicon === defaultFavicon) {
         if (thread.favicon === defaultFavicon) {
           return `//${conf.assetsIconPath}${util.getSaveFaviconName(menuIndexList.favicon)}`;
@@ -204,7 +204,7 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
     }
   }
 
-  renderDispWatchCnt(isFocusCh) {
+  renderDispWatchCnt(isRootCh) {
     const { style } = this.state;
     const { menuIndexList } = this.props;
     const watchCnt = menuIndexList.watchCnt === 0 || menuIndexList.watchCnt > 0 ? menuIndexList.watchCnt : 0;
@@ -237,9 +237,9 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
     }
   }
 
-  getDispCh(isFocusCh) {
+  getDispCh(isRootCh) {
     const { thread, menuIndexList } = this.props;
-    if (isFocusCh) {
+    if (isRootCh) {
       return thread.ch;
     } else {
       if (menuIndexList.ch === "/") {

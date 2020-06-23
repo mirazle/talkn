@@ -107,7 +107,8 @@ export default class Rank extends TalknComponent<RankProps, RankState> {
         switch (ui.screenMode) {
           case Ui.screenModeSmallLabel:
             if (!app.isLinkCh) {
-              this.clientAction("ON_CLICK_TOGGLE_DISPMENU");
+              console.log(ui.isOpenMenu);
+              this.clientAction("ON_CLICK_TOGGLE_DISP_MENU");
             }
             break;
         }

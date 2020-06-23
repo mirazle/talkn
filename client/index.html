@@ -41,45 +41,6 @@
     <link rel="canonical" href="https://localhost" />
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <script type="text/javascript">
-      var portalDevHost = "/localhost:8080";
-      var clientScript = document.createElement("script");
-      var href = location.href;
-      var replaceStr = location.origin + "/?";
-      var jsPath = "https://" + location.host + "/";
-      var jsFileName = "talkn.client.js";
-      var pathname = location.pathname ? location.pathname.replace(portalDevHost, "") : "";
-      var ch = location.href
-        ? location.href.replace("http:/" + portalDevHost, "").replace("https:/" + portalDevHost, "")
-        : "/";
-      var hasSlash = ch.lastIndexOf("/") === ch.length - 1;
-      var layerCnt = ch.split("/").length - 1;
-      ch = hasSlash ? ch : ch + "/";
-
-      if (layerCnt === 1 && !ch.match(/\/$/)) {
-        location.href = location.href + "/";
-      } else {
-        window.name = window.name ? window.name : "global";
-
-        // load api script.
-        if (window.name === "global") {
-          /*
-          const src = location.port === "8080" ? "https://localhost:8081/talkn.api.js" : "https://api.localhost/v1";
-          const apiScript = document.createElement("script");
-          apiScript.setAttribute("id", "talkn");
-          apiScript.setAttribute("type", "text/javascript");
-          apiScript.setAttribute("src", src);
-          document.head.appendChild(apiScript);
-          */
-        }
-
-        clientScript.setAttribute("id", "talkn");
-        clientScript.setAttribute("type", "text/javascript");
-        clientScript.setAttribute("src", jsPath + jsFileName);
-        clientScript.setAttribute("ch", ch);
-        clientScript.setAttribute("hasSlash", hasSlash);
-        document.head.appendChild(clientScript);
-      }
-
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
           .register("/portal_sw.js")
@@ -93,6 +54,7 @@
           });
       }
     </script>
+    <script type="text/javascript" async src="https://localhost:8080/talkn.client.js"></script>
     <script type="text/javascript" async src="https://localhost:8081/talkn.api.js"></script>
     <noscript key="noscript">Your browser does not support JavaScript!</noscript>
     <style amp-boilerplate>

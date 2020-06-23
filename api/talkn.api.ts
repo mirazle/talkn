@@ -59,9 +59,6 @@ class BootOption {
   }
 
   static getClientScript(): Element | undefined {
-    console.log(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.clientURL}']`);
-    console.log(`script[src='//${conf.clientURL}']`);
-
     const clientScript1 = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.clientURL}']`);
     if(clientScript1) return clientScript1;
     const clientScript2 = document.querySelector(`script[src='//${conf.clientURL}']`);
@@ -69,7 +66,8 @@ class BootOption {
     const clientScript3 = document.querySelector(`script[src='https://client.${define.DEVELOPMENT_DOMAIN}']`);
     if(clientScript3) return clientScript3;
     const clientScript4 = document.querySelector(`script[src='https://${define.DEVELOPMENT_DOMAIN}:8080/talkn.client.js']`);
-    if(clientScript4) return clientScript3;
+    if(clientScript4) return clientScript4;
+    throw 'NO CLIENT JS';
   }
 
   static getExtScript(): Element | undefined {
