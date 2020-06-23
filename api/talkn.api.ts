@@ -91,6 +91,7 @@ class BootOption {
           .replace(`${Sequence.HTTPS_PROTOCOL}//${conf.domain}`, "")
           .replace(`:${define.PORTS.DEVELOPMENT}`, "")
           .replace(`${define.DEVELOPMENT_DOMAIN}/`, "")
+          .replace(`${define.PRODUCTION_DOMAIN}/`, "")
           .replace(`:${define.PORTS.DEVELOPMENT_API}`, "")
           .replace(`${Sequence.HTTPS_PROTOCOL}/`, "")
           .replace(`${Sequence.HTTP_PROTOCOL}/`, "");
