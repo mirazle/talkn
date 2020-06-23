@@ -68,9 +68,10 @@ const conf: any = {
 export default { ...conf };
 
 function getEnv(hostName) {
-  if (hostName === define.PRODUCTION_IP || hostName.indexOf(define.PRODUCTION_DOMAIN) >= 0) {
+  if (hostName.indexOf(define.PRODUCTION_DOMAIN) >= 0) {
     return define.PRODUCTION;
-  } else {
+  }
+  if (hostName === define.DEVELOPMENT_DOMAIN) {
     if (process.title === "browser") {
       const port = Number(location.port);
       if (port === define.PORTS.DEVELOPMENT || port === define.PORTS.DEVELOPMENT_API) {

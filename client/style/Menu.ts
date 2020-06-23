@@ -56,7 +56,7 @@ export default class Menu {
       wrapComponent,
       footer,
       footerChild,
-      footerChildMoney
+      footerChildMoney,
     };
   }
 
@@ -77,12 +77,12 @@ export default class Menu {
       background,
       WebkitOverflowScrolling: "touch",
       overflow: "hidden",
-      zIndex: 10
+      zIndex: 10,
     });
     const content = {};
     const animation = Style.getAnimationBase({
       transition: Container.getTransition({ app, ui }),
-      transform: Menu.getTransform({ app, ui })
+      transform: Menu.getTransform({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -102,7 +102,7 @@ export default class Menu {
       maxWidth: "inherit",
       height: `calc( 100% - ${Main.headerHeight * 2}px )`,
       margin: "0 auto",
-      ...borders
+      ...borders,
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -115,10 +115,10 @@ export default class Menu {
       height: "60px",
       minWidth: "initial",
       minHeight: "initial",
-      borderRight: Container.border
+      borderRight: Container.border,
     });
     const content = Style.getContentBase({
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase({});
     return Style.get({ layout, content, animation });
@@ -132,7 +132,7 @@ export default class Menu {
       width: "100%",
       background: Container.offWhiteRGB,
       height: `${Main.headerHeight}px`,
-      ...borders
+      ...borders,
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -142,10 +142,10 @@ export default class Menu {
   static getFooterChild({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
-      height: "100%"
+      height: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "0.5em"
+      fontSize: "0.5em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -154,10 +154,10 @@ export default class Menu {
   static getFooterChildMoney({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
-      height: "100%"
+      height: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "0.5em"
+      fontSize: "0.5em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });

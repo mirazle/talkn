@@ -7,6 +7,7 @@ import MenuLogs from "client/components/Menu/MenuLogs";
 import MenuSetting from "client/components/Menu/MenuSetting";
 import Header from "client/components/Header";
 import MenuFooter from "client/components/MenuFooter";
+import App from "api/store/App";
 
 interface Props {
   state: any;
@@ -37,8 +38,9 @@ export default class Menuextends extends TalknComponent<Props, {}> {
 
   handleOnTransitionEnd() {
     const { state, openMenuTransitionEnd } = this.props;
-    const { ui } = state;
-    if (ui.screenMode === Ui.screenModeSmallLabel) {
+    const { app, ui } = state;
+
+    if (ui.extensionMode !== Ui.extensionModeExtNoneLabel) {
       if (ui.isOpenMenu) {
         openMenuTransitionEnd(window.scrollY);
         window.talknWindow.lockWindow();
