@@ -67,7 +67,7 @@ class BootOption {
       `script[src='https://${define.DEVELOPMENT_DOMAIN}:8080/talkn.client.js']`
     );
     if (clientScript3) return clientScript3;
-    throw "NO CLIENT JS";
+    return undefined;
   }
 
   static getExtScript(): Element | undefined {
