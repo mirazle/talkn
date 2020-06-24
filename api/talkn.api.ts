@@ -410,6 +410,7 @@ class GlobalWindow {
     // boot by portal site.
     console.log("A");
     console.log(requestObj);
+    console.log(this.bootOption);
     if (this.bootOption.type === define.APP_TYPES.PORTAL) {
       console.log("B");
       window.postMessage(requestObj, this.bootOption.clientHref);

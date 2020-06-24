@@ -129,6 +129,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
               }
               break;
             case PostMessage.API_TO_CLIENT_TYPE:
+              console.log(e);
               if (e.data.method === PostMessage.HANDLE_API_AND_CLIENT) {
                 this.bootOption = e.data.params;
                 this.coreApi(PostMessage.HANDLE_API_AND_CLIENT);
