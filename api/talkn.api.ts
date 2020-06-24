@@ -162,7 +162,6 @@ class CoreAPI {
         const { requestState, actionState } = beforeFunction(reduxState, _requestState, _actionState);
 
         this.callbacks[requestState.type] = callback;
-        console.log(requestParams);
         this.ws.emit(requestState.type, requestState);
         return this.apiStore.dispatch(actionState);
       };
@@ -311,8 +310,10 @@ class GlobalWindow {
   onWsServer(coreApi: any) {
     this.coreApi = coreApi;
     const apiState = new ApiState(window, this.bootOption);
+    console.log(this.bootOption);
     this.coreApi.setUp(apiState, this.bootOption.ch);
     if (this.bootOption.type !== define.APP_TYPES.API) {
+      console.log(apiState);
       this.coreApi.tune(apiState);
     }
 
