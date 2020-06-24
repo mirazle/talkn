@@ -170,6 +170,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     //    window.talknMedia = new TalknMedia();
 
     Promise.all(bootPromise).then((bootParams: any) => {
+      console.log("FIN!");
       ReactDOM.render(
         <Provider store={this.stores.client}>
           <Container />
