@@ -408,23 +408,17 @@ class GlobalWindow {
   clientTo(method, params = {}) {
     const requestObj = GlobalWindow.getRequestObj(method, params);
     // boot by portal site.
-    console.log("A");
-    console.log(requestObj);
-    console.log(this.bootOption);
+
     if (this.bootOption.type === define.APP_TYPES.PORTAL) {
-      console.log("B");
       window.postMessage(requestObj, this.bootOption.clientHref);
     } else {
-      console.log("C");
       const clientIframe: HTMLIFrameElement = document.querySelector(`iframe#talknExtension`);
 
       // boot by iframe.
       if (clientIframe) {
-        console.log("D");
         clientIframe.contentWindow.postMessage(requestObj, clientIframe.src);
         // boot by api only.
       } else {
-        console.log("E");
       }
     }
   }

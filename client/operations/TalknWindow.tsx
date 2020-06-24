@@ -119,21 +119,23 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
                   this.parentUrl = e.origin;
                   this.parentExtTo(PostMessage.HANDLE_EXT_AND_CLIENT, conf);
                   this.extUiParams = e.data.params.ui;
+                  console.log('---- A');
                   break;
                 default:
                   const clientState = this.stores.client.getState();
                   const actionType = Sequence.convertApiToClientActionType(e.data.method);
                   const dispatchState = { ...clientState, ...e.data.params };
                   this.stores.client.dispatch({ ...dispatchState, type: actionType });
+                  console.log('---- B');
                   break;
               }
               break;
             case PostMessage.API_TO_CLIENT_TYPE:
-              console.log(e);
               if (e.data.method === PostMessage.HANDLE_API_AND_CLIENT) {
                 this.bootOption = e.data.params;
                 this.coreApi(PostMessage.HANDLE_API_AND_CLIENT);
                 messageResolve(e);
+                console.log('---- C');
               } else {
                 const actionType = Sequence.convertApiToClientActionType(e.data.method);
                 const apiState = e.data.params;
@@ -141,8 +143,10 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
                 if (actionType === "API_TO_CLIENT[REQUEST]:tune") {
                   const initClientState = { ...apiState, ...this.extUiParams, type: actionType };
                   const clientState = new ClientState(initClientState);
+                  console.log('---- D');
                   this.stores.client.dispatch({ ...clientState, type: actionType });
                 } else {
+                  console.log('---- E');
                   this.stores.client.dispatch({ ...apiState, type: actionType });
                 }
               }
