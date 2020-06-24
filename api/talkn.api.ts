@@ -162,6 +162,7 @@ class CoreAPI {
         const { requestState, actionState } = beforeFunction(reduxState, _requestState, _actionState);
 
         this.callbacks[requestState.type] = callback;
+        console.log(requestParams);
         this.ws.emit(requestState.type, requestState);
         return this.apiStore.dispatch(actionState);
       };

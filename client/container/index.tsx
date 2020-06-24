@@ -194,8 +194,6 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
 
   render() {
     const { style, ui, app } = this.props.state;
-    console.log(style.container);
-    console.log(app);
     if (style && style.container && style.container.self && app.tuned) {
       if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
         return this.renderExtension();
