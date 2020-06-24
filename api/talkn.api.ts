@@ -85,6 +85,7 @@ class BootOption {
   }
 
   static initialBootOption(bootOption, clientScript, extScript) {
+    console.log(conf.domain);
     bootOption.ch = bootOption.ch
       ? bootOption.ch
       : location.href
