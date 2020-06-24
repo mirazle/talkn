@@ -29,6 +29,7 @@ declare global {
 class BootOption {
   constructor() {
     const { env, apiScript } = BootOption.getEnvAndApiScript();
+    console.log(env);
     const clientScript = BootOption.getClientScript();
     const extScript = BootOption.getExtScript();
     const apiScriptAtt = apiScript ? BootOption.rebuildAttributes(apiScript.attributes) : {};
