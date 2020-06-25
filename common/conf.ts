@@ -16,7 +16,6 @@ const awsHostKey = "ec2.internal";
 const apiVer = 1;
 const hostName = os.hostname();
 const env = getEnv(hostName, awsHostKey);
-console.log(env);
 const isDev = env === DEVELOPMENT;
 const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN;
 const wwwURL = `${SUB_DOMAINS.WWW}.${domain}`;
@@ -70,8 +69,6 @@ const conf: any = {
 export default { ...conf };
 
 function getEnv(hostName, awsHostKey) {
-  console.log(hostName);
-  console.log(awsHostKey);
   if (hostName.indexOf(awsHostKey) >= 0) {
     return define.PRODUCTION;
   }

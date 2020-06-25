@@ -26,58 +26,100 @@ declare global {
   }
 }
 
+type EnvType = typeof define.DEVELOPMENT | typeof define.LOCALHOST | typeof define.PRODUCTION;
+type BootType = typeof define.APP_TYPES.API | typeof define.APP_TYPES.PORTAL | typeof define.APP_TYPES.EXTENSION;
+type BootProtocolType = typeof Sequence.HTTPS_PROTOCOL | typeof Sequence.HTTP_PROTOCOL | typeof Sequence.TALKN_PROTOCOL;
+type BootOptionType = {
+  env: EnvType;
+  type: BootType;
+  ch: string;
+  hasSlash: boolean;
+  protocol: BootProtocolType;
+  host: string;
+};
+
 class BootOption {
   constructor() {
+    // Resolved define scripts.
     const { env, apiScript } = BootOption.getEnvAndApiScript();
-    console.log(env);
-    const clientScript = BootOption.getClientScript();
-    const extScript = BootOption.getExtScript();
+    const extScript = BootOption.getExtScript(env);
+    const clientScript = BootOption.getClientScript(env);
+
+    // Resolved define script attributes.
     const apiScriptAtt = apiScript ? BootOption.rebuildAttributes(apiScript.attributes) : {};
     const extScriptAtt = extScript ? BootOption.rebuildAttributes(extScript.attributes) : {};
-    const bootParams = { ...extScriptAtt, ...apiScriptAtt };
-    const bootOption: any = BootOption.initialBootOption(bootParams, clientScript, extScript);
-    bootOption.env = env;
+    const clientScriptAtt = clientScript ? BootOption.rebuildAttributes(clientScript.attributes) : {};
+
+    // Resolved boot option.
+    const bootAttributes = BootOption.getBootAttributes(apiScriptAtt, extScriptAtt);
+    const bootOption: BootOptionType = BootOption.initialBootOption(env, bootAttributes, clientScript, extScript);
     return bootOption;
   }
 
   static getEnvAndApiScript() {
-    const { SUB_DOMAINS, PORTS } = define;
+    const { SUB_DOMAINS, PORTS, talknApiJs } = define;
 
     // Prod.
-    const prodApiSrc = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.PRODUCTION_DOMAIN}/v${conf.apiVer}`;
-    const prodApiScript = document.querySelector(`script[src='${prodApiSrc}']`);
-    if (prodApiScript) return { env: define.PRODUCTION, apiScript: prodApiScript };
+    const prodApiSrc1 = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.PRODUCTION_DOMAIN}/v${conf.apiVer}`;
+    const prodApiScript1 = document.querySelector(`script[src='${prodApiSrc1}']`);
+    if (prodApiScript1) return { env: define.PRODUCTION, apiScript: prodApiScript1 };
+
+    const prodApiSrc2 = `//${SUB_DOMAINS.API}.${define.PRODUCTION_DOMAIN}/v${conf.apiVer}`;
+    const prodApiScript2 = document.querySelector(`script[src='${prodApiSrc2}']`);
+    if (prodApiScript2) return { env: define.PRODUCTION, apiScript: prodApiScript2 };
 
     // Localhost.
-    const localApiSrc = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.DEVELOPMENT_DOMAIN}/v${conf.apiVer}`;
-    const localApiScript = document.querySelector(`script[src='${localApiSrc}']`);
-    if (localApiScript) return { env: define.LOCALHOST, apiScript: localApiScript };
+    const localApiSrc1 = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.DEVELOPMENT_DOMAIN}/v${conf.apiVer}`;
+    const localApiScript1 = document.querySelector(`script[src='${localApiSrc1}']`);
+    if (localApiScript1) return { env: define.LOCALHOST, apiScript: localApiScript1 };
+
+    const localApiSrc2 = `//${SUB_DOMAINS.API}.${define.DEVELOPMENT_DOMAIN}/v${conf.apiVer}`;
+    const localApiScript2 = document.querySelector(`script[src='${localApiSrc2}']`);
+    if (localApiScript2) return { env: define.LOCALHOST, apiScript: localApiScript2 };
 
     // Development(webpack dev server),
-    const devApiSrc = `${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT_API}/talkn.api.js`;
+    const devApiSrc = `${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT_API}/${talknApiJs}`;
     const devApiScript = document.querySelector(`script[src='${devApiSrc}']`);
     if (devApiScript) return { env: define.DEVELOPMENT, apiScript: devApiScript };
+    throw "NO EXIST API SCRIPT.";
   }
 
-  static getClientScript(): Element | undefined {
-    const clientScript1 = document.querySelector(`script[src='https://client.${define.PRODUCTION_DOMAIN}']`);
-    if (clientScript1) return clientScript1;
-    const clientScript2 = document.querySelector(`script[src='https://client.${define.DEVELOPMENT_DOMAIN}']`);
-    if (clientScript2) return clientScript2;
-    const clientScript3 = document.querySelector(
-      `script[src='https://${define.DEVELOPMENT_DOMAIN}:8080/talkn.client.js']`
-    );
-    if (clientScript3) return clientScript3;
-    return undefined;
+  static getClientScript(env: EnvType): Element | undefined {
+    const { SUB_DOMAINS, PORTS, talknClientJs } = define;
+    let clientSrc: string;
+    switch (env) {
+      case define.PRODUCTION:
+        clientSrc = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.CLIENT}.${define.PRODUCTION_DOMAIN}`;
+        break;
+      case define.LOCALHOST:
+        clientSrc = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.CLIENT}.${define.DEVELOPMENT_DOMAIN}`;
+        break;
+      case define.DEVELOPMENT:
+        clientSrc = `${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT}/${talknClientJs}`;
+        break;
+    }
+    const clientScript = document.querySelector(`script[src='${clientSrc}']`);
+    return clientScript ? clientScript : undefined;
   }
 
-  static getExtScript(): Element | undefined {
-    const extScript1 = document.querySelector(`script[src='${Sequence.HTTPS_PROTOCOL}//${conf.extURL}']`);
-    const extScript2 = document.querySelector(`script[src='//${conf.extURL}']`);
-    return extScript1 || extScript2;
+  static getExtScript(env: EnvType): Element | undefined {
+    const { SUB_DOMAINS } = define;
+    let extSrc: string;
+    switch (env) {
+      case define.PRODUCTION:
+        extSrc = `${Sequence.HTTPS_PROTOCOL}://${SUB_DOMAINS.EXT}.${define.PRODUCTION_DOMAIN}`;
+        break;
+      case define.LOCALHOST:
+      case define.DEVELOPMENT:
+        extSrc = `${Sequence.HTTPS_PROTOCOL}://${SUB_DOMAINS.EXT}.${define.DEVELOPMENT_DOMAIN}`;
+        break;
+    }
+
+    const extScript = document.querySelector(`script[src='${extSrc}']`);
+    return extScript ? extScript : undefined;
   }
 
-  static rebuildAttributes(attributes) {
+  static rebuildAttributes(attributes: any) {
     let rebuildAttributesObj: any = {};
     Object.keys(attributes).forEach((i) => {
       rebuildAttributesObj[attributes[i].name] = attributes[i].value;
@@ -85,46 +127,81 @@ class BootOption {
     return rebuildAttributesObj;
   }
 
-  static initialBootOption(bootOption, clientScript, extScript) {
-    console.log(conf.domain);
-    bootOption.ch = bootOption.ch
-      ? bootOption.ch
-      : location.href
-          .replace(`${Sequence.HTTPS_PROTOCOL}//${conf.domain}`, "")
-          .replace(`:${define.PORTS.DEVELOPMENT}`, "")
-          .replace(`${define.DEVELOPMENT_DOMAIN}/`, "")
-          .replace(`${define.PRODUCTION_DOMAIN}/`, "")
-          .replace(`:${define.PORTS.DEVELOPMENT_API}`, "")
-          .replace(`${Sequence.HTTPS_PROTOCOL}/`, "")
-          .replace(`${Sequence.HTTP_PROTOCOL}/`, "");
-    if (conf.env === define.DEVELOPMENT) {
-      bootOption.ch = bootOption.ch.replace(`/${define.LOCALHOST}:${define.PORTS.DEVELOPMENT}`, "");
-    }
-    bootOption.hasSlash = BootOption.getHasSlach(bootOption);
-
-    if (bootOption.ch !== "/") {
-      if (bootOption.hasSlash) {
-        bootOption.ch = bootOption.ch;
-      } else {
-        bootOption.ch = bootOption.ch + "/";
-      }
-    }
-
-    bootOption.type = define.APP_TYPES.API;
-    if (extScript) {
-      bootOption.type = define.APP_TYPES.EXTENSION;
-    }
-    if (clientScript) {
-      bootOption.type = define.APP_TYPES.PORTAL;
-    }
-
-    delete bootOption.src;
-    delete bootOption.async;
-    return bootOption;
+  static getBootAttributes(apiScriptAtt: any, extScriptAtt: any) {
+    return extScriptAtt ? { ...apiScriptAtt, ...extScriptAtt } : { ...apiScriptAtt };
   }
 
-  static getHasSlach({ ch }): boolean {
+  static getInitialRootCh(env: EnvType, bootAttributes): string {
+    let initialRootCh: string = bootAttributes && bootAttributes.ch ? bootAttributes.ch : location.href;
+    initialRootCh = initialRootCh.replace(`${Sequence.HTTPS_PROTOCOL}/`, "").replace(`${Sequence.HTTP_PROTOCOL}/`, "");
+    switch (env) {
+      case define.PRODUCTION:
+        initialRootCh = initialRootCh.replace(`^${define.PRODUCTION_DOMAIN}`, "");
+        break;
+      case define.LOCALHOST:
+        initialRootCh = initialRootCh === `/${define.DEVELOPMENT_DOMAIN}/` ? "/" : initialRootCh;
+        console.log(initialRootCh);
+        break;
+      case define.DEVELOPMENT:
+        initialRootCh = initialRootCh
+          .replace(`${define.DEVELOPMENT_DOMAIN}`, "")
+          .replace(`:${define.PORTS.DEVELOPMENT}`, "")
+          .replace(`:${define.PORTS.DEVELOPMENT_API}`, "");
+        break;
+    }
+    return initialRootCh;
+  }
+
+  static getType(extScript, clientScript): BootType {
+    let type = define.APP_TYPES.API;
+    if (extScript) return define.APP_TYPES.EXTENSION;
+    if (clientScript) return define.APP_TYPES.PORTAL;
+    return type;
+  }
+
+  static getProtocol(): BootProtocolType {
+    if (location.protocol === Sequence.HTTPS_PROTOCOL) return Sequence.HTTPS_PROTOCOL;
+    if (location.protocol === Sequence.HTTP_PROTOCOL) return Sequence.HTTP_PROTOCOL;
+    return Sequence.TALKN_PROTOCOL;
+  }
+
+  static getFirstHasSlach(ch): boolean {
+    return ch.indexOf("/") === 0;
+  }
+
+  static getLastHasSlach(ch): boolean {
     return ch.lastIndexOf("/") === ch.length - 1;
+  }
+
+  static getCh(initialRootCh, firstHasSlash, lastHasSlash): string {
+    let ch = initialRootCh;
+    ch = firstHasSlash ? ch : `/${ch}`;
+    ch = lastHasSlash ? ch : `${ch}/`;
+    ch = ch === "//" ? "/" : ch;
+    return ch;
+  }
+
+  static initialBootOption(
+    env: EnvType,
+    bootAttributes: any,
+    clientScript: Element,
+    extScript: Element
+  ): BootOptionType {
+    const type = BootOption.getType(extScript, clientScript);
+    const initialRootCh = BootOption.getInitialRootCh(env, bootAttributes);
+    const firstHasSlash = BootOption.getFirstHasSlach(initialRootCh);
+    const lastHasSlash = BootOption.getLastHasSlach(initialRootCh);
+    const ch = BootOption.getCh(initialRootCh, firstHasSlash, lastHasSlash);
+    const protocol = BootOption.getProtocol();
+    const host = location.host;
+    return {
+      env,
+      type,
+      ch,
+      hasSlash: lastHasSlash,
+      protocol,
+      host,
+    };
   }
 }
 
@@ -251,7 +328,7 @@ class GlobalWindow {
     this.apiStore.subscribe(this.subscribe);
 
     this.onActions();
-
+    console.log(this.bootOption);
     const bootPromises = [];
     const self = this;
 
@@ -410,20 +487,25 @@ class GlobalWindow {
   }
 
   clientTo(method, params = {}) {
-    const requestObj = GlobalWindow.getRequestObj(method, params);
-    // boot by portal site.
+    switch (this.bootOption.type) {
+      case define.APP_TYPES.PORTAL:
+        const requestObj = GlobalWindow.getRequestObj(method, params);
+        window.postMessage(requestObj, this.bootOption.clientHref);
+        break;
+      case define.APP_TYPES.EXTENSION:
+        const clientIframe: HTMLIFrameElement = document.querySelector(`iframe#talknExtension`);
 
-    if (this.bootOption.type === define.APP_TYPES.PORTAL) {
-      window.postMessage(requestObj, this.bootOption.clientHref);
-    } else {
-      const clientIframe: HTMLIFrameElement = document.querySelector(`iframe#talknExtension`);
-
-      // boot by iframe.
-      if (clientIframe) {
-        clientIframe.contentWindow.postMessage(requestObj, clientIframe.src);
-        // boot by api only.
-      } else {
-      }
+        // boot by iframe.
+        if (clientIframe) {
+          const requestObj = GlobalWindow.getRequestObj(method, params);
+          clientIframe.contentWindow.postMessage(requestObj, clientIframe.src);
+          // boot by api only.
+        } else {
+          throw "NO EXTENSION IFRAME";
+        }
+        break;
+      case define.APP_TYPES.API:
+        break;
     }
   }
 }
