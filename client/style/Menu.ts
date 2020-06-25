@@ -99,7 +99,9 @@ export default class Menu {
   static getBody({ app, ui }) {
     const width = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "90%" : "100%";
     const multiHeightRate = ui.extensionMode === Ui.extensionModeExtModalLabel ? 1 : 2;
+    const borderLeft = ui.extensionMode === Ui.extensionModeExtModalLabel ? Container.border : 0;
     const layout = Style.getLayoutBlock({
+      borderLeft,
       width,
       minWidth: "inherit",
       maxWidth: "inherit",
