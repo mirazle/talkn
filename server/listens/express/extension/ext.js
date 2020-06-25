@@ -901,12 +901,8 @@ class Iframe extends Elements {
           "position: fixed !important; " +
           `bottom: ${Styles.BOTTOM}px !important;` +
           `right: ${activeStyles.right} !important;` +
-          `width: ${activeStyles.width}` +
-          `min-width: ${activeStyles.width}` +
-          `max-width: ${activeStyles.width}` +
+          `width: ${activeStyles.width} !important` +
           `height: ${activeStyles.height} !important;` +
-          `min-height: ${activeStyles.height} !important;` +
-          `max-height: ${activeStyles.height} !important;` +
           "margin: 0 !important;" +
           "padding: 0 !important;" +
           `opacity: ${activeStyles.opacity} !important;` +
@@ -923,12 +919,8 @@ class Iframe extends Elements {
           "position: fixed !important; " +
           "bottom: 0px !important;" +
           "right: 0px !important;" +
-          `width: ${width}` +
-          `min-width: ${width}` +
-          `max-width: ${width}` +
+          `width: ${width} !important` +
           `height: ${height} !important;` +
-          `min-height: ${height} !important;` +
-          `max-height: ${height} !important;` +
           "margin: 0 !important;" +
           "padding: 0 !important;" +
           "transition: 0ms !important;" +
