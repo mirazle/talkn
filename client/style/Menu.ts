@@ -9,7 +9,17 @@ export default class Menu {
     return "300px";
   }
   static getBorderRadius({ app, ui }): any {
-    return ui.extensionMode === Ui.extensionModeExtModalLabel ? "0 0 10px 10px " : "0";
+    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+      return 0;
+    } else {
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
+          return `0 0 ${Container.radius} ${Container.radius}`;
+        case Ui.screenModeMiddleLabel:
+        case Ui.screenModeLargeLabel:
+          return `0px 0px 0px ${Container.radius}`;
+      }
+    }
   }
 
   static getWidth({ app, ui }, addUnit = false): any {
