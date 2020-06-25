@@ -7,6 +7,17 @@ import Main from "./Main";
 import Menu from "./Menu";
 
 export default class MenuFooter {
+  static getBorderRadius({ app, ui }) {
+    switch (ui.extensionMode) {
+      case Ui.extensionModeExtBottomLabel:
+        return Container.radiuses;
+      case Ui.extensionModeExtModalLabel:
+        return "0 0 10px 10px";
+      default:
+        return "0";
+    }
+  }
+
   static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
@@ -37,21 +48,21 @@ export default class MenuFooter {
     return {
       self,
       child,
-      childIndex
+      childIndex,
     };
   }
 
   static getSelf({ app, ui }) {
     const borders =
       ui.screenMode === Ui.screenModeSmallLabel ? { border: Container.border } : { border: Container.border };
-    const borderRadius = ui.extensionMode === Ui.extensionModeExtBottomLabel ? Container.radiuses : "0px";
+    const borderRadius = MenuFooter.getBorderRadius({ app, ui });
     const layout = Style.getLayoutFlex({
       width: MenuFooter.getWidth({ app, ui }),
       minWidth: MenuFooter.getWidth({ app, ui }),
       height: `${Main.headerHeight}px`,
       background: Container.offWhiteRGB,
       borderRadius,
-      ...borders
+      ...borders,
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -61,10 +72,10 @@ export default class MenuFooter {
   static getChild({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
-      height: "100%"
+      height: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "0.5em"
+      fontSize: "0.5em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -73,11 +84,11 @@ export default class MenuFooter {
   static getChildIndex({ app, ui }) {
     const layout = Style.getLayoutBlock({
       flexGrow: 1,
-      height: "100%"
+      height: "100%",
     });
     const content = Style.getContentBase({
       fontSize: "0.5em",
-      fontWeight: "bold"
+      fontWeight: "bold",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
