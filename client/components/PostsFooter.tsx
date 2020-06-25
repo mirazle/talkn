@@ -89,8 +89,6 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
   render() {
     const { state, handleOnClickFooterIcon } = this.props;
     const { style, ui } = state;
-    const readOnly =
-      ui.extensionMode === Ui.extensionModeExtModalLabel || ui.extensionMode === Ui.extensionModeExtBottomLabel;
     return (
       <div data-component-name={"PostsFooter"} style={style.postsFooter.self}>
         <div style={this.getIconStyle()} onClick={handleOnClickFooterIcon} />
@@ -99,7 +97,6 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
           style={style.postsFooter.textarea}
           ref={"postArea"}
           rows={1}
-          readOnly={readOnly}
           onChange={this.handleOnChange}
           onKeyPress={this.handleOnKeyPress}
           value={ui.inputPost}
