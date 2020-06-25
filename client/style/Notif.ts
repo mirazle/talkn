@@ -24,7 +24,7 @@ export default class Notif {
         return "0px";
       } else {
         if (ui.isOpenNotif) {
-          return `${Footer.selfHeight + Notif.selfHeight}px`;
+          return `${Container.getBlockSize({ app, ui }) + Notif.selfHeight}px`;
         } else {
           return `${Notif.selfHeight}px`;
         }
@@ -50,7 +50,7 @@ export default class Notif {
       self,
       bottom,
       bottomIcon,
-      bottomPost
+      bottomPost,
     };
   }
 
@@ -63,7 +63,7 @@ export default class Notif {
       top: "0px",
       width: "100%",
       height,
-      overflow: "visible"
+      overflow: "visible",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -86,21 +86,21 @@ export default class Notif {
       borderTop: Container.border,
       borderLeft: Container.border,
       borderRight: Container.border,
-      borderRadius: "3px 3px 0px 0px"
+      borderRadius: "3px 3px 0px 0px",
     });
     const content = Style.getContentBase({
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase({
       transform: "translate3d(0px, 40px, 0px)",
-      transition: `${Container.transitionNotif}ms`
+      transition: `${Container.transitionNotif}ms`,
     });
     return Style.get({ layout, content, animation });
   }
 
   static getBottom({ app, ui }) {
     const layout = {
-      width: "100%"
+      width: "100%",
     };
     const content = {};
     const animation = {};
@@ -118,12 +118,12 @@ export default class Notif {
     const layout = {
       overflow: "hidden",
       padding: "15px 15px 15px 0px",
-      background: "none"
+      background: "none",
     };
     const content = {
       lineHeight: "0.8",
       whiteSpace: "nowrap",
-      color: Style.fontBaseRGB
+      color: Style.fontBaseRGB,
     };
     const animation = {};
     return Style.get({ layout, content, animation });

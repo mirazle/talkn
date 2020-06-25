@@ -59,7 +59,7 @@ export default class MenuFooter {
     const layout = Style.getLayoutFlex({
       width: MenuFooter.getWidth({ app, ui }),
       minWidth: MenuFooter.getWidth({ app, ui }),
-      height: `${Main.headerHeight}px`,
+      height: `${Container.getBlockSize({ app, ui })}px`,
       background: Container.offWhiteRGB,
       borderRadius,
       ...borders,

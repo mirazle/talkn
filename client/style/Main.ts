@@ -8,9 +8,6 @@ export default class Main {
   static get selfHeight() {
     return "100%";
   }
-  static get closeHeight() {
-    return 45;
-  }
   static getOpenHeight({ app, ui }, called) {
     switch (ui.extensionMode) {
       case Ui.extensionModeExtModalLabel:
@@ -19,9 +16,6 @@ export default class Main {
       default:
         return window.innerHeight;
     }
-  }
-  static get headerHeight() {
-    return 45;
   }
   static get notifOpenTranslate() {
     return 20;
@@ -40,7 +34,7 @@ export default class Main {
     const notif = {};
     return {
       self,
-      notif
+      notif,
     };
   }
 
@@ -50,7 +44,7 @@ export default class Main {
   }
 
   static getSelfHeightPx({ app, ui }: any) {
-    return `calc( 100vh - ${Footer.selfHeight}px )`;
+    return `calc( 100vh - ${Container.getBlockSize({ app, ui })}px )`;
   }
 
   static getSelfRight({ bootOption, app, ui }, widthPx, addUnit = false) {
@@ -58,8 +52,8 @@ export default class Main {
     return addUnit ? Style.trimUnit(right) : right;
   }
 
-  static getSelfOpenTranslateY() {
-    return -Footer.selfHeight + "px";
+  static getSelfOpenTranslateY({ app, ui }) {
+    return -Container.getBlockSize({ app, ui }) + "px";
   }
 
   static getSelfCloseTranslateY(): any {
@@ -71,7 +65,7 @@ export default class Main {
     const widthPx = Main.getWidth(app);
     const heightPx = Main.getSelfHeightPx(params);
     const right = Main.getSelfRight(params, widthPx);
-    const translateY = Main.getSelfOpenTranslateY();
+    const translateY = Main.getSelfOpenTranslateY({ app, ui });
     const layout = Style.getLayoutBlock({
       position: "absolute",
       width: widthPx,
@@ -82,14 +76,14 @@ export default class Main {
       borderBottom: "none",
       //      boxShadow: Container.shadow,
       margin: "0 auto",
-      zIndex: Container.maxZIndex
+      zIndex: Container.maxZIndex,
     });
     const content = Style.getContentBase({
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase({
       transform: `translate3d(0px, ${translateY}, 0px)`,
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }

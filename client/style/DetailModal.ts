@@ -49,14 +49,15 @@ export default class DetailModal {
 
   static getHeight({ app, ui }, addUnit = false) {
     const marginRate = DetailModal.getBaseMarginRate({ app, ui });
+    const blockSize = Container.getBlockSize({ app, ui });
     switch (ui.screenMode) {
       case Ui.screenModeSmallLabel:
-        return `calc( ${100 - marginRate}% - ${Header.headerHeight * 2}px )`;
+        return `calc( ${100 - marginRate}% - ${blockSize * 2}px )`;
       case Ui.screenModeMiddleLabel:
-        return `calc( ${100 - marginRate}% - ${Header.headerHeight * 2}px )`;
+        return `calc( ${100 - marginRate}% - ${blockSize * 2}px )`;
       case Ui.screenModeLargeLabel:
         const baseMargin = DetailModal.getBaseMargin({ app, ui });
-        return `calc( 100% - ${Header.headerHeight * 2 + baseMargin}px )`;
+        return `calc( 100% - ${blockSize * 2 + baseMargin}px )`;
     }
   }
 
@@ -69,7 +70,7 @@ export default class DetailModal {
     return `translate3d(0%, 0px, 0px)`;
   }
   static getOpenSelfTransform({ app, ui }) {
-    return `translate3d(0%, calc( -100% - ${PostsFooter.selfHeight}px ), 0px)`;
+    return `translate3d(0%, calc( -100% - ${Container.getBlockSize({ app, ui })}px ), 0px)`;
   }
 
   static getHeader(params) {

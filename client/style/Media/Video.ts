@@ -1,8 +1,8 @@
 import Ui from "client/store/Ui";
 import Style from "../index";
-import Header from "../Header";
 import Detail from "../Detail";
 import Menu from "../Menu";
+import Container from "../Container";
 
 export default class Video {
   static get marginBase() {
@@ -28,7 +28,7 @@ export default class Video {
   constructor(params) {
     const self = Video.getSelf(params);
     return {
-      self
+      self,
     };
   }
 
@@ -43,8 +43,9 @@ export default class Video {
         width = `calc( ${100 - reduce}% - ${Menu.getWidth({ app, ui }, true)}px )`;
         break;
       case Ui.screenModeLargeLabel:
-        width = `calc( ${100 - Detail.getWidth({ app, ui }, false) - reduce}% - ${Menu.getWidth({ app, ui }, true) +
-          reduce}px )`;
+        width = `calc( ${100 - Detail.getWidth({ app, ui }, false) - reduce}% - ${
+          Menu.getWidth({ app, ui }, true) + reduce
+        }px )`;
         break;
     }
     return width;
@@ -72,13 +73,13 @@ export default class Video {
       display,
       position: "fixed",
       background: "black",
-      top: Header.headerHeight + "px",
+      top: Container.getBlockSize({ app, ui }) + "px",
       left,
       margin: `0px ${Video.marginRightMag}% 0px ${Video.marginLeftMag}%`,
       width,
       zIndex: 1,
       height: `${Video.height}px`,
-      outline: "none"
+      outline: "none",
     });
     const content = {};
     const animation = {};

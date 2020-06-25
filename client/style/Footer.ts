@@ -5,9 +5,6 @@ import Detail from "./Detail";
 import Menu from "./Menu";
 
 export default class Footer {
-  static get selfHeight() {
-    return 45;
-  }
   static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
     switch (ui.screenMode) {
@@ -77,7 +74,7 @@ export default class Footer {
   constructor(params) {
     const self = Footer.getSelf(params);
     return {
-      self
+      self,
     };
   }
 
@@ -90,18 +87,18 @@ export default class Footer {
       position: "fixed",
       bottom: "0px",
       left: Footer.getLeft({ app, ui }),
-      height: Footer.selfHeight,
+      height: Container.getBlockSize({ app, ui }),
       width: Footer.getWidth({ app, ui }),
       //      background: Container.offWhiteRGBA,
       zIndex: Container.maxZIndex,
       borderRadius,
       justifyContent: "flex-start",
-      ...borders
+      ...borders,
     });
     const content = {};
     const animation = Style.getAnimationBase({
       transform: Footer.getTransform({ app, ui }),
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }

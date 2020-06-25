@@ -139,11 +139,11 @@ export default class Detail {
       right: "0px",
       width: DetailRight.getWidth({ app, ui }),
       minWidth: DetailRight.getWidth({ app, ui }),
-      height: `calc( 100% - ${Header.headerHeight}px )`,
+      height: `calc( 100% - ${Container.getBlockSize({ app, ui })}px )`,
       WebkitOverflowScrolling: "touch",
       background: Container.calmRGB,
       overflow: "hidden",
-      margin: `${Header.headerHeight}px 0px 0px 0px`,
+      margin: `${Container.getBlockSize({ app, ui })}px 0px 0px 0px`,
       zIndex: 0,
     });
     const content = Style.getContentBase();
@@ -193,8 +193,8 @@ export default class Detail {
   static getHeader({ app, ui }) {
     const layout = Style.getLayoutFlex({
       width: "100%",
-      height: Header.headerHeight,
-      maxHeight: Header.headerHeight,
+      height: Container.getBlockSize({ app, ui }),
+      maxHeight: Container.getBlockSize({ app, ui }),
       borderBottom: Container.border,
       background: Container.whiteRGB,
       padding: "0px 20px",
@@ -208,7 +208,7 @@ export default class Detail {
     const layout = Style.getLayoutBlock({
       width: "100%",
       height: "auto",
-      maxHeight: Header.headerHeight,
+      maxHeight: Container.getBlockSize({ app, ui }),
     });
     const content = Style.getContentBase({
       lineHeight: "1.8",
@@ -224,7 +224,7 @@ export default class Detail {
       overflowX: "hidden",
       overflowY: "scroll",
       width: "100%",
-      height: `calc( 100% - ${Header.headerHeight * 2}px )`,
+      height: `calc( 100% - ${Container.getBlockSize({ app, ui }) * 2}px )`,
       background: Container.reliefRGBA,
       zIndex: 0,
     });
@@ -321,7 +321,7 @@ export default class Detail {
       borderTop: Container.border,
       borderBottom: Container.border,
       padding: "15px",
-      margin: "0px 0px 45px 0px",
+      margin: `0px 0px ${Container.getBlockSize({ app, ui })}px 0px`,
     });
     const content = Style.getContentBase({
       fontSize: "14px",
@@ -444,7 +444,7 @@ export default class Detail {
     const layout = Style.getLayoutFlex({
       width: "100%",
       background: Container.offWhiteRGB,
-      height: Header.headerHeight,
+      height: Container.getBlockSize({ app, ui }),
       zÎndex: "1px",
       ...positions,
       ...borders,

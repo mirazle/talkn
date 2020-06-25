@@ -14,7 +14,7 @@ export default class Post {
     return 14;
   }
   static get iconSize() {
-    return "25px";
+    return `${Container.faviconSize}px`;
   }
 
   self: Object;
@@ -48,7 +48,7 @@ export default class Post {
       bottomIcon,
       bottomPost,
       stampLabelWrap,
-      stampLabel
+      stampLabel,
     };
   }
 
@@ -72,7 +72,7 @@ export default class Post {
       maxWidth: width,
       height: "auto",
       minHeight,
-      padding
+      padding,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -92,12 +92,12 @@ export default class Post {
       margin: "15px auto 10px auto",
       padding: "5px 10px",
       background: Container.darkLightRGBA,
-      borderRadius: "20px"
+      borderRadius: "20px",
     });
     const content = Style.getContentBase({
       color: Container.whiteRGB,
       letterSpacing: "2px",
-      fontSize: "0.1em"
+      fontSize: "0.1em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -108,10 +108,10 @@ export default class Post {
     const layout = Style.getLayoutFlex({
       display,
       justifyContent: "space-between",
-      height: "20px"
+      height: "20px",
     });
     const content = Style.getContentBase({
-      fontSize: "14px"
+      fontSize: "14px",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -124,11 +124,11 @@ export default class Post {
       flexGrow: 2,
       width: "20%",
       minWidth: "20%",
-      maxWidth: "20%"
+      maxWidth: "20%",
     });
     const content = Style.getContentBase({
       textAlign: "left",
-      textIndent: "10px"
+      textIndent: "10px",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -142,12 +142,12 @@ export default class Post {
       width: "60%",
       minWidth: "60%",
       maxWidth: "60%",
-      margin: "0px 15px 0px 5px"
+      margin: "0px 15px 0px 5px",
     });
     const content = Style.getContentBase({
       textAlign: "left",
       whiteSpace: "nowrap",
-      wordBreak: "break-all"
+      wordBreak: "break-all",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -161,12 +161,12 @@ export default class Post {
       padding: "0px 20px 0px 0px",
       width: "20%",
       minWidth: "20%",
-      maxWidth: "20%"
+      maxWidth: "20%",
     });
     const content = Style.getContentBase({
       textAlign: "right",
       fontSize: "0.75em",
-      letterSpacing: "0.5px"
+      letterSpacing: "0.5px",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -174,7 +174,7 @@ export default class Post {
 
   static getBottom({ app, ui }) {
     const layout = Style.getLayoutFlex({
-      padding: "0px 10px 0px 0px"
+      padding: "0px 10px 0px 0px",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -190,8 +190,8 @@ export default class Post {
       height: Post.iconSize,
       backgroundImage: `url(${conf.protcol}:${conf.assetsPath}favicon.ico")`,
       backgroundPosition: "50% 50%",
-      backgroundSize: "24px 24px",
-      backgroundRepeat: "no-repeat"
+      backgroundSize: `${Container.faviconSize}px`,
+      backgroundRepeat: "no-repeat",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -210,7 +210,7 @@ export default class Post {
       background,
       padding,
       margin: "0px 1% 0px 0px",
-      borderRadius: "10px"
+      borderRadius: "10px",
     });
     const content = Style.getContentBase({
       color,
@@ -219,7 +219,7 @@ export default class Post {
       textAlign: "left",
       cursor: "pointer",
       wordWrap: "break-word",
-      overflowWrap: "break-word"
+      overflowWrap: "break-word",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -235,10 +235,10 @@ export default class Post {
       height: "20px",
       justifyContent: "flex-end",
       alignItems: "center",
-      zIndex: 10
+      zIndex: 10,
     });
     const content = Style.getContentBase({
-      textAlign: "right"
+      textAlign: "right",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -252,11 +252,11 @@ export default class Post {
       background: "rgba(80, 80 ,80, 0.2)",
       justifyContent: "center",
       alignItems: "center",
-      borderRadius: "5px 5px 0px 0px"
+      borderRadius: "5px 5px 0px 0px",
     });
     const content = Style.getContentBase({
       fontSize: "10px",
-      color: Container.whiteRGB
+      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });

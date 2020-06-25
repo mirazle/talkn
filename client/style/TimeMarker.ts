@@ -1,4 +1,3 @@
-import App from "api/store/App";
 import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
@@ -13,7 +12,7 @@ export default class TimeMarker {
     const fixTimeMarker = TimeMarker.getFixTimeMarker(params);
     return {
       self,
-      fixTimeMarker
+      fixTimeMarker,
     };
   }
 
@@ -74,12 +73,12 @@ export default class TimeMarker {
       padding: "5px 10px",
       background: Container.darkLightRGBA,
       borderRadius: "20px",
-      display
+      display,
     });
     const content = Style.getContentBase({
       color: Container.whiteRGB,
       letterSpacing: "2px",
-      fontSize: "8px"
+      fontSize: "8px",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -93,9 +92,9 @@ export default class TimeMarker {
       position: "fixed",
       width,
       height,
-      top: "45px",
+      top: `${Container.getBlockSize({ app, ui })}px`,
       left,
-      fontSize
+      fontSize,
     };
   }
 }

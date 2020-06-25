@@ -1,41 +1,36 @@
 import Style from "./index";
 import Container from "./Container";
-import Header from "./Header";
 import Posts from "./Posts";
 
 export default class InnerNotif {
-  static get selfHeight() {
-    return Header.headerHeight;
-  }
-
   self: Object;
   constructor(params) {
     const self = InnerNotif.getSelf(params);
     return {
-      self
+      self,
     };
   }
 
   static getSelf({ app, ui }) {
     const width = Posts.getOlWidth({ app, ui }, true);
     const marginOne = (100 - width) / 2;
-    const height = app.isOpenInnerNotif ? Header.headerHeight : 0;
+    const height = app.isOpenInnerNotif ? Container.getBlockSize({ app, ui }) : 0;
     const layout = Style.getLayoutFlex({
       position: "fixed",
-      top: Header.headerHeight + "px",
+      top: Container.getBlockSize({ app, ui }) + "px",
       alignItems: "center",
       justifyContent: "center",
       width: `calc( ${width}% - 2px )`,
       margin: `0px calc( ${marginOne}% + 1px ) 0px calc( ${marginOne}% + 1px )`,
       height,
       background: Container.themeRGBA,
-      zIndex: 20
+      zIndex: 20,
     });
     const content = Style.getContentBase({
-      color: Container.whiteRGB
+      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase({
-      transition: `${Container.transitionNotif}ms`
+      transition: `${Container.transitionNotif}ms`,
     });
     return Style.get({ layout, content, animation });
   }
