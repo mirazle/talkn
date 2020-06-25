@@ -78,7 +78,7 @@ export default class Menu {
 
   static getSelf({ app, ui }) {
     const display = "block";
-    const background = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "none" : Container.reliefRGB;
+    const background = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "none" : Container.silverRGBA;
     const layout = Style.getLayoutBlock({
       display,
       position: "fixed",
