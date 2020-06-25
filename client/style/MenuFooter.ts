@@ -12,7 +12,13 @@ export default class MenuFooter {
       case Ui.extensionModeExtBottomLabel:
         return Container.radiuses;
       case Ui.extensionModeExtModalLabel:
-        return "0 0 0 10px";
+        switch (ui.screenMode) {
+          case Ui.screenModeSmallLabel:
+            return `0 0 0 ${Container.radius}`;
+          case Ui.screenModeMiddleLabel:
+          case Ui.screenModeLargeLabel:
+            return `0px 0px 0px ${Container.radius}`;
+        }
       default:
         return "0";
     }

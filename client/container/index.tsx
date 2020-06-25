@@ -196,23 +196,27 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   render() {
     const { style, ui, app } = this.props.state;
     if (style && style.container && style.container.self && app.tuned) {
+      /*
       if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
         return this.renderExtension();
       } else {
-        switch (ui.screenMode) {
-          case Ui.screenModeSmallLabel:
-            return this.renderSmall();
-          case Ui.screenModeMiddleLabel:
-            return this.renderMiddle();
-          case Ui.screenModeLargeLabel:
-            return this.renderLarge();
-        }
+*/
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
+          return this.renderSmall();
+        case Ui.screenModeMiddleLabel:
+          return this.renderMiddle();
+        case Ui.screenModeLargeLabel:
+          return this.renderLarge();
       }
-    } else {
+    }
+    /*
+  } else {
       if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
         return null;
       }
     }
+*/
     return <LoadingLogo />;
   }
 

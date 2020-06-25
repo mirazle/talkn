@@ -87,30 +87,19 @@ export default class Posts {
   }
 
   static getMargin({ app, ui }, addUnit = false) {
-    let margin = "0";
-    let marginTop = "0";
-    let marginBottom = "0";
-
-    margin = `${Container.getBlockSize({ app, ui })}px 0px 0px 0px`;
-    marginTop = app.isMediaCh ? `0px` : "0px";
-    marginBottom = app.isMediaCh ? `0px` : "0px";
-
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
-      margin = `${marginTop} 5% ${Container.getBlockSize({ app, ui })}px 5%`;
-    } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
-      margin = `${marginTop} 0px ${Container.getBlockSize({ app, ui })}px 0px`;
-    } else {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
-          margin = `${marginTop} 0px ${marginBottom} 0px`;
-          break;
-        case Ui.screenModeMiddleLabel:
-          margin = `${marginTop} 0px ${marginBottom} ${Menu.getWidth({ app, ui })}`;
-          break;
-        case Ui.screenModeLargeLabel:
-          margin = `${marginTop} 0px ${marginBottom} ${Menu.getWidth({ app, ui })}`;
-          break;
-      }
+    let margin = `${Container.getBlockSize({ app, ui })}px 0px 0px 0px`;
+    let marginTop = app.isMediaCh ? `0px` : "0px";
+    let marginBottom = app.isMediaCh ? `0px` : "0px";
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+        margin = `${marginTop} 0px ${marginBottom} 0px`;
+        break;
+      case Ui.screenModeMiddleLabel:
+        margin = `${marginTop} 0px ${marginBottom} ${Menu.getWidth({ app, ui })}`;
+        break;
+      case Ui.screenModeLargeLabel:
+        margin = `${marginTop} 0px ${marginBottom} ${Menu.getWidth({ app, ui })}`;
+        break;
     }
     return margin;
   }
@@ -217,19 +206,27 @@ export default class Posts {
     let zIndex = 1;
     let opacity = ui.isLoading ? 0 : 1;
 
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
-      position = "fixed";
-      overflowX = "hidden";
-      overflowY = "scroll";
-      borders.borderRight = Container.border;
-      borders.borderLeft = Container.border;
-      zIndex = -2;
-    } else {
+    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
       if (ui.screenMode === Ui.screenModeLargeLabel) {
         overflowX = "hidden";
         overflowY = "scroll";
       }
       borders = Posts.getBorders({ app, ui });
+    } else {
+      position = "fixed";
+      overflowX = "hidden";
+      overflowY = "scroll";
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
+          borders.borderRight = Container.border;
+          borders.borderLeft = Container.border;
+          break;
+        case Ui.screenModeMiddleLabel:
+        case Ui.screenModeLargeLabel:
+          borders.borderRight = Container.border;
+          break;
+      }
+      zIndex = -2;
     }
 
     const layout = Style.getLayoutBlock({
