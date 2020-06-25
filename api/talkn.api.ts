@@ -151,11 +151,10 @@ class BootOption {
     initialRootCh = initialRootCh.replace(`${Sequence.HTTPS_PROTOCOL}/`, "").replace(`${Sequence.HTTP_PROTOCOL}/`, "");
     switch (env) {
       case define.PRODUCTION:
-        initialRootCh = initialRootCh.replace(`^${define.PRODUCTION_DOMAIN}`, "");
+        initialRootCh = initialRootCh === `/${define.PRODUCTION_DOMAIN}/` ? "/" : initialRootCh;
         break;
       case define.LOCALHOST:
         initialRootCh = initialRootCh === `/${define.DEVELOPMENT_DOMAIN}/` ? "/" : initialRootCh;
-        console.log(initialRootCh);
         break;
       case define.DEVELOPMENT:
         initialRootCh = initialRootCh
