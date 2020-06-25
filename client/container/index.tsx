@@ -416,6 +416,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
         </div>
         <span data-component-name="fixedComponents">
           <PostsFooter {...props} />
+          <Menu {...props} />
         </span>
       </span>
     );

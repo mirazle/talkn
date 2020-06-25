@@ -342,7 +342,6 @@ class GlobalWindow {
     this.apiStore.subscribe(this.subscribe);
 
     this.onActions();
-    console.log(this.bootOption);
     const bootPromises = [];
     const self = this;
 
@@ -403,10 +402,8 @@ class GlobalWindow {
   onWsServer(coreApi: any) {
     this.coreApi = coreApi;
     const apiState = new ApiState(window, this.bootOption);
-    console.log(this.bootOption);
     this.coreApi.setUp(apiState, this.bootOption.ch);
     if (this.bootOption.type !== define.APP_TYPES.API) {
-      console.log(apiState);
       this.coreApi.tune(apiState);
     }
 

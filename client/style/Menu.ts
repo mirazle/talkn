@@ -8,6 +8,10 @@ export default class Menu {
   static get baseWidth() {
     return "300px";
   }
+  static getBorderRadius({ app, ui }): any {
+    return ui.extensionMode === Ui.extensionModeExtModalLabel ? "0 0 10px 10px " : "0";
+  }
+
   static getWidth({ app, ui }, addUnit = false): any {
     let width = "0";
     switch (ui.screenMode) {
@@ -23,6 +27,10 @@ export default class Menu {
     }
 
     return addUnit ? Style.trimUnit(width) : width;
+  }
+
+  static getHeight({ app, ui }, addUnit = false): any {
+    return ui.extensionMode === Ui.extensionModeExtModalLabel ? "375px" : "100%";
   }
 
   static getTransform({ app, ui }) {
@@ -41,19 +49,19 @@ export default class Menu {
     return transform;
   }
   self: any;
-  wrapComponent: any;
+  body: any;
   footer: any;
   footerChild: any;
   footerChildMoney: any;
   constructor(params) {
     const self = Menu.getSelf(params);
-    const wrapComponent = Menu.getWrapComponent(params);
+    const body = Menu.getBody(params);
     const footer = Menu.getFooter(params);
     const footerChild = Menu.getFooterChild(params);
     const footerChildMoney = Menu.getFooterChildMoney(params);
     return {
       self,
-      wrapComponent,
+      body,
       footer,
       footerChild,
       footerChildMoney,
@@ -68,11 +76,12 @@ export default class Menu {
       position: "fixed",
       top: "0px",
       left: "0px",
+      borderRadius: Menu.getBorderRadius({ app, ui }),
       width: Menu.getWidth({ app, ui }),
       minWidth: Menu.getWidth({ app, ui }),
-      height: "100%",
+      height: Menu.getHeight({ app, ui }),
       minHeight: "auto",
-      maHeight: "auto",
+      maxHeight: "auto",
       margin: `${Header.headerHeight}px 0px 0px 0px`,
       background,
       WebkitOverflowScrolling: "touch",
@@ -87,22 +96,15 @@ export default class Menu {
     return Style.get({ layout, content, animation });
   }
 
-  static getWrapComponent({ app, ui }) {
+  static getBody({ app, ui }) {
     const width = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "90%" : "100%";
-
-    const borders = {};
-    /*
-      app.screenMode === App.screenModeSmallLabel
-        ? { borderRight: Container.border, borderLeft: Container.border }
-        : { borderLeft: Container.border };
-*/
+    const multiHeightRate = ui.extensionMode === Ui.extensionModeExtModalLabel ? 1 : 2;
     const layout = Style.getLayoutBlock({
       width,
       minWidth: "inherit",
       maxWidth: "inherit",
-      height: `calc( 100% - ${Main.headerHeight * 2}px )`,
+      height: `calc( 100% - ${Main.headerHeight * multiHeightRate}px )`,
       margin: "0 auto",
-      ...borders,
     });
     const content = {};
     const animation = Style.getAnimationBase();

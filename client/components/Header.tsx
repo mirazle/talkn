@@ -23,16 +23,14 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
   handleOnClickMenuIcon(e) {
     const { state } = this.props;
     let { ui, app } = state;
-    if (ui.extensionMode === "NONE") {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
-          break;
-        default:
-          ui = Ui.getUiUpdatedOpenFlgs({ app, ui }, "headerMenuIcon");
-          break;
-      }
-      this.clientAction("ON_CLICK_TOGGLE_DISP_MENU", { ui });
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+        break;
+      default:
+        ui = Ui.getUiUpdatedOpenFlgs({ app, ui }, "headerMenuIcon");
+        break;
     }
+    this.clientAction("ON_CLICK_TOGGLE_DISP_MENU", { ui });
   }
 
   render() {

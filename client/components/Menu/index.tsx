@@ -54,39 +54,14 @@ export default class Menuextends extends TalknComponent<Props, {}> {
     const { style } = this.props.state;
     return (
       <div data-component-name={"Menu"} onTransitionEnd={this.handleOnTransitionEnd} style={style.menu.self}>
-        {this.renderHeader()}
-        <div data-component-name={"MenuBody"} style={style.menu.wrapComponent}>
+        <div data-component-name={"MenuBody"} style={style.menu.body}>
           {this.renderMenuComponent()}
         </div>
-        {this.renderFooter()}
+        <MenuFooter {...this.props} />
       </div>
     );
   }
-  /*
-  renderFriendLiLabel(name, icon, ch) {
-    const { style } = this.props.state;
-    const href = `/${ch}`;
-    const label = ch ? (
-      <span style={style.menu.namesAddCh}>
-        {name}
-        <br />
-        {ch}
-      </span>
-    ) : (
-      <span style={style.menu.names}>
-        <br />
-        {name}
-      </span>
-    );
 
-    return (
-      <a style={style.menu.wrap} href={href}>
-        <img style={style.menu.img} src={icon} />
-        {label}
-      </a>
-    );
-  }
-*/
   renderMenuComponent() {
     const { ui } = this.props.state;
     let menuComponent;
@@ -105,27 +80,5 @@ export default class Menuextends extends TalknComponent<Props, {}> {
         break;
     }
     return menuComponent;
-  }
-
-  renderHeader() {
-    const { ui } = this.props.state;
-
-    return ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel ? (
-      <Header {...this.props} />
-    ) : null;
-  }
-
-  renderFooter() {
-    const { ui } = this.props.state;
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
-      return null;
-    } else {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
-        case Ui.screenModeMiddleLabel:
-        case Ui.screenModeLargeLabel:
-          return <MenuFooter {...this.props} />;
-      }
-    }
   }
 }
