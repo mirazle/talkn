@@ -163,7 +163,7 @@ export default class Posts {
     switch (ui.extensionMode) {
       case Ui.extensionModeExtBottomLabel:
       case Ui.extensionModeExtModalLabel:
-        return `calc( 100% - ${Container.getBlockSize({ app, ui })} + ${Container.getBlockSize({ app, ui })}px )`;
+        return `calc( 100% - ${Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })}px )`;
       case Ui.extensionModeExtIncludeLabel:
         return `100%`;
       default:
