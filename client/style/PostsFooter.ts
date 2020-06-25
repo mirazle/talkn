@@ -48,23 +48,21 @@ export default class PostsFooter {
           borderLeft: Container.border,
         };
       case Ui.extensionModeExtModalLabel:
-        return { border: Container.border };
-      default:
-        if (ui.includeIframeTag) {
-          return { border: Container.border };
-        } else {
-          if (ui.screenMode === Ui.screenModeSmallLabel) {
+        switch (ui.screenMode) {
+          case Ui.screenModeSmallLabel:
+            return { border: Container.border };
+          case Ui.screenModeMiddleLabel:
+          case Ui.screenModeLargeLabel:
             return {
               borderTop: Container.border,
               borderBottom: Container.border,
             };
-          } else {
-            return {
-              borderTop: Container.border,
-              borderBottom: Container.border,
-            };
-          }
         }
+      default:
+        return {
+          borderTop: Container.border,
+          borderBottom: Container.border,
+        };
     }
   }
 
