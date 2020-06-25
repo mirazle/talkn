@@ -390,7 +390,7 @@ class Window extends Elements {
         this.ins.body = new Body(this);
         this.ins.iframe = new Iframe(this);
         this.ins.handleIcon = new HandleIcon(this);
-        this.ins.textarea = new Textarea(this);
+        // this.ins.textarea = new Textarea(this);
         this.ins.notifStatus = new NotifStatus(this);
       };
 
@@ -440,7 +440,7 @@ class Window extends Elements {
   }
 
   transformDisplayMode(called, displayModeKey) {
-    const { body, iframe, handleIcon, textarea, notifStatus } = this.ins;
+    const { body, iframe, handleIcon, /*textarea,*/ notifStatus } = this.ins;
     const displayMode = Ext.DISPLAY_MODE[displayModeKey].toLowerCase();
     const actionName = displayMode.charAt(0).toUpperCase() + displayMode.slice(1);
     const beforeDisplayMode = Ext.DISPLAY_MODE[this.displayModeKey];
@@ -450,7 +450,7 @@ class Window extends Elements {
     if (body) body.action(called, actionName);
     if (iframe) iframe.action(called, actionName);
     if (handleIcon) handleIcon.action(called, actionName);
-    if (textarea) textarea.action(called, actionName);
+    // if (textarea) textarea.action(called, actionName);
     if (notifStatus) notifStatus.action(called, actionName);
     this.callback(called, beforeDisplayMode, beforeDisplayModeDirection, actionName, this);
   }
@@ -539,11 +539,11 @@ class Window extends Elements {
       switch (method) {
         case "bootExtension":
           this.clientTo("removeExtension");
-          const { iframe, handleIcon, notifStatus, textarea } = this.ins;
+          const { iframe, handleIcon, notifStatus /* textarea */ } = this.ins;
           iframe.remove();
           handleIcon.remove();
           notifStatus.remove();
-          textarea.remove();
+          // textarea.remove();
           this.remove();
           console.warn("CSP Reboot: " + method);
           new Window(true);
@@ -677,7 +677,7 @@ class Window extends Elements {
   }
 
   transitionend(e) {
-    const { body, iframe, handleIcon, textarea } = this.ins;
+    const { body, iframe, handleIcon /*, textarea */ } = this.ins;
 
     if (this.transitionEndId === null) {
       this.transitionEndId = setTimeout(() => {
@@ -697,7 +697,7 @@ class Window extends Elements {
     if (body && body.transitionEnd) body.transitionEnd(e);
     if (iframe && iframe.transitionEnd) iframe.transitionEnd(e);
     if (handleIcon && handleIcon.transitionEnd) handleIcon.transitionEnd(e);
-    if (textarea && textarea.transitionEnd) textarea.transitionEnd(e);
+    // if (textarea && textarea.transitionEnd) textarea.transitionEnd(e);
   }
 
   load(e) {
@@ -1235,7 +1235,7 @@ class HandleIcon extends Elements {
   /*************************/
 
   click() {
-    const { iframe, textarea, notifStatus } = this.window.ins;
+    const { iframe, /* textarea, */ notifStatus } = this.window.ins;
     const iframeElm = iframe.get();
 
     switch (this.window.extMode) {
@@ -1267,13 +1267,14 @@ class HandleIcon extends Elements {
         notifStatus.resetCnt();
 
         const regex = /^\s*$/;
-        const inputPost = textarea.getValue();
+        // const inputPost = textarea.getValue();
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             // this.window.clientTo("onScrollUpdateTimeMarker");
             this.window.updateDisplayMode("clickHandleIcon");
             break;
           case Ext.DISPLAY_MODE_OPEN:
+            /*
             if (inputPost !== "" && !regex.test(inputPost)) {
               const inputCurrentTime = Window.getCurrentTime(this.window.handleMediaCurrentTime);
 
@@ -1281,11 +1282,12 @@ class HandleIcon extends Elements {
               //              this.window.clientTo("delegatePost", { inputPost, inputCurrentTime });
               this.window.clientTo("onChangeInputPost");
 
-              textarea.clear();
+              // textarea.clear();
               //                    textarea.focus();
             } else {
-              this.window.updateDisplayMode("clickHandleIcon");
-            }
+            */
+            this.window.updateDisplayMode("clickHandleIcon");
+            //            }
             break;
         }
         break;
@@ -1736,12 +1738,14 @@ class Textarea extends Elements {
   }
 
   create(display = "none") {
+    /*
     const textarea = document.createElement("textarea");
     textarea.id = Textarea.id;
     textarea.style = this.getStyle(display);
     textarea.placeholder = "Comment to web";
     textarea.addEventListener("keypress", this.keypress);
     document.body.appendChild(textarea);
+    */
   }
 
   get() {

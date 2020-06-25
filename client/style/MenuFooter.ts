@@ -12,7 +12,7 @@ export default class MenuFooter {
       case Ui.extensionModeExtBottomLabel:
         return Container.radiuses;
       case Ui.extensionModeExtModalLabel:
-        return "0 0 10px 10px";
+        return "0 0 0 10px";
       default:
         return "0";
     }
