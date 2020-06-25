@@ -985,7 +985,9 @@ class Iframe extends Elements {
         break;
       case Ext.MODE_MODAL:
         height =
-          window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? `${Math.floor(window.innerHeight * 0.9)}px` : "420px";
+          window.innerWidth < Styles.FULL_WIDTH_THRESHOLD
+            ? `${Math.floor(window.innerHeight * 0.9)}px`
+            : `${Iframe.height}px`;
         break;
       case Ext.MODE_INCLUDE:
         const talknTag = document.querySelector(this.window.includeId);
@@ -1093,11 +1095,7 @@ class Iframe extends Elements {
       opacity,
       right,
       width: width,
-      minWidth: width,
-      maxWidth: width,
       height: height,
-      minHeight: height,
-      maxHeight: height,
     };
   }
 
@@ -1112,11 +1110,8 @@ class Iframe extends Elements {
       transform,
       opacity,
       right,
-      minWidth: width,
-      maxWidth: width,
+      width: width,
       height: height,
-      minHeight: height,
-      maxHeight: height,
     };
   }
 
