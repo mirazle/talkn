@@ -391,6 +391,7 @@ export default class Style {
     const fontBase: Object = {
       textAlign: "center",
       color: Style.fontBaseRGB,
+      fontWeight: 300,
       font: "inherit",
       fontFamily:
         '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK JP", "Original Yu Gothic", "Yu Gothic", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Sans Emoji"',
