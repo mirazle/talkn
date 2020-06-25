@@ -316,33 +316,6 @@ export default class Container {
       bottom: `-${Container.notifHeight}px`,
       transition: Container.getTransition({ app, ui }),
     };
-    /*
-    const layout = Style.getLayoutFlex({
-      display,
-      position: "fixed",
-      bottom: `-${Container.notifHeight}px`,
-      left,
-      width,
-      height: Container.notifHeight,
-      margin: "0px auto",
-      alignItems: "center",
-      justifyContent: "center",
-      zIndex: "1",
-      background: Container.darkLightRGBA,
-      borderRadius: "20px"
-    });
-    const content = Style.getContentBase({
-      color: "rgb(255,255,255)",
-      textAlign: "center",
-      fontSize: "12px",
-      lineHeight: 2,
-      cursor: "pointer"
-    });
-    const animation = Style.getAnimationBase({
-      transition: Container.getTransition(app)
-    });
-    return Style.get({ layout, content, animation });
-    */
   }
 
   static getHideScreenBottom({ app, ui }): Object {
