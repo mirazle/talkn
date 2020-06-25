@@ -9,42 +9,32 @@ import Menu from "./Menu";
 export default class PostsFooter {
   static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
-      width = "100%";
-    } else {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
-          width = "100%";
-          break;
-        case Ui.screenModeMiddleLabel:
-          width = Posts.getWidth({ app, ui });
-          break;
-        case Ui.screenModeLargeLabel:
-          width = Posts.getWidth({ app, ui });
-          break;
-      }
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+        width = "100%";
+        break;
+      case Ui.screenModeMiddleLabel:
+        width = Posts.getWidth({ app, ui });
+        break;
+      case Ui.screenModeLargeLabel:
+        width = Posts.getWidth({ app, ui });
+        break;
     }
     return addUnit ? Style.trimUnit(width) : width;
   }
 
   static getLeft({ app, ui }, addUnit = false) {
     let left = "0";
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
-      return 0;
-    } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
-      return 0;
-    } else {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
-          left = "0px";
-          break;
-        case Ui.screenModeMiddleLabel:
-          left = `${Menu.getWidth({ app, ui })}`;
-          break;
-        case Ui.screenModeLargeLabel:
-          left = Menu.getWidth({ app, ui });
-          break;
-      }
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+        left = "0px";
+        break;
+      case Ui.screenModeMiddleLabel:
+        left = `${Menu.getWidth({ app, ui })}`;
+        break;
+      case Ui.screenModeLargeLabel:
+        left = Menu.getWidth({ app, ui });
+        break;
     }
     return addUnit ? Style.trimUnit(left) : left;
   }
@@ -82,7 +72,13 @@ export default class PostsFooter {
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return ui.extensionWidth === "100%" ? "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
     } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
-      return `0px 0px ${Container.radius} ${Container.radius}`;
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
+          return `0px 0px ${Container.radius} ${Container.radius}`;
+        case Ui.screenModeMiddleLabel:
+        case Ui.screenModeLargeLabel:
+          return `0px 0px ${Container.radius} 0px`;
+      }
     }
     return 0;
   }

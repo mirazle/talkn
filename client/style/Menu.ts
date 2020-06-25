@@ -30,7 +30,7 @@ export default class Menu {
   }
 
   static getHeight({ app, ui }, addUnit = false): any {
-    return ui.extensionMode === Ui.extensionModeExtModalLabel ? "375px" : "100%";
+    return `calc( 100% - ${Container.getBlockSize({ app, ui })}px )`;
   }
 
   static getTransform({ app, ui }) {
@@ -74,7 +74,7 @@ export default class Menu {
     const layout = Style.getLayoutBlock({
       display,
       position: "fixed",
-      top: "0px",
+      top: `${Container.getBlockSize({ app, ui })}px`,
       left: "0px",
       borderRadius: Menu.getBorderRadius({ app, ui }),
       width: Menu.getWidth({ app, ui }),
@@ -82,7 +82,7 @@ export default class Menu {
       height: Menu.getHeight({ app, ui }),
       minHeight: "auto",
       maxHeight: "auto",
-      margin: `${Container.getBlockSize({ app, ui })}px 0px 0px 0px`,
+      margin: `0`,
       background,
       WebkitOverflowScrolling: "touch",
       overflow: "hidden",
@@ -98,14 +98,13 @@ export default class Menu {
 
   static getBody({ app, ui }) {
     const width = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "90%" : "100%";
-    const multiHeightRate = ui.extensionMode === Ui.extensionModeExtModalLabel ? 1 : 2;
     const borderLeft = ui.extensionMode === Ui.extensionModeExtModalLabel ? Container.border : 0;
     const layout = Style.getLayoutBlock({
       borderLeft,
       width,
       minWidth: "inherit",
       maxWidth: "inherit",
-      height: `calc( 100% - ${Container.getBlockSize({ app, ui }) * multiHeightRate}px )`,
+      height: `calc( 100% - ${Container.getBlockSize({ app, ui })}px )`,
       margin: "0 auto",
     });
     const content = {};

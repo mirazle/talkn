@@ -13,7 +13,6 @@ import Footer from "client/style/Footer";
 import MenuFooter from "client/style/MenuFooter";
 import PostsFooter from "client/style/PostsFooter";
 import Notif from "client/style/Notif";
-import InnerNotif from "client/style/InnerNotif";
 import ExtScreen from "client/style/ExtScreen";
 import PostsSupporter from "client/style/PostsSupporter";
 import Board from "client/style/Board";
@@ -32,6 +31,7 @@ export default (state: any = {}, action: any) => {
     case "OFF_TRANSITION":
     case "ON_TRANSITION_END":
     case "bootExtension":
+      console.log(action);
       return new Style(action);
     case "TOGGLE_DISP_MAIN":
       return { ...state };

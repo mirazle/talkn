@@ -11,17 +11,10 @@ import Menu from "./Menu";
 
 export default class DetailModal {
   static getWidth({ app, ui }, addUnit = false) {
-    let width = "0";
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
-      return "84%";
-    } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
-      return "94%";
-    } else {
-      width =
-        ui.screenMode === Ui.screenModeSmallLabel
-          ? String(Math.floor(ui.width * Container.widthRatio)) + "px"
-          : `calc( ${100 * Container.widthRatio}% - ${Menu.getWidth({ app, ui })} )`;
-    }
+    const width =
+      ui.screenMode === Ui.screenModeSmallLabel
+        ? String(Math.floor(ui.width * Container.widthRatio)) + "px"
+        : `calc( ${100 * Container.widthRatio}% - ${Menu.getWidth({ app, ui })} )`;
     return addUnit ? Style.trimUnit(width) : width;
   }
 
