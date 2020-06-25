@@ -159,7 +159,7 @@ export default class Container {
   }
 
   static getBlockSize({ app, ui }) {
-    return ui.screenMode === Ui.screenModeSmallLabel ? 45 : 50;
+    return ui.screenMode === Ui.screenModeSmallLabel ? 45 : 60;
   }
 
   static getFaviconSize({ app, ui }) {

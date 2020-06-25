@@ -64,7 +64,7 @@ export default class Rank {
 
     const layout = Style.getLayoutFlex({
       width: "100%",
-      height: `${Rank.liHeight / 2}px`,
+      height: `${Container.getBlockSize({ app, ui })}px`,
       ...borders,
       background: Container.lightRGB,
     });
