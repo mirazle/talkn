@@ -294,7 +294,7 @@ export default class MenuIndexList {
       height: "50px",
       backgroundImage: `url("${conf.assetsURL}/favicon.ico")`,
       backgroundPosition: "40% 50%",
-      backgroundSize: `${Container.faviconSize}px`,
+      backgroundSize: `${Container.getFaviconSize({ app, ui })}px`,
       backgroundRepeat: "no-repeat",
     });
     const content = Style.getContentBase();

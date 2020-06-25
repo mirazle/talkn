@@ -13,9 +13,6 @@ export default class Post {
   static get fontSize() {
     return 14;
   }
-  static get iconSize() {
-    return `${Container.faviconSize}px`;
-  }
 
   self: Object;
   upper: Object;
@@ -187,10 +184,10 @@ export default class Post {
       width: "20%",
       minWidth: "20%",
       maxWidth: "20%",
-      height: Post.iconSize,
+      height: `${Container.getFaviconSize({ app, ui })}px`,
       backgroundImage: `url(${conf.protcol}:${conf.assetsPath}favicon.ico")`,
       backgroundPosition: "50% 50%",
-      backgroundSize: `${Container.faviconSize}px`,
+      backgroundSize: `${Container.getFaviconSize({ app, ui })}px`,
       backgroundRepeat: "no-repeat",
     });
     const content = Style.getContentBase();
