@@ -162,7 +162,7 @@ export default class Container {
   }
 
   static getBlockSize({ app, ui }) {
-    return ui.screenMode === Ui.screenModeSmallLabel ? 45 : 50;
+    return ui.extensionMode === Ui.extensionModeExtNoneLabel ? 50 : 45;
   }
 
   static getThemeRGBA(alpha = 0.8) {
