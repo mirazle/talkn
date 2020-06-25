@@ -82,7 +82,7 @@ export default class Menu {
       height: Menu.getHeight({ app, ui }),
       minHeight: "auto",
       maxHeight: "auto",
-      margin: `${Header.headerHeight}px 0px 0px 0px`,
+      margin: `${Container.getBlockSize({ app, ui })}px 0px 0px 0px`,
       background,
       WebkitOverflowScrolling: "touch",
       overflow: "hidden",
@@ -105,7 +105,7 @@ export default class Menu {
       width,
       minWidth: "inherit",
       maxWidth: "inherit",
-      height: `calc( 100% - ${Main.headerHeight * multiHeightRate}px )`,
+      height: `calc( 100% - ${Container.getBlockSize({ app, ui }) * multiHeightRate}px )`,
       margin: "0 auto",
     });
     const content = {};
@@ -135,7 +135,7 @@ export default class Menu {
     const layout = Style.getLayoutFlex({
       width: "100%",
       background: Container.offWhiteRGB,
-      height: `${Main.headerHeight}px`,
+      height: `${Container.getBlockSize({ app, ui })}px`,
       ...borders,
     });
     const content = Style.getContentBase({});

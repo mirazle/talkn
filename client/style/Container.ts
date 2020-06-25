@@ -33,7 +33,9 @@ export default class Container {
   static get widthRatio() {
     return 0.94;
   }
-
+  static get faviconSize() {
+    return 30;
+  }
   static get radius() {
     return "10px";
   }
@@ -49,15 +51,8 @@ export default class Container {
   static get threadHeight() {
     return 360;
   }
-  static get footerHeight() {
-    return 45;
-  }
   static get maxZIndex() {
     return 2147483647;
-  }
-
-  static get openBottom() {
-    return Container.footerHeight;
   }
   static get closeBottom() {
     return 0;
@@ -165,6 +160,11 @@ export default class Container {
   static get themeRGBA() {
     return `rgba(${Container.themeRGBString}, 0.8)`;
   }
+
+  static getBlockSize({ app, ui }) {
+    return ui.screenMode === Ui.screenModeSmallLabel ? 45 : 50;
+  }
+
   static getThemeRGBA(alpha = 0.8) {
     return `rgba(${Container.themeRGBString}, ${alpha})`;
   }
@@ -263,11 +263,11 @@ export default class Container {
 
   static getMultistreamIconWrapTop({ app, ui }): Object {
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
-      return Header.headerHeight + Container.multistreamWrapDefaultTop + "px";
+      return Container.getBlockSize({ app, ui }) + Container.multistreamWrapDefaultTop + "px";
     } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
-      return Header.headerHeight + Container.multistreamWrapDefaultTop + "px";
+      return Container.getBlockSize({ app, ui }) + Container.multistreamWrapDefaultTop + "px";
     } else {
-      return Header.headerHeight + Container.multistreamWrapDefaultTop + "px";
+      return Container.getBlockSize({ app, ui }) + Container.multistreamWrapDefaultTop + "px";
     }
   }
 
@@ -358,7 +358,7 @@ export default class Container {
   }
 
   static getLinkLabel({ app, ui }): Object {
-    const top = Header.headerHeight + "px";
+    const top = Container.getBlockSize({ app, ui }) + "px";
     const left = ui.screenMode === Ui.screenModeSmallLabel ? "0px" : `${Menu.getWidth({ app, ui })}`;
     const layout = Style.getLayoutFlex({
       maxWidth: "180px",

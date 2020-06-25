@@ -91,14 +91,14 @@ export default class Posts {
     let marginTop = "0";
     let marginBottom = "0";
 
-    margin = `${Header.headerHeight}px 0px 0px 0px`;
+    margin = `${Container.getBlockSize({ app, ui })}px 0px 0px 0px`;
     marginTop = app.isMediaCh ? `0px` : "0px";
     marginBottom = app.isMediaCh ? `0px` : "0px";
 
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
-      margin = `${marginTop} 5% ${Header.headerHeight}px 5%`;
+      margin = `${marginTop} 5% ${Container.getBlockSize({ app, ui })}px 5%`;
     } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
-      margin = `${marginTop} 0px ${PostsFooter.selfHeight}px 0px`;
+      margin = `${marginTop} 0px ${Container.getBlockSize({ app, ui })}px 0px`;
     } else {
       switch (ui.screenMode) {
         case Ui.screenModeSmallLabel:
@@ -128,18 +128,18 @@ export default class Posts {
       if (app.isMediaCh) {
         switch (app.chType) {
           case App.mediaTagTypeAudio:
-            paddingBottom = `${PostsFooter.selfHeight}px`;
+            paddingBottom = `${Container.getBlockSize({ app, ui })}px`;
           case App.mediaTagTypeVideo:
-            paddingBottom = `${PostsFooter.selfHeight}px`;
+            paddingBottom = `${Container.getBlockSize({ app, ui })}px`;
         }
       }
 
       switch (ui.screenMode) {
         case Ui.screenModeSmallLabel:
-          padding = `0px 0px ${PostsFooter.selfHeight}px 0px`;
+          padding = `0px 0px ${Container.getBlockSize({ app, ui })}px 0px`;
           break;
         case Ui.screenModeMiddleLabel:
-          padding = `0px 0px ${PostsFooter.selfHeight}px 0px`;
+          padding = `0px 0px ${Container.getBlockSize({ app, ui })}px 0px`;
           break;
         case Ui.screenModeLargeLabel:
           padding = `0px 0px 0px 0px`;
@@ -153,7 +153,7 @@ export default class Posts {
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return ui.isDispPosts
         ? "translate3d(0px, 0px, 0px)"
-        : `translate3d(0px, calc( 100% + ${PostsFooter.selfHeight}px ), 0px)`;
+        : `translate3d(0px, calc( 100% + ${Container.getBlockSize({ app, ui })}px ), 0px)`;
     } else {
       return "translate3d(0px, 0px, 0px)";
     }
@@ -163,15 +163,17 @@ export default class Posts {
     switch (ui.extensionMode) {
       case Ui.extensionModeExtBottomLabel:
       case Ui.extensionModeExtModalLabel:
-        return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
+        return `calc( 100% - ${Container.getBlockSize({ app, ui })} + ${Container.getBlockSize({ app, ui })}px )`;
       case Ui.extensionModeExtIncludeLabel:
         return `100%`;
       default:
         if (ui.screenMode === Ui.screenModeLargeLabel) {
           if (app.chType === App.mediaTagTypeVideo) {
-            return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight + Video.height}px )`;
+            return `calc( 100% - ${
+              Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui }) + Video.height
+            }px )`;
           } else {
-            return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
+            return `calc( 100% - ${Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })}px )`;
           }
         } else {
           return "auto";
@@ -181,13 +183,15 @@ export default class Posts {
 
   static getSelfMinHeight({ app, ui }) {
     if (app.chType === App.mediaTagTypeVideo) {
-      return `calc( 100% - ${Video.height + PostsFooter.selfHeight + Header.headerHeight}px)`;
+      return `calc( 100% - ${
+        Video.height + Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })
+      }px)`;
     } else {
       if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
-        return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
+        return `calc( 100% - ${Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })}px )`;
       } else {
         if (ui.screenMode === Ui.screenModeLargeLabel) {
-          return `calc( 100% - ${Main.headerHeight + PostsFooter.selfHeight}px )`;
+          return `calc( 100% - ${Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })}px )`;
         } else {
           return "auto";
         }
@@ -198,10 +202,10 @@ export default class Posts {
   static getSelfTop({ app, ui }) {
     if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
       if (app.chType === App.mediaTagTypeVideo) {
-        return `${Header.headerHeight + Video.height}px`;
+        return `${Container.getBlockSize({ app, ui }) + Video.height}px`;
       }
     }
-    return `${Header.headerHeight}px`;
+    return `${Container.getBlockSize({ app, ui })}px`;
   }
 
   static getSelf({ app, ui }) {
@@ -269,7 +273,7 @@ export default class Posts {
     const layout = Style.getLayoutBlock({
       width,
       margin,
-      height: `calc( 100% - ${Main.headerHeight}px )`,
+      height: `calc( 100% - ${Container.getBlockSize({ app, ui })}px )`,
       minHeight: "inherit",
       borderRight,
       borderLeft,

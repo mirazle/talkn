@@ -8,9 +8,6 @@ export default class Header {
   static get selfHeight() {
     return "100%";
   }
-  static get headerHeight() {
-    return 45;
-  }
   static get notifHeight() {
     return 20;
   }
@@ -57,14 +54,14 @@ export default class Header {
     };
   }
 
-  static get notifOpenTranslateY() {
-    return `translate3d( 0px, ${Header.headerHeight}px, 0px )`;
+  static getNotifOpenTranslateY({ app, ui }) {
+    return `translate3d( 0px, ${Container.getBlockSize({ app, ui })}px, 0px )`;
   }
   static get notifCloseTranslateY() {
     return `translate3d( 0px, 0px, 0px )`;
   }
   static getNotifTranslateY({ app, ui }) {
-    return ui.isOpenNotif ? Header.notifOpenTranslateY : Header.notifCloseTranslateY;
+    return ui.isOpenNotif ? Header.getNotifOpenTranslateY({ app, ui }) : Header.notifCloseTranslateY;
   }
 
   static getMargin({ app, ui }) {
@@ -122,7 +119,7 @@ export default class Header {
       position: "fixed",
       top: "0px",
       width,
-      height: `${Header.headerHeight}px`,
+      height: `${Container.getBlockSize({ app, ui })}px`,
       borderTop,
       borderRight: Container.border,
       borderBottom: Container.border,
@@ -245,11 +242,11 @@ export default class Header {
     return Style.get({ layout, content, animation });
   }
 
-  static getChildTalknLogo(params) {
+  static getChildTalknLogo({ app, ui }) {
     const layout = Style.getLayoutInlineBlock({
       position: "absolute",
-      width: "45px",
-      height: `45px`,
+      width: `${Container.getBlockSize({ app, ui })}px`,
+      height: `${Container.getBlockSize({ app, ui })}px`,
     });
     const content = Style.getContentBase({
       color: Container.themeRGBA,
@@ -262,7 +259,7 @@ export default class Header {
   static getNotif({ app, ui }) {
     const layout = Style.getLayoutBlock({
       position: "relative",
-      top: `${PostsFooter.selfHeight}px`,
+      top: `${Container.getBlockSize({ app, ui })}px`,
       width: "50%",
       height: Container.notifHeight,
       margin: "0 auto",

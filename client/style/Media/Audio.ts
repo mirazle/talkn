@@ -1,6 +1,6 @@
 import Ui from "client/store/Ui";
 import Style from "../index";
-import Header from "../Header";
+import Container from "../Container";
 import Detail from "../Detail";
 import Menu from "../Menu";
 import Board from "../Board";
@@ -28,7 +28,7 @@ export default class Audio {
   constructor(params: any) {
     const self = Audio.getSelf(params);
     return {
-      self
+      self,
     };
   }
 
@@ -45,8 +45,9 @@ export default class Audio {
         width = `calc( 100% - ${Menu.getWidth({ app, ui }, true) + reduce}px )`;
         break;
       case Ui.screenModeLargeLabel:
-        width = `calc( ${100 - Detail.getWidth({ app, ui }, false)}% - ${Menu.getWidth({ app, ui }, true) +
-          reduce}px )`;
+        width = `calc( ${100 - Detail.getWidth({ app, ui }, false)}% - ${
+          Menu.getWidth({ app, ui }, true) + reduce
+        }px )`;
         break;
     }
     return width;
@@ -73,11 +74,11 @@ export default class Audio {
     const layout = Style.getLayoutBlock({
       display,
       position: "fixed",
-      top: Header.headerHeight + 15 + "px",
+      top: Container.getBlockSize({ app, ui }) + 15 + "px",
       left,
       margin: `0px ${Audio.marginRight}px 0px ${Audio.marginLeft}px`,
       width,
-      height: `${Audio.height}px`
+      height: `${Audio.height}px`,
     });
     const content = {};
     const animation = {};

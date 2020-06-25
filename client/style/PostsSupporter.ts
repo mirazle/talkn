@@ -11,7 +11,7 @@ export default class PostsSupporter {
   }
   static getTransform({ app, ui }) {
     return ui.isOpenPostsSupporter
-      ? `translate3d( 0px, -${PostsSupporter.selfHeight + PostsFooter.selfHeight}px, 0px )`
+      ? `translate3d( 0px, -${PostsSupporter.selfHeight + Container.getBlockSize({ app, ui })}px, 0px )`
       : "translate3d( 0px, 0px, 0px )";
   }
 
@@ -25,7 +25,7 @@ export default class PostsSupporter {
     return {
       self,
       emoji,
-      emojiLabel
+      emojiLabel,
     };
   }
 
@@ -48,12 +48,12 @@ export default class PostsSupporter {
       WebkitOverflowScrolling: "touch",
       overflowX: "scroll",
       overflowY: "hidden",
-      zIndex: 2
+      zIndex: 2,
     });
     const content = {};
     const animation = Style.getAnimationBase({
       transition: Container.getTransitionFirstOn({ app, ui }),
-      transform: PostsSupporter.getTransform({ app, ui })
+      transform: PostsSupporter.getTransform({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -67,15 +67,15 @@ export default class PostsSupporter {
       flexFlow: "row wrap",
       alignItems: "center",
       justifyContent: "center",
-      padding: "5px"
+      padding: "5px",
     });
     const content = Style.getContentBase({
       fontSize,
-      cursor: "pointer"
+      cursor: "pointer",
     });
     const animation = Style.getAnimationBase({
       transition: Container.getTransition({ app, ui }),
-      transform: "scale(1.0)"
+      transform: "scale(1.0)",
     });
     return Style.get({ layout, content, animation });
   }
@@ -87,12 +87,12 @@ export default class PostsSupporter {
       width: "100%",
       minWidth: "100%",
       height: "30px",
-      margin
+      margin,
     });
     const content = Style.getContentBase({
       wordBreak: "break-word",
       fontSize,
-      color: Container.whiteRGB
+      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase({});
     return Style.get({ layout, content, animation });

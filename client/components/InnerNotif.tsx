@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import TalknComponent from "client/components/TalknComponent";
-import state from "client/store/";
-import { default as InnerNotifStyle } from "client/style/InnerNotif";
+import { default as ContainerStyle } from "client/style/Container";
 
 interface InnerNotifProps {
   state: any;
@@ -25,13 +24,13 @@ export default class InnerNotif extends TalknComponent<InnerNotifProps, InnerNot
   }
 
   componentWillReceiveProps(props) {
-    const { ui } = props.state;
+    const { app, ui } = props.state;
     const { style } = this.state;
     const height = props.state.style.innerNotif.self.height;
     const notif = ui.openInnerNotif;
 
     if (style.self.height !== height) {
-      if (height === `${InnerNotifStyle.selfHeight}px`) {
+      if (height === `${ContainerStyle.getBlockSize({ app, ui })}px`) {
         setTimeout(props.closeInnerNotif, 3000);
       }
 

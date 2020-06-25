@@ -35,10 +35,6 @@ export default class MenuIndexList {
   static get iconSize() {
     return 24;
   }
-  static get liHeight() {
-    return 90;
-  }
-
   static get activeLiSelfLabel() {
     return "activeLiSelf";
   }
@@ -180,7 +176,7 @@ export default class MenuIndexList {
   static getActiveLiSelf({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "initial",
-      height: `${MenuIndexList.liHeight}px`,
+      height: `${Container.getBlockSize({ app, ui }) * 2}px`,
       padding: "5px",
       borderTop: 0,
       borderRight: `1px solid ${Container.whiteRGB}`,
@@ -200,7 +196,7 @@ export default class MenuIndexList {
     const borders = MenuIndexList.getUnactiveLiBorder({ app, ui });
     const layout = Style.getLayoutBlock({
       width: "initial",
-      height: `${MenuIndexList.liHeight}px`,
+      height: `${Container.getBlockSize({ app, ui }) * 2}px`,
       padding: "5px",
       ...borders,
       background: MenuIndexList.unactiveLiSelfBackground,
@@ -297,8 +293,8 @@ export default class MenuIndexList {
       width: "20%",
       height: "50px",
       backgroundImage: `url("${conf.assetsURL}/favicon.ico")`,
-      backgroundPosition: "50% 30%",
-      backgroundSize: "24px 24px",
+      backgroundPosition: "40% 50%",
+      backgroundSize: `${Container.faviconSize}px`,
       backgroundRepeat: "no-repeat",
     });
     const content = Style.getContentBase();

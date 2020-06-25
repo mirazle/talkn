@@ -323,7 +323,7 @@ export default (state: any = {}, action: any) => {
           ...state.innerNotif,
           self: {
             ...state.innerNotif.self,
-            height: action.ui.openInnerNotif !== "" ? `${InnerNotif.selfHeight}px` : "0px",
+            height: action.ui.openInnerNotif !== "" ? `${Container.getBlockSize(action)}px` : "0px",
           },
         },
       };

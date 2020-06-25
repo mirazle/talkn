@@ -7,9 +7,6 @@ import Posts from "./Posts";
 import Menu from "./Menu";
 
 export default class PostsFooter {
-  static get selfHeight() {
-    return 45;
-  }
   static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
@@ -58,7 +55,7 @@ export default class PostsFooter {
         return {
           borderTop: Container.border,
           borderRight: Container.border,
-          borderLeft: Container.border
+          borderLeft: Container.border,
         };
       case Ui.extensionModeExtModalLabel:
         return { border: Container.border };
@@ -69,12 +66,12 @@ export default class PostsFooter {
           if (ui.screenMode === Ui.screenModeSmallLabel) {
             return {
               borderTop: Container.border,
-              borderBottom: Container.border
+              borderBottom: Container.border,
             };
           } else {
             return {
               borderTop: Container.border,
-              borderBottom: Container.border
+              borderBottom: Container.border,
             };
           }
         }
@@ -128,7 +125,7 @@ export default class PostsFooter {
       modalTextarea,
       button,
       upper,
-      bottom
+      bottom,
     };
   }
 
@@ -142,18 +139,18 @@ export default class PostsFooter {
       bottom: 0,
       left: PostsFooter.getLeft({ app, ui }),
       flexGrow: 1,
-      height: PostsFooter.selfHeight,
+      height: Container.getBlockSize({ app, ui }),
       width: PostsFooter.getWidth({ app, ui }),
       maxWidth: PostsFooter.getWidth({ app, ui }),
       background: Container.offWhiteRGBA,
       justifyContent: "flex-start",
       borderRadius,
       ...borders,
-      zIndex: 10
+      zIndex: 10,
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transform: PostsFooter.getTransform({ app, ui })
+      transform: PostsFooter.getTransform({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -162,15 +159,15 @@ export default class PostsFooter {
     const layout = Style.getLayoutInlineBlock({
       width: "20%",
       maxWidth: "20%",
-      height: "55%",
+      height: "70%",
       backgroundImage: `url()`,
       backgroundPosition: "center center",
-      backgroundSize: "24px 24px",
+      backgroundSize: `${Container.faviconSize}px`,
       backgroundRepeat: "no-repeat",
-      zIndex: 9999
+      zIndex: 9999,
     });
     const content = Style.getContentBase({
-      cursor: "pointer"
+      cursor: "pointer",
     });
     const animation = {};
     return Style.get({ layout, content, animation });
@@ -190,11 +187,11 @@ export default class PostsFooter {
       lineHeight: "0.9",
       border: Container.border,
       borderRadius: "3px",
-      WebkitAppearance: "none"
+      WebkitAppearance: "none",
     });
     const content = Style.getContentBase({
       fontSize: "12px",
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase();
 
@@ -214,11 +211,11 @@ export default class PostsFooter {
       lineHeight: "0.9",
       border: Container.border,
       borderRadius: "3px",
-      WebkitAppearance: "none"
+      WebkitAppearance: "none",
     });
     const content = Style.getContentBase({
       fontSize: "12px",
-      textAlign: "left"
+      textAlign: "left",
     });
     const animation = Style.getAnimationBase();
 
@@ -234,11 +231,11 @@ export default class PostsFooter {
       margin: "0px 3% 0px 0%",
       background: "rgb(245, 245, 245)",
       border: Container.border,
-      borderRadius: "3px"
+      borderRadius: "3px",
     });
     const content = Style.getContentBase({
       fontSize: "12px",
-      cursor: "pointer"
+      cursor: "pointer",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -247,7 +244,7 @@ export default class PostsFooter {
   static getUpper({ app, ui }) {
     const layout = Style.getLayoutFlex({
       alignItems: "center",
-      justifyContent: "flex-start"
+      justifyContent: "flex-start",
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -257,10 +254,10 @@ export default class PostsFooter {
   static getBottom({ app, ui }) {
     const layout = Style.getLayoutFlex({
       alignItems: "center",
-      justifyContent: "center"
+      justifyContent: "center",
     });
     const content = Style.getContentBase({
-      fontSize: "10px"
+      fontSize: "10px",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });

@@ -82,7 +82,7 @@ export default class Rank {
       justifyContent: "center",
       alignItems: "center",
       width: "72px",
-      height: "45px",
+      height: `${Container.getBlockSize({ app, ui })}px`,
     });
     const content = Style.getContentBase({
       fontSize: "13px",
@@ -158,7 +158,7 @@ export default class Rank {
   static getOl({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "100%",
-      height: `calc( 100% - ${Main.headerHeight}px )`,
+      height: `calc( 100% - ${Container.getBlockSize({ app, ui })}px )`,
       overflowX: "hidden",
       overflowY: "scroll",
     });

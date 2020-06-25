@@ -9,6 +9,7 @@ import TalknComponent from "client/components/TalknComponent";
 import LoadingLogo from "client/components/LoadingLogo";
 import Style from "client/components/Style";
 import HeaderStyle from "client/style/Header";
+import ContainerStyle from "client/style/Container";
 import PostsFooterStyle from "client/style/PostsFooter";
 import Icon from "client/components/Icon";
 import Posts from "client/components/Posts";
@@ -241,13 +242,13 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   }
 
   renderNewPost(props): React.ReactNode {
-    const { style } = props.state;
+    const { style, app, ui } = props.state;
 
     const log = false;
     let dispNewPost = false;
 
     // 実際に目視できるスレッドの高さ
-    const frameHeight = HeaderStyle.headerHeight + PostsFooterStyle.selfHeight;
+    const frameHeight = ContainerStyle.getBlockSize({ app, ui }) * 2;
     const postsFrameHeight = window.innerHeight - frameHeight;
 
     // 実際のスレッドの高さ
