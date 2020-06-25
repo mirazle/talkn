@@ -159,7 +159,7 @@ export default class Detail {
       case Ui.screenModeMiddleLabel:
         return { borderTop: Container.border };
       case Ui.screenModeLargeLabel:
-        return { borderTop: Container.border, borderLeft: Container.border };
+        return { border: Container.border };
     }
   }
 
@@ -193,8 +193,8 @@ export default class Detail {
   static getHeader({ app, ui }) {
     const layout = Style.getLayoutFlex({
       width: "100%",
-      height: Container.getBlockSize({ app, ui }),
-      maxHeight: Container.getBlockSize({ app, ui }),
+      height: `${Container.getBlockSize({ app, ui })}px`,
+      maxHeight: `${Container.getBlockSize({ app, ui })}px`,
       borderBottom: Container.border,
       background: Container.whiteRGB,
       padding: "0px 20px",

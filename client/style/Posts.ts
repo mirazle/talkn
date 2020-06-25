@@ -222,8 +222,10 @@ export default class Posts {
           borders.borderLeft = Container.border;
           break;
         case Ui.screenModeMiddleLabel:
-        case Ui.screenModeLargeLabel:
           borders.borderRight = Container.border;
+          break;
+        case Ui.screenModeLargeLabel:
+          borders = {};
           break;
       }
       zIndex = -2;

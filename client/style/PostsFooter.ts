@@ -52,6 +52,10 @@ export default class PostsFooter {
           case Ui.screenModeSmallLabel:
             return { border: Container.border };
           case Ui.screenModeMiddleLabel:
+            return {
+              borderTop: Container.border,
+              borderBottom: Container.border,
+            };
           case Ui.screenModeLargeLabel:
             return {
               borderTop: Container.border,
@@ -74,8 +78,9 @@ export default class PostsFooter {
         case Ui.screenModeSmallLabel:
           return `0px 0px ${Container.radius} ${Container.radius}`;
         case Ui.screenModeMiddleLabel:
-        case Ui.screenModeLargeLabel:
           return `0px 0px ${Container.radius} 0px`;
+        case Ui.screenModeLargeLabel:
+          return 0;
       }
     }
     return 0;
