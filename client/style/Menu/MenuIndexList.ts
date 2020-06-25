@@ -147,7 +147,7 @@ export default class MenuIndexList {
     const upperRank = MenuIndexList.getUpperRank();
     const upperRight = MenuIndexList.getUpperRight();
     const bottom = MenuIndexList.getBottom();
-    const bottomIcon = MenuIndexList.getBottomIcon();
+    const bottomIcon = MenuIndexList.getBottomIcon(params);
     const bottomPost = MenuIndexList.getBottomPost();
     const bottomWatchCnt = MenuIndexList.getBottomWatchCnt();
     const bottomWatchCntWrap = MenuIndexList.getBottomWatchCntWrap();
@@ -288,7 +288,7 @@ export default class MenuIndexList {
     return Style.get({ layout, content, animation });
   }
 
-  static getBottomIcon() {
+  static getBottomIcon({ app, ui }) {
     const layout = Style.getLayoutInlineBlock({
       width: "20%",
       height: "50px",
