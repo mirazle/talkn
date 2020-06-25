@@ -901,8 +901,8 @@ class Iframe extends Elements {
           "position: fixed !important; " +
           `bottom: ${Styles.BOTTOM}px !important;` +
           `right: ${activeStyles.right} !important;` +
-          `min-width: ${activeStyles.width} !important` +
-          `width: ${activeStyles.width} !important` +
+          `min-width: ${activeStyles.width} !important;` +
+          `width: ${activeStyles.width} !important;` +
           `min-height: ${activeStyles.height} !important;` +
           `height: ${activeStyles.height} !important;` +
           "margin: 0 !important;" +
@@ -921,8 +921,8 @@ class Iframe extends Elements {
           "position: fixed !important; " +
           "bottom: 0px !important;" +
           "right: 0px !important;" +
-          `min-width: ${activeStyles.width} !important` +
-          `width: ${width} !important` +
+          `min-width: ${activeStyles.width} !important;` +
+          `width: ${width} !important;` +
           `min-height: ${activeStyles.height} !important;` +
           `height: ${height} !important;` +
           "margin: 0 !important;" +
