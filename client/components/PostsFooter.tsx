@@ -46,6 +46,7 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
   }
 
   handleOnChange(e) {
+    console.log(e.target.value);
     if (!App.validInputPost(e.target.value)) {
       this.clientAction("ON_CHANGE_INPUT_POST", { ui: { inputPost: e.target.value } });
     }
