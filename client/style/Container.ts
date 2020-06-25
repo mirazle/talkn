@@ -33,9 +33,6 @@ export default class Container {
   static get widthRatio() {
     return 0.94;
   }
-  static get faviconSize() {
-    return 30;
-  }
   static get radius() {
     return "10px";
   }
@@ -163,6 +160,10 @@ export default class Container {
 
   static getBlockSize({ app, ui }) {
     return ui.extensionMode === Ui.extensionModeExtNoneLabel ? 50 : 45;
+  }
+
+  static getFaviconSize({ app, ui }) {
+    return ui.extensionMode === Ui.extensionModeExtNoneLabel ? 30 : 24;
   }
 
   static getThemeRGBA(alpha = 0.8) {

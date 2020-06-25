@@ -155,14 +155,14 @@ export default class PostsFooter {
     return Style.get({ layout, content, animation });
   }
 
-  static getIcon({ thread }) {
+  static getIcon({ app, ui }) {
     const layout = Style.getLayoutInlineBlock({
       width: "20%",
       maxWidth: "20%",
       height: "70%",
       backgroundImage: `url()`,
       backgroundPosition: "center center",
-      backgroundSize: `${Container.faviconSize}px`,
+      backgroundSize: `${Container.getFaviconSize({ app, ui })}px`,
       backgroundRepeat: "no-repeat",
       zIndex: 9999,
     });
