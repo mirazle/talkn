@@ -1,9 +1,9 @@
 import process from "process";
 const hostName = process.env.HOSTNAME ? process.env.HOSTNAME : "localhost";
 const define: any = {
-  PRODUCTION: "production",
-  LOCALHOST: "localhost",
-  DEVELOPMENT: "development",
+  PRODUCTION: "PRODUCTION",
+  LOCALHOST: "LOCALHOST",
+  DEVELOPMENT: "DEVELOPMENT",
   PRODUCTION_IP: hostName,
   PRODUCTION_DOMAIN: "talkn.io",
   DEVELOPMENT_DOMAIN: "localhost",
@@ -29,9 +29,9 @@ const define: any = {
     TRANSACTION: "transaction",
   },
   APP_TYPES: {
-    PORTAL: "portal",
-    EXTENSION: "extension",
-    API: "api",
+    PORTAL: "PORTAL",
+    EXTENSION: "EXTENSION",
+    API: "API",
   },
   URL: {
     twitter: "https://twitter.com/",
@@ -40,6 +40,7 @@ const define: any = {
     playstore: "https://play.google.com/store/apps/details?id=",
   },
   talknClientJs: "talkn.client.js",
+  talknApiJs: "talkn.api.js",
   noInnerNotif: "Sorry, No Function.",
   storageKey: {
     baseKey: "@talkn@",
