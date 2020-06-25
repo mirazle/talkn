@@ -159,11 +159,11 @@ export default class Container {
   }
 
   static getBlockSize({ app, ui }) {
-    return ui.extensionMode === Ui.extensionModeExtNoneLabel ? 50 : 45;
+    return ui.screenMode === Ui.screenModeSmallLabel ? 45 : 50;
   }
 
   static getFaviconSize({ app, ui }) {
-    return ui.extensionMode === Ui.extensionModeExtNoneLabel ? 30 : 24;
+    return ui.screenMode === Ui.screenModeSmallLabel ? 24 : 30;
   }
 
   static getThemeRGBA(alpha = 0.8) {

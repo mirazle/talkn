@@ -1,8 +1,6 @@
 import Style from "./index";
 import Container from "./Container";
-import Header from "./Header";
 import Ui from "client/store/Ui";
-import Main from "./Main";
 
 export default class Menu {
   static get baseWidth() {
