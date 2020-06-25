@@ -78,9 +78,13 @@ class BootOption {
     if (localApiScript2) return { env: define.LOCALHOST, apiScript: localApiScript2 };
 
     // Development(webpack dev server),
-    const devApiSrc = `${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT_API}/${talknApiJs}`;
-    const devApiScript = document.querySelector(`script[src='${devApiSrc}']`);
-    if (devApiScript) return { env: define.DEVELOPMENT, apiScript: devApiScript };
+    const devApiSrc1 = `${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT_API}/${talknApiJs}`;
+    const devApiScript1 = document.querySelector(`script[src='${devApiSrc1}']`);
+    if (devApiScript1) return { env: define.DEVELOPMENT, apiScript: devApiScript1 };
+
+    const devApiSrc2 = `//${define.DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT_API}/${talknApiJs}`;
+    const devApiScript2 = document.querySelector(`script[src='${devApiSrc2}']`);
+    if (devApiScript2) return { env: define.DEVELOPMENT, apiScript: devApiScript2 };
     throw "NO EXIST API SCRIPT.";
   }
 
@@ -104,19 +108,30 @@ class BootOption {
 
   static getExtScript(env: EnvType): Element | undefined {
     const { SUB_DOMAINS } = define;
-    let extSrc: string;
+
     switch (env) {
       case define.PRODUCTION:
-        extSrc = `${Sequence.HTTPS_PROTOCOL}://${SUB_DOMAINS.EXT}.${define.PRODUCTION_DOMAIN}`;
+        const prodExtSrc1 = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.EXT}.${define.PRODUCTION_DOMAIN}`;
+        const prodExtScript1 = document.querySelector(`script[src='${prodExtSrc1}']`);
+        if (prodExtScript1) return prodExtScript1;
+
+        const prodExtSrc2 = `//${SUB_DOMAINS.EXT}.${define.PRODUCTION_DOMAIN}`;
+        const prodExtScript2 = document.querySelector(`script[src='${prodExtSrc2}']`);
+        if (prodExtScript2) return prodExtScript2;
         break;
       case define.LOCALHOST:
       case define.DEVELOPMENT:
-        extSrc = `${Sequence.HTTPS_PROTOCOL}://${SUB_DOMAINS.EXT}.${define.DEVELOPMENT_DOMAIN}`;
+        const devExtSrc1 = `${Sequence.HTTPS_PROTOCOL}://${SUB_DOMAINS.EXT}.${define.DEVELOPMENT_DOMAIN}`;
+        const devExtScript1 = document.querySelector(`script[src='${devExtSrc1}']`);
+        if (devExtScript1) return devExtScript1;
+
+        const devExtSrc2 = `//${SUB_DOMAINS.EXT}.${define.DEVELOPMENT_DOMAIN}`;
+        const devExtScript2 = document.querySelector(`script[src='${devExtSrc2}']`);
+        if (devExtScript2) return devExtScript2;
         break;
     }
 
-    const extScript = document.querySelector(`script[src='${extSrc}']`);
-    return extScript ? extScript : undefined;
+    return undefined;
   }
 
   static rebuildAttributes(attributes: any) {
