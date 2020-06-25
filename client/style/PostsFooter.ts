@@ -202,7 +202,7 @@ export default class PostsFooter {
     const layout = Style.getLayoutInlineBlock({
       width: "60%",
       maxWidth: "60%",
-      height: "55%",
+      height: "80%",
       background: Container.whiteRGB,
       padding: "6px",
       margin: "0 0% 0 0",
