@@ -4,7 +4,7 @@ import Ui from "client/store/Ui";
 import Thread from "api/store/Thread";
 import Post from "api/store/Post";
 import util from "common/util";
-import conf from "common/conf";
+import conf from "client/conf";
 import MenuIndexListStyle from "client/style/Menu/MenuIndexList";
 import PostStyle from "client/style/Post";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
@@ -130,9 +130,6 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
   render() {
     const { style } = this.state;
     const { app, thread, menuIndexList, rank } = this.props;
-
-    // TODO: メインスレッドで子供スレッドを選択した際に、menuIndexListがハイライトされてしまう。
-    // クリックしたときにthread.chは更新しないようにする
     const isRootCh = thread.ch === menuIndexList.ch ? true : false;
     const styleKey = isRootCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
     const title = app.rootCh === menuIndexList.ch ? app.rootTitle : menuIndexList.title;
