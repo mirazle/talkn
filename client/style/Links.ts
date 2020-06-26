@@ -65,7 +65,7 @@ export default class Links {
       // LINK TAB LAYOUT
       linksTabActive,
       linksTabUnactive,
-      linksTabLast
+      linksTabLast,
     };
   }
 
@@ -86,11 +86,9 @@ export default class Links {
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "flex-start",
-      padding: "0px 3px 0px 0px"
+      padding: "0px 3px 0px 0px",
     });
-    const content = Style.getContentBase({
-      fontSize: "14px"
-    });
+    const content = Style.getContentBase({});
     const animation = {};
     return Style.get({ layout, content, animation });
   }
@@ -106,11 +104,11 @@ export default class Links {
       overflowX: "hidden",
       overflowY,
       overflowScrolling: "touch",
-      WebkitOverflowScrolling: "touch"
+      WebkitOverflowScrolling: "touch",
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -127,15 +125,13 @@ export default class Links {
       background: Container.whiteRGBA,
       borderRadius: "5px",
       padding: "0px 0px 0px 10px",
-      marginBottom: "5px"
+      marginBottom: "5px",
     });
     const content = Style.getContentBase({
       cursor: "pointer",
-      fontSize: "14px",
-      lineHeight: "17px"
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -162,11 +158,11 @@ export default class Links {
       width: "100%",
       justifyContent: "flex-start",
       alignItems: "flex-end",
-      flexDirection: "row"
+      flexDirection: "row",
     });
     const content = {};
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }
@@ -183,16 +179,14 @@ export default class Links {
       minHeight: size,
       maxHeight: size,
       background: Container.reliefRGB,
-      borderRadius: "5px"
+      borderRadius: "5px",
     });
     const content = Style.getContentBase({
       cursor: "pointer",
-      fontSize: "14px",
-      lineHeight: "17px",
-      color: Container.whiteRGB
+      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }

@@ -28,10 +28,6 @@ export default class MenuIndexList {
   static get thirdDigitWidth() {
     return "19%";
   }
-
-  static get fontSize() {
-    return 15;
-  }
   static get iconSize() {
     return 24;
   }
@@ -215,9 +211,7 @@ export default class MenuIndexList {
       width: "100%",
       height: "20px",
     });
-    const content = Style.getContentBase({
-      fontSize: `${MenuIndexList.fontSize}px`,
-    });
+    const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
   }
@@ -253,7 +247,7 @@ export default class MenuIndexList {
       width: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "10px",
+      fontSize: "0.7em",
       fontWeight: "bold",
       color: Container.whiteRGB,
       lineHeight: "1.5",
@@ -270,6 +264,7 @@ export default class MenuIndexList {
     });
     const content = Style.getContentBase({
       lineHeight: "1.5",
+      textIndent: "4px",
       textAlign: "left",
     });
     const animation = Style.getAnimationBase();
@@ -307,8 +302,8 @@ export default class MenuIndexList {
       width: "60%",
     });
     const content = Style.getContentBase({
-      fontSize: `${MenuIndexList.fontSize}px`,
-      lineHeight: 2.8,
+      lineHeight: "4em",
+      textIndent: "4px",
       textAlign: "left",
       whiteSpace: "nowrap",
     });
@@ -330,14 +325,13 @@ export default class MenuIndexList {
   static getBottomWatchCntWrap() {
     const layout = Style.getLayoutInlineFlex({
       position: "relative",
-      top: "-6px",
-      width: "26px",
-      height: "26px",
+      width: "28px",
+      height: "28px",
       background: Container.themeRGBA,
-      borderRadius: "20px",
+      borderRadius: "28px",
     });
     const content = Style.getContentBase({
-      fontSize: "10px",
+      fontSize: "0.8em",
       lineHeight: 2,
       textAlign: "center",
       color: Container.whiteRGB,
@@ -360,9 +354,7 @@ export default class MenuIndexList {
     });
     const content = Style.getContentBase({
       textIndent: "3px",
-      fontSize: "8px",
       textAlign: "center",
-      lineHeight: "1.5px",
       color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase();

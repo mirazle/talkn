@@ -10,10 +10,6 @@ export default class Post {
   static get stampScale() {
     return 1;
   }
-  static get fontSize() {
-    return 14;
-  }
-
   self: Object;
   upper: Object;
   upperChild: Object;
@@ -56,11 +52,21 @@ export default class Post {
 
   static getStampStyle(isBubble = true) {
     const scale = isBubble ? Post.bubblestampScale : Post.stampScale;
-    return `display: flex;justify-content: center;align-items: center;width: 100%;height: 100%;transform: scale(${scale});font-size: 50px;`;
+    return (
+      `display: flex;` +
+      `justify-content: center;` +
+      `align-items: center;` +
+      `width: 100%;` +
+      `height: 100%;` +
+      `transform: scale(${scale});` +
+      `line-height: 2em;` +
+      `font-size: 3.2em;`
+    );
   }
 
   static getSelf({ app, ui }) {
-    const padding = ui.isBubblePost ? "10px 0px 10px 0px" : "0px 0px 0px 0px";
+    const padding = ui.isBubblePost ? "10px 0" : 0;
+    const margin = ui.isBubblePost ? "5px 0" : 0;
     const minHeight = ui.isBubblePost ? "75px" : "40px";
     const width = "calc( 100% - 0px )";
     const layout = Style.getLayoutBlock({
@@ -69,6 +75,7 @@ export default class Post {
       maxWidth: width,
       height: "auto",
       minHeight,
+      margin,
       padding,
     });
     const content = Style.getContentBase();
@@ -94,7 +101,6 @@ export default class Post {
     const content = Style.getContentBase({
       color: Container.whiteRGB,
       letterSpacing: "2px",
-      fontSize: "0.1em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -105,10 +111,10 @@ export default class Post {
     const layout = Style.getLayoutFlex({
       display,
       justifyContent: "space-between",
-      height: "20px",
+      height: "22px",
     });
     const content = Style.getContentBase({
-      fontSize: "14px",
+      fontSize: "0.9em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -196,23 +202,23 @@ export default class Post {
   }
 
   static getBottomPost({ app, ui }) {
+    const width = "75%";
+    const marginRight = "5%";
     const background = ui.isBubblePost ? Container.themeRGBA : "none";
     const color = ui.isBubblePost ? Container.whiteRGBA : "rgba(160, 160, 160)";
-    const padding = ui.isBubblePost ? "15px 15px 15px 25px" : "0px";
+    const padding = ui.isBubblePost ? "20px 20px 20px 30px" : "0px";
     const layout = Style.getLayoutBlock({
       flexGrow: 8,
-      width: "79%",
-      minWidth: "79%",
-      maxWidth: "79%",
+      width,
+      minWidth: width,
+      maxWidth: width,
       background,
       padding,
-      margin: "0px 1% 0px 0px",
+      margin: `0px ${marginRight} 0px 0px`,
       borderRadius: "10px",
     });
     const content = Style.getContentBase({
       color,
-      lineHeight: 1.7,
-      fontSize: `${Post.fontSize}px`,
       textAlign: "left",
       cursor: "pointer",
       wordWrap: "break-word",
@@ -235,6 +241,7 @@ export default class Post {
       zIndex: 10,
     });
     const content = Style.getContentBase({
+      lineHeight: "2em",
       textAlign: "right",
     });
     const animation = Style.getAnimationBase();
@@ -252,7 +259,7 @@ export default class Post {
       borderRadius: "5px 5px 0px 0px",
     });
     const content = Style.getContentBase({
-      fontSize: "10px",
+      fontSize: "0.7em",
       color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase();

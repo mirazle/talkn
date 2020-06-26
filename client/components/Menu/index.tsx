@@ -5,9 +5,7 @@ import MenuUsers from "client/components/Menu/MenuUsers";
 import Rank from "client/components/Menu/Rank";
 import MenuLogs from "client/components/Menu/MenuLogs";
 import MenuSetting from "client/components/Menu/MenuSetting";
-import Header from "client/components/Header";
 import MenuFooter from "client/components/MenuFooter";
-import App from "api/store/App";
 
 interface Props {
   state: any;

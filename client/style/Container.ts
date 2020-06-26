@@ -1,7 +1,6 @@
 import App from "api/store/App";
 import Ui from "client/store/Ui";
 import Style from "./index";
-import Header from "./Header";
 import DetailRight from "./DetailRight";
 import Menu from "./Menu";
 import TimeMarker from "./TimeMarker";
@@ -159,7 +158,7 @@ export default class Container {
   }
 
   static getBlockSize({ app, ui }) {
-    return ui.screenMode === Ui.screenModeSmallLabel ? 45 : 60;
+    return ui.screenMode === Ui.screenModeSmallLabel ? 45 : 54;
   }
 
   static getFaviconSize({ app, ui }) {
@@ -240,6 +239,14 @@ export default class Container {
     return 5;
   }
 
+  static getFontSize({ app, ui }) {
+    return ui.screenMode === Ui.screenModeSmallLabel ? 14 : 15;
+  }
+
+  static getLetterSpacing({ app, ui }) {
+    return ui.screenMode === Ui.screenModeSmallLabel ? 1.5 : 2;
+  }
+
   static getSelf({ app, ui, bootOption, type }): Object {
     const overflow = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "hidden" : "inherit";
     let borderRadius = "0px";
@@ -255,7 +262,11 @@ export default class Container {
       borderRadius,
       opacity: 1,
     });
-    const content = Style.getContentBase({});
+    const content = Style.getContentBase({
+      fontSize: `${Container.getFontSize({ app, ui })}px`,
+      lineHeight: `${Container.getFontSize({ app, ui })}px`,
+      letterSpacing: `${Container.getLetterSpacing({ app, ui })}px`,
+    });
     const animation = Style.getAnimationBase({
       transition: `${Container.transitionFirstOn}ms`,
     });
@@ -294,7 +305,6 @@ export default class Container {
     const content = Style.getContentBase({
       color: "rgb(255,255,255)",
       textAlign: "center",
-      fontSize: "12px",
       lineHeight: 2,
       cursor: "pointer",
     });
@@ -349,7 +359,6 @@ export default class Container {
     });
     const content = Style.getContentBase({
       lineHeight: 2,
-      fontSize: "10px",
       whiteSpace: "nowrap",
       color: Container.whiteRGB,
     });

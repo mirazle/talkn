@@ -63,7 +63,7 @@ export default class MenuUsers {
       imgWrap,
       wrap,
       names,
-      namesAddCh
+      namesAddCh,
     };
   }
 
@@ -79,7 +79,7 @@ export default class MenuUsers {
       borderTop: 0,
       borderRight: Container.border,
       borderBottom: 0,
-      borderLeft: 0
+      borderLeft: 0,
     });
     const content = {};
     const animation = Style.getAnimationBase();
@@ -95,10 +95,10 @@ export default class MenuUsers {
       borderBottom: Container.border,
       borderRight: Container.border,
       background: Container.whiteRGB,
-      overflow: "scroll"
+      overflow: "scroll",
     });
     const content = Style.getContentBase({
-      whiteSpace: "nowrap"
+      whiteSpace: "nowrap",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -110,13 +110,13 @@ export default class MenuUsers {
       minWidth: "inherit",
       maxWidth: "inherit",
       borderBottom: Container.border,
-      borderRight: Container.border
+      borderRight: Container.border,
     });
     const content = Style.getContentBase({
       letterSpacing: "2px",
       textAlign: "left",
       lineHeight: "60px",
-      whiteSpace: "nowrap"
+      whiteSpace: "nowrap",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -127,13 +127,13 @@ export default class MenuUsers {
       width: "inherit",
       minWidth: "inherit",
       maxWidth: "inherit",
-      marginLeft: "20px"
+      marginLeft: "20px",
     });
     const content = Style.getContentBase({
       letterSpacing: "2px",
       textAlign: "left",
       lineHeight: "60px",
-      whiteSpace: "nowrap"
+      whiteSpace: "nowrap",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -145,11 +145,11 @@ export default class MenuUsers {
       height: "60px",
       minWidth: "initial",
       minHeight: "initial",
-      borderRight: Container.border
+      borderRight: Container.border,
     });
     const content = Style.getContentBase({
       textAlign: "left",
-      content: "getWrap"
+      content: "getWrap",
     });
     const animation = Style.getAnimationBase({});
     return Style.get({ layout, content, animation });
@@ -162,7 +162,7 @@ export default class MenuUsers {
       width: "60px",
       maxWidth: "60px",
       minWidth: "60px",
-      height: "60px"
+      height: "60px",
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase({});
@@ -173,7 +173,7 @@ export default class MenuUsers {
     const layout = Style.getLayoutInlineBlock({
       borderRadius: "50%",
       width: "34px",
-      height: "34px"
+      height: "34px",
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
@@ -183,12 +183,11 @@ export default class MenuUsers {
   static getNamesAddCh({ app, ui }) {
     const layout = Style.getLayoutBlock({
       padding: "5px 10px 5px 5px",
-      flexGrow: 4
+      flexGrow: 4,
     });
     const content = Style.getContentBase({
-      fontSize: "12px",
       textAlign: "left",
-      lineHeight: "2"
+      lineHeight: "2",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -196,12 +195,11 @@ export default class MenuUsers {
 
   static getNames({ app, ui }) {
     const layout = Style.getLayoutBlock({
-      flexGrow: 4
+      flexGrow: 4,
     });
     const content = Style.getContentBase({
-      fontSize: "12px",
       textAlign: "left",
-      lineHeight: "1.7"
+      lineHeight: "1.7",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });

@@ -376,7 +376,6 @@ export default class Style {
 
   static getContentBase(style = {}): Object {
     const contentBase: Object = {
-      letterSpacing: "1.5px",
       wordWrap: "breakWord",
       whiteSpace: "normal",
       quotes: "none",
@@ -389,10 +388,12 @@ export default class Style {
 
   static getFontBase(style = {}): Object {
     const fontBase: Object = {
+      letterSpacing: "inherit",
+      lineHeight: "inherit",
       textAlign: "center",
       color: Style.fontBaseRGB,
       fontWeight: 300,
-      font: "inherit",
+      fontSize: "inherit",
       fontFamily:
         '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK JP", "Original Yu Gothic", "Yu Gothic", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Sans Emoji"',
     };

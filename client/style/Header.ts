@@ -166,7 +166,7 @@ export default class Header {
       height: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "17px",
+      fontSize: "1.2em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -214,13 +214,11 @@ export default class Header {
   }
 
   static getChildAnalyzeType({ app, ui }) {
-    const fontSize = ui.screenMode === Ui.screenModeSmallLabel ? "9px" : "14px";
     const layout = Style.getLayoutBlock({
       height: "14px",
       marginBottom: "4px",
     });
     const content = Style.getContentBase({
-      fontSize,
       color: Container.themeRGBA,
       fontWeight: "bold",
     });
@@ -229,12 +227,10 @@ export default class Header {
   }
 
   static getChildAnalyzeCnt({ app, ui }) {
-    const fontSize = ui.screenMode === Ui.screenModeSmallLabel ? "9px" : "14px";
     const layout = Style.getLayoutBlock({
       height: "14px",
     });
     const content = Style.getContentBase({
-      fontSize,
       color: Container.themeRGBA,
       fontWeight: "bold",
     });
@@ -270,7 +266,6 @@ export default class Header {
     const content = Style.getContentBase({
       color: "rgb(255,255,255)",
       textAlign: "center",
-      fontSize: "12px",
       lineHeight: 2,
       cursor: "pointer",
     });

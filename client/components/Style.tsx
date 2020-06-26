@@ -1,12 +1,23 @@
 import React, { Component } from "react";
+import TalknComponent from "client/components/TalknComponent";
+import Ui from "client/store/Ui";
+import ContainerStyle from "client/style/Container";
 
 interface Props {
-  state?: any;
+  state: any;
 }
 
-export default class Style extends Component<Props> {
+interface State {}
+
+export default class Style extends TalknComponent<Props, State> {
+  constructor(props) {
+    super(props);
+  }
   render() {
-    let fontSize = 12;
+    const { app, ui } = this.props.state;
+    let fontSize = ui.screenMode === Ui.screenModeSmallLabel ? 12 : 13;
+    let letterSpacing = ui.screenMode === Ui.screenModeSmallLabel ? 3 : 3;
+    let lineHeight = ui.screenMode === Ui.screenModeSmallLabel ? 8 : 13;
 
     return (
       <style type="text/css">
@@ -14,8 +25,8 @@ export default class Style extends Component<Props> {
           #talkn1 textarea::placeholder {
             text-indent: 3%;
             font-size: ${fontSize}px;
-            letter-spacing: 2px;
-            line-height: 9px;
+            letter-spacing: ${letterSpacing}px;
+            line-height: ${lineHeight}px;
             color: rgb(170, 170, 170);
           }
           #talkn1 input::placeholder {

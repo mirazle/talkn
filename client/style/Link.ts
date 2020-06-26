@@ -40,7 +40,7 @@ export default class Link {
       self,
       tuneLi,
       activeLi,
-      unactiveLi
+      unactiveLi,
     };
   }
 
@@ -56,15 +56,13 @@ export default class Link {
       background: Link.activeBgColor,
       borderRadius: "5px",
       padding: "0px 0px 0px 10px",
-      marginBottom: "5px"
+      marginBottom: "5px",
     });
     const content = Style.getContentBase({
       cursor: "pointer",
-      fontSize: "14px",
-      lineHeight: "17px"
     });
     const animation = Style.getAnimationBase({
-      transition: Container.getTransition({ app, ui })
+      transition: Container.getTransition({ app, ui }),
     });
     return Style.get({ layout, content, animation });
   }

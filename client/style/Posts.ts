@@ -298,8 +298,6 @@ export default class Posts {
       borderRadius: "20px",
     });
     const content = Style.getContentBase({
-      lineHeight: 2,
-      fontSize: "12px",
       color: Container.whiteRGB,
       cursor: "pointer",
     });

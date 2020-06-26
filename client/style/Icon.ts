@@ -522,9 +522,9 @@ export default class Icon {
   static getUser({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: "22px",
+        width: "24px",
         height: Icon.smallSize,
-        margin: "2px",
+        margin: "4px",
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -536,11 +536,11 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: "0 auto",
         background: Container.reliefRGB,
-        width: "12px",
-        height: "12px",
+        width: "14px",
+        height: "14px",
         borderRadius: "10px",
         position: "relative",
-        top: "-12px",
+        top: "-16px",
         border: "3px solid rgb(250, 250, 250)",
       }),
       content: Style.getContentBase(),
@@ -553,8 +553,8 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: "0 auto",
         background: Container.reliefRGB,
-        width: "8px",
-        height: "12px",
+        width: "10px",
+        height: "16px",
         borderRadius: "6px",
         position: "relative",
         top: "8px",
@@ -620,9 +620,9 @@ export default class Icon {
   static getIndex({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: "22px",
+        width: "24px",
         height: Icon.smallSize,
-        margin: "2px",
+        margin: "4px",
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -632,8 +632,8 @@ export default class Icon {
 
     const wrap = Style.get({
       layout: Style.getLayoutBlock({
-        width: "22px",
-        height: "22px",
+        width: "24px",
+        height: "24px",
         margin: "0 auto",
         borderRadius: "4px",
       }),
@@ -643,9 +643,9 @@ export default class Icon {
 
     const commonSpan = Style.get({
       layout: Style.getLayoutBlock({
-        width: "16px",
+        width: "24px",
         height: "2px",
-        margin: "4px auto",
+        margin: "5px auto",
         borderRadius: "6px",
         background: Container.reliefRGB,
       }),
@@ -683,9 +683,9 @@ export default class Icon {
   static getLogs({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: "22px",
+        width: "24px",
         height: Icon.smallSize,
-        margin: "2px",
+        margin: "4px",
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -709,8 +709,8 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: "0 auto",
         background: Container.reliefRGB,
-        width: "8px",
-        height: "12px",
+        width: "9px",
+        height: "13px",
         borderRadius: "45px 30px 45px 45px",
         position: "relative",
         left: "2px",
@@ -727,8 +727,8 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: "0 auto",
         background: Container.reliefRGB,
-        width: "5px",
-        height: "7px",
+        width: "6px",
+        height: "8px",
         borderRadius: "10px",
         position: "relative",
         top: "-2px",
@@ -754,7 +754,7 @@ export default class Icon {
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
         //        transition: Container.getTransition( app ),
-        transform: `translate3d( 0px, -8px, 1000px )`,
+        transform: `translate3d( 1px, -9px, 1000px )`,
       }),
     });
 
@@ -776,11 +776,11 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: "0 auto",
         background: Container.reliefRGB,
-        width: "10px",
-        height: "20px",
+        width: "11px",
+        height: "21px",
         borderRadius: "30px 50px 40px 40px",
         position: "relative",
-        left: "-5px",
+        left: "-1px",
         zIndex: "0",
       }),
       content: Style.getContentBase(),
@@ -794,11 +794,11 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: "0 auto",
         background: Container.reliefRGB,
-        width: "7px",
-        height: "7px",
+        width: "8px",
+        height: "8px",
         borderRadius: "2px 2px 3px 3px",
         position: "relative",
-        left: "-5px",
+        left: "-1px",
         zIndex: "0",
       }),
       content: Style.getContentBase(),
@@ -838,9 +838,9 @@ export default class Icon {
   static getSetting({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: "22px",
+        width: "24px",
         height: Icon.smallSize,
-        margin: "2px",
+        margin: "4px",
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -853,8 +853,8 @@ export default class Icon {
         position: "absolute",
         margin: "0 auto",
         background: Container.reliefRGB,
-        width: "3px",
-        height: "3px",
+        width: "4px",
+        height: "4px",
         borderRadius: "1px",
       }),
       content: Style.getContentBase(),
@@ -867,7 +867,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d(9.5px, 2px, 0px) rotate(0deg)`,
+        transform: `translate3d(9.5px, 1px, 0px) rotate(0deg)`,
       }),
     });
 
@@ -875,7 +875,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 15px, 4.5px, 0px ) rotate( 45deg )`,
+        transform: `translate3d( 15px, 4px, 0px ) rotate( 45deg )`,
       }),
     });
 
@@ -883,7 +883,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 16.5px, 9px, 0px ) rotate( 90deg )`,
+        transform: `translate3d( 17px, 9px, 0px ) rotate( 90deg )`,
       }),
     });
 
@@ -899,7 +899,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 10px, 17px, 0px ) rotate( 180deg )`,
+        transform: `translate3d( 9.5px, 17px, 0px ) rotate( 180deg )`,
       }),
     });
 
@@ -907,7 +907,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 4px, 14.5px, 0px ) rotate( 225deg )`,
+        transform: `translate3d( 3px, 14px, 0px ) rotate( 225deg )`,
       }),
     });
 
@@ -915,7 +915,7 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 2.5px, 9.5px, 0px ) rotate( 270deg )`,
+        transform: `translate3d( 1px, 9px, 0px ) rotate( 270deg )`,
       }),
     });
 
@@ -923,17 +923,17 @@ export default class Icon {
       layout: commonWing,
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: `translate3d( 4px, 4.5px, 0px ) rotate( 315deg )`,
+        transform: `translate3d( 2.5px, 4px, 0px ) rotate( 315deg )`,
       }),
     });
 
     const circle = Style.get({
       layout: Style.getLayoutBlock({
         position: "absolute",
-        top: "3px",
-        left: "4px",
-        width: "14px",
-        height: "14px",
+        top: "2px",
+        left: "3px",
+        width: "16px",
+        height: "16px",
         border: `3px solid ${Container.reliefRGB}`,
         borderRadius: "50px",
       }),
@@ -1239,11 +1239,11 @@ export default class Icon {
   }
 
   static getDetail({ app, ui }: any) {
-    const margin = ui.screenMode === Ui.screenModeSmallLabel ? "3px 0px 0px 0px" : "1px auto";
+    const margin = ui.screenMode === Ui.screenModeSmallLabel ? "0" : "1px auto";
     const div = Style.get({
       layout: Style.getLayoutFlex({
         width: "40px",
-        height: "40px",
+        height: "100%",
         borderRadius: "100px",
         margin,
         cursor: "pointer",
@@ -1337,7 +1337,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: "40px",
         height: "40px",
-        margin: "4px auto",
+        margin: "4px auto 0px auto",
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -1419,7 +1419,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: Icon.smallSize,
         height: Icon.smallSize,
-        margin: "2px",
+        margin: "4px",
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({}),
@@ -1459,7 +1459,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: Icon.smallSize,
         height: Icon.smallSize,
-        margin: "2px",
+        margin: "4px",
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({}),
@@ -1555,7 +1555,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: Icon.smallSize,
         height: Icon.smallSize,
-        margin: "2px",
+        margin: "4px",
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({}),
@@ -1564,8 +1564,8 @@ export default class Icon {
     const outer = Style.get({
       layout: Style.getLayoutBlock({
         margin: "0 auto",
-        width: "22px",
-        height: "22px",
+        width: "20px",
+        height: "20px",
         borderRadius: "24px",
         border: `2px solid ${Container.reliefRGB}`,
       }),
@@ -1585,7 +1585,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: "translate3d(0px, 5px, 0px)",
+        transform: "translate3d(0px, 4px, 0px)",
       }),
     });
     return { div, outer, inner };
@@ -1748,7 +1748,6 @@ export default class Icon {
       content: Style.getContentBase({
         lineHeight: 2,
         color,
-        fontSize: "10px",
       }),
       animation: Style.getAnimationBase({}),
     });
@@ -1868,9 +1867,7 @@ export default class Icon {
         borderBottom: "0.6em solid rgba(255, 255, 255, 0.2)",
         borderLeft: "0.6em solid #ffffff",
       }),
-      content: Style.getContentBase({
-        fontSize: "5px",
-      }),
+      content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
         transform: "translateZ(0)",
         animation: "Rotation 1.1s infinite linear",
