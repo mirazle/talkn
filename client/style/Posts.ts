@@ -119,22 +119,21 @@ export default class Posts {
   static getPadding({ app, ui }) {
     let padding = "0";
     if (app.isMediaCh) {
-      console.log("A");
       padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
     } else {
       if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
-        console.log("A " + ui.screenMode);
         switch (ui.screenMode) {
           case Ui.screenModeSmallLabel:
             padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
             break;
           case Ui.screenModeMiddleLabel:
-          case Ui.screenModeLargeLabel:
             padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+            break;
+          case Ui.screenModeLargeLabel:
+            padding = `0`;
             break;
         }
       } else {
-        console.log("B " + ui.screenMode);
         switch (ui.screenMode) {
           case Ui.screenModeSmallLabel:
             padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;

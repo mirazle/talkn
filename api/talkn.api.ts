@@ -501,7 +501,6 @@ class GlobalWindow {
     switch (this.bootOption.type) {
       case define.APP_TYPES.PORTAL:
         const requestObj = GlobalWindow.getRequestObj(method, params);
-        console.log(location.href);
         window.postMessage(requestObj, location.href);
         break;
       case define.APP_TYPES.EXTENSION:
