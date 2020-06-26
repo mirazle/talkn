@@ -173,6 +173,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
     const { ui, post, onClickPost } = this.props;
     const { postStyle } = this.state;
     const stampLabel = this.renderStampLabel(post.stampId);
+    console.log(post.favicon);
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName(post.favicon);
 
     if (dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 && dispFavicon.indexOf(Sequence.HTTP_PROTOCOL) !== 0) {
