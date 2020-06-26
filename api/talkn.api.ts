@@ -501,7 +501,8 @@ class GlobalWindow {
     switch (this.bootOption.type) {
       case define.APP_TYPES.PORTAL:
         const requestObj = GlobalWindow.getRequestObj(method, params);
-        window.postMessage(requestObj, this.bootOption.clientHref);
+        console.log(location.href);
+        window.postMessage(requestObj, location.href);
         break;
       case define.APP_TYPES.EXTENSION:
         const clientIframe: HTMLIFrameElement = document.querySelector(`iframe#talknExtension`);
