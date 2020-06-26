@@ -25,6 +25,7 @@ if (process.title === "browser") {
   conf.assetsPath = `//${SUB_DOMAINS.ASSETS}.${conf.domain}/`;
   conf.sessionPath = `//${SUB_DOMAINS.SESSION}.${conf.domain}/`;
   conf.cacheKey = { index: "talknIndexList", setting: "talknSettingParams" };
+  conf.assetsIconPath = `//${SUB_DOMAINS.ASSETS}.${conf.domain}/`;
 }
-
+console.log(conf);
 export default conf;

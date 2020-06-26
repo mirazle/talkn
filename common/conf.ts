@@ -2,6 +2,7 @@ import define from "./define";
 import os from "os";
 import process from "process";
 
+// TODO: ServerとClientに分けてCommonは無くす
 const {
   PRODUCTION,
   DEVELOPMENT,
