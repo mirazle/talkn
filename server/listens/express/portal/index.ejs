@@ -46,10 +46,10 @@
         if ("serviceWorker" in navigator) {
           navigator.serviceWorker
             .register("/portal_sw.js")
-            .then(function(registration) {
+            .then(function (registration) {
               console.log("[ServiceWorker] suscessful: ", registration.scope);
             })
-            .catch(function(err) {
+            .catch(function (err) {
               console.log("[ServiceWorker] failed: ", err);
             });
         }
@@ -71,7 +71,7 @@
       let ch = location.href.replace(location.origin, "");
       let hasSlash = ch.lastIndexOf("/") === ch.length - 1;
       ch = hasSlash ? ch : ch + "/";
-      
+
       const clientScript = document.createElement("script");
       clientScript.setAttribute("id", "talkn");
       clientScript.setAttribute("type", "text/javascript");

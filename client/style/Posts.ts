@@ -75,65 +75,51 @@ export default class Posts {
   }
 
   static getBorders({ app, ui }) {
-    /*
-    if (ui.includeIframeTag) {
-      return { borderRight: Container.border, borderLeft: Container.border };
-    } else {
-*/
-    return ui.extensionMode === Ui.screenModeSmallLabel
-      ? { borderRight: Container.border, borderLeft: Container.border }
-      : {};
-    //    }
+    let borders = { borderTop: "0", borderRight: "0", borderBottom: "0", borderLeft: "0" };
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+        borders.borderRight = Container.border;
+        borders.borderLeft = Container.border;
+        break;
+      case Ui.screenModeMiddleLabel:
+        borders.borderRight = Container.border;
+        break;
+      case Ui.screenModeLargeLabel:
+        break;
+    }
+    return borders;
   }
 
   static getMargin({ app, ui }, addUnit = false) {
-    let margin = `${Container.getBlockSize({ app, ui })}px 0px 0px 0px`;
-    let marginTop = app.isMediaCh ? `0px` : "0px";
-    let marginBottom = app.isMediaCh ? `0px` : "0px";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
-        margin = `${marginTop} 0px ${marginBottom} 0px`;
-        break;
-      case Ui.screenModeMiddleLabel:
-        margin = `${marginTop} 0px ${marginBottom} ${Menu.getWidth({ app, ui })}`;
-        break;
-      case Ui.screenModeLargeLabel:
-        margin = `${marginTop} 0px ${marginBottom} ${Menu.getWidth({ app, ui })}`;
-        break;
+    let margin = "0";
+    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
+          margin = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+          break;
+        case Ui.screenModeMiddleLabel:
+        case Ui.screenModeLargeLabel:
+          margin = `0 0 ${Container.getBlockSize({ app, ui })}px ${Menu.getWidth({ app, ui })}`;
+          break;
+      }
+    } else {
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
+          margin = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+          break;
+        case Ui.screenModeMiddleLabel:
+        case Ui.screenModeLargeLabel:
+          margin = `0 0 ${Container.getBlockSize({ app, ui })}px ${Menu.getWidth({ app, ui })}`;
+          break;
+      }
     }
     return margin;
   }
 
   static getPadding({ app, ui }, addUnit = false) {
     let padding = "0";
-    let paddingTop = "0";
-    let paddingBottom = "0";
-
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
-      padding = "0px";
-    } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
-      padding = "0px";
-    } else {
-      if (app.isMediaCh) {
-        switch (app.chType) {
-          case App.mediaTagTypeAudio:
-            paddingBottom = `${Container.getBlockSize({ app, ui })}px`;
-          case App.mediaTagTypeVideo:
-            paddingBottom = `${Container.getBlockSize({ app, ui })}px`;
-        }
-      }
-
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
-          padding = `0px 0px ${Container.getBlockSize({ app, ui })}px 0px`;
-          break;
-        case Ui.screenModeMiddleLabel:
-          padding = `0px 0px ${Container.getBlockSize({ app, ui })}px 0px`;
-          break;
-        case Ui.screenModeLargeLabel:
-          padding = `0px 0px 0px 0px`;
-          break;
-      }
+    if (app.isMediaCh) {
+      padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
     }
     return padding;
   }
@@ -152,9 +138,8 @@ export default class Posts {
     switch (ui.extensionMode) {
       case Ui.extensionModeExtBottomLabel:
       case Ui.extensionModeExtModalLabel:
-        return `calc( 100% - ${Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })}px )`;
       case Ui.extensionModeExtIncludeLabel:
-        return `100%`;
+        return `auto`;
       default:
         if (ui.screenMode === Ui.screenModeLargeLabel) {
           if (app.chType === App.mediaTagTypeVideo) {
@@ -201,36 +186,16 @@ export default class Posts {
     let position = "absolute";
     let overflowX = "hidden";
     let overflowY = "hidden";
-    let borders: any = { borderRight: 0, borderLeft: 0 };
+    let borders = Posts.getBorders({ app, ui });
     let background = Container.whiteRGBA;
-    let zIndex = 1;
-    let opacity = ui.isLoading ? 0 : 1;
 
-    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
-      if (ui.screenMode === Ui.screenModeLargeLabel) {
-        overflowX = "hidden";
-        overflowY = "scroll";
-      }
-      borders = Posts.getBorders({ app, ui });
-    } else {
+    // screen mode large is Posts scroll( no window scroll ).
+    if (ui.screenMode === Ui.screenModeLargeLabel) {
       position = "fixed";
       overflowX = "hidden";
       overflowY = "scroll";
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
-          borders.borderRight = Container.border;
-          borders.borderLeft = Container.border;
-          break;
-        case Ui.screenModeMiddleLabel:
-          borders.borderRight = Container.border;
-          break;
-        case Ui.screenModeLargeLabel:
-          borders = {};
-          break;
-      }
-      zIndex = -2;
     }
-
+    console.log(Posts.getMargin({ app, ui }));
     const layout = Style.getLayoutBlock({
       position,
       top: Posts.getSelfTop({ app, ui }),
@@ -246,9 +211,7 @@ export default class Posts {
       WebkitOverflowScrolling: "touch",
       overflowX,
       overflowY,
-      opacity,
       ...borders,
-      zIndex,
     });
     const content = {};
     const animation = Style.getAnimationBase({});

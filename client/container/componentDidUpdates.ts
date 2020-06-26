@@ -28,25 +28,27 @@ const componentDidUpdates = {
           window.scrollTo(0, 99999999);
           break;
       }
-      window.talknWindow.srollHeight = Posts.clientHeight;
-      switch (ui.screenMode) {
-        case Ui.screenModeLargeLabel:
-          if (Posts && Posts.scrollHeight) {
-            window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
-          }
-          break;
-        case Ui.screenModeMiddleLabel:
-        case Ui.screenModeSmallLabel:
-          window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
-          break;
-      }
+      if (Posts) {
+        window.talknWindow.srollHeight = Posts.clientHeight;
+        switch (ui.screenMode) {
+          case Ui.screenModeLargeLabel:
+            if (Posts && Posts.scrollHeight) {
+              window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+            }
+            break;
+          case Ui.screenModeMiddleLabel:
+          case Ui.screenModeSmallLabel:
+            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
+            break;
+        }
 
-      if (!ui.isOpenLinks) {
-        self.clientAction("CLOSE_LINKS");
-      }
+        if (!ui.isOpenLinks) {
+          self.clientAction("CLOSE_LINKS");
+        }
 
-      window.talknWindow.parentExtTo("fetchPosts", self.props.state);
-      window.talknWindow.resizeEndWindow();
+        window.talknWindow.parentExtTo("fetchPosts", self.props.state);
+        window.talknWindow.resizeEndWindow();
+      }
     },
     "API_TO_CLIENT[EMIT]:changeThreadDetail": (self) => {
       const { thread, threadDetail, ui } = self.props.state;

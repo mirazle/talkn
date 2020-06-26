@@ -229,7 +229,7 @@ export default class Post {
   }
 
   static getStampLabelWrap({ app, ui }) {
-    const right = Ui.screenModeSmallLabel === ui.screenMode ? "9%" : "7%";
+    const right = Ui.screenModeSmallLabel === ui.screenMode ? "12%" : "10%";
     const layout = Style.getLayoutFlex({
       position: "absolute",
       bottom: "10px",

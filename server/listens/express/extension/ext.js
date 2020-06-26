@@ -858,6 +858,7 @@ class Iframe extends Elements {
     iframe.style = this.getStyles(width);
     iframe.src = this.getSrc();
     iframe.frameBorder = 0;
+    iframe.scrolling = "yes";
     iframe.addEventListener("load", this.load);
 
     switch (this.window.extMode) {
@@ -901,6 +902,7 @@ class Iframe extends Elements {
           "position: fixed !important; " +
           `bottom: ${Styles.BOTTOM}px !important;` +
           `right: ${activeStyles.right} !important;` +
+          `border-radius: 10px !important;` +
           `min-width: ${activeStyles.width} !important;` +
           `width: ${activeStyles.width} !important;` +
           `min-height: ${activeStyles.height} !important;` +

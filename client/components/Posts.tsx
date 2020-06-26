@@ -39,11 +39,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
 
   componentDidMount() {
     const { ui } = this.props.state;
-    if (
-      ui.extensionMode === Ui.extensionModeExtBottomLabel ||
-      ui.extensionMode === Ui.extensionModeExtIncludeLabel ||
-      ui.extensionMode === Ui.extensionModeExtModalLabel
-    ) {
+    if (ui.screenMode === Ui.screenModeLargeLabel) {
       const Posts = document.querySelector("[data-component-name=Posts]");
       window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
       this.setState({ scrollHeight: Posts.scrollHeight });
@@ -150,6 +146,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
         onMouseDown={this.handleOnMouseDown}
         onScroll={(e) => {
           const { scrollTop, clientHeight, scrollHeight }: any = e.target;
+          console.log("POSTS SCROLL");
           this.onScroll({ scrollTop, clientHeight, scrollHeight });
         }}
       >

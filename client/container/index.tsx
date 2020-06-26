@@ -306,7 +306,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
       <div data-component-name={"Container"} style={style.container.self}>
         <Style {...props} />
         <Posts {...props} />
-        <span data-component-name="fixedComponents">
+        <div data-component-name="fixedComponents">
           <Media {...props} />
           <Board {...props} />
           {LinkLabel}
@@ -333,7 +333,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen
           />
 */}
-        </span>
+        </div>
       </div>
     );
   }
@@ -349,7 +349,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
       <div data-component-name={"Container"} style={style.container.self}>
         <Style {...props} />
         <Posts {...props} />
-        <span data-component-name="fixedComponents">
+        <div data-component-name="fixedComponents">
           <Media {...props} />
           <Board {...props} />
           {LinkLabel}
@@ -362,7 +362,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
           <Menu {...props} />
           <InnerNotif {...this.props} />
           {HideScreenBottom}
-        </span>
+        </div>
       </div>
     );
   }
@@ -376,10 +376,10 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     const FixMarker = this.renderFixMarker(props);
     const nowDate = DateHelper.getNowYmdhis();
     return (
-      <span data-component-name={"Container"} style={style.container.self}>
+      <div data-component-name={"Container"} style={style.container.self}>
         <Style {...props} />
         <Posts {...props} />
-        <span data-component-name="fixedComponents">
+        <div data-component-name="fixedComponents">
           <Media {...props} />
           <Board {...props} />
           {LinkLabel}
@@ -393,8 +393,8 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
           <InnerNotif {...this.props} />
           {/*Debug*/}
           {HideScreenBottom}
-        </span>
-      </span>
+        </div>
+      </div>
     );
   }
 

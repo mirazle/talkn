@@ -255,7 +255,7 @@ export default class Container {
     }
 
     const layout = Style.getLayoutBlock({
-      display: "initial",
+      display: "initial", // build to fixed components.
       width: "100%",
       height: "100%",
       overflow,
@@ -323,6 +323,7 @@ export default class Container {
       display,
       zIndex: "1",
       margin: "0px auto",
+      fontSize: "0.7em",
       bottom: `-${Container.notifHeight}px`,
       transition: Container.getTransition({ app, ui }),
     };
