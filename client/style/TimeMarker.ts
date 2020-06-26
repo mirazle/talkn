@@ -35,7 +35,7 @@ export default class TimeMarker {
   static getFixTimeMarkerStyles({ app, ui }) {
     const fontSize = "0.8em";
     let widthRate = TimeMarker.getSelfWidthRate() / 100;
-    let width = ui.width * widthRate;
+    let width = "36%";
     let height = `${TimeMarker.getSelfHeightPx()}px`;
     let left = "25%";
     let menuWidthPx = 0;
@@ -44,23 +44,27 @@ export default class TimeMarker {
     switch (ui.screenMode) {
       case Ui.screenModeSmallLabel:
         postsWidthPx = ui.width;
-        width = postsWidthPx * widthRate;
+        width = "36%";
         left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
         break;
       case Ui.screenModeMiddleLabel:
         menuWidthPx = Menu.getWidth({ app, ui }, true);
         postsWidthPx = ui.width - menuWidthPx;
-        width = postsWidthPx * widthRate;
+        console.log(menuWidthPx);
+        width = `calc((100% - ${menuWidthPx}px) * 0.36 )`;
         left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
         break;
       case Ui.screenModeLargeLabel:
         menuWidthPx = Menu.getWidth({ app, ui }, true);
         detailWidthPx = (ui.width * Number(DetailRight.getWidth({ app, ui }, true))) / 100;
         postsWidthPx = ui.width - (menuWidthPx + detailWidthPx);
-        width = postsWidthPx * widthRate;
+
+        width = `calc((${DetailRight.otherWidthRate}% - ${menuWidthPx}px) * 0.36 )`;
         left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
         break;
     }
+    console.log(widthRate);
+    console.log(width);
     return { width, height, left, fontSize };
   }
 

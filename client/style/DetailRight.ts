@@ -3,11 +3,17 @@ import Style from "./index";
 import Detail from "./Detail";
 
 export default class DetailRight {
-  static get widthRate() {
+  static get widthDecimalRate() {
     return 0.3;
   }
+  static get widthRate() {
+    return 100 * DetailRight.widthDecimalRate;
+  }
+  static get otherWidthDecimalRate() {
+    return 1 - DetailRight.widthDecimalRate;
+  }
   static get otherWidthRate() {
-    return 1 - DetailRight.widthRate;
+    return 100 * DetailRight.otherWidthDecimalRate;
   }
   static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
