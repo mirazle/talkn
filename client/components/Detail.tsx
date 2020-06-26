@@ -160,6 +160,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
             window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
+    console.log(href);
     return Icon.getTwitter({}, state, { active, href, onClick });
   }
 
