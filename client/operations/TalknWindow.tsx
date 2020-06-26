@@ -204,7 +204,6 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
 
   scroll(ev) {
-    console.log("WINDOW SCROLL " + window.scrollY);
     const body = document.querySelector("body");
     const scrollTop = window.scrollY;
     const clientHeight = body.offsetHeight;
