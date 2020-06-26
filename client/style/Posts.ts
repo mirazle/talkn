@@ -95,21 +95,21 @@ export default class Posts {
     if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
       switch (ui.screenMode) {
         case Ui.screenModeSmallLabel:
-          margin = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+          margin = `0`;
           break;
         case Ui.screenModeMiddleLabel:
         case Ui.screenModeLargeLabel:
-          margin = `0 0 ${Container.getBlockSize({ app, ui })}px ${Menu.getWidth({ app, ui })}`;
+          margin = `0 0 0 ${Menu.getWidth({ app, ui })}`;
           break;
       }
     } else {
       switch (ui.screenMode) {
         case Ui.screenModeSmallLabel:
-          margin = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+          margin = `0`;
           break;
         case Ui.screenModeMiddleLabel:
         case Ui.screenModeLargeLabel:
-          margin = `0 0 ${Container.getBlockSize({ app, ui })}px ${Menu.getWidth({ app, ui })}`;
+          margin = `0 0 0 ${Menu.getWidth({ app, ui })}`;
           break;
       }
     }
@@ -120,6 +120,28 @@ export default class Posts {
     let padding = "0";
     if (app.isMediaCh) {
       padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+    } else {
+      if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+        switch (ui.screenMode) {
+          case Ui.screenModeSmallLabel:
+            padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+            break;
+          case Ui.screenModeMiddleLabel:
+          case Ui.screenModeLargeLabel:
+            padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+            break;
+        }
+      } else {
+        switch (ui.screenMode) {
+          case Ui.screenModeSmallLabel:
+            padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+            break;
+          case Ui.screenModeMiddleLabel:
+          case Ui.screenModeLargeLabel:
+            padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+            break;
+        }
+      }
     }
     return padding;
   }
