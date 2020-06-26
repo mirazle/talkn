@@ -51,8 +51,10 @@ export default class TimeMarker {
         menuWidthPx = Menu.getWidth({ app, ui }, true);
         postsWidthPx = ui.width - menuWidthPx;
         console.log(menuWidthPx);
-        width = `calc((100% - ${menuWidthPx}px) * 0.36 )`;
-        left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
+        const inPostsWidthPx = (ui.width - menuWidthPx) * 0.36;
+        // ui.width / inPostsWidthPx
+        width = `calc( ${(ui.width - menuWidthPx) * 0.36} )`;
+        left = menuWidthPx + "px";
         break;
       case Ui.screenModeLargeLabel:
         menuWidthPx = Menu.getWidth({ app, ui }, true);
