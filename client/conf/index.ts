@@ -2,12 +2,16 @@ import process from "process";
 import Sequence from "api/Sequence";
 import define from "common/define";
 import conf from "common/conf";
+console.log("AA");
 if (process.title === "browser") {
   const { SUB_DOMAINS, DEVELOPMENT } = define;
+  console.log("BB");
   conf.domain =
-    window.location.href.indexOf(`${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}`) === 0
+    location.href.indexOf(`${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}`) === 0
       ? define.DEVELOPMENT_DOMAIN
       : define.PRODUCTION_DOMAIN;
+  console.log(location.href);
+  console.log(conf.domain);
   const existLocation = typeof location === "object" ? true : false;
   conf.mediaSecondInterval = 200;
   conf.screenMode = {
