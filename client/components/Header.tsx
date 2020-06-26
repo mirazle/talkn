@@ -93,12 +93,16 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
   }
 
   renderWatchCntComponent() {
-    const { style, thread } = this.props.state;
-    return (
-      <span data-component-name={"Header-WatchCnt"} style={style.header.childAnalyzeWrap}>
-        <div style={style.header.childAnalyzeType}>LIVE</div>
-        <div style={style.header.childAnalyzeCnt}>{thread.watchCnt}</div>
-      </span>
-    );
+    const { style, thread, ui } = this.props.state;
+    if (ui.screenMode === Ui.screenModeSmallLabel) {
+      return (
+        <span data-component-name={"Header-WatchCnt"} style={style.header.childAnalyzeWrap}>
+          <div style={style.header.childAnalyzeType}>LIVE</div>
+          <div style={style.header.childAnalyzeCnt}>{thread.watchCnt}</div>
+        </span>
+      );
+    } else {
+      return undefined;
+    }
   }
 }

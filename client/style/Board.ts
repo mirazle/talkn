@@ -267,7 +267,8 @@ export default class Board {
       marginBottom: "5px",
     });
     const content = Style.getContentBase({
-      fontSize: "10px",
+      fontSize: "0.7em",
+      letterSpacing: "1px",
       lineHeight: "17px",
     });
     const animation = Style.getAnimationBase({
@@ -332,9 +333,7 @@ export default class Board {
       justifyContent: "flex-start",
       padding: "0px 3px 0px 0px",
     });
-    const content = Style.getContentBase({
-      fontSize: "14px",
-    });
+    const content = Style.getContentBase({});
     const animation = {};
     return Style.get({ layout, content, animation });
   }
@@ -373,7 +372,6 @@ export default class Board {
     });
     const content = Style.getContentBase({
       cursor: "pointer",
-      fontSize: "14px",
       lineHeight: "17px",
     });
     const animation = Style.getAnimationBase({
@@ -435,8 +433,6 @@ export default class Board {
     });
     const content = Style.getContentBase({
       cursor: "pointer",
-      fontSize: "14px",
-      lineHeight: "17px",
       color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase({

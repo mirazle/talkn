@@ -199,7 +199,9 @@ export default class Detail {
       background: Container.whiteRGB,
       padding: "0px 20px",
     });
-    const content = Style.getContentBase({});
+    const content = Style.getContentBase({
+      fontSize: "1.2em",
+    });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
   }
@@ -211,8 +213,6 @@ export default class Detail {
       maxHeight: Container.getBlockSize({ app, ui }),
     });
     const content = Style.getContentBase({
-      lineHeight: "1.8",
-      fontSize: "16px",
       textOverflow: "ellipsis",
     });
     const animation = Style.getAnimationBase();
@@ -269,8 +269,8 @@ export default class Detail {
       margin: `7%`,
     });
     const content = Style.getContentBase({
-      lineHeight: 2,
-      fontSize: "16px",
+      lineHeight: "2em",
+      fontSize: "1.1em",
       textAlign: "left",
     });
     const animation = Style.getAnimationBase();
@@ -287,7 +287,6 @@ export default class Detail {
       margin: `${Detail.margin * 2}% ${Detail.margin}%`,
     });
     const content = Style.getContentBase({
-      fontsize: "14px",
       textAlign: "right",
     });
     const animation = Style.getAnimationBase();
@@ -305,7 +304,6 @@ export default class Detail {
       borderRadius: "30px",
     });
     const content = Style.getContentBase({
-      fontSize: "12px",
       color: Container.whiteRGB,
       textAlign: "right",
     });
@@ -324,7 +322,6 @@ export default class Detail {
       margin: `0px 0px ${Container.getBlockSize({ app, ui })}px 0px`,
     });
     const content = Style.getContentBase({
-      fontSize: "14px",
       textAlign: "left",
       lineHeight: "30px",
       wordBreak: "break-word",
@@ -375,7 +372,7 @@ export default class Detail {
     });
     const content = Style.getContentBase({
       lineHeight: "14px",
-      fontSize: "12px",
+      fontSize: "0.8em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -430,7 +427,6 @@ export default class Detail {
       margin: `5px ${Detail.margin}% 5px ${Detail.margin}%`,
     });
     const content = Style.getContentBase({
-      fontSize: "14px",
       lineHeight: 2,
       textAlign: "left",
     });
@@ -449,7 +445,9 @@ export default class Detail {
       ...positions,
       ...borders,
     });
-    const content = Style.getContentBase();
+    const content = Style.getContentBase({
+      fontSize: "0.7em",
+    });
     const animation = Style.getAnimationBase({
       transform: "translate3d(0px, 0px, 0px)",
     });
@@ -462,7 +460,6 @@ export default class Detail {
       height: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "0.5em",
       cursor: "pointer",
     });
     const animation = Style.getAnimationBase();
@@ -474,9 +471,7 @@ export default class Detail {
       flexGrow: 1,
       height: "100%",
     });
-    const content = Style.getContentBase({
-      fontSize: "0.5em",
-    });
+    const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
   }
@@ -486,9 +481,7 @@ export default class Detail {
       flexGrow: 1,
       height: "100%",
     });
-    const content = Style.getContentBase({
-      fontSize: "0.5em",
-    });
+    const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
   }
@@ -499,7 +492,7 @@ export default class Detail {
       height: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "0.5em",
+      fontSize: "0.7em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -535,7 +528,6 @@ export default class Detail {
     const content = Style.getContentBase({
       textIndent: "15px",
       cursor: "pointer",
-      fontSize: "12px",
       color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase();

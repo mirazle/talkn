@@ -1,5 +1,3 @@
-import define from "../../common/define";
-import App from "api/store/App";
 import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
@@ -177,7 +175,7 @@ export default class PostsFooter {
     const layout = Style.getLayoutInlineBlock({
       width,
       maxWidth: width,
-      height: "25px",
+      height: "55%",
       background: Container.whiteRGB,
       padding: "6px",
       margin: "0 3% 0 0",
@@ -189,8 +187,8 @@ export default class PostsFooter {
       WebkitAppearance: "none",
     });
     const content = Style.getContentBase({
-      fontSize: "12px",
       textAlign: "left",
+      textIndent: "3%",
     });
     const animation = Style.getAnimationBase();
 
@@ -204,20 +202,18 @@ export default class PostsFooter {
       height: "80%",
       background: Container.whiteRGB,
       padding: "6px",
-      margin: "0 0% 0 0",
+      margin: "0",
       outline: "none",
       resize: "none",
-      lineHeight: "0.9",
       border: Container.border,
       borderRadius: "3px",
       WebkitAppearance: "none",
     });
     const content = Style.getContentBase({
-      fontSize: "12px",
       textAlign: "left",
     });
     const animation = Style.getAnimationBase();
-
+    console.log(Style.get({ layout, content, animation }));
     return Style.get({ layout, content, animation });
   }
 
@@ -233,7 +229,7 @@ export default class PostsFooter {
       borderRadius: "3px",
     });
     const content = Style.getContentBase({
-      fontSize: "12px",
+      color: Container.downreliefRGB,
       cursor: "pointer",
     });
     const animation = Style.getAnimationBase();
@@ -255,9 +251,7 @@ export default class PostsFooter {
       alignItems: "center",
       justifyContent: "center",
     });
-    const content = Style.getContentBase({
-      fontSize: "10px",
-    });
+    const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
   }

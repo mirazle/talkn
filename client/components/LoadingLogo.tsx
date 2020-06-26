@@ -3,7 +3,15 @@ import TalknComponent from "client/components/TalknComponent";
 import Style from "client/components/Style";
 import conf from "common/conf";
 
-export default class LoadingLogo extends TalknComponent<{}, {}> {
+interface Props {
+  state: any;
+}
+interface State {}
+
+export default class LoadingLogo extends TalknComponent<Props, State> {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <div className={"LogoScreen"}>

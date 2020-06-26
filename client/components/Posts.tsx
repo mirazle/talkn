@@ -1,13 +1,10 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import App from "api/store/App";
 import Ui from "client/store/Ui";
-import UiTimeMarker from "client/store/UiTimeMarker";
 import DateHelper from "client/container/util/DateHelper";
 import Post from "client/components/Post";
 import TimeMarker from "client/components/TimeMarker";
-import conf from "common/conf";
 
 interface PostsProps {
   state: any;

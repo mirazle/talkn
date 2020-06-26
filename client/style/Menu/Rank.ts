@@ -85,7 +85,6 @@ export default class Rank {
       height: `${Container.getBlockSize({ app, ui })}px`,
     });
     const content = Style.getContentBase({
-      fontSize: "13px",
       color: Container.reliefRGBA,
       fontWeight: "bold",
     });
@@ -109,7 +108,6 @@ export default class Rank {
     });
     const content = Style.getContentBase({
       whiteSpace: "nowrap",
-      fontSize: "14px",
       lineHeight: "2",
       textAlign: "left",
     });
@@ -147,7 +145,6 @@ export default class Rank {
     const content = Style.getContentBase({
       outline: 0,
       cursor: "pointer",
-      fontSize: "14px",
     });
     const animation = Style.getAnimationBase({
       transition: Container.getTransition({ app, ui }),
@@ -206,9 +203,7 @@ export default class Rank {
       width: "100%",
       height: "20px",
     });
-    const content = Style.getContentBase({
-      fontSize: "10px",
-    });
+    const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
   }

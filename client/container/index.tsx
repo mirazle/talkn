@@ -195,7 +195,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
 
   render() {
     const { style, ui, app } = this.props.state;
-    if (style && style.container && style.container.self && app.tuned) {
+    if (app.tuned) {
       /*
       if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
         return this.renderExtension();
@@ -217,7 +217,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
       }
     }
 */
-    return <LoadingLogo />;
+    return <LoadingLogo {...this.props} />;
   }
 
   renderFixMarker(props): React.ReactNode {

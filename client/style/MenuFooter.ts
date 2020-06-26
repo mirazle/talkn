@@ -1,8 +1,6 @@
-import define from "../../common/define";
 import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
-import Main from "./Main";
 
 import Menu from "./Menu";
 
@@ -81,7 +79,7 @@ export default class MenuFooter {
       height: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "0.5em",
+      fontSize: "0.7em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -93,7 +91,7 @@ export default class MenuFooter {
       height: "100%",
     });
     const content = Style.getContentBase({
-      fontSize: "0.5em",
+      fontSize: "0.7em",
       fontWeight: "bold",
     });
     const animation = Style.getAnimationBase();

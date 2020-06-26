@@ -198,7 +198,6 @@ export default class LockMenu {
       padding: "5px",
     });
     const content = Style.getContentBase({
-      fontSize: "12px",
       outline: 0,
       cursor: "pointer",
     });

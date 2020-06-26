@@ -13,7 +13,7 @@ export default class EmotionGraph {
       pointHoverBackgroundColor: "rgba(255, 255, 255, 0.8 )",
       pointHoverBorderColor: "rgba(240, 100, 195, 0.8 )",
       pointHoverBorderWidth: "4",
-      data: []
+      data: [],
     };
   }
 
@@ -26,7 +26,7 @@ export default class EmotionGraph {
           backgroundColor: "rgba(79, 174, 159, 0.6)",
           borderAlign: "left",
           borderColor: "rgba(79, 174, 159, 0.6)",
-          borderWidth: 100
+          borderWidth: 100,
         },
         line: {
           tension: 0.1, //0.000001
@@ -34,12 +34,12 @@ export default class EmotionGraph {
           borderWidth: "10",
           borderColor: "rgba(79, 174, 159, 0.6)",
           borderCapStyle: "square",
-          borderDash: []
-        }
+          borderDash: [],
+        },
       },
       // グラフ外部の指標のタイトル
       legend: {
-        display: false
+        display: false,
       },
       tooltips: {
         enabled: true,
@@ -56,25 +56,25 @@ export default class EmotionGraph {
             return label !== "0" ? label : null;
           },
           title: (tooltipItem, data) => {
-            return tooltipItem.map(item => data.labels[item.index]);
-          }
-        }
+            return tooltipItem.map((item) => data.labels[item.index]);
+          },
+        },
       },
       scale: {
         ticks: {
-          fontSize: 17,
+          fontSize: 16,
           fontColor: Container.fontBaseRGB,
           backdropColor: "rgba(255,255,255,0)",
           beginAtZero: true,
           max: 5,
           min: 0,
-          stepSize: 1
+          stepSize: 1,
         },
         pointLabels: {
           fontSize: 14,
-          fontColor: Container.fontBaseRGB
-        }
-      }
+          fontColor: Container.fontBaseRGB,
+        },
+      },
     };
   }
 
@@ -82,14 +82,14 @@ export default class EmotionGraph {
   constructor(params) {
     const self = EmotionGraph.getSelf(params);
     return {
-      self
+      self,
     };
   }
 
   static getSelf(params) {
     const layout = Style.getLayoutFlex({
       marginBottom: "40px",
-      flexDirection: "column"
+      flexDirection: "column",
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase({});
