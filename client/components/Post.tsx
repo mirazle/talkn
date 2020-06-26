@@ -5,7 +5,7 @@ import Sequence from "api/Sequence";
 import Ui from "client/store/Ui";
 import Emotions from "common/emotions/index";
 import util from "common/util";
-import conf from "common/conf";
+import conf from "client/conf";
 import PostStyle from "client/style/Post";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
 
@@ -173,11 +173,8 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
     const { ui, post, onClickPost } = this.props;
     const { postStyle } = this.state;
     const stampLabel = this.renderStampLabel(post.stampId);
-
-    console.log("@@@@@@@@@@@@@@@@@@");
-    console.log(post.favicon);
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName(post.favicon);
-    console.log(dispFavicon);
+
     if (dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 && dispFavicon.indexOf(Sequence.HTTP_PROTOCOL) !== 0) {
       if (post.protocol === Sequence.TALKN_PROTOCOL) {
         dispFavicon = `${Sequence.HTTPS_PROTOCOL}//${dispFavicon}`;
