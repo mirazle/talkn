@@ -910,6 +910,8 @@ class Iframe extends Elements {
           "margin: 0 !important;" +
           "padding: 0 !important;" +
           `opacity: ${activeStyles.opacity} !important;` +
+          `clip-path: inset( 0px 0px 0px 0px round 10px 10px 10px 10px ) !important;` +
+          `-webkit-clip-path: inset( 0px 0px 0px 0px round 10px 10px 10px 10px ) !important;` +
           `transition: ${Styles.BASE_TRANSITION}ms !important;` +
           `transform: ${activeStyles.transform} !important;`
         );
