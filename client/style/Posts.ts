@@ -195,7 +195,7 @@ export default class Posts {
       overflowX = "hidden";
       overflowY = "scroll";
     }
-    console.log(Posts.getMargin({ app, ui }));
+
     const layout = Style.getLayoutBlock({
       position,
       top: Posts.getSelfTop({ app, ui }),
