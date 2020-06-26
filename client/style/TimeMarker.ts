@@ -17,7 +17,7 @@ export default class TimeMarker {
   }
 
   static getSelfWidthRate() {
-    return 33;
+    return 36;
   }
 
   static getSelfHeightPx() {
@@ -95,6 +95,7 @@ export default class TimeMarker {
       top: `${Container.getBlockSize({ app, ui })}px`,
       left,
       fontSize,
+      lineHeight: "0.9em",
     };
   }
 }

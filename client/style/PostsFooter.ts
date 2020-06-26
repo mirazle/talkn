@@ -213,7 +213,6 @@ export default class PostsFooter {
       textAlign: "left",
     });
     const animation = Style.getAnimationBase();
-    console.log(Style.get({ layout, content, animation }));
     return Style.get({ layout, content, animation });
   }
 

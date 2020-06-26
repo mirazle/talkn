@@ -77,6 +77,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
 
   setupWindow() {
+    /*
     const html = document.querySelector("html");
     html.style.cssText +=
       "" +
@@ -93,6 +94,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
       "margin: 0px auto !important;" +
       "visibility: visible !important;" +
       "opacity: 1 !important;";
+      */
   }
 
   listenAsyncBoot() {
@@ -202,6 +204,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
 
   scroll(ev) {
+    console.log("WINDOW SCROLL " + window.scrollY);
     const body = document.querySelector("body");
     const scrollTop = window.scrollY;
     const clientHeight = body.offsetHeight;
@@ -217,7 +220,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     if (conf.findOnePostCnt <= dispPostCnt && dispPostCnt < conf.findOneLimitCnt) {
       if (thread[postCntKey] > conf.findOnePostCnt) {
         if (dispPostCnt < thread[postCntKey]) {
-          this.coreApi("getMore", {});
+          this.coreApi("getMore");
         }
       }
     }
