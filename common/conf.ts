@@ -68,10 +68,12 @@ const conf: any = {
 };
 export default { ...conf };
 
+// TODO: Move to server conf( not use from client ).
 function getEnv(hostName, awsHostKey) {
   if (hostName.indexOf(awsHostKey) >= 0) {
     return define.PRODUCTION;
   }
+  console.log(hostName);
   if (hostName === define.DEVELOPMENT_DOMAIN) {
     if (process.title === "browser") {
       const port = Number(location.port);
