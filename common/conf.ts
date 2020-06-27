@@ -3,16 +3,7 @@ import os from "os";
 import process from "process";
 
 // TODO: ServerとClientに分けてCommonは無くす
-const {
-  PRODUCTION,
-  DEVELOPMENT,
-  PRODUCTION_IP,
-  LOCALHOST,
-  PRODUCTION_DOMAIN,
-  DEVELOPMENT_DOMAIN,
-  SUB_DOMAINS,
-  PORTS,
-} = define;
+const { PRODUCTION, DEVELOPMENT, PRODUCTION_DOMAIN, DEVELOPMENT_DOMAIN, SUB_DOMAINS, PORTS } = define;
 const apiVer = 1;
 const hostName = os.hostname();
 const env = getEnv(hostName);
@@ -20,8 +11,8 @@ const isDev = env === DEVELOPMENT;
 const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN;
 const wwwURL = `${SUB_DOMAINS.WWW}.${domain}`;
 const apiURL = `${SUB_DOMAINS.API}.${domain}`;
-const apiAccessURL = isDev ? `${LOCALHOST}:${PORTS.DEVELOPMENT_API}/talkn.api.js` : `${apiURL}/v${apiVer}`;
-const clientURL = isDev ? `${LOCALHOST}:${PORTS.DEVELOPMENT}/talkn.client.js` : `${SUB_DOMAINS.CLIENT}.${domain}`;
+const apiAccessURL = isDev ? `${domain}:${PORTS.DEVELOPMENT_API}/talkn.api.js` : `${apiURL}/v${apiVer}`;
+const clientURL = isDev ? `${domain}:${PORTS.DEVELOPMENT}/talkn.client.js` : `${SUB_DOMAINS.CLIENT}.${domain}`;
 const descURL = `${SUB_DOMAINS.DESC}.${domain}`;
 const portalURL = `${SUB_DOMAINS.PORTAL}.${domain}`;
 const assetsURL = `${SUB_DOMAINS.ASSETS}.${domain}`;
