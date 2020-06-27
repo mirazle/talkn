@@ -216,6 +216,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     const posts = PostsSchems.getDispPosts(this.clientState);
     const dispPostCnt = posts.length;
     const postCntKey = app.dispThreadType === App.dispThreadTypeMulti ? "multiPostCnt" : "postCnt";
+
     if (conf.findOnePostCnt <= dispPostCnt && dispPostCnt < conf.findOneLimitCnt) {
       if (thread[postCntKey] > conf.findOnePostCnt) {
         if (dispPostCnt < thread[postCntKey]) {

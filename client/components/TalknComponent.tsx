@@ -92,16 +92,16 @@ export default class TalknComponent<P, S> extends Component<P, S> {
   }
 
   onScroll({ scrollTop = 0, clientHeight = 0, scrollHeight = 0 }) {
-    const { thread, ui, actionLog } = this.clientState;
+    const { thread, app, ui, actionLog } = this.clientState;
     const actionTypes =
       ui.extensionMode === Ui.extensionModeExtNoneLabel
-        ? ["ON_RESIZE_END_WINDOW", "ON_SCROLL_UPDATE_TIME_MARKER"]
+        ? ["ON_RESIZE_END_WINDOW"]
         : ["ON_RESIZE_END_WINDOW", "ON_SCROLL_UPDATE_TIME_MARKER"];
     let { uiTimeMarker } = this.clientState;
-
     if (scrollTop === 0) {
       if (!actionTypes.includes(actionLog[0])) {
-        if (thread.postCnt > conf.findOnePostCnt) {
+        const postCntKey = app.multistream ? "multiPostCnt" : "postCnt";
+        if (thread[postCntKey] > conf.findOnePostCnt) {
           const timeMarkerList: any = document.querySelector("[data-component-name=TimeMarkerList]");
           if (timeMarkerList && timeMarkerList.style) {
             // UI上、重なるTIME MARKERを非表示にする
