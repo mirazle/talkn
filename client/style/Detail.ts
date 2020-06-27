@@ -101,13 +101,12 @@ export default class Detail {
     const left = screenMode === Ui.screenModeSmallLabel ? "0px" : Menu.baseWidth;
     const background = ui.extensionMode === Ui.extensionModeExtBottomLabel ? Container.reliefRGB : Container.reliefRGB;
     const height = DetailModal.getHeight({ app, ui });
-    const border =
+    const borders =
       screenMode === Ui.screenModeSmallLabel
         ? { borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border }
         : {
             borderTop: Container.border,
             borderRight: Container.border,
-            borderBottom: Container.border,
             borderLeft: Container.border,
           };
     const layout = Style.getLayoutBlock({
@@ -119,7 +118,7 @@ export default class Detail {
       height,
       margin: DetailModal.getMargin({ app, ui }),
       background,
-      ...border,
+      ...borders,
       borderRadius: Container.radiuses,
       WebkitOverflowScrolling: "touch",
       zIndex: 9,
