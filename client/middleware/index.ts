@@ -213,6 +213,11 @@ const functions = {
     action.ui.openInnerNotif = action.ui.openInnerNotif === "" ? define.noInnerNotif : action.ui.openInnerNotif;
     return action;
   },
+  ON_CHANGE_INPUT_POST: (state, action) => {
+    const inputPost = action.ui.inputPost;
+    window.talknWindow.parentExtTo("setInputPost", { inputPost });
+    return action;
+  },
   GET_CLIENT_METAS: (state, action) => {
     let updateFlg = false;
     let { clientMetas } = action;

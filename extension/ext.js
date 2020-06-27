@@ -11,7 +11,6 @@ const TALKN_EXT_ENV = "PROD";
     HandleIcon
     NotifStatus
     Notif
-    Textarea
 */
 class Ext {
   static get APP_NAME() {
@@ -243,15 +242,7 @@ class Styles {
   }
   constructor() {
     const style = document.createElement("style");
-    const css = document.createTextNode(
-      `#${Textarea.id}::placeholder { ` +
-        `font-size: 12px; ` +
-        `line-height: 9px; ` +
-        `letter-spacing: 1.5px; ` +
-        `color: rgb(170, 170, 170); ` +
-        `}`
-    );
-
+    const css = document.createTextNode(``);
     style.type = "text/css";
     style.appendChild(css);
     document.head.appendChild(style);
@@ -305,7 +296,16 @@ class Window extends Elements {
     return 1000;
   }
   static get aacceptPostMessages() {
-    return ["toggleIframe", "location", "find", "openNotif", "closeNotif", "linkTo", "setInputPost", "getClientMetas"];
+    return [
+      "toggleIframe",
+      "location",
+      "fetchPosts",
+      "openNotif",
+      "closeNotif",
+      "linkTo",
+      "setInputPost",
+      "getClientMetas",
+    ];
   }
 
   static getCurrentTime(currentTime, base = 10) {
@@ -390,7 +390,6 @@ class Window extends Elements {
         this.ins.body = new Body(this);
         this.ins.iframe = new Iframe(this);
         this.ins.handleIcon = new HandleIcon(this);
-        // this.ins.textarea = new Textarea(this);
         this.ins.notifStatus = new NotifStatus(this);
       };
 
@@ -440,7 +439,7 @@ class Window extends Elements {
   }
 
   transformDisplayMode(called, displayModeKey) {
-    const { body, iframe, handleIcon, /*textarea,*/ notifStatus } = this.ins;
+    const { body, iframe, handleIcon, notifStatus } = this.ins;
     const displayMode = Ext.DISPLAY_MODE[displayModeKey].toLowerCase();
     const actionName = displayMode.charAt(0).toUpperCase() + displayMode.slice(1);
     const beforeDisplayMode = Ext.DISPLAY_MODE[this.displayModeKey];
@@ -450,7 +449,6 @@ class Window extends Elements {
     if (body) body.action(called, actionName);
     if (iframe) iframe.action(called, actionName);
     if (handleIcon) handleIcon.action(called, actionName);
-    // if (textarea) textarea.action(called, actionName);
     if (notifStatus) notifStatus.action(called, actionName);
     this.callback(called, beforeDisplayMode, beforeDisplayModeDirection, actionName, this);
   }
@@ -539,11 +537,10 @@ class Window extends Elements {
       switch (method) {
         case "bootExtension":
           this.clientTo("removeExtension");
-          const { iframe, handleIcon, notifStatus /* textarea */ } = this.ins;
+          const { iframe, handleIcon, notifStatus } = this.ins;
           iframe.remove();
           handleIcon.remove();
           notifStatus.remove();
-          // textarea.remove();
           this.remove();
           console.warn("CSP Reboot: " + method);
           new Window(true);
@@ -564,8 +561,6 @@ class Window extends Elements {
   apiTo(method, params = {}) {
     const src = location.href; // this.ins.iframe.getSrc();
     const requestObj = Ext.getApiToRequestObj(method, params);
-    console.log("@@@@@@@@@ EXT TO API");
-    console.log(requestObj);
     window.postMessage(requestObj, src);
   }
 
@@ -577,7 +572,8 @@ class Window extends Elements {
     this.updateDisplayMode("toggleIframe");
   }
 
-  find(state) {
+  fetchPosts(state) {
+    console.log(state);
     this.state = state;
   }
 
@@ -677,7 +673,7 @@ class Window extends Elements {
   }
 
   transitionend(e) {
-    const { body, iframe, handleIcon /*, textarea */ } = this.ins;
+    const { body, iframe, handleIcon } = this.ins;
 
     if (this.transitionEndId === null) {
       this.transitionEndId = setTimeout(() => {
@@ -697,7 +693,6 @@ class Window extends Elements {
     if (body && body.transitionEnd) body.transitionEnd(e);
     if (iframe && iframe.transitionEnd) iframe.transitionEnd(e);
     if (handleIcon && handleIcon.transitionEnd) handleIcon.transitionEnd(e);
-    // if (textarea && textarea.transitionEnd) textarea.transitionEnd(e);
   }
 
   load(e) {
@@ -1233,7 +1228,7 @@ class HandleIcon extends Elements {
   /*************************/
 
   click() {
-    const { iframe, /* textarea, */ notifStatus } = this.window.ins;
+    const { iframe, notifStatus } = this.window.ins;
     const iframeElm = iframe.get();
 
     switch (this.window.extMode) {
@@ -1265,27 +1260,19 @@ class HandleIcon extends Elements {
         notifStatus.resetCnt();
 
         const regex = /^\s*$/;
-        // const inputPost = textarea.getValue();
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
-            // this.window.clientTo("onScrollUpdateTimeMarker");
             this.window.updateDisplayMode("clickHandleIcon");
             break;
           case Ext.DISPLAY_MODE_OPEN:
-            /*
+            const { inputPost } = this.window;
             if (inputPost !== "" && !regex.test(inputPost)) {
               const inputCurrentTime = Window.getCurrentTime(this.window.handleMediaCurrentTime);
-
               this.window.apiTo("post", { app: { inputPost, inputCurrentTime } });
-              //              this.window.clientTo("delegatePost", { inputPost, inputCurrentTime });
-              this.window.clientTo("onChangeInputPost");
-
-              // textarea.clear();
-              //                    textarea.focus();
+              this.window.clientTo("ON_CHANGE_INPUT_POST", { ui: { inputPost: "" } });
             } else {
-            */
-            this.window.updateDisplayMode("clickHandleIcon");
-            //            }
+              this.window.updateDisplayMode("clickHandleIcon");
+            }
             break;
         }
         break;
@@ -1714,271 +1701,6 @@ class Notif extends Elements {
   getBorderRadius() {
     let borderRadius = `3px`;
     return borderRadius;
-  }
-}
-
-class Textarea extends Elements {
-  static get id() {
-    return `${Ext.APP_NAME}${this.name}`;
-  }
-  constructor(_window) {
-    super(_window);
-    this.get = this.get.bind(this);
-    this.getValue = this.getValue.bind(this);
-    this.setValue = this.setValue.bind(this);
-    this.clear = this.clear.bind(this);
-    this.focuse = this.focus.bind(this);
-    this.keypress = this.keypress.bind(this);
-    this.getDisplay = this.getDisplay.bind(this);
-    this.transitionEnd = this.transitionEnd.bind(this);
-    this.transitionEnd = this.transitionEnd.bind(this);
-    this.create();
-  }
-
-  create(display = "none") {
-    /*
-    const textarea = document.createElement("textarea");
-    textarea.id = Textarea.id;
-    textarea.style = this.getStyle(display);
-    textarea.placeholder = "Comment to web";
-    textarea.addEventListener("keypress", this.keypress);
-    document.body.appendChild(textarea);
-    */
-  }
-
-  get() {
-    return document.querySelector(`#${Textarea.id}`);
-  }
-
-  getStyle(display) {
-    const width = this.getWidth(true);
-    const height = this.getHeight(true);
-    const right = this.getRight(true);
-    const bottom = this.getBottom(true);
-    return (
-      "" +
-      `position: fixed !important;` +
-      `bottom: ${bottom} !important;` +
-      `right: ${right} !important;` +
-      `display: ${display} !important;` +
-      `box-sizing: border-box !important;` +
-      `overflow: hidden !important;` +
-      `width: ${width} !important;` +
-      `min-width: ${width} !important;` +
-      `max-width: ${width} !important;` +
-      `height: ${height} !important;` +
-      `min-height: ${height} !important;` +
-      `max-height: ${height} !important;` +
-      `padding: 6px !important;` +
-      `margin: 0 !important;` +
-      `font-style: inherit !important;` +
-      `font-variant: inherit !important;` +
-      `font-weight: inherit !important;` +
-      `font-stretch: inherit !important;` +
-      `font-size: 12px !important;` +
-      `line-height: 0.9 !important;` +
-      `font-family: "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif !important;` +
-      `list-style: none !important;` +
-      `user-select: none !important;` +
-      `text-decoration: none !important;` +
-      `vertical-align: middle !important;` +
-      `border-collapse: collapse !important;` +
-      `border-spacing: 0px !important;` +
-      `border: 1px solid rgb(220, 220, 220) !important;` +
-      `border-radius: 3px !important;` +
-      `z-index: ${Styles.zIndex - 1} !important;` +
-      `background: rgb(255,255,255) !important;` +
-      `outline: none !important;` +
-      `resize: none !important;` +
-      `-webkit-appearance: none !important;` +
-      `letter-spacing: 1.5px !important;` +
-      `white-space: normal !important;` +
-      `quotes: none !important;` +
-      `content: none !important;` +
-      `cursor: default !important;` +
-      `text-align: left !important;` +
-      `text-indent: 3% !important;` +
-      `color: rgb(160, 160, 160) !important;` +
-      `transform: translate3d(0px, 0px, 0px) !important;`
-    );
-  }
-
-  getValue() {
-    return this.get().value;
-  }
-
-  setValue(addValue) {
-    return (this.get().value = this.getText().value + addValue);
-  }
-
-  clear() {
-    const exeClear = () => {
-      const textarea = this.get();
-      if (textarea.value === "") {
-        //alert("OK CLEAR");
-        return true;
-      } else {
-        //alert("EXE CLEAR");
-        textarea.value = "";
-        setTimeout(exeClear(), 100);
-        return false;
-      }
-    };
-    exeClear();
-    /*
-        document.body.removeChild(this.get());
-        this.create("block");
-*/
-  }
-
-  focus() {
-    this.get().focus();
-  }
-
-  keypress(e) {
-    if (e.keyCode === 13) {
-      if (e.shiftKey) {
-        this.setValue("\n");
-      } else {
-        const { textarea } = this.window.ins;
-        const regex = /^\s*$/;
-        const inputPost = textarea.getValue();
-
-        if (inputPost !== "" && !regex.test(inputPost)) {
-          const inputCurrentTime = Window.getCurrentTime(this.window.handleMediaCurrentTime);
-          this.window.apiTo("post", { app: { inputPost, inputCurrentTime } });
-          this.window.clientTo("onChangeInputPost");
-          textarea.clear();
-          const textareaElm = textarea.get();
-          textareaElm.focus();
-
-          e.preventDefault();
-          return false;
-        }
-      }
-    }
-  }
-
-  remove() {
-    const elm = this.get();
-    elm.remove();
-    delete this;
-  }
-
-  /*************************/
-  /* ANIMATION             */
-  /*************************/
-
-  getDisplay() {
-    switch (this.window.extMode) {
-      case Ext.MODE_MODAL:
-        switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
-          case Ext.DISPLAY_MODE_ACTIVE:
-            return "none";
-          case Ext.DISPLAY_MODE_OPEN:
-            return "none";
-        }
-      case Ext.MODE_BOTTOM:
-        return "block";
-    }
-    return "none";
-  }
-
-  getRight(addUnit = false) {
-    let right = 0;
-    switch (this.window.extMode) {
-      case Ext.MODE_BOTTOM:
-        right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "21%" : "73px";
-        break;
-      case Ext.MODE_MODAL:
-        right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "21%" : "67px";
-        break;
-    }
-    return addUnit ? right : right.replace("px", "").replace("%", "");
-  }
-
-  getWidth(addUnit = false) {
-    let width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "57.6%" : "166px";
-    return addUnit ? width : width.replace("px", "").replace("%", "");
-  }
-
-  getHeight(addUnit = false) {
-    let height = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "25px" : "25px";
-    return addUnit ? height : height.replace("px", "").replace("%", "");
-  }
-
-  getBottom(addUnit = false) {
-    let bottom = "0px";
-    switch (this.window.extMode) {
-      case Ext.MODE_BOTTOM:
-        bottom = "9px";
-        break;
-      case Ext.MODE_MODAL:
-        bottom = "55px";
-        break;
-    }
-    return addUnit ? bottom : bottom.replace("px", "").replace("%", "");
-  }
-
-  transitionEnd(e) {
-    switch (this.window.extMode) {
-      case Ext.MODE_BOTTOM:
-        break;
-      case Ext.MODE_MODAL:
-        switch (e.target.id) {
-          case Iframe.id:
-          case HandleIcon.id:
-            const { textarea } = this.window.ins;
-            const textareaElm = textarea.get();
-            const width = textarea.getWidth(true);
-
-            switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
-              case Ext.DISPLAY_MODE_ACTIVE:
-                textareaElm.style.width = width;
-                textareaElm.style.minWidth = width;
-                textareaElm.style.maxWidth = width;
-                textareaElm.style.display = "none";
-                break;
-              case Ext.DISPLAY_MODE_OPEN:
-                textareaElm.style.width = width;
-                textareaElm.style.minWidth = width;
-                textareaElm.style.maxWidth = width;
-                textareaElm.style.display = "block";
-                break;
-            }
-            break;
-        }
-    }
-  }
-
-  getActiveStyles(called) {
-    const display = this.getDisplay();
-    const width = this.getWidth(true);
-    const height = this.getHeight(true);
-    const right = this.getRight(true);
-    const bottom = this.getBottom(true);
-    return {
-      display,
-      width,
-      height,
-      right,
-      bottom,
-    };
-  }
-
-  getOpenStyles(called) {
-    const display = this.getDisplay();
-    const width = this.getWidth(true);
-    const height = this.getHeight(true);
-    const right = this.getRight(true);
-    const bottom = this.getBottom(true);
-    return {
-      display,
-      width,
-      height,
-      right,
-      bottom,
-    };
   }
 }
 
