@@ -159,7 +159,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
             window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
-    return Icon.getTwitter({}, state, { active, href, onClick });
+    return Icon.getTwitter(state, {}, { active, href, onClick });
   }
 
   getFacebookIcon(state) {
@@ -174,7 +174,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
             window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
-    return Icon.getFacebook({}, state, { active, href, onClick });
+    return Icon.getFacebook(state, {}, { active, href, onClick });
   }
 
   getAppstoreIcon(state) {
@@ -189,7 +189,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
             window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
-    return Icon.getAppstore({}, state, { active, href, onClick });
+    return Icon.getAppstore(state, {}, { active, href, onClick });
   }
 
   getAndroidIcon(state) {
@@ -203,7 +203,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
             window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
-    return Icon.getAndroid({}, state, { active, href, onClick });
+    return Icon.getAndroid(state, {}, { active, href, onClick });
   }
 
   getHomeIcon(state) {
@@ -225,7 +225,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
             window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
-    return Icon.getHome({}, state, { active, href, onClick });
+    return Icon.getHome(state, {}, { active, href, onClick });
   }
 
   getTalknIcon(state) {
@@ -239,7 +239,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
             window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
-    return Icon.getTalkn({}, state, { active, href, onClick });
+    return Icon.getTalkn(state, {}, { active, href, onClick });
   }
 
   getDispContentType(contentType) {
@@ -270,8 +270,8 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
     // Default icons.
     const HomeIcon = this.getHomeIcon(state);
     const TalknIcon = this.getTalknIcon(state);
-    const GraphIcon = Icon.getGraph({}, state, { active: false });
-    const EmptyIcon = Icon.getEmpty({}, state, { active: false });
+    const GraphIcon = Icon.getGraph(state, {}, { active: false });
+    const EmptyIcon = Icon.getEmpty(state, {}, { active: false });
 
     // Content Type
     const dispContentType = this.getDispContentType(contentType);

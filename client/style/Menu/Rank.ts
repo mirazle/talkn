@@ -95,10 +95,12 @@ export default class Rank {
   }
 
   static getHeaderInput({ app, ui }) {
+    const fontSize = ui.screenMode === Ui.screenModeSmallLabel ? "0.9em" : "1em";
+    const lineHeight = ui.screenMode === Ui.screenModeSmallLabel ? "0.8em" : "0.9em";
     const layout = Style.getLayoutInlineBlock({
       width: "calc( 100% - 120px )",
-      height: "25px",
-      padding: "0px 0px 1px 10px",
+      height: "55%",
+      padding: "6px",
       background: Container.whiteRGB,
       outline: "none",
       resize: "none",
@@ -108,8 +110,10 @@ export default class Rank {
     });
     const content = Style.getContentBase({
       whiteSpace: "nowrap",
-      lineHeight: "2",
+      fontSize,
+      lineHeight,
       textAlign: "left",
+      textIndent: "3%",
     });
     const animation = Style.getAnimationBase();
 

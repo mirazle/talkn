@@ -183,7 +183,6 @@ export default class PostsFooter {
       margin: "0 3% 0 0",
       outline: "none",
       resize: "none",
-      lineHeight: "0.9",
       border: Container.border,
       borderRadius: "3px",
       WebkitAppearance: "none",

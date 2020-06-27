@@ -142,7 +142,7 @@ export default class MenuIndexList {
     const upperRankWrap = MenuIndexList.getUpperRankWrap();
     const upperRank = MenuIndexList.getUpperRank();
     const upperRight = MenuIndexList.getUpperRight();
-    const bottom = MenuIndexList.getBottom();
+    const bottom = MenuIndexList.getBottom(params);
     const bottomIcon = MenuIndexList.getBottomIcon(params);
     const bottomPost = MenuIndexList.getBottomPost();
     const bottomWatchCnt = MenuIndexList.getBottomWatchCnt();
@@ -271,12 +271,12 @@ export default class MenuIndexList {
     return Style.get({ layout, content, animation });
   }
 
-  static getBottom() {
+  static getBottom({ app, ui }) {
     const layout = Style.getLayoutFlex({
       justifyContent: "center",
       alignItems: "center",
       width: "100%",
-      height: "55px",
+      height: "60%",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -286,7 +286,7 @@ export default class MenuIndexList {
   static getBottomIcon({ app, ui }) {
     const layout = Style.getLayoutInlineBlock({
       width: "20%",
-      height: "50px",
+      height: "100%",
       backgroundImage: `url("${conf.assetsURL}/favicon.ico")`,
       backgroundPosition: "40% 50%",
       backgroundSize: `${Container.getFaviconSize({ app, ui })}px`,
@@ -298,12 +298,13 @@ export default class MenuIndexList {
   }
 
   static getBottomPost() {
-    const layout = Style.getLayoutInlineBlock({
+    const layout = Style.getLayoutInlineFlex({
       width: "60%",
+      height: "100%",
+      justifyContent: "flex-start",
     });
     const content = Style.getContentBase({
-      lineHeight: "4em",
-      textIndent: "4px",
+      textIndent: "3%",
       textAlign: "left",
       whiteSpace: "nowrap",
     });
@@ -314,6 +315,7 @@ export default class MenuIndexList {
   static getBottomWatchCnt() {
     const layout = Style.getLayoutInlineFlex({
       width: "20%",
+      height: "100%",
     });
     const content = Style.getContentBase({
       textAlign: "center",
