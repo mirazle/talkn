@@ -1,6 +1,5 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import App from "api/store/App";
 import Ui from "client/store/Ui";
 import util from "common/util";
@@ -46,7 +45,6 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
   }
 
   handleOnChange(e) {
-    console.log(e.target.value);
     if (!App.validInputPost(e.target.value)) {
       this.clientAction("ON_CHANGE_INPUT_POST", { ui: { inputPost: e.target.value } });
     }

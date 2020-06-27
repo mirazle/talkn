@@ -164,19 +164,18 @@ function post(self) {
       self.props.openNewPost();
     }
   };
-  if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
-    if (ui.screenMode === Ui.screenModeLargeLabel) {
-      postsScrollFunc();
-    } else {
-      window.talknWindow.scrollHeight = Posts.clientHeight;
-      if (ui.isOpenPosts && window.talknWindow.isScrollBottom) {
+
+  if (ui.screenMode === Ui.screenModeLargeLabel) {
+    postsScrollFunc();
+  } else {
+    window.talknWindow.scrollHeight = Posts.clientHeight;
+
+    if (ui.isOpenPosts) {
+      if (window.talknWindow.isScrollBottom) {
         window.talknWindow.animateScrollTo(window.talknWindow.scrollHeight, 400, self.props.endAnimateScrollTo);
-      }
-      if (ui.isOpenPosts) {
+      } else {
         self.props.openNewPost();
       }
     }
-  } else {
-    postsScrollFunc();
   }
 }
