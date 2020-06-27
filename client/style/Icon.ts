@@ -57,6 +57,7 @@ export default class Icon {
   update: Object;
   loading: Object;
   tune: Object;
+  liveCnt: Object;
   constructor(params: any) {
     const bootOption = { ...params.bootOption, ...params.app };
     const headTab = Icon.getHeadTab(params);
@@ -83,6 +84,7 @@ export default class Icon {
     const update = Icon.getUpdate(params);
     const loading = Icon.getLoading(params);
     const tune = Icon.getTune(params);
+    const liveCnt = Icon.getLiveCnt(params);
     return {
       headTab,
       menu,
@@ -108,6 +110,7 @@ export default class Icon {
       update,
       loading,
       tune,
+      liveCnt,
     };
   }
 
@@ -1253,7 +1256,7 @@ export default class Icon {
   static getDetail({ app, ui }: any) {
     const margin = ui.screenMode === Ui.screenModeSmallLabel ? "0" : "1px auto";
     const div = Style.get({
-      layout: Style.getLayoutFlex({
+      layout: Style.getLayoutInlineFlex({
         width: "40px",
         height: "100%",
         borderRadius: "100px",
@@ -2124,5 +2127,38 @@ export default class Icon {
       terminalRightBottom1,
       terminalRightBottom2,
     };
+  }
+
+  static getLiveCnt({ app, ui }: any) {
+    const div = Style.get({
+      layout: Style.getLayoutInlineFlex({
+        position: "absolute",
+        top: "0px",
+        left: "50%",
+        width: "28px",
+        height: "28px",
+        background: Container.themeRGBA,
+        borderRadius: "28px",
+      }),
+      content: Style.getContentBase({
+        fontSize: "0.8em",
+        lineHeight: 2,
+        textAlign: "center",
+      }),
+      animation: Style.getAnimationBase({}),
+    });
+
+    const circle = Style.get({
+      layout: Style.getLayoutInlineFlex({
+        width: "100%",
+        height: "100%",
+      }),
+      content: Style.getContentBase({
+        textAlign: "center",
+        color: Container.whiteRGB,
+      }),
+      animation: Style.getAnimationBase(),
+    });
+    return { div, circle };
   }
 }

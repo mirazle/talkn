@@ -247,8 +247,13 @@ export default class Icon extends TalknComponent<{}, {}> {
   }
 */
 
-  static getLiveCnt(state = {}, overStyle, option = {}) {
-    return Icon.generateImageIcon("Twitter", state, overStyle, option);
+  static getLiveCnt({ app, ui }, watchCnt = 0) {
+    const style = IconStyle.getLiveCnt({ app, ui });
+    return (
+      <span style={style.div}>
+        <span style={style.circle}>{watchCnt}</span>
+      </span>
+    );
   }
 
   static getTwitter(state = {}, overStyle, option = {}) {

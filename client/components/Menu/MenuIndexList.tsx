@@ -7,6 +7,7 @@ import util from "common/util";
 import conf from "client/conf";
 import MenuIndexListStyle from "client/style/Menu/MenuIndexList";
 import PostStyle from "client/style/Post";
+import Icon from "client/components/Icon";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
 
 interface MenuIndexListProps extends MarqueeAreaProps {
@@ -129,14 +130,15 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
 
   render() {
     const { style } = this.state;
-    const { app, thread, menuIndexList, rank } = this.props;
+    const { app, ui, thread, menuIndexList, rank } = this.props;
     const isRootCh = thread.ch === menuIndexList.ch ? true : false;
     const styleKey = isRootCh ? MenuIndexListStyle.activeLiSelfLabel : MenuIndexListStyle.unactiveLiSelfLabel;
     const title = app.rootCh === menuIndexList.ch ? app.rootTitle : menuIndexList.title;
+    const watchCnt = menuIndexList.watchCnt === 0 || menuIndexList.watchCnt > 0 ? menuIndexList.watchCnt : 0;
 
     const dispRank = this.renderRank(rank);
     const dispFavicon = this.renderDispFavicon();
-    const dispWatchCnt = this.renderDispWatchCnt(isRootCh);
+    const liveCnt = Icon.getLiveCnt({ app, ui }, watchCnt);
     const baseStyle = style[styleKey];
     const dispExt = menuIndexList.findType === Thread.findTypeHtml ? null : menuIndexList.findType;
     const marqueeStyle: any = this.getMarqueeStyle();
@@ -161,7 +163,7 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
         <div style={style.bottom}>
           <span style={{ ...style.bottomIcon, backgroundImage: `url( ${dispFavicon} )` }} />
           <span style={style.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(menuIndexList, app) }} />
-          {dispWatchCnt}
+          {liveCnt}
         </div>
 
         {dispExt && <span style={style[`ext${dispExt}`]}>{dispExt}</span>}
@@ -201,16 +203,6 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
     }
   }
 
-  renderDispWatchCnt(isRootCh) {
-    const { style } = this.state;
-    const { menuIndexList } = this.props;
-    const watchCnt = menuIndexList.watchCnt === 0 || menuIndexList.watchCnt > 0 ? menuIndexList.watchCnt : 0;
-    return (
-      <span style={style.bottomWatchCnt}>
-        <span style={style.bottomWatchCntWrap}>{watchCnt}</span>
-      </span>
-    );
-  }
   renderRank(rank) {
     let { upperRankWrap, upperRank } = this.state.style;
     if (rank) {
