@@ -2,7 +2,6 @@ import define from "./define";
 import os from "os";
 import process from "process";
 
-// TODO: ServerとClientに分けてCommonは無くす
 const { PRODUCTION, DEVELOPMENT, PRODUCTION_DOMAIN, DEVELOPMENT_DOMAIN, SUB_DOMAINS, PORTS } = define;
 const apiVer = 1;
 const hostName = os.hostname();
@@ -61,29 +60,17 @@ export default { ...conf };
 
 // TODO: Move to server conf( not use from client ).
 function getEnv(hostName) {
-  console.log(hostName);
-
   // from client.
   if (process.title === "browser") {
     if (hostName === define.DEVELOPMENT_DOMAIN) {
       const port = Number(location.port);
-      if (port === define.PORTS.DEVELOPMENT || port === define.PORTS.DEVELOPMENT_API) {
-        console.log("CLIENT DEVELOP");
-        return define.DEVELOPMENT;
-      }
-      console.log("CLIENT LOCALHOST");
-      return define.LOCALHOST;
+      return port === define.PORTS.DEVELOPMENT || port === define.PORTS.DEVELOPMENT_API
+        ? define.DEVELOPMENT
+        : define.LOCALHOST;
     }
-    console.log("CLIENT PRODUCTION");
     return define.PRODUCTION;
     // from server.
   } else {
-    if (hostName.indexOf(define.AWS_HOST_KEY) >= 0) {
-      console.log("SERVER PRODUCTION");
-      return define.PRODUCTION;
-    } else {
-      console.log("SERVER DEVEVLOP");
-      return define.DEVELOPMENT;
-    }
+    return hostName.indexOf(define.AWS_HOST_KEY) >= 0 ? define.PRODUCTION : define.DEVELOPMENT;
   }
 }
