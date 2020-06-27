@@ -483,9 +483,7 @@ export default class Detail {
       flexGrow: 1,
       height: "100%",
     });
-    const content = Style.getContentBase({
-      fontSize: "0.7em",
-    });
+    const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
   }
