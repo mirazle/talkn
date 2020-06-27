@@ -31,7 +31,6 @@ export default (state: any = {}, action: any) => {
     case "OFF_TRANSITION":
     case "ON_TRANSITION_END":
     case "bootExtension":
-      console.log(action);
       return new Style(action);
     case "TOGGLE_DISP_MAIN":
       return { ...state };
