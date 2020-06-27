@@ -248,7 +248,6 @@ export default class Container {
   }
 
   static getSelf({ app, ui, bootOption, type }): Object {
-    const overflow = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "hidden" : "inherit";
     let borderRadius = "0px";
     if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
       borderRadius = "3px";
@@ -258,7 +257,7 @@ export default class Container {
       display: "initial", // build to fixed components.
       width: "100%",
       height: "100%",
-      overflow,
+      overflow: "hidden",
       borderRadius,
       opacity: 1,
     });

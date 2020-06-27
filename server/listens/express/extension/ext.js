@@ -910,6 +910,7 @@ class Iframe extends Elements {
           "margin: 0 !important;" +
           "padding: 0 !important;" +
           `opacity: ${activeStyles.opacity} !important;` +
+          `overflow: hidden !important;` +
           `clip-path: inset(0px round 10px) !important;` +
           `-webkit-clip-path: inset(0px round 10px) !important;` +
           `transition: ${Styles.BASE_TRANSITION}ms !important;` +
@@ -920,6 +921,7 @@ class Iframe extends Elements {
         return (
           "" +
           `z-index: ${Styles.zIndex} !important;` +
+          `overflow: hidden !important;` +
           "display: none !important;" +
           "align-items: flex-end !important;" +
           "position: fixed !important; " +
@@ -938,6 +940,7 @@ class Iframe extends Elements {
         return (
           "" +
           `z-index: ${Styles.zIndex} !important;` +
+          `overflow: hidden !important;` +
           "display: none !important;" +
           "align-items: flex-end !important;" +
           "position: absolute !important; " +
