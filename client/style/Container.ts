@@ -333,8 +333,9 @@ export default class Container {
       position: "fixed",
       top: `100vh`,
       width: "100vw",
-      height: "300px",
+      height: "100vh",
       background: Container.reliefRGB,
+      zIndex: Container.maxZIndex,
     });
     const content = Style.getContentBase({});
     const animation = Style.getAnimationBase({});
