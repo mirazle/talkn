@@ -2,7 +2,6 @@ import conf from "common/conf";
 import Ui from "client/store/Ui";
 import Style from "../index";
 import Container from "../Container";
-import Main from "../Main";
 
 export default class Rank {
   static get iconSize() {

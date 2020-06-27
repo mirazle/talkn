@@ -129,8 +129,6 @@ export default class MenuIndexList {
   bottom: Object;
   bottomIcon: Object;
   bottomPost: Object;
-  bottomWatchCnt: Object;
-  bottomWatchCntWrap: Object;
   ext: Object;
   extMusic: Object;
   extVideo: Object;
@@ -145,8 +143,6 @@ export default class MenuIndexList {
     const bottom = MenuIndexList.getBottom(params);
     const bottomIcon = MenuIndexList.getBottomIcon(params);
     const bottomPost = MenuIndexList.getBottomPost();
-    const bottomWatchCnt = MenuIndexList.getBottomWatchCnt();
-    const bottomWatchCntWrap = MenuIndexList.getBottomWatchCntWrap();
     const ext = MenuIndexList.getExt();
     const extMusic = MenuIndexList.getExtMusic();
     const extVideo = MenuIndexList.getExtVideo();
@@ -161,8 +157,6 @@ export default class MenuIndexList {
       bottom,
       bottomIcon,
       bottomPost,
-      bottomWatchCnt,
-      bottomWatchCntWrap,
       ext,
       extMusic,
       extVideo,
@@ -307,36 +301,6 @@ export default class MenuIndexList {
       textIndent: "3%",
       textAlign: "left",
       whiteSpace: "nowrap",
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({ layout, content, animation });
-  }
-
-  static getBottomWatchCnt() {
-    const layout = Style.getLayoutInlineFlex({
-      width: "20%",
-      height: "100%",
-    });
-    const content = Style.getContentBase({
-      textAlign: "center",
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({ layout, content, animation });
-  }
-
-  static getBottomWatchCntWrap() {
-    const layout = Style.getLayoutInlineFlex({
-      position: "relative",
-      width: "28px",
-      height: "28px",
-      background: Container.themeRGBA,
-      borderRadius: "28px",
-    });
-    const content = Style.getContentBase({
-      fontSize: "0.8em",
-      lineHeight: 2,
-      textAlign: "center",
-      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });

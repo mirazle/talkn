@@ -74,9 +74,11 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
 
   renderRight() {
     const { handleOnClickToggleDetail } = this.props;
-    const { style } = this.props.state;
+    const { style, app, ui, thread } = this.props.state;
     const { icon: iconStyle } = style;
     const DetailIcon = Icon.getDetail(iconStyle.detail);
+    const liveCnt =
+      ui.screenMode === Ui.screenModeSmallLabel ? Icon.getLiveCnt({ app, ui }, thread.watchCnt) : undefined;
     return (
       <span
         data-component-name={`${this.constructor.name}-right`}
@@ -85,24 +87,8 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
         {...icon.getDecolationProps3("icon", "detail", "div")}
       >
         {DetailIcon}
-
-        {/* Watch Cnt */}
-        {this.renderWatchCntComponent()}
+        {liveCnt}
       </span>
     );
-  }
-
-  renderWatchCntComponent() {
-    const { style, thread, ui } = this.props.state;
-    if (ui.screenMode === Ui.screenModeSmallLabel) {
-      return (
-        <span data-component-name={"Header-WatchCnt"} style={style.header.childAnalyzeWrap}>
-          <div style={style.header.childAnalyzeType}>LIVE</div>
-          <div style={style.header.childAnalyzeCnt}>{thread.watchCnt}</div>
-        </span>
-      );
-    } else {
-      return undefined;
-    }
   }
 }
