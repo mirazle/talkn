@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-import conf from "client/conf";
+import conf from "common/conf";
 import define from "common/define";
 import PostMessage from "common/PostMessage";
 import ApiState from "api/store/";
