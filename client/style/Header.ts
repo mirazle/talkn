@@ -24,6 +24,7 @@ export default class Header {
   leftIcon: Object;
   userIcon: Object;
   userIconImg: Object;
+  liveCntWrap: Object;
   childAnalyzeWrap: Object;
   childAnalyzeType: Object;
   childAnalyzeCnt: Object;
@@ -35,6 +36,7 @@ export default class Header {
     const leftIcon = Header.getLeftIcon(params);
     const userIcon = Header.getUserIcon(params);
     const userIconImg = Header.getUserIconImg(params);
+    const liveCntWrap = Header.getLiveCntWrap(params);
     const childAnalyzeWrap = Header.getChildAnalyzeWrap(params);
     const childAnalyzeType = Header.getChildAnalyzeType(params);
     const childAnalyzeCnt = Header.getChildAnalyzeCnt(params);
@@ -47,6 +49,7 @@ export default class Header {
       leftIcon,
       userIcon,
       userIconImg,
+      liveCntWrap,
       childAnalyzeWrap,
       childAnalyzeType,
       childAnalyzeCnt,
@@ -152,6 +155,19 @@ export default class Header {
     const layout = Style.getLayoutInlineBlock({
       width: "30px",
       margin: "0px 10px 0px 0px",
+    });
+    const content = {};
+    const animation = Style.getAnimationBase();
+    return Style.get({ layout, content, animation });
+  }
+
+  static getLiveCntWrap(params) {
+    const layout = Style.getLayoutInlineBlock({
+      position: "absolute",
+      width: "100%",
+      height: "100%",
+      top: "0px",
+      left: "15%",
     });
     const content = {};
     const animation = Style.getAnimationBase();

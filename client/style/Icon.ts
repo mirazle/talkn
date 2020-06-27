@@ -2131,10 +2131,7 @@ export default class Icon {
 
   static getLiveCnt({ app, ui }: any) {
     const div = Style.get({
-      layout: Style.getLayoutInlineFlex({
-        position: "absolute",
-        top: "0px",
-        left: "50%",
+      layout: Style.getLayoutInlineBlock({
         width: "28px",
         height: "28px",
         background: Container.themeRGBA,
