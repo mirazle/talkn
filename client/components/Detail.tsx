@@ -10,7 +10,7 @@ import DetailFooter from "client/components/DetailFooter";
 import EmotionGraph from "client/components/EmotionGraph";
 import LockMenu from "client/components/LockMenu";
 import Icon from "client/components/Icon";
-console.log(conf);
+
 interface DetailProps {
   onClickOpenLockMenu?: any;
   handleOnClickToggleDetail?: any;
