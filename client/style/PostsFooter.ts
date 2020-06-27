@@ -172,6 +172,8 @@ export default class PostsFooter {
 
   static getTextarea({ app, ui }) {
     const width = ui.extensionMode === Ui.extensionModeExtModalLabel ? "60%" : "54%";
+    const fontSize = ui.screenMode === Ui.screenModeSmallLabel ? "0.9em" : "1em";
+    const lineHeight = ui.screenMode === Ui.screenModeSmallLabel ? "0.8em" : "0.9em";
     const layout = Style.getLayoutInlineBlock({
       width,
       maxWidth: width,
@@ -187,6 +189,8 @@ export default class PostsFooter {
       WebkitAppearance: "none",
     });
     const content = Style.getContentBase({
+      fontSize,
+      lineHeight,
       textAlign: "left",
       textIndent: "3%",
     });
