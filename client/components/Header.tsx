@@ -55,9 +55,9 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
   }
 
   renderLeft() {
-    const { ui, style } = this.props.state;
+    const { app, ui, style } = this.props.state;
     const { icon: IconStyle } = style;
-    const HeaderUserIcon = Icon.getHeaderUser();
+    const HeaderUserIcon = Icon.getHeaderUser({ app, ui });
     const MenuIcon = Icon.getMenu(IconStyle.menu);
 
     return (

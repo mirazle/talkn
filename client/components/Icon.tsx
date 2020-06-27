@@ -313,8 +313,8 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getUser(overStyle = {}) {
-    const style: any = Icon.getOveredStyle(IconStyle.getUser({}), overStyle);
+  static getUser({ app, ui }: any, overStyle = {}) {
+    const style: any = Icon.getOveredStyle(IconStyle.getUser({ app, ui }), overStyle);
     return (
       <div data-component-type={"IconUser"} style={style.div}>
         <span style={style.bottom}></span>
@@ -323,8 +323,8 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getHeaderUser(overStyle = {}) {
-    const style: any = Icon.getOveredStyle(IconStyle.getHeaderUser({}), overStyle);
+  static getHeaderUser({ app, ui }: any, overStyle = {}) {
+    const style: any = Icon.getOveredStyle(IconStyle.getHeaderUser({ app, ui }), overStyle);
     return (
       <div data-component-type={"IconUser"} style={style.div}>
         <span style={style.bottom}></span>
@@ -333,8 +333,8 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getLogs(overStyle) {
-    const style: any = Icon.getOveredStyle(IconStyle.getLogs({}), overStyle);
+  static getLogs({ app, ui }: any, overStyle = {}) {
+    const style: any = Icon.getOveredStyle(IconStyle.getLogs({ app, ui }), overStyle);
     return (
       <div data-component-type={"IconLogs"} style={style.div}>
         <div style={style.foot1}>
@@ -351,8 +351,8 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getSetting(overStyle) {
-    const style: any = Icon.getOveredStyle(IconStyle.getSetting({}), overStyle);
+  static getSetting({ app, ui }: any, overStyle = {}) {
+    const style: any = Icon.getOveredStyle(IconStyle.getSetting({ app, ui }), overStyle);
     return (
       <div data-component-type={"IconSetting"} style={style.div}>
         <div style={style.wing1} />
@@ -378,8 +378,8 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getIndex(overStyle) {
-    const style: any = Icon.getOveredStyle(IconStyle.getIndex({}), overStyle);
+  static getIndex({ app, ui }, overStyle: any = {}) {
+    const style: any = Icon.getOveredStyle(IconStyle.getIndex({ app, ui }), overStyle);
     return (
       <div data-component-type={"IconIndex"} style={style.div}>
         <div style={style.wrap}>

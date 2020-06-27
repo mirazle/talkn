@@ -531,7 +531,7 @@ export default class Icon {
     return { div, circle, bar };
   }
 
-  static getUser({ app, ui }: any) {
+  static getUser({ app, ui }) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         width: "24px",
@@ -552,7 +552,7 @@ export default class Icon {
         height: "14px",
         borderRadius: "10px",
         position: "relative",
-        top: "-16px",
+        top: "-17px",
         border: "3px solid rgb(250, 250, 250)",
       }),
       content: Style.getContentBase(),
@@ -569,7 +569,7 @@ export default class Icon {
         height: "16px",
         borderRadius: "6px",
         position: "relative",
-        top: "8px",
+        top: "7px",
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -1446,7 +1446,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: "rotate(-45deg) translate3d(0px, 7px, 0px)",
+        transform: "rotate(-45deg) translate3d(0px, 6px, 0px)",
       }),
     });
 
@@ -1459,7 +1459,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: "rotate(-45deg) translate3d(11px, -1px, 0px)",
+        transform: "rotate(-45deg) translate3d(11px, -2px, 0px)",
       }),
     });
     return { div, before, after };
