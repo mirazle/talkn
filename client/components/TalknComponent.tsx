@@ -107,7 +107,6 @@ export default class TalknComponent<P, S> extends Component<P, S> {
             // UI上、重なるTIME MARKERを非表示にする
             timeMarkerList.style.opacity = 0;
           }
-          console.log("EXE GET MORE " + actionLog[0]);
           window.talknWindow.exeGetMore(this.clientStore);
         }
       }
@@ -123,7 +122,6 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     if (uiTimeMarker.now.label !== newUiTimeMarker.now.label) {
       this.clientAction("ON_SCROLL_UPDATE_TIME_MARKER", { uiTimeMarker: newUiTimeMarker });
     }
-
     window.talknWindow.scrollTop = scrollTop;
     window.talknWindow.scrollHeight = scrollHeight;
     window.talknWindow.clientHeight = clientHeight;
