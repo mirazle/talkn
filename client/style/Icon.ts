@@ -1871,13 +1871,13 @@ export default class Icon {
     const circle = Style.get({
       layout: Style.getLayoutBase({
         margin: "0 auto",
-        width: "5em",
-        height: "5em",
+        width: "2em",
+        height: "2em",
         borderRadius: "50%",
-        borderTop: `0.6em solid rgba(255, 255, 255, 0.2)`,
-        borderRight: "0.6em solid rgba(255, 255, 255, 0.2)",
-        borderBottom: "0.6em solid rgba(255, 255, 255, 0.2)",
-        borderLeft: "0.6em solid #ffffff",
+        borderTop: `0.3em solid rgba(255, 255, 255, 0.2)`,
+        borderRight: "0.3em solid rgba(255, 255, 255, 0.2)",
+        borderBottom: "0.3em solid rgba(255, 255, 255, 0.2)",
+        borderLeft: "0.3em solid #ffffff",
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
@@ -1890,8 +1890,8 @@ export default class Icon {
       layout: Style.getLayoutBase({
         display: "none",
         borderRadius: "50%",
-        width: "5em",
-        height: "5em",
+        width: "2em",
+        height: "2em",
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({}),

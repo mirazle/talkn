@@ -196,11 +196,6 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   render() {
     const { style, ui, app } = this.props.state;
     if (app.tuned) {
-      /*
-      if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
-        return this.renderExtension();
-      } else {
-*/
       switch (ui.screenMode) {
         case Ui.screenModeSmallLabel:
           return this.renderSmall();
@@ -210,13 +205,6 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
           return this.renderLarge();
       }
     }
-    /*
-  } else {
-      if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
-        return null;
-      }
-    }
-*/
     return <LoadingLogo {...this.props} />;
   }
 
