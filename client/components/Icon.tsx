@@ -17,7 +17,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     return IconStyle.bigSize;
   }
 
-  static generateImageIcon(name = "Twitter", overStyle, state: any = {}, option: any = {}) {
+  static generateImageIcon(name = "Twitter", state: any = {}, overStyle, option: any = {}) {
     if (IconStyle[`get${name}`]) {
       const onClick = option.onClick ? option.onClick : () => {};
       const href = option.href ? option.href : "";
@@ -226,7 +226,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     };
   }
 
-  static getEmpty(overStyle, state: any = {}, option: any = {}) {
+  static getEmpty(state: any = {}, overStyle, option: any = {}) {
     const style = Icon.getOveredStyle(IconStyle.getEmpty(state, option), overStyle);
     return <div data-component-type={"IconEmpty"} style={style} />;
   }
@@ -246,34 +246,39 @@ export default class Icon extends TalknComponent<{}, {}> {
     }
   }
 */
-  static getTwitter(overStyle, state = {}, option = {}) {
-    return Icon.generateImageIcon("Twitter", overStyle, state, option);
+
+  static getLiveCnt(state = {}, overStyle, option = {}) {
+    return Icon.generateImageIcon("Twitter", state, overStyle, option);
   }
 
-  static getFacebook(overStyle, state = {}, option = {}) {
-    return Icon.generateImageIcon("Facebook", overStyle, state, option);
+  static getTwitter(state = {}, overStyle, option = {}) {
+    return Icon.generateImageIcon("Twitter", state, overStyle, option);
   }
 
-  static getAppstore(overStyle, state = {}, option = {}) {
-    return Icon.generateImageIcon("Appstore", overStyle, state, option);
+  static getFacebook(state = {}, overStyle, option = {}) {
+    return Icon.generateImageIcon("Facebook", state, overStyle, option);
   }
 
-  static getAndroid(overStyle, state = {}, option = {}) {
-    return Icon.generateImageIcon("Android", overStyle, state, option);
+  static getAppstore(state = {}, overStyle, option = {}) {
+    return Icon.generateImageIcon("Appstore", state, overStyle, option);
   }
 
-  static getHome(overStyle, state = {}, option = {}) {
-    return Icon.generateImageIcon("Home", overStyle, state, option);
+  static getAndroid(state = {}, overStyle, option = {}) {
+    return Icon.generateImageIcon("Android", state, overStyle, option);
   }
 
-  static getGraph(overStyle, state: any = {}, option: any = {}) {
+  static getHome(state = {}, overStyle, option = {}) {
+    return Icon.generateImageIcon("Home", state, overStyle, option);
+  }
+
+  static getGraph(state: any = {}, overStyle, option: any = {}) {
     const onClick = option.onClick ? option.onClick : () => {};
     const style = Icon.getOveredStyle(IconStyle.getGraph(state, option), overStyle);
     return <div data-component-type={"IconGraph"} onClick={onClick} style={style} />;
   }
 
-  static getTalkn(overStyle, state = {}, option = {}) {
-    return Icon.generateImageIcon("Talkn", overStyle, state, option);
+  static getTalkn(state = {}, overStyle, option = {}) {
+    return Icon.generateImageIcon("Talkn", state, overStyle, option);
   }
 
   static getTalknLogo(style) {
@@ -281,7 +286,7 @@ export default class Icon extends TalknComponent<{}, {}> {
   }
 
   static getChromeExtension(overStyle, state = {}, option = {}) {
-    return Icon.generateImageIcon("ChromeExtension", overStyle, state, option);
+    return Icon.generateImageIcon("ChromeExtension", state, overStyle, option);
   }
 
   static getTag(style) {

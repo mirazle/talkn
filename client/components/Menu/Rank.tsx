@@ -127,14 +127,7 @@ export default class Rank extends TalknComponent<RankProps, RankState> {
       <nav data-component-name={"Rank"} style={style.rank.self}>
         <header style={style.rank.header}>
           <div style={style.rank.headerSearchIcon}>{IconTune}</div>
-          <input
-            type={"text"}
-            style={style.rank.headerInput}
-            onChange={this.handleOnChange}
-            onKeyPress={this.handleOnKeyPress}
-            placeholder={"CH"}
-            value={this.state.rootCh}
-          />
+          <div style={style.rank.headerInput}>{this.state.rootCh}</div>
           <div
             style={headerUpdateIconStyle}
             //            onClick={this.handleOnClickUpdate}
