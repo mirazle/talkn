@@ -13,10 +13,9 @@ const {
   SUB_DOMAINS,
   PORTS,
 } = define;
-const awsHostKey = "ec2.internal";
 const apiVer = 1;
 const hostName = os.hostname();
-const env = getEnv(hostName, awsHostKey);
+const env = getEnv(hostName);
 const isDev = env === DEVELOPMENT;
 const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN;
 const wwwURL = `${SUB_DOMAINS.WWW}.${domain}`;
@@ -70,18 +69,30 @@ const conf: any = {
 export default { ...conf };
 
 // TODO: Move to server conf( not use from client ).
-function getEnv(hostName, awsHostKey) {
-  if (hostName.indexOf(awsHostKey) >= 0) {
-    return define.PRODUCTION;
-  }
+function getEnv(hostName) {
   console.log(hostName);
-  if (hostName === define.DEVELOPMENT_DOMAIN) {
-    if (process.title === "browser") {
+
+  // from client.
+  if (process.title === "browser") {
+    if (hostName === define.DEVELOPMENT_DOMAIN) {
       const port = Number(location.port);
       if (port === define.PORTS.DEVELOPMENT || port === define.PORTS.DEVELOPMENT_API) {
+        console.log("CLIENT DEVELOP");
         return define.DEVELOPMENT;
       }
+      console.log("CLIENT LOCALHOST");
+      return define.LOCALHOST;
     }
-    return define.LOCALHOST;
+    console.log("CLIENT PRODUCTION");
+    return define.PRODUCTION;
+    // from server.
+  } else {
+    if (hostName.indexOf(define.AWS_HOST_KEY) >= 0) {
+      console.log("SERVER PRODUCTION");
+      return define.PRODUCTION;
+    } else {
+      console.log("SERVER DEVEVLOP");
+      return define.DEVELOPMENT;
+    }
   }
 }

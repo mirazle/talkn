@@ -7,6 +7,7 @@ const define: any = {
   PRODUCTION_IP: hostName,
   PRODUCTION_DOMAIN: "talkn.io",
   DEVELOPMENT_DOMAIN: "localhost",
+  AWS_HOST_KEY: "ec2.internal",
   PORTS: {
     HTTP: 80,
     HTTPS: 443,
