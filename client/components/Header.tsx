@@ -87,7 +87,7 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
         {...icon.getDecolationProps3("icon", "detail", "div")}
       >
         {DetailIcon}
-        {liveCnt}
+        <div style={style.header.liveCntWrap}>{liveCnt}</div>
       </span>
     );
   }
