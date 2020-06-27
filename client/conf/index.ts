@@ -1,14 +1,9 @@
 import process from "process";
-import Sequence from "api/Sequence";
 import define from "common/define";
 import conf from "common/conf";
 
 if (process.title === "browser") {
   const { SUB_DOMAINS, DEVELOPMENT } = define;
-  conf.domain =
-    location.href.indexOf(`${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}`) === 0
-      ? define.DEVELOPMENT_DOMAIN
-      : define.PRODUCTION_DOMAIN;
   const existLocation = typeof location === "object" ? true : false;
   conf.mediaSecondInterval = 200;
   conf.screenMode = {
