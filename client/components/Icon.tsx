@@ -33,11 +33,11 @@ export default class Icon extends TalknComponent<{}, {}> {
 
       return <div data-component-type={`Icon${name}`} style={style} />;
     }
-    return null;
+    return undefined;
   }
 
   static getOveredStyle(baseStyle = {}, overStyle = {}) {
-    Object.keys(overStyle).forEach(key => {
+    Object.keys(overStyle).forEach((key) => {
       if (baseStyle[key]) {
         if (typeof baseStyle[key] === "object") {
           baseStyle[key] = { ...baseStyle[key], ...overStyle[key] };
@@ -65,8 +65,8 @@ export default class Icon extends TalknComponent<{}, {}> {
             transition: "200ms",
             transform: "scale( 1 )",
             borderRadius: "100px",
-            cursor: "pointer"
-          }
+            cursor: "pointer",
+          },
         });
       },
       onMouseLeave: () => {
@@ -79,8 +79,8 @@ export default class Icon extends TalknComponent<{}, {}> {
             transition: "600ms",
             transform: "scale( 1 )",
             borderRadius: "100px",
-            cursor: "default"
-          }
+            cursor: "default",
+          },
         });
       },
       onMouseDown: () => {
@@ -92,8 +92,8 @@ export default class Icon extends TalknComponent<{}, {}> {
             boxShadow: "0px 0px 30px rgba(235, 235, 235, 0.7) inset ",
             transform: "scale( 0.8 )",
             borderRadius: "100px",
-            cursor: "pointer"
-          }
+            cursor: "pointer",
+          },
         });
       },
       onMouseUp: () => {
@@ -105,10 +105,10 @@ export default class Icon extends TalknComponent<{}, {}> {
             boxShadow: "0px 0px 20px rgba(240, 240, 240, 0.7) inset",
             transform: "scale( 1 )",
             borderRadius: "100px",
-            cursor: "pointer"
-          }
+            cursor: "pointer",
+          },
         });
-      }
+      },
     };
   }
 
@@ -124,8 +124,8 @@ export default class Icon extends TalknComponent<{}, {}> {
             transition: "200ms",
             transform: "scale( 1 )",
             borderRadius: "0px",
-            cursor: "pointer"
-          }
+            cursor: "pointer",
+          },
         });
       },
       onMouseLeave: () => {
@@ -138,8 +138,8 @@ export default class Icon extends TalknComponent<{}, {}> {
             transition: "600ms",
             transform: "scale( 1 )",
             borderRadius: "0px",
-            cursor: "default"
-          }
+            cursor: "default",
+          },
         });
       },
       onMouseDown: () => {
@@ -151,8 +151,8 @@ export default class Icon extends TalknComponent<{}, {}> {
             boxShadow: "0px 0px 30px rgba(200, 200, 200, 0.7) inset ",
             transform: "scale( 0.8 )",
             borderRadius: "0px",
-            cursor: "pointer"
-          }
+            cursor: "pointer",
+          },
         });
       },
       onMouseUp: () => {
@@ -164,10 +164,10 @@ export default class Icon extends TalknComponent<{}, {}> {
             boxShadow: "0px 0px 20px rgba(240, 240, 240, 0.7) inset",
             transform: "scale( 1 )",
             borderRadius: "0px",
-            cursor: "pointer"
-          }
+            cursor: "pointer",
+          },
         });
-      }
+      },
     };
   }
 
@@ -182,8 +182,8 @@ export default class Icon extends TalknComponent<{}, {}> {
             boxShadow: "0px 0px 20px rgba(240, 240, 240, 0.7 ) inset",
             transition: "200ms",
             transform: "scale( 1 )",
-            cursor: "pointer"
-          }
+            cursor: "pointer",
+          },
         });
       },
       onMouseLeave: () => {
@@ -195,8 +195,8 @@ export default class Icon extends TalknComponent<{}, {}> {
             boxShadow: "0px 0px 0px rgba(240, 240, 240, 0.7)",
             transition: "600ms",
             transform: "scale( 1 )",
-            cursor: "default"
-          }
+            cursor: "default",
+          },
         });
       },
       onMouseDown: () => {
@@ -207,8 +207,8 @@ export default class Icon extends TalknComponent<{}, {}> {
           style: {
             boxShadow: "0px 0px 30px rgba(235, 235, 235, 0.7) inset ",
             transform: "scale( 0.8 )",
-            cursor: "pointer"
-          }
+            cursor: "pointer",
+          },
         });
       },
       onMouseUp: () => {
@@ -219,10 +219,10 @@ export default class Icon extends TalknComponent<{}, {}> {
           style: {
             boxShadow: "0px 0px 20px rgba(240, 240, 240, 0.7) inset",
             transform: "scale( 1 )",
-            cursor: "pointer"
-          }
+            cursor: "pointer",
+          },
         });
-      }
+      },
     };
   }
 
