@@ -1,7 +1,6 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
-import conf from "common/conf";
+import conf from "client/conf";
 import define from "common/define";
 import Sequence from "api/Sequence";
 import Ui from "client/store/Ui";
@@ -11,7 +10,7 @@ import DetailFooter from "client/components/DetailFooter";
 import EmotionGraph from "client/components/EmotionGraph";
 import LockMenu from "client/components/LockMenu";
 import Icon from "client/components/Icon";
-
+console.log(conf);
 interface DetailProps {
   onClickOpenLockMenu?: any;
   handleOnClickToggleDetail?: any;
@@ -160,7 +159,6 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
             window.talknWindow.parentExtTo("linkTo", { href });
           }
         : () => {};
-    console.log(href);
     return Icon.getTwitter({}, state, { active, href, onClick });
   }
 
