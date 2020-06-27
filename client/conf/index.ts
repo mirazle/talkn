@@ -4,20 +4,17 @@ import conf from "common/conf";
 
 if (process.title === "browser") {
   const { SUB_DOMAINS, DEVELOPMENT } = define;
-  const existLocation = typeof location === "object" ? true : false;
+  const { env, domain } = conf;
   conf.mediaSecondInterval = 200;
   conf.screenMode = {
     small: 600,
     middle: 960,
   };
-  conf.protcol = existLocation ? (location.href.indexOf("https") === 0 ? "https" : "http") : "";
-  conf.portalPath =
-    conf.env === DEVELOPMENT ? `//${SUB_DOMAINS.PORTAL}.${conf.domain}/` : `//${SUB_DOMAINS.PORTAL}.${conf.domain}/`;
-  conf.clientPath = `//${SUB_DOMAINS.CLIENT}.${conf.domain}/`;
-  conf.assetsPath = `//${SUB_DOMAINS.ASSETS}.${conf.domain}/`;
-  conf.sessionPath = `//${SUB_DOMAINS.SESSION}.${conf.domain}/`;
+  conf.portalPath = env === DEVELOPMENT ? `//${SUB_DOMAINS.PORTAL}.${domain}/` : `//${SUB_DOMAINS.PORTAL}.${domain}/`;
+  conf.clientPath = `//${SUB_DOMAINS.CLIENT}.${domain}/`;
+  conf.assetsPath = `//${SUB_DOMAINS.ASSETS}.${domain}/`;
+  conf.sessionPath = `//${SUB_DOMAINS.SESSION}.${domain}/`;
   conf.cacheKey = { index: "talknIndexList", setting: "talknSettingParams" };
-  conf.assetsIconPath = `${SUB_DOMAINS.ASSETS}.${conf.domain}/icon/`;
 }
 
 export default conf;
