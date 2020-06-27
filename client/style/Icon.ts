@@ -21,6 +21,18 @@ export default class Icon {
     return "64px";
   }
 
+  static get smallMargin() {
+    return 2;
+  }
+
+  static get largeMargin() {
+    return 4;
+  }
+
+  static getMargin({ app, ui }) {
+    return ui.screenMode === Ui.screenModeSmallLabel ? Icon.smallMargin : Icon.largeMargin;
+  }
+
   headTab: Object;
   menu: Object;
   talknLogo: Object;
@@ -524,7 +536,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: "24px",
         height: Icon.smallSize,
-        margin: "4px",
+        margin: `${Icon.getMargin({ app, ui })}px`,
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -622,7 +634,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: "24px",
         height: Icon.smallSize,
-        margin: "4px",
+        margin: `${Icon.getMargin({ app, ui })}px`,
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -685,7 +697,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: "24px",
         height: Icon.smallSize,
-        margin: "4px",
+        margin: `${Icon.getMargin({ app, ui })}px`,
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -840,7 +852,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: "24px",
         height: Icon.smallSize,
-        margin: "4px",
+        margin: `${Icon.getMargin({ app, ui })}px`,
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -1337,7 +1349,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: "40px",
         height: "40px",
-        margin: "4px auto 0px auto",
+        margin: `${Icon.getMargin({ app, ui })}px`,
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -1419,7 +1431,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: Icon.smallSize,
         height: Icon.smallSize,
-        margin: "4px",
+        margin: `${Icon.getMargin({ app, ui })}px`,
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({}),
@@ -1459,7 +1471,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: Icon.smallSize,
         height: Icon.smallSize,
-        margin: "4px",
+        margin: `${Icon.getMargin({ app, ui })}px`,
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({}),
@@ -1555,7 +1567,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: Icon.smallSize,
         height: Icon.smallSize,
-        margin: "4px",
+        margin: `${Icon.getMargin({ app, ui })}px`,
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({}),

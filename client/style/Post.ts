@@ -65,8 +65,8 @@ export default class Post {
   }
 
   static getSelf({ app, ui }) {
-    const padding = ui.isBubblePost ? "10px 0" : 0;
-    const margin = ui.isBubblePost ? "5px 0" : 0;
+    const padding = ui.isBubblePost ? "5px 0" : "0";
+    const margin = ui.isBubblePost ? "5px 0" : "0";
     const minHeight = ui.isBubblePost ? "75px" : "40px";
     const width = "calc( 100% - 0px )";
     const layout = Style.getLayoutBlock({
