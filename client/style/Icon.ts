@@ -2132,14 +2132,13 @@ export default class Icon {
   static getLiveCnt({ app, ui }: any) {
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
-        width: "28px",
-        height: "28px",
+        width: "26px",
+        height: "26px",
         background: Container.themeRGBA,
-        borderRadius: "28px",
+        borderRadius: "26px",
       }),
       content: Style.getContentBase({
         fontSize: "0.8em",
-        lineHeight: 2,
         textAlign: "center",
       }),
       animation: Style.getAnimationBase({}),
