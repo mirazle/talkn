@@ -91,7 +91,7 @@ export default class Menu {
       minHeight: "auto",
       maxHeight: "auto",
       margin: `0`,
-      background,
+      //      background,
       WebkitOverflowScrolling: "touch",
       overflow: "hidden",
       zIndex: 10,

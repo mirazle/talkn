@@ -259,7 +259,8 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
 
     if (updateWindow) {
       ui.screenMode = Ui.getScreenMode();
-      this.clientAction("ON_RESIZE_END_WINDOW", { ui });
+      clientStore.ui = ui;
+      this.clientAction("ON_RESIZE_END_WINDOW", clientStore);
     }
   }
 

@@ -21,6 +21,7 @@ import Post from "client/style/Post";
 import Icon from "client/style/Icon";
 import Audio from "client/style/Media/Audio";
 import Video from "client/style/Media/Video";
+import Rank from "client/style/Menu/Rank";
 
 export default (state: any = {}, action: any) => {
   switch (action.type) {
@@ -34,6 +35,14 @@ export default (state: any = {}, action: any) => {
       return new Style(action);
     case "TOGGLE_DISP_MAIN":
       return { ...state };
+    case "API_TO_CLIENT[EMIT]:rank":
+      return {
+        ...state,
+        rank: {
+          ...state.rank,
+          ol: Rank.getOl(action),
+        },
+      };
     case "ON_CLICK_MULTISTREAM":
       return {
         ...state,

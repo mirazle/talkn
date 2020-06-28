@@ -296,6 +296,13 @@ export default class Style {
     return { ...baseLayout, ...style };
   }
 
+  static getLayoutGrid(style = {}): Object {
+    const blockLayout: Object = Style.getLayoutBase({
+      display: "grid",
+    });
+    return { ...blockLayout, ...style };
+  }
+
   static getLayoutFlex(style = {}): Object {
     const blockLayout: Object = Style.getLayoutBase({
       display: "flex",
