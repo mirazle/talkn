@@ -1265,7 +1265,7 @@ class HandleIcon extends Elements {
             break;
           case Ext.DISPLAY_MODE_OPEN:
             const { inputPost } = this.window;
-            if (inputPost !== "" && !regex.test(inputPost)) {
+            if (inputPost && inputPost !== "" && !regex.test(inputPost)) {
               const inputCurrentTime = Window.getCurrentTime(this.window.handleMediaCurrentTime);
               this.window.apiTo("post", { app: { inputPost, inputCurrentTime } });
               this.window.clientTo("ON_CHANGE_INPUT_POST", { ui: { inputPost: "" } });
