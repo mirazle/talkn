@@ -260,7 +260,7 @@ export default class Posts {
       width,
       margin,
       height: `calc( 100% - ${Container.getBlockSize({ app, ui })}px )`,
-      minHeight: "inherit",
+      minHeight: "100vh",
       borderRight,
       borderLeft,
     });
