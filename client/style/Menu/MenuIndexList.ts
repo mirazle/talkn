@@ -39,22 +39,22 @@ export default class MenuIndexList {
   }
 
   static get activeLiSelfBackground() {
-    return Container.whiteRGB;
+    return Container.whiteRGBA;
   }
   static get activeLiSelfMouseOverBackground() {
-    return Container.whiteRGB;
+    return Container.whiteRGBA;
   }
   static get activeLiSelfMouseDownBackground() {
-    return Container.whiteRGB;
+    return Container.whiteRGBA;
   }
   static get unactiveLiSelfBackground() {
-    return Container.calmRGB;
+    return Container.calmRGBA;
   }
   static get unactiveLiSelfMouseOverBackground() {
-    return Container.whiteRGB;
+    return Container.whiteRGBA;
   }
   static get unactiveLiSelfMouseDownBackground() {
-    return Container.whiteRGB;
+    return Container.whiteRGBA;
   }
 
   static get activeLiSelfBorderRightColor() {
@@ -121,6 +121,7 @@ export default class MenuIndexList {
 
   activeLiSelf: Object;
   unactiveLiSelf: Object;
+  space: Object;
   upper: Object;
   upperSpace: Object;
   upperRankWrap: Object;
@@ -135,6 +136,7 @@ export default class MenuIndexList {
   constructor(params) {
     const activeLiSelf = MenuIndexList.getActiveLiSelf(params);
     const unactiveLiSelf = MenuIndexList.getUnactiveLiSelf(params);
+    const space = MenuIndexList.getSpace(params);
     const upper = MenuIndexList.getUpper();
     const upperSpace = MenuIndexList.getUpperSpace();
     const upperRankWrap = MenuIndexList.getUpperRankWrap();
@@ -149,6 +151,7 @@ export default class MenuIndexList {
     return {
       activeLiSelf,
       unactiveLiSelf,
+      space,
       upper,
       upperSpace,
       upperRankWrap,
@@ -164,9 +167,11 @@ export default class MenuIndexList {
   }
 
   static getActiveLiSelf({ app, ui }) {
+    const height = Container.getBlockSize({ app, ui }) * 2;
     const layout = Style.getLayoutBlock({
       width: "initial",
-      height: `${Container.getBlockSize({ app, ui }) * 2}px`,
+      height,
+      minHeight: height,
       padding: "5px",
       borderTop: 0,
       borderRight: `1px solid ${Container.whiteRGB}`,
@@ -184,10 +189,12 @@ export default class MenuIndexList {
 
   static getUnactiveLiSelf({ app, ui }) {
     const borders = MenuIndexList.getUnactiveLiBorder({ app, ui });
+    const height = Container.getBlockSize({ app, ui }) * 2;
     const layout = Style.getLayoutBlock({
       boxShadow: `${Container.lineShadow}`,
       width: "initial",
-      height: `${Container.getBlockSize({ app, ui }) * 2}px`,
+      height,
+      minHeight: height,
       padding: "5px",
       ...borders,
       background: MenuIndexList.unactiveLiSelfBackground,
@@ -198,6 +205,16 @@ export default class MenuIndexList {
       transition: `${Container.transitionFirstOn}ms`,
     });
 
+    return Style.get({ layout, content, animation });
+  }
+
+  static getSpace({ app, ui }) {
+    const layout = Style.getLayoutBlock({
+      height: "100%",
+      background: Container.silverRGBA,
+    });
+    const content = Style.getContentBase({});
+    const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
   }
 

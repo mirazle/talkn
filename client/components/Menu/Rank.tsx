@@ -143,7 +143,10 @@ export default class Rank extends TalknComponent<RankProps, RankState> {
           </div>
         </header>
 
-        <ol style={style.rank.ol}>{this.renderLi()}</ol>
+        <ol style={style.rank.ol}>
+          {this.renderLi()}
+          <li style={style.menuIndexList.space}></li>
+        </ol>
       </nav>
     );
   }

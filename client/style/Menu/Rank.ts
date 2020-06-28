@@ -155,9 +155,19 @@ export default class Rank {
     return Style.get({ layout, content, animation });
   }
 
-  static getOl({ app, ui }) {
-    const layout = Style.getLayoutBlock({
-      width: "100%",
+  static getOl({ app, ui, rank }) {
+    console.log(rank.length);
+    let gridTemplateRows = "1fr";
+    const rankCnt = rank.length;
+    const height = Container.getBlockSize({ app, ui }) * 2;
+
+    for (let i = 0; i < rankCnt; i++) {
+      gridTemplateRows = `${height}px ` + gridTemplateRows;
+    }
+
+    const layout = Style.getLayoutGrid({
+      gridTemplateRows,
+      gridTemplateColumns: "1fr",
       height: `calc( 100% - ${Container.getBlockSize({ app, ui })}px )`,
       overflowX: "hidden",
       overflowY: "scroll",
