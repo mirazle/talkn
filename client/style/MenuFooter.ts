@@ -80,6 +80,7 @@ export default class MenuFooter {
     });
     const content = Style.getContentBase({
       fontSize: "0.7em",
+      lineHeight: "1.5em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
@@ -93,6 +94,7 @@ export default class MenuFooter {
     const content = Style.getContentBase({
       fontSize: "0.7em",
       fontWeight: "bold",
+      lineHeight: "1.5em",
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
