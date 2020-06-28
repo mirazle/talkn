@@ -51,9 +51,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     const { ui, thread } = props.state;
     this.state = { notifs: [] };
     this.coreApi("fetchPosts", { thread: { ch: thread.ch } });
-    if (ui.extensionMode === Ui.extensionModeExtIncludeLabel || ui.extensionMode === Ui.extensionModeExtNoneLabel) {
-      this.coreApi("rank", { thread: { ch: thread.ch } });
-    }
+    this.coreApi("rank", { thread: { ch: thread.ch } });
     this.getProps = this.getProps.bind(this);
     this.renderNewPost = this.renderNewPost.bind(this);
     this.renderSmall = this.renderSmall.bind(this);
