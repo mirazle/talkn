@@ -115,6 +115,7 @@ export default class Detail {
       borderRadius: Container.radiuses,
       WebkitOverflowScrolling: "touch",
       zIndex: 9,
+      boxShadow: "rgb(220, 220, 220) 0px 0px 1px",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
@@ -431,7 +432,7 @@ export default class Detail {
     const borders = Detail.getFooterBorders({ app, ui });
     const layout = Style.getLayoutFlex({
       width: "100%",
-      background: Container.offWhiteRGB,
+      background: Container.lightRGBA,
       height: Container.getBlockSize({ app, ui }),
       zÎndex: "1px",
       ...positions,

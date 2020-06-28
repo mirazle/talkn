@@ -165,6 +165,7 @@ export default class MenuIndexList {
 
   static getActiveLiSelf({ app, ui }) {
     const layout = Style.getLayoutBlock({
+      boxShadow: "0px 0px 0px rgb(220, 220, 220) inset",
       width: "initial",
       height: `${Container.getBlockSize({ app, ui }) * 2}px`,
       padding: "5px",
@@ -185,6 +186,7 @@ export default class MenuIndexList {
   static getUnactiveLiSelf({ app, ui }) {
     const borders = MenuIndexList.getUnactiveLiBorder({ app, ui });
     const layout = Style.getLayoutBlock({
+      boxShadow: "0px 0px 1px rgb(220, 220, 220) inset",
       width: "initial",
       height: `${Container.getBlockSize({ app, ui }) * 2}px`,
       padding: "5px",

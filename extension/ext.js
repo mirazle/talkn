@@ -1172,7 +1172,6 @@ class HandleIcon extends Elements {
       `width: ${HandleIcon.width}px  !important;` +
       `height: ${HandleIcon.width}px !important;` +
       `background: ${talknHandleStyles.background} !important;` +
-      `border: ${talknHandleStyles.border} !important;` +
       `border-radius: 100px !important;` +
       `box-shadow: ${Styles.BASE_SHADOW}` +
       `transition: ${Styles.BASE_TRANSITION}ms !important;` +

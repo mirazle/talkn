@@ -60,7 +60,7 @@ export default class Container {
     return Style.mono220RGB;
   }
   static get border() {
-    return `1px solid ${Container.borderRGB}`;
+    return `0px solid ${Container.borderRGB}`;
   }
   static get shadow() {
     return `${Style.mono230RGB} 0px 0px 5px 0px`;
@@ -112,6 +112,9 @@ export default class Container {
   }
   static get softCalmRGBA() {
     return Style.mono230RGBA;
+  }
+  static get middleCalmRGBA() {
+    return Style.mono235RGBA;
   }
   static get calmRGB() {
     return Style.mono240RGB;

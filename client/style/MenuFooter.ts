@@ -64,7 +64,7 @@ export default class MenuFooter {
       width: MenuFooter.getWidth({ app, ui }),
       minWidth: MenuFooter.getWidth({ app, ui }),
       height: `${Container.getBlockSize({ app, ui })}px`,
-      background: Container.offWhiteRGB,
+      background: Container.lightRGBA,
       borderRadius,
       ...borders,
     });
