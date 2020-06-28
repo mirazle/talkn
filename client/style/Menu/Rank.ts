@@ -156,7 +156,6 @@ export default class Rank {
   }
 
   static getOl({ app, ui, rank }) {
-    console.log(rank.length);
     let gridTemplateRows = "1fr";
     const rankCnt = rank.length;
     const height = Container.getBlockSize({ app, ui }) * 2;

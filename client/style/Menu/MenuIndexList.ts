@@ -170,8 +170,8 @@ export default class MenuIndexList {
     const height = Container.getBlockSize({ app, ui }) * 2;
     const layout = Style.getLayoutBlock({
       width: "initial",
-      height,
-      minHeight: height,
+      height: `${height}px`,
+      minHeight: `${height}px`,
       padding: "5px",
       borderTop: 0,
       borderRight: `1px solid ${Container.whiteRGB}`,
@@ -193,8 +193,8 @@ export default class MenuIndexList {
     const layout = Style.getLayoutBlock({
       boxShadow: `${Container.lineShadow}`,
       width: "initial",
-      height,
-      minHeight: height,
+      height: `${height}px`,
+      minHeight: `${height}px`,
       padding: "5px",
       ...borders,
       background: MenuIndexList.unactiveLiSelfBackground,
