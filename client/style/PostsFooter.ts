@@ -139,7 +139,7 @@ export default class PostsFooter {
       height: Container.getBlockSize({ app, ui }),
       width: PostsFooter.getWidth({ app, ui }),
       maxWidth: PostsFooter.getWidth({ app, ui }),
-      background: Container.offWhiteRGBA,
+      background: Container.lightRGBA,
       justifyContent: "flex-start",
       borderRadius,
       ...borders,
@@ -172,7 +172,7 @@ export default class PostsFooter {
 
   static getTextarea({ app, ui }) {
     const width = ui.extensionMode === Ui.extensionModeExtModalLabel ? "60%" : "54%";
-    const fontSize = ui.screenMode === Ui.screenModeSmallLabel ? "0.9em" : "1em";
+    const fontSize = ui.screenMode === Ui.screenModeSmallLabel ? "1em" : "1em";
     const lineHeight = ui.screenMode === Ui.screenModeSmallLabel ? "0.8em" : "0.9em";
     const layout = Style.getLayoutInlineBlock({
       width,
@@ -226,7 +226,7 @@ export default class PostsFooter {
       maxWidth: "20%",
       height: "56%",
       margin: "0px 3% 0px 0%",
-      background: "rgb(245, 245, 245)",
+      background: Container.middleCalmRGBA,
       border: Container.border,
       borderRadius: "3px",
     });
