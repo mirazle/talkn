@@ -139,7 +139,9 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
     const dispRank = this.renderRank(rank);
     const dispFavicon = this.renderDispFavicon();
     const liveCnt = Icon.getLiveCnt({ app, ui }, watchCnt);
-    const baseStyle = style[styleKey];
+    const baseStyle = isRootCh
+      ? MenuIndexListStyle.getActiveLiSelf({ app, ui })
+      : MenuIndexListStyle.getUnactiveLiSelf({ app, ui });
     const dispExt = menuIndexList.findType === Thread.findTypeHtml ? null : menuIndexList.findType;
     const marqueeStyle: any = this.getMarqueeStyle();
     return (
