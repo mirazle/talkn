@@ -73,15 +73,9 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
   renderButton() {
     const { style, ui } = this.props.state;
 
-    if (ui.extensionMode === Ui.extensionModeExtModalLabel || ui.extensionMode === Ui.extensionModeExtBottomLabel) {
-      return null;
-    } else {
-      return (
-        <button style={style.postsFooter.button} onClick={this.handleOnClick}>
-          talkn
-        </button>
-      );
-    }
+    return ui.extensionMode === Ui.extensionModeExtNoneLabel ? (
+      <button style={style.postsFooter.button} onClick={this.handleOnClick} />
+    ) : undefined;
   }
 
   render() {

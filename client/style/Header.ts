@@ -131,7 +131,7 @@ export default class Header {
       background: Container.whiteRGB,
       margin: Header.getMargin({ app, ui }),
       zIndex: 1000,
-      boxShadow: "0px 0px 1px rgb(220, 220, 220)",
+      boxShadow: `${Container.lineShadow}`,
     });
     const content = Style.getContentBase({
       textAlign: "center",
