@@ -1,3 +1,4 @@
+import conf from "client/conf";
 import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
@@ -226,7 +227,7 @@ export default class PostsFooter {
       maxWidth: "20%",
       height: "56%",
       margin: "0px 3% 0px 0%",
-      background: Container.middleCalmRGBA,
+      background: `url(https://${conf.assetsPath}airplane.svg) 50% 35% / 40% no-repeat ${Container.whiteRGBA}`,
       border: Container.border,
       borderRadius: "3px",
     });

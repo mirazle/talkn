@@ -62,6 +62,12 @@ export default class Container {
   static get border() {
     return `0px solid ${Container.borderRGB}`;
   }
+  static get lineShadow() {
+    return `0px 0px 1px ${Container.lineShadowColor}`;
+  }
+  static get lineShadowColor() {
+    return Container.silverRGBA;
+  }
   static get shadow() {
     return `${Style.mono230RGB} 0px 0px 5px 0px`;
   }

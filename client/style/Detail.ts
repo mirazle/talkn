@@ -115,7 +115,7 @@ export default class Detail {
       borderRadius: Container.radiuses,
       WebkitOverflowScrolling: "touch",
       zIndex: 9,
-      boxShadow: "rgb(220, 220, 220) 0px 0px 1px",
+      boxShadow: `${Container.lineShadow}`,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
