@@ -67,7 +67,7 @@ export default class Post {
   static getSelf({ app, ui }) {
     const padding = ui.isBubblePost ? "5px 0" : "0";
     const margin = ui.isBubblePost ? "5px 0" : "0";
-    const minHeight = ui.isBubblePost ? "75px" : "40px";
+    const minHeight = ui.isBubblePost ? "40px" : "40px";
     const width = "calc( 100% - 0px )";
     const layout = Style.getLayoutBlock({
       width,
@@ -232,7 +232,7 @@ export default class Post {
     const right = Ui.screenModeSmallLabel === ui.screenMode ? "12%" : "10%";
     const layout = Style.getLayoutFlex({
       position: "absolute",
-      bottom: "10px",
+      bottom: "6px",
       right,
       width: "100%",
       height: "20px",
