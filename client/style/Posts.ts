@@ -117,34 +117,37 @@ export default class Posts {
   }
 
   static getPadding({ app, ui }) {
+    const blockSize = Container.getBlockSize({ app, ui });
     let padding = "0";
     if (app.isMediaCh) {
-      padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+      padding = `${blockSize}px 0 ${blockSize}px 0`;
     } else {
+
       if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
         switch (ui.screenMode) {
           case Ui.screenModeSmallLabel:
-            padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+            padding = `${blockSize}px 0 ${blockSize}px 0`;
             break;
           case Ui.screenModeMiddleLabel:
-            padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+            padding = `${blockSize}px 0 ${blockSize}px 0`;
             break;
           case Ui.screenModeLargeLabel:
-            padding = `0`;
+            padding = `${blockSize}px 0 ${blockSize}px 0`;
             break;
         }
       } else {
         switch (ui.screenMode) {
           case Ui.screenModeSmallLabel:
-            padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+            padding = `${blockSize}px 0 ${blockSize}px 0`;
             break;
           case Ui.screenModeMiddleLabel:
           case Ui.screenModeLargeLabel:
-            padding = `0 0 ${Container.getBlockSize({ app, ui })}px 0`;
+            padding = `${blockSize}px 0 ${blockSize}px 0`;
             break;
         }
       }
     }
+    console.log(padding);
     return padding;
   }
 
@@ -203,7 +206,8 @@ export default class Posts {
         return `${Container.getBlockSize({ app, ui }) + Video.height}px`;
       }
     }
-    return `${Container.getBlockSize({ app, ui })}px`;
+    // return `${Container.getBlockSize({ app, ui })}px`;
+    return "0";
   }
 
   static getSelf({ app, ui }) {

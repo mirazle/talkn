@@ -103,7 +103,7 @@ export default class Ui extends Schema {
       return Ui.screenModeSmallLabel;
     }
 
-    if (Ui.screenModeSmallWidthPx < widthPx && Ui.screenModeMiddleWidthPx >= widthPx) {
+    if (Ui.screenModeSmallWidthPx <= widthPx && Ui.screenModeMiddleWidthPx >= widthPx) {
       return Ui.screenModeMiddleLabel;
     }
     return Ui.screenModeLargeLabel;
