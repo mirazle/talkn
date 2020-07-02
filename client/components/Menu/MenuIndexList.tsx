@@ -6,7 +6,6 @@ import Post from "api/store/Post";
 import util from "common/util";
 import conf from "client/conf";
 import MenuIndexListStyle from "client/style/Menu/MenuIndexList";
-import PostStyle from "client/style/Post";
 import Icon from "client/components/Icon";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
 
@@ -176,7 +175,7 @@ export default class MenuIndexListComponent extends MarqueeArea<MenuIndexListPro
   renderPost(menuIndexList, app) {
     let { ch, post, stampId } = menuIndexList;
     if (stampId > 0) {
-      post = PostStyle.getStampTag(post, false);
+      post = Icon.getStampStr(post, stampId, false);
     }
     return post;
   }

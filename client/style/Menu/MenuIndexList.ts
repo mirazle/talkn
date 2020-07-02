@@ -300,7 +300,7 @@ export default class MenuIndexList {
       width: "20%",
       height: "100%",
       backgroundImage: `url("${conf.assetsURL}/favicon.ico")`,
-      backgroundPosition: "40% 50%",
+      backgroundPosition: "30% 50%",
       backgroundSize: `${Container.getFaviconSize({ app, ui })}px`,
       backgroundRepeat: "no-repeat",
     });

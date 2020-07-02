@@ -1,8 +1,6 @@
 import Style from "./index";
 import Ui from "client/store/Ui";
 import Container from "./Container";
-import Header from "./Header";
-import Main from "./Main";
 
 export default class LockMenu {
   static get headTabUpdate() {
@@ -28,7 +26,7 @@ export default class LockMenu {
       flexFlow: "column",
       border: Container.border,
       borderRadius: "5px",
-      background: Container.whiteRGB,
+      boxShadow: `${Container.lineShadow}`,
     };
     switch (ui.screenMode) {
       case Ui.screenModeSmallLabel:
@@ -55,7 +53,7 @@ export default class LockMenu {
   }
 
   static getCommonTransform({ app, ui }) {
-    return ui.openLockMenu === Ui.openLockMenuLabelNo ? "translate3d(0px, 0px, 0px)" : `translate3d(0px, -70vh, 0px)`;
+    return ui.openLockMenu === Ui.openLockMenuLabelNo ? "translate3d(0px, 0px, 0px)" : `translate3d(0px, -75vh, 0px)`;
   }
 
   static getPaddingLi({ app, ui }) {
@@ -116,9 +114,10 @@ export default class LockMenu {
       width: "100%",
       height: Container.getBlockSize({ app, ui }),
       maxHeight: Container.getBlockSize({ app, ui }),
-      borderBottom: Container.border,
-      background: Container.whiteRGB,
+      background: Container.whiteRGBA,
+      boxShadow: Container.lineShadow,
       padding: "0px 20px",
+      zIndex: 2,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -152,7 +151,8 @@ export default class LockMenu {
       width: "100%",
       height: `${Container.getBlockSize({ app, ui })}px`,
       padding: LockMenu.getPaddingLi({ app, ui }),
-      borderBottom: Container.border,
+      background: Container.whiteRGBA,
+      boxShadow: Container.lineShadow,
     });
     const content = Style.getContentBase({
       cursor: "pointer",
@@ -166,7 +166,8 @@ export default class LockMenu {
       width: "100%",
       height: `${Container.getBlockSize({ app, ui })}px`,
       padding: LockMenu.getPaddingLi({ app, ui }),
-      borderBottom: Container.border,
+      background: Container.whiteRGBA,
+      boxShadow: Container.lineShadow,
     });
     const content = Style.getContentBase({
       cursor: "pointer",
@@ -180,6 +181,8 @@ export default class LockMenu {
       width: "100%",
       height: `${Container.getBlockSize({ app, ui })}px`,
       padding: LockMenu.getPaddingLi({ app, ui }),
+      background: Container.whiteRGBA,
+      boxShadow: Container.lineShadow,
     });
     const content = Style.getContentBase({
       cursor: "pointer",

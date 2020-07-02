@@ -58,6 +58,8 @@ export default class Icon {
   loading: Object;
   tune: Object;
   liveCnt: Object;
+  stampStr: String;
+  stampLabel: Object;
   constructor(params: any) {
     const bootOption = { ...params.bootOption, ...params.app };
     const headTab = Icon.getHeadTab(params);
@@ -85,6 +87,8 @@ export default class Icon {
     const loading = Icon.getLoading(params);
     const tune = Icon.getTune(params);
     const liveCnt = Icon.getLiveCnt(params);
+    const stampStr = Icon.getStampStr(params);
+    const stampLabel = Icon.getStampLabel(params);
     return {
       headTab,
       menu,
@@ -111,6 +115,8 @@ export default class Icon {
       loading,
       tune,
       liveCnt,
+      stampStr,
+      stampLabel,
     };
   }
 
@@ -1362,6 +1368,8 @@ export default class Icon {
 
     const dot = Style.get({
       layout: Style.getLayoutBlock({
+        position: "relative",
+        top: "2px",
         width: "6px",
         height: "6px",
         margin: "4px auto",
@@ -2156,5 +2164,88 @@ export default class Icon {
       animation: Style.getAnimationBase(),
     });
     return { div, circle };
+  }
+
+  static getStampStr(isBubblePost = true) {
+    let scale = "1";
+    let height = "40px";
+    let fontSize = "2em";
+    let justifyContent = "flex-start";
+    if (isBubblePost) {
+      scale = "2";
+      height = "100%";
+      fontSize = "3.2em";
+      justifyContent = "center";
+    }
+    return (
+      `display: flex;` +
+      `justify-content: ${justifyContent};` +
+      `align-items: center;` +
+      `width: 100%;` +
+      `height: ${height};` +
+      `transform: scale(${scale});` +
+      `line-height: 2em;` +
+      `font-size: ${fontSize};`
+    );
+  }
+
+  static getStampLabelAtMenuStr(isBubblePost = true) {
+    return `text-indent: 1em; font-size: 0.4em; letter-spacing: 0.2em;`;
+  }
+
+  static getStampLabel({ app, ui }) {
+    let divLayout = {
+      height: "20px",
+      justifyContent: "flex-end",
+    };
+    let labelLayout = {
+      left: Ui.screenModeSmallLabel === ui.screenMode ? "-12%" : "-9%",
+      color: Container.whiteRGB,
+      background: "rgba(80, 80 ,80, 0.3)",
+      borderRadius: "5px 5px 0px 0px",
+      justifyContent: "center",
+    };
+    let labelContent = {
+      color: Container.whiteRGB,
+    };
+
+    if (!ui.isBubblePost) {
+      divLayout.height = "40px";
+      divLayout.justifyContent = "flex-start";
+      labelLayout.left = Ui.screenModeSmallLabel === ui.screenMode ? "30%" : "27%";
+      labelLayout.background = "none";
+      labelLayout.borderRadius = Container.radius;
+      labelLayout.justifyContent = "flex-start";
+      labelContent.color = Container.fontBaseRGB;
+    }
+
+    const div = Style.get({
+      layout: Style.getLayoutFlex({
+        position: "absolute",
+        bottom: "0px",
+        width: "100%",
+        zIndex: 10,
+        ...divLayout,
+      }),
+      content: Style.getContentBase({}),
+      animation: Style.getAnimationBase({}),
+    });
+    const label = Style.get({
+      layout: Style.getLayoutFlex({
+        position: "relative",
+        width: "120px",
+        height: "inherit",
+        padding: "5px",
+        justifyContent: "center",
+        alignItems: "center",
+        ...labelLayout,
+      }),
+      content: Style.getContentBase({
+        fontSize: "0.7em",
+        ...labelContent,
+      }),
+      animation: Style.getAnimationBase({}),
+    });
+    return { div, label };
   }
 }

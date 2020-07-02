@@ -1,6 +1,5 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import conf from "common/conf";
 import Sequence from "api/Sequence";
 import Ui from "client/store/Ui";
@@ -34,8 +33,8 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
             ...this.state.style,
             [type]: {
               ...this.state.style[type],
-              color: Container.whiteRGB,
-              background: Container.getThemeRGBA(0.7),
+              color: Container.whiteRGBA,
+              background: Container.getLightThemeRGBA(0.96),
             },
           },
         });
@@ -91,8 +90,8 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
             ...this.state.style,
             liEmbed: {
               ...this.state.style.liEmbed,
-              color: Container.whiteRGB,
-              background: Container.themeRGB,
+              color: Container.whiteRGBA,
+              background: Container.themeRGBA,
             },
           },
         });

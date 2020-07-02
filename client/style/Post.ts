@@ -18,8 +18,6 @@ export default class Post {
   bottom: Object;
   bottomIcon: Object;
   bottomPost: Object;
-  stampLabelWrap: Object;
-  stampLabel: Object;
   constructor(params) {
     const self = Post.getSelf(params);
     const upper = Post.getUpper(params);
@@ -29,8 +27,6 @@ export default class Post {
     const bottom = Post.getBottom(params);
     const bottomIcon = Post.getBottomIcon(params);
     const bottomPost = Post.getBottomPost(params);
-    const stampLabelWrap = Post.getStampLabelWrap(params);
-    const stampLabel = Post.getStampLabel(params);
     return {
       self,
       upper,
@@ -40,28 +36,7 @@ export default class Post {
       bottom,
       bottomIcon,
       bottomPost,
-      stampLabelWrap,
-      stampLabel,
     };
-  }
-
-  static getStampTag(post, isBubble = true) {
-    const style = Post.getStampStyle(isBubble);
-    return `<div class="talknStamps" style="${style}">${post}</div>`;
-  }
-
-  static getStampStyle(isBubble = true) {
-    const scale = isBubble ? Post.bubblestampScale : Post.stampScale;
-    return (
-      `display: flex;` +
-      `justify-content: center;` +
-      `align-items: center;` +
-      `width: 100%;` +
-      `height: 100%;` +
-      `transform: scale(${scale});` +
-      `line-height: 2em;` +
-      `font-size: 3.2em;`
-    );
   }
 
   static getSelf({ app, ui }) {
@@ -191,6 +166,7 @@ export default class Post {
       minWidth: "20%",
       maxWidth: "20%",
       height: `${Container.getFaviconSize({ app, ui })}px`,
+      minHeight: "40px",
       backgroundImage: `url(${conf.protcol}:${conf.assetsPath}favicon.ico")`,
       backgroundPosition: "50% 50%",
       backgroundSize: `${Container.getFaviconSize({ app, ui })}px`,
@@ -207,11 +183,13 @@ export default class Post {
     const background = ui.isBubblePost ? Container.themeRGBA : "none";
     const color = ui.isBubblePost ? Container.whiteRGBA : "rgba(160, 160, 160)";
     const padding = ui.isBubblePost ? "20px 20px 20px 30px" : "0px";
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
+      justifyContent: "flex-start",
       flexGrow: 8,
       width,
       minWidth: width,
       maxWidth: width,
+      minHeight: "40px",
       background,
       padding,
       margin: `0px ${marginRight} 0px 0px`,
@@ -223,44 +201,6 @@ export default class Post {
       cursor: "pointer",
       wordWrap: "break-word",
       overflowWrap: "break-word",
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({ layout, content, animation });
-  }
-
-  static getStampLabelWrap({ app, ui }) {
-    const right = Ui.screenModeSmallLabel === ui.screenMode ? "12%" : "10%";
-    const layout = Style.getLayoutFlex({
-      position: "absolute",
-      bottom: "6px",
-      right,
-      width: "100%",
-      height: "20px",
-      justifyContent: "flex-end",
-      alignItems: "center",
-      zIndex: 10,
-    });
-    const content = Style.getContentBase({
-      lineHeight: "2em",
-      textAlign: "right",
-    });
-    const animation = Style.getAnimationBase();
-    return Style.get({ layout, content, animation });
-  }
-
-  static getStampLabel({ app, ui }) {
-    const layout = Style.getLayoutFlex({
-      width: "100px",
-      height: "inherit",
-      padding: "5px",
-      background: "rgba(80, 80 ,80, 0.2)",
-      justifyContent: "center",
-      alignItems: "center",
-      borderRadius: "5px 5px 0px 0px",
-    });
-    const content = Style.getContentBase({
-      fontSize: "0.7em",
-      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
