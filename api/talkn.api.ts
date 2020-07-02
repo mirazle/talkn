@@ -191,7 +191,7 @@ class BootOption {
     let ch = initialRootCh;
     ch = firstHasSlash ? ch : `/${ch}`;
     ch = lastHasSlash ? ch : `${ch}/`;
-    ch = ch === "//" ? "/" : ch;
+    ch = ch.replace(/^\/\//, "/");
     return ch;
   }
 

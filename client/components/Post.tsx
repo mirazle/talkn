@@ -3,10 +3,9 @@ import ReactDOM from "react-dom";
 import TimeAgo from "react-timeago";
 import Sequence from "api/Sequence";
 import Ui from "client/store/Ui";
-import Emotions from "common/emotions/index";
+import Icon from "client/components/Icon";
 import util from "common/util";
 import conf from "client/conf";
-import PostStyle from "client/style/Post";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
 
 interface PostProps extends MarqueeAreaProps {
@@ -25,8 +24,6 @@ interface PostState extends MarqueeAreaState {
   animatedWidth: number;
   overflowWidth: number;
 }
-
-const emotionCoverTypes = new Emotions();
 
 export default class Post extends MarqueeArea<PostProps, PostState> {
   public static defaultProps: PostProps = {
@@ -49,7 +46,6 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
 
     this.renderUpper = this.renderUpper.bind(this);
     this.renderTime = this.renderTime.bind(this);
-    this.renderStampLabel = this.renderStampLabel.bind(this);
     this.getDecolationProps = this.getDecolationProps.bind(this);
   }
 
@@ -157,11 +153,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
       ].includes( actionLog[0] );
 */
     } else {
-      if (props.app.actioned === "SCROLL_THREAD") {
-        return false;
-      } else {
-        return true;
-      }
+      return !(props.app.actioned === "SCROLL_THREAD");
     }
   }
 
@@ -170,9 +162,9 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
   }
 
   render() {
-    const { ui, post, onClickPost } = this.props;
+    const { app, ui, post, onClickPost } = this.props;
     const { postStyle } = this.state;
-    const stampLabel = this.renderStampLabel(post.stampId);
+    const stampLabel = Icon.getStampLabel({ app, ui, post });
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName(post.favicon);
     if (dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 && dispFavicon.indexOf(Sequence.HTTP_PROTOCOL) !== 0) {
       if (post.protocol === Sequence.TALKN_PROTOCOL) {
@@ -197,12 +189,12 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
           <div style={postStyle.bottom}>
             <span style={{ ...postStyle.bottomIcon, backgroundImage: `url( ${dispFavicon} )` }} />
             <span style={postStyle.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, ui) }} />
+            {stampLabel}
           </div>
-          {stampLabel}
         </li>
       );
     } else {
-      return null;
+      return undefined;
     }
   }
 
@@ -272,25 +264,9 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
 
   renderPost(post, ui) {
     if (post.stampId) {
-      return PostStyle.getStampTag(post.post, ui.isBubblePost);
+      return Icon.getStampStr(post.post, 0, ui.isBubblePost);
     } else {
       return post.post;
-    }
-  }
-
-  renderStampLabel(stampId) {
-    const { style } = this.props;
-
-    if (stampId) {
-      let stampType = emotionCoverTypes.belongCoverTypes[stampId] ? emotionCoverTypes.belongCoverTypes[stampId] : "No";
-
-      return (
-        <div data-component-name={"stamp-label"} style={style.stampLabelWrap}>
-          <div style={style.stampLabel}>{stampType}</div>
-        </div>
-      );
-    } else {
-      return null;
     }
   }
 }

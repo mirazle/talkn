@@ -174,7 +174,7 @@ export default class PostsFooter {
   static getTextarea({ app, ui }) {
     const width = ui.extensionMode === Ui.extensionModeExtModalLabel ? "60%" : "54%";
     const fontSize = ui.screenMode === Ui.screenModeSmallLabel ? "1em" : "1em";
-    const lineHeight = ui.screenMode === Ui.screenModeSmallLabel ? "0.8em" : "0.9em";
+    const lineHeight = ui.screenMode === Ui.screenModeSmallLabel ? "0.8em" : "1.1em";
     const layout = Style.getLayoutInlineBlock({
       width,
       maxWidth: width,
@@ -221,13 +221,14 @@ export default class PostsFooter {
   }
 
   static getButton({ app, ui }) {
+    const iconSize = ui.screenMode === Ui.screenModeSmallLabel ? 30 : 38;
     const layout = Style.getLayoutInlineBlock({
       outline: "none",
       width: "20%",
       maxWidth: "20%",
       height: "56%",
       margin: "0px 3% 0px 0%",
-      background: `url(https://${conf.assetsPath}airplane.svg) 50% 35% / 40% no-repeat ${Container.whiteRGBA}`,
+      background: `url(https://${conf.assetsPath}airplane.svg) 50% 35% / ${iconSize}px no-repeat ${Container.whiteRGBA}`,
       border: Container.border,
       borderRadius: "3px",
     });

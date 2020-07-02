@@ -122,7 +122,6 @@ export default class Posts {
     if (app.isMediaCh) {
       padding = `${blockSize}px 0 ${blockSize}px 0`;
     } else {
-
       if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
         switch (ui.screenMode) {
           case Ui.screenModeSmallLabel:
@@ -147,7 +146,6 @@ export default class Posts {
         }
       }
     }
-    console.log(padding);
     return padding;
   }
 

@@ -186,19 +186,11 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   resize(ev) {
     if (window.talknWindow) {
       const { app, ui } = this.clientState;
-      if (ui.extensionMode === "EXT_BOTTOM" || ui.extensionMode === "EXT_MODAL") {
-        if (this.resizeTimer === null) {
-          this.resizeTimer = setTimeout(() => {
-            this.resizeEndWindow();
-          }, TalknWindow.resizeInterval);
-        }
-      } else {
-        if (this.resizeTimer === null) {
-          //this.resizeStartWindow(app);
-          this.resizeTimer = setTimeout((app) => {
-            this.resizeEndWindow();
-          }, TalknWindow.resizeInterval);
-        }
+      if (this.resizeTimer === null) {
+        this.resizeStartWindow(app);
+        this.resizeTimer = setTimeout(() => {
+          this.resizeEndWindow();
+        }, TalknWindow.resizeInterval);
       }
     }
   }

@@ -66,7 +66,7 @@ export default class Container {
     return `0px 0px 1px ${Container.lineShadowColor}`;
   }
   static get lineShadowColor() {
-    return Container.silverRGBA;
+    return Container.reliefRGB;
   }
   static get shadow() {
     return `${Style.mono230RGB} 0px 0px 5px 0px`;
@@ -159,13 +159,18 @@ export default class Container {
   static get themeRGBString() {
     return "69, 164, 149";
   }
+  static get themeLightRGBString() {
+    return "89, 184, 169";
+  }
   static get themeRGB() {
     return `rgb(${Container.themeRGBString})`;
   }
   static get themeRGBA() {
+    return `rgba(${Container.themeRGBString}, 0.96)`;
+  }
+  static get themeRGBAA() {
     return `rgba(${Container.themeRGBString}, 0.8)`;
   }
-
   static getBlockSize({ app, ui }) {
     return ui.screenMode === Ui.screenModeSmallLabel ? 45 : 54;
   }
@@ -174,9 +179,13 @@ export default class Container {
     return ui.screenMode === Ui.screenModeSmallLabel ? 24 : 30;
   }
 
+  static getLightThemeRGBA(alpha = 0.8) {
+    return `rgba(${Container.themeLightRGBString}, ${alpha})`;
+  }
   static getThemeRGBA(alpha = 0.8) {
     return `rgba(${Container.themeRGBString}, ${alpha})`;
   }
+
   static getTransitionOn({ app, ui }: any = {}, removeUnit = false) {
     let transition = String(Container.transitionOn);
     if (app) {

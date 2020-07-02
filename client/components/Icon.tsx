@@ -1,7 +1,10 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
+import Emotions from "common/emotions/index";
 import Schema from "api/store/Schema";
 import { default as IconStyle } from "client/style/Icon";
+
+const emotionCoverTypes = new Emotions();
 
 export default class Icon extends TalknComponent<{}, {}> {
   static get smallSize() {
@@ -247,7 +250,7 @@ export default class Icon extends TalknComponent<{}, {}> {
   }
 */
 
-  static getLiveCnt({ app, ui }, watchCnt = 0) {
+  static getLiveCnt({ app, ui }, watchCnt = 0): React.ReactNode {
     const style = IconStyle.getLiveCnt({ app, ui });
     return (
       <span style={style.div}>
@@ -256,37 +259,73 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getTwitter(state = {}, overStyle, option = {}) {
+  static getStampStr(post, dispLabelStampId, isBubble = true) {
+    const stampStrStyle = IconStyle.getStampStr(isBubble);
+    if (dispLabelStampId > 0) {
+      const stampLabelStrStyle = IconStyle.getStampLabelAtMenuStr();
+      const stampType = emotionCoverTypes.belongCoverTypes[dispLabelStampId]
+        ? emotionCoverTypes.belongCoverTypes[dispLabelStampId]
+        : "No";
+      return (
+        `<div data-component-name="stamp" style="${stampStrStyle}">` +
+        post +
+        `<span data-component-name="stamp-label" style="${stampLabelStrStyle}"> (${stampType})</span>` +
+        `</div >`
+      );
+    } else {
+      return `<div data-component-name="stamp" style="${stampStrStyle}">` + post + `</div >`;
+    }
+  }
+
+  static getStampLabel({ app, ui, post }, type = "default") {
+    if (post.stampId > 0) {
+      const stampLabelStyle = IconStyle.getStampLabel({ app, ui });
+      let stampType = emotionCoverTypes.belongCoverTypes[post.stampId]
+        ? emotionCoverTypes.belongCoverTypes[post.stampId]
+        : "No";
+      return (
+        <div data-component-name={"stamp-label-div"} style={stampLabelStyle.div}>
+          <div data-component-name={"stamp-label"} style={stampLabelStyle.label}>
+            ({stampType})
+          </div>
+        </div>
+      );
+    } else {
+      return undefined;
+    }
+  }
+
+  static getTwitter(state = {}, overStyle, option = {}): React.ReactNode {
     return Icon.generateImageIcon("Twitter", state, overStyle, option);
   }
 
-  static getFacebook(state = {}, overStyle, option = {}) {
+  static getFacebook(state = {}, overStyle, option = {}): React.ReactNode {
     return Icon.generateImageIcon("Facebook", state, overStyle, option);
   }
 
-  static getAppstore(state = {}, overStyle, option = {}) {
+  static getAppstore(state = {}, overStyle, option = {}): React.ReactNode {
     return Icon.generateImageIcon("Appstore", state, overStyle, option);
   }
 
-  static getAndroid(state = {}, overStyle, option = {}) {
+  static getAndroid(state = {}, overStyle, option = {}): React.ReactNode {
     return Icon.generateImageIcon("Android", state, overStyle, option);
   }
 
-  static getHome(state = {}, overStyle, option = {}) {
+  static getHome(state = {}, overStyle, option = {}): React.ReactNode {
     return Icon.generateImageIcon("Home", state, overStyle, option);
   }
 
-  static getGraph(state: any = {}, overStyle, option: any = {}) {
+  static getGraph(state: any = {}, overStyle, option: any = {}): React.ReactNode {
     const onClick = option.onClick ? option.onClick : () => {};
     const style = Icon.getOveredStyle(IconStyle.getGraph(state, option), overStyle);
     return <div data-component-type={"IconGraph"} onClick={onClick} style={style} />;
   }
 
-  static getTalkn(state = {}, overStyle, option = {}) {
+  static getTalkn(state = {}, overStyle, option = {}): React.ReactNode {
     return Icon.generateImageIcon("Talkn", state, overStyle, option);
   }
 
-  static getTalknLogo(style) {
+  static getTalknLogo(style): React.ReactNode {
     return <div data-component-type={"IconTalknLogo"} style={style.img} />;
   }
 
@@ -294,7 +333,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     return Icon.generateImageIcon("ChromeExtension", state, overStyle, option);
   }
 
-  static getTag(style) {
+  static getTag(style): React.ReactNode {
     return (
       <div data-component-type={"IconTag"} style={style.div}>
         <div style={style.left}></div>
@@ -304,7 +343,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getHomeCss(style) {
+  static getHomeCss(style): React.ReactNode {
     return (
       <div data-component-type={"IconHomeCss"} style={style.div}>
         <div style={style.leaf}></div>
@@ -314,7 +353,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getSearch(style) {
+  static getSearch(style): React.ReactNode {
     return (
       <div data-component-type={"IconSearch"} style={style.div}>
         <span style={style.circle}></span>
@@ -323,7 +362,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getUser({ app, ui }: any, overStyle = {}) {
+  static getUser({ app, ui }: any, overStyle = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getUser({ app, ui }), overStyle);
     return (
       <div data-component-type={"IconUser"} style={style.div}>
@@ -333,7 +372,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getHeaderUser({ app, ui }: any, overStyle = {}) {
+  static getHeaderUser({ app, ui }: any, overStyle = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getHeaderUser({ app, ui }), overStyle);
     return (
       <div data-component-type={"IconUser"} style={style.div}>
@@ -343,7 +382,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getLogs({ app, ui }: any, overStyle = {}) {
+  static getLogs({ app, ui }: any, overStyle = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getLogs({ app, ui }), overStyle);
     return (
       <div data-component-type={"IconLogs"} style={style.div}>
@@ -361,7 +400,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getSetting({ app, ui }: any, overStyle = {}) {
+  static getSetting({ app, ui }: any, overStyle = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getSetting({ app, ui }), overStyle);
     return (
       <div data-component-type={"IconSetting"} style={style.div}>
@@ -378,7 +417,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getMenu(style) {
+  static getMenu(style): React.ReactNode {
     return (
       <div data-component-type={"IconMenu"} style={style.div}>
         <div style={style.dot} />
@@ -388,7 +427,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getIndex({ app, ui }, overStyle: any = {}) {
+  static getIndex({ app, ui }, overStyle: any = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getIndex({ app, ui }), overStyle);
     return (
       <div data-component-type={"IconIndex"} style={style.div}>
@@ -401,7 +440,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getDetail(style) {
+  static getDetail(style): React.ReactNode {
     return (
       <div data-component-type={"IconDetail"} style={style.div}>
         <div style={style.wrap}>
@@ -415,7 +454,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getThunder(style) {
+  static getThunder(style): React.ReactNode {
     return (
       <div data-component-type={"IconThunder"} style={style.div}>
         <div data-component-type={"IconThunderWrap"} style={style.wrap}>
@@ -426,7 +465,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getBubble(style) {
+  static getBubble(style): React.ReactNode {
     return (
       <div data-component-type={"IconBubbleDiv"} style={style.div}>
         <div data-component-type={"IconBubble"} style={style.bubble}></div>
@@ -435,7 +474,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getPlay(style) {
+  static getPlay(style): React.ReactNode {
     return (
       <div data-component-type={"IconPlayDiv"} style={style.div}>
         <div data-component-type={"IconPlayCircle"} style={style.playCircle}></div>
@@ -444,7 +483,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getLinks(style) {
+  static getLinks(style): React.ReactNode {
     return (
       <div data-component-type={"IconLinksDiv"} style={style.div}>
         <div data-component-type={"IconLinksA1"} style={style.linksA1}></div>
@@ -455,7 +494,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getHeadTab(overStyle, params = {}) {
+  static getHeadTab(overStyle, params = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getHeadTab(params), overStyle);
     return (
       <div data-component-type={"IconHeadTab"} style={style.div}>
@@ -465,7 +504,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getHeart(overStyle, params = {}) {
+  static getHeart(overStyle, params = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getHeart(params), overStyle);
     return (
       <div data-component-type={"IconHeart"} style={style.div}>
@@ -475,7 +514,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getShare(overStyle, params = {}) {
+  static getShare(overStyle, params = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getShare(params), overStyle);
     return (
       <div data-component-type={"IconShare"} style={style.div}>
@@ -488,7 +527,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getMoney(overStyle, params = {}) {
+  static getMoney(overStyle, params = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getMoney(params), overStyle);
     return (
       <div data-component-type={"IconMoney"} style={style.div}>
@@ -499,17 +538,17 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getOpenEmoji(overStyle, params = {}) {
+  static getOpenEmoji(overStyle, params = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getOpenEmoji(params), overStyle);
     return <div data-component-type={"IconOpenEmoji"} style={style.div} />;
   }
 
-  static getCloseEmoji(overStyle, params: any = {}) {
+  static getCloseEmoji(overStyle, params: any = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getCloseEmoji(params), overStyle);
     return <div data-component-type={"IconCloseEmoji"} style={style.div} />;
   }
 
-  static getClose(overStyle, params = {}) {
+  static getClose(overStyle, params = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getClose(params), overStyle);
     return (
       <div data-component-type={"IconClose"} style={style.div}>
@@ -521,7 +560,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getCh(overStyle, params = {}) {
+  static getCh(overStyle, params = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getCh(params), overStyle);
     return (
       <div data-component-type={"IconCh"} style={style.div}>
@@ -538,7 +577,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getUpdate(overStyle, params = {}) {
+  static getUpdate(overStyle, params = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getUpdate(params), overStyle);
     return (
       <div data-component-type={"IconUpdate"} style={style.div}>
@@ -550,7 +589,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getLoading(overStyle, params = {}) {
+  static getLoading(overStyle, params = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getLoading(params), overStyle);
     return (
       <div data-component-type={"IconLoading"} style={style.div}>
@@ -560,7 +599,7 @@ export default class Icon extends TalknComponent<{}, {}> {
     );
   }
 
-  static getTune(overStyle, params = {}) {
+  static getTune(overStyle, params = {}): React.ReactNode {
     const style: any = Icon.getOveredStyle(IconStyle.getTune(params), overStyle);
     return (
       <div data-component-type={"IconTune"} style={style.div}>

@@ -15,9 +15,21 @@ export default class Style extends TalknComponent<Props, State> {
   }
   render() {
     const { app, ui } = this.props.state;
+    let letterSpacing;
     let fontSize = ui.screenMode === Ui.screenModeSmallLabel ? 12 : 13;
-    let letterSpacing = ui.screenMode === Ui.screenModeSmallLabel ? 3 : 4;
     let lineHeight = ui.screenMode === Ui.screenModeSmallLabel ? 11 : 17;
+
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+        letterSpacing = 3;
+        break;
+      case Ui.screenModeSmallLabel:
+        letterSpacing = 3.5;
+        break;
+      case Ui.screenModeSmallLabel:
+        letterSpacing = 4;
+        break;
+    }
 
     return (
       <style type="text/css">
