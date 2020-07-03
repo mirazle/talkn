@@ -142,6 +142,7 @@ export default class PostsFooter {
       maxWidth: PostsFooter.getWidth({ app, ui }),
       background: Container.lightRGBA,
       justifyContent: "flex-start",
+      boxShadow: `-1px 0px 1px ${Container.lineShadowColor}`,
       borderRadius,
       ...borders,
       zIndex: 10,

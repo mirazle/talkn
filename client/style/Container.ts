@@ -66,7 +66,7 @@ export default class Container {
     return `0px 0px 1px ${Container.lineShadowColor}`;
   }
   static get lineShadowColor() {
-    return Container.reliefRGB;
+    return Container.downreliefRGB;
   }
   static get shadow() {
     return `${Style.mono230RGB} 0px 0px 5px 0px`;
