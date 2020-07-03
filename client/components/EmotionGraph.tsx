@@ -167,7 +167,7 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
 
     if (data && data.datasets && data.datasets.length > 0 && data.datasets[0].data.length > 0) {
       return (
-        <div style={style.emotionGraph.self}>
+        <div data-component-name={"Detail-emotions-graph"} style={style.emotionGraph.self}>
           <Radar data={data} options={options} width={200} />
         </div>
       );

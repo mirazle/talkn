@@ -88,6 +88,7 @@ export default class EmotionGraph {
 
   static getSelf(params) {
     const layout = Style.getLayoutFlex({
+      height: "auto",
       marginBottom: "40px",
       flexDirection: "column",
     });

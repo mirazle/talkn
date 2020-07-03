@@ -355,11 +355,11 @@ export default class Icon {
         minWidth: sizeWidthPx,
         height: "180px",
         minHeight: sizeHeightPx,
-        backgroundColor: Container.reliefRGB,
         backgroundSize: "75%",
         backgroundPosition: "center",
         backgroundImage: `url(https://${conf.assetsImgPath}${image})`,
         backgroundRepeat: "no-repeat",
+        backgroundColor: Container.silverRGBA,
       }),
       content: Style.getContentBase({
         cursor,
