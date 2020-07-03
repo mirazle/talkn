@@ -1,4 +1,4 @@
-import conf from "client/conf";
+import conf from "common/conf";
 import Sequence from "api/Sequence";
 import Schema from "api/store/Schema";
 import App from "api/store/App";
@@ -6,7 +6,7 @@ import BootOption from "api/store/BootOption";
 
 export type ThreadStatusType = {
   dispType: string;
-  isSchema: boolean;
+  isCreate: boolean;
   isRequireUpsert: boolean;
   isMultistream: boolean;
   isMediaCh: boolean;
@@ -140,7 +140,7 @@ export default class Thread extends Schema {
   }
 
   static getCh(bootOption: any, bootCh: string) {
-    return bootOption && bootOption.ch && bootOption.ch !== '' ? bootOption.ch : '/'  
+    return bootOption && bootOption.ch && bootOption.ch !== "" ? bootOption.ch : "/";
   }
 
   static getChTop(ch) {
@@ -250,10 +250,10 @@ export default class Thread extends Schema {
     }
   }
 
-  static getStatus(thread, app, setting = {}): ThreadStatusType {
+  static getStatus(thread, app, isExist, setting = {}): ThreadStatusType {
     let status = {
       dispType: "", // TIMELINE, MULTI, SINGLE, CHILD, LOGS
-      isSchema: false,
+      isCreate: false,
       isRequireUpsert: false,
       isMultistream: false,
       isMediaCh: false,
@@ -265,13 +265,13 @@ export default class Thread extends Schema {
     /* threadが空のSchemaかどうか(DBにデータが存在しない)        */
     /*******************************************************/
 
-    status.isSchema = Thread.getStatusIsSchema(thread);
+    status.isCreate = Thread.getStatusCreate(isExist);
 
     /*******************************************************/
     /* 更新が必要なthreadかどうか                             */
     /*******************************************************/
 
-    status.isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, setting, status.isSchema);
+    status.isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, setting, status.isCreate);
 
     /*******************************************************/
     /* Multistream形式かどうか                               */
@@ -293,24 +293,11 @@ export default class Thread extends Schema {
     return status;
   }
 
-  static getStatusIsSchema(thread) {
-    if (thread.createTime && thread.updateTime) {
-      const threadCreateTime = thread.createTime.getTime ? thread.createTime.getTime() : thread.createTime;
-      const threadUpdateTime = thread.updateTime.getTime ? thread.updateTime.getTime() : thread.updateTime;
-
-      if (threadCreateTime === threadUpdateTime) {
-        const lastPostCreateTime = thread.lastPost.createTime.getTime();
-        const lastPostUpdateTime = thread.lastPost.updateTime.getTime();
-
-        if (lastPostCreateTime === lastPostUpdateTime) {
-          return true;
-        }
-      }
-    }
-    return false;
+  static getStatusCreate(isExist) {
+    return !isExist;
   }
 
-  static getStatusIsRequireUpsert(thread, setting, isSchema = false) {
+  static getStatusIsRequireUpsert(thread, setting, isCreate = false) {
     if (thread.updateTime) {
       const threadUpdateTime = thread.updateTime.getTime ? thread.updateTime.getTime() : thread.updateTime;
 
@@ -321,11 +308,11 @@ export default class Thread extends Schema {
       const nowDay = now.getDate();
       const nowHour = now.getHours();
       const nowMinutes = now.getMinutes();
-      const activeDate = new Date(nowYear, nowMonth, nowDay, nowHour - setting.server.findOneThreadActiveHour);
+      const activeDate = new Date(nowYear, nowMonth, nowDay, nowHour - conf.findOneThreadActiveHour);
       const activeTime = activeDate.getTime();
 
       // スレッドの更新時間と、現在時間 - n を比較して、スレッドの更新時間が古かったらtrueを返す
-      return isSchema ? true : threadUpdateTime < activeTime;
+      return isCreate ? true : threadUpdateTime < activeTime;
     } else {
       return false;
     }
@@ -351,24 +338,29 @@ export default class Thread extends Schema {
     const findTypeMusic = Thread.findTypes[Thread.findTypeMusic];
     const findTypeVideo = Thread.findTypes[Thread.findTypeVideo];
 
-    let findType = "";
-    let splitedContentType = "";
-    if (contentType.indexOf(";") > 0) {
-      splitedContentType = contentType.split(";")[0];
-    }
-    if (contentType.indexOf("/") > 0) {
-      splitedContentType = contentType.split("/")[0];
-    }
+    let findType:
+      | typeof Thread.findTypeHtml
+      | typeof Thread.findTypeMusic
+      | typeof Thread.findTypeVideo
+      | typeof Thread.findTypeOther;
+    if (contentType && contentType !== "") {
+      let splitedContentType = "";
+      if (contentType.indexOf(";") > 0) {
+        splitedContentType = contentType.split(";")[0];
+      }
+      if (contentType.indexOf("/") > 0) {
+        splitedContentType = contentType.split("/")[0];
+      }
 
-    findType = Thread.findTypeHtml;
-    if (findTypeHtml.includes(splitedContentType)) {
-      findType = Thread.findTypeHtml;
-    }
-    if (findTypeMusic.includes(splitedContentType)) {
-      findType = Thread.findTypeMusic;
-    }
-    if (findTypeVideo.includes(splitedContentType)) {
-      findType = Thread.findTypeVideo;
+      if (findTypeHtml.includes(splitedContentType)) {
+        findType = Thread.findTypeHtml;
+      }
+      if (findTypeMusic.includes(splitedContentType)) {
+        findType = Thread.findTypeMusic;
+      }
+      if (findTypeVideo.includes(splitedContentType)) {
+        findType = Thread.findTypeVideo;
+      }
     }
     return findType;
   }

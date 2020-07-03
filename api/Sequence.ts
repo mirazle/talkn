@@ -63,9 +63,10 @@ export default class Sequence {
       tune: {
         requestPublicState: {},
         requestPrivateState: {
-          thread: ["ch"],
+          thread: ["ch", "hasSlash", "protocol"],
+          app: ["multistream", "rootCh", "dispThreadType", "actioned", "offsetFindId", "isToggleMultistream"],
         },
-        responseEmitState: { user: ["uid"], setting: "*", thread: ["watchCnt"] },
+        responseEmitState: { user: ["uid"], setting: "*", thread: "*" },
         responseBroadcastState: {},
       },
       fetchPosts: {
@@ -77,6 +78,7 @@ export default class Sequence {
         responseEmitState: {
           posts: "*",
           thread: "*",
+          // これをtuneに移動する
           app: ["dispThreadType", "offsetFindId", "tuned"],
         },
         responseBroadcastState: { thread: ["watchCnt", "ch"] },
@@ -107,10 +109,10 @@ export default class Sequence {
       changeThread: {
         requestPublicState: {},
         requestPrivateState: {
-          thread: ["ch", "protocol", "host", "hasSlash"],
-          app: ["tuned", "rootCh", "multistream", "dispThreadType", "offsetFindId"],
+          thread: ["ch", "hasSlash", "protocol"],
+          app: ["tuned", "multistream", "rootCh", "dispThreadType", "actioned", "offsetFindId", "isToggleMultistream"],
         },
-        responseEmitState: { app: ["tuned"] },
+        responseEmitState: {},
         responseBroadcastState: { thread: ["watchCnt", "ch"] },
       },
       changeThreadDetail: {

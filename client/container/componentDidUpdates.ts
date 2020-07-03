@@ -1,6 +1,7 @@
 import React from "react";
 import Ui from "client/store/Ui";
 import TalknWindow from "client/operations/TalknWindow";
+import thread from "api/reducers/thread";
 
 export default (self, constructorName) => {
   const { props } = self;
@@ -51,10 +52,10 @@ const componentDidUpdates = {
       }
     },
     "API_TO_CLIENT[EMIT]:changeThreadDetail": (self) => {
-      const { thread, threadDetail, ui } = self.props.state;
+      const { threadDetail, ui } = self.props.state;
       if (!ui.isOpenDetail) {
         ui.isOpenDetail = true;
-        self.clientAction("ON_CLICK_TOGGLE_DISP_DETAIL", { threadDetail, thread, ui });
+        self.clientAction("ON_CLICK_TOGGLE_DISP_DETAIL", { threadDetail, app: { detailCh: threadDetail.ch }, ui });
       }
     },
     ON_CLICK_MULTISTREAM: (self) => {

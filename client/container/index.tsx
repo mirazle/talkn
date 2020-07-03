@@ -117,6 +117,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
       onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     } else {
+      console.log("# DETAIL CH " + app.rootCh);
       ui = Ui.getUiUpdatedOpenFlgs({ app, ui }, "headerDetailIcon");
       this.clientAction("ON_CLICK_TOGGLE_DISP_DETAIL", { threadDetail, ui, app: { detailCh: app.rootCh } });
     }
@@ -241,17 +242,17 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     const frameHeight = ContainerStyle.getBlockSize({ app, ui }) * 2;
     const postsFrameHeight = window.innerHeight - frameHeight;
 
-    // 実際のスレッドの高さ
+    // 実際のスレッドの高さs
     const postsRealHeight = TalknWindow.getPostsClientHeight();
     const PostsComponent = document.querySelector("[data-component-name=Posts]");
 
     if (log) console.log("フレーム枠の縦幅： " + postsFrameHeight);
-    if (log) console.log("実際の投稿縦幅： " + PostsComponent.scrollHeight);
+    if (log) console.log("実際の投稿縦幅： " + window.talknWindow.scrollHeight);
     if (log) console.log("最下位スクロール：　" + window.talknWindow.isScrollBottom);
 
     // フレーム縦幅よりも、実際の投稿縦幅のほうが小さい場合
     if (PostsComponent) {
-      if (PostsComponent.scrollHeight < postsFrameHeight) {
+      if (window.talknWindow.scrollHeight < postsFrameHeight) {
         // フレーム縦幅よりも、実際の投稿縦幅のほうが大きい場合
       } else {
         // 一番下までスクロールしている場合

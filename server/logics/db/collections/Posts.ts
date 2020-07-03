@@ -40,7 +40,7 @@ export default class Posts {
     setting,
     status = {
       dispType: "",
-      isSchema: false,
+      isCreate: false,
       isRequireUpsert: false,
       isMultistream: false,
       isMediaCh: false,

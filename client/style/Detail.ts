@@ -200,9 +200,9 @@ export default class Detail {
   }
 
   static getHeaderP({ app, ui }) {
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
       width: "100%",
-      height: "auto",
+      height: "100%",
       maxHeight: Container.getBlockSize({ app, ui }),
     });
     const content = Style.getContentBase({

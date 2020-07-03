@@ -168,7 +168,6 @@ const functions = {
   ON_CLICK_TOGGLE_DISP_DETAIL: (state, action) => {
     const threadDetail = state.threads[action.app.detailCh];
     action.threadDetail = { ...threadDetail };
-    action.threadDetail.title = state.thread.serverMetas.title;
     return action;
   },
   OFF_TRANSITION: (state, action) => {

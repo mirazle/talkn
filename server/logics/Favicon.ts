@@ -1,8 +1,8 @@
 import request from "request";
 import Sequence from "api/Sequence";
-import util from "common/util";
 import Logics from "server/logics";
-import conf from "server/conf";
+import util from "common/util";
+import conf from "common/conf";
 
 export default class Favicon {
   static get defaultFaviconFileName() {
@@ -15,7 +15,7 @@ export default class Favicon {
     return `${Favicon.defaultFaviconFileName}${Favicon.extension}`;
   }
   static get defaultFaviconPath() {
-    return `${Sequence.HTTPS_PROTOCOL}${conf.assetsPath}${Favicon.defaultFaviconFileName}${Favicon.extension}`;
+    return `${Sequence.HTTPS_PROTOCOL}//${conf.assetsURL}/${Favicon.defaultFaviconFileName}${Favicon.extension}`;
   }
   static get defaultFaviconData() {
     return {
@@ -24,18 +24,18 @@ export default class Favicon {
       faviconBinary: null,
       isExist: false,
       isDefault: true,
-      isForceGet: false
+      isForceGet: false,
     };
   }
 
   async fetch(thread, iconHrefs) {
-    const log = false;
+    const log = true;
     return new Promise((resolve, reject) => {
       const faviconDatas = this.getFaviconDatas(thread, iconHrefs);
 
       let promises = [];
 
-      faviconDatas.forEach(faviconData => {
+      faviconDatas.forEach((faviconData) => {
         if (log) console.log(faviconData);
         if (!faviconData.isDefault && faviconData.isExist) {
           if (log) console.log("A");
@@ -55,9 +55,9 @@ export default class Favicon {
         }
       });
 
-      Promise.all(promises).then(responses => {
+      Promise.all(promises).then((responses) => {
         // 取得失敗分をfilterする
-        const results = responses.filter(response => response !== false);
+        const results = responses.filter((response) => response !== false);
         const resultLength = results.length;
         let resolveResult = Favicon.defaultFaviconData;
 
@@ -124,7 +124,7 @@ export default class Favicon {
       faviconName: faviconName,
       faviconType: `NO_WRITE_ON_HOST`,
       isExist: Logics.fs.isExistFavicon(util.getSaveFaviconName(faviconName)),
-      isDefault: false
+      isDefault: false,
     });
     if (log) console.log("@ " + iconHrefsLength);
     if (iconHrefsLength > 0) {

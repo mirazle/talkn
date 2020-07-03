@@ -23,24 +23,12 @@ export default {
 };
 
 const functions = {
-  "SERVER_TO_API[BROADCAST]:fetchPosts": (state, action) => {
-    action.app.tuned = action.thread.ch;
-    return action;
-  },
-  "SERVER_TO_API[EMIT]:updateThread": (state, action) => {
-    action.threads = Threads.getMergedThreads(state.threads, action.thread);
-    action.threadDetail = { ...action.thread };
-    return action;
-  },
-  "SERVER_TO_API[EMIT]:fetchPosts": (state, action) => {
+  "SERVER_TO_API[EMIT]:tune": (state, action) => {
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     action.app.detailCh = action.thread.ch;
-    action.app.desc = action.thread.serverMetas.title;
     action.app.isRootCh = action.app.rootCh === action.thread.ch;
     action.app.isMediaCh = App.getIsMediaCh(action.thread.ch);
     action.app.isToggleMultistream = false;
-    action = { ...Posts.getAnyActionPosts(action, state) };
-    action.thread.title = action.thread.serverMetas.title;
     action.thread.hasSlash = Schema.getBool(action.thread.hasSlash);
     action.threads = Threads.getMergedThreads(state.threads, action.thread);
     action.threadDetail = { ...action.thread };
@@ -50,10 +38,22 @@ const functions = {
     if (action.app.isMediaCh) {
       const src = App.getMediaSrc(action.thread.protocol, action.thread.ch);
       action.app.chType = App.getMediaTypeFromSrc(src);
-      action = storage.setStoragePostsTimeline(action);
     } else {
       action.app.chType = App.mediaTagTypeNo;
     }
+    return action;
+  },
+  "SERVER_TO_API[EMIT]:fetchPosts": (state, action) => {
+    action = { ...Posts.getAnyActionPosts(action, state) };
+    if (action.app.isMediaCh) {
+      action = storage.setStoragePostsTimeline(action);
+    }
+    return action;
+  },
+  "SERVER_TO_API[BROADCAST]:fetchPosts": (state, action) => {
+    action.app.tuned = action.thread.ch;
+    //    action.threads = Threads.getMergedThreads(state.threads, action.thread);
+    //    action.threadDetail = { ...action.thread };
     return action;
   },
   "API_TO_SERVER[REQUEST]:changeThread": (state, action) => {
@@ -72,9 +72,14 @@ const functions = {
     action.postsSingle = new Posts();
     return action;
   },
-  CLOSE_LINKS: (state, action) => {
-    action.app = action.app ? { ...state.app, ...action.app } : state.app;
-    action.thread = action.thread ? { ...state.thread, ...action.thread } : state.thread;
+  "API_TO_SERVER[EMIT]:changeThread": (state, action) => {
+    action.threads = Threads.getMergedThreads(state.threads, action.thread);
+    action.threadDetail = { ...action.thread };
+    return action;
+  },
+  "SERVER_TO_API[EMIT]:updateThread": (state, action) => {
+    action.threads = Threads.getMergedThreads(state.threads, action.thread);
+    action.threadDetail = { ...action.thread };
     return action;
   },
   "SERVER_TO_API[BROADCAST]:post": (state, action) => {
@@ -117,7 +122,7 @@ const functions = {
     action.threadDetail = { ...action.thread };
     action.threadDetail.title = action.thread.serverMetas.title;
     action.threadDetail.emotions = { ...state.threads[action.app.detailCh].emotions };
-    console.log(action.threadDetail.emotions.russellSimple);
+
     // TODO 古い仕様だとhasSlashが格納されていないcollectionが存在する
     // hasSlashはlocationが参照できないPORTALだと正しい値を取得出来ないため、
     // 拡張機能ではGET_CLIENT_METASを実行して正しい値をサーバーに渡して更新してやる必要がある。
@@ -125,6 +130,11 @@ const functions = {
       action.threadDetail.hasSlash === null ? true : Schema.getBool(action.threadDetail.hasSlash);
     delete action.thread;
     action.thread = action;
+    return action;
+  },
+  CLOSE_LINKS: (state, action) => {
+    action.app = action.app ? { ...state.app, ...action.app } : state.app;
+    action.thread = action.thread ? { ...state.thread, ...action.thread } : state.thread;
     return action;
   },
   ON_CLICK_TO_MULTI_THREAD: (state, action) => {

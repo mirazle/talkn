@@ -68,12 +68,8 @@ export default class Io {
     return true;
   }
 
-  async changeThread(ioUser, { requestState, thread, app }) {
-    const responseEmitState = Sequence.getResponseState("Emit", requestState, {
-      app,
-    });
+  async changeThread(ioUser, { requestState, thread }) {
     const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
-    this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
     this.io.broadcast(responseBroadcastState.thread.ch, responseBroadcastState);
     return true;
   }
@@ -102,7 +98,7 @@ export default class Io {
     return true;
   }
 
-  async saveOnWatchCnt(ioUser, { requestState, thread }) {
+  async disconnect(ioUser, { requestState, thread }) {
     const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
     return this.io.broadcast(responseBroadcastState.thread.ch, responseBroadcastState);
   }
