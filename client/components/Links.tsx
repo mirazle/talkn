@@ -146,7 +146,7 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
   }
 
   componentDidUpdate(props) {
-    if (props.state.actionLog[0] === "API_TO_CLIENT[EMIT]:fetchPosts") {
+    if (props.state.actionLog[0] === "API_TO_CLIENT[EMIT]:tune") {
       this.setLinkContents();
     }
   }
