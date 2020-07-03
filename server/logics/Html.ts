@@ -246,7 +246,6 @@ export default class Html {
       const item = $("body a").get(i);
       const href = getHref(item);
       const text = getText(item);
-
       if (href && href !== "" && text && text !== "") {
         links.push({ href, text });
       }

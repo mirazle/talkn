@@ -152,7 +152,6 @@ class BootOption {
     switch (env) {
       case define.PRODUCTION:
         initialRootCh = initialRootCh.replace(`/${define.PRODUCTION_DOMAIN}`, "/");
-        console.log(initialRootCh);
         break;
       case define.LOCALHOST:
         initialRootCh = initialRootCh.replace(`/${define.DEVELOPMENT_DOMAIN}`, "/");
