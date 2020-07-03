@@ -1,14 +1,15 @@
 import request from "request";
 import cheerio from "cheerio";
-// import jschardet from "jschardet";
 import { Iconv } from "iconv";
 import { Buffer } from "buffer";
+import conf from "common/conf";
 import Sequence from "api/Sequence";
 import App from "api/store/App";
-import Thread from "api/store/Thread";
 import MongoDB from "server/listens/db/MongoDB";
 import Logics from "server/logics";
 import HtmlSchema from "server/schemas/logics/html";
+
+const log = false;
 
 export default class Html {
   static get checkSpace() {
@@ -16,39 +17,42 @@ export default class Html {
   }
 
   async fetch(thread, requestState) {
-    const { hasSlash } = requestState.thread;
-    const { protocol, ch } = thread;
-    const layer = Thread.getLayer(ch);
-    let requestCh = ch;
-
-    if (layer === 2) {
-      requestCh = ch.replace(/\/$/, "");
+    let { protocol, ch, hasSlash } = requestState.thread;
+    //    hasSlash = false;
+    //    ch = "/news.yahoo.co.jp/pickup/6364244";
+    let url = ch;
+    if (ch === "/") {
+      url = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}`;
     } else {
-      requestCh = JSON.parse(hasSlash) ? ch : ch.replace(/\/$/, "");
+      if (hasSlash && ch.slice(-1) !== "/") {
+        url = `${Sequence.HTTPS_PROTOCOL}/${ch}/`;
+      } else {
+        url = `${Sequence.HTTPS_PROTOCOL}/${ch}`;
+      }
     }
 
     let result: any = { response: null, iconHrefs: [] };
 
     switch (protocol) {
       case Sequence.HTTPS_PROTOCOL:
-        result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, requestCh);
+        result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, url);
 
         if (!result.response) {
-          result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, requestCh);
+          result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, url);
         }
         break;
       case Sequence.HTTP_PROTOCOL:
-        result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, requestCh);
+        result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, url);
         if (!result.response) {
-          result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, requestCh);
+          result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, url);
         }
         break;
       case Sequence.TALKN_PROTOCOL:
       case Sequence.UNKNOWN_PROTOCOL:
       default:
-        result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, requestCh);
+        result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, url);
         if (!result.response) {
-          result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, requestCh);
+          result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, url);
         }
         break;
     }
@@ -61,19 +65,15 @@ export default class Html {
     }
   }
 
-  exeFetch(protocol, ch) {
+  exeFetch(protocol, url) {
     return new Promise((resolve, reject) => {
-      const url = `${protocol}/${ch}`;
       const option = { method: "GET", encoding: "binary", url };
+
+      if (log) console.log("Fetch Html " + url);
+
       // localhost is not get.
       request(option, (error, response, body) => {
         let responseSchema = MongoDB.getDefineSchemaObj(new HtmlSchema({}));
-
-        if (error) {
-          //          console.warn("html.js " + url);
-          //          console.warn(error);
-        }
-
         if (!error && response && response.statusCode === 200) {
           const contentType = response.headers["content-type"];
           let iconHrefs = [];
@@ -81,7 +81,7 @@ export default class Html {
           responseSchema.contentType = contentType;
           responseSchema.protocol = protocol;
           if (App.isMediaContentType(contentType)) {
-            responseSchema.title = this.getTitle(null, ch, contentType);
+            responseSchema.title = this.getTitle(null, url, contentType);
             responseSchema.serverMetas.title = responseSchema.title;
           } else {
             const utf8Body = this.toUtf8Str(body, contentType);
@@ -91,7 +91,7 @@ export default class Html {
             responseSchema.h1s = this.getH1s($);
             responseSchema.videos = this.getVideos($);
             responseSchema.audios = this.getAudios($);
-            responseSchema.serverMetas = this.getMetas($, ch, responseSchema, response.request.uri.href);
+            responseSchema.serverMetas = this.getMetas($, url, responseSchema, response.request.uri.href);
           }
           resolve({ response: responseSchema, iconHrefs });
         } else {
@@ -101,10 +101,10 @@ export default class Html {
     });
   }
 
-  getTitle($, ch, contentType) {
+  getTitle($, url, contentType) {
     let title = "";
     if (App.isMediaContentType(contentType)) {
-      const splitedCh = ch.split("/");
+      const splitedCh = url.split("/");
 
       const _title1 = splitedCh[splitedCh.length - 1];
       if (_title1 !== "") return _title1;
@@ -203,13 +203,13 @@ export default class Html {
   getLinks($) {
     const linkLength = $("body a").length;
 
-    const getHref = item => {
+    const getHref = (item) => {
       if (item && item.attribs && item.attribs.href && item.attribs.href !== "") {
         return item.attribs.href;
       }
       return "";
     };
-    const getText = item => {
+    const getText = (item) => {
       const itemLength = item.children.length;
       let text = "";
       for (let i = 0; i < itemLength; i++) {
@@ -254,12 +254,12 @@ export default class Html {
     return links;
   }
 
-  getMetas($, ch, parentSchema, href) {
+  getMetas($, url, parentSchema, href) {
     let responseSchema = MongoDB.getDefineSchemaObj(new HtmlSchema({}));
     let serverMetas = responseSchema.serverMetas;
     const metaLength = $("meta").length;
 
-    serverMetas.title = this.getTitle($, ch, parentSchema.contentType);
+    serverMetas.title = this.getTitle($, url, parentSchema.contentType);
 
     for (var i = 0; i < metaLength; i++) {
       const item = $("meta").get(i);
@@ -284,7 +284,7 @@ export default class Html {
           content = `${href}${content}`;
         }
       }
-
+      if (log) console.log("----------- " + key + " : " + content);
       key = key.toString().replace(".", "_");
       serverMetas[key] = content;
     }

@@ -91,7 +91,9 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
     const { threadDetail } = this.props.state;
     let backgroundImage = style.detail.img.backgroundImage;
     let backgroundSize = style.detail.img.backgroundSize;
+
     switch (threadDetail.findType) {
+      default:
       case Thread.findTypeHtml:
         if (serverMetas["og:image"]) {
           if (
@@ -142,7 +144,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
         <span style={style.detail.headerP}>
           {/*threadDetail.serverMetas.title*/}
 
-          <Marquee text={threadDetail.title} loop={true} hoverToStop={false} trailing={0} leading={0} />
+          <Marquee text={threadDetail.serverMetas["title"]} loop={true} hoverToStop={false} trailing={0} leading={0} />
         </span>
       </header>
     );

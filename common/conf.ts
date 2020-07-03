@@ -24,6 +24,7 @@ const assetsJsPath = `${assetsURL}/js/`;
 const sessionURL = `${SUB_DOMAINS.SESSION}.${domain}`;
 const description = "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.";
 
+const findOneThreadActiveHour = 1;
 const findOnePostCnt = 30;
 const findOneLimitCnt = 300;
 const ogpImages = {
@@ -52,6 +53,7 @@ const conf: any = {
   sessionURL,
   description,
   apiVer,
+  findOneThreadActiveHour,
   findOnePostCnt,
   findOneLimitCnt,
   ogpImages,

@@ -151,8 +151,6 @@ class BootOption {
     initialRootCh = initialRootCh.replace(`${Sequence.HTTPS_PROTOCOL}/`, "").replace(`${Sequence.HTTP_PROTOCOL}/`, "");
     switch (env) {
       case define.PRODUCTION:
-        console.log(initialRootCh);
-        console.log(`^\/${define.PRODUCTION_DOMAIN}\/`);
         initialRootCh = initialRootCh.replace(`/${define.PRODUCTION_DOMAIN}`, "/");
         console.log(initialRootCh);
         break;

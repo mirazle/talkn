@@ -2190,7 +2190,7 @@ export default class Icon {
   }
 
   static getStampLabelAtMenuStr(isBubblePost = true) {
-    return `text-indent: 1em; font-size: 0.4em; letter-spacing: 0.2em;`;
+    return `text-indent: 0.5em; font-size: 0.5em; letter-spacing: 0.1em;`;
   }
 
   static getStampLabel({ app, ui }) {
@@ -2207,6 +2207,7 @@ export default class Icon {
     };
     let labelContent = {
       color: Container.whiteRGB,
+      fontSize: "0.7em",
     };
 
     if (!ui.isBubblePost) {
@@ -2217,6 +2218,7 @@ export default class Icon {
       labelLayout.borderRadius = Container.radius;
       labelLayout.justifyContent = "flex-start";
       labelContent.color = Container.fontBaseRGB;
+      labelContent.fontSize = "0.9em";
     }
 
     const div = Style.get({
@@ -2241,7 +2243,6 @@ export default class Icon {
         ...labelLayout,
       }),
       content: Style.getContentBase({
-        fontSize: "0.7em",
         ...labelContent,
       }),
       animation: Style.getAnimationBase({}),

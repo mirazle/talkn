@@ -25,12 +25,36 @@ export default {
   },
 
   tune: async (ioUser, requestState, setting) => {
-    const { ch } = requestState.thread;
-    requestState.thread.watchCnt = await Logics.db.users.getIncLiveCnt(ioUser.conn.id, ch);
+    let { app, thread: requestThread } = requestState;
+    const { ch } = requestThread;
+
+    // users.
+    const watchCnt = await Logics.db.users.getIncLiveCnt(ioUser.conn.id, ch);
 
     // update thread rank.
-    Logics.db.threads.saveOnWatchCnt({ ch }, requestState.thread.watchCnt, true);
-    Logics.io.tune(ioUser, requestState, setting);
+    let { thread, isExist } = await Logics.db.threads.tune({ ch }, watchCnt, true);
+    requestState.thread = thread;
+    const threadStatus = Thread.getStatus(thread, app, isExist, setting);
+
+    // App.
+    requestState.app = Collections.getNewApp(requestState.type, app, threadStatus, thread);
+
+    // 作成・更新が必要なスレッドの場合
+    if (threadStatus.isRequireUpsert) {
+      thread = await Logics.db.threads.requestHtmlParams(thread, requestState);
+      // スレッド新規作成
+      if (threadStatus.isCreate) {
+        thread = await Logics.db.threads.save(thread);
+        Logics.io.tune(ioUser, requestState, setting);
+        // スレッド更新
+      } else {
+        Logics.io.tune(ioUser, requestState, setting);
+      }
+
+      // スレッドが存在して、更新も必要ない場合
+    } else {
+      Logics.io.tune(ioUser, requestState, setting);
+    }
   },
 
   fetchPosts: async (ioUser, requestState, setting) => {
@@ -41,7 +65,7 @@ export default {
     let { app } = requestState;
     const { ch } = requestState.thread;
     let thread = { ch };
-    const threadStatus = Thread.getStatus(thread, app, setting);
+    const threadStatus = Thread.getStatus(thread, app, true, setting);
     threadStatus.getMore = true;
     const postCntKey = threadStatus.isMultistream ? "multiPostCnt" : "postCnt";
     thread[postCntKey] = await Logics.db.posts.getCounts(requestState, threadStatus);
@@ -51,28 +75,19 @@ export default {
   },
 
   changeThread: async (ioUser, requestState, setting) => {
+    // Old Thread.
     const tuned = requestState.app.tuned;
-
     if (tuned !== "") {
-      const ch = requestState.thread.ch;
-
-      const thread = await Logics.db.threads.saveOnWatchCnt({ ch: tuned }, -1);
-
-      // ユーザーの接続情報を更新
-      // Logics.db.users.update(ioUser.conn.id, ch);
-
-      // 配信
-      Logics.io.changeThread(ioUser, {
-        requestState,
-        thread,
-        app: {
-          tuned: ch,
-        },
-      });
+      const { thread, isExist } = await Logics.db.threads.tune({ ch: tuned }, -1);
+      Logics.io.changeThread(ioUser, { requestState, thread });
     }
 
-    requestState.type = "fetchPosts";
-    await Actions.io.exeFetchPosts(ioUser, requestState, setting);
+    console.log({ ...requestState, type: "tune" });
+
+    // New thread.
+    await Actions.io.tune(ioUser, { ...requestState, type: "tune" }, setting);
+    // Posts.
+    await Actions.io.exeFetchPosts(ioUser, { ...requestState, type: "fetchPosts" }, setting);
   },
 
   exeFetchPosts: async (ioUser, requestState, setting) => {
@@ -81,9 +96,9 @@ export default {
     let { app } = requestState;
 
     // Thread
-    let { response: thread } = await Logics.db.threads.findOne(ch, { buildinSchema: true });
+    let { response: thread, isExist } = await Logics.db.threads.findOne(ch, { buildinSchema: true });
     thread.hasSlash = requestState.thread.hasSlash;
-    const threadStatus = Thread.getStatus(thread, app, setting);
+    const threadStatus = Thread.getStatus(thread, app, isExist, setting);
 
     // Posts
     const postCntKey = threadStatus.isMultistream ? "multiPostCnt" : "postCnt";
@@ -98,26 +113,10 @@ export default {
 
     if (!isTune) {
       Logics.db.users.update(uid, ch);
-      Logics.db.threads.saveOnWatchCnt(thread, +1);
+      Logics.db.threads.tune(thread, +1);
     }
 
-    // 作成・更新が必要なスレッドの場合
-    if (threadStatus.isRequireUpsert) {
-      thread = await Logics.db.threads.requestHtmlParams(thread, requestState);
-      thread.watchCnt = await Logics.db.users.getIncLiveCnt(uid, ch);
-      // スレッド新規作成
-      if (threadStatus.isSchema) {
-        thread = await Logics.db.threads.save(thread);
-        Logics.io.fetchPosts(ioUser, { requestState, thread, posts, app });
-        // スレッド更新
-      } else {
-        Logics.io.fetchPosts(ioUser, { requestState, thread, posts, app });
-      }
-
-      // スレッドが存在して、更新も必要ない場合
-    } else {
-      Logics.io.fetchPosts(ioUser, { requestState, thread, posts, app });
-    }
+    Logics.io.fetchPosts(ioUser, { requestState, thread, posts, app });
   },
 
   changeThreadDetail: async (ioUser, requestState, setting) => {
@@ -135,7 +134,7 @@ export default {
     const { app } = requestState;
     const { ch, emotions } = requestState.thread;
     const thread = { ch, emotions };
-    const threadStatus = Thread.getStatus(thread, app, setting);
+    const threadStatus = Thread.getStatus(thread, app, true, setting);
     const post = await Logics.db.posts.save(requestState);
     const emotionKeys = emotions ? Object.keys(emotions) : [];
 
@@ -188,10 +187,8 @@ export default {
 
       // userコレクションからwatchCntの実数を取得(thread.watchCntは読み取り専用)
       const watchCnt = await Logics.db.users.getUserCnt(user.ch);
-      const thread = await Logics.db.threads.saveOnWatchCnt({ ch: user.ch }, watchCnt, true);
-
-      // 配信
-      Logics.io.saveOnWatchCnt(ioUser, {
+      const { thread } = await Logics.db.threads.tune({ ch: user.ch }, watchCnt, true);
+      Logics.io.disconnect(ioUser, {
         requestState: { type: "disconnect" },
         thread,
       });

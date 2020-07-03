@@ -12,7 +12,7 @@ type ThreadFindOneType = {
 const ThreadFindOneInit = {
   selector: {},
   option: {},
-  buildinSchema: false,
+  buildinSchema: true,
 };
 
 export default class Threads {
@@ -30,14 +30,14 @@ export default class Threads {
     const { selector, option, buildinSchema } = params;
     const condition = { ch };
     let { error, response } = await this.collection.findOne(condition, selector, option);
-
+    const isExist = Boolean(response);
     if (buildinSchema) {
-      if (!response) {
+      if (!isExist) {
         const anyChResponse = await this.getUnshifAnyChResponse(ch, []);
         response = anyChResponse[0];
       }
     }
-    return { error, response };
+    return { error, response, isExist };
   }
 
   async findOneWatchCnt(ch) {
@@ -129,13 +129,14 @@ export default class Threads {
     return await this.collection.update(condition, set, option);
   }
 
-  async saveOnWatchCnt(thread, watchCnt, update = false) {
+  async tune(thread, watchCnt, update = false) {
     const { ch } = thread;
     if (thread.save) {
       thread.watchCnt = update ? watchCnt : thread.watchCnt + watchCnt;
-      return await Logics.db.threads.save(thread);
+      thread = await Logics.db.threads.save(thread);
+      return { thread, isExist: true };
     } else {
-      const { response: resThread } = await Logics.db.threads.findOne(ch);
+      let { response: resThread, isExist } = await Logics.db.threads.findOne(ch);
 
       if (update) {
         resThread.watchCnt = watchCnt;
@@ -143,7 +144,8 @@ export default class Threads {
         resThread.watchCnt = resThread.watchCnt + watchCnt;
       }
 
-      return await Logics.db.threads.save(resThread);
+      const thread = await Logics.db.threads.save(resThread);
+      return { thread, isExist };
     }
   }
 
@@ -198,7 +200,6 @@ export default class Threads {
   async requestHtmlParams(thread, requestState) {
     const { response: htmlParams, iconHrefs } = await Logics.html.fetch(thread, requestState);
     thread = MongoDB.getBuiltinObjToSchema(thread, htmlParams);
-
     if (thread.favicon === Favicon.defaultFaviconPath) {
       const faviconParams: any = await Logics.favicon.fetch(thread, iconHrefs);
       thread = MongoDB.getBuiltinObjToSchema(thread, {
