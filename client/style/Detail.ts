@@ -433,6 +433,7 @@ export default class Detail {
       width: "100%",
       background: Container.lightRGBA,
       height: Container.getBlockSize({ app, ui }),
+      boxShadow: Container.lineShadow,
       zÎndex: "1px",
       ...positions,
       ...borders,
