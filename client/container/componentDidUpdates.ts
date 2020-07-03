@@ -84,7 +84,7 @@ const componentDidUpdates = {
       self.props.updatePostsHeight(ui.postsHeight);
     },
     ON_CHANGE_FIND_TYPE: (self) => {
-      const { ch } = self.state.thread;
+      const { ch } = self.props.state.thread;
       self.coreApi("rank", { thread: ch });
     },
     DELEGATE_POST: (self) => {

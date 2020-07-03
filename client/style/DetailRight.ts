@@ -153,4 +153,7 @@ export default class DetailRight {
   static getUpdate(params) {
     return Detail.getUpdate(params);
   }
+  static getSpace(params) {
+    return Detail.getSpace(params);
+  }
 }

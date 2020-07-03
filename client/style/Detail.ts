@@ -58,6 +58,7 @@ export default class Detail {
   metaItems: Object;
   updateWrap: Object;
   update: Object;
+  space: Object;
   constructor(params) {
     const { app, ui } = params;
 
@@ -91,7 +92,7 @@ export default class Detail {
     styles.metaItems = DetailClass.getMetaItems(params);
     styles.updateWrap = DetailClass.getUpdateWrap(params);
     styles.update = DetailClass.getUpdate(params);
-
+    styles.space = DetailClass.getSpace(params);
     return styles;
   }
 
@@ -99,9 +100,12 @@ export default class Detail {
     const screenMode = Ui.getScreenMode(ui.width);
     const display = screenMode === Ui.screenModeLargeLabel ? "none" : "block";
     const left = screenMode === Ui.screenModeSmallLabel ? "0px" : Menu.baseWidth;
-    const background = ui.extensionMode === Ui.extensionModeExtBottomLabel ? Container.reliefRGB : Container.reliefRGB;
     const height = DetailModal.getHeight({ app, ui });
-    const borders = { borderTop: Container.border, borderRight: Container.border, borderLeft: Container.border };
+    const borders = {
+      borderTop: Container.border,
+      borderRight: Container.border,
+      borderLeft: Container.border,
+    };
     const layout = Style.getLayoutBlock({
       display,
       position: "fixed",
@@ -110,7 +114,6 @@ export default class Detail {
       width: DetailModal.getWidth({ app, ui }, false),
       height,
       margin: DetailModal.getMargin({ app, ui }),
-      background,
       ...borders,
       borderRadius: Container.radiuses,
       WebkitOverflowScrolling: "touch",
@@ -134,7 +137,6 @@ export default class Detail {
       minWidth: DetailRight.getWidth({ app, ui }),
       height: `calc( 100% - ${Container.getBlockSize({ app, ui })}px )`,
       WebkitOverflowScrolling: "touch",
-      background: Container.calmRGB,
       overflow: "hidden",
       margin: `${Container.getBlockSize({ app, ui })}px 0px 0px 0px`,
       zIndex: 0,
@@ -213,12 +215,11 @@ export default class Detail {
   }
 
   static getBody({ app, ui }) {
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutGrid({
       overflowX: "hidden",
       overflowY: "scroll",
       width: "100%",
       height: `calc( 100% - ${Container.getBlockSize({ app, ui }) * 2}px )`,
-      background: Container.reliefRGBA,
       zIndex: 0,
     });
     const content = Style.getContentBase();
@@ -229,8 +230,8 @@ export default class Detail {
   static getMeta({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "100%",
-      height: "initial",
-      background: Container.offWhiteRGBA,
+      height: "max-content",
+      background: Container.lightRGBA,
       borderBottom: Container.border,
     });
     const content = Style.getContentBase();
@@ -243,7 +244,6 @@ export default class Detail {
       width: "100%",
       height: "30vh",
       maxHeight: "400px",
-      backgroundColor: Container.whiteRGB,
       backgroundImage: `url(//${conf.assetsImgPath}talkn_logo1.png)`,
       backgroundPosition: "center center",
       // backgroundSize: "60%",
@@ -307,12 +307,11 @@ export default class Detail {
   static getCh({ app, ui }) {
     const layout = Style.getLayoutBlock({
       width: "100%",
-      height: "initial",
-      background: Container.offWhiteRGBA,
+      height: "max-content",
+      background: Container.lightRGBA,
       borderTop: Container.border,
       borderBottom: Container.border,
       padding: "15px",
-      margin: `0px 0px ${Container.getBlockSize({ app, ui })}px 0px`,
     });
     const content = Style.getContentBase({
       textAlign: "left",
@@ -521,6 +520,17 @@ export default class Detail {
       cursor: "pointer",
       color: Container.whiteRGB,
     });
+    const animation = Style.getAnimationBase();
+    return Style.get({ layout, content, animation });
+  }
+
+  static getSpace({ app, ui }) {
+    const layout = Style.getLayoutFlex({
+      width: "100%",
+      height: "100px",
+      background: Container.silverRGBA,
+    });
+    const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
   }

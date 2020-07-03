@@ -141,4 +141,7 @@ export default class DetailModal {
   static getUpdate(params) {
     return Detail.getUpdate(params);
   }
+  static getSpace(params) {
+    return Detail.getSpace(params);
+  }
 }

@@ -57,34 +57,8 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
 
   handleOnClickUpdate() {
     const { threadDetail } = this.props.state;
-    this.clientAction("OPEN_INNER_NOTIF", "Thread data has been updated.");
+    this.clientAction("OPEN_INNER_NOTIF", { ui: { openInnerNotif: "Update thread data." } });
     this.coreApi("updateThread", threadDetail.ch);
-  }
-
-  render() {
-    const { style } = this.props.state;
-    return (
-      <div data-component-name={"Detail"} style={style.detail.self}>
-        {this.renderHeader()}
-        <div data-component-name={"DetailBody"} style={style.detail.body}>
-          {this.renderMeta()}
-          {this.renderExtension()}
-          {this.renderCh()}
-          {/* this.renderAnalyze() */}
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          {/*<span style={{color: "gray"}}>特許出願中</span>*/}
-          <br />
-          <br />
-          <br />
-        </div>
-        {this.renderLockMenu()}
-        {this.renderDetailFooter()}
-      </div>
-    );
   }
 
   getImgStyle(state, style, protocol, serverMetas) {
@@ -136,158 +110,86 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
     return conf.description;
   }
 
+  render() {
+    const { style } = this.props.state;
+    return (
+      <div data-component-name={"Detail"} style={style.detail.self}>
+        {this.renderHeader()}
+        <div data-component-name={"DetailBody"} style={style.detail.body}>
+          {this.renderImage()}
+          {this.renderMeta()}
+          {this.renderExtension()}
+          {this.renderCh()}
+          <div data-component-name="Detail-space" style={style.detail.space}></div>
+        </div>
+        {this.renderLockMenu()}
+        {this.renderDetailFooter()}
+      </div>
+    );
+  }
+
   renderHeader() {
     const { state, handleOnClickToggleDetail } = this.props;
     const { style, threadDetail } = state;
     return (
       <header data-component-name={"DetailHeader"} onClick={handleOnClickToggleDetail} style={style.detail.header}>
         <span style={style.detail.headerP}>
-          {/*threadDetail.serverMetas.title*/}
-
           <Marquee text={threadDetail.serverMetas["title"]} loop={true} hoverToStop={false} trailing={0} leading={0} />
         </span>
       </header>
     );
   }
 
-  getTwitterIcon(state) {
-    const { threadDetail, ui } = this.props.state;
-    const { serverMetas } = threadDetail;
-    const active = serverMetas && serverMetas["twitter:site"] && serverMetas["twitter:site"] !== "";
-    const href = active ? `${define.URL.twitter}${serverMetas["twitter:site"].replace("@", "")}` : "";
-    const onClick =
-      ui.extensionMode !== "NONE"
-        ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
-          }
-        : () => {};
-    return Icon.getTwitter(state, {}, { active, href, onClick });
-  }
-
-  getFacebookIcon(state) {
-    const { threadDetail } = this.props.state;
-    const { serverMetas } = threadDetail;
-    const { ui } = state;
-    const active = serverMetas && serverMetas["fb:page_id"] !== "";
-    const href = active ? `${define.URL.facebook}${serverMetas["fb:page_id"]}` : "";
-    const onClick =
-      ui.extensionMode !== "NONE"
-        ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
-          }
-        : () => {};
-    return Icon.getFacebook(state, {}, { active, href, onClick });
-  }
-
-  getAppstoreIcon(state) {
-    const { threadDetail } = this.props.state;
-    const { serverMetas } = threadDetail;
-    const { ui } = state;
-    const active = serverMetas && serverMetas["al:ios:app_store_id"] !== "";
-    const href = active ? `${define.URL.appstore}${serverMetas["al:ios:app_store_id"]}` : "";
-    const onClick =
-      ui.extensionMode !== "NONE"
-        ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
-          }
-        : () => {};
-    return Icon.getAppstore(state, {}, { active, href, onClick });
-  }
-
-  getAndroidIcon(state) {
-    const { ui, threadDetail } = state;
-    const { serverMetas } = threadDetail;
-    const active = serverMetas && serverMetas["al:android:package"] !== "";
-    const href = active ? `${define.URL.playstore}${serverMetas["al:android:package"]}` : "";
-    const onClick =
-      ui.extensionMode !== "NONE"
-        ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
-          }
-        : () => {};
-    return Icon.getAndroid(state, {}, { active, href, onClick });
-  }
-
-  getHomeIcon(state) {
-    const { threadDetail, ui } = state;
-    const { protocol, ch, hasSlash } = threadDetail;
-    const active = true;
-    let href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${ch}`;
-
-    if (protocol !== Sequence.TALKN_PROTOCOL) {
-      if (hasSlash && ch.lastIndexOf("/") === ch.length - 1) {
-        href = `${protocol}/${ch}`.replace(/\/$/, "");
-      } else {
-        href = `${protocol}/${ch}`;
-      }
-    }
-    const onClick =
-      ui.extensionMode !== "NONE"
-        ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
-          }
-        : () => {};
-    return Icon.getHome(state, {}, { active, href, onClick });
-  }
-
-  getTalknIcon(state) {
-    const { threadDetail, ui } = state;
-    const { ch } = threadDetail;
-    const active = true;
-    const href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${ch}`;
-    const onClick =
-      ui.extensionMode !== "NONE"
-        ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
-          }
-        : () => {};
-    return Icon.getTalkn(state, {}, { active, href, onClick });
-  }
-
-  getDispContentType(contentType) {
-    const { style } = this.props.state;
-    if (contentType) {
-      return contentType.split(";").map((c, i) => (
-        <div key={`${c}_${i}`} style={style.detail.metaContentType}>
-          {c}
-        </div>
-      ));
-    }
-    return "";
+  renderImage() {
+    const { state } = this.props;
+    const { threadDetail, style } = state;
+    const { serverMetas, protocol } = threadDetail;
+    style.detail.img = this.getImgStyle(state, style, protocol, serverMetas);
+    return <div style={style.detail.img} />;
   }
 
   renderMeta() {
     const { state } = this.props;
     const { threadDetail, style } = state;
     const { serverMetas, contentType, h1s, protocol } = threadDetail;
-    style.detail.img = this.getImgStyle(state, style, protocol, serverMetas);
-    const description = this.getDescription(serverMetas);
-
-    // Have item icons.
-    const TwitterIcon = this.getTwitterIcon(state);
-    const FacebookIcon = this.getFacebookIcon(state);
-    const AppstoreIcon = this.getAppstoreIcon(state);
-    const AndroidIcon = this.getAndroidIcon(state);
-
-    // Default icons.
-    const HomeIcon = this.getHomeIcon(state);
-    const TalknIcon = this.getTalknIcon(state);
-    const GraphIcon = Icon.getGraph(state, {}, { active: false });
-    const EmptyIcon = Icon.getEmpty(state, {}, { active: false });
-
-    // Content Type
-    const dispContentType = this.getDispContentType(contentType);
-    /*
-    const h1LiTags = h1s.map( ( h1, i ) => {
-      return( <li style={ style.detail.h1sLi } key={`h1s${i}`}>・{h1}</li> );
-    });
-    */
-
     return (
       <div data-component-name={"DetaiMeta"} style={style.detail.meta}>
-        <div style={style.detail.img} />
-        <div style={style.detail.description}>{description}</div>
+        {this.renderDescription()}
         <EmotionGraph {...this.props} />
+        {this.renderIcons()}
+        {this.renderContentTypes()}
+      </div>
+    );
+  }
+
+  renderDescription() {
+    const { state } = this.props;
+    const { threadDetail, style } = state;
+    const { serverMetas } = threadDetail;
+    const description = this.getDescription(serverMetas);
+    return (
+      <div data-component-name={"Detail-description"} style={style.detail.description}>
+        {description}
+      </div>
+    );
+  }
+
+  renderIcons() {
+    const { state } = this.props;
+    const { style } = state;
+    // Have item icons.
+    const TwitterIcon = Icons.getTwitterIcon(state);
+    const FacebookIcon = Icons.getFacebookIcon(state);
+    const AppstoreIcon = Icons.getAppstoreIcon(state);
+    const AndroidIcon = Icons.getAndroidIcon(state);
+
+    // Default icons.
+    const HomeIcon = Icons.getHomeIcon(state);
+    const TalknIcon = Icons.getTalknIcon(state);
+    const GraphIcon = Icon.getGraph(state, {}, { active: false });
+    const EmptyIcon = Icon.getEmpty(state, {}, { active: false });
+    return (
+      <div data-component-name="Detail-icons">
         <div style={style.detail.metaItems}>
           {TwitterIcon}
           {FacebookIcon}
@@ -301,10 +203,23 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
           {GraphIcon}
           {EmptyIcon}
         </div>
-
-        <div style={style.detail.metaContentTypeWrap}>{dispContentType}</div>
       </div>
     );
+  }
+
+  renderContentTypes() {
+    const { state } = this.props;
+    const { threadDetail, style } = state;
+    const { contentType } = threadDetail;
+    if (contentType) {
+      const contentTypes = contentType.split(";").map((c, i) => (
+        <div key={`${c}_${i}`} style={style.detail.metaContentType}>
+          {c}
+        </div>
+      ));
+      return <div style={style.detail.metaContentTypeWrap}>{contentTypes}</div>;
+    }
+    return undefined;
   }
 
   renderCh() {
@@ -312,7 +227,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
     const { style, threadDetail } = state;
     const IconUpdate = Icon.getUpdate(style.icon.update);
     return (
-      <div style={style.detail.ch}>
+      <div data-component-name={"Detail-ch"} style={style.detail.ch}>
         CH
         <br />
         {threadDetail.ch}
@@ -433,5 +348,101 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
           }
         : () => {};
     return Icon.getChromeExtension({}, state, { active, href, onClick });
+  }
+}
+
+class Icons {
+  static getTwitterIcon(state) {
+    const { threadDetail, ui } = state;
+    const { serverMetas } = threadDetail;
+    const active = serverMetas && serverMetas["twitter:site"] && serverMetas["twitter:site"] !== "";
+    const href = active ? `${define.URL.twitter}${serverMetas["twitter:site"].replace("@", "")}` : "";
+    const onClick =
+      ui.extensionMode !== "NONE"
+        ? () => {
+            window.talknWindow.parentExtTo("linkTo", { href });
+          }
+        : () => {};
+    return Icon.getTwitter(state, {}, { active, href, onClick });
+  }
+
+  static getFacebookIcon(state) {
+    const { threadDetail } = state;
+    const { serverMetas } = threadDetail;
+    const { ui } = state;
+    const active = serverMetas && serverMetas["fb:page_id"] !== "";
+    const href = active ? `${define.URL.facebook}${serverMetas["fb:page_id"]}` : "";
+    const onClick =
+      ui.extensionMode !== "NONE"
+        ? () => {
+            window.talknWindow.parentExtTo("linkTo", { href });
+          }
+        : () => {};
+    return Icon.getFacebook(state, {}, { active, href, onClick });
+  }
+
+  static getAppstoreIcon(state) {
+    const { threadDetail } = state;
+    const { serverMetas } = threadDetail;
+    const { ui } = state;
+    const active = serverMetas && serverMetas["al:ios:app_store_id"] !== "";
+    const href = active ? `${define.URL.appstore}${serverMetas["al:ios:app_store_id"]}` : "";
+    const onClick =
+      ui.extensionMode !== "NONE"
+        ? () => {
+            window.talknWindow.parentExtTo("linkTo", { href });
+          }
+        : () => {};
+    return Icon.getAppstore(state, {}, { active, href, onClick });
+  }
+
+  static getAndroidIcon(state) {
+    const { ui, threadDetail } = state;
+    const { serverMetas } = threadDetail;
+    const active = serverMetas && serverMetas["al:android:package"] !== "";
+    const href = active ? `${define.URL.playstore}${serverMetas["al:android:package"]}` : "";
+    const onClick =
+      ui.extensionMode !== "NONE"
+        ? () => {
+            window.talknWindow.parentExtTo("linkTo", { href });
+          }
+        : () => {};
+    return Icon.getAndroid(state, {}, { active, href, onClick });
+  }
+
+  static getHomeIcon(state) {
+    const { threadDetail, ui } = state;
+    const { protocol, ch, hasSlash } = threadDetail;
+    const active = true;
+    let href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${ch}`;
+
+    if (protocol !== Sequence.TALKN_PROTOCOL) {
+      if (hasSlash && ch.lastIndexOf("/") === ch.length - 1) {
+        href = `${protocol}/${ch}`.replace(/\/$/, "");
+      } else {
+        href = `${protocol}/${ch}`;
+      }
+    }
+    const onClick =
+      ui.extensionMode !== "NONE"
+        ? () => {
+            window.talknWindow.parentExtTo("linkTo", { href });
+          }
+        : () => {};
+    return Icon.getHome(state, {}, { active, href, onClick });
+  }
+
+  static getTalknIcon(state) {
+    const { threadDetail, ui } = state;
+    const { ch } = threadDetail;
+    const active = true;
+    const href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${ch}`;
+    const onClick =
+      ui.extensionMode !== "NONE"
+        ? () => {
+            window.talknWindow.parentExtTo("linkTo", { href });
+          }
+        : () => {};
+    return Icon.getTalkn(state, {}, { active, href, onClick });
   }
 }

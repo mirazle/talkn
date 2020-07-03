@@ -106,10 +106,8 @@ const functions = {
   ON_CLICK_MULTISTREAM: (state, action) => {
     const posts = Posts.getDispPosts(action);
     const postLength = posts && posts.length ? posts.length : 0;
-    console.log("IN");
     if (postLength > 0 && state.rank.length > 0) {
       action.rank = state.rank.map((mi) => {
-        console.log(action.app.rootCh + " === " + mi.ch);
         if (state.app.rootCh === mi.ch) {
           return {
             ...mi,
