@@ -235,7 +235,9 @@ export default class Detail {
       borderBottom: Container.border,
     });
     const content = Style.getContentBase();
-    const animation = Style.getAnimationBase();
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransition({ app, ui }),
+    });
     return Style.get({ layout, content, animation });
   }
 
@@ -318,7 +320,9 @@ export default class Detail {
       lineHeight: "30px",
       wordBreak: "break-word",
     });
-    const animation = Style.getAnimationBase();
+    const animation = Style.getAnimationBase({
+      transition: Container.getTransition({ app, ui }),
+    });
     return Style.get({ layout, content, animation });
   }
 
