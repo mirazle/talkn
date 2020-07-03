@@ -10,6 +10,7 @@ import DetailFooter from "client/components/DetailFooter";
 import EmotionGraph from "client/components/EmotionGraph";
 import LockMenu from "client/components/LockMenu";
 import Icon from "client/components/Icon";
+import Container from "client/style/Container";
 
 interface DetailProps {
   onClickOpenLockMenu?: any;
@@ -18,13 +19,64 @@ interface DetailProps {
 }
 
 interface DetailState {
-  style: any;
+  metaStyle: any;
+  chStyle: any;
 }
 
 export default class Detail extends TalknComponent<DetailProps, DetailState> {
   constructor(props) {
     super(props);
+    const { style } = props.state;
+    this.state = {
+      metaStyle: style.detail.meta,
+      chStyle: style.detail.ch,
+    };
+
     this.handleOnClickUpdate = this.handleOnClickUpdate.bind(this);
+    this.getMetaDecolationProps = this.getMetaDecolationProps.bind(this);
+    this.getChDecolationProps = this.getChDecolationProps.bind(this);
+  }
+
+  getMetaDecolationProps() {
+    return {
+      onMouseOver: () => {
+        this.setState({
+          metaStyle: {
+            ...this.state.metaStyle,
+            background: Container.whiteRGBA,
+          },
+        });
+      },
+      onMouseLeave: () => {
+        this.setState({
+          metaStyle: {
+            ...this.state.metaStyle,
+            background: Container.lightRGBA,
+          },
+        });
+      },
+    };
+  }
+
+  getChDecolationProps() {
+    return {
+      onMouseOver: () => {
+        this.setState({
+          chStyle: {
+            ...this.state.chStyle,
+            background: Container.whiteRGBA,
+          },
+        });
+      },
+      onMouseLeave: () => {
+        this.setState({
+          chStyle: {
+            ...this.state.chStyle,
+            background: Container.lightRGBA,
+          },
+        });
+      },
+    };
   }
 
   handleOnClickLike() {
@@ -149,11 +201,10 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   renderMeta() {
-    const { state } = this.props;
-    const { threadDetail, style } = state;
-    const { serverMetas, contentType, h1s, protocol } = threadDetail;
+    const { metaStyle } = this.state;
+    console.log("@@@ RENDER META " + metaStyle.background);
     return (
-      <div data-component-name={"DetaiMeta"} style={style.detail.meta}>
+      <div data-component-name={"DetaiMeta"} style={metaStyle} {...this.getMetaDecolationProps()}>
         {this.renderDescription()}
         <EmotionGraph {...this.props} />
         {this.renderIcons()}
@@ -223,11 +274,12 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   }
 
   renderCh() {
+    const { chStyle } = this.state;
     const { state } = this.props;
     const { style, threadDetail } = state;
     const IconUpdate = Icon.getUpdate(style.icon.update);
     return (
-      <div data-component-name={"Detail-ch"} style={style.detail.ch}>
+      <div data-component-name={"Detail-ch"} style={chStyle} {...this.getChDecolationProps()}>
         CH
         <br />
         {threadDetail.ch}
