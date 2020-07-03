@@ -89,9 +89,8 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
         this.onClickCh(app.rootCh, ui, false, "backToRootCh");
         break;
       case App.dispThreadTypeTimeline:
-        //if( app.isLinkCh ){
         this.onClickCh(app.rootCh, ui, false, "backToRootCh");
-      //}
+        break;
     }
   }
 
