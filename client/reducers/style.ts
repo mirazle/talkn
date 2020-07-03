@@ -26,11 +26,11 @@ import Rank from "client/style/Menu/Rank";
 export default (state: any = {}, action: any) => {
   switch (action.type) {
     case "API_TO_CLIENT[EMIT]:tune":
-    case "RESIZE_START_WINDOW":
+    case "ON_RESIZE_START_WINDOW":
     case "ON_RESIZE_END_WINDOW":
     case "ON_TRANSITION":
-    case "OFF_TRANSITION":
     case "ON_TRANSITION_END":
+    case "OFF_TRANSITION":
     case "bootExtension":
       return new Style(action);
     case "TOGGLE_DISP_MAIN":

@@ -187,9 +187,9 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     if (window.talknWindow) {
       const { app, ui } = this.clientState;
       if (this.resizeTimer === null) {
-        this.resizeStartWindow(app);
+        this.resizeStartWindow(ui);
         this.resizeTimer = setTimeout(() => {
-          this.resizeEndWindow();
+          this.resizeEndWindow(ui);
         }, TalknWindow.resizeInterval);
       }
     }
@@ -227,32 +227,31 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
 
   resizeStartWindow(ui) {
-    ui.width = window.innerWidth;
-    ui.height = window.innerHeight;
     ui.isTransition = false;
-    ui.screenMode = Ui.getScreenMode();
     this.clientAction("ON_RESIZE_START_WINDOW", { ui });
   }
 
-  resizeEndWindow() {
-    clearTimeout(this.resizeTimer);
-    this.resizeTimer = null;
-    const clientStore = window.talknWindow.clientStore.getState();
-    const { app, ui } = clientStore;
-    let updateWindow = false;
-    if (ui.width !== window.innerWidth) {
-      ui.width = window.innerWidth;
-      updateWindow = true;
-    }
-    if (ui.height !== window.innerHeight) {
-      ui.height = window.innerHeight;
-      updateWindow = true;
-    }
+  resizeEndWindow(ui) {
+    if (ui) {
+      clearTimeout(this.resizeTimer);
+      this.resizeTimer = null;
+      const clientStore = window.talknWindow.clientStore.getState();
+      let updateWindow = false;
+      if (ui.width !== window.innerWidth) {
+        ui.width = window.innerWidth;
+        updateWindow = true;
+      }
+      if (ui.height !== window.innerHeight) {
+        ui.height = window.innerHeight;
+        updateWindow = true;
+      }
 
-    if (updateWindow) {
-      ui.screenMode = Ui.getScreenMode();
-      clientStore.ui = ui;
-      this.clientAction("ON_RESIZE_END_WINDOW", clientStore);
+      if (updateWindow) {
+        ui.screenMode = Ui.getScreenMode();
+        ui.isTransition = true;
+        clientStore.ui = ui;
+        this.clientAction("ON_RESIZE_END_WINDOW", clientStore);
+      }
     }
   }
 

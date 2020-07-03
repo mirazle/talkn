@@ -180,8 +180,12 @@ const functions = {
     action.ui.isOpenPosts = Ui.getIsOpenPosts(action.ui);
     return action;
   },
-  RESIZE_END_WINDOW: (state, action) => {
-    action.ui.isOpenPosts = Ui.getIsOpenPosts(action.ui);
+  ON_RESIZE_START_WINDOW: (state, action) => {
+    action.rank = state.rank;
+    return action;
+  },
+  ON_RESIZE_END_WINDOW: (state, action) => {
+    action.rank = state.rank;
     return action;
   },
   ON_CLICK_TO_MULTI_THREAD: (state, action) => {
