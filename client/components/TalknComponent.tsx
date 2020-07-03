@@ -50,7 +50,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     const beforeCh = thread.ch;
     thread.ch = toCh;
     ui.isOpenLinks = false;
-    ui.isOpenMenu = called === "menuIndexList";
+    ui.isOpenMenu = false;
     ui.isOpenBoard = true;
 
     if (Schema.isSet(overWriteHasSlash)) thread.hasSlash = overWriteHasSlash;

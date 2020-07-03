@@ -117,7 +117,6 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
       onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     } else {
-      console.log("# DETAIL CH " + app.rootCh);
       ui = Ui.getUiUpdatedOpenFlgs({ app, ui }, "headerDetailIcon");
       this.clientAction("ON_CLICK_TOGGLE_DISP_DETAIL", { threadDetail, ui, app: { detailCh: app.rootCh } });
     }

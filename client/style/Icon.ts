@@ -2146,7 +2146,7 @@ export default class Icon {
         borderRadius: "26px",
       }),
       content: Style.getContentBase({
-        fontSize: "0.8em",
+        fontSize: "0.7em",
         textAlign: "center",
       }),
       animation: Style.getAnimationBase({}),
