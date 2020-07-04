@@ -34,14 +34,14 @@ export default class Style extends TalknComponent<Props, State> {
     return (
       <style type="text/css">
         {`
-          #talkn1 textarea::placeholder {
+          #talkn textarea::placeholder {
             text-indent: 3% !important;
             font-size: ${fontSize}px !important;
             letter-spacing: ${letterSpacing}px !important;
             line-height: ${lineHeight}px !important;
             color: rgb(170, 170, 170);
           }
-          #talkn1 input::placeholder {
+          #talkn input::placeholder {
             text-indent: 3%;
             font-size: ${fontSize}px;
             letter-spacing: 1px;
