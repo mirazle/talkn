@@ -38,7 +38,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     return 0;
   }
 
-  id: string = "talkn1";
+  id: string = "talkn";
   bootOption: any;
   appType: string;
   resizeTimer: any = null;
@@ -63,7 +63,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     this.resizeStartWindow = this.resizeStartWindow.bind(this);
     this.resizeEndWindow = this.resizeEndWindow.bind(this);
     this.dom = {};
-    this.dom.talkn1 = document.querySelector("#talkn1");
+    this.dom.talkn = document.querySelector("#talkn");
     this.dom.html = document.querySelector("html");
     this.dom.body = document.querySelector("body");
     this.dom.posts = document.querySelector("[data-component-name=Posts]");
@@ -287,7 +287,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     const overflow = "hidden";
     this.dom.html.style.overflow = overflow;
     this.dom.body.style.overflow = overflow;
-    this.dom.talkn1.style.overflow = overflow;
+    this.dom.talkn.style.overflow = overflow;
     return window.scrollY;
   }
 
@@ -296,7 +296,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     const overflow = "inherit";
     this.dom.html.style.overflow = overflow;
     this.dom.body.style.overflow = overflow;
-    this.dom.talkn1.style.overflow = overflow;
+    this.dom.talkn.style.overflow = overflow;
   }
 
   appendRoot() {
