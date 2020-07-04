@@ -190,8 +190,8 @@ export default class Detail {
       width: "100%",
       height: `${Container.getBlockSize({ app, ui })}px`,
       maxHeight: `${Container.getBlockSize({ app, ui })}px`,
-      borderBottom: Container.border,
-      background: Container.whiteRGB,
+      borderBottom: `1px solid ${Container.borderRGB}`,
+      background: Container.whiteRGBA,
       padding: "0px 20px",
     });
     const content = Style.getContentBase({
