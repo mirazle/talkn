@@ -17,6 +17,7 @@ export default (self, constructorName) => {
 const componentDidUpdates = {
   Container: {
     "API_TO_CLIENT[EMIT]:fetchPosts": (self) => {
+      window.talknWindow.removeTalknBg();
       const { ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
       ui.postsHeight += TalknWindow.getPostsHeight();
@@ -49,7 +50,6 @@ const componentDidUpdates = {
 
         window.talknWindow.parentExtTo("fetchPosts", self.props.state);
         window.talknWindow.resizeEndWindow();
-        window.talknWindow.removeTalknBg();
       }
     },
     "API_TO_CLIENT[EMIT]:changeThreadDetail": (self) => {

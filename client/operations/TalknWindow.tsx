@@ -284,7 +284,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
 
   removeTalknBg() {
-    this.dom.talkn.style["display"] = "block";
+    this.dom.talkn.style["display"] = "initial";
     this.dom.talkn.style["background-image"] = "none";
     this.dom.talkn.style["animation-name"] = "none";
   }
