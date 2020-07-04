@@ -2142,7 +2142,7 @@ export default class Icon {
       layout: Style.getLayoutInlineBlock({
         width: "26px",
         height: "26px",
-        background: Container.themeRGBA,
+        background: `rgba(${Container.themeRGBString}, 0.85)`,
         borderRadius: "26px",
       }),
       content: Style.getContentBase({
