@@ -226,7 +226,7 @@ class Styles {
     return 5;
   }
   static get BASE_SHADOW() {
-    return "rgba(220, 220, 220, 0.95) 0px 0px 1px 0px !important;";
+    return "rgba(200, 200, 200, 0.9) 0px 0px 1px 0px !important;";
   }
   static get BASE_ACTIVE_BG_COLOR() {
     return "rgba(255, 255, 255, 0.975) !important;";
@@ -286,6 +286,9 @@ class Elements {
 }
 
 class Window extends Elements {
+  static get className() {
+    return "talknExtensionParts";
+  }
   static get talknNotifId() {
     return "talknNotifId";
   }
@@ -849,6 +852,7 @@ class Iframe extends Elements {
     const iframe = document.createElement("iframe");
     const width = `${this.getWidth(true)} !important;`;
     iframe.id = Iframe.id;
+    iframe.className = Window.className;
     iframe.name = "local";
     iframe.style = this.getStyles(width);
     iframe.src = this.getSrc();
@@ -1131,9 +1135,8 @@ class HandleIcon extends Elements {
 
     if (this.window.extMode !== Ext.MODE_INCLUDE) {
       let handleIcon = document.createElement("div");
-      // let handleIcon = document.createElement("canvas");
-      // handleIcon = this.drawCanvas(handleIcon);
       handleIcon.id = HandleIcon.id;
+      handleIcon.className = Window.className;
       handleIcon.style = this.getStyle();
       // handleIcon.src = '//assets.localhost/airplane.svg';
 
@@ -1362,6 +1365,7 @@ class NotifStatus extends Elements {
     this.resetCnt = this.resetCnt.bind(this);
 
     notifStatus.id = id;
+    notifStatus.className = Window.className;
     notifStatus.innerText = 0;
     notifStatus.style =
       "" +
@@ -1482,6 +1486,7 @@ class Notif extends Elements {
     const borderRadius = this.getBorderRadius();
 
     notif.setAttribute("id", id);
+    notif.setAttribute("className", Window.className);
     notif.setAttribute("name", "notif");
     notif.setAttribute(
       "style",
@@ -1502,7 +1507,6 @@ class Notif extends Elements {
         `padding: 0px 20px 0px 10px!important;` +
         `opacity: 0 !important;` +
         `background: ${Styles.BASE_UNACTIVE_BG_COLOR}` +
-        `border: ${Styles.BASE_UNACTIVE_BORDER}` +
         `border-radius: ${borderRadius} !important;` +
         `box-shadow: ${Styles.BASE_SHADOW}` +
         `color: rgba( 120, 120, 120, 0.9) !important;` +
