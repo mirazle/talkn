@@ -208,13 +208,28 @@ export default class Posts {
     return "0";
   }
 
+  static getSelfBoxShadow({ app, ui }) {
+    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+      return "0";
+    } else {
+      switch (ui.screenMode) {
+        case Ui.screenModeSmallLabel:
+          return Container.lineInsetShadow;
+        case Ui.screenModeMiddleLabel:
+        case Ui.screenModeLargeLabel:
+          return "0";
+      }
+    }
+    return "0";
+  }
+
   static getSelf({ app, ui }) {
     let position = "absolute";
     let overflowX = "hidden";
     let overflowY = "hidden";
     let borders = Posts.getBorders({ app, ui });
     let background = Container.whiteRGBA;
-    const boxShadow = ui.extensionMode === Ui.extensionModeExtNoneLabel ? "none" : Container.lineInsetShadow;
+    const boxShadow = Posts.getSelfBoxShadow({ app, ui });
     // screen mode large is Posts scroll( no window scroll ).
     if (ui.screenMode === Ui.screenModeLargeLabel) {
       position = "fixed";
