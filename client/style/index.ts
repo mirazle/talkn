@@ -26,6 +26,9 @@ import Link from "./Link";
 import Loading from "./Loading";
 import ExtScreen from "./ExtScreen";
 
+export type StyleValue = string | number;
+export type StyleObject = { [key: string]: StyleValue };
+
 export default class Style {
   static get fontBaseRGB() {
     return "rgb(130, 130, 130)";
@@ -171,6 +174,10 @@ export default class Style {
   }
   static get facebookRGBA() {
     return "rgba(73, 104, 173, 0.96)";
+  }
+
+  static get emptyLabelStyle() {
+    return { maxWidth: 0, maxHeight: 0 };
   }
 
   container: Container;

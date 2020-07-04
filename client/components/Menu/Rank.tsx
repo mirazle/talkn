@@ -1,11 +1,11 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import Ui from "client/store/Ui";
 import Thread from "api/store/Thread";
 import conf from "common/conf";
 import Icon from "client/components/Icon";
 import MenuIndexList from "client/components/Menu/MenuIndexList";
+import { Label } from "client/components/common";
 
 interface RankProps {
   state: any;
@@ -33,43 +33,22 @@ export default class Rank extends TalknComponent<RankProps, RankState> {
   }
 
   getDecolationProps() {
-    return {};
-    /*
     return {
       onMouseOver: () => {
-        this.setState(
-          { style:
-            {...this.state.style,
-              transition: '200ms',
-              transform: 'scale( 1.1 ) rotate( 0deg )'
-            }
-          }
-        );
+        this.setState({
+          style: { ...this.state.style, transition: "200ms", transform: "scale( 1.1 ) rotate( 0deg )" },
+        });
       },
       onMouseLeave: () => {
-        this.setState( {style:
-          {...this.state.style,
-            transition: '600ms',
-            transform: 'scale( 1 ) rotate( 0deg )'
-          }
-        });
+        this.setState({ style: { ...this.state.style, transition: "600ms", transform: "scale( 1 ) rotate( 0deg )" } });
       },
       onMouseDown: () => {
-        this.setState( {style:
-          {...this.state.style,
-            transform: 'scale( 0.9 ) rotate( 180deg)'
-          }
-        });
+        this.setState({ style: { ...this.state.style, transform: "scale( 0.9 ) rotate( 180deg)" } });
       },
       onMouseUp: () => {
-        this.setState( {style:
-          {...this.state.style,
-            transform: 'scale( 1 ) rotate( 0deg )'
-          }
-        });
+        this.setState({ style: { ...this.state.style, transform: "scale( 1 ) rotate( 0deg )" } });
       },
-    }
-    */
+    };
   }
 
   handleOnClickUpdate(ch) {
@@ -128,18 +107,15 @@ export default class Rank extends TalknComponent<RankProps, RankState> {
         <header style={style.rank.header}>
           <div style={style.rank.headerSearchIcon}>{IconTune}</div>
           <div style={style.rank.headerInput}>{this.state.rootCh}</div>
-          <div
-            style={headerUpdateIconStyle}
-            //            onClick={this.handleOnClickUpdate}
-            {...this.getDecolationProps()}
-          >
+          <div style={headerUpdateIconStyle} {...this.getDecolationProps()}>
             {/* IconUpdate */}
-            <select onChange={onChangeFindType} style={style.rank.headerFindSelect}>
+            <select id="ch" onChange={onChangeFindType} style={style.rank.headerFindSelect}>
               <option>{Thread.findTypeAll}</option>
               <option>{Thread.findTypeHtml}</option>
               <option>{Thread.findTypeMusic}</option>
               <option>{Thread.findTypeVideo}</option>
             </select>
+            <Label htmlFor={"ch"} />
           </div>
         </header>
 

@@ -7,6 +7,7 @@ import Style from "client/style/index";
 import Container from "client/style/Container";
 import { default as LockMenuStyle } from "client/style/LockMenu";
 import Icon from "client/components/Icon";
+import { Label } from "client/components/common";
 
 interface LockMenuProps {
   state: any;
@@ -206,12 +207,14 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
             {IconTalkn}
             <div style={style.lockMenu.shareLabel}>
               <input
+                id="copy-script"
                 data-component-share-input
                 type="text"
                 style={stateStyle.liEmbedInput}
                 readOnly={true}
                 value={`<script type="text/javascript" async src='//${conf.extURL}${threadDetail.ch}'></script>`}
               />
+              <Label htmlFor="copy-script" />
             </div>
           </li>
         </ul>
