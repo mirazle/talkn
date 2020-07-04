@@ -239,7 +239,7 @@ export default class Posts {
     }
 
     const layout = Style.getLayoutBlock({
-      position,
+      position: "absolute",
       top: Posts.getSelfTop({ app, ui }),
       width: Posts.getWidth({ app, ui }),
       minWidth: Posts.getMinWidth({ app, ui }),
