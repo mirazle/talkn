@@ -46,8 +46,7 @@ export default class PostsSupporter {
       whiteSpace: "nowrap",
       overflowScrolling: "touch",
       WebkitOverflowScrolling: "touch",
-      overflowX: "scroll",
-      overflowY: "hidden",
+      overflow: "hidden",
       zIndex: 2,
     });
     const content = {};
