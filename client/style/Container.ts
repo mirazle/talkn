@@ -57,7 +57,7 @@ export default class Container {
     return 0.034;
   }
   static get borderRGB() {
-    return Style.mono220RGB;
+    return Style.mono240RGB;
   }
   static get border() {
     return `0px solid ${Container.borderRGB}`;

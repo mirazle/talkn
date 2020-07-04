@@ -202,7 +202,6 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
 
   renderMeta() {
     const { metaStyle } = this.state;
-    console.log("@@@ RENDER META " + metaStyle.background);
     return (
       <div data-component-name={"DetaiMeta"} style={metaStyle} {...this.getMetaDecolationProps()}>
         {this.renderDescription()}
