@@ -203,7 +203,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
           return this.renderLarge();
       }
     }
-    return <></>;
+    return <LoadingLogo {...this.props} />;
   }
 
   renderFixMarker(props): React.ReactNode {

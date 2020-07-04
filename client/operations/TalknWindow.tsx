@@ -170,7 +170,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
         <Provider store={this.stores.client}>
           <Container />
         </Provider>,
-        document.getElementById(this.id),
+        document.querySelector(`div#${this.id}`),
         () => {}
       );
     });
