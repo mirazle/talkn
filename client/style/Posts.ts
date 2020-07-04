@@ -209,24 +209,19 @@ export default class Posts {
   }
 
   static getSelfBoxShadow({ app, ui }) {
-    console.log("AA");
+    let boxShadow = "0px 0px 0px rgba(255,255,255)";
     if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
-      console.log("BB");
-      return "0";
+      return boxShadow;
     } else {
-      console.log("CC");
       switch (ui.screenMode) {
         case Ui.screenModeSmallLabel:
-          console.log("DD");
           return Container.lineInsetShadow;
         case Ui.screenModeMiddleLabel:
         case Ui.screenModeLargeLabel:
-          console.log("EE");
-          return "0";
+          return boxShadow;
       }
     }
-    console.log("FF");
-    return "0";
+    return boxShadow;
   }
 
   static getSelf({ app, ui }) {
