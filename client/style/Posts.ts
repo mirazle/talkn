@@ -242,7 +242,7 @@ export default class Posts {
       overflowX = "hidden";
       overflowY = "scroll";
     }
-
+    console.log(boxShadow);
     const layout = Style.getLayoutBlock({
       position,
       top: Posts.getSelfTop({ app, ui }),
