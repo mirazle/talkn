@@ -209,17 +209,23 @@ export default class Posts {
   }
 
   static getSelfBoxShadow({ app, ui }) {
+    console.log("AA");
     if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+      console.log("BB");
       return "0";
     } else {
+      console.log("CC");
       switch (ui.screenMode) {
         case Ui.screenModeSmallLabel:
+          console.log("DD");
           return Container.lineInsetShadow;
         case Ui.screenModeMiddleLabel:
         case Ui.screenModeLargeLabel:
+          console.log("EE");
           return "0";
       }
     }
+    console.log("FF");
     return "0";
   }
 
