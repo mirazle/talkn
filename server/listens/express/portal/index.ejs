@@ -150,18 +150,11 @@
         align-items: center;
         width: 100vw;
         height: 100vh;
-      }
-      .logo {
-        position: relative;
-        top: -50px;
+        background: url("https://<%= assetsURL %>/img/talkn_logo2.svg") 50% 40% / 128px no-repeat;
         animation-name: logo;
         animation-duration: 2000ms;
         animation-iteration-count: infinite;
-        border-radius: 300px;
-        width: 128px;
-        height: 128px;
         transition: 600ms;
-        background: url(//assets.localhost/img/talkn_logo2.svg) 50% 50% / 128px no-repeat;
       }
     </style>
     <noscript
@@ -176,8 +169,6 @@
     >
   </head>
   <body>
-    <div id="talkn">
-      <div class="logo"></div>
-    </div>
+    <div id="talkn"></div>
   </body>
 </html>

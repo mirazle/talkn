@@ -64,10 +64,10 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     this.resizeEndWindow = this.resizeEndWindow.bind(this);
     this.removeTalknBg = this.removeTalknBg.bind(this);
     this.dom = {};
-    this.dom.talkn = document.querySelector("#talkn");
-    this.dom.html = document.querySelector("html");
-    this.dom.body = document.querySelector("body");
-    this.dom.posts = document.querySelector("[data-component-name=Posts]");
+    this.dom.talkn = document.querySelector(`div#${this.id}`);
+    this.dom.html = document.querySelector(`div#${this.id} html`);
+    this.dom.body = document.querySelector(`div#${this.id} body`);
+    this.dom.posts = document.querySelector(`div#${this.id} [data-component-name=Posts]`);
     this.listenAsyncBoot();
   }
 
@@ -284,8 +284,13 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
 
   removeTalknBg() {
-    this.dom.talkn.style.background = 0;
-    this.dom.talkn.style.animation = 0;
+    console.log("REMOVE");
+    console.log(this.dom.talkn.style["background-image"]);
+    console.log(this.dom.talkn.style["animation-name"]);
+    this.dom.talkn.style["background-image"] = "none";
+    this.dom.talkn.style["animation-name"] = "none";
+    console.log(this.dom.talkn.style["background-image"]);
+    console.log(this.dom.talkn.style["animation-name"]);
   }
 
   lockWindow() {
