@@ -116,8 +116,10 @@ export default class Header {
 
   static getSelf({ app, ui }) {
     const width = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "90%" : "100%";
-    const borderTop = ui.extensionMode === "NONE" ? 0 : Container.border;
+    const borderTop = ui.extensionMode === Ui.extensionModeExtNoneLabel ? 0 : Container.border;
     const borderRadius = Header.getBorderRadius({ app, ui });
+    const boxShadow =
+      ui.extensionMode === Ui.extensionModeExtNoneLabel ? Container.lineShadow : Container.lineInsetShadow;
     const layout = Style.getLayoutFlex({
       position: "fixed",
       top: "0px",
@@ -131,7 +133,7 @@ export default class Header {
       background: Container.whiteRGB,
       margin: Header.getMargin({ app, ui }),
       zIndex: 1000,
-      boxShadow: `${Container.lineShadow}`,
+      boxShadow,
     });
     const content = Style.getContentBase({
       textAlign: "center",

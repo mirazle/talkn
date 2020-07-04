@@ -65,6 +65,9 @@ export default class Container {
   static get lineShadow() {
     return `0px 0px 1px ${Container.lineShadowColor}`;
   }
+  static get lineInsetShadow() {
+    return `0px 0px 1px ${Container.lineShadowColor} inset`;
+  }
   static get lineShadowColor() {
     return Container.downreliefRGB;
   }

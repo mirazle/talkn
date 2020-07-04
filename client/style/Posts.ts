@@ -214,7 +214,7 @@ export default class Posts {
     let overflowY = "hidden";
     let borders = Posts.getBorders({ app, ui });
     let background = Container.whiteRGBA;
-
+    const boxShadow = ui.extensionMode === Ui.extensionModeExtNoneLabel ? "none" : Container.lineInsetShadow;
     // screen mode large is Posts scroll( no window scroll ).
     if (ui.screenMode === Ui.screenModeLargeLabel) {
       position = "fixed";
@@ -235,6 +235,7 @@ export default class Posts {
       background,
       overflowScrolling: "touch",
       WebkitOverflowScrolling: "touch",
+      boxShadow,
       overflowX,
       overflowY,
       ...borders,
