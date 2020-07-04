@@ -284,13 +284,9 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
 
   removeTalknBg() {
-    console.log("REMOVE");
-    console.log(this.dom.talkn.style["background-image"]);
-    console.log(this.dom.talkn.style["animation-name"]);
+    this.dom.talkn.style["display"] = "block";
     this.dom.talkn.style["background-image"] = "none";
     this.dom.talkn.style["animation-name"] = "none";
-    console.log(this.dom.talkn.style["background-image"]);
-    console.log(this.dom.talkn.style["animation-name"]);
   }
 
   lockWindow() {
