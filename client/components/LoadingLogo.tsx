@@ -13,6 +13,6 @@ export default class LoadingLogo extends TalknComponent<Props, State> {
     super(props);
   }
   render() {
-    return <></>;
+    return <div className={"LogoScreen"}></div>;
   }
 }
