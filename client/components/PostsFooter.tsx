@@ -4,6 +4,7 @@ import App from "api/store/App";
 import Ui from "client/store/Ui";
 import util from "common/util";
 import conf from "common/conf";
+import { Label } from "client/components/common";
 
 const regex = /^\s*$/;
 
@@ -70,21 +71,14 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
     return thread.favicon ? { ...style.postsFooter.icon, backgroundImage: `url(${favicon})` } : style.postsFooter.icon;
   }
 
-  renderButton() {
-    const { style, ui } = this.props.state;
-
-    return ui.extensionMode === Ui.extensionModeExtNoneLabel ? (
-      <button style={style.postsFooter.button} onClick={this.handleOnClick} />
-    ) : undefined;
-  }
-
   render() {
     const { state, handleOnClickFooterIcon } = this.props;
     const { style, ui } = state;
     return (
-      <div data-component-name={"PostsFooter"} style={style.postsFooter.self}>
+      <footer data-component-name={"PostsFooter"} style={style.postsFooter.self}>
         <div style={this.getIconStyle()} onClick={handleOnClickFooterIcon} />
         <textarea
+          id="post"
           data-component-name={"postArea"}
           style={style.postsFooter.textarea}
           ref={"postArea"}
@@ -94,8 +88,18 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
           value={ui.inputPost}
           placeholder="Comment to web"
         />
+        {/* TODO: Lighthouse accecibility */}
+        <Label htmlFor="post" />
         {this.renderButton()}
-      </div>
+      </footer>
     );
+  }
+
+  renderButton() {
+    const { style, ui } = this.props.state;
+
+    return ui.extensionMode === Ui.extensionModeExtNoneLabel ? (
+      <button aria-label="post" style={style.postsFooter.button} onClick={this.handleOnClick} />
+    ) : undefined;
   }
 }
