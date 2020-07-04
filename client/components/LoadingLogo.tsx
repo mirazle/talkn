@@ -1,7 +1,5 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import Style from "client/components/Style";
-import conf from "common/conf";
 
 interface Props {
   state: any;

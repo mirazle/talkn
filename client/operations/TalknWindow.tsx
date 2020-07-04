@@ -62,6 +62,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     this.exeGetMore = this.exeGetMore.bind(this);
     this.resizeStartWindow = this.resizeStartWindow.bind(this);
     this.resizeEndWindow = this.resizeEndWindow.bind(this);
+    this.removeTalknBg = this.removeTalknBg.bind(this);
     this.dom = {};
     this.dom.talkn = document.querySelector("#talkn");
     this.dom.html = document.querySelector("html");
@@ -280,6 +281,11 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
         animateScroll();
       }
     }
+  }
+
+  removeTalknBg() {
+    this.dom.talkn.style.background = 0;
+    this.dom.talkn.style.animation = 0;
   }
 
   lockWindow() {

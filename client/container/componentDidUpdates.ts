@@ -49,6 +49,7 @@ const componentDidUpdates = {
 
         window.talknWindow.parentExtTo("fetchPosts", self.props.state);
         window.talknWindow.resizeEndWindow();
+        window.talknWindow.removeTalknBg();
       }
     },
     "API_TO_CLIENT[EMIT]:changeThreadDetail": (self) => {
