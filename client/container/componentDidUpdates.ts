@@ -16,6 +16,12 @@ export default (self, constructorName) => {
 
 const componentDidUpdates = {
   Container: {
+    "API_TO_CLIENT[BROADCAST]:tune": (self) => {
+      window.talknWindow.parentExtTo("tune", self.props.state);
+    },
+    "API_TO_CLIENT[BROADCAST]:disconnect": (self) => {
+      window.talknWindow.parentExtTo("disconnect", self.props.state);
+    },
     "API_TO_CLIENT[EMIT]:fetchPosts": (self) => {
       window.talknWindow.removeTalknBg();
       const { ui } = self.props.state;
@@ -48,7 +54,6 @@ const componentDidUpdates = {
           self.clientAction("CLOSE_LINKS");
         }
 
-        window.talknWindow.parentExtTo("fetchPosts", self.props.state);
         window.talknWindow.resizeEndWindow();
       }
     },

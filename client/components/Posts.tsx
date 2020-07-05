@@ -88,7 +88,6 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
       let change = to - start;
       let currentTime = 0;
       let increment = 20;
-
       const animateScroll = () => {
         currentTime += increment;
         let scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);
@@ -117,7 +116,6 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
 
     if (threads[ch]) {
       ui = Ui.getUiUpdatedOpenFlgs({ app, ui }, "post");
-      console.log("# POSTS CH " + ch);
       this.clientAction("ON_CLICK_TOGGLE_DISP_DETAIL", {
         ui,
         app: { detailCh: ch },

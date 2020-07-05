@@ -160,23 +160,16 @@ export default class Posts {
   }
 
   static getSelfHeight({ app, ui }) {
-    switch (ui.extensionMode) {
-      case Ui.extensionModeExtBottomLabel:
-      case Ui.extensionModeExtModalLabel:
-      case Ui.extensionModeExtIncludeLabel:
-        return `auto`;
-      default:
-        if (ui.screenMode === Ui.screenModeLargeLabel) {
-          if (app.chType === App.mediaTagTypeVideo) {
-            return `calc( 100% - ${
-              Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui }) + Video.height
-            }px )`;
-          } else {
-            return `calc( 100% - ${Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })}px )`;
-          }
-        } else {
-          return "auto";
-        }
+    if (ui.screenMode === Ui.screenModeLargeLabel) {
+      if (app.chType === App.mediaTagTypeVideo) {
+        return `calc( 100% - ${
+          Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui }) + Video.height
+        }px )`;
+      } else {
+        return `100vh`;
+      }
+    } else {
+      return "auto";
     }
   }
 
@@ -258,7 +251,6 @@ export default class Posts {
     });
     const content = {};
     const animation = Style.getAnimationBase({});
-    console.log(layout);
     return Style.get({ layout, content, animation });
   }
 
@@ -278,8 +270,7 @@ export default class Posts {
     const layout = Style.getLayoutBlock({
       width,
       margin,
-      height: `calc( 100% - ${Container.getBlockSize({ app, ui })}px )`,
-      minHeight: "100vh",
+      height: `100vh`,
       borderRight,
       borderLeft,
     });
