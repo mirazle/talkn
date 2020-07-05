@@ -23,7 +23,10 @@ export default class Io {
       user: { uid: ioUser.conn.id },
       setting,
     });
-    return this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
+    const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
+    this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
+    this.io.broadcast(responseBroadcastState.thread.ch, responseBroadcastState);
+    return true;
   }
 
   async fetchPosts(ioUser, { requestState, thread, posts, app }) {
@@ -32,9 +35,7 @@ export default class Io {
       posts,
       app,
     });
-    const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
-    this.io.broadcast(responseBroadcastState.thread.ch, responseBroadcastState);
     return true;
   }
 

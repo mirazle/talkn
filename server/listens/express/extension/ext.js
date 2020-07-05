@@ -302,7 +302,8 @@ class Window extends Elements {
     return [
       "toggleIframe",
       "location",
-      "fetchPosts",
+      "tune",
+      "disconnect",
       "openNotif",
       "closeNotif",
       "linkTo",
@@ -372,6 +373,7 @@ class Window extends Elements {
 
         this.updateDisplayMode = this.updateDisplayMode.bind(this);
         this.transformDisplayMode = this.transformDisplayMode.bind(this);
+        this.updateNotifStatus = this.updateNotifStatus.bind(this);
         this.openNotif = this.openNotif.bind(this);
         this.closeNotif = this.closeNotif.bind(this);
 
@@ -575,9 +577,27 @@ class Window extends Elements {
     this.updateDisplayMode("toggleIframe");
   }
 
-  fetchPosts(state) {
-    console.log(state);
+  tune(state) {
     this.state = state;
+    this.updateNotifStatus();
+  }
+
+  disconnect(state) {
+    this.state = state;
+    this.updateNotifStatus();
+  }
+
+  updateNotifStatus() {
+    const { watchCnt } = this.state.thread;
+    const { notifStatus } = this.ins;
+    switch (this.extMode) {
+      case Ext.MODE_BOTTOM:
+      case Ext.MODE_MODAL:
+        if (Ext.DISPLAY_MODE[this.displayModeKey] === Ext.DISPLAY_MODE_ACTIVE) {
+          notifStatus.updateCnt(watchCnt);
+        }
+        break;
+    }
   }
 
   openNotif(params) {
@@ -603,7 +623,7 @@ class Window extends Elements {
         switch (Ext.DISPLAY_MODE[this.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             if (!this.notifedId.includes(params.id)) {
-              notifStatus.updateCnt(params.addUnreadCnt);
+              // notifStatus.updateCnt(params.addUnreadCnt);
               this.notifedId.push(params.id);
             }
             new Notif(this, params);
@@ -616,7 +636,6 @@ class Window extends Elements {
   closeNotif(params) {
     switch (this.extMode) {
       case Ext.MODE_BOTTOM:
-        7;
         let talknNotifId = sessionStorage.getItem(Window.talknNotifId);
         clearTimeout(talknNotifId);
         sessionStorage.setItem(Window.talknNotifId, null);
@@ -1230,6 +1249,7 @@ class HandleIcon extends Elements {
   /*************************/
 
   click() {
+    const { watchCnt } = this.window.state.thread;
     const { iframe, notifStatus } = this.window.ins;
     const iframeElm = iframe.get();
 
@@ -1259,11 +1279,12 @@ class HandleIcon extends Elements {
         break;
       case Ext.MODE_BOTTOM:
       case Ext.MODE_MODAL:
-        notifStatus.resetCnt();
+        // notifStatus.resetCnt();
 
         const regex = /^\s*$/;
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
+            notifStatus.updateCnt(watchCnt);
             this.window.updateDisplayMode("clickHandleIcon");
             break;
           case Ext.DISPLAY_MODE_OPEN:

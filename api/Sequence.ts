@@ -67,7 +67,7 @@ export default class Sequence {
           app: ["multistream", "rootCh", "dispThreadType", "actioned", "offsetFindId", "isToggleMultistream"],
         },
         responseEmitState: { user: ["uid"], setting: "*", thread: "*" },
-        responseBroadcastState: {},
+        responseBroadcastState: { thread: ["watchCnt", "ch"] },
       },
       fetchPosts: {
         requestPublicState: {},
@@ -81,7 +81,7 @@ export default class Sequence {
           // これをtuneに移動する
           app: ["dispThreadType", "offsetFindId", "tuned"],
         },
-        responseBroadcastState: { thread: ["watchCnt", "ch"] },
+        responseBroadcastState: {},
       },
       getMore: {
         requestPublicState: {},
