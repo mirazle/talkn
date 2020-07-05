@@ -38,7 +38,7 @@ export default (state = [], action) => {
           return mi;
         }
       });
-    case "SERVER_TO_API[BROADCAST]:fetchPosts":
+    case "SERVER_TO_API[BROADCAST]:tune":
     case "SERVER_TO_API[BROADCAST]:changeThread":
     case "SERVER_TO_API[BROADCAST]:disconnect":
       if (state.length === 0) {
@@ -85,22 +85,21 @@ export default (state = [], action) => {
       });
     case "SERVER_TO_API[EMIT]:rank":
       if (state && state.length === 1 && action.rank && action.rank.length > 0) {
-
         const newRanks = [];
         const rankCnt = action.rank.length;
         let lastPost = action.rank[0];
-        for( let i = 0; i < rankCnt; i++ ){
+        for (let i = 0; i < rankCnt; i++) {
           let newRank = action.rank[i];
           lastPost = newRank.updateTime > lastPost.updateTime ? newRank : lastPost;
 
           if (newRank.ch === state[0].ch) {
-            newRank = { 
+            newRank = {
               ...newRank,
               watchCnt: state[0].watchCnt,
             };
           }
           newRanks.push(newRank);
-        };
+        }
 
         newRanks.sort(sortWatchCnt);
         newRanks[0].faicon = lastPost.favicon;
