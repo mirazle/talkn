@@ -112,13 +112,13 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
 
   handleOnClickToggleDetail(e) {
     const { state, onClickOpenLockMenu } = this.props;
-    let { app, threadDetail } = this.clientState;
+    let { app, thread, threadDetail } = this.clientState;
     let { ui } = state;
     if (ui.openLockMenu !== Ui.openLockMenuLabelNo) {
       onClickOpenLockMenu(Ui.openLockMenuLabelNo);
     } else {
       ui = Ui.getUiUpdatedOpenFlgs({ app, ui }, "headerDetailIcon");
-      this.clientAction("ON_CLICK_TOGGLE_DISP_DETAIL", { threadDetail, ui, app: { detailCh: app.rootCh } });
+      this.clientAction("ON_CLICK_TOGGLE_DISP_DETAIL", { threadDetail, ui, app: { detailCh: thread.ch } });
     }
   }
 
