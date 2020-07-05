@@ -21,13 +21,13 @@ export default class Style extends TalknComponent<Props, State> {
 
     switch (ui.screenMode) {
       case Ui.screenModeSmallLabel:
-        letterSpacing = 3;
+        letterSpacing = "1vw";
         break;
-      case Ui.screenModeSmallLabel:
-        letterSpacing = 3.5;
+      case Ui.screenModeMiddleLabel:
+        letterSpacing = "3.5px";
         break;
-      case Ui.screenModeSmallLabel:
-        letterSpacing = 4;
+      case Ui.screenModeLargeLabel:
+        letterSpacing = "4px";
         break;
     }
 
@@ -37,7 +37,7 @@ export default class Style extends TalknComponent<Props, State> {
           #talkn textarea::placeholder {
             text-indent: 3% !important;
             font-size: ${fontSize}px !important;
-            letter-spacing: ${letterSpacing}px !important;
+            letter-spacing: ${letterSpacing} !important;
             line-height: ${lineHeight}px !important;
             color: rgb(170, 170, 170);
           }

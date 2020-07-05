@@ -98,8 +98,12 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
   renderButton() {
     const { style, ui } = this.props.state;
 
-    return ui.extensionMode === Ui.extensionModeExtNoneLabel ? (
-      <button aria-label="post" style={style.postsFooter.button} onClick={this.handleOnClick} />
-    ) : undefined;
+    switch (ui.extensionMode) {
+      case Ui.extensionModeExtNoneLabel:
+      case Ui.extensionModeExtIncludeLabel:
+        return <button aria-label="post" style={style.postsFooter.button} onClick={this.handleOnClick} />;
+      default:
+        return undefined;
+    }
   }
 }

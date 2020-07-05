@@ -1,5 +1,4 @@
 import Posts from "api/store/Posts";
-import App from "api/store/App";
 
 export default (state = [], action) => {
   let posts = [];
