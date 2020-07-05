@@ -7,16 +7,18 @@ export default class Menu {
     return "300px";
   }
   static getBorderRadius({ app, ui }): any {
-    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
-      return 0;
-    } else {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
-          return `0 0 ${Container.radius} ${Container.radius}`;
-        case Ui.screenModeMiddleLabel:
-        case Ui.screenModeLargeLabel:
-          return `0px 0px 0px ${Container.radius}`;
-      }
+    switch (ui.extensionMode) {
+      case Ui.extensionModeExtNoneLabel:
+      case Ui.extensionModeExtIncludeLabel:
+        return 0;
+      default:
+        switch (ui.screenMode) {
+          case Ui.screenModeSmallLabel:
+            return `0 0 ${Container.radius} ${Container.radius}`;
+          case Ui.screenModeMiddleLabel:
+          case Ui.screenModeLargeLabel:
+            return `0px 0px 0px ${Container.radius}`;
+        }
     }
   }
 

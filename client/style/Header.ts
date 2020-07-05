@@ -169,8 +169,8 @@ export default class Header {
       position: "absolute",
       width: "100%",
       height: "100%",
-      top: "0px",
-      left: "15%",
+      top: "3px",
+      left: "20%",
     });
     const content = {};
     const animation = Style.getAnimationBase();
