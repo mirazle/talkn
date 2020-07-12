@@ -40,7 +40,7 @@
     <link rel="shortcut icon" href="https://<%= assetsURL %>/favicon.ico" />
     <link rel="canonical" href="https://<%= domain %>/" />
     <script async src="https://cdn.ampproject.org/v0.js"></script>
-
+    <script id="talknClient" async type="text/javascript" src="https://<%= clientURL %>"></script>
     <script type="text/javascript">
       const onServiceWorker = () => {
         if ("serviceWorker" in navigator) {
@@ -56,31 +56,16 @@
       };
 
       onServiceWorker();
-      window.name = window.name ? window.name : "global";
-      const includeIframeTag = "<%= includeIframeTag %>" ? "<%= includeIframeTag %>" : true;
 
-      // load api script.
-      if (window.name === "global") {
+      // 自分自身がwindow.top(iframeで読み込まれていない)の場合
+      if (window == window.parent) {
         const apiScript = document.createElement("script");
-        apiScript.setAttribute("id", "talkn");
+        apiScript.setAttribute("id", "talknApi");
+        apiScript.setAttribute("async", true);
         apiScript.setAttribute("type", "text/javascript");
         apiScript.setAttribute("src", "https://<%= apiAccessURL %>");
         document.head.appendChild(apiScript);
       }
-
-      let ch = location.href.replace(location.origin, "");
-      let hasSlash = ch.lastIndexOf("/") === ch.length - 1;
-      ch = hasSlash ? ch : ch + "/";
-
-      const clientScript = document.createElement("script");
-      clientScript.setAttribute("id", "talkn");
-      clientScript.setAttribute("type", "text/javascript");
-      clientScript.setAttribute("src", "https://<%= clientURL %>");
-      clientScript.setAttribute("ch", ch);
-      clientScript.setAttribute("hasSlash", hasSlash);
-      clientScript.setAttribute("width", "320px");
-      clientScript.setAttribute("includeIframeTag", includeIframeTag);
-      document.head.appendChild(clientScript);
     </script>
     <noscript key="noscript">Your browser does not support JavaScript!</noscript>
     <style amp-boilerplate>

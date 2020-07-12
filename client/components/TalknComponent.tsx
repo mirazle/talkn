@@ -30,14 +30,14 @@ export default class TalknComponent<P, S> extends Component<P, S> {
   }
 
   coreApi(method, params = {}, callback = () => {}) {
-    const postWindow = window.talknWindow.parentUrl === location.href ? window : window.top;
+    const postWindow = window.talknWindow.parentHref === location.href ? window : window.top;
     postWindow.postMessage(
       {
         type: PostMessage.CLIENT_TO_API_TYPE,
         method,
         params,
       },
-      window.talknWindow.parentUrl
+      window.talknWindow.parentHref
     );
   }
   clientAction(type: string, params?, callback = () => {}) {

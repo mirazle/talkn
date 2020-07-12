@@ -202,8 +202,9 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
         case Ui.screenModeLargeLabel:
           return this.renderLarge();
       }
+    } else {
+      return <></>;
     }
-    return <></>;
   }
 
   renderFixMarker(props): React.ReactNode {

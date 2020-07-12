@@ -122,7 +122,8 @@ export default class Header {
       ui.extensionMode === Ui.extensionModeExtNoneLabel ? Container.lineShadow : Container.lineInsetShadow;
     const layout = Style.getLayoutFlex({
       position: "fixed",
-      top: "0px",
+      top: 0,
+      left: 0,
       width,
       height: `${Container.getBlockSize({ app, ui })}px`,
       borderTop,

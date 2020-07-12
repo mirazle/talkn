@@ -1,4 +1,5 @@
 import Schema from "api/store/Schema";
+import Container from "client/style/Container";
 import { default as TimeMarkerStyle } from "client/style/TimeMarker";
 
 type uiTimeMarkerObject = {
@@ -10,7 +11,7 @@ type uiTimeMarkerObject = {
 const initUiTimeMarkerObject: uiTimeMarkerObject = {
   index: 0,
   offsetTop: 0,
-  label: ""
+  label: "",
 };
 
 export default class UiTimeMarker extends Schema {
@@ -28,18 +29,26 @@ export default class UiTimeMarker extends Schema {
       list,
       now,
       before,
-      after
+      after,
     });
   }
 
-  public static generate(scrollTop = 0, timeMarkers) {
+  public static generate(scrollTop = 0, timeMarkers, { app, ui }) {
     const timeMarkerSize = timeMarkers.length;
     let list = [];
     let now = { ...initUiTimeMarkerObject };
     let before = { ...initUiTimeMarkerObject };
     let after = { ...initUiTimeMarkerObject };
+
     if (timeMarkerSize > 0) {
-      const scrollBaseTop = TimeMarkerStyle.getSelfMarginTop() + scrollTop;
+      const scrollBaseTop = TimeMarkerStyle.getSelfMarginTop() + scrollTop + Container.getBlockSize({ app, ui });
+
+      // FIXME: UI_TIME_MERKERを直す
+      /*
+      console.log(
+        "@@@ " + TimeMarkerStyle.getSelfMarginTop() + " " + scrollTop + " " + Container.getBlockSize({ app, ui })
+      );
+      */
       timeMarkers.forEach((timeMarker, index) => {
         if (now.label === "" && scrollBaseTop <= timeMarker.offsetTop) {
           now.index = index;
@@ -63,7 +72,7 @@ export default class UiTimeMarker extends Schema {
         const addList: uiTimeMarkerObject = {
           index,
           offsetTop: timeMarker.offsetTop,
-          label: timeMarker.innerText
+          label: timeMarker.innerText,
         };
         list.push(addList);
       });
@@ -97,7 +106,7 @@ export default class UiTimeMarker extends Schema {
     const listCnt = list.length;
 
     if (listCnt > 0) {
-      const scrollBaseTop = TimeMarkerStyle.getSelfMarginTop() + scrollTop;
+      const scrollBaseTop = TimeMarkerStyle.getSelfMarginTop() + scrollTop + 54;
 
       // Most bottom scroll area.
       if (now.index === listCnt - 1) {

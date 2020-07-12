@@ -1,32 +1,42 @@
-const TALKN_EXT_ENV = "PROD";
+window.TALKN_EXT_ENV = "PROD";
 /*
   Class
     Ext
-    Script(API)
-    Styles
-    Elements
-    Window
-    Body
-    Iframe
-    HandleIcon
-    NotifStatus
-    Notif
+    ReactMode
+      Window
+      ApiScript
+      Styles
+      Body
+      Iframe
+        IframeModal(*1)
+          ModalHandleIcon
+          ModalLiveCnt
+          ModalNotif
+        IframeBottom(*1)
+        IframeWindow(*1)
+        EmbedIframe(*n)
 */
 class Ext {
   static get APP_NAME() {
     return "talkn";
   }
-  static get MODE_MODAL() {
-    return "EXT_MODAL";
+  static get APP_CLIENT_KEY() {
+    return "Client";
   }
-  static get MODE_BOTTOM() {
-    return "EXT_BOTTOM";
+  static get USER_DEFINE_MODE_MODAL() {
+    return "Modal";
   }
-  static get MODE_INCLUDE() {
-    return "EXT_INCLUDE";
+  static get USER_DEFINE_MODE_BOTTOM() {
+    return "Bottom";
   }
-  static get DEFAULT_MODE() {
-    return Ext.MODE_MODAL;
+  static get USER_DEFINE_MODE_EMBED() {
+    return "Embed";
+  }
+  static get USER_DEFINE_MODE_WINDOW() {
+    return "Window";
+  }
+  static get USER_DEFINE_MODE_DEFAULT() {
+    return Ext.USER_DEFINE_MODE_MODAL;
   }
   static get BASE_EXT_SUBDOMAIN() {
     return "ext";
@@ -67,6 +77,9 @@ class Ext {
   static get DISPLAY_MODE_OPEN() {
     return "OPEN";
   }
+  static get DEVELOPMENT_HASH() {
+    return "#dev";
+  }
   static get INCLUDE_ID() {
     return `#${Ext.APP_NAME}`;
   }
@@ -100,167 +113,114 @@ class Ext {
   static get API_HOST() {
     if (TALKN_EXT_ENV === "PROD") {
       return `//${Ext.API_KEY}.${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === "START") {
+    }
+    if (TALKN_EXT_ENV === "START") {
       return `//${Ext.API_KEY}.${Ext.BASE_DEV_HOST}`;
     } else if (TALKN_EXT_ENV === "DEV") {
       return `//${Ext.API_KEY}.${Ext.BASE_DEV_HOST}`;
     }
   }
   static get APP_ENDPOINT() {
-    return `https:${Ext.APP_HOST}`;
+    const port = location.hash === Ext.DEVELOPMENT_HASH ? ":8080" : "";
+    return `https:${Ext.APP_HOST}${port}`;
   }
   static get API_ENDPOINT() {
-    return `https:${Ext.API_HOST}/v${Ext.API_VER_KEY}`;
+    return location.hash === Ext.DEVELOPMENT_HASH
+      ? `https://${Ext.BASE_DEV_HOST}:8081/talkn.api.js`
+      : `https:${Ext.API_HOST}/v${Ext.API_VER_KEY}`;
+  }
+  static get() {
+    return document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
   }
   static isBrowserExt() {
-    const scriptTag = document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
-    return scriptTag === null ? true : false;
+    return Ext.get() === null;
   }
-  static getMode(options) {
-    let includeTag;
-    /************/
-    /*  OPTION  */
-    /************/
+  static getUserDefineMode(options) {
+    let embedTags;
+    /*****************/
+    /*  OPTION BOOT  */
+    /*****************/
 
     if (options && options.mode) {
-      if ("EXT_" + options.mode === Ext.MODE_MODAL) {
-        return Ext.MODE_MODAL;
+      if ("EXT_" + options.mode === Ext.USER_DEFINE_MODE_MODAL) {
+        return Ext.USER_DEFINE_MODE_MODAL;
       }
-      if ("EXT_" + options.mode === Ext.MODE_INCLUDE && options.selector) {
-        includeTag = document.querySelector(options.selector);
-        if (includeTag) {
+      if ("EXT_" + options.mode === Ext.USER_DEFINE_MODE_EMBED && options.selector) {
+        embedTags = document.querySelector(options.selector);
+        if (embedTags) {
           Object.keys(options).forEach((key) => {
             if (key !== "mode") {
-              includeTag.style[key] = options[key];
+              embedTags.style[key] = options[key];
             }
           });
-          return Ext.MODE_INCLUDE;
+          return Ext.USER_DEFINE_MODE_EMBED;
         }
       }
     }
 
-    /************/
-    /*  NORMAL  */
-    /************/
+    /*****************/
+    /*  NORMAL       */
+    /*****************/
 
-    includeTag = document.querySelector(Ext.INCLUDE_ID);
-    if (includeTag) {
-      return Ext.MODE_INCLUDE;
-    }
-
-    let mode = Ext.DEFAULT_MODE;
+    let mode = Ext.USER_DEFINE_MODE_DEFAULT;
     const domain = TALKN_EXT_ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
     const scriptTag = document.querySelector(`script[src='//ext.${domain}']`);
 
     if (scriptTag && scriptTag.attributes) {
       if (scriptTag.attributes.mode && scriptTag.attributes.mode.value) {
-        mode = "EXT_" + scriptTag.attributes.mode.value.toUpperCase();
+        mode = scriptTag.attributes.mode.value;
       }
 
       // 定義しているどのモードにも該当しない場合
-      if (mode !== Ext.MODE_BOTTOM && mode !== Ext.MODE_MODAL && mode !== Ext.MODE_INCLUDE) {
+      if (
+        mode !== Ext.USER_DEFINE_MODE_BOTTOM &&
+        mode !== Ext.USER_DEFINE_MODE_MODAL &&
+        mode !== Ext.USER_DEFINE_MODE_EMEBD
+      ) {
         // デフォルトのモードを設定する
-        mode = Ext.DEFAULT_MODE;
+        mode = Ext.USER_DEFINE_MODE_DEFAULT;
       }
     }
 
     return mode;
   }
-  static getClientToRequestObj(method, params = {}) {
-    return {
-      type: "EXT_TO_CLIENT_TYPE",
-      method: method,
-      params: params,
-    };
+  static getCh(_ch) {
+    return _ch.replace("https:/", "").replace("http:/", "");
   }
-  static getApiToRequestObj(method, params = {}) {
+  static getApiToRequestObj(iFrameId, method, params = {}) {
     return {
+      iFrameId,
       type: "EXT_TO_API_TYPE",
       method: method,
       params: params,
+      href: window.top.location.href,
     };
   }
 }
 
-class Script {
-  constructor(_window) {
-    this.window = _window;
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = this.getSrc();
-    script.id = "talknExtension";
-    script.async = true;
-    script.addEventListener("load", this.load);
-    document.head.appendChild(script);
-  }
-
-  getSrc() {
-    if (this.window.isBrowserExt) {
-      return window.chrome.runtime.getURL("talkn.api.js");
-    } else {
-      return Ext.API_ENDPOINT;
-    }
-  }
-
-  load() {}
-}
-
-class Styles {
-  static get zIndex() {
-    return 2147483647;
-  }
-  static get FULL_WIDTH_THRESHOLD() {
-    return 600;
-  }
-  static get BASE_TRANSITION() {
-    return 600;
-  }
-  static get WIDTH() {
-    return 280;
-  }
-  static get BOTTOM() {
-    return 45;
-  }
-  static get BORDER_RADIUS() {
-    return 5;
-  }
-  static get BASE_SHADOW() {
-    return "rgba(200, 200, 200, 0.9) 0px 0px 1px 0px !important;";
-  }
-  static get BASE_ACTIVE_BG_COLOR() {
-    return "rgba(255, 255, 255, 0.975) !important;";
-  }
-  static get BASE_UNACTIVE_BG_COLOR() {
-    return "rgba(255, 255, 255, 0.85) !important;";
-  }
-  static get BASE_ACTIVE_BORDER() {
-    return "1px solid rgba(235, 235, 235, 0.975) !important;";
-  }
-  static get BASE_UNACTIVE_BORDER() {
-    return "1px solid rgba(235, 235, 235, 0.85) !important;";
-  }
-  constructor() {
-    const style = document.createElement("style");
-    const css = document.createTextNode(``);
-    style.type = "text/css";
-    style.appendChild(css);
-    document.head.appendChild(style);
-  }
-}
-
-class Elements {
+class ReactMode {
   constructor(_window) {
     this.window = _window;
     this.action = this.action.bind(this);
   }
-  action(called, name) {
-    const elm = this.get();
-    const styles = this[`get${name}Styles`](called);
+  action(called, dispMode) {
+    let elm;
+    if (this.get) {
+      elm = this.get();
+    }
+    if (this.dom) {
+      elm = this.dom;
+    }
+    if (this[`get${dispMode}Styles`]) {
+      const styles = this[`get${dispMode}Styles`](called);
 
-    if (elm && styles) {
-      Object.keys(styles).forEach((key) => {
-        elm.style[key] = styles[key];
-      });
+      if (elm && styles) {
+        Object.keys(styles).forEach((key) => {
+          elm.style[key] = styles[key];
+        });
+      }
+    } else {
+      throw `Error: ReactMode action method [${this.constructor.name}.get${dispMode}Styles ${called} ]`;
     }
   }
   callback(called, displayMode, displayModeDirection, actionName, _window) {
@@ -284,33 +244,17 @@ class Elements {
   }
 }
 
-class Window extends Elements {
+class Window extends ReactMode {
   static get className() {
-    return "talknExtensionParts";
+    return "talknGlobalParts";
   }
-  static get talknNotifId() {
-    return "talknNotifId";
+
+  static get talknNotifIdKey() {
+    return "talknNotifIdKey";
   }
   static get mediaSecondInterval() {
     return 333;
   }
-  static get activeMethodSecond() {
-    return 1000;
-  }
-  static get aacceptPostMessages() {
-    return [
-      "toggleIframe",
-      "location",
-      "tune",
-      "disconnect",
-      "openNotif",
-      "closeNotif",
-      "linkTo",
-      "setInputPost",
-      "getClientMetas",
-    ];
-  }
-
   static getCurrentTime(currentTime, base = 10) {
     return Math.floor(currentTime * base) / base;
   }
@@ -319,27 +263,29 @@ class Window extends Elements {
 
   static getOpenStyles(called) {}
 
+  get iframeKeys() {
+    return Object.keys(this.ins.iframes);
+  }
+
   constructor(refusedFrame = false) {
     super(window);
     this.refusedFrame = refusedFrame;
     this.isBrowserExt = Ext.isBrowserExt();
-    this.href = window.location.href;
+    this.href = window.top.location.href;
     this.ch = this.href.replace("http:/", "").replace("https:/", "");
     const hasSlash = this.ch.lastIndexOf("/") === this.ch.length - 1;
     this.ch = hasSlash ? this.ch : this.ch + "/";
     const bootFlg = Ext.EXCLUSION_ORIGINS.every((origin) => {
       return this.href.indexOf(origin) === -1;
     });
-    window.name = "global";
 
     if (bootFlg) {
-      let init = (options = {}) => {
+      let init = (option = {}) => {
         // Variable
-        this.state = {};
         this.talknParams = {};
-        this.extMode = Ext.getMode(options);
-        this.includeId =
-          this.extMode === Ext.MODE_INCLUDE && options && options.selector ? options.selector : Ext.INCLUDE_ID;
+        this.embedIframeTags = IframeEmbed.getEmbedIframeTags();
+        this.embedIframeTagCnt = this.embedIframeTags.length;
+        this.userDefineMode = Ext.getUserDefineMode(option);
         this.displayModeKey = Ext.DEFAULT_DISPLAY_MODE_KEY;
         this.displayModeDirection = "ASC";
         this.browser = this.getBrowser();
@@ -347,20 +293,9 @@ class Window extends Elements {
         this.scrollY = window.scrollY;
         this.ins = {};
 
-        // Communication talkn Window
-        this.methodIdMap = {};
-        this.notifCnt = 0;
-        this.notifId = null;
-
+        // settimeout ids.
         this.transitionEndId = null;
         this.resizeMethodId = null;
-        this.htmlOverflow = null;
-        this.htmlPosition = null;
-        this.htmlWidth = null;
-        this.htmlHeight = null;
-        this.intervalMediaId = null;
-        this.playCnt = 0;
-        this.notifedId = [];
 
         // Callback Methods.
         this.load = this.load.bind(this);
@@ -372,12 +307,8 @@ class Window extends Elements {
 
         this.updateDisplayMode = this.updateDisplayMode.bind(this);
         this.transformDisplayMode = this.transformDisplayMode.bind(this);
-        this.updateNotifStatus = this.updateNotifStatus.bind(this);
-        this.openNotif = this.openNotif.bind(this);
-        this.closeNotif = this.closeNotif.bind(this);
 
         // Communicarion Methods.
-        this.clientTo = this.clientTo.bind(this);
         this.apiTo = this.apiTo.bind(this);
         this.catchMessage = this.catchMessage.bind(this);
         this.handleErrorMessage = this.handleErrorMessage.bind(this);
@@ -387,14 +318,38 @@ class Window extends Elements {
         window.addEventListener("resize", this.resize);
         window.addEventListener("scroll", this.scroll);
         window.addEventListener("transitionend", this.transitionend);
-        // this.intervalMediaId = this.setupMedia();
+
         this.ins.window = this;
-        this.ins.script = new Script(this);
+        this.ins.apiScript = new ApiScript(this);
         this.ins.styles = new Styles(this);
         this.ins.body = new Body(this);
-        this.ins.iframe = new Iframe(this);
         this.ins.handleIcon = new HandleIcon(this);
-        this.ins.notifStatus = new NotifStatus(this);
+        this.ins.notifStatus = new LiveCnt(this);
+        this.ins.iframe = {};
+        this.ins.iframes = {};
+
+        // Embed auto boot.
+        if (this.embedIframeTagCnt > 0) {
+          this.embedIframeTags.forEach((embedtag, i) => {
+            const index = i + 1;
+            embedtag.id = embedtag.id ? embedtag.id : `${Ext.APP_NAME}${Iframe.MODE_EMBED}${index}`;
+            const appendRoot = window.top.document.getElementById(embedtag.id);
+            const ch = embedtag.getAttribute("ch") ? embedtag.getAttribute("ch") : window.top.location.href;
+            const embedIframe = new IframeEmbed(this, appendRoot, ch, Iframe.MODE_EMBED, index);
+            this.ins.iframes[embedtag.id] = embedIframe;
+          });
+        }
+
+        switch (this.userDefineMode) {
+          case Iframe.MODE_MODAL:
+            this.ins.iframe = new IframeModal(this);
+            this.ins.iframes[`${Ext.APP_NAME}${Iframe.MODE_MODAL}`] = this.ins.iframe;
+            break;
+          case Iframe.MODE_BOTTOM:
+            this.ins.iframe = new IframeBottom(this);
+            this.ins.iframes[`${Ext.APP_NAME}${Iframe.MODE_BOTTOM}`] = this.ins.iframe;
+            break;
+        }
       };
 
       init = init.bind(this);
@@ -402,8 +357,8 @@ class Window extends Elements {
       if (this.isBrowserExt) {
         // Communication to background.js
         chrome.runtime.sendMessage({ message: "message" }, (res) => {
-          const options = res ? JSON.parse(res) : {};
-          init(options);
+          const option = res ? JSON.parse(res) : {};
+          init(option);
         });
       } else {
         init();
@@ -443,15 +398,14 @@ class Window extends Elements {
   }
 
   transformDisplayMode(called, displayModeKey) {
-    const { body, iframe, handleIcon, notifStatus } = this.ins;
+    const { body, iframes, handleIcon, notifStatus } = this.ins;
     const displayMode = Ext.DISPLAY_MODE[displayModeKey].toLowerCase();
     const actionName = displayMode.charAt(0).toUpperCase() + displayMode.slice(1);
     const beforeDisplayMode = Ext.DISPLAY_MODE[this.displayModeKey];
     const beforeDisplayModeDirection = this.displayModeDirection;
-
     if (this) this.action(called, actionName);
     if (body) body.action(called, actionName);
-    if (iframe) iframe.action(called, actionName);
+    if (iframes) this.iframeKeys.forEach((iFrameId) => iframes[iFrameId].action(called, actionName));
     if (handleIcon) handleIcon.action(called, actionName);
     if (notifStatus) notifStatus.action(called, actionName);
     this.callback(called, beforeDisplayMode, beforeDisplayModeDirection, actionName, this);
@@ -500,35 +454,20 @@ class Window extends Elements {
   /* Communication methods */
   /*************************/
 
-  bootExtension(params) {
-    const { iframe } = this.ins;
-    const iframeElm = iframe.get();
-    switch (this.extMode) {
-      case Ext.MODE_BOTTOM:
-      case Ext.MODE_INCLUDE:
-        iframeElm.style.height = Iframe.getCloseHeight();
-        iframeElm.style.display = "flex";
-        break;
-      case Ext.MODE_MODAL:
-        break;
-    }
-
-    this.talknParams = params;
-    this.clientTo("onTransition");
-  }
-
   // From child window message.
   catchMessage(e) {
-    const { type, method, params } = e.data;
+    const { iframes } = this.ins;
+    const { iFrameId, type, method, params } = e.data;
     switch (type) {
       case "CLIENT_TO_EXT_TYPE":
-        if (this[method] && typeof this[method] === "function") {
-          if (this.methodIdMap[method] || Window.aacceptPostMessages.includes(method)) {
-            const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-            this[method](params);
-            clearTimeout(this.methodIdMap[method]);
-            delete this.methodIdMap[method];
-          }
+        const iframe = iframes[iFrameId];
+        if (!iframe) break;
+        if (!iframe[method]) break;
+        if (typeof iframe[method] !== "function") break;
+        if (iframe.methodIdMap[method] || iframe.acceptPostMessages.includes(method)) {
+          iframe[method](params);
+          clearTimeout(iframe.methodIdMap[method]);
+          delete iframe.methodIdMap[method];
         }
         break;
       case "API_TO_EXT_TYPE":
@@ -541,8 +480,10 @@ class Window extends Elements {
       switch (method) {
         case "bootExtension":
           this.clientTo("removeExtension");
-          const { iframe, handleIcon, notifStatus } = this.ins;
-          iframe.remove();
+          const { iframes, handleIcon, notifStatus } = this.ins;
+          this.iframeKeys.foeach((iFrameId) => {
+            iframes[iFrameId].remove();
+          });
           handleIcon.remove();
           notifStatus.remove();
           this.remove();
@@ -553,168 +494,41 @@ class Window extends Elements {
     }
   }
 
-  clientTo(method, params = {}) {
-    const iframe = this.ins.iframe.get();
-    const src = this.ins.iframe.getSrc();
-    const requestObj = Ext.getClientToRequestObj(method, params);
-    const methodId = setTimeout(() => this.handleErrorMessage(method), Window.activeMethodSecond);
-    this.methodIdMap[method] = methodId;
-    iframe.contentWindow.postMessage(requestObj, src);
-  }
-
-  apiTo(method, params = {}) {
-    const src = location.href; // this.ins.iframe.getSrc();
-    const requestObj = Ext.getApiToRequestObj(method, params);
+  apiTo(iFrameId, method, params = {}) {
+    const src = location.href;
+    const requestObj = Ext.getApiToRequestObj(iFrameId, method, params);
     window.postMessage(requestObj, src);
   }
 
-  /********************************/
-  /* Accept Communication methods */
-  /********************************/
-
-  toggleIframe(params) {
-    this.updateDisplayMode("toggleIframe");
-  }
-
-  tune(state) {
-    this.state = state;
-    this.updateNotifStatus();
-  }
-
-  disconnect(state) {
-    this.state = state;
-    this.updateNotifStatus();
-  }
-
-  updateNotifStatus() {
-    const { watchCnt } = this.state.thread;
-    const { notifStatus } = this.ins;
-    switch (this.extMode) {
-      case Ext.MODE_BOTTOM:
-      case Ext.MODE_MODAL:
-        if (Ext.DISPLAY_MODE[this.displayModeKey] === Ext.DISPLAY_MODE_ACTIVE) {
-          notifStatus.updateCnt(watchCnt);
-        }
-        break;
-    }
-  }
-
-  openNotif(params) {
-    const { iframe, notifStatus } = this.ins;
-    const iframeElm = iframe.get();
-    switch (this.extMode) {
-      case Ext.MODE_BOTTOM:
-        iframeElm.style.transition = "0ms";
-        iframeElm.style.height = Iframe.getIframeOpenNotifHeight();
-
-        let talknNotifId = sessionStorage.getItem(Window.talknNotifId);
-        if (talknNotifId) {
-          clearTimeout(talknNotifId);
-        }
-        talknNotifId = setTimeout(this.closeNotif, params.transition);
-        sessionStorage.setItem(Window.talknNotifId, talknNotifId);
-
-        setTimeout(() => {
-          this.clientTo("openNotif");
-        }, 50);
-        break;
-      case Ext.MODE_MODAL:
-        switch (Ext.DISPLAY_MODE[this.displayModeKey]) {
-          case Ext.DISPLAY_MODE_ACTIVE:
-            if (!this.notifedId.includes(params.id)) {
-              // notifStatus.updateCnt(params.addUnreadCnt);
-              this.notifedId.push(params.id);
-            }
-            new Notif(this, params);
-            break;
-        }
-        break;
-    }
-  }
-
-  closeNotif(params) {
-    switch (this.extMode) {
-      case Ext.MODE_BOTTOM:
-        let talknNotifId = sessionStorage.getItem(Window.talknNotifId);
-        clearTimeout(talknNotifId);
-        sessionStorage.setItem(Window.talknNotifId, null);
-        const iframe = document.querySelector(`iframe#${Ext.APP_NAME}Extension`);
-        iframe.style.transition = "0ms";
-        iframe.style.height = Iframe.getCloseHeight();
-        this.clientTo("closeNotif");
-        break;
-      case Ext.MODAL_MODAL:
-        break;
-    }
-  }
-
-  location(params) {
-    const { protocol, ch } = params;
-    location.href = `${protocol}/${ch}`;
-  }
-
-  linkTo(params) {
-    if (params && params.href) {
-      location.href = params.href;
-    }
-  }
-
-  setInputPost(params) {
-    this.inputPost = params.inputPost;
-  }
-
-  getClientMetas() {
-    let title = document.querySelector("title");
-    title = title && title.text !== "" ? title.text : "";
-    let description = document.querySelector("description");
-    description = description && description.text !== "" ? description.text : "";
-    const metas = document.querySelectorAll("meta");
-    let clientMetas = { title, description };
-
-    for (let i = 0; i < metas.length; i++) {
-      const item = metas[i];
-      let key = i;
-      let content = "";
-      if (item.getAttribute("name")) {
-        key = item.getAttribute("name");
-        content = item.getAttribute("content");
-      } else if (item.getAttribute("property")) {
-        key = item.getAttribute("property");
-        content = item.getAttribute("content");
-      } else if (item.getAttribute("chaset")) {
-        key = "charset";
-        content = item.getAttribute("chaset");
-      } else if (item.getAttribute("http-equiv")) {
-        key = item.getAttribute("http-equiv");
-        content = item.getAttribute("content");
-      }
-      clientMetas[key] = content;
-    }
-    this.clientTo("getClientMetas", clientMetas);
-  }
-
   transitionend(e) {
-    const { body, iframe, handleIcon } = this.ins;
+    const { body, iframes, handleIcon } = this.ins;
 
     if (this.transitionEndId === null) {
       this.transitionEndId = setTimeout(() => {
         this.transitionEndId = null;
 
-        this.clientTo("updateExtension", {
-          ui: {
-            extensionMode: this.extMode,
-            extensionWidth: iframe.getWidth(true),
-            extensionOpenHeight: Number(iframe.getHeight()),
-            extensionCloseHeight: Number(Iframe.getCloseHeight()),
-          },
+        this.iframeKeys.forEach((iFrameId) => {
+          const iframe = iframes[iFrameId];
+          const clientToParams = {
+            ui: {
+              extensionMode: this.userDefineMode,
+              extensionWidth: iframe.getWidth(true),
+              extensionOpenHeight: Number(iframe.getHeight()),
+            },
+          };
+          iframe.clientTo("updateExtension", clientToParams);
+          iframe.transitionEnd(e);
         });
       }, Styles.BASE_TRANSITION);
     }
 
     if (body && body.transitionEnd) body.transitionEnd(e);
-    if (iframe && iframe.transitionEnd) iframe.transitionEnd(e);
     if (handleIcon && handleIcon.transitionEnd) handleIcon.transitionEnd(e);
   }
+
+  /*************************/
+  /* CALLBACKS             */
+  /*************************/
 
   load(e) {
     this.resized();
@@ -729,7 +543,7 @@ class Window extends Elements {
   scroll(e) {}
 
   resized(e) {
-    const { iframe } = this.ins;
+    const { iframes } = this.ins;
     this.resizeMethodId = null;
 
     this.updateDisplayMode("resized", true, {
@@ -737,13 +551,15 @@ class Window extends Elements {
       displayModeDirection: this.displayModeDirection,
     });
 
-    this.clientTo("updateExtension", {
-      ui: {
-        extensionMode: this.extMode,
-        extensionWidth: iframe.getWidth(true),
-        extensionOpenHeight: Number(iframe.getHeight()),
-        extensionCloseHeight: Number(Iframe.getCloseHeight()),
-      },
+    this.iframeKeys.forEach((iFrameId) => {
+      const clientToParams = {
+        ui: {
+          extensionMode: this.userDefineMode,
+          extensionWidth: iframes[iFrameId].getWidth(true),
+          extensionOpenHeight: Number(iframes[iFrameId].getHeight()),
+        },
+      };
+      iframes[iFrameId].clientTo("updateExtension", clientToParams);
     });
   }
 
@@ -769,7 +585,81 @@ class Window extends Elements {
   }
 }
 
-class Body extends Elements {
+class ApiScript {
+  constructor(_window) {
+    this.window = _window;
+    this.load = this.load.bind(this);
+    const apiScript = document.createElement("script");
+    apiScript.id = "talknApi";
+    apiScript.async = true;
+    apiScript.type = "text/javascript";
+    apiScript.src = this.getSrc();
+    apiScript.addEventListener("load", this.load);
+    window.top.document.head.appendChild(apiScript);
+  }
+
+  getSrc() {
+    if (this.window.isBrowserExt) {
+      return window.chrome.runtime.getURL("talkn.api.js");
+    } else {
+      return Ext.API_ENDPOINT;
+    }
+  }
+
+  load() {
+    if (this.window.embedIframeTagCnt > 0) {
+      this.window.embedIframeTags.forEach((iframe) => {
+        this.window.apiTo(iframe.id, "HANDLE_EXT_AND_API", {});
+      });
+    }
+    this.window.apiTo("talknModal", "HANDLE_EXT_AND_API", {});
+  }
+}
+
+class Styles {
+  static get zIndex() {
+    return 2147483647;
+  }
+  static get FULL_WIDTH_THRESHOLD() {
+    return 600;
+  }
+  static get BASE_TRANSITION() {
+    return 600;
+  }
+  static get WIDTH() {
+    return 280;
+  }
+  static get BOTTOM() {
+    return 45;
+  }
+  static get BORDER_RADIUS() {
+    return 5;
+  }
+  static get BASE_SHADOW() {
+    return "rgba(200, 200, 200, 0.9) 0px 0px 1px 0px !important;";
+  }
+  static get BASE_ACTIVE_BG_COLOR() {
+    return "rgba(255, 255, 255, 0.975) !important;";
+  }
+  static get BASE_UNACTIVE_BG_COLOR() {
+    return "rgba(255, 255, 255, 0.85) !important;";
+  }
+  static get BASE_ACTIVE_BORDER() {
+    return "1px solid rgba(235, 235, 235, 0.975) !important;";
+  }
+  static get BASE_UNACTIVE_BORDER() {
+    return "1px solid rgba(235, 235, 235, 0.85) !important;";
+  }
+  constructor() {
+    const style = document.createElement("style");
+    const css = document.createTextNode(``);
+    style.type = "text/css";
+    style.appendChild(css);
+    document.head.appendChild(style);
+  }
+}
+
+class Body extends ReactMode {
   constructor(_window) {
     super(_window);
     const bodyElm = this.get();
@@ -827,16 +717,136 @@ class Body extends Elements {
   transitionEnd() {}
 }
 
-class Iframe extends Elements {
-  static get id() {
-    return `${Ext.APP_NAME}Extension`;
+class Iframe extends ReactMode {
+  static get MODE_MODAL() {
+    return "Modal";
   }
+  static get MODE_BOTTOM() {
+    return "Bottom";
+  }
+  static get MODE_EMBED() {
+    return "Embed";
+  }
+  static get MODE_OUT_WINDOW() {
+    return "OutWindow";
+  }
+  static get EXT_TO_CLIENT_TYPE() {
+    return "EXT_TO_CLIENT_TYPE";
+  }
+  static get DEFAULT_MODE() {
+    return Iframe.MODE_MODAL;
+  }
+  static get activeMethodSecond() {
+    return 1000;
+  }
+  static get MODES() {
+    return { IframeModal, IframeBottom, IframeEmbed, IframeWindow };
+  }
+  constructor(_window, ch, mode, number) {
+    super(_window);
+
+    // bind.
+    this.getSrc = this.getSrc.bind(this);
+    this.getClientToObj = this.getClientToObj.bind(this);
+    this.load = this.load.bind(this);
+    this.clientTo = this.clientTo.bind(this);
+    this.catchMessage = this.catchMessage.bind(this);
+    this.handleClientToError = this.handleClientToError.bind(this);
+
+    // Communication status.
+    this.state = {};
+    this.methodIdMap = {};
+    this.notifedId = [];
+
+    // Iframe status.
+    const numberKey = number ? String(number) : "";
+    const width = `${this.getWidth(true)} !important;`;
+    this.id = `${Ext.APP_NAME}${mode}${numberKey}`;
+    this.ch = ch;
+    this.mode = mode;
+    this.src = this.getSrc();
+    this.dom = document.createElement("iframe");
+    this.dom.setAttribute("id", this.id);
+    this.dom.setAttribute("src", this.src);
+    this.dom.setAttribute("frameBorder", 0);
+    this.dom.setAttribute("scrolling", "yes");
+    this.dom.setAttribute("style", this.getStyles(width));
+    this.dom.addEventListener("load", this.load);
+    this.appendRoot.appendChild(this.dom);
+  }
+
+  getSrc() {
+    if (this.window.refusedFrame) {
+      return window.chrome.runtime.getURL(`csp.html?${this.ch}`);
+    } else {
+      return `${Ext.APP_ENDPOINT}${this.ch}`;
+    }
+  }
+
+  getClientToObj(method, params = {}) {
+    return {
+      iFrameId: this.id,
+      type: Iframe.EXT_TO_CLIENT_TYPE,
+      method: method,
+      params: params,
+      href: window.top.location.href,
+    };
+  }
+
+  clientTo(method, params = {}) {
+    const requestObj = this.getClientToObj(method, params);
+    const methodId = setTimeout(() => this.handleClientToError(method), Iframe.activeMethodSecond);
+    this.methodIdMap[method] = methodId;
+    this.dom.contentWindow.postMessage(requestObj, this.src);
+  }
+
+  // handle error.
+  handleClientToError(method) {
+    if (this.methodIdMap[method]) {
+      switch (method) {
+        case "bootExtension":
+          // this.clientTo("removeExtension");
+          const { iframes, handleIcon, notifStatus } = this.ins;
+          this.iframeKeys.foeach((iFrameId) => {
+            iframes[iFrameId].remove();
+          });
+          handleIcon.remove();
+          notifStatus.remove();
+          this.remove();
+          console.warn("CSP Reboot: " + method);
+          new Window(true);
+          break;
+      }
+    }
+  }
+
+  bootExtension(params) {
+    switch (this.window.ins.userDefineMode) {
+      case Iframe.MODE_BOTTOM:
+      case Iframe.MODE_EMBED:
+        this.dom.style.height = IframeModal.getCloseHeight();
+        this.dom.style.display = "flex";
+        break;
+      case Iframe.MODE_MODAL:
+        break;
+    }
+
+    this.talknParams = params;
+    this.clientTo("onTransition");
+  }
+
+  catchMessage(params) {}
+  transitionEnd(params) {}
+}
+
+class IframeModal extends Iframe {
   static getCloseHeight(addUnit = false) {
     return addUnit ? "45px" : 45;
   }
   static getIframeOpenNotifHeight() {
     return "85px";
   }
+
   static get width() {
     return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : 280;
   }
@@ -855,221 +865,173 @@ class Iframe extends Elements {
   static get modeModalBottom() {
     return 45;
   }
+  get acceptPostMessages() {
+    return [
+      "tune",
+      "bootExtension",
+      "openNotif",
+      "closeNotif",
+      "toggleIframe",
+      "location",
+      "disconnect",
+      "linkTo",
+      "setInputPost",
+      "getClientMetas",
+    ];
+  }
+  get appendRoot() {
+    return window.top.document.body;
+  }
 
   constructor(_window) {
-    super(_window);
-    this.methodIdMap = {};
-    this.load = this.load.bind(this);
-    this.getSrc = this.getSrc.bind(this);
+    const extScript = Ext.get();
+    let ch = extScript.getAttribute("ch");
+    ch = ch ? ch : window.top.location.href;
+    ch = Ext.getCh(ch);
+    super(_window, ch, Iframe.MODE_MODAL);
+
+    // dom.
     this.getWidth = this.getWidth.bind(this);
     this.getHeight = this.getHeight.bind(this);
     this.getRight = this.getRight.bind(this);
     this.getTransform = this.getTransform.bind(this);
-    this.remove = this.remove.bind(this);
 
-    const iframe = document.createElement("iframe");
-    const width = `${this.getWidth(true)} !important;`;
-    iframe.id = Iframe.id;
-    iframe.className = Window.className;
-    iframe.name = "local";
-    iframe.style = this.getStyles(width);
-    iframe.src = this.getSrc();
-    iframe.frameBorder = 0;
-    iframe.scrolling = "yes";
-    iframe.addEventListener("load", this.load);
-
-    switch (this.window.extMode) {
-      case Ext.MODE_MODAL:
-        document.body.appendChild(iframe);
-        break;
-      case Ext.MODE_INCLUDE:
-        document.querySelector(this.window.includeId).appendChild(iframe);
-        break;
-      case Ext.MODE_BOTTOM:
-        document.body.appendChild(iframe);
-        break;
-    }
+    // communication.
+    this.bootExtension = this.bootExtension.bind(this);
+    this.tune = this.tune.bind(this);
+    this.updateLiveCnt = this.updateLiveCnt.bind(this);
+    this.openNotif = this.openNotif.bind(this);
+    this.closeNotif = this.closeNotif.bind(this);
+    this.catchMessage = this.catchMessage.bind(this);
+    this.handleClientToError = this.handleClientToError.bind(this);
   }
 
-  getSrc() {
-    if (this.window.refusedFrame) {
-      return window.chrome.runtime.getURL("csp.html?" + this.window.ch);
-    } else {
-      return Ext.APP_ENDPOINT + this.window.ch;
+  /*************************/
+  /* CALLBACKS             */
+  /*************************/
+
+  load(e) {
+    this.clientTo("bootExtension", {
+      ui: {
+        extensionMode: this.mode,
+        extensionWidth: this.getWidth(false),
+        extensionOpenHeight: this.getHeight(false),
+        extensionCloseHeight: Number(IframeModal.getCloseHeight()),
+      },
+    });
+  }
+
+  // handle error.
+  handleClientToError(method) {}
+
+  remove() {
+    const { handleIcon, notifStatus } = this.ins;
+    this.dom.removeEventListener("load", this.load);
+    this.dom.remove();
+    delete this;
+    handleIcon.remove();
+    notifStatus.remove();
+  }
+
+  getClientMetas() {
+    let title = document.querySelector("title");
+    title = title && title.text !== "" ? title.text : "";
+    let description = document.querySelector("description");
+    description = description && description.text !== "" ? description.text : "";
+    const metas = document.querySelectorAll("meta");
+    let clientMetas = { title, description };
+
+    for (let i = 0; i < metas.length; i++) {
+      const item = metas[i];
+      let key = i;
+      let content = "";
+      if (item.getAttribute("name")) {
+        key = item.getAttribute("name");
+        content = item.getAttribute("content");
+      } else if (item.getAttribute("property")) {
+        key = item.getAttribute("property");
+        content = item.getAttribute("content");
+      } else if (item.getAttribute("chaset")) {
+        key = "charset";
+        content = item.getAttribute("chaset");
+      } else if (item.getAttribute("http-equiv")) {
+        key = item.getAttribute("http-equiv");
+        content = item.getAttribute("content");
+      }
+      clientMetas[key] = content;
     }
+    this.clientTo("getClientMetas", clientMetas);
   }
 
   /*************************/
   /* UI DATAS              */
   /*************************/
 
-  get() {
-    return document.querySelector(`iframe#${Iframe.id}`);
-  }
-
   getStyles(width) {
-    switch (this.window.extMode) {
-      case Ext.MODE_MODAL:
-        const activeStyles = this.getActiveStyles();
-        return (
-          "" +
-          `z-index: ${Styles.zIndex - 1} !important;` +
-          "display: block !important;" +
-          "align-items: flex-end !important;" +
-          "position: fixed !important; " +
-          `bottom: ${Styles.BOTTOM}px !important;` +
-          `right: ${activeStyles.right} !important;` +
-          `border-radius: 10px !important;` +
-          `min-width: ${activeStyles.width} !important;` +
-          `width: ${activeStyles.width} !important;` +
-          `min-height: ${activeStyles.height} !important;` +
-          `height: ${activeStyles.height} !important;` +
-          "margin: 0 !important;" +
-          "padding: 0 !important;" +
-          `opacity: ${activeStyles.opacity} !important;` +
-          `overflow: hidden !important;` +
-          `clip-path: inset(0px round 10px) !important;` +
-          `-webkit-clip-path: inset(0px round 10px) !important;` +
-          `transition: ${Styles.BASE_TRANSITION}ms !important;` +
-          `transform: ${activeStyles.transform} !important;`
-        );
-      case Ext.MODE_BOTTOM:
-        const height = Iframe.getCloseHeight(true);
-        return (
-          "" +
-          `z-index: ${Styles.zIndex} !important;` +
-          `overflow: hidden !important;` +
-          "display: none !important;" +
-          "align-items: flex-end !important;" +
-          "position: fixed !important; " +
-          "bottom: 0px !important;" +
-          "right: 0px !important;" +
-          `min-width: ${activeStyles.width} !important;` +
-          `width: ${width} !important;` +
-          `min-height: ${activeStyles.height} !important;` +
-          `height: ${height} !important;` +
-          "margin: 0 !important;" +
-          "padding: 0 !important;" +
-          "transition: 0ms !important;" +
-          "transform: translate3d(0px, 0px, 0px) !important;"
-        );
-      case Ext.MODE_INCLUDE:
-        return (
-          "" +
-          `z-index: ${Styles.zIndex} !important;` +
-          `overflow: hidden !important;` +
-          "display: none !important;" +
-          "align-items: flex-end !important;" +
-          "position: absolute !important; " +
-          "bottom: 0px !important;" +
-          "right: 0px !important;" +
-          `width: 100% !important;` +
-          `min-width: 100% !important;` +
-          `max-width: 100% !important;` +
-          `height: 100% !important;` +
-          `min-height: 100% !important;` +
-          `max-height: 100% !important;` +
-          "margin: 0 !important;" +
-          "padding: 0 !important;" +
-          `clip-path: inset(0px round 10px) !important;` +
-          `-webkit-clip-path: inset(0px round 10px) !important;` +
-          "transition: 0ms !important;" +
-          "transform: translate3d(0px, 0px, 0px) !important;"
-        );
-    }
+    const activeStyles = this.getActiveStyles();
+    return (
+      "" +
+      `z-index: ${Styles.zIndex - 1} !important;` +
+      "display: block !important;" +
+      "align-items: flex-end !important;" +
+      "position: fixed !important; " +
+      `bottom: ${Styles.BOTTOM}px !important;` +
+      `right: ${activeStyles.right} !important;` +
+      `border-radius: 10px !important;` +
+      `min-width: ${activeStyles.width} !important;` +
+      `width: ${activeStyles.width} !important;` +
+      `min-height: ${activeStyles.height} !important;` +
+      `height: ${activeStyles.height} !important;` +
+      "margin: 0 !important;" +
+      "padding: 0 !important;" +
+      `opacity: ${activeStyles.opacity} !important;` +
+      `overflow: hidden !important;` +
+      `clip-path: inset(0px round 10px) !important;` +
+      `-webkit-clip-path: inset(0px round 10px) !important;` +
+      `transition: ${Styles.BASE_TRANSITION}ms !important;` +
+      `transform: ${activeStyles.transform} !important;`
+    );
   }
 
   getWidth(addUnit = false) {
-    let width = Styles.WIDTH;
-    switch (this.window.extMode) {
-      case Ext.MODE_BOTTOM:
-        width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "100%" : width;
-        break;
-      case Ext.MODE_MODAL:
-        width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : Styles.WIDTH + "px";
-        break;
-      case Ext.MODE_INCLUDE:
-        const talknTag = document.querySelector(this.window.includeId);
-        width = talknTag ? talknTag.clientWidth : "100%";
-        return addUnit ? width + "px" : width;
-    }
+    const width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : Styles.WIDTH + "px";
     return addUnit ? width : width.replace("px", "").replace("%", "");
   }
 
   getHeight(addUnit = false) {
     let height = "0px";
-    switch (this.window.extMode) {
-      case Ext.MODE_BOTTOM:
-        height =
-          window.innerWidth < Styles.FULL_WIDTH_THRESHOLD
-            ? `${Math.floor(window.innerHeight * 0.9)}px`
-            : Iframe.getCloseHeight(true);
-        break;
-      case Ext.MODE_MODAL:
-        height =
-          window.innerWidth < Styles.FULL_WIDTH_THRESHOLD
-            ? `${Math.floor(window.innerHeight * 0.9)}px`
-            : `${Iframe.height}px`;
-        break;
-      case Ext.MODE_INCLUDE:
-        const talknTag = document.querySelector(this.window.includeId);
-        height = talknTag ? talknTag.clientHeight : "100%";
-        return addUnit ? height + "px" : height;
-    }
+    height =
+      window.innerWidth < Styles.FULL_WIDTH_THRESHOLD
+        ? `${Math.floor(window.innerHeight * 0.9)}px`
+        : `${IframeModal.height}px`;
     return addUnit ? height : height.replace("px", "").replace("%", "");
   }
 
   getRight(addUnit = false) {
-    let right = 0;
-    switch (this.window.extMode) {
-      case Ext.MODE_BOTTOM:
-      case Ext.MODE_INCLUDE:
-        break;
-      case Ext.MODE_MODAL:
-        right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : "10px";
-        break;
-    }
+    const right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : "10px";
     return addUnit ? right : right.replace("px", "").replace("%", "");
   }
 
   getTransform() {
     let transform = "translate3d( 0px 0px 0px)";
-    switch (this.window.extMode) {
-      case Ext.MODE_INCLUDE:
-        break;
-      case Ext.MODE_BOTTOM:
-      case Ext.MODE_MODAL:
-        switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
-          case Ext.DISPLAY_MODE_ACTIVE:
-            const translateY = Styles.BOTTOM + Number(this.getHeight());
-            //return `translate3d( 0px, 0px, 0px ) scale( 1 )`;
-            return `translate3d( 0px, ${translateY}px, 0px ) scale( 0.8 )`;
-          case Ext.DISPLAY_MODE_OPEN:
-            return `translate3d( 0px, 0px, 0px ) scale( 1.0 )`;
-        }
-        break;
+    switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
+      case Ext.DISPLAY_MODE_ACTIVE:
+        const translateY = Styles.BOTTOM + Number(this.getHeight());
+        //return `translate3d( 0px, 0px, 0px ) scale( 1 )`;
+        return `translate3d( 0px, ${translateY}px, 0px ) scale( 0.8 )`;
+      case Ext.DISPLAY_MODE_OPEN:
+        return `translate3d( 0px, 0px, 0px ) scale( 1.0 )`;
     }
     return transform;
   }
 
   getOpacity(addUnit = false) {
     let width = Styles.WIDTH + "px";
-    switch (this.window.extMode) {
-      case Ext.MODE_BOTTOM:
-        width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "100%" : width;
-        break;
-      case Ext.MODE_MODAL:
-        switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
-          case Ext.DISPLAY_MODE_ACTIVE:
-            return 1;
-          case Ext.DISPLAY_MODE_OPEN:
-            return 1;
-        }
-        break;
-      case Ext.MODE_INCLUDE:
-        const talknTag = document.querySelector(this.window.includeId);
-        width = talknTag ? talknTag.clientWidth : "100%";
-        return addUnit ? width + "px" : width;
+    switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
+      case Ext.DISPLAY_MODE_ACTIVE:
+        return 1;
+      case Ext.DISPLAY_MODE_OPEN:
+        return 1;
     }
     return addUnit ? width : width.replace("px", "").replace("%", "");
   }
@@ -1083,22 +1045,62 @@ class Iframe extends Elements {
     return `translate3d( 0px, ${translateY}px, 0px )`;
   }
 
-  load(e) {
-    const isMediaCh = this.window.isMediaCh();
-    this.window.clientTo("bootExtension", {
-      ui: {
-        extensionMode: this.window.extMode,
-        extensionWidth: this.getWidth(true),
-        extensionOpenHeight: this.getHeight(false),
-        extensionCloseHeight: Number(Iframe.getCloseHeight()),
-      },
-    });
+  /********************************/
+  /* Accept Communication methods */
+  /********************************/
+
+  toggleIframe(params) {
+    this.updateDisplayMode("toggleIframe");
+  }
+
+  tune(state) {
+    this.state = state;
+    this.updateLiveCnt();
+  }
+
+  disconnect(state) {
+    this.state = state;
+    this.updateLiveCnt();
+  }
+
+  updateLiveCnt() {
+    const { state, window } = this;
+    const { watchCnt } = state.thread;
+    const { displayModeKey, ins } = window;
+    const { notifStatus } = ins;
+    if (Ext.DISPLAY_MODE[displayModeKey] === Ext.DISPLAY_MODE_ACTIVE) {
+      notifStatus.updateCnt(watchCnt);
+    }
+  }
+
+  openNotif(params) {
+    const { window } = this;
+    switch (Ext.DISPLAY_MODE[window.displayModeKey]) {
+      case Ext.DISPLAY_MODE_ACTIVE:
+        if (!this.notifedId.includes(params.id)) {
+          // notifStatus.updateCnt(params.addUnreadCnt);
+          this.notifedId.push(params.id);
+        }
+        new Notif(this.window, params);
+        break;
+    }
+  }
+
+  closeNotif(params) {}
+
+  linkTo(params) {
+    if (params && params.href) {
+      window.top.location.href = params.href;
+    }
+  }
+
+  setInputPost(params) {
+    this.inputPost = params.inputPost;
   }
 
   remove() {
-    const iframeElm = this.get();
-    iframeElm.removeEventListener("load", this.load);
-    iframeElm.remove();
+    this.dom.removeEventListener("load", this.load);
+    this.dom.remove();
     delete this;
   }
 
@@ -1122,12 +1124,11 @@ class Iframe extends Elements {
   }
 
   getOpenStyles(called) {
-    const { iframe } = this.window.ins;
     const width = this.getWidth(true);
     const height = this.getHeight(true);
     const right = this.getRight(true);
     const opacity = this.getOpacity();
-    const transform = iframe.getTransform();
+    const transform = this.getTransform();
     return {
       transform,
       opacity,
@@ -1140,7 +1141,148 @@ class Iframe extends Elements {
   transitionEnd() {}
 }
 
-class HandleIcon extends Elements {
+class IframeBottom extends Iframe {
+  static get className() {
+    return `.${Ext.APP_NAME}${Iframe.MODE_EMBED}`;
+  }
+  static getEmbedIframeTags() {
+    return window.top.document.querySelectorAll(IframeEmbed.className);
+  }
+
+  getStyles(width) {
+    const height = IframeModal.getCloseHeight(true);
+    return (
+      "" +
+      `z-index: ${Styles.zIndex} !important;` +
+      `overflow: hidden !important;` +
+      "display: none !important;" +
+      "align-items: flex-end !important;" +
+      "position: fixed !important; " +
+      "bottom: 0px !important;" +
+      "right: 0px !important;" +
+      `min-width: ${activeStyles.width} !important;` +
+      `width: ${width} !important;` +
+      `min-height: ${activeStyles.height} !important;` +
+      `height: ${height} !important;` +
+      "margin: 0 !important;" +
+      "padding: 0 !important;" +
+      "transition: 0ms !important;" +
+      "transform: translate3d(0px, 0px, 0px) !important;"
+    );
+  }
+
+  getWidth(addUnit = false) {
+    width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "100%" : Styles.WIDTH;
+    return addUnit ? width : width.replace("px", "").replace("%", "");
+  }
+
+  getHeight(addUnit = false) {
+    height =
+      window.innerWidth < Styles.FULL_WIDTH_THRESHOLD
+        ? `${Math.floor(window.innerHeight * 0.9)}px`
+        : IframeModal.getCloseHeight(true);
+    return addUnit ? height : height.replace("px", "").replace("%", "");
+  }
+
+  getRight(addUnit = false) {
+    let right = "0px";
+    return addUnit ? right : right.replace("px", "").replace("%", "");
+  }
+
+  getTransform() {
+    let transform = "translate3d( 0px 0px 0px)";
+    switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
+      case Ext.DISPLAY_MODE_ACTIVE:
+        const translateY = Styles.BOTTOM + Number(this.getHeight());
+        //return `translate3d( 0px, 0px, 0px ) scale( 1 )`;
+        return `translate3d( 0px, ${translateY}px, 0px ) scale( 0.8 )`;
+      case Ext.DISPLAY_MODE_OPEN:
+        return `translate3d( 0px, 0px, 0px ) scale( 1.0 )`;
+    }
+    return transform;
+  }
+
+  getOpacity(addUnit = false) {
+    let width = Styles.WIDTH + "px";
+    width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "100%" : width;
+    return addUnit ? width : width.replace("px", "").replace("%", "");
+  }
+}
+
+class IframeEmbed extends Iframe {
+  static get className() {
+    return `.${Ext.APP_NAME}${Iframe.MODE_EMBED}`;
+  }
+  static getEmbedIframeTags() {
+    return window.top.document.querySelectorAll(IframeEmbed.className);
+  }
+
+  getStyles(width) {
+    return (
+      "" +
+      `z-index: ${Styles.zIndex} !important;` +
+      `overflow: hidden !important;` +
+      "display: none !important;" +
+      "align-items: flex-end !important;" +
+      "position: absolute !important; " +
+      "bottom: 0px !important;" +
+      "right: 0px !important;" +
+      `width: 100% !important;` +
+      `min-width: 100% !important;` +
+      `max-width: 100% !important;` +
+      `height: 100% !important;` +
+      `min-height: 100% !important;` +
+      `max-height: 100% !important;` +
+      "margin: 0 !important;" +
+      "padding: 0 !important;" +
+      `clip-path: inset(0px round 10px) !important;` +
+      `-webkit-clip-path: inset(0px round 10px) !important;` +
+      "transition: 0ms !important;" +
+      "transform: translate3d(0px, 0px, 0px) !important;"
+    );
+  }
+
+  getWidth(addUnit = false) {
+    let width = Styles.WIDTH;
+    const talknTag = document.querySelector(this.window.includeId);
+    width = talknTag ? talknTag.clientWidth : "100%";
+    return addUnit ? width + "px" : width;
+  }
+
+  getHeight(addUnit = false) {
+    let height = "0px";
+    const talknTag = document.querySelector(this.window.includeId);
+    height = talknTag ? talknTag.clientHeight : "100%";
+    return addUnit ? height + "px" : height;
+  }
+
+  getRight(addUnit = false) {
+    let right = 0;
+    return addUnit ? right : right.replace("px", "").replace("%", "");
+  }
+
+  getTransform() {
+    return "translate3d( 0px 0px 0px)";
+  }
+
+  getOpacity(addUnit = false) {
+    let width = Styles.WIDTH + "px";
+    const talknTag = document.querySelector(this.window.includeId);
+    width = talknTag ? talknTag.clientWidth : "100%";
+    return addUnit ? width + "px" : width;
+  }
+}
+
+class IframeWindow extends Iframe {
+  static get className() {
+    return `.${Ext.APP_NAME}${Iframe.MODE_EMBED}`;
+  }
+  static getEmbedIframeTags() {
+    return window.top.document.querySelectorAll(IframeEmbed.className);
+  }
+}
+
+class HandleIcon extends ReactMode {
   static get id() {
     return `${Ext.APP_NAME}${this.name}`;
   }
@@ -1153,13 +1295,12 @@ class HandleIcon extends Elements {
   constructor(_window) {
     super(_window);
 
-    if (this.window.extMode !== Ext.MODE_INCLUDE) {
+    if (this.window.userDefineMode !== Iframe.MODE_EMBED) {
       let handleIcon = document.createElement("div");
       handleIcon.id = HandleIcon.id;
       handleIcon.className = Window.className;
       handleIcon.style = this.getStyle();
       // handleIcon.src = '//assets.localhost/airplane.svg';
-
       this.click = this.click.bind(this);
       this.mouseover = this.mouseover.bind(this);
       this.mouseout = this.mouseout.bind(this);
@@ -1168,7 +1309,7 @@ class HandleIcon extends Elements {
       handleIcon.addEventListener("mouseover", this.mouseover);
       handleIcon.addEventListener("mouseout", this.mouseout);
 
-      document.body.appendChild(handleIcon);
+      window.top.document.body.appendChild(handleIcon);
     }
   }
 
@@ -1250,49 +1391,23 @@ class HandleIcon extends Elements {
   /*************************/
 
   click() {
-    const { watchCnt } = this.window.state.thread;
-    const { iframe, notifStatus } = this.window.ins;
-    const iframeElm = iframe.get();
-
-    switch (this.window.extMode) {
-      case Ext.MODE_INCLUDE:
-        const talknNotifId = sessionStorage.getItem(Window.talknNotifId);
-        if (talknNotifId === "null") {
-          if (iframeElm.style.height !== this.styles.getIframeOpenHeight(true)) {
-            iframeElm.style.transition = "0ms";
-            iframeElm.style.height = this.styles.getIframeOpenHeight(true);
-            this.clientTo("startDispPosts");
-          } else {
-            this.clientTo("startUndispPosts");
-            setTimeout(() => {
-              iframeElm.style.transition = "0ms";
-              iframeElm.style.height = Iframe.getCloseHeight(true);
-            }, Styles.BASE_TRANSITION);
-          }
-        } else {
-          clearTimeout(talknNotifId);
-          sessionStorage.setItem(Window.talknNotifId, null);
-          this.clientTo("closeNotif");
-          iframeElm.style.transition = "0ms";
-          iframeElm.style.height = this.styles.getIframeOpenHeight(true);
-          this.clientTo("startDispPosts");
-        }
-        break;
-      case Ext.MODE_BOTTOM:
-      case Ext.MODE_MODAL:
-        // notifStatus.resetCnt();
-
+    const { thread } = this.window.ins.iframe.state;
+    if (!thread || !thread.watchCnt) return false;
+    const { notifStatus } = this.window.ins;
+    switch (this.window.userDefineMode) {
+      case Iframe.MODE_BOTTOM:
+      case Iframe.MODE_MODAL:
         const regex = /^\s*$/;
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
-            notifStatus.updateCnt(watchCnt);
+            notifStatus.updateCnt(thread.watchCnt);
             this.window.updateDisplayMode("clickHandleIcon");
             break;
           case Ext.DISPLAY_MODE_OPEN:
             const { inputPost } = this.window;
             if (inputPost && inputPost !== "" && !regex.test(inputPost)) {
               const inputCurrentTime = Window.getCurrentTime(this.window.handleMediaCurrentTime);
-              this.window.apiTo("post", { app: { inputPost, inputCurrentTime } });
+              this.window.apiTo("talknModal", "post", { app: { inputPost, inputCurrentTime } });
               this.window.clientTo("ON_CHANGE_INPUT_POST", { ui: { inputPost: "" } });
             } else {
               this.window.updateDisplayMode("clickHandleIcon");
@@ -1326,8 +1441,8 @@ class HandleIcon extends Elements {
   /*************************/
 
   getActiveStyles(called) {
-    switch (this.window.extMode) {
-      case Ext.MODE_MODAL:
+    switch (this.window.userDefineMode) {
+      case Iframe.MODE_MODAL:
         return {
           bottom: "10px",
           boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
@@ -1335,7 +1450,7 @@ class HandleIcon extends Elements {
           background: `#fff url("https:${Ext.APP_ASSETS_HOST}/airplane.svg") -1px 1px / 64px no-repeat`,
           border: Styles.BASE_UNACTIVE_BORDER,
         };
-      case Ext.MODE_BOTTOM:
+      case Iframe.MODE_BOTTOM:
         return {
           bottom: "0px",
           boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
@@ -1346,15 +1461,15 @@ class HandleIcon extends Elements {
   }
 
   getOpenStyles(called) {
-    switch (this.window.extMode) {
-      case Ext.MODE_MODAL:
+    switch (this.window.userDefineMode) {
+      case Iframe.MODE_MODAL:
         return {
           boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
           transform: `translate3d(0px, -25px, 0px) scale( 1 )`,
           background: Styles.BASE_ACTIVE_BG_COLOR,
           border: Styles.BASE_ACTIVE_BORDER,
         };
-      case Ext.MODE_BOTTOM:
+      case Iframe.MODE_BOTTOM:
         return {
           boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
           transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
@@ -1367,14 +1482,14 @@ class HandleIcon extends Elements {
   transitionEnd() {}
 }
 
-class NotifStatus extends Elements {
+class LiveCnt extends ReactMode {
   static get id() {
     return `${Ext.APP_NAME}${this.name}`;
   }
   constructor(_window, params) {
     super(_window);
 
-    const id = NotifStatus.id;
+    const id = LiveCnt.id;
     const notifStatus = document.createElement("div");
     const width = "24px";
     const height = "24px";
@@ -1382,9 +1497,7 @@ class NotifStatus extends Elements {
 
     this.getActiveStyles = this.getActiveStyles.bind(this);
     this.getOpenStyles = this.getOpenStyles.bind(this);
-    this.addCnt = this.addCnt.bind(this);
     this.updateCnt = this.updateCnt.bind(this);
-    this.resetCnt = this.resetCnt.bind(this);
 
     notifStatus.id = id;
     notifStatus.className = Window.className;
@@ -1414,32 +1527,17 @@ class NotifStatus extends Elements {
       `border-radius: 100px !important;` +
       `transition: ${Styles.BASE_TRANSITION}ms !important;` +
       `transform: ${openStyles.transform} !important;`;
-    document.body.appendChild(notifStatus);
+    window.top.document.body.appendChild(notifStatus);
   }
 
   get() {
-    return document.querySelector(`#${NotifStatus.id}`);
+    return document.querySelector(`#${LiveCnt.id}`);
   }
 
   remove() {
     const elm = this.get();
     elm.remove();
     delete this;
-  }
-
-  // TODO: remove?
-  addCnt(cnt) {
-    const statusNotif = this.get();
-    const baseCnt = Number(statusNotif.innerText);
-    const updatedCnt = baseCnt + Number(cnt);
-
-    if (updatedCnt > 0) {
-      statusNotif.innerHTML = updatedCnt;
-      const activeStyles = this.getActiveStyles("addCnt");
-      statusNotif.style.transform = activeStyles.transform;
-    } else {
-      this.reset();
-    }
   }
 
   updateCnt(cnt) {
@@ -1453,13 +1551,6 @@ class NotifStatus extends Elements {
     } else {
       this.reset();
     }
-  }
-
-  resetCnt() {
-    const statusNotif = this.get();
-    const openStyles = this.getOpenStyles();
-    statusNotif.innerHTML = 0;
-    statusNotif.style.transform = openStyles.transform;
   }
 
   getActiveStyles(called) {
@@ -1483,13 +1574,12 @@ class NotifStatus extends Elements {
   }
 }
 
-class Notif extends Elements {
+class Notif extends ReactMode {
   static get id() {
     return `${Ext.APP_NAME}${this.name}`;
   }
   constructor(_window, params) {
     super(_window);
-
     this.getWidth = this.getWidth.bind(this);
     this.getHeight = this.getHeight.bind(this);
     this.getBottom = this.getBottom.bind(this);
@@ -1579,8 +1669,9 @@ class Notif extends Elements {
     notif.appendChild(notifPost);
 
     notif.addEventListener("click", () => {
-      switch (this.window.extMode) {
-        case Ext.MODE_MODAL:
+      switch (this.window.userDefineMode) {
+        case Iframe.MODE_BOTTOM:
+        case Iframe.MODE_MODAL:
           switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
             case Ext.DISPLAY_MODE_ACTIVE:
               this.window.updateDisplayMode("clickNotif");
@@ -1588,8 +1679,7 @@ class Notif extends Elements {
             case Ext.DISPLAY_MODE_OPEN:
               break;
           }
-        case Ext.MODE_BOTTOM:
-        case Ext.MODE_INCLUDE:
+        case Iframe.MODE_EMBED:
           break;
       }
     });
@@ -1604,7 +1694,7 @@ class Notif extends Elements {
       notif.style.transform = `translate3d(${translates}) scale(1.0)`;
     });
 
-    document.body.appendChild(notif);
+    window.top.document.body.appendChild(notif);
 
     const debugRate = 1;
     setTimeout(() => {
@@ -1630,8 +1720,8 @@ class Notif extends Elements {
 
   getWidth(addUnit = false) {
     let width = 0;
-    switch (this.window.extMode) {
-      case Ext.MODE_MODAL:
+    switch (this.window.userDefineMode) {
+      case Iframe.MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "calc( 100% - 130px )" : "180px";
@@ -1639,8 +1729,8 @@ class Notif extends Elements {
           case Ext.DISPLAY_MODE_OPEN:
             break;
         }
-      case Ext.MODE_BOTTOM:
-      case Ext.MODE_INCLUDE:
+      case Iframe.MODE_BOTTOM:
+      case Iframe.MODE_EMBED:
         break;
     }
     return addUnit ? width : width.replace("px", "").replace("%", "");
@@ -1653,8 +1743,8 @@ class Notif extends Elements {
 
   getPadding(addUnit = false) {
     let padding = "0px";
-    switch (this.window.extMode) {
-      case Ext.MODE_MODAL:
+    switch (this.window.userDefineMode) {
+      case Iframe.MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             padding = "10px 20px 10px 10px";
@@ -1662,8 +1752,8 @@ class Notif extends Elements {
           case Ext.DISPLAY_MODE_OPEN:
             break;
         }
-      case Ext.MODE_BOTTOM:
-      case Ext.MODE_INCLUDE:
+      case Iframe.MODE_BOTTOM:
+      case Iframe.MODE_EMBED:
         break;
     }
     return addUnit ? padding : padding.replace("px", "").replace("%", "");
@@ -1671,8 +1761,8 @@ class Notif extends Elements {
 
   getBottom(addUnit = false) {
     let bottom = "0px";
-    switch (this.window.extMode) {
-      case Ext.MODE_MODAL:
+    switch (this.window.userDefineMode) {
+      case Iframe.MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             bottom = "0px";
@@ -1680,8 +1770,8 @@ class Notif extends Elements {
           case Ext.DISPLAY_MODE_OPEN:
             break;
         }
-      case Ext.MODE_BOTTOM:
-      case Ext.MODE_INCLUDE:
+      case Iframe.MODE_BOTTOM:
+      case Iframe.MODE_EMBED:
         break;
     }
     return addUnit ? bottom : bottom.replace("px", "").replace("%", "");
@@ -1689,8 +1779,8 @@ class Notif extends Elements {
 
   getRight(addUnit = false) {
     let right = "75px";
-    switch (this.window.extMode) {
-      case Ext.MODE_MODAL:
+    switch (this.window.userDefineMode) {
+      case Iframe.MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             right = "75px";
@@ -1698,8 +1788,8 @@ class Notif extends Elements {
           case Ext.DISPLAY_MODE_OPEN:
             break;
         }
-      case Ext.MODE_BOTTOM:
-      case Ext.MODE_INCLUDE:
+      case Iframe.MODE_BOTTOM:
+      case Iframe.MODE_EMBED:
         break;
     }
     return addUnit ? right : right.replace("px", "").replace("%", "");
@@ -1707,8 +1797,8 @@ class Notif extends Elements {
 
   getTranslateY(addUnit = false) {
     let transformY = `-19px`;
-    switch (this.window.extMode) {
-      case Ext.MODE_MODAL:
+    switch (this.window.userDefineMode) {
+      case Iframe.MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             transformY = "-19px";
@@ -1716,8 +1806,8 @@ class Notif extends Elements {
           case Ext.DISPLAY_MODE_OPEN:
             break;
         }
-      case Ext.MODE_BOTTOM:
-      case Ext.MODE_INCLUDE:
+      case Iframe.MODE_BOTTOM:
+      case Iframe.MODE_EMBED:
         break;
     }
     return addUnit ? transformY : transformY.replace("px", "").replace("%", "");
@@ -1729,8 +1819,11 @@ class Notif extends Elements {
   }
 }
 
+class EmbedIframe extends ReactMode {}
+
 const talknExtension = document.querySelector("iframe#talknExtension");
 
+// 多重起動防止
 // ChromeExtとExt両方起動の場合はChromeExtが起動する
 if (!talknExtension) {
   new Window();

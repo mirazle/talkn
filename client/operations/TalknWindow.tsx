@@ -47,7 +47,8 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   scrollHeight: number = 0;
   isScrollBottom: boolean = false;
   isAnimateScrolling: boolean = false;
-  parentUrl: string = location.href;
+  parentiFrameId: string = "";
+  parentHref: string = location.href;
   extUiParams: any = {};
   private dom: any;
   private stores: any;
@@ -119,7 +120,8 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
             case PostMessage.EXT_TO_CLIENT_TYPE:
               switch (e.data.method) {
                 case PostMessage.HANDLE_EXT_AND_CLIENT:
-                  this.parentUrl = e.origin;
+                  this.parentiFrameId = e.data.iFrameId;
+                  this.parentHref = e.data.href;
                   this.parentExtTo(PostMessage.HANDLE_EXT_AND_CLIENT, conf);
                   this.extUiParams = e.data.params.ui;
                   break;
@@ -219,9 +221,9 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     }
   }
 
-  updateUiTimeMarker(scrollTop) {
+  updateUiTimeMarker(scrollTop, { app, ui }) {
     const timeMarkers: any = document.querySelectorAll("li[data-component-name=TimeMarkerList]");
-    const uiTimeMarker = UiTimeMarker.generate(scrollTop, timeMarkers);
+    const uiTimeMarker = UiTimeMarker.generate(scrollTop, timeMarkers, { app, ui });
     if (uiTimeMarker.list.length > 0) {
       this.clientAction("ON_SCROLL_UPDATE_TIME_MARKER", { uiTimeMarker });
     }
@@ -314,14 +316,15 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
   }
 
   parentExtTo(method, params) {
-    if (this.parentUrl) {
+    if (this.parentHref) {
       window.top.postMessage(
         {
           type: PostMessage.CLIENT_TO_EXT_TYPE,
+          iFrameId: this.parentiFrameId,
           method,
           params,
         },
-        this.parentUrl
+        this.parentHref
       );
     }
   }
