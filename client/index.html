@@ -40,7 +40,20 @@
     <link rel="shortcut icon" href="//assets.localhost/favicon.ico" />
     <link rel="canonical" href="https://localhost" />
     <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script type="text/javascript" async src="https://localhost:8080/talkn.client.js"></script>
     <script type="text/javascript">
+      // 自分自身がwindow.top(iframeで読み込まれていない)の場合
+      if (window == window.parent) {
+        const apiScript = document.createElement("script");
+        apiScript.id = "talknApi";
+        apiScript.type = "text/javascript";
+        apiScript.async = true;
+        apiScript.src = "https://localhost:8081/talkn.api.js";
+        document.head.appendChild(apiScript);
+      } else {
+        // iframeで読み込まれている場合
+      }
+
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
           .register("/portal_sw.js")
@@ -54,8 +67,6 @@
           });
       }
     </script>
-    <script type="text/javascript" async src="https://localhost:8080/talkn.client.js"></script>
-    <script type="text/javascript" async src="https://localhost:8081/talkn.api.js"></script>
     <noscript key="noscript">Your browser does not support JavaScript!</noscript>
     <style amp-boilerplate>
       body {

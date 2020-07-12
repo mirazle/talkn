@@ -23,9 +23,6 @@ export default class Ui extends Schema {
   static get screenModeLargeLabel() {
     return "LARGE";
   }
-  static get extensionModeExtNoneLabel() {
-    return "NONE";
-  }
   static get screenModeIndexLabel() {
     return "MENU";
   }
@@ -42,13 +39,16 @@ export default class Ui extends Schema {
     return conf.screenMode.middle;
   }
   static get extensionModeExtModalLabel() {
-    return "EXT_MODAL";
+    return "Modal";
   }
   static get extensionModeExtBottomLabel() {
-    return "EXT_BOTTOM";
+    return "Bottom";
   }
   static get extensionModeExtIncludeLabel() {
-    return "EXT_INCLUDE";
+    return "OnlyEmbed";
+  }
+  static get extensionModeExtNoneLabel() {
+    return "None";
   }
   static get menuComponentUsersLabel() {
     return "Users";
@@ -87,7 +87,7 @@ export default class Ui extends Schema {
   static getScreenMode(widthPx: any = 0) {
     if (!widthPx) {
       if ((window && window.innerWidth === 0) || window.innerHeight === 0) {
-        return "NONE";
+        return undefined;
       }
 
       if (window && window.innerWidth > 0) {
@@ -216,10 +216,10 @@ export default class Ui extends Schema {
   width: string | number;
   height: string | number;
   postsHeight: string | number;
-  screenMode: "LARGE" | "MIDDLE" | "SMALL" | "NONE";
+  screenMode: "LARGE" | "MIDDLE" | "SMALL" | undefined;
 
   // iframeの拡張機能表示の場合
-  extensionMode: "EXT_MODAL" | "EXT_BOTTOM" | "EXT_INCLUDE" | "NONE";
+  extensionMode: "Modal" | "Bottom" | "OnlyEmbed" | "None";
   extensionWidth: string | number;
   extensionOpenHeight: string | number;
   extensionCloseHeight: string | number;
@@ -262,7 +262,7 @@ export default class Ui extends Schema {
     const height = Ui.getHeight(params);
     const postsHeight = params.postsHeight ? params.postsHeight : 0;
     const screenMode = Ui.getScreenMode(width);
-    const extensionMode = params.extensionMode ? params.extensionMode : "NONE";
+    const extensionMode = params.extensionMode ? params.extensionMode : Ui.extensionModeExtNoneLabel;
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
     const extensionOpenHeight = params.extensionOpenHeight ? params.extensionOpenHeight : 0;
     const extensionCloseHeight = params.extensionCloseHeight ? params.extensionCloseHeight : 0;

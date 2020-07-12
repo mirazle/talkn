@@ -197,7 +197,10 @@ export default class Posts {
         return `${Container.getBlockSize({ app, ui }) + Video.height}px`;
       }
     }
-    // return `${Container.getBlockSize({ app, ui })}px`;
+    return "0";
+  }
+
+  static getSelfLeft({ app, ui }) {
     return "0";
   }
 
@@ -234,6 +237,7 @@ export default class Posts {
     const layout = Style.getLayoutBlock({
       position: "absolute",
       top: Posts.getSelfTop({ app, ui }),
+      left: Posts.getSelfLeft({ app, ui }),
       width: Posts.getWidth({ app, ui }),
       minWidth: Posts.getMinWidth({ app, ui }),
       height: Posts.getSelfHeight({ app, ui }),

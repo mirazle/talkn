@@ -1,4 +1,3 @@
-// import TalknAPI from "client/operations/TalknAPI";
 import TalknWindow from "client/operations/TalknWindow";
 import TalknSetup from "client/operations/TalknSetup";
 TalknSetup.setupMath();

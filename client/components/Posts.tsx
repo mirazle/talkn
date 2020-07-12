@@ -38,10 +38,10 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
   }
 
   componentDidMount() {
-    const { ui } = this.props.state;
+    const { app, ui } = this.props.state;
     if (ui.screenMode === Ui.screenModeLargeLabel) {
       const Posts = document.querySelector("[data-component-name=Posts]");
-      window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+      window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
       this.setState({ scrollHeight: Posts.scrollHeight });
       this.animateScrollTo(Posts, 9999999, 400);
     } else {

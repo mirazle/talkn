@@ -12,7 +12,7 @@ export default class PostMessage {
 
   // HANDLE_API_AND_EXT
   static get HANDLE_EXT_AND_API() {
-    return "bootApi";
+    return "HANDLE_EXT_AND_API";
   }
   static get MEDIA_TO_CLIENT_TYPE() {
     return "MEDIA_TO_CLIENT_TYPE";

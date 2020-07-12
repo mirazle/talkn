@@ -61,29 +61,29 @@ class BootOption {
 
     // Prod.
     const prodApiSrc1 = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.PRODUCTION_DOMAIN}/v${conf.apiVer}`;
-    const prodApiScript1 = document.querySelector(`script[src='${prodApiSrc1}']`);
+    const prodApiScript1 = window.top.document.querySelector(`script[src='${prodApiSrc1}']`);
     if (prodApiScript1) return { env: define.PRODUCTION, apiScript: prodApiScript1 };
 
     const prodApiSrc2 = `//${SUB_DOMAINS.API}.${define.PRODUCTION_DOMAIN}/v${conf.apiVer}`;
-    const prodApiScript2 = document.querySelector(`script[src='${prodApiSrc2}']`);
+    const prodApiScript2 = window.top.document.querySelector(`script[src='${prodApiSrc2}']`);
     if (prodApiScript2) return { env: define.PRODUCTION, apiScript: prodApiScript2 };
 
     // Localhost.
     const localApiSrc1 = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.API}.${define.DEVELOPMENT_DOMAIN}/v${conf.apiVer}`;
-    const localApiScript1 = document.querySelector(`script[src='${localApiSrc1}']`);
+    const localApiScript1 = window.top.document.querySelector(`script[src='${localApiSrc1}']`);
     if (localApiScript1) return { env: define.LOCALHOST, apiScript: localApiScript1 };
 
     const localApiSrc2 = `//${SUB_DOMAINS.API}.${define.DEVELOPMENT_DOMAIN}/v${conf.apiVer}`;
-    const localApiScript2 = document.querySelector(`script[src='${localApiSrc2}']`);
+    const localApiScript2 = window.top.document.querySelector(`script[src='${localApiSrc2}']`);
     if (localApiScript2) return { env: define.LOCALHOST, apiScript: localApiScript2 };
 
     // Development(webpack dev server),
     const devApiSrc1 = `${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT_API}/${talknApiJs}`;
-    const devApiScript1 = document.querySelector(`script[src='${devApiSrc1}']`);
+    const devApiScript1 = window.top.document.querySelector(`script[src='${devApiSrc1}']`);
     if (devApiScript1) return { env: define.DEVELOPMENT, apiScript: devApiScript1 };
 
     const devApiSrc2 = `//${define.DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT_API}/${talknApiJs}`;
-    const devApiScript2 = document.querySelector(`script[src='${devApiSrc2}']`);
+    const devApiScript2 = window.top.document.querySelector(`script[src='${devApiSrc2}']`);
     if (devApiScript2) return { env: define.DEVELOPMENT, apiScript: devApiScript2 };
     throw "NO EXIST API SCRIPT.";
   }
@@ -102,7 +102,7 @@ class BootOption {
         clientSrc = `${Sequence.HTTPS_PROTOCOL}//${define.DEVELOPMENT_DOMAIN}:${PORTS.DEVELOPMENT}/${talknClientJs}`;
         break;
     }
-    const clientScript = document.querySelector(`script[src='${clientSrc}']`);
+    const clientScript = window.top.document.querySelector(`script[src='${clientSrc}']`);
     return clientScript ? clientScript : undefined;
   }
 
@@ -112,21 +112,21 @@ class BootOption {
     switch (env) {
       case define.PRODUCTION:
         const prodExtSrc1 = `${Sequence.HTTPS_PROTOCOL}//${SUB_DOMAINS.EXT}.${define.PRODUCTION_DOMAIN}`;
-        const prodExtScript1 = document.querySelector(`script[src='${prodExtSrc1}']`);
+        const prodExtScript1 = window.top.document.querySelector(`script[src='${prodExtSrc1}']`);
         if (prodExtScript1) return prodExtScript1;
 
         const prodExtSrc2 = `//${SUB_DOMAINS.EXT}.${define.PRODUCTION_DOMAIN}`;
-        const prodExtScript2 = document.querySelector(`script[src='${prodExtSrc2}']`);
+        const prodExtScript2 = window.top.document.querySelector(`script[src='${prodExtSrc2}']`);
         if (prodExtScript2) return prodExtScript2;
         break;
       case define.LOCALHOST:
       case define.DEVELOPMENT:
         const devExtSrc1 = `${Sequence.HTTPS_PROTOCOL}://${SUB_DOMAINS.EXT}.${define.DEVELOPMENT_DOMAIN}`;
-        const devExtScript1 = document.querySelector(`script[src='${devExtSrc1}']`);
+        const devExtScript1 = window.top.document.querySelector(`script[src='${devExtSrc1}']`);
         if (devExtScript1) return devExtScript1;
 
         const devExtSrc2 = `//${SUB_DOMAINS.EXT}.${define.DEVELOPMENT_DOMAIN}`;
-        const devExtScript2 = document.querySelector(`script[src='${devExtSrc2}']`);
+        const devExtScript2 = window.top.document.querySelector(`script[src='${devExtSrc2}']`);
         if (devExtScript2) return devExtScript2;
         break;
     }
@@ -158,9 +158,11 @@ class BootOption {
         break;
       case define.DEVELOPMENT:
         initialRootCh = initialRootCh
-          .replace(`${define.DEVELOPMENT_DOMAIN}`, "")
           .replace(`:${define.PORTS.DEVELOPMENT}`, "")
           .replace(`:${define.PORTS.DEVELOPMENT_API}`, "");
+        if (initialRootCh.indexOf(`/${define.DEVELOPMENT_DOMAIN}/`) === 0) {
+          initialRootCh = "/";
+        }
         break;
     }
     return initialRootCh;
@@ -320,26 +322,29 @@ class GlobalWindow {
   origin: string;
   apiStore: any;
   media: Media;
-  static getRequestObj(method, params: any = {}) {
-    const href = location.href;
+  iframes: any;
+  static getClientToRequestObj(method, params: any = {}) {
+    const href = window.top.location.href;
     return {
-      windowType: window.name,
       type: PostMessage.API_TO_CLIENT_TYPE,
-      href,
       method: method,
       params: params,
+      href,
     };
   }
   constructor() {
     this.apiStore = apiStore();
     this.bootOption = new BootOption();
+
     this.exeCoreApi = this.exeCoreApi.bind(this);
     this.clientTo = this.clientTo.bind(this);
+
     this.subscribe = this.subscribe.bind(this);
     this.onWsServer = this.onWsServer.bind(this);
     this.exeCallback = this.exeCallback.bind(this);
     this.afterMediaFilter = this.afterMediaFilter.bind(this);
     this.apiStore.subscribe(this.subscribe);
+    this.iframes = {};
 
     this.onActions();
     const bootPromises = [];
@@ -361,9 +366,9 @@ class GlobalWindow {
                 self.exeCoreApi(e);
               }
               break;
-            case PostMessage.HANDLE_EXT_AND_API:
-              break;
             case PostMessage.EXT_TO_API_TYPE:
+              if (e.data.method === PostMessage.HANDLE_EXT_AND_API) {
+              }
               self.exeCoreApi(e);
               break;
           }
@@ -373,7 +378,7 @@ class GlobalWindow {
 
     bootPromises.push(
       new Promise((resove) => {
-        if (document.readyState === "complete") {
+        if (window.top.document.readyState === "complete") {
           new CoreAPI(this.bootOption.env, self.apiStore, resove);
         } else {
           window.onload = (e) => {
@@ -385,7 +390,7 @@ class GlobalWindow {
 
     Promise.all(bootPromises).then((bootParams: any) => {
       this.bootId = setInterval(() => {
-        this.clientTo(PostMessage.HANDLE_API_AND_CLIENT, this.bootOption);
+        this.clientTo("talknModal", PostMessage.HANDLE_API_AND_CLIENT, this.bootOption);
       }, 200);
     });
   }
@@ -431,7 +436,7 @@ class GlobalWindow {
       const apiState = this.apiStore.getState();
       this.afterMediaFilter(apiState);
       this.exeCallback(apiState.app.actioned, apiState);
-      this.clientTo(apiState.app.actioned, apiState);
+      this.clientTo("talknModal", apiState.app.actioned, apiState);
     }
   }
 
@@ -497,19 +502,18 @@ class GlobalWindow {
     }
   }
 
-  clientTo(method, params = {}) {
+  clientTo(id = "talknModel", method, params = {}) {
     switch (this.bootOption.type) {
       case define.APP_TYPES.PORTAL:
-        const requestObj = GlobalWindow.getRequestObj(method, params);
-        window.postMessage(requestObj, location.href);
+        const requestObj = GlobalWindow.getClientToRequestObj(method, params);
+        window.top.postMessage(requestObj, location.href);
         break;
       case define.APP_TYPES.EXTENSION:
-        const clientIframe: HTMLIFrameElement = document.querySelector(`iframe#talknExtension`);
-
+        const modalIframe: HTMLIFrameElement = window.top.document.querySelector(`iframe#${id}`);
         // boot by iframe.
-        if (clientIframe) {
-          const requestObj = GlobalWindow.getRequestObj(method, params);
-          clientIframe.contentWindow.postMessage(requestObj, clientIframe.src);
+        if (modalIframe) {
+          const requestObj = GlobalWindow.getClientToRequestObj(method, params);
+          modalIframe.contentWindow.postMessage(requestObj, modalIframe.src);
           // boot by api only.
         } else {
           throw "NO EXTENSION IFRAME";
@@ -521,6 +525,11 @@ class GlobalWindow {
   }
 }
 
+class Iframe {
+  id: string;
+  constructor() {}
+}
+
 export class Media {
   static get mediaSecondInterval() {
     return 200;
@@ -528,11 +537,10 @@ export class Media {
   static getMedia(thread) {
     const src = Thread.getMediaSrc(thread);
     const tagType = Thread.getMediaTagType(thread);
-    return document.querySelector(`${tagType}[src='${src}']`);
+    return window.top.document.querySelector(`${tagType}[src='${src}']`);
   }
-  static getRequestObj(method, params: any = {}) {
+  static getClientToRequestObj(method, params: any = {}) {
     return {
-      windowType: window.name,
       type: PostMessage.MEDIA_TO_CLIENT_TYPE,
       method: method,
       params: params,
@@ -624,8 +632,8 @@ export class Media {
     this.playIntervalId = null;
     this.searchingId = setInterval(() => {
       if (this.searchingCnt < this.maxSearchingCnt) {
-        const videos = document.querySelectorAll("video");
-        const audios = document.querySelectorAll("audio");
+        const videos = window.top.document.querySelectorAll("video");
+        const audios = window.top.document.querySelectorAll("audio");
         videos.forEach(this.handleEvents);
         audios.forEach(this.handleEvents);
         if (videos.length > 0 || audios.length > 0) {

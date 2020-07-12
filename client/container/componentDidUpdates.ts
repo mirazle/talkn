@@ -24,7 +24,7 @@ const componentDidUpdates = {
     },
     "API_TO_CLIENT[EMIT]:fetchPosts": (self) => {
       window.talknWindow.removeTalknBg();
-      const { ui } = self.props.state;
+      const { app, ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
       ui.postsHeight += TalknWindow.getPostsHeight();
       self.props.updatePostsHeight(ui.postsHeight);
@@ -41,12 +41,12 @@ const componentDidUpdates = {
         switch (ui.screenMode) {
           case Ui.screenModeLargeLabel:
             if (Posts && Posts.scrollHeight) {
-              window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+              window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
             }
             break;
           case Ui.screenModeMiddleLabel:
           case Ui.screenModeSmallLabel:
-            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
+            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight, { app, ui });
             break;
         }
 
@@ -65,20 +65,20 @@ const componentDidUpdates = {
       }
     },
     ON_CLICK_MULTISTREAM: (self) => {
-      const { ui } = self.props.state;
+      const { app, ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
       if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
         switch (ui.screenMode) {
           case Ui.screenModeLargeLabel:
-            window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+            window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
             break;
           case Ui.screenModeMiddleLabel:
           case Ui.screenModeSmallLabel:
-            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight);
+            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight, { app, ui });
             break;
         }
       } else {
-        window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight);
+        window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
       }
       const wndowScrollY = 9999999;
       window.scrollTo(0, wndowScrollY);
@@ -112,24 +112,24 @@ const componentDidUpdates = {
       }
     },
     TOGGLE_BUBBLE_POST: (self) => {
-      const { ui } = self.props.state;
+      const { app, ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
       if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
         switch (ui.screenMode) {
           case Ui.screenModeLargeLabel:
             Posts.scrollTop = Posts.scrollHeight - Posts.clientHeight;
-            window.talknWindow.updateUiTimeMarker(Posts.scrollTop);
+            window.talknWindow.updateUiTimeMarker(Posts.scrollTop, { app, ui });
             break;
           case Ui.screenModeMiddleLabel:
           case Ui.screenModeSmallLabel:
             const wndowScrollY = 9999999;
             window.scrollTo(0, wndowScrollY);
-            window.talknWindow.updateUiTimeMarker(wndowScrollY);
+            window.talknWindow.updateUiTimeMarker(wndowScrollY, { app, ui });
             break;
         }
       } else {
         Posts.scrollTop = Posts.scrollHeight - Posts.clientHeight;
-        window.talknWindow.updateUiTimeMarker(Posts.scrollTop);
+        window.talknWindow.updateUiTimeMarker(Posts.scrollTop, { app, ui });
       }
     },
     RESIZE_END_WINDOW: (self) => {},
@@ -142,17 +142,17 @@ const componentDidUpdates = {
     NEXT_POSTS_TIMELINE: post,
     "API_TO_CLIENT[BROADCAST]:post": post,
     "API_TO_CLIENT[EMIT]:getMore": (self) => {
-      const { ui } = self.props.state;
+      const { app, ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
       self.scrollToDidUpdateGetMore();
 
       switch (ui.screenMode) {
         case Ui.screenModeLargeLabel:
-          window.talknWindow.updateUiTimeMarker(Posts.scrollTop);
+          window.talknWindow.updateUiTimeMarker(Posts.scrollTop, { app, ui });
           break;
         case Ui.screenModeMiddleLabel:
         case Ui.screenModeSmallLabel:
-          window.talknWindow.updateUiTimeMarker(window.scrollY);
+          window.talknWindow.updateUiTimeMarker(window.scrollY, { app, ui });
           break;
       }
     },

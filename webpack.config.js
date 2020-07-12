@@ -45,6 +45,7 @@ module.exports = {
   },
 
   devServer: {
+    disableHostCheck: true, // devServer同士を親ifameから読んだ場合のエラーをOFFにする
     historyApiFallback: true, // 存在しないリソースに対するアクセスをindex.htmlにする
     contentBase: __dirname + `/${mode}/`,
     port,
