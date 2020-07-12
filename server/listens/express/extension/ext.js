@@ -1050,7 +1050,7 @@ class IframeModal extends Iframe {
   /********************************/
 
   toggleIframe(params) {
-    this.updateDisplayMode("toggleIframe");
+    this.window.updateDisplayMode("toggleIframe");
   }
 
   tune(state) {
