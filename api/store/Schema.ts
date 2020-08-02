@@ -51,7 +51,7 @@ export default class Schema {
     const stateType = Schema.getType(state);
     let validMethods = {};
 
-    Object.keys(state).forEach(key => {
+    Object.keys(state).forEach((key) => {
       // Properties .
       let values;
       let def = null;
@@ -110,7 +110,7 @@ export default class Schema {
           validType,
           paramsValue,
           paramsType,
-          error
+          error,
         };
       };
 
@@ -121,7 +121,7 @@ export default class Schema {
           get: () => {
             return value;
           },
-          set: _value => {
+          set: (_value) => {
             // pointer, validValue, validType, paramsValue, paramsType, error
             const validResult = validFunc(value);
             if (error === null) {
@@ -133,7 +133,7 @@ export default class Schema {
             }
           },
           enumerable: true,
-          configurable: true
+          configurable: true,
         });
       } else {
         if (this.errorThrow) {
@@ -149,19 +149,19 @@ export default class Schema {
   canSet(key: any, validValue: any) {
     try {
       const currentValue = this[key];
-      if(currentValue === undefined ){
+      if (currentValue === undefined) {
         return true;
       }
 
-      if(currentValue === null ){
+      if (currentValue === null) {
         return true;
       }
 
-      if(validValue === undefined ){
+      if (validValue === undefined) {
         return true;
       }
 
-      if(validValue === null ){
+      if (validValue === null) {
         return true;
       }
 
@@ -191,7 +191,7 @@ export default class Schema {
 
       if (objKeys.length > 0) {
         let mergedObj: any = { ...this };
-        objKeys.forEach(key => {
+        objKeys.forEach((key) => {
           if (this[key] !== params[key]) {
             if (this.canSet(key, params[key])) {
               mergedObj[key] = params[key];
@@ -240,7 +240,7 @@ export default class Schema {
 
   toJSON(obj: any = this) {
     let jsonObj: any = {};
-    Object.keys(obj).forEach(key => {
+    Object.keys(obj).forEach((key) => {
       let values: any = obj[key];
       if (values.constructor.name === "Object") {
         if (!values.type && !values.default) {
@@ -259,6 +259,10 @@ export default class Schema {
 
   forEach(func) {
     return Object.values(this).forEach(func);
+  }
+
+  concat(func) {
+    return this.returnImmutable(Object.values(this).concat(func), func);
   }
 
   map(func) {

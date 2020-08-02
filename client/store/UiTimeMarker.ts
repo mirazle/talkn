@@ -39,16 +39,8 @@ export default class UiTimeMarker extends Schema {
     let now = { ...initUiTimeMarkerObject };
     let before = { ...initUiTimeMarkerObject };
     let after = { ...initUiTimeMarkerObject };
-
     if (timeMarkerSize > 0) {
       const scrollBaseTop = TimeMarkerStyle.getSelfMarginTop() + scrollTop + Container.getBlockSize({ app, ui });
-
-      // FIXME: UI_TIME_MERKERを直す
-      /*
-      console.log(
-        "@@@ " + TimeMarkerStyle.getSelfMarginTop() + " " + scrollTop + " " + Container.getBlockSize({ app, ui })
-      );
-      */
       timeMarkers.forEach((timeMarker, index) => {
         if (now.label === "" && scrollBaseTop <= timeMarker.offsetTop) {
           now.index = index;

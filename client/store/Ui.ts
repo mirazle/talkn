@@ -44,8 +44,8 @@ export default class Ui extends Schema {
   static get extensionModeExtBottomLabel() {
     return "Bottom";
   }
-  static get extensionModeExtIncludeLabel() {
-    return "OnlyEmbed";
+  static get extensionModeExtEmbedLabel() {
+    return "Embed";
   }
   static get extensionModeExtNoneLabel() {
     return "None";
@@ -53,8 +53,8 @@ export default class Ui extends Schema {
   static get menuComponentUsersLabel() {
     return "Users";
   }
-  static get menuComponentIndexLabel() {
-    return "Index";
+  static get menuComponentRankLabel() {
+    return "Rank";
   }
   static get menuComponentLogsLabel() {
     return "Logs";
@@ -63,11 +63,19 @@ export default class Ui extends Schema {
     return "Setting";
   }
   static getDefaultMenuComponent() {
-    return Ui.menuComponentIndexLabel;
+    return Ui.menuComponentRankLabel;
   }
 
   static getWidth(params) {
-    if (typeof window === "object" && window.innerWidth) return window.innerWidth;
+    if (params && params.extensionWidth > 0) {
+      return params.extensionWidth;
+    }
+    if (params && params.width > 0) {
+      return params.width;
+    }
+    if (typeof window === "object" && window.innerWidth) {
+      return window.innerWidth;
+    }
     if (params.width) {
       if (typeof params.width === "string") {
         if (params.width.indexOf("px") >= 0) {
@@ -79,8 +87,16 @@ export default class Ui extends Schema {
     return 0;
   }
 
-  static getHeight(params = {}) {
-    if (typeof window === "object" && window.innerHeight) return window.innerHeight;
+  static getHeight(params: any = {}) {
+    if (params && params.extensionHeigt > 0) {
+      return params.extensionHeigt;
+    }
+    if (params && params.height > 0) {
+      return params.height;
+    }
+    if (typeof window === "object" && window.innerHeight) {
+      return window.innerHeight;
+    }
     return 0;
   }
 
@@ -120,38 +136,32 @@ export default class Ui extends Schema {
   }
 
   static getIsOpenPosts(ui: any, called: string = "") {
-    let { extensionMode, height, extensionOpenHeight, extensionCloseHeight } = ui;
+    let { extensionMode, height, extensionHeight, extensionCloseHeight } = ui;
     const log = false;
     const al = false;
     if (extensionMode === Ui.extensionModeExtBottomLabel || extensionMode === Ui.extensionModeExtModalLabel) {
       if (typeof height !== "number") height = Number(height);
-      if (typeof extensionOpenHeight !== "number") extensionOpenHeight = Number(extensionOpenHeight);
+      if (typeof extensionHeight !== "number") extensionHeight = Number(extensionHeight);
 
       if (height === 0) {
-        if (log) console.log("@getIsOpenPosts A " + " " + extensionOpenHeight + " " + height);
-        if (al) alert("@getIsOpenPosts A " + " " + extensionOpenHeight + " " + height);
+        if (log) console.log("@getIsOpenPosts A " + " " + extensionHeight + " " + height);
+        if (al) alert("@getIsOpenPosts A " + " " + extensionHeight + " " + height);
         return false;
       }
 
-      if (extensionCloseHeight === height) {
-        if (log) console.log("@getIsOpenPosts B " + " " + extensionOpenHeight + " " + height);
-        if (al) alert("@getIsOpenPosts B " + " " + extensionOpenHeight + " " + height);
-        return false;
-      }
-
-      // MEMO: スマホで入力モードになった時にheightがextensionOpenHeightを上回る時があるため
-      if (extensionOpenHeight <= height) {
-        if (log) console.log("@getIsOpenPosts C " + " " + extensionOpenHeight + " " + height);
-        if (al) alert("@getIsOpenPosts C " + " " + extensionOpenHeight + " " + height);
+      // MEMO: スマホで入力モードになった時にheightがextensionHeightを上回る時があるため
+      if (extensionHeight <= height) {
+        if (log) console.log("@getIsOpenPosts C " + " " + extensionHeight + " " + height);
+        if (al) alert("@getIsOpenPosts C " + " " + extensionHeight + " " + height);
         return true;
       }
 
-      if (log) console.log("@getIsOpenPosts D " + " " + extensionOpenHeight + " " + height);
-      if (al) alert("@getIsOpenPosts D " + " " + extensionOpenHeight + " " + height);
+      if (log) console.log("@getIsOpenPosts D " + " " + extensionHeight + " " + height);
+      if (al) alert("@getIsOpenPosts D " + " " + extensionHeight + " " + height);
       return false;
     } else {
-      if (log) console.log("@getIsOpenPosts E " + " " + extensionOpenHeight + " " + height);
-      if (al) alert("@getIsOpenPosts E " + " " + extensionOpenHeight + " " + height);
+      if (log) console.log("@getIsOpenPosts E " + " " + extensionHeight + " " + height);
+      if (al) alert("@getIsOpenPosts E " + " " + extensionHeight + " " + height);
       return true;
     }
   }
@@ -213,16 +223,16 @@ export default class Ui extends Schema {
   }
 
   // 基本表示関連
+  iFrameId: string;
   width: string | number;
   height: string | number;
   postsHeight: string | number;
   screenMode: "LARGE" | "MIDDLE" | "SMALL" | undefined;
 
   // iframeの拡張機能表示の場合
-  extensionMode: "Modal" | "Bottom" | "OnlyEmbed" | "None";
+  extensionMode: "Modal" | "Bottom" | "Embed" | "None";
   extensionWidth: string | number;
-  extensionOpenHeight: string | number;
-  extensionCloseHeight: string | number;
+  extensionHeight: string | number;
 
   isOpenPosts: boolean;
   isOpenSetting: boolean;
@@ -258,22 +268,21 @@ export default class Ui extends Schema {
   includeIframeTag: boolean;
   constructor(params: any = {}) {
     super();
+    const iFrameId = params.iFrameId ? params.iFrameId : "";
     const width = Ui.getWidth(params);
     const height = Ui.getHeight(params);
     const postsHeight = params.postsHeight ? params.postsHeight : 0;
     const screenMode = Ui.getScreenMode(width);
     const extensionMode = params.extensionMode ? params.extensionMode : Ui.extensionModeExtNoneLabel;
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
-    const extensionOpenHeight = params.extensionOpenHeight ? params.extensionOpenHeight : 0;
-    const extensionCloseHeight = params.extensionCloseHeight ? params.extensionCloseHeight : 0;
+    const extensionHeight = params.extensionHeight ? params.extensionHeight : 0;
 
     // 各パーツの状態(フラグ制御)
     const threadScrollY = params && params.threadScrollY ? params.threadScrollY : 0;
     const isOpenPosts = Ui.getIsOpenPosts({
       height,
       extensionMode,
-      extensionOpenHeight,
-      extensionCloseHeight,
+      extensionHeight,
     });
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
     const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
@@ -300,16 +309,16 @@ export default class Ui extends Schema {
     const inputCurrentTime = params.inputCurrentTime ? params.inputCurrentTime : 0.0;
     const inputSearch = params.inputSearch ? params.inputSearch : "";
 
-    const isLoading = Schema.isSet(params.isLoading) ? params.isLoading : false;
+    const isLoading = Schema.isSet(params.isLoading) ? params.isLoading : true;
     return this.create({
+      iFrameId,
       width,
       height,
       postsHeight,
       screenMode,
       extensionMode,
       extensionWidth,
-      extensionOpenHeight,
-      extensionCloseHeight,
+      extensionHeight,
       threadScrollY,
       isOpenPosts,
       isOpenSetting,

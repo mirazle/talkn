@@ -1,12 +1,26 @@
 <!DOCTYPE html>
-<html amp style="margin: 0 auto;" lang="ja">
+<html amp style="margin: 0 auto;">
   <head>
     <title>talkn</title>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
-    />
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+    <script type="text/javascript" async src="https://localhost:8080/talkn.client.js"></script>
+    <script type="text/javascript">
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/service.worker.js")
+          .then((registration) => {
+            // 登録成功
+            console.log("ServiceWorker registration successful with scope: ", registration.scope);
+          })
+          .catch((err) => {
+            // 登録失敗 :(
+            console.log("ServiceWorker registration failed: ", err);
+          });
+      }
+    </script>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
     <meta name="theme-color" content="rgb(79, 174, 159)" />
     <meta
       name="description"
@@ -15,7 +29,6 @@
     <meta name="keywords" content="talkn" />
     <meta name="title" content="talkn" />
     <meta name="”robots”" content="”index,nofollow,noarchive”" />
-
     <meta property="og:title" content="talkn" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://localhost" />
@@ -35,39 +48,11 @@
       content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn."
     />
     <meta name="twitter:image" content="https://assets.localhost/img/talkn_logo1.png" />
-
-    <link rel="manifest" href="//localhost/manifest.json" />
+    <link rel="manifest" href="https://localhost:8080/manifest.json" />
     <link rel="shortcut icon" href="//assets.localhost/favicon.ico" />
     <link rel="canonical" href="https://localhost" />
-    <script async src="https://cdn.ampproject.org/v0.js"></script>
-    <script type="text/javascript" async src="https://localhost:8080/talkn.client.js"></script>
-    <script type="text/javascript">
-      // 自分自身がwindow.top(iframeで読み込まれていない)の場合
-      if (window == window.parent) {
-        const apiScript = document.createElement("script");
-        apiScript.id = "talknApi";
-        apiScript.type = "text/javascript";
-        apiScript.async = true;
-        apiScript.src = "https://localhost:8081/talkn.api.js";
-        document.head.appendChild(apiScript);
-      } else {
-        // iframeで読み込まれている場合
-      }
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
 
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker
-          .register("/portal_sw.js")
-          .then((registration) => {
-            // 登録成功
-            console.log("[TALKN_PORTAL]ServiceWorker registration successful with scope: ", registration.scope);
-          })
-          .catch((err) => {
-            // 登録失敗 :(
-            console.log("[TALKN_PORTAL]ServiceWorker registration failed: ", err);
-          });
-      }
-    </script>
-    <noscript key="noscript">Your browser does not support JavaScript!</noscript>
     <style amp-boilerplate>
       body {
         -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
@@ -75,57 +60,84 @@
         -ms-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
         animation: -amp-start 8s steps(1, end) 0s 1 normal both;
       }
+
       @-webkit-keyframes -amp-start {
         from {
           visibility: hidden;
         }
+
         to {
           visibility: visible;
         }
       }
+
       @-moz-keyframes -amp-start {
         from {
           visibility: hidden;
         }
+
         to {
           visibility: visible;
         }
       }
+
       @-ms-keyframes -amp-start {
         from {
           visibility: hidden;
         }
+
         to {
           visibility: visible;
         }
       }
+
       @-o-keyframes -amp-start {
         from {
           visibility: hidden;
         }
+
         to {
           visibility: visible;
         }
       }
+
       @keyframes -amp-start {
         from {
           visibility: hidden;
         }
+
         to {
           visibility: visible;
         }
       }
+    </style>
+    <noscript>
+      <style amp-boilerplate>
+        body {
+          -webkit-animation: none;
+          -moz-animation: none;
+          -ms-animation: none;
+          animation: none;
+        }
+      </style>
+    </noscript>
+    <style amp-keyframes>
       @keyframes logo {
         0% {
           transform: scale(1) translate3d(0px, 0px, 0px);
+          opacity: 1;
         }
         50% {
           transform: scale(0.9) translate3d(0px, 0px, 0px);
+          opacity: 1;
         }
         100% {
           transform: scale(1) translate3d(0px, 0px, 0px);
+          opacity: 1;
         }
       }
+    </style>
+    <style amp-custom>
       #talkn {
         display: flex;
         justify-content: center;
@@ -139,18 +151,11 @@
         transition: 600ms;
       }
     </style>
-    <noscript
-      ><style amp-boilerplate>
-        body {
-          -webkit-animation: none;
-          -moz-animation: none;
-          -ms-animation: none;
-          animation: none;
-        }
-      </style></noscript
-    >
   </head>
-  <body style="margin: 0 auto;">
+  <body id="container" style="margin: 0 auto;" src="https://localhost:8080/talkn.client.js">
     <div id="talkn"></div>
-  </body>
+    <!--script type="module">
+      import { upgradeElement } from "https://localhost:8080/dist/main.mjs";
+      upgradeElement(document.querySelector("body"), "https://localhost:8080/dist/worker/worker.mjs");
+    </script-->
 </html>

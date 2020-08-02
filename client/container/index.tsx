@@ -6,11 +6,8 @@ import Ui from "client/store/Ui";
 import handles from "client/actions/handles";
 import TalknSession from "client/operations/TalknSession";
 import TalknComponent from "client/components/TalknComponent";
-import LoadingLogo from "client/components/LoadingLogo";
 import Style from "client/components/Style";
-import HeaderStyle from "client/style/Header";
 import ContainerStyle from "client/style/Container";
-import PostsFooterStyle from "client/style/PostsFooter";
 import Icon from "client/components/Icon";
 import Posts from "client/components/Posts";
 import Header from "client/components/Header";
@@ -50,8 +47,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     super(props);
     const { ui, thread } = props.state;
     this.state = { notifs: [] };
-    this.coreApi("fetchPosts", { thread: { ch: thread.ch } });
-    this.coreApi("rank", { thread: { ch: thread.ch } });
+
     this.getProps = this.getProps.bind(this);
     this.renderNewPost = this.renderNewPost.bind(this);
     this.renderSmall = this.renderSmall.bind(this);
@@ -102,10 +98,10 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
         onClickOpenLockMenu(Ui.openLockMenuLabelNo);
       }
 
-      window.talknWindow.parentExtTo("toggleIframe");
+      window.talknWindow.ext.to("toggleIframe");
 
       if (!app.isLinkCh) {
-        window.talknWindow.parentExtTo("getClientMetas");
+        window.talknWindow.ext.to("getClientMetas");
       }
     }
   }
@@ -138,10 +134,10 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
         onClickOpenLockMenu(Ui.openLockMenuLabelNo);
       }
 
-      window.talknWindow.parentExtTo("toggleIframe");
+      window.talknWindow.ext.to("toggleIframe");
 
       if (!app.isLinkCh) {
-        window.talknWindow.parentExtTo("getClientMetas");
+        window.talknWindow.ext.to("getClientMetas");
       }
     }
   }
@@ -187,24 +183,21 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     this.clientAction("ON_CLICK_MULTISTREAM", { app, postsMulti, postsSingle });
 
     if (findFlg) {
-      this.coreApi("fetchPosts", { thread: { ch: app.rootCh }, app });
+      this.api("fetchPosts", { thread: { ch: app.rootCh }, app });
     }
   }
 
   render() {
-    const { ui, app } = this.props.state;
-    if (app.tuned) {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
-          return this.renderSmall();
-        case Ui.screenModeMiddleLabel:
-          return this.renderMiddle();
-        case Ui.screenModeLargeLabel:
-          return this.renderLarge();
-      }
-    } else {
-      return <></>;
+    const { app, ui } = this.props.state;
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+        return this.renderSmall();
+      case Ui.screenModeMiddleLabel:
+        return this.renderMiddle();
+      case Ui.screenModeLargeLabel:
+        return this.renderLarge();
     }
+    return <></>;
   }
 
   renderFixMarker(props): React.ReactNode {
@@ -247,16 +240,16 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     const PostsComponent = document.querySelector("[data-component-name=Posts]");
 
     if (log) console.log("フレーム枠の縦幅： " + postsFrameHeight);
-    if (log) console.log("実際の投稿縦幅： " + window.talknWindow.scrollHeight);
-    if (log) console.log("最下位スクロール：　" + window.talknWindow.isScrollBottom);
+    if (log) console.log("実際の投稿縦幅： " + window.talknWindow.dom.scrollHeight);
+    if (log) console.log("最下位スクロール：　" + window.talknWindow.dom.isScrollBottom);
 
     // フレーム縦幅よりも、実際の投稿縦幅のほうが小さい場合
     if (PostsComponent) {
-      if (window.talknWindow.scrollHeight < postsFrameHeight) {
+      if (window.talknWindow.dom.scrollHeight < postsFrameHeight) {
         // フレーム縦幅よりも、実際の投稿縦幅のほうが大きい場合
       } else {
         // 一番下までスクロールしている場合
-        if (window.talknWindow.isScrollBottom) {
+        if (window.talknWindow.dom.isScrollBottom) {
           // 一番下までスクロールしていない場合
         } else {
           dispNewPost = true;

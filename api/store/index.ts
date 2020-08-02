@@ -1,6 +1,6 @@
 import App from "api/store/App";
 import User from "api/store/User";
-import Rank from "api/store/Rank";
+import Ranks from "api/store/Ranks";
 import MenuLogs from "api/store/MenuLogs";
 import Posts from "api/store/Posts";
 import PostsTimeline from "api/store/PostsTimeline";
@@ -11,7 +11,7 @@ import Thread from "api/store/Thread";
 import ActionLog from "api/store/ActionLogs";
 
 export default class ApiState {
-  rank: Rank;
+  ranks: Ranks;
   menuLogs: MenuLogs;
   posts: Posts;
   postsMulti: Posts;
@@ -28,8 +28,8 @@ export default class ApiState {
   app: App;
   user: User;
   actionLog: ActionLog;
-  constructor(window: any, bootOption: any = {}, caches: any = {}) {
-    this.rank = new Rank();
+  constructor(bootOption: any = {}, caches: any = {}) {
+    this.ranks = new Ranks();
     this.menuLogs = new MenuLogs(caches.menuLogs);
     this.posts = new Posts();
     this.postsMulti = new Posts();
@@ -40,8 +40,8 @@ export default class ApiState {
     this.postsLogs = new Posts();
     this.analyze = new Analyze();
     this.bootOption = new BootOption(bootOption);
-    this.thread = new Thread(window, this.bootOption, caches.thread);
-    this.threadDetail = new Thread(window, this.bootOption, caches.thread);
+    this.thread = new Thread(this.bootOption, caches.thread);
+    this.threadDetail = new Thread(this.bootOption, caches.thread);
     this.app = new App(ApiState.getAppParams(this.thread, this.bootOption, caches));
     this.user = new User(ApiState.getUserParams(this, caches));
     this.actionLog = new ActionLog();
@@ -63,14 +63,6 @@ export default class ApiState {
       const dispThreadType = self.thread.ch === self.app.rootCh ? App.dispThreadTypeMulti : App.dispThreadTypeSingle;
       return { dispThreadType };
     }
-  }
-
-  get appName() {
-    return this.app.name;
-  }
-
-  get talknIndex() {
-    return this.app.talknIndex;
   }
 
   get ch() {

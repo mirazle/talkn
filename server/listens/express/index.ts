@@ -1,6 +1,7 @@
 import http from "http";
 import https from "https";
 import express from "express";
+import session from "express-session";
 import bodyParser from "body-parser";
 import compression from "compression";
 import define from "common/define";
@@ -9,20 +10,32 @@ import Mail from "server/logics/Mail";
 import Geolite from "server/logics/Geolite";
 import conf from "server/conf";
 
+const sessionSetting = session({
+  secret: "keyboard cat",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: true,
+    sameSite: "lax",
+  },
+});
+
 class Express {
   httpApp: any;
   httpsApp: any;
   session: any;
   constructor() {
     this.httpApp = express();
+    this.httpApp.use(sessionSetting);
     this.httpsApp = express();
     this.httpsApp.set("view engine", "ejs");
     this.httpsApp.set("views", conf.serverPath);
     this.httpsApp.set("trust proxy", true);
     this.httpsApp.use(bodyParser.urlencoded({ extended: true }));
     this.httpsApp.use(compression());
+    this.httpsApp.use(sessionSetting);
 
-    this.session = new Session(this.httpsApp);
+    // this.session = new Session(this.httpsApp);
 
     this.listenedHttp = this.listenedHttp.bind(this);
     this.listenedHttps = this.listenedHttps.bind(this);
@@ -122,7 +135,8 @@ class Express {
         if (
           req.originalUrl === "/robots.txt" ||
           req.originalUrl === "/manifest.json" ||
-          req.originalUrl === "/portal_sw.js"
+          req.originalUrl === "/service.worker.js"||
+          req.originalUrl === "/worker.js"
         ) {
           // CORSを許可する
           res.header("Access-Control-Allow-Origin", "*");

@@ -26,7 +26,6 @@ export default class Io {
     const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
     this.io.broadcast(responseBroadcastState.thread.ch, responseBroadcastState);
-    return true;
   }
 
   async fetchPosts(ioUser, { requestState, thread, posts, app }) {
@@ -36,7 +35,6 @@ export default class Io {
       app,
     });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
-    return true;
   }
 
   async getMore(ioUser, { requestState, thread, posts, app }) {
@@ -46,19 +44,16 @@ export default class Io {
       app,
     });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
-    return true;
   }
 
   async rank(ioUser, { requestState, rank }) {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, { rank });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
-    return true;
   }
 
   async changeThreadDetail(ioUser, { requestState, thread }) {
     const responseEmitState = Sequence.getResponseState("Emit", requestState, { thread });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
-    return true;
   }
 
   async updateThread(ioUser, { requestState, thread }) {
@@ -66,13 +61,15 @@ export default class Io {
       thread,
     });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
-    return true;
   }
 
-  async changeThread(ioUser, { requestState, thread }) {
-    const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
-    this.io.broadcast(responseBroadcastState.thread.ch, responseBroadcastState);
-    return true;
+  async changeThread(ioUser, { requestState, oldThread, newThread }) {
+    const responseEmitState = Sequence.getResponseState("Emit", requestState, { thread: newThread });
+    this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
+    const responseBroadcastState1 = Sequence.getResponseState("Broadcast", requestState, { thread: oldThread });
+    this.io.broadcast(responseBroadcastState1.thread.ch, responseBroadcastState1);
+    const responseBroadcastState2 = Sequence.getResponseState("Broadcast", requestState, { thread: newThread });
+    this.io.broadcast(responseBroadcastState2.thread.ch, responseBroadcastState2);
   }
 
   async post(ioUser, { requestState, posts, thread }) {
@@ -82,13 +79,13 @@ export default class Io {
       rank: posts,
     });
     const chs = posts[0].chs;
+    console.log("-----");
+    console.log(responseBroadcastState.thread);
     chs.forEach((ch) => {
       // responseBroadcastState.thread.ch = ch;
       responseBroadcastState.posts[0].ch = ch;
       this.io.broadcast(ch, responseBroadcastState);
     });
-
-    return true;
   }
 
   async updateThreadServerMetas(ioUser, { requestState, thread }) {
@@ -96,7 +93,6 @@ export default class Io {
       thread,
     });
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
-    return true;
   }
 
   async disconnect(ioUser, { requestState, thread }) {

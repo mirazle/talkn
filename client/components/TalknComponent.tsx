@@ -1,5 +1,4 @@
 import { Component } from "react";
-import PostMessage from "common/PostMessage";
 import ClientState from "client/store/";
 import Schema from "api/store/Schema";
 import App from "api/store/App";
@@ -20,29 +19,20 @@ export default class TalknComponent<P, S> extends Component<P, S> {
 
   get clientStore(): ClientState {
     if (window.talknWindow) {
-      return window.talknWindow.stores.client;
+      return window.talknWindow.store;
     }
   }
   get clientState() {
     if (window.talknWindow) {
-      return window.talknWindow.stores.client.getState();
+      return window.talknWindow.store.getState();
     }
   }
-
-  coreApi(method, params = {}, callback = () => {}) {
-    const postWindow = window.talknWindow.parentHref === location.href ? window : window.top;
-    postWindow.postMessage(
-      {
-        type: PostMessage.CLIENT_TO_API_TYPE,
-        method,
-        params,
-      },
-      window.talknWindow.parentHref
-    );
+  api(method, params = {}) {
+    window.talknWindow.api(method, params);
   }
   clientAction(type: string, params?, callback = () => {}) {
     const action = params ? { ...params, type } : { type };
-    window.talknWindow.stores.client.dispatch(action);
+    window.talknWindow.store.dispatch(action);
   }
 
   onClickCh(toCh, ui, overWriteHasSlash, called) {
@@ -50,43 +40,42 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     const beforeCh = thread.ch;
     thread.ch = toCh;
     ui.isOpenLinks = false;
-    ui.isOpenMenu = false;
+    ui.isOpenMenu = ui.screenMode === Ui.screenModeSmallLabel ? ui.isOpenMenu : false;
     ui.isOpenBoard = true;
 
     if (Schema.isSet(overWriteHasSlash)) thread.hasSlash = overWriteHasSlash;
     const threadStatus = Thread.getStatus(thread, app, setting);
     let { app: updatedApp, stepTo } = App.getStepToDispThreadType({ app, rank }, threadStatus, toCh, called);
 
-    if (!app.isLinkCh && updatedApp.isLinkCh) this.coreApi("on", toCh);
-    if (app.isLinkCh && !updatedApp.isLinkCh) this.coreApi("off", beforeCh);
+    if (!app.isLinkCh && updatedApp.isLinkCh) this.api("on", toCh);
+    if (app.isLinkCh && !updatedApp.isLinkCh) this.api("off", beforeCh);
 
     app = updatedApp;
     app.offsetFindId = App.defaultOffsetFindId;
-
     switch (stepTo) {
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeChild}`:
       case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
       case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
       case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
         this.clientAction("ON_CLICK_TO_CHILD_THREAD", { ui });
-        this.coreApi("changeThread", { app, thread });
+        this.api("changeThread", { app, thread });
         break;
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeMulti}`:
       case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
         this.clientAction("ON_CLICK_TO_MULTI_THREAD", { ui });
-        this.coreApi("changeThread", { app, thread });
+        this.api("changeThread", { app, thread });
         break;
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeSingle}`:
       case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
         this.clientAction("ON_CLICK_TO_SINGLE_THREAD", { ui });
-        this.coreApi("changeThread", { app, thread });
+        this.api("changeThread", { app, thread });
         break;
       case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeTimeline}`:
       case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeTimeline}`:
       case `${App.dispThreadTypeChild} to ${App.dispThreadTypeTimeline}`:
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeTimeline}`:
         this.clientAction("ON_CLICK_TO_TIMELINE_THREAD", { ui });
-        this.coreApi("changeThread", { app, thread });
+        this.api("changeThread", { app, thread });
         break;
     }
   }
@@ -107,7 +96,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
             // UI上、重なるTIME MARKERを非表示にする
             timeMarkerList.style.opacity = 0;
           }
-          window.talknWindow.exeGetMore(this.clientStore);
+          window.talknWindow.dom.exeGetMore(this.clientStore);
         }
       }
     }
@@ -122,10 +111,10 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     if (uiTimeMarker.now.label !== newUiTimeMarker.now.label) {
       this.clientAction("ON_SCROLL_UPDATE_TIME_MARKER", { uiTimeMarker: newUiTimeMarker });
     }
-    window.talknWindow.scrollTop = scrollTop;
-    window.talknWindow.scrollHeight = scrollHeight;
-    window.talknWindow.clientHeight = clientHeight;
-    window.talknWindow.isScrollBottom = scrollHeight === scrollTop + clientHeight;
+    window.talknWindow.dom.scrollTop = scrollTop;
+    window.talknWindow.dom.scrollHeight = scrollHeight;
+    window.talknWindow.dom.clientHeight = clientHeight;
+    window.talknWindow.dom.isScrollBottom = scrollHeight === scrollTop + clientHeight;
   }
 
   scrollToDidUpdateGetMore() {
@@ -136,8 +125,8 @@ export default class TalknComponent<P, S> extends Component<P, S> {
         ? Posts.scrollHeight
         : document.body.scrollHeight;
 
-    window.talknWindow.scrollTop = scrollHeight - window.talknWindow.scrollHeight;
-    Posts.scrollTop = window.talknWindow.scrollTop;
-    window.scrollTo(0, window.talknWindow.scrollTop);
+    window.talknWindow.dom.scrollTop = scrollHeight - window.talknWindow.dom.scrollHeight;
+    Posts.scrollTop = window.talknWindow.dom.scrollTop;
+    window.scrollTo(0, window.talknWindow.dom.scrollTop);
   }
 }

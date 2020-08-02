@@ -1,7 +1,11 @@
 window.TALKN_EXT_ENV = "PROD";
 /*
+  Reasons for plain js:
+  Obfuscated or bundled js is rejected by Chrome Extension examination.
+  
   Class
     Ext
+    BootOption
     ReactMode
       Window
       ApiScript
@@ -121,32 +125,39 @@ class Ext {
     }
   }
   static get APP_ENDPOINT() {
-    const port = location.hash === Ext.DEVELOPMENT_HASH ? ":8080" : "";
+    const port =
+      (location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`) ? ":8080" : "";
     return `https:${Ext.APP_HOST}${port}`;
   }
   static get API_ENDPOINT() {
-    return location.hash === Ext.DEVELOPMENT_HASH
+    return (location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`)
       ? `https://${Ext.BASE_DEV_HOST}:8081/talkn.api.js`
       : `https:${Ext.API_HOST}/v${Ext.API_VER_KEY}`;
   }
   static get() {
-    return document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
+    const script1 = document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
+    const script2 = document.querySelector(`script[src='https:${Ext.APP_EXT_HOST}']`);
+    if (!script1 && !script2) throw "NO EXIST EXT SCRIPT TAG";
+    return script1 || script2;
   }
   static isBrowserExt() {
     return Ext.get() === null;
   }
   static getUserDefineMode(options) {
-    let embedTags;
-    /*****************/
-    /*  OPTION BOOT  */
-    /*****************/
+    /********************************/
+    /*  OPTION BOOT ( browser ext ) */
+    /********************************/
+
+    let mode = Ext.USER_DEFINE_MODE_DEFAULT;
+    let embedTags = IframeEmbed.getAll();
+    const embedTagCnt = embedTags.length;
 
     if (options && options.mode) {
       if ("EXT_" + options.mode === Ext.USER_DEFINE_MODE_MODAL) {
         return Ext.USER_DEFINE_MODE_MODAL;
       }
       if ("EXT_" + options.mode === Ext.USER_DEFINE_MODE_EMBED && options.selector) {
-        embedTags = document.querySelector(options.selector);
+        embedTags = window.top.document.querySelector(options.selector);
         if (embedTags) {
           Object.keys(options).forEach((key) => {
             if (key !== "mode") {
@@ -158,13 +169,11 @@ class Ext {
       }
     }
 
-    /*****************/
-    /*  NORMAL       */
-    /*****************/
+    /********************************/
+    /*  NORMAL                      */
+    /********************************/
 
-    let mode = Ext.USER_DEFINE_MODE_DEFAULT;
-    const domain = TALKN_EXT_ENV === "PROD" ? Ext.BASE_PROD_HOST : Ext.BASE_DEV_HOST;
-    const scriptTag = document.querySelector(`script[src='//ext.${domain}']`);
+    const scriptTag = Ext.get();
 
     if (scriptTag && scriptTag.attributes) {
       if (scriptTag.attributes.mode && scriptTag.attributes.mode.value) {
@@ -184,9 +193,7 @@ class Ext {
 
     return mode;
   }
-  static getCh(_ch) {
-    return _ch.replace("https:/", "").replace("http:/", "");
-  }
+
   static getApiToRequestObj(iFrameId, method, params = {}) {
     return {
       iFrameId,
@@ -196,32 +203,73 @@ class Ext {
       href: window.top.location.href,
     };
   }
+  static throw(message, warns = []) {
+    warns.forEach((warn) => console.warn(warn));
+    throw `Error: ${message}`;
+  }
+}
+
+class BootOption {
+  constructor(id, href) {
+    this.id = id;
+    this.ch = href ? this.getCh(href) : location.href;
+    this.hasSlash = this.ch.endsWith("/");
+    this.protocol = this.getProtocol(this.ch);
+    this.host = this.getHost(this.ch);
+  }
+  getCh(ch) {
+    return ch.replace("https:/", "").replace("http:/", "");
+  }
+  getProtocol(ch) {
+    if (ch.startsWith("https:")) return "https:";
+    if (ch.startsWith("http:")) return "http:";
+    return "talkn:";
+  }
+  getHost(ch) {
+    return ch.split("/")[1];
+  }
 }
 
 class ReactMode {
+  get name() {
+    return this.constructor.name;
+  }
   constructor(_window) {
     this.window = _window;
+    this.validAction = this.validAction.bind(this);
     this.action = this.action.bind(this);
   }
   action(called, dispMode) {
-    let elm;
-    if (this.get) {
-      elm = this.get();
-    }
-    if (this.dom) {
-      elm = this.dom;
-    }
-    if (this[`get${dispMode}Styles`]) {
+    const result = this.validAction(called, dispMode);
+    if (result.success) {
       const styles = this[`get${dispMode}Styles`](called);
-
-      if (elm && styles) {
-        Object.keys(styles).forEach((key) => {
-          elm.style[key] = styles[key];
-        });
-      }
+      Object.keys(styles).forEach((key) => {
+        this.dom.style[key] = styles[key];
+      });
     } else {
-      throw `Error: ReactMode action method [${this.constructor.name}.get${dispMode}Styles ${called} ]`;
+      Ext.throw(result.errorMessage, result.warns);
     }
+  }
+  validAction(called, dispMode) {
+    let result = { success: false, errorMessage: "", warns: [] };
+    if (this.dom === undefined) {
+      result.errorMessage = `Undefined dom ${this.name}, called ${called} #1`;
+      return result;
+    }
+    if (this[`get${dispMode}Styles`] === undefined) {
+      result.errorMessage = `Undefined ${this.name}.get${dispMode}Styles, called ${called} #2`;
+      result.warns = [this[`get${dispMode}Styles`]];
+      return result;
+    }
+
+    const styles = this[`get${dispMode}Styles`](called);
+    if (typeof styles !== "object") {
+      result.errorMessage = `Undefined Styles, ${this.name}.get${dispMode}Styles, called ${called} #3`;
+      result.warns = [styles, this[`get${dispMode}Styles`]];
+      return result;
+    }
+    result.success = true;
+    return result;
   }
   callback(called, displayMode, displayModeDirection, actionName, _window) {
     // スマホだと頻繁にNativeのヘッダーやフッターが表示、非表示を繰り返しresizedが実行されてしまうため排他制御
@@ -248,12 +296,32 @@ class Window extends ReactMode {
   static get className() {
     return "talknGlobalParts";
   }
-
   static get talknNotifIdKey() {
     return "talknNotifIdKey";
   }
-  static get mediaSecondInterval() {
-    return 333;
+  static get selectTop() {
+    return window.top;
+  }
+  static get selectDoc() {
+    return Window.selectTop.document;
+  }
+  static get selectHead() {
+    return Window.selectDoc.head;
+  }
+  static get selectBody() {
+    return Window.selectDoc.body;
+  }
+  static select(selector) {
+    return Window.selectDoc.querySelector(selector);
+  }
+  static selectAll(selector) {
+    return Window.selectDoc.querySelectorAll(selector);
+  }
+  static selectId(id) {
+    return Window.selectDoc.getElementById(id);
+  }
+  static selectClass(className) {
+    return Window.selectDoc.getElementsByClassName(className);
   }
   static getCurrentTime(currentTime, base = 10) {
     return Math.floor(currentTime * base) / base;
@@ -269,21 +337,16 @@ class Window extends ReactMode {
 
   constructor(refusedFrame = false) {
     super(window);
+    this.dom = window;
     this.refusedFrame = refusedFrame;
     this.isBrowserExt = Ext.isBrowserExt();
-    this.href = window.top.location.href;
-    this.ch = this.href.replace("http:/", "").replace("https:/", "");
-    const hasSlash = this.ch.lastIndexOf("/") === this.ch.length - 1;
-    this.ch = hasSlash ? this.ch : this.ch + "/";
-    const bootFlg = Ext.EXCLUSION_ORIGINS.every((origin) => {
-      return this.href.indexOf(origin) === -1;
-    });
+    this.href = Window.selectDoc.location.href;
+    const bootFlg = Ext.EXCLUSION_ORIGINS.every((origin) => this.href.indexOf(origin) === -1);
 
     if (bootFlg) {
       let init = (option = {}) => {
         // Variable
-        this.talknParams = {};
-        this.embedIframeTags = IframeEmbed.getEmbedIframeTags();
+        this.embedIframeTags = IframeEmbed.getAll();
         this.embedIframeTagCnt = this.embedIframeTags.length;
         this.userDefineMode = Ext.getUserDefineMode(option);
         this.displayModeKey = Ext.DEFAULT_DISPLAY_MODE_KEY;
@@ -309,9 +372,8 @@ class Window extends ReactMode {
         this.transformDisplayMode = this.transformDisplayMode.bind(this);
 
         // Communicarion Methods.
-        this.apiTo = this.apiTo.bind(this);
         this.catchMessage = this.catchMessage.bind(this);
-        this.handleErrorMessage = this.handleErrorMessage.bind(this);
+        this.getCatchMessageProccess = this.getCatchMessageProccess.bind(this);
 
         window.addEventListener("message", this.catchMessage);
         window.addEventListener("load", this.load);
@@ -320,7 +382,7 @@ class Window extends ReactMode {
         window.addEventListener("transitionend", this.transitionend);
 
         this.ins.window = this;
-        this.ins.apiScript = new ApiScript(this);
+        // this.ins.apiScript = new ApiScript(this);
         this.ins.styles = new Styles(this);
         this.ins.body = new Body(this);
         this.ins.handleIcon = new HandleIcon(this);
@@ -333,9 +395,10 @@ class Window extends ReactMode {
           this.embedIframeTags.forEach((embedtag, i) => {
             const index = i + 1;
             embedtag.id = embedtag.id ? embedtag.id : `${Ext.APP_NAME}${Iframe.MODE_EMBED}${index}`;
-            const appendRoot = window.top.document.getElementById(embedtag.id);
-            const ch = embedtag.getAttribute("ch") ? embedtag.getAttribute("ch") : window.top.location.href;
-            const embedIframe = new IframeEmbed(this, appendRoot, ch, Iframe.MODE_EMBED, index);
+            let href = embedtag.getAttribute("ch") ? embedtag.getAttribute("ch") : window.top.location.href;
+            href = href ? href : Window.selectTop.location.href;
+            const bootOption = new BootOption(embedtag.id, href);
+            const embedIframe = new IframeEmbed(this, embedtag, bootOption);
             this.ins.iframes[embedtag.id] = embedIframe;
           });
         }
@@ -343,11 +406,11 @@ class Window extends ReactMode {
         switch (this.userDefineMode) {
           case Iframe.MODE_MODAL:
             this.ins.iframe = new IframeModal(this);
-            this.ins.iframes[`${Ext.APP_NAME}${Iframe.MODE_MODAL}`] = this.ins.iframe;
+            this.ins.iframes[`${Iframe.MODE_MODAL}`] = this.ins.iframe;
             break;
           case Iframe.MODE_BOTTOM:
             this.ins.iframe = new IframeBottom(this);
-            this.ins.iframes[`${Ext.APP_NAME}${Iframe.MODE_BOTTOM}`] = this.ins.iframe;
+            this.ins.iframes[`${Iframe.MODE_BOTTOM}`] = this.ins.iframe;
             break;
         }
       };
@@ -415,10 +478,6 @@ class Window extends ReactMode {
   /* Initial methods              */
   /********************************/
 
-  get() {
-    return window;
-  }
-
   isMediaCh() {
     const href = location.href;
     let isMediaCh = false;
@@ -457,73 +516,56 @@ class Window extends ReactMode {
   // From child window message.
   catchMessage(e) {
     const { iframes } = this.ins;
-    const { iFrameId, type, method, params } = e.data;
+    const { id: iFrameId, type, method, params } = e.data;
+
     switch (type) {
       case "CLIENT_TO_EXT_TYPE":
-        const iframe = iframes[iFrameId];
-        if (!iframe) break;
-        if (!iframe[method]) break;
-        if (typeof iframe[method] !== "function") break;
-        if (iframe.methodIdMap[method] || iframe.acceptPostMessages.includes(method)) {
+        const proccess = this.getCatchMessageProccess(iFrameId, method);
+        if (proccess.exeMethod) {
+          const iframe = iframes[iFrameId];
           iframe[method](params);
           clearTimeout(iframe.methodIdMap[method]);
           delete iframe.methodIdMap[method];
+        } else {
+          if (proccess.error !== "") {
+            throw proccess.error;
+          }
         }
         break;
       case "API_TO_EXT_TYPE":
         break;
     }
   }
-  // handle error.
-  handleErrorMessage(method) {
-    if (this.methodIdMap[method]) {
-      switch (method) {
-        case "bootExtension":
-          this.clientTo("removeExtension");
-          const { iframes, handleIcon, notifStatus } = this.ins;
-          this.iframeKeys.foeach((iFrameId) => {
-            iframes[iFrameId].remove();
-          });
-          handleIcon.remove();
-          notifStatus.remove();
-          this.remove();
-          console.warn("CSP Reboot: " + method);
-          new Window(true);
-          break;
-      }
+
+  getCatchMessageProccess(iFrameId, method) {
+    const { iframes } = this.ins;
+    let proccess = { exeMethod: false, error: "" };
+    if (!iframes) {
+      proccess.error = "Error: iframes.";
+      return proccess;
     }
-  }
-
-  apiTo(iFrameId, method, params = {}) {
-    const src = location.href;
-    const requestObj = Ext.getApiToRequestObj(iFrameId, method, params);
-    window.postMessage(requestObj, src);
-  }
-
-  transitionend(e) {
-    const { body, iframes, handleIcon } = this.ins;
-
-    if (this.transitionEndId === null) {
-      this.transitionEndId = setTimeout(() => {
-        this.transitionEndId = null;
-
-        this.iframeKeys.forEach((iFrameId) => {
-          const iframe = iframes[iFrameId];
-          const clientToParams = {
-            ui: {
-              extensionMode: this.userDefineMode,
-              extensionWidth: iframe.getWidth(true),
-              extensionOpenHeight: Number(iframe.getHeight()),
-            },
-          };
-          iframe.clientTo("updateExtension", clientToParams);
-          iframe.transitionEnd(e);
-        });
-      }, Styles.BASE_TRANSITION);
+    if (!iFrameId) {
+      proccess.error = `Error: iFrameId ${iFrameId}.`;
+      return proccess;
     }
 
-    if (body && body.transitionEnd) body.transitionEnd(e);
-    if (handleIcon && handleIcon.transitionEnd) handleIcon.transitionEnd(e);
+    const iframe = iframes[iFrameId];
+    if (!iframe) {
+      proccess.error = `Error: No iframes in iFrameId ${iFrameId}.`;
+      return proccess;
+    }
+
+    if (!iframe.acceptPostMessages.includes(method)) {
+      return proccess;
+    }
+
+    if (typeof iframe[method] !== "function") {
+      proccess.error = `Error: No Exist Accept Method ${method} in iFrameId ${iFrameId}.`;
+      return proccess;
+    }
+
+    proccess.exeMethod = true;
+    return proccess;
   }
 
   /*************************/
@@ -542,6 +584,31 @@ class Window extends ReactMode {
 
   scroll(e) {}
 
+  transitionend(e) {
+    const { body, iframes, handleIcon } = this.ins;
+
+    if (this.transitionEndId === null) {
+      this.transitionEndId = setTimeout(() => {
+        this.transitionEndId = null;
+
+        this.iframeKeys.forEach((iFrameId) => {
+          const iframe = iframes[iFrameId];
+          const clientToParams = {
+            ui: {
+              extensionWidth: iframe.dom.clientWidth,
+              extensionHeight: iframe.dom.innerHeight,
+            },
+          };
+          iframe.clientTo("UPDATE_EXTENSION", clientToParams);
+          iframe.transitionEnd(e);
+        });
+      }, Styles.BASE_TRANSITION);
+    }
+
+    if (body && body.transitionEnd) body.transitionEnd(e);
+    if (handleIcon && handleIcon.transitionEnd) handleIcon.transitionEnd(e);
+  }
+
   resized(e) {
     const { iframes } = this.ins;
     this.resizeMethodId = null;
@@ -552,14 +619,14 @@ class Window extends ReactMode {
     });
 
     this.iframeKeys.forEach((iFrameId) => {
+      const iframe = iframes[iFrameId];
       const clientToParams = {
         ui: {
-          extensionMode: this.userDefineMode,
-          extensionWidth: iframes[iFrameId].getWidth(true),
-          extensionOpenHeight: Number(iframes[iFrameId].getHeight()),
+          extensionWidth: iframe.dom.clientWidth,
+          extensionHeight: iframe.dom.innerHeight,
         },
       };
-      iframes[iFrameId].clientTo("updateExtension", clientToParams);
+      iframes[iFrameId].clientTo("UPDATE_EXTENSION", clientToParams);
     });
   }
 
@@ -589,13 +656,13 @@ class ApiScript {
   constructor(_window) {
     this.window = _window;
     this.load = this.load.bind(this);
-    const apiScript = document.createElement("script");
-    apiScript.id = "talknApi";
-    apiScript.async = true;
-    apiScript.type = "text/javascript";
-    apiScript.src = this.getSrc();
-    apiScript.addEventListener("load", this.load);
-    window.top.document.head.appendChild(apiScript);
+    this.dom = document.createElement("script");
+    this.dom.id = "talknApi";
+    this.dom.async = true;
+    this.dom.type = "text/javascript";
+    this.dom.src = this.getSrc();
+    this.dom.addEventListener("load", this.load);
+    Window.selectHead.appendChild(this.dom);
   }
 
   getSrc() {
@@ -607,12 +674,11 @@ class ApiScript {
   }
 
   load() {
-    if (this.window.embedIframeTagCnt > 0) {
-      this.window.embedIframeTags.forEach((iframe) => {
-        this.window.apiTo(iframe.id, "HANDLE_EXT_AND_API", {});
+    if (this.window.iframeKeys.length > 0) {
+      this.window.iframeKeys.forEach((iFrameId) => {
+        this.window.apiTo(iFrameId, "HANDLE_EXT_AND_API", {});
       });
     }
-    this.window.apiTo("talknModal", "HANDLE_EXT_AND_API", {});
   }
 }
 
@@ -628,6 +694,9 @@ class Styles {
   }
   static get WIDTH() {
     return 280;
+  }
+  static get HEIGHT() {
+    return 430;
   }
   static get BOTTOM() {
     return 45;
@@ -651,33 +720,29 @@ class Styles {
     return "1px solid rgba(235, 235, 235, 0.85) !important;";
   }
   constructor() {
-    const style = document.createElement("style");
+    this.dom = document.createElement("style");
     const css = document.createTextNode(``);
-    style.type = "text/css";
-    style.appendChild(css);
-    document.head.appendChild(style);
+    this.dom.type = "text/css";
+    this.dom.appendChild(css);
+    document.head.appendChild(this.dom);
   }
 }
 
 class Body extends ReactMode {
   constructor(_window) {
     super(_window);
-    const bodyElm = this.get();
+    this.dom = Window.selectBody;
     this.locktimeMarginTop = 0;
 
-    if (bodyElm && bodyElm.style) {
-      this.overflow = bodyElm.style.overflow;
-      this.position = bodyElm.style.position;
-      this.width = bodyElm.style.width;
-      this.height = bodyElm.style.height;
-      this.marginTop = bodyElm.style.marginTop;
+    if (this.dom && this.dom.style) {
+      this.overflow = this.dom.style.overflow;
+      this.position = this.dom.style.position;
+      this.width = this.dom.style.width;
+      this.height = this.dom.style.height;
+      this.marginTop = this.dom.style.marginTop;
     } else {
-      console.warn(bodyElm);
+      console.warn(this.dom);
     }
-  }
-
-  get() {
-    return document.querySelector(`body`);
   }
 
   /*************************/
@@ -687,7 +752,7 @@ class Body extends ReactMode {
   getActiveStyles(called) {
     if (window.innerWidth < Styles.FULL_WIDTH_THRESHOLD) {
       return {
-        //                overflow: this.overflow,
+        // overflow: this.overflow,
         position: this.position,
         width: this.width,
         height: this.height,
@@ -698,10 +763,11 @@ class Body extends ReactMode {
   }
 
   getOpenStyles(called) {
+    let styles = {};
     if (window.innerWidth < Styles.FULL_WIDTH_THRESHOLD) {
       // スマホでOPENした際にresizedが実行されるため排他制御
       if (called === "resized") {
-        return {};
+        return styles;
       } else {
         this.locktimeMarginTop = window.scrollY;
         return {
@@ -712,6 +778,7 @@ class Body extends ReactMode {
         };
       }
     }
+    return styles;
   }
 
   transitionEnd() {}
@@ -742,15 +809,18 @@ class Iframe extends ReactMode {
   static get MODES() {
     return { IframeModal, IframeBottom, IframeEmbed, IframeWindow };
   }
-  constructor(_window, ch, mode, number) {
+  constructor(_window, root, bootOption, mode) {
     super(_window);
 
+    if (bootOption.id === "") {
+      throw `Error: Please set id that iframe root tag ${mode}`;
+    }
+
     // bind.
+    this.load = this.load.bind(this);
     this.getSrc = this.getSrc.bind(this);
     this.getClientToObj = this.getClientToObj.bind(this);
-    this.load = this.load.bind(this);
     this.clientTo = this.clientTo.bind(this);
-    this.catchMessage = this.catchMessage.bind(this);
     this.handleClientToError = this.handleClientToError.bind(this);
 
     // Communication status.
@@ -759,10 +829,9 @@ class Iframe extends ReactMode {
     this.notifedId = [];
 
     // Iframe status.
-    const numberKey = number ? String(number) : "";
-    const width = `${this.getWidth(true)} !important;`;
-    this.id = `${Ext.APP_NAME}${mode}${numberKey}`;
-    this.ch = ch;
+    this.id = bootOption.id;
+    this.root = root;
+    this.bootOption = bootOption;
     this.mode = mode;
     this.src = this.getSrc();
     this.dom = document.createElement("iframe");
@@ -770,48 +839,40 @@ class Iframe extends ReactMode {
     this.dom.setAttribute("src", this.src);
     this.dom.setAttribute("frameBorder", 0);
     this.dom.setAttribute("scrolling", "yes");
-    this.dom.setAttribute("style", this.getStyles(width));
+    this.dom.setAttribute("style", this.getStyles());
     this.dom.addEventListener("load", this.load);
-    this.appendRoot.appendChild(this.dom);
+    root.appendChild(this.dom);
   }
 
   getSrc() {
     if (this.window.refusedFrame) {
-      return window.chrome.runtime.getURL(`csp.html?${this.ch}`);
+      return window.chrome.runtime.getURL(`csp.html?${this.bootOption.ch}`);
     } else {
-      return `${Ext.APP_ENDPOINT}${this.ch}`;
+      return `${Ext.APP_ENDPOINT}${this.bootOption.ch}`;
     }
   }
 
-  getClientToObj(method, params = {}) {
+  getClientToObj(method, params = {}, methodBack) {
     return {
-      iFrameId: this.id,
+      id: this.id,
       type: Iframe.EXT_TO_CLIENT_TYPE,
-      method: method,
-      params: params,
+      method,
+      params,
       href: window.top.location.href,
+      methodBack,
     };
   }
 
-  clientTo(method, params = {}) {
-    const requestObj = this.getClientToObj(method, params);
-    const methodId = setTimeout(() => this.handleClientToError(method), Iframe.activeMethodSecond);
-    this.methodIdMap[method] = methodId;
+  clientTo(method, params = {}, methodBack) {
+    const requestObj = this.getClientToObj(method, params, methodBack);
+    this.methodIdMap[method] = setTimeout(() => this.handleClientToError(this.id, method), Iframe.activeMethodSecond);
     this.dom.contentWindow.postMessage(requestObj, this.src);
   }
 
-  // handle error.
-  handleClientToError(method) {
+  handleClientToError(iFrameId, method) {
     if (this.methodIdMap[method]) {
       switch (method) {
-        case "bootExtension":
-          // this.clientTo("removeExtension");
-          const { iframes, handleIcon, notifStatus } = this.ins;
-          this.iframeKeys.foeach((iFrameId) => {
-            iframes[iFrameId].remove();
-          });
-          handleIcon.remove();
-          notifStatus.remove();
+        case "handleExtAndClient":
           this.remove();
           console.warn("CSP Reboot: " + method);
           new Window(true);
@@ -820,117 +881,28 @@ class Iframe extends ReactMode {
     }
   }
 
-  bootExtension(params) {
-    switch (this.window.ins.userDefineMode) {
-      case Iframe.MODE_BOTTOM:
-      case Iframe.MODE_EMBED:
-        this.dom.style.height = IframeModal.getCloseHeight();
-        this.dom.style.display = "flex";
-        break;
-      case Iframe.MODE_MODAL:
-        break;
-    }
-
-    this.talknParams = params;
-    this.clientTo("onTransition");
-  }
-
-  catchMessage(params) {}
-  transitionEnd(params) {}
-}
-
-class IframeModal extends Iframe {
-  static getCloseHeight(addUnit = false) {
-    return addUnit ? "45px" : 45;
-  }
-  static getIframeOpenNotifHeight() {
-    return "85px";
-  }
-
-  static get width() {
-    return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : 280;
-  }
-  static get height() {
-    return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : 420;
-  }
-  static get right() {
-    return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : 10;
-  }
-  static get transform() {
-    return `translate3d( 0px, ${Styles.BOTTOM}px, 0px )`;
-  }
-  static get closeHeight() {
-    return 0;
-  }
-  static get modeModalBottom() {
-    return 45;
-  }
-  get acceptPostMessages() {
-    return [
-      "tune",
-      "bootExtension",
-      "openNotif",
-      "closeNotif",
-      "toggleIframe",
-      "location",
-      "disconnect",
-      "linkTo",
-      "setInputPost",
-      "getClientMetas",
-    ];
-  }
-  get appendRoot() {
-    return window.top.document.body;
-  }
-
-  constructor(_window) {
-    const extScript = Ext.get();
-    let ch = extScript.getAttribute("ch");
-    ch = ch ? ch : window.top.location.href;
-    ch = Ext.getCh(ch);
-    super(_window, ch, Iframe.MODE_MODAL);
-
-    // dom.
-    this.getWidth = this.getWidth.bind(this);
-    this.getHeight = this.getHeight.bind(this);
-    this.getRight = this.getRight.bind(this);
-    this.getTransform = this.getTransform.bind(this);
-
-    // communication.
-    this.bootExtension = this.bootExtension.bind(this);
-    this.tune = this.tune.bind(this);
-    this.updateLiveCnt = this.updateLiveCnt.bind(this);
-    this.openNotif = this.openNotif.bind(this);
-    this.closeNotif = this.closeNotif.bind(this);
-    this.catchMessage = this.catchMessage.bind(this);
-    this.handleClientToError = this.handleClientToError.bind(this);
-  }
-
-  /*************************/
-  /* CALLBACKS             */
-  /*************************/
-
   load(e) {
-    this.clientTo("bootExtension", {
+    const params = {
+      bootOption: this.bootOption,
       ui: {
+        iFrameId: this.id,
         extensionMode: this.mode,
         extensionWidth: this.getWidth(false),
-        extensionOpenHeight: this.getHeight(false),
-        extensionCloseHeight: Number(IframeModal.getCloseHeight()),
+        extensionHeight: this.getHeight(false),
       },
-    });
+    };
+    this.clientTo("handleExtAndClient", params);
   }
 
-  // handle error.
-  handleClientToError(method) {}
-
   remove() {
-    const { handleIcon, notifStatus } = this.ins;
     this.dom.removeEventListener("load", this.load);
     this.dom.remove();
     delete this;
-    handleIcon.remove();
-    notifStatus.remove();
+  }
+
+  handleExtAndClient(params) {
+    this.state = params;
+    this.clientTo("ON_TRANSITION");
   }
 
   getClientMetas() {
@@ -960,7 +932,89 @@ class IframeModal extends Iframe {
       }
       clientMetas[key] = content;
     }
-    this.clientTo("getClientMetas", clientMetas);
+    this.clientTo("GET_CLIENT_METAS", clientMetas);
+  }
+
+  setInputPost(params) {
+    this.inputPost = params.inputPost;
+  }
+
+  transitionEnd(params) {}
+}
+
+class IframeModal extends Iframe {
+  static getCloseHeight(addUnit = false) {
+    return addUnit ? "45px" : 45;
+  }
+  static getIframeOpenNotifHeight() {
+    return "85px";
+  }
+
+  static get width() {
+    return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : 280;
+  }
+  static get height() {
+    return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : 420;
+  }
+  static get right() {
+    return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : 10;
+  }
+  static get transform() {
+    return `translate3d( 0px, ${Styles.BOTTOM}px, 0px )`;
+  }
+  static get closeHeight() {
+    return 0;
+  }
+  static get modeModalBottom() {
+    return 45;
+  }
+  static get appendRoot() {
+    return Window.selectBody;
+  }
+  get acceptPostMessages() {
+    return [
+      "handleExtAndClient",
+      "tune",
+      "openNotif",
+      "closeNotif",
+      "toggleIframe",
+      "location",
+      "disconnect",
+      "linkTo",
+      "setInputPost",
+      "getClientMetas",
+    ];
+  }
+  constructor(_window) {
+    const extScript = Ext.get();
+    let href = extScript.getAttribute("ch");
+    href = href ? href : Window.selectTop.location.href;
+    const bootOption = new BootOption(Iframe.MODE_MODAL, href);
+    super(_window, IframeModal.appendRoot, bootOption, Iframe.MODE_MODAL);
+
+    // dom.
+    this.getWidth = this.getWidth.bind(this);
+    this.getHeight = this.getHeight.bind(this);
+    this.getRight = this.getRight.bind(this);
+    this.getTransform = this.getTransform.bind(this);
+
+    // communication.
+    this.handleExtAndClient = this.handleExtAndClient.bind(this);
+    this.tune = this.tune.bind(this);
+    this.updateLiveCnt = this.updateLiveCnt.bind(this);
+    this.openNotif = this.openNotif.bind(this);
+    this.closeNotif = this.closeNotif.bind(this);
+    this.disconnect = this.disconnect.bind(this);
+  }
+
+  /*************************/
+  /* CALLBACKS             */
+  /*************************/
+
+  remove() {
+    super.remove();
+    handleIcon.remove();
+    notifStatus.remove();
   }
 
   /*************************/
@@ -971,7 +1025,7 @@ class IframeModal extends Iframe {
     const activeStyles = this.getActiveStyles();
     return (
       "" +
-      `z-index: ${Styles.zIndex - 1} !important;` +
+      `z-index: ${Styles.zIndex - 2} !important;` +
       "display: block !important;" +
       "align-items: flex-end !important;" +
       "position: fixed !important; " +
@@ -1065,11 +1119,11 @@ class IframeModal extends Iframe {
 
   updateLiveCnt() {
     const { state, window } = this;
-    const { watchCnt } = state.thread;
+    const { liveCnt } = state.thread;
     const { displayModeKey, ins } = window;
     const { notifStatus } = ins;
     if (Ext.DISPLAY_MODE[displayModeKey] === Ext.DISPLAY_MODE_ACTIVE) {
-      notifStatus.updateCnt(watchCnt);
+      notifStatus.updateCnt(liveCnt);
     }
   }
 
@@ -1090,12 +1144,8 @@ class IframeModal extends Iframe {
 
   linkTo(params) {
     if (params && params.href) {
-      window.top.location.href = params.href;
+      Window.selectTop.location.href = params.href;
     }
-  }
-
-  setInputPost(params) {
-    this.inputPost = params.inputPost;
   }
 
   remove() {
@@ -1145,10 +1195,6 @@ class IframeBottom extends Iframe {
   static get className() {
     return `.${Ext.APP_NAME}${Iframe.MODE_EMBED}`;
   }
-  static getEmbedIframeTags() {
-    return window.top.document.querySelectorAll(IframeEmbed.className);
-  }
-
   getStyles(width) {
     const height = IframeModal.getCloseHeight(true);
     return (
@@ -1184,9 +1230,8 @@ class IframeBottom extends Iframe {
     return addUnit ? height : height.replace("px", "").replace("%", "");
   }
 
-  getRight(addUnit = false) {
-    let right = "0px";
-    return addUnit ? right : right.replace("px", "").replace("%", "");
+  getRight() {
+    return 0;
   }
 
   getTransform() {
@@ -1213,26 +1258,59 @@ class IframeEmbed extends Iframe {
   static get className() {
     return `.${Ext.APP_NAME}${Iframe.MODE_EMBED}`;
   }
-  static getEmbedIframeTags() {
+  static getAll() {
     return window.top.document.querySelectorAll(IframeEmbed.className);
   }
+  get acceptPostMessages() {
+    return [
+      "handleExtAndClient",
+      "tune",
+      "toggleIframe",
+      "location",
+      "disconnect",
+      "linkTo",
+      "setInputPost",
+      "getClientMetas",
+    ];
+  }
+  constructor(_window, appendRoot, bootOption) {
+    super(_window, appendRoot, bootOption, Iframe.MODE_EMBED);
+    // dom
+    this.getWidth = this.getWidth.bind(this);
+    this.getHeight = this.getHeight.bind(this);
+    this.getRight = this.getRight.bind(this);
+    this.getTransform = this.getTransform.bind(this);
 
-  getStyles(width) {
+    // communication.
+    this.tune = this.tune.bind(this);
+    this.disconnect = this.disconnect.bind(this);
+  }
+
+  tune(state) {
+    this.state = state;
+  }
+
+  disconnect(state) {
+    this.state = state;
+  }
+
+  getStyles() {
+    const { width, height } = this.root.style;
     return (
       "" +
       `z-index: ${Styles.zIndex} !important;` +
       `overflow: hidden !important;` +
-      "display: none !important;" +
+      "display: block !important;" +
       "align-items: flex-end !important;" +
       "position: absolute !important; " +
       "bottom: 0px !important;" +
       "right: 0px !important;" +
-      `width: 100% !important;` +
-      `min-width: 100% !important;` +
-      `max-width: 100% !important;` +
-      `height: 100% !important;` +
-      `min-height: 100% !important;` +
-      `max-height: 100% !important;` +
+      `width: ${width} !important;` +
+      `min-width: ${width} !important;` +
+      `max-width: ${width} !important;` +
+      `height: ${height} !important;` +
+      `min-height: ${height} !important;` +
+      `max-height: ${height} !important;` +
       "margin: 0 !important;" +
       "padding: 0 !important;" +
       `clip-path: inset(0px round 10px) !important;` +
@@ -1242,45 +1320,62 @@ class IframeEmbed extends Iframe {
     );
   }
 
+  /*************************/
+  /* ANIMATION             */
+  /*************************/
+
+  getActiveStyles(called) {
+    const width = this.getWidth(true);
+    const height = this.getHeight(true);
+    const right = this.getRight(true);
+    const opacity = this.getOpacity();
+    const transform = this.getTransform();
+    return {
+      transform,
+      opacity,
+      right,
+      width: width,
+      height: height,
+    };
+  }
+
+  getOpenStyles(called) {
+    const width = this.getWidth(true);
+    const height = this.getHeight(true);
+    const right = this.getRight(true);
+    const opacity = this.getOpacity();
+    const transform = this.getTransform();
+    return {
+      transform,
+      opacity,
+      right,
+      width: width,
+      height: height,
+    };
+  }
+
   getWidth(addUnit = false) {
-    let width = Styles.WIDTH;
-    const talknTag = document.querySelector(this.window.includeId);
-    width = talknTag ? talknTag.clientWidth : "100%";
-    return addUnit ? width + "px" : width;
+    return this.root.style.width;
   }
 
   getHeight(addUnit = false) {
-    let height = "0px";
-    const talknTag = document.querySelector(this.window.includeId);
-    height = talknTag ? talknTag.clientHeight : "100%";
-    return addUnit ? height + "px" : height;
+    return this.root.style.height;
   }
 
-  getRight(addUnit = false) {
-    let right = 0;
-    return addUnit ? right : right.replace("px", "").replace("%", "");
+  getRight() {
+    return 0;
   }
 
   getTransform() {
     return "translate3d( 0px 0px 0px)";
   }
 
-  getOpacity(addUnit = false) {
-    let width = Styles.WIDTH + "px";
-    const talknTag = document.querySelector(this.window.includeId);
-    width = talknTag ? talknTag.clientWidth : "100%";
-    return addUnit ? width + "px" : width;
+  getOpacity() {
+    return 1;
   }
 }
 
-class IframeWindow extends Iframe {
-  static get className() {
-    return `.${Ext.APP_NAME}${Iframe.MODE_EMBED}`;
-  }
-  static getEmbedIframeTags() {
-    return window.top.document.querySelectorAll(IframeEmbed.className);
-  }
-}
+class IframeWindow extends Iframe {}
 
 class HandleIcon extends ReactMode {
   static get id() {
@@ -1296,30 +1391,25 @@ class HandleIcon extends ReactMode {
     super(_window);
 
     if (this.window.userDefineMode !== Iframe.MODE_EMBED) {
-      let handleIcon = document.createElement("div");
-      handleIcon.id = HandleIcon.id;
-      handleIcon.className = Window.className;
-      handleIcon.style = this.getStyle();
+      this.dom = document.createElement("div");
+      this.dom.id = HandleIcon.id;
+      this.dom.className = Window.className;
+      this.dom.style = this.getStyle();
       // handleIcon.src = '//assets.localhost/airplane.svg';
       this.click = this.click.bind(this);
       this.mouseover = this.mouseover.bind(this);
       this.mouseout = this.mouseout.bind(this);
 
-      handleIcon.addEventListener("click", this.click);
-      handleIcon.addEventListener("mouseover", this.mouseover);
-      handleIcon.addEventListener("mouseout", this.mouseout);
-
-      window.top.document.body.appendChild(handleIcon);
+      this.dom.addEventListener("click", this.click);
+      this.dom.addEventListener("mouseover", this.mouseover);
+      this.dom.addEventListener("mouseout", this.mouseout);
+      Window.selectBody.appendChild(this.dom);
     }
   }
 
   /*************************/
   /* UI DATAS              */
   /*************************/
-
-  get() {
-    return document.querySelector(`#${HandleIcon.id}`);
-  }
 
   getStyle() {
     const talknHandleStyles = this.getActiveStyles();
@@ -1332,7 +1422,7 @@ class HandleIcon extends ReactMode {
       `display: flex !important;` +
       `align-items: center !important;` +
       `justify-content: center !important;` +
-      `z-index: ${Styles.zIndex} !important;` +
+      `z-index: ${Styles.zIndex - 1} !important;` +
       `width: ${HandleIcon.width}px  !important;` +
       `height: ${HandleIcon.width}px !important;` +
       `background: ${talknHandleStyles.background} !important;` +
@@ -1392,7 +1482,8 @@ class HandleIcon extends ReactMode {
 
   click() {
     const { thread } = this.window.ins.iframe.state;
-    if (!thread || !thread.watchCnt) return false;
+
+    if (!thread || !thread.liveCnt) return false;
     const { notifStatus } = this.window.ins;
     switch (this.window.userDefineMode) {
       case Iframe.MODE_BOTTOM:
@@ -1400,7 +1491,7 @@ class HandleIcon extends ReactMode {
         const regex = /^\s*$/;
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
-            notifStatus.updateCnt(thread.watchCnt);
+            notifStatus.updateCnt(thread.liveCnt);
             this.window.updateDisplayMode("clickHandleIcon");
             break;
           case Ext.DISPLAY_MODE_OPEN:
@@ -1419,20 +1510,17 @@ class HandleIcon extends ReactMode {
   }
 
   mouseover() {
-    const handleIcon = this.get();
-    const translates = handleIcon.style.transform.split("translate3d(")[1].split(") ")[0];
-    handleIcon.style.transform = `translate3d(${translates}) scale(1.1)`;
+    const translates = this.dom.style.transform.split("translate3d(")[1].split(") ")[0];
+    this.dom.style.transform = `translate3d(${translates}) scale(1.1)`;
   }
 
   mouseout() {
-    const handleIcon = this.get();
-    const translates = handleIcon.style.transform.split("translate3d(")[1].split(") ")[0];
-    handleIcon.style.transform = `translate3d(${translates}) scale(1.0)`;
+    const translates = this.dom.style.transform.split("translate3d(")[1].split(") ")[0];
+    this.dom.style.transform = `translate3d(${translates}) scale(1.0)`;
   }
 
   remove() {
-    const elm = this.get();
-    elm.remove();
+    this.dom.remove();
     delete this;
   }
 
@@ -1490,7 +1578,7 @@ class LiveCnt extends ReactMode {
     super(_window);
 
     const id = LiveCnt.id;
-    const notifStatus = document.createElement("div");
+    this.dom = document.createElement("div");
     const width = "24px";
     const height = "24px";
     const openStyles = this.getOpenStyles();
@@ -1499,10 +1587,10 @@ class LiveCnt extends ReactMode {
     this.getOpenStyles = this.getOpenStyles.bind(this);
     this.updateCnt = this.updateCnt.bind(this);
 
-    notifStatus.id = id;
-    notifStatus.className = Window.className;
-    notifStatus.innerText = 0;
-    notifStatus.style =
+    this.dom.id = id;
+    this.dom.className = Window.className;
+    this.dom.innerText = 0;
+    this.dom.style =
       "" +
       `position: fixed !important;` +
       `bottom: 15px !important;` +
@@ -1527,35 +1615,28 @@ class LiveCnt extends ReactMode {
       `border-radius: 100px !important;` +
       `transition: ${Styles.BASE_TRANSITION}ms !important;` +
       `transform: ${openStyles.transform} !important;`;
-    window.top.document.body.appendChild(notifStatus);
-  }
-
-  get() {
-    return document.querySelector(`#${LiveCnt.id}`);
+    Window.selectBody.appendChild(this.dom);
   }
 
   remove() {
-    const elm = this.get();
-    elm.remove();
+    this.dom.remove();
     delete this;
   }
 
   updateCnt(cnt) {
-    const statusNotif = this.get();
     const updatedCnt = Number(cnt);
 
     if (updatedCnt > 0) {
-      statusNotif.innerHTML = updatedCnt;
+      this.dom.innerHTML = updatedCnt;
       const activeStyles = this.getActiveStyles("updateCnt");
-      statusNotif.style.transform = activeStyles.transform;
+      this.dom.style.transform = activeStyles.transform;
     } else {
-      this.reset();
+      // this.reset();
     }
   }
 
   getActiveStyles(called) {
-    const statusNotif = this.get();
-    const baseCnt = Number(statusNotif.innerText);
+    const baseCnt = Number(this.dom.innerText);
     if (baseCnt > 0) {
       return {
         transform: "scale(1.0)",
@@ -1587,7 +1668,7 @@ class Notif extends ReactMode {
     this.getTranslateY = this.getTranslateY.bind(this);
     this.getBorderRadius = this.getBorderRadius.bind(this);
 
-    const notif = document.createElement("div");
+    this.dom = document.createElement("div");
     const id = Notif.id + params.id;
     const width = this.getWidth(true);
     const height = this.getHeight(true);
@@ -1597,10 +1678,10 @@ class Notif extends ReactMode {
     const translateY = this.getTranslateY(true);
     const borderRadius = this.getBorderRadius();
 
-    notif.setAttribute("id", id);
-    notif.setAttribute("className", Window.className);
-    notif.setAttribute("name", "notif");
-    notif.setAttribute(
+    this.dom.setAttribute("id", id);
+    this.dom.setAttribute("className", Window.className);
+    this.dom.setAttribute("name", "notif");
+    this.dom.setAttribute(
       "style",
       `position: fixed !important;` +
         `bottom: ${bottom} !important;` +
@@ -1609,7 +1690,7 @@ class Notif extends ReactMode {
         `align-items: center !important;` +
         `cursor: pointer !important;` +
         `justify-content: flex-start;` +
-        `z-index: ${Styles.zIndex - 2} !important;` +
+        `z-index: ${Styles.zIndex - 3} !important;` +
         `width: ${width} !important;` +
         `min-width: ${width} !important;` +
         `max-width: ${width} !important;` +
@@ -1665,10 +1746,10 @@ class Notif extends ReactMode {
     );
 
     notifPost.innerText = this.convertEmojiStamp(params);
-    notif.appendChild(notifIcon);
-    notif.appendChild(notifPost);
+    this.dom.appendChild(notifIcon);
+    this.dom.appendChild(notifPost);
 
-    notif.addEventListener("click", () => {
+    this.dom.addEventListener("click", () => {
       switch (this.window.userDefineMode) {
         case Iframe.MODE_BOTTOM:
         case Iframe.MODE_MODAL:
@@ -1684,25 +1765,25 @@ class Notif extends ReactMode {
       }
     });
 
-    notif.addEventListener("mouseover", () => {
-      const translates = notif.style.transform.split("translate3d(")[1].split(") ")[0];
-      notif.style.transform = `translate3d(${translates}) scale(1.05)`;
+    this.dom.addEventListener("mouseover", () => {
+      const translates = this.dom.style.transform.split("translate3d(")[1].split(") ")[0];
+      this.dom.style.transform = `translate3d(${translates}) scale(1.05)`;
     });
 
-    notif.addEventListener("mouseout", () => {
-      const translates = notif.style.transform.split("translate3d(")[1].split(") ")[0];
-      notif.style.transform = `translate3d(${translates}) scale(1.0)`;
+    this.dom.addEventListener("mouseout", () => {
+      const translates = this.dom.style.transform.split("translate3d(")[1].split(") ")[0];
+      this.dom.style.transform = `translate3d(${translates}) scale(1.0)`;
     });
 
-    window.top.document.body.appendChild(notif);
+    Window.selectBody.appendChild(this.dom);
 
     const debugRate = 1;
     setTimeout(() => {
-      notif.style.opacity = 1;
-      notif.style.transform = `translate3d(0px, ${translateY}, 0px) scale(1.0)`;
+      this.dom.style.opacity = 1;
+      this.dom.style.transform = `translate3d(0px, ${translateY}, 0px) scale(1.0)`;
       setTimeout(() => {
-        notif.style.opacity = 0;
-        notif.style.transform = `translate3d(0px, 0px, 0px) scale(1.0)`;
+        this.dom.style.opacity = 0;
+        this.dom.style.transform = `translate3d(0px, 0px, 0px) scale(1.0)`;
         setTimeout(() => {
           const removeNotif = document.getElementById(id);
           document.body.removeChild(removeNotif);
@@ -1818,8 +1899,6 @@ class Notif extends ReactMode {
     return borderRadius;
   }
 }
-
-class EmbedIframe extends ReactMode {}
 
 const talknExtension = document.querySelector("iframe#talknExtension");
 

@@ -3,10 +3,8 @@
   <head>
     <title>talkn</title>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
-    />
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
     <meta name="theme-color" content="rgb(79, 174, 159)" />
     <meta
       name="description"
@@ -39,13 +37,12 @@
     <link rel="manifest" href="https://<%= domain %>/manifest.json" />
     <link rel="shortcut icon" href="https://<%= assetsURL %>/favicon.ico" />
     <link rel="canonical" href="https://<%= domain %>/" />
-    <script async src="https://cdn.ampproject.org/v0.js"></script>
     <script id="talknClient" async type="text/javascript" src="https://<%= clientURL %>"></script>
     <script type="text/javascript">
       const onServiceWorker = () => {
         if ("serviceWorker" in navigator) {
           navigator.serviceWorker
-            .register("/portal_sw.js")
+            .register("/service.worker.js")
             .then(function (registration) {
               console.log("[ServiceWorker] suscessful: ", registration.scope);
             })
@@ -56,16 +53,6 @@
       };
 
       onServiceWorker();
-
-      // 自分自身がwindow.top(iframeで読み込まれていない)の場合
-      if (window == window.parent) {
-        const apiScript = document.createElement("script");
-        apiScript.setAttribute("id", "talknApi");
-        apiScript.setAttribute("async", true);
-        apiScript.setAttribute("type", "text/javascript");
-        apiScript.setAttribute("src", "https://<%= apiAccessURL %>");
-        document.head.appendChild(apiScript);
-      }
     </script>
     <noscript key="noscript">Your browser does not support JavaScript!</noscript>
     <style amp-boilerplate>

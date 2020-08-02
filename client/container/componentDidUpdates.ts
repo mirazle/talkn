@@ -1,7 +1,6 @@
 import React from "react";
 import Ui from "client/store/Ui";
 import TalknWindow from "client/operations/TalknWindow";
-import thread from "api/reducers/thread";
 
 export default (self, constructorName) => {
   const { props } = self;
@@ -17,13 +16,12 @@ export default (self, constructorName) => {
 const componentDidUpdates = {
   Container: {
     "API_TO_CLIENT[BROADCAST]:tune": (self) => {
-      window.talknWindow.parentExtTo("tune", self.props.state);
+      window.talknWindow.ext.to("tune", self.props.state);
     },
     "API_TO_CLIENT[BROADCAST]:disconnect": (self) => {
-      window.talknWindow.parentExtTo("disconnect", self.props.state);
+      window.talknWindow.ext.to("disconnect", self.props.state);
     },
     "API_TO_CLIENT[EMIT]:fetchPosts": (self) => {
-      window.talknWindow.removeTalknBg();
       const { app, ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
       ui.postsHeight += TalknWindow.getPostsHeight();
@@ -37,16 +35,16 @@ const componentDidUpdates = {
           break;
       }
       if (Posts) {
-        window.talknWindow.srollHeight = Posts.clientHeight;
+        window.talknWindow.dom.srollHeight = Posts.clientHeight;
         switch (ui.screenMode) {
           case Ui.screenModeLargeLabel:
             if (Posts && Posts.scrollHeight) {
-              window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
+              window.talknWindow.dom.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
             }
             break;
           case Ui.screenModeMiddleLabel:
           case Ui.screenModeSmallLabel:
-            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight, { app, ui });
+            window.talknWindow.dom.updateUiTimeMarker(window.scrollY - window.innerHeight, { app, ui });
             break;
         }
 
@@ -54,7 +52,13 @@ const componentDidUpdates = {
           self.clientAction("CLOSE_LINKS");
         }
 
-        window.talknWindow.resizeEndWindow();
+        window.talknWindow.dom.resizeEndWindow();
+      }
+    },
+    "API_TO_CLIENT[EMIT]:changeThread": (self) => {
+      const { ui } = self.props.state;
+      if (ui.screenMode === Ui.screenModeSmallLabel) {
+        self.clientAction("ON_CLICK_TOGGLE_DISP_MENU");
       }
     },
     "API_TO_CLIENT[EMIT]:changeThreadDetail": (self) => {
@@ -70,15 +74,15 @@ const componentDidUpdates = {
       if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
         switch (ui.screenMode) {
           case Ui.screenModeLargeLabel:
-            window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
+            window.talknWindow.dom.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
             break;
           case Ui.screenModeMiddleLabel:
           case Ui.screenModeSmallLabel:
-            window.talknWindow.updateUiTimeMarker(window.scrollY - window.innerHeight, { app, ui });
+            window.talknWindow.dom.updateUiTimeMarker(window.scrollY - window.innerHeight, { app, ui });
             break;
         }
       } else {
-        window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
+        window.talknWindow.dom.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
       }
       const wndowScrollY = 9999999;
       window.scrollTo(0, wndowScrollY);
@@ -91,24 +95,24 @@ const componentDidUpdates = {
     },
     ON_CHANGE_FIND_TYPE: (self) => {
       const { ch } = self.props.state.thread;
-      self.coreApi("rank", { thread: ch });
+      self.api("rank", { thread: ch });
     },
     DELEGATE_POST: (self) => {
-      self.coreApi("post");
-      self.coreApi("onChangeInputPost");
+      self.api("post");
+      self.api("onChangeInputPost");
       self.clientAction("CLOSE_DISP_POSTS_SUPPORTER");
     },
     GET_CLIENT_METAS: (self) => {
       const { app, thread } = self.props.state;
       const { serverMetas } = thread;
       if (!app.isLinkCh) {
-        window.talknWindow.parentCoreApi("updateThreadServerMetas", serverMetas);
+        self.parentCoreApi("updateThreadServerMetas", serverMetas);
       }
     },
     ON_CLICK_TOGGLE_DISP_DETAIL: (self) => {
       const { ui } = self.props.state;
-      if (ui.extensionMode === Ui.extensionModeExtModalLabel || ui.extensionMode === Ui.extensionModeExtIncludeLabel) {
-        window.talknWindow.parentExtTo("getClientMetas");
+      if (ui.extensionMode === Ui.extensionModeExtModalLabel || ui.extensionMode === Ui.extensionModeExtEmbedLabel) {
+        window.talknWindow.ext.to("getClientMetas");
       }
     },
     TOGGLE_BUBBLE_POST: (self) => {
@@ -118,18 +122,18 @@ const componentDidUpdates = {
         switch (ui.screenMode) {
           case Ui.screenModeLargeLabel:
             Posts.scrollTop = Posts.scrollHeight - Posts.clientHeight;
-            window.talknWindow.updateUiTimeMarker(Posts.scrollTop, { app, ui });
+            window.talknWindow.dom.updateUiTimeMarker(Posts.scrollTop, { app, ui });
             break;
           case Ui.screenModeMiddleLabel:
           case Ui.screenModeSmallLabel:
             const wndowScrollY = 9999999;
             window.scrollTo(0, wndowScrollY);
-            window.talknWindow.updateUiTimeMarker(wndowScrollY, { app, ui });
+            window.talknWindow.dom.updateUiTimeMarker(wndowScrollY, { app, ui });
             break;
         }
       } else {
         Posts.scrollTop = Posts.scrollHeight - Posts.clientHeight;
-        window.talknWindow.updateUiTimeMarker(Posts.scrollTop, { app, ui });
+        window.talknWindow.dom.updateUiTimeMarker(Posts.scrollTop, { app, ui });
       }
     },
     RESIZE_END_WINDOW: (self) => {},
@@ -148,11 +152,11 @@ const componentDidUpdates = {
 
       switch (ui.screenMode) {
         case Ui.screenModeLargeLabel:
-          window.talknWindow.updateUiTimeMarker(Posts.scrollTop, { app, ui });
+          window.talknWindow.dom.updateUiTimeMarker(Posts.scrollTop, { app, ui });
           break;
         case Ui.screenModeMiddleLabel:
         case Ui.screenModeSmallLabel:
-          window.talknWindow.updateUiTimeMarker(window.scrollY, { app, ui });
+          window.talknWindow.dom.updateUiTimeMarker(window.scrollY, { app, ui });
           break;
       }
     },
@@ -164,7 +168,7 @@ function post(self) {
   const Posts = document.querySelector("[data-component-name=Posts]");
   // ui.postsHeight += TalknWindow.getLastPostHeight();
   const postsScrollFunc = () => {
-    if (ui.isOpenPosts && window.talknWindow.isScrollBottom) {
+    if (ui.isOpenPosts && window.talknWindow.dom.isScrollBottom) {
       self.animateScrollTo(Posts, Posts.scrollHeight, 400, self.props.endAnimateScrollTo);
     }
     if (ui.isOpenPosts) {
@@ -175,11 +179,11 @@ function post(self) {
   if (ui.screenMode === Ui.screenModeLargeLabel) {
     postsScrollFunc();
   } else {
-    window.talknWindow.scrollHeight = Posts.clientHeight;
+    window.talknWindow.dom.scrollHeight = Posts.clientHeight;
 
     if (ui.isOpenPosts) {
-      if (window.talknWindow.isScrollBottom) {
-        window.talknWindow.animateScrollTo(window.talknWindow.scrollHeight, 400, self.props.endAnimateScrollTo);
+      if (window.talknWindow.dom.isScrollBottom) {
+        window.talknWindow.dom.animateScrollTo(window.talknWindow.dom.scrollHeight, 400, self.props.endAnimateScrollTo);
       } else {
         self.props.openNewPost();
       }

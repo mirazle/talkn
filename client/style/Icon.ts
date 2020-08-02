@@ -1263,7 +1263,7 @@ export default class Icon {
     const margin = ui.screenMode === Ui.screenModeSmallLabel ? "0" : "1px auto";
     const div = Style.get({
       layout: Style.getLayoutInlineFlex({
-        width: "40px",
+        width: "54px",
         height: "100%",
         borderRadius: "100px",
         margin,

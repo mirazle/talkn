@@ -1,7 +1,8 @@
 import { combineReducers } from "redux";
 import app from "./app";
 import user from "./user";
-import rank from "./rank";
+import tuneCh from "./tuneCh";
+import ranks from "./ranks";
 import thread from "./thread";
 import threads from "./threads";
 import threadDetail from "./threadDetail";
@@ -21,7 +22,8 @@ import actioned from "./actioned";
 export const reducerFiles = {
   app,
   user,
-  rank,
+  tuneCh,
+  ranks,
   thread,
   threads,
   threadDetail,

@@ -7,7 +7,7 @@ export default {
     const threadHeight = document.querySelector("[data-component-name=Posts]");
     if (
       ui.extensionMode === Ui.extensionModeExtBottomLabel ||
-      ui.extensionMode === Ui.extensionModeExtIncludeLabel ||
+      ui.extensionMode === Ui.extensionModeExtEmbedLabel ||
       ui.extensionMode === Ui.extensionModeExtModalLabel
     ) {
       self.refs.thread.scrollTop =

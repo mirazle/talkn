@@ -149,14 +149,17 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
   handleOnClickToWeb() {
     const { threadDetail } = this.props.state;
     if (threadDetail.protocol === Sequence.TALKN_PROTOCOL) {
+      // @ts-ignore.
       location.href = threadDetail.ch;
     } else {
+      // @ts-ignore.
       location.href = threadDetail.protocol + "/" + threadDetail.ch;
     }
   }
 
   handleOnClickToTalkn() {
     const { threadDetail } = this.props.state;
+    // @ts-ignore.
     location.href = `//${conf.domain}${threadDetail.ch}`;
   }
 

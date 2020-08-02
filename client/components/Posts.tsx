@@ -41,13 +41,13 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
     const { app, ui } = this.props.state;
     if (ui.screenMode === Ui.screenModeLargeLabel) {
       const Posts = document.querySelector("[data-component-name=Posts]");
-      window.talknWindow.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
+      window.talknWindow.dom.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
       this.setState({ scrollHeight: Posts.scrollHeight });
       this.animateScrollTo(Posts, 9999999, 400);
     } else {
       //talknWindow.threadHeight = document.querySelector("[data-component-name=Posts]").clientHeight;
       //talknWindow.animateScrollTo( talknWindow.threadHeight, 0 );
-      window.talknWindow.animateScrollTo(99999999, 0);
+      window.talknWindow.dom.animateScrollTo(99999999, 0);
     }
     this.clientAction("COMPONENT_DID_MOUNTS", { componentDidMounts: "Posts" });
   }
@@ -121,7 +121,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
         app: { detailCh: ch },
       });
     } else {
-      this.coreApi("changeThreadDetail", { thread: { ch } });
+      this.api("changeThreadDetail", { thread: { ch } });
     }
   }
 
@@ -132,7 +132,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
       scrollHeight: HtmlThread.scrollHeight,
     });
 
-    this.coreApi("getMore", {});
+    this.api("getMore", {});
   }
 
   render() {

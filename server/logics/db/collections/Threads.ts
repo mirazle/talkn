@@ -42,14 +42,14 @@ export default class Threads {
 
   async findOneWatchCnt(ch) {
     const condition = { ch };
-    const selector = { watchCnt: 1 };
+    const selector = { liveCnt: 1 };
     const option = {};
     const { error, response } = await this.collection.findOne(
       condition,
       { selector, option, buildinSchema: false },
       "finedMenuIndex"
     );
-    return response.watchCnt < 0 ? 0 : response.watchCnt;
+    return response.liveCnt < 0 ? 0 : response.liveCnt;
   }
 
   async rank(requestState, setting) {
@@ -59,6 +59,7 @@ export default class Threads {
 
     let condition: any = {};
     condition.chs = ch;
+    condition.ch = { $ne: ch };
     condition.postCnt = { $ne: 0 };
     condition.layer = { $gt: layer };
 
@@ -66,56 +67,24 @@ export default class Threads {
       condition.findType = app.findType;
     }
 
-    const selector = { "serverMetas.title": 1, lastPost: 1, watchCnt: 1 };
+    const selector = { "serverMetas.title": 1, lastPost: 1, liveCnt: 1 };
     const option = {
-      sort: { watchCnt: -1, layer: -1 },
+      sort: { liveCnt: -1, layer: -1 },
       limit: setting.server.getThreadChildrenCnt,
     };
-
-    let { response } = await this.collection.find(condition, selector, option);
-    const responseLength = response.length;
-    let existMainCh = false;
-    if (responseLength === 0) {
-      response = await this.getUnshifAnyChResponse(ch, response);
-    } else {
-      for (let i = 0; i < responseLength; i++) {
-        if (response[i].lastPost.ch === ch) {
-          existMainCh = true;
-          break;
-        }
-      }
-
-      if (!existMainCh) {
-        const { response: mainThread } = await this.findOne(ch, {
-          selector: { lastPost: 1 },
-          option: {},
-          buildinSchema: true,
-        });
-        response.unshift(mainThread);
-      }
-    }
-
-    response = response.map((res) => {
-      return {
-        ...res.lastPost,
-        title: res.serverMetas.title,
-        watchCnt: res.lastPost.ch === ch ? res.watchCnt + 1 : res.watchCnt,
-      };
-    });
-
-    // TODO delete this proccess.
-    if (response[0] && isNaN(response[0].watchCnt)) {
-      response[0].watchCnt = 1;
-    }
-
-    // Response structure is Post Schema Base.
-    return response;
+    const { response } = await this.collection.find(condition, selector, option);
+    console.log(response);
+    return response.map((res) => ({
+      ...res.lastPost,
+      title: res.serverMetas.title,
+      liveCnt: res.liveCnt,
+    }));
   }
 
   async save(thread) {
     thread.findType = Thread.getContentTypeFromFindType(thread.contentType);
     thread.updateTime = new Date();
-    thread.watchCnt = thread.watchCnt < 0 ? 0 : thread.watchCnt;
+    thread.liveCnt = thread.liveCnt < 0 ? 0 : thread.liveCnt;
     thread.hasSlash = thread.hasSlash === null ? false : thread.hasSlash;
     //thread.title = thread.serverMetas.title ? thread.serverMetas.title : thread.serverMetas["og:title"];
     const { response: resThread } = await this.collection.save(thread);
@@ -123,25 +92,25 @@ export default class Threads {
   }
 
   async resetWatchCnt() {
-    const condition = { watchCnt: { $exists: true, $ne: 0 } };
-    const set = { $set: { watchCnt: 0 } };
+    const condition = { liveCnt: { $exists: true, $ne: 0 } };
+    const set = { $set: { liveCnt: 0 } };
     const option = { upsert: false, multi: true };
     return await this.collection.update(condition, set, option);
   }
 
-  async tune(thread, watchCnt, update = false) {
+  async tune(thread, liveCnt, update = false) {
     const { ch } = thread;
     if (thread.save) {
-      thread.watchCnt = update ? watchCnt : thread.watchCnt + watchCnt;
+      thread.liveCnt = update ? liveCnt : thread.liveCnt + liveCnt;
       thread = await Logics.db.threads.save(thread);
       return { thread, isExist: true };
     } else {
       let { response: resThread, isExist } = await Logics.db.threads.findOne(ch);
 
       if (update) {
-        resThread.watchCnt = watchCnt;
+        resThread.liveCnt = liveCnt;
       } else {
-        resThread.watchCnt = resThread.watchCnt + watchCnt;
+        resThread.liveCnt = resThread.liveCnt + liveCnt;
       }
 
       const thread = await Logics.db.threads.save(resThread);

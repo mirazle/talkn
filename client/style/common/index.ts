@@ -1,2 +1,1 @@
-import { StyleObject } from "client/style";
-export const LabelStyle: StyleObject = { maxWidth: 0, maxHeight: 0, opacity: 0 };
+export const LabelStyle: React.CSSProperties = { maxWidth: 0, maxHeight: 0, opacity: 0 };

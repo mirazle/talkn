@@ -5,7 +5,7 @@ export default class Users {
     return this;
   }
 
-  async getUserCnt(ch) {
+  async getLiveCnt(ch) {
     const condition = { ch };
     const { response: user } = await this.collection.find(condition, { _id: 1 });
     return user.length;
@@ -35,7 +35,7 @@ export default class Users {
   }
 
   async getIncLiveCnt(uid, ch) {
-    const liveCnt = (await this.getUserCnt(ch)) + 1;
+    const liveCnt = (await this.getLiveCnt(ch)) + 1;
     this.update(uid, ch);
     return liveCnt;
   }

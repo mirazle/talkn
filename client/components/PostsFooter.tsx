@@ -9,7 +9,7 @@ import { Label } from "client/components/common";
 const regex = /^\s*$/;
 
 interface PostsFooterProps {
-  mode?: string;
+  mode: string;
   state: any;
   handleOnClickFooterIcon?: any;
   handleOnClickToggleMain?: any;
@@ -31,7 +31,7 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
   }
 
   componentDidMount() {
-    window.talknWindow.clientAction("COMPONENT_DID_MOUNTS", "PostsFooter");
+    this.clientAction("COMPONENT_DID_MOUNTS", "PostsFooter");
   }
 
   handleOnClick(e) {
@@ -40,7 +40,7 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
     const value = postArea.innerHTML;
 
     if (value !== "" && !App.validInputPost(value)) {
-      this.coreApi("post", { app: { inputPost: ui.inputPost } });
+      this.api("post", { app: { inputPost: ui.inputPost } });
       this.clientAction("ON_CHANGE_INPUT_POST", { ui: { inputPost: "" } });
     }
   }
@@ -58,7 +58,7 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
         this.clientAction("ON_CHANGE_INPUT_POST", { ui: { inputPost: e.target.value + "\n" } });
       } else {
         if (!regex.test(e.target.value)) {
-          this.coreApi("post", { app: { inputPost: e.target.value } });
+          this.api("post", { app: { inputPost: e.target.value } });
           this.clientAction("ON_CHANGE_INPUT_POST", { ui: { inputPost: "" } });
         }
       }
@@ -97,10 +97,9 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
 
   renderButton() {
     const { style, ui } = this.props.state;
-
     switch (ui.extensionMode) {
       case Ui.extensionModeExtNoneLabel:
-      case Ui.extensionModeExtIncludeLabel:
+      case Ui.extensionModeExtEmbedLabel:
         return <button aria-label="post" style={style.postsFooter.button} onClick={this.handleOnClick} />;
       default:
         return undefined;

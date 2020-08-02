@@ -11,6 +11,7 @@ import EmotionGraph from "client/components/EmotionGraph";
 import LockMenu from "client/components/LockMenu";
 import Icon from "client/components/Icon";
 import Container from "client/style/Container";
+import thread from "api/reducers/thread";
 
 interface DetailProps {
   onClickOpenLockMenu?: any;
@@ -110,7 +111,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   handleOnClickUpdate() {
     const { threadDetail } = this.props.state;
     this.clientAction("OPEN_INNER_NOTIF", { ui: { openInnerNotif: "Update thread data." } });
-    this.coreApi("updateThread", threadDetail.ch);
+    this.api("updateThread", threadDetail.ch);
   }
 
   getImgStyle(state, style, protocol, serverMetas) {
@@ -121,7 +122,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
     switch (threadDetail.findType) {
       default:
       case Thread.findTypeHtml:
-        if (serverMetas["og:image"]) {
+        if (serverMetas && serverMetas["og:image"]) {
           if (
             `${serverMetas["og:image"]}`.indexOf(Sequence.HTTPS_PROTOCOL) === 0 ||
             `${serverMetas["og:image"]}`.indexOf(Sequence.HTTP_PROTOCOL) === 0
@@ -180,16 +181,26 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
     );
   }
 
-  renderHeader() {
+  renderHeader(): React.ReactNode {
     const { state, handleOnClickToggleDetail } = this.props;
     const { style, threadDetail } = state;
-    return (
-      <header data-component-name={"DetailHeader"} onClick={handleOnClickToggleDetail} style={style.detail.header}>
-        <span style={style.detail.headerP}>
-          <Marquee text={threadDetail.serverMetas["title"]} loop={true} hoverToStop={false} trailing={0} leading={0} />
-        </span>
-      </header>
-    );
+    if (threadDetail && threadDetail["title"]) {
+      return (
+        <header data-component-name={"DetailHeader"} onClick={handleOnClickToggleDetail} style={style.detail.header}>
+          <span style={style.detail.headerP}>
+            <Marquee
+              text={threadDetail.serverMetas["title"]}
+              loop={true}
+              hoverToStop={false}
+              trailing={0}
+              leading={0}
+            />
+          </span>
+        </header>
+      );
+    } else {
+      return undefined;
+    }
   }
 
   renderImage() {
@@ -303,7 +314,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
           <div style={style.detail.analyzeCol}>
             <div style={style.detail.analyzeLabel}>LIVE</div>
             <hr style={style.detail.analyzeHr} />
-            <div style={style.detail.analyzeValue}>{threadDetail.watchCnt}</div>
+            <div style={style.detail.analyzeValue}>{threadDetail.liveCnt}</div>
           </div>
           <div style={style.detail.analyzeCol}>
             <div style={style.detail.analyzeLabel}>POSITIBITY</div>
@@ -395,7 +406,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
     const onClick =
       ui.extensionMode !== Ui.extensionModeExtNoneLabel
         ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", { href });
           }
         : () => {};
     return Icon.getChromeExtension({}, state, { active, href, onClick });
@@ -411,7 +422,7 @@ class Icons {
     const onClick =
       ui.extensionMode !== Ui.extensionModeExtNoneLabel
         ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", { href });
           }
         : () => {};
     return Icon.getTwitter(state, {}, { active, href, onClick });
@@ -426,7 +437,7 @@ class Icons {
     const onClick =
       ui.extensionMode !== Ui.extensionModeExtNoneLabel
         ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", { href });
           }
         : () => {};
     return Icon.getFacebook(state, {}, { active, href, onClick });
@@ -441,7 +452,7 @@ class Icons {
     const onClick =
       ui.extensionMode !== Ui.extensionModeExtNoneLabel
         ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", { href });
           }
         : () => {};
     return Icon.getAppstore(state, {}, { active, href, onClick });
@@ -455,7 +466,7 @@ class Icons {
     const onClick =
       ui.extensionMode !== Ui.extensionModeExtNoneLabel
         ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", { href });
           }
         : () => {};
     return Icon.getAndroid(state, {}, { active, href, onClick });
@@ -477,7 +488,7 @@ class Icons {
     const onClick =
       ui.extensionMode !== Ui.extensionModeExtNoneLabel
         ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", { href });
           }
         : () => {};
     return Icon.getHome(state, {}, { active, href, onClick });
@@ -491,7 +502,7 @@ class Icons {
     const onClick =
       ui.extensionMode !== Ui.extensionModeExtNoneLabel
         ? () => {
-            window.talknWindow.parentExtTo("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", { href });
           }
         : () => {};
     return Icon.getTalkn(state, {}, { active, href, onClick });

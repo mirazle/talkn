@@ -72,12 +72,6 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     this.listenAsyncBoot();
   }
 
-  createClientState(state) {
-    if (this.stores.client !== null) {
-      this.stores.client = new ClientState(state);
-    }
-  }
-
   setupWindow() {
     /*
     const html = document.querySelector("html");
@@ -116,6 +110,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     bootPromise.push(
       new Promise((messageResolve) => {
         window.addEventListener("message", (e) => {
+          console.log(e.data);
           switch (e.data.type) {
             case PostMessage.EXT_TO_CLIENT_TYPE:
               switch (e.data.method) {
@@ -127,7 +122,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
                   break;
                 default:
                   const clientState = this.stores.client.getState();
-                  const actionType = Sequence.convertApiToClientActionType(e.data.method);
+                  const actionType = Sequence.convertExtToClientActionType(this.parentiFrameId, e.data.method);
                   const dispatchState = { ...clientState, ...e.data.params };
                   this.stores.client.dispatch({ ...dispatchState, type: actionType });
                   break;
@@ -136,7 +131,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
             case PostMessage.API_TO_CLIENT_TYPE:
               if (e.data.method === PostMessage.HANDLE_API_AND_CLIENT) {
                 this.bootOption = e.data.params;
-                this.coreApi(PostMessage.HANDLE_API_AND_CLIENT);
+                this.api(PostMessage.HANDLE_API_AND_CLIENT);
                 messageResolve(e);
               } else {
                 const actionType = Sequence.convertApiToClientActionType(e.data.method);
@@ -215,7 +210,7 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
     if (conf.findOnePostCnt <= dispPostCnt && dispPostCnt < conf.findOneLimitCnt) {
       if (thread[postCntKey] > conf.findOnePostCnt) {
         if (dispPostCnt < thread[postCntKey]) {
-          this.coreApi("getMore");
+          this.api("getMore");
         }
       }
     }

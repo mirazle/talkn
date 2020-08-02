@@ -17,6 +17,5 @@ export default function clientStore(initialState = {}) {
     initialState,
     composeEnhancers ? composeEnhancers(applyMiddleware(...middlewares)) : applyMiddleware(...middlewares)
   );
-
   return store;
 }

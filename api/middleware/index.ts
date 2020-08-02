@@ -4,6 +4,7 @@ import Posts from "api/store/Posts";
 import Thread from "api/store/Thread";
 import Threads from "api/store/Threads";
 import storage from "api/mapToStateToProps/storage";
+import actionLog from "client/reducers/actionLog";
 
 export default {
   updateAction: (store) => (next) => (action) => {
@@ -25,6 +26,7 @@ export default {
 const functions = {
   "SERVER_TO_API[EMIT]:tune": (state, action) => {
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
+    action.app.tuned = action.thread.ch;
     action.app.detailCh = action.thread.ch;
     action.app.isRootCh = action.app.rootCh === action.thread.ch;
     action.app.isMediaCh = App.getIsMediaCh(action.thread.ch);
@@ -48,12 +50,7 @@ const functions = {
     if (action.app.isMediaCh) {
       action = storage.setStoragePostsTimeline(action);
     }
-    return action;
-  },
-  "SERVER_TO_API[BROADCAST]:fetchPosts": (state, action) => {
-    action.app.tuned = action.thread.ch;
-    //    action.threads = Threads.getMergedThreads(state.threads, action.thread);
-    //    action.threadDetail = { ...action.thread };
+    action.thread = state.thread;
     return action;
   },
   "API_TO_SERVER[REQUEST]:changeThread": (state, action) => {
@@ -72,7 +69,8 @@ const functions = {
     action.postsSingle = new Posts();
     return action;
   },
-  "API_TO_SERVER[EMIT]:changeThread": (state, action) => {
+  "SERVER_TO_API[EMIT]:changeThread": (state, action) => {
+    action.app.tuned = action.thread.ch;
     action.threads = Threads.getMergedThreads(state.threads, action.thread);
     action.threadDetail = { ...action.thread };
     return action;
@@ -82,26 +80,28 @@ const functions = {
     action.threadDetail = { ...action.thread };
     return action;
   },
-  "SERVER_TO_API[BROADCAST]:post": (state, action) => {
-    const { user } = state;
-    const postLength = action.posts.length - 1;
+  "SERVER_TO_API[REQUEST]:post": (state, action) => {
     action.app.inputStampId = 0;
-    action.user = user;
+    return action;
+  },
+  "SERVER_TO_API[BROADCAST]:post": (state, action) => {
+    // ユーザーが今現在、閲覧しているthreadの場合
+    if (state.thread.ch === action.thread.ch) {
+      if (action.thread.emotions) {
+        const emotionKeys = Object.keys(action.thread.emotions);
+        if (emotionKeys.length > 0) {
+          const actionEmotions = { ...action.thread.emotions };
+          action.thread.emotions = { ...state.thread.emotions };
 
-    const emotionKeys = Object.keys(action.thread.emotions);
-
-    if (action.thread.ch === action.posts[postLength].ch && emotionKeys.length > 0) {
-      const actionEmotions = { ...action.thread.emotions };
-      action.thread.emotions = { ...state.thread.emotions };
-
-      Object.keys(actionEmotions).forEach((emotionModelKey) => {
-        Object.keys(actionEmotions[emotionModelKey]).forEach((emotionKey) => {
-          action.thread.emotions[emotionModelKey][emotionKey] =
-            action.thread.emotions[emotionModelKey][emotionKey] + actionEmotions[emotionModelKey][emotionKey];
-        });
-      });
-    } else {
-      action.thread.emotions = state.thread.emotions;
+          Object.keys(actionEmotions).forEach((emotionModelKey) => {
+            Object.keys(actionEmotions[emotionModelKey]).forEach((emotionKey) => {
+              action.thread.emotions[emotionModelKey][emotionKey] =
+                action.thread.emotions[emotionModelKey][emotionKey] + actionEmotions[emotionModelKey][emotionKey];
+            });
+          });
+          action.threadDetail = { ...action.thread };
+        }
+      }
     }
     action = Posts.getAnyActionPosts(action, state);
     return action;

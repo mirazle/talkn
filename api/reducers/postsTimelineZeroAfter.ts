@@ -1,6 +1,7 @@
+import Post from "api/store/Post";
 import PostsTimelineZeroAfter from "api/store/PostsTimelineZeroAfter";
 
-export default (state: any = new PostsTimelineZeroAfter(), action) => {
+export default (state: Post[] = [], action) => {
   switch (action.type) {
     case "SERVER_TO_API[BROADCAST]:post":
       return action.postsTimelineZeroAfter ? [...state, action.postsTimelineZeroAfter] : state;

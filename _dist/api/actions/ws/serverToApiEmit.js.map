@@ -1,0 +1,1 @@
+{"version":3,"file":"serverToApiEmit.js","sourceRoot":"","sources":["../../../../api/actions/ws/serverToApiEmit.ts"],"names":[],"mappings":";;;;;AAAA,4DAAoC;AAEpC,kBAAe,QAAQ,CAAC,EAAE;IACxB,MAAM,IAAI,GAAG,GAAG,kBAAQ,CAAC,kBAAkB,GAAG,QAAQ,CAAC,IAAI,EAAE,CAAC;IAC9D,OAAO,EAAE,GAAG,QAAQ,EAAE,IAAI,EAAE,CAAC;AAC/B,CAAC,CAAC"}

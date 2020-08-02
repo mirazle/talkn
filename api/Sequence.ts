@@ -26,7 +26,7 @@ export default class Sequence {
     return "BROADCAST";
   }
   static get CONNECTION_SERVER_KEY() {
-    return "connectionServer";
+    return "CONNECTION_SERVER";
   }
   static get API_TO_SERVER_REQUEST() {
     return `API_TO_SERVER[${Sequence.API_REQUEST_TYPE}]${Sequence.METHOD_COLON}`;
@@ -67,7 +67,7 @@ export default class Sequence {
           app: ["multistream", "rootCh", "dispThreadType", "actioned", "offsetFindId", "isToggleMultistream"],
         },
         responseEmitState: { user: ["uid"], setting: "*", thread: "*" },
-        responseBroadcastState: { thread: ["watchCnt", "ch"] },
+        responseBroadcastState: { thread: ["liveCnt", "ch"] },
       },
       fetchPosts: {
         requestPublicState: {},
@@ -75,12 +75,7 @@ export default class Sequence {
           thread: ["ch", "protocol", "host", "hasSlash"],
           app: ["multistream", "rootCh", "dispThreadType", "actioned", "offsetFindId", "isToggleMultistream"],
         },
-        responseEmitState: {
-          posts: "*",
-          thread: "*",
-          // これをtuneに移動する
-          app: ["dispThreadType", "offsetFindId", "tuned"],
-        },
+        responseEmitState: { posts: "*" },
         responseBroadcastState: {},
       },
       getMore: {
@@ -90,7 +85,7 @@ export default class Sequence {
           app: ["multistream", "dispThreadType", "offsetFindId"],
         },
         responseEmitState: {
-          thread: "*",
+          //          thread: "*",
           app: ["dispThreadType", "offsetFindId"],
           posts: "*",
         },
@@ -112,8 +107,8 @@ export default class Sequence {
           thread: ["ch", "hasSlash", "protocol"],
           app: ["tuned", "multistream", "rootCh", "dispThreadType", "actioned", "offsetFindId", "isToggleMultistream"],
         },
-        responseEmitState: {},
-        responseBroadcastState: { thread: ["watchCnt", "ch"] },
+        responseEmitState: { thread: "*" },
+        responseBroadcastState: { thread: ["liveCnt", "ch"] },
       },
       changeThreadDetail: {
         requestPublicState: {},
@@ -143,7 +138,7 @@ export default class Sequence {
           thread: ["findType", "title", "protocol", "ch", "chs", "emotions", "favicon", "contentType"],
         },
         responseEmitState: {},
-        responseBroadcastState: { posts: "*", thread: "*", rank: "*" },
+        responseBroadcastState: { posts: "*", thread: ["ch", "emotions", "postCnt"] },
       },
       updateThreadServerMetas: {
         requestPublicState: { thread: ["serverMetas"] },
@@ -166,7 +161,7 @@ export default class Sequence {
         requestPublicState: {},
         requestPrivateState: {},
         responseEmitState: {},
-        responseBroadcastState: { thread: ["watchCnt", "ch"] },
+        responseBroadcastState: { thread: ["liveCnt", "ch"] },
       },
     };
   }
@@ -196,6 +191,12 @@ export default class Sequence {
       activeResponseMap.broadcast = !(Object.keys(Sequence.map[actionName].responseBroadcastState).length > 0);
     }
     return activeResponseMap;
+  }
+
+  static convertExtToClientActionType(iFrameId, actionType) {
+    actionType = Sequence.convertApiToClientActionType(actionType);
+
+    return actionType;
   }
 
   static convertApiToClientActionType(actionType) {
