@@ -47,6 +47,8 @@ const functions = {
   },
   "SERVER_TO_API[EMIT]:fetchPosts": (state, action) => {
     action = { ...Posts.getAnyActionPosts(action, state) };
+    action.app.offsetFindId = App.getOffsetFindId({ posts: action.posts });
+    action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     if (action.app.isMediaCh) {
       action = storage.setStoragePostsTimeline(action);
     }
@@ -110,6 +112,7 @@ const functions = {
     action.app.offsetFindId = App.getOffsetFindId({ posts: action.posts });
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     action = Posts.getAnyActionPosts(action, state);
+    console.log(action);
     return action;
   },
   "API_TO_SERVER[REQUEST]:changeThreadDetail": (state, action) => {
