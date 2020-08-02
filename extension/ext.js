@@ -88,6 +88,9 @@ class Ext {
     return `#${Ext.APP_NAME}`;
   }
   static get APP_HOST() {
+    if ((location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`)) {
+      return `//${Ext.BASE_DEV_HOST}`;
+    }
     if (TALKN_EXT_ENV === "PROD") {
       return `//${Ext.BASE_PROD_HOST}`;
     } else if (TALKN_EXT_ENV === "START") {
@@ -115,9 +118,6 @@ class Ext {
     }
   }
   static get API_HOST() {
-    if ((location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`)) {
-      return `//${Ext.API_KEY}.${Ext.BASE_DEV_HOST}`;
-    }
     if (TALKN_EXT_ENV === "PROD") {
       return `//${Ext.API_KEY}.${Ext.BASE_PROD_HOST}`;
     }
