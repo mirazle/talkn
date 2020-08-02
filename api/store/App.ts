@@ -1,6 +1,7 @@
 import Schema from "api/store/Schema";
 import Post from "api/store/Post";
 import Thread from "api/store//Thread";
+import Ui from "client/store/Ui";
 
 export default class App extends Schema {
   static get defaultOffsetFindId() {
@@ -99,8 +100,7 @@ export default class App extends Schema {
     return 0;
   }
 
-  name: string;
-  talknIndex: number;
+  id: string;
 
   // スレッド基本関連
   isRootCh: boolean;
@@ -139,9 +139,8 @@ export default class App extends Schema {
     // 準備
     const ch = params.ch ? params.ch : "/";
 
-    // 全体
-    const name = params.name ? params.name : "talkn";
-    const talknIndex = params.talknIndex ? params.talknIndex : 0;
+    // ID
+    const id = params.id ? params.id : "";
 
     // スレッド基本関連
     const isMediaCh = Schema.isSet(params.isMediaCh) ? params.isMediaCh : App.getIsMediaCh(ch);
@@ -177,9 +176,8 @@ export default class App extends Schema {
     const actioned = params && params.actioned ? params.actioned : "";
     const debug = Schema.isSet(params.debug) ? params.debug : "";
     return this.create({
-      // 全体
-      name,
-      talknIndex,
+      // ID
+      id,
 
       // スレッド基本関連
       isRootCh,
@@ -242,7 +240,7 @@ export default class App extends Schema {
   }
 
   static isActiveMultistream({ app, ui }, called = "") {
-    return ui.menuComponent === "Index" && app.dispThreadType === App.dispThreadTypeMulti;
+    return ui.menuComponent === Ui.menuComponentRankLabel && app.dispThreadType === App.dispThreadTypeMulti;
   }
 
   static getDispThreadType(params, isMediaCh) {

@@ -1,6 +1,7 @@
+import Post from "api/store/Post";
 import PostsTimeline from "api/store/PostsTimeline";
 
-export default (state: any = new PostsTimeline(), action) => {
+export default (state: Post[] = [], action) => {
   switch (action.type) {
     case "API_TO_SERVER[REQUEST]:changeThread":
       return new PostsTimeline();

@@ -29,10 +29,10 @@ export default {
     const { ch } = requestThread;
 
     // users.
-    const watchCnt = await Logics.db.users.getIncLiveCnt(ioUser.conn.id, ch);
+    const liveCnt = await Logics.db.users.getIncLiveCnt(ioUser.conn.id, ch);
 
     // update thread rank.
-    let { thread, isExist } = await Logics.db.threads.tune({ ch }, watchCnt, true);
+    let { thread, isExist } = await Logics.db.threads.tune({ ch }, liveCnt, true);
     requestState.thread = thread;
     const threadStatus = Thread.getStatus(thread, app, isExist, setting);
 
@@ -74,20 +74,32 @@ export default {
     Logics.io.getMore(ioUser, { requestState, thread, posts, app });
   },
 
+  // MEMO: tuneとchange threadの棲み分けが混在しているのが問題(GlobalAPIからは呼ばない前提)
+  // 新しいthread&古いthreadでそれぞれtuneを実施し、Broardcastして全ユーザーに対して整合性を取っている。
   changeThread: async (ioUser, requestState, setting) => {
     // Old Thread.
-    const tuned = requestState.app.tuned;
-    if (tuned !== "") {
-      const { thread, isExist } = await Logics.db.threads.tune({ ch: tuned }, -1);
-      Logics.io.changeThread(ioUser, { requestState, thread });
-    }
-
-    console.log({ ...requestState, type: "tune" });
+    const oldCh = requestState.app.tuned;
+    const { thread: oldThread } = await Logics.db.threads.tune({ ch: oldCh }, -1);
 
     // New thread.
-    await Actions.io.tune(ioUser, { ...requestState, type: "tune" }, setting);
-    // Posts.
-    await Actions.io.exeFetchPosts(ioUser, { ...requestState, type: "fetchPosts" }, setting);
+    const newCh = requestState.thread.ch;
+    const { thread: newThread } = await Logics.db.threads.tune({ ch: newCh }, +1);
+
+    // Resolve Users.
+    Logics.db.users.getIncLiveCnt(ioUser.conn.id, newCh);
+
+    // 古いthreadのliveCntが減った通知をBroardcasrtする
+    // 新しいthreadのliveCntが増えた通知をBroardcasrtする
+    // 新しいthread情報をEmitする
+    Logics.io.changeThread(ioUser, {
+      requestState,
+      oldThread,
+      newThread,
+    });
+
+    // Postsを解決(exeFetchPosts).
+    requestState.thread = newThread;
+    Actions.io.exeFetchPosts(ioUser, { ...requestState, type: "fetchPosts" }, setting);
   },
 
   exeFetchPosts: async (ioUser, requestState, setting) => {
@@ -108,12 +120,11 @@ export default {
     // App.
     app = Collections.getNewApp(requestState.type, app, threadStatus, thread, posts);
 
-    // Users
+    // Userss
     const isTune = await Logics.db.users.isTuneUser(uid, ch);
-
     if (!isTune) {
-      Logics.db.users.update(uid, ch);
-      Logics.db.threads.tune(thread, +1);
+      //      Logics.db.users.update(uid, ch);
+      //      Logics.db.threads.tune(thread, +1);
     }
 
     Logics.io.fetchPosts(ioUser, { requestState, thread, posts, app });
@@ -185,9 +196,9 @@ export default {
       // ユーザーデータ削除
       await Logics.db.users.remove(ioUser.conn.id);
 
-      // userコレクションからwatchCntの実数を取得(thread.watchCntは読み取り専用)
-      const watchCnt = await Logics.db.users.getUserCnt(user.ch);
-      const { thread } = await Logics.db.threads.tune({ ch: user.ch }, watchCnt, true);
+      // userコレクションからliveCntの実数を取得(thread.liveCntは読み取り専用)
+      const liveCnt = await Logics.db.users.getLiveCnt(user.ch);
+      const { thread } = await Logics.db.threads.tune({ ch: user.ch }, liveCnt, true);
       Logics.io.disconnect(ioUser, {
         requestState: { type: "disconnect" },
         thread,

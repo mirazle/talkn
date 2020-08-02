@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "es6",
+    "target": "es2019",
     "strict": false,
     "strictFunctionTypes": false,
     "strictBindCallApply": false,
@@ -19,7 +19,7 @@
     "sourceMap": true,
     "outDir": "_dist",
     "jsx": "react",
-    "lib": ["es2019", "dom"],
+    "lib": ["es2019", "webworker", "dom"],
     "incremental": true,
     "removeComments": true,
     "forceConsistentCasingInFileNames": true,

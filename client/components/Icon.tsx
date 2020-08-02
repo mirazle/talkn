@@ -250,11 +250,11 @@ export default class Icon extends TalknComponent<{}, {}> {
   }
 */
 
-  static getLiveCnt({ app, ui }, watchCnt = 0): React.ReactNode {
+  static getLiveCnt({ app, ui }, liveCnt = 0): React.ReactNode {
     const style = IconStyle.getLiveCnt({ app, ui });
     return (
       <span style={style.div}>
-        <span style={style.circle}>{watchCnt}</span>
+        <span style={style.circle}>{liveCnt}</span>
       </span>
     );
   }

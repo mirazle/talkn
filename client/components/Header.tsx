@@ -78,7 +78,7 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
     const { icon: iconStyle } = style;
     const DetailIcon = Icon.getDetail(iconStyle.detail);
     const liveCnt =
-      ui.screenMode === Ui.screenModeSmallLabel ? Icon.getLiveCnt({ app, ui }, thread.watchCnt) : undefined;
+      ui.screenMode === Ui.screenModeSmallLabel ? Icon.getLiveCnt({ app, ui }, thread.liveCnt) : undefined;
     return (
       <span
         data-component-name={`${this.constructor.name}-right`}

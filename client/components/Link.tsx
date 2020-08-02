@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import BoardStyle from "client/style/Board";
 import LinkStyle from "client/style/Link";
-import MenuIndexListStyle from "client/style/Menu/MenuIndexList";
+import ChStyle from "client/style/Menu/common/Ch";
 import Marquee from "client/container/util/Marquee";
 
 interface LinkProps {
@@ -56,8 +55,8 @@ export default class Link extends TalknComponent<LinkProps, LinkState> {
   render() {
     const { isActive, style } = this.state;
     const { text } = this.props;
-    let { upperRankWrap, upperRank } = this.props.state.style.menuIndexList;
-    const background = MenuIndexListStyle.getDispRankBackground(0);
+    let { upperRankWrap, upperRank } = this.props.state.style.ch;
+    const background = ChStyle.getDispRankBackground(0);
     const width = BoardStyle.tuneSize;
 
     if (isActive) {

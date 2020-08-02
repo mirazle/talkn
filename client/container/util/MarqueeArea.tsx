@@ -6,7 +6,7 @@ const STEP = 1;
 const TIMEOUT = (1 / FPS) * 1000;
 
 export interface MarqueeAreaProps {
-  id: number | string;
+  id?: number | string;
 }
 
 export interface MarqueeAreaState {
@@ -20,7 +20,7 @@ export default class MarqueeArea<P extends MarqueeAreaProps, S extends MarqueeAr
   marqueeTextStyle: any = {
     position: "relative",
     transform: `translateX(0px)`,
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
   };
   constructor(props: P) {
     super(props as P);
@@ -34,7 +34,7 @@ export default class MarqueeArea<P extends MarqueeAreaProps, S extends MarqueeAr
   get superState() {
     return ({
       animatedWidth: 0,
-      overflowWidth: 0
+      overflowWidth: 0,
     } as MarqueeAreaState) as S;
   }
 
@@ -59,7 +59,7 @@ export default class MarqueeArea<P extends MarqueeAreaProps, S extends MarqueeAr
   onMouseLeaveArea() {
     this.clearTimeout();
     this.setState({
-      animatedWidth: 0
+      animatedWidth: 0,
     });
   }
 
@@ -67,7 +67,7 @@ export default class MarqueeArea<P extends MarqueeAreaProps, S extends MarqueeAr
     return {
       position: "absolute",
       transform: `translateX(-${this.state.animatedWidth}px)`,
-      whiteSpace: "nowrap"
+      whiteSpace: "nowrap",
     };
   }
 
@@ -81,7 +81,7 @@ export default class MarqueeArea<P extends MarqueeAreaProps, S extends MarqueeAr
         animatedWidth = 0;
       }
       this.setState({
-        animatedWidth
+        animatedWidth,
       });
 
       this.marqueeTimer = setTimeout(animate, TIMEOUT);
@@ -104,7 +104,7 @@ export default class MarqueeArea<P extends MarqueeAreaProps, S extends MarqueeAr
 
       if (overflowWidth !== this.state.overflowWidth) {
         this.setState({
-          overflowWidth
+          overflowWidth,
         });
       }
     }

@@ -1,8 +1,7 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import PostsFooter from "client/components/PostsFooter";
-import MenuFooter from "client/components/MenuFooter";
+import MenuFooter from "client/components/Menu/Footer";
 import DetailFooter from "client/components/DetailFooter";
 
 interface FooterProps {

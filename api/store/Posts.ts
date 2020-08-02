@@ -1,11 +1,12 @@
 import App from "api/store/App";
+import Post from "api/store/Post";
 import PostMulti from "api/store/PostMulti";
 import PostsTimeline from "api/store/PostsTimeline";
 import PostsTimelineStock from "api/store/PostsTimelineStock";
 import PostsSingle from "api/store/PostsSingle";
 
 export default class Posts {
-  constructor(params = []) {
+  constructor(params: Post[] = []) {
     return params;
   }
 

@@ -73,6 +73,7 @@
     "request": "^2.88.0",
     "socket.io": "^2.3.0",
     "socket.io-client": "*",
-    "socket.io-redis": "^5.2.0"
+    "socket.io-redis": "^5.2.0",
+    "worker-loader": "^2.0.0"
   }
 }

@@ -1,5 +1,6 @@
+import Post from "api/store/Post";
 export default class PostTimelineStock {
-  constructor(params = []) {
+  constructor(params: Post[] = []) {
     return params;
   }
 }

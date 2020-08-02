@@ -1,5 +1,6 @@
+import Post from "api/store/Post";
 export default class PostMulti {
-  constructor() {
-    return [];
+  constructor(params: Post[] = []) {
+    return params;
   }
 }

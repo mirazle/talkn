@@ -30,7 +30,7 @@ export default class Marquee extends Component<Props, State> {
     super(props);
     this.state = {
       animatedWidth: 0,
-      overflowWidth: 0
+      overflowWidth: 0,
     };
 
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
@@ -68,10 +68,10 @@ export default class Marquee extends Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.text && this.props.text.length != nextProps.text.length) {
+    if (this.props && this.props.text && this.props.text !== "" && this.props.text.length !== nextProps.text.length) {
       clearTimeout(this._marqueeTimer);
       this.setState({
-        animatedWidth: 0
+        animatedWidth: 0,
       });
     }
   }
@@ -90,7 +90,7 @@ export default class Marquee extends Component<Props, State> {
     } else {
       clearTimeout(this._marqueeTimer);
       this.setState({
-        animatedWidth: 0
+        animatedWidth: 0,
       });
     }
   }
@@ -100,9 +100,9 @@ export default class Marquee extends Component<Props, State> {
       ...{
         position: "relative",
         right: this.state.animatedWidth,
-        whiteSpace: "nowrap"
+        whiteSpace: "nowrap",
       },
-      ...this.props.style
+      ...this.props.style,
     };
 
     if (this.state.overflowWidth < 0) {
@@ -155,14 +155,14 @@ export default class Marquee extends Component<Props, State> {
       if (isRoundOver && this.props.trailing) {
         this._marqueeTimer = setTimeout(() => {
           this.setState({
-            animatedWidth
+            animatedWidth,
           });
 
           this._marqueeTimer = setTimeout(animate, TIMEOUT);
         }, this.props.trailing);
       } else {
         this.setState({
-          animatedWidth
+          animatedWidth,
         });
 
         this._marqueeTimer = setTimeout(animate, TIMEOUT);
@@ -188,7 +188,7 @@ export default class Marquee extends Component<Props, State> {
       // console.log(overflowWidth);
       if (overflowWidth !== this.state.overflowWidth) {
         this.setState({
-          overflowWidth
+          overflowWidth,
         });
       }
     }

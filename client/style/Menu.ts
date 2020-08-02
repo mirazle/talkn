@@ -9,7 +9,7 @@ export default class Menu {
   static getBorderRadius({ app, ui }): any {
     switch (ui.extensionMode) {
       case Ui.extensionModeExtNoneLabel:
-      case Ui.extensionModeExtIncludeLabel:
+      case Ui.extensionModeExtEmbedLabel:
         return 0;
       default:
         switch (ui.screenMode) {
@@ -114,7 +114,7 @@ export default class Menu {
       width,
       minWidth: "inherit",
       maxWidth: "inherit",
-      height: `calc( 100% - ${Container.getBlockSize({ app, ui })}px )`,
+      height: `calc( 100% - ${Container.getBlockSize({ app, ui }) * 2}px )`,
       margin: "0 auto",
     });
     const content = {};

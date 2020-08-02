@@ -68,6 +68,7 @@ export default class Thread extends Schema {
   findType: "All" | "Html" | "Music" | "Video" = Thread.findTypeAll;
   title: string = Thread.getDefaultTitle();
   metas: any = [];
+  emotions: any = {};
   serverMetas: any = {};
   clientMetas: any = {};
   links: any = [];
@@ -81,62 +82,60 @@ export default class Thread extends Schema {
   isSelfCh: boolean = false;
   createTime: string = "";
   updateTime: string = "";
-  constructor(params: any = {}, bootOption: BootOption | {}, cache: any = {}) {
+  constructor(params: any = {}, bootOption?: BootOption | {}) {
     super();
-    const thread = Thread.isWindowObj(params) ? Thread.constructorFromWindow(params, bootOption, cache) : params;
+    const thread = Thread.isWindowObj(params) ? Thread.constructorFromWindow(params, bootOption) : params;
     return this.create(thread);
   }
 
-  static constructorFromWindow(params, bootOption, cache) {
+  static constructorFromWindow(params, bootOption) {
     const bootCh = bootOption.ch ? bootOption.ch : false;
     const ch = Thread.getCh(bootOption, bootCh);
-    if (cache.ch && cache.ch === ch) {
-      return cache;
+
+    let thread: any = {};
+    let href = "";
+    thread.ch = ch;
+    thread.chs = ["/"];
+    thread.hasSlash = bootOption.hasslash ? Schema.getBool(bootOption.hasslash) : false;
+    thread.protocol = "talkn:";
+    thread.contentType = "";
+    thread.charset = "UTF-8";
+    thread.host = "";
+    thread.favicon = Thread.getDefaultFavicon();
+    thread.findType = Thread.findTypeAll;
+
+    if (bootCh) {
+      // URLのコネクション文字列からではPROTOCOLは判別できない。
+      thread.protocol = Thread.getProtocol(bootCh);
+      thread.host = Thread.getHost(bootCh);
+      thread.chs = bootCh.chs && bootCh.chs.length > 0 ? bootCh.chs : Thread.getChs(ch);
     } else {
-      let thread: any = {};
-      let href = "";
-      thread.ch = ch;
-      thread.chs = ["/"];
-      thread.hasSlash = bootOption.hasslash ? Schema.getBool(bootOption.hasslash) : false;
-      thread.protocol = "talkn:";
-      thread.contentType = "";
-      thread.charset = "UTF-8";
-      thread.host = "";
-      thread.favicon = Thread.getDefaultFavicon();
-      thread.findType = Thread.findTypeAll;
+      thread.protocol = location.protocol ? location.protocol : "????:";
+      thread.chs = params.chs && params.chs.length > 0 ? params.chs : Thread.getChs(ch);
+      thread.contentType = document.contentType ? document.contentType : "";
+      thread.charset = document.charset ? document.charset : "";
 
-      if (bootCh) {
-        // URLのコネクション文字列からではPROTOCOLは判別できない。
-        thread.protocol = Thread.getProtocol(bootCh);
-        thread.host = Thread.getHost(bootCh);
-        thread.chs = bootCh.chs && bootCh.chs.length > 0 ? bootCh.chs : Thread.getChs(ch);
-      } else {
-        thread.protocol = location.protocol ? location.protocol : "????:";
-        thread.chs = params.chs && params.chs.length > 0 ? params.chs : Thread.getChs(ch);
-        thread.contentType = document.contentType ? document.contentType : "";
-        thread.charset = document.charset ? document.charset : "";
-
-        thread.host = location.host ? location.host : "";
-        thread.favicon = Thread.getFaviconFromWindow(window);
-      }
-
-      thread.title = Thread.getDefaultTitle();
-      thread.metas = [];
-      thread.serverMetas = {};
-      thread.clientMetas = {};
-      thread.links = [];
-      thread.h1s = [];
-      thread.audios = [];
-      thread.videos = [];
-      thread.layer = Thread.getLayer(thread.ch);
-      thread.mediaIndex = [];
-      thread.postCnt = 0;
-      thread.multiPostCnt = 0;
-      thread.isSelfCh = Thread.getIsSelfCh(href, thread.ch);
-      thread.createTime = "";
-      thread.updateTime = "";
-      return thread;
+      thread.host = location.host ? location.host : "";
+      thread.favicon = Thread.getFaviconFromWindow(window);
     }
+
+    thread.title = Thread.getDefaultTitle();
+    thread.metas = [];
+    thread.serverMetas = {};
+    thread.clientMetas = {};
+    thread.emotions = {};
+    thread.links = [];
+    thread.h1s = [];
+    thread.audios = [];
+    thread.videos = [];
+    thread.layer = Thread.getLayer(thread.ch);
+    thread.mediaIndex = [];
+    thread.postCnt = 0;
+    thread.multiPostCnt = 0;
+    thread.isSelfCh = Thread.getIsSelfCh(href, thread.ch);
+    thread.createTime = "";
+    thread.updateTime = "";
+    return thread;
   }
 
   static getCh(bootOption: any, bootCh: string) {

@@ -21,26 +21,28 @@ import Post from "client/style/Post";
 import Icon from "client/style/Icon";
 import Audio from "client/style/Media/Audio";
 import Video from "client/style/Media/Video";
-import Rank from "client/style/Menu/Rank";
+import Ranks from "client/style/Menu/Ranks";
 
 export default (state: any = {}, action: any) => {
   switch (action.type) {
-    case "API_TO_CLIENT[EMIT]:tune":
     case "ON_RESIZE_START_WINDOW":
     case "ON_RESIZE_END_WINDOW":
     case "ON_TRANSITION":
     case "ON_TRANSITION_END":
     case "OFF_TRANSITION":
+    case "EXT_TO_CLIENT[ACTION]:ON_TRANSITION":
     case "bootExtension":
       return new Style(action);
     case "TOGGLE_DISP_MAIN":
       return { ...state };
     case "API_TO_CLIENT[EMIT]:rank":
+    case "API_TO_CLIENT[EMIT]:tune":
+    case "API_TO_CLIENT[BROADCAST]:tune":
       return {
         ...state,
-        rank: {
-          ...state.rank,
-          ol: Rank.getOl(action),
+        ranks: {
+          ...state.ranks,
+          ol: Ranks.getOl(action),
         },
       };
     case "ON_CLICK_MULTISTREAM":

@@ -1,7 +1,8 @@
+import Post from "api/store/Post";
 import Posts from "api/store/Posts";
 import conf from "common/conf";
 
-export default (state: any = new Posts(), action) => {
+export default (state: Post[] = [], action) => {
   switch (action.type) {
     case "ON_CLICK_MULTISTREAM":
       return action.postsMulti;
@@ -15,8 +16,9 @@ export default (state: any = new Posts(), action) => {
       }
       break;
     case "SERVER_TO_API[BROADCAST]:post":
+      // postMultiは子供の投稿を全て表示する仕様
       if (action.postsMulti && action.postsMulti.length > 0) {
-        if (action.app.rootCh === action.thread.ch) {
+        if (action.app.rootCh === action.postsMulti[0].ch) {
           return [...state, ...action.postsMulti];
         }
       }

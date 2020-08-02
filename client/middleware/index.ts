@@ -47,7 +47,7 @@ const functions = {
         case Ui.extensionModeExtBottomLabel:
           if (!action.ui.isOpenPosts && !action.ui.isDispPosts) {
             const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
-            window.talknWindow.parentExtTo("openNotif", { transition });
+            window.talknWindow.ext.to("openNotif", { transition });
           }
           break;
         case Ui.extensionModeExtModalLabel:
@@ -58,7 +58,7 @@ const functions = {
             let favicon = action.posts[action.posts.length - 1]["favicon"];
             favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
 
-            window.talknWindow.parentExtTo("openNotif", {
+            window.talknWindow.ext.to("openNotif", {
               id,
               post,
               stampId,
@@ -77,7 +77,7 @@ const functions = {
       case Ui.extensionModeExtBottomLabel:
         if (!action.ui.isOpenPosts && !action.ui.isDispPosts) {
           const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
-          window.talknWindow.parentExtTo("openNotif", { transition });
+          window.talknWindow.ext.to("openNotif", { transition });
         }
         break;
       case Ui.extensionModeExtModalLabel:
@@ -87,7 +87,7 @@ const functions = {
           const stampId = action.posts[postLength]["stampId"];
           let favicon = action.posts[postLength]["favicon"];
           favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
-          window.talknWindow.parentExtTo("openNotif", {
+          window.talknWindow.ext.to("openNotif", {
             id,
             post,
             stampId,
@@ -106,8 +106,8 @@ const functions = {
   ON_CLICK_MULTISTREAM: (state, action) => {
     const posts = Posts.getDispPosts(action);
     const postLength = posts && posts.length ? posts.length : 0;
-    if (postLength > 0 && state.rank.length > 0) {
-      action.rank = state.rank.map((mi) => {
+    if (postLength > 0 && state.ranks.length > 0) {
+      action.ranks = state.ranks.map((mi) => {
         if (state.app.rootCh === mi.ch) {
           return {
             ...mi,
@@ -128,7 +128,7 @@ const functions = {
       case Ui.extensionModeExtBottomLabel:
         if (!ui.isOpenPosts && !ui.isDispPosts) {
           const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
-          window.talknWindow.parentExtTo("openNotif", { transition });
+          window.talknWindow.ext.to("openNotif", { transition });
         }
         break;
       case Ui.extensionModeExtModalLabel:
@@ -139,7 +139,7 @@ const functions = {
           const stampId = action.postsTimeline[postsTimelineLength - 1]["stampId"];
           let favicon = action.postsTimeline[postsTimelineLength - 1]["favicon"];
           favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
-          window.talknWindow.parentExtTo("openNotif", {
+          window.talknWindow.ext.to("openNotif", {
             id,
             post,
             stampId,
@@ -179,11 +179,11 @@ const functions = {
     return action;
   },
   ON_RESIZE_START_WINDOW: (state, action) => {
-    action.rank = state.rank;
+    action.ranks = state.ranks;
     return action;
   },
   ON_RESIZE_END_WINDOW: (state, action) => {
-    action.rank = state.rank;
+    action.ranks = state.ranks;
     return action;
   },
   ON_CLICK_TO_MULTI_THREAD: (state, action) => {
@@ -216,7 +216,7 @@ const functions = {
   },
   ON_CHANGE_INPUT_POST: (state, action) => {
     const inputPost = action.ui.inputPost;
-    window.talknWindow.parentExtTo("setInputPost", { inputPost });
+    window.talknWindow.ext.to("setInputPost", { inputPost });
     return action;
   },
   GET_CLIENT_METAS: (state, action) => {

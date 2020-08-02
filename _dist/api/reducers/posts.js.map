@@ -1,0 +1,1 @@
+{"version":3,"file":"posts.js","sourceRoot":"","sources":["../../../api/reducers/posts.ts"],"names":[],"mappings":";;;;;AACA,4DAAoC;AAEpC,kBAAe,CAAC,QAAgB,EAAE,EAAE,MAAM,EAAE,EAAE;IAC5C,OAAO,MAAM,CAAC,KAAK,CAAC,CAAC,CAAC,IAAI,eAAK,CAAC,MAAM,CAAC,KAAK,CAAC,CAAC,CAAC,CAAC,KAAK,CAAC;AACxD,CAAC,CAAC"}

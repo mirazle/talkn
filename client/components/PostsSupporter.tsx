@@ -122,7 +122,7 @@ export default class PostsSupporter extends TalknComponent<PostsSupporterProps, 
                 inputStampId: stampId,
                 inputCurrentTime: 0,
               };
-              this.coreApi("post", { app });
+              this.api("post", { app });
               this.clientAction("CLOSE_DISP_POSTS_SUPPORTER", { ui: { isOpenPostsSupporter: false } });
             }
             this.setState({ menu: toMenu });

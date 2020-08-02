@@ -9,8 +9,8 @@ import PostsFooter from "./PostsFooter";
 import MenuFooter from "./MenuFooter";
 import Icon from "./Icon";
 import Menu from "./Menu";
-import Rank from "./Menu/Rank";
-import MenuIndexList from "./Menu/MenuIndexList";
+import Ranks from "./Menu/Ranks";
+import Ch from "./Menu/common/Ch";
 import MenuUsers from "./Menu/MenuUsers";
 import LockMenu from "./LockMenu";
 import Posts from "./Posts";
@@ -187,8 +187,8 @@ export default class Style {
   postsFooter: PostsFooter;
   menuFooter: MenuFooter;
   menu: Menu;
-  rank: Rank;
-  menuIndexList: MenuIndexList;
+  ranks: Ranks;
+  ch: Ch;
   menuUsers: MenuUsers;
   extScreen: ExtScreen;
   lockMenu: LockMenu;
@@ -215,8 +215,8 @@ export default class Style {
     const postsFooter = new PostsFooter(params);
     const menuFooter = new MenuFooter(params);
     const menu = new Menu(params);
-    const rank = new Rank(params);
-    const menuIndexList = new MenuIndexList(params);
+    const ranks = new Ranks(params);
+    const ch = new Ch(params);
     const menuUsers = new MenuUsers(params);
     const extScreen = new ExtScreen(params);
     const lockMenu = new LockMenu(params);
@@ -244,8 +244,8 @@ export default class Style {
       menuFooter,
       detailFooter,
       menu,
-      rank,
-      menuIndexList,
+      ranks,
+      ch,
       menuUsers,
       extScreen,
       lockMenu,
@@ -266,7 +266,7 @@ export default class Style {
     };
   }
 
-  static get(styles = { layout: {}, content: {}, animation: {} }): Object {
+  static get(styles = { layout: {}, content: {}, animation: {} }): React.CSSProperties {
     return { ...styles.layout, ...styles.content, ...styles.animation };
   }
 

@@ -1,4 +1,16 @@
+import Sequence from "api/Sequence";
 export default class PostMessage {
+  // HANDLE CLIENT AND WSAPI
+  static get HANDLE_CLIENT_AND_WSAPI() {
+    return "HANDLE_CLIENT_AND_WSAPI";
+  }
+  static get WSAPI_TO_CLIENT_TYPE() {
+    return "WSAPI_TO_CLIENT_TYPE";
+  }
+  static get CLIENT_TO_WSAPI_TYPE() {
+    return "CLIENT_TO_WSAPI_TYPE";
+  }
+
   // HANDLE_API_AND_CLIENT
   static get HANDLE_API_AND_CLIENT() {
     return "HANDLE_API_AND_CLIENT";
@@ -23,7 +35,7 @@ export default class PostMessage {
 
   // HANDLE_CLIENT_AND_EXT
   static get HANDLE_EXT_AND_CLIENT() {
-    return "bootExtension";
+    return "handleExtAndClient";
   }
   static get CLIENT_TO_EXT_TYPE() {
     return "CLIENT_TO_EXT_TYPE";
@@ -31,4 +43,41 @@ export default class PostMessage {
   static get EXT_TO_CLIENT_TYPE() {
     return "EXT_TO_CLIENT_TYPE";
   }
+  static convertApiToClientActionType(actionType) {
+    if (actionType.indexOf(Sequence.API_TO_SERVER_REQUEST) === 0) {
+      return actionType.replace(Sequence.API_TO_SERVER_REQUEST, Sequence.API_TO_CLIENT_REQUEST);
+    }
+    if (actionType.indexOf(Sequence.SERVER_TO_API_EMIT) === 0) {
+      return actionType.replace(Sequence.SERVER_TO_API_EMIT, Sequence.API_TO_CLIENT_EMIT);
+    }
+    if (actionType.indexOf(Sequence.SERVER_TO_API_BROADCAST) === 0) {
+      return actionType.replace(Sequence.SERVER_TO_API_BROADCAST, Sequence.API_TO_CLIENT_BROADCAST);
+    }
+    return `API_TO_CLIENT[ACTION]:${actionType}`;
+  }
+  static convertExtToClientActionType(actionType) {
+    return `EXT_TO_CLIENT[ACTION]:${actionType}`;
+  }
 }
+
+// common.
+export const HandleMessageMethod = "handle";
+export const HandleRequestMethod = "handle";
+export type MessageParams = { key: string; value: any } | {};
+
+export type MessageClientAndWsApiType = {
+  id: string;
+  type: typeof PostMessage.WSAPI_TO_CLIENT_TYPE | typeof PostMessage.CLIENT_TO_WSAPI_TYPE;
+  method: string;
+  params?: MessageParams;
+  methodBack?: string;
+};
+
+export type MessageClientAndExtType = {
+  id: string;
+  type: typeof PostMessage.EXT_TO_CLIENT_TYPE | typeof PostMessage.CLIENT_TO_EXT_TYPE;
+  method: string;
+  href: string;
+  params?: MessageParams;
+  methodBack?: string;
+};
