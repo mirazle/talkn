@@ -1,5 +1,7 @@
 import define from "common/define";
 
+let storage = {};
+
 export default class TalknSession {
   static getBaseKey(ch) {
     return `${define.storageKey.baseKey}${ch}`;
@@ -8,9 +10,15 @@ export default class TalknSession {
   static setStorage(rootCh, key, value) {
     if (key) {
       const baseKey = TalknSession.getBaseKey(rootCh);
-      let items = JSON.parse(localStorage.getItem(baseKey));
-      items = JSON.stringify({ ...items, [key]: value });
-      localStorage.setItem(baseKey, items);
+      if (typeof localStorage !== "undefined") {
+        let items = JSON.parse(localStorage.getItem(baseKey));
+        items = JSON.stringify({ ...items, [key]: value });
+        localStorage.setItem(baseKey, items);
+      } else {
+        let items = storage[baseKey] ? storage[baseKey] : {};
+        items = { ...items, [key]: value };
+        storage[baseKey] = items;
+      }
       return true;
     } else {
       return false;
@@ -19,8 +27,13 @@ export default class TalknSession {
 
   static getStorage(rootCh, key) {
     const baseKey = TalknSession.getBaseKey(rootCh);
-    const item = JSON.parse(localStorage.getItem(baseKey));
-    return item && item[key] ? item[key] : {};
+    if (typeof localStorage !== "undefined") {
+      const item = JSON.parse(localStorage.getItem(baseKey));
+      return item && item[key] ? item[key] : {};
+    } else {
+      let items = storage[baseKey] ? storage[baseKey] : {};
+      return items[key] ? items[key] : {};
+    }
   }
 
   static getCaches(rootCh) {

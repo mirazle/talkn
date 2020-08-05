@@ -63,17 +63,23 @@ export default class Threads {
     condition.postCnt = { $ne: 0 };
     condition.layer = { $gt: layer };
 
-    if (app.findType !== Thread.findTypeAll) {
-      condition.findType = app.findType;
+    if (app.findType === Thread.findTypeAll) {
+    } else if (app.findType === Thread.findTypeOther) {
+      condition["$and"] = [
+        { ["lastPost.findType"]: { $ne: Thread.findTypeHtml } },
+        { ["lastPost.findType"]: { $ne: Thread.findTypeVideo } },
+        { ["lastPost.findType"]: { $ne: Thread.findTypeMusic } },
+      ];
+    } else {
+      condition["lastPost.findType"] = app.findType;
     }
-
+    console.log(condition);
     const selector = { "serverMetas.title": 1, lastPost: 1, liveCnt: 1 };
     const option = {
       sort: { liveCnt: -1, layer: -1 },
       limit: setting.server.getThreadChildrenCnt,
     };
     const { response } = await this.collection.find(condition, selector, option);
-    console.log(response);
     return response.map((res) => ({
       ...res.lastPost,
       title: res.serverMetas.title,
@@ -180,7 +186,6 @@ export default class Threads {
     if (thread.favicon !== Favicon.defaultFaviconPath && thread.lastPost.favicon === Favicon.defaultFaviconPath) {
       thread.lastPost.favicon = thread.favicon;
     }
-
     return thread;
   }
 

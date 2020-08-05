@@ -138,7 +138,7 @@ export default class Sequence {
           thread: ["findType", "title", "protocol", "ch", "chs", "emotions", "favicon", "contentType"],
         },
         responseEmitState: {},
-        responseBroadcastState: { posts: "*", thread: ["ch", "emotions", "postCnt"] },
+        responseBroadcastState: { posts: "*", thread: ["ch", "emotions", "postCnt"], user: ["uid"] },
       },
       updateThreadServerMetas: {
         requestPublicState: { thread: ["serverMetas"] },

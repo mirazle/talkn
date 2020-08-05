@@ -10,11 +10,13 @@ import WsServerToApiEmitAction from "api/actions/ws/serverToApiEmit";
 import WsClientToApiRequestActions from "api/actions/ws/apiToServerRequest";
 import WsServerToApiBroadcastAction from "api/actions/ws/serverToApiBradcast";
 
+type Store = any;
+
 class Ws {
   webWorker: WebWorker;
-  store: any;
+  store: Store;
   io: SocketIOClient.Socket;
-  callbacks: { key: Function } | {} = {};
+  publicCallbacks: { key: Function } | {} = {};
   static get server() {
     return conf.env === define.DEVELOPMENT || conf.env === define.LOCALHOST
       ? define.DEVELOPMENT_DOMAIN
@@ -39,6 +41,10 @@ class Ws {
     this.onResponseMeAPI();
   }
 
+  public exe(method, params: Store) {
+    this[method](params);
+  }
+
   private connect() {
     this.webWorker.postMessage("GET_BOOT_OPTION", {}, "setUp");
   }
@@ -59,7 +65,7 @@ class Ws {
         const _requestState = Sequence.getRequestState(actionName, reduxState, requestParams);
         const _actionState = Sequence.getRequestActionState(actionName, requestParams);
         const { requestState, actionState } = beforeFunction(reduxState, _requestState, _actionState);
-        this.callbacks[requestState.type] = callback;
+        this.publicCallbacks[requestState.type] = callback;
         this.io.emit(requestState.type, requestState);
         return this.store.dispatch(actionState);
       };
@@ -84,7 +90,7 @@ class Ws {
     this.on(Sequence.CATCH_ME_KEY, callback);
   }
 
-  private onResponseChAPI(ch) {
+  public onResponseChAPI(ch) {
     const getResponseChAPI = (actionMethod) => {
       return (response) => {
         const actionState = actionMethod(response);
@@ -96,7 +102,7 @@ class Ws {
     this.on(ch, callback);
   }
 
-  private offResponseChAPI(ch) {
+  public offResponseChAPI(ch) {
     this.off(ch);
   }
 
@@ -124,17 +130,17 @@ class Ws {
     const { actionType, actionName } = Sequence.getSequenceActionMap(method);
     if (actionName !== Sequence.API_BROADCAST_CALLBACK) {
       if (actionType === Sequence.API_RESPONSE_TYPE_EMIT) {
-        if (this.callbacks[actionName]) {
+        if (this.publicCallbacks[actionName]) {
           const { posts, thread, user } = apiState;
-          this.callbacks[actionName](apiState, { posts, thread, uid: user.uid });
+          this.publicCallbacks[actionName](apiState, { posts, thread, uid: user.uid });
         }
       }
     }
 
     if (actionType === Sequence.API_RESPONSE_TYPE_BROADCAST) {
-      if (this.callbacks[Sequence.API_BROADCAST_CALLBACK]) {
+      if (this.publicCallbacks[Sequence.API_BROADCAST_CALLBACK]) {
         const { posts, thread, user } = apiState;
-        this.callbacks[Sequence.API_BROADCAST_CALLBACK](actionName, { posts, thread, uid: user.uid });
+        this.publicCallbacks[Sequence.API_BROADCAST_CALLBACK](actionName, { posts, thread, uid: user.uid });
       }
     }
   }
@@ -153,6 +159,7 @@ export default class WebWorker {
     this.worker = worker;
     this.worker.onerror = this.onMessageError;
     this.worker.onmessage = this.onMessage;
+
     this.ws = new Ws(this);
   }
 
@@ -170,7 +177,7 @@ export default class WebWorker {
     const { type, method, params }: MessageClientAndWsApiType = e.data;
     if (type === PostMessage.CLIENT_TO_WSAPI_TYPE) {
       if (this.ws[method] && typeof this.ws[method] === "function") {
-        this.ws[method](params);
+        this.ws.exe(method, params);
       }
     }
   }

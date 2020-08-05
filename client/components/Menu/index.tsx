@@ -56,6 +56,7 @@ export default class Menuextends extends TalknComponent<Props, {}> {
               <option>{Thread.findTypeHtml}</option>
               <option>{Thread.findTypeMusic}</option>
               <option>{Thread.findTypeVideo}</option>
+              <option>{Thread.findTypeOther}</option>
             </select>
             <Label htmlFor={"ch"} />
           </div>

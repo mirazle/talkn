@@ -1,6 +1,5 @@
 import define from "common/define";
 import App from "api/store/App";
-import Ui from "client/store/Ui";
 import TalknSession from "client/operations/TalknSession";
 
 export default {
