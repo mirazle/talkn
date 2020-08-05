@@ -120,13 +120,14 @@ export default {
     // App.
     app = Collections.getNewApp(requestState.type, app, threadStatus, thread, posts);
 
+    /*
     // Userss
     const isTune = await Logics.db.users.isTuneUser(uid, ch);
     if (!isTune) {
       //      Logics.db.users.update(uid, ch);
       //      Logics.db.threads.tune(thread, +1);
     }
-
+*/
     Logics.io.fetchPosts(ioUser, { requestState, thread, posts, app });
   },
 

@@ -29,7 +29,7 @@ export default class Favicon {
   }
 
   async fetch(thread, iconHrefs) {
-    const log = true;
+    const log = false;
     return new Promise((resolve, reject) => {
       const faviconDatas = this.getFaviconDatas(thread, iconHrefs);
 

@@ -347,10 +347,6 @@ export default class Thread extends Schema {
       if (contentType.indexOf(";") > 0) {
         splitedContentType = contentType.split(";")[0];
       }
-      if (contentType.indexOf("/") > 0) {
-        splitedContentType = contentType.split("/")[0];
-      }
-
       if (findTypeHtml.includes(splitedContentType)) {
         findType = Thread.findTypeHtml;
       }

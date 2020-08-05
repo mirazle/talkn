@@ -2,6 +2,7 @@ import WsApiWorker from "worker-loader?publicPath=/&name=worker.js!./ws.api.work
 import conf from "common/conf";
 import define from "common/define";
 import BootOption from "common/BootOption";
+import Media from "common/Media";
 import { default as PostsSchems } from "api/store/Posts";
 import App from "api/store/App";
 import PostMessage, { MessageClientAndWsApiType, MessageClientAndExtType, MessageParams } from "common/PostMessage";
@@ -25,7 +26,7 @@ declare global {
     easeInOutQuad: any;
   }
 }
-
+console.log(Media);
 export default class Window {
   id: string = define.APP_TYPES.PORTAL;
   bootOption: BootOption;
@@ -34,6 +35,7 @@ export default class Window {
   parentHref: string = location.href;
   ext: Ext;
   dom: Dom;
+  media: Media;
   constructor() {
     TalknSetup.setupMath();
 
@@ -50,6 +52,8 @@ export default class Window {
     this.postMessage = this.postMessage.bind(this);
     this.onMessage = this.onMessage.bind(this);
     this.onError = this.onError.bind(this);
+    this.beforeMedia = this.beforeMedia.bind(this);
+    this.afterMedia = this.afterMedia.bind(this);
     this.wsApi = new WsApiWorker();
     this.wsApi.onerror = this.onError;
     this.wsApi.onmessage = this.onMessage;
@@ -59,6 +63,9 @@ export default class Window {
 
     // dom
     this.dom = new Dom(this);
+
+    // media.
+    this.media = new Media();
   }
 
   public api(method: string, params: MessageParams = {}): void {
@@ -108,8 +115,52 @@ export default class Window {
       }
     }
   }
+
   private onError(e: ErrorEvent): void {
     console.warn(e);
+  }
+
+  private beforeMedia({ method, params, store }) {
+    if (store.getState().app.isMediaCh) {
+      if (method === "post") {
+        // 自分のpostsのみMediaに反映する
+        params.app.inputCurrentTime = this.media.currentTime > 0 ? this.media.currentTime : 0;
+      }
+    }
+    return params;
+  }
+
+  private afterMedia(state) {
+    switch (state.app.actioned) {
+      case "SERVER_TO_API[EMIT]:fetchPosts":
+        if (state.app.isMediaCh) {
+          // 見ているchがmediaChでなく、mediaの再生を始めた場合
+          if (this.media.status === "finding" && this.media.ch === state.thread.ch) {
+            this.media.setPostsTimelines(state);
+            this.media.playing();
+
+            // 見ているchがmediaChの場合
+          } else {
+            this.media = new Media(/*this.ws*/);
+            this.media.searching();
+          }
+        } else {
+          this.media = new Media(/*this.ws*/);
+          this.media.searching();
+        }
+        break;
+      case "SERVER_TO_API[BROADCAST]:post":
+        if (state.app.isMediaCh) {
+          const post = state.posts[0];
+          if (post.ch === this.media.ch) {
+            // 自分の投稿したpostの場合
+            if (post.uid === state.user.uid) {
+              this.media.refrectSelfPost(post);
+            }
+          }
+        }
+        break;
+    }
   }
 }
 

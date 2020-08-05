@@ -76,11 +76,11 @@ export default class Io {
     const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, {
       posts,
       thread,
+      user: requestState.user,
       rank: posts,
     });
     const chs = posts[0].chs;
-    console.log("-----");
-    console.log(responseBroadcastState.thread);
+
     chs.forEach((ch) => {
       // responseBroadcastState.thread.ch = ch;
       responseBroadcastState.posts[0].ch = ch;

@@ -120,7 +120,7 @@ export default class Posts {
     const blockSize = Container.getBlockSize({ app, ui });
     let padding = "0";
     if (app.isMediaCh) {
-      padding = `${blockSize}px 0 ${blockSize}px 0`;
+      padding = `${blockSize * 2.3}px 0 ${blockSize}px 0`;
     } else {
       if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
         switch (ui.screenMode) {
