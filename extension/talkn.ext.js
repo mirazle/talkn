@@ -707,6 +707,7 @@ class MediaServer {
     clearInterval(this.playIntervalId);
 
     // methods.
+    this.setClientParams = this.setClientParams.bind(this);
     this.searching = this.searching.bind(this);
     this.handleEvents = this.handleEvents.bind(this);
     this.play = this.play.bind(this);
@@ -727,6 +728,10 @@ class MediaServer {
     this.log("SET STATUS");
   }
 
+  setClientParams(params) {
+    this.ch = params.thread.ch;
+  }
+
   onError(e) {
     console.warn(e);
   }
@@ -735,6 +740,11 @@ class MediaServer {
     const { type, method, params } = e.data;
     if (type === "MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE") {
       console.log(e.data);
+      if (this[method] && typeof this[method] === "function") {
+        this.setClientParams(params);
+        console.log(this.ch);
+        this[method]();
+      }
     }
   }
 
@@ -778,6 +788,7 @@ class MediaServer {
   }
 
   handleEvents(media) {
+    /*
     const { iframes } = this.window.ins;
     this.window.iframeKeys.forEach((iFrameId) => {
       const iframe = iframes[iFrameId];
@@ -801,6 +812,7 @@ class MediaServer {
         });
       }
     });
+  */
     media.addEventListener("play", this.play);
     media.addEventListener("pause", this.pause);
     media.addEventListener("ended", this.ended);
