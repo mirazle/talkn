@@ -747,12 +747,10 @@ class MediaServer {
     const { iframes } = this.window.ins;
     this.window.iframeKeys.forEach((iFrameId) => {
       const iframe = iframes[iFrameId];
-      if (iframe.state.thread.ch) {
-        console.log("@@@@@@@@@@@@@@@@@@@");
-        console.log(iframe.state.thread.ch);
-        console.log(this.ch);
-        console.log("@@@@@@@@@@@@@@@@@@@");
-      }
+      console.log("@@@@@@@@@@@@@@@@@@@");
+      console.log(iframe.state.thread.links);
+      console.log(this.ch);
+      console.log("@@@@@@@@@@@@@@@@@@@");
       const params = {
         ch: this.ch,
         status: this.status.toLowerCase(),
