@@ -120,7 +120,6 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
   }
 
   render() {
-    console.log("BOARD");
     const { app, ui } = this.props.state;
     const type = BoardStyle.getType({ app, ui });
     switch (type) {

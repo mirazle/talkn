@@ -291,25 +291,19 @@ export default class App extends Schema {
       return updatedApp;
     }
 
-    if (clicked === "Links") {
+    if (clicked === "Links" && rank.length > 0) {
       const haveMenuIndex = rank.some((mi) => {
         return mi.ch === toCh || mi.ch === toCh + "/";
       });
 
-      if (log) {
-        console.log("C " + haveMenuIndex + "");
-      }
+      if (log) console.log("C " + haveMenuIndex + "");
 
       if (!haveMenuIndex) {
-        if (log) {
-          console.log("D");
-        }
+        if (log) console.log("D");
 
         updatedApp.offsetFindId = App.defaultOffsetFindId;
         updatedApp.dispThreadType = App.dispThreadTypeChild;
-        //        ui.isOpenLinks = false;
         updatedApp.isLinkCh = true;
-        // app.isOpenMenu = true;
         return updatedApp;
       }
     }
