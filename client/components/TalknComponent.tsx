@@ -36,10 +36,11 @@ export default class TalknComponent<P, S> extends Component<P, S> {
   }
 
   onClickCh(toCh, ui, overWriteHasSlash, clicked) {
-    let { app, thread, rank, setting } = this.clientState;
+    let { app, thread, ranks, setting } = this.clientState;
     const beforeCh = thread.ch;
     thread.ch = toCh;
-    console.log(rank);
+
+    console.log(ranks);
     ui.clicked = clicked;
     ui.isOpenLinks = false;
     ui.isOpenMenu = ui.screenMode === Ui.screenModeSmallLabel ? ui.isOpenMenu : false;
@@ -47,7 +48,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
 
     if (Schema.isSet(overWriteHasSlash)) thread.hasSlash = overWriteHasSlash;
     const threadStatus = Thread.getStatus(thread, app, setting);
-    let { app: updatedApp, stepTo } = App.getStepToDispThreadType({ app, rank }, threadStatus, toCh, clicked);
+    let { app: updatedApp, stepTo } = App.getStepToDispThreadType({ app, ranks }, threadStatus, toCh, clicked);
 
     if (!app.isLinkCh && updatedApp.isLinkCh) this.api("on", toCh);
     if (app.isLinkCh && !updatedApp.isLinkCh) this.api("off", beforeCh);
