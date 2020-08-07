@@ -729,7 +729,7 @@ class MediaServer {
   }
 
   setClientParams(params) {
-    this.ch = params.thread.ch;
+    this.ch = params.ch;
   }
 
   onError(e) {
@@ -739,10 +739,8 @@ class MediaServer {
   onMessage(e) {
     const { type, method, params } = e.data;
     if (type === "MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE") {
-      console.log(e.data);
       if (this[method] && typeof this[method] === "function") {
         this.setClientParams(params);
-        console.log(this.ch);
         this[method]();
       }
     }
@@ -813,6 +811,9 @@ class MediaServer {
       }
     });
   */
+    if (this.ch) {
+      console.log(this.ch);
+    }
     media.addEventListener("play", this.play);
     media.addEventListener("pause", this.pause);
     media.addEventListener("ended", this.ended);
