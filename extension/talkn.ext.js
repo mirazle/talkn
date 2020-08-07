@@ -686,6 +686,7 @@ class MediaServer {
     this.status = MediaServer.STATUS_STANBY;
 
     // postMessage to iframe ids.
+    this.iframes = {};
     this.onError = this.onError.bind(this);
     this.onMessage = this.onMessage.bind(this);
     this.postMessage = this.postMessage.bind(this);
@@ -717,14 +718,14 @@ class MediaServer {
     this.searching();
   }
 
-  setStatus(status) {
-    this.status = status;
-    this.log("SET STATUS");
-  }
-
   listenMessage() {
     window.onmessage = this.onMessage;
     window.onerror = this.onError;
+  }
+
+  setStatus(status) {
+    this.status = status;
+    this.log("SET STATUS");
   }
 
   onError(e) {
@@ -768,47 +769,46 @@ class MediaServer {
         } else {
           this.searchingCnt++;
         }
+      } else {
+        this.setStatus(MediaServer.STATUS_ENDED);
       }
     }, MediaServer.mediaSecondInterval);
   }
 
   handleEvents(media) {
+    const { iframes } = this.window.ins;
+    this.window.iframeKeys.forEach((iFrameId) => {
+      const iframe = iframes[iFrameId];
+      const { audios, videos } = iframe.state.thread;
+      console.log(audios);
+      console.log(videos);
+      audios.forEach((audio) => {
+        if (media.src.indexOf(audio.src) >= 0) {
+          this.iframes[iFrameId] = iframe;
+        }
+      });
+      videos.forEach((video) => {
+        if (media.src.indexOf(video.src) >= 0) {
+          this.iframes[iFrameId] = iframe;
+        }
+      });
+    });
     media.addEventListener("play", this.play);
     media.addEventListener("pause", this.pause);
     media.addEventListener("ended", this.ended);
   }
 
-  isPlay() {}
-
   play(e) {
-    const { iframes } = this.window.ins;
     this.file = e.srcElement;
     this.ch = this.file.currentSrc.replace("https:/", "").replace("https:", "") + "/";
-    const exe = (iframe) => {
-      this.setStatus(MediaServer.STATUS_PLAY);
-      clearInterval(this.playIntervalId);
-      this.playIntervalId = setInterval(() => {
-        if (this.status !== "STANBY") {
-          this.postMessage(iframe);
-        }
-      }, this.mediaSecondInterval);
-    };
 
-    this.window.iframeKeys.forEach((iFrameId) => {
-      const iframe = iframes[iFrameId];
-      const { audios, videos } = iframe.state.thread;
-
-      audios.forEach((audio) => {
-        if (this.ch.indexOf(audio.src) >= 0) {
-          exe(iframe);
-        }
-      });
-      videos.forEach((video) => {
-        if (this.ch.indexOf(video.src) >= 0) {
-          exe(iframe);
-        }
-      });
-    });
+    this.setStatus(MediaServer.STATUS_PLAY);
+    clearInterval(this.playIntervalId);
+    this.playIntervalId = setInterval(() => {
+      if (this.status !== "STANBY") {
+        this.postMessage(iframe);
+      }
+    }, this.mediaSecondInterval);
   }
 
   pause(e) {
