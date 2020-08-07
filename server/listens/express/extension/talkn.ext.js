@@ -103,6 +103,9 @@ class Ext {
     }
   }
   static get APP_ASSETS_HOST() {
+    if ((location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`)) {
+      return `//assets.${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
+    }
     if (TALKN_EXT_ENV === "PROD") {
       return `//assets.${Ext.BASE_PROD_HOST}`;
     } else if (TALKN_EXT_ENV === "START") {
@@ -112,6 +115,9 @@ class Ext {
     }
   }
   static get APP_EXT_HOST() {
+    if ((location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`)) {
+      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
+    }
     if (TALKN_EXT_ENV === "PROD") {
       return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_PROD_HOST}`;
     } else if (TALKN_EXT_ENV === "START") {
@@ -744,6 +750,10 @@ class MediaServer {
     this.window.iframeKeys.forEach((iFrameId) => {
       const iframe = iframes[iFrameId];
       if (iframe.state.thread.ch) {
+        console.log("@@@@@@@@@@@@@@@@@@@");
+        console.log(iframe.state.thread.ch);
+        console.log(this.ch);
+        console.log("@@@@@@@@@@@@@@@@@@@");
       }
       const params = {
         ch: this.ch,
