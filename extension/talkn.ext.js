@@ -738,27 +738,13 @@ class MediaServer {
     }
   }
 
-  postMessage() {
-    // TODO:
-    // iframeのchとplayするchが同じ場合、もしくは
-    // playするchからiframeのchを削除したらmediaファイル名になったらpostMessageして良い
-    // ( iframeのurl内に存在するmediaファイルであるから )
-
-    const { iframes } = this.window.ins;
-    this.window.iframeKeys.forEach((iFrameId) => {
-      const iframe = iframes[iFrameId];
-      console.log("@@@@@@@@@@@@@@@@@@@");
-      console.log(iframe.state.thread.audios);
-      console.log(iframe.state.thread.videos);
-      console.log(this.ch);
-      console.log("@@@@@@@@@@@@@@@@@@@");
-      const params = {
-        ch: this.ch,
-        status: this.status.toLowerCase(),
-        currentTime: this.currentTime,
-      };
-      iframe.mediaToClient(this.status, params);
-    });
+  postMessage(iframe) {
+    const params = {
+      ch: this.ch,
+      status: this.status.toLowerCase(),
+      currentTime: this.currentTime,
+    };
+    iframe.mediaToClient(this.status, params);
   }
 
   searching() {
@@ -792,19 +778,36 @@ class MediaServer {
     media.addEventListener("ended", this.ended);
   }
 
+  isPlay() {}
+
   play(e) {
-    this.setStatus(MediaServer.STATUS_PLAY);
+    const { iframes } = this.window.ins;
     this.file = e.srcElement;
     this.ch = this.file.currentSrc.replace("https:/", "").replace("https:", "") + "/";
+    const exe = (iframe) => {
+      this.setStatus(MediaServer.STATUS_PLAY);
+      clearInterval(this.playIntervalId);
+      this.playIntervalId = setInterval(() => {
+        if (this.status !== "STANBY") {
+          this.postMessage(iframe);
+        }
+      }, this.mediaSecondInterval);
+    };
 
-    clearInterval(this.playIntervalId);
+    this.window.iframeKeys.forEach((iFrameId) => {
+      const { audio, videos } = iframes[iFrameId].state.thread;
 
-    // postMessage
-    this.playIntervalId = setInterval(() => {
-      if (this.status !== "STANBY") {
-        this.postMessage();
-      }
-    }, this.mediaSecondInterval);
+      audios.forEach((audio) => {
+        if (this.ch.indexOf(audio.src) >= 0) {
+          exe(iframe);
+        }
+      });
+      videos.forEach((video) => {
+        if (this.ch.indexOf(video.src) >= 0) {
+          exe(iframe);
+        }
+      });
+    });
   }
 
   pause(e) {
