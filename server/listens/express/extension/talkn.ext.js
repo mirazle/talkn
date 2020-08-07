@@ -213,6 +213,7 @@ class BootOption {
   getCh(ch) {
     ch = ch.replace("https:/", "").replace("http:/", "");
     ch = ch.replace(`${Ext.IS_DEVELOPMENT_MODE}/`, "").replace(Ext.IS_DEVELOPMENT_MODE, "");
+    console.log(ch);
     return ch.endsWith("/") ? ch : ch + "/";
   }
   getProtocol(ch) {
