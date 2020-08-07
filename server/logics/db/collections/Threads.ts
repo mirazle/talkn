@@ -73,7 +73,7 @@ export default class Threads {
     } else {
       condition["lastPost.findType"] = app.findType;
     }
-    console.log(condition);
+
     const selector = { "serverMetas.title": 1, lastPost: 1, liveCnt: 1 };
     const option = {
       sort: { liveCnt: -1, layer: -1 },

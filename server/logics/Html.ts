@@ -9,7 +9,7 @@ import MongoDB from "server/listens/db/MongoDB";
 import Logics from "server/logics";
 import HtmlSchema from "server/schemas/logics/html";
 
-const log = false;
+const log = true;
 
 export default class Html {
   static get checkSpace() {
@@ -67,6 +67,7 @@ export default class Html {
 
   exeFetch(protocol, url) {
     return new Promise((resolve, reject) => {
+      // url = "www.talkn.io";
       const option = { method: "GET", encoding: "binary", url };
 
       if (log) console.log("Fetch Html " + url);
@@ -74,16 +75,19 @@ export default class Html {
       // localhost is not get.
       request(option, (error, response, body) => {
         let responseSchema = MongoDB.getDefineSchemaObj(new HtmlSchema({}));
+        console.log(error);
+
         if (!error && response && response.statusCode === 200) {
           const contentType = response.headers["content-type"];
           let iconHrefs = [];
-
           responseSchema.contentType = contentType;
           responseSchema.protocol = protocol;
           if (App.isMediaContentType(contentType)) {
+            console.log("A");
             responseSchema.title = this.getTitle(null, url, contentType);
             responseSchema.serverMetas.title = responseSchema.title;
           } else {
+            console.log("");
             const utf8Body = this.toUtf8Str(body, contentType);
             const $ = cheerio.load(utf8Body);
             iconHrefs = this.getIconHrefs($);
@@ -150,6 +154,7 @@ export default class Html {
 
   getAudios($) {
     const audioLength = $("body audio").length;
+    console.log("AUDIO " + audioLength);
     let audios = [];
     for (let i = 0; i < audioLength; i++) {
       const audio = $("audio").get(i);

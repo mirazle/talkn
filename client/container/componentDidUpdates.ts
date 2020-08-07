@@ -15,12 +15,6 @@ export default (self, constructorName) => {
 
 const componentDidUpdates = {
   Container: {
-    "API_TO_CLIENT[BROADCAST]:tune": (self) => {
-      window.talknWindow.ext.to("tune", self.props.state);
-    },
-    "API_TO_CLIENT[BROADCAST]:disconnect": (self) => {
-      window.talknWindow.ext.to("disconnect", self.props.state);
-    },
     "API_TO_CLIENT[EMIT]:fetchPosts": (self) => {
       const { app, ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");

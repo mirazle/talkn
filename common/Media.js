@@ -100,6 +100,7 @@ export default class Media {
           clearInterval(this.searchingId);
           clearInterval(this.playIntervalId);
         } else {
+          console.log(this.searchingCnt++);
           this.searchingCnt++;
         }
       } else {

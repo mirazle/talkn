@@ -14,6 +14,7 @@ import Render from "client/App";
 import TalknComponent from "client/components/TalknComponent";
 import Ui from "client/store/Ui";
 import UiTimeMarker from "client/store/UiTimeMarker";
+import Sequence from "api/Sequence";
 
 declare global {
   interface Window {
@@ -26,7 +27,7 @@ declare global {
     easeInOutQuad: any;
   }
 }
-console.log(Media);
+
 export default class Window {
   id: string = define.APP_TYPES.PORTAL;
   bootOption: BootOption;
@@ -34,12 +35,12 @@ export default class Window {
   store: any = clientStore();
   parentHref: string = location.href;
   ext: Ext;
+  mediaClient: MediaClient;
   dom: Dom;
-  media: Media;
   constructor() {
     TalknSetup.setupMath();
 
-    // store.
+    // client store.
     this.bootOption = new BootOption(this.id);
     const apiState = new ApiState(this.bootOption);
     const clientState = new ClientState(apiState);
@@ -52,8 +53,6 @@ export default class Window {
     this.postMessage = this.postMessage.bind(this);
     this.onMessage = this.onMessage.bind(this);
     this.onError = this.onError.bind(this);
-    this.beforeMedia = this.beforeMedia.bind(this);
-    this.afterMedia = this.afterMedia.bind(this);
     this.wsApi = new WsApiWorker();
     this.wsApi.onerror = this.onError;
     this.wsApi.onmessage = this.onMessage;
@@ -61,11 +60,13 @@ export default class Window {
     // handle ext.
     this.ext = new Ext(this);
 
-    // dom
-    this.dom = new Dom(this);
-
     // media.
-    this.media = new Media();
+    this.mediaClient = new MediaClient(this);
+    this.wsApiBeforeMediaFilter = this.wsApiBeforeMediaFilter.bind(this);
+    this.wsApiAfterMediaFilter = this.wsApiAfterMediaFilter.bind(this);
+
+    // dom.
+    this.dom = new Dom(this);
   }
 
   public api(method: string, params: MessageParams = {}): void {
@@ -85,28 +86,35 @@ export default class Window {
       method,
       params,
     };
+    this.wsApiBeforeMediaFilter({ method, params });
     this.wsApi.postMessage(message);
   }
 
   private onMessage(e: MessageEvent): void {
     const { currentTarget, data } = e;
+    const { type, method, params, methodBack }: MessageClientAndWsApiType = data;
     if (currentTarget instanceof Worker) {
-      const { type, method, params, methodBack }: MessageClientAndWsApiType = data;
       if (type === PostMessage.WSAPI_TO_CLIENT_TYPE) {
         const actionType = PostMessage.convertApiToClientActionType(method);
+        const state = { ...params, type: actionType };
 
         // client.
-        this.store.dispatch({ ...params, type: actionType });
+        this.store.dispatch(state);
 
-        // ws api.
+        // back ws api.
         if (WsApiResponseCallbacks[method] && typeof WsApiResponseCallbacks[method] === "function") {
           const backParams = WsApiResponseCallbacks[method](this, params);
 
-          // api back
           if (methodBack) {
             this.postMessage(methodBack, backParams);
           }
         }
+
+        // ext
+        this.ext.to(method, params);
+
+        // media
+        this.wsApiAfterMediaFilter({ method, params, state });
 
         // finnish handle ws api.
         if (method === `SETUPED_API_STORE`) {
@@ -120,42 +128,46 @@ export default class Window {
     console.warn(e);
   }
 
-  private beforeMedia({ method, params, store }) {
-    if (store.getState().app.isMediaCh) {
-      if (method === "post") {
-        // 自分のpostsのみMediaに反映する
-        params.app.inputCurrentTime = this.media.currentTime > 0 ? this.media.currentTime : 0;
+  private wsApiBeforeMediaFilter({ method, params }) {
+    if (method === "post") {
+      const state = this.store.getState();
+      if (state.app.isMediaCh) {
+        // 投稿時に自分のpostsのみMediaに反映する
+        // 投稿時にメディアの再生秒数を反映する
+        params.app.inputCurrentTime = this.mediaClient.pointerTime > 0 ? this.mediaClient.pointerTime : 0;
       }
     }
     return params;
   }
 
-  private afterMedia(state) {
-    switch (state.app.actioned) {
-      case "SERVER_TO_API[EMIT]:fetchPosts":
+  private wsApiAfterMediaFilter({ method, params, state }) {
+    switch (method) {
+      case "SERVER_TO_API[EMIT]:tune":
+        /*
         if (state.app.isMediaCh) {
-          // 見ているchがmediaChでなく、mediaの再生を始めた場合
-          if (this.media.status === "finding" && this.media.ch === state.thread.ch) {
-            this.media.setPostsTimelines(state);
-            this.media.playing();
+          // 見ているchがmediaChでなく、埋め込まれているmediaの再生を始めた場合
+          if (this.mediaClient.status === "SEARCH" && this.mediaClient.ch === state.thread.ch) {
+            this.mediaClient.setPostsTimelines(state);
+            this.mediaClient.play();
 
             // 見ているchがmediaChの場合
           } else {
-            this.media = new Media(/*this.ws*/);
-            this.media.searching();
+            this.mediaClient = new MediaClient(this);
+            this.mediaClient.searching();
           }
         } else {
-          this.media = new Media(/*this.ws*/);
-          this.media.searching();
+          this.mediaClient = new MediaClient(this);
+          this.mediaClient.searching();
         }
+        */
         break;
       case "SERVER_TO_API[BROADCAST]:post":
         if (state.app.isMediaCh) {
           const post = state.posts[0];
-          if (post.ch === this.media.ch) {
+          if (post.ch === this.mediaClient.ch) {
             // 自分の投稿したpostの場合
             if (post.uid === state.user.uid) {
-              this.media.refrectSelfPost(post);
+              this.mediaClient.refrectSelfPost(post);
             }
           }
         }
@@ -177,6 +189,9 @@ class Ext {
   }
 
   public to(method: string, params: MessageParams = {}): void {
+    if (method.indexOf(Sequence.METHOD_COLON) >= 0) {
+      method = method.split(Sequence.METHOD_COLON)[1];
+    }
     this.postMessage(method, params);
   }
 
@@ -210,10 +225,79 @@ class Ext {
 
       const actionType = PostMessage.convertExtToClientActionType(method);
       this.window.store.dispatch({ ...params, type: actionType });
+    } else if (type === PostMessage.MEDIA_TO_CLIENT_TYPE) {
+      this.window.mediaClient.setServerParams(params);
+      // @ts-ignore
+      this.window.mediaClient[params.status]();
     }
   }
   private onMessageError(e: ErrorEventInit): void {
     console.warn(e);
+  }
+}
+
+class MediaClient {
+  ch: string;
+  status: "SEARCH" | "STANBY" | "PLAY" | "EMBED";
+  pointerTime: number = 0.0;
+  isPosting: boolean = false;
+  window: Window;
+  postsTimeline: any[];
+  postsTimelineStock: any[];
+  constructor(_window: Window) {
+    this.window = _window;
+    this.setPostsTimelines = this.setPostsTimelines.bind(this);
+    this.refrectSelfPost = this.refrectSelfPost.bind(this);
+    this.play = this.play.bind(this);
+    this.stanby = this.stanby.bind(this);
+    this.ended = this.ended.bind(this);
+
+    // timeline datas.
+    this.postsTimeline = [];
+    this.postsTimelineStock = [];
+  }
+
+  setPostsTimelines({ postsTimeline, postsTimelineStock }) {
+    // 現在表示されているタイムライン状態
+    this.postsTimeline = [...postsTimeline];
+
+    // 0秒投稿のタイムライン状態
+    this.postsTimelineStock = [...postsTimelineStock];
+  }
+
+  refrectSelfPost(post) {
+    const length = this.postsTimeline.length;
+    let pushFlg = false;
+    for (let i = 0; i < length; i++) {
+      if (post.currentTime < this.postsTimeline[i].currentTime) {
+        pushFlg = true;
+        this.postsTimeline.splice(i, 0, post);
+      }
+    }
+
+    if (!pushFlg) {
+      this.postsTimeline.push(post);
+    }
+  }
+
+  setServerParams(params) {
+    this.ch = params.ch;
+    this.status = params.status;
+    this.pointerTime = params.currentTime;
+  }
+  search() {}
+
+  stanby(params) {
+    console.log("STANBY");
+  }
+
+  ended(params) {
+    console.log("ENDED");
+  }
+
+  play(pointerTime = 0) {
+    console.log("PLAY");
+    if (this.isPosting) return;
   }
 }
 

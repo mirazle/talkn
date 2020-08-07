@@ -88,9 +88,6 @@ exports.default = {
         thread[postCntKey] = await logics_1.default.db.posts.getCounts(requestState, threadStatus);
         const { response: posts } = await logics_1.default.db.posts.find(requestState, setting, threadStatus);
         app = collections_1.default.getNewApp(requestState.type, app, threadStatus, thread, posts);
-        const isTune = await logics_1.default.db.users.isTuneUser(uid, ch);
-        if (!isTune) {
-        }
         logics_1.default.io.fetchPosts(ioUser, { requestState, thread, posts, app });
     },
     changeThreadDetail: async (ioUser, requestState, setting) => {
