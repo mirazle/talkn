@@ -715,7 +715,6 @@ class MediaServer {
     this.log = this.log.bind(this);
 
     this.listenMessage();
-    this.searching();
   }
 
   listenMessage() {
