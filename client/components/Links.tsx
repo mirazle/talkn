@@ -187,7 +187,6 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
   }
 
   render() {
-    console.log("LINKS");
     const { displayLinks } = this.props;
     const { style } = this.props.state;
     const contents = this.state.linkContents[this.state.linkContentsKey];
