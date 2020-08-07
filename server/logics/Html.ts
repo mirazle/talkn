@@ -160,11 +160,14 @@ export default class Html {
       if (audio.attribs.src) {
         audios.push({ ...audio.attribs });
       }
-
+      console.log(sourceLength);
       for (var j = 0; j < sourceLength; j++) {
         const src = sources[j].attribs.src;
         const splitedTitle = src.split("/");
         const title = splitedTitle[splitedTitle.length - 1];
+        console.log(src);
+        console.log(splitedTitle);
+        console.log(title);
         audios.push({ ...audio.attribs, src, title });
       }
     }
