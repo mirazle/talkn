@@ -71,7 +71,7 @@ export default class Html {
 
       if (log) console.log("Fetch Html " + url);
 
-      // TODO: localhost is not get.
+      // localhost is not get.
       request(option, (error, response, body) => {
         let responseSchema = MongoDB.getDefineSchemaObj(new HtmlSchema({}));
 
@@ -158,17 +158,16 @@ export default class Html {
       const sourceLength = sources.length;
 
       if (audio.attribs.src) {
-        audios.push({ ...audio.attribs });
+        const splitedTitle = audio.attribs.src.split("/");
+        const title = splitedTitle[splitedTitle.length - 1];
+        audios.push({ ...audio.attribs, title });
       }
-      console.log(sourceLength);
+
       for (var j = 0; j < sourceLength; j++) {
         const src = sources[j].attribs.src;
         const splitedTitle = src.split("/");
         const title = splitedTitle[splitedTitle.length - 1];
-        console.log(src);
-        console.log(splitedTitle);
-        console.log(title);
-        audios.push({ ...audio.attribs, src, title });
+        audios.push({ ...audio.attribs, src: sources[j].attribs.src });
       }
     }
     console.log(audios);
