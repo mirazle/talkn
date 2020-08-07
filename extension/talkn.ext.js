@@ -782,16 +782,20 @@ class MediaServer {
       const { audios, videos } = iframe.state.thread;
       console.log(audios);
       console.log(videos);
-      audios.forEach((audio) => {
-        if (media.src.indexOf(audio.src) >= 0) {
-          this.iframes[iFrameId] = iframe;
-        }
-      });
-      videos.forEach((video) => {
-        if (media.src.indexOf(video.src) >= 0) {
-          this.iframes[iFrameId] = iframe;
-        }
-      });
+      if (audios && audios.length > 0) {
+        audios.forEach((audio) => {
+          if (media.src.indexOf(audio.src) >= 0) {
+            this.iframes[iFrameId] = iframe;
+          }
+        });
+      }
+      if (videos && videos.length > 0) {
+        videos.forEach((video) => {
+          if (media.src.indexOf(video.src) >= 0) {
+            this.iframes[iFrameId] = iframe;
+          }
+        });
+      }
     });
     media.addEventListener("play", this.play);
     media.addEventListener("pause", this.pause);
