@@ -87,11 +87,14 @@ class Ext {
   static get DEVELOPMENT_HASH() {
     return "#dev";
   }
+  static get IS_DEVELOPMENT_MODE() {
+    return (location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`);
+  }
   static get INCLUDE_ID() {
     return `#${Ext.APP_NAME}`;
   }
   static get APP_HOST() {
-    if ((location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`)) {
+    if (Ext.IS_DEVELOPMENT_MODE) {
       return `//${Ext.BASE_DEV_HOST}`;
     }
     if (TALKN_EXT_ENV === "PROD") {
@@ -121,8 +124,7 @@ class Ext {
     }
   }
   static get APP_ENDPOINT() {
-    const port =
-      (location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`) ? ":8080" : "";
+    const port = Ext.IS_DEVELOPMENT_MODE ? ":8080" : "";
     return `https:${Ext.APP_HOST}${port}`;
   }
   static get() {
@@ -210,6 +212,7 @@ class BootOption {
   }
   getCh(ch) {
     ch = ch.replace("https:/", "").replace("http:/", "");
+    ch = ch.replace(`${Ext.IS_DEVELOPMENT_MODE}/`, "").replace(Ext.IS_DEVELOPMENT_MODE, "");
     return ch.endsWith("/") ? ch : ch + "/";
   }
   getProtocol(ch) {
