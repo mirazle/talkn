@@ -109,7 +109,6 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
       if (obj[chKey]) {
         const ch = Links.getCh(obj[chKey], thread);
         const hasSlash = obj[chKey].endsWith("/");
-        console.log(obj);
         return (
           <Link
             key={`${chKey}${i}`}
@@ -130,7 +129,7 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
     };
 
     linkContents.html = thread.links.map(getLi("href", "text"));
-    linkContents.music = thread.audios.map(getLi("src", "src"));
+    linkContents.music = thread.audios.map(getLi("src", "title"));
     linkContents.movie = thread.videos.map(getLi("src", "src"));
     linkContents.html.unshift(tuneLi);
     linkContents.music.unshift(tuneLi);

@@ -138,11 +138,16 @@ export default class Html {
       const sourceLength = sources.length;
 
       if (video.attribs.src) {
-        videos.push({ ...video.attribs });
+        const splitedTitle = video.attribs.src.split("/");
+        const title = splitedTitle[splitedTitle.length - 1];
+        videos.push({ ...video.attribs, title });
       }
 
       for (var j = 0; j < sourceLength; j++) {
-        videos.push({ ...videos.attribs, src: sources[j].attribs.src });
+        const src = sources[j].attribs.src;
+        const splitedTitle = src.split("/");
+        const title = splitedTitle[splitedTitle.length - 1];
+        videos.push({ ...videos.attribs, src, title });
       }
     }
     return videos;
@@ -167,10 +172,9 @@ export default class Html {
         const src = sources[j].attribs.src;
         const splitedTitle = src.split("/");
         const title = splitedTitle[splitedTitle.length - 1];
-        audios.push({ ...audio.attribs, src: sources[j].attribs.src });
+        audios.push({ ...audio.attribs, src, title });
       }
     }
-    console.log(audios);
     return audios;
   }
 
