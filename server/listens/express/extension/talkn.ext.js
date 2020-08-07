@@ -115,9 +115,6 @@ class Ext {
     }
   }
   static get APP_EXT_HOST() {
-    if ((location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`)) {
-      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
-    }
     if (TALKN_EXT_ENV === "PROD") {
       return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_PROD_HOST}`;
     } else if (TALKN_EXT_ENV === "START") {
@@ -132,12 +129,8 @@ class Ext {
     return `https:${Ext.APP_HOST}${port}`;
   }
   static get() {
-    console.log(`script[src='${Ext.APP_EXT_HOST}']`);
-    console.log(`script[src='https:${Ext.APP_EXT_HOST}']`);
     const script1 = document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
     const script2 = document.querySelector(`script[src='https:${Ext.APP_EXT_HOST}']`);
-    console.log(script1);
-    console.log(script2);
     if (!script1 && !script2) throw "NO EXIST EXT SCRIPT TAG";
     return script1 || script2;
   }
