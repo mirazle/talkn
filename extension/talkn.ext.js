@@ -686,7 +686,8 @@ class MediaServer {
     this.status = MediaServer.STATUS_STANBY;
 
     // postMessage to iframe ids.
-    this.iframes = {};
+    this.iframes = window.top.document.querySelectorAll(`.${Iframe.CLASS_NAME}`);
+    console.log(this.iframes);
     this.onError = this.onError.bind(this);
     this.onMessage = this.onMessage.bind(this);
     this.postMessage = this.postMessage.bind(this);
@@ -811,9 +812,6 @@ class MediaServer {
       }
     });
   */
-    if (this.ch) {
-      console.log(this.ch);
-    }
     media.addEventListener("play", this.play);
     media.addEventListener("pause", this.pause);
     media.addEventListener("ended", this.ended);
@@ -972,6 +970,9 @@ class Iframe extends ReactMode {
   static get MEDIA_TO_CLIENT_TYPE() {
     return "MEDIA_TO_CLIENT_TYPE";
   }
+  static get CLASS_NAME() {
+    return "talknIframes";
+  }
   static get DEFAULT_MODE() {
     return Iframe.MODE_MODAL;
   }
@@ -1014,6 +1015,7 @@ class Iframe extends ReactMode {
     this.src = this.getSrc();
     this.dom = document.createElement("iframe");
     this.dom.setAttribute("id", this.id);
+    this.dom.setAttribute("class", Iframe.CLASS_NAME);
     this.dom.setAttribute("src", this.src);
     this.dom.setAttribute("frameBorder", 0);
     this.dom.setAttribute("scrolling", "yes");
@@ -1060,8 +1062,6 @@ class Iframe extends ReactMode {
 
   mediaToClient(method, params = {}, methodBack) {
     const requestObj = this.getMediaToClientObj(method, params, methodBack);
-    console.log(this.src);
-    console.log(requestObj);
     this.dom.contentWindow.postMessage(requestObj, this.src);
   }
 
