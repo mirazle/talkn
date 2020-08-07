@@ -50,12 +50,9 @@ const componentDidUpdates = {
       }
     },
     "API_TO_CLIENT[EMIT]:changeThread": (self) => {
-      const { app, ui } = self.props.state;
+      const { ui } = self.props.state;
       if (ui.screenMode === Ui.screenModeSmallLabel) {
-        console.log(app.actioned);
-        console.log(ui.clicked);
-        // app.isLinkCh <Link />で新しいchを開いた際にメニューが開いてしまう排他制御
-        if (ui.clicked !== "Links" && ui.clicked !== "backToRootCh") {
+        if (ui.clicked !== "Links" && ui.clicked !== "BackToRootCh") {
           self.clientAction("ON_CLICK_TOGGLE_DISP_MENU");
         }
       }

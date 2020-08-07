@@ -86,10 +86,10 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
         this.clientAction("TOGGLE_LINKS");
         break;
       case App.dispThreadTypeChild:
-        this.onClickCh(app.rootCh, ui, false, "backToRootCh");
+        this.onClickCh(app.rootCh, ui, false, "BackToRootCh");
         break;
       case App.dispThreadTypeTimeline:
-        this.onClickCh(app.rootCh, ui, false, "backToRootCh");
+        this.onClickCh(app.rootCh, ui, false, "BackToRootCh");
         break;
     }
   }
@@ -120,6 +120,7 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
   }
 
   render() {
+    console.log("BOARD");
     const { app, ui } = this.props.state;
     const type = BoardStyle.getType({ app, ui });
     switch (type) {
