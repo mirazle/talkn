@@ -43,6 +43,15 @@ export default class PostMessage {
   static get EXT_TO_CLIENT_TYPE() {
     return "EXT_TO_CLIENT_TYPE";
   }
+  static get HANDLE_MEDIA_SERVER_AND_MEDIA_CLIENT() {
+    return "handleMediaServerAndMediaClient";
+  }
+  static get MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE() {
+    return "MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE";
+  }
+  static get MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE() {
+    return "MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE";
+  }
   static convertApiToClientActionType(actionType) {
     if (actionType.indexOf(Sequence.API_TO_SERVER_REQUEST) === 0) {
       return actionType.replace(Sequence.API_TO_SERVER_REQUEST, Sequence.API_TO_CLIENT_REQUEST);
@@ -78,6 +87,14 @@ export type MessageClientAndExtType = {
   type: typeof PostMessage.EXT_TO_CLIENT_TYPE | typeof PostMessage.CLIENT_TO_EXT_TYPE;
   method: string;
   href: string;
+  params?: MessageParams;
+  methodBack?: string;
+};
+
+export type MessageMediaClientAndMediaServerType = {
+  id: string;
+  type: typeof PostMessage.MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE | typeof PostMessage.MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE;
+  method: string;
   params?: MessageParams;
   methodBack?: string;
 };

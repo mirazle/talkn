@@ -701,7 +701,7 @@ class MediaServer {
     this.pointerTime = 0;
     this.started = false;
     this.isPosting = false;
-    this.isLog = false;
+    this.isLog = true;
 
     clearInterval(this.searchingId);
     clearInterval(this.playIntervalId);
@@ -733,19 +733,21 @@ class MediaServer {
   }
 
   onMessage(e) {
-    const { type, ch } = e.data;
-    if (type === "CLIENT_TO_MEDIA_TYPE") {
+    const { type, method, params } = e.data;
+    if (type === "MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE") {
       console.log(e.data);
     }
   }
 
-  postMessage(iframe) {
-    const params = {
-      ch: this.ch,
-      status: this.status.toLowerCase(),
-      currentTime: this.currentTime,
-    };
-    iframe.mediaToClient(this.status, params);
+  postMessage() {
+    this.iframes.forEach((iframe) => {
+      const params = {
+        ch: this.ch,
+        status: this.status.toLowerCase(),
+        currentTime: this.currentTime,
+      };
+      iframe.mediaToClient(this.status, params);
+    });
   }
 
   searching() {
@@ -812,7 +814,7 @@ class MediaServer {
     clearInterval(this.playIntervalId);
     this.playIntervalId = setInterval(() => {
       if (this.status !== "STANBY") {
-        this.postMessage(iframe);
+        this.postMessage();
       }
     }, this.mediaSecondInterval);
   }
