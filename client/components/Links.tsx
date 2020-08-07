@@ -100,7 +100,7 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
         ch={thread.ch}
         handleOnClick={() => {
           this.clientAction("TOGGLE_LINKS");
-          this.onClickCh(thread.ch, ui, thread.hasSlash, "toLinks");
+          this.onClickCh(thread.ch, ui, thread.hasSlash, "Links");
         }}
         {...this.props}
       />
@@ -118,7 +118,7 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
             ch={ch}
             handleOnClick={() => {
               this.clientAction("TOGGLE_LINKS");
-              this.onClickCh(ch, ui, hasSlash, "toLinks");
+              this.onClickCh(ch, ui, hasSlash, "Links");
             }}
             {...this.props}
           />

@@ -247,6 +247,9 @@ export default class Ui extends Schema {
   isOpenLinks: boolean;
   isTransition: boolean;
 
+  // クリック情報
+  clicked: string;
+
   // detail情報
   detailCh: string;
 
@@ -300,6 +303,9 @@ export default class Ui extends Schema {
     const openLockMenu = params.openLockMenu ? params.openLockMenu : Ui.openLockMenuLabelNo;
     const openInnerNotif = params.openInnerNotif ? params.openInnerNotif : "";
 
+    // クリック情報
+    const clicked = params.clicked ? params.clicked : "";
+
     // detail情報
     const detailCh = params.detailCh ? params.detailCh : "/";
 
@@ -335,6 +341,7 @@ export default class Ui extends Schema {
       menuComponent,
       openLockMenu,
       openInnerNotif,
+      clicked,
       detailCh,
       inputPost,
       inputStampId,
