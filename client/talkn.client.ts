@@ -225,8 +225,8 @@ class MediaClient {
     this.postsTimelineStock = [];
   }
 
-  private requestServer(method) {
-    this.window.ext.toMediaServer(method);
+  private requestServer(method, params) {
+    this.window.ext.toMediaServer(method, params);
   }
 
   public setPostsTimelines({ postsTimeline, postsTimelineStock }) {
@@ -276,9 +276,11 @@ class MediaClient {
             // 見ているchがmediaChの場合
           } else {
             this.window.mediaClient = new MediaClient(this.window);
+            this.requestServer("searching", state);
           }
         } else {
           this.window.mediaClient = new MediaClient(this.window);
+          this.requestServer("searching", state);
         }
         break;
       case "SERVER_TO_API[BROADCAST]:post":
