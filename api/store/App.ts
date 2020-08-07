@@ -262,21 +262,21 @@ export default class App extends Schema {
     return Post.defaultFindId;
   }
 
-  static getStepToDispThreadType({ app, rank }: any, threadStatus: any, toCh: any, called: any = "") {
+  static getStepToDispThreadType({ app, rank }: any, threadStatus: any, toCh: any, clicked: any = "") {
     let afterDispThreadType = "";
     const beforeDispThreadType = app && app.dispThreadType ? app.dispThreadType : App.dispThreadTypeMulti;
-    app = App.getStepDispThreadType({ app, rank }, threadStatus, toCh, called);
+    app = App.getStepDispThreadType({ app, rank }, threadStatus, toCh, clicked);
     afterDispThreadType = app.dispThreadType;
     return { app, stepTo: `${beforeDispThreadType} to ${afterDispThreadType}` };
   }
 
-  static getStepDispThreadType({ app, rank }, threadStatus: any = {}, toCh, called) {
+  static getStepDispThreadType({ app, rank }, threadStatus: any = {}, toCh, clicked) {
     const log = false;
     const updatedApp = app ? app : {};
     updatedApp.isLinkCh = false;
     updatedApp.offsetFindId = App.defaultOffsetFindId;
 
-    if (log) console.log(called + " rootCh = " + app.rootCh + " toCh = " + toCh);
+    if (log) console.log(clicked + " rootCh = " + app.rootCh + " toCh = " + toCh);
     if (log) console.log(rank);
     if (log) console.log(threadStatus);
 
@@ -286,12 +286,12 @@ export default class App extends Schema {
       updatedApp.offsetFindId = updatedApp.offsetTimelineFindId
         ? updatedApp.offsetTimelineFindId
         : App.defaultOffsetFindId;
-      updatedApp.isLinkCh = called === "toLinks" || called === "findMediaCh" ? true : false;
+      updatedApp.isLinkCh = clicked === "Links" || clicked === "findMediaCh" ? true : false;
       updatedApp.isMediaCh = true;
       return updatedApp;
     }
 
-    if (called === "toLinks") {
+    if (clicked === "Links") {
       const haveMenuIndex = rank.some((mi) => {
         return mi.ch === toCh || mi.ch === toCh + "/";
       });

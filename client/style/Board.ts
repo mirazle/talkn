@@ -40,7 +40,7 @@ export default class Board {
       case App.dispThreadTypeSingle:
         return Board.typesMain;
       default:
-        if (!app.isRootCh && app.isLinkCh) {
+        if (app.isLinkCh) {
           return Board.typesLink;
         } else {
           return Board.typesSub;

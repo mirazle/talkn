@@ -35,17 +35,19 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     window.talknWindow.store.dispatch(action);
   }
 
-  onClickCh(toCh, ui, overWriteHasSlash, called) {
+  onClickCh(toCh, ui, overWriteHasSlash, clicked) {
     let { app, thread, rank, setting } = this.clientState;
     const beforeCh = thread.ch;
     thread.ch = toCh;
+
+    ui.clicked = clicked;
     ui.isOpenLinks = false;
     ui.isOpenMenu = ui.screenMode === Ui.screenModeSmallLabel ? ui.isOpenMenu : false;
     ui.isOpenBoard = true;
 
     if (Schema.isSet(overWriteHasSlash)) thread.hasSlash = overWriteHasSlash;
     const threadStatus = Thread.getStatus(thread, app, setting);
-    let { app: updatedApp, stepTo } = App.getStepToDispThreadType({ app, rank }, threadStatus, toCh, called);
+    let { app: updatedApp, stepTo } = App.getStepToDispThreadType({ app, rank }, threadStatus, toCh, clicked);
 
     if (!app.isLinkCh && updatedApp.isLinkCh) this.api("on", toCh);
     if (app.isLinkCh && !updatedApp.isLinkCh) this.api("off", beforeCh);
@@ -57,16 +59,19 @@ export default class TalknComponent<P, S> extends Component<P, S> {
       case `${App.dispThreadTypeMulti} to ${App.dispThreadTypeChild}`:
       case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeChild}`:
       case `${App.dispThreadTypeChild} to ${App.dispThreadTypeChild}`:
+        ui.isRootCh = false;
         this.clientAction("ON_CLICK_TO_CHILD_THREAD", { ui });
         this.api("changeThread", { app, thread });
         break;
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeMulti}`:
       case `${App.dispThreadTypeChild} to ${App.dispThreadTypeMulti}`:
+        ui.isRootCh = true;
         this.clientAction("ON_CLICK_TO_MULTI_THREAD", { ui });
         this.api("changeThread", { app, thread });
         break;
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeSingle}`:
       case `${App.dispThreadTypeChild} to ${App.dispThreadTypeSingle}`:
+        ui.isRootCh = true;
         this.clientAction("ON_CLICK_TO_SINGLE_THREAD", { ui });
         this.api("changeThread", { app, thread });
         break;
@@ -74,6 +79,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
       case `${App.dispThreadTypeSingle} to ${App.dispThreadTypeTimeline}`:
       case `${App.dispThreadTypeChild} to ${App.dispThreadTypeTimeline}`:
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeTimeline}`:
+        ui.isRootCh = !app.isLinkCh;
         this.clientAction("ON_CLICK_TO_TIMELINE_THREAD", { ui });
         this.api("changeThread", { app, thread });
         break;
