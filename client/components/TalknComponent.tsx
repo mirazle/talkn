@@ -40,7 +40,6 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     const beforeCh = thread.ch;
     thread.ch = toCh;
 
-    console.log(ranks);
     ui.clicked = clicked;
     ui.isOpenLinks = false;
     ui.isOpenMenu = ui.screenMode === Ui.screenModeSmallLabel ? ui.isOpenMenu : false;
