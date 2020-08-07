@@ -96,7 +96,7 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
         key={`linkTune`}
         isMainCh={true}
         isActive={isTuneActive}
-        text={thread.title}
+        text={thread.serverMetas["title"]}
         ch={thread.ch}
         handleOnClick={() => {
           this.clientAction("TOGGLE_LINKS");
@@ -146,7 +146,10 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
   }
 
   componentDidUpdate(props) {
-    if (props.state.actionLog[0] === "API_TO_CLIENT[EMIT]:tune") {
+    if (
+      props.state.actionLog[0] === "API_TO_CLIENT[EMIT]:tune" ||
+      props.state.actionLog[0] === "API_TO_CLIENT[EMIT]:changeThread"
+    ) {
       this.setLinkContents();
     }
   }
@@ -184,6 +187,7 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
   }
 
   render() {
+    console.log("LINKS");
     const { displayLinks } = this.props;
     const { style } = this.props.state;
     const contents = this.state.linkContents[this.state.linkContentsKey];
