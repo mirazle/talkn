@@ -795,7 +795,8 @@ class MediaServer {
     };
 
     this.window.iframeKeys.forEach((iFrameId) => {
-      const { audios, videos } = iframes[iFrameId].state.thread;
+      const iframe = iframes[iFrameId];
+      const { audios, videos } = iframe.state.thread;
 
       audios.forEach((audio) => {
         if (this.ch.indexOf(audio.src) >= 0) {
