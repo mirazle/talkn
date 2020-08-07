@@ -103,9 +103,6 @@ class Ext {
     }
   }
   static get APP_ASSETS_HOST() {
-    if ((location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`)) {
-      return `//assets.${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
-    }
     if (TALKN_EXT_ENV === "PROD") {
       return `//assets.${Ext.BASE_PROD_HOST}`;
     } else if (TALKN_EXT_ENV === "START") {
