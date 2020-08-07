@@ -24,9 +24,16 @@ export default class Html {
     if (ch === "/") {
       url = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}`;
     } else {
-      if (hasSlash && ch.slice(-1) !== "/") {
-        url = `${Sequence.HTTPS_PROTOCOL}/${ch}/`;
+      if (hasSlash) {
+        if (ch.endsWith("/")) {
+          url = `${Sequence.HTTPS_PROTOCOL}/${ch}`;
+        } else {
+          url = `${Sequence.HTTPS_PROTOCOL}/${ch}/`;
+        }
       } else {
+        if (ch.endsWith("/")) {
+          ch = ch.replace(/\/$/, "");
+        }
         url = `${Sequence.HTTPS_PROTOCOL}/${ch}`;
       }
     }
