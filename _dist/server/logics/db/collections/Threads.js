@@ -46,16 +46,25 @@ class Threads {
         condition.ch = { $ne: ch };
         condition.postCnt = { $ne: 0 };
         condition.layer = { $gt: layer };
-        if (app.findType !== Thread_1.default.findTypeAll) {
-            condition.findType = app.findType;
+        if (app.findType === Thread_1.default.findTypeAll) {
         }
+        else if (app.findType === Thread_1.default.findTypeOther) {
+            condition["$and"] = [
+                { ["lastPost.findType"]: { $ne: Thread_1.default.findTypeHtml } },
+                { ["lastPost.findType"]: { $ne: Thread_1.default.findTypeVideo } },
+                { ["lastPost.findType"]: { $ne: Thread_1.default.findTypeMusic } },
+            ];
+        }
+        else {
+            condition["lastPost.findType"] = app.findType;
+        }
+        console.log(condition);
         const selector = { "serverMetas.title": 1, lastPost: 1, liveCnt: 1 };
         const option = {
             sort: { liveCnt: -1, layer: -1 },
             limit: setting.server.getThreadChildrenCnt,
         };
         const { response } = await this.collection.find(condition, selector, option);
-        console.log(response);
         return response.map((res) => ({
             ...res.lastPost,
             title: res.serverMetas.title,

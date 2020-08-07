@@ -303,14 +303,15 @@ class Ch {
             justifyContent: "center",
             bottom: "0px",
             right: "10px",
-            width: "50px",
-            height: "15px",
+            width: "70px",
+            height: "20px",
             background: Container_1.default.lightGrayRGBA,
             borderRadius: "3px 3px 0px 0px",
         });
         const content = index_1.default.getContentBase({
             textIndent: "3px",
             textAlign: "center",
+            fontSize: "0.6em",
             color: Container_1.default.whiteRGB,
         });
         const animation = index_1.default.getAnimationBase();

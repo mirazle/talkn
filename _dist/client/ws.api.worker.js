@@ -15,7 +15,7 @@ const apiToServerRequest_1 = __importDefault(require("api/actions/ws/apiToServer
 const serverToApiBradcast_1 = __importDefault(require("api/actions/ws/serverToApiBradcast"));
 class Ws {
     constructor(webWorker) {
-        this.callbacks = {};
+        this.publicCallbacks = {};
         this.connect = this.connect.bind(this);
         this.setUp = this.setUp.bind(this);
         this.on = this.on.bind(this);
@@ -37,6 +37,9 @@ class Ws {
             ? define_1.default.DEVELOPMENT_DOMAIN
             : define_1.default.PRODUCTION_DOMAIN;
     }
+    exe(method, params) {
+        this[method](params);
+    }
     connect() {
         this.webWorker.postMessage("GET_BOOT_OPTION", {}, "setUp");
     }
@@ -55,7 +58,7 @@ class Ws {
                 const _requestState = Sequence_1.default.getRequestState(actionName, reduxState, requestParams);
                 const _actionState = Sequence_1.default.getRequestActionState(actionName, requestParams);
                 const { requestState, actionState } = beforeFunction(reduxState, _requestState, _actionState);
-                this.callbacks[requestState.type] = callback;
+                this.publicCallbacks[requestState.type] = callback;
                 this.io.emit(requestState.type, requestState);
                 return this.store.dispatch(actionState);
             };
@@ -109,16 +112,16 @@ class Ws {
         const { actionType, actionName } = Sequence_1.default.getSequenceActionMap(method);
         if (actionName !== Sequence_1.default.API_BROADCAST_CALLBACK) {
             if (actionType === Sequence_1.default.API_RESPONSE_TYPE_EMIT) {
-                if (this.callbacks[actionName]) {
+                if (this.publicCallbacks[actionName]) {
                     const { posts, thread, user } = apiState;
-                    this.callbacks[actionName](apiState, { posts, thread, uid: user.uid });
+                    this.publicCallbacks[actionName](apiState, { posts, thread, uid: user.uid });
                 }
             }
         }
         if (actionType === Sequence_1.default.API_RESPONSE_TYPE_BROADCAST) {
-            if (this.callbacks[Sequence_1.default.API_BROADCAST_CALLBACK]) {
+            if (this.publicCallbacks[Sequence_1.default.API_BROADCAST_CALLBACK]) {
                 const { posts, thread, user } = apiState;
-                this.callbacks[Sequence_1.default.API_BROADCAST_CALLBACK](actionName, { posts, thread, uid: user.uid });
+                this.publicCallbacks[Sequence_1.default.API_BROADCAST_CALLBACK](actionName, { posts, thread, uid: user.uid });
             }
         }
     }
@@ -147,7 +150,7 @@ class WebWorker {
         const { type, method, params } = e.data;
         if (type === PostMessage_1.default.CLIENT_TO_WSAPI_TYPE) {
             if (this.ws[method] && typeof this.ws[method] === "function") {
-                this.ws[method](params);
+                this.ws.exe(method, params);
             }
         }
     }

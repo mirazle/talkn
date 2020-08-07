@@ -6,12 +6,17 @@ const { PRODUCTION, DEVELOPMENT, PRODUCTION_DOMAIN, DEVELOPMENT_DOMAIN, SUB_DOMA
 const apiVer = 1;
 const hostName = os.hostname();
 const env = getEnv(hostName);
+const files = {
+  client: "talkn.client.js",
+  api: "talkn.client.js",
+  ext: "talkn.ext.js",
+};
 const isDev = env === DEVELOPMENT;
 const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN;
 const wwwURL = `${SUB_DOMAINS.WWW}.${domain}`;
 const apiURL = `${SUB_DOMAINS.API}.${domain}`;
-const apiAccessURL = isDev ? `${domain}:${PORTS.DEVELOPMENT_API}/talkn.api.js` : `${apiURL}/v${apiVer}`;
-const clientURL = isDev ? `${domain}:${PORTS.DEVELOPMENT}/talkn.client.js` : `${SUB_DOMAINS.CLIENT}.${domain}`;
+const apiAccessURL = isDev ? `${domain}:${PORTS.DEVELOPMENT_API}/${files.api}` : `${apiURL}/v${apiVer}`;
+const clientURL = isDev ? `${domain}:${PORTS.DEVELOPMENT}/${files.client}` : `${SUB_DOMAINS.CLIENT}.${domain}`;
 const descURL = `${SUB_DOMAINS.DESC}.${domain}`;
 const portalURL = `${SUB_DOMAINS.PORTAL}.${domain}`;
 const assetsURL = `${SUB_DOMAINS.ASSETS}.${domain}`;
@@ -36,6 +41,7 @@ const ogpImages = {
 const conf: any = {
   domain,
   env,
+  files,
   hostName,
   apiURL,
   apiAccessURL,

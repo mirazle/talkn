@@ -68,11 +68,10 @@ class Io {
         const responseBroadcastState = Sequence_1.default.getResponseState("Broadcast", requestState, {
             posts,
             thread,
+            user: requestState.user,
             rank: posts,
         });
         const chs = posts[0].chs;
-        console.log("-----");
-        console.log(responseBroadcastState.thread);
         chs.forEach((ch) => {
             responseBroadcastState.posts[0].ch = ch;
             this.io.broadcast(ch, responseBroadcastState);

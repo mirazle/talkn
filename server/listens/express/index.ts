@@ -94,7 +94,7 @@ class Express {
           // CORSを許可する
           res.header("Access-Control-Allow-Origin", "*");
           res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-          res.sendFile(conf.serverExtPath + "ext.js");
+          res.sendFile(conf.serverExtPath + conf.files.ext);
         } else {
           res.sendFile(conf.serverExtPath + req.originalUrl.replace("/", ""));
         }
@@ -135,7 +135,7 @@ class Express {
         if (
           req.originalUrl === "/robots.txt" ||
           req.originalUrl === "/manifest.json" ||
-          req.originalUrl === "/service.worker.js"||
+          req.originalUrl === "/service.worker.js" ||
           req.originalUrl === "/worker.js"
         ) {
           // CORSを許可する

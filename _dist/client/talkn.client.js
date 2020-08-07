@@ -7,6 +7,7 @@ const ws_api_worker_1 = __importDefault(require("worker-loader?publicPath=/&name
 const conf_1 = __importDefault(require("common/conf"));
 const define_1 = __importDefault(require("common/define"));
 const BootOption_1 = __importDefault(require("common/BootOption"));
+const Media_1 = __importDefault(require("common/Media"));
 const Posts_1 = __importDefault(require("api/store/Posts"));
 const App_1 = __importDefault(require("api/store/App"));
 const PostMessage_1 = __importDefault(require("common/PostMessage"));
@@ -34,11 +35,16 @@ class Window {
         this.postMessage = this.postMessage.bind(this);
         this.onMessage = this.onMessage.bind(this);
         this.onError = this.onError.bind(this);
+        this.beforeMedia = this.beforeMedia.bind(this);
+        this.afterMedia = this.afterMedia.bind(this);
         this.wsApi = new ws_api_worker_1.default();
         this.wsApi.onerror = this.onError;
         this.wsApi.onmessage = this.onMessage;
         this.ext = new Ext(this);
         this.dom = new Dom(this);
+        console.log(this.wsApi);
+        this.media = new Media_1.default();
+        this.media.searching();
     }
     api(method, params = {}) {
         this.postMessage(method, params);
@@ -78,6 +84,44 @@ class Window {
     }
     onError(e) {
         console.warn(e);
+    }
+    beforeMedia({ method, params, store }) {
+        if (store.getState().app.isMediaCh) {
+            if (method === "post") {
+                params.app.inputCurrentTime = this.media.currentTime > 0 ? this.media.currentTime : 0;
+            }
+        }
+        return params;
+    }
+    afterMedia(state) {
+        switch (state.app.actioned) {
+            case "SERVER_TO_API[EMIT]:fetchPosts":
+                if (state.app.isMediaCh) {
+                    if (this.media.status === "finding" && this.media.ch === state.thread.ch) {
+                        this.media.setPostsTimelines(state);
+                        this.media.playing();
+                    }
+                    else {
+                        this.media = new Media_1.default();
+                        this.media.searching();
+                    }
+                }
+                else {
+                    this.media = new Media_1.default();
+                    this.media.searching();
+                }
+                break;
+            case "SERVER_TO_API[BROADCAST]:post":
+                if (state.app.isMediaCh) {
+                    const post = state.posts[0];
+                    if (post.ch === this.media.ch) {
+                        if (post.uid === state.user.uid) {
+                            this.media.refrectSelfPost(post);
+                        }
+                    }
+                }
+                break;
+        }
     }
 }
 exports.default = Window;

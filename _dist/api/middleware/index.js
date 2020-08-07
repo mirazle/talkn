@@ -49,6 +49,9 @@ const functions = {
     },
     "SERVER_TO_API[EMIT]:fetchPosts": (state, action) => {
         action = { ...Posts_1.default.getAnyActionPosts(action, state) };
+        action.thread = state.thread;
+        action.app.offsetFindId = App_1.default.getOffsetFindId({ posts: action.posts });
+        action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
         if (action.app.isMediaCh) {
             action = storage_1.default.setStoragePostsTimeline(action);
         }
@@ -87,12 +90,12 @@ const functions = {
         return action;
     },
     "SERVER_TO_API[BROADCAST]:post": (state, action) => {
-        if (state.ch === action.thread.ch) {
+        if (state.thread.ch === action.thread.ch) {
             if (action.thread.emotions) {
                 const emotionKeys = Object.keys(action.thread.emotions);
                 if (emotionKeys.length > 0) {
                     const actionEmotions = { ...action.thread.emotions };
-                    action.thread.emotions = { ...state.emotions };
+                    action.thread.emotions = { ...state.thread.emotions };
                     Object.keys(actionEmotions).forEach((emotionModelKey) => {
                         Object.keys(actionEmotions[emotionModelKey]).forEach((emotionKey) => {
                             action.thread.emotions[emotionModelKey][emotionKey] =
@@ -110,6 +113,7 @@ const functions = {
         action.app.offsetFindId = App_1.default.getOffsetFindId({ posts: action.posts });
         action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
         action = Posts_1.default.getAnyActionPosts(action, state);
+        console.log(action);
         return action;
     },
     "API_TO_SERVER[REQUEST]:changeThreadDetail": (state, action) => {
