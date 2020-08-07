@@ -71,10 +71,9 @@ export default class Html {
 
       if (log) console.log("Fetch Html " + url);
 
-      // localhost is not get.
+      // TODO: localhost is not get.
       request(option, (error, response, body) => {
         let responseSchema = MongoDB.getDefineSchemaObj(new HtmlSchema({}));
-        console.log(error);
 
         if (!error && response && response.statusCode === 200) {
           const contentType = response.headers["content-type"];
@@ -82,11 +81,9 @@ export default class Html {
           responseSchema.contentType = contentType;
           responseSchema.protocol = protocol;
           if (App.isMediaContentType(contentType)) {
-            console.log("A");
             responseSchema.title = this.getTitle(null, url, contentType);
             responseSchema.serverMetas.title = responseSchema.title;
           } else {
-            console.log("");
             const utf8Body = this.toUtf8Str(body, contentType);
             const $ = cheerio.load(utf8Body);
             iconHrefs = this.getIconHrefs($);
@@ -171,6 +168,7 @@ export default class Html {
         audios.push({ ...audio.attribs, src, title });
       }
     }
+    console.log(audios);
     return audios;
   }
 
