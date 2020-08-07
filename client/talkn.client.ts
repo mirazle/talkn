@@ -267,6 +267,7 @@ class MediaClient {
   public wsApiAfterFilter({ method, params, state }) {
     switch (method) {
       case "SERVER_TO_API[EMIT]:tune":
+        this.ch = state.thread.ch;
         if (state.app.isMediaCh) {
           // 見ているchがmediaChでなく、埋め込まれているmediaの再生を始めた場合
           if (this.status === "SEARCH" && this.ch === state.thread.ch) {
@@ -276,11 +277,11 @@ class MediaClient {
             // 見ているchがmediaChの場合
           } else {
             this.window.mediaClient = new MediaClient(this.window);
-            this.requestServer("searching", state);
+            this.requestServer("searching", { ch: this.ch });
           }
         } else {
           this.window.mediaClient = new MediaClient(this.window);
-          this.requestServer("searching", state);
+          this.requestServer("searching", { ch: this.ch });
         }
         break;
       case "SERVER_TO_API[BROADCAST]:post":
