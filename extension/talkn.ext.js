@@ -740,6 +740,7 @@ class MediaServer {
   }
 
   postMessage() {
+    console.log(this.iframes);
     Object.keys(this.iframes).forEach((iFrameId) => {
       const params = {
         ch: this.ch,
@@ -1047,6 +1048,8 @@ class Iframe extends ReactMode {
 
   mediaToClient(method, params = {}, methodBack) {
     const requestObj = this.getMediaToClientObj(method, params, methodBack);
+    console.log(this.src);
+    console.log(requestObj);
     this.dom.contentWindow.postMessage(requestObj, this.src);
   }
 
