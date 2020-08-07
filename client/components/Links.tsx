@@ -108,7 +108,8 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
     const getLi = (chKey, textKey) => (obj, i) => {
       if (obj[chKey]) {
         const ch = Links.getCh(obj[chKey], thread);
-        const hasSlash = obj[chKey].lastIndexOf("/") === ch.length - 1 ? true : false;
+        const hasSlash = obj[chKey].endsWith("/");
+        console.log(obj);
         return (
           <Link
             key={`${chKey}${i}`}

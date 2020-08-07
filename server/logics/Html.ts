@@ -67,7 +67,6 @@ export default class Html {
 
   exeFetch(protocol, url) {
     return new Promise((resolve, reject) => {
-      // url = "www.talkn.io";
       const option = { method: "GET", encoding: "binary", url };
 
       if (log) console.log("Fetch Html " + url);
@@ -154,7 +153,7 @@ export default class Html {
 
   getAudios($) {
     const audioLength = $("body audio").length;
-    console.log("AUDIO " + audioLength);
+
     let audios = [];
     for (let i = 0; i < audioLength; i++) {
       const audio = $("audio").get(i);
@@ -166,7 +165,10 @@ export default class Html {
       }
 
       for (var j = 0; j < sourceLength; j++) {
-        audios.push({ ...audio.attribs, src: sources[j].attribs.src });
+        const src = sources[j].attribs.src;
+        const splitedTitle = src.split("/");
+        const title = splitedTitle[splitedTitle.length - 1];
+        audios.push({ ...audio.attribs, src, title });
       }
     }
     return audios;
