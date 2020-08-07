@@ -740,13 +740,13 @@ class MediaServer {
   }
 
   postMessage() {
-    this.iframes.forEach((iframe) => {
+    Object.keys(this.iframes).forEach((iFrameId) => {
       const params = {
         ch: this.ch,
         status: this.status.toLowerCase(),
         currentTime: this.currentTime,
       };
-      iframe.mediaToClient(this.status, params);
+      this.iframes[iFrameId].mediaToClient(this.status, params);
     });
   }
 
