@@ -13,7 +13,6 @@ export default {
       action.app = action.app ? { ...state.app, ...action.app } : state.app;
       action.app.actioned = action.type;
     }
-
     if (functions[action.type]) {
       action = functions[action.type](state, action);
     }
@@ -113,7 +112,6 @@ const functions = {
     action.app.offsetFindId = App.getOffsetFindId({ posts: action.posts });
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     action = Posts.getAnyActionPosts(action, state);
-    console.log(action);
     return action;
   },
   "API_TO_SERVER[REQUEST]:changeThreadDetail": (state, action) => {

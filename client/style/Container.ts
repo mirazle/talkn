@@ -380,6 +380,7 @@ export default class Container {
       borderRadius: "0px 0px 2px 0px",
     });
     const content = Style.getContentBase({
+      fontSize: "0.7em",
       lineHeight: 2,
       whiteSpace: "nowrap",
       color: Container.whiteRGB,

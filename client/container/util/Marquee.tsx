@@ -68,7 +68,13 @@ export default class Marquee extends Component<Props, State> {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props && this.props.text && this.props.text !== "" && this.props.text.length !== nextProps.text.length) {
+    if (
+      this.props &&
+      this.props.text &&
+      this.props.text !== "" &&
+      nextProps.text &&
+      this.props.text.length !== nextProps.text.length
+    ) {
       clearTimeout(this._marqueeTimer);
       this.setState({
         animatedWidth: 0,

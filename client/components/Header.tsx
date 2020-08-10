@@ -35,7 +35,7 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
 
   render() {
     const { state, handleOnClickToggleMain } = this.props;
-    const { style, ui, app } = state;
+    const { style, ui, app, thread } = state;
     const { icon } = style;
     const HeadTabIcon = Icon.getHeadTab(icon.headTab, { app, ui });
     return (
@@ -45,7 +45,7 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
 
         {/* Head Tab Icon */}
         <span data-component-name={`Header-center`} style={style.header.headTab} onClick={handleOnClickToggleMain}>
-          <Marquee text={app.rootTitle} loop={true} hoverToStop={false} trailing={0} leading={0} />
+          <Marquee text={thread.serverMetas["title"]} loop={true} hoverToStop={false} trailing={0} leading={0} />
         </span>
 
         {/* Menu Icon */}
