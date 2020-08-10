@@ -202,14 +202,17 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
 
   renderFixMarker(props): React.ReactNode {
     const { app, thread, ui, uiTimeMarker, style } = this.props.state;
-    if (ui.isLoading) {
-      const loading = Icon.getLoading(IconStyle.getLoading({ app, ui }));
-      return <TimeMarker type={"Fix"} label={loading} style={style.timeMarker.fixTimeMarker} />;
-    } else if (thread.postCnt > 0 && uiTimeMarker.now && uiTimeMarker.now.label) {
-      return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
-    } else {
+    if (app.isMediaCh) {
       return undefined;
+    } else {
+      if (ui.isLoading) {
+        const loading = Icon.getLoading(IconStyle.getLoading({ app, ui }));
+        return <TimeMarker type={"Fix"} label={loading} style={style.timeMarker.fixTimeMarker} />;
+      } else if (thread.postCnt > 0 && uiTimeMarker.now && uiTimeMarker.now.label) {
+        return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
+      }
     }
+    return undefined;
   }
 
   renderLinkLabel(props): React.ReactNode {

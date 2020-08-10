@@ -213,7 +213,6 @@ class BootOption {
   getCh(ch) {
     ch = ch.replace("https:/", "").replace("http:/", "");
     ch = ch.replace(`${Ext.DEVELOPMENT_HASH}/`, "").replace(Ext.DEVELOPMENT_HASH, "");
-    console.log(ch);
     return ch.endsWith("/") ? ch : ch + "/";
   }
   getProtocol(ch) {
@@ -379,7 +378,7 @@ class Window extends ReactMode {
         window.addEventListener("transitionend", this.transitionend);
 
         // media server.
-        this.mediaServer = new MediaServer(this);
+        this.mediaServer = new MediaServer();
 
         // dom instance.
         this.ins.window = this;
@@ -680,22 +679,23 @@ class MediaServer {
   static get STATUS_ENDED() {
     return "ENDED";
   }
-  constructor(_window) {
-    this.window = _window;
+  constructor() {
     this.ch = null;
     this.status = MediaServer.STATUS_STANBY;
 
     // postMessage to iframe ids.
-    this.iframes = window.top.document.querySelectorAll(`.${Iframe.CLASS_NAME}`);
-    console.log(this.iframes);
+    this.iframes = {};
     this.onError = this.onError.bind(this);
     this.onMessage = this.onMessage.bind(this);
     this.postMessage = this.postMessage.bind(this);
 
     // controls.
+    this.audios = [];
+    this.videos = [];
+    this.handleEventSrc = [];
     this.file = null;
-    this.searchingId = null;
-    this.maxSearchingCnt = 10;
+    this.searchingIds = {};
+    this.maxSearchingCnt = 30;
     this.playIntervalId = null;
     this.searchingCnt = 0;
     this.playingCnt = 0;
@@ -704,142 +704,192 @@ class MediaServer {
     this.isPosting = false;
     this.isLog = true;
 
-    clearInterval(this.searchingId);
+    Object.keys(this.searchingIds).forEach((iFrameId) => {
+      clearInterval(this.searchingIds[iFrameId]);
+    });
     clearInterval(this.playIntervalId);
 
     // methods.
     this.setClientParams = this.setClientParams.bind(this);
+    this.setRelationElms = this.setRelationElms.bind(this);
     this.searching = this.searching.bind(this);
     this.handleEvents = this.handleEvents.bind(this);
     this.play = this.play.bind(this);
     this.pause = this.pause.bind(this);
+    this.seeked = this.seeked.bind(this);
     this.ended = this.ended.bind(this);
     this.log = this.log.bind(this);
 
+    this.setRelationElms();
     this.listenMessage();
   }
 
   listenMessage() {
-    window.onmessage = this.onMessage;
+    window.onload = window.onmessage = this.onMessage;
     window.onerror = this.onError;
   }
 
-  setStatus(status) {
+  setStatus(status, called) {
     this.status = status;
-    this.log("SET STATUS");
+    this.log("SET STATUS " + called);
+  }
+
+  setRelationElms() {
+    if (Object.keys(this.iframes).length === 0) {
+      const iframes = window.top.document.querySelectorAll(`.${Iframe.CLASS_NAME}`);
+      iframes.forEach((iframe) => {
+        if (iframe.id) {
+          this.iframes[iframe.id] = {
+            dom: iframe,
+            params: {
+              id: "",
+              ch: "",
+              href: "",
+              audios: [],
+              videos: [],
+            },
+          };
+        } else {
+          throw `Error: Please set iframe id.`;
+        }
+      });
+    }
+    if (this.videos.length === 0) {
+      this.videos = window.top.document.querySelectorAll("video");
+    }
+    if (this.audios.length === 0) {
+      this.audios = window.top.document.querySelectorAll("audio");
+    }
   }
 
   setClientParams(params) {
-    this.ch = params.ch;
+    this.iframes[params.id].params = params;
+  }
+
+  onMessage(e) {
+    if (e.data && e.data.type) {
+      if (e.data.type === "MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE") {
+        const { method, params } = e.data;
+        if (this.file && this.file[method] && typeof this.file[method] === "function") {
+          this.file[method]();
+        } else {
+          if (this[method] && typeof this[method] === "function") {
+            this.setRelationElms();
+            this.setClientParams(params);
+            this[method](params.id);
+          }
+        }
+      }
+    }
   }
 
   onError(e) {
     console.warn(e);
   }
 
-  onMessage(e) {
-    const { type, method, params } = e.data;
-    if (type === "MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE") {
-      if (this[method] && typeof this[method] === "function") {
-        this.setClientParams(params);
-        this[method]();
-      }
-    }
-  }
-
   postMessage() {
-    console.log(this.iframes);
     Object.keys(this.iframes).forEach((iFrameId) => {
+      const iframe = this.iframes[iFrameId].dom;
+      const href = this.iframes[iFrameId].params.href;
+      const type = "MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE";
       const params = {
         ch: this.ch,
         status: this.status.toLowerCase(),
         currentTime: this.currentTime,
       };
-      this.iframes[iFrameId].mediaToClient(this.status, params);
+      iframe.contentWindow.postMessage({ type, params }, href);
     });
   }
 
-  searching() {
-    this.setStatus(MediaServer.STATUS_SEARCH);
+  searching(iFrameId) {
+    this.setStatus(MediaServer.STATUS_SEARCH, "searching1");
     this.searchingCnt = 0;
     this.searchingId = null;
     this.playIntervalId = null;
-    this.searchingId = setInterval(() => {
+    const handleEventsWrap = (mediaType) => {
+      this[mediaType].forEach((media) => {
+        this.iframes[iFrameId].params[mediaType].forEach((iframeMedia) => {
+          if (media.src === iframeMedia.src) {
+            if (!this.handleEventSrc.includes(media.src)) {
+              this.handleEventSrc.push(media.src);
+              this.handleEvents(media);
+              return true;
+            }
+          }
+        });
+      });
+      return false;
+    };
+
+    this.searchingIds[iFrameId] = setInterval(() => {
+      this.setRelationElms();
+      const iframeHasAudio = Boolean(this.iframes[iFrameId].params.audios.length);
+      const iframeHasVideo = Boolean(this.iframes[iFrameId].params.videos.length);
+      let isHandleEvents = false;
+
       if (this.searchingCnt < this.maxSearchingCnt) {
-        const videos = window.top.document.querySelectorAll("video");
-        const audios = window.top.document.querySelectorAll("audio");
+        if (this.videos.length > 0 && iframeHasVideo) {
+          isHandleEvent = handleEventsWrap("videos");
+        }
 
-        if (videos.length > 0 || audios.length > 0) {
-          videos.forEach(this.handleEvents);
-          audios.forEach(this.handleEvents);
+        if (this.audios.length > 0 && iframeHasAudio) {
+          isHandleEvents = handleEventsWrap("audios");
+        }
 
-          this.setStatus(MediaServer.STATUS_STANBY);
-
-          clearInterval(this.searchingId);
+        if (isHandleEvents && this.status !== MediaServer.STATUS_STANBY) {
+          clearInterval(this.searchingIds[iFrameId]);
           clearInterval(this.playIntervalId);
-        } else {
-          this.searchingCnt++;
+          this.setStatus(MediaServer.STATUS_STANBY, "searching2");
         }
       } else {
-        this.setStatus(MediaServer.STATUS_ENDED);
+        clearInterval(this.searchingIds[iFrameId]);
+        clearInterval(this.playIntervalId);
+        this.setStatus(MediaServer.STATUS_ENDED, "searching3");
       }
+      this.searchingCnt++;
     }, MediaServer.mediaSecondInterval);
   }
 
   handleEvents(media) {
-    /*
-    const { iframes } = this.window.ins;
-    this.window.iframeKeys.forEach((iFrameId) => {
-      const iframe = iframes[iFrameId];
-      if (Object.keys(iframe.state).length === 0) return;
-      console.log(iframe.state);
-      const { audios, videos } = iframe.state.thread;
-      console.log(audios);
-      console.log(videos);
-      if (audios && audios.length > 0) {
-        audios.forEach((audio) => {
-          if (media.src.indexOf(audio.src) >= 0) {
-            this.iframes[iFrameId] = iframe;
-          }
-        });
-      }
-      if (videos && videos.length > 0) {
-        videos.forEach((video) => {
-          if (media.src.indexOf(video.src) >= 0) {
-            this.iframes[iFrameId] = iframe;
-          }
-        });
-      }
-    });
-  */
     media.addEventListener("play", this.play);
     media.addEventListener("pause", this.pause);
+    media.addEventListener("seeked", this.seeked);
     media.addEventListener("ended", this.ended);
   }
 
   play(e) {
     this.file = e.srcElement;
     this.ch = this.file.currentSrc.replace("https:/", "").replace("https:", "") + "/";
-
-    this.setStatus(MediaServer.STATUS_PLAY);
+    this.setStatus(MediaServer.STATUS_PLAY, "play");
     clearInterval(this.playIntervalId);
     this.playIntervalId = setInterval(() => {
-      if (this.status !== "STANBY") {
-        this.postMessage();
-      }
+      this.postMessage();
     }, this.mediaSecondInterval);
   }
 
   pause(e) {
-    this.setStatus(MediaServer.STATUS_STANBY);
+    if (this.status !== MediaServer.STATUS_STANBY) {
+      clearInterval(this.playIntervalId);
+      this.setStatus(MediaServer.STATUS_STANBY, "pause");
+      this.postMessage();
+    }
+  }
+
+  seeked(e) {
+    if (this.playIntervalId) {
+      clearInterval(this.playIntervalId);
+      this.setStatus(MediaServer.STATUS_STANBY, "seeked");
+    }
     this.postMessage();
   }
 
   ended(e) {
-    this.setStatus(MediaServer.STATUS_ENDED);
+    this.setStatus(MediaServer.STATUS_ENDED, "ended");
     this.postMessage();
     clearInterval(this.playIntervalId);
-    const currentTime = Number.MAX_SAFE_INTEGER;
+    Object.keys(this.searchingIds).forEach((iFrameId) => {
+      clearInterval(this.searchingIds[iFrameId]);
+    });
   }
 
   log(label, isForce = false) {
@@ -995,7 +1045,6 @@ class Iframe extends ReactMode {
     this.getExtToClientObj = this.getExtToClientObj.bind(this);
     this.extToClient = this.extToClient.bind(this);
     this.getMediaToClientObj = this.getMediaToClientObj.bind(this);
-    this.mediaToClient = this.mediaToClient.bind(this);
     this.handleClientToError = this.handleClientToError.bind(this);
 
     // message method bind.
@@ -1057,11 +1106,6 @@ class Iframe extends ReactMode {
   extToClient(method, params = {}, methodBack) {
     const requestObj = this.getExtToClientObj(method, params, methodBack);
     this.methodIdMap[method] = setTimeout(() => this.handleClientToError(this.id, method), Iframe.activeMethodSecond);
-    this.dom.contentWindow.postMessage(requestObj, this.src);
-  }
-
-  mediaToClient(method, params = {}, methodBack) {
-    const requestObj = this.getMediaToClientObj(method, params, methodBack);
     this.dom.contentWindow.postMessage(requestObj, this.src);
   }
 

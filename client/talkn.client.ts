@@ -20,6 +20,9 @@ import Ui from "client/store/Ui";
 import UiTimeMarker from "client/store/UiTimeMarker";
 import Sequence from "api/Sequence";
 
+const MediaServer = require("common/MediaServer");
+const mediaServer = new MediaServer.default();
+
 declare global {
   interface Window {
     talknWindow: any;
@@ -168,7 +171,11 @@ class Ext {
   }
 
   private postMessage(message: MessageParams = {}): void {
-    window.top.postMessage(message, this.href);
+    if (this.href) {
+      window.top.postMessage(message, this.href);
+    } else {
+      window.postMessage(message, location.href);
+    }
   }
 
   private onMessage(e: MessageEvent): void {
@@ -190,10 +197,8 @@ class Ext {
 
       const actionType = PostMessage.convertExtToClientActionType(method);
       this.window.store.dispatch({ ...params, type: actionType });
-    } else if (type === PostMessage.MEDIA_TO_CLIENT_TYPE) {
-      this.window.mediaClient.setServerParams(params);
-      // @ts-ignore
-      this.window.mediaClient[params.status]();
+    } else if (type === PostMessage.MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE) {
+      this.window.mediaClient.onMessage(e, this.window.store.getState());
     }
   }
   private onMessageError(e: ErrorEventInit): void {
@@ -202,16 +207,30 @@ class Ext {
 }
 
 class MediaClient {
+  static get STATUS_SEARCH() {
+    return "SEARCH";
+  }
+  static get STATUS_STANBY() {
+    return "STANBY";
+  }
+  static get STATUS_PLAY() {
+    return "PLAY";
+  }
+  static get STATUS_ENDED() {
+    return "ENDED";
+  }
   ch: string;
   status: "SEARCH" | "STANBY" | "PLAY" | "ENDED";
   pointerTime: number = 0.0;
   isPosting: boolean = false;
+  isChangeThread: boolean = false;
   window: Window;
   postsTimeline: any[];
   postsTimelineStock: any[];
   constructor(_window: Window) {
     this.window = _window;
     this.requestServer = this.requestServer.bind(this);
+    this.onMessage = this.onMessage.bind(this);
     this.wsApiBeforeFilter = this.wsApiBeforeFilter.bind(this);
     this.wsApiAfterFilter = this.wsApiAfterFilter.bind(this);
     this.setPostsTimelines = this.setPostsTimelines.bind(this);
@@ -225,30 +244,29 @@ class MediaClient {
     this.postsTimelineStock = [];
   }
 
-  private requestServer(method, params) {
+  private requestServer(method, params = {}) {
     this.window.ext.toMediaServer(method, params);
   }
 
-  public setPostsTimelines({ postsTimeline, postsTimelineStock }) {
-    // 現在表示されているタイムライン状態
-    this.postsTimeline = [...postsTimeline];
-
-    // 0秒投稿のタイムライン状態
-    this.postsTimelineStock = [...postsTimelineStock];
-  }
-
-  public refrectSelfPost(post) {
-    const length = this.postsTimeline.length;
-    let pushFlg = false;
-    for (let i = 0; i < length; i++) {
-      if (post.currentTime < this.postsTimeline[i].currentTime) {
-        pushFlg = true;
-        this.postsTimeline.splice(i, 0, post);
-      }
-    }
-
-    if (!pushFlg) {
-      this.postsTimeline.push(post);
+  public onMessage(e: MessageEvent, state) {
+    const { params } = e.data;
+    const { currentTime, status, ch } = params;
+    switch (status.toUpperCase()) {
+      case MediaClient.STATUS_PLAY:
+        if (state.thread.ch === ch && !this.isChangeThread) {
+          if (this.postsTimeline.length > 0 || this.postsTimelineStock.length > 0) {
+            this.play(currentTime);
+          }
+        } else {
+          state.thread.ch = ch;
+          this.isChangeThread = true;
+          window.talknWindow.dom.onClickCh(state.thread.ch, state.ui, state.thread.hasSlash, "Media");
+        }
+        break;
+      default:
+        //        this.setServerParams(params);
+        this[status]();
+        break;
     }
   }
 
@@ -267,27 +285,35 @@ class MediaClient {
   public wsApiAfterFilter({ method, params, state }) {
     switch (method) {
       case "SERVER_TO_API[EMIT]:tune":
-        this.ch = state.thread.ch;
-        if (state.app.isMediaCh) {
-          // 見ているchがmediaChでなく、埋め込まれているmediaの再生を始めた場合
-          if (this.status === "SEARCH" && this.ch === state.thread.ch) {
-            this.setPostsTimelines(state);
-            this.play();
-
-            // 見ているchがmediaChの場合
-          } else {
-            this.window.mediaClient = new MediaClient(this.window);
-            this.requestServer("searching", { ch: this.ch });
-          }
-        } else {
-          this.window.mediaClient = new MediaClient(this.window);
-          this.requestServer("searching", { ch: this.ch });
-        }
+        console.log(state);
+        this.window.mediaClient = new MediaClient(this.window);
+        this.requestServer("searching", {
+          id: this.window.id,
+          ch: state.thread.ch,
+          href: location.href,
+          audios: state.thread.audios,
+          videos: state.thread.videos,
+        });
+        break;
+      case "SERVER_TO_API[EMIT]:changeThread":
+        console.log(state);
+        this.window.api("onResponseChAPI", state.thread.ch);
+        this.requestServer("searching", {
+          id: this.window.id,
+          ch: state.thread.ch,
+          href: location.href,
+          audios: state.thread.audios,
+          videos: state.thread.videos,
+        });
+        this.isChangeThread = false;
+        break;
+      case "SERVER_TO_API[EMIT]:fetchPosts":
+        this.setPostsTimelines(state);
         break;
       case "SERVER_TO_API[BROADCAST]:post":
         if (state.app.isMediaCh) {
           const post = state.posts[0];
-          if (post.ch === this.ch) {
+          if (post.ch === state.thread.ch) {
             // 自分の投稿したpostの場合
             if (post.uid === state.user.uid) {
               this.refrectSelfPost(post);
@@ -295,6 +321,30 @@ class MediaClient {
           }
         }
         break;
+    }
+  }
+
+  public setPostsTimelines({ postsTimeline, postsTimelineStock }) {
+    // 現在、表示されている投稿
+    this.postsTimeline = [...postsTimeline];
+
+    // 現在、表示されていない投稿
+    this.postsTimelineStock = [...postsTimelineStock];
+  }
+
+  public refrectSelfPost(post) {
+    const length = this.postsTimeline.length;
+    let pushFlg = false;
+    for (let i = 0; i < length; i++) {
+      if (post.currentTime < this.postsTimeline[i].currentTime) {
+        pushFlg = true;
+        this.postsTimeline.splice(i, 0, post);
+      }
+    }
+
+    if (!pushFlg) {
+      // 最末尾にpushする
+      this.postsTimeline.push(post);
     }
   }
 
@@ -306,17 +356,70 @@ class MediaClient {
 
   public searching() {}
 
-  public stanby() {
-    console.log("STANBY");
-  }
+  public stanby() {}
 
   public ended() {
-    console.log("ENDED");
+    const currentTime = Number.MAX_SAFE_INTEGER;
+    const length = this.postsTimelineStock.length;
+    for (let i = 0; i < length; i++) {
+      if (this.postsTimelineStock[i] && this.postsTimelineStock[i].currentTime <= currentTime) {
+        this.window.dom.clientAction("NEXT_POSTS_TIMELINE", { postsTimeline: [this.postsTimelineStock[i]] });
+      } else {
+        break;
+      }
+    }
   }
 
   public play(pointerTime = 0) {
-    console.log("PLAY");
     if (this.isPosting) return;
+    const timelineLength = this.postsTimelineStock.length;
+    this.isPosting = true;
+
+    // Timeline is next.
+    if (this.pointerTime <= pointerTime) {
+      this.pointerTime = pointerTime;
+      while (this.isPosting) {
+        if (timelineLength === 0) {
+          this.isPosting = false;
+        } else if (this.postsTimelineStock[0] && this.postsTimelineStock[0].currentTime <= pointerTime) {
+          const addPost = this.postsTimelineStock.shift();
+          this.postsTimeline.push(addPost);
+          this.window.dom.clientAction("NEXT_POSTS_TIMELINE", { postsTimeline: [addPost] });
+        } else {
+          this.isPosting = false;
+          break;
+        }
+      }
+
+      // Timeline is prev.
+    } else {
+      // 処理が終わるまで強制停止
+      this.requestServer("pause");
+      const postsTimelineAll = this.postsTimeline.concat(this.postsTimelineStock);
+      const length = postsTimelineAll.length;
+      this.pointerTime = pointerTime;
+      this.postsTimeline = [];
+      this.postsTimelineStock = [];
+
+      for (let i = 0; i < length; i++) {
+        const post = postsTimelineAll[i];
+        if (post.currentTime <= this.pointerTime) {
+          this.postsTimeline.push(post);
+        } else {
+          this.postsTimelineStock.push(post);
+        }
+      }
+
+      // 指定した秒数を経過しているPostをreducerでdispFlgをfalseにしてPostをUnmountする
+      this.window.dom.clientAction("CLEAR_POSTS_TIMELINE", {
+        postsTimeline: this.postsTimeline,
+        postsTimelineStock: this.postsTimelineStock,
+      });
+
+      // 処理が終わったので再生開始
+      this.requestServer("play");
+    }
+    this.isPosting = false;
   }
 }
 

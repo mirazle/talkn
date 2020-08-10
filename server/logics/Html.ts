@@ -90,6 +90,14 @@ export default class Html {
           if (App.isMediaContentType(contentType)) {
             responseSchema.title = this.getTitle(null, url, contentType);
             responseSchema.serverMetas.title = responseSchema.title;
+            if (App.isAudioContentType(contentType)) {
+              responseSchema.audios = [{ src: url, title: responseSchema.title }];
+            }
+            if (App.isVideoContentType(contentType)) {
+              responseSchema.videos = [{ src: url, title: responseSchema.title }];
+            }
+
+            console.log(responseSchema.title);
           } else {
             const utf8Body = this.toUtf8Str(body, contentType);
             const $ = cheerio.load(utf8Body);

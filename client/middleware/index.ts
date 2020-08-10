@@ -123,32 +123,19 @@ const functions = {
     return action;
   },
   NEXT_POSTS_TIMELINE: (state, action) => {
-    const { ui } = state;
-    switch (ui.extensionMode) {
-      case Ui.extensionModeExtBottomLabel:
-        if (!ui.isOpenPosts && !ui.isDispPosts) {
-          const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
-          window.talknWindow.ext.to("openNotif", { transition });
-        }
-        break;
-      case Ui.extensionModeExtModalLabel:
-        const postsTimelineLength = action.postsTimeline.length;
-        if (postsTimelineLength > 0) {
-          const id = action.postsTimeline[postsTimelineLength - 1]["_id"];
-          const post = action.postsTimeline[postsTimelineLength - 1]["post"];
-          const stampId = action.postsTimeline[postsTimelineLength - 1]["stampId"];
-          let favicon = action.postsTimeline[postsTimelineLength - 1]["favicon"];
-          favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
-          window.talknWindow.ext.to("openNotif", {
-            id,
-            post,
-            stampId,
-            favicon,
-            addUnreadCnt: postsTimelineLength,
-          });
-        }
-        break;
-    }
+    const postsTimelineKey = action.postsTimeline.length - 1;
+    const id = action.postsTimeline[postsTimelineKey]["_id"];
+    const post = action.postsTimeline[postsTimelineKey]["post"];
+    const stampId = action.postsTimeline[postsTimelineKey]["stampId"];
+    let favicon = action.postsTimeline[postsTimelineKey]["favicon"];
+    favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
+    window.talknWindow.ext.to("openNotif", {
+      id,
+      post,
+      stampId,
+      favicon,
+    });
+    action.postsTimeline = [...state.postsTimeline, ...action.postsTimeline];
     return action;
   },
   TOGGLE_DISP_POSTS_SUPPORTER: (state, action) => {

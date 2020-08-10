@@ -1,0 +1,258 @@
+export default class MediaServer {
+  get mediaSecondInterval() {
+    return 200;
+  }
+  get currentTime() {
+    return this.file ? Math.floor(this.file.currentTime * 10) / 10 : 0;
+  }
+  static get STATUS_SEARCH() {
+    return "SEARCH";
+  }
+  static get STATUS_STANBY() {
+    return "STANBY";
+  }
+  static get STATUS_PLAY() {
+    return "PLAY";
+  }
+  static get STATUS_ENDED() {
+    return "ENDED";
+  }
+  constructor() {
+    this.ch = null;
+    this.status = MediaServer.STATUS_STANBY;
+
+    // postMessage to iframe ids.
+    this.iframes = {};
+    this.onError = this.onError.bind(this);
+    this.onMessage = this.onMessage.bind(this);
+    this.postMessage = this.postMessage.bind(this);
+
+    // controls.
+    this.audios = [];
+    this.videos = [];
+    this.handleEventSrc = [];
+    this.file = null;
+    this.searchingIds = {};
+    this.maxSearchingCnt = 30;
+    this.playIntervalId = null;
+    this.searchingCnt = 0;
+    this.playingCnt = 0;
+    this.pointerTime = 0;
+    this.started = false;
+    this.isPosting = false;
+    this.isLog = true;
+
+    Object.keys(this.searchingIds).forEach((iFrameId) => {
+      clearInterval(this.searchingIds[iFrameId]);
+    });
+    clearInterval(this.playIntervalId);
+
+    // methods.
+    this.setClientParams = this.setClientParams.bind(this);
+    this.setRelationElms = this.setRelationElms.bind(this);
+    this.searching = this.searching.bind(this);
+    this.handleEvents = this.handleEvents.bind(this);
+    this.play = this.play.bind(this);
+    this.pause = this.pause.bind(this);
+    this.seeked = this.seeked.bind(this);
+    this.ended = this.ended.bind(this);
+    this.log = this.log.bind(this);
+
+    this.setRelationElms();
+    this.listenMessage();
+  }
+
+  listenMessage() {
+    window.addEventListener("message", this.onMessage);
+    window.addEventListener("messageerror", this.onError);
+    console.log("listen");
+  }
+
+  setStatus(status, called) {
+    this.status = status;
+    this.log("SET STATUS " + called);
+  }
+
+  setRelationElms(id) {
+    if (Object.keys(this.iframes).length === 0) {
+      if (id === "PORTAL") {
+        this.iframes[id] = {
+          dom: window,
+          params: {
+            id: "",
+            ch: "",
+            href: "",
+            audios: [],
+            videos: [],
+          },
+        };
+      } else {
+        const iframes = window.document.querySelectorAll(`.talknIframes`);
+        iframes.forEach((iframe) => {
+          if (iframe.id) {
+            this.iframes[iframe.id] = {
+              dom: iframe,
+              params: {
+                id: "",
+                ch: "",
+                href: "",
+                audios: [],
+                videos: [],
+              },
+            };
+          } else {
+            throw `Error: Please set iframe id.`;
+          }
+        });
+      }
+    }
+    if (this.videos.length === 0) {
+      this.videos = window.document.querySelectorAll("video");
+    }
+    if (this.audios.length === 0) {
+      this.audios = window.document.querySelectorAll("audio");
+    }
+  }
+
+  setClientParams(params) {
+    this.iframes[params.id].params = params;
+  }
+
+  onMessage(e) {
+    if (e.data && e.data.type) {
+      if (e.data.type === "MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE") {
+        const { method, params } = e.data;
+        if (this.file && this.file[method] && typeof this.file[method] === "function") {
+          this.file[method]();
+        } else {
+          if (this[method] && typeof this[method] === "function") {
+            this.setRelationElms(params.id);
+            this.setClientParams(params);
+            this[method](params.id);
+          }
+        }
+      }
+    }
+  }
+
+  onError(e) {
+    console.warn(e);
+  }
+
+  postMessage() {
+    Object.keys(this.iframes).forEach((iFrameId) => {
+      const iframe = this.iframes[iFrameId].dom;
+      const href = this.iframes[iFrameId].params.href;
+      const type = "MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE";
+      const params = {
+        ch: this.ch,
+        status: this.status.toLowerCase(),
+        currentTime: this.currentTime,
+      };
+      if (iFrameId === "PORTAL") {
+        window.postMessage({ type, params }, href);
+      } else {
+        iframe.contentWindow.postMessage({ type, params }, href);
+      }
+    });
+  }
+
+  searching(iFrameId) {
+    this.setStatus(MediaServer.STATUS_SEARCH, "searching1");
+    this.searchingCnt = 0;
+    this.searchingId = null;
+    this.playIntervalId = null;
+    const handleEventsWrap = (mediaType) => {
+      this[mediaType].forEach((media) => {
+        this.iframes[iFrameId].params[mediaType].forEach((iframeMedia) => {
+          if (media.src === iframeMedia.src) {
+            console.log("A " + mediaType);
+            if (!this.handleEventSrc.includes(media.src)) {
+              console.log("B " + mediaType);
+              this.handleEventSrc.push(media.src);
+              this.handleEvents(media);
+              return true;
+            }
+          }
+        });
+      });
+      return false;
+    };
+
+    this.searchingIds[iFrameId] = setInterval(() => {
+      this.setRelationElms(iFrameId);
+      const iframeHasAudio = Boolean(this.iframes[iFrameId].params.audios.length);
+      const iframeHasVideo = Boolean(this.iframes[iFrameId].params.videos.length);
+      let isHandleEvents = false;
+
+      if (this.searchingCnt < this.maxSearchingCnt) {
+        if (this.videos.length > 0 && iframeHasVideo) {
+          isHandleEvent = handleEventsWrap("videos");
+        }
+
+        if (this.audios.length > 0 && iframeHasAudio) {
+          isHandleEvents = handleEventsWrap("audios");
+        }
+
+        if (isHandleEvents && this.status !== MediaServer.STATUS_STANBY) {
+          clearInterval(this.searchingIds[iFrameId]);
+          clearInterval(this.playIntervalId);
+          this.setStatus(MediaServer.STATUS_STANBY, "searching2");
+        }
+      } else {
+        clearInterval(this.searchingIds[iFrameId]);
+        clearInterval(this.playIntervalId);
+        this.setStatus(MediaServer.STATUS_ENDED, "searching3");
+      }
+      this.searchingCnt++;
+    }, MediaServer.mediaSecondInterval);
+  }
+
+  handleEvents(media) {
+    media.addEventListener("play", this.play);
+    media.addEventListener("pause", this.pause);
+    media.addEventListener("seeked", this.seeked);
+    media.addEventListener("ended", this.ended);
+  }
+
+  play(e) {
+    this.file = e.srcElement;
+    this.ch = this.file.currentSrc.replace("https:/", "").replace("https:", "") + "/";
+    this.setStatus(MediaServer.STATUS_PLAY, "play");
+    clearInterval(this.playIntervalId);
+    this.playIntervalId = setInterval(() => {
+      this.postMessage();
+    }, this.mediaSecondInterval);
+  }
+
+  pause(e) {
+    if (this.status !== MediaServer.STATUS_STANBY) {
+      clearInterval(this.playIntervalId);
+      this.setStatus(MediaServer.STATUS_STANBY, "pause");
+      this.postMessage();
+    }
+  }
+
+  seeked(e) {
+    if (this.playIntervalId) {
+      clearInterval(this.playIntervalId);
+      this.setStatus(MediaServer.STATUS_STANBY, "seeked");
+    }
+    this.postMessage();
+  }
+
+  ended(e) {
+    this.setStatus(MediaServer.STATUS_ENDED, "ended");
+    this.postMessage();
+    clearInterval(this.playIntervalId);
+    Object.keys(this.searchingIds).forEach((iFrameId) => {
+      clearInterval(this.searchingIds[iFrameId]);
+    });
+  }
+
+  log(label, isForce = false) {
+    if (this.isLog || isForce) {
+      console.log(`@@@@@@@@@@@ ${label} ${this.status} ch: ${this.ch} time: ${this.pointerTime} @@@`);
+    }
+  }
+}

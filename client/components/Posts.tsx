@@ -167,7 +167,8 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
       const post = posts[i];
       const postYmdhis = DateHelper.getMongoYmdhis(post.createTime);
       const diffDay = DateHelper.getDiffDay(nowDate, postYmdhis);
-      const isDispTimeMarker = i === 0 ? true : beforeDiffDay !== diffDay;
+      let isDispTimeMarker = !app.isMediaCh;
+      isDispTimeMarker = !isDispTimeMarker && i === 0 ? true : beforeDiffDay !== diffDay;
       beforeDiffDay = diffDay;
 
       if (isDispTimeMarker) {
