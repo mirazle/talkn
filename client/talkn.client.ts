@@ -220,7 +220,11 @@ class MediaClient {
     return "ENDED";
   }
   ch: string;
-  status: "SEARCH" | "STANBY" | "PLAY" | "ENDED";
+  status:
+    | typeof MediaClient.STATUS_SEARCH
+    | typeof MediaClient.STATUS_STANBY
+    | typeof MediaClient.STATUS_PLAY
+    | typeof MediaClient.STATUS_ENDED;
   pointerTime: number = 0.0;
   isPosting: boolean = false;
   isChangeThread: boolean = false;
@@ -229,6 +233,7 @@ class MediaClient {
   postsTimelineStock: any[];
   constructor(_window: Window) {
     this.window = _window;
+    this.status = MediaClient.STATUS_ENDED;
     this.requestServer = this.requestServer.bind(this);
     this.onMessage = this.onMessage.bind(this);
     this.wsApiBeforeFilter = this.wsApiBeforeFilter.bind(this);
@@ -251,7 +256,9 @@ class MediaClient {
   public onMessage(e: MessageEvent, state) {
     const { params } = e.data;
     const { currentTime, status, ch } = params;
-    switch (status.toUpperCase()) {
+    this.status = status.toUpperCase();
+
+    switch (this.status) {
       case MediaClient.STATUS_PLAY:
         if (state.thread.ch === ch && !this.isChangeThread) {
           if (this.postsTimeline.length > 0 || this.postsTimelineStock.length > 0) {
@@ -265,7 +272,7 @@ class MediaClient {
         break;
       default:
         //        this.setServerParams(params);
-        this[status]();
+        // this[status]();
         break;
     }
   }
@@ -285,7 +292,6 @@ class MediaClient {
   public wsApiAfterFilter({ method, params, state }) {
     switch (method) {
       case "SERVER_TO_API[EMIT]:tune":
-        console.log(state);
         this.window.mediaClient = new MediaClient(this.window);
         this.requestServer("searching", {
           id: this.window.id,
@@ -296,15 +302,16 @@ class MediaClient {
         });
         break;
       case "SERVER_TO_API[EMIT]:changeThread":
-        console.log(state);
         this.window.api("onResponseChAPI", state.thread.ch);
-        this.requestServer("searching", {
-          id: this.window.id,
-          ch: state.thread.ch,
-          href: location.href,
-          audios: state.thread.audios,
-          videos: state.thread.videos,
-        });
+        if (this.status === MediaClient.STATUS_ENDED) {
+          this.requestServer("searching", {
+            id: this.window.id,
+            ch: state.thread.ch,
+            href: location.href,
+            audios: state.thread.audios,
+            videos: state.thread.videos,
+          });
+        }
         this.isChangeThread = false;
         break;
       case "SERVER_TO_API[EMIT]:fetchPosts":
