@@ -217,8 +217,6 @@ class MediaServer {
         }
 
         if (this.audios.length > 0 && iframeHasAudio) {
-          console.log(isHandleEvents);
-          console.log(this.iframes);
           isHandleEvents = handleEventsWrap("audios");
           console.log(this.audios.length + " > 0 && " + iframeHasAudio + " " + isHandleEvents);
           if (isHandleEvents) {
@@ -234,6 +232,7 @@ class MediaServer {
   }
 
   handleEvents(media) {
+    console.log("HANDLE EVENTS");
     media.addEventListener("play", this.play);
     media.addEventListener("pause", this.pause);
     media.addEventListener("ended", this.ended);
