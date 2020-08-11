@@ -121,7 +121,6 @@ export default class MediaServer {
   }
 
   onMessage(e) {
-    console.log(e);
     if (e.data && e.data.type) {
       if (e.data.type === "MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE") {
         const { method, params } = e.data;
