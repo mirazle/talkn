@@ -182,9 +182,7 @@ class Ext {
     const { id, href, type, method, params, methodBack }: MessageClientAndExtType = e.data;
     if (type === PostMessage.EXT_TO_CLIENT_TYPE) {
       if (method === PostMessage.HANDLE_EXT_AND_CLIENT) {
-        console.log("@@@@@ EXT ID " + id);
         this.window.id = id;
-        console.log(this.window.id);
         // @ts-ignore
         this.window.bootOption = new BootOption(id, params.bootOption);
         this.href = href;
@@ -302,6 +300,7 @@ class MediaClient {
         this.window.api("onResponseChAPI", state.thread.ch);
         console.log(this.window.id + " " + define.APP_TYPES.PORTAL);
         if (this.window.id === define.APP_TYPES.PORTAL) {
+          console.log("@IN@");
           //        if (this.status === MediaClient.STATUS_ENDED) {
           this.requestServer("searching", {
             id: this.window.id,
