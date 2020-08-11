@@ -298,7 +298,7 @@ class MediaClient {
         break;
       case "SERVER_TO_API[EMIT]:changeThread":
         this.window.api("onResponseChAPI", state.thread.ch);
-
+        console.log(this.window.id);
         if (this.window.id === MediaServer.PORTAL_KEY) {
           //        if (this.status === MediaClient.STATUS_ENDED) {
           this.requestServer("searching", {
