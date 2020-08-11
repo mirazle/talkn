@@ -195,7 +195,7 @@ class MediaServer {
           console.log("D");
           if (isHandle) return;
           console.log("E " + media.src + " === " + iframeMedia.src);
-          if (media.src === iframeMedia.src) {
+          if (media.src.indexOf(iframeMedia.src) >= 0) {
             console.log("F");
             if (!this.handleEventSrc.includes(media.src)) {
               console.log("G");
