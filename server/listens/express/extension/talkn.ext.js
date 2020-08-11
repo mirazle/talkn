@@ -66,7 +66,7 @@ class MediaServer {
     this.pointerTime = 0;
     this.started = false;
     this.isPosting = false;
-    this.isLog = true;
+    this.isLog = false;
 
     Object.keys(this.searchingIds).forEach((iFrameId) => {
       clearInterval(this.searchingIds[iFrameId]);
@@ -240,8 +240,6 @@ class MediaServer {
   play(e) {
     this.file = e.srcElement;
     this.ch = this.file.currentSrc.replace("http:/", "").replace("https:", "") + "/";
-    console.log("==== " + this.ch);
-    console.log(this.file);
     this.setStatus(MediaServer.STATUS_PLAY, "play");
     this.playIntervalId = setInterval(() => {
       this.postMessage();
@@ -266,7 +264,7 @@ class MediaServer {
   }
 
   log(label, called) {
-    if (this.isLog || isForce) {
+    if (this.isLog) {
       console.log(`@@@@@@@@@@@ ${label} ${this.status} [${called}] ch: ${this.ch} time: ${this.pointerTime} @@@`);
     }
   }
