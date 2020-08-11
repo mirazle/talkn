@@ -239,7 +239,7 @@ class MediaServer {
 
   play(e) {
     this.file = e.srcElement;
-    this.ch = this.file.currentSrc.replace("https:/", "").replace("https:", "") + "/";
+    this.ch = this.file.currentSrc.replace("http:/", "").replace("https:", "") + "/";
     console.log("==== " + this.ch);
     console.log(this.file);
     this.setStatus(MediaServer.STATUS_PLAY, "play");
