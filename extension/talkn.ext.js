@@ -239,7 +239,7 @@ class MediaServer {
 
   play(e) {
     this.file = e.srcElement;
-    this.ch = this.file.currentSrc.replace("http:/", "").replace("https:", "") + "/";
+    this.ch = this.file.currentSrc.replace("http:/", "").replace("https:/", "") + "/";
     this.setStatus(MediaServer.STATUS_PLAY, "play");
     this.playIntervalId = setInterval(() => {
       this.postMessage();
