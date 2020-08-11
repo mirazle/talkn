@@ -117,7 +117,6 @@ export default class MediaServer {
   }
 
   setClientParams(params) {
-    console.log(params);
     this.iframes[params.id].params = params;
   }
 
@@ -168,7 +167,6 @@ export default class MediaServer {
         if (isHandle) return;
         this.iframes[iFrameId].params[mediaType].forEach((iframeMedia) => {
           if (isHandle) return;
-          console.log(media.src + " : " + iframeMedia.src);
           if (media.src.indexOf(iframeMedia.src) >= 0) {
             if (!this.handleEventSrc.includes(media.src)) {
               this.handleEventSrc.push(media.src);
@@ -194,7 +192,6 @@ export default class MediaServer {
             this.setStatus(MediaServer.STATUS_STANBY, `searched video ${iFrameId}`);
           }
         }
-        console.log(this.audios.length + " > 0 && " + iframeHasAudio);
         if (this.audios.length > 0 && iframeHasAudio) {
           isHandleEvents = handleEventsWrap("audios");
           if (isHandleEvents) {
