@@ -232,8 +232,6 @@ class MediaServer {
   }
 
   handleEvents(media) {
-    console.log("HANDLE EVENTS");
-    console.log(media);
     media.addEventListener("play", this.play);
     media.addEventListener("pause", this.pause);
     media.addEventListener("ended", this.ended);
