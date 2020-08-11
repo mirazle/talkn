@@ -257,7 +257,7 @@ class MediaClient {
     const { params } = e.data;
     const { currentTime, status, ch } = params;
     this.status = status.toUpperCase();
-    console.log(this.status);
+    console.log(params);
     switch (this.status) {
       case MediaClient.STATUS_PLAY:
         if (state.thread.ch === ch && !this.isChangeThread) {
