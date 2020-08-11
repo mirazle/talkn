@@ -215,9 +215,10 @@ class MediaServer {
             this.setStatus(MediaServer.STATUS_STANBY, `searched video ${iFrameId}`);
           }
         }
-        console.log(this.audios.length + " > 0 && " + iframeHasAudio);
+
         if (this.audios.length > 0 && iframeHasAudio) {
           isHandleEvents = handleEventsWrap("audios");
+          console.log(this.audios.length + " > 0 && " + iframeHasAudio + " " + isHandleEvents);
           if (isHandleEvents) {
             this.setStatus(MediaServer.STATUS_STANBY, `searched audio ${iFrameId}`);
           }
