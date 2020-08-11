@@ -186,12 +186,19 @@ class MediaServer {
     this.playIntervalId = null;
     const handleEventsWrap = (mediaType) => {
       let isHandle = false;
+      console.log("A");
       this[mediaType].forEach((media) => {
+        console.log("B");
         if (isHandle) return;
+        console.log("C");
         this.iframes[iFrameId].params[mediaType].forEach((iframeMedia) => {
+          console.log("D");
           if (isHandle) return;
+          console.log("E " + media.src + " === " + iframeMedia.src);
           if (media.src === iframeMedia.src) {
+            console.log("F");
             if (!this.handleEventSrc.includes(media.src)) {
+              console.log("G");
               this.handleEventSrc.push(media.src);
               this.handleEvents(media);
               isHandle = true;
@@ -218,7 +225,6 @@ class MediaServer {
 
         if (this.audios.length > 0 && iframeHasAudio) {
           isHandleEvents = handleEventsWrap("audios");
-          console.log(this.audios.length + " > 0 && " + iframeHasAudio + " " + isHandleEvents);
           if (isHandleEvents) {
             this.setStatus(MediaServer.STATUS_STANBY, `searched audio ${iFrameId}`);
           }
