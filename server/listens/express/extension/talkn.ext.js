@@ -211,6 +211,7 @@ class MediaServer {
       if (this.searchingCnt < this.maxSearchingCnt) {
         if (this.videos.length > 0 && iframeHasVideo) {
           isHandleEvent = handleEventsWrap("videos");
+          console.log(this.videos.length + " > 0 && " + iframeHasVideo + " " + isHandleEvents);
           if (isHandleEvents) {
             this.setStatus(MediaServer.STATUS_STANBY, `searched video ${iFrameId}`);
           }
