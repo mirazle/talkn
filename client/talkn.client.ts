@@ -257,7 +257,6 @@ class MediaClient {
     const { params } = e.data;
     const { currentTime, status, ch } = params;
     this.status = status.toUpperCase();
-    console.log(params);
     switch (this.status) {
       case MediaClient.STATUS_PLAY:
         if (state.thread.ch === ch && !this.isChangeThread) {
@@ -270,10 +269,6 @@ class MediaClient {
           window.talknWindow.dom.onClickCh(state.thread.ch, state.ui, state.thread.hasSlash, "Media");
         }
         break;
-      default:
-        //        this.setServerParams(params);
-        // this[status]();
-        break;
     }
   }
 
@@ -281,6 +276,7 @@ class MediaClient {
     if (method === "post") {
       const state = this.window.store.getState();
       if (state.app.isMediaCh) {
+        console.log(params.app);
         // 投稿時に自分のpostsのみMediaに反映する
         // 投稿時にメディアの再生秒数を反映する
         params.app.inputCurrentTime = this.pointerTime > 0 ? this.pointerTime : 0;
