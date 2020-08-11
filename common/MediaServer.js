@@ -163,13 +163,19 @@ export default class MediaServer {
     this.playIntervalId = null;
     const handleEventsWrap = (mediaType) => {
       let isHandle = false;
+      console.log("A");
       this[mediaType].forEach((media) => {
+        console.log("B");
         if (isHandle) return;
+        console.log("C");
         this.iframes[iFrameId].params[mediaType].forEach((iframeMedia) => {
+          console.log("D");
           if (isHandle) return;
           console.log(media.src + " : " + iframeMedia.src);
           if (media.src.indexOf(iframeMedia.src) >= 0) {
+            console.log("F");
             if (!this.handleEventSrc.includes(media.src)) {
+              console.log("G");
               this.handleEventSrc.push(media.src);
               this.handleEvents(media);
               isHandle = true;
