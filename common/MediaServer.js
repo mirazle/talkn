@@ -75,12 +75,8 @@ export default class MediaServer {
   }
 
   setRelationElms(id) {
-    console.log("setRelationElms " + id);
-
     if (Object.keys(this.iframes).length === 0) {
-      console.log("A");
       if (id === MediaServer.PORTAL_KEY) {
-        console.log("B");
         this.iframes[id] = {
           dom: window,
           params: {
@@ -92,7 +88,6 @@ export default class MediaServer {
           },
         };
       } else {
-        console.log("C");
         const iframes = window.document.querySelectorAll(`.talknIframes`);
         iframes.forEach((iframe) => {
           if (iframe.id) {
@@ -122,6 +117,7 @@ export default class MediaServer {
   }
 
   setClientParams(params) {
+    console.log(params);
     this.iframes[params.id].params = params;
   }
 
