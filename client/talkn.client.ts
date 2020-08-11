@@ -276,7 +276,6 @@ class MediaClient {
     if (method === "post") {
       const state = this.window.store.getState();
       if (state.app.isMediaCh) {
-        console.log(params.app);
         // 投稿時に自分のpostsのみMediaに反映する
         // 投稿時にメディアの再生秒数を反映する
         params.app.inputCurrentTime = this.pointerTime > 0 ? this.pointerTime : 0;
@@ -299,7 +298,9 @@ class MediaClient {
         break;
       case "SERVER_TO_API[EMIT]:changeThread":
         this.window.api("onResponseChAPI", state.thread.ch);
-        if (this.status === MediaClient.STATUS_ENDED) {
+
+        if (this.window.id === MediaServer.PORTAL_KEY) {
+          //        if (this.status === MediaClient.STATUS_ENDED) {
           this.requestServer("searching", {
             id: this.window.id,
             ch: state.thread.ch,
