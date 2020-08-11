@@ -40,7 +40,7 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
     const value = postArea.innerHTML;
 
     if (value !== "" && !App.validInputPost(value)) {
-      this.api("post", { app: { inputPost: ui.inputPost } });
+      this.api("post", { app: { inputPost: ui.inputPost, inputStampId: 0 } });
       this.clientAction("ON_CHANGE_INPUT_POST", { ui: { inputPost: "" } });
     }
   }
@@ -58,7 +58,7 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
         this.clientAction("ON_CHANGE_INPUT_POST", { ui: { inputPost: e.target.value + "\n" } });
       } else {
         if (!regex.test(e.target.value)) {
-          this.api("post", { app: { inputPost: e.target.value } });
+          this.api("post", { app: { inputPost: e.target.value, inputStampId: 0 } });
           this.clientAction("ON_CHANGE_INPUT_POST", { ui: { inputPost: "" } });
         }
       }
