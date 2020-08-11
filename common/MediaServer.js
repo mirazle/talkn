@@ -167,6 +167,7 @@ export default class MediaServer {
         if (isHandle) return;
         this.iframes[iFrameId].params[mediaType].forEach((iframeMedia) => {
           if (isHandle) return;
+          console.log(media.src + " : " + iframeMedia.src);
           if (media.src.indexOf(iframeMedia.src) >= 0) {
             if (!this.handleEventSrc.includes(media.src)) {
               this.handleEventSrc.push(media.src);
