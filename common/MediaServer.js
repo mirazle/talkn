@@ -57,7 +57,7 @@ export default class MediaServer {
 
   init() {
     this.ch = null;
-    this.status = MediaServer.STATUS_STANBY;
+    this.setStatus(MediaServer.STATUS_STOP);
     // controls.
     this.iframes = {};
     this.audios = [];
