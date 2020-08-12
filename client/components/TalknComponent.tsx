@@ -53,6 +53,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     if (app.isLinkCh && !updatedApp.isLinkCh) this.api("off", beforeCh);
 
     app = updatedApp;
+    console.log(app);
     app.offsetFindId = App.defaultOffsetFindId;
     switch (stepTo) {
       case `${App.dispThreadTypeTimeline} to ${App.dispThreadTypeChild}`:
