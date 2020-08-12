@@ -2155,11 +2155,13 @@ class Notif extends ReactMode {
   }
 }
 
-window.TALKN_EXT_ENV = Ext.IS_DEVELOPMENT_MODE() ? "DEV" : window.TALKN_EXT_ENV;
-const talknExtension = document.querySelector("iframe#talknExtension");
+if (Ext.IS_DEVELOPMENT_MODE()) {
+} else {
+  const talknExtension = document.querySelector("iframe#talknExtension");
 
-// 多重起動防止
-// ChromeExtとExt両方起動の場合はChromeExtが起動する
-if (!talknExtension) {
-  new Window();
+  // 多重起動防止
+  // ChromeExtとExt両方起動の場合はChromeExtが起動する
+  if (!talknExtension) {
+    new Window();
+  }
 }
