@@ -1,5 +1,12 @@
 window.TALKN_EXT_ENV = "PROD";
 
+if ((location.hash === "#dev") | (location.hash === "#dev/")) {
+  const script = document.createElement("script");
+  script.src = "https://ext.localhost/";
+  script.type = "text/javascript";
+  document.head.appendChild(script);
+}
+
 /*
   Reasons for plain js:
   Obfuscated or bundled js is rejected by Chrome Extension examination.
@@ -199,14 +206,6 @@ class Ext {
     warns.forEach((warn) => console.warn(warn));
     throw `Error: ${message}`;
   }
-}
-
-if (Ext.IS_DEVELOPMENT_MODE) {
-  window.TALKN_EXT_ENV = "DEV";
-  const script = document.createElement("script");
-  script.src = Ext.APP_EXT_HOST;
-  script.type = "text/javascript";
-  document.head.appendChild(script);
 }
 
 class MediaServer {
