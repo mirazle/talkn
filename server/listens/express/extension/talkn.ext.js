@@ -367,7 +367,7 @@ class Ext {
     } else if (TALKN_EXT_ENV === "START") {
       return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
     } else if (TALKN_EXT_ENV === "DEV") {
-      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
+      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
     }
   }
   static get APP_ENDPOINT() {
