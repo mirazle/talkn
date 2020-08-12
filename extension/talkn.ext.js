@@ -40,34 +40,18 @@ class MediaServer {
   static get STATUS_ENDED() {
     return "ENDED";
   }
+  static get STATUS_STOP() {
+    return "STOP";
+  }
   static get PORTAL_KEY() {
     return "PORTAL";
   }
   constructor() {
-    this.ch = null;
-    this.status = MediaServer.STATUS_STANBY;
-
     // postMessage to iframe ids.
-    this.iframes = {};
+    this.init = this.init.bind(this);
     this.onError = this.onError.bind(this);
     this.onMessage = this.onMessage.bind(this);
     this.postMessage = this.postMessage.bind(this);
-
-    // controls.
-    this.audios = [];
-    this.videos = [];
-    this.handleEventSrc = [];
-    this.file = null;
-    this.searchingIds = {};
-    this.maxSearchingCnt = 30;
-    this.playIntervalId = null;
-    this.searchingCnt = 0;
-    this.isLog = true;
-
-    Object.keys(this.searchingIds).forEach((iFrameId) => {
-      clearInterval(this.searchingIds[iFrameId]);
-    });
-    clearInterval(this.playIntervalId);
 
     // methods.
     this.setClientParams = this.setClientParams.bind(this);
@@ -79,6 +63,7 @@ class MediaServer {
     this.ended = this.ended.bind(this);
     this.log = this.log.bind(this);
 
+    this.init();
     this.setRelationElms();
     this.listenMessage();
   }
@@ -91,6 +76,30 @@ class MediaServer {
   setStatus(status, called) {
     this.status = status;
     this.log("SET STATUS ", called);
+  }
+
+  init() {
+    this.ch = null;
+    this.status = MediaServer.STATUS_STANBY;
+    // controls.
+    this.iframes = {};
+    this.audios = [];
+    this.videos = [];
+    this.handleEventSrc = [];
+    this.file = null;
+    this.searchingIds = {};
+    this.maxSearchingCnt = 30;
+    this.playIntervalId = null;
+    this.searchingCnt = 0;
+    this.isLog = true;
+
+    window.removeEventListener("message", this.onMessage);
+    window.removeEventListener("messageerror", this.onError);
+
+    Object.keys(this.searchingIds).forEach((iFrameId) => {
+      clearInterval(this.searchingIds[iFrameId]);
+    });
+    clearInterval(this.playIntervalId);
   }
 
   setRelationElms(id) {
@@ -259,6 +268,10 @@ class MediaServer {
     Object.keys(this.searchingIds).forEach((iFrameId) => {
       clearInterval(this.searchingIds[iFrameId]);
     });
+  }
+
+  stop() {
+    this.init();
   }
 
   log(label, called) {
