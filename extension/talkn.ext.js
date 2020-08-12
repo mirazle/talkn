@@ -1,13 +1,5 @@
 window.TALKN_EXT_ENV = "PROD";
 
-if (Ext.IS_DEVELOPMENT_MODE) {
-  window.TALKN_EXT_ENV = "DEV";
-  const script = document.createElement("script");
-  script.src = Ext.APP_EXT_HOST;
-  script.type = "text/javascript";
-  document.head.appendChild(script);
-}
-
 /*
   Reasons for plain js:
   Obfuscated or bundled js is rejected by Chrome Extension examination.
@@ -29,6 +21,192 @@ if (Ext.IS_DEVELOPMENT_MODE) {
         IframeWindow(*1)
         EmbedIframe(*n)
 */
+
+class Ext {
+  static get APP_NAME() {
+    return "talkn";
+  }
+  static get APP_CLIENT_KEY() {
+    return "Client";
+  }
+  static get USER_DEFINE_MODE_MODAL() {
+    return "Modal";
+  }
+  static get USER_DEFINE_MODE_BOTTOM() {
+    return "Bottom";
+  }
+  static get USER_DEFINE_MODE_EMBED() {
+    return "Embed";
+  }
+  static get USER_DEFINE_MODE_WINDOW() {
+    return "Window";
+  }
+  static get USER_DEFINE_MODE_DEFAULT() {
+    return Ext.USER_DEFINE_MODE_MODAL;
+  }
+  static get BASE_EXT_SUBDOMAIN() {
+    return "ext";
+  }
+  static get BASE_ASSETS_SUBDOMAIN() {
+    return "assets";
+  }
+  static get BASE_PROD_HOST() {
+    return "talkn.io";
+  }
+  static get BASE_DEV_HOST() {
+    return "localhost";
+  }
+  static get BASE_DEV_PORT() {
+    return 8080;
+  }
+  static get EXCLUSION_ORIGINS() {
+    return ["https://localhost", "https://talkn.io"];
+  }
+  static get API_KEY() {
+    return "api";
+  }
+  static get API_VER_KEY() {
+    return "1";
+  }
+  static get DEFAULT_DISPLAY_MODE_KEY() {
+    return 0;
+  }
+  static get DEFAULT_DISPLAY_MODE_DIRECTION() {
+    return "ASC";
+  }
+  static get DISPLAY_MODE() {
+    return [Ext.DISPLAY_MODE_ACTIVE, Ext.DISPLAY_MODE_OPEN];
+  }
+  static get DISPLAY_MODE_ACTIVE() {
+    return "ACTIVE";
+  }
+  static get DISPLAY_MODE_STANBY() {
+    return "STANBY";
+  }
+  static get DISPLAY_MODE_OPEN() {
+    return "OPEN";
+  }
+  static get DEVELOPMENT_HASH() {
+    return "#dev";
+  }
+  static get IS_DEVELOPMENT_MODE() {
+    return (location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`);
+  }
+  static get INCLUDE_ID() {
+    return `#${Ext.APP_NAME}`;
+  }
+  static get APP_HOST() {
+    if (TALKN_EXT_ENV === "PROD") {
+      return `//${Ext.BASE_PROD_HOST}`;
+    } else if (TALKN_EXT_ENV === "START") {
+      return `//${Ext.BASE_DEV_HOST}`;
+    } else if (TALKN_EXT_ENV === "DEV") {
+      return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
+    }
+  }
+  static get APP_ASSETS_HOST() {
+    if (TALKN_EXT_ENV === "PROD") {
+      return `//assets.${Ext.BASE_PROD_HOST}`;
+    } else if (TALKN_EXT_ENV === "START") {
+      return `//assets.${Ext.BASE_DEV_HOST}`;
+    } else if (TALKN_EXT_ENV === "DEV") {
+      return `//assets.${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
+    }
+  }
+  static get APP_EXT_HOST() {
+    if (TALKN_EXT_ENV === "PROD") {
+      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_PROD_HOST}`;
+    } else if (TALKN_EXT_ENV === "START") {
+      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
+    } else if (TALKN_EXT_ENV === "DEV") {
+      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
+    }
+  }
+  static get APP_ENDPOINT() {
+    return `https:${Ext.APP_HOST}${port}`;
+  }
+  static get() {
+    const script1 = document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
+    const script2 = document.querySelector(`script[src='https:${Ext.APP_EXT_HOST}']`);
+    if (!script1 && !script2) throw "NO EXIST EXT SCRIPT TAG";
+    return script1 || script2;
+  }
+  static isBrowserExt() {
+    return Ext.get() === null;
+  }
+  static getUserDefineMode(options) {
+    /********************************/
+    /*  OPTION BOOT ( browser ext ) */
+    /********************************/
+
+    let mode = Ext.USER_DEFINE_MODE_DEFAULT;
+    let embedTags = IframeEmbed.getAll();
+    const embedTagCnt = embedTags.length;
+
+    if (options && options.mode) {
+      if ("EXT_" + options.mode === Ext.USER_DEFINE_MODE_MODAL) {
+        return Ext.USER_DEFINE_MODE_MODAL;
+      }
+      if ("EXT_" + options.mode === Ext.USER_DEFINE_MODE_EMBED && options.selector) {
+        embedTags = window.top.document.querySelector(options.selector);
+        if (embedTags) {
+          Object.keys(options).forEach((key) => {
+            if (key !== "mode") {
+              embedTags.style[key] = options[key];
+            }
+          });
+          return Ext.USER_DEFINE_MODE_EMBED;
+        }
+      }
+    }
+
+    /********************************/
+    /*  NORMAL                      */
+    /********************************/
+
+    const scriptTag = Ext.get();
+
+    if (scriptTag && scriptTag.attributes) {
+      if (scriptTag.attributes.mode && scriptTag.attributes.mode.value) {
+        mode = scriptTag.attributes.mode.value;
+      }
+
+      // 定義しているどのモードにも該当しない場合
+      if (
+        mode !== Ext.USER_DEFINE_MODE_BOTTOM &&
+        mode !== Ext.USER_DEFINE_MODE_MODAL &&
+        mode !== Ext.USER_DEFINE_MODE_EMEBD
+      ) {
+        // デフォルトのモードを設定する
+        mode = Ext.USER_DEFINE_MODE_DEFAULT;
+      }
+    }
+
+    return mode;
+  }
+
+  static getApiToRequestObj(iFrameId, method, params = {}) {
+    return {
+      iFrameId,
+      type: "EXT_TO_API_TYPE",
+      method: method,
+      params: params,
+      href: window.top.location.href,
+    };
+  }
+  static throw(message, warns = []) {
+    warns.forEach((warn) => console.warn(warn));
+    throw `Error: ${message}`;
+  }
+}
+
+if (Ext.IS_DEVELOPMENT_MODE) {
+  window.TALKN_EXT_ENV = "DEV";
+  const script = document.createElement("script");
+  script.src = Ext.APP_EXT_HOST;
+  script.type = "text/javascript";
+  document.head.appendChild(script);
+}
 
 class MediaServer {
   get mediaSecondInterval() {
@@ -276,184 +454,6 @@ class MediaServer {
     if (this.isLog) {
       console.log(`@@@@@@@@@@@ ${label} ${this.status} [${called}] ch: ${this.ch} time: ${this.pointerTime} @@@`);
     }
-  }
-}
-
-class Ext {
-  static get APP_NAME() {
-    return "talkn";
-  }
-  static get APP_CLIENT_KEY() {
-    return "Client";
-  }
-  static get USER_DEFINE_MODE_MODAL() {
-    return "Modal";
-  }
-  static get USER_DEFINE_MODE_BOTTOM() {
-    return "Bottom";
-  }
-  static get USER_DEFINE_MODE_EMBED() {
-    return "Embed";
-  }
-  static get USER_DEFINE_MODE_WINDOW() {
-    return "Window";
-  }
-  static get USER_DEFINE_MODE_DEFAULT() {
-    return Ext.USER_DEFINE_MODE_MODAL;
-  }
-  static get BASE_EXT_SUBDOMAIN() {
-    return "ext";
-  }
-  static get BASE_ASSETS_SUBDOMAIN() {
-    return "assets";
-  }
-  static get BASE_PROD_HOST() {
-    return "talkn.io";
-  }
-  static get BASE_DEV_HOST() {
-    return "localhost";
-  }
-  static get BASE_DEV_PORT() {
-    return 8080;
-  }
-  static get EXCLUSION_ORIGINS() {
-    return ["https://localhost", "https://talkn.io"];
-  }
-  static get API_KEY() {
-    return "api";
-  }
-  static get API_VER_KEY() {
-    return "1";
-  }
-  static get DEFAULT_DISPLAY_MODE_KEY() {
-    return 0;
-  }
-  static get DEFAULT_DISPLAY_MODE_DIRECTION() {
-    return "ASC";
-  }
-  static get DISPLAY_MODE() {
-    return [Ext.DISPLAY_MODE_ACTIVE, Ext.DISPLAY_MODE_OPEN];
-  }
-  static get DISPLAY_MODE_ACTIVE() {
-    return "ACTIVE";
-  }
-  static get DISPLAY_MODE_STANBY() {
-    return "STANBY";
-  }
-  static get DISPLAY_MODE_OPEN() {
-    return "OPEN";
-  }
-  static get DEVELOPMENT_HASH() {
-    return "#dev";
-  }
-  static get IS_DEVELOPMENT_MODE() {
-    return (location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`);
-  }
-  static get INCLUDE_ID() {
-    return `#${Ext.APP_NAME}`;
-  }
-  static get APP_HOST() {
-    if (TALKN_EXT_ENV === "PROD") {
-      return `//${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === "START") {
-      return `//${Ext.BASE_DEV_HOST}`;
-    } else if (TALKN_EXT_ENV === "DEV") {
-      return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
-    }
-  }
-  static get APP_ASSETS_HOST() {
-    if (TALKN_EXT_ENV === "PROD") {
-      return `//assets.${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === "START") {
-      return `//assets.${Ext.BASE_DEV_HOST}`;
-    } else if (TALKN_EXT_ENV === "DEV") {
-      return `//assets.${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
-    }
-  }
-  static get APP_EXT_HOST() {
-    if (TALKN_EXT_ENV === "PROD") {
-      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === "START") {
-      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
-    } else if (TALKN_EXT_ENV === "DEV") {
-      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
-    }
-  }
-  static get APP_ENDPOINT() {
-    return `https:${Ext.APP_HOST}${port}`;
-  }
-  static get() {
-    const script1 = document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
-    const script2 = document.querySelector(`script[src='https:${Ext.APP_EXT_HOST}']`);
-    if (!script1 && !script2) throw "NO EXIST EXT SCRIPT TAG";
-    return script1 || script2;
-  }
-  static isBrowserExt() {
-    return Ext.get() === null;
-  }
-  static getUserDefineMode(options) {
-    /********************************/
-    /*  OPTION BOOT ( browser ext ) */
-    /********************************/
-
-    let mode = Ext.USER_DEFINE_MODE_DEFAULT;
-    let embedTags = IframeEmbed.getAll();
-    const embedTagCnt = embedTags.length;
-
-    if (options && options.mode) {
-      if ("EXT_" + options.mode === Ext.USER_DEFINE_MODE_MODAL) {
-        return Ext.USER_DEFINE_MODE_MODAL;
-      }
-      if ("EXT_" + options.mode === Ext.USER_DEFINE_MODE_EMBED && options.selector) {
-        embedTags = window.top.document.querySelector(options.selector);
-        if (embedTags) {
-          Object.keys(options).forEach((key) => {
-            if (key !== "mode") {
-              embedTags.style[key] = options[key];
-            }
-          });
-          return Ext.USER_DEFINE_MODE_EMBED;
-        }
-      }
-    }
-
-    /********************************/
-    /*  NORMAL                      */
-    /********************************/
-
-    const scriptTag = Ext.get();
-
-    if (scriptTag && scriptTag.attributes) {
-      if (scriptTag.attributes.mode && scriptTag.attributes.mode.value) {
-        mode = scriptTag.attributes.mode.value;
-      }
-
-      // 定義しているどのモードにも該当しない場合
-      if (
-        mode !== Ext.USER_DEFINE_MODE_BOTTOM &&
-        mode !== Ext.USER_DEFINE_MODE_MODAL &&
-        mode !== Ext.USER_DEFINE_MODE_EMEBD
-      ) {
-        // デフォルトのモードを設定する
-        mode = Ext.USER_DEFINE_MODE_DEFAULT;
-      }
-    }
-
-    return mode;
-  }
-
-  static getApiToRequestObj(iFrameId, method, params = {}) {
-    return {
-      iFrameId,
-      type: "EXT_TO_API_TYPE",
-      method: method,
-      params: params,
-      href: window.top.location.href,
-    };
-  }
-  static throw(message, warns = []) {
-    warns.forEach((warn) => console.warn(warn));
-    throw `Error: ${message}`;
   }
 }
 
