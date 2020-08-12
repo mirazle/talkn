@@ -123,6 +123,7 @@ class Ext {
     }
   }
   static get APP_ENDPOINT() {
+    const port = TALKN_EXT_ENV === "DEV" ? Ext.BASE_DEV_PORT : "";
     return `https:${Ext.APP_HOST}${port}`;
   }
   static get() {
