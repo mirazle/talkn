@@ -140,7 +140,9 @@ class MediaServer {
   }
 
   setClientParams(params) {
-    this.iframes[params.id].params = params;
+    if (params && params.id) {
+      this.iframes[params.id].params = params;
+    }
   }
 
   onMessage(e) {
