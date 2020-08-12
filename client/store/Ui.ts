@@ -1,6 +1,8 @@
 import Schema from "api/store/Schema";
 import conf from "client/conf";
 
+export type ClickedType = "Ch" | "BackToRootCh" | "Media" | "Links" | "findMediaCh" | "";
+
 export default class Ui extends Schema {
   static get openLockMenuLabelNo() {
     return "No";
@@ -248,7 +250,7 @@ export default class Ui extends Schema {
   isTransition: boolean;
 
   // クリック情報
-  clicked: string;
+  clicked: ClickedType;
 
   // detail情報
   detailCh: string;

@@ -66,7 +66,7 @@ class MediaServer {
     this.pointerTime = 0;
     this.started = false;
     this.isPosting = false;
-    this.isLog = true;
+    this.isLog = false;
 
     Object.keys(this.searchingIds).forEach((iFrameId) => {
       clearInterval(this.searchingIds[iFrameId]);
@@ -344,9 +344,6 @@ class Ext {
     return `#${Ext.APP_NAME}`;
   }
   static get APP_HOST() {
-    if (Ext.IS_DEVELOPMENT_MODE) {
-      return `//${Ext.BASE_DEV_HOST}`;
-    }
     if (TALKN_EXT_ENV === "PROD") {
       return `//${Ext.BASE_PROD_HOST}`;
     } else if (TALKN_EXT_ENV === "START") {
@@ -374,7 +371,6 @@ class Ext {
     }
   }
   static get APP_ENDPOINT() {
-    const port = Ext.IS_DEVELOPMENT_MODE ? ":8080" : "";
     return `https:${Ext.APP_HOST}${port}`;
   }
   static get() {
@@ -2159,6 +2155,7 @@ class Notif extends ReactMode {
   }
 }
 
+window.TALKN_EXT_ENV = Ext.IS_DEVELOPMENT_MODE() ? "DEV" : window.TALKN_EXT_ENV;
 const talknExtension = document.querySelector("iframe#talknExtension");
 
 // 多重起動防止

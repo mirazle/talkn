@@ -1,7 +1,7 @@
 import Schema from "api/store/Schema";
 import Post from "api/store/Post";
 import Thread from "api/store//Thread";
-import Ui from "client/store/Ui";
+import Ui, { ClickedType } from "client/store/Ui";
 
 export default class App extends Schema {
   static get defaultOffsetFindId() {
@@ -262,7 +262,7 @@ export default class App extends Schema {
     return Post.defaultFindId;
   }
 
-  static getStepToDispThreadType({ app, ranks }: any, threadStatus: any, toCh: any, clicked: any = "") {
+  static getStepToDispThreadType({ app, ranks }: any, threadStatus: any, toCh: string, clicked: ClickedType = "") {
     let afterDispThreadType = "";
     const beforeDispThreadType = app && app.dispThreadType ? app.dispThreadType : App.dispThreadTypeMulti;
     app = App.getStepDispThreadType({ app, ranks }, threadStatus, toCh, clicked);
@@ -273,7 +273,6 @@ export default class App extends Schema {
   static getStepDispThreadType({ app, ranks }, threadStatus: any = {}, toCh, clicked) {
     const log = false;
     const updatedApp = app ? app : {};
-    updatedApp.isLinkCh = clicked === "Links" || clicked === "Media";
     updatedApp.offsetFindId = App.defaultOffsetFindId;
 
     if (log) console.log(clicked + " rootCh = " + app.rootCh + " toCh = " + toCh);
