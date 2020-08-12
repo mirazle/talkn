@@ -2156,7 +2156,7 @@ class Notif extends ReactMode {
   }
 }
 
-window.TALKN_EXT_ENV = Ext.IS_DEVELOPMENT_MODE() ? "DEV" : window.TALKN_EXT_ENV;
+window.TALKN_EXT_ENV = Ext.IS_DEVELOPMENT_MODE ? "DEV" : window.TALKN_EXT_ENV;
 
 const talknExtension = document.querySelector("iframe#talknExtension");
 
