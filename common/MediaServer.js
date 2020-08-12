@@ -39,10 +39,6 @@ export default class MediaServer {
     this.maxSearchingCnt = 30;
     this.playIntervalId = null;
     this.searchingCnt = 0;
-    this.playingCnt = 0;
-    this.pointerTime = 0;
-    this.started = false;
-    this.isPosting = false;
     this.isLog = false;
 
     Object.keys(this.searchingIds).forEach((iFrameId) => {
