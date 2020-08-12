@@ -66,7 +66,7 @@ class MediaServer {
     this.pointerTime = 0;
     this.started = false;
     this.isPosting = false;
-    this.isLog = false;
+    this.isLog = true;
 
     Object.keys(this.searchingIds).forEach((iFrameId) => {
       clearInterval(this.searchingIds[iFrameId]);
