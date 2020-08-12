@@ -273,7 +273,7 @@ export default class App extends Schema {
   static getStepDispThreadType({ app, ranks }, threadStatus: any = {}, toCh, clicked) {
     const log = false;
     const updatedApp = app ? app : {};
-    updatedApp.isLinkCh = clicked === "Links";
+    updatedApp.isLinkCh = clicked === "Links" || clicked === "Media";
     updatedApp.offsetFindId = App.defaultOffsetFindId;
 
     if (log) console.log(clicked + " rootCh = " + app.rootCh + " toCh = " + toCh);
