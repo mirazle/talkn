@@ -285,6 +285,7 @@ class MediaClient {
   }
 
   public wsApiAfterFilter({ method, params, state }) {
+    console.log(method);
     switch (method) {
       case "SERVER_TO_API[EMIT]:tune":
         this.window.mediaClient = new MediaClient(this.window);
@@ -306,7 +307,9 @@ class MediaClient {
             videos: state.thread.videos,
           });
         } else {
-          this.window.api("onResponseChAPI", state.thread.ch);
+          if (state.ui.clicked === "BackToRootCh") {
+            this.requestServer("ended");
+          }
         }
         this.isChangeThread = false;
         break;
