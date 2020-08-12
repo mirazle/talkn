@@ -344,6 +344,9 @@ class Ext {
     return `#${Ext.APP_NAME}`;
   }
   static get APP_HOST() {
+    if (Ext.IS_DEVELOPMENT_MODE) {
+      return `//${Ext.BASE_DEV_HOST}`;
+    }
     if (TALKN_EXT_ENV === "PROD") {
       return `//${Ext.BASE_PROD_HOST}`;
     } else if (TALKN_EXT_ENV === "START") {
@@ -2155,8 +2158,6 @@ class Notif extends ReactMode {
     return borderRadius;
   }
 }
-
-window.TALKN_EXT_ENV = Ext.IS_DEVELOPMENT_MODE ? "DEV" : window.TALKN_EXT_ENV;
 
 const talknExtension = document.querySelector("iframe#talknExtension");
 
