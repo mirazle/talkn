@@ -43,7 +43,7 @@ export default class MediaServer {
     this.pointerTime = 0;
     this.started = false;
     this.isPosting = false;
-    this.isLog = true;
+    this.isLog = false;
 
     Object.keys(this.searchingIds).forEach((iFrameId) => {
       clearInterval(this.searchingIds[iFrameId]);
@@ -239,7 +239,7 @@ export default class MediaServer {
   }
 
   log(label, called) {
-    if (this.isLog || isForce) {
+    if (this.isLog) {
       console.log(`@@@@@@@@@@@ ${label} ${this.status} [${called}] ch: ${this.ch} time: ${this.pointerTime} @@@`);
     }
   }
