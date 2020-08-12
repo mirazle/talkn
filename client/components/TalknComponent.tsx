@@ -41,7 +41,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     thread.ch = toCh;
 
     ui.clicked = clicked;
-    ui.isOpenLinks = clicked === "Media";
+    ui.isOpenLinks = false;
     ui.isOpenMenu = ui.screenMode === Ui.screenModeSmallLabel ? ui.isOpenMenu : false;
     ui.isOpenBoard = true;
 
