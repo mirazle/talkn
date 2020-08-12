@@ -297,9 +297,7 @@ class MediaClient {
         });
         break;
       case "SERVER_TO_API[EMIT]:changeThread":
-        this.window.api("onResponseChAPI", state.thread.ch);
         if (this.window.id === define.APP_TYPES.PORTAL) {
-          //        if (this.status === MediaClient.STATUS_ENDED) {
           this.requestServer("searching", {
             id: this.window.id,
             ch: state.thread.ch,
@@ -307,6 +305,8 @@ class MediaClient {
             audios: state.thread.audios,
             videos: state.thread.videos,
           });
+        } else {
+          this.window.api("onResponseChAPI", state.thread.ch);
         }
         this.isChangeThread = false;
         break;
