@@ -286,7 +286,7 @@ export default class App extends Schema {
       updatedApp.offsetFindId = updatedApp.offsetTimelineFindId
         ? updatedApp.offsetTimelineFindId
         : App.defaultOffsetFindId;
-      updatedApp.isLinkCh = clicked === "Links" || clicked === "findMediaCh" ? true : false;
+      updatedApp.isLinkCh = clicked === "Links" || clicked === "findMediaCh" || clicked === "Media" ? true : false;
       updatedApp.isMediaCh = true;
       return updatedApp;
     }
