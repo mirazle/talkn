@@ -68,7 +68,7 @@ export default class MediaServer {
     this.maxSearchingCnt = 30;
     this.playIntervalId = null;
     this.searchingCnt = 0;
-    this.isLog = true;
+    this.isLog = false;
 
     window.removeEventListener("message", this.onMessage);
     window.removeEventListener("messageerror", this.onError);

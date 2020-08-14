@@ -169,7 +169,7 @@ export default class Posts {
         return `100vh`;
       }
     } else {
-      console.log("STYLE @@@ " + ui.isLoading);
+      console.log("STYLE @@@ " + app.actioned + " " + ui.isLoading);
       return ui.isLoading ? "100vh" : "auto";
     }
   }
@@ -228,7 +228,7 @@ export default class Posts {
       overflowX = "hidden";
       overflowY = "scroll";
     }
-    console.log(ui.extensionHeight);
+
     const layout = Style.getLayoutBlock({
       position: "absolute",
       top: Posts.getSelfTop({ app, ui }),
