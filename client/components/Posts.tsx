@@ -170,7 +170,6 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
       if (!app.isMediaCh) {
         const isDispTimeMarker = i === 0 ? true : beforeDiffDay !== diffDay;
         beforeDiffDay = diffDay;
-        console.log(app.isMediaCh + " " + isDispTimeMarker);
         if (isDispTimeMarker) {
           switch (diffDay) {
             case 0:
