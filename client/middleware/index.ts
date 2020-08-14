@@ -32,7 +32,7 @@ const functions = {
     return action;
   },
   "API_TO_CLIENT[REQUEST]:fetchPosts": (state, action) => {
-    action.ui.isLoading = true;
+    // action.ui.isLoading = true;
     return action;
   },
   "API_TO_CLIENT[REQUEST]:changeThread": (state, action) => {
@@ -179,6 +179,7 @@ const functions = {
   },
   ON_CLICK_TOGGLE_DISP_MENU: (state, action) => {
     action.ui.isOpenMenu = !action.ui.isOpenMenu;
+    // action.ui.isLoading = false;
     return action;
   },
   TOGGLE_DISP_BOARD: (state, action) => {
