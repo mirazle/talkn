@@ -171,13 +171,14 @@ export default class Posts {
     } else {
       console.log(ui.isLoading);
       console.log(ui.isLoading ? "100vh" : "auto");
-      return ui.isLoading ? "100vh" : "auto";
+      // return ui.isLoading ? "100vh" : "auto";
+      return "100vh";
     }
   }
 
   static getSelfMinHeight({ app, ui }) {
     if (ui.extensionMode !== Ui.extensionModeExtNoneLabel) {
-      return `${}`;
+      return `430px`;
     } else {
       if (ui.screenMode === Ui.screenModeLargeLabel) {
         return `calc( 100% - ${Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })}px )`;
