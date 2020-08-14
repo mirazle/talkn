@@ -169,10 +169,8 @@ export default class Posts {
         return `100vh`;
       }
     } else {
-      console.log(ui.isLoading);
-      console.log(ui.isLoading ? "100vh" : "auto");
-      // return ui.isLoading ? "100vh" : "auto";
-      return "100vh";
+      console.log("@@@ " + ui.isLoading);
+      return ui.isLoading ? "100vh" : "auto";
     }
   }
 
