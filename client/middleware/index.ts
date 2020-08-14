@@ -37,6 +37,7 @@ const functions = {
   },
   "API_TO_CLIENT[REQUEST]:changeThread": (state, action) => {
     action.ui.isLoading = true;
+    console.log("MIDDLE WARE !!");
     return action;
   },
   "API_TO_CLIENT[EMIT]:fetchPosts": (state, action) => {
