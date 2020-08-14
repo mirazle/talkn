@@ -219,6 +219,9 @@ class MediaClient {
   static get STATUS_ENDED() {
     return "ENDED";
   }
+  static get STATUS_BACK() {
+    return "BACK";
+  }
   ch: string;
   status:
     | typeof MediaClient.STATUS_SEARCH
@@ -256,17 +259,21 @@ class MediaClient {
   public onMessage(e: MessageEvent, state) {
     const { params } = e.data;
     const { currentTime, status, ch } = params;
-    this.status = status.toUpperCase();
-    switch (this.status) {
+    const nextStatus = status.toUpperCase();
+    switch (nextStatus) {
       case MediaClient.STATUS_PLAY:
         if (state.thread.ch === ch && !this.isChangeThread) {
           if (this.postsTimeline.length > 0 || this.postsTimelineStock.length > 0) {
+            // update status.
+            this.status = nextStatus;
             this.play(currentTime);
           }
         } else {
-          state.thread.ch = ch;
-          this.isChangeThread = true;
-          window.talknWindow.dom.onClickCh(state.thread.ch, state.ui, state.thread.hasSlash, "Media");
+          if (this.status !== MediaClient.STATUS_BACK) {
+            state.thread.ch = ch;
+            this.isChangeThread = true;
+            window.talknWindow.dom.onClickCh(state.thread.ch, state.ui, state.thread.hasSlash, "Media");
+          }
         }
         break;
     }
@@ -307,7 +314,7 @@ class MediaClient {
           });
         } else {
           if (state.ui.clicked === "BackToRootCh") {
-            this.requestServer("stop");
+            this.status = MediaClient.STATUS_BACK;
           }
         }
         this.isChangeThread = false;

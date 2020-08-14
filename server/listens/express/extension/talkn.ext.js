@@ -270,10 +270,6 @@ class MediaServer {
     });
   }
 
-  stop() {
-    this.init();
-  }
-
   log(label, called) {
     if (this.isLog) {
       console.log(`@@@@@@@@@@@ ${label} ${this.status} [${called}] ch: ${this.ch} time: ${this.pointerTime} @@@`);

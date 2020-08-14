@@ -167,25 +167,31 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
       const post = posts[i];
       const postYmdhis = DateHelper.getMongoYmdhis(post.createTime);
       const diffDay = DateHelper.getDiffDay(nowDate, postYmdhis);
-      let isDispTimeMarker = !app.isMediaCh;
-      isDispTimeMarker = !isDispTimeMarker && i === 0 ? true : beforeDiffDay !== diffDay;
-      beforeDiffDay = diffDay;
-
-      if (isDispTimeMarker) {
-        switch (diffDay) {
-          case 0:
-            timeLabel = "Today";
-            break;
-          case 1:
-            timeLabel = "Yesterday";
-            break;
-          default:
-            timeLabel = `(${postYmdhis.Day})${postYmdhis.M}/${postYmdhis.D}`;
-            break;
+      if (!app.isMediaCh) {
+        const isDispTimeMarker = i === 0 ? true : beforeDiffDay !== diffDay;
+        beforeDiffDay = diffDay;
+        console.log(app.isMediaCh + " " + isDispTimeMarker);
+        if (isDispTimeMarker) {
+          switch (diffDay) {
+            case 0:
+              timeLabel = "Today";
+              break;
+            case 1:
+              timeLabel = "Yesterday";
+              break;
+            default:
+              timeLabel = `(${postYmdhis.Day})${postYmdhis.M}/${postYmdhis.D}`;
+              break;
+          }
+          dispPosts.push(
+            <TimeMarker
+              key={`TimeMarker${i}_${timeLabel}`}
+              type="List"
+              label={timeLabel}
+              style={style.timeMarker.self}
+            />
+          );
         }
-        dispPosts.push(
-          <TimeMarker key={`TimeMarker${i}_${timeLabel}`} type="List" label={timeLabel} style={style.timeMarker.self} />
-        );
       }
 
       dispPosts.push(
