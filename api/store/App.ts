@@ -279,7 +279,6 @@ export default class App extends Schema {
     if (log) console.log(ranks);
     if (log) console.log(threadStatus);
     console.log(threadStatus);
-    console.log(clicked);
     if (threadStatus.isMediaCh) {
       if (log) console.log("B");
       updatedApp.dispThreadType = App.dispThreadTypeTimeline;
