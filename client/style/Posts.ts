@@ -174,6 +174,8 @@ export default class Posts {
   }
 
   static getSelfMinHeight({ app, ui }) {
+    return "430px";
+    /*
     if (ui.extensionMode !== Ui.extensionModeExtNoneLabel) {
       return ui.extensionHeight === 0 ? "100vh" : `${ui.extensionHeight}`;
     } else {
@@ -183,6 +185,7 @@ export default class Posts {
         return "auto";
       }
     }
+    */
   }
 
   static getSelfTop({ app, ui }) {
