@@ -78,6 +78,7 @@ export default (state: any = {}, action: any) => {
       };
 
     case "API_TO_CLIENT[REQUEST]:fetchPosts":
+    case "API_TO_CLIENT[REQUEST]:changeThread":
       return {
         ...state,
         posts: { ...state.posts, self: Posts.getSelf(action) },

@@ -316,7 +316,6 @@ export default class Ui extends Schema {
     const inputStampId = params.inputStampId ? params.inputStampId : false;
     const inputCurrentTime = params.inputCurrentTime ? params.inputCurrentTime : 0.0;
     const inputSearch = params.inputSearch ? params.inputSearch : "";
-
     const isLoading = Schema.isSet(params.isLoading) ? params.isLoading : true;
     return this.create({
       iFrameId,
