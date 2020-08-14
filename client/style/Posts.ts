@@ -174,19 +174,13 @@ export default class Posts {
   }
 
   static getSelfMinHeight({ app, ui }) {
-    if (app.chType === App.mediaTagTypeVideo) {
-      return `calc( 100% - ${
-        Video.height + Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })
-      }px)`;
+    if (ui.extensionMode !== Ui.extensionModeExtNoneLabel) {
+      return ui.extensionHeight === 0 ? "100vh" : `${ui.extensionHeight}`;
     } else {
-      if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
+      if (ui.screenMode === Ui.screenModeLargeLabel) {
         return `calc( 100% - ${Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })}px )`;
       } else {
-        if (ui.screenMode === Ui.screenModeLargeLabel) {
-          return `calc( 100% - ${Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })}px )`;
-        } else {
-          return "auto";
-        }
+        return "auto";
       }
     }
   }
@@ -234,6 +228,7 @@ export default class Posts {
       overflowY = "scroll";
     }
     console.log(ui.extensionHeight);
+    console.log(Posts.getSelfMinHeight({ app, ui }));
     const layout = Style.getLayoutBlock({
       position: "absolute",
       top: Posts.getSelfTop({ app, ui }),
@@ -241,7 +236,7 @@ export default class Posts {
       width: Posts.getWidth({ app, ui }),
       minWidth: Posts.getMinWidth({ app, ui }),
       height: Posts.getSelfHeight({ app, ui }),
-      minHeight: "100vh",
+      minHeight: Posts.getSelfMinHeight({ app, ui }),
       maxHeight: "auto",
       margin: Posts.getMargin({ app, ui }),
       padding: Posts.getPadding({ app, ui }),
