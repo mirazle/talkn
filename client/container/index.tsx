@@ -189,7 +189,6 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
 
   render() {
     const { app, ui } = this.props.state;
-    console.log(ui.screenMode);
     switch (ui.screenMode) {
       case Ui.screenModeSmallLabel:
         return this.renderSmall();
