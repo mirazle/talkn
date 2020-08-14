@@ -160,17 +160,17 @@ export default class Posts {
   }
 
   static getSelfHeight({ app, ui }) {
-    if (ui.screenMode === Ui.screenModeLargeLabel) {
-      if (app.chType === App.mediaTagTypeVideo) {
-        return `calc( 100% - ${
-          Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui }) + Video.height
-        }px )`;
-      } else {
-        return `100vh`;
-      }
-    } else {
-      console.log("STYLE @@@ " + app.actioned + " " + ui.isLoading);
-      return ui.isLoading ? "100vh" : "auto";
+    switch (ui.screenMode) {
+      case Ui.screenModeLargeLabel:
+        if (app.chType === App.mediaTagTypeVideo) {
+          return `calc( 100% - ${
+            Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui }) + Video.height
+          }px )`;
+        } else {
+          return `100vh`;
+        }
+      case Ui.screenModeSmallLabel:
+        return ui.isOpenMenu ? "100vh" : "auto";
     }
   }
 
@@ -229,6 +229,7 @@ export default class Posts {
       overflowY = "scroll";
     }
 
+    console.log("STYLE @@@ " + app.actioned + " " + Posts.getSelfHeight({ app, ui }));
     const layout = Style.getLayoutBlock({
       position: "absolute",
       top: Posts.getSelfTop({ app, ui }),
