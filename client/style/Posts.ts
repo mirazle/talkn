@@ -233,7 +233,7 @@ export default class Posts {
       overflowX = "hidden";
       overflowY = "scroll";
     }
-    console.log(ui);
+    console.log(ui.extensionHeight);
     const layout = Style.getLayoutBlock({
       position: "absolute",
       top: Posts.getSelfTop({ app, ui }),
