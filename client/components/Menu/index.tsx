@@ -18,6 +18,7 @@ interface Props {
 export default class Menuextends extends TalknComponent<Props, {}> {
   constructor(props: Props) {
     super(props);
+    this.transitionEnd = this.transitionEnd.bind(this);
     this.handleOnClickCh = this.handleOnClickCh.bind(this);
     this.renderTuneChLi = this.renderTuneChLi.bind(this);
     this.renderRankLi = this.renderRankLi.bind(this);
@@ -26,6 +27,10 @@ export default class Menuextends extends TalknComponent<Props, {}> {
 
   componentDidMount() {
     this.clientAction("COMPONENT_DID_MOUNTS", { componentDidMounts: "Menu" });
+  }
+
+  transitionEnd(e) {
+    this.clientAction("ON_CLICK_TOGGLE_DISP_MENU_END");
   }
 
   handleOnClickCh(ch) {
@@ -46,7 +51,7 @@ export default class Menuextends extends TalknComponent<Props, {}> {
     const { icon } = style;
     const IconTune = Icon.getTune(icon.tune);
     return (
-      <div data-component-name={"Menu"} onTransitionEnd={() => {}} style={style.menu.self}>
+      <div data-component-name={"Menu"} onTransitionEnd={this.transitionEnd} style={style.menu.self}>
         <header style={style.ranks.header}>
           <div style={style.ranks.headerSearchIcon}>{IconTune}</div>
           <div style={style.ranks.headerInput}>{app.rootCh}</div>

@@ -219,6 +219,15 @@ export default (state: any = {}, action: any) => {
         },
         icon: { ...state.icon, thunder: Icon.getThunder(action) },
       };
+    case "ON_CLICK_TOGGLE_DISP_MENU_END":
+      return {
+        ...state,
+        posts: {
+          ...state.posts,
+          self: Posts.getSelf(action),
+        },
+      };
+      break;
     case "ON_CLICK_TOGGLE_DISP_MENU":
     case "ON_CLICK_TOGGLE_DISP_DETAIL":
       return {
