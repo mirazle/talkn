@@ -169,15 +169,13 @@ export default class Posts {
         return `100vh`;
       }
     } else {
-      return "auto";
+      return ui.isLoading ? "100vh" : "auto";
     }
   }
 
   static getSelfMinHeight({ app, ui }) {
-    return "430px";
-    /*
     if (ui.extensionMode !== Ui.extensionModeExtNoneLabel) {
-      return ui.extensionHeight === 0 ? "100vh" : `${ui.extensionHeight}`;
+      return `${}`;
     } else {
       if (ui.screenMode === Ui.screenModeLargeLabel) {
         return `calc( 100% - ${Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })}px )`;
@@ -185,7 +183,6 @@ export default class Posts {
         return "auto";
       }
     }
-    */
   }
 
   static getSelfTop({ app, ui }) {
@@ -231,7 +228,6 @@ export default class Posts {
       overflowY = "scroll";
     }
     console.log(ui.extensionHeight);
-    console.log(Posts.getSelfMinHeight({ app, ui }));
     const layout = Style.getLayoutBlock({
       position: "absolute",
       top: Posts.getSelfTop({ app, ui }),
@@ -239,7 +235,7 @@ export default class Posts {
       width: Posts.getWidth({ app, ui }),
       minWidth: Posts.getMinWidth({ app, ui }),
       height: Posts.getSelfHeight({ app, ui }),
-      minHeight: Posts.getSelfMinHeight({ app, ui }),
+      minHeight: "100vh",
       maxHeight: "auto",
       margin: Posts.getMargin({ app, ui }),
       padding: Posts.getPadding({ app, ui }),
