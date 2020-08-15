@@ -227,8 +227,8 @@ export default (state: any = {}, action: any) => {
           self: Posts.getSelf(action),
         },
       };
-    case "ON_CLICK_TOGGLE_DISP_MENU":
     case "ON_CLICK_TOGGLE_DISP_DETAIL":
+    case "ON_CLICK_TOGGLE_DISP_MENU":
       return {
         ...state,
         menu: {
