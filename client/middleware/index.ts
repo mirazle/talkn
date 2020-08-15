@@ -179,7 +179,6 @@ const functions = {
   },
   ON_CLICK_TOGGLE_DISP_MENU: (state, action) => {
     action.ui.isOpenMenu = !action.ui.isOpenMenu;
-    console.log("UPDATE isOpenMenu: " + action.ui.isOpenMenu);
     return action;
   },
   TOGGLE_DISP_BOARD: (state, action) => {

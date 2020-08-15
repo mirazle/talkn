@@ -170,7 +170,7 @@ export default class Posts {
           return `100vh`;
         }
       case Ui.screenModeSmallLabel:
-        return ui.isOpenMenu ? "auto" : "auto";
+        return ui.isLoading ? "100vh" : "auto";
     }
   }
 
@@ -229,7 +229,7 @@ export default class Posts {
       overflowY = "scroll";
     }
 
-    console.log("STYLE @@@ " + app.actioned + " isOpenMenu: " + ui.isOpenMenu + " " + Posts.getSelfHeight({ app, ui }));
+    console.log("STYLE @@@ " + app.actioned + " isLoading: " + ui.isLoading + " " + Posts.getSelfHeight({ app, ui }));
     const layout = Style.getLayoutBlock({
       position: "absolute",
       top: Posts.getSelfTop({ app, ui }),
