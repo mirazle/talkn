@@ -170,7 +170,7 @@ export default class Posts {
           return `100vh`;
         }
       case Ui.screenModeSmallLabel:
-        return ui.isOpenMenu ? "100vh" : "100vh";
+        return ui.isOpenMenu ? "auto" : "100vh";
     }
   }
 
