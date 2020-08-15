@@ -38,6 +38,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
   }
 
   componentDidMount() {
+    /*
     const { app, ui } = this.props.state;
     if (ui.screenMode === Ui.screenModeLargeLabel) {
       const Posts = document.querySelector("[data-component-name=Posts]");
@@ -50,6 +51,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
       window.talknWindow.dom.animateScrollTo(99999999, 0);
     }
     this.clientAction("COMPONENT_DID_MOUNTS", { componentDidMounts: "Posts" });
+    */
   }
 
   componentWillReceiveProps(props) {
