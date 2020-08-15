@@ -127,6 +127,16 @@ export default class Ui extends Schema {
     return Ui.screenModeLargeLabel;
   }
 
+  static getIsOpenMenu(ui) {
+    switch (ui.screenMode) {
+      case Ui.screenModeSmallLabel:
+        return false;
+      case Ui.screenModeMiddleLabel:
+      case Ui.screenModeLargeLabel:
+        return true;
+    }
+  }
+
   static getIsOpenBoard(ui) {
     switch (ui.screenMode) {
       case Ui.screenModeSmallLabel:
@@ -290,7 +300,7 @@ export default class Ui extends Schema {
       extensionHeight,
     });
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
-    const isOpenMenu = params.isOpenMenu ? params.isOpenMenu : false;
+    const isOpenMenu = Schema.isSet(params.isOpenMenu) ? params.isOpenMenu : Ui.getIsOpenMenu({ screenMode });
     const isOpenDetail =
       screenMode === Ui.screenModeDetailLabel ? true : Schema.isSet(params.isOpenDetail) ? params.isOpenDetail : false;
     const isOpenNewPost = params.isOpenNewPost ? params.isOpenNewPost : false;
