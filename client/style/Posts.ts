@@ -232,7 +232,6 @@ export default class Posts {
       overflowY = "scroll";
     }
 
-    console.log("STYLE @@@ " + app.actioned + " isLoading: " + ui.isLoading + " " + Posts.getSelfHeight({ app, ui }));
     const layout = Style.getLayoutBlock({
       position: "absolute",
       top: Posts.getSelfTop({ app, ui }),

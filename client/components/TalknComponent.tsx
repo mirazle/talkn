@@ -126,10 +126,17 @@ export default class TalknComponent<P, S> extends Component<P, S> {
   scrollToDidUpdateGetMore() {
     const { ui } = this.clientState;
     const Posts = document.querySelector("[data-component-name=Posts]");
-    const scrollHeight =
-      ui.screenMode === Ui.screenModeLargeLabel || ui.extensionMode !== Ui.extensionModeExtNoneLabel
-        ? Posts.scrollHeight
-        : document.body.scrollHeight;
+    let scrollHeight = 0;
+    switch (ui.screenMode) {
+      case Ui.screenModeLargeLabel:
+      case Ui.screenModeSmallLabel:
+        // ui.screenMode === Ui.screenModeLargeLabel || ui.extensionMode !== Ui.extensionModeExtNoneLabel;
+        scrollHeight = Posts.scrollHeight;
+        break;
+      case Ui.screenModeMiddleLabel:
+        scrollHeight = document.body.scrollHeight;
+        break;
+    }
 
     window.talknWindow.dom.scrollTop = scrollHeight - window.talknWindow.dom.scrollHeight;
     Posts.scrollTop = window.talknWindow.dom.scrollTop;
