@@ -272,7 +272,7 @@ class MediaClient {
           if (this.status !== MediaClient.STATUS_BACK) {
             state.thread.ch = ch;
             this.isChangeThread = true;
-            window.talknWindow.dom.onClickCh(state.thread.ch, state.ui, state.thread.hasSlash, "Media");
+            window.talknWindow.dom.onClickCh(state.thread.ch, state.ui, state.thread.hasSlash, "ToMedia");
           }
         }
         break;

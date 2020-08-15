@@ -10,6 +10,7 @@ export default (state = new Thread({}, {}), action) => {
     case "SERVER_TO_API[BROADCAST]:changeThread":
     case "SERVER_TO_API[BROADCAST]:disconnect":
       // ユーザーが今現在、閲覧しているthreadの場合
+      console.log(action.app.id + " " + action.thread.ch + " " + action.thread.liveCnt);
       if (state.ch === action.thread.ch) {
         return action.thread ? state.merge(action.thread) : state;
       }

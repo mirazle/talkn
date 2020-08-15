@@ -53,7 +53,7 @@ const componentDidUpdates = {
     "API_TO_CLIENT[EMIT]:changeThread": (self) => {
       const { ui } = self.props.state;
       if (ui.screenMode === Ui.screenModeSmallLabel) {
-        if (ui.clicked !== "Links" && ui.clicked !== "BackToRootCh" && ui.clicked !== "Media") {
+        if (ui.clicked !== "Links" && ui.clicked !== "BackToRootCh" && ui.clicked !== "ToMedia") {
           self.clientAction("ON_CLICK_TOGGLE_DISP_MENU");
         }
       }

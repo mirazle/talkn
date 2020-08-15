@@ -1,7 +1,7 @@
 import Schema from "api/store/Schema";
 import conf from "client/conf";
 
-export type ClickedType = "Ch" | "BackToRootCh" | "Media" | "Links" | "findMediaCh" | "";
+export type ClickedType = "Ch" | "BackToRootCh" | "ToMedia" | "Links" | "findMediaCh" | "";
 
 export default class Ui extends Schema {
   static get openLockMenuLabelNo() {

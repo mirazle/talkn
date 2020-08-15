@@ -78,12 +78,14 @@ export default {
   // 新しいthread&古いthreadでそれぞれtuneを実施し、Broardcastして全ユーザーに対して整合性を取っている。
   changeThread: async (ioUser, requestState, setting) => {
     // Old Thread.
+    Logics.db.users.remove(ioUser.conn.id);
     const oldCh = requestState.app.tuned;
     const { thread: oldThread } = await Logics.db.threads.tune({ ch: oldCh }, -1);
 
     // New thread.
     const newCh = requestState.thread.ch;
-    const { thread: newThread } = await Logics.db.threads.tune({ ch: newCh }, +1);
+    const liveCnt = await Logics.db.users.getIncLiveCnt(ioUser.conn.id, newCh);
+    const { thread: newThread } = await Logics.db.threads.tune({ ch: newCh }, liveCnt, true);
 
     // Resolve Users.
     Logics.db.users.getIncLiveCnt(ioUser.conn.id, newCh);

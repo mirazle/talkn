@@ -1,6 +1,5 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import Detail from "client/components/Detail";
 import DetailStyle from "client/style/Detail";
 
