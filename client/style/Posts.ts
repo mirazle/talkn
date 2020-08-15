@@ -170,7 +170,7 @@ export default class Posts {
           return `100vh`;
         }
       case Ui.screenModeSmallLabel:
-        return ui.isLoading ? "100vh" : "100vh";
+        return "100vh";
     }
   }
 
@@ -225,6 +225,9 @@ export default class Posts {
     // screen mode large is Posts scroll( no window scroll ).
     if (ui.screenMode === Ui.screenModeLargeLabel) {
       position = "fixed";
+      overflowX = "hidden";
+      overflowY = "scroll";
+    } else if (ui.screenMode === Ui.screenModeSmallLabel) {
       overflowX = "hidden";
       overflowY = "scroll";
     }
