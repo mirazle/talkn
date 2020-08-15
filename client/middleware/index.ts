@@ -177,7 +177,7 @@ const functions = {
     action.ui.isLoading = !action.ui.isLoading;
     return action;
   },
-  ON_CLICK_TOGGLE_DISP_MENU_END: (state, action) => {
+  ON_CLICK_TOGGLE_DISP_MENU: (state, action) => {
     action.ui.isOpenMenu = !action.ui.isOpenMenu;
     console.log("UPDATE isOpenMenu: " + action.ui.isOpenMenu);
     return action;
