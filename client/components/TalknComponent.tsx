@@ -49,8 +49,12 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     const threadStatus = Thread.getStatus(thread, app, setting);
     let { app: updatedApp, stepTo } = App.getStepToDispThreadType({ app, ranks }, threadStatus, toCh, clicked);
 
-    if (!app.isLinkCh && updatedApp.isLinkCh) this.api("on", toCh);
-    if (app.isLinkCh && !updatedApp.isLinkCh) this.api("off", beforeCh);
+    if (clicked === "ToMedia") {
+      this.api("onResponseChAPI", toCh);
+    }
+    if (app.isLinkCh && !updatedApp.isLinkCh) {
+      this.api("offResponseChAPI", beforeCh);
+    }
 
     app = updatedApp;
     app.offsetFindId = App.defaultOffsetFindId;
