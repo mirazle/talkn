@@ -219,7 +219,6 @@ export default (state: any = {}, action: any) => {
         },
         icon: { ...state.icon, thunder: Icon.getThunder(action) },
       };
-    /*
     case "ON_CLICK_TOGGLE_DISP_MENU_END":
       return {
         ...state,
@@ -228,9 +227,6 @@ export default (state: any = {}, action: any) => {
           self: Posts.getSelf(action),
         },
       };
-      break;
-      Postsの高さを100vhにしたら表示が消える
-      */
     case "ON_CLICK_TOGGLE_DISP_MENU":
     case "ON_CLICK_TOGGLE_DISP_DETAIL":
       return {
