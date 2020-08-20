@@ -1554,6 +1554,7 @@ class IframeEmbed extends Iframe {
     this.getRight = this.getRight.bind(this);
     this.getTransform = this.getTransform.bind(this);
 
+    
     // communication.
     this.tune = this.tune.bind(this);
     this.disconnect = this.disconnect.bind(this);
@@ -1564,22 +1565,21 @@ class IframeEmbed extends Iframe {
   }
 
   getStyles() {
-    const { width, height } = this.root.style;
+    const { width, height } = getComputedStyle(this.root);
     return (
       "" +
       `z-index: ${Styles.zIndex} !important;` +
       `overflow: hidden !important;` +
       "display: block !important;" +
       "align-items: flex-end !important;" +
-      "position: absolute !important; " +
       "bottom: 0px !important;" +
       "right: 0px !important;" +
-      `width: ${width} !important;` +
-      `min-width: ${width} !important;` +
-      `max-width: ${width} !important;` +
-      `height: ${height} !important;` +
-      `min-height: ${height} !important;` +
-      `max-height: ${height} !important;` +
+      `width: 100% !important;` +
+      `min-width: 280px !important;` +
+      `max-width: 100% !important;` +
+      `height: 100% !important;` +
+      `min-height: 430px !important;` +
+      `max-height: 100% !important;` +
       "margin: 0 !important;" +
       "padding: 0 !important;" +
       `clip-path: inset(0px round 10px) !important;` +
@@ -1624,11 +1624,11 @@ class IframeEmbed extends Iframe {
   }
 
   getWidth(addUnit = false) {
-    return this.root.style.width;
+    return getComputedStyle(this.root).width;
   }
 
   getHeight(addUnit = false) {
-    return this.root.style.height;
+    return getComputedStyle(this.root).height;
   }
 
   getRight() {
