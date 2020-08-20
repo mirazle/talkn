@@ -442,957 +442,9 @@
 <link rel="alternate" hreflang="ga" href="https://<%= wwwURL %>/ga">
 <link rel="alternate" hreflang="he" href="https://<%= wwwURL %>/he">
 <link rel="alternate" hreflang="mr" href="https://<%= wwwURL %>/mr">
+<link rel="stylesheet" href="api.css">
 
-<style type="text/css">
-
-    @font-face {
-    font-family: "Original Yu Gothic";
-    src: local("Yu Gothic Medium");
-    font-weight: 100;
-    }
-    @font-face {
-    font-family: "Original Yu Gothic";
-    src: local("Yu Gothic Medium");
-    font-weight: 200;
-    }
-    @font-face {
-    font-family: "Original Yu Gothic";
-    src: local("Yu Gothic Medium");
-    font-weight: 300;
-    }
-    @font-face {
-    font-family: "Original Yu Gothic";
-    src: local("Yu Gothic Medium");
-    font-weight: 400;
-    }
-    @font-face {
-    font-family: "Original Yu Gothic";
-    src: local("Yu Gothic Bold");
-    font-weight: bold;
-    }
-    body {
-        color: rgb(255,255,255);
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK JP", "Original Yu Gothic", "Yu Gothic", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Sans Emoji";
-        letter-spacing: 0.03rem;
-        font-size: 3vw;
-        font-weight: 200;
-    }
-    .fixBackground {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 0;
-        width: 100%;
-        height: 100%;
-    }
-    .background {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: -1;
-        height: 0;
-        width: inherit;
-        height: inherit;
-        background: url("//<%= assetsURL %>/api/img1.jpg") center center no-repeat;
-        background-size: cover;
-        overflow: hidden;
-    }
-    .container {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        flex-wrap: wrap;
-        margin: 0;
-        width: auto;
-        height: auto;
-        overflow: hidden;
-        z-index: 2;
-    }
-    section {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        box-sizing: border-box;
-        width: 100%;
-        height: 1000px;
-        max-height: 1000px;
-    }
-    h2 {
-        margin: 0;
-        text-align: center;
-        color: rgba(255, 255, 255);
-        font-size: 3rem;
-        font-weight: 200;
-        line-height: 7rem;
-        letter-spacing: 0.7rem;
-    }
-    h3 {
-        padding: 1vw 0px 0px 0px;
-        margin: 0;
-    }
-    h4 {
-        font-size:0.75rem;
-    }
-    header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        width: 100%;
-        height: 120px;
-        z-index: 10;
-        font-weight: 400;
-        font-size: 15px;
-    }
-    header .language-menu {
-        box-sizing: border-box;
-        position: absolute;
-        top: -380px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
-        flex-direction: column;
-        flex-wrap: wrap;
-        background: rgba(0,0,0,0.8);
-        padding: 10px;
-        width: 100%;
-        height: 380px;
-        border-radius: 0px 0px 5px 5px;
-        z-index: 1;
-        transition: 300ms;
-        transform: translate3d(0px, 0px, 0px);
-    }
-    header .language-menu li {
-        display: inline-block;
-        box-sizing: border-box;
-        color: rgba(255,255,255,0.9);
-        margin: 2px;
-        padding: 10px;
-        width: 30%;
-        height: 40px;
-        transition: 300ms;
-    }
-    header .language-menu li.active:hover {
-        color: rgba(0,0,0,0.8);
-        background: rgba(255,255,255,0.8);
-    }
-    .menus, nav {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-    }
-    .headBar {
-        position: absolute;
-        top: 0px;
-        width: 100%;
-        min-height: 10px;
-        background-color: rgba(0,0,0,0.9);
-    }
-    nav {
-        position: absolute;
-        top: 60px;
-        width: inherit;
-        height: 70px;
-        background: rgba(255,255,255,0.9);
-        color: rgb(100, 100, 100);
-        box-sizing: border-box;
-        border-bottom: 1px solid rgba(0,0,0,0.1)
-    }
-    nav ul {
-        position: absolute;
-        top: 5px;
-        max-width: 800px;
-        min-width: 320px;
-    }
-    
-    .menus {
-        position: absolute;
-        top: 0px;
-        flex-direction: row;
-        height: 60px;
-        background: rgba(0,0,0,0.8);
-        z-index: 1;
-    }
-    ul, .pointerWrap {
-        position: relative;
-        top: 5px;
-        display: flex;
-        justify-content: space-between;
-        width: inherit;
-        height: 70px;
-        max-width: 800px;
-        min-width: 320px;
-        margin: 0;
-        padding: 0;
-    }
-    nav li, .menus li, footer li {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: inherit;
-        height: inherit;
-        margin: 0;
-        padding: 0;
-        cursor: pointer;
-    }
-    .selectMenuWrap {
-        position: fixed;
-        top: -27px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 50px;
-        height: 50px;
-        background: rgb(0,0,0,0.7);
-        border-radius: 100px;
-    }
-    .pointerWrap {
-        position: absolute;
-        height: initial;
-        top: 55px;
-        z-index: 0;
-    }
-    .pointer{
-        width: calc( 10% );
-        margin: 0px 7.5% 0px 7.5%;
-        height: 5px;
-        border-radius: 10px;
-        background: rgb(79, 174, 159, 1 );
-        color: rgb( 255, 255, 255 );
-        z-index: 1;
-        transition: 300ms;
-        transform: translate3d( 0px, 0px, 0px );
-    }
-    .accessory {
-        display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        width: 55px;
-        height: 55px;
-        line-height: 35px;
-        background: rgba(0,0,0,1);
-        position: fixed;
-        top: -35px;
-        border-radius: 100px;
-        color: rgb(255,255,255);
-        font-size: 12px;
-        transition: 300ms;
-        transform: translate3d(0px,-25px,0px);
-    }
-    .accessory-case {
-        position: fixed;
-        top: -100px;
-        width: 100%;
-        height: 100px;
-        background: rgb(255,255,255);
-    }
-    section .content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: row;
-        position: absolute;
-        width: 100%;
-        max-width: 1280px;
-    }
-    section .title {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        height: 120px;
-        width: 100%;
-    }
-    section.zero {
-        background: linear-gradient(
-            180deg, 
-            rgba(0,0,0,0) 0%, 
-            rgba(0,0,0,0.1) 20%,
-            rgba(0,0,0,0.3) 35%, 
-            rgba(0,0,0,0.3) 65%, 
-            rgba(0,0,0,0.1) 80%, 
-            rgba(0,0,0,0) 100%
-        );
-    }
-    section.zero h2 .bold {
-        /*
-        text-shadow:
-            2px 2px 2px rgb(170, 100, 100),
-            0px 0px 10px rgb(170, 100, 100);
-        */
-    }
-    section.one{
-        flex-direction: column;
-        background: rgba( 0, 30, 30, 0.6 );
-    }
-    section.one .content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-    }
-    section.one .intros {
-        display: grid;
-        margin: 5rem 0;
-        width: 100%;
-        grid-template-rows: 20rem 20rem 20rem;
-        grid-template-columns: 1fr 1fr 1fr;
-        justify-content: center;
-        align-content: center;
-        text-align: center;
-        line-height: 3rem;
-        letter-spacing: 2px;
-        font-size: 1.8rem;
-    }
-    section.one .intros .title {
-        font-size: 3rem;
-        font-weight: 200;
-        line-height: 7rem;
-        grid-row: 1;
-        grid-column: 1 / 4;
-        margin: auto;
-    }
-    section.one .intros .merit {
-        display: block;
-        align-items: center;
-        width: 90%;
-        height: 30vw;
-        max-width: 280px;
-        max-height: 280px;
-        margin: 0 auto;
-        padding: 1rem;
-        border-radius: 140px;
-        box-sizing: border-box;
-    }
-    section.one .intros .merit .num {
-        margin-top: 1.0rem;
-        font-size: 2.5rem;
-        font-weight: 100;
-    }
-    section.one .intros .merit .hr {
-        height: 1px;
-        background: white;
-        width: 60%;
-        margin: 1.1rem auto;
-    }
-    section.one .intros .merit.one {
-        background: rgba(159, 79, 174, 0.6);
-    }
-    section.one .intros .merit.two {
-        background: rgba(79, 174, 159, 0.6);
-    }
-    section.one .intros .merit.three {
-        background: rgba(50, 50, 170, 0.6);
-    }
-    section.one .intros .conclusion {
-        grid-row: 3;
-        grid-column: 1 / 4;
-        border-radius: 140px;
-        margin: auto;
-        padding: 1rem 0;
-        background: rgba(170, 100, 0, 0.6);
-        height: 8rem;
-        width: 100%;
-        max-width: 1130px;
-        font-size: 2.3rem;
-    }
-    section.one .conclusion .str {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-    }
-    section.two{
-        flex-direction: column;
-        background: rgba(0, 0, 140, 0.5);
-    }
-    section.two .bar {
-        width: 100%;
-        height: 30vw;
-        max-height: 300px;
-        background: rgba(0, 0, 140, 0.5);
-    }
-    section.two .content-left {
-        width: 60%;
-        text-align: right;
-    }
-    section.two .content-right {
-        width: 40%;
-        height: 500px;
-        background-image: url("//<%= assetsURL %>/www/cap1.png");
-        background-position: 10% 50%;
-        background-size: contain;
-        background-repeat: no-repeat;
-    }
-    section.two h2 {
-    }
-    section.two h3 {
-        padding: 0;
-        margin: 0;
-        text-align: right;
-    }
-    section.two .link {
-        width: 100%;
-        height: 50px;
-        position: absolute;
-        transform: translate3d(0px,400px,0px);
-        background-image: url("//<%= assetsURL %>/img/chrome_extension.png");
-        background-position: 95% 50%;
-        background-repeat: no-repeat;
-        background-size: contain;
-        cursor: pointer;
-    }
-    section.three {
-        flex-direction: initial;
-    }
-    section.three .content {
-        height: inherit;
-    }
-    section.three .content-left {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        width: 50%;
-        height: inherit;
-        background: rgba(70,70,70,0.7);
-        overflow: visible;
-    }
-    section.three .content-left .iframeCap{
-        width: 80%;
-        height: 50%;
-        background-image: url("//<%= assetsURL %>/www/iframe.png");
-        background-position: 50% 50%;
-        background-repeat: no-repeat;
-        background-size: contain;
-        transform: translate3d(0% ,0px, 0px) rotate(0deg);
-    }
-    section.three h2 {
-        width: 90%;
-        padding: 0;
-        margin: 0;
-        text-align: left;
-    }
-    section.three code pre {
-        font-size: 0.7rem;
-    }
-    section.three code pre .comment{
-        font-size: 0.5rem;
-        color: rgb(173, 154, 255);
-    }
-    section.three code pre .tag-name{
-        color: rgb(255, 115, 157);
-    }
-    section.three code pre .property-name{
-        color: rgb(216, 255, 121);
-    }
-    section.three code pre .value{
-        color: rgb(220, 220, 30);
-    }
-    section.three .content-right {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        flex-direction: column;
-        width: 50%;
-        height: inherit;
-    }
-    section.three .content-right-top {
-        width: 100%;
-        height: 33.3%;
-        background: rgba(79, 174, 159, 0.7);
-    }
-    section.three .content-right-middle {
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        flex-direction: column;
-        box-sizing: border-box;
-        width: 100%;
-        height: 33.3%;
-        background: rgba(70,70,70,0.7);
-    }
-    section.three .content-right-bottom {
-        width: 100%;
-        height: 33.3%;
-        background: rgba(79, 174, 159, 0.7);
-    }
-    section.three h3 {
-    }
-    section.three .link {
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-end;
-        flex-direction: column;
-        z-index: 1;
-        width: 100%;
-        height: 100%;
-        color: rgb(0,0,0);
-    }
-    section.three .link div {
-        padding: 5px 20px 5px 20px;
-        border: 3px solid rgba(0,0,0,0.8);
-        border-radius: 30px;
-        margin: 10px;
-        color: rgba(0,0,0,0.8);
-        font-size: 0.75rem;
-        font-weight: bold;
-        transition: 300ms;
-    }
-    section.three .link div:hover {
-        color: rgb(255,255,255,1);
-        background: rgb(79, 174, 159);
-    }
-    section.three code {
-        position: absolute;
-        width: 40%;
-        background: rgba(0,0,0,0.825);
-        padding: 30px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        z-index: 1;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px 1px rgb(0,0,0,1);
-        transition: 1000ms;
-        opacity: 0;
-    }
-    section.three code .code-title{
-        color: rgb(255, 255, 255);
-        font-weight: bold;
-    }
-    section.fourth {
-        flex-direction: column;
-        justify-content: flex-start;
-        background: rgba(150, 0, 130, 0.5);
-        padding: 50px 0px 0px 0px;
-    }
-    section.fourth h2 {
-        padding: 0;
-        margin: 0px 0px 70px 0px;
-        text-align: center;
-    }
-    section.fourth .content{
-        position: relative;
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        flex-direction: row;
-        width: 100%;
-        height: calc( 80% - 80px );
-    }
-    section.fourth .content-left, section.fourth .content-right {
-        display: flex;
-        align-content: center;
-        align-items: center;
-        flex-direction: column;
-        box-sizing: border-box;
-        margin: 0 5%;
-        border: 5px solid rgb(255,255,255);
-        border-radius: 20px;
-        width: 40%;
-        height: 70%;
-        text-align: center;
-        background: rgba(140, 0, 185, 0.6);
-        transition: 300ms;
-    }
-    section.fourth .content-left:hover, section.fourth .content-right:hover {
-        background: rgba(140, 0, 185, 0.9);
-    }
-    section.fourth .terminal {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 20%;
-        font-weight: bold;
-    }
-    section.fourth .status {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 20%;
-        padding: 10px;
-        font-size: 18px;
-    }
-    section.fourth .tools {
-        width: 100%;
-        height: 60%;
-        background-image: url("//<%= assetsURL %>/www/tools.png");
-        background-position: 50% 33%;
-        background-repeat: no-repeat;
-        background-size: 33%;
-    }
-    section.five {
-        justify-content: flex-start;
-        background: rgba( 0, 0, 0, 0.7);
-        color: rgb( 240,240,240);
-        padding: 50px 0px 0px 0px;
-    }    
-    section.five .company {
-        width: 100%;
-        max-width: 600px;
-        line-height: 25px;
-        box-sizing: border-box;
-    } 
-    section.five .company th{
-        width: 110px;
-        padding: 5px;
-        background: rgba(100,100,100,0.7);
-        border-radius: 3px;
-        text-align: left;
-        text-indent: 10px;
-        font-size: 12px;
-    }
-    section.five .company td{
-        padding: 5px 10px 5px 10px;
-        background: rgba(100,100,100,0.7);
-        border-radius: 3px;
-        text-align: left;
-        font-size: 12px;
-    }
-    section.five .company img {
-        position: relative;
-        top: 3px;
-        width: 16px;
-    }
-    section.five .contact {
-        width: 100%;
-        max-width: 600px;
-    }
-    section.five .contact form {
-        width: 100%;
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        flex-direction: column;
-    }
-    section.five .contact .oneline {
-        display: flex;
-        width: 100%;
-    }
-    section.five .contact .oneline .grow {
-        flex-grow: 1;
-    }
-    section.five .contact input, section.five .contact textarea {
-        box-sizing: border-box;
-        border: 0;
-        border-radius: 3px;
-        background: rgba(100,100,100,0.7);
-        margin: 1px;
-        padding: 5px 20px 5px 20px;
-        height: 35px;
-        width: 100%;
-        color: rgb(240, 240, 240);
-        text-indent: 5px;
-        outline: 0;
-        box-shadow: none;
-        transition: 300ms;
-    }
-    section.five .contact input:hover, section.five .contact textarea:hover {
-        background: rgba(100,100,100,0.9);
-    }
-    section.five .contact [type=submit] {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 40px auto 0px auto;
-        width: 30%;
-        height: 50px;
-        border-radius: 5px;
-        background: rgba( 200, 200, 200, 0.5 );
-        color: rgb(240, 240, 240);
-        transition: 300ms;
-    }
-    section.five .contact [type=submit]:hover {
-        background: rgba( 79, 174, 159, 1 );
-        color: rgb(255, 255, 255);
-    }
-    section.five ::placeholder {
-        text-indent: 5px;
-        color: rgb( 220, 220, 220 );
-    }
-    section.five .contact textarea {
-        text-indent: 0px;
-        color: rgb(240, 240, 240);
-        min-height: 100px;
-        min-width: 100%;
-        resize: none;
-    }
-    footer {
-        position: relative;
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        flex-direction: column;
-        width: 100%;
-        height: 1000px;
-        background: rgba(0,0,0,1);
-        padding: 0px 0px 100px 0px;
-        font-size: 13px;
-    }
-    footer .sns .fb-share-button{
-        position: relative;
-        top: -3px;
-    }
-    footer .sns {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-    }
-    footer .sns .twitter, footer .sns .facebook {
-        margin: 20px;
-    }
-    .toTop {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 54px;
-        height: 54px;
-        background: rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba( 255, 255, 255, 0.2);
-        border-radius: 5px;
-        color: rgb(255,255,255);
-        transition: 300ms;
-        cursor: pointer;
-        z-index: 1;
-    }
-    .toTop:hover {
-        background: rgba(255,255,255,0.8);
-    }
-    .toTop .arrow {
-        width: 0px;
-        height: 0px;
-        border-right: 10px solid transparent;
-        border-bottom: 10px solid rgba( 255, 255, 255, 0.4);
-        border-left: 10px solid transparent;
-        transition: 300ms;
-    }
-    .toTop:hover .arrow {
-        border-bottom: 10px solid rgba( 0, 0, 0, 0.2);
-    }
-    .highlight {
-        color: yellow;
-    }
-    a:link {
-        color: rgb(255,255,255);
-        text-decoration: none;
-    }
-    a:visited {
-        color: rgb(255,255,255);
-    }
-    a:hover {
-        color: rgb(255,255,255);
-    }
-    a:active {
-        color: rgb(255,255,255);
-    }
-    @media screen and (min-width:0px) and ( max-width:1000px) {
-        header .language-menu {
-            font-size: 12px;
-            letter-spacing: 0;        
-        }
-        section.one ::placeholder {
-            font-size: 1rem;
-            letter-spacing: 2px;
-            text-indent: 3vw;
-        }
-        section.one input {
-            font-size: 1rem;
-            letter-spacing: 2px;
-            text-indent: 3vw;
-        }
-        h2 {
-            letter-spacing: "<%= letterSpacingSmall %>""
-        }
-        section.one h2 {
-            font-size: 26px !important;
-        }        
-        section.one form {
-            margin: 0px 0px 200px 0px;
-        }
-        section.one .intros {
-            line-height: 2rem;
-            font-size: 1.2rem;
-        }
-        h2 {
-            font-size: 1.5rem;
-        }
-        section {
-            height: 1000px;
-        }
-        section .title {
-            height: 100px;
-        }
-        section.two .bar {
-            height: 40vw !important;
-        }
-        section.two .content-right {
-            background-size: contain;
-            transform: rotate(-5deg) scale(1.75) translate3d(35px, 0px, 0px);
-        }
-        section.two h2 {
-        }
-        section.two h3 {
-        }
-        section.two .link {
-            background-position: 10% 50%;
-            transform: translate3d(0px,240px,0px);
-        }
-        section.three .content {
-            flex-direction: column-reverse !important;
-        }
-        section.three .content-left {
-            align-items: flex-start !important;
-            width: 100% !important;
-            height: 50% !important;
-        }
-        section.three .content-left pre {
-            font-weight: bold;
-        }
-        section.three .content-right {
-            width: 100% !important;
-            height: 50% !important;
-        }
-        section.three .content-right-middle {
-            height: 50vw !important;
-            padding-left: 20vw;
-            align-items: flex-start;
-        }
-        section.three .content-left .iframeCap {
-            position: relative;
-            top: -50%;
-            left: -50%;
-            bottom: 0vw;
-            width: 100%;
-            min-height: 200%;
-            background-position: 92% 95%;
-            background-size: 43%;
-            background-origin: border-box;
-        }
-        section.three .link div {
-            border: 3px solid rgb(255,255,255);
-            color: rgb(255,255,255);
-        }
-        section.three code pre {
-        }
-        section.fourth h2 {
-            margin: 0px 0px 30px 0px;
-        }
-        section.fourth .content-right, section.fourth .content-left {
-            border: 3px solid rgb(255,255,255);
-            height: 90%;
-        }
-        section.fourth .terminal {
-        }
-        section.fourth .status {
-        }
-        section.fourth .tools {
-            background-size: 50%;
-        }
-        section.five ::placeholder {
-            text-indent: 0px !important;
-        }
-        section.five input {
-            text-indent: 0px !important;
-        }
-        section.five .title {
-            height: 50px;
-            font-weight: bold;
-        } 
-        section.five .company, section.five .contact {
-            width: 96%;
-            font-size: 12px;
-        } 
-        section.five .contact [type=submit] {
-            height: 35px;
-            margin: 20px auto 0px auto;
-        }
-    }
-    @media screen and (min-width:1200px) {
-        h2 {
-            font-size: 45px;
-            letter-spacing: <%= letterSpacingLarge %>
-        }
-        h3 {
-            font-size: 40px;
-        }
-        h4{
-            font-size: 20px;
-        }
-        section .title {
-            height: 150px;
-        }
-        section.one h2 {
-            font-size: 40px;
-        }
-        section.one h1 {
-        }
-        section.two h2 {
-        }
-        section.three h2 {
-        }
-        section.three .content-left .iframeCap {
-            background-size: 340px;
-        }
-        section.three .link div {
-            font-size: 25px;
-        }
-        section.three code .code-title{
-        }
-        section.three code {
-        }
-        section.three .content-right-middle {
-            padding-left: 2vw;
-        }
-        section.fourth h2 {
-        }
-        section.fourth .terminal {
-            font-size: 45px;
-        }
-        section.fourth .status {
-        }
-        section.fourth .tools {
-            background-size: 128px;
-        }
-        section.fourth .content-left {
-            margin: 0 10%;
-            width: 30%;
-        }
-        section.fourth .content-right {
-            margin: 0 10%;
-            width: 30%;
-        }
-        section.fourth .content-left, section.fourth .content-right {
-            padding: 20px;
-        }
-        section.five .company th{
-            font-size: 14px;
-        }
-        section.five .company td{
-            font-size: 14px;
-        }
-        section.five .title{
-            font-size:30px;
-        }
-    }
-</style>
-
+<script type="text/javascript" async src="//<%= extURL %>"></script>
 <script type="text/javascript">
     const wideScreenWidth = 1000;
     const smallScreenWidth = 600;
@@ -1515,7 +567,7 @@
         }
     }
     function setNavStyles(){
-
+        console.log("^^");
         const nav = document.querySelector("nav");
         const accessory = document.querySelector(".accessory");
         const toTop = document.querySelector(".toTop");
@@ -1531,28 +583,35 @@
                 accessory.style.transform = "translate3d(0px, 0px, 0px)";
                 accessory.style.width = "70px";
                 accessory.style.height = "70px";
-                accessory.innerText = "Apps";
+                accessory.innerText = "talkn";
             }
         }
         if( !toTop ){
-            return false;
+            // return false;
         }
+        console.log("A");
         if( scrollY < navTop ){
+            console.log( "B" );
             if( nav.style.position === "fixed" ){
+                console.log( "C" );
                 nav.style.position = "absolute";
                 nav.style.top = `${navTop}px`;
                 accessory.style.transform = "translate3d(0px, -25px, 0px)";
             }
             //toTop.style.display = "none";
         }else{
+            console.log( "D" );
             if(nav.style.position === "absolute"){
+                console.log( "E" );
                 nav.style.position = "fixed";
                 nav.style.top = "0px";
                 accessory.style.transform = "translate3d(0px, 0px, 0px)";
                 changeAccessoryFunc(scrollY);
             }else if(nav.style.position === "fixed"){
+                console.log( "F" );
                 changeAccessoryFunc(scrollY);
             }else if( nav.style.position === "" ){
+                console.log( "G" );
                 nav.style.position = "absolute";
                 nav.style.top = `${navTop}px`;
                 accessory.style.transform = "translate3d(0px, -25px, 0px)";
@@ -1751,216 +810,85 @@
                     <div class="pointer" />
                 </div>
             </nav>
-            <div class="accessory">Apps</div>
+            <div class="accessory">talkn</div>
             <div class="accessory-case"></div>
         </header>
 
         <section class="zero">
-            <div class="content">
+            <div class="bg"></div>
+            <div class="bar"></div>
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="message">
                 <h2>
-                    あなたのWEBサイトを<br />
-                    <span class="bold">'LIVE会場'</span>に変える。
+                    あなたのWEBサイトを<br /><span class="bold">"LIVE会場"</span>に変える。
                 </h2>
+            </div>
+            <div class="content">
+                <div class="board">
+                    <div class="talknEmbed"></div>
+                </div>
             </div>
         </section>
 
         <section class="one">
-            <div class="content">
-                <div class="intros">
-                    <div class="title">
-                        <h2>WEBサイトオーナー様に贈る<br />「次世代集客ツール」の3つのメリット</hr>
-                    </div>
-                    <div class="merit one">
-                        <div class="num">1</div>
-                        <div class="hr"></div>
-                        <div class="str">WEBサイトを<br />LIVE会場に</div>
-                    </div>
-                    <div class="merit two">
-                        <div class="num">2</div>
-                        <div class="hr"></div>
-                        <div class="str">新しい<br />SNS拡散機能</div>
-                    </div>
-                    <div class="merit three">
-                        <div class="num">3</div>
-                        <div class="hr"></div>
-                        <div class="str">今だけ無料<br />インストール</div>
-                    </div>
-                    <div class="conclusion">
-                        <div class="str">ユーザーのリピート率UP・広告収入UP!</div>
-                    </div>
-                </div>
+            <div class="ribonWrap">
+                <div class="ribon">WEBサイトオーナー様向け</div>
             </div>
-        </section>
-        <section class="two">
-
-            <div class="bar"></div>
-
-            <div class="content">
-                <div class="content-left">
-                    <h2>
-                        <%= two1 %>
-                        <% if (two12Br) { %>
-                            <br />
-                        <% } %>
-                        <%= two2 %>
-                    </h2>
-                    <!-- Conversation is best entertainment -->
-                    <h4>- No login communication -</h4>
-                </div>
-                <div class="content-right"></div>
-            </div>
-        </section>
-
-        <section class="three">
-                <div class="content">
-                     <div class="content-left">
-                         <div class="iframeCap"></div>
-                    </div>
-                    <div class="content-right">
-                        <div class="content-right-top"></div>
-                        <div class="content-right-middle">
-                            <h2>
-                                <%= three1 %>
-                                <% if (three12Br) { %>
-                                    <br />
-                                <% } %>
-                                <%= three2 %>
-                            </h2>
-                            <h4>- Let's write one line in HTML5 -</h4>
-                        </div>
-                        <div class="content-right-bottom"></div>
-                    </div>
-                </div>
-                <div class="link">
-                    <div onclick="onClickCopyTag('copyScript')" class="copyScript">COPY SCRIPT</div>
-                </div>       
-                <code class="copyScriptCode">
-                    <div class="code-title">
-                        Copied.
-                    </div>
-                    <pre>
-<span class="comment">// <%= copyScriptComment %></span>
-<span class="tag-name">&lt;script</span>
-    <span class="property-name">async</span>
-    <span class="property-name">type</span>=<span class="value">"text/javascript"</span>
-    <span class="property-name">src</span>=<span class="value">"//<%= extURL %>"</span>
-&gt;
-<span class="tag-name">&lt;/script&gt;</span></pre>
-                </code>
-        </section>
-
-        <section class="fourth">
-
-            <div class="title">
-                <h3>Smartphone</h3>
-            </div>
-        
             <h2>
-                <%= fourth1 %><br />
-                <%= fourth2 %><br />
+                <div class="message">
+                    talkn(集客ツール)の<br class="active800" />メリット３点
+                </div>
             </h2>
 
-            <div class="content">
-                <div class="content-left">
-                    <div class="terminal">iOS</div>
-                    <div class="status">
-                        Expected to be released<br/>
-                        in April 2020.
-                    </div>
-                    <div class="tools"></div>
-                </div>
-                <div class="content-right">
-                    <div class="terminal">Android</div>
-                    <div class="status">
-                        Expected to be released<br/>
-                        in April 2020.
-                    </div>
-                    <div class="tools"></div>
+            <div class="merit one">
+                <div class="num">1</div>
+                <div class="hr"></div>
+                <p>無料<br />インストール</p>
+            </div>
+
+            <div class="merit two">
+                <div class="num">2</div>
+                <div class="hr"></div>
+                <p>WEBサイトを<br />LIVE会場に</p>
+            </div>
+            <div class="merit three">
+                <div class="num">3</div>
+                <div class="hr"></div>
+                <p>新しい<br />SNS拡散機能</p>
+            </div>
+            <div class="arrowWrap">
+                <div class="arrow">▼</div>
+            </div>
+            <div class="conclusion">
+                <div class="str">
+                    結果
+                    <span class="colon">：</span>
+                    <div class="hr"></div>
+                    ユーザーのリピート率UP・広告収入UP!
                 </div>
             </div>
         </section>
-
-        <section class="five">
-            <div class="title">
-                <%= fiveCompanyKey %>
-            </div>
-            <table class="company">
-                <tbody>
-                    <tr>
-                        <th><%= fiveCompanyNameKey %></th>
-                        <td><%= fiveCompanyNameValue %></td>
-                    </tr>
-                    <tr>
-                        <th><%= fiveCompanyFoundedKey %></th>
-                        <td><%= fiveCompanyFoundedValue %></td>
-                    </tr>
-                    <tr>
-                        <th><%= fiveCompanyRepresentativeKey %></th>
-                        <td>
-                            <%= fiveCompanyRepresentativeValue %>
-                            <a href="https://twitter.com/messages/compose?recipient_id=mirazle&ref_src=twsrc%5Etfw" class="twitter-dm-button" data-size="large" data-screen-name="mirazle" data-show-count="false">
-                                <img class="twitter" src="https://<%= assetsURL %>/img/twitter.png" />
-                            </a>
-                            <a href="https://www.facebook.com/hiroyuki.miyazaki.5070">
-                                <img class="facebook" src="https://<%= assetsURL %>/img/facebook.png" />                            
-                            </a>
-                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><%= fiveCompanyPolicyKey %></th>
-                        <td><%= fiveCompanyPolicyValue %></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <br />
-            <div class="title">
-                <%= fiveContactKey %>
-            </div>
-
-            <div class="contact">
-                <form method="POST" action="/mail">
-                    <div class="oneline">
-                        <input class="grow" name="inquiry[name]" placeholder="<%= fiveContactNameKey %>" type="text" maxlength=50 size=20　/>
-                        <input class="grow" name="inquiry[mail]" placeholder="<%= fiveContactMailKey %>" maxlength=50 type="text" size=20　/>
-                    </div>
-                    <div class="oneline">
-                        <input name="inquiry[title]" placeholder="<%= fiveContactTitleKey %>" type="text" maxlength=50 size=20 />
-                    </div>
-                    <div class="oneline">
-                        <textarea name="inquiry[content]" placeholder="<%= fiveContactContentKey %>" type="text" maxlength=800 size=20></textarea>
-                    </div>
-                    <div class="oneline">
-                        <input type="hidden" value="<%=language %>"/>
-                        <input type="submit" value=" <%=fiveContactSendKey %> "/>
-                    </div>
-                </form>
-            </div>
-        </section>
-
-
-         <footer>
-            <div
-                class="toTop"
-                onclick="onClickToTop()"
-            >
-                <div class="arrow"></div>
-            </div>
-            <div class="sns">
-                <div class="twitter">                    
-                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                </div>
-                <div class="facebook">
-                    <div class="fb-share-button" data-href="https://www.talkn.io" data-layout="button_count" data-size="large">
-                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.talkn.io%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">
-                            Share
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div>Copyright © talkn, Inc.</div>
-        </footer>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
     </div>
 </body>
 </html>
