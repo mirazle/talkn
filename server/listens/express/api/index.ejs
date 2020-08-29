@@ -567,7 +567,6 @@
         }
     }
     function setNavStyles(){
-        console.log("^^");
         const nav = document.querySelector("nav");
         const accessory = document.querySelector(".accessory");
         const toTop = document.querySelector(".toTop");
@@ -589,34 +588,28 @@
         if( !toTop ){
             // return false;
         }
-        console.log("A");
+
         if( scrollY < navTop ){
-            console.log( "B" );
             if( nav.style.position === "fixed" ){
-                console.log( "C" );
                 nav.style.position = "absolute";
                 nav.style.top = `${navTop}px`;
                 accessory.style.transform = "translate3d(0px, -25px, 0px)";
             }
             //toTop.style.display = "none";
         }else{
-            console.log( "D" );
             if(nav.style.position === "absolute"){
-                console.log( "E" );
                 nav.style.position = "fixed";
                 nav.style.top = "0px";
                 accessory.style.transform = "translate3d(0px, 0px, 0px)";
                 changeAccessoryFunc(scrollY);
             }else if(nav.style.position === "fixed"){
-                console.log( "F" );
                 changeAccessoryFunc(scrollY);
             }else if( nav.style.position === "" ){
-                console.log( "G" );
                 nav.style.position = "absolute";
                 nav.style.top = `${navTop}px`;
                 accessory.style.transform = "translate3d(0px, -25px, 0px)";
             }
-            toTop.style.display = "flex";
+            if(toTop ) toTop.style.display = "flex";
         }
     }
 	function animateScrollTo( to = 99999, duration = 400,  callback = () => {} ){
@@ -713,7 +706,8 @@
     window.onload =  ( e ) => {
         onServiceWorker();
         const search = document.querySelector(".search");
-        search.addEventListener('keypress', onKeyPressSearch);
+        const pagination = document.querySelectorAll("nav.pagination span");
+        // search.addEventListener('keypress', onKeyPressSearch);
         onResizeWindow();
         setupMath();
         window.pointer = document.querySelector(".pointer");
@@ -721,6 +715,13 @@
         window.nav = document.querySelector("nav");
         setNavStyles();
         setMenuColor();
+        console.log(pagination);
+        pagination.forEach( page => page.addEventListener('click', (e) => {
+            const scrollLeft = Number(e.target.dataset.index) === 1 ? 0 : 9999999;
+            console.log(e.target.dataset.index + " : " + scrollLeft);
+            document.querySelector(".slide").scrollLeft = scrollLeft;
+        }));
+        
         document.querySelector(".language-menu").addEventListener("transitionend", () => {
             const languageMenu = document.querySelector(".language-menu");
             if( languageMenu.style.transform === "translate3d(0px, 450px, 0px)" ){
@@ -798,7 +799,7 @@
                 </ul>
             </div>
 
-            <nav>
+            <nav class="head">
                 <div class="headBar"></div>
                 <ul>
                         <li onclick="onClick(0)" onmouseover="onMouseOver(0)" onmouseleave="onMouseLeave(0)">Top</li>
@@ -825,47 +826,58 @@
                 </h2>
             </div>
             <div class="content">
-                <div class="board">
-                    <div id="talknEmbed1" class="talknEmbed"></div>
+                <div class="slide">
+                    <section id="talkn" class="board talkn">
+                        <div id="talknEmbed1" class="talknEmbed"></div>
+                    </section>
+                    <section id="youtube" class="board youtube">
+                        <iframe width="460" height="300" src="https://www.youtube.com/embed/3dUxV3yuIyc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </section>
                 </div>
+                <nav class="pagination">
+                    <span data-index=1></span>
+                    <span data-index=2></span>
+                </nav>
             </div>
         </section>
 
         <section class="one">
-            <div class="ribonWrap">
-                <div class="ribon">WEBサイトオーナー様向け</div>
-            </div>
-            <h2>
-                <div class="message">
-                    talkn(集客ツール)の<br class="active800" />メリット３点
+            <div class="block">
+                <div class="ribonWrap">
+                    <div class="ribon">WEBサイトオーナー様向け</div>
                 </div>
-            </h2>
+                <h2>
+                    <div class="message">
+                        talkn(集客ツール)の<br class="active800" />メリット３点
+                    </div>
+                </h2>
 
-            <div class="merit one">
-                <div class="num">1</div>
-                <div class="hr"></div>
-                <p>無料<br />インストール</p>
-            </div>
-
-            <div class="merit two">
-                <div class="num">2</div>
-                <div class="hr"></div>
-                <p>WEBサイトを<br />LIVE会場に</p>
-            </div>
-            <div class="merit three">
-                <div class="num">3</div>
-                <div class="hr"></div>
-                <p>新しい<br />SNS拡散機能</p>
-            </div>
-            <div class="arrowWrap">
-                <div class="arrow">▼</div>
-            </div>
-            <div class="conclusion">
-                <div class="str">
-                    結果
-                    <span class="colon">：</span>
+                <div class="merit one">
+                    <div class="num">1</div>
                     <div class="hr"></div>
-                    ユーザーのリピート率UP・広告収入UP!
+                    <p>無料<br />インストール</p>
+                </div>
+
+                <div class="merit two">
+                    <div class="num">2</div>
+                    <div class="hr"></div>
+                    <p>WEBサイトを<br />LIVE会場に</p>
+                </div>
+                <div class="merit three">
+                    <div class="num">3</div>
+                    <div class="hr"></div>
+                    <p>新しい<br />SNS拡散機能</p>
+                </div>
+                <div class="arrowWrap">
+                    <div class="arrow">▼</div>
+                </div>
+                <div class="conclusion">
+                    <div class="str">
+                        結果
+                        <span class="colon">：</span>
+                        <div class="hr"></div>
+                        ユーザーのリピート率UP・広告収入UP!
+                    </div>
                 </div>
             </div>
         </section>

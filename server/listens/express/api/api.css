@@ -121,7 +121,7 @@ header .language-menu li.active:hover {
   background: rgba(255, 255, 255, 0.8);
 }
 .menus,
-nav {
+nav.head {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,7 +137,7 @@ nav {
   min-height: 10px;
   background-color: rgba(0, 0, 0, 0.9);
 }
-nav {
+nav.head {
   position: absolute;
   top: 60px;
   width: inherit;
@@ -147,7 +147,7 @@ nav {
   box-sizing: border-box;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-nav ul {
+nav.head ul {
   position: absolute;
   top: 5px;
   max-width: 800px;
@@ -175,7 +175,7 @@ ul,
   margin: 0;
   padding: 0;
 }
-nav li,
+nav.head li,
 .menus li,
 footer li {
   display: inline-flex;
@@ -255,7 +255,7 @@ ul, ol, li {
 }
 
 h2 {
-  font-size: 3.4rem;
+  font-size: 3.0rem;
   font-weight: 200;
   letter-spacing: 8px;
   line-height: 100px;
@@ -268,15 +268,17 @@ h2 {
   height: 450px;
 }
 #talknEmbed2 {
-  max-width: 660px;
-  min-width: 610px;
+  max-width: 700px;
+  min-width: 601px;
   width: 100%;
-  height: 700px;
+  max-height: 1200px;
+  min-height: 720px;
+  height: 100%;
 }
 section.zero {
+  padding: 200px 0;
   width: 100%;
   max-width: 1400px;
-  height: 1080px;
   flex-flow: row nowrap;
 }
 section.zero .bg {
@@ -284,13 +286,13 @@ section.zero .bg {
   top: 0;
   left: 0;
   width: 100%;
-  height: 1200px;
+  height: 1060px;
   background: rgba(0, 0, 0, 0.4);
   z-index: -2;
 }
 section.zero .bar {
   position: absolute;
-  top: 570px;
+  top: 460px;
   width: 100%;
   height: 180px;
   background: rgba(0, 0, 0, 0.4);
@@ -317,35 +319,72 @@ section.zero .bar2 {
   transform: skew(0deg, -25deg);
 }
 section.zero .message {
-  flex: 60% 1 60;
+  flex: 1;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  margin: 0 80px 80px;
   text-align: right;
 }
 section.zero .message h2 {
   width: 630px;
 }
-section.zero .content {
-  flex: 40% 1 40;
+section.zero .slide {
+  display: flex;
+  flex-flow: row nowrap;
+  scroll-snap-type: x mandatory;
+  overflow-x: scroll;
+  width: 540px;
+  min-width: 540px;
+}
+section.zero .slide .board {
+  width: 540px;
+  min-width: 540px;
+}
+section.zero .slide .board.talkn {
+  margin: 0 110px 0 0;
+  scroll-snap-align: start;
+}
+section.zero .slide .board.youtube {
+  margin: 80px 0;
+  scroll-snap-align: center;
+}
+section.zero nav {
+  width: 100%;
+}
+section.zero nav.pagination {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 80px;
 }
-section.zero .content .board {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-  width: inherit;
+section.zero nav.pagination span {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin: 14px;
+  border-radius: 50%;
+  background: rgb(255,255,255);
+  transition: 600ms;
 }
+
+section.zero nav.pagination span:hover {
+  transform: scale(1.4);
+}
+
 section.one {
+  width: 100%;
+  background: rgba(0, 60, 30, 0.8);
+}
+section.one .block {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 60px 0 120px 0;
+  max-width: 1400px;
   width: 100%;
   height: auto;
   flex-flow: row wrap;
-  background: rgba(0, 60, 30, 0.8);
 }
 section.one h2 {
   flex: 100% 1 100;
@@ -403,7 +442,7 @@ section.one .conclusion {
   align-items: center;
   border-radius: 100px;
   padding: 50px;
-  width: 83%;
+  width: 85%;
   height: 100%;
   font-size: 30px;
   text-align: center;
@@ -465,7 +504,10 @@ section.two .bar1 {
 }
 section.three {
   flex-flow: row wrap;
+  align-items: flex-start;
+  padding-bottom: 160px;
   width: 100%;
+  height: 100%;
   background: rgba(0,0,0,0.6);
 }
 section.three h2 {
@@ -474,22 +516,17 @@ section.three h2 {
   text-align: center;
 }
 section.three .content {
-  flex: 50% 1 50;
+  flex: 5 0 calc( 45% - 20px );
   display: flex;
   justify-content: flex-end;
-  align-items: center;
-  max-width: 800px;
-  width: 100%;
-  min-width: 620px;
+  align-items: flex-start;
+  margin-left: 20px;
 }
 section.three .children {
-  flex: 50% 1 50;
+  flex: 5 0 calc( 55% - 200px );
   display: flex;
   flex-flow: column nowrap;
-  margin-left: 50px;
-  max-width: 800px;
-  width: 100%;
-  min-width: 620px;
+  margin-left: 20px;
 }
 section.three .children ul.country_demo {
   display: flex;
@@ -499,11 +536,11 @@ section.three .children ul.country_demo {
 section.three .children li {
   flex: 50% 1 50;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   margin: 10px 0;
 }
 section.three .children li .lang {
-  width: 130px;
+  width: 110px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -538,15 +575,20 @@ section.three .children li .reduce:hover {
   background: rgba(100, 100, 100, 1);
 }
 @media screen and (max-width: 1060px) {
-  #talknEmbed1 {
-    width: 280px;
-    height: 430px;
-  }
-  #talknEmbed2 {
-    width: 280px;
-  }
   h2 {
     font-size: 40px;
+  }
+  section.zero .slide {
+    width: 300px;
+    min-width: 300px;
+  }
+  section.zero .slide .board {
+    width: 300px;
+    min-width: 300px;
+  }
+  section.zero .message {
+    justify-content: center;
+    margin: 0 20px 80px;
   }
   section.zero .message h2 {
     width: 500px;
@@ -576,19 +618,23 @@ section.three .children li .reduce:hover {
   }
   section.zero {
     flex-flow: column nowrap;
+    padding: 100px 0;
   }
   section.zero .message h2 {
     width: 100%;
   }
-  section.zero .message {
-    flex: 100% 1 100;
+  section.zero .slide {
+    width: 540px;
+    min-width: 540px;
+  }
+  section.zero .slide .board {
+    width: 540px;
+    min-width: 540px;
   }
   section.zero .content {
-    flex: 100% 1 100;
-    align-items: flex-start;
-    width: 100%;
+    height: 560px;
   }
-  section.one {
+  section.one .block {
     flex-flow: column wrap;
   }
   section.one h2 {
@@ -623,6 +669,10 @@ section.three .children li .reduce:hover {
   }
   section.one .conclusion .hr {
     display: block;
+  }
+  section.three .content {
+    margin: 0 20px;
+    flex: 6 0 calc( 100% - 40px );
   }
 }
 
