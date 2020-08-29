@@ -610,6 +610,9 @@ section.three .children li .reduce:hover {
 }
 
 @media screen and (max-width: 800px) {
+  h2 {
+    letter-spacing: 6px;
+  }
   .active800 {
     display: block;
   }
