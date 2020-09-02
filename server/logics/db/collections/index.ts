@@ -18,6 +18,7 @@ export default class Collections {
   }
 
   static getNewApp(type, app, threadStatus, thread, posts = []) {
+    app = new App({ ...app, rootCh: thread.ch });
     const tuned = thread.ch;
     let dispThreadType = "";
 

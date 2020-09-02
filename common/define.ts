@@ -26,6 +26,7 @@ const define: any = {
     ASSETS: "assets",
     SESSION: "session",
     AUTO: "auto",
+    OWN: "own",
     EXT: "ext",
     TRANSACTION: "transaction",
   },

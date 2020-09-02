@@ -25,7 +25,6 @@ import mapToStateToProps from "client/mapToStateToProps/";
 import Marquee from "client/container/util/Marquee";
 import DateHelper from "client/container/util/DateHelper";
 import componentDidUpdates from "client/container/componentDidUpdates";
-import TalknWindow from "client/operations/TalknWindow";
 import IconStyle from "client/style/Icon";
 
 interface ContainerProps {
@@ -238,8 +237,8 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     const frameHeight = ContainerStyle.getBlockSize({ app, ui }) * 2;
     const postsFrameHeight = window.innerHeight - frameHeight;
 
-    // 実際のスレッドの高さs
-    const postsRealHeight = TalknWindow.getPostsClientHeight();
+    // 実際のスレッドの高さ
+    // const postsRealHeight = window.talknWindow.dom.getPostsClientHeight();
     const PostsComponent = document.querySelector("[data-component-name=Posts]");
 
     if (log) console.log("フレーム枠の縦幅： " + postsFrameHeight);

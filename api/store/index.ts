@@ -1,3 +1,4 @@
+import BootOption from "common/BootOption";
 import App from "api/store/App";
 import User from "api/store/User";
 import Ranks from "api/store/Ranks";
@@ -6,7 +7,6 @@ import Posts from "api/store/Posts";
 import PostsTimeline from "api/store/PostsTimeline";
 import PostsTimelineStock from "api/store/PostsTimelineStock";
 import Analyze from "api/store/Analyze";
-import BootOption from "api/store/BootOption";
 import Thread from "api/store/Thread";
 import ActionLog from "api/store/ActionLogs";
 
@@ -28,7 +28,8 @@ export default class ApiState {
   app: App;
   user: User;
   actionLog: ActionLog;
-  constructor(bootOption: any = {}, caches: any = {}) {
+  constructor(bootOption: BootOption, caches: any = {}) {
+    this.bootOption = bootOption;
     this.ranks = new Ranks();
     this.menuLogs = new MenuLogs(caches.menuLogs);
     this.posts = new Posts();
@@ -39,7 +40,6 @@ export default class ApiState {
     this.postsTimelineStock = new PostsTimelineStock();
     this.postsLogs = new Posts();
     this.analyze = new Analyze();
-    this.bootOption = new BootOption(bootOption);
     this.thread = new Thread(this.bootOption, caches.thread);
     this.threadDetail = new Thread(this.bootOption, caches.thread);
     this.app = new App(ApiState.getAppParams(this.thread, this.bootOption, caches));

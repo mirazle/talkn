@@ -74,23 +74,22 @@ export default class TalknWindow extends TalknComponent<{}, {}> {
 
   setupWindow() {
     /*
-    const html = document.querySelector("html");
-    html.style.cssText +=
-      "" +
-      "width 100% !important;" +
-      "height: 100% !important;" +
-      "margin: 0px auto !important;" +
-      "padding-top: 0px !important;";
-
-    const body = document.querySelector("body");
-    body.style.cssText +=
-      "" +
-      "width 100% !important;" +
-      "height: 100% !important;" +
-      "margin: 0px auto !important;" +
-      "visibility: visible !important;" +
-      "opacity: 1 !important;";
-      */
+        const html = document.querySelector("html");
+        html.style.cssText +=
+          "" +
+          "width 100% !important;" +
+          "height: 100% !important;" +
+          "margin: 0px auto !important;" +
+          "padding-top: 0px !important;";
+        const body = document.querySelector("body");
+        body.style.cssText +=
+          "" +
+          "width 100% !important;" +
+          "height: 100% !important;" +
+          "margin: 0px auto !important;" +
+          "visibility: visible !important;" +
+          "opacity: 1 !important;";
+          */
   }
 
   listenAsyncBoot() {

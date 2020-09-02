@@ -13,6 +13,7 @@ export default class Io {
   }
 
   async connectionServer(ioUser) {
+    console.log(ioUser);
     return this.io.emit(ioUser, Sequence.CATCH_ME_KEY, { type: Sequence.CONNECTION_SERVER_KEY });
   }
 

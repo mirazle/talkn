@@ -1,6 +1,6 @@
-declare module "worker-loader?publicPath=/&name=worker.js!*" {
-  class WsApiWorker extends Worker {
+declare module "worker-loader?publicPath=/&name=ws.client.worker.js!*" {
+  class WsClientWorker extends Worker {
     constructor();
   }
-  export default WsApiWorker;
+  export default WsClientWorker;
 }
