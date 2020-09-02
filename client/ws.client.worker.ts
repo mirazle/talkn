@@ -32,9 +32,7 @@ export default class WebWorker {
   private onMessage(e: MessageEvent): void {
     const { type, method, params }: MessageClientAndWsApiType = e.data;
     if (type === PostMessage.CLIENT_TO_WSAPI_TYPE) {
-      if (this.ws[method] && typeof this.ws[method] === "function") {
-        this.ws.exe(method, params);
-      }
+      this.ws.exe(method, params);
     }
   }
   private onMessageError(e: ErrorEvent): void {

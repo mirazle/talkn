@@ -16,6 +16,7 @@ export default class Ws {
   webWorker: WebWorker;
   store: Store;
   io: SocketIOClient.Socket;
+  methods: { key: Function } | {} = {};
   publicCallbacks: { key: Function } | {} = {};
   static get server() {
     return conf.env === define.DEVELOPMENT || conf.env === define.LOCALHOST
@@ -27,29 +28,30 @@ export default class Ws {
   }
   // @ts-ignore;
   constructor(webWorker: WebWorker) {
-    this.tuned = this.tuned.bind(this);
-    this.setUp = this.setUp.bind(this);
+    this.tune = this.tune.bind(this);
     this.on = this.on.bind(this);
     this.off = this.off.bind(this);
     this.onResponseMeAPI = this.onResponseMeAPI.bind(this);
     this.offResponseChAPI = this.offResponseChAPI.bind(this);
     this.subscribe = this.subscribe.bind(this);
+    this.exe = this.exe.bind(this);
     this.exeCallback = this.exeCallback.bind(this);
     this.store = apiStore();
     this.store.subscribe(this.subscribe);
     this.webWorker = webWorker;
-    this.webWorker.postMessage("GET_BOOT_OPTION", {}, "setUp");
+    this.webWorker.postMessage("GET_BOOT_OPTION", {}, "tune");
   }
 
   public exe(method, params: Store) {
-    this[method](params);
-  }
-
-  private tuned() {
-    // this.store.dispatch({ type: "TUNED" });
-    //    const params = this.reConnectOption.ch === "" ? {} : this.reConnectOption;
-    // this.webWorker.postMessage("GET_BOOT_OPTION", {}, "setUp");
-    //    this.reConnectOption = ReConnectThreadValue;
+    if (this.methods[method]) {
+      this.methods[method](params);
+      return true;
+    }
+    if (this[method]) {
+      this[method](params);
+      return true;
+    }
+    return false;
   }
 
   private getIoParams(bootOption: BootOption): string {
@@ -62,20 +64,15 @@ export default class Ws {
     return params;
   }
 
-  private setUp(bootOption: BootOption) {
+  private tune(bootOption: BootOption) {
     // store.
     const apiState = new ApiState(bootOption);
     this.store.dispatch({ ...apiState, type: "SETUPED_API_STOREE" });
 
-    /*
-      app.rootCh
-      app.dispThreadType
-      app.isToggleMultistream
-    */
     // ws server.
     const ioParams = this.getIoParams(bootOption);
     this.io = io(`${Sequence.HTTPS_PROTOCOL}//${Ws.server}:${define.PORTS.SOCKET_IO}?${ioParams}`, Ws.option);
-    this.io.on("connect", this.tuned);
+    this.io.on("connect", () => {});
     this.onResponseChAPI(bootOption.ch);
     this.onRequestAPI();
     this.onResponseMeAPI();
@@ -101,14 +98,13 @@ export default class Ws {
       const actionName = actionKeys[actionNodeCnt];
       const actionPlainName = actionName.replace(Sequence.API_TO_SERVER_REQUEST, "");
       const beforeFunction = actions[actionName];
-      this[actionPlainName] = getCoreAPI(actionName, beforeFunction);
+      this.methods[actionPlainName] = getCoreAPI(actionName, beforeFunction);
     }
   }
 
   private onResponseMeAPI() {
     const getToMeAPI = (action) => {
       return (response) => {
-        console.log(response);
         const actionState = action(response);
         this.store.dispatch(actionState);
       };
@@ -120,7 +116,6 @@ export default class Ws {
   public onResponseChAPI(ch) {
     const getResponseChAPI = (actionMethod) => {
       return (response) => {
-        console.log(response);
         const actionState = actionMethod(response);
         this.store.dispatch(actionState);
       };
@@ -172,12 +167,4 @@ export default class Ws {
       }
     }
   }
-
-  /*
-private reconnect(reConnectOption: ReConnectThreadType) {
-this.reConnectOption = reConnectOption;
-if (this.io.connected) this.io.disconnect();
-this.io.connect();
-}
-*/
 }
