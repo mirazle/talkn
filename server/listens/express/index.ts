@@ -69,18 +69,32 @@ class Express {
   routingHttps(req, res, next) {
     let language = "en";
     switch (req.headers.host) {
+      case conf.ownURL:
+        if (req.url === "/") {
+          language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
+          res.render("own/", {
+            language,
+            domain: conf.domain,
+            apiURL: conf.apiURL,
+            ownURL: conf.ownURL,
+            wwwURL: conf.wwwURL,
+            extURL: conf.extURL,
+            assetsURL: conf.assetsURL,
+            clientURL: conf.clientURL,
+            apiAccessURL: conf.apiAccessURL,
+          });
+        } else {
+          res.sendFile(conf.serverOwnPath + req.originalUrl.replace("/", ""));
+        }
+        break;
       case conf.apiURL:
-        console.log(req.url);
         if (req.url === `/v${conf.apiVer}`) {
-          console.log("A");
           // CORSを許可する
           res.header("Access-Control-Allow-Origin", "*");
           res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-          res.sendFile(conf.serverApiPath);
+          res.sendFile(conf.serverApiPath + define.talknApiJs);
         } else {
-          console.log("B");
           if (req.url === "/") {
-            console.log("C");
             language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
             res.render("api/", {
               language,
@@ -93,8 +107,6 @@ class Express {
               apiAccessURL: conf.apiAccessURL,
             });
           } else {
-            console.log("D " + conf.serverApiPath);
-            console.log("D " + conf.serverApiPath + req.originalUrl.replace("/", ""));
             res.sendFile(conf.serverApiPath + req.originalUrl.replace("/", ""));
           }
         }

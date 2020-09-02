@@ -21,29 +21,31 @@ export default {
         Actions.io[endpoint](ioUser, requestState, setting);
       });
     });
-    Logics.io.connectionServer(ioUser);
+    const {ch, hasSlash, protocol, host} = ioUser.handshake.query;
+    const thread = {ch, hasSlash, protocol, host}
+    const requestState = {thread, type: "tune"};
+    console.log("------------------------------- tune" );
+    console.log(requestState);
+    Actions.io.tune(ioUser, requestState, setting);
   },
 
   tune: async (ioUser, requestState, setting) => {
-    let { app, thread: requestThread } = requestState;
-    const { ch } = requestThread;
+    const { ch } = requestState.thread;
 
     // users.
     const liveCnt = await Logics.db.users.getIncLiveCnt(ioUser.conn.id, ch);
 
     // update thread rank.
     let { thread, isExist } = await Logics.db.threads.tune({ ch }, liveCnt, true);
-    requestState.thread = thread;
-    const threadStatus = Thread.getStatus(thread, app, isExist, setting);
 
-    // App.
-    requestState.app = Collections.getNewApp(requestState.type, app, threadStatus, thread);
+    requestState.thread = thread;
+    const isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, setting, isExist);
 
     // 作成・更新が必要なスレッドの場合
-    if (threadStatus.isRequireUpsert) {
+    if (isRequireUpsert) {
       thread = await Logics.db.threads.requestHtmlParams(thread, requestState);
       // スレッド新規作成
-      if (threadStatus.isCreate) {
+      if (!isExist) {
         thread = await Logics.db.threads.save(thread);
         Logics.io.tune(ioUser, requestState, setting);
         // スレッド更新

@@ -275,7 +275,6 @@ export default class App extends Schema {
     const updatedApp = app ? app : {};
     updatedApp.offsetFindId = App.defaultOffsetFindId;
 
-    if (log) console.log(clicked + " rootCh = " + app.rootCh + " toCh = " + toCh);
     if (log) console.log(ranks);
     if (log) console.log(threadStatus);
 

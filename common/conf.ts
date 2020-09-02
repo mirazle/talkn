@@ -8,7 +8,7 @@ const hostName = os.hostname();
 const env = getEnv(hostName);
 const files = {
   client: "talkn.client.js",
-  api: "talkn.client.js",
+  api: "talkn.api.js",
   ext: "talkn.ext.js",
 };
 const isDev = env === DEVELOPMENT;
@@ -22,6 +22,7 @@ const portalURL = `${SUB_DOMAINS.PORTAL}.${domain}`;
 const assetsURL = `${SUB_DOMAINS.ASSETS}.${domain}`;
 const autoURL = `${SUB_DOMAINS.AUTO}.${domain}`;
 const extURL = `${SUB_DOMAINS.EXT}.${domain}`;
+const ownURL = `${SUB_DOMAINS.OWN}.${domain}`;
 const transactionURL = `${SUB_DOMAINS.TRANSACTION}.${domain}`;
 const assetsImgPath = `${assetsURL}/img/`;
 const assetsIconPath = `${assetsURL}/icon/`;
@@ -52,6 +53,7 @@ const conf: any = {
   assetsURL,
   autoURL,
   extURL,
+  ownURL,
   transactionURL,
   assetsImgPath,
   assetsIconPath,

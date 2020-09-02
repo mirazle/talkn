@@ -4,7 +4,7 @@
 ### workspace
 
 ```
-cd common/pems
+cd common/pems/server
 ```
 
 ### command

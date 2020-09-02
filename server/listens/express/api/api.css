@@ -522,7 +522,7 @@ section.three h3 {
 }
 section.three .content {
   display: flex;
-  margin-left: 20px;
+  margin: 0 0 40px 20px;
 }
 section.three .children {
   flex: 1;
@@ -694,7 +694,7 @@ section.three .children li .reduce:hover {
     display: block;
   }
   section.three .content {
-    margin: 0 20px;
+    margin: 0 20px 60px;
     flex: 6 0 calc( 100% - 40px );
   }
 }
@@ -705,5 +705,6 @@ section.three .children li .reduce:hover {
   }
   #talknEmbed2 {
     width: 320px;
+    height: 460px;
   }
 }

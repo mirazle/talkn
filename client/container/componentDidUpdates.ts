@@ -1,6 +1,5 @@
 import React from "react";
 import Ui from "client/store/Ui";
-import TalknWindow from "client/operations/TalknWindow";
 
 export default (self, constructorName) => {
   const { props } = self;
@@ -18,7 +17,7 @@ const componentDidUpdates = {
     "API_TO_CLIENT[EMIT]:fetchPosts": (self) => {
       const { app, ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
-      ui.postsHeight += TalknWindow.getPostsHeight();
+      ui.postsHeight += window.talknWindow.dom.getPostsHeight();
       self.props.updatePostsHeight(ui.postsHeight);
       switch (ui.screenMode) {
         case Ui.screenModeLargeLabel:
@@ -87,7 +86,7 @@ const componentDidUpdates = {
     },
     ON_TRANSITION_END: (self) => {
       const { ui } = self.props.state;
-      ui.postsHeight += TalknWindow.getPostsHeight();
+      ui.postsHeight += window.talknWindow.dom.getPostsHeight();
       self.props.updatePostsHeight(ui.postsHeight);
     },
     ON_CHANGE_FIND_TYPE: (self) => {
