@@ -114,7 +114,7 @@ export default class Window {
       if (type === PostMessage.WSAPI_TO_CLIENT_TYPE) {
         const actionType = PostMessage.convertApiToClientActionType(method);
         const state = { ...params, type: actionType };
-        console.log(method);
+
         // client.
         this.store.dispatch(state);
 
