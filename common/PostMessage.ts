@@ -1,4 +1,5 @@
 import Sequence from "api/Sequence";
+
 export default class PostMessage {
   // HANDLE CLIENT AND WSAPI
   static get HANDLE_CLIENT_AND_WSAPI() {

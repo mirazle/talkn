@@ -8,16 +8,17 @@ import apiStore from "api/store/apiStore";
 import WsServerToApiEmitAction from "api/actions/ws/serverToApiEmit";
 import WsClientToApiRequestActions from "api/actions/ws/apiToServerRequest";
 import WsServerToApiBroadcastAction from "api/actions/ws/serverToApiBradcast";
+import WebWorker from "client/ws.client.worker";
 
 type Store = any;
 
 export default class Ws {
-  // @ts-ignore
+  id: string;
   webWorker: WebWorker;
-  store: Store;
-  io: SocketIOClient.Socket;
-  methods: { key: Function } | {} = {};
-  publicCallbacks: { key: Function } | {} = {};
+  stores: { [s: string]: Store } | {} = {};
+  ios: { [s: string]: SocketIOClient.Socket } | {} = {};
+  methods: { [s: string]: Function } | {} = {};
+  publicCallbacks: { [s: string]: Function } | {} = {};
   static get server() {
     return conf.env === define.DEVELOPMENT || conf.env === define.LOCALHOST
       ? define.DEVELOPMENT_DOMAIN
@@ -26,32 +27,59 @@ export default class Ws {
   static get option() {
     return { forceNew: true };
   }
-  // @ts-ignore;
   constructor(webWorker: WebWorker) {
+    this.use = this.use.bind(this);
     this.tune = this.tune.bind(this);
-    this.on = this.on.bind(this);
-    this.off = this.off.bind(this);
+    this.tuned = this.tuned.bind(this);
+    this.untune = this.untune.bind(this);
+    this.exe = this.exe.bind(this);
     this.onResponseMeAPI = this.onResponseMeAPI.bind(this);
     this.offResponseChAPI = this.offResponseChAPI.bind(this);
     this.subscribe = this.subscribe.bind(this);
-    this.exe = this.exe.bind(this);
     this.exeCallback = this.exeCallback.bind(this);
-    this.store = apiStore();
-    this.store.subscribe(this.subscribe);
+    this.on = this.on.bind(this);
+    this.off = this.off.bind(this);
+
     this.webWorker = webWorker;
-    this.webWorker.postMessage("GET_BOOT_OPTION", {}, "tune");
+    this.webWorker.postMessage("WS_CONSTRUCTED");
   }
 
-  public exe(method, params: Store) {
-    if (this.methods[method]) {
-      this.methods[method](params);
-      return true;
-    }
-    if (this[method]) {
-      this[method](params);
+  // change io connection.
+  public use(id: string): boolean {
+    if (this.stores[id] && this.ios[this.id]) {
+      this.id = id;
       return true;
     }
     return false;
+  }
+
+  public exe(method: string, params: Store): boolean {
+    if (this[method] && typeof this[method] === "function") {
+      this[method](params);
+      return true;
+    }
+    if (this.methods[method] && typeof this.methods[method] === "function") {
+      this.methods[method](params);
+      return true;
+    }
+
+    return false;
+  }
+
+  public onResponseChAPI(ch) {
+    const getResponseChAPI = (actionMethod) => {
+      return (response) => {
+        const actionState = actionMethod(response);
+        this.stores[this.id] && this.stores[this.id].dispatch(actionState);
+      };
+    };
+
+    const callback: any = getResponseChAPI(WsServerToApiBroadcastAction);
+    this.on(ch, callback);
+  }
+
+  public offResponseChAPI(ch) {
+    this.off(ch);
   }
 
   private getIoParams(bootOption: BootOption): string {
@@ -65,17 +93,45 @@ export default class Ws {
   }
 
   private tune(bootOption: BootOption) {
-    // store.
-    const apiState = new ApiState(bootOption);
-    this.store.dispatch({ ...apiState, type: "SETUPED_API_STOREE" });
+    if (!this.use(bootOption.id)) {
+      // id
+      this.id = bootOption.id;
 
-    // ws server.
-    const ioParams = this.getIoParams(bootOption);
-    this.io = io(`${Sequence.HTTPS_PROTOCOL}//${Ws.server}:${define.PORTS.SOCKET_IO}?${ioParams}`, Ws.option);
-    this.io.on("connect", () => {});
-    this.onResponseChAPI(bootOption.ch);
-    this.onRequestAPI();
-    this.onResponseMeAPI();
+      // store.
+      this.stores[this.id] = apiStore();
+      this.stores[this.id].subscribe(this.subscribe);
+      const apiState = new ApiState(bootOption);
+      this.stores[this.id].dispatch({ ...apiState, type: "SETUPED_API_STOREE" });
+
+      // ws server.
+      const ioParams = this.getIoParams(bootOption);
+      const endpoint = `${Sequence.HTTPS_PROTOCOL}//${Ws.server}:${define.PORTS.SOCKET_IO}?${ioParams}`;
+      this.ios[this.id] = io(endpoint, Ws.option);
+      this.ios[this.id].on("connect", this.tuned);
+
+      this.onResponseChAPI(bootOption.ch);
+      this.onRequestAPI();
+      this.onResponseMeAPI();
+    }
+  }
+
+  private untune(bootOption: BootOption) {
+    const id = bootOption && bootOption.id ? bootOption.id : this.id;
+
+    if (this.ios[id]) {
+      this.ios[id]["disconnect"]();
+      delete this.ios[id];
+      delete this.stores[id];
+      if (Object.keys(this.ios).length > 0) {
+        this.id = Object.keys(this.ios)[0];
+      }
+      return true;
+    }
+    return false;
+  }
+
+  private tuned() {
+    this.webWorker.postMessage("TUNED", { id: this.id });
   }
 
   private onRequestAPI() {
@@ -84,13 +140,13 @@ export default class Ws {
     const actionLength = actionKeys.length;
     const getCoreAPI = (actionName, beforeFunction) => {
       return (requestParams, callback = () => {}) => {
-        const reduxState = this.store.getState();
+        const reduxState = this.stores[this.id].getState();
         const _requestState = Sequence.getRequestState(actionName, reduxState, requestParams);
         const _actionState = Sequence.getRequestActionState(actionName, requestParams);
         const { requestState, actionState } = beforeFunction(reduxState, _requestState, _actionState);
         this.publicCallbacks[requestState.type] = callback;
-        this.io.emit(requestState.type, requestState);
-        return this.store.dispatch(actionState);
+        this.ios[this.id].emit(requestState.type, requestState);
+        return this.stores[this.id].dispatch(actionState);
       };
     };
 
@@ -106,45 +162,27 @@ export default class Ws {
     const getToMeAPI = (action) => {
       return (response) => {
         const actionState = action(response);
-        this.store.dispatch(actionState);
+        this.stores[this.id].dispatch(actionState);
       };
     };
     const callback: any = getToMeAPI(WsServerToApiEmitAction);
     this.on(Sequence.CATCH_ME_KEY, callback);
   }
 
-  public onResponseChAPI(ch) {
-    const getResponseChAPI = (actionMethod) => {
-      return (response) => {
-        const actionState = actionMethod(response);
-        this.store.dispatch(actionState);
-      };
-    };
-    // To connect redux flow.
-    const callback: any = getResponseChAPI(WsServerToApiBroadcastAction);
-    this.on(ch, callback);
-  }
-
-  public offResponseChAPI(ch) {
-    this.off(ch);
-  }
-
   private on(onKey, callback = () => {}) {
-    // @ts-ignore
-    if (!this.io._callbacks[`$${onKey}`]) {
-      this.io.on(onKey, callback);
+    if (!this.ios[this.id]._callbacks[`$${onKey}`]) {
+      this.ios[this.id].on(onKey, callback);
     }
   }
 
   private off(offKey) {
-    // @ts-ignore
-    if (this.io._callbacks[`$${offKey}`]) {
-      this.io.off(offKey);
+    if (this.ios[this.id]._callbacks[`$${offKey}`]) {
+      this.ios[this.id].off(offKey);
     }
   }
 
   private subscribe() {
-    const apiState = this.store.getState();
+    const apiState = this.stores[this.id].getState();
     this.exeCallback(apiState.app.actioned, apiState);
     this.webWorker.postMessage(apiState.app.actioned, apiState);
   }

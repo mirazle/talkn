@@ -90,7 +90,6 @@ export default class Window {
 
   private injectStateToApp(apiState: MessageParams): void {
     if (this.id !== define.APP_TYPES.API) {
-      // this.api("tune", apiState);
       this.api("fetchPosts", apiState);
       this.api("rank", apiState);
     }
@@ -98,7 +97,8 @@ export default class Window {
 
   private postMessage(method: string, params: MessageParams = {}): void {
     const message: MessageClientAndWsApiType = {
-      id: this.id,
+      // @ts-ignore
+      id: params.id ? params.id : this.id,
       type: PostMessage.CLIENT_TO_WSAPI_TYPE,
       method,
       params,
@@ -119,10 +119,13 @@ export default class Window {
         this.store.dispatch(state);
 
         // back ws api.
-        if (WsClientResponseCallbacks[method] && typeof WsClientResponseCallbacks[method] === "function") {
-          const backParams = WsClientResponseCallbacks[method](this, params);
-          if (methodBack) {
-            this.postMessage(methodBack, backParams);
+        if (method === "WS_CONSTRUCTED") {
+          this.conned(this);
+
+          if (this.id !== define.APP_TYPES.API) {
+            // @ts-ignore
+            const backParams = params.ch ? { ...this.bootOption, ch: params.ch } : this.bootOption;
+            this.api("tune", backParams);
           }
         }
 
@@ -134,7 +137,6 @@ export default class Window {
 
         // finnish handle ws api.
         if (method === `SERVER_TO_API[EMIT]:tune`) {
-          this.conned(this);
           this.injectStateToApp(params);
         }
       }
@@ -639,7 +641,7 @@ class Dom extends TalknComponent<{}, {}> {
 }
 
 const WsClientResponseCallbacks = {
-  GET_BOOT_OPTION: (_window, parama: BootOption): BootOption => {
+  CONSTRUCTED: (_window, parama: BootOption): BootOption => {
     return parama.ch ? { ..._window.bootOption, ch: parama.ch } : _window.bootOption;
   },
 };

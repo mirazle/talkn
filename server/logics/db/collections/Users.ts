@@ -35,9 +35,10 @@ export default class Users {
   }
 
   async getIncLiveCnt(uid, ch) {
-    const liveCnt = (await this.getLiveCnt(ch)) + 1;
+    const isTune = await this.isTuneUser(uid, ch);
+    const liveCnt = await this.getLiveCnt(ch);
     this.update(uid, ch);
-    return liveCnt;
+    return isTune ? liveCnt : liveCnt + 1;
   }
 
   async save(requestState) {
