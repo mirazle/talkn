@@ -21,10 +21,10 @@ export default {
         Actions.io[endpoint](ioUser, requestState, setting);
       });
     });
-    const {ch, hasSlash, protocol, host} = ioUser.handshake.query;
-    const thread = {ch, hasSlash, protocol, host}
-    const requestState = {thread, type: "tune"};
-    console.log("------------------------------- tune" );
+    const { ch, hasSlash, protocol, host } = ioUser.handshake.query;
+    const thread = { ch, hasSlash, protocol, host };
+    const requestState = { thread, type: "tune" };
+    console.log("------------------------------- tune");
     console.log(requestState);
     Actions.io.tune(ioUser, requestState, setting);
   },

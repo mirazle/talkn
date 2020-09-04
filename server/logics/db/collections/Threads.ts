@@ -97,7 +97,7 @@ export default class Threads {
     return resThread;
   }
 
-  async resetWatchCnt() {
+  async resetLiveCnt() {
     const condition = { liveCnt: { $exists: true, $ne: 0 } };
     const set = { $set: { liveCnt: 0 } };
     const option = { upsert: false, multi: true };
