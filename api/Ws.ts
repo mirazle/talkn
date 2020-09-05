@@ -170,8 +170,9 @@ export default class Ws {
   }
 
   private on(onKey, callback = () => {}) {
-    if (!this.ios[this.id]._callbacks[`$${onKey}`]) {
+    if (!this.ios[this.id]._callbacks[`$${onKey}`]) {      
       this.ios[this.id].on(onKey, callback);
+      console.log(this.ios[this.id]._callbacks);
     }
   }
 
