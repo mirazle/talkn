@@ -58,6 +58,9 @@ yum install mongodb-org -y
   `vi /Users/hmiyazaki/.ssh/known_hosts`
   で該当するドメインや IP のローカルの SSH 認証情報を削除する
 
+- 下記でアクセス
+  `ssh centos@talkn.io -i ~/Downloads/LightsailDefaultKey-us-east-1.pem`
+
 ## step2 Let's Encrypt の SSL ワイルドカード証明書をリクエストする
 
 ```
