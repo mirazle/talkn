@@ -31,7 +31,7 @@ export default {
 
   tune: async (ioUser, requestState, setting) => {
     const { ch } = requestState.thread;
-    console.log("TUNE " + ch);
+
     // users.
     const liveCnt = await Logics.db.users.getIncLiveCnt(ioUser.conn.id, ch);
 
