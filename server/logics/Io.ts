@@ -24,9 +24,8 @@ export default class Io {
       setting,
     });
     const responseBroadcastState = Sequence.getResponseState("Broadcast", requestState, { thread });
-    console.log("EMIT! ME");
+
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
-    console.log("BROADCAST! " + responseBroadcastState.thread.ch);
     this.io.broadcast(responseBroadcastState.thread.ch, responseBroadcastState);
   }
 
