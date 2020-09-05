@@ -77,6 +77,7 @@ export default class Ws {
     };
 
     const callback: any = getResponseChAPI(WsServerToApiBroadcastAction);
+    console.log("ON " + ch);
     this.on(ch, callback);
   }
 
