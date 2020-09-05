@@ -6,7 +6,6 @@ declare global {
     talknAPI: any;
   }
 }
-
 const bootTalknApi = () => {
   const clientWindow = new Window(false);
   clientWindow.boot().then((_window: Window) => {
