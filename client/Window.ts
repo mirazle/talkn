@@ -45,7 +45,7 @@ export default class Window {
   ext: Ext;
   mediaClient: MediaClient;
   dom: Dom;
-  callback: Function = () => {};
+  callback: Function | undefined;
   conned: (value?: any | PromiseLike<any>) => void;
   constructor(client = true) {
     TalknSetup.setupMath();
@@ -86,9 +86,9 @@ export default class Window {
     });
   }
 
-  public api(method: string, params: MessageParams = {}, callback: Function = () => {}): void {
-    this.callback = callback;
-    this.postMessage(method, params, callback);
+  public api(method: string, params: MessageParams = {}, callback?: Function): void {
+    this.callback = callback || callback;
+    this.postMessage(method, params);
   }
 
   private injectStateToApp(apiState: MessageParams): void {
@@ -98,7 +98,7 @@ export default class Window {
     }
   }
 
-  private postMessage(method: string, params: MessageParams = {}, callback: Function = () => {}): void {
+  private postMessage(method: string, params: MessageParams = {}): void {
     const message: MessageClientAndWsApiType = {
       // @ts-ignore
       id: params.id ? params.id : this.id,
@@ -120,10 +120,11 @@ export default class Window {
         const { ioType, exeMethod } = PostMessage.getMessageTypes(actionType);
         const state = { ...params, type: actionType };
 
-        this.exePublicCallback(ioType, exeMethod, state);
-
         // disptch client state.
         this.store.dispatch(state);
+
+        // callback
+        this.exePublicCallback(ioType, exeMethod, state);
 
         if (method === "WS_CONSTRUCTED") {
           this.conned(this);
@@ -154,8 +155,10 @@ export default class Window {
   }
 
   private exePublicCallback(ioType, exeMethod, state: any): void {
-    if (ioType === Sequence.API_RESPONSE_TYPE_EMIT || ioType === Sequence.API_RESPONSE_TYPE_BROADCAST) {
-      this.callback(ioType, exeMethod, state);
+    if (this.callback) {
+      if (ioType === Sequence.API_RESPONSE_TYPE_EMIT || ioType === Sequence.API_RESPONSE_TYPE_BROADCAST) {
+        this.callback(ioType, exeMethod, state);
+      }
     }
   }
 }
