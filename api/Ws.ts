@@ -88,29 +88,25 @@ export default class Ws {
       if (key === "id") return;
       if (key === "defaultProps") return;
       const value = bootOption[key];
-      console.log(value);
-      params += `${key}="${value}"&`;
-      console.log(params);
+      params += `${key}=${encodeURIComponent(value)}&`;
     });
-    console.log(encodeURI(params));
-    return encodeURI(params);
+    return params;
   }
 
   private tune(bootOption: BootOption) {
     if (!this.use(bootOption.id)) {
-      console.log("A");
+
       // id
       this.id = bootOption.id;
-      console.log("B");
+
       // store.
       this.stores[this.id] = apiStore();
       this.stores[this.id].subscribe(this.subscribe);
       const apiState = new ApiState(bootOption);
       this.stores[this.id].dispatch({ ...apiState, type: "SETUPED_API_STOREE" });
-      console.log("C");
       // ws server.
       const ioParams = this.getIoParams(bootOption);
-      console.log("D " + ioParams);
+      console.log("@@@ " + ioParams);
       const endpoint = `${Sequence.HTTPS_PROTOCOL}//${Ws.server}:${define.PORTS.SOCKET_IO}?${ioParams}`;
       console.log(endpoint);
       this.ios[this.id] = io(endpoint, Ws.option);
