@@ -88,7 +88,7 @@ export default class Ws {
       if (key === "defaultProps") return;
       const value = bootOption[key];
       console.log(value);
-      params += `${key}=${value}&`;
+      params += `${key}='${value}'&`;
       console.log(params);
     });
     return params;
@@ -107,8 +107,8 @@ export default class Ws {
 
       // ws server.
       const ioParams = this.getIoParams(bootOption);
-      console.log(ioParams);
       const endpoint = `${Sequence.HTTPS_PROTOCOL}//${Ws.server}:${define.PORTS.SOCKET_IO}?${ioParams}`;
+      console.log(endpoint);
       this.ios[this.id] = io(endpoint, Ws.option);
       this.ios[this.id].on("connect", this.tuned);
 
