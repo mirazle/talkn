@@ -69,15 +69,12 @@ export default class Ws {
   public onResponseChAPI(ch) {
     const getResponseChAPI = (actionMethod) => {
       return (response) => {
-        console.log("CATCH BROARDCAST " + ch);
-        console.log(response);
         const actionState = actionMethod(response);
         this.stores[this.id] && this.stores[this.id].dispatch(actionState);
       };
     };
 
     const callback: any = getResponseChAPI(WsServerToApiBroadcastAction);
-    console.log("ON " + ch);
     this.on(ch, callback);
   }
 
@@ -90,8 +87,10 @@ export default class Ws {
     Object.keys(bootOption).forEach((key) => {
       if (key === "defaultProps") return;
       const value = bootOption[key];
+      console.log(value);
       params += `${key}=${value}&`;
     });
+    console.log(params);
     return params;
   }
 
@@ -175,7 +174,6 @@ export default class Ws {
   private on(onKey, callback = () => {}) {
     if (!this.ios[this.id]._callbacks[`$${onKey}`]) {      
       this.ios[this.id].on(onKey, callback);
-      console.log(this.ios[this.id]._callbacks);
     }
   }
 
