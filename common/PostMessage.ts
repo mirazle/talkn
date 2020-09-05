@@ -65,6 +65,13 @@ export default class PostMessage {
     }
     return `API_TO_CLIENT[ACTION]:${actionType}`;
   }
+  static getMessageTypes(actionType) {
+    const splited1 = actionType.split(":");
+    const splited2 = splited1[0].split("[");
+    const ioType = splited2[1].replace("]", "");
+    const exeMethod = splited1[1];
+    return { ioType, exeMethod };
+  }
   static convertExtToClientActionType(actionType) {
     return `EXT_TO_CLIENT[ACTION]:${actionType}`;
   }
