@@ -92,6 +92,7 @@ export default class Ws {
       params += `${key}="${value}"&`;
       console.log(params);
     });
+    console.log(encodeURI(params));
     return encodeURI(params);
   }
 
@@ -109,7 +110,7 @@ export default class Ws {
       console.log("C");
       // ws server.
       const ioParams = this.getIoParams(bootOption);
-      console.log("D");
+      console.log("D " + ioParams);
       const endpoint = `${Sequence.HTTPS_PROTOCOL}//${Ws.server}:${define.PORTS.SOCKET_IO}?${ioParams}`;
       console.log(endpoint);
       this.ios[this.id] = io(endpoint, Ws.option);
