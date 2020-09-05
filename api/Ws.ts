@@ -88,7 +88,7 @@ export default class Ws {
       if (key === "defaultProps") return;
       const value = bootOption[key];
       console.log(value);
-      params += `${key}='${value}'&`;
+      params += `${key}=${encodeURI(value)}&`;
       console.log(params);
     });
     return params;
