@@ -45,6 +45,7 @@ export default class Window {
   ext: Ext;
   mediaClient: MediaClient;
   dom: Dom;
+  callback: Function = () => {};
   conned: (value?: any | PromiseLike<any>) => void;
   constructor(client = true) {
     TalknSetup.setupMath();
@@ -62,6 +63,7 @@ export default class Window {
     this.injectStateToApp = this.injectStateToApp.bind(this);
     this.postMessage = this.postMessage.bind(this);
     this.onMessage = this.onMessage.bind(this);
+    this.exePublicCallback = this.exePublicCallback.bind(this);
     this.onError = this.onError.bind(this);
   }
 
@@ -84,8 +86,9 @@ export default class Window {
     });
   }
 
-  public api(method: string, params: MessageParams = {}, callback = () => {}): void {
-    this.postMessage(method, params);
+  public api(method: string, params: MessageParams = {}, callback: Function = () => {}): void {
+    this.callback = callback;
+    this.postMessage(method, params, callback);
   }
 
   private injectStateToApp(apiState: MessageParams): void {
@@ -95,7 +98,7 @@ export default class Window {
     }
   }
 
-  private postMessage(method: string, params: MessageParams = {}): void {
+  private postMessage(method: string, params: MessageParams = {}, callback: Function = () => {}): void {
     const message: MessageClientAndWsApiType = {
       // @ts-ignore
       id: params.id ? params.id : this.id,
@@ -103,6 +106,7 @@ export default class Window {
       method,
       params,
     };
+
     this.mediaClient && this.mediaClient.wsClientBeforeFilter({ method, params });
     this.wsClient.postMessage(message);
   }
@@ -113,12 +117,14 @@ export default class Window {
     if (currentTarget instanceof Worker) {
       if (type === PostMessage.WSAPI_TO_CLIENT_TYPE) {
         const actionType = PostMessage.convertApiToClientActionType(method);
+        const { ioType, exeMethod } = PostMessage.getMessageTypes(actionType);
         const state = { ...params, type: actionType };
 
-        // client.
+        this.exePublicCallback(ioType, exeMethod, state);
+
+        // disptch client state.
         this.store.dispatch(state);
 
-        // back ws api.
         if (method === "WS_CONSTRUCTED") {
           this.conned(this);
 
@@ -145,6 +151,12 @@ export default class Window {
 
   private onError(e: ErrorEvent): void {
     console.warn(e);
+  }
+
+  private exePublicCallback(ioType, exeMethod, state: any): void {
+    if (ioType === Sequence.API_RESPONSE_TYPE_EMIT || ioType === Sequence.API_RESPONSE_TYPE_BROADCAST) {
+      this.callback(ioType, exeMethod, state);
+    }
   }
 }
 
