@@ -25,7 +25,7 @@ export default {
     const thread = { ch, hasSlash, protocol, host };
     const requestState = { thread, type: "tune" };
     console.log("------------------------------- tune");
-    console.log(ioUser.handshake.query);
+    console.log(ioUser.handshake);
     Actions.io.tune(ioUser, requestState, setting);
   },
 
