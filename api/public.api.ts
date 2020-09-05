@@ -9,7 +9,7 @@ export default class PublicApi {
       untune: (id) => api("untune", { id }),
       rank: (ch: string) => api("rank", { thread: { ch } }),
       fetchPosts: (ch: string) => api("fetchPosts", { thread: { ch } }),
-      post: (params = {}) => api("post", params),
+      post: (params = {}) => api("post", { app: { ...params } }),
       getState: () => store.getState(),
     };
   }
