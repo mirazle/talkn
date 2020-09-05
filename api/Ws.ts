@@ -69,6 +69,8 @@ export default class Ws {
   public onResponseChAPI(ch) {
     const getResponseChAPI = (actionMethod) => {
       return (response) => {
+        console.log("CATCH BROARDCAST " + ch);
+        console.log(response);
         const actionState = actionMethod(response);
         this.stores[this.id] && this.stores[this.id].dispatch(actionState);
       };
