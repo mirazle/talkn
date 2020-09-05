@@ -85,10 +85,11 @@ export default class Ws {
   private getIoParams(bootOption: BootOption): string {
     let params = "";
     Object.keys(bootOption).forEach((key) => {
+      if (key === "id") return;
       if (key === "defaultProps") return;
       const value = bootOption[key];
       console.log(value);
-      params += `${key}=${encodeURI(value)}&`;
+      params += `${key}=${value}&`;
       console.log(params);
     });
     return params;
