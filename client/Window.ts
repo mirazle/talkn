@@ -47,6 +47,9 @@ export default class Window {
   dom: Dom;
   callback: Function | undefined;
   conned: (value?: any | PromiseLike<any>) => void;
+  static get SET_CALLBACK_METHOD() {
+    return "tune";
+  }
   constructor(client = true) {
     TalknSetup.setupMath();
 
@@ -87,7 +90,7 @@ export default class Window {
   }
 
   public api(method: string, params: MessageParams = {}, callback?: Function): void {
-    this.callback = callback || callback;
+    if (method === Window.SET_CALLBACK_METHOD && callback) this.callback = callback;
     this.postMessage(method, params);
   }
 
