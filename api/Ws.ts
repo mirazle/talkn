@@ -90,7 +90,7 @@ export default class Ws {
       const value = bootOption[key];
       params += `${key}=${encodeURIComponent(value)}&`;
     });
-    return params;
+    return params.replace(/&$/, "");
   }
 
   private tune(bootOption: BootOption) {
@@ -104,11 +104,10 @@ export default class Ws {
       this.stores[this.id].subscribe(this.subscribe);
       const apiState = new ApiState(bootOption);
       this.stores[this.id].dispatch({ ...apiState, type: "SETUPED_API_STOREE" });
+
       // ws server.
       const ioParams = this.getIoParams(bootOption);
-      console.log("@@@ " + ioParams);
       const endpoint = `${Sequence.HTTPS_PROTOCOL}//${Ws.server}:${define.PORTS.SOCKET_IO}?${ioParams}`;
-      console.log(endpoint);
       this.ios[this.id] = io(endpoint, Ws.option);
       this.ios[this.id].on("connect", this.tuned);
 
