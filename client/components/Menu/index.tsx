@@ -153,7 +153,7 @@ export default class Menuextends extends TalknComponent<Props, State> {
         chKeyRanks[rank.ch].rankNum !== 0 &&
         rankNum !== chKeyRanks[rank.ch].rankNum &&
         rank.liveCnt !== chKeyRanks[rank.ch].liveCnt;
-      const didMountLiveCntHighligt = rank.liveCnt !== chKeyRanks[rank.ch].liveCnt;
+      const didMountLiveCntHighligt = rank.liveCnt > chKeyRanks[rank.ch].liveCnt;
       return (
         <Ch
           key={`${rank.ch}_${rankNum}`}
