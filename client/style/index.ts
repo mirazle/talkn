@@ -24,6 +24,7 @@ import Board from "./Board";
 import Links from "./Links";
 import Link from "./Link";
 import Loading from "./Loading";
+import LiveCnt from "./common/LiveCnt";
 import ExtScreen from "./ExtScreen";
 
 export type StyleValue = string | number;
@@ -206,6 +207,7 @@ export default class Style {
   detailFooter: DetailFooter;
   emotionGraph: EmotionGraph;
   icon: Icon;
+  liveCnt: LiveCnt;
   loading: Loading;
   constructor(params) {
     const container = new Container(params);
@@ -234,6 +236,7 @@ export default class Style {
     const detailFooter = new DetailFooter(params);
     const emotionGraph = new EmotionGraph(params);
     const icon = new Icon(params);
+    const liveCnt = new LiveCnt(params);
     const loading = new Loading(params);
     return {
       container,
@@ -262,6 +265,7 @@ export default class Style {
       detail,
       emotionGraph,
       icon,
+      liveCnt,
       loading,
     };
   }

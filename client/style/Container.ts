@@ -165,6 +165,9 @@ export default class Container {
   static get themeLightRGBString() {
     return "89, 184, 169";
   }
+  static get themeSuperLightRGBString() {
+    return "200, 255, 220";
+  }
   static get themeRGB() {
     return `rgb(${Container.themeRGBString})`;
   }
