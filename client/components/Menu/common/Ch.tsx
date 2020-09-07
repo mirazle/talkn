@@ -171,7 +171,7 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
         <div style={chStyle.bottom}>
           <span style={{ ...chStyle.bottomIcon, backgroundImage: `url( ${favicon} )` }} />
           <span style={chStyle.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, stampId) }} />
-          <LiveCnt number={liveCnt} style={liveCntStyle} didMountHighlight={didMountLiveCntHighligt} />
+          <LiveCnt number={liveCnt} ch={ch} style={liveCntStyle} didMountHighlight={didMountLiveCntHighligt} />
         </div>
         {dispType && <span style={chStyle[`ext${dispType}`]}>{dispType}</span>}
       </li>
