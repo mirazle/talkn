@@ -149,8 +149,6 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
     const chStyle = style.ch;
     const liveCntStyle = style.liveCnt.self;
     const marqueeStyle: any = this.getMarqueeStyle();
-    console.log(ch + " " + didMountLiveCntHighligt);
-
     return (
       <li
         key={ch}

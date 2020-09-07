@@ -119,7 +119,6 @@ export default class Menuextends extends TalknComponent<Props, State> {
       const isActive = thread.ch === tuneCh.ch;
       const tuneChStyle = isActive ? ChStyle.getActiveLiSelf({ app, ui }) : ChStyle.getUnactiveLiSelf({ app, ui });
       const didMountLiveCntHighligt = tuneCh.liveCnt > this.state.tuneCh.liveCnt;
-      console.log(didMountLiveCntHighligt + " = " + tuneCh.liveCnt + " > " + this.state.tuneCh.liveCnt);
       return (
         <Ch
           key={`tune_${tuneCh.ch}`}
