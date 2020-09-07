@@ -6,6 +6,7 @@ interface LiveCntProps {
   number: number;
   style: any;
   didMountHighlight: boolean;
+  ch?: string;
 }
 
 interface LiveCntState {
@@ -21,6 +22,7 @@ export default class LiveCnt extends TalknComponent<LiveCntProps, LiveCntState> 
 
   componentDidMount() {
     if (this.props.didMountHighlight) {
+      console.log(this.props.ch + " " + this.props.didMountHighlight);
       this.setState({
         style: {
           ...this.state.style,
