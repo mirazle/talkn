@@ -2144,6 +2144,7 @@ export default class Icon {
         height: "26px",
         background: `rgba(${Container.themeRGBString}, 0.85)`,
         borderRadius: "26px",
+        boxShadow: "0px 0px 0px rgba(255,255,255,1)",
       }),
       content: Style.getContentBase({
         fontSize: "0.7em",

@@ -250,8 +250,10 @@ export default class Icon extends TalknComponent<{}, {}> {
   }
 */
 
-  static getLiveCnt({ app, ui }, liveCnt = 0): React.ReactNode {
+  static getLiveCnt({ app, ui }, liveCnt = 0, isHighligt = false): React.ReactNode {
     const style = IconStyle.getLiveCnt({ app, ui });
+    style.div.boxShadow = isHighligt ? "0px 0px 20px rgba(79, 174, 159, 0.96)" : "0px 0px 0px rgba(79, 174, 159, 1)";
+    console.log(isHighligt + " " + style.div.boxShadow);
     return (
       <span style={style.div}>
         <span style={style.circle}>{liveCnt}</span>

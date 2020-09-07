@@ -1,9 +1,9 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import Ui from "client/store/Ui";
 import Marquee from "client/container/util/Marquee";
 import Icon from "client/components/Icon";
+import LiveCnt from "client/components/common/LiveCnt";
 
 interface HeaderProps {
   state: any;
@@ -77,8 +77,6 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
     const { style, app, ui, thread } = this.props.state;
     const { icon: iconStyle } = style;
     const DetailIcon = Icon.getDetail(iconStyle.detail);
-    const liveCnt =
-      ui.screenMode === Ui.screenModeSmallLabel ? Icon.getLiveCnt({ app, ui }, thread.liveCnt) : undefined;
     return (
       <span
         data-component-name={`${this.constructor.name}-right`}
@@ -87,7 +85,9 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
         {...icon.getDecolationProps3("icon", "detail", "div")}
       >
         {DetailIcon}
-        <div style={style.header.liveCntWrap}>{liveCnt}</div>
+        <div style={style.header.liveCntWrap}>
+          {ui.screenMode === Ui.screenModeSmallLabel && <LiveCnt number={thread.liveCnt} style={style.liveCnt.self} />}
+        </div>
       </span>
     );
   }

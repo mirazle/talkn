@@ -178,11 +178,12 @@ export default class Ch {
       borderBottom: Container.border,
       borderLeft: 0,
       background: Ch.activeLiSelfBackground,
+      boxShadow: "0px 0px 0px rgba(255,255,255,1), 0px 0px 0px rgba(${Container.themeRGBString}, 0.2) inset ",
       cursor: "pointer",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transition: `${Container.transitionFirstOn}ms`,
+      transition: `${Container.transitionOn}ms`,
     });
     return Style.get({ layout, content, animation });
   }
@@ -191,7 +192,7 @@ export default class Ch {
     const borders = Ch.getUnactiveLiBorder({ app, ui });
     const height = Container.getBlockSize({ app, ui }) * 2;
     const layout = Style.getLayoutBlock({
-      boxShadow: `${Container.lineShadow}`,
+      boxShadow: `${Container.lineShadow}, 0px 0px 0px rgba(${Container.themeSuperLightRGBString}, 1) inset`,
       width: "initial",
       height: `${height}px`,
       minHeight: `${height}px`,
@@ -202,7 +203,7 @@ export default class Ch {
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({
-      transition: `${Container.transitionFirstOn}ms`,
+      transition: `${Container.transitionOn}ms`,
     });
 
     return Style.get({ layout, content, animation });

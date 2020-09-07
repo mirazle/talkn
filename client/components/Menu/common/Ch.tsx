@@ -1,11 +1,14 @@
 import React from "react";
 import Thread from "api/store/Thread";
+import ContainerStyle from "client/style/Container";
 import ChStyle from "client/style/Menu/common/Ch";
+import LiveCnt from "client/components/common/LiveCnt";
 import Icon from "client/components/Icon";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
 
 interface ChProps extends MarqueeAreaProps {
   isActive: boolean;
+  didMountBgHighligt: boolean;
   ch: string;
   title: string;
   favicon: string;
@@ -13,23 +16,22 @@ interface ChProps extends MarqueeAreaProps {
   stampId: number;
   type: string;
   rankNum?: number;
-  liveCntNode: React.ReactNode;
+  liveCnt: number;
   handleOnClick: (ch: string) => void;
-  animationStyle: React.CSSProperties;
+  bgStyle: React.CSSProperties;
   style: any;
 }
 
 interface ChState extends MarqueeAreaState {
-  animationStyle: any;
+  bgStyle: any;
   style: any;
 }
 
 export default class ChComponent extends MarqueeArea<ChProps, ChState> {
-  animationStyle: any;
   constructor(props) {
     super(props);
     this.state = {
-      animationStyle: props.animationStyle,
+      bgStyle: props.bgStyle,
       ...this.superState,
     };
     this.handleOnClick = this.handleOnClick.bind(this);
@@ -37,9 +39,44 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
   }
 
   componentDidMount() {
-    const { ch } = this.props;
+    const { ch, didMountBgHighligt } = this.props;
     this.measureText();
     this.api("onResponseChAPI", ch);
+
+    if (didMountBgHighligt) {
+      this.setState({
+        bgStyle: {
+          ...this.state.bgStyle,
+          boxShadow: `${ContainerStyle.lineShadow},
+            0px 0px 100px rgba(${ContainerStyle.themeSuperLightRGBString}, 1) inset,
+            0px 0px 0px rgba(${ContainerStyle.themeSuperLightRGBString}, 1)`,
+          zIndex: 10,
+        },
+      });
+      setTimeout(() => {
+        this.setState({
+          bgStyle: {
+            ...this.state.bgStyle,
+            boxShadow: `${ContainerStyle.lineShadow},
+            0px 0px 60px rgba(${ContainerStyle.themeSuperLightRGBString}, 1) inset,
+            0px 0px 20px rgba(${ContainerStyle.themeSuperLightRGBString}, 1)`,
+            zIndex: 10,
+          },
+        });
+
+        setTimeout(() => {
+          this.setState({
+            bgStyle: {
+              ...this.state.bgStyle,
+              boxShadow: `${ContainerStyle.lineShadow},
+            0px 0px 0px rgba(${ContainerStyle.themeSuperLightRGBString}, 1) inset,
+            0px 0px 0px rgba(${ContainerStyle.themeSuperLightRGBString}, 1)`,
+              zIndex: 1,
+            },
+          });
+        }, 400);
+      }, 400);
+    }
   }
 
   componentWillUnmount() {
@@ -50,9 +87,9 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
   componentDidUpdate(beforeProps) {
     if (this.props.isActive !== beforeProps.isActive) {
       this.setState({
-        animationStyle: {
-          ...this.state.animationStyle,
-          background: this.props.animationStyle.background,
+        bgStyle: {
+          ...this.state.bgStyle,
+          background: this.props.bgStyle.background,
         },
       });
     }
@@ -66,8 +103,8 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
         onMouseOver: () => {
           this.onMouseOverArea();
           this.setState({
-            animationStyle: {
-              ...this.state.animationStyle,
+            bgStyle: {
+              ...this.state.bgStyle,
               background: ChStyle[`${styleKey}MouseOverBackground`],
             },
           });
@@ -75,8 +112,8 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
         onMouseLeave: () => {
           this.onMouseLeaveArea();
           this.setState({
-            animationStyle: {
-              ...this.state.animationStyle,
+            bgStyle: {
+              ...this.state.bgStyle,
               background: ChStyle[`${styleKey}Background`],
             },
           });
@@ -91,33 +128,35 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
   }
 
   render() {
-    const { animationStyle } = this.state;
-    const { isActive, ch, title, favicon, type, post, stampId, liveCntNode, rankNum, style } = this.props;
+    const { bgStyle } = this.state;
+    const { isActive, ch, title, favicon, type, post, stampId, liveCnt, rankNum, style } = this.props;
     const dispType = type === Thread.findTypeHtml || type === Thread.findTypeAll ? null : type;
+    const chStyle = style.ch;
+    const liveCntStyle = style.liveCnt.self;
     const marqueeStyle: any = this.getMarqueeStyle();
     return (
       <li
         key={ch}
         data-component-name={"Ch"}
-        style={animationStyle}
+        style={bgStyle}
         onClick={this.handleOnClick}
         {...this.getDecolationEvents(isActive)}
       >
         {this.renderRank(rankNum, ch)}
-        <div style={style.upper}>
-          <span style={style.upperSpace} />
-          <span ref={this.marqueeWrapRef} data-component-name={"MarqueeMenuIndex"} style={style.upperRight}>
+        <div style={chStyle.upper}>
+          <span style={chStyle.upperSpace} />
+          <span ref={this.marqueeWrapRef} data-component-name={"MarqueeMenuIndex"} style={chStyle.upperRight}>
             <span ref={this.marqueeTextRef} style={marqueeStyle}>
               {title}
             </span>
           </span>
         </div>
-        <div style={style.bottom}>
-          <span style={{ ...style.bottomIcon, backgroundImage: `url( ${favicon} )` }} />
-          <span style={style.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, stampId) }} />
-          {liveCntNode}
+        <div style={chStyle.bottom}>
+          <span style={{ ...chStyle.bottomIcon, backgroundImage: `url( ${favicon} )` }} />
+          <span style={chStyle.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, stampId) }} />
+          <LiveCnt number={liveCnt} style={liveCntStyle} />
         </div>
-        {dispType && <span style={style[`ext${dispType}`]}>{dispType}</span>}
+        {dispType && <span style={chStyle[`ext${dispType}`]}>{dispType}</span>}
       </li>
     );
   }
@@ -135,7 +174,6 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
     const upperRank = ChStyle.getUpperRank();
     const background = ChStyle.getDispRankBackground(rankNum);
     const width = ChStyle.getDispRankWidth(rankNum);
-    // console.log("renderRank ============== " + rankNum + " " + " " + background + " " + ch);
     return (
       <span style={{ ...upperRankWrap, background, width }}>
         <span style={upperRank}>{disp}</span>
