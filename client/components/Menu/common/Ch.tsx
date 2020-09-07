@@ -9,6 +9,7 @@ import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/containe
 interface ChProps extends MarqueeAreaProps {
   isActive: boolean;
   didMountBgHighligt: boolean;
+  didMountLiveCntHighligt: boolean;
   ch: string;
   title: string;
   favicon: string;
@@ -23,6 +24,7 @@ interface ChProps extends MarqueeAreaProps {
 }
 
 interface ChState extends MarqueeAreaState {
+  updateLiveCnt: boolean;
   bgStyle: any;
   style: any;
 }
@@ -31,6 +33,7 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
   constructor(props) {
     super(props);
     this.state = {
+      updateLiveCnt: false,
       bgStyle: props.bgStyle,
       ...this.superState,
     };
@@ -129,7 +132,19 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
 
   render() {
     const { bgStyle } = this.state;
-    const { isActive, ch, title, favicon, type, post, stampId, liveCnt, rankNum, style } = this.props;
+    const {
+      isActive,
+      ch,
+      title,
+      favicon,
+      type,
+      post,
+      stampId,
+      liveCnt,
+      rankNum,
+      didMountLiveCntHighligt,
+      style,
+    } = this.props;
     const dispType = type === Thread.findTypeHtml || type === Thread.findTypeAll ? null : type;
     const chStyle = style.ch;
     const liveCntStyle = style.liveCnt.self;
@@ -154,7 +169,7 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
         <div style={chStyle.bottom}>
           <span style={{ ...chStyle.bottomIcon, backgroundImage: `url( ${favicon} )` }} />
           <span style={chStyle.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, stampId) }} />
-          <LiveCnt number={liveCnt} style={liveCntStyle} />
+          <LiveCnt number={liveCnt} style={liveCntStyle} didMountHighlight={didMountLiveCntHighligt} />
         </div>
         {dispType && <span style={chStyle[`ext${dispType}`]}>{dispType}</span>}
       </li>

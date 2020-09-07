@@ -86,7 +86,9 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
       >
         {DetailIcon}
         <div style={style.header.liveCntWrap}>
-          {ui.screenMode === Ui.screenModeSmallLabel && <LiveCnt number={thread.liveCnt} style={style.liveCnt.self} />}
+          {ui.screenMode === Ui.screenModeSmallLabel && (
+            <LiveCnt number={thread.liveCnt} style={style.liveCnt.self} didMountHighlight={false} />
+          )}
         </div>
       </span>
     );

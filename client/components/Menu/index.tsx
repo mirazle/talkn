@@ -118,11 +118,13 @@ export default class Menuextends extends TalknComponent<Props, State> {
     } else {
       const isActive = thread.ch === tuneCh.ch;
       const tuneChStyle = isActive ? ChStyle.getActiveLiSelf({ app, ui }) : ChStyle.getUnactiveLiSelf({ app, ui });
+      const didMountLiveCntHighligt = tuneCh.liveCnt !== this.state.tuneCh.liveCnt;
       return (
         <Ch
           key={`tune_${tuneCh.ch}`}
           isActive={isActive}
           didMountBgHighligt={false}
+          didMountLiveCntHighligt={didMountLiveCntHighligt}
           ch={tuneCh.ch}
           title={tuneCh.title}
           favicon={tuneCh.favicon}
@@ -151,12 +153,14 @@ export default class Menuextends extends TalknComponent<Props, State> {
         chKeyRanks[rank.ch].rankNum !== 0 &&
         rankNum !== chKeyRanks[rank.ch].rankNum &&
         rank.liveCnt !== chKeyRanks[rank.ch].liveCnt;
+      const didMountLiveCntHighligt = rank.liveCnt !== chKeyRanks[rank.ch].liveCnt;
       return (
         <Ch
           key={`${rank.ch}_${rankNum}`}
           rankNum={rankNum}
           isActive={isActive}
           didMountBgHighligt={didMountBgHighligt}
+          didMountLiveCntHighligt={didMountLiveCntHighligt}
           ch={rank.ch}
           title={rank.title}
           favicon={rank.favicon}
