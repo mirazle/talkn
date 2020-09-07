@@ -151,7 +151,7 @@ export default class Menuextends extends TalknComponent<Props, State> {
       const chStyle = isActive ? ChStyle.getActiveLiSelf({ app, ui }) : ChStyle.getUnactiveLiSelf({ app, ui });
       const didMountBgHighligt =
         chKeyRanks[rank.ch].rankNum !== 0 &&
-        rankNum !== chKeyRanks[rank.ch].rankNum &&
+        rankNum > chKeyRanks[rank.ch].rankNum &&
         rank.liveCnt !== chKeyRanks[rank.ch].liveCnt;
       const didMountLiveCntHighligt = rank.liveCnt > chKeyRanks[rank.ch].liveCnt;
       return (
