@@ -118,7 +118,7 @@ export default class Menuextends extends TalknComponent<Props, State> {
     } else {
       const isActive = thread.ch === tuneCh.ch;
       const tuneChStyle = isActive ? ChStyle.getActiveLiSelf({ app, ui }) : ChStyle.getUnactiveLiSelf({ app, ui });
-      const didMountLiveCntHighligt = tuneCh.liveCnt !== this.state.tuneCh.liveCnt;
+      const didMountLiveCntHighligt = tuneCh.liveCnt > this.state.tuneCh.liveCnt;
       return (
         <Ch
           key={`tune_${tuneCh.ch}`}
@@ -154,7 +154,6 @@ export default class Menuextends extends TalknComponent<Props, State> {
         rankNum !== chKeyRanks[rank.ch].rankNum &&
         rank.liveCnt !== chKeyRanks[rank.ch].liveCnt;
       const didMountLiveCntHighligt = rank.liveCnt > chKeyRanks[rank.ch].liveCnt;
-      console.log("A");
       return (
         <Ch
           key={`${rank.ch}_${rankNum}`}
