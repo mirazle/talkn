@@ -20,7 +20,6 @@ export default class LiveCnt extends TalknComponent<LiveCntProps, LiveCntState> 
   }
 
   componentDidMount() {
-    console.log("MOUNT LIVE CNT " + this.props.didMountHighlight);
     if (this.props.didMountHighlight) {
       this.setState({
         style: {
