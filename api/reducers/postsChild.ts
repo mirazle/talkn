@@ -8,6 +8,7 @@ export default (state: Post[] = [], action) => {
     case "SERVER_TO_API[EMIT]:fetchPosts":
     case "SERVER_TO_API[BROADCAST]:post":
       if (action.postsChild && action.postsChild.length > 0) {
+        console.log(action.thread.ch + " === " + action.postsChild[0].ch);
         if (action.thread.ch === action.postsChild[0].ch) {
           return [...state, ...action.postsChild];
         }
