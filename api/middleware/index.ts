@@ -105,6 +105,8 @@ const functions = {
         }
       }
     }
+    console.log("MIDDLE WARE " + action.thread.ch);
+    action.thread.ch = state.thread.ch;
     action = Posts.getAnyActionPosts(action, state);
     return action;
   },
