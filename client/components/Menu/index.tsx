@@ -104,7 +104,7 @@ export default class Menuextends extends TalknComponent<Props, State> {
         <ol style={style.ranks.ol}>
           {this.renderTuneChLi()}
           {chKeyRanksAvtive && this.renderRankLi()}
-          {chKeyRanksAvtive && this.renderSpaceLi()}
+          {this.renderSpaceLi()}
         </ol>
         <MenuFooter {...this.props} />
       </div>
