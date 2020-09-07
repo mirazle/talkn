@@ -41,7 +41,7 @@ export default class LiveCnt extends TalknComponent<LiveCntProps, LiveCntState> 
     }
   }
   componentDidUpdate(beforeProps) {
-    if (beforeProps.number !== this.props.number) {
+    if (beforeProps.number < this.props.number) {
       this.setState({
         style: {
           ...this.state.style,
