@@ -32,7 +32,7 @@ export default class LiveCnt {
         textAlign: "center",
       }),
       animation: Style.getAnimationBase({
-        transition: Container.transitionOn,
+        transition: `${Container.transitionOn}ms`,
       }),
     });
 

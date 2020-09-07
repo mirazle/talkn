@@ -5,6 +5,7 @@ import LiveCntStyle from "client/style/common/LiveCnt";
 interface LiveCntProps {
   number: number;
   style: any;
+  didMountHighlight: boolean;
 }
 
 interface LiveCntState {
@@ -18,6 +19,26 @@ export default class LiveCnt extends TalknComponent<LiveCntProps, LiveCntState> 
     this.state = { style: style.div };
   }
 
+  componentDidMount() {
+    console.log("MOUNT LIVE CNT " + this.props.didMountHighlight);
+    if (this.props.didMountHighlight) {
+      this.setState({
+        style: {
+          ...this.state.style,
+          boxShadow: LiveCntStyle.selfBoxShadowOnHighlight,
+        },
+      });
+
+      setTimeout(() => {
+        this.setState({
+          style: {
+            ...this.state.style,
+            boxShadow: LiveCntStyle.selfBoxShadowOffHighlight,
+          },
+        });
+      }, 400);
+    }
+  }
   componentDidUpdate(beforeProps) {
     if (beforeProps.number !== this.props.number) {
       this.setState({
