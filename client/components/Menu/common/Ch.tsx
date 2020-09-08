@@ -51,7 +51,7 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
         bgStyle: {
           ...this.state.bgStyle,
           boxShadow: `${ContainerStyle.lineShadow},
-            0px 0px 100px rgba(${ContainerStyle.themeSuperLightRGBString}, 1) inset,
+            0px 0px 70px rgba(${ContainerStyle.themeSuperLightRGBString}, 1) inset,
             0px 0px 0px rgba(${ContainerStyle.themeSuperLightRGBString}, 1)`,
           zIndex: 10,
         },
@@ -61,7 +61,7 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
           bgStyle: {
             ...this.state.bgStyle,
             boxShadow: `${ContainerStyle.lineShadow},
-            0px 0px 60px rgba(${ContainerStyle.themeSuperLightRGBString}, 1) inset,
+            0px 0px 35px rgba(${ContainerStyle.themeSuperLightRGBString}, 1) inset,
             0px 0px 20px rgba(${ContainerStyle.themeSuperLightRGBString}, 1)`,
             zIndex: 10,
           },
@@ -78,7 +78,7 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
             },
           });
         }, 400);
-      }, 200);
+      }, 100);
     }
   }
 
