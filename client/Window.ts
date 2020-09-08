@@ -1,4 +1,4 @@
-import WsClientWorker from "worker-loader?publicPath=/&name=ws.client.worker.js!./ws.client.worker";
+import WsApiWorker from "worker-loader?publicPath=/&name=ws.api.worker.js!./ws.api.worker";
 import conf from "common/conf";
 import define from "common/define";
 import BootOption from "common/BootOption";
@@ -73,7 +73,7 @@ export default class Window {
   public boot() {
     return new Promise((resolve) => {
       this.conned = resolve;
-      this.wsClient = new WsClientWorker();
+      this.wsClient = new WsApiWorker();
       this.wsClient.onerror = this.onError;
       this.wsClient.onmessage = this.onMessage;
       if (this.id !== define.APP_TYPES.API) {

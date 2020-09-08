@@ -9,12 +9,13 @@ import WsServerToApiEmitAction from "api/actions/ws/serverToApiEmit";
 import WsClientToApiRequestActions from "api/actions/ws/apiToServerRequest";
 import WsServerToApiBroadcastAction from "api/actions/ws/serverToApiBradcast";
 import WebWorker from "client/ws.client.worker";
+import WsApiWorker from "api/ws.api.worker";
 
 type Store = any;
 
 export default class Ws {
   id: string;
-  webWorker: WebWorker;
+  webWorker: WebWorker | WsApiWorker;
   stores: { [s: string]: Store } | {} = {};
   ios: { [s: string]: SocketIOClient.Socket } | {} = {};
   methods: { [s: string]: Function } | {} = {};
@@ -27,7 +28,7 @@ export default class Ws {
   static get option() {
     return { forceNew: true };
   }
-  constructor(webWorker: WebWorker) {
+  constructor(webWorker: WebWorker | WsApiWorker) {
     this.use = this.use.bind(this);
     this.tune = this.tune.bind(this);
     this.tuned = this.tuned.bind(this);
@@ -95,7 +96,6 @@ export default class Ws {
 
   private tune(bootOption: BootOption) {
     if (!this.use(bootOption.id)) {
-
       // id
       this.id = bootOption.id;
 
@@ -172,7 +172,7 @@ export default class Ws {
   }
 
   private on(onKey, callback = () => {}) {
-    if (!this.ios[this.id]._callbacks[`$${onKey}`]) {      
+    if (!this.ios[this.id]._callbacks[`$${onKey}`]) {
       this.ios[this.id].on(onKey, callback);
     }
   }

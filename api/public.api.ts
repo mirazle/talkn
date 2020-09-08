@@ -3,7 +3,7 @@ export default class PublicApi {
   constructor(_win) {
     const { api, store } = _win;
     return {
-      ver: "2020/09/05",
+      ver: "2020/09/07",
       useIo: (id: string) => api("use", id),
       tune: (bootOption: BootOption, callback?: Function) => api("tune", bootOption, callback),
       untune: (id) => api("untune", { id }),
