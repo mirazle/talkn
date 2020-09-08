@@ -78,7 +78,7 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
             },
           });
         }, 400);
-      }, 400);
+      }, 200);
     }
   }
 

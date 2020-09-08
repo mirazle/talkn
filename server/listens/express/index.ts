@@ -72,7 +72,6 @@ class Express {
       case conf.ownURL:
         if (req.url === "/") {
           language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
-          console.log("@@@@@@@@@@@@@@@@@ " + conf.apiAccessURL);
           res.render("own/", {
             language,
             domain: conf.domain,
