@@ -1,4 +1,4 @@
-import WsApiWorker from "worker-loader?publicPath=/&name=ws.api.worker.js!./ws.api.worker";
+import WsApiWorker from "worker-loader?publicPath=/&name=ws.api.worker.js!../api/ws.api.worker";
 import conf from "common/conf";
 import define from "common/define";
 import BootOption from "common/BootOption";
@@ -39,7 +39,7 @@ declare global {
 export default class Window {
   id: string = define.APP_TYPES.PORTAL;
   bootOption: BootOption;
-  wsClient: WsClientWorker;
+  wsClient: WsApiWorker;
   store: any = clientStore();
   parentHref: string = location.href;
   ext: Ext;
