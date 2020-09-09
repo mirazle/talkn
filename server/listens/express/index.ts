@@ -158,7 +158,8 @@ class Express {
           req.originalUrl === "/robots.txt" ||
           req.originalUrl === "/manifest.json" ||
           req.originalUrl === "/service.worker.js" ||
-          req.originalUrl === "/ws.client.worker.js"
+          req.originalUrl === "/ws.client.worker.js" || 
+          req.originalUrl === "/ws.api.worker.js"
         ) {
           // CORSを許可する
           res.header("Access-Control-Allow-Origin", "*");
