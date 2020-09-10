@@ -1,4 +1,4 @@
-import WsApiWorker from "worker-loader?publicPath=/&name=ws.api.worker.js!./ws.api.worker";
+import WsApiWorker from "worker-loader?inline=true&publicPath=/&name=ws.api.worker.js!./ws.api.worker";
 import Window from "client/Window";
 import clientStore from "client/store/clientStore";
 import ClientState from "client/store/";
@@ -16,12 +16,11 @@ import PublicApi from "api/public.api";
 
 declare global {
   interface Window {
+    talknBlob: any;
     talknAPI: any;
   }
 }
 
-// このファイルを読み込んだらwindow.talknAPIが使えるようになる
-// その次にclientで読み込むようにする
 class TalknAPI {
   id: string = define.APP_TYPES.PORTAL;
   bootOption: BootOption;
@@ -122,3 +121,5 @@ if (window.top.document.readyState === "complete") {
 } else {
   window.onload = () => bootTalknApi();
 }
+
+// window.talknAPI = new WsApiWorker();

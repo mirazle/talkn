@@ -8,14 +8,14 @@ import apiStore from "api/store/apiStore";
 import WsServerToApiEmitAction from "api/actions/ws/serverToApiEmit";
 import WsClientToApiRequestActions from "api/actions/ws/apiToServerRequest";
 import WsServerToApiBroadcastAction from "api/actions/ws/serverToApiBradcast";
-import WebWorker from "client/ws.client.worker";
 import WsApiWorker from "api/ws.api.worker";
 
 type Store = any;
 
+// TODO: ワーカーは子ワーカーを生成できる(パフォーマンス向上)
 export default class Ws {
   id: string;
-  webWorker: WebWorker | WsApiWorker;
+  webWorker: WsApiWorker;
   stores: { [s: string]: Store } | {} = {};
   ios: { [s: string]: SocketIOClient.Socket } | {} = {};
   methods: { [s: string]: Function } | {} = {};
@@ -28,7 +28,7 @@ export default class Ws {
   static get option() {
     return { forceNew: true };
   }
-  constructor(webWorker: WebWorker | WsApiWorker) {
+  constructor(webWorker: WsApiWorker) {
     this.use = this.use.bind(this);
     this.tune = this.tune.bind(this);
     this.tuned = this.tuned.bind(this);
