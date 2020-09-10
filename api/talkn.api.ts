@@ -110,8 +110,8 @@ class TalknAPI {
 }
 
 const bootTalknApi = () => {
-  const talknAPI = new TalknAPI();
-  talknAPI.boot().then((_window: Window) => {
+  const talknWindow = new Window(false);
+  talknWindow.boot().then((_window: Window) => {
     window.talknAPI = new PublicApi(_window);
   });
 };
