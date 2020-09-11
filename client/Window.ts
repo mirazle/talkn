@@ -52,7 +52,7 @@ export default class Window {
   }
   constructor(client = true) {
     TalknSetup.setupMath();
-
+    console.log(window);
     // client store.
     this.id = client ? define.APP_TYPES.PORTAL : define.APP_TYPES.API;
     this.bootOption = new BootOption(this.id);
