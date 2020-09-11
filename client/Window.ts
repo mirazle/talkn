@@ -59,7 +59,7 @@ export default class Window {
     const apiState = new ApiState(this.bootOption);
     const clientState = new ClientState(apiState);
     const state = { ...apiState, ...clientState };
-    console.log("INIT_CLIENT " + this.id);
+
     this.store.dispatch({ ...state, type: "INIT_CLIENT" });
 
     // ws.api.worker.
@@ -78,6 +78,7 @@ export default class Window {
       this.wsClient.onerror = this.onError;
       this.wsClient.onmessage = this.onMessage;
       if (this.id !== define.APP_TYPES.API) {
+        console.log("BOOT  " + this.id);
         // handle ext.
         this.ext = new Ext(this);
 

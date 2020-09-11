@@ -34,7 +34,6 @@ export default class BootOption {
     },
   };
   constructor(id: string, params?: BootOptionParamsType) {
-    console.log(window.opener);
     const initialRootCh = BootOption.getInitialRootCh(conf.env);
     const firstHasSlash = BootOption.getFirstHasSlach(initialRootCh);
     this.env = conf.env;
