@@ -98,7 +98,7 @@ export default class Ws {
     if (!this.use(bootOption.id)) {
       // id
       this.id = bootOption.id;
-      console.log(bootOption);
+
       // store.
       this.stores[this.id] = apiStore();
       this.stores[this.id].subscribe(this.subscribe);
