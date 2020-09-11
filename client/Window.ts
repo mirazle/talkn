@@ -223,7 +223,7 @@ class Ext {
         // @ts-ignore
         const clientState = new ClientState({ ...apiState, ui: params.ui });
         const state = { ...apiState, ...clientState };
-        console.log("EXT_INIT_CLIENT " + id);
+        console.log("EXT_INIT_CLIENT " + id + " " + method);
         this.window.store.dispatch({ ...state, type: "EXT_INIT_CLIENT" });
         this.to(method, state);
       }
