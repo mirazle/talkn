@@ -148,7 +148,6 @@ export default class Window {
         // finnish handle ws api.
         if (this.id === define.APP_TYPES.PORTAL || this.id === define.APP_TYPES.EXTENSION) {
           if (method === `SERVER_TO_API[EMIT]:tune`) {
-            console.log("INJECT  " + this.id);
             this.injectStateToApp(params);
           }
         }
@@ -203,7 +202,6 @@ class Ext {
       method,
       params,
     };
-    console.log(message);
     this.postMessage(message);
   }
 

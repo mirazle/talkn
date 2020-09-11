@@ -189,7 +189,6 @@ export default class MediaServer {
 
     this.searchingIds[iFrameId] = setInterval(() => {
       this.setRelationElms(iFrameId);
-      console.log(iFrameId);
       const iframeHasAudio = Boolean(this.iframes[iFrameId].params.audios.length);
       const iframeHasVideo = Boolean(this.iframes[iFrameId].params.videos.length);
       let isHandleEvents = false;
