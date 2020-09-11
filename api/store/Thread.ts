@@ -297,6 +297,9 @@ export default class Thread extends Schema {
   }
 
   static getStatusIsRequireUpsert(thread, setting, isCreate = false) {
+    if (!isCreate) {
+      return true;
+    }
     if (thread.updateTime) {
       const threadUpdateTime = thread.updateTime.getTime ? thread.updateTime.getTime() : thread.updateTime;
 
@@ -311,7 +314,7 @@ export default class Thread extends Schema {
       const activeTime = activeDate.getTime();
 
       // スレッドの更新時間と、現在時間 - n を比較して、スレッドの更新時間が古かったらtrueを返す
-      return isCreate ? true : threadUpdateTime < activeTime;
+      return threadUpdateTime < activeTime;
     } else {
       return false;
     }
