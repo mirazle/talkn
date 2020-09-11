@@ -9,6 +9,7 @@ const env = getEnv(hostName);
 const files = {
   client: "talkn.client.js",
   api: "talkn.api.js",
+  wsWorker: "ws.api.worker.js",
   ext: "talkn.ext.js",
 };
 const isDev = env === DEVELOPMENT;
@@ -72,7 +73,7 @@ export default { ...conf };
 function getEnv(hostName) {
   // from client.
   if (process.title === "browser") {
-    if (hostName === define.DEVELOPMENT_DOMAIN) {
+    if (location.href.indexOf(define.DEVELOPMENT_DOMAIN) >= 0) {
       const port = Number(location.port);
       return port === define.PORTS.DEVELOPMENT || port === define.PORTS.DEVELOPMENT_API
         ? define.DEVELOPMENT

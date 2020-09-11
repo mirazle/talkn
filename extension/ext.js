@@ -137,14 +137,14 @@ class Ext {
       ? `https://${Ext.BASE_DEV_HOST}:8081/talkn.api.js`
       : `https:${Ext.API_HOST}/v${Ext.API_VER_KEY}`;
   }
-  static get() {
+  static getElm() {
     const script1 = document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
     const script2 = document.querySelector(`script[src='https:${Ext.APP_EXT_HOST}']`);
-    if (!script1 && !script2) throw "NO EXIST EXT SCRIPT TAG";
+    // if (!script1 && !script2) throw "NO EXIST EXT SCRIPT TAG";
     return script1 || script2;
   }
   static isBrowserExt() {
-    return Ext.get() === null;
+    return Ext.getElm() === null;
   }
   static getUserDefineMode(options) {
     /********************************/
@@ -176,7 +176,7 @@ class Ext {
     /*  NORMAL                      */
     /********************************/
 
-    const scriptTag = Ext.get();
+    const scriptTag = Ext.getElm();
 
     if (scriptTag && scriptTag.attributes) {
       if (scriptTag.attributes.mode && scriptTag.attributes.mode.value) {
@@ -989,8 +989,8 @@ class IframeModal extends Iframe {
     ];
   }
   constructor(_window) {
-    const extScript = Ext.get();
-    let href = extScript.getAttribute("ch");
+    const extScript = Ext.getElm();
+    let href = extScript ? extScript.getAttribute("ch") : location.href;
     href = href ? href : Window.selectTop.location.href;
     const bootOption = new BootOption(Iframe.MODE_MODAL, href);
     super(_window, IframeModal.appendRoot, bootOption, Iframe.MODE_MODAL);

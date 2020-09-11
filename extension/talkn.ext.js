@@ -387,7 +387,7 @@ class Ext {
   static get() {
     const script1 = document.querySelector(`script[src='${Ext.APP_EXT_HOST}']`);
     const script2 = document.querySelector(`script[src='https:${Ext.APP_EXT_HOST}']`);
-    if (!script1 && !script2) throw "NO EXIST EXT SCRIPT TAG";
+    // if (!script1 && !script2) throw "NO EXIST EXT SCRIPT TAG";
     return script1 || script2;
   }
   static isBrowserExt() {
@@ -464,7 +464,7 @@ class BootOption {
     this.id = id;
     this.ch = href ? this.getCh(href) : location.href;
     this.hasSlash = this.ch.endsWith("/");
-    this.protocol = this.getProtocol(this.ch);
+    this.protocol = this.getProtocol(href);
     this.host = this.getHost(this.ch);
   }
   getCh(ch) {
@@ -472,9 +472,9 @@ class BootOption {
     ch = ch.replace(`${Ext.DEVELOPMENT_HASH}/`, "").replace(Ext.DEVELOPMENT_HASH, "");
     return ch.endsWith("/") ? ch : ch + "/";
   }
-  getProtocol(ch) {
-    if (ch.startsWith("https:")) return "https:";
-    if (ch.startsWith("http:")) return "http:";
+  getProtocol(href) {
+    if (href.startsWith("https:")) return "https:";
+    if (href.startsWith("http:")) return "http:";
     return "talkn:";
   }
   getHost(ch) {
@@ -1255,7 +1255,7 @@ class IframeModal extends Iframe {
   }
   constructor(_window) {
     const extScript = Ext.get();
-    let href = extScript.getAttribute("ch");
+    let href = extScript ? extScript.getAttribute("ch") : location.href;
     href = href ? href : Window.selectTop.location.href;
     const bootOption = new BootOption(Iframe.MODE_MODAL, href);
     super(_window, IframeModal.appendRoot, bootOption, Iframe.MODE_MODAL);
@@ -1554,7 +1554,6 @@ class IframeEmbed extends Iframe {
     this.getRight = this.getRight.bind(this);
     this.getTransform = this.getTransform.bind(this);
 
-    
     // communication.
     this.tune = this.tune.bind(this);
     this.disconnect = this.disconnect.bind(this);
