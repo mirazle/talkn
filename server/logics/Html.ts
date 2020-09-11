@@ -9,7 +9,7 @@ import MongoDB from "server/listens/db/MongoDB";
 import Logics from "server/logics";
 import HtmlSchema from "server/schemas/logics/html";
 
-const log = false;
+const log = true;
 
 export default class Html {
   static get checkSpace() {
