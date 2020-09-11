@@ -224,6 +224,7 @@ class Ext {
         const clientState = new ClientState({ ...apiState, ui: params.ui });
         const state = { ...apiState, ...clientState };
         console.log("EXT_INIT_CLIENT " + id + " " + method);
+        console.log(this.window.store.getState().app.tuned);
         this.window.store.dispatch({ ...state, type: "EXT_INIT_CLIENT" });
         this.to(method, state);
       }
