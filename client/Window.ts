@@ -39,7 +39,7 @@ declare global {
 export default class Window {
   id: string = define.APP_TYPES.PORTAL;
   bootOption: BootOption;
-  wsClient: WsApiWorker;
+  wsApi: WsApiWorker;
   store: any = clientStore();
   parentHref: string = location.href;
   ext: Ext;
@@ -50,11 +50,11 @@ export default class Window {
   static get SET_CALLBACK_METHOD() {
     return "tune";
   }
-  constructor(client = true) {
+  constructor(id) {
     TalknSetup.setupMath();
-    console.log(window);
+
     // client store.
-    this.id = client ? define.APP_TYPES.PORTAL : define.APP_TYPES.API;
+    this.id = id;
     this.bootOption = new BootOption(this.id);
     const apiState = new ApiState(this.bootOption);
     const clientState = new ClientState(apiState);
@@ -74,10 +74,10 @@ export default class Window {
   public boot() {
     return new Promise((resolve) => {
       this.conned = resolve;
-      this.wsClient = new WsApiWorker();
-      this.wsClient.onerror = this.onError;
-      this.wsClient.onmessage = this.onMessage;
-      if (this.id !== define.APP_TYPES.API) {
+      this.wsApi = new WsApiWorker();
+      this.wsApi.onerror = this.onError;
+      this.wsApi.onmessage = this.onMessage;
+      if (this.id === define.APP_TYPES.PORTAL || this.id === define.APP_TYPES.EXTENSION) {
         // handle ext.
         this.ext = new Ext(this);
 
@@ -96,10 +96,8 @@ export default class Window {
   }
 
   private injectStateToApp(apiState: MessageParams): void {
-    if (this.id !== define.APP_TYPES.API) {
-      this.api("fetchPosts", apiState);
-      this.api("rank", apiState);
-    }
+    this.api("fetchPosts", apiState);
+    this.api("rank", apiState);
   }
 
   private postMessage(method: string, params: MessageParams = {}): void {
@@ -112,7 +110,7 @@ export default class Window {
     };
 
     this.mediaClient && this.mediaClient.wsClientBeforeFilter({ method, params });
-    this.wsClient.postMessage(message);
+    this.wsApi.postMessage(message);
   }
 
   private onMessage(e: MessageEvent): void {
@@ -132,25 +130,27 @@ export default class Window {
 
         if (method === "WS_CONSTRUCTED") {
           this.conned(this);
-
-          if (this.id !== define.APP_TYPES.API) {
+          if (this.id === define.APP_TYPES.PORTAL) {
             // @ts-ignore
             const backParams = params.ch ? { ...this.bootOption, ch: params.ch } : this.bootOption;
-            console.log("TUNE  " + this.id);
             this.api("tune", backParams);
           }
         }
 
-        // ext
-        this.ext && this.ext.to(method, params);
+        if (this.id === define.APP_TYPES.EXTENSION) {
+          // ext
+          this.ext && this.ext.to(method, params);
+        }
 
         // media
         this.mediaClient && this.mediaClient.wsClientAfterFilter({ method, params, state });
 
         // finnish handle ws api.
-        if (method === `SERVER_TO_API[EMIT]:tune`) {
-          console.log("INJECT  " + this.id);
-          this.injectStateToApp(params);
+        if (this.id === define.APP_TYPES.PORTAL || this.id === define.APP_TYPES.EXTENSION) {
+          if (method === `SERVER_TO_API[EMIT]:tune`) {
+            console.log("INJECT  " + this.id);
+            this.injectStateToApp(params);
+          }
         }
       }
     }
@@ -170,6 +170,7 @@ export default class Window {
 }
 
 class Ext {
+  id: string;
   href: string;
   window: Window;
   constructor(_window: Window) {
@@ -186,7 +187,7 @@ class Ext {
       method = method.split(Sequence.METHOD_COLON)[1];
     }
     const message: MessageClientAndExtType = {
-      id: this.window.id,
+      id: this.id,
       type: PostMessage.CLIENT_TO_EXT_TYPE,
       method,
       params,
@@ -197,11 +198,12 @@ class Ext {
 
   public toMediaServer(method: string, params: MessageParams = {}): void {
     const message: MessageMediaClientAndMediaServerType = {
-      id: this.window.id,
+      id: this.id,
       type: PostMessage.MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE,
       method,
       params,
     };
+    console.log(message);
     this.postMessage(message);
   }
 
@@ -217,17 +219,19 @@ class Ext {
     const { id, href, type, method, params, methodBack }: MessageClientAndExtType = e.data;
     if (type === PostMessage.EXT_TO_CLIENT_TYPE) {
       if (method === PostMessage.HANDLE_EXT_AND_CLIENT) {
-        this.window.id = id;
+        this.id = id;
         // @ts-ignore
         this.window.bootOption = new BootOption(id, params.bootOption);
         this.href = href;
+
         const apiState = new ApiState(this.window.bootOption);
         // @ts-ignore
         const clientState = new ClientState({ ...apiState, ui: params.ui });
         const state = { ...apiState, ...clientState };
-        console.log("EXT_INIT_CLIENT " + id + " " + method);
-        console.log(this.window.store.getState().app.tuned);
+
         this.window.store.dispatch({ ...state, type: "EXT_INIT_CLIENT" });
+        this.window.api("tune", this.window.bootOption);
+
         this.to(method, state);
       }
 
@@ -332,7 +336,8 @@ class MediaClient {
       case "SERVER_TO_API[EMIT]:tune":
         this.window.mediaClient = new MediaClient(this.window);
         this.requestServer("searching", {
-          id: this.window.id,
+          // TODO: EXTで複数起動の場合に正しく動作するのか検証
+          id: this.window.ext.id,
           ch: state.thread.ch,
           href: location.href,
           audios: state.thread.audios,
@@ -342,7 +347,8 @@ class MediaClient {
       case "SERVER_TO_API[EMIT]:changeThread":
         if (this.window.id === define.APP_TYPES.PORTAL) {
           this.requestServer("searching", {
-            id: this.window.id,
+            // TODO: EXTで複数起動の場合に正しく動作するのか検証
+            id: this.window.ext.id,
             ch: state.thread.ch,
             href: location.href,
             audios: state.thread.audios,
