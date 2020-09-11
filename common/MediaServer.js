@@ -164,6 +164,7 @@ export default class MediaServer {
   }
 
   searching(iFrameId) {
+    if (!iFrameId) return false;
     this.setStatus(MediaServer.STATUS_SEARCH, `start searching ${iFrameId}`);
     this.searchingCnt = 0;
     this.searchingId = null;
@@ -188,6 +189,7 @@ export default class MediaServer {
 
     this.searchingIds[iFrameId] = setInterval(() => {
       this.setRelationElms(iFrameId);
+      console.log(iFrameId);
       const iframeHasAudio = Boolean(this.iframes[iFrameId].params.audios.length);
       const iframeHasVideo = Boolean(this.iframes[iFrameId].params.videos.length);
       let isHandleEvents = false;
