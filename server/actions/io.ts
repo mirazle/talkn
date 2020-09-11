@@ -30,20 +30,20 @@ export default {
   },
 
   tune: async (ioUser, requestState, setting) => {
-    const { ch } = requestState.thread;
+    const requestThread = requestState.thread;
+    const { ch } = requestThread;
 
     // users.
     const liveCnt = await Logics.db.users.getIncLiveCnt(ioUser.conn.id, ch);
 
     // update thread rank.
     let { thread, isExist } = await Logics.db.threads.tune({ ch }, liveCnt, true);
-
     requestState.thread = thread;
     const isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, setting, isExist);
 
     // 作成・更新が必要なスレッドの場合
     if (isRequireUpsert) {
-      thread = await Logics.db.threads.requestHtmlParams(thread, requestState);
+      thread = await Logics.db.threads.requestHtmlParams(thread, requestThread);
       // スレッド新規作成
       if (!isExist) {
         thread = await Logics.db.threads.save(thread);

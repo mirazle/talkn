@@ -6,7 +6,7 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["ext.js"],
+      "js": ["talkn.ext.js"],
       "run_at": "document_end"
     }
   ],
@@ -28,13 +28,14 @@
   "options_page": "option.html",
   "web_accessible_resources": [
     "background.js",
-    "ext.js",
     "index.html",
     "include.js",
     "option.html",
     "option.js",
+    "talkn.ext.js",
     "talkn.client.js",
-    "talkn.api.js"
+    "talkn.api.js",
+    "ws.api.worker.js"
   ],
   "permissions": ["storage"]
 }

@@ -16,8 +16,9 @@ export default class Html {
     return /^\s*$/;
   }
 
-  async fetch(thread, requestState) {
-    let { protocol, ch, hasSlash } = requestState.thread;
+  async fetch(thread, requestThread) {
+    let { protocol, ch, hasSlash } = requestThread;
+
     //    hasSlash = false;
     //    ch = "/news.yahoo.co.jp/pickup/6364244";
     let url = ch;
@@ -26,17 +27,20 @@ export default class Html {
     } else {
       if (hasSlash) {
         if (ch.endsWith("/")) {
-          url = `${Sequence.HTTPS_PROTOCOL}/${ch}`;
+          url = `${protocol}/${ch}`;
         } else {
-          url = `${Sequence.HTTPS_PROTOCOL}/${ch}/`;
+          url = `${protocol}/${ch}/`;
         }
       } else {
         if (ch.endsWith("/")) {
           ch = ch.replace(/\/$/, "");
         }
-        url = `${Sequence.HTTPS_PROTOCOL}/${ch}`;
+        url = `${protocol}/${ch}`;
       }
     }
+
+    console.log(protocol);
+    console.log(url);
 
     let result: any = { response: null, iconHrefs: [] };
 
