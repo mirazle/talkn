@@ -46,6 +46,9 @@ class MediaServer {
   static get PORTAL_KEY() {
     return "PORTAL";
   }
+  static get EXTENSION_KEY() {
+    return "EXTENSION";
+  }
   constructor() {
     // postMessage to iframe ids.
     this.init = this.init.bind(this);
@@ -104,7 +107,7 @@ class MediaServer {
 
   setRelationElms(id) {
     if (Object.keys(this.iframes).length === 0) {
-      if (id === MediaServer.PORTAL_KEY) {
+      if (id === MediaServer.PORTAL_KEY || id === MediaServer.EXTENSION_KEY) {
         this.iframes[id] = {
           dom: window,
           params: {

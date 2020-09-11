@@ -102,7 +102,9 @@ export default class Ws {
       // store.
       this.stores[this.id] = apiStore();
       this.stores[this.id].subscribe(this.subscribe);
+
       const apiState = new ApiState(bootOption);
+
       this.stores[this.id].dispatch({ ...apiState, type: "SETUPED_API_STOREE" });
 
       // ws server.
