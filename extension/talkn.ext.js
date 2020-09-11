@@ -1082,6 +1082,7 @@ class Iframe extends ReactMode {
     this.src = this.getSrc();
     this.dom = document.createElement("iframe");
     this.dom.setAttribute("id", this.id);
+    this.dom.setAttribute("name", this.id);
     this.dom.setAttribute("class", Iframe.CLASS_NAME);
     this.dom.setAttribute("src", this.src);
     this.dom.setAttribute("frameBorder", 0);
