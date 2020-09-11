@@ -190,6 +190,7 @@ class MediaServer {
   }
 
   searching(iFrameId) {
+    if (!iFrameId) return false;
     this.setStatus(MediaServer.STATUS_SEARCH, `start searching ${iFrameId}`);
     this.searchingCnt = 0;
     this.searchingId = null;
