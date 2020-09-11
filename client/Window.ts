@@ -59,6 +59,7 @@ export default class Window {
     const apiState = new ApiState(this.bootOption);
     const clientState = new ClientState(apiState);
     const state = { ...apiState, ...clientState };
+    console.log("INIT_CLIENT " + this.id);
     this.store.dispatch({ ...state, type: "INIT_CLIENT" });
 
     // ws.api.worker.
@@ -218,11 +219,11 @@ class Ext {
         // @ts-ignore
         this.window.bootOption = new BootOption(id, params.bootOption);
         this.href = href;
-        console.log(id);
         const apiState = new ApiState(this.window.bootOption);
         // @ts-ignore
         const clientState = new ClientState({ ...apiState, ui: params.ui });
         const state = { ...apiState, ...clientState };
+        console.log("EXT_INIT_CLIENT " + id);
         this.window.store.dispatch({ ...state, type: "EXT_INIT_CLIENT" });
         this.to(method, state);
       }
