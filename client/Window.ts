@@ -78,7 +78,6 @@ export default class Window {
       this.wsClient.onerror = this.onError;
       this.wsClient.onmessage = this.onMessage;
       if (this.id !== define.APP_TYPES.API) {
-        console.log("BOOT  " + this.id);
         // handle ext.
         this.ext = new Ext(this);
 
@@ -137,6 +136,7 @@ export default class Window {
           if (this.id !== define.APP_TYPES.API) {
             // @ts-ignore
             const backParams = params.ch ? { ...this.bootOption, ch: params.ch } : this.bootOption;
+            console.log("TUNE  " + this.id);
             this.api("tune", backParams);
           }
         }
@@ -149,6 +149,7 @@ export default class Window {
 
         // finnish handle ws api.
         if (method === `SERVER_TO_API[EMIT]:tune`) {
+          console.log("INJECT  " + this.id);
           this.injectStateToApp(params);
         }
       }
