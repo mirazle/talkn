@@ -30,6 +30,7 @@ const functions = {
     action.app.isRootCh = action.app.rootCh === action.thread.ch;
     action.app.isMediaCh = App.getIsMediaCh(action.thread.ch);
     action.app.isToggleMultistream = false;
+    action.thread.title = action.thread.serverMetas["title"];
     action.thread.hasSlash = Schema.getBool(action.thread.hasSlash);
     action.threads = Threads.getMergedThreads(state.threads, action.thread);
     action.threadDetail = { ...action.thread };
