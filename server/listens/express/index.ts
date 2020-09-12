@@ -72,8 +72,13 @@ class Express {
       case conf.ownURL:
         if (req.url === "/" || (req.url && req.url.indexOf("/?lang=") === 0)) {
           language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
+          const favicon =
+            req.query && req.query.lang
+              ? `https://${conf.assetsURL}/country/${language}.png`
+              : `https://${conf.assetsURL}/favicon.ico`;
           res.render("own/", {
             language,
+            favicon,
             domain: conf.domain,
             apiURL: conf.apiURL,
             ownURL: conf.ownURL,
