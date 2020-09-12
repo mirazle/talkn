@@ -70,7 +70,7 @@ class Express {
     let language = "en";
     switch (req.headers.host) {
       case conf.ownURL:
-        if (req.url === "/") {
+        if (req.url === "/" || (req.url && req.url.indexOf("/?lang=") === 0)) {
           language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
           res.render("own/", {
             language,
@@ -158,7 +158,7 @@ class Express {
           req.originalUrl === "/robots.txt" ||
           req.originalUrl === "/manifest.json" ||
           req.originalUrl === "/service.worker.js" ||
-          req.originalUrl === "/ws.client.worker.js" || 
+          req.originalUrl === "/ws.client.worker.js" ||
           req.originalUrl === "/ws.api.worker.js"
         ) {
           // CORSを許可する

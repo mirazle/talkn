@@ -111,7 +111,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   handleOnClickUpdate() {
     const { threadDetail } = this.props.state;
     this.clientAction("OPEN_INNER_NOTIF", { ui: { openInnerNotif: "Update thread data." } });
-    this.api("updateThread", threadDetail.ch);
+    this.api("updateThread", { thread: { ch: threadDetail.ch, protocol: location.protocol } });
   }
 
   getImgStyle(state, style, protocol, serverMetas) {

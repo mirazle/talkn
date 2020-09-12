@@ -76,8 +76,6 @@ export default {
     Logics.io.getMore(ioUser, { requestState, thread, posts, app });
   },
 
-  // MEMO: tuneとchange threadの棲み分けが混在しているのが問題(GlobalAPIからは呼ばない前提)
-  // 新しいthread&古いthreadでそれぞれtuneを実施し、Broardcastして全ユーザーに対して整合性を取っている。
   changeThread: async (ioUser, requestState, setting) => {
     // Old Thread.
     Logics.db.users.remove(ioUser.conn.id);
@@ -124,14 +122,6 @@ export default {
     // App.
     app = Collections.getNewApp(requestState.type, app, threadStatus, thread, posts);
 
-    /*
-    // Userss
-    const isTune = await Logics.db.users.isTuneUser(uid, ch);
-    if (!isTune) {
-      //      Logics.db.users.update(uid, ch);
-      //      Logics.db.threads.tune(thread, +1);
-    }
-*/
     Logics.io.fetchPosts(ioUser, { requestState, thread, posts, app });
   },
 
@@ -177,7 +167,7 @@ export default {
       isMediaCh,
       isMultistream,
     });
-    thread = await Logics.db.threads.requestHtmlParams(thread, requestState);
+    thread = await Logics.db.threads.requestHtmlParams(thread, requestState.thread);
     thread = await Logics.db.threads.save(thread);
     Logics.io.updateThread(ioUser, { requestState, thread });
     return true;

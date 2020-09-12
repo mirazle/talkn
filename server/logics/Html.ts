@@ -9,7 +9,7 @@ import MongoDB from "server/listens/db/MongoDB";
 import Logics from "server/logics";
 import HtmlSchema from "server/schemas/logics/html";
 
-const log = false;
+const log = true;
 
 export default class Html {
   static get checkSpace() {
@@ -23,24 +23,21 @@ export default class Html {
     //    ch = "/news.yahoo.co.jp/pickup/6364244";
     let url = ch;
     if (ch === "/") {
-      url = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}`;
+      url = `//${conf.domain}`;
     } else {
       if (hasSlash) {
         if (ch.endsWith("/")) {
-          url = `${protocol}/${ch}`;
+          url = `/${ch}`;
         } else {
-          url = `${protocol}/${ch}/`;
+          url = `/${ch}/`;
         }
       } else {
         if (ch.endsWith("/")) {
           ch = ch.replace(/\/$/, "");
         }
-        url = `${protocol}/${ch}`;
+        url = `/${ch}`;
       }
     }
-
-    console.log(protocol);
-    console.log(url);
 
     let result: any = { response: null, iconHrefs: [] };
 
@@ -78,12 +75,15 @@ export default class Html {
 
   exeFetch(protocol, url) {
     return new Promise((resolve, reject) => {
-      const option = { method: "GET", encoding: "binary", url };
-
-      if (log) console.log("Fetch Html " + url);
+      const option = { method: "GET", encoding: "binary", url: protocol + url };
 
       // localhost is not get.
       request(option, (error, response, body) => {
+        if (log) {
+          console.log("Fetch Html " + option.url);
+          console.log(error);
+        }
+
         let responseSchema = MongoDB.getDefineSchemaObj(new HtmlSchema({}));
 
         if (!error && response && response.statusCode === 200) {
