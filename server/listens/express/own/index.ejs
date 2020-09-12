@@ -395,362 +395,389 @@
 <!doctype html>
 <html lang=<%= language%>>
 <head>
-<title>talkn | <%= language %></title>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<meta content="Comment to web. talkn can share comments with users watching the same web page. Please enjoy the world of talkn." name="description">
-<meta name="theme-color" content="rgb(79, 174, 159)">
+    <title>talkn | <%= language %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta content="Comment to web. talkn can share comments with users watching the same web page. Please enjoy the world of talkn." name="description">
+    <meta name="theme-color" content="rgb(79, 174, 159)">
 
-<meta property="og:title" content="talkn">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://<%= domain %>">
-<meta property="og:image" content="https://<%= assetsURL %>/own/bg.jpg">
-<meta property="og:site_name" content="talkn">
-<meta property="og:description" content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn.">
-<meta property="fb:page_id" content="641091596303567">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@IoTalkn">
-<meta name="twitter:url" content="https://<%= domain %>">
-<meta name="twitter:title" content="talkn">
-<meta name="twitter:description" content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn.">
-<meta name="twitter:image" content="https://<%= assetsURL %>/own/bg.jpg">
+    <meta property="og:title" content="talkn">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://<%= domain %>">
+    <meta property="og:image" content="https://<%= assetsURL %>/own/bg.jpg">
+    <meta property="og:site_name" content="talkn">
+    <meta property="og:description" content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn.">
+    <meta property="fb:page_id" content="641091596303567">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@IoTalkn">
+    <meta name="twitter:url" content="https://<%= domain %>">
+    <meta name="twitter:title" content="talkn">
+    <meta name="twitter:description" content="talkn can share comments with users watching the same WEB page. Please enjoy the world of fun talkn.">
+    <meta name="twitter:image" content="https://<%= assetsURL %>/own/bg.jpg">
 
-<link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="https://<%= ownURL %>/">
-<link rel="alternate" hreflang="en" href="https://<%= ownURL %>/en">
-<link rel="alternate" hreflang="zh" href="https://<%= ownURL %>/zh">
-<link rel="alternate" hreflang="ja" href="https://<%= ownURL %>/ja">
-<link rel="alternate" hreflang="de" href="https://<%= ownURL %>/de">
-<link rel="alternate" hreflang="fr" href="https://<%= ownURL %>/fr">
-<link rel="alternate" hreflang="hi" href="https://<%= ownURL %>/hi">
-<link rel="alternate" hreflang="pt" href="https://<%= ownURL %>/pt">
-<link rel="alternate" hreflang="it" href="https://<%= ownURL %>/it">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="canonical" href="https://<%= ownURL %>/">
+    <link rel="alternate" hreflang="en" href="https://<%= ownURL %>/en">
+    <link rel="alternate" hreflang="zh" href="https://<%= ownURL %>/zh">
+    <link rel="alternate" hreflang="ja" href="https://<%= ownURL %>/ja">
+    <link rel="alternate" hreflang="de" href="https://<%= ownURL %>/de">
+    <link rel="alternate" hreflang="fr" href="https://<%= ownURL %>/fr">
+    <link rel="alternate" hreflang="hi" href="https://<%= ownURL %>/hi">
+    <link rel="alternate" hreflang="pt" href="https://<%= ownURL %>/pt">
+    <link rel="alternate" hreflang="it" href="https://<%= ownURL %>/it">
 
-<link rel="alternate" hreflang="ru" href="https://<%= ownURL %>/ru">
-<link rel="alternate" hreflang="ko" href="https://<%= ownURL %>/ko">
-<link rel="alternate" hreflang="es" href="https://<%= ownURL %>/es">
-<link rel="alternate" hreflang="id" href="https://<%= ownURL %>/id">
-<link rel="alternate" hreflang="tr" href="https://<%= ownURL %>/tr">
-<link rel="alternate" hreflang="nl" href="https://<%= ownURL %>/nl">
-<link rel="alternate" hreflang="ar" href="https://<%= ownURL %>/ar">
-<link rel="alternate" hreflang="zh-TW" href="https://<%= ownURL %>/zh-TW">
+    <link rel="alternate" hreflang="ru" href="https://<%= ownURL %>/ru">
+    <link rel="alternate" hreflang="ko" href="https://<%= ownURL %>/ko">
+    <link rel="alternate" hreflang="es" href="https://<%= ownURL %>/es">
+    <link rel="alternate" hreflang="id" href="https://<%= ownURL %>/id">
+    <link rel="alternate" hreflang="tr" href="https://<%= ownURL %>/tr">
+    <link rel="alternate" hreflang="nl" href="https://<%= ownURL %>/nl">
+    <link rel="alternate" hreflang="ar" href="https://<%= ownURL %>/ar">
+    <link rel="alternate" hreflang="zh-TW" href="https://<%= ownURL %>/zh-TW">
 
-<link rel="alternate" hreflang="pl" href="https://<%= ownURL %>/pl">
-<link rel="alternate" hreflang="sv" href="https://<%= ownURL %>/sv">
-<link rel="alternate" hreflang="th" href="https://<%= ownURL %>/th">
-<link rel="alternate" hreflang="fa" href="https://<%= ownURL %>/fa">
-<link rel="alternate" hreflang="nn" href="https://<%= ownURL %>/nn">
-<link rel="alternate" hreflang="ga" href="https://<%= ownURL %>/ga">
-<link rel="alternate" hreflang="he" href="https://<%= ownURL %>/he">
-<link rel="alternate" hreflang="mr" href="https://<%= ownURL %>/mr">
-<link rel="stylesheet" href="own.css">
-<link rel="shortcut icon" href="<%= favicon %>">
+    <link rel="alternate" hreflang="pl" href="https://<%= ownURL %>/pl">
+    <link rel="alternate" hreflang="sv" href="https://<%= ownURL %>/sv">
+    <link rel="alternate" hreflang="th" href="https://<%= ownURL %>/th">
+    <link rel="alternate" hreflang="fa" href="https://<%= ownURL %>/fa">
+    <link rel="alternate" hreflang="nn" href="https://<%= ownURL %>/nn">
+    <link rel="alternate" hreflang="ga" href="https://<%= ownURL %>/ga">
+    <link rel="alternate" hreflang="he" href="https://<%= ownURL %>/he">
+    <link rel="alternate" hreflang="mr" href="https://<%= ownURL %>/mr">
+    <link rel="stylesheet" href="own.css">
+    <link rel="shortcut icon" href="<%= favicon %>">
 
-<script type="text/javascript" async src="//<%= extURL %>"></script>
-<script type="text/javascript">
-    const wideScreenWidth = 1000;
-    const smallScreenWidth = 600;
-    const responsiveWidth = 640;
-    const headerHeight = 100;
-    const navTop = 60;
-    const pointerStyles = [
-        {height: "5px", width: "10%", transform: "translate3d(0%,0px,0px)"},
-        {height: "5px",  width: "10%", transform: "translate3d(250%,0px,0px)"},
-        {height: "5px", width: "10%", transform: "translate3d(500%,0px,0px)"},
-        {height: "5px", width: "10%", transform: "translate3d(750%,0px,0px)"},
-        {height: "0px", width: "10%", transform: "translate3d(750%,0px,0px)"}
-    ];
-    const menuStyles = {
-        active: {color: "rgb(79, 174, 159)"},
-        unactive: {color: "rgb(55, 55, 55)"},
-    }
-    let screen = 0;
-    let isAnimateScrolling = false;
-    let oneScreenHeight = smallScreenWidth;
-    function onServiceWorker(){
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/www_sw.js').then(function(registration) {
-                // 登録成功
-                console.log('[www]ServiceWorker registration successful with scope: ', registration.scope);
-            }).catch(function(err) {
-                // 登録失敗 :(
-                console.log('[www]ServiceWorker registration failed: ', err);
-            });
+    <script type="text/javascript" async src="//<%= extURL %>"></script>
+    <script type="text/javascript">
+        const wideScreenWidth = 1000;
+        const smallScreenWidth = 600;
+        const responsiveWidth = 640;
+        const headerHeight = 100;
+        const navTop = 60;
+        const pointerStyles = [
+            { height: "5px", width: "10%", transform: "translate3d(0%,0px,0px)" },
+            { height: "5px", width: "10%", transform: "translate3d(250%,0px,0px)" },
+            { height: "5px", width: "10%", transform: "translate3d(500%,0px,0px)" },
+            { height: "5px", width: "10%", transform: "translate3d(750%,0px,0px)" },
+            { height: "0px", width: "10%", transform: "translate3d(750%,0px,0px)" }
+        ];
+        const menuStyles = {
+            active: { color: "rgb(79, 174, 159)" },
+            unactive: { color: "rgb(55, 55, 55)" },
         }
-    }
-    function onMouseOver(num){
-        movePointer(num);
-        setMenuColor();
-    }
-    function onMouseLeave(num){
-        movePointer(screen);
-        setMenuColor();
-    }
-    function onClick(num){
-        setScreen(num);
-        movePointer(num, true);
-        setMenuColor();
-    }
-    function onClickToTop(){
-        animateScrollTo(0);
-    }
-    function onClickLanguage(){
-        const languageMenu = document.querySelector(".language-menu");
-        if( languageMenu.style.transform === "" ){
-            languageMenu.style.transform = "translate3d(0px, 450px, 0px )";
-        }else{
-            if( languageMenu.style.transform === "translate3d(0px, 0px, 0px)" ){
-                languageMenu.style.transform = "translate3d(0px, 450px, 0px )";
-            }else{
-                languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
+        let screen = 0;
+        let isAnimateScrolling = false;
+        let oneScreenHeight = smallScreenWidth;
+        function onServiceWorker() {
+            if ( 'serviceWorker' in navigator ) {
+                navigator.serviceWorker.register( '/www_sw.js' ).then( function ( registration ) {
+                    // 登録成功
+                    console.log( '[www]ServiceWorker registration successful with scope: ', registration.scope );
+                } ).catch( function ( err ) {
+                    // 登録失敗 :(
+                    console.log( '[www]ServiceWorker registration failed: ', err );
+                } );
             }
         }
-    }
-    function onClickLanguageMenu(cn){
-        location.href = "https://<%= ownURL %>?lang=" + cn;
-    }
-    function onKeyPressSearch(e){
-        if ( e.key === "Enter" ) {
-            let value = e.target.value;
-            let isUrl = false;
-            let url = "";
-            if( value.indexOf("https:/") === 0 ){
-                value = value.replace("https:/", "");
-                isUrl = true;
-            }
-            if( value.indexOf("http:/") === 0 ){
-                value = value.replace("http:/", "");
-                isUrl = true;
-            }
-            url = isUrl ? value : "/" + value;
-            location.href = "https://<%= domain %>" + url;
-        }
-    }
-    function getCalcScreen(){
-        const { scrollY, innerHeight } = window;
-        if( 0 <= scrollY && scrollY < ( oneScreenHeight * 1 ) + headerHeight) {
-            screen = 0;
-        }else if( oneScreenHeight + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 2 ) + headerHeight ){
-            screen = 1;
-        }else if( ( oneScreenHeight * 2 ) + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 3 ) + headerHeight ){
-            screen = 2;
-        }else if( ( oneScreenHeight * 3 ) + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 4 ) + headerHeight ){
-            screen = 3;
-        }else if( ( oneScreenHeight * 4 ) + headerHeight <= scrollY ){
-            screen = 4;
-        }
-        return screen;
-    }
-    function setScreen(num){
-        if(num){
-            screen = num;
-        }else{
-            screen = getCalcScreen();
-        }
-        return screen;
-    }
-    function setMenuColor(){
-        if( window.menuLis ){
-            window.menuLis.forEach( (menuLi, i) => {
-                menuLi.style.color = screen === i ? menuStyles.active.color : menuStyles.unactive.color;
-            } );
-        }
-    }
-    function movePointer(num = 0, animateScroll = false){
-        const { scrollY, innerHeight } = window.scrollY;
-        const pointerStyle = pointerStyles[ num ];
-        const pointer = document.querySelector(".pointer");
-        pointer.style.width = pointerStyle.width;
-        pointer.style.height = pointerStyle.height;
-        pointer.style.transform = pointerStyle.transform;
-        const moveScrollY = num === 0 ? 0 : ( oneScreenHeight * num ) + headerHeight ;
-        if( animateScroll ){
-            animateScrollTo( moveScrollY, 600 );
-        }
-    }
-    function setNavStyles(){
-        const nav = document.querySelector("nav");
-        const accessory = document.querySelector(".accessory");
-        const toTop = document.querySelector(".toTop");
-        const scrollY = window.scrollY;
-        const changeAccessoryFunc = ( scrollY ) => {
-            const changeNavMenuHeight = ( oneScreenHeight * ( pointerStyles.length - 1 ) ) + headerHeight;
-            if( scrollY >= changeNavMenuHeight){
-                accessory.style.transform = `translate3d(0px, -${navTop}px, 0px)`;
-                accessory.style.width = "100px";
-                accessory.style.height = "100px";
-                accessory.innerText = "Powerd by";
-            }else{
-                accessory.style.transform = "translate3d(0px, 0px, 0px)";
-                accessory.style.width = "70px";
-                accessory.style.height = "70px";
-                accessory.innerText = "talkn";
-            }
-        }
-        if( !toTop ){
-            // return false;
-        }
-
-        if( scrollY < navTop ){
-            if( nav.style.position === "fixed" ){
-                nav.style.position = "absolute";
-                nav.style.top = `${navTop}px`;
-                accessory.style.transform = "translate3d(0px, -25px, 0px)";
-            }
-            //toTop.style.display = "none";
-        }else{
-            if(nav.style.position === "absolute"){
-                nav.style.position = "fixed";
-                nav.style.top = "0px";
-                accessory.style.transform = "translate3d(0px, 0px, 0px)";
-                changeAccessoryFunc(scrollY);
-            }else if(nav.style.position === "fixed"){
-                changeAccessoryFunc(scrollY);
-            }else if( nav.style.position === "" ){
-                nav.style.position = "absolute";
-                nav.style.top = `${navTop}px`;
-                accessory.style.transform = "translate3d(0px, -25px, 0px)";
-            }
-            if(toTop ) toTop.style.display = "flex";
-        }
-    }
-	function animateScrollTo( to = 99999, duration = 400,  callback = () => {} ){
-        if( duration === 0 ){
-            window.scrollTo(0, to);
-        }else{
-            if( !isAnimateScrolling ){
-                let start = window.scrollY;
-                let change = to - start;
-                let currentTime = 0;
-                let increment = 20;
-                const animateScroll = ()　=>　{
-                    currentTime += increment;
-                    let scrollTop = Math.easeInOutQuad(currentTime, start, change, duration);
-                    screenTop = Math.floor( scrollTop );
-                    window.scrollTo(0, scrollTop);
-                    if(currentTime < duration){
-                        isAnimateScrolling = true;
-                        setTimeout(animateScroll, increment);
-                    }
-                    if( to === screenTop){
-                        isAnimateScrolling = false;
-                        callback();
-                    }
-                };
-                animateScroll();
-            }
-        }
-    }
-    function setupMath(){
-		Math.easeInOutQuad = function (t, b, c, d) {
-			t /= d/2;
-			if (t < 1) return c/2*t*t + b;
-			t--;
-			return -c/2 * (t*(t-2) - 1) + b;
-		};
-	}
-    function onMouseOverInput( className ){
-        document.querySelector("section." + className ).style.border = "5px solid rgba( 79,174,159,0.8)";
-    } 
-    function onMouseLeaveInput( className ){
-        document.querySelector("section." + className ).style.border = "5px solid rgba( 0,0,0,0.2)";
-    } 
-    function onFocusInput( className ){
-        document.querySelector("section." + className ).style.border = "5px solid rgba( 79,174,159,0.8)";
-    } 
-    function onBlurInput( className ){
-        document.querySelector("section." + className ).style.border = "5px solid rgba( 0,0,0,0.2)";
-    } 
-    function onClickCopyTag(type){
-        const selector = `section.three code.${type}Code`;
-        const replaceComment = type === "copyIframe" ? "<%= copyIframeComment %>" : "<%= copyScriptComment %>";
-        document.querySelector( selector ).style.opacity = "1";
-        const copyTag = document.createElement("input");
-        copyTag.value = document.querySelector(`${selector} pre`)
-                                .innerText
-                                .replace(`// ${replaceComment}`, "")
-                                .replace(/\r?\n/g, '')
-                                .replace( /    /g, " ");
-        copyTag.id = type;
-        copyTag.type = "text";
-        copyTag.style = "opacity: 0";
-        document.querySelector(selector).appendChild(copyTag);
-        copyTag.focus();
-        copyTag.select();
-        document.execCommand("copy"); 
-        setTimeout( () => {
-            document.querySelector( selector ).style.opacity = "0";
-            setTimeout( () => {
-    	        copyTag.parentNode.removeChild(copyTag);
-            }, 1000 );
-        }, 3000 );
-    } 
-    function onResizeWindow(){
-        let newOneScreenHeight = 0;
-        if( window.innerWidth < responsiveWidth ){
-            newOneScreenHeight = smallScreenWidth;
-        }else{
-            newOneScreenHeight = wideScreenWidth;
-        }
-        if( oneScreenHeight !== newOneScreenHeight ){
-            oneScreenHeight = newOneScreenHeight;
-            screen = setScreen();
-            movePointer(screen);
-            setNavStyles();
+        function onMouseOver( num ) {
+            movePointer( num );
             setMenuColor();
         }
-    } 
-    function onClickSearchIcon() {
-        const search = document.querySelector( ".search" );
-        const href = search.value.replace("https:/", "").replace("http:/", "");
-        location.href = "https://<%= domain %>" + href;
-    }
-    window.onload =  ( e ) => {
-        onServiceWorker();
-        const search = document.querySelector(".search");
-        const pagination = document.querySelectorAll("nav.pagination span");
-        // search.addEventListener('keypress', onKeyPressSearch);
-        onResizeWindow();
-        setupMath();
-        window.pointer = document.querySelector(".pointer");
-        window.menuLis = document.querySelectorAll("nav li");
-        window.nav = document.querySelector("nav");
-        setNavStyles();
-        setMenuColor();
-        pagination.forEach( page => page.addEventListener('click', (e) => {
-            const scrollLeft = Number(e.target.dataset.index) === 1 ? 0 : 9999999;
-            document.querySelector(".slide").scrollLeft = scrollLeft;
-        }));
-        
-        document.querySelector(".language-menu").addEventListener("transitionend", () => {
-            const languageMenu = document.querySelector(".language-menu");
-            if( languageMenu.style.transform === "translate3d(0px, 450px, 0px)" ){
-                document.body.addEventListener("click", function temp(){
+        function onMouseLeave( num ) {
+            movePointer( screen );
+            setMenuColor();
+        }
+        function onClick( num ) {
+            setScreen( num );
+            movePointer( num, true );
+            setMenuColor();
+        }
+        function onClickToTop() {
+            animateScrollTo( 0 );
+        }
+        function onClickLanguage() {
+            const languageMenu = document.querySelector( ".language-menu" );
+            if ( languageMenu.style.transform === "" ) {
+                languageMenu.style.transform = "translate3d(0px, 450px, 0px )";
+            } else {
+                if ( languageMenu.style.transform === "translate3d(0px, 0px, 0px)" ) {
+                    languageMenu.style.transform = "translate3d(0px, 450px, 0px )";
+                } else {
                     languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
-                    this.removeEventListener("click", temp);
-                });
+                }
             }
-        });
-    };
-    window.onscroll =  ( e ) => {
-        setNavStyles();
-        if( !isAnimateScrolling ){
-            let beforeScreen = screen;
-            screen = setScreen();
-            if( screen !== beforeScreen){
-                movePointer(screen);
+        }
+        function onClickLanguageMenu( cn ) {
+            location.href = "https://<%= ownURL %>?lang=" + cn;
+        }
+        function onKeyPressSearch( e ) {
+            if ( e.key === "Enter" ) {
+                let value = e.target.value;
+                let isUrl = false;
+                let url = "";
+                if ( value.indexOf( "https:/" ) === 0 ) {
+                    value = value.replace( "https:/", "" );
+                    isUrl = true;
+                }
+                if ( value.indexOf( "http:/" ) === 0 ) {
+                    value = value.replace( "http:/", "" );
+                    isUrl = true;
+                }
+                url = isUrl ? value : "/" + value;
+                location.href = "https://<%= domain %>" + url;
+            }
+        }
+        function getCalcScreen() {
+            const { scrollY, innerHeight } = window;
+            if ( 0 <= scrollY && scrollY < ( oneScreenHeight * 1 ) + headerHeight ) {
+                screen = 0;
+            } else if ( oneScreenHeight + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 2 ) + headerHeight ) {
+                screen = 1;
+            } else if ( ( oneScreenHeight * 2 ) + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 3 ) + headerHeight ) {
+                screen = 2;
+            } else if ( ( oneScreenHeight * 3 ) + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 4 ) + headerHeight ) {
+                screen = 3;
+            } else if ( ( oneScreenHeight * 4 ) + headerHeight <= scrollY ) {
+                screen = 4;
+            }
+            return screen;
+        }
+        function setScreen( num ) {
+            if ( num ) {
+                screen = num;
+            } else {
+                screen = getCalcScreen();
+            }
+            return screen;
+        }
+        function setMenuColor() {
+            if ( window.menuLis ) {
+                window.menuLis.forEach( ( menuLi, i ) => {
+                    menuLi.style.color = screen === i ? menuStyles.active.color : menuStyles.unactive.color;
+                } );
+            }
+        }
+        function movePointer( num = 0, animateScroll = false ) {
+            const { scrollY, innerHeight } = window.scrollY;
+            const pointerStyle = pointerStyles[ num ];
+            const pointer = document.querySelector( ".pointer" );
+            pointer.style.width = pointerStyle.width;
+            pointer.style.height = pointerStyle.height;
+            pointer.style.transform = pointerStyle.transform;
+            const moveScrollY = num === 0 ? 0 : ( oneScreenHeight * num ) + headerHeight;
+            if ( animateScroll ) {
+                animateScrollTo( moveScrollY, 600 );
+            }
+        }
+        function setNavStyles() {
+            const nav = document.querySelector( "nav" );
+            const accessory = document.querySelector( ".accessory" );
+            const toTop = document.querySelector( ".toTop" );
+            const scrollY = window.scrollY;
+            const changeAccessoryFunc = ( scrollY ) => {
+                const changeNavMenuHeight = ( oneScreenHeight * ( pointerStyles.length - 1 ) ) + headerHeight;
+                if ( scrollY >= changeNavMenuHeight ) {
+                    accessory.style.transform = `translate3d(0px, -${ navTop }px, 0px)`;
+                    accessory.style.width = "100px";
+                    accessory.style.height = "100px";
+                    accessory.innerText = "Powerd by";
+                } else {
+                    accessory.style.transform = "translate3d(0px, 0px, 0px)";
+                    accessory.style.width = "70px";
+                    accessory.style.height = "70px";
+                    accessory.innerText = "talkn";
+                }
+            }
+            if ( !toTop ) {
+                // return false;
+            }
+
+            if ( scrollY < navTop ) {
+                if ( nav.style.position === "fixed" ) {
+                    nav.style.position = "absolute";
+                    nav.style.top = `${ navTop }px`;
+                    accessory.style.transform = "translate3d(0px, -25px, 0px)";
+                }
+                //toTop.style.display = "none";
+            } else {
+                if ( nav.style.position === "absolute" ) {
+                    nav.style.position = "fixed";
+                    nav.style.top = "0px";
+                    accessory.style.transform = "translate3d(0px, 0px, 0px)";
+                    changeAccessoryFunc( scrollY );
+                } else if ( nav.style.position === "fixed" ) {
+                    changeAccessoryFunc( scrollY );
+                } else if ( nav.style.position === "" ) {
+                    nav.style.position = "absolute";
+                    nav.style.top = `${ navTop }px`;
+                    accessory.style.transform = "translate3d(0px, -25px, 0px)";
+                }
+                if ( toTop ) toTop.style.display = "flex";
+            }
+        }
+        function animateScrollTo( to = 99999, duration = 400, callback = () => { } ) {
+            if ( duration === 0 ) {
+                window.scrollTo( 0, to );
+            } else {
+                if ( !isAnimateScrolling ) {
+                    let start = window.scrollY;
+                    let change = to - start;
+                    let currentTime = 0;
+                    let increment = 20;
+                    const animateScroll = () => {
+                        currentTime += increment;
+                        let scrollTop = Math.easeInOutQuad( currentTime, start, change, duration );
+                        screenTop = Math.floor( scrollTop );
+                        window.scrollTo( 0, scrollTop );
+                        if ( currentTime < duration ) {
+                            isAnimateScrolling = true;
+                            setTimeout( animateScroll, increment );
+                        }
+                        if ( to === screenTop ) {
+                            isAnimateScrolling = false;
+                            callback();
+                        }
+                    };
+                    animateScroll();
+                }
+            }
+        }
+        function setupMath() {
+            Math.easeInOutQuad = function ( t, b, c, d ) {
+                t /= d / 2;
+                if ( t < 1 ) return c / 2 * t * t + b;
+                t--;
+                return -c / 2 * ( t * ( t - 2 ) - 1 ) + b;
+            };
+        }
+        function onMouseOverInput( className ) {
+            document.querySelector( "section." + className ).style.border = "5px solid rgba( 79,174,159,0.8)";
+        }
+        function onMouseLeaveInput( className ) {
+            document.querySelector( "section." + className ).style.border = "5px solid rgba( 0,0,0,0.2)";
+        }
+        function onFocusInput( className ) {
+            document.querySelector( "section." + className ).style.border = "5px solid rgba( 79,174,159,0.8)";
+        }
+        function onBlurInput( className ) {
+            document.querySelector( "section." + className ).style.border = "5px solid rgba( 0,0,0,0.2)";
+        }
+        function onClickCopyTag( type ) {
+            const selector = `section.three code.${ type }Code`;
+            const replaceComment = type === "copyIframe" ? "<%= copyIframeComment %>" : "<%= copyScriptComment %>";
+            document.querySelector( selector ).style.opacity = "1";
+            const copyTag = document.createElement( "input" );
+            copyTag.value = document.querySelector( `${ selector } pre` )
+                .innerText
+                .replace( `// ${ replaceComment }`, "" )
+                .replace( /\r?\n/g, '' )
+                .replace( /    /g, " " );
+            copyTag.id = type;
+            copyTag.type = "text";
+            copyTag.style = "opacity: 0";
+            document.querySelector( selector ).appendChild( copyTag );
+            copyTag.focus();
+            copyTag.select();
+            document.execCommand( "copy" );
+            setTimeout( () => {
+                document.querySelector( selector ).style.opacity = "0";
+                setTimeout( () => {
+                    copyTag.parentNode.removeChild( copyTag );
+                }, 1000 );
+            }, 3000 );
+        }
+        function onResizeWindow() {
+            let newOneScreenHeight = 0;
+            if ( window.innerWidth < responsiveWidth ) {
+                newOneScreenHeight = smallScreenWidth;
+            } else {
+                newOneScreenHeight = wideScreenWidth;
+            }
+            if ( oneScreenHeight !== newOneScreenHeight ) {
+                oneScreenHeight = newOneScreenHeight;
+                screen = setScreen();
+                movePointer( screen );
+                setNavStyles();
                 setMenuColor();
             }
-        }1
-    };
-    window.onresize = onResizeWindow;
-</script>
-<!-- script type="text/javascript" async src="//<%= extURL %>"></script -->
-<script type="text/javascript" async src="//api.localhost/v1"></script>
+        }
+        function onClickSearchIcon() {
+            const search = document.querySelector( ".search" );
+            const href = search.value.replace( "https:/", "" ).replace( "http:/", "" );
+            location.href = "https://<%= domain %>" + href;
+        }
+        function onClickCountry(country) {
+            const toNormalTag = document.querySelector( `.country_demo .active` );
+            toNormalTag.classList.remove( "active" );
+            const toActiveTag = document.querySelector( `.country_demo .${country}` );
+            console.log( toActiveTag.className.indexOf( 'active' ));
+            if( toActiveTag.className.indexOf('active') === -1){
+                toActiveTag.classList.add("active");
+
+
+                const control = document.querySelector( `.tune_control .selectCh` );
+                control.innerHTML = country === "top" ?
+                    `CH : /own.<%= domain %>/` :
+                    `CH : /own.<%= domain %>/?lang=${country}/`; 
+            }
+/*
+            talknAPI.tune({
+                ch: `/own.localhost/?lang=${country}/`,
+                protocol: "https:",
+                id: country
+            }, 
+            (ioType, state) => {
+                console.log("@@@@@@@@@@ : " + ioType); console.log(state);
+            });
+*/
+        }
+        window.onload = ( e ) => {
+            onServiceWorker();
+            const search = document.querySelector( ".search" );
+            const pagination = document.querySelectorAll( "nav.pagination span" );
+            // search.addEventListener('keypress', onKeyPressSearch);
+            onResizeWindow();
+            setupMath();
+            window.pointer = document.querySelector( ".pointer" );
+            window.menuLis = document.querySelectorAll( "nav li" );
+            window.nav = document.querySelector( "nav" );
+            setNavStyles();
+            setMenuColor();
+            pagination.forEach( page => page.addEventListener( 'click', ( e ) => {
+                const scrollLeft = Number( e.target.dataset.index ) === 1 ? 0 : 9999999;
+                document.querySelector( ".slide" ).scrollLeft = scrollLeft;
+            } ) );
+
+            document.querySelector( ".language-menu" ).addEventListener( "transitionend", () => {
+                const languageMenu = document.querySelector( ".language-menu" );
+                if ( languageMenu.style.transform === "translate3d(0px, 450px, 0px)" ) {
+                    document.body.addEventListener( "click", function temp() {
+                        languageMenu.style.transform = "translate3d(0px, 0px, 0px)";
+                        this.removeEventListener( "click", temp );
+                    } );
+                }
+            } );
+        };
+        window.onscroll = ( e ) => {
+            setNavStyles();
+            if ( !isAnimateScrolling ) {
+                let beforeScreen = screen;
+                screen = setScreen();
+                if ( screen !== beforeScreen ) {
+                    movePointer( screen );
+                    setMenuColor();
+                }
+            } 1
+        };
+        window.onresize = onResizeWindow;
+    </script>
+    <!-- script type="text/javascript" async src="//<%= extURL %>"></script -->
+    <script type="text/javascript" async src="//api.<%= domain %>/v1"></script>
 </head>
+
 <body>
     <!-- div id="talkn" style="z-index: 99999999; width: 280px; height: 50%; position: fixed; top: 150px; left: 100px;"></div -->
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"></script>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"></script>
 
     <div class="fixBackground">
         <div class="background"></div>
@@ -801,10 +828,10 @@
             <nav class="head">
                 <div class="headBar"></div>
                 <ul>
-                        <li onclick="onClick(0)" onmouseover="onMouseOver(0)" onmouseleave="onMouseLeave(0)">Top</li>
-                        <li onclick="onClick(1)" onmouseover="onMouseOver(1)" onmouseleave="onMouseLeave(1)">Merit</li>
-                        <li onclick="onClick(2)" onmouseover="onMouseOver(2)" onmouseleave="onMouseLeave(2)">Future</li>
-                        <li onclick="onClick(3)" onmouseover="onMouseOver(3)" onmouseleave="onMouseLeave(3)">Contact</li>
+                    <li onclick="onClick(0)" onmouseover="onMouseOver(0)" onmouseleave="onMouseLeave(0)">Top</li>
+                    <li onclick="onClick(1)" onmouseover="onMouseOver(1)" onmouseleave="onMouseLeave(1)">Merit</li>
+                    <li onclick="onClick(2)" onmouseover="onMouseOver(2)" onmouseleave="onMouseLeave(2)">Future</li>
+                    <li onclick="onClick(3)" onmouseover="onMouseOver(3)" onmouseleave="onMouseLeave(3)">Contact</li>
                 </ul>
                 <div class="pointerWrap">
                     <div class="pointer" />
@@ -830,7 +857,8 @@
                         <div id="talknEmbed1" class="talknEmbed"></div>
                     </section>
                     <section id="youtube" class="board youtube">
-                        <iframe width="460" height="300" src="https://www.youtube.com/embed/3dUxV3yuIyc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="460" height="300" src="https://www.youtube.com/embed/3dUxV3yuIyc" frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </section>
                 </div>
                 <nav class="pagination">
@@ -880,7 +908,7 @@
                 </div>
             </div>
         </section>
-        
+
         <section class="three">
             <div class="block">
                 <h2>
@@ -891,111 +919,111 @@
                 </div>
                 <div class="children">
                     <h3>アクション</h3>
-                    <div class="control">
-                        <div class="tune">tune</div>
-                        <div class="untune">untune</div>
-                        <div class="random">random</div>
-                        <div class="selectCh">CH: </div>
+                    <div class="tune_control">
+                        <div class="tune" onclick="onClickTune()">tune</div>
+                        <div class="untune" onclick="onClickUnTune()">untune</div>
+                        <div class="random" onclick="onClickRandom()">random</div>
+                        <div class="selectCh">CH: /own.<%= domain %>/</div>
                     </div>
                     <h3>チャネル一覧</h3>
                     <ul class="country_demo">
-                        <li class="top">
+                        <li class="top active" onclick="onClickCountry('top')">
                             <span class="lang">TOP</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="en">
+                        <li class="en" onclick="onClickCountry('en')">
                             <span class="lang">∟ English(en)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="zh">
+                        <li class="zh" onclick="onClickCountry('zh')">
                             <span class="lang">∟ 简体中文(zh)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="ja">
+                        <li class="ja" onclick="onClickCountry('ja')">
                             <span class="lang">∟ 日本語(ja)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="de">
+                        <li class="de" onclick="onClickCountry('de')">
                             <span class="lang">∟ Deutsch(de)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="fr">
+                        <li class="fr" onclick="onClickCountry('fr')">
                             <span class="lang">∟ Français(fr)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="hi">
+                        <li class="hi" onclick="onClickCountry('hi')">
                             <span class="lang">∟ हिंदी(hi)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="pt">
+                        <li class="pt" onclick="onClickCountry('pt')">
                             <span class="lang">∟ Português(pt)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="it">
+                        <li class="it" onclick="onClickCountry('it')">
                             <span class="lang">∟ Italiano(it)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="ru">
+                        <li class="ru" onclick="onClickCountry('ru')">
                             <span class="lang">∟ русский(ru)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="ko">
+                        <li class="ko" onclick="onClickCountry('ko')">
                             <span class="lang">∟ 한국(ko)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="es">
+                        <li class="es" onclick="onClickCountry('es')">
                             <span class="lang">∟ Español(es)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="id">
+                        <li class="id" onclick="onClickCountry('id')">
                             <span class="lang">∟ Indonesio(id)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="tr">
+                        <li class="tr" onclick="onClickCountry('tr')">
                             <span class="lang">∟ Turco(tr)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="nl">
+                        <li class="nl" onclick="onClickCountry('nl')">
                             <span class="lang">∟ Holandes(nl)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="ar">
+                        <li class="ar" onclick="onClickCountry('ar')">
                             <span class="lang">∟ العربية(ar)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="zh-TW">
+                        <li class="zh-TW" onclick="onClickCountry('zh-TW')">
                             <span class="lang">∟ 繁体中文(zh-TW)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="pl">
+                        <li class="pl" onclick="onClickCountry('pl')">
                             <span class="lang">∟ Polski(pl)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="sv">
+                        <li class="sv" onclick="onClickCountry('sv')">
                             <span class="lang">∟ svenska(sv)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="th">
+                        <li class="th" onclick="onClickCountry('th')">
                             <span class="lang">∟ Thailändska(th)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="fa">
+                        <li class="fa" onclick="onClickCountry('fa')">
                             <span class="lang">∟ فارسی(fa)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="nn">
+                        <li class="nn" onclick="onClickCountry('nn')">
                             <span class="lang">∟ norsk(nn)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="ga">
+                        <li class="ga" onclick="onClickCountry('ga')">
                             <span class="lang">∟ Gaeilge(ga)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="he">
+                        <li class="he" onclick="onClickCountry('he')">
                             <span class="lang">∟ עברית(he)</span>
                             <span class="liveCnt">0</span>
                         </li>
-                        <li class="mr">
+                        <li class="mr" onclick="onClickCountry('mr')">
                             <span class="lang">∟ Melayu(mr)</span>
                             <span class="liveCnt">0</span>
                         </li>
@@ -1025,4 +1053,5 @@
         <br />
     </div>
 </body>
+
 </html>

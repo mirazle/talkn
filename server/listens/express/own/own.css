@@ -540,7 +540,7 @@ section.three .children .random {
   height: 50px;
   transition: 300ms;
 }
-section.three .children .control {
+section.three .children .tune_control {
   display: flex;
   flex-flow: row wrap;
 }
@@ -574,11 +574,12 @@ section.three .children li {
   background: rgba(255, 255, 255, 0.2);
   text-indent: 15px;
 }
+section.three .children li.active {
+  background: rgba(79, 174, 159, 0.6);
+}
+
 section.three .children li.top {
   flex: 100% 1 100;
-}
-section.three .children li:hover {
-  background: rgba(79, 174, 159, 0.6);
 }
 
 section.three .children li .lang {
@@ -609,9 +610,6 @@ section.three .children .tune {
   font-weight: 300;
   color: #fff;
 }
-section.three .children .tune:hover {
-  background: rgba(79, 174, 159, 0.6);
-}
 section.three .children .untune {
   flex: 31% 1 31;
   display: flex;
@@ -622,9 +620,6 @@ section.three .children .untune {
   font-weight: 300;
   color: #fff;
 }
-section.three .children .untune:hover {
-  background: rgba(79, 174, 159, 0.6);
-}
 section.three .children .random {
   flex: 33% 1 33;
   display: flex;
@@ -634,9 +629,7 @@ section.three .children .random {
   font-weight: 300;
   color: #fff;
 }
-section.three .children .random:hover {
-  background: rgba(79, 174, 159, 0.6);
-}
+
 @media screen and (max-width: 1060px) {
   h2 {
     font-size: 40px;
