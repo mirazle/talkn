@@ -91,6 +91,8 @@ export default class Html {
           let iconHrefs = [];
           responseSchema.contentType = contentType;
           responseSchema.protocol = protocol;
+
+          // media fileの場合
           if (App.isMediaContentType(contentType)) {
             responseSchema.title = this.getTitle(null, url, contentType);
             responseSchema.serverMetas.title = responseSchema.title;
@@ -134,6 +136,7 @@ export default class Html {
     } else {
       title = $("head title").text();
     }
+    console.log("TITLE : " + title);
     return title;
   }
 
