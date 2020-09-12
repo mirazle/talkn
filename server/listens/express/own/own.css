@@ -247,7 +247,9 @@ h3 {
   padding: 0;
   box-sizing: border-box;
 }
-ul, ol, li {
+ul,
+ol,
+li {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -255,7 +257,7 @@ ul, ol, li {
 }
 
 h2 {
-  font-size: 3.0rem;
+  font-size: 3rem;
   font-weight: 200;
   letter-spacing: 8px;
   line-height: 100px;
@@ -269,7 +271,7 @@ h2 {
 }
 #talknEmbed2 {
   width: 601px;
-  height: 720px;
+  height: 760px;
 }
 section.zero {
   padding: 200px 0;
@@ -360,7 +362,7 @@ section.zero nav.pagination span {
   height: 14px;
   margin: 14px;
   border-radius: 50%;
-  background: rgb(255,255,255);
+  background: rgb(255, 255, 255);
   transition: 600ms;
 }
 
@@ -459,7 +461,7 @@ section.one .arrowWrap {
 }
 section.one .arrow {
   font-size: 35px;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.4);
 }
 .ribonWrap {
   display: flex;
@@ -500,7 +502,7 @@ section.two .bar1 {
 }
 section.three {
   width: 100%;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
 }
 section.three .block {
   display: flex;
@@ -518,7 +520,7 @@ section.three h2 {
 }
 section.three h3 {
   text-align: center;
-  margin-bottom: 30px;
+  margin: 25px 0;
 }
 section.three .content {
   display: flex;
@@ -530,56 +532,110 @@ section.three .children {
   flex-flow: column wrap;
   margin-left: 20px;
 }
-section.three .children ul.country_demo {
+section.three .children li,
+section.three .children .selectCh,
+section.three .children .tune,
+section.three .children .untune,
+section.three .children .random {
+  height: 50px;
+  transition: 300ms;
+}
+section.three .children .control {
   display: flex;
-  justify-content: center;
+  flex-flow: row wrap;
+}
+section.three .children .selectCh {
+  flex: 100% 1 100;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  text-indent: 15px;
+}
+section.three .children ul.country_demo {
+  top: 0;
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
   flex-flow: row wrap;
   min-width: 220px;
   height: auto;
 }
 section.three .children li {
-  flex: 50% 0 50;
+  flex: 33% 1 33;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-flow: row nowrap;
-  margin: 10px 0;
+  margin: 1px;
+  min-width: 200px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  text-indent: 15px;
 }
+section.three .children li.top {
+  flex: 100% 1 100;
+}
+section.three .children li:hover {
+  background: rgba(79, 174, 159, 0.6);
+}
+
 section.three .children li .lang {
-  width: 110px;
+  flex: 1;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
-section.three .children li .add,
-section.three .children li .reduce,
-section.three .children li .liveCnt
-{
+
+section.three .children li .liveCnt {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 10px;
-  width: 36px;
+  margin: 0;
+  width: 70px;
   height: 36px;
   border-radius: 30px;
   font-weight: 700;
   cursor: pointer;
   transition: 300ms;
 }
-section.three .children li .add {
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  background: rgba(79, 174, 159, 0.8);
+section.three .children .tune {
+  flex: 33% 1 33;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  font-weight: 300;
+  color: #fff;
 }
-section.three .children li .add:hover {
-  background: rgba(79, 174, 159, 1);
+section.three .children .tune:hover {
+  background: rgba(79, 174, 159, 0.6);
 }
-section.three .children li .reduce {
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  background: rgba(100, 100, 100, 0.8);
+section.three .children .untune {
+  flex: 31% 1 31;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 2px;
+  background: rgba(255, 255, 255, 0.2);
+  font-weight: 300;
+  color: #fff;
 }
-section.three .children li .reduce:hover {
-  background: rgba(100, 100, 100, 1);
+section.three .children .untune:hover {
+  background: rgba(79, 174, 159, 0.6);
+}
+section.three .children .random {
+  flex: 33% 1 33;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  font-weight: 300;
+  color: #fff;
+}
+section.three .children .random:hover {
+  background: rgba(79, 174, 159, 0.6);
 }
 @media screen and (max-width: 1060px) {
   h2 {
@@ -695,7 +751,7 @@ section.three .children li .reduce:hover {
   }
   section.three .content {
     margin: 0 20px 60px;
-    flex: 6 0 calc( 100% - 40px );
+    flex: 6 0 calc(100% - 40px);
   }
 }
 
