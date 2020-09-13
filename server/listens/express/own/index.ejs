@@ -464,6 +464,25 @@
             unactive: { color: "rgb(55, 55, 55)" },
         }
         const tuneIds = {};
+        const postExample = [
+            {inputPost: "Hello talkn😃", inputStampId: 0},
+            {inputPost: "Hahaha😊", inputStampId: 0 },
+            {inputPost: ".. Oh Dios mío", inputStampId: 0 },
+            {inputPost: "为什么会这样呢？", inputStampId: 0 },
+            {inputPost: "나쁜 소식 이구나😱", inputStampId: 0 },
+            {inputPost: "この🍰美味しそう😋", inputStampId: 0 },
+            {inputPost: "これ誰の曲？🎵", inputStampId: 0 },
+            {inputPost: "これ欲しい、、🎵", inputStampId: 0 },
+            {inputPost: "またこのニュースかい..😣🎵", inputStampId: 0 },
+            {inputPost: "Bu kozmetiği kullanmak istiyorum!!", inputStampId: 0 },
+            {inputPost: "¿Cuál es el precio actual de los activos criptográficos?", inputStampId: 0 },
+            {inputPost: "Умехара Удачи!", inputStampId: 0 },
+            {inputPost: "💖", inputStampId: 1201 }, 
+            {inputPost: "👍", inputStampId: 1 } ,
+            {inputPost: "😭", inputStampId: 2301 } ,
+            {inputPost: "🍺", inputStampId: 1304 },
+            {inputPost: "💴", inputStampId: 100 },
+        ];
         let screen = 0;
         let isAnimateScrolling = false;
         let oneScreenHeight = smallScreenWidth;
@@ -738,6 +757,10 @@
                 console.log( tuneIds );
             }
         }
+        function onClickPost() {
+            const postExampleIndex = Math.floor( Math.random() * postExample.length );
+            talknAPI.post(postExample[postExampleIndex]);
+        }
 
         window.onload = ( e ) => {
             onServiceWorker();
@@ -932,7 +955,7 @@
                     <div class="tune_control">
                         <div class="tune" onclick="onClickTune()">tune</div>
                         <div class="untune" onclick="onClickUnTune()">untune</div>
-                        <div class="random" onclick="onClickRandom()">random</div>
+                        <div class="random" onclick="onClickPost()">post</div>
                         <div class="selectCh">/own.<%= domain %>/</div>
                     </div>
                     <h3>チャネル一覧</h3>
