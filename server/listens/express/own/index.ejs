@@ -484,7 +484,7 @@
             {inputPost: "Bu kozmetiği kullanmak istiyorum!!", inputStampId: 0 },
             {inputPost: "¿Cuál es el precio actual de los activos criptográficos?", inputStampId: 0 },
             {inputPost: "Умехара Удачи!", inputStampId: 0 },
-            {inputPost: '<iframe width="160" height="100" src="https://www.youtube.com/embed/-mKu5dIns4c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', inputStampId: 0 },
+            {inputPost: 'おすすめのドラマ教えて！', inputStampId: 0 },
             {inputPost: '<iframe width="160" height="100" src="https://www.youtube.com/embed/0jdcR8jr3d0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', inputStampId: 0 },
             {inputPost: "💖", inputStampId: 1201 }, 
             {inputPost: "👍", inputStampId: 1 } ,
@@ -738,7 +738,7 @@
             const toNormalTag = document.querySelector( `.country_demo .active` );
             toNormalTag.classList.remove( "active" );
             const toActiveTag = document.querySelector( `.country_demo .${country}` );
-            if( toActiveTag.className.indexOf('active') === -1){
+            if( onClickCountry && toActiveTag.className.indexOf('active') === -1){
                 toActiveTag.classList.add("active");
                 const control = document.querySelector( `.tune_control .selectCh` );
                 control.innerHTML = country === "top" ?
@@ -796,6 +796,7 @@
                 intervalApiId = setInterval(() => {
                     const apiBlanceIndex = Math.floor( Math.random() * apiBlance.length - 1 );
                     const method = apiBlance[ apiBlanceIndex ];
+                    console.log(method);
                     exeApi[ method ]();
                 }, intervalApiSecond);
 
