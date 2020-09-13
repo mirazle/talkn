@@ -76,7 +76,9 @@ class Express {
             req.query && req.query.lang
               ? `https://${conf.assetsURL}/country/${language}.png`
               : `https://${conf.assetsURL}/favicon.ico`;
+
           res.render("own/", {
+            lpLanguages: conf.lpLanguages,
             language,
             favicon,
             domain: conf.domain,

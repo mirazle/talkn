@@ -463,6 +463,13 @@
             active: { color: "rgb(79, 174, 159)" },
             unactive: { color: "rgb(55, 55, 55)" },
         }
+        let intervalSecondId = null;
+        let intervalApiId = null;
+        let intervalSelectChId = null;
+        let intervalApiSecond = 1000;
+        let intervalSelectChSecond = 3000;
+        const languageCnt = "<%= lpLanguages.length  %>";
+        const lpLanguages = "<%= lpLanguages  %>".split(',');
         const tuneIds = {};
         const postExample = [
             {inputPost: "Hello talkn😃", inputStampId: 0},
@@ -473,7 +480,7 @@
             {inputPost: "この🍰美味しそう😋", inputStampId: 0 },
             {inputPost: "これ誰の曲？🎵", inputStampId: 0 },
             {inputPost: "これ欲しい✨✨✨", inputStampId: 0 },
-            {inputPost: "またこのニュースかい..😣🎵", inputStampId: 0 },
+            {inputPost: "またこのニュースかい..😣", inputStampId: 0 },
             {inputPost: "Bu kozmetiği kullanmak istiyorum!!", inputStampId: 0 },
             {inputPost: "¿Cuál es el precio actual de los activos criptográficos?", inputStampId: 0 },
             {inputPost: "Умехара Удачи!", inputStampId: 0 },
@@ -485,6 +492,7 @@
             {inputPost: "🍺", inputStampId: 1304 },
             {inputPost: "💴", inputStampId: 100 },
         ];
+        const apiBlance = ['tune', 'tune', 'tune', 'tune', 'tune', 'untune', 'post', 'post', 'post', 'post'];
         let screen = 0;
         let isAnimateScrolling = false;
         let oneScreenHeight = smallScreenWidth;
@@ -738,32 +746,73 @@
                     `/own.<%= domain %>/?lang=${country}/`; 
             }
         }
+        const exeApi = {
+            tune: (ch) => {
+                const id = new Date();
+                ch = ch ? ch : document.querySelector( ".selectCh" ).innerHTML;
+                if ( !tuneIds[ ch ] ) tuneIds[ ch ] = [];
+                tuneIds[ ch ].push( id );
+                talknAPI.tune( { ch, id }, onClickTuneCallback );
+            },
+            untune: () => {
+                const ch = document.querySelector( ".selectCh" ).innerHTML;
+                if ( tuneIds[ ch ] && tuneIds[ ch ].length > 0 ) {
+                    const id = tuneIds[ ch ][ 0 ];
+                    talknAPI.untune( id );
+                    tuneIds[ ch ].splice( 0, 1 );
+                }
+            },
+            post: () => {
+                const postExampleIndex = Math.floor( Math.random() * postExample.length );
+                talknAPI.post( postExample[ postExampleIndex ] );
+            }
+        }
         function onClickTune() {
-            const id = new Date();
-            const ch = document.querySelector( ".selectCh" ).innerHTML;
-            if( !tuneIds[ch] ) tuneIds[ ch ] = [];
-            console.log(ch);
-            tuneIds[ch].push(id);
-            talknAPI.tune({ch, id}, onClickTuneCallback);
+            exeApi.tune();
         }
         function onClickTuneCallback( ioType, method, state) {
 
         }
         function onClickUnTune() {
-            const ch = document.querySelector( ".selectCh" ).innerHTML;
-            if ( tuneIds[ ch ] && tuneIds[ch].length > 0 ){
-                const id = tuneIds[ ch ][0];
-                talknAPI.untune(id);
-                // delete tuneIds[ ch ][ 0 ];
-                tuneIds[ ch ].splice(0,1);
-                console.log( tuneIds );
-            }
+            exeApi.untune();
         }
         function onClickPost() {
-            const postExampleIndex = Math.floor( Math.random() * postExample.length );
-            talknAPI.post(postExample[postExampleIndex]);
+            exeApi.post();
         }
+        function onClickAutoRun() {
+            const runControlTag = document.querySelector( `.run_control` );
+            const selectCh = () => {
 
+            }
+            if ( runControlTag.className.indexOf( 'active' ) === -1 ) {
+                runControlTag.classList.add( "active" );
+
+                exeApi.tune();
+
+                intervalSecondId = setInterval( () => {
+
+                }, 3000);
+
+                intervalApiId = setInterval(() => {
+                    const apiBlanceIndex = Math.floor( Math.random() * apiBlance.length - 1 );
+                    const method = apiBlance[ apiBlanceIndex ];
+                    exeApi[ method ]();
+                }, intervalApiSecond);
+
+                intervalSelectChId = setInterval(() => {
+                    const lpLanguageIndex = Math.floor( Math.random() * languageCnt - 1);
+                    onClickCountry(lpLanguages[ lpLanguageIndex ]);
+                }, intervalSelectChSecond);
+            }
+        }
+        function onClickStop() {
+            const runControlTag = document.querySelector( `.run_control` );
+            if ( runControlTag.className.indexOf( 'active' ) >= 0 ) {
+                clearInterval( intervalApiId);
+                clearTimeout( intervalSelectChId );
+                runControlTag.classList.remove( "active" );
+            }
+        }
         window.onload = ( e ) => {
             onServiceWorker();
             const search = document.querySelector( ".search" );
@@ -947,12 +996,17 @@
         <section class="three">
             <div class="block">
                 <h2>
-                    リアルタイムな<br class="active800" />LIVE数ランキング
+                    導入イメージ
                 </h2>
                 <div class="content">
                     <div id="talknEmbed2" class="talknEmbed"></div>
                 </div>
                 <div class="children">
+                    <h3>デモンストレーション</h3>
+                    <div class="run_control">
+                        <div class="auto_run" onclick="onClickAutoRun()">AUTO RUN</div>
+                        <div class="stop" onclick="onClickStop()">STOP</div>
+                    </div>
                     <h3>アクション</h3>
                     <div class="tune_control">
                         <div class="tune" onclick="onClickTune()">tune</div>
@@ -963,80 +1017,14 @@
                     <h3>チャネル一覧</h3>
                     <ul class="country_demo">
                         <li class="top active" onclick="onClickCountry('top')">
-                            <span class="lang">TOP</span>
+                            <span class="lang">TOPページ</span>
                         </li>
-                        <li class="en" onclick="onClickCountry('en')">
-                            <span class="lang">∟ English(en)</span>
-                        </li>
-                        <li class="zh" onclick="onClickCountry('zh')">
-                            <span class="lang">∟ 简体中文(zh)</span>
-                        </li>
-                        <li class="ja" onclick="onClickCountry('ja')">
-                            <span class="lang">∟ 日本語(ja)</span>
-                        </li>
-                        <li class="de" onclick="onClickCountry('de')">
-                            <span class="lang">∟ Deutsch(de)</span>
-                        </li>
-                        <li class="fr" onclick="onClickCountry('fr')">
-                            <span class="lang">∟ Français(fr)</span>
-                        </li>
-                        <li class="hi" onclick="onClickCountry('hi')">
-                            <span class="lang">∟ हिंदी(hi)</span>
-                        </li>
-                        <li class="pt" onclick="onClickCountry('pt')">
-                            <span class="lang">∟ Português(pt)</span>
-                        </li>
-                        <li class="it" onclick="onClickCountry('it')">
-                            <span class="lang">∟ Italiano(it)</span>
-                        </li>
-                        <li class="ru" onclick="onClickCountry('ru')">
-                            <span class="lang">∟ русский(ru)</span>
-                        </li>
-                        <li class="ko" onclick="onClickCountry('ko')">
-                            <span class="lang">∟ 한국(ko)</span>
-                        </li>
-                        <li class="es" onclick="onClickCountry('es')">
-                            <span class="lang">∟ Español(es)</span>
-                        </li>
-                        <li class="id" onclick="onClickCountry('id')">
-                            <span class="lang">∟ Indonesio(id)</span>
-                        </li>
-                        <li class="tr" onclick="onClickCountry('tr')">
-                            <span class="lang">∟ Turco(tr)</span>
-                        </li>
-                        <li class="nl" onclick="onClickCountry('nl')">
-                            <span class="lang">∟ Holandes(nl)</span>
-                        </li>
-                        <li class="ar" onclick="onClickCountry('ar')">
-                            <span class="lang">∟ العربية(ar)</span>
-                        </li>
-                        <li class="zh-TW" onclick="onClickCountry('zh-TW')">
-                            <span class="lang">∟ 繁体中文(zh-TW)</span>
-                        </li>
-                        <li class="pl" onclick="onClickCountry('pl')">
-                            <span class="lang">∟ Polski(pl)</span>
-                        </li>
-                        <li class="sv" onclick="onClickCountry('sv')">
-                            <span class="lang">∟ svenska(sv)</span>
-                        </li>
-                        <li class="th" onclick="onClickCountry('th')">
-                            <span class="lang">∟ Thailändska(th)</span>
-                        </li>
-                        <li class="fa" onclick="onClickCountry('fa')">
-                            <span class="lang">∟ فارسی(fa)</span>
-                        </li>
-                        <li class="nn" onclick="onClickCountry('nn')">
-                            <span class="lang">∟ norsk(nn)</span>
-                        </li>
-                        <li class="ga" onclick="onClickCountry('ga')">
-                            <span class="lang">∟ Gaeilge(ga)</span>
-                        </li>
-                        <li class="he" onclick="onClickCountry('he')">
-                            <span class="lang">∟ עברית(he)</span>
-                        </li>
-                        <li class="mr" onclick="onClickCountry('mr')">
-                            <span class="lang">∟ Melayu(mr)</span>
-                        </li>
+                        <% lpLanguages.forEach( (lang) => { %>
+                            <li class="<%= lang %>" onclick="onClickCountry('<%= lang %>')">
+                                <img src="https://<%= assetsURL %>/country/<%= lang %>.png">
+                                <span class="lang">talkn | <%= lang %></span>
+                            </li>
+                        <% }); %>
                     </ul>
                 </div>
             </div>
