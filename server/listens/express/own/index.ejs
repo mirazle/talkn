@@ -736,9 +736,9 @@
         }
         function onClickCountry(country) {
             const toNormalTag = document.querySelector( `.country_demo .active` );
-            toNormalTag.classList.remove( "active" );
+            toNormalTag && toNormalTag.classList.remove( "active" );
             const toActiveTag = document.querySelector( `.country_demo .${country}` );
-            if( onClickCountry && toActiveTag.className.indexOf('active') === -1){
+            if( toActiveTag && toActiveTag.className.indexOf('active') === -1){
                 toActiveTag.classList.add("active");
                 const control = document.querySelector( `.tune_control .selectCh` );
                 control.innerHTML = country === "top" ?
@@ -794,10 +794,16 @@
                 }, 3000);
 
                 intervalApiId = setInterval(() => {
-                    const apiBlanceIndex = Math.floor( Math.random() * apiBlance.length - 1 );
+                    const apiBlanceIndex = Math.floor( Math.random() * apiBlance.length  );
                     const method = apiBlance[ apiBlanceIndex ];
                     console.log(method);
-                    exeApi[ method ]();
+                    if( exeApi[ method ]){
+                        exeApi[ method ]();
+                    } else {
+                        console.warn( apiBlance);
+                        console.warn( apiBlanceIndex );
+                        console.warn( method );
+                    }
                 }, intervalApiSecond);
 
                 intervalSelectChId = setInterval(() => {
