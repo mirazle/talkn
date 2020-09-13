@@ -198,6 +198,7 @@ export default class Post {
     const content = Style.getContentBase({
       color,
       textAlign: "left",
+      lineHeight: "1.7em",
       cursor: "pointer",
       wordWrap: "break-word",
       overflowWrap: "break-word",
