@@ -463,6 +463,7 @@
             active: { color: "rgb(79, 174, 159)" },
             unactive: { color: "rgb(55, 55, 55)" },
         }
+        const tuneIds = {};
         let screen = 0;
         let isAnimateScrolling = false;
         let oneScreenHeight = smallScreenWidth;
@@ -708,27 +709,36 @@
             const toNormalTag = document.querySelector( `.country_demo .active` );
             toNormalTag.classList.remove( "active" );
             const toActiveTag = document.querySelector( `.country_demo .${country}` );
-            console.log( toActiveTag.className.indexOf( 'active' ));
             if( toActiveTag.className.indexOf('active') === -1){
                 toActiveTag.classList.add("active");
-
-
                 const control = document.querySelector( `.tune_control .selectCh` );
                 control.innerHTML = country === "top" ?
-                    `CH : /own.<%= domain %>/` :
-                    `CH : /own.<%= domain %>/?lang=${country}/`; 
+                    `/own.<%= domain %>/` :
+                    `/own.<%= domain %>/?lang=${country}/`; 
             }
-/*
-            talknAPI.tune({
-                ch: `/own.localhost/?lang=${country}/`,
-                protocol: "https:",
-                id: country
-            }, 
-            (ioType, state) => {
-                console.log("@@@@@@@@@@ : " + ioType); console.log(state);
-            });
-*/
         }
+        function onClickTune() {
+            const id = new Date();
+            const ch = document.querySelector( ".selectCh" ).innerHTML;
+            if( !tuneIds[ch] ) tuneIds[ ch ] = [];
+            console.log(ch);
+            tuneIds[ch].push(id);
+            talknAPI.tune({ch, id}, onClickTuneCallback);
+        }
+        function onClickTuneCallback( ioType, method, state) {
+
+        }
+        function onClickUnTune() {
+            const ch = document.querySelector( ".selectCh" ).innerHTML;
+            if ( tuneIds[ ch ] && tuneIds[ch].length > 0 ){
+                const id = tuneIds[ ch ][0];
+                talknAPI.untune(id);
+                // delete tuneIds[ ch ][ 0 ];
+                tuneIds[ ch ].splice(0,1);
+                console.log( tuneIds );
+            }
+        }
+
         window.onload = ( e ) => {
             onServiceWorker();
             const search = document.querySelector( ".search" );
@@ -923,7 +933,7 @@
                         <div class="tune" onclick="onClickTune()">tune</div>
                         <div class="untune" onclick="onClickUnTune()">untune</div>
                         <div class="random" onclick="onClickRandom()">random</div>
-                        <div class="selectCh">CH: /own.<%= domain %>/</div>
+                        <div class="selectCh">/own.<%= domain %>/</div>
                     </div>
                     <h3>チャネル一覧</h3>
                     <ul class="country_demo">

@@ -539,6 +539,7 @@ section.three .children .untune,
 section.three .children .random {
   height: 50px;
   transition: 300ms;
+  cursor: pointer;
 }
 section.three .children .tune_control {
   display: flex;
@@ -552,6 +553,9 @@ section.three .children .selectCh {
   margin-top: 2px;
   background: rgba(255, 255, 255, 0.2);
   text-indent: 15px;
+}
+section.three .children .selectCh:before {
+  content: "CH :　";
 }
 section.three .children ul.country_demo {
   top: 0;
