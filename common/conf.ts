@@ -30,6 +30,32 @@ const assetsIconPath = `${assetsURL}/icon/`;
 const assetsJsPath = `${assetsURL}/js/`;
 const sessionURL = `${SUB_DOMAINS.SESSION}.${domain}`;
 const description = "talkn can share comments with users watching the same WEB page. Please enjoy the world of talkn.";
+const lpLanguages = [
+  "en",
+  "zh",
+  "ja",
+  "de",
+  "fr",
+  "hi",
+  "pt",
+  "it",
+  "ru",
+  "ko",
+  "es",
+  "id",
+  "tr",
+  "nl",
+  "ar",
+  "zh-TW",
+  "pl",
+  "sv",
+  "th",
+  "fa",
+  "nn",
+  "ga",
+  "he",
+  "mr",
+];
 
 const findOneThreadActiveHour = 1;
 const findOnePostCnt = 30;
@@ -62,6 +88,7 @@ const conf: any = {
   sessionURL,
   description,
   apiVer,
+  lpLanguages,
   findOneThreadActiveHour,
   findOnePostCnt,
   findOneLimitCnt,

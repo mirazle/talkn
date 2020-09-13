@@ -533,6 +533,8 @@ section.three .children {
   margin-left: 20px;
 }
 section.three .children li,
+section.three .children .auto_run,
+section.three .children .stop,
 section.three .children .selectCh,
 section.three .children .tune,
 section.three .children .untune,
@@ -540,6 +542,31 @@ section.three .children .random {
   height: 50px;
   transition: 300ms;
   cursor: pointer;
+}
+section.three .children .run_control {
+  display: flex;
+}
+section.three .children .run_control .auto_run {
+  flex: 50% 1 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+section.three .children .run_control.active .auto_run {
+  background: rgba(200, 100, 0, 0.6);
+}
+section.three .children .run_control .stop {
+  flex: 50% 1 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1px;
+  background: rgba(0, 100, 200, 0.6);
+}
+section.three .children .run_control.active .stop {
+  background: rgba(255, 255, 255, 0.2);
 }
 section.three .children .tune_control {
   display: flex;
@@ -592,7 +619,10 @@ section.three .children li .lang {
   justify-content: flex-start;
   align-items: center;
 }
-
+section.three .children li img {
+  margin-left: 8px;
+  width: 32px;
+}
 section.three .children li .liveCnt {
   display: flex;
   justify-content: center;
