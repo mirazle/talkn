@@ -121,14 +121,11 @@ export default class Ws {
 
   private untune(bootOption: BootOption) {
     const id = bootOption && bootOption.id ? bootOption.id : this.id;
-    console.log("UNTUNE A");
     if (this.ios[id]) {
-      console.log("UNTUNE B");
       this.ios[id]["disconnect"]();
       delete this.ios[id];
       delete this.stores[id];
       if (Object.keys(this.ios).length > 0) {
-        console.log("UNTUNE C");
         this.id = Object.keys(this.ios)[0];
       }
       return true;

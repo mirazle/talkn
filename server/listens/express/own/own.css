@@ -538,7 +538,7 @@ section.three .children .stop,
 section.three .children .selectCh,
 section.three .children .tune,
 section.three .children .untune,
-section.three .children .random {
+section.three .children .post {
   height: 50px;
   transition: 300ms;
   cursor: pointer;
@@ -644,6 +644,7 @@ section.three .children .tune {
   font-weight: 300;
   color: #fff;
 }
+
 section.three .children .untune {
   flex: 31% 1 31;
   display: flex;
@@ -654,7 +655,7 @@ section.three .children .untune {
   font-weight: 300;
   color: #fff;
 }
-section.three .children .random {
+section.three .children .post {
   flex: 33% 1 33;
   display: flex;
   justify-content: center;
@@ -662,6 +663,16 @@ section.three .children .random {
   background: rgba(255, 255, 255, 0.2);
   font-weight: 300;
   color: #fff;
+}
+
+section.three .children .tune.active {
+  background: rgba(79, 174, 159, 0.6);
+}
+section.three .children .untune.active {
+  background: rgba(79, 174, 159, 0.6);
+}
+section.three .children .post.active {
+  background: rgba(79, 174, 159, 0.6);
 }
 
 @media screen and (max-width: 1060px) {
