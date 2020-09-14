@@ -274,6 +274,42 @@ h2 {
   width: 601px;
   height: 760px;
 }
+.copy_ext {
+  display: flex;
+  flex: 100% 1 100;
+  margin: 60px 20px 20px 20px;
+  font-size: 20px;
+}
+.copy_ext:hover .exe_copy {
+  background: rgba(79, 174, 159, 0.6);
+}
+.copy_ext .exe_copy {
+  flex: 25% 1 25;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px 0 0 100px;
+  border: 1px solid rgba(155, 155, 155, 0.6);
+  padding: 20px 0;
+  background: rgba(155, 155, 155, 0.4);
+  color: #fff;
+  transition: 300ms;
+}
+.copy_ext input {
+  overflow-y: scroll;
+  flex: calc(75% - 40px) 1 75;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 0 100px 100px 0;
+  border: 1px solid rgba(155, 155, 155, 0.6);
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-size: 20px;
+  letter-spacing: 3px;
+  outline: 0;
+}
 section.zero {
   padding: 200px 0;
   width: 100%;
@@ -531,28 +567,28 @@ section.three .content {
   display: flex;
   margin: 0 0 40px 20px;
 }
-section.three .children {
+section.three .demonstration {
   flex: 1;
   display: flex;
   flex-flow: column wrap;
   margin-left: 20px;
 }
-section.three .children li,
-section.three .children .auto_run,
-section.three .children .stop,
-section.three .children .selectCh,
-section.three .children .tune,
-section.three .children .untune,
-section.three .children .post {
+section.three .demonstration li,
+section.three .demonstration .auto_run,
+section.three .demonstration .stop,
+section.three .demonstration .selectCh,
+section.three .demonstration .tune,
+section.three .demonstration .untune,
+section.three .demonstration .post {
   height: 50px;
   transition: 300ms;
   cursor: pointer;
 }
-section.three .children .run_control {
+section.three .demonstration .run_control {
   display: flex;
   width: 100%;
 }
-section.three .children .run_control .auto_run {
+section.three .demonstration .run_control .auto_run {
   flex: 50% 1 50;
   display: flex;
   justify-content: center;
@@ -560,10 +596,10 @@ section.three .children .run_control .auto_run {
   margin-right: 1px;
   background: rgba(255, 255, 255, 0.2);
 }
-section.three .children .run_control.active .auto_run {
+section.three .demonstration .run_control.active .auto_run {
   background: rgba(200, 100, 0, 0.6);
 }
-section.three .children .run_control .stop {
+section.three .demonstration .run_control .stop {
   flex: 50% 1 50;
   display: flex;
   justify-content: center;
@@ -571,15 +607,15 @@ section.three .children .run_control .stop {
   margin-left: 1px;
   background: rgba(0, 100, 200, 0.6);
 }
-section.three .children .run_control.active .stop {
+section.three .demonstration .run_control.active .stop {
   background: rgba(255, 255, 255, 0.2);
 }
-section.three .children .tune_control {
+section.three .demonstration .tune_control {
   display: flex;
   flex-flow: row wrap;
   width: 100%;
 }
-section.three .children .selectCh {
+section.three .demonstration .selectCh {
   flex: 100% 1 100;
   display: flex;
   justify-content: flex-start;
@@ -588,10 +624,10 @@ section.three .children .selectCh {
   background: rgba(255, 255, 255, 0.2);
   text-indent: 15px;
 }
-section.three .children .selectCh:before {
+section.three .demonstration .selectCh:before {
   content: "CH :　";
 }
-section.three .children ul.country_demo {
+section.three .demonstration ul.country_demo {
   top: 0;
   display: flex;
   justify-content: flex-start;
@@ -600,7 +636,7 @@ section.three .children ul.country_demo {
   min-width: 220px;
   height: auto;
 }
-section.three .children li {
+section.three .demonstration li {
   flex: 24% 1 24;
   display: flex;
   justify-content: flex-start;
@@ -612,25 +648,25 @@ section.three .children li {
   background: rgba(255, 255, 255, 0.2);
   text-indent: 15px;
 }
-section.three .children li.active {
+section.three .demonstration li.active {
   background: rgba(79, 174, 159, 0.6);
 }
 
-section.three .children li.top {
+section.three .demonstration li.top {
   flex: 100% 1 100;
 }
 
-section.three .children li .lang {
+section.three .demonstration li .lang {
   flex: 1;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
-section.three .children li img {
+section.three .demonstration li img {
   margin-left: 8px;
   width: 32px;
 }
-section.three .children li .liveCnt {
+section.three .demonstration li .liveCnt {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -642,7 +678,7 @@ section.three .children li .liveCnt {
   cursor: pointer;
   transition: 300ms;
 }
-section.three .children .tune {
+section.three .demonstration .tune {
   flex: 33% 1 33;
   display: flex;
   justify-content: center;
@@ -652,7 +688,7 @@ section.three .children .tune {
   color: #fff;
 }
 
-section.three .children .untune {
+section.three .demonstration .untune {
   flex: 31% 1 31;
   display: flex;
   justify-content: center;
@@ -662,7 +698,7 @@ section.three .children .untune {
   font-weight: 300;
   color: #fff;
 }
-section.three .children .post {
+section.three .demonstration .post {
   flex: 33% 1 33;
   display: flex;
   justify-content: center;
@@ -672,13 +708,13 @@ section.three .children .post {
   color: #fff;
 }
 
-section.three .children .tune.active {
+section.three .demonstration .tune.active {
   background: rgba(79, 174, 159, 0.6);
 }
-section.three .children .untune.active {
+section.three .demonstration .untune.active {
   background: rgba(79, 174, 159, 0.6);
 }
-section.three .children .post.active {
+section.three .demonstration .post.active {
   background: rgba(79, 174, 159, 0.6);
 }
 
@@ -709,7 +745,7 @@ section.four .left ul.songs {
   align-items: center;
   flex-flow: row wrap;
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.4);
   padding: 20px;
   height: 100%;
 }
@@ -721,7 +757,7 @@ section.four .left ul.songs li {
   margin: 10px;
   padding: 10px;
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.4);
   width: 100%;
   font-size: 24px;
   font-weight: 300;
@@ -776,7 +812,7 @@ section.four .right {
     justify-content: center;
     align-items: center;
   }
-  section.three .children {
+  section.three .demonstration {
     display: flex;
     flex: 100%;
     justify-content: center;
