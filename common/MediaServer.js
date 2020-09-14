@@ -165,6 +165,7 @@ export default class MediaServer {
 
   searching(iFrameId) {
     if (!iFrameId) return false;
+    console.log("@@@@ " + iframeId);
     this.setStatus(MediaServer.STATUS_SEARCH, `start searching ${iFrameId}`);
     this.searchingCnt = 0;
     this.searchingId = null;
@@ -186,7 +187,8 @@ export default class MediaServer {
       });
       return isHandle;
     };
-
+    console.log(this.searchingIds);
+    console.log(this.iframes);
     this.searchingIds[iFrameId] = setInterval(() => {
       this.setRelationElms(iFrameId);
       const iframeHasAudio = Boolean(this.iframes[iFrameId].params.audios.length);
