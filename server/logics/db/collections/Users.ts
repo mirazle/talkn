@@ -53,7 +53,6 @@ export default class Users {
   }
 
   async removeAll() {
-    console.log("@@@@@@@`!@@@@@@@`!@@@@@@@`!@@@@@@@`!@@@@@@@`!@@@@@@@`!");
     return this.collection.removeAll();
   }
 }

@@ -321,11 +321,15 @@ section.zero .message {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  flex-flow: column wrap;
   margin: 0 80px 80px;
   text-align: right;
 }
 section.zero .message h2 {
   width: 630px;
+}
+section.zero .message audio {
+  margin-top: 80px;
 }
 section.zero .slide {
   display: flex;
@@ -545,6 +549,7 @@ section.three .children .post {
 }
 section.three .children .run_control {
   display: flex;
+  width: 100%;
 }
 section.three .children .run_control .auto_run {
   flex: 50% 1 50;
@@ -571,6 +576,7 @@ section.three .children .run_control.active .stop {
 section.three .children .tune_control {
   display: flex;
   flex-flow: row wrap;
+  width: 100%;
 }
 section.three .children .selectCh {
   flex: 100% 1 100;
@@ -675,6 +681,24 @@ section.three .children .post.active {
   background: rgba(79, 174, 159, 0.6);
 }
 
+section.four {
+  width: 100%;
+  background: rgba(80, 80, 80, 0.6);
+}
+section.four h2 {
+  flex: 100% 1 100;
+  margin: 80px 0;
+  text-align: center;
+}
+section.four .block {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  padding-bottom: 160px;
+  max-width: 1400px;
+  width: 100%;
+  height: 100%;
+}
 @media screen and (max-width: 1060px) {
   h2 {
     font-size: 40px;
