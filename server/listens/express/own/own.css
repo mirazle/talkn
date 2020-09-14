@@ -265,7 +265,8 @@ h2 {
 .under {
   background: linear-gradient(transparent 70%, #ff99ab 70%);
 }
-#talknEmbed1 {
+#talknEmbed1,
+#talknEmbed3 {
   width: 300px;
   height: 450px;
 }
@@ -695,9 +696,38 @@ section.four .block {
   flex-flow: row wrap;
   align-items: flex-start;
   padding-bottom: 160px;
-  max-width: 1400px;
+  max-width: 1200px;
   width: 100%;
   height: 100%;
+}
+section.four .left {
+  flex: 50% 1 50;
+}
+section.four .left ul.songs {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-flow: row wrap;
+  height: 100%;
+}
+section.four .left ul.songs li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+  padding: 20px;
+  width: 100%;
+  font-size: 24px;
+  font-weight: 300;
+}
+section.four .left ul.songs li span {
+  flex: 30% 1 30;
+}
+section.four .right {
+  flex: 50% 1 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 @media screen and (max-width: 1060px) {
   h2 {
