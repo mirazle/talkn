@@ -837,10 +837,11 @@
                 runControlTag.classList.remove( "active" );
             }
         }
-        window.onload = ( e ) => {
+        window.addEventListener("load", ( e ) => {
             onServiceWorker();
             const search = document.querySelector( ".search" );
-            const pagination = document.querySelectorAll( "nav.pagination span" );
+            const introPagination = document.querySelectorAll( ".intro nav.pagination span" );
+            const mediaPagination = document.querySelectorAll( ".image_media nav.pagination span" );
             // search.addEventListener('keypress', onKeyPressSearch);
             onResizeWindow();
             setupMath();
@@ -849,9 +850,17 @@
             window.nav = document.querySelector( "nav" );
             setNavStyles();
             setMenuColor();
-            pagination.forEach( page => page.addEventListener( 'click', ( e ) => {
+            console.log( introPagination);
+            console.log( mediaPagination );
+            introPagination.forEach( page => page.addEventListener( 'click', ( e ) => {
                 const scrollLeft = Number( e.target.dataset.index ) === 1 ? 0 : 9999999;
-                document.querySelector( ".slide" ).scrollLeft = scrollLeft;
+                console.log(scrollLeft);
+                document.querySelector( ".intro .slide" ).scrollLeft = scrollLeft;
+            } ) );
+            mediaPagination.forEach( page => page.addEventListener( 'click', ( e ) => {
+                const scrollLeft = Number( e.target.dataset.index ) === 1 ? 0 : 9999999;
+                console.log( scrollLeft );
+                document.querySelector( ".image_media .slide" ).scrollLeft = scrollLeft;
             } ) );
 
             document.querySelector( ".language-menu" ).addEventListener( "transitionend", () => {
@@ -863,7 +872,7 @@
                     } );
                 }
             } );
-        };
+        });
         window.onscroll = ( e ) => {
             setNavStyles();
             if ( !isAnimateScrolling ) {
@@ -1093,6 +1102,10 @@
                             <video width="540px" height="450px" src="https://<%= assetsURL %>/video/penguin.mp4" controls></video>
                         </div>
                     </div>
+                    <nav class="pagination">
+                        <span data-index=1></span>
+                        <span data-index=2></span>
+                    </nav>
                 </div>
                 <div class="right">
                     <div id="talknEmbed3" class="talknEmbed"></div>

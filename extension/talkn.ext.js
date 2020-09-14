@@ -190,11 +190,13 @@ class MediaServer {
   }
 
   searching(iFrameId) {
+    console.log("searching ");
     if (!iFrameId) return false;
     this.setStatus(MediaServer.STATUS_SEARCH, `start searching ${iFrameId}`);
     this.searchingCnt = 0;
     this.searchingId = null;
     this.playIntervalId = null;
+    console.log("searching A");
     const handleEventsWrap = (mediaType) => {
       let isHandle = false;
 
@@ -213,7 +215,9 @@ class MediaServer {
       });
       return isHandle;
     };
-
+    console.log("searching B");
+    console.log(this.searchingIds[iFrameId]);
+    console.log(this.iframes[iFrameId].params);
     this.searchingIds[iFrameId] = setInterval(() => {
       this.setRelationElms(iFrameId);
       const iframeHasAudio = Boolean(this.iframes[iFrameId].params.audios.length);

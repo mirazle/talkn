@@ -805,6 +805,25 @@ section.image_media .slide .videos {
   min-width: 560px;
   scroll-snap-align: start;
 }
+section.image_media nav.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+section.image_media nav.pagination span {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin: 14px;
+  border-radius: 50%;
+  background: rgb(255, 255, 255);
+  transition: 600ms;
+}
+
+section.image_media nav.pagination span:hover {
+  transform: scale(1.4);
+}
 @media screen and (max-width: 1060px) {
   h2 {
     font-size: 40px;
