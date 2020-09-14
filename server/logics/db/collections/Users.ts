@@ -41,12 +41,6 @@ export default class Users {
     return isTune ? liveCnt : liveCnt + 1;
   }
 
-  async save(requestState) {
-    const set = { ...requestState.thread, ...requestState.user };
-    const option = { upsert: true };
-    return this.collection.save(set, option);
-  }
-
   async update(uid, ch) {
     const condition = { uid };
     const set = { $set: { ch } };
@@ -59,6 +53,7 @@ export default class Users {
   }
 
   async removeAll() {
+    console.log("@@@@@@@`!@@@@@@@`!@@@@@@@`!@@@@@@@`!@@@@@@@`!@@@@@@@`!");
     return this.collection.removeAll();
   }
 }

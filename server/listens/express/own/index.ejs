@@ -817,10 +817,6 @@
 
                 exeApi.tune();
 
-                intervalSecondId = setInterval( () => {
-
-                }, 3000);
-
                 intervalApiId = setInterval(() => {
                     const apiBlanceIndex = Math.floor( Math.random() * apiBlance.length  );
                     const method = apiBlance[ apiBlanceIndex ];
