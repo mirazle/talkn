@@ -262,6 +262,10 @@ h2 {
   letter-spacing: 8px;
   line-height: 100px;
 }
+
+h2 small {
+  font-size: 1.5rem;
+}
 .under {
   background: linear-gradient(transparent 70%, #ff99ab 70%);
 }
@@ -283,6 +287,9 @@ h2 {
 .copy_ext:hover .exe_copy {
   background: rgba(79, 174, 159, 0.6);
 }
+.copy_ext:hover input {
+  background: rgba(130, 130, 130, 0.4);
+}
 .copy_ext .exe_copy {
   flex: 25% 1 25;
   display: flex;
@@ -293,6 +300,7 @@ h2 {
   padding: 20px 0;
   background: rgba(155, 155, 155, 0.4);
   color: #fff;
+  font-weight: 300;
   transition: 300ms;
 }
 .copy_ext input {
@@ -310,13 +318,13 @@ h2 {
   letter-spacing: 3px;
   outline: 0;
 }
-section.zero {
+section.intro {
   padding: 200px 0;
   width: 100%;
   max-width: 1400px;
   flex-flow: row nowrap;
 }
-section.zero .bg {
+section.intro .bg {
   position: absolute;
   top: 0;
   left: 0;
@@ -325,7 +333,7 @@ section.zero .bg {
   background: rgba(0, 0, 0, 0.4);
   z-index: -2;
 }
-section.zero .bar {
+section.intro .bar {
   position: absolute;
   top: 460px;
   width: 100%;
@@ -335,7 +343,7 @@ section.zero .bar {
   transform: skew(0deg, 0deg);
   box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.9);
 }
-section.zero .bar1 {
+section.intro .bar1 {
   position: absolute;
   top: 600px;
   width: 200%;
@@ -344,7 +352,7 @@ section.zero .bar1 {
   z-index: -2;
   transform: skew(0deg, -5deg);
 }
-section.zero .bar2 {
+section.intro .bar2 {
   position: absolute;
   top: 400px;
   width: 200%;
@@ -353,7 +361,7 @@ section.zero .bar2 {
   z-index: -3;
   transform: skew(0deg, -25deg);
 }
-section.zero .message {
+section.intro .message {
   flex: 1;
   display: flex;
   justify-content: flex-end;
@@ -362,13 +370,13 @@ section.zero .message {
   margin: 0 80px 80px;
   text-align: right;
 }
-section.zero .message h2 {
+section.intro .message h2 {
   width: 630px;
 }
-section.zero .message audio {
+section.intro .message audio {
   margin-top: 80px;
 }
-section.zero .slide {
+section.intro .slide {
   display: flex;
   flex-flow: row nowrap;
   scroll-snap-type: x mandatory;
@@ -376,28 +384,28 @@ section.zero .slide {
   width: 540px;
   min-width: 540px;
 }
-section.zero .slide .board {
+section.intro .slide .board {
   width: 540px;
   min-width: 540px;
 }
-section.zero .slide .board.talkn {
+section.intro .slide .board.talkn {
   margin: 0 110px 0 0;
   scroll-snap-align: start;
 }
-section.zero .slide .board.youtube {
+section.intro .slide .board.youtube {
   margin: 80px 0;
   scroll-snap-align: center;
 }
-section.zero nav {
+section.intro nav {
   width: 100%;
 }
-section.zero nav.pagination {
+section.intro nav.pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 80px;
 }
-section.zero nav.pagination span {
+section.intro nav.pagination span {
   display: inline-block;
   width: 14px;
   height: 14px;
@@ -407,15 +415,15 @@ section.zero nav.pagination span {
   transition: 600ms;
 }
 
-section.zero nav.pagination span:hover {
+section.intro nav.pagination span:hover {
   transform: scale(1.4);
 }
 
-section.one {
+section.for_owner {
   width: 100%;
   background: rgba(0, 60, 30, 0.8);
 }
-section.one .block {
+section.for_owner .block {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -425,12 +433,12 @@ section.one .block {
   height: auto;
   flex-flow: row wrap;
 }
-section.one h2 {
+section.for_owner h2 {
   flex: 100% 1 100;
   margin: 60px 0 120px;
   text-align: center;
 }
-section.one .merit {
+section.for_owner .merit {
   flex: 33.3% 1 33.3;
   display: flex;
   flex-flow: column nowrap;
@@ -444,27 +452,27 @@ section.one .merit {
   border-radius: 140px;
   box-sizing: border-box;
 }
-section.one .merit .num {
+section.for_owner .merit .num {
   margin-top: 1rem;
   font-size: 2.5rem;
   font-weight: 100;
 }
-section.one .merit .hr {
+section.for_owner .merit .hr {
   height: 1px;
   background: white;
   width: 60%;
   margin: 1.1rem auto;
 }
-section.one .merit.one {
+section.for_owner .merit.one {
   background: rgba(50, 50, 170, 0.6);
 }
-section.one .merit.two {
+section.for_owner .merit.two {
   background: rgba(159, 79, 174, 0.6);
 }
-section.one .merit.three {
+section.for_owner .merit.three {
   background: rgba(79, 174, 159, 0.6);
 }
-section.one p {
+section.for_owner p {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -475,7 +483,7 @@ section.one p {
   font-size: 27px;
   text-align: center;
 }
-section.one .conclusion {
+section.for_owner .conclusion {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -487,20 +495,20 @@ section.one .conclusion {
   text-align: center;
   background: rgba(200, 100, 0, 0.6);
 }
-section.one .conclusion .colon {
+section.for_owner .conclusion .colon {
   display: inline-block;
 }
-section.one .conclusion .hr {
+section.for_owner .conclusion .hr {
   display: none;
 }
-section.one .arrowWrap {
+section.for_owner .arrowWrap {
   flex: 100% 1 100;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 60px 0;
 }
-section.one .arrow {
+section.for_owner .arrow {
   font-size: 35px;
   color: rgba(255, 255, 255, 0.4);
 }
@@ -541,11 +549,11 @@ section.two .bar1 {
   max-height: 300px;
   background: rgba(0, 0, 140, 0.5);
 }
-section.three {
+section.image_portal {
   width: 100%;
   background: rgba(0, 0, 0, 0.6);
 }
-section.three .block {
+section.image_portal .block {
   display: flex;
   flex-flow: row wrap;
   align-items: flex-start;
@@ -554,41 +562,41 @@ section.three .block {
   width: 100%;
   height: 100%;
 }
-section.three h2 {
+section.image_portal h2 {
   flex: 100% 1 100;
-  margin: 80px 0;
+  margin: 80px 0 20px 0;
   text-align: center;
 }
-section.three h3 {
+section.image_portal h3 {
   text-align: center;
   margin: 25px 0;
 }
-section.three .content {
+section.image_portal .content {
   display: flex;
   margin: 0 0 40px 20px;
 }
-section.three .demonstration {
+section.image_portal .demonstration {
   flex: 1;
   display: flex;
   flex-flow: column wrap;
   margin-left: 20px;
 }
-section.three .demonstration li,
-section.three .demonstration .auto_run,
-section.three .demonstration .stop,
-section.three .demonstration .selectCh,
-section.three .demonstration .tune,
-section.three .demonstration .untune,
-section.three .demonstration .post {
+section.image_portal .demonstration li,
+section.image_portal .demonstration .auto_run,
+section.image_portal .demonstration .stop,
+section.image_portal .demonstration .selectCh,
+section.image_portal .demonstration .tune,
+section.image_portal .demonstration .untune,
+section.image_portal .demonstration .post {
   height: 50px;
   transition: 300ms;
   cursor: pointer;
 }
-section.three .demonstration .run_control {
+section.image_portal .demonstration .run_control {
   display: flex;
   width: 100%;
 }
-section.three .demonstration .run_control .auto_run {
+section.image_portal .demonstration .run_control .auto_run {
   flex: 50% 1 50;
   display: flex;
   justify-content: center;
@@ -596,10 +604,10 @@ section.three .demonstration .run_control .auto_run {
   margin-right: 1px;
   background: rgba(255, 255, 255, 0.2);
 }
-section.three .demonstration .run_control.active .auto_run {
+section.image_portal .demonstration .run_control.active .auto_run {
   background: rgba(200, 100, 0, 0.6);
 }
-section.three .demonstration .run_control .stop {
+section.image_portal .demonstration .run_control .stop {
   flex: 50% 1 50;
   display: flex;
   justify-content: center;
@@ -607,15 +615,15 @@ section.three .demonstration .run_control .stop {
   margin-left: 1px;
   background: rgba(0, 100, 200, 0.6);
 }
-section.three .demonstration .run_control.active .stop {
+section.image_portal .demonstration .run_control.active .stop {
   background: rgba(255, 255, 255, 0.2);
 }
-section.three .demonstration .tune_control {
+section.image_portal .demonstration .tune_control {
   display: flex;
   flex-flow: row wrap;
   width: 100%;
 }
-section.three .demonstration .selectCh {
+section.image_portal .demonstration .selectCh {
   flex: 100% 1 100;
   display: flex;
   justify-content: flex-start;
@@ -624,10 +632,10 @@ section.three .demonstration .selectCh {
   background: rgba(255, 255, 255, 0.2);
   text-indent: 15px;
 }
-section.three .demonstration .selectCh:before {
+section.image_portal .demonstration .selectCh:before {
   content: "CH :　";
 }
-section.three .demonstration ul.country_demo {
+section.image_portal .demonstration ul.country_demo {
   top: 0;
   display: flex;
   justify-content: flex-start;
@@ -636,7 +644,7 @@ section.three .demonstration ul.country_demo {
   min-width: 220px;
   height: auto;
 }
-section.three .demonstration li {
+section.image_portal .demonstration li {
   flex: 24% 1 24;
   display: flex;
   justify-content: flex-start;
@@ -648,25 +656,25 @@ section.three .demonstration li {
   background: rgba(255, 255, 255, 0.2);
   text-indent: 15px;
 }
-section.three .demonstration li.active {
+section.image_portal .demonstration li.active {
   background: rgba(79, 174, 159, 0.6);
 }
 
-section.three .demonstration li.top {
+section.image_portal .demonstration li.top {
   flex: 100% 1 100;
 }
 
-section.three .demonstration li .lang {
+section.image_portal .demonstration li .lang {
   flex: 1;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 }
-section.three .demonstration li img {
+section.image_portal .demonstration li img {
   margin-left: 8px;
   width: 32px;
 }
-section.three .demonstration li .liveCnt {
+section.image_portal .demonstration li .liveCnt {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -678,7 +686,7 @@ section.three .demonstration li .liveCnt {
   cursor: pointer;
   transition: 300ms;
 }
-section.three .demonstration .tune {
+section.image_portal .demonstration .tune {
   flex: 33% 1 33;
   display: flex;
   justify-content: center;
@@ -688,7 +696,7 @@ section.three .demonstration .tune {
   color: #fff;
 }
 
-section.three .demonstration .untune {
+section.image_portal .demonstration .untune {
   flex: 31% 1 31;
   display: flex;
   justify-content: center;
@@ -698,7 +706,7 @@ section.three .demonstration .untune {
   font-weight: 300;
   color: #fff;
 }
-section.three .demonstration .post {
+section.image_portal .demonstration .post {
   flex: 33% 1 33;
   display: flex;
   justify-content: center;
@@ -708,26 +716,26 @@ section.three .demonstration .post {
   color: #fff;
 }
 
-section.three .demonstration .tune.active {
+section.image_portal .demonstration .tune.active {
   background: rgba(79, 174, 159, 0.6);
 }
-section.three .demonstration .untune.active {
+section.image_portal .demonstration .untune.active {
   background: rgba(79, 174, 159, 0.6);
 }
-section.three .demonstration .post.active {
+section.image_portal .demonstration .post.active {
   background: rgba(79, 174, 159, 0.6);
 }
 
-section.four {
+section.image_media {
   width: 100%;
   background: rgba(80, 80, 80, 0.6);
 }
-section.four h2 {
+section.image_media h2 {
   flex: 100% 1 100;
-  margin: 80px 0;
+  margin: 80px 0 20px 0;
   text-align: center;
 }
-section.four .block {
+section.image_media .block {
   display: flex;
   flex-flow: row wrap;
   align-items: flex-start;
@@ -736,20 +744,22 @@ section.four .block {
   width: 100%;
   height: 100%;
 }
-section.four .left {
+section.image_media .left {
   flex: 50% 1 50;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  max-width: 600px;
 }
-section.four .left ul.songs {
+section.image_media .left ul.songs {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-flow: row wrap;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 20px;
+  min-width: 560px;
   height: 100%;
 }
-section.four .left ul.songs li {
+section.image_media .left ul.songs li {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -762,57 +772,79 @@ section.four .left ul.songs li {
   font-size: 24px;
   font-weight: 300;
   text-indent: 10px;
+  transition: 300ms;
 }
-section.four .left ul.songs li span {
+section.image_media .left ul.songs li:hover {
+  background: rgba(79, 174, 159, 0.4);
+}
+section.image_media .left ul.songs li span {
   flex: 30% 1 30;
 }
-section.four .right {
+section.image_media .right {
   flex: 50% 1 50;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 500px;
+  max-width: 600px;
+}
+section.image_media .slide {
+  display: flex;
+  flex-flow: row nowrap;
+  scroll-snap-type: x mandatory;
+  overflow-x: scroll;
+}
+section.image_media .slide .songs {
+  min-width: 560px;
+  scroll-snap-align: start;
+}
+section.image_media .slide .videos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 560px;
+  scroll-snap-align: start;
 }
 @media screen and (max-width: 1060px) {
   h2 {
     font-size: 40px;
   }
-  section.zero .slide {
+  section.intro .slide {
     width: 300px;
     min-width: 300px;
   }
-  section.zero .slide .board {
+  section.intro .slide .board {
     width: 300px;
     min-width: 300px;
   }
-  section.zero .message {
+  section.intro .message {
     justify-content: center;
     margin: 0 20px 80px;
   }
-  section.zero .message h2 {
+  section.intro .message h2 {
     width: 500px;
   }
-  section.one .merit {
+  section.for_owner .merit {
     width: 230px;
     height: 230px;
     max-width: 230px;
     max-height: 230px;
   }
-  section.one .merit .num {
+  section.for_owner .merit .num {
     margin-top: 0.8rem;
     font-size: 2rem;
   }
-  section.one p {
+  section.for_owner p {
     height: 40%;
     font-size: 24px;
   }
-  section.three .content {
+  section.image_portal .content {
     display: flex;
     flex: 100%;
     justify-content: center;
     align-items: center;
   }
-  section.three .demonstration {
+  section.image_portal .demonstration {
     display: flex;
     flex: 100%;
     justify-content: center;
@@ -831,31 +863,31 @@ section.four .right {
   .ribon {
     font-size: 20px;
   }
-  section.zero {
+  section.intro {
     flex-flow: column nowrap;
     padding: 100px 0;
   }
-  section.zero .message h2 {
+  section.intro .message h2 {
     width: 100%;
   }
-  section.zero .slide {
+  section.intro .slide {
     width: 540px;
     min-width: 540px;
   }
-  section.zero .slide .board {
+  section.intro .slide .board {
     width: 540px;
     min-width: 540px;
   }
-  section.zero .content {
+  section.intro .content {
     height: 560px;
   }
-  section.one .block {
+  section.for_owner .block {
     flex-flow: column wrap;
   }
-  section.one h2 {
+  section.for_owner h2 {
     margin: 60px 0;
   }
-  section.one .merit {
+  section.for_owner .merit {
     flex: 100% 1 100;
     margin: 20px;
     width: 280px;
@@ -865,11 +897,11 @@ section.four .right {
     min-width: 280px;
     min-height: 280px;
   }
-  section.one .merit .num {
+  section.for_owner .merit .num {
     margin-top: 1rem;
     font-size: 2.5rem;
   }
-  section.one .conclusion {
+  section.for_owner .conclusion {
     font-size: 24px;
     width: 280px;
     height: 280px;
@@ -879,13 +911,13 @@ section.four .right {
     min-height: 280px;
     border-radius: 300px;
   }
-  section.one .conclusion .colon {
+  section.for_owner .conclusion .colon {
     display: none;
   }
-  section.one .conclusion .hr {
+  section.for_owner .conclusion .hr {
     display: block;
   }
-  section.three .content {
+  section.image_portal .content {
     margin: 0 20px 60px;
     flex: 6 0 calc(100% - 40px);
   }
