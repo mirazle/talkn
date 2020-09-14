@@ -1025,7 +1025,7 @@
                 <div class="content">
                     <div id="talknEmbed2" class="talknEmbed"></div>
                 </div>
-                <div class="children">
+                <div class="demonstration">
                     <h3>デモンストレーション</h3>
                     <div class="run_control">
                         <div class="auto_run" onclick="onClickAutoRun()">AUTO RUN</div>
@@ -1051,6 +1051,10 @@
                             </li>
                         <% }); %>
                     </ul>
+                </div>
+                <div class="copy_ext">
+                    <div class="exe_copy">COPY</div>
+                    <input type="text" value="<script src='//<%= extURL %>' async type='text/javascript'></script>" onfocus="this.select();" >
                 </div>
             </div>
         </section>
@@ -1085,6 +1089,10 @@
                 </div>
                 <div class="right">
                     <div id="talknEmbed3" class="talknEmbed"></div>
+                </div>
+                <div class="copy_ext">
+                    <div class="exe_copy">COPY</div>
+                    <input type="text" value="<script src='//<%= extURL %>' async type='text/javascript'></script>" onfocus="this.select();">
                 </div>
             </div>
         </section>
