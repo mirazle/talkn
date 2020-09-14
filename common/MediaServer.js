@@ -165,7 +165,7 @@ export default class MediaServer {
 
   searching(iFrameId) {
     if (!iFrameId) return false;
-    console.log("@@@@ " + iframeId);
+    console.log("@@@@ " + iFrameId);
     this.setStatus(MediaServer.STATUS_SEARCH, `start searching ${iFrameId}`);
     this.searchingCnt = 0;
     this.searchingId = null;
@@ -187,8 +187,7 @@ export default class MediaServer {
       });
       return isHandle;
     };
-    console.log(this.searchingIds);
-    console.log(this.iframes);
+
     this.searchingIds[iFrameId] = setInterval(() => {
       this.setRelationElms(iFrameId);
       const iframeHasAudio = Boolean(this.iframes[iFrameId].params.audios.length);
@@ -197,7 +196,7 @@ export default class MediaServer {
 
       if (this.searchingCnt < this.maxSearchingCnt) {
         if (this.videos.length > 0 && iframeHasVideo) {
-          isHandleEvent = handleEventsWrap("videos");
+          isHandleEvents = handleEventsWrap("videos");
           if (isHandleEvents) {
             this.setStatus(MediaServer.STATUS_STANBY, `searched video ${iFrameId}`);
           }
