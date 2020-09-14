@@ -74,6 +74,7 @@ const functions = {
   },
   "SERVER_TO_API[EMIT]:changeThread": (state, action) => {
     action.app.tuned = action.thread.ch;
+    action.thread.title = action.thread.serverMetas["title"];
     action.threads = Threads.getMergedThreads(state.threads, action.thread);
     action.threadDetail = { ...action.thread };
     return action;

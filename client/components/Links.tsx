@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import Sequence from "api/Sequence";
 import BoardStyle from "client/style/Board";
 import Link from "client/components/Link";

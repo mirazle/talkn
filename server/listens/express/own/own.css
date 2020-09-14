@@ -277,7 +277,7 @@ h2 {
 .copy_ext {
   display: flex;
   flex: 100% 1 100;
-  margin: 60px 20px 20px 20px;
+  margin: 60px 0 20px 0;
   font-size: 20px;
 }
 .copy_ext:hover .exe_copy {
