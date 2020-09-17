@@ -24,7 +24,7 @@ export default class Style extends TalknComponent<Props, State> {
         letterSpacing = "1vw";
         break;
       case Ui.screenModeMiddleLabel:
-        letterSpacing = "3.5px";
+        letterSpacing = "0.5vw";
         break;
       case Ui.screenModeLargeLabel:
         letterSpacing = "4px";
