@@ -65,9 +65,9 @@ yum install mongodb-org -y
 
 ```
 DOMAIN=talkn.io
-WILDCARD=\*.$DOMAIN
+WILDCARD=*.$DOMAIN
 echo $DOMAIN && echo $WILDCARD
-certbot -d $DOMAIN -d \$WILDCARD --manual --preferred-challenges dns certonly
+certbot -d $DOMAIN -d $WILDCARD --manual --preferred-challenges dns certonly
 (\は削除して実行する)
 ```
 

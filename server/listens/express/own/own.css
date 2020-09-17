@@ -281,14 +281,15 @@ h2 small {
 .copy_ext {
   display: flex;
   flex: 100% 1 100;
-  margin: 60px 0 20px 0;
+  margin: 50px 0 20px 0;
+  max-height: 80px;
+  width: 100%;
   font-size: 20px;
 }
 .copy_ext:hover .exe_copy {
   background: rgba(79, 174, 159, 0.6);
 }
 .copy_ext:hover input {
-  background: rgba(130, 130, 130, 0.4);
 }
 .copy_ext .exe_copy {
   flex: 25% 1 25;
@@ -305,6 +306,7 @@ h2 small {
 }
 .copy_ext input {
   overflow-y: scroll;
+  box-sizing: border-box;
   flex: calc(75% - 40px) 1 75;
   display: flex;
   justify-content: flex-start;
@@ -312,6 +314,7 @@ h2 small {
   border-radius: 0 100px 100px 0;
   border: 1px solid rgba(155, 155, 155, 0.6);
   padding: 20px;
+  height: 80px;
   background: rgba(0, 0, 0, 0.4);
   color: #fff;
   font-size: 20px;
@@ -745,7 +748,7 @@ section.image_media .block {
   height: 100%;
 }
 section.image_media .left {
-  flex: 50% 1 50;
+  flex: 30% 1 50;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.4);
   padding: 20px;
@@ -781,7 +784,7 @@ section.image_media .left ul.songs li span {
   flex: 30% 1 30;
 }
 section.image_media .right {
-  flex: 50% 1 50;
+  flex: 30% 1 50;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -793,6 +796,8 @@ section.image_media .slide {
   flex-flow: row nowrap;
   scroll-snap-type: x mandatory;
   overflow-x: scroll;
+  overflow-y: hidden;
+  margin: 0 auto;
 }
 section.image_media .slide .songs {
   min-width: 560px;
@@ -820,9 +825,107 @@ section.image_media nav.pagination span {
   background: rgb(255, 255, 255);
   transition: 600ms;
 }
-
 section.image_media nav.pagination span:hover {
   transform: scale(1.4);
+}
+
+section.image_other {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+section.image_other h2 {
+  flex: 100% 1 100;
+  margin: 80px 0 20px 0;
+  text-align: center;
+}
+section.image_other .block {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 1200px;
+  width: 100%;
+  height: 100%;
+}
+section.image_other p {
+  font-size: 1.75rem;
+  letter-spacing: 10px;
+  margin: 0 0 50px 0;
+  height: 45px;
+}
+section.image_other img {
+  margin: 30px 15px 30px;
+  min-width: 64px;
+  width: 64px;
+  height: 64px;
+}
+section.image_other .desc {
+  display: flex;
+  flex-flow: row wrap;
+  height: 140px;
+  font-size: 1.4rem;
+  letter-spacing: 5px;
+  line-height: 35px;
+}
+section.image_other .detail {
+  display: block;
+  margin-top: 32px;
+  width: 100%;
+  font-size: 1.4rem;
+  text-align: right;
+  letter-spacing: 5px;
+}
+section.image_other .api {
+  flex: 50% 1 50;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 15px 0 0 15px;
+  margin: 0 0 150px 0;
+  padding: 50px;
+  height: 800px;
+  background: rgba(200, 100, 0, 0.6);
+}
+section.image_other .api .symble {
+  width: 180px;
+  height: 180px;
+  margin-bottom: 50px;
+  background: url("api08.png") 50% / 180px no-repeat;
+}
+section.image_other .barner {
+  flex: 50% 1 50;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0 0 150px 0;
+  padding: 50px;
+  height: 800px;
+  background: rgba(0, 100, 200, 0.6);
+}
+section.image_other .barner .symble {
+  width: 180px;
+  height: 180px;
+  margin-bottom: 50px;
+  background: url("talk08.png") 50% / 180px no-repeat;
+}
+section.image_other .barner input.user_url {
+  flex: 1;
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50px;
+  margin: 30px 10px;
+  width: 100%;
+  height: 50px;
+  background: rgba(255, 255, 255, 0);
+  font-size: 1.3rem;
+  font-weight: 100;
+  text-indent: 30px;
+  color: rgba(240, 240, 240, 1);
+  outline: none;
+}
+section.image_other .barner input.user_url::placeholder {
+  color: rgba(240, 240, 240, 1);
 }
 @media screen and (max-width: 1060px) {
   h2 {
@@ -869,6 +972,15 @@ section.image_media nav.pagination span:hover {
     justify-content: center;
     align-items: center;
     margin: 0;
+  }
+  section.image_media .left {
+    padding: 0;
+  }
+  section.image_media .slide {
+    width: 500px;
+  }
+  section.image_media .left ul.songs {
+    min-width: 500px;
   }
 }
 
@@ -939,6 +1051,37 @@ section.image_media nav.pagination span:hover {
   section.image_portal .content {
     margin: 0 20px 60px;
     flex: 6 0 calc(100% - 40px);
+  }
+  section.image_media .left {
+    flex: 100% 1 100;
+    width: calc(100% - 40px);
+    margin: 0 20px;
+    max-width: initial;
+  }
+  section.image_media .slide {
+    width: 100%;
+  }
+  section.image_media .left ul.songs {
+    width: 100%;
+    min-width: 100%;
+  }
+  section.image_media .left ul.songs li {
+    padding: 0;
+  }
+  section.image_media .left ul.songs li span {
+    margin: 10px;
+    font-size: 16px;
+    text-indent: 20px;
+  }
+  section.image_media .left ul.songs li audio {
+    margin: 0 0 10px 0;
+  }
+  section.image_media .slide .videos {
+    width: 100%;
+    min-width: 100%;
+  }
+  section.image_media .slide .videos video {
+    width: 90%;
   }
 }
 
