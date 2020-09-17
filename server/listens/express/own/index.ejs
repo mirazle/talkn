@@ -469,6 +469,7 @@
         let intervalApiSecond = 1000;
         let intervalSelectChSecond = 3000;
         const domain = "<%= domain  %>";
+        const assetsURL = "<%= assetsURL  %>";
         const languageCnt = "<%= lpLanguages.length  %>";
         const lpLanguages = "<%= lpLanguages  %>".split(',');
         const tuneIds = {};
@@ -845,7 +846,7 @@
             const ch = _ch2.startsWith( "/" ) ? _ch2 : "/" + _ch2;
             const copyUserUrl = document.querySelector( `.copy_user_url` );
             const userLink = document.querySelector( `.user_link` );
-            copyUserUrl.value = `<img src='//${domain}${ch}' />`;
+            copyUserUrl.value = `<a href="//${domain}${ch}"><img src='//${assetsURL}/img/logo.png' /></a>`;
             userLink.href = `//${domain}${ch}`;
         }
         window.addEventListener("load", ( e ) => {
@@ -1161,10 +1162,9 @@
                             placeholder="あなたのWEBサイトのURL"
                         />
                     </div>
-
                     <div class="copy_ext">
                         <div class="exe_copy">COPY</div>
-                        <input class="copy_user_url" type="text" onfocus="this.select();" value="<img src='//<%= domain %>/' />" />
+                        <input class="copy_user_url" type="text" onfocus="this.select();" value="<a href='//<%= domain %>'><img src='//<%= assetsURL %>/img/logo.png' /></a>" />
                     </div>
                 </div>
             </div>
