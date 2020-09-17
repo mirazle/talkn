@@ -837,6 +837,14 @@
                 runControlTag.classList.remove( "active" );
             }
         }
+        function onChangeUserUrl(){
+            const userUrl = document.querySelector( `.user_url` ).value;
+            const _ch1 = userUrl.replace( "https:/", "" ).replace( "http:/", "" );
+            const _ch2 = _ch1.endsWith("/") ? _ch1 : _ch1 + "/";
+            const ch = _ch2.startsWith( "/" ) ? _ch2 : "/" + _ch2;
+            const copyUserUrl = document.querySelector( `.copy_user_url` );
+            copyUserUrl.value = `<img src='//localhost${ch}' />`;
+        }
         window.addEventListener("load", ( e ) => {
             onServiceWorker();
             const search = document.querySelector( ".search" );
@@ -1064,7 +1072,7 @@
                 </div>
                 <div class="copy_ext">
                     <div class="exe_copy">COPY</div>
-                    <input type="text" value="<script src='//<%= extURL %>' async type='text/javascript'></script>" onfocus="this.select();" >
+                    <input type="text" value="<script src='//<%= extURL %>' async type='text/javascript'></script>" onfocus="this.select();" />
                 </div>
             </div>
         </section>
@@ -1112,10 +1120,51 @@
                 </div>
                 <div class="copy_ext">
                     <div class="exe_copy">COPY</div>
-                    <input type="text" value="<script src='//<%= extURL %>' async type='text/javascript'></script>" onfocus="this.select();">
+                    <input type="text" value="<script src='//<%= extURL %>' async type='text/javascript'></script>" onfocus="this.select();" />
                 </div>
             </div>
         </section>
+        <section class="image_other">
+            <div class="block">
+                <h2>
+                    導入イメージ4
+                </h2>
+                <div class="api">
+                    <p>- API -</p>
+                    <div class="symble"></div>
+                    <span class="desc">
+                        あなたのWEBサイトのLIVE数を取得して表示したり、歓声(コメント)の取得・投稿をすることが出来ます。
+                    </span>
+                    <div class="copy_ext">
+                        <div class="exe_copy">COPY</div>
+                        <input type="text" value="<script src='//<%= apiAccessURL %>' async type='text/javascript'></script>" onfocus="this.select();" />
+                    </div>
+                    <div class="detail">詳細はこちら→</div>
+                </div>
+                <div class="barner">
+                    <p>- バナー -</p>
+                    <div class="symble"></div>
+                    <div class="desc">
+                        あなたのWEBサイトへの歓声(コメント)の投稿・閲覧が可能です。
+                        <img src="//assets.<%= domain%>/img/logo1.png" />
+                        <input
+                            class="user_url"
+                            type="text"
+                            onkeypress="onChangeUserUrl()"
+                            onkeyup="onChangeUserUrl()"
+                            onchange="onChangeUserUrl()"
+                            placeholder="あなたのWEBサイトのURL"
+                        />
+                    </div>
+
+                    <div class="copy_ext">
+                        <div class="exe_copy">COPY</div>
+                        <input class="copy_user_url" type="text" onfocus="this.select();" value="<img src='//<%= domain %>/' />" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <br />
         <br />
         <br />
