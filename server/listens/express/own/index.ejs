@@ -468,6 +468,7 @@
         let intervalSelectChId = null;
         let intervalApiSecond = 1000;
         let intervalSelectChSecond = 3000;
+        const domain = "<%= domain  %>";
         const languageCnt = "<%= lpLanguages.length  %>";
         const lpLanguages = "<%= lpLanguages  %>".split(',');
         const tuneIds = {};
@@ -843,7 +844,9 @@
             const _ch2 = _ch1.endsWith("/") ? _ch1 : _ch1 + "/";
             const ch = _ch2.startsWith( "/" ) ? _ch2 : "/" + _ch2;
             const copyUserUrl = document.querySelector( `.copy_user_url` );
-            copyUserUrl.value = `<img src='//localhost${ch}' />`;
+            const userLink = document.querySelector( `.user_link` );
+            copyUserUrl.value = `<img src='//${domain}${ch}' />`;
+            userLink.href = `//${domain}${ch}`;
         }
         window.addEventListener("load", ( e ) => {
             onServiceWorker();
@@ -1146,7 +1149,9 @@
                     <div class="symble"></div>
                     <div class="desc">
                         あなたのWEBサイトへの歓声(コメント)の投稿・閲覧が可能です。
-                        <img src="//assets.<%= domain%>/img/logo1.png" />
+                        <a class="user_link" href="">
+                            <img src="//assets.<%= domain%>/img/logo1.png" />
+                        </a>
                         <input
                             class="user_url"
                             type="text"
