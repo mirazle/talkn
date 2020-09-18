@@ -70,8 +70,6 @@ export default class Ws {
   public onResponseChAPI(ch) {
     const getResponseChAPI = (actionMethod) => {
       return (response) => {
-        console.log("RESPONSE " + this.id);
-        console.log(response);
         const actionState = actionMethod(response);
         this.stores[this.id] && this.stores[this.id].dispatch(actionState);
       };
@@ -176,7 +174,9 @@ export default class Ws {
   }
 
   private on(onKey, callback = () => {}) {
+    console.log("ON A " + this.id);
     if (!this.ios[this.id]._callbacks[`$${onKey}`]) {
+      console.log("ON B " + this.id);
       this.ios[this.id].on(onKey, callback);
     }
   }

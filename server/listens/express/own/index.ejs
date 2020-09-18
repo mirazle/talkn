@@ -752,7 +752,7 @@
         }
         const exeApi = {
             tune: (ch) => {
-                const id = new Date();
+                const id = "DEMO: " + new Date();
                 ch = ch ? ch : document.querySelector( ".selectCh" ).innerHTML;
                 if ( !tuneIds[ ch ] ) tuneIds[ ch ] = [];
                 tuneIds[ ch ].push( id );
