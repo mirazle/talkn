@@ -1148,24 +1148,18 @@
                     <div class="symble"></div>
                     <div class="desc">
                         あなたのWEBサイトのLIEV数の表示＆リンク先での歓声(コメント)の投稿・閲覧が出来ます。
-                        <div class="talkn_banner" data-href="https://own.localhoat">
-                            <!--a class="user_link" href="">
-                                <img src="//assets.<%= domain%>/img/logo.png" />
-                            </a-->
-                        </div>
-                        <input
-                            class="user_url"
-                            type="text"
-                            onkeypress="onChangeUserUrl()"
-                            onkeyup="onChangeUserUrl()"
-                            onchange="onChangeUserUrl()"
-                            placeholder="あなたのWEBサイトのURL"
-                        />
+
+                    </div>
+                    <div class="copy_ext">
+                        <div class="exe_copy">COPY</div>
+                        <input class="copy_banner" type="text" onfocus="this.select();" value="<script src='//<%= bannerURL %>' async type='text/javascript'></script>" />
                     </div>
                     <div class="copy_ext">
                         <div class="exe_copy">COPY</div>
                         <input class="copy_user_url" type="text" onfocus="this.select();" value="<a href='//<%= domain %>'><img src='//<%= assetsURL %>/img/logo.png' /></a>" />
                     </div>
+                    <div class="talkn_banner" data-href="https://own.localhost"></div>
+                    <input class="user_url" type="text" onkeypress="onChangeUserUrl()" onkeyup="onChangeUserUrl()" onchange="onChangeUserUrl()" placeholder="あなたのWEBサイトのURL" />
                 </div>
             </div>
         </section>
