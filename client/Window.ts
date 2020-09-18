@@ -121,10 +121,6 @@ export default class Window {
         const actionType = PostMessage.convertApiToClientActionType(method);
         const { ioType, exeMethod } = PostMessage.getMessageTypes(actionType);
         const state = { ...params, type: actionType };
-        if (ioType === "BROADCAST") {
-          console.log("==== " + method + " " + ioType);
-          console.log(data);
-        }
 
         // disptch client state.
         this.store.dispatch(state);

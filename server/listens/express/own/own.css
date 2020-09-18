@@ -854,8 +854,6 @@ section.image_other p {
   height: 45px;
 }
 section.image_other img {
-  margin: 30px 15px 30px;
-  min-width: 64px;
   width: 64px;
   height: 64px;
 }
@@ -866,6 +864,9 @@ section.image_other .desc {
   font-size: 1.4rem;
   letter-spacing: 5px;
   line-height: 35px;
+}
+section.image_other .desc .talkn_banner {
+  margin-top: 30px;
 }
 section.image_other .detail {
   display: block;
@@ -884,7 +885,7 @@ section.image_other .api {
   border-radius: 15px 0 0 15px;
   margin: 0 0 150px 0;
   padding: 50px;
-  height: 800px;
+  height: 1100px;
   background: rgba(200, 100, 0, 0.6);
 }
 section.image_other .api .symble {
@@ -901,7 +902,7 @@ section.image_other .banner {
   align-items: center;
   margin: 0 0 150px 0;
   padding: 50px;
-  height: 800px;
+  height: 1100px;
   background: rgba(0, 100, 200, 0.6);
 }
 section.image_other .banner .symble {

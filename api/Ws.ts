@@ -98,7 +98,7 @@ export default class Ws {
     if (!this.use(bootOption.id)) {
       // id
       this.id = bootOption.id;
-      console.log("WS " + this.id);
+
       // store.
       this.stores[this.id] = apiStore();
       this.stores[this.id].subscribe(this.subscribe);
@@ -130,7 +130,6 @@ export default class Ws {
       }
       return true;
     }
-    console.log("UNTUNE D");
     return false;
   }
 
@@ -174,9 +173,7 @@ export default class Ws {
   }
 
   private on(onKey, callback = () => {}) {
-    console.log("ON A " + this.id);
     if (!this.ios[this.id]._callbacks[`$${onKey}`]) {
-      console.log("ON B " + this.id);
       this.ios[this.id].on(onKey, callback);
     }
   }
