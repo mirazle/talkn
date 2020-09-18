@@ -43,23 +43,19 @@ const apiCallback = (ch, href, ioType, method, state) => {
 };
 
 const attachEvent = (talknAPI, ch, href) => {
-  console.log("BANNER TUNE " + ch);
-  talknAPI.tune({ ch, id: ch }, (ioType, method, state) => {
+  const id = `${define.bannerClass}: ${ch}`;
+  talknAPI.tune({ ch, id }, (ioType, method, state) => {
     apiCallback(ch, href, ioType, method, state);
   });
 };
 
 const Banner = (talknAPI: PublicApi): void => {
-  console.log("BANNER A");
   const banners = document.querySelectorAll(`.${define.bannerClass}`);
   banners.forEach((banner: Element) => {
-    console.log("BANNER B");
     const bannerImg = banner.querySelector("a img");
     if (!bannerImg) {
-      console.log("BANNER C");
       const href = banner.getAttribute("data-href");
       if (href) {
-        console.log("BANNER D");
         const ch = getCh(href);
         const a = getA(ch);
         const live = getLive();
