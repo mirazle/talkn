@@ -27,6 +27,7 @@ const define: any = {
     SESSION: "session",
     AUTO: "auto",
     OWN: "own",
+    BANNER: "banner",
     EXT: "ext",
     TRANSACTION: "transaction",
   },
@@ -44,6 +45,7 @@ const define: any = {
   talknClientJs: "talkn.client.js",
   talknApiJs: "talkn.api.js",
   noInnerNotif: "Sorry, No Function.",
+  bannerClass: "talkn_banner",
   storageKey: {
     baseKey: "@talkn@",
     postsTimelineZero: "postsTimelineZero",

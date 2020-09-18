@@ -445,6 +445,8 @@
     <link rel="stylesheet" href="own.css">
     <link rel="shortcut icon" href="<%= favicon %>">
 
+    <script type="text/javascript" async src="//<%= apiAccessURL %>"></script>
+    <script type="text/javascript" async src="//<%= bannerURL %>"></script>
     <script type="text/javascript" async src="//<%= extURL %>"></script>
     <script type="text/javascript">
         const wideScreenWidth = 1000;
@@ -845,7 +847,7 @@
             const _ch2 = _ch1.endsWith("/") ? _ch1 : _ch1 + "/";
             const ch = _ch2.startsWith( "/" ) ? _ch2 : "/" + _ch2;
             const copyUserUrl = document.querySelector( `.copy_user_url` );
-            const userLink = document.querySelector( `.user_link` );
+            const userLink = document.querySelector( `#talkn_banner a` );
             copyUserUrl.value = `<a href="//${domain}${ch}"><img src='//${assetsURL}/img/logo.png' /></a>`;
             userLink.href = `//${domain}${ch}`;
         }
@@ -862,8 +864,6 @@
             window.nav = document.querySelector( "nav" );
             setNavStyles();
             setMenuColor();
-            console.log( introPagination);
-            console.log( mediaPagination );
             introPagination.forEach( page => page.addEventListener( 'click', ( e ) => {
                 const scrollLeft = Number( e.target.dataset.index ) === 1 ? 0 : 9999999;
                 console.log(scrollLeft);
@@ -898,8 +898,6 @@
         };
         window.onresize = onResizeWindow;
     </script>
-    <!-- script type="text/javascript" async src="//<%= extURL %>"></script -->
-    <script type="text/javascript" async src="//api.<%= domain %>/v1"></script>
 </head>
 
 <body>
@@ -980,6 +978,7 @@
                     あなたのWEBサイトを<br /><span class="bold">"LIVE会場"</span>に変える。
                 </h2>
             </div>
+
             <div class="content">
                 <div class="slide">
                     <section id="talkn" class="board talkn">
@@ -1137,22 +1136,24 @@
                     <p>- API -</p>
                     <div class="symble"></div>
                     <span class="desc">
-                        あなたのWEBサイトのLIVE数を取得して表示したり、歓声(コメント)の取得・投稿をすることが出来ます。
+                        あなたのWEBサイトのLIVE数ランキングを取得したり、歓声(コメント)の取得・投稿等をすることが出来ます。
+                        <div class="detail">詳細はこちら→</div>
                     </span>
                     <div class="copy_ext">
                         <div class="exe_copy">COPY</div>
                         <input type="text" value="<script src='//<%= apiAccessURL %>' async type='text/javascript'></script>" onfocus="this.select();" />
                     </div>
-                    <div class="detail">詳細はこちら→</div>
                 </div>
-                <div class="barner">
+                <div class="banner">
                     <p>- バナー -</p>
                     <div class="symble"></div>
                     <div class="desc">
-                        あなたのWEBサイトへの歓声(コメント)の投稿・閲覧が可能です。
-                        <a class="user_link" href="">
-                            <img src="//assets.<%= domain%>/img/logo1.png" />
-                        </a>
+                        あなたのWEBサイトのLIEV数の表示＆リンク先での歓声(コメント)の投稿・閲覧が出来ます。
+                        <div class="talkn_banner">
+                            <!--a class="user_link" href="">
+                                <img src="//assets.<%= domain%>/img/logo.png" />
+                            </a-->
+                        </div>
                         <input
                             class="user_url"
                             type="text"

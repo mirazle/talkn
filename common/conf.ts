@@ -24,6 +24,7 @@ const assetsURL = `${SUB_DOMAINS.ASSETS}.${domain}`;
 const autoURL = `${SUB_DOMAINS.AUTO}.${domain}`;
 const extURL = `${SUB_DOMAINS.EXT}.${domain}`;
 const ownURL = `${SUB_DOMAINS.OWN}.${domain}`;
+const bannerURL = `${SUB_DOMAINS.BANNER}.${domain}`;
 const transactionURL = `${SUB_DOMAINS.TRANSACTION}.${domain}`;
 const assetsImgPath = `${assetsURL}/img/`;
 const assetsIconPath = `${assetsURL}/icon/`;
@@ -81,6 +82,7 @@ const conf: any = {
   autoURL,
   extURL,
   ownURL,
+  bannerURL,
   transactionURL,
   assetsImgPath,
   assetsIconPath,
