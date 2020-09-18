@@ -86,6 +86,7 @@ class Express {
             ownURL: conf.ownURL,
             wwwURL: conf.wwwURL,
             extURL: conf.extURL,
+            bannerURL: conf.bannerURL,
             assetsURL: conf.assetsURL,
             clientURL: conf.clientURL,
             apiAccessURL: conf.apiAccessURL,
@@ -93,6 +94,13 @@ class Express {
         } else {
           res.sendFile(conf.serverOwnPath + req.originalUrl.replace("/", ""));
         }
+        break;
+      case conf.bannerURL:
+        console.log("@@@@@@@@@@@@@@@@@@ BANNER " + conf.serverApiPath + define.talknApiJs);
+        // CORSを許可する
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        res.sendFile(conf.serverApiPath + define.talknApiJs);
         break;
       case conf.apiURL:
         if (req.url === `/v${conf.apiVer}`) {

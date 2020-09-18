@@ -862,7 +862,7 @@ section.image_other img {
 section.image_other .desc {
   display: flex;
   flex-flow: row wrap;
-  height: 140px;
+  height: 200px;
   font-size: 1.4rem;
   letter-spacing: 5px;
   line-height: 35px;
@@ -891,9 +891,9 @@ section.image_other .api .symble {
   width: 180px;
   height: 180px;
   margin-bottom: 50px;
-  background: url("api08.png") 50% / 180px no-repeat;
+  background: url("api.png") 50% / 180px no-repeat;
 }
-section.image_other .barner {
+section.image_other .banner {
   flex: 50% 1 50;
   display: flex;
   flex-flow: column wrap;
@@ -904,13 +904,13 @@ section.image_other .barner {
   height: 800px;
   background: rgba(0, 100, 200, 0.6);
 }
-section.image_other .barner .symble {
+section.image_other .banner .symble {
   width: 180px;
   height: 180px;
   margin-bottom: 50px;
-  background: url("talk08.png") 50% / 180px no-repeat;
+  background: url("talk.png") 50% / 180px no-repeat;
 }
-section.image_other .barner input.user_url {
+section.image_other .banner input.user_url {
   flex: 1;
   border: 3px solid rgba(255, 255, 255, 0.6);
   border-radius: 50px;
@@ -924,7 +924,7 @@ section.image_other .barner input.user_url {
   color: rgba(240, 240, 240, 1);
   outline: none;
 }
-section.image_other .barner input.user_url::placeholder {
+section.image_other .banner input.user_url::placeholder {
   color: rgba(240, 240, 240, 1);
 }
 @media screen and (max-width: 1060px) {
