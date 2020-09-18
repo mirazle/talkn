@@ -70,6 +70,8 @@ export default class Ws {
   public onResponseChAPI(ch) {
     const getResponseChAPI = (actionMethod) => {
       return (response) => {
+        console.log("RESPONSE " + this.id);
+        console.log(response);
         const actionState = actionMethod(response);
         this.stores[this.id] && this.stores[this.id].dispatch(actionState);
       };
@@ -98,7 +100,7 @@ export default class Ws {
     if (!this.use(bootOption.id)) {
       // id
       this.id = bootOption.id;
-
+      console.log("WS " + this.id);
       // store.
       this.stores[this.id] = apiStore();
       this.stores[this.id].subscribe(this.subscribe);

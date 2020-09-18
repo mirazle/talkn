@@ -1,35 +1,31 @@
 import define from "common/define";
 import Window from "client/Window";
-import PublicApi from "api/public.api";
+import Banner from "client/Banner";
+import { PublicApi } from "api/public.api";
 
 declare global {
   interface Window {
     talknAPI: any;
   }
 }
-const curScriptElement = document.currentScript;
-console.log(curScriptElement);
-const bootBanner = () => {
-  const banners = document.querySelectorAll(`.${define.bannerId}`);
-  banners.forEach((banner) => {
-    const bannerImg = banner.querySelector("a img");
-    if (banner && !bannerImg) {
-      console.log("`@@@@@@!");
-    }
-  });
-};
+const script = document.currentScript;
+const isPureApi = Boolean(script.getAttribute("src").indexOf(define.SUB_DOMAINS.BANNER) === -1);
 const bootTalknApi = () => {
   const talknWindow = new Window(define.APP_TYPES.API);
   talknWindow.boot().then((_window: Window) => {
-    window.talknAPI = new PublicApi(_window);
-    // bootBanner();
+    const talknAPI: PublicApi = new PublicApi(_window);
+    if (isPureApi) {
+      window.talknAPI = talknAPI;
+    } else {
+      Banner(talknAPI);
+    }
   });
 };
 
-if (window.top.document.readyState === "complete") {
-  bootTalknApi();
-} else {
-  window.onload = () => bootTalknApi();
+switch (window.document.readyState) {
+  case "complete":
+  case "interactive":
+  case "complete":
+    bootTalknApi();
+    break;
 }
-
-// window.talknAPI = new WsApiWorker();
