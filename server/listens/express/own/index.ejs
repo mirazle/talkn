@@ -1370,32 +1370,35 @@
             </h2>
             <div class="block">
                     <dl>
-                        <dt>○中期</dt>
+                        <dt>- 中期 -</dt>
                         <dd>・スマホアプリのリリース</dd>
                         <dd>・管理機能のリリース</dd>
                         <dd>・コメント・ポータルにカテゴリ検索リリース</dd>
                         <dd>・広告配信機能リリース</dd>
                     </dl>
+                    <div class="bar_wrap"><div class="bar"></div></div>
                     <dl>
-                        <dt>○長期(ビジョン)</dt>
+                        <dt>- 長期(ビジョン) -</dt>
                         <dd>・CHAT、BLOG、SNSに続く新しいWEBメディアに。</dd>
                         <dd>・世界中のコメント機能をtalknにする</dd>
                         <dd>・世界中のWEBサイトをLIVE・感情検索出来るようにする</dd>
                         <dd>・手数料0の投げ銭(talk to token)</dd>
                     </dl>
+                    <div class="bar_wrap"><div class="bar"></div></div>
                     <dl>
-                        <dt>○完成系</dt>  
+                        <dt>- 完成 -</dt>  
                         <dd>・Dapps化、分散型の運用に移行</dd>
                     </dl>
+                    <div class="bar_wrap last"><div class="bar"></div></div>
+                    <div class="arrow"></div>
+                    <div class="walk"></div>
             </div>
+            <div class="img"></div>
         </section>
 
-        <section class="five">
-            <div class="title">
-                <%= fiveCompanyKey %>
-                <div class="under-bar"></div>
-            </div>
-            <table class="company">
+        <section class="company">
+            <h2><%= fiveCompanyKey %></h2>
+            <table class="data">
                 <tbody>
                     <tr>
                         <th><%= fiveCompanyNameKey %></th>
@@ -1427,10 +1430,7 @@
             </table>
         
             <br />
-            <div class="title">
-                <%= fiveContactKey %>
-                <div class="under-bar"></div>
-            </div>
+            <h2><%= fiveContactKey %></h2>
         
             <div class="contact">
                 <form method="POST" action="/mail">
