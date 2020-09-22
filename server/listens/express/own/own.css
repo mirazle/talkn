@@ -1222,6 +1222,7 @@ section.future .img {
   transform: translate3d(140px, 540px, 0px);
   opacity: 0.2;
 }
+
 section.future .block {
   display: flex;
   flex-flow: column wrap;
@@ -1378,13 +1379,13 @@ section.company .contact textarea {
 }
 section.company .data {
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
   box-sizing: border-box;
   color: rgb(70, 70, 70);
 }
 section.company .data th {
-  width: 110px;
-  padding: 5px;
+  width: 200px;
+  padding: 10px;
   background: rgba(0, 0, 0, 0.1);
   text-align: left;
   text-indent: 10px;
@@ -1399,11 +1400,11 @@ section.company .data td {
 section.company .data img {
   position: relative;
   top: 3px;
-  width: 16px;
+  width: 32px;
 }
 section.company .contact {
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
 }
 section.company .contact form {
   width: 100%;
@@ -1426,10 +1427,12 @@ section.company .contact textarea {
   border-radius: 3px;
   background: rgba(0, 0, 0, 0.1);
   margin: 1px;
-  height: 35px;
+  height: 55px;
   padding: 5px 20px 5px 20px;
   width: 100%;
+  font-size: 1rem;
   text-indent: 5px;
+  letter-spacing: 2px;
   outline: 0;
   box-shadow: none;
   transition: 300ms;
@@ -1442,9 +1445,9 @@ section.company .contact [type="submit"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 40px auto 0px auto;
+  margin: 80px auto 0px auto;
   width: 30%;
-  height: 50px;
+  height: 60px;
   border: 1px solid rgb(220, 220, 220);
   border-radius: 5px;
   background: rgba(200, 200, 200, 0.5);
@@ -1452,10 +1455,11 @@ section.company .contact [type="submit"] {
   transition: 300ms;
 }
 section.company .contact [type="submit"]:hover {
-  background: rgba(79, 174, 159, 1);
+  background: rgba(79, 174, 159, 0.6);
   color: rgb(255, 255, 255);
 }
 section.company ::placeholder {
+  font-size: 1rem;
   text-indent: 5px;
 }
 section.company .contact textarea {
