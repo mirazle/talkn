@@ -242,7 +242,7 @@ footer li {
   top: -35px;
   border-radius: 100px;
   color: rgb(255, 255, 255);
-  font-size: 12px;
+  font-size: 20px;
   transition: 300ms;
   transform: translate3d(0px, -25px, 0px);
 }
@@ -1206,16 +1206,22 @@ section.image_api .usage a {
 }
 
 section.future {
-  padding-bottom: 300px;
   width: 100%;
-  background: rgba(79, 174, 159, 0.94) url("https://assets.talkn.io/img/logo3.png") 100% 100% / 512px no-repeat;
+  background: rgba(79, 174, 159, 0.94);
 }
 section.future h2 {
   flex: 100% 1 100;
   margin: 80px 0 20px 0;
   text-align: center;
 }
-
+section.future .img {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: url(https://assets.talkn.io/img/logo3.png) 100% / 600px no-repeat;
+  transform: translate3d(400px, 520px, 0px);
+  opacity: 0.1;
+}
 section.future .block {
   display: flex;
   flex-flow: column wrap;
@@ -1224,69 +1230,107 @@ section.future .block {
   border-radius: 15px;
   padding: 50px;
   max-width: 1200px;
-  background: rgba(255, 255, 255, 0.2);
   font-size: 1.4rem;
 }
+section.future .bar_wrap {
+  width: 600px;
+  height: 100%;
+}
+
+section.future .bar {
+  width: 20px;
+  height: 40px;
+  margin-left: 100px;
+  background: rgba(255, 255, 255, 0.2);
+}
+section.future .bar_wrap.last .bar {
+  height: 600px;
+}
+section.future .arrow {
+  margin: 0;
+  padding: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 50px 50px 50px 0px;
+  border-color: transparent transparent rgba(255, 255, 255, 0.2) transparent;
+  transform: translate3d(68px, -67.6px, 0px) rotate(315deg);
+}
+section.future .walk {
+  width: 600px;
+  height: 200px;
+  background: url(https://assets.talkn.io/img/walk.png) 50% / 506px no-repeat;
+  opacity: 0.1;
+}
 section.future dl {
-  margin-bottom: 20px;
+  margin: 0;
+  padding: 50px;
+  width: 600px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.2);
 }
 section.future dt {
-  margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 40px;
 }
 section.future dd {
   margin: 5px 0;
 }
 
-section.five {
+section.company {
   padding: 100px 0;
   width: 100%;
   background: rgba(255, 255, 255, 0.9);
 }
-section.five .company {
+section.company h2 {
+  color: #000;
+  font-size: 2.5rem;
+}
+section.company .data {
   width: 100%;
   max-width: 600px;
   box-sizing: border-box;
   color: rgb(70, 70, 70);
 }
-section.five .company th {
+section.company .data th {
   width: 110px;
   padding: 5px;
   background: rgba(0, 0, 0, 0.1);
   text-align: left;
   text-indent: 10px;
-  font-size: 12px;
+  font-size: 20px;
 }
-section.five .company td {
+section.company .data td {
   padding: 5px 10px 5px 10px;
   background: rgba(0, 0, 0, 0.04);
   text-align: left;
-  font-size: 12px;
+  font-size: 20px;
 }
-section.five .company img {
+section.company .data img {
   position: relative;
   top: 3px;
   width: 16px;
 }
-section.five .contact {
+section.company .contact {
   width: 100%;
   max-width: 600px;
 }
-section.five .contact form {
+section.company .contact form {
   width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
 }
-section.five .contact .oneline {
+section.company .contact .oneline {
   display: flex;
   width: 100%;
 }
-section.five .contact .oneline .grow {
+section.company .contact .oneline .grow {
   flex-grow: 1;
 }
-section.five .contact input,
-section.five .contact textarea {
+section.company .contact input,
+section.company .contact textarea {
   box-sizing: border-box;
   border: 0;
   border-radius: 3px;
@@ -1300,11 +1344,11 @@ section.five .contact textarea {
   box-shadow: none;
   transition: 300ms;
 }
-section.five .contact input:hover,
-section.five .contact textarea:hover {
+section.company .contact input:hover,
+section.company .contact textarea:hover {
   background: rgba(100, 100, 100, 0.1);
 }
-section.five .contact [type="submit"] {
+section.company .contact [type="submit"] {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1317,64 +1361,64 @@ section.five .contact [type="submit"] {
   color: rgb(100, 100, 100);
   transition: 300ms;
 }
-section.five .contact [type="submit"]:hover {
+section.company .contact [type="submit"]:hover {
   background: rgba(79, 174, 159, 1);
   color: rgb(255, 255, 255);
 }
-section.five ::placeholder {
+section.company ::placeholder {
   text-indent: 5px;
 }
-section.five .contact textarea {
+section.company .contact textarea {
   text-indent: 0px;
   min-height: 100px;
   min-width: 100%;
   resize: none;
 }
-section.five .company {
+section.company .data {
   width: 100%;
   max-width: 600px;
   box-sizing: border-box;
   color: rgb(70, 70, 70);
 }
-section.five .company th {
+section.company .data th {
   width: 110px;
   padding: 5px;
   background: rgba(0, 0, 0, 0.1);
   text-align: left;
   text-indent: 10px;
-  font-size: 12px;
+  font-size: 20px;
 }
-section.five .company td {
+section.company .data td {
   padding: 5px 10px 5px 10px;
   background: rgba(0, 0, 0, 0.04);
   text-align: left;
-  font-size: 12px;
+  font-size: 20px;
 }
-section.five .company img {
+section.company .data img {
   position: relative;
   top: 3px;
   width: 16px;
 }
-section.five .contact {
+section.company .contact {
   width: 100%;
   max-width: 600px;
 }
-section.five .contact form {
+section.company .contact form {
   width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
 }
-section.five .contact .oneline {
+section.company .contact .oneline {
   display: flex;
   width: 100%;
 }
-section.five .contact .oneline .grow {
+section.company .contact .oneline .grow {
   flex-grow: 1;
 }
-section.five .contact input,
-section.five .contact textarea {
+section.company .contact input,
+section.company .contact textarea {
   box-sizing: border-box;
   border: 0;
   border-radius: 3px;
@@ -1388,11 +1432,11 @@ section.five .contact textarea {
   box-shadow: none;
   transition: 300ms;
 }
-section.five .contact input:hover,
-section.five .contact textarea:hover {
+section.company .contact input:hover,
+section.company .contact textarea:hover {
   background: rgba(100, 100, 100, 0.1);
 }
-section.five .contact [type="submit"] {
+section.company .contact [type="submit"] {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1405,20 +1449,20 @@ section.five .contact [type="submit"] {
   color: rgb(100, 100, 100);
   transition: 300ms;
 }
-section.five .contact [type="submit"]:hover {
+section.company .contact [type="submit"]:hover {
   background: rgba(79, 174, 159, 1);
   color: rgb(255, 255, 255);
 }
-section.five ::placeholder {
+section.company ::placeholder {
   text-indent: 5px;
 }
-section.five .contact textarea {
+section.company .contact textarea {
   text-indent: 0px;
   min-height: 100px;
   min-width: 100%;
   resize: none;
 }
-section.five .title {
+section.company .title {
   margin-bottom: 30px;
   font-size: 2rem;
   color: rgba(80, 80, 80, 1);
