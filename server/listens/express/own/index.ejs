@@ -18,7 +18,7 @@
     let fiveCompanyRepresentativeKey = "REPRESENTATIVE";
     let fiveCompanyRepresentativeValue = "Hiroyuki Miyazaki";
     let fiveCompanyPolicyKey = "POLICY";
-    let fiveCompanyPolicyValue = "Update the internet for creaters.";
+    let fiveCompanyPolicyValue = "Update the internet for contents.";
     let fiveContactKey = "CONTACT";
     let fiveContactNameKey = "Your name";
     let fiveContactMailKey = "Your email";
@@ -62,7 +62,7 @@
         fiveCompanyNameKey = "名前";
         fiveCompanyNameValue = "株式会社talkn";
         fiveCompanyFoundedKey = "設立";
-        fiveCompanyFoundedValue = "2020年9月";
+        fiveCompanyFoundedValue = "2021年1月";
         fiveCompanyRepresentativeKey = "代表取締役";
         fiveCompanyRepresentativeValue = "宮﨑博之(Hiroyuki Miyazaki)";
         fiveCompanyPolicyKey = "企業理念";
@@ -470,6 +470,8 @@
         let intervalSelectChId = null;
         let intervalApiSecond = 1000;
         let intervalSelectChSecond = 3000;
+        let commentsTag;
+        const commentsTagWindowScrollHeight = 1500;
         const domain = "<%= domain  %>";
         const assetsURL = "<%= assetsURL  %>";
         const languageCnt = "<%= lpLanguages.length  %>";
@@ -485,6 +487,10 @@
             {inputPost: "これ誰の曲？🎵", inputStampId: 0 },
             {inputPost: "これ欲しい✨✨✨", inputStampId: 0 },
             {inputPost: "またこのニュースかい..😣", inputStampId: 0 },
+            {inputPost: "感動したよ〜💖💖💖", inputStampId: 0 },
+            {inputPost: "ありえない、、😭", inputStampId: 0 },
+            {inputPost: "真恭喜你！", inputStampId: 0 },
+            {inputPost: "Veuillez me dire le film recommandé", inputStampId: 0 },
             {inputPost: "Bu kozmetiği kullanmak istiyorum!!", inputStampId: 0 },
             {inputPost: "¿Cuál es el precio actual de los activos criptográficos?", inputStampId: 0 },
             {inputPost: "Умехара Удачи!", inputStampId: 0 },
@@ -841,19 +847,29 @@
                 runControlTag.classList.remove( "active" );
             }
         }
-        function onChangeUserUrl(){
-            const userUrl = document.querySelector( `.user_url` ).value;
-            const _ch1 = userUrl.replace( "https:/", "" ).replace( "http:/", "" );
-            const _ch2 = _ch1.endsWith("/") ? _ch1 : _ch1 + "/";
+        function onChangeUserUrl() {
+            const inputUserUrl = document.querySelector( `.image_banner input.user_url` ).value;
+            const _ch1 = inputUserUrl.replace( "https:/", "" ).replace( "http:/", "" );
+            const _ch2 = _ch1.endsWith( "/" ) ? _ch1 : _ch1 + "/";
             const ch = _ch2.startsWith( "/" ) ? _ch2 : "/" + _ch2;
-            const copyUserUrl = document.querySelector( `.copy_user_url` );
-            const userLink = document.querySelector( `.talkn_banner a` );
-            copyUserUrl.value = `<a href="//${domain}${ch}"><img src='//${assetsURL}/img/logo.png' /></a>`;
-            userLink.href = `//${domain}${ch}`;
+            const href = `//${ domain }${ ch }`;
+
+            // normal
+            const normalTextarea = document.querySelector( `.image_banner .normal textarea.copy_user_url` );
+            const normalLink = document.querySelector( `.image_banner .normal a` );
+            normalTextarea.value = `<a href='//${ domain }${ ch }'><img src="//${assetsURL}/img/logo.png" alt="talkn"></a>`;
+            normalLink.href = href;
+
+            // live
+            const liveTextarea = document.querySelector( `.image_banner .live textarea.copy_user_url` );
+            const liveLink = document.querySelector( `.image_banner .live a` );
+            liveTextarea.value = `<div data-href='//${ domain }${ ch }' class='talkn_banner'></div>`;
+            liveLink.href = `//${ domain }${ ch }`;
         }
         window.addEventListener("load", ( e ) => {
             onServiceWorker();
             const search = document.querySelector( ".search" );
+            commentsTag = document.querySelector( ".comments" );
             const introPagination = document.querySelectorAll( ".intro nav.pagination span" );
             const mediaPagination = document.querySelectorAll( ".image_media nav.pagination span" );
             // search.addEventListener('keypress', onKeyPressSearch);
@@ -894,7 +910,20 @@
                     movePointer( screen );
                     setMenuColor();
                 }
-            } 1
+            }
+
+            if(commentsTag){
+                const scrollTop = window.outerHeight + window.scrollY;
+                const commentsStartTop = commentsTag.offsetTop;
+                const commentsEndTop = ( commentsTag.offsetTop + commentsTag.offsetHeight + 100 );
+                const commentsHeight = commentsEndTop - commentsStartTop;
+                const innerScrollTop = scrollTop - commentsStartTop;
+                const innerScrollRate = Math.round( ( innerScrollTop / window.outerHeight ) * 100 );
+                if ( scrollTop >= commentsStartTop && scrollTop < ( commentsEndTop +  window.innerHeight) ) {
+                    commentsScrollTop = Math.round(window.outerHeight * ( innerScrollRate * 0.01));
+                    commentsTag.scrollTo({top: commentsScrollTop});
+                }
+            }
         };
         window.onresize = onResizeWindow;
     </script>
@@ -1000,58 +1029,182 @@
                 <div class="ribonWrap">
                     <div class="ribon">WEBサイトオーナー様向け</div>
                 </div>
-                <h2>
-                    <div class="message">
-                        talkn(集客ツール)の<br class="active800" />メリット３点
+        
+                <div class="slide">
+
+                    <div class="old">
+                        <h2>- 既存のWEB集客の手段 -</h2>
+
+                        <div class="graph">
+                            <div class="outer">
+                                <div class="analytics">
+                                    <div class="inner">
+                                        内部
+                                    </div>
+                                    分析
+                                </div>
+                                外部
+                            </div>
+                            ↑あなたのWEBサイト
+                        </div>
+
+                        <div class="desc">
+                            <div class="inner">
+                                <dl>
+                                    <dt>内部</dt>
+                                    <dd>・SEO対策</dd>
+                                </dl>
+                            </div>
+                            <div class="analytics">
+                                <dl>
+                                    <dt>分析</dt>
+                                    <dd>・Google analytics</dd>
+                                </dl>
+                            </div>
+                            <div class="outer">
+                                <dl>
+                                    <dt>外部</dt>
+                                    <dd>・検索流入</dd>
+                                    <dd>・有料広告流入</dd>
+                                    <dd>・SNS拡散・流入</dd>
+                                    <dd>・PR(メディア掲載)</dd>
+                                </dl>
+                            </div>
+                        </div>
+                        <div class="message">
+                            全て対応しているけど、これ以上ユーザーが増えないオーナー様へ。<br />
+                            新しい選択肢としてtalknをご検討下さい。(次のページへ)
+                        </div>
                     </div>
-                </h2>
 
-                <div class="merit one">
-                    <div class="num">1</div>
-                    <div class="hr"></div>
-                    <p>無料<br />インストール</p>
-                </div>
+                    <div class="new">
+                        <h2>- talknの新しい集客手段 -</h2>
+                    
+                        <div class="graph">
+                            <div class="outer">
+                                <div class="analytics">
+                                    <div class="inner">
+                                        内部
+                                    </div>
+                                    分析
+                                </div>
+                                外部
+                            </div>
+                            ↑あなたのWEBサイト
+                        </div>
+                    
+                        <div class="desc">
+                            <div class="inner">
+                                <dl>
+                                    <dt>内部</dt>
+                                    <dd>・LIVE数表示</dd>
+                                    <dd>・LIVE数ランク表示</dd>
+                                    <dd>・歓声(コメント)投稿</dd>
+                                </dl>
+                            </div>
+                            <div class="analytics">
+                                <dl>
+                                    <dt>分析</dt>
+                                    <dd>・talkn live analytics</dd>
+                                </dl>
+                            </div>
+                            <div class="outer">
+                                <dl>
+                                    <dt>外部</dt>
+                                    <dd>・LIVE数での検索流入</dd>
+                                    <dd>・LIVE数ランクをSNS拡散</dd>
+                                </dl>
+                            </div>
+                        </div>
 
-                <div class="merit two">
-                    <div class="num">2</div>
-                    <div class="hr"></div>
-                    <p>WEBサイトを<br />LIVE会場に</p>
-                </div>
-                <div class="merit three">
-                    <div class="num">3</div>
-                    <div class="hr"></div>
-                    <p>新しい<br />SNS拡散機能</p>
-                </div>
-                <div class="arrowWrap">
-                    <div class="arrow">▼</div>
-                </div>
-                <div class="conclusion">
-                    <div class="str">
-                        結果
-                        <span class="colon">：</span>
-                        <div class="hr"></div>
-                        ユーザーのリピート率UP・広告収入UP!
+                        <div class="message">
+                            あなたのWEBサイトを内部・分析・外部から'LIVE状態'にUPDATEし、<br />
+                            ユーザーのリピート率UP・広告収入UPに貢献します。<br />
+                            必要な機能のみに絞ったパッケージでご提供いたします。(次のページへ)
+                        </div>
+                    </div>
+
+                    <div class="pic">
+                        <h2>- サービス概要図 -</h2>
+                        <div class="service_image"></div>
+                        <div class="copy_ext">
+                            <div class="title">○headタグ内に挿入して下さい。</div>
+                            <div class="copy_wrap">
+                                <div class="exe_copy">COPY</div>
+                                <input type="text" value="<script src='//<%= extURL %>' async type='text/javascript'></script>" onmouseover="this.select();" onmouseleave="this.blur();"
+                                    onfocus="this.select();" />
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </section>
 
+        <section class="image_content">
+            <div class="block">
+                <h2>
+                    'LIVE状態'って？①
+                </h2>
+                <h3>
+                    現代の全URL(コンテンツ)は視聴者の感情やコメントを含んで成立しています。<br />
+                    その無意識の当たり前を「視える化」「常識」にした状態。
+                </h3>
+                <div class="old">
+                    <p>- old -</p>
+                    <div class="circle">
+                        1URL<br />
+                        (コンテンツ)
+                    </div>
+                </div>
+                <div class="new">
+                    <p>- talkn -</p>
+                    <div class="circle">
+                        1URL<br />
+                        (コンテンツ)
+                    </div>
+                    <div class="comments">
+                        <div class="comment">この曲好き！🎵</div>
+                        <div class="comment">Did you see an Eastwood movie?</div>
+                        <div class="comment">また不倫のニュースね😞</div>
+                        <div class="comment">感動したよ〜💖💖💖</div>
+                        <div class="comment">Heloooooo😃</div>
+                        <div class="comment">ありえない、、😭</div>
+                        <div class="comment">このケーキ本当に美味しかった😋</div>
+                        <div class="comment">"为什么会这样呢？</div>
+                        <div class="comment">ダンスフロアで踊れる曲ね🎶</div>
+                        <div class="comment">真恭喜你！</div>
+                        <div class="comment">Veuillez me dire le film recommandé!</div>
+                        <div class="comment">こんにちわ😃</div>
+                        <div class="comment">De Verdad? Me sorprendió❗️</div>
+                        <div class="comment">Hello, talkn🙂</div>
+                        <div class="comment">President's hairstyle is VR</div>
+                        <div class="comment">.. US-China trade friction</div>
+                        <div class="comment">オリンピック金メダルきた〜🏅</div>
+                        <div class="comment">My wife is angry and doesn't talk..</div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section class="image_portal">
             <div class="block">
                 <h2>
-                    導入イメージ2<br />
-                    <small>- 各種ポータルサイト -</small>
+                    'LIVE状態'って？②
                 </h2>
+                <h3>
+                    どのURL(コンテンツ)を何人が見ているかを「リアルタイム・ランキング化」し、<br />
+                    気持ちが動いた瞬間にURL(コンテンツ)に「歓声」を投稿出来る状態。
+                </h3>
                 <div class="content">
                     <div id="talknEmbed2" class="talknEmbed"></div>
                 </div>
                 <div class="demonstration">
-                    <h3>デモンストレーション</h3>
+                    <h4>デモンストレーション</h4>
                     <div class="run_control">
-                        <div class="auto_run" onclick="onClickAutoRun()">AUTO RUN</div>
+                        <div class="auto_run" onclick="onClickAutoRun()">RUN LIVE</div>
                         <div class="stop" onclick="onClickStop()">STOP</div>
                     </div>
-                    <h3>アクション</h3>
+                    <h4>アクション</h4>
                     <div class="tune_control">
                         <div class="tune" onclick="onClickTune()">tune</div>
                         <div class="untune" onclick="onClickUnTune()">untune</div>
@@ -1059,7 +1212,7 @@
                         <div class="selectCh">/own.<%= domain %>/</div>
                     </div>
 
-                    <h3>チャネル一覧</h3>
+                    <h4>チャネル一覧</h4>
                     <ul class="country_demo">
                         <li class="top active" onclick="onClickCountry('top')">
                             <span class="lang">TOPページ</span>
@@ -1073,15 +1226,18 @@
                     </ul>
                 </div>
                 <div class="copy_ext">
-                    <div class="exe_copy">COPY</div>
-                    <input type="text" value="<script src='//<%= extURL %>' async type='text/javascript'></script>" onfocus="this.select();" />
+                    <div class="title">○headタグ内に挿入して下さい。</div>
+                    <div class="copy_wrap">
+                        <div class="exe_copy">COPY</div>
+                        <input type="text" value="<script src='//<%= extURL %>' async type='text/javascript'></script>" onmouseover="this.select();" onmouseleave="this.blur();" onfocus="this.select();" />
+                    </div>
                 </div>
             </div>
         </section>
         <section class="image_media">
             <div class="block">
                 <h2>
-                    導入イメージ3<br />
+                    導入イメージ2<br />
                     <small>- 動画・音楽配信サイト -</small>
                 </h2>
                 <div class="left">
@@ -1121,68 +1277,202 @@
                     <div id="talknEmbed3" class="talknEmbed"></div>
                 </div>
                 <div class="copy_ext">
-                    <div class="exe_copy">COPY</div>
-                    <input type="text" value="<script src='//<%= extURL %>' async type='text/javascript'></script>" onfocus="this.select();" />
+                    <div class="title">○headタグ内に挿入して下さい。</div>
+                    <div class="copy_wrap">
+                        <div class="exe_copy">COPY</div>
+                        <input type="text" value="<script src='//<%= extURL %>' async type='text/javascript'></script>" onmouseover="this.select();" onmouseleave="this.blur();" onfocus="this.select();" />
+                    </div>
                 </div>
             </div>
         </section>
-        <section class="image_other">
+
+        <section class="image_banner">
             <div class="block">
                 <h2>
-                    導入イメージ4
+                    導入イメージ3
+                    <small>- バナー設置 -</small>
                 </h2>
-                <div class="api">
-                    <p>- API -</p>
-                    <div class="symble"></div>
+                <div class="user_url_wrap">
+                    <input class="user_url" placeholder="あなたのWEBサイトのURL" type="text" onkeypress="onChangeUserUrl()" onkeyup="onChangeUserUrl()" onchange="onChangeUserUrl()" />
+                </div>
+                <div class="normal">
+                    <p>- 通常バナー -</p>
                     <span class="desc">
-                        あなたのWEBサイトのLIVE数ランキングを取得したり、歓声(コメント)の取得・投稿等をすることが出来ます。
-                        <div class="detail">詳細はこちら→</div>
+                        talknポータルへの入り口です。リンク先であなたのWEBサイトの歓声(コメント)の投稿・閲覧が出来ます。
                     </span>
-                    <div class="copy_ext">
-                        <div class="exe_copy">COPY</div>
-                        <input type="text" value="<script src='//<%= apiAccessURL %>' async type='text/javascript'></script>" onfocus="this.select();" />
+                    <a href="//<%= domain %>/"><img src="https://<%= assetsURL %>/img/logo.png" /></a>
+                    <div class="howto">
+                        <textarea class="copy_user_url" onmouseover="this.select();" onmouseleave="this.blur();" onfocus="this.select();"><a href='//<%= domain %>/' /><img src='//<%= assetsURL %>/img/logo.png' alt='talkn' /></a></textarea>
+                        <div class="suport">上記のコードをbodyタグ内のバナー表示させたい箇所に挿入して下さい。</div>
                     </div>
                 </div>
-                <div class="banner">
-                    <p>- バナー -</p>
-                    <div class="symble"></div>
-                    <div class="desc">
-                        あなたのWEBサイトのLIEV数の表示＆リンク先での歓声(コメント)の投稿・閲覧が出来ます。
 
+                <div class="live">
+                    <p>- LIVEバナー -</p>
+                    <div class="desc">
+                        あなたのWEBサイトのLIVE数の表示＆リンク先で歓声(コメント)の投稿・閲覧が出来ます。
                     </div>
-                    <div class="copy_ext">
-                        <div class="exe_copy">COPY</div>
-                        <input class="copy_banner" type="text" onfocus="this.select();" value="<script src='//<%= bannerURL %>' async type='text/javascript'></script>" />
+
+                    <div data-href="https://own.<%= domain %>" class="talkn_banner"></div>
+                    <div class="howto">
+                        <input type="text" onmouseover="this.select();" onmouseleave="this.blur();" onfocus="this.select();" value="<script src='//<%= bannerURL %>' async type='text/javascript'></script>" />
+                        <div class="suport">上記のコードをheadタグ内に挿入して下さい。</div>
+                        <textarea class="copy_user_url" wrap="soft" rows="3" type="text" onmouseover="this.select();" onmouseleave="this.blur();" onfocus="this.select();" ><div data-href='https://own.<%= domain %>' class='talkn_banner'></div></textarea>
+                        <div class="suport">上記のコードをbodyタグ内のバナー表示させたい箇所に挿入して下さい。</div>
                     </div>
-                    <div class="copy_ext">
-                        <div class="exe_copy">COPY</div>
-                        <input class="copy_user_url" type="text" onfocus="this.select();" value="<a href='//<%= domain %>'><img src='//<%= assetsURL %>/img/logo.png' /></a>" />
-                    </div>
-                    <div class="talkn_banner" data-href="https://own.<%= domain %>"></div>
-                    <input class="user_url" type="text" onkeypress="onChangeUserUrl()" onkeyup="onChangeUserUrl()" onchange="onChangeUserUrl()" placeholder="あなたのWEBサイトのURL" />
                 </div>
             </div>
         </section>
 
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+        <section class="image_api">
+            <h2>
+                導入イメージ4
+                <small>- API -</small>
+            </h2>
+            <div class="block">
+                <span class="desc">
+                    <div class="symble"></div>
+                    <p>あなたのWEBサイトのLIVE数やLIVE数ランキングを取得したり、歓声(コメント)の取得・投稿等をすることが出来ます。また設置済みのコメント投稿機能に紐つけることでtalknにも同時投稿することが出来ます。</p>
+                    <div class="copy_ext">
+                        <div class="title">○headタグ内に挿入</div>
+                        <div class="copy_wrap">
+                            <div class="exe_copy">COPY</div>
+                            <input type="text" value="<script src='//<%= apiAccessURL %>' async type='text/javascript'></script>" onmouseover="this.select();" onmouseleave="this.blur();" onfocus="this.select();" />
+                        </div>
+                    </div>
+                </span>
+                <div class="usage">
+                    <div class="title">- USAGE -</div>
+                    <div class="code">
+                        // ch決定
+                        <br />
+                        const ch = url or favorit word;
+                        <br /><br />
+                        // chチューニング
+                        talknAPI.tune(ch, callback);
+                        <br /><br />
+                        // 歓声(コメント)取得
+                        talknAPI.fetchPost();
+                        <br /><br />
+                        // 歓声(コメント)投稿
+                        talknAPI.post("Hello talkn😃");
+                        <br /><br />
+                    </div>
+                    <a>詳細はこちら → </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="future">
+            <h2>
+                未来
+                <small>- Update the internet for creaters -</small>
+            </h2>
+            <div class="block">
+                    <dl>
+                        <dt>○中期</dt>
+                        <dd>・スマホアプリのリリース</dd>
+                        <dd>・管理機能のリリース</dd>
+                        <dd>・コメント・ポータルにカテゴリ検索リリース</dd>
+                        <dd>・広告配信機能リリース</dd>
+                    </dl>
+                    <dl>
+                        <dt>○長期(ビジョン)</dt>
+                        <dd>・CHAT、BLOG、SNSに続く新しいWEBメディアに。</dd>
+                        <dd>・世界中のコメント機能をtalknにする</dd>
+                        <dd>・世界中のWEBサイトをLIVE・感情検索出来るようにする</dd>
+                        <dd>・手数料0の投げ銭(talk to token)</dd>
+                    </dl>
+                    <dl>
+                        <dt>○完成系</dt>  
+                        <dd>・Dapps化、分散型の運用に移行</dd>
+                    </dl>
+            </div>
+        </section>
+
+        <section class="five">
+            <div class="title">
+                <%= fiveCompanyKey %>
+                <div class="under-bar"></div>
+            </div>
+            <table class="company">
+                <tbody>
+                    <tr>
+                        <th><%= fiveCompanyNameKey %></th>
+                        <td><%= fiveCompanyNameValue %></td>
+                    </tr>
+                    <tr>
+                        <th><%= fiveCompanyFoundedKey %></th>
+                        <td><%= fiveCompanyFoundedValue %></td>
+                    </tr>
+                    <tr>
+                        <th><%= fiveCompanyRepresentativeKey %></th>
+                        <td>
+                            <%= fiveCompanyRepresentativeValue %>
+                            <a href="https://twitter.com/messages/compose?recipient_id=mirazle&ref_src=twsrc%5Etfw" class="twitter-dm-button" data-size="large"
+                                data-screen-name="mirazle" data-show-count="false">
+                                <img class="twitter" src="https://<%= assetsURL %>/img/twitter.png" />
+                            </a>
+                            <a href="https://www.facebook.com/hiroyuki.miyazaki.5070">
+                                <img class="facebook" src="https://<%= assetsURL %>/img/facebook.png" />
+                            </a>
+                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><%= fiveCompanyPolicyKey %></th>
+                        <td><%= fiveCompanyPolicyValue %></td>
+                    </tr>
+                </tbody>
+            </table>
+        
+            <br />
+            <div class="title">
+                <%= fiveContactKey %>
+                <div class="under-bar"></div>
+            </div>
+        
+            <div class="contact">
+                <form method="POST" action="/mail">
+                    <div class="oneline">
+                        <input class="grow" name="inquiry[name]" placeholder="<%= fiveContactNameKey %>" type="text" maxlength=50 size=20　 />
+                        <input class="grow" name="inquiry[mail]" placeholder="<%= fiveContactMailKey %>" maxlength=50 type="text" size=20　 />
+                    </div>
+                    <div class="oneline">
+                        <input name="inquiry[title]" placeholder="<%= fiveContactTitleKey %>" type="text" maxlength=50 size=20 />
+                    </div>
+                    <div class="oneline">
+                        <textarea name="inquiry[content]" placeholder="<%= fiveContactContentKey %>" type="text" maxlength=800 size=20></textarea>
+                    </div>
+                    <div class="oneline">
+                        <input type="hidden" value="<%=language %>" />
+                        <input type="submit" value=" <%=fiveContactSendKey %> " />
+                    </div>
+                </form>
+            </div>
+        </section>
+
+
+        <footer>
+            <div class="toTop" onclick="onClickToTop()">
+                <div class="arrow"></div>
+            </div>
+            <div class="sns">
+                <div class="twitter">
+                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-show-count="false">Tweet</a>
+                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                </div>
+                <div class="facebook">
+                    <div class="fb-share-button" data-href="https://www.talkn.io" data-layout="button_count" data-size="large">
+                        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.talkn.io%2F&amp;src=sdkpreparse"
+                            class="fb-xfbml-parse-ignore">
+                            Share
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div>Copyright © talkn, Inc.</div>
+        </footer>
     </div>
 </body>
 

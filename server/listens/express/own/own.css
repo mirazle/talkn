@@ -35,6 +35,22 @@ body {
   letter-spacing: 0.03rem;
   font-weight: 200;
 }
+a {
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.9);
+}
+a:link {
+  color: rgba(255, 255, 255, 0.9);
+}
+a:visited {
+  color: rgba(255, 255, 255, 0.9);
+}
+a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+a:active {
+  color: rgba(255, 255, 255, 0.9);
+}
 .fixBackground {
   position: fixed;
   top: 0;
@@ -62,7 +78,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   flex-wrap: wrap;
   margin: 0;
   width: auto;
@@ -264,6 +279,7 @@ h2 {
 }
 
 h2 small {
+  display: block;
   font-size: 1.5rem;
 }
 .under {
@@ -280,16 +296,34 @@ h2 small {
 }
 .copy_ext {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 100% 1 100;
-  margin: 50px 0 20px 0;
-  max-height: 80px;
+  flex-flow: row wrap;
+  margin: 20px 0;
+  max-height: 140px;
+  min-height: 140px;
+  height: 140px;
   width: 100%;
   font-size: 20px;
 }
-.copy_ext:hover .exe_copy {
-  background: rgba(79, 174, 159, 0.6);
+.copy_ext .title,
+.copy_ext .copy_wrap {
+  flex: 100% 1 100;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
-.copy_ext:hover input {
+.copy_ext .copy_wrap {
+  max-height: 80px;
+  min-height: 80px;
+  height: 80px;
+}
+.copy_ext .title {
+  padding: 10px 20px;
+}
+.copy_ext .copy_wrap:hover .exe_copy {
+  background: rgba(79, 174, 159, 0.6);
 }
 .copy_ext .exe_copy {
   flex: 25% 1 25;
@@ -297,30 +331,46 @@ h2 small {
   justify-content: center;
   align-items: center;
   border-radius: 100px 0 0 100px;
-  border: 1px solid rgba(155, 155, 155, 0.6);
+  border-top: 1px solid rgba(155, 155, 155, 0.6);
+  border-right: 0;
+  border-bottom: 1px solid rgba(155, 155, 155, 0.6);
+  border-left: 1px solid rgba(155, 155, 155, 0.6);
   padding: 20px 0;
   background: rgba(155, 155, 155, 0.4);
+  height: 100%;
   color: #fff;
   font-weight: 300;
-  transition: 300ms;
 }
-.copy_ext input {
+.copy_ext input,
+.copy_ext textarea {
   overflow-y: scroll;
   box-sizing: border-box;
   flex: calc(75% - 40px) 1 75;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
   border-radius: 0 100px 100px 0;
   border: 1px solid rgba(155, 155, 155, 0.6);
   padding: 20px;
-  height: 80px;
+  height: 100%;
   background: rgba(0, 0, 0, 0.4);
   color: #fff;
   font-size: 20px;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
   outline: 0;
 }
+
+textarea.copy_user_url {
+  border: 0;
+  border-radius: 10px;
+  outline: 0;
+  width: 100%;
+  height: 200px;
+  resize: none;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  box-sizing: border-box;
+  padding: 30px;
+  font-size: 20px;
+}
+
 section.intro {
   padding: 200px 0;
   width: 100%;
@@ -438,82 +488,98 @@ section.for_owner .block {
 }
 section.for_owner h2 {
   flex: 100% 1 100;
-  margin: 60px 0 120px;
+  margin-bottom: 30px;
   text-align: center;
 }
-section.for_owner .merit {
-  flex: 33.3% 1 33.3;
+section.for_owner .slide {
   display: flex;
-  flex-flow: column nowrap;
+  scroll-snap-type: x mandatory;
+  overflow-x: scroll;
+  width: 1000px;
+}
+section.for_owner .old,
+section.for_owner .new,
+section.for_owner .pic {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  width: 280px;
-  height: 280px;
-  max-width: 280px;
-  max-height: 280px;
-  margin: 0 auto;
-  padding: 1rem;
-  border-radius: 140px;
-  box-sizing: border-box;
+  flex-flow: row wrap;
+  flex: 100% 1 100;
+  border-radius: 15px;
+  margin: 50px;
+  padding: 50px;
+  width: 1000px;
+  min-width: 1000px;
+  max-width: 1000px;
+  background: rgba(0, 0, 0, 0.2);
+  scroll-snap-align: start;
 }
-section.for_owner .merit .num {
-  margin-top: 1rem;
-  font-size: 2.5rem;
-  font-weight: 100;
+section.for_owner .message {
+  flex: 100% 1 100;
+  margin-top: 50px;
+  font-size: 24px;
 }
-section.for_owner .merit .hr {
-  height: 1px;
-  background: white;
-  width: 60%;
-  margin: 1.1rem auto;
+section.for_owner .graph {
+  flex: 65% 1 65;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 23px;
+  line-height: 80px;
 }
-section.for_owner .merit.one {
-  background: rgba(50, 50, 170, 0.6);
+section.for_owner .graph .outer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column wrap;
+  border-radius: 200px;
+  width: 400px;
+  height: 400px;
+  background: rgba(200, 90, 200, 0.6);
 }
-section.for_owner .merit.two {
-  background: rgba(159, 79, 174, 0.6);
+section.for_owner .graph .analytics {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column wrap;
+  border-radius: 150px;
+  width: 300px;
+  height: 300px;
+  background: rgba(0, 100, 200, 0.6);
 }
-section.for_owner .merit.three {
+section.for_owner .graph .inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column wrap;
+  border-radius: 100px;
+  width: 200px;
+  height: 200px;
   background: rgba(79, 174, 159, 0.6);
 }
-section.for_owner p {
+section.for_owner .desc {
+  flex: 35% 1 35;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  padding: 0;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size: 23px;
+}
+section.for_owner .desc {
+  border-radius: 15px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+}
+section.for_owner .new dd {
+  padding-left: 23px;
+  text-indent: -23px;
+}
+section.for_owner .pic .service_image {
+  border-radius: 15px;
   width: 100%;
-  height: 45%;
-  font-size: 27px;
-  text-align: center;
-}
-section.for_owner .conclusion {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100px;
-  padding: 50px;
-  width: 85%;
-  height: 100%;
-  font-size: 30px;
-  text-align: center;
-  background: rgba(200, 100, 0, 0.6);
-}
-section.for_owner .conclusion .colon {
-  display: inline-block;
-}
-section.for_owner .conclusion .hr {
-  display: none;
-}
-section.for_owner .arrowWrap {
-  flex: 100% 1 100;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 60px 0;
-}
-section.for_owner .arrow {
-  font-size: 35px;
-  color: rgba(255, 255, 255, 0.4);
+  height: 500px;
+  background: rgba(0, 0, 0, 0.2) url("service_image.png") 50% / 90% no-repeat;
 }
 .ribonWrap {
   display: flex;
@@ -552,10 +618,12 @@ section.two .bar1 {
   max-height: 300px;
   background: rgba(0, 0, 140, 0.5);
 }
+section.image_content,
 section.image_portal {
   width: 100%;
   background: rgba(0, 0, 0, 0.6);
 }
+section.image_content .block,
 section.image_portal .block {
   display: flex;
   flex-flow: row wrap;
@@ -565,14 +633,31 @@ section.image_portal .block {
   width: 100%;
   height: 100%;
 }
+section.image_content h2,
 section.image_portal h2 {
   flex: 100% 1 100;
   margin: 80px 0 20px 0;
+  line-height: 70px;
   text-align: center;
 }
+section.image_content h3,
 section.image_portal h3 {
+  display: block;
+  margin: 0;
+  padding: 0;
+  line-height: 50px;
+  margin: 25px 0 50px;
+  width: 100%;
+  font-size: 1.5rem;
+  font-weight: 200;
+  line-height: 60px;
   text-align: center;
-  margin: 25px 0;
+}
+section.image_portal h4 {
+  width: 100%;
+  font-size: 1.2rem;
+  font-weight: 300;
+  text-align: center;
 }
 section.image_portal .content {
   display: flex;
@@ -728,6 +813,93 @@ section.image_portal .demonstration .untune.active {
 section.image_portal .demonstration .post.active {
   background: rgba(79, 174, 159, 0.6);
 }
+section.image_content {
+  flex-flow: column wrap;
+}
+section.image_content .block {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0;
+  max-width: 1000px;
+  width: 100%;
+}
+
+section.image_content .old,
+section.image_content .new {
+  flex: calc(50% - 60px) 1 50;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: flex-start;
+  border-radius: 15px;
+  margin: 30px;
+  padding: 30px;
+  height: 520px;
+  background: rgba(80, 80, 80, 0.4);
+  font-size: 1.5em;
+  text-align: center;
+  line-height: 40px;
+}
+section.image_content p {
+  line-height: 50px;
+  letter-spacing: 5px;
+}
+section.image_content .circle {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 150px;
+  background: rgba(79, 174, 159, 0.6);
+  width: 280px;
+  max-width: 280px;
+  height: 280px;
+  max-height: 280px;
+}
+section.image_content p {
+  flex: 100% 1 100;
+  font-size: 2rem;
+}
+section.image_content .emotion {
+  width: 100px;
+  background: url("emotion.png") 0% / 100px no-repeat;
+}
+section.image_content .comments {
+  position: relative;
+  top: -200px;
+  left: 350px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 350px;
+  scroll-snap-type: y mandatory;
+  overflow-x: scroll;
+  /*  scroll-behavior: smooth;*/
+  transform: rotate(15deg) skew(0deg, 1deg);
+}
+section.image_content .comment {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-radius: 5px;
+  padding: 10px 20px 10px 60px;
+  margin: 10px;
+  width: auto;
+  background: rgba(255, 255, 255, 0.8) url("https://assets.localhost/icon/https:__assets.localhost_favicon.ico.png")
+    15px / 32px no-repeat;
+  font-size: 20px;
+  color: #666;
+  text-align: left;
+  transition: 300ms;
+  /*  scroll-snap-align: start;*/
+}
+section.image_content .comment:hover {
+  transform: scale(1.05);
+}
 
 section.image_media {
   width: 100%;
@@ -828,47 +1000,54 @@ section.image_media nav.pagination span {
 section.image_media nav.pagination span:hover {
   transform: scale(1.4);
 }
-
-section.image_other {
+section.image_banner {
   width: 100%;
   background: rgba(0, 0, 0, 0.6);
 }
-section.image_other h2 {
+section.image_banner h2 {
   flex: 100% 1 100;
   margin: 80px 0 20px 0;
   text-align: center;
 }
-section.image_other .block {
+section.image_banner .user_url_wrap {
+  display: flex;
+  flex: 100% 1 100;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 60px;
+}
+section.image_banner .block {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  align-items: flex-start;
+  align-items: stretch;
   max-width: 1200px;
   width: 100%;
   height: 100%;
 }
-section.image_other p {
+section.image_banner p {
   font-size: 1.75rem;
   letter-spacing: 10px;
   margin: 0 0 50px 0;
   height: 45px;
 }
-section.image_other img {
+section.image_banner img {
   width: 64px;
   height: 64px;
 }
-section.image_other .desc {
+section.image_banner .desc {
   display: flex;
   flex-flow: row wrap;
-  height: 200px;
+  margin-bottom: 30px;
+  height: 140px;
   font-size: 1.4rem;
   letter-spacing: 5px;
   line-height: 35px;
 }
-section.image_other .desc .talkn_banner {
+section.image_banner .desc .talkn_banner {
   margin-top: 30px;
 }
-section.image_other .detail {
+section.image_banner .detail {
   display: block;
   margin-top: 32px;
   width: 100%;
@@ -876,58 +1055,431 @@ section.image_other .detail {
   text-align: right;
   letter-spacing: 5px;
 }
-section.image_other .api {
+section.image_banner .normal,
+section.image_banner .live {
   flex: 50% 1 50;
   display: flex;
-  flex-flow: column wrap;
-  justify-content: flex-start;
-  align-items: center;
-  border-radius: 15px 0 0 15px;
-  margin: 0 0 150px 0;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: flex-start;
   padding: 50px;
-  height: 1100px;
-  background: rgba(200, 100, 0, 0.6);
+  width: initial;
+  height: initial;
+  font-size: 1.4rem;
 }
-section.image_other .api .symble {
-  width: 180px;
-  height: 180px;
-  margin-bottom: 50px;
-  background: url("api.png") 50% / 180px no-repeat;
-}
-section.image_other .banner {
-  flex: 50% 1 50;
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 0 0 150px 0;
-  padding: 50px;
-  height: 1100px;
+section.image_banner .normal {
   background: rgba(0, 100, 200, 0.6);
+  border-radius: 15px 0 0 15px;
 }
-section.image_other .banner .symble {
-  width: 180px;
-  height: 180px;
-  margin-bottom: 50px;
-  background: url("talk.png") 50% / 180px no-repeat;
+section.image_banner .live {
+  background: rgba(200, 100, 0, 0.6);
+  border-radius: 0 15px 15px 0;
 }
-section.image_other .banner input.user_url {
-  flex: 1;
+section.image_banner .normal a {
+  flex: 25% 1 25;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 70px auto;
+  height: 100%;
+}
+section.image_banner .suport {
+  margin: 10px;
+  font-size: 1rem;
+}
+section.image_banner .normal .howto {
+  flex: 75% 1 75;
+}
+section.image_banner input.user_url {
   border: 3px solid rgba(255, 255, 255, 0.6);
   border-radius: 50px;
-  margin: 30px 10px;
-  width: 100%;
+  width: 50%;
   height: 50px;
-  background: rgba(255, 255, 255, 0);
+  background: rgba(0, 0, 0, 0.5);
   font-size: 1.3rem;
   font-weight: 100;
   text-indent: 30px;
   color: rgba(240, 240, 240, 1);
   outline: none;
 }
-section.image_other .banner input.user_url::placeholder {
+section.image_banner input.user_url::placeholder {
   color: rgba(240, 240, 240, 1);
 }
+section.image_banner .make {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+  margin: 20px 0;
+  height: 80px;
+  width: 100%;
+}
+section.image_banner .inbody {
+  min-height: 200px;
+  max-height: 200px;
+  height: 200px;
+}
+section.image_banner .live .talkn_banner {
+  flex: 25% 1 25;
+  margin: 70px auto;
+}
+section.image_banner .live .howto {
+  flex: 75% 1 75;
+}
+section.image_banner .live input {
+  overflow-y: scroll;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 0;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-size: 20px;
+  letter-spacing: 1px;
+  outline: 0;
+}
+section.image_banner .inbody .exe_copy,
+section.image_banner .inbody .copy_wrap,
+section.image_banner .inbody textarea {
+  min-height: 150px;
+  max-height: 150px;
+  height: 150px;
+}
+section.image_api {
+  padding-bottom: 100px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+section.image_api h2 {
+  flex: 100% 1 100;
+  margin: 80px 0 20px 0;
+  text-align: center;
+}
+
+section.image_api .block {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: flex-start;
+  border-radius: 15px;
+  padding: 50px;
+  max-width: 1200px;
+  background: rgba(200, 90, 200, 0.6);
+  font-size: 1.4rem;
+}
+section.image_api .desc {
+  flex: 50% 1 50;
+}
+section.image_api .desc .symble {
+  margin: 0 auto 50px;
+  width: 160px;
+  height: 160px;
+  background: url(api.png) 50% / 100% no-repeat;
+}
+section.image_api .desc p {
+  margin: 80px 20px 40px;
+}
+section.image_api .usage {
+  flex: 50% 1 50;
+  display: flex;
+  flex-flow: row wrap;
+}
+section.image_api .usage .title {
+  margin: 0 auto;
+  font-weight: 400;
+}
+section.image_api .usage .code {
+  overflow-y: scroll;
+  border-radius: 15px;
+  margin: 50px;
+  padding: 50px;
+  width: 100%;
+  height: 510px;
+  background: rgba(0, 0, 0, 0.3);
+  font-weight: 300;
+}
+section.image_api .usage a {
+  width: 100%;
+  text-align: right;
+}
+
+section.future {
+  padding-bottom: 300px;
+  width: 100%;
+  background: rgba(79, 174, 159, 0.94) url("https://assets.talkn.io/img/logo3.png") 100% 100% / 512px no-repeat;
+}
+section.future h2 {
+  flex: 100% 1 100;
+  margin: 80px 0 20px 0;
+  text-align: center;
+}
+
+section.future .block {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: flex-start;
+  border-radius: 15px;
+  padding: 50px;
+  max-width: 1200px;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 1.4rem;
+}
+section.future dl {
+  margin-bottom: 20px;
+}
+section.future dt {
+  margin-bottom: 20px;
+}
+section.future dd {
+  margin: 5px 0;
+}
+
+section.five {
+  padding: 100px 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+}
+section.five .company {
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  color: rgb(70, 70, 70);
+}
+section.five .company th {
+  width: 110px;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.1);
+  text-align: left;
+  text-indent: 10px;
+  font-size: 12px;
+}
+section.five .company td {
+  padding: 5px 10px 5px 10px;
+  background: rgba(0, 0, 0, 0.04);
+  text-align: left;
+  font-size: 12px;
+}
+section.five .company img {
+  position: relative;
+  top: 3px;
+  width: 16px;
+}
+section.five .contact {
+  width: 100%;
+  max-width: 600px;
+}
+section.five .contact form {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+section.five .contact .oneline {
+  display: flex;
+  width: 100%;
+}
+section.five .contact .oneline .grow {
+  flex-grow: 1;
+}
+section.five .contact input,
+section.five .contact textarea {
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 1px;
+  height: 35px;
+  padding: 5px 20px 5px 20px;
+  width: 100%;
+  text-indent: 5px;
+  outline: 0;
+  box-shadow: none;
+  transition: 300ms;
+}
+section.five .contact input:hover,
+section.five .contact textarea:hover {
+  background: rgba(100, 100, 100, 0.1);
+}
+section.five .contact [type="submit"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto 0px auto;
+  width: 30%;
+  height: 50px;
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 5px;
+  background: rgba(200, 200, 200, 0.5);
+  color: rgb(100, 100, 100);
+  transition: 300ms;
+}
+section.five .contact [type="submit"]:hover {
+  background: rgba(79, 174, 159, 1);
+  color: rgb(255, 255, 255);
+}
+section.five ::placeholder {
+  text-indent: 5px;
+}
+section.five .contact textarea {
+  text-indent: 0px;
+  min-height: 100px;
+  min-width: 100%;
+  resize: none;
+}
+section.five .company {
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  color: rgb(70, 70, 70);
+}
+section.five .company th {
+  width: 110px;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.1);
+  text-align: left;
+  text-indent: 10px;
+  font-size: 12px;
+}
+section.five .company td {
+  padding: 5px 10px 5px 10px;
+  background: rgba(0, 0, 0, 0.04);
+  text-align: left;
+  font-size: 12px;
+}
+section.five .company img {
+  position: relative;
+  top: 3px;
+  width: 16px;
+}
+section.five .contact {
+  width: 100%;
+  max-width: 600px;
+}
+section.five .contact form {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+section.five .contact .oneline {
+  display: flex;
+  width: 100%;
+}
+section.five .contact .oneline .grow {
+  flex-grow: 1;
+}
+section.five .contact input,
+section.five .contact textarea {
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 1px;
+  height: 35px;
+  padding: 5px 20px 5px 20px;
+  width: 100%;
+  text-indent: 5px;
+  outline: 0;
+  box-shadow: none;
+  transition: 300ms;
+}
+section.five .contact input:hover,
+section.five .contact textarea:hover {
+  background: rgba(100, 100, 100, 0.1);
+}
+section.five .contact [type="submit"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto 0px auto;
+  width: 30%;
+  height: 50px;
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 5px;
+  background: rgba(200, 200, 200, 0.5);
+  color: rgb(100, 100, 100);
+  transition: 300ms;
+}
+section.five .contact [type="submit"]:hover {
+  background: rgba(79, 174, 159, 1);
+  color: rgb(255, 255, 255);
+}
+section.five ::placeholder {
+  text-indent: 5px;
+}
+section.five .contact textarea {
+  text-indent: 0px;
+  min-height: 100px;
+  min-width: 100%;
+  resize: none;
+}
+section.five .title {
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: rgba(80, 80, 80, 1);
+}
+footer {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  width: 100%;
+  height: 300px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 0px 0px 100px 0px;
+  font-size: 13px;
+}
+footer .sns .fb-share-button {
+  position: relative;
+  top: -3px;
+}
+footer .sns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+footer .sns .twitter,
+footer .sns .facebook {
+  margin: 20px;
+}
+.toTop {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 54px;
+  height: 54px;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  color: rgb(255, 255, 255);
+  transition: 300ms;
+  cursor: pointer;
+  z-index: 1;
+}
+.toTop:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+.toTop .arrow {
+  width: 0px;
+  height: 0px;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid rgba(255, 255, 255, 0.4);
+  border-left: 10px solid transparent;
+  transition: 300ms;
+}
+.toTop:hover .arrow {
+  border-bottom: 10px solid rgba(0, 0, 0, 0.2);
+}
+
 @media screen and (max-width: 1060px) {
   h2 {
     font-size: 40px;
