@@ -903,8 +903,8 @@ section.image_content .comment {
   padding: 10px 20px 10px 60px;
   margin: 10px;
   width: auto;
-  background: rgba(255, 255, 255, 0.8) url("https://assets.localhost/icon/https:__assets.localhost_favicon.ico.png")
-    15px / 32px no-repeat;
+  background: rgba(255, 255, 255, 0.8) url("https://assets.talkn.io/icon/https:__assets.localhost_favicon.ico.png") 15px /
+    32px no-repeat;
   font-size: 20px;
   color: #666;
   text-align: left;
