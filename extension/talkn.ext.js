@@ -411,7 +411,7 @@ class Ext {
         return Ext.USER_DEFINE_MODE_MODAL;
       }
       if ("EXT_" + options.mode === Ext.USER_DEFINE_MODE_EMBED && options.selector) {
-        embedTags = window.top.document.querySelector(options.selector);
+        embedTags = window.document.querySelector(options.selector);
         if (embedTags) {
           Object.keys(options).forEach((key) => {
             if (key !== "mode") {
@@ -454,7 +454,7 @@ class Ext {
       type: "EXT_TO_API_TYPE",
       method: method,
       params: params,
-      href: window.top.location.href,
+      href: window.location.href,
     };
   }
   static throw(message, warns = []) {
@@ -556,7 +556,8 @@ class Window extends ReactMode {
     return "talknNotifIdKey";
   }
   static get selectTop() {
-    return window.top;
+    return window;
+//    return window.top;
   }
   static get selectDoc() {
     return Window.selectTop.document;
@@ -655,7 +656,7 @@ class Window extends ReactMode {
           this.embedIframeTags.forEach((embedtag, i) => {
             const index = i + 1;
             embedtag.id = embedtag.id ? embedtag.id : `${Ext.APP_NAME}${Iframe.MODE_EMBED}${index}`;
-            let href = embedtag.getAttribute("ch") ? embedtag.getAttribute("ch") : window.top.location.href;
+            let href = embedtag.getAttribute("ch") ? embedtag.getAttribute("ch") : window.location.href;
             href = href ? href : Window.selectTop.location.href;
             const bootOption = new BootOption(embedtag.id, href);
             const embedIframe = new IframeEmbed(this, embedtag, bootOption);
@@ -1110,7 +1111,7 @@ class Iframe extends ReactMode {
       type: Iframe.EXT_TO_CLIENT_TYPE,
       method,
       params,
-      href: window.top.location.href,
+      href: window.location.href,
       methodBack,
     };
   }
@@ -1121,7 +1122,7 @@ class Iframe extends ReactMode {
       type: Iframe.MEDIA_TO_CLIENT_TYPE,
       method,
       params,
-      href: window.top.location.href,
+      href: window.location.href,
       methodBack,
     };
   }
@@ -1536,7 +1537,7 @@ class IframeEmbed extends Iframe {
     return `.${Ext.APP_NAME}${Iframe.MODE_EMBED}`;
   }
   static getAll() {
-    return window.top.document.querySelectorAll(IframeEmbed.className);
+    return window.document.querySelectorAll(IframeEmbed.className);
   }
   get acceptPostMessages() {
     return [
@@ -1863,7 +1864,7 @@ class LiveCnt extends ReactMode {
     this.dom.style =
       "" +
       `position: fixed !important;` +
-      `bottom: 15px !important;` +
+      `bottom: 50px !important;` +
       `right: 5px !important;` +
       `display: flex !important;` +
       `align-items: center !important;` +

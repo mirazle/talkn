@@ -445,6 +445,7 @@
     <link rel="stylesheet" href="own.css">
     <link rel="shortcut icon" href="<%= favicon %>">
 
+    <script type="text/javascript" src="https://jerairrest.github.io/react-chartjs-2/js/bundle.js"></script>
     <script type="text/javascript" async src="//<%= apiAccessURL %>"></script>
     <script type="text/javascript" async src="//<%= bannerURL %>"></script>
     <script type="text/javascript" async src="//<%= extURL %>"></script>
@@ -471,6 +472,8 @@
         let intervalApiSecond = 1000;
         let intervalSelectChSecond = 3000;
         let commentsTag;
+        let imageLIveCntNumTag;
+        let imageContentLiveCntTag;
         const commentsTagWindowScrollHeight = 1500;
         const domain = "<%= domain  %>";
         const assetsURL = "<%= assetsURL  %>";
@@ -764,7 +767,7 @@
                 tuneIds[ ch ].push( id );
                 talknAPI.tune( { ch, id }, onClickTuneCallback );
 
-                // ui
+                // ui(.image_portal)
                 const tuneTag = document.querySelector( ".tune_control .tune" );
                 if ( tuneTag.className.indexOf( 'active' ) === -1 ) {
                     tuneTag.classList.add( "active" );
@@ -870,6 +873,8 @@
             onServiceWorker();
             const search = document.querySelector( ".search" );
             commentsTag = document.querySelector( ".comments" );
+            imageLiveCntNumTag = document.querySelector( ".image_live_cnt .live_cnt" );
+            imageContentLiveCntTag = document.querySelector( ".image_content .live .cnt" );
             const introPagination = document.querySelectorAll( ".intro nav.pagination span" );
             const mediaPagination = document.querySelectorAll( ".image_media nav.pagination span" );
             // search.addEventListener('keypress', onKeyPressSearch);
@@ -882,12 +887,10 @@
             setMenuColor();
             introPagination.forEach( page => page.addEventListener( 'click', ( e ) => {
                 const scrollLeft = Number( e.target.dataset.index ) === 1 ? 0 : 9999999;
-                console.log(scrollLeft);
                 document.querySelector( ".intro .slide" ).scrollLeft = scrollLeft;
             } ) );
             mediaPagination.forEach( page => page.addEventListener( 'click', ( e ) => {
                 const scrollLeft = Number( e.target.dataset.index ) === 1 ? 0 : 9999999;
-                console.log( scrollLeft );
                 document.querySelector( ".image_media .slide" ).scrollLeft = scrollLeft;
             } ) );
 
@@ -900,7 +903,84 @@
                     } );
                 }
             } );
+            const data = {
+                "labels": ["Excite","Happy","Joy","Relax","Slack","Melancholy","Anger","Worry&Fear"],
+                "datasets":[
+                    {
+                        "backgroundColor":"rgba(240, 100, 195, 0.2 )",
+                        "borderCapStyle":"square",
+                        "borderColor":"rgba(240, 100, 195, 0.8 )",
+                        "borderWidth":"4",
+                        "pointBackgroundColor":"rgba(240, 100, 195, 0.8 )",
+                        "pointBorderColor":"rgba(240, 100, 195, 0 )",
+                        "pointHoverBackgroundColor":"rgba(255, 255, 255, 0.8 )",
+                        "pointHoverBorderColor":"rgba(240, 100, 195, 0.8 )",
+                        "pointHoverBorderWidth":"4",
+                        "data":[0,2,1,0,0,4,0,0]
+                    }
+                ]
+            };
+
+            const options = {
+                "responsive":true,
+                "responsiveAnimationDuration":0,
+                chartArea: { backgroundColor: 'red' },
+                "elements":{
+                    "rectangle": {
+                        "backgroundColor":"rgba(79, 174, 159, 0.6)",
+                    },
+                    "arc":{
+                        "backgroundColor":"rgba(79, 174, 159, 0.6)",
+                    },
+                    "point":{
+                        "backgroundColor":"rgba(79, 174, 159, 0.6)",
+                        "borderAlign":"left",
+                        "borderColor":"rgba(79, 174, 159, 0.6)",
+                        "borderWidth":100
+                    },
+                    "line":{
+                        "tension":0.1,
+                        "backgroundColor":"rgba(79, 174, 159, 0.6)",
+                        "borderWidth":"10",
+                        "borderColor":"rgba(79, 174, 159, 0.6)",
+                        "borderCapStyle":"square",
+                        "borderDash":[]
+                    }
+                },
+                "legend":{
+                    "display":false
+                },
+                "tooltips":{
+                    "enabled":true,
+                    "intersect":true,
+                    "backgroundColor":"rgba(240, 100, 195, 0.7 )",
+                    "callbacks":{}
+                },
+                "scale":{
+                    "ticks":{
+                        "fontSize":16,
+                        "fontColor":"rgb(130, 130, 130)",
+                        "backdropColor":"rgba(255,255,255,0)",
+                        "beginAtZero":true,
+                        "max":5,
+                        "min":0,
+                        "stepSize":1
+                    },
+                    "pointLabels":{
+                        "fontSize":14,
+                        "fontColor":"rgb(130, 130, 130)"
+                    }
+                }
+            };
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            window.myChart = new Chart(ctx, {
+                type: 'radar',
+                data: data,
+                options: options
+            });
         });
+
         window.onscroll = ( e ) => {
             setNavStyles();
             if ( !isAnimateScrolling ) {
@@ -922,6 +1002,30 @@
                 if ( scrollTop >= commentsStartTop && scrollTop < ( commentsEndTop +  window.innerHeight) ) {
                     commentsScrollTop = Math.round(window.outerHeight * ( innerScrollRate * 0.01));
                     commentsTag.scrollTo({top: commentsScrollTop});
+
+                    if(imageContentLiveCntTag) {
+                        const updateLiveCntRate = Math.floor( Math.random() * 20 );
+                        if( updateLiveCntRate === 19){
+                            const liveCntIndex = Math.floor( Math.random() * 10 );
+                            const liveCntText = [319, 321, 334, 337, 338, 339, 340, 342, 343, 344];
+                            imageContentLiveCntTag.innerHTML = liveCntText[liveCntIndex];
+                        }
+                    }
+
+                    if(window.myChart) {
+                        const updateGraphRate = Math.floor( Math.random() * 20 );
+                        if( updateGraphRate === 19){
+                            const graphIndex = Math.floor( Math.random() * 8 );
+                            const graphPoint = Math.floor( Math.random() * 5 );
+                            window.myChart.config.data.datasets[0].data[graphIndex] = graphPoint;
+                            window.myChart.update();
+                        }
+                    }
+                }
+
+                if(imageLiveCntNumTag) {
+                    const iconLiveCnt = document.querySelector( ".talkn_banner_live_cnt" );
+                    imageLiveCntNumTag.innerHTML = iconLiveCnt.innerHTML;
                 }
             }
         };
@@ -1143,28 +1247,59 @@
             </div>
         </section>
 
-        <section class="image_content">
+        <section class="image_live_cnt">
             <div class="block">
                 <h2>
                     'LIVE状態'って？①
                 </h2>
                 <h3>
-                    現代の全URL(コンテンツ)は視聴者の感情やコメントを含んで成立しています。<br />
-                    その無意識の当たり前を「視える化」「常識」にした状態。
+                    あなたのWEBサイトのURLのLIVE数を表示します。<br />
+                    LIVE数とは「いまこの瞬間にこのURLを何人が見ているか」という<br />
+                    インターネット上の新指標です。
+                </h3>
+                <div class="live_cnt">
+                    235
+                </div>
+                <div class="airplain"></div>
+            </div>
+        </section>
+
+        <section class="image_content">
+            <div class="block">
+                <h2>
+                    'LIVE状態'って？②
+                </h2>
+                <h3>
+                    現代のコンテンツは視聴者の感情やコメントを含んで成立しています。<br />
+                    ユーザーは自分が見ているURLを「何人」が消費していて「どういう気持ちか」を見ながら<br />
+                    ログイン・レスでコミニュケーションが可能になります。
                 </h3>
                 <div class="old">
                     <p>- old -</p>
                     <div class="circle">
-                        1URL<br />
-                        (コンテンツ)
+                        URL(コンテンツ)<br />
+                        ・ニュース<br />
+                        ・音楽、動画<br />
+                        ・製品紹介<br />
                     </div>
                 </div>
                 <div class="new">
                     <p>- talkn -</p>
-                    <div class="circle">
-                        1URL<br />
-                        (コンテンツ)
+                    <div class="myChartWrap">
+                        <canvas id="myChart"></canvas>
+                        <div class="myChartBg"></div>
                     </div>
+                    <div class="live">
+                        <div class="label">LIVE</div>
+                        <div class="cnt">235</div>
+                    </div>
+                    <div class="circle">
+                        URL(コンテンツ)<br />
+                        ・ニュース<br />
+                        ・音楽、動画<br />
+                        ・製品紹介<br />
+                    </div>
+
                     <div class="comments">
                         <div class="comment">この曲好き！🎵</div>
                         <div class="comment">Did you see an Eastwood movie?</div>
@@ -1191,11 +1326,12 @@
         <section class="image_portal">
             <div class="block">
                 <h2>
-                    'LIVE状態'って？②
+                    'LIVE状態'って？③
                 </h2>
                 <h3>
-                    どのURL(コンテンツ)を何人が見ているかを「リアルタイム・ランキング化」し、<br />
-                    気持ちが動いた瞬間にURL(コンテンツ)に「歓声」を投稿出来る状態。
+                    導入サイト配下のLIVE数のランキングを表示します。<br />
+                    ランキング間をユーザーが移動し、歓声(コメント)を上げる姿は<br />
+                    まるで音楽フェスを開催しているかのようです。<br />
                 </h3>
                 <div class="content">
                     <div id="talknEmbed2" class="talknEmbed"></div>
@@ -1242,6 +1378,7 @@
                 <h2>
                     導入イメージ1<br />
                     <small>- ニュース配信サイト -</small>
+                    <iframe src="https://<%= newsURL %>" width="320" height="500" frameborder=0></iframe>
                 </h2>
             </div>
         </section>
@@ -1348,7 +1485,7 @@
             <div class="block">
                 <span class="desc">
                     <div class="symble"></div>
-                    <p>あなたのWEBサイトのLIVE数やLIVE数ランキングを取得したり、歓声(コメント)の取得・投稿等をすることが出来ます。また設置済みのコメント投稿機能に紐つけることでtalknにも同時投稿することが出来ます。</p>
+                    <p>あなたのWEBサイトのLIVE数やLIVE数ランキング、感情値を取得したり、歓声(コメント)の取得・投稿等をすることが出来ます。また設置済みのコメント投稿機能に紐つけることでtalknにも同時投稿することが出来ます。</p>
                     <div class="copy_ext">
                         <div class="title">○headタグ内に挿入</div>
                         <div class="copy_wrap">
