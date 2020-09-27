@@ -36,6 +36,5 @@
     "talkn.client.js",
     "talkn.api.js",
     "ws.api.worker.js"
-  ],
-  "permissions": ["storage"]
+  ]
 }
