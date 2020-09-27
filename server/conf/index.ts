@@ -28,6 +28,7 @@ conf.serverPortalPath = `${homeDir}/talkn/server/listens/express/portal/`;
 conf.serverClientPath = `${homeDir}/talkn/server/listens/express/client/talkn.client.js`;
 conf.serverApiPath = `${homeDir}/talkn/server/listens/express/api/`;
 conf.serverOwnPath = `${homeDir}/talkn/server/listens/express/own/`;
+conf.serverNewsPath = `${homeDir}/talkn/server/listens/express/news/`;
 conf.serverAssetsPath = `${homeDir}/talkn/server/listens/express/assets/`;
 conf.serverWwwPath = `${homeDir}/talkn/server/listens/express/www/`;
 conf.serverExtPath = `${homeDir}/talkn/server/listens/express/extension/`;

@@ -1,6 +1,5 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import { Radar } from "react-chartjs-2";
 import Emotions from "common/emotions/index";
 import EmotionGraphStyle from "client/style/EmotionGraph";
@@ -164,7 +163,6 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
     const { totalNum, data, options } = this.state;
     const { style, thread } = this.props.state;
     const { emotions } = thread;
-
     if (data && data.datasets && data.datasets.length > 0 && data.datasets[0].data.length > 0) {
       return (
         <div data-component-name={"Detail-emotions-graph"} style={style.emotionGraph.self}>

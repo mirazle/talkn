@@ -69,6 +69,21 @@ class Express {
   routingHttps(req, res, next) {
     let language = "en";
     switch (req.headers.host) {
+      case conf.newsURL:
+        res.render("news/", {
+          lpLanguages: conf.lpLanguages,
+          language,
+          domain: conf.domain,
+          apiURL: conf.apiURL,
+          ownURL: conf.ownURL,
+          wwwURL: conf.wwwURL,
+          extURL: conf.extURL,
+          bannerURL: conf.bannerURL,
+          assetsURL: conf.assetsURL,
+          clientURL: conf.clientURL,
+          apiAccessURL: conf.apiAccessURL,
+        });
+        break;
       case conf.ownURL:
         if (req.url === "/" || (req.url && req.url.indexOf("/?lang=") === 0)) {
           language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
@@ -86,6 +101,7 @@ class Express {
             ownURL: conf.ownURL,
             wwwURL: conf.wwwURL,
             extURL: conf.extURL,
+            newsURL: conf.newsURL,
             bannerURL: conf.bannerURL,
             assetsURL: conf.assetsURL,
             clientURL: conf.clientURL,
@@ -96,7 +112,6 @@ class Express {
         }
         break;
       case conf.bannerURL:
-        console.log("@@@@@@@@@@@@@@@@@@ BANNER " + conf.serverApiPath + define.talknApiJs);
         // CORSを許可する
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

@@ -294,6 +294,26 @@ h2 small {
   width: 601px;
   height: 760px;
 }
+.myChartWrap {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  width: 500px;
+  height: 500px;
+  transform: translate3d(450px, -245px, 0px) rotate(15deg) skew(0deg, 1deg);
+  z-index: 0;
+}
+.myChartBg {
+  position: absolute;
+  border-radius: 200px;
+  width: 356px;
+  height: 356px;
+  background: rgba(255,255,255,0.8);
+  z-index: -1;
+  transform: skew(3deg, 3deg);
+}
 .copy_ext {
   display: flex;
   justify-content: center;
@@ -632,21 +652,25 @@ section.two .bar1 {
   max-height: 300px;
   background: rgba(0, 0, 140, 0.5);
 }
+section.image_live_cnt,
 section.image_content,
 section.image_portal {
   width: 100%;
   background: rgba(0, 0, 0, 0.6);
 }
+section.image_live_cnt .block,
 section.image_content .block,
 section.image_portal .block {
   display: flex;
   flex-flow: row wrap;
   align-items: flex-start;
-  padding-bottom: 160px;
+  justify-content: center;
+  padding: 60px 0 60px;
   max-width: 1400px;
   width: 100%;
   height: 100%;
 }
+section.image_live_cnt h2,
 section.image_content h2,
 section.image_portal h2 {
   flex: 100% 1 100;
@@ -654,6 +678,7 @@ section.image_portal h2 {
   line-height: 70px;
   text-align: center;
 }
+section.image_live_cnt h3,
 section.image_content h3,
 section.image_portal h3 {
   display: block;
@@ -666,6 +691,27 @@ section.image_portal h3 {
   font-weight: 200;
   line-height: 60px;
   text-align: center;
+}
+section.image_live_cnt .airplain {
+  border-radius: 320px;
+  margin-top: 80px;
+  width: 320px;
+  height: 320px;
+  background: rgb(255,255,255, 0.9) url("https://assets.talkn.io/airplane.svg") 25% 100% / 94% no-repeat;
+}
+section.image_live_cnt .live_cnt {
+  position: absolute;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  width: 128px;
+  height: 128px;
+  background: rgba(79, 174, 159, 0.8);
+  color: #fff;
+  font-size: 3rem;
+  transform: translate(120px, 500px);
 }
 section.image_portal h4 {
   width: 100%;
@@ -830,16 +876,6 @@ section.image_portal .demonstration .post.active {
 section.image_content {
   flex-flow: column wrap;
 }
-section.image_content .block {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 0;
-  max-width: 1000px;
-  width: 100%;
-}
-
 section.image_content .old,
 section.image_content .new {
   flex: calc(50% - 60px) 1 50;
@@ -850,6 +886,7 @@ section.image_content .new {
   border-radius: 15px;
   margin: 30px;
   padding: 30px;
+  max-width: 400px;
   height: 520px;
   background: rgba(80, 80, 80, 0.4);
   font-size: 1.5em;
@@ -880,6 +917,30 @@ section.image_content .emotion {
   width: 100px;
   background: url("emotion.png") 0% / 100px no-repeat;
 }
+section.image_content .live {
+  position: absolute;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  width: 60px;
+  height: 60px;
+  background: rgba(79, 174, 159, 0.8);
+  color: #fff;
+  font-size: 1.4rem;
+  transform: translate(300px, 50px) rotate(15deg);
+}
+section.image_content .live .label {
+  line-height: 12px;
+  font-size: 12px;
+}
+section.image_content .live .cnt {
+  position: relative;
+  top: -6px;
+  line-height: 24px;
+}
+
 section.image_content .comments {
   position: relative;
   top: -200px;
@@ -927,7 +988,7 @@ section.image_news .block {
   display: flex;
   flex-flow: row wrap;
   align-items: flex-start;
-  padding-bottom: 160px;
+  padding: 160px;
   max-width: 1200px;
   width: 100%;
   height: 100%;
@@ -1258,7 +1319,7 @@ section.future .img {
   width: 512px;
   height: 512px;
   background: url(https://assets.talkn.io/img/logo3.png) 100% / 512px no-repeat;
-  transform: translate3d(140px, 540px, 0px);
+  transform: translate3d(140px, 640px, 0px);
   opacity: 0.2;
 }
 
@@ -1284,7 +1345,7 @@ section.future .bar {
   background: rgba(255, 255, 255, 0.2);
 }
 section.future .bar_wrap.last .bar {
-  height: 600px;
+  height: 800px;
 }
 section.future .arrow {
   margin: 0;
