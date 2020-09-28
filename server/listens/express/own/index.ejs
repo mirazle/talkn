@@ -18,7 +18,7 @@
     let fiveCompanyRepresentativeKey = "REPRESENTATIVE";
     let fiveCompanyRepresentativeValue = "Hiroyuki Miyazaki";
     let fiveCompanyPolicyKey = "POLICY";
-    let fiveCompanyPolicyValue = "Update the internet for contents.";
+    let fiveCompanyPolicyValue = "Update the internet for creaters.";
     let fiveContactKey = "CONTACT";
     let fiveContactNameKey = "Your name";
     let fiveContactMailKey = "Your email";
@@ -498,6 +498,7 @@
             {inputPost: "¿Cuál es el precio actual de los activos criptográficos?", inputStampId: 0 },
             {inputPost: "Умехара Удачи!", inputStampId: 0 },
             {inputPost: 'おすすめのドラマ教えて！', inputStampId: 0 },
+            {inputPost: '電暈病毒很可怕...😱', inputStampId: 0 },
             {inputPost: '<iframe width="160" height="100" src="https://www.youtube.com/embed/0jdcR8jr3d0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', inputStampId: 0 },
             {inputPost: "💖", inputStampId: 1201 }, 
             {inputPost: "👍", inputStampId: 1 } ,
@@ -992,6 +993,10 @@
                 }
             }
 
+            const updateLiveCntRate = Math.floor( Math.random() * 10 );
+            const liveCntIndex = Math.floor( Math.random() * 10 );
+            const liveCntText = [ 319, 321, 334, 337, 338, 339, 340, 342, 343, 344 ];
+
             if(commentsTag){
                 const scrollTop = window.outerHeight + window.scrollY;
                 const commentsStartTop = commentsTag.offsetTop;
@@ -999,15 +1004,13 @@
                 const commentsHeight = commentsEndTop - commentsStartTop;
                 const innerScrollTop = scrollTop - commentsStartTop;
                 const innerScrollRate = Math.round( ( innerScrollTop / window.outerHeight ) * 100 );
+
                 if ( scrollTop >= commentsStartTop && scrollTop < ( commentsEndTop +  window.innerHeight) ) {
                     commentsScrollTop = Math.round(window.outerHeight * ( innerScrollRate * 0.01));
                     commentsTag.scrollTo({top: commentsScrollTop});
 
                     if(imageContentLiveCntTag) {
-                        const updateLiveCntRate = Math.floor( Math.random() * 10 );
                         if( updateLiveCntRate === 0){
-                            const liveCntIndex = Math.floor( Math.random() * 10 );
-                            const liveCntText = [319, 321, 334, 337, 338, 339, 340, 342, 343, 344];
                             imageContentLiveCntTag.innerHTML = liveCntText[liveCntIndex];
                         }
                     }
@@ -1023,10 +1026,10 @@
                     }
                 }
 
-                if(imageLiveCntNumTag) {
-                    const iconLiveCnt = document.querySelector( ".talkn_banner_live_cnt" );
-                    imageLiveCntNumTag.innerHTML = iconLiveCnt.innerHTML;
-                }
+            }
+
+            if ( imageLiveCntNumTag && updateLiveCntRate === 0) {
+                imageLiveCntNumTag.innerHTML = liveCntText[ liveCntIndex ];
             }
         };
         window.onresize = onResizeWindow;
@@ -1202,6 +1205,7 @@
                             <div class="inner">
                                 <dl>
                                     <dt>内部</dt>
+                                    <dd>・任意のUI無料提供</dd>
                                     <dd>・LIVE数表示</dd>
                                     <dd>・LIVE数ランク表示</dd>
                                     <dd>・歓声(コメント)投稿</dd>
@@ -1223,7 +1227,7 @@
                         </div>
 
                         <div class="message">
-                            あなたのWEBサイトを内部・分析・外部から'LIVE状態'にUPDATE。<br />
+                            あなたのWEBサイトを全方位から'LIVE状態'にUPDATE。<br />
                             ユーザーのリピート率UP・広告収入UPに貢献します。<br />
                             また必要な機能のみに絞ったパッケージでもご提供いたします。(次のページへ)
                         </div>

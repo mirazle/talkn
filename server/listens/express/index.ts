@@ -86,8 +86,10 @@ class Express {
         };
         if (req.url === "/") {
           res.render("news/", params);
-        } else {
+        } else if (req.url === "/detail") {
           res.render("news/detail", params);
+        } else {
+          res.sendFile(conf.serverNewsPath + req.originalUrl.replace("/", ""));
         }
         break;
       case conf.ownURL:

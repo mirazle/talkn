@@ -310,9 +310,8 @@ h2 small {
   border-radius: 200px;
   width: 356px;
   height: 356px;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
   z-index: -1;
-  transform: skew(3deg, 3deg);
 }
 .copy_ext {
   display: flex;
@@ -697,7 +696,12 @@ section.image_live_cnt .airplain {
   margin-top: 80px;
   width: 320px;
   height: 320px;
-  background: rgb(255,255,255, 0.9) url("https://assets.talkn.io/airplane.svg") 25% 100% / 94% no-repeat;
+  background: rgb(255, 255, 255, 0.9) url("https://assets.talkn.io/airplane.svg") 25% 100% / 94% no-repeat;
+  transition: 300ms;
+  z-index: 0;
+}
+section.image_live_cnt .airplain:hover {
+  transform: scale(1.1);
 }
 section.image_live_cnt .live_cnt {
   position: absolute;
@@ -712,6 +716,7 @@ section.image_live_cnt .live_cnt {
   color: #fff;
   font-size: 3rem;
   transform: translate(120px, 500px);
+  z-index: 1;
 }
 section.image_portal h4 {
   width: 100%;
