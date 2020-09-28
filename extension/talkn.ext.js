@@ -557,7 +557,7 @@ class Window extends ReactMode {
   }
   static get selectTop() {
     return window;
-//    return window.top;
+    //    return window.top;
   }
   static get selectDoc() {
     return Window.selectTop.document;
@@ -1315,8 +1315,10 @@ class IframeModal extends Iframe {
       "padding: 0 !important;" +
       `opacity: ${activeStyles.opacity} !important;` +
       `overflow: hidden !important;` +
+      /*
       `clip-path: inset(0px round 10px) !important;` +
       `-webkit-clip-path: inset(0px round 10px) !important;` +
+*/
       `transition: ${Styles.BASE_TRANSITION}ms !important;` +
       `transform: ${activeStyles.transform} !important;`
     );
