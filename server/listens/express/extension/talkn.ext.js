@@ -1587,10 +1587,8 @@ class IframeEmbed extends Iframe {
       `max-height: 100% !important;` +
       "margin: 0 !important;" +
       "padding: 0 !important;" +
-      /*
       `clip-path: inset(0px round 10px) !important;` +
       `-webkit-clip-path: inset(0px round 10px) !important;` +
-      */
       "transition: 0ms !important;" +
       "transform: translate3d(0px, 0px, 0px) !important;"
     );
