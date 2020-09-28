@@ -86,8 +86,8 @@ class Express {
         };
         if (req.url === "/") {
           res.render("news/", params);
-        } else if (req.url === "/detail") {
-          res.render("news/detail", params);
+        } else if (req.url.indexOf("/detail") >= 0) {
+          res.render("news/" + req.url, params);
         } else {
           res.sendFile(conf.serverNewsPath + req.originalUrl.replace("/", ""));
         }
