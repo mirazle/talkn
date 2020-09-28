@@ -36,10 +36,27 @@
     <link rel="canonical" href="https://<%= apiURL %>/" />
     <script type="text/javascript" async src="//<%= extURL %>"></script>
     <script async type="text/javascript" src="https://<%= apiAccessURL %>"></script>
+    <style>
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: #fff;
+        text-align: center;
+        border-bottom: 1px solid rgba(210, 210, 210, 1);
+        z-index: 1000;
+      }
+
+      ul.list {
+        margin-top: 52px;
+      }
+    </style>
   </head>
   <body style="overflow: inherit; width: inherit; height: inherit; margin: 0 auto">
     <section>
-      <h2 class="default-title">ニュースアクセスランキング</h2>
+      <header>
+        <h2 class="default-title">talkn@news</h2>
+      </header>
       <ul class="list">
         <li class="list-item list-ranking">
           <a href="https://<%= newsURL %>/detail" class="list-a">
@@ -240,6 +257,6 @@
       ></a>
     </section>
 
-    <div class="talknEmbed" style="width: 90%; margin: 20px 5%"></div>
+    <div class="talknEmbed" style="width: 90%; margin: 20px 5%; height: 460px"></div>
   </body>
 </html>
