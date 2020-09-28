@@ -70,7 +70,7 @@ class Express {
     let language = "en";
     switch (req.headers.host) {
       case conf.newsURL:
-        res.render("news/", {
+        const params = {
           lpLanguages: conf.lpLanguages,
           language,
           domain: conf.domain,
@@ -78,11 +78,17 @@ class Express {
           ownURL: conf.ownURL,
           wwwURL: conf.wwwURL,
           extURL: conf.extURL,
+          newsURL: conf.newsURL,
           bannerURL: conf.bannerURL,
           assetsURL: conf.assetsURL,
           clientURL: conf.clientURL,
           apiAccessURL: conf.apiAccessURL,
-        });
+        };
+        if (req.url === "/") {
+          res.render("news/", params);
+        } else {
+          res.render("news/detail", params);
+        }
         break;
       case conf.ownURL:
         if (req.url === "/" || (req.url && req.url.indexOf("/?lang=") === 0)) {

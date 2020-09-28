@@ -1004,8 +1004,8 @@
                     commentsTag.scrollTo({top: commentsScrollTop});
 
                     if(imageContentLiveCntTag) {
-                        const updateLiveCntRate = Math.floor( Math.random() * 20 );
-                        if( updateLiveCntRate === 19){
+                        const updateLiveCntRate = Math.floor( Math.random() * 10 );
+                        if( updateLiveCntRate === 0){
                             const liveCntIndex = Math.floor( Math.random() * 10 );
                             const liveCntText = [319, 321, 334, 337, 338, 339, 340, 342, 343, 344];
                             imageContentLiveCntTag.innerHTML = liveCntText[liveCntIndex];
@@ -1013,8 +1013,8 @@
                     }
 
                     if(window.myChart) {
-                        const updateGraphRate = Math.floor( Math.random() * 20 );
-                        if( updateGraphRate === 19){
+                        const updateGraphRate = Math.floor( Math.random() * 10 );
+                        if( updateGraphRate === 0){
                             const graphIndex = Math.floor( Math.random() * 8 );
                             const graphPoint = Math.floor( Math.random() * 5 );
                             window.myChart.config.data.datasets[0].data[graphIndex] = graphPoint;
@@ -1377,7 +1377,7 @@
             <div class="block">
                 <h2>
                     導入イメージ1<br />
-                    <small>- ニュース配信サイト -</small>
+                    <small>- ニュース配信サイト -(自分のスマホでnews.talkn.ioのキャプチャを取ってのせる)</small>
                     <iframe src="https://<%= newsURL %>" width="320" height="500" frameborder=0></iframe>
                 </h2>
             </div>
