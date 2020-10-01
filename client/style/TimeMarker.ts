@@ -91,6 +91,7 @@ export default class TimeMarker {
       ...timeMarker,
       position: "fixed",
       width,
+      minWidth: width,
       height,
       top: `${Container.getBlockSize({ app, ui })}px`,
       left,
