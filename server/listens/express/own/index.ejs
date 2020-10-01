@@ -474,6 +474,7 @@
         let commentsTag;
         let imageLIveCntNumTag;
         let imageContentLiveCntTag;
+        let imageLiveCntNumTag;
         const commentsTagWindowScrollHeight = 1500;
         const domain = "<%= domain  %>";
         const assetsURL = "<%= assetsURL  %>";
@@ -917,7 +918,7 @@
                         "pointHoverBackgroundColor":"rgba(255, 255, 255, 0.8 )",
                         "pointHoverBorderColor":"rgba(240, 100, 195, 0.8 )",
                         "pointHoverBorderWidth":"4",
-                        "data":[0,2,1,0,0,4,0,0]
+                        "data":[5,2,4,4,3,4,1,3]
                     }
                 ]
             };
@@ -998,14 +999,16 @@
             const liveCntText = [ 319, 321, 334, 337, 338, 339, 340, 342, 343, 344 ];
 
             if(commentsTag){
+                const commentsTranslteY = Number(window.getComputedStyle(commentsTag).getPropertyValue("transform").split(", ")[5].replace(")", ""));
                 const scrollTop = window.outerHeight + window.scrollY;
-                const commentsStartTop = commentsTag.offsetTop;
-                const commentsEndTop = ( commentsTag.offsetTop + commentsTag.offsetHeight + 100 );
+                const commentsStartTop = commentsTag.offsetTop + commentsTranslteY;
+                const commentsEndTop = ( commentsTag.offsetTop + commentsTag.offsetHeight + commentsTranslteY );
                 const commentsHeight = commentsEndTop - commentsStartTop;
                 const innerScrollTop = scrollTop - commentsStartTop;
                 const innerScrollRate = Math.round( ( innerScrollTop / window.outerHeight ) * 100 );
 
                 if ( scrollTop >= commentsStartTop && scrollTop < ( commentsEndTop +  window.innerHeight) ) {
+                    console.log("IN");
                     commentsScrollTop = Math.round(window.outerHeight * ( innerScrollRate * 0.01));
                     commentsTag.scrollTo({top: commentsScrollTop});
 
@@ -1289,42 +1292,43 @@
                 </div>
                 <div class="new">
                     <p>- talkn -</p>
-                    <div class="myChartWrap">
-                        <canvas id="myChart"></canvas>
-                        <div class="myChartBg"></div>
-                    </div>
-                    <div class="live">
-                        <div class="label">LIVE</div>
-                        <div class="cnt">235</div>
-                    </div>
                     <div class="circle">
                         URL(コンテンツ)<br />
                         ・ニュース<br />
                         ・音楽、動画<br />
                         ・製品紹介<br />
                     </div>
-
-                    <div class="comments">
-                        <div class="comment">この曲好き！🎵</div>
-                        <div class="comment">Did you see an Eastwood movie?</div>
-                        <div class="comment">また不倫のニュースね😞</div>
-                        <div class="comment">感動したよ〜💖💖💖</div>
-                        <div class="comment">Heloooooo😃</div>
-                        <div class="comment">ありえない、、😭</div>
-                        <div class="comment">このケーキ本当に美味しかった😋</div>
-                        <div class="comment">"为什么会这样呢？</div>
-                        <div class="comment">ダンスフロアで踊れる曲ね🎶</div>
-                        <div class="comment">真恭喜你！</div>
-                        <div class="comment">Veuillez me dire le film recommandé!</div>
-                        <div class="comment">こんにちわ😃</div>
-                        <div class="comment">De Verdad? Me sorprendió❗️</div>
-                        <div class="comment">Hello, talkn🙂</div>
-                        <div class="comment">President's hairstyle is VR</div>
-                        <div class="comment">.. US-China trade friction</div>
-                        <div class="comment">オリンピック金メダルきた〜🏅</div>
-                        <div class="comment">My wife is angry and doesn't talk..</div>
-                    </div>
                 </div>
+
+                <div class="myChartWrap">
+                    <canvas id="myChart"></canvas>
+                    <div class="myChartBg"></div>
+                </div>
+                <div class="live">
+                    <div class="label">LIVE</div>
+                    <div class="cnt">235</div>
+                </div>
+                <div class="comments">
+                    <div class="comment">この曲好き！🎵</div>
+                    <div class="comment">Did you see an Eastwood movie?</div>
+                    <div class="comment">また不倫のニュースね😞</div>
+                    <div class="comment">感動したよ〜💖💖💖</div>
+                    <div class="comment">Heloooooo😃</div>
+                    <div class="comment">ありえない、、😭</div>
+                    <div class="comment">このケーキ本当に美味しかった😋</div>
+                    <div class="comment">"为什么会这样呢？</div>
+                    <div class="comment">ダンスフロアで踊れる曲ね🎶</div>
+                    <div class="comment">真恭喜你！</div>
+                    <div class="comment">Veuillez me dire le film recommandé!</div>
+                    <div class="comment">こんにちわ😃</div>
+                    <div class="comment">De Verdad? Me sorprendió❗️</div>
+                    <div class="comment">Hello, talkn🙂</div>
+                    <div class="comment">President's hairstyle is VR</div>
+                    <div class="comment">.. US-China trade friction</div>
+                    <div class="comment">オリンピック金メダルきた〜🏅</div>
+                    <div class="comment">My wife is angry and doesn't talk..</div>
+                </div>
+
             </div>
         </section>
         <section class="image_portal">
