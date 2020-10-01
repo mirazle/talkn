@@ -302,7 +302,7 @@ h2 small {
   border-radius: 15px;
   width: 500px;
   height: 500px;
-  transform: translate3d(450px, -245px, 0px) rotate(15deg) skew(0deg, 1deg);
+  transform: translate3d(710px, 330px, 0px) rotate(15deg) skew(0deg, 1deg);
   z-index: 0;
 }
 .myChartBg {
@@ -934,7 +934,7 @@ section.image_content .live {
   background: rgba(79, 174, 159, 0.8);
   color: #fff;
   font-size: 1.4rem;
-  transform: translate(300px, 50px) rotate(15deg);
+  transform: translate(540px, 600px) rotate(15deg);
 }
 section.image_content .live .label {
   line-height: 12px;
@@ -947,9 +947,7 @@ section.image_content .live .cnt {
 }
 
 section.image_content .comments {
-  position: relative;
-  top: -200px;
-  left: 350px;
+  position: absolute;
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
@@ -957,8 +955,7 @@ section.image_content .comments {
   height: 350px;
   scroll-snap-type: y mandatory;
   overflow-x: scroll;
-  /*  scroll-behavior: smooth;*/
-  transform: rotate(15deg) skew(0deg, 1deg);
+  transform: translate3d(600px, 800px, 0px) rotate(15deg) skew(0deg, 1deg);
 }
 section.image_content .comment {
   display: flex;
@@ -966,10 +963,12 @@ section.image_content .comment {
   justify-content: flex-start;
   align-items: flex-start;
   border-radius: 5px;
-  padding: 10px 20px 10px 60px;
+  padding: 20px 40px 20px 60px;
   margin: 10px;
   width: auto;
+  max-width: 330px;
   background: rgba(255, 255, 255, 0.8) url("https://assets.talkn.io/favicon.ico") 15px / 32px no-repeat;
+  line-height: 30px;
   font-size: 20px;
   color: #666;
   text-align: left;
