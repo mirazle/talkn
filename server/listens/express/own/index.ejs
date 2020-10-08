@@ -1391,46 +1391,54 @@
                     <div class="boot">
                         <h3>①起動</h3>
                         <div class="left">
-                            <video src="image1.mp4" width="280" controls></video>
+                            <video src="image_boot.mp4" width="280" controls loop></video>
                         </div>
                         <div class="right">
-                            こんな感じで起動します。
+                            scriptタグ1行記述で起動。 スマホでもPCでも好みのサイズ・好みの場所に設置可能です。<br />
+                            <br />
+                            他ユーザーがコメント投稿した際には通知が表示(ON/OFF可能)され、通知や飛行機アイコンをタップするとスレッドが表示されます。
+                            <br />
+                            <br />
+                            <br />
+                            <div class="copy_ext">
+                                <div class="title">○headタグ内に挿入して下さい。</div>
+                                <div class="copy_wrap">
+                                    <div class="exe_copy">COPY</div>
+                                    <input type="text" value="<script src='//<%= extURL %>' async type='text/javascript'></script>" onmouseover="this.select();" onmouseleave="this.blur();"
+                                        onfocus="this.select();" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="post">
                         <h3>②投稿</h3>
                         <div class="left">
-                            <video src="image1.mp4" width="280" controls></video>
+                            <video src="image_post.mov" width="280" controls loop></video>
                         </div>
                         <div class="right">
-                            こんな感じで投稿します。
-                        </div>
-                    </div>
-                    <div class="post">
-                        <h3>③投稿(親子)</h3>
-                        <div class="left">
-                            <video src="image1.mp4" width="280" controls></video>
-                        </div>
-                        <div class="right">
-                            こんな感じで投稿します。
+                            同じWEBサイトを見ているユーザーとコメントの共有をすることが出来ます。<br /><br />
+                            TOPページなどに設置すれば導入サイト配下のコメントを透過的に表示(ON/OFF可能)し、そのコメントを介して配下の記事ページに誘導するが出来ます。
                         </div>
                     </div>
                     <div class="emotion">
-                        <h3>④感情グラフの変化</h3>
+                        <h3>③ニュース記事を感情グラフ化</h3>
                         <div class="left">
-                            <video src="image1.mp4" width="280" controls></video>
+                            <video src="image_emotion.mov" width="280" controls loop></video>
                         </div>
                         <div class="right">
-                            こんな感じで感情グラフが変化します。
+                            ニュース記事(URL)に対してユーザーが投稿したコメントの感情をグラフ化して表示します。<br /><br />
+                            感情グラフはユーザーの投稿に応じてリアルタイムで変化していきます。
                         </div>
                     </div>
                     <div class="rank">
-                        <h3>⑤LIVE数ランキングの変化</h3>
+                        <h3>④LIVE数ランキングが変化</h3>
                         <div class="left">
-                            <video src="image1.mp4" width="280" controls></video>
+                            <video src="image_rank.mp4" width="280" controls loop></video>
                         </div>
                         <div class="right">
-                            こんな感じでLIVE数ランキングが変化します。
+                            導入サイト配下のLIVE数ランキングを表示します。<br /><br />
+                            TOPページに導入すれば、TOPページ配下の全ページのLIVE数ランキングを自動生成して表示出来ます。<br /><br />
+                            ランキングは自動で切り替わっていきます。
                         </div>
                     </div>
                  </div>
