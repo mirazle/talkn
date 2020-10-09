@@ -1488,6 +1488,8 @@ section.image_shop .detail .price {
 section.image_shop .detail .desc {
   margin: 0 0 20px;
   height: 350px;
+  letter-spacing: 2px;
+  line-height: 30px;
 }
 section.image_shop .caution {
   margin-top: 20px;
