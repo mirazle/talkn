@@ -507,6 +507,16 @@
             {inputPost: "🍺", inputStampId: 1304 },
             {inputPost: "💴", inputStampId: 100 },
         ];
+        const eatsMap = {
+            maton: {price: "価格　¥1280", desc: "一晩じっくり煮込んだとろとろのマトンに、薄くスライスしたチーズを乗せました。 当店おすすめの一品です。まだ未食の方は是非♬"},
+            beef: { price: "価格　¥1080", desc: "メキシカンな深いコクとココナッツの風味が特徴のビーフカレーです。癖になる人続出。"},
+            pan_cofee: { price: "価格　¥680", desc: "当店自慢のパンケーキと、コーヒーをセットにしたお得な一品。食後のゆったりとした時間にどうぞ。"},
+            kaisou: { price: "価格　¥480", desc: "わかめ、白木耳、茎わかめ、寒天、杉のり、ふのりの６種類の豊富な品目からなる爽やかな酸味が特徴な海藻サラダ。"},
+            aice: { price: "価格　¥380", desc: "濃厚ミルクアイスをふんわりシューに惜しげもなく入れ込んだ絶品シューアイス。"},
+            yasai: { price: "価格　¥1100", desc: "アサヒ甘玉（甘70）のたまねぎをふんだんに練り込んだ当店オリジナルのカレー。"},
+            karaage: { price: "価格　¥980", desc: "ザクザクの衣にジューシーな鶏肉を閉じ込めたボリューム満点の唐揚げカレー。"},
+            cofee: { price: "価格　¥380", desc: "柔らかい香りと硬めの苦味がカレーと合うドリップ式のコーヒー。"},
+        };
         const apiBlance = ['tune', 'tune', 'tune', 'untune', 'untune', 'untune', 'post', 'post', 'post', 'post'];
         let screen = 0;
         let isAnimateScrolling = false;
@@ -871,6 +881,22 @@
             liveTextarea.value = `<div data-href='//${ domain }${ ch }' class='talkn_banner'></div>`;
             liveLink.href = `//${ domain }${ ch }`;
         }
+        function onClickEats(eats){
+            const eatsActiveMenuTag = document.querySelector( `.image_shop ul li.active` );
+            const eatsMenuTag = document.querySelector(`.image_shop ul li.${eats}`);
+            const contentTag = document.querySelector( `.image_shop .content` );
+            const detailPriceTag = document.querySelector( `.image_shop .detail .price` );
+            const detailDescTag = document.querySelector( `.image_shop .detail .desc` );
+            const isActive = eatsMenuTag.className.indexOf("active") >= 0;
+
+            if(!isActive){
+                eatsActiveMenuTag.classList.remove("active");
+                eatsMenuTag.classList.add("active");
+                contentTag.style.backgroundImage = `url(${ eats }.jpg)`;
+                detailPriceTag.innerHTML = eatsMap[eats].price;
+                detailDescTag.innerHTML = eatsMap[ eats ].desc;
+            }
+        }
         window.addEventListener("load", ( e ) => {
             onServiceWorker();
             const search = document.querySelector( ".search" );
@@ -905,6 +931,7 @@
                     } );
                 }
             } );
+            
             const data = {
                 "labels": ["Excite","Happy","Joy","Relax","Slack","Melancholy","Anger","Worry&Fear"],
                 "datasets":[
@@ -1579,6 +1606,78 @@
                     </div>
                     <a>詳細はこちら → </a>
                 </div>
+            </div>
+        </section>
+
+
+        <section class="image_shop">
+            <h2>
+                導入イメージ5
+                <small>- 実店舗への集客に -</small>
+            </h2>
+            <h3>
+                例えば飲食店のシステムにtalknのAPIを組み込めば<br />
+                あなたの店舗の来店数、メニュー毎の飲食数のLIVE状態を<br />
+                あなたのWEBサイトに表示出来ます。<br />
+            </h3>
+            <div class="block">
+                <ul>
+                    <li class="ch">
+                        <span class="label">現在来店数</span>
+                        <span class="live_cnt">18</span>
+                    </li>
+                    <li onclick="onClickEats('maton')" class="active maton" >
+                        <span class="label">マトン&ひよこ豆カレーセット</span>
+                        <span class="live_cnt">6</span>
+                    </li>
+                    <li class="beef" onclick="onClickEats('beef')">
+                        <span class="label">ビーフ・ジャワカレー</span>
+                        <span class="live_cnt">5</span>
+                    </li>
+                    <li class="pan_cofee" onclick="onClickEats('pan_cofee')">
+                        <span class="label">パンケーキとコーヒーのセット</span>
+                        <span class="live_cnt">3</span>
+                    </li>
+                    <li class="kaisou" onclick="onClickEats('kaisou')">
+                        <span class="label">海藻サラダ</span>
+                        <span class="live_cnt">2</span>
+                    </li>
+                    <li class="aice" onclick="onClickEats('aice')">
+                        <span class="label">シューアイス</span>
+                        <span class="live_cnt">2</span>
+                    </li>
+                    <li class="yasai" onclick="onClickEats('yasai')">
+                        <span class="label">甘70タマネギの野菜カレー</span>
+                        <span class="live_cnt">1</span>
+                    </li>
+                    <li class="karaage" onclick="onClickEats('karaage')">
+                        <span class="label">唐揚げ満足カレー</span>
+                        <span class="live_cnt">0</span>
+                    </li>
+                    <li class="cofee" onclick="onClickEats('cofee')">
+                        <span class="label">アイスコーヒー</span>
+                        <span class="live_cnt">0</span>
+                    </li>
+                </ul>
+                <div class="content"></div>
+                <div class="detail"">
+                    <div class="order">注文する</div>
+                    <div class="price">価格　¥1280</div>
+                    <div class="desc">
+                        一晩じっくり煮込んだとろとろのマトンに、薄くスライスしたチーズを乗せました。
+                        当店おすすめの一品です。まだ未食の方は是非♬
+                    </div>
+                    
+                    <span>
+                        <a href='//<%= domain %>/tokyo/eatas/demo123' /><img  width="64px" src='//assets.<%= domain %>/img/logo.png' alt='talkn' /></a>
+                    </span>
+                    <span>感想を見る・話す →</span>
+                </div>
+            </div>
+            <div class="caution">
+                ※上記は導入例でレイアウト・写真・メニュー等は仮のものです。<br />
+                　UIやご要望に応じた柔軟な導入が可能ですので、<br />
+                　まずはお問い合わせからお気軽にご連絡くださいませ。
             </div>
         </section>
 
