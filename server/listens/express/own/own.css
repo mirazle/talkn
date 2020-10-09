@@ -1490,6 +1490,7 @@ section.image_shop .detail .desc {
   height: 250px;
 }
 section.image_shop .caution {
+  margin-top: 20px;
   width: 1200px;
   text-align: left;
   font-size: 1.3rem;
