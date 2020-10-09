@@ -992,7 +992,7 @@ section.image_news .block {
   display: flex;
   flex-flow: row wrap;
   align-items: flex-start;
-  padding: 160px;
+  padding: 0 160px;
   max-width: 1200px;
   width: 100%;
   height: 100%;
@@ -1386,7 +1386,7 @@ section.image_shop ul {
   flex-flow: column;
   overflow: hidden scroll;
   width: 300px;
-  height: 500px;
+  height: 600px;
   font-size: 1rem;
 }
 
@@ -1448,7 +1448,7 @@ section.image_shop .content {
   border-radius: 5px;
   margin-top: 15px;
   width: 560px;
-  height: 490px;
+  height: 590px;
   background-image: url(maton.jpg);
   background-position: 50%;
   background-size: cover;
@@ -1487,7 +1487,7 @@ section.image_shop .detail .price {
 }
 section.image_shop .detail .desc {
   margin: 0 0 20px;
-  height: 250px;
+  height: 350px;
 }
 section.image_shop .caution {
   margin-top: 20px;
