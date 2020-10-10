@@ -75,7 +75,7 @@ export default class Sequence {
           thread: ["ch", "protocol", "host", "hasSlash"],
           app: ["multistream", "rootCh", "dispThreadType", "actioned", "offsetFindId", "isToggleMultistream"],
         },
-        responseEmitState: { posts: "*" },
+        responseEmitState: { posts: "*", thread: "*" },
         responseBroadcastState: {},
       },
       getMore: {

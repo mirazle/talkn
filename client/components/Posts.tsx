@@ -138,7 +138,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
   }
 
   render() {
-    const { style } = this.props.state;
+    const { style, thread } = this.props.state;
     return (
       <ol
         data-component-name={"Posts"}
