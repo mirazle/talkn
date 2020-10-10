@@ -47,13 +47,11 @@ const functions = {
   },
   "SERVER_TO_API[EMIT]:fetchPosts": (state, action) => {
     action = { ...Posts.getAnyActionPosts(action, state) };
-    action.thread = state.thread;
     action.app.offsetFindId = App.getOffsetFindId({ posts: action.posts });
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
     if (action.app.isMediaCh) {
       action = storage.setStoragePostsTimeline(action);
     }
-    action.thread = state.thread;
     return action;
   },
   "API_TO_SERVER[REQUEST]:changeThread": (state, action) => {

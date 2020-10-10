@@ -24,7 +24,6 @@ export default class Posts {
         condition.ch = ch;
       }
     }
-
     const { response: postCnt } = await this.collection.count(condition);
     return postCnt;
   }
