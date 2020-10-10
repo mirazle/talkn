@@ -1,1 +1,0 @@
-{"version":3,"file":"serverToApiBradcast.js","sourceRoot":"","sources":["../../../../api/actions/ws/serverToApiBradcast.ts"],"names":[],"mappings":";;;;;AAAA,4DAAoC;AAEpC,kBAAe,QAAQ,CAAC,EAAE;IACxB,MAAM,IAAI,GAAG,GAAG,kBAAQ,CAAC,uBAAuB,GAAG,QAAQ,CAAC,IAAI,EAAE,CAAC;IACnE,OAAO,EAAE,GAAG,QAAQ,EAAE,IAAI,EAAE,CAAC;AAC/B,CAAC,CAAC"}
