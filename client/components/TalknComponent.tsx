@@ -97,15 +97,21 @@ export default class TalknComponent<P, S> extends Component<P, S> {
         ? ["ON_RESIZE_END_WINDOW"]
         : ["ON_RESIZE_END_WINDOW", "ON_SCROLL_UPDATE_TIME_MARKER"];
     let { uiTimeMarker } = this.clientState;
+    console.log("A");
     if (scrollTop === 0) {
+console.log("B " + actionLog[0]);
       if (!actionTypes.includes(actionLog[0])) {
         const postCntKey = app.multistream ? "multiPostCnt" : "postCnt";
+        console.log("C " + postCntKey + " " + thread[postCntKey]);
         if (thread[postCntKey] > conf.findOnePostCnt) {
+console.log("D");
           const timeMarkerList: any = document.querySelector("[data-component-name=TimeMarkerList]");
           if (timeMarkerList && timeMarkerList.style) {
+console.log("E");
             // UI上、重なるTIME MARKERを非表示にする
             timeMarkerList.style.opacity = 0;
           }
+          console.log("F");
           window.talknWindow.dom.exeGetMore(this.clientStore);
         }
       }
