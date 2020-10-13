@@ -95,7 +95,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     const actionTypes =
       ui.extensionMode === Ui.extensionModeExtNoneLabel
         ? ["ON_RESIZE_END_WINDOW"]
-        : ["ON_RESIZE_END_WINDOW", "ON_SCROLL_UPDATE_TIME_MARKER"];
+        : ["ON_RESIZE_END_WINDOW"];
     let { uiTimeMarker } = this.clientState;
     console.log("A");
     if (scrollTop === 0) {
