@@ -107,7 +107,6 @@ export default class TalknComponent<P, S> extends Component<P, S> {
             // UI上、重なるTIME MARKERを非表示にする
             timeMarkerList.style.opacity = 0;
           }
-          console.log("F");
           window.talknWindow.dom.exeGetMore(this.clientStore);
         }
       }

@@ -177,9 +177,10 @@ class MediaServer {
   postMessage() {
     Object.keys(this.iframes).forEach((iFrameId) => {
       const iframe = this.iframes[iFrameId].dom;
-      const href = this.iframes[iFrameId].params.href;
-      const type = "MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE";
+      const href = this.iframes[ iFrameId ].params.href;
+      console.log(this);
       const params = {
+        type: "MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE",
         ch: this.ch,
         status: this.status.toLowerCase(),
         currentTime: this.currentTime,

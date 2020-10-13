@@ -5,6 +5,7 @@ import { Buffer } from "buffer";
 import conf from "common/conf";
 import Sequence from "api/Sequence";
 import App from "api/store/App";
+import Thread from "api/store/Thread";
 import MongoDB from "server/listens/db/MongoDB";
 import Logics from "server/logics";
 import HtmlSchema from "server/schemas/logics/html";
@@ -102,8 +103,6 @@ export default class Html {
             if (App.isVideoContentType(contentType)) {
               responseSchema.videos = [{ src: url, title: responseSchema.title }];
             }
-
-            console.log(responseSchema.title);
           } else {
             const utf8Body = this.toUtf8Str(body, contentType);
             const $ = cheerio.load(utf8Body);
