@@ -1,8 +1,4 @@
-/* 
-    const ws = new Ws();
-    GlobalWindow.TalknMedia = new Media(ws);
-    GlobalWindow.TalknMediaServer.searching();
-*/
+
 class MediaServer {
   get mediaSecondInterval() {
     return 200;
@@ -67,7 +63,6 @@ class MediaServer {
           if (iframe) {
             this.iFrames[iFrameId] = iframe;
             this.iFrameIds.push(iFrameId);
-            console.log("SET");
           }
         }
         break;
@@ -79,8 +74,8 @@ class MediaServer {
   }
 
   postMessage(method) {
-    Object.keys(this.iFrames).forEach((iFrameId) => {
-      console.log(this.iFrames[iFrameId].contentWindow);
+    Object.keys( this.iFrames ).forEach( ( iFrameId ) => {
+      console.log(this);
       const params = {
         type: "MEDIA_TO_CLIENT_TYPE",
         ch: this.ch,

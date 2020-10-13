@@ -346,17 +346,21 @@ export default class Thread extends Schema {
       | typeof Thread.findTypeVideo
       | typeof Thread.findTypeOther;
     if (contentType && contentType !== "") {
+      console.log("A");
+      console.log(findTypeHtml);
+      console.log(findTypeMusic);
+      console.log(findTypeVideo);
       let splitedContentType = "";
       if (contentType.indexOf(";") > 0) {
         splitedContentType = contentType.split(";")[0];
       }
-      if (findTypeHtml.includes(splitedContentType)) {
+      if (findTypeHtml.includes(contentType) || findTypeHtml.includes(splitedContentType)) {
         findType = Thread.findTypeHtml;
       }
-      if (findTypeMusic.includes(splitedContentType)) {
+      if (findTypeMusic.includes(contentType) || findTypeMusic.includes(splitedContentType)) {
         findType = Thread.findTypeMusic;
       }
-      if (findTypeVideo.includes(splitedContentType)) {
+      if (findTypeVideo.includes(contentType) || findTypeVideo.includes(splitedContentType)) {
         findType = Thread.findTypeVideo;
       }
     }
