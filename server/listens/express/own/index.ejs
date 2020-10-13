@@ -455,6 +455,7 @@
         const responsiveWidth = 640;
         const headerHeight = 100;
         const navTop = 60;
+        const screenTops = [ 0, 2374, 5958, 12170 ];
         const pointerStyles = [
             { height: "5px", width: "10%", transform: "translate3d(0%,0px,0px)" },
             { height: "5px", width: "10%", transform: "translate3d(250%,0px,0px)" },
@@ -540,7 +541,7 @@
             movePointer( screen );
             setMenuColor();
         }
-        function onClick( num ) {
+        function onClickMenu( num ) {
             setScreen( num );
             movePointer( num, true );
             setMenuColor();
@@ -582,16 +583,14 @@
         }
         function getCalcScreen() {
             const { scrollY, innerHeight } = window;
-            if ( 0 <= scrollY && scrollY < ( oneScreenHeight * 1 ) + headerHeight ) {
+            if ( screenTops[ 0 ] <= scrollY && scrollY < screenTops[ 1 ] ) {
                 screen = 0;
-            } else if ( oneScreenHeight + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 2 ) + headerHeight ) {
+            } else if ( screenTops[ 1 ] <= scrollY && scrollY < screenTops[ 2 ] ) {
                 screen = 1;
-            } else if ( ( oneScreenHeight * 2 ) + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 3 ) + headerHeight ) {
+            } else if ( screenTops[ 2 ] <= scrollY && scrollY < screenTops[ 3 ] ) {
                 screen = 2;
-            } else if ( ( oneScreenHeight * 3 ) + headerHeight <= scrollY && scrollY < ( oneScreenHeight * 4 ) + headerHeight ) {
+            }else if ( screenTops[ 3 ] <= scrollY  ) {
                 screen = 3;
-            } else if ( ( oneScreenHeight * 4 ) + headerHeight <= scrollY ) {
-                screen = 4;
             }
             return screen;
         }
@@ -617,7 +616,7 @@
             pointer.style.width = pointerStyle.width;
             pointer.style.height = pointerStyle.height;
             pointer.style.transform = pointerStyle.transform;
-            const moveScrollY = num === 0 ? 0 : ( oneScreenHeight * num ) + headerHeight;
+            const moveScrollY = screenTops[num];
             if ( animateScroll ) {
                 animateScrollTo( moveScrollY, 600 );
             }
@@ -631,13 +630,13 @@
                 const changeNavMenuHeight = ( oneScreenHeight * ( pointerStyles.length - 1 ) ) + headerHeight;
                 if ( scrollY >= changeNavMenuHeight ) {
                     accessory.style.transform = `translate3d(0px, -${ navTop }px, 0px)`;
-                    accessory.style.width = "100px";
-                    accessory.style.height = "100px";
+                    accessory.style.width = "90px";
+                    accessory.style.height = "90px";
                     accessory.innerText = "Powerd by";
                 } else {
-                    accessory.style.transform = "translate3d(0px, 0px, 0px)";
-                    accessory.style.width = "70px";
-                    accessory.style.height = "70px";
+                    accessory.style.transform = "translate3d(0px, 15px, 0px)";
+                    accessory.style.width = "90px";
+                    accessory.style.height = "90px";
                     accessory.innerText = "talkn";
                 }
             }
@@ -1035,7 +1034,6 @@
                 const innerScrollRate = Math.round( ( innerScrollTop / window.outerHeight ) * 100 );
 
                 if ( scrollTop >= commentsStartTop && scrollTop < ( commentsEndTop +  window.innerHeight) ) {
-                    console.log("IN");
                     commentsScrollTop = Math.round(window.outerHeight * ( innerScrollRate * 0.01));
                     commentsTag.scrollTo({top: commentsScrollTop});
 
@@ -1120,10 +1118,10 @@
             <nav class="head">
                 <div class="headBar"></div>
                 <ul>
-                    <li onclick="onClick(0)" onmouseover="onMouseOver(0)" onmouseleave="onMouseLeave(0)">Top</li>
-                    <li onclick="onClick(1)" onmouseover="onMouseOver(1)" onmouseleave="onMouseLeave(1)">Merit</li>
-                    <li onclick="onClick(2)" onmouseover="onMouseOver(2)" onmouseleave="onMouseLeave(2)">Future</li>
-                    <li onclick="onClick(3)" onmouseover="onMouseOver(3)" onmouseleave="onMouseLeave(3)">Contact</li>
+                    <li onclick="onClickMenu(0)" onmouseover="onMouseOver(0)" onmouseleave="onMouseLeave(0)">Intro</li>
+                    <li onclick="onClickMenu(1)" onmouseover="onMouseOver(1)" onmouseleave="onMouseLeave(1)">Live</li>
+                    <li onclick="onClickMenu(2)" onmouseover="onMouseOver(2)" onmouseleave="onMouseLeave(2)">Image</li>
+                    <li onclick="onClickMenu(3)" onmouseover="onMouseOver(3)" onmouseleave="onMouseLeave(3)">Future</li>
                 </ul>
                 <div class="pointerWrap">
                     <div class="pointer" />

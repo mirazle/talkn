@@ -101,7 +101,7 @@ header {
   height: 120px;
   z-index: 10;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 17px;
 }
 header .language-menu {
   box-sizing: border-box;
@@ -167,6 +167,7 @@ nav.head ul {
   top: 5px;
   max-width: 800px;
   min-width: 320px;
+  font-size: 17px;
 }
 
 .menus {
@@ -236,10 +237,10 @@ footer li {
   align-items: flex-end;
   width: 55px;
   height: 55px;
-  line-height: 35px;
+  line-height: 55px;
   background: rgba(0, 0, 0, 1);
   position: fixed;
-  top: -35px;
+  top: -60px;
   border-radius: 100px;
   color: rgb(255, 255, 255);
   font-size: 20px;
