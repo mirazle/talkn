@@ -38,6 +38,7 @@ export default class Thread extends Schema {
         "video",
         "video/mpeg",
         "video/mp4",
+        "video/quicktime",
         "video/x-ms-wmv",
         "application/x-shockwave-flash",
         "video/3gpp2",
