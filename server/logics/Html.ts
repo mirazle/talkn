@@ -135,7 +135,6 @@ export default class Html {
     } else {
       title = $("head title").text();
     }
-    console.log("TITLE : " + title);
     return title;
   }
 

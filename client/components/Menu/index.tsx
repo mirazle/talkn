@@ -37,8 +37,7 @@ export default class Menuextends extends TalknComponent<Props, State> {
   }
 
   componentDidUpdate() {
-    const { tuneCh, ranks } = this.props.state;
-
+    const { tuneCh, ranks, app } = this.props.state;
     if (Object.keys(tuneCh).length > 0) {
       const tuneChJson = JSON.stringify(tuneCh);
       const tuneChStateJson = JSON.stringify(this.state.tuneCh);
@@ -145,34 +144,40 @@ export default class Menuextends extends TalknComponent<Props, State> {
     const { app, thread, ranks } = state;
     const { ui, style } = state;
     const { chKeyRanks } = this.state;
+
     return ranks.map((rank, _rankNum) => {
       const rankNum = _rankNum + 1;
       const isActive = thread.ch === rank.ch;
       const chStyle = isActive ? ChStyle.getActiveLiSelf({ app, ui }) : ChStyle.getUnactiveLiSelf({ app, ui });
-      const didMountBgHighligt =
-        chKeyRanks[rank.ch].rankNum !== 0 &&
-        rankNum < chKeyRanks[rank.ch].rankNum &&
-        rank.liveCnt !== chKeyRanks[rank.ch].liveCnt;
-      const didMountLiveCntHighligt = rank.liveCnt > chKeyRanks[rank.ch].liveCnt;
-      return (
-        <Ch
-          key={`${rank.ch}_${rankNum}`}
-          rankNum={rankNum}
-          isActive={isActive}
-          didMountBgHighligt={didMountBgHighligt}
-          didMountLiveCntHighligt={didMountLiveCntHighligt}
-          ch={rank.ch}
-          title={rank.title}
-          favicon={rank.favicon}
-          type={rank.findType}
-          post={rank.post}
-          stampId={rank.stampId}
-          liveCnt={rank.liveCnt}
-          handleOnClick={this.handleOnClickCh}
-          bgStyle={chStyle}
-          style={style}
-        />
-      );
+
+      if (chKeyRanks[rank.ch]) {
+        const didMountBgHighligt =
+          chKeyRanks[rank.ch].rankNum !== 0 &&
+          rankNum < chKeyRanks[rank.ch].rankNum &&
+          rank.liveCnt !== chKeyRanks[rank.ch].liveCnt;
+        const didMountLiveCntHighligt = rank.liveCnt > chKeyRanks[rank.ch].liveCnt;
+        return (
+          <Ch
+            key={`${rank.ch}_${rankNum}`}
+            rankNum={rankNum}
+            isActive={isActive}
+            didMountBgHighligt={didMountBgHighligt}
+            didMountLiveCntHighligt={didMountLiveCntHighligt}
+            ch={rank.ch}
+            title={rank.title}
+            favicon={rank.favicon}
+            type={rank.findType}
+            post={rank.post}
+            stampId={rank.stampId}
+            liveCnt={rank.liveCnt}
+            handleOnClick={this.handleOnClickCh}
+            bgStyle={chStyle}
+            style={style}
+          />
+        );      
+      } else {
+        return undefined;
+      }
     });
   }
 
