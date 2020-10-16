@@ -140,6 +140,7 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
       clientState.actionLog[0] === "API_TO_CLIENT[EMIT]:tune" ||
       clientState.actionLog[0] === "API_TO_CLIENT[BROADCAST]:post" ||
       clientState.actionLog[0] === "ON_CLICK_TOGGLE_DISP_DETAIL" ||
+      clientState.actionLog[0] === "ON_CLICK_TOGGLE_DISP_MENU_END" ||
       clientState.actionLog[0] === "API_TO_CLIENT[EMIT]:changeThreadDetail"
     ) {
       const { emotionModelKey, totalNum, data } = this.getGraphDatas(nextProps);
