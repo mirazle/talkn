@@ -194,7 +194,7 @@ export default class Header {
 
   static getRightIcon({ app, ui }) {
     const width = ui.screenMode === Ui.screenModeSmallLabel ? "20%" : "30%";
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
       flexFlow: "column",
       alignItems: "center",
       justifyContent: "center",
