@@ -557,12 +557,11 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: "0 auto",
         background: Container.reliefRGB,
-        width: "14px",
-        height: "14px",
+        width: "6px",
+        height: "6px",
         borderRadius: "10px",
         position: "relative",
-        top: "-17px",
-        border: "3px solid rgb(250, 250, 250)",
+        top: "-10px",
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
@@ -574,11 +573,11 @@ export default class Icon {
       layout: Style.getLayoutBlock({
         margin: "0 auto",
         background: Container.reliefRGB,
-        width: "10px",
-        height: "16px",
+        width: "8px",
+        height: "12px",
         borderRadius: "6px",
         position: "relative",
-        top: "7px",
+        top: "10px",
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
