@@ -80,6 +80,7 @@ export default class Threads {
       limit: setting.server.getThreadChildrenCnt,
     };
     const { response } = await this.collection.find(condition, selector, option);
+
     return response.map((res) => ({
       ...res.lastPost,
       title: res.serverMetas.title,

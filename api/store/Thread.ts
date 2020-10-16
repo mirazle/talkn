@@ -346,10 +346,6 @@ export default class Thread extends Schema {
       | typeof Thread.findTypeVideo
       | typeof Thread.findTypeOther;
     if (contentType && contentType !== "") {
-      console.log("A");
-      console.log(findTypeHtml);
-      console.log(findTypeMusic);
-      console.log(findTypeVideo);
       let splitedContentType = "";
       if (contentType.indexOf(";") > 0) {
         splitedContentType = contentType.split(";")[0];
