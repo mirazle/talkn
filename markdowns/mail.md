@@ -35,25 +35,30 @@ ssl = no
 # systemctl enable dovecot
 # useradd -s /sbin/nologin admin
 # passwd admin
-# echo "[パスワード]" | saslpasswd2 -p -u mail.talkn.io -c admin
+# ↓　　　　　　echo "[パスワード]" | saslpasswd2 -p -u mail.talkn.io -c admin
+# echo "admin" | saslpasswd2 -p -u talkn.io -c admin
 # sasldblistusers2
 admin@mail.talkn.io: userPassword
 # chgrp postfix /etc/sasldb2
 ```
- https://qiita.com/tachitechi/items/895bf9c63356ee0751b5
+
+https://qiita.com/tachitechi/items/895bf9c63356ee0751b5
 
 ### vi /etc/sasl2/smtpd.conf
+
 ```
 pwcheck_method: auxprop
 mech_list: plain login
 ```
 
 vi /etc/dovecot/dovecot.conf
+
 ```
 listen = *
 ```
 
 vi /etc/dovecot/conf.d/10-master.conf
+
 ```
   unix_listener /var/spool/postfix/private/auth {
     mode = 0666
@@ -63,22 +68,27 @@ vi /etc/dovecot/conf.d/10-master.conf
 ```
 
 vi /etc/dovecot/conf.d/10-auth.conf
+
 ```
 disable_plaintext_auth = no
 auth_mechanisms = plain login
 ```
+
 vi /etc/dovecot/conf.d/10-ssl.conf
+
 ```
 ssl = no
 ```
 
 vi /etc/postfix/master.cf
+
 ```
 smtp      inet  n       -       n       -       -       smtpd
 submission inet n       -       n       -       -       smtpd
   -o smtpd_sasl_auth_enable=yes
 ```
 
+vi /etc/postfix/main.cf
 
 ```
 myhostname = mail.talkn.io
