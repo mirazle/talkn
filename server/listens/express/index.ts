@@ -93,30 +93,35 @@ class Express {
         }
         break;
       case conf.ownURL:
-        if (req.url === "/" || (req.url && req.url.indexOf("/?lang=") === 0)) {
-          language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
-          const favicon =
-            req.query && req.query.lang
-              ? `https://${conf.assetsURL}/country/${language}.png`
-              : `https://${conf.assetsURL}/favicon.ico`;
+        if (req.method === "GET") {
+          if (req.url === "/" || (req.url && req.url.indexOf("/?lang=") === 0)) {
+            language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
+            const favicon =
+              req.query && req.query.lang
+                ? `https://${conf.assetsURL}/country/${language}.png`
+                : `https://${conf.assetsURL}/favicon.ico`;
 
-          res.render("own/", {
-            lpLanguages: conf.lpLanguages,
-            language,
-            favicon,
-            domain: conf.domain,
-            apiURL: conf.apiURL,
-            ownURL: conf.ownURL,
-            wwwURL: conf.wwwURL,
-            extURL: conf.extURL,
-            newsURL: conf.newsURL,
-            bannerURL: conf.bannerURL,
-            assetsURL: conf.assetsURL,
-            clientURL: conf.clientURL,
-            apiAccessURL: conf.apiAccessURL,
-          });
-        } else {
-          res.sendFile(conf.serverOwnPath + req.originalUrl.replace("/", ""));
+            res.render("own/", {
+              lpLanguages: conf.lpLanguages,
+              language,
+              favicon,
+              domain: conf.domain,
+              apiURL: conf.apiURL,
+              ownURL: conf.ownURL,
+              wwwURL: conf.wwwURL,
+              extURL: conf.extURL,
+              newsURL: conf.newsURL,
+              bannerURL: conf.bannerURL,
+              assetsURL: conf.assetsURL,
+              clientURL: conf.clientURL,
+              apiAccessURL: conf.apiAccessURL,
+            });
+          } else {
+            res.sendFile(conf.serverOwnPath + req.originalUrl.replace("/", ""));
+          }
+        } else if (req.method === "POST") {
+          Mail.send(req.body.inquiry);
+          res.redirect(`https://${conf.ownURL}`);
         }
         break;
       case conf.bannerURL:
@@ -177,7 +182,6 @@ class Express {
             res.sendFile(`${conf.serverWwwPath}${req.url.replace("/", "")}`);
           }
         } else if (req.method === "POST") {
-          console.log(req.body.inquiry);
           Mail.send(req.body.inquiry);
           res.redirect(`https://${conf.wwwURL}`);
         }

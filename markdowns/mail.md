@@ -1,6 +1,62 @@
+# 整理
+
+## ①Route53(DNS)
+
+DND に追加(存在確認)するレコードは下記。
+
+|レコード名|タイプ|値|
+|talkn.io|MX|10 mail.talkn.io.|
+|mail.talkn.io|A|18.235.161.122(パブリック IP)|
+
+## ②Lightsail | EC2 の iptable(firewall)
+
+下記を開放しておく。
+
+受信ポート: 143
+送信ポート: 587
+
+## ③gmail アカウント設定()
+
+OP25B 問題により、gmail をリレーさせる手法をとる。
+
+google アカウント → セキュリティ →Google へのログイン →→ アプリパスワード
+でアプリを選択：「その他」、デバイスを選択：「その他」で
+「お使いのデバイスのアプリ パスワード」をメモしておき後述の sasl_passward で記述する
+
+## ④postfix: 送信メールサーバー
+
+### vi /etc/postfix/main.cf
+
+myhostname = mail.talkn.io
+mydomain = talkn.io
+myorigin = $mydomain
+inet_interfaces = all
+inet_protocols = all
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain, \$mydomain
+home_mailbox = Maildir/
+
+message_size_limit = 10485760
+local_recipient_maps =
+luser_relay = unknown_user@localhost
+relayhost = [smtp.gmail.com]:587
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_sasl_security_options = noanonymous
+smtp_sasl_tls_security_options = noanonymous
+smtp_sasl_mechanism_filter = plain
+smtp_use_tls = yes
+
+### ⑤cyrus-sasl: SMTP-Auth
+
+### ⑥dovecot: 受信メールサーバー
+
 ## Postfix(dovcot&cyrus-sasl(SMTP-AUTH))
 
 ```
+
+
+# yum -y install cyrus-sasl-plain
+# yum -y install cyrus-sasl-md5
 # yum install cyrus-sasl
 # systemctl start saslauthd
 # systemctl enable saslauthd
@@ -11,6 +67,7 @@ mech_list: plain login
 # vi /etc/postfix/main.cf
 message_size_limit = 5242880
 inet_interfaces = all
+mydistination = mail.talkn.io
 myhostname = mail.talkn.io
 mydomain = talkn.io
 myorigin = $mydomain
