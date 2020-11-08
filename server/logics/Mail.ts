@@ -10,16 +10,10 @@ export default class Mail {
 
     //メール情報の作成
     var message = {
-      from: "Inquiry@mail.talkn.io",
+      from: "admin@mail.talkn.io",
       to: "admin@mail.talkn.io",
       subject: inquiry.title,
-      text:
-        inquiry.content +
-        " FRLANGUAGEOM " +
-        inquiry.language +
-        inquiry.mail +
-        " FROM " +
-        inquiry.mail
+      text:inquiry.content 
     };
 
     // メール送信
