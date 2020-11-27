@@ -1,4 +1,5 @@
-const path = require("path");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const path = require( "path" );
 const mode = process.env.MODE;
 let port = 8000;
 switch (mode) {
@@ -50,5 +51,10 @@ module.exports = {
   performance: {
     hints: false,
   },
+  /*
+  plugins: [
+    new BundleAnalyzerPlugin()
+  ],
+*/
   devtool: "inline-source-map",
 };
