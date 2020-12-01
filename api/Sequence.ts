@@ -85,7 +85,6 @@ export default class Sequence {
           app: ["multistream", "dispThreadType", "offsetFindId"],
         },
         responseEmitState: {
-          //          thread: "*",
           app: ["dispThreadType", "offsetFindId"],
           posts: "*",
         },
@@ -147,14 +146,6 @@ export default class Sequence {
           user: "*", // 懸念
         },
         responseEmitState: { thread: "*" },
-        responseBroadcastState: {},
-      },
-      login: {
-        requestPublicState: { user: ["requestLoginType"] },
-        requestPrivateState: {
-          user: ["uid", "href"],
-        },
-        responseEmitState: { user: "*" },
         responseBroadcastState: {},
       },
       disconnect: {
