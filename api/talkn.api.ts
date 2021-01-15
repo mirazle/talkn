@@ -12,12 +12,16 @@ const script = document.currentScript;
 console.log(script.getAttribute('async'));
 const isPureApi = Boolean(script.getAttribute("src").indexOf(define.SUB_DOMAINS.BANNER) === -1);
 const bootTalknApi = () => {
+  console.log("A");
   const talknWindow = new Window(define.APP_TYPES.API);
   talknWindow.boot().then((_window: Window) => {
+console.log("B");
     const talknAPI: PublicApi = new PublicApi(_window);
     if (isPureApi) {
+console.log("C");
       window.talknAPI = talknAPI;
     } else {
+console.log("D");
       Banner(talknAPI);
     }
   });
