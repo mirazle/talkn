@@ -33,4 +33,7 @@ switch (window.document.readyState) {
   case "complete":
     bootTalknApi();
     break;
+  case "loading":
+    window.addEventListener('load', bootTalknApi);
+    break;
 }
