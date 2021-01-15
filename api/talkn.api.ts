@@ -27,6 +27,7 @@ console.log("D");
   });
 };
 
+console.log(window.document.readyState);
 switch (window.document.readyState) {
   case "interactive":
   case "complete":
