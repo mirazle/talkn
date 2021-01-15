@@ -8,28 +8,24 @@ declare global {
     talknAPI: any;
   }
 }
+const script = document.currentScript;
+console.log(script);
+const isPureApi = Boolean(script.getAttribute("src").indexOf(define.SUB_DOMAINS.BANNER) === -1);
+const bootTalknApi = () => {
+  const talknWindow = new Window(define.APP_TYPES.API);
+  talknWindow.boot().then((_window: Window) => {
+    const talknAPI: PublicApi = new PublicApi(_window);
+    if (isPureApi) {
+      window.talknAPI = talknAPI;
+    } else {
+      Banner(talknAPI);
+    }
+  });
+};
 
-window.talknAPI = new Promise((resolve) => {
-  const script = document.currentScript;
-  const isPureApi = Boolean(script.getAttribute("src").indexOf(define.SUB_DOMAINS.BANNER) === -1);
-  const bootTalknApi = () => {
-    const talknWindow = new Window(define.APP_TYPES.API);
-    talknWindow.boot().then((_window: Window) => {
-      const talknAPI: PublicApi = new PublicApi(_window);
-      if (isPureApi) {
-        resolve(talknAPI);
-      } else {
-        Banner(talknAPI);
-        resolve(talknAPI);
-      }
-    });
-  };
-
-  switch (window.document.readyState) {
-  //  case "complete":
-    case "interactive":
-    case "complete":
-      bootTalknApi();
-      break;
-  }
-});
+switch (window.document.readyState) {
+  case "interactive":
+  case "complete":
+    bootTalknApi();
+    break;
+}
