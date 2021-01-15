@@ -9,7 +9,7 @@ declare global {
   }
 }
 const script = document.currentScript;
-console.log(script.getAttribute('asyn'));
+console.log(script.getAttribute('async'));
 const isPureApi = Boolean(script.getAttribute("src").indexOf(define.SUB_DOMAINS.BANNER) === -1);
 const bootTalknApi = () => {
   const talknWindow = new Window(define.APP_TYPES.API);
