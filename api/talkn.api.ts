@@ -9,21 +9,28 @@ declare global {
   }
 }
 console.log(1);
+
 const script = document.currentScript;
 const isPureApi = Boolean(script.getAttribute("src").indexOf(define.SUB_DOMAINS.BANNER) === -1);
 const bootTalknApi = () => {
+
   console.log(4);
   const talknWindow = new Window(define.APP_TYPES.API);
-console.log(5);
+
+  console.log(5);
   talknWindow.boot().then((_window: Window) => {
-console.log(6);
+
+    console.log(6);
     const talknAPI: PublicApi = new PublicApi(_window);
-console.log(7);
+
+    console.log(7);
     if (isPureApi) {
-console.log(8);
+
+      console.log(8);
       window.talknAPI = talknAPI;
     } else {
-console.log(9);
+
+      console.log(9);
       Banner(talknAPI);
     }
   });
@@ -37,6 +44,7 @@ switch (window.document.readyState) {
     break;
   case "loading":
     console.log(3);
-    window.addEventListener('load', bootTalknApi);
+    bootTalknApi();
+//    window.addEventListener('load', bootTalknApi);
     break;
 }
