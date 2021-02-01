@@ -12,13 +12,13 @@ console.log(1);
 
 const script = document.currentScript;
 const isPureApi = Boolean(script.getAttribute("src").indexOf(define.SUB_DOMAINS.BANNER) === -1);
-const bootTalknApi = () => {
+const bootTalknApi = async () => {
 
   console.log(4);
   const talknWindow = new Window(define.APP_TYPES.API);
 
   console.log(5);
-  talknWindow.boot().then((_window: Window) => {
+  await talknWindow.boot().then((_window: Window) => {
 
     console.log(6);
     const talknAPI: PublicApi = new PublicApi(_window);
@@ -44,7 +44,7 @@ switch (window.document.readyState) {
     break;
   case "loading":
     console.log(3);
-    bootTalknApi();
+    awaitbootTalknApi();
 //    window.addEventListener('load', bootTalknApi);
     break;
 }
