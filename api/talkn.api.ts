@@ -33,6 +33,4 @@ window.talknAPI = new Promise((resolve) => {
       window.addEventListener('load', bootTalknApi);
       break;
   }
-}).then((talknAPI) => {
-  window.talknAPI = talknAPI;
 });
