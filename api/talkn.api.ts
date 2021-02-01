@@ -8,29 +8,29 @@ declare global {
     talknAPI: any;
   }
 }
-const script = document.currentScript;
-const isPureApi = Boolean(script.getAttribute("src").indexOf(define.SUB_DOMAINS.BANNER) === -1);
-const bootTalknApi = () => {
-  const talknWindow = new Window(define.APP_TYPES.API);
-  console.log('API BOOT START');
-  talknWindow.boot().then((_window: Window) => {
-console.log('API BOOT STARTED');
-    const talknAPI: PublicApi = new PublicApi(_window);
-    if (isPureApi) {
-      window.talknAPI = talknAPI;
-    } else {
-      Banner(talknAPI);
-    }
-  });
-};
 
-switch (window.document.readyState) {
-  case "interactive":
-  case "complete":
-    bootTalknApi();
-    break;
-  case "loading":
-    bootTalknApi();
-    // window.addEventListener('load', bootTalknApi);
-    break;
-}
+window.talknAPI = new Promise((resolve) => {
+  const script = document.currentScript;
+  const isPureApi = Boolean(script.getAttribute("src").indexOf(define.SUB_DOMAINS.BANNER) === -1);
+  const bootTalknApi = () => {
+    const talknWindow = new Window(define.APP_TYPES.API);
+    talknWindow.boot().then((_window: Window) => {
+      const talknAPI: PublicApi = new PublicApi(_window);
+      if (isPureApi) {
+        resolve(talknAPI);
+      } else {
+        Banner(talknAPI);
+      }
+    });
+  };
+
+  switch (window.document.readyState) {
+    case "interactive":
+    case "complete":
+      bootTalknApi();
+      break;
+    case "loading":
+      window.addEventListener('load', bootTalknApi);
+      break;
+  }
+});
