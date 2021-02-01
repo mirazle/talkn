@@ -8,7 +8,8 @@ export class PublicApi {
   constructor(_win) {
     const { api, store } = _win;
     const publicApiMethods: PublicApiMethodsType = {
-      ver: "2020/09/07",
+      ver: "2021/02/01",
+      on: (ch: string) => api("onResponseChAPI", ch),
       useIo: (id: string) => api("use", id),
       tune: (bootOption: BootOption, callback?: Function) => api("tune", bootOption, callback),
       untune: (id) => api("untune", { id }),
