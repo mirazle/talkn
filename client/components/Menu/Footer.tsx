@@ -1,7 +1,7 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
 import Container from "client/style/Container";
-import Icon from "client/components/Icon";
+import Icon from "client/components/common/Icon";
 
 interface MenuFooterProps {
   mode?: string;

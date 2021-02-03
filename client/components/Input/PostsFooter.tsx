@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import TalknComponent from "client/components/TalknComponent";
 import App from "api/store/App";
 import Ui from "client/store/Ui";
@@ -65,7 +65,7 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
     }
   }
 
-  getIconStyle() {
+  getIconStyle(): CSSProperties {
     const { style, thread } = this.props.state;
     const favicon = `https://${conf.assetsIconPath}${util.getSaveFaviconName(thread.favicon)}`;
     return thread.favicon ? { ...style.postsFooter.icon, backgroundImage: `url(${favicon})` } : style.postsFooter.icon;
@@ -95,7 +95,7 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
     );
   }
 
-  renderButton() {
+  renderButton(): React.ReactNode {
     const { style, ui } = this.props.state;
     switch (ui.extensionMode) {
       case Ui.extensionModeExtNoneLabel:

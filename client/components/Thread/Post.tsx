@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import TimeAgo from "react-timeago";
 import Sequence from "api/Sequence";
 import Ui from "client/store/Ui";
-import Icon from "client/components/Icon";
+import Icon from "client/components/common/Icon";
 import util from "common/util";
 import conf from "client/conf";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";

@@ -6,7 +6,7 @@ import Ui from "client/store/Ui";
 import Style from "client/style/index";
 import Container from "client/style/Container";
 import { default as LockMenuStyle } from "client/style/LockMenu";
-import Icon from "client/components/Icon";
+import Icon from "client/components/common/Icon";
 import { Label } from "client/components/common";
 
 interface LockMenuProps {

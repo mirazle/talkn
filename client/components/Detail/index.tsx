@@ -6,12 +6,11 @@ import Sequence from "api/Sequence";
 import Ui from "client/store/Ui";
 import Thread from "api/store/Thread";
 import Marquee from "client/container/util/Marquee";
-import DetailFooter from "client/components/DetailFooter";
-import EmotionGraph from "client/components/EmotionGraph";
-import LockMenu from "client/components/LockMenu";
-import Icon from "client/components/Icon";
+import DetailFooter from "client/components/Detail/DetailFooter";
+import EmotionGraph from "client/components/Detail/EmotionGraph";
+import LockMenu from "client/components/Detail/LockMenu";
+import Icon from "client/components/common/Icon";
 import Container from "client/style/Container";
-import thread from "api/reducers/thread";
 
 interface DetailProps {
   onClickOpenLockMenu?: any;

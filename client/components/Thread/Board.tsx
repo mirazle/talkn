@@ -2,8 +2,8 @@ import React from "react";
 import TalknComponent from "client/components/TalknComponent";
 import ClientState from "client/store/";
 import App from "api/store/App";
-import Icon from "client/components/Icon";
-import Links from "client/components/Links";
+import Icon from "client/components/common/Icon";
+import Links from "client/components/Thread/Links";
 import IconStyle from "client/style/Icon";
 import BoardStyle from "client/style/Board";
 

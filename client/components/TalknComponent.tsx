@@ -13,6 +13,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
   Posts: HTMLOListElement;
   constructor(props: P) {
     super(props);
+    console.log(this);
     this.Posts = document.querySelector("[data-component-name=Posts]");
     this.onScroll = this.onScroll.bind(this);
   }

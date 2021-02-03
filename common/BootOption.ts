@@ -2,19 +2,33 @@ import conf from "common/conf";
 import define from "common/define";
 import Sequence from "api/Sequence";
 
-type EnvType = typeof define.DEVELOPMENT | typeof define.LOCALHOST | typeof define.PRODUCTION;
-type BootType = typeof define.APP_TYPES.API | typeof define.APP_TYPES.PORTAL | typeof define.APP_TYPES.EXTENSION;
-type BootProtocolType = typeof Sequence.HTTPS_PROTOCOL | typeof Sequence.HTTP_PROTOCOL | typeof Sequence.TALKN_PROTOCOL;
-type BootOptionParamsType = {
+export const RenderModeAllType = 'ALL';
+export const RenderModeThreadDetailType = 'THREAD_DETAIL';
+export const RenderModeOnlyPostType = 'ONRY_POST';
+export const RenderModeOnlyIndexType = 'ONLY_INDEX';
+export const RenderModeOnlyThreadType = 'ONLY_THREAD';
+
+export type EnvType = typeof define.DEVELOPMENT | typeof define.LOCALHOST | typeof define.PRODUCTION;
+export type BootType = typeof define.APP_TYPES.API | typeof define.APP_TYPES.PORTAL | typeof define.APP_TYPES.EXTENSION;
+export type BootProtocolType = typeof Sequence.HTTPS_PROTOCOL | typeof Sequence.HTTP_PROTOCOL | typeof Sequence.TALKN_PROTOCOL;
+export type BootOptionParamsType = {
   ch: string;
   hasSlash: boolean;
   protocol: BootProtocolType;
   host: string;
+  renderMode: RenderModeType;
 };
-type BootOptionType = {
+export type BootOptionType = {
   id: string;
   params?: BootOptionParamsType;
 };
+
+export type RenderModeType =
+  typeof RenderModeAllType |
+  typeof RenderModeThreadDetailType |
+  typeof RenderModeOnlyPostType |
+  typeof RenderModeOnlyIndexType |
+  typeof RenderModeOnlyThreadType;
 
 export default class BootOption {
   env: EnvType = define.PRODUCTION;
@@ -24,6 +38,7 @@ export default class BootOption {
   hasSlash: boolean = true;
   protocol: BootProtocolType = Sequence.HTTPS_PROTOCOL;
   host: string = location.host;
+  renderMode: RenderModeType = RenderModeAllType;
   defaultProps: BootOptionType = {
     id: "",
     params: {
@@ -31,6 +46,7 @@ export default class BootOption {
       hasSlash: true,
       protocol: Sequence.HTTPS_PROTOCOL,
       host: location.host,
+      renderMode: RenderModeAllType,
     },
   };
   constructor(id: string, params?: BootOptionParamsType) {

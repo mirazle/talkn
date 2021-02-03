@@ -1,11 +1,10 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import Sequence from "api/Sequence";
 import App from "api/store/App";
 import Ui from "client/store/Ui";
-import Audio from "client/components/Media/Audio";
-import Video from "client/components/Media/Video";
+import Audio from "client/components/Thread/Media/Audio";
+import Video from "client/components/Thread/Media/Video";
 
 interface MediaProps {
   state: any;
