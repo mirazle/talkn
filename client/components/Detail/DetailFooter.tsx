@@ -2,7 +2,7 @@ import React from "react";
 import TalknComponent from "client/components/TalknComponent";
 import conf from "common/conf";
 import Ui from "client/store/Ui";
-import Icon from "client/components/Icon";
+import Icon from "client/components/common/Icon";
 import Container from "client/style/Container";
 
 interface DetailFooterProps {

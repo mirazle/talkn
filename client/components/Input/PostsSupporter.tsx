@@ -2,7 +2,7 @@ import React from "react";
 import TalknComponent from "client/components/TalknComponent";
 import ClientState from "client/store/";
 import Emotions from "common/emotions/index";
-import Icon from "client/components/Icon";
+import Icon from "client/components/common/Icon";
 
 interface PostsSupporterProps {
   state: any;

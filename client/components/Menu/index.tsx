@@ -3,12 +3,10 @@ import Thread from "api/store/Thread";
 import TalknComponent from "client/components/TalknComponent";
 import Ui from "client/store/Ui";
 import { Label } from "client/components/common";
-// import RankChList from "client/components/Menu/RankChList";
 import MenuFooter from "client/components/Menu/Footer";
-import Ch from "client/components/Menu/common/Ch";
-import Icon from "client/components/Icon";
+import Ch from "client/components/Menu/Ch";
+import Icon from "client/components/common/Icon";
 import ChStyle from "client/style/Menu/common/Ch";
-import Ranks from "api/store/Ranks";
 
 interface Props {
   state: any;

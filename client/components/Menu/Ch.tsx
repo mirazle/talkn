@@ -3,7 +3,7 @@ import Thread from "api/store/Thread";
 import ContainerStyle from "client/style/Container";
 import ChStyle from "client/style/Menu/common/Ch";
 import LiveCnt from "client/components/common/LiveCnt";
-import Icon from "client/components/Icon";
+import Icon from "client/components/common/Icon";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
 
 interface ChProps extends MarqueeAreaProps {

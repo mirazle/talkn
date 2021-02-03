@@ -2,7 +2,7 @@ import React from "react";
 import TalknComponent from "client/components/TalknComponent";
 import Ui from "client/store/Ui";
 import Marquee from "client/container/util/Marquee";
-import Icon from "client/components/Icon";
+import Icon from "client/components/common/Icon";
 import LiveCnt from "client/components/common/LiveCnt";
 
 interface HeaderProps {

@@ -3,8 +3,15 @@ import TalknComponent from "client/components/TalknComponent";
 import App from "api/store/App";
 import Ui from "client/store/Ui";
 import DateHelper from "client/container/util/DateHelper";
-import Post from "client/components/Post";
-import TimeMarker from "client/components/TimeMarker";
+import ContainerStyle from "client/style/Container";
+import Icon from "client/components/common/Icon";
+import Post from "client/components/Thread/Post";
+import TimeMarker from "client/components/Thread/TimeMarker";
+import Board from "client/components/Thread/Board";
+import Media from "client/components/Thread/Media";
+import Marquee from "client/container/util/Marquee";
+import IconStyle from "client/style/Icon";
+
 
 interface PostsProps {
   state: any;
@@ -26,6 +33,7 @@ interface PostsState {
 export default class Posts extends TalknComponent<PostsProps, PostsState> {
   constructor(props) {
     super(props);
+    this.renderNewPost = this.renderNewPost.bind(this);
     this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
     this.handleOnClickGetMore = this.handleOnClickGetMore.bind(this);
     this.handleOnClickPost = this.handleOnClickPost.bind(this);
@@ -138,20 +146,30 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
   }
 
   render() {
-    const { style, thread } = this.props.state;
+    const { style } = this.props.state;
+    const NewPost = this.renderNewPost(this.props);
+    const LinkLabel = this.renderLinkLabel(this.props);
+    const FixMarker = this.renderFixMarker(this.props);
     return (
-      <ol
-        data-component-name={"Posts"}
-        style={style.posts.self}
-        ref="thread"
-        onMouseDown={this.handleOnMouseDown}
-        onScroll={(e) => {
-          const { scrollTop, clientHeight, scrollHeight }: any = e.target;
-          this.onScroll({ scrollTop, clientHeight, scrollHeight });
-        }}
-      >
-        {this.renderPostList()}
-      </ol>
+      <>
+        <ol
+          data-component-name={"Posts"}
+          style={style.posts.self}
+          ref="thread"
+          onMouseDown={this.handleOnMouseDown}
+          onScroll={(e) => {
+            const { scrollTop, clientHeight, scrollHeight }: any = e.target;
+            this.onScroll({ scrollTop, clientHeight, scrollHeight });
+          }}
+        >
+          {this.renderPostList()}
+        </ol>
+        <Media {...this.props} />
+        <Board {...this.props} />
+        {LinkLabel}
+        {NewPost}
+        {FixMarker}
+      </>
     );
   }
 
@@ -209,5 +227,77 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
       );
     }
     return dispPosts;
+  }
+
+  renderNewPost(props): React.ReactNode {
+    const { style, app, ui } = props.state;
+
+    const log = false;
+    let dispNewPost = false;
+
+    // 実際に目視できるスレッドの高さ
+    const frameHeight = ContainerStyle.getBlockSize({ app, ui }) * 2;
+    const postsFrameHeight = window.innerHeight - frameHeight;
+
+    // 実際のスレッドの高さ
+    // const postsRealHeight = window.talknWindow.dom.getPostsClientHeight();
+    const PostsComponent = document.querySelector("[data-component-name=Posts]");
+
+    if (log) console.log("フレーム枠の縦幅： " + postsFrameHeight);
+    if (log) console.log("実際の投稿縦幅： " + window.talknWindow.dom.scrollHeight);
+    if (log) console.log("最下位スクロール：　" + window.talknWindow.dom.isScrollBottom);
+
+    // フレーム縦幅よりも、実際の投稿縦幅のほうが小さい場合
+    if (PostsComponent) {
+      if (window.talknWindow.dom.scrollHeight < postsFrameHeight) {
+        // フレーム縦幅よりも、実際の投稿縦幅のほうが大きい場合
+      } else {
+        // 一番下までスクロールしている場合
+        if (window.talknWindow.dom.isScrollBottom) {
+          // 一番下までスクロールしていない場合
+        } else {
+          dispNewPost = true;
+        }
+      }
+    }
+
+    if (dispNewPost) {
+      //    if( postsFrameHeight < postsRealHeight ){
+      return (
+        <div data-component-name="newPost" style={style.container.newPost}>
+          NEW POST
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  renderFixMarker(props): React.ReactNode {
+    const { app, thread, ui, uiTimeMarker, style } = this.props.state;
+    if (app.isMediaCh) {
+      return undefined;
+    } else {
+      if (ui.isLoading) {
+        const loading = Icon.getLoading(IconStyle.getLoading({ app, ui }));
+        return <TimeMarker type={"Fix"} label={loading} style={style.timeMarker.fixTimeMarker} />;
+      } else if (thread.postCnt > 0 && uiTimeMarker.now && uiTimeMarker.now.label) {
+        return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
+      }
+    }
+    return undefined;
+  }
+
+  renderLinkLabel(props): React.ReactNode {
+    const { style, app, thread } = this.props.state;
+    if (app.isLinkCh) {
+      return (
+        <div data-component-name={"linkLabel"} style={style.container.linkLabel}>
+          <Marquee text={`Link: ${thread.title}`} loop={true} hoverToStop={false} trailing={0} leading={0} />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 }

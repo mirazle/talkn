@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import TalknComponent from "client/components/TalknComponent";
 import Sequence from "api/Sequence";
 import BoardStyle from "client/style/Board";
-import Link from "client/components/Link";
+import Link from "client/components/Thread/Link";
 
 interface LinksProps {
   displayLinks: any;

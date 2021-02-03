@@ -76,8 +76,8 @@ export default class Html {
 
   exeFetch(protocol, url) {
     return new Promise((resolve, reject) => {
-      const option = { method: "GET", encoding: "binary", url: protocol + url };
-
+      const option = { method: "GET", encoding: "binary", url: protocol + encodeURI(url) };
+      console.log(option);
       // localhost is not get.
       request(option, (error, response, body) => {
         if (log) {
