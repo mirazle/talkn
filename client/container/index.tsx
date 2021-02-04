@@ -208,10 +208,8 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
         <Style {...props} />
         <Posts {...props} />
         <div data-component-name="fixedComponents">
-          <PostsSupporter {...props} />
-          <DetailRight {...props} />
+          <DetailModal {...props} />
           <LockMenu {...props} />
-          <PostsFooter {...props} />
           <InnerNotif {...this.props} />
           {HideScreenBottom}
         </div>
