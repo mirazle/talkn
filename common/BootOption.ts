@@ -26,7 +26,7 @@ export default class BootOption {
   hasSlash: boolean = true;
   protocol: BootProtocolType = Sequence.HTTPS_PROTOCOL;
   host: string = location.host;
-  screenMode: RenderModeType = Ui.screenModeAllType;
+  screenMode: RenderModeType = Ui.screenModeOnlyIndexType;
   defaultProps: BootOptionType = {
     id: "",
     params: {
@@ -34,7 +34,7 @@ export default class BootOption {
       hasSlash: true,
       protocol: Sequence.HTTPS_PROTOCOL,
       host: location.host,
-      screenMode: Ui.screenModeAllType,
+      screenMode: Ui.screenModeOnlyIndexType,
     },
   };
   constructor(id: string, params?: BootOptionParamsType) {
