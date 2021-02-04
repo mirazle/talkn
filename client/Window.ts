@@ -130,6 +130,7 @@ export default class Window {
 
         if (method === "WS_CONSTRUCTED") {
           this.conned(this);
+          console.log(params);
           if (this.id === define.APP_TYPES.PORTAL) {
             // @ts-ignore
             const backParams = params.ch ? { ...this.bootOption, ch: params.ch } : this.bootOption;
