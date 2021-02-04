@@ -1,21 +1,30 @@
 import Schema from "api/store/Schema";
 import conf from "client/conf";
 
-export const RenderModeAllType = 'ALL';
-export const RenderModeThreadDetailType = 'THREAD_DETAIL';
-export const RenderModeOnlyPostType = 'ONRY_POST';
-export const RenderModeOnlyIndexType = 'ONLY_INDEX';
-export const RenderModeOnlyThreadType = 'ONLY_THREAD';
-
 export type ClickedType = "Ch" | "BackToRootCh" | "ToMedia" | "Links" | "findMediaCh" | "";
 export type RenderModeType =
-  typeof RenderModeAllType |
-  typeof RenderModeThreadDetailType |
-  typeof RenderModeOnlyPostType |
-  typeof RenderModeOnlyIndexType |
-  typeof RenderModeOnlyThreadType;
+  typeof Ui.screenModeAllType |
+  typeof Ui.screenModeThreadDetailType |
+  typeof Ui.screenModeOnlyPostType |
+  typeof Ui.screenModeOnlyIndexType |
+  typeof Ui.screenModeOnlyThreadType;
 
 export default class Ui extends Schema {
+  static get screenModeAllType() {
+    return "ALL";
+  }
+  static get screenModeThreadDetailType() {
+    return "THREAD_DETAIL";
+  }
+  static get screenModeOnlyPostType() {
+    return "ONRY_POST";
+  }
+  static get screenModeOnlyThreadType() {
+    return "ONLY_THREAD";
+  }
+  static get screenModeOnlyIndexType() {
+    return "ONLY_INDEX";
+  }
   static get openLockMenuLabelNo() {
     return "No";
   }
@@ -299,6 +308,7 @@ export default class Ui extends Schema {
     const width = Ui.getWidth(params);
     const height = Ui.getHeight(params);
     const postsHeight = params.postsHeight ? params.postsHeight : 0;
+    const screenMode = params.screenMode ? params.screenMode : Ui.screenModeAllType;
     const screenSize = Ui.getScreenSize(width);
     const extensionMode = params.extensionMode ? params.extensionMode : Ui.extensionModeExtNoneLabel;
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
@@ -344,6 +354,7 @@ export default class Ui extends Schema {
       width,
       height,
       postsHeight,
+      screenMode,
       screenSize,
       extensionMode,
       extensionWidth,
