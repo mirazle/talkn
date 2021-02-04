@@ -17,14 +17,14 @@ export default class DetailRight {
   }
   static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         width = "0%";
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         width = "0%";
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         width = "30%";
         break;
     }
@@ -32,14 +32,14 @@ export default class DetailRight {
   }
   static getMinWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         width = "0%";
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         width = "320px";
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         width = "320px";
         break;
     }
@@ -48,14 +48,14 @@ export default class DetailRight {
 
   static getTransform({ app, ui }) {
     let transform = DetailRight.closeSelfTransform;
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         transform = DetailRight.closeSelfTransform;
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         transform = DetailRight.closeSelfTransform;
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         transform = `translate3d(0px, 0px, 0px)`;
         /*
         if (ui.isOpenDetail) {

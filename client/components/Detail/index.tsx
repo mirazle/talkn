@@ -379,21 +379,21 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
 
   renderLockMenu() {
     const { ui } = this.props.state;
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
-      case Ui.screenModeMiddleLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
+      case Ui.screenSizeMiddleLabel:
         return <LockMenu {...this.props} />;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         return null;
     }
   }
 
   renderDetailFooter() {
     const { ui } = this.props.state;
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
-      case Ui.screenModeMiddleLabel:
-      case Ui.screenModeLargeLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
+      case Ui.screenSizeMiddleLabel:
+      case Ui.screenSizeLargeLabel:
         return <DetailFooter {...this.props} />;
     }
   }

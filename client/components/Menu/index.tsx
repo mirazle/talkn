@@ -68,7 +68,7 @@ export default class Menuextends extends TalknComponent<Props, State> {
     const { thread, ui } = this.props.state;
     const isFocusCh = thread.ch === ch;
     if (isFocusCh) {
-      if (ui.screenMode === Ui.screenModeSmallLabel) {
+      if (ui.screenSize === Ui.screenSizeSmallLabel) {
         this.clientAction("ON_CLICK_TOGGLE_DISP_MENU");
       }
     } else {

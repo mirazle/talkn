@@ -7,16 +7,16 @@ import Menu from "./Menu";
 export default class Footer {
   static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         width = "200%";
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         width = app.isOpenDetail
           ? `calc( 100% + ${Menu.getWidth({ app, ui })} )`
           : `calc( 100% + ${Detail.getWidth({ app, ui })} )`;
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         width = `100%`;
         break;
     }
@@ -25,14 +25,14 @@ export default class Footer {
 
   static getLeft({ app, ui }, addUnit = false) {
     let left = "0";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         left = "0px";
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         left = "0px";
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         left = "0px";
         break;
     }
@@ -45,14 +45,14 @@ export default class Footer {
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       transform = ui.isOpenMenu ? "translate3d( 0%, 0px, 0px )" : "translate3d( -50%, 0px, 0px )";
     } else {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
+      switch (ui.screenSize) {
+        case Ui.screenSizeSmallLabel:
           transform = ui.isOpenMenu ? "translate3d( 100%, 0px, 0px )" : "translate3d( 0px, 0px, 0px )";
           break;
-        case Ui.screenModeMiddleLabel:
+        case Ui.screenSizeMiddleLabel:
           transform = ui.isOpenDetail ? `translate3d( -${Menu.baseWidth}, 0px, 0px )` : "translate3d( 0px ,0px, 0px )";
           break;
-        case Ui.screenModeLargeLabel:
+        case Ui.screenSizeLargeLabel:
           transform = "translate3d( 0px ,0px, 0px )";
           break;
       }
@@ -64,7 +64,7 @@ export default class Footer {
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return { border: 0 };
     } else {
-      return ui.screenMode === Ui.screenModeSmallLabel
+      return ui.screenSize === Ui.screenSizeSmallLabel
         ? { border: Container.border }
         : { borderTop: Container.border, borderBottom: Container.border };
     }

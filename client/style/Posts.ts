@@ -28,12 +28,12 @@ export default class Posts {
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       width = "90%";
     } else {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
+      switch (ui.screenSize) {
+        case Ui.screenSizeSmallLabel:
           return "100%";
-        case Ui.screenModeMiddleLabel:
+        case Ui.screenSizeMiddleLabel:
           return `calc(100% - ${Menu.getWidth({ app, ui }, false)})`;
-        case Ui.screenModeLargeLabel:
+        case Ui.screenSizeLargeLabel:
           width = `calc( ${100 - Detail.getWidth({ app, ui }, false)}% - ${Menu.getWidth({ app, ui }, false)} )`;
           break;
       }
@@ -56,12 +56,12 @@ export default class Posts {
   }
 
   static closeIndexTransform({ app, ui }) {
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         return `translate3d( -${ui.width}px, 0px, 0px)`;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         return `translate3d( -${Menu.getWidth({ app, ui })}px, 0px, 0px)`;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         return `translate3d( -${Menu.getWidth({ app, ui })}px, 0px, 0px)`;
     }
   }
@@ -76,15 +76,15 @@ export default class Posts {
 
   static getBorders({ app, ui }) {
     let borders = { borderTop: "0", borderRight: "0", borderBottom: "0", borderLeft: "0" };
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         borders.borderRight = Container.border;
         borders.borderLeft = Container.border;
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         borders.borderRight = Container.border;
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         break;
     }
     return borders;
@@ -93,22 +93,22 @@ export default class Posts {
   static getMargin({ app, ui }, addUnit = false) {
     let margin = "0";
     if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
+      switch (ui.screenSize) {
+        case Ui.screenSizeSmallLabel:
           margin = `0`;
           break;
-        case Ui.screenModeMiddleLabel:
-        case Ui.screenModeLargeLabel:
+        case Ui.screenSizeMiddleLabel:
+        case Ui.screenSizeLargeLabel:
           margin = `0 0 0 ${Menu.getWidth({ app, ui })}`;
           break;
       }
     } else {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
+      switch (ui.screenSize) {
+        case Ui.screenSizeSmallLabel:
           margin = `0`;
           break;
-        case Ui.screenModeMiddleLabel:
-        case Ui.screenModeLargeLabel:
+        case Ui.screenSizeMiddleLabel:
+        case Ui.screenSizeLargeLabel:
           margin = `0 0 0 ${Menu.getWidth({ app, ui })}`;
           break;
       }
@@ -123,24 +123,24 @@ export default class Posts {
       padding = `${blockSize * 2.3}px 0 ${blockSize}px 0`;
     } else {
       if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
-        switch (ui.screenMode) {
-          case Ui.screenModeSmallLabel:
+        switch (ui.screenSize) {
+          case Ui.screenSizeSmallLabel:
             padding = `${blockSize}px 0 ${blockSize}px 0`;
             break;
-          case Ui.screenModeMiddleLabel:
+          case Ui.screenSizeMiddleLabel:
             padding = `${blockSize}px 0 ${blockSize}px 0`;
             break;
-          case Ui.screenModeLargeLabel:
+          case Ui.screenSizeLargeLabel:
             padding = `${blockSize}px 0 ${blockSize}px 0`;
             break;
         }
       } else {
-        switch (ui.screenMode) {
-          case Ui.screenModeSmallLabel:
+        switch (ui.screenSize) {
+          case Ui.screenSizeSmallLabel:
             padding = `${blockSize}px 0 ${blockSize}px 0`;
             break;
-          case Ui.screenModeMiddleLabel:
-          case Ui.screenModeLargeLabel:
+          case Ui.screenSizeMiddleLabel:
+          case Ui.screenSizeLargeLabel:
             padding = `${blockSize}px 0 ${blockSize}px 0`;
             break;
         }
@@ -160,8 +160,8 @@ export default class Posts {
   }
 
   static getSelfHeight({ app, ui }) {
-    switch (ui.screenMode) {
-      case Ui.screenModeLargeLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeLargeLabel:
         if (app.chType === App.mediaTagTypeVideo) {
           return `calc( 100% - ${
             Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui }) + Video.height
@@ -169,7 +169,7 @@ export default class Posts {
         } else {
           return `100vh`;
         }
-      case Ui.screenModeSmallLabel:
+      case Ui.screenSizeSmallLabel:
         return "100vh";
     }
   }
@@ -178,7 +178,7 @@ export default class Posts {
     if (ui.extensionMode !== Ui.extensionModeExtNoneLabel) {
       return `430px`;
     } else {
-      if (ui.screenMode === Ui.screenModeLargeLabel) {
+      if (ui.screenSize === Ui.screenSizeLargeLabel) {
         return `calc( 100% - ${Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui })}px )`;
       } else {
         return "auto";
@@ -204,11 +204,11 @@ export default class Posts {
     if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
       return boxShadow;
     } else {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
+      switch (ui.screenSize) {
+        case Ui.screenSizeSmallLabel:
           return Container.lineInsetShadow;
-        case Ui.screenModeMiddleLabel:
-        case Ui.screenModeLargeLabel:
+        case Ui.screenSizeMiddleLabel:
+        case Ui.screenSizeLargeLabel:
           return boxShadow;
       }
     }
@@ -223,11 +223,11 @@ export default class Posts {
     let background = Container.whiteRGBA;
     const boxShadow = Posts.getSelfBoxShadow({ app, ui });
     // screen mode large is Posts scroll( no window scroll ).
-    if (ui.screenMode === Ui.screenModeLargeLabel) {
+    if (ui.screenSize === Ui.screenSizeLargeLabel) {
       position = "fixed";
       overflowX = "hidden";
       overflowY = "scroll";
-    } else if (ui.screenMode === Ui.screenModeSmallLabel) {
+    } else if (ui.screenSize === Ui.screenSizeSmallLabel) {
       overflowX = "hidden";
       overflowY = "scroll";
     }

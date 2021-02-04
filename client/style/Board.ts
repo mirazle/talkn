@@ -137,12 +137,12 @@ export default class Board {
       if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
         width = "93%";
       } else {
-        switch (ui.screenMode) {
-          case Ui.screenModeSmallLabel:
+        switch (ui.screenSize) {
+          case Ui.screenSizeSmallLabel:
             return "93%";
-          case Ui.screenModeMiddleLabel:
+          case Ui.screenSizeMiddleLabel:
             return `calc(97% - ${Menu.getWidth({ app, ui }, false)})`;
-          case Ui.screenModeLargeLabel:
+          case Ui.screenSizeLargeLabel:
             width = `calc( ${97 - Detail.getWidth({ app, ui }, false)}% - ${Menu.getWidth({ app, ui }, false)} )`;
             break;
         }
@@ -181,7 +181,7 @@ export default class Board {
 
   static getSelfRight({ app, ui }, addUnit = false): any {
     const right =
-      ui.screenMode === Ui.screenModeLargeLabel
+      ui.screenSize === Ui.screenSizeLargeLabel
         ? `calc( ${Detail.getWidth({ app, ui }, true)} + ${Board.right}px )`
         : `${Board.right}px`;
     return addUnit ? right : Style.trimUnit(right);

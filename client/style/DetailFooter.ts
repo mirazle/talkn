@@ -5,7 +5,7 @@ import DetailModal from "./DetailModal";
 
 export default class DetailFooter {
   static getDetailClass({ app, ui }) {
-    return ui.screenMode === Ui.screenModeSmallLabel ? DetailModal : DetailRight;
+    return ui.screenSize === Ui.screenSizeSmallLabel ? DetailModal : DetailRight;
   }
   static get padding() {
     return 20;
@@ -14,11 +14,11 @@ export default class DetailFooter {
     return 5;
   }
   static getWidth({ app, ui }, addUnit = false) {
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         return "100%";
-      case Ui.screenModeMiddleLabel:
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeMiddleLabel:
+      case Ui.screenSizeLargeLabel:
         return Detail.getDetailClass({ app, ui }).getWidth({ app, ui }, addUnit);
     }
   }

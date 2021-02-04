@@ -12,7 +12,7 @@ import Menu from "./Menu";
 export default class DetailModal {
   static getWidth({ app, ui }, addUnit = false) {
     const width =
-      ui.screenMode === Ui.screenModeSmallLabel
+      ui.screenSize === Ui.screenSizeSmallLabel
         ? String(Math.floor(ui.width * Container.widthRatio)) + "px"
         : `calc( ${100 * Container.widthRatio}% - ${Menu.getWidth({ app, ui })} )`;
     return addUnit ? Style.trimUnit(width) : width;
@@ -30,10 +30,10 @@ export default class DetailModal {
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return "0% 8%";
     } else {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
-        case Ui.screenModeMiddleLabel:
-        case Ui.screenModeLargeLabel:
+      switch (ui.screenSize) {
+        case Ui.screenSizeSmallLabel:
+        case Ui.screenSizeMiddleLabel:
+        case Ui.screenSizeLargeLabel:
           const marginRate = DetailModal.getBaseMarginRate({ app, ui });
           return `0% ${marginRate}% 0% ${marginRate}%`;
       }
@@ -43,12 +43,12 @@ export default class DetailModal {
   static getHeight({ app, ui }, addUnit = false) {
     const marginRate = DetailModal.getBaseMarginRate({ app, ui });
     const blockSize = Container.getBlockSize({ app, ui });
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         return `calc( ${100 - marginRate}% - ${blockSize * 2}px )`;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         return `calc( ${100 - marginRate}% - ${blockSize * 2}px )`;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         const baseMargin = DetailModal.getBaseMargin({ app, ui });
         return `calc( 100% - ${blockSize * 2 + baseMargin}px )`;
     }

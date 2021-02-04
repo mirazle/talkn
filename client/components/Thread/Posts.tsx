@@ -49,7 +49,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
   componentDidMount() {
     /*
     const { app, ui } = this.props.state;
-    if (ui.screenMode === Ui.screenModeLargeLabel) {
+    if (ui.screenSize === Ui.screenSizeLargeLabel) {
       const Posts = document.querySelector("[data-component-name=Posts]");
       window.talknWindow.dom.updateUiTimeMarker(Posts.scrollHeight - Posts.clientHeight, { app, ui });
       this.setState({ scrollHeight: Posts.scrollHeight });

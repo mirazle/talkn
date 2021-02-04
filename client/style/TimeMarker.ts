@@ -41,19 +41,19 @@ export default class TimeMarker {
     let menuWidthPx = 0;
     let detailWidthPx = 0;
     let postsWidthPx = 0;
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         postsWidthPx = ui.width;
         width = postsWidthPx * widthRate;
         left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         menuWidthPx = Menu.getWidth({ app, ui }, true);
         postsWidthPx = ui.width - menuWidthPx;
         width = postsWidthPx * widthRate;
         left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         menuWidthPx = Menu.getWidth({ app, ui }, true);
         detailWidthPx = (ui.width * Number(DetailRight.getWidth({ app, ui }, true))) / 100;
         postsWidthPx = ui.width - (menuWidthPx + detailWidthPx);

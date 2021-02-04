@@ -178,11 +178,11 @@ export default class Container {
     return `rgba(${Container.themeRGBString}, 0.8)`;
   }
   static getBlockSize({ app, ui }) {
-    return ui.screenMode === Ui.screenModeSmallLabel ? 45 : 54;
+    return ui.screenSize === Ui.screenSizeSmallLabel ? 45 : 54;
   }
 
   static getFaviconSize({ app, ui }) {
-    return ui.screenMode === Ui.screenModeSmallLabel ? 24 : 30;
+    return ui.screenSize === Ui.screenSizeSmallLabel ? 24 : 30;
   }
 
   static getLightThemeRGBA(alpha = 0.8) {
@@ -264,11 +264,11 @@ export default class Container {
   }
 
   static getFontSize({ app, ui }) {
-    return ui.screenMode === Ui.screenModeSmallLabel ? 14 : 15;
+    return ui.screenSize === Ui.screenSizeSmallLabel ? 14 : 15;
   }
 
   static getLetterSpacing({ app, ui }) {
-    return ui.screenMode === Ui.screenModeSmallLabel ? 1.5 : 2;
+    return ui.screenSize === Ui.screenSizeSmallLabel ? 1.5 : 2;
   }
 
   static getSelf({ app, ui, bootOption, type }): Object {
@@ -307,12 +307,12 @@ export default class Container {
   }
 
   static getMultistreamIconWrapRight({ app, ui }): Object {
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         return "5%";
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         return "20px";
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         return `calc( ${DetailRight.getWidth({ app, ui })} + 20px)`;
     }
   }
@@ -368,7 +368,7 @@ export default class Container {
 
   static getLinkLabel({ app, ui }): Object {
     const top = Container.getBlockSize({ app, ui }) + "px";
-    const left = ui.screenMode === Ui.screenModeSmallLabel ? "0px" : `${Menu.getWidth({ app, ui })}`;
+    const left = ui.screenSize === Ui.screenSizeSmallLabel ? "0px" : `${Menu.getWidth({ app, ui })}`;
     const layout = Style.getLayoutFlex({
       maxWidth: "180px",
       position: "fixed",

@@ -73,7 +73,7 @@ export default class Ch {
         borderLeft: 0,
       };
     } else {
-      return ui.screenMode === Ui.screenModeSmallLabel
+      return ui.screenSize === Ui.screenSizeSmallLabel
         ? {
             borderTop: 0,
             borderRight: 0,
