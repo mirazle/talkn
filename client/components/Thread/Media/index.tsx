@@ -14,7 +14,6 @@ type MediaState = unknown;
 
 export default class Media extends TalknComponent<MediaProps, MediaState> {
   constructor(props) {
-    console.log(props.state.bootOption);
     super(props);
     const { ui, thread } = props.state;
     let src: string = "";
