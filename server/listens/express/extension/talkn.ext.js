@@ -486,7 +486,8 @@ class BootOption {
   getHost(ch) {
     return ch.split("/")[1];
   }
-  getMode(tag) {
+  getMode( tag ) {
+    console.log(tag);
     if ( tag && tag.getAttribute( "mode" )){
       return tag.getAttribute( "mode" );
     } else {
