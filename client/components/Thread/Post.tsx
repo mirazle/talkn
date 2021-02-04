@@ -8,7 +8,7 @@ import util from "common/util";
 import conf from "client/conf";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
 
-interface PostProps extends MarqueeAreaProps {
+type PostProps = {
   id: number;
   app: any;
   ui: any;
@@ -16,14 +16,14 @@ interface PostProps extends MarqueeAreaProps {
   childLayerCnt: any;
   post: any;
   style: any;
-}
+} & MarqueeAreaProps;
 
-interface PostState extends MarqueeAreaState {
+type PostState = {
   postStyle: any;
   isBubblePost: boolean;
   animatedWidth: number;
   overflowWidth: number;
-}
+} & MarqueeAreaState;
 
 export default class Post extends MarqueeArea<PostProps, PostState> {
   public static defaultProps: PostProps = {
@@ -37,6 +37,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
   };
   constructor(props) {
     super(props);
+    this.componentName = 'Post';
     const { style, ui } = props;
     this.state = {
       postStyle: style,
@@ -177,7 +178,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
     if (post.dispFlg) {
       return (
         <li
-          data-component-name={"Post"}
+          data-component-name={this.componentName}
           id={post._id}
           style={postStyle.self}
           onClick={() => {

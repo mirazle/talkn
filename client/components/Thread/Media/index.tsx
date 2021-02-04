@@ -6,12 +6,15 @@ import Ui from "client/store/Ui";
 import Audio from "client/components/Thread/Media/Audio";
 import Video from "client/components/Thread/Media/Video";
 
-interface MediaProps {
+type MediaProps = {
   state: any;
 }
 
-export default class Media extends TalknComponent<MediaProps, {}> {
+type MediaState = unknown;
+
+export default class Media extends TalknComponent<MediaProps, MediaState> {
   constructor(props) {
+    console.log(props.state.bootOption);
     super(props);
     const { ui, thread } = props.state;
     let src: string = "";

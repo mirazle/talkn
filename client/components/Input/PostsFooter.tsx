@@ -8,20 +8,21 @@ import { Label } from "client/components/common";
 
 const regex = /^\s*$/;
 
-interface PostsFooterProps {
+type PostsFooterProps = {
   mode: string;
   state: any;
   handleOnClickFooterIcon?: any;
   handleOnClickToggleMain?: any;
 }
 
-interface PostsFooterState {
+type PostsFooterState = {
   focusSetIntervalId: any;
 }
 
 export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsFooterState> {
   constructor(props: PostsFooterProps) {
     super(props);
+    this.componentName = 'PostsFooter';
     this.state = { focusSetIntervalId: 0 };
     this.getIconStyle = this.getIconStyle.bind(this);
     this.renderButton = this.renderButton.bind(this);
@@ -75,7 +76,7 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
     const { state, handleOnClickFooterIcon } = this.props;
     const { style, ui } = state;
     return (
-      <footer data-component-name={"PostsFooter"} style={style.postsFooter.self}>
+      <footer data-component-name={this.componentName} style={style.postsFooter.self}>
         <div style={this.getIconStyle()} onClick={handleOnClickFooterIcon} />
         <textarea
           id="post"

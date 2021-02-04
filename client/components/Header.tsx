@@ -5,18 +5,20 @@ import Marquee from "client/container/util/Marquee";
 import Icon from "client/components/common/Icon";
 import LiveCnt from "client/components/common/LiveCnt";
 
-interface HeaderProps {
+type HeaderProps = {
   state: any;
   handleOnClickToggleDetail?: any;
   handleOnClickToggleMain?: any;
 }
 
+type HeaderState = unknown;
+
 const icon = new Icon();
-interface HeaderState {}
 
 export default class Header extends TalknComponent<HeaderProps, HeaderState> {
   constructor(props) {
     super(props);
+    this.componentName = 'Header';
     this.handleOnClickMenuIcon = this.handleOnClickMenuIcon.bind(this);
   }
 
@@ -39,7 +41,7 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
     const { icon } = style;
     const HeadTabIcon = Icon.getHeadTab(icon.headTab, { app, ui });
     return (
-      <header data-component-name={"Header"} style={style.header.self}>
+      <header data-component-name={this.componentName} style={style.header.self}>
         {/* User Icon */}
         {this.renderLeft()}
 

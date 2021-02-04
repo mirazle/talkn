@@ -12,13 +12,13 @@ import LockMenu from "client/components/Detail/LockMenu";
 import Icon from "client/components/common/Icon";
 import Container from "client/style/Container";
 
-interface DetailProps {
+type DetailProps = {
   onClickOpenLockMenu?: any;
   handleOnClickToggleDetail?: any;
   state: any;
 }
 
-interface DetailState {
+type DetailState = {
   metaStyle: any;
   chStyle: any;
 }
@@ -26,6 +26,7 @@ interface DetailState {
 export default class Detail extends TalknComponent<DetailProps, DetailState> {
   constructor(props) {
     super(props);
+    this.componentName = 'Detail';
     const { style } = props.state;
     this.state = {
       metaStyle: style.detail.meta,
@@ -165,7 +166,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
   render() {
     const { style } = this.props.state;
     return (
-      <div data-component-name={"Detail"} style={style.detail.self}>
+      <div data-component-name={this.componentName} style={style.detail.self}>
         {this.renderHeader()}
         <div data-component-name={"DetailBody"} style={style.detail.body}>
           {this.renderImage()}

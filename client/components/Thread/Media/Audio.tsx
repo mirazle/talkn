@@ -1,12 +1,16 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
 
-interface AudioProps {
-  src: any;
+type AudioProps = {
+  src: string;
 }
-export default class Audio extends TalknComponent<AudioProps, {}> {
+
+type AudioState = unknown;
+
+export default class Audio extends TalknComponent<AudioProps, AudioState> {
   constructor(props: AudioProps) {
     super(props);
+    this.componentName = 'Audio';
   }
 
   render() {
@@ -21,7 +25,7 @@ export default class Audio extends TalknComponent<AudioProps, {}> {
         loop={false}
         controls={true}
         autoPlay={false}
-        data-component-name={"Audio"}
+        data-component-name={this.componentName}
       />
     );
   }

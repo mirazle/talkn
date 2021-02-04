@@ -4,11 +4,11 @@ import { Radar } from "react-chartjs-2";
 import Emotions from "common/emotions/index";
 import EmotionGraphStyle from "client/style/EmotionGraph";
 
-interface EmotionGraphProps {
+type EmotionGraphProps = {
   state: any;
 }
 
-interface EmotionGraphState {
+type EmotionGraphState = {
   emotionModelKey: string;
   totalNum: number;
   data: any;
@@ -22,6 +22,7 @@ const russellSimple = new emotions.model.RussellSimple();
 export default class EmotionGraph extends TalknComponent<EmotionGraphProps, EmotionGraphState> {
   constructor(props) {
     super(props);
+    this.componentName = 'EmotionGraph';
     this.getGraphDatas = this.getGraphDatas.bind(this);
 
     const { emotionModelKey, totalNum, data } = this.getGraphDatas(props);
@@ -166,7 +167,7 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
     const { emotions } = thread;
     if (data && data.datasets && data.datasets.length > 0 && data.datasets[0].data.length > 0) {
       return (
-        <div data-component-name={"Detail-emotions-graph"} style={style.emotionGraph.self}>
+        <div data-component-name={this.componentName} style={style.emotionGraph.self}>
           <Radar data={data} options={options} width={200} />
         </div>
       );

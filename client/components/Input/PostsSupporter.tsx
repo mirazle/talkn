@@ -4,11 +4,11 @@ import ClientState from "client/store/";
 import Emotions from "common/emotions/index";
 import Icon from "client/components/common/Icon";
 
-interface PostsSupporterProps {
+type PostsSupporterProps = {
   state: any;
 }
 
-interface PostsSupporterState {
+type PostsSupporterState = {
   style: any;
   menu: any;
 }
@@ -19,6 +19,7 @@ export default class PostsSupporter extends TalknComponent<PostsSupporterProps, 
   }
   constructor(props) {
     super(props);
+    this.componentName = 'PostsSupporter';
     let style = { [PostsSupporter.COVER]: {}, Emojis: {} };
 
     Object.keys(Emotions.inputs).forEach((menu) => {
@@ -186,7 +187,7 @@ export default class PostsSupporter extends TalknComponent<PostsSupporterProps, 
     const { menu } = this.state;
     const lis = this.getDisplay(menu);
     return (
-      <ul data-component-name={"PostsSupporter"} style={style.postsSupporter.self}>
+      <ul data-component-name={this.componentName} style={style.postsSupporter.self}>
         {lis}
       </ul>
     );

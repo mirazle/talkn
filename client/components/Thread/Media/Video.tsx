@@ -1,12 +1,18 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
 
-interface VideoProps {
-  src: any;
+type VideoProps = {
+  src: string;
 }
-export default class Video extends TalknComponent<VideoProps, {}> {
+
+type VideoState = {
+  src: string;
+}
+
+export default class Video extends TalknComponent<VideoProps, VideoState> {
   constructor(props: VideoProps) {
     super(props);
+    this.componentName = 'Video';
   }
 
   render() {
@@ -21,7 +27,7 @@ export default class Video extends TalknComponent<VideoProps, {}> {
         controls={true}
         autoPlay={false}
         controlsList={"nodownload"}
-        data-component-name={"Video"}
+        data-component-name={this.componentName}
       />
     );
   }

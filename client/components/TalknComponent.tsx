@@ -7,14 +7,23 @@ import UiTimeMarker from "client/store/UiTimeMarker";
 import conf from "client/conf";
 import Ui from "client/store/Ui";
 
+export const RenderModeAllType = 'ALL';
+export const RenderModeThreadDetailType = 'THREAD_DETAIL';
+export const RenderModeOnlyPostType = 'ONRY_POST';
+export const RenderModeOnlyIndexType = 'ONLY_INDEX';
+export const RenderModeOnlyThreadType = 'ONLY_THREAD';
+
+export type RenderModeType =
+  typeof RenderModeAllType |
+  typeof RenderModeThreadDetailType |
+  typeof RenderModeOnlyPostType |
+  typeof RenderModeOnlyIndexType |
+  typeof RenderModeOnlyThreadType;
+
 export default class TalknComponent<P, S> extends Component<P, S> {
-  Html: HTMLElement;
-  Body: HTMLBodyElement;
-  Posts: HTMLOListElement;
+  componentName: string;
   constructor(props: P) {
     super(props);
-    console.log(this);
-    this.Posts = document.querySelector("[data-component-name=Posts]");
     this.onScroll = this.onScroll.bind(this);
   }
 
@@ -31,6 +40,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
   api(method, params = {}) {
     window.talknWindow.api(method, params);
   }
+
   clientAction(type: string, params?, callback = () => {}) {
     const action = params ? { ...params, type } : { type };
     window.talknWindow.store.dispatch(action);

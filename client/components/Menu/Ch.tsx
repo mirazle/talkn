@@ -6,7 +6,7 @@ import LiveCnt from "client/components/common/LiveCnt";
 import Icon from "client/components/common/Icon";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
 
-interface ChProps extends MarqueeAreaProps {
+type ChProps = {
   isActive: boolean;
   didMountBgHighligt: boolean;
   didMountLiveCntHighligt: boolean;
@@ -21,17 +21,18 @@ interface ChProps extends MarqueeAreaProps {
   handleOnClick: (ch: string) => void;
   bgStyle: React.CSSProperties;
   style: any;
-}
+} & MarqueeAreaProps;
 
-interface ChState extends MarqueeAreaState {
+type ChState = {
   updateLiveCnt: boolean;
   bgStyle: any;
   style: any;
-}
+} & MarqueeAreaState;
 
-export default class ChComponent extends MarqueeArea<ChProps, ChState> {
+export default class Ch extends MarqueeArea<ChProps, ChState> {
   constructor(props) {
     super(props);
+    this.componentName = 'Ch';
     this.state = {
       updateLiveCnt: false,
       bgStyle: props.bgStyle,
@@ -152,7 +153,7 @@ export default class ChComponent extends MarqueeArea<ChProps, ChState> {
     return (
       <li
         key={ch}
-        data-component-name={"Ch"}
+        data-component-name={this.componentName}
         style={bgStyle}
         onClick={this.handleOnClick}
         {...this.getDecolationEvents(isActive)}
