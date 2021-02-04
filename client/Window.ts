@@ -130,7 +130,6 @@ export default class Window {
 
         if (method === "WS_CONSTRUCTED") {
           this.conned(this);
-          console.log(params);
           if (this.id === define.APP_TYPES.PORTAL) {
             // @ts-ignore
             const backParams = params.ch ? { ...this.bootOption, ch: params.ch } : this.bootOption;
@@ -222,12 +221,13 @@ class Ext {
         // @ts-ignore
         this.window.bootOption = new BootOption(id, params.bootOption);
         this.href = href;
-
+          console.log(params);
         const apiState = new ApiState(this.window.bootOption);
         // @ts-ignore
         const clientState = new ClientState({ ...apiState, ui: params.ui });
+        console.log(clientState);
         const state = { ...apiState, ...clientState };
-
+        console.log(state);
         this.window.store.dispatch({ ...state, type: "EXT_INIT_CLIENT" });
         this.window.api("tune", this.window.bootOption);
 
