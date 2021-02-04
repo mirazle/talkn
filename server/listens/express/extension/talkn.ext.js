@@ -1165,6 +1165,7 @@ class Iframe extends ReactMode {
         screenMode: this.bootOption.mode,
       },
     };
+    console.log(params);
     this.extToClient("handleExtAndClient", params);
     this.window.mediaServerTo("handleExtAndMedia", this.bootOption);
   }
