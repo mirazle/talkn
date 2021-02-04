@@ -1161,7 +1161,8 @@ class Iframe extends ReactMode {
         iFrameId: this.id,
         extensionMode: this.mode,
         extensionWidth: this.getWidth(false),
-        extensionHeight: this.getHeight(false),
+        extensionHeight: this.getHeight( false ),
+        screenMode: this.bootOption.mode,
       },
     };
     this.extToClient("handleExtAndClient", params);
