@@ -25,6 +25,9 @@ export default class Ui extends Schema {
   static get screenModeOnlyIndexType() {
     return "ONLY_INDEX";
   }
+  static get screenModeLiveMediaType() {
+    return "LIVE_MEDIA";
+  }
   static get openLockMenuLabelNo() {
     return "No";
   }
@@ -349,9 +352,6 @@ export default class Ui extends Schema {
     const inputCurrentTime = params.inputCurrentTime ? params.inputCurrentTime : 0.0;
     const inputSearch = params.inputSearch ? params.inputSearch : "";
     const isLoading = Schema.isSet(params.isLoading) ? params.isLoading : true;
-
-    console.log(screenMode);
-
     return this.create({
       iFrameId,
       width,

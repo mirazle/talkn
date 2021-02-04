@@ -7,7 +7,9 @@ type Props = {
   state: any;
 }
 
-export default class DetailRight extends TalknComponent<Props, {}> {
+type State = unknown;
+
+export default class DetailRight extends TalknComponent<Props, State> {
   constructor(props) {
     super(props);
     this.componentName = 'DetailRight';

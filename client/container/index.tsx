@@ -179,13 +179,17 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
 
   render() {
     const { ui } = this.props.state;
-    switch (ui.screenSize) {
-      case Ui.screenSizeSmallLabel:
-        return this.renderSmall();
-      case Ui.screenSizeMiddleLabel:
-        return this.renderMiddle();
-      case Ui.screenSizeLargeLabel:
-        return this.renderLarge();
+    if (ui.screenMode === Ui.screenModeAllType) {
+      switch (ui.screenSize) {
+        case Ui.screenSizeSmallLabel:
+          return this.renderSmall();
+        case Ui.screenSizeMiddleLabel:
+          return this.renderMiddle();
+        case Ui.screenSizeLargeLabel:
+          return this.renderLarge();
+      }
+    } else {
+      return this.renderLiveMedia();
     }
     return <></>;
   }
@@ -193,6 +197,26 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   renderHideScreenBottom(props): React.ReactNode {
     const { style } = props.state;
     return <div data-component-name={"hideScreenBottom"} style={style.container.hideScreenBottom} />;
+  }
+
+  renderLiveMedia(): React.ReactNode {
+    const { style } = this.props.state;
+    const props: any = this.getProps();
+    const HideScreenBottom = this.renderHideScreenBottom(props);
+    return (
+      <div data-component-name={"Container"} style={style.container.self}>
+        <Style {...props} />
+        <Posts {...props} />
+        <div data-component-name="fixedComponents">
+          <PostsSupporter {...props} />
+          <DetailRight {...props} />
+          <LockMenu {...props} />
+          <PostsFooter {...props} />
+          <InnerNotif {...this.props} />
+          {HideScreenBottom}
+        </div>
+      </div>
+    );
   }
 
   renderLarge(): React.ReactNode {
@@ -262,9 +286,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
 }
 
 {/*
-
 Youtube
-
 <iframe
   style={{position: "fixed", top: "0px", zIndex: 10000}}
   width="560"

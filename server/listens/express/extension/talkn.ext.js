@@ -178,7 +178,6 @@ class MediaServer {
     Object.keys(this.iframes).forEach((iFrameId) => {
       const iframe = this.iframes[iFrameId].dom;
       const href = this.iframes[ iFrameId ].params.href;
-      console.log(this);
       const params = {
         type: "MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE",
         ch: this.ch,
@@ -487,7 +486,6 @@ class BootOption {
     return ch.split("/")[1];
   }
   getMode( tag ) {
-    console.log(tag);
     if ( tag && tag.getAttribute( "mode" )){
       return tag.getAttribute( "mode" );
     } else {
@@ -1166,7 +1164,6 @@ class Iframe extends ReactMode {
         screenMode: this.bootOption.mode,
       },
     };
-    console.log(params);
     this.extToClient("handleExtAndClient", params);
     this.window.mediaServerTo("handleExtAndMedia", this.bootOption);
   }

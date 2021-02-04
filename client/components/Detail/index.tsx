@@ -28,6 +28,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
     super(props);
     this.componentName = 'Detail';
     const { style } = props.state;
+    
     this.state = {
       metaStyle: style.detail.meta,
       chStyle: style.detail.ch,
