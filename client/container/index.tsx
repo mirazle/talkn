@@ -179,17 +179,20 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
 
   render() {
     const { ui } = this.props.state;
-    if (ui.screenMode === Ui.screenModeAllType) {
-      switch (ui.screenSize) {
-        case Ui.screenSizeSmallLabel:
-          return this.renderSmall();
-        case Ui.screenSizeMiddleLabel:
-          return this.renderMiddle();
-        case Ui.screenSizeLargeLabel:
-          return this.renderLarge();
-      }
-    } else {
-      return this.renderLiveMedia();
+    switch (ui.screenMode) {
+      case Ui.screenModeAllType:
+        switch (ui.screenSize) {
+          case Ui.screenSizeSmallLabel:
+            return this.renderSmall();
+          case Ui.screenSizeMiddleLabel:
+            return this.renderMiddle();
+          case Ui.screenSizeLargeLabel:
+            return this.renderLarge();
+        }
+      case Ui.screenModeLiveMediaType:
+        return this.renderLiveMedia();
+      case Ui.screenModeOnlyPostType:
+        return this.renderOnlyPost();
     }
     return <></>;
   }
@@ -211,6 +214,22 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
           <DetailModal {...props} />
           <LockMenu {...props} />
           <InnerNotif {...this.props} />
+          {HideScreenBottom}
+        </div>
+      </div>
+    );
+  }
+
+  renderOnlyPost(): React.ReactNode {
+    const { style } = this.props.state;
+    const props: any = this.getProps();
+    const HideScreenBottom = this.renderHideScreenBottom(props);
+    return (
+      <div data-component-name={"Container"} style={style.container.self}>
+        <Style {...props} />
+        <div data-component-name="fixedComponents">
+          <PostsSupporter {...props} />
+          <PostsFooter {...props} />
           {HideScreenBottom}
         </div>
       </div>
