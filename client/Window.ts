@@ -583,7 +583,7 @@ class Dom extends TalknComponent<{}, {}> {
       }
 
       if (updateWindow) {
-        ui.screenMode = Ui.getScreenMode();
+        ui.screenSize = Ui.getScreenSize();
         ui.isTransition = true;
         clientStore.ui = ui;
         this.clientAction("ON_RESIZE_END_WINDOW", clientStore);

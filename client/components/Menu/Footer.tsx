@@ -32,7 +32,6 @@ export default class MenuFooter extends TalknComponent<MenuFooterProps, MenuFoot
     const IndexIcon = Icon.getIndex({ app, ui }, MenuFooter.getIndexBackground());
     const Logs = Icon.getLogs({ app, ui }, {});
     const Setting = Icon.getSetting({ app, ui }, {});
-    console.log(this.componentName);
     return (
       <div data-component-name={this.componentName} style={style.menuFooter.self}>
         <div

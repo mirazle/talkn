@@ -5,14 +5,14 @@ import Ui from "client/store/Ui";
 export default class MenuUsers {
   static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         width = "100.0%";
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         width = "300px";
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         width = "300px";
         break;
     }
@@ -21,14 +21,14 @@ export default class MenuUsers {
 
   static getTransform({ app, ui }) {
     let transform = "translate3d( 0px ,0px, 0px )";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         transform = "translate3d( 0px ,0px, 0px )";
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         transform = app.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : "translate3d( 0px ,0px, 0px )";
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         transform = "translate3d( 0px ,0px, 0px )";
         break;
     }

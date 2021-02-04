@@ -35,14 +35,14 @@ export default class Video {
   static getSelfWidth({ app, ui }) {
     let width = "0";
     const reduce = Video.marginLeftMag + Video.marginRightMag;
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         width = `${100 - reduce}%`;
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         width = `calc( ${100 - reduce}% - ${Menu.getWidth({ app, ui }, true)}px )`;
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         width = `calc( ${100 - Detail.getWidth({ app, ui }, false) - reduce}% - ${
           Menu.getWidth({ app, ui }, true) + reduce
         }px )`;
@@ -53,12 +53,12 @@ export default class Video {
 
   static getSelfLeft({ app, ui }) {
     let left = "0px";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         left = "0px";
         break;
-      case Ui.screenModeMiddleLabel:
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeMiddleLabel:
+      case Ui.screenSizeLargeLabel:
         left = Menu.getWidth({ app, ui }, true);
         break;
     }

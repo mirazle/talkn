@@ -14,8 +14,8 @@ export default class Detail {
   static get detailModalSelfKey() {
     return "Modal";
   }
-  static get screenModeOfRightDetail() {
-    return Ui.screenModeLargeLabel;
+  static get screenSizeOfRightDetail() {
+    return Ui.screenSizeLargeLabel;
   }
   static get padding() {
     return 20;
@@ -27,7 +27,7 @@ export default class Detail {
     return Detail.isRightDetail({ app, ui }) ? DetailRight : DetailModal;
   }
   static isRightDetail({ app, ui }) {
-    return ui.screenMode === Detail.screenModeOfRightDetail;
+    return ui.screenSize === Detail.screenSizeOfRightDetail;
   }
 
   self: Object;
@@ -97,9 +97,9 @@ export default class Detail {
   }
 
   static getDetailModalSelf({ app, ui }) {
-    const screenMode = Ui.getScreenMode(ui.width);
-    const display = screenMode === Ui.screenModeLargeLabel ? "none" : "block";
-    const left = screenMode === Ui.screenModeSmallLabel ? "0px" : Menu.baseWidth;
+    const screenSize = Ui.getScreenSize(ui.width);
+    const display = screenSize === Ui.screenSizeLargeLabel ? "none" : "block";
+    const left = screenSize === Ui.screenSizeSmallLabel ? "0px" : Menu.baseWidth;
     const height = DetailModal.getHeight({ app, ui });
     const borders = {
       borderTop: Container.border,
@@ -149,21 +149,21 @@ export default class Detail {
   }
 
   static getFooterBorders({ app, ui }) {
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
-      case Ui.screenModeMiddleLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
+      case Ui.screenSizeMiddleLabel:
         return { borderTop: Container.border };
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         return { border: Container.border };
     }
   }
 
   static getFooterPositions({ app, ui }) {
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         return {};
-      case Ui.screenModeMiddleLabel:
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeMiddleLabel:
+      case Ui.screenSizeLargeLabel:
         return {
           position: "absolute",
           right: "0px",
@@ -174,8 +174,8 @@ export default class Detail {
 
   static getWidth({ app, ui }, addUnit = false): any {
     let width = "100%";
-    switch (ui.screenMode) {
-      case Ui.screenModeLargeLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeLargeLabel:
         width = "30%";
     }
     return addUnit ? width : Style.trimUnit(width);

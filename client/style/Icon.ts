@@ -30,7 +30,7 @@ export default class Icon {
   }
 
   static getMargin({ app, ui }) {
-    return ui.screenMode === Ui.screenModeSmallLabel ? Icon.smallMargin : Icon.largeMargin;
+    return ui.screenSize === Ui.screenSizeSmallLabel ? Icon.smallMargin : Icon.largeMargin;
   }
 
   headTab: Object;
@@ -1259,7 +1259,7 @@ export default class Icon {
   }
 
   static getDetail({ app, ui }: any) {
-    const margin = ui.screenMode === Ui.screenModeSmallLabel ? "0" : "1px auto";
+    const margin = ui.screenSize === Ui.screenSizeSmallLabel ? "0" : "1px auto";
     const div = Style.get({
       layout: Style.getLayoutInlineFlex({
         width: "40px",
@@ -1616,7 +1616,7 @@ export default class Icon {
   static getOpenEmoji(state: any) {
     const { app, ui } = state;
     const size = "5px";
-    const display = Ui.screenModeSmallLabel === ui.screenMode ? "none" : "inline-block";
+    const display = Ui.screenSizeSmallLabel === ui.screenSize ? "none" : "inline-block";
     const div = Style.get({
       layout: Style.getLayoutInlineBlock({
         display,
@@ -2199,7 +2199,7 @@ export default class Icon {
       justifyContent: "flex-end",
     };
     let labelLayout = {
-      left: Ui.screenModeSmallLabel === ui.screenMode ? "-12%" : "-9%",
+      left: Ui.screenSizeSmallLabel === ui.screenSize ? "-12%" : "-9%",
       color: Container.whiteRGB,
       background: "rgba(80, 80 ,80, 0.3)",
       borderRadius: "5px 5px 0px 0px",
@@ -2213,7 +2213,7 @@ export default class Icon {
     if (!ui.isBubblePost) {
       divLayout.height = "40px";
       divLayout.justifyContent = "flex-start";
-      labelLayout.left = Ui.screenModeSmallLabel === ui.screenMode ? "30%" : "27%";
+      labelLayout.left = Ui.screenSizeSmallLabel === ui.screenSize ? "30%" : "27%";
       labelLayout.background = "none";
       labelLayout.borderRadius = Container.radius;
       labelLayout.justifyContent = "flex-start";

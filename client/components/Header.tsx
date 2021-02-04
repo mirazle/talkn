@@ -25,8 +25,8 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
   handleOnClickMenuIcon(e) {
     const { state } = this.props;
     let { ui, app } = state;
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         break;
       default:
         ui = Ui.getUiUpdatedOpenFlgs({ app, ui }, "headerMenuIcon");
@@ -88,7 +88,7 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
       >
         {DetailIcon}
         <div style={style.header.liveCntWrap}>
-          {ui.screenMode === Ui.screenModeSmallLabel && (
+          {ui.screenSize === Ui.screenSizeSmallLabel && (
             <LiveCnt number={thread.liveCnt} style={style.liveCnt.self} didMountHighlight={false} />
           )}
         </div>

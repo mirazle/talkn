@@ -76,18 +76,18 @@ export default class Header {
   }
 
   static getChildAnalyzeRight({ app, ui }) {
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         return "5%";
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         return "10%";
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         return "15%";
     }
   }
 
   static getChildAnalyzePositions({ app, ui }) {
-    const margin = ui.screenMode === Ui.screenModeSmallLabel ? "8px 0px 0px 0px" : "7px auto";
+    const margin = ui.screenSize === Ui.screenSizeSmallLabel ? "8px 0px 0px 0px" : "7px auto";
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
       return {
         position: "absolute",
@@ -179,7 +179,7 @@ export default class Header {
   }
 
   static getHeadTab({ app, ui }) {
-    const width = ui.screenMode === Ui.screenModeSmallLabel ? "60%" : "40%";
+    const width = ui.screenSize === Ui.screenSizeSmallLabel ? "60%" : "40%";
     const layout = Style.getLayoutFlex({
       justifyContent: "center",
       width,
@@ -193,7 +193,7 @@ export default class Header {
   }
 
   static getRightIcon({ app, ui }) {
-    const width = ui.screenMode === Ui.screenModeSmallLabel ? "20%" : "30%";
+    const width = ui.screenSize === Ui.screenSizeSmallLabel ? "20%" : "30%";
     const layout = Style.getLayoutFlex({
       flexFlow: "column",
       alignItems: "center",
@@ -207,7 +207,7 @@ export default class Header {
   }
 
   static getLeftIcon({ app, ui }) {
-    const width = ui.screenMode === Ui.screenModeSmallLabel ? "20%" : "30%";
+    const width = ui.screenSize === Ui.screenSizeSmallLabel ? "20%" : "30%";
     const layout = Style.getLayoutFlex({
       flexFlow: "column",
       alignItems: "center",

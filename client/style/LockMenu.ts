@@ -28,22 +28,22 @@ export default class LockMenu {
       borderRadius: "5px",
       boxShadow: `${Container.lineShadow}`,
     };
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         layout.width = `${100 * Container.widthRatio}`;
         layout.left = (100 - layout.width) / 2;
         layout.width = layout.width + "%";
         layout.left = layout.left + "%";
         layout.zIndex = 0;
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         layout.width = `${100 * Container.widthRatio}`;
         layout.left = (100 - layout.width) / 2;
         layout.width = layout.width + "%";
         layout.left = layout.left + "%";
         layout.zIndex = 0;
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         layout.width = `33.3%`;
         layout.left = `33.3%`;
         layout.zIndex = 3;
@@ -57,11 +57,11 @@ export default class LockMenu {
   }
 
   static getPaddingLi({ app, ui }) {
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         return "15px";
-      case Ui.screenModeMiddleLabel:
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeMiddleLabel:
+      case Ui.screenSizeLargeLabel:
         return "15px 15px 15px 20px";
     }
   }

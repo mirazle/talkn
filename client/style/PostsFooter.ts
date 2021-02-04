@@ -8,14 +8,14 @@ import Menu from "./Menu";
 export default class PostsFooter {
   static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         width = "100%";
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         width = Posts.getWidth({ app, ui });
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         width = Posts.getWidth({ app, ui });
         break;
     }
@@ -24,14 +24,14 @@ export default class PostsFooter {
 
   static getLeft({ app, ui }, addUnit = false) {
     let left = "0";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         left = "0px";
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         left = `${Menu.getWidth({ app, ui })}`;
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         left = Menu.getWidth({ app, ui });
         break;
     }
@@ -47,15 +47,15 @@ export default class PostsFooter {
           borderLeft: Container.border,
         };
       case Ui.extensionModeExtModalLabel:
-        switch (ui.screenMode) {
-          case Ui.screenModeSmallLabel:
+        switch (ui.screenSize) {
+          case Ui.screenSizeSmallLabel:
             return { border: Container.border };
-          case Ui.screenModeMiddleLabel:
+          case Ui.screenSizeMiddleLabel:
             return {
               borderTop: Container.border,
               borderBottom: Container.border,
             };
-          case Ui.screenModeLargeLabel:
+          case Ui.screenSizeLargeLabel:
             return {
               borderTop: Container.border,
               borderBottom: Container.border,
@@ -73,12 +73,12 @@ export default class PostsFooter {
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       return ui.extensionWidth === "100%" ? "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
     } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
+      switch (ui.screenSize) {
+        case Ui.screenSizeSmallLabel:
           return `0px 0px ${Container.radius} ${Container.radius}`;
-        case Ui.screenModeMiddleLabel:
+        case Ui.screenSizeMiddleLabel:
           return `0px 0px ${Container.radius} 0px`;
-        case Ui.screenModeLargeLabel:
+        case Ui.screenSizeLargeLabel:
           return 0;
       }
     }
@@ -87,14 +87,14 @@ export default class PostsFooter {
 
   static getTransform({ app, ui }) {
     let transform = "translate3d( 0px, 0px, 0px )";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         transform = ui.isOpenMenu ? "translate3d( 0%, 0px, 0px )" : "translate3d( 0px, 0px, 0px )";
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         transform = ui.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : "translate3d( 0px ,0px, 0px )";
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         transform = "translate3d( 0px ,0px, 0px )";
         break;
     }
@@ -174,8 +174,8 @@ export default class PostsFooter {
 
   static getTextarea({ app, ui }) {
     const width = ui.extensionMode === Ui.extensionModeExtModalLabel ? "60%" : "54%";
-    const fontSize = ui.screenMode === Ui.screenModeSmallLabel ? "1em" : "1em";
-    const lineHeight = ui.screenMode === Ui.screenModeSmallLabel ? "0.8em" : "1.1em";
+    const fontSize = ui.screenSize === Ui.screenSizeSmallLabel ? "1em" : "1em";
+    const lineHeight = ui.screenSize === Ui.screenSizeSmallLabel ? "0.8em" : "1.1em";
     const layout = Style.getLayoutInlineBlock({
       width,
       maxWidth: width,
@@ -222,7 +222,7 @@ export default class PostsFooter {
   }
 
   static getButton({ app, ui }) {
-    const iconSize = ui.screenMode === Ui.screenModeSmallLabel ? 30 : 38;
+    const iconSize = ui.screenSize === Ui.screenSizeSmallLabel ? 30 : 38;
     const layout = Style.getLayoutInlineBlock({
       outline: "none",
       width: "20%",

@@ -7,19 +7,6 @@ import UiTimeMarker from "client/store/UiTimeMarker";
 import conf from "client/conf";
 import Ui from "client/store/Ui";
 
-export const RenderModeAllType = 'ALL';
-export const RenderModeThreadDetailType = 'THREAD_DETAIL';
-export const RenderModeOnlyPostType = 'ONRY_POST';
-export const RenderModeOnlyIndexType = 'ONLY_INDEX';
-export const RenderModeOnlyThreadType = 'ONLY_THREAD';
-
-export type RenderModeType =
-  typeof RenderModeAllType |
-  typeof RenderModeThreadDetailType |
-  typeof RenderModeOnlyPostType |
-  typeof RenderModeOnlyIndexType |
-  typeof RenderModeOnlyThreadType;
-
 export default class TalknComponent<P, S> extends Component<P, S> {
   componentName: string;
   constructor(props: P) {
@@ -53,7 +40,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
 
     ui.clicked = clicked;
     ui.isOpenLinks = false;
-    ui.isOpenMenu = ui.screenMode === Ui.screenModeSmallLabel ? ui.isOpenMenu : false;
+    ui.isOpenMenu = ui.screenSize === Ui.screenSizeSmallLabel ? ui.isOpenMenu : false;
     ui.isOpenBoard = true;
 
     if (Schema.isSet(overWriteHasSlash)) thread.hasSlash = overWriteHasSlash;
@@ -143,13 +130,13 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     const { ui } = this.clientState;
     const Posts = document.querySelector("[data-component-name=Posts]");
     let scrollHeight = 0;
-    switch (ui.screenMode) {
-      case Ui.screenModeLargeLabel:
-      case Ui.screenModeSmallLabel:
-        // ui.screenMode === Ui.screenModeLargeLabel || ui.extensionMode !== Ui.extensionModeExtNoneLabel;
+    switch (ui.screenSize) {
+      case Ui.screenSizeLargeLabel:
+      case Ui.screenSizeSmallLabel:
+        // ui.screenSize === Ui.screenSizeLargeLabel || ui.extensionMode !== Ui.extensionModeExtNoneLabel;
         scrollHeight = Posts.scrollHeight;
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         scrollHeight = document.body.scrollHeight;
         break;
     }

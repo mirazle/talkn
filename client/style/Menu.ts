@@ -12,11 +12,11 @@ export default class Menu {
       case Ui.extensionModeExtEmbedLabel:
         return 0;
       default:
-        switch (ui.screenMode) {
-          case Ui.screenModeSmallLabel:
+        switch (ui.screenSize) {
+          case Ui.screenSizeSmallLabel:
             return `0 0 ${Container.radius} ${Container.radius}`;
-          case Ui.screenModeMiddleLabel:
-          case Ui.screenModeLargeLabel:
+          case Ui.screenSizeMiddleLabel:
+          case Ui.screenSizeLargeLabel:
             return `0px 0px 0px ${Container.radius}`;
         }
     }
@@ -24,14 +24,14 @@ export default class Menu {
 
   static getWidth({ app, ui }, addUnit = false): any {
     let width = "0";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         width = "100.0%";
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         width = Menu.baseWidth;
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         width = Menu.baseWidth;
         break;
     }
@@ -45,14 +45,14 @@ export default class Menu {
 
   static getTransform({ app, ui }) {
     let transform = "translate3d( 0px, 0px, 0px )";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         transform = ui.isOpenMenu ? "translate3d( 0%, 0%, 0px )" : "translate3d( -100% , 0%, 0px )";
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         transform = ui.isOpenDetail ? `translate3d( 0px ,0px, 0px )` : "translate3d( 0px ,0px, 0px )";
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         transform = "translate3d( 0px ,0px, 0px )";
         break;
     }
@@ -139,7 +139,7 @@ export default class Menu {
 
   static getFooter({ app, ui }) {
     const borders =
-      ui.screenMode === Ui.screenModeSmallLabel ? { border: Container.border } : { border: Container.border };
+      ui.screenSize === Ui.screenSizeSmallLabel ? { border: Container.border } : { border: Container.border };
 
     const layout = Style.getLayoutFlex({
       width: "100%",

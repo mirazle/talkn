@@ -6,7 +6,7 @@ if (process.title === "browser") {
   const { SUB_DOMAINS, DEVELOPMENT } = define;
   const { env, domain } = conf;
   conf.mediaSecondInterval = 200;
-  conf.screenMode = {
+  conf.screenSize = {
     small: 600,
     middle: 960,
   };

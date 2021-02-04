@@ -1,7 +1,19 @@
 import Schema from "api/store/Schema";
 import conf from "client/conf";
 
+export const RenderModeAllType = 'ALL';
+export const RenderModeThreadDetailType = 'THREAD_DETAIL';
+export const RenderModeOnlyPostType = 'ONRY_POST';
+export const RenderModeOnlyIndexType = 'ONLY_INDEX';
+export const RenderModeOnlyThreadType = 'ONLY_THREAD';
+
 export type ClickedType = "Ch" | "BackToRootCh" | "ToMedia" | "Links" | "findMediaCh" | "";
+export type RenderModeType =
+  typeof RenderModeAllType |
+  typeof RenderModeThreadDetailType |
+  typeof RenderModeOnlyPostType |
+  typeof RenderModeOnlyIndexType |
+  typeof RenderModeOnlyThreadType;
 
 export default class Ui extends Schema {
   static get openLockMenuLabelNo() {
@@ -16,29 +28,29 @@ export default class Ui extends Schema {
   static get openLockMenuLabelAbout() {
     return "About";
   }
-  static get screenModeSmallLabel() {
+  static get screenSizeSmallLabel() {
     return "SMALL";
   }
-  static get screenModeMiddleLabel() {
+  static get screenSizeMiddleLabel() {
     return "MIDDLE";
   }
-  static get screenModeLargeLabel() {
+  static get screenSizeLargeLabel() {
     return "LARGE";
   }
-  static get screenModeIndexLabel() {
+  static get screenSizeIndexLabel() {
     return "MENU";
   }
-  static get screenModeThreadLabel() {
+  static get screenSizeThreadLabel() {
     return "THREAD";
   }
-  static get screenModeDetailLabel() {
+  static get screenSizeDetailLabel() {
     return "DETAIL";
   }
-  static get screenModeSmallWidthPx() {
-    return conf.screenMode.small;
+  static get screenSizeSmallWidthPx() {
+    return conf.screenSize.small;
   }
-  static get screenModeMiddleWidthPx() {
-    return conf.screenMode.middle;
+  static get screenSizeMiddleWidthPx() {
+    return conf.screenSize.middle;
   }
   static get extensionModeExtModalLabel() {
     return "Modal";
@@ -102,7 +114,7 @@ export default class Ui extends Schema {
     return 0;
   }
 
-  static getScreenMode(widthPx: any = 0) {
+  static getScreenSize(widthPx: any = 0) {
     if (!widthPx) {
       if ((window && window.innerWidth === 0) || window.innerHeight === 0) {
         return undefined;
@@ -117,32 +129,32 @@ export default class Ui extends Schema {
       widthPx = widthPx.replace("px", "");
     }
 
-    if (Ui.screenModeSmallWidthPx >= widthPx) {
-      return Ui.screenModeSmallLabel;
+    if (Ui.screenSizeSmallWidthPx >= widthPx) {
+      return Ui.screenSizeSmallLabel;
     }
 
-    if (Ui.screenModeSmallWidthPx <= widthPx && Ui.screenModeMiddleWidthPx >= widthPx) {
-      return Ui.screenModeMiddleLabel;
+    if (Ui.screenSizeSmallWidthPx <= widthPx && Ui.screenSizeMiddleWidthPx >= widthPx) {
+      return Ui.screenSizeMiddleLabel;
     }
-    return Ui.screenModeLargeLabel;
+    return Ui.screenSizeLargeLabel;
   }
 
   static getIsOpenMenu(ui) {
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         return false;
-      case Ui.screenModeMiddleLabel:
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeMiddleLabel:
+      case Ui.screenSizeLargeLabel:
         return true;
     }
   }
 
   static getIsOpenBoard(ui) {
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         return false;
-      case Ui.screenModeMiddleLabel:
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeMiddleLabel:
+      case Ui.screenSizeLargeLabel:
         return true;
     }
   }
@@ -182,11 +194,11 @@ export default class Ui extends Schema {
     switch (call) {
       case "toggleMain":
       case "headerDetailIcon":
-        switch (ui.screenMode) {
-          case Ui.screenModeSmallLabel:
+        switch (ui.screenSize) {
+          case Ui.screenSizeSmallLabel:
             ui.isOpenDetail = !ui.isOpenDetail;
             break;
-          case Ui.screenModeMiddleLabel:
+          case Ui.screenSizeMiddleLabel:
             if (ui.isOpenDetail) {
               if (app.detailCh === app.rootCh) {
                 ui.isOpenDetail = false;
@@ -203,8 +215,8 @@ export default class Ui extends Schema {
         }
         break;
       case "headerMenuIcon":
-        switch (ui.screenMode) {
-          case Ui.screenModeMiddleLabel:
+        switch (ui.screenSize) {
+          case Ui.screenSizeMiddleLabel:
             if (ui.isOpenDetail) {
               ui.isOpenMenu = true;
               ui.isOpenDetail = false;
@@ -217,14 +229,14 @@ export default class Ui extends Schema {
         break;
       case "changeThreadDetail":
       case "post":
-        switch (ui.screenMode) {
-          case Ui.screenModeSmallLabel:
+        switch (ui.screenSize) {
+          case Ui.screenSizeSmallLabel:
             ui.isOpenDetail = !ui.isOpenDetail;
             break;
-          case Ui.screenModeMiddleLabel:
+          case Ui.screenSizeMiddleLabel:
             ui.isOpenMenu = false;
             ui.isOpenDetail = true;
-          case Ui.screenModeLargeLabel:
+          case Ui.screenSizeLargeLabel:
             ui.isOpenMenu = true;
             ui.isOpenDetail = true;
             break;
@@ -239,7 +251,7 @@ export default class Ui extends Schema {
   width: string | number;
   height: string | number;
   postsHeight: string | number;
-  screenMode: "LARGE" | "MIDDLE" | "SMALL" | undefined;
+  screenSize: "LARGE" | "MIDDLE" | "SMALL" | undefined;
 
   // iframeの拡張機能表示の場合
   extensionMode: "Modal" | "Bottom" | "Embed" | "None";
@@ -287,7 +299,7 @@ export default class Ui extends Schema {
     const width = Ui.getWidth(params);
     const height = Ui.getHeight(params);
     const postsHeight = params.postsHeight ? params.postsHeight : 0;
-    const screenMode = Ui.getScreenMode(width);
+    const screenSize = Ui.getScreenSize(width);
     const extensionMode = params.extensionMode ? params.extensionMode : Ui.extensionModeExtNoneLabel;
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
     const extensionHeight = params.extensionHeight ? params.extensionHeight : 0;
@@ -300,13 +312,13 @@ export default class Ui extends Schema {
       extensionHeight,
     });
     const isOpenSetting = params.isOpenSetting ? params.isOpenSetting : false;
-    const isOpenMenu = Schema.isSet(params.isOpenMenu) ? params.isOpenMenu : Ui.getIsOpenMenu({ screenMode });
+    const isOpenMenu = Schema.isSet(params.isOpenMenu) ? params.isOpenMenu : Ui.getIsOpenMenu({ screenSize });
     const isOpenDetail =
-      screenMode === Ui.screenModeDetailLabel ? true : Schema.isSet(params.isOpenDetail) ? params.isOpenDetail : false;
+      screenSize === Ui.screenSizeDetailLabel ? true : Schema.isSet(params.isOpenDetail) ? params.isOpenDetail : false;
     const isOpenNewPost = params.isOpenNewPost ? params.isOpenNewPost : false;
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     const isOpenPostsSupporter = Schema.isSet(params.isOpenPostsSupporter) ? params.isOpenPostsSupporter : false;
-    const isOpenBoard = Schema.isSet(params.isOpenBoard) ? params.isOpenBoard : Ui.getIsOpenBoard({ screenMode });
+    const isOpenBoard = Schema.isSet(params.isOpenBoard) ? params.isOpenBoard : Ui.getIsOpenBoard({ screenSize });
     const isBubblePost = Schema.isSet(params.isBubblePost) ? params.isBubblePost : true;
     const isDispPosts = Schema.isSet(params.isDispPosts) ? params.isDispPosts : false;
     const isOpenLinks = Schema.isSet(params.isOpenLinks) ? params.isOpenLinks : false;
@@ -332,7 +344,7 @@ export default class Ui extends Schema {
       width,
       height,
       postsHeight,
-      screenMode,
+      screenSize,
       extensionMode,
       extensionWidth,
       extensionHeight,

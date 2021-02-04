@@ -53,7 +53,7 @@ export default class Rank {
 
   static getHeader({ app, ui }) {
     const borders =
-      ui.screenMode === Ui.screenModeSmallLabel
+      ui.screenSize === Ui.screenSizeSmallLabel
         ? { borderBottom: Container.border, borderLeft: 0 }
         : {
             borderBottom: Container.border,
@@ -94,8 +94,8 @@ export default class Rank {
   }
 
   static getHeaderInput({ app, ui }) {
-    const fontSize = ui.screenMode === Ui.screenModeSmallLabel ? "0.9em" : "1em";
-    const lineHeight = ui.screenMode === Ui.screenModeSmallLabel ? "0.8em" : "0.9em";
+    const fontSize = ui.screenSize === Ui.screenSizeSmallLabel ? "0.9em" : "1em";
+    const lineHeight = ui.screenSize === Ui.screenSizeSmallLabel ? "0.8em" : "0.9em";
     const layout = Style.getLayoutInlineBlock({
       width: "calc( 100% - 120px )",
       height: "55%",

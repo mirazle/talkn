@@ -10,11 +10,11 @@ export default class MenuFooter {
       case Ui.extensionModeExtBottomLabel:
         return Container.radiuses;
       case Ui.extensionModeExtModalLabel:
-        switch (ui.screenMode) {
-          case Ui.screenModeSmallLabel:
+        switch (ui.screenSize) {
+          case Ui.screenSizeSmallLabel:
             return `0 0 0 ${Container.radius}`;
-          case Ui.screenModeMiddleLabel:
-          case Ui.screenModeLargeLabel:
+          case Ui.screenSizeMiddleLabel:
+          case Ui.screenSizeLargeLabel:
             return `0px 0px 0px ${Container.radius}`;
         }
       default:
@@ -27,14 +27,14 @@ export default class MenuFooter {
     if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
       width = "50%";
     } else {
-      switch (ui.screenMode) {
-        case Ui.screenModeSmallLabel:
+      switch (ui.screenSize) {
+        case Ui.screenSizeSmallLabel:
           width = "100%";
           break;
-        case Ui.screenModeMiddleLabel:
+        case Ui.screenSizeMiddleLabel:
           width = Menu.baseWidth;
           break;
-        case Ui.screenModeLargeLabel:
+        case Ui.screenSizeLargeLabel:
           width = Menu.baseWidth;
           break;
       }
@@ -58,7 +58,7 @@ export default class MenuFooter {
 
   static getSelf({ app, ui }) {
     const borders =
-      ui.screenMode === Ui.screenModeSmallLabel ? { border: Container.border } : { border: Container.border };
+      ui.screenSize === Ui.screenSizeSmallLabel ? { border: Container.border } : { border: Container.border };
     const borderRadius = MenuFooter.getBorderRadius({ app, ui });
     const layout = Style.getLayoutFlex({
       width: MenuFooter.getWidth({ app, ui }),

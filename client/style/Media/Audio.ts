@@ -37,14 +37,14 @@ export default class Audio {
     const reduceMargin = Audio.marginLeft + Audio.marginRight;
     const reduceWidth = Board.getTotalWidth({ app, ui });
     const reduce = reduceMargin + reduceWidth;
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         width = `calc( 100% - ${reduce}px )`;
         break;
-      case Ui.screenModeMiddleLabel:
+      case Ui.screenSizeMiddleLabel:
         width = `calc( 100% - ${Menu.getWidth({ app, ui }, true) + reduce}px )`;
         break;
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeLargeLabel:
         width = `calc( ${100 - Detail.getWidth({ app, ui }, false)}% - ${
           Menu.getWidth({ app, ui }, true) + reduce
         }px )`;
@@ -55,12 +55,12 @@ export default class Audio {
 
   static getSelfLeft({ app, ui }) {
     let left = "0px";
-    switch (ui.screenMode) {
-      case Ui.screenModeSmallLabel:
+    switch (ui.screenSize) {
+      case Ui.screenSizeSmallLabel:
         left = "0px";
         break;
-      case Ui.screenModeMiddleLabel:
-      case Ui.screenModeLargeLabel:
+      case Ui.screenSizeMiddleLabel:
+      case Ui.screenSizeLargeLabel:
         left = Menu.getWidth({ app, ui }, true);
         break;
     }

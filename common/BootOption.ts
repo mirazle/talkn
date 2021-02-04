@@ -1,7 +1,7 @@
 import conf from "common/conf";
 import define from "common/define";
 import Sequence from "api/Sequence";
-import { RenderModeType, RenderModeAllType } from "client/components/TalknComponent";
+import { RenderModeType, RenderModeAllType } from "client/store/Ui";
 
 export type EnvType = typeof define.DEVELOPMENT | typeof define.LOCALHOST | typeof define.PRODUCTION;
 export type BootType = typeof define.APP_TYPES.API | typeof define.APP_TYPES.PORTAL | typeof define.APP_TYPES.EXTENSION;

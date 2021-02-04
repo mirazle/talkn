@@ -58,7 +58,7 @@ export default class PostsSupporter {
   }
 
   static getEmoji({ app, ui }) {
-    const fontSize = Ui.screenModeSmallLabel === ui.screenMode ? "35px" : "40px";
+    const fontSize = Ui.screenSizeSmallLabel === ui.screenSize ? "35px" : "40px";
     const layout = Style.getLayoutFlex({
       minWidth: "20%",
       maxWidth: "20%",
@@ -80,8 +80,8 @@ export default class PostsSupporter {
   }
 
   static getEmojiLabel({ app, ui }) {
-    const margin = Ui.screenModeSmallLabel === ui.screenMode ? "0px" : "0px";
-    const fontSize = Ui.screenModeSmallLabel === ui.screenMode ? "8px" : "10px";
+    const margin = Ui.screenSizeSmallLabel === ui.screenSize ? "0px" : "0px";
+    const fontSize = Ui.screenSizeSmallLabel === ui.screenSize ? "8px" : "10px";
     const layout = Style.getLayoutFlex({
       width: "100%",
       minWidth: "100%",
