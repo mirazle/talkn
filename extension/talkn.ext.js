@@ -465,12 +465,13 @@ class Ext {
 }
 
 class BootOption {
-  constructor(id, href) {
+  constructor(id, href, tag) {
     this.id = id;
     this.ch = href ? this.getCh(href) : location.href;
     this.hasSlash = this.ch.endsWith("/");
     this.protocol = this.getProtocol(href);
-    this.host = this.getHost(this.ch);
+    this.host = this.getHost( this.ch );
+    this.mode = this.getMode(tag);
   }
   getCh(ch) {
     ch = ch.replace("https:/", "").replace("http:/", "");
@@ -484,6 +485,13 @@ class BootOption {
   }
   getHost(ch) {
     return ch.split("/")[1];
+  }
+  getMode(tag) {
+    if ( tag && tag.getAttribute( "mode" )){
+      return tag.getAttribute( "mode" );
+    } else {
+      return undefined;
+    }
   }
 }
 
@@ -659,7 +667,7 @@ class Window extends ReactMode {
             embedtag.id = embedtag.id ? embedtag.id : `${Ext.APP_NAME}${Iframe.MODE_EMBED}${index}`;
             let href = embedtag.getAttribute("ch") ? embedtag.getAttribute("ch") : window.location.href;
             href = href ? href : Window.selectTop.location.href;
-            const bootOption = new BootOption(embedtag.id, href);
+            const bootOption = new BootOption(embedtag.id, href, embedtag);
             const embedIframe = new IframeEmbed(this, embedtag, bootOption);
             this.ins.iframes[embedtag.id] = embedIframe;
           });

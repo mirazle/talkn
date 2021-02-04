@@ -617,6 +617,7 @@ class Dom extends TalknComponent<{}, {}> {
       }
     }
   }
+
   exeGetMore() {
     const { thread, app } = this.clientState;
     const posts = PostsSchems.getDispPosts(this.clientState);
