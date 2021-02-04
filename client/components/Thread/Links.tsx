@@ -4,13 +4,13 @@ import Sequence from "api/Sequence";
 import BoardStyle from "client/style/Board";
 import Link from "client/components/Thread/Link";
 
-interface LinksProps {
+type LinksProps = {
   displayLinks: any;
   state: any;
   handleOnClickCh?: any;
 }
 
-interface LinksState {
+type LinksState = {
   ch: any;
   linkContents: any;
   linkContentsKey: any;
@@ -65,6 +65,7 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
 
   constructor(props) {
     super(props);
+    this.componentName = 'Links';
     const { thread } = props.state;
     this.state = {
       ch: thread.ch,
@@ -159,6 +160,30 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
     });
   }
 
+  render() {
+    const { displayLinks } = this.props;
+    const { style } = this.props.state;
+    const contents = this.state.linkContents[this.state.linkContentsKey];
+    if (displayLinks) {
+      return (
+        <div data-componet-name={this.componentName} style={style.links.self}>
+          <ul data-componet-name={"LinksUl"} style={style.links.linksUl}>
+            {contents}
+          </ul>
+          <ul data-componet-name={"LinkMenuUl"} style={style.links.linkMenuUl}>
+            {this.renderLinkTabs()}
+          </ul>
+        </div>
+      );
+    } else {
+      return (
+        <div data-componet-name={this.componentName} style={style.links.self}>
+          <ul data-componet-name={"LinksUl"} style={style.links.linksUl} />
+        </div>
+      );
+    }
+  }
+
   renderLinkTabs() {
     const { style, ui, app } = this.props.state;
     const { linkContents, linkContentsKey } = this.state;
@@ -183,29 +208,5 @@ export default class Links extends TalknComponent<LinksProps, LinksState> {
         </li>
       );
     });
-  }
-
-  render() {
-    const { displayLinks } = this.props;
-    const { style } = this.props.state;
-    const contents = this.state.linkContents[this.state.linkContentsKey];
-    if (displayLinks) {
-      return (
-        <div data-componet-name={"Links"} style={style.links.self}>
-          <ul data-componet-name={"LinksUl"} style={style.links.linksUl}>
-            {contents}
-          </ul>
-          <ul data-componet-name={"LinkMenuUl"} style={style.links.linkMenuUl}>
-            {this.renderLinkTabs()}
-          </ul>
-        </div>
-      );
-    } else {
-      return (
-        <div data-componet-name={"Links"} style={style.links.self}>
-          <ul data-componet-name={"LinksUl"} style={style.links.linksUl} />
-        </div>
-      );
-    }
   }
 }

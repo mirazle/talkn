@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import TalknComponent from "client/components/TalknComponent";
 import { default as ContainerStyle } from "client/style/Container";
 
-interface InnerNotifProps {
+type InnerNotifProps = {
   state: any;
   openInnerNotif?: any;
   handleOnClickToggleDetail?: any;
   handleOnClickToggleMain?: any;
 }
 
-interface InnerNotifState {
+type InnerNotifState = {
   style: any;
   notif: any;
   isDebug: boolean;
@@ -18,6 +18,7 @@ interface InnerNotifState {
 export default class InnerNotif extends TalknComponent<InnerNotifProps, InnerNotifState> {
   constructor(props) {
     super(props);
+    this.componentName = 'InnerNotif';
     const { innerNotif: style } = this.props.state.style;
     const notif = this.props.state.ui.openInnerNotif;
     this.state = { style, notif, isDebug: false };
@@ -44,10 +45,10 @@ export default class InnerNotif extends TalknComponent<InnerNotifProps, InnerNot
   render() {
     const { style, notif, isDebug } = this.state;
     if (isDebug) {
-      return <div data-component-name={"InnerNotif"} style={style.self} dangerouslySetInnerHTML={{ __html: notif }} />;
+      return <div data-component-name={this.componentName} style={style.self} dangerouslySetInnerHTML={{ __html: notif }} />;
     } else {
       return (
-        <div data-component-name={"InnerNotif"} style={style.self}>
+        <div data-component-name={this.componentName} style={style.self}>
           {notif}
         </div>
       );

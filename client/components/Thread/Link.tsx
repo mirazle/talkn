@@ -5,7 +5,7 @@ import LinkStyle from "client/style/Link";
 import ChStyle from "client/style/Menu/common/Ch";
 import Marquee from "client/container/util/Marquee";
 
-interface LinkProps {
+type LinkProps = {
   state: any;
   text: string;
   handleOnClick?: any;
@@ -14,7 +14,7 @@ interface LinkProps {
   ch: string;
 }
 
-interface LinkState {
+type LinkState = {
   style: any;
   isActive: boolean;
 }
@@ -22,6 +22,7 @@ interface LinkState {
 export default class Link extends TalknComponent<LinkProps, LinkState> {
   constructor(props) {
     super(props);
+    this.componentName = 'Link';
     const { isActive, state } = props;
     const { link } = state.style;
     this.getEvents = this.getEvents.bind(this);
@@ -61,7 +62,7 @@ export default class Link extends TalknComponent<LinkProps, LinkState> {
 
     if (isActive) {
       return (
-        <li style={this.props.state.style.link.tuneLi}>
+        <li data-componet-name={this.componentName} style={this.props.state.style.link.tuneLi}>
           <span style={{ ...upperRankWrap, background, width }}>
             <span style={upperRank}>TUNE</span>
           </span>
@@ -70,7 +71,7 @@ export default class Link extends TalknComponent<LinkProps, LinkState> {
       );
     } else {
       return (
-        <li style={style} {...this.getEvents(isActive)}>
+        <li  data-componet-name={this.componentName} style={style} {...this.getEvents(isActive)}>
           <Marquee text={text} loop={true} hoverToStop={false} trailing={0} leading={0} />
         </li>
       );

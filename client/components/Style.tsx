@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import TalknComponent from "client/components/TalknComponent";
 import Ui from "client/store/Ui";
-import ContainerStyle from "client/style/Container";
 
-interface Props {
+type Props = {
   state: any;
 }
 
-interface State {}
+type State = unknown;
 
 export default class Style extends TalknComponent<Props, State> {
   constructor(props) {
     super(props);
+    this.componentName = 'style';
   }
   render() {
     const { app, ui } = this.props.state;

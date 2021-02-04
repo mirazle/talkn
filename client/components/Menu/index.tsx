@@ -8,20 +8,21 @@ import Ch from "client/components/Menu/Ch";
 import Icon from "client/components/common/Icon";
 import ChStyle from "client/style/Menu/common/Ch";
 
-interface Props {
+type Props = {
   state: any;
   onChangeFindType: any;
   openMenuTransitionEnd?: any;
 }
 
-interface State {
-  tuneCh: any;
+type State = {
+  tuneCh: {[key: string] : string};
   chKeyRanks: any;
 }
 
 export default class Menuextends extends TalknComponent<Props, State> {
   constructor(props: Props) {
     super(props);
+    this.componentName = 'Menu';
     this.state = { chKeyRanks: [], tuneCh: {} };
     this.transitionEnd = this.transitionEnd.bind(this);
     this.handleOnClickCh = this.handleOnClickCh.bind(this);
@@ -35,7 +36,7 @@ export default class Menuextends extends TalknComponent<Props, State> {
   }
 
   componentDidUpdate() {
-    const { tuneCh, ranks, app } = this.props.state;
+    const { tuneCh, ranks } = this.props.state;
     if (Object.keys(tuneCh).length > 0) {
       const tuneChJson = JSON.stringify(tuneCh);
       const tuneChStateJson = JSON.stringify(this.state.tuneCh);
@@ -83,7 +84,7 @@ export default class Menuextends extends TalknComponent<Props, State> {
     const { chKeyRanks } = this.state;
     const chKeyRanksAvtive = Boolean(Object.keys(chKeyRanks).length);
     return (
-      <div data-component-name={"Menu"} onTransitionEnd={this.transitionEnd} style={style.menu.self}>
+      <div data-component-name={this.componentName} onTransitionEnd={this.transitionEnd} style={style.menu.self}>
         <header style={style.ranks.header}>
           <div style={style.ranks.headerSearchIcon}>{IconTune}</div>
           <div style={style.ranks.headerInput}>{app.rootCh}</div>

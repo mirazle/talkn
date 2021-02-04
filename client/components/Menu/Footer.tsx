@@ -3,13 +3,20 @@ import TalknComponent from "client/components/TalknComponent";
 import Container from "client/style/Container";
 import Icon from "client/components/common/Icon";
 
-interface MenuFooterProps {
+type MenuFooterProps = {
   mode?: string;
   state: any;
 }
+
+type MenuFooterState = unknown;
+
 const icon = new Icon();
 
-export default class Footer extends TalknComponent<MenuFooterProps, {}> {
+export default class MenuFooter extends TalknComponent<MenuFooterProps, MenuFooterState> {
+  constructor(props) {
+    super(props);
+    this.componentName = 'MenuFooter';
+  }
   static getIndexBackground(): object {
     const background = Container.themeRGBA;
     return {
@@ -22,11 +29,12 @@ export default class Footer extends TalknComponent<MenuFooterProps, {}> {
   render() {
     const { style, app, ui } = this.props.state;
     const UserIcon = Icon.getUser({ app, ui }, {});
-    const IndexIcon = Icon.getIndex({ app, ui }, Footer.getIndexBackground());
+    const IndexIcon = Icon.getIndex({ app, ui }, MenuFooter.getIndexBackground());
     const Logs = Icon.getLogs({ app, ui }, {});
     const Setting = Icon.getSetting({ app, ui }, {});
+    console.log(this.componentName);
     return (
-      <div data-component-name={"MenuFooter"} style={style.menuFooter.self}>
+      <div data-component-name={this.componentName} style={style.menuFooter.self}>
         <div
           style={style.menuFooter.child}
           onClick={() => this.clientAction("OPEN_INNER_NOTIF")}

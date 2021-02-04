@@ -1,13 +1,12 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
-import ClientState from "client/store/";
 import App from "api/store/App";
 import Icon from "client/components/common/Icon";
 import Links from "client/components/Thread/Links";
 import IconStyle from "client/style/Icon";
 import BoardStyle from "client/style/Board";
 
-interface BoardProps {
+type BoardProps = {
   app?: any;
   state: any;
   handleOnClickCh?: any;
@@ -15,7 +14,7 @@ interface BoardProps {
   timeago?: any;
 }
 
-interface BoardState {
+type BoardState = {
   displayLinks: boolean;
   exeTransitionEnd: boolean;
   linkContentsKey: any;
@@ -24,6 +23,7 @@ interface BoardState {
 export default class Board extends TalknComponent<BoardProps, BoardState> {
   constructor(props) {
     super(props);
+    this.componentName = 'Board';
     this.state = {
       displayLinks: false,
       exeTransitionEnd: false,
@@ -156,8 +156,8 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
 
     return (
       <div
-        ref="Board"
-        data-componet-name={"Board"}
+        ref={this.componentName}
+        data-componet-name={this.componentName}
         style={style.board.self}
         onTransitionEnd={this.handleOnTransitionEnd}
       >

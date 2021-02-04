@@ -5,19 +5,20 @@ import Ui from "client/store/Ui";
 import Icon from "client/components/common/Icon";
 import Container from "client/style/Container";
 
-interface DetailFooterProps {
+type DetailFooterProps = {
   mode?: string;
   onClickOpenLockMenu?: any;
   state: any;
 }
 
-interface DetailFooterState {
+type DetailFooterState = {
   style: any;
 }
 
 export default class DetailFooter extends TalknComponent<DetailFooterProps, DetailFooterState> {
   constructor(props) {
     super(props);
+    this.componentName = 'DetailFooter';
     this.handleOnClickLike = this.handleOnClickLike.bind(this);
     this.handleOnClickShare = this.handleOnClickShare.bind(this);
     this.handleOnClickPortal = this.handleOnClickPortal.bind(this);
@@ -71,7 +72,7 @@ export default class DetailFooter extends TalknComponent<DetailFooterProps, Deta
         state.ui.openLockMenu === Ui.openLockMenuLabelShare ? Container.themeRGBA : Container.fontBaseRGB;
 
       return (
-        <footer data-component-name={"DetailFooter"} style={style.detailFooter.self}>
+        <footer data-component-name={this.componentName} style={style.detailFooter.self}>
           <div style={style.detailFooter.childLike} onClick={this.handleOnClickLike}>
             {HeartIcon}
             <div>LIKE</div>

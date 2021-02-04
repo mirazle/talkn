@@ -13,7 +13,7 @@ import Marquee from "client/container/util/Marquee";
 import IconStyle from "client/style/Icon";
 
 
-interface PostsProps {
+type PostsProps = {
   state: any;
   scrollThread?: any;
   closeNewPost?: any;
@@ -23,7 +23,7 @@ interface PostsProps {
   updateUiTimeMarker: (uiTimeMarker) => void;
 }
 
-interface PostsState {
+type PostsState = {
   scrollHeight: number;
   scrollTop: number;
   isAnimateScrolling: boolean;
@@ -33,11 +33,12 @@ interface PostsState {
 export default class Posts extends TalknComponent<PostsProps, PostsState> {
   constructor(props) {
     super(props);
+    this.componentName = 'Posts';
     this.renderNewPost = this.renderNewPost.bind(this);
     this.handleOnMouseDown = this.handleOnMouseDown.bind(this);
     this.handleOnClickGetMore = this.handleOnClickGetMore.bind(this);
     this.handleOnClickPost = this.handleOnClickPost.bind(this);
-    this.state = {
+    this.state = { 
       scrollHeight: 0,
       scrollTop: 0,
       isAnimateScrolling: false,
@@ -153,7 +154,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
     return (
       <>
         <ol
-          data-component-name={"Posts"}
+          data-component-name={this.componentName}
           style={style.posts.self}
           ref="thread"
           onMouseDown={this.handleOnMouseDown}

@@ -9,17 +9,18 @@ import { default as LockMenuStyle } from "client/style/LockMenu";
 import Icon from "client/components/common/Icon";
 import { Label } from "client/components/common";
 
-interface LockMenuProps {
+type LockMenuProps = {
   state: any;
   onClickOpenLockMenu?: any;
 }
 
-interface LockMenuState {
+type LockMenuState = {
   style: any;
 }
 const icon = new Icon();
 
 export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuState> {
+
   getDecolationProps1(type) {
     return {
       onMouseOver: () => {
@@ -139,6 +140,7 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
 
   constructor(props) {
     super(props);
+    this.componentName = 'LockMenu';
     const { lockMenu: style } = props.state.style;
     this.state = { style };
     this.getDecolationProps1 = this.getDecolationProps1.bind(this);

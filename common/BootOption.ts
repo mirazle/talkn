@@ -1,12 +1,7 @@
 import conf from "common/conf";
 import define from "common/define";
 import Sequence from "api/Sequence";
-
-export const RenderModeAllType = 'ALL';
-export const RenderModeThreadDetailType = 'THREAD_DETAIL';
-export const RenderModeOnlyPostType = 'ONRY_POST';
-export const RenderModeOnlyIndexType = 'ONLY_INDEX';
-export const RenderModeOnlyThreadType = 'ONLY_THREAD';
+import { RenderModeType, RenderModeAllType } from "client/components/TalknComponent";
 
 export type EnvType = typeof define.DEVELOPMENT | typeof define.LOCALHOST | typeof define.PRODUCTION;
 export type BootType = typeof define.APP_TYPES.API | typeof define.APP_TYPES.PORTAL | typeof define.APP_TYPES.EXTENSION;
@@ -22,13 +17,6 @@ export type BootOptionType = {
   id: string;
   params?: BootOptionParamsType;
 };
-
-export type RenderModeType =
-  typeof RenderModeAllType |
-  typeof RenderModeThreadDetailType |
-  typeof RenderModeOnlyPostType |
-  typeof RenderModeOnlyIndexType |
-  typeof RenderModeOnlyThreadType;
 
 export default class BootOption {
   env: EnvType = define.PRODUCTION;

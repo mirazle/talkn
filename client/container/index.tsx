@@ -44,7 +44,6 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     this.renderSmall = this.renderSmall.bind(this);
     this.renderMiddle = this.renderMiddle.bind(this);
     this.renderLarge = this.renderLarge.bind(this);
-    this.renderExtension = this.renderExtension.bind(this);
     this.handleOnClickFooterIcon = this.handleOnClickFooterIcon.bind(this);
     this.handleOnClickTogglePosts = this.handleOnClickTogglePosts.bind(this);
     this.handleOnClickToggleDetail = this.handleOnClickToggleDetail.bind(this);
@@ -179,7 +178,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   }
 
   render() {
-    const { app, ui } = this.props.state;
+    const { ui } = this.props.state;
     switch (ui.screenMode) {
       case Ui.screenModeSmallLabel:
         return this.renderSmall();
@@ -258,28 +257,6 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
           {HideScreenBottom}
         </div>
       </div>
-    );
-  }
-
-  renderExtension(): React.ReactNode {
-    const { style } = this.props.state;
-    const props = this.getProps();
-    const extScreenStyle = props.state.style.extScreen.self;
-    return (
-      <span data-component-name={"Container"} style={style.container.self}>
-        <Style {...props} />
-        <div style={extScreenStyle} data-component-name={"extScreen"}>
-          <Posts {...props} />
-          <Header {...props} />
-          <PostsSupporter {...props} />
-          <DetailModal {...props} />
-        </div>
-        <span data-component-name="fixedComponents">
-          <PostsFooter {...props} />
-          <Menu {...props} />
-          <InnerNotif {...this.props} />
-        </span>
-      </span>
     );
   }
 }
