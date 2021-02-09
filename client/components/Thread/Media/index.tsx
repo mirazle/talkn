@@ -19,7 +19,7 @@ export default class Media extends TalknComponent<MediaProps, MediaState> {
     let src: string = "";
     let mediaType: string = "";
 
-    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+    if (ui.extensionMode === Ui.extensionModeNone) {
       if (thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL) {
         src = thread.protocol + "/" + thread.ch.replace(/\/$/, "");
         mediaType = App.getMediaTypeFromSrc(src);
@@ -32,9 +32,9 @@ export default class Media extends TalknComponent<MediaProps, MediaState> {
     };
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     const { ui, thread } = props.state;
-    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+    if (ui.extensionMode === Ui.extensionModeNone) {
       if (thread.protocol === Sequence.HTTP_PROTOCOL || thread.protocol === Sequence.HTTPS_PROTOCOL) {
         const { src, mediaType }: any = this.state;
         const newSrc = thread.protocol + "/" + thread.ch.replace(/\/$/, "");

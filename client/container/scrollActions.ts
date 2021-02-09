@@ -6,9 +6,9 @@ export default {
     const { ui }: any = props;
     const threadHeight = document.querySelector("[data-component-name=Posts]");
     if (
-      ui.extensionMode === Ui.extensionModeExtBottomLabel ||
-      ui.extensionMode === Ui.extensionModeExtEmbedLabel ||
-      ui.extensionMode === Ui.extensionModeExtModalLabel
+      ui.extensionMode === Ui.extensionModeBottom ||
+      ui.extensionMode === Ui.extensionModeEmbeds ||
+      ui.extensionMode === Ui.extensionModeModal
     ) {
       self.refs.thread.scrollTop =
         self.refs.thread.scrollHeight - self.state.scrollHeight;

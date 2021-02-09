@@ -8,8 +8,8 @@ export default class Menu {
   }
   static getBorderRadius({ app, ui }): any {
     switch (ui.extensionMode) {
-      case Ui.extensionModeExtNoneLabel:
-      case Ui.extensionModeExtEmbedLabel:
+      case Ui.extensionModeNone:
+      case Ui.extensionModeEmbed:
         return 0;
       default:
         switch (ui.screenSize) {
@@ -80,7 +80,7 @@ export default class Menu {
 
   static getSelf({ app, ui }) {
     const display = "block";
-    const background = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "none" : Container.silverRGBA;
+    const background = ui.extensionMode === Ui.extensionModeBottom ? "none" : Container.silverRGBA;
     const layout = Style.getLayoutBlock({
       display,
       position: "fixed",
@@ -107,8 +107,8 @@ export default class Menu {
   }
 
   static getBody({ app, ui }) {
-    const width = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "90%" : "100%";
-    const borderLeft = ui.extensionMode === Ui.extensionModeExtModalLabel ? Container.border : 0;
+    const width = ui.extensionMode === Ui.extensionModeBottom ? "90%" : "100%";
+    const borderLeft = ui.extensionMode === Ui.extensionModeModal ? Container.border : 0;
     const layout = Style.getLayoutBlock({
       borderLeft,
       width,

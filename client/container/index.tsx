@@ -76,7 +76,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     const { onClickToggleMain, onClickToggleDispDetail, onClickOpenLockMenu, state } = this.props;
     let { app, thread, threadDetail } = state;
     let { ui } = state;
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom || ui.extensionMode === Ui.extensionModeModal) {
       onClickToggleMain({ app, ui });
 
       if (app.isOpenDetail) {
@@ -112,7 +112,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
     const { onClickTogglePosts, onClickToggleDispDetail, onClickOpenLockMenu, state } = this.props;
     let { app, thread, threadDetail } = state;
     let { ui } = state;
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom || ui.extensionMode === Ui.extensionModeModal) {
       onClickTogglePosts({ app, ui });
 
       if (ui.isOpenDetail) {
@@ -178,21 +178,21 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
   }
 
   render() {
-    const { ui } = this.props.state;
-    switch (ui.screenMode) {
-      case Ui.screenModeAllType:
-        switch (ui.screenSize) {
-          case Ui.screenSizeSmallLabel:
-            return this.renderSmall();
-          case Ui.screenSizeMiddleLabel:
-            return this.renderMiddle();
-          case Ui.screenSizeLargeLabel:
-            return this.renderLarge();
-        }
-      case Ui.screenModeLiveMediaType:
-        return this.renderLiveMedia();
-      case Ui.screenModeOnlyPostType:
-        return this.renderOnlyPost();
+    const { app, ui } = this.props.state;
+    if (app.tuned !== '') {
+      switch (ui.extensionMode) {
+        case Ui.extensionModeNone:
+          switch (ui.screenSize) {
+            case Ui.screenSizeSmallLabel:
+              return this.renderSmall();
+            case Ui.screenSizeMiddleLabel:
+              return this.renderMiddle();
+            case Ui.screenSizeLargeLabel:
+              return this.renderLarge();
+          }
+        case Ui.extensionModeLiveMedia:
+          return this.renderLiveMedia();
+      }
     }
     return <></>;
   }

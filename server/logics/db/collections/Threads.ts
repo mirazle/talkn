@@ -79,9 +79,8 @@ export default class Threads {
       sort: { liveCnt: -1, layer: -1 },
       limit: setting.server.getThreadChildrenCnt,
     };
-    console.log(condition);
+
     const { response } = await this.collection.find(condition, selector, option);
-    console.log(response.length);
     return response.map((res) => ({
       ...res.lastPost,
       title: res.serverMetas.title,

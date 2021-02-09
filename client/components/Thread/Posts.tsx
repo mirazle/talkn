@@ -63,7 +63,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
     */
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     const { app, postsTimeline, postsMulti, postsSingle, postsChild } = props.state;
     let posts = [];
     switch (app.dispThreadType) {
@@ -117,7 +117,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
 
   handleOnMouseDown() {
     const { ui } = this.props.state;
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom || ui.extensionMode === Ui.extensionModeModal) {
       //      this.refs.thread.scrollTop = this.refs.thread.scrollTop + 1;
     }
   }

@@ -68,7 +68,7 @@ export default class Header {
   }
 
   static getMargin({ app, ui }) {
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       return "0px 5% 0px 5%";
     } else {
       return "0 auto";
@@ -88,7 +88,7 @@ export default class Header {
 
   static getChildAnalyzePositions({ app, ui }) {
     const margin = ui.screenSize === Ui.screenSizeSmallLabel ? "8px 0px 0px 0px" : "7px auto";
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom || ui.extensionMode === Ui.extensionModeModal) {
       return {
         position: "absolute",
         top: "0px",
@@ -106,20 +106,20 @@ export default class Header {
   }
 
   static getBorderRadius({ app, ui }, addUnit = false) {
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       return ui.extensionWidth === "100%" ? "0px" : `${Container.radius} ${Container.radius} 0px 0px`;
-    } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
+    } else if (ui.extensionMode === Ui.extensionModeModal) {
       return `${Container.radius} ${Container.radius} 0px 0px`;
     }
     return 0;
   }
 
   static getSelf({ app, ui }) {
-    const width = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "90%" : "100%";
-    const borderTop = ui.extensionMode === Ui.extensionModeExtNoneLabel ? 0 : Container.border;
+    const width = ui.extensionMode === Ui.extensionModeBottom ? "90%" : "100%";
+    const borderTop = ui.extensionMode === Ui.extensionModeNone ? 0 : Container.border;
     const borderRadius = Header.getBorderRadius({ app, ui });
     const boxShadow =
-      ui.extensionMode === Ui.extensionModeExtNoneLabel ? Container.lineShadow : Container.lineInsetShadow;
+      ui.extensionMode === Ui.extensionModeNone ? Container.lineShadow : Container.lineInsetShadow;
     const layout = Style.getLayoutFlex({
       position: "fixed",
       top: 0,

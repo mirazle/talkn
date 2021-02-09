@@ -44,13 +44,13 @@ const functions = {
     action.ui.detailCh = action.thread.ch;
     if (!action.app.isLinkCh) {
       switch (action.ui.extensionMode) {
-        case Ui.extensionModeExtBottomLabel:
+        case Ui.extensionModeBottom:
           if (!action.ui.isOpenPosts && !action.ui.isDispPosts) {
             const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
             window.talknWindow.ext.to("openNotif", { transition });
           }
           break;
-        case Ui.extensionModeExtModalLabel:
+        case Ui.extensionModeModal:
           if (!action.app.isMediaCh && action.posts.length > 0) {
             const id = action.posts[action.posts.length - 1]["_id"];
             const post = action.posts[action.posts.length - 1]["post"];
@@ -74,13 +74,13 @@ const functions = {
   "API_TO_CLIENT[BROADCAST]:post": (state, action) => {
     const postLength = action.posts.length - 1;
     switch (action.ui.extensionMode) {
-      case Ui.extensionModeExtBottomLabel:
+      case Ui.extensionModeBottom:
         if (!action.ui.isOpenPosts && !action.ui.isDispPosts) {
           const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
           window.talknWindow.ext.to("openNotif", { transition });
         }
         break;
-      case Ui.extensionModeExtModalLabel:
+      case Ui.extensionModeModal:
         if (action.posts.length > 0) {
           const id = action.posts[postLength]["_id"];
           const post = action.posts[postLength]["post"];

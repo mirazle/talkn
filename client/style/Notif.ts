@@ -11,7 +11,7 @@ export default class Notif {
   }
 
   static getNotifsDisplay({ app, ui }) {
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       return "block";
     } else {
       return "none";
@@ -19,7 +19,7 @@ export default class Notif {
   }
 
   static getNotifsHeight({ app, ui }) {
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       if (ui.isOpenPosts) {
         return "0px";
       } else {

@@ -91,7 +91,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
   onScroll({ scrollTop = 0, clientHeight = 0, scrollHeight = 0 }) {
     const { thread, app, ui, actionLog } = this.clientState;
     const actionTypes =
-      ui.extensionMode === Ui.extensionModeExtNoneLabel
+      ui.extensionMode === Ui.extensionModeNone
         ? ["ON_RESIZE_END_WINDOW"]
         : ["ON_RESIZE_END_WINDOW"/*, "ON_SCROLL_UPDATE_TIME_MARKER"*/];
     let { uiTimeMarker } = this.clientState;
@@ -133,7 +133,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     switch (ui.screenSize) {
       case Ui.screenSizeLargeLabel:
       case Ui.screenSizeSmallLabel:
-        // ui.screenSize === Ui.screenSizeLargeLabel || ui.extensionMode !== Ui.extensionModeExtNoneLabel;
+        // ui.screenSize === Ui.screenSizeLargeLabel || ui.extensionMode !== Ui.extensionModeNone;
         scrollHeight = Posts.scrollHeight;
         break;
       case Ui.screenSizeMiddleLabel:

@@ -13,12 +13,13 @@ window.TALKN_EXT_ENV = "PROD";
       Body
       Iframe
         IframeModal(*1)
-          ModalHandleIcon
-          ModalLiveCnt
-          ModalNotif
+          HandleIcon
+          LiveCnt
+          Notif
         IframeBottom(*1)
         IframeWindow(*1)
-        EmbedIframe(*n)
+        IframeLiveMedia(*1)
+        IframeEmbed(*n)
 */
 
 class MediaServer {
@@ -297,6 +298,9 @@ class Ext {
   static get USER_DEFINE_MODE_EMBED() {
     return "Embed";
   }
+  static get USER_DEFINE_MODE_LIVE_MEDIA() {
+    return "LiveMedia";
+  }
   static get USER_DEFINE_MODE_WINDOW() {
     return "Window";
   }
@@ -318,8 +322,8 @@ class Ext {
   static get BASE_DEV_PORT() {
     return 8080;
   }
-  static get EXCLUSION_ORIGINS() {
-    return ["https://localhost", "https://talkn.io"];
+  static get EXCLUSION_HOSTS() {
+    return ["localhost", "localhost:8080", "talkn.io"];
   }
   static get API_KEY() {
     return "api";
@@ -397,14 +401,13 @@ class Ext {
   static isBrowserExt() {
     return Ext.get() === null;
   }
-  static getUserDefineMode(options) {
+  static getUserDefineExtensionMode(options) {
     /********************************/
     /*  OPTION BOOT ( browser ext ) */
     /********************************/
 
-    let mode = Ext.USER_DEFINE_MODE_DEFAULT;
+    let extensionMode = Ext.USER_DEFINE_MODE_DEFAULT;
     let embedTags = IframeEmbed.getAll();
-    const embedTagCnt = embedTags.length;
 
     if (options && options.mode) {
       if ("EXT_" + options.mode === Ext.USER_DEFINE_MODE_MODAL) {
@@ -429,23 +432,22 @@ class Ext {
 
     const scriptTag = Ext.get();
 
-    if (scriptTag && scriptTag.attributes) {
-      if (scriptTag.attributes.mode && scriptTag.attributes.mode.value) {
-        mode = scriptTag.attributes.mode.value;
-      }
+    if (scriptTag && scriptTag.dataset && scriptTag.dataset.mode) {
+      extensionMode = scriptTag.dataset.mode;
 
       // 定義しているどのモードにも該当しない場合
       if (
-        mode !== Ext.USER_DEFINE_MODE_BOTTOM &&
-        mode !== Ext.USER_DEFINE_MODE_MODAL &&
-        mode !== Ext.USER_DEFINE_MODE_EMEBD
+        extensionMode !== Ext.USER_DEFINE_MODE_BOTTOM &&
+        extensionMode !== Ext.USER_DEFINE_MODE_MODAL &&
+        extensionMode !== Ext.USER_DEFINE_MODE_LIVE_MEDIA &&
+        extensionMode !== Ext.USER_DEFINE_MODE_EMBED
       ) {
         // デフォルトのモードを設定する
-        mode = Ext.USER_DEFINE_MODE_DEFAULT;
+        extensionMode = Ext.USER_DEFINE_MODE_DEFAULT;
       }
     }
 
-    return mode;
+    return extensionMode;
   }
 
   static getApiToRequestObj(iFrameId, method, params = {}) {
@@ -464,30 +466,38 @@ class Ext {
 }
 
 class BootOption {
-  constructor(id, href, tag) {
+  constructor ( id, href, tag ) {
     this.id = id;
-    this.ch = href ? this.getCh(href) : location.href;
-    this.hasSlash = this.ch.endsWith("/");
-    this.protocol = this.getProtocol(href);
-    this.host = this.getHost( this.ch );
-    this.mode = this.getMode(tag);
+    this.ch = href ? BootOption.getCh( href ) : location.href;
+    this.hasSlash = this.ch.endsWith( "/" );
+    this.protocol = BootOption.getProtocol(href);
+    this.host = BootOption.getHost( this.ch );
+    this.extensionMode = BootOption.getExtensionMode(tag);
   }
-  getCh(ch) {
-    ch = ch.replace("https:/", "").replace("http:/", "");
+  static getCh(ch) {
+    ch = ch.replace( "https:/", "" ).replace( "http:/", "" );
+    if ( ch.indexOf( Ext.BASE_DEV_HOST ) >= 0 ) {
+      if ( ch.indexOf( ':' ) >= 0 ) {
+        const rootIndex = ch.replace( /^\//, '' ).indexOf( '/' );
+        ch = ch.substr( rootIndex + 1 );
+      } else {
+        ch = ch.replace(`/${Ext.BASE_DEV_HOST}`, '');
+      }
+    }
     ch = ch.replace(`${Ext.DEVELOPMENT_HASH}/`, "").replace(Ext.DEVELOPMENT_HASH, "");
     return ch.endsWith("/") ? ch : ch + "/";
   }
-  getProtocol(href) {
+  static getProtocol(href) {
     if (href.startsWith("https:")) return "https:";
     if (href.startsWith("http:")) return "http:";
     return "talkn:";
   }
-  getHost(ch) {
+  static getHost(ch) {
     return ch.split("/")[1];
   }
-  getMode( tag ) {
-    if ( tag && tag.getAttribute( "mode" )){
-      return tag.getAttribute( "mode" );
+  static getExtensionMode( tag ) {
+    if ( tag && tag.dataset && tag.dataset.mode ){
+      return tag.dataset.mode;
     } else {
       return undefined;
     }
@@ -517,7 +527,7 @@ class ReactMode {
   validAction(called, dispMode) {
     let result = { success: false, errorMessage: "", warns: [] };
     if (this.dom === undefined) {
-      result.errorMessage = `Undefined dom ${this.name}, called ${called} #1`;
+      result.errorMessage = `Undefined dom ${this.name} #1`;
       return result;
     }
     if (this[`get${dispMode}Styles`] === undefined) {
@@ -565,7 +575,6 @@ class Window extends ReactMode {
   }
   static get selectTop() {
     return window;
-    //    return window.top;
   }
   static get selectDoc() {
     return Window.selectTop.document;
@@ -605,15 +614,13 @@ class Window extends ReactMode {
     this.dom = window;
     this.refusedFrame = refusedFrame;
     this.isBrowserExt = Ext.isBrowserExt();
-    this.href = Window.selectDoc.location.href;
-    const bootFlg = Ext.EXCLUSION_ORIGINS.every((origin) => this.href.indexOf(origin) === -1);
+    this.host = Window.selectDoc.location.host;
+    const bootFlg = Ext.EXCLUSION_HOSTS.every( ( exclusionHost ) => !(this.host === exclusionHost));
 
     if (bootFlg) {
       let init = (option = {}) => {
         // Variable
-        this.embedIframeTags = IframeEmbed.getAll();
-        this.embedIframeTagCnt = this.embedIframeTags.length;
-        this.userDefineMode = Ext.getUserDefineMode(option);
+        this.userDefineExtensionMode = Ext.getUserDefineExtensionMode(option);
         this.displayModeKey = Ext.DEFAULT_DISPLAY_MODE_KEY;
         this.displayModeDirection = "ASC";
         this.browser = this.getBrowser();
@@ -629,7 +636,8 @@ class Window extends ReactMode {
         this.load = this.load.bind(this);
         this.resize = this.resize.bind(this);
         this.resized = this.resized.bind(this);
-        this.scroll = this.scroll.bind(this);
+        this.scroll = this.scroll.bind( this );
+        this.loadIframe = this.loadIframe.bind(this);
         this.transitionend = this.transitionend.bind(this);
         this.remove = this.remove.bind(this);
         this.mediaServerTo = this.mediaServerTo.bind(this);
@@ -654,34 +662,8 @@ class Window extends ReactMode {
         this.ins.window = this;
         this.ins.styles = new Styles(this);
         this.ins.body = new Body(this);
-        this.ins.handleIcon = new HandleIcon(this);
-        this.ins.notifStatus = new LiveCnt(this);
         this.ins.iframe = {};
         this.ins.iframes = {};
-
-        // Embed auto boot.
-        if (this.embedIframeTagCnt > 0) {
-          this.embedIframeTags.forEach((embedtag, i) => {
-            const index = i + 1;
-            embedtag.id = embedtag.id ? embedtag.id : `${Ext.APP_NAME}${Iframe.MODE_EMBED}${index}`;
-            let href = embedtag.getAttribute("ch") ? embedtag.getAttribute("ch") : window.location.href;
-            href = href ? href : Window.selectTop.location.href;
-            const bootOption = new BootOption(embedtag.id, href, embedtag);
-            const embedIframe = new IframeEmbed(this, embedtag, bootOption);
-            this.ins.iframes[embedtag.id] = embedIframe;
-          });
-        }
-
-        switch (this.userDefineMode) {
-          case Iframe.MODE_MODAL:
-            this.ins.iframe = new IframeModal(this);
-            this.ins.iframes[`${Iframe.MODE_MODAL}`] = this.ins.iframe;
-            break;
-          case Iframe.MODE_BOTTOM:
-            this.ins.iframe = new IframeBottom(this);
-            this.ins.iframes[`${Iframe.MODE_BOTTOM}`] = this.ins.iframe;
-            break;
-        }
       };
 
       init = init.bind(this);
@@ -689,13 +671,52 @@ class Window extends ReactMode {
       if (this.isBrowserExt) {
         // Communication to background.js
         chrome.runtime.sendMessage({ message: "message" }, (res) => {
-          const option = res ? JSON.parse(res) : {};
+          const option = res ? JSON.parse( res ) : {};
           init(option);
         });
       } else {
         init();
       }
     }
+  }
+
+  loadIframe() {
+    this.embedIframeTags = IframeEmbed.getAll();
+    this.embedIframeTagCnt = this.embedIframeTags.length;
+
+    // Embed auto boot.
+    if (this.embedIframeTagCnt > 0) {
+      this.embedIframeTags.forEach( ( embedtag, i ) => {
+        const index = i + 1;
+        embedtag.id = embedtag.id ? embedtag.id : `${Ext.APP_NAME}${Iframe.EXTENSION_MODE_EMBED}${index}`;
+        let href = embedtag.getAttribute("data-ch") ? embedtag.getAttribute("data-ch") : window.location.href;
+        href = href ? href : Window.selectTop.location.href;
+        const bootOption = new BootOption(embedtag.id, href, embedtag);
+        const embedIframe = new IframeEmbed(this, bootOption, embedtag );
+        this.ins.iframes[embedtag.id] = embedIframe;
+      });
+    }
+
+    const extScript = Ext.get();
+    let href = extScript && extScript.dataset && extScript.dataset.ch ? extScript.dataset.ch : Window.selectTop.location.href
+    let bootOption = {};
+    switch (this.userDefineExtensionMode) {
+      case Iframe.EXTENSION_MODE_MODAL:
+        bootOption = new BootOption( this.userDefineExtensionMode, href );
+        this.ins.iframe = new IframeModal( this, bootOption );
+        break;
+      case Iframe.EXTENSION_MODE_BOTTOM:
+        bootOption = new BootOption( this.userDefineExtensionMode, href );
+        this.ins.iframe = new IframeBottom(this, bootOption);
+        break;
+      case Iframe.EXTENSION_MODE_LIVE_MEDIA:
+        const tag = IframeLiveMedia.getWrap();
+        href = tag && tag.dataset && tag.dataset.url ? tag.dataset.url : href;
+        bootOption = new BootOption( this.userDefineExtensionMode, href, extScript );
+        this.ins.iframe = new IframeLiveMedia(this, bootOption, IframeLiveMedia.appendRoot);
+        break;
+    }
+    this.ins.iframes[this.userDefineExtensionMode] = this.ins.iframe;
   }
 
   /********************************/
@@ -735,11 +756,11 @@ class Window extends ReactMode {
     const actionName = displayMode.charAt(0).toUpperCase() + displayMode.slice(1);
     const beforeDisplayMode = Ext.DISPLAY_MODE[this.displayModeKey];
     const beforeDisplayModeDirection = this.displayModeDirection;
-    if (this) this.action(called, actionName);
-    if (body) body.action(called, actionName);
-    if (iframes) this.iframeKeys.forEach((iFrameId) => iframes[iFrameId].action(called, actionName));
-    if (handleIcon) handleIcon.action(called, actionName);
-    if (notifStatus) notifStatus.action(called, actionName);
+    if ( this ) this.action( called, actionName );
+    if ( body ) body.action( called, actionName );
+    if ( iframes ) this.iframeKeys.forEach( ( iFrameId ) => iframes[ iFrameId ].action( called, actionName ) );
+    if ( handleIcon ) handleIcon.action( called, actionName );
+    if ( notifStatus ) notifStatus.action( called, actionName );
     this.callback(called, beforeDisplayMode, beforeDisplayModeDirection, actionName, this);
   }
 
@@ -850,7 +871,8 @@ class Window extends ReactMode {
   /* CALLBACKS             */
   /*************************/
 
-  load(e) {
+  load( e ) {
+    this.loadIframe();
     this.resized();
   }
 
@@ -863,14 +885,14 @@ class Window extends ReactMode {
   scroll(e) {}
 
   transitionend(e) {
-    const { body, iframes, handleIcon } = this.ins;
+    const { window, body, iframes, handleIcon } = this.ins;
 
     if (this.transitionEndId === null) {
       this.transitionEndId = setTimeout(() => {
         this.transitionEndId = null;
 
         this.iframeKeys.forEach((iFrameId) => {
-          const iframe = iframes[iFrameId];
+          const iframe = iframes[ iFrameId ];
           const clientToParams = {
             ui: {
               extensionWidth: iframe.dom.clientWidth,
@@ -1033,17 +1055,20 @@ class Body extends ReactMode {
 }
 
 class Iframe extends ReactMode {
-  static get MODE_MODAL() {
+  static get EXTENSION_MODE_MODAL() {
     return "Modal";
   }
-  static get MODE_BOTTOM() {
+  static get EXTENSION_MODE_BOTTOM() {
     return "Bottom";
   }
-  static get MODE_EMBED() {
+  static get EXTENSION_MODE_EMBED() {
     return "Embed";
   }
-  static get MODE_OUT_WINDOW() {
+  static get EXTENSION_MODE_OUT_WINDOW() {
     return "OutWindow";
+  }
+  static get EXTENSION_MODE_LIVE_MEDIA() {
+    return "LiveMedia";
   }
   static get EXT_TO_CLIENT_TYPE() {
     return "EXT_TO_CLIENT_TYPE";
@@ -1055,19 +1080,19 @@ class Iframe extends ReactMode {
     return "talknIframes";
   }
   static get DEFAULT_MODE() {
-    return Iframe.MODE_MODAL;
+    return Iframe.EXTENSION_MODE_MODAL;
   }
   static get activeMethodSecond() {
     return 1000;
   }
   static get MODES() {
-    return { IframeModal, IframeBottom, IframeEmbed, IframeWindow };
+    return { IframeModal, IframeBottom, IframeEmbed, IframeLiveMedia, IframeWindow };
   }
-  constructor(_window, root, bootOption, mode) {
+  constructor(_window, bootOption, root) {
     super(_window);
 
     if (bootOption.id === "") {
-      throw `Error: Please set id that iframe root tag ${mode}`;
+      throw `Error: Please set id that iframe root tag ${bootOption.extensionMode}`;
     }
 
     // instance bind.
@@ -1091,7 +1116,7 @@ class Iframe extends ReactMode {
     this.id = bootOption.id;
     this.root = root;
     this.bootOption = bootOption;
-    this.mode = mode;
+    this.extensionMode = bootOption.extensionMode;
     this.src = this.getSrc();
     this.dom = document.createElement("iframe");
     this.dom.setAttribute("id", this.id);
@@ -1102,7 +1127,8 @@ class Iframe extends ReactMode {
     this.dom.setAttribute("scrolling", "yes");
     this.dom.setAttribute("style", this.getStyles());
     this.dom.addEventListener("load", this.load);
-    root.appendChild(this.dom);
+    console.log(this.src);
+    root.appendChild( this.dom );
   }
 
   getSrc() {
@@ -1135,10 +1161,10 @@ class Iframe extends ReactMode {
     };
   }
 
-  extToClient(method, params = {}, methodBack) {
+  extToClient( method, params = {}, methodBack ) {
     const requestObj = this.getExtToClientObj(method, params, methodBack);
-    this.methodIdMap[method] = setTimeout(() => this.handleClientToError(this.id, method), Iframe.activeMethodSecond);
-    this.dom.contentWindow.postMessage(requestObj, this.src);
+    this.methodIdMap[ method ] = setTimeout( () => this.handleClientToError( this.id, method ), Iframe.activeMethodSecond );
+    this.dom.contentWindow.postMessage( requestObj, this.src );
   }
 
   handleClientToError(iFrameId, method) {
@@ -1153,17 +1179,27 @@ class Iframe extends ReactMode {
     }
   }
 
-  load(e) {
+  load( e ) {
+    // update inline iframe src ( live media ).
+    if ( this.window.userDefineExtensionMode === Iframe.EXTENSION_MODE_LIVE_MEDIA ) {
+      const iframeLiveMediaWrap = IframeLiveMedia.getWrap();
+      const iframeLiveMedia = IframeLiveMedia.get();
+      console.log( iframeLiveMediaWrap );
+      console.log(iframeLiveMedia);
+      this.bootOption.ch = BootOption.getCh( iframeLiveMediaWrap.dataset.url );
+      this.src = this.getSrc();
+    }
+
     const params = {
       bootOption: this.bootOption,
       ui: {
         iFrameId: this.id,
-        extensionMode: this.mode,
+        extensionMode: this.extensionMode,
         extensionWidth: this.getWidth(false),
-        extensionHeight: this.getHeight( false ),
-        screenMode: this.bootOption.mode,
+        extensionHeight: this.getHeight(false),
       },
     };
+    console.log(params);
     this.extToClient("handleExtAndClient", params);
     this.window.mediaServerTo("handleExtAndMedia", this.bootOption);
   }
@@ -1268,12 +1304,11 @@ class IframeModal extends Iframe {
       "getClientMetas",
     ];
   }
-  constructor(_window) {
-    const extScript = Ext.get();
-    let href = extScript ? extScript.getAttribute("ch") : location.href;
-    href = href ? href : Window.selectTop.location.href;
-    const bootOption = new BootOption(Iframe.MODE_MODAL, href);
-    super(_window, IframeModal.appendRoot, bootOption, Iframe.MODE_MODAL);
+  constructor ( _window, bootOption ) {    
+    super(_window, bootOption, IframeModal.appendRoot);
+
+    _window.ins.handleIcon = new HandleIcon( _window );
+    _window.ins.notifStatus = new LiveCnt( _window );
 
     // dom.
     this.getWidth = this.getWidth.bind(this);
@@ -1480,7 +1515,7 @@ class IframeModal extends Iframe {
 
 class IframeBottom extends Iframe {
   static get className() {
-    return `.${Ext.APP_NAME}${Iframe.MODE_EMBED}`;
+    return `.${Ext.APP_NAME}${Iframe.EXTENSION_MODE_EMBED}`;
   }
   getStyles(width) {
     const height = IframeModal.getCloseHeight(true);
@@ -1542,8 +1577,15 @@ class IframeBottom extends Iframe {
 }
 
 class IframeEmbed extends Iframe {
+  static get defaultMinWidth() {
+    return '280px';
+  }
+  static get defaultMinHeight() {
+    return '430px';
+  }
+
   static get className() {
-    return `.${Ext.APP_NAME}${Iframe.MODE_EMBED}`;
+    return `.${Ext.APP_NAME}${Iframe.EXTENSION_MODE_EMBED}`;
   }
   static getAll() {
     return window.document.querySelectorAll(IframeEmbed.className);
@@ -1561,8 +1603,8 @@ class IframeEmbed extends Iframe {
       "getClientMetas",
     ];
   }
-  constructor(_window, appendRoot, bootOption) {
-    super(_window, appendRoot, bootOption, Iframe.MODE_EMBED);
+  constructor(_window, bootOption, appendRoot) {
+    super(_window, bootOption, appendRoot);
     // dom
     this.getWidth = this.getWidth.bind(this);
     this.getHeight = this.getHeight.bind(this);
@@ -1579,7 +1621,9 @@ class IframeEmbed extends Iframe {
   }
 
   getStyles() {
-    const { width, height } = getComputedStyle(this.root);
+    let { width, height } = getComputedStyle( this.root );
+    const fixWidth = width ? width : IframeEmbed.defaultMinWidth;
+    const fixHeight = height ? height : IframeEmbed.defaultMinHeight;
     return (
       "" +
       `z-index: ${Styles.zIndex} !important;` +
@@ -1589,10 +1633,143 @@ class IframeEmbed extends Iframe {
       "bottom: 0px !important;" +
       "right: 0px !important;" +
       `width: 100% !important;` +
-      `min-width: 280px !important;` +
+      `min-width: ${fixWidth} !important;` +
+      `max-width: ${fixWidth} !important;` +
+      `height: 100% !important;` +
+      `min-height: ${fixHeight} !important;` +
+      `max-height: ${fixHeight} !important;` +
+      "margin: 0 !important;" +
+      "padding: 0 !important;" +
+      `clip-path: inset(0px round 10px) !important;` +
+      `-webkit-clip-path: inset(0px round 10px) !important;` +
+      "transition: 0ms !important;" +
+      "transform: translate3d(0px, 0px, 0px) !important;"
+    );
+  }
+
+  /*************************/
+  /* ANIMATION             */
+  /*************************/
+
+  getActiveStyles(called) {
+    const width = this.getWidth(true);
+    const height = this.getHeight(true);
+    const right = this.getRight(true);
+    const opacity = this.getOpacity();
+    const transform = this.getTransform();
+    return {
+      transform,
+      opacity,
+      right,
+      width: width,
+      height: height,
+    };
+  }
+
+  getOpenStyles(called) {
+    const width = this.getWidth(true);
+    const height = this.getHeight(true);
+    const right = this.getRight(true);
+    const opacity = this.getOpacity();
+    const transform = this.getTransform();
+    return {
+      transform,
+      opacity,
+      right,
+      width: width,
+      height: height,
+    };
+  }
+
+  getWidth(addUnit = false) {
+    return getComputedStyle(this.root).width;
+  }
+
+  getHeight(addUnit = false) {
+    return getComputedStyle(this.root).height;
+  }
+
+  getRight() {
+    return 0;
+  }
+
+  getTransform() {
+    return "translate3d( 0px 0px 0px)";
+  }
+
+  getOpacity() {
+    return 1;
+  }
+}
+
+class IframeLiveMedia extends Iframe {
+    static get defaultMinWidth() {
+    return '280px';
+  }
+  static get defaultMinHeight() {
+    return '430px';
+  }
+
+  static get id() {
+    return `#${Ext.APP_NAME}${Iframe.EXTENSION_MODE_LIVE_MEDIA}`;
+  }
+  static get appendRoot() {
+    return Window.selectBody.querySelector(IframeLiveMedia.id);
+  }
+  static getWrap() {
+    return window.document.querySelector(IframeLiveMedia.id);
+  }
+  static get() {
+    return window.document.querySelector(`${IframeLiveMedia.id} iframe`);
+  }
+  get acceptPostMessages() {
+    return [
+      "handleExtAndClient",
+      "tune",
+      "changeThread",
+      "toggleIframe",
+      "location",
+      "disconnect",
+      "linkTo",
+      "setInputPost",
+      "getClientMetas",
+    ];
+  }
+  constructor ( _window, bootOption ) {
+    super( _window, bootOption, IframeLiveMedia.appendRoot );
+
+    // dom
+    this.getWidth = this.getWidth.bind(this);
+    this.getHeight = this.getHeight.bind(this);
+    this.getRight = this.getRight.bind(this);
+    this.getTransform = this.getTransform.bind(this);
+
+    // communication.
+    this.tune = this.tune.bind(this);
+    this.disconnect = this.disconnect.bind(this);
+  }
+
+  disconnect(state) {
+    this.state = state;
+  }
+
+  getStyles() {
+    let { width, height } = getComputedStyle( this.root );
+    const fixWidth = width ? width : IframeLiveMedia.defaultMinWidth;
+    const fixHeight = height ? height : IframeLiveMedia.defaultMinHeight;
+    return (
+      "" +
+      `z-index: ${Styles.zIndex} !important;` +
+      `overflow: hidden !important;` +
+      "display: block !important;" +
+      "align-items: flex-end !important;" +
+      "bottom: 0px !important;" +
+      "right: 0px !important;" +
+      `width: 100% !important;` +
+      `min-width: ${fixWidth} !important;` +
       `max-width: 100% !important;` +
       `height: 100% !important;` +
-      `min-height: 430px !important;` +
+      `min-height: ${fixHeight} !important;` +
       `max-height: 100% !important;` +
       "margin: 0 !important;" +
       "padding: 0 !important;" +
@@ -1671,7 +1848,7 @@ class HandleIcon extends ReactMode {
   constructor(_window) {
     super(_window);
 
-    if (this.window.userDefineMode !== Iframe.MODE_EMBED) {
+    if (this.window.userDefineExtensionMode === Iframe.EXTENSION_MODE_MODAL) {
       this.dom = document.createElement("div");
       this.dom.id = HandleIcon.id;
       this.dom.className = Window.className;
@@ -1683,7 +1860,8 @@ class HandleIcon extends ReactMode {
 
       this.dom.addEventListener("click", this.click);
       this.dom.addEventListener("mouseover", this.mouseover);
-      this.dom.addEventListener("mouseout", this.mouseout);
+      this.dom.addEventListener("mouseout", this.mouseout );
+      this.dom.addEventListener("resize", this.resize);
       Window.selectBody.appendChild(this.dom);
     }
   }
@@ -1765,9 +1943,9 @@ class HandleIcon extends ReactMode {
     const { thread } = this.window.ins.iframe.state;
     if (!thread || !thread.liveCnt) return false;
     const { notifStatus } = this.window.ins;
-    switch (this.window.userDefineMode) {
-      case Iframe.MODE_BOTTOM:
-      case Iframe.MODE_MODAL:
+    switch (this.window.userDefineExtensionMode) {
+      case Iframe.EXTENSION_MODE_BOTTOM:
+      case Iframe.EXTENSION_MODE_MODAL:
         const regex = /^\s*$/;
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
@@ -1808,9 +1986,9 @@ class HandleIcon extends ReactMode {
   /* ANIMATION             */
   /*************************/
 
-  getActiveStyles(called) {
-    switch (this.window.userDefineMode) {
-      case Iframe.MODE_MODAL:
+  getActiveStyles( called ) {
+    switch (this.window.userDefineExtensionMode) {
+      case Iframe.EXTENSION_MODE_MODAL:
         return {
           bottom: "10px",
           boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
@@ -1818,7 +1996,7 @@ class HandleIcon extends ReactMode {
           background: `#fff url("https:${Ext.APP_ASSETS_HOST}/airplane.svg") -1px 1px / 64px no-repeat`,
           border: Styles.BASE_UNACTIVE_BORDER,
         };
-      case Iframe.MODE_BOTTOM:
+      case Iframe.EXTENSION_MODE_BOTTOM:
         return {
           bottom: "0px",
           boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
@@ -1829,15 +2007,15 @@ class HandleIcon extends ReactMode {
   }
 
   getOpenStyles(called) {
-    switch (this.window.userDefineMode) {
-      case Iframe.MODE_MODAL:
+    switch (this.window.userDefineExtensionMode) {
+      case Iframe.EXTENSION_MODE_MODAL:
         return {
           boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
           transform: `translate3d(0px, -25px, 0px) scale( 1 )`,
           background: Styles.BASE_ACTIVE_BG_COLOR,
           border: Styles.BASE_ACTIVE_BORDER,
         };
-      case Iframe.MODE_BOTTOM:
+      case Iframe.EXTENSION_MODE_BOTTOM:
         return {
           boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
           transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
@@ -1847,7 +2025,7 @@ class HandleIcon extends ReactMode {
     }
   }
 
-  transitionEnd() {}
+  transitionEnd() { }
 }
 
 class LiveCnt extends ReactMode {
@@ -2030,9 +2208,9 @@ class Notif extends ReactMode {
     this.dom.appendChild(notifPost);
 
     this.dom.addEventListener("click", () => {
-      switch (this.window.userDefineMode) {
-        case Iframe.MODE_BOTTOM:
-        case Iframe.MODE_MODAL:
+      switch (this.window.userDefineExtensionMode) {
+        case Iframe.EXTENSION_MODE_BOTTOM:
+        case Iframe.EXTENSION_MODE_MODAL:
           switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
             case Ext.DISPLAY_MODE_ACTIVE:
               this.window.updateDisplayMode("clickNotif");
@@ -2040,7 +2218,7 @@ class Notif extends ReactMode {
             case Ext.DISPLAY_MODE_OPEN:
               break;
           }
-        case Iframe.MODE_EMBED:
+        case Iframe.EXTENSION_MODE_EMBED:
           break;
       }
     });
@@ -2081,8 +2259,8 @@ class Notif extends ReactMode {
 
   getWidth(addUnit = false) {
     let width = 0;
-    switch (this.window.userDefineMode) {
-      case Iframe.MODE_MODAL:
+    switch (this.window.userDefineExtensionMode) {
+      case Iframe.EXTENSION_MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "calc( 100% - 130px )" : "180px";
@@ -2090,8 +2268,8 @@ class Notif extends ReactMode {
           case Ext.DISPLAY_MODE_OPEN:
             break;
         }
-      case Iframe.MODE_BOTTOM:
-      case Iframe.MODE_EMBED:
+      case Iframe.EXTENSION_MODE_BOTTOM:
+      case Iframe.EXTENSION_MODE_EMBED:
         break;
     }
     return addUnit ? width : width.replace("px", "").replace("%", "");
@@ -2104,8 +2282,8 @@ class Notif extends ReactMode {
 
   getPadding(addUnit = false) {
     let padding = "0px";
-    switch (this.window.userDefineMode) {
-      case Iframe.MODE_MODAL:
+    switch (this.window.userDefineExtensionMode) {
+      case Iframe.EXTENSION_MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             padding = "10px 20px 10px 10px";
@@ -2113,8 +2291,8 @@ class Notif extends ReactMode {
           case Ext.DISPLAY_MODE_OPEN:
             break;
         }
-      case Iframe.MODE_BOTTOM:
-      case Iframe.MODE_EMBED:
+      case Iframe.EXTENSION_MODE_BOTTOM:
+      case Iframe.EXTENSION_MODE_EMBED:
         break;
     }
     return addUnit ? padding : padding.replace("px", "").replace("%", "");
@@ -2122,8 +2300,8 @@ class Notif extends ReactMode {
 
   getBottom(addUnit = false) {
     let bottom = "0px";
-    switch (this.window.userDefineMode) {
-      case Iframe.MODE_MODAL:
+    switch (this.window.userDefineExtensionMode) {
+      case Iframe.EXTENSION_MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             bottom = "0px";
@@ -2131,8 +2309,8 @@ class Notif extends ReactMode {
           case Ext.DISPLAY_MODE_OPEN:
             break;
         }
-      case Iframe.MODE_BOTTOM:
-      case Iframe.MODE_EMBED:
+      case Iframe.EXTENSION_MODE_BOTTOM:
+      case Iframe.EXTENSION_MODE_EMBED:
         break;
     }
     return addUnit ? bottom : bottom.replace("px", "").replace("%", "");
@@ -2140,8 +2318,8 @@ class Notif extends ReactMode {
 
   getRight(addUnit = false) {
     let right = "75px";
-    switch (this.window.userDefineMode) {
-      case Iframe.MODE_MODAL:
+    switch (this.window.userDefineExtensionMode) {
+      case Iframe.EXTENSION_MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             right = "75px";
@@ -2149,8 +2327,8 @@ class Notif extends ReactMode {
           case Ext.DISPLAY_MODE_OPEN:
             break;
         }
-      case Iframe.MODE_BOTTOM:
-      case Iframe.MODE_EMBED:
+      case Iframe.EXTENSION_MODE_BOTTOM:
+      case Iframe.EXTENSION_MODE_EMBED:
         break;
     }
     return addUnit ? right : right.replace("px", "").replace("%", "");
@@ -2158,8 +2336,8 @@ class Notif extends ReactMode {
 
   getTranslateY(addUnit = false) {
     let transformY = `-19px`;
-    switch (this.window.userDefineMode) {
-      case Iframe.MODE_MODAL:
+    switch (this.window.userDefineExtensionMode) {
+      case Iframe.EXTENSION_MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             transformY = "-19px";
@@ -2167,8 +2345,8 @@ class Notif extends ReactMode {
           case Ext.DISPLAY_MODE_OPEN:
             break;
         }
-      case Iframe.MODE_BOTTOM:
-      case Iframe.MODE_EMBED:
+      case Iframe.EXTENSION_MODE_BOTTOM:
+      case Iframe.EXTENSION_MODE_EMBED:
         break;
     }
     return addUnit ? transformY : transformY.replace("px", "").replace("%", "");

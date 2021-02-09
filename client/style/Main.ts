@@ -10,8 +10,8 @@ export default class Main {
   }
   static getOpenHeight({ app, ui }, called) {
     switch (ui.extensionMode) {
-      case Ui.extensionModeExtModalLabel:
-      case Ui.extensionModeExtBottomLabel:
+      case Ui.extensionModeModal:
+      case Ui.extensionModeBottom:
         return 450;
       default:
         return window.innerHeight;

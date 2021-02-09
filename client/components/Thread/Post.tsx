@@ -50,7 +50,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
     this.getDecolationProps = this.getDecolationProps.bind(this);
   }
 
-  componentWillReceiveProps(props) {
+  SAFE_componentWillReceiveProps(props) {
     const { postStyle, isBubblePost } = this.state;
     const beforeIsBubblePost = isBubblePost;
     const afterIsBubblePost = props.ui.isBubblePost;
@@ -234,7 +234,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
                   shortUnit = "sec";
                   break;
               }
-              const dispSuffix = ui.extensionMode === Ui.extensionModeExtNoneLabel ? suffix : suffix.replace("ago", "");
+              const dispSuffix = ui.extensionMode === Ui.extensionModeNone ? suffix : suffix.replace("ago", "");
               return `${value} ${shortUnit} ${dispSuffix}`;
             }}
           />

@@ -134,7 +134,7 @@ export default class Board {
   static getSelfWidth({ app, ui }, addUnit = false) {
     let width = "93%";
     if (ui.isOpenLinks) {
-      if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+      if (ui.extensionMode === Ui.extensionModeBottom) {
         width = "93%";
       } else {
         switch (ui.screenSize) {

@@ -50,7 +50,7 @@ export default class Board extends TalknComponent<BoardProps, BoardState> {
     });
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     const { isOpenLinks } = props.state.ui;
     let updateState: any = {};
 

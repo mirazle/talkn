@@ -65,7 +65,7 @@ export default class Ch {
   }
 
   static getUnactiveLiBorder({ app, ui }): React.CSSProperties {
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       return {
         borderTop: 0,
         borderRight: 0,

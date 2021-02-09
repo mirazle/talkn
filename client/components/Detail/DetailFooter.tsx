@@ -47,7 +47,7 @@ export default class DetailFooter extends TalknComponent<DetailFooterProps, Deta
 
   handleOnClickPortal() {
     const { ui } = this.props.state;
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom || ui.extensionMode === Ui.extensionModeModal) {
       window.talknWindow.ext.to("linkTo", { href: `https://${conf.wwwURL}` });
     } else {
       // @ts-ignore.
@@ -60,7 +60,7 @@ export default class DetailFooter extends TalknComponent<DetailFooterProps, Deta
     const { app, ui, style } = state;
 
     if (
-      (ui.extensionMode === Ui.extensionModeExtBottomLabel || ui.extensionMode === Ui.extensionModeExtModalLabel) &&
+      (ui.extensionMode === Ui.extensionModeBottom || ui.extensionMode === Ui.extensionModeModal) &&
       mode === "default"
     ) {
       return null;

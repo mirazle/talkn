@@ -67,7 +67,7 @@ export default class Marquee extends Component<Props, State> {
     clearTimeout(this._marqueeTimer);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props &&
       this.props.text &&
