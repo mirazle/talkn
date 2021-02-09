@@ -6,7 +6,5 @@ type LabelProps = {
 };
 
 export const Label: React.FC<LabelProps> = (props: LabelProps) => (
-  <label style={LabelStyle} htmlFor={props.htmlFor}>
-    {props.htmlFor}
-  </label>
+  <label style={LabelStyle} htmlFor={props.htmlFor} />
 );

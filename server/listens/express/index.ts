@@ -314,10 +314,6 @@ class Express {
   listenedHttps() {
     console.log(`@@@ LISTEN HTTPS ${define.PORTS.HTTPS}`);
   }
-
-  listenGet() {}
-
-  listenPost() {}
 }
 
 export default Express;

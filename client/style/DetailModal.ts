@@ -27,7 +27,7 @@ export default class DetailModal {
   }
 
   static getMargin({ app, ui }, addUnit = false) {
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       return "0% 8%";
     } else {
       switch (ui.screenSize) {

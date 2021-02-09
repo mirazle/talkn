@@ -405,7 +405,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
     const active = true;
     const href = "https://chrome.google.com/webstore/detail/talkn-for-chrome/dkngnmdlcofambpfaccepbnjgfholgbo?hl=en";
     const onClick =
-      ui.extensionMode !== Ui.extensionModeExtNoneLabel
+      ui.extensionMode !== Ui.extensionModeNone
         ? () => {
             window.talknWindow.ext.to("linkTo", { href });
           }
@@ -421,7 +421,7 @@ class Icons {
     const active = serverMetas && serverMetas["twitter:site"] && serverMetas["twitter:site"] !== "";
     const href = active ? `${define.URL.twitter}${serverMetas["twitter:site"].replace("@", "")}` : "";
     const onClick =
-      ui.extensionMode !== Ui.extensionModeExtNoneLabel
+      ui.extensionMode !== Ui.extensionModeNone
         ? () => {
             window.talknWindow.ext.to("linkTo", { href });
           }
@@ -436,7 +436,7 @@ class Icons {
     const active = serverMetas && serverMetas["fb:page_id"] !== "";
     const href = active ? `${define.URL.facebook}${serverMetas["fb:page_id"]}` : "";
     const onClick =
-      ui.extensionMode !== Ui.extensionModeExtNoneLabel
+      ui.extensionMode !== Ui.extensionModeNone
         ? () => {
             window.talknWindow.ext.to("linkTo", { href });
           }
@@ -451,7 +451,7 @@ class Icons {
     const active = serverMetas && serverMetas["al:ios:app_store_id"] !== "";
     const href = active ? `${define.URL.appstore}${serverMetas["al:ios:app_store_id"]}` : "";
     const onClick =
-      ui.extensionMode !== Ui.extensionModeExtNoneLabel
+      ui.extensionMode !== Ui.extensionModeNone
         ? () => {
             window.talknWindow.ext.to("linkTo", { href });
           }
@@ -465,7 +465,7 @@ class Icons {
     const active = serverMetas && serverMetas["al:android:package"] !== "";
     const href = active ? `${define.URL.playstore}${serverMetas["al:android:package"]}` : "";
     const onClick =
-      ui.extensionMode !== Ui.extensionModeExtNoneLabel
+      ui.extensionMode !== Ui.extensionModeNone
         ? () => {
             window.talknWindow.ext.to("linkTo", { href });
           }
@@ -487,7 +487,7 @@ class Icons {
       }
     }
     const onClick =
-      ui.extensionMode !== Ui.extensionModeExtNoneLabel
+      ui.extensionMode !== Ui.extensionModeNone
         ? () => {
             window.talknWindow.ext.to("linkTo", { href });
           }
@@ -501,7 +501,7 @@ class Icons {
     const active = true;
     const href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${ch}`;
     const onClick =
-      ui.extensionMode !== Ui.extensionModeExtNoneLabel
+      ui.extensionMode !== Ui.extensionModeNone
         ? () => {
             window.talknWindow.ext.to("linkTo", { href });
           }

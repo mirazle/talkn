@@ -211,15 +211,15 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
           >
             {IconTalkn}
             <div style={style.lockMenu.shareLabel}>
-              <input
-                id="copy-script"
-                data-component-share-input
-                type="text"
-                style={stateStyle.liEmbedInput}
-                readOnly={true}
-                value={`<script type="text/javascript" async src='//${conf.extURL}${threadDetail.ch}'></script>`}
-              />
-              <Label htmlFor="copy-script" />
+              <label style={style.lockMenu.label}>
+                <input
+                  data-component-share-input
+                  type="text"
+                  style={stateStyle.liEmbedInput}
+                  readOnly={true}
+                  value={`<script type="text/javascript" async src='//${conf.extURL}${threadDetail.ch}'></script>`}
+                />
+              </label>
             </div>
           </li>
         </ul>

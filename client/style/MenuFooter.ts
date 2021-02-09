@@ -7,9 +7,9 @@ import Menu from "./Menu";
 export default class MenuFooter {
   static getBorderRadius({ app, ui }) {
     switch (ui.extensionMode) {
-      case Ui.extensionModeExtBottomLabel:
+      case Ui.extensionModeBottom:
         return Container.radiuses;
-      case Ui.extensionModeExtModalLabel:
+      case Ui.extensionModeModal:
         switch (ui.screenSize) {
           case Ui.screenSizeSmallLabel:
             return `0 0 0 ${Container.radius}`;
@@ -24,7 +24,7 @@ export default class MenuFooter {
 
   static getWidth({ app, ui }, addUnit = false) {
     let width = "0";
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       width = "50%";
     } else {
       switch (ui.screenSize) {

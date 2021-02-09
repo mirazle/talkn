@@ -13,11 +13,11 @@ export default class ExtScreen {
 
   static getTop({ app, ui }) {
     return 0;
-    //    return ui.extensionMode === Ui.extensionModeExtModalLabel ? "0%" : "100%";
+    //    return ui.extensionMode === Ui.extensionModeModal ? "0%" : "100%";
   }
 
   static getSelfTransform({ app, ui }, call = "") {
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       return ui.isDispPosts ? "translate3d(0px, -100%, 0px)" : `translate3d(0px, 0%, 0px)`;
     } else {
       return "translate3d(0px, 0px, 0px)";
@@ -25,7 +25,7 @@ export default class ExtScreen {
   }
 
   static getSelfTransition({ app, ui }) {
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       return ui.isDispPosts ? `${Container.transitionOn}ms` : `${Container.transitionOn}ms`;
     } else {
       return "0ms";

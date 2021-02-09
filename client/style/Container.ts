@@ -4,13 +4,14 @@ import Style from "./index";
 import DetailRight from "./DetailRight";
 import Menu from "./Menu";
 import TimeMarker from "./TimeMarker";
+import { CSSProperties } from "react";
 
 export default class Container {
-  self: Object;
-  multistreamIconWrap: Object;
-  newPost: Object;
-  hideScreenBottom: Object;
-  linkLabel: Object;
+  self: CSSProperties;
+  multistreamIconWrap: CSSProperties;
+  newPost: CSSProperties;
+  hideScreenBottom: CSSProperties;
+  linkLabel: CSSProperties;
   constructor(params) {
     const self = Container.getSelf(params);
     const multistreamIconWrap = Container.getMultistreamIconWrap(params);
@@ -273,7 +274,7 @@ export default class Container {
 
   static getSelf({ app, ui, bootOption, type }): Object {
     let borderRadius = "0px";
-    if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
+    if (ui.extensionMode === Ui.extensionModeModal) {
       borderRadius = "3px";
     }
 
@@ -297,9 +298,9 @@ export default class Container {
   }
 
   static getMultistreamIconWrapTop({ app, ui }): Object {
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       return Container.getBlockSize({ app, ui }) + Container.multistreamWrapDefaultTop + "px";
-    } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
+    } else if (ui.extensionMode === Ui.extensionModeModal) {
       return Container.getBlockSize({ app, ui }) + Container.multistreamWrapDefaultTop + "px";
     } else {
       return Container.getBlockSize({ app, ui }) + Container.multistreamWrapDefaultTop + "px";
@@ -347,7 +348,7 @@ export default class Container {
       zIndex: "1",
       margin: "0px auto",
       fontSize: "0.7em",
-      bottom: `-${Container.notifHeight}px`,
+      bottom: `-${Container.notifHeight * 2}px`,
       transition: Container.getTransition({ app, ui }),
     };
   }

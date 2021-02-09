@@ -1,6 +1,7 @@
 import Style from "./index";
 import Ui from "client/store/Ui";
 import Container from "./Container";
+import { CSSProperties } from "react";
 
 export default class LockMenu {
   static get headTabUpdate() {
@@ -66,15 +67,16 @@ export default class LockMenu {
     }
   }
 
-  menuShare: Object;
-  header: Object;
-  ul: Object;
-  liGoWeb: Object;
-  liTwitter: Object;
-  liFacebook: Object;
-  liEmbed: Object;
-  liEmbedInput: Object;
-  shareLabel: Object;
+  menuShare: CSSProperties;
+  header: CSSProperties;
+  ul: CSSProperties;
+  liGoWeb: CSSProperties;
+  liTwitter: CSSProperties;
+  liFacebook: CSSProperties;
+  liEmbed: CSSProperties;
+  liEmbedInput: CSSProperties;
+  shareLabel: CSSProperties;
+  label: CSSProperties;
   constructor(params) {
     const menuShare = LockMenu.getMenuShare(params);
     const header = LockMenu.getHeader(params);
@@ -85,6 +87,7 @@ export default class LockMenu {
     const liEmbed = LockMenu.getLiEmbed(params);
     const liEmbedInput = LockMenu.getLiEmbedInput(params);
     const shareLabel = LockMenu.getShareLabel(params);
+    const label = LockMenu.getLabel(params);
     return {
       menuShare,
       header,
@@ -95,6 +98,7 @@ export default class LockMenu {
       liEmbed,
       liEmbedInput,
       shareLabel,
+      label,
     };
   }
 
@@ -218,6 +222,15 @@ export default class LockMenu {
       textIndent: "20px",
       textAlign: "left",
     });
+    const animation = Style.getAnimationBase();
+    return Style.get({ layout, content, animation });
+  }
+
+  static getLabel({ app, ui }) {
+    const layout = Style.getLayoutFlex({
+      width: "100%",
+    });
+    const content = Style.getContentBase({});
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
   }

@@ -24,7 +24,7 @@ export default class InnerNotif extends TalknComponent<InnerNotifProps, InnerNot
     this.state = { style, notif, isDebug: false };
   }
 
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     const { app, ui } = props.state;
     const { style } = this.state;
     const height = props.state.style.innerNotif.self.height;

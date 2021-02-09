@@ -221,13 +221,13 @@ class Ext {
         // @ts-ignore
         this.window.bootOption = new BootOption(id, params.bootOption);
         this.href = href;
-          console.log(params);
+        console.log(id + ' ' + type + ' ' + method);
+        console.log(params);
         const apiState = new ApiState(this.window.bootOption);
         // @ts-ignore
         const clientState = new ClientState({ ...apiState, ui: params.ui });
-        console.log(clientState);
         const state = { ...apiState, ...clientState };
-        console.log(state);
+
         this.window.store.dispatch({ ...state, type: "EXT_INIT_CLIENT" });
         this.window.api("tune", this.window.bootOption);
 

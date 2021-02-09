@@ -19,13 +19,13 @@ export default class Posts {
   }
 
   static getOlWidth({ app, ui }, addUnit = false): any {
-    const width = ui.extensionMode === Ui.extensionModeExtBottomLabel ? "90%" : "100%";
+    const width = ui.extensionMode === Ui.extensionModeBottom ? "90%" : "100%";
     return addUnit ? Style.trimUnit(width) : width;
   }
 
   static getWidth({ app, ui }, addUnit = false): any {
     let width = "100%";
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       width = "90%";
     } else {
       switch (ui.screenSize) {
@@ -92,7 +92,7 @@ export default class Posts {
 
   static getMargin({ app, ui }, addUnit = false) {
     let margin = "0";
-    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+    if (ui.extensionMode === Ui.extensionModeNone) {
       switch (ui.screenSize) {
         case Ui.screenSizeSmallLabel:
           margin = `0`;
@@ -122,7 +122,7 @@ export default class Posts {
     if (app.isMediaCh) {
       padding = `${blockSize * 2.3}px 0 ${blockSize}px 0`;
     } else {
-      if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+      if (ui.extensionMode === Ui.extensionModeNone) {
         switch (ui.screenSize) {
           case Ui.screenSizeSmallLabel:
             padding = `${blockSize}px 0 ${blockSize}px 0`;
@@ -150,7 +150,7 @@ export default class Posts {
   }
 
   static getSelfTransform({ app, ui }) {
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       return ui.isDispPosts
         ? "translate3d(0px, 0px, 0px)"
         : `translate3d(0px, calc( 100% + ${Container.getBlockSize({ app, ui })}px ), 0px)`;
@@ -175,7 +175,7 @@ export default class Posts {
   }
 
   static getSelfMinHeight({ app, ui }) {
-    if (ui.extensionMode !== Ui.extensionModeExtNoneLabel) {
+    if (ui.extensionMode !== Ui.extensionModeNone) {
       return `430px`;
     } else {
       if (ui.screenSize === Ui.screenSizeLargeLabel) {
@@ -187,7 +187,7 @@ export default class Posts {
   }
 
   static getSelfTop({ app, ui }) {
-    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+    if (ui.extensionMode === Ui.extensionModeNone) {
       if (app.chType === App.mediaTagTypeVideo) {
         return `${Container.getBlockSize({ app, ui }) + Video.height}px`;
       }
@@ -201,7 +201,7 @@ export default class Posts {
 
   static getSelfBoxShadow({ app, ui }) {
     let boxShadow = "0px 0px 0px rgba(255,255,255)";
-    if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+    if (ui.extensionMode === Ui.extensionModeNone) {
       return boxShadow;
     } else {
       switch (ui.screenSize) {
@@ -221,7 +221,7 @@ export default class Posts {
     let overflowY = "hidden";
     let borders = Posts.getBorders({ app, ui });
     let background = Container.whiteRGBA;
-    const boxShadow = Posts.getSelfBoxShadow({ app, ui });
+    const boxShadow = 0; //Posts.getSelfBoxShadow({ app, ui });
     // screen mode large is Posts scroll( no window scroll ).
     if (ui.screenSize === Ui.screenSizeLargeLabel) {
       position = "fixed";
@@ -262,7 +262,7 @@ export default class Posts {
     let borderRight = "0";
     let borderLeft = "0";
 
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       width = Posts.getOlWidth({ app, ui });
       margin = "0px 0px 0px 5%";
       borderRight = Container.border;

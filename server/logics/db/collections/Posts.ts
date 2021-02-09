@@ -49,7 +49,7 @@ export default class Posts {
   ) {
     const { isMultistream, getMore, isMediaCh } = status;
     const { thread, app } = requestState;
-    const { ch } = thread;
+    let { ch } = thread;
     const offsetFindId = app && app.offsetFindId ? app.offsetFindId : Post.defaultFindId;
     const getDirection = getMore ? "$lt" : "$gt";
     const chPart = isMultistream ? { chs: ch } : { ch };
@@ -68,7 +68,7 @@ export default class Posts {
     if (!isMediaCh) {
       result.response.reverse();
     }
-
+    console.log(result.response.length)
     return result;
   }
 

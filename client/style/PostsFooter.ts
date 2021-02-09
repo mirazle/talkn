@@ -40,13 +40,13 @@ export default class PostsFooter {
 
   static getBorder({ app, ui }, addUnit = false) {
     switch (ui.extensionMode) {
-      case Ui.extensionModeExtBottomLabel:
+      case Ui.extensionModeBottom:
         return {
           borderTop: Container.border,
           borderRight: Container.border,
           borderLeft: Container.border,
         };
-      case Ui.extensionModeExtModalLabel:
+      case Ui.extensionModeModal:
         switch (ui.screenSize) {
           case Ui.screenSizeSmallLabel:
             return { border: Container.border };
@@ -70,9 +70,9 @@ export default class PostsFooter {
   }
 
   static getBorderRadius({ app, ui }: any, addUnit = false) {
-    if (ui.extensionMode === Ui.extensionModeExtBottomLabel) {
+    if (ui.extensionMode === Ui.extensionModeBottom) {
       return ui.extensionWidth === "100%" ? "0px 0px 0px 0px" : `${Container.radius} ${Container.radius} 0px 0px`;
-    } else if (ui.extensionMode === Ui.extensionModeExtModalLabel) {
+    } else if (ui.extensionMode === Ui.extensionModeModal) {
       switch (ui.screenSize) {
         case Ui.screenSizeSmallLabel:
           return `0px 0px ${Container.radius} ${Container.radius}`;
@@ -128,7 +128,7 @@ export default class PostsFooter {
   }
 
   static getSelf({ app, ui }) {
-    //const display = ui.extensionMode === Ui.extensionModeExtModalLabel ? "none": "flex";
+    //const display = ui.extensionMode === Ui.extensionModeModal ? "none": "flex";
     const borders = PostsFooter.getBorder({ app, ui });
     const borderRadius = PostsFooter.getBorderRadius({ app, ui });
     const layout = Style.getLayoutFlex({
@@ -173,7 +173,7 @@ export default class PostsFooter {
   }
 
   static getTextarea({ app, ui }) {
-    const width = ui.extensionMode === Ui.extensionModeExtModalLabel ? "60%" : "54%";
+    const width = ui.extensionMode === Ui.extensionModeModal ? "60%" : "54%";
     const fontSize = ui.screenSize === Ui.screenSizeSmallLabel ? "1em" : "1em";
     const lineHeight = ui.screenSize === Ui.screenSizeSmallLabel ? "0.8em" : "1.1em";
     const layout = Style.getLayoutInlineBlock({

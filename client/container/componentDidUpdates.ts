@@ -67,7 +67,7 @@ const componentDidUpdates = {
     ON_CLICK_MULTISTREAM: (self) => {
       const { app, ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
-      if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+      if (ui.extensionMode === Ui.extensionModeNone) {
         switch (ui.screenSize) {
           case Ui.screenSizeLargeLabel:
           case Ui.screenSizeSmallLabel:
@@ -107,14 +107,14 @@ const componentDidUpdates = {
     },
     ON_CLICK_TOGGLE_DISP_DETAIL: (self) => {
       const { ui } = self.props.state;
-      if (ui.extensionMode === Ui.extensionModeExtModalLabel || ui.extensionMode === Ui.extensionModeExtEmbedLabel) {
+      if (ui.extensionMode === Ui.extensionModeModal || ui.extensionMode === Ui.extensionModeEmbed) {
         window.talknWindow.ext.to("getClientMetas");
       }
     },
     TOGGLE_BUBBLE_POST: (self) => {
       const { app, ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
-      if (ui.extensionMode === Ui.extensionModeExtNoneLabel) {
+      if (ui.extensionMode === Ui.extensionModeNone) {
         switch (ui.screenSize) {
           case Ui.screenSizeLargeLabel:
           case Ui.screenSizeSmallLabel:

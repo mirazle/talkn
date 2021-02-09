@@ -2,32 +2,13 @@ import Schema from "api/store/Schema";
 import conf from "client/conf";
 
 export type ClickedType = "Ch" | "BackToRootCh" | "ToMedia" | "Links" | "findMediaCh" | "";
-export type RenderModeType =
-  typeof Ui.screenModeAllType |
-  typeof Ui.screenModeThreadDetailType |
-  typeof Ui.screenModeOnlyPostType |
-  typeof Ui.screenModeOnlyIndexType |
-  typeof Ui.screenModeOnlyThreadType;
+export type ExtensionModeType =
+  typeof Ui.extensionModeModal |
+  typeof Ui.extensionModeBottom |
+  typeof Ui.extensionModeOutWindow |
+  typeof Ui.extensionModeLiveMedia;
 
 export default class Ui extends Schema {
-  static get screenModeAllType() {
-    return "ALL";
-  }
-  static get screenModeThreadDetailType() {
-    return "THREAD_DETAIL";
-  }
-  static get screenModeOnlyPostType() {
-    return "ONRY_POST";
-  }
-  static get screenModeOnlyThreadType() {
-    return "ONLY_THREAD";
-  }
-  static get screenModeOnlyIndexType() {
-    return "ONLY_INDEX";
-  }
-  static get screenModeLiveMediaType() {
-    return "LIVE_MEDIA";
-  }
   static get openLockMenuLabelNo() {
     return "No";
   }
@@ -64,16 +45,22 @@ export default class Ui extends Schema {
   static get screenSizeMiddleWidthPx() {
     return conf.screenSize.middle;
   }
-  static get extensionModeExtModalLabel() {
+  static get extensionModeModal() {
     return "Modal";
   }
-  static get extensionModeExtBottomLabel() {
+  static get extensionModeBottom() {
     return "Bottom";
   }
-  static get extensionModeExtEmbedLabel() {
+  static get extensionModeEmbed() {
     return "Embed";
   }
-  static get extensionModeExtNoneLabel() {
+  static get extensionModeLiveMedia() {
+    return "LiveMedia";
+  }
+  static get extensionModeOutWindow() {
+    return "OutWindow";
+  }
+  static get extensionModeNone() {
     return "None";
   }
   static get menuComponentUsersLabel() {
@@ -175,7 +162,7 @@ export default class Ui extends Schema {
     let { extensionMode, height, extensionHeight, extensionCloseHeight } = ui;
     const log = false;
     const al = false;
-    if (extensionMode === Ui.extensionModeExtBottomLabel || extensionMode === Ui.extensionModeExtModalLabel) {
+    if (extensionMode === Ui.extensionModeBottom || extensionMode === Ui.extensionModeModal) {
       if (typeof height !== "number") height = Number(height);
       if (typeof extensionHeight !== "number") extensionHeight = Number(extensionHeight);
 
@@ -311,9 +298,8 @@ export default class Ui extends Schema {
     const width = Ui.getWidth(params);
     const height = Ui.getHeight(params);
     const postsHeight = params.postsHeight ? params.postsHeight : 0;
-    const screenMode = params.screenMode ? params.screenMode : Ui.screenModeAllType;
     const screenSize = Ui.getScreenSize(width);
-    const extensionMode = params.extensionMode ? params.extensionMode : Ui.extensionModeExtNoneLabel;
+    const extensionMode = params.extensionMode ? params.extensionMode : Ui.extensionModeNone;
     const extensionWidth = params.extensionWidth ? params.extensionWidth : "0%";
     const extensionHeight = params.extensionHeight ? params.extensionHeight : 0;
 
@@ -357,7 +343,6 @@ export default class Ui extends Schema {
       width,
       height,
       postsHeight,
-      screenMode,
       screenSize,
       extensionMode,
       extensionWidth,

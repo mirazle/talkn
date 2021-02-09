@@ -135,7 +135,7 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
     return { emotionModelKey, totalNum, data };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const clientState = this.clientState;
     if (
       clientState.actionLog[0] === "API_TO_CLIENT[EMIT]:tune" ||

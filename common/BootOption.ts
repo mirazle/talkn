@@ -1,7 +1,7 @@
 import conf from "common/conf";
 import define from "common/define";
 import Sequence from "api/Sequence";
-import Ui, { RenderModeType } from "client/store/Ui";
+import Ui, { ExtensionModeType } from "client/store/Ui";
 
 export type EnvType = typeof define.DEVELOPMENT | typeof define.LOCALHOST | typeof define.PRODUCTION;
 export type BootType = typeof define.APP_TYPES.API | typeof define.APP_TYPES.PORTAL | typeof define.APP_TYPES.EXTENSION;
@@ -11,7 +11,7 @@ export type BootOptionParamsType = {
   hasSlash: boolean;
   protocol: BootProtocolType;
   host: string;
-  screenMode: RenderModeType;
+  mode: ExtensionModeType;
 };
 export type BootOptionType = {
   id: string;
@@ -26,7 +26,7 @@ export default class BootOption {
   hasSlash: boolean = true;
   protocol: BootProtocolType = Sequence.HTTPS_PROTOCOL;
   host: string = location.host;
-  screenMode: RenderModeType = Ui.screenModeOnlyIndexType;
+  extensionMode: ExtensionModeType = Ui.extensionModeNone;
   defaultProps: BootOptionType = {
     id: "",
     params: {
@@ -34,7 +34,7 @@ export default class BootOption {
       hasSlash: true,
       protocol: Sequence.HTTPS_PROTOCOL,
       host: location.host,
-      screenMode: Ui.screenModeOnlyIndexType,
+      mode: Ui.extensionModeNone,
     },
   };
   constructor(id: string, params?: BootOptionParamsType) {
@@ -46,7 +46,7 @@ export default class BootOption {
     this.ch = params && params.ch ? params.ch : BootOption.getCh(initialRootCh, firstHasSlash, this.hasSlash);
     this.protocol = params && params.protocol ? params.protocol : BootOption.getProtocol();
     this.host = params && params.host ? params.host : location.host;
-    this.screenMode = params && params.screenMode ? params.screenMode : Ui.screenModeAllType;
+    this.extensionMode = params && params.mode ? params.mode : Ui.extensionModeNone;
   }
   static getInitialRootCh(env: EnvType): string {
     let initialRootCh: string = location.href;
