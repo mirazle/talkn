@@ -704,7 +704,6 @@ class Window extends ReactMode {
     switch (this.userDefineExtensionMode) {
       case Iframe.EXTENSION_MODE_MODAL:
         bootOption = new BootOption( this.userDefineExtensionMode, href );
-        console.log(bootOption);
         this.ins.iframe = new IframeModal( this, bootOption );
         break;
       case Iframe.EXTENSION_MODE_BOTTOM:
@@ -1443,7 +1442,6 @@ class IframeModal extends Iframe {
   }
 
   updateLiveCnt() {
-    console.log( "UPDATE LIVE CNT" );
     const { state, window } = this;
     const { liveCnt } = state.thread;
     const { ins } = window;

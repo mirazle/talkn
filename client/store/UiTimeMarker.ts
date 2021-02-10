@@ -44,18 +44,18 @@ export default class UiTimeMarker extends Schema {
       timeMarkers.forEach((timeMarker, index) => {
         if (now.label === "" && scrollBaseTop <= timeMarker.offsetTop) {
           now.index = index;
-          now.label = timeMarker.innerText;
+          now.label = timeMarker.innerHTML;
           now.offsetTop = timeMarker.offsetTop;
           if (timeMarkers[index - 1]) {
             before.index = now.index - 1;
-            before.label = timeMarkers[index - 1].innerText;
+            before.label = timeMarkers[index - 1].innerHTML;
             before.offsetTop = timeMarkers[index - 1].offsetTop;
           } else {
             before = { ...now };
           }
           if (timeMarkers[index + 1]) {
             after.index = now.index + 1;
-            after.label = timeMarkers[index + 1].innerText;
+            after.label = timeMarkers[index + 1].innerHTML;
             after.offsetTop = timeMarkers[index + 1].offsetTop;
           } else {
             after = { ...now };
@@ -64,29 +64,30 @@ export default class UiTimeMarker extends Schema {
         const addList: uiTimeMarkerObject = {
           index,
           offsetTop: timeMarker.offsetTop,
-          label: timeMarker.innerText,
+          label: timeMarker.innerHTML,
         };
         list.push(addList);
       });
 
       if (now.label === "") {
         now.index = timeMarkerSize - 1;
-        now.label = timeMarkers[now.index].innerText;
+        now.label = timeMarkers[now.index].innerHTML;
         now.offsetTop = timeMarkers[now.index].offsetTop;
         before = { ...now };
         after = { ...now };
         if (timeMarkers[now.index - 1]) {
           before.index = timeMarkers[now.index - 1] ? now.index - 1 : now.index;
-          before.label = timeMarkers[now.index - 1] ? timeMarkers[now.index - 1].innerText : now.label;
+          before.label = timeMarkers[now.index - 1] ? timeMarkers[now.index - 1].innerHTML : now.label;
           before.offsetTop = timeMarkers[now.index - 1] ? timeMarkers[now.index - 1].offsetTop : now.offsetTop;
         }
         if (timeMarkers[now.index + 1]) {
           after.index = timeMarkers[now.index + 1] ? now.index + 1 : now.index;
-          after.label = timeMarkers[now.index + 1] ? timeMarkers[now.index + 1].innerText : now.label;
+          after.label = timeMarkers[now.index + 1] ? timeMarkers[now.index + 1].innerHTML : now.label;
           after.offsetTop = timeMarkers[now.index + 1] ? timeMarkers[now.index + 1].offsetTop : now.offsetTop;
         }
       }
     }
+
     return { list, now, before, after };
   }
 
@@ -102,11 +103,12 @@ export default class UiTimeMarker extends Schema {
 
       // Most bottom scroll area.
       if (now.index === listCnt - 1) {
+
         // 一つ上のスクロール領域に移動
         if (scrollBaseTop < now.offsetTop) {
-          after = now;
-          now = before;
-          before = list[before["index"] - 1] ? list[before["index"] - 1] : before;
+          after = { ...now };
+          now = { ...before };
+          before = list[before["index"] - 1] ? { ...list[before["index"] - 1] } : before;
         }
 
         // Most top scroll area.

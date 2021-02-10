@@ -206,6 +206,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
               timeLabel = `(${postYmdhis.Day})${postYmdhis.M}/${postYmdhis.D}`;
               break;
           }
+
           dispPosts.push(
             <TimeMarker
               key={`TimeMarker${i}_${timeLabel}`}
@@ -285,7 +286,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
       if (ui.isLoading) {
         const loading = Icon.getLoading(IconStyle.getLoading({ app, ui }));
         return <TimeMarker type={"Fix"} label={loading} style={style.timeMarker.fixTimeMarker} />;
-      } else if (thread.postCnt > 0 && uiTimeMarker.now && uiTimeMarker.now.label) {
+      } else {
         return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
       }
     }
