@@ -114,11 +114,12 @@ export default class Detail {
       width: DetailModal.getWidth({ app, ui }, false),
       height,
       margin: DetailModal.getMargin({ app, ui }),
-      ...borders,
+      border: `1px solid ${Container.borderRGB}`,
+//     ...borders,
       borderRadius: Container.radiuses,
       WebkitOverflowScrolling: "touch",
       zIndex: 9,
-      boxShadow: `${Container.lineShadow}`,
+//      boxShadow: `${Container.lineShadow}`,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase({

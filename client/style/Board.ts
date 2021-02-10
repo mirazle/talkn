@@ -188,7 +188,7 @@ export default class Board {
   }
 
   static getSelfBoxShadow({ app, ui }, addUnit = false) {
-    return ui.isOpenLinks ? "rgb(220, 220, 220) 0px 0px 5px" : "rgb(220, 220, 220) 0px 0px 5px";
+    return ui.isOpenLinks ? "rgb(210, 210, 210) 0px 0px 2px" : "rgb(210, 210, 210) 0px 0px 2px";
   }
 
   static getLinksDisplay({ app, ui }) {
