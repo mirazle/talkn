@@ -285,10 +285,8 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
       if (ui.isLoading) {
         const loading = Icon.getLoading(IconStyle.getLoading({ app, ui }));
         return <TimeMarker type={"Fix"} label={loading} style={style.timeMarker.fixTimeMarker} />;
-      } else {
-        if (thread.postCnt > 0 && uiTimeMarker.now && uiTimeMarker.now.label) {
-          return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
-        }        
+      } else if (thread.postCnt > 0 && uiTimeMarker.now && uiTimeMarker.now.label) {
+        return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
       }
     }
     return undefined;
