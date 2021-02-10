@@ -30,6 +30,9 @@ type PostsState = {
   posts: any;
 }
 
+const todayLabel = 'Today';
+const yesterdayLabel = 'Yesterday';
+
 export default class Posts extends TalknComponent<PostsProps, PostsState> {
   constructor(props) {
     super(props);
@@ -194,10 +197,10 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
         if (isDispTimeMarker) {
           switch (diffDay) {
             case 0:
-              timeLabel = "Today";
+              timeLabel = todayLabel;
               break;
             case 1:
-              timeLabel = "Yesterday";
+              timeLabel = yesterdayLabel;
               break;
             default:
               timeLabel = `(${postYmdhis.Day})${postYmdhis.M}/${postYmdhis.D}`;
@@ -282,8 +285,10 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
       if (ui.isLoading) {
         const loading = Icon.getLoading(IconStyle.getLoading({ app, ui }));
         return <TimeMarker type={"Fix"} label={loading} style={style.timeMarker.fixTimeMarker} />;
-      } else if (thread.postCnt > 0 && uiTimeMarker.now && uiTimeMarker.now.label) {
-        return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
+      } else {
+        if (thread.postCnt > 0 && uiTimeMarker.now && uiTimeMarker.now.label) {
+          return <TimeMarker type={"Fix"} label={uiTimeMarker.now.label} style={style.timeMarker.fixTimeMarker} />;
+        }        
       }
     }
     return undefined;

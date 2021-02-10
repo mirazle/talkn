@@ -2172,7 +2172,7 @@ export default class Icon {
     let fontSize = "2em";
     let justifyContent = "flex-start";
     if (isBubblePost) {
-      scale = "2";
+      scale = "1.5";
       height = "100%";
       fontSize = "3.2em";
       justifyContent = "center";
