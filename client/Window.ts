@@ -221,8 +221,7 @@ class Ext {
         // @ts-ignore
         this.window.bootOption = new BootOption(id, params.bootOption);
         this.href = href;
-        console.log(id + ' ' + type + ' ' + method);
-        console.log(params);
+
         const apiState = new ApiState(this.window.bootOption);
         // @ts-ignore
         const clientState = new ClientState({ ...apiState, ui: params.ui });
@@ -550,7 +549,6 @@ class Dom extends TalknComponent<{}, {}> {
   }
 
   private scroll(ev) {
-    console.log(this.body);
     const scrollTop = window.scrollY;
     const clientHeight = window.innerHeight;
     const scrollHeight = this.body.scrollHeight;
