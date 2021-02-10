@@ -19,6 +19,7 @@ window.TALKN_EXT_ENV = "PROD";
         IframeBottom(*1)
         IframeWindow(*1)
         IframeLiveMedia(*1)
+          LiveMediaPost
         IframeEmbed(*n)
 */
 
@@ -499,7 +500,7 @@ class BootOption {
     if ( tag && tag.dataset && tag.dataset.mode ){
       return tag.dataset.mode;
     } else {
-      return undefined;
+      return Iframe.DEFAULT_MODE;
     }
   }
 }
@@ -703,6 +704,7 @@ class Window extends ReactMode {
     switch (this.userDefineExtensionMode) {
       case Iframe.EXTENSION_MODE_MODAL:
         bootOption = new BootOption( this.userDefineExtensionMode, href );
+        console.log(bootOption);
         this.ins.iframe = new IframeModal( this, bootOption );
         break;
       case Iframe.EXTENSION_MODE_BOTTOM:
@@ -1127,7 +1129,6 @@ class Iframe extends ReactMode {
     this.dom.setAttribute("scrolling", "yes");
     this.dom.setAttribute("style", this.getStyles());
     this.dom.addEventListener("load", this.load);
-    console.log(this.src);
     root.appendChild( this.dom );
   }
 
@@ -1180,12 +1181,11 @@ class Iframe extends ReactMode {
   }
 
   load( e ) {
+
     // update inline iframe src ( live media ).
     if ( this.window.userDefineExtensionMode === Iframe.EXTENSION_MODE_LIVE_MEDIA ) {
       const iframeLiveMediaWrap = IframeLiveMedia.getWrap();
       const iframeLiveMedia = IframeLiveMedia.get();
-      console.log( iframeLiveMediaWrap );
-      console.log(iframeLiveMedia);
       this.bootOption.ch = BootOption.getCh( iframeLiveMediaWrap.dataset.url );
       this.src = this.getSrc();
     }
@@ -1199,7 +1199,7 @@ class Iframe extends ReactMode {
         extensionHeight: this.getHeight(false),
       },
     };
-    console.log(params);
+
     this.extToClient("handleExtAndClient", params);
     this.window.mediaServerTo("handleExtAndMedia", this.bootOption);
   }
@@ -1307,6 +1307,7 @@ class IframeModal extends Iframe {
   constructor ( _window, bootOption ) {    
     super(_window, bootOption, IframeModal.appendRoot);
 
+    // parts
     _window.ins.handleIcon = new HandleIcon( _window );
     _window.ins.notifStatus = new LiveCnt( _window );
 
@@ -1442,6 +1443,7 @@ class IframeModal extends Iframe {
   }
 
   updateLiveCnt() {
+    console.log( "UPDATE LIVE CNT" );
     const { state, window } = this;
     const { liveCnt } = state.thread;
     const { ins } = window;
@@ -1726,8 +1728,6 @@ class IframeLiveMedia extends Iframe {
     return [
       "handleExtAndClient",
       "tune",
-      "changeThread",
-      "toggleIframe",
       "location",
       "disconnect",
       "linkTo",
@@ -1737,6 +1737,9 @@ class IframeLiveMedia extends Iframe {
   }
   constructor ( _window, bootOption ) {
     super( _window, bootOption, IframeLiveMedia.appendRoot );
+
+    // parts
+    _window.ins.liveMediaPost = new LiveMediaPost( _window );
 
     // dom
     this.getWidth = this.getWidth.bind(this);
@@ -1765,16 +1768,14 @@ class IframeLiveMedia extends Iframe {
       "align-items: flex-end !important;" +
       "bottom: 0px !important;" +
       "right: 0px !important;" +
-      `width: 100% !important;` +
-      `min-width: ${fixWidth} !important;` +
-      `max-width: 100% !important;` +
-      `height: 100% !important;` +
-      `min-height: ${fixHeight} !important;` +
-      `max-height: 100% !important;` +
+      `width: ${fixWidth} !important;` +
+      `min-width: auto !important;` +
+      `max-width: auto !important;` +
+      `height: ${fixHeight} !important;` +
+      `min-height: auto !important;` +
+      `max-height: auto !important;` +
       "margin: 0 !important;" +
       "padding: 0 !important;" +
-      `clip-path: inset(0px round 10px) !important;` +
-      `-webkit-clip-path: inset(0px round 10px) !important;` +
       "transition: 0ms !important;" +
       "transform: translate3d(0px, 0px, 0px) !important;"
     );
@@ -1835,6 +1836,16 @@ class IframeLiveMedia extends Iframe {
   }
 }
 
+class LiveMediaPost extends ReactMode {
+  static get id() {
+    return `#${Ext.APP_NAME}${Iframe.EXTENSION_MODE_LIVE_MEDIA}Post`;
+  }
+  constructor ( _window ) {
+
+
+  }
+}
+
 class HandleIcon extends ReactMode {
   static get id() {
     return `${Ext.APP_NAME}${this.name}`;
@@ -1848,7 +1859,7 @@ class HandleIcon extends ReactMode {
   constructor(_window) {
     super(_window);
 
-    if (this.window.userDefineExtensionMode === Iframe.EXTENSION_MODE_MODAL) {
+    // if (this.window.userDefineExtensionMode === Iframe.EXTENSION_MODE_MODAL) {
       this.dom = document.createElement("div");
       this.dom.id = HandleIcon.id;
       this.dom.className = Window.className;
@@ -1863,7 +1874,7 @@ class HandleIcon extends ReactMode {
       this.dom.addEventListener("mouseout", this.mouseout );
       this.dom.addEventListener("resize", this.resize);
       Window.selectBody.appendChild(this.dom);
-    }
+    // }
   }
 
   /*************************/

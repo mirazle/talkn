@@ -32,7 +32,7 @@ export type StyleObject = { [key: string]: StyleValue };
 
 export default class Style {
   static get fontBaseRGB() {
-    return "rgb(130, 130, 130)";
+    return "rgb(90, 90, 90)";
   }
 
   static get darkLightRGB() {

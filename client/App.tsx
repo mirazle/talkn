@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import Container from "client/container/";
 
-const Render = (dom, callback = () => {}) => {
+const Render = (dom, callback = () => { }) => {
   ReactDOM.render(
     <Provider store={dom.window.store}>
       <Container />

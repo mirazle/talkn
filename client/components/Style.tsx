@@ -39,7 +39,7 @@ export default class Style extends TalknComponent<Props, State> {
             font-size: ${fontSize}px !important;
             letter-spacing: ${letterSpacing} !important;
             line-height: ${lineHeight}px !important;
-            color: rgb(170, 170, 170);
+            color: rgb(150, 150, 150);
           }
           #talkn input::placeholder {
             text-indent: 3%;
