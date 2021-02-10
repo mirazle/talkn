@@ -1739,7 +1739,7 @@ class IframeLiveMedia extends Iframe {
     super( _window, bootOption, IframeLiveMedia.appendRoot );
 
     // parts
-    _window.ins.liveMediaPost = new LiveMediaPost( _window );
+    // _window.ins.liveMediaPost = new LiveMediaPost( _window );
 
     // dom
     this.getWidth = this.getWidth.bind(this);

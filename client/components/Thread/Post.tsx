@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
 import TimeAgo from "react-timeago";
 import Sequence from "api/Sequence";
 import Ui from "client/store/Ui";
 import Icon from "client/components/common/Icon";
+import PostStyle from "client/style/Post";
 import util from "common/util";
 import conf from "client/conf";
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from "client/container/util/MarqueeArea";
@@ -176,6 +176,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
     }
 
     if (post.dispFlg) {
+      const postNode = this.renderPost(post,app, ui);
       return (
         <li
           data-component-name={this.componentName}
@@ -187,9 +188,9 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
           {...this.getDecolationProps()}
         >
           {this.renderUpper()}
-          <div style={postStyle.bottom}>
+          <div data-component-name={`${this.componentName}Bottom`} style={postStyle.bottom}>
             <span style={{ ...postStyle.bottomIcon, backgroundImage: `url( ${dispFavicon} )` }} />
-            <span style={postStyle.bottomPost} dangerouslySetInnerHTML={{ __html: this.renderPost(post, ui) }} />
+            {postNode}
             {stampLabel}
           </div>
         </li>
@@ -263,11 +264,10 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
     );
   }
 
-  renderPost(post, ui) {
-    if (post.stampId) {
-      return Icon.getStampStr(post.post, 0, ui.isBubblePost);
-    } else {
-      return post.post;
-    }
+  renderPost(post, app, ui): React.ReactNode {
+    const isStamp = Boolean(post.stampId);
+    const bottomPostStyle = PostStyle.getBottomPost({app, ui}, isStamp);
+    const postHtml = isStamp ? Icon.getStampStr(post.post, 0, ui.isBubblePost) : post.post;
+    return <span style={bottomPostStyle} dangerouslySetInnerHTML={{ __html: postHtml }} />
   }
 }

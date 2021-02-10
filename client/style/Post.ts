@@ -38,6 +38,13 @@ export default class Post {
       bottomPost,
     };
   }
+  static getBottomPostPadding({ app, ui }, isStamp = false) {
+    if (isStamp) {
+      return "0 0 10px 0";
+    } else {
+      return ui.isBubblePost ? "20px 20px 20px 30px" : "0";
+    }
+  }
 
   static getSelf({ app, ui }) {
     const padding = ui.isBubblePost ? "5px 0" : "0";
@@ -177,12 +184,12 @@ export default class Post {
     return Style.get({ layout, content, animation });
   }
 
-  static getBottomPost({ app, ui }) {
+  static getBottomPost({ app, ui }, isStamp = false) {
     const width = "75%";
     const marginRight = "5%";
     const background = ui.isBubblePost ? Container.themeRGBA : "none";
     const color = ui.isBubblePost ? Container.whiteRGBA : "rgba(160, 160, 160)";
-    const padding = ui.isBubblePost ? "20px 20px 20px 30px" : "0px";
+    const padding = Post.getBottomPostPadding({ app, ui }, isStamp);
     const layout = Style.getLayoutFlex({
       justifyContent: "flex-start",
       flexGrow: 8,

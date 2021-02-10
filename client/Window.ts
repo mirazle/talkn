@@ -484,7 +484,7 @@ class Dom extends TalknComponent<{}, {}> {
   talkn: HTMLDivElement;
   posts: HTMLOListElement;
   timeMerkerLists: NodeList;
-  srollHeight: number = 0;
+  scrollHeight: number = 0;
   isScrollBottom: boolean = false;
   resizeTimer: any = null;
   isAnimateScrolling: boolean = false;
@@ -550,6 +550,7 @@ class Dom extends TalknComponent<{}, {}> {
   }
 
   private scroll(ev) {
+    console.log(this.body);
     const scrollTop = window.scrollY;
     const clientHeight = window.innerHeight;
     const scrollHeight = this.body.scrollHeight;
