@@ -22,7 +22,7 @@ window.TALKN_EXT_ENV = "PROD";
           LiveMediaPost
         IframeEmbed(*n)
 */
-
+console.log('@@@ LOAD EXT JS');
 class MediaServer {
   get mediaSecondInterval() {
     return 200;
@@ -849,7 +849,7 @@ class Window extends ReactMode {
       return proccess;
     }
 
-    const iframe = iframes[iFrameId];
+    const iframe = iframes[ iFrameId ];
     if (!iframe) {
       proccess.error = `Error: No iframes in iFrameId ${iFrameId}.`;
       return proccess;
@@ -1725,33 +1725,24 @@ class IframeLiveMedia extends Iframe {
   get acceptPostMessages() {
     return [
       "handleExtAndClient",
-      "tune",
-      "location",
-      "disconnect",
-      "linkTo",
-      "setInputPost",
-      "getClientMetas",
+      "sendStampData",
+      "post",
     ];
   }
   constructor ( _window, bootOption ) {
     super( _window, bootOption, IframeLiveMedia.appendRoot );
 
     // parts
-    // _window.ins.liveMediaPost = new LiveMediaPost( _window );
+    _window.ins.liveMediaPost = new LiveMediaPost( this );
+
+    // bind
+    this.sendStampData = this.sendStampData.bind(this);
 
     // dom
     this.getWidth = this.getWidth.bind(this);
     this.getHeight = this.getHeight.bind(this);
     this.getRight = this.getRight.bind(this);
     this.getTransform = this.getTransform.bind(this);
-
-    // communication.
-    this.tune = this.tune.bind(this);
-    this.disconnect = this.disconnect.bind(this);
-  }
-
-  disconnect(state) {
-    this.state = state;
   }
 
   getStyles() {
@@ -1777,6 +1768,15 @@ class IframeLiveMedia extends Iframe {
       "transition: 0ms !important;" +
       "transform: translate3d(0px, 0px, 0px) !important;"
     );
+  }
+
+  sendStampData( stampData ) {
+    const { liveMediaPost } = this.window.ins;
+    liveMediaPost.setStampData(stampData);
+  }
+
+  post() {
+    
   }
 
   /*************************/
@@ -1834,13 +1834,379 @@ class IframeLiveMedia extends Iframe {
   }
 }
 
-class LiveMediaPost extends ReactMode {
+class LiveMediaPost {
   static get id() {
-    return `#${Ext.APP_NAME}${Iframe.EXTENSION_MODE_LIVE_MEDIA}Post`;
+    return `${Ext.APP_NAME}${Iframe.EXTENSION_MODE_LIVE_MEDIA}Post`;
   }
-  constructor ( _window ) {
+  static get stamlUlHeight() {
+    return 180;
+  }
+  static get stamlUlOpenTransform() {
+    return "translate3d(0px, -235px, 0px)";
+  }
+  static get stamlUlCloseTransform() {
+    return "translate3d(0px, 0px, 0px)";
+  }
+  static get postRegex() {
+    return /^\s*$/;
+  }
+  constructor ( iframe ) {
+    this.iframe = iframe;
+    this.stampInputs;
+    this.stampMap;
+    this.postEvent = this.postEvent.bind( this );
+    this.createWrap = this.createWrap.bind( this );
+    this.createIcon = this.createIcon.bind( this );
+    this.createTextareaField = this.createTextareaField.bind( this );
+    this.createTextarea = this.createTextarea.bind( this );
+    this.createButton = this.createButton.bind( this );
+    this.createStampUl = this.createStampUl.bind( this );
+    this.appendStampCover = this.appendStampCover.bind(this);
+    this.appendStampChild = this.appendStampChild.bind( this );
 
+    const wrap = this.createWrap();
+    const icon = this.createIcon();
+    const textareaField = this.createTextareaField();
+    const textarea = this.createTextarea();
+    const button = this.createButton();
+    const stampUl = this.createStampUl();
 
+    textareaField.append(textarea);
+    wrap.append( icon );
+    wrap.append( textareaField );
+    wrap.append( button );
+    wrap.append( stampUl );
+    Window.select( `#${LiveMediaPost.id}` ).append(wrap);
+  }
+
+  postEvent( inputStampId = 0 ) {
+    const textareaField = Window.select(`#${ LiveMediaPost.id }TextareaField` );
+    let textarea = Window.select( `#${ LiveMediaPost.id }Textarea` );
+    
+    if ( textareaField && textarea ) {
+      const inputPost = inputStampId === 0 ? textarea.value : this.stampMap[ inputStampId ];
+      if ( !LiveMediaPost.postRegex.test( inputPost ) ) {
+        console.log( this.iframe );
+        console.log( inputPost );
+        console.log(inputStampId);
+        this.iframe.extToClient( "post", { app: { inputPost, inputStampId } } );
+        textarea.remove();
+        textarea = this.createTextarea();
+        textareaField.append( textarea );
+      }
+    }
+  }
+
+  createWrap() {
+    const wrap = document.createElement("div"); 
+    wrap.id = `${LiveMediaPost.id}Wrap`;
+    wrap.style = this.getStyle( 'wrap' );
+    return wrap;
+  }
+
+  createIcon() {
+    const icon = document.createElement( "div" ); 
+    const iconClickEvent = ( e ) => {
+      const stampUl = Window.select( `#${ LiveMediaPost.id }StampUl` );
+      stampUl.style.transform = stampUl.style.transform === LiveMediaPost.stamlUlOpenTransform ?
+        LiveMediaPost.stamlUlCloseTransform : LiveMediaPost.stamlUlOpenTransform;
+    }
+    icon.id = `${ LiveMediaPost.id }Icon`;
+    icon.style = this.getStyle( 'icon' );
+    icon.addEventListener( "click", iconClickEvent );
+    return icon;
+  }
+
+  createTextareaField() {
+    const textareaField = document.createElement( "div" );
+    textareaField.id = `${ LiveMediaPost.id }TextareaField`;
+    textareaField.style = this.getStyle('textareaField');
+    return textareaField;
+  }
+
+  createTextarea() {
+    const textarea = document.createElement( "textarea" );
+    const textareaFocusEvent = ( e ) => e.target.style.background = "rgba(220, 220, 220, 0.4)";
+    const textareaUnfocusEvent = ( e ) => e.target.style.background = "rgba(230,230,230,0.3)";
+    const textareaKeypressEvent = ( e ) => {
+      if ( e.keyCode === 13 ) {
+        if ( e.shiftKey ) {
+          textarea.value = e.target.value;
+        } else {
+          this.postEvent();
+        }
+      }
+    }
+    textarea.id = `${ LiveMediaPost.id }Textarea`;
+    textarea.style = this.getStyle( 'textarea' );
+    textarea.addEventListener( "focus", textareaFocusEvent );
+    textarea.addEventListener( "mouseover", textareaFocusEvent );
+    textarea.addEventListener( "mouseleave", textareaUnfocusEvent );
+    textarea.addEventListener( "blur", textareaUnfocusEvent );
+    textarea.addEventListener( "keypress", textareaKeypressEvent );
+    return textarea;
+  }
+
+  createButton() {
+    const button = document.createElement( "button" ); 
+    button.addEventListener( "click", () => this.postEvent() );
+    button.id = `${ LiveMediaPost.id }Button`;
+    button.style = this.getStyle( 'button' );
+    return button;
+  }
+
+  createStampUl() { 
+    const stampUl = document.createElement( 'ul' );
+    stampUl.id = `${ LiveMediaPost.id }StampUl`;
+    stampUl.style = this.getStyle( 'stampUl' );
+    return stampUl;
+  }
+
+  getStyle(type, subType) {
+    switch ( type ) {
+      case 'wrap':
+        return (`
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            height: 100%;
+            color: #000;
+            background: rgba(255,255,255,0.96);
+            border-radius: 7px 7px 0 0;
+            overflow: hidden;
+          `
+        );
+      case 'icon':
+        return (`
+            width: 20%;
+            height: 70%;
+            margin: 0;
+            background-image: url(https://assets.talkn.io/icon/https:__assets.talkn.io_favicon.ico.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 30px;
+          `
+        );
+      case 'textareaField':
+        return (`
+            width: 55%;
+            height: 36px;
+            padding: 0;
+            margin: 0;
+          `
+        );
+      case 'textarea':
+        return (`
+            width: 100%;
+            height: 100%;
+            padding: 10px 15px;
+            color: #444;
+            resize: none;
+            background: rgba(230,230,230,0.3);
+            border: 0;
+            border-radius: 5px;
+            outline: 0;
+            transition: 0.3s;
+          `
+        );
+      case 'button':
+        return (`
+            width: 15%;
+            height: 56%;
+            margin: 0 5%;
+            background: url(https://assets.talkn.io/airplane.svg) 50% 35% / 38px no-repeat rgba(255,255,255,0.4);
+            border: 1px solid rgb(221,221,221);
+            border-radius: 3px;
+            outline: 0;
+          `
+        );
+      case 'stampUl':
+        return (`
+            display: flex;
+            box-sizing: border-box;
+            overflow: scroll hidden;
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            height: ${LiveMediaPost.stamlUlHeight}px;
+            min-height: ${LiveMediaPost.stamlUlHeight}px;
+            max-height: ${LiveMediaPost.stamlUlHeight}px;
+            padding: 0px;
+            margin: 0px;
+            line-height: 1;
+            list-style: none;
+            user-select: none;
+            text-decoration: none;
+            vertical-align: baseline;
+            border-collapse: collapse;
+            border-spacing: 0px;
+            border: 0px;
+            border-radius: 7px 7px 0px 0px;
+            z-index: -1;
+            justify-content: flex-start;
+            align-items: center;
+            flex-flow: column wrap;
+            position: absolute;
+            bottom: -${LiveMediaPost.stamlUlHeight}px;
+            color: rgb(255, 255, 255);
+            background: rgba(0, 0, 0, 0.4);
+            white-space: nowrap;
+            transition: all 300ms ease 0s;
+            transform: ${LiveMediaPost.stamlUlCloseTransform};
+          `
+        );
+      case 'stampLi':
+        const transform = subType === 'back' ? "rotate(-90deg) scale(0.7)" : "scale(1)";
+        const color = subType === 'back' ? "rgb(180, 180, 180)" : "rgb(90, 90, 90)";
+        return ( `
+          display: flex;
+          box-sizing: border-box;
+          overflow: hidden;
+          width: 20%;
+          min-width: auto;
+          max-width: auto;
+          height: 86px;
+          min-height: auto;
+          max-height: inherit;
+          padding: 5px;
+          margin: 0px;
+          line-height: inherit;
+          list-style: none;
+          user-select: none;
+          text-decoration: none;
+          vertical-align: baseline;
+          border-collapse: collapse;
+          border-spacing: 0px;
+          border: 0px;
+          border-radius: 0px;
+          z-index: 1;
+          justify-content: center;
+          align-items: center;
+          flex-flow: column wrap;
+          white-space: normal;
+          quotes: none;
+          content: none;
+          cursor: pointer;
+          letter-spacing: inherit;
+          text-align: center;
+          color: ${color};
+          font-weight: 300;
+          font-size: 40px;
+          transition: all 600ms ease 0s;
+          transform: ${transform};
+        `)
+      case 'stampLiLabel':
+        return ( `
+          display: flex;
+          box-sizing: border-box;
+          overflow: hidden;
+          width: auto;
+          min-width: auto;
+          max-width: auto;
+          height: 30px;
+          min-height: auto;
+          max-height: inherit;
+          padding: 0px;
+          margin: 0px;
+          line-height: inherit;
+          list-style: none;
+          user-select: none;
+          text-decoration: none;
+          vertical-align: baseline;
+          border-collapse: collapse;
+          border-spacing: 0px;
+          border: 0px;
+          border-radius: 0px;
+          z-index: 1;
+          justify-content: center;
+          align-items: center;
+          flex-direction: row;
+          white-space: normal;
+          quotes: none;
+          content: none;
+          cursor: default;
+          letter-spacing: inherit;
+          text-align: center;
+          color: rgb(255, 255, 255);
+          font-weight: 300;
+          font-size: 12px;
+          word-break: break-word;
+          transform: translate3d(0px, 0px, 0px);
+        `)
+    }
+  }
+
+  setStampData( stampData ) {
+    this.stampInputs = JSON.parse( stampData.inputs );
+    this.stampMap = JSON.parse( stampData.map );
+    this.appendStampCover();
+  }
+
+  appendStampCover() {
+    const ulTag = document.querySelector( `#${ LiveMediaPost.id }StampUl` );
+    const liTags = document.createDocumentFragment();
+    const getHandleNode = (e) => e.target.nodeName === 'LI' ? e.target : e.target.parentElement;
+    const liMouseOverEvent = ( e ) => getHandleNode(e).style.transform = 'scale(1.1)';
+    const liMouseLeaveEvent = ( e ) => getHandleNode( e ).style.transform = 'scale(1.0)';
+
+    Object.keys( this.stampInputs ).forEach( ( label ) => {
+      const liTag = document.createElement( 'li' );
+      liTag.style = this.getStyle( 'stampLi' );
+      liTag.addEventListener( "mouseover", liMouseOverEvent);
+      liTag.addEventListener( "mouseleave", liMouseLeaveEvent );
+      liTag.addEventListener( "click", (e) => this.appendStampChild(label, liMouseOverEvent, liMouseLeaveEvent) );
+      
+      const stampTag = document.createElement( 'div' );
+      const labelTag = document.createElement( 'label' );
+      labelTag.style = this.getStyle('stampLiLabel');
+      const coverStampId = this.stampInputs[ label ][ 0 ];
+      const stamp = this.stampMap[ coverStampId ];
+      stampTag.innerHTML = stamp;
+      labelTag.innerHTML = label;
+
+      liTag.append( stampTag );
+      liTag.append( labelTag );
+      liTags.append( liTag );
+    } );
+    ulTag.append(liTags);
+  }
+
+  appendStampChild( label, liMouseOverEvent, liMouseLeaveEvent ) {
+    const ulTag = document.querySelector( `#${ LiveMediaPost.id }StampUl` );
+    const liTags = document.createDocumentFragment();
+    const backLiTag = document.createElement( 'li' );
+    const backClickEvent = () => {
+      ulTag.textContent = null;
+      this.appendStampCover();
+    }
+    const stampClickEvent = (stampId) => {
+      const stampUl = Window.select( `#${ LiveMediaPost.id }StampUl` );
+      stampUl.style.transform = LiveMediaPost.stamlUlCloseTransform;
+
+      // post stamp.
+      this.postEvent( stampId );
+      ulTag.textContent = null;
+      this.appendStampCover();
+    }
+    backLiTag.style = this.getStyle( 'stampLi', "back" );
+    backLiTag.addEventListener( "click", backClickEvent );
+    backLiTag.innerHTML = '▲';
+    liTags.append( backLiTag );
+
+    this.stampInputs[ label ].forEach( ( stampId ) => {
+      const liTag = document.createElement( 'li' );
+      liTag.style = this.getStyle( 'stampLi' );
+      liTag.addEventListener( "mouseover", liMouseOverEvent);
+      liTag.addEventListener( "mouseleave", liMouseLeaveEvent );
+      liTag.addEventListener( "click", () => stampClickEvent(stampId) );
+      liTag.innerHTML = this.stampMap[ stampId ];
+      liTags.append( liTag );
+    } );
+
+    ulTag.textContent = null;
+    ulTag.append(liTags);
   }
 }
 
@@ -1857,22 +2223,20 @@ class HandleIcon extends ReactMode {
   constructor(_window) {
     super(_window);
 
-    // if (this.window.userDefineExtensionMode === Iframe.EXTENSION_MODE_MODAL) {
-      this.dom = document.createElement("div");
-      this.dom.id = HandleIcon.id;
-      this.dom.className = Window.className;
-      this.dom.style = this.getStyle();
-      // handleIcon.src = '//assets.localhost/airplane.svg';
-      this.click = this.click.bind(this);
-      this.mouseover = this.mouseover.bind(this);
-      this.mouseout = this.mouseout.bind(this);
+    this.dom = document.createElement("div");
+    this.dom.id = HandleIcon.id;
+    this.dom.className = Window.className;
+    this.dom.style = this.getStyle();
+    // handleIcon.src = '//assets.localhost/airplane.svg';
+    this.click = this.click.bind(this);
+    this.mouseover = this.mouseover.bind(this);
+    this.mouseout = this.mouseout.bind(this);
 
-      this.dom.addEventListener("click", this.click);
-      this.dom.addEventListener("mouseover", this.mouseover);
-      this.dom.addEventListener("mouseout", this.mouseout );
-      this.dom.addEventListener("resize", this.resize);
-      Window.selectBody.appendChild(this.dom);
-    // }
+    this.dom.addEventListener("click", this.click);
+    this.dom.addEventListener("mouseover", this.mouseover);
+    this.dom.addEventListener("mouseout", this.mouseout );
+    this.dom.addEventListener("resize", this.resize);
+    Window.selectBody.appendChild(this.dom);
   }
 
   /*************************/

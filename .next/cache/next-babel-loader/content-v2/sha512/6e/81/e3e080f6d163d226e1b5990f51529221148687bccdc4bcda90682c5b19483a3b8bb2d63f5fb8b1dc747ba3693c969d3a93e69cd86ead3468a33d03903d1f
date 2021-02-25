@@ -1,0 +1,1 @@
+{"ast":null,"code":"import TalknMedia from 'pages';\nimport { getServerSidePropsWrap } from 'service';\nexport default TalknMedia;\nexport const getServerSideProps = getServerSidePropsWrap;","map":null,"metadata":{},"sourceType":"module"}

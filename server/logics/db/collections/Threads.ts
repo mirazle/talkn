@@ -2,6 +2,7 @@ import Thread from "api/store/Thread";
 import MongoDB from "server/listens/db/MongoDB";
 import Logics from "server/logics";
 import Favicon from "server/logics/Favicon";
+import { defaultTitle } from "server/schemas/db/collections/Posts";
 
 type ThreadFindOneType = {
   selector?: {};
@@ -93,6 +94,8 @@ export default class Threads {
     thread.updateTime = new Date();
     thread.liveCnt = thread.liveCnt < 0 ? 0 : thread.liveCnt;
     thread.hasSlash = thread.hasSlash === null ? false : thread.hasSlash;
+    thread.title = thread.title === defaultTitle && thread.serverMetas && thread.serverMetas.title !== defaultTitle ?
+      thread.serverMetas.title : thread.title;
     //thread.title = thread.serverMetas.title ? thread.serverMetas.title : thread.serverMetas["og:title"];
     const { response: resThread } = await this.collection.save(thread);
     return resThread;

@@ -1,0 +1,1 @@
+{"ast":null,"code":"import StylesVars from 'sass-extract-loader?{\"plugins\":[\"sass-extract-js\"]}!styles/variables.module.scss';\nexport default StylesVars;","map":null,"metadata":{},"sourceType":"module"}

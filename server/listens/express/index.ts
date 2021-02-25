@@ -9,6 +9,11 @@ import Session from "server/listens/express/session/";
 import Mail from "server/logics/Mail";
 import Geolite from "server/logics/Geolite";
 import conf from "server/conf";
+import next from 'next';
+
+const nextServer = next({ dev: false });
+const handle = nextServer.getRequestHandler();
+nextServer.prepare();
 
 const sessionSetting = session({
   secret: "keyboard cat",
@@ -34,7 +39,6 @@ class Express {
     this.httpsApp.use(bodyParser.urlencoded({ extended: true }));
     this.httpsApp.use(compression());
     this.httpsApp.use(sessionSetting);
-
     // this.session = new Session(this.httpsApp);
 
     this.listenedHttp = this.listenedHttp.bind(this);
@@ -70,6 +74,8 @@ class Express {
     let language = "en";
     switch (req.headers.host) {
       case conf.newsURL:
+        ((): Promise<void> => handle(req, res))();
+        /*
         const params = {
           lpLanguages: conf.lpLanguages,
           language,
@@ -91,6 +97,7 @@ class Express {
         } else {
           res.sendFile(conf.serverNewsPath + req.originalUrl.replace("/", ""));
         }
+        */
         break;
       case conf.ownURL:
         if (req.method === "GET") {

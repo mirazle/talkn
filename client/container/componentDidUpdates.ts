@@ -1,5 +1,6 @@
 import React from "react";
 import Ui from "client/store/Ui";
+import Emotions from "common/emotions/index";
 
 export default (self, constructorName) => {
   const { props } = self;
@@ -14,6 +15,14 @@ export default (self, constructorName) => {
 
 const componentDidUpdates = {
   Container: {
+    "API_TO_CLIENT[EMIT]:tune": (self) => {
+      const { ui } = self.props.state;
+      if (ui.extensionMode === Ui.extensionModeLiveMedia) {
+        const inputs = JSON.stringify(Emotions.inputs);
+        const map = JSON.stringify(Emotions.map);
+        window.talknWindow.ext.to("sendStampData", {inputs, map});
+      }
+    },
     "API_TO_CLIENT[EMIT]:fetchPosts": (self) => {
       const { app, ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
