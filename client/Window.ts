@@ -216,21 +216,30 @@ class Ext {
   private onMessage(e: MessageEvent): void {
     const { id, href, type, method, params, methodBack }: MessageClientAndExtType = e.data;
     if (type === PostMessage.EXT_TO_CLIENT_TYPE) {
-      if (method === PostMessage.HANDLE_EXT_AND_CLIENT) {
-        this.id = id;
-        // @ts-ignore
-        this.window.bootOption = new BootOption(id, params.bootOption);
-        this.href = href;
 
-        const apiState = new ApiState(this.window.bootOption);
-        // @ts-ignore
-        const clientState = new ClientState({ ...apiState, ui: params.ui });
-        const state = { ...apiState, ...clientState };
+      switch (method) {
+        case PostMessage.HANDLE_EXT_AND_CLIENT:
+          this.id = id;
+          // @ts-ignore
+          this.window.bootOption = new BootOption(id, params.bootOption);
+          this.href = href;
 
-        this.window.store.dispatch({ ...state, type: "EXT_INIT_CLIENT" });
-        this.window.api("tune", this.window.bootOption);
+          const apiState = new ApiState(this.window.bootOption);
+          // @ts-ignore
+          const clientState = new ClientState({ ...apiState, ui: params.ui });
+          const state = { ...apiState, ...clientState };
 
-        this.to(method, state);
+          this.window.store.dispatch({ ...state, type: "EXT_INIT_CLIENT" });
+          this.window.api("tune", this.window.bootOption);
+
+          this.to(method, state);
+          break;
+        default:
+          const isApiMethod = Boolean(Object.keys(Sequence.map).find((apiMethod) => apiMethod === method));
+          if (isApiMethod) {
+            this.window.api(method, params);
+          }
+          break;
       }
 
       const actionType = PostMessage.convertExtToClientActionType(method);

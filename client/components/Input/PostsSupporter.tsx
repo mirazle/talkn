@@ -151,7 +151,6 @@ export default class PostsSupporter extends TalknComponent<PostsSupporterProps, 
             >
               <div>{Emotions.map[coverStampId]}</div>
               <div style={propsStyle.postsSupporter.emojiLabel}>
-                {menu === PostsSupporter.COVER && IconOpenEmoji}
                 {label}
               </div>
             </li>

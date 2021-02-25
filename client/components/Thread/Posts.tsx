@@ -267,7 +267,6 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
     }
 
     if (dispNewPost) {
-      //    if( postsFrameHeight < postsRealHeight ){
       return (
         <div data-component-name="newPost" style={style.container.newPost}>
           NEW POST

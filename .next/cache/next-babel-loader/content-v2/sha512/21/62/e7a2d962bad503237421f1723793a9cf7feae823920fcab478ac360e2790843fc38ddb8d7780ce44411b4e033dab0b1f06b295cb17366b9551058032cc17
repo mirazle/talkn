@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var Enviroments = {\n  development: 'development',\n  production: 'production'\n};\nexport var LocalStorageKeys = {\n  url: 'talknUrl'\n};\nexport var SessionStorageKeys = {\n  scroll: 'talknScroll'\n};","map":null,"metadata":{},"sourceType":"module"}

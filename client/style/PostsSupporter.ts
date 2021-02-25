@@ -49,7 +49,9 @@ export default class PostsSupporter {
       overflow: "hidden",
       zIndex: 2,
     });
-    const content = {};
+    const content = {
+      overflow: "scroll hidden",
+    };
     const animation = Style.getAnimationBase({
       transition: Container.getTransitionFirstOn({ app, ui }),
       transform: PostsSupporter.getTransform({ app, ui }),
@@ -60,10 +62,11 @@ export default class PostsSupporter {
   static getEmoji({ app, ui }) {
     const fontSize = Ui.screenSizeSmallLabel === ui.screenSize ? "35px" : "40px";
     const layout = Style.getLayoutFlex({
-      minWidth: "20%",
-      maxWidth: "20%",
+      width: "20%",
+      minWidth: "auto",
+      maxWidth: "auto",
       height: "86px",
-      flexFlow: "row wrap",
+      flexFlow: "column wrap",
       alignItems: "center",
       justifyContent: "center",
       padding: "5px",
@@ -83,8 +86,9 @@ export default class PostsSupporter {
     const margin = Ui.screenSizeSmallLabel === ui.screenSize ? "0px" : "0px";
     const fontSize = Ui.screenSizeSmallLabel === ui.screenSize ? "8px" : "10px";
     const layout = Style.getLayoutFlex({
-      width: "100%",
-      minWidth: "100%",
+      width: "auto",
+      minWidth: "auto",
+      maxWidth: "auto",
       height: "30px",
       margin,
     });

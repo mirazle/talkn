@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Favicon from "server/logics/Favicon";
 const SchemaTypes = mongoose.Schema.Types;
 
+export const defaultTitle = "talkn";
 export default {
   protocol: { type: String, default: "talkn:" },
   ch: { type: String, default: "" },
@@ -10,7 +11,7 @@ export default {
   uid: { type: String, default: "" },
   utype: { type: String, default: "" },
   favicon: { type: String, default: Favicon.defaultFaviconPath },
-  title: { type: String, default: "" },
+  title: { type: String, default: defaultTitle },
   post: { type: String, default: "" },
   stampId: { type: Number, default: 0 },
   data: { type: Object, default: {} },

@@ -73,7 +73,6 @@ const functions = {
   },
   "API_TO_CLIENT[BROADCAST]:post": (state, action) => {
     const postLength = action.posts.length - 1;
-    console.log(action.ui.extensionMode);
     switch (action.ui.extensionMode) {
       case Ui.extensionModeBottom:
         if (!action.ui.isOpenPosts && !action.ui.isDispPosts) {
