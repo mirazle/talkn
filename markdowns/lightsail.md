@@ -47,7 +47,8 @@ yum install mongodb-org -y
 ## step1 前提条件を満たす
 
 - talkn.io ドメインを静的 IP にアタッチしターミナルで SSH アクセス
-- `vi /etc/ssh/sshd_config` で 22 ポートを 56789 に変更してサーバーを再起動して設定を反映。
+- ログインする`cecntos`ユーザーで`vi /etc/ssh/sshd_config` で 22 ポートを 56789 に変更してサーバーを再起動して設定を反映。
+- `systemctl restart sshd`で sshd を再起動
 - 22 ポートは Connection refused。
 - 56789 はでアクセスを成功する事を確認。
 
