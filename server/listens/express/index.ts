@@ -9,11 +9,6 @@ import Session from "server/listens/express/session/";
 import Mail from "server/logics/Mail";
 import Geolite from "server/logics/Geolite";
 import conf from "server/conf";
-import next from 'next';
-
-const nextServer = next({ dev: false });
-const handle = nextServer.getRequestHandler();
-nextServer.prepare();
 
 const sessionSetting = session({
   secret: "keyboard cat",
@@ -74,7 +69,6 @@ class Express {
     let language = "en";
     switch (req.headers.host) {
       case conf.newsURL:
-        ((): Promise<void> => handle(req, res))();
         /*
         const params = {
           lpLanguages: conf.lpLanguages,
