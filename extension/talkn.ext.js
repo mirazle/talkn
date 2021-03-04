@@ -22,7 +22,7 @@ window.TALKN_EXT_ENV = "PROD";
           LiveMediaPost
         IframeEmbed(*n)
 */
-console.log('@@@ LOAD EXT JS');
+
 class MediaServer {
   get mediaSecondInterval() {
     return 200;
@@ -323,8 +323,8 @@ class Ext {
   static get BASE_DEV_PORT() {
     return 8080;
   }
-  static get EXCLUSION_HOSTS() {
-    return ["localhost", "localhost:8080", "talkn.io"];
+  static get EXCLUSION_BOOT_HOSTS() {
+    return ["talkn.io"];
   }
   static get API_KEY() {
     return "api";
@@ -616,7 +616,7 @@ class Window extends ReactMode {
     this.refusedFrame = refusedFrame;
     this.isBrowserExt = Ext.isBrowserExt();
     this.host = Window.selectDoc.location.host;
-    const bootFlg = Ext.EXCLUSION_HOSTS.every( ( exclusionHost ) => !(this.host === exclusionHost));
+    const bootFlg = Ext.EXCLUSION_BOOT_HOSTS.every( ( exclusionHost ) => !(this.host === exclusionHost));
 
     if (bootFlg) {
       let init = (option = {}) => {
