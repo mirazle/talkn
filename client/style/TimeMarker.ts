@@ -41,26 +41,34 @@ export default class TimeMarker {
     let menuWidthPx = 0;
     let detailWidthPx = 0;
     let postsWidthPx = 0;
-    switch (ui.screenSize) {
-      case Ui.screenSizeSmallLabel:
-        postsWidthPx = ui.width;
-        width = postsWidthPx * widthRate;
-        left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
-        break;
-      case Ui.screenSizeMiddleLabel:
-        menuWidthPx = Menu.getWidth({ app, ui }, true);
-        postsWidthPx = ui.width - menuWidthPx;
-        width = postsWidthPx * widthRate;
-        left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
-        break;
-      case Ui.screenSizeLargeLabel:
-        menuWidthPx = Menu.getWidth({ app, ui }, true);
-        detailWidthPx = (ui.width * Number(DetailRight.getWidth({ app, ui }, true))) / 100;
-        postsWidthPx = ui.width - (menuWidthPx + detailWidthPx);
-        width = postsWidthPx * widthRate;
-        left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
-        break;
+    ui.screenMode = ui.extensionMode === Ui.extensionModeLiveMedia && Ui.screenSizeSmallLabel;
+    if (ui.extensionMode === Ui.extensionModeLiveMedia) {
+      postsWidthPx = ui.width;
+      width = postsWidthPx * widthRate;
+      left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
+    } else {
+      switch (ui.screenSize) {
+        case Ui.screenSizeSmallLabel:
+          postsWidthPx = ui.width;
+          width = postsWidthPx * widthRate;
+          left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
+          break;
+        case Ui.screenSizeMiddleLabel:
+          menuWidthPx = Menu.getWidth({ app, ui }, true);
+          postsWidthPx = ui.width - menuWidthPx;
+          width = postsWidthPx * widthRate;
+          left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
+          break;
+        case Ui.screenSizeLargeLabel:
+          menuWidthPx = Menu.getWidth({ app, ui }, true);
+          detailWidthPx = (ui.width * Number(DetailRight.getWidth({ app, ui }, true))) / 100;
+          postsWidthPx = ui.width - (menuWidthPx + detailWidthPx);
+          width = postsWidthPx * widthRate;
+          left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
+          break;
+      }
     }
+
     return { width, height, left, fontSize };
   }
 
