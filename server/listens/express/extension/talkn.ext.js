@@ -586,6 +586,12 @@ class Window extends ReactMode {
   static get selectBody() {
     return Window.selectDoc.body;
   }
+  static get refusedStatusCsp() {
+    return 'Csp';
+  }
+  static get refusedStatusNoExistIframe() {
+    return 'NoExistIframe';
+  }
   static select(selector) {
     return Window.selectDoc.querySelector(selector);
   }
@@ -610,16 +616,17 @@ class Window extends ReactMode {
     return Object.keys(this.ins.iframes);
   }
 
-  constructor(refusedFrame = false) {
+  constructor ( refusedStatus = false ) {
     super(window);
     this.dom = window;
-    this.refusedFrame = refusedFrame;
+    this.refusedStatus = refusedStatus;
     this.isBrowserExt = Ext.isBrowserExt();
     this.host = Window.selectDoc.location.host;
     const bootFlg = Ext.EXCLUSION_BOOT_HOSTS.every( ( exclusionHost ) => !(this.host === exclusionHost));
 
     if (bootFlg) {
-      let init = (option = {}) => {
+      let init = ( option = {} ) => {
+
         // Variable
         this.userDefineExtensionMode = Ext.getUserDefineExtensionMode(option);
         this.displayModeKey = Ext.DEFAULT_DISPLAY_MODE_KEY;
@@ -665,6 +672,10 @@ class Window extends ReactMode {
         this.ins.body = new Body(this);
         this.ins.iframe = {};
         this.ins.iframes = {};
+
+        if ( this.refusedStatus ) {
+          this.loadIframe();
+        }
       };
 
       init = init.bind(this);
@@ -682,6 +693,7 @@ class Window extends ReactMode {
   }
 
   loadIframe() {
+    console.log('WINDOW loadIframe');
     this.embedIframeTags = IframeEmbed.getAll();
     this.embedIframeTagCnt = this.embedIframeTags.length;
 
@@ -910,7 +922,7 @@ class Window extends ReactMode {
     if (handleIcon && handleIcon.transitionEnd) handleIcon.transitionEnd(e);
   }
 
-  resized(e) {
+  resized( e ) {
     const { iframes } = this.ins;
     this.resizeMethodId = null;
 
@@ -1132,7 +1144,7 @@ class Iframe extends ReactMode {
   }
 
   getSrc() {
-    if (this.window.refusedFrame) {
+    if (this.window.refusedStatus === Window.refusedStatusCsp) {
       return window.chrome.runtime.getURL(`csp.html?${this.bootOption.ch}`);
     } else {
       return `${Ext.APP_ENDPOINT}${this.bootOption.ch}`;
@@ -1163,8 +1175,18 @@ class Iframe extends ReactMode {
 
   extToClient( method, params = {}, methodBack ) {
     const requestObj = this.getExtToClientObj(method, params, methodBack);
-    this.methodIdMap[ method ] = setTimeout( () => this.handleClientToError( this.id, method ), Iframe.activeMethodSecond );
-    this.dom.contentWindow.postMessage( requestObj, this.src );
+    this.methodIdMap[ method ] = setTimeout( () => this.handleClientToError( this.id, method ), Iframe.activeMethodSecond );   
+
+    try {
+      this.dom.contentWindow.postMessage( requestObj, this.src );
+    } catch ( e ) {
+      const iframe = IframeLiveMedia.get();
+      if ( !iframe ) { 
+        this.remove();
+        new Window( Window.refusedStatusNoExistIframe );
+        console.warn("NO iframe " + method);
+      }
+    }
   }
 
   handleClientToError(iFrameId, method) {
@@ -1173,14 +1195,14 @@ class Iframe extends ReactMode {
         case "handleExtAndClient":
           this.remove();
           console.warn("CSP Reboot: " + method);
-          new Window(true);
+          new Window(Window.refusedStatusCsp);
           break;
       }
     }
   }
 
   load( e ) {
-
+console.log('LOAD ');
     // update inline iframe src ( live media ).
     if ( this.window.userDefineExtensionMode === Iframe.EXTENSION_MODE_LIVE_MEDIA ) {
       const iframeLiveMediaWrap = IframeLiveMedia.getWrap();
