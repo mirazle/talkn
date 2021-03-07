@@ -25,18 +25,23 @@ export default class Posts {
 
   static getWidth({ app, ui }, addUnit = false): any {
     let width = "100%";
-    if (ui.extensionMode === Ui.extensionModeBottom) {
-      width = "90%";
-    } else {
-      switch (ui.screenSize) {
-        case Ui.screenSizeSmallLabel:
-          return "100%";
-        case Ui.screenSizeMiddleLabel:
-          return `calc(100% - ${Menu.getWidth({ app, ui }, false)})`;
-        case Ui.screenSizeLargeLabel:
-          width = `calc( ${100 - Detail.getWidth({ app, ui }, false)}% - ${Menu.getWidth({ app, ui }, false)} )`;
-          break;
-      }
+    switch (ui.extensionMode) {
+      case Ui.extensionModeBottom:
+        width = "90%";
+        break;
+      case Ui.extensionModeLiveMedia:
+        width = "100%";
+        break;
+      default:
+        switch (ui.screenSize) {
+          case Ui.screenSizeSmallLabel:
+            return "100%";
+          case Ui.screenSizeMiddleLabel:
+            return `calc(100% - ${Menu.getWidth({ app, ui }, false)})`;
+          case Ui.screenSizeLargeLabel:
+            width = `calc( ${100 - Detail.getWidth({ app, ui }, false)}% - ${Menu.getWidth({ app, ui }, false)} )`;
+            break;
+        }
     }
     return addUnit ? Style.trimUnit(width) : width;
   }
@@ -92,16 +97,8 @@ export default class Posts {
 
   static getMargin({ app, ui }, addUnit = false) {
     let margin = "0";
-    if (ui.extensionMode === Ui.extensionModeNone) {
-      switch (ui.screenSize) {
-        case Ui.screenSizeSmallLabel:
-          margin = `0`;
-          break;
-        case Ui.screenSizeMiddleLabel:
-        case Ui.screenSizeLargeLabel:
-          margin = `0 0 0 ${Menu.getWidth({ app, ui })}`;
-          break;
-      }
+    if (ui.extensionMode === Ui.extensionModeLiveMedia) {
+      margin = "0";
     } else {
       switch (ui.screenSize) {
         case Ui.screenSizeSmallLabel:
