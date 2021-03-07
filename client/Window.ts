@@ -235,6 +235,7 @@ class Ext {
           this.to(method, state);
           break;
         default:
+          console.log(method);
           const isApiMethod = Boolean(Object.keys(Sequence.map).find((apiMethod) => apiMethod === method));
           if (isApiMethod) {
             this.window.api(method, params);
