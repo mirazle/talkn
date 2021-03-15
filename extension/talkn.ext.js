@@ -1340,7 +1340,8 @@ class IframeModal extends Iframe {
 
     // communication.
     this.handleExtAndClient = this.handleExtAndClient.bind(this);
-    this.tune = this.tune.bind(this);
+    this.remove = this.remove.bind(this);
+    this.tune = this.tune.bind( this );
     this.changeThread = this.changeThread.bind(this);
     this.updateLiveCnt = this.updateLiveCnt.bind(this);
     this.openNotif = this.openNotif.bind(this);
@@ -1353,6 +1354,7 @@ class IframeModal extends Iframe {
   /*************************/
 
   remove() {
+    const { handleIcon, notifStatus } = this.window;
     super.remove();
     handleIcon.remove();
     notifStatus.remove();
@@ -1761,6 +1763,7 @@ class IframeLiveMedia extends Iframe {
 
     // bind
     this.sendStampData = this.sendStampData.bind(this);
+    this.remove = this.remove.bind( this );
 
     // dom
     this.getWidth = this.getWidth.bind(this);
@@ -1792,6 +1795,17 @@ class IframeLiveMedia extends Iframe {
       "transition: 0ms !important;" +
       "transform: translate3d(0px, 0px, 0px) !important;"
     );
+  }
+
+  /*************************/
+  /* CALLBACKS             */
+  /*************************/
+
+  remove() {
+    const { handleIcon, notifStatus } = this.window;
+    super.remove();
+    handleIcon.remove();
+    notifStatus.remove();
   }
 
   sendStampData( stampData ) {
@@ -2043,6 +2057,7 @@ class LiveMediaPost {
             border: 0;
             border-radius: 5px;
             outline: 0;
+            user-select: text;
             transition: 0.3s;
           `
         );
@@ -2449,8 +2464,6 @@ class LiveCnt extends ReactMode {
     const id = LiveCnt.id;
     this.wrapContent = Window.selectId( appendRoot );
     this.dom = document.createElement( "div" );
-    const width = "24px";
-    const height = "24px";
     const openStyles = this.getOpenStyles();
 
     this.getActiveStyles = this.getActiveStyles.bind( this );
@@ -2461,6 +2474,7 @@ class LiveCnt extends ReactMode {
     this.dom.className = Window.className;
     this.dom.innerText = 0;
 
+    const size = this.wrapContent ? '30px' : '24px;
     const position = this.wrapContent ? 'relative' : 'fixed';
     const bottom = this.wrapContent ? '0' : '50px';
     const right = this.wrapContent ? '0' : '5px';
@@ -2476,11 +2490,11 @@ class LiveCnt extends ReactMode {
       `cursor: pointer !important;` +
       `z-index: ${ Styles.zIndex } !important;` +
       `width: 24px !important;` +
-      `min-width: ${ width } !important;` +
-      `max-width: ${ width } !important;` +
-      `height: ${ height } !important;` +
-      `min-height: ${ height } !important;` +
-      `max-height: ${ height } !important;` +
+      `min-width: ${ size } !important;` +
+      `max-width: ${ size } !important;` +
+      `height: ${ size } !important;` +
+      `min-height: ${ size } !important;` +
+      `max-height: ${ size } !important;` +
       `padding: 0px !important;` +
       `opacity: 1 !important;` +
       `font-size: 9px !important;` +
