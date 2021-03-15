@@ -157,17 +157,21 @@ export default class Posts {
   }
 
   static getSelfHeight({ app, ui }) {
-    switch (ui.screenSize) {
-      case Ui.screenSizeLargeLabel:
-        if (app.chType === App.mediaTagTypeVideo) {
-          return `calc( 100% - ${
-            Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui }) + Video.height
-          }px )`;
-        } else {
-          return `100vh`;
-        }
-      case Ui.screenSizeSmallLabel:
-        return "100vh";
+    if (ui.extensionMode === Ui.extensionModeLiveMedia) {
+      return 'calc( 100vh - 60px )';
+    } else {
+      switch (ui.screenSize) {
+        case Ui.screenSizeLargeLabel:
+          if (app.chType === App.mediaTagTypeVideo) {
+            return `calc( 100% - ${
+              Container.getBlockSize({ app, ui }) + Container.getBlockSize({ app, ui }) + Video.height
+            }px )`;
+          } else {
+            return `100vh`;
+          }
+        case Ui.screenSizeSmallLabel:
+          return "100vh";
+      }
     }
   }
 
@@ -236,7 +240,7 @@ export default class Posts {
       width: Posts.getWidth({ app, ui }),
       minWidth: Posts.getMinWidth({ app, ui }),
       height: Posts.getSelfHeight({ app, ui }),
-      minHeight: "100vh",
+      minHeight: Posts.getSelfHeight({ app, ui }),
       maxHeight: "auto",
       margin: Posts.getMargin({ app, ui }),
       padding: Posts.getPadding({ app, ui }),

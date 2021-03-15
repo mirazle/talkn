@@ -912,6 +912,7 @@ class Window extends ReactMode {
               extensionHeight: iframe.dom.innerHeight,
             },
           };
+          console.log(clientToParams.ui.extensionWidth);
           iframe.extToClient("UPDATE_EXTENSION", clientToParams);
           iframe.transitionEnd(e);
         });
@@ -939,6 +940,7 @@ class Window extends ReactMode {
           extensionHeight: iframe.dom.innerHeight,
         },
       };
+      console.log(clientToParams.ui.extensionWidth);
       iframes[iFrameId].extToClient("UPDATE_EXTENSION", clientToParams);
     });
   }
@@ -1202,7 +1204,6 @@ class Iframe extends ReactMode {
   }
 
   load( e ) {
-console.log('LOAD ');
     // update inline iframe src ( live media ).
     if ( this.window.userDefineExtensionMode === Iframe.EXTENSION_MODE_LIVE_MEDIA ) {
       const iframeLiveMediaWrap = IframeLiveMedia.getWrap();
@@ -1216,11 +1217,10 @@ console.log('LOAD ');
       ui: {
         iFrameId: this.id,
         extensionMode: this.extensionMode,
-        extensionWidth: this.getWidth(false),
-        extensionHeight: this.getHeight(false),
+        extensionWidth: this.getWidth(true),
+        extensionHeight: this.getHeight(true),
       },
     };
-
     this.extToClient("handleExtAndClient", params);
     this.window.mediaServerTo("handleExtAndMedia", this.bootOption);
   }
