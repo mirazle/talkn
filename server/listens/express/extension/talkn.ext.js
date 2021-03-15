@@ -2474,7 +2474,7 @@ class LiveCnt extends ReactMode {
     this.dom.className = Window.className;
     this.dom.innerText = 0;
 
-    const size = this.wrapContent ? '30px' : '24px;
+    const size = this.wrapContent ? '30px' : '24px';
     const position = this.wrapContent ? 'relative' : 'fixed';
     const bottom = this.wrapContent ? '0' : '50px';
     const right = this.wrapContent ? '0' : '5px';
