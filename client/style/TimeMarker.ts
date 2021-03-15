@@ -68,7 +68,6 @@ export default class TimeMarker {
           break;
       }
     }
-
     return { width, height, left, fontSize };
   }
 
