@@ -1748,7 +1748,8 @@ class IframeLiveMedia extends Iframe {
     return [
       "handleExtAndClient",
       "sendStampData",
-      "post",
+      "tune",
+      "disconnect"
     ];
   }
   constructor ( _window, bootOption ) {
@@ -1756,6 +1757,7 @@ class IframeLiveMedia extends Iframe {
 
     // parts
     _window.ins.liveMediaPost = new LiveMediaPost( this );
+    _window.ins.notifStatus = new LiveCnt( _window );
 
     // bind
     this.sendStampData = this.sendStampData.bind(this);
@@ -1797,10 +1799,24 @@ class IframeLiveMedia extends Iframe {
     liveMediaPost.setStampData(stampData);
   }
 
-  post() {
-    
+  tune( state ) {
+    super.tune(state);
+    this.updateLiveCnt();
   }
 
+  disconnect( state ) {
+    this.state = state;
+    this.updateLiveCnt();
+  }
+  
+  updateLiveCnt() {
+    const { state, window } = this;
+    const { liveCnt } = state.thread;
+    const { ins } = window;
+    const { notifStatus } = ins;
+    notifStatus.updateCnt(liveCnt);
+  }
+  
   /*************************/
   /* ANIMATION             */
   /*************************/
@@ -1908,9 +1924,6 @@ class LiveMediaPost {
     if ( textareaField && textarea ) {
       const inputPost = inputStampId === 0 ? textarea.value : this.stampMap[ inputStampId ];
       if ( !LiveMediaPost.postRegex.test( inputPost ) ) {
-        console.log( this.iframe );
-        console.log( inputPost );
-        console.log(inputStampId);
         this.iframe.extToClient( "post", { app: { inputPost, inputStampId } } );
         textarea.remove();
         textarea = this.createTextarea();
@@ -2427,38 +2440,47 @@ class LiveCnt extends ReactMode {
   static get id() {
     return `${Ext.APP_NAME}${this.name}`;
   }
-  constructor(_window, params) {
-    super(_window);
+  static get wrapId() {
+    return 'LiveCntWrap';
+  }
+  constructor ( _window, appendRoot = LiveCnt.wrapId) {
+    super( _window );
 
     const id = LiveCnt.id;
-    this.dom = document.createElement("div");
+    this.wrapContent = Window.selectId( appendRoot );
+    this.dom = document.createElement( "div" );
     const width = "24px";
     const height = "24px";
     const openStyles = this.getOpenStyles();
 
-    this.getActiveStyles = this.getActiveStyles.bind(this);
-    this.getOpenStyles = this.getOpenStyles.bind(this);
-    this.updateCnt = this.updateCnt.bind(this);
+    this.getActiveStyles = this.getActiveStyles.bind( this );
+    this.getOpenStyles = this.getOpenStyles.bind( this );
+    this.updateCnt = this.updateCnt.bind( this );
 
     this.dom.id = id;
     this.dom.className = Window.className;
     this.dom.innerText = 0;
+
+    const position = this.wrapContent ? 'relative' : 'fixed';
+    const bottom = this.wrapContent ? '0' : '50px';
+    const right = this.wrapContent ? '0' : '5px';
+    const transform = this.wrapContent ? 'scale(1)' : openStyles.transform;
     this.dom.style =
       "" +
-      `position: fixed !important;` +
-      `bottom: 50px !important;` +
-      `right: 5px !important;` +
+      `position: ${position} !important;` +
+      `bottom: ${bottom} !important;` +
+      `right: ${right} !important;` +
       `display: flex !important;` +
       `align-items: center !important;` +
       `justify-content: center !important;` +
       `cursor: pointer !important;` +
-      `z-index: ${Styles.zIndex} !important;` +
+      `z-index: ${ Styles.zIndex } !important;` +
       `width: 24px !important;` +
-      `min-width: ${width} !important;` +
-      `max-width: ${width} !important;` +
-      `height: ${height} !important;` +
-      `min-height: ${height} !important;` +
-      `max-height: ${height} !important;` +
+      `min-width: ${ width } !important;` +
+      `max-width: ${ width } !important;` +
+      `height: ${ height } !important;` +
+      `min-height: ${ height } !important;` +
+      `max-height: ${ height } !important;` +
       `padding: 0px !important;` +
       `opacity: 1 !important;` +
       `font-size: 9px !important;` +
@@ -2466,9 +2488,14 @@ class LiveCnt extends ReactMode {
       `color: rgb(255,255,255) !important;` +
       `background: rgba( 79, 174, 159, 0.6 ) !important;` +
       `border-radius: 100px !important;` +
-      `transition: ${Styles.BASE_TRANSITION}ms !important;` +
-      `transform: ${openStyles.transform} !important;`;
-    Window.selectBody.appendChild(this.dom);
+      `transition: ${ Styles.BASE_TRANSITION }ms !important;` +
+      `transform: ${ transform } !important;`;
+    
+    if ( this.wrapContent ) {
+      this.wrapContent.appendChild(this.dom);
+    } else {
+      Window.selectBody.appendChild(this.dom);    
+    }
   }
 
   remove() {
@@ -2496,7 +2523,7 @@ class LiveCnt extends ReactMode {
       };
     } else {
       return {
-        transform: "scale(0.0)",
+        transform: this.wrapContent ? "scale(1.0)" : "scale(0.0)",
       };
     }
   }
