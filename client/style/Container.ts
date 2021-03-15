@@ -236,12 +236,18 @@ export default class Container {
   static get notifOpenTranslateY() {
     return `translate3d( 0px, -80px, 0px )`;
   }
-
+  static get notifOpenLiveMediaTranslateY() {
+    return `translate3d( 0px, -180px, 0px )`;
+  }
   static get notifCloseTranslateY() {
     return `translate3d( 0px, 0px, 0px )`;
   }
   static getNotifTranslateY({ app, ui }) {
-    return ui.isOpenNewPost ? Container.notifOpenTranslateY : Container.notifCloseTranslateY;
+    if (ui.extensionMode === Ui.extensionModeLiveMedia) {
+      return ui.isOpenNewPost ? Container.notifOpenLiveMediaTranslateY : Container.notifCloseTranslateY;      
+    } else {
+      return ui.isOpenNewPost ? Container.notifOpenTranslateY : Container.notifCloseTranslateY;
+    }
   }
 
   static getNewPostDisplay({ app, ui }) {
