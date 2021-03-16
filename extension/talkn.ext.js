@@ -2480,6 +2480,8 @@ class LiveCnt extends ReactMode {
     const bottom = this.wrapContent ? '0' : '50px';
     const right = this.wrapContent ? '0' : '5px';
     const transform = this.wrapContent ? 'scale(1)' : openStyles.transform;
+    const fontSize = this.wrapContent ? '11px' : '9px';
+    const background = this.wrapContent ? 'rgba( 79, 174, 159, 0.96 )' : 'rgba( 79, 174, 159, 0.6 )';
     this.dom.style =
       "" +
       `position: ${position} !important;` +
@@ -2490,7 +2492,7 @@ class LiveCnt extends ReactMode {
       `justify-content: center !important;` +
       `cursor: pointer !important;` +
       `z-index: ${ Styles.zIndex } !important;` +
-      `width: 24px !important;` +
+      `width: ${ size } !important;` +
       `min-width: ${ size } !important;` +
       `max-width: ${ size } !important;` +
       `height: ${ size } !important;` +
@@ -2498,10 +2500,10 @@ class LiveCnt extends ReactMode {
       `max-height: ${ size } !important;` +
       `padding: 0px !important;` +
       `opacity: 1 !important;` +
-      `font-size: 9px !important;` +
+      `font-size: ${fontSize} !important;` +
       `font-family: "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif !important;` +
       `color: rgb(255,255,255) !important;` +
-      `background: rgba( 79, 174, 159, 0.6 ) !important;` +
+      `background: ${background} !important;` +
       `border-radius: 100px !important;` +
       `transition: ${ Styles.BASE_TRANSITION }ms !important;` +
       `transform: ${ transform } !important;`;
