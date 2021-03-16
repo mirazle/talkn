@@ -912,7 +912,6 @@ class Window extends ReactMode {
               extensionHeight: iframe.dom.innerHeight,
             },
           };
-          console.log(clientToParams.ui.extensionWidth);
           iframe.extToClient("UPDATE_EXTENSION", clientToParams);
           iframe.transitionEnd(e);
         });
@@ -940,7 +939,6 @@ class Window extends ReactMode {
           extensionHeight: iframe.dom.innerHeight,
         },
       };
-      console.log(clientToParams.ui.extensionWidth);
       iframes[iFrameId].extToClient("UPDATE_EXTENSION", clientToParams);
     });
   }
@@ -2054,6 +2052,8 @@ class LiveMediaPost {
             color: #444;
             resize: none;
             background: rgba(230,230,230,0.3);
+            font-size: 16px;
+            line-height: 16px;
             border: 0;
             border-radius: 5px;
             outline: 0;
