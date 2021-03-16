@@ -2058,6 +2058,7 @@ class LiveMediaPost {
             border-radius: 5px;
             outline: 0;
             user-select: text;
+            -webkit-user-select: text;
             transition: 0.3s;
           `
         );
