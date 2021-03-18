@@ -2,7 +2,7 @@ const cacheName = "pwa-talkn";
 const log = false;
 const filesToCache = ["/", "/index.ejs"];
 
-if (log) console.log("SW OK");
+if ( log ) console.log( "SW OK" );
 
 // Install Service Worker
 self.addEventListener("install", function (event) {
