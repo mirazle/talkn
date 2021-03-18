@@ -245,23 +245,26 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
   }
 
   renderUpper() {
-    const { childLayerCnt, post } = this.props;
+    const { childLayerCnt, post, ui } = this.props;
     const { title, _id } = post;
     const { postStyle } = this.state;
     const childLabel = childLayerCnt > 0 ? `${childLayerCnt}child` : "";
     const marqueeStyle: {} = this.getMarqueeStyle();
-
-    return (
-      <div style={{ ...postStyle.upper, overflow: "hidden" }}>
-        <div style={postStyle.upperChild}>{childLabel}</div>
-        <div ref={this.marqueeWrapRef} data-component-name={"MarqueePost"} style={postStyle.upperTitle} title={title}>
-          <span ref={this.marqueeTextRef} style={marqueeStyle}>
-            {title}
-          </span>
+    if (ui.isBubblePost) {
+      return undefined;
+    } else {
+      return (
+        <div style={{ ...postStyle.upper, overflow: "hidden" }}>
+          <div style={postStyle.upperChild}>{childLabel}</div>
+          <div ref={this.marqueeWrapRef} data-component-name={"MarqueePost"} style={postStyle.upperTitle} title={title}>
+            <span ref={this.marqueeTextRef} style={marqueeStyle}>
+              {title}
+            </span>
+          </div>
+          {this.renderTime()}
         </div>
-        {this.renderTime()}
-      </div>
-    );
+      );
+    }
   }
 
   renderPost(post, app, ui): React.ReactNode {
