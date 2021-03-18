@@ -251,7 +251,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
     const childLabel = childLayerCnt > 0 ? `${childLayerCnt}child` : "";
     const marqueeStyle: {} = this.getMarqueeStyle();
     if (ui.isBubblePost) {
-      return undefined;
+      return <></>;
     } else {
       return (
         <div style={{ ...postStyle.upper, overflow: "hidden" }}>
