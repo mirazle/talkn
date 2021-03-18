@@ -1800,9 +1800,8 @@ class IframeLiveMedia extends Iframe {
   /*************************/
 
   remove() {
-    const { handleIcon, notifStatus } = this.window;
+    const { notifStatus } = this.window;
     super.remove();
-    handleIcon.remove();
     notifStatus.remove();
   }
 
