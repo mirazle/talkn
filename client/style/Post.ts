@@ -40,7 +40,7 @@ export default class Post {
   }
   static getBottomPostPadding({ app, ui }, isStamp = false) {
     if (isStamp) {
-      return "0 0 10px 0";
+      return "0";
     } else {
       return ui.isBubblePost ? "20px 20px 20px 30px" : "0";
     }
@@ -189,7 +189,7 @@ export default class Post {
     const width = "75%";
     const marginRight = "5%";
     const background = ui.isBubblePost ? Container.themeRGBA : "none";
-    const color = ui.isBubblePost ? Container.whiteRGBA : "rgba(160, 160, 160)";
+    const color = ui.isBubblePost ? Container.whiteRGBA : Container.fontBaseRGB;
     const padding = Post.getBottomPostPadding({ app, ui }, isStamp);
     const layout = Style.getLayoutFlex({
       justifyContent: "flex-start",

@@ -165,6 +165,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
   render() {
     const { app, ui, post, onClickPost } = this.props;
     const { postStyle } = this.state;
+    const selfStyle = PostStyle.getSelf({ app, ui });
     const stampLabel = Icon.getStampLabel({ app, ui, post });
     let dispFavicon = conf.assetsIconPath + util.getSaveFaviconName(post.favicon);
     if (dispFavicon.indexOf(Sequence.HTTPS_PROTOCOL) !== 0 && dispFavicon.indexOf(Sequence.HTTP_PROTOCOL) !== 0) {
@@ -181,7 +182,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
         <li
           data-component-name={this.componentName}
           id={post._id}
-          style={postStyle.self}
+          style={{...selfStyle}}
           onClick={() => {
             onClickPost(post.ch);
           }}
