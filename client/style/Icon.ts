@@ -2237,7 +2237,7 @@ export default class Icon {
         position: "relative",
         width: "120px",
         height: "inherit",
-        padding: "5px",
+        padding: "5px 5px 5px 20px",
         justifyContent: "center",
         alignItems: "center",
         ...labelLayout,
