@@ -1800,9 +1800,10 @@ class IframeLiveMedia extends Iframe {
   /*************************/
 
   remove() {
-    const { notifStatus } = this.window;
+    const { notifStatus, liveMediaPost } = this.window.ins;
     super.remove();
     notifStatus.remove();
+    liveMediaPost.remove();
   }
 
   sendStampData( stampData ) {
