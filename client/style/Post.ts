@@ -89,7 +89,6 @@ export default class Post {
   }
 
   static getUpper({ app, ui }) {
-    console.log(ui.isBubblePost);
     const display = ui.isBubblePost ? "flex" : "none";
     const layout = Style.getLayoutFlex({
       display,
