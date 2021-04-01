@@ -184,7 +184,7 @@ class Express {
           }
         } else if (req.method === "POST") {
           Mail.send(req.body.inquiry);
-          res.redirect(`https://${conf.wwwURL}`);
+          res.redirect(req.headers.referer);
         }
         break;
       case conf.descURL:
