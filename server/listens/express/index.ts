@@ -184,7 +184,7 @@ class Express {
           }
         } else if (req.method === "POST") {
           Mail.send(req.body.inquiry);
-          res.redirect(req.headers.referer);
+          res.redirect(req.headers.referer + '#response');
         }
         break;
       case conf.descURL:
