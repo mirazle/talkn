@@ -9,6 +9,7 @@ import Thread from "api/store/Thread";
 import MongoDB from "server/listens/db/MongoDB";
 import Logics from "server/logics";
 import HtmlSchema from "server/schemas/logics/html";
+import utils from "server/utils";
 
 const log = true;
 
@@ -20,7 +21,8 @@ export default class Html {
   async fetch(thread, requestThread) {
     let { protocol, ch, hasSlash } = requestThread;
 
-    //    hasSlash = false;
+    // io(tune)する際はGETで接続するのでboolがstringになってしまう
+    hasSlash = utils.getBool(hasSlash);;
     //    ch = "/news.yahoo.co.jp/pickup/6364244";
     let url = ch;
     if (ch === "/") {
@@ -314,6 +316,7 @@ export default class Html {
           content = `${href}${content}`;
         }
       }
+
       if (log) console.log("----------- " + key + " : " + content);
       key = key.toString().replace(".", "_");
       serverMetas[key] = content;
