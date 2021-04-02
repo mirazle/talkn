@@ -2,9 +2,6 @@ import App from "api/store/App";
 import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
-import Header from "./Header";
-import PostsFooter from "./PostsFooter";
-import Main from "./Main";
 import Menu from "./Menu";
 import Detail from "./Detail";
 import Video from "./Media/Video";
@@ -153,7 +150,7 @@ export default class Posts {
 
   static getSelfHeight({ app, ui }) {
     if (ui.extensionMode === Ui.extensionModeLiveMedia) {
-      return 'calc( 100vh - 60px )';
+      return 'calc( 100vh - 30px )';
     } else {
       switch (ui.screenSize) {
         case Ui.screenSizeLargeLabel:
