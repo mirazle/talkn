@@ -37,6 +37,7 @@ export default class TimeMarker {
     let widthRate = TimeMarker.getSelfWidthRate() / 100;
     let width = ui.width * widthRate;
     let height = `${TimeMarker.getSelfHeightPx()}px`;
+    let top = `${Container.getBlockSize({ app, ui })}px`;
     let left = "25%";
     let menuWidthPx = 0;
     let detailWidthPx = 0;
@@ -45,6 +46,7 @@ export default class TimeMarker {
     if (ui.extensionMode === Ui.extensionModeLiveMedia) {
       postsWidthPx = ui.width;
       width = postsWidthPx * widthRate;
+      top = "0";
       left = menuWidthPx + postsWidthPx * (TimeMarker.getSelfLeftRate() / 100) + "px";
     } else {
       switch (ui.screenSize) {
@@ -68,12 +70,13 @@ export default class TimeMarker {
           break;
       }
     }
-    return { width, height, left, fontSize };
+    return { width, height, top, left, fontSize };
   }
 
   static getSelf({ app, ui }) {
     const display = app.isMediaCh ? "none" : "flex";
     const layout = Style.getLayoutFlex({
+      top: `${Container.getBlockSize({ app, ui })}px`,
       width: `${TimeMarker.getSelfWidthRate()}%`,
       height: `${TimeMarker.getSelfHeightPx()}px`,
       margin: `${TimeMarker.getSelfMarginTop()}px auto 10px auto`,
@@ -93,14 +96,14 @@ export default class TimeMarker {
 
   static getFixTimeMarker({ app, ui }) {
     const timeMarker: object = TimeMarker.getSelf({ app, ui });
-    const { left, width, height, fontSize } = TimeMarker.getFixTimeMarkerStyles({ app, ui });
+    const { top, left, width, height, fontSize } = TimeMarker.getFixTimeMarkerStyles({ app, ui });
     return {
       ...timeMarker,
       position: "fixed",
       width,
       minWidth: width,
       height,
-      top: `${Container.getBlockSize({ app, ui })}px`,
+      top,
       left,
       fontSize,
       lineHeight: "0.9em",

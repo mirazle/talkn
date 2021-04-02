@@ -119,28 +119,23 @@ export default class Posts {
     if (app.isMediaCh) {
       padding = `${blockSize * 2.3}px 0 ${blockSize}px 0`;
     } else {
-      if (ui.extensionMode === Ui.extensionModeNone) {
-        switch (ui.screenSize) {
-          case Ui.screenSizeSmallLabel:
-            padding = `${blockSize}px 0 ${blockSize}px 0`;
-            break;
-          case Ui.screenSizeMiddleLabel:
-            padding = `${blockSize}px 0 ${blockSize}px 0`;
-            break;
-          case Ui.screenSizeLargeLabel:
-            padding = `${blockSize}px 0 ${blockSize}px 0`;
-            break;
-        }
-      } else {
-        switch (ui.screenSize) {
-          case Ui.screenSizeSmallLabel:
-            padding = `${blockSize}px 0 ${blockSize}px 0`;
-            break;
-          case Ui.screenSizeMiddleLabel:
-          case Ui.screenSizeLargeLabel:
-            padding = `${blockSize}px 0 ${blockSize}px 0`;
-            break;
-        }
+      switch (ui.extensionMode) {
+        case Ui.extensionModeLiveMedia:
+          padding = "0";
+          break;
+        default:
+          switch (ui.screenSize) {
+            case Ui.screenSizeSmallLabel:
+              padding = `${blockSize}px 0 ${blockSize}px 0`;
+              break;
+            case Ui.screenSizeMiddleLabel:
+              padding = `${blockSize}px 0 ${blockSize}px 0`;
+              break;
+            case Ui.screenSizeLargeLabel:
+              padding = `${blockSize}px 0 ${blockSize}px 0`;
+              break;
+          }
+          break;
       }
     }
     return padding;
