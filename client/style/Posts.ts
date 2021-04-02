@@ -150,7 +150,7 @@ export default class Posts {
 
   static getSelfHeight({ app, ui }) {
     if (ui.extensionMode === Ui.extensionModeLiveMedia) {
-      return 'calc( 100vh - 30px )';
+      return '100vh';
     } else {
       switch (ui.screenSize) {
         case Ui.screenSizeLargeLabel:
