@@ -42,7 +42,7 @@ export default class BootOption {
     const firstHasSlash = BootOption.getFirstHasSlach(initialRootCh);
     this.env = conf.env;
     this.id = id;
-    this.hasSlash = params && params.hasSlash ? params.hasSlash : BootOption.getLastHasSlach(initialRootCh);
+    this.hasSlash = params && params.hasSlash !== undefined ? params.hasSlash : BootOption.getLastHasSlach(initialRootCh);
     this.ch = params && params.ch ? params.ch : BootOption.getCh(initialRootCh, firstHasSlash, this.hasSlash);
     this.protocol = params && params.protocol ? params.protocol : BootOption.getProtocol();
     this.host = params && params.host ? params.host : location.host;

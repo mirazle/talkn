@@ -181,6 +181,9 @@ export default class Container {
   static getBlockSize({ app, ui }) {
     return ui.screenSize === Ui.screenSizeSmallLabel ? 45 : 54;
   }
+  static getLiveMediaBlockSize({ app, ui }) {
+    return 60;
+  }
 
   static getFaviconSize({ app, ui }) {
     return ui.screenSize === Ui.screenSizeSmallLabel ? 24 : 30;
