@@ -63,7 +63,11 @@ export default class DetailModal {
     return `translate3d(0%, 0px, 0px)`;
   }
   static getOpenSelfTransform({ app, ui }) {
-    return `translate3d(0%, calc( -100% - ${Container.getBlockSize({ app, ui })}px ), 0px)`;
+    if (ui.extensionMode === Ui.extensionModeLiveMedia) {
+      return `translate3d(0%, calc( -100% - 60px ), 0px)`;
+    } else {
+      return `translate3d(0%, calc( -100% - ${Container.getBlockSize({ app, ui })}px ), 0px)`;
+    }
   }
 
   static getHeader(params) {
