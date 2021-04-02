@@ -118,7 +118,7 @@ export default class Posts {
     } else {
       switch (ui.extensionMode) {
         case Ui.extensionModeLiveMedia:
-          padding = "0";
+          padding = "0 0 60px";
           break;
         default:
           switch (ui.screenSize) {
