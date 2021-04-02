@@ -118,7 +118,7 @@ export default class Posts {
     } else {
       switch (ui.extensionMode) {
         case Ui.extensionModeLiveMedia:
-          padding = `0 0 ${Container.getLiveMediaBlockSize}px 0`;
+          padding = `0 0 ${Container.getLiveMediaBlockSize({app, ui})}px 0`;
           break;
         default:
           switch (ui.screenSize) {
@@ -135,6 +135,7 @@ export default class Posts {
           break;
       }
     }
+    console.log(padding);
     return padding;
   }
 
