@@ -237,7 +237,7 @@ export default class Container {
     return `translate3d( 0px, -80px, 0px )`;
   }
   static get notifOpenLiveMediaTranslateY() {
-    return `translate3d( 0px, -180px, 0px )`;
+    return `translate3d( 0px, -125px, 0px )`;
   }
   static get notifCloseTranslateY() {
     return `translate3d( 0px, 0px, 0px )`;

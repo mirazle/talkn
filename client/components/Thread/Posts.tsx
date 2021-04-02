@@ -273,7 +273,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
         </div>
       );
     } else {
-      return null;
+      return undefined;
     }
   }
 
