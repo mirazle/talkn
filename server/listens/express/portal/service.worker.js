@@ -1,6 +1,6 @@
 const cacheName = "pwa-talkn";
 const log = false;
-const filesToCache = ["/", "/index.ejs"];
+const filesToCache = ["*"];
 
 if ( log ) console.log( "SW OK" );
 
@@ -46,7 +46,7 @@ self.addEventListener("fetch", function (event) {
   if (log) console.log("Url", event.request.url);
 
   // Https request image is error and undisplay.
-  if (event.request.url.indexOf("https:") === 0) {
+  if ( event.request.url.indexOf( "https:" ) === 0 ) {
     event.respondWith(
       caches.match(event.request).then(function (response) {
         console;
