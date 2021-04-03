@@ -1,6 +1,7 @@
 import Schema from "api/store/Schema";
 import Container from "client/style/Container";
 import { default as TimeMarkerStyle } from "client/style/TimeMarker";
+import Ui from "./Ui";
 
 type uiTimeMarkerObject = {
   index: number;
@@ -91,7 +92,7 @@ export default class UiTimeMarker extends Schema {
     return { list, now, before, after };
   }
 
-  public static update(scrollTop = 0, uiTimeMarker) {
+  public static update(scrollTop = 0, uiTimeMarker, { app, ui }) {
     let list = uiTimeMarker.list;
     let now = uiTimeMarker.now;
     let before = uiTimeMarker.before;
@@ -99,7 +100,10 @@ export default class UiTimeMarker extends Schema {
     const listCnt = list.length;
 
     if (listCnt > 0) {
-      const scrollBaseTop = TimeMarkerStyle.getSelfMarginTop() + scrollTop + 54;
+      const blockSize = ui.extensionMode === Ui.extensionModeLiveMedia
+        ? Container.getBlockSize({ app, ui }) * 2
+        : Container.getBlockSize({ app, ui });
+      const scrollBaseTop = scrollTop + TimeMarkerStyle.getSelfMarginTop() + blockSize;
 
       // Most bottom scroll area.
       if (now.index === listCnt - 1) {
