@@ -115,6 +115,8 @@ export default class TalknComponent<P, S> extends Component<P, S> {
       this.clientAction("CLOSE_NEW_POST");
     }
 
+    console.log(scrollTop);
+    console.log(uiTimeMarker);
     // TIME MARKERを更新する
     const newUiTimeMarker = UiTimeMarker.update(scrollTop, uiTimeMarker);
     if (uiTimeMarker.now.label !== newUiTimeMarker.now.label) {
