@@ -118,7 +118,7 @@ export default class TalknComponent<P, S> extends Component<P, S> {
     console.log(scrollTop);
     console.log(uiTimeMarker);
     // TIME MARKERを更新する
-    const newUiTimeMarker = UiTimeMarker.update(scrollTop, uiTimeMarker);
+    const newUiTimeMarker = UiTimeMarker.update(scrollTop, uiTimeMarker, {app, ui});
     if (uiTimeMarker.now.label !== newUiTimeMarker.now.label) {
       this.clientAction("ON_SCROLL_UPDATE_TIME_MARKER", { uiTimeMarker: newUiTimeMarker });
     }
