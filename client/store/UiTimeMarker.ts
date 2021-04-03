@@ -100,9 +100,7 @@ export default class UiTimeMarker extends Schema {
     const listCnt = list.length;
 
     if (listCnt > 0) {
-      const blockSize = ui.extensionMode === Ui.extensionModeLiveMedia
-        ? 0
-        : Container.getBlockSize({ app, ui });
+      const blockSize = ui.extensionMode === Ui.extensionModeLiveMedia ? 0 : 54 /* Container.getBlockSize({ app, ui }) */;
       const scrollBaseTop = scrollTop + TimeMarkerStyle.getSelfMarginTop() + blockSize;
 
       // Most bottom scroll area.
