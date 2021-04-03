@@ -120,7 +120,9 @@ export default class Post {
   }
 
   static getUpperTitle({ app, ui }) {
+    const display = ui.extensionMode === Ui.extensionModeLiveMedia ? 'none' : 'flex';
     const layout = Style.getLayoutFlex({
+      display,
       alignItems: "flex-start",
       justifyContent: "flex-start",
       flexGrow: 6,

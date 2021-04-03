@@ -135,7 +135,6 @@ export default class Posts {
           break;
       }
     }
-    console.log(padding);
     return padding;
   }
 
