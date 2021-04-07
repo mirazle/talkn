@@ -693,7 +693,6 @@ class Window extends ReactMode {
   }
 
   loadIframe() {
-    console.log('WINDOW loadIframe');
     this.embedIframeTags = IframeEmbed.getAll();
     this.embedIframeTagCnt = this.embedIframeTags.length;
 
