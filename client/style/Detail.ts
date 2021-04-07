@@ -101,6 +101,7 @@ export default class Detail {
     const display = screenSize === Ui.screenSizeLargeLabel ? "none" : "block";
     const left = screenSize === Ui.screenSizeSmallLabel ? "0px" : Menu.baseWidth;
     const height = DetailModal.getHeight({ app, ui });
+    const borderRadius = ui.extensionMode === Ui.extensionModeLiveMedia ? "0" : Container.radiuses;
     const borders = {
       borderTop: Container.border,
       borderRight: Container.border,
@@ -116,7 +117,7 @@ export default class Detail {
       margin: DetailModal.getMargin({ app, ui }),
       border: `1px solid ${Container.borderRGB}`,
 //     ...borders,
-      borderRadius: Container.radiuses,
+      borderRadius,
       WebkitOverflowScrolling: "touch",
       zIndex: 9,
 //      boxShadow: `${Container.lineShadow}`,
@@ -187,7 +188,9 @@ export default class Detail {
   }
 
   static getHeader({ app, ui }) {
+    const display = ui.extensionMode === Ui.extensionModeLiveMedia ? "none" : "flex";
     const layout = Style.getLayoutFlex({
+      display,
       width: "100%",
       height: `${Container.getBlockSize({ app, ui })}px`,
       maxHeight: `${Container.getBlockSize({ app, ui })}px`,
@@ -216,11 +219,14 @@ export default class Detail {
   }
 
   static getBody({ app, ui }) {
+    const height = ui.extensionMode === Ui.extensionModeLiveMedia
+      ? `calc( 100% - ${Container.getLiveMediaBlockSize({ app, ui })}px )`
+      : `calc( 100% - ${Container.getBlockSize({ app, ui }) * 2}px )`;
     const layout = Style.getLayoutGrid({
       overflowX: "hidden",
       overflowY: "scroll",
       width: "100%",
-      height: `calc( 100% - ${Container.getBlockSize({ app, ui }) * 2}px )`,
+      height,
       zIndex: 0,
     });
     const content = Style.getContentBase();

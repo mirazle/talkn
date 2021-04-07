@@ -1229,17 +1229,17 @@ class Iframe extends ReactMode {
     delete this;
   }
 
-  handleExtAndClient(params) {
-    this.state = params;
+  handleExtAndClient(state) {
+    this.state = state;
     this.extToClient("ON_TRANSITION");
   }
 
-  tune(state) {
-    this.state = state;
+  tune( state ) {
+    this.state = { ...this.state, ...state };
   }
 
   changeThread(state) {
-    this.state = state;
+    this.state = { ...this.state, ...state };
   }
 
   getClientMetas() {
@@ -1735,6 +1735,9 @@ class IframeLiveMedia extends Iframe {
   static get id() {
     return `#${Ext.APP_NAME}${Iframe.EXTENSION_MODE_LIVE_MEDIA}`;
   }
+  static get openDetailId() {
+    return `#${Ext.APP_NAME}OpenDetail`;
+  }
   static get appendRoot() {
     return Window.selectBody.querySelector(IframeLiveMedia.id);
   }
@@ -1761,6 +1764,7 @@ class IframeLiveMedia extends Iframe {
 
     // bind
     this.sendStampData = this.sendStampData.bind(this);
+    this.load = this.load.bind( this );
     this.remove = this.remove.bind( this );
 
     // dom
@@ -1798,6 +1802,18 @@ class IframeLiveMedia extends Iframe {
   /*************************/
   /* CALLBACKS             */
   /*************************/
+
+  load() {
+    super.load();
+    const openDetailTag = Window.select( `${ IframeLiveMedia.openDetailId }` );
+    if (openDetailTag) {
+      openDetailTag.addEventListener( 'click', () => {
+        const { ui, thread } = this.state;
+        this.state.ui.isOpenDetail = !ui.isOpenDetail;
+        this.extToClient( "ON_CLICK_TOGGLE_DISP_DETAIL", { ui: { isOpenDetail: this.state.ui.isOpenDetail }, app: { detailCh: thread.ch } } );
+      } );
+    }
+  }
 
   remove() {
     const { notifStatus, liveMediaPost } = this.window.ins;

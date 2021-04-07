@@ -11,10 +11,14 @@ import Menu from "./Menu";
 
 export default class DetailModal {
   static getWidth({ app, ui }, addUnit = false) {
-    const width =
-      ui.screenSize === Ui.screenSizeSmallLabel
+    let width = "0";
+    if (ui.extensionMode === Ui.extensionModeLiveMedia) {
+      width = "100%";
+    } else {
+      width = ui.screenSize === Ui.screenSizeSmallLabel
         ? String(Math.floor(ui.width * Container.widthRatio)) + "px"
         : `calc( ${100 * Container.widthRatio}% - ${Menu.getWidth({ app, ui })} )`;
+    }
     return addUnit ? Style.trimUnit(width) : width;
   }
 
@@ -27,7 +31,9 @@ export default class DetailModal {
   }
 
   static getMargin({ app, ui }, addUnit = false) {
-    if (ui.extensionMode === Ui.extensionModeBottom) {
+    if (ui.extensionMode === Ui.extensionModeLiveMedia) {
+      return "0";
+    }else if (ui.extensionMode === Ui.extensionModeBottom) {
       return "0% 8%";
     } else {
       switch (ui.screenSize) {
@@ -43,14 +49,18 @@ export default class DetailModal {
   static getHeight({ app, ui }, addUnit = false) {
     const marginRate = DetailModal.getBaseMarginRate({ app, ui });
     const blockSize = Container.getBlockSize({ app, ui });
-    switch (ui.screenSize) {
-      case Ui.screenSizeSmallLabel:
-        return `calc( ${100 - marginRate}% - ${blockSize * 2}px )`;
-      case Ui.screenSizeMiddleLabel:
-        return `calc( ${100 - marginRate}% - ${blockSize * 2}px )`;
-      case Ui.screenSizeLargeLabel:
-        const baseMargin = DetailModal.getBaseMargin({ app, ui });
-        return `calc( 100% - ${blockSize * 2 + baseMargin}px )`;
+    if (ui.extensionMode === Ui.extensionModeLiveMedia) {
+      return `calc(100% - ${Container.getBlockSize({app, ui})}px)`;
+    } else {
+      switch (ui.screenSize) {
+        case Ui.screenSizeSmallLabel:
+          return `calc( ${100 - marginRate}% - ${blockSize * 2}px )`;
+        case Ui.screenSizeMiddleLabel:
+          return `calc( ${100 - marginRate}% - ${blockSize * 2}px )`;
+        case Ui.screenSizeLargeLabel:
+          const baseMargin = DetailModal.getBaseMargin({ app, ui });
+          return `calc( 100% - ${blockSize * 2 + baseMargin}px )`;
+      }
     }
   }
 
@@ -64,7 +74,7 @@ export default class DetailModal {
   }
   static getOpenSelfTransform({ app, ui }) {
     if (ui.extensionMode === Ui.extensionModeLiveMedia) {
-      return `translate3d(0%, calc( -100% - 60px ), 0px)`;
+      return `translate3d(0%, calc( -100% - ${Container.getBlockSize({ app, ui })}px ), 0px)`;
     } else {
       return `translate3d(0%, calc( -100% - ${Container.getBlockSize({ app, ui })}px ), 0px)`;
     }

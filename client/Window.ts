@@ -242,8 +242,8 @@ class Ext {
           break;
       }
 
-      const actionType = PostMessage.convertExtToClientActionType(method);
-      this.window.store.dispatch({ ...params, type: actionType });
+//      const actionType = PostMessage.convertExtToClientActionType(method);
+      this.window.store.dispatch({ ...params, type: method });
     } else if (type === PostMessage.MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE) {
       this.window.mediaClient.onMessage(e, this.window.store.getState());
     }
