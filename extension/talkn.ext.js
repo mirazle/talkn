@@ -1803,15 +1803,6 @@ class IframeLiveMedia extends Iframe {
   /* CALLBACKS             */
   /*************************/
 
-  load() {
-    super.load();
-    const openDetailTag = Window.select( `${ IframeLiveMedia.openDetailId }` );
-    if ( openDetailTag ) {
-      openDetailTag.removeEventListener( 'click', this.toggleDetail );
-      openDetailTag.addEventListener( 'click', this.toggleDetail );
-    }
-  }
-
   toggleDetail() {
     const { ui, thread } = this.state;
     this.state.ui.isOpenDetail = !ui.isOpenDetail;
@@ -2823,5 +2814,5 @@ const talknExtension = document.querySelector("iframe#talknExtension");
 // 多重起動防止
 // ChromeExtとExt両方起動の場合はChromeExtが起動する
 if (!talknExtension) {
-  new Window();
+  window.TalknExt = new Window();
 }
