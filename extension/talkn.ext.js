@@ -1175,8 +1175,8 @@ class Iframe extends ReactMode {
 
   extToClient( method, params = {}, methodBack ) {
     const requestObj = this.getExtToClientObj(method, params, methodBack);
-    this.methodIdMap[ method ] = setTimeout( () => this.handleClientToError( this.id, method ), Iframe.activeMethodSecond );   
-
+    this.methodIdMap[ method ] = setTimeout( () => this.handleClientToError( this.id, method ), Iframe.activeMethodSecond );
+    
     try {
       this.dom.contentWindow.postMessage( requestObj, this.src );
     } catch ( e ) {
@@ -1765,6 +1765,7 @@ class IframeLiveMedia extends Iframe {
     // bind
     this.sendStampData = this.sendStampData.bind(this);
     this.load = this.load.bind( this );
+    this.toggleDetail = this.toggleDetail.bind( this );
     this.remove = this.remove.bind( this );
 
     // dom
@@ -1806,18 +1807,23 @@ class IframeLiveMedia extends Iframe {
   load() {
     super.load();
     const openDetailTag = Window.select( `${ IframeLiveMedia.openDetailId }` );
-    if (openDetailTag) {
-      openDetailTag.addEventListener( 'click', () => {
-        const { ui, thread } = this.state;
-        this.state.ui.isOpenDetail = !ui.isOpenDetail;
-        this.extToClient( "ON_CLICK_TOGGLE_DISP_DETAIL", { ui: { isOpenDetail: this.state.ui.isOpenDetail }, app: { detailCh: thread.ch } } );
-      } );
+    if ( openDetailTag ) {
+      openDetailTag.removeEventListener( 'click', this.toggleDetail );
+      openDetailTag.addEventListener( 'click', this.toggleDetail );
     }
+  }
+
+  toggleDetail() {
+    const { ui, thread } = this.state;
+    this.state.ui.isOpenDetail = !ui.isOpenDetail;
+    this.extToClient( "ON_CLICK_TOGGLE_DISP_DETAIL", { ui: { isOpenDetail: this.state.ui.isOpenDetail }, app: { detailCh: thread.ch } } );  
   }
 
   remove() {
     const { notifStatus, liveMediaPost } = this.window.ins;
+    const openDetailTag = Window.select( `${ IframeLiveMedia.openDetailId }` );
     super.remove();
+    openDetailTag.removeEventListener( 'click', this.load );
     notifStatus.remove();
     liveMediaPost.remove();
   }
