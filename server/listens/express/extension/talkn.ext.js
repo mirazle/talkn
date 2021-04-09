@@ -1813,7 +1813,9 @@ class IframeLiveMedia extends Iframe {
     const { notifStatus, liveMediaPost } = this.window.ins;
     const openDetailTag = Window.select( `${ IframeLiveMedia.openDetailId }` );
     super.remove();
-    openDetailTag.removeEventListener( 'click', this.load );
+    if ( openDetailTag ) {
+      openDetailTag.removeEventListener( 'click', this.load );
+    }
     notifStatus.remove();
     liveMediaPost.remove();
   }

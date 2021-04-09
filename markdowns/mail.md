@@ -298,3 +298,7 @@ allow_untrusted_routing = no
 ```
 
 ```
+
+# 不正送信ログがたまる
+
+/var/spool/postfix/deferred
