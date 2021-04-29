@@ -19,6 +19,7 @@ import InnerNotif from "client/components/InnerNotif";
 import mapToStateToProps from "client/mapToStateToProps/";
 import DateHelper from "client/container/util/DateHelper";
 import componentDidUpdates from "client/container/componentDidUpdates";
+import Sequence from "api/Sequence";
 
 interface ContainerProps {
   state: any;
@@ -88,10 +89,10 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
         onClickOpenLockMenu(Ui.openLockMenuLabelNo);
       }
 
-      window.talknWindow.ext.to("toggleIframe");
+      window.talknWindow.ext.to("toggleIframe", Sequence.UNKNOWN);
 
       if (!app.isLinkCh) {
-        window.talknWindow.ext.to("getClientMetas");
+        window.talknWindow.ext.to("getClientMetas", Sequence.UNKNOWN);
       }
     }
   }
@@ -124,10 +125,10 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
         onClickOpenLockMenu(Ui.openLockMenuLabelNo);
       }
 
-      window.talknWindow.ext.to("toggleIframe");
+      window.talknWindow.ext.to("toggleIframe", Sequence.UNKNOWN);
 
       if (!app.isLinkCh) {
-        window.talknWindow.ext.to("getClientMetas");
+        window.talknWindow.ext.to("getClientMetas", Sequence.UNKNOWN);
       }
     }
   }

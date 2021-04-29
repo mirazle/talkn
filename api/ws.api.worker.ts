@@ -1,6 +1,7 @@
 import PostMessage, { MessageClientAndWsApiType, MessageParams } from "common/PostMessage";
 import BootOption from "common/BootOption";
 import Ws from "api/Ws";
+import Sequence from "./Sequence";
 
 export default class WsApiWorker {
   id?: string;
@@ -22,14 +23,15 @@ export default class WsApiWorker {
     const message: MessageClientAndWsApiType = {
       id: this.id,
       type: PostMessage.WSAPI_TO_CLIENT_TYPE,
-      method: method,
+      ioType: Sequence.API_SETUP,
+      method,
       params,
       methodBack,
     };
     this.worker.postMessage(message);
   }
   private onMessage(e: MessageEvent): void {
-    const { id, type, method, params }: MessageClientAndWsApiType = e.data;
+    const { id, type, ioType, method, params }: MessageClientAndWsApiType = e.data;
     if (type === PostMessage.CLIENT_TO_WSAPI_TYPE) {
       this.ws.exe(method, params);
     }

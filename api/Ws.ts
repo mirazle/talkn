@@ -42,7 +42,7 @@ export default class Ws {
     this.off = this.off.bind(this);
 
     this.webWorker = webWorker;
-    this.webWorker.postMessage("WS_CONSTRUCTED");
+    this.webWorker.postMessage("WS_CONSTRUCTED", {ioType: Sequence.API_SETUP});
   }
 
   // change io connection.
@@ -105,7 +105,7 @@ export default class Ws {
 
       const apiState = new ApiState(bootOption);
 
-      this.stores[this.id].dispatch({ ...apiState, type: "SETUPED_API_STOREE" });
+      this.stores[this.id].dispatch({ ...apiState, type: "SETUPED_API_STORE" });
 
       // ws server.
       const ioParams = this.getIoParams(bootOption);
@@ -134,7 +134,7 @@ export default class Ws {
   }
 
   private tuned() {
-    this.webWorker.postMessage("TUNED", { id: this.id });
+    this.webWorker.postMessage("TUNED", { id: this.id, ioType: Sequence.API_SETUP });
   }
 
   private onRequestAPI() {
@@ -184,10 +184,11 @@ export default class Ws {
     }
   }
 
-  private subscribe() {
+  private subscribe(state) {
     const apiState = this.stores[this.id].getState();
+    const ioType = Sequence.convertServerToApiIoType(this.id, apiState.app.actioned);
     this.exeCallback(apiState.app.actioned, apiState);
-    this.webWorker.postMessage(apiState.app.actioned, apiState);
+    this.webWorker.postMessage(apiState.app.actioned, { ...apiState, ioType });
   }
 
   private exeCallback(method, apiState) {

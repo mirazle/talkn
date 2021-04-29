@@ -1,6 +1,7 @@
 import React from "react";
 import TalknComponent from "client/components/TalknComponent";
 import conf from "common/conf";
+import Sequence from "api/Sequence";
 import Ui from "client/store/Ui";
 import Icon from "client/components/common/Icon";
 import Container from "client/style/Container";
@@ -48,7 +49,7 @@ export default class DetailFooter extends TalknComponent<DetailFooterProps, Deta
   handleOnClickPortal() {
     const { ui } = this.props.state;
     if (ui.extensionMode === Ui.extensionModeBottom || ui.extensionMode === Ui.extensionModeModal) {
-      window.talknWindow.ext.to("linkTo", { href: `https://${conf.wwwURL}` });
+      window.talknWindow.ext.to("linkTo", Sequence.UNKNOWN, { href: `https://${conf.wwwURL}` });
     } else {
       // @ts-ignore.
       window.location.href = `https://${conf.wwwURL}`;

@@ -16,6 +16,12 @@ export default class Sequence {
   static get CATCH_ME_KEY() {
     return "@CATCH_ME";
   }
+  static get API_SEPARATE_IO_TYPE_START() {
+    return "[";
+  }
+  static get API_SEPARATE_IO_TYPE_END() {
+    return "]";
+  }
   static get API_REQUEST_TYPE() {
     return "REQUEST";
   }
@@ -24,6 +30,12 @@ export default class Sequence {
   }
   static get API_RESPONSE_TYPE_BROADCAST() {
     return "BROADCAST";
+  }
+  static get API_SETUP() {
+    return "API_SETUP";
+  }
+  static get UNKNOWN() {
+    return "UNKNOWN";
   }
   static get CONNECTION_SERVER_KEY() {
     return "CONNECTION_SERVER";
@@ -143,7 +155,7 @@ export default class Sequence {
         requestPublicState: { thread: ["serverMetas"] },
         requestPrivateState: {
           thread: ["host", "protocol", "ch"],
-          user: "*", // 懸念
+          user: ['uid'], // 懸念 .forEachされないので一旦この形に修正
         },
         responseEmitState: { thread: "*" },
         responseBroadcastState: {},
@@ -184,9 +196,21 @@ export default class Sequence {
     return activeResponseMap;
   }
 
+  static convertServerToApiIoType(iFrameId, actionType) {
+    if (actionType.indexOf(`${Sequence.API_SEPARATE_IO_TYPE_START}${Sequence.API_REQUEST_TYPE}${Sequence.API_SEPARATE_IO_TYPE_END}`) >= 0) {
+      return Sequence.API_REQUEST_TYPE;
+    }
+    if (actionType.indexOf(`${Sequence.API_SEPARATE_IO_TYPE_START}${Sequence.API_RESPONSE_TYPE_BROADCAST}${Sequence.API_SEPARATE_IO_TYPE_END}`) >= 0) {
+      return Sequence.API_RESPONSE_TYPE_BROADCAST;
+    }
+    if (actionType.indexOf(`${Sequence.API_SEPARATE_IO_TYPE_START}${Sequence.API_RESPONSE_TYPE_EMIT}${Sequence.API_SEPARATE_IO_TYPE_END}`) >= 0) {
+      return Sequence.API_RESPONSE_TYPE_EMIT;
+    }
+    return Sequence.API_SETUP;
+  }
+
   static convertExtToClientActionType(iFrameId, actionType) {
     actionType = Sequence.convertApiToClientActionType(actionType);
-
     return actionType;
   }
 
@@ -210,7 +234,6 @@ export default class Sequence {
 
     Object.keys(requestPrivateState).forEach((stateKey) => {
       if (!requestState[stateKey]) requestState[stateKey] = {};
-
       requestPrivateState[stateKey].forEach((columnName) => {
         if (!requestState[stateKey][columnName]) {
           let value = reduxState[stateKey][columnName];

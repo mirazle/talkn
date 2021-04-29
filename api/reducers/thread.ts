@@ -6,6 +6,7 @@ export default (state = new Thread({}, {}), action) => {
     case "SERVER_TO_API[EMIT]:tune":
     case "SERVER_TO_API[EMIT]:changeThread":
     case "SERVER_TO_API[EMIT]:fetchPosts":
+    case "SERVER_TO_API[EMIT]:updateThreadServerMetas":
       return new Thread(action.thread);
     case "SERVER_TO_API[BROADCAST]:tune":
     case "SERVER_TO_API[BROADCAST]:changeThread":
