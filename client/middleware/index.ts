@@ -47,7 +47,7 @@ const functions = {
         case Ui.extensionModeBottom:
           if (!action.ui.isOpenPosts && !action.ui.isDispPosts) {
             const transition = Container.transitionNotif * 4 + Container.transitionNotifDisp;
-            window.talknWindow.ext.to("openNotif", { transition });
+            window.talknWindow.ext.to("openNotif", Sequence.UNKNOWN, { transition });
           }
           break;
         case Ui.extensionModeModal:
@@ -58,7 +58,8 @@ const functions = {
             let favicon = action.posts[action.posts.length - 1]["favicon"];
             favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
 
-            window.talknWindow.ext.to("openNotif", {
+            window.talknWindow.ext.to("openNotif",
+              Sequence.UNKNOWN,{
               id,
               post,
               stampId,
@@ -87,7 +88,7 @@ const functions = {
           const stampId = action.posts[postLength]["stampId"];
           let favicon = action.posts[postLength]["favicon"];
           favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
-          window.talknWindow.ext.to("openNotif", {
+          window.talknWindow.ext.to("openNotif", Sequence.UNKNOWN,{
             id,
             post,
             stampId,
@@ -129,7 +130,7 @@ const functions = {
     const stampId = action.postsTimeline[postsTimelineKey]["stampId"];
     let favicon = action.postsTimeline[postsTimelineKey]["favicon"];
     favicon = Sequence.HTTPS_PROTOCOL + "//" + conf.assetsIconPath + util.getSaveFaviconName(favicon);
-    window.talknWindow.ext.to("openNotif", {
+    window.talknWindow.ext.to("openNotif", Sequence.UNKNOWN,{
       id,
       post,
       stampId,
@@ -203,7 +204,7 @@ const functions = {
   },
   ON_CHANGE_INPUT_POST: (state, action) => {
     const inputPost = action.ui.inputPost;
-    window.talknWindow.ext.to("setInputPost", { inputPost });
+    window.talknWindow.ext.to("setInputPost", Sequence.UNKNOWN, { inputPost });
     return action;
   },
   GET_CLIENT_METAS: (state, action) => {

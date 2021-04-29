@@ -3,6 +3,7 @@ import conf from "common/conf";
 import define from "common/define";
 import BootOption from "common/BootOption";
 import PostMessage, {
+  IoTypeValues,
   MessageClientAndWsApiType,
   MessageClientAndExtType,
   MessageMediaClientAndMediaServerType,
@@ -105,6 +106,7 @@ export default class Window {
       // @ts-ignore
       id: params.id ? params.id : this.id,
       type: PostMessage.CLIENT_TO_WSAPI_TYPE,
+      ioType: Sequence.API_SETUP,
       method,
       params,
     };
@@ -115,7 +117,7 @@ export default class Window {
 
   private onMessage(e: MessageEvent): void {
     const { currentTarget, data } = e;
-    const { type, method, params, methodBack }: MessageClientAndWsApiType = data;
+    const { type, method, ioType, params, methodBack }: MessageClientAndWsApiType = data;
     if (currentTarget instanceof Worker) {
       if (type === PostMessage.WSAPI_TO_CLIENT_TYPE) {
         const actionType = PostMessage.convertApiToClientActionType(method);
@@ -138,8 +140,9 @@ export default class Window {
         }
 
         if (this.id === define.APP_TYPES.EXTENSION) {
+
           // ext
-          this.ext && this.ext.to(method, params);
+          this.ext && this.ext.to(method, ioType, params);
         }
 
         // media
@@ -181,13 +184,14 @@ class Ext {
     window.onmessageerror = this.onMessageError;
   }
 
-  public to(method: string, params: MessageParams = {}): void {
+  public to(method: string, ioType: IoTypeValues, params: MessageParams = {}): void {
     if (method.indexOf(Sequence.METHOD_COLON) >= 0) {
       method = method.split(Sequence.METHOD_COLON)[1];
     }
     const message: MessageClientAndExtType = {
       id: this.id,
       type: PostMessage.CLIENT_TO_EXT_TYPE,
+      ioType,
       method,
       params,
       href: location.href,
@@ -214,7 +218,7 @@ class Ext {
   }
 
   private onMessage(e: MessageEvent): void {
-    const { id, href, type, method, params, methodBack }: MessageClientAndExtType = e.data;
+    const { id, href, type, method, ioType, params, methodBack }: MessageClientAndExtType = e.data;
     if (type === PostMessage.EXT_TO_CLIENT_TYPE) {
 
       switch (method) {
@@ -231,12 +235,14 @@ class Ext {
 
           this.window.store.dispatch({ ...state, type: "EXT_INIT_CLIENT" });
           this.window.api("tune", this.window.bootOption);
-
-          this.to(method, state);
+          console.log(state);
+          this.to(method, ioType, state);
           break;
         default:
           const isApiMethod = Boolean(Object.keys(Sequence.map).find((apiMethod) => apiMethod === method));
           if (isApiMethod) {
+            console.log(method);
+            console.log(params);
             this.window.api(method, params);
           }
           break;

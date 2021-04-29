@@ -1,4 +1,5 @@
 import Sequence from "api/Sequence";
+import Io from "server/logics/Io";
 
 export default class PostMessage {
   // HANDLE CLIENT AND WSAPI
@@ -80,11 +81,22 @@ export default class PostMessage {
 // common.
 export const HandleMessageMethod = "handle";
 export const HandleRequestMethod = "handle";
+export type IoTypeValues =
+  | typeof Sequence.API_SETUP
+  | typeof Sequence.API_REQUEST_TYPE
+  | typeof Sequence.API_RESPONSE_TYPE_EMIT
+  | typeof Sequence.API_RESPONSE_TYPE_BROADCAST
+  | typeof Sequence.UNKNOWN;
+export type IoType = {
+  ioType: IoType;
+}
+export type MessageParamsFree = { key: string; value: any } | {};
 export type MessageParams = { key: string; value: any } | {};
 
 export type MessageClientAndWsApiType = {
   id: string;
   type: typeof PostMessage.WSAPI_TO_CLIENT_TYPE | typeof PostMessage.CLIENT_TO_WSAPI_TYPE;
+  ioType: IoTypeValues;
   method: string;
   params?: MessageParams;
   methodBack?: string;
@@ -93,6 +105,7 @@ export type MessageClientAndWsApiType = {
 export type MessageClientAndExtType = {
   id: string;
   type: typeof PostMessage.EXT_TO_CLIENT_TYPE | typeof PostMessage.CLIENT_TO_EXT_TYPE;
+  ioType: IoTypeValues;
   method: string;
   href: string;
   params?: MessageParams;

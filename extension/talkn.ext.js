@@ -705,7 +705,7 @@ class Window extends ReactMode {
         href = href ? href : Window.selectTop.location.href;
         const bootOption = new BootOption(embedtag.id, href, embedtag);
         const embedIframe = new IframeEmbed(this, bootOption, embedtag );
-        this.ins.iframes[embedtag.id] = embedIframe;
+        this.ins.iframes[ embedtag.id ] = embedIframe;
       });
     }
 
@@ -716,19 +716,22 @@ class Window extends ReactMode {
       case Iframe.EXTENSION_MODE_MODAL:
         bootOption = new BootOption( this.userDefineExtensionMode, href );
         this.ins.iframe = new IframeModal( this, bootOption );
+        this.ins.iframes[ this.userDefineExtensionMode ] = this.ins.iframe;
         break;
       case Iframe.EXTENSION_MODE_BOTTOM:
         bootOption = new BootOption( this.userDefineExtensionMode, href );
-        this.ins.iframe = new IframeBottom(this, bootOption);
+        this.ins.iframe = new IframeBottom( this, bootOption );
+        this.ins.iframes[ this.userDefineExtensionMode ] = this.ins.iframe;
         break;
       case Iframe.EXTENSION_MODE_LIVE_MEDIA:
-        const tag = IframeLiveMedia.getWrap();
-        href = tag && tag.dataset && tag.dataset.url ? tag.dataset.url : href;
+        const wrapTag = IframeLiveMedia.getWrap();
+        href = wrapTag && wrapTag.dataset && wrapTag.dataset.url ? wrapTag.dataset.url : href;
         bootOption = new BootOption( this.userDefineExtensionMode, href, extScript );
         this.ins.iframe = new IframeLiveMedia(this, bootOption, IframeLiveMedia.appendRoot);
+        this.ins.iframes[ this.userDefineExtensionMode ] = this.ins.iframe;
         break;
     }
-    this.ins.iframes[this.userDefineExtensionMode] = this.ins.iframe;
+
   }
 
   /********************************/
@@ -827,12 +830,12 @@ class Window extends ReactMode {
   // From child window message.
   catchMessage(e) {
     const { iframes } = this.ins;
-    const { id: iFrameId, type, method, params } = e.data;
+    const { id: iFrameId, type, ioType, method, params } = e.data;
 
     switch (type) {
       case "CLIENT_TO_EXT_TYPE":
         const proccess = this.getCatchMessageProccess(iFrameId, method);
-        if (proccess.exeMethod) {
+        if ( proccess.exeMethod ) {
           const iframe = iframes[iFrameId];
           iframe[method](params);
           clearTimeout(iframe.methodIdMap[method]);
@@ -1108,6 +1111,7 @@ class Iframe extends ReactMode {
     }
 
     // instance bind.
+    this.getEventId = this.getEventId.bind(this);
     this.load = this.load.bind(this);
     this.getSrc = this.getSrc.bind(this);
     this.getExtToClientObj = this.getExtToClientObj.bind(this);
@@ -1129,6 +1133,7 @@ class Iframe extends ReactMode {
     this.root = root;
     this.bootOption = bootOption;
     this.extensionMode = bootOption.extensionMode;
+    this.event = new Event(this.getEventId());
     this.src = this.getSrc();
     this.dom = document.createElement("iframe");
     this.dom.setAttribute("id", this.id);
@@ -1141,7 +1146,9 @@ class Iframe extends ReactMode {
     this.dom.addEventListener("load", this.load);
     root.appendChild( this.dom );
   }
-
+  getEventId() {
+    return `loadState${ this.id }`;
+  }
   getSrc() {
     if (this.window.refusedStatus === Window.refusedStatusCsp) {
       return window.chrome.runtime.getURL(`csp.html?${this.bootOption.ch}`);
@@ -1218,8 +1225,9 @@ class Iframe extends ReactMode {
         extensionHeight: this.getHeight(true),
       },
     };
+
     this.extToClient("handleExtAndClient", params);
-    this.window.mediaServerTo("handleExtAndMedia", this.bootOption);
+    this.window.mediaServerTo( "handleExtAndMedia", this.bootOption );
   }
 
   remove() {
@@ -1755,6 +1763,7 @@ class IframeLiveMedia extends Iframe {
     ];
   }
   constructor ( _window, bootOption ) {
+    console.log('new IframeLiveMedia');
     super( _window, bootOption, IframeLiveMedia.appendRoot );
 
     // parts
@@ -1800,7 +1809,7 @@ class IframeLiveMedia extends Iframe {
   }
 
   /*************************/
-  /* CALLBACKS             */
+  /* GLOBAL ACCESS         */
   /*************************/
 
   toggleDetail() {
@@ -1808,6 +1817,14 @@ class IframeLiveMedia extends Iframe {
     this.state.ui.isOpenDetail = !ui.isOpenDetail;
     this.extToClient( "ON_CLICK_TOGGLE_DISP_DETAIL", { ui: { isOpenDetail: this.state.ui.isOpenDetail }, app: { detailCh: thread.ch } } );  
   }
+
+  updateThreadServerMetas(params) {
+    this.extToClient( "updateThreadServerMetas", params );  
+  }
+  
+  /*************************/
+  /* CALLBACKS             */
+  /*************************/
 
   remove() {
     const { notifStatus, liveMediaPost } = this.window.ins;
@@ -1828,6 +1845,8 @@ class IframeLiveMedia extends Iframe {
   tune( state ) {
     super.tune(state);
     this.updateLiveCnt();
+    const wrapTag = IframeLiveMedia.getWrap();
+    wrapTag.dispatchEvent( this.event );
   }
 
   disconnect( state ) {
@@ -1946,11 +1965,12 @@ class LiveMediaPost {
   postEvent( inputStampId = 0 ) {
     const textareaField = Window.select(`#${ LiveMediaPost.id }TextareaField` );
     let textarea = Window.select( `#${ LiveMediaPost.id }Textarea` );
-    
+
     if ( textareaField && textarea ) {
       const inputPost = inputStampId === 0 ? textarea.value : this.stampMap[ inputStampId ];
       if ( !LiveMediaPost.postRegex.test( inputPost ) ) {
-        this.iframe.extToClient( "post", { app: { inputPost, inputStampId } } );
+        const thread = this.iframe.state.thread;
+        this.iframe.extToClient( "post", { app: { inputPost, inputStampId }, thread } );
         textarea.remove();
         textarea = this.createTextarea();
         textareaField.append( textarea );
@@ -2204,9 +2224,11 @@ class LiveMediaPost {
   }
 
   setStampData( stampData ) {
-    this.stampInputs = JSON.parse( stampData.inputs );
-    this.stampMap = JSON.parse( stampData.map );
-    this.appendStampCover();
+    if ( Object.keys( stampData ).length > 0 ) {
+      this.stampInputs = JSON.parse( stampData.inputs );
+      this.stampMap = JSON.parse( stampData.map );
+      this.appendStampCover();
+    }
   }
 
   appendStampCover() {

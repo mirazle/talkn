@@ -82,6 +82,11 @@ const functions = {
     action.threadDetail = { ...action.thread };
     return action;
   },
+  "SERVER_TO_API[EMIT]:updateThreadServerMetas": (state, action) => {
+    action.threads = Threads.getMergedThreads(state.threads, action.thread);
+    action.threadDetail = { ...action.thread };
+    return action;
+  },
   "SERVER_TO_API[REQUEST]:post": (state, action) => {
     action.app.inputStampId = 0;
     return action;

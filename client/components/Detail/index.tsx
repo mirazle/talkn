@@ -407,7 +407,7 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
     const onClick =
       ui.extensionMode !== Ui.extensionModeNone
         ? () => {
-            window.talknWindow.ext.to("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", Sequence.UNKNOWN, { href });
           }
         : () => {};
     return Icon.getChromeExtension({}, state, { active, href, onClick });
@@ -423,7 +423,7 @@ class Icons {
     const onClick =
       ui.extensionMode !== Ui.extensionModeNone
         ? () => {
-            window.talknWindow.ext.to("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", Sequence.UNKNOWN, { href });
           }
         : () => {};
     return Icon.getTwitter(state, {}, { active, href, onClick });
@@ -438,7 +438,7 @@ class Icons {
     const onClick =
       ui.extensionMode !== Ui.extensionModeNone
         ? () => {
-            window.talknWindow.ext.to("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", Sequence.UNKNOWN, { href });
           }
         : () => {};
     return Icon.getFacebook(state, {}, { active, href, onClick });
@@ -453,7 +453,7 @@ class Icons {
     const onClick =
       ui.extensionMode !== Ui.extensionModeNone
         ? () => {
-            window.talknWindow.ext.to("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", Sequence.UNKNOWN, { href });
           }
         : () => {};
     return Icon.getAppstore(state, {}, { active, href, onClick });
@@ -467,7 +467,7 @@ class Icons {
     const onClick =
       ui.extensionMode !== Ui.extensionModeNone
         ? () => {
-            window.talknWindow.ext.to("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", Sequence.UNKNOWN, { href });
           }
         : () => {};
     return Icon.getAndroid(state, {}, { active, href, onClick });
@@ -489,7 +489,7 @@ class Icons {
     const onClick =
       ui.extensionMode !== Ui.extensionModeNone
         ? () => {
-            window.talknWindow.ext.to("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", Sequence.UNKNOWN, { href });
           }
         : () => {};
     return Icon.getHome(state, {}, { active, href, onClick });
@@ -503,7 +503,7 @@ class Icons {
     const onClick =
       ui.extensionMode !== Ui.extensionModeNone
         ? () => {
-            window.talknWindow.ext.to("linkTo", { href });
+            window.talknWindow.ext.to("linkTo", Sequence.UNKNOWN, { href });
           }
         : () => {};
     return Icon.getTalkn(state, {}, { active, href, onClick });

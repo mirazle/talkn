@@ -179,7 +179,7 @@ export default {
     const serverMetas = await Logics.db.threads.updateServerMetas(ch, baseThread, requestState.thread);
     await Logics.io.updateThreadServerMetas(ioUser, {
       requestState,
-      thread: { serverMetas },
+      thread: { ch, serverMetas },
     });
     return true;
   },

@@ -141,6 +141,7 @@ export default class Threads {
       ...baseThread.serverMetas,
       ...updateThread.serverMetas,
     };
+
     const set = { ch, serverMetas, updateTime: new Date() };
     const option = { upsert: true };
     await this.collection.update(condition, set, option);
