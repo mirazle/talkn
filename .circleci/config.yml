@@ -1,16 +1,19 @@
-version: 2.1 # CircleCI 2.1 を使用します
-jobs:
-  build:
+version: 2.1
+executors:
+  default:
+    working_directory: ~/workspace
     docker:
-      - image: node:9.4.0
+      - image: circleci/node:latest
+
+commands:
+  yarn-install:
     steps:
-      - checkout
+      - restore_cache:
+          key: yarn-cache-{{ checksum "package.json" }}
       - run:
-          name: Install dependencies
-          command: yarn
-      - run:
-          name: Build
-          command: yarn build
-      - run:
-          name: Check dist
-          command: ls -la dist
+          name: install yarn
+          command: yarn install
+      - save_cache:
+          key: yarn-cache-{{ checksum "package.json" }}
+          paths:
+              - node_modules
