@@ -1,19 +1,8 @@
-version: 2.1
-executors:
-  default:
-    working_directory: ~/workspace
-    docker:
-      - image: circleci/node:latest
-
-commands:
-  yarn-install:
-    steps:
-      - restore_cache:
-          key: yarn-cache-{{ checksum "package.json" }}
-      - run:
-          name: install yarn
-          command: yarn install
-      - save_cache:
-          key: yarn-cache-{{ checksum "package.json" }}
-          paths:
-              - node_modules
+  version: 2.1
+  jobs:
+    build:
+      docker: 
+        - image: circleci/node:4.8.2 # ジョブのコマンドが実行されるプライマリ コンテナ
+      steps:
+        - checkout # プロジェクト ディレクトリ内のコードをチェック アウトします
+        - run: echo "hello world" # `echo` コマンドを実行します
