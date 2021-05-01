@@ -1,0 +1,16 @@
+version: 2.1 # CircleCI 2.1 を使用します
+jobs:
+  build:
+    docker:
+      - image: node:9.4.0
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: yarn
+      - run:
+          name: Build
+          command: yarn build
+      - run:
+          name: Check dist
+          command: ls -la dist
