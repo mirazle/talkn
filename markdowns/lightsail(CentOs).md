@@ -64,6 +64,20 @@ yum install mongodb-org -y
 
 ## step2 Let's Encrypt の SSL ワイルドカード証明書をリクエストする
 
+$ sudo su -
+$ cd /etc/yum.repos.d/
+$ wget https://people.canonical.com/~mvo/snapd/amazon-linux2/snapd-amzn2.repo
+$ vi /etc/yum.conf
+
+下記を追加
+``` 
+exclude=snapd-*.el7 snap-*.el7
+```
+$ yum install snap
+$ systemctl enable --now snapd.socket
+$ snap install --classic certbot
+$ ln -s /snap/bin/certbot /usr/bin/certbot
+
 ```
 DOMAIN=talkn.io
 WILDCARD=*.$DOMAIN
@@ -105,14 +119,33 @@ https://letsencrypt.org/docs/rate-limits/
 - その時の最新の安定版を選択する事。(4.2 は適宜変更)
 
 `vi /etc/yum.repos.d/mongodb-org-4.2.repo`
+sudo vim /etc/yum.repos.d/mongodb-enterprise.repo
+sudo yum install -y mongodb-enterprise
 
 ```
 [mongodb-org-4.2]
 name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.2/x86_64/
+baseurl=https://repo.mongodb.org/yum/redhat/8Server/mongodb-org/4.2/x86_64/
 gpgcheck=1
 enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc
+```
+
+Amazon linuxの場合
+/etc/yum.repos.d/mongodb-org-4.4.repo
+```
+[mongodb-org-4.4]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.4/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
+```
+
+```
+sudo yum install -y mongodb-org
+sudo yum install -y mongodb-org-4.4.6 mongodb-org-server-4.4.6 mongodb-org-shell-4.4.6 mongodb-org-mongos-4.4.6 mongodb-org-tools-4.4.6
+sudo systemctl start mongod
 ```
 
 - 下記を実行
@@ -123,8 +156,23 @@ mongod -version
 systemctl start mongod
 systemctl status mongod
 mongo
-chkconfig mongod on
+systemctl enable mongod.service
 ```
+
+Error: Package: mongodb-org-database-tools-extra-4.4.6-1.el8.x86_64 (mongodb-org-4.2)
+           Requires: /usr/libexec/platform-python
+というエラーが出る。ローカルのpythonが2系だが3系のパスを求められていることが原因
+
+$ sudo yum install -y python3
+$ sudo amazon-linux-extras install -y python3.8
+
+alias設定
+Python3をインストールした状態だとPython -Vでバージョン確認しても以前Python 2.7が動作してしまいます。
+毎回3.8と入力するのは手間なので、エイリアスを設定してpyhonコマンド実行時に使用されるバージョンを上書きします。
+
+alias設定
+$ echo 'alias python=python3.8' >> ~/.bashrc
+$ source ~/.bashrc
 
 ## 管理ユーザ作成と認証機能有効化
 
@@ -132,10 +180,14 @@ https://qiita.com/tomy0610/items/f540150ac8acaa47ff66
 
 # Redis-Server インストール
 
+Amazon Linux 2のEPELレポジトリを有効にする
+sudo amazon-linux-extras install -y epel
+
 ```
-yum install epel-release -y
+sudo yum install epel-release -y
 yum install -y redis
 redis-server --version
+sudo systemctl start redis
 systemctl start redis
 systemctl status redis
 chkconfig redis on
@@ -211,6 +263,17 @@ view /root/.ssh/id_rsa.pub
 ```
 
 - チェックアウト
+
+
+ssh-keygen -t rsa -b 4096
+
+$ ssh -T git@github.com
+The authenticity of host 'github.com (140.82.114.3)' can't be established.
+RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
+RSA key fingerprint is MD5:16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'github.com,140.82.114.3' (RSA) to the list of known hosts.
+Hi mirazle! You've successfully authenticated, but GitHub does not provide shell access.
 
 ```
 cd /usr/share/applications/

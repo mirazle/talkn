@@ -58,6 +58,21 @@ https://sterfield.co.jp/programmer/%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%AE
 
 # ●Setting Letsencrypt(root & Wildcard)
 
+2021年よりインストール方法が変更
+```
+yum install snapd
+```
+
+起動設定
+```
+systemctl enable --now snapd.socket
+ln -s /var/lib/snapd/snap /snap
+```
+
+
+sudo snap install core
+snap refresh core
+
 sudo curl https://dl.eff.org/certbot-auto -o /usr/bin/certbot-auto
 sudo chmod 700 /usr/bin/certbot-auto
 
@@ -66,6 +81,10 @@ sudo chmod 700 /usr/bin/certbot-auto
  -d talkn.io -d *.talkn.io -m mirazle2069@gmail.com --agree-tos --manual-public-ip-logging-ok \
 --preferred-challenges dns-01 \
 --server https://acme-v02.api.letsencrypt.org/directory
+```
+
+```
+./certbot-auto certonly --manual -d talkn.io -d *.talkn.io -m mirazle2069@gmail.com --agree-tos --manual-public-ip-logging-ok --preferred-challenges dns-01 --server https://acme-v02.api.letsencrypt.org/directory
 ```
 
 Your config "zone.conf" \_acme-challenge
