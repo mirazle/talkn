@@ -1,6 +1,6 @@
 import request from "request";
 import cheerio from "cheerio";
-import { Iconv } from "iconv";
+// import { Iconv } from "iconv";
 import { Buffer } from "buffer";
 import conf from "common/conf";
 import Sequence from "api/Sequence";
@@ -329,8 +329,11 @@ export default class Html {
     const encoding = this.getCharset(body); //jschardet.detect( body ).encoding;
     const buf = Buffer.from(body, "binary");
     try {
+/*
       const iconv = new Iconv(encoding, "UTF-8//TRANSLIT//IGNORE");
       return iconv.convert(buf).toString();
+*/
+      return String(buf);
     } catch (e) {
       console.warn(e);
       return body;
