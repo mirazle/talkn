@@ -235,16 +235,6 @@ systemctl restart mongod
 nvm use 14.4.0
 rm -Rf node_modules
 yarn cache clean
-
-yarn global add node-gyp
-export npm_config_node_gyp=/usr/local/lib/node_modules/node-gyp/bin/node-gyp.js
-yum -y install gcc-c++
-
-node_modules/iconv
-node-gyp configure
-node-gyp build
-
-
 yarn install
 ```
 
