@@ -179,7 +179,7 @@ export default class Container {
     return `rgba(${Container.themeRGBString}, 0.8)`;
   }
   static getBlockSize({ app, ui }) {
-    return ui.screenSize === Ui.screenSizeSmallLabel ? 45 : 54;
+    return ui.screenSize === Ui.screenSizeSmallLabel ? 45 : 60;
   }
   static getLiveMediaBlockSize({ app, ui }) {
     return 60;

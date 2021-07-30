@@ -75,7 +75,10 @@ export default class MenuFooter {
   }
 
   static getChild({ app, ui }) {
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
+      flexFlow: 'column wrap',
+      alignItems: 'center',
+      justifyContent: 'center',
       flexGrow: 1,
       height: "100%",
     });

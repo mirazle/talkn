@@ -471,7 +471,10 @@ export default class Detail {
   }
 
   static getFooterChildLike({ app, ui }) {
-    const layout = Style.getLayoutBlock({
+    const layout = Style.getLayoutFlex({
+      flexFlow: 'column wrap',
+      alignItems: 'center',
+      justifyContent: 'center',
       flexGrow: 1,
       height: "100%",
     });
@@ -481,8 +484,10 @@ export default class Detail {
   }
 
   static getFooterChildMoney({ app, ui }) {
-    const layout = Style.getLayoutBlock({
-      flexGrow: 1,
+    const layout = Style.getLayoutFlex({
+      flexFlow: 'column wrap',
+      alignItems: 'center',
+      justifyContent: 'center',
       height: "100%",
     });
     const content = Style.getContentBase({});
@@ -491,8 +496,10 @@ export default class Detail {
   }
 
   static getFooterChildShare({ app, ui }) {
-    const layout = Style.getLayoutBlock({
-      flexGrow: 1,
+    const layout = Style.getLayoutFlex({
+      flexFlow: 'column wrap',
+      alignItems: 'center',
+      justifyContent: 'center',
       height: "100%",
     });
     const content = Style.getContentBase({});
