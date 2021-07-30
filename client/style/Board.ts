@@ -128,7 +128,7 @@ export default class Board {
   }
 
   static getSelfTop({ app, ui }) {
-    return "55px";
+    return Container.getBlockSize({app, ui}) + 5;
   }
 
   static getSelfWidth({ app, ui }, addUnit = false) {
