@@ -95,7 +95,7 @@ export default class Rank {
 
   static getHeaderInput({ app, ui }) {
     const fontSize = ui.screenSize === Ui.screenSizeSmallLabel ? "0.9em" : "1em";
-    const lineHeight = ui.screenSize === Ui.screenSizeSmallLabel ? "0.8em" : "0.9em";
+    const lineHeight = ui.screenSize === Ui.screenSizeSmallLabel ? "0.8em" : "1.4em";
     const layout = Style.getLayoutInlineBlock({
       width: "calc( 100% - 120px )",
       height: "55%",
