@@ -1456,7 +1456,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: "rotate(-45deg) translate3d(0px, 6px, 0px)",
+        transform: "rotate(-45deg) translate3d(0px, 4px, 0px)",
       }),
     });
 
@@ -1469,7 +1469,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: "rotate(-45deg) translate3d(11px, -2px, 0px)",
+        transform: "rotate(-45deg) translate3d(11px, -4px, 0px)",
       }),
     });
     return { div, before, after };
@@ -1500,7 +1500,7 @@ export default class Icon {
       }),
       content: Style.getContentBase(),
       animation: Style.getAnimationBase({
-        transform: "translate3d(-4px, -1px, 0px)",
+        transform: "translate3d(-4px, -3px, 0px)",
       }),
     });
 
@@ -1516,7 +1516,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: "translate3d(-4px, -1px, 0px)",
+        transform: "translate3d(-4px, -3px, 0px)",
       }),
     });
 
@@ -1533,7 +1533,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: "translate3d(-4px, 0px, 0px)",
+        transform: "translate3d(-4px, -2px, 0px)",
       }),
     });
 
@@ -1550,7 +1550,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: "translate3d(-4px, 0px, 0px)",
+        transform: "translate3d(-4px, -2px, 0px)",
       }),
     });
 
@@ -1580,7 +1580,9 @@ export default class Icon {
         margin: `${Icon.getMargin({ app, ui })}px`,
       }),
       content: Style.getContentBase({}),
-      animation: Style.getAnimationBase({}),
+      animation: Style.getAnimationBase({
+        transform: "translate3d(0px, -2px, 0px)",
+      }),
     });
 
     const outer = Style.get({

@@ -42,7 +42,7 @@ export default class MenuFooter extends TalknComponent<MenuFooterProps, MenuFoot
           {UserIcon}
           <div>SOCIAL</div>
         </div>
-        <div style={style.menuFooter.childIndex} {...icon.getDecolationProps1("icon", "index", "div")}>
+        <div style={style.menuFooter.child} {...icon.getDecolationProps1("icon", "index", "div")}>
           {IndexIcon}
           <div style={{ color: Container.themeRGBA }}>RANK</div>
         </div>
