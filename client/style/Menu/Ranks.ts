@@ -2,6 +2,7 @@ import conf from "common/conf";
 import Ui from "client/store/Ui";
 import Style from "../index";
 import Container from "../Container";
+import { CSSProperties } from "styled-components";
 
 export default class Rank {
   static get iconSize() {
@@ -11,14 +12,16 @@ export default class Rank {
     return 90;
   }
 
-  // self: Object;
-  header: Object;
-  headerSearchIcon: Object;
-  headerInput: Object;
-  headerFindSelect: Object;
-  headerUpdateIcon: Object;
-  ol: Object;
-  headerCh: Object;
+  // self: CSSProperties;
+  header: CSSProperties;
+  headerSearchIcon: CSSProperties;
+  headerInput: CSSProperties;
+  headerFindSelect: CSSProperties;
+  headerUpdateIcon: CSSProperties;
+  ol: CSSProperties;
+  headerCh: CSSProperties;
+  tuneButton: CSSProperties;
+  tuneAnchor: CSSProperties;
   constructor(params: any) {
     // const self = Rank.getSelf(params);
     const header = Rank.getHeader(params);
@@ -27,7 +30,8 @@ export default class Rank {
     const headerFindSelect = Rank.getHeaderFindSelect(params);
     const headerUpdateIcon = Rank.getHeaderUpdateIcon(params);
     const ol = Rank.getOl(params);
-
+    const tuneButton = Rank.getTuneButton(params);
+    const tuneAnchor = Rank.getTuneAnchor(params);
     return {
       // self,
       header,
@@ -37,6 +41,8 @@ export default class Rank {
       headerUpdateIcon,
       ol,
       headerCh: {},
+      tuneButton,
+      tuneAnchor
     };
   }
 
@@ -62,12 +68,15 @@ export default class Rank {
           };
 
     const layout = Style.getLayoutFlex({
+      alignItems: "center",
+      justifyContent: "flex-start",
       width: "100%",
       height: `${Container.getBlockSize({ app, ui })}px`,
       ...borders,
       background: Container.lightRGB,
     });
     const content = Style.getContentBase({
+      cursor: 'pointer',
       textAlign: "left",
     });
     const animation = Style.getAnimationBase({
@@ -108,11 +117,13 @@ export default class Rank {
       WebkitAppearance: "none",
     });
     const content = Style.getContentBase({
+      cursor: 'pointer',
       whiteSpace: "nowrap",
       fontSize,
       lineHeight,
       textAlign: "left",
       textIndent: "3%",
+      color: Container.downreliefRGB,
     });
     const animation = Style.getAnimationBase();
 
@@ -187,7 +198,6 @@ export default class Rank {
       zIndex: 3,
       borderRight: `1px solid ${Container.whiteRGB}`,
       background: Container.whiteRGB,
-      //      boxShadow: '5px 5px 5px 5px rgb( 240, 240, 240)',
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -273,6 +283,33 @@ export default class Rank {
       textAlign: "left",
     });
     const animation = Style.getAnimationBase();
+    return Style.get({ layout, content, animation });
+  }
+
+  static getTuneAnchor({ app, ui }) {
+    const layout = Style.getLayoutFlex({
+      width: "130px"
+    });
+    const content = Style.getContentBase({});
+    const animation = Style.getAnimationBase({});
+    return Style.get({ layout, content, animation });
+  }
+
+  static getTuneButton({ app, ui }) {
+    const layout = Style.getLayoutFlex({
+      width: "100%",
+      height: "46px",
+      margin: "0px 0px 0px 10px",
+      background: Container.themeRGB,
+    });
+    const content = Style.getContentBase({
+      color: Container.whiteRGB,
+      fontWeight: "500",
+      borderRadius: "50px",
+      outline: 0,
+      cursor: "pointer"
+    });
+    const animation = Style.getAnimationBase({});
     return Style.get({ layout, content, animation });
   }
 }
