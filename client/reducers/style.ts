@@ -22,6 +22,7 @@ import Icon from "client/style/Icon";
 import Audio from "client/style/Media/Audio";
 import Video from "client/style/Media/Video";
 import Ranks from "client/style/Menu/Ranks";
+import SetChModal from "client/style/Menu/SetChModal";
 
 export default (state: any = {}, action: any) => {
   switch (action.type) {
@@ -123,6 +124,14 @@ export default (state: any = {}, action: any) => {
           links: Icon.getLinks(action),
         },
       };
+    case "TOGGLE_DISP_SET_CH_MODAL":
+      return {
+        ...state,
+        setChModal: {
+          ...state.setChModal,
+            self: SetChModal.getSelf(action),
+        }
+      }
     case "TOGGLE_BUBBLE_POST":
       return {
         ...state,

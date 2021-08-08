@@ -51,6 +51,11 @@ export default {
       thread: { ch: thread.ch },
     };
   },
+  toggleDispSetChModal: ({ app, thread }) => {
+    return {
+      type: "TOGGLE_DISP_SET_CH_MODAL"
+    };
+  },
   onChangeInputPost: (inputPost = "") => {
     inputPost = typeof inputPost === "string" ? inputPost : "";
     return {

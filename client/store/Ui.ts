@@ -265,6 +265,7 @@ export default class Ui extends Schema {
   isOpenNotif: boolean;
   isOpenPostsSupporter: boolean;
   isOpenBoard: boolean;
+  isOpenSetChModal: boolean;
   isBubblePost: boolean;
   isDispPosts: boolean;
   isOpenLinks: boolean;
@@ -318,6 +319,7 @@ export default class Ui extends Schema {
     const isOpenNotif = params.isOpenNotif ? params.isOpenNotif : false;
     const isOpenPostsSupporter = Schema.isSet(params.isOpenPostsSupporter) ? params.isOpenPostsSupporter : false;
     const isOpenBoard = Schema.isSet(params.isOpenBoard) ? params.isOpenBoard : Ui.getIsOpenBoard({ screenSize });
+    const isOpenSetChModal = Schema.isSet(params.isOpenSetChModal) ? params.isOpenSetChModal : false;
     const isBubblePost = Schema.isSet(params.isBubblePost) ? params.isBubblePost : true;
     const isDispPosts = Schema.isSet(params.isDispPosts) ? params.isDispPosts : false;
     const isOpenLinks = Schema.isSet(params.isOpenLinks) ? params.isOpenLinks : false;
@@ -356,6 +358,7 @@ export default class Ui extends Schema {
       isOpenNotif,
       isOpenPostsSupporter,
       isOpenBoard,
+      isOpenSetChModal,
       isBubblePost,
       isDispPosts,
       isOpenLinks,

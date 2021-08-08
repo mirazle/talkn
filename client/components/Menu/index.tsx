@@ -1,11 +1,9 @@
 import React from "react";
-import Thread from "api/store/Thread";
 import TalknComponent from "client/components/TalknComponent";
 import Ui from "client/store/Ui";
-import { Label } from "client/components/common";
 import MenuFooter from "client/components/Menu/Footer";
+import SearchBar from "client/components/Menu/SearchBar";
 import Ch from "client/components/Menu/Ch";
-import Icon from "client/components/common/Icon";
 import ChStyle from "client/style/Menu/common/Ch";
 
 type Props = {
@@ -78,27 +76,11 @@ export default class Menuextends extends TalknComponent<Props, State> {
 
   render() {
     const { style, app } = this.props.state;
-    const { onChangeFindType } = this.props;
-    const { icon } = style;
-    const IconTune = Icon.getTune(icon.tune);
     const { chKeyRanks } = this.state;
     const chKeyRanksAvtive = Boolean(Object.keys(chKeyRanks).length);
     return (
       <div data-component-name={this.componentName} onTransitionEnd={this.transitionEnd} style={style.menu.self}>
-        <header style={style.ranks.header}>
-          <div style={style.ranks.headerSearchIcon}>{IconTune}</div>
-          <div style={style.ranks.headerInput}>{app.rootCh}</div>
-          <div style={style.ranks.headerUpdateIcon}>
-            <select id="ch" onChange={onChangeFindType} style={style.ranks.headerFindSelect}>
-              <option>{Thread.findTypeAll}</option>
-              <option>{Thread.findTypeHtml}</option>
-              <option>{Thread.findTypeMusic}</option>
-              <option>{Thread.findTypeVideo}</option>
-              <option>{Thread.findTypeOther}</option>
-            </select>
-            <Label htmlFor={"ch"} />
-          </div>
-        </header>
+        <SearchBar {...this.props} visibleExt />
         <ol style={style.ranks.ol}>
           {this.renderTuneChLi()}
           {chKeyRanksAvtive && this.renderRankLi()}

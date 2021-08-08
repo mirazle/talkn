@@ -1664,27 +1664,41 @@ export default class Icon {
     return { div };
   }
 
+  static getCloseOptionModal({ app, ui }: any) {
+    const size = Container.getBlockSize({ app, ui });
+    return {
+      div: { position: "absolute", right: 0, transform: `translate( 0px, -${size + 20}px)`},
+    };
+  }
+
   static getClose({ app, ui }: any) {
     const div = Style.get({
-      layout: Style.getLayoutInlineBlock({
-        width: "26px",
-        height: "26px",
+      layout: Style.getLayoutInlineFlex({
+        width: Container.getBlockSize({app, ui}),
+        height: Container.getBlockSize({app, ui}),
         margin: "1px",
       }),
-      content: Style.getContentBase({}),
+      content: Style.getContentBase({
+        cursor: "pointer"
+      }),
       animation: Style.getAnimationBase({}),
     });
 
     const circle = Style.get({
-      layout: Style.getLayoutBlock({
-        position: "absolute",
+      layout: Style.getLayoutFlex({
+        alignItems: "center",
+        justifyContent: "center",
         margin: "0 auto",
-        width: "26px",
-        height: "26px",
-        border: `2px solid ${Container.calmRGB}`,
-        borderRadius: "30px",
+        width: "80%",
+        height: "80%",
+        background: Container.calmRGBA,
+        border: `0px solid ${Container.calmRGB}`,
+        borderRadius: "50%",
+        boxShadow: "0px 0px 4px rgba(100, 100, 100, 1)",
       }),
-      content: Style.getContentBase(),
+      content: Style.getContentBase({
+        cursor: "pointer"
+      }),
       animation: Style.getAnimationBase({
         transform: "translate3d(0px, 0px, 0px) rotate(0deg)",
       }),
@@ -1695,13 +1709,15 @@ export default class Icon {
         position: "absolute",
         margin: "0 auto",
         width: "2px",
-        height: "18px",
-        background: Container.calmRGBA,
+        height: "70%",
+        background: Container.whiteRGBA,
         borderRadius: "2px",
       }),
-      content: Style.getContentBase(),
+      content: Style.getContentBase({
+        cursor: "pointer"
+      }),
       animation: Style.getAnimationBase({
-        transform: "translate3d(10px, 2px, 0px) rotate(45deg)",
+        transform: "translate3d(0px, 0px, 0px) rotate(45deg)",
       }),
     });
 
@@ -1710,24 +1726,29 @@ export default class Icon {
         position: "absolute",
         margin: "0 auto",
         width: "2px",
-        height: "18px",
-        background: Container.calmRGBA,
+        height: "70%",
+        background: Container.whiteRGBA,
         borderRadius: "2px",
       }),
-      content: Style.getContentBase({}),
+      content: Style.getContentBase({
+        cursor: "pointer"
+      }),
       animation: Style.getAnimationBase({
-        transform: "translate3d(10px, 2px, 0px) rotate(-45deg)",
+        transform: "translate3d(0px, 0px, 0px) rotate(-45deg)",
       }),
     });
     return { div, circle, bar1, bar2 };
   }
 
   static getCh({ app, ui }: any) {
+
+//    const color = `rgb(${Container.themeLightRGBString})`;
     const color = Container.lightGrayRGB;
+
     const div = Style.get({
       layout: Style.getLayoutFlex({
-        width: "44px",
-        height: "44px",
+        width: "46px",
+        height: "46px",
       }),
       content: Style.getContentBase({
         cursor: "pointer",
@@ -1735,72 +1756,108 @@ export default class Icon {
       animation: Style.getAnimationBase({}),
     });
 
-    const circle1 = Style.get({
+    const chC = Style.get({
       layout: Style.getLayoutFlex({
         position: "absolute",
-        top: "0px",
-        width: "inherit",
-        height: "inherit",
-        border: `2px solid ${color}`,
-        borderRadius: "30px",
+        top: "30%",
+        left: "3%",
+        width: "44%",
+        height: "44%",
+        border: `4px solid ${color}`,
+        borderRadius: "100%",
       }),
       content: {},
       animation: {},
     });
 
-    const circle2 = Style.get({
+    const chCSpace = Style.get({
       layout: Style.getLayoutFlex({
-        width: "75%",
-        height: "75%",
-        border: `2px solid ${color}`,
-        borderRadius: "30px",
+        position: "absolute",
+        top: "35%",
+        left: "30%",
+        width: "30%",
+        height: "30%",
+        background:Container.lightRGB,
       }),
-      content: Style.getContentBase({
-        cursor: "pointer",
-      }),
-      animation: Style.getAnimationBase({}),
-    });
-
-    const str = Style.get({
-      layout: Style.getLayoutFlex({
-        width: "inherit",
-        height: "inherit",
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: "30px",
-      }),
-      content: Style.getContentBase({
-        lineHeight: 2,
-        color,
-      }),
-      animation: Style.getAnimationBase({}),
-    });
-
-    const commonShadowLayout = {
-      width: "24px",
-      height: "24px",
-      background: Container.lightRGB,
-      position: "absolute",
-      zIndex: 10,
-    };
-
-    const shadow1 = Style.get({
-      layout: { ...commonShadowLayout, top: "-4px" },
       content: {},
       animation: {
-        transform: "rotate(45deg) scale3d(1, 1, 1) skew(-57deg, -57deg)",
+        transform: "rotate(45deg)",
       },
     });
 
-    const shadow2 = Style.get({
-      layout: { ...commonShadowLayout, top: "24px" },
+    const chCCircle1 = Style.get({
+      layout: Style.getLayoutFlex({
+        position: "absolute",
+        top: "37%",
+        left: "33%",
+        width: "9%",
+        height: "9%",
+        background: color,
+        borderRadius: "100%",
+      }),
       content: {},
       animation: {
-        transform: "rotate(45deg) scale3d(1, 1, 1) skew(-57deg, -57deg)",
+        transform: "scale(1) translate(-32%, -60%)",
       },
     });
 
-    return { div, circle1, circle2, str, shadow1, shadow2 };
+    const chCCircle2 = Style.get({
+      layout: Style.getLayoutFlex({
+        position: "absolute",
+        top: "59%",
+        left: "33%",
+        width: "9%",
+        height: "9%",
+        background: color,
+        borderRadius: "100%",
+      }),
+      content: {},
+      animation: {
+        transform: "scale(1) translate(-7%, 30%)",
+      },
+    });
+
+    const chH1 = Style.get({
+      layout: Style.getLayoutFlex({
+        position: "absolute",
+        top: "30%",
+        left: "53%",
+        width: "10%",
+        height: "43%",
+        background: color,
+        borderRadius: "23%",
+      }),
+      content: {},
+      animation: {},
+    });
+
+    const chH2 = Style.get({
+      layout: Style.getLayoutFlex({
+        position: "absolute",
+        top: "30%",
+        left: "79%",
+        width: "10%",
+        height: "43%",
+        background: color,
+        borderRadius: "23%",
+      }),
+      content: {},
+      animation: {},
+    });
+
+    const chH3 = Style.get({
+      layout: Style.getLayoutFlex({
+        position: "absolute",
+        top: "47%",
+        left: "53%",
+        width: "36%",
+        height: "9%",
+        background: color,
+      }),
+      content: {},
+      animation: {},
+    });
+    return { div, chC, chCSpace, chCCircle1, chCCircle2, chH1, chH2, chH3 };
   }
 
   static getUpdate({ app, ui }: any) {
@@ -1933,7 +1990,7 @@ export default class Icon {
       }),
       content: Style.getContentBase({}),
       animation: Style.getAnimationBase({
-        transform: "scale(0.1)",
+        transform: "scale(1)",
       }),
     });
 

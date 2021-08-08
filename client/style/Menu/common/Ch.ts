@@ -172,7 +172,7 @@ export default class Ch {
       width: "initial",
       height: `${height}px`,
       minHeight: `${height}px`,
-      padding: "5px",
+      padding: "16px",
       borderTop: 0,
       borderRight: `1px solid ${Container.whiteRGB}`,
       borderBottom: Container.border,
@@ -196,7 +196,7 @@ export default class Ch {
       width: "initial",
       height: `${height}px`,
       minHeight: `${height}px`,
-      padding: "5px",
+      padding: "16px",
       ...borders,
       background: Ch.unactiveLiSelfBackground,
       cursor: "pointer",
@@ -242,8 +242,8 @@ export default class Ch {
   static getUpperRankWrap(): React.CSSProperties {
     const layout = Style.getLayoutInlineFlex({
       position: "absolute",
-      left: "5px",
-      top: "7px",
+      left: "14px",
+      top: "16px",
       width: Ch.thirdDigitWidth,
       height: "20px",
       background: Ch.rankOtherRGB,
@@ -286,10 +286,10 @@ export default class Ch {
 
   static getBottom({ app, ui }): React.CSSProperties {
     const layout = Style.getLayoutFlex({
-      justifyContent: "center",
+      justifyContent: "flex-start",
       alignItems: "center",
       width: "100%",
-      height: "60%",
+      height: "63%",
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();
@@ -312,7 +312,7 @@ export default class Ch {
 
   static getBottomPost(): React.CSSProperties {
     const layout = Style.getLayoutInlineFlex({
-      width: "60%",
+      width: "65%",
       height: "100%",
       justifyContent: "flex-start",
     });

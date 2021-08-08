@@ -182,6 +182,10 @@ const functions = {
     action.ui.isOpenMenu = !action.ui.isOpenMenu;
     return action;
   },
+  TOGGLE_DISP_SET_CH_MODAL: (state, action) => {
+    action.ui.isOpenSetChModal = !state.ui.isOpenSetChModal;
+    return action;
+  },
   TOGGLE_DISP_BOARD: (state, action) => {
     action.ui.isOpenBoard = !state.ui.isOpenBoard;
     return action;

@@ -14,6 +14,7 @@ import PostsSupporter from "client/components/Input/PostsSupporter";
 import DetailRight from "client/components/Detail/DetailRight";
 import DetailModal from "client/components/Detail/DetailModal";
 import Menu from "client/components/Menu/index";
+import SetChModal from "client/components/Menu/SetChModal";
 import LockMenu from "client/components/Detail/LockMenu";
 import InnerNotif from "client/components/InnerNotif";
 import mapToStateToProps from "client/mapToStateToProps/";
@@ -217,6 +218,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
           <DetailModal {...props} />
           <LockMenu {...props} />
           <InnerNotif {...this.props} />
+          <SetChModal {...this.props} />
           {HideScreenBottom}
         </div>
       </div>
@@ -255,6 +257,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
           <PostsFooter {...props} />
           <Menu {...props} />
           <InnerNotif {...this.props} />
+          <SetChModal {...this.props} />
           {HideScreenBottom}
         </div>
       </div>
@@ -276,6 +279,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
           <PostsFooter {...props} />
           <Menu {...props} />
           <InnerNotif {...this.props} />
+          <SetChModal {...this.props} />
           {HideScreenBottom}
         </div>
       </div>
@@ -297,6 +301,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
           <PostsFooter {...props} />
           <Menu {...props} />
           <InnerNotif {...this.props} />
+          <SetChModal {...this.props} />
           {/*Debug*/}
           {HideScreenBottom}
         </div>

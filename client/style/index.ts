@@ -12,6 +12,7 @@ import Menu from "./Menu";
 import Ranks from "./Menu/Ranks";
 import Ch from "./Menu/common/Ch";
 import MenuUsers from "./Menu/MenuUsers";
+import SetChModal from "./Menu/SetChModal";
 import LockMenu from "./LockMenu";
 import Posts from "./Posts";
 import Post from "./Post";
@@ -26,9 +27,10 @@ import Link from "./Link";
 import Loading from "./Loading";
 import LiveCnt from "./common/LiveCnt";
 import ExtScreen from "./ExtScreen";
+import { CSSProperties } from "react";
 
 export type StyleValue = string | number;
-export type StyleObject = { [key: string]: StyleValue };
+export type StyleCSSProperties = { [key: string]: StyleValue };
 
 export default class Style {
   static get fontBaseRGB() {
@@ -191,6 +193,7 @@ export default class Style {
   ranks: Ranks;
   ch: Ch;
   menuUsers: MenuUsers;
+  setChModal: SetChModal;
   extScreen: ExtScreen;
   lockMenu: LockMenu;
   posts: Posts;
@@ -220,6 +223,7 @@ export default class Style {
     const ranks = new Ranks(params);
     const ch = new Ch(params);
     const menuUsers = new MenuUsers(params);
+    const setChModal = new SetChModal(params);
     const extScreen = new ExtScreen(params);
     const lockMenu = new LockMenu(params);
     const posts = new Posts(params);
@@ -250,6 +254,7 @@ export default class Style {
       ranks,
       ch,
       menuUsers,
+      setChModal,
       extScreen,
       lockMenu,
       posts,
@@ -278,8 +283,8 @@ export default class Style {
   /*  Layout              */
   /************************/
 
-  static getLayoutBase(style = {}): Object {
-    const baseLayout: Object = {
+  static getLayoutBase(style = {}): CSSProperties {
+    const baseLayout: CSSProperties = {
       display: "block",
       boxSizing: "border-box",
       overflow: "hidden",
@@ -291,7 +296,6 @@ export default class Style {
       maxHeight: "inherit",
       padding: 0,
       margin: 0,
-      font: 0,
       lineHeight: 1,
       listStyle: "none",
       userSelect: "none",
@@ -302,20 +306,19 @@ export default class Style {
       border: 0,
       borderRadius: 0,
       zIndex: 1,
-      align: "center",
     };
     return { ...baseLayout, ...style };
   }
 
-  static getLayoutGrid(style = {}): Object {
-    const blockLayout: Object = Style.getLayoutBase({
+  static getLayoutGrid(style = {}): CSSProperties {
+    const blockLayout: CSSProperties = Style.getLayoutBase({
       display: "grid",
     });
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutFlex(style = {}): Object {
-    const blockLayout: Object = Style.getLayoutBase({
+  static getLayoutFlex(style = {}): CSSProperties {
+    const blockLayout: CSSProperties = Style.getLayoutBase({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -325,8 +328,8 @@ export default class Style {
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutInlineFlex(style = {}): Object {
-    const blockLayout: Object = Style.getLayoutBase({
+  static getLayoutInlineFlex(style = {}): CSSProperties {
+    const blockLayout: CSSProperties = Style.getLayoutBase({
       display: "inline-flex",
       justifyContent: "center",
       alignItems: "center",
@@ -336,44 +339,44 @@ export default class Style {
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutTable(style = {}): Object {
-    const blockLayout: Object = Style.getLayoutBase({
+  static getLayoutTable(style = {}): CSSProperties {
+    const blockLayout: CSSProperties = Style.getLayoutBase({
       display: "table",
     });
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutTableRow(style = {}): Object {
-    const blockLayout: Object = Style.getLayoutBase({
+  static getLayoutTableRow(style = {}): CSSProperties {
+    const blockLayout: CSSProperties = Style.getLayoutBase({
       display: "table-row",
     });
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutTableCol(style = {}): Object {
-    const blockLayout: Object = Style.getLayoutBase({
+  static getLayoutTableCol(style = {}): CSSProperties {
+    const blockLayout: CSSProperties = Style.getLayoutBase({
       display: "table-cell",
     });
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutFlexChild(style = {}): Object {
-    const blockLayout: Object = Style.getLayoutBase({
+  static getLayoutFlexChild(style = {}): CSSProperties {
+    const blockLayout: CSSProperties = Style.getLayoutBase({
       width: "auto",
       height: "auto",
     });
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutBlock(style = {}): Object {
-    const blockLayout: Object = Style.getLayoutBase({
+  static getLayoutBlock(style = {}): CSSProperties {
+    const blockLayout: CSSProperties = Style.getLayoutBase({
       display: "block",
     });
     return { ...blockLayout, ...style };
   }
 
-  static getLayoutInlineBlock(style = {}): Object {
-    const inlineBlockLayout: Object = Style.getLayoutBase({
+  static getLayoutInlineBlock(style = {}): CSSProperties {
+    const inlineBlockLayout: CSSProperties = Style.getLayoutBase({
       display: "inline-block",
       align: "center",
       verticalAlign: "middle",
@@ -381,8 +384,8 @@ export default class Style {
     return { ...inlineBlockLayout, ...style };
   }
 
-  static getLayoutInline(style = {}): Object {
-    const blockLayout: Object = Style.getLayoutBase({
+  static getLayoutInline(style = {}): CSSProperties {
+    const blockLayout: CSSProperties = Style.getLayoutBase({
       display: "inline",
     });
     return { ...blockLayout, ...style };
@@ -392,9 +395,9 @@ export default class Style {
   /* Content              */
   /************************/
 
-  static getContentBase(style = {}): Object {
-    const contentBase: Object = {
-      wordWrap: "breakWord",
+  static getContentBase(style = {}): CSSProperties {
+    const contentBase: CSSProperties = {
+      wordWrap: "break-word",
       whiteSpace: "normal",
       quotes: "none",
       content: "none",
@@ -404,8 +407,8 @@ export default class Style {
     return { ...contentBase, ...fontBase, ...style };
   }
 
-  static getFontBase(style = {}): Object {
-    const fontBase: Object = {
+  static getFontBase(style = {}): CSSProperties {
+    const fontBase: CSSProperties = {
       letterSpacing: "inherit",
       lineHeight: "inherit",
       textAlign: "center",
@@ -413,7 +416,7 @@ export default class Style {
       fontWeight: 300,
       fontSize: "inherit",
       fontFamily:
-        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK JP", "Original Yu Gothic", "Yu Gothic", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Sans Emoji"',
+        '-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hiragino Sans,Noto Sans CJK JP,Original Yu Gothic,Yu Gothic,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Sans Emoji',
     };
     return { ...fontBase, ...style };
   }
@@ -422,9 +425,9 @@ export default class Style {
   /* Animation            */
   /************************/
 
-  static getAnimationBase(style = {}): Object {
+  static getAnimationBase(style = {}): CSSProperties {
     const animationBase = {
-      transition: Container.transitionOff,
+      transition: `${Container.transitionOff}ms`,
       transform: "translate3d(0px, 0px, 0px)",
     };
     return { ...animationBase, ...style };

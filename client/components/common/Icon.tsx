@@ -566,16 +566,28 @@ export default class Icon extends TalknComponent<{}, {}> {
     const style: any = Icon.getOveredStyle(IconStyle.getCh(params), overStyle);
     return (
       <div data-component-type={"IconCh"} style={style.div}>
+        <div data-component-type={"IconChC"} style={style.chC} />
+        <div data-component-type={"IconCSpace"} style={style.chCSpace} />
+        <div data-component-type={"IconChCircle1"} style={style.chCCircle1} />
+        <div data-component-type={"IconChCircle2"} style={style.chCCircle2} />
+        <div data-component-type={"IconChH1"} style={style.chH1} />
+        <div data-component-type={"IconChH2"} style={style.chH2} />
+        <div data-component-type={"IconChH3"} style={style.chH3} />
+      </div>
+
+      /*
+      <div data-component-type={"IconCh"} style={style.div}>
         <div data-component-type={"IconChCircle1"} style={style.circle1}>
           <div data-component-type={"IconChCircle2"} style={style.circle2}>
             <div data-component-type={"IconChStr"} style={style.str}>
-              CH
+                CH
             </div>
           </div>
         </div>
         <div data-component-type={"IconShadow1"} style={style.shadow1} />
         <div data-component-type={"IconShadow2"} style={style.shadow2} />
       </div>
+      */
     );
   }
 

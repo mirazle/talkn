@@ -67,6 +67,7 @@ class Express {
 
   routingHttps(req, res, next) {
     let language = "en";
+    console.log(req.headers.host);
     switch (req.headers.host) {
       case conf.newsURL:
         /*
@@ -196,7 +197,6 @@ class Express {
         let ch = "/";
         let hasSlash = false;
         language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
-
         if (
           req.originalUrl === "/robots.txt" ||
           req.originalUrl === "/manifest.json" ||
@@ -218,7 +218,7 @@ class Express {
           /*
           MultiChBootはreq.originalUrlのpathnameで配列形式でリクエストを受け付ける
         */
-
+          
           // ポータル以外からアクセス
           if (req.headers.referer) {
             const referer = req.headers.referer.replace("https:/", "").replace("http:/", "");
