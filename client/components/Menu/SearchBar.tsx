@@ -1,4 +1,6 @@
 import React from "react";
+
+import Sequence from "api/Sequence";
 import Thread from "api/store/Thread";
 import conf from "client/conf";
 import TalknComponent from "client/components/TalknComponent";
@@ -45,8 +47,10 @@ export default class SearchBar extends TalknComponent<Props, State> {
       this.clientAction("TOGGLE_DISP_SET_CH_MODAL")
     };
     const tuneCh = (inputValue?: string) => {
-      const _href = inputValue ? inputValue : this.state.inputValue;
-      const href = _href.replace("https:/", "").replace("http:/", "").replace(/^\//, "");
+      let href = inputValue ? inputValue : this.state.inputValue;
+      href = href.replace("https:/", "").replace("http:/", "");
+//      href = href.lastIndexOf("/") === 0 ? href : `${href}/`;
+      href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${href}`;
       console.log(href);
       window.document.location.href = href;
     };
