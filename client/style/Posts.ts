@@ -5,6 +5,7 @@ import Container from "./Container";
 import Menu from "./Menu";
 import Detail from "./Detail";
 import Video from "./Media/Video";
+import { CSSProperties } from "styled-components";
 
 export default class Posts {
   static getSelfDisplay({ app, ui }) {
@@ -43,17 +44,20 @@ export default class Posts {
     return addUnit ? Style.trimUnit(width) : width;
   }
 
-  self: Object;
-  ol: Object;
-  more: Object;
+  self: CSSProperties;
+  ol: CSSProperties;
+  more: CSSProperties;
+  firstAction: CSSProperties;
   constructor(params) {
     const self = Posts.getSelf(params);
     const ol = Posts.getOl(params);
     const more = Posts.getMore(params);
+    const firstAction = Posts.getFirstAction(params);
     return {
       self,
       ol,
       more,
+      firstAction,
     };
   }
 
@@ -292,6 +296,26 @@ export default class Posts {
     const content = Style.getContentBase({
       color: Container.whiteRGB,
       cursor: "pointer",
+    });
+    const animation = Style.getAnimationBase();
+    return Style.get({ layout, content, animation });
+  }
+
+  static getFirstAction({ app, ui }) {
+    const layout = Style.getLayoutFlex({
+      flexFlow: "column wrap",
+      alignItems: "center",
+      justifyContent: "center",
+      width: "calc(100% - 120px)",
+      height: "auto",
+      padding: "20px",
+      margin: "60px",
+      background: Container.darkLightRGBA,
+      borderRadius: "10px",
+    });
+    const content = Style.getContentBase({
+      lineHeight: "2em",
+      color: Container.whiteRGB,
     });
     const animation = Style.getAnimationBase();
     return Style.get({ layout, content, animation });
