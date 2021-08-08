@@ -47,7 +47,8 @@ export default class SearchBar extends TalknComponent<Props, State> {
     const tuneCh = (inputValue?: string) => {
       const _href = inputValue ? inputValue : this.state.inputValue;
       const href = _href.replace("https:/", "").replace("http:/", "");
-      window.document.location.href = href;
+      console.log(href);
+//      window.document.location.href = href;
     };
     const inputNode = editMode ? (
       <input
