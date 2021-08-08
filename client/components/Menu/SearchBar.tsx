@@ -26,6 +26,12 @@ export default class SearchBar extends TalknComponent<Props, State> {
     this.componentName = 'SetChModal';
     this.state = { inputValue: app.rootCh };
   }
+
+  componentDidUpdate(nextProps) {
+    if (this.state.inputValue !== nextProps.state.thread.ch) {
+      this.setState({inputValue:  nextProps.state.thread.ch});
+    }
+  }
   
   render() {
     const { inputValue } = this.state;
@@ -34,7 +40,6 @@ export default class SearchBar extends TalknComponent<Props, State> {
     const { icon } = style;
     const IconCh = Icon.getCh(icon.ch);
     const handleOnClick = () => {
-      console.log(this.state.inputValue);
       this.clientAction("TOGGLE_DISP_SET_CH_MODAL")
     };
     const tuneCh = (inputValue?: string) => {
