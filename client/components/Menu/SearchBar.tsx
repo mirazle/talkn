@@ -47,13 +47,12 @@ export default class SearchBar extends TalknComponent<Props, State> {
       this.clientAction("TOGGLE_DISP_SET_CH_MODAL")
     };
     const tuneCh = (inputValue?: string) => {
-      let href = inputValue ? inputValue : this.state.inputValue;
-      href = href.replace("https:/", "").replace("http:/", "");
-//      href = href.lastIndexOf("/") === 0 ? href : `${href}/`;
-      href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${href}`;
-      console.log(href);
-//      window.document.location.href = href;
+      let linkTo = inputValue ? inputValue : this.state.inputValue;
+      linkTo = linkTo.replace("https:/", "").replace("http:/", "");
+      linkTo = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${linkTo}`;
+      window.document.location.href = linkTo;
     };
+
     const inputNode = editMode ? (
       <input
         type="text"
@@ -76,7 +75,7 @@ export default class SearchBar extends TalknComponent<Props, State> {
       <header style={style.ranks.header}>
         <div onClick={handleOnClick} style={style.ranks.headerSearchIcon}>{IconCh}</div>
         {inputNode}
-        {visibleTune && <a href={inputValue} style={style.ranks.tuneAnchor}><button onClick={() => tuneCh()} style={style.ranks.tuneButton}>TUNE</button></a>}
+        {visibleTune && <button onClick={() => tuneCh()} style={style.ranks.tuneButton}>TUNE</button>}
         {visibleExt &&
           <div style={style.ranks.headerUpdateIcon}>
             <select id="ch" onChange={onChangeFindType} style={style.ranks.headerFindSelect}>

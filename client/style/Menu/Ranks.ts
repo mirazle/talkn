@@ -298,6 +298,7 @@ export default class Rank {
   static getTuneButton({ app, ui }) {
     const layout = Style.getLayoutFlex({
       width: "100%",
+      maxWidth: "130px",
       height: "46px",
       margin: "0px 0px 0px 10px",
       background: Container.themeRGB,

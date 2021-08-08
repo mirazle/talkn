@@ -48,7 +48,7 @@ export default class User extends Schema {
 
   static getHref(params: any = {}) {
     if (typeof window !== "undefined" && window.location && window.location.href) {
-      return window.location.href;
+      // return window.location.href;
     }
 
     if (params && params.href) {
