@@ -185,52 +185,63 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
     let dispPosts = [];
     let beforeDiffDay: number = 0;
 
-    // Add time marker.
-    for (let i = 0; i < postCnt; i++) {
-      let timeLabel = "";
-      const post = posts[i];
-      const postYmdhis = DateHelper.getMongoYmdhis(post.createTime);
-      const diffDay = DateHelper.getDiffDay(nowDate, postYmdhis);
-      if (!app.isMediaCh) {
-        const isDispTimeMarker = i === 0 ? true : beforeDiffDay !== diffDay;
-        beforeDiffDay = diffDay;
-        if (isDispTimeMarker) {
-          switch (diffDay) {
-            case 0:
-              timeLabel = todayLabel;
-              break;
-            case 1:
-              timeLabel = yesterdayLabel;
-              break;
-            default:
-              timeLabel = `(${postYmdhis.Day})${postYmdhis.M}/${postYmdhis.D}`;
-              break;
-          }
 
-          dispPosts.push(
-            <TimeMarker
-              key={`TimeMarker${i}_${timeLabel}`}
-              type="List"
-              label={timeLabel}
-              style={style.timeMarker.self}
-            />
-          );
-        }
-      }
-
+    if (postCnt === 0) {
       dispPosts.push(
-        <Post
-          key={`${post._id}_${i}`}
-          id={post._id}
-          post={post}
-          app={app}
-          ui={ui}
-          childLayerCnt={post.layer - thread.layer}
-          style={style.post}
-          onClickPost={this.handleOnClickPost}
-        />
+        <div style={style.posts.firstAction}>
+          <div>No posts yet.</div>
+          <div>Let's make the first post.</div>
+        </div>
       );
+    } else {
+      // Add time marker.
+      for (let i = 0; i < postCnt; i++) {
+        let timeLabel = "";
+        const post = posts[i];
+        const postYmdhis = DateHelper.getMongoYmdhis(post.createTime);
+        const diffDay = DateHelper.getDiffDay(nowDate, postYmdhis);
+        if (!app.isMediaCh) {
+          const isDispTimeMarker = i === 0 ? true : beforeDiffDay !== diffDay;
+          beforeDiffDay = diffDay;
+          if (isDispTimeMarker) {
+            switch (diffDay) {
+              case 0:
+                timeLabel = todayLabel;
+                break;
+              case 1:
+                timeLabel = yesterdayLabel;
+                break;
+              default:
+                timeLabel = `(${postYmdhis.Day})${postYmdhis.M}/${postYmdhis.D}`;
+                break;
+            }
+
+            dispPosts.push(
+              <TimeMarker
+                key={`TimeMarker${i}_${timeLabel}`}
+                type="List"
+                label={timeLabel}
+                style={style.timeMarker.self}
+              />
+            );
+          }
+        }
+
+        dispPosts.push(
+          <Post
+            key={`${post._id}_${i}`}
+            id={post._id}
+            post={post}
+            app={app}
+            ui={ui}
+            childLayerCnt={post.layer - thread.layer}
+            style={style.post}
+            onClickPost={this.handleOnClickPost}
+          />
+        );
+      }      
     }
+
     return dispPosts;
   }
 
@@ -278,7 +289,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
   }
 
   renderFixMarker(props): React.ReactNode {
-    const { app, thread, ui, uiTimeMarker, style } = this.props.state;
+    const { app, ui, uiTimeMarker, style } = this.props.state;
     if (app.isMediaCh) {
       return undefined;
     } else {

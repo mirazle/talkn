@@ -39,7 +39,7 @@ export default class SearchBar extends TalknComponent<Props, State> {
   
   render() {
     const { inputValue } = this.state;
-    const { style, app, thread } = this.props.state;
+    const { style } = this.props.state;
     const { onChangeFindType, editMode = false, visibleTune = false, visibleExt = false} = this.props;
     const { icon } = style;
     const IconCh = Icon.getCh(icon.ch);
