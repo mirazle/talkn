@@ -28,13 +28,8 @@ export default class SearchBar extends TalknComponent<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log("@actionLog " + nextProps.state.actionLog[0]);
-    console.log("@actioned " + nextProps.state.actioned[0]);
     if (nextProps.state.actionLog[0] === "API_TO_CLIENT[EMIT]:fetchPosts") {
-      console.log("B");
-      console.log(this.state.inputValue, nextProps.state.thread.ch);
       if (this.state.inputValue !== nextProps.state.thread.ch) {
-console.log("SET STATE");
         this.setState({ inputValue: nextProps.state.thread.ch });
       }
     }
