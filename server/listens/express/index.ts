@@ -67,7 +67,6 @@ class Express {
 
   routingHttps(req, res, next) {
     let language = "en";
-    console.log(req.headers.host);
     switch (req.headers.host) {
       case conf.newsURL:
         /*
@@ -213,7 +212,17 @@ class Express {
 
         // No Assests Url
         if (`/${req.originalUrl}/` !== conf.assetsPath) {
+
+          console.log(`@@@ ${req.originalUrl}`);
+          if (req.originalUrl.indexOf("/https:/") >= 0 || req.originalUrl.indexOf("/http:/") >= 0) {
+            const redirectUrl = req.originalUrl.replace("/https:/", "").replace("/http:/", "");
+            console.log(`@ ${redirectUrl}`);
+            res.redirect(redirectUrl);
+            return true;
+          }
+
           portalUrlSearch = req.originalUrl.indexOf(`https://${conf.domain}`) !== false;
+
 
           /*
           MultiChBootはreq.originalUrlのpathnameで配列形式でリクエストを受け付ける

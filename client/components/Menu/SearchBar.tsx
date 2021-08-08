@@ -33,6 +33,15 @@ export default class SearchBar extends TalknComponent<Props, State> {
     const { onChangeFindType, editMode = false, visibleTune = false, visibleExt = false} = this.props;
     const { icon } = style;
     const IconCh = Icon.getCh(icon.ch);
+    const handleOnClick = () => {
+      console.log(this.state.inputValue);
+      this.clientAction("TOGGLE_DISP_SET_CH_MODAL")
+    };
+    const tuneCh = (inputValue?: string) => {
+      const _href = inputValue ? inputValue : this.state.inputValue;
+      const href = _href.replace("https:/", "").replace("http:/", "");
+      window.document.location.href = href;
+    };
     const inputNode = editMode ? (
       <input
         type="text"
@@ -43,19 +52,19 @@ export default class SearchBar extends TalknComponent<Props, State> {
         onChange={(e) => this.setState({ inputValue: e.target.value })}
         onKeyPress={(e) => {
           if (e.key === "Enter") {
-            window.document.location.href = inputValue;
+            tuneCh();
           }
         }}
       ></input>
     ) : (
-       <div onClick={() => this.clientAction("TOGGLE_DISP_SET_CH_MODAL")} style={style.ranks.headerInput}>{inputValue}</div>
+       <div onClick={handleOnClick} style={style.ranks.headerInput}>{inputValue}</div>
     );
 
     return (
       <header style={style.ranks.header}>
-        <div style={style.ranks.headerSearchIcon}>{IconCh}</div>
+        <div onClick={handleOnClick} style={style.ranks.headerSearchIcon}>{IconCh}</div>
         {inputNode}
-        {visibleTune && <a href={inputValue} style={style.ranks.tuneAnchor}><button style={style.ranks.tuneButton}>TUNE</button></a>}
+        {visibleTune && <a href={inputValue} style={style.ranks.tuneAnchor}><button onClick={() => tuneCh()} style={style.ranks.tuneButton}>TUNE</button></a>}
         {visibleExt &&
           <div style={style.ranks.headerUpdateIcon}>
             <select id="ch" onChange={onChangeFindType} style={style.ranks.headerFindSelect}>

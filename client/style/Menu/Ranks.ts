@@ -154,7 +154,7 @@ export default class Rank {
       justifyContent: "center",
       background: "transparent",
       WebkitAppearance: "none",
-      padding: "10px",
+      padding: "10px 4px 10px 10px",
     });
     const content = Style.getContentBase({
       outline: 0,
