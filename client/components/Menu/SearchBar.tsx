@@ -52,7 +52,7 @@ export default class SearchBar extends TalknComponent<Props, State> {
 //      href = href.lastIndexOf("/") === 0 ? href : `${href}/`;
       href = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${href}`;
       console.log(href);
-      window.document.location.href = href;
+//      window.document.location.href = href;
     };
     const inputNode = editMode ? (
       <input
