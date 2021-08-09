@@ -185,8 +185,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
     let dispPosts = [];
     let beforeDiffDay: number = 0;
 
-
-    if (postCnt === 0) {
+    if (postCnt === 0 && !ui.isLoading && app.tuned !== "") {
       dispPosts.push(
         <div style={style.posts.firstAction}>
           <div>Hello, Friend😁</div>
