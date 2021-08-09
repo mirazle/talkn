@@ -20,15 +20,17 @@ export default class LiveCnt {
 
   static getSelf({ app, ui }) {
     const div = Style.get({
-      layout: Style.getLayoutInlineBlock({
-        width: "26px",
-        height: "26px",
+      layout: Style.getLayoutInlineFlex({
+        alignItems: "center",
+        justifyContent: "center",
+        width: "30px",
+        height: "30px",
         background: `rgba(${Container.themeRGBString}, 0.85)`,
-        borderRadius: "26px",
+        borderRadius: "30px",
         boxShadow: LiveCnt.selfBoxShadowOffHighlight,
       }),
       content: Style.getContentBase({
-        fontSize: "0.7em",
+        fontSize: "0.8em",
         textAlign: "center",
       }),
       animation: Style.getAnimationBase({

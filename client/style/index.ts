@@ -2,7 +2,6 @@ import Container from "./Container";
 import Detail from "./Detail";
 import DetailFooter from "./DetailFooter";
 import EmotionGraph from "./EmotionGraph";
-import Top from "./Top";
 import Header from "./Header";
 import Footer from "./Footer";
 import PostsSupporter from "./PostsSupporter";
@@ -185,7 +184,6 @@ export default class Style {
   }
 
   container: Container;
-  top: Top;
   header: Header;
   footer: Footer;
   postsSupporter: PostsSupporter;
@@ -216,7 +214,6 @@ export default class Style {
   loading: Loading;
   constructor(params) {
     const container = new Container(params);
-    const top = new Top(params);
     const header = new Header(params);
     const footer = new Footer(params);
     const postsSupporter = new PostsSupporter(params);
@@ -247,7 +244,6 @@ export default class Style {
     const loading = new Loading(params);
     return {
       container,
-      top,
       header,
       footer,
       postsSupporter,

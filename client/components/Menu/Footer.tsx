@@ -28,10 +28,10 @@ export default class MenuFooter extends TalknComponent<MenuFooterProps, MenuFoot
 
   render() {
     const { style, app, ui } = this.props.state;
-    const UserIcon = Icon.getUser({ app, ui }, {});
-    const IndexIcon = Icon.getIndex({ app, ui }, MenuFooter.getIndexBackground());
-    const Logs = Icon.getLogs({ app, ui }, {});
-    const Setting = Icon.getSetting({ app, ui }, {});
+    const SocialIcon = Icon.getSvg({ app, ui }, { key: 'social', active: false});
+    const RankIcon = Icon.getSvg({ app, ui }, { key: 'rank', active: false});
+    const LogsIcon = Icon.getSvg({ app, ui }, { key: 'logs', active: false});
+    const SettingIcon = Icon.getSvg({ app, ui }, { key: 'setting', active: false});
     return (
       <div data-component-name={this.componentName} style={style.menuFooter.self}>
         <div
@@ -39,19 +39,19 @@ export default class MenuFooter extends TalknComponent<MenuFooterProps, MenuFoot
           onClick={() => this.clientAction("OPEN_INNER_NOTIF")}
           {...icon.getDecolationProps1("icon", "user", "div")}
         >
-          {UserIcon}
+          {SocialIcon}
           <div>SOCIAL</div>
         </div>
         <div style={style.menuFooter.child} {...icon.getDecolationProps1("icon", "index", "div")}>
-          {IndexIcon}
-          <div style={{ color: Container.themeRGBA }}>RANK</div>
+          {RankIcon}
+          <div style={{ color: Container.themeRGBA, fontWeight: 600 }}>RANK</div>
         </div>
         <div
           style={style.menuFooter.child}
           onClick={() => this.clientAction("OPEN_INNER_NOTIF")}
           {...icon.getDecolationProps1("icon", "logs", "div")}
         >
-          {Logs}
+          {LogsIcon}
           <div>LOGS</div>
         </div>
         <div
@@ -59,7 +59,7 @@ export default class MenuFooter extends TalknComponent<MenuFooterProps, MenuFoot
           onClick={() => this.clientAction("OPEN_INNER_NOTIF")}
           {...icon.getDecolationProps1("icon", "setting", "div")}
         >
-          {Setting}
+          {SettingIcon}
           <div>SETTING</div>
         </div>
       </div>
