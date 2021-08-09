@@ -310,7 +310,7 @@ export default class Posts {
       height: "auto",
       padding: "20px",
       margin: "60px",
-      background: Container.darkLightRGBA,
+      background: Container.themeRGBA,
       borderRadius: "10px",
     });
     const content = Style.getContentBase({
