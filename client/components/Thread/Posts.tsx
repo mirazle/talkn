@@ -189,8 +189,8 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
     if (postCnt === 0) {
       dispPosts.push(
         <div style={style.posts.firstAction}>
-          <div>No posts yet.</div>
-          <div>Let's make the first post.</div>
+          <div>Hello, Friend!</div>
+          <div>Let's make the first post😁</div>
         </div>
       );
     } else {
