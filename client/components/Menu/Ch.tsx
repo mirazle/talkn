@@ -52,7 +52,7 @@ export default class Ch extends MarqueeArea<ChProps, ChState> {
         bgStyle: {
           ...this.state.bgStyle,
           boxShadow: `${ContainerStyle.lineShadow},
-            0px 0px 70px rgba(${ContainerStyle.themeSuperLightRGBString}, 1) inset,
+            0px 0px 500px rgba(${ContainerStyle.themeSuperLightRGBString}, 1) inset,
             0px 0px 0px rgba(${ContainerStyle.themeSuperLightRGBString}, 1)`,
           zIndex: 10,
         },
@@ -62,8 +62,8 @@ export default class Ch extends MarqueeArea<ChProps, ChState> {
           bgStyle: {
             ...this.state.bgStyle,
             boxShadow: `${ContainerStyle.lineShadow},
-            0px 0px 35px rgba(${ContainerStyle.themeSuperLightRGBString}, 1) inset,
-            0px 0px 20px rgba(${ContainerStyle.themeSuperLightRGBString}, 1)`,
+            0px 0px 400px rgba(${ContainerStyle.themeSuperLightRGBString}, 1) inset,
+            0px 0px 15px rgba(${ContainerStyle.themeSuperLightRGBString}, 1)`,
             zIndex: 10,
           },
         });
@@ -78,8 +78,8 @@ export default class Ch extends MarqueeArea<ChProps, ChState> {
               zIndex: 1,
             },
           });
-        }, 400);
-      }, 100);
+        }, 200);
+      }, 0);
     }
   }
 
@@ -152,7 +152,7 @@ export default class Ch extends MarqueeArea<ChProps, ChState> {
     const marqueeStyle: any = this.getMarqueeStyle();
     return (
       <li
-        key={ch}
+        key={`${rankNum}.${ch}`}
         data-component-name={this.componentName}
         style={bgStyle}
         onClick={this.handleOnClick}
