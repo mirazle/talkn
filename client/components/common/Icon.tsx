@@ -229,10 +229,18 @@ export default class Icon extends TalknComponent<{}, {}> {
     };
   }
 
+  static getSvg({ app, ui }, option = { active: false, key: '' }) {
+    const style = IconStyle.getSvg({app, ui}, option);
+    return (
+      <i data-component-type={`IconSvg:${option.key}`} style={style} />
+    );
+  }
+
   static getEmpty(state: any = {}, overStyle, option: any = {}) {
     const style = Icon.getOveredStyle(IconStyle.getEmpty(state, option), overStyle);
     return <div data-component-type={"IconEmpty"} style={style} />;
   }
+
   /*
   static getMultistreamIcon(props) {
     const { state } = props;

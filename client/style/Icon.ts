@@ -33,6 +33,7 @@ export default class Icon {
     return ui.screenSize === Ui.screenSizeSmallLabel ? Icon.smallMargin : Icon.largeMargin;
   }
 
+  svg: Object;
   headTab: Object;
   menu: Object;
   talknLogo: Object;
@@ -62,6 +63,7 @@ export default class Icon {
   stampLabel: Object;
   constructor(params: any) {
     const bootOption = { ...params.bootOption, ...params.app };
+    const svg= Icon.getSvg(params);
     const headTab = Icon.getHeadTab(params);
     const menu = Icon.getMenu(params);
     const talknLogo = Icon.getTalknLogo(params);
@@ -90,6 +92,7 @@ export default class Icon {
     const stampStr = Icon.getStampStr(params);
     const stampLabel = Icon.getStampLabel(params);
     return {
+      svg,
       headTab,
       menu,
       talknLogo,
@@ -118,6 +121,33 @@ export default class Icon {
       stampStr,
       stampLabel,
     };
+  }
+
+  static getSvg({ app, ui }, option = { active: false, key: '' }) {
+    const sizePx = Icon.smallSize;
+    const cursor = "pointer";
+    const margin = ui.screenSize === Ui.screenSizeSmallLabel ? "0" ": "4px 0 6px";
+    return Style.get({
+      layout: Style.getLayoutFlex({
+        width: sizePx,
+        maxWidth: sizePx,
+        minWidth: sizePx,
+        height: sizePx,
+        maxHeight: sizePx,
+        minHeight: sizePx,
+        margin,
+        backgroundSize: sizePx,
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundImage: `url("//${conf.assetsURL}/client/${option.key}.svg")`,
+      }),
+      content: Style.getContentBase({
+        cursor,
+      }),
+      animation: Style.getAnimationBase({
+        transform: `scale( 1 ) translate3d( 0px, 0px, 0px )`,
+      }),
+    });
   }
 
   static getEmpty({ app, ui }: any, option: any = {}) {
