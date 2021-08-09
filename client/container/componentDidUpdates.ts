@@ -27,12 +27,15 @@ const componentDidUpdates = {
     "API_TO_CLIENT[EMIT]:fetchPosts": (self) => {
       const { app, ui } = self.props.state;
       const Posts = document.querySelector("[data-component-name=Posts]");
+
       ui.postsHeight += window.talknWindow.dom.getPostsHeight();
       self.props.updatePostsHeight(ui.postsHeight);
       switch (ui.screenSize) {
         case Ui.screenSizeLargeLabel:
         case Ui.screenSizeSmallLabel:
-          Posts.scrollTop = 99999999;
+          if (Posts) {
+            Posts.scrollTop = 99999999;
+          }
           break;
         case Ui.screenSizeMiddleLabel:
           window.scrollTo(0, 99999999);

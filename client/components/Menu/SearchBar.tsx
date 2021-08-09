@@ -10,7 +10,8 @@ import Icon from "client/components/common/Icon";
 type Props = {
   state: any;
   onChangeFindType?: any;
-  openMenuTransitionEnd?: any;
+  theme?: "gray" | "transparent";
+  borderRadius?: boolean;
   editMode?: boolean;
   visibleTune?: boolean;
   visibleExt?: boolean;
@@ -38,9 +39,9 @@ export default class SearchBar extends TalknComponent<Props, State> {
   }
   
   render() {
+    const { state: propsState, onChangeFindType, theme = "gray", borderRadius = false, editMode = false, visibleTune = false, visibleExt = false} = this.props;
     const { inputValue } = this.state;
-    const { style } = this.props.state;
-    const { onChangeFindType, editMode = false, visibleTune = false, visibleExt = false} = this.props;
+    const { style } = propsState;
     const { icon } = style;
     const IconCh = Icon.getCh(icon.ch);
     const handleOnClick = () => {
