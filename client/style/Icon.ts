@@ -126,7 +126,7 @@ export default class Icon {
   static getSvg({ app, ui }, option = { active: false, key: '' }) {
     const sizePx = Icon.smallSize;
     const cursor = "pointer";
-    const margin = ui.screenSize === Ui.screenSizeSmallLabel ? "0" ": "4px 0 6px";
+    const margin = ui.screenSize === Ui.screenSizeSmallLabel ? "0": "4px 0 6px";
     return Style.get({
       layout: Style.getLayoutFlex({
         width: sizePx,
