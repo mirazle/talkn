@@ -51,6 +51,7 @@ export default class SearchBar extends TalknComponent<Props, State> {
       let linkTo = inputValue ? inputValue : this.state.inputValue;
       linkTo = linkTo.replace("https:/", "").replace("http:/", "");
       linkTo = `${Sequence.HTTPS_PROTOCOL}//${conf.domain}${linkTo}`;
+      linkTo = linkTo.indexOf("/") === 0 ? linkTo : `/${linkTo}`;
       window.document.location.href = linkTo;
     };
 
