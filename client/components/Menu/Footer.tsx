@@ -27,11 +27,11 @@ export default class MenuFooter extends TalknComponent<MenuFooterProps, MenuFoot
   }
 
   render() {
-    const { style, app, ui } = this.props.state;
-    const SocialIcon = Icon.getSvg({ app, ui }, { key: 'social', active: false});
-    const RankIcon = Icon.getSvg({ app, ui }, { key: 'rankOn', active: false});
-    const LogsIcon = Icon.getSvg({ app, ui }, { key: 'logs', active: false});
-    const SettingIcon = Icon.getSvg({ app, ui }, { key: 'setting', active: false});
+    const { style } = this.props.state;
+    const SocialIcon = Icon.getSvgSocial();
+    const RankIcon = Icon.getSvgRank();
+    const LogsIcon = Icon.getSvgLogs();
+    const SettingIcon = Icon.getSvgSetting();
     return (
       <div data-component-name={this.componentName} style={style.menuFooter.self}>
         <div
