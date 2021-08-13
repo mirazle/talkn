@@ -1,18 +1,24 @@
 import https from "https";
-import socketIo from "socket.io";
-import redis from "socket.io-redis";
+import { Server as IoServer} from "socket.io";
+import { createAdapter } from "socket.io-redis";
+import { RedisClient } from "redis";
 import fs from "fs";
 import define from "common/define";
 import conf from "server/conf";
 
 class SocketIo {
-  io: any;
+  io: IoServer;
   constructor() {
     const httpsServer = https.createServer(conf.sslOptions);
     httpsServer.listen(conf.socketIO.port);
-    const io = socketIo(httpsServer);
+    const io = new IoServer(httpsServer, { cors: { credentials: true } });
+    const pubClient = new RedisClient({
+      host: conf.redis.host,
+      port: conf.redis.port,
+    });
+    const subClient = pubClient.duplicate();
     console.log("SOCKET IO RUN : " + conf.socketIO.port);
-    this.io = io.adapter(redis({ host: conf.redis.host, port: conf.redis.port }));
+    this.io = io.adapter(createAdapter({ pubClient, subClient}));
   }
 
   async get() {

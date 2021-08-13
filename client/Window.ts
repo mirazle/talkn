@@ -1,4 +1,4 @@
-import WsApiWorker from "worker-loader?inline=true&publicPath=/&name=ws.api.worker.js!../api/ws.api.worker";
+import WsApiWorker from "worker-loader?inline=fallback&publicPath=/&filename=ws.api.worker.js!../api/ws.api.worker";
 import conf from "common/conf";
 import define from "common/define";
 import BootOption from "common/BootOption";

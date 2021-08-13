@@ -55,6 +55,6 @@ module.exports = {
   plugins: [
     new BundleAnalyzerPlugin()
   ],
-*/
+  */
   devtool: "inline-source-map",
 };
