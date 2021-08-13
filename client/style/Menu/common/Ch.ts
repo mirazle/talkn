@@ -139,7 +139,7 @@ export default class Ch {
     const space = Ch.getSpace(params);
     const upper = Ch.getUpper();
     const upperSpace = Ch.getUpperSpace();
-    const upperRankWrap = Ch.getUpperRankWrap();
+    const upperRankWrap = Ch.getUpperRankWrap(params);
     const upperRank = Ch.getUpperRank();
     const upperRight = Ch.getUpperRight();
     const bottom = Ch.getBottom(params);
@@ -168,11 +168,12 @@ export default class Ch {
 
   static getActiveLiSelf({ app, ui }): React.CSSProperties {
     const height = Container.getBlockSize({ app, ui }) * 2;
+    const padding = ui.screenSize === Ui.screenSizeSmallLabel ? "8px" : "16px";
     const layout = Style.getLayoutBlock({
       width: "initial",
       height: `${height}px`,
       minHeight: `${height}px`,
-      padding: "16px",
+      padding,
       borderTop: 0,
       borderRight: `1px solid ${Container.whiteRGB}`,
       borderBottom: Container.border,
@@ -191,12 +192,13 @@ export default class Ch {
   static getUnactiveLiSelf({ app, ui }): React.CSSProperties {
     const borders = Ch.getUnactiveLiBorder({ app, ui });
     const height = Container.getBlockSize({ app, ui }) * 2;
+        const padding = ui.screenSize === Ui.screenSizeSmallLabel ? "8px" : "16px";
     const layout = Style.getLayoutBlock({
       boxShadow: `${Container.lineShadow}, 0px 0px 0px rgba(${Container.themeSuperLightRGBString}, 1) inset`,
       width: "initial",
       height: `${height}px`,
       minHeight: `${height}px`,
-      padding: "16px",
+      padding,
       ...borders,
       background: Ch.unactiveLiSelfBackground,
       cursor: "pointer",
@@ -239,11 +241,12 @@ export default class Ch {
     return Style.get({ layout, content, animation });
   }
 
-  static getUpperRankWrap(): React.CSSProperties {
+  static getUpperRankWrap({ app, ui }): React.CSSProperties {
+    const top = ui.screenSize === Ui.screenSizeSmallLabel ? "8px" : "16px";
     const layout = Style.getLayoutInlineFlex({
       position: "absolute",
       left: "14px",
-      top: "16px",
+      top,
       width: Ch.thirdDigitWidth,
       height: "20px",
       background: Ch.rankOtherRGB,
@@ -285,11 +288,12 @@ export default class Ch {
   }
 
   static getBottom({ app, ui }): React.CSSProperties {
+    const height = ui.screenSize === Ui.screenSizeSmallLabel ? "50%" : "63%";
     const layout = Style.getLayoutFlex({
       justifyContent: "flex-start",
       alignItems: "center",
       width: "100%",
-      height: "63%",
+      height,
     });
     const content = Style.getContentBase();
     const animation = Style.getAnimationBase();

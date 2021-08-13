@@ -1,5 +1,6 @@
 import Style from "client/style/index";
 import Container from "client/style/Container";
+import Ui from "client/store/Ui";
 
 export default class LiveCnt {
   self: Object;
@@ -19,14 +20,15 @@ export default class LiveCnt {
   }
 
   static getSelf({ app, ui }) {
+    const size = ui.screenSize === Ui.screenSizeSmallLabel ? "26px" : "30px";
     const div = Style.get({
       layout: Style.getLayoutInlineFlex({
         alignItems: "center",
         justifyContent: "center",
-        width: "30px",
-        height: "30px",
+        width: size,
+        height: size,
         background: `rgba(${Container.themeRGBString}, 0.85)`,
-        borderRadius: "30px",
+        borderRadius: size,
         boxShadow: LiveCnt.selfBoxShadowOffHighlight,
       }),
       content: Style.getContentBase({

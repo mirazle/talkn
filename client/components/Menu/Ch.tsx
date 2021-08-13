@@ -21,6 +21,8 @@ type ChProps = {
   handleOnClick: (ch: string) => void;
   bgStyle: React.CSSProperties;
   style: any;
+  ui: any;
+  app: any;
 } & MarqueeAreaProps;
 
 type ChState = {
@@ -145,11 +147,14 @@ export default class Ch extends MarqueeArea<ChProps, ChState> {
       rankNum,
       didMountLiveCntHighligt,
       style,
+      ui,
+      app,
     } = this.props;
     const dispType = type === Thread.findTypeHtml || type === Thread.findTypeAll ? null : type;
     const chStyle = style.ch;
     const liveCntStyle = style.liveCnt.self;
     const marqueeStyle: any = this.getMarqueeStyle();
+    console.log(ui , app);
     return (
       <li
         key={`${rankNum}.${ch}`}
@@ -158,7 +163,7 @@ export default class Ch extends MarqueeArea<ChProps, ChState> {
         onClick={this.handleOnClick}
         {...this.getDecolationEvents(isActive)}
       >
-        {this.renderRank(rankNum, ch)}
+        {this.renderRank( ui, app, rankNum, ch)}
         <div style={chStyle.upper}>
           <span style={chStyle.upperSpace} />
           <span ref={this.marqueeWrapRef} data-component-name={"MarqueeMenuIndex"} style={chStyle.upperRight}>
@@ -184,9 +189,9 @@ export default class Ch extends MarqueeArea<ChProps, ChState> {
     return post;
   }
 
-  renderRank(rankNum?, ch?: string): React.ReactNode {
+  renderRank(ui, app, rankNum?, ch?: string): React.ReactNode {
     const disp = rankNum ? `RANK${rankNum}` : "TUNE";
-    const upperRankWrap = ChStyle.getUpperRankWrap();
+    const upperRankWrap = ChStyle.getUpperRankWrap({app, ui});
     const upperRank = ChStyle.getUpperRank();
     const background = ChStyle.getDispRankBackground(rankNum);
     const width = ChStyle.getDispRankWidth(rankNum);
