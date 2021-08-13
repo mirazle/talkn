@@ -4,7 +4,6 @@ import Container from "./Container";
 import Menu from "./Menu";
 import DetailRight from "./DetailRight";
 import DetailModal from "./DetailModal";
-import Header from "./Header";
 import conf from "../conf";
 
 export default class Detail {
