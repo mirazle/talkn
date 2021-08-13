@@ -154,7 +154,6 @@ export default class Ch extends MarqueeArea<ChProps, ChState> {
     const chStyle = style.ch;
     const liveCntStyle = style.liveCnt.self;
     const marqueeStyle: any = this.getMarqueeStyle();
-    console.log(ui , app);
     return (
       <li
         key={`${rankNum}.${ch}`}
