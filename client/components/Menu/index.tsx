@@ -115,6 +115,8 @@ export default class Menuextends extends TalknComponent<Props, State> {
           handleOnClick={this.handleOnClickCh}
           bgStyle={tuneChStyle}
           style={style}
+          ui={ui}
+          app={app}
         />
       );
     }
@@ -140,6 +142,8 @@ export default class Menuextends extends TalknComponent<Props, State> {
         return (
           <Ch
             key={`${rank.ch}_${rankNum}`}
+            ui={ui}
+            app={app}
             rankNum={rankNum}
             isActive={isActive}
             didMountBgHighligt={didMountBgHighligt}
@@ -165,26 +169,5 @@ export default class Menuextends extends TalknComponent<Props, State> {
   renderSpaceLi(): React.ReactNode {
     const { style } = this.props.state;
     return <li style={style.ch.space}></li>;
-  }
-  renderRank(rankNum?, ch?: string): React.ReactNode {
-    const upperRankWrap = ChStyle.getUpperRankWrap();
-    const upperRank = ChStyle.getUpperRank();
-    if (rankNum > 0) {
-      const background = ChStyle.getDispRankBackground(rankNum);
-      const width = ChStyle.getDispRankWidth(rankNum);
-      return (
-        <span style={{ ...upperRankWrap, background, width }}>
-          <span style={upperRank}>RANK{rankNum}</span>
-        </span>
-      );
-    } else {
-      const background = ChStyle.getDispRankBackground();
-      const width = ChStyle.getDispRankWidth();
-      return (
-        <span style={{ ...upperRankWrap, background, width }}>
-          <span style={upperRank}>TUNE</span>
-        </span>
-      );
-    }
   }
 }
