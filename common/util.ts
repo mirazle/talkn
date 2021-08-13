@@ -6,7 +6,7 @@ export default {
 			'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
 			'(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
 			'(\\#[-a-z\\d_]*|\\/)?$' 				// fragment locator
-			,'i'); // fragment locator
+			,'i'); // fragment locåator
 
 		return !pattern.test(str) ? false : true;
 	},
@@ -18,5 +18,9 @@ export default {
 	},
 	trimPx: ( value ) => {
     return value.toString().replace( 'px', '' );
+  },
+  getUpperPrefix: ( str ) => {
+    let text = str.charAt(0).toUpperCase() + str.slice(1);
+    return text.substring(0, 1).toUpperCase() + text.substring(1);
   }
 }

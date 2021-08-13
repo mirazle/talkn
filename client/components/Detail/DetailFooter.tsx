@@ -67,23 +67,23 @@ export default class DetailFooter extends TalknComponent<DetailFooterProps, Deta
       return null;
     } else {
       const isOpenShare = state.ui.openLockMenu === Ui.openLockMenuLabelShare;
-      const LikeIcon = Icon.getSvgLike();
-      const ShareIcon = Icon.getSvgShare({active: isOpenShare});
-      const AboutIcon = Icon.getSvgAbout();
+      const likeIcon = Icon.getSvgIcon('Like', { app, ui });
+      const shareIcon = Icon.getSvgIcon('Share', { app, ui }, {active: isOpenShare});
+      const aboutIcon = Icon.getSvgIcon('About', {app, ui});
       const shareColor = isOpenShare ? Container.themeRGBA : Container.fontBaseRGB;
 
       return (
         <footer data-component-name={this.componentName} style={style.detailFooter.self}>
           <div style={style.detailFooter.childLike} onClick={this.handleOnClickLike}>
-            {LikeIcon}
+            {likeIcon}
             <div>LIKE</div>
           </div>
           <div style={style.detailFooter.childShare} onClick={this.handleOnClickShare}>
-            {ShareIcon}
+            {shareIcon}
             <div style={{ color: shareColor }}>SHARE</div>
           </div>
           <div style={style.detailFooter.childMoney} onClick={this.handleOnClickPortal}>
-            {AboutIcon}
+            {aboutIcon}
             <div>ABOUT</div>
           </div>
         </footer>

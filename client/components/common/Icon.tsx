@@ -1,4 +1,5 @@
 import React from "react";
+import util from "common/util";
 import TalknComponent from "client/components/TalknComponent";
 import Emotions from "common/emotions/index";
 import Schema from "api/store/Schema";
@@ -230,10 +231,13 @@ export default class Icon extends TalknComponent<{}, {}> {
     };
   }
 
-  static getSvg({ app, ui }, option = { active: false, key: '' }) {
-    const style = IconStyle.getSvg({app, ui}, option);
+  static getSvgIcon(type: string, { app, ui }, option = {active: false}) {
+    const style = IconStyle.getSvgIcon({app, ui});
     return (
-      <i data-component-type={`IconSvg:${option.key}`} style={style} />
+      <i data-component-type={`IconSvg:${type}`} style={style}>
+        {Icon[`getSvg${type}`](option)}
+        <div></div>
+      </i>
     );
   }
 
