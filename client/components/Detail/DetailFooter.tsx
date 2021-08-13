@@ -67,7 +67,6 @@ export default class DetailFooter extends TalknComponent<DetailFooterProps, Deta
       return null;
     } else {
       const isOpenShare = state.ui.openLockMenu === Ui.openLockMenuLabelShare;
-      console.log(isOpenShare);
       const LikeIcon = Icon.getSvgLike();
       const ShareIcon = Icon.getSvgShare({active: isOpenShare});
       const AboutIcon = Icon.getSvgAbout();
