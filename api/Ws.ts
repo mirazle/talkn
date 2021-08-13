@@ -1,4 +1,4 @@
-import io from "socket.io-client";
+import io, { Socket } from "socket.io-client";
 import conf from "common/conf";
 import define from "common/define";
 import BootOption from "common/BootOption";
@@ -17,7 +17,7 @@ export default class Ws {
   id: string;
   webWorker: WsApiWorker;
   stores: { [s: string]: Store } | {} = {};
-  ios: { [s: string]: SocketIOClient.Socket } | {} = {};
+  ios: { [s: string]: Socket } | {} = {};
   methods: { [s: string]: Function } | {} = {};
   publicCallbacks: { [s: string]: Function } | {} = {};
   static get server() {

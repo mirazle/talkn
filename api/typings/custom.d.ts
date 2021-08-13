@@ -1,4 +1,4 @@
-declare module "worker-loader?inline=true&publicPath=/&name=ws.api.worker.js!*" {
+declare module "worker-loader?inline=fallback&publicPath=/&filename=ws.api.worker.js!*" {
   class WsApiWorker extends Worker {
     constructor();
   }

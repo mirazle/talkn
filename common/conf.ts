@@ -4,7 +4,7 @@ import process from "process";
 
 const { PRODUCTION, DEVELOPMENT, PRODUCTION_DOMAIN, DEVELOPMENT_DOMAIN, SUB_DOMAINS, PORTS } = define;
 const apiVer = 1;
-const hostName = os.hostname();
+const hostName = os.hasOwnProperty("hostname") ? os.hostname() : "localhost";
 const env = getEnv(hostName);
 const files = {
   client: "talkn.client.js",

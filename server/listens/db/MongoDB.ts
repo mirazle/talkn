@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import Mongoose from "mongoose";
 import conf from "server/conf";
 import Schemas from "server/schemas";
 import Threads from "server/listens/db/Threads";
@@ -8,13 +8,13 @@ import Setting from "server/listens/db/Setting";
 
 class MongoDB {
   constructor() {
-    mongoose.set("useFindAndModify", false);
-    mongoose.set("useUnifiedTopology", true);
-    mongoose.set("useCreateIndex", true);
-    mongoose.Promise = global.Promise;
+    Mongoose.set("useFindAndModify", false);
+    Mongoose.set("useUnifiedTopology", true);
+    Mongoose.set("useCreateIndex", true);
+    Mongoose.Promise = global.Promise;
     const { host, port, dbName, option } = conf.mongoDB;
     const address = `mongodb://${host}:${port}/${dbName}`;
-    const dbConnection = mongoose.createConnection(address, option);
+    const dbConnection = Mongoose.createConnection(address, option);
 
     console.log(`MONGO DB RUN : ${conf.mongoDB.port}`);
 
@@ -28,7 +28,7 @@ class MongoDB {
   }
 
   static getSchema(collectionName) {
-    return mongoose.Schema(Schemas.db.collections[collectionName], {
+    return new Mongoose.Schema(Schemas.db.collections[collectionName], {
       collection: collectionName
     });
   }
