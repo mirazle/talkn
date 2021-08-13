@@ -29,7 +29,7 @@ export default class MenuFooter extends TalknComponent<MenuFooterProps, MenuFoot
   render() {
     const { style, app, ui } = this.props.state;
     const SocialIcon = Icon.getSvg({ app, ui }, { key: 'social', active: false});
-    const RankIcon = Icon.getSvg({ app, ui }, { key: 'rank', active: false});
+    const RankIcon = Icon.getSvg({ app, ui }, { key: 'rankOn', active: false});
     const LogsIcon = Icon.getSvg({ app, ui }, { key: 'logs', active: false});
     const SettingIcon = Icon.getSvg({ app, ui }, { key: 'setting', active: false});
     return (
