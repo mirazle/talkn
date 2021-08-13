@@ -4,13 +4,14 @@ import Container from "./Container";
 import { CSSProperties } from "react";
 
 export default class LockMenu {
-  static get headTabUpdate() {
+  static getHeadTabUpdate({ app, ui }) {
+    const top = ui.screenSize === Ui.screenSizeSmallLabel ? "15px" : "20px";
     return {
       div: {
         position: "absolute",
-        top: "13px",
-        right: "10px",
-        transform: "scale(0.5)",
+        top,
+        right: "15px",
+        transform: "scale(0.7)",
       },
     };
   }

@@ -187,10 +187,10 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
 
     if (postCnt === 0 && !ui.isLoading && app.tuned !== "") {
       dispPosts.push(
-        <div style={style.posts.firstAction}>
+        <li key={'firstAction'} style={style.posts.firstAction}>
           <div>Hello, Friend😁</div>
           <div>Let's make the first post📩</div>
-        </div>
+        </li>
       );
     } else {
       // Add time marker.
