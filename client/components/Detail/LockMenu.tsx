@@ -169,10 +169,10 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
     const { state } = this;
     const { style: stateStyle } = state;
     const { onClickOpenLockMenu } = this.props;
-    const { style, threadDetail } = this.props.state;
+    const { app, ui, style, threadDetail } = this.props.state;
     const sizePx = Icon.middleSize;
 
-    const IconHeadTab = Icon.getHeadTab(LockMenuStyle.headTabUpdate, this.props.state);
+    const IconHeadTab = Icon.getHeadTab(LockMenuStyle.getHeadTabUpdate({app, ui}), this.props.state);
     const IconTwitter = Icon.getTwitter(state, {}, { sizePx });
     const IconFacebook = Icon.getFacebook(state, {}, { sizePx });
     const IconTalkn = Icon.getTalkn({}, state, { sizePx });
