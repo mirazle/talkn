@@ -96,6 +96,9 @@ export default class DetailRight {
   static getDescription(params) {
     return Detail.getDescription(params);
   }
+  static getDescriptionAnchor(params) {
+    return Detail.getDescriptionAnchor(params);
+  }
   static getMetaContentTypeWrap(params) {
     return Detail.getMetaContentTypeWrap(params);
   }

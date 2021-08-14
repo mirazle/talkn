@@ -128,7 +128,7 @@ export default class Icon {
     const cursor = "pointer";
     const margin = ui.screenSize === Ui.screenSizeSmallLabel ? "0": "4px 0 6px";
     return Style.get({
-      layout: Style.getLayoutFlex({
+      layout: Style.getLayoutInlineFlex({
         width: sizePx,
         maxWidth: sizePx,
         minWidth: sizePx,
