@@ -5,7 +5,7 @@ import Container from "./Container";
 import Menu from "./Menu";
 import Detail from "./Detail";
 import Video from "./Media/Video";
-import { CSSProperties } from "styled-components";
+import { CSSProperties } from "react";
 
 export default class Posts {
   static getSelfDisplay({ app, ui }) {
