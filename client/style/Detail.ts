@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import Ui from "client/store/Ui";
 import Style from "./index";
 import Container from "./Container";
@@ -29,35 +30,36 @@ export default class Detail {
     return ui.screenSize === Detail.screenSizeOfRightDetail;
   }
 
-  self: Object;
-  selfRight: Object;
-  selfModal: Object;
-  header: Object;
-  headerP: Object;
-  body: Object;
-  meta: Object;
-  img: Object;
-  description: Object;
-  metaContentTypeWrap: Object;
-  metaContentType: Object;
-  ch: Object;
-  analyze: Object;
-  analyzeRow: Object;
-  analyzeCol: Object;
-  analyzeLabel: Object;
-  analyzeValue: Object;
-  analyzeHr: Object;
-  h1s: Object;
-  h1sLi: Object;
-  footer: Object;
-  footerChild: Object;
-  footerChildLike: Object;
-  footerChildMoney: Object;
-  footerChildShare: Object;
-  metaItems: Object;
-  updateWrap: Object;
-  update: Object;
-  space: Object;
+  self: CSSProperties
+  selfRight: CSSProperties
+  selfModal: CSSProperties
+  header: CSSProperties
+  headerP: CSSProperties
+  body: CSSProperties
+  meta: CSSProperties
+  img: CSSProperties
+  description: CSSProperties
+  descriptionAnchor: CSSProperties
+  metaContentTypeWrap: CSSProperties
+  metaContentType: CSSProperties
+  ch: CSSProperties
+  analyze: CSSProperties
+  analyzeRow: CSSProperties
+  analyzeCol: CSSProperties
+  analyzeLabel: CSSProperties
+  analyzeValue: CSSProperties
+  analyzeHr: CSSProperties
+  h1s: CSSProperties
+  h1sLi: CSSProperties
+  footer: CSSProperties
+  footerChild: CSSProperties
+  footerChildLike: CSSProperties
+  footerChildMoney: CSSProperties
+  footerChildShare: CSSProperties
+  metaItems: CSSProperties
+  updateWrap: CSSProperties
+  update: CSSProperties
+  space: CSSProperties
   constructor(params) {
     const { app, ui } = params;
 
@@ -72,6 +74,7 @@ export default class Detail {
     styles.meta = DetailClass.getMeta(params);
     styles.img = DetailClass.getImg(params);
     styles.description = DetailClass.getDescription(params);
+    styles.descriptionAnchor = DetailClass.getDescriptionAnchor(params);
     styles.metaContentTypeWrap = DetailClass.getMetaContentTypeWrap(params);
     styles.metaContentType = DetailClass.getMetaContentType(params);
     styles.ch = DetailClass.getCh(params);
@@ -275,6 +278,19 @@ export default class Detail {
       textAlign: "left",
     });
     const animation = Style.getAnimationBase();
+    return Style.get({ layout, content, animation });
+  }
+
+  static getDescriptionAnchor({ app, ui }) {
+    const layout = Style.getLayoutInlineFlex({
+      width: "auto"
+    });
+    const content = Style.getContentBase({
+      textDecoration: "none"
+    });
+    const animation = Style.getAnimationBase({
+      transform: "translate3d(0px, 0px, 0px) scale(0.9)"
+    });
     return Style.get({ layout, content, animation });
   }
 

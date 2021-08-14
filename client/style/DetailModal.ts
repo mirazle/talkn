@@ -98,6 +98,9 @@ export default class DetailModal {
   static getDescription(params) {
     return Detail.getDescription(params);
   }
+  static getDescriptionAnchor(params) {
+    return Detail.getDescriptionAnchor(params);
+  }
   static getMetaContentTypeWrap(params) {
     return Detail.getMetaContentTypeWrap(params);
   }

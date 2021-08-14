@@ -226,12 +226,15 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
 
   renderDescription() {
     const { state } = this.props;
-    const { threadDetail, style } = state;
+    const { threadDetail, style, app, ui } = state;
     const { serverMetas } = threadDetail;
     const description = this.getDescription(serverMetas);
+    const linkToIcon = Icon.getSvgIcon('LinkTo', { app, ui });
+    const { protocol, ch } = threadDetail;
     return (
       <div data-component-name={"Detail-description"} style={style.detail.description}>
         {description}
+        {protocol !== Sequence.TALKN_PROTOCOL && <a href={`${protocol}/${ch}`} style={style.detail.descriptionAnchor}>&nbsp;&nbsp;{linkToIcon}</a>}
       </div>
     );
   }
