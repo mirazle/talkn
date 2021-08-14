@@ -2,7 +2,7 @@ import conf from "common/conf";
 import Ui from "client/store/Ui";
 import Style from "../index";
 import Container from "../Container";
-import { CSSProperties } from "styled-components";
+import { CSSProperties } from "react";
 
 export default class Rank {
   static get iconSize() {
