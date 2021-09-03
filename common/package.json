@@ -1,0 +1,22 @@
+{
+  "name": "talkn-common",
+  "version": "1.0.0",
+  "description": "talkn common source  & node_modules(eslint & prettier).",
+  "scripts": {},
+  "author": "mirazle <mirazle2069@gmail.com> (https://github.com/mirazle)",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/node": "^16.7.1",
+    "ts-loader": "^9.2.5",
+    "tsconfig-paths": "^3.10.1",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "fs": "^0.0.2",
+    "os": "^0.1.2",
+    "process": "^0.11.10"
+  }
+}
