@@ -1,0 +1,9 @@
+{
+  "printWidth": 160,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "quoteProps": "consistent",
+  "jsxBracketSameLine": true,
+  "importOrder": ["^common/", "^server/", "^api/", "^client/", "^./", "^../", "^assets/"],
+  "importOrderSeparation": true
+}
