@@ -168,7 +168,13 @@ npm -v
 ## yarn
 
 `npm install -g yarn`
+`yarn set version berry`
+`yarn plugin import interactive-tools`
 `yarn -v`
+
+※ Error: yarn plugin import interactive-tools
+
+`touch .yarn.lock`
 
 ## python3
 

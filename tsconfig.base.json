@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es2019",
+    "strict": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false,
+    "strictPropertyInitialization": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "noImplicitThis": false,
+    "alwaysStrict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "_dist",
+    "jsx": "react",
+    "lib": ["es2019", "webworker", "dom"],
+    "incremental": true,
+    "removeComments": true,
+    "forceConsistentCasingInFileNames": true,
+    "typeRoots": ["node_modules/@types"],
+    "types": ["node", "webpack-env"],
+    "paths": {
+      "common/*": ["common/src/*"],
+      "server/*": ["server/src/*"],
+      "api/*": ["api/src/*"],
+      "client/*": ["client/src/*"],
+      "assets/*": ["client/assets/*"]
+    }
+  }
+}
