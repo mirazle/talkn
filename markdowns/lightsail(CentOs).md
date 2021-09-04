@@ -70,9 +70,11 @@ $ wget https://people.canonical.com/~mvo/snapd/amazon-linux2/snapd-amzn2.repo
 $ vi /etc/yum.conf
 
 下記を追加
-``` 
+
+```
 exclude=snapd-*.el7 snap-*.el7
 ```
+
 $ yum install snap
 $ systemctl enable --now snapd.socket
 $ snap install --classic certbot
@@ -131,8 +133,9 @@ enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc
 ```
 
-Amazon linuxの場合
+Amazon linux の場合
 /etc/yum.repos.d/mongodb-org-4.4.repo
+
 ```
 [mongodb-org-4.4]
 name=MongoDB Repository
@@ -160,17 +163,17 @@ systemctl enable mongod.service
 ```
 
 Error: Package: mongodb-org-database-tools-extra-4.4.6-1.el8.x86_64 (mongodb-org-4.2)
-           Requires: /usr/libexec/platform-python
-というエラーが出る。ローカルのpythonが2系だが3系のパスを求められていることが原因
+Requires: /usr/libexec/platform-python
+というエラーが出る。ローカルの python が 2 系だが 3 系のパスを求められていることが原因
 
 $ sudo yum install -y python3
 $ sudo amazon-linux-extras install -y python3.8
 
-alias設定
-Python3をインストールした状態だとPython -Vでバージョン確認しても以前Python 2.7が動作してしまいます。
-毎回3.8と入力するのは手間なので、エイリアスを設定してpyhonコマンド実行時に使用されるバージョンを上書きします。
+alias 設定
+Python3 をインストールした状態だと Python -V でバージョン確認しても以前 Python 2.7 が動作してしまいます。
+毎回 3.8 と入力するのは手間なので、エイリアスを設定して pyhon コマンド実行時に使用されるバージョンを上書きします。
 
-alias設定
+alias 設定
 $ echo 'alias python=python3.8' >> ~/.bashrc
 $ source ~/.bashrc
 
@@ -180,7 +183,7 @@ https://qiita.com/tomy0610/items/f540150ac8acaa47ff66
 
 # Redis-Server インストール
 
-Amazon Linux 2のEPELレポジトリを有効にする
+Amazon Linux 2 の EPEL レポジトリを有効にする
 sudo amazon-linux-extras install -y epel
 
 ```
@@ -206,11 +209,24 @@ swap 領域を確保して、実行メモリ領域を確保する。
 free -m
 ```
 
+一番下の行を見ると、合計 0 バイトのスワップメモリ ​​ があるのは良くない。
+Node はかなりメモリを空けることができ、メモリが不足したときにスワップスペースが利用できない場合、エラーは必ず発生する。
+
 ```
 dd if=/dev/zero of=/swap bs=1M count=1024
 sudo mkswap /swap
 chmod 0600 /swap
 sudo swapon /swap
+```
+
+別のやり方(ubuntu 系)
+
+```
+sudo fallocate -l 4G /swapfile 4ギガバイトのスワップファイルを作成
+sudo chmod 600 /swapfileルートへのアクセスを制限してスワップファイルを保護します
+sudo mkswap /swapfileファイルをスワップスペースとしてマークする
+sudo swapon /swapfileスワップを有効にする
+echo "/swapfile none swap sw 0 0" | Sudo tee -a /etc/fstab再起動後もスワップファイルを保持します（
 ```
 
 ## fallocate 出なく dd を使用する理由
@@ -263,7 +279,6 @@ view /root/.ssh/id_rsa.pub
 ```
 
 - チェックアウト
-
 
 ssh-keygen -t rsa -b 4096
 
