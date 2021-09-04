@@ -184,12 +184,11 @@ class Express {
 
         // No Assests Url
         if (`/${req.originalUrl}/` !== conf.assetsPath) {
-          /*
           if (req.originalUrl === '/' && !req.headers.referer) {
             res.redirect(`//${conf.wwwURL}`);
             return true;
           }
-*/
+
           if (req.originalUrl.indexOf('/https:/') >= 0 || req.originalUrl.indexOf('/http:/') >= 0) {
             const redirectUrl = req.originalUrl.replace('/https:/', '').replace('/http:/', '');
             res.redirect(redirectUrl);
