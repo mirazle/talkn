@@ -31,7 +31,8 @@ conf.mongoDB = {
 };
 conf.serverPath = `${homeDir}/talkn/server/src/listens/express/`;
 conf.serverPortalPath = `${homeDir}/talkn/server/src/listens/express/portal/`;
-conf.serverClientPath = `${homeDir}/talkn/server/src/listens/express/client/talkn.client.js`;
+conf.serverClientJsPath = `${homeDir}/talkn/server/src/listens/express/client/talkn.client.js`;
+conf.serverClientPath = `${homeDir}/talkn/server/src/listens/express/client/`;
 conf.serverApiPath = `${homeDir}/talkn/server/src/listens/express/api/`;
 conf.serverOwnPath = `${homeDir}/talkn/server/src/listens/express/own/`;
 conf.serverNewsPath = `${homeDir}/talkn/server/src/listens/express/news/`;

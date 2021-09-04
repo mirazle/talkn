@@ -229,6 +229,14 @@ yarn install
 
 に変更する(TODO: この修正無しでも動作出来るようにうにする)
 
+### その他
+
+デフォルトのアイコンをサーバーにあげる
+
+```
+cp client/assets/favicon.ico server/src/listens/express/assets/icon/https:__assets.talkn.io_favicon.ico.png
+```
+
 # アプリ起動
 
 ## 起動

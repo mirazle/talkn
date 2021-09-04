@@ -8,6 +8,7 @@ import TalknComponent from 'client/components/TalknComponent';
 import { Label } from 'client/components/common';
 import Icon from 'client/components/common/Icon';
 import conf from 'client/conf';
+import Ui from 'client/store/Ui';
 
 type Props = {
   state: any;
@@ -42,11 +43,13 @@ export default class SearchBar extends TalknComponent<Props, State> {
   render() {
     const { state: propsState, onChangeFindType, theme = 'gray', borderRadius = false, editMode = false, visibleTune = false, visibleExt = false } = this.props;
     const { inputValue } = this.state;
-    const { style } = propsState;
+    const { style, ui, app } = propsState;
     const { icon } = style;
     const IconCh = Icon.getCh(icon.ch);
     const handleOnClick = () => {
-      this.clientAction('TOGGLE_DISP_SET_CH_MODAL');
+      if (Ui.extensionModeNone === ui.extensionMode) {
+        this.clientAction('TOGGLE_DISP_SET_CH_MODAL');
+      }
     };
     const tuneCh = (inputValue?: string) => {
       let linkTo = inputValue ? inputValue : this.state.inputValue;
