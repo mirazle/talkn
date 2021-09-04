@@ -184,11 +184,12 @@ class Express {
 
         // No Assests Url
         if (`/${req.originalUrl}/` !== conf.assetsPath) {
+          /*
           if (req.originalUrl === '/' && !req.headers.referer) {
             res.redirect(`//${conf.wwwURL}`);
             return true;
           }
-
+*/
           if (req.originalUrl.indexOf('/https:/') >= 0 || req.originalUrl.indexOf('/http:/') >= 0) {
             const redirectUrl = req.originalUrl.replace('/https:/', '').replace('/http:/', '');
             res.redirect(redirectUrl);
@@ -259,7 +260,13 @@ class Express {
         // CORSを許可する
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-        res.sendFile(conf.serverClientPath);
+
+        if (req.originalUrl.indexOf('.png') >= 0) {
+          res.sendFile(conf.serverClientPath + '.' + req.originalUrl);
+        } else {
+          res.sendFile(conf.serverClientJsPath);
+        }
+
         break;
       case conf.assetsURL:
         if (req.originalUrl === '/manifest.json') {
