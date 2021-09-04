@@ -67,32 +67,8 @@ class Express {
 
   routingHttps(req, res, next) {
     let language = 'en';
+    console.log('@@@');
     switch (req.headers.host) {
-      case conf.newsURL:
-        /*
-        const params = {
-          lpLanguages: conf.lpLanguages,
-          language,
-          domain: conf.domain,
-          apiURL: conf.apiURL,
-          ownURL: conf.ownURL,
-          wwwURL: conf.wwwURL,
-          extURL: conf.extURL,
-          newsURL: conf.newsURL,
-          bannerURL: conf.bannerURL,
-          assetsURL: conf.assetsURL,
-          clientURL: conf.clientURL,
-          apiAccessURL: conf.apiAccessURL,
-        };
-        if (req.url === "/") {
-          res.render("news/", params);
-        } else if (req.url.indexOf("/detail") >= 0) {
-          res.render("news/" + req.url, params);
-        } else {
-          res.sendFile(conf.serverNewsPath + req.originalUrl.replace("/", ""));
-        }
-        */
-        break;
       case conf.ownURL:
         if (req.method === 'GET') {
           if (req.url === '/' || (req.url && req.url.indexOf('/?lang=') === 0)) {

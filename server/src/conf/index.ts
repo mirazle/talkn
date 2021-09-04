@@ -4,9 +4,9 @@ import os from 'os';
 import conf from 'common/conf';
 import define from 'common/define';
 
-const { PRODUCTION, SUB_DOMAINS, PORTS } = define;
-const { env, domain } = conf;
-const homeDir = env === PRODUCTION ? '/usr/share/applications' : os.homedir();
+const { PRODUCTION, PORTS } = define;
+const { env } = conf;
+const homeDir = os.homedir();
 const localhostPemKey = `${homeDir}/talkn/common/pems/localhost.key`;
 const localhostPemCrt = `${homeDir}/talkn/common/pems/localhost.crt`;
 const productPemKey = '/etc/letsencrypt/live/talkn.io/privkey.pem';
