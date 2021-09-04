@@ -3,7 +3,10 @@ echo "@@@@@@ GIT PULL"
 #git rm -r --cached .
 git pull
 echo "@@@@@@ YARN RUN BUILD"
+cd client
 yarn run build
+cd ../api
+cd ../
 echo "@@@@@@ RESOLVE EXTENSION　talkn.ext.js"
 sed -i -e "1s/DEV/PROD/" server/src/listens/express/extension/talkn.ext.js
 sed -i -e "1s/START/PROD/" server/src/listens/express/extension/talkn.ext.js
