@@ -1201,6 +1201,8 @@ class Iframe extends ReactMode {
           console.warn('CSP Reboot: ' + method);
           new Window(Window.refusedStatusCsp);
           break;
+        default:
+        // throw `Error: ${iFrameId}: ${method}`;
       }
     }
   }

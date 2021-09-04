@@ -32,7 +32,6 @@ export default class WsApiWorker {
     this.worker.postMessage(message);
   }
   private onMessage(e: MessageEvent): void {
-    console.log(e);
     const { id, type, ioType, method, params }: MessageClientAndWsApiType = e.data;
     if (type === PostMessage.CLIENT_TO_WSAPI_TYPE) {
       this.ws.exe(method, params);
