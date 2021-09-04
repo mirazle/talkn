@@ -1,1 +1,0 @@
-{"ast":null,"code":"export var urlToCh = function urlToCh(url) {\n  return url.replace('https:/', '').replace('http:/', ''); // return decodeURI(url.replace('https:/', '').replace('http:/', ''));\n};","map":null,"metadata":{},"sourceType":"module"}
