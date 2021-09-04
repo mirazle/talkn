@@ -1,4 +1,4 @@
-window.TALKN_EXT_ENV = "START";
+window.TALKN_EXT_ENV = 'PROD';
 /*
   Reasons for plain js:
   Obfuscated or bundled js is rejected by Chrome Extension examination.
@@ -31,25 +31,25 @@ class MediaServer {
     return this.file ? Math.floor(this.file.currentTime * 10) / 10 : 0;
   }
   static get STATUS_SEARCH() {
-    return "SEARCH";
+    return 'SEARCH';
   }
   static get STATUS_STANBY() {
-    return "STANBY";
+    return 'STANBY';
   }
   static get STATUS_PLAY() {
-    return "PLAY";
+    return 'PLAY';
   }
   static get STATUS_ENDED() {
-    return "ENDED";
+    return 'ENDED';
   }
   static get STATUS_STOP() {
-    return "STOP";
+    return 'STOP';
   }
   static get PORTAL_KEY() {
-    return "PORTAL";
+    return 'PORTAL';
   }
   static get EXTENSION_KEY() {
-    return "EXTENSION";
+    return 'EXTENSION';
   }
   constructor() {
     // postMessage to iframe ids.
@@ -74,13 +74,13 @@ class MediaServer {
   }
 
   listenMessage() {
-    window.addEventListener("message", this.onMessage);
-    window.addEventListener("messageerror", this.onError);
+    window.addEventListener('message', this.onMessage);
+    window.addEventListener('messageerror', this.onError);
   }
 
   setStatus(status, called) {
     this.status = status;
-    this.log("SET STATUS ", called);
+    this.log('SET STATUS ', called);
   }
 
   init() {
@@ -98,8 +98,8 @@ class MediaServer {
     this.searchingCnt = 0;
     this.isLog = false;
 
-    window.removeEventListener("message", this.onMessage);
-    window.removeEventListener("messageerror", this.onError);
+    window.removeEventListener('message', this.onMessage);
+    window.removeEventListener('messageerror', this.onError);
 
     Object.keys(this.searchingIds).forEach((iFrameId) => {
       clearInterval(this.searchingIds[iFrameId]);
@@ -113,9 +113,9 @@ class MediaServer {
         this.iframes[id] = {
           dom: window,
           params: {
-            id: "",
-            ch: "",
-            href: "",
+            id: '',
+            ch: '',
+            href: '',
             audios: [],
             videos: [],
           },
@@ -127,9 +127,9 @@ class MediaServer {
             this.iframes[iframe.id] = {
               dom: iframe,
               params: {
-                id: "",
-                ch: "",
-                href: "",
+                id: '',
+                ch: '',
+                href: '',
                 audios: [],
                 videos: [],
               },
@@ -142,10 +142,10 @@ class MediaServer {
     }
 
     if (this.videos.length === 0) {
-      this.videos = window.document.querySelectorAll("video");
+      this.videos = window.document.querySelectorAll('video');
     }
     if (this.audios.length === 0) {
-      this.audios = window.document.querySelectorAll("audio");
+      this.audios = window.document.querySelectorAll('audio');
     }
   }
 
@@ -157,12 +157,12 @@ class MediaServer {
 
   onMessage(e) {
     if (e.data && e.data.type) {
-      if (e.data.type === "MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE") {
+      if (e.data.type === 'MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE') {
         const { method, params } = e.data;
-        if (this.file && this.file[method] && typeof this.file[method] === "function") {
+        if (this.file && this.file[method] && typeof this.file[method] === 'function') {
           this.file[method]();
         } else {
-          if (this[method] && typeof this[method] === "function") {
+          if (this[method] && typeof this[method] === 'function') {
             this.setRelationElms(params.id);
             this.setClientParams(params);
             this[method](params.id);
@@ -179,9 +179,9 @@ class MediaServer {
   postMessage() {
     Object.keys(this.iframes).forEach((iFrameId) => {
       const iframe = this.iframes[iFrameId].dom;
-      const href = this.iframes[ iFrameId ].params.href;
+      const href = this.iframes[iFrameId].params.href;
       const params = {
-        type: "MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE",
+        type: 'MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE',
         ch: this.ch,
         status: this.status.toLowerCase(),
         currentTime: this.currentTime,
@@ -224,14 +224,14 @@ class MediaServer {
 
       if (this.searchingCnt < this.maxSearchingCnt) {
         if (this.videos.length > 0 && iframeHasVideo) {
-          isHandleEvents = handleEventsWrap("videos");
+          isHandleEvents = handleEventsWrap('videos');
           if (isHandleEvents) {
             this.setStatus(MediaServer.STATUS_STANBY, `searched video ${iFrameId}`);
           }
         }
 
         if (this.audios.length > 0 && iframeHasAudio) {
-          isHandleEvents = handleEventsWrap("audios");
+          isHandleEvents = handleEventsWrap('audios');
           if (isHandleEvents) {
             this.setStatus(MediaServer.STATUS_STANBY, `searched audio ${iFrameId}`);
           }
@@ -245,15 +245,15 @@ class MediaServer {
   }
 
   handleEvents(media) {
-    media.addEventListener("play", this.play);
-    media.addEventListener("pause", this.pause);
-    media.addEventListener("ended", this.ended);
+    media.addEventListener('play', this.play);
+    media.addEventListener('pause', this.pause);
+    media.addEventListener('ended', this.ended);
   }
 
   play(e) {
     this.file = e.srcElement;
-    this.ch = this.file.currentSrc.replace("http:/", "").replace("https:/", "") + "/";
-    this.setStatus(MediaServer.STATUS_PLAY, "play");
+    this.ch = this.file.currentSrc.replace('http:/', '').replace('https:/', '') + '/';
+    this.setStatus(MediaServer.STATUS_PLAY, 'play');
     this.playIntervalId = setInterval(() => {
       this.postMessage();
     }, this.mediaSecondInterval);
@@ -261,14 +261,14 @@ class MediaServer {
 
   pause(e) {
     if (this.status !== MediaServer.STATUS_STANBY) {
-      this.setStatus(MediaServer.STATUS_STANBY, "pause");
+      this.setStatus(MediaServer.STATUS_STANBY, 'pause');
       clearInterval(this.playIntervalId);
       this.postMessage();
     }
   }
 
   ended(e) {
-    this.setStatus(MediaServer.STATUS_ENDED, "ended");
+    this.setStatus(MediaServer.STATUS_ENDED, 'ended');
     clearInterval(this.playIntervalId);
     this.postMessage();
     Object.keys(this.searchingIds).forEach((iFrameId) => {
@@ -285,73 +285,73 @@ class MediaServer {
 
 class Ext {
   static get APP_NAME() {
-    return "talkn";
+    return 'talkn';
   }
   static get APP_CLIENT_KEY() {
-    return "Client";
+    return 'Client';
   }
   static get USER_DEFINE_MODE_MODAL() {
-    return "Modal";
+    return 'Modal';
   }
   static get USER_DEFINE_MODE_BOTTOM() {
-    return "Bottom";
+    return 'Bottom';
   }
   static get USER_DEFINE_MODE_EMBED() {
-    return "Embed";
+    return 'Embed';
   }
   static get USER_DEFINE_MODE_LIVE_MEDIA() {
-    return "LiveMedia";
+    return 'LiveMedia';
   }
   static get USER_DEFINE_MODE_WINDOW() {
-    return "Window";
+    return 'Window';
   }
   static get USER_DEFINE_MODE_DEFAULT() {
     return Ext.USER_DEFINE_MODE_MODAL;
   }
   static get BASE_EXT_SUBDOMAIN() {
-    return "ext";
+    return 'ext';
   }
   static get BASE_ASSETS_SUBDOMAIN() {
-    return "assets";
+    return 'assets';
   }
   static get BASE_PROD_HOST() {
-    return "talkn.io";
+    return 'talkn.io';
   }
   static get BASE_DEV_HOST() {
-    return "localhost";
+    return 'localhost';
   }
   static get BASE_DEV_PORT() {
     return 8080;
   }
   static get EXCLUSION_BOOT_HOSTS() {
-    return ["talkn.io"];
+    return ['talkn.io'];
   }
   static get API_KEY() {
-    return "api";
+    return 'api';
   }
   static get API_VER_KEY() {
-    return "1";
+    return '1';
   }
   static get DEFAULT_DISPLAY_MODE_KEY() {
     return 0;
   }
   static get DEFAULT_DISPLAY_MODE_DIRECTION() {
-    return "ASC";
+    return 'ASC';
   }
   static get DISPLAY_MODE() {
     return [Ext.DISPLAY_MODE_ACTIVE, Ext.DISPLAY_MODE_OPEN];
   }
   static get DISPLAY_MODE_ACTIVE() {
-    return "ACTIVE";
+    return 'ACTIVE';
   }
   static get DISPLAY_MODE_STANBY() {
-    return "STANBY";
+    return 'STANBY';
   }
   static get DISPLAY_MODE_OPEN() {
-    return "OPEN";
+    return 'OPEN';
   }
   static get DEVELOPMENT_HASH() {
-    return "#dev";
+    return '#dev';
   }
   static get IS_DEVELOPMENT_MODE() {
     return (location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`);
@@ -363,34 +363,34 @@ class Ext {
     if (Ext.IS_DEVELOPMENT_MODE) {
       return `//${Ext.BASE_DEV_HOST}`;
     }
-    if (TALKN_EXT_ENV === "PROD") {
+    if (TALKN_EXT_ENV === 'PROD') {
       return `//${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === "START") {
+    } else if (TALKN_EXT_ENV === 'START') {
       return `//${Ext.BASE_DEV_HOST}`;
-    } else if (TALKN_EXT_ENV === "DEV") {
+    } else if (TALKN_EXT_ENV === 'DEV') {
       return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
     }
   }
   static get APP_ASSETS_HOST() {
-    if (TALKN_EXT_ENV === "PROD") {
+    if (TALKN_EXT_ENV === 'PROD') {
       return `//assets.${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === "START") {
+    } else if (TALKN_EXT_ENV === 'START') {
       return `//assets.${Ext.BASE_DEV_HOST}`;
-    } else if (TALKN_EXT_ENV === "DEV") {
+    } else if (TALKN_EXT_ENV === 'DEV') {
       return `//assets.${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
     }
   }
   static get APP_EXT_HOST() {
-    if (TALKN_EXT_ENV === "PROD") {
+    if (TALKN_EXT_ENV === 'PROD') {
       return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === "START") {
+    } else if (TALKN_EXT_ENV === 'START') {
       return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
-    } else if (TALKN_EXT_ENV === "DEV") {
+    } else if (TALKN_EXT_ENV === 'DEV') {
       return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
     }
   }
   static get APP_ENDPOINT() {
-    const port = Ext.IS_DEVELOPMENT_MODE ? ":8080" : "";
+    const port = Ext.IS_DEVELOPMENT_MODE ? ':8080' : '';
     return `https:${Ext.APP_HOST}${port}`;
   }
   static get() {
@@ -411,14 +411,14 @@ class Ext {
     let embedTags = IframeEmbed.getAll();
 
     if (options && options.mode) {
-      if ("EXT_" + options.mode === Ext.USER_DEFINE_MODE_MODAL) {
+      if ('EXT_' + options.mode === Ext.USER_DEFINE_MODE_MODAL) {
         return Ext.USER_DEFINE_MODE_MODAL;
       }
-      if ("EXT_" + options.mode === Ext.USER_DEFINE_MODE_EMBED && options.selector) {
+      if ('EXT_' + options.mode === Ext.USER_DEFINE_MODE_EMBED && options.selector) {
         embedTags = window.document.querySelector(options.selector);
         if (embedTags) {
           Object.keys(options).forEach((key) => {
-            if (key !== "mode") {
+            if (key !== 'mode') {
               embedTags.style[key] = options[key];
             }
           });
@@ -454,7 +454,7 @@ class Ext {
   static getApiToRequestObj(iFrameId, method, params = {}) {
     return {
       iFrameId,
-      type: "EXT_TO_API_TYPE",
+      type: 'EXT_TO_API_TYPE',
       method: method,
       params: params,
       href: window.location.href,
@@ -467,37 +467,37 @@ class Ext {
 }
 
 class BootOption {
-  constructor ( id, href, tag ) {
+  constructor(id, href, tag) {
     this.id = id;
-    this.ch = href ? BootOption.getCh( href ) : location.href;
-    this.hasSlash = href.endsWith( "/" );
+    this.ch = href ? BootOption.getCh(href) : location.href;
+    this.hasSlash = href.endsWith('/');
     this.protocol = BootOption.getProtocol(href);
-    this.host = BootOption.getHost( this.ch );
+    this.host = BootOption.getHost(this.ch);
     this.extensionMode = BootOption.getExtensionMode(tag);
   }
   static getCh(ch) {
-    ch = ch.replace( "https:/", "" ).replace( "http:/", "" );
-    if ( ch.indexOf( Ext.BASE_DEV_HOST ) >= 0 ) {
-      if ( ch.indexOf( ':' ) >= 0 ) {
-        const rootIndex = ch.replace( /^\//, '' ).indexOf( '/' );
-        ch = ch.substr( rootIndex + 1 );
+    ch = ch.replace('https:/', '').replace('http:/', '');
+    if (ch.indexOf(Ext.BASE_DEV_HOST) >= 0) {
+      if (ch.indexOf(':') >= 0) {
+        const rootIndex = ch.replace(/^\//, '').indexOf('/');
+        ch = ch.substr(rootIndex + 1);
       } else {
         ch = ch.replace(`/${Ext.BASE_DEV_HOST}`, '');
       }
     }
-    ch = ch.replace(`${Ext.DEVELOPMENT_HASH}/`, "").replace(Ext.DEVELOPMENT_HASH, "");
-    return ch.endsWith("/") ? ch : ch + "/";
+    ch = ch.replace(`${Ext.DEVELOPMENT_HASH}/`, '').replace(Ext.DEVELOPMENT_HASH, '');
+    return ch.endsWith('/') ? ch : ch + '/';
   }
   static getProtocol(href) {
-    if (href.startsWith("https:")) return "https:";
-    if (href.startsWith("http:")) return "http:";
-    return "talkn:";
+    if (href.startsWith('https:')) return 'https:';
+    if (href.startsWith('http:')) return 'http:';
+    return 'talkn:';
   }
   static getHost(ch) {
-    return ch.split("/")[1];
+    return ch.split('/')[1];
   }
-  static getExtensionMode( tag ) {
-    if ( tag && tag.dataset && tag.dataset.mode ){
+  static getExtensionMode(tag) {
+    if (tag && tag.dataset && tag.dataset.mode) {
       return tag.dataset.mode;
     } else {
       return Iframe.DEFAULT_MODE;
@@ -526,7 +526,7 @@ class ReactMode {
     }
   }
   validAction(called, dispMode) {
-    let result = { success: false, errorMessage: "", warns: [] };
+    let result = { success: false, errorMessage: '', warns: [] };
     if (this.dom === undefined) {
       result.errorMessage = `Undefined dom ${this.name} #1`;
       return result;
@@ -538,7 +538,7 @@ class ReactMode {
     }
 
     const styles = this[`get${dispMode}Styles`](called);
-    if (typeof styles !== "object") {
+    if (typeof styles !== 'object') {
       result.errorMessage = `Undefined Styles, ${this.name}.get${dispMode}Styles, called ${called} #3`;
       result.warns = [styles, this[`get${dispMode}Styles`]];
       return result;
@@ -549,15 +549,15 @@ class ReactMode {
   callback(called, displayMode, displayModeDirection, actionName, _window) {
     // スマホだと頻繁にNativeのヘッダーやフッターが表示、非表示を繰り返しresizedが実行されてしまうため排他制御
     if (window.innerWidth < Styles.FULL_WIDTH_THRESHOLD) {
-      if (called !== "resized") {
+      if (called !== 'resized') {
         switch (displayMode) {
           case Ext.DISPLAY_MODE_ACTIVE:
-            if (displayModeDirection === "DESC") {
+            if (displayModeDirection === 'DESC') {
               window.scrollTo(0, _window.ins.body.locktimeMarginTop);
             }
             break;
           case Ext.DISPLAY_MODE_OPEN:
-            if (displayModeDirection === "DESC") {
+            if (displayModeDirection === 'DESC') {
               window.scrollTo(0, _window.ins.body.locktimeMarginTop);
             }
             break;
@@ -569,10 +569,10 @@ class ReactMode {
 
 class Window extends ReactMode {
   static get className() {
-    return "talknGlobalParts";
+    return 'talknGlobalParts';
   }
   static get talknNotifIdKey() {
-    return "talknNotifIdKey";
+    return 'talknNotifIdKey';
   }
   static get selectTop() {
     return window;
@@ -616,21 +616,20 @@ class Window extends ReactMode {
     return Object.keys(this.ins.iframes);
   }
 
-  constructor ( refusedStatus = false ) {
+  constructor(refusedStatus = false) {
     super(window);
     this.dom = window;
     this.refusedStatus = refusedStatus;
     this.isBrowserExt = Ext.isBrowserExt();
     this.host = Window.selectDoc.location.host;
-    const bootFlg = Ext.EXCLUSION_BOOT_HOSTS.every( ( exclusionHost ) => !(this.host === exclusionHost));
+    const bootFlg = Ext.EXCLUSION_BOOT_HOSTS.every((exclusionHost) => !(this.host === exclusionHost));
 
     if (bootFlg) {
-      let init = ( option = {} ) => {
-
+      let init = (option = {}) => {
         // Variable
         this.userDefineExtensionMode = Ext.getUserDefineExtensionMode(option);
         this.displayModeKey = Ext.DEFAULT_DISPLAY_MODE_KEY;
-        this.displayModeDirection = "ASC";
+        this.displayModeDirection = 'ASC';
         this.browser = this.getBrowser();
         this.handleMediaCurrentTime = 0;
         this.scrollY = window.scrollY;
@@ -644,7 +643,7 @@ class Window extends ReactMode {
         this.load = this.load.bind(this);
         this.resize = this.resize.bind(this);
         this.resized = this.resized.bind(this);
-        this.scroll = this.scroll.bind( this );
+        this.scroll = this.scroll.bind(this);
         this.loadIframe = this.loadIframe.bind(this);
         this.transitionend = this.transitionend.bind(this);
         this.remove = this.remove.bind(this);
@@ -657,11 +656,11 @@ class Window extends ReactMode {
         this.catchMessage = this.catchMessage.bind(this);
         this.getCatchMessageProccess = this.getCatchMessageProccess.bind(this);
 
-        window.addEventListener("message", this.catchMessage);
-        window.addEventListener("load", this.load);
-        window.addEventListener("resize", this.resize);
-        window.addEventListener("scroll", this.scroll);
-        window.addEventListener("transitionend", this.transitionend);
+        window.addEventListener('message', this.catchMessage);
+        window.addEventListener('load', this.load);
+        window.addEventListener('resize', this.resize);
+        window.addEventListener('scroll', this.scroll);
+        window.addEventListener('transitionend', this.transitionend);
 
         // media server.
         this.mediaServer = new MediaServer();
@@ -673,7 +672,7 @@ class Window extends ReactMode {
         this.ins.iframe = {};
         this.ins.iframes = {};
 
-        if ( this.refusedStatus ) {
+        if (this.refusedStatus) {
           this.loadIframe();
         }
       };
@@ -682,8 +681,8 @@ class Window extends ReactMode {
 
       if (this.isBrowserExt) {
         // Communication to background.js
-        chrome.runtime.sendMessage({ message: "message" }, (res) => {
-          const option = res ? JSON.parse( res ) : {};
+        chrome.runtime.sendMessage({ message: 'message' }, (res) => {
+          const option = res ? JSON.parse(res) : {};
           init(option);
         });
       } else {
@@ -698,40 +697,39 @@ class Window extends ReactMode {
 
     // Embed auto boot.
     if (this.embedIframeTagCnt > 0) {
-      this.embedIframeTags.forEach( ( embedtag, i ) => {
+      this.embedIframeTags.forEach((embedtag, i) => {
         const index = i + 1;
         embedtag.id = embedtag.id ? embedtag.id : `${Ext.APP_NAME}${Iframe.EXTENSION_MODE_EMBED}${index}`;
-        let href = embedtag.getAttribute("data-ch") ? embedtag.getAttribute("data-ch") : window.location.href;
+        let href = embedtag.getAttribute('data-ch') ? embedtag.getAttribute('data-ch') : window.location.href;
         href = href ? href : Window.selectTop.location.href;
         const bootOption = new BootOption(embedtag.id, href, embedtag);
-        const embedIframe = new IframeEmbed(this, bootOption, embedtag );
-        this.ins.iframes[ embedtag.id ] = embedIframe;
+        const embedIframe = new IframeEmbed(this, bootOption, embedtag);
+        this.ins.iframes[embedtag.id] = embedIframe;
       });
     }
 
     const extScript = Ext.get();
-    let href = extScript && extScript.dataset && extScript.dataset.ch ? extScript.dataset.ch : Window.selectTop.location.href
+    let href = extScript && extScript.dataset && extScript.dataset.ch ? extScript.dataset.ch : Window.selectTop.location.href;
     let bootOption = {};
     switch (this.userDefineExtensionMode) {
       case Iframe.EXTENSION_MODE_MODAL:
-        bootOption = new BootOption( this.userDefineExtensionMode, href );
-        this.ins.iframe = new IframeModal( this, bootOption );
-        this.ins.iframes[ this.userDefineExtensionMode ] = this.ins.iframe;
+        bootOption = new BootOption(this.userDefineExtensionMode, href);
+        this.ins.iframe = new IframeModal(this, bootOption);
+        this.ins.iframes[this.userDefineExtensionMode] = this.ins.iframe;
         break;
       case Iframe.EXTENSION_MODE_BOTTOM:
-        bootOption = new BootOption( this.userDefineExtensionMode, href );
-        this.ins.iframe = new IframeBottom( this, bootOption );
-        this.ins.iframes[ this.userDefineExtensionMode ] = this.ins.iframe;
+        bootOption = new BootOption(this.userDefineExtensionMode, href);
+        this.ins.iframe = new IframeBottom(this, bootOption);
+        this.ins.iframes[this.userDefineExtensionMode] = this.ins.iframe;
         break;
       case Iframe.EXTENSION_MODE_LIVE_MEDIA:
         const wrapTag = IframeLiveMedia.getWrap();
         href = wrapTag && wrapTag.dataset && wrapTag.dataset.url ? wrapTag.dataset.url : href;
-        bootOption = new BootOption( this.userDefineExtensionMode, href, extScript );
+        bootOption = new BootOption(this.userDefineExtensionMode, href, extScript);
         this.ins.iframe = new IframeLiveMedia(this, bootOption, IframeLiveMedia.appendRoot);
-        this.ins.iframes[ this.userDefineExtensionMode ] = this.ins.iframe;
+        this.ins.iframes[this.userDefineExtensionMode] = this.ins.iframe;
         break;
     }
-
   }
 
   /********************************/
@@ -745,16 +743,16 @@ class Window extends ReactMode {
         this.displayModeDirection = option.displayModeDirection;
       }
     } else {
-      if (this.displayModeDirection === "ASC") {
+      if (this.displayModeDirection === 'ASC') {
         this.displayModeKey++;
         if (this.displayModeKey >= Ext.DISPLAY_MODE.length) {
-          this.displayModeDirection = "DESC";
+          this.displayModeDirection = 'DESC';
           this.displayModeKey = this.displayModeKey - 2;
         }
       } else {
         this.displayModeKey--;
         if (this.displayModeKey < 0) {
-          this.displayModeDirection = "ASC";
+          this.displayModeDirection = 'ASC';
           this.displayModeKey = 1;
         }
       }
@@ -771,11 +769,11 @@ class Window extends ReactMode {
     const actionName = displayMode.charAt(0).toUpperCase() + displayMode.slice(1);
     const beforeDisplayMode = Ext.DISPLAY_MODE[this.displayModeKey];
     const beforeDisplayModeDirection = this.displayModeDirection;
-    if ( this ) this.action( called, actionName );
-    if ( body ) body.action( called, actionName );
-    if ( iframes ) this.iframeKeys.forEach( ( iFrameId ) => iframes[ iFrameId ].action( called, actionName ) );
-    if ( handleIcon ) handleIcon.action( called, actionName );
-    if ( notifStatus ) notifStatus.action( called, actionName );
+    if (this) this.action(called, actionName);
+    if (body) body.action(called, actionName);
+    if (iframes) this.iframeKeys.forEach((iFrameId) => iframes[iFrameId].action(called, actionName));
+    if (handleIcon) handleIcon.action(called, actionName);
+    if (notifStatus) notifStatus.action(called, actionName);
     this.callback(called, beforeDisplayMode, beforeDisplayModeDirection, actionName, this);
   }
 
@@ -802,14 +800,14 @@ class Window extends ReactMode {
 
   getBrowser() {
     const agent = window.navigator.userAgent.toLowerCase();
-    if (agent.indexOf("crios") !== -1 && agent.indexOf("safari") > 0) {
-      return "Chrome";
-    } else if (agent.indexOf("crios") === -1 && agent.indexOf("safari") > 0) {
-      return "Safari";
-    } else if (agent.indexOf("opera") > -1) {
-      return "Opera";
-    } else if (agent.indexOf("firefox") > -1) {
-      return "Firefox";
+    if (agent.indexOf('crios') !== -1 && agent.indexOf('safari') > 0) {
+      return 'Chrome';
+    } else if (agent.indexOf('crios') === -1 && agent.indexOf('safari') > 0) {
+      return 'Safari';
+    } else if (agent.indexOf('opera') > -1) {
+      return 'Opera';
+    } else if (agent.indexOf('firefox') > -1) {
+      return 'Firefox';
     }
   }
 
@@ -819,7 +817,7 @@ class Window extends ReactMode {
   /*************************/
 
   mediaServerTo(method, params) {
-    window.postMessage({ ...params, method, type: "EXT_TO_MEDIA_TYPE" });
+    window.postMessage({ ...params, method, type: 'EXT_TO_MEDIA_TYPE' });
   }
 
   /*************************/
@@ -833,29 +831,29 @@ class Window extends ReactMode {
     const { id: iFrameId, type, ioType, method, params } = e.data;
 
     switch (type) {
-      case "CLIENT_TO_EXT_TYPE":
+      case 'CLIENT_TO_EXT_TYPE':
         const proccess = this.getCatchMessageProccess(iFrameId, method);
-        if ( proccess.exeMethod ) {
+        if (proccess.exeMethod) {
           const iframe = iframes[iFrameId];
           iframe[method](params);
           clearTimeout(iframe.methodIdMap[method]);
           delete iframe.methodIdMap[method];
         } else {
-          if (proccess.error !== "") {
+          if (proccess.error !== '') {
             throw proccess.error;
           }
         }
         break;
-      case "API_TO_EXT_TYPE":
+      case 'API_TO_EXT_TYPE':
         break;
     }
   }
 
   getCatchMessageProccess(iFrameId, method) {
     const { iframes } = this.ins;
-    let proccess = { exeMethod: false, error: "" };
+    let proccess = { exeMethod: false, error: '' };
     if (!iframes) {
-      proccess.error = "Error: iframes.";
+      proccess.error = 'Error: iframes.';
       return proccess;
     }
     if (!iFrameId) {
@@ -863,7 +861,7 @@ class Window extends ReactMode {
       return proccess;
     }
 
-    const iframe = iframes[ iFrameId ];
+    const iframe = iframes[iFrameId];
     if (!iframe) {
       proccess.error = `Error: No iframes in iFrameId ${iFrameId}.`;
       return proccess;
@@ -873,7 +871,7 @@ class Window extends ReactMode {
       return proccess;
     }
 
-    if (typeof iframe[method] !== "function") {
+    if (typeof iframe[method] !== 'function') {
       proccess.error = `Error: No Exist Accept Method ${method} in iFrameId ${iFrameId}.`;
       return proccess;
     }
@@ -886,7 +884,7 @@ class Window extends ReactMode {
   /* CALLBACKS             */
   /*************************/
 
-  load( e ) {
+  load(e) {
     this.loadIframe();
     this.resized();
   }
@@ -907,14 +905,14 @@ class Window extends ReactMode {
         this.transitionEndId = null;
 
         this.iframeKeys.forEach((iFrameId) => {
-          const iframe = iframes[ iFrameId ];
+          const iframe = iframes[iFrameId];
           const clientToParams = {
             ui: {
               extensionWidth: iframe.dom.clientWidth,
               extensionHeight: iframe.dom.innerHeight,
             },
           };
-          iframe.extToClient("UPDATE_EXTENSION", clientToParams);
+          iframe.extToClient('UPDATE_EXTENSION', clientToParams);
           iframe.transitionEnd(e);
         });
       }, Styles.BASE_TRANSITION);
@@ -924,11 +922,11 @@ class Window extends ReactMode {
     if (handleIcon && handleIcon.transitionEnd) handleIcon.transitionEnd(e);
   }
 
-  resized( e ) {
+  resized(e) {
     const { iframes } = this.ins;
     this.resizeMethodId = null;
 
-    this.updateDisplayMode("resized", true, {
+    this.updateDisplayMode('resized', true, {
       displayModeKey: this.displayModeKey,
       displayModeDirection: this.displayModeDirection,
     });
@@ -941,16 +939,16 @@ class Window extends ReactMode {
           extensionHeight: iframe.dom.innerHeight,
         },
       };
-      iframes[iFrameId].extToClient("UPDATE_EXTENSION", clientToParams);
+      iframes[iFrameId].extToClient('UPDATE_EXTENSION', clientToParams);
     });
   }
 
   remove() {
-    window.removeEventListener("message", this.catchMessage);
-    window.removeEventListener("load", this.load);
-    window.removeEventListener("resize", this.resize);
-    window.removeEventListener("scroll", this.scroll);
-    window.removeEventListener("transitionend", this.transitionend);
+    window.removeEventListener('message', this.catchMessage);
+    window.removeEventListener('load', this.load);
+    window.removeEventListener('resize', this.resize);
+    window.removeEventListener('scroll', this.scroll);
+    window.removeEventListener('transitionend', this.transitionend);
   }
 
   /*************************/
@@ -990,24 +988,24 @@ class Styles {
     return 5;
   }
   static get BASE_SHADOW() {
-    return "rgba(200, 200, 200, 0.9) 0px 0px 1px 0px !important;";
+    return 'rgba(200, 200, 200, 0.9) 0px 0px 1px 0px !important;';
   }
   static get BASE_ACTIVE_BG_COLOR() {
-    return "rgba(255, 255, 255, 0.975) !important;";
+    return 'rgba(255, 255, 255, 0.975) !important;';
   }
   static get BASE_UNACTIVE_BG_COLOR() {
-    return "rgba(255, 255, 255, 0.85) !important;";
+    return 'rgba(255, 255, 255, 0.85) !important;';
   }
   static get BASE_ACTIVE_BORDER() {
-    return "1px solid rgba(235, 235, 235, 0.975) !important;";
+    return '1px solid rgba(235, 235, 235, 0.975) !important;';
   }
   static get BASE_UNACTIVE_BORDER() {
-    return "1px solid rgba(235, 235, 235, 0.85) !important;";
+    return '1px solid rgba(235, 235, 235, 0.85) !important;';
   }
   constructor() {
-    this.dom = document.createElement("style");
+    this.dom = document.createElement('style');
     const css = document.createTextNode(``);
-    this.dom.type = "text/css";
+    this.dom.type = 'text/css';
     this.dom.appendChild(css);
     document.head.appendChild(this.dom);
   }
@@ -1051,15 +1049,15 @@ class Body extends ReactMode {
     let styles = {};
     if (window.innerWidth < Styles.FULL_WIDTH_THRESHOLD) {
       // スマホでOPENした際にresizedが実行されるため排他制御
-      if (called === "resized") {
+      if (called === 'resized') {
         return styles;
       } else {
         this.locktimeMarginTop = window.scrollY;
         return {
-          position: "fixed",
-          width: "100%",
-          height: "100%",
-          marginTop: -window.scrollY + "px",
+          position: 'fixed',
+          width: '100%',
+          height: '100%',
+          marginTop: -window.scrollY + 'px',
         };
       }
     }
@@ -1071,28 +1069,28 @@ class Body extends ReactMode {
 
 class Iframe extends ReactMode {
   static get EXTENSION_MODE_MODAL() {
-    return "Modal";
+    return 'Modal';
   }
   static get EXTENSION_MODE_BOTTOM() {
-    return "Bottom";
+    return 'Bottom';
   }
   static get EXTENSION_MODE_EMBED() {
-    return "Embed";
+    return 'Embed';
   }
   static get EXTENSION_MODE_OUT_WINDOW() {
-    return "OutWindow";
+    return 'OutWindow';
   }
   static get EXTENSION_MODE_LIVE_MEDIA() {
-    return "LiveMedia";
+    return 'LiveMedia';
   }
   static get EXT_TO_CLIENT_TYPE() {
-    return "EXT_TO_CLIENT_TYPE";
+    return 'EXT_TO_CLIENT_TYPE';
   }
   static get MEDIA_TO_CLIENT_TYPE() {
-    return "MEDIA_TO_CLIENT_TYPE";
+    return 'MEDIA_TO_CLIENT_TYPE';
   }
   static get CLASS_NAME() {
-    return "talknIframes";
+    return 'talknIframes';
   }
   static get DEFAULT_MODE() {
     return Iframe.EXTENSION_MODE_MODAL;
@@ -1106,7 +1104,7 @@ class Iframe extends ReactMode {
   constructor(_window, bootOption, root) {
     super(_window);
 
-    if (bootOption.id === "") {
+    if (bootOption.id === '') {
       throw `Error: Please set id that iframe root tag ${bootOption.extensionMode}`;
     }
 
@@ -1135,19 +1133,19 @@ class Iframe extends ReactMode {
     this.extensionMode = bootOption.extensionMode;
     this.event = new Event(this.getEventId());
     this.src = this.getSrc();
-    this.dom = document.createElement("iframe");
-    this.dom.setAttribute("id", this.id);
-    this.dom.setAttribute("name", this.id);
-    this.dom.setAttribute("class", Iframe.CLASS_NAME);
-    this.dom.setAttribute("src", this.src);
-    this.dom.setAttribute("frameBorder", 0);
-    this.dom.setAttribute("scrolling", "yes");
-    this.dom.setAttribute("style", this.getStyles());
-    this.dom.addEventListener("load", this.load);
-    root.appendChild( this.dom );
+    this.dom = document.createElement('iframe');
+    this.dom.setAttribute('id', this.id);
+    this.dom.setAttribute('name', this.id);
+    this.dom.setAttribute('class', Iframe.CLASS_NAME);
+    this.dom.setAttribute('src', this.src);
+    this.dom.setAttribute('frameBorder', 0);
+    this.dom.setAttribute('scrolling', 'yes');
+    this.dom.setAttribute('style', this.getStyles());
+    this.dom.addEventListener('load', this.load);
+    root.appendChild(this.dom);
   }
   getEventId() {
-    return `loadState${ this.id }`;
+    return `loadState${this.id}`;
   }
   getSrc() {
     if (this.window.refusedStatus === Window.refusedStatusCsp) {
@@ -1179,18 +1177,18 @@ class Iframe extends ReactMode {
     };
   }
 
-  extToClient( method, params = {}, methodBack ) {
+  extToClient(method, params = {}, methodBack) {
     const requestObj = this.getExtToClientObj(method, params, methodBack);
-    this.methodIdMap[ method ] = setTimeout( () => this.handleClientToError( this.id, method ), Iframe.activeMethodSecond );
-    
+    this.methodIdMap[method] = setTimeout(() => this.handleClientToError(this.id, method), Iframe.activeMethodSecond);
+
     try {
-      this.dom.contentWindow.postMessage( requestObj, this.src );
-    } catch ( e ) {
+      this.dom.contentWindow.postMessage(requestObj, this.src);
+    } catch (e) {
       const iframe = IframeLiveMedia.get();
-      if ( !iframe ) { 
+      if (!iframe) {
         this.remove();
-        new Window( Window.refusedStatusNoExistIframe );
-        console.warn("NO iframe " + method);
+        new Window(Window.refusedStatusNoExistIframe);
+        console.warn('NO iframe ' + method);
       }
     }
   }
@@ -1198,21 +1196,21 @@ class Iframe extends ReactMode {
   handleClientToError(iFrameId, method) {
     if (this.methodIdMap[method]) {
       switch (method) {
-        case "handleExtAndClient":
+        case 'handleExtAndClient':
           this.remove();
-          console.warn("CSP Reboot: " + method);
+          console.warn('CSP Reboot: ' + method);
           new Window(Window.refusedStatusCsp);
           break;
       }
     }
   }
 
-  load( e ) {
+  load(e) {
     // update inline iframe src ( live media ).
-    if ( this.window.userDefineExtensionMode === Iframe.EXTENSION_MODE_LIVE_MEDIA ) {
+    if (this.window.userDefineExtensionMode === Iframe.EXTENSION_MODE_LIVE_MEDIA) {
       const iframeLiveMediaWrap = IframeLiveMedia.getWrap();
       const iframeLiveMedia = IframeLiveMedia.get();
-      this.bootOption.ch = BootOption.getCh( iframeLiveMediaWrap.dataset.url );
+      this.bootOption.ch = BootOption.getCh(iframeLiveMediaWrap.dataset.url);
       this.src = this.getSrc();
     }
 
@@ -1226,22 +1224,22 @@ class Iframe extends ReactMode {
       },
     };
 
-    this.extToClient("handleExtAndClient", params);
-    this.window.mediaServerTo( "handleExtAndMedia", this.bootOption );
+    this.extToClient('handleExtAndClient', params);
+    this.window.mediaServerTo('handleExtAndMedia', this.bootOption);
   }
 
   remove() {
-    this.dom.removeEventListener("load", this.load);
+    this.dom.removeEventListener('load', this.load);
     this.dom.remove();
     delete this;
   }
 
   handleExtAndClient(state) {
     this.state = state;
-    this.extToClient("ON_TRANSITION");
+    this.extToClient('ON_TRANSITION');
   }
 
-  tune( state ) {
+  tune(state) {
     this.state = { ...this.state, ...state };
   }
 
@@ -1250,33 +1248,33 @@ class Iframe extends ReactMode {
   }
 
   getClientMetas() {
-    let title = document.querySelector("title");
-    title = title && title.text !== "" ? title.text : "";
-    let description = document.querySelector("description");
-    description = description && description.text !== "" ? description.text : "";
-    const metas = document.querySelectorAll("meta");
+    let title = document.querySelector('title');
+    title = title && title.text !== '' ? title.text : '';
+    let description = document.querySelector('description');
+    description = description && description.text !== '' ? description.text : '';
+    const metas = document.querySelectorAll('meta');
     let clientMetas = { title, description };
 
     for (let i = 0; i < metas.length; i++) {
       const item = metas[i];
       let key = i;
-      let content = "";
-      if (item.getAttribute("name")) {
-        key = item.getAttribute("name");
-        content = item.getAttribute("content");
-      } else if (item.getAttribute("property")) {
-        key = item.getAttribute("property");
-        content = item.getAttribute("content");
-      } else if (item.getAttribute("chaset")) {
-        key = "charset";
-        content = item.getAttribute("chaset");
-      } else if (item.getAttribute("http-equiv")) {
-        key = item.getAttribute("http-equiv");
-        content = item.getAttribute("content");
+      let content = '';
+      if (item.getAttribute('name')) {
+        key = item.getAttribute('name');
+        content = item.getAttribute('content');
+      } else if (item.getAttribute('property')) {
+        key = item.getAttribute('property');
+        content = item.getAttribute('content');
+      } else if (item.getAttribute('chaset')) {
+        key = 'charset';
+        content = item.getAttribute('chaset');
+      } else if (item.getAttribute('http-equiv')) {
+        key = item.getAttribute('http-equiv');
+        content = item.getAttribute('content');
       }
       clientMetas[key] = content;
     }
-    this.extToClient("GET_CLIENT_METAS", clientMetas);
+    this.extToClient('GET_CLIENT_METAS', clientMetas);
   }
 
   setInputPost(params) {
@@ -1288,20 +1286,20 @@ class Iframe extends ReactMode {
 
 class IframeModal extends Iframe {
   static getCloseHeight(addUnit = false) {
-    return addUnit ? "45px" : 45;
+    return addUnit ? '45px' : 45;
   }
   static getIframeOpenNotifHeight() {
-    return "85px";
+    return '85px';
   }
 
   static get width() {
-    return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : 280;
+    return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? '96%' : 280;
   }
   static get height() {
-    return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : 420;
+    return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? '2%' : 420;
   }
   static get right() {
-    return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : 10;
+    return window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? '2%' : 10;
   }
   static get transform() {
     return `translate3d( 0px, ${Styles.BOTTOM}px, 0px )`;
@@ -1317,25 +1315,25 @@ class IframeModal extends Iframe {
   }
   get acceptPostMessages() {
     return [
-      "handleExtAndClient",
-      "tune",
-      "changeThread",
-      "openNotif",
-      "closeNotif",
-      "toggleIframe",
-      "location",
-      "disconnect",
-      "linkTo",
-      "setInputPost",
-      "getClientMetas",
+      'handleExtAndClient',
+      'tune',
+      'changeThread',
+      'openNotif',
+      'closeNotif',
+      'toggleIframe',
+      'location',
+      'disconnect',
+      'linkTo',
+      'setInputPost',
+      'getClientMetas',
     ];
   }
-  constructor ( _window, bootOption ) {    
+  constructor(_window, bootOption) {
     super(_window, bootOption, IframeModal.appendRoot);
 
     // parts
-    _window.ins.handleIcon = new HandleIcon( _window );
-    _window.ins.notifStatus = new LiveCnt( _window );
+    _window.ins.handleIcon = new HandleIcon(_window);
+    _window.ins.notifStatus = new LiveCnt(_window);
 
     // dom.
     this.getWidth = this.getWidth.bind(this);
@@ -1346,7 +1344,7 @@ class IframeModal extends Iframe {
     // communication.
     this.handleExtAndClient = this.handleExtAndClient.bind(this);
     this.remove = this.remove.bind(this);
-    this.tune = this.tune.bind( this );
+    this.tune = this.tune.bind(this);
     this.changeThread = this.changeThread.bind(this);
     this.updateLiveCnt = this.updateLiveCnt.bind(this);
     this.openNotif = this.openNotif.bind(this);
@@ -1372,11 +1370,11 @@ class IframeModal extends Iframe {
   getStyles(width) {
     const activeStyles = this.getActiveStyles();
     return (
-      "" +
+      '' +
       `z-index: ${Styles.zIndex - 2} !important;` +
-      "display: block !important;" +
-      "align-items: flex-end !important;" +
-      "position: fixed !important; " +
+      'display: block !important;' +
+      'align-items: flex-end !important;' +
+      'position: fixed !important; ' +
       `bottom: ${Styles.BOTTOM}px !important;` +
       `right: ${activeStyles.right} !important;` +
       `border-radius: 10px !important;` +
@@ -1384,8 +1382,8 @@ class IframeModal extends Iframe {
       `width: ${activeStyles.width} !important;` +
       `min-height: ${activeStyles.height} !important;` +
       `height: ${activeStyles.height} !important;` +
-      "margin: 0 !important;" +
-      "padding: 0 !important;" +
+      'margin: 0 !important;' +
+      'padding: 0 !important;' +
       `opacity: ${activeStyles.opacity} !important;` +
       `overflow: hidden !important;` +
       `clip-path: inset(0px round 10px) !important;` +
@@ -1396,26 +1394,23 @@ class IframeModal extends Iframe {
   }
 
   getWidth(addUnit = false) {
-    const width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "96%" : Styles.WIDTH + "px";
-    return addUnit ? width : width.replace("px", "").replace("%", "");
+    const width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? '96%' : Styles.WIDTH + 'px';
+    return addUnit ? width : width.replace('px', '').replace('%', '');
   }
 
   getHeight(addUnit = false) {
-    let height = "0px";
-    height =
-      window.innerWidth < Styles.FULL_WIDTH_THRESHOLD
-        ? `${Math.floor(window.innerHeight * 0.9)}px`
-        : `${IframeModal.height}px`;
-    return addUnit ? height : height.replace("px", "").replace("%", "");
+    let height = '0px';
+    height = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? `${Math.floor(window.innerHeight * 0.9)}px` : `${IframeModal.height}px`;
+    return addUnit ? height : height.replace('px', '').replace('%', '');
   }
 
   getRight(addUnit = false) {
-    const right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "2%" : "10px";
-    return addUnit ? right : right.replace("px", "").replace("%", "");
+    const right = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? '2%' : '10px';
+    return addUnit ? right : right.replace('px', '').replace('%', '');
   }
 
   getTransform() {
-    let transform = "translate3d( 0px 0px 0px)";
+    let transform = 'translate3d( 0px 0px 0px)';
     switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
       case Ext.DISPLAY_MODE_ACTIVE:
         const translateY = Styles.BOTTOM + Number(this.getHeight());
@@ -1428,14 +1423,14 @@ class IframeModal extends Iframe {
   }
 
   getOpacity(addUnit = false) {
-    let width = Styles.WIDTH + "px";
+    let width = Styles.WIDTH + 'px';
     switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
       case Ext.DISPLAY_MODE_ACTIVE:
         return 1;
       case Ext.DISPLAY_MODE_OPEN:
         return 1;
     }
-    return addUnit ? width : width.replace("px", "").replace("%", "");
+    return addUnit ? width : width.replace('px', '').replace('%', '');
   }
 
   static getModalOpenTransform() {
@@ -1452,7 +1447,7 @@ class IframeModal extends Iframe {
   /********************************/
 
   toggleIframe(params) {
-    this.window.updateDisplayMode("toggleIframe");
+    this.window.updateDisplayMode('toggleIframe');
   }
 
   tune(state) {
@@ -1500,7 +1495,7 @@ class IframeModal extends Iframe {
   }
 
   remove() {
-    this.dom.removeEventListener("load", this.load);
+    this.dom.removeEventListener('load', this.load);
     this.dom.remove();
     delete this;
   }
@@ -1549,36 +1544,33 @@ class IframeBottom extends Iframe {
   getStyles(width) {
     const height = IframeModal.getCloseHeight(true);
     return (
-      "" +
+      '' +
       `z-index: ${Styles.zIndex} !important;` +
       `overflow: hidden !important;` +
-      "display: none !important;" +
-      "align-items: flex-end !important;" +
-      "position: fixed !important; " +
-      "bottom: 0px !important;" +
-      "right: 0px !important;" +
+      'display: none !important;' +
+      'align-items: flex-end !important;' +
+      'position: fixed !important; ' +
+      'bottom: 0px !important;' +
+      'right: 0px !important;' +
       `min-width: ${activeStyles.width} !important;` +
       `width: ${width} !important;` +
       `min-height: ${activeStyles.height} !important;` +
       `height: ${height} !important;` +
-      "margin: 0 !important;" +
-      "padding: 0 !important;" +
-      "transition: 0ms !important;" +
-      "transform: translate3d(0px, 0px, 0px) !important;"
+      'margin: 0 !important;' +
+      'padding: 0 !important;' +
+      'transition: 0ms !important;' +
+      'transform: translate3d(0px, 0px, 0px) !important;'
     );
   }
 
   getWidth(addUnit = false) {
-    width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "100%" : Styles.WIDTH;
-    return addUnit ? width : width.replace("px", "").replace("%", "");
+    width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? '100%' : Styles.WIDTH;
+    return addUnit ? width : width.replace('px', '').replace('%', '');
   }
 
   getHeight(addUnit = false) {
-    height =
-      window.innerWidth < Styles.FULL_WIDTH_THRESHOLD
-        ? `${Math.floor(window.innerHeight * 0.9)}px`
-        : IframeModal.getCloseHeight(true);
-    return addUnit ? height : height.replace("px", "").replace("%", "");
+    height = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? `${Math.floor(window.innerHeight * 0.9)}px` : IframeModal.getCloseHeight(true);
+    return addUnit ? height : height.replace('px', '').replace('%', '');
   }
 
   getRight() {
@@ -1586,7 +1578,7 @@ class IframeBottom extends Iframe {
   }
 
   getTransform() {
-    let transform = "translate3d( 0px 0px 0px)";
+    let transform = 'translate3d( 0px 0px 0px)';
     switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
       case Ext.DISPLAY_MODE_ACTIVE:
         const translateY = Styles.BOTTOM + Number(this.getHeight());
@@ -1599,9 +1591,9 @@ class IframeBottom extends Iframe {
   }
 
   getOpacity(addUnit = false) {
-    let width = Styles.WIDTH + "px";
-    width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "100%" : width;
-    return addUnit ? width : width.replace("px", "").replace("%", "");
+    let width = Styles.WIDTH + 'px';
+    width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? '100%' : width;
+    return addUnit ? width : width.replace('px', '').replace('%', '');
   }
 }
 
@@ -1620,17 +1612,7 @@ class IframeEmbed extends Iframe {
     return window.document.querySelectorAll(IframeEmbed.className);
   }
   get acceptPostMessages() {
-    return [
-      "handleExtAndClient",
-      "tune",
-      "changeThread",
-      "toggleIframe",
-      "location",
-      "disconnect",
-      "linkTo",
-      "setInputPost",
-      "getClientMetas",
-    ];
+    return ['handleExtAndClient', 'tune', 'changeThread', 'toggleIframe', 'location', 'disconnect', 'linkTo', 'setInputPost', 'getClientMetas'];
   }
   constructor(_window, bootOption, appendRoot) {
     super(_window, bootOption, appendRoot);
@@ -1650,29 +1632,29 @@ class IframeEmbed extends Iframe {
   }
 
   getStyles() {
-    let { width, height } = getComputedStyle( this.root );
+    let { width, height } = getComputedStyle(this.root);
     const fixWidth = width ? width : IframeEmbed.defaultMinWidth;
     const fixHeight = height ? height : IframeEmbed.defaultMinHeight;
     return (
-      "" +
+      '' +
       `z-index: ${Styles.zIndex} !important;` +
       `overflow: hidden !important;` +
-      "display: block !important;" +
-      "align-items: flex-end !important;" +
-      "bottom: 0px !important;" +
-      "right: 0px !important;" +
+      'display: block !important;' +
+      'align-items: flex-end !important;' +
+      'bottom: 0px !important;' +
+      'right: 0px !important;' +
       `width: 100% !important;` +
       `min-width: ${fixWidth} !important;` +
       `max-width: ${fixWidth} !important;` +
       `height: 100% !important;` +
       `min-height: ${fixHeight} !important;` +
       `max-height: ${fixHeight} !important;` +
-      "margin: 0 !important;" +
-      "padding: 0 !important;" +
+      'margin: 0 !important;' +
+      'padding: 0 !important;' +
       `clip-path: inset(0px round 10px) !important;` +
       `-webkit-clip-path: inset(0px round 10px) !important;` +
-      "transition: 0ms !important;" +
-      "transform: translate3d(0px, 0px, 0px) !important;"
+      'transition: 0ms !important;' +
+      'transform: translate3d(0px, 0px, 0px) !important;'
     );
   }
 
@@ -1723,7 +1705,7 @@ class IframeEmbed extends Iframe {
   }
 
   getTransform() {
-    return "translate3d( 0px 0px 0px)";
+    return 'translate3d( 0px 0px 0px)';
   }
 
   getOpacity() {
@@ -1732,7 +1714,7 @@ class IframeEmbed extends Iframe {
 }
 
 class IframeLiveMedia extends Iframe {
-    static get defaultMinWidth() {
+  static get defaultMinWidth() {
     return '280px';
   }
   static get defaultMinHeight() {
@@ -1755,26 +1737,21 @@ class IframeLiveMedia extends Iframe {
     return window.document.querySelector(`${IframeLiveMedia.id} iframe`);
   }
   get acceptPostMessages() {
-    return [
-      "handleExtAndClient",
-      "sendStampData",
-      "tune",
-      "disconnect"
-    ];
+    return ['handleExtAndClient', 'sendStampData', 'tune', 'disconnect'];
   }
-  constructor ( _window, bootOption ) {
+  constructor(_window, bootOption) {
     console.log('new IframeLiveMedia');
-    super( _window, bootOption, IframeLiveMedia.appendRoot );
+    super(_window, bootOption, IframeLiveMedia.appendRoot);
 
     // parts
-    _window.ins.liveMediaPost = new LiveMediaPost( this );
-    _window.ins.notifStatus = new LiveCnt( _window );
+    _window.ins.liveMediaPost = new LiveMediaPost(this);
+    _window.ins.notifStatus = new LiveCnt(_window);
 
     // bind
     this.sendStampData = this.sendStampData.bind(this);
-    this.load = this.load.bind( this );
-    this.toggleDetail = this.toggleDetail.bind( this );
-    this.remove = this.remove.bind( this );
+    this.load = this.load.bind(this);
+    this.toggleDetail = this.toggleDetail.bind(this);
+    this.remove = this.remove.bind(this);
 
     // dom
     this.getWidth = this.getWidth.bind(this);
@@ -1784,27 +1761,27 @@ class IframeLiveMedia extends Iframe {
   }
 
   getStyles() {
-    let { width, height } = getComputedStyle( this.root );
+    let { width, height } = getComputedStyle(this.root);
     const fixWidth = width ? width : IframeLiveMedia.defaultMinWidth;
     const fixHeight = height ? height : IframeLiveMedia.defaultMinHeight;
     return (
-      "" +
+      '' +
       `z-index: ${Styles.zIndex} !important;` +
       `overflow: hidden !important;` +
-      "display: block !important;" +
-      "align-items: flex-end !important;" +
-      "bottom: 0px !important;" +
-      "right: 0px !important;" +
+      'display: block !important;' +
+      'align-items: flex-end !important;' +
+      'bottom: 0px !important;' +
+      'right: 0px !important;' +
       `width: ${fixWidth} !important;` +
       `min-width: auto !important;` +
       `max-width: auto !important;` +
       `height: ${fixHeight} !important;` +
       `min-height: auto !important;` +
       `max-height: auto !important;` +
-      "margin: 0 !important;" +
-      "padding: 0 !important;" +
-      "transition: 0ms !important;" +
-      "transform: translate3d(0px, 0px, 0px) !important;"
+      'margin: 0 !important;' +
+      'padding: 0 !important;' +
+      'transition: 0ms !important;' +
+      'transform: translate3d(0px, 0px, 0px) !important;'
     );
   }
 
@@ -1815,45 +1792,45 @@ class IframeLiveMedia extends Iframe {
   toggleDetail() {
     const { ui, thread } = this.state;
     this.state.ui.isOpenDetail = !ui.isOpenDetail;
-    this.extToClient( "ON_CLICK_TOGGLE_DISP_DETAIL", { ui: { isOpenDetail: this.state.ui.isOpenDetail }, app: { detailCh: thread.ch } } );  
+    this.extToClient('ON_CLICK_TOGGLE_DISP_DETAIL', { ui: { isOpenDetail: this.state.ui.isOpenDetail }, app: { detailCh: thread.ch } });
   }
 
   updateThreadServerMetas(params) {
-    this.extToClient( "updateThreadServerMetas", params );  
+    this.extToClient('updateThreadServerMetas', params);
   }
-  
+
   /*************************/
   /* CALLBACKS             */
   /*************************/
 
   remove() {
     const { notifStatus, liveMediaPost } = this.window.ins;
-    const openDetailTag = Window.select( `${ IframeLiveMedia.openDetailId }` );
+    const openDetailTag = Window.select(`${IframeLiveMedia.openDetailId}`);
     super.remove();
-    if ( openDetailTag ) {
-      openDetailTag.removeEventListener( 'click', this.load );
+    if (openDetailTag) {
+      openDetailTag.removeEventListener('click', this.load);
     }
     notifStatus.remove();
     liveMediaPost.remove();
   }
 
-  sendStampData( stampData ) {
+  sendStampData(stampData) {
     const { liveMediaPost } = this.window.ins;
     liveMediaPost.setStampData(stampData);
   }
 
-  tune( state ) {
+  tune(state) {
     super.tune(state);
     this.updateLiveCnt();
     const wrapTag = IframeLiveMedia.getWrap();
-    wrapTag.dispatchEvent( this.event );
+    wrapTag.dispatchEvent(this.event);
   }
 
-  disconnect( state ) {
+  disconnect(state) {
     this.state = state;
     this.updateLiveCnt();
   }
-  
+
   updateLiveCnt() {
     const { state, window } = this;
     const { liveCnt } = state.thread;
@@ -1861,7 +1838,7 @@ class IframeLiveMedia extends Iframe {
     const { notifStatus } = ins;
     notifStatus.updateCnt(liveCnt);
   }
-  
+
   /*************************/
   /* ANIMATION             */
   /*************************/
@@ -1909,7 +1886,7 @@ class IframeLiveMedia extends Iframe {
   }
 
   getTransform() {
-    return "translate3d( 0px 0px 0px)";
+    return 'translate3d( 0px 0px 0px)';
   }
 
   getOpacity() {
@@ -1925,27 +1902,27 @@ class LiveMediaPost {
     return 180;
   }
   static get stamlUlOpenTransform() {
-    return "translate3d(0px, -235px, 0px)";
+    return 'translate3d(0px, -235px, 0px)';
   }
   static get stamlUlCloseTransform() {
-    return "translate3d(0px, 0px, 0px)";
+    return 'translate3d(0px, 0px, 0px)';
   }
   static get postRegex() {
     return /^\s*$/;
   }
-  constructor ( iframe ) {
+  constructor(iframe) {
     this.iframe = iframe;
     this.stampInputs;
     this.stampMap;
-    this.postEvent = this.postEvent.bind( this );
-    this.createWrap = this.createWrap.bind( this );
-    this.createIcon = this.createIcon.bind( this );
-    this.createTextareaField = this.createTextareaField.bind( this );
-    this.createTextarea = this.createTextarea.bind( this );
-    this.createButton = this.createButton.bind( this );
-    this.createStampUl = this.createStampUl.bind( this );
+    this.postEvent = this.postEvent.bind(this);
+    this.createWrap = this.createWrap.bind(this);
+    this.createIcon = this.createIcon.bind(this);
+    this.createTextareaField = this.createTextareaField.bind(this);
+    this.createTextarea = this.createTextarea.bind(this);
+    this.createButton = this.createButton.bind(this);
+    this.createStampUl = this.createStampUl.bind(this);
     this.appendStampCover = this.appendStampCover.bind(this);
-    this.appendStampChild = this.appendStampChild.bind( this );
+    this.appendStampChild = this.appendStampChild.bind(this);
 
     const wrap = this.createWrap();
     const icon = this.createIcon();
@@ -1955,98 +1932,98 @@ class LiveMediaPost {
     const stampUl = this.createStampUl();
 
     textareaField.append(textarea);
-    wrap.append( icon );
-    wrap.append( textareaField );
-    wrap.append( button );
-    wrap.append( stampUl );
-    Window.select( `#${LiveMediaPost.id}` ).append(wrap);
+    wrap.append(icon);
+    wrap.append(textareaField);
+    wrap.append(button);
+    wrap.append(stampUl);
+    Window.select(`#${LiveMediaPost.id}`).append(wrap);
   }
 
-  postEvent( inputStampId = 0 ) {
-    const textareaField = Window.select(`#${ LiveMediaPost.id }TextareaField` );
-    let textarea = Window.select( `#${ LiveMediaPost.id }Textarea` );
+  postEvent(inputStampId = 0) {
+    const textareaField = Window.select(`#${LiveMediaPost.id}TextareaField`);
+    let textarea = Window.select(`#${LiveMediaPost.id}Textarea`);
 
-    if ( textareaField && textarea ) {
-      const inputPost = inputStampId === 0 ? textarea.value : this.stampMap[ inputStampId ];
-      if ( !LiveMediaPost.postRegex.test( inputPost ) ) {
+    if (textareaField && textarea) {
+      const inputPost = inputStampId === 0 ? textarea.value : this.stampMap[inputStampId];
+      if (!LiveMediaPost.postRegex.test(inputPost)) {
         const thread = this.iframe.state.thread;
-        this.iframe.extToClient( "post", { app: { inputPost, inputStampId }, thread } );
+        this.iframe.extToClient('post', { app: { inputPost, inputStampId }, thread });
         textarea.remove();
         textarea = this.createTextarea();
-        textareaField.append( textarea );
+        textareaField.append(textarea);
       }
     }
   }
 
   createWrap() {
-    const wrap = document.createElement("div"); 
+    const wrap = document.createElement('div');
     wrap.id = `${LiveMediaPost.id}Wrap`;
-    wrap.style = this.getStyle( 'wrap' );
+    wrap.style = this.getStyle('wrap');
     return wrap;
   }
 
   createIcon() {
-    const icon = document.createElement( "div" ); 
-    const iconClickEvent = ( e ) => {
-      const stampUl = Window.select( `#${ LiveMediaPost.id }StampUl` );
-      stampUl.style.transform = stampUl.style.transform === LiveMediaPost.stamlUlOpenTransform ?
-        LiveMediaPost.stamlUlCloseTransform : LiveMediaPost.stamlUlOpenTransform;
-    }
-    icon.id = `${ LiveMediaPost.id }Icon`;
-    icon.style = this.getStyle( 'icon' );
-    icon.addEventListener( "click", iconClickEvent );
+    const icon = document.createElement('div');
+    const iconClickEvent = (e) => {
+      const stampUl = Window.select(`#${LiveMediaPost.id}StampUl`);
+      stampUl.style.transform =
+        stampUl.style.transform === LiveMediaPost.stamlUlOpenTransform ? LiveMediaPost.stamlUlCloseTransform : LiveMediaPost.stamlUlOpenTransform;
+    };
+    icon.id = `${LiveMediaPost.id}Icon`;
+    icon.style = this.getStyle('icon');
+    icon.addEventListener('click', iconClickEvent);
     return icon;
   }
 
   createTextareaField() {
-    const textareaField = document.createElement( "div" );
-    textareaField.id = `${ LiveMediaPost.id }TextareaField`;
+    const textareaField = document.createElement('div');
+    textareaField.id = `${LiveMediaPost.id}TextareaField`;
     textareaField.style = this.getStyle('textareaField');
     return textareaField;
   }
 
   createTextarea() {
-    const textarea = document.createElement( "textarea" );
-    const textareaFocusEvent = ( e ) => e.target.style.background = "rgba(220, 220, 220, 0.4)";
-    const textareaUnfocusEvent = ( e ) => e.target.style.background = "rgba(230,230,230,0.3)";
-    const textareaKeypressEvent = ( e ) => {
-      if ( e.keyCode === 13 ) {
-        if ( e.shiftKey ) {
+    const textarea = document.createElement('textarea');
+    const textareaFocusEvent = (e) => (e.target.style.background = 'rgba(220, 220, 220, 0.4)');
+    const textareaUnfocusEvent = (e) => (e.target.style.background = 'rgba(230,230,230,0.3)');
+    const textareaKeypressEvent = (e) => {
+      if (e.keyCode === 13) {
+        if (e.shiftKey) {
           textarea.value = e.target.value;
         } else {
           this.postEvent();
         }
       }
-    }
-    textarea.id = `${ LiveMediaPost.id }Textarea`;
-    textarea.style = this.getStyle( 'textarea' );
-    textarea.addEventListener( "focus", textareaFocusEvent );
-    textarea.addEventListener( "mouseover", textareaFocusEvent );
-    textarea.addEventListener( "mouseleave", textareaUnfocusEvent );
-    textarea.addEventListener( "blur", textareaUnfocusEvent );
-    textarea.addEventListener( "keypress", textareaKeypressEvent );
+    };
+    textarea.id = `${LiveMediaPost.id}Textarea`;
+    textarea.style = this.getStyle('textarea');
+    textarea.addEventListener('focus', textareaFocusEvent);
+    textarea.addEventListener('mouseover', textareaFocusEvent);
+    textarea.addEventListener('mouseleave', textareaUnfocusEvent);
+    textarea.addEventListener('blur', textareaUnfocusEvent);
+    textarea.addEventListener('keypress', textareaKeypressEvent);
     return textarea;
   }
 
   createButton() {
-    const button = document.createElement( "button" ); 
-    button.addEventListener( "click", () => this.postEvent() );
-    button.id = `${ LiveMediaPost.id }Button`;
-    button.style = this.getStyle( 'button' );
+    const button = document.createElement('button');
+    button.addEventListener('click', () => this.postEvent());
+    button.id = `${LiveMediaPost.id}Button`;
+    button.style = this.getStyle('button');
     return button;
   }
 
-  createStampUl() { 
-    const stampUl = document.createElement( 'ul' );
-    stampUl.id = `${ LiveMediaPost.id }StampUl`;
-    stampUl.style = this.getStyle( 'stampUl' );
+  createStampUl() {
+    const stampUl = document.createElement('ul');
+    stampUl.id = `${LiveMediaPost.id}StampUl`;
+    stampUl.style = this.getStyle('stampUl');
     return stampUl;
   }
 
   getStyle(type, subType) {
-    switch ( type ) {
+    switch (type) {
       case 'wrap':
-        return (`
+        return `
             display: flex;
             flex-flow: row wrap;
             align-items: center;
@@ -2057,10 +2034,9 @@ class LiveMediaPost {
             background: rgba(255,255,255,0.96);
             border-radius: 7px 7px 0 0;
             overflow: hidden;
-          `
-        );
+          `;
       case 'icon':
-        return (`
+        return `
             width: 20%;
             height: 70%;
             margin: 0;
@@ -2068,18 +2044,16 @@ class LiveMediaPost {
             background-repeat: no-repeat;
             background-position: center center;
             background-size: 30px;
-          `
-        );
+          `;
       case 'textareaField':
-        return (`
+        return `
             width: 55%;
             height: 36px;
             padding: 0;
             margin: 0;
-          `
-        );
+          `;
       case 'textarea':
-        return (`
+        return `
             width: 100%;
             height: 100%;
             padding: 10px 15px;
@@ -2094,10 +2068,9 @@ class LiveMediaPost {
             user-select: text;
             -webkit-user-select: text;
             transition: 0.3s;
-          `
-        );
+          `;
       case 'button':
-        return (`
+        return `
             width: 15%;
             height: 56%;
             margin: 0 5%;
@@ -2105,10 +2078,9 @@ class LiveMediaPost {
             border: 1px solid rgb(221,221,221);
             border-radius: 3px;
             outline: 0;
-          `
-        );
+          `;
       case 'stampUl':
-        return (`
+        return `
             display: flex;
             box-sizing: border-box;
             overflow: scroll hidden;
@@ -2140,12 +2112,11 @@ class LiveMediaPost {
             white-space: nowrap;
             transition: all 300ms ease 0s;
             transform: ${LiveMediaPost.stamlUlCloseTransform};
-          `
-        );
+          `;
       case 'stampLi':
-        const transform = subType === 'back' ? "rotate(-90deg) scale(0.7)" : "scale(1)";
-        const color = subType === 'back' ? "rgb(180, 180, 180)" : "rgb(90, 90, 90)";
-        return ( `
+        const transform = subType === 'back' ? 'rotate(-90deg) scale(0.7)' : 'scale(1)';
+        const color = subType === 'back' ? 'rgb(180, 180, 180)' : 'rgb(90, 90, 90)';
+        return `
           display: flex;
           box-sizing: border-box;
           overflow: hidden;
@@ -2181,9 +2152,9 @@ class LiveMediaPost {
           font-size: 40px;
           transition: all 600ms ease 0s;
           transform: ${transform};
-        `)
+        `;
       case 'stampLiLabel':
-        return ( `
+        return `
           display: flex;
           box-sizing: border-box;
           overflow: hidden;
@@ -2219,78 +2190,78 @@ class LiveMediaPost {
           font-size: 12px;
           word-break: break-word;
           transform: translate3d(0px, 0px, 0px);
-        `)
+        `;
     }
   }
 
-  setStampData( stampData ) {
-    if ( Object.keys( stampData ).length > 0 ) {
-      this.stampInputs = JSON.parse( stampData.inputs );
-      this.stampMap = JSON.parse( stampData.map );
+  setStampData(stampData) {
+    if (Object.keys(stampData).length > 0) {
+      this.stampInputs = JSON.parse(stampData.inputs);
+      this.stampMap = JSON.parse(stampData.map);
       this.appendStampCover();
     }
   }
 
   appendStampCover() {
-    const ulTag = document.querySelector( `#${ LiveMediaPost.id }StampUl` );
+    const ulTag = document.querySelector(`#${LiveMediaPost.id}StampUl`);
     const liTags = document.createDocumentFragment();
-    const getHandleNode = (e) => e.target.nodeName === 'LI' ? e.target : e.target.parentElement;
-    const liMouseOverEvent = ( e ) => getHandleNode(e).style.transform = 'scale(1.1)';
-    const liMouseLeaveEvent = ( e ) => getHandleNode( e ).style.transform = 'scale(1.0)';
+    const getHandleNode = (e) => (e.target.nodeName === 'LI' ? e.target : e.target.parentElement);
+    const liMouseOverEvent = (e) => (getHandleNode(e).style.transform = 'scale(1.1)');
+    const liMouseLeaveEvent = (e) => (getHandleNode(e).style.transform = 'scale(1.0)');
 
-    Object.keys( this.stampInputs ).forEach( ( label ) => {
-      const liTag = document.createElement( 'li' );
-      liTag.style = this.getStyle( 'stampLi' );
-      liTag.addEventListener( "mouseover", liMouseOverEvent);
-      liTag.addEventListener( "mouseleave", liMouseLeaveEvent );
-      liTag.addEventListener( "click", (e) => this.appendStampChild(label, liMouseOverEvent, liMouseLeaveEvent) );
-      
-      const stampTag = document.createElement( 'div' );
-      const labelTag = document.createElement( 'label' );
+    Object.keys(this.stampInputs).forEach((label) => {
+      const liTag = document.createElement('li');
+      liTag.style = this.getStyle('stampLi');
+      liTag.addEventListener('mouseover', liMouseOverEvent);
+      liTag.addEventListener('mouseleave', liMouseLeaveEvent);
+      liTag.addEventListener('click', (e) => this.appendStampChild(label, liMouseOverEvent, liMouseLeaveEvent));
+
+      const stampTag = document.createElement('div');
+      const labelTag = document.createElement('label');
       labelTag.style = this.getStyle('stampLiLabel');
-      const coverStampId = this.stampInputs[ label ][ 0 ];
-      const stamp = this.stampMap[ coverStampId ];
+      const coverStampId = this.stampInputs[label][0];
+      const stamp = this.stampMap[coverStampId];
       stampTag.innerHTML = stamp;
       labelTag.innerHTML = label;
 
-      liTag.append( stampTag );
-      liTag.append( labelTag );
-      liTags.append( liTag );
-    } );
+      liTag.append(stampTag);
+      liTag.append(labelTag);
+      liTags.append(liTag);
+    });
     ulTag.append(liTags);
   }
 
-  appendStampChild( label, liMouseOverEvent, liMouseLeaveEvent ) {
-    const ulTag = document.querySelector( `#${ LiveMediaPost.id }StampUl` );
+  appendStampChild(label, liMouseOverEvent, liMouseLeaveEvent) {
+    const ulTag = document.querySelector(`#${LiveMediaPost.id}StampUl`);
     const liTags = document.createDocumentFragment();
-    const backLiTag = document.createElement( 'li' );
+    const backLiTag = document.createElement('li');
     const backClickEvent = () => {
       ulTag.textContent = null;
       this.appendStampCover();
-    }
+    };
     const stampClickEvent = (stampId) => {
-      const stampUl = Window.select( `#${ LiveMediaPost.id }StampUl` );
+      const stampUl = Window.select(`#${LiveMediaPost.id}StampUl`);
       stampUl.style.transform = LiveMediaPost.stamlUlCloseTransform;
 
       // post stamp.
-      this.postEvent( stampId );
+      this.postEvent(stampId);
       ulTag.textContent = null;
       this.appendStampCover();
-    }
-    backLiTag.style = this.getStyle( 'stampLi', "back" );
-    backLiTag.addEventListener( "click", backClickEvent );
+    };
+    backLiTag.style = this.getStyle('stampLi', 'back');
+    backLiTag.addEventListener('click', backClickEvent);
     backLiTag.innerHTML = '▲';
-    liTags.append( backLiTag );
+    liTags.append(backLiTag);
 
-    this.stampInputs[ label ].forEach( ( stampId ) => {
-      const liTag = document.createElement( 'li' );
-      liTag.style = this.getStyle( 'stampLi' );
-      liTag.addEventListener( "mouseover", liMouseOverEvent);
-      liTag.addEventListener( "mouseleave", liMouseLeaveEvent );
-      liTag.addEventListener( "click", () => stampClickEvent(stampId) );
-      liTag.innerHTML = this.stampMap[ stampId ];
-      liTags.append( liTag );
-    } );
+    this.stampInputs[label].forEach((stampId) => {
+      const liTag = document.createElement('li');
+      liTag.style = this.getStyle('stampLi');
+      liTag.addEventListener('mouseover', liMouseOverEvent);
+      liTag.addEventListener('mouseleave', liMouseLeaveEvent);
+      liTag.addEventListener('click', () => stampClickEvent(stampId));
+      liTag.innerHTML = this.stampMap[stampId];
+      liTags.append(liTag);
+    });
 
     ulTag.textContent = null;
     ulTag.append(liTags);
@@ -2310,7 +2281,7 @@ class HandleIcon extends ReactMode {
   constructor(_window) {
     super(_window);
 
-    this.dom = document.createElement("div");
+    this.dom = document.createElement('div');
     this.dom.id = HandleIcon.id;
     this.dom.className = Window.className;
     this.dom.style = this.getStyle();
@@ -2319,10 +2290,10 @@ class HandleIcon extends ReactMode {
     this.mouseover = this.mouseover.bind(this);
     this.mouseout = this.mouseout.bind(this);
 
-    this.dom.addEventListener("click", this.click);
-    this.dom.addEventListener("mouseover", this.mouseover);
-    this.dom.addEventListener("mouseout", this.mouseout );
-    this.dom.addEventListener("resize", this.resize);
+    this.dom.addEventListener('click', this.click);
+    this.dom.addEventListener('mouseover', this.mouseover);
+    this.dom.addEventListener('mouseout', this.mouseout);
+    this.dom.addEventListener('resize', this.resize);
     Window.selectBody.appendChild(this.dom);
   }
 
@@ -2333,7 +2304,7 @@ class HandleIcon extends ReactMode {
   getStyle() {
     const talknHandleStyles = this.getActiveStyles();
     return (
-      "" +
+      '' +
       `position: fixed !important;` +
       `bottom: ${talknHandleStyles.bottom} !important;` +
       `right: ${HandleIcon.right}px !important;` +
@@ -2353,8 +2324,8 @@ class HandleIcon extends ReactMode {
   }
 
   drawCanvas(handle) {
-    const rgba = "rgba( 180, 180, 180, 0.7 )";
-    const c = handle.getContext("2d");
+    const rgba = 'rgba( 180, 180, 180, 0.7 )';
+    const c = handle.getContext('2d');
     const hoseiX = -5;
     const hoseiY = 0;
     c.beginPath();
@@ -2410,16 +2381,16 @@ class HandleIcon extends ReactMode {
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
             notifStatus.updateCnt(thread.liveCnt);
-            this.window.updateDisplayMode("clickHandleIcon");
+            this.window.updateDisplayMode('clickHandleIcon');
             break;
           case Ext.DISPLAY_MODE_OPEN:
             const { inputPost } = this.window;
-            if (inputPost && inputPost !== "" && !regex.test(inputPost)) {
+            if (inputPost && inputPost !== '' && !regex.test(inputPost)) {
               const inputCurrentTime = Window.getCurrentTime(this.window.handleMediaCurrentTime);
               // this.window.mediaToCLient("talknModal", "post", { app: { inputPost, inputCurrentTime } });
-              this.window.extToClient("ON_CHANGE_INPUT_POST", { ui: { inputPost: "" } });
+              this.window.extToClient('ON_CHANGE_INPUT_POST', { ui: { inputPost: '' } });
             } else {
-              this.window.updateDisplayMode("clickHandleIcon");
+              this.window.updateDisplayMode('clickHandleIcon');
             }
             break;
         }
@@ -2428,12 +2399,12 @@ class HandleIcon extends ReactMode {
   }
 
   mouseover() {
-    const translates = this.dom.style.transform.split("translate3d(")[1].split(") ")[0];
+    const translates = this.dom.style.transform.split('translate3d(')[1].split(') ')[0];
     this.dom.style.transform = `translate3d(${translates}) scale(1.1)`;
   }
 
   mouseout() {
-    const translates = this.dom.style.transform.split("translate3d(")[1].split(") ")[0];
+    const translates = this.dom.style.transform.split('translate3d(')[1].split(') ')[0];
     this.dom.style.transform = `translate3d(${translates}) scale(1.0)`;
   }
 
@@ -2446,20 +2417,20 @@ class HandleIcon extends ReactMode {
   /* ANIMATION             */
   /*************************/
 
-  getActiveStyles( called ) {
+  getActiveStyles(called) {
     switch (this.window.userDefineExtensionMode) {
       case Iframe.EXTENSION_MODE_MODAL:
         return {
-          bottom: "10px",
-          boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
+          bottom: '10px',
+          boxShadow: 'rgb(200, 200, 200) 0px 0px 10px 0px',
           transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
           background: `#fff url("https:${Ext.APP_ASSETS_HOST}/airplane.svg") -1px 1px / 64px no-repeat`,
           border: Styles.BASE_UNACTIVE_BORDER,
         };
       case Iframe.EXTENSION_MODE_BOTTOM:
         return {
-          bottom: "0px",
-          boxShadow: "rgb(200, 200, 200) 0px 0px 10px 0px",
+          bottom: '0px',
+          boxShadow: 'rgb(200, 200, 200) 0px 0px 10px 0px',
           background: `#fff url("https:${Ext.APP_ASSETS_HOST}/airplane.svg") -1px 1px / 64px no-repeat`,
           border: Styles.BASE_UNACTIVE_BORDER,
         };
@@ -2470,14 +2441,14 @@ class HandleIcon extends ReactMode {
     switch (this.window.userDefineExtensionMode) {
       case Iframe.EXTENSION_MODE_MODAL:
         return {
-          boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
+          boxShadow: 'rgb(200, 200, 200) 0px 0px 0px 0px',
           transform: `translate3d(0px, -25px, 0px) scale( 1 )`,
           background: Styles.BASE_ACTIVE_BG_COLOR,
           border: Styles.BASE_ACTIVE_BORDER,
         };
       case Iframe.EXTENSION_MODE_BOTTOM:
         return {
-          boxShadow: "rgb(200, 200, 200) 0px 0px 0px 0px",
+          boxShadow: 'rgb(200, 200, 200) 0px 0px 0px 0px',
           transform: `translate3d(0px, 0px, 0px) scale( 0.95 )`,
           background: Styles.BASE_ACTIVE_BG_COLOR,
           border: Styles.BASE_ACTIVE_BORDER,
@@ -2485,7 +2456,7 @@ class HandleIcon extends ReactMode {
     }
   }
 
-  transitionEnd() { }
+  transitionEnd() {}
 }
 
 class LiveCnt extends ReactMode {
@@ -2495,17 +2466,17 @@ class LiveCnt extends ReactMode {
   static get wrapId() {
     return 'LiveCntWrap';
   }
-  constructor ( _window, appendRoot = LiveCnt.wrapId) {
-    super( _window );
+  constructor(_window, appendRoot = LiveCnt.wrapId) {
+    super(_window);
 
     const id = LiveCnt.id;
-    this.wrapContent = Window.selectId( appendRoot );
-    this.dom = document.createElement( "div" );
+    this.wrapContent = Window.selectId(appendRoot);
+    this.dom = document.createElement('div');
     const openStyles = this.getOpenStyles();
 
-    this.getActiveStyles = this.getActiveStyles.bind( this );
-    this.getOpenStyles = this.getOpenStyles.bind( this );
-    this.updateCnt = this.updateCnt.bind( this );
+    this.getActiveStyles = this.getActiveStyles.bind(this);
+    this.getOpenStyles = this.getOpenStyles.bind(this);
+    this.updateCnt = this.updateCnt.bind(this);
 
     this.dom.id = id;
     this.dom.className = Window.className;
@@ -2519,7 +2490,7 @@ class LiveCnt extends ReactMode {
     const fontSize = this.wrapContent ? '11px' : '9px';
     const background = this.wrapContent ? 'rgba( 79, 174, 159, 0.96 )' : 'rgba( 79, 174, 159, 0.6 )';
     this.dom.style =
-      "" +
+      '' +
       `position: ${position} !important;` +
       `bottom: ${bottom} !important;` +
       `right: ${right} !important;` +
@@ -2527,13 +2498,13 @@ class LiveCnt extends ReactMode {
       `align-items: center !important;` +
       `justify-content: center !important;` +
       `cursor: pointer !important;` +
-      `z-index: ${ Styles.zIndex } !important;` +
-      `width: ${ size } !important;` +
-      `min-width: ${ size } !important;` +
-      `max-width: ${ size } !important;` +
-      `height: ${ size } !important;` +
-      `min-height: ${ size } !important;` +
-      `max-height: ${ size } !important;` +
+      `z-index: ${Styles.zIndex} !important;` +
+      `width: ${size} !important;` +
+      `min-width: ${size} !important;` +
+      `max-width: ${size} !important;` +
+      `height: ${size} !important;` +
+      `min-height: ${size} !important;` +
+      `max-height: ${size} !important;` +
       `padding: 0px !important;` +
       `opacity: 1 !important;` +
       `font-size: ${fontSize} !important;` +
@@ -2541,13 +2512,13 @@ class LiveCnt extends ReactMode {
       `color: rgb(255,255,255) !important;` +
       `background: ${background} !important;` +
       `border-radius: 100px !important;` +
-      `transition: ${ Styles.BASE_TRANSITION }ms !important;` +
-      `transform: ${ transform } !important;`;
-    
-    if ( this.wrapContent ) {
+      `transition: ${Styles.BASE_TRANSITION}ms !important;` +
+      `transform: ${transform} !important;`;
+
+    if (this.wrapContent) {
       this.wrapContent.appendChild(this.dom);
     } else {
-      Window.selectBody.appendChild(this.dom);    
+      Window.selectBody.appendChild(this.dom);
     }
   }
 
@@ -2560,7 +2531,7 @@ class LiveCnt extends ReactMode {
     const updatedCnt = Number(cnt);
     if (updatedCnt > 0) {
       const { displayModeKey } = this.window;
-      const activeStyles = this.getActiveStyles("updateCnt");
+      const activeStyles = this.getActiveStyles('updateCnt');
       this.dom.innerHTML = updatedCnt;
       if (Ext.DISPLAY_MODE[displayModeKey] === Ext.DISPLAY_MODE_ACTIVE) {
         this.dom.style.transform = activeStyles.transform;
@@ -2572,18 +2543,18 @@ class LiveCnt extends ReactMode {
     const baseCnt = Number(this.dom.innerText);
     if (baseCnt > 0) {
       return {
-        transform: "scale(1.0)",
+        transform: 'scale(1.0)',
       };
     } else {
       return {
-        transform: this.wrapContent ? "scale(1.0)" : "scale(0.0)",
+        transform: this.wrapContent ? 'scale(1.0)' : 'scale(0.0)',
       };
     }
   }
 
   getOpenStyles(called) {
     return {
-      transform: "scale(0.0)",
+      transform: 'scale(0.0)',
     };
   }
 }
@@ -2601,7 +2572,7 @@ class Notif extends ReactMode {
     this.getTranslateY = this.getTranslateY.bind(this);
     this.getBorderRadius = this.getBorderRadius.bind(this);
 
-    this.dom = document.createElement("div");
+    this.dom = document.createElement('div');
     const id = Notif.id + params.id;
     const width = this.getWidth(true);
     const height = this.getHeight(true);
@@ -2611,11 +2582,11 @@ class Notif extends ReactMode {
     const translateY = this.getTranslateY(true);
     const borderRadius = this.getBorderRadius();
 
-    this.dom.setAttribute("id", id);
-    this.dom.setAttribute("className", Window.className);
-    this.dom.setAttribute("name", "notif");
+    this.dom.setAttribute('id', id);
+    this.dom.setAttribute('className', Window.className);
+    this.dom.setAttribute('name', 'notif');
     this.dom.setAttribute(
-      "style",
+      'style',
       `position: fixed !important;` +
         `bottom: ${bottom} !important;` +
         `right: ${right} !important;` +
@@ -2640,55 +2611,55 @@ class Notif extends ReactMode {
         `transform: translate3d( 0px, 0px, 0px ) !important;`
     );
 
-    const notifIcon = document.createElement("div");
+    const notifIcon = document.createElement('div');
     notifIcon.setAttribute(
-      "style",
-      "display: flex;" +
-        "align-items: center;" +
-        "justify-content: flex-start;" +
+      'style',
+      'display: flex;' +
+        'align-items: center;' +
+        'justify-content: flex-start;' +
         `background-image: url(${params.favicon});` +
-        "background-position: 50% 50%;" +
-        "background-size: 20px 20px;" +
-        "background-repeat: no-repeat;" +
-        "width: 20% !important;" +
-        "min-width: 20% !important;" +
-        "max-width: 20% !important;" +
-        "height: inherit !important;" +
-        "min-height: inherit !important;" +
-        "max-height: inherit !important;"
+        'background-position: 50% 50%;' +
+        'background-size: 20px 20px;' +
+        'background-repeat: no-repeat;' +
+        'width: 20% !important;' +
+        'min-width: 20% !important;' +
+        'max-width: 20% !important;' +
+        'height: inherit !important;' +
+        'min-height: inherit !important;' +
+        'max-height: inherit !important;'
     );
 
-    const notifPost = document.createElement("div");
+    const notifPost = document.createElement('div');
     notifPost.setAttribute(
-      "style",
+      'style',
       `font-family: "Myriad Set Pro", "Lucida Grande", "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif !important;` +
-        "overflow: hidden !important;" +
-        "display: flex !important;" +
-        "justify-content: flex-start !important;" +
-        "align-items: center !important;" +
-        "width: 80% !important;" +
-        "min-width: 80% !important;" +
-        "max-width: 80% !important;" +
-        "height: inherit !important;" +
-        "min-height: inherit !important;" +
-        "max-height: inherit !important;" +
-        "white-space: nowrap !important;" +
-        "font-size: 13px !important;" +
-        "line-height: 27px;" +
-        "text-indent: 10px;"
+        'overflow: hidden !important;' +
+        'display: flex !important;' +
+        'justify-content: flex-start !important;' +
+        'align-items: center !important;' +
+        'width: 80% !important;' +
+        'min-width: 80% !important;' +
+        'max-width: 80% !important;' +
+        'height: inherit !important;' +
+        'min-height: inherit !important;' +
+        'max-height: inherit !important;' +
+        'white-space: nowrap !important;' +
+        'font-size: 13px !important;' +
+        'line-height: 27px;' +
+        'text-indent: 10px;'
     );
 
     notifPost.innerText = this.convertEmojiStamp(params);
     this.dom.appendChild(notifIcon);
     this.dom.appendChild(notifPost);
 
-    this.dom.addEventListener("click", () => {
+    this.dom.addEventListener('click', () => {
       switch (this.window.userDefineExtensionMode) {
         case Iframe.EXTENSION_MODE_BOTTOM:
         case Iframe.EXTENSION_MODE_MODAL:
           switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
             case Ext.DISPLAY_MODE_ACTIVE:
-              this.window.updateDisplayMode("clickNotif");
+              this.window.updateDisplayMode('clickNotif');
               break;
             case Ext.DISPLAY_MODE_OPEN:
               break;
@@ -2698,13 +2669,13 @@ class Notif extends ReactMode {
       }
     });
 
-    this.dom.addEventListener("mouseover", () => {
-      const translates = this.dom.style.transform.split("translate3d(")[1].split(") ")[0];
+    this.dom.addEventListener('mouseover', () => {
+      const translates = this.dom.style.transform.split('translate3d(')[1].split(') ')[0];
       this.dom.style.transform = `translate3d(${translates}) scale(1.05)`;
     });
 
-    this.dom.addEventListener("mouseout", () => {
-      const translates = this.dom.style.transform.split("translate3d(")[1].split(") ")[0];
+    this.dom.addEventListener('mouseout', () => {
+      const translates = this.dom.style.transform.split('translate3d(')[1].split(') ')[0];
       this.dom.style.transform = `translate3d(${translates}) scale(1.0)`;
     });
 
@@ -2727,7 +2698,7 @@ class Notif extends ReactMode {
 
   convertEmojiStamp({ post, stampId }) {
     if (stampId) {
-      return post + " (STAMP)";
+      return post + ' (STAMP)';
     }
     return post;
   }
@@ -2738,7 +2709,7 @@ class Notif extends ReactMode {
       case Iframe.EXTENSION_MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
-            width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? "calc( 100% - 130px )" : "180px";
+            width = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? 'calc( 100% - 130px )' : '180px';
             break;
           case Ext.DISPLAY_MODE_OPEN:
             break;
@@ -2747,21 +2718,21 @@ class Notif extends ReactMode {
       case Iframe.EXTENSION_MODE_EMBED:
         break;
     }
-    return addUnit ? width : width.replace("px", "").replace("%", "");
+    return addUnit ? width : width.replace('px', '').replace('%', '');
   }
 
   getHeight(addUnit = false) {
-    let height = "44px";
-    return addUnit ? height : height.replace("px", "").replace("%", "");
+    let height = '44px';
+    return addUnit ? height : height.replace('px', '').replace('%', '');
   }
 
   getPadding(addUnit = false) {
-    let padding = "0px";
+    let padding = '0px';
     switch (this.window.userDefineExtensionMode) {
       case Iframe.EXTENSION_MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
-            padding = "10px 20px 10px 10px";
+            padding = '10px 20px 10px 10px';
             break;
           case Ext.DISPLAY_MODE_OPEN:
             break;
@@ -2770,16 +2741,16 @@ class Notif extends ReactMode {
       case Iframe.EXTENSION_MODE_EMBED:
         break;
     }
-    return addUnit ? padding : padding.replace("px", "").replace("%", "");
+    return addUnit ? padding : padding.replace('px', '').replace('%', '');
   }
 
   getBottom(addUnit = false) {
-    let bottom = "0px";
+    let bottom = '0px';
     switch (this.window.userDefineExtensionMode) {
       case Iframe.EXTENSION_MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
-            bottom = "0px";
+            bottom = '0px';
             break;
           case Ext.DISPLAY_MODE_OPEN:
             break;
@@ -2788,16 +2759,16 @@ class Notif extends ReactMode {
       case Iframe.EXTENSION_MODE_EMBED:
         break;
     }
-    return addUnit ? bottom : bottom.replace("px", "").replace("%", "");
+    return addUnit ? bottom : bottom.replace('px', '').replace('%', '');
   }
 
   getRight(addUnit = false) {
-    let right = "75px";
+    let right = '75px';
     switch (this.window.userDefineExtensionMode) {
       case Iframe.EXTENSION_MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
-            right = "75px";
+            right = '75px';
             break;
           case Ext.DISPLAY_MODE_OPEN:
             break;
@@ -2806,7 +2777,7 @@ class Notif extends ReactMode {
       case Iframe.EXTENSION_MODE_EMBED:
         break;
     }
-    return addUnit ? right : right.replace("px", "").replace("%", "");
+    return addUnit ? right : right.replace('px', '').replace('%', '');
   }
 
   getTranslateY(addUnit = false) {
@@ -2815,7 +2786,7 @@ class Notif extends ReactMode {
       case Iframe.EXTENSION_MODE_MODAL:
         switch (Ext.DISPLAY_MODE[this.window.displayModeKey]) {
           case Ext.DISPLAY_MODE_ACTIVE:
-            transformY = "-19px";
+            transformY = '-19px';
             break;
           case Ext.DISPLAY_MODE_OPEN:
             break;
@@ -2824,7 +2795,7 @@ class Notif extends ReactMode {
       case Iframe.EXTENSION_MODE_EMBED:
         break;
     }
-    return addUnit ? transformY : transformY.replace("px", "").replace("%", "");
+    return addUnit ? transformY : transformY.replace('px', '').replace('%', '');
   }
 
   getBorderRadius() {
@@ -2833,7 +2804,7 @@ class Notif extends ReactMode {
   }
 }
 
-const talknExtension = document.querySelector("iframe#talknExtension");
+const talknExtension = document.querySelector('iframe#talknExtension');
 
 // 多重起動防止
 // ChromeExtとExt両方起動の場合はChromeExtが起動する
