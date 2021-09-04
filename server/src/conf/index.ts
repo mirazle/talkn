@@ -29,16 +29,16 @@ conf.mongoDB = {
     useCreateIndex: true,
   },
 };
-conf.serverPath = `${homeDir}/talkn/server/listens/express/`;
-conf.serverPortalPath = `${homeDir}/talkn/server/listens/express/portal/`;
-conf.serverClientPath = `${homeDir}/talkn/server/listens/express/client/talkn.client.js`;
-conf.serverApiPath = `${homeDir}/talkn/server/listens/express/api/`;
-conf.serverOwnPath = `${homeDir}/talkn/server/listens/express/own/`;
-conf.serverNewsPath = `${homeDir}/talkn/server/listens/express/news/`;
-conf.serverAssetsPath = `${homeDir}/talkn/server/listens/express/assets/`;
-conf.serverWwwPath = `${homeDir}/talkn/server/listens/express/www/`;
-conf.serverExtPath = `${homeDir}/talkn/server/listens/express/extension/`;
-conf.serverAutoPath = `${homeDir}/talkn/server/listens/express/auto/`;
+conf.serverPath = `${homeDir}/talkn/server/src/listens/express/`;
+conf.serverPortalPath = `${homeDir}/talkn/server/src/listens/express/portal/`;
+conf.serverClientPath = `${homeDir}/talkn/server/src/listens/express/client/talkn.client.js`;
+conf.serverApiPath = `${homeDir}/talkn/server/src/listens/express/api/`;
+conf.serverOwnPath = `${homeDir}/talkn/server/src/listens/express/own/`;
+conf.serverNewsPath = `${homeDir}/talkn/server/src/listens/express/news/`;
+conf.serverAssetsPath = `${homeDir}/talkn/server/src/listens/express/assets/`;
+conf.serverWwwPath = `${homeDir}/talkn/server/src/listens/express/www/`;
+conf.serverExtPath = `${homeDir}/talkn/server/src/listens/express/extension/`;
+conf.serverAutoPath = `${homeDir}/talkn/server/src/listens/express/auto/`;
 conf.sslOptions =
   env === PRODUCTION
     ? {

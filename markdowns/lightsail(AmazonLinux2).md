@@ -1,6 +1,6 @@
 # インスタンス作成
 
-- Linux/Unix OSのみ Amazon Linux2(月次料金 3.5\$を選択)
+- Linux/Unix OS のみ Amazon Linux2(月次料金 3.5\$を選択)
 - インスタンスを確認(リソース名)：talknProdApp-root
 - キー値タグ：env: prod, type: app, ch: /
 
@@ -33,7 +33,7 @@ sudo su -
 yum update -y
 ```
 
-## ssh接続
+## ssh 接続
 
 - talkn.io ドメインを静的 IP にアタッチしターミナルで SSH アクセス
 - ログインする`cecntos`ユーザーで`vi /etc/ssh/sshd_config` で 22 ポートを 56789 に変更してサーバーを再起動して設定を反映。
@@ -59,9 +59,11 @@ $ wget https://people.canonical.com/~mvo/snapd/amazon-linux2/snapd-amzn2.repo
 $ vi /etc/yum.conf
 
 下記を追加
-``` 
+
+```
 exclude=snapd-*.el7 snap-*.el7
 ```
+
 $ amazon-linux-extras install epel
 $ yum install snapd
 $ systemctl enable --now snapd.socket
@@ -95,6 +97,7 @@ This certificate expires on 2021-10-02.
 These files will be updated when the certificate renews.
 Certbot has set up a scheduled task to automatically renew this certificate in the background.
 ```
+
 と表示されれば成功。失敗する場合は ssl.md を参照。
 
 手順参照)
@@ -111,6 +114,7 @@ https://letsencrypt.org/docs/rate-limits/
 # MongoDB インストール
 
 vi /etc/yum.repos.d/mongodb-org-4.4.repo
+
 ```
 [mongodb-org-4.4]
 name=MongoDB Repository
@@ -128,7 +132,7 @@ systemctl start mongod
 
 # Redis-Server インストール
 
-Amazon Linux 2のEPELレポジトリを有効にする
+Amazon Linux 2 の EPEL レポジトリを有効にする
 amazon-linux-extras install -y epel
 
 ```
@@ -181,11 +185,11 @@ npm -v
 $ sudo yum install -y python3
 $ sudo amazon-linux-extras install -y python3.8
 
-alias設定
-Python3をインストールした状態だとPython -Vでバージョン確認しても以前Python 2.7が動作してしまいます。
-毎回3.8と入力するのは手間なので、エイリアスを設定してpyhonコマンド実行時に使用されるバージョンを上書きします。
+alias 設定
+Python3 をインストールした状態だと Python -V でバージョン確認しても以前 Python 2.7 が動作してしまいます。
+毎回 3.8 と入力するのは手間なので、エイリアスを設定して pyhon コマンド実行時に使用されるバージョンを上書きします。
 
-alias設定
+alias 設定
 $ echo 'alias python=python3.8' >> ~/.bashrc
 $ source ~/.bashrc
 
@@ -214,7 +218,6 @@ cd /usr/share/applications/talkn
 yarn global add node-gyp
 yarn install
 ```
-
 
 ### node_modules
 
@@ -263,6 +266,27 @@ yarn install
 `git pull`
 `yarn install`
 `sh start.sh`
+
+## 低スペック(512MB 程度)サーバーだと yarn でメモリエラーが発生する
+
+`yarn install` `yarn run server`を実行する際に killed, crashed などのエラーが発生してしまうので、
+swap 領域を確保して、実行メモリ領域を確保する。
+
+下記のコマンドで swap 領域を確認する
+
+```
+free -m
+```
+
+一番下の行を見ると、合計 0 バイトのスワップメモリ ​​ があるのは良くない。
+Node はかなりメモリを空けることができ、メモリが不足したときにスワップスペースが利用できない場合、エラーは必ず発生する。
+
+```
+dd if=/dev/zero of=/swap bs=1M count=1024
+sudo mkswap /swap
+chmod 0600 /swap
+sudo swapon /swap
+```
 
 ## ポートが埋まって実行できない時
 
