@@ -60,7 +60,7 @@ export default class SearchBar extends TalknComponent<Props, State> {
     const inputNode = editMode ? (
       <input
         type="text"
-        value={inputValue && decodeURI(inputValue)}
+        value={inputValue ? decodeURI(inputValue) : ''}
         size={40}
         style={style.setChModal.input}
         placeholder="Input URL or Phrase"

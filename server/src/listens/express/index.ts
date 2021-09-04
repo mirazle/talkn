@@ -67,7 +67,6 @@ class Express {
 
   routingHttps(req, res, next) {
     let language = 'en';
-    console.log('@@@');
     switch (req.headers.host) {
       case conf.ownURL:
         if (req.method === 'GET') {

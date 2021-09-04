@@ -229,7 +229,7 @@ class Ext {
           // @ts-ignore
           this.window.bootOption = new BootOption(id, params.bootOption);
           this.href = href;
-          /*
+
           const apiState = new ApiState(this.window.bootOption);
           // @ts-ignore
           const clientState = new ClientState({ ...apiState, ui: params.ui });
@@ -238,7 +238,6 @@ class Ext {
           this.window.store.dispatch({ ...state, type: 'EXT_INIT_CLIENT' });
           this.window.api('tune', this.window.bootOption);
           this.to(method, ioType, state);
-*/
           break;
         default:
           const isApiMethod = Boolean(Object.keys(Sequence.map).find((apiMethod) => apiMethod === method));
