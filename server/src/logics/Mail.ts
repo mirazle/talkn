@@ -28,7 +28,7 @@ export default class Mail {
 
         // 送信成功
         console.log('send successful');
-        console.log(info.messageId);
+        console.log(info);
       });
     } catch (e) {
       console.log('Error', e);
