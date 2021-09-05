@@ -82,6 +82,7 @@ export default class Window {
       this.wsApi = new WsApiWorker();
       this.wsApi.onerror = this.onError;
       this.wsApi.onmessage = this.onMessage;
+
       if (this.id === define.APP_TYPES.PORTAL || this.id === define.APP_TYPES.EXTENSION) {
         // handle ext.
         this.ext = new Ext(this);
@@ -122,6 +123,7 @@ export default class Window {
   private onMessage(e: MessageEvent): void {
     const { currentTarget, data } = e;
     const { type, method, ioType, params, methodBack }: MessageClientAndWsApiType = data;
+
     if (currentTarget instanceof Worker) {
       if (type === PostMessage.WSAPI_TO_CLIENT_TYPE) {
         const actionType = PostMessage.convertApiToClientActionType(method);

@@ -239,20 +239,21 @@ export default class Container {
   static get notifOpenTranslate() {
     return 20;
   }
-  static get notifOpenTranslateY() {
-    return `translate3d( 0px, -80px, 0px )`;
-  }
   static get notifOpenLiveMediaTranslateY() {
     return `translate3d( 0px, -125px, 0px )`;
   }
   static get notifCloseTranslateY() {
     return `translate3d( 0px, 0px, 0px )`;
   }
+  static getNotifOpenTranslateY({ app, ui }) {
+    const blockSize = Container.getBlockSize({ app, ui });
+    return `translate3d( 0px, -${blockSize * 2}px, 0px )`;
+  }
   static getNotifTranslateY({ app, ui }) {
     if (ui.extensionMode === Ui.extensionModeLiveMedia) {
       return ui.isOpenNewPost ? Container.notifOpenLiveMediaTranslateY : Container.notifCloseTranslateY;
     } else {
-      return ui.isOpenNewPost ? Container.notifOpenTranslateY : Container.notifCloseTranslateY;
+      return ui.isOpenNewPost ? Container.getNotifOpenTranslateY({ app, ui }) : Container.notifCloseTranslateY;
     }
   }
 
@@ -321,6 +322,7 @@ export default class Container {
 
   static getMultistreamIconWrapRight({ app, ui }): Object {
     switch (ui.screenSize) {
+      default:
       case Ui.screenSizeSmallLabel:
         return '5%';
       case Ui.screenSizeMiddleLabel:
