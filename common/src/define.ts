@@ -14,7 +14,7 @@ const define: any = {
     HTTP: 80,
     HTTPS: 443,
     DEVELOPMENT: 8080,
-    DEVELOPMENT_API: 8081,
+    DEVELOPMENT_API: 8001,
     REDIS: 6379,
     MONGO: 27017,
     SOCKET_IO: 10443,

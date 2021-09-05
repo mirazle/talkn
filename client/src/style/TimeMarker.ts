@@ -97,7 +97,7 @@ export default class TimeMarker {
   }
 
   static getFixTimeMarker({ app, ui }) {
-    const timeMarker: object = TimeMarker.getSelf({ app, ui });
+    const timeMarker = TimeMarker.getSelf({ app, ui });
     const { top, left, width, height, fontSize } = TimeMarker.getFixTimeMarkerStyles({ app, ui });
     return {
       ...timeMarker,
