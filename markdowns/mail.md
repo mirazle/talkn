@@ -29,9 +29,15 @@ vi /etc/postfix/sasl_passwd
 [smtp.gmail.com]:587 mirazle2069:ocyzjdihodpzucyj
 ```
 
-## ④postfix: 送信メールサーバー
+## ④ 必要パッケージ install
+
+# yum -y install postfix dovecot cyrus-sasl-plain cyrus-sasl-md5 cyrus-sasl telnet
+
+## ⑤postfix: 送信メールサーバー
 
 vi /etc/postfix/main.cf
+
+### Example1
 
 ```
 myhostname = mail.talkn.io
@@ -39,18 +45,21 @@ mydomain = talkn.io
 myorigin = $mydomain
 inet_interfaces = all
 inet_protocols = all
-mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain, \$mydomain
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
 home_mailbox = Maildir/
 
-message_size_limit = 10485760
 local_recipient_maps =
 luser_relay = unknown_user@localhost
 relayhost = [smtp.gmail.com]:587
 
+# Copy(存在しないプロパティ)
+message_size_limit = 10485760
+
+smtpd_sasl_auth_enable = yes
 smtpd_recipient_restrictions =
-permit_mynetworks
-permit_sasl_authenticated
-reject_unauth_destination
+permit_mynetworks =
+permit_sasl_authenticated =
+reject_unauth_destination =
 
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
@@ -59,6 +68,46 @@ smtp_sasl_tls_security_options = noanonymous
 smtp_sasl_mechanism_filter = plain
 smtp_use_tls = yes
 ```
+
+### Example2
+
+```
+myhostname = mail.talkn.io
+mydomain = talkn.io
+myorigin = $mydomain
+inet_interfaces = all
+inet_protocols = ipv4
+mynetworks = 127.0.0.0/8,192.168.0.0/24,10.0.0.0/8
+relay_domains = $mydestination
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+home_mailbox = Maildir/
+header_checks = regexp:/etc/postfix/header_checks
+smtpd_banner = \$myhostname ESMTP unknown
+
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_local_domain = \$myhostname
+
+# 最下行に以下追記
+
+message_size_limit = 5242880
+disable_vrfy_command = yes
+smtpd_helo_required = yes
+strict_rfc821_envelopes = yes
+allow_percent_hack = yes
+swap_bangpath = yes
+allow_untrusted_routing = no
+
+```
+
+下記でエラーチェック
+
+```
+postconf -n
+```
+
+(エラー例)
+postconf: fatal: /etc/postfix/main.cf, line 692: missing '=' after attribute name: "permit_mynetworks"
 
 vi /etc/postfix/master.cf
 
@@ -70,7 +119,13 @@ submission inet n       -       n       -       -       smtpd
   -o smtpd_sasl_auth_enable=yes
 ```
 
-## ⑤cyrus-sasl: SMTP-Auth
+### 起動
+
+# systemctl restart postfix
+
+# systemctl enable postfix
+
+## ⑥SASL cyrus-sasl: SMTP-Auth
 
 vi /etc/sasl2/smtpd.conf
 
@@ -86,7 +141,7 @@ passwd hmiyazaki
 saslpasswd2 -c -u mail.talkn.io hmiyazaki
 chgrp postfix /etc/sasldb2
 
-### ユーザー削除
+### ユーザー削除(作成済みユーザーを削除したい時に実行)
 
 saslpasswd2 -u mail.talkn.io -d hmiyazaki
 
@@ -94,7 +149,13 @@ saslpasswd2 -u mail.talkn.io -d hmiyazaki
 
 sasldblistusers2
 
-## ⑥dovecot: 受信メールサーバー
+### 起動
+
+# systemctl start saslauthd
+
+# systemctl enable saslauthd
+
+## ⑦dovecot: 受信メールサーバー
 
 vi /etc/dovecot/conf.d/10-mail.conf
 
@@ -129,49 +190,7 @@ vi /etc/dovecot/conf.d/10-master.conf
     user = postfix
     group = postfix
   }
-
-## Postfix(dovcot&cyrus-sasl(SMTP-AUTH))
-
 ```
-
-# yum -y install cyrus-sasl-plain
-
-# yum -y install cyrus-sasl-md5
-
-# yum install cyrus-sasl
-
-# systemctl start saslauthd
-
-# systemctl enable saslauthd
-
-# vi /etc/sasl2/smtpd.conf
-
-pwcheck_method: auxprop
-mech_list: plain login
-
-# yum install postfix
-
-# vi /etc/postfix/main.cf
-
-message_size_limit = 5242880
-inet_interfaces = all
-mydistination = mail.talkn.io
-myhostname = mail.talkn.io
-mydomain = talkn.io
-myorigin = $mydomain
-mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
-home_mailbox = Maildir/
-smtpd_sasl_auth_enable = yes
-smtpd_recipient_restrictions =
-permit_mynetworks
-permit_sasl_authenticated
-reject_unauth_destination
-
-# systemctl restart postfix
-
-# systemctl enable postfix
-
-# yum install dovecot
 
 # vim /etc/dovecot/conf.d/10-mail.conf
 
@@ -185,120 +204,19 @@ disable_plaintext_auth = no
 
 ssl = no
 
+### 起動
+
 # systemctl start dovecot
 
 # systemctl enable dovecot
 
-# useradd -s /sbin/nologin admin
-
-# passwd admin
-
-# ↓ 　　　　　　 echo "[パスワード]" | saslpasswd2 -p -u mail.talkn.io -c admin
-
-# echo "admin" | saslpasswd2 -p -u talkn.io -c admin
-
-# sasldblistusers2
-
-admin@mail.talkn.io: userPassword
-
-# chgrp postfix /etc/sasldb2
-
 ```
 
+(参考)
 https://qiita.com/tachitechi/items/895bf9c63356ee0751b5
 
-### vi /etc/sasl2/smtpd.conf
-
-```
-
-pwcheck_method: auxprop
-mech_list: plain login
-
-```
-
-vi /etc/dovecot/dovecot.conf
-
-```
-
-listen = \*
-
-```
-
-vi /etc/dovecot/conf.d/10-master.conf
-
-```
-
-# Postfix smtp-auth
-
-unix_listener /var/spool/postfix/private/auth {
-mode = 0660
-user = postfix
-group = postfix
-}
-
-```
-
-vi /etc/dovecot/conf.d/10-auth.conf
-
-```
-
-disable_plaintext_auth = no
-auth_mechanisms = plain login
-
-```
-
-vi /etc/dovecot/conf.d/10-ssl.conf
-
-```
-
-ssl = no
-
-```
-
-vi /etc/postfix/master.cf
-
-```
-
-smtp inet n - n - - smtpd
-submission inet n - n - - smtpd
--o smtpd_sasl_auth_enable=yes
-
-```
-
-vi /etc/postfix/main.cf
-
-```
-
-myhostname = mail.talkn.io
-mydomain = talkn.io
-myorigin = $mydomain
-inet_interfaces = all
-inet_protocols = ipv4
-mynetworks = 127.0.0.0/8,192.168.0.0/24,10.0.0.0/8
-relay_domains = $mydestination
-alias_maps = hash:/etc/aliases
-alias_database = hash:/etc/aliases
-home_mailbox = Maildir/
-header_checks = regexp:/etc/postfix/header_checks
-smtpd_banner = \$myhostname ESMTP unknown
-
-smtpd_sasl_auth_enable = yes
-smtpd_sasl_local_domain = \$myhostname
-
-# 最下行に以下追記
-
-message_size_limit = 5242880
-disable_vrfy_command = yes
-smtpd_helo_required = yes
-strict_rfc821_envelopes = yes
-allow_percent_hack = yes
-swap_bangpath = yes
-allow_untrusted_routing = no
-
-```
-
-```
 
 # 不正送信ログがたまる
 
 /var/spool/postfix/deferred
+```
