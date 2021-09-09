@@ -11,7 +11,7 @@ export default class Mail {
     //メール情報の作成
     var message = {
       from: inquiry.mail,
-      to: 'admin@mail.talkn.io',
+      to: 'hmiyazaki@mail.talkn.io',
       subject: inquiry.title,
       text: inquiry.content,
     };
