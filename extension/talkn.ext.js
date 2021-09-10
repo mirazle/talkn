@@ -518,7 +518,6 @@ class BootOption {
         extensionMode = Iframe.EXTENSION_MODE_LIVE_MEDIA;
       }
     }
-    console.log(extensionMode);
     return extensionMode;
   }
 }
@@ -928,6 +927,7 @@ class Window extends ReactMode {
           const iframe = iframes[iFrameId];
           const clientToParams = {
             ui: {
+              extentionMode: iframe.extensionMode,
               extensionWidth: iframe.dom.clientWidth,
               extensionHeight: iframe.dom.innerHeight,
             },
@@ -955,6 +955,7 @@ class Window extends ReactMode {
       const iframe = iframes[iFrameId];
       const clientToParams = {
         ui: {
+          extentionMode: iframe.extensionMode,
           extensionWidth: iframe.dom.clientWidth,
           extensionHeight: iframe.dom.innerHeight,
         },

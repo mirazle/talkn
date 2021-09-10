@@ -183,10 +183,10 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
 
   render() {
     const { app, ui } = this.props.state;
-    //    if (app.tuned !== '') {
     switch (ui.extensionMode) {
       case Ui.extensionModeNone:
       case Ui.extensionModeModal:
+      case Ui.extensionModeEmbed:
         switch (ui.screenSize) {
           case Ui.screenSizeSmallLabel:
             return this.renderSmall();
@@ -198,7 +198,6 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
       case Ui.extensionModeLiveMedia:
         return this.renderLiveMedia();
     }
-    //    }
     return <></>;
   }
 

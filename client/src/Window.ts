@@ -237,7 +237,6 @@ class Ext {
           // @ts-ignore
           const clientState = new ClientState({ ...apiState, ui: params.ui });
           const state = { ...apiState, ...clientState };
-
           this.window.store.dispatch({ ...state, type: 'EXT_INIT_CLIENT' });
           this.window.api('tune', this.window.bootOption);
           this.to(method, ioType, state);
