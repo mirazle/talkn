@@ -82,7 +82,7 @@ export default class Window {
       this.wsApi = new WsApiWorker();
       this.wsApi.onerror = this.onError;
       this.wsApi.onmessage = this.onMessage;
-
+      console.log(this.id);
       if (this.id === define.APP_TYPES.PORTAL || this.id === define.APP_TYPES.EXTENSION) {
         // handle ext.
         this.ext = new Ext(this);
