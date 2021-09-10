@@ -1,5 +1,9 @@
 # 整理
 
+AWS コンソールにルートアカウントにてログインした状態で以下のリンクから申請をおこないます。
+
+Request to Remove Email Sending Limitations
+
 ## ①Route53(DNS)
 
 DND に追加(存在確認)するレコードは下記。
@@ -23,11 +27,16 @@ google アカウント → セキュリティ →Google へのログイン →�
 でアプリを選択：「その他」、デバイスを選択：「その他」で
 「お使いのデバイスのアプリ パスワード」をメモしておき後述の sasl_passwd で記述する
 
+talkn の mail: 「 qtzlqwzxfrvybnek 」
+
 vi /etc/postfix/sasl_passwd
 
 ```
-[smtp.gmail.com]:587 mirazle2069:ocyzjdihodpzucyj
+[smtp.gmail.com]:587 mirazle2069:qtzlqwzxfrvybnek
 ```
+
+chmod 600 /etc/postfix/sasl_passwd
+postmap /etc/postfix/sasl_passwd
 
 ## ④ 必要パッケージ install
 

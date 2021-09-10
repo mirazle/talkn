@@ -497,11 +497,29 @@ class BootOption {
     return ch.split('/')[1];
   }
   static getExtensionMode(tag) {
-    if (tag && tag.dataset && tag.dataset.mode) {
-      return tag.dataset.mode;
-    } else {
-      return Iframe.DEFAULT_MODE;
+    let key = '';
+    let extensionMode = Iframe.DEFAULT_MODE;
+    if (tag) {
+      if (tag.dataset && tag.dataset.mode) {
+        key = tag.dataset;
+      } else if (tag.id) {
+        key = tag.id;
+      }
+
+      if (key.indexOf(Iframe.EXTENSION_MODE_MODAL) >= 0) {
+        extensionMode = Iframe.EXTENSION_MODE_MODAL;
+      } else if (key.indexOf(Iframe.EXTENSION_MODE_BOTTOM) >= 0) {
+        extensionMode = Iframe.EXTENSION_MODE_BOTTOM;
+      } else if (key.indexOf(Iframe.EXTENSION_MODE_EMBED) >= 0) {
+        extensionMode = Iframe.EXTENSION_MODE_EMBED;
+      } else if (key.indexOf(Iframe.EXTENSION_MODE_OUT_WINDOW) >= 0) {
+        extensionMode = Iframe.EXTENSION_MODE_OUT_WINDOW;
+      } else if (key.indexOf(Iframe.EXTENSION_MODE_LIVE_MEDIA) >= 0) {
+        extensionMode = Iframe.EXTENSION_MODE_LIVE_MEDIA;
+      }
     }
+    console.log(extensionMode);
+    return extensionMode;
   }
 }
 
@@ -723,6 +741,7 @@ class Window extends ReactMode {
         this.ins.iframes[this.userDefineExtensionMode] = this.ins.iframe;
         break;
       case Iframe.EXTENSION_MODE_LIVE_MEDIA:
+      default:
         const wrapTag = IframeLiveMedia.getWrap();
         href = wrapTag && wrapTag.dataset && wrapTag.dataset.url ? wrapTag.dataset.url : href;
         bootOption = new BootOption(this.userDefineExtensionMode, href, extScript);
@@ -845,6 +864,7 @@ class Window extends ReactMode {
         }
         break;
       case 'API_TO_EXT_TYPE':
+      default:
         break;
     }
   }
@@ -1098,9 +1118,7 @@ class Iframe extends ReactMode {
   static get activeMethodSecond() {
     return 1000;
   }
-  static get MODES() {
-    return { IframeModal, IframeBottom, IframeEmbed, IframeLiveMedia, IframeWindow };
-  }
+
   constructor(_window, bootOption, root) {
     super(_window);
 
@@ -1144,6 +1162,9 @@ class Iframe extends ReactMode {
     this.dom.addEventListener('load', this.load);
     root.appendChild(this.dom);
   }
+  get() {
+    return Window.selectId(this.id);
+  }
   getEventId() {
     return `loadState${this.id}`;
   }
@@ -1184,7 +1205,7 @@ class Iframe extends ReactMode {
     try {
       this.dom.contentWindow.postMessage(requestObj, this.src);
     } catch (e) {
-      const iframe = IframeLiveMedia.get();
+      const iframe = this.get();
       if (!iframe) {
         this.remove();
         new Window(Window.refusedStatusNoExistIframe);

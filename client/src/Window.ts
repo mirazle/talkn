@@ -228,6 +228,7 @@ class Ext {
       switch (method) {
         case PostMessage.HANDLE_EXT_AND_CLIENT:
           this.id = id;
+
           // @ts-ignore
           this.window.bootOption = new BootOption(id, params.bootOption);
           this.href = href;

@@ -1,4 +1,3 @@
-import { defaultCipherList } from 'constants';
 import React, { CSSProperties } from 'react';
 
 import conf from 'common/conf';
