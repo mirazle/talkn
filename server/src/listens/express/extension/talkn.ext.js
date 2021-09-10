@@ -501,7 +501,7 @@ class BootOption {
     let extensionMode = Iframe.DEFAULT_MODE;
     if (tag) {
       if (tag.dataset && tag.dataset.mode) {
-        key = tag.dataset;
+        key = tag.dataset.mode;
       } else if (tag.id) {
         key = tag.id;
       }
