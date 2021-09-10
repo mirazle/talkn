@@ -16,6 +16,7 @@ export default class SetChModal {
   recommend: CSSProperties;
   recommendTitle: CSSProperties;
   recommendLi: CSSProperties;
+  example: CSSProperties;
   constructor(params: any) {
     const self = SetChModal.getSelf(params);
     const modalWrap = SetChModal.getModalWrap(params);
@@ -25,6 +26,7 @@ export default class SetChModal {
     const recommend = SetChModal.getRecommend(params);
     const recommendTitle = SetChModal.getRecommendTitle(params);
     const recommendLi = SetChModal.getRecommendLi(params);
+    const example = SetChModal.getExample(params);
     return {
       self,
       modalWrap,
@@ -34,6 +36,7 @@ export default class SetChModal {
       recommend,
       recommendTitle,
       recommendLi,
+      example,
     };
   }
 
@@ -167,6 +170,19 @@ export default class SetChModal {
     const content = Style.getContentBase({
       lineHeight: '28px',
       textDecoration: 'list',
+    });
+    const animation = Style.getAnimationBase({});
+    return Style.get({ layout, content, animation });
+  }
+  static getExample({ app, ui }) {
+    const layout = Style.getLayoutFlex({
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      padding: '0',
+      margin: '0',
+    });
+    const content = Style.getContentBase({
+      textIndent: '66px',
     });
     const animation = Style.getAnimationBase({});
     return Style.get({ layout, content, animation });
