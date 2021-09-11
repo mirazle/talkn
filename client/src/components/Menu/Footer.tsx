@@ -37,7 +37,7 @@ export default class MenuFooter extends TalknComponent<MenuFooterProps, MenuFoot
       <div data-component-name={this.componentName} style={style.menuFooter.self}>
         <div style={style.menuFooter.child} onClick={() => this.clientAction('OPEN_INNER_NOTIF')} {...icon.getDecolationProps1('icon', 'user', 'div')}>
           {SocialIcon}
-          <div>SOCIAL</div>
+          <div>USER</div>
         </div>
         <div style={style.menuFooter.child} {...icon.getDecolationProps1('icon', 'index', 'div')}>
           {RankIcon}

@@ -28,6 +28,7 @@ export default class SetChModal extends TalknComponent<SetChModalProps, SetChMod
         <div data-component-name={`${this.componentName}.modalWrap`} style={style.setChModal.modalWrap}>
           <div data-component-name={`${this.componentName}.modal`} style={style.setChModal.modal}>
             <SearchBar editMode {...this.props} visibleTune />
+            <br />
             <div style={style.setChModal.example}>example: https://www.talkn.io/</div>
             {/*
             <div style={style.setChModal.recommendTitle}>(Recommend)</div>
