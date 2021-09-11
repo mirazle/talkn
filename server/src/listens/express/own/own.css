@@ -1,26 +1,26 @@
 @font-face {
-  font-family: "Original Yu Gothic";
-  src: local("Yu Gothic Medium");
+  font-family: 'Original Yu Gothic';
+  src: local('Yu Gothic Medium');
   font-weight: 100;
 }
 @font-face {
-  font-family: "Original Yu Gothic";
-  src: local("Yu Gothic Medium");
+  font-family: 'Original Yu Gothic';
+  src: local('Yu Gothic Medium');
   font-weight: 200;
 }
 @font-face {
-  font-family: "Original Yu Gothic";
-  src: local("Yu Gothic Medium");
+  font-family: 'Original Yu Gothic';
+  src: local('Yu Gothic Medium');
   font-weight: 300;
 }
 @font-face {
-  font-family: "Original Yu Gothic";
-  src: local("Yu Gothic Medium");
+  font-family: 'Original Yu Gothic';
+  src: local('Yu Gothic Medium');
   font-weight: 400;
 }
 @font-face {
-  font-family: "Original Yu Gothic";
-  src: local("Yu Gothic Bold");
+  font-family: 'Original Yu Gothic';
+  src: local('Yu Gothic Bold');
   font-weight: bold;
 }
 html {
@@ -29,9 +29,8 @@ html {
 body {
   color: rgb(255, 255, 255);
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK JP",
-    "Original Yu Gothic", "Yu Gothic", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-    "Noto Sans Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', 'Noto Sans CJK JP', 'Original Yu Gothic', 'Yu Gothic', sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Sans Emoji';
   letter-spacing: 0.03rem;
   font-weight: 200;
 }
@@ -69,7 +68,7 @@ a:active {
   height: 0;
   width: inherit;
   height: inherit;
-  background: url("img1.jpg") center center no-repeat;
+  background: url('img1.jpg') center center no-repeat;
   background-size: cover;
   overflow: hidden;
 }
@@ -607,7 +606,7 @@ section.for_owner .pic .service_image {
   border-radius: 15px;
   width: 100%;
   height: 460px;
-  background: rgba(0, 0, 0, 0.2) url("service_image.png") 50% / 90% no-repeat;
+  background: rgba(0, 0, 0, 0.2) url('service_image.png') 50% / 90% no-repeat;
 }
 section.for_owner .pic p {
   font-size: 24px;
@@ -632,7 +631,7 @@ section.for_owner .pic .copy_ext {
 }
 .ribon::before {
   position: absolute;
-  content: "";
+  content: '';
   top: 100%;
   left: 0;
   border: none;
@@ -697,7 +696,7 @@ section.image_live_cnt .airplain {
   margin-top: 80px;
   width: 320px;
   height: 320px;
-  background: rgb(255, 255, 255, 0.9) url("https://assets.talkn.io/airplane.svg") 25% 100% / 94% no-repeat;
+  background: rgb(255, 255, 255, 0.9) url('https://assets.talkn.io/airplane.svg') 25% 100% / 94% no-repeat;
   transition: 300ms;
   z-index: 0;
 }
@@ -787,7 +786,7 @@ section.image_portal .demonstration .selectCh {
   text-indent: 15px;
 }
 section.image_portal .demonstration .selectCh:before {
-  content: "CH :　";
+  content: 'CH :　';
 }
 section.image_portal .demonstration ul.country_demo {
   top: 0;
@@ -921,7 +920,7 @@ section.image_content p {
 }
 section.image_content .emotion {
   width: 100px;
-  background: url("emotion.png") 0% / 100px no-repeat;
+  background: url('emotion.png') 0% / 100px no-repeat;
 }
 section.image_content .live {
   position: absolute;
@@ -968,7 +967,7 @@ section.image_content .comment {
   margin: 10px;
   width: auto;
   max-width: 330px;
-  background: rgba(255, 255, 255, 0.8) url("https://assets.talkn.io/favicon.ico") 15px / 32px no-repeat;
+  background: rgba(255, 255, 255, 0.8) url('https://assets.talkn.io/favicon.ico') 15px / 32px no-repeat;
   line-height: 30px;
   font-size: 20px;
   color: #666;
@@ -1644,7 +1643,7 @@ section.company .contact input:hover,
 section.company .contact textarea:hover {
   background: rgba(100, 100, 100, 0.1);
 }
-section.company .contact [type="submit"] {
+section.company .contact [type='submit'] {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1657,7 +1656,7 @@ section.company .contact [type="submit"] {
   color: rgb(100, 100, 100);
   transition: 300ms;
 }
-section.company .contact [type="submit"]:hover {
+section.company .contact [type='submit']:hover {
   background: rgba(79, 174, 159, 1);
   color: rgb(255, 255, 255);
 }
@@ -1706,6 +1705,13 @@ section.company .contact form {
   justify-content: flex-start;
   flex-direction: column;
 }
+section.company .contact form {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
 section.company .contact .oneline {
   display: flex;
   width: 100%;
@@ -1734,7 +1740,7 @@ section.company .contact input:hover,
 section.company .contact textarea:hover {
   background: rgba(100, 100, 100, 0.1);
 }
-section.company .contact [type="submit"] {
+section.company .contact [type='submit'] {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1747,7 +1753,7 @@ section.company .contact [type="submit"] {
   color: rgb(100, 100, 100);
   transition: 300ms;
 }
-section.company .contact [type="submit"]:hover {
+section.company .contact [type='submit']:hover {
   background: rgba(79, 174, 159, 0.6);
   color: rgb(255, 255, 255);
 }
@@ -1765,6 +1771,10 @@ section.company .title {
   margin-bottom: 30px;
   font-size: 2rem;
   color: rgba(80, 80, 80, 1);
+}
+section.company .contact_message {
+  font-size: 1.3em;
+  color: #000;
 }
 footer {
   position: relative;
