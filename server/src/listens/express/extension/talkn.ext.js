@@ -1299,7 +1299,6 @@ class Iframe extends ReactMode {
       }
       clientMetas[key] = content;
     }
-    console.log(clientMetas);
     this.extToClient('GET_CLIENT_METAS', clientMetas);
   }
 
