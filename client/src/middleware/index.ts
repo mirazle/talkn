@@ -216,7 +216,7 @@ const functions = {
     let updateFlg = false;
     let { clientMetas } = action;
     let { serverMetas } = state.thread;
-    console.log(action, clientMetas);
+    console.log(state, action);
     action.thread = {};
     // Metas
     Object.keys(clientMetas).forEach((key, i) => {
