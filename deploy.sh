@@ -2,11 +2,16 @@
 echo "@@@@@@ GIT PULL"
 #git rm -r --cached .
 git pull
+echo "@@@@@@ YARN RUN BUILD(API)"
+cd api
+yarn run build
+cd ../
 echo "@@@@@@ YARN RUN BUILD(CLIENT)"
 cd client
 yarn run build
-echo "@@@@@@ YARN RUN BUILD(API)"
-cd ../api
+cd ../
+echo "@@@@@@ YARN RUN BUILD(TOP)"
+cd top
 yarn run build
 cd ../
 echo "@@@@@@ RESOLVE EXTENSION　talkn.ext.js"
