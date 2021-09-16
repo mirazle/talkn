@@ -214,9 +214,10 @@ const functions = {
   },
   'GET_CLIENT_METAS': (state, action) => {
     let updateFlg = false;
-    let { clientMetas } = action;
+    // let { clientMetas } = action;
+    let clientMetas = action;
     let { serverMetas } = state.thread;
-    console.log(state, action);
+    console.log(serverMetas, clientMetas);
     action.thread = {};
     // Metas
     Object.keys(clientMetas).forEach((key, i) => {
@@ -228,7 +229,7 @@ const functions = {
         action.thread.serverMetas[key] = clientMetas[key];
       }
     });
-
+    console.log(action.thread.serverMetas);
     if (updateFlg) {
       action.threadDetail = { ...state.threadDetail };
       action.threadDetail.serverMetas = {

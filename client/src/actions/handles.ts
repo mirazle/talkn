@@ -272,7 +272,6 @@ export default {
     };
   },
   getClientMetas: (clientMetas) => {
-    console.log(clientMetas);
     return {
       type: 'GET_CLIENT_METAS',
       clientMetas,
