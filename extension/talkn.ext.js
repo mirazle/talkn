@@ -932,7 +932,6 @@ class Window extends ReactMode {
               extensionHeight: iframe.dom.innerHeight,
             },
           };
-          console.log('transitionend');
           iframe.extToClient('UPDATE_EXTENSION', clientToParams);
           iframe.transitionEnd(e);
         });
@@ -961,7 +960,6 @@ class Window extends ReactMode {
           extensionHeight: iframe.dom.innerHeight,
         },
       };
-      console.log(`resize ${iFrameId}`);
       iframes[iFrameId].extToClient('UPDATE_EXTENSION', clientToParams);
     });
   }
@@ -1119,7 +1117,7 @@ class Iframe extends ReactMode {
     return Iframe.EXTENSION_MODE_MODAL;
   }
   static get activeMethodSecond() {
-    return 2000;
+    return 1000;
   }
 
   constructor(_window, bootOption, root) {
@@ -1206,7 +1204,7 @@ class Iframe extends ReactMode {
     this.methodIdMap[method] = setTimeout(() => this.handleClientToError(this.id, method), Iframe.activeMethodSecond);
 
     try {
-      console.log(requestObj, this.src);
+      console.log('extToClient'.requestObj, this.src);
       this.dom.contentWindow.postMessage(requestObj, this.src);
     } catch (e) {
       const iframe = this.get();
@@ -1227,9 +1225,8 @@ class Iframe extends ReactMode {
           new Window(Window.refusedStatusCsp);
           break;
         default:
-          console.warn(`handleClientToError: ${method} ${iFrameId}`);
+          console.warn(`handleClientToError ${method} ${iFrameId}`);
           break;
-        // throw `Error: ${iFrameId}: ${method}`;
       }
     }
   }
