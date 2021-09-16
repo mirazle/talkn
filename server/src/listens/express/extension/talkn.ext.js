@@ -1204,7 +1204,7 @@ class Iframe extends ReactMode {
     this.methodIdMap[method] = setTimeout(() => this.handleClientToError(this.id, method), Iframe.activeMethodSecond);
 
     try {
-      console.log('extToClient'.requestObj, this.src);
+      console.log('extToClient', requestObj, this.src);
       this.dom.contentWindow.postMessage(requestObj, this.src);
     } catch (e) {
       const iframe = this.get();
