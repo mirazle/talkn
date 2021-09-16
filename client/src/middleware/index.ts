@@ -229,13 +229,14 @@ const functions = {
         action.thread.serverMetas[key] = clientMetas[key];
       }
     });
-    console.log(action.thread.serverMetas);
+    console.log(updateFlg);
     if (updateFlg) {
       action.threadDetail = { ...state.threadDetail };
       action.threadDetail.serverMetas = {
         ...action.threadDetail.serverMetas,
         ...action.thread.serverMetas,
       };
+      console.log(action.thread.serverMetas);
       return action;
     }
   },
