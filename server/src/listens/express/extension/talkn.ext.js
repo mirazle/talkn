@@ -1201,31 +1201,30 @@ class Iframe extends ReactMode {
 
   extToClient(method, params = {}, methodBack) {
     const requestObj = this.getExtToClientObj(method, params, methodBack);
-    this.methodIdMap[method] = setTimeout(() => this.handleClientToError(this.id, method), Iframe.activeMethodSecond);
+    this.methodIdMap[method] = setTimeout(() => this.handleClientToError(this.id, method, requestObj), Iframe.activeMethodSecond);
 
     try {
-      console.log('extToClient', requestObj, this.src);
       this.dom.contentWindow.postMessage(requestObj, this.src);
     } catch (e) {
       const iframe = this.get();
       if (!iframe) {
         this.remove();
         new Window(Window.refusedStatusNoExistIframe);
-        console.warn('NO iframe ' + method);
+        console.warn(`extToClient No iFrame: ${method} ${this.id}`, requestObj);
       }
     }
   }
 
-  handleClientToError(iFrameId, method) {
+  handleClientToError(iFrameId, method, requestObj) {
     if (this.methodIdMap[method]) {
       switch (method) {
         case 'handleExtAndClient':
           this.remove();
-          console.warn(`handleClientToError CSP Reboot: ${method} ${iFrameId}`);
+          console.warn(`handleClientToError CSP Reboot: ${method} ${iFrameId}`, requestObj);
           new Window(Window.refusedStatusCsp);
           break;
         default:
-          console.warn(`handleClientToError ${method} ${iFrameId}`);
+          console.warn(`handleClientToError ${method} ${iFrameId}`, requestObj);
           break;
       }
     }
