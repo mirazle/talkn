@@ -183,7 +183,6 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
 
   render() {
     const { app, ui, ranks } = this.props.state;
-    console.log(ranks);
     if (app.tuned !== '') {
       switch (ui.extensionMode) {
         case Ui.extensionModeNone:

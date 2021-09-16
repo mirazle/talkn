@@ -1119,7 +1119,7 @@ class Iframe extends ReactMode {
     return Iframe.EXTENSION_MODE_MODAL;
   }
   static get activeMethodSecond() {
-    return 1000;
+    return 2000;
   }
 
   constructor(_window, bootOption, root) {
@@ -1223,11 +1223,11 @@ class Iframe extends ReactMode {
       switch (method) {
         case 'handleExtAndClient':
           this.remove();
-          console.warn(`CSP Reboot: ${method} ${iFrameId}`);
+          console.warn(`handleClientToError CSP Reboot: ${method} ${iFrameId}`);
           new Window(Window.refusedStatusCsp);
           break;
         default:
-          console.warn(`Error: ${method} ${iFrameId}`);
+          console.warn(`handleClientToError: ${method} ${iFrameId}`);
           break;
         // throw `Error: ${iFrameId}: ${method}`;
       }
