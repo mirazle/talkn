@@ -74,6 +74,7 @@ export default class BootOption {
   static getInitialRootCh(env: EnvType): string {
     let initialRootCh: string = location.href;
     initialRootCh = initialRootCh.replace(`${Sequence.HTTPS_PROTOCOL}/`, '').replace(`${Sequence.HTTP_PROTOCOL}/`, '');
+
     switch (env) {
       case define.PRODUCTION:
         initialRootCh = initialRootCh.replace(`/${define.PRODUCTION_DOMAIN}`, '/');
@@ -82,12 +83,17 @@ export default class BootOption {
         initialRootCh = initialRootCh.replace(`/${define.DEVELOPMENT_DOMAIN}`, '/');
         break;
       case define.DEVELOPMENT:
-        initialRootCh = initialRootCh.replace(`:${define.PORTS.DEVELOPMENT}`, '').replace(`:${define.PORTS.DEVELOPMENT_API}`, '');
+        initialRootCh = initialRootCh
+          .replace(`:${define.PORTS.DEVELOPMENT_CLIENT}`, '')
+          .replace(`:${define.PORTS.DEVELOPMENT_API}`, '')
+          .replace(`:${define.PORTS.DEVELOPMENT_TOP}`, '');
+
         if (initialRootCh.indexOf(`/${define.DEVELOPMENT_DOMAIN}/`) === 0) {
           initialRootCh = initialRootCh.replace(`/${define.DEVELOPMENT_DOMAIN}`, '');
         }
         break;
     }
+
     return initialRootCh;
   }
 

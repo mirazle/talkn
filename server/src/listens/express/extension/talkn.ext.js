@@ -932,6 +932,7 @@ class Window extends ReactMode {
               extensionHeight: iframe.dom.innerHeight,
             },
           };
+          console.log('transitionend');
           iframe.extToClient('UPDATE_EXTENSION', clientToParams);
           iframe.transitionEnd(e);
         });
@@ -960,6 +961,7 @@ class Window extends ReactMode {
           extensionHeight: iframe.dom.innerHeight,
         },
       };
+      console.log(`resize ${iFrameId}`);
       iframes[iFrameId].extToClient('UPDATE_EXTENSION', clientToParams);
     });
   }
@@ -1204,6 +1206,7 @@ class Iframe extends ReactMode {
     this.methodIdMap[method] = setTimeout(() => this.handleClientToError(this.id, method), Iframe.activeMethodSecond);
 
     try {
+      console.log(requestObj, this.src);
       this.dom.contentWindow.postMessage(requestObj, this.src);
     } catch (e) {
       const iframe = this.get();
@@ -1220,10 +1223,12 @@ class Iframe extends ReactMode {
       switch (method) {
         case 'handleExtAndClient':
           this.remove();
-          console.warn('CSP Reboot: ' + method);
+          console.warn(`CSP Reboot: ${method} ${iFrameId}`);
           new Window(Window.refusedStatusCsp);
           break;
         default:
+          console.warn(`Error: ${method} ${iFrameId}`);
+          break;
         // throw `Error: ${iFrameId}: ${method}`;
       }
     }

@@ -13,8 +13,9 @@ const define: any = {
   PORTS: {
     HTTP: 80,
     HTTPS: 443,
-    DEVELOPMENT: 8080,
+    DEVELOPMENT_CLIENT: 8080,
     DEVELOPMENT_API: 8001,
+    DEVELOPMENT_TOP: 8000,
     REDIS: 6379,
     MONGO: 27017,
     SOCKET_IO: 10443,
@@ -38,6 +39,7 @@ const define: any = {
     PORTAL: 'PORTAL',
     EXTENSION: 'EXTENSION',
     API: 'API',
+    TOP: 'TOP',
   },
   URL: {
     twitter: 'https://twitter.com/',

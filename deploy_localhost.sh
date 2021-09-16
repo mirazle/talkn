@@ -1,6 +1,14 @@
-[ $1 ] && comment=$1 || comment="Execute deploy command[LOCALHOST]"
-echo "@@@@@@ YARN RUN BUILD"
+[ $1 ] && comment=$1 || comment="Execute deploy command"
+echo "@@@@@@ GIT PULL"
+#git rm -r --cached .
+git pull
+echo "@@@@@@ YARN RUN BUILD(CLIENT)"
+cd client
 yarn run build
+echo "@@@@@@ YARN RUN BUILD(API)"
+cd ../api
+yarn run build
+cd ../
 echo "@@@@@@ RESOLVE EXTENSION　talkn.ext.js"
 sed -i -e "1s/DEV/PROD/" server/src/listens/express/extension/talkn.ext.js
 sed -i -e "1s/START/PROD/" server/src/listens/express/extension/talkn.ext.js

@@ -9,6 +9,9 @@ switch (app) {
   case 'client':
     port = 8080;
     break;
+  case 'top':
+    port = 8000;
+    break;
 }
 
 module.exports = {
@@ -35,6 +38,7 @@ module.exports = {
       server: path.resolve(__dirname, './server/src') + '/',
       api: path.resolve(__dirname, './api/src') + '/',
       client: path.resolve(__dirname, './client/src') + '/',
+      top: path.resolve(__dirname, './top/src') + '/',
       assets: path.resolve(__dirname, './client/assets') + '/',
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
