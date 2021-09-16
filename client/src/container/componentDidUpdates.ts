@@ -117,7 +117,8 @@ const componentDidUpdates = {
       const { app, thread } = self.props.state;
       const { serverMetas } = thread;
       if (!app.isLinkCh) {
-        self.parentCoreApi('updateThreadServerMetas', serverMetas);
+        self.api('updateThreadServerMetas', serverMetas);
+        //        self.parentCoreApi('updateThreadServerMetas', serverMetas);
       }
     },
     'ON_CLICK_TOGGLE_DISP_DETAIL': (self) => {
