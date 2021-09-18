@@ -18,7 +18,7 @@ const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN;
 const wwwURL = `${SUB_DOMAINS.WWW}.${domain}`;
 const apiURL = `${SUB_DOMAINS.API}.${domain}`;
 const apiAccessURL = isDev ? `${domain}:${PORTS.DEVELOPMENT_API}/${files.api}` : `${apiURL}/v${apiVer}`;
-const clientURL = isDev ? `${domain}:${PORTS.DEVELOPMENT}/${files.client}` : `${SUB_DOMAINS.CLIENT}.${domain}`;
+const clientURL = isDev ? `${domain}:${PORTS.DEVELOPMENT_CLIENT}/${files.client}` : `${SUB_DOMAINS.CLIENT}.${domain}`;
 const descURL = `${SUB_DOMAINS.DESC}.${domain}`;
 const portalURL = `${SUB_DOMAINS.PORTAL}.${domain}`;
 const assetsURL = `${SUB_DOMAINS.ASSETS}.${domain}`;

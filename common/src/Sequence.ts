@@ -136,7 +136,7 @@ export default class Sequence {
       rank: {
         requestPublicState: {},
         requestPrivateState: {
-          app: ['findType', 'rootCh'],
+          app: ['findType', 'rootCh', 'isRankDetailMode'],
         },
         responseEmitState: { rank: '*' },
         responseBroadcastState: {},

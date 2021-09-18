@@ -35,7 +35,7 @@ export type StyleCSSProperties = { [key: string]: StyleValue };
 
 export default class Style {
   static get fontBaseRGB() {
-    return 'rgb(90, 90, 90)';
+    return 'rgb(60, 60, 60)';
   }
 
   static get darkLightRGB() {

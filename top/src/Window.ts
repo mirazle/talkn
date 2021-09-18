@@ -44,6 +44,7 @@ declare global {
 
 export default class Window {
   id: string = define.APP_TYPES.PORTAL;
+  isRankDetailMode: boolean;
   bootOption: BootOption;
   wsApi: WsApiWorker;
   store: any = clientStore();
@@ -61,6 +62,7 @@ export default class Window {
 
     // client store.
     this.id = id;
+    this.isRankDetailMode = this.id === define.APP_TYPES.TOP;
     this.bootOption = new BootOption(this.id);
     const apiState = new ApiState(this.bootOption);
     const clientState = new ClientState(apiState);
@@ -102,6 +104,7 @@ export default class Window {
   }
 
   private injectStateToApp(apiState: MessageParams): void {
+    (apiState as ApiState).app.isRankDetailMode = this.isRankDetailMode;
     this.api('fetchPosts', apiState);
     this.api('rank', apiState);
   }
