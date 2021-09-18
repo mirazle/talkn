@@ -7,7 +7,6 @@ import util from 'common/util';
 import Icon from 'client/components/common/Icon';
 import conf from 'client/conf';
 import MarqueeArea, { MarqueeAreaProps, MarqueeAreaState } from 'client/container/util/MarqueeArea';
-import Ui from 'client/store/Ui';
 import PostStyle from 'client/style/Post';
 
 type PostProps = {
@@ -213,34 +212,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
     } else {
       return (
         <span style={postStyle.upperTimeago} className={'timeAgo'}>
-          <TimeAgo
-            date={createTime}
-            formatter={(value, unit, suffix) => {
-              let shortUnit = String(unit);
-              switch (String(unit)) {
-                case 'year':
-                  shortUnit = 'YR';
-                  break;
-                case 'month':
-                  shortUnit = 'mo';
-                  break;
-                case 'week':
-                  shortUnit = 'wk';
-                  break;
-                case 'hour':
-                  shortUnit = 'hr';
-                  break;
-                case 'minute':
-                  shortUnit = 'min';
-                  break;
-                case 'second':
-                  shortUnit = 'sec';
-                  break;
-              }
-              const dispSuffix = ui.extensionMode === Ui.extensionModeNone ? suffix : suffix.replace('ago', '');
-              return `${value} ${shortUnit} ${dispSuffix}`;
-            }}
-          />
+          <TimeAgo date={createTime} formatter={(value, unit, suffix) => util.timeAgoFormatter(value, unit, suffix, ui.extensionMode)} />
         </span>
       );
     }

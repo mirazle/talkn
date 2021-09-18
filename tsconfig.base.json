@@ -31,8 +31,8 @@
       "server/*": ["server/src/*"],
       "api/*": ["api/src/*"],
       "client/*": ["client/src/*"],
-      "assets/*": ["client/assets/*"],
-      "top/*": ["client/src/*"]
+      "assets/*": ["assets/*"],
+      "top/*": ["top/src/*"]
     }
   }
 }

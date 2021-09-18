@@ -191,6 +191,7 @@ class Express {
           }
 */
           if (req.originalUrl.indexOf('/https:/') >= 0 || req.originalUrl.indexOf('/http:/') >= 0) {
+            console.log('@@@@@@@@==@@@@ D');
             const redirectUrl = req.originalUrl.replace('/https:/', '').replace('/http:/', '');
             res.redirect(redirectUrl);
             return true;
@@ -204,6 +205,7 @@ class Express {
 
           // ポータル以外からアクセス
           if (req.headers.referer) {
+            console.log('@@@@@@@@==@@@@ E');
             const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
 
             // www.talkn.ioからアクセス
@@ -239,7 +241,8 @@ class Express {
           }
 
           hasSlash = ch.lastIndexOf('/') === ch.length - 1;
-
+          console.log('@@@@@@@@==@@@@ A ' + req.originalUrl);
+          console.log(conf.clientURL);
           res.render('portal/', {
             includeIframeTag,
             ch,

@@ -132,6 +132,7 @@ export default class App extends Schema {
 
   // その他
   isToggleMultistream: boolean;
+  isRankDetailMode: boolean;
   actioned: string;
   debug: string;
 
@@ -173,6 +174,7 @@ export default class App extends Schema {
 
     // その他
     const isToggleMultistream = Schema.isSet(params.isToggleMultistream) ? params.isToggleMultistream : false;
+    const isRankDetailMode = Schema.isSet(params.isRankDetailMode) ? params.isRankDetailMode : false;
     const actioned = params && params.actioned ? params.actioned : '';
     const debug = Schema.isSet(params.debug) ? params.debug : '';
     return this.create({
@@ -211,6 +213,7 @@ export default class App extends Schema {
 
       // その他
       isToggleMultistream,
+      isRankDetailMode,
       actioned,
       debug,
     });

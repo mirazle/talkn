@@ -52,14 +52,14 @@ export default class Threads {
 
   async rank(requestState, setting) {
     const { app } = requestState;
-    const { rootCh: ch } = app;
+    const { rootCh: ch, isRankDetailMode } = app;
     const layer = Thread.getLayer(ch);
 
     let condition: any = {};
     condition.chs = ch;
     condition.ch = { $ne: ch };
     condition.postCnt = { $ne: 0 };
-    condition.layer = { $gt: layer };
+    condition.layer = isRankDetailMode ? { $eq: 2 } : { $gt: layer };
 
     if (app.findType === Thread.findTypeAll) {
     } else if (app.findType === Thread.findTypeOther) {
@@ -72,18 +72,34 @@ export default class Threads {
       condition['lastPost.findType'] = app.findType;
     }
 
-    const selector = { 'serverMetas.title': 1, 'lastPost': 1, 'liveCnt': 1 };
+    const selector = isRankDetailMode
+      ? { serverMetas: 1, lastPost: 1, liveCnt: 1 }
+      : { 'serverMetas.title': 1, 'lastPost': 1, 'liveCnt': 1 };
     const option = {
-      sort: { liveCnt: -1, layer: -1 },
+      sort: { liveCnt: -1, updateTime: -1, createTime: -1 },
       limit: setting.server.getThreadChildrenCnt,
     };
 
     const { response } = await this.collection.find(condition, selector, option);
-    return response.map((res) => ({
-      ...res.lastPost,
-      title: res.serverMetas.title,
-      liveCnt: res.liveCnt,
-    }));
+    if (isRankDetailMode) {
+      console.log(isRankDetailMode, condition, response);
+    }
+    return response.map((res) => {
+      if (isRankDetailMode) {
+        return {
+          ...res.lastPost,
+          title: res.serverMetas.title,
+          liveCnt: res.liveCnt,
+          serverMetas: res.serverMetas,
+        };
+      } else {
+        return {
+          ...res.lastPost,
+          title: res.serverMetas.title,
+          liveCnt: res.liveCnt,
+        };
+      }
+    });
   }
 
   async save(thread) {
@@ -91,7 +107,10 @@ export default class Threads {
     thread.updateTime = new Date();
     thread.liveCnt = thread.liveCnt < 0 ? 0 : thread.liveCnt;
     thread.hasSlash = thread.hasSlash === null ? false : thread.hasSlash;
-    thread.title = thread.title === defaultTitle && thread.serverMetas && thread.serverMetas.title !== defaultTitle ? thread.serverMetas.title : thread.title;
+    thread.title =
+      thread.title === defaultTitle && thread.serverMetas && thread.serverMetas.title !== defaultTitle
+        ? thread.serverMetas.title
+        : thread.title;
     //thread.title = thread.serverMetas.title ? thread.serverMetas.title : thread.serverMetas["og:title"];
     const { response: resThread } = await this.collection.save(thread);
     return resThread;

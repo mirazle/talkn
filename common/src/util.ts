@@ -1,3 +1,5 @@
+import Ui from 'client/store/Ui';
+
 export default {
   isUrl: (str) => {
     const pattern = new RegExp(
@@ -24,5 +26,30 @@ export default {
   getUpperPrefix: (str) => {
     let text = str.charAt(0).toUpperCase() + str.slice(1);
     return text.substring(0, 1).toUpperCase() + text.substring(1);
+  },
+  timeAgoFormatter: (value, unit, suffix, extensionMode = Ui.extensionModeNone) => {
+    let shortUnit = String(unit);
+    switch (String(unit)) {
+      case 'year':
+        shortUnit = 'YR';
+        break;
+      case 'month':
+        shortUnit = 'mo';
+        break;
+      case 'week':
+        shortUnit = 'wk';
+        break;
+      case 'hour':
+        shortUnit = 'hr';
+        break;
+      case 'minute':
+        shortUnit = 'min';
+        break;
+      case 'second':
+        shortUnit = 'sec';
+        break;
+    }
+    const dispSuffix = extensionMode === Ui.extensionModeNone ? suffix : suffix.replace('ago', '');
+    return `${value} ${shortUnit} ${dispSuffix}`;
   },
 };

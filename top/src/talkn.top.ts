@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-unassigned-import
+import 'normalize.css';
+
 import define from 'common/define';
 
 import Window from 'top/Window';

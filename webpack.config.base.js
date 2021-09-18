@@ -39,7 +39,7 @@ module.exports = {
       api: path.resolve(__dirname, './api/src') + '/',
       client: path.resolve(__dirname, './client/src') + '/',
       top: path.resolve(__dirname, './top/src') + '/',
-      assets: path.resolve(__dirname, './client/assets') + '/',
+      assets: path.resolve(__dirname, './assets') + '/',
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
