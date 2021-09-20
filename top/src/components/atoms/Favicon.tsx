@@ -3,10 +3,11 @@ import styled from 'styled-components';
 
 type Props = {
   src: string;
+  className?: string;
 };
 
-const Component: React.FC<Props> = ({ src }) => {
-  return <Container src={src} />;
+const Component: React.FC<Props> = ({ src, className = 'Favicon' }) => {
+  return <Container src={src} className={className} />;
 };
 
 export default Component;
@@ -25,4 +26,5 @@ const Container = styled.i<ContainerPropsType>`
   max-height: 50px;
   background: url('${(props) => props.src}') no-repeat center / 60%;
   background-color: rgba(255, 255, 255, 1);
+  border-radius: 5px 0 0 0;
 `;

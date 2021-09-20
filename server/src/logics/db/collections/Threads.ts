@@ -81,9 +81,7 @@ export default class Threads {
     };
 
     const { response } = await this.collection.find(condition, selector, option);
-    if (isRankDetailMode) {
-      console.log(isRankDetailMode, condition, response);
-    }
+
     return response.map((res) => {
       if (isRankDetailMode) {
         return {
