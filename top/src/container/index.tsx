@@ -8,6 +8,7 @@ import mapToStateToProps from 'client/mapToStateToProps/';
 
 import Title from 'top/components/atoms/Title';
 import ArticleOrder from 'top/components/organisms/ArticleOrder';
+import { appHeaderHeight, baseShadow } from 'top/styles';
 
 type ContainerProps = {
   state: any;
@@ -27,8 +28,11 @@ class TalknContainer extends TalknComponent<ContainerProps, ContainerState> {
           <Title lv={1}>talkn</Title>
         </Header>
         <Main>
-          <ArticleOrder title={'全体'} articles={articles} />
+          <ArticleOrder title={'全体'} api={this.api} articles={articles} />
+          <ArticleOrder title={'/news.yahoo.co.jp/'} api={this.api} articles={articles} />
+          <ArticleOrder title={'/mangekyo.sakura.ne.jp/'} api={this.api} articles={articles} />
         </Main>
+        <Footer>talkn.io</Footer>
       </Container>
     );
   }
@@ -43,23 +47,17 @@ const Container = styled.div`
 
   ol {
     padding: 0;
-  }
-
-  li {
-    text-decoration: none;
+    margin: 0;
   }
 
   * {
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', 'Noto Sans CJK JP', 'Original Yu Gothic',
       'Yu Gothic', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Sans Emoji';
-    font-weight: 200;
-    color: rgb(60, 60, 60);
     letter-spacing: 2px;
   }
 `;
 
-const headerHieght = 60;
 const Header = styled.header`
   z-index: 10;
   position: fixed;
@@ -68,14 +66,27 @@ const Header = styled.header`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: ${headerHieght}px;
+  height: ${appHeaderHeight}px;
   background: #fff;
-  box-shadow: 0px 0px 16px 0px #ccc;
+  box-shadow: 0px 0px ${baseShadow}px 0px #ccc;
 `;
 
 const Main = styled.main`
   display: flex;
-  margin-top: ${headerHieght}px;
+  flex-flow: column wrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top: ${appHeaderHeight}px;
+`;
+
+const Footer = styled.footer`
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+  height: 600px;
+  background: #222;
+  color: #fff;
 `;
 
 export default connect(mapToStateToProps, { ...handles })(TalknContainer);

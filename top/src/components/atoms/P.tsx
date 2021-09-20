@@ -24,21 +24,26 @@ const Component: React.FC<Props> = ({ lv = 1, children }) => {
 export default Component;
 
 const P1 = styled.p`
-  font-size: 16px;
+  font-size: 18px;
+  user-select: none;
 `;
 
 const P2 = styled.p`
   font-size: 16px;
+  user-select: none;
 `;
 
 const P3 = styled.p`
   font-size: 16px;
+  user-select: none;
 `;
 
 const P4 = styled.p`
   font-size: 16px;
+  user-select: none;
 `;
 
 const P5 = styled.p`
   font-size: 16px;
+  user-select: none;
 `;

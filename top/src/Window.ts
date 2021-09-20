@@ -280,7 +280,11 @@ class MediaClient {
     return 'BACK';
   }
   ch: string;
-  status: typeof MediaClient.STATUS_SEARCH | typeof MediaClient.STATUS_STANBY | typeof MediaClient.STATUS_PLAY | typeof MediaClient.STATUS_ENDED;
+  status:
+    | typeof MediaClient.STATUS_SEARCH
+    | typeof MediaClient.STATUS_STANBY
+    | typeof MediaClient.STATUS_PLAY
+    | typeof MediaClient.STATUS_ENDED;
   pointerTime: number = 0.0;
   isPosting: boolean = false;
   isChangeThread: boolean = false;
