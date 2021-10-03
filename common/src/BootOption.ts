@@ -80,7 +80,12 @@ export default class BootOption {
         initialRootCh = initialRootCh.replace(`/${define.PRODUCTION_DOMAIN}`, '/');
         break;
       case define.LOCALHOST:
-        initialRootCh = initialRootCh.replace(`/${define.DEVELOPMENT_DOMAIN}`, '/');
+        if (initialRootCh.indexOf(conf.topURL) >= 0) {
+          initialRootCh = initialRootCh.replace(`/${conf.topURL}/`, '/');
+        } else {
+          initialRootCh = initialRootCh.replace(`/${define.DEVELOPMENT_DOMAIN}`, '/');
+        }
+
         break;
       case define.DEVELOPMENT:
         initialRootCh = initialRootCh
@@ -88,7 +93,6 @@ export default class BootOption {
           .replace(`:${define.PORTS.DEVELOPMENT_API}`, '')
           .replace(`:${define.PORTS.DEVELOPMENT_TOP}`, '')
           .replace(`:${define.PORTS.DEVELOPMENT_RANK}`, '');
-
         if (initialRootCh.indexOf(`/${define.DEVELOPMENT_DOMAIN}/`) === 0) {
           initialRootCh = initialRootCh.replace(`/${define.DEVELOPMENT_DOMAIN}`, '');
         }

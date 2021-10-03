@@ -16,6 +16,7 @@ const files = {
 const isDev = env === DEVELOPMENT;
 const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN;
 const wwwURL = `${SUB_DOMAINS.WWW}.${domain}`;
+const topURL = `${SUB_DOMAINS.TOP}.${domain}`;
 const apiURL = `${SUB_DOMAINS.API}.${domain}`;
 const apiAccessURL = isDev ? `${domain}:${PORTS.DEVELOPMENT_API}/${files.api}` : `${apiURL}/v${apiVer}`;
 const clientURL = isDev ? `${domain}:${PORTS.DEVELOPMENT_CLIENT}/${files.client}` : `${SUB_DOMAINS.CLIENT}.${domain}`;
@@ -77,6 +78,7 @@ const conf: any = {
   hostName,
   apiURL,
   apiAccessURL,
+  topURL,
   wwwURL,
   descURL,
   portalURL,

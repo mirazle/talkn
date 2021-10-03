@@ -80,7 +80,6 @@ const TalknContainer: React.FC<Props> = (props) => {
       const paddingRight = styles.getTrimUnitNumber(resumeStyle.paddingRight);
       const paddingBottom = styles.getTrimUnitNumber(resumeStyle.paddingBottom);
       const paddingLeft = styles.getTrimUnitNumber(resumeStyle.paddingLeft);
-      console.log(resumeStyle.padding);
       setResumeLayout({ width, marginTop, marginRight, marginBottom, marginLeft, paddingTop, paddingRight, paddingBottom, paddingLeft });
     }
   }, []);
