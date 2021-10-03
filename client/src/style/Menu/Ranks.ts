@@ -16,15 +16,15 @@ export default class Rank {
   }
 
   // self: CSSProperties;
-  header: CSSProperties;
-  headerSearchIcon: CSSProperties;
-  headerInput: CSSProperties;
-  headerFindSelect: CSSProperties;
-  headerUpdateIcon: CSSProperties;
-  ol: CSSProperties;
-  headerCh: CSSProperties;
-  tuneButton: CSSProperties;
-  tuneAnchor: CSSProperties;
+  header: Object;
+  headerSearchIcon: Object;
+  headerInput: Object;
+  headerFindSelect: Object;
+  headerUpdateIcon: Object;
+  ol: Object;
+  headerCh: Object;
+  tuneButton: Object;
+  tuneAnchor: Object;
   constructor(params: any) {
     // const self = Rank.getSelf(params);
     const header = Rank.getHeader(params);

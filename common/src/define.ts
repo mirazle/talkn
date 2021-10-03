@@ -13,9 +13,10 @@ const define: any = {
   PORTS: {
     HTTP: 80,
     HTTPS: 443,
-    DEVELOPMENT_CLIENT: 8080,
-    DEVELOPMENT_API: 8001,
     DEVELOPMENT_TOP: 8000,
+    DEVELOPMENT_API: 8001,
+    DEVELOPMENT_RANK: 8002,
+    DEVELOPMENT_CLIENT: 8080,
     REDIS: 6379,
     MONGO: 27017,
     SOCKET_IO: 10443,
@@ -32,6 +33,8 @@ const define: any = {
     OWN: 'own',
     NEWS: 'news',
     BANNER: 'banner',
+    TOP: 'top',
+    RANK: 'rank',
     EXT: 'ext',
     TRANSACTION: 'transaction',
   },
@@ -40,6 +43,7 @@ const define: any = {
     EXTENSION: 'EXTENSION',
     API: 'API',
     TOP: 'TOP',
+    RANK: 'RANK',
   },
   URL: {
     twitter: 'https://twitter.com/',
@@ -50,6 +54,7 @@ const define: any = {
   },
   talknClientJs: 'talkn.client.js',
   talknApiJs: 'talkn.api.js',
+  talknRankJs: 'talkn.rank.js',
   noInnerNotif: 'Sorry, No Function.',
   bannerClass: 'talkn_banner',
   storageKey: {

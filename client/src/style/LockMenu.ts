@@ -70,16 +70,16 @@ export default class LockMenu {
     }
   }
 
-  menuShare: CSSProperties;
-  header: CSSProperties;
-  ul: CSSProperties;
-  liGoWeb: CSSProperties;
-  liTwitter: CSSProperties;
-  liFacebook: CSSProperties;
-  liEmbed: CSSProperties;
-  liEmbedInput: CSSProperties;
-  shareLabel: CSSProperties;
-  label: CSSProperties;
+  menuShare: Object;
+  header: Object;
+  ul: Object;
+  liGoWeb: Object;
+  liTwitter: Object;
+  liFacebook: Object;
+  liEmbed: Object;
+  liEmbedInput: Object;
+  shareLabel: Object;
+  label: Object;
   constructor(params) {
     const menuShare = LockMenu.getMenuShare(params);
     const header = LockMenu.getHeader(params);

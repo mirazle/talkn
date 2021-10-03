@@ -1,5 +1,3 @@
-import { CSSProperties } from 'react';
-
 import conf from 'common/conf';
 
 import Ui from 'client/store/Ui';
@@ -8,15 +6,15 @@ import Container from '../Container';
 import Style from '../index';
 
 export default class SetChModal {
-  self: CSSProperties;
-  modalWrap: CSSProperties;
-  modal: CSSProperties;
-  logo: CSSProperties;
-  input: CSSProperties;
-  recommend: CSSProperties;
-  recommendTitle: CSSProperties;
-  recommendLi: CSSProperties;
-  example: CSSProperties;
+  self: Object;
+  modalWrap: Object;
+  modal: Object;
+  logo: Object;
+  input: Object;
+  recommend: Object;
+  recommendTitle: Object;
+  recommendLi: Object;
+  example: Object;
   constructor(params: any) {
     const self = SetChModal.getSelf(params);
     const modalWrap = SetChModal.getModalWrap(params);

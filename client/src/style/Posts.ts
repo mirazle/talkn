@@ -47,10 +47,10 @@ export default class Posts {
     return addUnit ? Style.trimUnit(width) : width;
   }
 
-  self: CSSProperties;
-  ol: CSSProperties;
-  more: CSSProperties;
-  firstAction: CSSProperties;
+  self: Object;
+  ol: Object;
+  more: Object;
+  firstAction: Object;
   constructor(params) {
     const self = Posts.getSelf(params);
     const ol = Posts.getOl(params);
@@ -147,7 +147,9 @@ export default class Posts {
 
   static getSelfTransform({ app, ui }) {
     if (ui.extensionMode === Ui.extensionModeBottom) {
-      return ui.isDispPosts ? 'translate3d(0px, 0px, 0px)' : `translate3d(0px, calc( 100% + ${Container.getBlockSize({ app, ui })}px ), 0px)`;
+      return ui.isDispPosts
+        ? 'translate3d(0px, 0px, 0px)'
+        : `translate3d(0px, calc( 100% + ${Container.getBlockSize({ app, ui })}px ), 0px)`;
     } else {
       return 'translate3d(0px, 0px, 0px)';
     }

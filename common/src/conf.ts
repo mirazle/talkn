@@ -109,7 +109,10 @@ function getEnv(hostName) {
   if (process.title === 'browser') {
     if (location.href.indexOf(define.DEVELOPMENT_DOMAIN) >= 0) {
       const port = Number(location.port);
-      return port === define.PORTS.DEVELOPMENT_CLIENT || port === define.PORTS.DEVELOPMENT_API || port === define.PORTS.DEVELOPMENT_TOP
+      return port === define.PORTS.DEVELOPMENT_CLIENT ||
+        port === define.PORTS.DEVELOPMENT_API ||
+        port === define.PORTS.DEVELOPMENT_TOP ||
+        port === define.PORTS.DEVELOPMENT_RANK
         ? define.DEVELOPMENT
         : define.LOCALHOST;
     }

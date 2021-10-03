@@ -90,7 +90,9 @@ export default class Header extends TalknComponent<HeaderProps, HeaderState> {
         {...icon.getDecolationProps3('icon', 'detail', 'div')}>
         {DetailIcon}
         <div style={style.header.liveCntWrap}>
-          {ui.screenSize === Ui.screenSizeSmallLabel && <LiveCnt number={thread.liveCnt} style={style.liveCnt.self} didMountHighlight={false} />}
+          {ui.screenSize === Ui.screenSizeSmallLabel && (
+            <LiveCnt number={thread.liveCnt} style={style.liveCnt.self} didMountHighlight={false} />
+          )}
         </div>
       </span>
     );
