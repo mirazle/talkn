@@ -77,7 +77,11 @@ export default class BootOption {
 
     switch (env) {
       case define.PRODUCTION:
-        initialRootCh = initialRootCh.replace(`/${define.PRODUCTION_DOMAIN}`, '/');
+        if (initialRootCh.indexOf(conf.topURL) >= 0) {
+          initialRootCh = initialRootCh.replace(`/${conf.topURL}/`, '/');
+        } else {
+          initialRootCh = initialRootCh.replace(`/${define.PRODUCTION_DOMAIN}`, '/');
+        }
         break;
       case define.LOCALHOST:
         if (initialRootCh.indexOf(conf.topURL) >= 0) {
