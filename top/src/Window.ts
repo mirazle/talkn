@@ -1,6 +1,6 @@
 import WsApiWorker from 'worker-loader?inline=fallback&publicPath=/&filename=ws.api.worker.js!../../api/src/ws.api.worker';
 
-import BootOption from 'common/BootOption';
+import BootOption, { BootOptionParamsType } from 'common/BootOption';
 import PostMessage, {
   IoTypeValues,
   MessageClientAndWsApiType,
@@ -28,20 +28,6 @@ import Render from 'top/App';
 const MediaServer = require('common/MediaServer');
 const mediaServer = new MediaServer.default();
 
-declare global {
-  interface Window {
-    talknWindow: any;
-    talknMedia: any;
-    talknAPI: any;
-    Youtube: any;
-    log: any;
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
-  }
-  interface Math {
-    easeInOutQuad: any;
-  }
-}
-
 export default class Window {
   id: string = define.APP_TYPES.PORTAL;
   isRankDetailMode: boolean;
@@ -57,13 +43,13 @@ export default class Window {
   static get SET_CALLBACK_METHOD() {
     return 'tune';
   }
-  constructor(id) {
+  constructor(id, bootOptionParams?: BootOptionParamsType) {
     TalknSetup.setupMath();
 
     // client store.
     this.id = id;
     this.isRankDetailMode = this.id === define.APP_TYPES.TOP;
-    this.bootOption = new BootOption(this.id);
+    this.bootOption = new BootOption(this.id, bootOptionParams);
     const apiState = new ApiState(this.bootOption);
     const clientState = new ClientState(apiState);
     const state = { ...apiState, ...clientState };
@@ -79,7 +65,7 @@ export default class Window {
     this.onError = this.onError.bind(this);
   }
 
-  public boot() {
+  public boot(): Promise<void> {
     return new Promise((resolve) => {
       this.conned = resolve;
       this.wsApi = new WsApiWorker();
@@ -105,7 +91,9 @@ export default class Window {
 
   private injectStateToApp(apiState: MessageParams): void {
     (apiState as ApiState).app.isRankDetailMode = this.isRankDetailMode;
-    this.api('fetchPosts', apiState);
+    if (this.id === define.APP_TYPES.PORTAL || this.id === define.APP_TYPES.EXTENSION) {
+      this.api('fetchPosts', apiState);
+    }
     this.api('rank', apiState);
   }
 

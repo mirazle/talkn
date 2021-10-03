@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html amp style="margin: 0 auto;">
   <head>
-    <title>talkn</title>
+    <title>talkn-top</title>
     <meta charset="utf-8" />
     <script data-ad-client="ca-pub-5285495593698579" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+    <script src="./workerDom.mjs" type="module"></script>
+    <script src="./workerDom.js" nomodule defer></script>
     <script type="text/javascript" async src="https://localhost:8000/talkn.top.js"></script>
     <script type="text/javascript">
       if ("serviceWorker" in navigator) {
@@ -153,10 +155,7 @@
       }
     </style>
   </head>
-  <body id="container" style="margin: 0 auto;" src="https://localhost:8000/talknt.top.js">
+  <body>
     <div id="talkn"></div>
-    <!--script type="module">
-      import { upgradeElement } from "https://localhost:8080/dist/main.mjs";
-      upgradeElement(document.querySelector("body"), "https://localhost:8080/dist/worker/worker.mjs");
-    </script-->
+    
 </html>

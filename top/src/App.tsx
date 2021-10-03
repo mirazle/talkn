@@ -7,7 +7,7 @@ import Container from 'top/container/';
 const Render = (dom, callback = () => {}) => {
   ReactDOM.render(
     <Provider store={dom.window.store}>
-      <Container />
+      <Container api={dom.window.api} />
     </Provider>,
     document.querySelector('div#talkn'),
     callback

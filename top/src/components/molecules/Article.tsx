@@ -6,7 +6,16 @@ import LiveCnt from 'top/components/atoms/LiveCnt';
 import OgpImage from 'top/components/atoms/OgpImage';
 import P from 'top/components/atoms/P';
 import Title from 'top/components/atoms/Title';
-import { articleWidth, articleOpenScale, articleCloseHeight, articleOpenHeight, basePadding, baseShadow } from 'top/styles';
+import {
+  articleShadowColor,
+  articleWidth,
+  articleOpenScale,
+  articleCloseHeight,
+  articleOpenHeight,
+  basePadding,
+  baseShadow,
+  baseShadowColor,
+} from 'top/styles';
 
 import androidIcon from 'assets/png/android.png';
 import androidGrayIcon from 'assets/png/android_gray.png';
@@ -52,26 +61,24 @@ export type Props = {
   article: ArticleType;
   index: number;
   focusIndex: undefined | number;
-  scrolling: boolean;
   setFocusIndex: React.Dispatch<React.SetStateAction<undefined | number>>;
-  api: (method: any, params?: {}) => void;
 };
 
-const Component: React.FC<Props> = ({ article, index, focusIndex, scrolling, api, setFocusIndex }) => {
+const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex }) => {
   const { serverMetas } = article;
   const [marqueeOn, setMarqueeOn] = useState(false);
   const detailRef = useRef(null);
   const isFocus = index === focusIndex;
   const handleOnMouseOver = () => {
-    if (!scrolling) {
-      setFocusIndex(index);
-    }
+    setFocusIndex(index);
+  };
+
+  const handleOnMouseMove = () => {
+    setFocusIndex(index);
   };
 
   const handleOnMouseLeave = () => {
-    if (!scrolling) {
-      setFocusIndex(undefined);
-    }
+    setFocusIndex(undefined);
   };
 
   // did mount.
@@ -81,7 +88,6 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, scrolling, api
       const headerElm = detailElm.children[0];
       const titleElm = headerElm.children[1];
       setMarqueeOn(titleElm.clientWidth < titleElm.scrollWidth);
-      api('onResponseChAPI', article.ch);
     }
   }, []);
 
@@ -90,7 +96,7 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, scrolling, api
       <Cover onMouseOver={handleOnMouseOver}>
         <Header overflowTitle={marqueeOn}>
           <Favicon src={article.favicon} className={'Favicon'} />
-          <Title lv={3} className={'Title'}>
+          <Title lv={4} className={'Title'}>
             {article.title}
           </Title>
           <LiveCnt className={'LiveCnt'}>{article.liveCnt}</LiveCnt>
@@ -102,10 +108,11 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, scrolling, api
         isFocus={isFocus}
         marqueeDuration={marqueeOn ? article.title.length / 10 : 0}
         onMouseOver={handleOnMouseOver}
+        onMouseMove={handleOnMouseMove}
         onMouseLeave={handleOnMouseLeave}>
         <Header overflowTitle={marqueeOn}>
           <Favicon src={article.favicon} className={'Favicon'} />
-          <Title lv={3} className={'Title'}>
+          <Title lv={4} className={'Title'}>
             {article.title}
           </Title>
           <LiveCnt className={'LiveCnt'}>{article.liveCnt}</LiveCnt>
@@ -129,17 +136,18 @@ export default Component;
 
 const Container = styled.div`
   width: ${articleWidth}px;
-  height: 260px;
+  height: ${articleCloseHeight}px;
 `;
 
 type CoverPropsType = {};
 
 const Cover = styled.div<CoverPropsType>`
+  box-sizing: border-box;
   overflow: hidden;
   width: inherit;
   height: ${articleCloseHeight}px;
   background: #fff;
-  box-shadow: 0px 0px ${basePadding}px 0px #ccc;
+  box-shadow: 0px 0px ${baseShadow}px 0px ${baseShadowColor};
   border-radius: 10px;
 `;
 
@@ -173,8 +181,10 @@ const marqueeCss = css<DetailPropsType>`
   animation-direction: normal;
 `;
 
+const _reduceShadow = baseShadow * articleOpenScale - baseShadow;
+const reduceShadow = Math.floor(_reduceShadow * 100) / 100;
 const Detail = styled.article<DetailPropsType>`
-  z-index: 4;
+  z-index: 20;
   position: absolute;
   top: ${basePadding}px;
   left: ${basePadding}px;
@@ -182,11 +192,10 @@ const Detail = styled.article<DetailPropsType>`
   width: inherit;
   height: ${articleOpenHeight}px;
   background: #fff;
-  box-shadow: 0px 0px ${baseShadow}px 0px #999;
-  border: ${(props) => (props.isFocus ? '0px solid rgb(79, 174, 159)' : '0px solid rgb(79, 174, 159)')};
+  box-shadow: 0px 0px ${baseShadow * reduceShadow}px 0px ${articleShadowColor};
   border-radius: 10px;
   transition-property: opacity, transform, height;
-  transition-duration: 300ms, 300ms, 0ms;
+  transition-duration: ${(props) => (props.isFocus ? '300ms, 300ms, 0ms' : '0ms, 0ms, 0ms')};
   transform: ${(props) => (props.isFocus ? `scale(${articleOpenScale}) translate(0, 10px)` : 'scale(1) translate(0, 0)')};
   cursor: pointer;
   h3 {
@@ -210,7 +219,7 @@ const Header = styled.header<HeaderPropsType>`
   .Favicon {
     flex: 1 1 50px;
   }
-  .Title3 {
+  .Title4 {
     flex: 1 1 200px;
     max-width: 200px;
     text-align: center;

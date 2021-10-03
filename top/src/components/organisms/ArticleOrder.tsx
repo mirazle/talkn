@@ -1,91 +1,75 @@
 import React, { useEffect, useState, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import Title from 'top/components/atoms/Title';
+import Title, { H3Height } from 'top/components/atoms/Title';
 import Article, { ArticleType } from 'top/components/molecules/Article';
-import { articleOrderHeight, articleTotalWidth, articleOpenScale, baseMargin, basePadding } from 'top/styles';
+import * as styles from 'top/styles';
 
 type ArticleOrderType = {
+  ch: string;
   title: string;
   articles: ArticleType[];
-  api: (method: any, params?: {}) => void;
 };
 
 // const NoData: React.FC = () => <div>No Data</div>;
-const Component: React.FC<ArticleOrderType> = ({ title, articles, api }) => {
+const Component: React.FC<ArticleOrderType> = ({ ch, title, articles }) => {
   const orderRef = useRef(null);
+  const [active, setActive] = useState<boolean>(false);
   const [focusIndex, setFocusIndex] = useState<undefined | number>(undefined);
-  const [scrolling, setScrolling] = useState<boolean>(false);
-  const [articleLefts, setArticleLefts] = useState<number[]>([0]);
   const [articleHeights, setArticleHeights] = useState<number[]>([0]);
-  const [scrollIndex, setScrollIndex] = useState<number>(0);
-  const [userMoving, setUserMoving] = useState<boolean>(false);
-  const [userClientX, setUserClientX] = useState<number>(0);
-  let userMovingTimeId: number = 0;
 
-  const handleOnScroll = (e) => {
-    setScrolling(true);
-    if (articleLefts.includes(e.target.scrollLeft)) {
-      setScrolling(false);
-      const _scrollIndex = articleLefts.findIndex((scrollIndexLeft) => scrollIndexLeft === e.target.scrollLeft);
-      console.log('SCROLL END', userClientX, _scrollIndex, articleLefts);
-    }
+  const handleOnScroll = () => {
+    setActive(true);
   };
-  const handleOnUserMove = (e) => {
-    setUserClientX(e.clientX);
-    setUserMoving(true);
-    clearTimeout(userMovingTimeId);
-    userMovingTimeId = window.setTimeout(() => {
-      setUserMoving(false);
-    }, 500);
+  const handleOnMouseOver = () => {
+    setActive(true);
+  };
+  const handleOnMouseMove = () => {
+    setActive(true);
   };
   const handleOnMouseLeave = () => {
     setFocusIndex(undefined);
+    setActive(false);
   };
+
+  const handleOnMouseLeaveArrowButton = () => {
+    setActive(false);
+  };
+
+  const activeOnEvents = { onMouseMove: handleOnMouseMove, onMouseOver: handleOnMouseOver, onTouchStart: handleOnMouseOver };
 
   useEffect(() => {
     if (orderRef.current) {
-      const { clientWidth, scrollWidth } = orderRef.current;
-      const lastScrollIndexLeft = scrollWidth - clientWidth;
-      let _articleLefts = [];
       let _articleHeights = [];
       for (let index = 0; index < articles.length; index++) {
-        if (index * articleTotalWidth < lastScrollIndexLeft) {
-          _articleLefts.push(index * articleTotalWidth);
-        }
-        const articleLi = orderRef.current.children[index] as HTMLOListElement;
-        _articleHeights.push(articleLi.querySelector('article').scrollHeight * articleOpenScale);
+        const articleLi = orderRef.current.children[index];
+        _articleHeights.push(articleLi.querySelector('article').scrollHeight * styles.articleOpenScale);
       }
-      _articleLefts.push(lastScrollIndexLeft);
-      setArticleLefts(_articleLefts);
       setArticleHeights(_articleHeights);
     }
   }, [articles.length, window.innerWidth]);
 
+  useEffect(() => {
+    window.talknArticles[ch] = '';
+  }, []);
+
   return (
-    <Container focusHeight={articleHeights[focusIndex]}>
-      <Title lv={2}>{title}</Title>
+    <Container focusHeight={articleHeights[focusIndex]} onMouseLeave={handleOnMouseLeave}>
+      <TitleCustom lv={3}>{title}</TitleCustom>
+      <ArrowRightButton active={active} {...activeOnEvents} onMouseLeave={handleOnMouseLeaveArrowButton} />
       <ArticleOrder
         ref={orderRef}
         focusHeight={articleHeights[focusIndex]}
         onScroll={handleOnScroll}
-        onMouseMove={handleOnUserMove}
-        onTouchStart={handleOnUserMove}
-        onTouchMove={handleOnUserMove}
-        onMouseLeave={handleOnMouseLeave}>
+        onMouseLeave={handleOnMouseLeave}
+        {...activeOnEvents}>
         {articles.map((article, index) => (
           <ArticleList key={`${article.ch}.${index}`}>
-            <Article
-              api={api}
-              article={article}
-              scrolling={scrolling}
-              index={index}
-              focusIndex={focusIndex}
-              setFocusIndex={setFocusIndex}
-            />
+            <Article article={article} index={index} focusIndex={focusIndex} setFocusIndex={setFocusIndex} />
           </ArticleList>
         ))}
       </ArticleOrder>
+      <ArrowLeftButton active={active} {...activeOnEvents} onMouseLeave={handleOnMouseLeaveArrowButton} />
     </Container>
   );
 };
@@ -96,15 +80,21 @@ type ContainerPropeType = {
   focusHeight?: number;
 };
 
+const ContainerMarginTop = styles.baseMargin;
 const Container = styled.div<ContainerPropeType>`
   display: flex;
   flex-flow: column wrap;
-  margin-top: ${baseMargin}px;
+  width: 100%;
+  max-width: ${styles.appWidth}px;
+  margin-top: 0;
   margin-right: 0;
-  margin-bottom: ${(props) => (props.focusHeight === undefined ? '0' : `-${props.focusHeight + baseMargin * 2 - articleOrderHeight}px`)};
-  margin-left: ${baseMargin}px;
+  margin-bottom: ${(props) =>
+    props.focusHeight === undefined ? '0' : `-${props.focusHeight + styles.doubleMargin - styles.articleOrderHeight}px`};
+  margin-left: 0;
+  border: 0;
   z-index: ${(props) => (props.focusHeight === undefined ? 'auto' : 4)};
   overflow-y: visible;
+  transform: translate(0px, 0px);
 `;
 
 type ArticleOrderPropeType = {
@@ -114,9 +104,10 @@ type ArticleOrderPropeType = {
 const ArticleOrder = styled.ol<ArticleOrderPropeType>`
   display: flex;
   flex-flow: row nowrap;
-  width: 100vw;
-  height: ${(props) => (props.focusHeight === undefined ? `${articleOrderHeight}` : `${props.focusHeight + baseMargin * 2}`)}px;
-  scroll-snap-type: x mandatory;
+  width: inherit;
+  max-width: inherit;
+  height: ${(props) => (props.focusHeight === undefined ? `${styles.articleOrderHeight}` : `${props.focusHeight + styles.doubleMargin}`)}px;
+  border: 0;
   overflow-x: scroll;
   overflow-y: hidden;
   -ms-overflow-style: none;
@@ -126,9 +117,57 @@ const ArticleOrder = styled.ol<ArticleOrderPropeType>`
   }
 `;
 
+type TitleCustomPropsType = {
+  lv: number;
+};
+
+const TitleCustom = styled(Title)<TitleCustomPropsType>`
+  text-indent: 32px;
+  background: red;
+`;
+
 const ArticleList = styled.li`
-  padding: ${basePadding}px;
+  padding: ${styles.basePadding}px;
   scroll-snap-align: start;
   list-style: none;
   transform: translate(0px, 0px);
+`;
+
+type ArrowButtonPropsType = {
+  active: boolean;
+};
+
+const ArrowCommonCss = css<ArrowButtonPropsType>`
+  z-index: 1;
+  position: absolute;
+  top: ${H3Height}px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  width: ${styles.quadSize}px;
+  height: ${styles.articleOrderHeight}px;
+  padding: 0;
+  margin: 0;
+  background-color: rgba(0, 0, 0, ${(props) => (props.active ? '0.6' : '0.3')});
+  background-position: 50%;
+  background-repeat: no-repeat;
+  color: transparent;
+  border: 0;
+  outline: 0 none;
+  transition: opacity 300ms ease, background-color 300ms ease;
+`;
+
+const ArrowRightButton = styled.button<ArrowButtonPropsType>`
+  ${ArrowCommonCss};
+  border-radius: 0 10px 10px 0;
+  left: 0;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMzIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTMuMjM3IDE3LjIzN3YtMi40NzRsMTQgMTRjLjY4NC42ODMuNjg0IDEuNzkgMCAyLjQ3NGExLjc0OCAxLjc0OCAwIDAxLTIuNDc0IDBsLTE0LTE0YTEuNzQ4IDEuNzQ4IDAgMDEwLTIuNDc0bDE0LTE0YTEuNzQ4IDEuNzQ4IDAgMDEyLjQ3NCAwYy42ODQuNjgzLjY4NCAxLjc5IDAgMi40NzRsLTE0IDE0eiIgZmlsbD0iI0VGRjFGMSIvPjwvc3ZnPg==);
+`;
+
+const ArrowLeftButton = styled.button<ArrowButtonPropsType>`
+  ${ArrowCommonCss};
+  border-radius: 10px 0 0 10px;
+  right: 0;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMzIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE0Ljc2MyAxNy4yMzd2LTIuNDc0bC0xNCAxNGExLjc0OCAxLjc0OCAwIDAwMCAyLjQ3NGMuNjgzLjY4NCAxLjc5LjY4NCAyLjQ3NCAwbDE0LTE0YTEuNzQ4IDEuNzQ4IDAgMDAwLTIuNDc0bC0xNC0xNEExLjc1IDEuNzUgMCAwMC43NjMgMy4yMzdsMTQgMTR6IiBmaWxsPSIjRUZGMUYxIi8+PC9zdmc+);
 `;
