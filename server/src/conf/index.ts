@@ -37,6 +37,7 @@ conf.serverApiPath = `${homeDir}/talkn/server/src/listens/express/api/`;
 conf.serverOwnPath = `${homeDir}/talkn/server/src/listens/express/own/`;
 conf.serverNewsPath = `${homeDir}/talkn/server/src/listens/express/news/`;
 conf.serverAssetsPath = `${homeDir}/talkn/server/src/listens/express/assets/`;
+conf.serverTopPath = `${homeDir}/talkn/server/src/listens/express/top/`;
 conf.serverWwwPath = `${homeDir}/talkn/server/src/listens/express/www/`;
 conf.serverExtPath = `${homeDir}/talkn/server/src/listens/express/extension/`;
 conf.serverAutoPath = `${homeDir}/talkn/server/src/listens/express/auto/`;
@@ -48,7 +49,8 @@ conf.sslOptions =
         ca: fs.readFileSync(sslChain),
       }
     : { key: fs.readFileSync(sslKey), cert: fs.readFileSync(sslCrt) };
-conf.transactionSecretKey = env === PRODUCTION ? 'sk_live_2eedbf7e396bc5ecd7b7d6d64245539a63d04f4b0051b683c60c2263' : 'sk_test_077fecb899eb9307d9f51a2f';
+conf.transactionSecretKey =
+  env === PRODUCTION ? 'sk_live_2eedbf7e396bc5ecd7b7d6d64245539a63d04f4b0051b683c60c2263' : 'sk_test_077fecb899eb9307d9f51a2f';
 conf.transactionPublicKey = env === PRODUCTION ? 'pk_live_5798d265c8573ae59dae624f' : 'pk_test_6b2b80fa9812d8b45ee3b822';
 
 export default conf;

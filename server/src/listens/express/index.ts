@@ -67,12 +67,14 @@ class Express {
 
   routingHttps(req, res, next) {
     let language = 'en';
+    console.log(req.headers.host);
     switch (req.headers.host) {
       case conf.ownURL:
         if (req.method === 'GET') {
           if (req.url === '/' || (req.url && req.url.indexOf('/?lang=') === 0)) {
             language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
-            const favicon = req.query && req.query.lang ? `https://${conf.assetsURL}/country/${language}.png` : `https://${conf.assetsURL}/favicon.ico`;
+            const favicon =
+              req.query && req.query.lang ? `https://${conf.assetsURL}/country/${language}.png` : `https://${conf.assetsURL}/favicon.ico`;
 
             res.render('own/', {
               lpLanguages: conf.lpLanguages,
@@ -137,6 +139,36 @@ class Express {
           res.sendFile(conf.serverExtPath + req.originalUrl.replace('/', ''));
         }
         break;
+      case conf.topURL:
+        if (req.method === 'GET') {
+          if (
+            req.originalUrl === '/talkn.top.js' ||
+            req.originalUrl === '/robots.txt' ||
+            req.originalUrl === '/manifest.json' ||
+            req.originalUrl === '/service.worker.js' ||
+            req.originalUrl === '/ws.client.worker.js' ||
+            req.originalUrl === '/ws.api.worker.js'
+          ) {
+            // CORSを許可する
+            res.header('Access-Control-Allow-Origin', '*');
+            res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+            res.sendFile(conf.serverTopPath + req.originalUrl.replace('/', ''));
+            return true;
+          } else {
+            res.render('top/', {
+              language,
+              domain: conf.domain,
+              apiURL: conf.apiURL,
+              wwwURL: conf.wwwURL,
+              topURL: conf.topURL,
+              extURL: conf.extURL,
+              assetsURL: conf.assetsURL,
+              clientURL: conf.clientURL,
+              apiAccessURL: conf.apiAccessURL,
+            });
+          }
+        }
+        break;
       case conf.wwwURL:
         language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
         if (req.method === 'GET') {
@@ -191,7 +223,6 @@ class Express {
           }
 */
           if (req.originalUrl.indexOf('/https:/') >= 0 || req.originalUrl.indexOf('/http:/') >= 0) {
-            console.log('@@@@@@@@==@@@@ D');
             const redirectUrl = req.originalUrl.replace('/https:/', '').replace('/http:/', '');
             res.redirect(redirectUrl);
             return true;
@@ -205,7 +236,6 @@ class Express {
 
           // ポータル以外からアクセス
           if (req.headers.referer) {
-            console.log('@@@@@@@@==@@@@ E');
             const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
 
             // www.talkn.ioからアクセス
@@ -241,8 +271,6 @@ class Express {
           }
 
           hasSlash = ch.lastIndexOf('/') === ch.length - 1;
-          console.log('@@@@@@@@==@@@@ A ' + req.originalUrl);
-          console.log(conf.clientURL);
           res.render('portal/', {
             includeIframeTag,
             ch,

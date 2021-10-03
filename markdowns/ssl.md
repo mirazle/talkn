@@ -8,7 +8,7 @@
 cd common/pems/server
 ```
 
-### command
+### command1
 
 ```
 1 openssl genrsa -des3 -out myCA.key 2048
@@ -34,7 +34,7 @@ DNS.5 = session.localhost
 DNS.6 = ext.localhost
 ```
 
-### command
+### command2
 
 ```
 openssl x509 -req -in localhost.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out localhost.crt -days 1825 -sha256 -extfile localhost.ext
@@ -45,7 +45,7 @@ openssl x509 -req -in localhost.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial
 アプリケーション/ユーティリティ/keychainAccess で
 
 - ① 左メニューの「システム」を選択。
-- ② 証明書一覧のヘッダー部分の「＋」ボタンを押す
+- ② 証明書一覧のヘッダー部分の「＋」ボタンを押す(なければ鉛筆のアイコン)
 - ③ 生成した crt を選択して一覧に追加
 - ④ 追加した crt をダブルクリックして開き「信頼」を押す
 - ⑤「この証明書を使用するとき」で「常に信頼する」を選択。
@@ -58,17 +58,18 @@ https://sterfield.co.jp/programmer/%E9%96%8B%E7%99%BA%E7%92%B0%E5%A2%83%E3%81%AE
 
 # ●Setting Letsencrypt(root & Wildcard)
 
-2021年よりインストール方法が変更
+2021 年よりインストール方法が変更
+
 ```
 yum install snapd
 ```
 
 起動設定
+
 ```
 systemctl enable --now snapd.socket
 ln -s /var/lib/snapd/snap /snap
 ```
-
 
 sudo snap install core
 snap refresh core
