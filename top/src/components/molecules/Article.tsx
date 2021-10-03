@@ -103,23 +103,25 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
         onMouseOver={handleOnMouseOver}
         onMouseMove={handleOnMouseMove}
         onMouseLeave={handleOnMouseLeave}>
-        <Header overflowTitle={marqueeOn}>
-          <Favicon src={article.favicon} className={'Favicon'} />
-          <Title lv={4} className={'Title'}>
-            {article.title}
-          </Title>
-          <LiveCnt className={'LiveCnt'}>{article.liveCnt}</LiveCnt>
-        </Header>
-        <OgpImage src={serverMetas['og:image']} ch={<>{article.ch}</>} />
-        <Description>
-          <P>{serverMetas['og:description']}</P>
-          <SnsLinks>
-            <SnsIconImg src={getSnsIconSrc({ type: 'twitter', visible: serverMetas['twitter:site'] !== '' })} />
-            <SnsIconImg src={getSnsIconSrc({ type: 'facebook', visible: serverMetas['fb:page_id'] !== '' })} />
-            <SnsIconImg src={getSnsIconSrc({ type: 'appstore', visible: serverMetas['al:ios:app_store_id'] !== '' })} />
-            <SnsIconImg src={getSnsIconSrc({ type: 'android', visible: serverMetas['al:android:package'] !== '' })} />
-          </SnsLinks>
-        </Description>
+        <a href={`/${article.ch}`}>
+          <Header overflowTitle={marqueeOn}>
+            <Favicon src={article.favicon} className={'Favicon'} />
+            <Title lv={4} className={'Title'}>
+              {article.title}
+            </Title>
+            <LiveCnt className={'LiveCnt'}>{article.liveCnt}</LiveCnt>
+          </Header>
+          <OgpImage src={serverMetas['og:image']} ch={<>{article.ch}</>} />
+          <Description>
+            <P>{serverMetas['og:description']}</P>
+            <SnsLinks>
+              <SnsIconImg src={getSnsIconSrc({ type: 'twitter', visible: serverMetas['twitter:site'] !== '' })} />
+              <SnsIconImg src={getSnsIconSrc({ type: 'facebook', visible: serverMetas['fb:page_id'] !== '' })} />
+              <SnsIconImg src={getSnsIconSrc({ type: 'appstore', visible: serverMetas['al:ios:app_store_id'] !== '' })} />
+              <SnsIconImg src={getSnsIconSrc({ type: 'android', visible: serverMetas['al:android:package'] !== '' })} />
+            </SnsLinks>
+          </Description>
+        </a>
       </Detail>
     </Container>
   );

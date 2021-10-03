@@ -205,7 +205,7 @@ const TalknContainer: React.FC<Props> = (props) => {
             </div>
           </Sns>
           <CopyrightLayout>
-            <Copyright>talkn.io</Copyright>
+            <Copyright>©talkn</Copyright>
           </CopyrightLayout>
           <br />
           <br />
@@ -513,6 +513,7 @@ const Sns = styled.div`
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
+  margin: ${styles.doubleMargin}px;
 `;
 
 const Twitter = styled.div`
