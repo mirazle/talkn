@@ -522,6 +522,8 @@ const Twitter = styled.div`
   border-radius: 5px;
   font-size: 13px;
   color: #fff;
+  a {
+  }
 `;
 
 const TwitterIcon = styled.i`
