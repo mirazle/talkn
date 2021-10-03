@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled, { css } from 'styled-components';
 
+import conf from 'common/conf';
+
 import Favicon from 'top/components/atoms/Favicon';
 import LiveCnt from 'top/components/atoms/LiveCnt';
 import OgpImage from 'top/components/atoms/OgpImage';
@@ -17,25 +19,16 @@ import {
   baseShadowColor,
 } from 'top/styles';
 
-import androidIcon from 'assets/png/android.png';
-import androidGrayIcon from 'assets/png/android_gray.png';
-import appstoreIcon from 'assets/png/appstore.png';
-import appstoreGrayIcon from 'assets/png/appstore_gray.png';
-import facebookIcon from 'assets/png/facebook.png';
-import facebbokGrayIcon from 'assets/png/facebook_gray.png';
-import twitterIcon from 'assets/png/twitter.png';
-import twitterGrayIcon from 'assets/png/twitter_gray.png';
-
 const getSnsIconSrc = ({ type, visible }) => {
   switch (type) {
     case 'twitter':
-      return visible ? twitterIcon : twitterGrayIcon;
+      return visible ? `//${conf.assetsImgPath}twitter.svg` : `//${conf.assetsImgPath}twitter_gray.svg`;
     case 'facebook':
-      return visible ? facebookIcon : facebbokGrayIcon;
+      return visible ? `//${conf.assetsImgPath}facebook.svg` : `//${conf.assetsImgPath}facebook_gray.svg`;
     case 'appstore':
-      return visible ? appstoreIcon : appstoreGrayIcon;
+      return visible ? `//${conf.assetsImgPath}appstore.svg` : `//${conf.assetsImgPath}appstore_gray.svg`;
     case 'android':
-      return visible ? androidIcon : androidGrayIcon;
+      return visible ? `//${conf.assetsImgPath}android.svg` : `//${conf.assetsImgPath}android_gray.svg`;
   }
 };
 
