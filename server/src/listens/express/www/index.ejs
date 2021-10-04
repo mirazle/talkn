@@ -1700,6 +1700,9 @@
         const href = search.value.replace("https:/", "").replace("http:/", "");
         location.href = "https://<%= domain %>" + href;
     }
+    function onChangeCamera(e){
+        console.log(e);
+    }
     window.onload =  ( e ) => {
         onServiceWorker();
         const search = document.querySelector(".search");
@@ -2007,6 +2010,7 @@
           type='file'
           accept='image/*'
           capture='enviroment'
+          onchange="alert"
         />
         </footer>
     </div>
