@@ -1,4 +1,4 @@
-window.TALKN_EXT_ENV = 'START';
+window.TALKN_EXT_ENV = 'PROD';
 /*
   Reasons for plain js:
   Obfuscated or bundled js is rejected by Chrome Extension examination.
@@ -1594,7 +1594,8 @@ class IframeBottom extends Iframe {
   }
 
   getHeight(addUnit = false) {
-    height = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? `${Math.floor(window.innerHeight * 0.9)}px` : IframeModal.getCloseHeight(true);
+    height =
+      window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? `${Math.floor(window.innerHeight * 0.9)}px` : IframeModal.getCloseHeight(true);
     return addUnit ? height : height.replace('px', '').replace('%', '');
   }
 
@@ -1637,7 +1638,17 @@ class IframeEmbed extends Iframe {
     return window.document.querySelectorAll(IframeEmbed.className);
   }
   get acceptPostMessages() {
-    return ['handleExtAndClient', 'tune', 'changeThread', 'toggleIframe', 'location', 'disconnect', 'linkTo', 'setInputPost', 'getClientMetas'];
+    return [
+      'handleExtAndClient',
+      'tune',
+      'changeThread',
+      'toggleIframe',
+      'location',
+      'disconnect',
+      'linkTo',
+      'setInputPost',
+      'getClientMetas',
+    ];
   }
   constructor(_window, bootOption, appendRoot) {
     super(_window, bootOption, appendRoot);
@@ -1992,7 +2003,9 @@ class LiveMediaPost {
     const iconClickEvent = (e) => {
       const stampUl = Window.select(`#${LiveMediaPost.id}StampUl`);
       stampUl.style.transform =
-        stampUl.style.transform === LiveMediaPost.stamlUlOpenTransform ? LiveMediaPost.stamlUlCloseTransform : LiveMediaPost.stamlUlOpenTransform;
+        stampUl.style.transform === LiveMediaPost.stamlUlOpenTransform
+          ? LiveMediaPost.stamlUlCloseTransform
+          : LiveMediaPost.stamlUlOpenTransform;
     };
     icon.id = `${LiveMediaPost.id}Icon`;
     icon.style = this.getStyle('icon');

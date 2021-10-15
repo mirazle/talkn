@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -9,11 +9,18 @@ import AppStore from 'api/store/App';
 import handles from 'client/actions/handles';
 import mapToStateToProps from 'client/mapToStateToProps/';
 
+import FlexRow from 'top/components/atoms/FlexRow';
 import P from 'top/components/atoms/P';
 import Title from 'top/components/atoms/Title';
 import { ArticleType } from 'top/components/molecules/Article';
+import Section from 'top/components/molecules/Section';
 import ArticleOrder from 'top/components/organisms/ArticleOrder';
 import * as styles from 'top/styles';
+
+type InterviewVerticalDatas = {
+  offsetTop: number;
+  offsetBottom: number;
+};
 
 type StateType = {
   ranks: ArticleType[];
@@ -25,7 +32,7 @@ type Props = {
   state: StateType;
 };
 
-type ResumeLayout = {
+type NavigationLayout = {
   width: number;
   marginTop: number;
   marginRight: number;
@@ -37,10 +44,13 @@ type ResumeLayout = {
   paddingLeft: number;
 };
 
+const ch = 'www.sunbridge.com';
+let interviewVerticalDatas: InterviewVerticalDatas[] = [];
 const TalknContainer: React.FC<Props> = (props) => {
   const { api, state } = props;
   const [dataMount, setMountData] = useState(false);
-  const [resumeLayout, setResumeLayout] = useState<ResumeLayout | undefined>();
+  const [interviewPointer, setInterviewPointer] = useState<number | undefined>();
+  const [navigationLayout, setNavigationLayout] = useState<NavigationLayout | undefined>();
 
   const interviewRef = useRef<HTMLElement>();
   const resumeRef = useRef<HTMLElement>();
@@ -58,6 +68,13 @@ const TalknContainer: React.FC<Props> = (props) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const useCallbackScroll = useCallback(() => {
+    const _interviewPointer = interviewVerticalDatas.findIndex(
+      (obj) => obj.offsetTop <= window.scrollY && window.scrollY < obj.offsetBottom
+    );
+    setInterviewPointer(_interviewPointer);
+  }, [interviewVerticalDatas]);
+
   useEffect(() => {
     if (articles.length > 0 && !dataMount) {
       setMountData(true);
@@ -68,20 +85,50 @@ const TalknContainer: React.FC<Props> = (props) => {
   }, [articles.length]);
 
   useEffect(() => {
-    if (resumeRef.current) {
-      const resumeElm = resumeRef.current;
-      const resumeStyle = getComputedStyle(resumeElm);
-      const width = styles.getTrimUnitNumber(resumeStyle.width);
-      const marginTop = styles.getTrimUnitNumber(resumeStyle.marginTop);
-      const marginRight = styles.getTrimUnitNumber(resumeStyle.marginRight);
-      const marginBottom = styles.getTrimUnitNumber(resumeStyle.marginBottom);
-      const marginLeft = styles.getTrimUnitNumber(resumeStyle.marginLeft);
-      const paddingTop = styles.getTrimUnitNumber(resumeStyle.paddingTop);
-      const paddingRight = styles.getTrimUnitNumber(resumeStyle.paddingRight);
-      const paddingBottom = styles.getTrimUnitNumber(resumeStyle.paddingBottom);
-      const paddingLeft = styles.getTrimUnitNumber(resumeStyle.paddingLeft);
-      setResumeLayout({ width, marginTop, marginRight, marginBottom, marginLeft, paddingTop, paddingRight, paddingBottom, paddingLeft });
+    if (interviewRef.current) {
+      Array.from(interviewRef.current.children).forEach((child: HTMLElement, index) => {
+        if (!interviewVerticalDatas[index]) interviewVerticalDatas[index] = { offsetTop: 0, offsetBottom: 0 };
+        interviewVerticalDatas[index] = { offsetTop: child.offsetTop, offsetBottom: child.offsetTop + child.clientHeight };
+        if (index > 0) {
+          interviewVerticalDatas[index - 1].offsetBottom = child.offsetTop - 1;
+        }
+        console.log(index, child.offsetTop, child.offsetTop + child.clientHeight);
+      });
+      console.log(interviewVerticalDatas);
     }
+  }, [interviewRef.current && interviewRef.current.clientHeight]);
+
+  useEffect(() => {
+    if (resumeRef.current) {
+      if (styles.spLayoutWidth < window.innerWidth) {
+        const resumeElm = resumeRef.current;
+        const resumeStyle = getComputedStyle(resumeElm);
+        const width = styles.getTrimUnitNumber(resumeStyle.width);
+        const marginTop = styles.getTrimUnitNumber(resumeStyle.marginTop);
+        const marginRight = styles.getTrimUnitNumber(resumeStyle.marginRight);
+        const marginBottom = styles.getTrimUnitNumber(resumeStyle.marginBottom);
+        const marginLeft = styles.getTrimUnitNumber(resumeStyle.marginLeft);
+        const paddingTop = styles.getTrimUnitNumber(resumeStyle.paddingTop);
+        const paddingRight = styles.getTrimUnitNumber(resumeStyle.paddingRight);
+        const paddingBottom = styles.getTrimUnitNumber(resumeStyle.paddingBottom);
+        const paddingLeft = styles.getTrimUnitNumber(resumeStyle.paddingLeft);
+        setNavigationLayout({
+          width,
+          marginTop,
+          marginRight,
+          marginBottom,
+          marginLeft,
+          paddingTop,
+          paddingRight,
+          paddingBottom,
+          paddingLeft,
+        });
+      }
+    }
+  }, [window.innerWidth]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', useCallbackScroll);
   }, []);
 
   return (
@@ -89,98 +136,144 @@ const TalknContainer: React.FC<Props> = (props) => {
       <FixedBackground />
       <Container>
         <Header>
-          <a href="https://www.tradeworks.co.jp/">
-            <Img src="https://www.tradeworks.co.jp/favicon.ico" alt="www.tradeworks.co.jp" width={30} />
-            <Title lv={1}>www.tradeworks.co.jp</Title>
-          </a>
+          <A href={`https:/${ch}`}>
+            <Img src="https://www.sunbridge.com/favicon.ico" alt={ch} width={30} height={30} />
+            <Title lv={1}>{ch}</Title>
+          </A>
         </Header>
 
         <BaseBoard>
           <TopSection>
-            <Title lv={2} shadow>
-              ものつくりを通して
-              <br />
-              人にも環境にもやさしい
-              <br />
-              社会づくりに貢献しますー。
-            </Title>
-            <Company>By 株式会社トレードワークス</Company>
-            <CreatorName>○○ ○○氏</CreatorName>
+            <TitleBoard>
+              <Title lv={2}>
+                「名刺管理」から
+                <br />
+                「プロフィール管理」ツールへ。
+                <br />
+                "Smart Visca"のバージョンアップに迫る。
+              </Title>
+            </TitleBoard>
           </TopSection>
           <ArticleOrderBg>
             <ArticleOrder ch={'/music'} title={'製品のご紹介'} articles={articles} />
           </ArticleOrderBg>
         </BaseBoard>
         <WhiteBoard>
-          <Main resumeLayout={resumeLayout}>
-            <Interview ref={interviewRef} resumeLayout={resumeLayout}>
-              <Section>
-                <Title lv={5}>1.サービスの概要</Title>
+          <Main navigationLayout={navigationLayout}>
+            <Interview className={'Interview'} ref={interviewRef} navigationLayout={navigationLayout}>
+              <Section number={1} title={'プロダクト本部　アーキテクト 澤野 弘幸 (Hiroyuki Sawano)'}>
+                <FlexRow>
+                  <img src={`//${conf.assetsURL}/top/${ch}/human01.webp`} width={'100%'} />
+                  <P>
+                    <br />
+                    2012年6月にサンブリッジに入社。 Salesforce一体型名刺管理ソリューション「SmartVisca」の Salesforce
+                    AppExchangeへの公開に尽力する。以降、自社プロダクト事業の開発にあたり、新規プロダクトのリリース、バージョンアップに務める。
+                  </P>
+                </FlexRow>
+              </Section>
+              <Section number={2} title={'まずは澤野さんの現在の業務内容を教えてください。'}>
                 <P>
-                  トレードワークスは、主にセールスプロモーション市場に向けた
-                  様々なオリジナル雑貨製品を企画・製造・販売している総合メーカーです。
+                  サンブリッジのプロダクト本部に所属し、主力の自社プロダクトである「SmartVisca」の開発を担っており、アーキテクト/プログラマーを主な業務としています。
+                </P>
+              </Section>
+              <Section
+                number={3}
+                title={
+                  '澤野さんはプロダクト本部の中でも特に社歴の長いメンバーだと聞いています。サンブリッジに入社するまでの経緯を教えてください。'
+                }>
+                <P>
+                  前職でエンジニアとしてSalesforceに関連する仕事をしていたため、サンブリッジのことは知っていました。セールスフォース・ドットコムの展示会に参加した際、出店していたサンブリッジ社員がお揃いのTシャツを着ていたことから、自由で楽しそうな会社だと感じ、興味を持ちました。その後、サンブリッジに業務委託として関わり始め、正社員として2012年に入社しました。
+                  入社前のイメージ通り、良い意味で仕事とプライベートの垣根なく、メンバーの裁量に任せられていることも多いため、働きやすさを感じています。
+                </P>
+              </Section>
+              <Section number={4} title={'10年弱、SmartViscaを見続けてきた澤野さんから、改めて「SmartVisca」の説明をお願いします。'}>
+                <P>
+                  SmartViscaは、名刺をスキャナーやスマートフォンで読み取るだけで、高速かつ正確にデジタル化するSalesforce一体型名刺管理ソリューションです。
+                </P>
+                <img src={`//${conf.assetsURL}/top/${ch}/desc01.webp`} width={'75%'} />
+                <P>
+                  2018年には、最も売れたAppExchangeアプリのランキングで中小企業部門と大企業部門でそれぞれ第2位と第1位を獲得しました。他名刺管理ツールと異なる点は、Salesforce
+                  Platform上で構築されていることです。Salesforceを活用する上で、不可欠な顧客データベースを整備するための機能が全て備わっています。そのため、外出先や在宅勤務でも手軽に正確な顧客データを用いて、営業やマーケティングをはじめあらゆる企業活動に活用できます。個人的に、昔からネットワーク上で情報を収集検索できるサービスに関心があったので、ネットワークで人の情報が集積される面白さをSmartViscaに見出しています。
+                </P>
+              </Section>
+              <Section number={5} title={'2021年冬のタイミングで、SmartViscaをバージョンアップするに至った理由を教えてください。'}>
+                <P>
+                  コロナ禍前には新しいプロダクトの開発を検討しており、既存のSmartViscaのバージョンアップの予定はありませんでした。しかし、コロナ禍で対面での名刺交換をする機会が減ったことから、それに代わるような、オンライン上で名刺交換が完了できるツールの開発を検討し始めました。そこで、既存製品のSmartViscaにその機能を持たせることに決めたのです。
+                  <b>私含めチームメンバーはSmartViscaそのものに愛着があるので、嬉しい意思決定でした。</b>
+                </P>
+              </Section>
+              <Section number={6} title={'開発を進める上で、困難なことを教えてください。'}>
+                <P>
+                  最初のリリースから10年ほど経過して相当の数のお客様にインストールされて使われています。製品仕様にもその時々の要件があって取り入れています。そういった仕様の経緯を新しく参加されたメンバーにも漏れなく継承していくことには腐心しています。幸い、Github、JIRA、CircleCIなど、継続的な開発を支援するツールが利用できるようになって、それらのことも自動化されて容易になってきています。
+                </P>
+              </Section>
+              <Section number={7} title={'開発を進める上で、大切にしていることがあれば教えてください。'}>
+                <P>
+                  顧客視点に立った開発を大切にしています。プロダクト本部の統括である矢野は特に顧客意識が強く、ユーザーヒアリングの結果をもとにSmartViscaのあり方について、フロントメンバーだけでなく開発メンバーも含め議論する機会が多くあります。
+                  私はサンブリッジに入社するまでパッケージ開発の経験がほとんどで、エンドユーザーの声を直接聞く機会があまりありませんでした。だからこそ、ユーザーの声が聞ける今、お客様の要望をどのようにプロダクトにフィードバックしていくかを、一層大切にしながら開発を進めています。
+                  今回のバージョンアップの内容も、SmartViscaのユーザーヒアリングをした結果、要件として項目に上がってきたものをベースにしています。
                 </P>
                 <P>
-                  自社内に企画・設計、仕入、品質管理、物流管理を行う部門を有しているだけでなく、
-                  グループのデザイン会社や海外の生産管理拠点と連携を取ることで、
-                  高品質でオリジナル性の高い製品を最適なコストパフォーマンスで提供しております。
+                  例えば、名刺を取り込んだ後すぐにデジタル化して欲しいという要望がユーザーからありました。これまでは名刺をOCR（※2）で取り込んだ後、役職や部署名に誤りがないか、人が目視で確認してからデジタル化する必要があり、長い時には約1日かかっていました。今回のバージョンアップで精度が高いOCRを入れたことで、人の目視確認が不要となり、OCRにかけた直後にデジタル化することが可能になりました。また、OCRだけの納品をオプションとしたこともユーザーの声がきっかけです。
+                  一方でお客様の要望を言葉通りに受け取ったり、拡大解釈したりしないように気をつけています。
+                  <b>
+                    「お客様は何を本当に求めているのか、それは何故なのか。」言葉を咀嚼し、その裏にある「なぜ」を考えることで、顧客の本質的な課題解決を目指しています。
+                  </b>
                 </P>
+                <Annotation>
+                  　　※2.Optical Character Recognition
+                  <br />
+                  活字、手書きテキストの画像を文字コードの列に変換するソフトウェアのこと
+                </Annotation>
+              </Section>
+
+              <Section number={8} title={'最後にバージョンアップしたSmartViscaリリースに向けての意気込みをお願いします！'}>
                 <P>
-                  近年においては、このような事業背景を水平展開することで、 セールスプロモーション業界のみならず販売用のオリジナルグッズや
-                  資材・備品関連商品といった分野への商品供給を行っており、 「総合雑貨メーカー」としてのポジションを確立しております。
+                  「名刺管理」ではなく「プロフィール管理」ツールとして活用いただくために、SFA（Sales Force
+                  Automation）との連携を強化しています。この機能は多くのお客様に利用いただけると考えられるので、既存のお客様だけでなく、ターゲットユーザーを広げていきたいと思っています。新しい類似製品を提供するベンダーも台頭してきている中で、
+                  <b>
+                    今回のバージョンアップによってニューノーマル時代に適応したプロダクトとして新規・既存のユーザ様にも共感・評価いただけるものと確信しています。
+                  </b>
                 </P>
-              </Section>
-              <Section>
-                <Title lv={5}>2.市場規模や課題</Title>
-                <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />{' '}
-                <br />
-                <br /> <br /> <br /> <br /> <br /> <br />
-              </Section>
-              <Section>
-                <Title lv={5}>3.課題解決方法</Title>
-                <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />{' '}
-                <br />
-                <br /> <br /> <br /> <br /> <br /> <br />
-              </Section>
-              <Section>
-                <Title lv={5}>4.こだわった点</Title>
-                <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />{' '}
-                <br />
-                <br /> <br /> <br /> <br /> <br /> <br />
-              </Section>
-              <Section>
-                <Title lv={5}>5.未来へのビジョン</Title>
-                <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />{' '}
-                <br />
-                <br /> <br /> <br /> <br /> <br /> <br />
               </Section>
             </Interview>
-            <Resume ref={resumeRef} resumeLayout={resumeLayout}>
+            <Navigation ref={resumeRef} navigationLayout={navigationLayout}>
               <Title lv={6}>- 目次 -</Title>
-              <ol>
+              <NavigationOrder interviewPointer={interviewPointer}>
                 <li>
-                  <a onClick={() => handleOnClickNav(0)}>1.サービスの概要</a>
+                  <a onClick={() => handleOnClickNav(0)}>01.人物紹介</a>
                 </li>
                 <li>
-                  <a onClick={() => handleOnClickNav(1)}>2.市場規模や課題</a>
+                  <a onClick={() => handleOnClickNav(1)}>02.業務内容</a>
                 </li>
                 <li>
-                  <a onClick={() => handleOnClickNav(2)}>3.解決したい課題</a>
+                  <a onClick={() => handleOnClickNav(2)}>03.入社の経緯</a>
                 </li>
                 <li>
-                  <a onClick={() => handleOnClickNav(3)}>4.こだわった点</a>
+                  <a onClick={() => handleOnClickNav(3)}>04.Smart Viscaとは</a>
                 </li>
                 <li>
-                  <a onClick={() => handleOnClickNav(4)}>5.未来へのビジョン</a>
+                  <a onClick={() => handleOnClickNav(4)}>05.バージョンアップの理由</a>
                 </li>
-              </ol>
-            </Resume>
+                <li>
+                  <a onClick={() => handleOnClickNav(5)}>06.開発で困難なこと</a>
+                </li>
+                <li>
+                  <a onClick={() => handleOnClickNav(6)}>07.開発ポリシー</a>
+                </li>
+                <li>
+                  <a onClick={() => handleOnClickNav(7)}>08.リリースへの意気込み</a>
+                </li>
+              </NavigationOrder>
+            </Navigation>
           </Main>
         </WhiteBoard>
 
         <Footer>
           <ToTopLayout>
-            <ToTop onClick={handleOnClickToTop}>TOP</ToTop>
+            <ToTop onClick={handleOnClickToTop}>
+              <div className={'ToTopArrow'} />
+            </ToTop>
           </ToTopLayout>
           <Sns>
             <Twitter className="twitter">
@@ -205,24 +298,10 @@ const TalknContainer: React.FC<Props> = (props) => {
             </div>
           </Sns>
           <CopyrightLayout>
+            <Copyright>Powerd by domain cover project@talkn</Copyright>
+            <br />
             <Copyright>©talkn</Copyright>
           </CopyrightLayout>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
         </Footer>
       </Container>
     </>
@@ -234,6 +313,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
+  font-size: 16px;
   ol {
     padding: 0;
     margin: 0;
@@ -263,9 +343,9 @@ const FixedBackground = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url('//${conf.assetsURL}/top/sample.jpg') 50% 0% / cover no-repeat;
+  background: url('//${ch}/wp-content/uploads/slide_01.png') 50% 50% / cover no-repeat;
   @media (max-width: ${styles.spLayoutWidth}px) {
-    background: url('//${conf.assetsURL}/top/sample.jpg') 65% 0% / cover no-repeat;
+    background: url('//${ch}/wp-content/uploads/18f7011e3272d51933d82b9c23d61669.png') 50% 50% / cover no-repeat;
   }
 `;
 
@@ -302,6 +382,9 @@ const ArticleOrderBg = styled.div`
   width: 100%;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 15px 15px 0 0;
+  border-top: 1px solid #eee;
+  border-right: 1px solid #eee;
+  border-left: 1px solid #eee;
 `;
 
 const TopSection = styled.section`
@@ -313,22 +396,21 @@ const TopSection = styled.section`
   max-width: ${styles.appWidth}px;
   height: 600px;
   min-height: 400px;
-  padding-left: 150px;
   color: #fff;
-  h2 {
-    margin-bottom: 150px;
-  }
-  @media (max-width: ${styles.spLayoutWidth}px) {
-    padding-left: 5%;
-    h2 {
-      margin-top: 220px;
-      margin-bottom: 130px;
-    }
-  }
+`;
+
+const TitleBoard = styled.div`
+  padding-top: ${styles.basePadding}px;
+  padding-right: ${styles.basePadding}px;
+  padding-bottom: ${styles.basePadding}px;
+  padding-left: ${styles.doublePadding}px;
+  margin-left: ${styles.doubleMargin}px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #e60012;
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    padding-left: ${styles.basePadding}px;
     h2 {
-      margin-top: 180px;
-      margin-bottom: 70px;
+      letter-spacing: 1px;
     }
   }
 `;
@@ -369,16 +451,17 @@ const WhiteBoard = styled.div`
   justify-content: center;
   width: 100%;
   height: auto;
+  border-top: 1px solid #eee;
   background: rgba(255, 255, 255, 0.96);
 `;
 
 type MainPropsType = {
-  resumeLayout: ResumeLayout;
+  navigationLayout: NavigationLayout;
 };
 
 const Main = styled.main<MainPropsType>`
   display: flex;
-  flex-flow: ${(props) => (props.resumeLayout ? 'row nowrap' : 'column wrap')};
+  flex-flow: ${(props) => (props.navigationLayout ? 'row nowrap' : 'column wrap')};
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
@@ -391,7 +474,7 @@ const Main = styled.main<MainPropsType>`
 
 type InterviewPropsType = {
   ref: any;
-  resumeLayout: ResumeLayout;
+  navigationLayout: NavigationLayout;
 };
 
 const InterviewPaddingLeft = styles.doublePadding;
@@ -400,25 +483,32 @@ const Interview = styled.div<InterviewPropsType>`
   width: 100%;
   max-width: ${(props) => getInterviewWidth(props, InterviewPaddingLeft)};
   height: auto;
+  padding-right: 0;
   padding-left: ${InterviewPaddingLeft}px;
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    padding-right: ${styles.basePadding}px;
+    padding-left: ${styles.basePadding}px;
+  }
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    padding-right: 0;
+    padding-left: 0;
+  }
 `;
 
-const Section = styled.section``;
+type NavigationPropsType = InterviewPropsType;
 
-type ResumePropsType = InterviewPropsType;
-
-const Resume = styled.nav<ResumePropsType>`
+const Navigation = styled.nav<NavigationPropsType>`
   z-index: 0;
   position: sticky;
   top: ${styles.appHeaderHeight + styles.baseMargin}px;
-  width: ${(props) => (props.resumeLayout ? `${props.resumeLayout.width}px` : 'auto')};
-  min-width: ${(props) => (props.resumeLayout ? `${props.resumeLayout.width}px` : 'auto')};
-  max-width: ${(props) => (props.resumeLayout ? `${props.resumeLayout.width}px` : 'auto')};
+  width: ${(props) => (props.navigationLayout ? `${props.navigationLayout.width}px` : 'auto')};
+  min-width: ${(props) => (props.navigationLayout ? `${props.navigationLayout.width}px` : 'auto')};
+  max-width: ${(props) => (props.navigationLayout ? `${props.navigationLayout.width}px` : 'auto')};
   padding-top: ${styles.basePadding}px;
   padding-right: ${styles.basePadding}px;
   padding-bottom: ${styles.doublePadding}px;
   padding-left: ${styles.basePadding}px;
-  margin: ${styles.baseMargin}px;
+  margin: ${styles.quadMargin}px ${styles.baseMargin}px ${styles.baseMargin}px ${styles.baseMargin}px;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid #eee;
   border-radius: 15px;
@@ -442,12 +532,25 @@ const Resume = styled.nav<ResumePropsType>`
     top: 0;
     width: calc(100% - ${styles.doubleMargin}px);
     min-width: calc(100% - ${styles.doubleMargin}px);
-    background: none;
     padding: 0;
     text-align: center;
     li {
       justify-content: center;
     }
+  }
+
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    border-radius: 0;
+  }
+`;
+
+type NavigationOrderPropsType = {
+  interviewPointer: number;
+};
+
+const NavigationOrder = styled.nav<NavigationOrderPropsType>`
+  li:nth-child(${(props) => props.interviewPointer}) {
+    font-weight: 400;
   }
 `;
 
@@ -463,16 +566,13 @@ const Footer = styled.footer`
   color: #fff;
 `;
 
-const ToTopLayout = styled.div`
+const A = styled.a`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-  max-width: ${styles.appWidth}px;
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    justify-content: center;
-  }
+  justify-content: center;
 `;
+
+const Annotation = styled.span``;
 
 const CopyrightLayout = styled.div`
   display: flex;
@@ -482,28 +582,6 @@ const CopyrightLayout = styled.div`
   width: 100%;
   max-width: ${styles.appWidth}px;
   height: 400px;
-`;
-
-const ToTop = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: ${styles.quadSize}px;
-  height: ${styles.quadSize}px;
-  padding: ${styles.baseSize * 3}px;
-  margin-right: ${styles.doubleSize * 3}px;
-  background: transparent;
-  color: #fff;
-  border: 1px solid #fff;
-  border-radius: ${styles.baseSize}px;
-  transition: ${styles.transitionDuration};
-  :hover {
-    background: #fff;
-    color: #000;
-  }
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    margin-right: 0;
-  }
 `;
 
 const Copyright = styled.div``;
@@ -536,9 +614,52 @@ const TwitterIcon = styled.i`
   height: 14px;
 `;
 
+const ToTopLayout = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: ${styles.appWidth}px;
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    justify-content: center;
+  }
+`;
+
+const ToTop = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${styles.quadSize}px;
+  height: ${styles.quadSize}px;
+  padding: ${styles.baseSize * 3}px;
+  margin-right: ${styles.doubleSize * 3}px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: ${styles.baseSize}px;
+  transition: ${styles.transitionDuration};
+  div.ToTopArrow {
+    position: relative;
+    top: -3px;
+    border-right: 15px solid transparent;
+    border-bottom: 25px solid #fff;
+    border-left: 15px solid transparent;
+  }
+  :hover {
+    background: #fff;
+    border: 1px solid #000;
+    div.ToTopArrow {
+      border-bottom: 25px solid #000;
+    }
+  }
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    margin-right: 0;
+  }
+`;
+
 const getInterviewWidth = (props: InterviewPropsType, InterviewPaddingLeft) => {
-  if (props.resumeLayout) {
-    const calcedWidth = props.resumeLayout.width + props.resumeLayout.paddingRight + props.resumeLayout.paddingLeft;
+  if (props.navigationLayout) {
+    const calcedWidth = props.navigationLayout.width + props.navigationLayout.paddingRight + props.navigationLayout.paddingLeft;
     return `calc(${styles.appWidth}px - ${calcedWidth}px)`;
   } else {
     return '100%';

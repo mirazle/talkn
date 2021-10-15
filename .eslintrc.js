@@ -22,17 +22,6 @@ module.exports = {
     window: true,
   },
   rules: {
-    'semi': 'warn',
-    'default-case': 'warn',
-    'no-extra-semi': 'warn',
-    'no-redeclare': 'warn',
-    'eqeqeq': [
-      'warn',
-      'always',
-      {
-        null: 'ignore',
-      },
-    ],
     'import/no-relative-parent-imports': ['warn'],
     'import/no-relative-packages': ['warn'],
     'import/no-unassigned-import': ['warn'],

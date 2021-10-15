@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, memo } from 'react';
 import styled, { css } from 'styled-components';
 
 import Title, { H3Height } from 'top/components/atoms/Title';
@@ -36,6 +36,18 @@ const Component: React.FC<ArticleOrderType> = ({ ch, title, articles }) => {
     setActive(false);
   };
 
+  const handleOnButtonClick = (direction: 'left' | 'right') => {
+    const orderElm = orderRef.current;
+    const listElm = orderElm.children[0];
+    const currentLeft = orderRef.current.scrollLeft;
+    const addScrollLeft = direction === 'left' ? -listElm.clientWidth : listElm.clientWidth;
+
+    orderRef.current.scrollTo({
+      left: currentLeft + addScrollLeft,
+      behavior: 'smooth',
+    });
+  };
+
   const activeOnEvents = { onMouseMove: handleOnMouseMove, onMouseOver: handleOnMouseOver, onTouchStart: handleOnMouseOver };
 
   useEffect(() => {
@@ -56,7 +68,12 @@ const Component: React.FC<ArticleOrderType> = ({ ch, title, articles }) => {
   return (
     <Container focusHeight={articleHeights[focusIndex]} onMouseLeave={handleOnMouseLeave}>
       <TitleCustom lv={3}>{title}</TitleCustom>
-      <ArrowRightButton active={active} {...activeOnEvents} onMouseLeave={handleOnMouseLeaveArrowButton} />
+      <ArrowRightButton
+        active={active}
+        {...activeOnEvents}
+        onClick={() => handleOnButtonClick('left')}
+        onMouseLeave={handleOnMouseLeaveArrowButton}
+      />
       <ArticleOrder
         ref={orderRef}
         focusHeight={articleHeights[focusIndex]}
@@ -69,12 +86,17 @@ const Component: React.FC<ArticleOrderType> = ({ ch, title, articles }) => {
           </ArticleList>
         ))}
       </ArticleOrder>
-      <ArrowLeftButton active={active} {...activeOnEvents} onMouseLeave={handleOnMouseLeaveArrowButton} />
+      <ArrowLeftButton
+        active={active}
+        {...activeOnEvents}
+        onClick={() => handleOnButtonClick('right')}
+        onMouseLeave={handleOnMouseLeaveArrowButton}
+      />
     </Container>
   );
 };
 
-export default Component;
+export default memo(Component);
 
 type ContainerPropeType = {
   focusHeight?: number;

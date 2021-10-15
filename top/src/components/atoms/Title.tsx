@@ -71,19 +71,21 @@ const H1 = styled.h1<StyledPropsType>`
 const H2LineHeight = styles.quadMargin;
 const H2Margin = styles.baseMargin;
 const H2 = styled.h2<StyledPropsType>`
-  height: ${H2LineHeight}px;
-  font-size: 38px;
+  font-size: 175%;
   font-weight: 300;
   line-height: ${H2LineHeight}px;
+  color: #e60012;
   user-select: none;
   margin: ${H2Margin}px 0;
   text-shadow: ${(props) => (props.shadow ? styles.baseTextShadow : 'none')};
   @media (max-width: ${styles.spLayoutWidth}px) {
-    font-size: 32px;
+    margin: 0;
+    font-size: 150%;
     line-height: ${H2LineHeight}px;
   }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    font-size: 23px;
+    margin: 0;
+    font-size: 100%;
     line-height: ${H2LineHeight / 1.5}px;
   }
 `;
@@ -108,9 +110,18 @@ const H4 = styled.h4<StyledPropsType>`
   user-select: none;
 `;
 const H5 = styled.h5<StyledPropsType>`
+  padding: 0;
+  margin: 0;
   font-size: 30px;
   font-weight: 200;
+  line-height: 40px;
   user-select: none;
+  @media (max-width: ${styles.spLayoutWidth}px) {
+  }
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    font-size: 20px;
+    line-height: 30px;
+  }
 `;
 
 const H6 = styled.h5<StyledPropsType>`

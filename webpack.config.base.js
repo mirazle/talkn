@@ -1,16 +1,20 @@
 const path = require('path');
 const app = process.env.app;
+
 let port = 8000;
 switch (app) {
+  case 'top':
+    port = 8000;
+    break;
   default:
   case 'api':
     port = 8001;
     break;
+  case 'rank':
+    port = 8002;
+    break;
   case 'client':
     port = 8080;
-    break;
-  case 'top':
-    port = 8000;
     break;
 }
 
@@ -39,6 +43,7 @@ module.exports = {
       api: path.resolve(__dirname, './api/src') + '/',
       client: path.resolve(__dirname, './client/src') + '/',
       top: path.resolve(__dirname, './top/src') + '/',
+      rank: path.resolve(__dirname, './rank/src') + '/',
       assets: path.resolve(__dirname, './assets') + '/',
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],

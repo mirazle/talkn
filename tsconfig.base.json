@@ -32,7 +32,8 @@
       "api/*": ["api/src/*"],
       "client/*": ["client/src/*"],
       "assets/*": ["assets/*"],
-      "top/*": ["top/src/*"]
+      "top/*": ["top/src/*"],
+      "rank/*": ["rank/src/*"]
     }
   }
 }
