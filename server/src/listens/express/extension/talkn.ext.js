@@ -311,6 +311,9 @@ class Ext {
   static get BASE_EXT_SUBDOMAIN() {
     return 'ext';
   }
+  static get BASE_TOP_SUBDOMAIN() {
+    return 'top';
+  }
   static get BASE_ASSETS_SUBDOMAIN() {
     return 'assets';
   }
@@ -362,33 +365,43 @@ class Ext {
   static get INCLUDE_ID() {
     return `#${Ext.APP_NAME}`;
   }
+
+  static get TOP_HOST() {
+    if (window.TALKN_EXT_ENV === 'PROD') {
+      return `//${Ext.BASE_TOP_SUBDOMAIN}.${Ext.BASE_PROD_HOST}`;
+    } else if (window.TALKN_EXT_ENV === 'START') {
+      return `//${Ext.BASE_TOP_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
+    } else if (window.TALKN_EXT_ENV === 'DEV') {
+      return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_TOP_PORT}`;
+    }
+  }
   static get APP_HOST() {
     if (Ext.IS_DEVELOPMENT_MODE) {
       return `//${Ext.BASE_DEV_HOST}`;
     }
-    if (TALKN_EXT_ENV === 'PROD') {
+    if (window.TALKN_EXT_ENV === 'PROD') {
       return `//${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === 'START') {
+    } else if (window.TALKN_EXT_ENV === 'START') {
       return `//${Ext.BASE_DEV_HOST}`;
-    } else if (TALKN_EXT_ENV === 'DEV') {
+    } else if (window.TALKN_EXT_ENV === 'DEV') {
       return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_CLIENT_PORT}`;
     }
   }
   static get APP_ASSETS_HOST() {
-    if (TALKN_EXT_ENV === 'PROD') {
+    if (window.TALKN_EXT_ENV === 'PROD') {
       return `//assets.${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === 'START') {
+    } else if (window.TALKN_EXT_ENV === 'START') {
       return `//assets.${Ext.BASE_DEV_HOST}`;
-    } else if (TALKN_EXT_ENV === 'DEV') {
+    } else if (window.TALKN_EXT_ENV === 'DEV') {
       return `//assets.${Ext.BASE_DEV_HOST}:${Ext.BASE_CLIENT_PORT}`;
     }
   }
   static get APP_EXT_HOST() {
-    if (TALKN_EXT_ENV === 'PROD') {
+    if (window.TALKN_EXT_ENV === 'PROD') {
       return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === 'START') {
+    } else if (window.TALKN_EXT_ENV === 'START') {
       return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
-    } else if (TALKN_EXT_ENV === 'DEV') {
+    } else if (window.TALKN_EXT_ENV === 'DEV') {
       return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}:${Ext.BASE_CLIENT_PORT}`;
     }
   }
@@ -474,13 +487,15 @@ class BootOption {
   constructor(id, href, tag) {
     this.id = id;
     this.ch = href ? BootOption.getCh(href) : location.href;
-    console.log('@@@@@@ ', href, this.ch);
     this.hasSlash = href.endsWith('/');
     this.protocol = BootOption.getProtocol(href);
     this.host = BootOption.getHost(this.ch);
     this.extensionMode = BootOption.getExtensionMode(tag);
   }
   static getCh(ch) {
+    if (ch.indexOf(Ext.TOP_HOST) >= 0) {
+      ch = ch.split(Ext.TOP_HOST)[1];
+    }
     ch = ch.replace('https:/', '').replace('http:/', '');
     if (ch.indexOf(Ext.BASE_DEV_HOST) >= 0) {
       if (ch.indexOf(':') >= 0) {
