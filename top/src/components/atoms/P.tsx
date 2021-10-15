@@ -33,7 +33,7 @@ const P1 = styled.p`
 `;
 
 const P2 = styled.p`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 200;
   user-select: none;
 `;

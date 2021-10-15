@@ -60,7 +60,7 @@ export type Props = {
 const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex }) => {
   const { serverMetas } = article;
   const [marqueeOn, setMarqueeOn] = useState(false);
-  const detailRef = useRef(null);
+  const headerRef = useRef(null);
   const isFocus = index === focusIndex;
   const handleOnMouseOver = () => {
     setFocusIndex(index);
@@ -76,10 +76,10 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
 
   // did mount.
   useEffect(() => {
-    if (detailRef.current) {
-      const detailElm = detailRef.current;
-      const headerElm = detailElm.children[0];
+    if (headerRef.current) {
+      const headerElm = headerRef.current;
       const titleElm = headerElm.children[1];
+      console.log(titleElm, titleElm.clientWidth, titleElm.scrollWidth, titleElm.offsetWidth);
       setMarqueeOn(titleElm.clientWidth < titleElm.scrollWidth);
     }
   }, []);
@@ -97,14 +97,13 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
         <OgpImage src={serverMetas['og:image']} ch={<>{article.ch}</>} />
       </Cover>
       <Detail
-        ref={detailRef}
         isFocus={isFocus}
         marqueeDuration={marqueeOn ? article.title.length / 10 : 0}
         onMouseOver={handleOnMouseOver}
         onMouseMove={handleOnMouseMove}
         onMouseLeave={handleOnMouseLeave}>
         <a href={`/${article.ch}`}>
-          <Header overflowTitle={marqueeOn}>
+          <Header ref={headerRef} overflowTitle={marqueeOn}>
             <Favicon src={article.favicon} className={'Favicon'} />
             <Title lv={4} className={'Title'}>
               {article.title}
@@ -113,7 +112,7 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
           </Header>
           <OgpImage src={serverMetas['og:image']} ch={<>{article.ch}</>} />
           <Description>
-            <P>{serverMetas['og:description']}</P>
+            <P lv={2}>{serverMetas['og:description']}</P>
             <SnsLinks>
               <SnsIconImg src={getSnsIconSrc({ type: 'twitter', visible: serverMetas['twitter:site'] !== '' })} />
               <SnsIconImg src={getSnsIconSrc({ type: 'facebook', visible: serverMetas['fb:page_id'] !== '' })} />
@@ -193,7 +192,8 @@ const Detail = styled.article<DetailPropsType>`
   transition-duration: ${(props) => (props.isFocus ? '300ms, 300ms, 0ms' : '0ms, 0ms, 0ms')};
   transform: ${(props) => (props.isFocus ? `scale(${articleOpenScale}) translate(0, 10px)` : 'scale(1) translate(0, 0)')};
   cursor: pointer;
-  h3 {
+  h4 {
+    display: flex;
     ${(props) => (props.marqueeDuration ? marqueeCss : '')};
   }
 `;
