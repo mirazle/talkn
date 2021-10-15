@@ -50,6 +50,7 @@ export default class Window {
     this.id = id;
     this.isRankDetailMode = this.id === define.APP_TYPES.TOP;
     this.bootOption = new BootOption(this.id, bootOptionParams);
+
     const apiState = new ApiState(this.bootOption);
     const clientState = new ClientState(apiState);
     const state = { ...apiState, ...clientState };

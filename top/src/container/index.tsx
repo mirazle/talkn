@@ -302,9 +302,9 @@ const TalknContainer: React.FC<Props> = (props) => {
             </div>
           </Sns>
           <CopyrightLayout>
-            <Copyright>Powerd by domain cover project@talkn</Copyright>
+            <Copyright>Copyright ©talkn</Copyright>
             <br />
-            <Copyright>©talkn</Copyright>
+            Update the internet for creators.
           </CopyrightLayout>
         </Footer>
       </Container>
