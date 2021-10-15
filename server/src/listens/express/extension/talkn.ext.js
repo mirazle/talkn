@@ -1,4 +1,4 @@
-window.TALKN_EXT_ENV = 'PROD';
+window.TALKN_EXT_ENV = 'START';
 /*
   Reasons for plain js:
   Obfuscated or bundled js is rejected by Chrome Extension examination.
@@ -320,7 +320,10 @@ class Ext {
   static get BASE_DEV_HOST() {
     return 'localhost';
   }
-  static get BASE_DEV_PORT() {
+  static get BASE_TOP_PORT() {
+    return 8000;
+  }
+  static get BASE_CLIENT_PORT() {
     return 8080;
   }
   static get EXCLUSION_BOOT_HOSTS() {
@@ -368,7 +371,7 @@ class Ext {
     } else if (TALKN_EXT_ENV === 'START') {
       return `//${Ext.BASE_DEV_HOST}`;
     } else if (TALKN_EXT_ENV === 'DEV') {
-      return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
+      return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_CLIENT_PORT}`;
     }
   }
   static get APP_ASSETS_HOST() {
@@ -377,7 +380,7 @@ class Ext {
     } else if (TALKN_EXT_ENV === 'START') {
       return `//assets.${Ext.BASE_DEV_HOST}`;
     } else if (TALKN_EXT_ENV === 'DEV') {
-      return `//assets.${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
+      return `//assets.${Ext.BASE_DEV_HOST}:${Ext.BASE_CLIENT_PORT}`;
     }
   }
   static get APP_EXT_HOST() {
@@ -386,7 +389,7 @@ class Ext {
     } else if (TALKN_EXT_ENV === 'START') {
       return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
     } else if (TALKN_EXT_ENV === 'DEV') {
-      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
+      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}:${Ext.BASE_CLIENT_PORT}`;
     }
   }
   static get APP_ENDPOINT() {
@@ -400,6 +403,7 @@ class Ext {
     return script1 || script2;
   }
   static isBrowserExt() {
+    console.log(Ext.get());
     return Ext.get() === null;
   }
   static getUserDefineExtensionMode(options) {
