@@ -24,9 +24,11 @@ const Component: React.FC<Props> = ({ lv = 1, children }) => {
 export default Component;
 
 const P1 = styled.p`
+  margin-top: 0;
+  margin-bottom: 20px;
   font-size: 20px;
   font-weight: 200;
-  line-height: 30px;
+  line-height: 32px;
   user-select: none;
 `;
 
