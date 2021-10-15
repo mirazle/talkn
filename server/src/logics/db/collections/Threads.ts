@@ -59,7 +59,7 @@ export default class Threads {
     condition.chs = ch;
     condition.ch = { $ne: ch };
     condition.postCnt = { $ne: 0 };
-    condition.layer = isRankDetailMode ? { $eq: 2 } : { $gt: layer };
+    condition.layer = isRankDetailMode ? { $gt: layer } : { $gt: layer };
 
     if (app.findType === Thread.findTypeAll) {
     } else if (app.findType === Thread.findTypeOther) {
@@ -81,7 +81,7 @@ export default class Threads {
     };
 
     const { response } = await this.collection.find(condition, selector, option);
-
+    console.log(response.length, isRankDetailMode);
     return response.map((res) => {
       if (isRankDetailMode) {
         return {
