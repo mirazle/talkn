@@ -61,6 +61,7 @@ export default class Window {
     // client store.
     this.id = id;
     this.bootOption = new BootOption(this.id);
+    console.log(this.bootOption);
     const apiState = new ApiState(this.bootOption);
     const clientState = new ClientState(apiState);
     const state = { ...apiState, ...clientState };
@@ -278,7 +279,11 @@ class MediaClient {
     return 'BACK';
   }
   ch: string;
-  status: typeof MediaClient.STATUS_SEARCH | typeof MediaClient.STATUS_STANBY | typeof MediaClient.STATUS_PLAY | typeof MediaClient.STATUS_ENDED;
+  status:
+    | typeof MediaClient.STATUS_SEARCH
+    | typeof MediaClient.STATUS_STANBY
+    | typeof MediaClient.STATUS_PLAY
+    | typeof MediaClient.STATUS_ENDED;
   pointerTime: number = 0.0;
   isPosting: boolean = false;
   isChangeThread: boolean = false;

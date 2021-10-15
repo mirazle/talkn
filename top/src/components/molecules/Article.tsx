@@ -79,7 +79,6 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
     if (headerRef.current) {
       const headerElm = headerRef.current;
       const titleElm = headerElm.children[1];
-      console.log(titleElm, titleElm.clientWidth, titleElm.scrollWidth, titleElm.offsetWidth);
       setMarqueeOn(titleElm.clientWidth < titleElm.scrollWidth);
     }
   }, []);
