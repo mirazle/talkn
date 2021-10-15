@@ -76,9 +76,12 @@ export default class BootOption {
     initialRootCh = initialRootCh.replace(`${Sequence.HTTPS_PROTOCOL}/`, '').replace(`${Sequence.HTTP_PROTOCOL}/`, '');
     switch (env) {
       case define.PRODUCTION:
+        console.log('A', initialRootCh);
         if (initialRootCh.indexOf(conf.topURL) >= 0) {
+          console.log('B', initialRootCh);
           initialRootCh = initialRootCh.replace(`/${conf.topURL}/`, '/');
         } else {
+          console.log('C', initialRootCh);
           initialRootCh = initialRootCh.replace(`/${define.PRODUCTION_DOMAIN}`, '/');
         }
         break;
@@ -101,7 +104,7 @@ export default class BootOption {
         }
         break;
     }
-
+    console.log('D', initialRootCh);
     return initialRootCh;
   }
 
