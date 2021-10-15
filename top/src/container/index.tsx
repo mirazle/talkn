@@ -45,6 +45,7 @@ type NavigationLayout = {
 };
 
 const ch = 'www.sunbridge.com';
+const interviewVerticalInitial = { offsetTop: 0, offsetBottom: 0 };
 let interviewVerticalDatas: InterviewVerticalDatas[] = [];
 const TalknContainer: React.FC<Props> = (props) => {
   const { api, state } = props;
@@ -72,6 +73,7 @@ const TalknContainer: React.FC<Props> = (props) => {
     const _interviewPointer = interviewVerticalDatas.findIndex(
       (obj) => obj.offsetTop <= window.scrollY && window.scrollY < obj.offsetBottom
     );
+
     setInterviewPointer(_interviewPointer);
   }, [interviewVerticalDatas]);
 
@@ -87,14 +89,16 @@ const TalknContainer: React.FC<Props> = (props) => {
   useEffect(() => {
     if (interviewRef.current) {
       Array.from(interviewRef.current.children).forEach((child: HTMLElement, index) => {
-        if (!interviewVerticalDatas[index]) interviewVerticalDatas[index] = { offsetTop: 0, offsetBottom: 0 };
-        interviewVerticalDatas[index] = { offsetTop: child.offsetTop, offsetBottom: child.offsetTop + child.clientHeight };
-        if (index > 0) {
-          interviewVerticalDatas[index - 1].offsetBottom = child.offsetTop - 1;
+        if (!interviewVerticalDatas[index]) {
+          interviewVerticalDatas[index] = interviewVerticalInitial;
         }
-        console.log(index, child.offsetTop, child.offsetTop + child.clientHeight);
+        const offsetTop = child.offsetTop - styles.appHeaderHeight - styles.baseSize;
+        const offsetBottom = offsetTop + child.clientHeight;
+        interviewVerticalDatas[index] = { offsetTop, offsetBottom };
+        if (index > 0) {
+          interviewVerticalDatas[index - 1].offsetBottom = offsetTop - 1;
+        }
       });
-      console.log(interviewVerticalDatas);
     }
   }, [interviewRef.current && interviewRef.current.clientHeight]);
 
@@ -549,8 +553,9 @@ type NavigationOrderPropsType = {
 };
 
 const NavigationOrder = styled.nav<NavigationOrderPropsType>`
-  li:nth-child(${(props) => props.interviewPointer}) {
+  li:nth-child(${(props) => props.interviewPointer + 1}) a {
     font-weight: 400;
+    letter-spacing: 1.5px;
   }
 `;
 
