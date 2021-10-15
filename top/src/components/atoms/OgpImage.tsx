@@ -49,5 +49,6 @@ const Tip = styled.span`
   color: rgb(255, 255, 255);
   border-radius: 30px 0 0 30px;
   line-height: 25px;
+  text-align: right;
   word-break: break-word;
 `;
