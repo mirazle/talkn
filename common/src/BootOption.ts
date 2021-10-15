@@ -74,15 +74,12 @@ export default class BootOption {
   static getInitialRootCh(env: EnvType): string {
     let initialRootCh: string = location.href;
     initialRootCh = initialRootCh.replace(`${Sequence.HTTPS_PROTOCOL}/`, '').replace(`${Sequence.HTTP_PROTOCOL}/`, '');
-    console.log('A', initialRootCh);
     switch (env) {
       case define.PRODUCTION:
         if (initialRootCh.indexOf(conf.topURL) >= 0) {
           initialRootCh = initialRootCh.replace(`/${conf.topURL}/`, '/');
-          console.log('B', initialRootCh, conf.topURL);
         } else {
           initialRootCh = initialRootCh.replace(`/${define.PRODUCTION_DOMAIN}`, '/');
-          console.log('C', initialRootCh, conf.topURL);
         }
         break;
       case define.LOCALHOST:
