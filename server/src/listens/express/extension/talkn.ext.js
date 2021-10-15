@@ -416,7 +416,6 @@ class Ext {
     return script1 || script2;
   }
   static isBrowserExt() {
-    console.log(Ext.get());
     return Ext.get() === null;
   }
   static getUserDefineExtensionMode(options) {
@@ -1796,7 +1795,6 @@ class IframeLiveMedia extends Iframe {
     return ['handleExtAndClient', 'sendStampData', 'tune', 'disconnect'];
   }
   constructor(_window, bootOption) {
-    console.log('new IframeLiveMedia');
     super(_window, bootOption, IframeLiveMedia.appendRoot);
 
     // parts

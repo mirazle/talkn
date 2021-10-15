@@ -43,14 +43,12 @@ export default class BootOption {
     },
   };
   constructor(id: string, params?: BootOptionParamsType) {
-    console.log('@@@', id, this);
     const initialRootCh = BootOption.getInitialRootCh(conf.env);
     const firstHasSlash = BootOption.getFirstHasSlach(initialRootCh);
     this.env = conf.env;
     this.id = id;
     this.hasSlash = params && params.hasSlash !== undefined ? params.hasSlash : BootOption.getLastHasSlach(initialRootCh);
     this.ch = params && params.ch ? params.ch : BootOption.getCh(initialRootCh, firstHasSlash, this.hasSlash);
-    console.log('E', this.ch, params);
     this.protocol = params && params.protocol ? params.protocol : BootOption.getProtocol();
     this.host = params && params.host ? params.host : location.host;
     this.extensionMode = params && params.mode ? params.mode : BootOption.extensionModeNone;
@@ -78,13 +76,10 @@ export default class BootOption {
     initialRootCh = initialRootCh.replace(`${Sequence.HTTPS_PROTOCOL}/`, '').replace(`${Sequence.HTTP_PROTOCOL}/`, '');
     switch (env) {
       case define.PRODUCTION:
-        console.log('A', initialRootCh);
         if (initialRootCh.indexOf(conf.topURL) >= 0) {
           initialRootCh = initialRootCh.replace(`/${conf.topURL}/`, '/');
-          console.log('B', initialRootCh);
         } else {
           initialRootCh = initialRootCh.replace(`/${define.PRODUCTION_DOMAIN}`, '/');
-          console.log('C', initialRootCh);
         }
         break;
       case define.LOCALHOST:
@@ -106,7 +101,7 @@ export default class BootOption {
         }
         break;
     }
-    console.log('D', initialRootCh);
+
     return initialRootCh;
   }
 
@@ -136,7 +131,6 @@ export default class BootOption {
     ch = firstHasSlash ? ch : `/${ch}`;
     ch = lastHasSlash ? ch : `${ch}/`;
     ch = ch.replace(/^\/\//, '/');
-    console.log(initialRootCh, firstHasSlash, lastHasSlash);
     return ch;
   }
 }
