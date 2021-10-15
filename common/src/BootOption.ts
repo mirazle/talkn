@@ -50,6 +50,7 @@ export default class BootOption {
     this.id = id;
     this.hasSlash = params && params.hasSlash !== undefined ? params.hasSlash : BootOption.getLastHasSlach(initialRootCh);
     this.ch = params && params.ch ? params.ch : BootOption.getCh(initialRootCh, firstHasSlash, this.hasSlash);
+    console.log('E', this.ch);
     this.protocol = params && params.protocol ? params.protocol : BootOption.getProtocol();
     this.host = params && params.host ? params.host : location.host;
     this.extensionMode = params && params.mode ? params.mode : BootOption.extensionModeNone;
