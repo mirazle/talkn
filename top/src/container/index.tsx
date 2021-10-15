@@ -150,12 +150,13 @@ const TalknContainer: React.FC<Props> = (props) => {
           <TopSection>
             <TitleBoard>
               <Title lv={2}>
-                「名刺管理」から
+                ユーザーの声で生まれ変わる！
                 <br />
-                「プロフィール管理」ツールへ。
+                自社プロダクト「SmartVisca」
                 <br />
-                "Smart Visca"のバージョンアップに迫る。
+                リニューアル開発の裏側に迫りました。
               </Title>
+              <time>At 2021/10/15</time>
             </TitleBoard>
           </TopSection>
           <ArticleOrderBg>
@@ -416,6 +417,13 @@ const TitleBoard = styled.div`
     h2 {
       letter-spacing: 1px;
     }
+  }
+  time {
+    display: block;
+    text-align: right;
+    font-style: italic;
+    font-size: 12px;
+    color: #888;
   }
 `;
 

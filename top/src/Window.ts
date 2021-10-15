@@ -124,7 +124,7 @@ export default class Window {
 
         // disptch client state.
         this.store.dispatch(state);
-
+        console.log(actionType, state);
         // callback
         this.exePublicCallback(ioType, exeMethod, state);
 
