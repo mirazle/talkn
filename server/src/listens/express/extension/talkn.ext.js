@@ -474,6 +474,7 @@ class BootOption {
   constructor(id, href, tag) {
     this.id = id;
     this.ch = href ? BootOption.getCh(href) : location.href;
+    console.log('@@@@@@ ', this.ch);
     this.hasSlash = href.endsWith('/');
     this.protocol = BootOption.getProtocol(href);
     this.host = BootOption.getHost(this.ch);
