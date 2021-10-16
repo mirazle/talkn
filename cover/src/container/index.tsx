@@ -292,10 +292,10 @@ const TalknContainer: React.FC<Props> = (props) => {
               <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
             </Twitter>
             <div className="facebook">
-              <div className="fb-share-button" data-href="https://www.talkn.io" data-layout="button_count" data-size="large">
+              <div className="fb-share-button" data-href={`https://cover.talkn.io${ch}`} data-layout="button_count" data-size="large">
                 <a
                   target="_blank"
-                  href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.talkn.io%2F&amp;src=sdkpreparse"
+                  href={`https://www.facebook.com/sharer/sharer.php?u=https://cover.talkn.io${ch};src=sdkpreparse`}
                   className="fb-xfbml-parse-ignore">
                   Share
                 </a>
