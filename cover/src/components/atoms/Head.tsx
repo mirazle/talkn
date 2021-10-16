@@ -15,8 +15,10 @@ const Component: React.FC<Props> = ({ thread, serverMetas }) => {
       {Object.keys(serverMetas).map((key) => {
         if (key === 'title') {
           return <title>{serverMetas.title}</title>;
+        } else if (key === 'og:url') {
+          <meta property="og:url" content={`https://cover.talkn.io${thread.ch}`}></meta>;
         } else {
-          return serverMetas[key] !== '' && <meta key={key} name={key} content={serverMetas[key]} />;
+          return serverMetas[key] !== '' && <meta key={key} property={key} content={serverMetas[key]} />;
         }
       })}
     </Helmet>

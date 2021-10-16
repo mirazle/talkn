@@ -303,7 +303,7 @@ const TalknContainer: React.FC<Props> = (props) => {
             </div>
           </Sns>
           <CopyrightLayout>
-            <Copyright>Copyright ©talkn</Copyright>
+            <Copyright>Copyright ©talkn All Rights Reserved.</Copyright>
             <br />
             Update the internet for creators.
           </CopyrightLayout>
