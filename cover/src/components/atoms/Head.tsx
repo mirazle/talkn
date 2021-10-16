@@ -7,7 +7,6 @@ type Props = {
 };
 
 const Component: React.FC<Props> = ({ thread, serverMetas }) => {
-  console.log(serverMetas);
   return (
     <Helmet>
       <link rel="icon" href={thread.favicon} />
@@ -16,11 +15,12 @@ const Component: React.FC<Props> = ({ thread, serverMetas }) => {
         if (key === 'title') {
           return <title>{serverMetas.title}</title>;
         } else if (key === 'og:url') {
-          <meta property="og:url" content={`https://cover.talkn.io${thread.ch}`}></meta>;
+          return undefined;
         } else {
           return serverMetas[key] !== '' && <meta key={key} property={key} content={serverMetas[key]} />;
         }
       })}
+      <meta property="og:url" content={`https://cover.talkn.io${thread.ch}`}></meta>;
     </Helmet>
   );
 };
