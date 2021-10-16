@@ -61,7 +61,6 @@ export default class Window {
     // client store.
     this.id = id;
     this.bootOption = new BootOption(this.id);
-    console.log(this.bootOption);
     const apiState = new ApiState(this.bootOption);
     const clientState = new ClientState(apiState);
     const state = { ...apiState, ...clientState };
@@ -251,7 +250,6 @@ class Ext {
       }
 
       // const actionType = PostMessage.convertExtToClientActionType(method);
-      console.log(method, params);
       this.window.store.dispatch({ ...params, type: method });
     } else if (type === PostMessage.MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE) {
       this.window.mediaClient.onMessage(e, this.window.store.getState());

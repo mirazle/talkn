@@ -139,10 +139,10 @@ class Express {
           res.sendFile(conf.serverExtPath + req.originalUrl.replace('/', ''));
         }
         break;
-      case conf.topURL:
+      case conf.coverURL:
         if (req.method === 'GET') {
           if (
-            req.originalUrl === '/talkn.top.js' ||
+            req.originalUrl === '/talkn.cover.js' ||
             req.originalUrl === '/robots.txt' ||
             req.originalUrl === '/manifest.json' ||
             req.originalUrl === '/service.worker.js' ||
@@ -152,15 +152,15 @@ class Express {
             // CORSを許可する
             res.header('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-            res.sendFile(conf.serverTopPath + req.originalUrl.replace('/', ''));
+            res.sendFile(conf.serverCoverPath + req.originalUrl.replace('/', ''));
             return true;
           } else {
-            res.render('top/', {
+            res.render('cover/', {
               language,
               domain: conf.domain,
               apiURL: conf.apiURL,
               wwwURL: conf.wwwURL,
-              topURL: conf.topURL,
+              coverURL: conf.coverURL,
               extURL: conf.extURL,
               assetsURL: conf.assetsURL,
               clientURL: conf.clientURL,
