@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
+import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -10,6 +11,7 @@ import handles from 'client/actions/handles';
 import mapToStateToProps from 'client/mapToStateToProps/';
 
 import FlexRow from 'cover/components/atoms/FlexRow';
+import Head from 'cover/components/atoms/Head';
 import P from 'cover/components/atoms/P';
 import Title from 'cover/components/atoms/Title';
 import { ArticleType } from 'cover/components/molecules/Article';
@@ -25,6 +27,7 @@ type InterviewVerticalDatas = {
 type StateType = {
   ranks: ArticleType[];
   app: AppStore;
+  thread: any;
 };
 
 type Props = {
@@ -44,7 +47,6 @@ type NavigationLayout = {
   paddingLeft: number;
 };
 
-const ch = 'www.sunbridge.com';
 const interviewVerticalInitial = { offsetTop: 0, offsetBottom: 0 };
 let interviewVerticalDatas: InterviewVerticalDatas[] = [];
 const TalknContainer: React.FC<Props> = (props) => {
@@ -55,7 +57,8 @@ const TalknContainer: React.FC<Props> = (props) => {
 
   const interviewRef = useRef<HTMLElement>();
   const resumeRef = useRef<HTMLElement>();
-  const { ranks: articles } = state;
+  const { ranks: articles, thread } = state;
+  const { ch, host, favicon, serverMetas } = thread;
 
   const handleOnClickNav = (chapterIndex: number) => {
     if (interviewRef.current) {
@@ -137,7 +140,8 @@ const TalknContainer: React.FC<Props> = (props) => {
 
   return (
     <>
-      <FixedBackground />
+      <Head thread={thread} serverMetas={serverMetas} />
+      <FixedBackground host={host} />
       <Container>
         <Header>
           <A href={`https:/${ch}`}>
@@ -282,11 +286,7 @@ const TalknContainer: React.FC<Props> = (props) => {
           </ToTopLayout>
           <Sns>
             <Twitter className="twitter">
-              <a
-                href="https://twitter.com/intent/tweet?screen_name=TwitterDev&ref_src=twsrc%5Etfw"
-                className="twitter-mention-button"
-                data-show-count="false">
-                <TwitterIcon />
+              <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" className="twitter-share-button" data-show-count="false">
                 Tweet
               </a>
               <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
@@ -341,16 +341,20 @@ const Container = styled.div`
   }
 `;
 
-const FixedBackground = styled.div`
+type FixedBackgroundPropsType = {
+  host: string;
+};
+
+const FixedBackground = styled.div<FixedBackgroundPropsType>`
   z-index: -1;
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url('//${ch}/wp-content/uploads/slide_01.png') 50% 50% / cover no-repeat;
+  background: url('//${(props) => props.host}/wp-content/uploads/slide_01.png') 50% 50% / cover no-repeat;
   @media (max-width: ${styles.spLayoutWidth}px) {
-    background: url('//${ch}/wp-content/uploads/18f7011e3272d51933d82b9c23d61669.png') 50% 50% / cover no-repeat;
+    background: url('//${(props) => props.host}/wp-content/uploads/18f7011e3272d51933d82b9c23d61669.png') 50% 50% / cover no-repeat;
   }
 `;
 
