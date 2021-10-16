@@ -13,7 +13,7 @@ const define: any = {
   PORTS: {
     HTTP: 80,
     HTTPS: 443,
-    DEVELOPMENT_TOP: 8000,
+    DEVELOPMENT_COVER: 8000,
     DEVELOPMENT_API: 8001,
     DEVELOPMENT_RANK: 8002,
     DEVELOPMENT_CLIENT: 8080,
@@ -33,7 +33,7 @@ const define: any = {
     OWN: 'own',
     NEWS: 'news',
     BANNER: 'banner',
-    TOP: 'top',
+    COVER: 'cover',
     RANK: 'rank',
     EXT: 'ext',
     TRANSACTION: 'transaction',
@@ -42,7 +42,7 @@ const define: any = {
     PORTAL: 'PORTAL',
     EXTENSION: 'EXTENSION',
     API: 'API',
-    TOP: 'TOP',
+    COVER: 'COVER',
     RANK: 'RANK',
   },
   URL: {

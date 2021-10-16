@@ -1,9 +1,8 @@
 const path = require('path');
 const app = process.env.app;
-
 let port = 8000;
 switch (app) {
-  case 'top':
+  case 'cover':
     port = 8000;
     break;
   default:
@@ -42,7 +41,7 @@ module.exports = {
       server: path.resolve(__dirname, './server/src') + '/',
       api: path.resolve(__dirname, './api/src') + '/',
       client: path.resolve(__dirname, './client/src') + '/',
-      top: path.resolve(__dirname, './top/src') + '/',
+      cover: path.resolve(__dirname, './cover/src') + '/',
       rank: path.resolve(__dirname, './rank/src') + '/',
       assets: path.resolve(__dirname, './assets') + '/',
     },

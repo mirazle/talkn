@@ -311,8 +311,8 @@ class Ext {
   static get BASE_EXT_SUBDOMAIN() {
     return 'ext';
   }
-  static get BASE_TOP_SUBDOMAIN() {
-    return 'top';
+  static get BASE_COVER_SUBDOMAIN() {
+    return 'cover';
   }
   static get BASE_ASSETS_SUBDOMAIN() {
     return 'assets';
@@ -323,7 +323,7 @@ class Ext {
   static get BASE_DEV_HOST() {
     return 'localhost';
   }
-  static get BASE_TOP_PORT() {
+  static get BASE_COVER_PORT() {
     return 8000;
   }
   static get BASE_CLIENT_PORT() {
@@ -368,11 +368,11 @@ class Ext {
 
   static get TOP_HOST() {
     if (window.TALKN_EXT_ENV === 'PROD') {
-      return `//${Ext.BASE_TOP_SUBDOMAIN}.${Ext.BASE_PROD_HOST}`;
+      return `//${Ext.BASE_COVER_SUBDOMAIN}.${Ext.BASE_PROD_HOST}`;
     } else if (window.TALKN_EXT_ENV === 'START') {
-      return `//${Ext.BASE_TOP_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
+      return `//${Ext.BASE_COVER_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
     } else if (window.TALKN_EXT_ENV === 'DEV') {
-      return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_TOP_PORT}`;
+      return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_COVER_PORT}`;
     }
   }
   static get APP_HOST() {

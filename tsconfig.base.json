@@ -32,7 +32,7 @@
       "api/*": ["api/src/*"],
       "client/*": ["client/src/*"],
       "assets/*": ["assets/*"],
-      "top/*": ["top/src/*"],
+      "cover/*": ["cover/src/*"],
       "rank/*": ["rank/src/*"]
     }
   }

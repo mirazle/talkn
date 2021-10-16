@@ -76,15 +76,15 @@ export default class BootOption {
     initialRootCh = initialRootCh.replace(`${Sequence.HTTPS_PROTOCOL}/`, '').replace(`${Sequence.HTTP_PROTOCOL}/`, '');
     switch (env) {
       case define.PRODUCTION:
-        if (initialRootCh.indexOf(conf.topURL) >= 0) {
-          initialRootCh = initialRootCh.replace(`/${conf.topURL}/`, '/');
+        if (initialRootCh.indexOf(conf.coverURL) >= 0) {
+          initialRootCh = initialRootCh.replace(`/${conf.coverURL}/`, '/');
         } else {
           initialRootCh = initialRootCh.replace(`/${define.PRODUCTION_DOMAIN}`, '/');
         }
         break;
       case define.LOCALHOST:
-        if (initialRootCh.indexOf(conf.topURL) >= 0) {
-          initialRootCh = initialRootCh.replace(`/${conf.topURL}/`, '/');
+        if (initialRootCh.indexOf(conf.coverURL) >= 0) {
+          initialRootCh = initialRootCh.replace(`/${conf.coverURL}/`, '/');
         } else {
           initialRootCh = initialRootCh.replace(`/${define.DEVELOPMENT_DOMAIN}`, '/');
         }

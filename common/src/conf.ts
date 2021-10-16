@@ -12,11 +12,12 @@ const files = {
   api: 'talkn.api.js',
   wsWorker: 'ws.api.worker.js',
   ext: 'talkn.ext.js',
+  cover: 'talkn.cover.js',
 };
 const isDev = env === DEVELOPMENT;
 const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN;
 const wwwURL = `${SUB_DOMAINS.WWW}.${domain}`;
-const topURL = `${SUB_DOMAINS.TOP}.${domain}`;
+const coverURL = `${SUB_DOMAINS.COVER}.${domain}`;
 const apiURL = `${SUB_DOMAINS.API}.${domain}`;
 const apiAccessURL = isDev ? `${domain}:${PORTS.DEVELOPMENT_API}/${files.api}` : `${apiURL}/v${apiVer}`;
 const clientURL = isDev ? `${domain}:${PORTS.DEVELOPMENT_CLIENT}/${files.client}` : `${SUB_DOMAINS.CLIENT}.${domain}`;
@@ -78,7 +79,7 @@ const conf: any = {
   hostName,
   apiURL,
   apiAccessURL,
-  topURL,
+  coverURL,
   wwwURL,
   descURL,
   portalURL,
@@ -113,7 +114,7 @@ function getEnv(hostName) {
       const port = Number(location.port);
       return port === define.PORTS.DEVELOPMENT_CLIENT ||
         port === define.PORTS.DEVELOPMENT_API ||
-        port === define.PORTS.DEVELOPMENT_TOP ||
+        port === define.PORTS.DEVELOPMENT_COVER ||
         port === define.PORTS.DEVELOPMENT_RANK
         ? define.DEVELOPMENT
         : define.LOCALHOST;
