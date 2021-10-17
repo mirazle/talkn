@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import express from 'express';
+import basicAuth from 'express-basic-auth';
 import session from 'express-session';
 import helmet from 'helmet';
 import http from 'http';
@@ -158,6 +159,15 @@ class Express {
             return true;
           } else {
             this.httpsApp.use(helmet());
+
+            // 正解のユーザ名とパスワード
+            this.httpsApp.basicAuth({
+              users: {
+                yano: 'yano1234',
+                hmiyazaki: 'hmiyazaki1234',
+              },
+            });
+            console.log('BASIC AUTH');
             res.render('cover/', {
               language,
               domain: conf.domain,
