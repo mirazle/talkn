@@ -19,7 +19,9 @@
 
       promptPromise('What is your name?').then(function (name) {
         const secret = document.querySelector('#secret');
+        console.log(secret);
         div.style.zIndex = -1;
+        div.style.position = 'static';
       });
     </script>
     <script id="talknTop" async type="text/javascript" src="https://<%= coverURL %>/talkn.cover.js"></script>
@@ -115,6 +117,8 @@
         transition: 600ms;
       }
       #secret {
+        position: fixed;
+        top: 0;
         width: 100vw;
         height: 100vh;
         background: #fff;
