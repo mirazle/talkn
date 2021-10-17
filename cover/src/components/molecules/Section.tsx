@@ -60,6 +60,12 @@ const UpperLeft = styled.span`
   padding-right: ${InnerPadding}px;
   padding-bottom: ${InnerPadding}px;
   border-bottom: 1px solid ${styles.fontColor};
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    align-items: center;
+    justify-content: center;
+    max-width: 80px;
+    padding-right: 0;
+  }
 `;
 const UpperRight = styled.span`
   display: flex;
