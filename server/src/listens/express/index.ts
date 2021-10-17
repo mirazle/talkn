@@ -163,9 +163,14 @@ class Express {
             // 正解のユーザ名とパスワード
             this.httpsApp.use(
               basicAuth({
-                users: {
-                  yano: 'yano1234',
-                  hmiyazaki: 'hmiyazaki1234',
+                challenge: true,
+                unauthorizedResponse: () => {
+                  return 'Unauthorized'; // 認証失敗時に表示するメッセージ
+                },
+                authorizer: (username, password) => {
+                  const userMatch = basicAuth.safeCompare(username, 'talknCover');
+                  const passMatch = basicAuth.safeCompare(password, '1090');
+                  return userMatch && passMatch;
                 },
               })
             );
