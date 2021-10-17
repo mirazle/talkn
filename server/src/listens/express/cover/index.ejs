@@ -6,17 +6,9 @@
     <link rel="manifest" href="https://<%= domain %>/manifest.json" />
     <script type="text/javascript">
       function promptPromise(message) {
-        const div = document.createElement('div');
-        div.id = 'secret';
-        div.style.width = '100%';
-        div.style.height = '100%';
-        div.style.background = '#fff';
-        div.style.zIndex = 100000000;
-        console.log(div);
-        document.body.appendChild(div);
         return new Promise(function (resolve, reject) {
           var result = window.prompt(message);
-          if (result === '1090') {
+          if (result === 1090) {
             const secret = document.querySelector('#secret');
             div.style.zIndex = -1;
             resolve(result);
@@ -126,6 +118,12 @@
         animation-iteration-count: infinite;
         transition: 600ms;
       }
+      #secret {
+        width: 100vw;
+        height: 100vh;
+        background: #fff;
+        z-index: 100000000;
+      }
     </style>
     <noscript>
       <style amp-boilerplate>
@@ -176,7 +174,7 @@
       crossorigin="anonymous"
       src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"
     ></script>
-
     <div id="talkn"></div>
+    <div id="secret"></div>
   </body>
 </html>
