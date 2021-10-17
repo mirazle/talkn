@@ -134,6 +134,7 @@ const TalknContainer: React.FC<Props> = (props) => {
 
   useEffect(() => {
     window.addEventListener('scroll', useCallbackScroll);
+    window.addEventListener('click', () => {});
   }, []);
 
   return (
@@ -616,6 +617,7 @@ const DomainProfileImage = styled.img`
   height: min-content;
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
     width: 100%;
+    height: auto;
   }
 `;
 

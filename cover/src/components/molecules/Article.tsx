@@ -20,19 +20,6 @@ import {
   baseShadowColor,
 } from 'cover/styles';
 
-const getSnsIconSrc = ({ type, visible }) => {
-  switch (type) {
-    case 'twitter':
-      return visible ? `//${conf.assetsImgPath}twitter.svg` : `//${conf.assetsImgPath}twitter_gray.svg`;
-    case 'facebook':
-      return visible ? `//${conf.assetsImgPath}facebook.svg` : `//${conf.assetsImgPath}facebook_gray.svg`;
-    case 'appstore':
-      return visible ? `//${conf.assetsImgPath}appstore.svg` : `//${conf.assetsImgPath}appstore_gray.svg`;
-    case 'android':
-      return visible ? `//${conf.assetsImgPath}android.svg` : `//${conf.assetsImgPath}android_gray.svg`;
-  }
-};
-
 export type ServerMetasType = {
   'og:image': string;
   'og:description': string;
@@ -57,21 +44,28 @@ export type Props = {
   focusIndex: undefined | number;
   setFocusIndex: React.Dispatch<React.SetStateAction<undefined | number>>;
 };
-
+let timeoutId: number = 0;
 const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex }) => {
   const { serverMetas } = article;
   const [marqueeOn, setMarqueeOn] = useState(false);
   const headerRef = useRef(null);
   const isFocus = index === focusIndex;
+
   const handleOnMouseOver = () => {
     setFocusIndex(index);
+    clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => {
+      setFocusIndex(undefined);
+    }, 10000);
   };
 
   const handleOnMouseMove = () => {
+    clearTimeout(timeoutId);
     setFocusIndex(index);
   };
 
   const handleOnMouseLeave = () => {
+    clearTimeout(timeoutId);
     setFocusIndex(undefined);
   };
 
