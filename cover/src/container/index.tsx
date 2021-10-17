@@ -461,6 +461,7 @@ const TitleBoard = styled.div`
     text-align: right;
     font-style: italic;
     font-size: 12px;
+    line-height: 18px;
     color: #888;
   }
 `;
