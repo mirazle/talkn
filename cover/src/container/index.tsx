@@ -171,7 +171,7 @@ const TalknContainer: React.FC<Props> = (props) => {
             <Interview className={'Interview'} ref={interviewRef} navigationLayout={navigationLayout}>
               <Section number={1} title={'プロダクト本部　アーキテクト 澤野 弘幸 (Hiroyuki Sawano)'}>
                 <FlexRow>
-                  <img src={`//${conf.assetsURL}/top/${ch}/human01.webp`} width={'100%'} />
+                  <img src={`//${conf.assetsURL}/cover/${ch}/human01.webp`} width={'100%'} />
                   <P>
                     <br />
                     2012年6月にサンブリッジに入社。Salesforce一体型名刺管理ソリューション「SmartVisca」の Salesforce AppExchange
@@ -377,9 +377,19 @@ const FixedBackground = styled.div<FixedBackgroundPropsType>`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url('//${(props) => props.host}/wp-content/uploads/slide_01.png') 50% 50% / cover no-repeat;
+  background-image: url('//${conf.assetsURL}/top/${(props) => props.host}/bg.svg');
+  background-size: 900px;
+  background-position: 90% 30%;
+  background-repeat: no-repeat;
   @media (max-width: ${styles.spLayoutWidth}px) {
-    background: url('//${(props) => props.host}/wp-content/uploads/18f7011e3272d51933d82b9c23d61669.png') 50% 50% / cover no-repeat;
+    background-image: url('//${conf.assetsURL}/top/${(props) => props.host}/bg.svg');
+    background-size: 90%;
+    background-position: 200% 30%;
+    background-repeat: no-repeat;
+  }
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    background-size: 780px;
+    background-position: 0% 30%;
   }
 `;
 
