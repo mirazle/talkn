@@ -11,6 +11,7 @@ import handles from 'client/actions/handles';
 import mapToStateToProps from 'client/mapToStateToProps/';
 
 import FlexRow from 'cover/components/atoms/FlexRow';
+import Head from 'cover/components/atoms/Head';
 import P from 'cover/components/atoms/P';
 import Title from 'cover/components/atoms/Title';
 import { ArticleType } from 'cover/components/molecules/Article';
@@ -137,7 +138,7 @@ const TalknContainer: React.FC<Props> = (props) => {
 
   return (
     <>
-      {/* <Head thread={thread} serverMetas={serverMetas} /> */}
+      <Head thread={thread} serverMetas={serverMetas} />
       <FixedBackground host={host} />
       <Container>
         <Header>
