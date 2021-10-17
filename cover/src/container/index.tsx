@@ -276,13 +276,17 @@ const TalknContainer: React.FC<Props> = (props) => {
                   <a onClick={() => handleOnClickNav(4)}>05.バージョンアップの理由</a>
                 </li>
                 <li>
-                  <a onClick={() => handleOnClickNav(5)}>06.開発で困難なこと</a>
+                  <a onClick={() => handleOnClickNav(5)}>06.バージョンアップで変わること</a>
                 </li>
                 <li>
-                  <a onClick={() => handleOnClickNav(6)}>07.開発ポリシー</a>
+                  <a onClick={() => handleOnClickNav(6)}>07.開発で困難なこと</a>
                 </li>
                 <li>
-                  <a onClick={() => handleOnClickNav(7)}>08.リリースへの意気込み</a>
+                  <a onClick={() => handleOnClickNav(7)}>08.開発ポリシー</a>
+                </li>
+
+                <li>
+                  <a onClick={() => handleOnClickNav(8)}>09.リリースへの意気込み</a>
                 </li>
               </NavigationOrder>
             </Navigation>
