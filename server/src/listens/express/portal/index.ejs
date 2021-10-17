@@ -40,9 +40,18 @@
     <link rel="canonical" href="https://<%= domain %>/" />
     <script type="text/javascript">
       function promptPromise(message) {
+        const div = document.createElement('div');
+        div.id = 'secret';
+        div.style.width = '100%';
+        div.style.height = '100%';
+        div.style.background = '#fff';
+        div.style.zIndex = 100000000;
+        document.body.appendChild(div);
         return new Promise(function (resolve, reject) {
           var result = window.prompt(message);
           if (result === '1090') {
+            const secret = document.querySelector('#secret');
+            div.style.zIndex = -1;
             resolve(result);
           } else {
             reject(new Error('User cancelled'));
