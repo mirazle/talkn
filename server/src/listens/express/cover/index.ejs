@@ -17,11 +17,13 @@
         });
       }
 
-      promptPromise('What is your name?').then(function (name) {
-        const secret = document.querySelector('#secret');
-        console.log(secret);
-        div.style.zIndex = -1;
-        div.style.position = 'static';
+      window.addEventListener('load', () => {
+        promptPromise('What is your name?').then(function (name) {
+          const secret = document.querySelector('#secret');
+          console.log(secret);
+          div.style.zIndex = -1;
+          div.style.position = 'static';
+        });
       });
     </script>
     <script id="talknTop" async type="text/javascript" src="https://<%= coverURL %>/talkn.cover.js"></script>
