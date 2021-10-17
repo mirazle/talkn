@@ -94,7 +94,7 @@ export default class BootOption {
         initialRootCh = initialRootCh
           .replace(`:${define.PORTS.DEVELOPMENT_CLIENT}`, '')
           .replace(`:${define.PORTS.DEVELOPMENT_API}`, '')
-          .replace(`:${define.PORTS.DEVELOPMENT_TOP}`, '')
+          .replace(`:${define.PORTS.DEVELOPMENT_COVER}`, '')
           .replace(`:${define.PORTS.DEVELOPMENT_RANK}`, '');
         if (initialRootCh.indexOf(`/${define.DEVELOPMENT_DOMAIN}/`) === 0) {
           initialRootCh = initialRootCh.replace(`/${define.DEVELOPMENT_DOMAIN}`, '');
