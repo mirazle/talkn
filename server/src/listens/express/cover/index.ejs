@@ -19,9 +19,7 @@
 
       window.addEventListener('load', () => {
         promptPromise('What is your name?').then(function (name) {
-          const secret = document.querySelector('#secret');
-          secret.style.zIndex = -1;
-          secret.style.position = 'static';
+          document.querySelector('#secret').remove();
         });
       });
     </script>
