@@ -197,7 +197,6 @@ class Express {
         res.render('desc/index', {});
         break;
       case conf.domain:
-        console.log('CONF DOMAIN A');
         let includeIframeTag = false;
         let portalUrlSearch = false;
         let ch = '/';
@@ -210,7 +209,6 @@ class Express {
           req.originalUrl === '/ws.client.worker.js' ||
           req.originalUrl === '/ws.api.worker.js'
         ) {
-          console.log('CONF DOMAIN B');
           // CORSを許可する
           res.header('Access-Control-Allow-Origin', '*');
           res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -220,7 +218,6 @@ class Express {
 
         // No Assests Url
         if (`/${req.originalUrl}/` !== conf.assetsPath) {
-          console.log('CONF DOMAIN C');
           /*
           if (req.originalUrl === '/' && !req.headers.referer) {
             res.redirect(`//${conf.wwwURL}`);
@@ -230,7 +227,6 @@ class Express {
           if (req.originalUrl.indexOf('/https:/') >= 0 || req.originalUrl.indexOf('/http:/') >= 0) {
             const redirectUrl = req.originalUrl.replace('/https:/', '').replace('/http:/', '');
             res.redirect(redirectUrl);
-            console.log('CONF DOMAIN D');
             return true;
           }
 
@@ -242,15 +238,12 @@ class Express {
 
           // ポータル以外からアクセス
           if (req.headers.referer) {
-            console.log('CONF DOMAIN E');
             const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
 
             // www.talkn.ioからアクセス
             if (referer.indexOf('/' + conf.wwwURL) === 0) {
-              console.log('CONF DOMAIN F');
               // www.talkn.ioでの<script呼び出しの場合
               if (req.originalUrl.indexOf(referer) === 0) {
-                console.log('CONF DOMAIN ');
                 includeIframeTag = true;
               }
 
@@ -262,25 +255,20 @@ class Express {
               // Auto Ch
               if (req.originalUrl === '/') {
                 ch = referer;
-                console.log('CONF DOMAIN G');
                 // Extension
               } else if (req.originalUrl !== '/') {
                 ch = referer;
-                console.log('CONF DOMAIN H');
                 // User Input Ch
               } else {
-                console.log('CONF DOMAIN I');
                 ch = referer;
               }
             }
 
             // ポータルにアクセス
           } else {
-            console.log('CONF DOMAIN J');
             ch = req.originalUrl.replace(`/${conf.domain}`, '');
             includeIframeTag = false;
           }
-          console.log('CONF DOMAIN K');
           hasSlash = ch.lastIndexOf('/') === ch.length - 1;
           res.render('portal/', {
             includeIframeTag,
