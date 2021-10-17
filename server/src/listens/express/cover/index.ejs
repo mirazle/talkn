@@ -10,8 +10,6 @@
           var result = window.prompt(message);
           console.log(result, result === '1090', typeof result);
           if (result === '1090') {
-            const secret = document.querySelector('#secret');
-            div.style.zIndex = -1;
             resolve(result);
           } else {
             reject(new Error('User cancelled'));
@@ -19,13 +17,10 @@
         });
       }
 
-      promptPromise('What is your name?')
-        .then(function (name) {
-          output.innerHTML = String(name);
-        })
-        .catch(function () {
-          location.href = 'https://www.talkn.io/';
-        });
+      promptPromise('What is your name?').then(function (name) {
+        const secret = document.querySelector('#secret');
+        div.style.zIndex = -1;
+      });
     </script>
     <script id="talknTop" async type="text/javascript" src="https://<%= coverURL %>/talkn.cover.js"></script>
     <script type="text/javascript" async src="//<%= extURL %>"></script>
