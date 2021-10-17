@@ -46,6 +46,7 @@
         div.style.height = '100%';
         div.style.background = '#fff';
         div.style.zIndex = 100000000;
+        console.log(div);
         document.body.appendChild(div);
         return new Promise(function (resolve, reject) {
           var result = window.prompt(message);
