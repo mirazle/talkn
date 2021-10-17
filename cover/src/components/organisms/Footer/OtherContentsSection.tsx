@@ -47,7 +47,7 @@ const Container = styled.section`
   align-items: flex-start;
   justify-content: center;
   width: 100%;
-  padding: ${styles.doublePadding}px;
+  padding: ${styles.sepPadding}px ${styles.doublePadding}px;
   margin: 0 auto;
   background: rgb(35, 35, 35);
   color: #fff;

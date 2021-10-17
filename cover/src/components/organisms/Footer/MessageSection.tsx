@@ -23,7 +23,7 @@ const Container = styled.section`
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 80px 0;
+  padding: ${styles.sepMargin}px 0;
   color: #fff;
   background: #111;
   @media (max-width: ${styles.spLayoutWidth}px) {
