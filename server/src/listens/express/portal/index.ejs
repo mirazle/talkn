@@ -38,13 +38,16 @@
     <link rel="shortcut icon" href="https://<%= assetsURL %>/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="https://<%= assetsURL %>/favicon.ico" />
     <link rel="canonical" href="https://<%= domain %>/" />
-    <script data-ad-client="ca-pub-5285495593698579" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script id="talknClient" async type="text/javascript" src="https://<%= clientURL %>"></script>
     <script type="text/javascript">
       const prompt = window.prompt('Please password', '');
+      console.log(prompt);
       if (prompt !== '1090') {
         location.href = 'https://www.talkn.io/';
       }
+    </script>
+    <script data-ad-client="ca-pub-5285495593698579" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script id="talknClient" async type="text/javascript" src="https://<%= clientURL %>"></script>
+    <script type="text/javascript">
       const onServiceWorker = () => {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker
