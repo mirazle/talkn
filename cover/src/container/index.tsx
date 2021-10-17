@@ -387,8 +387,8 @@ const FixedBackground = styled.div<FixedBackgroundPropsType>`
     background-repeat: no-repeat;
   }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    background-size: 780px;
-    background-position: 0% 30%;
+    background-size: 700px;
+    background-position: 10% 40%;
   }
 `;
 
