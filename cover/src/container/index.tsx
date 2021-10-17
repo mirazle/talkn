@@ -665,7 +665,7 @@ const SnsShare = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin: ${styles.doubleMargin}px;
+  margin: ${styles.doubleMargin}px ${styles.doubleMargin}px ${styles.sepMargin}px;
 `;
 
 const Twitter = styled.div`
