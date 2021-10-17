@@ -16,12 +16,20 @@ export const triplePadding = basePadding * 3;
 export const quadPadding = basePadding * 4;
 export const baseShadow = baseSize;
 export const baseShadowColor = '#aaa';
+export const markupColor = '#ddd';
 export const baseTextShadow = '1px 1px rgba(80, 80, 80, 1)';
 export const transitionDuration = '300ms';
 export const fontColor = '#666';
+export const borderColor = '#eee';
+export const tagBgColor = 'rgba(100, 100, 100, 0.9)';
+
+// Section
+export const sectionPadding = doubleSize;
+export const sectionMarginColumn = quadMargin;
 
 // App.
-export const appHeaderHeight = 60;
+export const baseHeight = 60;
+export const appHeaderHeight = baseHeight;
 export const appWidth = 1280;
 export const spLayoutStrictWidth = 680;
 export const spLayoutWidth = 980;
@@ -36,6 +44,9 @@ export const articleCloseHeight = 260;
 export const articleOpenHeight = 'auto';
 export const articleOpenScale = 1.05;
 export const articleShadowColor = '#444';
+
+// Domain Profile.
+export const imageWidth = 200;
 
 export const getTrimUnitNumber = (value: string) => {
   return Number(value.replace('px', ''));

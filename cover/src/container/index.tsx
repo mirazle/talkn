@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import conf from 'common/conf';
 
@@ -11,12 +11,13 @@ import handles from 'client/actions/handles';
 import mapToStateToProps from 'client/mapToStateToProps/';
 
 import FlexRow from 'cover/components/atoms/FlexRow';
-import Head from 'cover/components/atoms/Head';
 import P from 'cover/components/atoms/P';
 import Title from 'cover/components/atoms/Title';
 import { ArticleType } from 'cover/components/molecules/Article';
 import Section from 'cover/components/molecules/Section';
+import SnsLinks from 'cover/components/molecules/SnsLinks';
 import ArticleOrder from 'cover/components/organisms/ArticleOrder';
+import Footer from 'cover/components/organisms/Footer';
 import * as styles from 'cover/styles';
 
 type InterviewVerticalDatas = {
@@ -66,10 +67,6 @@ const TalknContainer: React.FC<Props> = (props) => {
       const scrollToTop = scrollToElm.offsetTop - styles.appHeaderHeight - styles.baseSize;
       window.scrollTo({ top: scrollToTop, behavior: 'smooth' });
     }
-  };
-
-  const handleOnClickToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const useCallbackScroll = useCallback(() => {
@@ -175,8 +172,8 @@ const TalknContainer: React.FC<Props> = (props) => {
                   <img src={`//${conf.assetsURL}/top/${ch}/human01.webp`} width={'100%'} />
                   <P>
                     <br />
-                    2012年6月にサンブリッジに入社。 Salesforce一体型名刺管理ソリューション「SmartVisca」の Salesforce
-                    AppExchangeへの公開に尽力する。以降、自社プロダクト事業の開発にあたり、新規プロダクトのリリース、バージョンアップに務める。
+                    2012年6月にサンブリッジに入社。Salesforce一体型名刺管理ソリューション「SmartVisca」の Salesforce AppExchange
+                    への公開に尽力する。以降、自社プロダクト事業の開発にあたり、新規プロダクトのリリース、バージョンアップに務める。
                   </P>
                 </FlexRow>
               </Section>
@@ -188,7 +185,7 @@ const TalknContainer: React.FC<Props> = (props) => {
               <Section
                 number={3}
                 title={
-                  '澤野さんはプロダクト本部の中でも特に社歴の長いメンバーだと聞いています。サンブリッジに入社するまでの経緯を教えてください。'
+                  '澤野さんはプロダクト本部の中でも特に社歴の長いメンバーだと聞いています。ぜひサンブリッジに入社するまでの経緯を教えてください。'
                 }>
                 <P>
                   前職でエンジニアとしてSalesforceに関連する仕事をしていたため、サンブリッジのことは知っていました。セールスフォース・ドットコムの展示会に参加した際、出店していたサンブリッジ社員がお揃いのTシャツを着ていたことから、自由で楽しそうな会社だと感じ、興味を持ちました。その後、サンブリッジに業務委託として関わり始め、正社員として2012年に入社しました。
@@ -211,14 +208,27 @@ const TalknContainer: React.FC<Props> = (props) => {
                   <b>私含めチームメンバーはSmartViscaそのものに愛着があるので、嬉しい意思決定でした。</b>
                 </P>
               </Section>
-              <Section number={6} title={'開発を進める上で、困難なことを教えてください。'}>
+              <Section number={6} title={'今回のバージョンアップで、これまでのSmartViscaと何が変わるのでしょうか？'}>
+                <P>
+                  <b>単なる名刺情報を管理するツールから、より詳細なプロフィール情報を管理できるツールに変わります。</b>
+                  例えば、対面の打ち合わせ時に渡していた名刺上の情報や、アイスブレイクで使われていたような自己紹介の内容等を「プロフィール情報」としてオンライン上で相手に提示することが可能になります。
+                </P>
+                <P>
+                  また、社外の人だけでなく、自分自身や社内の人のプロフィールも登録可能にすることで、
+                  <b>人と人との繋がりがビジネスシーンで活用されることを目指しています。</b>
+                  例えば、取引先との（オンライン上の）コミュニケーション履歴を残していくことで、コンタクトをとりたい人がいた場合、その人とすでに面識がある人が社内にいるのか、それが誰なのか、を調べることもできます。
+                </P>
+              </Section>
+              <Section number={7} title={'開発を進める上で、困難なことを教えてください。'}>
                 <P>
                   最初のリリースから10年ほど経過して相当の数のお客様にインストールされて使われています。製品仕様にもその時々の要件があって取り入れています。そういった仕様の経緯を新しく参加されたメンバーにも漏れなく継承していくことには腐心しています。幸い、Github、JIRA、CircleCIなど、継続的な開発を支援するツールが利用できるようになって、それらのことも自動化されて容易になってきています。
                 </P>
               </Section>
-              <Section number={7} title={'開発を進める上で、大切にしていることがあれば教えてください。'}>
+              <Section number={8} title={'開発を進める上で、大切にしていることがあれば教えてください。'}>
                 <P>
                   顧客視点に立った開発を大切にしています。プロダクト本部の統括である矢野は特に顧客意識が強く、ユーザーヒアリングの結果をもとにSmartViscaのあり方について、フロントメンバーだけでなく開発メンバーも含め議論する機会が多くあります。
+                </P>
+                <P>
                   私はサンブリッジに入社するまでパッケージ開発の経験がほとんどで、エンドユーザーの声を直接聞く機会があまりありませんでした。だからこそ、ユーザーの声が聞ける今、お客様の要望をどのようにプロダクトにフィードバックしていくかを、一層大切にしながら開発を進めています。
                   今回のバージョンアップの内容も、SmartViscaのユーザーヒアリングをした結果、要件として項目に上がってきたものをベースにしています。
                 </P>
@@ -236,7 +246,7 @@ const TalknContainer: React.FC<Props> = (props) => {
                 </Annotation>
               </Section>
 
-              <Section number={8} title={'最後にバージョンアップしたSmartViscaリリースに向けての意気込みをお願いします！'}>
+              <Section number={9} title={'最後にバージョンアップしたSmartViscaリリースに向けての意気込みをお願いします！'}>
                 <P>
                   「名刺管理」ではなく「プロフィール管理」ツールとして活用いただくために、SFA（Sales Force
                   Automation）との連携を強化しています。この機能は多くのお客様に利用いただけると考えられるので、既存のお客様だけでなく、ターゲットユーザーを広げていきたいと思っています。新しい類似製品を提供するベンダーも台頭してきている中で、
@@ -276,17 +286,30 @@ const TalknContainer: React.FC<Props> = (props) => {
               </NavigationOrder>
             </Navigation>
           </Main>
-        </WhiteBoard>
 
-        <Footer>
-          <ToTopLayout>
-            <ToTop onClick={handleOnClickToTop}>
-              <div className={'ToTopArrow'} />
-            </ToTop>
-          </ToTopLayout>
-          <Sns>
+          <DomainProfile navigationLayout={navigationLayout}>
+            <DomainProfileTitle className={'DomainProfileTitle'} lv={5} underline>
+              Domain Profile
+            </DomainProfileTitle>
+            <FlexRow>
+              <DomainProfileImage src={serverMetas['og:image']} />
+              <Description>
+                <P>{serverMetas['description']}</P>
+              </Description>
+            </FlexRow>
+            <Tags>
+              {serverMetas.keywords &&
+                serverMetas.keywords.split(',').map((tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>)}
+            </Tags>
+            <SnsLinksWrap>
+              <SnsLinks serverMetas={serverMetas} />
+            </SnsLinksWrap>
+          </DomainProfile>
+
+          <SnsShare>
             <Twitter className="twitter">
               <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" className="twitter-share-button" data-show-count="false">
+                <TwitterIcon />
                 Tweet
               </a>
               <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
@@ -301,13 +324,9 @@ const TalknContainer: React.FC<Props> = (props) => {
                 </a>
               </div>
             </div>
-          </Sns>
-          <CopyrightLayout>
-            <Copyright>Copyright ©talkn All Rights Reserved.</Copyright>
-            <br />
-            Update the internet for creators.
-          </CopyrightLayout>
-        </Footer>
+          </SnsShare>
+        </WhiteBoard>
+        <Footer />
       </Container>
     </>
   );
@@ -369,7 +388,7 @@ const Header = styled.header`
   width: 100%;
   height: ${styles.appHeaderHeight}px;
   background: rgba(255, 255, 255, 0.96);
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid ${styles.borderColor};
   a {
     display: flex;
     flex-flow: row wrap;
@@ -391,9 +410,9 @@ const ArticleOrderBg = styled.div`
   width: 100%;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 15px 15px 0 0;
-  border-top: 1px solid #eee;
-  border-right: 1px solid #eee;
-  border-left: 1px solid #eee;
+  border-top: 1px solid ${styles.borderColor};
+  border-right: 1px solid ${styles.borderColor};
+  border-left: 1px solid ${styles.borderColor};
 `;
 
 const TopSection = styled.section`
@@ -431,29 +450,6 @@ const TitleBoard = styled.div`
   }
 `;
 
-const Company = styled.div`
-  font-size: 18px;
-  line-height: 30px;
-  user-select: none;
-  text-shadow: ${styles.baseTextShadow};
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    font-size: 16px;
-    line-height: 26px;
-  }
-`;
-
-const CreatorName = styled.div`
-  font-size: 18px;
-  text-indent: 32px;
-  line-height: 30px;
-  user-select: none;
-  text-shadow: ${styles.baseTextShadow};
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    font-size: 16px;
-    line-height: 26px;
-  }
-`;
-
 const Img = styled.img`
   margin-right: 15px;
   margin-left: -15px;
@@ -467,7 +463,7 @@ const WhiteBoard = styled.div`
   justify-content: center;
   width: 100%;
   height: auto;
-  border-top: 1px solid #eee;
+  border-top: 1px solid ${styles.borderColor};
   background: rgba(255, 255, 255, 0.96);
 `;
 
@@ -488,19 +484,19 @@ const Main = styled.main<MainPropsType>`
   }
 `;
 
-type InterviewPropsType = {
-  ref: any;
+type LayoutPropsType = {
+  ref?: any;
   navigationLayout: NavigationLayout;
 };
 
-const InterviewPaddingLeft = styles.doublePadding;
-const Interview = styled.div<InterviewPropsType>`
+const layoutPaddingLeft = styles.doublePadding;
+const layoutCss = css<LayoutPropsType>`
   overflow: hidden;
   width: 100%;
-  max-width: ${(props) => getInterviewWidth(props, InterviewPaddingLeft)};
+  max-width: ${(props) => getLayoutWidth(props)};
   height: auto;
   padding-right: 0;
-  padding-left: ${InterviewPaddingLeft}px;
+  padding-left: ${layoutPaddingLeft}px;
   @media (max-width: ${styles.spLayoutWidth}px) {
     padding-right: ${styles.basePadding}px;
     padding-left: ${styles.basePadding}px;
@@ -511,7 +507,11 @@ const Interview = styled.div<InterviewPropsType>`
   }
 `;
 
-type NavigationPropsType = InterviewPropsType;
+const Interview = styled.div<LayoutPropsType>`
+  ${layoutCss}
+`;
+
+type NavigationPropsType = LayoutPropsType;
 
 const Navigation = styled.nav<NavigationPropsType>`
   z-index: 0;
@@ -526,7 +526,7 @@ const Navigation = styled.nav<NavigationPropsType>`
   padding-left: ${styles.basePadding}px;
   margin: ${styles.quadMargin}px ${styles.baseMargin}px ${styles.baseMargin}px ${styles.baseMargin}px;
   background: rgba(255, 255, 255, 0.9);
-  border: 1px solid #eee;
+  border: 1px solid ${styles.borderColor};
   border-radius: 15px;
   ol,
   li {
@@ -571,18 +571,6 @@ const NavigationOrder = styled.nav<NavigationOrderPropsType>`
   }
 `;
 
-const Footer = styled.footer`
-  box-sizing: border-box;
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: ${styles.quadSize}px;
-  background: #000;
-  color: #fff;
-`;
-
 const A = styled.a`
   display: flex;
   align-items: center;
@@ -591,23 +579,87 @@ const A = styled.a`
 
 const Annotation = styled.span``;
 
-const CopyrightLayout = styled.div`
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  justify-content: center;
+const DomainProfile = styled.div<LayoutPropsType>`
+  overflow: hidden;
   width: 100%;
   max-width: ${styles.appWidth}px;
-  height: 400px;
+  height: auto;
+  padding: ${styles.doublePadding}px;
+  margin-top: ${styles.quadMargin}px;
+  margin-left: ${styles.quadMargin}px;
+  margin-bottom: ${styles.quadMargin}px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid ${styles.borderColor};
+  border-radius: ${styles.doubleSize}px;
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    padding: ${styles.sectionPadding}px ${styles.sectionPadding / 2}px;
+    margin-top: 0;
+    margin-left: 0;
+    border-radius: 0;
+  }
 `;
 
-const Copyright = styled.div``;
+const DomainProfileTitle = styled(Title)`
+  line-height: 60px;
+  border-bottom: 1px solid ${styles.borderColor};
+  font-weight: 400;
+`;
 
-const Sns = styled.div`
+const DomainProfileImage = styled.img`
+  width: ${styles.imageWidth}px;
+  min-width: ${styles.imageWidth}px;
+  height: min-content;
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    width: 100%;
+  }
+`;
+
+const Description = styled.div`
+  width: calc(100% - ${styles.imageWidth}px);
+  padding-top: ${styles.doublePadding}px;
+  padding-left: ${styles.basePadding}px;
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    width: 100%;
+  }
+`;
+
+const Tags = styled.section`
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const Tag = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: ${styles.basePadding}px ${styles.doublePadding}px;
+  margin: ${styles.baseMargin}px;
+  border-radius: ${styles.doubleSize}px;
+  background: ${styles.tagBgColor};
+  color: #fff;
+  white-space: nowrap;
+`;
+
+const SnsLinksWrap = styled.section`
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 375px;
+  padding: ${styles.basePadding}px ${styles.doublePadding}px;
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    width: 100%;
+  }
+`;
+
+const SnsShare = styled.div`
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
+  width: 100%;
   margin: ${styles.doubleMargin}px;
 `;
 
@@ -618,7 +670,12 @@ const Twitter = styled.div`
   border-radius: 5px;
   font-size: 13px;
   color: #fff;
+  i {
+    margin-top: 2px;
+    margin-right: 5px;
+  }
   a {
+    display: flex;
   }
 `;
 
@@ -631,50 +688,7 @@ const TwitterIcon = styled.i`
   height: 14px;
 `;
 
-const ToTopLayout = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-  max-width: ${styles.appWidth}px;
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    justify-content: center;
-  }
-`;
-
-const ToTop = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: ${styles.quadSize}px;
-  height: ${styles.quadSize}px;
-  padding: ${styles.baseSize * 3}px;
-  margin-right: ${styles.doubleSize * 3}px;
-  background: transparent;
-  color: #fff;
-  border: 1px solid #fff;
-  border-radius: ${styles.baseSize}px;
-  transition: ${styles.transitionDuration};
-  div.ToTopArrow {
-    position: relative;
-    top: -3px;
-    border-right: 15px solid transparent;
-    border-bottom: 25px solid #fff;
-    border-left: 15px solid transparent;
-  }
-  :hover {
-    background: #fff;
-    border: 1px solid #000;
-    div.ToTopArrow {
-      border-bottom: 25px solid #000;
-    }
-  }
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    margin-right: 0;
-  }
-`;
-
-const getInterviewWidth = (props: InterviewPropsType, InterviewPaddingLeft) => {
+const getLayoutWidth = (props: LayoutPropsType) => {
   if (props.navigationLayout) {
     const calcedWidth = props.navigationLayout.width + props.navigationLayout.paddingRight + props.navigationLayout.paddingLeft;
     return `calc(${styles.appWidth}px - ${calcedWidth}px)`;
