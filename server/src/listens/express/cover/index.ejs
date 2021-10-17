@@ -4,6 +4,36 @@
     <title>talkn</title>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <link rel="manifest" href="https://<%= domain %>/manifest.json" />
+    <script type="text/javascript">
+      function promptPromise(message) {
+        const div = document.createElement('div');
+        div.id = 'secret';
+        div.style.width = '100%';
+        div.style.height = '100%';
+        div.style.background = '#fff';
+        div.style.zIndex = 100000000;
+        console.log(div);
+        document.body.appendChild(div);
+        return new Promise(function (resolve, reject) {
+          var result = window.prompt(message);
+          if (result === '1090') {
+            const secret = document.querySelector('#secret');
+            div.style.zIndex = -1;
+            resolve(result);
+          } else {
+            reject(new Error('User cancelled'));
+          }
+        });
+      }
+
+      promptPromise('What is your name?')
+        .then(function (name) {
+          output.innerHTML = String(name);
+        })
+        .catch(function () {
+          location.href = 'https://www.talkn.io/';
+        });
+    </script>
     <script id="talknTop" async type="text/javascript" src="https://<%= coverURL %>/talkn.cover.js"></script>
     <script type="text/javascript" async src="//<%= extURL %>"></script>
     <script type="text/javascript">
