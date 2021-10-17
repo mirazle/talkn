@@ -10,7 +10,7 @@ const MessageSection: FunctionComponent<Props> = () => {
   return (
     <Container>
       <Message>- Update the internet for creators -</Message>
-      <Copyright>Copyright © talkn All Rights Reserved.</Copyright>
+      <Copyright>Copyright © talkn.</Copyright>
     </Container>
   );
 };
