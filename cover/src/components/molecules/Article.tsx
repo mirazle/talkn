@@ -60,7 +60,6 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
   };
 
   const handleOnMouseMove = () => {
-    clearTimeout(timeoutId);
     setFocusIndex(index);
   };
 
