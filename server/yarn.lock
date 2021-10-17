@@ -1945,6 +1945,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"basic-auth@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "basic-auth@npm:2.0.1"
+  dependencies:
+    safe-buffer: 5.1.2
+  checksum: 3419b805d5dfc518f3a05dcf42aa53aa9ce820e50b6df5097f9e186322e1bc733c36722b624802cd37e791035aa73b828ed814d8362333d42d7f5cd04d7a5e48
+  languageName: node
+  linkType: hard
+
 "bcrypt-pbkdf@npm:^1.0.0":
   version: 1.0.2
   resolution: "bcrypt-pbkdf@npm:1.0.2"
@@ -3226,6 +3235,15 @@ __metadata:
     snapdragon: ^0.8.1
     to-regex: ^3.0.1
   checksum: 1781d422e7edfa20009e2abda673cadb040a6037f0bd30fcd7357304f4f0c284afd420d7622722ca4a016f39b6d091841ab57b401c1f7e2e5131ac65b9f14fa1
+  languageName: node
+  linkType: hard
+
+"express-basic-auth@npm:~1.2.0":
+  version: 1.2.0
+  resolution: "express-basic-auth@npm:1.2.0"
+  dependencies:
+    basic-auth: ^2.0.1
+  checksum: da9e8d2de41b1791176d73d77300ee972b79206c0899107e8d9f36e31b092f03e396f9cbb1c8a3b6b4ddd68a2a743a2a30576fa883e68eadd8b01e81df3afe22
   languageName: node
   linkType: hard
 
@@ -6773,6 +6791,7 @@ resolve@^1.14.2:
     compression: ^1.7.4
     ejs: ^3.1.6
     express: ^4.17.1
+    express-basic-auth: ~1.2.0
     express-session: ^1.17.2
     forever: 4.0.1
     forever-monitor: 3.0.3
