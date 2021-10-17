@@ -1007,7 +1007,7 @@ class Window extends ReactMode {
 
 class Styles {
   static get zIndex() {
-    return 2147483647;
+    return 2147483646;
   }
   static get FULL_WIDTH_THRESHOLD() {
     return 600;
