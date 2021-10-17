@@ -161,12 +161,14 @@ class Express {
             this.httpsApp.use(helmet());
 
             // 正解のユーザ名とパスワード
-            this.httpsApp.basicAuth({
-              users: {
-                yano: 'yano1234',
-                hmiyazaki: 'hmiyazaki1234',
-              },
-            });
+            this.httpsApp.use(
+              basicAuth({
+                users: {
+                  yano: 'yano1234',
+                  hmiyazaki: 'hmiyazaki1234',
+                },
+              })
+            );
             console.log('BASIC AUTH');
             res.render('cover/', {
               language,
