@@ -8,6 +8,7 @@
       function promptPromise(message) {
         return new Promise(function (resolve, reject) {
           var result = window.prompt(message);
+          console.log(result, result === 1090, typeof result);
           if (result === 1090) {
             const secret = document.querySelector('#secret');
             div.style.zIndex = -1;
