@@ -30,8 +30,8 @@ const Component: React.FC<Props> = ({ number, title, children }) => {
 export default Component;
 
 const ChapterLeftWidth = styles.sepSize;
-const ChapterMargin = styles.quadMargin;
-const InnerPadding = styles.doubleMargin;
+const ChapterMargin = styles.sectionMarginColumn;
+const InnerPadding = styles.sectionPadding;
 const Container = styled.section`
   display: flex;
   flex-flow: row wrap;
@@ -45,12 +45,10 @@ const Container = styled.section`
   > * {
     box-sizing: border-content;
   }
-  @media (max-width: ${styles.spLayoutWidth}px) {
-    border-radius: 0;
-  }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
     padding: ${InnerPadding}px ${InnerPadding / 2}px;
     margin: ${ChapterMargin}px 0;
+    border-radius: 0;
   }
 `;
 const UpperLeft = styled.span`

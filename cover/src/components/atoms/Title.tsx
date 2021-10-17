@@ -9,46 +9,47 @@ type Props = {
   lv?: number;
   loop?: boolean;
   shadow?: boolean;
+  underline?: boolean;
 };
 
-const Component: React.FC<Props> = ({ id: _id, className = 'Title', lv = 2, shadow = false, children }) => {
+const Component: React.FC<Props> = ({ id: _id, className = 'Title', lv = 2, shadow = false, underline = false, children }) => {
   const id = _id ? { id: _id } : {};
   const fixedClassName = `${className}${lv}`;
   switch (lv) {
     case 1:
       return (
-        <H1 {...id} className={fixedClassName} shadow={shadow}>
+        <H1 {...id} className={fixedClassName} shadow={shadow} underline={underline}>
           {children}
         </H1>
       );
     case 2:
       return (
-        <H2 {...id} className={fixedClassName} shadow={shadow}>
+        <H2 {...id} className={fixedClassName} shadow={shadow} underline={underline}>
           {children}
         </H2>
       );
     case 3:
       return (
-        <H3 {...id} className={fixedClassName} shadow={shadow}>
+        <H3 {...id} className={fixedClassName} shadow={shadow} underline={underline}>
           {children}
         </H3>
       );
     case 4:
       return (
-        <H4 {...id} className={fixedClassName} shadow={shadow}>
+        <H4 {...id} className={fixedClassName} shadow={shadow} underline={underline}>
           {children}
         </H4>
       );
     case 5:
       return (
-        <H5 {...id} className={fixedClassName} shadow={shadow}>
+        <H5 {...id} className={fixedClassName} shadow={shadow} underline={underline}>
           {children}
         </H5>
       );
     case 6:
     default:
       return (
-        <H6 {...id} className={fixedClassName} shadow={shadow}>
+        <H6 {...id} className={fixedClassName} shadow={shadow} underline={underline}>
           {children}
         </H6>
       );
@@ -59,6 +60,7 @@ export default Component;
 
 type StyledPropsType = {
   shadow: boolean;
+  underline: boolean;
 };
 
 const H1 = styled.h1<StyledPropsType>`
@@ -116,6 +118,7 @@ const H5 = styled.h5<StyledPropsType>`
   font-weight: 200;
   line-height: 40px;
   user-select: none;
+  border-bottom: ${(props) => (props.underline ? 1 : 0)}px solid ${styles.borderColor};
   @media (max-width: ${styles.spLayoutWidth}px) {
   }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {

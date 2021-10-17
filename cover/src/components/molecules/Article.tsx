@@ -8,6 +8,7 @@ import LiveCnt from 'cover/components/atoms/LiveCnt';
 import OgpImage from 'cover/components/atoms/OgpImage';
 import P from 'cover/components/atoms/P';
 import Title from 'cover/components/atoms/Title';
+import SnsLinks from 'cover/components/molecules/SnsLinks';
 import {
   articleShadowColor,
   articleWidth,
@@ -112,12 +113,7 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
           <OgpImage src={serverMetas['og:image']} ch={<>{article.ch}</>} />
           <Description>
             <P lv={2}>{serverMetas['og:description']}</P>
-            <SnsLinks>
-              <SnsIconImg src={getSnsIconSrc({ type: 'twitter', visible: serverMetas['twitter:site'] !== '' })} />
-              <SnsIconImg src={getSnsIconSrc({ type: 'facebook', visible: serverMetas['fb:page_id'] !== '' })} />
-              <SnsIconImg src={getSnsIconSrc({ type: 'appstore', visible: serverMetas['al:ios:app_store_id'] !== '' })} />
-              <SnsIconImg src={getSnsIconSrc({ type: 'android', visible: serverMetas['al:android:package'] !== '' })} />
-            </SnsLinks>
+            <SnsLinks serverMetas={serverMetas} />
           </Description>
         </a>
       </Detail>
@@ -229,26 +225,4 @@ const Description = styled.div`
   line-height: 26px;
   font-size: 18px;
   font-weight: 200;
-`;
-
-const SnsLinks = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const SnsIconImg = styled.img`
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: center;
-  width: 46px;
-  min-width: 46px;
-  max-width: 46px;
-  height: 46px;
-  min-height: 46px;
-  max-height: 46px;
-  user-select: none;
 `;
