@@ -4,25 +4,6 @@
     <title>talkn</title>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <link rel="manifest" href="https://<%= domain %>/manifest.json" />
-    <script type="text/javascript">
-      function promptPromise(message) {
-        return new Promise(function (resolve, reject) {
-          var result = window.prompt(message);
-          console.log(result, result === '1090', typeof result);
-          if (result === '1090') {
-            resolve(result);
-          } else {
-            reject(new Error('User cancelled'));
-          }
-        });
-      }
-
-      window.addEventListener('load', () => {
-        promptPromise('Please input passworrd.').then(function (name) {
-          document.querySelector('#secret').remove();
-        });
-      });
-    </script>
     <script id="talknTop" async type="text/javascript" src="https://<%= coverURL %>/talkn.cover.js"></script>
     <script type="text/javascript" async src="//<%= extURL %>"></script>
     <script type="text/javascript">
