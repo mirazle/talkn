@@ -37,7 +37,7 @@ class Express {
     this.httpsApp.use(bodyParser.urlencoded({ extended: true }));
     this.httpsApp.use(compression());
     this.httpsApp.use(sessionSetting);
-    this.httpsApp.use(helmet());
+    //    this.httpsApp.use(helmet());
     // this.httpsApp.use(authFunc);
     // this.session = new Session(this.httpsApp);
 
@@ -70,7 +70,6 @@ class Express {
 
   routingHttps(req, res, next) {
     let language = 'en';
-
     switch (req.headers.host) {
       case conf.ownURL:
         if (req.method === 'GET') {
@@ -202,6 +201,7 @@ class Express {
         let portalUrlSearch = false;
         let ch = '/';
         let hasSlash = false;
+
         language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
         if (
           req.originalUrl === '/robots.txt' ||
@@ -216,7 +216,7 @@ class Express {
           res.sendFile(conf.serverPortalPath + req.originalUrl.replace('/', ''));
           return true;
         }
-
+        console.log('A');
         // No Assests Url
         if (`/${req.originalUrl}/` !== conf.assetsPath) {
           /*
@@ -225,6 +225,7 @@ class Express {
             return true;
           }
 */
+          console.log('B');
           if (req.originalUrl.indexOf('/https:/') >= 0 || req.originalUrl.indexOf('/http:/') >= 0) {
             const redirectUrl = req.originalUrl.replace('/https:/', '').replace('/http:/', '');
             res.redirect(redirectUrl);
@@ -236,9 +237,10 @@ class Express {
           /*
           MultiChBootはreq.originalUrlのpathnameで配列形式でリクエストを受け付ける
         */
-
+          console.log('C');
           // ポータル以外からアクセス
           if (req.headers.referer) {
+            console.log('D');
             const referer = req.headers.referer.replace('https:/', '').replace('http:/', '');
 
             // www.talkn.ioからアクセス
@@ -271,6 +273,7 @@ class Express {
             includeIframeTag = false;
           }
           hasSlash = ch.lastIndexOf('/') === ch.length - 1;
+          console.log('RENDER');
           res.render('portal/', {
             includeIframeTag,
             ch,
