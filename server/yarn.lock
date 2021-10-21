@@ -2675,6 +2675,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"csp-header@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "csp-header@npm:5.0.0"
+  checksum: 3094fa06823b090e23e35db9c888d00996e2c7183cd9fec54e613597e62c48c2d35f7aa5893b08324c9dacc34a50a7f14b51f4a8233f74ab2267397d1a5e01d5
+  languageName: node
+  linkType: hard
+
 "css-select@npm:^4.1.3":
   version: 4.1.3
   resolution: "css-select@npm:4.1.3"
@@ -3253,6 +3260,16 @@ __metadata:
   dependencies:
     basic-auth: ^2.0.1
   checksum: da9e8d2de41b1791176d73d77300ee972b79206c0899107e8d9f36e31b092f03e396f9cbb1c8a3b6b4ddd68a2a743a2a30576fa883e68eadd8b01e81df3afe22
+  languageName: node
+  linkType: hard
+
+"express-csp-header@npm:5.0.0":
+  version: 5.0.0
+  resolution: "express-csp-header@npm:5.0.0"
+  dependencies:
+    csp-header: ^5.0.0
+    psl: 1.8.0
+  checksum: 7681c9707c2f95fcf591d6806f024b5afc024e19ad5cbcf409948e1bf19efd9e8752a90e63f18c867095aab559d83a7be6bc0d5a50714975712457b7cd15a323
   languageName: node
   linkType: hard
 
@@ -5780,7 +5797,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"psl@npm:^1.1.28":
+"psl@npm:1.8.0, psl@npm:^1.1.28":
   version: 1.8.0
   resolution: "psl@npm:1.8.0"
   checksum: 6150048ed2da3f919478bee8a82f3828303bc0fc730fb015a48f83c9977682c7b28c60ab01425a72d82a2891a1681627aa530a991d50c086b48a3be27744bde7
@@ -6803,6 +6820,7 @@ resolve@^1.14.2:
     ejs: ^3.1.6
     express: ^4.17.1
     express-basic-auth: ~1.2.0
+    express-csp-header: 5.0.0
     express-session: ^1.17.2
     forever: 4.0.1
     forever-monitor: 3.0.3
