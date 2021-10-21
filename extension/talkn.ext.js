@@ -311,6 +311,9 @@ class Ext {
   static get BASE_EXT_SUBDOMAIN() {
     return 'ext';
   }
+  static get BASE_COVER_SUBDOMAIN() {
+    return 'cover';
+  }
   static get BASE_ASSETS_SUBDOMAIN() {
     return 'assets';
   }
@@ -320,7 +323,10 @@ class Ext {
   static get BASE_DEV_HOST() {
     return 'localhost';
   }
-  static get BASE_DEV_PORT() {
+  static get BASE_COVER_PORT() {
+    return 8000;
+  }
+  static get BASE_CLIENT_PORT() {
     return 8080;
   }
   static get EXCLUSION_BOOT_HOSTS() {
@@ -359,34 +365,44 @@ class Ext {
   static get INCLUDE_ID() {
     return `#${Ext.APP_NAME}`;
   }
+
+  static get TOP_HOST() {
+    if (window.TALKN_EXT_ENV === 'PROD') {
+      return `//${Ext.BASE_COVER_SUBDOMAIN}.${Ext.BASE_PROD_HOST}`;
+    } else if (window.TALKN_EXT_ENV === 'START') {
+      return `//${Ext.BASE_COVER_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
+    } else if (window.TALKN_EXT_ENV === 'DEV') {
+      return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_COVER_PORT}`;
+    }
+  }
   static get APP_HOST() {
     if (Ext.IS_DEVELOPMENT_MODE) {
       return `//${Ext.BASE_DEV_HOST}`;
     }
-    if (TALKN_EXT_ENV === 'PROD') {
+    if (window.TALKN_EXT_ENV === 'PROD') {
       return `//${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === 'START') {
+    } else if (window.TALKN_EXT_ENV === 'START') {
       return `//${Ext.BASE_DEV_HOST}`;
-    } else if (TALKN_EXT_ENV === 'DEV') {
-      return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
+    } else if (window.TALKN_EXT_ENV === 'DEV') {
+      return `//${Ext.BASE_DEV_HOST}:${Ext.BASE_CLIENT_PORT}`;
     }
   }
   static get APP_ASSETS_HOST() {
-    if (TALKN_EXT_ENV === 'PROD') {
+    if (window.TALKN_EXT_ENV === 'PROD') {
       return `//assets.${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === 'START') {
+    } else if (window.TALKN_EXT_ENV === 'START') {
       return `//assets.${Ext.BASE_DEV_HOST}`;
-    } else if (TALKN_EXT_ENV === 'DEV') {
-      return `//assets.${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
+    } else if (window.TALKN_EXT_ENV === 'DEV') {
+      return `//assets.${Ext.BASE_DEV_HOST}:${Ext.BASE_CLIENT_PORT}`;
     }
   }
   static get APP_EXT_HOST() {
-    if (TALKN_EXT_ENV === 'PROD') {
+    if (window.TALKN_EXT_ENV === 'PROD') {
       return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_PROD_HOST}`;
-    } else if (TALKN_EXT_ENV === 'START') {
+    } else if (window.TALKN_EXT_ENV === 'START') {
       return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}`;
-    } else if (TALKN_EXT_ENV === 'DEV') {
-      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}:${Ext.BASE_DEV_PORT}`;
+    } else if (window.TALKN_EXT_ENV === 'DEV') {
+      return `//${Ext.BASE_EXT_SUBDOMAIN}.${Ext.BASE_DEV_HOST}:${Ext.BASE_CLIENT_PORT}`;
     }
   }
   static get APP_ENDPOINT() {
@@ -476,6 +492,9 @@ class BootOption {
     this.extensionMode = BootOption.getExtensionMode(tag);
   }
   static getCh(ch) {
+    if (ch.indexOf(Ext.TOP_HOST) >= 0) {
+      ch = ch.split(Ext.TOP_HOST)[1];
+    }
     ch = ch.replace('https:/', '').replace('http:/', '');
     if (ch.indexOf(Ext.BASE_DEV_HOST) >= 0) {
       if (ch.indexOf(':') >= 0) {
@@ -988,7 +1007,7 @@ class Window extends ReactMode {
 
 class Styles {
   static get zIndex() {
-    return 2147483647;
+    return 2147483646;
   }
   static get FULL_WIDTH_THRESHOLD() {
     return 600;
@@ -1594,7 +1613,8 @@ class IframeBottom extends Iframe {
   }
 
   getHeight(addUnit = false) {
-    height = window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? `${Math.floor(window.innerHeight * 0.9)}px` : IframeModal.getCloseHeight(true);
+    height =
+      window.innerWidth < Styles.FULL_WIDTH_THRESHOLD ? `${Math.floor(window.innerHeight * 0.9)}px` : IframeModal.getCloseHeight(true);
     return addUnit ? height : height.replace('px', '').replace('%', '');
   }
 
@@ -1637,7 +1657,17 @@ class IframeEmbed extends Iframe {
     return window.document.querySelectorAll(IframeEmbed.className);
   }
   get acceptPostMessages() {
-    return ['handleExtAndClient', 'tune', 'changeThread', 'toggleIframe', 'location', 'disconnect', 'linkTo', 'setInputPost', 'getClientMetas'];
+    return [
+      'handleExtAndClient',
+      'tune',
+      'changeThread',
+      'toggleIframe',
+      'location',
+      'disconnect',
+      'linkTo',
+      'setInputPost',
+      'getClientMetas',
+    ];
   }
   constructor(_window, bootOption, appendRoot) {
     super(_window, bootOption, appendRoot);
@@ -1765,7 +1795,6 @@ class IframeLiveMedia extends Iframe {
     return ['handleExtAndClient', 'sendStampData', 'tune', 'disconnect'];
   }
   constructor(_window, bootOption) {
-    console.log('new IframeLiveMedia');
     super(_window, bootOption, IframeLiveMedia.appendRoot);
 
     // parts
@@ -1992,7 +2021,9 @@ class LiveMediaPost {
     const iconClickEvent = (e) => {
       const stampUl = Window.select(`#${LiveMediaPost.id}StampUl`);
       stampUl.style.transform =
-        stampUl.style.transform === LiveMediaPost.stamlUlOpenTransform ? LiveMediaPost.stamlUlCloseTransform : LiveMediaPost.stamlUlOpenTransform;
+        stampUl.style.transform === LiveMediaPost.stamlUlOpenTransform
+          ? LiveMediaPost.stamlUlCloseTransform
+          : LiveMediaPost.stamlUlOpenTransform;
     };
     icon.id = `${LiveMediaPost.id}Icon`;
     icon.style = this.getStyle('icon');

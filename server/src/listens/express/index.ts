@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import express from 'express';
 import session from 'express-session';
+import helmet from 'helmet';
 import http from 'http';
 import https from 'https';
 
@@ -36,7 +37,7 @@ class Express {
     this.httpsApp.use(bodyParser.urlencoded({ extended: true }));
     this.httpsApp.use(compression());
     this.httpsApp.use(sessionSetting);
-    //    this.httpsApp.use(helmet());
+    this.httpsApp.use(helmet());
     // this.httpsApp.use(authFunc);
     // this.session = new Session(this.httpsApp);
 
