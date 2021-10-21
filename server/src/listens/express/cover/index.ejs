@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html amp lang="<%= language %>">
   <head>
-    <title>talkn</title>
+    <title><%= thread.serverMetas.title %></title>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <link rel="icon" href="<%= thread.favicon %>" />
+    <link rel="shortcut icon" href="<%= thread.favicon %>" />
     <link rel="manifest" href="https://<%= domain %>/manifest.json" />
     <script id="talknTop" async type="text/javascript" src="https://<%= coverURL %>/talkn.cover.js"></script>
     <script type="text/javascript" async src="//<%= extURL %>"></script>
@@ -117,25 +119,19 @@
     </noscript>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta
-      property="keywords"
-      content="salesforce導入, セールスフォース開発, マーケティングオートメーション, デジタルマーケティング, 名刺管理,"
-    />
-    <meta
-      property="description"
-      content="サンブリッジはSalesforce、マーケティングオートメーション、名刺管理の導入、連携を通して営業・マーケティング課題の解決を支援します。"
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="株式会社サンブリッジ｜Salesforce開発・マーケティングオートメーション・名刺管理 導入活用支援" />
-    <meta property="og:url" content="https://cover.talkn.io/www.sunbridge.com/" />
-    <meta property="og:description" content="Salesforce開発・マーケティングオートメーション・名刺管理 導入活用支援" />
-    <meta property="og:image" content="https://www.sunbridge.com/wp-content/uploads/ogp_default.jpg" />
-    <meta property="og:site_name" content="株式会社サンブリッジ" />
+    <meta property="keywords" content="<%= thread.serverMetas.keywords %>" />
+    <meta property="description" content="<%= thread.serverMetas.description %>" />
+    <meta property="og:type" content="<%= thread.serverMetas['og:type'] %>" />
+    <meta property="og:title" content="<%= thread.serverMetas['og:title'] %>" />
+    <meta property="og:url" content="https://cover.talkn.io<%= thread['ch'] %>" />
+    <meta property="og:description" content="<%= thread.serverMetas['og:description'] %>" />
+    <meta property="og:image" content="<%= thread.serverMetas['og:image'] %>" />
+    <meta property="og:site_name" content="<%= thread.serverMetas['og:site_name'] %>" />
 
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="株式会社サンブリッジ｜Salesforce開発・マーケティングオートメーション・名刺管理 導入活用支援" />
-    <meta name="twitter:description" content="Salesforce開発・マーケティングオートメーション・名刺管理 導入活用支援" />
-    <meta name="twitter:image" content="https://www.sunbridge.com/wp-content/uploads/ogp_default.jpg" />
+    <meta name="twitter:card" content="<%= thread.serverMetas['twitter:card'] %>" />
+    <meta name="twitter:title" content="<%= thread.serverMetas['twitter:title'] %>" />
+    <meta name="twitter:description" content="<%= thread.serverMetas['twitter:description'] %>" />
+    <meta name="twitter:image" content="<%= thread.serverMetas['twitter:image'] %>" />
   </head>
   <body>
     <script

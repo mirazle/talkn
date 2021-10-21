@@ -9,6 +9,7 @@ import define from 'common/define';
 
 import conf from 'server/conf';
 import Session from 'server/listens/express/session/';
+import Logics from 'server/logics';
 import Geolite from 'server/logics/Geolite';
 import Mail from 'server/logics/Mail';
 
@@ -142,6 +143,7 @@ class Express {
       case conf.coverURL:
         if (req.method === 'GET') {
           if (
+            req.originalUrl.indexOf('.svg') >= 0 ||
             req.originalUrl === '/talkn.cover.js' ||
             req.originalUrl === '/robots.txt' ||
             req.originalUrl === '/manifest.json' ||
@@ -155,16 +157,21 @@ class Express {
             res.sendFile(conf.serverCoverPath + req.originalUrl.replace('/', ''));
             return true;
           } else {
-            res.render('cover/', {
-              language,
-              domain: conf.domain,
-              apiURL: conf.apiURL,
-              wwwURL: conf.wwwURL,
-              coverURL: conf.coverURL,
-              extURL: conf.extURL,
-              assetsURL: conf.assetsURL,
-              clientURL: conf.clientURL,
-              apiAccessURL: conf.apiAccessURL,
+            // Thread
+            Logics.db.threads.findOne(req.originalUrl, { buildinSchema: true }).then((result) => {
+              console.log(result);
+              res.render('cover/', {
+                language,
+                thread: result.response,
+                domain: conf.domain,
+                apiURL: conf.apiURL,
+                wwwURL: conf.wwwURL,
+                coverURL: conf.coverURL,
+                extURL: conf.extURL,
+                assetsURL: conf.assetsURL,
+                clientURL: conf.clientURL,
+                apiAccessURL: conf.apiAccessURL,
+              });
             });
           }
         }
