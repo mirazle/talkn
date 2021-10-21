@@ -1,9 +1,7 @@
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import express from 'express';
-import { expressCspHeader, INLINE, NONE, SELF } from 'express-csp-header';
 import session from 'express-session';
-import helmet from 'helmet';
 import http from 'http';
 import https from 'https';
 
