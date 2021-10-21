@@ -5,7 +5,7 @@
 ### workspace
 
 ```
-cd common/pems/server
+cd common/pems
 ```
 
 ### command1
@@ -18,6 +18,8 @@ cd common/pems/server
 ```
 
 ### localhost.ext
+
+5 make file
 
 ```
 authorityKeyIdentifier=keyid,issuer
@@ -37,7 +39,7 @@ DNS.6 = ext.localhost
 ### command2
 
 ```
-openssl x509 -req -in localhost.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out localhost.crt -days 1825 -sha256 -extfile localhost.ext
+6 openssl x509 -req -in localhost.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out localhost.crt -days 1825 -sha256 -extfile localhost.ext
 ```
 
 ### keychainAccess

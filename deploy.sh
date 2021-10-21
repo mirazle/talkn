@@ -10,8 +10,8 @@ echo "@@@@@@ YARN RUN BUILD(CLIENT)"
 cd client
 yarn run build
 cd ../
-echo "@@@@@@ YARN RUN BUILD(TOP)"
-cd top
+echo "@@@@@@ YARN RUN BUILD(COVER)"
+cd cover
 yarn run build
 cd ../
 echo "@@@@@@ RESOLVE EXTENSION　talkn.ext.js"
