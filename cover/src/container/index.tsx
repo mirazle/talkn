@@ -139,7 +139,6 @@ const TalknContainer: React.FC<Props> = (props) => {
 
   return (
     <>
-      <Head thread={thread} serverMetas={serverMetas} />
       <FixedBackground host={host} />
       <Container>
         <Header>
