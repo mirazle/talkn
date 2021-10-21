@@ -314,7 +314,10 @@ const TalknContainer: React.FC<Props> = (props) => {
 
           <SnsShare>
             <Twitter className="twitter">
-              <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" className="twitter-share-button" data-show-count="false">
+              <a
+                href="https://twitter.com/share?ref_src=twsrc%5Etfw&url=cover.talkn.io/www.sunbridge.com/"
+                className="twitter-share-button"
+                data-show-count="false">
                 <TwitterIcon />
                 Tweet
               </a>
