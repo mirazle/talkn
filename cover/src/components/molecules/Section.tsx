@@ -19,7 +19,7 @@ const Component: React.FC<Props> = ({ number, title, children }) => {
         <Q>{assignZero(number)}</Q>
       </UpperLeft>
       <UpperRight className="upperRight">
-        <Title lv={5}>{title}</Title>
+        <Title type={'Section'}>{title}</Title>
       </UpperRight>
       <BottomLeft className="bottomLeft"></BottomLeft>
       <BottomRight className="bottomRight">{children}</BottomRight>

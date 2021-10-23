@@ -8,7 +8,7 @@ import Window from 'cover/Window';
 declare global {
   interface Window {
     talknWindow: any;
-    talknArticles: { [key: string]: any };
+    talknArticles: any;
     talknMedia: any;
     talknAPI: any;
     Youtube: any;
@@ -21,7 +21,6 @@ declare global {
 }
 
 const id = define.APP_TYPES.TOP;
-window.talknArticles = {};
 window.talknWindow = new Window(id);
 window.talknWindow.boot();
 window.talknWindow.dom.renderTalkn();

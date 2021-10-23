@@ -3,21 +3,22 @@ import styled from 'styled-components';
 
 type Props = {
   lv?: number;
+  className?: string;
 };
 
-const Component: React.FC<Props> = ({ lv = 1, children }) => {
+const Component: React.FC<Props> = ({ lv = 1, className = 'P', children }) => {
   switch (lv) {
     case 1:
-      return <P1>{children}</P1>;
+      return <P1 className={className}>{children}</P1>;
     case 2:
-      return <P2>{children}</P2>;
+      return <P2 className={className}>{children}</P2>;
     case 3:
-      return <P3>{children}</P3>;
+      return <P3 className={className}>{children}</P3>;
     case 4:
-      return <P4>{children}</P4>;
+      return <P4 className={className}>{children}</P4>;
     case 5:
     default:
-      return <P5>{children}</P5>;
+      return <P5 className={className}>{children}</P5>;
   }
 };
 

@@ -5,53 +5,58 @@ import * as styles from 'cover/styles';
 
 type Props = {
   id?: string;
+  type?: string;
   className?: string;
-  lv?: number;
   loop?: boolean;
   shadow?: boolean;
   underline?: boolean;
 };
 
-const Component: React.FC<Props> = ({ id: _id, className = 'Title', lv = 2, shadow = false, underline = false, children }) => {
+const Component: React.FC<Props> = ({ id: _id, className = 'Title', type = 'Article', shadow = false, underline = false, children }) => {
   const id = _id ? { id: _id } : {};
-  const fixedClassName = `${className}${lv}`;
-  switch (lv) {
-    case 1:
+  switch (type) {
+    case 'AppHeader':
       return (
-        <H1 {...id} className={fixedClassName} shadow={shadow} underline={underline}>
+        <AppHeader {...id} className={className} shadow={shadow} underline={underline}>
           {children}
-        </H1>
+        </AppHeader>
       );
-    case 2:
+    case 'ServiceHeader':
       return (
-        <H2 {...id} className={fixedClassName} shadow={shadow} underline={underline}>
+        <ServiceHeader {...id} className={className} shadow={shadow} underline={underline}>
           {children}
-        </H2>
+        </ServiceHeader>
       );
-    case 3:
+    case 'ArticleOrder':
       return (
-        <H3 {...id} className={fixedClassName} shadow={shadow} underline={underline}>
+        <ArticleOrder {...id} className={className} shadow={shadow} underline={underline}>
           {children}
-        </H3>
+        </ArticleOrder>
       );
-    case 4:
+    case 'Article':
       return (
-        <H4 {...id} className={fixedClassName} shadow={shadow} underline={underline}>
+        <Article {...id} className={className} shadow={shadow} underline={underline}>
           {children}
-        </H4>
+        </Article>
       );
-    case 5:
+    case 'Section':
       return (
-        <H5 {...id} className={fixedClassName} shadow={shadow} underline={underline}>
+        <Section {...id} className={className} shadow={shadow} underline={underline}>
           {children}
-        </H5>
+        </Section>
       );
-    case 6:
+    case 'DomainProfileDescTitle':
+      return (
+        <DomainProfileDescTitle {...id} className={className} shadow={shadow} underline={underline}>
+          {children}
+        </DomainProfileDescTitle>
+      );
+    case 'Resume':
     default:
       return (
-        <H6 {...id} className={fixedClassName} shadow={shadow} underline={underline}>
+        <Resume {...id} className={className} shadow={shadow} underline={underline}>
           {children}
-        </H6>
+        </Resume>
       );
   }
 };
@@ -59,11 +64,12 @@ const Component: React.FC<Props> = ({ id: _id, className = 'Title', lv = 2, shad
 export default Component;
 
 type StyledPropsType = {
+  className: string;
   shadow: boolean;
   underline: boolean;
 };
 
-const H1 = styled.h1<StyledPropsType>`
+const AppHeader = styled.h1<StyledPropsType>`
   font-size: 24px;
   font-weight: 200;
   line-height; 30px;
@@ -72,7 +78,7 @@ const H1 = styled.h1<StyledPropsType>`
 
 const H2LineHeight = styles.quadMargin;
 const H2Margin = styles.baseMargin;
-const H2 = styled.h2<StyledPropsType>`
+const ServiceHeader = styled.h2<StyledPropsType>`
   font-size: 175%;
   font-weight: 300;
   line-height: ${H2LineHeight}px;
@@ -95,7 +101,7 @@ const H2 = styled.h2<StyledPropsType>`
 const H3LineHeight = styles.doubleMargin;
 const H3Margin = styles.baseMargin;
 export const H3Height = H3LineHeight + H3Margin * 2;
-const H3 = styled.h3<StyledPropsType>`
+const ArticleOrder = styled.h3<StyledPropsType>`
   margin: ${H2Margin}px 0;
   text-indent: 30px;
   font-size: 20px;
@@ -104,14 +110,14 @@ const H3 = styled.h3<StyledPropsType>`
   color: #555;
   user-select: none;
 `;
-const H4 = styled.h4<StyledPropsType>`
+const Article = styled.h4<StyledPropsType>`
   padding: 0;
   margin: 0;
   font-size: 18px;
   font-weight: 200;
   user-select: none;
 `;
-const H5 = styled.h5<StyledPropsType>`
+const Section = styled.h5<StyledPropsType>`
   padding: 0;
   margin: 0;
   font-size: 30px;
@@ -127,7 +133,21 @@ const H5 = styled.h5<StyledPropsType>`
   }
 `;
 
-const H6 = styled.h5<StyledPropsType>`
+const DomainProfileDescTitle = styled.h5<StyledPropsType>`
+  padding: 0;
+  margin: 0;
+  font-size: 30px;
+  font-weight: 200;
+  line-height: 40px;
+  user-select: none;
+  border-bottom: 1px solid ${styles.borderColor};
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    font-size: 20px;
+    line-height: 30px;
+  }
+`;
+
+const Resume = styled.h5<StyledPropsType>`
   padding: 0;
   margin: 15px 0;
   text-align: center;

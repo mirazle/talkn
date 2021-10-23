@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import styled, { css } from 'styled-components';
 
@@ -10,8 +9,7 @@ import AppStore from 'api/store/App';
 import handles from 'client/actions/handles';
 import mapToStateToProps from 'client/mapToStateToProps/';
 
-import FlexRow from 'cover/components/atoms/FlexRow';
-import Head from 'cover/components/atoms/Head';
+import Flex from 'cover/components/atoms/Flex';
 import P from 'cover/components/atoms/P';
 import Title from 'cover/components/atoms/Title';
 import { ArticleType } from 'cover/components/molecules/Article';
@@ -59,7 +57,7 @@ const TalknContainer: React.FC<Props> = (props) => {
 
   const interviewRef = useRef<HTMLElement>();
   const resumeRef = useRef<HTMLElement>();
-  const { ranks: articles, thread } = state;
+  const { app, ranks: articles, thread } = state;
   const { ch, host, favicon, serverMetas } = thread;
 
   const handleOnClickNav = (chapterIndex: number) => {
@@ -133,25 +131,25 @@ const TalknContainer: React.FC<Props> = (props) => {
   }, [window.innerWidth]);
 
   useEffect(() => {
+    console.log(window.talknArticles);
     window.addEventListener('scroll', useCallbackScroll);
-    window.addEventListener('click', () => {});
   }, []);
 
   return (
     <>
-      <FixedBackground host={host} />
+      <FixedBackground ch={ch} />
       <Container>
         <Header>
           <A href={`https:/${ch}`}>
-            <Img src="https://www.sunbridge.com/favicon.ico" alt={ch} width={30} height={30} />
-            <Title lv={1}>{ch}</Title>
+            {app.tuned !== '' && <Img src={thread.favicon} width={30} height={30} />}
+            {app.tuned !== '' && <Title type={'AppHeader'}>{ch === '/' ? 'talkn' : ch}</Title>}
           </A>
         </Header>
 
         <BaseBoard>
           <TopSection>
             <TitleBoard>
-              <Title lv={2}>
+              <Title type={'ServiceHeader'}>
                 ユーザーの声で生まれ変わる！
                 <br />
                 自社プロダクト「SmartVisca」
@@ -162,21 +160,21 @@ const TalknContainer: React.FC<Props> = (props) => {
             </TitleBoard>
           </TopSection>
           <ArticleOrderBg>
-            <ArticleOrder ch={'/music'} title={'製品のご紹介'} articles={articles} />
+            <ArticleOrder ch={ch} title={'製品のご紹介'} articles={articles} />
           </ArticleOrderBg>
         </BaseBoard>
         <WhiteBoard>
           <Main navigationLayout={navigationLayout}>
             <Interview className={'Interview'} ref={interviewRef} navigationLayout={navigationLayout}>
               <Section number={1} title={'プロダクト本部　アーキテクト 澤野 弘幸 (Hiroyuki Sawano)'}>
-                <FlexRow>
-                  <img src={`//${conf.assetsURL}/top/${ch}/human01.webp`} width={'100%'} />
+                <Flex flow="column">
+                  <img src={`//${conf.assetsURL}/cover/${ch}/human01.webp`} width={'100%'} />
                   <P>
                     <br />
                     2012年6月にサンブリッジに入社。Salesforce一体型名刺管理ソリューション「SmartVisca」の Salesforce AppExchange
                     への公開に尽力する。以降、自社プロダクト事業の開発にあたり、新規プロダクトのリリース、バージョンアップに務める。
                   </P>
-                </FlexRow>
+                </Flex>
               </Section>
               <Section number={2} title={'まずは澤野さんの現在の業務内容を教えてください。'}>
                 <P>
@@ -197,7 +195,7 @@ const TalknContainer: React.FC<Props> = (props) => {
                 <P>
                   SmartViscaは、名刺をスキャナーやスマートフォンで読み取るだけで、高速かつ正確にデジタル化するSalesforce一体型名刺管理ソリューションです。
                 </P>
-                <img src={`//${conf.assetsURL}/top/${ch}/desc01.webp`} width={'75%'} />
+                <img src={`//${conf.assetsURL}/cover/${ch}/desc01.webp`} width={'75%'} />
                 <P>
                   2018年には、最も売れたAppExchangeアプリのランキングで中小企業部門と大企業部門でそれぞれ第2位と第1位を獲得しました。他名刺管理ツールと異なる点は、Salesforce
                   Platform上で構築されていることです。Salesforceを活用する上で、不可欠な顧客データベースを整備するための機能が全て備わっています。そのため、外出先や在宅勤務でも手軽に正確な顧客データを用いて、営業やマーケティングをはじめあらゆる企業活動に活用できます。個人的に、昔からネットワーク上で情報を収集検索できるサービスに関心があったので、ネットワークで人の情報が集積される面白さをSmartViscaに見出しています。
@@ -258,7 +256,7 @@ const TalknContainer: React.FC<Props> = (props) => {
               </Section>
             </Interview>
             <Navigation ref={resumeRef} navigationLayout={navigationLayout}>
-              <Title lv={6}>- 目次 -</Title>
+              <Title type={'Resume'}>- 目次 -</Title>
               <NavigationOrder interviewPointer={interviewPointer}>
                 <li>
                   <a onClick={() => handleOnClickNav(0)}>01.人物紹介</a>
@@ -293,15 +291,18 @@ const TalknContainer: React.FC<Props> = (props) => {
           </Main>
 
           <DomainProfile navigationLayout={navigationLayout}>
-            <DomainProfileTitle className={'DomainProfileTitle'} lv={5} underline>
+            <DomainProfileTitle className={'DomainProfileTitle'} type={'Section'} underline>
               Domain Profile
             </DomainProfileTitle>
-            <FlexRow>
+            <FlexProfile className="FlexProfile">
               <DomainProfileImage src={serverMetas['og:image']} />
               <Description>
-                <P>{serverMetas['description']}</P>
+                <Title className="DomainProfileDescTitle" type="DomainProfileDescTitle">
+                  {serverMetas['title']}
+                </Title>
+                <P className="description">{serverMetas['description']}</P>
               </Description>
-            </FlexRow>
+            </FlexProfile>
             <Tags>
               {serverMetas.keywords &&
                 serverMetas.keywords.split(',').map((tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>)}
@@ -369,7 +370,7 @@ const Container = styled.div`
 `;
 
 type FixedBackgroundPropsType = {
-  host: string;
+  ch: string;
 };
 
 const FixedBackground = styled.div<FixedBackgroundPropsType>`
@@ -379,7 +380,7 @@ const FixedBackground = styled.div<FixedBackgroundPropsType>`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-image: url('//${conf.assetsURL}/top/${(props) => props.host}/bg.svg');
+  background-image: url('//${conf.assetsURL}/cover/${(props) => props.ch}/bg.svg');
   background-size: 900px;
   background-position: 90% 30%;
   background-repeat: no-repeat;
@@ -609,6 +610,9 @@ const DomainProfile = styled.div<LayoutPropsType>`
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid ${styles.borderColor};
   border-radius: ${styles.doubleSize}px;
+  .DomainProfileDescTitle {
+    padding-bottom: ${styles.doublePadding}px;
+  }
   @media (max-width: ${styles.spLayoutWidth}px) {
     padding: ${styles.sectionPadding}px ${styles.sectionPadding / 2}px;
     margin-top: 0;
@@ -617,7 +621,15 @@ const DomainProfile = styled.div<LayoutPropsType>`
   }
 `;
 
+const FlexProfile = styled(Flex)`
+  padding-top: ${styles.doublePadding}px;
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    flex-flow: column nowrap;
+  }
+`;
+
 const DomainProfileTitle = styled(Title)`
+  padding-bottom: ${styles.basePadding}px;
   line-height: 60px;
   border-bottom: 1px solid ${styles.borderColor};
   font-weight: 400;
@@ -635,8 +647,10 @@ const DomainProfileImage = styled.img`
 
 const Description = styled.div`
   width: calc(100% - ${styles.imageWidth}px);
-  padding-top: ${styles.doublePadding}px;
   padding-left: ${styles.basePadding}px;
+  p.description {
+    padding-top: ${styles.doublePadding}px;
+  }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
     width: 100%;
   }

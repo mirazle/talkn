@@ -3,6 +3,14 @@ import fs from 'fs';
 import conf from 'common/conf';
 
 export default class Fs {
+  getInterview(ch): string {
+    try {
+      return fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/top.json`, 'utf8');
+    } catch (err) {
+      return '';
+    }
+  }
+
   writeFavicon(fileName, binary) {
     const writeFileName = `${conf.serverAssetsPath}icon/${fileName}`;
     if (binary) {

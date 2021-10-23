@@ -157,11 +157,14 @@ class Express {
             res.sendFile(conf.serverCoverPath + req.originalUrl.replace('/', ''));
             return true;
           } else {
+            const ch = req.originalUrl;
             // Thread
-            Logics.db.threads.findOne(req.originalUrl, { buildinSchema: true }).then((result) => {
-              console.log(result);
+            Logics.db.threads.findOne(ch, { buildinSchema: true }).then((result) => {
+              const interview = JSON.parse(Logics.fs.getInterview(ch));
+
               res.render('cover/', {
                 language,
+                interview,
                 thread: result.response,
                 domain: conf.domain,
                 apiURL: conf.apiURL,

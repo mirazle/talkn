@@ -13,8 +13,9 @@ export default class Html {
       contentType: { type: String, default: 'talkn/ch' },
       serverMetas: {
         'title': { type: String, default: 'talkn' },
-        'keywords': { type: String, default: 'talkn, blockchain, art, internet' },
+        'keywords': { type: String, default: 'talkn, live communication, live cnt, live magazine, blockchain, ai, art, internet' },
         'description': { type: String, default: conf.description },
+        'talkn:config': { type: String, default: '' },
         'og:type': { type: String, default: '' },
         'og:title': { type: String, default: 'talkn' },
         'og:image': { type: String, default: ogpImage },

@@ -35,7 +35,15 @@ export default class Thread extends Schema {
     return {
       [Thread.findTypeHtml]: ['text/html'],
       [Thread.findTypeMusic]: ['audio', 'audio/mpeg', 'audio/mp4', 'audio/x-wav', 'audio/midi', 'application/x-smaf'],
-      [Thread.findTypeVideo]: ['video', 'video/mpeg', 'video/mp4', 'video/quicktime', 'video/x-ms-wmv', 'application/x-shockwave-flash', 'video/3gpp2'],
+      [Thread.findTypeVideo]: [
+        'video',
+        'video/mpeg',
+        'video/mp4',
+        'video/quicktime',
+        'video/x-ms-wmv',
+        'application/x-shockwave-flash',
+        'video/3gpp2',
+      ],
     };
   }
   static getDefaultTitle() {
@@ -43,7 +51,7 @@ export default class Thread extends Schema {
   }
 
   static getDefaultFavicon() {
-    return 'user.png';
+    return `https://${conf.assetsURL}/favicon.ico`;
   }
 
   static isWindowObj(params) {
@@ -217,7 +225,13 @@ export default class Thread extends Schema {
 
   static getFaviconFromWindow(window) {
     if (window && window.document) {
-      const u = window.document.evaluate("//link[contains(@rel,'icon')or(contains(@rel,'ICON'))][1]/@href", window.document, null, 2, null).stringValue;
+      const u = window.document.evaluate(
+        "//link[contains(@rel,'icon')or(contains(@rel,'ICON'))][1]/@href",
+        window.document,
+        null,
+        2,
+        null
+      ).stringValue;
       const h = 'http://';
       const hs = 'https://';
       const l = location.host;

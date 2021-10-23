@@ -61,13 +61,9 @@ const Component: React.FC<ArticleOrderType> = ({ ch, title, articles }) => {
     }
   }, [articles.length, window.innerWidth]);
 
-  useEffect(() => {
-    window.talknArticles[ch] = '';
-  }, []);
-
   return (
     <Container focusHeight={articleHeights[focusIndex]} onMouseLeave={handleOnMouseLeave}>
-      <TitleCustom lv={3}>{title}</TitleCustom>
+      <TitleCustom type={'ArticleOrder'}>{title}</TitleCustom>
       <ArrowRightButton
         active={active}
         {...activeOnEvents}
@@ -139,13 +135,8 @@ const ArticleOrder = styled.ol<ArticleOrderPropeType>`
   }
 `;
 
-type TitleCustomPropsType = {
-  lv: number;
-};
-
-const TitleCustom = styled(Title)<TitleCustomPropsType>`
+const TitleCustom = styled(Title)`
   text-indent: 32px;
-  background: red;
 `;
 
 const ArticleList = styled.li`
