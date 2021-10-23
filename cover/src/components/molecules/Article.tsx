@@ -82,7 +82,7 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
       <Cover onMouseOver={handleOnMouseOver}>
         <Header overflowTitle={marqueeOn}>
           <Favicon src={article.favicon} className={'Favicon'} />
-          <Title lv={4} className={'Title'}>
+          <Title type={'Article'} className={'Title'}>
             {article.title}
           </Title>
           <LiveCnt className={'LiveCnt'}>{article.liveCnt}</LiveCnt>
@@ -98,7 +98,7 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
         <a href={`/${article.ch}`}>
           <Header ref={headerRef} overflowTitle={marqueeOn}>
             <Favicon src={article.favicon} className={'Favicon'} />
-            <Title lv={4} className={'Title'}>
+            <Title type={'Article'} className={'Title'}>
               {article.title}
             </Title>
             <LiveCnt className={'LiveCnt'}>{article.liveCnt}</LiveCnt>

@@ -9,6 +9,7 @@
     <script id="talknTop" async type="text/javascript" src="https://<%= coverURL %>/talkn.cover.js"></script>
     <script type="text/javascript" async src="//<%= extURL %>"></script>
     <script type="text/javascript">
+      window.talknArticles = JSON.parse('<%= JSON.stringify(interview) %>'.replace(/&#34;/g, '"'));
       const onServiceWorker = () => {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker
