@@ -129,7 +129,7 @@ const TalknContainer: React.FC<Props> = (props) => {
       });
     }
   }, [interviewRef.current && interviewRef.current.clientHeight]);
-  console.log(cover);
+
   useEffect(() => {
     if (resumeRef.current && cover.sections.length > 0) {
       if (styles.spLayoutWidth < window.innerWidth) {
