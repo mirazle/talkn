@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import Title from 'cover/components/atoms/Title';
 import * as styles from 'cover/styles';
 
 type Props = {};
@@ -9,7 +10,10 @@ type Props = {};
 const Component: FunctionComponent<Props> = () => {
   return (
     <Container>
-      <h2>- cover.talkn.io -</h2>
+      <Title type="Section">- cover.talkn.io -</Title>
+      <br />
+      <br />
+      <br />
       <h3>Concept</h3>
       <Message>
         <p>

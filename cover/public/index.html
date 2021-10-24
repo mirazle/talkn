@@ -8,8 +8,13 @@
     <script src="./workerDom.mjs" type="module"></script>
     <script src="./workerDom.js" nomodule defer></script>
     <script type="text/javascript">
-      window.talknCover = { css: `
-         * {
+      window.talknCover = {
+  "version": "1.0.0",
+  "createTime": "2021/10/15",
+  "css": "default.css",
+  "styles": `
+
+    * {
       box-sizing: border-box;
       font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Hiragino Sans','Noto Sans CJK JP','Original Yu Gothic', 'Yu Gothic',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Sans Emoji';
       letter-spacing: 2px;
@@ -83,10 +88,7 @@
         line-height: 40px;
       }
     }
-      `, interview: {
-  "version": "1.0.0",
-  "createTime": "2021/10/15",
-  "css": "default.css",
+  `,
   "head": {
     "nodes": [
       {
@@ -248,8 +250,7 @@
       ],
     },
   ]
-}
-      }
+};
 
 
     </script>
@@ -301,7 +302,7 @@
     <link rel="shortcut icon" href="//assets.localhost/favicon.ico" />
     <link rel="canonical" href="https://localhost" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
-
+    <link rel="stylesheet" href="https://assets.talkn.io/cover/www.sunbridge.com/interview/default.css" />
     <style amp-boilerplate>
       body {
         -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
