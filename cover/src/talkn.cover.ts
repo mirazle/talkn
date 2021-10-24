@@ -8,7 +8,7 @@ import Window from 'cover/Window';
 declare global {
   interface Window {
     talknWindow: any;
-    talknArticles: any;
+    talknCover: { interview: any; css: string };
     talknMedia: any;
     talknAPI: any;
     Youtube: any;

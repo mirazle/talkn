@@ -3,9 +3,11 @@ import fs from 'fs';
 import conf from 'common/conf';
 
 export default class Fs {
-  getInterview(ch): string {
+  getInterview(ch): any {
     try {
-      return fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/top.json`, 'utf8');
+      const interview = JSON.parse(fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/top.json`, 'utf8'));
+      const css = fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/default.css`, 'utf8');
+      return { interview, css };
     } catch (err) {
       return '';
     }

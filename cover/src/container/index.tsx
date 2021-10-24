@@ -10,6 +10,7 @@ import handles from 'client/actions/handles';
 import mapToStateToProps from 'client/mapToStateToProps/';
 
 import Flex from 'cover/components/atoms/Flex';
+import Node, { Props as NodeProps } from 'cover/components/atoms/Node';
 import P from 'cover/components/atoms/P';
 import Title from 'cover/components/atoms/Title';
 import { ArticleType } from 'cover/components/molecules/Article';
@@ -47,18 +48,54 @@ type NavigationLayout = {
   paddingLeft: number;
 };
 
+type InterviewSectionType = {
+  title: string;
+  resume: string;
+  flow: string;
+  nodes: NodeProps[];
+};
+
+type InterviewType = {
+  version: string;
+  createTime: string;
+  css: string;
+  head: {
+    nodes: NodeProps[];
+  };
+  sections: InterviewSectionType[] | [];
+};
+
+type CoverType = {
+  interview: InterviewType;
+  css: string;
+};
+
+const coverInit: CoverType = {
+  css: '',
+  interview: {
+    version: '',
+    createTime: '',
+    css: '',
+    head: {
+      nodes: [],
+    },
+    sections: [],
+  },
+};
+
 const interviewVerticalInitial = { offsetTop: 0, offsetBottom: 0 };
 let interviewVerticalDatas: InterviewVerticalDatas[] = [];
 const TalknContainer: React.FC<Props> = (props) => {
   const { api, state } = props;
   const [dataMount, setMountData] = useState(false);
+  const [cover, setCover] = useState<CoverType>(coverInit);
   const [interviewPointer, setInterviewPointer] = useState<number | undefined>();
   const [navigationLayout, setNavigationLayout] = useState<NavigationLayout | undefined>();
 
   const interviewRef = useRef<HTMLElement>();
   const resumeRef = useRef<HTMLElement>();
   const { app, ranks: articles, thread } = state;
-  const { ch, host, favicon, serverMetas } = thread;
+  const { ch, favicon, serverMetas } = thread;
 
   const handleOnClickNav = (chapterIndex: number) => {
     if (interviewRef.current) {
@@ -100,9 +137,9 @@ const TalknContainer: React.FC<Props> = (props) => {
       });
     }
   }, [interviewRef.current && interviewRef.current.clientHeight]);
-
+  console.log(cover);
   useEffect(() => {
-    if (resumeRef.current) {
+    if (resumeRef.current && cover.interview.sections.length > 0) {
       if (styles.spLayoutWidth < window.innerWidth) {
         const resumeElm = resumeRef.current;
         const resumeStyle = getComputedStyle(resumeElm);
@@ -128,169 +165,69 @@ const TalknContainer: React.FC<Props> = (props) => {
         });
       }
     }
-  }, [window.innerWidth]);
+  }, [window.innerWidth, cover.interview.sections.length]);
 
   useEffect(() => {
-    console.log(window.talknArticles);
+    console.log(window.talknCover);
+    setCover(window.talknCover);
+  }, [window.talknCover]);
+
+  useEffect(() => {
     window.addEventListener('scroll', useCallbackScroll);
   }, []);
 
   return (
     <>
-      <FixedBackground ch={ch} />
+      <style type="text/css">{cover.css}</style>
       <Container>
         <Header>
-          <A href={`https:/${ch}`}>
-            {app.tuned !== '' && <Img src={thread.favicon} width={30} height={30} />}
-            {app.tuned !== '' && <Title type={'AppHeader'}>{ch === '/' ? 'talkn' : ch}</Title>}
-          </A>
+          {app.tuned !== '' && (
+            <A href={`https:/${ch}`}>
+              {<Img src={favicon} width={30} height={30} />}
+              {<Title type={'AppHeader'}>{ch === '/' ? 'talkn' : ch}</Title>}
+            </A>
+          )}
         </Header>
 
         <BaseBoard>
-          <TopSection>
-            <TitleBoard>
-              <Title type={'ServiceHeader'}>
-                ユーザーの声で生まれ変わる！
-                <br />
-                自社プロダクト「SmartVisca」
-                <br />
-                リニューアル開発の裏側に迫りました。
-              </Title>
-              <time>On 2021/10/15</time>
-            </TitleBoard>
-          </TopSection>
+          {cover.interview.head.nodes.map((node: NodeProps, index) => (
+            <Node key={`${node.type}${index}`} type={node.type} props={node.props} nodes={node.nodes} />
+          ))}
           <ArticleOrderBg>
             <ArticleOrder ch={ch} title={'製品のご紹介'} articles={articles} />
           </ArticleOrderBg>
         </BaseBoard>
         <WhiteBoard>
           <Main navigationLayout={navigationLayout}>
-            <Interview className={'Interview'} ref={interviewRef} navigationLayout={navigationLayout}>
-              <Section number={1} title={'プロダクト本部　アーキテクト 澤野 弘幸 (Hiroyuki Sawano)'}>
-                <Flex flow="column">
-                  <img src={`//${conf.assetsURL}/cover/${ch}/human01.webp`} width={'100%'} />
-                  <P>
-                    <br />
-                    2012年6月にサンブリッジに入社。Salesforce一体型名刺管理ソリューション「SmartVisca」の Salesforce AppExchange
-                    への公開に尽力する。以降、自社プロダクト事業の開発にあたり、新規プロダクトのリリース、バージョンアップに務める。
-                  </P>
-                </Flex>
-              </Section>
-              <Section number={2} title={'まずは澤野さんの現在の業務内容を教えてください。'}>
-                <P>
-                  サンブリッジのプロダクト本部に所属し、主力の自社プロダクトである「SmartVisca」の開発を担っており、アーキテクト/プログラマーを主な業務としています。
-                </P>
-              </Section>
-              <Section
-                number={3}
-                title={
-                  '澤野さんはプロダクト本部の中でも特に社歴の長いメンバーだと聞いています。ぜひサンブリッジに入社するまでの経緯を教えてください。'
-                }>
-                <P>
-                  前職でエンジニアとしてSalesforceに関連する仕事をしていたため、サンブリッジのことは知っていました。セールスフォース・ドットコムの展示会に参加した際、出店していたサンブリッジ社員がお揃いのTシャツを着ていたことから、自由で楽しそうな会社だと感じ、興味を持ちました。その後、サンブリッジに業務委託として関わり始め、正社員として2012年に入社しました。
-                  入社前のイメージ通り、良い意味で仕事とプライベートの垣根なく、メンバーの裁量に任せられていることも多いため、働きやすさを感じています。
-                </P>
-              </Section>
-              <Section number={4} title={'10年弱、SmartViscaを見続けてきた澤野さんから、改めて「SmartVisca」の説明をお願いします。'}>
-                <P>
-                  SmartViscaは、名刺をスキャナーやスマートフォンで読み取るだけで、高速かつ正確にデジタル化するSalesforce一体型名刺管理ソリューションです。
-                </P>
-                <img src={`//${conf.assetsURL}/cover/${ch}/desc01.webp`} width={'75%'} />
-                <P>
-                  2018年には、最も売れたAppExchangeアプリのランキングで中小企業部門と大企業部門でそれぞれ第2位と第1位を獲得しました。他名刺管理ツールと異なる点は、Salesforce
-                  Platform上で構築されていることです。Salesforceを活用する上で、不可欠な顧客データベースを整備するための機能が全て備わっています。そのため、外出先や在宅勤務でも手軽に正確な顧客データを用いて、営業やマーケティングをはじめあらゆる企業活動に活用できます。個人的に、昔からネットワーク上で情報を収集検索できるサービスに関心があったので、ネットワークで人の情報が集積される面白さをSmartViscaに見出しています。
-                </P>
-              </Section>
-              <Section number={5} title={'2021年冬のタイミングで、SmartViscaをバージョンアップするに至った理由を教えてください。'}>
-                <P>
-                  コロナ禍前には新しいプロダクトの開発を検討しており、既存のSmartViscaのバージョンアップの予定はありませんでした。しかし、コロナ禍で対面での名刺交換をする機会が減ったことから、それに代わるような、オンライン上で名刺交換が完了できるツールの開発を検討し始めました。そこで、既存製品のSmartViscaにその機能を持たせることに決めたのです。
-                  <b>私含めチームメンバーはSmartViscaそのものに愛着があるので、嬉しい意思決定でした。</b>
-                </P>
-              </Section>
-              <Section number={6} title={'今回のバージョンアップで、これまでのSmartViscaと何が変わるのでしょうか？'}>
-                <P>
-                  <b>単なる名刺情報を管理するツールから、より詳細なプロフィール情報を管理できるツールに変わります。</b>
-                  例えば、対面の打ち合わせ時に渡していた名刺上の情報や、アイスブレイクで使われていたような自己紹介の内容等を「プロフィール情報」としてオンライン上で相手に提示することが可能になります。
-                </P>
-                <P>
-                  また、社外の人だけでなく、自分自身や社内の人のプロフィールも登録可能にすることで、
-                  <b>人と人との繋がりがビジネスシーンで活用されることを目指しています。</b>
-                  例えば、取引先との（オンライン上の）コミュニケーション履歴を残していくことで、コンタクトをとりたい人がいた場合、その人とすでに面識がある人が社内にいるのか、それが誰なのか、を調べることもできます。
-                </P>
-              </Section>
-              <Section number={7} title={'開発を進める上で、困難なことを教えてください。'}>
-                <P>
-                  最初のリリースから10年ほど経過して相当の数のお客様にインストールされて使われています。製品仕様にもその時々の要件があって取り入れています。そういった仕様の経緯を新しく参加されたメンバーにも漏れなく継承していくことには腐心しています。幸い、Github、JIRA、CircleCIなど、継続的な開発を支援するツールが利用できるようになって、それらのことも自動化されて容易になってきています。
-                </P>
-              </Section>
-              <Section number={8} title={'開発を進める上で、大切にしていることがあれば教えてください。'}>
-                <P>
-                  顧客視点に立った開発を大切にしています。プロダクト本部の統括である矢野は特に顧客意識が強く、ユーザーヒアリングの結果をもとにSmartViscaのあり方について、フロントメンバーだけでなく開発メンバーも含め議論する機会が多くあります。
-                </P>
-                <P>
-                  私はサンブリッジに入社するまでパッケージ開発の経験がほとんどで、エンドユーザーの声を直接聞く機会があまりありませんでした。だからこそ、ユーザーの声が聞ける今、お客様の要望をどのようにプロダクトにフィードバックしていくかを、一層大切にしながら開発を進めています。
-                  今回のバージョンアップの内容も、SmartViscaのユーザーヒアリングをした結果、要件として項目に上がってきたものをベースにしています。
-                </P>
-                <P>
-                  例えば、名刺を取り込んだ後すぐにデジタル化して欲しいという要望がユーザーからありました。これまでは名刺をOCR（※2）で取り込んだ後、役職や部署名に誤りがないか、人が目視で確認してからデジタル化する必要があり、長い時には約1日かかっていました。今回のバージョンアップで精度が高いOCRを入れたことで、人の目視確認が不要となり、OCRにかけた直後にデジタル化することが可能になりました。また、OCRだけの納品をオプションとしたこともユーザーの声がきっかけです。
-                  一方でお客様の要望を言葉通りに受け取ったり、拡大解釈したりしないように気をつけています。
-                  <b>
-                    「お客様は何を本当に求めているのか、それは何故なのか。」言葉を咀嚼し、その裏にある「なぜ」を考えることで、顧客の本質的な課題解決を目指しています。
-                  </b>
-                </P>
-                <Annotation>
-                  　　※2.Optical Character Recognition
-                  <br />
-                  活字、手書きテキストの画像を文字コードの列に変換するソフトウェアのこと
-                </Annotation>
-              </Section>
-
-              <Section number={9} title={'最後にバージョンアップしたSmartViscaリリースに向けての意気込みをお願いします！'}>
-                <P>
-                  「名刺管理」ではなく「プロフィール管理」ツールとして活用いただくために、SFA（Sales Force
-                  Automation）との連携を強化しています。この機能は多くのお客様に利用いただけると考えられるので、既存のお客様だけでなく、ターゲットユーザーを広げていきたいと思っています。新しい類似製品を提供するベンダーも台頭してきている中で、
-                  <b>
-                    今回のバージョンアップによってニューノーマル時代に適応したプロダクトとして新規・既存のユーザ様にも共感・評価いただけるものと確信しています。
-                  </b>
-                </P>
-              </Section>
+            <Interview className={'Interview'} ref={interviewRef}>
+              {cover.interview.sections.map(({ title, flow, nodes }, index) => {
+                return (
+                  <Section key={`Section${index}`} number={index + 1} title={title} flow={flow}>
+                    {nodes.map((node: NodeProps, index) => (
+                      <Node key={`${node.type}${index}`} type={node.type} props={node.props} nodes={node.nodes} />
+                    ))}
+                  </Section>
+                );
+              })}
             </Interview>
             <Navigation ref={resumeRef} navigationLayout={navigationLayout}>
               <Title type={'Resume'}>- 目次 -</Title>
-              <NavigationOrder interviewPointer={interviewPointer}>
-                <li>
-                  <a onClick={() => handleOnClickNav(0)}>01.人物紹介</a>
-                </li>
-                <li>
-                  <a onClick={() => handleOnClickNav(1)}>02.業務内容</a>
-                </li>
-                <li>
-                  <a onClick={() => handleOnClickNav(2)}>03.入社の経緯</a>
-                </li>
-                <li>
-                  <a onClick={() => handleOnClickNav(3)}>04.Smart Viscaとは</a>
-                </li>
-                <li>
-                  <a onClick={() => handleOnClickNav(4)}>05.バージョンアップの理由</a>
-                </li>
-                <li>
-                  <a onClick={() => handleOnClickNav(5)}>06.バージョンアップで変わること</a>
-                </li>
-                <li>
-                  <a onClick={() => handleOnClickNav(6)}>07.開発で困難なこと</a>
-                </li>
-                <li>
-                  <a onClick={() => handleOnClickNav(7)}>08.開発ポリシー</a>
-                </li>
-
-                <li>
-                  <a onClick={() => handleOnClickNav(8)}>09.リリースへの意気込み</a>
-                </li>
-              </NavigationOrder>
+              {cover.interview.sections.length > 0 && (
+                <NavigationOrder interviewPointer={interviewPointer}>
+                  {cover.interview.sections.map(({ resume }, index) => {
+                    const number = String(index).length === 1 ? `0${index}` : index;
+                    return (
+                      <li key={`${resume}${index}`}>
+                        <a onClick={() => handleOnClickNav(index)}>{`${number}.${resume}`}</a>
+                      </li>
+                    );
+                  })}
+                </NavigationOrder>
+              )}
             </Navigation>
           </Main>
 
-          <DomainProfile navigationLayout={navigationLayout}>
+          <DomainProfile>
             <DomainProfileTitle className={'DomainProfileTitle'} type={'Section'} underline>
               Domain Profile
             </DomainProfileTitle>
@@ -369,32 +306,6 @@ const Container = styled.div`
   }
 `;
 
-type FixedBackgroundPropsType = {
-  ch: string;
-};
-
-const FixedBackground = styled.div<FixedBackgroundPropsType>`
-  z-index: -1;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url('//${conf.assetsURL}/cover/${(props) => props.ch}/bg.svg');
-  background-size: 900px;
-  background-position: 90% 30%;
-  background-repeat: no-repeat;
-  @media (max-width: ${styles.spLayoutWidth}px) {
-    background-size: 90%;
-    background-position: 200% 30%;
-    background-repeat: no-repeat;
-  }
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    background-size: 700px;
-    background-position: 10% 40%;
-  }
-`;
-
 const Header = styled.header`
   box-sizing: border-box;
   z-index: 20;
@@ -433,42 +344,6 @@ const ArticleOrderBg = styled.div`
   border-left: 1px solid ${styles.borderColor};
 `;
 
-const TopSection = styled.section`
-  display: flex;
-  flex-flow: column wrap;
-  align-items: flex-start;
-  justify-content: center;
-  width: 100%;
-  max-width: ${styles.appWidth}px;
-  height: 600px;
-  min-height: 400px;
-  color: #fff;
-`;
-
-const TitleBoard = styled.div`
-  padding-top: ${styles.basePadding}px;
-  padding-right: ${styles.basePadding}px;
-  padding-bottom: ${styles.basePadding}px;
-  padding-left: ${styles.doublePadding}px;
-  margin-left: ${styles.doubleMargin}px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid #e60012;
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    padding-left: ${styles.basePadding}px;
-    h2 {
-      letter-spacing: 1px;
-    }
-  }
-  time {
-    display: block;
-    text-align: right;
-    font-style: italic;
-    font-size: 12px;
-    line-height: 18px;
-    color: #888;
-  }
-`;
-
 const Img = styled.img`
   margin-right: 15px;
   margin-left: -15px;
@@ -492,7 +367,7 @@ type MainPropsType = {
 
 const Main = styled.main<MainPropsType>`
   display: flex;
-  flex-flow: ${(props) => (props.navigationLayout ? 'row nowrap' : 'column wrap')};
+  flex-flow: ${(props) => (props.navigationLayout ? 'row nowrap' : 'column nowrap')};
   align-items: flex-start;
   justify-content: flex-start;
   width: 100%;
@@ -503,16 +378,10 @@ const Main = styled.main<MainPropsType>`
   }
 `;
 
-type LayoutPropsType = {
-  ref?: any;
-  navigationLayout: NavigationLayout;
-};
-
 const layoutPaddingLeft = styles.doublePadding;
-const layoutCss = css<LayoutPropsType>`
+const Interview = styled.div<{ ref: any }>`
+  flex: 1 1 auto;
   overflow: hidden;
-  width: 100%;
-  max-width: ${(props) => getLayoutWidth(props)};
   height: auto;
   padding-right: 0;
   padding-left: ${layoutPaddingLeft}px;
@@ -526,19 +395,12 @@ const layoutCss = css<LayoutPropsType>`
   }
 `;
 
-const Interview = styled.div<LayoutPropsType>`
-  ${layoutCss}
-`;
-
-type NavigationPropsType = LayoutPropsType;
-
-const Navigation = styled.nav<NavigationPropsType>`
+const Navigation = styled.nav<{ navigationLayout: NavigationLayout }>`
+  flex: 1 1 auto;
   z-index: 0;
   position: sticky;
-  top: ${styles.appHeaderHeight + styles.baseMargin}px;
   width: ${(props) => (props.navigationLayout ? `${props.navigationLayout.width}px` : 'auto')};
   min-width: ${(props) => (props.navigationLayout ? `${props.navigationLayout.width}px` : 'auto')};
-  max-width: ${(props) => (props.navigationLayout ? `${props.navigationLayout.width}px` : 'auto')};
   padding-top: ${styles.basePadding}px;
   padding-right: ${styles.basePadding}px;
   padding-bottom: ${styles.doublePadding}px;
@@ -583,7 +445,7 @@ type NavigationOrderPropsType = {
   interviewPointer: number;
 };
 
-const NavigationOrder = styled.nav<NavigationOrderPropsType>`
+const NavigationOrder = styled.ol<NavigationOrderPropsType>`
   li:nth-child(${(props) => props.interviewPointer + 1}) a {
     font-weight: 400;
     letter-spacing: 1.5px;
@@ -596,9 +458,7 @@ const A = styled.a`
   justify-content: center;
 `;
 
-const Annotation = styled.span``;
-
-const DomainProfile = styled.div<LayoutPropsType>`
+const DomainProfile = styled.div`
   overflow: hidden;
   width: 100%;
   max-width: ${styles.appWidth}px;
@@ -721,6 +581,7 @@ const TwitterIcon = styled.i`
   height: 14px;
 `;
 
+/*
 const getLayoutWidth = (props: LayoutPropsType) => {
   if (props.navigationLayout) {
     const calcedWidth = props.navigationLayout.width + props.navigationLayout.paddingRight + props.navigationLayout.paddingLeft;
@@ -729,5 +590,6 @@ const getLayoutWidth = (props: LayoutPropsType) => {
     return '100%';
   }
 };
+*/
 
 export default connect(mapToStateToProps, { ...handles })(TalknContainer);

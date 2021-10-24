@@ -160,11 +160,12 @@ class Express {
             const ch = req.originalUrl;
             // Thread
             Logics.db.threads.findOne(ch, { buildinSchema: true }).then((result) => {
-              const interview = JSON.parse(Logics.fs.getInterview(ch));
+              const { interview, css } = Logics.fs.getInterview(ch);
 
               res.render('cover/', {
                 language,
                 interview,
+                css,
                 thread: result.response,
                 domain: conf.domain,
                 apiURL: conf.apiURL,

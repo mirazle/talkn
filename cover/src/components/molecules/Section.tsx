@@ -7,12 +7,13 @@ import * as styles from 'cover/styles';
 type Props = {
   number: number;
   title: string;
+  flow?: string;
   children: React.ReactNode;
 };
 
 const assignZero = (number: number): string => (String(number).length === 1 ? `0${number}` : String(number));
 
-const Component: React.FC<Props> = ({ number, title, children }) => {
+const Component: React.FC<Props> = ({ number, title, flow = 'column wrap', children }) => {
   return (
     <Container className="Section">
       <UpperLeft className="upperLeft">
@@ -22,7 +23,9 @@ const Component: React.FC<Props> = ({ number, title, children }) => {
         <Title type={'Section'}>{title}</Title>
       </UpperRight>
       <BottomLeft className="bottomLeft"></BottomLeft>
-      <BottomRight className="bottomRight">{children}</BottomRight>
+      <BottomRight className="bottomRight" flow={flow}>
+        {children}
+      </BottomRight>
     </Container>
   );
 };
@@ -84,8 +87,14 @@ const BottomLeft = styled.span`
     display: contents;
   }
 `;
-const BottomRight = styled.span`
+
+type BottomRightPropsType = {
+  flow: string;
+};
+
+const BottomRight = styled.span<BottomRightPropsType>`
   flex: 1 1 calc(100% - ${ChapterLeftWidth + InnerPadding * 2}px);
+  flex-flow: ${(props) => props.flow};
   padding: ${InnerPadding}px ${InnerPadding}px 0;
   border-left 1px solid ${styles.fontColor};
   @media (max-width: ${styles.spLayoutWidth}px) {
