@@ -206,7 +206,7 @@ const TalknContainer: React.FC<Props> = (props) => {
               {cover.sections.length > 0 && (
                 <NavigationOrder interviewPointer={interviewPointer}>
                   {cover.sections.map(({ resume }, index) => {
-                    const number = String(index).length === 1 ? `0${index}` : index;
+                    const number = index < 9 ? `0${index + 1}` : index + 1;
                     return (
                       <li key={`${resume}${index}`}>
                         <a onClick={() => handleOnClickNav(index)}>{`${number}.${resume}`}</a>
