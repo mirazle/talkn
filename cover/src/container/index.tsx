@@ -55,7 +55,7 @@ type InterviewSectionType = {
   nodes: NodeProps[];
 };
 
-type InterviewType = {
+type CoverType = {
   version: string;
   createTime: string;
   css: string;
@@ -65,22 +65,14 @@ type InterviewType = {
   sections: InterviewSectionType[] | [];
 };
 
-type CoverType = {
-  interview: InterviewType;
-  css: string;
-};
-
 const coverInit: CoverType = {
+  version: '',
+  createTime: '',
   css: '',
-  interview: {
-    version: '',
-    createTime: '',
-    css: '',
-    head: {
-      nodes: [],
-    },
-    sections: [],
+  head: {
+    nodes: [],
   },
+  sections: [],
 };
 
 const interviewVerticalInitial = { offsetTop: 0, offsetBottom: 0 };
@@ -139,7 +131,7 @@ const TalknContainer: React.FC<Props> = (props) => {
   }, [interviewRef.current && interviewRef.current.clientHeight]);
   console.log(cover);
   useEffect(() => {
-    if (resumeRef.current && cover.interview.sections.length > 0) {
+    if (resumeRef.current && cover.sections.length > 0) {
       if (styles.spLayoutWidth < window.innerWidth) {
         const resumeElm = resumeRef.current;
         const resumeStyle = getComputedStyle(resumeElm);
@@ -165,10 +157,9 @@ const TalknContainer: React.FC<Props> = (props) => {
         });
       }
     }
-  }, [window.innerWidth, cover.interview.sections.length]);
+  }, [window.innerWidth, cover.sections.length]);
 
   useEffect(() => {
-    console.log(window.talknCover);
     setCover(window.talknCover);
   }, [window.talknCover]);
 
@@ -190,7 +181,7 @@ const TalknContainer: React.FC<Props> = (props) => {
         </Header>
 
         <BaseBoard>
-          {cover.interview.head.nodes.map((node: NodeProps, index) => (
+          {cover.head.nodes.map((node: NodeProps, index) => (
             <Node key={`${node.type}${index}`} type={node.type} props={node.props} nodes={node.nodes} />
           ))}
           <ArticleOrderBg>
@@ -200,7 +191,7 @@ const TalknContainer: React.FC<Props> = (props) => {
         <WhiteBoard>
           <Main navigationLayout={navigationLayout}>
             <Interview className={'Interview'} ref={interviewRef}>
-              {cover.interview.sections.map(({ title, flow, nodes }, index) => {
+              {cover.sections.map(({ title, flow, nodes }, index) => {
                 return (
                   <Section key={`Section${index}`} number={index + 1} title={title} flow={flow}>
                     {nodes.map((node: NodeProps, index) => (
@@ -212,9 +203,9 @@ const TalknContainer: React.FC<Props> = (props) => {
             </Interview>
             <Navigation ref={resumeRef} navigationLayout={navigationLayout}>
               <Title type={'Resume'}>- 目次 -</Title>
-              {cover.interview.sections.length > 0 && (
+              {cover.sections.length > 0 && (
                 <NavigationOrder interviewPointer={interviewPointer}>
-                  {cover.interview.sections.map(({ resume }, index) => {
+                  {cover.sections.map(({ resume }, index) => {
                     const number = String(index).length === 1 ? `0${index}` : index;
                     return (
                       <li key={`${resume}${index}`}>
@@ -399,6 +390,7 @@ const Navigation = styled.nav<{ navigationLayout: NavigationLayout }>`
   flex: 1 1 auto;
   z-index: 0;
   position: sticky;
+  top: ${styles.appHeaderHeight + styles.baseMargin}px;
   width: ${(props) => (props.navigationLayout ? `${props.navigationLayout.width}px` : 'auto')};
   min-width: ${(props) => (props.navigationLayout ? `${props.navigationLayout.width}px` : 'auto')};
   padding-top: ${styles.basePadding}px;

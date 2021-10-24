@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { MediaTypeNews, MediaTypeSubdomains, NetworkList } from 'common/Networks';
 
+import Title from 'cover/components/atoms/Title';
 import BoxList from 'cover/components/molecules/BoxList';
 import * as styles from 'cover/styles';
 
@@ -19,7 +20,10 @@ const OtherContentsSection: FunctionComponent<Props> = () => {
 
   return (
     <Container>
-      <h2>- Other Contents -</h2>
+      <Title type="Section">- Other Contents -</Title>
+      <br />
+      <br />
+      <br />
       <ul>
         <li className="title">Talkn For</li>
         <BoxList label="User" theme="dark" href="https://www.talkn.io" />
@@ -43,8 +47,8 @@ export default OtherContentsSection;
 
 const Container = styled.section`
   display: flex;
-  flex-flow: row wrap;
-  align-items: flex-start;
+  flex-flow: column nowrap;
+  align-items: center;
   justify-content: center;
   width: 100%;
   padding: ${styles.sepPadding}px ${styles.doublePadding}px;
