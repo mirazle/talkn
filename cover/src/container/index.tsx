@@ -457,7 +457,7 @@ const DomainProfile = styled.div`
   height: auto;
   padding: ${styles.doublePadding}px;
   margin-top: ${styles.quadMargin}px;
-  margin-left: ${styles.quadMargin}px;
+  margin-left: ${styles.doubleMargin}px;
   margin-right: ${styles.baseMargin}px;
   margin-bottom: ${styles.quadMargin}px;
   background: rgba(255, 255, 255, 0.9);
