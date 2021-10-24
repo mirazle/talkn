@@ -506,6 +506,7 @@ const Description = styled.div`
     padding-top: ${styles.doublePadding}px;
   }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    padding-top: ${styles.doublePadding}px;
     width: 100%;
   }
 `;
