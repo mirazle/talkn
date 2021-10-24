@@ -9,19 +9,19 @@ export type Props = {
 };
 
 const isGangerousTag = (nodes) => {
-  if (nodes.indexOf('&lt;') >= 0 && nodes.indexOf('&lt;') >= 0) return true;
-  if (nodes.indexOf('<') >= 0 && nodes.indexOf('</') >= 0) return true;
-  if (nodes.indexOf('<') >= 0 && nodes.indexOf('/>') >= 0) return true;
-  return false;
+  if (nodes.indexOf('&lt;') >= 0 && nodes.indexOf('&gt;') >= 0) return 1;
+  if (nodes.indexOf('<') >= 0 && nodes.indexOf('</') >= 0) return 2;
+  if (nodes.indexOf('<') >= 0 && nodes.indexOf('/>') >= 0) return 3;
+  return 0;
 };
 
 const Component: React.FC<Props> = (params) => {
   const { type, nodes } = params;
   let { props } = params;
-
   if (typeof nodes === 'string' && isGangerousTag(nodes)) {
     if (props === undefined) props = {};
-    props.dangerouslySetInnerHTML = { __html: nodes };
+    const html = nodes.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+    props.dangerouslySetInnerHTML = { __html: html };
     return React.createElement(type, props);
   } else if (typeof nodes === 'object' && nodes.constructor.name === 'Array' && nodes.length > 0) {
     return React.createElement(

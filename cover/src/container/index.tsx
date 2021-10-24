@@ -458,6 +458,7 @@ const DomainProfile = styled.div`
   padding: ${styles.doublePadding}px;
   margin-top: ${styles.quadMargin}px;
   margin-left: ${styles.quadMargin}px;
+  margin-right: ${styles.baseMargin}px;
   margin-bottom: ${styles.quadMargin}px;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid ${styles.borderColor};
@@ -469,6 +470,7 @@ const DomainProfile = styled.div`
     padding: ${styles.sectionPadding}px ${styles.sectionPadding / 2}px;
     margin-top: 0;
     margin-left: 0;
+    margin-right: 0;
     border-radius: 0;
   }
 `;
