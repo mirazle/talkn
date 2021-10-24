@@ -73,6 +73,8 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
     if (headerRef.current) {
       const headerElm = headerRef.current;
       const titleElm = headerElm.children[1];
+      console.log(headerElm, titleElm);
+      console.log(titleElm.clientWidth, titleElm.scrollWidth);
       setMarqueeOn(titleElm.clientWidth < titleElm.scrollWidth);
     }
   }, []);
@@ -180,7 +182,7 @@ const Detail = styled.article<DetailPropsType>`
   transition-duration: ${(props) => (props.isFocus ? '300ms, 300ms, 0ms' : '0ms, 0ms, 0ms')};
   transform: ${(props) => (props.isFocus ? `scale(${articleOpenScale}) translate(0, 10px)` : 'scale(1) translate(0, 0)')};
   cursor: pointer;
-  h4 {
+  .Title {
     display: flex;
     ${(props) => (props.marqueeDuration ? marqueeCss : '')};
   }
@@ -202,7 +204,7 @@ const Header = styled.header<HeaderPropsType>`
   .Favicon {
     flex: 1 1 50px;
   }
-  .Title4 {
+  .Title {
     flex: 1 1 200px;
     max-width: 200px;
     text-align: center;
