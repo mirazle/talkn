@@ -26,7 +26,9 @@ const Container = styled.section`
   align-items: center;
   justify-content: flex-start;
   width: 100%;
+  max-width: ${styles.appWidth}px;
   height: 1680px;
+  margin: 0 auto;
   background: #111 url(https://assets.talkn.io/img/walk2.png) 16% 85% / 240px no-repeat;
   @media (max-width: ${styles.spLayoutWidth}px) {
     background: #111 url(https://assets.talkn.io/img/walk2.png) 50% 100% / 240px no-repeat;

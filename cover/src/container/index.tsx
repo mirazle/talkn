@@ -59,9 +59,7 @@ type CoverType = {
   version: string;
   createTime: string;
   css: string;
-  head: {
-    nodes: NodeProps[];
-  };
+  head: string;
   sections: InterviewSectionType[] | [];
 };
 
@@ -69,9 +67,7 @@ const coverInit: CoverType = {
   version: '',
   createTime: '',
   css: '',
-  head: {
-    nodes: [],
-  },
+  head: '',
   sections: [],
 };
 
@@ -179,11 +175,11 @@ const TalknContainer: React.FC<Props> = (props) => {
             </A>
           )}
         </Header>
-
+        <HeadEyeCatch className="HeadEyeCatch" bg={cover.head} />
         <BaseBoard>
-          {cover.head.nodes.map((node: NodeProps, index) => (
+          {/*cover.head.nodes.map((node: NodeProps, index) => (
             <Node key={`${node.type}${index}`} type={node.type} props={node.props} nodes={node.nodes} />
-          ))}
+          ))*/}
           <ArticleOrderBg>
             <ArticleOrder ch={ch} title={'製品のご紹介'} articles={articles} />
           </ArticleOrderBg>
@@ -315,6 +311,23 @@ const Header = styled.header`
   }
 `;
 
+const HeadEyeCatch = styled.div<{ bg: string }>`
+  width: 100%;
+  max-width: ${styles.appWidth}px;
+  height: 630px;
+  margin: 0 auto;
+  background-size: 100%;
+  background-image: url('${(props) => props.bg}');
+  background-position: 50%;
+  background-repeat: no-repeat;
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    height: 400px;
+  }
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    height: 300px;
+  }
+`;
+
 const BaseBoard = styled.div`
   display: flex;
   flex-flow: column wrap;
@@ -343,9 +356,9 @@ const Img = styled.img`
 
 const WhiteBoard = styled.div`
   display: flex;
-  flex-flow: row wrap;
-  align-items: flex-start;
-  justify-content: center;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: flex-start;
   width: 100%;
   height: auto;
   border-top: 1px solid ${styles.borderColor};
