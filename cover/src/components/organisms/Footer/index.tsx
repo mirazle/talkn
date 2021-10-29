@@ -24,4 +24,9 @@ const Component: FunctionComponent<Props> = () => {
 
 export default Component;
 
-const Footer = styled.footer``;
+const Footer = styled.footer`
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  background: #000;
+`;
