@@ -2,28 +2,7 @@
   "version": "1.0.0",
   "createTime": "2021/10/15",
   "css": "default.css",
-  "head": {
-    "nodes": [
-      {
-        "type": "div",
-        "props": { "id": "fixBackground" }
-      },
-      {
-        "type": "div",
-        "props": { "id": "appHeader" },
-        "nodes": [
-          {
-            "type": "h2",
-            "nodes": "ユーザーの声で生まれ変わる！<br />自社プロダクト「SmartVisca」<br />リニューアル開発の裏側に迫りました。"
-          },
-          {
-            "type": "time",
-            "nodes": "On 2021/10/15"
-          }
-        ]
-      }
-    ]
-  },
+  "head": "https://assets.talkn.io/cover/www.sunbridge.com/interview/bg01.png",
   "sections": [
     {
       "title": "プロダクト本部　アーキテクト 澤野 弘幸 (Hiroyuki Sawano)",
