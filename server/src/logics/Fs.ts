@@ -5,7 +5,7 @@ import conf from 'common/conf';
 export default class Fs {
   getInterview(ch): any {
     try {
-      const interview = JSON.parse(fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/top.json`, 'utf8'));
+      const interview = JSON.parse(fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/1.json`, 'utf8'));
       const css = fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/default.css`, 'utf8');
       return { interview, css };
     } catch (err) {
