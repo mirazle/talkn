@@ -140,7 +140,7 @@ const TalknContainer: React.FC<Props> = (props) => {
       const focusChildIndex = Array.from(headEyeCatchOrderRef.current.children).findIndex((child) => {
         return Number(child.getAttribute('data-no')) === window.talknInterviewPointer;
       });
-      console.log('focusChildIndex', focusChildIndex);
+
       if (focusChildIndex) {
         const oneWidth = window.innerWidth > styles.appWidth ? styles.appWidth : window.innerWidth;
         headEyeCatchOrderRef.current.scrollLeft = oneWidth * focusChildIndex;
@@ -213,17 +213,14 @@ const TalknContainer: React.FC<Props> = (props) => {
     _interviewEyeCatchs = _interviewEyeCatchs.reverse();
     setInterviewIndex(_interviewIndex);
     setInterviewEyeCatchs(_interviewEyeCatchs);
-    console.log(_interviewIndex, _interviewEyeCatchs, window.talknInterviewIndex, offset, limit);
   }, [window.talknInterviewIndex]);
 
   useEffect(() => {
     setInterviewIndexPointer(window.talknInterviewPointer);
-    console.log('window.talknInterviewPointer', window.talknInterviewPointer);
   }, [window.talknInterviewPointer]);
 
   useEffect(() => {
     setInterview(window.talknInterview);
-    console.log(window.talknInterview);
   }, [window.talknInterview]);
 
   useEffect(() => {
