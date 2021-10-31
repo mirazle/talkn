@@ -54,6 +54,8 @@ if (conf.domain === define.DEVELOPMENT_DOMAIN) {
   } else {
     ch = ch.replace(`https://${define.SUB_DOMAINS.COVER}.${define.DEVELOPMENT_DOMAIN}`, '');
   }
+} else {
+  ch = ch.replace(`https://${define.SUB_DOMAINS.COVER}.${define.PRODUCTION_DOMAIN}`, '');
 }
 
 const id = define.APP_TYPES.TOP;
