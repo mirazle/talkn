@@ -24,6 +24,7 @@ export const baseShadow = baseSize;
 export const baseShadowColor = '#aaa';
 export const markupColor = '#ddd';
 export const baseTextShadow = '1px 1px rgba(80, 80, 80, 1)';
+export const baseBoxShadow = '0px 0px 5px 0px rgba(200, 200, 200, 1)';
 export const transitionDuration = '300ms';
 export const fontColor = '#666';
 export const borderColor = '#eee';
@@ -32,6 +33,10 @@ export const tagBgColor = 'rgba(100, 100, 100, 0.9)';
 // Section
 export const sectionPadding = doubleSize;
 export const sectionMarginColumn = quadMargin;
+
+// Mnu.
+export const menuPcWidth = 520;
+export const menuTabWidth = 430;
 
 // App.
 export const baseHeight = 60;

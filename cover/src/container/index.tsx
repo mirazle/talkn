@@ -48,6 +48,18 @@ type NavigationLayout = {
   paddingLeft: number;
 };
 
+type InterviewIndexContentsType = {
+  no?: number;
+  title: string;
+  eyeCatch: string;
+  interview: string;
+};
+
+type InterviewIndexType = {
+  version: string;
+  contents: InterviewIndexContentsType[];
+};
+
 type InterviewSectionType = {
   title: string;
   resume: string;
@@ -55,7 +67,7 @@ type InterviewSectionType = {
   nodes: NodeProps[];
 };
 
-type CoverType = {
+type InterviewType = {
   version: string;
   createTime: string;
   css: string;
@@ -63,7 +75,7 @@ type CoverType = {
   sections: InterviewSectionType[] | [];
 };
 
-const coverInit: CoverType = {
+const interviewInit: InterviewType = {
   version: '',
   createTime: '',
   css: '',
@@ -71,15 +83,24 @@ const coverInit: CoverType = {
   sections: [],
 };
 
+const InterviewIndexContentsInit: InterviewIndexContentsType[] = [];
+const interviewIndexLimit = 10;
+
 const interviewVerticalInitial = { offsetTop: 0, offsetBottom: 0 };
 let interviewVerticalDatas: InterviewVerticalDatas[] = [];
 const TalknContainer: React.FC<Props> = (props) => {
   const { api, state } = props;
   const [dataMount, setMountData] = useState(false);
-  const [cover, setCover] = useState<CoverType>(coverInit);
+  const [interview, setInterview] = useState<InterviewType>(interviewInit);
+  const [interviewEyeCatchs, setInterviewEyeCatchs] = useState<InterviewIndexContentsType[]>(InterviewIndexContentsInit);
+  const [interviewIndex, setInterviewIndex] = useState<InterviewIndexContentsType[]>(InterviewIndexContentsInit);
+  const [interviewIndexPointer, setInterviewIndexPointer] = useState<number | undefined>();
+  const [openMenu, setOpenMenu] = useState(false);
   const [interviewPointer, setInterviewPointer] = useState<number | undefined>();
   const [navigationLayout, setNavigationLayout] = useState<NavigationLayout | undefined>();
 
+  const headEyeCatchOrderRef = useRef<HTMLElement>();
+  const menuOrderRef = useRef<HTMLElement>();
   const interviewRef = useRef<HTMLElement>();
   const resumeRef = useRef<HTMLElement>();
   const { app, ranks: articles, thread } = state;
@@ -91,6 +112,10 @@ const TalknContainer: React.FC<Props> = (props) => {
       const scrollToTop = scrollToElm.offsetTop - styles.appHeaderHeight - styles.baseSize;
       window.scrollTo({ top: scrollToTop, behavior: 'smooth' });
     }
+  };
+
+  const handleOnClickMenu = () => {
+    setOpenMenu(!openMenu);
   };
 
   const useCallbackScroll = useCallback(() => {
@@ -111,6 +136,25 @@ const TalknContainer: React.FC<Props> = (props) => {
   }, [articles.length]);
 
   useEffect(() => {
+    if (headEyeCatchOrderRef.current) {
+      const focusChildIndex = Array.from(headEyeCatchOrderRef.current.children).findIndex((child) => {
+        return Number(child.getAttribute('data-no')) === window.talknInterviewPointer;
+      });
+      console.log('focusChildIndex', focusChildIndex);
+      if (focusChildIndex) {
+        const oneWidth = window.innerWidth > styles.appWidth ? styles.appWidth : window.innerWidth;
+        headEyeCatchOrderRef.current.scrollLeft = oneWidth * focusChildIndex;
+      }
+    }
+  }, [headEyeCatchOrderRef.current, window.talknInterviewPointer]);
+
+  useEffect(() => {
+    if (menuOrderRef.current) {
+      menuOrderRef.current.scrollTop = -menuOrderRef.current.clientHeight;
+    }
+  }, [menuOrderRef.current]);
+
+  useEffect(() => {
     if (interviewRef.current) {
       Array.from(interviewRef.current.children).forEach((child: HTMLElement, index) => {
         if (!interviewVerticalDatas[index]) {
@@ -127,7 +171,7 @@ const TalknContainer: React.FC<Props> = (props) => {
   }, [interviewRef.current && interviewRef.current.clientHeight]);
 
   useEffect(() => {
-    if (resumeRef.current && cover.sections.length > 0) {
+    if (resumeRef.current && interview.sections.length > 0) {
       if (styles.spLayoutWidth < window.innerWidth) {
         const resumeElm = resumeRef.current;
         const resumeStyle = getComputedStyle(resumeElm);
@@ -153,11 +197,34 @@ const TalknContainer: React.FC<Props> = (props) => {
         });
       }
     }
-  }, [window.innerWidth, cover.sections.length]);
+  }, [window.innerWidth, interview.sections.length]);
 
   useEffect(() => {
-    setCover(window.talknCover);
-  }, [window.talknCover]);
+    const _offset = window.talknInterviewPointer - interviewIndexLimit / 2;
+    const offset = 0 <= _offset ? _offset : 0;
+    const limit = interviewIndexLimit;
+    const _interviewIndex = [...window.talknInterviewIndex.contents].reverse();
+    let _interviewEyeCatchs = [...window.talknInterviewIndex.contents]
+      .map((interviewIndex: InterviewIndexContentsType, index) => {
+        interviewIndex.no = index + 1;
+        return interviewIndex;
+      })
+      .splice(offset, limit);
+    _interviewEyeCatchs = _interviewEyeCatchs.reverse();
+    setInterviewIndex(_interviewIndex);
+    setInterviewEyeCatchs(_interviewEyeCatchs);
+    console.log(_interviewIndex, _interviewEyeCatchs, window.talknInterviewIndex, offset, limit);
+  }, [window.talknInterviewIndex]);
+
+  useEffect(() => {
+    setInterviewIndexPointer(window.talknInterviewPointer);
+    console.log('window.talknInterviewPointer', window.talknInterviewPointer);
+  }, [window.talknInterviewPointer]);
+
+  useEffect(() => {
+    setInterview(window.talknInterview);
+    console.log(window.talknInterview);
+  }, [window.talknInterview]);
 
   useEffect(() => {
     window.addEventListener('scroll', useCallbackScroll);
@@ -165,21 +232,41 @@ const TalknContainer: React.FC<Props> = (props) => {
 
   return (
     <>
-      <style type="text/css">{cover.css}</style>
+      <style type="text/css">{interview.css}</style>
       <Container>
+        <MenuOrder ref={menuOrderRef} openMenu={openMenu} focusMenuNo={interviewIndexPointer}>
+          {interviewIndex.map((contents, index) => (
+            <Title key={`Index${index}`} type="Index" className={`MenuList MenuList-${contents.no}`}>
+              <a href={`https://${conf.coverURL}${ch}${contents.no}`}>
+                #{contents.no} {contents.title}
+              </a>
+            </Title>
+          ))}
+        </MenuOrder>
         <Header>
+          <HeaderSide></HeaderSide>
           {app.tuned !== '' && (
             <A href={`https:/${ch}`}>
               {<Img src={favicon} width={30} height={30} />}
               {<Title type={'AppHeader'}>{ch === '/' ? 'talkn' : ch}</Title>}
             </A>
           )}
+          <HeaderSideMenu className={openMenu && 'open'} onClick={handleOnClickMenu}>
+            <div className="HeaderMenuLine" />
+            <div className="HeaderMenuLine" />
+            <div className="HeaderMenuLine" />
+          </HeaderSideMenu>
         </Header>
-        <HeadEyeCatch className="HeadEyeCatch" bg={cover.head} />
+
+        <HeadEyeCatchOrder ref={headEyeCatchOrderRef}>
+          {interviewIndex.map((index, i) => (
+            <HeadEyeCatchList key={`HeadEyeCatchList${i}`} className="HeadEyeCatchList" data-no={index.no} bg={index.eyeCatch}>
+              {index.no}
+              {index.title}
+            </HeadEyeCatchList>
+          ))}
+        </HeadEyeCatchOrder>
         <BaseBoard>
-          {/*cover.head.nodes.map((node: NodeProps, index) => (
-            <Node key={`${node.type}${index}`} type={node.type} props={node.props} nodes={node.nodes} />
-          ))*/}
           <ArticleOrderBg>
             <ArticleOrder ch={ch} title={'製品のご紹介'} articles={articles} />
           </ArticleOrderBg>
@@ -187,7 +274,7 @@ const TalknContainer: React.FC<Props> = (props) => {
         <WhiteBoard>
           <Main navigationLayout={navigationLayout}>
             <Interview className={'Interview'} ref={interviewRef}>
-              {cover.sections.map(({ title, flow, nodes }, index) => {
+              {interview.sections.map(({ title, flow, nodes }, index) => {
                 return (
                   <Section key={`Section${index}`} number={index + 1} title={title} flow={flow}>
                     {nodes.map((node: NodeProps, index) => (
@@ -199,9 +286,9 @@ const TalknContainer: React.FC<Props> = (props) => {
             </Interview>
             <Navigation ref={resumeRef} navigationLayout={navigationLayout}>
               <Title type={'Resume'}>- 目次 -</Title>
-              {cover.sections.length > 0 && (
+              {interview.sections.length > 0 && (
                 <NavigationOrder interviewPointer={interviewPointer}>
-                  {cover.sections.map(({ resume }, index) => {
+                  {interview.sections.map(({ resume }, index) => {
                     const number = index < 9 ? `0${index + 1}` : index + 1;
                     return (
                       <li key={`${resume}${index}`}>
@@ -273,7 +360,7 @@ const Container = styled.div`
   font-size: 16px;
   ol {
     padding: 0;
-    margin: 0;
+    margin: 0 auto;
   }
 
   * {
@@ -293,14 +380,56 @@ const Container = styled.div`
   }
 `;
 
+const MenuOrder = styled.div<{ ref: any; openMenu: boolean; focusMenuNo: number }>`
+  position: fixed;
+  z-index: 99;
+  top: ${styles.appHeaderHeight}px;
+  right: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background: #fff;
+  color: ${styles.fontColor};
+  width: ${styles.menuPcWidth}px;
+  height: calc(100% - ${styles.appHeaderHeight}px);
+  min-height: calc(100% - ${styles.appHeaderHeight}px);
+  max-height: calc(100% - ${styles.appHeaderHeight}px);
+  padding: ${styles.basePadding}px;
+  box-shadow: ${(props) => (props.openMenu ? styles.baseBoxShadow : 'none')};
+  transition: ${styles.transitionDuration};
+  transform: translate(${(props) => (props.openMenu ? 0 : `${styles.menuPcWidth}px`)}, 0px);
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    width: ${styles.menuTabWidth}px;
+    transform: translate(${(props) => (props.openMenu ? 0 : `${styles.menuTabWidth}px`)}, 0px);
+  }
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    width: 100%;
+    transform: translate(${(props) => (props.openMenu ? 0 : '100%')}, 0px);
+  }
+  .MenuList {
+    :hover {
+      font-weight: 300;
+      text-decoration: underline;
+    }
+  }
+  .MenuList-${(props) => props.focusMenuNo} {
+    font-weight: 300;
+  }
+`;
+
+const MenuList = styled.li``;
+
 const Header = styled.header`
   box-sizing: border-box;
-  z-index: 20;
+  z-index: 100;
   position: sticky;
   top: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
   height: ${styles.appHeaderHeight}px;
   background: rgba(255, 255, 255, 0.96);
@@ -311,15 +440,76 @@ const Header = styled.header`
   }
 `;
 
-const HeadEyeCatch = styled.div<{ bg: string }>`
+const HeaderSide = styled.div`
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+`;
+
+const HeaderSideMenu = styled.div`
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+  transition: ${styles.transitionDuration};
+  cursor: pointer;
+  .HeaderMenuLine {
+    width: 70%;
+    height: 1px;
+    margin: 5px;
+    background: ${styles.fontColor};
+    transition: ${styles.transitionDuration};
+  }
+  &.open {
+    .HeaderMenuLine:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+    .HeaderMenuLine:nth-child(2) {
+      transform: rotate(45deg) translate(0px, 0px);
+    }
+    .HeaderMenuLine:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -8px);
+    }
+  }
+`;
+
+const HeadEyeCatchOrder = styled.ol<{ ref: any }>`
+  overflow: scroll hidden;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
   width: 100%;
   max-width: ${styles.appWidth}px;
-  height: 630px;
+  height: 100%;
   margin: 0 auto;
+  scroll-snap-type: x mandatory;
+`;
+
+const HeadEyeCatchList = styled.li<{ bg: string }>`
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  min-width: 100%;
+  max-width: ${styles.appWidth}px;
+  height: 630px;
+  overflow: hidden;
+  text-align: right;
+  font-size: 100px;
+  scroll-snap-align: start;
   background-size: 100%;
   background-image: url('${(props) => props.bg}');
   background-position: 50%;
   background-repeat: no-repeat;
+  list-style: none;
   @media (max-width: ${styles.spLayoutWidth}px) {
     height: 400px;
   }
@@ -363,6 +553,9 @@ const WhiteBoard = styled.div`
   height: auto;
   border-top: 1px solid ${styles.borderColor};
   background: rgba(255, 255, 255, 0.96);
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    align-items: normal;
+  }
 `;
 
 type MainPropsType = {
@@ -439,10 +632,6 @@ const Navigation = styled.nav<{ navigationLayout: NavigationLayout }>`
     li {
       justify-content: center;
     }
-  }
-
-  @media (max-width: ${styles.spLayoutWidth}px) {
-    border-radius: 0;
   }
 `;
 

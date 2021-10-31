@@ -157,13 +157,25 @@ class Express {
             res.sendFile(conf.serverCoverPath + req.originalUrl.replace('/', ''));
             return true;
           } else {
-            const ch = req.originalUrl;
-            // Thread
-            Logics.db.threads.findOne(ch, { buildinSchema: true }).then((result) => {
-              const { interview, css } = Logics.fs.getInterview(ch);
+            const splitedUrl = req.originalUrl.split('/');
+            const splitedUrlLength = splitedUrl.length;
+            let ch = '/';
+            let interviewIndex = undefined;
+            if (splitedUrl[splitedUrlLength - 1] === '') {
+              ch = req.originalUrl;
+            } else {
+              const lastSlash = req.originalUrl.lastIndexOf('/');
+              ch = req.originalUrl.substr(0, lastSlash + 1);
+              interviewIndex = req.originalUrl.substr(lastSlash + 1, lastSlash);
+            }
 
+            Logics.db.threads.findOne(ch, { buildinSchema: true }).then((result) => {
+              const { index, interview, css } = Logics.fs.getInterview(ch, interviewIndex);
+
+              console.log('indexB:', index);
               res.render('cover/', {
                 language,
+                index,
                 interview,
                 css,
                 thread: result.response,

@@ -13,10 +13,10 @@ export type BootType = typeof define.APP_TYPES.API | typeof define.APP_TYPES.POR
 export type BootProtocolType = typeof Sequence.HTTPS_PROTOCOL | typeof Sequence.HTTP_PROTOCOL | typeof Sequence.TALKN_PROTOCOL;
 export type BootOptionParamsType = {
   ch: string;
-  hasSlash: boolean;
-  protocol: BootProtocolType;
-  host: string;
-  mode: ExtensionModeType;
+  hasSlash?: boolean;
+  protocol?: BootProtocolType;
+  host?: string;
+  mode?: ExtensionModeType;
 };
 export type BootOptionType = {
   id: string;
