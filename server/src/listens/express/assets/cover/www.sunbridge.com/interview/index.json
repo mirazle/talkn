@@ -2,26 +2,6 @@
   "version": "1.0.0",
   "contents": [
     {
-      "title": "title1",
-      "eyeCatch": "https://assets.talkn.io/cover/www.sunbridge.com/interview/bg1.png",
-      "interview": "https://assets.talkn.io/cover/www.sunbridge.com/interview/1.json"
-    },
-    {
-      "title": "title2",
-      "eyeCatch": "https://assets.talkn.io/cover/www.sunbridge.com/interview/bg1.png",
-      "interview": "https://assets.talkn.io/cover/www.sunbridge.com/interview/2.json"
-    },
-    {
-      "title": "title3",
-      "eyeCatch": "https://assets.talkn.io/cover/www.sunbridge.com/interview/bg1.png",
-      "interview": "https://assets.talkn.io/cover/www.sunbridge.com/interview/3.json"
-    },
-    {
-      "title": "title4",
-      "eyeCatch": "https://assets.talkn.io/cover/www.sunbridge.com/interview/bg1.png",
-      "interview": "https://assets.talkn.io/cover/www.sunbridge.com/interview/4.json"
-    },
-    {
       "title": "Smart Viscaリニューアルの裏側",
       "eyeCatch": "https://assets.talkn.io/cover/www.sunbridge.com/interview/bg1.png",
       "interview": "https://assets.talkn.io/cover/www.sunbridge.com/interview/5.json"
