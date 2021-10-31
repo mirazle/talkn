@@ -257,10 +257,11 @@ const TalknContainer: React.FC<Props> = (props) => {
 
         <HeadEyeCatchOrder ref={headEyeCatchOrderRef}>
           {interviewIndex.map((index, i) => (
-            <HeadEyeCatchList key={`HeadEyeCatchList${i}`} className="HeadEyeCatchList" data-no={index.no} bg={index.eyeCatch}>
-              {index.no}
-              {index.title}
-            </HeadEyeCatchList>
+            <HeadEyeCatchList
+              key={`HeadEyeCatchList${i}`}
+              className="HeadEyeCatchList"
+              data-no={index.no}
+              bg={index.eyeCatch}></HeadEyeCatchList>
           ))}
         </HeadEyeCatchOrder>
         <BaseBoard>
