@@ -51,6 +51,12 @@ const Component: React.FC<Props> = ({ id: _id, className = 'Title', type = 'Arti
           {children}
         </DomainProfileDescTitle>
       );
+    case 'Index':
+      return (
+        <Index {...id} className={className} shadow={shadow} underline={underline}>
+          {children}
+        </Index>
+      );
     case 'Resume':
     default:
       return (
@@ -147,11 +153,24 @@ const DomainProfileDescTitle = styled.h5<StyledPropsType>`
   }
 `;
 
-const Resume = styled.h5<StyledPropsType>`
+const Index = styled.h5<StyledPropsType>`
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
   padding: 0;
   margin: 15px 0;
-  text-align: center;
   font-size: 20px;
   font-weight: 200;
   user-select: none;
+  cursor: pointer;
+`;
+
+const Resume = styled.h5<StyledPropsType>`
+  padding: 0;
+  margin: 15px 0;
+  font-size: 20px;
+  font-weight: 200;
+  text-align: center;
+  user-select: none;
+  cursor: pointer;
 `;

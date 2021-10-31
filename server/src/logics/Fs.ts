@@ -3,12 +3,15 @@ import fs from 'fs';
 import conf from 'common/conf';
 
 export default class Fs {
-  getInterview(ch): any {
+  getInterview(ch, _interviewIndex): any {
     try {
-      const interview = JSON.parse(fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/1.json`, 'utf8'));
+      const index = JSON.parse(fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/index.json`, 'utf8'));
+      const interviewIndex = _interviewIndex ? _interviewIndex : index.contents.length;
+      const interview = JSON.parse(fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/${interviewIndex}.json`, 'utf8'));
       const css = fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/default.css`, 'utf8');
-      return { interview, css };
+      return { index, interview, css };
     } catch (err) {
+      console.warn(err);
       return '';
     }
   }

@@ -5,7 +5,7 @@ import define from './define';
 
 const { PRODUCTION, DEVELOPMENT, PRODUCTION_DOMAIN, DEVELOPMENT_DOMAIN, SUB_DOMAINS, PORTS } = define;
 const apiVer = 1;
-const hostName = os.hasOwnProperty('hostname') ? os.hostname() : 'localhost';
+const hostName = os.hasOwnProperty('hostname') ? os.hostname() : DEVELOPMENT_DOMAIN;
 const env = getEnv(hostName);
 const files = {
   client: 'talkn.client.js',
@@ -74,6 +74,7 @@ const defaultFavicon = `//${SUB_DOMAINS.ASSETS}.${domain}/favicon.ico`;
 
 const conf: any = {
   domain,
+  isDev,
   env,
   files,
   hostName,
