@@ -28,5 +28,6 @@ const Footer = styled.footer`
   display: flex;
   flex-flow: column;
   justify-content: center;
+  width: 100%;
   background: #000;
 `;
