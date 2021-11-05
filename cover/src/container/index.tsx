@@ -85,14 +85,16 @@ const interviewInit: InterviewType = {
 
 const InterviewIndexContentsInit: InterviewIndexContentsType[] = [];
 const interviewIndexLimit = 10;
-
 const interviewVerticalInitial = { offsetTop: 0, offsetBottom: 0 };
+const getScrollWidth = () => (window.innerWidth > styles.appWidth ? styles.appWidth : window.innerWidth);
 let interviewVerticalDatas: InterviewVerticalDatas[] = [];
 const TalknContainer: React.FC<Props> = (props) => {
   const { api, state } = props;
   const [dataMount, setMountData] = useState(false);
   const [interview, setInterview] = useState<InterviewType>(interviewInit);
   const [interviewEyeCatchs, setInterviewEyeCatchs] = useState<InterviewIndexContentsType[]>(InterviewIndexContentsInit);
+  const [eyeCatchScrollIndex, setEyeCatchScrollIndex] = useState(0);
+
   const [interviewIndex, setInterviewIndex] = useState<InterviewIndexContentsType[]>(InterviewIndexContentsInit);
   const [interviewIndexPointer, setInterviewIndexPointer] = useState<number | undefined>();
   const [openMenu, setOpenMenu] = useState(false);
@@ -118,11 +120,27 @@ const TalknContainer: React.FC<Props> = (props) => {
     setOpenMenu(!openMenu);
   };
 
+  const handleOnScrollHeadEyeCatch = (e) => {
+    const scrollWidth = getScrollWidth();
+    const scrollIndex = e.target.scrollLeft / scrollWidth;
+    if (Number.isInteger(scrollIndex)) {
+      setEyeCatchScrollIndex(scrollIndex);
+    }
+  };
+
+  const handleOnClickCircle = (e) => {
+    if (headEyeCatchOrderRef.current) {
+      headEyeCatchOrderRef.current.scrollTo({
+        left: getScrollWidth() * e.target.dataset.index,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   const useCallbackScroll = useCallback(() => {
     const _interviewPointer = interviewVerticalDatas.findIndex(
       (obj) => obj.offsetTop <= window.scrollY && window.scrollY < obj.offsetBottom
     );
-
     setInterviewPointer(_interviewPointer);
   }, [interviewVerticalDatas]);
 
@@ -137,13 +155,13 @@ const TalknContainer: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (headEyeCatchOrderRef.current) {
-      const focusChildIndex = Array.from(headEyeCatchOrderRef.current.children).findIndex((child) => {
+      const scrollIndex = Array.from(headEyeCatchOrderRef.current.children).findIndex((child) => {
         return Number(child.getAttribute('data-no')) === window.talknInterviewPointer;
       });
 
-      if (focusChildIndex) {
-        const oneWidth = window.innerWidth > styles.appWidth ? styles.appWidth : window.innerWidth;
-        headEyeCatchOrderRef.current.scrollLeft = oneWidth * focusChildIndex;
+      if (scrollIndex >= 0) {
+        headEyeCatchOrderRef.current.scrollLeft = getScrollWidth() * scrollIndex;
+        setEyeCatchScrollIndex(scrollIndex);
       }
     }
   }, [headEyeCatchOrderRef.current, window.talknInterviewPointer]);
@@ -255,7 +273,7 @@ const TalknContainer: React.FC<Props> = (props) => {
           </HeaderSideMenu>
         </Header>
 
-        <HeadEyeCatchOrder ref={headEyeCatchOrderRef}>
+        <HeadEyeCatchOrder ref={headEyeCatchOrderRef} onScroll={handleOnScrollHeadEyeCatch}>
           {interviewIndex.map((index, i) => (
             <HeadEyeCatchList
               key={`HeadEyeCatchList${i}`}
@@ -264,6 +282,11 @@ const TalknContainer: React.FC<Props> = (props) => {
               bg={index.eyeCatch}></HeadEyeCatchList>
           ))}
         </HeadEyeCatchOrder>
+        <HeadEyeCatchSelectOrder eyeCatchScrollIndex={eyeCatchScrollIndex}>
+          {interviewIndex.map((circle, index) => (
+            <li key={circle.no} data-index={index} onClick={handleOnClickCircle} />
+          ))}
+        </HeadEyeCatchSelectOrder>
         <BaseBoard>
           <ArticleOrderBg>
             <ArticleOrder ch={ch} title={'製品のご紹介'} articles={articles} />
@@ -356,10 +379,6 @@ const Container = styled.div`
   max-width: 100%;
   margin: 0 auto;
   font-size: 16px;
-  ol {
-    padding: 0;
-    margin: 0 auto;
-  }
 
   * {
     box-sizing: border-box;
@@ -486,6 +505,7 @@ const HeadEyeCatchOrder = styled.ol<{ ref: any }>`
   width: 100%;
   max-width: ${styles.appWidth}px;
   height: 100%;
+  padding: 0;
   margin: 0 auto;
   scroll-snap-type: x mandatory;
 `;
@@ -513,6 +533,40 @@ const HeadEyeCatchList = styled.li<{ bg: string }>`
   }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
     height: 300px;
+  }
+`;
+
+const HeadEyeCatchSelectOrder = styled.ol<{ eyeCatchScrollIndex: number }>`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-around;
+  width: calc(100% - ${styles.doubleMargin}px);
+  margin: ${styles.baseMargin}px;
+  padding: 0;
+  li {
+    width: ${styles.baseSize}px;
+    height: ${styles.baseSize}px;
+    margin: ${styles.baseSize}px;
+    background: ${styles.borderColor};
+    border-radius: ${styles.baseSize}px;
+    list-style: none;
+    cursor: pointer;
+  }
+  li[data-index='${(props) => props.eyeCatchScrollIndex}'] {
+    background: ${styles.fontColor};
+  }
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    li {
+      margin: ${styles.baseSize / 2}px;
+    }
+  }
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    li {
+      width: ${styles.baseSize / 2}px;
+      height: ${styles.baseSize / 2}px;
+      margin: ${styles.baseSize / 3}px;
+    }
   }
 `;
 
@@ -638,6 +692,8 @@ type NavigationOrderPropsType = {
 };
 
 const NavigationOrder = styled.ol<NavigationOrderPropsType>`
+  padding: 0;
+  margin: 0 auto;
   li:nth-child(${(props) => props.interviewPointer + 1}) a {
     font-weight: 400;
     letter-spacing: 1.5px;
