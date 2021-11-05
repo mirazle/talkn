@@ -282,7 +282,7 @@ const TalknContainer: React.FC<Props> = (props) => {
               bg={index.eyeCatch}></HeadEyeCatchList>
           ))}
         </HeadEyeCatchOrder>
-        <HeadEyeCatchSelectOrder eyeCatchScrollIndex={eyeCatchScrollIndex}>
+        <HeadEyeCatchSelectOrder interviewIndexCnt={interviewIndex.length} eyeCatchScrollIndex={eyeCatchScrollIndex}>
           {interviewIndex.map((circle, index) => (
             <li key={circle.no} data-index={index} onClick={handleOnClickCircle} />
           ))}
@@ -375,6 +375,10 @@ const TalknContainer: React.FC<Props> = (props) => {
 
 // prettier-ignore
 const Container = styled.div`
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
@@ -536,12 +540,17 @@ const HeadEyeCatchList = styled.li<{ bg: string }>`
   }
 `;
 
-const HeadEyeCatchSelectOrder = styled.ol<{ eyeCatchScrollIndex: number }>`
+type HeadEyeCatchSelectOrderType = {
+  interviewIndexCnt: number;
+  eyeCatchScrollIndex: number;
+};
+
+const HeadEyeCatchSelectOrder = styled.ol<HeadEyeCatchSelectOrderType>`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-around;
-  width: calc(100% - ${styles.doubleMargin}px);
+  width: calc(${(props) => getHeadEyeCatchSelectOrderWidth(props.interviewIndexCnt)}% - ${styles.doubleMargin}px);
   margin: ${styles.baseMargin}px;
   padding: 0;
   li {
@@ -831,6 +840,11 @@ const TwitterIcon = styled.i`
   width: 14px;
   height: 14px;
 `;
+
+const getHeadEyeCatchSelectOrderWidth = (interviewIndexCnt): number => {
+  if (interviewIndexCnt < 10) return Number(`${interviewIndexCnt}0`);
+  return 100;
+};
 
 /*
 const getLayoutWidth = (props: LayoutPropsType) => {
