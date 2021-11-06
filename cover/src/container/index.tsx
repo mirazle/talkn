@@ -216,7 +216,7 @@ const TalknContainer: React.FC<Props> = (props) => {
         });
       }
     }
-  }, [window.innerWidth, interview.sections.length]);
+  }, [window.innerWidth, interview && interview.sections.length]);
 
   useEffect(() => {
     const _offset = window.talknInterviewPointer - interviewIndexLimit / 2;
@@ -279,16 +279,16 @@ const TalknContainer: React.FC<Props> = (props) => {
             <div className="HeaderMenuLine" />
           </HeaderSideMenu>
         </Header>
-
         <HeadEyeCatchOrder ref={headEyeCatchOrderRef} onScroll={handleOnScrollHeadEyeCatch}>
           {interviewIndex.map((index, i) => (
-            <HeadEyeCatchList
-              key={`HeadEyeCatchList${i}`}
-              className="HeadEyeCatchList"
-              data-no={index.no}
-              bg={index.eyeCatch}></HeadEyeCatchList>
+            <HeadEyeCatchList key={`HeadEyeCatchList${i}`} className="HeadEyeCatchList" data-no={index.no} bg={index.eyeCatch}>
+              <ViewAnchor href={`https://${conf.coverURL}${ch}${index.no}`}>VIEW</ViewAnchor>
+            </HeadEyeCatchList>
           ))}
         </HeadEyeCatchOrder>
+
+        {/*interviewIndex && interviewIndex[eyeCatchScrollIndex - 1] && interviewIndex[eyeCatchScrollIndex - 1].title*/}
+        {/*interviewIndex && interviewIndex[eyeCatchScrollIndex + 1] && interviewIndex[eyeCatchScrollIndex + 1].title*/}
         <HeadEyeCatchSelectOrder interviewIndexCnt={interviewIndex.length} eyeCatchScrollIndex={eyeCatchScrollIndex}>
           {interviewIndex.map((circle, index) => (
             <li key={circle.no} data-index={index} onClick={handleOnClickCircle} />
@@ -404,7 +404,6 @@ const Container = styled.div`
   a:visited,
   a:hover,
   a:active {
-    color: inherit;
     text-decoration: none;
     cursor: pointer;
     user-select: none;
@@ -538,15 +537,14 @@ const HeadEyeCatchOrder = styled.ol<{ ref: any }>`
 const HeadEyeCatchList = styled.li<{ bg: string }>`
   display: flex;
   flex-flow: column nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: flex-end;
+  justify-content: flex-end;
   width: 100%;
   min-width: 100%;
   max-width: ${styles.appWidth}px;
   height: 630px;
   overflow: hidden;
   text-align: right;
-  font-size: 100px;
   scroll-snap-align: start;
   background-size: 100%;
   background-image: url('${(props) => props.bg}');
@@ -558,6 +556,20 @@ const HeadEyeCatchList = styled.li<{ bg: string }>`
   }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
     height: 300px;
+  }
+`;
+
+const ViewAnchor = styled.a`
+  padding: ${styles.basePadding}px ${styles.doublePadding}px;
+  margin: ${styles.baseMargin}px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: ${styles.baseSize / 2}px;
+  transition: ${styles.transitionDuration};
+  cursor: pointer;
+  :hover {
+    background: rgba(0, 0, 0, 0.6);
   }
 `;
 
