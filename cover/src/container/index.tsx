@@ -138,6 +138,12 @@ const TalknContainer: React.FC<Props> = (props) => {
     }
   };
 
+  const handleOnClickMenuOut = (e) => {
+    if (e.target !== menuOrderRef.current && e.target !== headerSideMenuRef.current) {
+      setOpenMenu(false);
+    }
+  };
+
   const useCallbackScroll = useCallback(() => {
     const _interviewPointer = interviewVerticalDatas.findIndex(
       (obj) => obj.offsetTop <= window.scrollY && window.scrollY < obj.offsetBottom
@@ -249,13 +255,8 @@ const TalknContainer: React.FC<Props> = (props) => {
   return (
     <>
       <style type="text/css">{interview.css}</style>
-      <Container
-        onClick={(e) => {
-          if (e.target !== menuOrderRef.current && e.target !== headerSideMenuRef.current) {
-            setOpenMenu(false);
-          }
-        }}>
-        <MenuOrder ref={menuOrderRef} openMenu={openMenu} focusMenuNo={interviewIndexPointer}>
+      <Container onClick={handleOnClickMenuOut}>
+        <MenuOrder className="MenuOrder" ref={menuOrderRef} openMenu={openMenu} focusMenuNo={interviewIndexPointer}>
           {interviewIndex.map((contents, index) => (
             <Title key={`Index${index}`} type="Index" className={`MenuList MenuList-${contents.no}`}>
               <AnchorRow href={`https://${conf.coverURL}${ch}${contents.no}`}>
@@ -287,8 +288,6 @@ const TalknContainer: React.FC<Props> = (props) => {
           ))}
         </HeadEyeCatchOrder>
 
-        {/*interviewIndex && interviewIndex[eyeCatchScrollIndex - 1] && interviewIndex[eyeCatchScrollIndex - 1].title*/}
-        {/*interviewIndex && interviewIndex[eyeCatchScrollIndex + 1] && interviewIndex[eyeCatchScrollIndex + 1].title*/}
         <HeadEyeCatchSelectOrder interviewIndexCnt={interviewIndex.length} eyeCatchScrollIndex={eyeCatchScrollIndex}>
           {interviewIndex.map((circle, index) => (
             <li key={circle.no} data-index={index} onClick={handleOnClickCircle} />
@@ -400,10 +399,12 @@ const Container = styled.div`
       'Yu Gothic', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Sans Emoji';
     letter-spacing: 2px;
   }
+  
   a,
   a:visited,
   a:hover,
   a:active {
+    color: inherit;
     text-decoration: none;
     cursor: pointer;
     user-select: none;
