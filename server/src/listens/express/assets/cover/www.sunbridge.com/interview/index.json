@@ -2,19 +2,14 @@
   "version": "1.0.0",
   "contents": [
     {
+      "title": "サンブリッジの根幹を担うプロダクト本部の責任者へ新卒社員がインタビュー",
+      "eyeCatch": "https://assets.localhost/cover/www.sunbridge.com/interview/bg2.png",
+      "interview": "https://assets.localhost/cover/www.sunbridge.com/interview/2.json"
+    },
+    {
       "title": "Smart Viscaリニューアルの裏側",
-      "eyeCatch": "https://assets.talkn.io/cover/www.sunbridge.com/interview/bg1.png",
-      "interview": "https://assets.talkn.io/cover/www.sunbridge.com/interview/5.json"
-    },
-    {
-      "title": "Smart Viscaリニューアルの裏側2",
-      "eyeCatch": "https://assets.talkn.io/cover/www.sunbridge.com/interview/bg1.png",
-      "interview": "https://assets.talkn.io/cover/www.sunbridge.com/interview/5.json"
-    },
-    {
-      "title": "Smart Viscaリニューアルの裏側3",
-      "eyeCatch": "https://assets.talkn.io/cover/www.sunbridge.com/interview/bg1.png",
-      "interview": "https://assets.talkn.io/cover/www.sunbridge.com/interview/5.json"
+      "eyeCatch": "https://assets.localhost/cover/www.sunbridge.com/interview/bg1.png",
+      "interview": "https://assets.localhost/cover/www.sunbridge.com/interview/1.json"
     }
   ]
 }
