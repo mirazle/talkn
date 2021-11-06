@@ -3,6 +3,7 @@ import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import DesignSection from 'cover/components/organisms/Footer/DesignSection';
+import EditSection from 'cover/components/organisms/Footer/EditSection';
 import MessageSection from 'cover/components/organisms/Footer/MessageSection';
 import OtherContentsSection from 'cover/components/organisms/Footer/OtherContentsSection';
 import ServiceConceptSection from 'cover/components/organisms/Footer/ServiceConceptSection';
@@ -13,6 +14,7 @@ type Props = {};
 const Component: FunctionComponent<Props> = () => {
   return (
     <Footer>
+      <EditSection />
       <ToTopSection />
       <ServiceConceptSection />
       <OtherContentsSection />
