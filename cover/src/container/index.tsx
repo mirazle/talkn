@@ -282,7 +282,7 @@ const TalknContainer: React.FC<Props> = (props) => {
         <HeadEyeCatchOrder ref={headEyeCatchOrderRef} onScroll={handleOnScrollHeadEyeCatch}>
           {interviewIndex.map((index, i) => (
             <HeadEyeCatchList key={`HeadEyeCatchList${i}`} className="HeadEyeCatchList" data-no={index.no} bg={index.eyeCatch}>
-              <ViewAnchor href={`https://${conf.coverURL}${ch}${index.no}`}>VIEW</ViewAnchor>
+              <ViewAnchor href={`https://${conf.coverURL}${ch}${index.no}`}></ViewAnchor>
             </HeadEyeCatchList>
           ))}
         </HeadEyeCatchOrder>
@@ -551,6 +551,12 @@ const HeadEyeCatchList = styled.li<{ bg: string }>`
   background-position: 50%;
   background-repeat: no-repeat;
   list-style: none;
+  transition: ${styles.transitionDuration};
+  cursor: pointer;
+  :hover {
+    transform: scale(1.02);
+    opacity: 0.8;
+  }
   @media (max-width: ${styles.spLayoutWidth}px) {
     height: 400px;
   }
@@ -560,17 +566,8 @@ const HeadEyeCatchList = styled.li<{ bg: string }>`
 `;
 
 const ViewAnchor = styled.a`
-  padding: ${styles.basePadding}px ${styles.doublePadding}px;
-  margin: ${styles.baseMargin}px;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgb(255, 255, 255);
-  border-radius: ${styles.baseSize / 2}px;
-  transition: ${styles.transitionDuration};
-  cursor: pointer;
-  :hover {
-    background: rgba(0, 0, 0, 0.6);
-  }
+  width: 100%;
+  height: 100%;
 `;
 
 type HeadEyeCatchSelectOrderType = {
