@@ -30,6 +30,7 @@ const splitedUrlLength = splitedUrl.length;
 
 let ch = '/';
 window.talknInterviewPointer = window.talknInterviewIndex.contents.length;
+
 if (splitedUrl[splitedUrlLength - 1] === '') {
   ch = location;
 } else {

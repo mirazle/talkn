@@ -158,7 +158,7 @@ const Index = styled.h5<StyledPropsType>`
   align-items: flex-start;
   justify-content: flex-end;
   padding: 0;
-  margin: 15px 0;
+  margin: 0;
   font-size: 20px;
   font-weight: 200;
   user-select: none;

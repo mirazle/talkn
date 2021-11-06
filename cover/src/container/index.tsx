@@ -101,6 +101,7 @@ const TalknContainer: React.FC<Props> = (props) => {
   const [interviewPointer, setInterviewPointer] = useState<number | undefined>();
   const [navigationLayout, setNavigationLayout] = useState<NavigationLayout | undefined>();
 
+  const headerSideMenuRef = useRef<HTMLElement>();
   const headEyeCatchOrderRef = useRef<HTMLElement>();
   const menuOrderRef = useRef<HTMLElement>();
   const interviewRef = useRef<HTMLElement>();
@@ -248,13 +249,19 @@ const TalknContainer: React.FC<Props> = (props) => {
   return (
     <>
       <style type="text/css">{interview.css}</style>
-      <Container>
+      <Container
+        onClick={(e) => {
+          if (e.target !== menuOrderRef.current && e.target !== headerSideMenuRef.current) {
+            setOpenMenu(false);
+          }
+        }}>
         <MenuOrder ref={menuOrderRef} openMenu={openMenu} focusMenuNo={interviewIndexPointer}>
           {interviewIndex.map((contents, index) => (
             <Title key={`Index${index}`} type="Index" className={`MenuList MenuList-${contents.no}`}>
-              <a href={`https://${conf.coverURL}${ch}${contents.no}`}>
-                #{contents.no} {contents.title}
-              </a>
+              <AnchorRow href={`https://${conf.coverURL}${ch}${contents.no}`}>
+                <span className="number">#{contents.no}&nbsp;</span>
+                <span className="resume">{contents.title}</span>
+              </AnchorRow>
             </Title>
           ))}
         </MenuOrder>
@@ -266,7 +273,7 @@ const TalknContainer: React.FC<Props> = (props) => {
               {<Title type={'AppHeader'}>{ch === '/' ? 'talkn' : ch}</Title>}
             </A>
           )}
-          <HeaderSideMenu className={openMenu && 'open'} onClick={handleOnClickMenu}>
+          <HeaderSideMenu className={openMenu && 'open'} ref={headerSideMenuRef} onClick={handleOnClickMenu}>
             <div className="HeaderMenuLine" />
             <div className="HeaderMenuLine" />
             <div className="HeaderMenuLine" />
@@ -313,7 +320,10 @@ const TalknContainer: React.FC<Props> = (props) => {
                     const number = index < 9 ? `0${index + 1}` : index + 1;
                     return (
                       <li key={`${resume}${index}`}>
-                        <a onClick={() => handleOnClickNav(index)}>{`${number}.${resume}`}</a>
+                        <AnchorRow onClick={() => handleOnClickNav(index)}>
+                          <span className="number">{number}.</span>
+                          <span className="resume">{resume}</span>
+                        </AnchorRow>
                       </li>
                     );
                   })}
@@ -430,18 +440,29 @@ const MenuOrder = styled.div<{ ref: any; openMenu: boolean; focusMenuNo: number 
     width: 100%;
     transform: translate(${(props) => (props.openMenu ? 0 : '100%')}, 0px);
   }
-  .MenuList {
-    :hover {
-      font-weight: 300;
-      text-decoration: underline;
-    }
-  }
   .MenuList-${(props) => props.focusMenuNo} {
     font-weight: 300;
+    line-height: 40px;
   }
 `;
 
-const MenuList = styled.li``;
+const AnchorRow = styled.a`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  line-height: 40px;
+  :hover {
+    font-weight: 300;
+    .resume {
+      text-decoration: underline;
+    }
+  }
+  .number {
+    width: 35px;
+    min-width: 35px;
+  }
+`;
 
 const Header = styled.header`
   box-sizing: border-box;
@@ -470,7 +491,7 @@ const HeaderSide = styled.div`
   height: 60px;
 `;
 
-const HeaderSideMenu = styled.div`
+const HeaderSideMenu = styled.div<{ ref: any }>`
   display: flex;
   flex-flow: column wrap;
   align-items: center;
@@ -658,8 +679,9 @@ const Navigation = styled.nav<{ navigationLayout: NavigationLayout }>`
   z-index: 0;
   position: sticky;
   top: ${styles.appHeaderHeight + styles.baseMargin}px;
-  width: ${(props) => (props.navigationLayout ? `${props.navigationLayout.width}px` : 'auto')};
-  min-width: ${(props) => (props.navigationLayout ? `${props.navigationLayout.width}px` : 'auto')};
+  width: 100%;
+  min-width: 320px;
+  max-width: 320px;
   padding-top: ${styles.basePadding}px;
   padding-right: ${styles.basePadding}px;
   padding-bottom: ${styles.doublePadding}px;
@@ -676,11 +698,16 @@ const Navigation = styled.nav<{ navigationLayout: NavigationLayout }>`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    height: 45px;
     font-size: 20px;
     font-weight: 200;
     line-height: 24px;
-    text-indent: ${styles.baseSize}px;
+  }
+  a {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    line-height: 40px;
   }
   @media (max-width: ${styles.spLayoutWidth}px) {
     z-index: auto;

@@ -10,7 +10,7 @@ type Props = {};
 const Component: FunctionComponent<Props> = () => {
   return (
     <Container>
-      <Title type="Section">- cover.talkn.io -</Title>
+      <Title type="Section">- Domain Profile(cover.talkn.io) -</Title>
       <br />
       <br />
       <br />

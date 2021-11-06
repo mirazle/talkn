@@ -172,7 +172,6 @@ class Express {
             Logics.db.threads.findOne(ch, { buildinSchema: true }).then((result) => {
               const { index, interview, css } = Logics.fs.getInterview(ch, interviewIndex);
 
-              console.log('indexB:', index);
               res.render('cover/', {
                 language,
                 index,
@@ -321,12 +320,9 @@ class Express {
 
         break;
       case conf.assetsURL:
-        if (req.originalUrl === '/manifest.json') {
-          // CORSを許可する
-          res.header('Access-Control-Allow-Origin', '*');
-          res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-        }
-
+        // CORSを許可する
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         res.sendFile(conf.serverAssetsPath + req.originalUrl.replace('/', ''));
         break;
       case conf.sessionURL:
