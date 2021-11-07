@@ -6,7 +6,7 @@ export default class Fs {
   getInterview(ch, _interviewIndex): any {
     try {
       const serverPath = `${conf.serverAssetsPath}cover/${ch}interview`;
-      const clientPath = `https://${conf.assetsURL}cover/${ch}interview`;
+      const clientPath = `https://${conf.assetsURL}/cover/${ch}interview`;
       const urls = { index: '', interview: '' };
       urls.index = `${clientPath}/index.json`;
       const index = JSON.parse(fs.readFileSync(`${serverPath}/index.json`, 'utf8'));
