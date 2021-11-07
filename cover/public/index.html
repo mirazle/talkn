@@ -19,12 +19,14 @@
         ch = location.href.substr(0, lastSlash + 1);
         interviewIndex = location.href.substr(lastSlash + 1, lastSlash);
       }
-      fetch('https://assets.localhost/cover/www.sunbridge.com/interview/index.json').then((response) => {
+      window.talknInterviewUrls = {index: '', interview: ''};
+      window.talknInterviewUrls.index = 'https://assets.localhost/cover/www.sunbridge.com/interview/index.json';
+      fetch(window.talknInterviewUrls.index).then((response) => {
         response.json().then((index) => {
-          console.log(index);
           window.talknInterviewIndex = index;
           interviewIndex = interviewIndex ? interviewIndex : index.contents.length;
-          fetch(`https://assets.localhost/cover/www.sunbridge.com/interview/${interviewIndex}.json`).then((response) => {
+          window.talknInterviewUrls.interview = `https://assets.localhost/cover/www.sunbridge.com/interview/${interviewIndex}.json`;
+          fetch(window.talknInterviewUrls.interview).then((response) => {
             response.json().then((interview) => {
               window.talknInterview = interview;
             });

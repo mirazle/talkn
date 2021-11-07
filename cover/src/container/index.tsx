@@ -404,7 +404,6 @@ const Container = styled.div`
   a:visited,
   a:hover,
   a:active {
-    color: inherit;
     text-decoration: none;
     cursor: pointer;
     user-select: none;
@@ -476,9 +475,11 @@ const Header = styled.header`
   height: ${styles.appHeaderHeight}px;
   background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid ${styles.borderColor};
+
   a {
     display: flex;
     flex-flow: row wrap;
+    color: ${styles.fontColor};
   }
 `;
 
@@ -866,6 +867,7 @@ const Twitter = styled.div`
   }
   a {
     display: flex;
+    color: #fff;
   }
 `;
 

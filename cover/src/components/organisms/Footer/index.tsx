@@ -14,8 +14,8 @@ type Props = {};
 const Component: FunctionComponent<Props> = () => {
   return (
     <Footer>
-      <EditSection />
       <ToTopSection />
+      <EditSection />
       <ServiceConceptSection />
       <OtherContentsSection />
       <DesignSection />
