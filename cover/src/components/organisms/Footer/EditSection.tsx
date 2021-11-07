@@ -13,8 +13,8 @@ const Component: FunctionComponent<Props> = () => {
     <Container>
       <Title type="Section">- Edit Interview -</Title>
       <Flex flow="row wrap">
-        <a href={window.talknInterviewUrls.index}>INDEX</a>
-        <a href={window.talknInterviewUrls.interview}>OGP</a>
+        <a href={window.talknInterviewUrls && window.talknInterviewUrls.index}>INDEX</a>
+        <a href={window.talknInterviewUrls && window.talknInterviewUrls.interview}>OGP</a>
       </Flex>
     </Container>
   );
