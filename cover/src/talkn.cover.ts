@@ -13,6 +13,10 @@ declare global {
     talknInterview: any;
     talknInterviewIndex: any;
     talknInterviewPointer: number;
+    talknInterviewUrls: {
+      index: string;
+      interview: string;
+    };
     talknMedia: any;
     talknAPI: any;
     Youtube: any;
@@ -29,6 +33,7 @@ const splitedUrl = location.split('/');
 const splitedUrlLength = splitedUrl.length;
 
 let ch = '/';
+console.log(window.talknInterviewIndex);
 window.talknInterviewPointer = window.talknInterviewIndex.contents.length;
 
 if (splitedUrl[splitedUrlLength - 1] === '') {
