@@ -170,12 +170,13 @@ class Express {
             }
 
             Logics.db.threads.findOne(ch, { buildinSchema: true }).then((result) => {
-              const { index, interview, css } = Logics.fs.getInterview(ch, interviewIndex);
+              const { index, interview, urls, css } = Logics.fs.getInterview(ch, interviewIndex);
 
               res.render('cover/', {
                 language,
                 index,
                 interview,
+                urls,
                 css,
                 thread: result.response,
                 domain: conf.domain,
