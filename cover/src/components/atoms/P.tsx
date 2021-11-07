@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import * as styles from 'cover/styles';
+
 type Props = {
   lv?: number;
   className?: string;
@@ -31,6 +33,7 @@ const P1 = styled.p`
   font-weight: 200;
   line-height: 32px;
   user-select: none;
+  color: ${styles.fontColor};
 `;
 
 const P2 = styled.p`
@@ -38,22 +41,25 @@ const P2 = styled.p`
   font-size: 18px;
   font-weight: 200;
   user-select: none;
+  color: ${styles.fontColor};
 `;
 
 const P3 = styled.p`
   font-size: 16px;
   font-weight: 200;
   user-select: none;
+  color: ${styles.fontColor};
 `;
 
 const P4 = styled.p`
   font-size: 16px;
   font-weight: 200;
-
   user-select: none;
+  color: ${styles.fontColor};
 `;
 
 const P5 = styled.p`
   font-size: 16px;
   user-select: none;
+  color: ${styles.fontColor};
 `;
