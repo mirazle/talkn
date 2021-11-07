@@ -5,11 +5,15 @@ import conf from 'common/conf';
 export default class Fs {
   getInterview(ch, _interviewIndex): any {
     try {
-      const index = JSON.parse(fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/index.json`, 'utf8'));
+      const urls = { index: '', interview: '' };
+      urls.index = `${conf.serverAssetsPath}cover/${ch}interview/index.json`;
+      const index = JSON.parse(fs.readFileSync(urls.index, 'utf8'));
       const interviewIndex = _interviewIndex ? _interviewIndex : index.contents.length;
-      const interview = JSON.parse(fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/${interviewIndex}.json`, 'utf8'));
+
+      urls.interview = `${conf.serverAssetsPath}cover/${ch}interview/${interviewIndex}.json`;
+      const interview = JSON.parse(fs.readFileSync(urls.interview, 'utf8'));
       const css = fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}interview/default.css`, 'utf8');
-      return { index, interview, css };
+      return { index, interview, urls, css };
     } catch (err) {
       console.warn(err);
       return '';
