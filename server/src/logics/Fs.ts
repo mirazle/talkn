@@ -15,6 +15,7 @@ export default class Fs {
       urls.interview = `${clientPath}/${interviewIndex}.json`;
       const interview = JSON.parse(fs.readFileSync(`${serverPath}/${interviewIndex}.json`, 'utf8'));
       const css = fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}/default.css`, 'utf8');
+
       return { index, interview, urls, css };
     } catch (err) {
       console.warn(err);

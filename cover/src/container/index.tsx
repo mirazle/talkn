@@ -282,7 +282,7 @@ const TalknContainer: React.FC<Props> = (props) => {
         </Header>
         <HeadEyeCatchOrder ref={headEyeCatchOrderRef} onScroll={handleOnScrollHeadEyeCatch}>
           {interviewIndex.map((index, i) => (
-            <HeadEyeCatchList key={`HeadEyeCatchList${i}`} className="HeadEyeCatchList" data-no={index.no} bg={index.eyeCatch}>
+            <HeadEyeCatchList key={`HeadEyeCatchList${i}`} className="HeadEyeCatchList" data-no={index.no} ch={ch} bg={index.eyeCatch}>
               <ViewAnchor href={`https://${conf.coverURL}${ch}${index.no}`}></ViewAnchor>
             </HeadEyeCatchList>
           ))}
@@ -542,7 +542,7 @@ const HeadEyeCatchOrder = styled.ol<{ ref: any }>`
   scroll-snap-type: x mandatory;
 `;
 
-const HeadEyeCatchList = styled.li<{ bg: string }>`
+const HeadEyeCatchList = styled.li<{ ch: string; bg: string }>`
   display: flex;
   flex-flow: column nowrap;
   align-items: flex-end;
@@ -555,7 +555,7 @@ const HeadEyeCatchList = styled.li<{ bg: string }>`
   text-align: right;
   scroll-snap-align: start;
   background-size: 100%;
-  background-image: url('${(props) => props.bg}');
+  background-image: url('${(props) => `https://${ch}/${props.bg}`}');
   background-position: 50%;
   background-repeat: no-repeat;
   list-style: none;
