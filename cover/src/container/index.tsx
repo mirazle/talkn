@@ -376,7 +376,7 @@ const TalknContainer: React.FC<Props> = (props) => {
             </div>
           </SnsShare>
         </WhiteBoard>
-        <Footer />
+        <Footer ch={ch} />
       </Container>
     </>
   );
@@ -421,7 +421,7 @@ const MenuOrder = styled.div<{ ref: any; openMenu: boolean; focusMenuNo: number 
   flex-flow: column;
   align-items: flex-start;
   justify-content: flex-start;
-  background: #fff;
+  background: ${styles.componentBgColor};
   color: ${styles.fontColor};
   width: ${styles.menuPcWidth}px;
   height: calc(100% - ${styles.appHeaderHeight}px);
@@ -431,6 +431,12 @@ const MenuOrder = styled.div<{ ref: any; openMenu: boolean; focusMenuNo: number 
   box-shadow: ${(props) => (props.openMenu ? styles.baseBoxShadow : 'none')};
   transition: ${styles.transitionDuration};
   transform: translate(${(props) => (props.openMenu ? 0 : `${styles.menuPcWidth}px`)}, 0px);
+  a,
+  a:visited,
+  a:hover,
+  a:active {
+    color: ${styles.fontColor};
+  }
   @media (max-width: ${styles.spLayoutWidth}px) {
     width: ${styles.menuTabWidth}px;
     transform: translate(${(props) => (props.openMenu ? 0 : `${styles.menuTabWidth}px`)}, 0px);
