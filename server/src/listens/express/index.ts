@@ -142,6 +142,20 @@ class Express {
         break;
       case conf.coverURL:
         if (req.method === 'GET') {
+          let ch = '/';
+          let interviewIndex = undefined;
+          const splitedUrl = req.originalUrl.split('/');
+          const splitedUrlLength = splitedUrl.length;
+          const isUpdate = splitedUrl[splitedUrlLength - 1] === 'update';
+
+          if (splitedUrl[splitedUrlLength - 1] === '') {
+            ch = req.originalUrl;
+          } else {
+            const lastSlash = req.originalUrl.lastIndexOf('/');
+            ch = req.originalUrl.substr(0, lastSlash + 1);
+            interviewIndex = req.originalUrl.substr(lastSlash + 1, lastSlash);
+          }
+
           if (
             req.originalUrl.indexOf('.svg') >= 0 ||
             req.originalUrl === '/talkn.cover.js' ||
@@ -156,22 +170,23 @@ class Express {
             res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
             res.sendFile(conf.serverCoverPath + req.originalUrl.replace('/', ''));
             return true;
-          } else {
-            const splitedUrl = req.originalUrl.split('/');
-            const splitedUrlLength = splitedUrl.length;
-            let ch = '/';
-            let interviewIndex = undefined;
-            if (splitedUrl[splitedUrlLength - 1] === '') {
-              ch = req.originalUrl;
-            } else {
-              const lastSlash = req.originalUrl.lastIndexOf('/');
-              ch = req.originalUrl.substr(0, lastSlash + 1);
-              interviewIndex = req.originalUrl.substr(lastSlash + 1, lastSlash);
-            }
+          } else if (isUpdate) {
+            Logics.html.fetchCover(ch);
+            console.log('UPDATE');
+            /*
+              ドメイン配下のtalkn/interview.index.jsonを取得
+            		ドメイン配下のtalkn/interview.01.jsonを取得
+		            	存在しない場合、assets.talkn.io/cover/{ch}の配下を探す
 
+              		db.talkn.domainProfile取得してjson化、更新された判定(JSON化して付き合わせる)
+              			更新されていた場合
+                      db.talkn.domainProfileNextIndexを取得して、一番最後にdomainProfileの記事データを追加して保存
+              					この時に重複するdomainProfileの記事があれば削除
+						              db.talkn.domainProfileNextIndexを保存
+            */
+          } else {
             Logics.db.threads.findOne(ch, { buildinSchema: true }).then((result) => {
               const { index, interview, urls, css } = Logics.fs.getInterview(ch, interviewIndex);
-
               res.render('cover/', {
                 language,
                 index,

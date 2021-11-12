@@ -29,7 +29,7 @@ const Container = styled.section`
   justify-content: center;
   padding: ${styles.doubleMargin}px 0;
   width: 100%;
-  background: rgb(68, 68, 68);
+  background: rgb(255, 255, 255);
 `;
 
 const ToTopLayoyt = styled.div`
@@ -52,22 +52,21 @@ const ToTop = styled.div`
   padding: ${styles.baseSize * 3}px;
   margin-right: ${styles.doubleSize * 3}px;
   background: transparent;
-  color: #fff;
-  border: 1px solid #fff;
+  border: 1px solid ${styles.fontColor};
   border-radius: ${styles.baseSize}px;
   transition: ${styles.transitionDuration};
   div.ToTopArrow {
     position: relative;
     top: -3px;
     border-right: 15px solid transparent;
-    border-bottom: 25px solid #fff;
+    border-bottom: 25px solid ${styles.fontColor};
     border-left: 15px solid transparent;
   }
   :hover {
-    background: #fff;
-    border: 1px solid #000;
+    background: ${styles.fontColor};
+    border: 1px solid ${styles.fontColor};
     div.ToTopArrow {
-      border-bottom: 25px solid #000;
+      border-bottom: 25px solid #fff;
     }
   }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {

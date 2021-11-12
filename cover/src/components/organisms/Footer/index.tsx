@@ -9,13 +9,15 @@ import OtherContentsSection from 'cover/components/organisms/Footer/OtherContent
 import ServiceConceptSection from 'cover/components/organisms/Footer/ServiceConceptSection';
 import ToTopSection from 'cover/components/organisms/Footer/ToTopSection';
 
-type Props = {};
+type Props = {
+  ch: string;
+};
 
-const Component: FunctionComponent<Props> = () => {
+const Component: FunctionComponent<Props> = ({ ch }) => {
   return (
     <Footer>
       <ToTopSection />
-      <EditSection />
+      <EditSection ch={ch} />
       <ServiceConceptSection />
       <OtherContentsSection />
       <DesignSection />

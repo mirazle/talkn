@@ -28,6 +28,7 @@ export const baseBoxShadow = '0px 0px 5px 0px rgba(200, 200, 200, 1)';
 export const transitionDuration = '300ms';
 export const fontColor = '#666';
 export const borderColor = '#eee';
+export const componentBgColor = 'rgba(255, 255, 255, 0.96)';
 export const tagBgColor = 'rgba(100, 100, 100, 0.9)';
 
 // Section

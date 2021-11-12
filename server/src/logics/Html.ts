@@ -20,52 +20,74 @@ export default class Html {
     return /^\s*$/;
   }
 
+  async fetchCover(ch) {
+    const fetchUrl = this.getFetchUrl(ch, true);
+    let result: any = { response: null, iconHrefs: [] };
+
+    result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, fetchUrl);
+
+    if (!result.response) {
+      result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, fetchUrl);
+    }
+    console.log(result);
+    if (result.response) {
+      return result;
+    } else {
+      result.response = MongoDB.getDefineSchemaObj(new HtmlSchema({}));
+      return result;
+    }
+  }
+
+  getFetchUrl(ch, hasSlash) {
+    let fetchUrl = ch;
+    if (ch === '/') {
+      fetchUrl = `//${conf.domain}`;
+    } else {
+      if (hasSlash) {
+        if (ch.endsWith('/')) {
+          fetchUrl = `/${ch}`;
+        } else {
+          fetchUrl = `/${ch}/`;
+        }
+      } else {
+        if (fetchUrl.endsWith('/')) {
+          fetchUrl = fetchUrl.replace(/\/$/, '');
+        }
+        fetchUrl = `/${fetchUrl}`;
+      }
+    }
+    return fetchUrl;
+  }
+
   async fetch(thread, requestThread) {
     let { protocol, ch, hasSlash } = requestThread;
 
     // io(tune)する際はGETで接続するのでboolがstringになってしまう
     hasSlash = utils.getBool(hasSlash);
-    //    ch = "/news.yahoo.co.jp/pickup/6364244";
-    let url = ch;
-    if (ch === '/') {
-      url = `//${conf.domain}`;
-    } else {
-      if (hasSlash) {
-        if (ch.endsWith('/')) {
-          url = `/${ch}`;
-        } else {
-          url = `/${ch}/`;
-        }
-      } else {
-        if (ch.endsWith('/')) {
-          ch = ch.replace(/\/$/, '');
-        }
-        url = `/${ch}`;
-      }
-    }
 
+    const fetchUrl = this.getFetchUrl(ch, hasSlash);
     let result: any = { response: null, iconHrefs: [] };
 
     switch (protocol) {
       case Sequence.HTTPS_PROTOCOL:
-        result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, url);
+        result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, fetchUrl);
 
         if (!result.response) {
-          result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, url);
+          result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, fetchUrl);
         }
         break;
       case Sequence.HTTP_PROTOCOL:
-        result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, url);
+        result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, fetchUrl);
         if (!result.response) {
-          result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, url);
+          result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, fetchUrl);
         }
         break;
       case Sequence.TALKN_PROTOCOL:
       case Sequence.UNKNOWN_PROTOCOL:
       default:
-        result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, url);
+        result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, fetchUrl);
         if (!result.response) {
-          result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, url);
+          result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, fetchUrl);
         }
         break;
     }
@@ -81,7 +103,6 @@ export default class Html {
   exeFetch(protocol, url) {
     return new Promise((resolve, reject) => {
       const option = { method: 'GET', encoding: 'binary', url: protocol + encodeURI(url) };
-      console.log(option);
       // localhost is not get.
       request(option, (error, response, body) => {
         if (log) {
@@ -255,7 +276,13 @@ export default class Html {
           break;
         }
 
-        if (child.name === 'img' && child.attribs && child.attribs.alt && child.attribs.alt !== '' && !Html.checkSpace.test(child.attribs.alt)) {
+        if (
+          child.name === 'img' &&
+          child.attribs &&
+          child.attribs.alt &&
+          child.attribs.alt !== '' &&
+          !Html.checkSpace.test(child.attribs.alt)
+        ) {
           text = child.attribs.alt;
           break;
         }
