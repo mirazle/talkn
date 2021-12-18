@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html amp lang="<%= language %>">
   <head>
-    <title><%= thread.serverMetas.title %></title>
+    <title><%= serverMetas.title %></title>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <link rel="icon" href="<%= thread.favicon %>" />
     <link rel="shortcut icon" href="<%= thread.favicon %>" />
     <link rel="manifest" href="https://<%= domain %>/manifest.json" />
     <script id="assignVariable" type="text/javascript">
-      window.talknInterviewUrls = JSON.parse('<%= JSON.stringify(urls) %>'.replace(/&#34;/g, '"'));
-      window.talknInterviewIndex = JSON.parse('<%= JSON.stringify(index) %>'.replace(/&#34;/g, '"'));
-      window.talknInterview = JSON.parse('<%= JSON.stringify(interview) %>'.replace(/&#34;/g, '"'));
+      window.talknSelectContentMenu = location.pathname.split('/')[2] !== '' ? location.pathname.split('/')[2] : 'livePages';
+      window.talknCreators = JSON.parse('<%= JSON.stringify(creators) %>'.replace(/&#34;/g, '"'));
+      window.talknConfig = JSON.parse('<%= JSON.stringify(config) %>'.replace(/&#34;/g, '"'));
+      window.talknThread = JSON.parse('<%= JSON.stringify(thread) %>'.replace(/&#34;/g, '"'));
+      window.talknServerMetas = JSON.parse('<%= JSON.stringify(serverMetas) %>'.replace(/&#34;/g, '"'));
       document.querySelector('#assignVariable').remove();
     </script>
     <script id="talknTop" async type="text/javascript" src="https://<%= coverURL %>/talkn.cover.js"></script>
+    <script id="talknComponents" async type="text/javascript" src="https://<%= componentsURL %>/talkn.components.js"></script>
     <script type="text/javascript" async src="//<%= extURL %>"></script>
     <script type="text/javascript">
       const onServiceWorker = () => {
@@ -92,6 +95,7 @@
           opacity: 1;
         }
       }
+      /*
       #talkn {
         display: flex;
         justify-content: center;
@@ -104,6 +108,7 @@
         animation-iteration-count: infinite;
         transition: 600ms;
       }
+      */
       #secret {
         position: fixed;
         top: 0;

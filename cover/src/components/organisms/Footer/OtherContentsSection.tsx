@@ -6,7 +6,7 @@ import { MediaTypeNews, MediaTypeSubdomains, NetworkList } from 'common/Networks
 
 import Title from 'cover/components/atoms/Title';
 import BoxList from 'cover/components/molecules/BoxList';
-import * as styles from 'cover/styles';
+import * as styles from 'cover/components/styles';
 
 type Props = unknown;
 
@@ -47,18 +47,17 @@ export default OtherContentsSection;
 
 const Container = styled.section`
   display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
+  flex-flow: row wrap;
+  align-items: flex-start;
   justify-content: center;
   width: 100%;
   padding: ${styles.sepPadding}px ${styles.doublePadding}px;
-  margin: 0 auto;
   background: rgb(35, 35, 35);
   color: #fff;
   @media (max-width: ${styles.spLayoutWidth}px) {
     padding: 20px 0;
   }
-  h2 {
+  h5 {
     width: 100%;
     margin: 20px 0;
     text-align: center;

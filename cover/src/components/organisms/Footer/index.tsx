@@ -2,12 +2,13 @@ import * as React from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import ActionsSection from 'cover/components/organisms/Footer/ActionsSection';
 import DesignSection from 'cover/components/organisms/Footer/DesignSection';
-import EditSection from 'cover/components/organisms/Footer/EditSection';
 import MessageSection from 'cover/components/organisms/Footer/MessageSection';
 import OtherContentsSection from 'cover/components/organisms/Footer/OtherContentsSection';
 import ServiceConceptSection from 'cover/components/organisms/Footer/ServiceConceptSection';
 import ToTopSection from 'cover/components/organisms/Footer/ToTopSection';
+import * as styles from 'cover/components/styles';
 
 type Props = {
   ch: string;
@@ -17,7 +18,7 @@ const Component: FunctionComponent<Props> = ({ ch }) => {
   return (
     <Footer>
       <ToTopSection />
-      <EditSection ch={ch} />
+      <ActionsSection ch={ch} />
       <ServiceConceptSection />
       <OtherContentsSection />
       <DesignSection />
@@ -33,5 +34,8 @@ const Footer = styled.footer`
   flex-flow: column;
   justify-content: center;
   width: 100%;
-  background: #000;
+`;
+
+const FooterContents = styled.div`
+  margin: 0 auto;
 `;

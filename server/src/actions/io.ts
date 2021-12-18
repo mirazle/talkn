@@ -41,7 +41,7 @@ export default {
     // update thread rank.
     let { thread, isExist } = await Logics.db.threads.tune({ ch }, liveCnt, true);
     requestState.thread = thread;
-    const isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, setting, isExist);
+    const isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, isExist);
 
     // 作成・更新が必要なスレッドの場合
     if (isRequireUpsert) {
@@ -69,7 +69,7 @@ export default {
     let { app } = requestState;
     const { ch } = requestState.thread;
     let thread = { ch };
-    const threadStatus = Thread.getStatus(thread, app, true, setting);
+    const threadStatus = Thread.getStatus(thread, app, true);
     threadStatus.getMore = true;
     const postCntKey = threadStatus.isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts(requestState, threadStatus);
@@ -107,14 +107,13 @@ export default {
   },
 
   exeFetchPosts: async (ioUser, requestState, setting) => {
-    const uid = ioUser.conn.id;
     const { ch } = requestState.thread;
     let { app } = requestState;
 
     // Thread
     let { response: thread, isExist } = await Logics.db.threads.findOne(ch, { buildinSchema: true });
     thread.hasSlash = requestState.thread.hasSlash;
-    const threadStatus = Thread.getStatus(thread, app, isExist, setting);
+    const threadStatus = Thread.getStatus(thread, app, isExist);
 
     // Posts
     const postCntKey = threadStatus.isMultistream ? 'multiPostCnt' : 'postCnt';
@@ -127,7 +126,7 @@ export default {
     Logics.io.fetchPosts(ioUser, { requestState, thread, posts, app });
   },
 
-  changeThreadDetail: async (ioUser, requestState, setting) => {
+  changeThreadDetail: async (ioUser, requestState) => {
     const { ch } = requestState.thread;
     let { response: thread } = await Logics.db.threads.findOne(ch, { buildinSchema: true });
     await Logics.io.changeThreadDetail(ioUser, { requestState, thread });
@@ -138,11 +137,11 @@ export default {
     Logics.io.rank(ioUser, { requestState, rank });
   },
 
-  post: async (ioUser, requestState, setting) => {
+  post: async (ioUser, requestState) => {
     const { app } = requestState;
     const { ch, emotions } = requestState.thread;
     const thread = { ch, emotions };
-    const threadStatus = Thread.getStatus(thread, app, true, setting);
+    const threadStatus = Thread.getStatus(thread, app, true);
     const post = await Logics.db.posts.save(requestState);
     const emotionKeys = emotions ? Object.keys(emotions) : [];
 
@@ -160,7 +159,7 @@ export default {
     await Logics.io.post(ioUser, { requestState, posts: [post], thread });
   },
 
-  updateThread: async (ioUser, requestState, setting) => {
+  updateThread: async (ioUser, requestState) => {
     const { ch } = requestState.thread;
     let { response: thread } = await Logics.db.threads.findOne(ch, { buildinSchema: true });
     const isMultistream = false;
@@ -175,7 +174,7 @@ export default {
     return true;
   },
 
-  updateThreadServerMetas: async (ioUser, requestState, setting) => {
+  updateThreadServerMetas: async (ioUser, requestState) => {
     const { ch } = requestState.thread;
     const { response: baseThread } = await Logics.db.threads.findOne(ch);
     const serverMetas = await Logics.db.threads.updateServerMetas(ch, baseThread, requestState.thread);
@@ -186,7 +185,7 @@ export default {
     return true;
   },
 
-  disconnect: async (ioUser, requestState, setting) => {
+  disconnect: async (ioUser) => {
     const { response: user } = await Logics.db.users.findOne(ioUser.conn.id);
 
     if (user && user.ch) {
@@ -208,7 +207,7 @@ export default {
     if (Object.keys(tests).length > 0) {
       let { chs, state } = tests.find();
 
-      chs.forEach((ch, index) => {
+      chs.forEach((ch) => {
         const requestState = {
           ...state,
           thread: { ...state.thread, ch },

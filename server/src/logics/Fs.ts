@@ -1,25 +1,51 @@
 import fs from 'fs';
 
 import conf from 'common/conf';
+import define from 'common/define';
 
 export default class Fs {
-  getInterview(ch, _interviewIndex): any {
+  static names = {
+    config: `${define.APP_NAME}.config.json`,
+    creators: 'creators',
+  };
+  getConfig(ch): any {
     try {
-      const serverPath = `${conf.serverAssetsPath}cover/${ch}`;
-      const clientPath = `https://${conf.assetsURL}/cover/${ch}`;
-      const urls = { index: '', interview: '' };
-      urls.index = `${clientPath}/interview.index.json`;
-      const index = JSON.parse(fs.readFileSync(`${serverPath}/interview.index.json`, 'utf8'));
-      const interviewIndex = _interviewIndex ? _interviewIndex : index.contents.length;
-
-      urls.interview = `${clientPath}/${interviewIndex}.json`;
-      const interview = JSON.parse(fs.readFileSync(`${serverPath}/${interviewIndex}.json`, 'utf8'));
-      const css = fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}/default.css`, 'utf8');
-
-      return { index, interview, urls, css };
+      const serverPath = `${conf.serverCoverPath}${ch}${Fs.names.config}`;
+      if (this.isExist(serverPath)) {
+        const talknConfig = JSON.parse(fs.readFileSync(serverPath, 'utf8'));
+        return talknConfig && talknConfig !== '' ? talknConfig : null;
+      } else {
+        return null;
+      }
     } catch (err) {
       console.warn(err);
-      return '';
+      return null;
+    }
+  }
+  getCss(ch, config): any {
+    if (config.css !== '') {
+      fs.readFileSync(`${conf.serverAssetsPath}cover/${ch}/${config.css}`, 'utf8');
+    } else {
+      return null;
+    }
+  }
+
+  getCreators(ch, creatorsIndexParam, config): any {
+    try {
+      const serverBasePath = `${conf.serverCoverPath}${ch}`;
+      let creatorsIndex = creatorsIndexParam ? creatorsIndexParam : null;
+      if (creatorsIndex === null) {
+        creatorsIndex = config.creatorsIndex.length === 0 ? null : config.creatorsIndex.length;
+      }
+
+      let creators = null;
+      if (creatorsIndex) {
+        creators = JSON.parse(fs.readFileSync(`${serverBasePath}${Fs.names.creators}${creatorsIndex}.json`, 'utf8'));
+      }
+      return creators;
+    } catch (err) {
+      console.warn(err);
+      return null;
     }
   }
 

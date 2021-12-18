@@ -31,6 +31,8 @@ class MongoDB {
   static getSchema(collectionName) {
     return new Mongoose.Schema(Schemas.db.collections[collectionName], {
       collection: collectionName,
+      autoIndex: true,
+      autoCreate: true,
     });
   }
 

@@ -4,3 +4,5 @@ declare module 'worker-loader?inline=fallback&publicPath=/&filename=ws.api.worke
   }
   export default WsApiWorker;
 }
+
+declare module 'img-color';

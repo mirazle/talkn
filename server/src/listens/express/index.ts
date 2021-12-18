@@ -8,10 +8,14 @@ import https from 'https';
 import define from 'common/define';
 
 import conf from 'server/conf';
-import Session from 'server/listens/express/session/';
-import Logics from 'server/logics';
+import * as CoverLogics from 'server/listens/express/cover/logics';
 import Geolite from 'server/logics/Geolite';
 import Mail from 'server/logics/Mail';
+
+const coverParams = {
+  methodIndex: 2,
+  creatorsIndex: 3,
+};
 
 const sessionSetting = session({
   secret: 'keyboard cat',
@@ -130,6 +134,16 @@ class Express {
           }
         }
         break;
+      case conf.tuneURL:
+        if (req.originalUrl === '/') {
+          // CORSを許可する
+          res.header('Access-Control-Allow-Origin', '*');
+          res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+          res.sendFile(conf.serverTunePath + conf.files.tune);
+        } else {
+          res.send('404');
+        }
+        break;
       case conf.extURL:
         if (req.originalUrl === '/') {
           // CORSを許可する
@@ -140,70 +154,78 @@ class Express {
           res.sendFile(conf.serverExtPath + req.originalUrl.replace('/', ''));
         }
         break;
+      case conf.componentsURL:
+        // CORSを許可する
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
+        if (req.originalUrl.indexOf('.png') >= 0) {
+          res.sendFile(conf.serverComponentsPath + '.' + req.originalUrl);
+        } else {
+          res.sendFile(conf.serverComponentsPath);
+        }
+
+        break;
       case conf.coverURL:
         if (req.method === 'GET') {
-          let ch = '/';
-          let interviewIndex = undefined;
-          const splitedUrl = req.originalUrl.split('/');
-          const splitedUrlLength = splitedUrl.length;
-          const isUpdate = splitedUrl[splitedUrlLength - 1] === 'update';
-
-          if (splitedUrl[splitedUrlLength - 1] === '') {
-            ch = req.originalUrl;
-          } else {
-            const lastSlash = req.originalUrl.lastIndexOf('/');
-            ch = req.originalUrl.substr(0, lastSlash + 1);
-            interviewIndex = req.originalUrl.substr(lastSlash + 1, lastSlash);
-          }
-
           if (
             req.originalUrl.indexOf('.svg') >= 0 ||
-            req.originalUrl === '/talkn.cover.js' ||
-            req.originalUrl === '/robots.txt' ||
-            req.originalUrl === '/manifest.json' ||
-            req.originalUrl === '/service.worker.js' ||
-            req.originalUrl === '/ws.client.worker.js' ||
-            req.originalUrl === '/ws.api.worker.js'
+            req.originalUrl.indexOf('.png') >= 0 ||
+            req.originalUrl.indexOf('.js') >= 0 ||
+            req.originalUrl.indexOf('favicon.ico') >= 0 ||
+            req.originalUrl.indexOf('.txt') >= 0
           ) {
-            // CORSを許可する
-            res.header('Access-Control-Allow-Origin', '*');
-            res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-            res.sendFile(conf.serverCoverPath + req.originalUrl.replace('/', ''));
-            return true;
-          } else if (isUpdate) {
-            Logics.html.fetchCover(ch);
-            console.log('UPDATE');
-            /*
-              ドメイン配下のtalkn/interview.index.jsonを取得
-            		ドメイン配下のtalkn/interview.01.jsonを取得
-		            	存在しない場合、assets.talkn.io/cover/{ch}の配下を探す
-
-              		db.talkn.domainProfile取得してjson化、更新された判定(JSON化して付き合わせる)
-              			更新されていた場合
-                      db.talkn.domainProfileNextIndexを取得して、一番最後にdomainProfileの記事データを追加して保存
-              					この時に重複するdomainProfileの記事があれば削除
-						              db.talkn.domainProfileNextIndexを保存
-            */
+            CoverLogics.assets(req, res);
+          } else if (req.originalUrl.indexOf('/undefined') >= 0) {
+            res.send('404');
           } else {
-            Logics.db.threads.findOne(ch, { buildinSchema: true }).then((result) => {
-              const { index, interview, urls, css } = Logics.fs.getInterview(ch, interviewIndex);
-              res.render('cover/', {
-                language,
-                index,
-                interview,
-                urls,
-                css,
-                thread: result.response,
-                domain: conf.domain,
-                apiURL: conf.apiURL,
-                wwwURL: conf.wwwURL,
-                coverURL: conf.coverURL,
-                extURL: conf.extURL,
-                assetsURL: conf.assetsURL,
-                clientURL: conf.clientURL,
-                apiAccessURL: conf.apiAccessURL,
-              });
-            });
+            const splitedUrl = req.originalUrl.split('/');
+            const ch = splitedUrl[1] ? `/${splitedUrl[1]}/` : '/';
+            const method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : 'livePages';
+            const creatorsIndex = splitedUrl[coverParams.creatorsIndex] ? splitedUrl[coverParams.creatorsIndex] : null;
+            const resolveCover = async () => {
+              let domainProfile;
+              switch (method) {
+                case 'livePages':
+                case 'analytics':
+                  res.header('Access-Control-Allow-Origin', '*');
+                  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language);
+                  res.render('cover/', domainProfile);
+                  break;
+                case 'analyticsJson':
+                case 'livePagesJson':
+                  res.header('Access-Control-Allow-Origin', '*');
+                  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language);
+                  res.json(domainProfile);
+                  break;
+                case 'creators':
+                  res.header('Access-Control-Allow-Origin', '*');
+                  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, creatorsIndex);
+                  res.render('cover/', domainProfile);
+                  break;
+                case 'creatorsJson':
+                  res.header('Access-Control-Allow-Origin', '*');
+                  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, creatorsIndex);
+                  res.json(domainProfile);
+                  break;
+                case 'build':
+                  await CoverLogics.build(req, res, ch);
+                  res.redirect(`//${conf.coverURL}${ch}`);
+                  break;
+                case 'config':
+                  await CoverLogics.fetchConfig(req, res, req.protocol, ch);
+                  res.redirect(`//${conf.coverURL}${ch}`);
+                  break;
+                default:
+                  res.end();
+              }
+            };
+
+            resolveCover();
           }
         }
         break;
@@ -219,6 +241,7 @@ class Express {
               extURL: conf.extURL,
               assetsURL: conf.assetsURL,
               clientURL: conf.clientURL,
+              componentsURL: conf.componentsURL,
               apiAccessURL: conf.apiAccessURL,
             });
           } else {
