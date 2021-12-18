@@ -23,6 +23,9 @@ export default class MediaServer {
   static get PORTAL_KEY() {
     return 'PORTAL';
   }
+  static get CLIENT_KEY() {
+    return 'CLIENT';
+  }
   constructor() {
     // postMessage to iframe ids.
     this.init = this.init.bind(this);
@@ -81,7 +84,7 @@ export default class MediaServer {
 
   setRelationElms(id) {
     if (Object.keys(this.iframes).length === 0) {
-      if (id === MediaServer.PORTAL_KEY) {
+      if (id === MediaServer.CLIENT_KEY) {
         this.iframes[id] = {
           dom: window,
           params: {
@@ -158,7 +161,7 @@ export default class MediaServer {
         status: this.status.toLowerCase(),
         currentTime: this.currentTime,
       };
-      const content = iFrameId === MediaServer.PORTAL_KEY ? window : iframe.contentWindow;
+      const content = iFrameId === MediaServer.CLIENT_KEY ? window : iframe.contentWindow;
       content.postMessage({ type, params }, href);
     });
   }

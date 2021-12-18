@@ -1,4 +1,4 @@
-window.TALKN_EXT_ENV = 'PROD';
+window.TALKN_EXT_ENV = 'START';
 /*
   Reasons for plain js:
   Obfuscated or bundled js is rejected by Chrome Extension examination.
@@ -47,6 +47,9 @@ class MediaServer {
   }
   static get PORTAL_KEY() {
     return 'PORTAL';
+  }
+  static get CLIENT_KEY() {
+    return 'CLIENT';
   }
   static get EXTENSION_KEY() {
     return 'EXTENSION';
@@ -109,7 +112,7 @@ class MediaServer {
 
   setRelationElms(id) {
     if (Object.keys(this.iframes).length === 0) {
-      if (id === MediaServer.PORTAL_KEY || id === MediaServer.EXTENSION_KEY) {
+      if (id === MediaServer.CLIENT_KEY || id === MediaServer.EXTENSION_KEY) {
         this.iframes[id] = {
           dom: window,
           params: {
@@ -360,7 +363,7 @@ class Ext {
     return '#dev';
   }
   static get IS_DEVELOPMENT_MODE() {
-    return (location.hash === Ext.DEVELOPMENT_HASH) | (location.hash === `${Ext.DEVELOPMENT_HASH}/`);
+    return location.hash === Ext.DEVELOPMENT_HASH || location.hash === `${Ext.DEVELOPMENT_HASH}/`;
   }
   static get INCLUDE_ID() {
     return `#${Ext.APP_NAME}`;
@@ -406,7 +409,7 @@ class Ext {
     }
   }
   static get APP_ENDPOINT() {
-    const port = Ext.IS_DEVELOPMENT_MODE ? ':8080' : '';
+    const port = Ext.IS_DEVELOPMENT_MODE ? `:${this.BASE_CLIENT_PORT}` : '';
     return `https:${Ext.APP_HOST}${port}`;
   }
   static get() {
@@ -717,7 +720,7 @@ class Window extends ReactMode {
 
       if (this.isBrowserExt) {
         // Communication to background.js
-        chrome.runtime.sendMessage({ message: 'message' }, (res) => {
+        window.chrome.runtime.sendMessage({ message: 'message' }, (res) => {
           const option = res ? JSON.parse(res) : {};
           init(option);
         });

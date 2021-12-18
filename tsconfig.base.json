@@ -34,7 +34,9 @@
       "client/*": ["client/src/*"],
       "assets/*": ["assets/*"],
       "cover/*": ["cover/src/*"],
-      "rank/*": ["rank/src/*"]
+      "tune/*": ["tune/src/*"],
+      "components/*": ["components/src/*"],
+      "components/node_modules/*": ["components/node_modules/*"]
     }
   }
 }

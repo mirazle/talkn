@@ -9,8 +9,11 @@ switch (app) {
   case 'api':
     port = 8001;
     break;
-  case 'rank':
+  case 'components':
     port = 8002;
+    break;
+  case 'tune':
+    port = 8003;
     break;
   case 'client':
     port = 8080;
@@ -37,13 +40,15 @@ module.exports = {
   },
   resolve: {
     alias: {
-      common: path.resolve(__dirname, './common/src') + '/',
-      server: path.resolve(__dirname, './server/src') + '/',
-      api: path.resolve(__dirname, './api/src') + '/',
-      client: path.resolve(__dirname, './client/src') + '/',
-      cover: path.resolve(__dirname, './cover/src') + '/',
-      rank: path.resolve(__dirname, './rank/src') + '/',
-      assets: path.resolve(__dirname, './assets') + '/',
+      'common': path.resolve(__dirname, './common/src') + '/',
+      'server': path.resolve(__dirname, './server/src') + '/',
+      'api': path.resolve(__dirname, './api/src') + '/',
+      'client': path.resolve(__dirname, './client/src') + '/',
+      'cover': path.resolve(__dirname, './cover/src') + '/',
+      'tune': path.resolve(__dirname, './tune/src') + '/',
+      'components': path.resolve(__dirname, './components/src') + '/',
+      'components/node_modules/': path.resolve(__dirname, './components/node_modules') + '/',
+      'assets': path.resolve(__dirname, './assets') + '/',
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
