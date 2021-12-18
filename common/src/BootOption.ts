@@ -9,7 +9,7 @@ export type ExtensionModeType =
   | typeof BootOption.extensionModeLiveMedia;
 
 export type EnvType = typeof define.DEVELOPMENT | typeof define.LOCALHOST | typeof define.PRODUCTION;
-export type BootType = typeof define.APP_TYPES.API | typeof define.APP_TYPES.PORTAL | typeof define.APP_TYPES.EXTENSION;
+export type BootType = typeof define.APP_TYPES.API | typeof define.APP_TYPES.CLIENT | typeof define.APP_TYPES.EXTENSION;
 export type BootProtocolType = typeof Sequence.HTTPS_PROTOCOL | typeof Sequence.HTTP_PROTOCOL | typeof Sequence.TALKN_PROTOCOL;
 export type BootOptionParamsType = {
   ch: string;
@@ -95,7 +95,8 @@ export default class BootOption {
           .replace(`:${define.PORTS.DEVELOPMENT_CLIENT}`, '')
           .replace(`:${define.PORTS.DEVELOPMENT_API}`, '')
           .replace(`:${define.PORTS.DEVELOPMENT_COVER}`, '')
-          .replace(`:${define.PORTS.DEVELOPMENT_RANK}`, '');
+          .replace(`:${define.PORTS.DEVELOPMENT_TUNE}`, '')
+          .replace(`:${define.PORTS.DEVELOPMENT_COMPONENTS}`, '');
         if (initialRootCh.indexOf(`/${define.DEVELOPMENT_DOMAIN}/`) === 0) {
           initialRootCh = initialRootCh.replace(`/${define.DEVELOPMENT_DOMAIN}`, '');
         }
@@ -108,7 +109,7 @@ export default class BootOption {
   static getType(extScript, clientScript): BootType {
     let type = define.APP_TYPES.API;
     if (extScript) return define.APP_TYPES.EXTENSION;
-    if (clientScript) return define.APP_TYPES.PORTAL;
+    if (clientScript) return define.APP_TYPES.CLIENT;
     return type;
   }
 

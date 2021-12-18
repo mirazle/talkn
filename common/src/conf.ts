@@ -13,6 +13,8 @@ const files = {
   wsWorker: 'ws.api.worker.js',
   ext: 'talkn.ext.js',
   cover: 'talkn.cover.js',
+  tune: 'talkn.tune.js',
+  components: 'talkn.components.js',
 };
 const isDev = env === DEVELOPMENT;
 const domain = env === PRODUCTION ? PRODUCTION_DOMAIN : DEVELOPMENT_DOMAIN;
@@ -26,8 +28,11 @@ const portalURL = `${SUB_DOMAINS.PORTAL}.${domain}`;
 const assetsURL = `${SUB_DOMAINS.ASSETS}.${domain}`;
 const autoURL = `${SUB_DOMAINS.AUTO}.${domain}`;
 const extURL = `${SUB_DOMAINS.EXT}.${domain}`;
+const compURL = `${SUB_DOMAINS.COMP}.${domain}`;
 const ownURL = `${SUB_DOMAINS.OWN}.${domain}`;
 const newsURL = `${SUB_DOMAINS.NEWS}.${domain}`;
+const tuneURL = `${SUB_DOMAINS.TUNE}.${domain}`;
+const componentsURL = `${SUB_DOMAINS.COMPONENTS}.${domain}`;
 const bannerURL = `${SUB_DOMAINS.BANNER}.${domain}`;
 const transactionURL = `${SUB_DOMAINS.TRANSACTION}.${domain}`;
 const assetsImgPath = `${assetsURL}/img/`;
@@ -88,9 +93,12 @@ const conf: any = {
   assetsURL,
   autoURL,
   extURL,
+  compURL,
   ownURL,
   newsURL,
+  tuneURL,
   bannerURL,
+  componentsURL,
   transactionURL,
   assetsImgPath,
   assetsIconPath,
@@ -116,7 +124,8 @@ function getEnv(hostName) {
       return port === define.PORTS.DEVELOPMENT_CLIENT ||
         port === define.PORTS.DEVELOPMENT_API ||
         port === define.PORTS.DEVELOPMENT_COVER ||
-        port === define.PORTS.DEVELOPMENT_RANK
+        port === define.PORTS.DEVELOPMENT_COMPONENTS ||
+        port === define.PORTS.DEVELOPMENT_TUNE
         ? define.DEVELOPMENT
         : define.LOCALHOST;
     }

@@ -4,6 +4,19 @@
   "singleQuote": true,
   "quoteProps": "consistent",
   "jsxBracketSameLine": true,
-  "importOrder": ["^common/", "^server/", "^api/", "^client/", "^cover/", "^rank/", "^./", "^../", "^assets/"],
+  "importOrder": [
+    "^components/node_modules/",
+    "^common/",
+    "^server/",
+    "^api/",
+    "^client/",
+    "^components/",
+    "^cover/",
+    "^tune/",
+    "^rank/",
+    "^./",
+    "^../",
+    "^assets/"
+  ],
   "importOrderSeparation": true
 }
