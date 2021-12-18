@@ -19,7 +19,7 @@ cd common/pems
 
 ### localhost.ext
 
-5 make file
+5 make this file
 
 ```
 authorityKeyIdentifier=keyid,issuer

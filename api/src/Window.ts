@@ -7,7 +7,7 @@ import define from 'common/define';
 
 import ApiState from 'api/store';
 
-import apiStore from './apiStore';
+import apiStore from './store/apiStore';
 
 declare global {
   interface Window {
@@ -34,18 +34,13 @@ export default class Window {
     return 'tune';
   }
   constructor(id) {
-    //TalknSetup.setupMath();
-
-    // client store.
     this.id = id;
     this.bootOption = new BootOption(this.id);
     const apiState = new ApiState(this.bootOption);
-    //const clientState = new ClientState(apiState);
-    const state = { ...apiState /*, ...clientState */ };
+    const state = { ...apiState };
 
     this.store.dispatch({ ...state, type: 'INIT_CLIENT' });
 
-    // ws.api.worker.
     this.api = this.api.bind(this);
     this.injectStateToApp = this.injectStateToApp.bind(this);
     this.postMessage = this.postMessage.bind(this);
@@ -82,8 +77,6 @@ export default class Window {
       method,
       params,
     };
-
-    //    this.mediaClient && this.mediaClient.wsClientBeforeFilter({ method, params });
     this.wsApi.postMessage(message);
   }
 
@@ -96,29 +89,17 @@ export default class Window {
         const { ioType, exeMethod } = PostMessage.getMessageTypes(actionType);
         const state = { ...params, type: actionType };
 
-        // disptch client state.
-        //this.store.dispatch(state);
-
         // callback
         this.exePublicCallback(ioType, exeMethod, state);
 
         if (method === 'WS_CONSTRUCTED') {
           this.conned(this);
-          if (this.id === define.APP_TYPES.PORTAL) {
+          if (this.id === define.APP_TYPES.CLIENT) {
             // @ts-ignore
             const backParams = params.ch ? { ...this.bootOption, ch: params.ch } : this.bootOption;
             this.api('tune', backParams);
           }
         }
-
-        if (this.id === define.APP_TYPES.EXTENSION) {
-          // ext
-          //this.ext && this.ext.to(method, ioType, params);
-        }
-
-        // media
-        //this.mediaClient && this.mediaClient.wsClientAfterFilter({ method, params, state });
-
         // finnish handle ws api.
         if (this.id === define.APP_TYPES.PORTAL || this.id === define.APP_TYPES.EXTENSION) {
           if (method === `SERVER_TO_API[EMIT]:tune`) {

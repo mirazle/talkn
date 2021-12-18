@@ -92,7 +92,7 @@ export default class Thread extends Schema {
 
   static constructorFromWindow(params, bootOption) {
     const bootCh = bootOption.ch ? bootOption.ch : false;
-    const ch = Thread.getCh(bootOption, bootCh);
+    const ch = Thread.getCh(bootOption);
 
     let thread: any = {};
     let href = '';
@@ -140,7 +140,7 @@ export default class Thread extends Schema {
     return thread;
   }
 
-  static getCh(bootOption: any, bootCh: string) {
+  static getCh(bootOption: any) {
     return bootOption && bootOption.ch && bootOption.ch !== '' ? bootOption.ch : '/';
   }
 
@@ -163,7 +163,6 @@ export default class Thread extends Schema {
         const chArr = ch.split('/');
         const chLength = chArr.length;
         let newCh = '';
-        let noSlashCh = '';
         for (var i = 1; i < chLength; i++) {
           if (chArr[i] !== '') {
             newCh += chArr[i];
@@ -251,7 +250,7 @@ export default class Thread extends Schema {
     }
   }
 
-  static getStatus(thread, app, isExist, setting = {}): ThreadStatusType {
+  static getStatus(thread, app, isExist): ThreadStatusType {
     let status = {
       dispType: '', // TIMELINE, MULTI, SINGLE, CHILD, LOGS
       isCreate: false,
@@ -272,7 +271,7 @@ export default class Thread extends Schema {
     /* 更新が必要なthreadかどうか                             */
     /*******************************************************/
 
-    status.isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, setting, status.isCreate);
+    status.isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, status.isCreate);
 
     /*******************************************************/
     /* Multistream形式かどうか                               */
@@ -298,7 +297,7 @@ export default class Thread extends Schema {
     return !isExist;
   }
 
-  static getStatusIsRequireUpsert(thread, setting, isCreate = false) {
+  static getStatusIsRequireUpsert(thread, isCreate = false) {
     if (!isCreate) {
       return true;
     }

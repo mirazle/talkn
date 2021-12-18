@@ -180,6 +180,14 @@ npm -v
 
 `touch .yarn.lock`
 
+※ Internal Error: The "yarn-path" option has been set xxx .yarnrc.yml
+
+`vi .yarnrc.yml`
+
+```
+yarnPath: /root/.nvm/versions/node/v16.4.1/bin/yarn
+```
+
 ## python3
 
 $ sudo yum install -y python3

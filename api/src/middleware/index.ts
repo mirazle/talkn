@@ -133,7 +133,7 @@ const functions = {
     action.threadDetail.emotions = { ...state.threads[action.app.detailCh].emotions };
 
     // TODO 古い仕様だとhasSlashが格納されていないcollectionが存在する
-    // hasSlashはlocationが参照できないPORTALだと正しい値を取得出来ないため、
+    // hasSlashはlocationが参照できないCLIENTだと正しい値を取得出来ないため、
     // 拡張機能ではGET_CLIENT_METASを実行して正しい値をサーバーに渡して更新してやる必要がある。
     action.threadDetail.hasSlash = action.threadDetail.hasSlash === null ? true : Schema.getBool(action.threadDetail.hasSlash);
     delete action.thread;
@@ -192,7 +192,7 @@ const functions = {
   },
   'ON_CLICK_TOGGLE_DISP_DETAIL': (state, action) => {
     // TODO 古い仕様だとhasSlashが格納されていないcollectionが存在する
-    // hasSlashはlocationが参照できないPORTALだと正しい値を取得出来ないため、
+    // hasSlashはlocationが参照できないCLIENTだと正しい値を取得出来ないため、
     // 拡張機能ではGET_CLIENT_METASを実行して正しい値をサーバーに渡して更新してやる必要がある。
     action.threadDetail.hasSlash = action.threadDetail.hasSlash === null ? true : Schema.getBool(action.threadDetail.hasSlash);
     return action;
