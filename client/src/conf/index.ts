@@ -12,7 +12,7 @@ if (process.title === 'browser') {
     middle: 960,
   };
   conf.defaultFavicon = `//${SUB_DOMAINS.ASSETS}.${domain}/favicon.ico`;
-  conf.portalPath = env === DEVELOPMENT ? `//${SUB_DOMAINS.PORTAL}.${domain}/` : `//${SUB_DOMAINS.PORTAL}.${domain}/`;
+  conf.portalPath = env === DEVELOPMENT ? `//${SUB_DOMAINS.CLIENT}.${domain}/` : `//${SUB_DOMAINS.PORTAL}.${domain}/`;
   conf.clientPath = `//${SUB_DOMAINS.CLIENT}.${domain}/`;
   conf.assetsPath = `//${SUB_DOMAINS.ASSETS}.${domain}/`;
   conf.sessionPath = `//${SUB_DOMAINS.SESSION}.${domain}/`;

@@ -14,11 +14,13 @@ export default class TalknSetupJs {
     };
   }
   static setupLog() {
+    /*
     if (conf.env === define.PRODUCTION && window.talknWindow) {
       window.log = (params) => {
         const { ui } = window.talknWindow.store.getState();
         console.log(ui.iFrameId);
       };
     }
+    */
   }
 }

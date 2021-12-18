@@ -18,7 +18,7 @@ export default class Board {
     return 5;
   }
   static get right() {
-    return 0;
+    return 1;
   }
   static get activeColor() {
     return Container.themeRGB;
@@ -182,7 +182,8 @@ export default class Board {
   }
 
   static getSelfRight({ app, ui }, addUnit = false): any {
-    const right = ui.screenSize === Ui.screenSizeLargeLabel ? `calc( ${Detail.getWidth({ app, ui }, true)} + ${Board.right}px )` : `${Board.right}px`;
+    const right =
+      ui.screenSize === Ui.screenSizeLargeLabel ? `calc( ${Detail.getWidth({ app, ui }, true)} + ${Board.right}px )` : `${Board.right}px`;
     return addUnit ? right : Style.trimUnit(right);
   }
 
