@@ -1,0 +1,75 @@
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', 'Noto Sans CJK JP', 'Original Yu Gothic', 'Yu Gothic',
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Sans Emoji';
+  letter-spacing: 2px;
+}
+
+h2 {
+  font-size: 175%;
+  font-weight: 300;
+  line-height: 60px;
+  color: #e60012;
+  user-select: none;
+  margin: 15px 0;
+  text-shadow: none;
+}
+
+time {
+  display: block;
+  text-align: right;
+  font-style: italic;
+  font-size: 12px;
+  line-height: 18px;
+  color: #888;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 32px;
+  user-select: none;
+}
+
+#fixBackground {
+  z-index: -1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('//assets.talkn.io/cover/www.sunbridge.com/bg.svg');
+  background-size: 900px;
+  background-position: 90% 30%;
+  background-repeat: no-repeat;
+}
+
+#appHeader {
+  margin-top: 170px;
+  margin-bottom: 130px;
+  padding-top: 15px;
+  padding-right: 15px;
+  padding-bottom: 15px;
+  padding-left: 30px;
+  margin-left: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #e60012;
+}
+
+@media (max-width: 980px) {
+  h2 {
+    margin: 0px;
+    font-size: 150%;
+    line-height: 60px;
+  }
+}
+
+@media (max-width: 680px) {
+  h2 {
+    margin: 0px;
+    font-size: 100%;
+    line-height: 40px;
+  }
+}
