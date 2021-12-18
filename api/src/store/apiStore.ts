@@ -12,11 +12,15 @@ declare global {
 export default function apiStore(initialState = {}) {
   let composeEnhancers = null;
   let middlewares = [middleware.updateAction];
-  const store = createStore(apiReducers, initialState, composeEnhancers ? composeEnhancers(applyMiddleware(...middlewares)) : applyMiddleware(...middlewares));
+  const store = createStore(
+    apiReducers,
+    initialState,
+    composeEnhancers ? composeEnhancers(applyMiddleware(...middlewares)) : applyMiddleware(...middlewares)
+  );
 
   if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      const nextReducer = require('./reducers');
+    module.hot.accept('../reducers', () => {
+      const nextReducer = require('../reducers');
       store.replaceReducer(nextReducer);
     });
   }

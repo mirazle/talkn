@@ -11,7 +11,7 @@ import WsServerToApiEmitAction from 'api/actions/ws/serverToApiEmit';
 import ApiState from 'api/store';
 import WsApiWorker from 'api/ws.api.worker';
 
-import apiStore from './apiStore';
+import apiStore from './store/apiStore';
 
 type Store = any;
 
