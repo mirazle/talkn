@@ -1,18 +1,36 @@
 import React, { useEffect, useState, useRef, memo } from 'react';
 import styled, { css } from 'styled-components';
 
+import BootOption from 'common/BootOption';
+
+import AppStore from 'api/store/App';
+
+import handles from 'client/actions/handles';
+import mapToStateToProps from 'client/mapToStateToProps/';
+
+import Window from 'components/Window';
+
 import Title, { H3Height } from 'cover/components/atoms/Title';
 import Article, { ArticleType } from 'cover/components/molecules/Article';
-import * as styles from 'cover/styles';
+import * as styles from 'cover/components/styles';
+
+type StateType = {
+  ranks: ArticleType[];
+  app: AppStore;
+  thread: any;
+};
 
 type ArticleOrderType = {
-  ch: string;
-  title: string;
-  articles: ArticleType[];
+  api: any;
+  state: StateType;
+  root: Element;
 };
 
 // const NoData: React.FC = () => <div>No Data</div>;
-const Component: React.FC<ArticleOrderType> = ({ ch, title, articles }) => {
+const Component: React.FC<ArticleOrderType> = (props) => {
+  const { api, state, root } = props;
+  const { ranks: articles, thread } = state;
+  const { ch, title } = thread;
   const orderRef = useRef(null);
   const [active, setActive] = useState<boolean>(false);
   const [focusIndex, setFocusIndex] = useState<undefined | number>(undefined);
@@ -21,6 +39,12 @@ const Component: React.FC<ArticleOrderType> = ({ ch, title, articles }) => {
   const handleOnScroll = () => {
     setActive(true);
   };
+
+  const handleOnMouseOverContainer = () => {
+    const rootElm = root as HTMLElement;
+    rootElm.style.zIndex = String(Number.MAX_SAFE_INTEGER);
+    rootElm.style.position = 'relative';
+  };
   const handleOnMouseOver = () => {
     setActive(true);
   };
@@ -28,6 +52,8 @@ const Component: React.FC<ArticleOrderType> = ({ ch, title, articles }) => {
     setActive(true);
   };
   const handleOnMouseLeave = () => {
+    const rootElm = root as HTMLElement;
+    rootElm.style.zIndex = 'auto';
     setFocusIndex(undefined);
     setActive(false);
   };
@@ -62,8 +88,10 @@ const Component: React.FC<ArticleOrderType> = ({ ch, title, articles }) => {
   }, [articles.length, window.innerWidth]);
 
   return (
-    <Container focusHeight={articleHeights[focusIndex]} onMouseLeave={handleOnMouseLeave}>
-      <TitleCustom type={'ArticleOrder'}>{title}</TitleCustom>
+    <Container focusHeight={articleHeights[focusIndex]} onMouseOver={handleOnMouseOverContainer} onMouseLeave={handleOnMouseLeave}>
+      <TitleCustom type={'ArticleOrder'}>
+        {getCategory(ch)}&nbsp;(&nbsp;{title}&nbsp;)
+      </TitleCustom>
       <ArrowRightButton
         active={active}
         {...activeOnEvents}
@@ -92,10 +120,29 @@ const Component: React.FC<ArticleOrderType> = ({ ch, title, articles }) => {
   );
 };
 
-export default memo(Component);
+export default Component;
 
 type ContainerPropeType = {
   focusHeight?: number;
+};
+
+const getCategory = (ch) => {
+  const splited = ch.split('/');
+  if (splited.length >= 3) {
+    let _category = splited.reduce((prev, cur, i) => {
+      if (i < 2) {
+        return '';
+      } else if (i === 2) {
+        return prev + cur;
+      } else {
+        return prev + '/' + cur;
+      }
+    }, '');
+    _category = _category.endsWith('/') ? _category.replace(/\/$/, '') : _category;
+    return _category.charAt(0).toUpperCase() + _category.slice(1);
+  } else {
+    return ch;
+  }
 };
 
 const ContainerMarginTop = styles.baseMargin;
@@ -103,16 +150,17 @@ const Container = styled.div<ContainerPropeType>`
   display: flex;
   flex-flow: column wrap;
   width: 100%;
-  max-width: ${styles.appWidth}px;
   margin-top: 0;
   margin-right: 0;
   margin-bottom: ${(props) =>
     props.focusHeight === undefined ? '0' : `-${props.focusHeight + styles.doubleMargin - styles.articleOrderHeight}px`};
   margin-left: 0;
   border: 0;
-  z-index: ${(props) => (props.focusHeight === undefined ? 'auto' : 4)};
   overflow-y: visible;
   transform: translate(0px, 0px);
+  * {
+    text-decoration: none;
+  }
 `;
 
 type ArticleOrderPropeType = {
@@ -136,7 +184,8 @@ const ArticleOrder = styled.ol<ArticleOrderPropeType>`
 `;
 
 const TitleCustom = styled(Title)`
-  text-indent: 32px;
+  padding: 0 ${styles.doublePadding}px;
+  text-indent: 0;
 `;
 
 const ArticleList = styled.li`

@@ -28,7 +28,7 @@ export default class Threads {
   /* MONGO DB       */
   /******************/
 
-  async findOne(ch, params: ThreadFindOneType = ThreadFindOneInit, called = 'Default') {
+  async findOne(ch, params: ThreadFindOneType = ThreadFindOneInit) {
     const { selector, option, buildinSchema } = params;
     const condition = { ch };
     let { error, response } = await this.collection.findOne(condition, selector, option);
@@ -46,8 +46,19 @@ export default class Threads {
     const condition = { ch };
     const selector = { liveCnt: 1 };
     const option = {};
-    const { error, response } = await this.collection.findOne(condition, { selector, option, buildinSchema: false }, 'finedMenuIndex');
+    const { response } = await this.collection.findOne(condition, { selector, option, buildinSchema: false }, 'finedMenuIndex');
     return response.liveCnt < 0 ? 0 : response.liveCnt;
+  }
+
+  async findCoverCategoryChs(ch) {
+    //    const condition = { chs: ch, layer: { $lte: 3 } };
+    const condition = { chs: ch };
+    const selector = { ch: 1, liveCnt: 1, title: 1, serverMetas: 1 };
+    const option = {
+      sort: { liveCnt: -1, updateTime: -1, createTime: -1 },
+      limit: 20,
+    };
+    return await this.collection.find(condition, selector, option);
   }
 
   async rank(requestState, setting) {
@@ -62,6 +73,7 @@ export default class Threads {
     condition.layer = isRankDetailMode ? { $gt: layer } : { $gt: layer };
 
     if (app.findType === Thread.findTypeAll) {
+      // TODO: 条件分岐を整える
     } else if (app.findType === Thread.findTypeOther) {
       condition['$and'] = [
         { ['lastPost.findType']: { $ne: Thread.findTypeHtml } },
@@ -73,20 +85,23 @@ export default class Threads {
     }
 
     const selector = isRankDetailMode
-      ? { serverMetas: 1, lastPost: 1, liveCnt: 1 }
+      ? { serverMetas: 1, lastPost: 1, liveCnt: 1, ch: 1, title: 1, favicon: 1 }
       : { 'serverMetas.title': 1, 'lastPost': 1, 'liveCnt': 1 };
+
     const option = {
       sort: { liveCnt: -1, updateTime: -1, createTime: -1 },
       limit: setting.server.getThreadChildrenCnt,
     };
 
     const { response } = await this.collection.find(condition, selector, option);
-    console.log(response.length, isRankDetailMode);
+
     return response.map((res) => {
       if (isRankDetailMode) {
         return {
           ...res.lastPost,
+          ch: res.ch,
           title: res.serverMetas.title,
+          favicon: res.favicon,
           liveCnt: res.liveCnt,
           serverMetas: res.serverMetas,
         };
@@ -104,6 +119,7 @@ export default class Threads {
     thread.findType = Thread.getContentTypeFromFindType(thread.contentType);
     thread.updateTime = new Date();
     thread.liveCnt = thread.liveCnt < 0 ? 0 : thread.liveCnt;
+    thread.layer = thread.layer ? thread.layer : Thread.getLayer(thread.ch);
     thread.hasSlash = thread.hasSlash === null ? false : thread.hasSlash;
     thread.title =
       thread.title === defaultTitle && thread.serverMetas && thread.serverMetas.title !== defaultTitle
@@ -121,16 +137,16 @@ export default class Threads {
     return await this.collection.update(condition, set, option);
   }
 
-  async tune(thread, liveCnt, update = false) {
+  async tune(thread, liveCnt, updateLiveCnt = false) {
     const { ch } = thread;
     if (thread.save) {
-      thread.liveCnt = update ? liveCnt : thread.liveCnt + liveCnt;
+      thread.liveCnt = updateLiveCnt ? liveCnt : thread.liveCnt + liveCnt;
       thread = await Logics.db.threads.save(thread);
       return { thread, isExist: true };
     } else {
       let { response: resThread, isExist } = await Logics.db.threads.findOne(ch);
 
-      if (update) {
+      if (updateLiveCnt) {
         resThread.liveCnt = liveCnt;
       } else {
         resThread.liveCnt = resThread.liveCnt + liveCnt;
@@ -143,7 +159,9 @@ export default class Threads {
 
   async update(ch, upset) {
     const condition = { ch };
-    const set = { ch, ...upset, updateTime: new Date() };
+    const layer = upset.layer ? upset.layer : Thread.getLayer(ch);
+    const chs = upset.chs ? upset.chs : Thread.getChs(ch);
+    const set = { ch, ...upset, chs, layer, updateTime: new Date() };
     const option = { upsert: true };
     return await this.collection.update(condition, set, option);
   }
@@ -183,23 +201,22 @@ export default class Threads {
   }
 
   getCh(param) {
-    return Thread.getCh(param, null);
+    return Thread.getCh(param);
   }
 
   /******************/
   /* HTML LOGIC     */
   /******************/
 
-  async requestHtmlParams(thread, requestState) {
-    const { response: htmlParams, iconHrefs } = await Logics.html.fetch(thread, requestState);
+  async requestHtmlParams(thread, { protocol, ch, hasSlash }) {
+    const { response: htmlParams, iconHrefs } = await Logics.html.fetch(thread, { protocol, ch, hasSlash });
     thread = MongoDB.getBuiltinObjToSchema(thread, htmlParams);
-    // if (thread.favicon === Favicon.defaultFaviconPath) {
+
     const faviconParams: any = await Logics.favicon.fetch(thread, iconHrefs);
     thread = MongoDB.getBuiltinObjToSchema(thread, {
       ...faviconParams,
       favicon: faviconParams.faviconName,
     });
-    // }
 
     if (thread.favicon !== Favicon.defaultFaviconPath && thread.lastPost.favicon === Favicon.defaultFaviconPath) {
       thread.lastPost.favicon = thread.favicon;

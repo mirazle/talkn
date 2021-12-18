@@ -4,8 +4,6 @@ import styled from 'styled-components';
 
 import conf from 'common/conf';
 
-import * as styles from 'cover/styles';
-
 type Props = {
   serverMetas: any;
 };

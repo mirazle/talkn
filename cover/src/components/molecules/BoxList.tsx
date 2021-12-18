@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import * as styles from 'cover/styles';
+import * as styles from 'cover/components/styles';
 
 const ThemeGreen = 'green';
 const ThemeDark = 'dark';
@@ -74,20 +74,21 @@ const Container = styled.li<ContainerPropType>`
   width: auto;
   min-width: 180px;
   height: 70px;
-  padding: 10px:
+  padding: ${styles.basePadding}px;
+  margin: ${styles.baseMargin}px;
   button {
     display: flex;
     flex-flow: column wrap;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: inherit;
     color: ${(props) => (props.theme === ThemeGreen ? 'rgba(0, 0, 0, 1)' : 'rgba(255, 255, 255, 1)')};
     cursor: pointer;
     background: ${(props) => (props.theme === ThemeGreen ? 'rgba(255, 255, 255, 1)' : 'rgba(68, 68, 68, 1)')};
     border: 0;
     outline: 0;
-    transition: ${styles.transitionDuration};
+    transition: ${styles.transitionDuration}ms;
   }
   a {
     display: flex;
@@ -95,11 +96,11 @@ const Container = styled.li<ContainerPropType>`
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: inherit;
     padding: 15px;
     color: #ddd;
     cursor: pointer;
-    transition: ${styles.transitionDuration};
+    transition: ${styles.transitionDuration}ms;
     background: ${(props) => (props.theme === ThemeGreen ? 'rgba(255, 255, 255, 1)' : 'rgba(68, 68, 68, 1)')};
   }
   a:hover,
@@ -115,7 +116,7 @@ const Container = styled.li<ContainerPropType>`
     cursor: pointer;
     background: ${(props) => (props.theme === ThemeGreen ? styles.markupColor : 'rgba(155, 155, 155, 1)')};
     border-radius: 10px;
-    transition: ${styles.transitionDuration};
+    transition: ${styles.transitionDuration}ms;
   }
   label {
     position: relative;

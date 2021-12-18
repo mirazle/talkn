@@ -5,39 +5,29 @@
     <script data-ad-client="ca-pub-5285495593698579" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
-    <script src="./workerDom.mjs" type="module"></script>
-    <script src="./workerDom.js" nomodule defer></script>
     <script type="text/javascript">
+      let creatorsIndex;
       const splitedUrl = location.href.split('/');
       const splitedUrlLength = splitedUrl.length;
-      let ch = '/';
-      let interviewIndex = undefined;
-      if (splitedUrl[splitedUrlLength - 1] === '') {
-        ch = location.href;
-      } else {
-        const lastSlash = location.href.lastIndexOf('/');
-        ch = location.href.substr(0, lastSlash + 1);
-        interviewIndex = location.href.substr(lastSlash + 1, lastSlash);
-      }
-      window.talknInterviewUrls = {index: '', interview: ''};
-      window.talknInterviewUrls.index = 'https://assets.localhost/cover/www.sunbridge.com/interview/index.json';
-      fetch(window.talknInterviewUrls.index).then((response) => {
-        response.json().then((index) => {
-          window.talknInterviewIndex = index;
-          interviewIndex = interviewIndex ? interviewIndex : index.contents.length;
-          window.talknInterviewUrls.interview = `https://assets.localhost/cover/www.sunbridge.com/interview/${interviewIndex}.json`;
-          fetch(window.talknInterviewUrls.interview).then((response) => {
-            response.json().then((interview) => {
-              window.talknInterview = interview;
-            });
-          });
+      const ch = splitedUrl[3] ? `/${splitedUrl[3]}/` : '/';
+      const method = splitedUrl[splitedUrlLength - 1] === '' ? 'livePages' : splitedUrl[splitedUrlLength - 1];
+
+      fetch(`//cover.localhost${ch}${method}Json`).then((response, d) => {
+        response.json().then((res) => {
+          window.talknSelectContentMenu = method;
+          window.talknCreators = res.creators;
+          window.talknConfig = res.config;
+          window.talknThread = res.thread;
+          window.talknServerMetas = res.serverMetas;
+          const script = document.createElement('script');
+          script.type = "text/javascript"
+          script.async = true;
+          script.src = "https://localhost:8000/talkn.cover.js"
+          document.head.appendChild(script);
         });
       });
-
-
     </script>
-    <script type="text/javascript" async src="https://localhost:8000/talkn.cover.js"></script>
-    <script type="text/javascript" async src="https://ext.localhost/"></script>
+    <script type="text/javascript" async src="https://localhost:8002/talkn.components.js"></script>
     <script type="text/javascript">
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker
@@ -63,7 +53,7 @@
 
     <meta property="og:title" content="talkn" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://localhost />
+    <meta property="og:url" content="https://localhost" />
     <meta property="og:image" content="https://assets.localhost/img/talkn_logo1.png" />
     <meta property="og:site_name" content="talkn" />
     <meta
@@ -170,6 +160,7 @@
       }
     </style>
     <style amp-custom>
+    /*
       #talkn {
         display: flex;
         justify-content: center;
@@ -182,6 +173,7 @@
         animation-iteration-count: infinite;
         transition: 600ms;
       }
+      */
     </style>
   </head>
   <body>

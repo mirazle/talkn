@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "css": "default.css",
+  "creatorsIndex": [
+    {
+      "title": "サンブリッジの根幹を担うプロダクト本部の責任者へ新卒社員がインタビュー",
+      "eyeCatch": "bg2.png",
+      "interview": "interview1.json"
+    },
+    {
+      "title": "Smart Viscaリニューアルの裏側",
+      "eyeCatch": "bg1.png",
+      "interview": "interview2.json"
+    }
+  ],
+  "userCategoryChs": [
+    "/www.sunbridge.com/products/",
+    "/www.sunbridge.com/solution/",
+    "/www.sunbridge.com/blog/",
+    "/www.sunbridge.com/casestudies/",
+    "/www.sunbridge.com/seminar/",
+    "/www.sunbridge.com/smartvisca/",
+    "/www.sunbridge.com/company/",
+    "/www.sunbridge.com/news/",
+    "/www.sunbridge.com/faq/"
+  ],
+  "iamTags": ["", ""],
+  "relationTags": ["情報通信:インフラエンジニア", "情報通信:バックエンドエンジニア"]
+}

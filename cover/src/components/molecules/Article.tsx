@@ -1,24 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled, { css } from 'styled-components';
 
-import conf from 'common/conf';
-
 import Favicon from 'cover/components/atoms/Favicon';
 import LiveCnt from 'cover/components/atoms/LiveCnt';
 import OgpImage from 'cover/components/atoms/OgpImage';
 import P from 'cover/components/atoms/P';
 import Title from 'cover/components/atoms/Title';
 import SnsLinks from 'cover/components/molecules/SnsLinks';
-import {
-  articleShadowColor,
-  articleWidth,
-  articleOpenScale,
-  articleCloseHeight,
-  articleOpenHeight,
-  basePadding,
-  baseShadow,
-  baseShadowColor,
-} from 'cover/styles';
+import * as styles from 'cover/components/styles';
 
 export type ServerMetasType = {
   'og:image': string;
@@ -87,7 +76,7 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
           </Title>
           <LiveCnt className={'LiveCnt'}>{article.liveCnt}</LiveCnt>
         </Header>
-        <OgpImage src={serverMetas['og:image']} ch={<>{article.ch}</>} />
+        <OgpImage src={serverMetas['og:image']} ch={article.ch} />
       </Cover>
       <Detail
         isFocus={isFocus}
@@ -103,7 +92,7 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
             </Title>
             <LiveCnt className={'LiveCnt'}>{article.liveCnt}</LiveCnt>
           </Header>
-          <OgpImage src={serverMetas['og:image']} ch={<>{article.ch}</>} />
+          <OgpImage src={serverMetas['og:image']} ch={article.ch} />
           <Description>
             <P lv={2}>{serverMetas['og:description']}</P>
             <SnsLinks serverMetas={serverMetas} />
@@ -117,8 +106,8 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
 export default Component;
 
 const Container = styled.div`
-  width: ${articleWidth}px;
-  height: ${articleCloseHeight}px;
+  width: ${styles.articleWidth}px;
+  height: ${styles.articleCloseHeight}px;
 `;
 
 type CoverPropsType = {};
@@ -127,9 +116,9 @@ const Cover = styled.div<CoverPropsType>`
   box-sizing: border-box;
   overflow: hidden;
   width: inherit;
-  height: ${articleCloseHeight}px;
+  height: ${styles.articleCloseHeight}px;
   background: #fff;
-  box-shadow: 0px 0px ${baseShadow}px 0px ${baseShadowColor};
+  box-shadow: 0px 0px ${styles.baseShadow}px 0px ${styles.baseShadowColor};
   border-radius: 10px;
 `;
 
@@ -163,26 +152,30 @@ const marqueeCss = css<DetailPropsType>`
   animation-direction: normal;
 `;
 
-const _reduceShadow = baseShadow * articleOpenScale - baseShadow;
+const _reduceShadow = styles.baseShadow * styles.articleOpenScale - styles.baseShadow;
 const reduceShadow = Math.floor(_reduceShadow * 100) / 100;
 const Detail = styled.article<DetailPropsType>`
   z-index: 20;
   position: absolute;
-  top: ${basePadding}px;
-  left: ${basePadding}px;
+  top: ${styles.basePadding}px;
+  left: ${styles.basePadding}px;
   opacity: ${(props) => (props.isFocus ? 1 : 0)};
   width: inherit;
-  height: ${articleOpenHeight}px;
+  height: ${styles.articleOpenHeight}px;
   background: #fff;
-  box-shadow: 0px 0px ${baseShadow * reduceShadow}px 0px ${articleShadowColor};
+  box-shadow: 0px 0px ${styles.baseShadow * reduceShadow}px 0px ${styles.articleShadowColor};
   border-radius: 10px;
   transition-property: opacity, transform, height;
   transition-duration: ${(props) => (props.isFocus ? '300ms, 300ms, 0ms' : '0ms, 0ms, 0ms')};
-  transform: ${(props) => (props.isFocus ? `scale(${articleOpenScale}) translate(0, 10px)` : 'scale(1) translate(0, 0)')};
+  transform: ${(props) => (props.isFocus ? `scale(${styles.articleOpenScale}) translate(0, 10px)` : 'scale(1) translate(0, 0)')};
   cursor: pointer;
   .Title {
     display: flex;
     ${(props) => (props.marqueeDuration ? marqueeCss : '')};
+    text-decoration: none;
+  }
+  .LiveCnt {
+    text-decoration: none;
   }
 `;
 
@@ -206,9 +199,12 @@ const Header = styled.header<HeaderPropsType>`
     flex: 1 1 200px;
     max-width: 200px;
     text-align: center;
+    color: ${styles.fontColor};
+    text-decoration: none;
   }
   .LiveCnt {
     flex: 1 1 50px;
+    text-decoration: none;
   }
 `;
 
@@ -218,4 +214,5 @@ const Description = styled.div`
   line-height: 26px;
   font-size: 18px;
   font-weight: 200;
+  text-decoration: none;
 `;

@@ -31,10 +31,13 @@ export default {
   // Analyze
   postCnt: { type: Number, default: 0 },
   multiPostCnt: { type: Number, default: 0 },
-  liveCnt: { type: Number, default: 1, min: 0 },
+  liveCnt: { type: Number, default: 0, min: 0 },
 
   // html(serverMetas)
   ...html,
+
+  categoryChs: [],
+  userCategoryChs: [],
 
   // Post
   lastPost: Posts,

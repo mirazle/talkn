@@ -11,62 +11,54 @@ const Component: FunctionComponent<Props> = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   return (
-    <Container>
-      <ToTopLayoyt>
-        <ToTop onClick={handleOnClickToTop}>
-          <div className={'ToTopArrow'} />
-        </ToTop>
-      </ToTopLayoyt>
-    </Container>
+    <ToTop onClick={handleOnClickToTop}>
+      <div className={'ToTopArrow'} />
+      <div className={'ToTopArrowUnderBar'} />
+    </ToTop>
   );
 };
 
 export default Component;
 
-const Container = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: ${styles.doubleMargin}px 0;
-  width: 100%;
-  background: rgb(255, 255, 255);
-`;
-
-const ToTopLayoyt = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-  max-width: ${styles.appWidth}px;
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    justify-content: center;
-  }
-`;
-
 const ToTop = styled.div`
+  z-index: ${styles.zIndex.toTop};
+  position: sticky;
+  top: 75px;
+  right: 70px;
   display: flex;
+  flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
   width: ${styles.quadSize}px;
   height: ${styles.quadSize}px;
   padding: ${styles.baseSize * 3}px;
-  margin-right: ${styles.doubleSize * 3}px;
-  background: transparent;
+  margin: 0 0 60px auto;
+  background: rgba(255, 255, 255, 0.96);
   border: 1px solid ${styles.fontColor};
   border-radius: ${styles.baseSize}px;
-  transition: ${styles.transitionDuration};
+  transition: ${styles.transitionDuration}ms;
   div.ToTopArrow {
     position: relative;
-    top: -3px;
+    top: -4px;
     border-right: 15px solid transparent;
     border-bottom: 25px solid ${styles.fontColor};
     border-left: 15px solid transparent;
+  }
+  div.ToTopArrowUnderBar {
+    width: 30px;
+    height: 5px;
+    min-height: 5px;
+    background: ${styles.fontColor};
+    border-radius: 10px;
   }
   :hover {
     background: ${styles.fontColor};
     border: 1px solid ${styles.fontColor};
     div.ToTopArrow {
       border-bottom: 25px solid #fff;
+    }
+    div.ToTopArrowUnderBar {
+      background: #fff;
     }
   }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {

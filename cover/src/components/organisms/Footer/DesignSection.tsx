@@ -2,18 +2,20 @@ import * as React from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import * as styles from 'cover/styles';
+import * as styles from 'cover/components/styles';
 
 type Props = {};
 
 const DesignSection: FunctionComponent<Props> = () => {
   return (
     <Container>
-      <BarArrowWrap>
-        <Bar />
-        <BarArrow />
-      </BarArrowWrap>
-      <Logo />
+      <Content>
+        <BarArrowWrap>
+          <Bar />
+          <BarArrow />
+        </BarArrowWrap>
+        <Logo />
+      </Content>
     </Container>
   );
 };
@@ -26,12 +28,23 @@ const Container = styled.section`
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  max-width: ${styles.appWidth}px;
   height: 1680px;
   margin: 0 auto;
-  background: #111 url(https://assets.talkn.io/img/walk2.png) 16% 85% / 240px no-repeat;
+  background: #111;
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: ${styles.appWidth}px;
+  height: inherit;
+  margin: 0 auto;
+  background: url(https://assets.talkn.io/img/walk2.png) 10% 85% / 240px no-repeat;
   @media (max-width: ${styles.spLayoutWidth}px) {
-    background: #111 url(https://assets.talkn.io/img/walk2.png) 50% 100% / 240px no-repeat;
+    background: url(https://assets.talkn.io/img/walk2.png) 50% 100% / 240px no-repeat;
   }
 `;
 

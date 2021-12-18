@@ -25,11 +25,12 @@ export const baseShadowColor = '#aaa';
 export const markupColor = '#ddd';
 export const baseTextShadow = '1px 1px rgba(80, 80, 80, 1)';
 export const baseBoxShadow = '0px 0px 5px 0px rgba(200, 200, 200, 1)';
-export const transitionDuration = '300ms';
+export const transitionDuration = 300;
 export const fontColor = '#666';
 export const borderColor = '#eee';
 export const componentBgColor = 'rgba(255, 255, 255, 0.96)';
-export const tagBgColor = 'rgba(100, 100, 100, 0.9)';
+export const tagBgColor = 'rgba(60, 60, 60, 0.9)';
+export const themeColor = 'rgba(79, 174, 159, 0.96)';
 
 // Section
 export const sectionPadding = doubleSize;
@@ -59,6 +60,13 @@ export const articleShadowColor = '#444';
 
 // Domain Profile.
 export const imageWidth = 200;
+
+export const zIndex = {
+  sideMenu: 1000,
+  header: 102,
+  toTop: 101,
+  contentsMenu: 100,
+};
 
 export const getTrimUnitNumber = (value: string) => {
   return Number(value.replace('px', ''));

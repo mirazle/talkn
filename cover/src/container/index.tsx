@@ -1,40 +1,32 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { connect } from 'react-redux';
-import styled, { css } from 'styled-components';
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
+import styled from 'styled-components';
 
+import { CreatorsIndexType } from 'common/Config';
 import conf from 'common/conf';
-
-import AppStore from 'api/store/App';
-
-import handles from 'client/actions/handles';
-import mapToStateToProps from 'client/mapToStateToProps/';
 
 import Flex from 'cover/components/atoms/Flex';
 import Node, { Props as NodeProps } from 'cover/components/atoms/Node';
 import P from 'cover/components/atoms/P';
+import Spinner from 'cover/components/atoms/Spinner';
 import Title from 'cover/components/atoms/Title';
-import { ArticleType } from 'cover/components/molecules/Article';
 import Section from 'cover/components/molecules/Section';
 import SnsLinks from 'cover/components/molecules/SnsLinks';
-import ArticleOrder from 'cover/components/organisms/ArticleOrder';
 import Footer from 'cover/components/organisms/Footer';
 import * as styles from 'cover/styles';
+import {
+  SelectContentMenuType,
+  selectContentMenuLivePages,
+  selectContentMenuCreators,
+  selectContentMenuAnalytics,
+  selectContentMenuDefault,
+} from 'cover/talkn.cover';
 
-type InterviewVerticalDatas = {
+type CreatorsVerticalDatas = {
   offsetTop: number;
   offsetBottom: number;
 };
 
-type StateType = {
-  ranks: ArticleType[];
-  app: AppStore;
-  thread: any;
-};
-
-type Props = {
-  api: any;
-  state: StateType;
-};
+type Props = unknown;
 
 type NavigationLayout = {
   width: number;
@@ -48,34 +40,29 @@ type NavigationLayout = {
   paddingLeft: number;
 };
 
-type InterviewIndexContentsType = {
+type CreatorsIndexContentsType = {
   no?: number;
   title: string;
   eyeCatch: string;
-  interview: string;
+  creators: string;
 };
 
-type InterviewIndexType = {
-  version: string;
-  contents: InterviewIndexContentsType[];
-};
-
-type InterviewSectionType = {
+type CreatorsSectionType = {
   title: string;
   resume: string;
   flow: string;
   nodes: NodeProps[];
 };
 
-type InterviewType = {
+type CreatorsType = {
   version: string;
   createTime: string;
   css: string;
   head: string;
-  sections: InterviewSectionType[] | [];
+  sections: CreatorsSectionType[] | [];
 };
 
-const interviewInit: InterviewType = {
+const creatorsInit: CreatorsType = {
   version: '',
   createTime: '',
   css: '',
@@ -83,36 +70,43 @@ const interviewInit: InterviewType = {
   sections: [],
 };
 
-const InterviewIndexContentsInit: InterviewIndexContentsType[] = [];
-const interviewIndexLimit = 10;
-const interviewVerticalInitial = { offsetTop: 0, offsetBottom: 0 };
+const CreatorsIndexContentsInit: CreatorsIndexType[] = [];
+const creatorsIndexLimit = 10;
+const creatorsVerticalInitial = { offsetTop: 0, offsetBottom: 0 };
 const getScrollWidth = () => (window.innerWidth > styles.appWidth ? styles.appWidth : window.innerWidth);
-let interviewVerticalDatas: InterviewVerticalDatas[] = [];
+let creatorsVerticalDatas: CreatorsVerticalDatas[] = [];
 const TalknContainer: React.FC<Props> = (props) => {
-  const { api, state } = props;
-  const [dataMount, setMountData] = useState(false);
-  const [interview, setInterview] = useState<InterviewType>(interviewInit);
-  const [interviewEyeCatchs, setInterviewEyeCatchs] = useState<InterviewIndexContentsType[]>(InterviewIndexContentsInit);
+  const [dataMount, setMountData] = React.useState(false);
+  const [config, setConfig] = useState<any>({});
+  const [thread, setThread] = useState<any>({});
+  const [serverMetas, setServerMetas] = useState<any>({});
+  const [creators, setCreators] = useState<CreatorsType>(creatorsInit);
+
+  const [creatorsEyeCatchs, setCreatorsEyeCatchs] = useState<CreatorsIndexType[]>(CreatorsIndexContentsInit);
   const [eyeCatchScrollIndex, setEyeCatchScrollIndex] = useState(0);
 
-  const [interviewIndex, setInterviewIndex] = useState<InterviewIndexContentsType[]>(InterviewIndexContentsInit);
-  const [interviewIndexPointer, setInterviewIndexPointer] = useState<number | undefined>();
+  const [creatorsIndex, setCreatorsIndex] = useState<CreatorsIndexType[]>(CreatorsIndexContentsInit);
+  const [creatorsIndexPointer, setCreatorsIndexPointer] = useState<number | undefined>();
   const [openMenu, setOpenMenu] = useState(false);
-  const [interviewPointer, setInterviewPointer] = useState<number | undefined>();
+  const [eyeCatchHeight, setEyeCatchHeight] = useState(0);
+  const [eyeCatchWidth, setEyeCatchWidth] = useState(0);
+  const [selectContentMenu, setSelectContentMenu] = useState<SelectContentMenuType>();
+  const [creatorsPointer, setCreatorsPointer] = useState<number | undefined>();
   const [navigationLayout, setNavigationLayout] = useState<NavigationLayout | undefined>();
 
   const headerSideMenuRef = useRef<HTMLElement>();
-  const headEyeCatchOrderRef = useRef<HTMLElement>();
+  const creatorEyeCatchOrderRef = useRef<HTMLElement>();
   const menuOrderRef = useRef<HTMLElement>();
-  const interviewRef = useRef<HTMLElement>();
+  const creatorsRef = useRef<HTMLElement>();
   const resumeRef = useRef<HTMLElement>();
-  const { app, ranks: articles, thread } = state;
-  const { ch, favicon, serverMetas } = thread;
+  const contentMenuRef = useRef<HTMLElement>();
+  const talknFrameRef = useRef<HTMLElement>();
+  const ogpImageRef = useRef<HTMLElement>();
 
   const handleOnClickNav = (chapterIndex: number) => {
-    if (interviewRef.current) {
-      const scrollToElm = interviewRef.current.children[chapterIndex] as HTMLElement;
-      const scrollToTop = scrollToElm.offsetTop - styles.appHeaderHeight - styles.baseSize;
+    if (creatorsRef.current) {
+      const scrollToElm = creatorsRef.current.children[chapterIndex] as HTMLElement;
+      const scrollToTop = scrollToElm.offsetTop - styles.appHeaderHeight * 2 - styles.baseSize;
       window.scrollTo({ top: scrollToTop, behavior: 'smooth' });
     }
   };
@@ -130,8 +124,8 @@ const TalknContainer: React.FC<Props> = (props) => {
   };
 
   const handleOnClickCircle = (e) => {
-    if (headEyeCatchOrderRef.current) {
-      headEyeCatchOrderRef.current.scrollTo({
+    if (creatorEyeCatchOrderRef.current) {
+      creatorEyeCatchOrderRef.current.scrollTo({
         left: getScrollWidth() * e.target.dataset.index,
         behavior: 'smooth',
       });
@@ -145,33 +139,26 @@ const TalknContainer: React.FC<Props> = (props) => {
   };
 
   const useCallbackScroll = useCallback(() => {
-    const _interviewPointer = interviewVerticalDatas.findIndex(
-      (obj) => obj.offsetTop <= window.scrollY && window.scrollY < obj.offsetBottom
-    );
-    setInterviewPointer(_interviewPointer);
-  }, [interviewVerticalDatas]);
+    const _creatorsPointer = creatorsVerticalDatas.findIndex((obj) => obj.offsetTop <= window.scrollY && window.scrollY < obj.offsetBottom);
+    setCreatorsPointer(_creatorsPointer);
+  }, [creatorsVerticalDatas]);
 
   useEffect(() => {
-    if (articles.length > 0 && !dataMount) {
-      setMountData(true);
-      for (let index in articles) {
-        api('onResponseChAPI', articles[index].ch);
-      }
-    }
-  }, [articles.length]);
-
-  useEffect(() => {
-    if (headEyeCatchOrderRef.current) {
-      const scrollIndex = Array.from(headEyeCatchOrderRef.current.children).findIndex((child) => {
-        return Number(child.getAttribute('data-no')) === window.talknInterviewPointer;
+    if (creatorEyeCatchOrderRef.current) {
+      const scrollIndex = Array.from(creatorEyeCatchOrderRef.current.children).findIndex((child) => {
+        const childElement = child as HTMLElement;
+        return Number(childElement.getAttribute('data-no')) === window.talknCreatorsPointer;
       });
 
       if (scrollIndex >= 0) {
-        headEyeCatchOrderRef.current.scrollLeft = getScrollWidth() * scrollIndex;
+        console.log(scrollIndex);
+        console.log(window.talknCreatorsPointer);
+        console.log(getScrollWidth() * scrollIndex);
+        creatorEyeCatchOrderRef.current.scrollLeft = getScrollWidth() * scrollIndex;
         setEyeCatchScrollIndex(scrollIndex);
       }
     }
-  }, [headEyeCatchOrderRef.current, window.talknInterviewPointer]);
+  }, [creatorEyeCatchOrderRef.current, window.talknCreatorsPointer]);
 
   useEffect(() => {
     if (menuOrderRef.current) {
@@ -180,23 +167,23 @@ const TalknContainer: React.FC<Props> = (props) => {
   }, [menuOrderRef.current]);
 
   useEffect(() => {
-    if (interviewRef.current) {
-      Array.from(interviewRef.current.children).forEach((child: HTMLElement, index) => {
-        if (!interviewVerticalDatas[index]) {
-          interviewVerticalDatas[index] = interviewVerticalInitial;
+    if (creatorsRef.current) {
+      Array.from(creatorsRef.current.children).forEach((child: HTMLElement, index) => {
+        if (!creatorsVerticalDatas[index]) {
+          creatorsVerticalDatas[index] = creatorsVerticalInitial;
         }
         const offsetTop = child.offsetTop - styles.appHeaderHeight - styles.baseSize;
         const offsetBottom = offsetTop + child.clientHeight;
-        interviewVerticalDatas[index] = { offsetTop, offsetBottom };
+        creatorsVerticalDatas[index] = { offsetTop, offsetBottom };
         if (index > 0) {
-          interviewVerticalDatas[index - 1].offsetBottom = offsetTop - 1;
+          creatorsVerticalDatas[index - 1].offsetBottom = offsetTop - 1;
         }
       });
     }
-  }, [interviewRef.current && interviewRef.current.clientHeight]);
+  }, [creatorsRef.current && creatorsRef.current.clientHeight]);
 
   useEffect(() => {
-    if (resumeRef.current && interview.sections.length > 0) {
+    if (resumeRef.current && window.talknCreators && window.talknCreators.sections.length > 0) {
       if (styles.spLayoutWidth < window.innerWidth) {
         const resumeElm = resumeRef.current;
         const resumeStyle = getComputedStyle(resumeElm);
@@ -209,6 +196,7 @@ const TalknContainer: React.FC<Props> = (props) => {
         const paddingRight = styles.getTrimUnitNumber(resumeStyle.paddingRight);
         const paddingBottom = styles.getTrimUnitNumber(resumeStyle.paddingBottom);
         const paddingLeft = styles.getTrimUnitNumber(resumeStyle.paddingLeft);
+
         setNavigationLayout({
           width,
           marginTop,
@@ -222,165 +210,267 @@ const TalknContainer: React.FC<Props> = (props) => {
         });
       }
     }
-  }, [window.innerWidth, interview && interview.sections.length]);
+  }, [window.innerWidth, creators && creators.sections.length]);
 
   useEffect(() => {
-    const _offset = window.talknInterviewPointer - interviewIndexLimit / 2;
+    const _offset = window.talknCreatorsPointer - creatorsIndexLimit / 2;
     const offset = 0 <= _offset ? _offset : 0;
-    const limit = interviewIndexLimit;
-    const _interviewIndex = [...window.talknInterviewIndex.contents].reverse();
-    let _interviewEyeCatchs = [...window.talknInterviewIndex.contents]
-      .map((interviewIndex: InterviewIndexContentsType, index) => {
-        interviewIndex.no = index + 1;
-        return interviewIndex;
+    const limit = creatorsIndexLimit;
+    const _creatorsIndex = [...window.talknConfig.creatorsIndex].reverse();
+    let _creatorsEyeCatchs = [...window.talknConfig.creatorsIndex]
+      .map((creatorsIndex, index) => {
+        creatorsIndex.no = index + 1;
+        return creatorsIndex;
       })
       .splice(offset, limit);
-    _interviewEyeCatchs = _interviewEyeCatchs.reverse();
-    setInterviewIndex(_interviewIndex);
-    setInterviewEyeCatchs(_interviewEyeCatchs);
-  }, [window.talknInterviewIndex]);
+    _creatorsEyeCatchs = _creatorsEyeCatchs.reverse();
+
+    setCreatorsIndex(_creatorsIndex);
+    setCreatorsEyeCatchs(_creatorsEyeCatchs);
+  }, [window.talknConfig.creatorsIndex]);
 
   useEffect(() => {
-    setInterviewIndexPointer(window.talknInterviewPointer);
-  }, [window.talknInterviewPointer]);
+    if (ogpImageRef.current) {
+      const image = new Image();
+      image.src = serverMetas['og:image'];
+      setEyeCatchWidth(image.width);
+      setEyeCatchHeight(image.height);
+    }
+  }, [ogpImageRef.current]);
 
   useEffect(() => {
-    setInterview(window.talknInterview);
-  }, [window.talknInterview]);
+    setMountData(true);
+    setConfig(window.talknConfig);
+    setThread(window.talknThread);
+    setServerMetas(window.talknServerMetas);
+    setCreators(window.talknCreators);
+    setCreatorsIndexPointer(window.talknCreatorsPointer);
+    setSelectContentMenu(window.talknSelectContentMenu);
 
-  useEffect(() => {
     window.addEventListener('scroll', useCallbackScroll);
   }, []);
 
+  const getContentNode = () => {
+    switch (selectContentMenu) {
+      case selectContentMenuLivePages:
+        return (
+          <TalknFrameWrap>
+            {window.talknConfig.userCategoryChs.map((categoryCh: any, index) => {
+              return (
+                <TalknFrame key={`${categoryCh}:${index}`} ref={talknFrameRef} className="talknFrame" data-ch={categoryCh}>
+                  <Spinner size="50" />
+                </TalknFrame>
+              );
+            })}
+          </TalknFrameWrap>
+        );
+      case selectContentMenuCreators:
+        if (window.talknCreators && window.talknCreators.sections.length > 0) {
+          return (
+            <CreatorsWrap navigationLayout={navigationLayout}>
+              <Creators className={'Creators'} ref={creatorsRef}>
+                {window.talknCreators.sections.map(({ title, flow, nodes }, i) => {
+                  return (
+                    <Section key={`Section${i}`} number={i + 1} title={title} flow={flow}>
+                      {nodes.map((node: NodeProps, j) => (
+                        <Node key={`${node.type}-${i}-${j}`} type={node.type} props={node.props} nodes={node.nodes} />
+                      ))}
+                    </Section>
+                  );
+                })}
+              </Creators>
+              <Navigation ref={resumeRef} navigationLayout={navigationLayout}>
+                <Title type={'Resume'}>- 目次 -</Title>
+                {window.talknCreators && window.talknCreators.sections.length > 0 && (
+                  <NavigationOrder creatorsPointer={creatorsPointer}>
+                    {window.talknCreators.sections.map(({ resume }, index) => {
+                      const number = index < 9 ? `0${index + 1}` : index + 1;
+                      return (
+                        <li key={`${resume}${index}`}>
+                          <AnchorRow onClick={() => handleOnClickNav(index)}>
+                            <span className="number">{number}.</span>
+                            <span className="resume">{resume}</span>
+                          </AnchorRow>
+                        </li>
+                      );
+                    })}
+                  </NavigationOrder>
+                )}
+              </Navigation>
+            </CreatorsWrap>
+          );
+        } else {
+          return (
+            <CommingSoon>
+              <P>{`Update your site that`}</P>
+              <P>{`/${thread.ch}talkn.config.json`}</P>
+            </CommingSoon>
+          );
+        }
+      case selectContentMenuAnalytics:
+        return (
+          <CommingSoon>
+            <P>..Comming soon</P>
+          </CommingSoon>
+        );
+    }
+  };
+
   return (
-    <>
-      <style type="text/css">{interview.css}</style>
-      <Container onClick={handleOnClickMenuOut}>
-        <MenuOrder className="MenuOrder" ref={menuOrderRef} openMenu={openMenu} focusMenuNo={interviewIndexPointer}>
-          {interviewIndex.map((contents, index) => (
-            <Title key={`Index${index}`} type="Index" className={`MenuList MenuList-${contents.no}`}>
-              <AnchorRow href={`https://${conf.coverURL}${ch}${contents.no}`}>
-                <span className="number">#{contents.no}&nbsp;</span>
-                <span className="resume">{contents.title}</span>
-              </AnchorRow>
-            </Title>
-          ))}
-        </MenuOrder>
-        <Header>
-          <HeaderSide></HeaderSide>
-          {app.tuned !== '' && (
-            <A href={`https:/${ch}`}>
-              {<Img src={favicon} width={30} height={30} />}
-              {<Title type={'AppHeader'}>{ch === '/' ? 'talkn' : ch}</Title>}
-            </A>
-          )}
-          <HeaderSideMenu className={openMenu && 'open'} ref={headerSideMenuRef} onClick={handleOnClickMenu}>
-            <div className="HeaderMenuLine" />
-            <div className="HeaderMenuLine" />
-            <div className="HeaderMenuLine" />
-          </HeaderSideMenu>
-        </Header>
-        <HeadEyeCatchOrder ref={headEyeCatchOrderRef} onScroll={handleOnScrollHeadEyeCatch}>
-          {interviewIndex.map((index, i) => (
-            <HeadEyeCatchList key={`HeadEyeCatchList${i}`} className="HeadEyeCatchList" data-no={index.no} ch={ch} bg={index.eyeCatch}>
-              <ViewAnchor href={`https://${conf.coverURL}${ch}${index.no}`}></ViewAnchor>
+    <Container onClick={handleOnClickMenuOut}>
+      {/* サイドメニュー */}
+      <SideMenuOrder className="SideMenuOrder" ref={menuOrderRef} openMenu={openMenu} focusMenuNo={creatorsIndexPointer}>
+        {window.talknConfig.creatorsIndex.length > 0 &&
+          window.talknConfig.creatorsIndex.map((contents, index) => {
+            return (
+              <Title key={`Index${index}`} type="Index" className={`MenuList MenuList-${contents.no}`}>
+                <AnchorRow href={`https://${conf.coverURL}${thread.ch}creators/${contents.no}`}>
+                  <span className="number">#{contents.no}&nbsp;</span>
+                  <span className="resume">{contents.title}</span>
+                </AnchorRow>
+              </Title>
+            );
+          })}
+      </SideMenuOrder>
+
+      {/* ヘッダー */}
+      <Header>
+        <HeaderSide></HeaderSide>
+        <A href={`https:/${thread.ch}`}>
+          {<Img src={thread.favicon} width={30} height={30} />}
+          {<Title type={'AppHeader'}>{thread.ch === '/' ? 'talkn' : thread.ch}</Title>}
+        </A>
+        <HeaderInSideMenu className={openMenu && 'open'} ref={headerSideMenuRef} onClick={handleOnClickMenu}>
+          <div className="HeaderMenuLine" />
+          <div className="HeaderMenuLine" />
+          <div className="HeaderMenuLine" />
+        </HeaderInSideMenu>
+      </Header>
+
+      {/* ドメインのog:imageをアイキャッチとして表示 */}
+      <EyeCatchBackGround ogpImageHeight={eyeCatchHeight}>
+        <ViewAnchor href={`/${thread.ch}`}>
+          <OgpImage ref={ogpImageRef} src={serverMetas['og:image']} maxWidth={eyeCatchWidth} maxHeight={eyeCatchHeight} />
+        </ViewAnchor>
+      </EyeCatchBackGround>
+
+      {/* クリエイターのインタビューのアイキャッチをslideで表示 */}
+      {creatorsEyeCatchs && creatorsEyeCatchs.length > 0 && (
+        <CreatorsEyeCatchOrder
+          ref={creatorEyeCatchOrderRef}
+          onScroll={handleOnScrollHeadEyeCatch}
+          creatorsIndexCnt={window.talknConfig.creatorsIndex.length}>
+          {creatorsEyeCatchs.map((index, i) => (
+            <HeadEyeCatchList
+              key={`HeadEyeCatchList${i}`}
+              className="HeadEyeCatchList"
+              data-no={index.no}
+              ch={thread.ch}
+              eyeCatch={index.eyeCatch}
+              creatorsIndexCnt={window.talknConfig.creatorsIndex.length}>
+              <ViewAnchor href={`https://${conf.coverURL}${thread.ch}creators/${index.no}`} />
             </HeadEyeCatchList>
           ))}
-        </HeadEyeCatchOrder>
+        </CreatorsEyeCatchOrder>
+      )}
 
-        <HeadEyeCatchSelectOrder interviewIndexCnt={interviewIndex.length} eyeCatchScrollIndex={eyeCatchScrollIndex}>
-          {interviewIndex.map((circle, index) => (
-            <li key={circle.no} data-index={index} onClick={handleOnClickCircle} />
-          ))}
+      {/* クリエイターのインタビューの選択(●)アイコンを表示 */}
+      {window.talknConfig && window.talknConfig.creatorsIndex.length > 0 && (
+        <HeadEyeCatchSelectOrder creatorsIndexCnt={window.talknConfig.creatorsIndex.length} eyeCatchScrollIndex={eyeCatchScrollIndex}>
+          {window.talknConfig &&
+            window.talknConfig.creatorsIndex.map((circle, index) => (
+              <li key={`${circle.no}-${index}`} data-index={index} onClick={handleOnClickCircle} />
+            ))}
         </HeadEyeCatchSelectOrder>
-        <BaseBoard>
-          <ArticleOrderBg>
-            <ArticleOrder ch={ch} title={'製品のご紹介'} articles={articles} />
-          </ArticleOrderBg>
-        </BaseBoard>
-        <WhiteBoard>
-          <Main navigationLayout={navigationLayout}>
-            <Interview className={'Interview'} ref={interviewRef}>
-              {interview.sections.map(({ title, flow, nodes }, index) => {
-                return (
-                  <Section key={`Section${index}`} number={index + 1} title={title} flow={flow}>
-                    {nodes.map((node: NodeProps, index) => (
-                      <Node key={`${node.type}${index}`} type={node.type} props={node.props} nodes={node.nodes} />
-                    ))}
-                  </Section>
-                );
-              })}
-            </Interview>
-            <Navigation ref={resumeRef} navigationLayout={navigationLayout}>
-              <Title type={'Resume'}>- 目次 -</Title>
-              {interview.sections.length > 0 && (
-                <NavigationOrder interviewPointer={interviewPointer}>
-                  {interview.sections.map(({ resume }, index) => {
-                    const number = index < 9 ? `0${index + 1}` : index + 1;
-                    return (
-                      <li key={`${resume}${index}`}>
-                        <AnchorRow onClick={() => handleOnClickNav(index)}>
-                          <span className="number">{number}.</span>
-                          <span className="resume">{resume}</span>
-                        </AnchorRow>
-                      </li>
-                    );
-                  })}
-                </NavigationOrder>
-              )}
-            </Navigation>
-          </Main>
+      )}
 
-          <DomainProfile>
-            <DomainProfileTitle className={'DomainProfileTitle'} type={'Section'} underline>
-              Domain Profile
-            </DomainProfileTitle>
-            <FlexProfile className="FlexProfile">
-              <DomainProfileImage src={serverMetas['og:image']} />
-              <Description>
-                <Title className="DomainProfileDescTitle" type="DomainProfileDescTitle">
-                  {serverMetas['title']}
-                </Title>
-                <P className="description">{serverMetas['description']}</P>
-              </Description>
-            </FlexProfile>
-            <Tags>
-              {serverMetas.keywords &&
-                serverMetas.keywords.split(',').map((tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>)}
-            </Tags>
-            <SnsLinksWrap>
-              <SnsLinks serverMetas={serverMetas} />
-            </SnsLinksWrap>
-          </DomainProfile>
-
-          <SnsShare>
-            <Twitter className="twitter">
-              <a
-                href="https://twitter.com/share?ref_src=twsrc%5Etfw&url=https://cover.talkn.io/www.sunbridge.com/"
-                className="twitter-share-button"
-                data-show-count="false">
-                <TwitterIcon />
-                Tweet
+      {/* メインコンテンツ */}
+      <MainContents>
+        {/* コンテンツメニュー */}
+        <ContentsMenuOrderWrap ref={contentMenuRef}>
+          <ContentMenuOrder>
+            <ContentMenuList className={selectContentMenu === selectContentMenuLivePages && 'active'}>
+              <a href={`//${conf.coverURL}${thread.ch}`}>
+                <div>LIVE PAGES</div>
+                <div className="underBar" />
               </a>
-              <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
-            </Twitter>
-            <div className="facebook">
-              <div className="fb-share-button" data-href={`https://cover.talkn.io${ch}`} data-layout="button_count" data-size="large">
-                <a
-                  target="_blank"
-                  href={`https://www.facebook.com/sharer/sharer.php?u=https://cover.talkn.io${ch};src=sdkpreparse`}
-                  className="fb-xfbml-parse-ignore">
-                  Share
-                </a>
-              </div>
+            </ContentMenuList>
+            <ContentMenuList className={selectContentMenu === selectContentMenuCreators && 'active'}>
+              <a href={`//${conf.coverURL}${thread.ch}creators`}>
+                <div>CREATORS</div>
+                <div className="underBar" />
+              </a>
+            </ContentMenuList>
+            <ContentMenuList className={selectContentMenu === selectContentMenuAnalytics && 'active'}>
+              <a href={`//${conf.coverURL}${thread.ch}analytics`}>
+                <div>ANALYTICS</div>
+                <div className="underBar" />
+              </a>
+            </ContentMenuList>
+          </ContentMenuOrder>
+        </ContentsMenuOrderWrap>
+        {useMemo(getContentNode, [selectContentMenu, navigationLayout])}
+      </MainContents>
+
+      <WhiteBoard>
+        <DomainProfile>
+          <DomainProfileTitle className={'DomainProfileTitle'} type={'Section'} underline>
+            Domain Profile
+          </DomainProfileTitle>
+          <FlexProfile className="FlexProfile">
+            <DomainProfileImage src={serverMetas['og:image']} />
+            <Description>
+              <Title className="DomainProfileDescTitle" type="DomainProfileDescTitle">
+                {serverMetas['title']}
+              </Title>
+              <P className="description">{serverMetas['description']}</P>
+              <TagsSection>
+                <P>I'am Tags</P>
+                <Tags>
+                  {serverMetas.keywords &&
+                    serverMetas.keywords.split(',').map((tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>)}
+                </Tags>
+                <P>Relation Tags</P>
+                <Tags>
+                  {window.talknConfig.relationTags.map((tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>)}
+                </Tags>
+              </TagsSection>
+              <SnsLinksWrap>
+                <SnsLinks serverMetas={serverMetas} />
+              </SnsLinksWrap>
+            </Description>
+          </FlexProfile>
+        </DomainProfile>
+
+        <SnsShare>
+          <Twitter className="twitter">
+            <a
+              href="https://twitter.com/share?ref_src=twsrc%5Etfw&url=https://cover.talkn.io/www.sunbridge.com/"
+              className="twitter-share-button"
+              data-show-count="false">
+              <TwitterIcon />
+              Tweet
+            </a>
+            <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
+          </Twitter>
+          <div className="facebook">
+            <div className="fb-share-button" data-href={`https://cover.talkn.io${thread.ch}`} data-layout="button_count" data-size="large">
+              <a
+                target="_blank"
+                href={`https://www.facebook.com/sharer/sharer.php?u=https://cover.talkn.io${thread.ch};src=sdkpreparse`}
+                className="fb-xfbml-parse-ignore">
+                Share
+              </a>
             </div>
-          </SnsShare>
-        </WhiteBoard>
-        <Footer ch={ch} />
-      </Container>
-    </>
+          </div>
+        </SnsShare>
+      </WhiteBoard>
+      <Footer ch={thread.ch} />
+    </Container>
   );
 };
+
+export default TalknContainer;
 
 // prettier-ignore
 const Container = styled.div`
@@ -399,7 +489,7 @@ const Container = styled.div`
       'Yu Gothic', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Sans Emoji';
     letter-spacing: 2px;
   }
-  
+
   a,
   a:visited,
   a:hover,
@@ -410,9 +500,65 @@ const Container = styled.div`
   }
 `;
 
-const MenuOrder = styled.div<{ ref: any; openMenu: boolean; focusMenuNo: number }>`
+const EyeCatchBackGround = styled.div<{ ogpImageHeight: number }>`
+  overflow: hidden;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: ${styles.appWidth}px;
+  height: auto;
+  min-height: 400px;
+`;
+
+const BackLeftImage = styled.img<{ ogpImageHeight: number }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: ${(props) => props.ogpImageHeight}px;
+  background-color: #fff;
+  filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: scale(1.2);
+`;
+
+const BackRightImage = styled.img<{ ogpImageHeight: number }>`
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: ${(props) => props.ogpImageHeight}px;
+  background-color: #fff;
+  filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: scale(1.2);
+`;
+
+const OgpImage = styled.img<{ ref: any; maxWidth: number; maxHeight: number }>`
+  width: 100%;
+  max-width: ${(props) => (props.maxWidth > 0 ? `${props.maxWidth}px` : 'fit-content')};
+  height: auto;
+  max-height: ${(props) => (props.maxHeight > 0 ? `${props.maxHeight}px` : 'fit-content')};
+  transition: ${styles.transitionDuration}ms;
+  opacity: 1;
+  cursor: pointer;
+  :hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+`;
+
+const SideMenuOrder = styled.div<{ ref: any; openMenu: boolean; focusMenuNo: number }>`
   position: fixed;
-  z-index: 99;
+  z-index: ${styles.zIndex.sideMenu};
   top: ${styles.appHeaderHeight}px;
   right: 0;
   overflow-x: hidden;
@@ -428,8 +574,8 @@ const MenuOrder = styled.div<{ ref: any; openMenu: boolean; focusMenuNo: number 
   min-height: calc(100% - ${styles.appHeaderHeight}px);
   max-height: calc(100% - ${styles.appHeaderHeight}px);
   padding: ${styles.basePadding}px;
-  box-shadow: ${(props) => (props.openMenu ? styles.baseBoxShadow : 'none')};
-  transition: ${styles.transitionDuration};
+  border-left: 1px solid ${styles.borderColor};
+  transition: ${styles.transitionDuration}ms;
   transform: translate(${(props) => (props.openMenu ? 0 : `${styles.menuPcWidth}px`)}, 0px);
   a,
   a:visited,
@@ -471,7 +617,7 @@ const AnchorRow = styled.a`
 
 const Header = styled.header`
   box-sizing: border-box;
-  z-index: 100;
+  z-index: ${styles.zIndex.header};
   position: sticky;
   top: 0;
   display: flex;
@@ -498,7 +644,7 @@ const HeaderSide = styled.div`
   height: 60px;
 `;
 
-const HeaderSideMenu = styled.div<{ ref: any }>`
+const HeaderInSideMenu = styled.div<{ ref: any }>`
   display: flex;
   flex-flow: column wrap;
   align-items: center;
@@ -506,14 +652,14 @@ const HeaderSideMenu = styled.div<{ ref: any }>`
   width: 60px;
   height: 60px;
   margin-right: 10px;
-  transition: ${styles.transitionDuration};
+  transition: ${styles.transitionDuration}ms;
   cursor: pointer;
   .HeaderMenuLine {
     width: 70%;
     height: 1px;
     margin: 5px;
-    background: ${styles.fontColor};
-    transition: ${styles.transitionDuration};
+    background: #bbb;
+    transition: ${styles.transitionDuration}ms;
   }
   &.open {
     .HeaderMenuLine:nth-child(1) {
@@ -528,69 +674,87 @@ const HeaderSideMenu = styled.div<{ ref: any }>`
   }
 `;
 
-const HeadEyeCatchOrder = styled.ol<{ ref: any }>`
+const CreatorsEyeCatchOrder = styled.ol<{ ref: any; creatorsIndexCnt: number }>`
   overflow: scroll hidden;
   display: flex;
   flex-flow: row nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: ${(props) => (props.creatorsIndexCnt <= 3 ? 'center' : 'flex-start')};
   width: 100%;
   max-width: ${styles.appWidth}px;
   height: 100%;
-  padding: 0;
+  padding: 0 0 ${styles.quadPadding}px 0;
   margin: 0 auto;
   scroll-snap-type: x mandatory;
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    justify-content: flex-start;
+  }
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    justify-content: flex-start;
+  }
 `;
 
-const HeadEyeCatchList = styled.li<{ ch: string; bg: string }>`
+const HeadEyeCatchList = styled.li<{ ch: string; eyeCatch: string; creatorsIndexCnt: number }>`
   display: flex;
   flex-flow: column nowrap;
   align-items: flex-end;
   justify-content: flex-end;
-  width: 100%;
-  min-width: 100%;
-  max-width: ${styles.appWidth}px;
-  height: 630px;
+  width: 33.33%;
+  min-width: 33.33%;
+  height: 180px;
+  padding: 10px;
   overflow: hidden;
   text-align: right;
   scroll-snap-align: start;
-  background-size: 100%;
-  background-image: url('${(props) => `https://${ch}/${props.bg}`}');
-  background-position: 50%;
-  background-repeat: no-repeat;
   list-style: none;
-  transition: ${styles.transitionDuration};
-  cursor: pointer;
-  :hover {
-    transform: scale(1.02);
-    opacity: 0.8;
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-image: url('${(props) => `https://${conf.coverURL}/${props.ch}${props.eyeCatch}`}');
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border: 1px solid ${styles.borderColor};
+    border-radius: ${styles.baseSize}px;
+    transition: ${styles.transitionDuration}ms;
+    cursor: pointer;
+    :hover {
+      transform: scale(1.02);
+      opacity: 0.8;
+    }
   }
+
   @media (max-width: ${styles.spLayoutWidth}px) {
-    height: 400px;
+    width: 50%;
+    min-width: 50%;
   }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    height: 300px;
+    width: 100%;
+    min-width: 100%;
   }
 `;
 
 const ViewAnchor = styled.a`
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
   height: 100%;
 `;
 
 type HeadEyeCatchSelectOrderType = {
-  interviewIndexCnt: number;
+  creatorsIndexCnt: number;
   eyeCatchScrollIndex: number;
 };
 
 const HeadEyeCatchSelectOrder = styled.ol<HeadEyeCatchSelectOrderType>`
-  display: flex;
+  display: none;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-around;
-  width: calc(${(props) => getHeadEyeCatchSelectOrderWidth(props.interviewIndexCnt)}% - ${styles.doubleMargin}px);
+  width: calc(${(props) => getHeadEyeCatchSelectOrderWidth(props.creatorsIndexCnt)}% - ${styles.doubleMargin}px);
   margin: ${styles.baseMargin}px;
-  padding: 0;
   li {
     width: ${styles.baseSize}px;
     height: ${styles.baseSize}px;
@@ -609,11 +773,106 @@ const HeadEyeCatchSelectOrder = styled.ol<HeadEyeCatchSelectOrderType>`
     }
   }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    display: flex;
     li {
-      width: ${styles.baseSize / 2}px;
-      height: ${styles.baseSize / 2}px;
-      margin: ${styles.baseSize / 3}px;
+      width: 10px;
+      min-width: 10px;
+      height: 10px;
+      min-height: 10px;
+      margin: 10px;
     }
+  }
+`;
+
+const MainContents = styled.main`
+  width: 100%;
+`;
+
+const TagsSection = styled.section`
+  margin-bottom: ${styles.baseMargin}px;
+  p {
+    margin: ${styles.baseMargin}px 0;
+  }
+`;
+
+const ContentsMenuOrderWrap = styled.div<{ ref: any }>`
+  position: sticky;
+  top: ${styles.baseHeight}px;
+  z-index: ${styles.zIndex.contentsMenu};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: ${styles.baseHeight}px;
+  margin-bottom: ${styles.baseMargin}px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 0 0 1px #eee;
+`;
+
+const ContentMenuOrder = styled.ul`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: inherit;
+  max-width: ${styles.appWidth}px;
+  padding: 0;
+  margin: 0;
+  color: ${styles.fontColor};
+  font-size: 19px;
+  font-weight: 200;
+  letter-spacing: 5px;
+  list-style: none;
+`;
+
+const ContentMenuList = styled.li`
+  display: flex;
+  flex-flow: column nowrap;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  height: inherit;
+  border-right: 1px solid #eee;
+  border-left: 1px solid #eee;
+  cursor: pointer;
+  &:first-child {
+    border-right: 0;
+    border-left: 1px solid #eee;
+  }
+  &:last-child {
+    border-right: 1px solid #eee;
+    border-left: 0;
+  }
+  .underBar {
+    width: 20%;
+    min-width: 60px;
+    height: 8px;
+    margin-top: 8px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    transition: ${styles.transitionDuration * 2}ms;
+  }
+
+  :hover {
+    .underBar {
+      background: rgba(0, 0, 0, 0.45);
+    }
+  }
+  &.active {
+    .underBar {
+      background: ${styles.themeColor};
+      color: #fff;
+    }
+  }
+  a {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #666;
   }
 `;
 
@@ -657,11 +916,13 @@ const WhiteBoard = styled.div`
   }
 `;
 
-type MainPropsType = {
+type CreatorsPropsType = {
   navigationLayout: NavigationLayout;
 };
 
-const Main = styled.main<MainPropsType>`
+const TalknFrameWrap = styled.div``;
+
+const CreatorsWrap = styled.div<CreatorsPropsType>`
   display: flex;
   flex-flow: ${(props) => (props.navigationLayout ? 'row nowrap' : 'column nowrap')};
   align-items: flex-start;
@@ -669,13 +930,29 @@ const Main = styled.main<MainPropsType>`
   width: 100%;
   max-width: ${styles.appWidth}px;
   height: auto;
+  margin: 0 auto;
   @media (max-width: ${styles.spLayoutWidth}px) {
     flex-flow: column-reverse;
   }
 `;
 
+const TalknFrame = styled.div<{ 'data-ch': string; 'ref': any }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 340px;
+`;
+
+const CommingSoon = styled.div`
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+  height: 340px;
+`;
+
 const layoutPaddingLeft = styles.doublePadding;
-const Interview = styled.div<{ ref: any }>`
+const Creators = styled.div<{ ref: any }>`
   flex: 1 1 auto;
   overflow: hidden;
   height: auto;
@@ -695,7 +972,7 @@ const Navigation = styled.nav<{ navigationLayout: NavigationLayout }>`
   flex: 1 1 auto;
   z-index: 0;
   position: sticky;
-  top: ${styles.appHeaderHeight + styles.baseMargin}px;
+  top: ${styles.appHeaderHeight * 2 + styles.baseMargin}px;
   width: 100%;
   min-width: 320px;
   max-width: 320px;
@@ -741,13 +1018,13 @@ const Navigation = styled.nav<{ navigationLayout: NavigationLayout }>`
 `;
 
 type NavigationOrderPropsType = {
-  interviewPointer: number;
+  creatorsPointer: number;
 };
 
 const NavigationOrder = styled.ol<NavigationOrderPropsType>`
   padding: 0;
   margin: 0 auto;
-  li:nth-child(${(props) => props.interviewPointer + 1}) a {
+  li:nth-child(${(props) => props.creatorsPointer + 1}) a {
     font-weight: 400;
     letter-spacing: 1.5px;
   }
@@ -767,7 +1044,7 @@ const DomainProfile = styled.div`
   padding: ${styles.doublePadding}px;
   margin-top: ${styles.quadMargin}px;
   margin-left: ${styles.doubleMargin}px;
-  margin-right: ${styles.baseMargin}px;
+  margin-right: ${styles.doubleMargin}px;
   margin-bottom: ${styles.quadMargin}px;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid ${styles.borderColor};
@@ -831,12 +1108,17 @@ const Tag = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: ${styles.basePadding}px ${styles.doublePadding}px;
-  margin: ${styles.baseMargin}px;
+  padding: 12px 20px;
+  margin: 10px;
   border-radius: ${styles.doubleSize}px;
-  background: ${styles.tagBgColor};
+  background: ${styles.fontColor};
   color: #fff;
   white-space: nowrap;
+  transition: ${styles.transitionDuration}ms;
+  cursor: pointer;
+  :hover {
+    background: ${styles.themeColor};
+  }
 `;
 
 const SnsLinksWrap = styled.section`
@@ -856,7 +1138,6 @@ const SnsShare = styled.div`
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
-  width: 100%;
   margin: ${styles.doubleMargin}px ${styles.doubleMargin}px ${styles.sepMargin}px;
 `;
 
@@ -886,9 +1167,13 @@ const TwitterIcon = styled.i`
   height: 14px;
 `;
 
-const getHeadEyeCatchSelectOrderWidth = (interviewIndexCnt): number => {
-  if (interviewIndexCnt < 10) return Number(`${interviewIndexCnt}0`);
+const getHeadEyeCatchSelectOrderWidth = (creatorsIndexCnt): number => {
+  if (creatorsIndexCnt < 10) return Number(`${creatorsIndexCnt}0`);
   return 100;
+};
+
+const getHeadEyeCatchSelectListWidth = (creatorsIndexCnt): number => {
+  return 33.33;
 };
 
 /*
@@ -902,4 +1187,4 @@ const getLayoutWidth = (props: LayoutPropsType) => {
 };
 */
 
-export default connect(mapToStateToProps, { ...handles })(TalknContainer);
+const getCreatorsEyeCatchOrderJustifyContent = () => {};

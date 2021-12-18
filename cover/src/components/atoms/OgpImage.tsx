@@ -43,12 +43,16 @@ const BgImage = styled.div<BgImagePropsType>`
 `;
 
 const Tip = styled.span`
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   padding: 6px 8px 8px 24px;
   margin: 16px 0 16px 16px;
   background: rgba(0, 0, 0, 0.4);
   color: rgb(255, 255, 255);
   border-radius: 30px 0 0 30px;
-  line-height: 25px;
+  line-height: 28px;
   text-align: right;
   word-break: break-word;
 `;

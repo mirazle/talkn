@@ -4,23 +4,211 @@ import { Iconv } from 'iconv';
 import request from 'request';
 
 import Sequence from 'common/Sequence';
-import conf from 'common/conf';
+import define from 'common/define';
 
+import conf from 'server/conf';
 import MongoDB from 'server/listens/db/MongoDB';
 import Logics from 'server/logics';
+import Fs from 'server/logics/Fs';
 import HtmlSchema from 'server/schemas/logics/html';
 import utils from 'server/utils';
 
 import App from 'api/store/App';
 
-const log = true;
+const log = false;
 
 export default class Html {
+  public allChLayers: any = [];
+  public fetchedCh = [];
+  public successCh = [];
+  public results: any = [];
+  public depthLimit: number;
+
+  constructor(allChLayers = [], fetchedCh = []) {
+    this.allChLayers = allChLayers;
+    this.fetchedCh = fetchedCh;
+  }
+
   static get checkSpace() {
     return /^\s*$/;
   }
 
-  async fetchCover(ch) {
+  setFetchedCh(ch): boolean {
+    const isIncluded = this.fetchedCh.includes(ch);
+    if (isIncluded) return true;
+    this.fetchedCh.push(ch);
+    return false;
+  }
+
+  // ROOT CH(Recurrent)
+  // chを渡して、chLayer作成し、promise.allして全てchLayer全てのchをfetchする
+  fetchChRecurrent(rootCh: string, fetchCh?: string, depth = 1) {
+    fetchCh = fetchCh ? fetchCh : rootCh;
+    return new Promise((resolve): any => {
+      this.setFetchedCh(fetchCh);
+      this.fetchCh(rootCh, fetchCh).then((result) => {
+        if (result.response === null) {
+          resolve(this.results);
+        } else {
+          let layerChPromises = [];
+          this.results.push(result);
+
+          if (fetchCh === '/hitonote.jp/result/') {
+          }
+          if (depth < this.depthLimit) {
+            depth = depth + 1;
+            // マージされて追加
+            this.allChLayers = this.getMergedChLayersFromLinks(rootCh, fetchCh, result.response.links);
+
+            // fetch ch layers.
+            this.allChLayers.forEach((chLayer) => {
+              chLayer.forEach((innerFetchCh) => {
+                if (!this.setFetchedCh(innerFetchCh)) {
+                  layerChPromises.push(this.fetchChRecurrent(rootCh, innerFetchCh, depth));
+                }
+              });
+            });
+          }
+
+          return Promise.all(layerChPromises).then((_results) => {
+            const results = _results.filter((result) => result && result.response);
+
+            if (results && results.length > 0) {
+              this.results = [...this.results, ...results];
+            }
+            resolve(this.results);
+          });
+        }
+      });
+    });
+  }
+
+  // ROOT CH
+  async fetchCh(rootCh, ch, prorocol = Sequence.HTTPS_PROTOCOL) {
+    let result: any = { protocol: Sequence.HTTPS_PROTOCOL, ch, response: null };
+    const fetchUrl = this.getFetchUrl(ch, true);
+    const exeFetchCh = async (fetchUrl) => {
+      if (prorocol) {
+        result = await Logics.html.exeFetch(prorocol, fetchUrl);
+      } else {
+        result = await Logics.html.exeFetch(Sequence.HTTPS_PROTOCOL, fetchUrl);
+        if (!result.response) {
+          result.protocol = Sequence.HTTP_PROTOCOL;
+          result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, fetchUrl);
+        }
+      }
+      return result;
+    };
+    console.log(this.successCh.length, 'REQUEST', fetchUrl);
+
+    result = await exeFetchCh(fetchUrl);
+
+    if (result.response === null) {
+      result = await exeFetchCh(fetchUrl.replace(/\/$/, ''));
+    }
+
+    if (result.response) {
+      console.log(this.successCh.length, 'RESPONSE', fetchUrl);
+      this.successCh.push(ch);
+    }
+    return result;
+  }
+
+  getMergedChLayersFromLinks(rootCh, ch, links) {
+    // GET UNDER CH
+    links.forEach((link) => {
+      const href = typeof link === 'string' ? link : link.href;
+      const { buildCh: childCh, childChLayer } = this.getBuildChData(rootCh, ch, href);
+      if (childCh) {
+        if (!this.allChLayers[childChLayer]) {
+          this.allChLayers[childChLayer] = [];
+        }
+
+        // fetch済みは弾く
+        if (!this.fetchedCh.includes(childCh)) {
+          // fertch対象は重複は弾く
+          if (!this.allChLayers[childChLayer].includes(childCh)) {
+            this.allChLayers[childChLayer].push(childCh);
+          }
+        }
+      }
+    });
+
+    return this.allChLayers;
+  }
+
+  getBuildChData(rootCh, ch, href) {
+    let buildCh = undefined;
+    let childChLayer = 0;
+    const haveJavascriptVoid = href.indexOf('javascript:void(0)');
+    const haveSharp = href.indexOf('#');
+    const rootIndex = href.indexOf('/');
+    const questionIndex = href.indexOf('?');
+    const backIndex = href.indexOf('../');
+    let buildRoot = '';
+
+    // 絶対パス
+    if (href.indexOf(Sequence.HTTPS_PROTOCOL) === 0 || href.indexOf(Sequence.HTTP_PROTOCOL) === 0) {
+      // 絶対パス(自身のドメイン)
+      if (href.indexOf(`${Sequence.HTTPS_PROTOCOL}/${rootCh}`) === 0 || href.indexOf(`${Sequence.HTTP_PROTOCOL}/${rootCh}`) === 0) {
+        buildCh = href.replace(`${Sequence.HTTPS_PROTOCOL}/`, '').replace(`${Sequence.HTTP_PROTOCOL}/`, '');
+      }
+      // 相対パス(自身のドメイン)
+    } else {
+      if (haveSharp !== 0) {
+        if (rootIndex === 0) {
+          if (href.indexOf(rootCh) === 0) {
+            buildCh = href;
+          } else {
+            const path = href.replace(/^\//, '');
+            buildCh = `${rootCh}${path}`;
+          }
+        }
+        if (haveJavascriptVoid >= 0) {
+          buildCh = href.replace(/javascript\:void\(0\).*$/, '');
+          buildCh = buildCh === '' ? undefined : buildCh;
+        }
+        if (questionIndex >= 0) {
+          buildCh = rootCh + href.substr(0, questionIndex);
+        }
+        if (haveSharp >= 0) {
+          buildCh = rootCh + href.replace(/^\//, ''); //.replace(/\#.*$/, '');
+        }
+        if (backIndex >= 0) {
+          const backPathCnt = href.split('../').length - 1;
+          const chSplited = ch.split('/');
+          const chSplitedCnt = chSplited.length - 1;
+          let basePath = '';
+          chSplited.forEach((chParts, index) => {
+            if (index < chSplitedCnt - backPathCnt) {
+              basePath += chParts === '' ? '/' : chParts + '/';
+            }
+          });
+          buildCh = basePath + href.replace(/\.\.\//g, '');
+        }
+        if (ch.endsWith('/') && href.startsWith('/')) {
+          if (ch.indexOf(href) >= 0) {
+            const path = href.replace(/^\//, '');
+            buildCh = `${rootCh}${path}`;
+          }
+        }
+      }
+    }
+    if (buildCh && haveJavascriptVoid >= 0) {
+      buildCh = buildCh.replace(/javascript\:void\(0\).*$/, '');
+      buildCh = buildCh === '' ? undefined : buildCh;
+    }
+
+    if (buildCh) {
+      if (!buildCh.endsWith('/')) {
+        buildCh = buildCh + '/';
+      }
+      childChLayer = buildCh.split('/').length - 1;
+    }
+    return { buildCh, childChLayer, buildRoot };
+  }
+
+  async fetchCoverConfig(ch) {
     const fetchUrl = this.getFetchUrl(ch, true);
     let result: any = { response: null, iconHrefs: [] };
 
@@ -29,7 +217,7 @@ export default class Html {
     if (!result.response) {
       result = await Logics.html.exeFetch(Sequence.HTTP_PROTOCOL, fetchUrl);
     }
-    console.log(result);
+
     if (result.response) {
       return result;
     } else {
@@ -38,7 +226,7 @@ export default class Html {
     }
   }
 
-  getFetchUrl(ch, hasSlash) {
+  getFetchUrl(ch = '/', hasSlash) {
     let fetchUrl = ch;
     if (ch === '/') {
       fetchUrl = `//${conf.domain}`;
@@ -59,9 +247,7 @@ export default class Html {
     return fetchUrl;
   }
 
-  async fetch(thread, requestThread) {
-    let { protocol, ch, hasSlash } = requestThread;
-
+  async fetch(thread, { protocol, ch, hasSlash }) {
     // io(tune)する際はGETで接続するのでboolがstringになってしまう
     hasSlash = utils.getBool(hasSlash);
 
@@ -102,7 +288,8 @@ export default class Html {
 
   exeFetch(protocol, url) {
     return new Promise((resolve, reject) => {
-      const option = { method: 'GET', encoding: 'binary', url: protocol + encodeURI(url) };
+      const ch = url.replace(/^\//, '');
+      const option = { method: 'GET', encoding: 'binary', url: protocol + encodeURI(url), timeout: 10000 };
       // localhost is not get.
       request(option, (error, response, body) => {
         if (log) {
@@ -133,14 +320,37 @@ export default class Html {
             const $ = cheerio.load(utf8Body);
             iconHrefs = this.getIconHrefs($);
             responseSchema.links = this.getLinks($);
-            responseSchema.h1s = this.getH1s($);
+            responseSchema.h1s = this.getHTags($, 1);
+            responseSchema.h2s = this.getHTags($, 2);
+            responseSchema.h3s = this.getHTags($, 3);
+            responseSchema.h4s = this.getHTags($, 4);
+            responseSchema.h5s = this.getHTags($, 5);
             responseSchema.videos = this.getVideos($);
             responseSchema.audios = this.getAudios($);
             responseSchema.serverMetas = this.getMetas($, url, responseSchema, response.request.uri.href);
           }
-          resolve({ response: responseSchema, iconHrefs });
+          resolve({ response: responseSchema, iconHrefs, ch });
         } else {
-          resolve({ response: null, iconHrefs: [] });
+          resolve({ response: null, iconHrefs: [], ch });
+        }
+      });
+    });
+  }
+
+  exeFetchConfig(protocol, ch): any {
+    return new Promise((resolve, reject) => {
+      const url = `${protocol}:/${ch}${Fs.names.config}`;
+      const option = { method: 'GET', encoding: 'binary', url, timeout: 2000 };
+      request(option, (error, response, body) => {
+        if (log) {
+          console.log('Fetch Config ' + option.url);
+          console.log(error);
+        }
+
+        if (!error && response && response.statusCode === 200) {
+          resolve(null);
+        } else {
+          resolve(null);
         }
       });
     });
@@ -163,14 +373,14 @@ export default class Html {
     return title;
   }
 
-  getH1s($) {
-    const h1Length = $('h1').length;
-    let h1s = [];
-    for (let i = 0; i < h1Length; i++) {
-      const h1 = $('h1').get(i);
-      h1s.push($(h1).text());
+  getHTags($, number) {
+    const hLength = $(`h${number}`).length;
+    let hs = [];
+    for (let i = 0; i < hLength; i++) {
+      const h1 = $(`h${number}`).get(i);
+      hs.push($(h1).text());
     }
-    return h1s;
+    return hs;
   }
 
   getVideos($) {
@@ -265,14 +475,14 @@ export default class Html {
       }
       return '';
     };
-    const getText = (item) => {
+    const getText = ($, item, text = '') => {
       const itemLength = item.children.length;
-      let text = '';
+
       for (let i = 0; i < itemLength; i++) {
         const child = item.children[i];
 
         if (child.type === 'text' && child.data !== '' && !Html.checkSpace.test(child.data)) {
-          text = child.data;
+          text = text === '' ? child.data : text + '&nbsp;' + child.data;
           break;
         }
 
@@ -288,10 +498,14 @@ export default class Html {
         }
 
         if (child.children && child.children.length > 0) {
-          text = getText(child);
+          text = getText($, child, text);
           break;
         }
         break;
+      }
+
+      if (text === undefined || text !== '' || Html.checkSpace.test(text)) {
+        text = $(item).text();
       }
       return text;
     };
@@ -301,7 +515,8 @@ export default class Html {
     for (var i = 0; i < linkLength; i++) {
       const item = $('body a').get(i);
       const href = getHref(item);
-      const text = getText(item);
+      const text = getText($, item, '');
+
       if (href && href !== '' && text && text !== '') {
         links.push({ href, text });
       }

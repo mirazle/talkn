@@ -24,7 +24,7 @@ export default class Threads {
     return new Promise((resolve) => {
       this.collection.updateMany(condition, set, option, (error, response) => {
         if (error) console.warn(error);
-        resolve({ response, error });
+        resolve({ response, error, ch: response.ch });
       });
     });
   }

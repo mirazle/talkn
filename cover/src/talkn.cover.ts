@@ -1,22 +1,31 @@
-// eslint-disable-next-line import/no-unassigned-import
 import 'normalize.css';
 
-import BootOption from 'common/BootOption';
+import { ConfigType, configInit } from 'common/Config';
 import conf from 'common/conf';
 import define from 'common/define';
 
-import Window from 'cover/Window';
+import Render from 'cover/App';
+
+export const selectContentMenuLivePages = 'livePages';
+export const selectContentMenuCreators = 'creators';
+export const selectContentMenuAnalytics = 'analytics';
+export const selectContentMenuDefault = selectContentMenuLivePages;
+export type SelectContentMenuType =
+  | typeof selectContentMenuLivePages
+  | typeof selectContentMenuCreators
+  | typeof selectContentMenuAnalytics;
 
 declare global {
   interface Window {
+    talknThread: any;
+    talknServerMetas: any;
+    talknConfig: ConfigType;
+
+    talknSelectContentMenu: SelectContentMenuType;
+    talknComponents: any;
+    talknCreators: any;
+    talknCreatorsPointer: number;
     talknWindow: any;
-    talknInterview: any;
-    talknInterviewIndex: any;
-    talknInterviewPointer: number;
-    talknInterviewUrls: {
-      index: string;
-      interview: string;
-    };
     talknMedia: any;
     talknAPI: any;
     Youtube: any;
@@ -28,29 +37,28 @@ declare global {
   }
 }
 
-const location = String(window.location);
-const splitedUrl = location.split('/');
+const href = String(window.location.href);
+const splitedUrl = href.split('/');
 const splitedUrlLength = splitedUrl.length;
-
 let ch = '/';
-console.log(window.talknInterviewIndex);
-window.talknInterviewPointer = window.talknInterviewIndex.contents.length;
+
+window.talknCreatorsPointer = window.talknConfig && window.talknConfig.creatorsIndex ? window.talknConfig.creatorsIndex.length : 0;
 
 if (splitedUrl[splitedUrlLength - 1] === '') {
-  ch = location;
+  ch = href;
 } else {
-  const lastSlash = location.lastIndexOf('/');
-  const _talknInterviewPointer = Number(location.substr(lastSlash + 1, lastSlash));
-  ch = location.substr(0, lastSlash + 1);
+  const lastSlash = href.lastIndexOf('/');
+  const _talknCreatorsPointer = Number(href.substr(lastSlash + 1, lastSlash));
+  ch = href.substr(0, lastSlash + 1);
 
-  if (_talknInterviewPointer <= 0) {
-    window.talknInterviewPointer = 1;
+  if (_talknCreatorsPointer <= 0) {
+    window.talknCreatorsPointer = 1;
   }
 
-  if (window.talknInterviewPointer < window.talknInterviewIndex.contents.length) {
-    window.talknInterviewPointer = window.talknInterviewIndex.contents.length;
+  if (window.talknCreatorsPointer < window.talknConfig.creatorsIndex.length) {
+    window.talknCreatorsPointer = window.talknConfig.creatorsIndex.length;
   } else {
-    window.talknInterviewPointer = _talknInterviewPointer;
+    window.talknCreatorsPointer = _talknCreatorsPointer;
   }
 }
 
@@ -64,8 +72,4 @@ if (conf.domain === define.DEVELOPMENT_DOMAIN) {
   ch = ch.replace(`https://${define.SUB_DOMAINS.COVER}.${define.PRODUCTION_DOMAIN}`, '');
 }
 
-const id = define.APP_TYPES.TOP;
-const bootOption = new BootOption(id, { ch });
-window.talknWindow = new Window(id, bootOption);
-window.talknWindow.boot();
-window.talknWindow.dom.renderTalkn();
+Render();
