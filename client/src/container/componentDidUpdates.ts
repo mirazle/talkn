@@ -122,9 +122,12 @@ const componentDidUpdates = {
       }
     },
     'ON_CLICK_TOGGLE_DISP_DETAIL': (self) => {
-      const { ui } = self.props.state;
-      if (ui.extensionMode === Ui.extensionModeModal || ui.extensionMode === Ui.extensionModeEmbed) {
-        window.talknWindow.ext.to('getClientMetas', Sequence.UNKNOWN);
+      const { ui, thread } = self.props.state;
+      const host = location.href.replace('https:/', '').replace('http:/', '');
+      if (host === thread.ch) {
+        if (ui.extensionMode === Ui.extensionModeModal || ui.extensionMode === Ui.extensionModeEmbed) {
+          window.talknWindow.ext.to('getClientMetas', Sequence.UNKNOWN);
+        }
       }
     },
     'TOGGLE_BUBBLE_POST': (self) => {

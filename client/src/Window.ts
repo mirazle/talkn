@@ -1,6 +1,6 @@
 import WsApiWorker from 'worker-loader?inline=fallback&publicPath=/&filename=ws.api.worker.js!../../api/src/ws.api.worker';
 
-import BootOption from 'common/BootOption';
+import BootOption, { BootOptionParamsType } from 'common/BootOption';
 import PostMessage, {
   IoTypeValues,
   MessageClientAndWsApiType,
@@ -42,7 +42,7 @@ declare global {
 }
 
 export default class Window {
-  id: string = define.APP_TYPES.PORTAL;
+  id: string = define.APP_TYPES.API;
   bootOption: BootOption;
   wsApi: WsApiWorker;
   store: any = clientStore();
@@ -83,7 +83,7 @@ export default class Window {
       this.wsApi.onerror = this.onError;
       this.wsApi.onmessage = this.onMessage;
 
-      if (this.id === define.APP_TYPES.PORTAL || this.id === define.APP_TYPES.EXTENSION) {
+      if (this.id === define.APP_TYPES.CLIENT || this.id === define.APP_TYPES.EXTENSION) {
         // handle ext.
         this.ext = new Ext(this);
 
@@ -138,7 +138,7 @@ export default class Window {
 
         if (method === 'WS_CONSTRUCTED') {
           this.conned(this);
-          if (this.id === define.APP_TYPES.PORTAL) {
+          if (this.id === define.APP_TYPES.CLIENT) {
             // @ts-ignore
             const backParams = params.ch ? { ...this.bootOption, ch: params.ch } : this.bootOption;
             this.api('tune', backParams);
@@ -154,7 +154,7 @@ export default class Window {
         this.mediaClient && this.mediaClient.wsClientAfterFilter({ method, params, state });
 
         // finnish handle ws api.
-        if (this.id === define.APP_TYPES.PORTAL || this.id === define.APP_TYPES.EXTENSION) {
+        if (this.id === define.APP_TYPES.CLIENT || this.id === define.APP_TYPES.EXTENSION) {
           if (method === `SERVER_TO_API[EMIT]:tune`) {
             this.injectStateToApp(params);
           }
@@ -359,7 +359,7 @@ class MediaClient {
         });
         break;
       case 'SERVER_TO_API[EMIT]:changeThread':
-        if (this.window.id === define.APP_TYPES.PORTAL) {
+        if (this.window.id === define.APP_TYPES.CLIENT) {
           this.requestServer('searching', {
             // TODO: EXTで複数起動の場合に正しく動作するのか検証
             id: this.window.ext.id,
