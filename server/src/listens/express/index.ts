@@ -180,9 +180,18 @@ class Express {
             res.send('404');
           } else {
             const splitedUrl = req.originalUrl.split('/');
-            const ch = splitedUrl[1] ? `/${splitedUrl[1]}/` : '/';
-            const method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : 'livePages';
-            const creatorsIndex = splitedUrl[coverParams.creatorsIndex] ? splitedUrl[coverParams.creatorsIndex] : null;
+            let ch = '/';
+            let method = 'livePage';
+            let creatorsIndex = null;
+
+            if (splitedUrl.length === 2) {
+              method = splitedUrl[1];
+            } else {
+              ch = splitedUrl[1] ? `/${splitedUrl[1]}/` : '/';
+              method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : 'livePages';
+              creatorsIndex = splitedUrl[coverParams.creatorsIndex] ? splitedUrl[coverParams.creatorsIndex] : null;
+            }
+            console.log(ch, method, splitedUrl);
             const resolveCover = async () => {
               let domainProfile;
               switch (method) {

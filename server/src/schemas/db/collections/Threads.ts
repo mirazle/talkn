@@ -37,7 +37,7 @@ export default {
   ...html,
 
   categoryChs: [],
-  userCategoryChs: [],
+  creatorsCnt: { type: Number, default: 0, min: 0 },
 
   // Post
   lastPost: Posts,
