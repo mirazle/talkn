@@ -191,18 +191,18 @@ class Express {
               method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : 'livePages';
               creatorsIndex = splitedUrl[coverParams.creatorsIndex] ? splitedUrl[coverParams.creatorsIndex] : null;
             }
-            console.log(ch, method, splitedUrl);
+
             const resolveCover = async () => {
               let domainProfile;
               switch (method) {
                 case 'livePages':
-                case 'analytics':
+                case 'config':
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
                   domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language);
                   res.render('cover/', domainProfile);
                   break;
-                case 'analyticsJson':
+                case 'configJson':
                 case 'livePagesJson':
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
@@ -225,7 +225,7 @@ class Express {
                   await CoverLogics.build(req, res, ch);
                   res.redirect(`//${conf.coverURL}${ch}`);
                   break;
-                case 'config':
+                case 'updateConfig':
                   await CoverLogics.fetchConfig(req, res, req.protocol, ch);
                   res.redirect(`//${conf.coverURL}${ch}`);
                   break;
