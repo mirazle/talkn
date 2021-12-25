@@ -167,7 +167,14 @@ class Express {
 
         break;
       case conf.coverURL:
-        if (req.method === 'GET') {
+        if (req.method === 'POST') {
+          console.log(req.body);
+          delete req.body.ch;
+          const json = JSON.stringify(req.body, null, 2);
+          res.setHeader('Content-disposition', 'attachment; filename=talkn.config.json');
+          res.setHeader('Content-type', 'application/json');
+          res.send(json);
+        } else if (req.method === 'GET') {
           if (
             req.originalUrl.indexOf('.svg') >= 0 ||
             req.originalUrl.indexOf('.png') >= 0 ||
