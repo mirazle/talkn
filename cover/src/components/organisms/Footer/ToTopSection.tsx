@@ -62,6 +62,7 @@ const ToTop = styled.div`
     }
   }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    right: 15px;
     margin-right: 0;
   }
 `;

@@ -1,13 +1,14 @@
+export const configUserCategoryChLimit = 10;
+export const configCreatorsLimit = 10;
 export type CreatorsIndexType = {
   title: string;
   eyeCatch: string;
-  creator: string;
+  interview: string;
   no?: number;
 };
 
 export type ConfigType = {
   version: string;
-  css: string;
   creatorsIndex: CreatorsIndexType[];
   userCategoryChs: string[];
   iamTags: string[];
@@ -16,9 +17,14 @@ export type ConfigType = {
 
 export const configInit: ConfigType = {
   version: '1.0.0',
-  css: '',
   creatorsIndex: [],
   userCategoryChs: [],
   iamTags: [],
   relationTags: [],
+};
+
+export const creatorsIndexInit: CreatorsIndexType = {
+  title: '',
+  eyeCatch: '',
+  interview: '',
 };

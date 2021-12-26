@@ -7,6 +7,7 @@ type Props = {
   flow?: string;
   alignItems?: string;
   justifyContent?: string;
+  width?: string;
 };
 
 const Component: React.FC<Props> = ({
@@ -15,9 +16,10 @@ const Component: React.FC<Props> = ({
   flow = 'row nowrap',
   alignItems = 'flex-start',
   justifyContent = 'flex-start',
+  width = 'auto',
 }) => {
   return (
-    <Container className={className} flow={flow} alignItems={alignItems} justifyContent={justifyContent}>
+    <Container className={className} flow={flow} alignItems={alignItems} justifyContent={justifyContent} width={width}>
       {children}
     </Container>
   );
@@ -29,6 +31,7 @@ type ContainerPropsType = {
   flow: string;
   alignItems: string;
   justifyContent: string;
+  width: string;
 };
 
 const Container = styled.div<ContainerPropsType>`
@@ -36,4 +39,5 @@ const Container = styled.div<ContainerPropsType>`
   flex-flow: ${(props) => props.flow};
   align-items: ${(props) => props.alignItems};
   justify-content: ${(props) => props.justifyContent};
+  width: ${(props) => props.width};
 `;

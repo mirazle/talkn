@@ -43,9 +43,11 @@ export const menuTabWidth = 430;
 // App.
 export const baseHeight = 60;
 export const appHeaderHeight = baseHeight;
-export const appWidth = 1280;
+export const appWidth = 1200;
+export const advertWidth = 200;
 export const spLayoutStrictWidth = 680;
 export const spLayoutWidth = 980;
+export const doubleAdvertWidth = appWidth + advertWidth * 1.5;
 
 // Article Order.
 export const articleOrderHeight = 290;
@@ -62,7 +64,7 @@ export const articleShadowColor = '#444';
 export const imageWidth = 200;
 
 export const zIndex = {
-  sideMenu: 1000,
+  sideMenu: 980,
   header: 102,
   toTop: 101,
   contentsMenu: 100,

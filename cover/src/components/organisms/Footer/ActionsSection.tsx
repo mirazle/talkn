@@ -31,7 +31,7 @@ const Component: FunctionComponent<Props> = ({ ch }) => {
       <h3>Update</h3>
       <Flex flow="row wrap" alignItems="center" justifyContent="center">
         <BoxList label="Live Pages" theme="dark" href={`https://${conf.coverURL}${ch}build`} />
-        <BoxList label="Config" theme="dark" href={`https://${conf.coverURL}${ch}config`} />
+        <BoxList label="Config" theme="dark" href={`https://${conf.coverURL}${ch}updateConfig`} />
       </Flex>
       <br />
       <br />

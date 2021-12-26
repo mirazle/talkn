@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { CreatorsIndexType } from 'common/Config';
+import { CreatorsIndexType, configUserCategoryChLimit, configCreatorsLimit, creatorsIndexInit } from 'common/Config';
 import conf from 'common/conf';
 
 import Flex from 'cover/components/atoms/Flex';
@@ -11,15 +11,10 @@ import Spinner from 'cover/components/atoms/Spinner';
 import Title from 'cover/components/atoms/Title';
 import Section from 'cover/components/molecules/Section';
 import SnsLinks from 'cover/components/molecules/SnsLinks';
+import Config from 'cover/components/organisms/Config';
 import Footer from 'cover/components/organisms/Footer';
 import * as styles from 'cover/styles';
-import {
-  SelectContentMenuType,
-  selectContentMenuLivePages,
-  selectContentMenuCreators,
-  selectContentMenuAnalytics,
-  selectContentMenuDefault,
-} from 'cover/talkn.cover';
+import { SelectContentMenuType, selectContentMenuLivePages, selectContentMenuCreators, selectContentMenuConfig } from 'cover/talkn.cover';
 
 type CreatorsVerticalDatas = {
   offsetTop: number;
@@ -38,13 +33,6 @@ type NavigationLayout = {
   paddingRight: number;
   paddingBottom: number;
   paddingLeft: number;
-};
-
-type CreatorsIndexContentsType = {
-  no?: number;
-  title: string;
-  eyeCatch: string;
-  creators: string;
 };
 
 type CreatorsSectionType = {
@@ -85,6 +73,10 @@ const TalknContainer: React.FC<Props> = (props) => {
   const [creatorsEyeCatchs, setCreatorsEyeCatchs] = useState<CreatorsIndexType[]>(CreatorsIndexContentsInit);
   const [eyeCatchScrollIndex, setEyeCatchScrollIndex] = useState(0);
 
+  const [maxMain, setMaxMain] = useState(false);
+  const [advertShow, setAdvertShow] = useState(true);
+
+  const [userCategoryChs, setUserCategoryChs] = useState([]);
   const [creatorsIndex, setCreatorsIndex] = useState<CreatorsIndexType[]>(CreatorsIndexContentsInit);
   const [creatorsIndexPointer, setCreatorsIndexPointer] = useState<number | undefined>();
   const [openMenu, setOpenMenu] = useState(false);
@@ -138,8 +130,22 @@ const TalknContainer: React.FC<Props> = (props) => {
     }
   };
 
+  const handleOnClickControlAdvert = () => {
+    if (advertShow) {
+      setAdvertShow(false);
+      setMaxMain(true);
+    } else {
+      setMaxMain(false);
+      setTimeout(() => {
+        setAdvertShow(true);
+      }, styles.transitionDuration);
+    }
+  };
+
   const useCallbackScroll = useCallback(() => {
-    const _creatorsPointer = creatorsVerticalDatas.findIndex((obj) => obj.offsetTop <= window.scrollY && window.scrollY < obj.offsetBottom);
+    const _creatorsPointer = creatorsVerticalDatas.findIndex(
+      (obj) => obj.offsetTop <= window.scrollY + styles.baseHeight && window.scrollY + styles.baseHeight < obj.offsetBottom
+    );
     setCreatorsPointer(_creatorsPointer);
   }, [creatorsVerticalDatas]);
 
@@ -151,9 +157,6 @@ const TalknContainer: React.FC<Props> = (props) => {
       });
 
       if (scrollIndex >= 0) {
-        console.log(scrollIndex);
-        console.log(window.talknCreatorsPointer);
-        console.log(getScrollWidth() * scrollIndex);
         creatorEyeCatchOrderRef.current.scrollLeft = getScrollWidth() * scrollIndex;
         setEyeCatchScrollIndex(scrollIndex);
       }
@@ -213,9 +216,9 @@ const TalknContainer: React.FC<Props> = (props) => {
   }, [window.innerWidth, creators && creators.sections.length]);
 
   useEffect(() => {
-    const _offset = window.talknCreatorsPointer - creatorsIndexLimit / 2;
+    const _offset = window.talknCreatorsPointer - configCreatorsLimit / 2;
     const offset = 0 <= _offset ? _offset : 0;
-    const limit = creatorsIndexLimit;
+    const limit = configCreatorsLimit;
     const _creatorsIndex = [...window.talknConfig.creatorsIndex].reverse();
     let _creatorsEyeCatchs = [...window.talknConfig.creatorsIndex]
       .map((creatorsIndex, index) => {
@@ -240,11 +243,17 @@ const TalknContainer: React.FC<Props> = (props) => {
 
   useEffect(() => {
     setMountData(true);
+    const userCategoryChCnt = window.talknConfig.userCategoryChs.length;
+    window.talknConfig.userCategoryChs = window.talknConfig.userCategoryChs.concat(
+      new Array(configUserCategoryChLimit - userCategoryChCnt).fill('')
+    );
+
     setConfig(window.talknConfig);
     setThread(window.talknThread);
     setServerMetas(window.talknServerMetas);
     setCreators(window.talknCreators);
     setCreatorsIndexPointer(window.talknCreatorsPointer);
+    setUserCategoryChs(window.talknConfig.userCategoryChs);
     setSelectContentMenu(window.talknSelectContentMenu);
 
     window.addEventListener('scroll', useCallbackScroll);
@@ -252,18 +261,29 @@ const TalknContainer: React.FC<Props> = (props) => {
 
   const getContentNode = () => {
     switch (selectContentMenu) {
-      case selectContentMenuLivePages:
-        return (
+      case selectContentMenuLivePages: {
+        console.log('RENDER');
+        return userCategoryChs.length > 0 ? (
           <TalknFrameWrap>
-            {window.talknConfig.userCategoryChs.map((categoryCh: any, index) => {
-              return (
-                <TalknFrame key={`${categoryCh}:${index}`} ref={talknFrameRef} className="talknFrame" data-ch={categoryCh}>
-                  <Spinner size="50" />
-                </TalknFrame>
-              );
+            {userCategoryChs.map((categoryCh: any, index) => {
+              if (categoryCh && categoryCh !== '') {
+                return (
+                  <TalknFrame key={`${categoryCh}:${index}`} ref={talknFrameRef} className="talknFrame" data-ch={categoryCh}>
+                    <Spinner size="50" />
+                  </TalknFrame>
+                );
+              } else {
+                return null;
+              }
             })}
           </TalknFrameWrap>
+        ) : (
+          <CommingSoon>
+            <P>{`Update your site that`}</P>
+            <P>{`/${thread.ch}talkn.config.json`}</P>
+          </CommingSoon>
         );
+      }
       case selectContentMenuCreators:
         if (window.talknCreators && window.talknCreators.sections.length > 0) {
           return (
@@ -307,12 +327,8 @@ const TalknContainer: React.FC<Props> = (props) => {
             </CommingSoon>
           );
         }
-      case selectContentMenuAnalytics:
-        return (
-          <CommingSoon>
-            <P>..Comming soon</P>
-          </CommingSoon>
-        );
+      case selectContentMenuConfig:
+        return <Config ch={thread.ch} config={config} />;
     }
   };
 
@@ -384,10 +400,9 @@ const TalknContainer: React.FC<Props> = (props) => {
         </HeadEyeCatchSelectOrder>
       )}
 
-      {/* メインコンテンツ */}
-      <MainContents>
+      <MainContentsBoard>
         {/* コンテンツメニュー */}
-        <ContentsMenuOrderWrap ref={contentMenuRef}>
+        <ContentsMenuOrderNav ref={contentMenuRef}>
           <ContentMenuOrder>
             <ContentMenuList className={selectContentMenu === selectContentMenuLivePages && 'active'}>
               <a href={`//${conf.coverURL}${thread.ch}`}>
@@ -401,70 +416,93 @@ const TalknContainer: React.FC<Props> = (props) => {
                 <div className="underBar" />
               </a>
             </ContentMenuList>
-            <ContentMenuList className={selectContentMenu === selectContentMenuAnalytics && 'active'}>
-              <a href={`//${conf.coverURL}${thread.ch}analytics`}>
-                <div>ANALYTICS</div>
+            <ContentMenuList className={selectContentMenu === selectContentMenuConfig && 'active'}>
+              <a href={`//${conf.coverURL}${thread.ch}config`}>
+                <div>CONFIG</div>
                 <div className="underBar" />
               </a>
             </ContentMenuList>
           </ContentMenuOrder>
-        </ContentsMenuOrderWrap>
-        {useMemo(getContentNode, [selectContentMenu, navigationLayout])}
-      </MainContents>
+        </ContentsMenuOrderNav>
+        <AdvertHeader advertShow={advertShow}>
+          <AdvertAttach advertShow={advertShow} onClick={handleOnClickControlAdvert}>
+            AD
+            <br />
+            {advertShow ? 'OFF' : 'ON'}
+          </AdvertAttach>
+        </AdvertHeader>
 
-      <WhiteBoard>
-        <DomainProfile>
-          <DomainProfileTitle className={'DomainProfileTitle'} type={'Section'} underline>
-            Domain Profile
-          </DomainProfileTitle>
-          <FlexProfile className="FlexProfile">
-            <DomainProfileImage src={serverMetas['og:image']} />
-            <Description>
-              <Title className="DomainProfileDescTitle" type="DomainProfileDescTitle">
-                {serverMetas['title']}
-              </Title>
-              <P className="description">{serverMetas['description']}</P>
-              <TagsSection>
-                <P>I'am Tags</P>
-                <Tags>
-                  {serverMetas.keywords &&
-                    serverMetas.keywords.split(',').map((tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>)}
-                </Tags>
-                <P>Relation Tags</P>
-                <Tags>
-                  {window.talknConfig.relationTags.map((tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>)}
-                </Tags>
-              </TagsSection>
-              <SnsLinksWrap>
-                <SnsLinks serverMetas={serverMetas} />
-              </SnsLinksWrap>
-            </Description>
-          </FlexProfile>
-        </DomainProfile>
-
-        <SnsShare>
-          <Twitter className="twitter">
+        <MainContentsWrap advertShow={advertShow}>
+          <AdvertLeft advertShow={advertShow}>
+            スポンサー
+            <br />
+            募集中
+          </AdvertLeft>
+          {/* メインコンテンツ */}
+          <MainContents maxMain={maxMain} advertShow={advertShow}>
+            {useMemo(getContentNode, [navigationLayout, creatorsPointer])}
+            <DomainProfile>
+              <DomainProfileTitle className={'DomainProfileTitle'} type={'Section'} underline>
+                Domain Profile
+              </DomainProfileTitle>
+              <FlexProfile className="FlexProfile">
+                <DomainProfileImage src={serverMetas['og:image']} />
+                <Description>
+                  <Title className="DomainProfileDescTitle" type="DomainProfileDescTitle">
+                    {serverMetas['title']}
+                  </Title>
+                  <P className="description">{serverMetas['description']}</P>
+                  <TagsSection>
+                    <P>I'am Tags</P>
+                    <Tags>
+                      {serverMetas.keywords &&
+                        serverMetas.keywords
+                          .split(',')
+                          .map((tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>)}
+                    </Tags>
+                    <P>Relation Tags</P>
+                    <Tags>
+                      {window.talknConfig.relationTags.map(
+                        (tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>
+                      )}
+                    </Tags>
+                  </TagsSection>
+                  <SnsLinksWrap>
+                    <SnsLinks serverMetas={serverMetas} />
+                  </SnsLinksWrap>
+                </Description>
+              </FlexProfile>
+            </DomainProfile>
+          </MainContents>
+          <AdvertRight advertShow={advertShow}>
+            スポンサー
+            <br />
+            募集中
+          </AdvertRight>
+        </MainContentsWrap>
+      </MainContentsBoard>
+      <SnsShare>
+        <Twitter className="twitter">
+          <a
+            href="https://twitter.com/share?ref_src=twsrc%5Etfw&url=https://cover.talkn.io/www.sunbridge.com/"
+            className="twitter-share-button"
+            data-show-count="false">
+            <TwitterIcon />
+            Tweet
+          </a>
+          <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
+        </Twitter>
+        <div className="facebook">
+          <div className="fb-share-button" data-href={`https://cover.talkn.io${thread.ch}`} data-layout="button_count" data-size="large">
             <a
-              href="https://twitter.com/share?ref_src=twsrc%5Etfw&url=https://cover.talkn.io/www.sunbridge.com/"
-              className="twitter-share-button"
-              data-show-count="false">
-              <TwitterIcon />
-              Tweet
+              target="_blank"
+              href={`https://www.facebook.com/sharer/sharer.php?u=https://cover.talkn.io${thread.ch};src=sdkpreparse`}
+              className="fb-xfbml-parse-ignore">
+              Share
             </a>
-            <script async src="https://platform.twitter.com/widgets.js" charSet="utf-8"></script>
-          </Twitter>
-          <div className="facebook">
-            <div className="fb-share-button" data-href={`https://cover.talkn.io${thread.ch}`} data-layout="button_count" data-size="large">
-              <a
-                target="_blank"
-                href={`https://www.facebook.com/sharer/sharer.php?u=https://cover.talkn.io${thread.ch};src=sdkpreparse`}
-                className="fb-xfbml-parse-ignore">
-                Share
-              </a>
-            </div>
           </div>
-        </SnsShare>
-      </WhiteBoard>
+        </div>
+      </SnsShare>
       <Footer ch={thread.ch} />
     </Container>
   );
@@ -784,8 +822,107 @@ const HeadEyeCatchSelectOrder = styled.ol<HeadEyeCatchSelectOrderType>`
   }
 `;
 
-const MainContents = styled.main`
+const MainContentsBoard = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
   width: 100%;
+`;
+
+const AdvertCss = css<{ advertShow: boolean }>`
+  position: sticky;
+  top: ${styles.baseHeight * 2 + styles.baseMargin}px;
+  flex: 1 1 ${styles.advertWidth}px;
+  display: ${(props) => (props.advertShow ? 'flex' : 'none')};
+  opacity: ${(props) => (props.advertShow ? 1 : 0)};
+  align-items: center;
+  justify-content: center;
+  width: ${styles.advertWidth}px;
+  min-width: ${styles.advertWidth}px;
+  max-width: ${styles.advertWidth}px;
+  height: calc(100vh - ${styles.baseHeight * 2 + styles.baseMargin * 2}px);
+  margin: ${styles.baseHeight + styles.baseMargin}px ${styles.baseMargin}px;
+  background: #ddd;
+  color: #fff;
+  text-align: center;
+  transition-property: transform;
+  transition-duration: 300ms;
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    display: flex;
+    position: relative;
+    top: 0;
+    width: calc(100% - ${styles.doubleMargin}px);
+    max-width: calc(100% - ${styles.doubleMargin}px);
+    margin: 0 ${styles.baseMargin}px;
+  }
+`;
+
+const AdvertHeader = styled.div<{ advertShow: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  padding-right: ${styles.doublePadding}px;
+  @media (max-width: ${styles.doubleAdvertWidth}px) {
+    padding-right: ${styles.basePadding}px;
+  }
+`;
+
+const AdvertAttach = styled.div<{ advertShow: boolean }>`
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: rgba(150, 150, 150, 0.4);
+  color: #fff;
+  font-size: 10px;
+  text-align: center;
+  line-height: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    display: none;
+  }
+`;
+
+const AdvertRight = styled.div<{ advertShow: boolean }>`
+  ${AdvertCss};
+`;
+
+const AdvertLeft = styled.div<{ advertShow: boolean }>`
+  ${AdvertCss};
+  @media (max-width: ${styles.doubleAdvertWidth}px) {
+    display: none;
+  }
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    display: flex;
+    margin-bottom: ${styles.baseMargin}px;
+  }
+`;
+
+const MainContentsWrap = styled.div<{ advertShow: boolean }>`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    flex-flow: column nowrap;
+  }
+`;
+
+const MainContents = styled.main<{ advertShow: boolean; maxMain: boolean }>`
+  width: 100%;
+  max-width: ${(props) => (!props.maxMain ? `${styles.appWidth}px` : '100%')};
+  transition: max-width ${styles.transitionDuration}ms ease 0s;
+  @media (max-width: ${styles.doubleAdvertWidth}px) {
+    width: ${(props) => (props.advertShow ? `calc( 100% - ${styles.advertWidth + styles.baseMargin * 2}px)` : '100%')};
+  }
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    width: 100%;
+  }
 `;
 
 const TagsSection = styled.section`
@@ -795,7 +932,7 @@ const TagsSection = styled.section`
   }
 `;
 
-const ContentsMenuOrderWrap = styled.div<{ ref: any }>`
+const ContentsMenuOrderNav = styled.nav<{ ref: any }>`
   position: sticky;
   top: ${styles.baseHeight}px;
   z-index: ${styles.zIndex.contentsMenu};
@@ -876,44 +1013,10 @@ const ContentMenuList = styled.li`
   }
 `;
 
-const BaseBoard = styled.div`
-  display: flex;
-  flex-flow: column wrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: 100%;
-  max-width: ${styles.appWidth}px;
-  margin: 0 auto;
-`;
-
-const ArticleOrderBg = styled.div`
-  z-index: 10;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 15px 15px 0 0;
-  border-top: 1px solid ${styles.borderColor};
-  border-right: 1px solid ${styles.borderColor};
-  border-left: 1px solid ${styles.borderColor};
-`;
-
 const Img = styled.img`
   margin-right: 15px;
   margin-left: -15px;
   user-select: none;
-`;
-
-const WhiteBoard = styled.div`
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  height: auto;
-  border-top: 1px solid ${styles.borderColor};
-  background: rgba(255, 255, 255, 0.96);
-  @media (max-width: ${styles.spLayoutWidth}px) {
-    align-items: normal;
-  }
 `;
 
 type CreatorsPropsType = {
@@ -1043,8 +1146,6 @@ const DomainProfile = styled.div`
   height: auto;
   padding: ${styles.doublePadding}px;
   margin-top: ${styles.quadMargin}px;
-  margin-left: ${styles.doubleMargin}px;
-  margin-right: ${styles.doubleMargin}px;
   margin-bottom: ${styles.quadMargin}px;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid ${styles.borderColor};
@@ -1052,7 +1153,12 @@ const DomainProfile = styled.div`
   .DomainProfileDescTitle {
     padding-bottom: ${styles.doublePadding}px;
   }
+  @media (max-width: ${styles.doubleAdvertWidth}px) {
+    width: calc(100% - ${styles.baseMargin}px);
+    margin-left: ${styles.baseMargin}px;
+  }
   @media (max-width: ${styles.spLayoutWidth}px) {
+    width: 100%;
     padding: ${styles.sectionPadding}px ${styles.sectionPadding / 2}px;
     margin-top: 0;
     margin-left: 0;
@@ -1138,7 +1244,7 @@ const SnsShare = styled.div`
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
-  margin: ${styles.doubleMargin}px ${styles.doubleMargin}px ${styles.sepMargin}px;
+  margin: ${styles.doubleMargin}px ${styles.doubleMargin}px ${styles.doubleMargin}px;
 `;
 
 const Twitter = styled.div`
