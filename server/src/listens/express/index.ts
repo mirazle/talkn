@@ -12,6 +12,7 @@ import * as CoverLogics from 'server/listens/express/cover/logics';
 import Geolite from 'server/logics/Geolite';
 import Mail from 'server/logics/Mail';
 
+const defaultCoverMethod = 'livePages';
 const coverParams = {
   methodIndex: 2,
   creatorsIndex: 3,
@@ -188,22 +189,23 @@ class Express {
           } else {
             const splitedUrl = req.originalUrl.split('/');
             let ch = '/';
-            let method = 'livePage';
+            let method = defaultCoverMethod;
             let creatorsIndex = null;
-
+            console.log(splitedUrl, splitedUrl.length);
             if (splitedUrl.length === 2) {
-              method = splitedUrl[1];
+              method = splitedUrl[1] === '' ? defaultCoverMethod : splitedUrl[1];
             } else {
               ch = splitedUrl[1] ? `/${splitedUrl[1]}/` : '/';
-              method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : 'livePages';
+              method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : defaultCoverMethod;
               creatorsIndex = splitedUrl[coverParams.creatorsIndex] ? splitedUrl[coverParams.creatorsIndex] : null;
             }
-
+            console.log(ch, method);
             const resolveCover = async () => {
               let domainProfile;
               switch (method) {
                 case 'livePages':
                 case 'config':
+                  console.log(req.protocol, ch, language, method, req.originalUrl);
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
                   domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language);
