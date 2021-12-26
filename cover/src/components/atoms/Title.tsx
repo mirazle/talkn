@@ -27,6 +27,7 @@ const Component: React.FC<Props> = ({ id: _id, className = 'Title', type = 'Arti
           {children}
         </ServiceHeader>
       );
+    case 'Config':
     case 'ArticleOrder':
       return (
         <ArticleOrder {...id} className={className} shadow={shadow} underline={underline}>

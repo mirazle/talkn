@@ -200,20 +200,16 @@ export default class Posts {
   static getSelfBoxShadow({ app, ui }) {
     let boxShadow = '0px 0px 0px rgba(255,255,255)';
     if (ui.extensionMode === Ui.extensionModeNone) {
-      console.log('A');
       return boxShadow;
     } else {
       switch (ui.screenSize) {
         case Ui.screenSizeSmallLabel:
-          console.log('B');
           return Container.lineInsetShadow;
         case Ui.screenSizeMiddleLabel:
         case Ui.screenSizeLargeLabel:
-          console.log('C');
           return boxShadow;
       }
     }
-    console.log('D');
     return boxShadow;
   }
 

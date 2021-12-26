@@ -11,7 +11,7 @@
       const splitedUrlLength = splitedUrl.length;
       const ch = splitedUrl[3] ? `/${splitedUrl[3]}/` : '/';
       const method = splitedUrl[splitedUrlLength - 1] === '' ? 'livePages' : splitedUrl[splitedUrlLength - 1];
-
+      console.log(ch, method);
       fetch(`//cover.localhost${ch}${method}Json`).then((response, d) => {
         response.json().then((res) => {
           window.talknSelectContentMenu = method;
@@ -74,7 +74,7 @@
     <link rel="shortcut icon" href="//assets.localhost/favicon.ico" />
     <link rel="canonical" href="https://localhost" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
-    <link rel="stylesheet" href="https://assets.talkn.io/cover/www.sunbridge.com/interview/default.css" />
+    <link rel="stylesheet" href="https://assets.talkn.io/cover/interview/default.css" />
     <style amp-boilerplate>
       body {
         -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;

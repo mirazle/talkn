@@ -8,19 +8,15 @@ import Render from 'cover/App';
 
 export const selectContentMenuLivePages = 'livePages';
 export const selectContentMenuCreators = 'creators';
-export const selectContentMenuAnalytics = 'analytics';
+export const selectContentMenuConfig = 'config';
 export const selectContentMenuDefault = selectContentMenuLivePages;
-export type SelectContentMenuType =
-  | typeof selectContentMenuLivePages
-  | typeof selectContentMenuCreators
-  | typeof selectContentMenuAnalytics;
+export type SelectContentMenuType = typeof selectContentMenuLivePages | typeof selectContentMenuCreators | typeof selectContentMenuConfig;
 
 declare global {
   interface Window {
     talknThread: any;
     talknServerMetas: any;
     talknConfig: ConfigType;
-
     talknSelectContentMenu: SelectContentMenuType;
     talknComponents: any;
     talknCreators: any;
