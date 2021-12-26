@@ -18,16 +18,20 @@ export default {
     Object.keys(Sequence.map).forEach((endpoint) => {
       const oneSequence = Sequence.map[endpoint];
       ioUser.on(endpoint, (requestState) => {
+        /*
         console.log('------------------------------- ' + endpoint);
         console.log(requestState);
+*/
         Actions.io[endpoint](ioUser, requestState, setting);
       });
     });
     const { ch, hasSlash, protocol, host } = ioUser.handshake.query;
     const thread = { ch, hasSlash, protocol, host };
     const requestState = { thread, type: 'tune' };
+    /*
     console.log('------------------------------- tune');
     console.log(requestState);
+*/
     Actions.io.tune(ioUser, requestState, setting);
   },
 

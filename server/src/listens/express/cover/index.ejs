@@ -7,7 +7,18 @@
     <link rel="shortcut icon" href="<%= thread.favicon %>" />
     <link rel="manifest" href="https://<%= domain %>/manifest.json" />
     <script id="assignVariable" type="text/javascript">
-      window.talknSelectContentMenu = location.pathname.split('/')[2] !== '' ? location.pathname.split('/')[2] : 'livePages';
+      if (location.pathname === '/') {
+        window.talknSelectContentMenu = 'livePages';
+      } else {
+        const splited = location.pathname.split('/');
+        if (splited.length === 2) {
+          console.log('A', splited[1]);
+          window.talknSelectContentMenu = splited[1];
+        } else {
+          console.log('B');
+          window.talknSelectContentMenu = splited[2] !== '' ? splited[2] : 'livePages';
+        }
+      }
       window.talknCreators = JSON.parse('<%= JSON.stringify(creators) %>'.replace(/&#34;/g, '"'));
       window.talknConfig = JSON.parse('<%= JSON.stringify(config) %>'.replace(/&#34;/g, '"'));
       window.talknThread = JSON.parse('<%= JSON.stringify(thread) %>'.replace(/&#34;/g, '"'));

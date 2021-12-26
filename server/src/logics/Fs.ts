@@ -10,7 +10,9 @@ export default class Fs {
   };
   getConfig(ch): any {
     try {
-      const serverPath = `${conf.serverCoverPath}${ch}${Fs.names.config}`;
+      const fixedCh = ch === '/' ? '' : ch;
+      const serverPath = `${conf.serverCoverPath}${fixedCh}${Fs.names.config}`;
+      console.log(ch, serverPath);
       if (this.isExist(serverPath)) {
         const talknConfig = JSON.parse(fs.readFileSync(serverPath, 'utf8'));
         return talknConfig && talknConfig !== '' ? talknConfig : null;
