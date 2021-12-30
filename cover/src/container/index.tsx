@@ -437,10 +437,13 @@ const TalknContainer: React.FC<Props> = (props) => {
             スポンサー
             <br />
             募集中
+            <br />
+            <br />
+            ¥0~
           </AdvertLeft>
           {/* メインコンテンツ */}
           <MainContents maxMain={maxMain} advertShow={advertShow}>
-            {useMemo(getContentNode, [navigationLayout, creatorsPointer])}
+            {useMemo(getContentNode, [selectContentMenu, navigationLayout, creatorsPointer, userCategoryChs])}
             <DomainProfile>
               <DomainProfileTitle className={'DomainProfileTitle'} type={'Section'} underline>
                 Domain Profile
@@ -478,6 +481,9 @@ const TalknContainer: React.FC<Props> = (props) => {
             スポンサー
             <br />
             募集中
+            <br />
+            <br />
+            ¥0~
           </AdvertRight>
         </MainContentsWrap>
       </MainContentsBoard>
@@ -845,8 +851,11 @@ const AdvertCss = css<{ advertShow: boolean }>`
   background: #ddd;
   color: #fff;
   text-align: center;
-  transition-property: transform;
-  transition-duration: 300ms;
+  transition-property: background, transform;
+  transition-duration: ${styles.transitionDuration}ms, ${styles.transitionDuration}ms;
+  :hover {
+    background: #999;
+  }
   @media (max-width: ${styles.spLayoutWidth}px) {
     display: flex;
     position: relative;
