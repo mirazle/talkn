@@ -23,7 +23,7 @@ export default Component;
 const ToTop = styled.div`
   z-index: ${styles.zIndex.toTop};
   position: sticky;
-  top: 75px;
+  top: calc(100vh - 110px);
   right: 70px;
   display: flex;
   flex-flow: column nowrap;

@@ -59,9 +59,7 @@ const Component: FunctionComponent<Props> = ({ ch, config }: Props) => {
   const handleOnBlurRelationTag = (e, index) => {
     let updateRelationTags = [...relationTags];
     updateRelationTags[index] = e.target.value;
-    console.log(updateRelationTags);
     updateRelationTags = updateRelationTags.filter((tag) => tag !== '');
-    console.log(updateRelationTags);
     setRelationTags(updateRelationTags);
   };
 
@@ -99,7 +97,7 @@ const Component: FunctionComponent<Props> = ({ ch, config }: Props) => {
         </Flex>
         <Button>Download(※)</Button>
         <CustomP className="CustomP">
-          ※Upload your site
+          ※ Please upload the downloaded file to your site
           <br /> /{ch}talkn.config.json
         </CustomP>
       </Form>
@@ -219,4 +217,5 @@ const CustomP = styled(P)`
   margin-top: ${styles.doubleMargin}px;
   margin-right: ${styles.doubleMargin}px;
   text-align: right;
+  line-height: 40px;
 `;
