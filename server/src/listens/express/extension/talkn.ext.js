@@ -1,4 +1,5 @@
 window.TALKN_EXT_ENV = 'PROD';
+
 /*
   Reasons for plain js:
   Obfuscated or bundled js is rejected by Chrome Extension examination.
