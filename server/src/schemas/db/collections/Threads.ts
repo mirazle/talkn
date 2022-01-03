@@ -36,9 +36,6 @@ export default {
   // html(serverMetas)
   ...html,
 
-  categoryChs: [],
-  creatorsCnt: { type: Number, default: 0, min: 0 },
-
   // Post
   lastPost: Posts,
 
@@ -51,6 +48,13 @@ export default {
     russell,
     russellSimple,
   },
+
+  // LivePages
+  categoryChs: [],
+
+  // Config
+  creatorsCnt: { type: Number, default: 0 },
+  updateCreatorsTime: { type: Date },
 
   // Time
   createTime: { type: Date, default: Date },

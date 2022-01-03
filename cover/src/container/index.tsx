@@ -220,9 +220,12 @@ const TalknContainer: React.FC<Props> = (props) => {
     const offset = 0 <= _offset ? _offset : 0;
     const limit = configCreatorsLimit;
     const _creatorsIndex = [...window.talknConfig.creatorsIndex].reverse();
+
     let _creatorsEyeCatchs = [...window.talknConfig.creatorsIndex]
       .map((creatorsIndex, index) => {
-        creatorsIndex.no = index + 1;
+        if (window.talknThread.ch !== '/') {
+          //creatorsIndex.no = index + 1;
+        }
         return creatorsIndex;
       })
       .splice(offset, limit);
@@ -262,7 +265,6 @@ const TalknContainer: React.FC<Props> = (props) => {
   const getContentNode = () => {
     switch (selectContentMenu) {
       case selectContentMenuLivePages: {
-        console.log('RENDER');
         return userCategoryChs.length > 0 ? (
           <TalknFrameWrap>
             {userCategoryChs.map((categoryCh: any, index) => {
@@ -319,6 +321,28 @@ const TalknContainer: React.FC<Props> = (props) => {
               </Navigation>
             </CreatorsWrap>
           );
+        } else if (creatorsEyeCatchs && creatorsEyeCatchs.length > 0) {
+          return (
+            <CreatorsEyeCatchOrder
+              ref={creatorEyeCatchOrderRef}
+              onScroll={handleOnScrollHeadEyeCatch}
+              creatorsIndexCnt={window.talknConfig.creatorsIndex.length}>
+              {creatorsEyeCatchs.map((creatorsEyeCatch, i) => (
+                <HeadEyeCatchList
+                  key={`HeadEyeCatchList${i}`}
+                  className="HeadEyeCatchList"
+                  data-no={creatorsEyeCatch.no}
+                  ch={thread.ch}
+                  eyeCatch={creatorsEyeCatch.eyeCatch}
+                  creatorsIndexCnt={window.talknConfig.creatorsIndex.length}>
+                  <ViewAnchor href={`https://${conf.coverURL}${creatorsEyeCatch.ch}creators/${creatorsEyeCatch.no}`}>
+                    <div className="creatorBg">{creatorsEyeCatch.eyeCatch === '' && 'NO IMAGE'}</div>
+                    <div className="creatorDescription">{creatorsEyeCatch.title}</div>
+                  </ViewAnchor>
+                </HeadEyeCatchList>
+              ))}
+            </CreatorsEyeCatchOrder>
+          );
         } else {
           return (
             <CommingSoon>
@@ -374,17 +398,22 @@ const TalknContainer: React.FC<Props> = (props) => {
       {creatorsEyeCatchs && creatorsEyeCatchs.length > 0 && (
         <CreatorsEyeCatchOrder
           ref={creatorEyeCatchOrderRef}
+          slide
           onScroll={handleOnScrollHeadEyeCatch}
           creatorsIndexCnt={window.talknConfig.creatorsIndex.length}>
-          {creatorsEyeCatchs.map((index, i) => (
+          {creatorsEyeCatchs.map((creatorsEyeCatch, i) => (
             <HeadEyeCatchList
               key={`HeadEyeCatchList${i}`}
+              slide
               className="HeadEyeCatchList"
-              data-no={index.no}
+              data-no={creatorsEyeCatch.no}
               ch={thread.ch}
-              eyeCatch={index.eyeCatch}
+              eyeCatch={creatorsEyeCatch.eyeCatch}
               creatorsIndexCnt={window.talknConfig.creatorsIndex.length}>
-              <ViewAnchor href={`https://${conf.coverURL}${thread.ch}creators/${index.no}`} />
+              <ViewAnchor href={`https://${conf.coverURL}${creatorsEyeCatch.ch}creators/${creatorsEyeCatch.no}`}>
+                <div className="creatorBg">{creatorsEyeCatch.eyeCatch === '' && 'NO IMAGE'}</div>
+                <div className="creatorDescription">{creatorsEyeCatch.title}</div>
+              </ViewAnchor>
             </HeadEyeCatchList>
           ))}
         </CreatorsEyeCatchOrder>
@@ -718,18 +747,23 @@ const HeaderInSideMenu = styled.div<{ ref: any }>`
   }
 `;
 
-const CreatorsEyeCatchOrder = styled.ol<{ ref: any; creatorsIndexCnt: number }>`
-  overflow: scroll hidden;
+const CreatorsEyeCatchOrder = styled.ol<{ ref: any; slide?: boolean; creatorsIndexCnt: number }>`
+  ${(props) => (props.slide ? 'overflow: scroll hidden' : '')};
   display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: ${(props) => (props.creatorsIndexCnt <= 3 ? 'center' : 'flex-start')};
+  flex-flow: row ${(props) => (props.slide ? 'nowrap' : 'wrap')};
+  align-items: flex-start;
+  justify-content: ${(props) => {
+    if (props.slide) {
+      return props.creatorsIndexCnt < 3 ? 'center' : 'flex-start';
+    } else {
+      return 'flex-start';
+    }
+  }};
   width: 100%;
   max-width: ${styles.appWidth}px;
-  height: 100%;
-  padding: 0 0 ${styles.quadPadding}px 0;
+  padding: 0;
   margin: 0 auto;
-  scroll-snap-type: x mandatory;
+  ${(props) => (props.slide ? 'scroll-snap-type: x mandatory' : '')};
   @media (max-width: ${styles.spLayoutWidth}px) {
     justify-content: flex-start;
   }
@@ -738,37 +772,61 @@ const CreatorsEyeCatchOrder = styled.ol<{ ref: any; creatorsIndexCnt: number }>`
   }
 `;
 
-const HeadEyeCatchList = styled.li<{ ch: string; eyeCatch: string; creatorsIndexCnt: number }>`
+const HeadEyeCatchList = styled.li<{ ch: string; slide?: boolean; eyeCatch: string; creatorsIndexCnt: number }>`
   display: flex;
   flex-flow: column nowrap;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: flex-end;
   width: 33.33%;
-  min-width: 33.33%;
-  height: 180px;
+  min-width: 400px;
+  height: fit-content;
   padding: 10px;
   overflow: hidden;
   text-align: right;
-  scroll-snap-align: start;
+  ${(props) => (props.slide ? 'scroll-snap-align: start' : '')};
+  color: #fff;
   list-style: none;
+  :hover {
+    a {
+      transform: scale(1.03);
+      opacity: 0.8;
+    }
+    div.creatorDescription {
+      text-decoration: underline solid ${styles.fontColor} 1px;
+    }
+  }
   a {
-    display: block;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: center;
     width: 100%;
-    height: 100%;
+    color: #fff;
+    transition: ${styles.transitionDuration}ms;
+    cursor: pointer;
+  }
+  div.creatorBg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 160px;
+    background-color: #ddd;
     background-size: cover;
-    background-image: url('${(props) => `https://${conf.coverURL}/${props.ch}${props.eyeCatch}`}');
+    background-image: url('${(props) => (props.eyeCatch !== '' ? props.eyeCatch : 'none')}');
     background-position: 50%;
     background-repeat: no-repeat;
     border: 1px solid ${styles.borderColor};
     border-radius: ${styles.baseSize}px;
-    transition: ${styles.transitionDuration}ms;
-    cursor: pointer;
-    :hover {
-      transform: scale(1.02);
-      opacity: 0.8;
-    }
   }
-
+  div.creatorDescription {
+    margin: ${styles.baseMargin}px 0;
+    text-align: left;
+    line-height: 30px;
+    font-size: 20px;
+    font-weight: 200;
+    color: ${styles.fontColor};
+  }
   @media (max-width: ${styles.spLayoutWidth}px) {
     width: 50%;
     min-width: 50%;

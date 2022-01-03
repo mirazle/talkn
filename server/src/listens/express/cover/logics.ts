@@ -76,7 +76,21 @@ export const exeFetchConfig = async (req, res, protocol, ch): Promise<ConfigType
       config = { ...configInit };
     }
   }
-  return config;
+
+  if (config) {
+    if (config.creatorsIndex.length > 0) {
+      return {
+        ...config,
+        creatorsIndex: config.creatorsIndex.map((creatorIndex, index) => {
+          return ch === '/' ? { ...creatorIndex, ch, no: config.creatorsIndex.length } : { ...creatorIndex, ch, no: index + 1 };
+        }),
+      };
+    } else {
+      return config;
+    }
+  } else {
+    return null;
+  }
 };
 
 export const fetchConfig = async (req, res, protocol, ch) => {
@@ -89,14 +103,37 @@ export const getDomainProfile = async (req, res, protocol, ch, language, creator
   const creators = Logics.fs.getCreators(ch, creatorsIndexParam, config);
   let { response: thread, isExist }: any = await Logics.db.threads.findOne(ch, { buildinSchema: true });
   const isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, isExist);
+  let isAddCreatorsConfig = false;
+  if (ch === '/') {
+    const promiseAll = [];
+    const chObj = await Logics.db.threads.coverTopCreatorsIndex();
+
+    chObj.reverse().forEach(async (obj) => {
+      promiseAll.push(exeFetchConfig(req, res, obj.protocol, obj.ch));
+    });
+
+    const creatorsIndex = await Promise.all(promiseAll);
+
+    config.creatorsIndex = creatorsIndex
+      .filter((obj) => obj.creatorsIndex && obj.creatorsIndex.length > 0)
+      .map((obj) => obj.creatorsIndex[obj.creatorsIndex.length - 1]);
+  } else {
+    isAddCreatorsConfig = config.creatorsIndex.length > thread.creatorsCnt;
+
+    if (isAddCreatorsConfig) {
+      thread.creatorsCnt = config.creatorsIndex.length;
+      thread.updateCreatorsTime = new Date();
+    }
+  }
 
   // 作成・更新が必要なスレッドの場合
   if (isRequireUpsert) {
     thread = await Logics.db.threads.requestHtmlParams(thread, { protocol, ch, hasSlash: true });
-    // スレッド新規作成
-    if (!isExist) {
-      thread = await Logics.db.threads.save(thread);
-    }
+  }
+
+  // スレッド新規作成
+  if (!isExist || isAddCreatorsConfig) {
+    thread = await Logics.db.threads.save(thread);
   }
   const serverMetas = { ...thread.serverMetas };
   thread.serverMetas = undefined;

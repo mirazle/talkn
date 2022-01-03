@@ -30,7 +30,8 @@ export const fontColor = '#666';
 export const borderColor = '#eee';
 export const componentBgColor = 'rgba(255, 255, 255, 0.96)';
 export const tagBgColor = 'rgba(60, 60, 60, 0.9)';
-export const themeColor = 'rgba(79, 174, 159, 0.96)';
+export const themeBaseColor = `79, 174, 159`;
+export const themeColor = `rgba(${themeBaseColor}, 0.96)`;
 
 // Section
 export const sectionPadding = doubleSize;

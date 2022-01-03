@@ -11,7 +11,6 @@
       const splitedUrlLength = splitedUrl.length;
       const ch = splitedUrl[3] ? `/${splitedUrl[3]}/` : '/';
       const method = splitedUrl[splitedUrlLength - 1] === '' ? 'livePages' : splitedUrl[splitedUrlLength - 1];
-      console.log(ch, method);
       fetch(`//cover.localhost${ch}${method}Json`).then((response, d) => {
         response.json().then((res) => {
           window.talknSelectContentMenu = method;
