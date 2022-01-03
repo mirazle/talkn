@@ -1,3 +1,6 @@
+import Sequence from 'common/Sequence';
+import define from 'common/define';
+
 import MongoDB from 'server/listens/db/MongoDB';
 import Logics from 'server/logics';
 import Favicon from 'server/logics/Favicon';
@@ -61,6 +64,22 @@ export default class Threads {
     return await this.collection.find(condition, selector, option);
   }
 
+  async coverTopCreatorsIndex() {
+    const ch = '/';
+    const layer = Thread.getLayer(ch) + 1;
+    let condition: any = {};
+    condition.ch = /^.*(\.)(?!.*localhost)(?!.*#).*$/;
+    condition.layer = layer;
+    condition.creatorsCnt = { $gt: 0 };
+    const selector = { protocol: 1, ch: 1 };
+    const option = {
+      sort: { updateCreatorsTime: -1, liveCnt: -1, updateTime: -1, createTime: -1 },
+      limit: 20,
+    };
+    const { response } = await this.collection.find(condition, selector, option);
+    return response;
+  }
+
   async rank(requestState, setting) {
     const { app } = requestState;
     const { rootCh: ch, isRankDetailMode } = app;
@@ -70,7 +89,11 @@ export default class Threads {
     condition.chs = ch;
     condition.ch = { $ne: ch };
     condition.postCnt = { $ne: 0 };
-    condition.layer = isRankDetailMode ? { $gt: layer } : { $gt: layer };
+    condition.layer = { $gt: layer };
+
+    if (isRankDetailMode) {
+      condition['$and'] = [{ ['serverMetas.title']: { $ne: define.APP_NAME } }, { ['serverMetas.title']: { $ne: '' } }];
+    }
 
     if (app.findType === Thread.findTypeAll) {
       // TODO: 条件分岐を整える
@@ -92,9 +115,21 @@ export default class Threads {
       sort: { liveCnt: -1, updateTime: -1, createTime: -1 },
       limit: setting.server.getThreadChildrenCnt,
     };
-
+    console.log(condition);
     const { response } = await this.collection.find(condition, selector, option);
-
+    if (ch === '/www.sunbridge.com/') {
+      response.forEach((res) => {
+        console.log(
+          res.ch,
+          'title',
+          res.title,
+          'serverMetas.title',
+          res.serverMetas.title,
+          'serverMetas.og:title',
+          res.serverMetas['og:title']
+        );
+      });
+    }
     return response.map((res) => {
       if (isRankDetailMode) {
         return {

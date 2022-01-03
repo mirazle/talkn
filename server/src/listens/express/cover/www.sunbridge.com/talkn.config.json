@@ -3,14 +3,24 @@
   "css": "default.css",
   "creatorsIndex": [
     {
+      "title": "SAMPLE1",
+      "eyeCatch": "",
+      "interview": "creators1.json"
+    },
+    {
+      "title": "SAMPLE2",
+      "eyeCatch": "",
+      "interview": "creators1.json"
+    },
+    {
       "title": "サンブリッジの根幹を担うプロダクト本部の責任者へ新卒社員がインタビュー",
-      "eyeCatch": "bg2.png",
-      "interview": "interview1.json"
+      "eyeCatch": "https://cover.talkn.io//www.sunbridge.com/bg2.png",
+      "interview": "creators1.json"
     },
     {
       "title": "Smart Viscaリニューアルの裏側",
-      "eyeCatch": "bg1.png",
-      "interview": "interview2.json"
+      "eyeCatch": "https://cover.talkn.io//www.sunbridge.com/bg1.png",
+      "interview": "creators2.json"
     }
   ],
   "userCategoryChs": [

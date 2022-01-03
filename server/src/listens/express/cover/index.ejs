@@ -12,10 +12,8 @@
       } else {
         const splited = location.pathname.split('/');
         if (splited.length === 2) {
-          console.log('A', splited[1]);
           window.talknSelectContentMenu = splited[1];
         } else {
-          console.log('B');
           window.talknSelectContentMenu = splited[2] !== '' ? splited[2] : 'livePages';
         }
       }

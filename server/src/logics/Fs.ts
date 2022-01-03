@@ -12,7 +12,6 @@ export default class Fs {
     try {
       const fixedCh = ch === '/' ? '' : ch;
       const serverPath = `${conf.serverCoverPath}${fixedCh}${Fs.names.config}`;
-      console.log(ch, serverPath);
       if (this.isExist(serverPath)) {
         const talknConfig = JSON.parse(fs.readFileSync(serverPath, 'utf8'));
         return talknConfig && talknConfig !== '' ? talknConfig : null;
@@ -35,14 +34,13 @@ export default class Fs {
   getCreators(ch, creatorsIndexParam, config): any {
     try {
       const serverBasePath = `${conf.serverCoverPath}${ch}`;
-      let creatorsIndex = creatorsIndexParam ? creatorsIndexParam : null;
-      if (creatorsIndex === null) {
-        creatorsIndex = config.creatorsIndex.length === 0 ? null : config.creatorsIndex.length;
-      }
-
+      let creatorIndex =
+        creatorsIndexParam && config.creatorsIndex[creatorsIndexParam - 1] ? config.creatorsIndex[creatorsIndexParam - 1] : null;
       let creators = null;
-      if (creatorsIndex) {
-        creators = JSON.parse(fs.readFileSync(`${serverBasePath}${Fs.names.creators}${creatorsIndex}.json`, 'utf8'));
+
+      if (creatorIndex) {
+        console.log(`${serverBasePath}${Fs.names.creators}${creatorIndex.interview}`);
+        creators = JSON.parse(fs.readFileSync(`${serverBasePath}${creatorIndex.interview}`, 'utf8'));
       }
       return creators;
     } catch (err) {

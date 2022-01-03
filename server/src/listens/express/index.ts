@@ -169,7 +169,6 @@ class Express {
         break;
       case conf.coverURL:
         if (req.method === 'POST') {
-          console.log(req.body);
           delete req.body.ch;
           const json = JSON.stringify(req.body, null, 2);
           res.setHeader('Content-disposition', 'attachment; filename=talkn.config.json');
@@ -186,12 +185,11 @@ class Express {
             CoverLogics.assets(req, res);
           } else if (req.originalUrl.indexOf('/undefined') >= 0) {
             res.send('404');
-          } else {
+          } else if (req.headers.accept.indexOf('text/html,application/') === 0 || req.headers.accept.indexOf('*/*') === 0) {
             const splitedUrl = req.originalUrl.split('/');
             let ch = '/';
             let method = defaultCoverMethod;
             let creatorsIndex = null;
-            console.log(splitedUrl, splitedUrl.length);
             if (splitedUrl.length === 2) {
               method = splitedUrl[1] === '' ? defaultCoverMethod : splitedUrl[1];
             } else {
@@ -199,13 +197,12 @@ class Express {
               method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : defaultCoverMethod;
               creatorsIndex = splitedUrl[coverParams.creatorsIndex] ? splitedUrl[coverParams.creatorsIndex] : null;
             }
-            console.log(ch, method);
+
             const resolveCover = async () => {
               let domainProfile;
               switch (method) {
                 case 'livePages':
                 case 'config':
-                  console.log(req.protocol, ch, language, method, req.originalUrl);
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
                   domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language);
@@ -244,6 +241,8 @@ class Express {
             };
 
             resolveCover();
+          } else {
+            res.end();
           }
         }
         break;
