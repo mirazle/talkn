@@ -25,7 +25,7 @@ const client = new OAuth2Client(CLIENT_ID);
 async function verify(idToken) {
   const ticket = await client.verifyIdToken({
     idToken,
-    audience: [CLIENT_ID],
+    audience: CLIENT_ID,
   });
   return ticket.getPayload();
 }
@@ -442,39 +442,3 @@ class Express {
 }
 
 export default Express;
-/*
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
-      clientSecret: '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',
-      callbackURL: 'https:/cover.localhost/authCb',
-      scope: ['profile', 'email'],
-      state: true,
-    },
-    (accessToken, refreshToken, profile, cb) => {
-      console.log(accessToken);
-      console.log(refreshToken);
-      console.log(profile);
-      console.log(cb);
-      console.log('@@@@@@@');
-    }
-  )
-);
-
-// ログイン、サインアップ用ストラテジー
-passport.use(
-  new LocalStrategy(
-    {
-      passReqToCallback: true,
-    },
-    async (req, username, password, done) => {
-      console.log(req);
-      console.log(username);
-      console.log(password);
-      console.log(done);
-      console.log('@@@@@@@');
-    }
-  )
-);
-*/
