@@ -4,6 +4,7 @@ import express from 'express';
 import session from 'express-session';
 import http from 'http';
 import https from 'https';
+import { decode } from 'punycode';
 
 /*
 import passport from 'passport';
@@ -184,7 +185,7 @@ class Express {
         if (req.method === 'POST') {
           console.log('@@@@@@@@@@@@@@@@@@@@@@@ - @@@@@@@@@@@@@@@@@@@@@@@@@@');
           console.log(req.body.credential);
-          console.log(atob(req.body.credential));
+          console.log(decode(req.body.credential));
           console.log('@@@@@@@@@@@@@@@@@@@@@@@ - @@@@@@@@@@@@@@@@@@@@@@@@@@');
           delete req.body.ch;
           const json = JSON.stringify(req.body, null, 2);
