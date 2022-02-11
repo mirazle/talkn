@@ -185,5 +185,6 @@ export const getDomainProfile = async (req, res, protocol, ch, language, creator
     assetsURL: conf.assetsURL,
     clientURL: conf.clientURL,
     apiAccessURL: conf.apiAccessURL,
+    payload: {},
   };
 };
