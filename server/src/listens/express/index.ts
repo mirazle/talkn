@@ -4,6 +4,9 @@ import express from 'express';
 import session from 'express-session';
 import http from 'http';
 import https from 'https';
+import passport from 'passport';
+import googleStrategy from 'passport-google-oauth20';
+import passportLocal from 'passport-local';
 
 import define from 'common/define';
 
@@ -12,7 +15,11 @@ import * as CoverLogics from 'server/listens/express/cover/logics';
 import Geolite from 'server/logics/Geolite';
 import Mail from 'server/logics/Mail';
 
-const defaultCoverMethod = 'livePages';
+/*
+const GoogleStrategy = googleStrategy.Strategy;
+const LocalStrategy = passportLocal.Strategy;
+*/
+const defaultCoverMethod = 'business';
 const coverParams = {
   methodIndex: 2,
   creatorsIndex: 3,
@@ -42,6 +49,10 @@ class Express {
     this.httpsApp.use(compression());
     this.httpsApp.use(sessionSetting);
 
+    /*
+    this.httpsApp.use(passport.initialize());
+    this.httpsApp.use(passport.session());
+*/
     // this.httpsApp.use(authFunc);
     // this.session = new Session(this.httpsApp);
 
@@ -197,31 +208,31 @@ class Express {
               method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : defaultCoverMethod;
               creatorsIndex = splitedUrl[coverParams.creatorsIndex] ? splitedUrl[coverParams.creatorsIndex] : null;
             }
-
+            console.log('@@@@', method);
             const resolveCover = async () => {
               let domainProfile;
               switch (method) {
-                case 'livePages':
-                case 'config':
+                case 'business':
+                case 'tag':
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language);
+                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, undefined, method === 'tag');
                   res.render('cover/', domainProfile);
                   break;
-                case 'configJson':
-                case 'livePagesJson':
+                case 'tagJson':
+                case 'businessJson':
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language);
+                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, undefined, method === 'tagJson');
                   res.json(domainProfile);
                   break;
-                case 'creators':
+                case 'story':
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
                   domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, creatorsIndex);
                   res.render('cover/', domainProfile);
                   break;
-                case 'creatorsJson':
+                case 'storyJson':
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
                   domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, creatorsIndex);
@@ -411,3 +422,39 @@ class Express {
 }
 
 export default Express;
+/*
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
+      clientSecret: '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',
+      callbackURL: 'https:/cover.localhost/authCb',
+      scope: ['profile', 'email'],
+      state: true,
+    },
+    (accessToken, refreshToken, profile, cb) => {
+      console.log(accessToken);
+      console.log(refreshToken);
+      console.log(profile);
+      console.log(cb);
+      console.log('@@@@@@@');
+    }
+  )
+);
+
+// ログイン、サインアップ用ストラテジー
+passport.use(
+  new LocalStrategy(
+    {
+      passReqToCallback: true,
+    },
+    async (req, username, password, done) => {
+      console.log(req);
+      console.log(username);
+      console.log(password);
+      console.log(done);
+      console.log('@@@@@@@');
+    }
+  )
+);
+*/

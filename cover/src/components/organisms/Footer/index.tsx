@@ -8,7 +8,7 @@ import MessageSection from 'cover/components/organisms/Footer/MessageSection';
 import OtherContentsSection from 'cover/components/organisms/Footer/OtherContentsSection';
 import ServiceConceptSection from 'cover/components/organisms/Footer/ServiceConceptSection';
 import ToTopSection from 'cover/components/organisms/Footer/ToTopSection';
-import * as styles from 'cover/components/styles';
+import * as styles from 'cover/styles';
 
 type Props = {
   ch: string;

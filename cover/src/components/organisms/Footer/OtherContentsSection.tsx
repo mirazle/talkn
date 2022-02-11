@@ -6,7 +6,7 @@ import { MediaTypeNews, MediaTypeSubdomains, NetworkList } from 'common/Networks
 
 import Title from 'cover/components/atoms/Title';
 import BoxList from 'cover/components/molecules/BoxList';
-import * as styles from 'cover/components/styles';
+import * as styles from 'cover/styles';
 
 type Props = unknown;
 

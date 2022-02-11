@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import * as styles from 'cover/components/styles';
+import * as styles from 'cover/styles';
 
 type Props = {
   id?: string;
@@ -45,6 +45,13 @@ const Component: React.FC<Props> = ({ id: _id, className = 'Title', type = 'Arti
         <Section {...id} className={className} shadow={shadow} underline={underline}>
           {children}
         </Section>
+      );
+    case 'TagParentTitle':
+    case 'TagTitle':
+      return (
+        <TagTitle {...id} className={className} shadow={shadow} underline={underline}>
+          {children}
+        </TagTitle>
       );
     case 'DomainProfileDescTitle':
       return (
@@ -124,6 +131,16 @@ const Article = styled.h4<StyledPropsType>`
   font-weight: 200;
   user-select: none;
 `;
+
+const TagTitle = styled.h4<StyledPropsType>`
+  margin: 0;
+  font-size: 22px;
+  font-weight: 200;
+  color: #555;
+  border-bottom: ${(props) => (props.underline ? 1 : 0)}px solid ${styles.borderColor};
+  user-select: none;
+`;
+
 const Section = styled.h5<StyledPropsType>`
   padding: 0;
   margin: 0;

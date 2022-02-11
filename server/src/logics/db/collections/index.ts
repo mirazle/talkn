@@ -1,5 +1,13 @@
+import Industory from 'server/logics/db/collections/Industory';
+import IndustoryParent from 'server/logics/db/collections/IndustoryParent';
+import JobCategory from 'server/logics/db/collections/JobCategory';
+import JobParents from 'server/logics/db/collections/JobParents';
+import JobTerm from 'server/logics/db/collections/JobTerm';
+import JobTitle from 'server/logics/db/collections/JobTitle';
+import Jobs from 'server/logics/db/collections/Jobs';
 import Posts from 'server/logics/db/collections/Posts';
 import Setting from 'server/logics/db/collections/Setting';
+import StartupSeries from 'server/logics/db/collections/StartupSeries';
 import Threads from 'server/logics/db/collections/Threads';
 import Users from 'server/logics/db/collections/Users';
 
@@ -10,11 +18,28 @@ export default class Collections {
   posts: Posts;
   setting: Setting;
   users: Users;
+  startupSeries: StartupSeries;
+  industoryParent: IndustoryParent;
+  industory: Industory;
+  jobTerm: JobTerm;
+  jobTitle: JobTitle;
+  jobParents: JobParents;
+  jobCategory: JobCategory;
+  jobs: Jobs;
   constructor(mongoDB) {
     this.threads = new Threads(mongoDB.Threads);
     this.posts = new Posts(mongoDB.Posts);
     this.setting = new Setting(mongoDB.Setting);
     this.users = new Users(mongoDB.Users);
+
+    this.industoryParent = new IndustoryParent(mongoDB.IndustoryParent);
+    this.industory = new Industory(mongoDB.Industory);
+    this.startupSeries = new StartupSeries(mongoDB.StartupSeries);
+    this.jobTerm = new JobTerm(mongoDB.JobTerm);
+    this.jobTitle = new JobTerm(mongoDB.JobTitle);
+    this.jobParents = new JobParents(mongoDB.JobParents);
+    this.jobCategory = new JobCategory(mongoDB.JobCategory);
+    this.jobs = new Jobs(mongoDB.Jobs);
     return this;
   }
 

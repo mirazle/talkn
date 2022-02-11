@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import * as styles from 'cover/components/styles';
+import * as styles from 'cover/styles';
 
 type Props = {
   lv?: number;

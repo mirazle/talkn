@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "startuphub0abe7068": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

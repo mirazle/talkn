@@ -25,11 +25,13 @@ export const baseShadowColor = '#aaa';
 export const markupColor = '#ddd';
 export const baseTextShadow = '1px 1px rgba(80, 80, 80, 1)';
 export const baseBoxShadow = '0px 0px 5px 0px rgba(200, 200, 200, 1)';
+export const horizonBoxShadow = '0 5px 10px 0 rgb(0, 0, 0, 0.2)';
 export const transitionDuration = 300;
 export const fontColor = '#666';
-export const borderColor = '#eee';
+export const borderColor = '#dcdcdc';
+export const borderRadius = baseSize;
 export const componentBgColor = 'rgba(255, 255, 255, 0.96)';
-export const tagBgColor = 'rgba(60, 60, 60, 0.9)';
+export const tagBgColor = 'rgba(100, 100, 100, 0.9)';
 export const themeBaseColor = `79, 174, 159`;
 export const themeColor = `rgba(${themeBaseColor}, 0.96)`;
 

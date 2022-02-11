@@ -8,21 +8,23 @@
     <link rel="manifest" href="https://<%= domain %>/manifest.json" />
     <script id="assignVariable" type="text/javascript">
       if (location.pathname === '/') {
-        window.talknSelectContentMenu = 'livePages';
+        window.talknSelectContentMenu = 'business';
       } else {
         const splited = location.pathname.split('/');
         if (splited.length === 2) {
           window.talknSelectContentMenu = splited[1];
         } else {
-          window.talknSelectContentMenu = splited[2] !== '' ? splited[2] : 'livePages';
+          window.talknSelectContentMenu = splited[2] !== '' ? splited[2] : 'business';
         }
       }
       window.talknCreators = JSON.parse('<%= JSON.stringify(creators) %>'.replace(/&#34;/g, '"'));
       window.talknConfig = JSON.parse('<%= JSON.stringify(config) %>'.replace(/&#34;/g, '"'));
       window.talknThread = JSON.parse('<%= JSON.stringify(thread) %>'.replace(/&#34;/g, '"'));
       window.talknServerMetas = JSON.parse('<%= JSON.stringify(serverMetas) %>'.replace(/&#34;/g, '"'));
+      window.talknTags = JSON.parse('<%= JSON.stringify(tags) %>'.replace(/&#34;/g, '"'));
       document.querySelector('#assignVariable').remove();
     </script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script id="talknTop" async type="text/javascript" src="https://<%= coverURL %>/talkn.cover.js"></script>
     <script id="talknComponents" async type="text/javascript" src="https://<%= componentsURL %>/talkn.components.js"></script>
     <script type="text/javascript" async src="//<%= extURL %>"></script>
@@ -161,6 +163,12 @@
       crossorigin="anonymous"
       src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"
     ></script>
+    <div
+      id="g_id_onload"
+      data-client_id="429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com"
+      data-login_uri="https://localhost:8000/login"
+    ></div>
+
     <div id="talkn"></div>
   </body>
 </html>
