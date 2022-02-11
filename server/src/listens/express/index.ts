@@ -196,8 +196,12 @@ class Express {
       case conf.coverURL:
         if (req.method === 'POST') {
           if (req.body.credential) {
-            const payload = verify(req.body.credential).catch(console.error);
-            console.log('@^@^', payload);
+            verify(req.body.credential)
+              .then((payload) => {
+                console.log('@^@^', payload);
+                res.send(payload);
+              })
+              .catch(console.error);
           } else {
             delete req.body.ch;
             const json = JSON.stringify(req.body, null, 2);
