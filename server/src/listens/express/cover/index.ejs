@@ -9,9 +9,11 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
-      const handleCredentialResponse = (response) => {
-        console.log('@@@^^@@@', response);
-      };
+      function handleCredentialResponse(response) {
+        // Here we can do whatever process with the response we want
+        // Note that response.credential is a JWT ID token
+        console.log('Encoded JWT ID token: ' + response.credential);
+      }
     </script>
     <script id="assignVariable" type="text/javascript">
       if (location.pathname === '/') {
