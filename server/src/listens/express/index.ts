@@ -202,7 +202,7 @@ class Express {
       case conf.coverURL:
         if (req.method === 'POST') {
           console.log('@@@@@@@@@@@@@@@@@@@@@@@ - 1@@@@@@@@@@@@@@@@@@@@@@@@@@');
-          verify(req.body.g_csrf_token).catch(console.error);
+          verify(req.body.credential).catch(console.error);
           console.log('@@@@@@@@@@@@@@@@@@@@@@@ - 2@@@@@@@@@@@@@@@@@@@@@@@@@@');
           delete req.body.ch;
           const json = JSON.stringify(req.body, null, 2);
