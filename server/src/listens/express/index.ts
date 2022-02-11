@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import express from 'express';
 import session from 'express-session';
+import { GoogleAuth, OAuth2Client } from 'google-auth-library';
 import http from 'http';
 import https from 'https';
 import { decode } from 'punycode';
@@ -17,6 +18,23 @@ import conf from 'server/conf';
 import * as CoverLogics from 'server/listens/express/cover/logics';
 import Geolite from 'server/logics/Geolite';
 import Mail from 'server/logics/Mail';
+
+const CLIENT_ID = '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com';
+const client = new OAuth2Client(CLIENT_ID);
+
+async function verify(token) {
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
+    // Or, if multiple clients access the backend:
+    //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+  });
+  const payload = ticket.getPayload();
+  console.log(payload);
+  //  const userid = payload['sub'];
+  // If request specified a G Suite domain:
+  // const domain = payload['hd'];
+}
 
 /*
 const GoogleStrategy = googleStrategy.Strategy;
@@ -184,8 +202,7 @@ class Express {
       case conf.coverURL:
         if (req.method === 'POST') {
           console.log('@@@@@@@@@@@@@@@@@@@@@@@ - 1@@@@@@@@@@@@@@@@@@@@@@@@@@');
-          console.log(req.body.credential);
-          console.log(decode(req.body.credential));
+          verify(req.body.g_csrf_token).catch(console.error);
           console.log('@@@@@@@@@@@@@@@@@@@@@@@ - 2@@@@@@@@@@@@@@@@@@@@@@@@@@');
           delete req.body.ch;
           const json = JSON.stringify(req.body, null, 2);

@@ -1,3 +1,4 @@
+/*
 import passport from 'passport';
 import FacebookStrategy from 'passport-facebook';
 import TwitterStrategy from 'passport-twitter';
@@ -69,3 +70,4 @@ export default class Passport {
     );
   }
 }
+*/
