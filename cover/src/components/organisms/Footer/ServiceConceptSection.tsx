@@ -3,7 +3,7 @@ import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import Title from 'cover/components/atoms/Title';
-import * as styles from 'cover/components/styles';
+import * as styles from 'cover/styles';
 
 type Props = {};
 

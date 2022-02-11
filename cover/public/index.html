@@ -5,15 +5,22 @@
     <script data-ad-client="ca-pub-5285495593698579" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script type="text/javascript">
       let creatorsIndex;
       const splitedUrl = location.href.split('/');
       const splitedUrlLength = splitedUrl.length;
-      const ch = splitedUrl[3] ? `/${splitedUrl[3]}/` : '/';
-      const method = splitedUrl[splitedUrlLength - 1] === '' ? 'livePages' : splitedUrl[splitedUrlLength - 1];
+      let ch = splitedUrl[3] ? `/${splitedUrl[3]}/` : '/';
+      ch = ch === '/business/' ? '/' : ch;
+      ch = ch === '/story/' ? '/' : ch;
+      ch = ch === '/tag/' ? '/' : ch;
+      ch = ch === '/tag/' ? '/' : ch;
+
+      const method = splitedUrl[splitedUrlLength - 1] === '' ? 'business' : splitedUrl[splitedUrlLength - 1];
       fetch(`//cover.localhost${ch}${method}Json`).then((response, d) => {
         response.json().then((res) => {
           window.talknSelectContentMenu = method;
+          window.talknTags = res.tags;
           window.talknCreators = res.creators;
           window.talknConfig = res.config;
           window.talknThread = res.thread;
@@ -176,6 +183,7 @@
     </style>
   </head>
   <body>
+    <div id="g_id_onload" data-client_id="429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com" data-login_uri="https://localhost:8000/login"></div>
     <script
       async
       defer

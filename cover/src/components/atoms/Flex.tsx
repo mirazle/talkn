@@ -1,43 +1,49 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-type Props = {
-  children: React.ReactNode;
-  className?: string;
+import * as Layout from 'cover/styles/Layout';
+
+export type FlexLayoutPropsType = {
   flow?: string;
   alignItems?: string;
   justifyContent?: string;
-  width?: string;
 };
 
-const Component: React.FC<Props> = ({
-  children,
-  className = 'FlexFlow',
-  flow = 'row nowrap',
-  alignItems = 'flex-start',
-  justifyContent = 'flex-start',
-  width = 'auto',
-}) => {
-  return (
-    <Container className={className} flow={flow} alignItems={alignItems} justifyContent={justifyContent} width={width}>
-      {children}
-    </Container>
-  );
+export type Props = {
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
+} & Layout.LayoutPropsType &
+  FlexLayoutPropsType;
+
+export const flexLayutPropsInit = {
+  flow: 'row nowrap',
+  alignItems: 'flex-start',
+  justifyContent: 'flex-start',
+};
+
+const Component: React.FC<Props> = (props: Props) => {
+  const p: Props = {
+    ...Layout.layoutPropsInit,
+    ...flexLayutPropsInit,
+    ...props,
+    className: props.className ? `Flex ${props.className}` : 'Flex',
+  };
+  return <Container {...p}>{p.children}</Container>;
 };
 
 export default Component;
 
-type ContainerPropsType = {
-  flow: string;
-  alignItems: string;
-  justifyContent: string;
-  width: string;
-};
+type ComponentPropsType = Layout.LayoutPropsType & FlexLayoutPropsType;
 
-const Container = styled.div<ContainerPropsType>`
+export const FlexCss = css<FlexLayoutPropsType>`
   display: flex;
   flex-flow: ${(props) => props.flow};
   align-items: ${(props) => props.alignItems};
   justify-content: ${(props) => props.justifyContent};
-  width: ${(props) => props.width};
+`;
+
+const Container = styled.div<ComponentPropsType>`
+  ${FlexCss};
+  ${Layout.LayoutCss};
 `;

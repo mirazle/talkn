@@ -1,21 +1,31 @@
 import 'normalize.css';
 
-import { ConfigType, configInit } from 'common/Config';
 import conf from 'common/conf';
 import define from 'common/define';
+import { ConfigType, configInit } from 'common/talknConfig';
 
 import Render from 'cover/App';
 
 export const selectContentMenuLivePages = 'livePages';
 export const selectContentMenuCreators = 'creators';
 export const selectContentMenuConfig = 'config';
-export const selectContentMenuDefault = selectContentMenuLivePages;
-export type SelectContentMenuType = typeof selectContentMenuLivePages | typeof selectContentMenuCreators | typeof selectContentMenuConfig;
+export const selectContentMenuBusiness = 'business';
+export const selectContentMenuStory = 'story';
+export const selectContentMenuTag = 'tag';
+export const selectContentMenuDefault = selectContentMenuBusiness;
+export type SelectContentMenuType =
+  | typeof selectContentMenuBusiness
+  | typeof selectContentMenuStory
+  | typeof selectContentMenuTag
+  | typeof selectContentMenuLivePages
+  | typeof selectContentMenuCreators
+  | typeof selectContentMenuConfig;
 
 declare global {
   interface Window {
     talknThread: any;
     talknServerMetas: any;
+    talknTags: any;
     talknConfig: ConfigType;
     talknSelectContentMenu: SelectContentMenuType;
     talknComponents: any;

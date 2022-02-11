@@ -1,4 +1,4 @@
-import { ConfigType, configInit } from 'common/Config';
+import { ConfigType, configInit } from 'common/talknConfig';
 
 import conf from 'server/conf';
 import MongoDB from 'server/listens/db/MongoDB';
@@ -98,7 +98,20 @@ export const fetchConfig = async (req, res, protocol, ch) => {
   await Logics.db.threads.update(ch, { userCategoryChs: config.userCategoryChs });
 };
 
-export const getDomainProfile = async (req, res, protocol, ch, language, creatorsIndexParam?: number): Promise<any> => {
+export const getTags = async (): Promise<any> => {
+  const industoryParent = await Logics.db.industoryParent.find();
+  const industory = await Logics.db.industory.find();
+  const jobTerm = await Logics.db.jobTerm.find();
+  const jobTitle = await Logics.db.jobTitle.find();
+  const jobParents = await Logics.db.jobParents.find();
+  const jobCategory = await Logics.db.jobCategory.find();
+  const jobs = await Logics.db.jobs.find();
+  const startupSeries = await Logics.db.startupSeries.find();
+  return { industoryParent, industory, startupSeries, jobTerm, jobTitle, jobParents, jobCategory, jobs };
+};
+
+export const getDomainProfile = async (req, res, protocol, ch, language, creatorsIndexParam?: number, isGetTags = false): Promise<any> => {
+  const tags = isGetTags ? await getTags() : {};
   let config = await exeFetchConfig(req, res, protocol, ch);
   const creators = Logics.fs.getCreators(ch, creatorsIndexParam, config);
   let { response: thread, isExist }: any = await Logics.db.threads.findOne(ch, { buildinSchema: true });
@@ -135,6 +148,14 @@ export const getDomainProfile = async (req, res, protocol, ch, language, creator
   if (!isExist || isAddCreatorsConfig) {
     thread = await Logics.db.threads.save(thread);
   }
+
+  // ドメイン非保有ユーザー用の処理
+  if (thread.favicon === Thread.getDefaultFavicon() && config.favicon && config.favicon !== '') {
+    thread.favicon = `//${conf.coverURL}${ch}${config.favicon}`;
+  }
+  if (thread.serverMetas['og:image'] === conf.ogpImages.Html && config.ogpImage && config.ogpImage !== '') {
+    thread.serverMetas['og:image'] = `//${conf.coverURL}${ch}${config.ogpImage}`;
+  }
   const serverMetas = { ...thread.serverMetas };
   thread.serverMetas = undefined;
   thread.lastPost = undefined;
@@ -151,6 +172,7 @@ export const getDomainProfile = async (req, res, protocol, ch, language, creator
     language,
     creators,
     config,
+    tags,
     thread,
     serverMetas,
     domain: conf.domain,

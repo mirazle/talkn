@@ -12,7 +12,7 @@ import Window from 'components/Window';
 
 import Title, { H3Height } from 'cover/components/atoms/Title';
 import Article, { ArticleType } from 'cover/components/molecules/Article';
-import * as styles from 'cover/components/styles';
+import * as styles from 'cover/styles';
 
 type StateType = {
   ranks: ArticleType[];

@@ -2,8 +2,16 @@ import Mongoose from 'mongoose';
 
 import conf from 'server/conf';
 import Users from 'server/listens//db/Users';
+import Industory from 'server/listens/db/Industory';
+import IndustoryParent from 'server/listens/db/IndustoryParent';
+import JobCategory from 'server/listens/db/JobCategory';
+import JobParents from 'server/listens/db/JobParents';
+import JobTerm from 'server/listens/db/JobTerm';
+import JobTitle from 'server/listens/db/JobTitle';
+import Jobs from 'server/listens/db/Jobs';
 import Posts from 'server/listens/db/Posts';
 import Setting from 'server/listens/db/Setting';
+import StartupSeries from 'server/listens/db/StartupSeries';
 import Threads from 'server/listens/db/Threads';
 import Schemas from 'server/schemas';
 
@@ -25,6 +33,14 @@ class MongoDB {
       Threads: new Threads(dbConnection),
       Posts: new Posts(dbConnection),
       Users: new Users(dbConnection),
+      IndustoryParent: new IndustoryParent(dbConnection),
+      Industory: new Industory(dbConnection),
+      JobTerm: new JobTerm(dbConnection),
+      JobTitle: new JobTitle(dbConnection),
+      JobParents: new JobParents(dbConnection),
+      JobCategory: new JobCategory(dbConnection),
+      Jobs: new Jobs(dbConnection),
+      StartupSeries: new StartupSeries(dbConnection),
     };
   }
 

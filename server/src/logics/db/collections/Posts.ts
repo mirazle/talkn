@@ -70,7 +70,6 @@ export default class Posts {
     if (!isMediaCh) {
       result.response.reverse();
     }
-    console.log(result.response.length);
     return result;
   }
 

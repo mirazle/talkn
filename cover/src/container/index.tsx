@@ -1,8 +1,11 @@
+//import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
+//import { AmplifyAuthenticator, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
+import Amplify from 'aws-amplify';
 import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import styled, { css } from 'styled-components';
 
-import { CreatorsIndexType, configUserCategoryChLimit, configCreatorsLimit, creatorsIndexInit } from 'common/Config';
 import conf from 'common/conf';
+import { CreatorsIndexType, configUserCategoryChLimit, configCreatorsLimit, creatorsIndexInit } from 'common/talknConfig';
 
 import Flex from 'cover/components/atoms/Flex';
 import Node, { Props as NodeProps } from 'cover/components/atoms/Node';
@@ -11,11 +14,44 @@ import Spinner from 'cover/components/atoms/Spinner';
 import Title from 'cover/components/atoms/Title';
 import Section from 'cover/components/molecules/Section';
 import SnsLinks from 'cover/components/molecules/SnsLinks';
-import Config from 'cover/components/organisms/Config';
 import Footer from 'cover/components/organisms/Footer';
+import TagSections from 'cover/components/organisms/tag/';
 import * as styles from 'cover/styles';
-import { SelectContentMenuType, selectContentMenuLivePages, selectContentMenuCreators, selectContentMenuConfig } from 'cover/talkn.cover';
+import {
+  SelectContentMenuType,
+  selectContentMenuBusiness,
+  selectContentMenuStory,
+  selectContentMenuTag,
+  selectContentMenuDefault,
+} from 'cover/talkn.cover';
 
+import awsconfig from '../aws-exports';
+
+Amplify.configure(awsconfig);
+/*
+const App = () => {
+  const [authState, setAuthState] = React.useState();
+  const [user, setUser] = React.useState();
+
+  React.useEffect(() => {
+    return onAuthUIStateChange((nextAuthState, authData) => {
+      setAuthState(nextAuthState);
+      setUser(authData);
+    });
+  }, []);
+
+  return authState === AuthState.SignedIn && user ? (
+    <div className="App">
+      <div>Hello, {user.username}</div>
+      <AmplifySignOut />
+    </div>
+  ) : (
+    <AmplifyAuthenticator>
+      <AmplifySignUp slot="sign-up" formFields={[{ type: 'username' }, { type: 'password' }, { type: 'email' }]} />
+    </AmplifyAuthenticator>
+  );
+};
+*/
 type CreatorsVerticalDatas = {
   offsetTop: number;
   offsetBottom: number;
@@ -82,9 +118,12 @@ const TalknContainer: React.FC<Props> = (props) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [eyeCatchHeight, setEyeCatchHeight] = useState(0);
   const [eyeCatchWidth, setEyeCatchWidth] = useState(0);
-  const [selectContentMenu, setSelectContentMenu] = useState<SelectContentMenuType>();
+  const [selectContentMenu, setSelectContentMenu] = useState<SelectContentMenuType>(selectContentMenuDefault);
   const [creatorsPointer, setCreatorsPointer] = useState<number | undefined>();
   const [navigationLayout, setNavigationLayout] = useState<NavigationLayout | undefined>();
+
+  //　タグ
+  const [showInvestorModal, setShowInvestorModal] = useState(false);
 
   const headerSideMenuRef = useRef<HTMLElement>();
   const creatorEyeCatchOrderRef = useRef<HTMLElement>();
@@ -264,7 +303,7 @@ const TalknContainer: React.FC<Props> = (props) => {
 
   const getContentNode = () => {
     switch (selectContentMenu) {
-      case selectContentMenuLivePages: {
+      case selectContentMenuBusiness: {
         return userCategoryChs.length > 0 ? (
           <TalknFrameWrap>
             {userCategoryChs.map((categoryCh: any, index) => {
@@ -286,7 +325,7 @@ const TalknContainer: React.FC<Props> = (props) => {
           </CommingSoon>
         );
       }
-      case selectContentMenuCreators:
+      case selectContentMenuStory:
         if (window.talknCreators && window.talknCreators.sections.length > 0) {
           return (
             <CreatorsWrap navigationLayout={navigationLayout}>
@@ -351,8 +390,8 @@ const TalknContainer: React.FC<Props> = (props) => {
             </CommingSoon>
           );
         }
-      case selectContentMenuConfig:
-        return <Config ch={thread.ch} config={config} />;
+      case selectContentMenuTag:
+        return <TagSections />;
     }
   };
 
@@ -364,7 +403,7 @@ const TalknContainer: React.FC<Props> = (props) => {
           window.talknConfig.creatorsIndex.map((contents, index) => {
             return (
               <Title key={`Index${index}`} type="Index" className={`MenuList MenuList-${contents.no}`}>
-                <AnchorRow href={`https://${conf.coverURL}${thread.ch}creators/${contents.no}`}>
+                <AnchorRow href={`https://${conf.coverURL}${thread.ch}story/${contents.no}`}>
                   <span className="number">#{contents.no}&nbsp;</span>
                   <span className="resume">{contents.title}</span>
                 </AnchorRow>
@@ -410,7 +449,7 @@ const TalknContainer: React.FC<Props> = (props) => {
               ch={thread.ch}
               eyeCatch={creatorsEyeCatch.eyeCatch}
               creatorsIndexCnt={window.talknConfig.creatorsIndex.length}>
-              <ViewAnchor href={`https://${conf.coverURL}${creatorsEyeCatch.ch}creators/${creatorsEyeCatch.no}`}>
+              <ViewAnchor href={`https://${conf.coverURL}${creatorsEyeCatch.ch}story/${creatorsEyeCatch.no}`}>
                 <div className="creatorBg">{creatorsEyeCatch.eyeCatch === '' && 'NO IMAGE'}</div>
                 <div className="creatorDescription">{creatorsEyeCatch.title}</div>
               </ViewAnchor>
@@ -433,21 +472,21 @@ const TalknContainer: React.FC<Props> = (props) => {
         {/* コンテンツメニュー */}
         <ContentsMenuOrderNav ref={contentMenuRef}>
           <ContentMenuOrder>
-            <ContentMenuList className={selectContentMenu === selectContentMenuLivePages && 'active'}>
-              <a href={`//${conf.coverURL}${thread.ch}`}>
-                <div>LIVE PAGES</div>
+            <ContentMenuList className={selectContentMenu === selectContentMenuBusiness && 'active'}>
+              <a href={`//${conf.coverURL}${thread.ch}business`}>
+                <div>BUSINESS</div>
                 <div className="underBar" />
               </a>
             </ContentMenuList>
-            <ContentMenuList className={selectContentMenu === selectContentMenuCreators && 'active'}>
-              <a href={`//${conf.coverURL}${thread.ch}creators`}>
-                <div>CREATORS</div>
+            <ContentMenuList className={selectContentMenu === selectContentMenuStory && 'active'}>
+              <a href={`//${conf.coverURL}${thread.ch}story`}>
+                <div>STORY</div>
                 <div className="underBar" />
               </a>
             </ContentMenuList>
-            <ContentMenuList className={selectContentMenu === selectContentMenuConfig && 'active'}>
-              <a href={`//${conf.coverURL}${thread.ch}config`}>
-                <div>CONFIG</div>
+            <ContentMenuList className={selectContentMenu === selectContentMenuTag && 'active'}>
+              <a href={`//${conf.coverURL}${thread.ch}tag`}>
+                <div>TAGS</div>
                 <div className="underBar" />
               </a>
             </ContentMenuList>
@@ -1010,7 +1049,7 @@ const ContentsMenuOrderNav = styled.nav<{ ref: any }>`
   height: ${styles.baseHeight}px;
   margin-bottom: ${styles.baseMargin}px;
   background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 0 0 1px #eee;
+  box-shadow: 0 0 0 1px ${styles.borderColor};
 `;
 
 const ContentMenuOrder = styled.ul`
@@ -1037,15 +1076,15 @@ const ContentMenuList = styled.li`
   align-items: center;
   justify-content: center;
   height: inherit;
-  border-right: 1px solid #eee;
-  border-left: 1px solid #eee;
+  border-right: 1px solid ${styles.borderColor};
+  border-left: 1px solid ${styles.borderColor};
   cursor: pointer;
   &:first-child {
     border-right: 0;
-    border-left: 1px solid #eee;
+    border-left: 1px solid ${styles.borderColor};
   }
   &:last-child {
-    border-right: 1px solid #eee;
+    border-right: 1px solid ${styles.borderColor};
     border-left: 0;
   }
   .underBar {
@@ -1054,7 +1093,7 @@ const ContentMenuList = styled.li`
     height: 8px;
     margin-top: 8px;
     background: rgba(0, 0, 0, 0.25);
-    border-radius: 15px;
+    border-radius: ${styles.baseSize}px;
     transition: ${styles.transitionDuration * 2}ms;
   }
 

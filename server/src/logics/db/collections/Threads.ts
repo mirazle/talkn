@@ -115,7 +115,7 @@ export default class Threads {
       sort: { liveCnt: -1, updateTime: -1, createTime: -1 },
       limit: setting.server.getThreadChildrenCnt,
     };
-    console.log(condition);
+
     const { response } = await this.collection.find(condition, selector, option);
     if (ch === '/www.sunbridge.com/') {
       response.forEach((res) => {

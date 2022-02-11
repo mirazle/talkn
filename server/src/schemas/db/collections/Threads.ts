@@ -56,6 +56,9 @@ export default {
   creatorsCnt: { type: Number, default: 0 },
   updateCreatorsTime: { type: Date },
 
+  iamTags: { type: [], default: [] },
+  relationTags: { type: [], default: [] },
+
   // Time
   createTime: { type: Date, default: Date },
   updateTime: { type: Date, default: Date },

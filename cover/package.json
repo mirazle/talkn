@@ -1,5 +1,5 @@
 {
-  "name": "talkn-top",
+  "name": "talkn-cover",
   "version": "1.0.0",
   "description": "talkn live communication top.",
   "scripts": {
@@ -33,6 +33,10 @@
     "worker-loader": "^3.0.8"
   },
   "dependencies": {
+    "@aws-amplify/ui": "^2.0.5",
+    "@aws-amplify/ui-components": "1.9.6",
+    "@aws-amplify/ui-react": "2.3.0",
+    "aws-amplify": "^4.3.14",
     "fs": "^0.0.1-security",
     "img-color": "1.0.2",
     "normalize.css": "8.0.1",
