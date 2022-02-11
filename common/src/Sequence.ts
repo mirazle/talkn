@@ -177,7 +177,10 @@ export default class Sequence {
     if (splited[0].indexOf(`[${Sequence.API_REQUEST_TYPE}]`) > 0) {
       actionType = Sequence.API_REQUEST_TYPE;
     } else {
-      actionType = splited[0].indexOf(`[${Sequence.API_RESPONSE_TYPE_EMIT}]`) > 0 ? Sequence.API_RESPONSE_TYPE_EMIT : Sequence.API_RESPONSE_TYPE_BROADCAST;
+      actionType =
+        splited[0].indexOf(`[${Sequence.API_RESPONSE_TYPE_EMIT}]`) > 0
+          ? Sequence.API_RESPONSE_TYPE_EMIT
+          : Sequence.API_RESPONSE_TYPE_BROADCAST;
     }
 
     const actionName = splited[1];
@@ -197,10 +200,17 @@ export default class Sequence {
     if (actionType.indexOf(`${Sequence.API_SEPARATE_IO_TYPE_START}${Sequence.API_REQUEST_TYPE}${Sequence.API_SEPARATE_IO_TYPE_END}`) >= 0) {
       return Sequence.API_REQUEST_TYPE;
     }
-    if (actionType.indexOf(`${Sequence.API_SEPARATE_IO_TYPE_START}${Sequence.API_RESPONSE_TYPE_BROADCAST}${Sequence.API_SEPARATE_IO_TYPE_END}`) >= 0) {
+    if (
+      actionType.indexOf(
+        `${Sequence.API_SEPARATE_IO_TYPE_START}${Sequence.API_RESPONSE_TYPE_BROADCAST}${Sequence.API_SEPARATE_IO_TYPE_END}`
+      ) >= 0
+    ) {
       return Sequence.API_RESPONSE_TYPE_BROADCAST;
     }
-    if (actionType.indexOf(`${Sequence.API_SEPARATE_IO_TYPE_START}${Sequence.API_RESPONSE_TYPE_EMIT}${Sequence.API_SEPARATE_IO_TYPE_END}`) >= 0) {
+    if (
+      actionType.indexOf(`${Sequence.API_SEPARATE_IO_TYPE_START}${Sequence.API_RESPONSE_TYPE_EMIT}${Sequence.API_SEPARATE_IO_TYPE_END}`) >=
+      0
+    ) {
       return Sequence.API_RESPONSE_TYPE_EMIT;
     }
     return Sequence.API_SETUP;
