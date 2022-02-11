@@ -100,6 +100,7 @@ class Express {
 
   routingHttps(req, res, next) {
     let language = 'en';
+    let ch = '/';
     switch (req.headers.host) {
       case conf.ownURL:
         if (req.method === 'GET') {
@@ -194,8 +195,18 @@ class Express {
 
         break;
       case conf.coverURL:
+        const splitedUrl = req.originalUrl.split('/');
+        let creatorsIndex = null;
         let domainProfile;
         let method = defaultCoverMethod;
+        if (splitedUrl.length === 2) {
+          method = splitedUrl[1] === '' ? defaultCoverMethod : splitedUrl[1];
+        } else {
+          ch = splitedUrl[1] ? `/${splitedUrl[1]}/` : '/';
+          method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : defaultCoverMethod;
+          creatorsIndex = splitedUrl[coverParams.creatorsIndex] ? splitedUrl[coverParams.creatorsIndex] : null;
+        }
+
         if (req.method === 'POST') {
           if (req.body.credential) {
             verify(req.body.credential)
@@ -226,17 +237,6 @@ class Express {
           } else if (req.originalUrl.indexOf('/undefined') >= 0) {
             res.send('404');
           } else if (req.headers.accept.indexOf('text/html,application/') === 0 || req.headers.accept.indexOf('*/*') === 0) {
-            const splitedUrl = req.originalUrl.split('/');
-            let ch = '/';
-
-            let creatorsIndex = null;
-            if (splitedUrl.length === 2) {
-              method = splitedUrl[1] === '' ? defaultCoverMethod : splitedUrl[1];
-            } else {
-              ch = splitedUrl[1] ? `/${splitedUrl[1]}/` : '/';
-              method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : defaultCoverMethod;
-              creatorsIndex = splitedUrl[coverParams.creatorsIndex] ? splitedUrl[coverParams.creatorsIndex] : null;
-            }
             console.log('@@@@', method);
             const resolveCover = async () => {
               switch (method) {
@@ -314,7 +314,7 @@ class Express {
       case conf.domain:
         let includeIframeTag = false;
         let portalUrlSearch = false;
-        let ch = '/';
+
         let hasSlash = false;
         language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);
         if (
