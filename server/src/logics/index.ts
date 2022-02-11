@@ -4,7 +4,7 @@ import Favicon from 'server/logics/Favicon';
 import Fs from 'server/logics/Fs';
 import Html from 'server/logics/Html';
 import Io from 'server/logics/Io';
-import Passport from 'server/logics/Passport';
+//import Passport from 'server/logics/Passport';
 import Collections from 'server/logics/db/collections';
 import express from 'server/logics/express';
 import sns from 'server/logics/sns';
@@ -20,5 +20,5 @@ export default {
   html: new Html(),
   favicon: new Favicon(),
   fs: new Fs(),
-  passport: new Passport(),
+  //  passport: new Passport(),
 };
