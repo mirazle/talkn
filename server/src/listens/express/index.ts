@@ -22,18 +22,12 @@ import Mail from 'server/logics/Mail';
 const CLIENT_ID = '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com';
 const client = new OAuth2Client(CLIENT_ID);
 
-async function verify(token) {
+async function verify(idToken) {
   const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
-    // Or, if multiple clients access the backend:
-    //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+    idToken,
+    audience: [CLIENT_ID],
   });
-  const payload = ticket.getPayload();
-  console.log(payload);
-  //  const userid = payload['sub'];
-  // If request specified a G Suite domain:
-  // const domain = payload['hd'];
+  return ticket.getPayload();
 }
 
 /*
@@ -201,14 +195,16 @@ class Express {
         break;
       case conf.coverURL:
         if (req.method === 'POST') {
-          console.log('@@@@@@@@@@@@@@@@@@@@@@@ - 1@@@@@@@@@@@@@@@@@@@@@@@@@@');
-          verify(req.body.credential).catch(console.error);
-          console.log('@@@@@@@@@@@@@@@@@@@@@@@ - 2@@@@@@@@@@@@@@@@@@@@@@@@@@');
-          delete req.body.ch;
-          const json = JSON.stringify(req.body, null, 2);
-          res.setHeader('Content-disposition', 'attachment; filename=talkn.config.json');
-          res.setHeader('Content-type', 'application/json');
-          res.send(json);
+          if (req.body.credential) {
+            const payload = verify(req.body.credential).catch(console.error);
+            console.log('@^@^', payload);
+          } else {
+            delete req.body.ch;
+            const json = JSON.stringify(req.body, null, 2);
+            res.setHeader('Content-disposition', 'attachment; filename=talkn.config.json');
+            res.setHeader('Content-type', 'application/json');
+            res.send(json);
+          }
         } else if (req.method === 'GET') {
           if (
             req.originalUrl.indexOf('.svg') >= 0 ||
