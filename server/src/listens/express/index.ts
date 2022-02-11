@@ -182,6 +182,8 @@ class Express {
         break;
       case conf.coverURL:
         if (req.method === 'POST') {
+          console.log(req);
+          console.log('@@@@@@@@@@@@@@@@@@@@@@@ - @@@@@@@@@@@@@@@@@@@@@@@@@@');
           delete req.body.ch;
           const json = JSON.stringify(req.body, null, 2);
           res.setHeader('Content-disposition', 'attachment; filename=talkn.config.json');
