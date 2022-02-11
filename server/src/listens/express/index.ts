@@ -2,7 +2,7 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import express from 'express';
 import session from 'express-session';
-import { GoogleAuth, OAuth2Client } from 'google-auth-library';
+import { OAuth2Client } from 'google-auth-library';
 import http from 'http';
 import https from 'https';
 import { decode } from 'punycode';
@@ -237,7 +237,6 @@ class Express {
           } else if (req.originalUrl.indexOf('/undefined') >= 0) {
             res.send('404');
           } else if (req.headers.accept.indexOf('text/html,application/') === 0 || req.headers.accept.indexOf('*/*') === 0) {
-            console.log('@@@@', method);
             const resolveCover = async () => {
               switch (method) {
                 case 'business':
