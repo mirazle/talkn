@@ -4,10 +4,12 @@ import express from 'express';
 import session from 'express-session';
 import http from 'http';
 import https from 'https';
+
+/*
 import passport from 'passport';
 import googleStrategy from 'passport-google-oauth20';
 import passportLocal from 'passport-local';
-
+*/
 import define from 'common/define';
 
 import conf from 'server/conf';
