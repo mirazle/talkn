@@ -194,12 +194,17 @@ class Express {
 
         break;
       case conf.coverURL:
+        let domainProfile;
+        let method = defaultCoverMethod;
         if (req.method === 'POST') {
           if (req.body.credential) {
             verify(req.body.credential)
-              .then((payload) => {
+              .then(async (payload) => {
                 console.log('@^@^', payload);
-                res.send(payload);
+                res.header('Access-Control-Allow-Origin', '*');
+                res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+                domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, undefined, method === 'tag');
+                res.render('cover/', { ...domainProfile, payload });
               })
               .catch(console.error);
           } else {
@@ -223,7 +228,7 @@ class Express {
           } else if (req.headers.accept.indexOf('text/html,application/') === 0 || req.headers.accept.indexOf('*/*') === 0) {
             const splitedUrl = req.originalUrl.split('/');
             let ch = '/';
-            let method = defaultCoverMethod;
+
             let creatorsIndex = null;
             if (splitedUrl.length === 2) {
               method = splitedUrl[1] === '' ? defaultCoverMethod : splitedUrl[1];
@@ -234,7 +239,6 @@ class Express {
             }
             console.log('@@@@', method);
             const resolveCover = async () => {
-              let domainProfile;
               switch (method) {
                 case 'business':
                 case 'tag':

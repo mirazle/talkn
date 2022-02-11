@@ -17,6 +17,7 @@
           window.talknSelectContentMenu = splited[2] !== '' ? splited[2] : 'business';
         }
       }
+      window.talknPayload = JSON.parse('<%= JSON.stringify(payload) %>'.replace(/&#34;/g, '"'));
       window.talknCreators = JSON.parse('<%= JSON.stringify(creators) %>'.replace(/&#34;/g, '"'));
       window.talknConfig = JSON.parse('<%= JSON.stringify(config) %>'.replace(/&#34;/g, '"'));
       window.talknThread = JSON.parse('<%= JSON.stringify(thread) %>'.replace(/&#34;/g, '"'));
