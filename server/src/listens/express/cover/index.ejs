@@ -9,32 +9,9 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
-      // called by google client
-      function onSignIn(googleUser) {
-        var id_token = googleUser.getAuthResponse().id_token;
-        // never log these out on a real app
-        console.log('id_token: ', id_token);
-        var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId());
-        console.log('Name: ' + profile.getName());
-        console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
-        // verification
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/tokensignin');
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onload = function () {
-          console.log('Server returned: ' + xhr.responseText);
-        };
-        xhr.send('idtoken=' + id_token);
-      }
-      // on sign out
-      function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log('User signed out.');
-        });
-      }
+      const handleCredentialResponse = (response) => {
+        console.log('@@@^^@@@', response);
+      };
     </script>
     <script id="assignVariable" type="text/javascript">
       if (location.pathname === '/') {
@@ -199,6 +176,7 @@
       data-ux_mode="popup"
       data-client_id="429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com"
       data-login_uri="/"
+      data-callback="handleCredentialResponse"
     ></div>
     <!--
     <div
