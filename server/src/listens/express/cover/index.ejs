@@ -6,6 +6,37 @@
     <link rel="icon" href="<%= thread.favicon %>" />
     <link rel="shortcut icon" href="<%= thread.favicon %>" />
     <link rel="manifest" href="https://<%= domain %>/manifest.json" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="<%= clientIdUrl %>" />
+    <script>
+      // called by google client
+      function onSignIn(googleUser) {
+        var id_token = googleUser.getAuthResponse().id_token;
+        // never log these out on a real app
+        console.log('id_token: ', id_token);
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId());
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail());
+        // verification
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/tokensignin');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+          console.log('Server returned: ' + xhr.responseText);
+        };
+        xhr.send('idtoken=' + id_token);
+      }
+      // on sign out
+      function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+        });
+      }
+    </script>
     <script id="assignVariable" type="text/javascript">
       if (location.pathname === '/') {
         window.talknSelectContentMenu = 'business';
@@ -25,7 +56,7 @@
       window.talknTags = JSON.parse('<%= JSON.stringify(tags) %>'.replace(/&#34;/g, '"'));
       document.querySelector('#assignVariable').remove();
     </script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <script id="talknTop" async type="text/javascript" src="https://<%= coverURL %>/talkn.cover.js"></script>
     <script id="talknComponents" async type="text/javascript" src="https://<%= componentsURL %>/talkn.components.js"></script>
     <script type="text/javascript" async src="//<%= extURL %>"></script>
