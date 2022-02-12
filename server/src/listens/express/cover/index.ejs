@@ -32,7 +32,7 @@
       window.onload = async () => {
         await google.accounts.id.initialize({
           client_id: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
-          ux_mode: 'popup',
+          ux_mode: 'redirect',
         });
 
         await google.accounts.id.renderButton(
@@ -40,7 +40,7 @@
           { theme: 'outline' } // Customization attributes
         );
 
-        //        await google.accounts.id.prompt(); // Display the One Tap dialog
+        await google.accounts.id.prompt(); // Display the One Tap dialog
       };
     </script>
     <script id="assignVariable" type="text/javascript">
