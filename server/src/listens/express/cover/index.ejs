@@ -183,7 +183,7 @@
         google.accounts.id.initialize({
           client_id: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
           //          ux_mode: 'popup',
-          login_uri: 'https://cover.talkn.io',
+          login_uri: 'https://cover.talkn.io/',
           skip_prompt_cookie: 'TALKN_SID',
           state_cookie_domain: 'cover.talkn.io',
         });
@@ -193,7 +193,6 @@
           { type: 'icon' } // Customization attributes
         );
 */
-        console.log('@@@ login_uri', login_uri);
         console.log(google);
         google.accounts.id.prompt(); // Display the One Tap dialog
       };
