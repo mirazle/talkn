@@ -156,6 +156,7 @@
     <meta name="twitter:description" content="<%= thread.serverMetas['twitter:description'] %>" />
     <meta name="twitter:image" content="<%= thread.serverMetas['twitter:image'] %>" />
     <link rel="stylesheet" href="https://assets.talkn.io/cover/interview/default.css" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
   <body>
     <script
@@ -164,7 +165,7 @@
       crossorigin="anonymous"
       src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"
     ></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <!--
     <div
       id="g_id_onload"
@@ -212,7 +213,7 @@
         { theme: 'outline' } // Customization attributes
       );
 
-      //await google.accounts.id.prompt(); // Display the One Tap dialog
+      await google.accounts.id.prompt(); // Display the One Tap dialog
     };
   </script>
 </html>
