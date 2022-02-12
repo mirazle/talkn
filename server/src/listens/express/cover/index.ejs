@@ -205,6 +205,7 @@
     window.onload = async () => {
       await google.accounts.id.initialize({
         client_id: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
+        callback: handleCredentialResponse,
         ux_mode: 'redirect',
       });
 
