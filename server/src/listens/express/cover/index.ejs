@@ -33,7 +33,6 @@
         const login_uri = 'https://cover.talkn.io/login';
         console.log('@@@ login_uri', login_uri);
         google.accounts.id.initialize({
-          id: 'g_id_onload',
           client_id: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
           login_uri,
         });
@@ -43,7 +42,7 @@
           { theme: 'outline', size: 'large' } // Customization attributes
         );
 
-        // google.accounts.id.prompt(); // Display the One Tap dialog
+        google.accounts.id.prompt(); // Display the One Tap dialog
       };
     </script>
     <script id="assignVariable" type="text/javascript">
