@@ -199,22 +199,29 @@
     function handleCredentialResponse(response) {
       // Here we can do whatever process with the response we want
       // Note that response.credential is a JWT ID token
-      console.log(parseJwt(response.credential));
+
+      localStorage.setItem('talknCoverSession', response.credential);
     }
 
-    window.onload = async () => {
-      await google.accounts.id.initialize({
-        client_id: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
-        callback: handleCredentialResponse,
-        ux_mode: 'redirect',
-      });
+    const session = localStorage.getItem('talknCoverSession');
 
-      await google.accounts.id.renderButton(
-        document.getElementById('buttonDiv'), // Ensure the element exist and it is a div to display correcctly
-        { theme: 'outline' } // Customization attributes
-      );
+    if (session === null) {
+      window.onload = async () => {
+        await google.accounts.id.initialize({
+          client_id: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
+          callback: handleCredentialResponse,
+          ux_mode: 'redirect',
+        });
 
-      await google.accounts.id.prompt(); // Display the One Tap dialog
-    };
+        await google.accounts.id.renderButton(
+          document.getElementById('buttonDiv'), // Ensure the element exist and it is a div to display correcctly
+          { theme: 'outline' } // Customization attributes
+        );
+
+        // await google.accounts.id.prompt(); // Display the One Tap dialog
+      };
+    } else {
+      console.log(parseJwt(session));
+    }
   </script>
 </html>
