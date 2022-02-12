@@ -9,42 +9,42 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
-            function parseJwt(token) {
-              var base64Url = token.split('.')[1];
-              var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-              var jsonPayload = decodeURIComponent(
-                atob(base64)
-                  .split('')
-                  .map(function (c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                  })
-                  .join('')
-              );
+      function parseJwt(token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split('')
+            .map(function (c) {
+              return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            })
+            .join('')
+        );
 
-              return JSON.parse(jsonPayload);
-            }
-            function handleCredentialResponse(response) {
-              // Here we can do whatever process with the response we want
-              // Note that response.credential is a JWT ID token
-              console.log(parseJwt(response.credential));
-            }
-
+        return JSON.parse(jsonPayload);
+      }
+      function handleCredentialResponse(response) {
+        // Here we can do whatever process with the response we want
+        // Note that response.credential is a JWT ID token
+        console.log(parseJwt(response.credential));
+      }
+      /*
             window.onload = () => {
               const login_uri = location.href + ;
               console.log('@@@ login_uri', login_uri);
-              /*
+
               google.accounts.id.initialize({
                 client_id: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
                 login_uri,
               });
               */
-              /*
+      /*
               google.accounts.id.renderButton(
                 document.getElementById('buttonDiv'), // Ensure the element exist and it is a div to display correcctly
                 { theme: 'outline', size: 'large' } // Customization attributes
               );
       */
-              //google.accounts.id.prompt(); // Display the One Tap dialog
+      //google.accounts.id.prompt(); // Display the One Tap dialog
     </script>
     <script id="assignVariable" type="text/javascript">
       if (location.pathname === '/') {
@@ -207,7 +207,7 @@
     <div
       id="g_id_onload"
       data-client_id="429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com"
-      data-login_uri="cover.talkn.io/login"
+      data-login_uri="https://cover.talkn.io/login"
       data-ux_mode="popup"
       data-auto_prompt="false"
     ></div>
