@@ -199,18 +199,18 @@
     function handleCredentialResponse(response) {
       // Here we can do whatever process with the response we want
       // Note that response.credential is a JWT ID token
-
+      console.log('handleCredentialResponse');
       localStorage.setItem('talknCoverSession', response.credential);
     }
 
     const session = localStorage.getItem('talknCoverSession');
-
+    console.log(session);
     if (session === null) {
       window.onload = async () => {
         await google.accounts.id.initialize({
           client_id: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
           callback: handleCredentialResponse,
-          ux_mode: 'redirect',
+          ux_mode: 'popup',
         });
 
         await google.accounts.id.renderButton(
