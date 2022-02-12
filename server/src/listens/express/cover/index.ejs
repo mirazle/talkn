@@ -189,14 +189,15 @@
           skip_prompt_cookie: 'TALKN_SID',
           state_cookie_domain: 'cover.talkn.io',
         });
-
+        /*
         google.accounts.id.renderButton(
           document.getElementById('buttonDiv'), // Ensure the element exist and it is a div to display correcctly
           { type: 'icon' } // Customization attributes
         );
+*/
         console.log('@@@ login_uri', login_uri);
         console.log(google);
-        // google.accounts.id.prompt(); // Display the One Tap dialog
+        google.accounts.id.prompt(); // Display the One Tap dialog
       };
     </script>
   </head>
