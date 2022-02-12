@@ -23,11 +23,19 @@
 
         return JSON.parse(jsonPayload);
       }
-      function handleCredentialResponse(response) {
-        // Here we can do whatever process with the response we want
-        // Note that response.credential is a JWT ID token
-        console.log(parseJwt(response.credential));
-      }
+
+      window.onload = () => {
+        google.accounts.id.initialize({
+          client_id: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.comD',
+          login_uri: location.href,
+        });
+        // You can skip the next instruction if you don't want to show the "Sign-in" button
+        google.accounts.id.renderButton(
+          document.getElementById('buttonDiv'), // Ensure the element exist and it is a div to display correcctly
+          { theme: 'outline', size: 'large' } // Customization attributes
+        );
+        google.accounts.id.prompt(); // Display the One Tap dialog
+      };
     </script>
     <script id="assignVariable" type="text/javascript">
       if (location.pathname === '/') {
@@ -187,30 +195,6 @@
       crossorigin="anonymous"
       src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.3&appId=1655931587827697"
     ></script>
-    <div
-      id="g_id_onload"
-      data-client_id="429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com"
-      data-callback="handleCredentialResponse"
-      data-native_login_uri="location.href"
-      data-auto_select="false"
-      data-context="use"
-      data-cancel_on_tap_outside="false"
-      data-state_cookie_domain="cover.talkn.io"
-      data-skip_prompt_cookie="TALKN_SID"
-    ></div>
-    <!--
-https://piraces.dev/posts/how-to-use-google-one-tap/
-https://googleonetap.developer.li/
-      <div
-      class="g_id_signin"
-      data-type="standard"
-      data-size="large"
-      data-theme="outline"
-      data-text="sign_in_with"
-      data-shape="rectangular"
-      data-logo_alignment="left"
-    ></div>
--->
     <div id="talkn"></div>
   </body>
 </html>
