@@ -101,6 +101,7 @@ class Express {
   routingHttps(req, res, next) {
     let language = 'en';
     let ch = '/';
+
     switch (req.headers.host) {
       case conf.ownURL:
         if (req.method === 'GET') {
@@ -195,6 +196,7 @@ class Express {
 
         break;
       case conf.coverURL:
+        console.log(req.originalUrl);
         const splitedUrl = req.originalUrl.split('/');
         let creatorsIndex = null;
         let domainProfile;
