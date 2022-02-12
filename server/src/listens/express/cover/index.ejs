@@ -173,10 +173,7 @@
       data-callback="handleCredentialResponse"
     ></div>
     -->
-    @@@HTML@@@
-    <div class="g_id_signin" data-type="standard"></div>
-    @@@JS BUILD@@@
-    <div id="buttonDiv" data-type="standard"></div>
+    <div id="buttonDiv" data-type="icon"></div>
     <!--
     <div id="talkn"></div>
     -->
@@ -204,7 +201,7 @@
     }
 
     const session = localStorage.getItem('talknCoverSession');
-    console.log(session);
+
     if (session === null) {
       window.onload = async () => {
         await google.accounts.id.initialize({
