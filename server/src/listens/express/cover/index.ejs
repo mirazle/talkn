@@ -173,7 +173,7 @@
       data-callback="handleCredentialResponse"
     ></div>
     -->
-    <div id="buttonDiv" data-type="icon"></div>
+    <div id="buttonDiv"></div>
     <!--
     <div id="talkn"></div>
     -->
@@ -213,7 +213,7 @@
 
         await google.accounts.id.renderButton(
           document.getElementById('buttonDiv'), // Ensure the element exist and it is a div to display correcctly
-          { theme: 'outline' } // Customization attributes
+          { theme: 'outline', type: 'icon', size: 'large', shape: 'pill' } // Customization attributes
         );
 
         await google.accounts.id.prompt(); // Display the One Tap dialog
