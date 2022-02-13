@@ -216,7 +216,9 @@
     };
 
     if (session !== null) {
-      console.log(parseJwt(session));
+      const session = parseJwt(session);
+      const buttonDiv = document.querySelector('#buttonDiv');
+      buttonDiv.style.backgroundImage = session.picture;
     }
   </script>
 </html>
