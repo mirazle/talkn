@@ -173,7 +173,10 @@
       data-callback="handleCredentialResponse"
     ></div>
     -->
-    <div id="buttonDiv"></div>
+    <div>
+      <div id="googleLogin"></div>
+      <div id="googleAccount"></div>
+    </div>
     <!--
     <div id="talkn"></div>
     -->
@@ -207,7 +210,7 @@
         ux_mode: 'popup',
       });
 
-      google.accounts.id.renderButton(document.getElementById('buttonDiv'), {
+      google.accounts.id.renderButton(document.getElementById('googleLogin'), {
         theme: 'outline',
         type: 'icon',
         size: 'large',
@@ -216,10 +219,13 @@
     };
 
     if (session !== null) {
+      const googleLogin = document.getElementById('googleLogin');
+      const googleAccount = document.getElementById('googleAccount');
       const sessionDatas = parseJwt(session);
-      const buttonDiv = document.querySelector('#buttonDiv');
-      console.log(sessionDatas.picture);
-      buttonDiv.style.backgroundImage = sessionDatas.picture;
+
+      googleLogin.style.display = 'none';
+      googleAccount.style.backgroundImage = `url(${sessionDatas.picture})`;
+      googleAccount.onclick = () => google.accounts.id.prompt();
     }
   </script>
 </html>
