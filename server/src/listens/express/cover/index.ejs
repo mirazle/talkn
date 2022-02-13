@@ -196,12 +196,12 @@
       return JSON.parse(jsonPayload);
     };
     const handleCredentialResponse = (response) => {
-      console.log(response);
+      console.log('handleCredentialResponse', response);
       localStorage.setItem('talknCoverSession', response.credential);
     };
 
     const session = localStorage.getItem('talknCoverSession');
-    console.log(session);
+    console.log('session', session);
 
     window.onload = () => {
       google.accounts.id.initialize({
@@ -232,7 +232,7 @@
       googleAccount.style.borderRadius = '50%';
 
       googleAccount.onclick = () => {
-        console.log(google.accounts.id);
+        console.log('PROMPT');
         google.accounts.id.prompt();
       };
     }
