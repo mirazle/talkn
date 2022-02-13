@@ -203,25 +203,22 @@
 
     const session = localStorage.getItem('talknCoverSession');
     console.log(session);
-    if (session === null) {
-      console.log('A');
-      window.onload = async () => {
-        await google.accounts.id.initialize({
-          client_id: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
-          callback: handleCredentialResponse,
-          login_uri: location.href + 'login',
-          ux_mode: 'popup',
-        });
 
-        await google.accounts.id.renderButton(
-          document.getElementById('buttonDiv'), // Ensure the element exist and it is a div to display correcctly
-          { theme: 'outline', type: 'icon', size: 'large', shape: 'pill' } // Customization attributes
-        );
+    window.onload = async () => {
+      await google.accounts.id.initialize({
+        client_id: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
+        callback: handleCredentialResponse,
+        login_uri: location.href + 'login',
+        ux_mode: 'popup',
+      });
 
-        // await google.accounts.id.prompt(); // Display the One Tap dialog
-      };
-    } else {
-      console.log('B');
+      await google.accounts.id.renderButton(
+        document.getElementById('buttonDiv'), // Ensure the element exist and it is a div to display correcctly
+        { theme: 'outline', type: 'icon', size: 'large', shape: 'pill' } // Customization attributes
+      );
+    };
+
+    if (session !== null) {
       console.log(parseJwt(session));
     }
   </script>
