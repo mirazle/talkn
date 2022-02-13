@@ -28,7 +28,7 @@
 
     <script id="talknTop" async type="text/javascript" src="https://<%= coverURL %>/talkn.cover.js"></script>
     <script id="talknComponents" async type="text/javascript" src="https://<%= componentsURL %>/talkn.components.js"></script>
-    <script type="text/javascript" async src="//<%= extURL %>"></script>
+    <!--script type="text/javascript" async src="//<%= extURL %>"></script -->
     <script type="text/javascript">
       const onServiceWorker = () => {
         if ('serviceWorker' in navigator) {
@@ -216,7 +216,7 @@
           { theme: 'outline' } // Customization attributes
         );
 
-        // await google.accounts.id.prompt(); // Display the One Tap dialog
+        await google.accounts.id.prompt(); // Display the One Tap dialog
       };
     } else {
       console.log(parseJwt(session));
