@@ -175,7 +175,7 @@
     -->
     <div>
       <div id="googleLogin"></div>
-      <div id="googleAccount"></div>
+      <div id="googleAccount" width="38" height="38"></div>
     </div>
     <!--
     <div id="talkn"></div>
@@ -196,6 +196,7 @@
       return JSON.parse(jsonPayload);
     };
     const handleCredentialResponse = (response) => {
+      console.log(response);
       localStorage.setItem('talknCoverSession', response.credential);
     };
 
@@ -225,7 +226,13 @@
 
       googleLogin.style.display = 'none';
       googleAccount.style.backgroundImage = `url(${sessionDatas.picture})`;
-      googleAccount.onclick = () => google.accounts.id.prompt();
+      googleAccount.style.backgroundSize = '38';
+      googleAccount.style.borderRadius = '50%';
+
+      googleAccount.onclick = () => {
+        console.log(google.accounts.id);
+        google.accounts.id.prompt();
+      };
     }
   </script>
 </html>
