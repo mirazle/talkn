@@ -207,8 +207,6 @@
       google.accounts.id.initialize({
         client_id: '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com',
         callback: handleCredentialResponse,
-        login_uri: location.href + 'login',
-        ux_mode: 'popup',
       });
 
       google.accounts.id.renderButton(document.getElementById('googleLogin'), {
@@ -223,16 +221,15 @@
       const googleLogin = document.getElementById('googleLogin');
       const googleAccount = document.getElementById('googleAccount');
       const sessionDatas = parseJwt(session);
-
-      googleLogin.style.display = 'none';
-      googleAccount.style.backgroundImage = `url(${sessionDatas.picture})`;
-      googleAccount.style.backgroundSize = '38px';
-      googleAccount.style.width = '38px';
-      googleAccount.style.height = '38px';
-      googleAccount.style.borderRadius = '50%';
-
+      /*
+          googleLogin.style.display = 'none';
+          googleAccount.style.backgroundImage = `url(${sessionDatas.picture})`;
+          googleAccount.style.backgroundSize = '38px';
+          googleAccount.style.width = '38px';
+          googleAccount.style.height = '38px';
+          googleAccount.style.borderRadius = '50%';
+    */
       googleAccount.onclick = () => {
-        console.log('PROMPT');
         google.accounts.id.prompt();
       };
     }
