@@ -2,42 +2,44 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import express from 'express';
 import session from 'express-session';
-import { OAuth2Client } from 'google-auth-library';
 import http from 'http';
 import https from 'https';
-import { decode } from 'punycode';
 
-/*
-import passport from 'passport';
-import googleStrategy from 'passport-google-oauth20';
-import passportLocal from 'passport-local';
-*/
 import define from 'common/define';
+import commonUtil from 'common/util';
 
 import conf from 'server/conf';
 import * as CoverLogics from 'server/listens/express/cover/logics';
 import Geolite from 'server/logics/Geolite';
 import Mail from 'server/logics/Mail';
 
-const CLIENT_ID = '429873683760-v2hk18nua5vgf37ae0ovuhfbdrmah42d.apps.googleusercontent.com';
-const client = new OAuth2Client(CLIENT_ID);
+const coverSampleJson = {
+  self: {
+    investor: [
+      { indusryId: '1-2', startupSeriesId: '1', year: 1 },
+      { indusryId: '1-1', startupSeriesId: '2', year: 2 },
+      { indusryId: '1-2', startupSeriesId: '3', year: 3 },
+      { indusryId: '1-1', startupSeriesId: '4', year: 4 },
+      { indusryId: '1-2', startupSeriesId: '5', year: 5 },
+      { indusryId: '1-1', startupSeriesId: '6', year: 6 },
+      { indusryId: '1-2', startupSeriesId: '7', year: 7 },
+      { indusryId: '1-1', startupSeriesId: '8', year: 8 },
+    ],
+    founder: [{ indusryId: '4-3', startupSeriesId: '2', year: 3 }],
+    member: [{ indusryId: '1-3', jobId: '1-1-3', year: 5 }],
+  },
+  relation: {
+    investor: [],
+    founder: [{ indusryId: '1-5', startupSeriesId: '2', year: 6 }],
+    member: [{ indusryId: '1-7', jobId: '4-3-2', year: 8 }],
+  },
+  story: ['10'],
+};
 
-async function verify(idToken) {
-  const ticket = await client.verifyIdToken({
-    idToken,
-    audience: CLIENT_ID,
-  });
-  return ticket.getPayload();
-}
-
-/*
-const GoogleStrategy = googleStrategy.Strategy;
-const LocalStrategy = passportLocal.Strategy;
-*/
 const defaultCoverMethod = 'business';
 const coverParams = {
   methodIndex: 2,
-  creatorsIndex: 3,
+  storyIndex: 3,
 };
 
 const sessionSetting = session({
@@ -101,7 +103,7 @@ class Express {
   routingHttps(req, res, next) {
     let language = 'en';
     let ch = '/';
-    console.log(req.originalUrl);
+
     switch (req.headers.host) {
       case conf.ownURL:
         if (req.method === 'GET') {
@@ -197,35 +199,41 @@ class Express {
         break;
       case conf.coverURL:
         const splitedUrl = req.originalUrl.split('/');
-        let creatorsIndex = null;
+        const isApi = splitedUrl[1] === 'api';
+        let apiType = '';
+        let credential = '';
+        let storyIndex = null;
         let domainProfile;
+        let isRootCh = false;
         let method = defaultCoverMethod;
-        if (splitedUrl.length === 2) {
-          method = splitedUrl[1] === '' ? defaultCoverMethod : splitedUrl[1];
+        if (isApi) {
+          isRootCh = splitedUrl.length === 3;
+          method = 'api';
+          if (isRootCh) {
+            apiType = splitedUrl[2].split('?')[0];
+            credential = splitedUrl[2].split('?')[1];
+            ch = '/';
+          } else {
+            apiType = splitedUrl[3].split('?')[0];
+            credential = splitedUrl[3].split('?')[1];
+            ch = commonUtil.parseJwt(credential)['email'];
+          }
         } else {
-          ch = splitedUrl[1] ? `/${splitedUrl[1]}/` : '/';
-          method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : defaultCoverMethod;
-          creatorsIndex = splitedUrl[coverParams.creatorsIndex] ? splitedUrl[coverParams.creatorsIndex] : null;
+          if (splitedUrl.length === 2) {
+            method = splitedUrl[1] === '' ? defaultCoverMethod : splitedUrl[1];
+          } else {
+            ch = splitedUrl[1] ? `/${splitedUrl[1]}/` : '/';
+            method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : defaultCoverMethod;
+            storyIndex = splitedUrl[coverParams.storyIndex] ? splitedUrl[coverParams.storyIndex] : null;
+          }
         }
 
         if (req.method === 'POST') {
-          if (req.body.credential) {
-            verify(req.body.credential)
-              .then(async (payload) => {
-                console.log('@^@^', payload);
-                res.header('Access-Control-Allow-Origin', '*');
-                res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, undefined, method === 'tag');
-                res.render('cover/', { ...domainProfile, payload });
-              })
-              .catch(console.error);
-          } else {
-            delete req.body.ch;
-            const json = JSON.stringify(req.body, null, 2);
-            res.setHeader('Content-disposition', 'attachment; filename=talkn.config.json');
-            res.setHeader('Content-type', 'application/json');
-            res.send(json);
-          }
+          delete req.body.ch;
+          const json = JSON.stringify(req.body, null, 2);
+          res.setHeader('Content-disposition', 'attachment; filename=talkn.config.json');
+          res.setHeader('Content-type', 'application/json');
+          res.send(json);
         } else if (req.method === 'GET') {
           if (
             req.originalUrl.indexOf('.svg') >= 0 ||
@@ -240,6 +248,12 @@ class Express {
           } else if (req.headers.accept.indexOf('text/html,application/') === 0 || req.headers.accept.indexOf('*/*') === 0) {
             const resolveCover = async () => {
               switch (method) {
+                case 'api':
+                  res.header('Access-Control-Allow-Origin', '*');
+                  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+                  console.log(coverSampleJson);
+                  res.json(coverSampleJson);
+                  break;
                 case 'business':
                 case 'tag':
                   res.header('Access-Control-Allow-Origin', '*');
@@ -257,13 +271,13 @@ class Express {
                 case 'story':
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, creatorsIndex);
+                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, storyIndex);
                   res.render('cover/', domainProfile);
                   break;
                 case 'storyJson':
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, creatorsIndex);
+                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, storyIndex);
                   res.json(domainProfile);
                   break;
                 case 'build':
