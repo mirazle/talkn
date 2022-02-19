@@ -1,3 +1,5 @@
+import atob from 'atob';
+
 import Ui from 'client/store/Ui';
 
 export default {
@@ -51,5 +53,19 @@ export default {
     }
     const dispSuffix = extensionMode === Ui.extensionModeNone ? suffix : suffix.replace('ago', '');
     return `${value} ${shortUnit} ${dispSuffix}`;
+  },
+  parseJwt: (token) => {
+    if (token === null) return null;
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
   },
 };

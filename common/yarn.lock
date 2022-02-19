@@ -1242,6 +1242,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/atob@npm:2.1.2":
+  version: 2.1.2
+  resolution: "@types/atob@npm:2.1.2"
+  checksum: 903df6e2d473c51ffff6f8aa2ad11127361a38ac409f30af1fe3c99e7a3b674740a685375097efe649036450822317641d3080c33ee849efca06945bd1386c61
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^16.7.1":
   version: 16.7.1
   resolution: "@types/node@npm:16.7.1"
@@ -1264,6 +1271,15 @@ __metadata:
   dependencies:
     color-convert: ^2.0.1
   checksum: 513b44c3b2105dd14cc42a19271e80f386466c4be574bccf60b627432f9198571ebf4ab1e4c3ba17347658f4ee1711c163d574248c0c1cdc2d5917a0ad582ec4
+  languageName: node
+  linkType: hard
+
+"atob@npm:2.1.2":
+  version: 2.1.2
+  resolution: "atob@npm:2.1.2"
+  bin:
+    atob: bin/atob.js
+  checksum: dfeeeb70090c5ebea7be4b9f787f866686c645d9f39a0d184c817252d0cf08455ed25267d79c03254d3be1f03ac399992a792edcd5ffb9c91e097ab5ef42833a
   languageName: node
   linkType: hard
 
@@ -1881,7 +1897,9 @@ resolve@^1.14.2:
     "@babel/core": ^7.15.0
     "@babel/preset-env": ^7.15.0
     "@babel/preset-typescript": ^7.15.0
+    "@types/atob": 2.1.2
     "@types/node": ^16.7.1
+    atob: 2.1.2
     fs: ^0.0.2
     os: ^0.1.2
     process: ^0.11.10
