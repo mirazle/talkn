@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import * as styles from 'components/styles';
+import styles from 'cover/styles';
 
 const Component: React.FC = () => {
   return <Container />;

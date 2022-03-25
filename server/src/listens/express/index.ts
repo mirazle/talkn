@@ -2,39 +2,36 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import express from 'express';
 import session from 'express-session';
+import { fstat } from 'fs';
 import http from 'http';
 import https from 'https';
+import multer from 'multer';
 
 import define from 'common/define';
 import commonUtil from 'common/util';
 
 import conf from 'server/conf';
 import * as CoverLogics from 'server/listens/express/cover/logics';
+import Logics from 'server/logics';
 import Geolite from 'server/logics/Geolite';
 import Mail from 'server/logics/Mail';
 
-const coverSampleJson = {
-  self: {
-    investor: [
-      { indusryId: '1-2', startupSeriesId: '1', year: 1 },
-      { indusryId: '1-1', startupSeriesId: '2', year: 2 },
-      { indusryId: '1-2', startupSeriesId: '3', year: 3 },
-      { indusryId: '1-1', startupSeriesId: '4', year: 4 },
-      { indusryId: '1-2', startupSeriesId: '5', year: 5 },
-      { indusryId: '1-1', startupSeriesId: '6', year: 6 },
-      { indusryId: '1-2', startupSeriesId: '7', year: 7 },
-      { indusryId: '1-1', startupSeriesId: '8', year: 8 },
-    ],
-    founder: [{ indusryId: '4-3', startupSeriesId: '2', year: 3 }],
-    member: [{ indusryId: '1-3', jobId: '1-1-3', year: 5 }],
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const email = file.originalname;
+    const path = Logics.fs.mkdirAssetsCover(email);
+    cb(null, path);
   },
-  relation: {
-    investor: [],
-    founder: [{ indusryId: '1-5', startupSeriesId: '2', year: 6 }],
-    member: [{ indusryId: '1-7', jobId: '4-3-2', year: 8 }],
+
+  filename: (req, file, cb) => {
+    //    const extArray = file.mimetype.split('/');
+    //    const extension = extArray[extArray.length - 1];
+    //    cb(null, `${file.fieldname}.${extension}`);
+    cb(null, file.fieldname);
   },
-  story: ['10'],
-};
+});
+
+const uploadImage = multer({ storage }).fields([{ name: 'icon' }, { name: 'bg' }, { name: 'email' }]);
 
 const defaultCoverMethod = 'business';
 const coverParams = {
@@ -62,17 +59,9 @@ class Express {
     this.httpsApp.set('view engine', 'ejs');
     this.httpsApp.set('views', conf.serverPath);
     this.httpsApp.set('trust proxy', true);
-    this.httpsApp.use(bodyParser.urlencoded({ extended: true }));
+    this.httpsApp.use(bodyParser.urlencoded({ extended: false }));
     this.httpsApp.use(compression());
     this.httpsApp.use(sessionSetting);
-
-    /*
-    this.httpsApp.use(passport.initialize());
-    this.httpsApp.use(passport.session());
-*/
-    // this.httpsApp.use(authFunc);
-    // this.session = new Session(this.httpsApp);
-
     this.listenedHttp = this.listenedHttp.bind(this);
     this.listenedHttps = this.listenedHttps.bind(this);
     this.routingHttps = this.routingHttps.bind(this);
@@ -101,6 +90,7 @@ class Express {
   }
 
   routingHttps(req, res, next) {
+    const splitedUrl = req.originalUrl.split('/');
     let language = 'en';
     let ch = '/';
 
@@ -198,43 +188,60 @@ class Express {
 
         break;
       case conf.coverURL:
-        const splitedUrl = req.originalUrl.split('/');
-        const isApi = splitedUrl[1] === 'api';
-        let apiType = '';
-        let credential = '';
-        let storyIndex = null;
-        let domainProfile;
-        let isRootCh = false;
         let method = defaultCoverMethod;
-        if (isApi) {
-          isRootCh = splitedUrl.length === 3;
-          method = 'api';
-          if (isRootCh) {
-            apiType = splitedUrl[2].split('?')[0];
-            credential = splitedUrl[2].split('?')[1];
-            ch = '/';
-          } else {
-            apiType = splitedUrl[3].split('?')[0];
-            credential = splitedUrl[3].split('?')[1];
-            ch = commonUtil.parseJwt(credential)['email'];
-          }
-        } else {
-          if (splitedUrl.length === 2) {
-            method = splitedUrl[1] === '' ? defaultCoverMethod : splitedUrl[1];
-          } else {
-            ch = splitedUrl[1] ? `/${splitedUrl[1]}/` : '/';
-            method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : defaultCoverMethod;
-            storyIndex = splitedUrl[coverParams.storyIndex] ? splitedUrl[coverParams.storyIndex] : null;
-          }
-        }
-
         if (req.method === 'POST') {
-          delete req.body.ch;
-          const json = JSON.stringify(req.body, null, 2);
-          res.setHeader('Content-disposition', 'attachment; filename=talkn.config.json');
-          res.setHeader('Content-type', 'application/json');
-          res.send(json);
+          method = splitedUrl[2];
+          res.header('Access-Control-Allow-Origin', '*');
+          res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
+          if (req.headers['content-type'].startsWith('multipart/form-data')) {
+            uploadImage(req, res, (err) => {
+              if (err) throw err;
+              const key = Object.keys(req.files)[0];
+              CoverLogics[method](req.body.email, req.files[key][0].path);
+              res.end();
+            });
+          }
+
+          if (Object.keys(req.body)[0]) {
+            const requestJson = JSON.parse(Object.keys(req.body)[0]);
+            if (CoverLogics[method]) {
+              CoverLogics[method](requestJson);
+            }
+            res.json(requestJson);
+          }
+          res.end();
         } else if (req.method === 'GET') {
+          const isApi = splitedUrl[1] === 'api';
+          let apiType = '';
+          let credential = '';
+          let storyIndex = null;
+          let domainProfile;
+          let isRootCh = false;
+
+          if (isApi) {
+            isRootCh = splitedUrl.length === 3;
+            method = 'api';
+
+            if (isRootCh) {
+              apiType = splitedUrl[2].split('?')[0];
+              credential = splitedUrl[2].split('?')[1];
+              ch = '/';
+            } else {
+              apiType = splitedUrl[3].split('?')[0];
+              credential = splitedUrl[3].split('?')[1];
+              ch = commonUtil.parseJwt(credential)['email'];
+            }
+          } else {
+            if (splitedUrl.length === 2) {
+              method = splitedUrl[1] === '' ? defaultCoverMethod : splitedUrl[1];
+            } else {
+              ch = splitedUrl[1] ? `/${splitedUrl[1]}/` : '/';
+              method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : defaultCoverMethod;
+              storyIndex = splitedUrl[coverParams.storyIndex] ? splitedUrl[coverParams.storyIndex] : null;
+            }
+          }
+
           if (
             req.originalUrl.indexOf('.svg') >= 0 ||
             req.originalUrl.indexOf('.png') >= 0 ||
@@ -249,23 +256,34 @@ class Express {
             const resolveCover = async () => {
               switch (method) {
                 case 'api':
+                  /*
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  console.log(coverSampleJson);
                   res.json(coverSampleJson);
+*/
                   break;
+                case 'livePages':
                 case 'business':
-                case 'tag':
+                case 'profile':
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, undefined, method === 'tag');
+                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, undefined, method === 'profile');
                   res.render('cover/', domainProfile);
                   break;
-                case 'tagJson':
+                case 'profileJson':
+                case 'livePagesJson':
                 case 'businessJson':
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, undefined, method === 'tagJson');
+                  domainProfile = await CoverLogics.getDomainProfile(
+                    req,
+                    res,
+                    req.protocol,
+                    ch,
+                    language,
+                    undefined,
+                    method === 'profileJson'
+                  );
                   res.json(domainProfile);
                   break;
                 case 'story':

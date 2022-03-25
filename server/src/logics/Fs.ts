@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 
 import conf from 'common/conf';
 import define from 'common/define';
@@ -6,7 +7,8 @@ import define from 'common/define';
 export default class Fs {
   static names = {
     config: `${define.APP_NAME}.config.json`,
-    creators: 'creators',
+    stories: 'stories',
+    assetsCoverBasePath: `./src/listens/express/assets/cover/`,
   };
   getConfig(ch): any {
     try {
@@ -31,18 +33,16 @@ export default class Fs {
     }
   }
 
-  getCreators(ch, creatorsIndexParam, config): any {
+  getStories(ch, storiesIndexParam, config): any {
     try {
       const serverBasePath = `${conf.serverCoverPath}${ch}`;
-      let creatorIndex =
-        creatorsIndexParam && config.creatorsIndex[creatorsIndexParam - 1] ? config.creatorsIndex[creatorsIndexParam - 1] : null;
-      let creators = null;
+      let storyIndex = storiesIndexParam && config.storiesIndex[storiesIndexParam - 1] ? config.storiesIndex[storiesIndexParam - 1] : null;
+      let stories = null;
 
-      if (creatorIndex) {
-        console.log(`${serverBasePath}${Fs.names.creators}${creatorIndex.interview}`);
-        creators = JSON.parse(fs.readFileSync(`${serverBasePath}${creatorIndex.interview}`, 'utf8'));
+      if (storyIndex) {
+        stories = JSON.parse(fs.readFileSync(`${serverBasePath}${storyIndex.interview}`, 'utf8'));
       }
-      return creators;
+      return stories;
     } catch (err) {
       console.warn(err);
       return null;
@@ -64,6 +64,39 @@ export default class Fs {
     }
   }
 
+  writeImage(email, destpath, name, callback?) {
+    const base64 = fs.readFileSync(destpath, 'utf8');
+    const img = (data) => {
+      const reg = /^data:image\/([\w+]+);base64,([\s\S]+)/;
+      const match = data.match(reg);
+      const baseType = {
+        jpeg: 'jpg',
+      };
+
+      baseType['svg+xml'] = 'svg';
+
+      if (!match) {
+        throw new Error('image base64 data error');
+      }
+
+      var extname = baseType[match[1]] ? baseType[match[1]] : match[1];
+
+      return {
+        extname: '.' + extname,
+        base64: match[2],
+      };
+    };
+
+    const result = img(base64);
+    const fileName = name + result.extname;
+    const filepath = path.join(`${Fs.names.assetsCoverBasePath}${email}/`, fileName);
+
+    fs.writeFile(filepath, result.base64, { encoding: 'base64' }, function (err) {
+      fs.unlinkSync(destpath);
+      callback && callback(err, fileName);
+    });
+  }
+
   isExistFavicon(fileName) {
     try {
       const writeFileName = `${conf.serverAssetsPath}icon/${fileName}`;
@@ -71,6 +104,25 @@ export default class Fs {
       return true;
     } catch (err) {
       return false;
+    }
+  }
+
+  mkdirAssetsCover(email) {
+    const path = `${Fs.names.assetsCoverBasePath}${email}/`;
+    if (!this.isExist(path)) {
+      fs.mkdir(path, { recursive: true }, (err) => {
+        if (err) throw err;
+      });
+    }
+    return path;
+  }
+
+  getCoverImage(email, type) {
+    const path = `${Fs.names.assetsCoverBasePath}${email}/${type}`;
+    if (this.isExist(path)) {
+      return fs.readFileSync(path, 'utf8');
+    } else {
+      return '';
     }
   }
 

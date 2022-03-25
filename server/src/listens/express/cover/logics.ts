@@ -67,6 +67,24 @@ export const build = async (req, res, ch) => {
   }
 };
 
+export const saveUser = async (requestJson) => {
+  await Logics.db.user.update(requestJson.email, requestJson);
+};
+
+export const saveUserBg = async (email, path) => {
+  Logics.fs.writeImage(email, path, 'bg', (error, fileName) => {
+    console.log(fileName);
+    Logics.db.user.update(email, { 'profile.bg': fileName });
+  });
+};
+
+export const saveUserIcon = async (email, path) => {
+  Logics.fs.writeImage(email, path, 'icon', (error, fileName) => {
+    console.log(fileName);
+    Logics.db.user.update(email, { 'profile.icon': fileName });
+  });
+};
+
 export const exeFetchConfig = async (req, res, protocol, ch): Promise<ConfigType> => {
   let config = await Logics.html.exeFetchConfig(protocol, ch);
   if (config === null) {
@@ -78,11 +96,11 @@ export const exeFetchConfig = async (req, res, protocol, ch): Promise<ConfigType
   }
 
   if (config) {
-    if (config.creatorsIndex.length > 0) {
+    if (config.storiesIndex.length > 0) {
       return {
         ...config,
-        creatorsIndex: config.creatorsIndex.map((creatorIndex, index) => {
-          return ch === '/' ? { ...creatorIndex, ch, no: config.creatorsIndex.length } : { ...creatorIndex, ch, no: index + 1 };
+        storiesIndex: config.storiesIndex.map((creatorIndex, index) => {
+          return ch === '/' ? { ...creatorIndex, ch, no: config.storiesIndex.length } : { ...creatorIndex, ch, no: index + 1 };
         }),
       };
     } else {
@@ -98,7 +116,7 @@ export const fetchConfig = async (req, res, protocol, ch) => {
   await Logics.db.threads.update(ch, { userCategoryChs: config.userCategoryChs });
 };
 
-export const getTags = async (): Promise<any> => {
+export const getStaticTags = async (): Promise<any> => {
   const industoryParent = await Logics.db.industoryParent.find();
   const industory = await Logics.db.industory.find();
   const jobTerm = await Logics.db.jobTerm.find();
@@ -107,35 +125,44 @@ export const getTags = async (): Promise<any> => {
   const jobCategory = await Logics.db.jobCategory.find();
   const jobs = await Logics.db.jobs.find();
   const startupSeries = await Logics.db.startupSeries.find();
-  return { industoryParent, industory, startupSeries, jobTerm, jobTitle, jobParents, jobCategory, jobs };
+  const story = await Logics.db.story.find();
+  return { industoryParent, industory, startupSeries, jobTerm, jobTitle, jobParents, jobCategory, jobs, story };
 };
 
-export const getDomainProfile = async (req, res, protocol, ch, language, creatorsIndexParam?: number, isGetTags = false): Promise<any> => {
-  const tags = isGetTags ? await getTags() : {};
+export const getUser = async (ch): Promise<any> => {
+  const email = ch.replace(/\//g, '');
+  const user = await Logics.db.user.findOne(email, true);
+  return user.response;
+};
+
+export const getDomainProfile = async (req, res, protocol, ch, language, storiesIndexParam?: number, isGetTags = false): Promise<any> => {
+  const staticTags = isGetTags ? await getStaticTags() : {};
+  const user = isGetTags ? await getUser(ch) : {};
+
   let config = await exeFetchConfig(req, res, protocol, ch);
-  const creators = Logics.fs.getCreators(ch, creatorsIndexParam, config);
+  const stories = Logics.fs.getStories(ch, storiesIndexParam, config);
   let { response: thread, isExist }: any = await Logics.db.threads.findOne(ch, { buildinSchema: true });
   const isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, isExist);
-  let isAddCreatorsConfig = false;
+  let isAddStoriesConfig = false;
   if (ch === '/') {
     const promiseAll = [];
-    const chObj = await Logics.db.threads.coverTopCreatorsIndex();
+    const chObj = await Logics.db.threads.coverTopStoriesIndex();
 
     chObj.reverse().forEach(async (obj) => {
       promiseAll.push(exeFetchConfig(req, res, obj.protocol, obj.ch));
     });
 
-    const creatorsIndex = await Promise.all(promiseAll);
+    const storiesIndex = await Promise.all(promiseAll);
 
-    config.creatorsIndex = creatorsIndex
-      .filter((obj) => obj.creatorsIndex && obj.creatorsIndex.length > 0)
-      .map((obj) => obj.creatorsIndex[obj.creatorsIndex.length - 1]);
+    config.storiesIndex = storiesIndex
+      .filter((obj) => obj.storiesIndex && obj.storiesIndex.length > 0)
+      .map((obj) => obj.storiesIndex[obj.storiesIndex.length - 1]);
   } else {
-    isAddCreatorsConfig = config.creatorsIndex.length > thread.creatorsCnt;
+    isAddStoriesConfig = config.storiesIndex.length > thread.storiesCnt;
 
-    if (isAddCreatorsConfig) {
-      thread.creatorsCnt = config.creatorsIndex.length;
-      thread.updateCreatorsTime = new Date();
+    if (isAddStoriesConfig) {
+      thread.storiesCnt = config.storiesIndex.length;
+      thread.updateStoriesTime = new Date();
     }
   }
 
@@ -145,7 +172,7 @@ export const getDomainProfile = async (req, res, protocol, ch, language, creator
   }
 
   // スレッド新規作成
-  if (!isExist || isAddCreatorsConfig) {
+  if (!isExist || isAddStoriesConfig) {
     thread = await Logics.db.threads.save(thread);
   }
 
@@ -170,9 +197,10 @@ export const getDomainProfile = async (req, res, protocol, ch, language, creator
 
   return {
     language,
-    creators,
+    stories,
     config,
-    tags,
+    staticTags,
+    user,
     thread,
     serverMetas,
     domain: conf.domain,

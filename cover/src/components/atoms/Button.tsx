@@ -1,106 +1,103 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
-import { flexLayutPropsInit } from 'cover/components/atoms/Flex';
-import * as styles from 'cover/styles';
-import * as Layout from 'cover/styles/Layout';
+import { FlexLayoutPropsType, flexLayoutCenterPropsInit } from 'cover/components/atoms/Flex';
+import * as Layout from 'cover/nodes/Layout';
+import styles from 'cover/styles';
+
+export const buttonThemeHot = styles.hotColor;
+export const buttonThemeFlat = styles.flatColor;
+export const buttonThemeCold = styles.coldColor;
+export const buttonThemeBright = styles.brightColor;
+export const buttonThemeBase = styles.baseColor;
+export const buttonThemeDefault = styles.themeColor;
+export type ButtonThemeType =
+  | typeof buttonThemeDefault
+  | typeof buttonThemeHot
+  | typeof buttonThemeFlat
+  | typeof buttonThemeCold
+  | typeof buttonThemeBase
+  | typeof buttonThemeBright;
 
 type ButtonPropsType = {
   children: React.ReactNode;
-  disabled?: boolean;
-  div?: boolean;
-  theme?: string;
   onClick?: () => void;
+  disabled?: boolean;
+  theme?: ButtonThemeType;
+  className?: string;
+  animation?: boolean;
 };
 
-type Props = ButtonPropsType & Layout.LayoutPropsType;
-
-export const buttonBackgroundPositive = styles.themeColor;
-export const buttonBackgroundCancel = '#ccc';
-export const buttonBackgroundDefault = buttonBackgroundPositive;
-export type ButtonBackgroundType = typeof buttonBackgroundDefault | typeof buttonBackgroundPositive | typeof buttonBackgroundCancel;
+export type Props = FlexLayoutPropsType & Layout.LayoutPropsType & ButtonPropsType;
 
 const Component: React.FC<Props> = (props: Props) => {
+  const [didMount, setDidMount] = useState(false);
   const p: Props = {
+    ...flexLayoutCenterPropsInit,
     ...Layout.layoutPropsInit,
-    ...flexLayutPropsInit,
-    width: `auto`,
-    height: `${styles.baseHeight}px`,
-    theme: buttonBackgroundDefault,
+    theme: buttonThemeDefault,
+    animation: true,
+    className: 'Button',
+    width: 'auto',
     ...props,
   };
-  return p.div ? <ButtonDiv {...p}>{p.children}</ButtonDiv> : <Button {...p}>{p.children}</Button>;
+
+  useEffect(() => {
+    setDidMount(true);
+  }, []);
+
+  return (
+    <Button {...p} didMount={didMount}>
+      {p.children}
+    </Button>
+  );
 };
 
 export default Component;
 
-export const InputCss = css`
-  display: block;
-  min-width: 320px;
-  max-width: calc(100% - ${styles.doubleMargin * 2}px);
-  padding: ${styles.basePadding}px;
-  margin-left: ${styles.doubleMargin}px;
-  margin-right: ${styles.doubleMargin}px;
-  outline-color: ${styles.themeColor};
-  color: ${styles.fontColor};
-  border-radius: 3px;
-  border: 2px solid ${styles.borderColor};
-  background: rgb(250, 250, 250);
-  cursor: pointer;
-  transition: ${styles.transitionDuration}ms;
-  :focus {
-    background: rgb(240, 250, 240);
-  }
-  :hover {
-    background: rgb(240, 250, 240);
-  }
-`;
-export const ButtonCss = css<Props>`
+type ButtonStyledPropsType = {
+  didMount: boolean;
+} & Props;
+
+export const Button = styled.button<ButtonStyledPropsType>`
   display: flex;
+  flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
-  width: 300px;
-  height: ${styles.baseHeight}px;
-  margin: 0 auto;
-  border-radius: 7px;
-  border: 0;
+  min-height: ${styles.baseHeight}px;
+  ${Layout.LayoutCss};
+  padding: ${styles.doublePadding}px ${styles.doublePadding * 2}px;
   color: ${(props) => getColor(props)};
   outline: none;
-  cursor: ${(props) => (props.disabled ? 'normal' : 'pointer')};
+  cursor: ${(props) => (props.disabled || props.onClick === undefined ? 'normal' : 'pointer')};
   background: ${(props) => getBackground(props)};
-  transition: ${styles.transitionDuration}ms;
+  border: ${(props) => (props.disabled ? 1 : 0)}px solid ${styles.borderColor};
+  border-radius: 7px;
+  transition: ${(props) => (props.didMount && props.animation ? styles.transitionDuration : 0)}ms;
+  white-space: nowrap;
   user-select: none;
   :hover {
-    box-shadow: ${(props) => (props.disabled ? '' : styles.horizonBoxShadow)};
+    box-shadow: ${(props) => (props.disabled || props.onClick === undefined ? 0 : styles.shadowHorizonBright)};
   }
-`;
-
-export const Button = styled.button<Props>`
-  ${ButtonCss};
-  ${Layout.LayoutCss};
-`;
-
-export const ButtonDiv = styled.div<Props>`
-  ${ButtonCss};
-  ${Layout.LayoutCss};
 `;
 
 const getColor = (props) => {
-  switch (props.theme) {
-    case buttonBackgroundDefault:
-    case buttonBackgroundPositive:
-      return '#fff';
-    case buttonBackgroundCancel:
-      return '#fff';
+  if (props.disabled) {
+    return styles.brightColor;
+  } else {
+    switch (props.theme) {
+      case buttonThemeDefault:
+      case buttonThemeHot:
+      case buttonThemeBright:
+        return styles.whiteColor;
+    }
   }
 };
 
 const getBackground = (props) => {
-  switch (props.theme) {
-    case buttonBackgroundDefault:
-    case buttonBackgroundPositive:
-      return props.disabled ? 'rgb(200, 200, 200)' : styles.themeColor;
-    case buttonBackgroundCancel:
-      return '#ccc';
+  if (props.disabled) {
+    return 'none';
+  } else {
+    return props.theme;
   }
 };

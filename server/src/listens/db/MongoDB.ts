@@ -1,7 +1,8 @@
 import Mongoose from 'mongoose';
 
 import conf from 'server/conf';
-import Users from 'server/listens//db/Users';
+import Sessions from 'server/listens//db/Sessions';
+import User from 'server/listens//db/User';
 import Industory from 'server/listens/db/Industory';
 import IndustoryParent from 'server/listens/db/IndustoryParent';
 import JobCategory from 'server/listens/db/JobCategory';
@@ -12,6 +13,7 @@ import Jobs from 'server/listens/db/Jobs';
 import Posts from 'server/listens/db/Posts';
 import Setting from 'server/listens/db/Setting';
 import StartupSeries from 'server/listens/db/StartupSeries';
+import Story from 'server/listens/db/Story';
 import Threads from 'server/listens/db/Threads';
 import Schemas from 'server/schemas';
 
@@ -29,10 +31,11 @@ class MongoDB {
 
     // collections.
     return {
+      User: new User(dbConnection),
       Setting: new Setting(dbConnection),
       Threads: new Threads(dbConnection),
       Posts: new Posts(dbConnection),
-      Users: new Users(dbConnection),
+      Sessions: new Sessions(dbConnection),
       IndustoryParent: new IndustoryParent(dbConnection),
       Industory: new Industory(dbConnection),
       JobTerm: new JobTerm(dbConnection),
@@ -41,6 +44,7 @@ class MongoDB {
       JobCategory: new JobCategory(dbConnection),
       Jobs: new Jobs(dbConnection),
       StartupSeries: new StartupSeries(dbConnection),
+      Story: new Story(dbConnection),
     };
   }
 

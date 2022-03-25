@@ -33,10 +33,6 @@
     "worker-loader": "^3.0.8"
   },
   "dependencies": {
-    "@aws-amplify/ui": "^2.0.5",
-    "@aws-amplify/ui-components": "1.9.6",
-    "@aws-amplify/ui-react": "2.3.0",
-    "aws-amplify": "^4.3.14",
     "fs": "^0.0.1-security",
     "img-color": "1.0.2",
     "normalize.css": "8.0.1",
@@ -45,6 +41,9 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-timeago": "6.2.1",
+    "styled-components": "5.3.1"
+  },
+  "resolutions": {
     "styled-components": "5.3.1"
   }
 }

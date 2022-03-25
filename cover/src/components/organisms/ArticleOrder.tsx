@@ -1,18 +1,11 @@
-import React, { useEffect, useState, useRef, memo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled, { css } from 'styled-components';
-
-import BootOption from 'common/BootOption';
 
 import AppStore from 'api/store/App';
 
-import handles from 'client/actions/handles';
-import mapToStateToProps from 'client/mapToStateToProps/';
-
-import Window from 'components/Window';
-
-import Title, { H3Height } from 'cover/components/atoms/Title';
+import H from 'cover/components/atoms/H';
 import Article, { ArticleType } from 'cover/components/molecules/Article';
-import * as styles from 'cover/styles';
+import styles from 'cover/styles';
 
 type StateType = {
   ranks: ArticleType[];
@@ -28,7 +21,7 @@ type ArticleOrderType = {
 
 // const NoData: React.FC = () => <div>No Data</div>;
 const Component: React.FC<ArticleOrderType> = (props) => {
-  const { api, state, root } = props;
+  const { state, root } = props;
   const { ranks: articles, thread } = state;
   const { ch, title } = thread;
   const orderRef = useRef(null);
@@ -89,7 +82,7 @@ const Component: React.FC<ArticleOrderType> = (props) => {
 
   return (
     <Container focusHeight={articleHeights[focusIndex]} onMouseOver={handleOnMouseOverContainer} onMouseLeave={handleOnMouseLeave}>
-      <TitleCustom type={'ArticleOrder'}>
+      <TitleCustom id={'ArticleOrder'}>
         {getCategory(ch)}&nbsp;(&nbsp;{title}&nbsp;)
       </TitleCustom>
       <ArrowRightButton
@@ -183,7 +176,7 @@ const ArticleOrder = styled.ol<ArticleOrderPropeType>`
   }
 `;
 
-const TitleCustom = styled(Title)`
+const TitleCustom = styled(H.Five)`
   padding: 0 ${styles.doublePadding}px;
   text-indent: 0;
 `;
@@ -198,7 +191,9 @@ const ArticleList = styled.li`
 type ArrowButtonPropsType = {
   active: boolean;
 };
-
+const H3LineHeight = styles.doubleMargin;
+const H3Margin = styles.baseMargin;
+const H3Height = H3LineHeight + H3Margin * 2;
 const ArrowCommonCss = css<ArrowButtonPropsType>`
   z-index: 1;
   position: absolute;

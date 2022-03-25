@@ -6,12 +6,13 @@ import jobTerm from 'server/data/jobTerm';
 import jobTitle from 'server/data/jobTitle';
 import jobs from 'server/data/jobs';
 import startupSeries from 'server/data/startupSeries';
+import story from 'server/data/story';
 import Logics from 'server/logics';
 
 export default {
   setUp: async () => {
     await Logics.db.threads.resetLiveCnt();
-    await Logics.db.users.removeAll();
+    await Logics.db.sessions.removeAll();
     await Logics.db.industoryParent.removeAll();
     await Logics.db.industoryParent.insertMany(industoryParent);
     await Logics.db.industory.removeAll();
@@ -29,6 +30,9 @@ export default {
     await Logics.db.jobCategory.insertMany(jobCategory);
     await Logics.db.jobs.removeAll();
     await Logics.db.jobs.insertMany(jobs);
+
+    await Logics.db.story.removeAll();
+    await Logics.db.story.insertMany(story);
   },
 
   setUpUser: async () => {

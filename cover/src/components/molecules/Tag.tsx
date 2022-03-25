@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import styled, { css } from 'styled-components';
 
 import Favicon from 'cover/components/atoms/Favicon';
+import H from 'cover/components/atoms/H';
 import LiveCnt from 'cover/components/atoms/LiveCnt';
 import OgpImage from 'cover/components/atoms/OgpImage';
 import P from 'cover/components/atoms/P';
-import Title from 'cover/components/atoms/Title';
 import SnsLinks from 'cover/components/molecules/SnsLinks';
-import * as styles from 'cover/styles';
+import styles from 'cover/styles';
 
 export type ServerMetasType = {
   'og:image': string;
@@ -71,9 +71,9 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
       <Cover onMouseOver={handleOnMouseOver}>
         <Header overflowTitle={marqueeOn}>
           <Favicon src={article.favicon} className={'Favicon'} />
-          <Title type={'Article'} className={'Title'}>
+          <H.Five id={'Article'} className={'Title'}>
             {article.title}
-          </Title>
+          </H.Five>
           <LiveCnt className={'LiveCnt'}>{article.liveCnt}</LiveCnt>
         </Header>
         <OgpImage src={serverMetas['og:image']} ch={article.ch} />
@@ -87,9 +87,9 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
         <a href={`/${article.ch}`}>
           <Header ref={headerRef} overflowTitle={marqueeOn}>
             <Favicon src={article.favicon} className={'Favicon'} />
-            <Title type={'Article'} className={'Title'}>
+            <H.Five id={'Article'} className={'Title'}>
               {article.title}
-            </Title>
+            </H.Five>
             <LiveCnt className={'LiveCnt'}>{article.liveCnt}</LiveCnt>
           </Header>
           <OgpImage src={serverMetas['og:image']} ch={article.ch} />
@@ -118,7 +118,7 @@ const Cover = styled.div<CoverPropsType>`
   width: inherit;
   height: ${styles.articleCloseHeight}px;
   background: #fff;
-  box-shadow: 0px 0px ${styles.baseShadow}px 0px ${styles.baseShadowColor};
+  box-shadow: ${styles.shadowHorizonBright};
   border-radius: 10px;
 `;
 
@@ -152,7 +152,7 @@ const marqueeCss = css<DetailPropsType>`
   animation-direction: normal;
 `;
 
-const _reduceShadow = styles.baseShadow * styles.articleOpenScale - styles.baseShadow;
+const _reduceShadow = styles.shadowSize * styles.articleOpenScale - styles.shadowSize;
 const reduceShadow = Math.floor(_reduceShadow * 100) / 100;
 const Detail = styled.article<DetailPropsType>`
   z-index: 20;
@@ -163,7 +163,7 @@ const Detail = styled.article<DetailPropsType>`
   width: inherit;
   height: ${styles.articleOpenHeight}px;
   background: #fff;
-  box-shadow: 0px 0px ${styles.baseShadow * reduceShadow}px 0px ${styles.articleShadowColor};
+  box-shadow: 0px 0px 10px 0px ${styles.articleShadowColor};
   border-radius: 10px;
   transition-property: opacity, transform, height;
   transition-duration: ${(props) => (props.isFocus ? '300ms, 300ms, 0ms' : '0ms, 0ms, 0ms')};

@@ -39,8 +39,8 @@ export default {
     const requestThread = requestState.thread;
     const { ch } = requestThread;
 
-    // users.
-    const liveCnt = await Logics.db.users.getIncLiveCnt(ioUser.conn.id, ch);
+    // sessions.
+    const liveCnt = await Logics.db.sessions.getIncLiveCnt(ioUser.conn.id, ch);
 
     // update thread rank.
     let { thread, isExist } = await Logics.db.threads.tune({ ch }, liveCnt, true);
@@ -84,17 +84,17 @@ export default {
 
   changeThread: async (ioUser, requestState, setting) => {
     // Old Thread.
-    Logics.db.users.remove(ioUser.conn.id);
+    Logics.db.sessions.remove(ioUser.conn.id);
     const oldCh = requestState.app.tuned;
     const { thread: oldThread } = await Logics.db.threads.tune({ ch: oldCh }, -1);
 
     // New thread.
     const newCh = requestState.thread.ch;
-    const liveCnt = await Logics.db.users.getIncLiveCnt(ioUser.conn.id, newCh);
+    const liveCnt = await Logics.db.sessions.getIncLiveCnt(ioUser.conn.id, newCh);
     const { thread: newThread } = await Logics.db.threads.tune({ ch: newCh }, liveCnt, true);
 
-    // Resolve Users.
-    Logics.db.users.getIncLiveCnt(ioUser.conn.id, newCh);
+    // Resolve Sessions.
+    Logics.db.sessions.getIncLiveCnt(ioUser.conn.id, newCh);
 
     // 古いthreadのliveCntが減った通知をBroardcasrtする
     // 新しいthreadのliveCntが増えた通知をBroardcasrtする
@@ -190,14 +190,14 @@ export default {
   },
 
   disconnect: async (ioUser) => {
-    const { response: user } = await Logics.db.users.findOne(ioUser.conn.id);
+    const { response: user } = await Logics.db.sessions.findOne(ioUser.conn.id);
 
     if (user && user.ch) {
       // ユーザーデータ削除
-      await Logics.db.users.remove(ioUser.conn.id);
+      await Logics.db.sessions.remove(ioUser.conn.id);
 
       // userコレクションからliveCntの実数を取得(thread.liveCntは読み取り専用)
-      const liveCnt = await Logics.db.users.getLiveCnt(user.ch);
+      const liveCnt = await Logics.db.sessions.getLiveCnt(user.ch);
       const { thread } = await Logics.db.threads.tune({ ch: user.ch }, liveCnt, true);
       Logics.io.disconnect(ioUser, {
         requestState: { type: 'disconnect' },
