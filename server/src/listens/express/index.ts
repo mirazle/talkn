@@ -254,6 +254,7 @@ class Express {
             res.send('404');
           } else if (req.headers.accept.indexOf('text/html,application/') === 0 || req.headers.accept.indexOf('*/*') === 0) {
             const resolveCover = async () => {
+              console.log('METHOD', method);
               switch (method) {
                 case 'api':
                   /*
