@@ -10,7 +10,7 @@ type Props = {
 
 const Component: React.FC<Props> = ({ src, ch }) => {
   return (
-    <Container>
+    <Container className="OgpImage">
       <BgImage src={src}>
         <Tip>{ch}</Tip>
       </BgImage>

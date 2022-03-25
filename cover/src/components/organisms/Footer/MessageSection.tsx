@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import * as styles from 'cover/styles';
+import styles from 'cover/styles';
 
 type Props = {};
 

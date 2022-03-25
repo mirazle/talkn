@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { FlexCss, FlexLayoutPropsType, flexLayutPropsInit } from 'cover/components/atoms/Flex';
-import * as Layout from 'cover/styles/Layout';
+import { FlexCss, FlexLayoutPropsType, flexLayoutPropsInit } from 'cover/components/atoms/Flex';
+import * as Layout from 'cover/nodes/Layout';
 
 export type Props = {
   children: React.ReactNode;
@@ -11,7 +11,7 @@ export type Props = {
   FlexLayoutPropsType;
 
 const Component: React.FC<Props> = (props: Props) => {
-  const p: Props = { ...Layout.layoutPropsInit, ...flexLayutPropsInit, ...props };
+  const p: Props = { ...Layout.layoutPropsInit, ...flexLayoutPropsInit, ...props };
   return <Container {...p}>{p.children}</Container>;
 };
 

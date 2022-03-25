@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import conf from 'common/conf';
 
 import Flex from 'cover/components/atoms/Flex';
-import Title from 'cover/components/atoms/Title';
+import H from 'cover/components/atoms/H';
 import BoxList from 'cover/components/molecules/BoxList';
-import * as styles from 'cover/styles';
+import styles from 'cover/styles';
 
 type Props = {
   ch: string;
@@ -25,7 +25,7 @@ const Component: FunctionComponent<Props> = ({ ch }) => {
   };
   return (
     <Container>
-      <Title type="Section">- Actions -</Title>
+      <H.Five color={styles.fontLightColor}>- Actions -</H.Five>
       <br />
       <br />
       <h3>Update</h3>

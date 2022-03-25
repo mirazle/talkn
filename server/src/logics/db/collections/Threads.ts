@@ -64,7 +64,7 @@ export default class Threads {
     return await this.collection.find(condition, selector, option);
   }
 
-  async coverTopCreatorsIndex() {
+  async coverTopStoriesIndex() {
     const ch = '/';
     const layer = Thread.getLayer(ch) + 1;
     let condition: any = {};
@@ -117,19 +117,7 @@ export default class Threads {
     };
 
     const { response } = await this.collection.find(condition, selector, option);
-    if (ch === '/www.sunbridge.com/') {
-      response.forEach((res) => {
-        console.log(
-          res.ch,
-          'title',
-          res.title,
-          'serverMetas.title',
-          res.serverMetas.title,
-          'serverMetas.og:title',
-          res.serverMetas['og:title']
-        );
-      });
-    }
+
     return response.map((res) => {
       if (isRankDetailMode) {
         return {

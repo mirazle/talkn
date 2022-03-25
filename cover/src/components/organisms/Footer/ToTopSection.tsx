@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import * as styles from 'cover/styles';
+import styles from 'cover/styles';
 
 type Props = {};
 
@@ -29,11 +29,11 @@ const ToTop = styled.div`
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
-  width: ${styles.quadSize}px;
-  height: ${styles.quadSize}px;
-  padding: ${styles.baseSize * 3}px;
+  width: ${styles.quintSize}px;
+  height: ${styles.quintSize}px;
+  padding: ${styles.quintSize}px;
   margin: 0 0 60px auto;
-  background: rgba(255, 255, 255, 0.96);
+  ${styles.alphaBgSet};
   border: 1px solid ${styles.fontColor};
   border-radius: ${styles.baseSize}px;
   transition: ${styles.transitionDuration}ms;

@@ -18,11 +18,24 @@
         }
       }
       window.talknPayload = JSON.parse('<%= JSON.stringify(payload) %>'.replace(/&#34;/g, '"'));
-      window.talknCreators = JSON.parse('<%= JSON.stringify(creators) %>'.replace(/&#34;/g, '"'));
+      window.talknStories = JSON.parse('<%= JSON.stringify(stories) %>'.replace(/&#34;/g, '"'));
       window.talknConfig = JSON.parse('<%= JSON.stringify(config) %>'.replace(/&#34;/g, '"'));
       window.talknThread = JSON.parse('<%= JSON.stringify(thread) %>'.replace(/&#34;/g, '"'));
       window.talknServerMetas = JSON.parse('<%= JSON.stringify(serverMetas) %>'.replace(/&#34;/g, '"'));
-      window.talknTags = JSON.parse('<%= JSON.stringify(tags) %>'.replace(/&#34;/g, '"'));
+      window.talknStaticTags = JSON.parse('<%= JSON.stringify(staticTags) %>'.replace(/&#34;/g, '"'));
+      window.talknStaticTagsById = {};
+      window.talknUser = JSON.parse('<%= JSON.stringify(user) %>'.replace(/&#34;/g, '"'));
+      Object.keys(window.talknStaticTags).forEach((tagsKey) => {
+        if (!window.talknStaticTagsById[tagsKey]) {
+          window.talknStaticTagsById[tagsKey] = {};
+        }
+        window.talknStaticTags[tagsKey].forEach((tag) => {
+          if (!window.talknStaticTagsById[tagsKey][tag.uniqueId]) {
+            window.talknStaticTagsById[tagsKey][tag.uniqueId] = {};
+          }
+          window.talknStaticTagsById[tagsKey][tag.uniqueId] = tag;
+        });
+      });
       document.querySelector('#assignVariable').remove();
     </script>
 

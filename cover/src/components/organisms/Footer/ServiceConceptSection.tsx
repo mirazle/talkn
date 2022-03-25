@@ -2,15 +2,15 @@ import * as React from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import Title from 'cover/components/atoms/Title';
-import * as styles from 'cover/styles';
+import H from 'cover/components/atoms/H';
+import styles from 'cover/styles';
 
 type Props = {};
 
 const Component: FunctionComponent<Props> = () => {
   return (
     <Container>
-      <Title type="Section">- Domain Profile Project -</Title>
+      <H.Five color={styles.fontLightColor}>- Domain Profile Project -</H.Five>
       <br />
       <h3>Concept</h3>
       <Message>
