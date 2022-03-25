@@ -36,6 +36,7 @@ const componentsURL = `${SUB_DOMAINS.COMPONENTS}.${domain}`;
 const bannerURL = `${SUB_DOMAINS.BANNER}.${domain}`;
 const transactionURL = `${SUB_DOMAINS.TRANSACTION}.${domain}`;
 const assetsImgPath = `${assetsURL}/img/`;
+const assetsCoverPath = `${assetsURL}/cover/`;
 const assetsIconPath = `${assetsURL}/icon/`;
 const assetsJsPath = `${assetsURL}/js/`;
 const sessionURL = `${SUB_DOMAINS.SESSION}.${domain}`;
@@ -101,6 +102,7 @@ const conf: any = {
   componentsURL,
   transactionURL,
   assetsImgPath,
+  assetsCoverPath,
   assetsIconPath,
   assetsJsPath,
   sessionURL,

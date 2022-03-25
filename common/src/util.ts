@@ -68,4 +68,21 @@ export default {
     );
     return JSON.parse(jsonPayload);
   },
+  deepCopy: (obj) => {
+    return JSON.parse(JSON.stringify(obj));
+  },
+  deepEquals: (obj1, obj2) => {
+    return JSON.stringify(obj1) === JSON.stringify(obj2);
+  },
+  getAgeByBirthday: (birthday: string): number | undefined => {
+    let returnAge = undefined;
+    if (birthday !== '') {
+      const birthDate = new Date(birthday);
+      const nowDate = new Date();
+      const age = nowDate.getFullYear() - birthDate.getFullYear();
+      const thisYearsBirthday = new Date(nowDate.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+      returnAge = age + (thisYearsBirthday.getTime() > nowDate.getTime() ? -1 : 0);
+    }
+    return returnAge;
+  },
 };
