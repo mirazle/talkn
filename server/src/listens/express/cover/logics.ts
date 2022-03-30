@@ -74,7 +74,7 @@ export const logined = async (request) => {
   const result = await Logics.db.user.findOne(request.email);
   if (result.response === null) {
     Logics.fs.mkdirAssetsCover(request.email, () => Logics.fs.copyDefaultFile(request.email));
-
+    console.log(request);
     await Logics.db.user.update(request.email, {
       email: request.email,
       name: request.name,
