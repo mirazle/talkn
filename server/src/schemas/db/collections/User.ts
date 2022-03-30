@@ -1,7 +1,13 @@
-const profileType = {
+import conf from 'common/conf';
+
+export default {
+  email: {
+    type: String,
+    default: '',
+  },
   name: {
     type: String,
-    default: 'No Set',
+    default: 'No Name',
   },
   languages: {
     type: Array,
@@ -12,38 +18,29 @@ const profileType = {
     default: ['1', '2'],
   },
   birthday: {
-    type: String,
-    default: '2000-01-01',
+    type: Number,
+    default: conf.defaultBirthdayUnixtime,
   },
   icon: {
     type: String,
-    default: '',
+    default: 'icon.jpg',
   },
   bg: {
     type: String,
-    default: '',
+    default: 'bg.jpg',
   },
-};
-
-const tagType = {
-  investor: {
-    type: Array,
-    default: [],
+  hasSelfTags: {
+    investor: {
+      type: Boolean,
+      default: false,
+    },
+    founder: {
+      type: Boolean,
+      default: false,
+    },
+    member: {
+      type: Boolean,
+      default: false,
+    },
   },
-  founder: {
-    type: Array,
-    default: [],
-  },
-  member: {
-    type: Array,
-    default: [],
-  },
-};
-
-export default {
-  email: { type: String, default: '' },
-  profile: profileType,
-  self: tagType,
-  relation: tagType,
-  story: { type: Array, default: [] },
 };

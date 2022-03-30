@@ -68,6 +68,7 @@ const Container = styled.ol<ContainerPropsType>`
   justify-content: center;
   width: 100%;
   height: ${styles.baseHeight}px;
+  margin-top: ${styles.doubleMargin}px;
   margin-right: 0;
   margin-left: 0;
   margin-bottom: ${styles.doubleMargin}px;

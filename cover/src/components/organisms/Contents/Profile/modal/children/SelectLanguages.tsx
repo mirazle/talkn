@@ -105,12 +105,16 @@ const Component: React.FC<Props> = ({ type, isEditable, languages: _languages, o
     }
   }, [_languages]);
 
-  return (
-    <Flex flow="column nowrap">
-      <Label bottomMargin>Language</Label>
-      {getContent()}
-    </Flex>
-  );
+  if (languages) {
+    return (
+      <Flex flow="column nowrap">
+        <Label bottomMargin>Language</Label>
+        {getContent()}
+      </Flex>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default Component;

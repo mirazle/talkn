@@ -17,6 +17,7 @@ type Props = {
 };
 
 const Component: FunctionComponent<Props> = ({ storiesIndexCnt, eyeCatchScrollIndex, handleOnClickCircle }) => {
+  console.log('storiesIndexCnt', storiesIndexCnt);
   return (
     <Container storiesIndexCnt={storiesIndexCnt} eyeCatchScrollIndex={eyeCatchScrollIndex}>
       {window.talknConfig &&
@@ -34,13 +35,14 @@ type ContainerPropsType = {
   eyeCatchScrollIndex: number;
 };
 
-const Container = styled.div<ContainerPropsType>`
+const Container = styled.ol<ContainerPropsType>`
   display: none;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-around;
   width: calc(${(props) => getHeadEyeCatchSelectOrderWidth(props.storiesIndexCnt)}% - ${styles.doubleMargin}px);
-  margin: ${styles.baseMargin}px;
+  padding: 0;
+  margin: 0 auto;
   li {
     width: ${styles.baseSize}px;
     height: ${styles.baseSize}px;

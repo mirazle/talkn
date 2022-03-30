@@ -1,10 +1,22 @@
-import { TagParentType, tagParentProfile, TagType, tagInvestor, tagFounder, tagMember, tagParentStory, tagTypes, tagStory } from '.';
 import React from 'react';
+
+import { StoriesIndexType } from 'common/talknConfig';
 
 import Flex from 'cover/components/atoms/Flex';
 import H from 'cover/components/atoms/H';
 import Section from 'cover/components/atoms/Section';
 import HeaderSection from 'cover/components/molecules/HeaderSection';
+import {
+  TagParentType,
+  tagParentProfile,
+  TagType,
+  tagInvestor,
+  tagFounder,
+  tagMember,
+  tagParentStory,
+  tagTypes,
+  tagStory,
+} from 'cover/components/organisms/Contents/Profile';
 import ControlButton from 'cover/components/organisms/Contents/Profile/button/ControlButton';
 import ResetButton from 'cover/components/organisms/Contents/Profile/button/ResetButton';
 import AddTag from 'cover/components/organisms/Contents/Profile/tip/Add';
@@ -18,15 +30,15 @@ type Props = {
   session: GoogleSessionType;
   isMyPage: boolean;
   tagParent: TagParentType;
-  tags: TagValueType[];
+  someTags: TagValueType[];
   isEditables: {};
   isChangeUserTag: boolean;
   isSavedAnimations: boolean;
   setIsEditables: React.Dispatch<React.SetStateAction<{}>>;
   handleOnClickReset: (tagParent: TagParentType) => Promise<void>;
   handleOnClickTag: (isEditable: boolean, tagParent: TagParentType, tagType?: TagType, index?: number, tagStructure?: any) => void;
-  handleOnClickRemoveTag: (tagParent: TagParentType, tagType: TagType, index: number) => void;
-  handleOnClickSaveUser: (tagParent: TagParentType) => void;
+  handleOnClickRemove: (tagParent: TagParentType, tagType: TagType, index: number) => void;
+  handleOnClickSave: (tagParent: TagParentType) => void;
 };
 
 type TagLabelType = {
@@ -51,15 +63,15 @@ const Component: React.FC<Props> = ({
   session,
   isMyPage = false,
   tagParent,
-  tags,
+  someTags,
   isEditables,
   isChangeUserTag,
   isSavedAnimations,
   setIsEditables,
   handleOnClickReset,
   handleOnClickTag,
-  handleOnClickRemoveTag,
-  handleOnClickSaveUser,
+  handleOnClickRemove,
+  handleOnClickSave,
 }: Props) => {
   const getTagNode = (tagParent: TagParentType, tagType: TagType, index: number, tagStructure, labels: TagLabelType): React.ReactNode => {
     switch (tagType) {
@@ -69,7 +81,7 @@ const Component: React.FC<Props> = ({
             key={`${tagParent}_${tagType}_${index}`}
             isEditable={isEditables[tagParent]}
             onClick={() => handleOnClickTag(isEditables[tagParent], tagParent, tagType, index, tagStructure)}
-            onClickRemove={() => handleOnClickRemoveTag(tagParent, tagType, index)}
+            onClickRemove={() => handleOnClickRemove(tagParent, tagType, index)}
             upperLeft={labels.industoryParent}
             upperRight={labels.industory}
             bottomLeft={labels.startupSeries}
@@ -82,7 +94,7 @@ const Component: React.FC<Props> = ({
             key={`${tagParent}_${tagType}_${index}`}
             isEditable={isEditables[tagParent]}
             onClick={() => handleOnClickTag(isEditables[tagParent], tagParent, tagType, index, tagStructure)}
-            onClickRemove={() => handleOnClickRemoveTag(tagParent, tagType, index)}
+            onClickRemove={() => handleOnClickRemove(tagParent, tagType, index)}
             upperLeft={labels.industoryParent}
             upperRight={labels.industory}
             bottomLeft={labels.startupSeries}
@@ -95,7 +107,7 @@ const Component: React.FC<Props> = ({
             key={`${tagParent}_${tagType}_${index}`}
             isEditable={isEditables[tagParent]}
             onClick={() => handleOnClickTag(isEditables[tagParent], tagParent, tagType, index, tagStructure)}
-            onClickRemove={() => handleOnClickRemoveTag(tagParent, tagType, index)}
+            onClickRemove={() => handleOnClickRemove(tagParent, tagType, index)}
             upperLeft={labels.industoryParent}
             upperRight={labels.industory}
             bottomLeft={labels.job}
@@ -113,25 +125,32 @@ const Component: React.FC<Props> = ({
         </Section>
       );
     } else if (tagParent === tagParentStory) {
+      const tagTypeLower = tagParentStory.toLocaleLowerCase();
       return (
         <Section key={`${tagParentStory}`} flow="column nowrap" upperPadding sideMargin sidePadding>
           <H.Five>{tagParentStory}</H.Five>
           <Flex flow="row wrap" alignItems="center" width="100%" upperMargin>
-            {tags &&
-              tags.map((storyId, index) => {
-                const labels = getConvertTagIdToLabel(tagStory, { storyId });
+            {someTags &&
+              someTags[tagTypeLower] &&
+              someTags[tagTypeLower].map((tagStructure, index) => {
+                const labels = getConvertTagIdToLabel(tagStory, tagStructure);
                 return (
                   <TagSimply
-                    key={`story_${storyId}`}
+                    key={`story_${tagStructure.storyId}`}
                     isEditable={isEditables[tagParent]}
-                    onClick={() => handleOnClickTag(isEditables[tagParent], tagStory, tagStory, index, { storyId })}
-                    onClickRemove={() => handleOnClickRemoveTag(tagParent, tagStory, index)}
+                    onClick={() => handleOnClickTag(isEditables[tagParent], tagStory, tagStory, index, tagStructure)}
+                    onClickRemove={() => handleOnClickRemove(tagParent, tagStory, index)}
                     label={labels.story}
                   />
                 );
               })}
             {isMyPage && (
-              <AddTag show={isEditables[tagParent]} onClick={() => handleOnClickTag(true, tagStory, tagStory, tags ? tags.length : 0)} />
+              <AddTag
+                show={isEditables[tagParent]}
+                onClick={() =>
+                  handleOnClickTag(true, tagStory, tagStory, someTags && someTags[tagTypeLower] ? someTags[tagTypeLower].length : 0)
+                }
+              />
             )}
           </Flex>
         </Section>
@@ -140,14 +159,14 @@ const Component: React.FC<Props> = ({
       return tagTypes.map((tagType: TagType, index) => {
         if (tagType !== tagStory) {
           const tagTypeLower = tagType.toLocaleLowerCase();
-          const tagCnt = tags && tags[tagTypeLower] ? tags[tagTypeLower].length : 0;
+          const tagCnt = someTags && someTags[tagTypeLower] ? someTags[tagTypeLower].length : 0;
           return (
             <Section key={`${tagType}_${index}`} className={`${tagType}_${index}`} flow="column nowrap">
               <H.Five>{tagType}</H.Five>
               <Flex flow="row wrap" alignItems="center" width="100%" upperMargin>
-                {tags &&
-                  tags[tagTypeLower] &&
-                  tags[tagTypeLower].map((tagStructure, index) => {
+                {someTags &&
+                  someTags[tagTypeLower] &&
+                  someTags[tagTypeLower].map((tagStructure, index) => {
                     const labels = getConvertTagIdToLabel(tagType, tagStructure);
                     return getTagNode(tagParent, tagType, index, tagStructure, labels);
                   })}
@@ -165,7 +184,7 @@ const Component: React.FC<Props> = ({
   const handleOnClickControlButton = () => {
     if (isEditables[tagParent]) {
       if (isChangeUserTag) {
-        handleOnClickSaveUser(tagParent);
+        handleOnClickSave(tagParent);
       }
     }
     if (isMyPage) {

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import conf from 'common/conf';
 import commonUtil from 'common/util';
 
+import api from 'cover/api';
 import Flex from 'cover/components/atoms/Flex';
 import FloatMenu, { MenusType } from 'cover/components/organisms/FloatMenu';
 import { GoogleSessionType } from 'cover/talkn.cover';
@@ -36,7 +37,25 @@ const Component: React.FC<Props> = ({ session, setSession }: Props) => {
 
   const handleGoolgeCredentialResponse = async (goolgeCredentialResponse) => {
     localStorage.setItem('talknCoverSession', goolgeCredentialResponse.credential);
-    setSession(commonUtil.parseJwt(goolgeCredentialResponse.credential));
+    const session = commonUtil.parseJwt(goolgeCredentialResponse.credential);
+    setSession(session);
+
+    const request = commonUtil.deepCopy(session);
+    delete request.iss;
+    delete request.nbf;
+    delete request.aud;
+    delete request.sub;
+    delete request.azp;
+    delete request.picture; // 値に:が含まれてJSON.parseが失敗する
+    delete request.iat;
+    delete request.exp;
+    delete request.jti;
+    delete request.given_name;
+    delete request.family_name;
+    if (request.email_verified) {
+      delete request.email_verified;
+      api.json('logined', request);
+    }
     window.location.reload();
   };
 

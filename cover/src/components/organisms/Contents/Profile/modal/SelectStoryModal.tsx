@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import type { FunctionComponent } from 'react';
 
-import Button, { buttonThemeBright } from 'cover/components/atoms/Button';
 import H from 'cover/components/atoms/H';
-import { TagParentType, TagType } from 'cover/components/organisms/Contents/Profile';
-import { Profiles, ModalFooter, handleOnSearch } from 'cover/components/organisms/Contents/Profile/common';
+import { ModalFooter, TagId } from 'cover/components/organisms/Contents/Profile/common';
 import { UserModalOptionType } from 'cover/components/organisms/Contents/Profile/index';
 import SelectStory from 'cover/components/organisms/Contents/Profile/modal/children/SelectStory';
 import Modal from 'cover/components/organisms/Modal';
-import { UserTagsType } from 'cover/talkn.cover';
+import { UserType, UserTagsType } from 'cover/talkn.cover';
 
 export type FixValuesType = {
   storyId: string;
@@ -20,13 +18,14 @@ export const fixValuesInit: FixValuesType = {
 
 type Props = {
   show: boolean;
+  user: UserType;
   userTags: UserTagsType;
   userModalOptions: UserModalOptionType;
+  onClickPositive: (userModalOptions: UserModalOptionType, fixValues: FixValuesType) => void;
   onCancel: () => void;
-  onOk: (tagParentType: TagParentType | '', tagType: TagType | '', fixValues: FixValuesType, index: number) => void;
 };
 
-const Component: FunctionComponent<Props> = ({ show, userTags, userModalOptions, onOk, onCancel }: Props) => {
+const Component: FunctionComponent<Props> = ({ show, userTags, userModalOptions, onClickPositive, onCancel }: Props) => {
   const [didMount, setDidMount] = useState(false);
   const [disableButtonOk, setDisableButtonOk] = useState(false);
   const [initValues, setInitValues] = useState<FixValuesType>(fixValuesInit);
@@ -68,21 +67,23 @@ const Component: FunctionComponent<Props> = ({ show, userTags, userModalOptions,
       flow="column nowrap"
       header={<H.Five>{userModalOptions.tagParentType}</H.Five>}
       content={
-        <SelectStory
-          selected={userTags && userTags.story ? userTags.story.filter((storyId) => storyId !== fixValues.storyId) : []}
-          storyId={fixValues.storyId}
-          onChange={handleOnChangeStory}
-        />
+        <>
+          <SelectStory
+            isEditable={isEditable}
+            clickedStoryId={userModalOptions.storyId}
+            selected={userTags ? userTags.story.story.map((obj) => obj.storyId) : []}
+            storyId={fixValues.storyId}
+            onChange={handleOnChangeStory}
+          />
+          <br />
+          <TagId>ID: {userModalOptions._id && userModalOptions._id !== '' ? userModalOptions._id : '-'}</TagId>
+        </>
       }
       footer={
         <ModalFooter
-          isEditable={isEditable}
-          rightButtonDisabeld={disableButtonOk}
-          onClickRightButton={() =>
-            isEditable
-              ? onOk(userModalOptions.tagParentType, userModalOptions.tagType, fixValues, userModalOptions.index)
-              : handleOnSearch(userModalOptions)
-          }
+          userModalOptions={userModalOptions}
+          positiveDisabeld={disableButtonOk}
+          onClickPositive={() => onClickPositive(userModalOptions, fixValues)}
           handleOnClose={handleOnClose}
         />
       }

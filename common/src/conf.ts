@@ -68,6 +68,7 @@ const lpLanguages = [
   'mr',
 ];
 
+const defaultBirthdayUnixtime = 1000000000000;
 const findOneThreadActiveHour = 1;
 const findOnePostCnt = 30;
 const findOneLimitCnt = 300;
@@ -109,6 +110,7 @@ const conf: any = {
   description,
   apiVer,
   lpLanguages,
+  defaultBirthdayUnixtime,
   findOneThreadActiveHour,
   findOnePostCnt,
   findOneLimitCnt,

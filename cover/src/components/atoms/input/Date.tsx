@@ -8,17 +8,17 @@ import { InputCss } from './common';
 
 type Props = {
   name: string;
-  value: string;
+  value: number;
   label?: string;
   disabled?: boolean;
   width?: string;
   className?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value: number) => void;
 };
 
 const Component: React.FC<Props> = ({
   name,
-  value: _value = '',
+  value: _unixtine = 0,
   label,
   disabled = false,
   width = 'auto',
@@ -26,14 +26,18 @@ const Component: React.FC<Props> = ({
   onChange,
 }) => {
   const relationId = `InputDate${name}`;
-  const [value, setValue] = useState(_value);
+  const [value, setValue] = useState(getUnittimeToYmd(_unixtine));
   const handleOnChange = (e) => {
-    setValue(e.target.value);
-    onChange && onChange(e.target.value);
+    const ymd = e.target.value;
+    const unixtime = new Date(ymd).getTime();
+    setValue(ymd);
+    onChange && onChange(unixtime);
   };
   useEffect(() => {
-    setValue(_value);
-  }, [_value]);
+    const ymd = getUnittimeToYmd(_unixtine);
+    setValue(ymd);
+  }, [_unixtine]);
+
   return (
     <FlexCustom className={className ? className : name} width={width} flow="row wrap" alignItems="center" justifyContent="flex-start">
       {label && (
@@ -60,3 +64,11 @@ const FlexCustom = styled(Flex)`
 const Input = styled.input`
   ${InputCss};
 `;
+
+const getUnittimeToYmd = (unixtime: number) => {
+  const date = new Date(unixtime);
+  var y = date.getFullYear();
+  var m = ('00' + (date.getMonth() + 1)).slice(-2);
+  var d = ('00' + date.getDate()).slice(-2);
+  return y + '-' + m + '-' + d;
+};

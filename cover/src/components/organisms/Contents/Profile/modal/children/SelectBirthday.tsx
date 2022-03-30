@@ -13,12 +13,12 @@ import styles from 'cover/styles';
 type Props = {
   type: string;
   isEditable: boolean;
-  birthday: string;
-  onChange: (year: string) => void;
+  birthday: number;
+  onChange: (birthday: string) => void;
 };
 
 type AgePropsType = {
-  value: number;
+  value: number | '-';
 };
 
 const Age: React.FC<AgePropsType> = ({ value }: AgePropsType) => {
@@ -44,12 +44,12 @@ const Component: React.FC<Props> = ({ type, isEditable, birthday: _birthday, onC
         <Label bottomMargin>Birthday</Label>
         <Flex flow="row wrap" alignItems="center">
           <Input.Date name={type} onChange={handleOnChange} value={birthday} disabled={!isEditable} />
-          {birthday !== '' && <Age value={age} />}
+          {birthday !== 0 && <Age value={age} />}
         </Flex>
       </Flex>
     );
   } else {
-    if (birthday === '') {
+    if (birthday === 0) {
       return (
         <Flex flow="column nowrap">
           <Label bottomMargin>Birthday</Label>
@@ -62,7 +62,7 @@ const Component: React.FC<Props> = ({ type, isEditable, birthday: _birthday, onC
           <Label bottomMargin>Birthday</Label>
           <Flex flow="row wrap" alignItems="center">
             <Input.Date name={type} onChange={handleOnChange} value={birthday} disabled={!isEditable} />
-            {birthday !== '' && <Age value={age} />}
+            {birthday !== 0 && <Age value={age} />}
           </Flex>
         </Flex>
       );

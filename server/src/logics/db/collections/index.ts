@@ -12,11 +12,13 @@ import StartupSeries from 'server/logics/db/collections/StartupSeries';
 import Story from 'server/logics/db/collections/Story';
 import Threads from 'server/logics/db/collections/Threads';
 import User from 'server/logics/db/collections/User';
+import UserTags from 'server/logics/db/collections/UserTags';
 
 import App from 'api/store/App';
 
 export default class Collections {
   user: User;
+  userTags: UserTags;
   threads: Threads;
   posts: Posts;
   setting: Setting;
@@ -32,6 +34,7 @@ export default class Collections {
   jobs: Jobs;
   constructor(mongoDB) {
     this.user = new User(mongoDB.User);
+    this.userTags = new UserTags(mongoDB.UserTags);
     this.threads = new Threads(mongoDB.Threads);
     this.posts = new Posts(mongoDB.Posts);
     this.setting = new Setting(mongoDB.Setting);

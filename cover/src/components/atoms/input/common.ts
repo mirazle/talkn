@@ -25,9 +25,9 @@ export const InputCss = css<InputCssType>`
   -webkit-appearance: none;
   margin: ${styles.baseMargin}px 0;
   :focus {
-    ${(props) => (props.disabled === true && props.disabled !== undefined ? '' : 'background: rgb(234, 234, 234, 0.4)')};
+    ${(props) => (props.disabled === true && props.disabled !== undefined ? '' : 'background: rgba(129, 224, 209, 0.1)')};
   }
   :hover {
-    ${(props) => (props.disabled === true && props.disabled !== undefined ? '' : 'background: rgb(234, 234, 234, 0.4)')};
+    ${(props) => (props.disabled === true && props.disabled !== undefined ? '' : 'background: rgba(129, 224, 209, 0.1)')};
   }
 `;

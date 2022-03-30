@@ -12,6 +12,7 @@ type Props = {
   header?: React.ReactNode;
   content: React.ReactNode;
   footer?: React.ReactNode;
+  fullHeightContent?: boolean;
 } & LayoutPropsType &
   FlexLayoutPropsType;
 
@@ -52,6 +53,7 @@ const Component: React.FC<Props> = (props: Props) => {
           className={`${modalContainerClassName}Content`}
           flow={p.flow}
           windowInnerHeight={globalContext.innerHeight}
+          fullHeightContent={p.fullHeightContent}
           optinalPartCnt={optinalPartCnt}
           upperPadding
           sidePadding
@@ -129,10 +131,12 @@ const Header = styled(Flex)`
 type ContentPropsType = {
   windowInnerHeight: number;
   optinalPartCnt: number;
+  fullHeightContent?: boolean;
 } & FlexLayoutPropsType;
 
 const Content = styled(Flex)<ContentPropsType>`
   overflow: hidden scroll;
+  ${(props) => (props.fullHeightContent ? 'height: 100vh' : '')};
   max-height: ${(props) => props.windowInnerHeight - (partsHeight + space) * props.optinalPartCnt}px;
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
     max-height: ${(props) => props.windowInnerHeight - partsHeight * props.optinalPartCnt}px;

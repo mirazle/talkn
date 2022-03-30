@@ -9,7 +9,7 @@ type Props = {
   type: string;
   isEditable: boolean;
   startupSeriesId: string;
-  year: string;
+  year: number;
   onChangeStartupSeriesId: (startupSeriesId: string) => void;
   onChangeYear: (startupSeriesId: string) => void;
 };
