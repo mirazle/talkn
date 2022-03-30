@@ -98,12 +98,15 @@ export const search = async (req, _, res) => {
     ...optionalCondition,
     sexes: { $in: req.sexes },
     languages: { $in: req.languages },
-    birthday: { $lte: req.birthday },
-    year: { $lte: req.year },
+    birthday: { $gte: req.birthday }, // new Date(685238400000) 1991/09/19  // new Date(613353600000) 1989/06/09 ..
+    year: { $gte: req.year },
   };
 
   // UserTag
   const resultTags = await Logics.db.userTags.find(tagConditions, { email: 1 });
+
+  console.log(tagConditions);
+  console.log(resultTags);
 
   if (resultTags.response.length > 0) {
     const emails = resultTags.response.map((res) => res.email);
