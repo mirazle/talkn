@@ -82,7 +82,7 @@ export const logined = async (request) => {
       icon: Fs.names.assetsCoverDefaultIcon,
     });
   } else {
-    await Logics.db.user.update(request.email, { 'profile.name': request.name });
+    await Logics.db.user.update(request.email, { name: request.name });
   }
 };
 
