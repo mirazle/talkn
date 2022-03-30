@@ -189,28 +189,27 @@ class Express {
         break;
       case conf.coverURL:
         let method = defaultCoverMethod;
+
         if (req.method === 'POST') {
           method = splitedUrl[2];
           res.header('Access-Control-Allow-Origin', '*');
           res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
+          // formData
           if (req.headers['content-type'].startsWith('multipart/form-data')) {
-            uploadImage(req, res, (err) => {
+            uploadImage(req, res, async (err) => {
               if (err) throw err;
               const key = Object.keys(req.files)[0];
-              CoverLogics[method](req.body.email, req.files[key][0].path);
-              res.end();
+              await CoverLogics[method](req.body.email, req.files[key][0].path);
             });
           }
 
           if (Object.keys(req.body)[0]) {
             const requestJson = JSON.parse(Object.keys(req.body)[0]);
             if (CoverLogics[method]) {
-              CoverLogics[method](requestJson);
+              CoverLogics[method](requestJson, req, res);
             }
-            res.json(requestJson);
           }
-          res.end();
         } else if (req.method === 'GET') {
           const isApi = splitedUrl[1] === 'api';
           let apiType = '';
@@ -254,7 +253,6 @@ class Express {
             res.send('404');
           } else if (req.headers.accept.indexOf('text/html,application/') === 0 || req.headers.accept.indexOf('*/*') === 0) {
             const resolveCover = async () => {
-              console.log('METHOD', method);
               switch (method) {
                 case 'api':
                   /*

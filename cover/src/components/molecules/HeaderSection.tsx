@@ -5,13 +5,13 @@ import Flex from 'cover/components/atoms/Flex';
 import H from 'cover/components/atoms/H';
 import Section from 'cover/components/atoms/Section';
 import Svg, { IconType } from 'cover/components/atoms/svg';
-import Checmmark from 'cover/components/atoms/svg/Checmmark';
+import Checkmark from 'cover/components/atoms/svg/Checkmark';
 import styles from 'cover/styles';
 
 type Props = {
   title: string;
-  headerMenu: React.ReactNode;
   content: React.ReactNode;
+  headerMenu?: React.ReactNode;
   iconType?: IconType;
   checkAnimation?: boolean;
 };
@@ -19,7 +19,7 @@ type Props = {
 const Component: React.FC<Props> = ({ title, headerMenu, content, iconType = 'Tag', checkAnimation }) => {
   const SvgIcon = Svg[iconType];
   return (
-    <Section
+    <SectionCustom
       className="ProfileSection"
       flow="column nowrap"
       resetOrigin
@@ -43,19 +43,33 @@ const Component: React.FC<Props> = ({ title, headerMenu, content, iconType = 'Ta
           <SvgIcon className="ProfileSectionSvgIcon" />
           {title}
         </H.Five>
-        <Flex className={'ProfileSectionMenu'} flow="column nowrap">
-          {headerMenu}
-        </Flex>
+        {headerMenu && (
+          <Flex className={'ProfileSectionMenu'} flow="column nowrap">
+            {headerMenu}
+          </Flex>
+        )}
       </Header>
       <Flex width="100%" className={'ProfileSectionContent'} flow="column nowrap" upperPadding sidePadding sideMargin bottomPadding>
         {content}
       </Flex>
-      {checkAnimation && <Checmmark />}
-    </Section>
+      {checkAnimation && <Checkmark />}
+    </SectionCustom>
   );
 };
 
 export default Component;
+
+const SectionCustom = styled(Section)`
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    margin-right: 0;
+    margin-left: 0;
+    padding-right: 0;
+    padding-left: 0;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+`;
 
 const Header = styled(Flex)`
   .ProfileSectionSvgIcon {

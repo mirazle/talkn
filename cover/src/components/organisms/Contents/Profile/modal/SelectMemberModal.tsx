@@ -1,46 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import type { FunctionComponent } from 'react';
 
+import conf from 'common/conf';
+
 import H from 'cover/components/atoms/H';
-import { TagParentType, TagType } from 'cover/components/organisms/Contents/Profile';
-import { Profiles, ModalFooter, handleOnSearch } from 'cover/components/organisms/Contents/Profile/common';
+import { tagParentSelf } from 'cover/components/organisms/Contents/Profile';
+import { Profiles, ModalFooter, getIsDisabled, TagId } from 'cover/components/organisms/Contents/Profile/common';
 import { UserModalOptionType } from 'cover/components/organisms/Contents/Profile/index';
 import SelectIndustory from 'cover/components/organisms/Contents/Profile/modal/children/SelectIndustory';
 import SelectJob from 'cover/components/organisms/Contents/Profile/modal/children/SelectJob';
 import Modal from 'cover/components/organisms/Modal';
-import { UserTagsType } from 'cover/talkn.cover';
+import { UserType, UserTagsType } from 'cover/talkn.cover';
 
 export type FixValuesType = {
   sexes: string[];
   languages: string[];
-  birthday: string;
+  birthday: number;
   industoryParentId: string;
   industoryId: string;
   jobParentId: string;
   jobId: string;
-  year: string;
+  year: number;
 };
 
 export const fixValuesInit: FixValuesType = {
   sexes: [],
   languages: [],
-  birthday: '',
+  birthday: conf.defaultBirthdayUnixtime,
   industoryParentId: '',
   industoryId: '',
   jobParentId: '',
   jobId: '',
-  year: '',
+  year: 0,
 };
 
 type Props = {
   show: boolean;
+  user: UserType;
   userTags: UserTagsType;
   userModalOptions: UserModalOptionType;
+  onClickPositive: (userModalOptions: UserModalOptionType, fixValues: FixValuesType) => void;
   onCancel: () => void;
-  onOk: (tagParentType: TagParentType | '', tagType: TagType | '', fixValues: FixValuesType, index: number) => void;
 };
 
-const Component: FunctionComponent<Props> = ({ show, userModalOptions, onOk, onCancel }: Props) => {
+const Component: FunctionComponent<Props> = ({ show, user, userModalOptions, onClickPositive, onCancel }: Props) => {
   const [didMount, setDidMount] = useState(false);
   const [disableButtonOk, setDisableButtonOk] = useState(false);
   const [initValues, setInitValues] = useState<FixValuesType>(fixValuesInit);
@@ -77,21 +80,7 @@ const Component: FunctionComponent<Props> = ({ show, userModalOptions, onOk, onC
   useEffect(() => {
     if (show) {
       if (didMount) {
-        setDisableButtonOk(
-          Boolean(
-            Object.keys(fixValues).find((key) => {
-              switch (typeof fixValues[key]) {
-                case 'object':
-                  return fixValues[key].length === 0;
-                case 'string':
-                  return fixValues[key] === '';
-                default:
-                  console.warn(`Confirm type ${key} ${fixValues[key]} ${typeof fixValues[key]}`);
-                  return true;
-              }
-            })
-          )
-        );
+        setDisableButtonOk(getIsDisabled(fixValues));
       } else {
         setDidMount(true);
       }
@@ -108,7 +97,7 @@ const Component: FunctionComponent<Props> = ({ show, userModalOptions, onOk, onC
       industoryId: userModalOptions.industoryId,
       jobParentId: userModalOptions.jobParentId,
       jobId: userModalOptions.jobId,
-      year: userModalOptions.years,
+      year: userModalOptions.year,
     };
     setFixValues(values);
     setInitValues(values);
@@ -128,13 +117,15 @@ const Component: FunctionComponent<Props> = ({ show, userModalOptions, onOk, onC
       content={
         <>
           <Profiles
-            userModalOptions={userModalOptions}
+            type={`${userModalOptions.tagParentType}_${userModalOptions.tagType}`}
+            userModalOptions={
+              userModalOptions.tagParentType === tagParentSelf ? { ...userModalOptions, isEditable: false } : userModalOptions
+            }
             handleOnChangeLanguages={handleOnChangeLanguages}
             handleOnChangeSexes={handleOnChangeSexes}
             handleOnChangeBirthday={handleOnChangeBirthday}
             underline
           />
-
           <SelectIndustory
             type={`${userModalOptions.tagParentType}_${userModalOptions.tagType}`}
             isEditable={isEditable}
@@ -151,17 +142,15 @@ const Component: FunctionComponent<Props> = ({ show, userModalOptions, onOk, onC
             onChangeJob={handleOnChangeJob}
             onChangeYear={handleOnChangeYear}
           />
+          <br />
+          <TagId>ID: {userModalOptions._id && userModalOptions._id !== '' ? userModalOptions._id : '-'}</TagId>
         </>
       }
       footer={
         <ModalFooter
-          isEditable={isEditable}
-          rightButtonDisabeld={disableButtonOk}
-          onClickRightButton={() =>
-            isEditable
-              ? onOk(userModalOptions.tagParentType, userModalOptions.tagType, fixValues, userModalOptions.index)
-              : handleOnSearch(userModalOptions)
-          }
+          userModalOptions={userModalOptions}
+          positiveDisabeld={disableButtonOk}
+          onClickPositive={() => onClickPositive(userModalOptions, fixValues)}
           handleOnClose={handleOnClose}
         />
       }

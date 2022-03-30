@@ -1,9 +1,12 @@
+import Mongoose from 'mongoose';
+
 import { ConfigType, configInit } from 'common/talknConfig';
 
 import conf from 'server/conf';
 import MongoDB from 'server/listens/db/MongoDB';
 import Logics from 'server/logics';
 import Favicon from 'server/logics/Favicon';
+import Fs from 'server/logics/Fs';
 import Html from 'server/logics/Html';
 
 import Thread from 'api/store/Thread';
@@ -30,7 +33,7 @@ export const build = async (req, res, ch) => {
     html.fetchChRecurrent(ch).then(async (results: any) => {
       let categoryChs = [];
       fetchingRootCh = fetchingRootCh.filter((innerCh) => innerCh !== ch);
-      console.log('ALL RESULTS', results.length);
+
       html.successCh.forEach((ch) => {
         if (Thread.getLayer(ch) >= 3) {
           const splitedCh = ch.split('/');
@@ -67,29 +70,110 @@ export const build = async (req, res, ch) => {
   }
 };
 
-export const saveUser = async (requestJson) => {
+export const logined = async (request) => {
+  const result = await Logics.db.user.findOne(request.email);
+  if (result.response === null) {
+    Logics.fs.mkdirAssetsCover(request.email, () => Logics.fs.copyDefaultFile(request.email));
+
+    await Logics.db.user.update(request.email, {
+      email: request.email,
+      name: request.name,
+      bg: Fs.names.assetsCoverDefaultBg,
+      icon: Fs.names.assetsCoverDefaultIcon,
+    });
+  } else {
+    await Logics.db.user.update(request.email, { 'profile.name': request.name });
+  }
+};
+
+export const search = async (req, _, res) => {
+  const tagType = req.tagType.toLocaleLowerCase();
+  const columnType = tagType === 'member' ? 'jobId' : 'startupSeriesId';
+
+  const optionalCondition = { [columnType]: req[columnType] };
+  const tagConditions = {
+    tagParentType: 'self',
+    tagType,
+    industoryId: req.industoryId,
+    ...optionalCondition,
+    sexes: { $in: req.sexes },
+    languages: { $in: req.languages },
+    birthday: { $lte: req.birthday },
+    year: { $lte: req.year },
+  };
+
+  // UserTag
+  const resultTags = await Logics.db.userTags.find(tagConditions, { email: 1 });
+
+  if (resultTags.response.length > 0) {
+    const emails = resultTags.response.map((res) => res.email);
+    const userConditions = { email: { $in: emails } };
+
+    // User
+    const resultUser = await Logics.db.user.find(userConditions);
+
+    res.send(resultUser);
+  } else {
+    res.send({ error: null, response: [] });
+  }
+};
+
+export const saveUser = async (requestJson, req, res) => {
+  // UserTagsのselfも更新する必要がある(フロントではUserを更新するとUserTagsのselfも更新されているが、齟齬が出る可能性があるので)
   await Logics.db.user.update(requestJson.email, requestJson);
+  res.send({ messages: 'OK' });
+};
+
+export const saveUserTags = async (requestJson, req, res) => {
+  const { email, tagParentType, userTags } = requestJson;
+  const isExistTag = userTags.length > 0;
+  let isExistInvestorTag = false;
+  let isExistFounderTag = false;
+  let isExistMemberTag = false;
+
+  // profileが更新されている可能性があるので全て削除
+  await Logics.db.userTags.remove({ email, tagParentType });
+
+  if (isExistTag) {
+    userTags.forEach(async (tag) => {
+      delete tag._id;
+      switch (tag.tagType) {
+        case 'investor':
+          if (!isExistInvestorTag) isExistInvestorTag = true;
+          break;
+        case 'founder':
+          if (!isExistFounderTag) isExistFounderTag = true;
+          break;
+        case 'member':
+          if (!isExistMemberTag) isExistMemberTag = true;
+          break;
+      }
+      await Logics.db.userTags.save(tag);
+    });
+  }
+
+  await Logics.db.user.update(email, {
+    [`hasSelfTags.investor`]: isExistInvestorTag,
+    [`hasSelfTags.founder`]: isExistFounderTag,
+    [`hasSelfTags.member`]: isExistMemberTag,
+  });
+
+  res.send({ messages: 'OK' });
 };
 
 export const saveUserBg = async (email, path) => {
-  Logics.fs.writeImage(email, path, 'bg', (error, fileName) => {
-    console.log(fileName);
-    Logics.db.user.update(email, { 'profile.bg': fileName });
-  });
+  Logics.fs.writeImage(email, path, 'bg');
 };
 
 export const saveUserIcon = async (email, path) => {
-  Logics.fs.writeImage(email, path, 'icon', (error, fileName) => {
-    console.log(fileName);
-    Logics.db.user.update(email, { 'profile.icon': fileName });
-  });
+  Logics.fs.writeImage(email, path, 'icon');
 };
 
 export const exeFetchConfig = async (req, res, protocol, ch): Promise<ConfigType> => {
   let config = await Logics.html.exeFetchConfig(protocol, ch);
+
   if (config === null) {
     config = await Logics.fs.getConfig(ch);
-
     if (config === null) {
       config = { ...configInit };
     }
@@ -135,12 +219,21 @@ export const getUser = async (ch): Promise<any> => {
   return user.response;
 };
 
+export const getUserTags = async (ch): Promise<any> => {
+  const email = ch.replace(/\//g, '');
+  const userTags = await Logics.db.userTags.find({ email });
+  return userTags.response;
+};
+
 export const getDomainProfile = async (req, res, protocol, ch, language, storiesIndexParam?: number, isGetTags = false): Promise<any> => {
   const staticTags = isGetTags ? await getStaticTags() : {};
   const user = isGetTags ? await getUser(ch) : {};
+  const userTags = isGetTags ? await getUserTags(ch) : [];
 
   let config = await exeFetchConfig(req, res, protocol, ch);
+
   const stories = Logics.fs.getStories(ch, storiesIndexParam, config);
+
   let { response: thread, isExist }: any = await Logics.db.threads.findOne(ch, { buildinSchema: true });
   const isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, isExist);
   let isAddStoriesConfig = false;
@@ -183,6 +276,7 @@ export const getDomainProfile = async (req, res, protocol, ch, language, stories
   if (thread.serverMetas['og:image'] === conf.ogpImages.Html && config.ogpImage && config.ogpImage !== '') {
     thread.serverMetas['og:image'] = `//${conf.coverURL}${ch}${config.ogpImage}`;
   }
+
   const serverMetas = { ...thread.serverMetas };
   thread.serverMetas = undefined;
   thread.lastPost = undefined;
@@ -201,6 +295,7 @@ export const getDomainProfile = async (req, res, protocol, ch, language, stories
     config,
     staticTags,
     user,
+    userTags,
     thread,
     serverMetas,
     domain: conf.domain,

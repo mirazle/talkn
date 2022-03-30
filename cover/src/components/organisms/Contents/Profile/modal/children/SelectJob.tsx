@@ -10,9 +10,9 @@ type Props = {
   isEditable: boolean;
   jobParentId: string;
   jobId: string;
-  year: string;
+  year: number;
   onChangeJob: (jobParentId: string, jobId: string) => void;
-  onChangeYear: (year: string) => void;
+  onChangeYear: (year: number) => void;
 };
 
 const Component: React.FC<Props> = ({

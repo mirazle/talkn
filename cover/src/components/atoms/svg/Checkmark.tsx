@@ -6,7 +6,7 @@ import styles from 'cover/styles';
 
 const Component: React.FC = () => {
   return (
-    <Container className="wrapper" alignItems="center" justifyContent="center">
+    <Container className="checkwrapper" alignItems="center" justifyContent="center">
       <svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 98.5 98.5" enableBackground="new 0 0 98.5 98.5">
         <path
           className="checkmark"

@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import conf from 'common/conf';
-import util from 'common/util';
 
 import api from 'cover/api';
 import Button, { buttonThemeBright, buttonThemeHot } from 'cover/components/atoms/Button';
@@ -10,84 +9,64 @@ import Flex from 'cover/components/atoms/Flex';
 import H from 'cover/components/atoms/H';
 import Input from 'cover/components/atoms/input';
 import { imageBg, imageIcon } from 'cover/components/atoms/input/DropImage';
-import Checmmark from 'cover/components/atoms/svg/Checmmark';
-import { UserModalOptionType, tagParentProfile } from 'cover/components/organisms/Contents/Profile';
 import { Profiles } from 'cover/components/organisms/Contents/Profile/common';
+import { UserModalOptionType } from 'cover/components/organisms/Contents/Profile/index';
+import Content from 'cover/components/organisms/EyeCatch/Content';
 import Modal from 'cover/components/organisms/Modal';
 import { useGlobalContext, GlobalContextType } from 'cover/container';
 import styles from 'cover/styles';
-import { GoogleSessionType, UserTagsType } from 'cover/talkn.cover';
+import { UserType, UserTagsType } from 'cover/talkn.cover';
 
 export type FixValuesType = {
+  email: string;
   bg: string;
   icon: string;
   sexes: string[];
   languages: string[];
-  birthday: string;
+  birthday: number;
 };
 
 export const fixValuesInit: FixValuesType = {
+  email: '',
   bg: '',
   icon: '',
   sexes: [],
   languages: [],
-  birthday: '',
+  birthday: conf.defaultBirthdayUnixtime,
 };
-
-const tagParentKey = tagParentProfile.toLocaleLowerCase();
 
 const Mark: React.FC<{ label: string; cnt: number }> = ({ label }) => (
   <MarkContainer>
     <span className="label">{label}</span>
-    {/*<span className="cnt">({cnt})</span>*/}
   </MarkContainer>
 );
 
 type Props = {
-  ch: string;
   isMyPage: boolean;
-  session: GoogleSessionType;
   userModalOptions: UserModalOptionType;
+  user: UserType;
   userTags: UserTagsType;
-  userTagsInit: UserTagsType;
-  ogImage: string;
-  eyeCatchWidth: number;
-  eyeCatchHeight: number;
-  setUserTags: React.Dispatch<React.SetStateAction<UserTagsType>>;
-  setUserTagsInit: React.Dispatch<React.SetStateAction<UserTagsType>>;
+  setUser: React.Dispatch<React.SetStateAction<UserType>>;
   setSelectProfileModalOption: React.Dispatch<React.SetStateAction<UserModalOptionType>>;
-  ogpImageRef: React.MutableRefObject<HTMLElement>;
 };
 
-const Component: React.FC<Props> = ({
-  isMyPage,
-  session,
-  userModalOptions,
-  userTags,
-  setUserTags,
-  setUserTagsInit,
-  setSelectProfileModalOption,
-}) => {
-  const { innerWidth, innerHeight }: GlobalContextType = useGlobalContext();
+const Component: React.FC<Props> = ({ isMyPage, userTags, userModalOptions, user, setUser, setSelectProfileModalOption }) => {
   const [isSavedAnimation, setIsSavedAnimation] = useState(false);
   const [isDisabledSaveButton, setIsDisabledSaveButton] = useState(false);
-  const [isHover, setIsHover] = useState(false);
-  const [didMount, setDidMount] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [bgFormData, setBgFromData] = useState<FormData>(new FormData());
   const [iconFormData, setIconFormData] = useState<FormData>(new FormData());
   const [fixValues, setFixValues] = useState<FixValuesType>(fixValuesInit);
-  const email = userTags && userTags.email ? userTags.email : '';
-  const controlHeight = getControlHeight(innerWidth, innerHeight);
+  const email = user && user.email ? user.email : '';
 
-  const handleOnChangeBg = (formData, bg) => {
+  const handleOnChangeBg = (formData, fileName) => {
     setBgFromData(formData);
-    setFixValues({ ...fixValues, bg });
+    setFixValues({ ...fixValues, bg: fileName });
   };
 
-  const handleOnChangeIcon = (formData, icon) => {
+  const handleOnChangeIcon = (formData, fileName) => {
     setIconFormData(formData);
-    setFixValues({ ...fixValues, icon });
+    setFixValues({ ...fixValues, icon: fileName });
   };
 
   const handleOnChangeBirthday = (birthday) => {
@@ -104,100 +83,62 @@ const Component: React.FC<Props> = ({
 
   const handleOnSave = () => {
     const promises = [];
-    const bg = fixValues.bg;
-    const icon = fixValues.icon;
-    let isUpdateImage = false;
-    const updateUserTags = {
-      ...userTags,
-      [tagParentKey]: {
-        ...userTags[tagParentKey],
-        bg: fixValues.bg,
-        icon: fixValues.icon,
-        languages: fixValues.languages,
-        sexes: fixValues.sexes,
-        birthday: fixValues.birthday,
-      },
+    const email = user.email;
+    const updateUser = {
+      ...user,
+      email,
+      bg: fixValues.bg,
+      icon: fixValues.icon,
+      languages: fixValues.languages,
+      sexes: fixValues.sexes,
+      birthday: fixValues.birthday,
     };
-    setUserTags(updateUserTags);
-    setUserTagsInit(updateUserTags);
+    let isUpdateImage = false;
+
+    setUser(updateUser);
     setSelectProfileModalOption({
       ...userModalOptions,
-      bg,
-      icon,
-      languages: updateUserTags.profile.languages,
-      sexes: updateUserTags.profile.sexes,
-      birthday: updateUserTags.profile.birthday,
+      bg: updateUser.bg,
+      icon: updateUser.icon,
+      languages: updateUser.languages,
+      sexes: updateUser.sexes,
+      birthday: updateUser.birthday,
     });
 
     if (iconFormData.has('icon')) {
       isUpdateImage = true;
       iconFormData.set('email', email);
-      promises.push(api.formData('saveUserIcon', updateUserTags.email, iconFormData));
+      promises.push(api.formData('saveUserIcon', email, iconFormData));
     }
 
     if (bgFormData.has('bg')) {
       isUpdateImage = true;
       bgFormData.set('email', email);
-      promises.push(api.formData('saveUserBg', updateUserTags.email, bgFormData));
+      promises.push(api.formData('saveUserBg', email, bgFormData));
     }
 
-    const saveUserValues = util.deepCopy(updateUserTags);
-    delete saveUserValues.profile.icon;
-    delete saveUserValues.profile.bg;
+    promises.push(api.json('saveUser', updateUser));
 
-    promises.push(api.json('saveUser', saveUserValues));
-
-    if (isUpdateImage) {
-      // TOOD: Profileモーダルを更新した際にuserTagsがhookされて、components/organisms/Contents/Profile/index.tsxのuserTgas hookメソッドが実行される。
-      // その際にsetIsChangeUserTagsが更新されsaveボタンがviewになってしまう不具合が存在する
-      window.location.reload();
-    } else {
-      Promise.all(promises).then(() => {
+    Promise.all(promises).then(() => {
+      if (isUpdateImage) {
+        window.location.reload();
+      } else {
         setIsSavedAnimation(true);
         setTimeout(() => {
           setIsSavedAnimation(false);
         }, 2000);
-      });
-    }
+      }
+    });
   };
 
-  const bgMemo = useMemo(() => {
-    return <Background email={email} image={userModalOptions.bg} isHover={isHover} controlHeight={controlHeight} />;
-  }, [userModalOptions.bg, isHover, controlHeight]);
-
-  const containerMemo = useMemo(() => {
-    return (
-      <Container
-        className="EyeCatchMainContainer"
-        onMouseOver={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
-        onClick={() => isMyPage && setShowModal(!showModal)}
-        flow="row nowrap"
-        alignItems="center"
-        justifyContent="center"
-        controlHeight={controlHeight}>
-        <ProfileContent className="ProfileContent" flow="row nowrap" alignItems="flex-start" justifyContent="flex-start">
-          <UserIcon email={email} image={userModalOptions.icon} />
-          {session && session.name && (
-            <Flex className="userData" flow="column nowrap" upperMargin upperPadding sideMargin sidePadding>
-              <div className="name">{session.name}</div>
-              <div className="age">AGE: {util.getAgeByBirthday(userModalOptions.birthday)}</div>
-              <Flex className="userTags" flow="row wrap" upperMargin>
-                {userTags &&
-                  Object.keys(userTags.self).map(
-                    (key) => userTags.self[key].length > 0 && <Mark key={key} label={key} cnt={userTags.self[key].length} />
-                  )}
-              </Flex>
-            </Flex>
-          )}
-        </ProfileContent>
-        {isSavedAnimation && <Checmmark />}
-      </Container>
-    );
-  }, [showModal, controlHeight, userModalOptions.icon, userModalOptions.birthday, session.name, isSavedAnimation]);
-
   useEffect(() => {
-    if (fixValues.languages.length > 0 && fixValues.sexes.length > 0 && fixValues.birthday !== '') {
+    if (
+      fixValues.languages &&
+      fixValues.sexes &&
+      fixValues.languages.length > 0 &&
+      fixValues.sexes.length > 0 &&
+      fixValues.birthday !== 0
+    ) {
       setIsDisabledSaveButton(false);
     } else {
       setIsDisabledSaveButton(true);
@@ -213,15 +154,11 @@ const Component: React.FC<Props> = ({
       sexes: userModalOptions.sexes,
       birthday: userModalOptions.birthday,
     });
-    if (userModalOptions.languages !== fixValuesInit.languages && userModalOptions.sexes !== fixValuesInit.sexes) {
-      setDidMount(true);
-    }
   }, [userModalOptions]);
 
   return (
     <>
-      {bgMemo}
-      {didMount && containerMemo}
+      <Content user={user} handleOnClick={() => isMyPage && setShowModal(!showModal)} isSavedAnimation={isSavedAnimation} />
 
       <Modal.Structure
         show={showModal}
@@ -245,6 +182,7 @@ const Component: React.FC<Props> = ({
             />
             <br />
             <Profiles
+              type="EyeCatchMain"
               userModalOptions={{ ...userModalOptions, isEditable: true }}
               handleOnChangeLanguages={handleOnChangeLanguages}
               handleOnChangeSexes={handleOnChangeSexes}
@@ -276,128 +214,6 @@ const Component: React.FC<Props> = ({
 
 export default Component;
 
-type BackgroundPropsType = {
-  email: string;
-  isHover: boolean;
-  controlHeight: number;
-  image?: string;
-};
-
-const backgroundHoverCss = css`
-  transform: scale(1.03);
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    transform: scale(1);
-  }
-`;
-
-const Background = styled.div<BackgroundPropsType>`
-  overflow: hidden;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: ${styles.eyeCatchVwValue}vw;
-  height: ${(props) => props.controlHeight}px;
-  min-height: ${styles.eyeCatchMinHeightPxValue}px;
-  background-size: cover;
-  background-image: url(${(props) => getBackgroundImage({ email: props.email, image: props.image })});
-  background-position: center;
-  color: ${styles.whiteColor};
-  opacity: 1;
-  transition: ${styles.transitionDuration}ms;
-  transform: scale(1);
-  ${(props) => props.isHover && backgroundHoverCss};
-  :before {
-    background-color: rgba(0, 0, 0, 0.3);
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    content: ' ';
-    backdrop-filter: blur(${(props) => (props.isHover ? 2 : 0)}px) brightness(${(props) => (props.isHover ? 0.7 : 1)});
-    transition: ${styles.transitionDuration}ms;
-  }
-
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    height: ${styles.eyeCatchVhValue}vh;
-    min-height: unset;
-    transition: 0ms;
-  }
-`;
-
-type ContainerPropsType = {
-  controlHeight: number;
-  onMouseOver: () => void;
-  onMouseLeave: () => void;
-};
-
-const Container = styled(Flex)<ContainerPropsType>`
-  width: ${styles.eyeCatchVwValue}vw;
-  height: ${(props) => props.controlHeight}px;
-  min-height: ${styles.eyeCatchMinHeightPxValue}px;
-  margin-top: -${(props) => props.controlHeight}px;
-  z-index: ${styles.zIndex.eyeCatch};
-  cursor: pointer;
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    height: ${styles.eyeCatchVhValue}vh;
-    min-height: unset;
-    transition: 0ms;
-  }
-`;
-
-const ProfileContent = styled(Flex)`
-  width: 100%;
-  max-width: ${styles.appWidth}px;
-  margin-left: 90px;
-  color: ${styles.whiteColor};
-  .name {
-    font-weight: 500;
-    font-size: 35px;
-  }
-
-  .age {
-    font-size: 20px;
-  }
-
-  .userTags {
-    margin-left: -${styles.baseMargin}px;
-  }
-
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    align-items: center;
-    margin-left: 5vw;
-    font-weight: 300;
-    font-size: 25px;
-    .userData {
-      padding: 0;
-      margin-top: 0;
-      margin-right: 0;
-      margin-bottom: 0;
-      margin-left: 10px;
-    }
-  }
-`;
-
-type UserIconPropsType = {
-  email: string;
-  image: string;
-};
-
-const UserIcon = styled.div<UserIconPropsType>`
-  width: 120px;
-  height: 120px;
-  background-size: cover;
-  background-image: url(${(props) => getBackgroundImage({ email: props.email, image: props.image })});
-  background-position: center;
-  border-radius: 50%;
-  transition: ${styles.transitionDuration}ms;
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    width: 60px;
-    height: 60px;
-  }
-`;
-
 const InputDropImageIcon = styled(Input.DropImage)`
   margin-top: -190px;
   margin-left: 32px;
@@ -417,21 +233,3 @@ const MarkContainer = styled.div`
     font-size: 16px;
   }
 `;
-
-const getControlHeight = (innerWidth, innerHeight) => {
-  const { spLayoutStrictWidth, eyeCatchMinHeightPxValue } = styles;
-  let controlHeight = Math.floor(innerHeight * (styles.eyeCatchVhValue / 100));
-  if (innerWidth < spLayoutStrictWidth) {
-    return controlHeight;
-  } else {
-    return controlHeight < eyeCatchMinHeightPxValue ? eyeCatchMinHeightPxValue : controlHeight;
-  }
-};
-
-const getBackgroundImage = ({ email, image }) => {
-  if (image && image !== '') {
-    return `https://${conf.assetsCoverPath}${email}/${image}`;
-  } else {
-    return 'none';
-  }
-};

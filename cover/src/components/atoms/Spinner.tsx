@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 type Props = {
-  size: string;
+  size?: string;
 };
 
-const SpinnerIcon: React.FC<Props> = ({ size }) => {
+const SpinnerIcon: React.FC<Props> = ({ size = '60' }) => {
   return <Icon size={size} />;
 };
 

@@ -88,6 +88,8 @@ export const whiteHoverColor = getRgbaColor(brightRgb, darkAlpha);
 export const tagBgColor = getRgbaColor(darkRgb);
 export const advertColor = getRgbaColor(brightRgb);
 export const advertHoverColor = getRgbaColor(darkRgb);
+export const articleBgColor = getRgbaColor(brightRgb);
+export const articleBgHoverColor = getRgbaColor(darkRgb);
 export const saveColor = getRgbaColor(hotRgb);
 export const saveCheckColor = getRgbaColor(themeRgb);
 export const alphaBgSet = `
@@ -133,6 +135,8 @@ export default {
   whiteHoverColor,
   advertColor,
   advertHoverColor,
+  articleBgColor,
+  articleBgHoverColor,
   tagBgColor,
   saveColor,
   saveCheckColor,

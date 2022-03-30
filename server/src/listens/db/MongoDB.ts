@@ -15,13 +15,16 @@ import Setting from 'server/listens/db/Setting';
 import StartupSeries from 'server/listens/db/StartupSeries';
 import Story from 'server/listens/db/Story';
 import Threads from 'server/listens/db/Threads';
+import UserTags from 'server/listens/db/UserTags';
 import Schemas from 'server/schemas';
 
 class MongoDB {
   constructor() {
+    /*
     Mongoose.set('useFindAndModify', false);
     Mongoose.set('useUnifiedTopology', true);
     Mongoose.set('useCreateIndex', true);
+    */
     Mongoose.Promise = global.Promise;
     const { host, port, dbName, option } = conf.mongoDB;
     const address = `mongodb://${host}:${port}/${dbName}`;
@@ -32,6 +35,7 @@ class MongoDB {
     // collections.
     return {
       User: new User(dbConnection),
+      UserTags: new UserTags(dbConnection),
       Setting: new Setting(dbConnection),
       Threads: new Threads(dbConnection),
       Posts: new Posts(dbConnection),

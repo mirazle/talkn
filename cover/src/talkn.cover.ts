@@ -31,6 +31,7 @@ declare global {
     talknStaticTags: any;
     talknStaticTagsById: any;
     talknUser: any;
+    talknUserTags: any;
     talknConfig: ConfigType;
     talknSelectContentMenu: SelectContentMenuType;
     talknComponents: any;
@@ -82,12 +83,42 @@ export const googleSessionInit = {
   sub: '',
 };
 
-export type UserTagsType = {
+export type UserType = {
+  name: string;
   email: string;
-  profile: any;
-  self: any[];
-  relation: any[];
-  story: any[];
+  bg: string;
+  icon: string;
+  birthday: number;
+  languages: string[];
+  sexes: string[];
+  hasSelfTags: {
+    investor: boolean;
+    founder: boolean;
+    member: boolean;
+  };
+};
+
+export const userHasSelfTagsInit = {
+  investor: false,
+  founder: false,
+  member: false,
+};
+
+export const userInit: UserType = {
+  name: '',
+  email: '',
+  bg: '',
+  icon: '',
+  birthday: conf.defaultBirthdayUnixtime,
+  languages: [],
+  sexes: [],
+  hasSelfTags: userHasSelfTagsInit,
+};
+
+export type UserTagsType = {
+  self: { investor: any[]; founder: any[]; member: any[] };
+  relation: { investor: any[]; founder: any[]; member: any[] };
+  story: { story: any[] };
 };
 
 const href = String(window.location.href);

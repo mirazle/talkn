@@ -41,7 +41,7 @@ const Component: React.FC<Props> = ({ navigationLayout, storiesRef, resumeRef, s
         })}
       </Stories>
       <Navigation ref={resumeRef} navigationLayout={navigationLayout}>
-        <H.Five>- 目次 -</H.Five>
+        <HFiveCustom>- 目次 -</HFiveCustom>
         {window.talknStories && window.talknStories.sections.length > 0 && (
           <NavigationOrder storiesPointer={storiesPointer}>
             {window.talknStories.sections.map(({ resume }, index) => {
@@ -180,4 +180,11 @@ const AnchorRow = styled.a`
     width: 35px;
     min-width: 35px;
   }
+`;
+
+const HFiveCustom = styled(H.Five)`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
 `;

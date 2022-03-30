@@ -85,18 +85,24 @@ const Component: React.FC<Props> = ({ type, isEditable, sexes: _sexes, onChange 
   };
 
   useEffect(() => {
-    const updateIsActiveAll = _sexes.length === defaultSexes.length;
-    const updateSexes = updateIsActiveAll ? getFullSexes() : [..._sexes];
-    setIsActiveAll(updateIsActiveAll);
-    setSexes(updateSexes);
+    if (_sexes) {
+      const updateIsActiveAll = _sexes.length === defaultSexes.length;
+      const updateSexes = updateIsActiveAll ? getFullSexes() : [..._sexes];
+      setIsActiveAll(updateIsActiveAll);
+      setSexes(updateSexes);
+    }
   }, [_sexes]);
 
-  return (
-    <Flex flow="column wrap">
-      <Label bottomMargin>Sex</Label>
-      {getContent()}
-    </Flex>
-  );
+  if (sexes) {
+    return (
+      <Flex flow="column wrap">
+        <Label bottomMargin>Sex</Label>
+        {getContent()}
+      </Flex>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default Component;

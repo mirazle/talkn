@@ -1,20 +1,48 @@
-import * as React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 
 import conf from 'common/conf';
-import { StoriesIndexType } from 'common/talknConfig';
+import { StoriesIndexType, configStoriesLimit } from 'common/talknConfig';
 
 import styles from 'cover/styles';
 
-type Props = {
-  ch: string;
-  storiesEyeCatchs: StoriesIndexType[];
-  storiesEyeCatchOrderRef: React.MutableRefObject<HTMLElement>;
-  handleOnClickMenu: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-  handleOnScrollHeadEyeCatch: (e: React.UIEvent<HTMLOListElement, UIEvent>) => void;
-};
+type Props = {};
 
-const Component: React.FC<Props> = ({ ch, storiesEyeCatchs, storiesEyeCatchOrderRef, handleOnScrollHeadEyeCatch }) => {
+export const storiesIndexContentsInit: StoriesIndexType[] = [];
+export const getScrollWidth = () => (window.innerWidth > styles.appWidth ? styles.appWidth : window.innerWidth);
+
+const Component: React.FC<Props> = () => {
+  const storiesEyeCatchOrderRef = useRef<HTMLElement>();
+  const [storiesIndexes, setStoriesIndexes] = useState<StoriesIndexType[]>([]);
+  const [storiesIndex, setStoriesIndex] = useState(0);
+  const [storiesEyeCatchs, setStoriesEyeCatchs] = useState<StoriesIndexType[]>(storiesIndexContentsInit);
+  useEffect(() => {
+    const _offset = window.talknStoriesPointer - configStoriesLimit / 2;
+    const offset = 0 <= _offset ? _offset : 0;
+    const limit = configStoriesLimit;
+    const _storiesIndexes = [...window.talknConfig.storiesIndex].reverse();
+
+    let _storiesEyeCatchs = [...window.talknConfig.storiesIndex]
+      .map((storiesIndex, index) => {
+        if (window.talknThread.ch !== '/') {
+          //storiesIndex.no = index + 1;
+        }
+        return storiesIndex;
+      })
+      .splice(offset, limit);
+    _storiesEyeCatchs = _storiesEyeCatchs.reverse();
+
+    setStoriesIndexes(_storiesIndexes);
+    setStoriesEyeCatchs(_storiesEyeCatchs);
+  }, [window.talknConfig.storiesIndex]);
+
+  const handleOnScrollHeadEyeCatch = (e: React.UIEvent<HTMLOListElement, UIEvent>) => {
+    const scrollWidth = getScrollWidth();
+    const scrollIndex = (e.target as HTMLOListElement).scrollLeft / scrollWidth;
+    if (Number.isInteger(scrollIndex)) {
+      setStoriesIndex(scrollIndex);
+    }
+  };
   return (
     <Container ref={storiesEyeCatchOrderRef} onScroll={handleOnScrollHeadEyeCatch} storiesIndexCnt={window.talknConfig.storiesIndex.length}>
       {storiesEyeCatchs.map((storiesEyeCatch, i) => (
@@ -22,7 +50,6 @@ const Component: React.FC<Props> = ({ ch, storiesEyeCatchs, storiesEyeCatchOrder
           key={`HeadEyeCatchList${i}`}
           className="HeadEyeCatchList"
           data-no={storiesEyeCatch.no}
-          ch={ch}
           eyeCatch={storiesEyeCatch.eyeCatch}
           storiesIndexCnt={window.talknConfig.storiesIndex.length}>
           <ViewAnchor href={`https://${conf.coverURL}${storiesEyeCatch.ch}story/${storiesEyeCatch.no}`}>
@@ -68,7 +95,7 @@ const Container = styled.ol<ContainerPropsType>`
   }
 `;
 
-export const HeadEyeCatchList = styled.li<{ ch: string; slide?: boolean; eyeCatch: string; storiesIndexCnt: number }>`
+export const HeadEyeCatchList = styled.li<{ eyeCatch: string; storiesIndexCnt: number; slide?: boolean }>`
   display: flex;
   flex-flow: column nowrap;
   align-items: flex-start;
@@ -107,13 +134,17 @@ export const HeadEyeCatchList = styled.li<{ ch: string; slide?: boolean; eyeCatc
     justify-content: center;
     width: 100%;
     height: 160px;
-    background-color: #ddd;
+    background-color: ${styles.articleBgColor};
     background-size: cover;
     background-image: url('${(props) => (props.eyeCatch !== '' ? props.eyeCatch : 'none')}');
     background-position: 50%;
     background-repeat: no-repeat;
     border: 1px solid ${styles.borderColor};
     border-radius: ${styles.baseSize}px;
+    transition: ${styles.transitionDuration}ms;
+    :hover {
+      background-color: ${styles.articleBgHoverColor};
+    }
   }
   div.creatorDescription {
     margin: ${styles.baseMargin}px 0;

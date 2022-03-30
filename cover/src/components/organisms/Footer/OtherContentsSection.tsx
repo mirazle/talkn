@@ -22,7 +22,9 @@ const OtherContentsSection: FunctionComponent<Props> = () => {
   });
 
   return (
-    <Container flow="column nowrap" alignItems="center" upperPadding bottomPadding>
+    <>
+      {/*
+      <Container flow="column nowrap" alignItems="center" upperPadding bottomPadding>
       <H.Five color={styles.fontLightColor}>- Other Contents -</H.Five>
       <Flex flow="row wrap" upperMargin>
         <Ul flow="column nowrap" alignItems="center">
@@ -41,7 +43,9 @@ const OtherContentsSection: FunctionComponent<Props> = () => {
           <BoxList label="talkn news" theme="dark" href="https://news.talkn.io/" />
         </Ul>
       </Flex>
-    </Container>
+      </Container>
+  */}
+    </>
   );
 };
 

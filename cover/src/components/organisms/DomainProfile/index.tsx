@@ -28,7 +28,7 @@ const Component: React.FC<Props> = ({ serverMetas }: Props) => {
               {serverMetas.keywords &&
                 serverMetas.keywords.split(',').map((tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>)}
             </Tags>
-            <P>Relation Tags</P>
+            <P>Search Tags</P>
             <Tags>
               {window.talknConfig.relationTags.map((tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>)}
             </Tags>

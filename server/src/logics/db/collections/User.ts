@@ -14,10 +14,16 @@ export default class User {
     return result;
   }
 
+  async find(condition) {
+    const result = await this.collection.find(condition);
+    return result;
+  }
+
   async update(email, setValues) {
     const condition = { email };
     const set = { $set: setValues };
     const option = { upsert: true };
+    console.log('SET', set);
     return this.collection.update(condition, set, option);
   }
 

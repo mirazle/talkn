@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
+import conf from 'common/conf';
+import { StoriesIndexType } from 'common/talknConfig';
 import util from 'common/util';
 
 import api from 'cover/api';
-import { GoogleSessionType, UserTagsType } from 'cover/talkn.cover';
+import Flex from 'cover/components/atoms/Flex';
+import H from 'cover/components/atoms/H';
+import Svg from 'cover/components/atoms/svg';
+import EyeCatchOrder from 'cover/components/organisms/EyeCatch/Order';
+import { GoogleSessionType, UserType, UserTagsType, userHasSelfTagsInit } from 'cover/talkn.cover';
 
 import TagSections from './TagSections';
 import SelectFounderModal from './modal/SelectFounderModal';
@@ -13,10 +19,10 @@ import SelectStoryModal from './modal/SelectStoryModal';
 
 export const tagParentProfile = 'Profile';
 export const tagParentSelf = 'Self';
-export const tagParentRelation = 'Relation';
+export const tagParentSearch = 'Search';
 export const tagParentStory = 'Story';
-export type TagParentType = typeof tagParentProfile | typeof tagParentSelf | typeof tagParentRelation | typeof tagParentStory;
-export const tagParentTypes: TagParentType[] = [tagParentSelf, tagParentRelation, tagParentStory];
+export type TagParentType = typeof tagParentProfile | typeof tagParentSelf | typeof tagParentSearch | typeof tagParentStory;
+export const tagParentTypes: TagParentType[] = [tagParentSelf, tagParentSearch, tagParentStory];
 export type TagParentSaveButtonDisabledType = {};
 
 export const tagModeView = 'view';
@@ -40,14 +46,11 @@ export type TagType = typeof tagInvestor | typeof tagFounder | typeof tagMember 
 export const tagTypes = [tagInvestor, tagFounder, tagMember, tagStory];
 
 export type UserModalOptionType = {
+  _id: string;
+  email: string;
   isEditable: boolean;
   tagParentType: TagParentType | '';
   tagType: TagType | '';
-  bg: string;
-  icon: string;
-  languages: string[];
-  sexes: string[];
-  birthday: string;
   industoryParentId: string;
   industoryId: string;
   jobParentId: string;
@@ -55,11 +58,18 @@ export type UserModalOptionType = {
   jobId: string;
   startupSeriesId: string;
   storyId: string;
-  years: string;
+  year: number;
+  bg: string;
+  icon: string;
+  languages: string[];
+  sexes: string[];
+  birthday: number;
   index?: number;
 };
 
 export const userModalOptionInit: UserModalOptionType = {
+  _id: '',
+  email: '',
   isEditable: false,
   tagParentType: '',
   tagType: '',
@@ -68,7 +78,7 @@ export const userModalOptionInit: UserModalOptionType = {
   icon: '',
   languages: [],
   sexes: [],
-  birthday: '',
+  birthday: conf.defaultBirthdayUnixtime,
   industoryParentId: '',
   industoryId: '',
   jobParentId: '',
@@ -76,42 +86,33 @@ export const userModalOptionInit: UserModalOptionType = {
   jobId: '',
   startupSeriesId: '',
   storyId: '',
-  years: '',
+  year: 0,
 };
 
-export type ProfileType = {
-  name: string;
-  bg: string;
-  icon: string;
-  birthday: string;
-  languages: string[];
-  sexes: string[];
-};
-/*
-const getDeletedProfileImages = (obj) => {
-  if (obj) {
-    const copiedObj = util.deepCopy(obj);
-    if (copiedObj.profile) {
-      delete copiedObj.profile.icon;
-      delete copiedObj.profile.bg;
-    }
-    return copiedObj;
-  } else {
-    return obj;
-  }
-};
-*/
 type Props = {
   isMyPage: boolean;
   session: GoogleSessionType;
+  user: UserType;
   userTags: UserTagsType;
   userTagsInit: UserTagsType;
+  setShowSearchModalOption: React.Dispatch<React.SetStateAction<UserModalOptionType>>;
+  setUser: React.Dispatch<React.SetStateAction<UserType>>;
   setUserTags: React.Dispatch<React.SetStateAction<UserTagsType>>;
   setUserTagsInit: React.Dispatch<React.SetStateAction<UserTagsType>>;
   selectProfileModalOption: UserModalOptionType;
 };
 
-const Component: React.FC<Props> = ({ isMyPage, session, userTags, userTagsInit, setUserTags, setUserTagsInit }: Props) => {
+const Component: React.FC<Props> = ({
+  isMyPage,
+  session,
+  user,
+  userTags,
+  userTagsInit,
+  setUser,
+  setUserTags,
+  setUserTagsInit,
+  setShowSearchModalOption,
+}: Props) => {
   const [isEditables, setIsEditables] = useState(isEditablesInit);
   const [isChangeUserTags, setIsChangeUserTags] = useState(isChangeUserTagsInit);
   const [selectInvestorModalOption, setSelectInvestorModalOption] = useState<UserModalOptionType>({ ...userModalOptionInit });
@@ -120,35 +121,53 @@ const Component: React.FC<Props> = ({ isMyPage, session, userTags, userTagsInit,
   const [selectStoryModalOption, setSelectStoryModalOption] = useState<UserModalOptionType>({ ...userModalOptionInit });
   const [isSavedAnimations, setIsSavedAnimations] = useState(isSavingAnimationsInit);
 
-  const handleOnClickTag = (isEditable, tagParentType: TagParentType, tagType?: TagType, index?: number, userModalOptions?: any) => {
+  const handleOnClickTag = (
+    isEditable,
+    tagParentType: TagParentType,
+    tagType?: TagType,
+    index?: number,
+    userModalOptions?: UserModalOptionType
+  ) => {
+    let _id = '';
     let languages = [];
     let sexes = [];
-    let birthday = '';
+    let birthday = conf.defaultBirthdayUnixtime;
     let industoryParentId = '';
     let industoryId = '';
     let startupSeriesId = '';
-    let years = '';
+    let year = 0;
     let jobParentId = '';
     let jobId = '';
     let storyId = '';
 
-    if (tagParentType === tagParentSelf) {
-      languages = userTags.profile.languages ? userTags.profile.languages : [];
-      sexes = userTags.profile.sexes ? userTags.profile.sexes : [];
-      birthday = userTags.profile.birthday ? userTags.profile.birthday : '';
-    } else {
-      if (userModalOptions) {
+    switch (tagParentType) {
+      case tagParentSelf:
+        languages = user.languages ? user.languages : [];
+        sexes = user.sexes ? user.sexes : [];
+        birthday = user.birthday ? user.birthday : '';
+        break;
+      case tagParentSearch:
+        if (userModalOptions) {
+          languages = userModalOptions.languages ? userModalOptions.languages : [];
+          sexes = userModalOptions.sexes ? userModalOptions.sexes : [];
+          birthday = userModalOptions.birthday ? userModalOptions.birthday : '';
+        }
+        break;
+      case tagParentStory:
+      default:
         languages = userModalOptions.languages ? userModalOptions.languages : [];
         sexes = userModalOptions.sexes ? userModalOptions.sexes : [];
         birthday = userModalOptions.birthday ? userModalOptions.birthday : '';
-      }
+        storyId = userModalOptions && userModalOptions.storyId ? userModalOptions.storyId : '';
+        break;
     }
 
     if (userModalOptions) {
+      _id = userModalOptions._id ? userModalOptions._id : '';
       industoryParentId = userModalOptions.industoryId ? userModalOptions.industoryId.split('-')[0] : '';
       industoryId = userModalOptions.industoryId ? userModalOptions.industoryId : '';
       startupSeriesId = userModalOptions.startupSeriesId ? userModalOptions.startupSeriesId : '';
-      years = userModalOptions.year ? userModalOptions.year : '';
+      year = userModalOptions.year ? userModalOptions.year : 0;
       jobParentId = userModalOptions.jobId ? userModalOptions.jobId.split('-')[0] : '';
       jobId = userModalOptions.jobId ? userModalOptions.jobId : '';
       storyId = userModalOptions.storyId ? userModalOptions.storyId : '';
@@ -158,6 +177,7 @@ const Component: React.FC<Props> = ({ isMyPage, session, userTags, userTagsInit,
       case tagInvestor:
         setSelectInvestorModalOption({
           ...userModalOptionInit,
+          _id,
           isEditable,
           languages,
           sexes,
@@ -167,13 +187,14 @@ const Component: React.FC<Props> = ({ isMyPage, session, userTags, userTagsInit,
           industoryParentId,
           industoryId,
           startupSeriesId,
-          years,
+          year,
           index,
         });
         break;
       case tagFounder:
         setSelectFounderModalOption({
           ...userModalOptionInit,
+          _id,
           isEditable,
           languages,
           sexes,
@@ -183,13 +204,14 @@ const Component: React.FC<Props> = ({ isMyPage, session, userTags, userTagsInit,
           industoryParentId,
           industoryId,
           startupSeriesId,
-          years,
+          year,
           index,
         });
         break;
       case tagMember:
         setSelectMemberModalOption({
           ...userModalOptionInit,
+          _id,
           isEditable,
           languages,
           sexes,
@@ -200,16 +222,20 @@ const Component: React.FC<Props> = ({ isMyPage, session, userTags, userTagsInit,
           industoryId,
           jobParentId,
           jobId,
-          years,
+          year,
           index,
         });
         break;
       case tagStory:
         setSelectStoryModalOption({
           ...userModalOptionInit,
+          _id,
           isEditable,
           tagParentType,
           tagType,
+          languages,
+          sexes,
+          birthday,
           storyId,
           index,
         });
@@ -217,88 +243,78 @@ const Component: React.FC<Props> = ({ isMyPage, session, userTags, userTagsInit,
     }
   };
 
-  const handleOnClickRemoveTag = (tagParentType: TagParentType, tagType: TagType, index: number) => {
+  const handleOnClickRemove = (tagParentType: TagParentType, tagType: TagType, index: number) => {
     const tagParentTypeLower = tagParentType.toLocaleLowerCase();
     const tagTypeLower = tagType.toLocaleLowerCase();
-    if (tagParentType === tagStory) {
-      userTags[tagParentTypeLower].splice(index, 1);
+
+    if (userTags[tagParentTypeLower][tagTypeLower][index]) {
+      userTags[tagParentTypeLower][tagTypeLower].splice(index, 1);
       setUserTags({
         ...userTags,
-        [tagParentTypeLower]: [...userTags[tagParentTypeLower]],
+        [tagParentTypeLower]: {
+          ...userTags[tagParentTypeLower],
+          [tagTypeLower]: [...userTags[tagParentTypeLower][tagTypeLower]],
+        },
       });
-    } else {
-      if (userTags[tagParentTypeLower][tagTypeLower][index]) {
-        userTags[tagParentTypeLower][tagTypeLower].splice(index, 1);
-        setUserTags({
-          ...userTags,
-          [tagParentTypeLower]: {
-            ...userTags[tagParentTypeLower],
-            [tagTypeLower]: [...userTags[tagParentTypeLower][tagTypeLower]],
-          },
-        });
-      }
     }
   };
 
-  const handleOnOk = (tagParentType: TagParentType | '', tagType: TagType | '', userModalOptions: any, index: number) => {
-    const tagParentTypeLower = tagParentType.toLocaleLowerCase();
-    const tagTypeLower = tagType.toLocaleLowerCase();
-    let columnType = tagType === tagMember ? 'jobId' : 'startupSeriesId';
-    let updateIndexData;
-    switch (tagParentType) {
-      case tagStory:
-        updateIndexData = userTags[tagParentTypeLower];
-        if (userTags[tagParentTypeLower][index]) {
-          updateIndexData = userTags[tagParentTypeLower].map((storyId, i) => (index === i ? userModalOptions.storyId : storyId));
-        } else {
-          updateIndexData.push(userModalOptions.storyId);
-        }
-        setUserTags({
-          ...userTags,
-          [tagParentTypeLower]: updateIndexData,
-        });
-        break;
+  const handleOnClickPositive = (userModalOptions: UserModalOptionType, fixValue) => {
+    if (userModalOptions.isEditable) {
+      handleOnOk({ ...userModalOptions, ...fixValue });
+    } else {
+      setShowSearchModalOption(userModalOptions);
+    }
+  };
+
+  const handleOnOk = (userModalOptions: UserModalOptionType) => {
+    const tagParentTypeLower = userModalOptions.tagParentType.toLocaleLowerCase();
+    const tagTypeLower = userModalOptions.tagType.toLocaleLowerCase();
+    const index = userModalOptions.index;
+    let columnType = userModalOptions.tagType === tagMember ? 'jobId' : 'startupSeriesId';
+    let updateIndexData = userTags[tagParentTypeLower][tagTypeLower];
+    // formにレンダリングすると文字列になるため変換
+    userModalOptions.year = Number(userModalOptions.year);
+
+    switch (userModalOptions.tagParentType) {
       case tagParentSelf:
-        updateIndexData = userTags[tagParentTypeLower][tagTypeLower];
         if (userTags[tagParentTypeLower][tagTypeLower][index]) {
           updateIndexData = userTags[tagParentTypeLower][tagTypeLower].map((option, i) => {
             return index === i
               ? {
+                  ...option,
                   industoryId: userModalOptions.industoryId,
                   [columnType]: userModalOptions[columnType],
+                  email: user.email,
+                  sexes: userModalOptions.sexes,
+                  languages: userModalOptions.languages,
+                  birthday: userModalOptions.birthday,
                   year: userModalOptions.year,
                 }
               : option;
           });
         } else {
           updateIndexData.push({
+            tagParentType: tagParentTypeLower,
+            tagType: tagTypeLower,
+            email: user.email,
+            sexes: userModalOptions.sexes,
+            languages: userModalOptions.languages,
+            birthday: userModalOptions.birthday,
             industoryId: userModalOptions.industoryId,
             [columnType]: userModalOptions[columnType],
             year: userModalOptions.year,
           });
         }
-        setUserTags({
-          ...userTags,
-          [tagParentProfile.toLocaleLowerCase()]: {
-            ...userTags[tagParentProfile.toLocaleLowerCase()],
-            languages: userModalOptions.languages,
-            sexes: userModalOptions.sexes,
-            birthday: userModalOptions.birthday,
-          },
-          [tagParentTypeLower]: {
-            ...userTags[tagParentTypeLower],
-            [tagTypeLower]: updateIndexData,
-          },
-        });
         break;
-      case tagParentRelation:
-        updateIndexData = userTags[tagParentTypeLower][tagTypeLower];
+      case tagParentSearch:
         if (userTags[tagParentTypeLower][tagTypeLower][index]) {
           updateIndexData = userTags[tagParentTypeLower][tagTypeLower].map((option, i) => {
             return index === i
               ? {
-                  languages: userModalOptions.languages,
+                  ...option,
                   sexes: userModalOptions.sexes,
+                  languages: userModalOptions.languages,
                   birthday: userModalOptions.birthday,
                   industoryId: userModalOptions.industoryId,
                   [columnType]: userModalOptions[columnType],
@@ -308,23 +324,53 @@ const Component: React.FC<Props> = ({ isMyPage, session, userTags, userTagsInit,
           });
         } else {
           updateIndexData.push({
-            languages: userModalOptions.languages,
+            tagParentType: tagParentTypeLower,
+            tagType: tagTypeLower,
+            email: user.email,
             sexes: userModalOptions.sexes,
+            languages: userModalOptions.languages,
             birthday: userModalOptions.birthday,
             industoryId: userModalOptions.industoryId,
             [columnType]: userModalOptions[columnType],
             year: userModalOptions.year,
           });
         }
-        setUserTags({
-          ...userTags,
-          [tagParentTypeLower]: {
-            ...userTags[tagParentTypeLower],
-            [tagTypeLower]: updateIndexData,
-          },
-        });
+        break;
+      case tagStory:
+        if (userTags[tagParentTypeLower][tagTypeLower][index]) {
+          updateIndexData = userTags[tagParentTypeLower][tagTypeLower].map((option, i) =>
+            index === i
+              ? {
+                  ...option,
+                  email: user.email,
+                  sexes: user.sexes,
+                  languages: user.languages,
+                  birthday: user.birthday,
+                  storyId: userModalOptions.storyId,
+                }
+              : option
+          );
+        } else {
+          updateIndexData.push({
+            tagParentType: tagParentTypeLower,
+            tagType: tagTypeLower,
+            email: user.email,
+            sexes: user.sexes,
+            languages: user.languages,
+            birthday: user.birthday,
+            storyId: userModalOptions.storyId,
+          });
+        }
         break;
     }
+
+    setUserTags({
+      ...userTags,
+      [tagParentTypeLower]: {
+        ...userTags[tagParentTypeLower],
+        [tagTypeLower]: updateIndexData,
+      },
+    });
   };
 
   const handleOnClickReset = async (tagParentType: TagParentType) => {
@@ -337,32 +383,33 @@ const Component: React.FC<Props> = ({ isMyPage, session, userTags, userTagsInit,
     }
   };
 
-  const handleOnClickSaveUser = async (tagParentType: TagParentType) => {
-    const key = tagParentType.toLocaleLowerCase();
-    let requestValue;
-    if (tagParentType === tagParentSelf) {
-      const profileKey = tagParentProfile.toLocaleLowerCase();
-      requestValue = {
-        email: session.email,
-        [profileKey]: userTags[profileKey],
-        [key]: userTags[key],
-      };
-      delete requestValue[profileKey].icon;
-      delete requestValue[profileKey].bg;
-    } else {
-      requestValue = {
-        email: session.email,
-        [key]: userTags[key],
-      };
+  const handleOnClickSave = async (tagParentType: TagParentType) => {
+    const tagParentKey = tagParentType.toLocaleLowerCase();
+    const isSelfTags = tagParentType === tagParentSelf;
+    let hasSelfTags = { ...userHasSelfTagsInit };
+    let requestUserTags = [];
+
+    Object.keys(userTags[tagParentKey]).forEach((tagType) => {
+      if (isSelfTags) {
+        const tagTypeKey = tagType.toLocaleLowerCase();
+        hasSelfTags[tagTypeKey] = userTags[tagParentKey][tagTypeKey].length > 0;
+      }
+      requestUserTags = requestUserTags.concat(userTags[tagParentKey][tagType]);
+    });
+
+    api.json('saveUserTags', { email: user.email, tagParentType: tagParentKey, userTags: requestUserTags });
+
+    if (isSelfTags) {
+      console.log({ ...user, hasSelfTags }.hasSelfTags);
+      setUser({ ...user, hasSelfTags });
     }
 
-    api.json('saveUser', requestValue);
-    setUserTagsInit(util.deepCopy({ ...userTagsInit, [key]: userTags[key] }));
-    setIsChangeUserTags({ ...isChangeUserTagsInit });
+    setUserTagsInit(util.deepCopy({ ...userTagsInit, [tagParentKey]: userTags[tagParentKey] }));
+    setIsChangeUserTags({ ...isChangeUserTags, [tagParentKey]: false });
 
-    setIsSavedAnimations({ ...isSavedAnimations, [key]: true });
+    setIsSavedAnimations({ ...isSavedAnimations, [tagParentKey]: true });
     setTimeout(() => {
-      setIsSavedAnimations({ ...isSavedAnimations, [key]: false });
+      setIsSavedAnimations({ ...isSavedAnimations, [tagParentKey]: false });
     }, 2000);
   };
 
@@ -377,14 +424,7 @@ const Component: React.FC<Props> = ({ isMyPage, session, userTags, userTagsInit,
         const updateIsChangeUserTags = { ...isChangeUserTags };
         Object.keys(isChangeUserTags).forEach((key) => {
           const tagParentTypeLower = key.toLocaleLowerCase();
-          if (key === tagParentSelf) {
-            const profileKey = tagParentProfile.toLocaleLowerCase();
-            updateIsChangeUserTags[key] =
-              !util.deepEquals(userTags[profileKey], userTagsInit[profileKey]) ||
-              !util.deepEquals(userTags[tagParentTypeLower], userTagsInit[tagParentTypeLower]);
-          } else {
-            updateIsChangeUserTags[key] = !util.deepEquals(userTags[tagParentTypeLower], userTagsInit[tagParentTypeLower]);
-          }
+          updateIsChangeUserTags[key] = !util.deepEquals(userTags[tagParentTypeLower], userTagsInit[tagParentTypeLower]);
         });
 
         setIsChangeUserTags({ ...updateIsChangeUserTags });
@@ -394,55 +434,68 @@ const Component: React.FC<Props> = ({ isMyPage, session, userTags, userTagsInit,
 
   return (
     <>
+      <Flex flow="column nowrap" alignItems="flex-start" justifyContent="center" sideMargin sidePadding>
+        <H.Five alignItems="center">
+          <Svg.Story sideMargin className="MyStory" />
+          My Story
+        </H.Five>
+        <br />
+        <EyeCatchOrder slide />
+      </Flex>
+
       {/* Tags */}
       {tagParentTypes.map((tagParentType: TagParentType) => {
         const tagParentTypeLower = tagParentType.toLocaleLowerCase();
-        const tags = userTags ? userTags[tagParentTypeLower] : [];
+        const someTags = userTags ? userTags[tagParentTypeLower] : [];
         return (
           <TagSections
             session={session}
             isMyPage={isMyPage}
             key={tagParentType}
             tagParent={tagParentType}
-            tags={tags}
+            someTags={someTags}
             isEditables={isEditables}
             isChangeUserTag={isChangeUserTags[tagParentType]}
             isSavedAnimations={isSavedAnimations[tagParentTypeLower]}
             setIsEditables={setIsEditables}
             handleOnClickReset={handleOnClickReset}
             handleOnClickTag={handleOnClickTag}
-            handleOnClickRemoveTag={handleOnClickRemoveTag}
-            handleOnClickSaveUser={handleOnClickSaveUser}
+            handleOnClickRemove={handleOnClickRemove}
+            handleOnClickSave={handleOnClickSave}
           />
         );
       })}
 
       <SelectInvestorModal
         show={selectInvestorModalOption.index !== undefined}
+        user={user}
         userTags={userTags}
         userModalOptions={selectInvestorModalOption}
-        onOk={handleOnOk}
+        onClickPositive={handleOnClickPositive}
         onCancel={() => setSelectInvestorModalOption({ ...userModalOptionInit })}
       />
       <SelectFounderModal
         show={selectFounderModalOption.index !== undefined}
+        user={user}
         userTags={userTags}
         userModalOptions={selectFounderModalOption}
-        onOk={handleOnOk}
+        onClickPositive={handleOnClickPositive}
         onCancel={() => setSelectFounderModalOption({ ...userModalOptionInit })}
       />
       <SelectMemberModal
         show={selectMemberModalOption.index !== undefined}
+        user={user}
         userTags={userTags}
         userModalOptions={selectMemberModalOption}
-        onOk={handleOnOk}
+        onClickPositive={handleOnClickPositive}
         onCancel={() => setSelectMemberModalOption({ ...userModalOptionInit })}
       />
       <SelectStoryModal
         show={selectStoryModalOption.index !== undefined}
+        user={user}
         userTags={userTags}
         userModalOptions={selectStoryModalOption}
-        onOk={handleOnOk}
+        onClickPositive={handleOnClickPositive}
         onCancel={() => setSelectStoryModalOption({ ...userModalOptionInit })}
       />
     </>

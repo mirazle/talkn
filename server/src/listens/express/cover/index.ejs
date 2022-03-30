@@ -17,6 +17,13 @@
           window.talknSelectContentMenu = splited[2] !== '' ? splited[2] : 'business';
         }
       }
+
+      window.talknUserTags = {
+        self: { investor: [], founder: [], member: [] },
+        search: { investor: [], founder: [], member: [] },
+        story: { story: [] },
+      };
+
       window.talknPayload = JSON.parse('<%= JSON.stringify(payload) %>'.replace(/&#34;/g, '"'));
       window.talknStories = JSON.parse('<%= JSON.stringify(stories) %>'.replace(/&#34;/g, '"'));
       window.talknConfig = JSON.parse('<%= JSON.stringify(config) %>'.replace(/&#34;/g, '"'));
@@ -25,6 +32,12 @@
       window.talknStaticTags = JSON.parse('<%= JSON.stringify(staticTags) %>'.replace(/&#34;/g, '"'));
       window.talknStaticTagsById = {};
       window.talknUser = JSON.parse('<%= JSON.stringify(user) %>'.replace(/&#34;/g, '"'));
+      const talknUserTags = JSON.parse('<%= JSON.stringify(userTags) %>'.replace(/&#34;/g, '"'));
+      talknUserTags.forEach((userTag) => {
+        const { tagParentType, tagType } = userTag;
+        window.talknUserTags[tagParentType][tagType].push(userTag);
+      });
+
       Object.keys(window.talknStaticTags).forEach((tagsKey) => {
         if (!window.talknStaticTagsById[tagsKey]) {
           window.talknStaticTagsById[tagsKey] = {};

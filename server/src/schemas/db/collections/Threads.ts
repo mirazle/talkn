@@ -57,7 +57,7 @@ export default {
   updateCreatorsTime: { type: Date },
 
   iamTags: { type: [], default: [] },
-  relationTags: { type: [], default: [] },
+  searchTags: { type: [], default: [] },
 
   // Time
   createTime: { type: Date, default: Date },

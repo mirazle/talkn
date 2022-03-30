@@ -24,9 +24,9 @@ conf.mongoDB = {
   dbName: 'talkn',
   option: {
     useNewUrlParser: true,
-    useFindAndModify: false,
+    //    useFindAndModify: false,
     useUnifiedTopology: true,
-    useCreateIndex: true,
+    //    useCreateIndex: true,
   },
 };
 conf.serverPath = `${homeDir}/talkn/server/src/listens/express/`;

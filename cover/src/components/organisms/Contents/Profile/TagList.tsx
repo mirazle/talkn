@@ -6,9 +6,9 @@ import Section from 'cover/components/atoms/Section';
 import { TagValueType } from './common';
 
 const tagParentSelf = 'Self';
-const tagParentRelation = 'Relation';
+const tagParentSearch = 'Search';
 const tagParentStory = 'Story';
-type TagParentType = typeof tagParentSelf | typeof tagParentRelation | typeof tagParentStory;
+type TagParentType = typeof tagParentSelf | typeof tagParentSearch | typeof tagParentStory;
 
 const tagInvesdtor = 'Investor';
 const tagFounder = 'Founder';

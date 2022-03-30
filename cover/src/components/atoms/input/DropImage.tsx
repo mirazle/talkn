@@ -17,7 +17,7 @@ export const imageDefault = imageBg;
 export type ImageType = typeof imageBg | typeof imageIcon;
 
 type Props = {
-  onChange: (formData: FormData, file: string) => void;
+  onChange: (formData: FormData, fileName: string) => void;
   email: string;
   value?: string;
   type?: ImageType;
@@ -37,12 +37,15 @@ const Wide: React.FC<Props> = ({ type = imageDefault, email, value = '', classNa
 
       reader.onload = () => {
         const formData = new FormData();
-        const fileString = String(reader.result);
-        const createdFile = new File([fileString], email, { type: file.type, lastModified: new Date().getTime() });
-        containerElm.style.backgroundImage = `url(${fileString})`;
+        const base64String = String(reader.result);
+        const createdFile = new File([base64String], email, { type: file.type, lastModified: new Date().getTime() });
+        let extType = file.type.split('/')[1];
+        extType = extType === 'jpeg' ? 'jpg' : extType;
+        const fileName = `${type}.${extType}`;
+        containerElm.style.backgroundImage = `url(${base64String})`;
         formData.append(type, createdFile);
 
-        onChange(formData, fileString);
+        onChange(formData, fileName);
       };
 
       if (file) {

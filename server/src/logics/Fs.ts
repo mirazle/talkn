@@ -9,11 +9,14 @@ export default class Fs {
     config: `${define.APP_NAME}.config.json`,
     stories: 'stories',
     assetsCoverBasePath: `./src/listens/express/assets/cover/`,
+    assetsCoverDefaultIcon: `icon.jpg`,
+    assetsCoverDefaultBg: `bg.jpg`,
   };
   getConfig(ch): any {
     try {
       const fixedCh = ch === '/' ? '' : ch;
-      const serverPath = `${conf.serverCoverPath}${fixedCh}${Fs.names.config}`;
+      let serverPath = `${conf.serverCoverPath}${fixedCh}${Fs.names.config}`;
+      serverPath = serverPath.replace(/\/\//g, '/');
       if (this.isExist(serverPath)) {
         const talknConfig = JSON.parse(fs.readFileSync(serverPath, 'utf8'));
         return talknConfig && talknConfig !== '' ? talknConfig : null;
@@ -89,9 +92,8 @@ export default class Fs {
 
     const result = img(base64);
     const fileName = name + result.extname;
-    const filepath = path.join(`${Fs.names.assetsCoverBasePath}${email}/`, fileName);
-
-    fs.writeFile(filepath, result.base64, { encoding: 'base64' }, function (err) {
+    const filePath = path.join(`${Fs.names.assetsCoverBasePath}${email}/`, fileName);
+    fs.writeFile(filePath, result.base64, { encoding: 'base64' }, (err) => {
       fs.unlinkSync(destpath);
       callback && callback(err, fileName);
     });
@@ -107,14 +109,24 @@ export default class Fs {
     }
   }
 
-  mkdirAssetsCover(email) {
+  mkdirAssetsCover(email, callback = () => {}) {
     const path = `${Fs.names.assetsCoverBasePath}${email}/`;
     if (!this.isExist(path)) {
       fs.mkdir(path, { recursive: true }, (err) => {
         if (err) throw err;
+        callback();
       });
     }
     return path;
+  }
+
+  copyDefaultFile(email) {
+    const defaultBgPath = `${Fs.names.assetsCoverBasePath}${Fs.names.assetsCoverDefaultBg}`;
+    const defaultIconPath = `${Fs.names.assetsCoverBasePath}${Fs.names.assetsCoverDefaultIcon}`;
+    const userBgPath = `${Fs.names.assetsCoverBasePath}${email}/bg.jpg`;
+    const userIconPath = `${Fs.names.assetsCoverBasePath}${email}/icon.jpg`;
+    fs.copyFileSync(defaultBgPath, userBgPath);
+    fs.copyFileSync(defaultIconPath, userIconPath);
   }
 
   getCoverImage(email, type) {
