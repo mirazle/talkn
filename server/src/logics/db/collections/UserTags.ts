@@ -7,10 +7,7 @@ export default class UserTags {
     return this;
   }
 
-  async update(setValues) {
-    //    const _id = setValues._id ? setValues._id : new Mongoose.Types.ObjectId();
-    const _id = new Mongoose.Types.ObjectId();
-    const condition = { _id };
+  async update(condition, setValues) {
     const set = { $set: setValues };
     const option = { upsert: true };
     return this.collection.update(condition, set, option);

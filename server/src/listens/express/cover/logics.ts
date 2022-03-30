@@ -105,9 +105,6 @@ export const search = async (req, _, res) => {
   // UserTag
   const resultTags = await Logics.db.userTags.find(tagConditions, { email: 1 });
 
-  console.log(tagConditions);
-  console.log(resultTags);
-
   if (resultTags.response.length > 0) {
     const emails = resultTags.response.map((res) => res.email);
     const userConditions = { email: { $in: emails } };
@@ -124,6 +121,10 @@ export const search = async (req, _, res) => {
 export const saveUser = async (requestJson, req, res) => {
   // UserTagsのselfも更新する必要がある(フロントではUserを更新するとUserTagsのselfも更新されているが、齟齬が出る可能性があるので)
   await Logics.db.user.update(requestJson.email, requestJson);
+  await Logics.db.userTags.update(
+    { email: requestJson.email },
+    { sexes: requestJson.sexes, birthday: requestJson.birthday, languages: requestJson.languages }
+  );
   res.send({ messages: 'OK' });
 };
 
