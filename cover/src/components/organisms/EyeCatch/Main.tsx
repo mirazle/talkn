@@ -113,11 +113,14 @@ const Component: React.FC<Props> = ({ isMyPage, userTags, userModalOptions, user
     }
 
     promises.push(api.json('saveUser', updateUser));
-
+    console.log('A');
     Promise.all(promises).then(() => {
+      console.log('B');
       if (isUpdateImage) {
+        console.log('C');
         window.location.reload();
       } else {
+        console.log('D');
         setIsSavedAnimation(true);
         setTimeout(() => {
           setIsSavedAnimation(false);
