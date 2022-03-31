@@ -155,7 +155,6 @@ const Component: React.FC<Props> = ({
         break;
       case tagParentStory:
       default:
-        console.log(userModalOptions);
         if (userModalOptions) {
           languages = userModalOptions.languages ? userModalOptions.languages : [];
           sexes = userModalOptions.sexes ? userModalOptions.sexes : [];
@@ -403,7 +402,6 @@ const Component: React.FC<Props> = ({
     api.json('saveUserTags', { email: user.email, tagParentType: tagParentKey, userTags: requestUserTags });
 
     if (isSelfTags) {
-      console.log({ ...user, hasSelfTags }.hasSelfTags);
       setUser({ ...user, hasSelfTags });
     }
 
