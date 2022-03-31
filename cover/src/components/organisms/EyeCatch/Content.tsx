@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import conf from 'common/conf';
 import util from 'common/util';
@@ -40,6 +40,7 @@ const Mark: React.FC<{ label: string }> = ({ label }) => (
 );
 
 type Props = {
+  className?: string;
   user?: UserType;
   handleOnClick?: () => void;
   isSavedAnimation?: boolean;
@@ -48,6 +49,7 @@ type Props = {
 };
 
 const Component: React.FC<Props> = ({
+  className = '',
   user = {},
   handleOnClick,
   isSavedAnimation,
@@ -64,7 +66,7 @@ const Component: React.FC<Props> = ({
   }, []);
 
   return (
-    <Container>
+    <Container className={className}>
       <Background
         email={user.email}
         image={user.bg}

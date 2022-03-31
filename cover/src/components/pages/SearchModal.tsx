@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import util from 'common/util';
 
@@ -10,6 +11,7 @@ import { ModalFooter } from 'cover/components/organisms/Contents/Profile/common'
 import { UserModalOptionType } from 'cover/components/organisms/Contents/Profile/index';
 import Content, { hoverAnimationBoxShadow } from 'cover/components/organisms/EyeCatch/Content';
 import Modal from 'cover/components/organisms/Modal';
+import styles from 'cover/styles';
 
 type Props = {
   show: boolean;
@@ -39,7 +41,7 @@ const Component: React.FC<Props> = ({ show, userModalOptions, handleOnClose }: P
       console.error(e);
     });
   }, []);
-  console.log(users);
+
   return (
     <Modal.Structure
       show={show}
@@ -54,11 +56,14 @@ const Component: React.FC<Props> = ({ show, userModalOptions, handleOnClose }: P
             </Flex>
           )}
           <Flex flow="column nowrap" width="100%">
-            {users.map((user) => (
-              <>
-                <Content key={user.email} user={user} fullWidth={false} hoverAnimationType={hoverAnimationBoxShadow} />
-                <br />
-              </>
+            {users.map((user, index) => (
+              <ContentCustom
+                key={`SearchContentUser_${index}`}
+                className={'SearchContentUser'}
+                user={user}
+                fullWidth={false}
+                hoverAnimationType={hoverAnimationBoxShadow}
+              />
             ))}
           </Flex>
         </>
@@ -73,3 +78,7 @@ const Component: React.FC<Props> = ({ show, userModalOptions, handleOnClose }: P
 };
 
 export default Component;
+
+const ContentCustom = styled(Content)`
+  margin-bottom: ${styles.baseMargin}ps;
+`;

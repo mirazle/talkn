@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import conf from 'common/conf';
+import util from 'common/util';
 
 import api from 'cover/api';
 import Button, { buttonThemeBright, buttonThemeHot } from 'cover/components/atoms/Button';
@@ -13,7 +14,6 @@ import { Profiles } from 'cover/components/organisms/Contents/Profile/common';
 import { UserModalOptionType } from 'cover/components/organisms/Contents/Profile/index';
 import Content from 'cover/components/organisms/EyeCatch/Content';
 import Modal from 'cover/components/organisms/Modal';
-import { useGlobalContext, GlobalContextType } from 'cover/container';
 import styles from 'cover/styles';
 import { UserType, UserTagsType } from 'cover/talkn.cover';
 
@@ -35,12 +35,6 @@ export const fixValuesInit: FixValuesType = {
   birthday: conf.defaultBirthdayUnixtime,
 };
 
-const Mark: React.FC<{ label: string; cnt: number }> = ({ label }) => (
-  <MarkContainer>
-    <span className="label">{label}</span>
-  </MarkContainer>
-);
-
 type Props = {
   isMyPage: boolean;
   userModalOptions: UserModalOptionType;
@@ -50,6 +44,7 @@ type Props = {
   setSelectProfileModalOption: React.Dispatch<React.SetStateAction<UserModalOptionType>>;
 };
 
+const uniqueId = util.getUniqueId('Main');
 const Component: React.FC<Props> = ({ isMyPage, userTags, userModalOptions, user, setUser, setSelectProfileModalOption }) => {
   const [isSavedAnimation, setIsSavedAnimation] = useState(false);
   const [isDisabledSaveButton, setIsDisabledSaveButton] = useState(false);
@@ -158,7 +153,12 @@ const Component: React.FC<Props> = ({ isMyPage, userTags, userModalOptions, user
 
   return (
     <>
-      <Content user={user} handleOnClick={() => isMyPage && setShowModal(!showModal)} isSavedAnimation={isSavedAnimation} />
+      <Content
+        className={'MainContent'}
+        user={user}
+        handleOnClick={() => isMyPage && setShowModal(!showModal)}
+        isSavedAnimation={isSavedAnimation}
+      />
 
       <Modal.Structure
         show={showModal}
