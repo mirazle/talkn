@@ -155,9 +155,12 @@ const Component: React.FC<Props> = ({
         break;
       case tagParentStory:
       default:
-        languages = userModalOptions.languages ? userModalOptions.languages : [];
-        sexes = userModalOptions.sexes ? userModalOptions.sexes : [];
-        birthday = userModalOptions.birthday ? userModalOptions.birthday : '';
+        console.log(userModalOptions);
+        if (userModalOptions) {
+          languages = userModalOptions.languages ? userModalOptions.languages : [];
+          sexes = userModalOptions.sexes ? userModalOptions.sexes : [];
+          birthday = userModalOptions.birthday ? userModalOptions.birthday : '';
+        }
         storyId = userModalOptions && userModalOptions.storyId ? userModalOptions.storyId : '';
         break;
     }
