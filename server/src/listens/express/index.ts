@@ -200,7 +200,7 @@ class Express {
             uploadImage(req, res, async (err) => {
               if (err) throw err;
               const key = Object.keys(req.files)[0];
-              await CoverLogics[method](req.body.email, req.files[key][0].path);
+              await CoverLogics[method](req.body.email, req.files[key][0].path, req, res);
             });
           }
 
