@@ -165,12 +165,16 @@ export const saveUserTags = async (requestJson, req, res) => {
   res.send({ messages: 'OK' });
 };
 
-export const saveUserBg = async (email, path) => {
+export const saveUserBg = async (email, path, req, res) => {
+  console.log('saveUserBg');
   Logics.fs.writeImage(email, path, 'bg');
+  res.send({ message: 'OK' });
 };
 
-export const saveUserIcon = async (email, path) => {
+export const saveUserIcon = async (email, path, req, res) => {
+  console.log('saveUserIcon');
   Logics.fs.writeImage(email, path, 'icon');
+  res.send({ message: 'OK' });
 };
 
 export const exeFetchConfig = async (req, res, protocol, ch): Promise<ConfigType> => {
