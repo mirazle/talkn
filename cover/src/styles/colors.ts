@@ -92,10 +92,6 @@ export const articleBgColor = getRgbaColor(brightRgb);
 export const articleBgHoverColor = getRgbaColor(darkRgb);
 export const saveColor = getRgbaColor(hotRgb);
 export const saveCheckColor = getRgbaColor(themeRgb);
-export const alphaBgSet = `
-    background: ${getRgbaColor(whiteRgb)};
-    backdrop-filter: blur(5px);
-`;
 
 export default {
   baseTension,
@@ -140,7 +136,6 @@ export default {
   tagBgColor,
   saveColor,
   saveCheckColor,
-  alphaBgSet,
   getRgbColor,
   getRgbaColor,
 };

@@ -92,6 +92,7 @@ export const search = async (req, _, res) => {
 
   const optionalCondition = { [columnType]: req[columnType] };
   const tagConditions = {
+    email: { $ne: req.email },
     tagParentType: 'self',
     tagType,
     industoryId: req.industoryId,
@@ -235,9 +236,8 @@ export const getUserTags = async (ch): Promise<any> => {
 
 export const getDomainProfile = async (req, res, protocol, ch, language, storiesIndexParam?: number, isGetTags = false): Promise<any> => {
   const staticTags = isGetTags ? await getStaticTags() : {};
-  const user = isGetTags ? await getUser(ch) : {};
   const userTags = isGetTags ? await getUserTags(ch) : [];
-
+  const user = await getUser(ch);
   let config = await exeFetchConfig(req, res, protocol, ch);
 
   const stories = Logics.fs.getStories(ch, storiesIndexParam, config);

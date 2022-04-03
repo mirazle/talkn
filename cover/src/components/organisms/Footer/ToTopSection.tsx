@@ -33,7 +33,6 @@ const ToTop = styled.div`
   height: ${styles.quintSize}px;
   padding: ${styles.quintSize}px;
   margin: 0 0 60px auto;
-  ${styles.alphaBgSet};
   border: 1px solid ${styles.fontColor};
   border-radius: ${styles.baseSize}px;
   transition: ${styles.transitionDuration}ms;

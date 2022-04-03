@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext, useEffect, useRef, useMemo } from 'react';
 import styled from 'styled-components';
 
-import { StoriesIndexType, configUserCategoryChLimit } from 'common/talknConfig';
+import { configUserCategoryChLimit } from 'common/talknConfig';
 
 import CommingSoon from 'cover/components/atoms/CommingSoon';
 import { Props as NodeProps } from 'cover/components/atoms/Node';
@@ -13,10 +13,10 @@ import { UserModalOptionType, userModalOptionInit } from 'cover/components/organ
 import SideMenu from 'cover/components/organisms/Contents/SideMenu';
 import StoryContents from 'cover/components/organisms/Contents/Story/contents';
 import StoryIndex from 'cover/components/organisms/Contents/Story/index';
-import EyeCatchMain from 'cover/components/organisms/EyeCatch/Main';
 import Footer from 'cover/components/organisms/Footer';
 import Header from 'cover/components/organisms/Header';
 import SnsShare from 'cover/components/organisms/SnsShare';
+import UserTop from 'cover/components/organisms/User/Top';
 import SearchModal from 'cover/components/pages/SearchModal';
 import styles from 'cover/styles';
 import {
@@ -103,10 +103,7 @@ const TalknContainer: React.FC<Props> = (props) => {
   const [userTags, setUserTags] = useState<UserTagsType>();
 
   const [selectProfileModalOption, setSelectProfileModalOption] = useState<UserModalOptionType>({ ...userModalOptionInit });
-  /*
-  const [storiesEyeCatchs, setStoriesEyeCatchs] = useState<StoriesIndexType[]>(StoriesIndexContentsInit);
-  const [eyeCatchScrollIndex, setEyeCatchScrollIndex] = useState(0);
-*/
+
   const [maxMain, setMaxMain] = useState(false);
   const [showAdvert, setShowAdvert] = useState(true);
   const [showSearchModalOption, setShowSearchModalOption] = useState<UserModalOptionType>({ ...userModalOptionInit });
@@ -251,6 +248,7 @@ const TalknContainer: React.FC<Props> = (props) => {
 
   useEffect(() => {
     setSelectProfileModalOption({ ...userModalOptionInit, ...user });
+    setShowSearchModalOption({ ...userModalOptionInit, ...user });
   }, [user]);
 
   useEffect(() => {
@@ -291,7 +289,7 @@ const TalknContainer: React.FC<Props> = (props) => {
             />
           );
         } else {
-          return <StoryIndex />;
+          return <StoryIndex isMyPage={isMyPage} />;
         }
       case selectContentMenuProfile:
         return (
@@ -329,44 +327,17 @@ const TalknContainer: React.FC<Props> = (props) => {
           favicon={thread.favicon}
           session={session}
           setSession={setSession}
-          //        headerSideMenuRef={headerSideMenuRef}
           handleOnClickMenu={handleOnClickMenu}
         />
 
-        {/* ドメインのog:imageをアイキャッチとして表示 */}
-        {selectContentMenu === selectContentMenuProfile && (
-          <EyeCatchMain
-            isMyPage={isMyPage}
-            userModalOptions={selectProfileModalOption}
-            user={user}
-            userTags={userTags}
-            setUser={setUser}
-            setSelectProfileModalOption={setSelectProfileModalOption}
-          />
-        )}
-        {/*
-        {storiesEyeCatchs && storiesEyeCatchs.length > 0 && (
-          <EyeCatchOrder
-            ch={thread.ch}
-            slide
-            storiesEyeCatchs={storiesEyeCatchs}
-            storiesEyeCatchOrderRef={storiesEyeCatchOrderRef}
-            handleOnScrollHeadEyeCatch={handleOnScrollHeadEyeCatch}
-            storiesIndexCnt={window.talknConfig.storiesIndex.length}
-          />
-        )}
+        <UserTop
+          isMyPage={isMyPage}
+          userModalOptions={selectProfileModalOption}
+          user={user}
+          setUser={setUser}
+          setSelectProfileModalOption={setSelectProfileModalOption}
+        />
 
-        {window.talknConfig && window.talknConfig.storiesIndex.length > 0 && (
-          <EyeCatchCircleOrder
-            ch={thread.ch}
-            storiesIndexCnt={window.talknConfig.storiesIndex.length}
-            eyeCatchScrollIndex={eyeCatchScrollIndex}
-            storiesEyeCatchs={storiesEyeCatchs}
-            storiesEyeCatchOrderRef={storiesEyeCatchOrderRef}
-            handleOnClickCircle={handleOnClickCircle}
-          />
-        )}
-        */}
         {/* コンテンツメニュー */}
         <MainContentsBoard>
           <ContentMenu ch={thread.ch} selectContentMenu={selectContentMenu} contentMenuRef={contentMenuRef} />
@@ -405,6 +376,7 @@ const Container = styled.div`
   max-width: 100%;
   margin: 0 auto;
   font-size: ${styles.fontBaseSize}px;
+  font-weight: ${styles.fontBaseWeight};
   color: ${styles.fontColor};
 
   * {
@@ -416,15 +388,6 @@ const Container = styled.div`
       background: ${styles.themeColor};
       color: #fff;
     }
-  }
-
-  a,
-  a:visited,
-  a:hover,
-  a:active {
-    text-decoration: none;
-    cursor: pointer;
-    user-select: none;
   }
 `;
 

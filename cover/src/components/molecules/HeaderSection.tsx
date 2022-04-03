@@ -73,6 +73,6 @@ const SectionCustom = styled(Section)`
 
 const Header = styled(Flex)`
   .ProfileSectionSvgIcon {
-    margin: 0 ${styles.baseMargin}px 0 0;
+    margin: 0 ${styles.doubleMargin}px 0 0;
   }
 `;

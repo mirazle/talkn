@@ -68,6 +68,7 @@ const Component: React.FC<Props> = ({
   return (
     <Container className={className}>
       <Background
+        className="UserContentBackground"
         email={user.email}
         image={user.bg}
         isHover={isHover}
@@ -77,9 +78,10 @@ const Component: React.FC<Props> = ({
       />
       {didMount && (
         <Body
-          className="EyeCatchMainBody"
+          className="UserContentBody"
           onMouseOver={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
+          isHover={isHover}
           onClick={handleOnClick && handleOnClick}
           fullWidth={fullWidth}
           flow="row nowrap"
@@ -138,18 +140,11 @@ const Background = styled.div<BackgroundPropsType>`
   color: ${styles.whiteColor};
   opacity: 1;
   box-shadow: ${(props) => getBoxShadow(props)};
+
   transition: ${styles.transitionDuration}ms;
   transform: ${(props) => getBackgroundTransform(props)};
   :before {
-    background-color: rgba(0, 0, 0, 0.3);
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    content: ' ';
-    backdrop-filter: ${(props) => getBackdropFilter(props)};
-    transition: ${styles.transitionDuration}ms;
+    ${styles.beforeBlur};
   }
 
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
@@ -159,6 +154,7 @@ const Background = styled.div<BackgroundPropsType>`
 `;
 
 type BodyPropsType = {
+  isHover: boolean;
   controlHeight: number;
   fullWidth: boolean;
   onMouseOver: () => void;
@@ -172,6 +168,7 @@ const Body = styled(Flex)<BodyPropsType>`
   margin-top: -${(props) => props.controlHeight}px;
   z-index: ${styles.zIndex.eyeCatch};
   cursor: pointer;
+  backdrop-filter: ${(props) => getBackdropFilter(props)};
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
     height: ${styles.eyeCatchVhValue}vh;
     min-height: unset;
@@ -190,6 +187,7 @@ const ProfileContent = styled(Flex)`
   }
 
   .age {
+    margin-top: ${styles.baseMargin}px;
     font-size: 20px;
   }
 
@@ -293,8 +291,8 @@ const getBackgroundTransform = (props: BackgroundPropsType): string => {
   }
 };
 
-const getBackdropFilter = (props: BackgroundPropsType): string => {
-  if (props.isHover) {
+const getBackdropFilter = ({ isHover }): string => {
+  if (isHover) {
     return `blur(2px) brightness(0.7)`;
   } else {
     return `blur(0) brightness(1)`;

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import conf from 'common/conf';
-import util from 'common/util';
 
 import api from 'cover/api';
 import Button, { buttonThemeBright, buttonThemeHot } from 'cover/components/atoms/Button';
@@ -12,9 +11,8 @@ import Input from 'cover/components/atoms/input';
 import { imageBg, imageIcon } from 'cover/components/atoms/input/DropImage';
 import { Profiles } from 'cover/components/organisms/Contents/Profile/common';
 import { UserModalOptionType } from 'cover/components/organisms/Contents/Profile/index';
-import Content from 'cover/components/organisms/EyeCatch/Content';
 import Modal from 'cover/components/organisms/Modal';
-import styles from 'cover/styles';
+import UserContent from 'cover/components/organisms/User/Content';
 import { UserType, UserTagsType } from 'cover/talkn.cover';
 
 export type FixValuesType = {
@@ -39,13 +37,11 @@ type Props = {
   isMyPage: boolean;
   userModalOptions: UserModalOptionType;
   user: UserType;
-  userTags: UserTagsType;
   setUser: React.Dispatch<React.SetStateAction<UserType>>;
   setSelectProfileModalOption: React.Dispatch<React.SetStateAction<UserModalOptionType>>;
 };
 
-const uniqueId = util.getUniqueId('Main');
-const Component: React.FC<Props> = ({ isMyPage, userTags, userModalOptions, user, setUser, setSelectProfileModalOption }) => {
+const Component: React.FC<Props> = ({ isMyPage, userModalOptions, user, setUser, setSelectProfileModalOption }) => {
   const [isSavedAnimation, setIsSavedAnimation] = useState(false);
   const [isDisabledSaveButton, setIsDisabledSaveButton] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -113,14 +109,11 @@ const Component: React.FC<Props> = ({ isMyPage, userTags, userModalOptions, user
     }
 
     promises.push(api.json('saveUser', updateUser));
-    console.log('A');
+
     Promise.all(promises).then(() => {
-      console.log('B');
       if (isUpdateImage) {
-        console.log('C');
         window.location.reload();
       } else {
-        console.log('D');
         setIsSavedAnimation(true);
         setTimeout(() => {
           setIsSavedAnimation(false);
@@ -131,8 +124,11 @@ const Component: React.FC<Props> = ({ isMyPage, userTags, userModalOptions, user
 
   useEffect(() => {
     if (
+      fixValues &&
       fixValues.languages &&
       fixValues.sexes &&
+      fixValues.icon !== '' &&
+      fixValues.bg !== '' &&
       fixValues.languages.length > 0 &&
       fixValues.sexes.length > 0 &&
       fixValues.birthday !== 0
@@ -156,7 +152,7 @@ const Component: React.FC<Props> = ({ isMyPage, userTags, userModalOptions, user
 
   return (
     <>
-      <Content
+      <UserContent
         className={'MainContent'}
         user={user}
         handleOnClick={() => isMyPage && setShowModal(!showModal)}
@@ -185,7 +181,7 @@ const Component: React.FC<Props> = ({ isMyPage, userTags, userModalOptions, user
             />
             <br />
             <Profiles
-              type="EyeCatchMain"
+              type="UserTop"
               userModalOptions={{ ...userModalOptions, isEditable: true }}
               handleOnChangeLanguages={handleOnChangeLanguages}
               handleOnChangeSexes={handleOnChangeSexes}
@@ -221,18 +217,4 @@ const InputDropImageIcon = styled(Input.DropImage)`
   margin-top: -190px;
   margin-left: 32px;
   margin-bottom: 100px;
-`;
-
-const MarkContainer = styled.div`
-  background: ${styles.themeColor};
-  padding: 10px ${styles.doublePadding * 1.5}px;
-  margin-right: ${styles.doubleMargin}px;
-  color: ${styles.whiteColor};
-  border-radius: 30px;
-  .cnt {
-    font-size: 15px;
-  }
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    font-size: 16px;
-  }
 `;
