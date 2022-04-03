@@ -52,27 +52,8 @@ const Wide: React.FC<Props> = ({ type = imageDefault, email, value = '', classNa
         reader.readAsDataURL(file);
       }
     }
+    setDragStatus(dragStatusDragleave);
   };
-
-  useEffect(() => {
-    if (dragDropInputRef.current) {
-      const dragDropAreaInput = dragDropInputRef.current as unknown as HTMLInputElement;
-      dragDropAreaInput.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        setDragStatus(dragStatusDragover);
-      });
-      dragDropAreaInput.addEventListener('dragleave', (e) => {
-        e.preventDefault();
-        setDragStatus(dragStatusDragleave);
-      });
-      dragDropAreaInput.addEventListener('drop', (e) => {
-        e.preventDefault();
-        setDragStatus(dragStatusDraged);
-        let files = e.dataTransfer.files;
-        preview(files[0]);
-      });
-    }
-  }, []);
 
   return (
     <Container ref={containerRef} email={email} type={type} dragStatus={dragStatus} className={className} value={value}>
@@ -83,6 +64,20 @@ const Wide: React.FC<Props> = ({ type = imageDefault, email, value = '', classNa
         accept="image/*"
         name="photo"
         dragStatus={dragStatus}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragStatus(dragStatusDragover);
+        }}
+        onDragLeave={(e) => {
+          e.preventDefault();
+          setDragStatus(dragStatusDragleave);
+        }}
+        onDrag={(e) => {
+          e.preventDefault();
+          setDragStatus(dragStatusDraged);
+          let files = e.dataTransfer.files;
+          preview(files[0]);
+        }}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           const file = e.target.files[0];
           preview(file);

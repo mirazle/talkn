@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import A from 'cover/components/atoms/A';
 import Flex from 'cover/components/atoms/Flex';
 import H from 'cover/components/atoms/H';
 import Account from 'cover/components/molecules/Account';
@@ -86,18 +87,6 @@ const HeaderInSideMenu = styled(Flex)`
       transform: rotate(-45deg) translate(7px, -8px);
     }
   }
-`;
-
-const A = styled.a`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Img = styled.img`
-  margin-right: 15px;
-  margin-left: -15px;
-  user-select: none;
 `;
 
 const HeaderSide = styled(Flex)`

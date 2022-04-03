@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 import conf from 'common/conf';
-import { StoriesIndexType } from 'common/talknConfig';
 import util from 'common/util';
 
 import api from 'cover/api';
 import Flex from 'cover/components/atoms/Flex';
-import H from 'cover/components/atoms/H';
-import Svg from 'cover/components/atoms/svg';
-import EyeCatchOrder from 'cover/components/organisms/EyeCatch/Order';
+import HeaderSection from 'cover/components/molecules/HeaderSection';
+import ControlButton from 'cover/components/organisms/Contents/Profile/button/ControlButton';
+import ResetButton from 'cover/components/organisms/Contents/Profile/button/ResetButton';
+import StoryOrder from 'cover/components/organisms/Contents/Story';
 import { GoogleSessionType, UserType, UserTagsType, userHasSelfTagsInit } from 'cover/talkn.cover';
 
 import TagSections from './TagSections';
@@ -129,6 +129,7 @@ const Component: React.FC<Props> = ({
     userModalOptions?: UserModalOptionType
   ) => {
     let _id = '';
+    let email = user.email;
     let languages = [];
     let sexes = [];
     let birthday = conf.defaultBirthdayUnixtime;
@@ -180,6 +181,7 @@ const Component: React.FC<Props> = ({
         setSelectInvestorModalOption({
           ...userModalOptionInit,
           _id,
+          email,
           isEditable,
           languages,
           sexes,
@@ -197,6 +199,7 @@ const Component: React.FC<Props> = ({
         setSelectFounderModalOption({
           ...userModalOptionInit,
           _id,
+          email,
           isEditable,
           languages,
           sexes,
@@ -214,6 +217,7 @@ const Component: React.FC<Props> = ({
         setSelectMemberModalOption({
           ...userModalOptionInit,
           _id,
+          email,
           isEditable,
           languages,
           sexes,
@@ -232,6 +236,7 @@ const Component: React.FC<Props> = ({
         setSelectStoryModalOption({
           ...userModalOptionInit,
           _id,
+          email,
           isEditable,
           tagParentType,
           tagType,
@@ -435,14 +440,7 @@ const Component: React.FC<Props> = ({
 
   return (
     <>
-      <Flex flow="column nowrap" alignItems="flex-start" justifyContent="center" sideMargin sidePadding>
-        <H.Five alignItems="center">
-          <Svg.Story sideMargin className="MyStory" />
-          My Story
-        </H.Five>
-        <br />
-        <EyeCatchOrder slide />
-      </Flex>
+      <StoryOrder isMyPage={isMyPage} slide />
 
       {/* Tags */}
       {tagParentTypes.map((tagParentType: TagParentType) => {

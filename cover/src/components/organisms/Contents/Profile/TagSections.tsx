@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { StoriesIndexType } from 'common/talknConfig';
-
 import Flex from 'cover/components/atoms/Flex';
 import H from 'cover/components/atoms/H';
 import Section from 'cover/components/atoms/Section';

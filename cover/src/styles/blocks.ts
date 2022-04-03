@@ -20,8 +20,8 @@ export const quintPadding = baseMargin * 5;
 export const sexPadding = baseMargin * 6;
 export const sepPadding = baseMargin * 7;
 export const shadowSize = 10;
-export const transitionDuration = 300;
-export const fontBaseSize = 18;
+export const fontBaseSize = 20;
+export const fontBaseWeight = 200;
 export const fontSize = '100%';
 export const fontWeight = '200';
 export const lineHeight = '30px';
@@ -50,8 +50,8 @@ export default {
   sexPadding,
   sepPadding,
   shadowSize,
-  transitionDuration,
   fontBaseSize,
+  fontBaseWeight,
   fontSize,
   fontWeight,
   lineHeight,

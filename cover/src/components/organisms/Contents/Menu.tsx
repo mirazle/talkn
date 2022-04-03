@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import conf from 'common/conf';
 
+import A from 'cover/components/atoms/A';
 import H from 'cover/components/atoms/H';
 import styles from 'cover/styles';
 import {
@@ -31,22 +32,22 @@ const Component: React.FC<Props> = ({ ch, selectContentMenu, contentMenuRef }) =
         </ContentMenuList>
   */}
         <ContentMenuList className={selectContentMenu === selectContentMenuProfile && 'active'}>
-          <a href={`//${conf.coverURL}${ch}profile`}>
+          <A href={`//${conf.coverURL}${ch}profile`}>
             <H.Two>PROFILE</H.Two>
             <div className="underBar" />
-          </a>
+          </A>
         </ContentMenuList>
         <ContentMenuList className={selectContentMenu === selectContentMenuBusiness && 'active'}>
-          <a href={`//${conf.coverURL}${ch}business`}>
+          <A href={`//${conf.coverURL}${ch}business`}>
             <H.Two>BUSINESS</H.Two>
             <div className="underBar" />
-          </a>
+          </A>
         </ContentMenuList>
         <ContentMenuList className={selectContentMenu === selectContentMenuStory && 'active'}>
-          <a href={`//${conf.coverURL}${ch}story`}>
+          <A href={`//${conf.coverURL}${ch}story`}>
             <H.Two>STORY</H.Two>
             <div className="underBar" />
-          </a>
+          </A>
         </ContentMenuList>
       </ContentMenuOrder>
     </Container>

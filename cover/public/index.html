@@ -30,9 +30,10 @@
           window.talknUserTags　= {self: {investor: [], founder: [], member: [] }, search: {investor: [], founder: [], member: [] }, story: {story:[]}};
           res.userTags.forEach( (userTag) => {
             const {tagParentType, tagType} = userTag;
-            window.talknUserTags[tagParentType][tagType].push(userTag);
+            if(tagParentType !== '' && tagType !== ''){
+              window.talknUserTags[tagParentType][tagType].push(userTag);
+            }
           });
-
 
           Object.keys(res.staticTags).forEach((tagsKey) => {
             if(!window.talknStaticTagsById[tagsKey]){
