@@ -94,14 +94,16 @@ const Component: React.FC<Props> = ({ isMyPage = false, slide = false, isEditabl
             onScroll={handleOnScrollHeadEyeCatch}
             slide={slide}
             storiesIndexCnt={window.talknConfig.storiesIndex.length}>
-            <HeadEyeCatchList key={`HeadEyeCatchListNo`} className="HeadEyeCatchListNo" isEditable={false} create>
-              <A href={`https://${conf.coverURL}${window.talknThread.ch}story/create`}>
-                <div className="bg create">
-                  <Add show onClick={() => {}} />
-                </div>
-                <div className="description"></div>
-              </A>
-            </HeadEyeCatchList>
+            {isMyPage && (
+              <HeadEyeCatchList key={`HeadEyeCatchListNo`} className="HeadEyeCatchListNo" isEditable={false} create>
+                <A href={`https://${conf.coverURL}${window.talknThread.ch}story/create`}>
+                  <div className="bg create">
+                    <Add show onClick={() => {}} />
+                  </div>
+                  <div className="description"></div>
+                </A>
+              </HeadEyeCatchList>
+            )}
             {storiesEyeCatchs.length > 0 &&
               storiesEyeCatchs.map((storiesEyeCatch, i) => (
                 <HeadEyeCatchList
@@ -179,7 +181,7 @@ export const HeadEyeCatchList = styled.li<{ isEditable: boolean; create?: boolea
   display: flex;
   flex-flow: column nowrap;
   align-items: ${(props) => (props.create ? 'center' : 'flex-start')};
-  justify-content: ${(props) => (props.create ? 'center' : 'flex-start')};
+  justify-content: ${(props) => (props.create ? 'flex-start' : 'flex-start')};
   width: 33%;
   min-width: 360px;
   height: 256px;
