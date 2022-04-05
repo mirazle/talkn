@@ -11,13 +11,13 @@ export const selectContentMenuCreators = 'stories';
 export const selectContentMenuConfig = 'config';
 export const selectContentMenuBusiness = 'business';
 export const selectContentMenuStory = 'story';
-export const selectContentMenuProfile = 'profile';
+export const selectContentMenuDashboard = 'dashboard';
 export const selectContentMenuDefault = selectContentMenuBusiness;
 export type SelectContentMenuType =
   | typeof selectContentMenuLivePages
   | typeof selectContentMenuBusiness
   | typeof selectContentMenuStory
-  | typeof selectContentMenuProfile
+  | typeof selectContentMenuDashboard
   | typeof selectContentMenuLivePages
   | typeof selectContentMenuCreators
   | typeof selectContentMenuConfig;

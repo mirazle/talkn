@@ -2,7 +2,6 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import express from 'express';
 import session from 'express-session';
-import { fstat } from 'fs';
 import http from 'http';
 import https from 'https';
 import multer from 'multer';
@@ -263,13 +262,21 @@ class Express {
                   break;
                 case 'livePages':
                 case 'business':
-                case 'profile':
+                case 'dashboard':
                   res.header('Access-Control-Allow-Origin', '*');
                   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, undefined, method === 'profile');
+                  domainProfile = await CoverLogics.getDomainProfile(
+                    req,
+                    res,
+                    req.protocol,
+                    ch,
+                    language,
+                    undefined,
+                    method === 'dashboard'
+                  );
                   res.render('cover/', domainProfile);
                   break;
-                case 'profileJson':
+                case 'dashboardJson':
                 case 'livePagesJson':
                 case 'businessJson':
                   res.header('Access-Control-Allow-Origin', '*');
@@ -281,7 +288,7 @@ class Express {
                     ch,
                     language,
                     undefined,
-                    method === 'profileJson'
+                    method === 'dashboardJson'
                   );
                   res.json(domainProfile);
                   break;

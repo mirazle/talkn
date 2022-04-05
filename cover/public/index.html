@@ -18,7 +18,7 @@
       ch = ch === '/livePages/' ? '/' : ch;
       ch = ch === '/business/' ? '/' : ch;
       ch = ch === '/story/' ? '/' : ch;
-      ch = ch === '/profile/' ? '/' : ch;
+      ch = ch === '/dashboard/' ? '/' : ch;
 
       const method = splitedUrl[splitedUrlLength - 1] === '' ? 'business' : splitedUrl[splitedUrlLength - 1];
       const url = `//cover.localhost${ch}${method}Json`;
