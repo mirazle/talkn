@@ -71,7 +71,7 @@ const AdvertCss = css<CommonProps>`
   min-width: ${styles.advertWidth}px;
   max-width: ${styles.advertWidth}px;
   height: calc(100vh - ${styles.baseHeight * 2 + styles.baseMargin * 2}px);
-  margin: ${styles.baseHeight + styles.baseMargin}px ${styles.baseMargin}px;
+  margin-top: ${styles.doubleMargin}px;
   background: ${styles.advertColor};
   color: #fff;
   text-align: center;
@@ -118,6 +118,7 @@ const AdvertAttach = styled.div<CommonProps>`
   transition: ${styles.transitionDuration}ms;
   :hover {
     background: ${styles.advertHoverColor};
+    box-shadow: ${styles.shadowHorizonBright};
   }
   @media (max-width: ${styles.spLayoutWidth}px) {
     display: none;

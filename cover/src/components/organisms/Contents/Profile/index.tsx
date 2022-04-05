@@ -4,10 +4,6 @@ import conf from 'common/conf';
 import util from 'common/util';
 
 import api from 'cover/api';
-import Flex from 'cover/components/atoms/Flex';
-import HeaderSection from 'cover/components/molecules/HeaderSection';
-import ControlButton from 'cover/components/organisms/Contents/Profile/button/ControlButton';
-import ResetButton from 'cover/components/organisms/Contents/Profile/button/ResetButton';
 import StoryOrder from 'cover/components/organisms/Contents/Story';
 import { GoogleSessionType, UserType, UserTagsType, userHasSelfTagsInit } from 'cover/talkn.cover';
 
@@ -17,11 +13,11 @@ import SelectInvestorModal from './modal/SelectInvestorModal';
 import SelectMemberModal from './modal/SelectMemberModal';
 import SelectStoryModal from './modal/SelectStoryModal';
 
-export const tagParentProfile = 'Profile';
+export const tagParentDashboard = 'Dashboard';
 export const tagParentSelf = 'Self';
 export const tagParentSearch = 'Search';
 export const tagParentStory = 'Story';
-export type TagParentType = typeof tagParentProfile | typeof tagParentSelf | typeof tagParentSearch | typeof tagParentStory;
+export type TagParentType = typeof tagParentDashboard | typeof tagParentSelf | typeof tagParentSearch | typeof tagParentStory;
 export const tagParentTypes: TagParentType[] = [tagParentSelf, tagParentSearch, tagParentStory];
 export type TagParentSaveButtonDisabledType = {};
 
@@ -383,8 +379,8 @@ const Component: React.FC<Props> = ({
   const handleOnClickReset = async (tagParentType: TagParentType) => {
     const key = tagParentType.toLocaleLowerCase();
     if (tagParentType === tagParentSelf) {
-      const profileKey = tagParentProfile.toLocaleLowerCase();
-      setUserTags(util.deepCopy({ ...userTags, [profileKey]: userTagsInit[profileKey], [key]: userTagsInit[key] }));
+      const dashboardKey = tagParentDashboard.toLocaleLowerCase();
+      setUserTags(util.deepCopy({ ...userTags, [dashboardKey]: userTagsInit[dashboardKey], [key]: userTagsInit[key] }));
     } else {
       setUserTags(util.deepCopy({ ...userTags, [key]: userTagsInit[key] }));
     }

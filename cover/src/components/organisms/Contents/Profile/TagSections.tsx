@@ -6,7 +6,7 @@ import Section from 'cover/components/atoms/Section';
 import HeaderSection from 'cover/components/molecules/HeaderSection';
 import {
   TagParentType,
-  tagParentProfile,
+  tagParentDashboard,
   TagType,
   tagInvestor,
   tagFounder,
@@ -116,7 +116,7 @@ const Component: React.FC<Props> = ({
   };
 
   const getContent = () => {
-    if (tagParent === tagParentProfile) {
+    if (tagParent === tagParentDashboard) {
       return (
         <Section key={`${tagParentStory}`} flow="column nowrap" upperPadding sideMargin sidePadding>
           {session.name}
@@ -127,7 +127,7 @@ const Component: React.FC<Props> = ({
       return (
         <Section key={`${tagParentStory}`} flow="column nowrap" upperPadding sideMargin sidePadding>
           <H.Five>{tagParentStory}</H.Five>
-          <Flex flow="row wrap" alignItems="center" width="100%" upperMargin>
+          <Flex className={`TagSection ${tagParent}`} flow="row wrap" alignItems="center" width="100%" upperMargin bottomMargin>
             {someTags &&
               someTags[tagTypeLower] &&
               someTags[tagTypeLower].map((tagStructure, index) => {
@@ -161,7 +161,7 @@ const Component: React.FC<Props> = ({
           return (
             <Section key={`${tagType}_${index}`} className={`${tagType}_${index}`} flow="column nowrap">
               <H.Five>{tagType}</H.Five>
-              <Flex flow="row wrap" alignItems="center" width="100%" upperMargin>
+              <Flex className={`TagSection ${tagParent}`} flow="row wrap" alignItems="center" width="100%" upperMargin bottomMargin>
                 {someTags &&
                   someTags[tagTypeLower] &&
                   someTags[tagTypeLower].map((tagStructure, index) => {

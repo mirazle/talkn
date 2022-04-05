@@ -8,22 +8,22 @@ import A from 'cover/components/atoms/A';
 import Flex from 'cover/components/atoms/Flex';
 import HeaderSection from 'cover/components/molecules/HeaderSection';
 import ControlButton from 'cover/components/organisms/Contents/Profile/button/ControlButton';
-import ResetButton from 'cover/components/organisms/Contents/Profile/button/ResetButton';
 import Add from 'cover/components/organisms/Contents/Profile/tip/Add';
+import StoryList from 'cover/components/organisms/Contents/Story/List';
 import styles from 'cover/styles';
 
 type Props = {
   isMyPage: boolean;
   slide?: boolean;
-  isEditable?: boolean;
 };
 
 export const storiesIndexContentsInit: StoriesIndexType[] = [];
 export const getScrollWidth = () => (window.innerWidth > styles.appWidth ? styles.appWidth : window.innerWidth);
 
-const Component: React.FC<Props> = ({ isMyPage = false, slide = false, isEditable = false }: Props) => {
+const Component: React.FC<Props> = ({ isMyPage = false, slide = false }: Props) => {
   const storiesEyeCatchOrderRef = useRef<HTMLElement>();
   const [storiesIndexes, setStoriesIndexes] = useState<StoriesIndexType[]>([]);
+  const [isEditable, setIsEditable] = useState(false);
   const [storiesIndex, setStoriesIndex] = useState(0);
   const [storiesEyeCatchs, setStoriesEyeCatchs] = useState<StoriesIndexType[]>(storiesIndexContentsInit);
   const storiesIndexCnt = window.talknConfig.storiesIndex.length;
@@ -47,6 +47,16 @@ const Component: React.FC<Props> = ({ isMyPage = false, slide = false, isEditabl
     setStoriesEyeCatchs(_storiesEyeCatchs);
   }, [window.talknConfig.storiesIndex]);
 
+  useEffect(() => {
+    const olElm = storiesEyeCatchOrderRef.current as HTMLOListElement;
+    if (isEditable) {
+      olElm.scrollTo({
+        left: 0,
+        behavior: 'smooth',
+      });
+    }
+  }, [isEditable]);
+
   const handleOnScrollHeadEyeCatch = (e: React.UIEvent<HTMLOListElement, UIEvent>) => {
     const scrollWidth = getScrollWidth();
     const scrollIndex = (e.target as HTMLOListElement).scrollLeft / scrollWidth;
@@ -65,25 +75,28 @@ const Component: React.FC<Props> = ({ isMyPage = false, slide = false, isEditabl
   };
 
   const getBGContent = (eyeCatch) => {
-    if (isEditable) {
-      return <Add show onClick={() => {}} />;
-    } else {
-      if (eyeCatch === '') {
-        return 'NO IMAGE';
-      }
-    }
-    return null;
+    return (
+      <>
+        {eyeCatch === '' && !isEditable && <span className="noImage">NO IMAGE</span>}
+        <Add onClick={() => {}} show={isEditable} />
+      </>
+    );
   };
 
   return (
     <HeaderSection
-      title={'My Story'}
+      title={'My Stories'}
       iconType="Story"
       headerMenu={
         isMyPage && (
           <Flex flow="row nowrap">
-            <ControlButton onClick={() => {}} isEditable={false} isChangeUserTag={false} />
-            <ResetButton onClick={() => {}} disabled={false} />
+            <ControlButton
+              onClick={() => {
+                setIsEditable(!isEditable);
+              }}
+              isEditable={isEditable}
+              isChangeUserTag={false}
+            />
           </Flex>
         )
       }
@@ -94,30 +107,17 @@ const Component: React.FC<Props> = ({ isMyPage = false, slide = false, isEditabl
             onScroll={handleOnScrollHeadEyeCatch}
             slide={slide}
             storiesIndexCnt={window.talknConfig.storiesIndex.length}>
-            {isMyPage && (
-              <HeadEyeCatchList key={`HeadEyeCatchListNo`} className="HeadEyeCatchListNo" isEditable={false} create>
-                <A href={`https://${conf.coverURL}${window.talknThread.ch}story/create`}>
-                  <div className="bg create">
-                    <Add show onClick={() => {}} />
-                  </div>
-                  <div className="description"></div>
-                </A>
-              </HeadEyeCatchList>
-            )}
+            {isMyPage && <StoryList key={`HeadEyeCatchListNo`} isMyPage={isMyPage} create />}
             {storiesEyeCatchs.length > 0 &&
               storiesEyeCatchs.map((storiesEyeCatch, i) => (
-                <HeadEyeCatchList
+                <StoryList
                   key={`HeadEyeCatchList${i}`}
-                  slide={slide}
-                  isEditable={isEditable}
-                  className="HeadEyeCatchList"
+                  title={storiesEyeCatch.title}
+                  eyeCatch={storiesEyeCatch.eyeCatch}
+                  isMyPage={isMyPage}
                   data-no={storiesEyeCatch.no}
-                  eyeCatch={storiesEyeCatch.eyeCatch}>
-                  <A href={`https://${conf.coverURL}${window.talknThread.ch}story/${storiesEyeCatch.no}`}>
-                    <div className="bg">{getBGContent(storiesEyeCatch.eyeCatch)}</div>
-                    <div className="description">{storiesEyeCatch.title}</div>
-                  </A>
-                </HeadEyeCatchList>
+                  slide={slide}
+                />
               ))}
           </Container>
           {storiesIndexCnt > 0 && (
@@ -165,7 +165,6 @@ const Container = styled.ol<ContainerPropsType>`
     }
   }};
   width: 100%;
-  max-width: ${styles.appWidth}px;
   padding: 0;
   margin: 0 auto;
   ${(props) => (props.slide ? 'scroll-snap-type: x mandatory' : '')};
@@ -174,81 +173,6 @@ const Container = styled.ol<ContainerPropsType>`
   }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
     justify-content: flex-start;
-  }
-`;
-
-export const HeadEyeCatchList = styled.li<{ isEditable: boolean; create?: boolean; eyeCatch?: string; slide?: boolean }>`
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: ${(props) => (props.create ? 'center' : 'flex-start')};
-  justify-content: ${(props) => (props.create ? 'flex-start' : 'flex-start')};
-  width: 33%;
-  min-width: 360px;
-  height: 256px;
-  min-height: 256px;
-  max-height: 256px;
-  padding: 10px;
-  overflow: hidden;
-  text-align: right;
-  ${(props) => (props.slide ? 'scroll-snap-align: start' : '')};
-  list-style: none;
-  border-radius: ${styles.doubleSize}px;
-  transition: ${styles.transitionDuration}ms;
-  transform: translate(0px, 0px);
-  a {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: ${(props) => (props.create ? 'center' : 'flex-start')};
-    justify-content: center;
-    width: 100%;
-    transition: ${styles.transitionDuration}ms;
-    cursor: pointer;
-  }
-  .bg {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 160px;
-    background-color: ${(props) => (props.create ? 'none' : styles.articleBgColor)};
-    background-size: cover;
-    background-image: url('${(props) => (props.eyeCatch && props.eyeCatch !== '' ? props.eyeCatch : 'none')}');
-    background-position: 50%;
-    background-repeat: no-repeat;
-    border: 1px solid ${styles.borderColor};
-    border-radius: ${styles.doubleSize}px;
-    transition: ${styles.transitionDuration}ms;
-    color: ${styles.whiteColor};
-  }
-  .description {
-    display: -webkit-box;
-    margin: ${styles.baseMargin}px 0;
-    text-align: left;
-    line-height: 30px;
-    font-size: 20px;
-    font-weight: 200;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-  }
-  :hover {
-    a {
-      transform: scale(1.03);
-    }
-    .description {
-      text-decoration: underline solid ${styles.fontColor} 1px;
-    }
-    .bg {
-    }
-  }
-
-  @media (max-width: ${styles.spLayoutWidth}px) {
-    width: 50%;
-    min-width: 50%;
-  }
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    width: 100%;
-    min-width: 100%;
   }
 `;
 
@@ -298,35 +222,3 @@ const getHeadEyeCatchSelectOrderWidth = (storiesIndexCnt): number => {
   if (storiesIndexCnt < 10) return Number(`${storiesIndexCnt}0`);
   return 100;
 };
-
-/*
-    :before {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      content: 'EDIT';
-      background: rgba(129, 224, 209, 0.9);
-      width: 90%;
-      height: 90%;
-      top: 5%;
-      right: 0;
-      bottom: 0;
-      left: 5%;
-      border-radius: ${styles.doubleSize}px;
-      color: #fff;
-      transition: ${styles.transitionDuration}ms;
-    }
-*/
-
-/*
-  :before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    content: '';
-    backdrop-filter: blur(3px);
-  }
-*/

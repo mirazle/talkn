@@ -10,7 +10,7 @@ import {
   SelectContentMenuType, //  selectContentMenuLivePages,
   selectContentMenuBusiness,
   selectContentMenuStory,
-  selectContentMenuProfile,
+  selectContentMenuDashboard,
 } from 'cover/talkn.cover';
 
 type Props = {
@@ -31,9 +31,9 @@ const Component: React.FC<Props> = ({ ch, selectContentMenu, contentMenuRef }) =
           </a>
         </ContentMenuList>
   */}
-        <ContentMenuList className={selectContentMenu === selectContentMenuProfile && 'active'}>
-          <A href={`//${conf.coverURL}${ch}profile`}>
-            <H.Two>PROFILE</H.Two>
+        <ContentMenuList className={selectContentMenu === selectContentMenuDashboard && 'active'}>
+          <A href={`//${conf.coverURL}${ch}dashboard`}>
+            <H.Two>DASHBOARD</H.Two>
             <div className="underBar" />
           </A>
         </ContentMenuList>
@@ -107,7 +107,7 @@ const ContentMenuList = styled.li`
   border-right: 1px solid ${styles.borderColor};
   cursor: pointer;
   .underBar {
-    width: 30%;
+    width: 35%;
     min-width: 60px;
     height: 8px;
     margin-top: 8px;

@@ -28,7 +28,7 @@ import {
   selectContentMenuLivePages,
   selectContentMenuBusiness,
   selectContentMenuStory,
-  selectContentMenuProfile,
+  selectContentMenuDashboard,
   selectContentMenuDefault,
 } from 'cover/talkn.cover';
 
@@ -291,7 +291,7 @@ const TalknContainer: React.FC<Props> = (props) => {
         } else {
           return <StoryIndex isMyPage={isMyPage} />;
         }
-      case selectContentMenuProfile:
+      case selectContentMenuDashboard:
         return (
           <ProfileContents
             isMyPage={isMyPage}
