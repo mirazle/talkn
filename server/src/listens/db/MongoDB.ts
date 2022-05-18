@@ -2,7 +2,6 @@ import Mongoose from 'mongoose';
 
 import conf from 'server/conf';
 import Sessions from 'server/listens//db/Sessions';
-import User from 'server/listens//db/User';
 import Industory from 'server/listens/db/Industory';
 import IndustoryParent from 'server/listens/db/IndustoryParent';
 import JobCategory from 'server/listens/db/JobCategory';
@@ -16,6 +15,7 @@ import StartupSeries from 'server/listens/db/StartupSeries';
 import Story from 'server/listens/db/Story';
 import Threads from 'server/listens/db/Threads';
 import UserTags from 'server/listens/db/UserTags';
+import Users from 'server/listens/db/Users';
 import Schemas from 'server/schemas';
 
 class MongoDB {
@@ -34,7 +34,7 @@ class MongoDB {
 
     // collections.
     return {
-      User: new User(dbConnection),
+      Users: new Users(dbConnection),
       UserTags: new UserTags(dbConnection),
       Setting: new Setting(dbConnection),
       Threads: new Threads(dbConnection),

@@ -1,6 +1,6 @@
 export const configUserCategoryChLimit = 10;
 export const configStoriesLimit = 10;
-export type StoriesIndexType = {
+export type StoriesType = {
   title: string;
   eyeCatch: string;
   interview: string;
@@ -10,7 +10,7 @@ export type StoriesIndexType = {
 
 export type ConfigType = {
   version: string;
-  storiesIndex: StoriesIndexType[];
+  stories: StoriesType[];
   userCategoryChs: string[];
   favicon: string;
   ogpImage: string;
@@ -20,7 +20,7 @@ export type ConfigType = {
 
 export const configInit: ConfigType = {
   version: '1.0.0',
-  storiesIndex: [],
+  stories: [],
   userCategoryChs: [],
   favicon: '',
   ogpImage: '',
@@ -28,7 +28,7 @@ export const configInit: ConfigType = {
   relationTags: [],
 };
 
-export const storiesIndexInit: StoriesIndexType = {
+export const storiesInit: StoriesType = {
   title: '',
   eyeCatch: '',
   interview: '',

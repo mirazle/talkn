@@ -1,9 +1,9 @@
 import MongoDB from 'server/listens/db/MongoDB';
 
-export default class User {
+export default class Users {
   collection: any;
   constructor(dbConnection) {
-    this.collection = MongoDB.getCollection(dbConnection, User.name);
+    this.collection = MongoDB.getCollection(dbConnection, Users.name);
     return this;
   }
 
@@ -42,6 +42,15 @@ export default class User {
   update(condition = {}, set = {}, option = {}) {
     return new Promise((resolve) => {
       this.collection.updateMany(condition, set, option, (error, response) => {
+        if (error) console.warn(error);
+        resolve({ response, error });
+      });
+    });
+  }
+
+  findOneAndUpdate(condition = {}, set = {}, option = {}) {
+    return new Promise((resolve) => {
+      this.collection.findOneAndUpdate(condition, set, option, (error, response) => {
         if (error) console.warn(error);
         resolve({ response, error });
       });
