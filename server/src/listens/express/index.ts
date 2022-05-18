@@ -17,8 +17,8 @@ import Mail from 'server/logics/Mail';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const email = file.originalname;
-    const path = Logics.fs.mkdirAssetsCover(email);
+    const userId = file.originalname;
+    const path = Logics.fs.mkdirAssetsCover(userId);
     cb(null, path);
   },
 
@@ -30,7 +30,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const uploadImage = multer({ storage }).fields([{ name: 'icon' }, { name: 'bg' }, { name: 'email' }]);
+const uploadImage = multer({ storage }).fields([{ name: 'icon' }, { name: 'bg' }, { name: 'userId' }]);
 
 const defaultCoverMethod = 'business';
 const coverParams = {
@@ -188,18 +188,15 @@ class Express {
         break;
       case conf.coverURL:
         let method = defaultCoverMethod;
-
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         if (req.method === 'POST') {
           method = splitedUrl[2];
-          res.header('Access-Control-Allow-Origin', '*');
-          res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-
-          // formData
           if (req.headers['content-type'].startsWith('multipart/form-data')) {
             uploadImage(req, res, async (err) => {
               if (err) throw err;
               const key = Object.keys(req.files)[0];
-              await CoverLogics[method](req.body.email, req.files[key][0].path, req, res);
+              await CoverLogics[method](req.body.userId, req.files[key][0].path, req, res);
             });
           }
 
@@ -210,118 +207,29 @@ class Express {
             }
           }
         } else if (req.method === 'GET') {
-          const isApi = splitedUrl[1] === 'api';
-          let apiType = '';
-          let credential = '';
-          let storyIndex = null;
-          let domainProfile;
-          let isRootCh = false;
-
-          if (isApi) {
-            isRootCh = splitedUrl.length === 3;
-            method = 'api';
-
-            if (isRootCh) {
-              apiType = splitedUrl[2].split('?')[0];
-              credential = splitedUrl[2].split('?')[1];
-              ch = '/';
-            } else {
-              apiType = splitedUrl[3].split('?')[0];
-              credential = splitedUrl[3].split('?')[1];
-              ch = commonUtil.parseJwt(credential)['email'];
-            }
-          } else {
-            if (splitedUrl.length === 2) {
-              method = splitedUrl[1] === '' ? defaultCoverMethod : splitedUrl[1];
-            } else {
-              ch = splitedUrl[1] ? `/${splitedUrl[1]}/` : '/';
-              method = splitedUrl[coverParams.methodIndex] ? splitedUrl[coverParams.methodIndex] : defaultCoverMethod;
-              storyIndex = splitedUrl[coverParams.storyIndex] ? splitedUrl[coverParams.storyIndex] : null;
-            }
-          }
-
           if (
-            req.originalUrl.indexOf('.svg') >= 0 ||
-            req.originalUrl.indexOf('.png') >= 0 ||
-            req.originalUrl.indexOf('.js') >= 0 ||
-            req.originalUrl.indexOf('favicon.ico') >= 0 ||
-            req.originalUrl.indexOf('.txt') >= 0
+            req.originalUrl === '/robots.txt' ||
+            req.originalUrl === '/manifest.json' ||
+            req.originalUrl === '/service.worker.js' ||
+            req.originalUrl === '/ws.client.worker.js' ||
+            req.originalUrl === '/web.config' ||
+            req.originalUrl === '/talkn.cover.js' ||
+            req.originalUrl === '/ws.api.worker.js' ||
+            req.originalUrl === '/favicon.ico'
           ) {
-            CoverLogics.assets(req, res);
-          } else if (req.originalUrl.indexOf('/undefined') >= 0) {
-            res.send('404');
-          } else if (req.headers.accept.indexOf('text/html,application/') === 0 || req.headers.accept.indexOf('*/*') === 0) {
-            const resolveCover = async () => {
-              switch (method) {
-                case 'api':
-                  /*
-                  res.header('Access-Control-Allow-Origin', '*');
-                  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  res.json(coverSampleJson);
-*/
-                  break;
-                case 'livePages':
-                case 'business':
-                case 'dashboard':
-                  res.header('Access-Control-Allow-Origin', '*');
-                  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  domainProfile = await CoverLogics.getDomainProfile(
-                    req,
-                    res,
-                    req.protocol,
-                    ch,
-                    language,
-                    undefined,
-                    method === 'dashboard'
-                  );
-                  res.render('cover/', domainProfile);
-                  break;
-                case 'dashboardJson':
-                case 'livePagesJson':
-                case 'businessJson':
-                  res.header('Access-Control-Allow-Origin', '*');
-                  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  domainProfile = await CoverLogics.getDomainProfile(
-                    req,
-                    res,
-                    req.protocol,
-                    ch,
-                    language,
-                    undefined,
-                    method === 'dashboardJson'
-                  );
-                  res.json(domainProfile);
-                  break;
-                case 'story':
-                  res.header('Access-Control-Allow-Origin', '*');
-                  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, storyIndex);
-                  res.render('cover/', domainProfile);
-                  break;
-                case 'storyJson':
-                  res.header('Access-Control-Allow-Origin', '*');
-                  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-                  domainProfile = await CoverLogics.getDomainProfile(req, res, req.protocol, ch, language, storyIndex);
-                  res.json(domainProfile);
-                  break;
-                case 'build':
-                  await CoverLogics.build(req, res, ch);
-                  res.redirect(`//${conf.coverURL}${ch}`);
-                  break;
-                case 'updateConfig':
-                  await CoverLogics.fetchConfig(req, res, req.protocol, ch);
-                  res.redirect(`//${conf.coverURL}${ch}`);
-                  break;
-                default:
-                  res.end();
-              }
-            };
-
-            resolveCover();
+            res.sendFile(conf.serverCoverPath + req.originalUrl.replace(/^\//, ''));
           } else {
-            res.end();
+            const splitedPath = req._parsedUrl.pathname.split('/');
+            const getJson = req._parsedUrl.query;
+            const method = splitedPath[1] !== '' ? splitedPath[1] : 'top';
+            const params = splitedPath.filter((value) => value !== '' && value !== method);
+
+            if (CoverLogics[method]) {
+              CoverLogics[method](params, getJson, req, res);
+            }
           }
         }
+
         break;
       case conf.wwwURL:
         language = req.query && req.query.lang ? req.query.lang : Geolite.getLanguage(req);

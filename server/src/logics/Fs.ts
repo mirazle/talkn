@@ -14,9 +14,10 @@ export default class Fs {
   };
   getConfig(ch): any {
     try {
-      const fixedCh = ch === '/' ? '' : ch;
-      let serverPath = `${conf.serverCoverPath}${fixedCh}${Fs.names.config}`;
+      const fixedCh = ch === '/' ? '' : ch + '/';
+      let serverPath = `${conf.serverAssetsPath}cover/${fixedCh}${Fs.names.config}`;
       serverPath = serverPath.replace(/\/\//g, '/');
+
       if (this.isExist(serverPath)) {
         const talknConfig = JSON.parse(fs.readFileSync(serverPath, 'utf8'));
         return talknConfig && talknConfig !== '' ? talknConfig : null;
@@ -39,7 +40,7 @@ export default class Fs {
   getStories(ch, storiesIndexParam, config): any {
     try {
       const serverBasePath = `${conf.serverCoverPath}${ch}`;
-      let storyIndex = storiesIndexParam && config.storiesIndex[storiesIndexParam - 1] ? config.storiesIndex[storiesIndexParam - 1] : null;
+      let storyIndex = storiesIndexParam && config.stories[storiesIndexParam - 1] ? config.stories[storiesIndexParam - 1] : null;
       let stories = null;
 
       if (storyIndex) {
@@ -109,8 +110,8 @@ export default class Fs {
     }
   }
 
-  mkdirAssetsCover(email, callback = () => {}) {
-    const path = `${Fs.names.assetsCoverBasePath}${email}/`;
+  mkdirAssetsCover(userId, callback = () => {}) {
+    const path = `${Fs.names.assetsCoverBasePath}${userId}/`;
     if (!this.isExist(path)) {
       fs.mkdir(path, { recursive: true }, (err) => {
         if (err) throw err;
@@ -120,11 +121,11 @@ export default class Fs {
     return path;
   }
 
-  copyDefaultFile(email) {
+  copyDefaultFile(userId) {
     const defaultBgPath = `${Fs.names.assetsCoverBasePath}${Fs.names.assetsCoverDefaultBg}`;
     const defaultIconPath = `${Fs.names.assetsCoverBasePath}${Fs.names.assetsCoverDefaultIcon}`;
-    const userBgPath = `${Fs.names.assetsCoverBasePath}${email}/bg.jpg`;
-    const userIconPath = `${Fs.names.assetsCoverBasePath}${email}/icon.jpg`;
+    const userBgPath = `${Fs.names.assetsCoverBasePath}${userId}/bg.jpg`;
+    const userIconPath = `${Fs.names.assetsCoverBasePath}${userId}/icon.jpg`;
     fs.copyFileSync(defaultBgPath, userBgPath);
     fs.copyFileSync(defaultIconPath, userIconPath);
   }

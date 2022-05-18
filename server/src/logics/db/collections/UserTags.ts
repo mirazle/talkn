@@ -1,5 +1,3 @@
-import Mongoose from 'mongoose';
-
 export default class UserTags {
   collection: any;
   constructor(collection) {
@@ -9,7 +7,7 @@ export default class UserTags {
 
   async update(condition, setValues) {
     const set = { $set: setValues };
-    const option = { upsert: true };
+    const option = { upsert: true, new: true };
     return this.collection.update(condition, set, option);
   }
 

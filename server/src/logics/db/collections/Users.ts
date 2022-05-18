@@ -1,15 +1,14 @@
-export default class User {
+export default class Users {
   collection: any;
   constructor(collection) {
     this.collection = collection;
     return this;
   }
 
-  async findOne(email, isGetSchema = false) {
-    const condition = { email };
+  async findOne(condition, isGetSchema = false) {
     const result = await this.collection.findOne(condition);
     if (isGetSchema && result.response === null) {
-      result.response = this.collection.getSchema({ email });
+      result.response = this.collection.getSchema(condition);
     }
     return result;
   }
@@ -19,12 +18,15 @@ export default class User {
     return result;
   }
 
-  async update(email, setValues) {
-    const condition = { email };
+  async update(condition, setValues) {
     const set = { $set: setValues };
     const option = { upsert: true };
-    console.log('SET', set);
     return this.collection.update(condition, set, option);
+  }
+
+  async findOneAndUpdate(condition, setValues, option = {}) {
+    const set = { $set: setValues };
+    return this.collection.findOneAndUpdate(condition, set, option);
   }
 
   async save(email, key, value) {

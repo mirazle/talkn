@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "css": "default.css",
-  "storiesIndex": [
+  "stories": [
     {
       "title": "SAMPLE1",
       "eyeCatch": "",

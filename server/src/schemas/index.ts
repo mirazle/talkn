@@ -11,14 +11,14 @@ import Setting from 'server/schemas/db/collections/Setting';
 import StartupSeries from 'server/schemas/db/collections/StartupSeries';
 import Story from 'server/schemas/db/collections/Story';
 import Threads from 'server/schemas/db/collections/Threads';
-import User from 'server/schemas/db/collections/User';
 import UserTags from 'server/schemas/db/collections/UserTags';
+import Users from 'server/schemas/db/collections/Users';
 import html from 'server/schemas/logics/html';
 
 export default {
   db: {
     collections: {
-      User,
+      Users,
       UserTags,
       Posts,
       Setting,

@@ -70,29 +70,40 @@ export const build = async (req, res, ch) => {
   }
 };
 
-export const logined = async (request) => {
-  const result = await Logics.db.user.findOne(request.email);
-  if (result.response === null) {
-    Logics.fs.mkdirAssetsCover(request.email, () => Logics.fs.copyDefaultFile(request.email));
-    console.log(request);
-    await Logics.db.user.update(request.email, {
-      email: request.email,
-      name: request.name,
-      bg: Fs.names.assetsCoverDefaultBg,
-      icon: Fs.names.assetsCoverDefaultIcon,
-    });
+export const login = async (requestJson, req, res) => {
+  const resultFind = await Logics.db.users.findOne({ email: requestJson.email });
+  let resultUpdate;
+
+  if (resultFind.response === null) {
+    resultUpdate = await Logics.db.users.findOneAndUpdate(
+      { email: requestJson.email },
+      {
+        email: requestJson.email,
+        name: requestJson.name,
+        bg: Fs.names.assetsCoverDefaultBg,
+        icon: Fs.names.assetsCoverDefaultIcon,
+      },
+      { new: true, upsert: true }
+    );
+
+    Logics.fs.mkdirAssetsCover(resultUpdate.response._id, () => Logics.fs.copyDefaultFile(resultUpdate.response._id));
   } else {
-    await Logics.db.user.update(request.email, { name: request.name });
+    resultUpdate = await Logics.db.users.findOneAndUpdate(
+      { email: requestJson.email },
+      { name: requestJson.name },
+      { new: true, upsert: true }
+    );
   }
+
+  res.send(resultUpdate);
 };
 
 export const search = async (req, _, res) => {
-  const tagType = req.tagType.toLocaleLowerCase();
+  const tagType = req.tagType;
   const columnType = tagType === 'member' ? 'jobId' : 'startupSeriesId';
-
   const optionalCondition = { [columnType]: req[columnType] };
   const tagConditions = {
-    email: { $ne: req.email },
+    //    email: { $ne: req.email },
     tagParentType: 'self',
     tagType,
     industoryId: req.industoryId,
@@ -104,14 +115,14 @@ export const search = async (req, _, res) => {
   };
 
   // UserTag
-  const resultTags = await Logics.db.userTags.find(tagConditions, { email: 1 });
+  const resultTags = await Logics.db.userTags.find(tagConditions, { userId: 1 });
 
   if (resultTags.response.length > 0) {
-    const emails = resultTags.response.map((res) => res.email);
-    const userConditions = { email: { $in: emails } };
+    const userIds = resultTags.response.map((res) => res.userId);
 
+    const userConditions = { _id: { $in: userIds } };
     // User
-    const resultUser = await Logics.db.user.find(userConditions);
+    const resultUser = await Logics.db.users.find(userConditions);
 
     res.send(resultUser);
   } else {
@@ -120,65 +131,57 @@ export const search = async (req, _, res) => {
 };
 
 export const saveUser = async (requestJson, req, res) => {
-  // UserTagsのselfも更新する必要がある(フロントではUserを更新するとUserTagsのselfも更新されているが、齟齬が出る可能性があるので)
-  await Logics.db.user.update(requestJson.email, requestJson);
+  await Logics.db.users.update({ _id: requestJson._id }, requestJson);
   await Logics.db.userTags.update(
-    { email: requestJson.email },
+    { userId: requestJson._id },
     { sexes: requestJson.sexes, birthday: requestJson.birthday, languages: requestJson.languages }
   );
+
   res.send({ messages: 'OK' });
 };
 
-export const saveUserTags = async (requestJson, req, res) => {
-  const { email, tagParentType, userTags } = requestJson;
-  const isExistTag = userTags.length > 0;
-  let isExistInvestorTag = false;
-  let isExistFounderTag = false;
-  let isExistMemberTag = false;
+export const removeUserTag = async (requestJson, req, res) => {
+  const { userTags, user } = requestJson;
+  const userTagsConditions = { _id: userTags._id };
+  const userConditions = { _id: user._id };
+  const userTagsResult = await Logics.db.userTags.remove(userTagsConditions);
+  const userResult = await Logics.db.users.update(userConditions, user);
+  res.send(userTagsResult);
+};
 
-  // profileが更新されている可能性があるので全て削除
-  await Logics.db.userTags.remove({ email, tagParentType });
+export const upsertUserTag = async (requestJson, req, res) => {
+  const { userTags, user } = requestJson;
+  const userConditions = { _id: user._id };
+  let userTagsConditions = {};
 
-  if (isExistTag) {
-    userTags.forEach(async (tag) => {
-      delete tag._id;
-      switch (tag.tagType) {
-        case 'investor':
-          if (!isExistInvestorTag) isExistInvestorTag = true;
-          break;
-        case 'founder':
-          if (!isExistFounderTag) isExistFounderTag = true;
-          break;
-        case 'member':
-          if (!isExistMemberTag) isExistMemberTag = true;
-          break;
-      }
-      await Logics.db.userTags.save(tag);
-    });
+  // update
+  if (userTags._id && userTags._id !== '') {
+    userTagsConditions['_id'] = userTags._id;
+
+    // new
+  } else {
+    delete userTags._id;
+    userTagsConditions['userId'] = userTags.userId;
+    userTagsConditions['tagParentType'] = userTags.tagParentType;
+    userTagsConditions['tagType'] = userTags.tagType;
+    userTagsConditions['index'] = userTags.index;
   }
-
-  await Logics.db.user.update(email, {
-    [`hasSelfTags.investor`]: isExistInvestorTag,
-    [`hasSelfTags.founder`]: isExistFounderTag,
-    [`hasSelfTags.member`]: isExistMemberTag,
-  });
-
-  res.send({ messages: 'OK' });
+  const userTagsResult = await Logics.db.userTags.update(userTagsConditions, userTags);
+  const userResult = await Logics.db.users.update(userConditions, user);
+  res.send(userTagsResult);
 };
 
-export const saveUserBg = async (email, path, req, res) => {
-  console.log('saveUserBg');
-  Logics.fs.writeImage(email, path, 'bg');
+export const saveUserBg = async (_id, path, req, res) => {
+  Logics.fs.writeImage(_id, path, 'bg');
   res.send({ message: 'OK' });
 };
 
-export const saveUserIcon = async (email, path, req, res) => {
-  console.log('saveUserIcon');
-  Logics.fs.writeImage(email, path, 'icon');
+export const saveUserIcon = async (_id, path, req, res) => {
+  Logics.fs.writeImage(_id, path, 'icon');
   res.send({ message: 'OK' });
 };
 
-export const exeFetchConfig = async (req, res, protocol, ch): Promise<ConfigType> => {
+export const exeFetchConfig = async (req, res, ch, protocol = 'https'): Promise<ConfigType> => {
   let config = await Logics.html.exeFetchConfig(protocol, ch);
 
   if (config === null) {
@@ -189,11 +192,11 @@ export const exeFetchConfig = async (req, res, protocol, ch): Promise<ConfigType
   }
 
   if (config) {
-    if (config.storiesIndex.length > 0) {
+    if (config.stories.length > 0) {
       return {
         ...config,
-        storiesIndex: config.storiesIndex.map((creatorIndex, index) => {
-          return ch === '/' ? { ...creatorIndex, ch, no: config.storiesIndex.length } : { ...creatorIndex, ch, no: index + 1 };
+        stories: config.stories.map((creatorIndex, index) => {
+          return ch === '/' ? { ...creatorIndex, ch, no: config.stories.length } : { ...creatorIndex, ch, no: index + 1 };
         }),
       };
     } else {
@@ -204,8 +207,8 @@ export const exeFetchConfig = async (req, res, protocol, ch): Promise<ConfigType
   }
 };
 
-export const fetchConfig = async (req, res, protocol, ch) => {
-  const config = await exeFetchConfig(req, res, protocol, ch);
+export const fetchConfig = async (req, res, ch, protocol) => {
+  const config = await exeFetchConfig(req, res, ch, protocol);
   await Logics.db.threads.update(ch, { userCategoryChs: config.userCategoryChs });
 };
 
@@ -222,27 +225,107 @@ export const getStaticTags = async (): Promise<any> => {
   return { industoryParent, industory, startupSeries, jobTerm, jobTitle, jobParents, jobCategory, jobs, story };
 };
 
-export const getUser = async (ch): Promise<any> => {
-  const email = ch.replace(/\//g, '');
-  const user = await Logics.db.user.findOne(email, true);
+export const getUsers = async (conditios = {}): Promise<any> => {
+  const users = await Logics.db.users.find(conditios);
+  return users.response;
+};
+
+export const getUser = async (_id): Promise<any> => {
+  const user = await Logics.db.users.findOne({ _id }, true);
   return user.response;
 };
 
-export const getUserTags = async (ch): Promise<any> => {
-  const email = ch.replace(/\//g, '');
-  const userTags = await Logics.db.userTags.find({ email });
+export const getUserTags = async (_id): Promise<any> => {
+  const userTags = await Logics.db.userTags.find({ userId: _id });
   return userTags.response;
 };
 
+export const top = async (params, json = false, req, res) => {};
+
+export const users = async (params, json = false, req, res) => {
+  const method = 'users';
+  const [userId] = params;
+  const responseMethod = json ? 'json' : 'render';
+  const config = await exeFetchConfig(req, res, userId);
+
+  let language = 'en';
+  let storiesIndexParam = 0;
+
+  if (userId) {
+    const staticTags = await getStaticTags();
+    const user = await getUser(userId);
+    const users = [];
+    const userTags = await getUserTags(userId);
+
+    const stories = Logics.fs.getStories(userId, storiesIndexParam, config);
+    const response = {
+      language,
+      method,
+      stories,
+      config,
+      staticTags,
+      user,
+      users,
+      userTags,
+      domain: conf.domain,
+      apiURL: conf.apiURL,
+      wwwURL: conf.wwwURL,
+      coverURL: conf.coverURL,
+      tuneURL: conf.tuneURL,
+      extURL: conf.extURL,
+      componentsURL: conf.componentsURL,
+      assetsURL: conf.assetsURL,
+      clientURL: conf.clientURL,
+      apiAccessURL: conf.apiAccessURL,
+    };
+
+    if (responseMethod === 'render') {
+      res.render('cover/', response);
+    } else {
+      res.json(response);
+    }
+  } else {
+    const users = await getUsers();
+    const response = {
+      language,
+      method,
+      users,
+      stories: [],
+      config,
+      staticTags: {},
+      user: {},
+      userTags: [],
+      domain: conf.domain,
+      apiURL: conf.apiURL,
+      wwwURL: conf.wwwURL,
+      coverURL: conf.coverURL,
+      tuneURL: conf.tuneURL,
+      extURL: conf.extURL,
+      componentsURL: conf.componentsURL,
+      assetsURL: conf.assetsURL,
+      clientURL: conf.clientURL,
+      apiAccessURL: conf.apiAccessURL,
+    };
+    if (responseMethod === 'render') {
+      res.render('cover/', response);
+    } else {
+      res.json(response);
+    }
+  }
+
+  res.end();
+};
+
 export const getDomainProfile = async (req, res, protocol, ch, language, storiesIndexParam?: number, isGetTags = false): Promise<any> => {
+  const id = ch.replace(/^\/|\/$/g, '');
   const staticTags = isGetTags ? await getStaticTags() : {};
-  const userTags = isGetTags ? await getUserTags(ch) : [];
-  const user = await getUser(ch);
-  let config = await exeFetchConfig(req, res, protocol, ch);
+  const user = await getUser(id);
+  const userTags = isGetTags ? await getUserTags(id) : [];
+  let config = await exeFetchConfig(req, res, id, protocol);
 
-  const stories = Logics.fs.getStories(ch, storiesIndexParam, config);
+  const stories = Logics.fs.getStories(id, storiesIndexParam, config);
 
-  let { response: thread, isExist }: any = await Logics.db.threads.findOne(ch, { buildinSchema: true });
+  let { response: thread, isExist }: any = await Logics.db.threads.findOne(id, { buildinSchema: true });
   const isRequireUpsert = Thread.getStatusIsRequireUpsert(thread, isExist);
   let isAddStoriesConfig = false;
   if (ch === '/') {
@@ -253,16 +336,14 @@ export const getDomainProfile = async (req, res, protocol, ch, language, stories
       promiseAll.push(exeFetchConfig(req, res, obj.protocol, obj.ch));
     });
 
-    const storiesIndex = await Promise.all(promiseAll);
+    const stories = await Promise.all(promiseAll);
 
-    config.storiesIndex = storiesIndex
-      .filter((obj) => obj.storiesIndex && obj.storiesIndex.length > 0)
-      .map((obj) => obj.storiesIndex[obj.storiesIndex.length - 1]);
+    config.stories = stories.filter((obj) => obj.stories && obj.stories.length > 0).map((obj) => obj.stories[obj.stories.length - 1]);
   } else {
-    isAddStoriesConfig = config.storiesIndex.length > thread.storiesCnt;
+    isAddStoriesConfig = config.stories.length > thread.storiesCnt;
 
     if (isAddStoriesConfig) {
-      thread.storiesCnt = config.storiesIndex.length;
+      thread.storiesCnt = config.stories.length;
       thread.updateStoriesTime = new Date();
     }
   }
