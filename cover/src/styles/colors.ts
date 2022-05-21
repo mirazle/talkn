@@ -13,7 +13,7 @@ export type BaseColorType =
   | typeof blackRgb;
 export type ColorType = ThemeColorType | BaseColorType;
 
-export type AlphaType = typeof brightAlpha | typeof baseAlpha | typeof darkAlpha;
+export type AlphaType = typeof brightAlpha | typeof baseAlpha | typeof darkAlpha | typeof deepDarkAlpha;
 
 /*******************/
 /*  function
@@ -42,6 +42,7 @@ export const blackRgb = '0, 0, 0';
 export const brightAlpha = '0.96';
 export const baseAlpha = '0.9';
 export const darkAlpha = '0.6';
+export const deepDarkAlpha = '0.3';
 
 /*******************/
 /*  theme colors
@@ -50,12 +51,14 @@ export const darkAlpha = '0.6';
 export const themeRgb = `79, 174, 159`;
 export const hotRgb = `255, ${baseTension}, 0`;
 export const flatRgb = `${baseTension}, ${baseTension}, ${baseTension}`;
-export const coldRgb = `0, ${baseTension}, 255`;
+export const coldRgb = `0, 150, 255`;
 
 /*******************/
 /*  common colors
 /*******************/
 
+// linear-gradient(55deg, rgba(55, 200, 255, 0.9), rgba(55, 255, 200,0.9))
+//'linear-gradient(55deg, rgba(35, 180, 235, 0.9), rgba(35, 235, 180,0.9))';
 export const themeColor = getRgbaColor(themeRgb);
 export const hotColor = getRgbaColor(hotRgb);
 export const flatColor = getRgbaColor(flatRgb);
@@ -92,6 +95,7 @@ export const articleBgColor = getRgbaColor(brightRgb);
 export const articleBgHoverColor = getRgbaColor(darkRgb);
 export const saveColor = getRgbaColor(hotRgb);
 export const saveCheckColor = getRgbaColor(themeRgb);
+export const fullBackgroundColor = getRgbaColor(blackRgb, deepDarkAlpha);
 
 export default {
   baseTension,
@@ -107,6 +111,7 @@ export default {
   brightAlpha,
   baseAlpha,
   darkAlpha,
+  deepDarkAlpha,
   themeRgb,
   hotRgb,
   flatRgb,
@@ -136,6 +141,7 @@ export default {
   tagBgColor,
   saveColor,
   saveCheckColor,
+  fullBackgroundColor,
   getRgbColor,
   getRgbaColor,
 };

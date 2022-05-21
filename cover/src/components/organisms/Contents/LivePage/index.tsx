@@ -3,7 +3,6 @@ import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import CommingSoon from 'cover/components/atoms/CommingSoon';
-import Spinner from 'cover/components/atoms/Spinner';
 
 type Props = {
   ch: string;

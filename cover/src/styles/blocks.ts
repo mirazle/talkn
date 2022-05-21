@@ -21,6 +21,7 @@ export const sexPadding = baseMargin * 6;
 export const sepPadding = baseMargin * 7;
 export const shadowSize = 10;
 export const fontBaseSize = 20;
+export const fontBaseSpSize = 16;
 export const fontBaseWeight = 200;
 export const fontSize = '100%';
 export const fontWeight = '200';
@@ -51,6 +52,7 @@ export default {
   sepPadding,
   shadowSize,
   fontBaseSize,
+  fontBaseSpSize,
   fontBaseWeight,
   fontSize,
   fontWeight,

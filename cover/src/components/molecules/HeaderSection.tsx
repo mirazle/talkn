@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Flex from 'cover/components/atoms/Flex';
-import H from 'cover/components/atoms/H';
-import Section from 'cover/components/atoms/Section';
 import Svg, { IconType } from 'cover/components/atoms/svg';
 import Checkmark from 'cover/components/atoms/svg/Checkmark';
+import Flex, { Section, H5 } from 'cover/flexes';
 import styles from 'cover/styles';
 
 type Props = {
@@ -20,8 +18,10 @@ const Component: React.FC<Props> = ({ title, headerMenu, content, iconType = 'Ta
   const SvgIcon = Svg[iconType];
   return (
     <SectionCustom
-      className="ProfileSection"
+      className="HeaderSection"
+      width="100%"
       flow="column nowrap"
+      alignItems="center"
       resetOrigin
       border
       borderRadius
@@ -31,7 +31,7 @@ const Component: React.FC<Props> = ({ title, headerMenu, content, iconType = 'Ta
       bottomPadding
       bottomMargin>
       <Header
-        className={'ProfileSectionHeader'}
+        className={'HeaderSectionHeader'}
         width="100%"
         alignItems="center"
         justifyContent="space-between"
@@ -39,19 +39,26 @@ const Component: React.FC<Props> = ({ title, headerMenu, content, iconType = 'Ta
         upperPadding
         sidePadding
         bottomPadding>
-        <H.Five className={title} upperMargin bottomMargin>
-          <SvgIcon className="ProfileSectionSvgIcon" />
+        <H5 className={title} upperMargin bottomMargin>
+          {/*<SvgIcon className="ProfileSectionSvgIcon" />*/}
           {title}
-        </H.Five>
+        </H5>
         {headerMenu && (
           <Flex className={'ProfileSectionMenu'} flow="column nowrap">
             {headerMenu}
           </Flex>
         )}
       </Header>
-      <Flex width="100%" className={'ProfileSectionContent'} flow="column nowrap" upperPadding sidePadding sideMargin bottomPadding>
+      <Content
+        className={'HeaderSectionContent'}
+        flow="column nowrap"
+        justifyContent="center"
+        upperPadding
+        sidePadding
+        sideMargin
+        bottomPadding>
         {content}
-      </Flex>
+      </Content>
       {checkAnimation && <Checkmark />}
     </SectionCustom>
   );
@@ -68,6 +75,13 @@ const SectionCustom = styled(Section)`
     border-right: 0;
     border-left: 0;
     border-radius: 0;
+    .HeaderSection {
+      margin: 0;
+    }
+    .HeaderSectionContent {
+      padding: ${styles.basePadding}px;
+      margin: 0;
+    }
   }
 `;
 
@@ -75,4 +89,10 @@ const Header = styled(Flex)`
   .ProfileSectionSvgIcon {
     margin: 0 ${styles.doubleMargin}px 0 0;
   }
+`;
+
+const Content = styled(Flex)`
+  width: 100%;
+  height: auto;
+  min-height: 200px;
 `;

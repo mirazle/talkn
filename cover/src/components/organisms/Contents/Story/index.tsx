@@ -2,84 +2,81 @@ import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 
 import conf from 'common/conf';
-import { StoriesIndexType, configStoriesLimit } from 'common/talknConfig';
+import { StoriesType, configStoriesLimit } from 'common/talknConfig';
 
-import A from 'cover/components/atoms/A';
-import Flex from 'cover/components/atoms/Flex';
 import HeaderSection from 'cover/components/molecules/HeaderSection';
-import ControlButton from 'cover/components/organisms/Contents/Profile/button/ControlButton';
-import Add from 'cover/components/organisms/Contents/Profile/tip/Add';
 import StoryList from 'cover/components/organisms/Contents/Story/List';
+import Flex, { A, Ol } from 'cover/flexes';
 import styles from 'cover/styles';
 
 type Props = {
+  userId: string;
   isMyPage: boolean;
   slide?: boolean;
 };
 
-export const storiesIndexContentsInit: StoriesIndexType[] = [];
+export const scrollBaseLeft = styles.baseMargin;
+export const storiesInit: StoriesType[] = [];
 export const getScrollWidth = () => (window.innerWidth > styles.appWidth ? styles.appWidth : window.innerWidth);
 
-const Component: React.FC<Props> = ({ isMyPage = false, slide = false }: Props) => {
-  const storiesEyeCatchOrderRef = useRef<HTMLElement>();
-  const [storiesIndexes, setStoriesIndexes] = useState<StoriesIndexType[]>([]);
-  const [isEditable, setIsEditable] = useState(false);
-  const [storiesIndex, setStoriesIndex] = useState(0);
-  const [storiesEyeCatchs, setStoriesEyeCatchs] = useState<StoriesIndexType[]>(storiesIndexContentsInit);
-  const storiesIndexCnt = window.talknConfig.storiesIndex.length;
+let orderElm;
+const Component: React.FC<Props> = ({ userId, isMyPage = false, slide = false }: Props) => {
+  const orderRef = useRef();
+  const [displayStories, setDisplayStories] = useState<StoriesType[]>(storiesInit);
+  const [index, setIndex] = useState(0);
+  const indexCnt = window.talknDatas.config && window.talknDatas.config.stories ? window.talknDatas.config.stories.length : 0;
+
   useEffect(() => {
-    const _offset = window.talknStoriesPointer - configStoriesLimit / 2;
+    const _offset = window.talknDatas.storiesPointer - configStoriesLimit / 2;
     const offset = 0 <= _offset ? _offset : 0;
     const limit = configStoriesLimit;
-    const _storiesIndexes = [...window.talknConfig.storiesIndex].reverse();
+    const updateDisplayStories = [...window.talknDatas.config.stories]
+      .map((stories, index) => stories)
+      .splice(offset, limit)
+      .reverse();
 
-    let _storiesEyeCatchs = [...window.talknConfig.storiesIndex]
-      .map((storiesIndex, index) => {
-        if (window.talknThread.ch !== '/') {
-          //storiesIndex.no = index + 1;
-        }
-        return storiesIndex;
-      })
-      .splice(offset, limit);
-    _storiesEyeCatchs = _storiesEyeCatchs.reverse();
+    setDisplayStories(updateDisplayStories);
+  }, [window.talknDatas.config.stories]);
 
-    setStoriesIndexes(_storiesIndexes);
-    setStoriesEyeCatchs(_storiesEyeCatchs);
-  }, [window.talknConfig.storiesIndex]);
-
-  useEffect(() => {
-    const olElm = storiesEyeCatchOrderRef.current as HTMLOListElement;
-    if (isEditable) {
-      olElm.scrollTo({
-        left: 0,
-        behavior: 'smooth',
-      });
-    }
-  }, [isEditable]);
-
-  const handleOnScrollHeadEyeCatch = (e: React.UIEvent<HTMLOListElement, UIEvent>) => {
-    const scrollWidth = getScrollWidth();
-    const scrollIndex = (e.target as HTMLOListElement).scrollLeft / scrollWidth;
-    if (Number.isInteger(scrollIndex)) {
-      setStoriesIndex(scrollIndex);
+  const handleOnScroll = (e: React.UIEvent<HTMLOListElement, UIEvent>) => {
+    const olElm = e.target as HTMLOListElement;
+    if (olElm.children.length > 0) {
+      const oneScrollWidth = window.innerWidth - scrollBaseLeft * 2;
+      const index = olElm.scrollLeft / oneScrollWidth;
+      if (Number.isInteger(index)) {
+        setIndex(index);
+      }
     }
   };
 
   const handleOnClickCircle = (e) => {
-    if (storiesEyeCatchOrderRef.current) {
-      storiesEyeCatchOrderRef.current.scrollTo({
+    if (orderRef.current) {
+      orderElm.scrollTo({
         left: getScrollWidth() * e.target.dataset.index,
         behavior: 'smooth',
       });
     }
   };
 
-  const getBGContent = (eyeCatch) => {
-    return (
+  const getContent = () => {
+    return indexCnt > 0 ? (
       <>
-        {eyeCatch === '' && !isEditable && <span className="noImage">NO IMAGE</span>}
-        <Add onClick={() => {}} show={isEditable} />
+        <CircleOrder indexCnt={indexCnt} index={index}>
+          {isMyPage && <li key={`CircleOrderCreate`} data-index={0} onClick={handleOnClickCircle} />}
+          {window.talknDatas.config &&
+            window.talknDatas.config.stories.map((circle, i) => (
+              <li key={`${circle.no}-${i}`} data-index={isMyPage ? i + 1 : i} onClick={handleOnClickCircle} />
+            ))}
+        </CircleOrder>
+
+        {slide && (
+          <Flex width="100%" justifyContent="flex-end" sidePadding>
+            <CustomA href={`//${conf.coverURL}${userId}story`}>More →</CustomA>
+          </Flex>
+        )}
       </>
+    ) : (
+      'NO DATA'
     );
   };
 
@@ -87,31 +84,20 @@ const Component: React.FC<Props> = ({ isMyPage = false, slide = false }: Props) 
     <HeaderSection
       title={'My Stories'}
       iconType="Story"
-      headerMenu={
-        isMyPage && (
-          <Flex flow="row nowrap">
-            <ControlButton
-              onClick={() => {
-                setIsEditable(!isEditable);
-              }}
-              isEditable={isEditable}
-              isChangeUserTag={false}
-            />
-          </Flex>
-        )
-      }
       content={
         <>
-          <Container
-            ref={storiesEyeCatchOrderRef}
-            onScroll={handleOnScrollHeadEyeCatch}
+          <StoryOrder
+            className="StoryOrder"
+            mouted={(elm) => (orderElm = elm)}
+            onScroll={handleOnScroll}
             slide={slide}
-            storiesIndexCnt={window.talknConfig.storiesIndex.length}>
-            {isMyPage && <StoryList key={`HeadEyeCatchListNo`} isMyPage={isMyPage} create />}
-            {storiesEyeCatchs.length > 0 &&
-              storiesEyeCatchs.map((storiesEyeCatch, i) => (
+            indexCnt={window.talknDatas.config.stories.length}>
+            {isMyPage && <StoryList key={`StoryListCreate`} userId={userId} isMyPage={isMyPage} create />}
+            {displayStories.length > 0 &&
+              displayStories.map((storiesEyeCatch, i) => (
                 <StoryList
-                  key={`HeadEyeCatchList${i}`}
+                  key={`StoryList${i}`}
+                  userId={userId}
                   title={storiesEyeCatch.title}
                   eyeCatch={storiesEyeCatch.eyeCatch}
                   isMyPage={isMyPage}
@@ -119,25 +105,8 @@ const Component: React.FC<Props> = ({ isMyPage = false, slide = false }: Props) 
                   slide={slide}
                 />
               ))}
-          </Container>
-          {storiesIndexCnt > 0 && (
-            <>
-              <EyeCatchCircleOrder storiesIndexCnt={storiesIndexCnt} eyeCatchScrollIndex={storiesIndex}>
-                {window.talknConfig &&
-                  window.talknConfig.storiesIndex.map((circle, index) => (
-                    <li key={`${circle.no}-${index}`} data-index={index} onClick={handleOnClickCircle} />
-                  ))}
-              </EyeCatchCircleOrder>
-
-              {slide && (
-                <Flex width="100%" justifyContent="flex-end" sidePadding>
-                  <A href={`//${conf.coverURL}${window.talknThread.ch}story`} hoverUnderline>
-                    More →
-                  </A>
-                </Flex>
-              )}
-            </>
-          )}
+          </StoryOrder>
+          {getContent()}
         </>
       }
     />
@@ -147,26 +116,24 @@ const Component: React.FC<Props> = ({ isMyPage = false, slide = false }: Props) 
 export default Component;
 
 type ContainerPropsType = {
-  ref: any;
-  storiesIndexCnt: number;
+  indexCnt: number;
   slide?: boolean;
 };
 
-const Container = styled.ol<ContainerPropsType>`
-  ${(props) => (props.slide ? 'overflow: scroll hidden' : '')};
-  display: flex;
+const StoryOrder = styled(Ol)<ContainerPropsType>`
+  ${(props) => (props.slide ? 'overflow: scroll visible' : '')};
   flex-flow: row ${(props) => (props.slide ? 'nowrap' : 'wrap')};
   align-items: flex-start;
   justify-content: ${(props) => {
     if (props.slide) {
-      return props.storiesIndexCnt < 3 && props.storiesIndexCnt !== 0 ? 'center' : 'flex-start';
+      return props.indexCnt < 3 && props.indexCnt !== 0 ? 'center' : 'flex-start';
     } else {
       return 'flex-start';
     }
   }};
   width: 100%;
-  padding: 0;
-  margin: 0 auto;
+  padding-top: 100px;
+  margin-top: -100px;
   ${(props) => (props.slide ? 'scroll-snap-type: x mandatory' : '')};
   @media (max-width: ${styles.spLayoutWidth}px) {
     justify-content: flex-start;
@@ -176,17 +143,17 @@ const Container = styled.ol<ContainerPropsType>`
   }
 `;
 
-type EyeCatchCircleOrderPropsType = {
-  storiesIndexCnt: number;
-  eyeCatchScrollIndex: number;
+type CircleOrderPropsType = {
+  indexCnt: number;
+  index: number;
 };
 
-const EyeCatchCircleOrder = styled.ol<EyeCatchCircleOrderPropsType>`
+const CircleOrder = styled.ol<CircleOrderPropsType>`
   display: none;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-around;
-  width: calc(${(props) => getHeadEyeCatchSelectOrderWidth(props.storiesIndexCnt)}% - ${styles.doubleMargin}px);
+  width: calc(${(props) => getHeadEyeCatchSelectOrderWidth(props.indexCnt)}% - ${styles.doubleMargin}px);
   padding: 0;
   margin: 0 auto;
   li {
@@ -198,7 +165,7 @@ const EyeCatchCircleOrder = styled.ol<EyeCatchCircleOrderPropsType>`
     list-style: none;
     cursor: pointer;
   }
-  li[data-index='${(props) => props.eyeCatchScrollIndex}'] {
+  li[data-index='${(props) => props.index}'] {
     background: ${styles.fontColor};
   }
   @media (max-width: ${styles.spLayoutWidth}px) {
@@ -218,7 +185,17 @@ const EyeCatchCircleOrder = styled.ol<EyeCatchCircleOrderPropsType>`
   }
 `;
 
-const getHeadEyeCatchSelectOrderWidth = (storiesIndexCnt): number => {
-  if (storiesIndexCnt < 10) return Number(`${storiesIndexCnt}0`);
+const CustomA = styled(A)`
+  :visited,
+  :hover,
+  :active {
+    cursor: pointer;
+    user-select: none;
+    text-decoration: ${styles.brightColor} solid underline;
+  }
+`;
+
+const getHeadEyeCatchSelectOrderWidth = (indexCnt): number => {
+  if (indexCnt < 10) return Number(`${indexCnt}0`);
   return 100;
 };

@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import conf from 'common/conf';
 
-import A from 'cover/components/atoms/A';
 import Add from 'cover/components/organisms/Contents/Profile/tip/Add';
+import { A, Li } from 'cover/flexes';
 import styles from 'cover/styles';
 
+import { scrollBaseLeft } from './';
+
 type Props = {
+  userId: string;
   isMyPage: boolean;
   title?: string;
   eyeCatch?: string;
@@ -15,18 +18,27 @@ type Props = {
   slide?: boolean;
 };
 
-const Component: React.FC<Props> = ({ isMyPage = false, title = '', eyeCatch = '', create = false, slide = false }: Props) => {
+const Component: React.FC<Props> = ({ userId, isMyPage, title = '', eyeCatch = '', create = false, slide = false }: Props) => {
+  const [isHover, setIsHover] = useState(false);
   const getBGContent = (eyeCatch) => {
     if (create) {
-      return <Add onClick={() => {}} show={create} isOnHover={false} />;
+      return <Add onClick={() => {}} show={create} showForceHover={isHover} />;
     } else {
       return eyeCatch === '' && <span className="noImage">NO IMAGE</span>;
     }
   };
 
   return (
-    <Container key={`HeadEyeCatchListNo`} eyeCatch={eyeCatch} isMyPage={isMyPage} create={create} slide={slide}>
-      <A href={`https://${conf.coverURL}${window.talknThread.ch}story/create`}>
+    <Container
+      key={`HeadEyeCatchListNo`}
+      eyeCatch={eyeCatch}
+      isMyPage={isMyPage}
+      create={create}
+      slide={slide}
+      alt={title !== '' ? title : 'Add'}
+      onMouseOver={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}>
+      <A href={`https://${conf.coverURL}/story/${userId}/create`}>
         <div className="bg">{getBGContent(eyeCatch)}</div>
         <div className="description">{title}</div>
       </A>
@@ -43,8 +55,7 @@ type ContainerPropsType = {
   slide: boolean;
 };
 
-export const Container = styled.li<ContainerPropsType>`
-  display: flex;
+export const Container = styled(Li)<ContainerPropsType>`
   flex-flow: column nowrap;
   align-items: ${(props) => (props.create ? 'center' : 'flex-start')};
   justify-content: ${(props) => (props.create ? 'flex-start' : 'flex-start')};
@@ -53,12 +64,11 @@ export const Container = styled.li<ContainerPropsType>`
   height: 256px;
   min-height: 256px;
   max-height: 256px;
-  margin: ${styles.baseMargin}px;
-  overflow: hidden;
+  margin: ${scrollBaseLeft}px;
+  overflow: visible;
   text-align: right;
   ${(props) => (props.slide || props.create ? 'scroll-snap-align: start' : '')};
   list-style: none;
-
   border-radius: ${styles.doubleSize}px;
   transition: ${styles.transitionDuration}ms;
   transform: translate(0px, 0px);
@@ -94,15 +104,14 @@ export const Container = styled.li<ContainerPropsType>`
     margin: ${styles.baseMargin}px 0;
     text-align: left;
     line-height: 30px;
-    font-size: 20px;
+    font-size: 100%;
     font-weight: 200;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     color: ${styles.fontColor};
     overflow: hidden;
   }
-
-  :hover {
+  う :hover {
     a {
     }
     .description {
@@ -111,7 +120,7 @@ export const Container = styled.li<ContainerPropsType>`
     }
     .bg {
       box-shadow: ${styles.shadowHorizonBright};
-      opacity: 0.9;
+      opacity: 0.8;
     }
   }
 

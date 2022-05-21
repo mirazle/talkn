@@ -4,59 +4,58 @@ import styled from 'styled-components';
 import conf from 'common/conf';
 import util from 'common/util';
 
-import Flex from 'cover/components/atoms/Flex';
 import Checkmark from 'cover/components/atoms/svg/Checkmark';
-import { useGlobalContext, GlobalContextType } from 'cover/container';
+import Flex, { FlexBoxLayoutPropsType, useFlexesContext, FlexesContextType } from 'cover/flexes';
+import { GoogleSessionType } from 'cover/model/Google';
+import { UserType, UserHasSelfTagsType } from 'cover/model/User';
 import styles from 'cover/styles';
-import { UserType } from 'cover/talkn.cover';
+
+export const layoutTop = 'top';
+export const layoutSearch = 'search';
+export const layoutDefault = layoutTop;
+export type LayoutType = typeof layoutTop | typeof layoutSearch;
 
 export const hoverAnimationBoxShadow = 'shadow';
 export const hoverAnimationBlur = 'blur';
 export const hoverAnimationDefault = hoverAnimationBlur;
 export type HoverAnimationType = typeof hoverAnimationBoxShadow | typeof hoverAnimationBlur;
 
-export type FixValuesType = {
-  email: string;
-  bg: string;
-  icon: string;
-  sexes: string[];
-  languages: string[];
-  birthday: number;
-};
-
-export const fixValuesInit: FixValuesType = {
-  email: '',
-  bg: '',
-  icon: '',
-  sexes: [],
-  languages: [],
-  birthday: conf.defaultBirthdayUnixtime,
-};
-
-const Mark: React.FC<{ label: string }> = ({ label }) => (
-  <MarkContainer>
-    <span className="label">{label}</span>
-  </MarkContainer>
-);
+const Mark: React.FC<{ label: string }> = ({ label }) => <MarkContainer className="mark">{label}</MarkContainer>;
 
 type Props = {
+  id?: string;
   className?: string;
+  name?: string;
+  bg?: string;
+  icon?: string;
+  birthday?: number | '-';
+  description?: string;
+  tags?: UserHasSelfTagsType | {};
+  session?: GoogleSessionType;
   user?: UserType;
-  handleOnClick?: () => void;
+  layout?: LayoutType;
   isSavedAnimation?: boolean;
   hoverAnimationType?: HoverAnimationType;
   fullWidth?: boolean;
+  handleOnClick?: () => void;
 };
 
 const Component: React.FC<Props> = ({
-  className = '',
-  user = {},
-  handleOnClick,
+  id,
+  className = 'UserContentBackground',
+  name,
+  bg,
+  icon,
+  birthday,
+  description,
+  tags,
+  layout = layoutDefault,
   isSavedAnimation,
   hoverAnimationType = hoverAnimationDefault,
   fullWidth = true,
+  handleOnClick,
 }) => {
-  const { innerWidth, innerHeight }: GlobalContextType = useGlobalContext();
+  const { innerWidth, innerHeight }: FlexesContextType = useFlexesContext();
   const [isHover, setIsHover] = useState(false);
   const [didMount, setDidMount] = useState(false);
   const controlHeight = getControlHeight(innerWidth, innerHeight);
@@ -66,15 +65,20 @@ const Component: React.FC<Props> = ({
   }, []);
 
   return (
-    <Container className={className}>
+    <>
       <Background
-        className="UserContentBackground"
-        email={user.email}
-        image={user.bg}
+        className={className}
+        id={id}
+        image={bg}
         isHover={isHover}
         hoverAnimationType={hoverAnimationType}
         controlHeight={controlHeight}
         fullWidth={fullWidth}
+        pointer
+        overflow="hidden"
+        flow="row nowrap"
+        alignItems="flex-start"
+        justifyContent="flex-start"
       />
       {didMount && (
         <Body
@@ -82,42 +86,47 @@ const Component: React.FC<Props> = ({
           onMouseOver={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
           isHover={isHover}
+          hoverAnimationType={hoverAnimationType}
           onClick={handleOnClick && handleOnClick}
           fullWidth={fullWidth}
-          flow="row nowrap"
+          pointer
           alignItems="center"
           justifyContent="center"
           controlHeight={controlHeight}>
-          <ProfileContent className="ProfileContent" flow="row nowrap" alignItems="flex-start" justifyContent="flex-start">
-            <UserIcon email={user.email} image={user.icon} />
-            <Flex className="userData" flow="column nowrap" sideMargin sidePadding>
-              <div className="name">{user.name}</div>
-              <div className="age">AGE: {util.getAgeByBirthday(user.birthday)}</div>
-              <Flex className="userTags" flow="row wrap" upperMargin>
-                {user &&
-                  user.hasSelfTags &&
-                  Object.keys(user.hasSelfTags).map((key) => user.hasSelfTags[key] && <Mark key={key} label={key} />)}
+          <ProfileContent
+            className={`ProfileContent ${layout}`}
+            flow="row wrap"
+            alignItems="center"
+            justifyContent="flex-start"
+            id={id}
+            image={icon}>
+            <div className="userIcon" />
+            <Flex className="userDataWrap" flow="column nowrap">
+              <Flex className="userData" flow="column nowrap">
+                <div className="name">{name}</div>
+                <div className="age">AGE: {birthday}</div>
               </Flex>
-              <Flex className="selfIntro" flow="row wrap" upperMargin>
-                Self Introduction Text......
+              <Flex className="userDetailData" flow="column nowrap">
+                <Flex className="userTags" flow="row wrap" upperMargin>
+                  {tags && Object.keys(tags).map((key) => tags[key] && <Mark key={key} label={util.getHeadUpper(key)} />)}
+                </Flex>
+                <Flex className="selfIntro" flow="row wrap" upperMargin>
+                  {description}
+                </Flex>
               </Flex>
             </Flex>
           </ProfileContent>
           {isSavedAnimation && <Checkmark />}
         </Body>
       )}
-    </Container>
+    </>
   );
 };
 
 export default Component;
 
-const Container = styled.section`
-  display: contents;
-`;
-
 type BackgroundPropsType = {
-  email: string;
+  id: string;
   isHover: boolean;
   hoverAnimationType: HoverAnimationType;
   controlHeight: number;
@@ -125,28 +134,27 @@ type BackgroundPropsType = {
   image?: string;
 };
 
-const Background = styled.div<BackgroundPropsType>`
-  overflow: hidden;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: flex-start;
-  justify-content: flex-start;
+const Background = styled(Flex)<BackgroundPropsType>`
   width: ${(props) => (props.fullWidth ? `${styles.eyeCatchVwValue}vw` : '100%')};
   height: ${(props) => props.controlHeight}px;
   min-height: ${styles.eyeCatchMinHeightPxValue}px;
+  max-height: ${styles.eyeCatchMinHeightPxValue}px;
   background-size: cover;
-  background-image: url(${(props) => getBackgroundImage({ email: props.email, image: props.image })});
+  background-image: ${(props) => getBackgroundImage({ id: props.id, image: props.image })};
   background-position: center;
   color: ${styles.whiteColor};
   opacity: 1;
   box-shadow: ${(props) => getBoxShadow(props)};
-
   transition: ${styles.transitionDuration}ms;
   transform: ${(props) => getBackgroundTransform(props)};
   :before {
     ${styles.beforeBlur};
   }
-
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+  }
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
     height: ${styles.eyeCatchVhValue}vh;
     min-height: unset;
@@ -155,6 +163,7 @@ const Background = styled.div<BackgroundPropsType>`
 
 type BodyPropsType = {
   isHover: boolean;
+  hoverAnimationType: HoverAnimationType;
   controlHeight: number;
   fullWidth: boolean;
   onMouseOver: () => void;
@@ -162,6 +171,7 @@ type BodyPropsType = {
 };
 
 const Body = styled(Flex)<BodyPropsType>`
+  overflow: hidden;
   width: ${(props) => (props.fullWidth ? `${styles.eyeCatchVwValue}vw` : '100%')};
   height: ${(props) => props.controlHeight}px;
   min-height: ${styles.eyeCatchMinHeightPxValue}px;
@@ -169,94 +179,106 @@ const Body = styled(Flex)<BodyPropsType>`
   z-index: ${styles.zIndex.eyeCatch};
   cursor: pointer;
   backdrop-filter: ${(props) => getBackdropFilter(props)};
+  transition: ${styles.transitionDuration}ms;
+  transform: ${(props) => getBackgroundTransform(props)};
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
     height: ${styles.eyeCatchVhValue}vh;
     min-height: unset;
   }
 `;
 
-const ProfileContent = styled(Flex)`
-  width: 100%;
-  max-width: ${styles.appWidth}px;
-  margin-left: 5%;
-  color: ${styles.whiteColor};
+type ProfileContentPropsType = {
+  id: string;
+  image: string;
+} & FlexBoxLayoutPropsType;
 
+const ProfileContent = styled(Flex)<ProfileContentPropsType>`
+  width: 100%;
+  min-width: unset;
+  max-width: ${styles.appWidth}px;
+  color: ${styles.whiteColor};
+  .userDataWrap {
+    flex: 1 1 auto;
+  }
+  .userIcon {
+    flex: 1 1 120px;
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+    height: 120px;
+    min-height: 120px;
+    max-height: 120px;
+    margin: 0 30px;
+    background-size: cover;
+    background-image: ${(props) => getBackgroundImage({ id: props.id, image: props.image })};
+    background-position: center;
+    border-radius: 50%;
+  }
   .name {
     font-weight: 500;
-    font-size: 35px;
+    font-size: 175%;
   }
-
   .age {
     margin-top: ${styles.baseMargin}px;
-    font-size: 20px;
   }
-
-  .userTags {
-    margin-left: -${styles.baseMargin}px;
-    font-size: 20px;
+  @media (max-width: ${styles.spLayoutWidth}px) {
+    .userIcon {
+      margin: 0 30px;
+    }
+    .name {
+      font-weight: 400;
+      font-size: 150%;
+    }
   }
-
-  .selfIntro {
-    font-size: 20px;
-  }
-
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
     align-items: center;
-    margin-left: 5vw;
     font-weight: 300;
-    .userData {
-      padding: 0;
-      margin-top: 0;
-      margin-right: 0;
-      margin-bottom: 0;
-      margin-left: 10px;
+    .userDataWrap {
+      display: contents;
     }
-
+    .userIcon {
+      flex: 1 1 60px;
+      width: 60px;
+      min-width: 60px;
+      max-width: 60px;
+      height: 60px;
+      min-height: 60px;
+      max-height: 60px;
+      margin: 0 0 0 20px;
+    }
+    .userData {
+      margin: 0 0 0 20px;
+    }
+    .userDetailData {
+      margin: 0 0 0 20px;
+    }
     .name {
       font-weight: 500;
-      font-size: 25px;
+      font-size: 150%;
     }
-
-    .age {
-      font-size: 12px;
-    }
-
     .userTags {
-      margin-left: -${styles.baseMargin}px;
-      font-size: 12px;
+      font-size: 90%;
     }
-
     .selfIntro {
-      font-size: 12px;
+      margin-top: ${styles.baseMargin}px;
+      font-size: 90%;
+    }
+    .mark {
+      padding: ${styles.basePadding / 2}px ${styles.doublePadding}px;
     }
   }
 `;
 
-type UserIconPropsType = {
-  email: string;
-  image: string;
-};
-
-const UserIcon = styled.div<UserIconPropsType>`
-  width: 120px;
-  height: 120px;
-  background-size: cover;
-  background-image: url(${(props) => getBackgroundImage({ email: props.email, image: props.image })});
-  background-position: center;
-  border-radius: 50%;
-  transition: ${styles.transitionDuration}ms;
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    width: 60px;
-    height: 60px;
-  }
-`;
-
-const MarkContainer = styled.div`
+const MarkContainer = styled(Flex)`
   background: ${styles.themeColor};
   padding: ${styles.basePadding}px ${styles.basePadding * 2}px;
   margin-right: ${styles.doubleMargin}px;
   color: ${styles.whiteColor};
   border-radius: 30px;
+  line-height: 26px;
 `;
 
 const getControlHeight = (innerWidth, innerHeight) => {
@@ -269,15 +291,15 @@ const getControlHeight = (innerWidth, innerHeight) => {
   }
 };
 
-const getBackgroundImage = ({ email, image }) => {
+const getBackgroundImage = ({ id, image }) => {
   if (image && image !== '') {
-    return `https://${conf.assetsCoverPath}${email}/${image}`;
+    return `url(https://${conf.assetsCoverPath}${id}/${image}), url(https://${conf.assetsCoverPath}${image}) `;
   } else {
-    return 'none';
+    return `https://${conf.assetsCoverPath}/${image}`;
   }
 };
 
-const getBackgroundTransform = (props: BackgroundPropsType): string => {
+const getBackgroundTransform = (props: BodyPropsType | BackgroundPropsType): string => {
   if (props.isHover) {
     if (props.hoverAnimationType === hoverAnimationBlur) {
       return `scale(1.03)`;
@@ -293,7 +315,7 @@ const getBackgroundTransform = (props: BackgroundPropsType): string => {
 
 const getBackdropFilter = ({ isHover }): string => {
   if (isHover) {
-    return `blur(2px) brightness(0.7)`;
+    return `blur(3px) brightness(0.7)`;
   } else {
     return `blur(0) brightness(1)`;
   }

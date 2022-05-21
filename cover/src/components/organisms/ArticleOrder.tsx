@@ -3,8 +3,8 @@ import styled, { css } from 'styled-components';
 
 import AppStore from 'api/store/App';
 
-import H from 'cover/components/atoms/H';
 import Article, { ArticleType } from 'cover/components/molecules/Article';
+import { H5 } from 'cover/flexes';
 import styles from 'cover/styles';
 
 type StateType = {
@@ -176,7 +176,7 @@ const ArticleOrder = styled.ol<ArticleOrderPropeType>`
   }
 `;
 
-const TitleCustom = styled(H.Five)`
+const TitleCustom = styled(H5)`
   padding: 0 ${styles.doublePadding}px;
   text-indent: 0;
 `;

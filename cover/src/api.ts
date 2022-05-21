@@ -3,7 +3,12 @@ import conf from 'common/conf';
 const method = 'POST';
 const mode = 'cors';
 
-export const json = async (action, _body) => {
+type ResponseResultType = {
+  response: any;
+  error: string;
+};
+
+export const json = async (action, _body = {}) => {
   const body = JSON.stringify(_body);
   if (JSON.parse(body)) {
     const response = await fetch(`https://${conf.coverURL}/api/${action}`, {
@@ -16,7 +21,12 @@ export const json = async (action, _body) => {
       cache: 'no-cache',
       body,
     });
-    return await response.json();
+
+    const responseResdultJson: ResponseResultType = await response.json();
+    if (responseResdultJson.error && responseResdultJson.error !== '') {
+      console.warn(responseResdultJson.error);
+    }
+    return responseResdultJson.response;
   }
 };
 

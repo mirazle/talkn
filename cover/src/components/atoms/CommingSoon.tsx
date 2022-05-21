@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import P from 'cover/components/atoms/P';
+import { P } from 'cover/flexes';
 
 type Props = {
   ch: string;

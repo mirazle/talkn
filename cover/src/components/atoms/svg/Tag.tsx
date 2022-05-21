@@ -1,17 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Flex from 'cover/components/atoms/Flex';
-import { LayoutPropsType, layoutPropsInit } from 'cover/nodes/Layout';
+import Flex, { BoxLayoutPropsType, boxLayoutPropsInit } from 'cover/flexes';
 import styles from 'cover/styles';
 
 export type Props = {
   className?: string;
-} & LayoutPropsType;
+} & BoxLayoutPropsType;
 
 const Component: React.FC<Props> = (props: Props) => {
   const p: Props = {
-    ...layoutPropsInit,
+    ...boxLayoutPropsInit,
     ...props,
   };
   return (

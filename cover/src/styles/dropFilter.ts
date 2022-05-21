@@ -6,6 +6,11 @@ export const alphaBgSet = `
     backdrop-filter: blur(5px);
 `;
 
+export const alphaLightBgSet = `
+    background: ${getRgbaColor(colors.whiteRgb)};
+    backdrop-filter: blur(2.5px);
+`;
+
 export const beforeBlur = `
     background-color: rgba(0, 0, 0, 0.3);
     position: absolute;
@@ -28,6 +33,7 @@ export const getBackdropFilter = (props: { isHover: boolean }): string => {
 
 export default {
   alphaBgSet,
+  alphaLightBgSet,
   beforeBlur,
   getBackdropFilter,
 };
