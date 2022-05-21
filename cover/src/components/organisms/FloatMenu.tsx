@@ -1,17 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import Flex, { FlexLayoutPropsType, flexLayoutPropsInit } from 'cover/components/atoms/Flex';
-import Label from 'cover/components/atoms/Label';
-import Li from 'cover/components/atoms/Li';
-import { LayoutPropsType, layoutPropsInit } from 'cover/nodes/Layout';
+import Flex, { Label, Li, FlexBoxLayoutPropsType, flexLayoutPropsInit, BoxLayoutPropsType, boxLayoutPropsInit } from 'cover/flexes';
+import { MenusType } from 'cover/model/Menu';
 import styles from 'cover/styles';
-
-export type MenusType = {
-  key: string;
-  label: string;
-};
 
 type Props = {
   menus: MenusType[];
@@ -20,14 +13,18 @@ type Props = {
   onClick: (menu: string) => void;
   fitRight?: boolean;
   label?: React.ReactNode;
-} & LayoutPropsType &
-  FlexLayoutPropsType;
+} & BoxLayoutPropsType &
+  FlexBoxLayoutPropsType;
 
 const modalContainerClassName = 'FloatMenuContainer';
 
 const Component: FunctionComponent<Props> = (props: Props) => {
-  const menuRef = useRef(<ol />);
-  const p: Props = { ...layoutPropsInit, ...flexLayoutPropsInit, fitRight: false, ...props };
+  const [didMount, setDidMount] = useState(false);
+  const p: Props = { ...boxLayoutPropsInit, ...flexLayoutPropsInit, fitRight: false, ...props };
+
+  useEffect(() => {
+    setDidMount(p.show);
+  }, [p.show]);
 
   return (
     <>
@@ -35,7 +32,7 @@ const Component: FunctionComponent<Props> = (props: Props) => {
       <Flex flow="column nowrap" className={modalContainerClassName}>
         {p.label && <Label onClick={() => p.setShow(true)}>{p.label}</Label>}
         {p.show && (
-          <MenuOl ref={menuRef} show={p.show} fitRight={p.fitRight} className="MenuOl">
+          <MenuOl show={p.show} fitRight={p.fitRight} didMount={didMount} className="MenuOl">
             {p.menus.map((menu: MenusType) => (
               <Li key={menu.key} onClick={() => p.onClick(menu.key)} lineHeight="36px" sidePadding pointer hover>
                 {menu.label}
@@ -49,6 +46,8 @@ const Component: FunctionComponent<Props> = (props: Props) => {
 };
 
 export default Component;
+
+// TODO: life ganadorでアカウント生成＆タグ生成で動作確認
 
 type BackgroundTypeProps = {
   show: boolean;
@@ -68,8 +67,8 @@ const Background = styled.div<BackgroundTypeProps>`
 `;
 
 type MenuOlProps = {
-  ref: any;
   show: boolean;
+  didMount: boolean;
   fitRight: boolean;
 };
 
@@ -86,14 +85,9 @@ const MenuOl = styled.ol<MenuOlProps>`
   ${styles.alphaBgSet};
   border: 1px solid ${styles.borderColor};
   border-radius: ${styles.borderRadius}px;
-  box-shadow: ${styles.shadowHorizonBright};
+  box-shadow: ${styles.shadowHorizonBase};
   transition: transform ${styles.transitionDuration}ms;
   z-index: ${(props) => (props.show ? 1001 : -1)};
   opacity: ${(props) => (props.show ? 1 : 0)};
-  transform: translateY(${(props) => (props.show ? 0 : `${styles.baseSize * 2}px`)});
-  @media (max-width: ${styles.spLayoutStrictWidth}px) {
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
-  }
+  transform: translateY(${(props) => (props.show && !props.didMount ? 0 : `${styles.baseSize * 2}px`)});
 `;

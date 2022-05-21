@@ -2,21 +2,20 @@ import React from 'react';
 import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import Flex, { FlexLayoutPropsType, flexLayoutPropsInit } from 'cover/components/atoms/Flex';
-import { LayoutPropsType, layoutPropsInit } from 'cover/nodes/Layout';
+import Flex, { FlexBoxLayoutPropsType, flexLayoutPropsInit, BoxLayoutPropsType, boxLayoutPropsInit } from 'cover/flexes';
 import styles from 'cover/styles';
 
 type Props = {
   show: boolean;
   closeModal: () => void;
   children: React.ReactNode;
-} & LayoutPropsType &
-  FlexLayoutPropsType;
+} & BoxLayoutPropsType &
+  FlexBoxLayoutPropsType;
 
 const modalContainerClassName = 'ModalContainer';
 
 const Component: FunctionComponent<Props> = (props: Props) => {
-  const p: Props = { ...layoutPropsInit, ...flexLayoutPropsInit, width: styles.spLayoutStrictWidthPx, ...props };
+  const p: Props = { ...boxLayoutPropsInit, ...flexLayoutPropsInit, width: styles.spLayoutStrictWidthPx, ...props };
   const handleOnClick = (e) => {
     if (e.target.className.indexOf(modalContainerClassName) >= 0) {
       p.closeModal();

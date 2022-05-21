@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Flex from 'cover/components/atoms/Flex';
-import H from 'cover/components/atoms/H';
-import P from 'cover/components/atoms/P';
 import SnsLinks from 'cover/components/molecules/SnsLinks';
+import Flex, { P, H5 } from 'cover/flexes';
 import styles from 'cover/styles';
 
 type Props = {
@@ -20,7 +18,7 @@ const Component: React.FC<Props> = ({ serverMetas }: Props) => {
       <FlexProfile className="FlexProfile">
         <DomainProfileImage src={serverMetas['og:image']} />
         <Description>
-          <H.Five>{serverMetas['title']}</H.Five>
+          <H5>{serverMetas['title']}</H5>
           <P className="description">{serverMetas['description']}</P>
           <TagsSection>
             <P>I'am Tags</P>
@@ -30,7 +28,9 @@ const Component: React.FC<Props> = ({ serverMetas }: Props) => {
             </Tags>
             <P>Search Tags</P>
             <Tags>
-              {window.talknConfig.relationTags.map((tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>)}
+              {window.talknDatas.config.relationTags.map(
+                (tag: string, index: number) => tag !== '' && <Tag key={`Tag${index}`}>{tag}</Tag>
+              )}
             </Tags>
           </TagsSection>
           <SnsLinksWrap>
@@ -79,7 +79,7 @@ const FlexProfile = styled(Flex)`
   }
 `;
 
-const DomainProfileTitle = styled(H.Five)`
+const DomainProfileTitle = styled(H5)`
   padding-bottom: ${styles.basePadding}px;
   line-height: 60px;
   border-bottom: 1px solid ${styles.borderColor};

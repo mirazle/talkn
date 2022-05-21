@@ -5,12 +5,14 @@ export const sectionPadding = blocks.doubleSize;
 export const sectionMarginColumn = blocks.quadMargin;
 
 // Mnu.
-export const menuPcWidth = 520;
+export const menuPcWidth = 375;
 export const menuTabWidth = 430;
 
 // App.
 export const baseHeight = 60;
 export const appHeaderHeight = baseHeight;
+export const appMenuMinWidth = 359;
+export const appMinWidth = 375;
 export const appWidth = 1200;
 export const advertWidth = 200;
 export const spLayoutStrictWidth = 680;
@@ -42,6 +44,8 @@ export default {
   menuTabWidth,
   baseHeight,
   appHeaderHeight,
+  appMenuMinWidth,
+  appMinWidth,
   appWidth,
   advertWidth,
   spLayoutStrictWidth,

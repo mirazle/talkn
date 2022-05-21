@@ -4,11 +4,8 @@ import styled from 'styled-components';
 
 import { MediaTypeNews, MediaTypeSubdomains, NetworkList } from 'common/Networks';
 
-import Flex from 'cover/components/atoms/Flex';
-import H from 'cover/components/atoms/H';
-import Section from 'cover/components/atoms/Section';
-import Ul from 'cover/components/atoms/Ul';
 import BoxList from 'cover/components/molecules/BoxList';
+import { Section } from 'cover/flexes';
 import styles from 'cover/styles';
 
 type Props = unknown;
@@ -25,7 +22,7 @@ const OtherContentsSection: FunctionComponent<Props> = () => {
     <>
       {/*
       <Container flow="column nowrap" alignItems="center" upperPadding bottomPadding>
-      <H.Five color={styles.fontLightColor}>- Other Contents -</H.Five>
+      <H5 color={styles.fontLightColor}>- Other Contents -</H5>
       <Flex flow="row wrap" upperMargin>
         <Ul flow="column nowrap" alignItems="center">
           <li className="title">Talkn For</li>

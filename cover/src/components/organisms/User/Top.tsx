@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import conf from 'common/conf';
+import util from 'common/util';
 
 import api from 'cover/api';
 import Button, { buttonThemeBright, buttonThemeHot } from 'cover/components/atoms/Button';
-import Flex from 'cover/components/atoms/Flex';
-import H from 'cover/components/atoms/H';
 import Input from 'cover/components/atoms/input';
 import { imageBg, imageIcon } from 'cover/components/atoms/input/DropImage';
 import { Profiles } from 'cover/components/organisms/Contents/Profile/common';
-import { UserModalOptionType } from 'cover/components/organisms/Contents/Profile/index';
 import Modal from 'cover/components/organisms/Modal';
 import UserContent from 'cover/components/organisms/User/Content';
-import { UserType, UserTagsType } from 'cover/talkn.cover';
+import Flex, { H5 } from 'cover/flexes';
+import { GoogleSessionType } from 'cover/model/Google';
+import { UserType } from 'cover/model/User';
+import { tagParentSelf, OpenModalOptionType } from 'cover/model/userTags';
 
 export type FixValuesType = {
-  email: string;
   bg: string;
   icon: string;
   sexes: string[];
@@ -25,7 +25,6 @@ export type FixValuesType = {
 };
 
 export const fixValuesInit: FixValuesType = {
-  email: '',
   bg: '',
   icon: '',
   sexes: [],
@@ -35,20 +34,21 @@ export const fixValuesInit: FixValuesType = {
 
 type Props = {
   isMyPage: boolean;
-  userModalOptions: UserModalOptionType;
+  openModalOptions: OpenModalOptionType;
+  session: GoogleSessionType;
   user: UserType;
   setUser: React.Dispatch<React.SetStateAction<UserType>>;
-  setSelectProfileModalOption: React.Dispatch<React.SetStateAction<UserModalOptionType>>;
+  setShowProfileModalOption: React.Dispatch<React.SetStateAction<OpenModalOptionType>>;
 };
 
-const Component: React.FC<Props> = ({ isMyPage, userModalOptions, user, setUser, setSelectProfileModalOption }) => {
+const Component: React.FC<Props> = ({ isMyPage, openModalOptions, session, user, setUser, setShowProfileModalOption }) => {
   const [isSavedAnimation, setIsSavedAnimation] = useState(false);
   const [isDisabledSaveButton, setIsDisabledSaveButton] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [bgFormData, setBgFromData] = useState<FormData>(new FormData());
   const [iconFormData, setIconFormData] = useState<FormData>(new FormData());
   const [fixValues, setFixValues] = useState<FixValuesType>(fixValuesInit);
-  const email = user && user.email ? user.email : '';
+  const userId = user && user._id ? user._id : '';
 
   const handleOnChangeBg = (formData, fileName) => {
     setBgFromData(formData);
@@ -74,10 +74,8 @@ const Component: React.FC<Props> = ({ isMyPage, userModalOptions, user, setUser,
 
   const handleOnSave = () => {
     const promises = [];
-    const email = user.email;
     const updateUser = {
       ...user,
-      email,
       bg: fixValues.bg,
       icon: fixValues.icon,
       languages: fixValues.languages,
@@ -87,8 +85,8 @@ const Component: React.FC<Props> = ({ isMyPage, userModalOptions, user, setUser,
     let isUpdateImage = false;
 
     setUser(updateUser);
-    setSelectProfileModalOption({
-      ...userModalOptions,
+    setShowProfileModalOption({
+      ...openModalOptions,
       bg: updateUser.bg,
       icon: updateUser.icon,
       languages: updateUser.languages,
@@ -98,27 +96,24 @@ const Component: React.FC<Props> = ({ isMyPage, userModalOptions, user, setUser,
 
     if (iconFormData.has('icon')) {
       isUpdateImage = true;
-      iconFormData.set('email', email);
-      promises.push(api.formData('saveUserIcon', email, iconFormData));
+      iconFormData.set('userId', userId);
+      promises.push(api.formData('saveUserIcon', userId, iconFormData));
     }
 
     if (bgFormData.has('bg')) {
       isUpdateImage = true;
-      bgFormData.set('email', email);
-      promises.push(api.formData('saveUserBg', email, bgFormData));
+      bgFormData.set('userId', userId);
+      promises.push(api.formData('saveUserBg', userId, bgFormData));
     }
 
     promises.push(api.json('saveUser', updateUser));
 
     Promise.all(promises).then(() => {
-      if (isUpdateImage) {
+      setIsSavedAnimation(true);
+      setTimeout(() => {
         window.location.reload();
-      } else {
-        setIsSavedAnimation(true);
-        setTimeout(() => {
-          setIsSavedAnimation(false);
-        }, 2000);
-      }
+        setIsSavedAnimation(false);
+      }, 1000);
     });
   };
 
@@ -142,19 +137,25 @@ const Component: React.FC<Props> = ({ isMyPage, userModalOptions, user, setUser,
   useEffect(() => {
     setFixValues({
       ...fixValues,
-      bg: userModalOptions.bg,
-      icon: userModalOptions.icon,
-      languages: userModalOptions.languages,
-      sexes: userModalOptions.sexes,
-      birthday: userModalOptions.birthday,
+      bg: openModalOptions.bg,
+      icon: openModalOptions.icon,
+      languages: openModalOptions.languages,
+      sexes: openModalOptions.sexes,
+      birthday: openModalOptions.birthday,
     });
-  }, [userModalOptions]);
+  }, [openModalOptions]);
 
   return (
     <>
       <UserContent
+        id={user && user._id ? user._id : ''}
         className={'MainContent'}
-        user={user}
+        name={user && user.name ? user.name : ''}
+        birthday={user && user.birthday ? util.getAgeByBirthday(user.birthday) : '-'}
+        bg={user && user.bg ? user.bg : ''}
+        icon={user && user.icon ? user.icon : ''}
+        tags={user && user.hasSelfTags ? user.hasSelfTags : {}}
+        description={'Self Introduction Text......'}
         handleOnClick={() => isMyPage && setShowModal(!showModal)}
         isSavedAnimation={isSavedAnimation}
       />
@@ -162,27 +163,31 @@ const Component: React.FC<Props> = ({ isMyPage, userModalOptions, user, setUser,
       <Modal.Structure
         show={showModal}
         closeModal={() => setShowModal(false)}
-        header={<H.Five>Profile(Edit)</H.Five>}
+        header={<H5>Profile</H5>}
         content={
           <Flex flow="column nowrap">
             <Input.DropImage
               type={imageBg}
-              email={email}
+              id={userId}
               className="InputDropImageBg"
               onChange={handleOnChangeBg}
-              value={userModalOptions.bg}
+              value={openModalOptions.bg}
             />
             <InputDropImageIcon
               type={imageIcon}
-              email={email}
+              id={userId}
               className="InputDropImageIcon"
               onChange={handleOnChangeIcon}
-              value={userModalOptions.icon}
+              value={openModalOptions.icon}
             />
             <br />
             <Profiles
               type="UserTop"
-              userModalOptions={{ ...userModalOptions, isEditable: true }}
+              id={userId}
+              isEditable={openModalOptions.tagParentType === tagParentSelf ? false : true}
+              sexes={fixValues.sexes}
+              languages={fixValues.languages}
+              birthday={fixValues.birthday}
               handleOnChangeLanguages={handleOnChangeLanguages}
               handleOnChangeSexes={handleOnChangeSexes}
               handleOnChangeBirthday={handleOnChangeBirthday}

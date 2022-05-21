@@ -18,13 +18,13 @@ export type ImageType = typeof imageBg | typeof imageIcon;
 
 type Props = {
   onChange: (formData: FormData, fileName: string) => void;
-  email: string;
+  id: string;
   value?: string;
   type?: ImageType;
   className?: string;
 };
 
-const Wide: React.FC<Props> = ({ type = imageDefault, email, value = '', className, onChange }) => {
+const Component: React.FC<Props> = ({ type = imageDefault, id, value = '', className, onChange }) => {
   const containerRef = useRef(<div />);
   const dragDropInputRef = useRef(<input />);
   const [dragStatus, setDragStatus] = useState<DragStatusType>(dragStatusDefault);
@@ -38,7 +38,7 @@ const Wide: React.FC<Props> = ({ type = imageDefault, email, value = '', classNa
       reader.onload = () => {
         const formData = new FormData();
         const base64String = String(reader.result);
-        const createdFile = new File([base64String], email, { type: file.type, lastModified: new Date().getTime() });
+        const createdFile = new File([base64String], id, { type: file.type, lastModified: new Date().getTime() });
         let extType = file.type.split('/')[1];
         extType = extType === 'jpeg' ? 'jpg' : extType;
         const fileName = `${type}.${extType}`;
@@ -56,7 +56,7 @@ const Wide: React.FC<Props> = ({ type = imageDefault, email, value = '', classNa
   };
 
   return (
-    <Container ref={containerRef} email={email} type={type} dragStatus={dragStatus} className={className} value={value}>
+    <Container ref={containerRef} id={id} type={type} dragStatus={dragStatus} className={className} value={value}>
       <DragDropInput
         ref={dragDropInputRef}
         type="file"
@@ -87,11 +87,11 @@ const Wide: React.FC<Props> = ({ type = imageDefault, email, value = '', classNa
   );
 };
 
-export default Wide;
+export default Component;
 
 type ContainerPropsType = {
   ref: any;
-  email: string;
+  id: string;
   value: string;
   type: ImageType;
   dragStatus: DragStatusType;
@@ -123,11 +123,9 @@ const Container = styled.div<ContainerPropsType>`
   align-items: center;
   justify-content: center;
   ${(props) => (props.type === imageBg ? bgCss : iconCss)}
-  ${styles.brightColor};
   background-size: cover;
-  background-position: center;
   background-repeat: no-repeat;
-  background-image: url(${(props) => getBackgroundImage({ email: props.email, image: props.value })});
+  background-image: ${(props) => getBackgroundImage({ id: props.id, image: props.value })};
   background-position: center;
   transition: ${styles.transitionDuration}ms;
 `;
@@ -142,10 +140,10 @@ const DragDropInput = styled.input<{ ref: any; dragStatus: DragStatusType }>`
   cursor: pointer;
 `;
 
-const getBackgroundImage = ({ email, image }) => {
+const getBackgroundImage = ({ id, image }) => {
   if (image && image !== '') {
-    return `https://${conf.assetsCoverPath}${email}/${image}`;
+    return `url(https://${conf.assetsCoverPath}${id}/${image}), url(https://${conf.assetsCoverPath}${image}) `;
   } else {
-    return 'none';
+    return `https://${conf.assetsCoverPath}/${image}`;
   }
 };

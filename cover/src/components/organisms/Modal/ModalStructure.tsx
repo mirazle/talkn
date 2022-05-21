@@ -1,9 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Flex, { FlexLayoutPropsType, flexLayoutPropsInit } from 'cover/components/atoms/Flex';
-import { GlobalContextType, useGlobalContext } from 'cover/container';
-import { LayoutPropsType, layoutPropsInit } from 'cover/nodes/Layout';
+import Flex, {
+  FlexBoxLayoutPropsType,
+  flexLayoutPropsInit,
+  BoxLayoutPropsType,
+  boxLayoutPropsInit,
+  useFlexesContext,
+  FlexesContextType,
+} from 'cover/flexes';
 import styles from 'cover/styles';
 
 type Props = {
@@ -12,25 +17,34 @@ type Props = {
   header?: React.ReactNode;
   content: React.ReactNode;
   footer?: React.ReactNode;
-  fullHeightContent?: boolean;
-} & LayoutPropsType &
-  FlexLayoutPropsType;
+  fullHeight?: boolean;
+} & BoxLayoutPropsType &
+  FlexBoxLayoutPropsType;
 
+const defaultOverflow = 'hidden scroll';
 const space = styles.doubleMargin;
 const partsHeight = 80;
 const modalContainerClassName = 'ModalContainer';
 
 const Component: React.FC<Props> = (props: Props) => {
-  const globalContext: GlobalContextType = useGlobalContext();
-  const p: Props = { ...layoutPropsInit, ...flexLayoutPropsInit, width: styles.spLayoutStrictWidthPx, ...props };
-  let optinalPartCnt = 0;
-  Boolean(p.header) && optinalPartCnt++;
-  Boolean(p.footer) && optinalPartCnt++;
+  const globalContext: FlexesContextType = useFlexesContext();
+  const p: Props = {
+    ...boxLayoutPropsInit,
+    ...flexLayoutPropsInit,
+    overflow: defaultOverflow,
+    width: styles.spLayoutStrictWidthPx,
+    ...props,
+  };
+  const optinalPartCnt = getOptionalPartsCnt(p);
 
   return (
     <Container
       className={modalContainerClassName}
       show={p.show}
+      alignItems="center"
+      justifyContent="center"
+      width="100vw"
+      height="100vh"
       onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const elm = e.target as HTMLElement;
         const isClose = Boolean(Array.from(elm.classList).find((className) => className === modalContainerClassName));
@@ -53,8 +67,9 @@ const Component: React.FC<Props> = (props: Props) => {
           className={`${modalContainerClassName}Content`}
           flow={p.flow}
           windowInnerHeight={globalContext.innerHeight}
-          fullHeightContent={p.fullHeightContent}
+          fullHeight={p.fullHeight}
           optinalPartCnt={optinalPartCnt}
+          overflow={p.overflow}
           upperPadding
           sidePadding
           bottomPadding>
@@ -82,15 +97,11 @@ type ContainerTypeProps = {
   show: boolean;
 };
 
-const Container = styled.div<ContainerTypeProps>`
+const Container = styled(Flex)<ContainerTypeProps>`
   position: fixed;
   top: 0;
   left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
+
   background-color: rgb(0, 0, 0, 0.3);
   z-index: ${(props) => (props.show ? 1000 : -1)};
   opacity: ${(props) => (props.show ? 1 : 0)};
@@ -131,12 +142,13 @@ const Header = styled(Flex)`
 type ContentPropsType = {
   windowInnerHeight: number;
   optinalPartCnt: number;
-  fullHeightContent?: boolean;
-} & FlexLayoutPropsType;
+  overflow: string;
+  fullHeight?: boolean;
+} & FlexBoxLayoutPropsType;
 
 const Content = styled(Flex)<ContentPropsType>`
-  overflow: hidden scroll;
-  ${(props) => (props.fullHeightContent ? 'height: 100vh' : '')};
+  overflow: ${(props) => props.overflow};
+  ${(props) => (props.fullHeight ? 'height: 100vh' : '')};
   max-height: ${(props) => props.windowInnerHeight - (partsHeight + space) * props.optinalPartCnt}px;
   @media (max-width: ${styles.spLayoutStrictWidth}px) {
     max-height: ${(props) => props.windowInnerHeight - partsHeight * props.optinalPartCnt}px;
@@ -150,3 +162,14 @@ const Footer = styled(Flex)`
     bottom: 0;
   }
 `;
+
+const getOptionalPartsCnt = (p: Props) => {
+  let optinalPartCnt = 0;
+  Boolean(p.header) && optinalPartCnt++;
+  Boolean(p.footer) && optinalPartCnt++;
+  return optinalPartCnt;
+};
+
+const getContentHeight = (windowInnerHeight, optinalPartCnt) => {
+  return `${windowInnerHeight - (partsHeight + space) * optinalPartCnt}px`;
+};

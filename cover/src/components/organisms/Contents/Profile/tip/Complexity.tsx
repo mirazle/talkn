@@ -1,29 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import Flex from 'cover/components/atoms/Flex';
+import Flex from 'cover/flexes';
 import styles from 'cover/styles';
 
 type Props = {
   onClick: () => void;
-  onClickRemove: () => void;
-  isEditable: boolean;
-  upperLeft?: React.ReactNode;
-  upperRight?: React.ReactNode;
-  bottomLeft?: React.ReactNode;
-  bottomRight?: React.ReactNode;
+  upperLeft: React.ReactNode;
+  upperRight: React.ReactNode;
+  bottomLeft: React.ReactNode;
+  bottomRight: React.ReactNode;
+  onClickRemove?: () => void;
 };
 
-const Component: React.FC<Props> = ({ onClick, onClickRemove, isEditable = false, upperLeft, upperRight, bottomLeft, bottomRight }) => {
+const Component: React.FC<Props> = ({ onClick, onClickRemove, upperLeft, upperRight, bottomLeft, bottomRight }) => {
+  const [isHover, setIsHover] = useState(false);
   return (
-    <Container flow="column nowrap">
+    <Container
+      className="Complexity"
+      flow="column nowrap"
+      alt="View"
+      onMouseOver={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}>
       <Header className="CloseHeaeer" alignItems="center" justifyContent="flex-end">
-        <CloseIcon className="CloseIcon" onClick={onClickRemove} show={isEditable}>
+        <CloseIcon className="CloseIcon" onClick={onClickRemove} show={false /*onClickRemove && isHover*/}>
           <div className="lineHorizon" />
           <div className="lineVertical" />
         </CloseIcon>
       </Header>
-      <Body flow="column nowrap" onClick={onClick} isEditable={isEditable}>
+      <Body flow="column nowrap" onClick={onClick}>
         <MiddlwFlex flow="row nowrap">
           <UpperLeft>{upperLeft}</UpperLeft>
           <span>/</span>
@@ -89,21 +94,20 @@ const CloseIcon = styled.div<CloseIconType>`
   }
 `;
 
-type BodyPropsType = {
-  isEditable: boolean;
-};
+type BodyPropsType = {};
 
 const Body = styled(Flex)<BodyPropsType>`
   height: inherit;
   padding: 10px 30px;
   margin: 10px;
-  background: ${(props) => (props.isEditable ? styles.themeColor : styles.tagBgColor)};
+  background: ${styles.tagBgColor};
   border-radius: 30px;
   color: #fff;
   cursor: pointer;
   transition: background ${styles.transitionDuration}ms, box-shadow ${styles.transitionDuration}ms;
   :hover {
     box-shadow: ${styles.shadowHorizonBright};
+    background: ${styles.themeColor};
   }
 `;
 

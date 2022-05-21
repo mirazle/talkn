@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import Flex from 'cover/components/atoms/Flex';
-import Label from 'cover/components/atoms/Label';
 import Select from 'cover/components/atoms/select';
 import SelectYear from 'cover/components/organisms/Contents/Profile/modal/children/SelectYear';
+import Flex, { Label } from 'cover/flexes';
 
 type Props = {
   type: string;
@@ -48,7 +47,7 @@ const Component: React.FC<Props> = ({
       <Label bottomMargin>Phase</Label>
       <Flex flow="row wrap" alignItems="center">
         <Select.Single onChange={handleOnChange} disabled={!isEditable} name={'startupSeries[]'} value={startupSeriesId} noSelectOption>
-          {window.talknStaticTags.startupSeries.map((tag) => (
+          {window.talknDatas.staticTags.startupSeries.map((tag) => (
             <Select.Option key={`StartupSeries_${tag.uniqueId}`} value={tag.uniqueId}>
               {tag.ja}
             </Select.Option>

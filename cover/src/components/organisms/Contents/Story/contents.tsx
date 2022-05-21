@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import H from 'cover/components/atoms/H';
-import Node, { Props as NodeProps } from 'cover/components/atoms/Node';
 import StorySection from 'cover/components/molecules/StorySection';
+import { H5 } from 'cover/flexes';
 import styles from 'cover/styles';
+import Node, { Props as NodeProps } from 'cover/utils/Node';
 
 export type NavigationLayout = {
   width: number;
@@ -30,7 +30,7 @@ const Component: React.FC<Props> = ({ navigationLayout, storiesRef, resumeRef, s
   return (
     <Container navigationLayout={navigationLayout}>
       <Stories className={'Stories'} ref={storiesRef}>
-        {window.talknStories.sections.map(({ title, flow, nodes }, i) => {
+        {window.talknDatas.stories.sections.map(({ title, flow, nodes }, i) => {
           return (
             <StorySection key={`Section${i}`} number={i + 1} title={title} flow={flow}>
               {nodes.map((node: NodeProps, j) => (
@@ -42,9 +42,9 @@ const Component: React.FC<Props> = ({ navigationLayout, storiesRef, resumeRef, s
       </Stories>
       <Navigation ref={resumeRef} navigationLayout={navigationLayout}>
         <HFiveCustom>- 目次 -</HFiveCustom>
-        {window.talknStories && window.talknStories.sections.length > 0 && (
+        {window.talknDatas.stories && window.talknDatas.stories.sections.length > 0 && (
           <NavigationOrder storiesPointer={storiesPointer}>
-            {window.talknStories.sections.map(({ resume }, index) => {
+            {window.talknDatas.stories.sections.map(({ resume }, index) => {
               const number = index < 9 ? `0${index + 1}` : index + 1;
               return (
                 <li key={`${resume}${index}`}>
@@ -128,7 +128,6 @@ const Navigation = styled.nav<{ navigationLayout: NavigationLayout }>`
     align-items: center;
     justify-content: flex-start;
     font-size: 20px;
-    font-weight: 200;
     line-height: 24px;
   }
   a {
@@ -182,7 +181,7 @@ const AnchorRow = styled.a`
   }
 `;
 
-const HFiveCustom = styled(H.Five)`
+const HFiveCustom = styled(H5)`
   display: flex;
   flex-flow: row nowrap;
   align-items: center;

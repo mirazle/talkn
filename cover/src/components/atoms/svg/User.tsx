@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Flex, { FlexLayoutPropsType, flexLayoutCenterPropsInit } from 'cover/components/atoms/Flex';
+import Flex, { FlexBoxLayoutPropsType, flexLayoutCenterPropsInit } from 'cover/flexes';
 
-export type Props = FlexLayoutPropsType;
+export type Props = FlexBoxLayoutPropsType;
 
 const Component: React.FC<Props> = (props: Props) => {
   const p: Props = {
