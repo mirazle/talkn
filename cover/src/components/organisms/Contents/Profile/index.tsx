@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import util from 'common/util';
 
 import StoryOrder from 'cover/components/organisms/Contents/Story';
-import { UserType, UserHasSelfTagsType } from 'cover/model/User';
+import User, { UserHasSelfTagsType } from 'cover/model/User';
 import {
   UserTagsType,
   TagType,
@@ -29,11 +29,11 @@ tagParentTypes.forEach((tagParentType) => {
 type Props = {
   isMyPage: boolean;
   userId: string;
-  user: UserType;
+  user: User;
   userTags: UserTagsType;
   userTagsInit: UserTagsType;
   setShowSearchModalOption: React.Dispatch<React.SetStateAction<OpenModalOptionType>>;
-  setUser: React.Dispatch<React.SetStateAction<UserType>>;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
   setUserTags: React.Dispatch<React.SetStateAction<UserTagsType>>;
   setUserTagsInit: React.Dispatch<React.SetStateAction<UserTagsType>>;
   showProfileModalOption: OpenModalOptionType;
@@ -102,7 +102,7 @@ const Component: React.FC<Props> = ({ isMyPage, userId, user, userTags, userTags
     }
 
     if (hasSelfTags && tagParentType === tagParentSelf) {
-      setUser({ ...user, hasSelfTags });
+      setUser({ ...user, hasSelfTags } as User);
     }
   };
 
@@ -175,7 +175,7 @@ const Component: React.FC<Props> = ({ isMyPage, userId, user, userTags, userTags
     }
 
     if (hasSelfTags && tagParentType === tagParentSelf) {
-      setUser({ ...user, hasSelfTags });
+      setUser({ ...user, hasSelfTags } as User);
     }
 
     setOpenModalOptions({ ...openModalOptions });

@@ -12,10 +12,10 @@ import ContentMenu from 'cover/components/organisms/Menu/ContentMenu';
 import SideMenu from 'cover/components/organisms/Menu/SideMenu';
 import SnsShare from 'cover/components/organisms/SnsShare';
 import UserTop from 'cover/components/organisms/User/Top';
+import { PageProps } from 'cover/container';
 import Flex, { Main } from 'cover/flexes';
-import { GoogleSessionType, googleSessionInit } from 'cover/model/Google';
 import { selectContentMenuUsers } from 'cover/model/Menus';
-import { UserType } from 'cover/model/User';
+import User, { userInit } from 'cover/model/User';
 import { UserTagsType, OpenModalOptionType, openModalOptionInit } from 'cover/model/userTags';
 import styles from 'cover/styles';
 import { Props as NodeProps } from 'cover/utils/Node';
@@ -47,11 +47,6 @@ export const useGlobalContext = () => {
 type StoriesVerticalDatas = {
   offsetTop: number;
   offsetBottom: number;
-};
-
-type Props = {
-  session: GoogleSessionType;
-  setSession: React.Dispatch<React.SetStateAction<GoogleSessionType>>;
 };
 
 type NavigationLayout = {
@@ -91,7 +86,7 @@ const storiesInit: StoriesType = {
 
 let storiesVerticalDatas: StoriesVerticalDatas[] = [];
 
-const Components: React.FC<Props> = ({ session, setSession }) => {
+const Components: React.FC<PageProps> = ({ account, isMyPage }) => {
   const params = useParams();
   const userId = params.userId;
   const [dataMount, setMountData] = React.useState(false);
@@ -100,9 +95,7 @@ const Components: React.FC<Props> = ({ session, setSession }) => {
   const [serverMetas, setServerMetas] = useState<any>({});
   const [stories, setStories] = useState<StoriesType>(storiesInit);
 
-  const [isMyPage, setIsMyPage] = useState(false);
-
-  const [user, setUser] = useState<UserType>();
+  const [user, setUser] = useState<User>(userInit);
   const [userTagsInit, setUserTagsInit] = useState<UserTagsType>();
   const [userTags, setUserTags] = useState<UserTagsType>();
 
@@ -184,14 +177,6 @@ const Components: React.FC<Props> = ({ session, setSession }) => {
   }, [window.innerWidth, stories && stories.sections.length]);
 
   useEffect(() => {
-    if (session && session.email && session.email !== '' && user && user.email !== '' && user.email === session.email) {
-      setIsMyPage(user.email === session.email);
-    } else {
-      setIsMyPage(false);
-    }
-  }, [session]);
-
-  useEffect(() => {
     setShowProfileModalOption({ ...openModalOptionInit, ...user });
     setShowSearchModalOption({ ...openModalOptionInit, ...user });
   }, [user]);
@@ -209,7 +194,7 @@ const Components: React.FC<Props> = ({ session, setSession }) => {
     setStories(window.talknDatas.stories);
     setStoriesPointer(window.talknDatas.storiesPointer);
     setUserCategoryChs(window.talknDatas.config.userCategoryChs);
-    setUser(window.talknDatas.user);
+    setUser(new User(window.talknDatas.user));
     setUserTags(window.talknDatas.userTags);
 
     window.addEventListener('scroll', useCallbackScroll);
@@ -226,14 +211,13 @@ const Components: React.FC<Props> = ({ session, setSession }) => {
       {/* サイドメニュー */}
       <SideMenu openMenu={openMenu} userTags={userTags} />
       {/* ヘッダー */}
-      <Header openMenu={openMenu} ch={ch} session={session} setSession={setSession} handleOnClickMenu={handleOnClickMenu} />
+      <Header openMenu={openMenu} ch={ch} account={account} handleOnClickMenu={handleOnClickMenu} />
 
       <UserTop
         isMyPage={isMyPage}
         openModalOptions={showProfileModalOption}
-        session={session}
         user={user}
-        setUser={setUser}
+        setMyUser={setUser}
         setShowProfileModalOption={setShowProfileModalOption}
       />
       {/* コンテンツメニュー */}

@@ -9,45 +9,41 @@ import api from 'cover/api';
 import Svg from 'cover/components/atoms/svg';
 import FloatMenu from 'cover/components/organisms/FloatMenu';
 import Flex from 'cover/flexes';
-import { GoogleSessionType } from 'cover/model/Google';
 import { AccountMenusLogout, AccountMenus, AccountMenusMyMenu, AccountMenusSelectAccount } from 'cover/model/Menu';
-import { sessionKey, googleAccountCookieKey, idSeparator } from 'cover/utils/constants/storage';
+import User from 'cover/model/User';
+import { myUserKey, googleAccountCookieKey } from 'cover/utils/constants/storage';
 
 type Props = {
-  session: GoogleSessionType;
-  setSession: React.Dispatch<React.SetStateAction<GoogleSessionType>>;
+  myUser: User;
+  setMyUser: React.Dispatch<React.SetStateAction<User>>;
+  setIsMyPage: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const getSessionValues = () => {
-  let sessionStr = null;
-  let _userId = null;
-  const talknCoverSessionValues = localStorage.getItem(sessionKey);
-  if (talknCoverSessionValues) {
-    [sessionStr, _userId] = talknCoverSessionValues.split(idSeparator);
-  }
-  return { sessionStr, _userId };
+const getMyUserFromSession = () => {
+  const item = localStorage.getItem(myUserKey);
+  return new User(JSON.parse(item));
 };
 
-const Component: React.FC<Props> = ({ session, setSession }: Props) => {
+const Component: React.FC<Props> = ({ myUser, setMyUser }: Props) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [userId, setUserId] = useState('');
+
   const handleOnClickLogin = () => {
     document.cookie = googleAccountCookieKey;
-    const { sessionStr, _userId } = getSessionValues();
-    if (sessionStr === null) {
+    const myUserSession = getMyUserFromSession();
+    if (myUserSession === null) {
       window.google.accounts.id.prompt();
     } else {
       setShowMenu(true);
     }
-    if (_userId) {
-      setUserId(_userId);
+    if (myUserSession) {
+      setMyUser(myUserSession);
     }
   };
 
   const handleGoolgeCredentialResponse = async (goolgeCredentialResponse) => {
-    const session = commonUtil.parseJwt(goolgeCredentialResponse.credential);
-    setSession(session);
-    const request = commonUtil.deepCopy(session);
+    const googleResponse = commonUtil.parseJwt(goolgeCredentialResponse.credential);
+    const snsIcon = googleResponse.picture;
+    const request = commonUtil.deepCopy(googleResponse);
     delete request.iss;
     delete request.nbf;
     delete request.aud;
@@ -61,18 +57,20 @@ const Component: React.FC<Props> = ({ session, setSession }: Props) => {
     delete request.family_name;
     if (request.email_verified) {
       delete request.email_verified;
-      const user = await api.json('login', request);
-      localStorage.setItem(sessionKey, `${goolgeCredentialResponse.credential}@${user._id}`);
+      const _user = await api.json('login', request);
+      const user = new User({ ..._user, snsIcon });
+      localStorage.setItem(myUserKey, JSON.stringify(user));
     }
     window.location.reload();
   };
 
+  useEffect(() => {}, [myUser]);
+
   useEffect(() => {
-    const { sessionStr, _userId } = getSessionValues();
-    let parsedSession = null;
-    if (sessionStr) {
-      parsedSession = commonUtil.parseJwt(sessionStr);
-      setSession(parsedSession);
+    const myUserSession = getMyUserFromSession();
+
+    if (myUserSession) {
+      setMyUser(myUserSession);
     }
     if (window.google) {
       window.google.accounts.id.initialize({
@@ -81,7 +79,7 @@ const Component: React.FC<Props> = ({ session, setSession }: Props) => {
         callback: handleGoolgeCredentialResponse,
       });
 
-      if (parsedSession === null && sessionStr === null) {
+      if (myUserSession === null) {
         window.google.accounts.id.prompt((notification) => {
           if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
             // continue with another identity provider.
@@ -89,20 +87,17 @@ const Component: React.FC<Props> = ({ session, setSession }: Props) => {
         });
       }
     }
-    if (_userId) {
-      setUserId(_userId);
-    }
   }, []);
 
   return (
     <>
-      <Container className="Account" onClick={handleOnClickLogin} alt={{ label: session.name, type: 'bottom right' }}>
-        {session.picture === '' ? (
+      <Container className="Account" onClick={handleOnClickLogin} alt={{ label: myUser.name, type: 'bottom right' }}>
+        {myUser.snsIcon === '' ? (
           <Login alignItems="center" justifyContent="center" width="48px" height="48px" border borderRadius="circle">
             <Svg.Google />
           </Login>
         ) : (
-          <MyAccount className="MyAccount" backgroundImage={session.picture} />
+          <MyAccount className="MyAccount" backgroundImage={myUser.snsIcon} />
         )}
       </Container>
 
@@ -114,7 +109,7 @@ const Component: React.FC<Props> = ({ session, setSession }: Props) => {
           const page = location.pathname.split('/')[1];
           switch (menu) {
             case AccountMenusMyMenu:
-              console.log(userId);
+              console.log(myUser.id);
               //              window.location.replace(`//${conf.coverURL}/${page}/${userId}`);
               break;
             case AccountMenusSelectAccount:
@@ -123,7 +118,7 @@ const Component: React.FC<Props> = ({ session, setSession }: Props) => {
             case AccountMenusLogout:
               window.google.accounts.id.disableAutoSelect();
               document.cookie = googleAccountCookieKey;
-              localStorage.removeItem(sessionKey);
+              localStorage.removeItem(myUserKey);
               window.location.reload();
               break;
           }
@@ -136,6 +131,21 @@ const Component: React.FC<Props> = ({ session, setSession }: Props) => {
 };
 
 export default Component;
+
+const deleteRequest = (request) => {
+  delete request.iss;
+  delete request.nbf;
+  delete request.aud;
+  delete request.sub;
+  delete request.azp;
+  delete request.picture; // 値に:が含まれてJSON.parseが失敗する
+  delete request.iat;
+  delete request.exp;
+  delete request.jti;
+  delete request.given_name;
+  delete request.family_name;
+  return request;
+};
 
 const Container = styled(Flex)`
   width: 38px;

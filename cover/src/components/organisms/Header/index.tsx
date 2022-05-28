@@ -6,18 +6,17 @@ import conf from 'common/conf';
 import Search from 'cover/components/atoms/icon/Search';
 import Account from 'cover/components/molecules/Account';
 import Flex, { A, Img, H1, Header } from 'cover/flexes';
-import { GoogleSessionType } from 'cover/model/Google';
+import User from 'cover/model/User';
 import styles from 'cover/styles';
 
 type Props = {
   openMenu: boolean;
   ch: string;
-  session: GoogleSessionType;
-  setSession: React.Dispatch<React.SetStateAction<GoogleSessionType>>;
+  account: React.ReactNode;
   handleOnClickMenu: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 };
 
-const Component: React.FC<Props> = ({ ch, openMenu, session, setSession, handleOnClickMenu }) => {
+const Component: React.FC<Props> = ({ ch, openMenu, account, handleOnClickMenu }) => {
   return (
     <Container
       className="Header"
@@ -51,7 +50,7 @@ const Component: React.FC<Props> = ({ ch, openMenu, session, setSession, handleO
       </H1>
 
       <HeaderSide flow="column wrap" alignItems="center" justifyContent="center" sideMargin>
-        <Account session={session} setSession={setSession} />
+        {account}
       </HeaderSide>
     </Container>
   );

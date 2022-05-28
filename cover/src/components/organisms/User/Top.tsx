@@ -12,8 +12,7 @@ import { Profiles } from 'cover/components/organisms/Contents/Profile/common';
 import Modal from 'cover/components/organisms/Modal';
 import UserContent from 'cover/components/organisms/User/Content';
 import Flex, { H5 } from 'cover/flexes';
-import { GoogleSessionType } from 'cover/model/Google';
-import { UserType } from 'cover/model/User';
+import User from 'cover/model/User';
 import { tagParentSelf, OpenModalOptionType } from 'cover/model/userTags';
 
 export type FixValuesType = {
@@ -35,20 +34,18 @@ export const fixValuesInit: FixValuesType = {
 type Props = {
   isMyPage: boolean;
   openModalOptions: OpenModalOptionType;
-  session: GoogleSessionType;
-  user: UserType;
-  setUser: React.Dispatch<React.SetStateAction<UserType>>;
+  user: User;
   setShowProfileModalOption: React.Dispatch<React.SetStateAction<OpenModalOptionType>>;
+  setMyUser?: React.Dispatch<React.SetStateAction<User>>;
 };
 
-const Component: React.FC<Props> = ({ isMyPage, openModalOptions, session, user, setUser, setShowProfileModalOption }) => {
+const Component: React.FC<Props> = ({ isMyPage, openModalOptions, user, setMyUser, setShowProfileModalOption }) => {
   const [isSavedAnimation, setIsSavedAnimation] = useState(false);
   const [isDisabledSaveButton, setIsDisabledSaveButton] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [bgFormData, setBgFromData] = useState<FormData>(new FormData());
   const [iconFormData, setIconFormData] = useState<FormData>(new FormData());
   const [fixValues, setFixValues] = useState<FixValuesType>(fixValuesInit);
-  const userId = user && user._id ? user._id : '';
 
   const handleOnChangeBg = (formData, fileName) => {
     setBgFromData(formData);
@@ -74,17 +71,11 @@ const Component: React.FC<Props> = ({ isMyPage, openModalOptions, session, user,
 
   const handleOnSave = () => {
     const promises = [];
-    const updateUser = {
-      ...user,
-      bg: fixValues.bg,
-      icon: fixValues.icon,
-      languages: fixValues.languages,
-      sexes: fixValues.sexes,
-      birthday: fixValues.birthday,
-    };
+    const updateUser = new User({ ...user, ...fixValues } as User);
+
     let isUpdateImage = false;
 
-    setUser(updateUser);
+    setMyUser && setMyUser(updateUser);
     setShowProfileModalOption({
       ...openModalOptions,
       bg: updateUser.bg,
@@ -96,14 +87,14 @@ const Component: React.FC<Props> = ({ isMyPage, openModalOptions, session, user,
 
     if (iconFormData.has('icon')) {
       isUpdateImage = true;
-      iconFormData.set('userId', userId);
-      promises.push(api.formData('saveUserIcon', userId, iconFormData));
+      iconFormData.set('userId', user.id);
+      promises.push(api.formData('saveUserIcon', user.id, iconFormData));
     }
 
     if (bgFormData.has('bg')) {
       isUpdateImage = true;
-      bgFormData.set('userId', userId);
-      promises.push(api.formData('saveUserBg', userId, bgFormData));
+      bgFormData.set('userId', user.id);
+      promises.push(api.formData('saveUserBg', user.id, bgFormData));
     }
 
     promises.push(api.json('saveUser', updateUser));
@@ -147,18 +138,7 @@ const Component: React.FC<Props> = ({ isMyPage, openModalOptions, session, user,
 
   return (
     <>
-      <UserContent
-        id={user && user._id ? user._id : ''}
-        className={'MainContent'}
-        name={user && user.name ? user.name : ''}
-        birthday={user && user.birthday ? util.getAgeByBirthday(user.birthday) : '-'}
-        bg={user && user.bg ? user.bg : ''}
-        icon={user && user.icon ? user.icon : ''}
-        tags={user && user.hasSelfTags ? user.hasSelfTags : {}}
-        description={'Self Introduction Text......'}
-        handleOnClick={() => isMyPage && setShowModal(!showModal)}
-        isSavedAnimation={isSavedAnimation}
-      />
+      <UserContent user={user} handleOnClick={() => isMyPage && setShowModal(!showModal)} isSavedAnimation={isSavedAnimation} />
 
       <Modal.Structure
         show={showModal}
@@ -168,14 +148,14 @@ const Component: React.FC<Props> = ({ isMyPage, openModalOptions, session, user,
           <Flex flow="column nowrap">
             <Input.DropImage
               type={imageBg}
-              id={userId}
+              id={user.id}
               className="InputDropImageBg"
               onChange={handleOnChangeBg}
               value={openModalOptions.bg}
             />
             <InputDropImageIcon
               type={imageIcon}
-              id={userId}
+              id={user.id}
               className="InputDropImageIcon"
               onChange={handleOnChangeIcon}
               value={openModalOptions.icon}
@@ -183,7 +163,7 @@ const Component: React.FC<Props> = ({ isMyPage, openModalOptions, session, user,
             <br />
             <Profiles
               type="UserTop"
-              id={userId}
+              id={user.id}
               isEditable={openModalOptions.tagParentType === tagParentSelf ? false : true}
               sexes={fixValues.sexes}
               languages={fixValues.languages}
