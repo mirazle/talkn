@@ -1,13 +1,8 @@
 import React from 'react';
 
-import { GoogleSessionType } from 'cover/model/Google';
+import { PageProps } from 'cover/container';
 
-type Props = {
-  session: GoogleSessionType;
-  setSession: React.Dispatch<React.SetStateAction<GoogleSessionType>>;
-};
-
-const Components: React.FC<Props> = () => {
+const Components: React.FC<PageProps> = () => {
   return <>TOP!</>;
 };
 

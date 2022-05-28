@@ -7,7 +7,7 @@ import util from 'common/util';
 import Checkmark from 'cover/components/atoms/svg/Checkmark';
 import Flex, { FlexBoxLayoutPropsType, useFlexesContext, FlexesContextType } from 'cover/flexes';
 import { GoogleSessionType } from 'cover/model/Google';
-import { UserType, UserHasSelfTagsType } from 'cover/model/User';
+import User, { UserHasSelfTagsType } from 'cover/model/User';
 import styles from 'cover/styles';
 
 export const layoutTop = 'top';
@@ -23,16 +23,8 @@ export type HoverAnimationType = typeof hoverAnimationBoxShadow | typeof hoverAn
 const Mark: React.FC<{ label: string }> = ({ label }) => <MarkContainer className="mark">{label}</MarkContainer>;
 
 type Props = {
-  id?: string;
   className?: string;
-  name?: string;
-  bg?: string;
-  icon?: string;
-  birthday?: number | '-';
-  description?: string;
-  tags?: UserHasSelfTagsType | {};
-  session?: GoogleSessionType;
-  user?: UserType;
+  user?: User;
   layout?: LayoutType;
   isSavedAnimation?: boolean;
   hoverAnimationType?: HoverAnimationType;
@@ -41,14 +33,8 @@ type Props = {
 };
 
 const Component: React.FC<Props> = ({
-  id,
-  className = 'UserContentBackground',
-  name,
-  bg,
-  icon,
-  birthday,
-  description,
-  tags,
+  className = 'UserContent',
+  user,
   layout = layoutDefault,
   isSavedAnimation,
   hoverAnimationType = hoverAnimationDefault,
@@ -68,8 +54,8 @@ const Component: React.FC<Props> = ({
     <>
       <Background
         className={className}
-        id={id}
-        image={bg}
+        id={user.id}
+        image={user.bg}
         isHover={isHover}
         hoverAnimationType={hoverAnimationType}
         controlHeight={controlHeight}
@@ -98,20 +84,20 @@ const Component: React.FC<Props> = ({
             flow="row wrap"
             alignItems="center"
             justifyContent="flex-start"
-            id={id}
-            image={icon}>
+            id={user.id}
+            image={user.icon}>
             <div className="userIcon" />
             <Flex className="userDataWrap" flow="column nowrap">
               <Flex className="userData" flow="column nowrap">
-                <div className="name">{name}</div>
-                <div className="age">AGE: {birthday}</div>
+                <div className="name">{user.name}</div>
+                <div className="age">AGE: {util.getAgeByBirthday(user.birthday)}</div>
               </Flex>
               <Flex className="userDetailData" flow="column nowrap">
                 <Flex className="userTags" flow="row wrap" upperMargin>
-                  {tags && Object.keys(tags).map((key) => tags[key] && <Mark key={key} label={util.getHeadUpper(key)} />)}
+                  {Object.keys(user.hasSelfTags).map((key) => user.hasSelfTags[key] && <Mark key={key} label={util.getHeadUpper(key)} />)}
                 </Flex>
                 <Flex className="selfIntro" flow="row wrap" upperMargin>
-                  {description}
+                  {user.description}
                 </Flex>
               </Flex>
             </Flex>
