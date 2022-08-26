@@ -48,7 +48,7 @@
     "helmet": "4.6.0",
     "iconv": "^3.0.0",
     "jschardet": "^3.0.0",
-    "mongoose": "^6.2.8",
+    "mongoose": "^6.4.6",
     "nodemailer": "^6.6.3",
     "process": "^0.11.10",
     "request": "^2.88.2",
