@@ -3,24 +3,12 @@ import WsApiWorker from 'worker-loader?inline=fallback&publicPath=/&filename=ws.
 import BootOption from 'common/BootOption';
 import PostMessage, { MessageClientAndWsApiType, MessageParams } from 'common/PostMessage';
 import Sequence from 'common/Sequence';
+import TalknSetup from 'common/clientState/operations/TalknSetup';
 import define from 'common/define';
 
 import ApiState from 'api/store';
 
 import apiStore from './store/apiStore';
-
-declare global {
-  interface Window {
-    talknWindow: any;
-    talknMedia: any;
-    Youtube: any;
-    log: any;
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
-  }
-  interface Math {
-    easeInOutQuad: any;
-  }
-}
 
 export default class Window {
   id: string = define.APP_TYPES.API;
@@ -34,6 +22,8 @@ export default class Window {
     return 'tune';
   }
   constructor(id) {
+    TalknSetup.setupMath();
+
     this.id = id;
     this.bootOption = new BootOption(this.id);
     const apiState = new ApiState(this.bootOption);

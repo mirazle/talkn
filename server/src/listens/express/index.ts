@@ -188,11 +188,13 @@ class Express {
         break;
       case conf.coverURL:
         let method = defaultCoverMethod;
+
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         if (req.method === 'POST') {
-          method = splitedUrl[2];
-          if (req.headers['content-type'].startsWith('multipart/form-data')) {
+          method = splitedUrl[2] ? splitedUrl[2] : splitedUrl[1];
+
+          if (req.headers['content-type'] && req.headers['content-type'].startsWith('multipart/form-data')) {
             uploadImage(req, res, async (err) => {
               if (err) throw err;
               const key = Object.keys(req.files)[0];

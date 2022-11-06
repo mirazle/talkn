@@ -83,7 +83,11 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
       rateOne = rateMax / graphMaxNum;
       rateOne = Math.round(rateOne * calcRate) / calcRate;
 
-      for (let ratePointLimit = rateOne; ratePointLimit <= rateMax; ratePointLimit = Math.round((ratePointLimit + rateOne) * calcRate) / calcRate) {
+      for (
+        let ratePointLimit = rateOne;
+        ratePointLimit <= rateMax;
+        ratePointLimit = Math.round((ratePointLimit + rateOne) * calcRate) / calcRate
+      ) {
         graphRateMap.push(ratePointLimit);
       }
 
@@ -136,11 +140,11 @@ export default class EmotionGraph extends TalknComponent<EmotionGraphProps, Emot
   UNSAFE_componentWillReceiveProps(nextProps) {
     const clientState = this.clientState;
     if (
-      clientState.actionLog[0] === 'API_TO_CLIENT[EMIT]:tune' ||
-      clientState.actionLog[0] === 'API_TO_CLIENT[BROADCAST]:post' ||
-      clientState.actionLog[0] === 'ON_CLICK_TOGGLE_DISP_DETAIL' ||
-      clientState.actionLog[0] === 'ON_CLICK_TOGGLE_DISP_MENU_END' ||
-      clientState.actionLog[0] === 'API_TO_CLIENT[EMIT]:changeThreadDetail'
+      clientState.clientLog[0] === 'API_TO_CLIENT[EMIT]:tune' ||
+      clientState.clientLog[0] === 'API_TO_CLIENT[BROADCAST]:post' ||
+      clientState.clientLog[0] === 'ON_CLICK_TOGGLE_DISP_DETAIL' ||
+      clientState.clientLog[0] === 'ON_CLICK_TOGGLE_DISP_MENU_END' ||
+      clientState.clientLog[0] === 'API_TO_CLIENT[EMIT]:changeThreadDetail'
     ) {
       const { emotionModelKey, totalNum, data } = this.getGraphDatas(nextProps);
       const datasets = [{ ...EmotionGraphStyle.datasetsBase, data }];

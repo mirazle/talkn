@@ -1,14 +1,14 @@
 import { Component } from 'react';
 
 import Schema from 'common//Schema';
+import ClientState from 'common/clientState/store';
+import Ui from 'common/clientState/store/Ui';
+import UiTimeMarker from 'common/clientState/store/UiTimeMarker';
 
 import App from 'api/store/App';
 import Thread from 'api/store/Thread';
 
 import conf from 'client/conf';
-import ClientState from 'client/store/';
-import Ui from 'client/store/Ui';
-import UiTimeMarker from 'client/store/UiTimeMarker';
 
 export default class TalknComponent<P, S> extends Component<P, S> {
   componentName: string;
@@ -92,12 +92,13 @@ export default class TalknComponent<P, S> extends Component<P, S> {
   }
 
   onScroll({ scrollTop = 0, clientHeight = 0, scrollHeight = 0 }) {
-    const { thread, app, ui, actionLog } = this.clientState;
-    const actionTypes = ui.extensionMode === Ui.extensionModeNone ? ['ON_RESIZE_END_WINDOW'] : ['ON_RESIZE_END_WINDOW' /*, "ON_SCROLL_UPDATE_TIME_MARKER"*/];
+    const { thread, app, ui, clientLog } = this.clientState;
+    const actionTypes =
+      ui.extensionMode === Ui.extensionModeNone ? ['ON_RESIZE_END_WINDOW'] : ['ON_RESIZE_END_WINDOW' /*, "ON_SCROLL_UPDATE_TIME_MARKER"*/];
     let { uiTimeMarker } = this.clientState;
 
     if (scrollTop === 0) {
-      if (!actionTypes.includes(actionLog[0])) {
+      if (!actionTypes.includes(clientLog[0])) {
         const postCntKey = app.multistream ? 'multiPostCnt' : 'postCnt';
         if (thread[postCntKey] > conf.findOnePostCnt) {
           const timeMarkerList: any = document.querySelector('[data-component-name=TimeMarkerList]');

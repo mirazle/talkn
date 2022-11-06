@@ -149,7 +149,7 @@ chkconfig redis on
 
 ```
 yum install git -y
-git clone git://github.com/creationix/nvm.git ~/.nvm
+git clone git://github.com/creationix/nvm.git ~/.nvm | curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 source ~/.nvm/nvm.sh
 nvm --version
 ```
@@ -160,19 +160,19 @@ nvm --version
 ## Node
 
 ```
-nvm install stable
+nvm install stable | nvm install --lts
 node -v
 npm -v
 ```
 
-- `$HOME/.nvm/versions/node/v14.4.0/bin`の$PAHTが追加されるので、
+- `$HOME/.nvm/versions/node/v14.4.0/bin`(バージョンは可変)の$PAHTが追加されるので、
 `~/.bash_profile`にも$PATH を通す
   (これをしないと再ログイン時に node, npm, yarn 等が使用出来なくなる)
 
 ## yarn
 
 `npm install -g yarn`
-`yarn set version berry`
+`yarn set version berry` | `yarn set version latest`
 `yarn plugin import interactive-tools`
 `yarn -v`
 

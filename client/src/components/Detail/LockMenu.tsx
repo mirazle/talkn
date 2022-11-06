@@ -1,12 +1,11 @@
 import React from 'react';
 
 import Sequence from 'common/Sequence';
+import Ui from 'common/clientState/store/Ui';
 import conf from 'common/conf';
 
 import TalknComponent from 'client/components/TalknComponent';
-import { Label } from 'client/components/common';
 import Icon from 'client/components/common/Icon';
-import Ui from 'client/store/Ui';
 import Container from 'client/style/Container';
 import { default as LockMenuStyle } from 'client/style/LockMenu';
 import Style from 'client/style/index';
@@ -188,7 +187,10 @@ export default class LockMenu extends TalknComponent<LockMenuProps, LockMenuStat
             {IconTwitter}
             <div style={style.lockMenu.shareLabel}>Twitter</div>
           </li>
-          <li style={stateStyle.liFacebook} onClick={() => this.clientAction('OPEN_INNER_NOTIF')} {...this.getDecolationProps1('liFacebook')}>
+          <li
+            style={stateStyle.liFacebook}
+            onClick={() => this.clientAction('OPEN_INNER_NOTIF')}
+            {...this.getDecolationProps1('liFacebook')}>
             {IconFacebook}
             <div style={style.lockMenu.shareLabel}>Facebook</div>
           </li>

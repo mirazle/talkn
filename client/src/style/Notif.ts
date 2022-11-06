@@ -1,6 +1,5 @@
+import Ui from 'common/clientState/store/Ui';
 import define from 'common/define';
-
-import Ui from 'client/store/Ui';
 
 import Container from './Container';
 import Posts from './Posts';

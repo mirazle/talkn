@@ -36,6 +36,7 @@ export default class Io {
       posts,
       app,
     });
+    console.log(responseEmitState.thread.ch);
     this.io.emit(ioUser, Sequence.CATCH_ME_KEY, responseEmitState);
   }
 

@@ -28,10 +28,6 @@ export default {
     const { ch, hasSlash, protocol, host } = ioUser.handshake.query;
     const thread = { ch, hasSlash, protocol, host };
     const requestState = { thread, type: 'tune' };
-    /*
-    console.log('------------------------------- tune');
-    console.log(requestState);
-*/
     Actions.io.tune(ioUser, requestState, setting);
   },
 
@@ -77,6 +73,7 @@ export default {
     threadStatus.getMore = true;
     const postCntKey = threadStatus.isMultistream ? 'multiPostCnt' : 'postCnt';
     thread[postCntKey] = await Logics.db.posts.getCounts(requestState, threadStatus);
+
     const { response: posts } = await Logics.db.posts.find(requestState, setting, threadStatus);
     app = Collections.getNewApp(requestState.type, app, thread, posts);
     Logics.io.getMore(ioUser, { requestState, thread, posts, app });
@@ -85,7 +82,7 @@ export default {
   changeThread: async (ioUser, requestState, setting) => {
     // Old Thread.
     Logics.db.sessions.remove(ioUser.conn.id);
-    const oldCh = requestState.app.tuned;
+    const oldCh = requestState.app.tunedCh;
     const { thread: oldThread } = await Logics.db.threads.tune({ ch: oldCh }, -1);
 
     // New thread.
@@ -148,7 +145,7 @@ export default {
     const threadStatus = Thread.getStatus(thread, app, true);
     const post = await Logics.db.posts.save(requestState);
     const emotionKeys = emotions ? Object.keys(emotions) : [];
-
+    console.log('DEBUG', app.inputPost);
     let set = { $inc: { postCnt: 1 }, lastPost: post };
     if (emotionKeys.length > 0) {
       emotionKeys.forEach((emotionModelKey) => {
@@ -191,7 +188,6 @@ export default {
 
   disconnect: async (ioUser) => {
     const { response: user } = await Logics.db.sessions.findOne(ioUser.conn.id);
-
     if (user && user.ch) {
       // ユーザーデータ削除
       await Logics.db.sessions.remove(ioUser.conn.id);

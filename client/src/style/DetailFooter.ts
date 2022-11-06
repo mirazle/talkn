@@ -1,4 +1,4 @@
-import Ui from 'client/store/Ui';
+import Ui from 'common/clientState/store/Ui';
 
 import Detail from './Detail';
 import DetailModal from './DetailModal';

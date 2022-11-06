@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "css": "default.css",
   "stories": [],
-  "userCategoryChs": ["/", "/www.sunbridge.com/", "/hitonote.jp/"],
+  "categoryChs": ["/", "/www.sunbridge.com/", "/hitonote.jp/"],
   "iamTags": ["1-1-1", "2-1-4"],
   "searchTags": ["1-1-2"]
 }

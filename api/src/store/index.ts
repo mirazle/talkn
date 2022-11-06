@@ -9,6 +9,7 @@ import PostsTimeline from 'api/store/PostsTimeline';
 import PostsTimelineStock from 'api/store/PostsTimelineStock';
 import Ranks from 'api/store/Ranks';
 import Thread from 'api/store/Thread';
+import TuneCh from 'api/store/TuneCh';
 import User from 'api/store/User';
 
 export default class ApiState {
@@ -28,6 +29,7 @@ export default class ApiState {
   threadDetail: Thread;
   app: App;
   user: User;
+  tuneCh: TuneCh;
   actionLog: ActionLog;
   constructor(bootOption: BootOption, caches: any = {}) {
     this.bootOption = bootOption;
@@ -44,6 +46,7 @@ export default class ApiState {
     this.thread = new Thread(this.bootOption, caches.thread);
     this.threadDetail = new Thread(this.bootOption, caches.thread);
     this.app = new App(ApiState.getAppParams(this.thread, this.bootOption, caches));
+    this.tuneCh = new TuneCh();
     this.user = new User(ApiState.getUserParams(this, caches));
     this.actionLog = new ActionLog();
   }

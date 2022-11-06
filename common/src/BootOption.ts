@@ -17,6 +17,7 @@ export type BootOptionParamsType = {
   protocol?: BootProtocolType;
   host?: string;
   mode?: ExtensionModeType;
+  isRankDetailMode?: boolean;
 };
 export type BootOptionType = {
   id: string;
@@ -32,6 +33,7 @@ export default class BootOption {
   protocol: BootProtocolType = Sequence.HTTPS_PROTOCOL;
   host: string = location.host;
   extensionMode: ExtensionModeType = BootOption.extensionModeNone;
+  isRankDetailMode: boolean = false;
   defaultProps: BootOptionType = {
     id: '',
     params: {
@@ -40,6 +42,7 @@ export default class BootOption {
       protocol: Sequence.HTTPS_PROTOCOL,
       host: location.host,
       mode: BootOption.extensionModeNone,
+      isRankDetailMode: false,
     },
   };
   constructor(id: string, params?: BootOptionParamsType) {
@@ -48,10 +51,12 @@ export default class BootOption {
     this.env = conf.env;
     this.id = id;
     this.hasSlash = params && params.hasSlash !== undefined ? params.hasSlash : BootOption.getLastHasSlach(initialRootCh);
-    this.ch = params && params.ch ? params.ch : BootOption.getCh(initialRootCh, firstHasSlash, this.hasSlash);
+    this.ch = params && params.ch ? params.ch : BootOption.getActiveCh(initialRootCh, firstHasSlash, this.hasSlash);
     this.protocol = params && params.protocol ? params.protocol : BootOption.getProtocol();
     this.host = params && params.host ? params.host : location.host;
     this.extensionMode = params && params.mode ? params.mode : BootOption.extensionModeNone;
+    this.isRankDetailMode =
+      params && params.isRankDetailMode !== undefined ? params.isRankDetailMode : this.defaultProps.params.isRankDetailMode;
   }
   static get extensionModeModal() {
     return 'Modal';
@@ -127,11 +132,19 @@ export default class BootOption {
     return ch.endsWith('/');
   }
 
-  static getCh(initialRootCh, firstHasSlash, lastHasSlash): string {
+  static getActiveCh(initialRootCh, firstHasSlash, lastHasSlash): string {
     let ch = initialRootCh;
     ch = firstHasSlash ? ch : `/${ch}`;
     ch = lastHasSlash ? ch : `${ch}/`;
     ch = ch.replace(/^\/\//, '/');
     return ch;
+  }
+
+  static getCh(_ch?: string): string {
+    if (!_ch || _ch === '') return '/';
+    _ch = _ch.replace(`${Sequence.HTTPS_PROTOCOL}/`, '').replace(`${Sequence.HTTP_PROTOCOL}/`, '');
+    _ch = _ch.endsWith('/') ? _ch : _ch + '/';
+    _ch = _ch.startsWith('/') ? _ch : '/' + _ch;
+    return _ch;
   }
 }

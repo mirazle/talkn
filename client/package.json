@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "talkn live communication client.",
   "scripts": {
-    "client": "app=client webpack-cli serve --mode=development -m -c ../webpack.config.base.js -c ./webpack.config.js",
+    "dev": "app=client webpack-cli serve --mode=development -m -c ../webpack.config.base.js -c ./webpack.config.js",
     "build": "app=client webpack --mode=production -m -c ../webpack.config.base.js -c ./webpack.config.js"
   },
   "author": "mirazle <mirazle2069@gmail.com> (https://github.com/mirazle)",

@@ -108,11 +108,12 @@ export default class App extends Schema {
   isRootCh: boolean;
   isLinkCh: boolean;
   isMediaCh: boolean;
+  isTune: boolean;
   rootCh: string;
   rootTitle: string;
   chType: 'video' | 'audio' | 'html';
   dispThreadType: 'Multi' | 'Single' | 'Child' | 'Timeline' | 'Logs';
-  tuned: string;
+  tunedCh: string;
   multistream: boolean;
 
   // 投稿情報
@@ -140,12 +141,13 @@ export default class App extends Schema {
     super();
 
     // 準備
-    const ch = params.ch ? params.ch : '/';
+    const ch = params.ch ? params.ch : '';
 
     // ID
     const id = params.id ? params.id : '';
 
     // スレッド基本関連
+    const isTune = Schema.isSet(params.isTune) ? params.isTune : false;
     const isMediaCh = Schema.isSet(params.isMediaCh) ? params.isMediaCh : App.getIsMediaCh(ch);
     const isLinkCh = Schema.isSet(params.isLinkCh) ? params.isLinkCh : false;
     const rootCh = params.rootCh ? params.rootCh : ch;
@@ -153,7 +155,7 @@ export default class App extends Schema {
     const rootTitle = params.rootTitle ? params.rootTitle : 'talkn';
     const src = App.getMediaSrc(params.protocol, ch);
     const chType = App.getMediaType(src, params);
-    const tuned = params && params.tuned ? params.tuned : '';
+    const tunedCh = params && params.tunedCh ? params.tunedCh : '';
     const dispThreadType = App.getDispThreadType(params, isMediaCh);
     const multistream = Schema.isSet(params.multistream) ? params.multistream : true;
 
@@ -177,11 +179,13 @@ export default class App extends Schema {
     const isRankDetailMode = Schema.isSet(params.isRankDetailMode) ? params.isRankDetailMode : false;
     const actioned = params && params.actioned ? params.actioned : '';
     const debug = Schema.isSet(params.debug) ? params.debug : '';
+
     return this.create({
       // ID
       id,
 
       // スレッド基本関連
+      isTune,
       isRootCh,
       isLinkCh,
       isMediaCh,
@@ -189,7 +193,7 @@ export default class App extends Schema {
       rootTitle,
       chType,
       dispThreadType,
-      tuned,
+      tunedCh, // changeThreadの際の接続していた古いスレッドのCH(liveCntをデクリメントする用途)として保持
       multistream, // dispThreadTypeがChild, Timelineになってもmultistream状態を維持する
 
       //      threadScrollY,

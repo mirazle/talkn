@@ -1,5 +1,8 @@
 import React from 'react';
 
+import DateHelper from 'common/DateHelper';
+import Ui from 'common/clientState/store/Ui';
+
 import App from 'api/store/App';
 
 import TalknComponent from 'client/components/TalknComponent';
@@ -8,9 +11,7 @@ import Media from 'client/components/Thread/Media';
 import Post from 'client/components/Thread/Post';
 import TimeMarker from 'client/components/Thread/TimeMarker';
 import Icon from 'client/components/common/Icon';
-import DateHelper from 'client/container/util/DateHelper';
 import Marquee from 'client/container/util/Marquee';
-import Ui from 'client/store/Ui';
 import ContainerStyle from 'client/style/Container';
 import IconStyle from 'client/style/Icon';
 
@@ -185,7 +186,7 @@ export default class Posts extends TalknComponent<PostsProps, PostsState> {
     let dispPosts = [];
     let beforeDiffDay: number = 0;
 
-    if (postCnt === 0 && !ui.isLoading && app.tuned !== '') {
+    if (postCnt === 0 && !ui.isLoading && app.tunedCh !== '') {
       dispPosts.push(
         <li key={'firstAction'} style={style.posts.firstAction}>
           <div>Hello, Friend😁</div>

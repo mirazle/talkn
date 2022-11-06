@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import actioned from './actioned';
 import analyze from './analyze';
+import apiLog from './apiLog';
 import app from './app';
 import bootOption from './bootOption';
 import posts from './posts';
@@ -39,7 +39,7 @@ export const reducerFiles = {
   postsMulti,
   postsSingle,
   postsChild,
-  actioned,
+  apiLog,
 };
 
 export default combineReducers(reducerFiles);
