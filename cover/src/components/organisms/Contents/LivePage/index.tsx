@@ -6,14 +6,14 @@ import CommingSoon from 'cover/components/atoms/CommingSoon';
 
 type Props = {
   ch: string;
-  userCategoryChs: string[];
+  categoryChs: string[];
   talknFrameRef: React.MutableRefObject<HTMLElement>;
 };
 
-const Component: FunctionComponent<Props> = ({ ch, userCategoryChs, talknFrameRef }) => {
-  return userCategoryChs.length > 0 ? (
+const Component: FunctionComponent<Props> = ({ ch, categoryChs, talknFrameRef }) => {
+  return categoryChs.length > 0 ? (
     <Container>
-      {userCategoryChs.map((categoryCh: any, index) => {
+      {categoryChs.map((categoryCh: any, index) => {
         if (categoryCh && categoryCh !== '') {
           /*
           return (

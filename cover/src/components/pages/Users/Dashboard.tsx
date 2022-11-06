@@ -20,7 +20,7 @@ import { UserTagsType, OpenModalOptionType, openModalOptionInit } from 'cover/mo
 import styles from 'cover/styles';
 import { Props as NodeProps } from 'cover/utils/Node';
 
-export type GlobalContextType = {
+export type GlobalContextPrivateType = {
   innerWidth: number;
   innerHeight: number;
   isScrollTop: boolean;
@@ -105,7 +105,7 @@ const Components: React.FC<PageProps> = ({ account, isMyPage }) => {
   const [showAdvert, setShowAdvert] = useState(true);
   const [showSearchModalOption, setShowSearchModalOption] = useState<OpenModalOptionType>({ ...openModalOptionInit });
 
-  const [userCategoryChs, setUserCategoryChs] = useState([]);
+  const [categoryChs, setUserCategoryChs] = useState([]);
   const [openMenu, setOpenMenu] = useState(false);
   const [storiesPointer, setStoriesPointer] = useState<number | undefined>();
   const [navigationLayout, setNavigationLayout] = useState<NavigationLayout | undefined>();
@@ -183,8 +183,8 @@ const Components: React.FC<PageProps> = ({ account, isMyPage }) => {
 
   useEffect(() => {
     setMountData(true);
-    const userCategoryChCnt = window.talknDatas.config.userCategoryChs.length;
-    window.talknDatas.config.userCategoryChs = window.talknDatas.config.userCategoryChs.concat(
+    const userCategoryChCnt = window.talknDatas.config.categoryChs.length;
+    window.talknDatas.config.categoryChs = window.talknDatas.config.categoryChs.concat(
       new Array(configUserCategoryChLimit - userCategoryChCnt).fill('')
     );
 
@@ -193,7 +193,7 @@ const Components: React.FC<PageProps> = ({ account, isMyPage }) => {
     setServerMetas(window.talknDatas.serverMetas);
     setStories(window.talknDatas.stories);
     setStoriesPointer(window.talknDatas.storiesPointer);
-    setUserCategoryChs(window.talknDatas.config.userCategoryChs);
+    setUserCategoryChs(window.talknDatas.config.categoryChs);
     setUser(new User(window.talknDatas.user));
     setUserTags(window.talknDatas.userTags);
 

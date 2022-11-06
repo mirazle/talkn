@@ -4,9 +4,7 @@ import styled from 'styled-components';
 import conf from 'common/conf';
 
 import Search from 'cover/components/atoms/icon/Search';
-import Account from 'cover/components/molecules/Account';
 import Flex, { A, Img, H1, Header } from 'cover/flexes';
-import User from 'cover/model/User';
 import styles from 'cover/styles';
 
 type Props = {
