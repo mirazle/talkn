@@ -21,7 +21,7 @@ import { UserTagsType, OpenModalOptionType, openModalOptionInit } from 'cover/mo
 import styles from 'cover/styles';
 import { Props as NodeProps } from 'cover/utils/Node';
 
-export type GlobalContextType = {
+export type GlobalContextPrivateType = {
   innerWidth: number;
   innerHeight: number;
   isScrollTop: boolean;

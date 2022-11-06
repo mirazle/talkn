@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "talkn live communication top.",
   "scripts": {
-    "cover": "app=cover webpack-cli serve --mode=development -m -c ../webpack.config.base.js -c ./webpack.config.js",
+    "dev": "app=cover webpack-cli serve --mode=development -m -c ../webpack.config.base.js -c ./webpack.config.js",
     "build": "app=cover webpack --mode=production -m -c ../webpack.config.base.js -c ./webpack.config.js",
     "stylelint": "stylelint './src/**/*.tsx' --fix"
   },
