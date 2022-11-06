@@ -3,10 +3,12 @@
 .*/npm-debug.log
 chromeExtension.zip
 server/src/listens/express/assets/icon/*
+cover/env.json
 extention/
 common/pems/*
 dump.rdb
 package-lock.json
 yarn-error.log
-chromeExtension.zip
 .vscode
+.yarn
+node_modules

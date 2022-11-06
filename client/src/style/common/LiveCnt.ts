@@ -1,4 +1,5 @@
-import Ui from 'client/store/Ui';
+import Ui from 'common/clientState/store/Ui';
+
 import Container from 'client/style/Container';
 import Style from 'client/style/index';
 

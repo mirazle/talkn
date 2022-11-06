@@ -1,26 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Flex from 'cover/components/atoms/Flex';
+import Flex from 'cover/flexes';
 import styles from 'cover/styles';
 
 type Props = {
   onClick: () => void;
   onClickRemove: () => void;
-  isEditable: boolean;
   label: React.ReactNode;
 };
 
-const Component: React.FC<Props> = ({ onClick, onClickRemove, isEditable, label }) => {
+const Component: React.FC<Props> = ({ onClick, onClickRemove, label }) => {
   return (
-    <Container flow="column nowrap">
+    <Container className="SimplyTag" alt="View" flow="column nowrap">
       <Header className="CloseHeaeer" alignItems="center" justifyContent="flex-end">
-        <CloseIcon className="CloseIcon" onClick={onClickRemove} show={isEditable}>
+        <CloseIcon className="CloseIcon" onClick={onClickRemove} show={false}>
           <div className="lineHorizon" />
           <div className="lineVertical" />
         </CloseIcon>
       </Header>
-      <Body flow="column nowrap" alignItems="center" justifyContent="center" onClick={onClick} isEditable={isEditable}>
+      <Body flow="column nowrap" alignItems="center" justifyContent="center" onClick={onClick}>
         {label}
       </Body>
     </Container>
@@ -77,15 +76,13 @@ const CloseIcon = styled.div<CloseIconType>`
     border-radius: 10%;
   }
 `;
-type BodyPropsType = {
-  isEditable: boolean;
-};
+type BodyPropsType = {};
 
 const Body = styled(Flex)<BodyPropsType>`
   height: 55px;
   padding: 10px 30px;
   margin: 10px;
-  background: ${(props) => (props.isEditable ? styles.themeColor : styles.tagBgColor)};
+  background: ${styles.tagBgColor};
   border-radius: 30px;
   color: #fff;
   cursor: pointer;

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Button, { buttonThemeBright, buttonThemeDefault } from 'cover/components/atoms/Button';
-import Flex from 'cover/components/atoms/Flex';
-import Label from 'cover/components/atoms/Label';
 import { NoSetComponens } from 'cover/components/organisms/Contents/Profile/common';
+import Flex, { Label } from 'cover/flexes';
+import { allSex, defaultSexes } from 'cover/model/userTags/Profile';
 import styles from 'cover/styles';
 
 type Props = {
@@ -12,25 +12,18 @@ type Props = {
   isEditable: boolean;
   sexes: string[];
   onChange: (sexes: string[]) => void;
+  isHorizon?: boolean;
+  width?: string;
 };
 
-export const allSex = { uniqueId: 'All', ja: '全て', en: 'All' };
-
-export const defaultSexes = [
-  { uniqueId: '1', ja: '男', en: 'Man' },
-  { uniqueId: '2', ja: '女', en: 'Woman' },
-];
-
-export const sexesInit = ['1', '2'];
-
-const Component: React.FC<Props> = ({ type, isEditable, sexes: _sexes, onChange }: Props) => {
+const Component: React.FC<Props> = ({ type, isEditable, sexes: _sexes, onChange, isHorizon, width = 'auto' }: Props) => {
   const [isActiveAll, setIsActiveAll] = useState(false);
   const [sexes, setSexes] = useState(_sexes);
 
   const getContent = () => {
     if (isEditable) {
       return (
-        <Flex className="sexes" flow="row wrap" alignItems="center">
+        <Container className="languages" flow={'row wrap'} alignItems="center" isHorizon={isHorizon}>
           <ButtonCustom key={`${type}_${allSex.uniqueId}`} theme={getButtonTheme(isActiveAll)} onClick={handleOnChangeAll}>
             {allSex.ja}
           </ButtonCustom>
@@ -42,14 +35,14 @@ const Component: React.FC<Props> = ({ type, isEditable, sexes: _sexes, onChange 
               {sex.ja}
             </ButtonCustom>
           ))}
-        </Flex>
+        </Container>
       );
     } else {
       if (sexes.length === 0) {
         return <NoSetComponens />;
       } else {
         return (
-          <Flex className="sexes" flow={'row nowrap'} alignItems="center">
+          <Container className="languages" flow={'row wrap'} alignItems="center" isHorizon={isHorizon}>
             {defaultSexes.map((sex) => {
               return (
                 sexes.includes(sex.uniqueId) && (
@@ -59,7 +52,7 @@ const Component: React.FC<Props> = ({ type, isEditable, sexes: _sexes, onChange 
                 )
               );
             })}
-          </Flex>
+          </Container>
         );
       }
     }
@@ -106,6 +99,14 @@ const Component: React.FC<Props> = ({ type, isEditable, sexes: _sexes, onChange 
 };
 
 export default Component;
+
+type ContainerPropsType = {
+  isHorizon: boolean;
+};
+
+const Container = styled(Flex)<ContainerPropsType>`
+  flex-flow: ${(props) => (props.isHorizon ? 'row nowrap' : 'row wrap')};
+`;
 
 const getFullSexes = () => defaultSexes.map((language) => language.uniqueId);
 const getButtonTheme = (condition = true) => (condition ? buttonThemeDefault : buttonThemeBright);

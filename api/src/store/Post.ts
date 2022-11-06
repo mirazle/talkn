@@ -7,6 +7,7 @@ export default class Post extends Schema {
   }
   static get defaultValues() {
     return {
+      _id: '',
       ch: '/',
       chs: ['/'],
       favicon: conf.defaultFavicon,
@@ -26,6 +27,7 @@ export default class Post extends Schema {
       updateTime: new Date(),
     };
   }
+  _id: string = Post.defaultValues._id;
   ch: string = Post.defaultValues.ch;
   chs: string[] = Post.defaultValues.chs;
   favicon: string = Post.defaultValues.favicon;

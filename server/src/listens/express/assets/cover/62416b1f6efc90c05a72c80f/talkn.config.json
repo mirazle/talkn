@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "css": "default.css",
+  "stories": [
+    {
+      "title": "SAMPLE1",
+      "eyeCatch": "",
+      "interview": "creators1.json"
+    },
+    {
+      "title": "SAMPLE2",
+      "eyeCatch": "",
+      "interview": "creators1.json"
+    },
+    {
+      "title": "サンブリッジの根幹を担うプロダクト本部の責任者へ新卒社員がインタビュー",
+      "eyeCatch": "https://cover.talkn.io//www.sunbridge.com/bg2.png",
+      "interview": "creators1.json"
+    },
+    {
+      "title": "Smart Viscaリニューアルの裏側",
+      "eyeCatch": "https://cover.talkn.io//www.sunbridge.com/bg1.png",
+      "interview": "creators2.json"
+    }
+  ],
+  "categoryChs": [
+    "/www.sunbridge.com/products/",
+    "/www.sunbridge.com/solution/",
+    "/www.sunbridge.com/blog/",
+    "/www.sunbridge.com/casestudies/",
+    "/www.sunbridge.com/seminar/",
+    "/www.sunbridge.com/smartvisca/",
+    "/www.sunbridge.com/company/",
+    "/www.sunbridge.com/news/",
+    "/www.sunbridge.com/faq/"
+  ],
+  "iamTags": ["株式会社サンブリッジ", "情報通信", "Salesforce", "マーケティング・オートメーション", "名刺管理"],
+  "relationTags": ["情報通信:インフラエンジニア", "情報通信:バックエンドエンジニア", "情報通信：エンジニアリングマネージャー"]
+}

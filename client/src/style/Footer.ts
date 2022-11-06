@@ -1,4 +1,4 @@
-import Ui from 'client/store/Ui';
+import Ui from 'common/clientState/store/Ui';
 
 import Container from './Container';
 import Detail from './Detail';
@@ -63,7 +63,9 @@ export default class Footer {
     if (ui.extensionMode === Ui.extensionModeBottom) {
       return { border: 0 };
     } else {
-      return ui.screenSize === Ui.screenSizeSmallLabel ? { border: Container.border } : { borderTop: Container.border, borderBottom: Container.border };
+      return ui.screenSize === Ui.screenSizeSmallLabel
+        ? { border: Container.border }
+        : { borderTop: Container.border, borderBottom: Container.border };
     }
   }
 

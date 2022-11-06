@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Sequence from 'common/Sequence';
+import Ui from 'common/clientState/store/Ui';
 import define from 'common/define';
 
 import Thread from 'api/store/Thread';
@@ -12,7 +13,6 @@ import TalknComponent from 'client/components/TalknComponent';
 import Icon from 'client/components/common/Icon';
 import conf from 'client/conf';
 import Marquee from 'client/container/util/Marquee';
-import Ui from 'client/store/Ui';
 import Container from 'client/style/Container';
 
 type DetailProps = {
@@ -126,7 +126,10 @@ export default class Detail extends TalknComponent<DetailProps, DetailState> {
       default:
       case Thread.findTypeHtml:
         if (serverMetas && serverMetas['og:image']) {
-          if (`${serverMetas['og:image']}`.indexOf(Sequence.HTTPS_PROTOCOL) === 0 || `${serverMetas['og:image']}`.indexOf(Sequence.HTTP_PROTOCOL) === 0) {
+          if (
+            `${serverMetas['og:image']}`.indexOf(Sequence.HTTPS_PROTOCOL) === 0 ||
+            `${serverMetas['og:image']}`.indexOf(Sequence.HTTP_PROTOCOL) === 0
+          ) {
             backgroundImage = `url("${serverMetas['og:image']}")`;
           } else {
             if (protocol === Sequence.TALKN_PROTOCOL) {

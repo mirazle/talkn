@@ -2,11 +2,10 @@ import React, { useEffect, useState, useRef } from 'react';
 import styled, { css } from 'styled-components';
 
 import Favicon from 'cover/components/atoms/Favicon';
-import H from 'cover/components/atoms/H';
 import LiveCnt from 'cover/components/atoms/LiveCnt';
 import OgpImage from 'cover/components/atoms/OgpImage';
-import P from 'cover/components/atoms/P';
 import SnsLinks from 'cover/components/molecules/SnsLinks';
+import { P, H5 } from 'cover/flexes';
 import styles from 'cover/styles';
 
 export type ServerMetasType = {
@@ -71,9 +70,9 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
       <Cover onMouseOver={handleOnMouseOver}>
         <Header overflowTitle={marqueeOn}>
           <Favicon src={article.favicon} className={'Favicon'} />
-          <H.Five id={'Article'} className={'Title'}>
+          <H5 id={'Article'} className={'Title'}>
             {article.title}
-          </H.Five>
+          </H5>
           <LiveCnt className={'LiveCnt'}>{article.liveCnt}</LiveCnt>
         </Header>
         <OgpImage src={serverMetas['og:image']} ch={article.ch} />
@@ -87,14 +86,14 @@ const Component: React.FC<Props> = ({ article, index, focusIndex, setFocusIndex 
         <a href={`/${article.ch}`}>
           <Header ref={headerRef} overflowTitle={marqueeOn}>
             <Favicon src={article.favicon} className={'Favicon'} />
-            <H.Five id={'Article'} className={'Title'}>
+            <H5 id={'Article'} className={'Title'}>
               {article.title}
-            </H.Five>
+            </H5>
             <LiveCnt className={'LiveCnt'}>{article.liveCnt}</LiveCnt>
           </Header>
           <OgpImage src={serverMetas['og:image']} ch={article.ch} />
           <Description>
-            <P lv={2}>{serverMetas['og:description']}</P>
+            <P>{serverMetas['og:description']}</P>
             <SnsLinks serverMetas={serverMetas} />
           </Description>
         </a>

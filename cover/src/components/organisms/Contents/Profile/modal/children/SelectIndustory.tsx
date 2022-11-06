@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import Flex from 'cover/components/atoms/Flex';
-import Label from 'cover/components/atoms/Label';
 import Select from 'cover/components/atoms/select';
+import Flex, { Label } from 'cover/flexes';
 
 type Props = {
   type: string;
@@ -41,7 +40,7 @@ const Component: React.FC<Props> = ({
   }, [_industoryId]);
 
   useEffect(() => {
-    const updateIndustoryStaticData = window.talknStaticTags.industory.filter((ind) => ind.parentId === industoryParentId);
+    const updateIndustoryStaticData = window.talknDatas.staticTags.industory.filter((ind) => ind.parentId === industoryParentId);
     setIndustoryStaticData(updateIndustoryStaticData);
   }, [industoryParentId]);
 
@@ -56,7 +55,7 @@ const Component: React.FC<Props> = ({
           onChange={handleOnChangeIndustoryParent}
           value={industoryParentId}
           noSelectOption>
-          {window.talknStaticTags.industoryParent.map((tag) => (
+          {window.talknDatas.staticTags.industoryParent.map((tag) => (
             <Select.Option key={`IndustoryParentId_${tag.uniqueId}`} value={tag.uniqueId}>
               {tag.ja}
             </Select.Option>

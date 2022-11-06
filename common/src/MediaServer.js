@@ -20,13 +20,14 @@ export default class MediaServer {
   static get STATUS_STOP() {
     return 'STOP';
   }
-  static get PORTAL_KEY() {
+  static get P_ORTAL_KEY() {
     return 'PORTAL';
   }
   static get CLIENT_KEY() {
     return 'CLIENT';
   }
   constructor() {
+    console.log('BOOT MEDIA SERVER');
     // postMessage to iframe ids.
     this.init = this.init.bind(this);
     this.onError = this.onError.bind(this);
@@ -126,6 +127,7 @@ export default class MediaServer {
 
   setClientParams(params) {
     if (params && params.id) {
+      console.log(params.id, this.iframes[params.id]);
       this.iframes[params.id].params = params;
     }
   }
@@ -167,7 +169,10 @@ export default class MediaServer {
   }
 
   searching(iFrameId) {
-    if (!iFrameId) return false;
+    if (!iFrameId) {
+      console.warn('Please Set iFrameId TalknMediaServer ');
+      return false;
+    }
     this.setStatus(MediaServer.STATUS_SEARCH, `start searching ${iFrameId}`);
     this.searchingCnt = 0;
     this.searchingId = null;

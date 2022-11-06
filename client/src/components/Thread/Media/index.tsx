@@ -1,13 +1,13 @@
 import React from 'react';
 
 import Sequence from 'common/Sequence';
+import Ui from 'common/clientState/store/Ui';
 
 import App from 'api/store/App';
 
 import TalknComponent from 'client/components/TalknComponent';
 import Audio from 'client/components/Thread/Media/Audio';
 import Video from 'client/components/Thread/Media/Video';
-import Ui from 'client/store/Ui';
 
 type MediaProps = {
   state: any;

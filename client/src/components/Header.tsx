@@ -1,12 +1,12 @@
 import React from 'react';
 
+import Ui from 'common/clientState/store/Ui';
 import define from 'common/define';
 
 import TalknComponent from 'client/components/TalknComponent';
 import Icon from 'client/components/common/Icon';
 import LiveCnt from 'client/components/common/LiveCnt';
 import Marquee from 'client/container/util/Marquee';
-import Ui from 'client/store/Ui';
 
 type HeaderProps = {
   state: any;

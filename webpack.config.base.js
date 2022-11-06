@@ -40,6 +40,7 @@ module.exports = {
   },
   resolve: {
     alias: {
+      'common/node_modules': path.resolve(__dirname, './common/node_modules') + '/',
       'common': path.resolve(__dirname, './common/src') + '/',
       'server': path.resolve(__dirname, './server/src') + '/',
       'api': path.resolve(__dirname, './api/src') + '/',
@@ -47,7 +48,6 @@ module.exports = {
       'cover': path.resolve(__dirname, './cover/src') + '/',
       'tune': path.resolve(__dirname, './tune/src') + '/',
       'components': path.resolve(__dirname, './components/src') + '/',
-      'components/node_modules/': path.resolve(__dirname, './components/node_modules') + '/',
       'assets': path.resolve(__dirname, './assets') + '/',
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],

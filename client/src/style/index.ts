@@ -417,7 +417,7 @@ export default class Style {
       fontWeight: 300,
       fontSize: 'inherit',
       fontFamily:
-        '-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hiragino Sans,Noto Sans CJK JP,Original Yu Gothic,Yu Gothic,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Sans Emoji',
+        '"M PLUS 1p",-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Hiragino Sans,Noto Sans CJK JP,Original Yu Gothic,Yu Gothic,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Sans Emoji',
     };
     return { ...fontBase, ...style };
   }

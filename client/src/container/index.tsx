@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import DateHelper from 'common/DateHelper';
 import Sequence from 'common/Sequence';
+import mapToStateToProps from 'common/clientState/mapToStateToProps/';
+import TalknSession from 'common/clientState/operations/TalknSession';
+import Ui from 'common/clientState/store/Ui';
 import define from 'common/define';
 
 import App from 'api/store/App';
@@ -20,10 +24,6 @@ import Style from 'client/components/Style';
 import TalknComponent from 'client/components/TalknComponent';
 import Posts from 'client/components/Thread/Posts';
 import componentDidUpdates from 'client/container/componentDidUpdates';
-import DateHelper from 'client/container/util/DateHelper';
-import mapToStateToProps from 'client/mapToStateToProps/';
-import TalknSession from 'client/operations/TalknSession';
-import Ui from 'client/store/Ui';
 
 interface ContainerProps {
   state: any;
@@ -183,7 +183,7 @@ class Container extends TalknComponent<ContainerProps, ContainerState> {
 
   render() {
     const { app, ui, ranks } = this.props.state;
-    if (app.tuned !== '') {
+    if (app.tunedCh !== '') {
       switch (ui.extensionMode) {
         case Ui.extensionModeNone:
         case Ui.extensionModeModal:

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Flex from 'cover/components/atoms/Flex';
+import Flex from 'cover/flexes';
 import styles from 'cover/styles';
 
 type Props = {

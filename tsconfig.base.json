@@ -3,7 +3,7 @@
     "baseUrl": "./",
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "es2019",
+    "target": "es2020",
     "strict": false,
     "strictFunctionTypes": false,
     "strictBindCallApply": false,
@@ -24,10 +24,12 @@
     "incremental": true,
     "removeComments": true,
     "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": ["node_modules/@types", "common/src/types"],
     "types": ["node", "webpack-env"],
     "paths": {
+      "common/node_modules/*": ["common/node_modules/*"],
       "common/*": ["common/src/*"],
       "server/*": ["server/src/*"],
       "api/*": ["api/src/*"],
@@ -35,8 +37,7 @@
       "assets/*": ["assets/*"],
       "cover/*": ["cover/src/*"],
       "tune/*": ["tune/src/*"],
-      "components/*": ["components/src/*"],
-      "components/node_modules/*": ["components/node_modules/*"]
+      "components/*": ["components/src/*"]
     }
   }
 }

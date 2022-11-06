@@ -5,7 +5,7 @@
   "quoteProps": "consistent",
   "jsxBracketSameLine": true,
   "importOrder": [
-    "^components/node_modules/",
+    "^common/node_modules/",
     "^common/",
     "^server/",
     "^api/",

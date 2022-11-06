@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
+import Ui from 'common/clientState/store/Ui';
+
 import TalknComponent from 'client/components/TalknComponent';
-import Ui from 'client/store/Ui';
 
 type Props = {
   state: any;
@@ -94,7 +95,7 @@ export default class Style extends TalknComponent<Props, State> {
             font-size: 20px;
             font-weight: bold;
             color: rgba(69, 164, 149, 1);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK JP", "Original Yu Gothic", "Yu Gothic", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Sans Emoji";
+            font-family: 'M PLUS 1p', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans CJK JP", "Original Yu Gothic", "Yu Gothic", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Sans Emoji";
             border: 5px solid rgba(69, 164, 149, 1);
             border-radius: 100px;
             padding: 10px 20px 10px 20px;

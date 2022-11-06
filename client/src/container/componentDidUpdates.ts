@@ -1,14 +1,13 @@
 import React from 'react';
 
 import Sequence from 'common/Sequence';
+import Ui from 'common/clientState/store/Ui';
 import Emotions from 'common/emotions/index';
-
-import Ui from 'client/store/Ui';
 
 export default (self, constructorName) => {
   const { props } = self;
-  const { actionLog } = props.state;
-  const actionName = actionLog[0];
+  const { clientLog } = props.state;
+  const actionName = clientLog[0];
   if (componentDidUpdates[constructorName]) {
     if (componentDidUpdates[constructorName][actionName]) {
       componentDidUpdates[constructorName][actionName](self);

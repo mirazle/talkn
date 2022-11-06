@@ -1,11 +1,11 @@
 import React from 'react';
 
 import Sequence from 'common/Sequence';
+import Ui from 'common/clientState/store/Ui';
 import conf from 'common/conf';
 
 import TalknComponent from 'client/components/TalknComponent';
 import Icon from 'client/components/common/Icon';
-import Ui from 'client/store/Ui';
 import Container from 'client/style/Container';
 
 type DetailFooterProps = {
@@ -98,7 +98,7 @@ export default class DetailFooter extends TalknComponent<DetailFooterProps, Deta
             {shareIcon}
             <div
               style={{
-                color: shareColor,
+                color: 'rgba(172, 172, 172, 1)',
               }}>
               SHARE
             </div>

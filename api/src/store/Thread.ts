@@ -25,6 +25,9 @@ export default class Thread extends Schema {
   static get findTypeMusic(): 'Music' {
     return 'Music';
   }
+  static get findTypePdf(): 'Pdf' {
+    return 'Pdf';
+  }
   static get findTypeVideo(): 'Video' {
     return 'Video';
   }

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { FlexLayoutPropsType, flexLayoutCenterPropsInit } from 'cover/components/atoms/Flex';
-import * as Layout from 'cover/nodes/Layout';
+import { InteractiveProps, flexLayoutCenterPropsInit, boxLayoutPropsInit, BoxLayoutCss } from 'cover/flexes';
 import styles from 'cover/styles';
 
 export const buttonThemeHot = styles.hotColor;
@@ -28,13 +27,13 @@ type ButtonPropsType = {
   animation?: boolean;
 };
 
-export type Props = FlexLayoutPropsType & Layout.LayoutPropsType & ButtonPropsType;
+export type Props = InteractiveProps & ButtonPropsType;
 
 const Component: React.FC<Props> = (props: Props) => {
   const [didMount, setDidMount] = useState(false);
   const p: Props = {
     ...flexLayoutCenterPropsInit,
-    ...Layout.layoutPropsInit,
+    ...boxLayoutPropsInit,
     theme: buttonThemeDefault,
     animation: true,
     className: 'Button',
@@ -65,19 +64,24 @@ export const Button = styled.button<ButtonStyledPropsType>`
   align-items: center;
   justify-content: center;
   min-height: ${styles.baseHeight}px;
-  ${Layout.LayoutCss};
+  ${BoxLayoutCss};
+  min-width: auto;
   padding: ${styles.doublePadding}px ${styles.doublePadding * 2}px;
   color: ${(props) => getColor(props)};
   outline: none;
   cursor: ${(props) => (props.disabled || props.onClick === undefined ? 'normal' : 'pointer')};
   background: ${(props) => getBackground(props)};
   border: ${(props) => (props.disabled ? 1 : 0)}px solid ${styles.borderColor};
-  border-radius: 7px;
+  border-radius: ${styles.baseSize}px;
   transition: ${(props) => (props.didMount && props.animation ? styles.transitionDuration : 0)}ms;
   white-space: nowrap;
+  font-weight: 200;
   user-select: none;
   :hover {
     box-shadow: ${(props) => (props.disabled || props.onClick === undefined ? 0 : styles.shadowHorizonBright)};
+  }
+  @media (max-width: ${styles.spLayoutStrictWidth}px) {
+    padding: ${styles.basePadding}px ${styles.doublePadding * 1.5}px;
   }
 `;
 
@@ -88,6 +92,7 @@ const getColor = (props) => {
     switch (props.theme) {
       case buttonThemeDefault:
       case buttonThemeHot:
+      case buttonThemeCold:
       case buttonThemeBright:
         return styles.whiteColor;
     }
