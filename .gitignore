@@ -11,3 +11,4 @@ package-lock.json
 yarn-error.log
 .vscode
 .yarn
+node_modules
