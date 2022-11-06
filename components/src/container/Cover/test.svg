@@ -1,0 +1,129 @@
+<svg viewBox='0 0 1600 600' style="background: rgba(59, 174, 159, 1);">
+
+  <path id='circle1' fill="none" stroke="transparent" d="M 100 550 C -40 280 280 160 100 0" />
+  <path id='circle2' fill="none" stroke="transparent" d="M 500 550 C 680 280 320 160 500 0" />
+  <path id='circle3' fill="none" stroke="transparent" d="M 900 550 C 740 280 1080 160 900 0" />
+  <path id='circle4' fill="none" stroke="transparent" d="M 1300 550 C 1620 280 1280 160 1300 0" />
+  
+  <path id='wave1' fill="rgba(255,255,255,0.2)" stroke="transparent"/>
+  <path id='wave2' fill="rgba(255,255,255,0.2)" stroke="transparent"/>
+  <path id='wave3' fill="rgba(255,255,255,0.8)" stroke="transparent"/>
+
+  <animate xlink:href="#wave1"
+           attributeName="d"
+           begin="0s"
+           dur="6s"
+           values="
+            M 0, 300 C 600 0, 1000 600, 1600 300 V 600 H 0;
+            M 0, 200 C 1200 0, 1000 600, 2000 350 V 600 H 0;
+            M 0, 230 C 400 300, 400 200, 1700 250 V 600 H 0;
+            M 0, 150 C 600 200, 1000 600, 1600 200 V 600 H 0;
+            M 0, 300 C 600 0, 1000 600, 1600 300 V 600 H 0;
+            "
+           repeatCount="indefinite" />
+
+  <animate xlink:href="#wave2"
+           attributeName="d"
+           begin="0.25s"
+           dur="6.2s"
+           values="
+            M 0, 300 C 600 0, 1000 600, 1600 300 V 600 H 0;
+            M 0, 200 C 1200 0, 1000 600, 2000 350 V 600 H 0;
+            M 0, 230 C 400 300, 400 200, 1700 250 V 600 H 0;
+            M 0, 150 C 600 200, 1000 600, 1600 200 V 600 H 0;
+            M 0, 300 C 600 0, 1000 600, 1600 300 V 600 H 0;
+            "
+           repeatCount="indefinite" />
+
+  <animate xlink:href="#wave3"
+           attributeName="d"
+           begin="0.5s"
+           dur="6.1s"
+           values="
+            M 0, 350 C 600 0, 1000 600, 1600 350 V 600 H 0;
+            M 0, 250 C 1200 0, 1000 600, 2000 250 V 600 H 0;
+            M 0, 280 C 400 300, 400 200, 1700 280 V 600 H 0;
+            M 0, 200 C 600 200, 1000 600, 1600 200 V 600 H 0;
+            M 0, 350 C 600 0, 1000 600, 1600 350 V 600 H 0;
+            "
+           repeatCount="indefinite" />
+
+  <g>
+    <circle cx="0" cy="0" r="20" fill='rgba(255,255,255,0.2)' />
+    <animateMotion dur="4s" repeatCount="indefinite" rotate="auto" calcMode="linar" begin="0s">
+      <mpath href="#circle1" />
+    </animateMotion>
+  </g>
+  <g>
+    <circle cx="0" cy="100" r="15" fill='rgba(255,255,255,0.2)' />
+    <animateMotion dur="4.5s" repeatCount="indefinite" rotate="auto" calcMode="linar" begin="1s">
+      <mpath href="#circle1" />
+    </animateMotion>
+  </g>
+  <g>
+    <circle cx="0" cy="-50" r="25" fill='rgba(255,255,255,0.2)' />
+    <animateMotion dur="5.5s" repeatCount="indefinite" rotate="auto" calcMode="linar" begin="2s">
+      <mpath href="#circle1" />
+    </animateMotion>
+  </g>
+
+
+  <g>
+    <circle cx="0" cy="0" r="25" fill='rgba(255,255,255,0.2)' />
+    <animateMotion dur="3.5s" repeatCount="indefinite" rotate="auto" calcMode="linar" begin="0s">
+      <mpath href="#circle2" />
+    </animateMotion>
+  </g>
+  <g>
+    <circle cx="150" cy="100" r="20" fill='rgba(255,255,255,0.2)' />
+    <animateMotion dur="4.5s" repeatCount="indefinite" rotate="auto" calcMode="linar" begin="1s">
+      <mpath href="#circle2" />
+    </animateMotion>
+  </g>
+  <g>
+    <circle cx="0" cy="-80" r="30" fill='rgba(255,255,255,0.2)' />
+    <animateMotion dur="5.5s" repeatCount="indefinite" rotate="auto" calcMode="linar" begin="2s">
+      <mpath href="#circle2" />
+    </animateMotion>
+  </g>
+
+
+  <g>
+    <circle cx="-80" cy="80" r="15" fill='rgba(255,255,255,0.2)' />
+    <animateMotion dur="5.5s" repeatCount="indefinite" rotate="auto" calcMode="linar" begin="0s">
+      <mpath href="#circle3" />
+    </animateMotion>
+  </g>
+  <g>
+    <circle cx="150" cy="50" r="25" fill='rgba(255,255,255,0.2)' />
+    <animateMotion dur="3.5s" repeatCount="indefinite" rotate="auto" calcMode="linar" begin="1s">
+      <mpath href="#circle3" />
+    </animateMotion>
+  </g>
+  <g>
+    <circle cx="100" cy="-30" r="30" fill='rgba(255,255,255,0.2)' />
+    <animateMotion dur="4.5s" repeatCount="indefinite" rotate="auto" calcMode="linar" begin="2s">
+      <mpath href="#circle3" />
+    </animateMotion>
+  </g>
+
+
+  <g>
+    <circle cx="0" cy="0" r="25" fill='rgba(255,255,255,0.2)' />
+    <animateMotion dur="2.5s" repeatCount="indefinite" rotate="auto" calcMode="linar" begin="0s">
+      <mpath href="#circle4" />
+    </animateMotion>
+  </g>
+  <g>
+    <circle cx="150" cy="100" r="20" fill='rgba(255,255,255,0.2)' />
+    <animateMotion dur="5.0s" repeatCount="indefinite" rotate="auto" calcMode="linar" begin="1s">
+      <mpath href="#circle4" />
+    </animateMotion>
+  </g>
+  <g>
+    <circle cx="0" cy="0" r="30" fill='rgba(255,255,255,0.2)' />
+    <animateMotion dur="4.5s" repeatCount="indefinite" rotate="auto" calcMode="linar" begin="2s">
+      <mpath href="#circle4" />
+    </animateMotion>
+  </g>
+</svg>
