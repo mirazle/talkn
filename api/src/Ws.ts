@@ -121,6 +121,7 @@ export default class Ws {
   }
 
   private untune(bootOption: BootOption) {
+    console.log('@@@@ API UNTUNE');
     const id = bootOption && bootOption.id ? bootOption.id : this.id;
     if (this.ios[id]) {
       this.ios[id]['disconnect']();
@@ -149,6 +150,7 @@ export default class Ws {
         const _actionState = Sequence.getRequestActionState(actionName, requestParams);
         const { requestState, actionState } = beforeFunction(reduxState, _requestState, _actionState);
         this.publicCallbacks[requestState.type] = callback;
+        //        console.log(requestState.type, requestState.app.offsetFindId);
         this.ios[this.id].emit(requestState.type, requestState);
         return this.stores[this.id].dispatch(actionState);
       };
@@ -174,13 +176,14 @@ export default class Ws {
   }
 
   private on(onKey, callback = () => {}) {
-    if (!this.ios[this.id]._callbacks[`$${onKey}`]) {
+    if (this.id && !this.ios[this.id]._callbacks[`$${onKey}`]) {
       this.ios[this.id].on(onKey, callback);
     }
   }
 
   private off(offKey) {
-    if (this.ios[this.id]._callbacks[`$${offKey}`]) {
+    //console.log('OFF', this.id, offKey, this.ios);
+    if (this.ios[this.id] && this.ios[this.id]._callbacks[`$${offKey}`]) {
       this.ios[this.id].off(offKey);
     }
   }

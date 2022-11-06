@@ -9,6 +9,11 @@ import PostMessage, {
   MessageParams,
 } from 'common/PostMessage';
 import Sequence from 'common/Sequence';
+import TalknSetup from 'common/clientState/operations/TalknSetup';
+import ClientState from 'common/clientState/store/';
+import Ui from 'common/clientState/store/Ui';
+import UiTimeMarker from 'common/clientState/store/UiTimeMarker';
+import clientStore from 'common/clientState/store/clientStore';
 import conf from 'common/conf';
 import define from 'common/define';
 
@@ -18,28 +23,9 @@ import { default as PostsSchems } from 'api/store/Posts';
 
 import Render from 'client/App';
 import TalknComponent from 'client/components/TalknComponent';
-import TalknSetup from 'client/operations/TalknSetup';
-import ClientState from 'client/store/';
-import Ui from 'client/store/Ui';
-import UiTimeMarker from 'client/store/UiTimeMarker';
-import clientStore from 'client/store/clientStore';
 
 const MediaServer = require('common/MediaServer');
 const mediaServer = new MediaServer.default();
-
-declare global {
-  interface Window {
-    talknWindow: any;
-    talknMedia: any;
-    talknAPI: any;
-    Youtube: any;
-    log: any;
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
-  }
-  interface Math {
-    easeInOutQuad: any;
-  }
-}
 
 export default class Window {
   id: string = define.APP_TYPES.API;
@@ -64,7 +50,6 @@ export default class Window {
     const apiState = new ApiState(this.bootOption);
     const clientState = new ClientState(apiState);
     const state = { ...apiState, ...clientState };
-
     this.store.dispatch({ ...state, type: 'INIT_CLIENT' });
 
     // ws.api.worker.
@@ -194,7 +179,7 @@ class Ext {
       method = method.split(Sequence.METHOD_COLON)[1];
     }
     const message: MessageClientAndExtType = {
-      id: this.id,
+      id: this.window.id,
       type: PostMessage.CLIENT_TO_EXT_TYPE,
       ioType,
       method,
@@ -206,11 +191,12 @@ class Ext {
 
   public toMediaServer(method: string, params: MessageParams = {}): void {
     const message: MessageMediaClientAndMediaServerType = {
-      id: this.id,
+      id: this.window.id,
       type: PostMessage.MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE,
       method,
       params,
     };
+
     this.postMessage(message);
   }
 
@@ -351,7 +337,7 @@ class MediaClient {
         this.window.mediaClient = new MediaClient(this.window);
         this.requestServer('searching', {
           // TODO: EXTで複数起動の場合に正しく動作するのか検証
-          id: this.window.ext.id,
+          id: this.window.id,
           ch: state.thread.ch,
           href: location.href,
           audios: state.thread.audios,
@@ -362,7 +348,7 @@ class MediaClient {
         if (this.window.id === define.APP_TYPES.CLIENT) {
           this.requestServer('searching', {
             // TODO: EXTで複数起動の場合に正しく動作するのか検証
-            id: this.window.ext.id,
+            id: this.window.id,
             ch: state.thread.ch,
             href: location.href,
             audios: state.thread.audios,

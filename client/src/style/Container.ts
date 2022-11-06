@@ -1,8 +1,6 @@
 import { CSSProperties } from 'react';
 
-import App from 'api/store/App';
-
-import Ui from 'client/store/Ui';
+import Ui from 'common/clientState/store/Ui';
 
 import DetailRight from './DetailRight';
 import Menu from './Menu';

@@ -54,7 +54,7 @@ export default class Collections {
 
   static getNewApp(type, app, threadStatus, thread, posts = []) {
     app = new App({ ...app, rootCh: thread.ch });
-    const tuned = thread.ch;
+    const tunedCh = thread.ch;
     let dispThreadType = '';
 
     if (type === 'getMore') {
@@ -101,7 +101,7 @@ export default class Collections {
     const offsetFindId = App.getOffsetFindId({ posts });
     return {
       ...app,
-      tuned,
+      tunedCh,
       offsetFindId,
       dispThreadType,
     };

@@ -60,6 +60,7 @@ function setStorageHtmlPosts(state, props) {
 function setStoragePostsTimeline(action) {
   const { app, thread, postsTimeline: postsTimelineAll } = action;
   const { storageKey } = define;
+
   if (app.isMediaCh) {
     const postsTimelineAllLength = postsTimelineAll && postsTimelineAll.length ? postsTimelineAll.length : 0;
     let postsTimelineZeroSecond = [];

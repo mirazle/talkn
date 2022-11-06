@@ -1,6 +1,5 @@
+import Ui from 'common/clientState/store/Ui';
 import conf from 'common/conf';
-
-import Ui from 'client/store/Ui';
 
 import Container from '../Container';
 import Style from '../index';

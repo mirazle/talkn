@@ -62,11 +62,12 @@ export default class Posts {
       _id: { [getDirection]: new Mongoose.Types.ObjectId(offsetFindId) },
     };
 
-    const sort = isMediaCh ? { currentTime: 1 } : { _id: -1 };
+    const sort = isMediaCh ? { currentTime: 1 } : { createTime: -1, _id: -1 };
     const limit = isMediaCh ? conf.findOneLimitCnt : conf.findOnePostCnt;
     const selector = {};
     const option = { limit, sort };
     const result = await this.collection.find(condition, selector, option);
+
     if (!isMediaCh) {
       result.response.reverse();
     }

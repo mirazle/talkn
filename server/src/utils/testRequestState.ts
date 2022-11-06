@@ -14,7 +14,7 @@ export default {
         uid: '',
         utype: '',
         href: 'http://localhost:8080/?http://www.livedoor.com/',
-        tuned: '',
+        tunedCh: '',
         offsetFindId: 'ffffffffffffffffffffffff',
         friends: [],
       },

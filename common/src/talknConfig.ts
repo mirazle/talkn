@@ -11,7 +11,7 @@ export type StoriesType = {
 export type ConfigType = {
   version: string;
   stories: StoriesType[];
-  userCategoryChs: string[];
+  categoryChs: string[];
   favicon: string;
   ogpImage: string;
   iamTags: string[];
@@ -21,7 +21,7 @@ export type ConfigType = {
 export const configInit: ConfigType = {
   version: '1.0.0',
   stories: [],
-  userCategoryChs: [],
+  categoryChs: [],
   favicon: '',
   ogpImage: '',
   iamTags: [],

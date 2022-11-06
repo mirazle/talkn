@@ -1,8 +1,7 @@
 import { CSSProperties } from 'react';
 
+import Ui from 'common/clientState/store/Ui';
 import conf from 'common/conf';
-
-import Ui from 'client/store/Ui';
 
 import Container from '../Container';
 import Style from '../index';
@@ -173,7 +172,7 @@ export default class Rank {
     const blockSize = Container.getBlockSize({ app, ui });
     let gridTemplateRows = '1fr';
     const rankCnt = ranks && ranks.length ? ranks.length : 0;
-    const menuCnt = rankCnt + (app.tuned === '' ? 0 : 1);
+    const menuCnt = rankCnt + (app.tunedCh === '' ? 0 : 1);
     for (let i = 0; i < menuCnt; i++) {
       gridTemplateRows = `${blockSize * 2}px ` + gridTemplateRows;
     }

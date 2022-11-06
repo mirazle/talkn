@@ -143,7 +143,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
   }
 
   shouldComponentUpdate(props) {
-    const { app, actionLog } = props;
+    const { app, clientLog } = props;
 
     if (app.isMediaCh) {
       return true;
@@ -152,7 +152,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
         "NEXT_POSTS_TIMELINE",
         "CLEAR_POSTS_TIMELINE",
         "PREV_POSTS_TIMELINE"
-      ].includes( actionLog[0] );
+      ].includes( clientLog[0] );
 */
     } else {
       return !(props.app.actioned === 'SCROLL_THREAD');
@@ -184,9 +184,7 @@ export default class Post extends MarqueeArea<PostProps, PostState> {
           data-component-name={this.componentName}
           id={post._id}
           style={{ ...selfStyle }}
-          onClick={() => {
-            onClickPost(post.ch);
-          }}
+          onClick={() => onClickPost(post.ch)}
           {...this.getDecolationProps()}>
           {this.renderUpper()}
           <div data-component-name={`${this.componentName}Bottom`} style={postStyle.bottom}>

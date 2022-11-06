@@ -1,6 +1,6 @@
 import atob from 'atob';
 
-import Ui from 'client/store/Ui';
+import Ui from 'common/clientState/store/Ui';
 
 export default {
   isUrl: (str) => {

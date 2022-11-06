@@ -21,18 +21,17 @@ export const assets = (req, res) => {
   return true;
 };
 
-export const build = async (req, res, ch) => {
+export const build = async ({ ch }, req, res) => {
   if (!fetchingRootCh.includes(ch)) {
     fetchingRootCh.push(ch);
 
     let { response: thread } = await Logics.db.threads.findOne(ch, { buildinSchema: true });
     const html = new Html();
     html.depthLimit = 3;
-    html.allChLayers = html.getMergedChLayersFromLinks(ch, ch, thread.userCategoryChs);
+    html.allChLayers = html.getMergedChLayersFromLinks(ch, ch, thread.categoryChs);
 
     html.fetchChRecurrent(ch).then(async (results: any) => {
       let categoryChs = [];
-      fetchingRootCh = fetchingRootCh.filter((innerCh) => innerCh !== ch);
 
       html.successCh.forEach((ch) => {
         if (Thread.getLayer(ch) >= 3) {
@@ -209,7 +208,7 @@ export const exeFetchConfig = async (req, res, ch, protocol = 'https'): Promise<
 
 export const fetchConfig = async (req, res, ch, protocol) => {
   const config = await exeFetchConfig(req, res, ch, protocol);
-  await Logics.db.threads.update(ch, { userCategoryChs: config.userCategoryChs });
+  await Logics.db.threads.update(ch, { categoryChs: config.categoryChs });
 };
 
 export const getStaticTags = async (): Promise<any> => {
@@ -376,7 +375,7 @@ export const getDomainProfile = async (req, res, protocol, ch, language, stories
   thread.h3s = undefined;
   thread.h4s = undefined;
   thread.h5s = undefined;
-  config.userCategoryChs = config.userCategoryChs.length > 0 ? config.userCategoryChs : thread.categoryChs;
+  config.categoryChs = config.categoryChs.length > 0 ? config.categoryChs : thread.categoryChs;
 
   return {
     language,

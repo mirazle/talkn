@@ -33,6 +33,7 @@ export default class Posts {
     action.postsSingle = new PostsSingle();
     action.postsChild = [];
     action.postsLogs = [];
+
     switch (app.dispThreadType) {
       case App.dispThreadTypeTimeline:
         action = Posts.getAnyActionPostsTimeline(action, posts, state, existPosts);
@@ -50,6 +51,7 @@ export default class Posts {
         action.postsLogs = existPosts ? posts : [];
         break;
     }
+
     return action;
   }
   static getAnyActionPostsTimeline(action, posts, state, existPosts) {

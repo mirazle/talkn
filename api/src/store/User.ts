@@ -13,7 +13,7 @@ export default class User extends Schema {
     const utype = params && params.utype ? params.utype : '';
 
     // 削除予定
-    const tuned = params && params.tuned ? params.tuned : '';
+    const tunedCh = params && params.tunedCh ? params.tunedCh : '';
     const multistreamed = params && params.multistreamed ? params.multistreamed : false;
     const actioned = params && params.actioned ? params.actioned : '';
     const offsetFindId = params && params.offsetFindId ? params.offsetFindId : User.defaultOffsetFindId;
@@ -27,7 +27,7 @@ export default class User extends Schema {
     return this.create({
       uid,
       utype,
-      tuned,
+      tunedCh,
       multistreamed,
       actioned,
       offsetFindId,

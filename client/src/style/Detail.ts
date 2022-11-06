@@ -1,6 +1,6 @@
 import { CSSProperties } from 'react';
 
-import Ui from 'client/store/Ui';
+import Ui from 'common/clientState/store/Ui';
 
 import Container from './Container';
 import DetailModal from './DetailModal';
@@ -498,6 +498,7 @@ export default class Detail {
       height: '100%',
     });
     const content = Style.getContentBase({
+      color: 'rgba(172, 172, 172, 1)',
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase();
@@ -512,6 +513,7 @@ export default class Detail {
       height: '100%',
     });
     const content = Style.getContentBase({
+      color: 'rgba(172, 172, 172, 1)',
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase();
@@ -526,6 +528,7 @@ export default class Detail {
       height: '100%',
     });
     const content = Style.getContentBase({
+      color: 'rgba(172, 172, 172, 1)',
       cursor: 'pointer',
     });
     const animation = Style.getAnimationBase();
