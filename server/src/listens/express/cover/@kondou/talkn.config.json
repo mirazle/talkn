@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "css": "default.css",
-  "storiesIndex": [
+  "stories": [
     {
       "title": "多様性のある個人と集団を繋げる仕組み・方法論を、日本社会に実装したい。",
       "eyeCatch": "",

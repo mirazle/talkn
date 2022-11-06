@@ -1,16 +1,15 @@
 import * as React from 'react';
-import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import H from 'cover/components/atoms/H';
+import { H5 } from 'cover/flexes';
 import styles from 'cover/styles';
 
 type Props = {};
 
-const Component: FunctionComponent<Props> = () => {
+const Component: React.FC<Props> = () => {
   return (
     <Container>
-      <H.Five color={styles.fontLightColor}>- Domain Profile Project -</H.Five>
+      <H5 color={styles.fontLightColor}>- Domain Profile Project -</H5>
       <br />
       <h3>Concept</h3>
       <Message>
@@ -115,6 +114,9 @@ const Container = styled.section`
 const Message = styled.div`
   width: 100%;
   max-width: 600px;
+  p {
+    font-size: 100%;
+  }
 `;
 
 const Groups = styled.div`
@@ -136,7 +138,7 @@ const Member = styled.a<MemberType>`
   justify-content: center;
   overflow: hidden;
   margin: ${styles.baseMargin}px;
-  font-size: 12px;
+  font-size: 60%;
   color: #fff;
   opacity: 1;
   transition: ${styles.transitionDuration}ms;

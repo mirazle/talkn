@@ -1,12 +1,11 @@
 import * as React from 'react';
-import type { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import styles from 'cover/styles';
 
 type Props = {};
 
-const Component: FunctionComponent<Props> = () => {
+const Component: React.FC<Props> = () => {
   const handleOnClickToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -33,7 +32,7 @@ const ToTop = styled.div`
   height: ${styles.quintSize}px;
   padding: ${styles.quintSize}px;
   margin: 0 0 60px auto;
-  ${styles.alphaBgSet};
+  background: ${styles.whiteColor};
   border: 1px solid ${styles.fontColor};
   border-radius: ${styles.baseSize}px;
   transition: ${styles.transitionDuration}ms;

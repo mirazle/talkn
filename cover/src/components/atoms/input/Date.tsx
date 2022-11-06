@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import Flex from 'cover/components/atoms/Flex';
-import Label from 'cover/components/atoms/Label';
+import Flex, { Label } from 'cover/flexes';
 
 import { InputCss } from './common';
 
@@ -41,7 +40,7 @@ const Component: React.FC<Props> = ({
   return (
     <FlexCustom className={className ? className : name} width={width} flow="row wrap" alignItems="center" justifyContent="flex-start">
       {label && (
-        <Label htmlFor={relationId} inline sideMargin>
+        <Label htmlFor={relationId} display="inline" sideMargin>
           {label}
         </Label>
       )}
@@ -52,7 +51,7 @@ const Component: React.FC<Props> = ({
 
 export default Component;
 
-const FlexCustom = styled(Flex)`
+const FlexCustom = styled((props) => <Flex {...props} />)`
   label {
     flex: 1 1 auto;
   }

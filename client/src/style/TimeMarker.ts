@@ -1,4 +1,4 @@
-import Ui from 'client/store/Ui';
+import Ui from 'common/clientState/store/Ui';
 
 import Container from './Container';
 import DetailRight from './DetailRight';

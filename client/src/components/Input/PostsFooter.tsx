@@ -1,5 +1,6 @@
 import React, { CSSProperties } from 'react';
 
+import Ui from 'common/clientState/store/Ui';
 import conf from 'common/conf';
 import util from 'common/util';
 
@@ -7,7 +8,6 @@ import App from 'api/store/App';
 
 import TalknComponent from 'client/components/TalknComponent';
 import { Label } from 'client/components/common';
-import Ui from 'client/store/Ui';
 
 import defaultFavicon from 'assets/favicon.png';
 
@@ -73,7 +73,7 @@ export default class PostsFooter extends TalknComponent<PostsFooterProps, PostsF
 
   getIconStyle(): CSSProperties {
     const { style, app, thread } = this.props.state;
-    const favicon = app.tuned === '' ? defaultFavicon : `https://${conf.assetsIconPath}${util.getSaveFaviconName(thread.favicon)}`;
+    const favicon = app.tunedCh === '' ? defaultFavicon : `https://${conf.assetsIconPath}${util.getSaveFaviconName(thread.favicon)}`;
     return thread.favicon ? { ...style.postsFooter.icon, backgroundImage: `url(${favicon})` } : style.postsFooter.icon;
   }
 

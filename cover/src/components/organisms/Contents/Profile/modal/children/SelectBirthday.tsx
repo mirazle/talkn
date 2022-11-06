@@ -3,11 +3,9 @@ import styled from 'styled-components';
 
 import util from 'common/util';
 
-import Flex from 'cover/components/atoms/Flex';
-import Label from 'cover/components/atoms/Label';
-import P from 'cover/components/atoms/P';
 import Input from 'cover/components/atoms/input';
 import { NoSetComponens } from 'cover/components/organisms/Contents/Profile/common';
+import Flex, { Label, P } from 'cover/flexes';
 import styles from 'cover/styles';
 
 type Props = {
@@ -15,6 +13,8 @@ type Props = {
   isEditable: boolean;
   birthday: number;
   onChange: (birthday: string) => void;
+  isHorizon?: boolean;
+  width?: string;
 };
 
 type AgePropsType = {
@@ -25,7 +25,7 @@ const Age: React.FC<AgePropsType> = ({ value }: AgePropsType) => {
   return <AgeParams className="AgeParam">AGE: {value}</AgeParams>;
 };
 
-const Component: React.FC<Props> = ({ type, isEditable, birthday: _birthday, onChange }: Props) => {
+const Component: React.FC<Props> = ({ type, isEditable, birthday: _birthday, onChange, isHorizon, width }: Props) => {
   const [birthday, setBirthday] = useState(_birthday);
   const [age, setAge] = useState(util.getAgeByBirthday(birthday));
   const handleOnChange = (value) => {

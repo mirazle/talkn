@@ -19,7 +19,7 @@ const sslChain = env === PRODUCTION ? productPemChain : null;
 conf.socketIO = { host: 'localhost', port: PORTS.SOCKET_IO };
 conf.redis = { host: 'localhost', port: PORTS.REDIS };
 conf.mongoDB = {
-  host: 'localhost',
+  host: '0.0.0.0',
   port: PORTS.MONGO,
   dbName: 'talkn',
   option: {

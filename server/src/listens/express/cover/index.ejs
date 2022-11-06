@@ -1,54 +1,49 @@
 <!DOCTYPE html>
 <html amp lang="<%= language %>">
   <head>
-    <title><%= serverMetas.title %></title>
+    <title>STARTUP-HUB</title>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
-    <link rel="icon" href="<%= thread.favicon %>" />
-    <link rel="shortcut icon" href="<%= thread.favicon %>" />
+    <link rel="icon" href=="https://<%= assetsURL %>/cover/favicon.ico" />
+    <link rel="shortcut icon" href="//assets.localhost/cover/favicon.ico" />
     <link rel="manifest" href="https://<%= domain %>/manifest.json" />
     <script id="assignVariable" type="text/javascript">
-      if (location.pathname === '/') {
-        window.talknSelectContentMenu = 'business';
-      } else {
-        const splited = location.pathname.split('/');
-        if (splited.length === 2) {
-          window.talknSelectContentMenu = splited[1];
-        } else {
-          window.talknSelectContentMenu = splited[2] !== '' ? splited[2] : 'business';
-        }
-      }
-
-      window.talknUserTags = {
+      window.talknDatas = {};
+      window.talknDatas.staticTagsById = {};
+      window.talknDatas.userTags = {
         self: { investor: [], founder: [], member: [] },
         search: { investor: [], founder: [], member: [] },
         story: { story: [] },
       };
 
-      window.talknPayload = JSON.parse('<%= JSON.stringify(payload) %>'.replace(/&#34;/g, '"'));
-      window.talknStories = JSON.parse('<%= JSON.stringify(stories) %>'.replace(/&#34;/g, '"'));
-      window.talknConfig = JSON.parse('<%= JSON.stringify(config) %>'.replace(/&#34;/g, '"'));
-      window.talknThread = JSON.parse('<%= JSON.stringify(thread) %>'.replace(/&#34;/g, '"'));
-      window.talknServerMetas = JSON.parse('<%= JSON.stringify(serverMetas) %>'.replace(/&#34;/g, '"'));
-      window.talknStaticTags = JSON.parse('<%= JSON.stringify(staticTags) %>'.replace(/&#34;/g, '"'));
-      window.talknStaticTagsById = {};
-      window.talknUser = JSON.parse('<%= JSON.stringify(user) %>'.replace(/&#34;/g, '"'));
+      window.talknDatas.selectContentMenu = JSON.parse('<%= JSON.stringify(method) %>'.replace(/&#34;/g, '"'));
+      window.talknDatas.stories = JSON.parse('<%= JSON.stringify(stories) %>'.replace(/&#34;/g, '"'));
+      window.talknDatas.config = JSON.parse('<%= JSON.stringify(config) %>'.replace(/&#34;/g, '"'));
+      window.talknDatas.staticTags = JSON.parse('<%= JSON.stringify(staticTags) %>'.replace(/&#34;/g, '"'));
+      window.talknDatas.staticTagsById = {};
+      window.talknDatas.user = JSON.parse('<%= JSON.stringify(user) %>'.replace(/&#34;/g, '"'));
+      window.talknDatas.users = JSON.parse('<%= JSON.stringify(users ? users : []) %>'.replace(/&#34;/g, '"'));
       const talknUserTags = JSON.parse('<%= JSON.stringify(userTags) %>'.replace(/&#34;/g, '"'));
-      talknUserTags.forEach((userTag) => {
-        const { tagParentType, tagType } = userTag;
-        window.talknUserTags[tagParentType][tagType].push(userTag);
-      });
 
-      Object.keys(window.talknStaticTags).forEach((tagsKey) => {
-        if (!window.talknStaticTagsById[tagsKey]) {
-          window.talknStaticTagsById[tagsKey] = {};
-        }
-        window.talknStaticTags[tagsKey].forEach((tag) => {
-          if (!window.talknStaticTagsById[tagsKey][tag.uniqueId]) {
-            window.talknStaticTagsById[tagsKey][tag.uniqueId] = {};
+      talknUserTags &&
+        talknUserTags.forEach((userTag) => {
+          const { tagParentType, tagType } = userTag;
+          if (tagParentType !== '' && tagType !== '') {
+            window.talknDatas.userTags[tagParentType][tagType].push(userTag);
           }
-          window.talknStaticTagsById[tagsKey][tag.uniqueId] = tag;
+        });
+
+      Object.keys(window.talknDatas.staticTags).forEach((tagsKey) => {
+        if (!window.talknDatas.staticTagsById[tagsKey]) {
+          window.talknDatas.staticTagsById[tagsKey] = {};
+        }
+        window.talknDatas.staticTags[tagsKey].forEach((tag) => {
+          if (!window.talknDatas.staticTagsById[tagsKey][tag.uniqueId]) {
+            window.talknDatas.staticTagsById[tagsKey][tag.uniqueId] = {};
+          }
+          window.talknDatas.staticTagsById[tagsKey][tag.uniqueId] = tag;
         });
       });
+
       document.querySelector('#assignVariable').remove();
     </script>
 
@@ -168,19 +163,6 @@
     </noscript>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta property="keywords" content="<%= thread.serverMetas.keywords %>" />
-    <meta property="description" content="<%= thread.serverMetas.description %>" />
-    <meta property="og:type" content="<%= thread.serverMetas['og:type'] %>" />
-    <meta property="og:title" content="<%= thread.serverMetas['og:title'] %>" />
-    <meta property="og:url" content="https://cover.talkn.io<%= thread['ch'] %>" />
-    <meta property="og:description" content="<%= thread.serverMetas['og:description'] %>" />
-    <meta property="og:image" content="<%= thread.serverMetas['og:image'] %>" />
-    <meta property="og:site_name" content="<%= thread.serverMetas['og:site_name'] %>" />
-
-    <meta name="twitter:card" content="<%= thread.serverMetas['twitter:card'] %>" />
-    <meta name="twitter:title" content="<%= thread.serverMetas['twitter:title'] %>" />
-    <meta name="twitter:description" content="<%= thread.serverMetas['twitter:description'] %>" />
-    <meta name="twitter:image" content="<%= thread.serverMetas['twitter:image'] %>" />
     <link rel="stylesheet" href="https://assets.talkn.io/cover/interview/default.css" />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>

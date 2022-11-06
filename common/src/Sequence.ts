@@ -116,7 +116,7 @@ export default class Sequence {
         requestPublicState: {},
         requestPrivateState: {
           thread: ['ch', 'hasSlash', 'protocol'],
-          app: ['tuned', 'multistream', 'rootCh', 'dispThreadType', 'actioned', 'offsetFindId', 'isToggleMultistream'],
+          app: ['tunedCh', 'multistream', 'rootCh', 'dispThreadType', 'actioned', 'offsetFindId', 'isToggleMultistream'],
         },
         responseEmitState: { thread: '*' },
         responseBroadcastState: { thread: ['liveCnt', 'ch'] },

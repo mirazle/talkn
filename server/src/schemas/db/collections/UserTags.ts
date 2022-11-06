@@ -1,7 +1,7 @@
 import conf from 'common/conf';
 
 export default {
-  email: { type: String, default: '' },
+  userId: { type: String, default: '' },
   tagParentType: { type: String, default: '' },
   tagType: { type: String, default: '' },
   index: { type: String, default: '' },

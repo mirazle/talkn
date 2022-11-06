@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import Flex from 'cover/components/atoms/Flex';
-import Label from 'cover/components/atoms/Label';
+import Flex, { Label } from 'cover/flexes';
 import styles from 'cover/styles';
 
 import { InputCss } from './common';
@@ -37,7 +36,7 @@ const Component: React.FC<Props> = ({ name, value: _value = '', label, width = '
 
 export default Component;
 
-const FlexCustom = styled(Flex)`
+const FlexCustom = styled((props) => <Flex {...props} />)`
   label {
     flex: 1 1 auto;
   }

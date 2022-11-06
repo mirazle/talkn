@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import Flex from 'cover/components/atoms/Flex';
-import Label from 'cover/components/atoms/Label';
 import Select from 'cover/components/atoms/select';
 import SelectYear from 'cover/components/organisms/Contents/Profile/modal/children/SelectYear';
+import Flex, { Label } from 'cover/flexes';
 
 type Props = {
   type: string;
@@ -57,7 +56,7 @@ const Component: React.FC<Props> = ({
   }, [_year]);
 
   useEffect(() => {
-    const updateJobStaticData = window.talknStaticTags.jobs.filter((ind) => ind.parentId === jobParentId);
+    const updateJobStaticData = window.talknDatas.staticTags.jobs.filter((ind) => ind.parentId === jobParentId);
     setJobStaticData(updateJobStaticData);
   }, [jobParentId]);
 
@@ -72,7 +71,7 @@ const Component: React.FC<Props> = ({
           onChange={handleOnChangeJobParent}
           value={jobParentId}
           noSelectOption>
-          {window.talknStaticTags.jobParents.map((tag, index) => (
+          {window.talknDatas.staticTags.jobParents.map((tag, index) => (
             <Select.Option key={`JobParents_${type}_${tag.uniqueId}_${index}`} value={tag.uniqueId}>
               {tag.ja}
             </Select.Option>

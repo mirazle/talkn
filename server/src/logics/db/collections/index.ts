@@ -11,13 +11,13 @@ import Setting from 'server/logics/db/collections/Setting';
 import StartupSeries from 'server/logics/db/collections/StartupSeries';
 import Story from 'server/logics/db/collections/Story';
 import Threads from 'server/logics/db/collections/Threads';
-import User from 'server/logics/db/collections/User';
 import UserTags from 'server/logics/db/collections/UserTags';
+import Users from 'server/logics/db/collections/Users';
 
 import App from 'api/store/App';
 
 export default class Collections {
-  user: User;
+  users: Users;
   userTags: UserTags;
   threads: Threads;
   posts: Posts;
@@ -33,7 +33,7 @@ export default class Collections {
   jobCategory: JobCategory;
   jobs: Jobs;
   constructor(mongoDB) {
-    this.user = new User(mongoDB.User);
+    this.users = new Users(mongoDB.Users);
     this.userTags = new UserTags(mongoDB.UserTags);
     this.threads = new Threads(mongoDB.Threads);
     this.posts = new Posts(mongoDB.Posts);
@@ -54,7 +54,7 @@ export default class Collections {
 
   static getNewApp(type, app, threadStatus, thread, posts = []) {
     app = new App({ ...app, rootCh: thread.ch });
-    const tuned = thread.ch;
+    const tunedCh = thread.ch;
     let dispThreadType = '';
 
     if (type === 'getMore') {
@@ -101,7 +101,7 @@ export default class Collections {
     const offsetFindId = App.getOffsetFindId({ posts });
     return {
       ...app,
-      tuned,
+      tunedCh,
       offsetFindId,
       dispThreadType,
     };

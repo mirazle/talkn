@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html amp style="margin: 0 auto;">
   <head>
-    <title>talkn</title>
+    <title>STARTUP-HUB</title>
     <script data-ad-client="ca-pub-5285495593698579" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
@@ -11,47 +11,49 @@
     <meta name="google-signin-client_id" content="<%= clientIdUrl %>" />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script type="text/javascript">
-      let storiesIndex;
-      const splitedUrl = location.href.split('/');
-      const splitedUrlLength = splitedUrl.length;
-      let ch = splitedUrl[3] ? `/${splitedUrl[3]}/` : '/';
-      ch = ch === '/livePages/' ? '/' : ch;
-      ch = ch === '/business/' ? '/' : ch;
-      ch = ch === '/story/' ? '/' : ch;
-      ch = ch === '/profile/' ? '/' : ch;
 
-      const method = splitedUrl[splitedUrlLength - 1] === '' ? 'business' : splitedUrl[splitedUrlLength - 1];
-      const url = `//cover.localhost${ch}${method}Json`;
+      const method = location.pathname.split('/')[1];
+
+      const url = `//cover.localhost${location.pathname}?json`;
+      const option = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'text/html',
+        }
+      };
+
       fetch(url).then((response, d) => {
         response.json().then((res) => {
-          window.talknSelectContentMenu = method;
-          window.talknStaticTags = {};
-          window.talknStaticTagsById = {};
-          window.talknUserTags　= {self: {investor: [], founder: [], member: [] }, search: {investor: [], founder: [], member: [] }, story: {story:[]}};
-          res.userTags.forEach( (userTag) => {
+          window.talknDatas = {};
+          window.talknDatas.selectContentMenu = res.method;
+          window.talknDatas.staticTags = {};
+          window.talknDatas.staticTagsById = {};
+          window.talknDatas.userTags　= {self: {investor: [], founder: [], member: [] }, search: {investor: [], founder: [], member: [] }, story: {story:[]}};
+          res.userTags && res.userTags.forEach( (userTag) => {
             const {tagParentType, tagType} = userTag;
-            window.talknUserTags[tagParentType][tagType].push(userTag);
+            if(tagParentType !== '' && tagType !== ''){
+              window.talknDatas.userTags[tagParentType][tagType].push(userTag);
+            }
           });
 
-
-          Object.keys(res.staticTags).forEach((tagsKey) => {
-            if(!window.talknStaticTagsById[tagsKey]){
-               window.talknStaticTagsById[tagsKey] = {};
+          res.staticTags && Object.keys(res.staticTags).forEach((tagsKey) => {
+            if(!window.talknDatas.staticTagsById[tagsKey]){
+               window.talknDatas.staticTagsById[tagsKey] = {};
             }
             res.staticTags[tagsKey].forEach((tag) => {
-              if(!window.talknStaticTagsById[tagsKey][tag.uniqueId]){
-                window.talknStaticTagsById[tagsKey][tag.uniqueId] = {};
+              if(!window.talknDatas.staticTagsById[tagsKey][tag.uniqueId]){
+                window.talknDatas.staticTagsById[tagsKey][tag.uniqueId] = {};
               }
-              window.talknStaticTagsById[tagsKey][tag.uniqueId] = tag
+              window.talknDatas.staticTagsById[tagsKey][tag.uniqueId] = tag
             });
           });
 
-          window.talknUser = res.user;
-          window.talknStaticTags = res.staticTags;
-          window.talknStories = res.creators;
-          window.talknConfig = res.config;
-          window.talknThread = res.thread;
-          window.talknServerMetas = res.serverMetas;
+          window.talknDatas.user = res.user;
+          window.talknDatas.users = res.users;
+          window.talknDatas.staticTags = res.staticTags;
+          window.talknDatas.stories = res.stories;
+          window.talknDatas.config = res.config;
+
           const script = document.createElement('script');
           script.type = "text/javascript"
           script.async = true;
@@ -104,7 +106,7 @@
     />
     <meta name="twitter:image" content="https://<%= assetsURL %>/img/talkn_logo1.png" />
     <link rel="manifest" href="https://localhost:8000/manifest.json" />
-    <link rel="shortcut icon" href="//assets.localhost/favicon.ico" />
+    <link rel="shortcut icon" href="//assets.localhost/cover/favicon.ico" />
     <link rel="canonical" href="https://localhost" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
     <link rel="stylesheet" href="https://assets.talkn.io/cover/interview/default.css" />

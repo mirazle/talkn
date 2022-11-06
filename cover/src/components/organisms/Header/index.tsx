@@ -1,60 +1,67 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import Flex from 'cover/components/atoms/Flex';
-import H from 'cover/components/atoms/H';
-import Account from 'cover/components/molecules/Account';
+import conf from 'common/conf';
+
+import Search from 'cover/components/atoms/icon/Search';
+import Flex, { A, Img, H1, Header } from 'cover/flexes';
 import styles from 'cover/styles';
-import { GoogleSessionType } from 'cover/talkn.cover';
 
 type Props = {
   openMenu: boolean;
   ch: string;
-  favicon: string;
-  session: GoogleSessionType;
-  setSession: React.Dispatch<React.SetStateAction<GoogleSessionType>>;
-  handleOnClickMenu: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  account: React.ReactNode;
+  handleOnClickMenu: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 };
 
-const Component: React.FC<Props> = ({ ch, favicon, openMenu, session, setSession, handleOnClickMenu }) => {
+const Component: React.FC<Props> = ({ ch, openMenu, account, handleOnClickMenu }) => {
   return (
-    <Header>
+    <Container
+      className="Header"
+      width="100%"
+      height={`${styles.appHeaderHeight}px`}
+      alignItems="center"
+      justifyContent="space-between"
+      border="underline">
       <HeaderInSideMenu
         flow="column wrap"
         alignItems="center"
         justifyContent="center"
         className={openMenu && 'open'}
-        sideMargin
-        onClick={handleOnClickMenu}>
-        <div className="HeaderMenuLine" />
-        <div className="HeaderMenuLine" />
-        <div className="HeaderMenuLine" />
+        alt={{ label: 'Search', type: 'bottom left' }}
+        sideMargin>
+        <Search
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleOnClickMenu(e);
+          }}
+          close={openMenu}
+        />
       </HeaderInSideMenu>
-      <A href={`https:/${ch}`}>
-        {/*<Img src={favicon} width={30} height={30} />*/}
-        {<H.One id={'AppHeader'}>{ch === '/' ? 'talkn' : ch}</H.One>}
-      </A>
+
+      <H1 id={'AppHeader'}>
+        <TitleAnchor href={`https:/${ch}`} alignItems="center" justifyContent="center">
+          <Img src={`//${conf.assetsURL}/cover/logo.png`} width="32px" className="logo" />
+          STARTUP-HUB
+        </TitleAnchor>
+      </H1>
+
       <HeaderSide flow="column wrap" alignItems="center" justifyContent="center" sideMargin>
-        <Account session={session} setSession={setSession} />
+        {account}
       </HeaderSide>
-    </Header>
+    </Container>
   );
 };
 
 export default Component;
 
-const Header = styled.header`
+const Container = styled(Header)`
   box-sizing: border-box;
   z-index: ${styles.zIndex.header};
   position: sticky;
   top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: ${styles.appHeaderHeight}px;
   ${styles.alphaBgSet};
-  border-bottom: 1px solid ${styles.borderColor};
   a {
     display: flex;
     flex-flow: row wrap;
@@ -88,18 +95,6 @@ const HeaderInSideMenu = styled(Flex)`
   }
 `;
 
-const A = styled.a`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Img = styled.img`
-  margin-right: 15px;
-  margin-left: -15px;
-  user-select: none;
-`;
-
 const HeaderSide = styled(Flex)`
   display: flex;
   flex-flow: column wrap;
@@ -107,4 +102,16 @@ const HeaderSide = styled(Flex)`
   justify-content: center;
   width: 60px;
   height: 60px;
+`;
+
+const TitleAnchor = styled(A)`
+  position: relative;
+  left: -32px;
+  letter-spacing: 3px;
+  .hub {
+    margin-left: 4px;
+  }
+  .logo {
+    margin-right: 12px;
+  }
 `;

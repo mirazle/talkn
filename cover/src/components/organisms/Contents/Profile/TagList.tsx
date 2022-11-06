@@ -1,7 +1,6 @@
 import React from 'react';
 
-import H from 'cover/components/atoms/H';
-import Section from 'cover/components/atoms/Section';
+import { Section, H5 } from 'cover/flexes';
 
 import { TagValueType } from './common';
 
@@ -22,16 +21,16 @@ type Props = {
 const Component: React.FC<Props> = (props: Props) => {
   return (
     <Section className="TagSection" flow="column nowrap" upperMargin bottomMargin sideMargin sidePadding>
-      <H.Five>●{props.tagParent}</H.Five>
+      <H5>●{props.tagParent}</H5>
       {props.tagParent !== tagParentStory &&
         tagTypes.map((tagType, index) => {
           return (
             <div key={`tagType${index}`}>
-              <H.Five>{tagType}</H.Five>
+              <H5>{tagType}</H5>
             </div>
           );
         })}
-      {props.tagParent === tagParentStory && <H.Five>{tagParentStory}</H.Five>}
+      {props.tagParent === tagParentStory && <H5>{tagParentStory}</H5>}
     </Section>
   );
 };

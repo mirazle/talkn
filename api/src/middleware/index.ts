@@ -13,6 +13,7 @@ export default {
       action.app = action.app ? { ...state.app, ...action.app } : state.app;
       action.app.actioned = action.type;
     }
+
     if (functions[action.type]) {
       action = functions[action.type](state, action);
     }
@@ -25,10 +26,13 @@ export default {
 const functions = {
   'SERVER_TO_API[EMIT]:tune': (state, action) => {
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
-    action.app.tuned = action.thread.ch;
+    action.app.rootCh = action.thread.ch;
+    action.app.tunedCh = action.thread.ch; // changeThreadの際の接続していた古いスレッドのCH(liveCntをデクリメントする用途)として保持
     action.app.detailCh = action.thread.ch;
+    action.app.isTune = true;
     action.app.isRootCh = action.app.rootCh === action.thread.ch;
     action.app.isMediaCh = App.getIsMediaCh(action.thread.ch);
+    action.app.dispThreadType = action.app.isMediaCh ? App.dispThreadTypeTimeline : App.dispThreadTypeMulti;
     action.app.isToggleMultistream = false;
     action.thread.title = action.thread.serverMetas['title'];
     action.thread.hasSlash = Schema.getBool(action.thread.hasSlash);
@@ -43,12 +47,14 @@ const functions = {
     } else {
       action.app.chType = App.mediaTagTypeNo;
     }
+
     return action;
   },
   'SERVER_TO_API[EMIT]:fetchPosts': (state, action) => {
-    action = { ...Posts.getAnyActionPosts(action, state) };
+    action.app.dispThreadType = action.app.isMediaCh ? App.dispThreadTypeTimeline : App.dispThreadTypeMulti;
     action.app.offsetFindId = App.getOffsetFindId({ posts: action.posts });
     action.app[`offset${action.app.dispThreadType}FindId`] = action.app.offsetFindId;
+    action = { ...Posts.getAnyActionPosts(action, state) };
     if (action.app.isMediaCh) {
       action = storage.setStoragePostsTimeline(action);
     }
@@ -56,6 +62,7 @@ const functions = {
   },
   'API_TO_SERVER[REQUEST]:changeThread': (state, action) => {
     action.app = action.app ? { ...state.app, ...action.app } : state.app;
+    action.app.isMediaCh = App.getIsMediaCh(action.thread.ch);
     action.app.offsetFindId = App.defaultOffsetFindId;
     action.app.offsetTimelineFindId = App.defaultOffsetFindId;
     action.app.offsetMultiFindId = App.defaultOffsetFindId;
@@ -71,7 +78,8 @@ const functions = {
     return action;
   },
   'SERVER_TO_API[EMIT]:changeThread': (state, action) => {
-    action.app.tuned = action.thread.ch;
+    action.app.isRootCh = action.app.rootCh === action.thread.ch;
+    action.app.tunedCh = action.thread.ch;
     action.thread.title = action.thread.serverMetas['title'];
     action.threads = Threads.getMergedThreads(state.threads, action.thread);
     action.threadDetail = { ...action.thread };

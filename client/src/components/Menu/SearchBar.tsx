@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Sequence from 'common/Sequence';
+import Ui from 'common/clientState/store/Ui';
 
 import Thread from 'api/store/Thread';
 
@@ -8,7 +9,6 @@ import TalknComponent from 'client/components/TalknComponent';
 import { Label } from 'client/components/common';
 import Icon from 'client/components/common/Icon';
 import conf from 'client/conf';
-import Ui from 'client/store/Ui';
 
 type Props = {
   state: any;
@@ -33,7 +33,7 @@ export default class SearchBar extends TalknComponent<Props, State> {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.state.actionLog[0] === 'API_TO_CLIENT[EMIT]:fetchPosts') {
+    if (nextProps.state.clientLog[0] === 'API_TO_CLIENT[EMIT]:fetchPosts') {
       if (this.state.inputValue !== nextProps.state.thread.ch) {
         this.setState({ inputValue: nextProps.state.thread.ch });
       }
@@ -41,7 +41,15 @@ export default class SearchBar extends TalknComponent<Props, State> {
   }
 
   render() {
-    const { state: propsState, onChangeFindType, theme = 'gray', borderRadius = false, editMode = false, visibleTune = false, visibleExt = false } = this.props;
+    const {
+      state: propsState,
+      onChangeFindType,
+      theme = 'gray',
+      borderRadius = false,
+      editMode = false,
+      visibleTune = false,
+      visibleExt = false,
+    } = this.props;
     const { inputValue } = this.state;
     const { style, ui, app } = propsState;
     const { icon } = style;

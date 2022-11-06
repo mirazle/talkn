@@ -1,6 +1,6 @@
 import atob from 'atob';
 
-import Ui from 'client/store/Ui';
+import Ui from 'common/clientState/store/Ui';
 
 export default {
   isUrl: (str) => {
@@ -84,5 +84,12 @@ export default {
       returnAge = age + (thisYearsBirthday.getTime() > nowDate.getTime() ? -1 : 0);
     }
     return returnAge ? returnAge : '-';
+  },
+  getUniqueId: (label: string, strong = 1000) => {
+    return `${label}_${new Date().getTime().toString(16) + Math.floor(strong * Math.random()).toString(16)}`;
+  },
+  getHeadUpper: (str: string) => {
+    if (typeof str !== 'string' || !str) return str;
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   },
 };

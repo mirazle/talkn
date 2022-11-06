@@ -1,4 +1,4 @@
-import Ui from 'client/store/Ui';
+import Ui from 'common/clientState/store/Ui';
 
 import Container from './Container';
 import Menu from './Menu';
@@ -83,6 +83,7 @@ export default class MenuFooter {
     });
     const content = Style.getContentBase({
       fontSize: '0.7em',
+      color: 'rgba(172, 172, 172, 1)',
       lineHeight: '1.5em',
       cursor: 'pointer',
     });

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import H from 'cover/components/atoms/H';
+import { H3 } from 'cover/flexes';
 import styles from 'cover/styles';
 
 type Props = {
@@ -20,7 +20,7 @@ const Component: React.FC<Props> = ({ number, title, flow = 'column wrap', child
         <Q>{assignZero(number)}</Q>
       </UpperLeft>
       <UpperRight className="upperRight">
-        <H.Three>{title}</H.Three>
+        <H3>{title}</H3>
       </UpperRight>
       <BottomLeft className="bottomLeft"></BottomLeft>
       <BottomRight className="bottomRight" flow={flow}>

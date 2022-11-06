@@ -1,10 +1,11 @@
 import React from 'react';
 
+import Ui from 'common/clientState/store/Ui';
+
 import Ch from 'client/components/Menu/Ch';
 import MenuFooter from 'client/components/Menu/Footer';
 import SearchBar from 'client/components/Menu/SearchBar';
 import TalknComponent from 'client/components/TalknComponent';
-import Ui from 'client/store/Ui';
 import ChStyle from 'client/style/Menu/common/Ch';
 
 type Props = {
@@ -94,7 +95,7 @@ export default class Menuextends extends TalknComponent<Props, State> {
 
   renderTuneChLi(): React.ReactNode {
     const { style, app, ui, tuneCh, thread } = this.props.state;
-    if (app.tuned === '') {
+    if (app.tunedCh === '') {
       return undefined;
     } else {
       const isActive = thread.ch === tuneCh.ch;
@@ -135,7 +136,8 @@ export default class Menuextends extends TalknComponent<Props, State> {
       const chStyle = isActive ? ChStyle.getActiveLiSelf({ app, ui }) : ChStyle.getUnactiveLiSelf({ app, ui });
 
       if (chKeyRanks[rank.ch]) {
-        const didMountBgHighligt = chKeyRanks[rank.ch].rankNum !== 0 && rankNum < chKeyRanks[rank.ch].rankNum && rank.liveCnt !== chKeyRanks[rank.ch].liveCnt;
+        const didMountBgHighligt =
+          chKeyRanks[rank.ch].rankNum !== 0 && rankNum < chKeyRanks[rank.ch].rankNum && rank.liveCnt !== chKeyRanks[rank.ch].liveCnt;
         const didMountLiveCntHighligt = rank.liveCnt > chKeyRanks[rank.ch].liveCnt;
         return (
           <Ch

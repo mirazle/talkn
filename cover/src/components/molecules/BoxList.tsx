@@ -102,6 +102,7 @@ const Container = styled.li<ContainerPropType>`
     cursor: pointer;
     transition: ${styles.transitionDuration}ms;
     background: ${(props) => (props.theme === ThemeGreen ? 'rgba(255, 255, 255, 1)' : 'rgba(68, 68, 68, 1)')};
+    text-decoration: none;
   }
   a:hover,
   button:hover {
