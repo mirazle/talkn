@@ -3,6 +3,7 @@
 .*/npm-debug.log
 chromeExtension.zip
 server/src/listens/express/assets/icon/*
+server/pems
 cover/env.json
 extention/
 common/pems/*
@@ -11,4 +12,5 @@ package-lock.json
 yarn-error.log
 .vscode
 .yarn
+.yarn/cache
 node_modules

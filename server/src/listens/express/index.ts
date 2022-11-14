@@ -47,6 +47,7 @@ const sessionSetting = session({
     sameSite: 'lax',
   },
 });
+console.log(conf.sslOptions);
 class Express {
   httpApp: any;
   httpsApp: any;
@@ -75,12 +76,15 @@ class Express {
   }
 
   routingHttp(req, res) {
+    console.log('routingHttp', req.header.host);
     res.redirect(`https://${req.hostname}${req.url}`);
   }
 
-  listenedHttp(): void {}
+  listenedHttp() {
+    console.log(`@@@ LISTEN HTTP ${define.PORTS.HTTP}`);
+  }
 
-  /***************************/
+  /************************ **/
   /* HTTPS                   */
   /***************************/
 
@@ -89,10 +93,10 @@ class Express {
   }
 
   routingHttps(req, res, next) {
+    console.log('routingHttps', req.header.host);
     const splitedUrl = req.originalUrl.split('/');
     let language = 'en';
     let ch = '/';
-
     switch (req.headers.host) {
       case conf.ownURL:
         if (req.method === 'GET') {

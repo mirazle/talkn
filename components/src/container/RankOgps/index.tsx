@@ -165,7 +165,6 @@ const Component: React.FC<Props> = (props) => {
         onClick={() => handleOnButtonClick('right')}
         onMouseLeave={handleOnMouseLeaveArrowButton}
       />
-      <div className="talknThread" />
     </Container>
   );
 };

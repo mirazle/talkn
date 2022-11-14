@@ -79,9 +79,10 @@ certbot -d $DOMAIN -d $WILDCARD --manual --preferred-challenges dns certonly
 (\は削除して実行する)
 ```
 
-- \_acme-challenge.talkn.io の DNS の TXT レコードが発行されるので
-  Lightsail の「ネットワーキング」で「登録済みドメインの入力」に talkn.io で入力「DND ゾーンの作成」を押す。(作成済み)
-- 実行したターミナルのコマンドは待機。ZONE ファイルで TXT レコードを追加し
+- \_acme-challenge.talkn.io の DNS の TXT レコードが発行されるので、実行したターミナルのコマンドは待機。
+  Lightsail の「ドメインと DNS」で「登録済みドメインの入力」に talkn.io で入力「DND ゾーンの作成」を押す。(作成済み)
+- 「talkn.io」を選択し「DNS レコード」を選択、
+- ZONE ファイルで TXT レコードを追加し
 
 `dig -t TXT \_acme-challenge.talkn.io`
 
@@ -110,6 +111,12 @@ https://lightsail.aws.amazon.com/ls/docs/ja_jp/articles/amazon-lightsail-using-l
 > Renewals are treated specially: they don’t count against your Certificates per Registered Domain limit, but they are subject to a Duplicate Certificate limit of 5 per week. Note: renewals used to count against your Certificate per Registered Domain limit until March 2019, but they don’t anymore. Exceeding the Duplicate Certificate limit is reported with the error message too many certificates already issued for exact set of domains.
 
 https://letsencrypt.org/docs/rate-limits/
+
+# NEXT STEPS:
+
+NEXT STEPS:
+
+- This certificate will not be renewed automatically. Autorenewal of --manual certificates requires the use of an authentication hook script (--manual-auth-hook) but one was not provided. To renew this certificate, repeat this same certbot command before the certificate's expiry date.
 
 # MongoDB インストール
 
@@ -275,6 +282,19 @@ yarn install
 `localectl set-locale LC_CTYPE=ja_JP.utf8`
 `source /etc/locale.conf`
 `localectl`
+
+## ssh 接続エラー
+
+グローバル IP が意図せず変更されてしまった場合など(通常は静的に割り振る)
+
+> WARNING: POSSIBLE DNS SPOOFING DETECTED!
+> WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!
+
+下記で`talkn.io`を削除する
+
+```
+sudo vi /var/root/.ssh/known_hosts
+```
 
 # ソースの実行
 
