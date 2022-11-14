@@ -8,15 +8,6 @@
 cd common/pems
 ```
 
-### command1
-
-```
-1 openssl genrsa -des3 -out myCA.key 2048
-2 openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem
-3 openssl genrsa -out localhost.key 2048
-4 openssl req -new -key localhost.key -out localhost.csr
-```
-
 ### localhost.ext
 
 5 make this file
@@ -36,6 +27,15 @@ DNS.5 = session.localhost
 DNS.6 = ext.localhost
 ```
 
+### command1
+
+```
+1 openssl genrsa -des3 -out myCA.key 2048
+2 openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem
+3 openssl genrsa -out localhost.key 2048
+4 openssl req -new -key localhost.key -out localhost.csr
+```
+
 ### command2
 
 ```
@@ -48,8 +48,8 @@ DNS.6 = ext.localhost
 
 - ① 左メニューの「システム」を選択。
 - ② 証明書一覧のヘッダー部分の「＋」ボタンを押す(なければ鉛筆のアイコン)
-- ③ 生成した crt を選択して一覧に追加
-- ④ 追加した crt をダブルクリックして開き「信頼」を押す
+- ③ 生成した .crt(or .pem) を選択して一覧に追加
+- ④ 追加した .crt(or .pem) をダブルクリックして開き「信頼」を押す
 - ⑤「この証明書を使用するとき」で「常に信頼する」を選択。
 
 ### Referrence
