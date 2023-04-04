@@ -1,22 +1,24 @@
 import Schema from 'common/Schema';
 
-type uiTimeMarkerObject = {
+type UiTimeMarkerObject = {
   index: number;
   offsetTop: number;
   label: string;
 };
 
-const initUiTimeMarkerObject: uiTimeMarkerObject = {
+const initUiTimeMarkerObject: UiTimeMarkerObject = {
   index: 0,
   offsetTop: 0,
   label: '',
 };
 
+const hosei = 40;
+
 export default class UiTimeMarker extends Schema {
-  public list: [uiTimeMarkerObject] | [] = [];
-  public now: uiTimeMarkerObject = { ...initUiTimeMarkerObject };
-  public before: uiTimeMarkerObject = { ...initUiTimeMarkerObject };
-  public after: uiTimeMarkerObject = { ...initUiTimeMarkerObject };
+  public list: [UiTimeMarkerObject] | [] = [];
+  public now: UiTimeMarkerObject = { ...initUiTimeMarkerObject };
+  public before: UiTimeMarkerObject = { ...initUiTimeMarkerObject };
+  public after: UiTimeMarkerObject = { ...initUiTimeMarkerObject };
   constructor(params: any = {}) {
     super();
     const list = params && params.list ? params.list : [];
@@ -31,7 +33,7 @@ export default class UiTimeMarker extends Schema {
     });
   }
 
-  public static generate(scrollTop = 0, _timeMarkers) {
+  public static generate(root: HTMLElement, scrollTop = 0, _timeMarkers) {
     const timeMarkers = _timeMarkers.filter((t) => t).sort((a: HTMLElement, b: HTMLElement) => a.offsetTop - b.offsetTop);
     const timeMarkerSize = timeMarkers.length;
     let list = [];
@@ -40,9 +42,9 @@ export default class UiTimeMarker extends Schema {
     let after = { ...initUiTimeMarkerObject };
 
     if (timeMarkerSize > 0) {
-      const scrollBaseTop = scrollTop + 20;
+      const scrollBaseTop = scrollTop + hosei;
       timeMarkers.forEach((timeMarker, index) => {
-        if (now.label === '' && scrollBaseTop <= timeMarker.offsetTop) {
+        if (now.label === '' && scrollBaseTop <= timeMarker.offsetTop + root.offsetHeight) {
           now.index = index;
           now.label = timeMarker.innerHTML;
           now.offsetTop = timeMarker.offsetTop;
@@ -61,7 +63,7 @@ export default class UiTimeMarker extends Schema {
             after = { ...now };
           }
         }
-        const addList: uiTimeMarkerObject = {
+        const addList: UiTimeMarkerObject = {
           index,
           offsetTop: timeMarker.offsetTop,
           label: timeMarker.innerHTML,
@@ -103,7 +105,6 @@ export default class UiTimeMarker extends Schema {
 
     if (listCnt > 0) {
       const scrollBaseTop = scrollTop + 20;
-
       // Most bottom scroll area.
       if (now.index === listCnt - 1) {
         // 一つ上のスクロール領域に移動

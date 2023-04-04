@@ -5,10 +5,10 @@ import Title from 'components/atomicDesign/atoms/Title';
 import { layouts, colors } from 'components/styles';
 
 type Props = {
+  children: React.ReactNode;
   number: number;
   title: string;
   flow?: string;
-  children: React.ReactNode;
 };
 
 const assignZero = (number: number): string => (String(number).length === 1 ? `0${number}` : String(number));

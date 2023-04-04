@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { colors, layouts, shadow } from 'components/styles';
 
 type Props = {
+  children: React.ReactNode;
   id?: string;
   type?: string;
   className?: string;

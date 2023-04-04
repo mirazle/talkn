@@ -32,7 +32,7 @@ const Component: React.FC<Props> = (params) => {
   }
 
   if (nodes && nodes.length > 0) {
-    return React.createElement(type, props, nodes);
+    return React.createElement(type, props, nodes as React.ReactNode);
   } else {
     return React.createElement(type, props);
   }

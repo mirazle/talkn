@@ -3,6 +3,7 @@ import Emotions from 'common/emotions';
 import Post from 'api/store/Post';
 
 import { HookProps } from 'components/container/Thread/GlobalContext';
+import { generateUiTimeMarker } from 'components/container/Thread/GlobalContext/func';
 import { init as boolsInit } from 'components/container/Thread/GlobalContext/hooks/bools';
 import { init as domsInit } from 'components/container/Thread/GlobalContext/hooks/doms';
 import { init as isTuneInit } from 'components/container/Thread/GlobalContext/hooks/isTune';
@@ -14,7 +15,6 @@ import { init as scrollHeightInit } from 'components/container/Thread/GlobalCont
 import { init as scrollTopInit } from 'components/container/Thread/GlobalContext/hooks/posts/scrollTop';
 import { init as timelineInit } from 'components/container/Thread/GlobalContext/hooks/posts/timeline';
 import { init as uiTimeMarkerInit } from 'components/container/Thread/GlobalContext/hooks/posts/uiTimeMarker';
-import { init as refsInit } from 'components/container/Thread/GlobalContext/hooks/refs';
 
 import { dataset } from './refs';
 
@@ -59,39 +59,38 @@ export const init: Type = actions.init;
 
 let exeApiId = 0;
 
-export default ({
-  action,
-  api,
-  bootOption,
-  state,
-  bools,
-  refs,
-  layout,
-  params,
-  setIsTune,
-  setAction,
-  setLayout,
-  setBootOption,
-  setBools,
-  setRefs,
-  setScrollTop,
-  setScrollHeight,
-  setPostsTimeline,
-  setPostsCatched,
-  setUiTimeMarker,
-  setDoms,
-  setMenuRank,
-  setRankCatched,
-}: HookProps) => {
+export default (props: HookProps) => {
+  const {
+    action,
+    api,
+    bootOption,
+    state,
+    bools,
+    doms,
+    layout,
+    params,
+    setIsTune,
+    setAction,
+    setLayout,
+    setBootOption,
+    setBools,
+    setScrollTop,
+    setScrollHeight,
+    setPostsTimeline,
+    setPostsCatched,
+    setUiTimeMarker,
+    setDoms,
+    setMenuRank,
+    setRankCatched,
+  } = props;
   const { app } = state;
-  const postsElm = refs.posts.current as HTMLElement;
+  const postsElm = doms.posts;
 
   const exeApi = (method, params?: any) => {
     exeApiId = window.setTimeout(() => {
       setBools({ ...bools, loading: false });
       setAction(actions.neutral);
     }, 5000);
-
     setBools({ ...bools, loading: true });
     if (params) {
       api(method, params);
@@ -105,7 +104,6 @@ export default ({
       setIsTune(isTuneInit);
       setLayout(layoutInit);
       setBools(boolsInit);
-      setRefs(refsInit);
       setDoms(domsInit);
       setMenuRank(menuRanksInit);
       setRankCatched(ranksCatchedInit);
@@ -130,7 +128,7 @@ export default ({
       api('rank', app.rootCh);
       break;
     case actions.neutral:
-      setBools({ ...bools, openMenu: !layout.isSpLayout });
+      setBools({ ...bools, openMenu: !layout.isSpLayout, loading: false });
       break;
     case actions.reset:
       setBools({ ...boolsInit, openFooter: bools.openFooter });
@@ -144,7 +142,6 @@ export default ({
       setAction(actions.reset);
       break;
     case actions.openDetail:
-      //      console.log(action, layout.isSpLayout, layout.isTabLayout, layout.isSmallPcLayout);
       setBools({ ...bools, openDetail: true });
       break;
     case actions.closeDetail:
@@ -160,9 +157,8 @@ export default ({
       setBools({ ...bools, openTuneModal: false, openPictograms: false });
       break;
     case actions.apiRequestPost:
-      const postsTextareaElm = refs.postsTextarea.current as HTMLTextAreaElement;
-      const inputStampId = postsTextareaElm.dataset[dataset['stamp-id']];
-      const inputPost = Number(inputStampId) > 0 ? Emotions.map[inputStampId] : postsTextareaElm.value;
+      const inputStampId = doms.postTextarea.dataset[dataset['stamp-id']];
+      const inputPost = Number(inputStampId) > 0 ? Emotions.map[inputStampId] : doms.postTextarea.value;
       const inputCurrentTime = 0;
       exeApi('post', { app: { inputPost, inputStampId, inputCurrentTime } });
       setBools({ ...bools, openPostsTextarea: false, openPictograms: false });
@@ -172,13 +168,11 @@ export default ({
       setBools({ ...bools, openPostsTextarea: true });
       break;
     case actions.apiRequestGetMore:
-      setRefs(refsInit);
       setScrollHeight(postsElm.scrollHeight);
       exeApi('getMore');
       break;
     case actions.apiRequestChangeThread:
       setBools(boolsInit);
-      setRefs(refsInit);
       setPostsTimeline(timelineInit);
       setScrollTop(scrollTopInit);
       setPostsCatched(catchPostInit);
@@ -190,9 +184,36 @@ export default ({
     case actions.apiResponseTuning:
       setAction(actions.apiRequestFetch);
       break;
-    case actions.apiResponseFetch:
-    case actions.apiResponsePost:
     case actions.apiResponseChangeThread:
+      const bottomTop = Number.MAX_SAFE_INTEGER;
+      clearTimeout(exeApiId);
+      setBools({ ...bools, loading: false });
+      setAction(actions.neutral);
+      postsElm.scrollTo({ left: 0, top: bottomTop });
+      generateUiTimeMarker(props);
+      break;
+
+    case actions.apiResponsePost:
+      console.log('@@@A');
+      if (bools.postsScrollBottom) {
+        console.log('@@@B');
+        doms.posts.scrollTo({ left: 0, top: Number.MAX_SAFE_INTEGER, behavior: 'smooth' });
+        setBools({ ...bools, postsScrollingBottom: true });
+        setTimeout(() => {
+          setBools({ ...bools, postsScrollingBottom: false });
+          setAction(actions.neutral);
+        }, 1000);
+      } else {
+        console.log('@@@C');
+        if (doms.posts.clientHeight < doms.posts.scrollHeight) {
+          console.log('@@@D');
+          setBools({ ...bools, openNewPost: true });
+        }
+      }
+      clearTimeout(exeApiId);
+      setAction(actions.neutral);
+      break;
+    case actions.apiResponseFetch:
     case actions.apiResponseChangeThreadDetail:
     case actions.apiResponseGetMore:
       setIsTune(true);

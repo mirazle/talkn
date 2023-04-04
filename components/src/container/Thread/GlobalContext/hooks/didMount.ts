@@ -3,19 +3,7 @@ import styles from 'components/styles';
 
 export const didMount = ({ root, setLayout }: HookProps) => {
   const handleWindowAction = () => {
-    /*
-    console.log('@@@@@@@@@@@@@@');
-    console.log(window.outerWidth, window.innerWidth, window.outerHeight, window.innerHeight);
-    console.log(
-      document.body.clientWidth,
-      document.body.scrollWidth,
-      document.body.offsetWidth,
-      document.body.clientHeight,
-      document.body.scrollHeight,
-      document.body.offsetHeight
-    );
-    console.log(root.clientWidth, root.scrollWidth, root.offsetWidth, root.clientHeight, root.scrollHeight, root.offsetHeight);
-*/
+    // console.log(root.offsetWidth < styles.layouts.breakSpWidth, root.offsetWidth, styles.layouts.breakSpWidth, root);
     setLayout({
       innerWidth: root.offsetWidth,
       innerHeight: root.offsetHeight,

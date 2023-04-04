@@ -8,7 +8,22 @@
 cd common/pems
 ```
 
-### localhost.ext
+### LetsEncrypt のサイトから
+
+参照) https://letsencrypt.org/ja/docs/certificates-for-localhost/
+
+openssl req -x509 -out localhost.crt -keyout localhost.key \
+ -subj "/C=JA/ST=TOKYO/CN=talkn.io/emailAddress=mirazle2069@gmail.com" \
+ -newkey rsa:2048 -nodes -sha256 \
+ -subj '/CN=localhost' -days 365 -extensions EXT -config <( \
+ printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\n
+subjectAltName=DNS:localhost,DNS:assets.localhost,DNS:client.localhost,DNS:cover.localhost,DNS:components.localhost,DNS:cover.localhost,DNS:api.localhost,DNS:ext.localhost,DNS:tune.localhost,DNS:www.localhost,DNS:own.localhost
+\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+
+上記を実行後に生成された.crt をキーチェーンで承認。
+keychainAccess(旧)を参照。
+
+### localhost.ext(旧)
 
 5 make this file
 
@@ -27,7 +42,7 @@ DNS.5 = session.localhost
 DNS.6 = ext.localhost
 ```
 
-### command1
+### command1(旧)
 
 ```
 1 openssl genrsa -des3 -out myCA.key 2048
@@ -36,13 +51,13 @@ DNS.6 = ext.localhost
 4 openssl req -new -key localhost.key -out localhost.csr
 ```
 
-### command2
+### command2(旧)
 
 ```
 6 openssl x509 -req -in localhost.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial -out localhost.crt -days 1825 -sha256 -extfile localhost.ext
 ```
 
-### keychainAccess
+### keychainAccess(旧)
 
 アプリケーション/ユーティリティ/keychainAccess で
 

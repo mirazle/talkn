@@ -14,10 +14,12 @@ export default ({ action, bools, doms, uiTimeMarker, state, setAction, setBools,
     if (!app.isMediaCh && scrollTop === 0 && action === actions.neutral) {
       setAction(actions.apiRequestGetMore);
     } else {
-      // timeマーカーを更新する
-      const reduceTop = -layouts.appHeaderHeight;
-      const updateUiTimeMarker = UiTimeMarker.update(scrollTop - reduceTop, uiTimeMarker);
-      setUiTimeMarker(updateUiTimeMarker);
+      if (bools.finnishFetch) {
+        // timeマーカーを更新する
+        const reduceTop = -layouts.appHeaderHeight;
+        const updateUiTimeMarker = UiTimeMarker.update(scrollTop - reduceTop, uiTimeMarker);
+        setUiTimeMarker(updateUiTimeMarker);
+      }
 
       // 最下位スクロール位置かを保持する
       // (Post時のnewPost表示か、最下位に慣性スクロールするかの判定に利用する)

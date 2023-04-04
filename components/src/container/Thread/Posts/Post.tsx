@@ -47,14 +47,13 @@ type PostProps = {
 
 const Component: React.FC<PostProps> = ({ state, post }) => {
   const { app, ui } = state;
-  const { setAction } = useGlobalContext();
+  const { doms, setAction } = useGlobalContext();
   const [duration, setDuration] = useState(0);
   const containerRef = useRef(null);
 
   const handleOnClick = () => {
     setAction(actions.apiRequestChangeThreadDetail, { ch: post.ch });
   };
-
   const time = () => {
     if (app.isMediaCh) {
       const dispCurrentTime = String(post.currentTime).split('.')[0];
@@ -96,7 +95,7 @@ const styles = {
   container: css`
     display: flex;
     align-items: flex-start;
-    width: 100%;
+    width: inherit;
     transition: transform ${animations.transitionDuration}ms;
     transform: scale(1);
     cursor: pointer;
@@ -119,17 +118,14 @@ const styles = {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: ${faviconSize}px;
-    min-width: ${faviconSize}px;
-    max-width: ${faviconSize}px;
-    height: ${faviconSize}px;
-    margin: ${layouts.doubleMargin}px 3% 0;
+    flex: 0 0 64px;
+    //    margin: 0 16px;
   `,
   content: css`
     flex: 1 1 auto;
     display: flex;
     flex-flow: column nowrap;
-    margin-right: 3%;
+    //    margin: 0 16px;
     color: ${colors.whiteColor};
   `,
   contentUpper: css`

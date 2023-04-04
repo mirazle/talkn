@@ -8,13 +8,61 @@ type Props = {
   body?: React.ReactNode;
 };
 
+const WaveAnimation = () => {
+  return (
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ width: '100%', height: '100%' }}>
+      <defs>
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style={{ stopColor: 'rgba(255,255,255,0.2)' }} />
+          <stop offset="100%" style={{ stopColor: 'rgba(255,255,255,0)' }} />
+        </linearGradient>
+      </defs>
+      <path
+        className="wave1"
+        d="M0,100 C25,50 50,0 75,50 C100,100 125,50 150,100 L100,100 L50,100 L0,100 Z"
+        fill="none"
+        stroke="url(#grad)"
+        strokeWidth="1"
+      />
+      <path
+        className="wave2"
+        d="M0,100 C25,75 50,50 75,75 C100,100 125,75 150,100 L100,100 L50,100 L0,100 Z"
+        fill="none"
+        stroke="url(#grad)"
+        strokeWidth="1"
+      />
+      <path
+        className="wave3"
+        d="M0,100 C25,100 50,75 75,100 C100,125 125,100 150,100 L100,100 L50,100 L0,100 Z"
+        fill="none"
+        stroke="url(#grad)"
+        strokeWidth="1"
+      />
+      <path
+        className="wave4"
+        d="M0,100 C25,50 50,100 75,50 C100,0 125,50 150,100 L100,100 L50,100 L0,100 Z"
+        fill="none"
+        stroke="url(#grad)"
+        strokeWidth="1"
+      />
+    </svg>
+  );
+};
+
 const Component: React.FC<Props> = ({ root, body }) => {
   return (
     <div css={styles.container}>
       <header className="header">
         <h1>talkn.io</h1>
       </header>
-      <main>{body && body}</main>
+      {/*<main>{body && body}</main>*/}
+
+      <div id="wave-container">
+        <div className="wave"></div>
+        <div className="wave"></div>
+        <div className="wave"></div>
+        <div className="wave"></div>
+      </div>
       <footer>
         <p>Powerd by talkn.io</p>
       </footer>
@@ -76,6 +124,66 @@ const styles = {
       color: #fff;
     }
 
+    #wave-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-repeat: repeat no-repeat;
+      background-position: 0 bottom;
+      transform-origin: center bottom;
+      animation: wave 20s linear infinite;
+    }
+    .wave:nth-child(2) {
+      animation-duration: 6s;
+    }
+    .wave:nth-child(3) {
+      animation-duration: 8s;
+    }
+    .wave:nth-child(4) {
+      animation-duration: 10s;
+    }
+    @keyframes wave {
+      0% {
+        transform: rotate(0deg) scale(0.1);
+      }
+      50% {
+        transform: rotate(180deg) scale(1);
+      }
+      100% {
+        transform: rotate(360deg) scale(0.1);
+      }
+    }
+    .wave:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 100%;
+      width: 50%;
+      background-color: rgba(255, 255, 255, 0.3);
+      transform-origin: bottom left;
+      transform: skew(-30deg) translateX(-50%);
+    }
+    .wave:after {
+      content: '';
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      height: 100%;
+      width: 50%;
+      background-color: rgba(255, 255, 255, 0.3);
+      transform-origin: bottom right;
+      transform: skew(30deg) translateX(50%);
+    }
+    /*
     svg {
       overflow: visible;
       position: fixed;
@@ -125,6 +233,7 @@ const styles = {
         transform: scale(1);
       }
     }
+    */
   `,
 };
 

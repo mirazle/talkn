@@ -1,14 +1,19 @@
 import { css } from '@emotion/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
+import apiLog from 'api/reducers/apiLog';
+import Post from 'api/store/Post';
+
+//import Posts from 'api/store/Posts';
 import Cover from 'components/container/Cover';
 import { Props } from 'components/container/Thread/App';
-import { useGlobalContext, actions } from 'components/container/Thread/GlobalContext';
+import { useGlobalContext, actions, GlobalContext, HookProps } from 'components/container/Thread/GlobalContext';
 import { Type as LayoutType } from 'components/container/Thread/GlobalContext/hooks/layout';
 import { colors, dropFilter, emotions, layouts } from 'components/styles';
 import { animations } from 'components/styles';
 
 import Detail, { detailSideType } from './Detail';
+import hook from './GlobalContext/hooks';
 import { menuModeBar, menuModeInclude, menuModeNormal, menuModeSmall, MenuModeType } from './GlobalContext/hooks/menu/mode';
 import Header from './Header';
 import Menu from './Menu';
@@ -16,9 +21,62 @@ import Posts from './Posts';
 
 const Component: React.FC<Props> = (props) => {
   const { bootOption, api, state, root } = props;
-  const { bools, isTune, refs, menuMode, layout, dragX, setScrollLeft, setAction } = useGlobalContext();
-  const [transitionEndMenuMode, setTransitionEndMenuMode] = useState<MenuModeType>(menuMode);
+  const { app, posts, ranks } = state;
+  const globalContext = useGlobalContext();
+  const {
+    action,
+    bools,
+    isTune,
+    menuMode,
+    detailMode,
+    layout,
+    dragX,
+    postsTimeline,
+    doms,
+    menuRank,
+    scrollLeft,
+    scrollTop,
+    scrollHeight,
+    uiTimeMarker,
+    setPostsTimeline,
+    setScrollLeft,
+    setBools,
+    setDoms,
+    setAction,
+  } = globalContext;
+  const screenRef = useRef(null);
+  const postsRef = useRef(null);
+  const postTextareaRef = useRef(null);
 
+  const firstRank = ranks[0] ? ranks[0] : new Post();
+  const latestPostIndex = posts.length - 1;
+  const latestPost = posts[latestPostIndex] ? posts[latestPostIndex] : new Post();
+  const postsCatchedHookKey = `${latestPost._id}_${latestPost.ch}`;
+
+  const hookProps = { ...props, ...globalContext } as HookProps;
+  useEffect(() => hook.isTune(hookProps), [app.isTune]);
+  useEffect(() => hook.apiLog(hookProps), [state.apiLog[0]]);
+  useEffect(() => hook.clientLog(hookProps), [state.clientLog.length]);
+  useEffect(() => hook.action(hookProps), [action]);
+  useEffect(() => hook.bootOption(hookProps), [bootOption]);
+  useEffect(() => hook.layout(hookProps), [layout]);
+  useEffect(() => hook.bools(hookProps), [bools]);
+  useEffect(() => hook.doms(hookProps), [doms]);
+  useEffect(() => hook.dragX(hookProps), [dragX]);
+  useEffect(() => hook.detailMode(hookProps), [detailMode]);
+  useEffect(() => hook.menuRank(hookProps), [menuRank]);
+  useEffect(() => hook.menuMode(hookProps), [menuMode]);
+  useEffect(() => hook.rankCatched(hookProps), [firstRank._id]);
+  useEffect(() => hook.scrollLeft(hookProps), [scrollLeft]);
+  useEffect(() => hook.postsTimeline(hookProps), [postsTimeline]);
+  useEffect(() => hook.postsCatched(hookProps), [postsCatchedHookKey]);
+  useEffect(() => hook.postsTimeline(hookProps), [postsTimeline]);
+  useEffect(() => hook.scrollTop(hookProps), [scrollTop]);
+  useEffect(() => hook.scrollHeight(hookProps), [scrollHeight]);
+  useEffect(() => hook.uiTimeMarker(hookProps), [uiTimeMarker.now.label, uiTimeMarker]);
+  useEffect(() => hook.didMount(hookProps), []);
+
+  const [transitionEndMenuMode, setTransitionEndMenuMode] = useState<MenuModeType>(menuMode);
   const handleOnScroll = ({ target }: React.UIEvent<HTMLDivElement, UIEvent>) => {
     const screenElm = target as HTMLDivElement;
     setScrollLeft(screenElm.scrollLeft);
@@ -48,6 +106,17 @@ const Component: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
+    if (screenRef.current && postsRef.current && postTextareaRef.current) {
+      setDoms({
+        ...doms,
+        screen: root.querySelector('.screen'),
+        posts: root.querySelector('.PostsOl'),
+        postTextarea: root.querySelector('textarea.postTextarea'),
+      });
+    }
+  }, [screenRef.current, postsRef.current, postTextareaRef.current]);
+
+  useEffect(() => {
     if (!isTune) {
       setAction(actions.apiRequestTuning);
     }
@@ -57,32 +126,42 @@ const Component: React.FC<Props> = (props) => {
     <div css={styles.container}>
       <section css={styles.section(isTune)}>
         <div
-          className="screen"
+          className={`screen ch:${app.rootCh}`}
           css={styles.screen(menuMode, layout, bools.openDetail, dragX)}
-          ref={refs.screen}
+          ref={screenRef}
           onScroll={handleOnScroll}
           onTransitionEnd={handleOnTransitionEndScreen}>
           <Menu bootOption={bootOption} api={api} state={state} root={root} transitionEndMenuMode={transitionEndMenuMode} />
-          <Posts bootOption={bootOption} api={api} state={state} root={root} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />
+          <Posts
+            postsRef={postsRef}
+            postTextareaRef={postTextareaRef}
+            bootOption={bootOption}
+            api={api}
+            state={state}
+            root={root}
+            handleOnClickToggleTuneModal={handleOnClickToggleTuneModal}
+          />
           {!layout.isSpLayout && <Detail mode={detailSideType} {...props} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />}
         </div>
 
         <Header bootOption={bootOption} api={api} state={state} root={root} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />
       </section>
-      {!isTune && (
-        <Cover
-          root={root}
-          body={
-            <span css={styles.inputWrap}>
-              <br /> <br />
-              <input css={styles.input('')} value={state.thread.ch} readOnly />
-              <br />
-              Tuning..
-              <br /> <br />
-            </span>
-          }
-        />
-      )}
+      {
+        /*!isTune*/ true && (
+          <Cover
+            root={root}
+            body={
+              <span css={styles.inputWrap}>
+                <br /> <br />
+                <input css={styles.input('')} value={state.thread.ch} readOnly />
+                <br />
+                Tuning..
+                <br /> <br />
+              </span>
+            }
+          />
+        )
+      }
     </div>
   );
 };
@@ -92,7 +171,8 @@ export default Component;
 const styles = {
   container: css`
     overflow: hidden;
-    width: inherit;
+    width: 100%;
+    min-width: ${layouts.appMinWidth}px;
     height: inherit;
     transform: translate(0px, 0px);
     button {
@@ -195,12 +275,6 @@ const getPostsCss = (menuMode: MenuModeType, layout: LayoutType, openDetail: boo
   return css`
     .Posts {
       flex: 1 1 auto;
-      @media (max-width: ${layouts.breakSpWidth}px) {
-        width: 100%;
-        min-width: 100%;
-        max-width: 100%;
-        scroll-snap-align: start;
-      }
     }
   `;
 };

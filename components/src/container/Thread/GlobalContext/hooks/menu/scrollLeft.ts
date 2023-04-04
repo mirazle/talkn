@@ -3,7 +3,7 @@ import { HookProps } from 'components/container/Thread/GlobalContext';
 export type Type = number;
 export const init: Type = 0;
 
-export default ({ bools, doms, setAction, setBools }: HookProps) => {
+export default ({ state, bools, doms, setAction, setBools }: HookProps) => {
   if (doms.screen) {
     const { scrollLeft, clientWidth, scrollWidth } = doms.screen;
     let openMenu = false;
@@ -16,7 +16,6 @@ export default ({ bools, doms, setAction, setBools }: HookProps) => {
       openMenu = false;
       screenScrolling = false;
     }
-
     setBools({ ...bools, screenScrolling, openMenu });
   }
 };

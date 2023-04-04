@@ -1,1 +1,3 @@
-export default (state = [], action) => [action.type, ...state];
+export default (state = [], action) => {
+  return [action.type, ...state];
+};

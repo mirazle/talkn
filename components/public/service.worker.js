@@ -39,14 +39,27 @@ self.addEventListener('activate', (event) => {
   return self.clients.claim();
 });
 
+self.addEventListener('fetch', function (evt) {
+  evt.respondWith(fromCache(evt.request));
+});
+
+function fromCache(request) {
+  return caches.open(cacheName).then(function (cache) {
+    return cache.match(request).then(function (matching) {
+      return matching || Promise.reject('no-match');
+    });
+  });
+}
+/*
 self.addEventListener('fetch', (event) => {
   if (log) console.log('Service Worker: Fetch', event.request.url);
   if (log) console.log('Url', event.request.url);
 
   event.respondWith(
-    caches.match(event.request).then(function (response) {
+    caches.match(event.request).then((response) => {
       if (log) console.log('F');
       return response || fetch(event.request);
     })
   );
 });
+*/
