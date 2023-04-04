@@ -47,7 +47,7 @@ const sessionSetting = session({
     sameSite: 'lax',
   },
 });
-console.log(conf.sslOptions);
+
 class Express {
   httpApp: any;
   httpsApp: any;
@@ -93,10 +93,10 @@ class Express {
   }
 
   routingHttps(req, res, next) {
-    console.log('routingHttps', req.header.host);
     const splitedUrl = req.originalUrl.split('/');
     let language = 'en';
     let ch = '/';
+    console.log('routingHttps', req.headers.host);
     switch (req.headers.host) {
       case conf.ownURL:
         if (req.method === 'GET') {
@@ -367,6 +367,7 @@ class Express {
 
         break;
       case conf.assetsURL:
+        console.log('ASSETS', req.originalUrl);
         // CORSを許可する
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');

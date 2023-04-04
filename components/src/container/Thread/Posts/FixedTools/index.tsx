@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import bootOption from 'api/reducers/bootOption';
 
@@ -14,12 +14,18 @@ import TuneModal from './TuneModal';
 
 type Props = {
   handleOnClickToggleTuneModal: () => void;
+  postTextareaRef: any;
 } & AppProps;
 
 const Component: React.FC<Props> = (props) => {
-  const { api, root, state, bootOption, handleOnClickToggleTuneModal } = props;
+  const { api, root, state, bootOption, postTextareaRef, handleOnClickToggleTuneModal } = props;
   const { app, thread } = state;
   const { uiTimeMarker, bools, menuMode, layout } = useGlobalContext();
+  const [label, setLabel] = useState(uiTimeMarker.now.label);
+
+  useEffect(() => {
+    setLabel(uiTimeMarker.now.label);
+  }, [uiTimeMarker.now.label]);
 
   return (
     <>
@@ -38,7 +44,7 @@ const Component: React.FC<Props> = (props) => {
       <PostPictogram api={api} />
 
       <TuneModal ch={thread.ch} root={root} state={state} bootOption={bootOption} api={api} menuMode={menuMode} />
-      <Footer api={api} icon={thread.favicon} />
+      <Footer api={api} icon={thread.favicon} postTextareaRef={postTextareaRef} />
       {layout.isSpLayout && <DetailModal {...props} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />}
     </>
   );

@@ -21,7 +21,7 @@ type TimeMarkerProps = {
   isMediaCh?: boolean;
   isLoading?: boolean;
   isFixed?: boolean;
-  timelineRefs?: React.MutableRefObject<{}>;
+  domsTimelines?: any;
 };
 
 const TimeMarker: React.FC<TimeMarkerProps> = ({
@@ -30,41 +30,31 @@ const TimeMarker: React.FC<TimeMarkerProps> = ({
   isMediaCh = false,
   isLoading = false,
   isFixed = false,
-  timelineRefs,
+  domsTimelines,
 }) => {
   if (isMediaCh) return null;
-
   const timeCss = isFixed ? styles.fixTimeMerker : styles.timeMerker;
-  if (isLoading) {
+  if (isLoading || label === '') {
     return (
       <time css={timeCss}>
         <Spinner size="20" />
       </time>
     );
   }
-  if (timelineRefs) {
-    timelineRefs.current[label] = createRef();
 
-    return (
-      <time ref={timelineRefs.current[label]} css={timeCss}>
-        {label}
-      </time>
-    );
-  }
-
-  if (label) {
+  if (domsTimelines && domsTimelines[label] === undefined) {
     return (
       <time className={className} css={timeCss}>
         {label}
       </time>
     );
-  } else {
-    return (
-      <time css={timeCss}>
-        <Spinner size="20" />
-      </time>
-    );
   }
+
+  return (
+    <time className={className} css={timeCss}>
+      {label}
+    </time>
+  );
 };
 
 type NewPostProps = {

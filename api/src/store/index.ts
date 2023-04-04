@@ -2,6 +2,7 @@ import BootOption from 'common/BootOption';
 
 import ActionLog from 'api/store/ActionLogs';
 import Analyze from 'api/store/Analyze';
+import ApiLog from 'api/store/ApiLog';
 import App from 'api/store/App';
 import MenuLogs from 'api/store/MenuLogs';
 import Posts from 'api/store/Posts';
@@ -31,6 +32,7 @@ export default class ApiState {
   user: User;
   tuneCh: TuneCh;
   actionLog: ActionLog;
+  apiLog: ApiLog;
   constructor(bootOption: BootOption, caches: any = {}) {
     this.bootOption = bootOption;
     this.ranks = new Ranks();
@@ -49,6 +51,7 @@ export default class ApiState {
     this.tuneCh = new TuneCh();
     this.user = new User(ApiState.getUserParams(this, caches));
     this.actionLog = new ActionLog();
+    this.apiLog = new ApiLog();
   }
 
   static getAppParams(thread, bootOption, caches) {

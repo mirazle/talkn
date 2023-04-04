@@ -39,14 +39,14 @@ type Props = {
 };
 
 const Component: React.FC<Props> = ({ api }) => {
-  const { bools, refs, setAction } = useGlobalContext();
+  const { doms, bools, setAction } = useGlobalContext();
   const [menu, setMenu] = useState('');
   const [isShow, setIsShow] = useState(false);
   const [isAnimation, setIsAnimations] = useState(false);
   const handleOnClickPost = (stampId: number) => {
     const exePost = () => {
-      const postsTextarea = refs.postsTextarea.current as HTMLTextAreaElement;
-      postsTextarea.dataset[dataset['stamp-id']] = String(stampId);
+      const postTextarea = doms.postTextarea as HTMLTextAreaElement;
+      postTextarea.dataset[dataset['stamp-id']] = String(stampId);
       setMenu('');
       setAction(actions.apiRequestPost);
     };

@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
 import DateHelper from 'common/DateHelper';
 
@@ -14,6 +14,8 @@ import Post from './Post';
 
 type Props = {
   handleOnClickToggleTuneModal: () => void;
+  postsRef: any;
+  postTextareaRef: any;
 } & AppProps;
 
 const NoPost: React.FC = () => (
@@ -23,28 +25,35 @@ const NoPost: React.FC = () => (
   </li>
 );
 
-const Component: React.FC<Props> = ({ bootOption, api, state, root, handleOnClickToggleTuneModal }) => {
-  const { layout, refs, bools, postsTimeline, setAction, setScrollTop } = useGlobalContext();
-
+const Component: React.FC<Props> = ({ bootOption, api, state, root, postsRef, postTextareaRef, handleOnClickToggleTuneModal }) => {
+  const { bools, doms, postsTimeline, setDoms, setScrollTop } = useGlobalContext();
   const handleOnScroll = ({ target }: React.UIEvent<HTMLElement, UIEvent>) => {
     const postsOlElm = target as HTMLElement;
     setScrollTop(postsOlElm.scrollTop);
   };
 
+  // TODO: refが/のPostsが取得されている(refsのメモリーは1画面1reactっぽい)
   return (
     <div className={'Posts'} css={styles.container}>
-      <ol css={styles.ol(bools.openFooter)} ref={refs.posts} onScroll={handleOnScroll}>
-        {useMemo(() => getTimelinePostList(bools.loading, postsTimeline, refs.timelines, state), [postsTimeline, bools.loading])}
+      <ol className={`PostsOl ch:${state.app.rootCh}`} css={styles.ol(bools.openFooter)} ref={postsRef} onScroll={handleOnScroll}>
+        {useMemo(() => getTimelinePostList(bools.loading, postsTimeline, doms.timelines, state), [postsTimeline, bools.loading])}
       </ol>
 
-      <FixedTools bootOption={bootOption} api={api} state={state} root={root} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />
+      <FixedTools
+        bootOption={bootOption}
+        postTextareaRef={postTextareaRef}
+        api={api}
+        state={state}
+        root={root}
+        handleOnClickToggleTuneModal={handleOnClickToggleTuneModal}
+      />
     </div>
   );
 };
 
 export default Component;
 
-const getTimelinePostList = (isLoading, postsTimeline, timelineRefs, state) => {
+const getTimelinePostList = (isLoading, postsTimeline, domsTimelines, state) => {
   const { app, thread } = state;
   const dispPosts = [];
   const postCnt = postsTimeline.length;
@@ -77,7 +86,7 @@ const getTimelinePostList = (isLoading, postsTimeline, timelineRefs, state) => {
 
         dispPosts.push(
           <li key={`${timeLabel}_${i}`}>
-            <NotifTip.TimeMarker timelineRefs={timelineRefs} label={timeLabel} isMediaCh={app.isMediaCh} />
+            <NotifTip.TimeMarker domsTimelines={domsTimelines} label={timeLabel} isMediaCh={app.isMediaCh} />
           </li>
         );
       }
@@ -106,7 +115,6 @@ const styles = {
     align-items: center;
     justify-content: flex-start
     width: 100%;
-    min-width: ${layouts.appMinWidth}px;
     height: inherit;
     transform: translate(0, 0);
   `,

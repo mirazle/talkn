@@ -19,7 +19,7 @@ import Label from '../../Menu/Label';
 
 export const Input: React.FC<AppProps> = ({ root, state }) => {
   const { thread } = state;
-  const { doms, refs, setAction } = useGlobalContext();
+  const { bootOption, doms, setAction } = useGlobalContext();
   const [inputCh, setInputCh] = useState(thread.ch);
   const [inputFindType, setInputFindType] = useState(String(Thread.findTypeAll));
 
@@ -44,7 +44,6 @@ export const Input: React.FC<AppProps> = ({ root, state }) => {
       </Flex>
 
       <input
-        ref={refs.tuneInput}
         css={styles.input('TuneModel')}
         value={inputCh}
         placeholder="Input Favorite Url"
@@ -69,8 +68,8 @@ type Props = AppProps & {
 
 const Component: React.FC<Props> = ({ state, bootOption, api, ch, root, menuMode }: Props) => {
   const { thread, ranks } = state;
-  const { bools, refs, doms, setAction } = useGlobalContext();
-  const screenElm = refs.screen.current as HTMLElement;
+  const { bools, doms, setAction } = useGlobalContext();
+  const screenElm = doms.screen;
   const screenHeight = screenElm ? screenElm.clientHeight : 0;
 
   const [tuneLabel, setTuneLabel] = useState<'TUNE' | number>('TUNE');

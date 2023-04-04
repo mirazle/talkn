@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 
 import BootOption from 'common/BootOption';
@@ -18,7 +19,7 @@ const Components = {
 
 export default Components;
 
-const appId = define.APP_TYPES.COMPONENTS;
+const appType = define.APP_TYPES.COMPONENTS;
 const publicClassNames = ['.talkn', '.talknThread', '.talknRankOgps', '.talknRank', '.talknBanner'];
 const bootOptionCustom = {
   talknRankOgps: { isRankDetailMode: true },
@@ -33,9 +34,21 @@ export const Load = (publicClassName?: string, ch?: string) => {
   const reactRoots = getReactRoots(publicClassName, ch);
   if (reactRoots.length > 0) {
     reactRoots.forEach((reactRoot, index) => {
-      const className = reactRoot.className;
+      let className = publicClassNames[0].replace('.', '');
+      const rootClassNames = reactRoot.className.split(' ');
+
+      publicClassNames.forEach((publicClassName) => {
+        rootClassNames.forEach((rootClassName) => {
+          if (publicClassName === `.${rootClassName}`) {
+            className = publicClassName;
+            return false;
+          }
+        });
+      });
+
+      const componentType = className.replace(/^\./, '');
       const ch = reactRoot.dataset.ch;
-      renderDom(reactRoot, index, className, ch);
+      renderDom(reactRoot, index + 1, componentType, ch);
     });
   } else {
     console.warn('No Talkn Root Components.');
@@ -54,15 +67,17 @@ const getReactRoots = (publicClassName?: string, ch?: string): HTMLElement[] => 
   return reactRoots ? reactRoots : [];
 };
 
-const renderDom = async (reactRoot, index, className, ch) => {
+const renderDom = async (reactRoot, index, componentType, ch) => {
   let component: React.ReactNode;
   if (ch) {
-    const bootOption = new BootOption(appId + index, { ...bootOptionCustom[className], ch });
+    const appId = `${index}:${componentType}:${ch}`;
+    const bootOption = new BootOption(appId, { ...bootOptionCustom[componentType], ch });
     if (!window._talknComponents[index]) {
       window._talknComponents[index] = new Window(appId, bootOption);
       await window._talknComponents[index].boot();
     }
-    switch (className) {
+
+    switch (componentType) {
       case 'talknRankOgps':
         component = (
           <Components.talknRankOgps
@@ -86,11 +101,13 @@ const renderDom = async (reactRoot, index, className, ch) => {
     }
 
     if (component) {
-      ReactDOM.render(<Provider store={window._talknComponents[index].store}>{component}</Provider>, reactRoot);
+      const root = createRoot(reactRoot);
+      root.render(<Provider store={window._talknComponents[index].store}>{component}</Provider>);
     } else {
-      console.warn(`No Component ${className}`);
+      console.warn(`No Component ${componentType}`);
     }
   } else {
-    ReactDOM.render(<Components.talknCover root={reactRoot} />, reactRoot);
+    const root = createRoot(reactRoot);
+    root.render(<Components.talknCover root={reactRoot} />);
   }
 };

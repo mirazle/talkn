@@ -2,7 +2,7 @@ import App from 'api/store/App';
 
 export type StateType = {
   clientLog: any[];
-  apiLog: any[];
+  apiLog: string[];
   analyze: any;
   app: App;
   bootOption: any;

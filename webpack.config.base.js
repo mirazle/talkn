@@ -52,12 +52,17 @@ module.exports = {
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
+
   devServer: {
-    hot: true,
-    http2: true,
-    https: {
-      key: path.resolve(__dirname, './common/pems/localhost.key'),
-      cert: path.resolve(__dirname, './common/pems/localhost.crt'),
+    allowedHosts: 'all',
+    compress: true,
+    //hot: true,
+    server: {
+      type: 'https',
+      options: {
+        key: path.resolve(__dirname, './common/pems/localhost.key'),
+        cert: path.resolve(__dirname, './common/pems/localhost.crt'),
+      },
     },
     port,
     historyApiFallback: true, // 存在しないリソースに対するアクセスをindex.htmlにする
@@ -68,6 +73,5 @@ module.exports = {
   },
 
   //  plugins: [new BundleAnalyzerPlugin()],
-
   devtool: 'inline-source-map',
 };

@@ -11,13 +11,14 @@ import Favicon from '../../Favicon';
 type Props = {
   api: any;
   icon: string;
+  postTextareaRef: any;
 };
 
 const regex = /^\s*$/;
 
-const Component: React.FC<Props> = ({ icon }: Props) => {
-  const { bools, refs, setAction } = useGlobalContext();
-  const textareaElm = refs.postsTextarea.current;
+const Component: React.FC<Props> = ({ icon, postTextareaRef }: Props) => {
+  const { doms, bools, setAction } = useGlobalContext();
+  const textareaElm = doms.postTextarea;
   const [isShow, setIsShow] = useState(false);
   const [isAnimation, setIsAnimations] = useState(false);
   const [isHoverButton, setIsHoverButton] = useState(false);
@@ -84,7 +85,8 @@ const Component: React.FC<Props> = ({ icon }: Props) => {
           </div>
           {bools.openPostsTextarea && (
             <textarea
-              ref={refs.postsTextarea}
+              className="postTextarea"
+              ref={postTextareaRef}
               css={styles.textarea('Footer')}
               placeholder="Comment to web"
               onKeyPress={handleOnKeyPress}

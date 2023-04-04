@@ -189,6 +189,7 @@ class Ext {
           this.href = href;
 
           const apiState = new ApiState(this.window.bootOption);
+
           // @ts-ignore
           const clientState = new ClientState({ ...apiState, ui: params.ui });
           const state = { ...apiState, ...clientState };

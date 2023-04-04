@@ -18,10 +18,10 @@ export const init: Type = {
   isFullScreen: false,
 };
 
-export default ({ action, bools, layout, refs }: HookProps) => {
+export default ({ doms, layout }: HookProps) => {
   if (layout.isSpLayout) {
-    if (refs.screen.current) {
-      const screenElm = refs.screen.current as HTMLElement;
+    if (doms.screen) {
+      const screenElm = doms.screen;
       if (screenElm.scrollLeft === 0) {
         screenElm.scrollTo({ left: screenElm.scrollWidth, behavior: 'auto' });
       }
