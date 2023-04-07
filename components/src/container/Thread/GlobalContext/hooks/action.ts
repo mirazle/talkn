@@ -135,7 +135,7 @@ export default (props: HookProps) => {
       break;
     case actions.openFooterThread:
       setBools({ ...bools, openFooter: true });
-      setAction(actions.reset);
+      // setAction(actions.reset);
       break;
     case actions.closeFooterThread:
       setBools({ ...bools, openFooter: false });
@@ -194,9 +194,7 @@ export default (props: HookProps) => {
       break;
 
     case actions.apiResponsePost:
-      console.log('@@@A');
       if (bools.postsScrollBottom) {
-        console.log('@@@B');
         doms.posts.scrollTo({ left: 0, top: Number.MAX_SAFE_INTEGER, behavior: 'smooth' });
         setBools({ ...bools, postsScrollingBottom: true });
         setTimeout(() => {
@@ -204,9 +202,7 @@ export default (props: HookProps) => {
           setAction(actions.neutral);
         }, 1000);
       } else {
-        console.log('@@@C');
         if (doms.posts.clientHeight < doms.posts.scrollHeight) {
-          console.log('@@@D');
           setBools({ ...bools, openNewPost: true });
         }
       }

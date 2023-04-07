@@ -30,7 +30,7 @@ export const init: Type = {
 export default (props: HookProps) => {
   const { state, action, bools, doms, scrollHeight, setAction, setBools } = props;
   const { screen, posts } = doms;
-  console.log(action);
+
   // if (screen && posts) {
   switch (action) {
     case actions.apiResponseFetch:
@@ -46,9 +46,7 @@ export default (props: HookProps) => {
       generateUiTimeMarker(props, actions.neutral);
       break;
     case actions.apiResponsePost:
-      console.log('----A');
       if (bools.postsScrollBottom) {
-        console.log('----B');
         posts.scrollTo({ left: 0, top: Number.MAX_SAFE_INTEGER, behavior: 'smooth' });
         setBools({ ...bools, postsScrollingBottom: true });
         setTimeout(() => {
@@ -56,9 +54,7 @@ export default (props: HookProps) => {
           setAction(actions.neutral);
         }, 1000);
       } else {
-        console.log('----C');
         if (doms.posts.clientHeight < doms.posts.scrollHeight) {
-          console.log('----D');
           setBools({ ...bools, openNewPost: true });
         }
       }

@@ -90,7 +90,8 @@ const Component: React.FC<PostProps> = ({ state, post }) => {
 
 export default Component;
 
-const faviconSize = 48;
+const faviconSize = 64;
+const margin = 16;
 const styles = {
   container: css`
     display: flex;
@@ -118,14 +119,13 @@ const styles = {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 0 0 64px;
-    //    margin: 0 16px;
+    flex: 0 0 ${faviconSize}px;
   `,
   content: css`
-    flex: 1 1 auto;
     display: flex;
     flex-flow: column nowrap;
-    //    margin: 0 16px;
+    width: calc(100% - ${faviconSize + margin}px);
+    margin-right: ${margin}px;
     color: ${colors.whiteColor};
   `,
   contentUpper: css`

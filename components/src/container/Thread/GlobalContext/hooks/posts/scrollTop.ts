@@ -11,6 +11,7 @@ export default ({ action, bools, doms, uiTimeMarker, state, setAction, setBools,
 
   if (doms.posts) {
     const { scrollTop } = doms.posts;
+
     if (!app.isMediaCh && scrollTop === 0 && action === actions.neutral) {
       setAction(actions.apiRequestGetMore);
     } else {

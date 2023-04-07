@@ -146,22 +146,20 @@ const Component: React.FC<Props> = (props) => {
 
         <Header bootOption={bootOption} api={api} state={state} root={root} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />
       </section>
-      {
-        /*!isTune*/ true && (
-          <Cover
-            root={root}
-            body={
-              <span css={styles.inputWrap}>
-                <br /> <br />
-                <input css={styles.input('')} value={state.thread.ch} readOnly />
-                <br />
-                Tuning..
-                <br /> <br />
-              </span>
-            }
-          />
-        )
-      }
+      {!isTune && (
+        <Cover
+          root={root}
+          body={
+            <span css={styles.inputWrap}>
+              <br /> <br />
+              <input css={styles.input('')} value={state.thread.ch} readOnly />
+              <br />
+              Tuning..
+              <br /> <br />
+            </span>
+          }
+        />
+      )}
     </div>
   );
 };
