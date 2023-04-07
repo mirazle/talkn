@@ -133,7 +133,7 @@ const styles = {
   pictogram: css`
     position: absolute;
     top: 5px;
-    left: 21px;
+    left: 30px;
     font-size: 24px;
     cursor: pointer;
     user-select: none;
@@ -141,6 +141,7 @@ const styles = {
   textarea: (type: string) => css`
     ${emotions.inputEffect(type)};
     &::placeholder {
+      white-space: nowrap;
     }
   `,
   button: (isHoverButton: boolean) => css`

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Radar Chart Example with Animation and Tooltip using Chart.js</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="400" height="400"></canvas>
+
+    <script>
+      // データを定義する
+      const data = [10, 5, 8, 6, 9];
+
+      // レーダーチャートを描画する
+      const ctx = document.getElementById('myCanvas').getContext('2d');
+      const myChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['項目1', '項目2', '項目3', '項目4', '項目5'],
+          datasets: [
+            {
+              data: data,
+              backgroundColor: 'rgba(102,204,255,0.2)',
+              borderColor: '#0099CC',
+              pointBackgroundColor: 'white',
+              pointBorderColor: '#0099CC',
+              pointRadius: 5,
+              pointHoverRadius: 7,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: {
+            duration: 2000,
+          },
+          tooltips: {
+            callbacks: {
+              label: function (tooltipItem, data) {
+                return data.labels[tooltipItem.index] + ': ' + data.datasets[0].data[tooltipItem.index] + '点';
+              },
+            },
+          },
+          scale: {
+            ticks: {
+              beginAtZero: true,
+              stepSize: 2,
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
