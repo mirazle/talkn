@@ -6,7 +6,7 @@ export const menuModeSmall = 'SMALL';
 export const menuModeBar = 'BAR';
 export const menuModeNormal = 'NORMAL';
 export const menuModeInclude = 'INCLUDE';
-export const menuModeCycle = [menuModeSmall, menuModeBar, menuModeNormal];
+export const menuModeCycle = [menuModeSmall, menuModeNormal];
 export type MenuModeType = typeof menuModeSmall | typeof menuModeBar | typeof menuModeNormal | typeof menuModeInclude;
 
 export type Type = MenuModeType;

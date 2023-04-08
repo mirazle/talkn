@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import bootOption from 'api/reducers/bootOption';
-
 import { Props as AppProps } from 'components/container/Thread/App';
 import { useGlobalContext } from 'components/container/Thread/GlobalContext';
 
@@ -10,7 +8,6 @@ import Footer from './Footer';
 import Media from './Media';
 import NotifTip from './NotifTip';
 import PostPictogram from './PostPictogram';
-import TuneModal from './TuneModal';
 
 type Props = {
   handleOnClickToggleTuneModal: () => void;
@@ -43,7 +40,6 @@ const Component: React.FC<Props> = (props) => {
       <NotifTip.NewPost isOpenNewPost={bools.openNewPost} isOpenFooter={bools.openFooter} />
       <PostPictogram api={api} />
 
-      <TuneModal ch={thread.ch} root={root} state={state} bootOption={bootOption} api={api} menuMode={menuMode} />
       <Footer api={api} icon={thread.favicon} postTextareaRef={postTextareaRef} />
       {layout.isSpLayout && <DetailModal {...props} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />}
     </>

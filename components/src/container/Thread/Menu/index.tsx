@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 
 import { Props as AppProps } from 'components/container/Thread/App';
 import { useGlobalContext, actions } from 'components/container/Thread/GlobalContext';
-import { Input } from 'components/container/Thread/Posts/FixedTools/TuneModal';
+import { Input } from 'components/container/Thread/TuneModal';
 import { layouts } from 'components/styles';
 import animations from 'components/styles/animations';
 
