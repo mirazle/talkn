@@ -18,10 +18,11 @@ import { menuModeBar, menuModeInclude, menuModeNormal, menuModeSmall, MenuModeTy
 import Header from './Header';
 import Menu from './Menu';
 import Posts from './Posts';
+import TuneModal from './TuneModal';
 
 const Component: React.FC<Props> = (props) => {
   const { bootOption, api, state, root } = props;
-  const { app, posts, ranks } = state;
+  const { app, posts, ranks, thread } = state;
   const globalContext = useGlobalContext();
   const {
     action,
@@ -144,6 +145,7 @@ const Component: React.FC<Props> = (props) => {
           {!layout.isSpLayout && <Detail mode={detailSideType} {...props} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />}
         </div>
 
+        <TuneModal ch={thread.ch} root={root} state={state} bootOption={bootOption} api={api} menuMode={menuMode} />
         <Header bootOption={bootOption} api={api} state={state} root={root} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />
       </section>
       {!isTune && (

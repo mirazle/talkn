@@ -343,8 +343,9 @@ const getBorderRadius = (baseMode: DetailType) => {
 const getHeaderHeights = (baseMode: DetailType, detailMode: DetailModeType) => {
   if (baseMode === detailModalType) {
     return css`
-      height: 140px;
+      height: 100%;
       min-height: 140px;
+      max-height: 220px;
     `;
   } else {
     switch (detailMode) {

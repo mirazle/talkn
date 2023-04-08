@@ -139,7 +139,7 @@ export default (props: HookProps) => {
       break;
     case actions.closeFooterThread:
       setBools({ ...bools, openFooter: false });
-      setAction(actions.reset);
+      //setAction(actions.reset);
       break;
     case actions.openDetail:
       setBools({ ...bools, openDetail: true });

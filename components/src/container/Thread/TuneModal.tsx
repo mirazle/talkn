@@ -14,8 +14,9 @@ import { MenuModeType } from 'components/container/Thread/GlobalContext/hooks/me
 import Flex from 'components/flexes';
 import { animations, emotions, colors, dropFilter, layouts } from 'components/styles';
 
-import close from '../../../../../public/close.svg';
-import Label from '../../Menu/Label';
+import Label from './Menu/Label';
+
+import close from '../../../public/close.svg';
 
 export const Input: React.FC<AppProps> = ({ root, state }) => {
   const { thread } = state;
@@ -135,7 +136,7 @@ export default Component;
 const height = 140;
 const styles = {
   section: (isOpen: boolean, isShow: boolean, isAnimation: boolean, screenHeight: number) => css`
-    position: fixed;
+    position: initial;
     top: 100%;
     left: unset;
     display: ${!isOpen && !isShow && !isAnimation ? 'none' : 'flex'};
