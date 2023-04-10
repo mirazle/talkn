@@ -145,7 +145,7 @@ const Component: React.FC<Props> = (props) => {
           {!layout.isSpLayout && <Detail mode={detailSideType} {...props} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />}
         </div>
 
-        <TuneModal ch={thread.ch} root={root} state={state} bootOption={bootOption} api={api} menuMode={menuMode} />
+        {/*<TuneModal ch={thread.ch} root={root} state={state} bootOption={bootOption} api={api} menuMode={menuMode} />*/}
         <Header bootOption={bootOption} api={api} state={state} root={root} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />
       </section>
       {!isTune && (

@@ -78,7 +78,7 @@ const styles = {
     justify-content: flex-start;
     width: 100%;
     height: inherit;
-    padding: 4px 8px 0 0;
+    padding: 8px 8px 0 0;
     cursor: pointer;
     background: ${isHighlight || isMouseOver ? 'rgba(255, 255, 255, 1)' : 'rgba(230, 230, 230, 1)'};
     border-bottom: 1px solid rgba(220, 220, 220, 1);
@@ -120,6 +120,7 @@ const styles = {
     }
     .postWrap {
       flex: 1 1 auto;
+      padding-bottom: 4px;
       ${getPostCss(menuMode, transitionEndMenuMode)};
       color: ${colors.fontColor};
       user-select: none;
