@@ -8,6 +8,7 @@ import Footer from './Footer';
 import Media from './Media';
 import NotifTip from './NotifTip';
 import PostPictogram from './PostPictogram';
+import TuneModal from './TuneModal';
 
 type Props = {
   handleOnClickToggleTuneModal: () => void;
@@ -40,6 +41,7 @@ const Component: React.FC<Props> = (props) => {
       <NotifTip.NewPost isOpenNewPost={bools.openNewPost} isOpenFooter={bools.openFooter} />
       <PostPictogram api={api} />
 
+      <TuneModal ch={thread.ch} root={root} state={state} bootOption={bootOption} api={api} menuMode={menuMode} />
       <Footer api={api} icon={thread.favicon} postTextareaRef={postTextareaRef} />
       {layout.isSpLayout && <DetailModal {...props} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />}
     </>

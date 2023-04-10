@@ -5,8 +5,6 @@
     <script data-ad-client="ca-pub-5285495593698579" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
-    <script src="./workerDom.mjs" type="module"></script>
-    <script src="./workerDom.js" nomodule defer></script>
     <script type="text/javascript" async src="//localhost:8002/talkn.components.js"></script>
     <script type="text/javascript">
       if ('serviceWorker' in navigator) {
@@ -53,8 +51,6 @@
     <link rel="manifest" href="//localhost:8002/manifest.json" />
     <link rel="shortcut icon" href="//assets.localhost/favicon.ico" />
     <link rel="canonical" href="https://localhost" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine" />
-    <link rel="stylesheet" href="https://assets.talkn.io/cover/www.sunbridge.com/interview/default.css" />
     <style amp-boilerplate>
       body {
         -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
@@ -139,8 +135,8 @@
         }
       }
       .talknThread {
-        width: 430px;
-        height: 400px;
+        width: 100vw;
+        height: 100vh;
       }
 
       .yahoo {
@@ -164,8 +160,12 @@
     <style amp-custom></style>
   </head>
   <body>
+    <div class="talknThread" data-ch="/"></div>
+
+    <!--
     <div class="flexRow">
-      <!-- div class="talknThread" data-ch="/"></div -->
+
+      <div class="talknThread" data-ch="/"></div>
       <div class="yahoo talknThread" data-ch="/news.yahoo.co.jp/"></div>
       <div class="talknThread livedoor" data-ch="/news.livedoor.com/"></div>
     </div>
@@ -182,5 +182,5 @@
     <div class="talknRankOgps" data-ch="/"></div>
     <div class="talknRankOgps" data-ch="/news.yahoo.co.jp/"></div>
     <div class="talknRankOgps" data-ch="/news.livedoor.com/"></div>
-  </body>
+  --></body>
 </html>
