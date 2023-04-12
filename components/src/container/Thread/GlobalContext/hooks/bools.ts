@@ -28,7 +28,7 @@ export const init: Type = {
   catchRanks: false,
   finnishFetch: false,
   inited: false,
-  openFooter: false,
+  openFooter: true,
   openThread: false,
   openPictograms: false,
   openNewPost: false,

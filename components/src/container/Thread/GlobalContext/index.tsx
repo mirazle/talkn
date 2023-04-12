@@ -143,7 +143,7 @@ export const useGlobalContext = () => {
  *****************/
 
 export const useGlobalProviderValue = (props: AppProps): GlobalContextType => {
-  const { state, bootOption: bootOptionInit } = props;
+  const { state, root, bootOption: bootOptionInit } = props;
   const { app, ranks, posts } = state;
 
   const firstRank = ranks[0] ? ranks[0] : new Post();
@@ -161,7 +161,7 @@ export const useGlobalProviderValue = (props: AppProps): GlobalContextType => {
   const [bools, setBools] = useState<boolsState.Type>(boolsState.init);
   const [doms, setDoms] = useState<domsState.Type>(domsState.init);
   const [menuRank, setMenuRank] = useState<menuRankState.Type>(menuRankState.init);
-  const [menuMode, setMenuMode] = useState<menuModeState.Type>(menuModeState.init);
+  const [menuMode, setMenuMode] = useState<menuModeState.Type>(menuModeState.getInit(root));
   const [scrollLeft, setScrollLeft] = useState<scrollLeftState.Type>(scrollLeftState.init);
   const [dragX, setDragX] = useState<dragXState.Type>(dragXState.init);
   const [detailMode, setDetailMode] = useState<detailModeState.Type>(detailModeState.init);

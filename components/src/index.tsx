@@ -32,11 +32,11 @@ window._talknComponents = [];
 
 export const Load = (publicClassName?: string, ch?: string) => {
   const reactRoots = getReactRoots(publicClassName, ch);
+
   if (reactRoots.length > 0) {
     reactRoots.forEach((reactRoot, index) => {
       let className = publicClassNames[0].replace('.', '');
       const rootClassNames = reactRoot.className.split(' ');
-
       publicClassNames.forEach((publicClassName) => {
         rootClassNames.forEach((rootClassName) => {
           if (publicClassName === `.${rootClassName}`) {
@@ -47,7 +47,8 @@ export const Load = (publicClassName?: string, ch?: string) => {
       });
 
       const componentType = className.replace(/^\./, '');
-      const ch = reactRoot.dataset.ch;
+      const ch = reactRoot.dataset && reactRoot.dataset.ch ? reactRoot.dataset.ch : '/';
+
       renderDom(reactRoot, index + 1, componentType, ch);
     });
   } else {
@@ -71,6 +72,7 @@ const renderDom = async (reactRoot, index, componentType, ch) => {
   let component: React.ReactNode;
   if (ch) {
     const appId = `${index}:${componentType}:${ch}`;
+    const isFullscreen = reactRoot.clientWidth === window.innerWidth && reactRoot.clientHeight === window.innerHeight;
     const bootOption = new BootOption(appId, { ...bootOptionCustom[componentType], ch });
     if (!window._talknComponents[index]) {
       window._talknComponents[index] = new Window(appId, bootOption);
