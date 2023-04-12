@@ -39,7 +39,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="https://<%= assetsURL %>/favicon.ico" />
     <link rel="canonical" href="https://<%= domain %>/" />
     <script data-ad-client="ca-pub-5285495593698579" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script id="talknClient" async type="text/javascript" src="https://<%= clientURL %>"></script>
+    <script id="talknClient" async type="text/javascript" src="https://<%= componentsURL %>"></script>
+    <!-- script id="talknClient" async type="text/javascript" src="https://localhost:8002/talkn.components.js"></script-->
     <script type="text/javascript">
       const onServiceWorker = () => {
         if ('serviceWorker' in navigator) {
@@ -117,6 +118,7 @@
           opacity: 1;
         }
       }
+      /*
       #talkn {
         display: flex;
         justify-content: center;
@@ -128,6 +130,11 @@
         animation-duration: 1500ms;
         animation-iteration-count: infinite;
         transition: 600ms;
+      }
+      */
+      .talknThread {
+        width: 100vw;
+        height: 100vh;
       }
     </style>
     <noscript>
@@ -142,6 +149,6 @@
     </noscript>
   </head>
   <body>
-    <div id="talkn"></div>
+    <div id="talkn" class="talknThread"></div>
   </body>
 </html>

@@ -49,7 +49,12 @@ yum update -y
   で該当するドメインや IP のローカルの SSH 認証情報を削除する
 
 - 下記でアクセス
-  `ssh centos@talkn.io -i ~/Downloads/LightsailDefaultKey-us-east-1.pem`
+  `ssh ec2-user@talkn.io -i ~/Downloads/LightsailDefaultKey-us-east-1.pem`
+
+## Local から ssh でアクセス
+
+$chmod 600 ~/Desktop/LightsailDefaultKey-us-east-1.pem
+$ssh ec2-user@talkn.io -i ~/Desktop/LightsailDefaultKey-us-east-1.pem
 
 ## step2 Let's Encrypt の SSL ワイルドカード証明書をリクエストする
 
@@ -80,7 +85,7 @@ certbot -d $DOMAIN -d $WILDCARD --manual --preferred-challenges dns certonly
 ```
 
 - \_acme-challenge.talkn.io の DNS の TXT レコードが発行されるので、実行したターミナルのコマンドは待機。
-  Lightsail の「ドメインと DNS」で「登録済みドメインの入力」に talkn.io で入力「DND ゾーンの作成」を押す。(作成済み)
+  Lightsail の「ドメインと DNS」で下にスクロール。「登録済みドメインの入力」に talkn.io で入力「DND ゾーンの作成」を押す。(作成済み)
 - 「talkn.io」を選択し「DNS レコード」を選択、
 - ZONE ファイルで TXT レコードを追加し
 

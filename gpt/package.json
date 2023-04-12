@@ -1,0 +1,7 @@
+{
+  "name": "gpt",
+  "packageManager": "yarn@3.2.0",
+  "dependencies": {
+    "openai": "3.2.1"
+  }
+}

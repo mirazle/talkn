@@ -346,6 +346,7 @@ class Express {
             language,
             domain: conf.domain,
             clientURL: conf.clientURL,
+            componentsURL: conf.componentsURL,
             assetsURL: conf.assetsURL,
             apiURL: conf.apiURL,
             apiAccessURL: conf.apiAccessURL,
