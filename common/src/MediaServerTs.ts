@@ -14,11 +14,13 @@ const paramsInit = {
   videos: [],
 };
 
+// Workerとして独立させる(読み込んだComponent分実行されてしまう)
+
 export default class MediaServer {
   public initId = '';
   public ch = null;
   public status = '';
-  public iframes = {};
+  public components = {};
   public audios: HTMLAudioElement[];
   public videos: HTMLVideoElement[];
   public handleEventSrc = [];
@@ -63,7 +65,7 @@ export default class MediaServer {
   constructor(initId) {
     this.initId = initId;
 
-    // postMessage to iframe ids.
+    // postMessage to ids.
     this.init = this.init.bind(this);
     this.onError = this.onError.bind(this);
     this.onMessage = this.onMessage.bind(this);
@@ -105,12 +107,12 @@ export default class MediaServer {
   }
 
   reset() {
-    Object.keys(this.searchingIds).forEach((iFrameId) => {
-      window.clearInterval(this.searchingIds[iFrameId]);
+    Object.keys(this.searchingIds).forEach((id) => {
+      window.clearInterval(this.searchingIds[id]);
     });
     window.clearInterval(this.playIntervalId);
 
-    this.iframes = {};
+    this.components = {};
     this.audios = [];
     this.videos = [];
     this.handleEventSrc = [];
@@ -121,26 +123,10 @@ export default class MediaServer {
   }
 
   setRelationElms(id?: string) {
-    if (Object.keys(this.iframes).length === 0) {
-      if (id === MediaServer.CLIENT_KEY || id === MediaServer.COMPONENTS_KEY) {
-        this.iframes[id] = {
-          dom: window,
-          params: { ...paramsInit },
-        };
-      } else {
-        const iframes = window.document.querySelectorAll(`.talknIframes`);
-        iframes.forEach((iframe) => {
-          if (iframe.id) {
-            this.iframes[iframe.id] = {
-              dom: iframe,
-              params: { ...paramsInit },
-            };
-          } else {
-            throw `Error: Please set iframe id.`;
-          }
-        });
-      }
-    }
+    this.components[id] = {
+      dom: window,
+      params: { ...paramsInit },
+    };
 
     if (this.videos.length === 0) {
       this.videos = Array.from(window.document.querySelectorAll('video'));
@@ -152,7 +138,7 @@ export default class MediaServer {
 
   setClientParams(params) {
     if (params && params.id) {
-      this.iframes[params.id].params = params;
+      this.components[params.id].params = params;
     }
   }
 
@@ -178,32 +164,37 @@ export default class MediaServer {
   }
 
   postMessage() {
-    Object.keys(this.iframes).forEach((iFrameId) => {
-      const iframe = this.iframes[iFrameId].dom;
-      const href = this.iframes[iFrameId].params.href;
+    Object.keys(this.components).forEach((id) => {
+      const iframe = this.components[id].dom;
+      const href = this.components[id].params.href;
       const type = 'MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE';
       const params = {
         ch: this.ch,
         status: this.status.toLowerCase(),
         currentTime: this.currentTime,
       };
-      const content = iFrameId === MediaServer.CLIENT_KEY || iFrameId === MediaServer.COMPONENTS_KEY ? window : iframe.contentWindow;
-      content.postMessage({ type, params }, href);
+      try {
+        // window.postMessage({ type, params }, window.location.origin);
+        console.log('SERVER POST');
+        window.postMessage({ type, params });
+      } catch (e) {
+        console.warn(e);
+      }
     });
   }
 
-  searching(iFrameId) {
-    if (!iFrameId) {
-      console.warn('Please Set iFrameId TalknMediaServer ');
+  searching(id) {
+    if (!id) {
+      console.warn('Please Set id TalknMediaServer ');
       return false;
     }
 
-    if (this.searchingIds[iFrameId] && this.searchingIds[iFrameId] > 0) {
-      window.clearInterval(this.searchingIds[iFrameId]);
+    if (this.searchingIds[id] && this.searchingIds[id] > 0) {
+      window.clearInterval(this.searchingIds[id]);
     }
 
     // this.reset();
-    this.setStatus(MediaServer.STATUS_SEARCH, `start searching ${iFrameId}`);
+    this.setStatus(MediaServer.STATUS_SEARCH, `start searching ${id}`);
     this.searchingCnt = 0;
     this.playIntervalId = null;
     this.audios = [];
@@ -214,7 +205,7 @@ export default class MediaServer {
 
       this[mediaType].forEach((media) => {
         if (isHandle) return;
-        this.iframes[iFrameId].params[mediaType].forEach((iframeMedia) => {
+        this[mediaType].forEach((iframeMedia) => {
           if (isHandle) return;
           if (media.src.indexOf(iframeMedia.src) >= 0) {
             if (!this.handleEventSrc.includes(media.src)) {
@@ -228,35 +219,42 @@ export default class MediaServer {
       return isHandle;
     };
 
-    this.searchingIds[iFrameId] = window.setInterval(() => {
-      this.setRelationElms(iFrameId);
-      const iframeHasAudio = Boolean(this.iframes[iFrameId].params.audios.length);
-      const iframeHasVideo = Boolean(this.iframes[iFrameId].params.videos.length);
+    this.searchingIds[id] = window.setInterval(() => {
+      this.setRelationElms(id);
+      /*
+      const iframeHasAudio = Boolean(this.components[id].params.audios.length);
+      const iframeHasVideo = Boolean(this.components[id].params.videos.length);
+      */
+      const iframeHasAudio = Boolean(this.audios.length);
+      const iframeHasVideo = Boolean(this.videos.length);
+
       let isHandleEvents = false;
       if (this.searchingCnt < this.maxSearchingCnt) {
         if (this.videos.length > 0 && iframeHasVideo) {
           isHandleEvents = handleEventsWrap('videos');
           if (isHandleEvents) {
-            window.clearInterval(this.searchingIds[iFrameId]);
-            this.setStatus(MediaServer.STATUS_STANBY, `searched video ${iFrameId}`);
+            window.clearInterval(this.searchingIds[id]);
+            this.setStatus(MediaServer.STATUS_STANBY, `searched video ${id}`);
           }
         }
+
         if (this.audios.length > 0 && iframeHasAudio) {
           isHandleEvents = handleEventsWrap('audios');
           if (isHandleEvents) {
-            window.clearInterval(this.searchingIds[iFrameId]);
-            this.setStatus(MediaServer.STATUS_STANBY, `searched audio ${iFrameId}`);
+            window.clearInterval(this.searchingIds[id]);
+            this.setStatus(MediaServer.STATUS_STANBY, `searched audio ${id}`);
           }
         }
       } else {
-        window.clearInterval(this.searchingIds[iFrameId]);
-        this.setStatus(MediaServer.STATUS_ENDED, `search to ended ${iFrameId}`);
+        window.clearInterval(this.searchingIds[id]);
+        this.setStatus(MediaServer.STATUS_ENDED, `search to ended ${id}`);
       }
       this.searchingCnt++;
     }, MediaServer.SECOND_INTERVAL);
   }
 
   handleEvents(media) {
+    console.log('handleEvents', media);
     media.addEventListener('play', this.play);
     media.addEventListener('pause', this.pause);
     media.addEventListener('ended', this.ended);
@@ -267,6 +265,7 @@ export default class MediaServer {
     this.ch = this.file.currentSrc.replace('http:/', '').replace('https:/', '') + '/';
     this.setStatus(MediaServer.STATUS_PLAY, 'play');
     this.postMessage();
+
     this.playIntervalId = setInterval(() => {
       this.postMessage();
     }, MediaServer.SECOND_INTERVAL);
@@ -284,8 +283,8 @@ export default class MediaServer {
     this.setStatus(MediaServer.STATUS_ENDED, 'ended');
     window.clearInterval(this.playIntervalId);
     this.postMessage();
-    Object.keys(this.searchingIds).forEach((iFrameId) => {
-      window.clearInterval(this.searchingIds[iFrameId]);
+    Object.keys(this.searchingIds).forEach((id) => {
+      window.clearInterval(this.searchingIds[id]);
     });
   }
 

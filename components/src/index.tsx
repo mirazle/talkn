@@ -3,13 +3,18 @@ import ReactDOM from 'react-dom';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 
+// import MediaServer from 'worker-loader?inline=fallback&publicPath=/&filename=mediaServer.js!./MediaServer';
 import BootOption from 'common/BootOption';
+import PostMessage, { MessageClientAndExtType } from 'common/PostMessage';
 import define from 'common/define';
 
 import Window from 'components/Window';
 import Cover from 'components/container/Cover';
 import RankOgps from 'components/container/RankOgps';
 import Thread from 'components/container/Thread/App';
+
+import MediaClient from './MediaClient';
+import MediaServer from './MediaServerTs';
 
 const Components = {
   talknCover: Cover,
@@ -28,7 +33,25 @@ const bootOptionCustom = {
   talknBanner: {},
 };
 
-window._talknComponents = [];
+window.talknComponents = {};
+window.talknMediaClients = {};
+window.talknMediaServer = new MediaServer();
+
+window.onload = () => {
+  window.onmessage = (e) => {
+    const { id, type }: MessageClientAndExtType = e.data;
+    if ((id && type === PostMessage.EXT_TO_CLIENT_TYPE) || type === PostMessage.MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE) {
+      if (window.talknComponents[id]) {
+        window.talknComponents[id].onMessage(e);
+      }
+    }
+  };
+  window.onmessageerror = (e) => {
+    const { id }: MessageClientAndExtType = e.data;
+
+    window.talknComponents[id].onMessageError(e);
+  };
+};
 
 export const Load = (publicClassName?: string, ch?: string) => {
   const reactRoots = getReactRoots(publicClassName, ch);
@@ -73,10 +96,13 @@ const renderDom = async (reactRoot, index, componentType, ch) => {
   if (ch) {
     const appId = `${index}:${componentType}:${ch}`;
     const isFullscreen = reactRoot.clientWidth === window.innerWidth && reactRoot.clientHeight === window.innerHeight;
-    const bootOption = new BootOption(appId, { ...bootOptionCustom[componentType], ch });
-    if (!window._talknComponents[index]) {
-      window._talknComponents[index] = new Window(appId, bootOption);
-      await window._talknComponents[index].boot();
+    const bootOption = new BootOption(appId, appType, { ...bootOptionCustom[componentType], ch });
+    if (!window.talknComponents[appId]) {
+      if (!window.talknComponents[appId]) {
+        window.talknComponents[appId] = new Window(appId, appType, bootOption);
+        window.talknMediaClients[appId] = new MediaClient(window.talknComponents[appId]);
+        await window.talknComponents[appId].boot();
+      }
     }
 
     switch (componentType) {
@@ -84,9 +110,9 @@ const renderDom = async (reactRoot, index, componentType, ch) => {
         component = (
           <Components.talknRankOgps
             bootOption={bootOption}
-            api={window._talknComponents[index].api}
+            api={window.talknComponents[appId].api}
             root={reactRoot}
-            state={window._talknComponents[index].state}
+            state={window.talknComponents[appId].state}
           />
         );
         break;
@@ -94,9 +120,9 @@ const renderDom = async (reactRoot, index, componentType, ch) => {
         component = (
           <Components.talknThread
             bootOption={bootOption}
-            api={window._talknComponents[index].api}
+            api={window.talknComponents[appId].api}
             root={reactRoot}
-            state={window._talknComponents[index].state}
+            state={window.talknComponents[appId].state}
           />
         );
         break;
@@ -104,7 +130,7 @@ const renderDom = async (reactRoot, index, componentType, ch) => {
 
     if (component) {
       const root = createRoot(reactRoot);
-      root.render(<Provider store={window._talknComponents[index].store}>{component}</Provider>);
+      root.render(<Provider store={window.talknComponents[appId].store}>{component}</Provider>);
     } else {
       console.warn(`No Component ${componentType}`);
     }

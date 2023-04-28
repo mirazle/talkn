@@ -12,13 +12,12 @@ import { Type as LayoutType } from 'components/container/Thread/GlobalContext/ho
 import { colors, dropFilter, emotions, layouts } from 'components/styles';
 import { animations } from 'components/styles';
 
-import Detail, { detailSideType } from './Detail';
+import Detail from './Detail';
 import hook from './GlobalContext/hooks';
 import { menuModeBar, menuModeInclude, menuModeNormal, menuModeSmall, MenuModeType } from './GlobalContext/hooks/menu/mode';
 import Header from './Header';
 import Menu from './Menu';
 import Posts from './Posts';
-import TuneModal from './TuneModal';
 
 const Component: React.FC<Props> = (props) => {
   const { bootOption, api, state, root } = props;
@@ -53,16 +52,16 @@ const Component: React.FC<Props> = (props) => {
   const latestPostIndex = posts.length - 1;
   const latestPost = posts[latestPostIndex] ? posts[latestPostIndex] : new Post();
   const postsCatchedHookKey = `${latestPost._id}_${latestPost.ch}`;
-
   const hookProps = { ...props, ...globalContext } as HookProps;
+
   useEffect(() => hook.isTune(hookProps), [app.isTune]);
-  useEffect(() => hook.apiLog(hookProps), [state.apiLog[0]]);
+  useEffect(() => hook.apiLog(hookProps), [state.apiLog.length]);
   useEffect(() => hook.clientLog(hookProps), [state.clientLog.length]);
   useEffect(() => hook.action(hookProps), [action]);
   useEffect(() => hook.bootOption(hookProps), [bootOption]);
   useEffect(() => hook.layout(hookProps), [layout]);
   useEffect(() => hook.bools(hookProps), [bools]);
-  useEffect(() => hook.doms(hookProps), [doms]);
+  useEffect(() => hook.doms(hookProps), [doms, state.clientLog.length]);
   useEffect(() => hook.dragX(hookProps), [dragX]);
   useEffect(() => hook.detailMode(hookProps), [detailMode]);
   useEffect(() => hook.menuRank(hookProps), [menuRank]);
@@ -142,7 +141,7 @@ const Component: React.FC<Props> = (props) => {
             root={root}
             handleOnClickToggleTuneModal={handleOnClickToggleTuneModal}
           />
-          {!layout.isSpLayout && <Detail mode={detailSideType} {...props} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />}
+          {!layout.isSpLayout && <Detail isModal={false} {...props} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />}
         </div>
 
         {/*<TuneModal ch={thread.ch} root={root} state={state} bootOption={bootOption} api={api} menuMode={menuMode} />*/}
@@ -171,7 +170,7 @@ export default Component;
 const styles = {
   container: css`
     overflow: hidden;
-    width: 100%;
+    width: inherit;
     min-width: ${layouts.appMinWidth}px;
     height: inherit;
     transform: translate(0px, 0px);

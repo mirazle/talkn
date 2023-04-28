@@ -1,13 +1,16 @@
 import define from 'common/define';
 
+import Window from 'components/Window';
 import { Load } from 'components/index';
 
 const appId = define.APP_TYPES.COMPONENTS;
 
 declare global {
   interface Window {
-    _talknComponents: any;
+    talknComponents: any;
     talknWindow: any;
+    talknMediaClients: any;
+    talknMediaServer: any;
     createPaymentRequest: any;
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
   }

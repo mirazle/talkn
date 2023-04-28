@@ -1,7 +1,6 @@
 import WsApiWorker from 'worker-loader?inline=fallback&publicPath=/&filename=ws.api.worker.js!../../api/src/ws.api.worker';
 
 import BootOption, { BootOptionParamsType } from 'common/BootOption';
-import MediaServer from 'common/MediaServerTs';
 import PostMessage, {
   IoTypeValues,
   MessageClientAndWsApiType,
@@ -18,27 +17,24 @@ import define from 'common/define';
 import ApiState from 'api/store';
 
 export default class Window {
-  id: string = define.APP_TYPES.COMPONENTS;
-  // isRankDetailMode: boolean;
+  id: string;
+  type: string = define.APP_TYPES.COMPONENTS;
   bootOption: BootOption;
   ch: string;
   wsApi: WsApiWorker;
   store: any = clientStore();
-  parentHref: string = location.href;
-  ext: Ext;
-  mediaServer: MediaServer;
-  mediaClient: MediaClient;
   callback: Function | undefined;
   conned: (value?: any | PromiseLike<any>) => void;
   static get SET_CALLBACK_METHOD() {
     return 'tune';
   }
-  constructor(id, bootOptionParams?: BootOptionParamsType) {
+  constructor(id, type, bootOptionParams?: BootOptionParamsType) {
     TalknSetup.setupMath();
 
     // client store.
     this.id = id;
-    this.bootOption = new BootOption(this.id, bootOptionParams);
+    this.type = type;
+    this.bootOption = new BootOption(this.id, this.type, bootOptionParams);
     this.ch = this.bootOption.ch;
     const apiState = new ApiState(this.bootOption);
     const clientState = new ClientState(apiState);
@@ -47,42 +43,31 @@ export default class Window {
 
     // ws.api.worker.
     this.api = this.api.bind(this);
-    this.injectStateToApp = this.injectStateToApp.bind(this);
-    this.postMessage = this.postMessage.bind(this);
-    this.onMessage = this.onMessage.bind(this);
-    this.onError = this.onError.bind(this);
-
-    // mediaServers
-    new MediaServer(id);
+    this.postMessageToApi = this.postMessageToApi.bind(this);
+    this.onMessageFromApi = this.onMessageFromApi.bind(this);
+    this.onErrorFromApi = this.onErrorFromApi.bind(this);
   }
 
   public boot(): Promise<void> {
     return new Promise((resolve) => {
       this.conned = resolve;
       this.wsApi = new WsApiWorker();
-      this.wsApi.onerror = this.onError;
-      this.wsApi.onmessage = this.onMessage;
-      if (this.id === define.APP_TYPES.CLIENT || this.id === define.APP_TYPES.EXTENSION || this.id === define.APP_TYPES.COMPONENTS) {
-        // handle ext.
-        this.ext = new Ext(this);
+      this.wsApi.onerror = this.onErrorFromApi;
+      this.wsApi.onmessage = this.onMessageFromApi;
 
-        // media client.
-        this.mediaClient = new MediaClient(this);
-      }
+      this.onMessage = this.onMessage.bind(this);
+      this.onMessageError = this.onMessageError.bind(this);
+      this.postMessage = this.postMessage.bind(this);
     });
   }
 
+  // public
   public api(method: string, params: MessageParams = {}, callback?: Function): void {
     if (method === Window.SET_CALLBACK_METHOD && callback) this.callback = callback;
-    this.postMessage(method, params);
+    this.postMessageToApi(method, params);
   }
 
-  private injectStateToApp(apiState: MessageParams): void {
-    //(apiState as ApiState).app.isRankDetailMode = this.isRankDetailMode;
-    // this.api('rank', apiState);
-  }
-
-  private postMessage(method: string, params: MessageParams = {}): void {
+  private postMessageToApi(method: string, params: MessageParams = {}): void {
     const message: MessageClientAndWsApiType = {
       // @ts-ignore
       id: params.id ? params.id : this.id,
@@ -91,11 +76,12 @@ export default class Window {
       method,
       params,
     };
-    this.mediaClient && this.mediaClient.wsClientBeforeFilter({ method, params });
+
+    window.talknMediaClients[this.id] && window.talknMediaClients[this.id].wsClientBeforeFilter({ method, params });
     this.wsApi.postMessage(message);
   }
 
-  private onMessage(e: MessageEvent): void {
+  private onMessageFromApi(e: MessageEvent): void {
     const { currentTarget, data } = e;
     const { type, method, params }: MessageClientAndWsApiType = data;
 
@@ -104,6 +90,8 @@ export default class Window {
         const actionType = PostMessage.convertApiToClientActionType(method);
         const { ioType, exeMethod } = PostMessage.getMessageTypes(actionType);
         const state: any = { ...params, type: actionType };
+
+        // Redux
         this.store.dispatch(state);
 
         if (method === 'WS_CONSTRUCTED') {
@@ -112,16 +100,17 @@ export default class Window {
 
         if (this.id === define.APP_TYPES.EXTENSION) {
           // ext
-          this.ext && this.ext.to(method, ioType, params);
+          this.extTo(method, ioType, params);
         }
 
-        // media
-        this.mediaClient && this.mediaClient.wsClientAfterFilter({ method, params, state });
+        if (window.talknMediaClients[this.id]) {
+          window.talknMediaClients[this.id].wsClientAfterFilter({ method, params, state });
+        }
       }
     }
   }
 
-  private onError(e: ErrorEvent): void {
+  private onErrorFromApi(e: ErrorEvent): void {
     console.warn(e);
   }
 
@@ -129,27 +118,13 @@ export default class Window {
     const action = params ? { ...params, type } : { type };
     this.store.dispatch(action);
   }
-}
 
-class Ext {
-  id: string;
-  href: string;
-  window: Window;
-  constructor(_window: Window) {
-    this.window = _window;
-    this.onMessage = this.onMessage.bind(this);
-    this.onMessageError = this.onMessageError.bind(this);
-    this.postMessage = this.postMessage.bind(this);
-    window.onmessage = this.onMessage;
-    window.onmessageerror = this.onMessageError;
-  }
-
-  public to(method: string, ioType: IoTypeValues, params: MessageParams = {}): void {
+  public extTo(method: string, ioType: IoTypeValues, params: MessageParams = {}): void {
     if (method.indexOf(Sequence.METHOD_COLON) >= 0) {
       method = method.split(Sequence.METHOD_COLON)[1];
     }
     const message: MessageClientAndExtType = {
-      id: this.window.id,
+      id: this.id,
       type: PostMessage.CLIENT_TO_EXT_TYPE,
       ioType,
       method,
@@ -161,7 +136,7 @@ class Ext {
 
   public toMediaServer(method: string, params: MessageParams = {}): void {
     const message: MessageMediaClientAndMediaServerType = {
-      id: this.window.id,
+      id: this.id,
       type: PostMessage.MEDIA_CLIENT_TO_MEDIA_SERVER_TYPE,
       method,
       params,
@@ -170,14 +145,10 @@ class Ext {
   }
 
   private postMessage(message: MessageParams = {}): void {
-    if (this.href) {
-      window.top.postMessage(message, this.href);
-    } else {
-      window.postMessage(message, location.href);
-    }
+    window.postMessage(message, location.href);
   }
 
-  private onMessage(e: MessageEvent): void {
+  public onMessage(e: MessageEvent): void {
     const { id, href, type, method, ioType, params, methodBack }: MessageClientAndExtType = e.data;
     if (type === PostMessage.EXT_TO_CLIENT_TYPE) {
       switch (method) {
@@ -186,275 +157,31 @@ class Ext {
 
           // @ts-ignore
           this.window.bootOption = new BootOption(id, params.bootOption);
-          this.href = href;
 
-          const apiState = new ApiState(this.window.bootOption);
+          const apiState = new ApiState(this.bootOption);
 
           // @ts-ignore
           const clientState = new ClientState({ ...apiState, ui: params.ui });
           const state = { ...apiState, ...clientState };
-          this.window.store.dispatch({ ...state, type: 'EXT_INIT_CLIENT' });
-          this.window.api('tune', this.window.bootOption);
-          this.to(method, ioType, state);
+          this.store.dispatch({ ...state, type: 'EXT_INIT_CLIENT' });
+          this.postMessageToApi('tune', this.bootOption);
+          this.extTo(method, ioType, state);
           break;
         default:
           const isApiMethod = Boolean(Object.keys(Sequence.map).find((apiMethod) => apiMethod === method));
           if (isApiMethod) {
-            this.window.api(method, params);
+            this.postMessageToApi(method, params);
           }
           break;
       }
 
       // const actionType = PostMessage.convertExtToClientActionType(method);
-      this.window.store.dispatch({ ...params, type: method });
+      this.store.dispatch({ ...params, type: method });
     } else if (type === PostMessage.MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE) {
-      this.window.mediaClient.onMessage(e, this.window.store.getState());
+      window.talknMediaClients[this.id] && window.talknMediaClients[this.id].onMessage(e, this.store.getState());
     }
   }
-  private onMessageError(e: ErrorEventInit): void {
+  public onMessageError(e: ErrorEventInit): void {
     console.warn(e);
-  }
-}
-
-class MediaClient {
-  static get STATUS_SEARCH() {
-    return 'SEARCH';
-  }
-  static get STATUS_STANBY() {
-    return 'STANBY';
-  }
-  static get STATUS_PLAY() {
-    return 'PLAY';
-  }
-  static get STATUS_ENDED() {
-    return 'ENDED';
-  }
-  static get STATUS_BACK() {
-    return 'BACK';
-  }
-  ch: string;
-  status:
-    | typeof MediaClient.STATUS_SEARCH
-    | typeof MediaClient.STATUS_STANBY
-    | typeof MediaClient.STATUS_PLAY
-    | typeof MediaClient.STATUS_ENDED;
-  pointerTime: number = 0.0;
-  isPosting: boolean = false;
-  isChangeThread: boolean = false;
-  isExeOnMessae = true;
-  window: Window;
-  postsTimeline: any[];
-  postsTimelineStock: any[];
-  constructor(_window: Window) {
-    this.window = _window;
-    this.status = MediaClient.STATUS_ENDED;
-    this.requestServer = this.requestServer.bind(this);
-    this.onMessage = this.onMessage.bind(this);
-    this.wsClientBeforeFilter = this.wsClientBeforeFilter.bind(this);
-    this.wsClientAfterFilter = this.wsClientAfterFilter.bind(this);
-    this.setPostsTimelines = this.setPostsTimelines.bind(this);
-    this.refrectSelfPost = this.refrectSelfPost.bind(this);
-    this.play = this.play.bind(this);
-    this.stanby = this.stanby.bind(this);
-    this.ended = this.ended.bind(this);
-
-    // timeline datas.
-    this.postsTimeline = [];
-    this.postsTimelineStock = [];
-  }
-
-  private requestServer(method, params = {}) {
-    this.window.ext.toMediaServer(method, params);
-  }
-
-  public onMessage(e: MessageEvent, state) {
-    if (this.isExeOnMessae) {
-      const { params } = e.data;
-      const { currentTime, status, ch } = params;
-      const nextStatus = status.toUpperCase();
-      switch (nextStatus) {
-        case MediaClient.STATUS_PLAY:
-          if (state.thread.ch === ch && !this.isChangeThread) {
-            if (this.postsTimeline.length > 0 || this.postsTimelineStock.length > 0) {
-              // update status.
-              this.status = nextStatus;
-              this.play(currentTime);
-            }
-          } else {
-            if (this.status !== MediaClient.STATUS_BACK) {
-              state.thread.ch = ch;
-              this.isChangeThread = true;
-              // window.talknWindow.dom.onClickCh(state.thread.ch, state.ui, state.thread.hasSlash, 'ToMedia');
-            }
-          }
-          break;
-      }
-    }
-  }
-
-  public wsClientBeforeFilter({ method, params }) {
-    if (method === 'post') {
-      const state = this.window.store.getState();
-      if (state.app.isMediaCh) {
-        // 投稿時に自分のpostsのみMediaに反映する
-        // 投稿時にメディアの再生秒数を反映する
-        params.app.inputCurrentTime = this.pointerTime > 0 ? this.pointerTime : 0;
-      }
-    }
-    return params;
-  }
-
-  public wsClientAfterFilter({ method, params, state }) {
-    //console.log('wsClientAfterFilter', method);
-    switch (method) {
-      case 'SERVER_TO_API[EMIT]:tune':
-        this.isPosting = false;
-        this.pointerTime = 0;
-        this.window.mediaClient = new MediaClient(this.window);
-        this.requestServer('searching', {
-          // TODO: EXTで複数起動の場合に正しく動作するのか検証
-          id: this.window.id,
-          ch: state.thread.ch,
-          href: location.href,
-          audios: state.thread.audios,
-          videos: state.thread.videos,
-        });
-        break;
-      case 'API_TO_SERVER[REQUEST]:changeThread':
-        this.isExeOnMessae = false;
-        this.status = MediaClient.STATUS_ENDED;
-        break;
-      case 'SERVER_TO_API[EMIT]:changeThread':
-        this.pointerTime = 0;
-        this.status = MediaClient.STATUS_STANBY;
-        if (state.app.isMediaCh) {
-          this.isExeOnMessae = true;
-          this.window.mediaClient = new MediaClient(this.window);
-          this.requestServer('ended');
-          this.requestServer('searching', {
-            // TODO: EXTで複数起動の場合に正しく動作するのか検証
-            id: this.window.id,
-            ch: state.thread.ch,
-            href: location.href,
-            audios: state.thread.audios,
-            videos: state.thread.videos,
-          });
-        }
-
-        this.isChangeThread = false;
-        break;
-      case 'SERVER_TO_API[EMIT]:fetchPosts':
-        this.setPostsTimelines(state);
-        break;
-      case 'SERVER_TO_API[BROADCAST]:post':
-        if (state.app.isMediaCh) {
-          const post = state.posts[0];
-          if (post.ch === state.thread.ch) {
-            // 自分の投稿したpostの場合
-            if (post.uid === state.user.uid) {
-              this.refrectSelfPost(post);
-            }
-          }
-        }
-        break;
-    }
-  }
-
-  public setPostsTimelines({ postsTimeline, postsTimelineStock }) {
-    // 現在、表示されている投稿
-    this.postsTimeline = [...postsTimeline];
-
-    // 現在、表示されていない投稿
-    this.postsTimelineStock = [...postsTimelineStock];
-  }
-
-  public refrectSelfPost(post) {
-    const length = this.postsTimeline.length;
-    let pushFlg = false;
-    for (let i = 0; i < length; i++) {
-      if (post.currentTime < this.postsTimeline[i].currentTime) {
-        pushFlg = true;
-        this.postsTimeline.splice(i, 0, post);
-      }
-    }
-
-    if (!pushFlg) {
-      // 最末尾にpushする
-      this.postsTimeline.push(post);
-    }
-  }
-
-  public setServerParams(params) {
-    this.ch = params.ch;
-    this.status = params.status;
-    this.pointerTime = params.currentTime;
-  }
-
-  public searching() {}
-
-  public stanby() {}
-
-  public ended() {
-    const currentTime = Number.MAX_SAFE_INTEGER;
-    const length = this.postsTimelineStock.length;
-    for (let i = 0; i < length; i++) {
-      if (this.postsTimelineStock[i] && this.postsTimelineStock[i].currentTime <= currentTime) {
-        this.window.clientAction('NEXT_POSTS_TIMELINE', { postsTimeline: [this.postsTimelineStock[i]] });
-      } else {
-        break;
-      }
-    }
-  }
-
-  public play(pointerTime = 0) {
-    if (this.isPosting) return;
-    const timelineLength = this.postsTimelineStock.length;
-    this.isPosting = true;
-    // Timeline is next.
-    if (this.pointerTime <= pointerTime) {
-      this.pointerTime = pointerTime;
-      while (this.isPosting) {
-        if (timelineLength === 0) {
-          this.isPosting = false;
-        } else if (this.postsTimelineStock[0] && this.postsTimelineStock[0].currentTime <= pointerTime) {
-          const addPost = this.postsTimelineStock.shift();
-          this.postsTimeline.push(addPost);
-          console.log('NEXT_POSTS_TIMELINE', this.pointerTime);
-          this.window.clientAction('NEXT_POSTS_TIMELINE', { postsTimeline: [addPost] });
-        } else {
-          this.isPosting = false;
-          break;
-        }
-      }
-
-      // Timeline is prev.
-    } else {
-      // 処理が終わるまで強制停止
-      this.requestServer('pause');
-      const postsTimelineAll = this.postsTimeline.concat(this.postsTimelineStock);
-      const length = postsTimelineAll.length;
-      this.pointerTime = pointerTime;
-      this.postsTimeline = [];
-      this.postsTimelineStock = [];
-
-      for (let i = 0; i < length; i++) {
-        const post = postsTimelineAll[i];
-        if (post.currentTime <= this.pointerTime) {
-          this.postsTimeline.push(post);
-        } else {
-          this.postsTimelineStock.push(post);
-        }
-      }
-
-      // 指定した秒数を経過しているPostをreducerでdispFlgをfalseにしてPostをUnmountする
-      this.window.clientAction('CLEAR_POSTS_TIMELINE', {
-        postsTimeline: this.postsTimeline,
-        postsTimelineStock: this.postsTimelineStock,
-      });
-
-      // 処理が終わったので再生開始
-      this.requestServer('play');
-    }
-    this.isPosting = false;
   }
 }

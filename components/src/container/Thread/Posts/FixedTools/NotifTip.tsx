@@ -72,7 +72,7 @@ export default {
 };
 const width = 150;
 const fixTimeMerkerMargin = 20;
-const timeMerkerMargin = layouts.doubleMargin;
+const timeMerkerMargin = layouts.baseMargin;
 const notifTip = (margin: number) => css`
   display: flex;
   align-items: center;

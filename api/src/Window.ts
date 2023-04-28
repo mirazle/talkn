@@ -25,7 +25,7 @@ export default class Window {
     TalknSetup.setupMath();
 
     this.id = id;
-    this.bootOption = new BootOption(this.id);
+    this.bootOption = new BootOption(this.id, define.APP_TYPES.API);
     const apiState = new ApiState(this.bootOption);
     const state = { ...apiState };
 

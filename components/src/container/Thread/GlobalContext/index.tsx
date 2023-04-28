@@ -164,18 +164,14 @@ export const useGlobalProviderValue = (props: AppProps): GlobalContextType => {
   const [menuMode, setMenuMode] = useState<menuModeState.Type>(menuModeState.getInit(root));
   const [scrollLeft, setScrollLeft] = useState<scrollLeftState.Type>(scrollLeftState.init);
   const [dragX, setDragX] = useState<dragXState.Type>(dragXState.init);
-  const [detailMode, setDetailMode] = useState<detailModeState.Type>(detailModeState.init);
+  const [detailMode, setDetailMode] = useState<detailModeState.Type>(detailModeState.getInit(root));
   const [rankCatched, setRankCatched] = useState<rankCatchedState.Type>(rankCatchedState.init);
   const [postsTimeline, setPostsTimeline] = useState<postsTimelineState.Type>(postsTimelineState.init);
   const [postsCatched, setPostsCatched] = useState<postsCatchedState.Type>(postsCatchedState.init);
   const [scrollTop, setScrollTop] = useState<scrollTopState.Type>(scrollTopState.init);
   const [scrollHeight, setScrollHeight] = useState<scrollHeightState.Type>(scrollHeightState.init);
   const [uiTimeMarker, setUiTimeMarker] = useState<uiTimeMarkerState.Type>(uiTimeMarkerState.init);
-  /*
-  useEffect(() => {
-    console.log('DOM2', doms.screen, doms.posts);
-  }, [doms]);
-*/
+
   const setAction = (action: actionState.Type, toPrivateParams?: ActionParamsType) => {
     toPrivateParams && setPrivateParams(toPrivateParams);
     setPrivateAction(action);

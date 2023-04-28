@@ -21,7 +21,6 @@ export default ({ action, bools, doms, uiTimeMarker, state, setAction, setBools,
         const updateUiTimeMarker = UiTimeMarker.update(scrollTop - reduceTop, uiTimeMarker);
         setUiTimeMarker(updateUiTimeMarker);
       }
-
       // 最下位スクロール位置かを保持する
       // (Post時のnewPost表示か、最下位に慣性スクロールするかの判定に利用する)
       const isScrollBottom = getIsScrollBottom(doms.posts, bools);
@@ -30,15 +29,17 @@ export default ({ action, bools, doms, uiTimeMarker, state, setAction, setBools,
   }
 };
 
-const scrollBottomBufferHeight = 5;
 const getIsScrollBottom = (postsElm: HTMLElement, bools: BoolsType) => {
   if (bools.postsScrollingBottom) {
     return true;
   }
 
   if (postsElm) {
+    const bufferHeight = postsElm.lastChild ? (postsElm.lastChild as HTMLElement).clientHeight : 0;
+
     // MEMO: スクロール中にPOSTを受信すると、Postsの高さが変化しているため、正しいIsScrollBottomを返せない。
-    return postsElm.scrollTop + postsElm.clientHeight >= postsElm.scrollHeight - scrollBottomBufferHeight;
+    return postsElm.scrollTop + postsElm.clientHeight >= postsElm.scrollHeight - bufferHeight;
   }
+
   return false;
 };
