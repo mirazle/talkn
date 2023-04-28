@@ -42,15 +42,15 @@ const hookActions = {
   },
   'SERVER_TO_API[BROADCAST]:post': async ({ state, postsTimeline, setAction, setPostsTimeline }: HookProps) => {
     const { app, apiLog, thread, ranks, posts } = state;
-    console.log('A', posts);
+    console.log('A', app.rootCh, posts);
     if (app.isRootCh) {
-      console.log('B');
+      console.log('B', app.rootCh, posts);
       setPostsTimeline(postsTimeline.concat(posts));
       setAction(actions.apiResponsePost);
     } else {
-      console.log('C');
+      console.log('C', app.rootCh, posts);
       if (posts[0].ch === thread.ch) {
-        console.log('D');
+        console.log('D', app.rootCh, posts);
         setPostsTimeline(postsTimeline.concat(posts));
         setAction(actions.apiResponsePost);
       }

@@ -12,7 +12,6 @@ export type MenuModeType = typeof menuModeSmall | typeof menuModeBar | typeof me
 
 export type Type = MenuModeType;
 export const getInit = (root: HTMLElement): Type => {
-  console.log(breakTabWidth);
   return root.clientWidth <= breakTabWidth ? menuModeSmall : menuModeNormal;
 };
 

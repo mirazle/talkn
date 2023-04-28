@@ -43,7 +43,7 @@ const Component: React.FC<Props> = ({ label = 'TUNE', api, isHighlight, menuMode
       onMouseDown={handleOnMouseDown}
       onMouseLeave={handleOnMouseLeave}>
       <header css={styles.header(menuMode, transitionEndMenuMode, label)}>
-        <Label menuMode={menuMode} label={label} />
+        <Label menuMode={menuMode} label={label} radius />
         <span className="title">Title</span>
       </header>
       <div css={styles.body(menuMode, transitionEndMenuMode)}>
@@ -78,7 +78,7 @@ const styles = {
     justify-content: flex-start;
     width: 100%;
     height: inherit;
-    padding: 8px 8px 0 0;
+    padding: 0 8px 0 0;
     cursor: pointer;
     background: ${isHighlight || isMouseOver ? 'rgba(255, 255, 255, 1)' : 'rgba(230, 230, 230, 1)'};
     border-bottom: 1px solid rgba(220, 220, 220, 1);
@@ -92,10 +92,13 @@ const styles = {
   header: (menuMode: MenuModeType, transitionEndMenuMode: MenuModeType, label: string) => css`
     display: flex;
     flex-flow: row nowrap;
-    align-items: center;
+    align-items: flex-end;
     justify-content: flex-start;
     width: 100%;
-    height: 24px;
+    height: 25px;
+    min-height: 25px;
+    padding-left: ${menuMode === menuModeSmall ? 4 : 8}px;
+    transition: padding-left ${animations.transitionDuration}ms;
     user-select: none;
     .title {
       ${getTitleCss(menuMode, transitionEndMenuMode)};
@@ -109,7 +112,8 @@ const styles = {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 100%;
+    height: 40px;
+    min-height: 40px;
     user-select: none;
     .faviconWrap {
       user-select: none;
@@ -144,7 +148,8 @@ const styles = {
     align-items: center;
     justify-content: flex-end;
     width: 100%;
-    height: 24px;
+    height: 25px;
+    min-height: 25px;
     user-select: none;
     .findTypeWrap {
       user-select: none;
@@ -198,7 +203,7 @@ const getTitleCss = (menuMode: MenuModeType, transitionEndMenuMode: MenuModeType
       transformCss = css`
         opacity: 1;
         width: 100%;
-        text-indent: 20px;
+        text-indent: 12px;
       `;
       break;
     case menuModeBar:

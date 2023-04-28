@@ -30,7 +30,7 @@ export const init: Type = {
 export default (props: HookProps) => {
   const { state, action, bools, doms, scrollHeight, setAction, setBools } = props;
   const { screen, posts } = doms;
-
+  // console.log('doms', action);
   // if (screen && posts) {
   switch (action) {
     case actions.apiResponseFetch:
@@ -67,16 +67,18 @@ export default (props: HookProps) => {
       setAction(actions.neutral);
       break;
     case actions.nextPostsTimeline:
+      console.log('@@@ doms nextPostsTimeline');
       if (bools.postsScrollBottom) {
-        if (!bools.postsScrollingBottom) {
-          posts.scrollTo({ left: 0, top: Number.MAX_SAFE_INTEGER, behavior: 'smooth' });
-          setBools({ ...bools, postsScrollingBottom: true });
-          setTimeout(() => {
-            setBools({ ...bools, postsScrollingBottom: false });
-            setAction(actions.neutral);
-          }, 400);
-        }
+        console.log('doms nextPostsTimeline A');
+        posts.scrollTo({ left: 0, top: Number.MAX_SAFE_INTEGER, behavior: 'smooth' });
+        setBools({ ...bools, postsScrollingBottom: true });
+        setTimeout(() => {
+          setBools({ ...bools, postsScrollingBottom: false });
+          setAction(actions.neutral);
+          console.log('doms nextPostsTimeline NEWTRAL');
+        }, 400);
       } else {
+        console.log('doms nextPostsTimeline B');
         if (bools.openNewPost === false) {
           setBools({ ...bools, openNewPost: true });
         }

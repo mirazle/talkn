@@ -17,16 +17,12 @@ import mail from '../../../public/mail.svg';
 import talkn from '../../../public/talkn.svg';
 import twitter from '../../../public/twitter.svg';
 
-export const detailModalType = 'Modal';
-export const detailSideType = 'Side';
-export type DetailType = typeof detailModalType | typeof detailSideType;
-
 type Props = AppProps & {
-  mode: DetailType;
+  isModal: boolean;
   handleOnClickToggleTuneModal: () => void;
 };
 
-const Component: React.FC<Props> = ({ mode: baseMode, state, handleOnClickToggleTuneModal }: Props) => {
+const Component: React.FC<Props> = ({ isModal = false, state, handleOnClickToggleTuneModal }: Props) => {
   const { detailMode, layout } = useGlobalContext();
   const { threadDetail } = state;
   const { serverMetas } = threadDetail;
@@ -40,6 +36,7 @@ const Component: React.FC<Props> = ({ mode: baseMode, state, handleOnClickToggle
       setIsShowh(!isShowCh);
     }
   };
+
   const handleOnMouseOver = () => setMouseOverHeader(true);
   const handleOnMouseLeave = () => setMouseOverHeader(false);
   const handleOnScrollX = () => {
@@ -68,28 +65,28 @@ const Component: React.FC<Props> = ({ mode: baseMode, state, handleOnClickToggle
   };
 
   return (
-    <section css={styles.container(baseMode, detailMode, layout)}>
-      <div css={styles.scrollY(baseMode)}>
+    <section css={styles.container(isModal, detailMode, layout)}>
+      <div css={styles.scrollY(isModal)}>
         <header
-          css={styles.header(baseMode, detailMode)}
+          css={styles.header(isModal, detailMode)}
           onClick={handleOnClickHeader}
           onMouseOver={handleOnMouseOver}
           onMouseLeave={handleOnMouseLeave}>
-          <div ref={scrollXRef} css={styles.contents(serverMetas['og:image'], baseMode, detailMode)} onScroll={handleOnScrollX}>
+          <div ref={scrollXRef} css={styles.contents(serverMetas['og:image'], isModal, detailMode)} onScroll={handleOnScrollX}>
             <div className="ogpImage" />
             <div className="graph" />
           </div>
-          <div className="ch" css={styles.ch(baseMode, detailMode, mouseOverHeader, isShowCh)} onClick={handleOnClickToggleTuneModal}>
+          <div className="ch" css={styles.ch(isModal, detailMode, mouseOverHeader, isShowCh)} onClick={handleOnClickToggleTuneModal}>
             {threadDetail.ch}
           </div>
         </header>
-        <div css={styles.tips(baseMode, detailMode, scrollXIndex)}>
+        <div css={styles.tips(isModal, detailMode, scrollXIndex)}>
           <span className="ogpImageTip" onClick={handleOnClickTips} />
           <span className="graphTip" onClick={handleOnClickTips} />
         </div>
-        <div css={styles.body(baseMode, detailMode)}>
-          <div css={styles.description(baseMode, detailMode)}>{serverMetas['description']}</div>
-          <ul css={styles.share(baseMode, detailMode)}>
+        <div css={styles.body(isModal, detailMode)}>
+          <div css={styles.description(isModal, detailMode)}>{serverMetas['description']}</div>
+          <ul css={styles.share(isModal, detailMode)}>
             <li>{getShareImg('twitter', threadDetail)}</li>
             <li>{getShareImg('facebook', threadDetail)}</li>
             <li>{getShareImg('instagram', threadDetail)}</li>
@@ -99,7 +96,7 @@ const Component: React.FC<Props> = ({ mode: baseMode, state, handleOnClickToggle
             <li>{getShareImg('home', threadDetail)}</li>
             <li>{getShareImg('mail', threadDetail)}</li>
           </ul>
-          <div css={styles.contentType(baseMode, detailMode)}>
+          <div css={styles.contentType(isModal, detailMode)}>
             <label>{threadDetail.contentType && threadDetail.contentType.replace(/;.*$/, '')}</label>
           </div>
         </div>
@@ -112,17 +109,17 @@ export default Component;
 
 const tipSize = 16;
 const styles = {
-  container: (baseMode: DetailType, detailMode: DetailModeType, layout: LayoutType) => css`
+  container: (isModal: boolean, detailMode: DetailModeType, layout: LayoutType) => css`
     overflow: hidden;
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-start;
     justify-content: flex-start;
-    ${getContainerWidth(baseMode, detailMode, layout)};
+    ${getContainerWidth(isModal, detailMode, layout)};
     height: 100%;
-    padding-top: ${baseMode === detailModalType ? 0 : layouts.appHeaderHeight}px;
+    padding-top: ${isModal ? 0 : layouts.appHeaderHeight}px;
     background: rgba(255, 255, 255, 0.9);
-    border-radius: ${getBorderRadius(baseMode)};
+    border-radius: ${getBorderRadius(isModal)};
     transition: width ${animations.transitionDuration}ms, min-width ${animations.transitionDuration}ms,
       background ${animations.transitionDuration}ms;
     transform: translate(0px, 0px);
@@ -130,24 +127,24 @@ const styles = {
       background: rgba(255, 255, 255, 1);
     }
   `,
-  scrollY: (baseMode: DetailType) => css`
+  scrollY: (isModal: boolean) => css`
     overflow-x: hidden;
     overflow-y: scroll;
     width: 100%;
     min-width: 100%;
     height: 100%;
-    border-left: ${baseMode === detailModalType ? 0 : 1}px solid ${colors.borderColor};
+    border-left: ${isModal ? 0 : 1}px solid ${colors.borderColor};
   `,
-  header: (baseMode: DetailType, detailMode: DetailModeType) => css`
+  header: (isModal: boolean, detailMode: DetailModeType) => css`
     overflow: hidden;
     width: 100%;
     min-width: 100%;
-    ${getHeaderHeights(baseMode, detailMode)};
+    ${getHeaderHeights(isModal, detailMode)};
     border-bottom: 1px solid ${colors.borderColor};
     transition: height ${animations.transitionDuration}ms, min-height ${animations.transitionDuration}ms;
     transform: translate(0px, 0px);
   `,
-  contents: (image, baseMode: DetailType, detailMode: DetailModeType) => css`
+  contents: (image, isModal: boolean, detailMode: DetailModeType) => css`
     overflow-x: scroll;
     overflow-y: hidden;
     display: flex;
@@ -176,8 +173,8 @@ const styles = {
       background-position: center;
     }
   `,
-  ch: (baseMode: DetailType, detailMode: DetailModeType, mouseOverHeader: boolean, isShowCh: boolean) => css`
-    display: ${detailMode === detailModeExpand ? 'block' : 'none'};
+  ch: (isModal: boolean, detailMode: DetailModeType, mouseOverHeader: boolean, isShowCh: boolean) => css`
+    display: ${detailMode === detailModeExpand || isModal ? 'block' : 'none'};
     overflow-x: scroll;
     overflow-y: hidden;
     position: absolute;
@@ -187,9 +184,8 @@ const styles = {
     -webkit-line-clamp: 2;
     max-width: 96%;
     max-height: 74px;
-    padding: ${baseMode === detailModalType ? '0px 8px 0px 24px' : '6px 8px 8px 24px'};
-    margin: ${layouts.doubleMargin}px 0 ${baseMode === detailModalType ? layouts.doubleMargin : layouts.tripleMargin}px
-      ${layouts.doubleMargin}px;
+    padding: ${isModal ? '0px 8px 0px 24px' : '6px 8px 8px 24px'};
+    margin: ${layouts.doubleMargin}px 0 ${isModal ? layouts.doubleMargin : layouts.tripleMargin}px ${layouts.doubleMargin}px;
     background: rgba(0, 0, 0, ${mouseOverHeader ? 0.6 : 0.4});
     color: rgb(255, 255, 255);
     border-radius: 30px 0 0 30px;
@@ -199,7 +195,7 @@ const styles = {
     font-size: 75%;
     opacity: ${isShowCh ? 1 : 0};
     word-break: break-word;
-    white-space: ${baseMode === detailModalType ? 'nowrap' : 'break-spaces'};
+    white-space: ${isModal ? 'nowrap' : 'break-spaces'};
     transition: box-shadow ${animations.transitionDuration}ms, opacity ${animations.transitionDuration}ms,
       background ${animations.transitionDuration}ms;
     cursor: pointer;
@@ -207,8 +203,8 @@ const styles = {
       box-shadow: 0px 3px 3px 0px rgb(0, 0, 0, 0.4);
     }
   `,
-  tips: (baseMode: DetailType, detailMode: DetailModeType, scrollXIndex: number) => {
-    const tipsSize = getTipsSize(baseMode, detailMode);
+  tips: (isModal: boolean, detailMode: DetailModeType, scrollXIndex: number) => {
+    const tipsSize = getTipsSize(isModal, detailMode);
     return css`
       display: flex;
       flex-flow: row nowrap;
@@ -245,21 +241,20 @@ const styles = {
       }
     `;
   },
-  body: (baseMode: DetailType, detailMode: DetailModeType) => css`
+  body: (isModal: boolean, detailMode: DetailModeType) => css`
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     justify-content: flex-start;
-    padding: 0 ${detailMode === detailModeBar ? layouts.basePadding : layouts.doublePadding}px ${layouts.doublePadding}px
-      ${detailMode === detailModeBar ? layouts.basePadding : layouts.doublePadding}px;
+    padding: 0 ${getBodyPaddingSide(isModal, detailMode)}px ${detailMode === detailModeBar ? layouts.basePadding : layouts.doublePadding}px;
     white-space: initial;
     letter-spacing: 3px;
     line-height: 150%;
   `,
-  description: (baseMode: DetailType, detailMode: DetailModeType) => css`
-    display: ${detailMode === detailModeExpand ? 'flex' : 'none'};
+  description: (isModal: boolean, detailMode: DetailModeType) => css`
+    display: ${getDescriptionDisplay(isModal, detailMode)};
   `,
-  share: (baseMode: DetailType, detailMode: DetailModeType) => css`
+  share: (isModal: boolean, detailMode: DetailModeType) => css`
     display: flex;
     flex-flow: row wrap;
     align-items: center;
@@ -279,7 +274,7 @@ const styles = {
       }
     }
   `,
-  contentType: (baseMode: DetailType, detailMode: DetailModeType) => css`
+  contentType: (isModal: boolean, detailMode: DetailModeType) => css`
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -289,7 +284,7 @@ const styles = {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: ${layouts.basePadding}px ${detailMode === detailModeBar ? layouts.basePadding : layouts.triplePadding}px;
+      padding: ${layouts.basePadding}px ${getContentTypePaddingSide(isModal, detailMode)}px;
       font-size: ${detailMode === detailModeBar ? 30 : 100}%;
       white-space: break-spaces;
       word-break: break-word;
@@ -303,8 +298,32 @@ const styles = {
   `,
 };
 
-const getContainerWidth = (baseMode: DetailType, detailMode: DetailModeType, layout: LayoutType) => {
-  if (baseMode === detailModalType) {
+const getDescriptionDisplay = (isModal: boolean, detailMode: DetailModeType) => {
+  if (isModal) {
+    return 'flex';
+  } else {
+    return detailMode === detailModeExpand ? 'flex' : 'none';
+  }
+};
+
+const getBodyPaddingSide = (isModal: boolean, detailMode: DetailModeType) => {
+  if (isModal) {
+    return layouts.doublePadding;
+  } else {
+    return detailMode === detailModeBar ? layouts.basePadding : layouts.doublePadding;
+  }
+};
+
+const getContentTypePaddingSide = (isModal: boolean, detailMode: DetailModeType) => {
+  if (isModal) {
+    return layouts.doublePadding;
+  } else {
+    return detailMode === detailModeBar ? layouts.basePadding : layouts.triplePadding;
+  }
+};
+
+const getContainerWidth = (isModal: boolean, detailMode: DetailModeType, layout: LayoutType) => {
+  if (isModal) {
     return css`
       width: 100%;
       min-width: ${layouts.appMinWidth}px;
@@ -332,16 +351,16 @@ const getContainerWidth = (baseMode: DetailType, detailMode: DetailModeType, lay
   }
 };
 
-const getBorderRadius = (baseMode: DetailType) => {
-  if (baseMode === detailModalType) {
+const getBorderRadius = (isModal: boolean) => {
+  if (isModal) {
     return `0`;
   } else {
     return `0`;
   }
 };
 
-const getHeaderHeights = (baseMode: DetailType, detailMode: DetailModeType) => {
-  if (baseMode === detailModalType) {
+const getHeaderHeights = (isModal: boolean, detailMode: DetailModeType) => {
+  if (isModal) {
     return css`
       height: 100%;
       min-height: 140px;
@@ -364,8 +383,8 @@ const getHeaderHeights = (baseMode: DetailType, detailMode: DetailModeType) => {
   }
 };
 
-const getTipsSize = (baseMode: DetailType, detailMode: DetailModeType) => {
-  if (baseMode === detailModalType) {
+const getTipsSize = (isModal: boolean, detailMode: DetailModeType) => {
+  if (isModal) {
     return tipSize;
   } else {
     switch (detailMode) {

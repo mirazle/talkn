@@ -45,11 +45,12 @@ export default class BootOption {
       isRankDetailMode: false,
     },
   };
-  constructor(id: string, params?: BootOptionParamsType) {
+  constructor(id: string, type: string, params?: BootOptionParamsType) {
     const initialRootCh = BootOption.getInitialRootCh(conf.env);
     const firstHasSlash = BootOption.getFirstHasSlach(initialRootCh);
     this.env = conf.env;
     this.id = id;
+    this.type = type;
     this.hasSlash = params && params.hasSlash !== undefined ? params.hasSlash : BootOption.getLastHasSlach(initialRootCh);
     this.ch = params && params.ch ? params.ch : BootOption.getActiveCh(initialRootCh, firstHasSlash, this.hasSlash);
     this.protocol = params && params.protocol ? params.protocol : BootOption.getProtocol();
@@ -115,6 +116,7 @@ export default class BootOption {
     let type = define.APP_TYPES.API;
     if (extScript) return define.APP_TYPES.EXTENSION;
     if (clientScript) return define.APP_TYPES.CLIENT;
+    if (clientScript) return define.APP_TYPES.COMPONENTS;
     return type;
   }
 

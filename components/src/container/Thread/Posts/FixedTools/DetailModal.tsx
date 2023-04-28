@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
 
 import { Props as AppProps } from 'components/container/Thread/App';
-import Detail, { detailModalType } from 'components/container/Thread/Detail';
+import Detail from 'components/container/Thread/Detail';
 import { useGlobalContext } from 'components/container/Thread/GlobalContext';
 import { animations, colors, dropFilter, layouts, zIndex } from 'components/styles';
 
@@ -32,7 +32,7 @@ const Component: React.FC<Props> = (props: Props) => {
       className="DetailModal"
       css={styles.container(bools.openDetail, isShow, isAnimation, height)}
       onTransitionEnd={handleOnTransitionEnd}>
-      <Detail mode={detailModalType} {...props} handleOnClickToggleTuneModal={props.handleOnClickToggleTuneModal} />
+      <Detail isModal {...props} handleOnClickToggleTuneModal={props.handleOnClickToggleTuneModal} />
     </section>
   );
 };
@@ -41,6 +41,7 @@ export default Component;
 
 const styles = {
   container: (isOpen: boolean, isShow: boolean, isAnimation: boolean, height: number) => css`
+    box-sizing: content-box;
     z-index: ${zIndex.detailModal};
     position: fixed;
     top: ${layouts.appHeaderHeight}px;
