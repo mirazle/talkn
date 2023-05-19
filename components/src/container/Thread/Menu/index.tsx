@@ -15,8 +15,8 @@ type Props = AppProps & {
   transitionEndMenuMode: MenuModeType;
 };
 
-const Component: React.FC<Props> = ({ api, state, bootOption, root, transitionEndMenuMode }) => {
-  const { bools, menuMode, setAction } = useGlobalContext();
+const Component: React.FC<Props> = ({ api, state, root, transitionEndMenuMode }) => {
+  const { bools, bootOption, menuMode, setAction } = useGlobalContext();
   const menuRef = useRef(null);
 
   const handleOnClickMenu = (ch: string) => {

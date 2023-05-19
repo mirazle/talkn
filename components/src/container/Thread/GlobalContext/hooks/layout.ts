@@ -22,18 +22,16 @@ export default ({ doms, layout }: HookProps) => {
   if (layout.isSpLayout) {
     if (doms.screen) {
       const screenElm = doms.screen;
-      console.log('SP');
+
       if (screenElm.scrollLeft === 0) {
         screenElm.scrollTo({ left: screenElm.scrollWidth, behavior: 'auto' });
       }
     }
   } else if (layout.isTabLayout) {
     if (doms.screen) {
-      console.log('TAB');
     }
   } else {
     if (doms.screen) {
-      console.log('PC');
     }
   }
 };

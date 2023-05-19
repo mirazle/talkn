@@ -3,13 +3,11 @@ import React, { useEffect, useState } from 'react';
 
 import BootOption from 'common/BootOption';
 
-import bootOption from 'api/reducers/bootOption';
 import Thread from 'api/store/Thread';
 
 import SymbolCh from 'components/atomicDesign/atoms/SymbolCh';
 import { Props as AppProps } from 'components/container/Thread/App';
 import { useGlobalContext, actions } from 'components/container/Thread/GlobalContext';
-import { init as domsInit } from 'components/container/Thread/GlobalContext/hooks/doms';
 import { MenuModeType } from 'components/container/Thread/GlobalContext/hooks/menu/mode';
 import Flex from 'components/flexes';
 import { animations, emotions, colors, dropFilter, layouts } from 'components/styles';
@@ -17,10 +15,9 @@ import { animations, emotions, colors, dropFilter, layouts } from 'components/st
 import close from '../../../../../public/close.svg';
 import Label from '../../Menu/Label';
 
-export const Input: React.FC<AppProps> = ({ root, state }) => {
-  const { thread } = state;
-  const { bootOption, doms, setAction, setIsTune } = useGlobalContext();
-  const [inputCh, setInputCh] = useState(thread.ch);
+export const Input: React.FC<AppProps> = ({ root }) => {
+  const { doms, bootOption, setAction, setIsTune, setBootOption } = useGlobalContext();
+  const [inputCh, setInputCh] = useState(bootOption.ch);
   const [inputFindType, setInputFindType] = useState(String(Thread.findTypeAll));
 
   const handleOnSubmit = () => {
@@ -30,7 +27,9 @@ export const Input: React.FC<AppProps> = ({ root, state }) => {
     inputElm.value = ch;
     root.dataset.ch = ch;
     setIsTune(false);
+
     setAction(actions.apiRequestChangeTuning, { className, ch, findType: inputFindType });
+    setBootOption({ ...bootOption, ch });
     //setAction(actions.reset);
     // window.postMessage({ id: bootOption.id, type: bootOption.type, actin: 'load' });
   };
@@ -39,6 +38,10 @@ export const Input: React.FC<AppProps> = ({ root, state }) => {
   const handleOnKeyPressCh = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === 'Enter') handleOnSubmit();
   };
+
+  useEffect(() => {
+    setInputCh(bootOption.ch);
+  }, [bootOption.ch]);
 
   return (
     <span css={styles.inputWrap}>
@@ -73,9 +76,9 @@ type Props = AppProps & {
   postTextareaRef: any;
 };
 
-const Component: React.FC<Props> = ({ state, bootOption, api, ch, root, menuMode, postTextareaRef, screenRef, postsRef }: Props) => {
+const Component: React.FC<Props> = ({ state, api, ch, root, menuMode, postTextareaRef, screenRef, postsRef }: Props) => {
   const { thread, ranks } = state;
-  const { bools, doms, setAction, setIsTune } = useGlobalContext();
+  const { bools, bootOption, doms, setAction, setIsTune, setBootOption } = useGlobalContext();
   const screenElm = doms.screen;
   const screenHeight = screenElm ? screenElm.clientHeight : 0;
 
@@ -105,6 +108,7 @@ const Component: React.FC<Props> = ({ state, bootOption, api, ch, root, menuMode
 
     setIsTune(false);
     setAction(actions.apiRequestChangeTuning, { className, ch, findType: inputFindType });
+    setBootOption({ ...bootOption, ch });
     //setAction(actions.reset);
 
     // window.postMessage({ ...bootOption, action: 'load' });

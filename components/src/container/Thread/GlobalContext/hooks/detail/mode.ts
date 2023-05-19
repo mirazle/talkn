@@ -17,7 +17,6 @@ export const getInit = (root: HTMLElement): Type => {
 };
 
 export default ({ layout, setDetailMode, setMenuMode }: HookProps) => {
-  console.log(layout.isSpLayout, layout.isTabLayout);
   if (layout.isSpLayout) {
     setMenuMode(menuModeSmall);
   }
