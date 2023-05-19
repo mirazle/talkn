@@ -21,7 +21,7 @@ import Menu from './Menu';
 import Posts from './Posts';
 
 const Component: React.FC<Props> = (props) => {
-  const { bootOption, api, state, root } = props;
+  const { bootOption: bootOptionProps, api, state, root } = props;
 
   const { app, posts, ranks, thread } = state;
   const globalContext = useGlobalContext();
@@ -29,6 +29,7 @@ const Component: React.FC<Props> = (props) => {
   const {
     action,
     bools,
+    bootOption,
     isTune,
     menuMode,
     detailMode,
@@ -61,7 +62,7 @@ const Component: React.FC<Props> = (props) => {
   useEffect(() => hook.apiLog(hookProps), [state.apiLog.length]);
   useEffect(() => hook.clientLog(hookProps), [state.clientLog.length]);
   useEffect(() => hook.action(hookProps), [action]);
-  useEffect(() => hook.bootOption(hookProps), [bootOption]);
+  useEffect(() => hook.bootOption(hookProps), [bootOptionProps, bootOption]);
   useEffect(() => hook.layout(hookProps), [layout]);
   useEffect(() => hook.bools(hookProps), [bools]);
   useEffect(() => hook.doms(hookProps), [doms, state.clientLog.length]);
