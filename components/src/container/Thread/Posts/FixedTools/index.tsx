@@ -12,11 +12,13 @@ import TuneModal from './TuneModal';
 
 type Props = {
   handleOnClickToggleTuneModal: () => void;
+  screenRef: any;
+  postsRef: any;
   postTextareaRef: any;
 } & AppProps;
 
 const Component: React.FC<Props> = (props) => {
-  const { api, root, state, bootOption, postTextareaRef, handleOnClickToggleTuneModal } = props;
+  const { api, root, state, bootOption, postTextareaRef, screenRef, postsRef, handleOnClickToggleTuneModal } = props;
   const { app, thread } = state;
   const { uiTimeMarker, bools, menuMode, layout } = useGlobalContext();
   const [label, setLabel] = useState(uiTimeMarker.now.label);
@@ -41,7 +43,17 @@ const Component: React.FC<Props> = (props) => {
       <NotifTip.NewPost isOpenNewPost={bools.openNewPost} isOpenFooter={bools.openFooter} />
       <PostPictogram api={api} />
 
-      <TuneModal ch={thread.ch} root={root} state={state} bootOption={bootOption} api={api} menuMode={menuMode} />
+      <TuneModal
+        ch={thread.ch}
+        root={root}
+        state={state}
+        bootOption={bootOption}
+        api={api}
+        menuMode={menuMode}
+        postTextareaRef={postTextareaRef}
+        screenRef={screenRef}
+        postsRef={postsRef}
+      />
       <Footer api={api} icon={thread.favicon} postTextareaRef={postTextareaRef} />
       {layout.isSpLayout && <DetailModal {...props} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />}
     </>

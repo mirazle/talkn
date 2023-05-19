@@ -26,7 +26,7 @@ export const getRgba = (color: ColorType, alpha: AlphaType = baseAlpha) => `rgba
 /*  base colors
 /*******************/
 
-export const baseTension = 100;
+export const baseTension = 90;
 export const darkDepth = 20;
 export const darkerDepth = darkDepth * 2;
 
