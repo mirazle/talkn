@@ -1,5 +1,9 @@
 import { css } from '@emotion/react';
+import { Chart as ChartJS, ChartData, ChartOptions, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 import React, { useState, useRef } from 'react';
+import { Radar, ChartProps } from 'react-chartjs-2';
+
+import Emotions from 'common/emotions/index';
 
 import { detailModeExpand, detailModeBar, DetailModeType } from 'components/container/Thread//GlobalContext/hooks/detail/mode';
 import { Props as AppProps } from 'components/container/Thread/App';
@@ -17,19 +21,163 @@ import mail from '../../../public/mail.svg';
 import talkn from '../../../public/talkn.svg';
 import twitter from '../../../public/twitter.svg';
 
+// 必要なコントローラー、スケール、要素を登録
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
+
 type Props = AppProps & {
   isModal: boolean;
   handleOnClickToggleTuneModal: () => void;
 };
 
+const calcRate = 1000000;
+const emotions = new Emotions();
+const russellSimple = new emotions.model.RussellSimple();
+
+const getGraphDatas = (threadDetail) => {
+  const emotionModelKey = Emotions.defaultModelKey;
+
+  const { emotions } = threadDetail;
+  const emotionKeys = emotions && emotions[emotionModelKey] ? Object.keys(emotions[emotionModelKey]) : [];
+  const log = false;
+  let graphType = 'within5';
+  let totalNum = 0;
+  let maxNum = 0;
+  let graphMaxNum = 0;
+  let rateMax = 0;
+  let rateOne = 0;
+  let rateMap = {};
+  let graphRateMap = [];
+  let data = [];
+
+  // 合計数と各指標の数値を取得
+  emotionKeys.forEach((emotionKey) => {
+    const num = emotions[emotionModelKey][emotionKey];
+    if (maxNum < num) maxNum = num;
+    if (num > 5) graphType = 'over5';
+    rateMap[emotionKey] = { num, rate: 0, graphNum: 0 };
+    totalNum = totalNum + num;
+  });
+
+  if (graphType === 'within5') {
+    emotionKeys.forEach((emotionKey) => {
+      const num = emotions[emotionModelKey][emotionKey];
+      data.push(num);
+    });
+  } else {
+    // 合計数と各指標の数値の割合を算出
+    emotionKeys.forEach((emotionKey) => {
+      const { num } = rateMap[emotionKey];
+      rateMap[emotionKey].rate = Math.round((num / totalNum) * calcRate) / calcRate;
+    });
+
+    // グラフの表示最上値を取得
+    graphMaxNum = Emotions.getGraphMaxNum(emotionModelKey, totalNum, true);
+    rateMax = Math.round((maxNum / totalNum) * calcRate) / calcRate;
+    rateOne = rateMax / graphMaxNum;
+    rateOne = Math.round(rateOne * calcRate) / calcRate;
+
+    for (
+      let ratePointLimit = rateOne;
+      ratePointLimit <= rateMax;
+      ratePointLimit = Math.round((ratePointLimit + rateOne) * calcRate) / calcRate
+    ) {
+      graphRateMap.push(ratePointLimit);
+    }
+
+    if (graphRateMap.length < graphMaxNum) {
+      graphRateMap.push(rateMax);
+    }
+
+    emotionKeys.forEach((emotionKey) => {
+      const { rate } = rateMap[emotionKey];
+      let assignedFlg = false;
+      for (let graphIndex = 0; graphIndex < graphMaxNum; graphIndex++) {
+        const graphRate = graphRateMap[graphIndex];
+
+        if (rate < graphRate) {
+          rateMap[emotionKey].graphNum = graphIndex;
+          data.push(graphIndex);
+          assignedFlg = true;
+          break;
+        }
+
+        if (graphIndex === graphMaxNum - 1) {
+          if (!assignedFlg) {
+            data.push(graphIndex);
+          }
+        }
+      }
+    });
+  }
+
+  if (log) {
+    console.log('RESULT @@@@@@@@@@@@@@@@@@@@@ ' + graphType);
+    console.log('totalNum ' + totalNum);
+    console.log('maxNum ' + maxNum);
+    console.log('graphMaxNum ' + graphMaxNum);
+    console.log('rateMax ' + rateMax);
+    console.log('rateOne ' + rateOne);
+    console.log('rateMap ');
+    console.log(rateMap);
+    console.log('graphRateMap ');
+    console.log(graphRateMap);
+    console.log('russellSimple ');
+    console.log(emotions.russellSimple);
+    console.log('data ');
+    console.log(data);
+  }
+
+  return { emotionModelKey, totalNum, data };
+};
+
 const Component: React.FC<Props> = ({ isModal = false, state, handleOnClickToggleTuneModal }: Props) => {
   const { detailMode, layout } = useGlobalContext();
-  const { threadDetail } = state;
+  const { app, threadDetail } = state;
   const { serverMetas } = threadDetail;
   const scrollXRef = useRef(null);
   const [isShowCh, setIsShowh] = useState(true);
   const [mouseOverHeader, setMouseOverHeader] = useState(false);
   const [scrollXIndex, setScrollXIndex] = useState(0);
+  const { emotionModelKey, totalNum, data } = getGraphDatas(threadDetail);
+
+  const chartData: ChartData<'radar', number[], string> = {
+    labels: ['Excite', 'Happy', 'Joy', 'Relax', 'Slack', 'Melancholy', 'Anger', 'Worry&Fear'],
+    datasets: [
+      {
+        fill: true,
+        data,
+        backgroundColor: 'rgba(59,154,139,0.2)',
+        borderColor: 'rgba(59,154,139,1)',
+        borderWidth: 1,
+
+        pointBackgroundColor: 'rgba(59,154,139,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(59,154,139,1)',
+      },
+    ],
+  };
+
+  const chartOptions: ChartProps<'radar', number[], string>['options'] = {
+    scales: {
+      r: {
+        min: 0,
+        max: 5,
+        pointLabels: {
+          display: detailMode === detailModeExpand,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    animation: {
+      duration: 300,
+    },
+  };
+
   const handleOnClickHeader = ({ target }: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const elm = target as HTMLElement;
     if (!Array.from(elm.classList).includes('ch')) {
@@ -74,7 +222,9 @@ const Component: React.FC<Props> = ({ isModal = false, state, handleOnClickToggl
           onMouseLeave={handleOnMouseLeave}>
           <div ref={scrollXRef} css={styles.contents(serverMetas['og:image'], isModal, detailMode)} onScroll={handleOnScrollX}>
             <div className="ogpImage" />
-            <div className="graph" />
+            <div className="graph">
+              <Radar data={chartData} options={chartOptions} />
+            </div>
           </div>
           <div className="ch" css={styles.ch(isModal, detailMode, mouseOverHeader, isShowCh)} onClick={handleOnClickToggleTuneModal}>
             {threadDetail.ch}
@@ -162,6 +312,9 @@ const styles = {
     }
     .ogpImage,
     .graph {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100%;
       min-width: 100%;
       height: 100%;

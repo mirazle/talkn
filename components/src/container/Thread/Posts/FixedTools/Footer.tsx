@@ -19,6 +19,7 @@ const regex = /^\s*$/;
 const Component: React.FC<Props> = ({ icon, postTextareaRef }: Props) => {
   const { doms, bools, setAction } = useGlobalContext();
   const textareaElm = doms.postTextarea;
+
   const [isShow, setIsShow] = useState(false);
   const [isAnimation, setIsAnimations] = useState(false);
   const [isHoverButton, setIsHoverButton] = useState(false);

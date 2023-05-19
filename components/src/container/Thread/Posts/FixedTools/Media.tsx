@@ -19,14 +19,14 @@ const Component: React.FC<Props> = ({ ch, findType, state }) => {
   if (findType === Thread.findTypeMusic) {
     return (
       <div css={styles.container(layout.isSpLayout, bools.screenScrolling, bools.openMenu)}>
-        <audio src={audios[0].src} controls />
+        <audio src={audios[0] && audios[0].src} controls />
       </div>
     );
   }
   if (findType === Thread.findTypeVideo) {
     return (
       <div css={styles.container(layout.isSpLayout, bools.screenScrolling, bools.openMenu)}>
-        <video src={videos[0].src} controls />
+        <video src={videos[0] && videos[0].src} controls />
       </div>
     );
   }

@@ -14,6 +14,7 @@ import Post from './Post';
 
 type Props = {
   handleOnClickToggleTuneModal: () => void;
+  screenRef: any;
   postsRef: any;
   postTextareaRef: any;
 } & AppProps;
@@ -25,8 +26,17 @@ const NoPost: React.FC = () => (
   </li>
 );
 
-const Component: React.FC<Props> = ({ bootOption, api, state, root, postsRef, postTextareaRef, handleOnClickToggleTuneModal }) => {
-  const { bools, doms, postsTimeline, setDoms, setScrollTop } = useGlobalContext();
+const Component: React.FC<Props> = ({
+  bootOption,
+  api,
+  state,
+  root,
+  postsRef,
+  screenRef,
+  postTextareaRef,
+  handleOnClickToggleTuneModal,
+}) => {
+  const { bools, doms, postsTimeline, setScrollTop } = useGlobalContext();
   const handleOnScroll = ({ target }: React.UIEvent<HTMLElement, UIEvent>) => {
     const postsOlElm = target as HTMLElement;
     setScrollTop(postsOlElm.scrollTop);
@@ -41,6 +51,8 @@ const Component: React.FC<Props> = ({ bootOption, api, state, root, postsRef, po
 
       <FixedTools
         bootOption={bootOption}
+        screenRef={screenRef}
+        postsRef={postsRef}
         postTextareaRef={postTextareaRef}
         api={api}
         state={state}

@@ -8,8 +8,8 @@ import Thread from 'api/store/Thread';
 
 import SymbolCh from 'components/atomicDesign/atoms/SymbolCh';
 import { Props as AppProps } from 'components/container/Thread/App';
-import { StateType } from 'components/container/Thread/App';
 import { useGlobalContext, actions } from 'components/container/Thread/GlobalContext';
+import { init as domsInit } from 'components/container/Thread/GlobalContext/hooks/doms';
 import { MenuModeType } from 'components/container/Thread/GlobalContext/hooks/menu/mode';
 import Flex from 'components/flexes';
 import { animations, emotions, colors, dropFilter, layouts } from 'components/styles';
@@ -19,7 +19,7 @@ import Label from '../../Menu/Label';
 
 export const Input: React.FC<AppProps> = ({ root, state }) => {
   const { thread } = state;
-  const { bootOption, doms, setAction } = useGlobalContext();
+  const { bootOption, doms, setAction, setIsTune } = useGlobalContext();
   const [inputCh, setInputCh] = useState(thread.ch);
   const [inputFindType, setInputFindType] = useState(String(Thread.findTypeAll));
 
@@ -29,7 +29,10 @@ export const Input: React.FC<AppProps> = ({ root, state }) => {
     const inputElm = doms.tuneInput as HTMLInputElement;
     inputElm.value = ch;
     root.dataset.ch = ch;
+    setIsTune(false);
     setAction(actions.apiRequestChangeTuning, { className, ch, findType: inputFindType });
+    //setAction(actions.reset);
+    // window.postMessage({ id: bootOption.id, type: bootOption.type, actin: 'load' });
   };
   const handleOnChangeFindType = ({ target: { value } }: React.ChangeEvent<HTMLSelectElement>) => setInputFindType(value);
   const handleOnChangeCh = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => setInputCh(value);
@@ -44,6 +47,7 @@ export const Input: React.FC<AppProps> = ({ root, state }) => {
       </Flex>
 
       <input
+        className="tuneInput"
         css={styles.input('TuneModel')}
         value={inputCh}
         placeholder="Input Favorite Url"
@@ -64,11 +68,14 @@ export const Input: React.FC<AppProps> = ({ root, state }) => {
 type Props = AppProps & {
   ch: string;
   menuMode: MenuModeType;
+  screenRef: any;
+  postsRef: any;
+  postTextareaRef: any;
 };
 
-const Component: React.FC<Props> = ({ state, bootOption, api, ch, root, menuMode }: Props) => {
+const Component: React.FC<Props> = ({ state, bootOption, api, ch, root, menuMode, postTextareaRef, screenRef, postsRef }: Props) => {
   const { thread, ranks } = state;
-  const { bools, doms, setAction } = useGlobalContext();
+  const { bools, doms, setAction, setIsTune } = useGlobalContext();
   const screenElm = doms.screen;
   const screenHeight = screenElm ? screenElm.clientHeight : 0;
 
@@ -87,11 +94,20 @@ const Component: React.FC<Props> = ({ state, bootOption, api, ch, root, menuMode
   const handleOnSubmit = () => {
     const className = root.className;
     const ch = BootOption.getCh(inputCh);
+
     const inputElm = doms.tuneInput as HTMLInputElement;
 
     inputElm.value = ch;
     root.dataset.ch = ch;
+    postTextareaRef.current = null;
+    screenRef.current = null;
+    postsRef.current = null;
+
+    setIsTune(false);
     setAction(actions.apiRequestChangeTuning, { className, ch, findType: inputFindType });
+    //setAction(actions.reset);
+
+    // window.postMessage({ ...bootOption, action: 'load' });
   };
 
   useEffect(() => {

@@ -8,6 +8,7 @@ import Post from 'api/store/Post';
 import Cover from 'components/container/Cover';
 import { Props } from 'components/container/Thread/App';
 import { useGlobalContext, actions, GlobalContext, HookProps } from 'components/container/Thread/GlobalContext';
+import { init as domsInit } from 'components/container/Thread/GlobalContext/hooks/doms';
 import { Type as LayoutType } from 'components/container/Thread/GlobalContext/hooks/layout';
 import { colors, dropFilter, emotions, layouts } from 'components/styles';
 import { animations } from 'components/styles';
@@ -21,8 +22,10 @@ import Posts from './Posts';
 
 const Component: React.FC<Props> = (props) => {
   const { bootOption, api, state, root } = props;
+
   const { app, posts, ranks, thread } = state;
   const globalContext = useGlobalContext();
+
   const {
     action,
     bools,
@@ -106,14 +109,23 @@ const Component: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    if (screenRef.current && postsRef.current && postTextareaRef.current) {
-      setDoms({
-        ...doms,
-        screen: root.querySelector('.screen'),
-        posts: root.querySelector('.PostsOl'),
-        postTextarea: root.querySelector('textarea.postTextarea'),
-      });
-    }
+    console.log(
+      'SETUP TUNE REF',
+      isTune,
+      root.querySelector('.screen'),
+      root.querySelector('.PostsOl'),
+      root.querySelector('textarea.postTextarea'),
+      root.querySelector('input.tuneInput')
+    );
+    //if (screenRef.current && postsRef.current && postTextareaRef.current) {
+    setDoms({
+      ...doms,
+      screen: root.querySelector('.screen'),
+      posts: root.querySelector('.PostsOl'),
+      postTextarea: root.querySelector('textarea.postTextarea'),
+      tuneInput: root.querySelector('input.tuneInput'),
+    });
+    // }
   }, [screenRef.current, postsRef.current, postTextareaRef.current]);
 
   useEffect(() => {
@@ -133,6 +145,7 @@ const Component: React.FC<Props> = (props) => {
           onTransitionEnd={handleOnTransitionEndScreen}>
           <Menu bootOption={bootOption} api={api} state={state} root={root} transitionEndMenuMode={transitionEndMenuMode} />
           <Posts
+            screenRef={screenRef}
             postsRef={postsRef}
             postTextareaRef={postTextareaRef}
             bootOption={bootOption}

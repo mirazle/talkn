@@ -39,10 +39,16 @@ window.talknMediaServer = new MediaServer();
 
 window.onload = () => {
   window.onmessage = (e) => {
-    const { id, type }: MessageClientAndExtType = e.data;
+    const { id, type, appName, action, className, ch } = e.data;
+
     if ((id && type === PostMessage.EXT_TO_CLIENT_TYPE) || type === PostMessage.MEDIA_SERVER_TO_MEDIA_CLIENT_TYPE) {
       if (window.talknComponents[id]) {
         window.talknComponents[id].onMessage(e);
+      }
+    } else if (id && type === define.APP_TYPES.COMPONENTS) {
+      switch (action) {
+        case 'load':
+          Load(className, ch, id);
       }
     }
   };
@@ -53,8 +59,8 @@ window.onload = () => {
   };
 };
 
-export const Load = (publicClassName?: string, ch?: string) => {
-  const reactRoots = getReactRoots(publicClassName, ch);
+export const Load = (publicClassName?: string, ch?: string, reRenderId?: string) => {
+  const reactRoots = getReactRoots(publicClassName, ch, reRenderId);
 
   if (reactRoots.length > 0) {
     reactRoots.forEach((reactRoot, index) => {
@@ -71,37 +77,42 @@ export const Load = (publicClassName?: string, ch?: string) => {
 
       const componentType = className.replace(/^\./, '');
       const ch = reactRoot.dataset && reactRoot.dataset.ch ? reactRoot.dataset.ch : '/';
+      const id = `${index}:${componentType}`;
 
-      renderDom(reactRoot, index + 1, componentType, ch);
+      reactRoot.dataset.talknAppId = id;
+      renderDom(reactRoot, id, componentType, ch);
     });
   } else {
     console.warn('No Talkn Root Components.');
   }
 };
 
-const getReactRoots = (publicClassName?: string, ch?: string): HTMLElement[] => {
+const getReactRoots = (publicClassName?: string, ch?: string, reRenderId?: string): HTMLElement[] => {
   let reactRoots;
-  if (publicClassName && ch) {
-    if (Components[publicClassName]) {
-      reactRoots = document.querySelectorAll(`.${publicClassName}[data-ch="${ch}"]`);
-    }
+  if (reRenderId) {
+    reactRoots = [document.querySelector(`[data-talkn-app-id="${reRenderId}"]`)];
   } else {
-    reactRoots = document.querySelectorAll(publicClassNames.join(','));
+    if (publicClassName && ch) {
+      if (Components[publicClassName]) {
+        reactRoots = document.querySelectorAll(`.${publicClassName}[data-ch="${ch}"]`);
+      }
+    } else {
+      reactRoots = document.querySelectorAll(publicClassNames.join(','));
+    }
   }
   return reactRoots ? reactRoots : [];
 };
 
-const renderDom = async (reactRoot, index, componentType, ch) => {
+const renderDom = async (reactRoot, id, componentType, ch) => {
   let component: React.ReactNode;
   if (ch) {
-    const appId = `${index}:${componentType}:${ch}`;
     const isFullscreen = reactRoot.clientWidth === window.innerWidth && reactRoot.clientHeight === window.innerHeight;
-    const bootOption = new BootOption(appId, appType, { ...bootOptionCustom[componentType], ch });
-    if (!window.talknComponents[appId]) {
-      if (!window.talknComponents[appId]) {
-        window.talknComponents[appId] = new Window(appId, appType, bootOption);
-        window.talknMediaClients[appId] = new MediaClient(window.talknComponents[appId]);
-        await window.talknComponents[appId].boot();
+    const bootOption = new BootOption(id, appType, { ...bootOptionCustom[componentType], ch });
+    if (!window.talknComponents[id]) {
+      if (!window.talknComponents[id]) {
+        window.talknComponents[id] = new Window(id, appType, bootOption);
+        window.talknMediaClients[id] = new MediaClient(window.talknComponents[id]);
+        await window.talknComponents[id].boot();
       }
     }
 
@@ -110,9 +121,9 @@ const renderDom = async (reactRoot, index, componentType, ch) => {
         component = (
           <Components.talknRankOgps
             bootOption={bootOption}
-            api={window.talknComponents[appId].api}
+            api={window.talknComponents[id].api}
             root={reactRoot}
-            state={window.talknComponents[appId].state}
+            state={window.talknComponents[id].state}
           />
         );
         break;
@@ -120,9 +131,9 @@ const renderDom = async (reactRoot, index, componentType, ch) => {
         component = (
           <Components.talknThread
             bootOption={bootOption}
-            api={window.talknComponents[appId].api}
+            api={window.talknComponents[id].api}
             root={reactRoot}
-            state={window.talknComponents[appId].state}
+            state={window.talknComponents[id].state}
           />
         );
         break;
@@ -130,7 +141,7 @@ const renderDom = async (reactRoot, index, componentType, ch) => {
 
     if (component) {
       const root = createRoot(reactRoot);
-      root.render(<Provider store={window.talknComponents[appId].store}>{component}</Provider>);
+      root.render(<Provider store={window.talknComponents[id].store}>{component}</Provider>);
     } else {
       console.warn(`No Component ${componentType}`);
     }

@@ -98,13 +98,13 @@ export default (props: HookProps) => {
       api(method);
     }
   };
-
+  console.log('@@@', action);
   switch (action) {
     case actions.init:
       setIsTune(isTuneInit);
       setLayout(layoutInit);
       setBools(boolsInit);
-      setDoms(domsInit);
+      setDoms({ ...domsInit });
       setMenuRank(menuRanksInit);
       setRankCatched(ranksCatchedInit);
       setPostsTimeline(timelineInit);
@@ -121,6 +121,8 @@ export default (props: HookProps) => {
       break;
     case actions.apiRequestChangeTuning:
       api('untune', bootOption);
+      setIsTune(false);
+      setBools(boolsInit);
       setAction(actions.init, params);
       break;
     case actions.apiRequestFetch:
@@ -135,11 +137,11 @@ export default (props: HookProps) => {
       break;
     case actions.openFooterThread:
       setBools({ ...bools, openFooter: true });
-      // setAction(actions.reset);
+
       break;
     case actions.closeFooterThread:
       setBools({ ...bools, openFooter: false });
-      //setAction(actions.reset);
+
       break;
     case actions.openDetail:
       setBools({ ...bools, openDetail: true });
