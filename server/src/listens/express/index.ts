@@ -339,7 +339,7 @@ class Express {
             includeIframeTag = false;
           }
           hasSlash = ch.lastIndexOf('/') === ch.length - 1;
-          console.log(conf.componentsURL);
+
           res.render('portal/', {
             includeIframeTag,
             ch,
