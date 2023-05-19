@@ -187,7 +187,7 @@ class Express {
         if (req.originalUrl.indexOf('.png') >= 0 || req.originalUrl.indexOf('.svg') >= 0) {
           res.sendFile(conf.serverComponentsPath + '.' + req.originalUrl);
         } else {
-          res.sendFile(conf.serverComponentsPath);
+          res.sendFile(conf.serverComponentsPath + 'talkn.components.js');
         }
 
         break;
