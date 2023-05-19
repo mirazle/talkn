@@ -66,7 +66,7 @@ const Component: React.FC<Props> = (props) => {
   useEffect(() => hook.bools(hookProps), [bools]);
   useEffect(() => hook.doms(hookProps), [doms, state.clientLog.length]);
   useEffect(() => hook.dragX(hookProps), [dragX]);
-  useEffect(() => hook.detailMode(hookProps), [detailMode]);
+  useEffect(() => hook.detailMode(hookProps), [detailMode, layout.isSpLayout, layout.isTabLayout]);
   useEffect(() => hook.menuRank(hookProps), [menuRank]);
   useEffect(() => hook.menuMode(hookProps), [menuMode]);
   useEffect(() => hook.rankCatched(hookProps), [firstRank._id]);
@@ -109,14 +109,6 @@ const Component: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    console.log(
-      'SETUP TUNE REF',
-      isTune,
-      root.querySelector('.screen'),
-      root.querySelector('.PostsOl'),
-      root.querySelector('textarea.postTextarea'),
-      root.querySelector('input.tuneInput')
-    );
     //if (screenRef.current && postsRef.current && postTextareaRef.current) {
     setDoms({
       ...doms,
