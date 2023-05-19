@@ -3,7 +3,7 @@ import styles from 'components/styles';
 
 export const didMount = ({ root, setLayout }: HookProps) => {
   const handleWindowAction = () => {
-    // console.log(root.offsetWidth < styles.layouts.breakSpWidth, root.offsetWidth, styles.layouts.breakSpWidth, root);
+    console.log(root.offsetWidth < styles.layouts.breakSpWidth, root.offsetWidth, styles.layouts.breakSpWidth, root);
     setLayout({
       innerWidth: root.offsetWidth,
       innerHeight: root.offsetHeight,

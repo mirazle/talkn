@@ -98,7 +98,7 @@ export default (props: HookProps) => {
       api(method);
     }
   };
-  console.log('@@@', action);
+
   switch (action) {
     case actions.init:
       setIsTune(isTuneInit);

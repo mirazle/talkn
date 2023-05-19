@@ -118,7 +118,7 @@ const styles = {
     .faviconWrap {
       user-select: none;
       i {
-        user-select: none;
+        user-select: none;www
         ${getFaviconSize(menuMode, transitionEndMenuMode)};
       }
     }
