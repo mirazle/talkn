@@ -107,7 +107,7 @@ const renderDom = async (reactRoot, id, componentType, ch) => {
   let component: React.ReactNode;
   if (ch) {
     const isFullscreen = reactRoot.clientWidth === window.innerWidth && reactRoot.clientHeight === window.innerHeight;
-    const bootOption = new BootOption(id, appType, { ...bootOptionCustom[componentType], ch });
+    const bootOption = new BootOption(id, appType, { ...bootOptionCustom[componentType], ch, isFullscreen });
     if (!window.talknComponents[id]) {
       if (!window.talknComponents[id]) {
         window.talknComponents[id] = new Window(id, appType, bootOption);

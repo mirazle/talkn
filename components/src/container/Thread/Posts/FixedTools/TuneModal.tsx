@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
 
 import BootOption from 'common/BootOption';
+import conf from 'common/conf';
 
 import Thread from 'api/store/Thread';
 
@@ -21,17 +22,19 @@ export const Input: React.FC<AppProps> = ({ root }) => {
   const [inputFindType, setInputFindType] = useState(String(Thread.findTypeAll));
 
   const handleOnSubmit = () => {
-    const className = root.className;
     const ch = BootOption.getCh(inputCh);
-    const inputElm = doms.tuneInput as HTMLInputElement;
-    inputElm.value = ch;
-    root.dataset.ch = ch;
-    setIsTune(false);
+    if (bootOption.isFullscreen) {
+      window.location.href = `https://${conf.domain}${ch}`;
+    } else {
+      const className = root.className;
 
-    setAction(actions.apiRequestChangeTuning, { className, ch, findType: inputFindType });
-    setBootOption({ ...bootOption, ch });
-    //setAction(actions.reset);
-    // window.postMessage({ id: bootOption.id, type: bootOption.type, actin: 'load' });
+      const inputElm = doms.tuneInput as HTMLInputElement;
+      inputElm.value = ch;
+      root.dataset.ch = ch;
+      setIsTune(false);
+      setAction(actions.apiRequestChangeTuning, { className, ch, findType: inputFindType });
+      setBootOption({ ...bootOption, ch });
+    }
   };
   const handleOnChangeFindType = ({ target: { value } }: React.ChangeEvent<HTMLSelectElement>) => setInputFindType(value);
   const handleOnChangeCh = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => setInputCh(value);
