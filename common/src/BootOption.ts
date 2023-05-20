@@ -18,6 +18,7 @@ export type BootOptionParamsType = {
   host?: string;
   mode?: ExtensionModeType;
   isRankDetailMode?: boolean;
+  isFullscreen?: boolean;
 };
 export type BootOptionType = {
   id: string;
@@ -34,6 +35,7 @@ export default class BootOption {
   host: string = location.host;
   extensionMode: ExtensionModeType = BootOption.extensionModeNone;
   isRankDetailMode: boolean = false;
+  isFullscreen: boolean = false;
   defaultProps: BootOptionType = {
     id: '',
     params: {
@@ -54,6 +56,7 @@ export default class BootOption {
     this.hasSlash = params && params.hasSlash !== undefined ? params.hasSlash : BootOption.getLastHasSlach(initialRootCh);
     this.ch = params && params.ch ? params.ch : BootOption.getActiveCh(initialRootCh, firstHasSlash, this.hasSlash);
     this.protocol = params && params.protocol ? params.protocol : BootOption.getProtocol();
+    this.isFullscreen = params && params.isFullscreen ? params.isFullscreen : false;
     this.host = params && params.host ? params.host : location.host;
     this.extensionMode = params && params.mode ? params.mode : BootOption.extensionModeNone;
     this.isRankDetailMode =
