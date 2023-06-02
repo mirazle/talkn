@@ -16,15 +16,4 @@ export const getInit = (root: HTMLElement): Type => {
   return root.clientWidth <= breakTabWidth ? detailModeBar : detailModeExpand;
 };
 
-export default ({ layout, setDetailMode, setMenuMode }: HookProps) => {
-  if (layout.isSpLayout) {
-    setMenuMode(menuModeSmall);
-  }
-  if (layout.isTabLayout) {
-    setDetailMode(detailModeBar);
-  }
-  if (!layout.isTabLayout && !layout.isSpLayout) {
-    setDetailMode(detailModeExpand);
-    setMenuMode(menuModeNormal);
-  }
-};
+export default ({ action, layout, setDetailMode, setMenuMode }: HookProps) => {};

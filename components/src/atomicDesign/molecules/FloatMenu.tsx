@@ -74,7 +74,8 @@ type MenuOlProps = {
 
 const MenuOl = styled.ol<MenuOlProps>`
   position: absolute;
-  ${(props) => (props.show && props.fitRight ? 'right: 0' : 'left: 0')};
+  bottom: ${layouts.blockHeight}px;
+  ${(props) => (props.show && props.fitRight ? 'left: 0' : 'left: 0')};
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { P } from 'cover/flexes';
+import { P } from 'components/flexes';
 
 type Props = {
   ch: string;

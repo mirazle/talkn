@@ -20,6 +20,7 @@ export const init: Type = {
 
 export default ({ doms, layout }: HookProps) => {
   if (layout.isSpLayout) {
+    console.log('SP');
     if (doms.screen) {
       const screenElm = doms.screen;
 
@@ -28,10 +29,25 @@ export default ({ doms, layout }: HookProps) => {
       }
     }
   } else if (layout.isTabLayout) {
+    console.log('TAB');
     if (doms.screen) {
     }
   } else {
+    console.log('PC');
     if (doms.screen) {
     }
   }
 };
+/*
+  if (layout.isSpLayout) {
+    setMenuMode(menuModeSmall);
+  }
+  if (layout.isTabLayout) {
+    setDetailMode(detailModeBar);
+  }
+  if (!layout.isTabLayout && !layout.isSpLayout) {
+    console.log('PC', action);
+    setDetailMode(detailModeExpand);
+    setMenuMode(menuModeNormal);
+  }
+  */

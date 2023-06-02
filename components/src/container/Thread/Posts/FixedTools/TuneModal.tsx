@@ -12,6 +12,7 @@ import { useGlobalContext, actions } from 'components/container/Thread/GlobalCon
 import { MenuModeType } from 'components/container/Thread/GlobalContext/hooks/menu/mode';
 import Flex from 'components/flexes';
 import { animations, emotions, colors, dropFilter, layouts } from 'components/styles';
+import shadow from 'components/styles/shadow';
 
 import close from '../../../../../public/close.svg';
 import Label from '../../Menu/Label';
@@ -189,11 +190,11 @@ const styles = {
       justify-content: center;
       padding: ${layouts.basePadding / 2}px;
       border-radius: 50%;
-      background: ${colors.brighterColor};
+      background: ${colors.whiteColor};
       cursor: pointer;
-      transition: background ${animations.transitionDuration}ms;
+      transition: box-shadow ${animations.transitionDuration}ms;
       :hover {
-        background: ${colors.brightColor};
+        box-shadow: ${shadow.shadowCircleBrighter};
       }
     }
   `,
