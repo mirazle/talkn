@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { FunctionComponent } from 'react';
 import styled, { css } from 'styled-components';
 
-import styles from 'cover/styles';
+import styles from 'components/styles';
 
 type Props = {
   close?: boolean;

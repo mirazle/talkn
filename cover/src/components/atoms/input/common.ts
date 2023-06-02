@@ -1,7 +1,7 @@
 import { css } from 'styled-components';
 
-import styles from 'cover/styles';
-import { getRgbaColor } from 'cover/styles/colors';
+import styles from 'components/styles';
+import { getRgbaColor } from 'components/styles/colors';
 
 styles.getRgbaColor;
 type InputCssType = {

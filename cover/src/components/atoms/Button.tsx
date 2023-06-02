@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { InteractiveProps, flexLayoutCenterPropsInit, boxLayoutPropsInit, BoxLayoutCss } from 'cover/flexes';
-import styles from 'cover/styles';
+import { InteractiveProps, flexLayoutCenterPropsInit, boxLayoutPropsInit, BoxLayoutCss } from 'components/flexes';
+import styles from 'components/styles';
 
 export const buttonThemeHot = styles.hotColor;
 export const buttonThemeFlat = styles.flatColor;

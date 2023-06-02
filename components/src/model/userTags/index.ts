@@ -1,9 +1,9 @@
 import conf from 'common/conf';
 
-import { FixFounderValuesType } from 'cover/model/userTags/Founder';
-import { FixInvestorValuesType } from 'cover/model/userTags/Investor';
-import { FixMemberValuesType } from 'cover/model/userTags/Member';
-import { FixStoryValuesType } from 'cover/model/userTags/Story';
+import { FixFounderValuesType } from 'components/model/userTags/Founder';
+import { FixInvestorValuesType } from 'components/model/userTags/Investor';
+import { FixMemberValuesType } from 'components/model/userTags/Member';
+import { FixStoryValuesType } from 'components/model/userTags/Story';
 
 export type UserTagsType = {
   self: { investor: any[]; founder: any[]; member: any[] };

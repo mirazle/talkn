@@ -35,6 +35,7 @@ const newsURL = `${SUB_DOMAINS.NEWS}.${domain}`;
 const tuneURL = `${SUB_DOMAINS.TUNE}.${domain}`;
 const bannerURL = `${SUB_DOMAINS.BANNER}.${domain}`;
 const transactionURL = `${SUB_DOMAINS.TRANSACTION}.${domain}`;
+const authURL = `${SUB_DOMAINS.AUTH}.${domain}`;
 const assetsImgPath = `${assetsURL}/img/`;
 const assetsCoverPath = `${assetsURL}/cover/`;
 const assetsIconPath = `${assetsURL}/icon/`;
@@ -102,6 +103,7 @@ const conf: any = {
   bannerURL,
   componentsURL,
   transactionURL,
+  authURL,
   assetsImgPath,
   assetsCoverPath,
   assetsIconPath,

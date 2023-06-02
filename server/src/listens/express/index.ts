@@ -128,6 +128,12 @@ class Express {
           res.redirect(`https://${conf.ownURL}`);
         }
         break;
+      case conf.authURL:
+        // CORSを許可する
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+        res.sendFile(conf.serverApiPath + define.talknApiJs);
+        break;
       case conf.bannerURL:
         // CORSを許可する
         res.header('Access-Control-Allow-Origin', '*');

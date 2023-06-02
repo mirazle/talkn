@@ -1,15 +1,18 @@
 import { css } from '@emotion/react';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { Props as AppProps } from 'components/container/Thread/App';
 import { useGlobalContext, actions } from 'components/container/Thread/GlobalContext';
 import { Input } from 'components/container/Thread/Posts/FixedTools/TuneModal';
-import { layouts } from 'components/styles';
+import Account from 'components/container/common/Account';
+import User, { userInit } from 'components/model/User';
+import { layouts, dropFilter, colors } from 'components/styles';
 import animations from 'components/styles/animations';
+import { getFixValuesEmpty } from 'components/utils/userTags';
 
 import Content from './Content';
 
-import { menuModeBar, menuModeNormal, menuModeSmall, MenuModeType } from '../GlobalContext/hooks/menu/mode';
+import { menuModeBar, menuModeNormal, menuModeSmall, menuModeInclude, MenuModeType } from '../GlobalContext/hooks/menu/mode';
 
 type Props = AppProps & {
   transitionEndMenuMode: MenuModeType;
@@ -18,6 +21,8 @@ type Props = AppProps & {
 const Component: React.FC<Props> = ({ api, state, root, transitionEndMenuMode }) => {
   const { bools, bootOption, menuMode, setAction } = useGlobalContext();
   const menuRef = useRef(null);
+  const [myUser, setMyUser] = useState<User>(userInit);
+  const [isMyPage, setIsMyPage] = useState(true);
 
   const handleOnClickMenu = (ch: string) => {
     if (state.thread.ch !== ch) {
@@ -26,40 +31,46 @@ const Component: React.FC<Props> = ({ api, state, root, transitionEndMenuMode })
   };
 
   return (
-    <section className={'Menu'} css={styles.container(bools.openFooter, menuMode)}>
-      <div css={styles.ch(bools.openFooter, menuMode)}>
-        <Input api={api} state={state} bootOption={bootOption} root={root} />
-      </div>
-      <ol css={styles.ol(bools.openFooter, menuMode)} ref={menuRef}>
-        <li className="MenuLi" css={styles.li}>
-          {state.thread && (
-            <Content
-              key={`Tune`}
-              isHighlight={state.thread.ch === state.tuneCh.ch}
-              api={api}
-              data={state.tuneCh}
-              menuMode={menuMode}
-              transitionEndMenuMode={transitionEndMenuMode}
-              label="TUNE"
-              handleOnClickMenu={handleOnClickMenu}
-            />
-          )}
-        </li>
-        {state.ranks.map((rank, i) => (
-          <li className="MenuLi" key={`MenuList${i}`} css={styles.li}>
-            <Content
-              isHighlight={rank.ch === state.thread.ch}
-              api={api}
-              data={rank}
-              menuMode={menuMode}
-              transitionEndMenuMode={transitionEndMenuMode}
-              label={String(i + 1)}
-              handleOnClickMenu={handleOnClickMenu}
-            />
+    <>
+      <section className={'Menu'} css={styles.container(bools.openFooter, menuMode)}>
+        <div css={styles.ch(bools.openFooter, menuMode)}>
+          <Input api={api} state={state} bootOption={bootOption} root={root} />
+        </div>
+        <ol css={styles.ol(bools.openFooter, menuMode)} ref={menuRef}>
+          <li className="MenuLi" css={styles.li}>
+            {state.thread && (
+              <Content
+                key={`Tune`}
+                isHighlight={state.thread.ch === state.tuneCh.ch}
+                api={api}
+                data={state.tuneCh}
+                menuMode={menuMode}
+                transitionEndMenuMode={transitionEndMenuMode}
+                label="TUNE"
+                handleOnClickMenu={handleOnClickMenu}
+              />
+            )}
           </li>
-        ))}
-      </ol>
-    </section>
+          {state.ranks.map((rank, i) => (
+            <li className="MenuLi" key={`MenuList${i}`} css={styles.li}>
+              <Content
+                isHighlight={rank.ch === state.thread.ch}
+                api={api}
+                data={rank}
+                menuMode={menuMode}
+                transitionEndMenuMode={transitionEndMenuMode}
+                label={String(i + 1)}
+                handleOnClickMenu={handleOnClickMenu}
+              />
+            </li>
+          ))}
+        </ol>
+      </section>
+      <footer css={styles.footer(menuMode, transitionEndMenuMode)}>
+        <Account myUser={myUser} setMyUser={setMyUser} setIsMyPage={setIsMyPage} />
+        <div className="name">{myUser.name}</div>
+      </footer>
+    </>
   );
 };
 
@@ -80,6 +91,7 @@ const styles = {
     background: rgba(220, 220, 220, 1);
     border: 0;
     list-style: none;
+    transform: translate(0px, 0px);
     @media (max-width: ${layouts.breakSpWidth}px) {
       width: 82px;
       min-width: 82px;
@@ -100,7 +112,7 @@ const styles = {
   `,
   ol: (isOpenFooter: boolean, menuMode: MenuModeType) => css`
     padding: 0;
-    margin: 0;
+    margin: 0 0 ${layouts.blockHeight}px 0;
   `,
   li: css`
     display: flex;
@@ -109,6 +121,44 @@ const styles = {
     width: 100%;
     height: 100%;
   `,
+  footer: (menuMode: MenuModeType, transitionEndMenuMode: MenuModeType) => css`
+    position: fixed;
+    bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 320px;
+    min-width: 320px;
+    max-width: 320px;
+    height: ${layouts.blockHeight}px;
+    gap: ${layouts.baseSize}px;
+    padding: ${layouts.basePadding}px ${layouts.basePadding}px ${layouts.basePadding}px ${layouts.doublePadding}px;
+    border-top: 1px solid ${colors.borderColor};
+    ${dropFilter.alphaBgSet};
+    color: ${colors.fontColor};
+    .name {
+      display: ${getAccountNameDisplay(menuMode)};
+    }
+    @media (max-width: ${layouts.breakSpWidth}px) {
+      width: 82px;
+      min-width: 82px;
+      max-width: 82px;
+      .name {
+        display: none;
+      }
+    }
+  `,
+};
+
+const getAccountNameDisplay = (menuMode: MenuModeType) => {
+  switch (menuMode) {
+    case menuModeNormal:
+      return `flex`;
+    case menuModeSmall:
+    case menuModeBar:
+    case menuModeInclude:
+      return `none`;
+  }
 };
 
 const getChHeight = (menuMode: MenuModeType) => {

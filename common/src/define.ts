@@ -40,6 +40,7 @@ const define: any = {
     COMPONENTS: 'components',
     TUNE: 'tune',
     TRANSACTION: 'transaction',
+    AUTH: 'auth',
   },
   APP_TYPES: {
     CLIENT: 'CLIENT',

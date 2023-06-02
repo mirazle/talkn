@@ -11,6 +11,7 @@ declare global {
     talknWindow: any;
     talknMediaClients: any;
     talknMediaServer: any;
+    google: any;
     createPaymentRequest: any;
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
   }
