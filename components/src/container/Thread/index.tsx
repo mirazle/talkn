@@ -6,7 +6,7 @@ import Post from 'api/store/Post';
 
 //import Posts from 'api/store/Posts';
 import Cover from 'components/container/Cover';
-import { Props } from 'components/container/Thread/App';
+import { Props, StateType } from 'components/container/Thread/App';
 import { useGlobalContext, actions, GlobalContext, HookProps } from 'components/container/Thread/GlobalContext';
 import { init as domsInit } from 'components/container/Thread/GlobalContext/hooks/doms';
 import { Type as LayoutType } from 'components/container/Thread/GlobalContext/hooks/layout';
@@ -19,6 +19,28 @@ import { menuModeBar, menuModeInclude, menuModeNormal, menuModeSmall, MenuModeTy
 import Header from './Header';
 import Menu from './Menu';
 import Posts from './Posts';
+
+type LoardingCoverProps = {
+  state: StateType;
+  root: HTMLElement;
+};
+
+const LoardingCover: React.FC<LoardingCoverProps> = ({ root, state }) => {
+  return (
+    <Cover
+      root={root}
+      body={
+        <span css={styles.inputWrap}>
+          <br /> <br />
+          <input css={styles.input('')} value={state.thread.ch} readOnly />
+          <br />
+          Tuning..
+          <br /> <br />
+        </span>
+      }
+    />
+  );
+};
 
 const Component: React.FC<Props> = (props) => {
   const { bootOption: bootOptionProps, api, state, root } = props;
@@ -110,7 +132,6 @@ const Component: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    //if (screenRef.current && postsRef.current && postTextareaRef.current) {
     setDoms({
       ...doms,
       screen: root.querySelector('.screen'),
@@ -118,7 +139,6 @@ const Component: React.FC<Props> = (props) => {
       postTextarea: root.querySelector('textarea.postTextarea'),
       tuneInput: root.querySelector('input.tuneInput'),
     });
-    // }
   }, [screenRef.current, postsRef.current, postTextareaRef.current]);
 
   useEffect(() => {
@@ -153,20 +173,7 @@ const Component: React.FC<Props> = (props) => {
         {/*<TuneModal ch={thread.ch} root={root} state={state} bootOption={bootOption} api={api} menuMode={menuMode} />*/}
         <Header bootOption={bootOption} api={api} state={state} root={root} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />
       </section>
-      {!isTune && (
-        <Cover
-          root={root}
-          body={
-            <span css={styles.inputWrap}>
-              <br /> <br />
-              <input css={styles.input('')} value={state.thread.ch} readOnly />
-              <br />
-              Tuning..
-              <br /> <br />
-            </span>
-          }
-        />
-      )}
+      {!isTune && <LoardingCover root={root} state={state} />}
     </div>
   );
 };
