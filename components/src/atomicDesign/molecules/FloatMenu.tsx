@@ -91,5 +91,5 @@ const MenuOl = styled.ol<MenuOlProps>`
   z-index: ${(props) => (props.show ? 1001 : -1)};
   opacity: ${(props) => (props.show ? 1 : 0)};
   transition: transform ${animations.transitionDuration}ms;
-  transform: translateY(${(props) => (props.show && !props.didMount ? 0 : `${layouts.baseSize * 4}px`)});
+  transform: translateY(${(props) => (props.show && !props.didMount ? 0 : `-${layouts.baseSize * 2}px`)});
 `;

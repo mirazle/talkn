@@ -6,7 +6,7 @@ import commonUtil from 'common/util';
 
 import api from 'components/api';
 import Svg from 'components/atomicDesign/atoms/svg';
-import FloatMenu from 'components/atomicDesign/molecules/FloatMenu';
+import AccountMenu from 'components/container/Thread/FixedTools/AccountMenu';
 import Flex from 'components/flexes';
 import { accountMenusLogout, accountMenus, accountMenusMyMenu, accountMenusSelectAccount } from 'components/model/Menu';
 import User from 'components/model/User';
@@ -25,17 +25,15 @@ const getMyUserFromSession = () => {
   return new User(JSON.parse(item));
 };
 
-const Component: React.FC<Props> = ({ myUser, setMyUser }: Props) => {
+const Component: React.FC<Props> = ({ myUser, setMyUser, setIsMyPage }: Props) => {
   const [showMenu, setShowMenu] = useState(false);
 
   const handleOnClickLogin = () => {
     document.cookie = googleAccountCookieKey;
     const myUserSession = getMyUserFromSession();
     if (myUserSession === null || myUserSession.id === '') {
-      console.log('SHOW MENU A');
       window.google.accounts.id.prompt();
     } else {
-      console.log('SHOW MENU B');
       setShowMenu(true);
     }
     if (myUserSession) {
@@ -102,31 +100,7 @@ const Component: React.FC<Props> = ({ myUser, setMyUser }: Props) => {
         )}
       </Container>
 
-      <FloatMenu
-        show={showMenu}
-        setShow={setShowMenu}
-        menus={accountMenus}
-        onClick={(menu) => {
-          const page = location.pathname.split('/')[1];
-          switch (menu) {
-            case accountMenusMyMenu:
-              console.log(myUser.id);
-              //window.location.replace(`//${conf.coverURL}/${page}/${userId}`);
-              break;
-            case accountMenusSelectAccount:
-              window.google.accounts.id.prompt();
-              break;
-            case accountMenusLogout:
-              window.google.accounts.id.disableAutoSelect();
-              document.cookie = googleAccountCookieKey;
-              localStorage.removeItem(myUserKey);
-              window.location.reload();
-              break;
-          }
-          setShowMenu(false);
-        }}
-        fitRight
-      />
+      <AccountMenu myUser={myUser} setMyUser={setMyUser} setIsMyPage={setIsMyPage} />
     </>
   );
 };
