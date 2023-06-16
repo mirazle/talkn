@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import conf from 'common/conf';
@@ -6,9 +6,7 @@ import commonUtil from 'common/util';
 
 import api from 'components/api';
 import Svg from 'components/atomicDesign/atoms/svg';
-import AccountMenu from 'components/container/Thread/FixedTools/AccountMenu';
 import Flex from 'components/flexes';
-import { accountMenusLogout, accountMenus, accountMenusMyMenu, accountMenusSelectAccount } from 'components/model/Menu';
 import User from 'components/model/User';
 import { myUserKey, googleAccountCookieKey } from 'components/utils/constants/storage';
 
@@ -16,6 +14,7 @@ import env from '../../../env.json';
 
 type Props = {
   myUser: User;
+  setShowUserMenu: React.Dispatch<React.SetStateAction<boolean>>;
   setMyUser: React.Dispatch<React.SetStateAction<User>>;
   setIsMyPage: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -25,16 +24,14 @@ const getMyUserFromSession = () => {
   return new User(JSON.parse(item));
 };
 
-const Component: React.FC<Props> = ({ myUser, setMyUser, setIsMyPage }: Props) => {
-  const [showMenu, setShowMenu] = useState(false);
-
+const Component: React.FC<Props> = ({ myUser, setShowUserMenu, setMyUser, setIsMyPage }: Props) => {
   const handleOnClickLogin = () => {
     document.cookie = googleAccountCookieKey;
     const myUserSession = getMyUserFromSession();
     if (myUserSession === null || myUserSession.id === '') {
       window.google.accounts.id.prompt();
     } else {
-      setShowMenu(true);
+      setShowUserMenu(true);
     }
     if (myUserSession) {
       setMyUser(myUserSession);
@@ -89,19 +86,15 @@ const Component: React.FC<Props> = ({ myUser, setMyUser, setIsMyPage }: Props) =
   }, []);
 
   return (
-    <>
-      <Container className="Account" onClick={handleOnClickLogin}>
-        {myUser.snsIcon === '' ? (
-          <Login alignItems="center" justifyContent="center" width="48px" height="48px" border borderRadius="circle">
-            <Svg.Google />
-          </Login>
-        ) : (
-          <MyAccountIcon className="MyAccount" backgroundImage={myUser.snsIcon} />
-        )}
-      </Container>
-
-      <AccountMenu myUser={myUser} setMyUser={setMyUser} setIsMyPage={setIsMyPage} />
-    </>
+    <Container className="Account" onClick={handleOnClickLogin}>
+      {myUser.snsIcon === '' ? (
+        <Login alignItems="center" justifyContent="center" width="48px" height="48px" border borderRadius="circle">
+          <Svg.Google />
+        </Login>
+      ) : (
+        <MyAccountIcon className="MyAccount" backgroundImage={myUser.snsIcon} />
+      )}
+    </Container>
   );
 };
 

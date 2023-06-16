@@ -8,16 +8,15 @@ import { myUserKey, googleAccountCookieKey } from 'components/utils/constants/st
 
 type Props = {
   myUser: User;
-  setMyUser: React.Dispatch<React.SetStateAction<User>>;
-  setIsMyPage: React.Dispatch<React.SetStateAction<boolean>>;
+  showUserMenu: boolean;
+  setShowUserMenu: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const Component: React.FC<Props> = ({ myUser, setMyUser }: Props) => {
-  const [showMenu, setShowMenu] = useState(false);
+const Component: React.FC<Props> = ({ showUserMenu, myUser, setShowUserMenu }: Props) => {
   return (
     <FloatMenu
-      show={showMenu}
-      setShow={setShowMenu}
+      show={showUserMenu}
+      setShow={setShowUserMenu}
       menus={accountMenus}
       onClick={(menu) => {
         const page = location.pathname.split('/')[1];
@@ -36,7 +35,7 @@ const Component: React.FC<Props> = ({ myUser, setMyUser }: Props) => {
             window.location.reload();
             break;
         }
-        setShowMenu(false);
+        setShowUserMenu(false);
       }}
       fitRight
     />
