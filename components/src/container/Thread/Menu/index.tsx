@@ -2,8 +2,8 @@ import { css } from '@emotion/react';
 import React, { useRef, useState } from 'react';
 
 import { Props as AppProps } from 'components/container/Thread/App';
+import { Input } from 'components/container/Thread/FixedTools/TuneModal';
 import { useGlobalContext, actions } from 'components/container/Thread/GlobalContext';
-import { Input } from 'components/container/Thread/Posts/FixedTools/TuneModal';
 import Account from 'components/container/common/Account';
 import User, { userInit } from 'components/model/User';
 import { layouts, dropFilter, colors } from 'components/styles';
@@ -15,14 +15,17 @@ import Content from './Content';
 import { menuModeBar, menuModeNormal, menuModeSmall, menuModeInclude, MenuModeType } from '../GlobalContext/hooks/menu/mode';
 
 type Props = AppProps & {
+  myUser: User;
+  isMyPage: boolean;
+  setShowUserMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  setMyUser: React.Dispatch<React.SetStateAction<User>>;
+  setIsMyPage: React.Dispatch<React.SetStateAction<boolean>>;
   transitionEndMenuMode: MenuModeType;
 };
 
-const Component: React.FC<Props> = ({ api, state, root, transitionEndMenuMode }) => {
+const Component: React.FC<Props> = ({ api, state, root, myUser, setShowUserMenu, setMyUser, setIsMyPage, transitionEndMenuMode }) => {
   const { bools, bootOption, menuMode, setAction } = useGlobalContext();
   const menuRef = useRef(null);
-  const [myUser, setMyUser] = useState<User>(userInit);
-  const [isMyPage, setIsMyPage] = useState(true);
 
   const handleOnClickMenu = (ch: string) => {
     if (state.thread.ch !== ch) {
@@ -67,7 +70,7 @@ const Component: React.FC<Props> = ({ api, state, root, transitionEndMenuMode })
         </ol>
       </section>
       <footer css={styles.footer(menuMode, transitionEndMenuMode)}>
-        <Account myUser={myUser} setMyUser={setMyUser} setIsMyPage={setIsMyPage} />
+        <Account myUser={myUser} setShowUserMenu={setShowUserMenu} setMyUser={setMyUser} setIsMyPage={setIsMyPage} />
         <div className="name">{myUser.name}</div>
       </footer>
     </>
@@ -131,13 +134,14 @@ const styles = {
     min-width: 320px;
     max-width: 320px;
     height: ${layouts.blockHeight}px;
-    gap: ${layouts.baseSize}px;
+    gap: ${layouts.doubleSize}px;
     padding: ${layouts.basePadding}px ${layouts.basePadding}px ${layouts.basePadding}px ${layouts.doublePadding}px;
     border-top: 1px solid ${colors.borderColor};
     ${dropFilter.alphaBgSet};
     color: ${colors.fontColor};
     .name {
       display: ${getAccountNameDisplay(menuMode)};
+      letter-spacing: 1px;
     }
     @media (max-width: ${layouts.breakSpWidth}px) {
       width: 82px;

@@ -7,6 +7,7 @@ import Favicon from 'components/atomicDesign/atoms/Favicon';
 import LiveCnt from 'components/atomicDesign/atoms/LiveCnt';
 import { getStampLabel } from 'components/container/Thread/Posts/Post';
 import { animations, colors } from 'components/styles';
+import layouts from 'components/styles/layouts';
 
 import Label from './Label';
 
@@ -78,7 +79,7 @@ const styles = {
     justify-content: flex-start;
     width: 100%;
     height: inherit;
-    padding: 0 8px 0 0;
+    padding: 0 16px 0 0;
     cursor: pointer;
     background: ${isHighlight || isMouseOver ? 'rgba(255, 255, 255, 1)' : 'rgba(230, 230, 230, 1)'};
     border-bottom: 1px solid rgba(220, 220, 220, 1);

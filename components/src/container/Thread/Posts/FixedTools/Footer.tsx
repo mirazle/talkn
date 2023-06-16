@@ -147,7 +147,7 @@ const styles = {
   `,
   button: (isHoverButton: boolean) => css`
     position: fixed;
-    right: ${spaceSize}px;
+    right: ${spaceSize / 2}px;
     bottom: ${spaceSize}px;
     display: flex;
     align-items: center;

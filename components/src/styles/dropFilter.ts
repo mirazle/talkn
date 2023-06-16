@@ -6,6 +6,16 @@ export const alphaBgSet = `
     backdrop-filter: blur(5px);
 `;
 
+export const alphaMenuUnactiveBgSet = `
+    background: rgba(232, 232, 232, 0.9);
+    backdrop-filter: blur(5px);
+`;
+
+export const alphaMenuHoverBgSet = `
+    background: rgba(250, 250, 250, 0.9);
+    backdrop-filter: blur(5px);
+`;
+
 export const alphaLightBgSet = `
     background: ${getRgba(colors.whiteRgb)};
     backdrop-filter: blur(2.5px);
@@ -38,6 +48,9 @@ export const getBackdropFilter = (props: { isHover: boolean }): string => {
 
 export default {
   alphaBgSet,
+  alphaMenuUnactiveBgSet,
+  alphaMenuHoverBgSet,
+  alphaDarkBgSet,
   alphaLightBgSet,
   beforeBlur,
   getBackdropFilter,

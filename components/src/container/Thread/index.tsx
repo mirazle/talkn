@@ -8,12 +8,13 @@ import Post from 'api/store/Post';
 import Cover from 'components/container/Cover';
 import { Props, StateType } from 'components/container/Thread/App';
 import { useGlobalContext, actions, GlobalContext, HookProps } from 'components/container/Thread/GlobalContext';
-import { init as domsInit } from 'components/container/Thread/GlobalContext/hooks/doms';
 import { Type as LayoutType } from 'components/container/Thread/GlobalContext/hooks/layout';
+import User, { userInit } from 'components/model/User';
 import { colors, dropFilter, emotions, layouts } from 'components/styles';
 import { animations } from 'components/styles';
 
 import Detail from './Detail';
+import FixedTools from './FixedTools';
 import hook from './GlobalContext/hooks';
 import { menuModeBar, menuModeInclude, menuModeNormal, menuModeSmall, MenuModeType } from './GlobalContext/hooks/menu/mode';
 import Header from './Header';
@@ -102,7 +103,11 @@ const Component: React.FC<Props> = (props) => {
   useEffect(() => hook.uiTimeMarker(hookProps), [uiTimeMarker.now.label, uiTimeMarker]);
   useEffect(() => hook.didMount(hookProps), []);
 
+  const [myUser, setMyUser] = useState<User>(userInit);
+  const [isMyPage, setIsMyPage] = useState(true);
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const [transitionEndMenuMode, setTransitionEndMenuMode] = useState<MenuModeType>(menuMode);
+
   const handleOnScroll = ({ target }: React.UIEvent<HTMLDivElement, UIEvent>) => {
     const screenElm = target as HTMLDivElement;
     setScrollLeft(screenElm.scrollLeft);
@@ -156,7 +161,18 @@ const Component: React.FC<Props> = (props) => {
           ref={screenRef}
           onScroll={handleOnScroll}
           onTransitionEnd={handleOnTransitionEndScreen}>
-          <Menu bootOption={bootOption} api={api} state={state} root={root} transitionEndMenuMode={transitionEndMenuMode} />
+          <Menu
+            bootOption={bootOption}
+            api={api}
+            state={state}
+            root={root}
+            myUser={myUser}
+            isMyPage={isMyPage}
+            transitionEndMenuMode={transitionEndMenuMode}
+            setShowUserMenu={setShowUserMenu}
+            setMyUser={setMyUser}
+            setIsMyPage={setIsMyPage}
+          />
           <Posts
             screenRef={screenRef}
             postsRef={postsRef}
@@ -170,7 +186,19 @@ const Component: React.FC<Props> = (props) => {
           {!layout.isSpLayout && <Detail isModal={false} {...props} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />}
         </div>
 
-        {/*<TuneModal ch={thread.ch} root={root} state={state} bootOption={bootOption} api={api} menuMode={menuMode} />*/}
+        <FixedTools
+          ch={state.thread.ch}
+          screenRef={screenRef}
+          postsRef={postsRef}
+          postTextareaRef={postTextareaRef}
+          api={api}
+          state={state}
+          root={root}
+          bootOption={bootOption}
+          myUser={myUser}
+          showUserMenu={showUserMenu}
+          setShowUserMenu={setShowUserMenu}
+        />
         <Header bootOption={bootOption} api={api} state={state} root={root} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />
       </section>
       {!isTune && <LoardingCover root={root} state={state} />}

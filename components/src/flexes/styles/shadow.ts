@@ -14,6 +14,7 @@ export const shadowHorizonBrighter = `${shadowHorizon} ${getRgbColor(colors.brig
 export const shadowHorizonBright = `${shadowHorizon} ${getRgbColor(colors.brightRgb)}`;
 export const shadowHorizonBase = `${shadowHorizon} ${getRgbColor(colors.baseRgb)}`;
 export const shadowHorizonDark = `${shadowHorizon} ${getRgbColor(colors.darkRgb)}`;
+export const shadowDetailMenu = `0px -10px 50px 0px rgb(180, 180, 180) inset`;
 
 export default {
   shadowSize,
@@ -26,4 +27,5 @@ export default {
   shadowHorizonBright,
   shadowHorizonBase,
   shadowHorizonDark,
+  shadowDetailMenu,
 };

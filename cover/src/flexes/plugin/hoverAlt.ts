@@ -12,13 +12,13 @@ export const getHoverAltCss = (props) => {
     if (typeof props.alt === 'string') {
       att = 'before';
       horizon = 'bottom: 100%';
-      vertical = 'left: 0';
+      vertical = 'left: unset';
       content = props.alt;
       translateY = -8;
     } else if (typeof props.alt.label === 'string' && props.alt.type && props.alt.type !== '') {
       att = props.alt.type.indexOf('upper') === 0 ? 'before' : 'after';
       horizon = att === 'before' ? 'bottom: 100%' : 'top: 100%';
-      vertical = props.alt.type.indexOf('right') > 0 ? 'right: 0' : 'left: 0';
+      vertical = props.alt.type.indexOf('right') > 0 ? 'right: unset' : 'left: unset';
       content = props.alt.label;
       translateY = att === 'before' ? -8 : 8;
     } else {
@@ -47,7 +47,7 @@ export const getHoverAltCss = (props) => {
         color: #fff;
         font-size: 75%;
         box-shadow: none;
-        border-radius: 8px;
+        border-radius: 6px;
         content: '';
         text-align: left;
         white-space: normal;
@@ -72,7 +72,7 @@ export const getHoverAltCss = (props) => {
           color: #fff;
           font-size: 75%;
           box-shadow: ${styles.shadowHorizonBase};
-          border-radius: 8px;
+          border-radius: 6px;
           content: '${content}';
           text-align: left;
           white-space: normal;

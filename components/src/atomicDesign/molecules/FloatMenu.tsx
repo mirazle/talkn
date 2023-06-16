@@ -13,6 +13,7 @@ type Props = {
   onClick: (menu: string) => void;
   fitRight?: boolean;
   label?: React.ReactNode;
+  showBackground?: boolean;
 } & BoxLayoutPropsType &
   FlexBoxLayoutPropsType;
 
@@ -20,7 +21,7 @@ const modalContainerClassName = 'FloatMenuContainer';
 
 const Component: FunctionComponent<Props> = (props: Props) => {
   const [didMount, setDidMount] = useState(false);
-  const p: Props = { ...boxLayoutPropsInit, ...flexLayoutPropsInit, fitRight: false, ...props };
+  const p: Props = { ...boxLayoutPropsInit, ...flexLayoutPropsInit, fitRight: false, showBackground: false, ...props };
 
   useEffect(() => {
     setDidMount(p.show);
@@ -28,7 +29,7 @@ const Component: FunctionComponent<Props> = (props: Props) => {
 
   return (
     <>
-      <Background show={p.show} onClick={() => p.setShow(false)} />
+      <Background show={p.show} showBackground={p.showBackground} onClick={() => p.setShow(false)} />
       <Flex flow="column nowrap" className={modalContainerClassName}>
         {p.label && <Label onClick={() => p.setShow(true)}>{p.label}</Label>}
         {p.show && (
@@ -51,19 +52,22 @@ export default Component;
 
 type BackgroundTypeProps = {
   show: boolean;
+  showBackground: boolean;
 };
 
 const Background = styled.div<BackgroundTypeProps>`
   position: fixed;
   top: 0;
   left: 0;
-  display: ${(props) => (props.show ? 'flex' : 'none')};
+  display: ${(props) => (props.show ? 'flex' : 'flex')};
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  background: ${(props) => (props.showBackground ? colors.fullBackgroundColor : 'none')};
   z-index: ${(props) => (props.show ? 1000 : -1)};
   opacity: ${(props) => (props.show ? 1 : 0)};
+  transition: opacity ${animations.transitionDuration}ms;
 `;
 
 type MenuOlProps = {
