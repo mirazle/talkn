@@ -55,7 +55,7 @@ const Component: React.FC<Props> = (props) => {
     bootOption,
     isTune,
     menuMode,
-    detailMode,
+    detailTransformMode,
     layout,
     dragX,
     postsTimeline,
@@ -90,7 +90,7 @@ const Component: React.FC<Props> = (props) => {
   useEffect(() => hook.bools(hookProps), [bools]);
   useEffect(() => hook.doms(hookProps), [doms, state.clientLog.length]);
   useEffect(() => hook.dragX(hookProps), [dragX]);
-  useEffect(() => hook.detailMode(hookProps), [detailMode, layout.isSpLayout, layout.isTabLayout]);
+  useEffect(() => hook.detailTransformMode(hookProps), [detailTransformMode, layout.isSpLayout, layout.isTabLayout]);
   useEffect(() => hook.menuRank(hookProps), [menuRank]);
   useEffect(() => hook.menuMode(hookProps), [menuMode]);
   useEffect(() => hook.rankCatched(hookProps), [firstRank._id]);
