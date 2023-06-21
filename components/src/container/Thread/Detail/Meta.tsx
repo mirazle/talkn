@@ -5,7 +5,7 @@ import { Radar, ChartProps } from 'react-chartjs-2';
 
 import Emotions from 'common/emotions/index';
 
-import { detailModeExpand, detailModeBar, DetailModeType } from 'components/container/Thread//GlobalContext/hooks/detail/mode';
+import { detailModeExpand, detailModeBar, DetailModeType } from 'components/container/Thread//GlobalContext/hooks/detail/transformMode';
 import { animations, layouts } from 'components/styles';
 import colors from 'components/styles/colors';
 
@@ -127,12 +127,12 @@ const getGraphDatas = (threadDetail) => {
 
 type Props = {
   isModal: boolean;
-  detailMode: DetailModeType;
+  detailTransformMode: DetailModeType;
   threadDetail: any;
   handleOnClickToggleTuneModal: () => void;
 };
 
-const Component: React.FC<Props> = ({ isModal, detailMode, threadDetail, handleOnClickToggleTuneModal }) => {
+const Component: React.FC<Props> = ({ isModal, detailTransformMode, threadDetail, handleOnClickToggleTuneModal }) => {
   const scrollXRef = useRef(null);
   const [isShowCh, setIsShowh] = useState(true);
   const [mouseOverHeader, setMouseOverHeader] = useState(false);
@@ -164,7 +164,7 @@ const Component: React.FC<Props> = ({ isModal, detailMode, threadDetail, handleO
         min: 0,
         max: 5,
         pointLabels: {
-          display: detailMode === detailModeExpand,
+          display: detailTransformMode === detailModeExpand,
         },
       },
     },
@@ -215,27 +215,27 @@ const Component: React.FC<Props> = ({ isModal, detailMode, threadDetail, handleO
   return (
     <>
       <header
-        css={styles.header(isModal, detailMode)}
+        css={styles.header(isModal, detailTransformMode)}
         onClick={handleOnClickHeader}
         onMouseOver={handleOnMouseOver}
         onMouseLeave={handleOnMouseLeave}>
-        <div ref={scrollXRef} css={styles.contents(serverMetas['og:image'], isModal, detailMode)} onScroll={handleOnScrollX}>
+        <div ref={scrollXRef} css={styles.contents(serverMetas['og:image'], isModal, detailTransformMode)} onScroll={handleOnScrollX}>
           <div className="ogpImage" />
           <div className="graph">
             <Radar data={chartData} options={chartOptions} />
           </div>
         </div>
-        <div className="ch" css={styles.ch(isModal, detailMode, mouseOverHeader, isShowCh)} onClick={handleOnClickToggleTuneModal}>
+        <div className="ch" css={styles.ch(isModal, detailTransformMode, mouseOverHeader, isShowCh)} onClick={handleOnClickToggleTuneModal}>
           {threadDetail.ch}
         </div>
       </header>
-      <div css={styles.tips(isModal, detailMode, scrollXIndex)}>
+      <div css={styles.tips(isModal, detailTransformMode, scrollXIndex)}>
         <span className="ogpImageTip" onClick={handleOnClickTips} />
         <span className="graphTip" onClick={handleOnClickTips} />
       </div>
-      <div css={styles.body(isModal, detailMode)}>
-        <div css={styles.description(isModal, detailMode)}>{serverMetas['description']}</div>
-        <ul css={styles.share(isModal, detailMode)}>
+      <div css={styles.body(isModal, detailTransformMode)}>
+        <div css={styles.description(isModal, detailTransformMode)}>{serverMetas['description']}</div>
+        <ul css={styles.share(isModal, detailTransformMode)}>
           <li>{getShareImg('twitter', threadDetail)}</li>
           <li>{getShareImg('facebook', threadDetail)}</li>
           <li>{getShareImg('instagram', threadDetail)}</li>
@@ -245,7 +245,7 @@ const Component: React.FC<Props> = ({ isModal, detailMode, threadDetail, handleO
           <li>{getShareImg('home', threadDetail)}</li>
           <li>{getShareImg('mail', threadDetail)}</li>
         </ul>
-        <div css={styles.contentType(isModal, detailMode)}>
+        <div css={styles.contentType(isModal, detailTransformMode)}>
           <label>{threadDetail.contentType && threadDetail.contentType.replace(/;.*$/, '')}</label>
         </div>
       </div>
@@ -258,16 +258,16 @@ export default Component;
 const tipSize = 16;
 
 const styles = {
-  header: (isModal: boolean, detailMode: DetailModeType) => css`
+  header: (isModal: boolean, detailTransformMode: DetailModeType) => css`
     overflow: hidden;
     width: 100%;
     min-width: 100%;
-    ${getHeaderHeights(isModal, detailMode)};
+    ${getHeaderHeights(isModal, detailTransformMode)};
     border-bottom: 1px solid ${colors.borderColor};
     transition: height ${animations.transitionDuration}ms, min-height ${animations.transitionDuration}ms;
     transform: translate(0px, 0px);
   `,
-  contents: (image, isModal: boolean, detailMode: DetailModeType) => css`
+  contents: (image, isModal: boolean, detailTransformMode: DetailModeType) => css`
     overflow-x: scroll;
     overflow-y: hidden;
     display: flex;
@@ -299,8 +299,8 @@ const styles = {
       background-position: center;
     }
   `,
-  ch: (isModal: boolean, detailMode: DetailModeType, mouseOverHeader: boolean, isShowCh: boolean) => css`
-    display: ${detailMode === detailModeExpand || isModal ? 'block' : 'none'};
+  ch: (isModal: boolean, detailTransformMode: DetailModeType, mouseOverHeader: boolean, isShowCh: boolean) => css`
+    display: ${detailTransformMode === detailModeExpand || isModal ? 'block' : 'none'};
     overflow-x: scroll;
     overflow-y: hidden;
     position: absolute;
@@ -329,8 +329,8 @@ const styles = {
       box-shadow: 0px 3px 3px 0px rgb(0, 0, 0, 0.4);
     }
   `,
-  tips: (isModal: boolean, detailMode: DetailModeType, scrollXIndex: number) => {
-    const tipsSize = getTipsSize(isModal, detailMode);
+  tips: (isModal: boolean, detailTransformMode: DetailModeType, scrollXIndex: number) => {
+    const tipsSize = getTipsSize(isModal, detailTransformMode);
     return css`
       display: flex;
       flex-flow: row nowrap;
@@ -367,25 +367,26 @@ const styles = {
       }
     `;
   },
-  body: (isModal: boolean, detailMode: DetailModeType) => css`
+  body: (isModal: boolean, detailTransformMode: DetailModeType) => css`
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     justify-content: flex-start;
-    padding: 0 ${getBodyPaddingSide(isModal, detailMode)}px ${detailMode === detailModeBar ? layouts.basePadding : layouts.doublePadding}px;
+    padding: 0 ${getBodyPaddingSide(isModal, detailTransformMode)}px
+      ${detailTransformMode === detailModeBar ? layouts.basePadding : layouts.doublePadding}px;
     white-space: initial;
     letter-spacing: 3px;
     line-height: 175%;
     gap: ${layouts.doubleSize}px;
   `,
-  description: (isModal: boolean, detailMode: DetailModeType) => css`
-    display: ${getDescriptionDisplay(isModal, detailMode)};
+  description: (isModal: boolean, detailTransformMode: DetailModeType) => css`
+    display: ${getDescriptionDisplay(isModal, detailTransformMode)};
   `,
-  share: (isModal: boolean, detailMode: DetailModeType) => css`
+  share: (isModal: boolean, detailTransformMode: DetailModeType) => css`
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-    justify-content: ${detailMode === detailModeBar ? 'center' : 'space-between'};
+    justify-content: ${detailTransformMode === detailModeBar ? 'center' : 'space-between'};
     width: 100%;
     padding: 0;
     margin: 0;
@@ -401,7 +402,7 @@ const styles = {
       }
     }
   `,
-  contentType: (isModal: boolean, detailMode: DetailModeType) => css`
+  contentType: (isModal: boolean, detailTransformMode: DetailModeType) => css`
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -411,8 +412,8 @@ const styles = {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: ${layouts.basePadding * 1.5}px ${getContentTypePaddingSide(isModal, detailMode)}px;
-      font-size: ${detailMode === detailModeBar ? 30 : 100}%;
+      padding: ${layouts.basePadding * 1.5}px ${getContentTypePaddingSide(isModal, detailTransformMode)}px;
+      font-size: ${detailTransformMode === detailModeBar ? 30 : 100}%;
       white-space: break-spaces;
       word-break: break-word;
       letter-spacing: 1px;
@@ -432,23 +433,23 @@ const styles = {
   `,
 };
 
-const getDescriptionDisplay = (isModal: boolean, detailMode: DetailModeType) => {
+const getDescriptionDisplay = (isModal: boolean, detailTransformMode: DetailModeType) => {
   if (isModal) {
     return 'flex';
   } else {
-    return detailMode === detailModeExpand ? 'flex' : 'none';
+    return detailTransformMode === detailModeExpand ? 'flex' : 'none';
   }
 };
 
-const getContentTypePaddingSide = (isModal: boolean, detailMode: DetailModeType) => {
+const getContentTypePaddingSide = (isModal: boolean, detailTransformMode: DetailModeType) => {
   if (isModal) {
     return layouts.doublePadding;
   } else {
-    return detailMode === detailModeBar ? layouts.basePadding : layouts.triplePadding;
+    return detailTransformMode === detailModeBar ? layouts.basePadding : layouts.triplePadding;
   }
 };
 
-const getHeaderHeights = (isModal: boolean, detailMode: DetailModeType) => {
+const getHeaderHeights = (isModal: boolean, detailTransformMode: DetailModeType) => {
   if (isModal) {
     return css`
       height: 100%;
@@ -456,7 +457,7 @@ const getHeaderHeights = (isModal: boolean, detailMode: DetailModeType) => {
       max-height: 220px;
     `;
   } else {
-    switch (detailMode) {
+    switch (detailTransformMode) {
       default:
       case detailModeExpand:
         return css`
@@ -472,11 +473,11 @@ const getHeaderHeights = (isModal: boolean, detailMode: DetailModeType) => {
   }
 };
 
-const getTipsSize = (isModal: boolean, detailMode: DetailModeType) => {
+const getTipsSize = (isModal: boolean, detailTransformMode: DetailModeType) => {
   if (isModal) {
     return tipSize;
   } else {
-    switch (detailMode) {
+    switch (detailTransformMode) {
       default:
       case detailModeExpand:
         return tipSize;

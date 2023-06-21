@@ -1,9 +1,10 @@
 import { css } from '@emotion/react';
 import React, { useState } from 'react';
 
-import { detailModeExpand, detailModeBar, DetailModeType } from 'components/container/Thread//GlobalContext/hooks/detail/mode';
+import { detailModeExpand, detailModeBar, DetailModeType } from 'components/container/Thread//GlobalContext/hooks/detail/transformMode';
 import { Props as AppProps } from 'components/container/Thread/App';
 import { useGlobalContext } from 'components/container/Thread/GlobalContext';
+import { detailMenuMeta, detailMenuAnalyze, detailMenuConfig } from 'components/container/Thread/GlobalContext/hooks/detail/menu';
 import { Type as LayoutType } from 'components/container/Thread/GlobalContext/hooks/layout';
 import { animations, layouts } from 'components/styles';
 import colors from 'components/styles/colors';
@@ -13,11 +14,6 @@ import Config from './Config';
 import Footer from './Footer';
 import Meta from './Meta';
 
-export const detailMenuMeta = 'meta';
-export const detailMenuAnalyze = 'analyze';
-export const detailMenuConfig = 'config';
-export type DetailMenuType = typeof detailMenuMeta | typeof detailMenuAnalyze | typeof detailMenuConfig;
-
 const barWidth = layouts.appMinWidth / 4;
 
 type Props = AppProps & {
@@ -26,32 +22,31 @@ type Props = AppProps & {
 };
 
 const Component: React.FC<Props> = ({ isModal = false, state, handleOnClickToggleTuneModal }: Props) => {
-  const { detailMode, layout } = useGlobalContext();
+  const { detailTransformMode, layout, detailMenu } = useGlobalContext();
   const { threadDetail } = state;
-  const [activeMenu, setActiveMenu] = useState<DetailMenuType>(detailMenuMeta);
 
   const getContent = () => {
-    switch (activeMenu) {
+    switch (detailMenu) {
       case detailMenuMeta:
         return (
           <Meta
             isModal={isModal}
-            detailMode={detailMode}
+            detailTransformMode={detailTransformMode}
             threadDetail={threadDetail}
             handleOnClickToggleTuneModal={handleOnClickToggleTuneModal}
           />
         );
       case detailMenuAnalyze:
-        return <Analyze isModal={isModal} detailMode={detailMode} />;
+        return <Analyze isModal={isModal} detailTransformMode={detailTransformMode} />;
       case detailMenuConfig:
-        return <Config isModal={isModal} detailMode={detailMode} />;
+        return <Config isModal={isModal} detailTransformMode={detailTransformMode} />;
     }
   };
 
   return (
-    <section css={styles.container(isModal, detailMode, layout)}>
+    <section className="DetailSection" css={styles.container(isModal, detailTransformMode, layout)}>
       <div css={styles.scrollY(isModal)}>{getContent()}</div>
-      <Footer isModal={isModal} activeMenu={activeMenu} detailMode={detailMode} setActiveMenu={setActiveMenu} />
+      <Footer isModal={isModal} />
     </section>
   );
 };
@@ -59,13 +54,13 @@ const Component: React.FC<Props> = ({ isModal = false, state, handleOnClickToggl
 export default Component;
 
 const styles = {
-  container: (isModal: boolean, detailMode: DetailModeType, layout: LayoutType) => css`
+  container: (isModal: boolean, detailTransformMode: DetailModeType, layout: LayoutType) => css`
     overflow: hidden;
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-start;
     justify-content: flex-start;
-    ${getContainerWidth(isModal, detailMode, layout)};
+    ${getContainerWidth(isModal, detailTransformMode, layout)};
     height: 100%;
     padding-top: ${isModal ? 0 : layouts.appHeaderHeight}px;
     background: rgba(255, 255, 255, 0.9);
@@ -88,14 +83,14 @@ const styles = {
   `,
 };
 
-const getContainerWidth = (isModal: boolean, detailMode: DetailModeType, layout: LayoutType) => {
+const getContainerWidth = (isModal: boolean, detailTransformMode: DetailModeType, layout: LayoutType) => {
   if (isModal) {
     return css`
       width: 100%;
       min-width: ${layouts.appMinWidth}px;
     `;
   } else {
-    switch (detailMode) {
+    switch (detailTransformMode) {
       default:
       case detailModeExpand:
         if (layout.isTabLayout) {
@@ -125,10 +120,10 @@ export const getBorderRadius = (isModal: boolean) => {
   }
 };
 
-export const getBodyPaddingSide = (isModal: boolean, detailMode: DetailModeType) => {
+export const getBodyPaddingSide = (isModal: boolean, detailTransformMode: DetailModeType) => {
   if (isModal) {
     return layouts.doublePadding;
   } else {
-    return detailMode === detailModeBar ? layouts.basePadding : layouts.doublePadding;
+    return detailTransformMode === detailModeBar ? layouts.basePadding : layouts.doublePadding;
   }
 };

@@ -7,7 +7,7 @@ import { Props as AppProps } from 'components/container/Thread/App';
 import { useGlobalContext, actions, menuModeCycle, detailModeCycle } from 'components/container/Thread/GlobalContext';
 import { colors, dropFilter, emotions, layouts } from 'components/styles';
 
-import { detailModeBar, detailModeExpand, DetailModeType } from './GlobalContext/hooks/detail/mode';
+import { detailModeBar, detailModeExpand, DetailModeType } from './GlobalContext/hooks/detail/transformMode';
 import { MenuModeType, menuModeNormal, menuModeBar, menuModeSmall } from './GlobalContext/hooks/menu/mode';
 
 export type Props = {
@@ -15,7 +15,7 @@ export type Props = {
 } & AppProps;
 
 const Component: React.FC<Props> = ({ state, handleOnClickToggleTuneModal }: Props) => {
-  const { menuMode, detailMode, bools, doms, layout, setAction, setMenuMode, setDetailMode } = useGlobalContext();
+  const { menuMode, detailTransformMode, bools, doms, layout, setAction, setMenuMode, setDetailTransformMode } = useGlobalContext();
   const { thread, threadDetail } = state;
   const [duration, setDuration] = useState(0);
   const containerRef = useRef(null);
@@ -29,8 +29,8 @@ const Component: React.FC<Props> = ({ state, handleOnClickToggleTuneModal }: Pro
         const nextMenuIndex = menuModeCycle[menuIndex + 1] === undefined ? 0 : menuIndex + 1;
         const nextMenuMode = menuModeCycle[nextMenuIndex] as MenuModeType;
         if (layout.isTabLayout) {
-          if ((nextMenuMode === menuModeBar || nextMenuMode === menuModeNormal) && detailMode === detailModeExpand) {
-            setDetailMode(detailModeBar);
+          if ((nextMenuMode === menuModeBar || nextMenuMode === menuModeNormal) && detailTransformMode === detailModeExpand) {
+            setDetailTransformMode(detailModeBar);
           }
         }
         setMenuMode(nextMenuMode);
@@ -53,7 +53,7 @@ const Component: React.FC<Props> = ({ state, handleOnClickToggleTuneModal }: Pro
       setAction(actions.apiRequestChangeThreadDetail, { ch: thread.ch });
     } else {
       const updateDetailIndex = () => {
-        const detailIndex = detailModeCycle.findIndex((mode) => detailMode === mode);
+        const detailIndex = detailModeCycle.findIndex((mode) => detailTransformMode === mode);
         const nextDetailIndex = detailModeCycle[detailIndex + 1] === undefined ? 0 : detailIndex + 1;
         const nextDetailMode = detailModeCycle[nextDetailIndex] as DetailModeType;
         if (layout.isTabLayout) {
@@ -61,7 +61,8 @@ const Component: React.FC<Props> = ({ state, handleOnClickToggleTuneModal }: Pro
             setMenuMode(menuModeSmall);
           }
         }
-        setDetailMode(detailModeCycle[nextDetailIndex] as DetailModeType);
+
+        setDetailTransformMode(nextDetailMode);
       };
       if (layout.isSpLayout) {
         if (bools.openDetail) {

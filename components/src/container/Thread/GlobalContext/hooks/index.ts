@@ -4,7 +4,8 @@ import bools from './bools';
 import bootOption from './bootOption';
 import clientLog from './clientLog';
 import dragX from './detail/dragX';
-import detailMode from './detail/mode';
+import detailMenu from './detail/menu';
+import detailTransformMode from './detail/transformMode';
 import didMount from './didMount';
 import doms from './doms';
 import isTune from './isTune';
@@ -27,7 +28,8 @@ export * as bootOption from './bootOption';
 export * as doms from './doms';
 export * as didMount from './didMount';
 export * as dragX from './detail/dragX';
-export * as detailMode from './detail/mode';
+export * as detailTransformMode from './detail/transformMode';
+export * as detailMenu from './detail/menu';
 export * as isTune from './isTune';
 export * as layout from './layout';
 export * as bools from './bools';
@@ -50,7 +52,8 @@ export default {
   doms,
   didMount,
   dragX,
-  detailMode,
+  detailTransformMode,
+  detailMenu,
   isTune,
   layout,
   menuRank,

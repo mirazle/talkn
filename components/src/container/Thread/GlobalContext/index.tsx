@@ -15,7 +15,8 @@ import hook, {
   bools as boolsState,
   doms as domsState,
   dragX as dragXState,
-  detailMode as detailModeState,
+  detailTransformMode as detailTransformModeState,
+  detailMenu as detailMenuState,
   rankCatched as rankCatchedState,
   menuRank as menuRankState,
   menuMode as menuModeState,
@@ -34,7 +35,7 @@ import { ParamsType as ActionParamsType } from './hooks/action';
 
 export const actions = actionState.actions;
 export const menuModeCycle = menuModeState.menuModeCycle;
-export const detailModeCycle = detailModeState.detailModeCycle;
+export const detailModeCycle = detailTransformModeState.detailModeCycle;
 export const dataset = domsState.dataset;
 
 /*****************
@@ -54,7 +55,8 @@ export type GlobalContextPublicType = {
   menuRank: menuRankState.Type;
   menuMode: menuModeState.Type;
   dragX: dragXState.Type;
-  detailMode: detailModeState.Type;
+  detailTransformMode: detailTransformModeState.Type;
+  detailMenu: detailMenuState.Type;
   scrollLeft: scrollLeftState.Type;
   postsCatched: postsCatchedState.Type;
   postsTimeline: postsTimelineState.Type;
@@ -65,7 +67,8 @@ export type GlobalContextPublicType = {
   setAction: (action: actionState.Type, params?: ActionParamsType) => void;
   setBools: React.Dispatch<React.SetStateAction<boolsState.Type>>;
   setMenuMode: React.Dispatch<React.SetStateAction<menuModeState.Type>>;
-  setDetailMode: React.Dispatch<React.SetStateAction<detailModeState.Type>>;
+  setDetailTransformMode: React.Dispatch<React.SetStateAction<detailTransformModeState.Type>>;
+  setDetailMenu: React.Dispatch<React.SetStateAction<detailMenuState.Type>>;
   setScrollTop: React.Dispatch<React.SetStateAction<scrollTopState.Type>>;
   setScrollLeft: React.Dispatch<React.SetStateAction<scrollLeftState.Type>>;
   setDragX: React.Dispatch<React.SetStateAction<dragXState.Type>>;
@@ -101,7 +104,8 @@ export type GlobalContextType = {
   menuRank: menuRankState.Type;
   menuMode: menuModeState.Type;
   dragX: dragXState.Type;
-  detailMode: detailModeState.Type;
+  detailTransformMode: detailTransformModeState.Type;
+  detailMenu: detailMenuState.Type;
   scrollLeft: scrollLeftState.Type;
   postsCatched: postsCatchedState.Type;
   postsTimeline: postsTimelineState.Type;
@@ -111,7 +115,8 @@ export type GlobalContextType = {
   params: ActionParamsType;
   setAction: (action: actionState.Type, params?: ActionParamsType) => void;
   setMenuMode: React.Dispatch<React.SetStateAction<menuModeState.Type>>;
-  setDetailMode: React.Dispatch<React.SetStateAction<detailModeState.Type>>;
+  setDetailTransformMode: React.Dispatch<React.SetStateAction<detailTransformModeState.Type>>;
+  setDetailMenu: React.Dispatch<React.SetStateAction<detailMenuState.Type>>;
   setScrollTop: React.Dispatch<React.SetStateAction<scrollTopState.Type>>;
   setScrollLeft: React.Dispatch<React.SetStateAction<scrollLeftState.Type>>;
   setDragX: React.Dispatch<React.SetStateAction<dragXState.Type>>;
@@ -164,7 +169,8 @@ export const useGlobalProviderValue = (props: AppProps): GlobalContextType => {
   const [menuMode, setMenuMode] = useState<menuModeState.Type>(menuModeState.getInit(root));
   const [scrollLeft, setScrollLeft] = useState<scrollLeftState.Type>(scrollLeftState.init);
   const [dragX, setDragX] = useState<dragXState.Type>(dragXState.init);
-  const [detailMode, setDetailMode] = useState<detailModeState.Type>(detailModeState.getInit(root));
+  const [detailTransformMode, setDetailTransformMode] = useState<detailTransformModeState.Type>(detailTransformModeState.getInit(root));
+  const [detailMenu, setDetailMenu] = useState<detailMenuState.Type>(detailMenuState.init);
   const [rankCatched, setRankCatched] = useState<rankCatchedState.Type>(rankCatchedState.init);
   const [postsTimeline, setPostsTimeline] = useState<postsTimelineState.Type>(postsTimelineState.init);
   const [postsCatched, setPostsCatched] = useState<postsCatchedState.Type>(postsCatchedState.init);
@@ -187,7 +193,8 @@ export const useGlobalProviderValue = (props: AppProps): GlobalContextType => {
     bools,
     doms,
     dragX,
-    detailMode,
+    detailTransformMode,
+    detailMenu,
     menuRank,
     menuMode,
     scrollLeft,
@@ -201,7 +208,8 @@ export const useGlobalProviderValue = (props: AppProps): GlobalContextType => {
     setAction,
     setBools,
     setMenuMode,
-    setDetailMode,
+    setDetailTransformMode,
+    setDetailMenu,
     setScrollTop,
     setScrollLeft,
     setDragX,
