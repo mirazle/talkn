@@ -15,7 +15,8 @@ export type Props = {
 } & AppProps;
 
 const Component: React.FC<Props> = ({ state, handleOnClickToggleTuneModal }: Props) => {
-  const { menuMode, detailTransformMode, bools, doms, layout, setAction, setMenuMode, setDetailTransformMode } = useGlobalContext();
+  const { menuMode, detailTransformMode, bools, doms, layout, setAction, setBools, setMenuMode, setDetailTransformMode } =
+    useGlobalContext();
   const { thread, threadDetail } = state;
   const [duration, setDuration] = useState(0);
   const containerRef = useRef(null);
@@ -63,6 +64,7 @@ const Component: React.FC<Props> = ({ state, handleOnClickToggleTuneModal }: Pro
         }
 
         setDetailTransformMode(nextDetailMode);
+        setBools({ ...bools, detailTransforming: true });
       };
       if (layout.isSpLayout) {
         if (bools.openDetail) {

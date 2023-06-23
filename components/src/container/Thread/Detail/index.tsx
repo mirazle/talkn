@@ -1,10 +1,16 @@
 import { css } from '@emotion/react';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { detailModeExpand, detailModeBar, DetailModeType } from 'components/container/Thread//GlobalContext/hooks/detail/transformMode';
 import { Props as AppProps } from 'components/container/Thread/App';
 import { useGlobalContext } from 'components/container/Thread/GlobalContext';
-import { detailMenuMeta, detailMenuAnalyze, detailMenuConfig } from 'components/container/Thread/GlobalContext/hooks/detail/menu';
+import {
+  detailMenuIndexList,
+  DetailMenuType,
+  detailMenuMeta,
+  detailMenuAnalyze,
+  detailMenuConfig,
+} from 'components/container/Thread/GlobalContext/hooks/detail/menu';
 import { Type as LayoutType } from 'components/container/Thread/GlobalContext/hooks/layout';
 import { animations, layouts } from 'components/styles';
 import colors from 'components/styles/colors';
@@ -22,8 +28,23 @@ type Props = AppProps & {
 };
 
 const Component: React.FC<Props> = ({ isModal = false, state, handleOnClickToggleTuneModal }: Props) => {
-  const { detailTransformMode, layout, detailMenu } = useGlobalContext();
+  const { detailTransformMode, layout, detailMenu, bools, setBools } = useGlobalContext();
   const { threadDetail } = state;
+  const footerRef = useRef(null);
+  const [detailMenuIndex, setDetailMenuIndex] = useState(0);
+
+  const handleOnTransitionEnd = (e: React.TransitionEvent<HTMLElement>) => {
+    const elm = e.target as HTMLElement;
+    if (elm.classList.contains('DetailSection')) {
+      if (detailTransformMode === detailModeBar) {
+        if (footerRef.current) {
+          const footerElm = footerRef.current as HTMLElement;
+          footerElm.scrollTo(detailMenuIndex * barWidth, 0);
+        }
+      }
+      setBools({ ...bools, detailTransforming: false });
+    }
+  };
 
   const getContent = () => {
     switch (detailMenu) {
@@ -44,9 +65,9 @@ const Component: React.FC<Props> = ({ isModal = false, state, handleOnClickToggl
   };
 
   return (
-    <section className="DetailSection" css={styles.container(isModal, detailTransformMode, layout)}>
+    <section className="DetailSection" css={styles.container(isModal, detailTransformMode, layout)} onTransitionEnd={handleOnTransitionEnd}>
       <div css={styles.scrollY(isModal)}>{getContent()}</div>
-      <Footer isModal={isModal} />
+      <Footer isModal={isModal} footerRef={footerRef} detailMenuIndex={detailMenuIndex} setDetailMenuIndex={setDetailMenuIndex} />
     </section>
   );
 };
