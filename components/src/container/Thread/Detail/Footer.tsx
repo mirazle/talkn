@@ -37,7 +37,6 @@ let scrollTimeout = null;
 const Component: React.FC<Props> = ({ isModal, footerRef, detailMenuIndex, setDetailMenuIndex }) => {
   const { detailTransformMode: _detailTransformMode, detailMenu, bools, setDetailMenu } = useGlobalContext();
   const [detailTransformMode, setDetailTransformMode] = useState(_detailTransformMode);
-  // const [isStopScroll, setIsStopScroll] = useState(false);
 
   const onScrollEnd = (index: number) => {
     scrollTimeout = null;
@@ -73,12 +72,10 @@ const Component: React.FC<Props> = ({ isModal, footerRef, detailMenuIndex, setDe
 
   useEffect(() => {
     if (_detailTransformMode !== detailTransformMode) {
-      // setIsStopScroll(_detailTransformMode === detailModeBar);
       setDetailTransformMode(_detailTransformMode);
     }
   }, [_detailTransformMode]);
 
-  console.log('RENDER FOOTER ', detailMenuIndex);
   return (
     <footer ref={footerRef} css={styles.footer(isModal, detailTransformMode, detailMenu)} onScroll={handleOnScrollFooterMenu}>
       <Flex
@@ -129,26 +126,32 @@ const styles = {
     border-top: 1px solid ${colors.borderColor};
     scroll-snap-type: x mandatory;
 
-    ${getFooterMenu('meta', detailMenu, detailTransformMode)};
-    ${getFooterMenu('analyze', detailMenu, detailTransformMode)};
-    ${getFooterMenu('config', detailMenu, detailTransformMode)};
+    ${getFooterMenu('meta', isModal, detailTransformMode, detailMenu)};
+    ${getFooterMenu('analyze', isModal, detailTransformMode, detailMenu)};
+    ${getFooterMenu('config', isModal, detailTransformMode, detailMenu)};
   `,
 };
 
-const getFooterMenu = (menuType, detailMenu, detailTransformMode) => {
+const getFooterMenu = (menuType, isModal, detailTransformMode, detailMenu) => {
+  const widths = isModal
+    ? ''
+    : `
+        width: ${detailTransformMode === detailModeBar ? `${barWidth}px` : 'auto'};
+        min-width: ${detailTransformMode === detailModeBar ? `${barWidth}px` : 'auto'};
+        max-width: ${detailTransformMode === detailModeBar ? `${barWidth}px` : 'auto'};
+      `;
+
   return `
       .${menuType} {
-      flex: 1 1 auto;
-      width: ${detailTransformMode === detailModeBar ? `${barWidth}px` : 'auto'};
-      min-width: ${detailTransformMode === detailModeBar ? `${barWidth}px` : 'auto'};
-      max-width: ${detailTransformMode === detailModeBar ? `${barWidth}px` : 'auto'};
-      height: inherit;
-      scroll-snap-align: start;
+        flex: 1 1 auto;
+        ${widths};
+        height: inherit;
+        scroll-snap-align: start;
 
-      ${detailMenu === menuType ? dropFilter.alphaBgSet : dropFilter.alphaMenuUnactiveBgSet};
-      &:hover {
-        box-shadow: ${detailMenu === menuType ? 'none' : shadow.shadowDetailMenu};
+        ${detailMenu === menuType ? dropFilter.alphaBgSet : dropFilter.alphaMenuUnactiveBgSet};
+        &:hover {
+          box-shadow: ${detailMenu === menuType ? 'none' : shadow.shadowDetailMenu};
+        }
       }
-    }
   `;
 };
