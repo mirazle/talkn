@@ -20,6 +20,7 @@ export type Type = {
   screenScrolling: boolean;
   postsScrollBottom: boolean;
   postsScrollingBottom: boolean;
+  detailTransforming: boolean;
   screenTransforming: boolean;
 };
 
@@ -40,6 +41,7 @@ export const init: Type = {
   screenScrolling: false,
   postsScrollBottom: false,
   postsScrollingBottom: false,
+  detailTransforming: false,
   screenTransforming: false,
 };
 

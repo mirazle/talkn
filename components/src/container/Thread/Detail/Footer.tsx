@@ -25,27 +25,25 @@ import meta from '../../../../public/meta.svg';
  ****************/
 const barWidth = layouts.appMinWidth / 4;
 
-console.log(barWidth);
 type Props = {
   isModal: boolean;
+  detailMenuIndex: number;
+  footerRef: React.MutableRefObject<any>;
+  setDetailMenuIndex: React.Dispatch<React.SetStateAction<number>>;
 };
 
 let scrollTimeout = null;
 
-const Component: React.FC<Props> = ({ isModal }) => {
-  const { detailTransformMode: _detailTransformMode, detailMenu, setDetailMenu } = useGlobalContext();
+const Component: React.FC<Props> = ({ isModal, footerRef, detailMenuIndex, setDetailMenuIndex }) => {
+  const { detailTransformMode: _detailTransformMode, detailMenu, bools, setDetailMenu } = useGlobalContext();
   const [detailTransformMode, setDetailTransformMode] = useState(_detailTransformMode);
-  const [detailMenuIndex, setDetailMenuIndex] = useState(0);
-  const [isStopScroll, setIsStopScroll] = useState(false);
+  // const [isStopScroll, setIsStopScroll] = useState(false);
 
-  const onScrollEnd = (index: number, screenElm: HTMLDivElement) => {
+  const onScrollEnd = (index: number) => {
     scrollTimeout = null;
-    setIsStopScroll(false);
-    setDetailMenu(detailMenuIndexList[index] as DetailMenuType);
-    setDetailMenuIndex(index);
 
-    if (detailTransformMode === detailModeBar) {
-      screenElm.scrollTo(index * barWidth, 0);
+    if (!bools.detailTransforming) {
+      setDetailMenuIndex(index);
     }
   };
 
@@ -53,47 +51,36 @@ const Component: React.FC<Props> = ({ isModal }) => {
   const handleOnScrollFooterMenu = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
     const screenElm = e.target as HTMLDivElement;
 
-    if (isStopScroll) {
-      setDetailMenu(detailMenuIndexList[detailMenuIndex] as DetailMenuType);
-      screenElm.scrollTo(detailMenuIndex * barWidth, 0);
-      e.preventDefault();
-    } else {
-      const index = isStopScroll ? detailMenuIndex : screenElm.scrollLeft / barWidth;
+    const index = screenElm.scrollLeft / barWidth;
 
-      if (Number.isInteger(index)) {
-        // console.log('SCROLL', index, detailMenuIndexList[index]);
-        setDetailMenu(detailMenuIndexList[index] as DetailMenuType);
-        setDetailMenuIndex(index);
-      }
-
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-
-      scrollTimeout = setTimeout(() => onScrollEnd(index, screenElm), 200);
+    if (Number.isInteger(index)) {
+      setDetailMenu(detailMenuIndexList[index] as DetailMenuType);
     }
+
+    if (scrollTimeout) {
+      clearTimeout(scrollTimeout);
+    }
+
+    scrollTimeout = setTimeout(() => onScrollEnd(index), 200);
   };
-
-  useEffect(() => {
-    if (_detailTransformMode !== detailTransformMode) {
-      setIsStopScroll(_detailTransformMode === detailModeBar);
-      setDetailTransformMode(_detailTransformMode);
-    }
-  }, [_detailTransformMode]);
 
   const handleOnClickFooterMenu = (_detailMenu) => {
     const _detailMenuIndex = detailMenuIndexList.findIndex((detailMenu) => detailMenu === _detailMenu);
+
     setDetailMenuIndex(_detailMenuIndex);
     setDetailMenu(_detailMenu);
   };
 
+  useEffect(() => {
+    if (_detailTransformMode !== detailTransformMode) {
+      // setIsStopScroll(_detailTransformMode === detailModeBar);
+      setDetailTransformMode(_detailTransformMode);
+    }
+  }, [_detailTransformMode]);
+
+  console.log('RENDER FOOTER ', detailMenuIndex);
   return (
-    <footer
-      css={styles.footer(isModal, detailTransformMode, detailMenu)}
-      onScroll={handleOnScrollFooterMenu}
-      onTransitionEnd={() => {
-        console.log('FOOTER end');
-      }}>
+    <footer ref={footerRef} css={styles.footer(isModal, detailTransformMode, detailMenu)} onScroll={handleOnScrollFooterMenu}>
       <Flex
         className="meta"
         onClick={() => handleOnClickFooterMenu(detailMenuMeta)}
