@@ -1,4 +1,7 @@
 import { HookProps } from 'components/container/Thread/GlobalContext';
+import { detailModeBar, detailModeExpand } from 'components/container/Thread/GlobalContext/hooks/detail/transformMode';
+
+import { menuModeBar, menuModeNormal, menuModeSmall } from './menu/mode';
 
 export type Type = {
   innerWidth: number;
@@ -18,33 +21,25 @@ export const init: Type = {
   isFullScreen: false,
 };
 
-export default ({ doms, layout }: HookProps) => {
+export default ({ doms, layout, setMenuMode, setDetailTransformMode }: HookProps) => {
   if (layout.isSpLayout) {
     if (doms.screen) {
+      console.log('SP AA');
       const screenElm = doms.screen;
-
+      setMenuMode(menuModeSmall);
       if (screenElm.scrollLeft === 0) {
         screenElm.scrollTo({ left: screenElm.scrollWidth, behavior: 'auto' });
       }
     }
   } else if (layout.isTabLayout) {
     if (doms.screen) {
+      setMenuMode(menuModeNormal);
+      setDetailTransformMode(detailModeBar);
     }
   } else {
     if (doms.screen) {
+      setMenuMode(menuModeNormal);
+      setDetailTransformMode(detailModeExpand);
     }
   }
 };
-/*
-  if (layout.isSpLayout) {
-    setMenuMode(menuModeSmall);
-  }
-  if (layout.isTabLayout) {
-    setDetailMode(detailModeBar);
-  }
-  if (!layout.isTabLayout && !layout.isSpLayout) {
-    console.log('PC', action);
-    setDetailMode(detailModeExpand);
-    setMenuMode(menuModeNormal);
-  }
-  */
