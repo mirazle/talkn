@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { detailModeExpand, detailModeBar, DetailModeType } from 'components/container/Thread//GlobalContext/hooks/detail/transformMode';
 import { Props as AppProps } from 'components/container/Thread/App';
@@ -28,10 +28,12 @@ type Props = AppProps & {
 };
 
 const Component: React.FC<Props> = ({ isModal = false, state, handleOnClickToggleTuneModal }: Props) => {
+  const selfRef = useRef(null);
   const { detailTransformMode, layout, detailMenu, bools, setBools } = useGlobalContext();
   const { threadDetail } = state;
   const footerRef = useRef(null);
   const [detailMenuIndex, setDetailMenuIndex] = useState(0);
+  const [maxWidth, setMaxWidth] = useState(0);
 
   const handleOnTransitionEnd = (e: React.TransitionEvent<HTMLElement>) => {
     const elm = e.target as HTMLElement;
@@ -64,8 +66,19 @@ const Component: React.FC<Props> = ({ isModal = false, state, handleOnClickToggl
     }
   };
 
+  useEffect(() => {
+    if (selfRef.current) {
+      const elm = selfRef.current as HTMLElement;
+      setMaxWidth(elm.clientWidth);
+    }
+  }, []);
+
   return (
-    <section className="DetailSection" css={styles.container(isModal, detailTransformMode, layout)} onTransitionEnd={handleOnTransitionEnd}>
+    <section
+      ref={selfRef}
+      className="DetailSection"
+      css={styles.container(isModal, detailTransformMode, layout, maxWidth)}
+      onTransitionEnd={handleOnTransitionEnd}>
       <div css={styles.scrollY(isModal)}>{getContent()}</div>
       <Footer isModal={isModal} footerRef={footerRef} detailMenuIndex={detailMenuIndex} setDetailMenuIndex={setDetailMenuIndex} />
     </section>
@@ -75,13 +88,13 @@ const Component: React.FC<Props> = ({ isModal = false, state, handleOnClickToggl
 export default Component;
 
 const styles = {
-  container: (isModal: boolean, detailTransformMode: DetailModeType, layout: LayoutType) => css`
+  container: (isModal: boolean, detailTransformMode: DetailModeType, layout: LayoutType, maxWidth: number) => css`
     overflow: hidden;
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-start;
     justify-content: flex-start;
-    ${getContainerWidth(isModal, detailTransformMode, layout)};
+    ${getContainerWidth(isModal, detailTransformMode, layout, maxWidth)};
     height: 100%;
     padding-top: ${isModal ? 0 : layouts.appHeaderHeight}px;
     background: rgba(255, 255, 255, 0.9);
@@ -104,7 +117,7 @@ const styles = {
   `,
 };
 
-const getContainerWidth = (isModal: boolean, detailTransformMode: DetailModeType, layout: LayoutType) => {
+const getContainerWidth = (isModal: boolean, detailTransformMode: DetailModeType, layout: LayoutType, maxWidth: number) => {
   if (isModal) {
     return css`
       width: 100%;
@@ -118,10 +131,12 @@ const getContainerWidth = (isModal: boolean, detailTransformMode: DetailModeType
           return css`
             width: 100%;
             min-width: ${layouts.appMinWidth}px;
+            max-width: ${maxWidth}px;
           `;
         } else {
           return css`
             width: 30%;
+            min-width: ${layouts.appMinWidth}px;
           `;
         }
       case detailModeBar:

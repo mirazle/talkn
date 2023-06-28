@@ -14,13 +14,13 @@ export const getHoverAltCss = (props) => {
       horizon = 'bottom: 100%';
       vertical = 'left: unset';
       content = props.alt;
-      translateY = -8;
+      translateY = -12;
     } else if (typeof props.alt.label === 'string' && props.alt.type && props.alt.type !== '') {
       att = props.alt.type.indexOf('upper') === 0 ? 'before' : 'after';
       horizon = att === 'before' ? 'bottom: 100%' : 'top: 100%';
       vertical = props.alt.type.indexOf('right') > 0 ? 'right: unset' : 'left: unset';
       content = props.alt.label;
-      translateY = att === 'before' ? -8 : 8;
+      translateY = att === 'before' ? -12 : 12;
     } else {
       return '';
     }

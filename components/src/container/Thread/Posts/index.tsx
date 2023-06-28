@@ -19,8 +19,8 @@ type Props = {
   postTextareaRef: any;
 } & AppProps;
 
-const NoPost: React.FC = () => (
-  <li css={styles.helloFriendLi}>
+const NoPostHelloFriend: React.FC = () => (
+  <li css={styles.noPost}>
     <div>Hello, Friend😁</div>
     <div>Let's make the first post📩</div>
   </li>
@@ -111,8 +111,10 @@ const getTimelinePostList = (isLoading, postsTimeline, domsTimelines, state) => 
     );
   }
 
-  if (dispPosts.length === 0 && !isLoading) {
-    dispPosts.push(<NoPost key={`NoPost`} />);
+  if (dispPosts.length === 0) {
+    if (!isLoading) {
+      dispPosts.push(<NoPostHelloFriend key={`NoPostHelloFriend`} />);
+    }
   }
 
   return dispPosts;
@@ -159,15 +161,15 @@ const styles = {
     max-height: 0;
     transform: translate(0, 0);
   `,
-  helloFriendLi: css`
+  noPost: css`
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
     padding: 16px !important;
     margin-top: 60px !important;
-    margin-right: 2%;
-    margin-left: 2%;
+    margin-right: 24px;
+    margin-left: 24px;
     background: ${colors.themeColor};
     border-radius: ${layouts.borderRadius}px;
     color: ${colors.whiteColor};

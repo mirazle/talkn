@@ -17,13 +17,24 @@ import { menuModeBar, menuModeNormal, menuModeSmall, menuModeInclude, MenuModeTy
 type Props = AppProps & {
   myUser: User;
   isMyPage: boolean;
+  transitionEndMenuMode: MenuModeType;
   setShowUserMenu: React.Dispatch<React.SetStateAction<boolean>>;
   setMyUser: React.Dispatch<React.SetStateAction<User>>;
   setIsMyPage: React.Dispatch<React.SetStateAction<boolean>>;
-  transitionEndMenuMode: MenuModeType;
+  handleOnClickToggleTuneModal: () => void;
 };
 
-const Component: React.FC<Props> = ({ api, state, root, myUser, setShowUserMenu, setMyUser, setIsMyPage, transitionEndMenuMode }) => {
+const Component: React.FC<Props> = ({
+  api,
+  state,
+  root,
+  myUser,
+  transitionEndMenuMode,
+  setShowUserMenu,
+  setMyUser,
+  setIsMyPage,
+  handleOnClickToggleTuneModal,
+}) => {
   const { bools, bootOption, menuMode, setAction } = useGlobalContext();
   const menuRef = useRef(null);
 
@@ -37,7 +48,7 @@ const Component: React.FC<Props> = ({ api, state, root, myUser, setShowUserMenu,
     <>
       <section className={'Menu'} css={styles.container(bools.openFooter, menuMode)}>
         <div css={styles.ch(bools.openFooter, menuMode)}>
-          <Input api={api} state={state} bootOption={bootOption} root={root} />
+          <Input api={api} state={state} bootOption={bootOption} root={root} handleOnClickToggleTuneModal={handleOnClickToggleTuneModal} />
         </div>
         <ol css={styles.ol(bools.openFooter, menuMode)} ref={menuRef}>
           <li className="MenuLi" css={styles.li}>
