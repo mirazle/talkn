@@ -35,7 +35,7 @@ const Component: FunctionComponent<Props> = (props: Props) => {
         {p.show && (
           <MenuOl show={p.show} fitRight={p.fitRight} didMount={didMount} className="MenuOl">
             {p.menus.map((menu: MenusType) => (
-              <Li key={menu.key} onClick={() => p.onClick(menu.key)} lineHeight="36px" sidePadding pointer hover>
+              <Li key={menu.key} alignItems="center" onClick={() => p.onClick(menu.key)} lineHeight="36px" sidePadding pointer hover>
                 {menu.label}
               </Li>
             ))}
@@ -89,6 +89,7 @@ const MenuOl = styled.ol<MenuOlProps>`
   margin: 0;
   ${dropFilter.alphaBgSet};
   color: rgba(80, 80, 80, 1);
+  font-size: 75%;
   border: 1px solid ${colors.borderColor};
   border-radius: ${blocks.borderRadius}px;
   box-shadow: ${shadow.shadowHorizonBase};

@@ -17,13 +17,13 @@ const hookActions = {
   },
   'SERVER_TO_API[EMIT]:fetchPosts': async ({ action, bools, state, setAction, setBools, setPostsTimeline }: HookProps) => {
     const { app, apiLog, thread, ranks, posts } = state;
-    const dispPosts = Posts.getDispPosts(state);
 
     if (action === actions.apiRequestFetch) {
+      const dispPosts = Posts.getDispPosts(state);
       setBools((p) => ({ ...p, catchFetchPost: true }));
       setPostsTimeline(dispPosts);
     } else if (action === actions.apiRequestChangeThread) {
-      setPostsTimeline(dispPosts);
+      setPostsTimeline(state.posts);
       setAction(actions.apiResponseChangeThread);
     }
   },

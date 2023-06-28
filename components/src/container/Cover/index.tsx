@@ -16,7 +16,7 @@ const Component: React.FC<Props> = ({ root, body }) => {
       </header>
       <main>{body && body}</main>
       <footer>
-        <p>talkn for Web powerd by talkn.io</p>
+        <p>talkn for web</p>
       </footer>
     </div>
   );

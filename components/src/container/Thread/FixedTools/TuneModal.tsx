@@ -17,7 +17,12 @@ import shadow from 'components/styles/shadow';
 import close from '../../../../public/close.svg';
 import Label from '../Menu/Label';
 
-export const Input: React.FC<AppProps> = ({ root }) => {
+type InputProps = AppProps & {
+  handleOnClickToggleTuneModal?: () => void;
+};
+
+export const Input: React.FC<InputProps> = ({ root, handleOnClickToggleTuneModal }) => {
+  const selfRef = useRef(null);
   const { doms, bootOption, setAction, setIsTune, setBootOption } = useGlobalContext();
   const [inputCh, setInputCh] = useState(bootOption.ch);
   const [inputFindType, setInputFindType] = useState(String(Thread.findTypeAll));
@@ -42,6 +47,13 @@ export const Input: React.FC<AppProps> = ({ root }) => {
   const handleOnKeyPressCh = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === 'Enter') handleOnSubmit();
   };
+  const handleOnFocus = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+    if (handleOnClickToggleTuneModal) {
+      const elm = selfRef.current as HTMLInputElement;
+      elm.blur();
+      handleOnClickToggleTuneModal();
+    }
+  };
 
   useEffect(() => {
     setInputCh(bootOption.ch);
@@ -54,11 +66,13 @@ export const Input: React.FC<AppProps> = ({ root }) => {
       </Flex>
 
       <input
+        ref={selfRef}
         className="tuneInput"
         css={styles.input('TuneModel')}
         value={inputCh}
         placeholder="Input Favorite Url"
         onChange={handleOnChangeCh}
+        onFocus={handleOnFocus}
         onKeyPress={handleOnKeyPressCh}
       />
       <select css={styles.findType} value={inputFindType} onChange={handleOnChangeFindType}>
@@ -110,20 +124,19 @@ const Component: React.FC<Props> = ({ state, api, ch, root, menuMode, postTextar
   };
 
   const handleOnSubmit = () => {
-    const className = root.className;
     const ch = BootOption.getCh(inputCh);
+    if (bootOption.isFullscreen) {
+      window.location.href = `https://${conf.domain}${ch}`;
+    } else {
+      const className = root.className;
 
-    const inputElm = doms.tuneInput as HTMLInputElement;
-
-    inputElm.value = ch;
-    root.dataset.ch = ch;
-    postTextareaRef.current = null;
-    screenRef.current = null;
-    postsRef.current = null;
-
-    setIsTune(false);
-    setAction(actions.apiRequestChangeTuning, { className, ch, findType: inputFindType });
-    setBootOption({ ...bootOption, ch });
+      const inputElm = doms.tuneInput as HTMLInputElement;
+      inputElm.value = ch;
+      root.dataset.ch = ch;
+      setIsTune(false);
+      setAction(actions.apiRequestChangeTuning, { className, ch, findType: inputFindType });
+      setBootOption({ ...bootOption, ch });
+    }
   };
 
   useEffect(() => {
@@ -181,7 +194,7 @@ type BackgroundTypeProps = {
   showBackground: boolean;
 };
 
-const height = 140;
+const height = 200;
 const styles = {
   background: (isOpen: boolean, isShow: boolean, showBackground = true) => css`
     position: fixed;
@@ -207,7 +220,7 @@ const styles = {
     min-width: 300px;
     max-width: 560px;
     height: auto;
-    padding: ${layouts.doublePadding}px;
+    padding: ${layouts.quadPadding}px ${layouts.triplePadding}px;
     margin: 0 auto;
     border: 1px solid ${colors.borderColor};
     border-radius: ${layouts.borderRadius}px;

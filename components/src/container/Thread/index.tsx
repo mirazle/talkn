@@ -45,7 +45,6 @@ const LoardingCover: React.FC<LoardingCoverProps> = ({ root, state }) => {
 
 const Component: React.FC<Props> = (props) => {
   const { bootOption: bootOptionProps, api, state, root } = props;
-
   const { app, posts, ranks, thread } = state;
   const globalContext = useGlobalContext();
 
@@ -172,6 +171,7 @@ const Component: React.FC<Props> = (props) => {
             setShowUserMenu={setShowUserMenu}
             setMyUser={setMyUser}
             setIsMyPage={setIsMyPage}
+            handleOnClickToggleTuneModal={handleOnClickToggleTuneModal}
           />
           <Posts
             screenRef={screenRef}

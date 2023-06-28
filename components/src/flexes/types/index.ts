@@ -14,6 +14,7 @@ export type FlexBoxLayoutPropsType = {
 
 type AltType = 'upper' | 'bottom' | 'upper right' | 'upper left' | 'bottom right' | 'bottom left';
 export type AltPropsType =
+  | undefined
   | string
   | {
       label: string;

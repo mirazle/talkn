@@ -8,7 +8,7 @@ import {
   detailMenuIndexList,
   DetailMenuType,
 } from 'components/container/Thread//GlobalContext/hooks/detail/menu';
-import { detailModeBar, DetailModeType } from 'components/container/Thread//GlobalContext/hooks/detail/transformMode';
+import { detailModeBar, detailModeExpand, DetailModeType } from 'components/container/Thread//GlobalContext/hooks/detail/transformMode';
 import { useGlobalContext } from 'components/container/Thread/GlobalContext';
 import Flex from 'components/flexes';
 import shadow from 'components/flexes/styles/shadow';
@@ -37,6 +37,11 @@ let scrollTimeout = null;
 const Component: React.FC<Props> = ({ isModal, footerRef, detailMenuIndex, setDetailMenuIndex }) => {
   const { detailTransformMode: _detailTransformMode, detailMenu, bools, setDetailMenu } = useGlobalContext();
   const [detailTransformMode, setDetailTransformMode] = useState(_detailTransformMode);
+
+  // alt
+  const getAlt = (label) => {
+    return detailTransformMode === detailModeExpand ? { ...{ alt: { label, type: 'upper' } } } : {};
+  };
 
   const onScrollEnd = (index: number) => {
     scrollTimeout = null;
@@ -81,7 +86,7 @@ const Component: React.FC<Props> = ({ isModal, footerRef, detailMenuIndex, setDe
       <Flex
         className="meta"
         onClick={() => handleOnClickFooterMenu(detailMenuMeta)}
-        alt={{ label: 'Meta', type: 'upper' }}
+        {...getAlt('Meta')}
         alignItems="center"
         justifyContent="center">
         <img src={meta} alt={'Meta'} width={32} />
@@ -89,7 +94,7 @@ const Component: React.FC<Props> = ({ isModal, footerRef, detailMenuIndex, setDe
       <Flex
         className="analyze"
         onClick={() => handleOnClickFooterMenu(detailMenuAnalyze)}
-        alt={{ label: 'Analyze', type: 'upper' }}
+        {...getAlt('Analyze')}
         alignItems="center"
         justifyContent="center">
         <img src={analyze} alt={'Analyze'} width={32} />
@@ -97,7 +102,7 @@ const Component: React.FC<Props> = ({ isModal, footerRef, detailMenuIndex, setDe
       <Flex
         className="config"
         onClick={() => handleOnClickFooterMenu(detailMenuConfig)}
-        alt={{ label: 'Config', type: 'upper' }}
+        {...getAlt('Config')}
         alignItems="center"
         justifyContent="center">
         <img src={config} alt={'Config'} width={32} />
@@ -119,7 +124,7 @@ const styles = {
     align-items: center;
     justify-content: flex-start;
     overflow-x: ${detailTransformMode === detailModeBar ? 'scroll' : 'visible'};
-    overflow-y: visible;
+    overflow-y: ${detailTransformMode === detailModeBar ? 'hidden' : 'visible'};
     width: 100%;
     height: ${layouts.blockHeight}px;
     color: ${colors.fontColor};
