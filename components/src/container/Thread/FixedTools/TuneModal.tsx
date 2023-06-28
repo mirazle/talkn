@@ -18,11 +18,12 @@ import close from '../../../../public/close.svg';
 import Label from '../Menu/Label';
 
 type InputProps = AppProps & {
+  refWrap?: React.MutableRefObject<any>;
   handleOnClickToggleTuneModal?: () => void;
 };
 
-export const Input: React.FC<InputProps> = ({ root, handleOnClickToggleTuneModal }) => {
-  const selfRef = useRef(null);
+export const Input: React.FC<InputProps> = ({ refWrap, root, handleOnClickToggleTuneModal }) => {
+  const selfRef = refWrap ? refWrap : useRef(null);
   const { doms, bootOption, setAction, setIsTune, setBootOption } = useGlobalContext();
   const [inputCh, setInputCh] = useState(bootOption.ch);
   const [inputFindType, setInputFindType] = useState(String(Thread.findTypeAll));
@@ -96,6 +97,7 @@ type Props = AppProps & {
 
 const Component: React.FC<Props> = ({ state, api, ch, root, menuMode, postTextareaRef, screenRef, postsRef }: Props) => {
   const sectionRef = useRef(null);
+  const inputRef = useRef(null);
   const { thread, ranks } = state;
   const { bools, bootOption, doms, setAction, setBools, setIsTune, setBootOption } = useGlobalContext();
   const screenElm = doms.screen;
@@ -103,7 +105,7 @@ const Component: React.FC<Props> = ({ state, api, ch, root, menuMode, postTextar
 
   const [sectionWidth, setSectionWidth] = useState(0);
   const [tuneLabel, setTuneLabel] = useState<'TUNE' | number>('TUNE');
-  const [inputCh, setInputCh] = useState(ch);
+  const [inputCh, setInputCh] = useState(bootOption.ch);
   const [inputFindType, setInputFindType] = useState(String(Thread.findTypeAll));
   const [isShow, setIsShow] = useState(false);
   const [isAnimation, setIsAnimations] = useState(false);
@@ -124,12 +126,13 @@ const Component: React.FC<Props> = ({ state, api, ch, root, menuMode, postTextar
   };
 
   const handleOnSubmit = () => {
-    const ch = BootOption.getCh(inputCh);
+    const elm = inputRef.current as HTMLInputElement;
+    const ch = BootOption.getCh(elm.value);
+
     if (bootOption.isFullscreen) {
       window.location.href = `https://${conf.domain}${ch}`;
     } else {
       const className = root.className;
-
       const inputElm = doms.tuneInput as HTMLInputElement;
       inputElm.value = ch;
       root.dataset.ch = ch;
@@ -175,7 +178,7 @@ const Component: React.FC<Props> = ({ state, api, ch, root, menuMode, postTextar
           </div>
         </header>
         <Flex width="100%" flow="row nowrap" alignItems="center" upperMargin bottomMargin>
-          <Input root={root} state={state} bootOption={bootOption} api={api} />
+          <Input refWrap={inputRef} root={root} state={state} bootOption={bootOption} api={api} />
         </Flex>
         <Flex width="100%" flow="row nowrap" justifyContent="flex-end">
           <button type="submit" css={styles.button} onClick={handleOnSubmit}>
