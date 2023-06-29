@@ -13,6 +13,7 @@ export default {
   setUp: async () => {
     await Logics.db.threads.resetLiveCnt();
     await Logics.db.sessions.removeAll();
+    /*
     await Logics.db.industoryParent.removeAll();
     await Logics.db.industoryParent.insertMany(industoryParent);
     await Logics.db.industory.removeAll();
@@ -33,6 +34,7 @@ export default {
 
     await Logics.db.story.removeAll();
     await Logics.db.story.insertMany(story);
+    */
   },
 
   setUpUser: async () => {
