@@ -1,3 +1,4 @@
+/*
 import industory from 'server/data/industory';
 import industoryParent from 'server/data/industoryParent';
 import jobCategory from 'server/data/jobCategory';
@@ -7,6 +8,7 @@ import jobTitle from 'server/data/jobTitle';
 import jobs from 'server/data/jobs';
 import startupSeries from 'server/data/startupSeries';
 import story from 'server/data/story';
+*/
 import Logics from 'server/logics';
 
 export default {
