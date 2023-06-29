@@ -96,7 +96,7 @@ class Express {
     const splitedUrl = req.originalUrl.split('/');
     let language = 'en';
     let ch = '/';
-    console.log('routingHttps', req.headers.host);
+    console.log('routingHttps', req.headers.host, new Date());
     switch (req.headers.host) {
       case conf.ownURL:
         if (req.method === 'GET') {
