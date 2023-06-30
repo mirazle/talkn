@@ -2,6 +2,7 @@
 <html amp lang="<%= language %>">
   <head>
     <title>talkn for web</title>
+    <!--
     <meta charset="utf-8" />
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -41,7 +42,6 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script data-ad-client="ca-pub-5285495593698579" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script id="talknClient" async type="text/javascript" src="https://<%= componentsURL %>"></script>
-    <!-- script id="talknClient" async type="text/javascript" src="https://localhost:8002/talkn.components.js"></script-->
 
     <script type="text/javascript">
       const onServiceWorker = () => {
@@ -149,7 +149,7 @@
         }
       </style>
     </noscript>
-  </head>
+  --></head>
   <body>
     <div id="talkn" class="talknThread" data-ch="/"></div>
   </body>
