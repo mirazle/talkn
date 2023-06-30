@@ -12,6 +12,12 @@ self.addEventListener('install', function (event) {
 
 self.addEventListener('fetch', function (event) {
   var request = event.request;
+
+  // Only deal with requests to your own server
+  if (new URL(request.url).origin !== location.origin) {
+    return;
+  }
+
   // check if request
   if (/\.js$|.txt|.ico$|.png$|.jpg$|.jpeg$|.svg$|.gif$/.test(request.url)) {
     event.respondWith(
