@@ -188,14 +188,14 @@ class Express {
         // CORSを許可する
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-        console.log('===', req.originalUrl);
 
         if (req.originalUrl.indexOf('.png') >= 0 || req.originalUrl.indexOf('.svg') >= 0) {
+          console.log('=== IMAGE', req.originalUrl);
           res.sendFile(conf.serverComponentsPath + '.' + req.originalUrl);
         } else {
+          console.log('=== JS', req.originalUrl);
           res.sendFile(conf.serverComponentsPath + 'talkn.components.js');
         }
-
         break;
       case conf.coverURL:
         let method = defaultCoverMethod;
