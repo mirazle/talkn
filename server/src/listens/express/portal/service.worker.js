@@ -1,5 +1,5 @@
 const cacheName = 'pwa-talkn';
-const log = false;
+const log = true;
 const filesToCache = ['*'];
 
 if (log) console.log('SW OK');
