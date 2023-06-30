@@ -2,7 +2,6 @@
 <html amp lang="<%= language %>">
   <head>
     <title>talkn for web</title>
-    <!--
     <meta charset="utf-8" />
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -39,10 +38,12 @@
     <link rel="shortcut icon" href="https://<%= assetsURL %>/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="https://<%= assetsURL %>/favicon.ico" />
     <link rel="canonical" href="https://<%= domain %>/" />
+    <!--    
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script data-ad-client="ca-pub-5285495593698579" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script id="talknClient" async type="text/javascript" src="https://<%= componentsURL %>"></script>
 
+    <script id="talknClient" async type="text/javascript" src="https://<%= componentsURL %>"></script>
+-->
     <script type="text/javascript">
       const onServiceWorker = () => {
         if ('serviceWorker' in navigator) {
@@ -120,20 +121,7 @@
           opacity: 1;
         }
       }
-      /*
-      #talkn {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100vw;
-        height: 100vh;
-        background: url('https://<%= assetsURL %>/logo1.png') 50% 40% / 128px no-repeat;
-        animation-name: logo;
-        animation-duration: 1500ms;
-        animation-iteration-count: infinite;
-        transition: 600ms;
-      }
-      */
+
       .talknThread {
         width: 100vw;
         height: 100vh;
@@ -149,7 +137,7 @@
         }
       </style>
     </noscript>
-  --></head>
+  </head>
   <body>
     <div id="talkn" class="talknThread" data-ch="/">TALKN</div>
   </body>
