@@ -96,7 +96,7 @@ class Express {
     const splitedUrl = req.originalUrl.split('/');
     let language = 'en';
     let ch = '/';
-    console.log('routingHttps', req.headers.host);
+    console.log('routingHttps', req.headers.host, req.originalUrl, new Date());
     switch (req.headers.host) {
       case conf.ownURL:
         if (req.method === 'GET') {
@@ -188,14 +188,14 @@ class Express {
         // CORSを許可する
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-        console.log('===', req.originalUrl);
 
         if (req.originalUrl.indexOf('.png') >= 0 || req.originalUrl.indexOf('.svg') >= 0) {
+          console.log('=== IMAGE', req.originalUrl);
           res.sendFile(conf.serverComponentsPath + '.' + req.originalUrl);
         } else {
+          console.log('=== JS', req.originalUrl);
           res.sendFile(conf.serverComponentsPath + 'talkn.components.js');
         }
-
         break;
       case conf.coverURL:
         let method = defaultCoverMethod;
