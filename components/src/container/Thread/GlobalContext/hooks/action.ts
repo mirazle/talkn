@@ -140,7 +140,7 @@ export default (props: HookProps) => {
 
       break;
     case actions.closeFooterThread:
-      setBools({ ...bools, openFooter: false });
+      setBools({ ...bools, openFooter: false, openPictograms: false });
 
       break;
     case actions.openDetail:
