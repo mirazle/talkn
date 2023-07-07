@@ -1,6 +1,6 @@
-import db from 'server/actions/db';
-import express from 'server/actions/express';
-import io from 'server/actions/io';
+import db from './db';
+import express from './express';
+import io from './io';
 
 let actions = { db, io, express };
 export default actions;
