@@ -12,11 +12,11 @@ const Component: React.FC<Props> = ({ root, body }) => {
   return (
     <div css={styles.container}>
       <header className="header">
-        <h1>talkn.io</h1>
+        <h1>talkn for web</h1>
       </header>
       <main>{body && body}</main>
       <footer>
-        <p>talkn for web</p>
+        <p>Powerd by talkn.io</p>
       </footer>
     </div>
   );

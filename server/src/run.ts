@@ -3,7 +3,7 @@
 /*  talknServer
 /* ( MONGODB /  SOCKET.IO / REDIS / EXPRESS )
 /**************************************/
-import Actions from 'server/actions';
+import Actions from './actions';
 
 class TalknServer {
   async start() {
