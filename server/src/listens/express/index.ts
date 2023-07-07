@@ -60,7 +60,16 @@ class Express {
     this.httpsApp.set('views', conf.serverPath);
     this.httpsApp.set('trust proxy', true);
     this.httpsApp.use(bodyParser.urlencoded({ extended: false }));
-    this.httpsApp.use(compression());
+    this.httpsApp.use(
+      compression({
+        filter: (req, res) => {
+          if (req.headers['content-type']) {
+            return req.headers['content-type'].includes('javascript') || req.headers['content-type'].includes('image');
+          }
+          return false;
+        },
+      })
+    );
     this.httpsApp.use(sessionSetting);
     this.listenedHttp = this.listenedHttp.bind(this);
     this.listenedHttps = this.listenedHttps.bind(this);
