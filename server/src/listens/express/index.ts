@@ -54,10 +54,11 @@ class Express {
   session: any;
   constructor() {
     this.httpApp = express();
-    this.httpApp.use(sessionSetting);
+    //    this.httpApp.use(sessionSetting);
     this.httpsApp = express();
     this.httpsApp.set('view engine', 'ejs');
     this.httpsApp.set('views', conf.serverPath);
+    /*
     this.httpsApp.set('trust proxy', true);
     this.httpsApp.use(bodyParser.urlencoded({ extended: false }));
     this.httpsApp.use(
@@ -71,6 +72,7 @@ class Express {
       })
     );
     this.httpsApp.use(sessionSetting);
+    */
     this.listenedHttp = this.listenedHttp.bind(this);
     this.listenedHttps = this.listenedHttps.bind(this);
     this.routingHttps = this.routingHttps.bind(this);
