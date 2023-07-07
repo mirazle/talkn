@@ -190,10 +190,8 @@ class Express {
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
         if (req.originalUrl.indexOf('.png') >= 0 || req.originalUrl.indexOf('.svg') >= 0) {
-          console.log('=== IMAGE', req.originalUrl);
           res.sendFile(conf.serverComponentsPath + '.' + req.originalUrl);
         } else {
-          console.log('=== JS', req.originalUrl);
           res.sendFile(conf.serverComponentsPath + 'talkn.components.js');
         }
         break;
