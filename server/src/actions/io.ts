@@ -18,9 +18,8 @@ export default {
     Object.keys(Sequence.map).forEach((endpoint) => {
       const oneSequence = Sequence.map[endpoint];
       ioUser.on(endpoint, (requestState) => {
-
         console.log('------------------------------- ' + endpoint);
-//        console.log(requestState);
+        //        console.log(requestState);
 
         Actions.io[endpoint](ioUser, requestState, setting);
       });
@@ -190,15 +189,19 @@ export default {
     const { response: user } = await Logics.db.sessions.findOne(ioUser.conn.id);
     if (user && user.ch) {
       // ユーザーデータ削除
+      console.log('REMOVE SESSION');
       await Logics.db.sessions.remove(ioUser.conn.id);
-
+      console.log('GET LIVE CNT');
       // userコレクションからliveCntの実数を取得(thread.liveCntは読み取り専用)
       const liveCnt = await Logics.db.sessions.getLiveCnt(user.ch);
+      console.log('TUNE');
       const { thread } = await Logics.db.threads.tune({ ch: user.ch }, liveCnt, true);
+      console.log('DISCONNECT');
       Logics.io.disconnect(ioUser, {
         requestState: { type: 'disconnect' },
         thread,
       });
+      console.log('FINNISH');
     }
     return true;
   },
