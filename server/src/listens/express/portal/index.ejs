@@ -7,6 +7,10 @@
     <script defer type="text/javascript" src="https://<%= componentsURL %>"></script>
   </head>
   <body>
-    <div class="talknThread" data-ch="/"></div>
+    <div id="talkn" class="talknThread" data-ch="/"></div>
   </body>
+  <script type="text/javascript">
+    const talkn = document.getElementById('talkn');
+    talkn.dataset.ch = location.href.replace(/^(.*?\/){3}/, '/');
+  </script>
 </html>
