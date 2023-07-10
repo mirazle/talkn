@@ -4,6 +4,7 @@
 chromeExtension.zip
 server/src/listens/express/assets/icon/*
 server/pems
+server/log/*
 cover/env.json
 extention/
 common/pems/*

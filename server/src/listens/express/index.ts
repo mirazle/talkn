@@ -54,14 +54,25 @@ class Express {
   session: any;
   constructor() {
     this.httpApp = express();
-    this.httpApp.use(sessionSetting);
+    //    this.httpApp.use(sessionSetting);
     this.httpsApp = express();
     this.httpsApp.set('view engine', 'ejs');
     this.httpsApp.set('views', conf.serverPath);
+    /*
     this.httpsApp.set('trust proxy', true);
     this.httpsApp.use(bodyParser.urlencoded({ extended: false }));
-    this.httpsApp.use(compression());
+    this.httpsApp.use(
+      compression({
+        filter: (req, res) => {
+          if (req.headers['content-type']) {
+            return req.headers['content-type'].includes('javascript') || req.headers['content-type'].includes('image');
+          }
+          return false;
+        },
+      })
+    );
     this.httpsApp.use(sessionSetting);
+    */
     this.listenedHttp = this.listenedHttp.bind(this);
     this.listenedHttps = this.listenedHttps.bind(this);
     this.routingHttps = this.routingHttps.bind(this);
@@ -96,7 +107,7 @@ class Express {
     const splitedUrl = req.originalUrl.split('/');
     let language = 'en';
     let ch = '/';
-    console.log('routingHttps', req.headers.host, req.originalUrl, new Date());
+    console.log('routingHttps', req.headers.host);
     switch (req.headers.host) {
       case conf.ownURL:
         if (req.method === 'GET') {
@@ -190,10 +201,8 @@ class Express {
         res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
         if (req.originalUrl.indexOf('.png') >= 0 || req.originalUrl.indexOf('.svg') >= 0) {
-          console.log('=== IMAGE', req.originalUrl);
           res.sendFile(conf.serverComponentsPath + '.' + req.originalUrl);
         } else {
-          console.log('=== JS', req.originalUrl);
           res.sendFile(conf.serverComponentsPath + 'talkn.components.js');
         }
         break;

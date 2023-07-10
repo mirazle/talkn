@@ -35,7 +35,7 @@ const LoardingCover: React.FC<LoardingCoverProps> = ({ root, state }) => {
           <br /> <br />
           <input css={styles.input('')} value={state.thread.ch} readOnly />
           <br />
-          Tuning..
+          {state.apiLog[0]}
           <br /> <br />
         </span>
       }
@@ -266,9 +266,11 @@ const styles = {
     align-items: center;
     justify-content: center;
     gap: 16px;
+    width: 40%;
   `,
   input: (type: string) => css`
     ${emotions.inputEffect(type)};
+    width: inherit;
     color: rgb(160, 160, 160);
     background: rgba(255, 255, 255, 0.9);
     user-select: none;
