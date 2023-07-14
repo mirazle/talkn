@@ -121,7 +121,6 @@ export default class Ws {
   }
 
   private untune(bootOption: BootOption) {
-    console.log('@@@@ API UNTUNE');
     const id = bootOption && bootOption.id ? bootOption.id : this.id;
     if (this.ios[id]) {
       this.ios[id]['disconnect']();
