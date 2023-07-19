@@ -3,8 +3,8 @@
   "env": {
     "NODE_ENV": "development"
   },
-  "watch": ["./*"],
-  "ext": "ts",
-  "ignore": ["tests/**/*.ts"],
-  "exec": "ts-node -r tsconfig-paths/register ./src/run.ts"
+  "watch": ["./dist/src"],
+  "ext": "js",
+  "ignore": ["tests/**/*.js"],
+  "exec": "node -r ts-node/register -r tsconfig-paths/register --prof ./dist/src/run.js"
 }

@@ -18,7 +18,6 @@
     "noFallthroughCasesInSwitch": false,
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "_dist",
     "jsx": "react",
     "lib": ["es2019", "webworker", "dom"],
     "incremental": true,
@@ -26,6 +25,7 @@
     "resolveJsonModule": true,
     "noUncheckedIndexedAccess": true,
     "forceConsistentCasingInFileNames": true,
+    "rootDir": "./",
     "typeRoots": ["node_modules/@types", "common/src/types"],
     "types": ["node", "webpack-env"],
     "paths": {

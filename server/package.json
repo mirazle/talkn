@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "talkn server",
   "scripts": {
-    "server": "nodemon -L",
+    "server-build": "tsc --project ./tsconfig.json",
+    "server-dev": "nodemon -L",
+    "server-prof": "node --prof-process $(ls -t isolate*.log | head -n 1) > processed.txt",
+    "server": "yarn server-build && yarn server-dev",
     "pm2": "pm2 start ./pm2-production.json",
     "pm2-dev": "pm2 start ./pm2-dev.json --watch",
     "pm2-stop": "pm2 stop talkn-server",
@@ -38,6 +41,7 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
+    "@types/webpack-env": "^1.18.1",
     "basic-auth": "~2.0.1",
     "body-parser": "^1.20.1",
     "cheerio": "^1.0.0-rc.12",

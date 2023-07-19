@@ -2669,6 +2669,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/webpack-env@npm:^1.18.1":
+  version: 1.18.1
+  resolution: "@types/webpack-env@npm:1.18.1"
+  checksum: 3173c069763e51a96565d602af7e6dac9d772ae4aa6f26cac187cbf599a7f0b88f790b4b050b9dbdb0485daed3061b4a337863f3b8ce66f8a4e51f75ad387c6a
+  languageName: node
+  linkType: hard
+
 "@types/whatwg-url@npm:^8.2.1":
   version: 8.2.1
   resolution: "@types/whatwg-url@npm:8.2.1"
@@ -6986,6 +6993,7 @@ resolve@^1.14.2:
     "@types/nodemailer": ^6.4.6
     "@types/redis": ^2.8.31
     "@types/request": ^2.48.8
+    "@types/webpack-env": ^1.18.1
     basic-auth: ~2.0.1
     body-parser: ^1.20.1
     cheerio: ^1.0.0-rc.12
