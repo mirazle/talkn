@@ -1,0 +1,22 @@
+{
+  "extensions.ignoreRecommendations": false, // .extensions.jsonをまず優先する
+
+  /* Linter and Formatter */
+  // linter
+  "eslint.packageManager": "yarn",
+  "eslint.nodePath": "~/talkn/node_modules/",
+  "eslint.workingDirectories": ["./common/", "./server/", "./api/", "./client/"],
+  "eslint.validate": ["javascript", "javascriptreact", "html", "css", "typescript", "typescriptreact"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true, // eslint
+    "source.fixAll.stylelint": true // Stylelint
+  },
+  // formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "prettier.configPath": "~/talkn/.prettierrc.json",
+  "prettier.prettierPath": "~/talkn/node_modules/prettier",
+  "svg.preview.background": "black"
+}

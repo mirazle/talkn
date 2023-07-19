@@ -55,25 +55,25 @@ class Express {
   constructor() {
     try {
       this.httpApp = express();
-      //    this.httpApp.use(sessionSetting);
+      this.httpApp.use(sessionSetting);
       this.httpsApp = express();
       this.httpsApp.set('view engine', 'ejs');
       this.httpsApp.set('views', conf.serverPath);
-      /*
-    this.httpsApp.set('trust proxy', true);
-    this.httpsApp.use(bodyParser.urlencoded({ extended: false }));
-    this.httpsApp.use(
-      compression({
-        filter: (req, res) => {
-          if (req.headers['content-type']) {
-            return req.headers['content-type'].includes('javascript') || req.headers['content-type'].includes('image');
-          }
-          return false;
-        },
-      })
-    );
-    this.httpsApp.use(sessionSetting);
-    */
+
+      this.httpsApp.set('trust proxy', true);
+      this.httpsApp.use(bodyParser.urlencoded({ extended: false }));
+      this.httpsApp.use(
+        compression({
+          filter: (req, res) => {
+            if (req.headers['content-type']) {
+              return req.headers['content-type'].includes('javascript') || req.headers['content-type'].includes('image');
+            }
+            return false;
+          },
+        })
+      );
+      this.httpsApp.use(sessionSetting);
+
       this.listenedHttp = this.listenedHttp.bind(this);
       this.listenedHttps = this.listenedHttps.bind(this);
       this.routingHttps = this.routingHttps.bind(this);
@@ -145,20 +145,17 @@ class Express {
           }
           break;
         case conf.authURL:
-          // CORSを許可する
           res.header('Access-Control-Allow-Origin', '*');
           res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
           res.sendFile(conf.serverApiPath + define.talknApiJs);
           break;
         case conf.bannerURL:
-          // CORSを許可する
           res.header('Access-Control-Allow-Origin', '*');
           res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
           res.sendFile(conf.serverApiPath + define.talknApiJs);
           break;
         case conf.apiURL:
           if (req.url === `/v${conf.apiVer}`) {
-            // CORSを許可する
             res.header('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
             res.sendFile(conf.serverApiPath + define.talknApiJs);
@@ -182,7 +179,6 @@ class Express {
           break;
         case conf.tuneURL:
           if (req.originalUrl === '/') {
-            // CORSを許可する
             res.header('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
             res.sendFile(conf.serverTunePath + conf.files.tune);
@@ -192,7 +188,6 @@ class Express {
           break;
         case conf.extURL:
           if (req.originalUrl === '/') {
-            // CORSを許可する
             res.header('Access-Control-Allow-Origin', '*');
             res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
             res.sendFile(conf.serverExtPath + conf.files.ext);
@@ -201,7 +196,6 @@ class Express {
           }
           break;
         case conf.componentsURL:
-          // CORSを許可する
           res.header('Access-Control-Allow-Origin', '*');
           res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
@@ -307,12 +301,6 @@ class Express {
 
           // No Assests Url
           if (`/${req.originalUrl}/` !== conf.assetsPath) {
-            /*
-          if (req.originalUrl === '/' && !req.headers.referer) {
-            res.redirect(`//${conf.wwwURL}`);
-            return true;
-          }
-*/
             if (req.originalUrl.indexOf('/https:/') >= 0 || req.originalUrl.indexOf('/http:/') >= 0) {
               const redirectUrl = req.originalUrl.replace('/https:/', '').replace('/http:/', '');
               res.redirect(redirectUrl);
@@ -320,10 +308,6 @@ class Express {
             }
 
             portalUrlSearch = req.originalUrl.indexOf(`https://${conf.domain}`) !== false;
-
-            /*
-          MultiChBootはreq.originalUrlのpathnameで配列形式でリクエストを受け付ける
-        */
 
             // ポータル以外からアクセス
             if (req.headers.referer) {
@@ -377,7 +361,6 @@ class Express {
         case conf.transactionURL:
           break;
         case conf.clientURL:
-          // CORSを許可する
           res.header('Access-Control-Allow-Origin', '*');
           res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
@@ -390,7 +373,6 @@ class Express {
           break;
         case conf.assetsURL:
           console.log('ASSETS', req.originalUrl);
-          // CORSを許可する
           res.header('Access-Control-Allow-Origin', '*');
           res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
           res.sendFile(conf.serverAssetsPath + req.originalUrl.replace('/', ''));
