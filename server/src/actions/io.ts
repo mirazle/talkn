@@ -186,18 +186,14 @@ export default {
   },
 
   disconnect: async (ioUser) => {
-    console.log('A');
     const { response: user } = await Logics.db.sessions.findOne(ioUser.conn.id);
     if (user && user.ch) {
       // ユーザーデータ削除
-      console.log('B');
+
       await Logics.db.sessions.remove(ioUser.conn.id);
-      console.log('C');
       // userコレクションからliveCntの実数を取得(thread.liveCntは読み取り専用)
       const liveCnt = await Logics.db.sessions.getLiveCnt(user.ch);
-      console.log('D');
       const { thread } = await Logics.db.threads.tune({ ch: user.ch }, liveCnt, true);
-      console.log('E');
       Logics.io.disconnect(ioUser, {
         requestState: { type: 'disconnect' },
         thread,
