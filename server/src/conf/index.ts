@@ -49,6 +49,8 @@ conf.sslOptions =
         key: fs.readFileSync(sslKey),
         cert: fs.readFileSync(sslCrt),
         ca: fs.readFileSync(sslChain),
+        maxVersion: 'TLSv1.3',
+        minVersion: 'TLSv1.3',
       }
     : { key: fs.readFileSync(sslKey), cert: fs.readFileSync(sslCrt) };
 conf.transactionSecretKey =
