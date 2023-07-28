@@ -10,6 +10,7 @@
 
 - 作成したインスタンスを静的 IP に紐つける
 - グローバルの DNS ゾーンと紐つける
+  [Title](https://lightsail.aws.amazon.com/ls/webapp/domains/talkn-io/advanced)
 
 ## インスタンスのネットワーキング(iptable)
 
@@ -36,7 +37,7 @@ yum update -y
 ## ssh 接続
 
 - talkn.io ドメインを静的 IP にアタッチしターミナルで SSH アクセス
-- ログインする`cecntos`ユーザーで`vi /etc/ssh/sshd_config` で 22 ポートを 56789 に変更してサーバーを再起動して設定を反映。
+- ログインする`ec2-user`ユーザーで`vi /etc/ssh/sshd_config` で 22 ポートを 56789 に変更してサーバーを再起動して設定を反映。
 - `systemctl restart sshd`で sshd を再起動
 - 22 ポートは Connection refused。
 - 56789 はでアクセスを成功する事を確認。
@@ -57,6 +58,14 @@ $chmod 600 ~/Desktop/LightsailDefaultKey-us-east-1.pem
 $ssh ec2-user@talkn.io -i ~/Desktop/LightsailDefaultKey-us-east-1.pem
 
 ## step2 Let's Encrypt の SSL ワイルドカード証明書をリクエストする
+
+$ dnf install -y python3 augeas-libs pip
+$ python3 -m venv /opt/certbot/
+$ /opt/certbot/bin/pip install --upgrade pip
+$ /opt/certbot/bin/pip install certbot
+$ ln -s /opt/certbot/bin/certbot /usr/bin/certbot # /usr/bin にリンクして PATH を通す
+
+## snap でインストールする場合(2023 現状はスルーで良い)
 
 $ sudo su -
 $ cd /etc/yum.repos.d/
@@ -123,6 +132,15 @@ NEXT STEPS:
 
 - This certificate will not be renewed automatically. Autorenewal of --manual certificates requires the use of an authentication hook script (--manual-auth-hook) but one was not provided. To renew this certificate, repeat this same certbot command before the certificate's expiry date.
 
+# 証明書の自動更新
+
+$ dnf install cronie-noanacron
+$ systemctl enable crond
+$ systemctl start crond
+$ crontab -e
+
+30 1 \* \* \* root /root/talkn/updateSSL.sh
+
 # MongoDB インストール
 
 vi /etc/yum.repos.d/mongodb-org-4.4.repo
@@ -130,19 +148,51 @@ vi /etc/yum.repos.d/mongodb-org-4.4.repo
 ```
 [mongodb-org-4.4]
 name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.4/x86_64/
+baseurl=https://repo.mongodb.org/yum/amazon/2023/mongodb-org/4.4/x86_64/
 gpgcheck=1
 enabled=1
 gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
 ```
 
 ```
+yum clean all
 yum install -y mongodb-org
 yum install -y mongodb-org-4.4.6 mongodb-org-server-4.4.6 mongodb-org-shell-4.4.6 mongodb-org-mongos-4.4.6 mongodb-org-tools-4.4.6
 systemctl start mongod
 ```
 
+vi /etc/yum.repos.d/mongodb-org-7.0.repo
+
+```
+[mongodb-org-AL2023]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/amazon/2023/mongodb-org/development/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-7.0.asc
+```
+
+```
+yum clean all
+yum install -y mongodb-org
+yum install -y mongodb-org-server mongodb-org-mongos mongodb-org-shell mongodb-org-tools
+yum install -y mongodb-org-4.4.6 mongodb-org-server-4.4.6 mongodb-org-shell-4.4.6 mongodb-org-mongos-4.4.6 mongodb-org-tools-4.4.6
+systemctl start mongod
+systemctl enable mongod
+```
+
 # Redis-Server インストール
+
+Amazon Linux 2023
+
+```
+sudo dnf install -y redis6
+sudo systemctl start redis6
+sudo systemctl enable redis6
+sudo systemctl is-enabled redis6
+redis6-server --version
+redis6-cli ping
+```
 
 Amazon Linux 2 の EPEL レポジトリを有効にする
 amazon-linux-extras install -y epel
@@ -161,7 +211,7 @@ chkconfig redis on
 
 ```
 yum install git -y
-git clone git://github.com/creationix/nvm.git ~/.nvm | curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+git clone https://github.com/nvm-sh/nvm.git ~/.nvm | curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 source ~/.nvm/nvm.sh
 nvm --version
 ```
@@ -217,7 +267,7 @@ $ source ~/.bashrc
 
 - 公開鍵を github の Setting->Deploy keys に追加
 
-Title: talknProdApp-root
+Title: talknForWeb
 key: view の内容をペースト
 
 ```
@@ -328,6 +378,8 @@ sudo mkswap /swap
 chmod 0600 /swap
 sudo swapon /swap
 ```
+
+## git レポジトリのサイズが大き過ぎて clone 出来ない時
 
 ## ポートが埋まって実行できない時
 
